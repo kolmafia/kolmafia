@@ -65,8 +65,19 @@ public class EquipmentRequest
 	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN =
-		Pattern.compile( "<option value='?([\\d]+)'?[^>]*>([^>]*?) \\(([\\d,]+)\\)</option>" );
-	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b class=\"ircm\">(elven <i>limbos</i> gingerbread|[^<]+)</b>(?:&nbsp;<span>)?([^<]*?)(?:</span>)<font size=1>" );
+		Pattern.compile( "<option value='?([\\d]+)'? descid='?([\\d]+)'?>([^>]*?) \\(([\\d,]+)\\)</option>" );
+
+	// With images:
+	//
+	// <table class='item' id="ic653" rel="id=653&s=0&q=1&d=0&g=0&t=0&n=1&m=0&u=."><td class="img"><img src="http://images.kingdomofloathing.com/itemimages/airboat.gif" class="hand ircm" onClick='descitem(126122919,0, event);'></td><td id='i653' valign=top><b class="ircm">intragalactic rowboat</b>&nbsp;<span></span><font size=1><br></font></td></table>
+	//
+	// Without images:
+	//
+	// <table class='item' id="ic653" rel="id=653&s=0&q=1&d=0&g=0&t=0&n=1&m=0&u=."><td id='i653' valign=top><b class="ircm"><a onClick='javascript:descitem(126122919,0, event);'>intragalactic rowboat</a></b>&nbsp;<span></span><font size=1><br></font></td></table>
+
+	private static final Pattern ITEMTABLE_PATTERN = Pattern.compile( "<table class='item' (.*?)</table>" );
+	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "id=\"ic(\\d*)\" rel=\"([^\"]*)\">(<td class=\"img\".*?descitem.(\\d*))?.*?<b class=\"ircm\">(<a.*?descitem.(\\d*)[^>]*>)?(elven <i>limbos</i> gingerbread|[^<]+)(?:</a>)?</b>(?:&nbsp;<span>)?([^<]*?)(?:</span>)" );
+
 	private static final Pattern HAT_PATTERN =
 		Pattern.compile( "Hat</a>:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
 	private static final Pattern WEAPON_PATTERN =
@@ -990,15 +1001,17 @@ public class EquipmentRequest
 		{
 			lastFindIndex = optionMatcher.end();
 			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
+			String descId = optionMatcher.group( 2 );
 			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemName( itemId ) );
-			String realName = StringUtilities.getCanonicalName( optionMatcher.group( 2 ).toLowerCase() );
+			String realName = optionMatcher.group( 3 );
+			String canonicalName = StringUtilities.getCanonicalName( realName.toLowerCase() );
 
-			if ( itemName == null || !realName.equals( itemName ) )
+			if ( itemName == null || !canonicalName.equals( itemName ) )
 			{
-				ItemDatabase.registerItem( itemId, realName );
+				ItemDatabase.registerItem( itemId, realName, descId );
 			}
 
-			AdventureResult result = new AdventureResult( itemId, StringUtilities.parseInt( optionMatcher.group( 3 ) ) );
+			AdventureResult result = new AdventureResult( itemId, StringUtilities.parseInt( optionMatcher.group( 4 ) ) );
 			if ( resultList == KoLConstants.inventory )
 			{
 				ResultProcessor.tallyResult( result, false );
@@ -1019,22 +1032,32 @@ public class EquipmentRequest
 
 	private static final void parseQuestItems( final String text )
 	{
-		Matcher itemMatcher = EquipmentRequest.QUESTITEM_PATTERN.matcher( text );
-		while ( itemMatcher.find() )
+		Matcher matcher = EquipmentRequest.ITEMTABLE_PATTERN.matcher( text );
+		while ( matcher.find() )
 		{
-			String quantity = itemMatcher.group( 2 ).trim();
-			String realName = itemMatcher.group( 1 ).trim();
-
-			// We have encountered a brand new item.  Do not
-			// continue if this is the case.
-
-			if ( !ItemDatabase.contains( realName ) )
+			Matcher itemMatcher = EquipmentRequest.QUESTITEM_PATTERN.matcher( matcher.group( 1 ) );
+			if ( !itemMatcher.find() )
 			{
 				continue;
 			}
 
+			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+			String relString = itemMatcher.group( 2 );
+			String descId = itemMatcher.group( 3 ) != null ?
+				itemMatcher.group( 4 ) :
+				itemMatcher.group( 5 ) != null ?
+				itemMatcher.group( 6 ) : "";
+			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemName( itemId ) );
+			String realName = itemMatcher.group( 7 );
+			String canonicalName = StringUtilities.getCanonicalName( realName.toLowerCase() );
+			String quantity = itemMatcher.group( 8 );
+
+			if ( itemName == null || !canonicalName.equals( itemName ) )
+			{
+				ItemDatabase.registerItem( itemId, realName, descId, relString );
+			}
+
 			// The inventory never has the plural name.
-			int itemId = ItemDatabase.getItemId( realName, 1, false );
 			int quantityValue =
 				quantity.length() == 0 ? 1 : StringUtilities.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
 			AdventureResult item = new AdventureResult( itemId, quantityValue );
@@ -1079,7 +1102,7 @@ public class EquipmentRequest
 				{
 					// Item was in the list for this slot
 					// only so that it could be displayed
-					// as the current item.  Remove it.
+					// as the current item.	 Remove it.
 					EquipmentManager.getEquipmentLists()[ slot ].remove( oldItem );					
 				}
 				if ( !newItem.equals( EquipmentRequest.UNEQUIP ) )
@@ -1497,7 +1520,7 @@ public class EquipmentRequest
 				ConcoctionDatabase.refreshConcoctions();
 			}
 
-                        EquipmentRequest.wearCustomOutfit( location );
+			EquipmentRequest.wearCustomOutfit( location );
 
 			return;
 		}
