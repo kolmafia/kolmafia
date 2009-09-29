@@ -1320,6 +1320,10 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.FUSCHIA_YARN, -1 );
 			ResultProcessor.processItem( ItemPool.CHARTREUSE_YARN, -1 );
 			break;
+
+		case ItemPool.SMALL_STONE_BLOCK:
+			ResultProcessor.processItem( ItemPool.IRON_KEY, -1 );
+			break;
 		}
 		
 		if ( taken != -1 )
