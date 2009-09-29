@@ -214,11 +214,14 @@ public abstract class ChatManager
 		// were saved from the last session.
 
 		StyledChatBuffer.clearHighlights();
-		StyledChatBuffer.highlightBuffer.clear();
-
+		
 		String[] highlights = Preferences.getString( "highlightList" ).trim().split( "\n+" );
 
-		StyledChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
+		if ( StyledChatBuffer.highlightBuffer == null )
+		{
+			StyledChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
+		}
+
 		StyledChatBuffer.highlightBuffer.clear();
 
 		for ( int i = 0; i < highlights.length; ++i )
