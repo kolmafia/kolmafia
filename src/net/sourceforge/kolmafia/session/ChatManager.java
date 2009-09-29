@@ -215,8 +215,6 @@ public abstract class ChatManager
 
 		StyledChatBuffer.clearHighlights();
 		
-		String[] highlights = Preferences.getString( "highlightList" ).trim().split( "\n+" );
-
 		if ( StyledChatBuffer.highlightBuffer == null )
 		{
 			StyledChatBuffer.highlightBuffer = ChatManager.getChatBuffer( "[high]" );
@@ -224,9 +222,16 @@ public abstract class ChatManager
 
 		StyledChatBuffer.highlightBuffer.clear();
 
-		for ( int i = 0; i < highlights.length; ++i )
+		String highlights = Preferences.getString( "highlightList" ).trim();
+		
+		if ( highlights.length() > 0 )
 		{
-			StyledChatBuffer.addHighlight( highlights[ i ], DataUtilities.toColor( highlights[ ++i ] ) );
+			String[] highlightList = highlights.split( "\n+" );
+	
+			for ( int i = 0; i < highlightList.length; ++i )
+			{
+				StyledChatBuffer.addHighlight( highlightList[ i ], DataUtilities.toColor( highlightList[ ++i ] ) );
+			}
 		}
 
 		ChatManager.isRunning = true;
