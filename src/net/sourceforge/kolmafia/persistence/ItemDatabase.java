@@ -696,17 +696,34 @@ public class ItemDatabase
 
 	public static final void registerItem( final int itemId, final String itemName )
 	{
-		ItemDatabase.registerItem( itemId, itemName, "" );
+		ItemDatabase.registerItem( itemId, itemName, "", "" );
 	}
 
-	public static final void registerItem( final int itemId, final String itemName, final String descriptionId )
+	public static final void registerItem( final int itemId, final String itemName, final String descId )
+	{
+		ItemDatabase.registerItem( itemId, itemName, descId, "" );
+	}
+
+	public static final void registerItem( final int itemId, final String itemName, final String descriptionId, final String relString )
 	{
 		if ( itemName == null )
 		{
 			return;
 		}
 
-		RequestLogger.printLine( "Unknown item found: " + itemName + " (#" + itemId + ")" );
+		RequestLogger.printLine( "Unknown item found: " + itemName + " (#" + itemId + ", desc=" + descriptionId + ", rel=\"" + relString + "\")" );
+
+		// "id=588&s=118&q=0&d=1&g=0&t=1&n=50&m=0&u=.&ou=use"
+		//   id = item Id
+		//   s = sell value
+		//   q = quest item
+		//   d = discardable
+		//   g = gift item
+		//   t = transferable
+		//   n = number
+		//   m = ?
+		//   u = ?
+		//   ou = ?
 
 		ItemDatabase.useTypeById.set( itemId, 0 );
 		ItemDatabase.priceById.set( itemId, -1 );

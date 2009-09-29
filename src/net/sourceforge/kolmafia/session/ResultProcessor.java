@@ -147,6 +147,19 @@ public class ResultProcessor
 
 	private static boolean processNormalResults( boolean combatResults, String results, List data )
 	{
+		// Results now come in like this:
+		//
+		// <table class="item" style="float: none"
+		// rel="id=617&s=137&q=0&d=1&g=0&t=1&n=1&m=1&u=u"><tr><td><img
+		// src="http://images.kingdomofloathing.com/itemimages/rcandy.gif"
+		// alt="Angry Farmer candy" title="Angry Farmer candy"
+		// class=hand onClick='descitem(893169457)'></td><td
+		// valign=center class=effect>You acquire an item: <b>Angry
+		// Farmer candy</b></td></tr></table>
+		//
+		// We could use this to deduce all sorts of things about
+		// unknown items: descitem, autosell price, is quest item ...
+                
 		String plainTextResult = KoLConstants.ANYTAG_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
 
 		if ( data == null )
