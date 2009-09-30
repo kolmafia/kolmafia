@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CallScriptCommand
@@ -113,7 +114,9 @@ public class CallScriptCommand
 
 			if ( scriptFile == null )
 			{
-				KoLmafiaASH.NAMESPACE_INTERPRETER.execute( parameters, arguments );
+				Value rv = KoLmafiaASH.NAMESPACE_INTERPRETER.execute( parameters, arguments );
+				KoLmafia.updateDisplay( "Returned: " + rv );
+				
 				return;
 			}
 
