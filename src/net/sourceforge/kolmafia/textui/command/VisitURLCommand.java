@@ -15,7 +15,10 @@ public class VisitURLCommand
 
 	public void run( String cmd, String parameters )
 	{
-		GenericRequest visitor = new GenericRequest( parameters );
+		String url = cmd.equals( "text" ) ? parameters : cmd;
+		
+		GenericRequest visitor = new GenericRequest( url );
+
 		if ( GenericRequest.shouldIgnore( visitor ) )
 		{
 			return;
