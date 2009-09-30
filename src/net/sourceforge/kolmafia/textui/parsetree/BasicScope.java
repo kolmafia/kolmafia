@@ -62,12 +62,12 @@ public abstract class BasicScope
 
 	public BasicScope( VariableList variables, final BasicScope parentScope )
 	{
-                this( null, variables, null, parentScope );
+		this( null, variables, null, parentScope );
 	}
 
 	public BasicScope( final BasicScope parentScope )
 	{
-                this( null, null, null, parentScope );
+		this( null, null, null, parentScope );
 	}
 
 	public BasicScope getParentScope()
@@ -266,7 +266,26 @@ public abstract class BasicScope
 
 	public Function findFunction( final String name, boolean hasParameters )
 	{
-		Function[] functions = this.functions.findFunctions( name );
+		Function function = findFunction( name, this.functions, hasParameters );
+		
+		if ( function != null )
+		{
+			return function;
+		}
+		
+		function = findFunction( name, RuntimeLibrary.functions, hasParameters );
+
+		return function;
+	}
+	
+	public Function findFunction( final String name, final FunctionList functionList, final boolean hasParameters )
+	{
+		Function[] functions = functionList.findFunctions( name );
+		
+		if ( functions.length == 0 )
+		{
+			return null;
+		}
 
 		int paramCount, stringCount;
 		Function bestMatch = null;
@@ -281,7 +300,10 @@ public abstract class BasicScope
 			while ( refIterator.hasNext() )
 			{
 				++paramCount;
-				if ( ( (VariableReference) refIterator.next() ).getType().equals( DataTypes.STRING_TYPE ) )
+				
+				VariableReference reference = (VariableReference) refIterator.next();
+				
+				if ( reference.getType().equals( DataTypes.STRING_TYPE ) )
 				{
 					++stringCount;
 				}
@@ -369,7 +391,7 @@ public abstract class BasicScope
 		// Thread.yield();
 
 		// ...but the following does.
-		this.pauser.pause(1);
+		this.pauser.pause( 1 );
 
 		Value result = DataTypes.VOID_VALUE;
 		interpreter.traceIndent();
@@ -405,5 +427,6 @@ public abstract class BasicScope
 	}
 
 	public abstract void addCommand( final ParseTreeNode c );
+
 	public abstract Iterator getCommands();
 }

@@ -59,7 +59,7 @@ public abstract class KoLmafiaASH
 	private static final HashMap TIMESTAMPS = new HashMap();
 	private static final HashMap INTERPRETERS = new HashMap();
 
-	public static final Interpreter NAMESPACE_INTERPRETER = new NamespaceInterpreter( "commandLineNamespace" );
+	public static final Interpreter NAMESPACE_INTERPRETER = new NamespaceInterpreter();
 
 	public static final boolean getClientHTML( final RelayRequest request )
 	{
