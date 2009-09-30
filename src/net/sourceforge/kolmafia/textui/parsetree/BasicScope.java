@@ -287,47 +287,75 @@ public abstract class BasicScope
 			return null;
 		}
 
-		int paramCount, stringCount;
+		boolean isAmbiguous = false;
+		int minParamCount = Integer.MAX_VALUE;
 		Function bestMatch = null;
 
 		for ( int i = 0; i < functions.length; ++i )
 		{
-			paramCount = 0;
-			stringCount = 0;
+			int paramCount = 0;
+			boolean isSingleString = false;
 
 			Iterator refIterator = functions[ i ].getReferences();
 
-			while ( refIterator.hasNext() )
+			if ( refIterator.hasNext() )
 			{
-				++paramCount;
-				
+				paramCount = 1;
 				VariableReference reference = (VariableReference) refIterator.next();
 				
 				if ( reference.getType().equals( DataTypes.STRING_TYPE ) )
 				{
-					++stringCount;
+					isSingleString = true;
 				}
 			}
-
-			if ( !hasParameters && paramCount == 0 )
+			
+			while ( refIterator.hasNext() )
 			{
-				return functions[ i ];
+				++paramCount;
+				isSingleString = false;
+				refIterator.next();
 			}
-			if ( hasParameters && paramCount >= 1 )
+			
+			if ( paramCount == 0 )
 			{
-				if ( stringCount == 1 )
+				if ( !hasParameters )
 				{
 					return functions[ i ];
 				}
-				else if ( bestMatch != null )
+			}
+			else if ( paramCount == 1 )
+			{
+				if ( isSingleString )
 				{
-					return null;
+					return functions[ i ];
 				}
-				else
+				
+				if ( minParamCount == 1 )
+				{
+					isAmbiguous = true;
+				}
+				
+				bestMatch = functions[ i ];
+				minParamCount = 1;
+			}
+			else if ( !hasParameters )
+			{
+				if ( paramCount < minParamCount )
 				{
 					bestMatch = functions[ i ];
+					minParamCount = paramCount;
+					isAmbiguous = false;
 				}
+				else if ( minParamCount == paramCount )
+				{
+					isAmbiguous = true;
+				}				
 			}
+		}
+		
+		if ( isAmbiguous )
+		{
+			return null;
 		}
 
 		return bestMatch;
