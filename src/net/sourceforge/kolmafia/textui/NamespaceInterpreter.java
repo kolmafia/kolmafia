@@ -49,31 +49,23 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 public class NamespaceInterpreter
 	extends Interpreter
 {
-	private String setting;
 	private String lastImportString;
 
-	public NamespaceInterpreter( final String setting )
+	public NamespaceInterpreter()
 	{
 		super();
-		this.setting = setting;
-		this.lastImportString = "";
+		refresh( "" );
 	}
 
 	public Value execute( final String functionName, final String[] parameters )
 	{
-		String importString = Preferences.getString( setting );
-		if ( importString.equals( "" ) )
-		{
-			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "No available namespace with function: " + functionName );
-			return DataTypes.VOID_VALUE;
-		}
+		String importString = Preferences.getString( "commandLineNamespace" );
 
-		TreeMap imports = this.parser.getImports();
 		boolean shouldRefresh = !this.lastImportString.equals( importString );
 
 		if ( !shouldRefresh )
 		{
+			TreeMap imports = this.parser.getImports();
 			Iterator it = imports.entrySet().iterator();
 
 			while ( it.hasNext() && !shouldRefresh )
@@ -85,35 +77,46 @@ public class NamespaceInterpreter
 			}
 		}
 
-		if ( shouldRefresh )
+		if ( shouldRefresh && !refresh( importString ) )
 		{
-			this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
+			return DataTypes.VOID_VALUE;
+		}
 
-			imports.clear();
+		return super.execute( functionName, parameters, shouldRefresh );
+	}
+	
+	private boolean refresh( String importString )
+	{
+		this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
 
+		TreeMap imports = this.parser.getImports();
+		imports.clear();
+	
+		if ( importString.length() > 0 )
+		{
 			String[] importList = importString.split( "," );
+
 			for ( int i = 0; i < importList.length; ++i )
 			{
 				try
 				{
 					this.parser.importFile( importList[ i ], this.scope );
 				}
-				catch (ScriptException e )
+				catch ( ScriptException e )
 				{
 					// The user changed the script since it was validated
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
-					return DataTypes.VOID_VALUE;
+					return false;
 				}
 				catch ( Exception e )
 				{
 					StaticEntity.printStackTrace( e );
-					return DataTypes.VOID_VALUE;
+					return false;
 				}
 			}
-
-			this.lastImportString = importString;
 		}
-
-		return super.execute( functionName, parameters, shouldRefresh );
+		
+		this.lastImportString = importString;
+		return true;
 	}
 }
