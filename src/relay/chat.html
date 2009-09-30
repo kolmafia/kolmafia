@@ -6,22 +6,6 @@
 
 <style type=text/css>
 
-	input.text, textarea
-	{
-		border: 1px black solid;
-		font-family: Arial, Helvetica,  sans-serif;
-		font-size: 10pt;
-	}
-
-	input.button
-	{
-		border: 1px black solid;
-		font-family: Arial, Helvetica, sans-serif;
-		font-size: 9pt;
-		font-weight: bold;
-		background-color: #FFFFFF;
-	}
-
 	body
 	{
 		padding: 0px;
@@ -47,23 +31,9 @@
 	.cmddisplay, .chatdisplay
 	{
 		position: absolute;
-		top: 2px;
-		left: 2px;
-		padding: 2px 2px;
-		font-family: arial;
-		font-size: 12px;
-		border: 1px solid black;
-		overflow: auto;
-	}
-
-	.inputform
-	{
-		position: absolute;
-		top: 2px;
-		left: 2px;
-		padding: 2px 2px;
+		left: 0px;
+		padding: 0px 0px 0px 0px;
 		border: none;
-		text-align: center;
 	}
 
 </style>
@@ -79,269 +49,76 @@
 	function initSizes()
 	{
 		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
-			initwidth = document.body.offsetWidth - 5;
+		{
+			initwidth = document.body.offsetWidth;
+		}
 		else
-			initwidth = self.innerWidth - 10;
+		{
+			initwidth = self.innerWidth;
+		}
 
-		document.getElementById( "ChatWindow" ).style.width = initwidth;
-		document.getElementById( "CmdWindow" ).style.width = initwidth;
-		document.getElementById( "InputForm" ).style.width = initwidth;
+		document.getElementById( "ChatFrame" ).style.width = initwidth;
+		document.getElementById( "CmdFrame" ).style.width = initwidth;
 		document.getElementById( "ToggleDisplay" ).style.width = initwidth;
 
 		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
 		{
-			initheight = document.body.clientHeight + 30 -
-				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
+			initheight = document.body.clientHeight - 10 - document.getElementById( "ToggleDisplay" ).offsetHeight;
 		}
 		else
 		{
-			initheight = document.body.clientHeight -
-				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
+			initheight = document.body.clientHeight - 10 - document.getElementById( "ToggleDisplay" ).offsetHeight;
 		}
 
-		document.getElementById( "ChatWindow" ).style.height = initheight;
-		document.getElementById( "CmdWindow" ).style.height = initheight;
+		document.getElementById( "ChatFrame" ).style.height = initheight;
+		document.getElementById( "CmdFrame" ).style.height = initheight;
 
-		document.getElementById( "ChatWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
-		document.getElementById( "CmdWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
-
-		if ( document.getElementById( "ChatWindow" ).style.display != "none" )
-		{
-			document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight +
-				document.getElementById( "ChatWindow" ).offsetHeight + 6;
-		}
-		else
-		{
-			document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight +
-				document.getElementById( "CmdWindow" ).offsetHeight + 6;
-		}
+		document.getElementById( "ChatFrame" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
+		document.getElementById( "CmdFrame" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
 	}
-
-	var requests = new Array();
-	var commands = new Array();
-	var commandCount = 0;
-	var isRefreshing = false;
-
-	function checkForKeyEvent( e )
-	{
-		var key = window.event ? e.keyCode : e.which;
-
-		if ( key == 13 )
-			submitEvent();
-
-		if ( key == 38 && commandCount > 0 )
-			document.inputform.data.value = commands[ --commandCount ];
-
-		if ( key == 40 && commandCount + 1 < commands.length )
-			document.inputform.data.value = commands[ ++commandCount ];
-
-		// Safari processes the key event twice; in order
-		// to make sure this doesn't cause problems, you
-		// will need to stop the propogation for each event.
-
-		if ( e.stopPropagation )
-			e.stopPropagation();
-	};
 
 	function switchToCLI()
 	{
 		document.getElementById( "ChatTag" ).style.fontWeight = "";
 		document.getElementById( "CmdTag" ).style.fontWeight = "bold";
-		document.getElementById( "ChatWindow" ).style.display = "none";
-		document.getElementById( "CmdWindow" ).style.display = "";
+		document.getElementById( "ChatFrame" ).style.display = "none";
+		document.getElementById( "CmdFrame" ).style.display = "";
+
 		initSizes();
+
+		var contentWindow = document.getElementById( "CmdFrame" ).contentWindow;
+
+		contentWindow.document.getElementById("ToggleDisplay").style.display = "none";
+		contentWindow.initSizes();
 	}
 
 	function switchToChat()
 	{
 		document.getElementById( "ChatTag" ).style.fontWeight = "bold";
 		document.getElementById( "CmdTag" ).style.fontWeight = "";
-		document.getElementById( "ChatWindow" ).style.display = "";
-		document.getElementById( "CmdWindow" ).style.display = "none";
+		document.getElementById( "ChatFrame" ).style.display = "";
+		document.getElementById( "CmdFrame" ).style.display = "none";
+
 		initSizes();
+
+		var contentWindow = document.getElementById( "ChatFrame" ).contentWindow;
+
+		contentWindow.initsizes();
 	}
-
-	function submitEvent()
-	{
-		if ( document.getElementById( "ChatWindow" ).style.display != "none" )
-			submitchat( false );
-		else
-			submitCommand();
-
-	}
-
-	function getCLIUpdate()
-	{
-		var display = document.getElementById( "CmdWindow" );
-		var httpObject = getHttpObject();
-		if ( !httpObject )
-			return true;
-
-		httpObject.onreadystatechange = function()
-		{
-			if ( httpObject.readyState != 4 )
-				return;
-
-			updateDisplay( display, httpObject.responseText );
-		};
-
-		httpObject.open( "GET", "/KoLmafia/messageUpdate?MAFIAHIT", true );
-		httpObject.send( "" );
-
-		setTimeout( getCLIUpdate, 4000 )
-		return true;
-	};
-
-
-	function submitCommand()
-	{
-		var display = document.getElementById( "CmdWindow" );
-		var command = document.inputform.data.value;
-		document.inputform.data.value = "";
-
-		if ( command == "" )
-			return true;
-
-		commandCount = commands.push( command );
-
-		if ( command == "clear" || command == "cls" )
-		{
-			display.innerHTML = "";
-			return true;
-		}
-
-		display.style.width = initwidth;
-		display.scrollTop = display.scrollHeight;
-
-		var httpObject = getHttpObject();
-		if ( !httpObject )
-			return true;
-
-		executed = false;
-		httpObject.onreadystatechange = function ()
-		{
-			if ( httpObject.readyState != 4 || executed )
-				return;
-
-			executed = true;
-			updateDisplay( display, httpObject.responseText );
-		}
-
-		httpObject.open( "GET", "/KoLmafia/submitCommand?cmd=" + URLEncode( command ) + "&MAFIAHIT", true );
-		httpObject.send( "" );
-
-		document.inputform.data.focus();
-		return true;
-	};
-
-	function getChatUpdate()
-	{
-		var display = document.getElementById( "ChatWindow" );
-		var httpObject = getHttpObject();
-
-		if ( !httpObject )
-			return true;
-
-		httpObject.onreadystatechange = function()
-		{
-			if ( httpObject.readyState != 4 )
-				return;
-
-			setTimeout( getChatUpdate, 10000 );
-			updateDisplay( display, httpObject.responseText );
-
-			var index = httpObject.responseText.lastIndexOf( "lastseen" );
-
-			if ( index != -1 )
-				lastseen = httpObject.responseText.substring( index + 9, index + 19 );
-			else
-				lastseen = 0;
-
-		}
-
-		httpObject.open( "GET", "/newchatmessages.php?lasttime=" + lastseen, true );
-		httpObject.send( "" );
-		return true;
-	};
-
-	function submitchat( override )
-	{
-		var display = document.getElementById( "ChatWindow" );
-		var postedgraf = document.inputform.data.value;
-
-		if ( override )
-			postedgraf = override;
-
-		if ( postedgraf == "" )
-			return true;
-
-		if ( postedgraf == "/exit" )
-		{
-			document.location.href = "chatlaunch.php";
-			return true;
-		}
-
-		document.inputform.data.value = "";
-		document.inputform.data.focus();
-
-		if ( postedgraf == "/clear" || postedgraf == "/cls" )
-		{
-			display.innerHTML = "";
-			return true;
-		}
-
-		if ( postedgraf == "/help" || postedgraf == "/?" )
-		{
-			window.open("doc.php?topic=chat_commands","","height=400,width=500,scrollbars=yes,resizable=yes");
-			return true;
-		}
-
-		if ( postedgraf == "/mark" )
-		{
-			var d = new Date();
-			display.innerHTML += "<center class=tiny>&mdash;&mdash;&mdash;&nbsp;" + d.getHours() + ":" + (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()) + ":" + (d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds()) + "&nbsp;&mdash;&mdash;&mdash;</center>";
-			return true;
-		}
-
-		var httpObject = getHttpObject();
-		if ( !httpObject )
-			return true;
-
-		executed = false;
-		httpObject.onreadystatechange = function()
-		{
-			if ( httpObject.readyState != 4 || executed )
-				return;
-
-			executed = true;
-			updateDisplay( display, httpObject.responseText );
-		}
-
-		httpObject.open( "GET", "/submitnewchat.php?CHATAUTH&graf=" + URLEncode( postedgraf ), true );
-		httpObject.send( "" );
-
-		document.inputform.data.focus();
-		return true;
-	};
-
-	notchat = false;
 
 </script></head>
 
 
- <body link=black alink=black vlink=black onLoad="switchToChat(); submitchat( '/channel' ); getChatUpdate(); getCLIUpdate();" onResize="initSizes();">
+ <body link=black alink=black vlink=black onLoad="initSizes(); switchToChat();" onResize="initSizes();">
 
-	<div id="ToggleDisplay" class=toggledisplay><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
-	<a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a> /
-	<a href="chatlaunch.php">Exit</a></div>
+	<div id="ToggleDisplay" class="toggledisplay">
+		<a href="javascript:switchToChat();" id="ChatTag">Chat</a> /
+		<a href="javascript:switchToCLI();" id="CmdTag"> gCLI</a> /
+		<a href="chatlaunch.php">Exit</a>
+	</div>
 
-	<div id="ChatWindow" class=chatdisplay></div>
-	<div id="CmdWindow" class=cmddisplay></div>
-
-	 <div id="InputForm" class=inputform><center><form name=inputform onSubmit='return false;'>
-		 <input style="width: 70%" maxlength=200 class=text type=text size=12 name=data onKeyUp='checkForKeyEvent( event );' autocomplete="off">
-		 <input class=button type=button onClick="submitEvent();" value="exec">
-	 </form></center></div>
+	<iframe id="ChatFrame" src="/lchat.php" class="chatdisplay" frameborder=0></iframe>
+	<iframe id="CmdFrame" src="/cli.html" class="cmddisplay" frameborder=0></iframe>
 
  </body>
 </html>

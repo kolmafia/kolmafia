@@ -76,9 +76,13 @@
 	function initSizes()
 	{
 		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
+		{
 			initwidth = document.body.offsetWidth - 7;
+		}
 		else
+		{
 			initwidth = self.innerWidth - 10;
+		}
 
 		document.getElementById( "CmdWindow" ).style.width = initwidth;
 		document.getElementById( "InputForm" ).style.width = initwidth;
@@ -191,12 +195,18 @@
 
  <body link=black alink=black vlink=black onLoad="initSizes(); getCLIUpdate();" onResize="initSizes();">
 
-	<div id="ToggleDisplay" class=toggledisplay><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</div>
+	<div id="ToggleDisplay" class=toggledisplay>
+		<b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]
+	</div>
 	<div id="CmdWindow" class=cmddisplay></div>
 
-	 <div id="InputForm" class=inputform><center><form name=cmdform onSubmit='return false;'>
-		 <input style="width: 70%" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForKeyEvent( event );' autocomplete="off">
-		 <input class=button type=button onClick="submitCommand();" value="exec">
-	 </form></center></div>
+	 <div id="InputForm" class=inputform>
+	 	<center>
+	 		<form name=cmdform onSubmit='return false;'>
+				 <input style="width: 70%" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForKeyEvent( event );' autocomplete="off">
+				 <input class=button type=button onClick="submitCommand();" value="exec">
+	 		</form>
+	 	</center>
+	 </div>
  </body>
 </html>
