@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 
 public class CommandAlias
 	extends AbstractCommand
@@ -50,6 +49,6 @@ public class CommandAlias
 
 	public void run( final String cmd, final String parameters )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( this.actualCmd, ( this.actualParams + " " + parameters ).trim() );
+		this.CLI.executeCommand( this.actualCmd, ( this.actualParams + " " + parameters ).trim() );
 	}
 }
