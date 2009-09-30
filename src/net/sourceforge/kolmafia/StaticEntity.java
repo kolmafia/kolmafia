@@ -292,6 +292,11 @@ public abstract class StaticEntity
 
 	public static final void externalUpdate( final String location, final String responseText )
 	{
+		if ( responseText == null || responseText.length() == 0 )
+		{
+			return;
+		}
+		
 		if ( location.startsWith( "account.php" ) )
 		{
 			if ( location.indexOf( "&ajax" ) != -1 )
