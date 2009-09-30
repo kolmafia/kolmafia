@@ -250,6 +250,11 @@ public class RelayRequest
 						"<a href=\"simulator/index.html\" target=\"_blank\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
 				}
 			}
+
+			if ( Preferences.getBoolean( "relayUsesIntegratedChat" ) )
+			{
+				StringUtilities.singleStringReplace( responseBuffer, "lchat.php", "chat.html" );
+			}
 		}
 
 		// Fix it a little more by making sure that familiar
@@ -1378,12 +1383,6 @@ public class RelayRequest
 
 		if ( path.startsWith( "lchat.php" ) )
 		{
-			if ( Preferences.getBoolean( "relayUsesIntegratedChat" ) )
-			{
-				this.sendLocalFile( "chat.html" );
-				return;
-			}
-
 			super.run();
 
 			this.responseText = StringUtilities.globalStringReplace( this.responseText, "<p>", "<br><br>" );
