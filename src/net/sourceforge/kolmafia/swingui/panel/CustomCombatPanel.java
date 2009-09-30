@@ -85,7 +85,7 @@ public class CustomCombatPanel
 
 	public void updateFromPreferences()
 	{
-		CustomCombatManager.setScript();
+		CustomCombatManager.updateFromPreferences();
 		this.refreshCombatEditor();
 	}
 
@@ -93,8 +93,8 @@ public class CustomCombatPanel
 	{
 		try
 		{
-			BufferedReader reader =
-				FileUtilities.getReader( new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() ) );
+			String script = (String) this.availableScripts.getSelectedItem();
+			BufferedReader reader = FileUtilities.getReader( CustomCombatManager.getFile( script ) );
 
 			if ( reader == null )
 			{
@@ -151,7 +151,7 @@ public class CustomCombatPanel
 			this.addActionListener( this );
 			Preferences.registerListener( "customCombatScript", this );
 		}
-		
+
 		public void update()
 		{
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this, "tree" );
@@ -182,9 +182,10 @@ public class CustomCombatPanel
 
 		public void actionConfirmed()
 		{
+			String script = (String) CustomCombatPanel.this.availableScripts.getSelectedItem(); 
 			String saveText = CustomCombatPanel.this.combatEditor.getText();
 
-			File location = new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() );
+			File location = CustomCombatManager.getFile( script );
 			PrintStream writer = LogStream.openStream( location, true );
 
 			writer.print( saveText );
@@ -197,7 +198,10 @@ public class CustomCombatPanel
 			// After storing all the data on disk, go ahead
 			// and reload the data inside of the tree.
 
-			CustomCombatPanel.this.updateFromPreferences();
+			CustomCombatManager.setScript( script );
+			CustomCombatManager.saveSettings( script );
+			
+			CustomCombatPanel.this.refreshCombatTree();
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this, "tree" );
 		}
 
@@ -234,7 +238,7 @@ public class CustomCombatPanel
 
 		public void actionConfirmed()
 		{
-			CustomCombatPanel.this.updateFromPreferences();
+			CustomCombatPanel.this.refreshCombatEditor();
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this, "editor" );
 		}
 
@@ -290,4 +294,3 @@ public class CustomCombatPanel
 		}
 	}
 }
-

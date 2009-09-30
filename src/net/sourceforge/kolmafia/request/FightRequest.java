@@ -1343,7 +1343,7 @@ public class FightRequest
 
 			if ( action.startsWith( "custom" ) )
 			{
-				String file = Preferences.getBoolean( "debugPathnames" ) ? CustomCombatManager.getSettingsFileLocation() : CustomCombatManager.settingsFileName();
+				String file = Preferences.getBoolean( "debugPathnames" ) ? CustomCombatManager.getFile().getAbsolutePath() : CustomCombatManager.getScript();
 				action = file + " [" + CustomCombatManager.getSettingKey( FightRequest.encounterLookup ) + "]";
 			}
 
