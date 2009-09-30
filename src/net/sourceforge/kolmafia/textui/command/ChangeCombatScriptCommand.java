@@ -50,6 +50,11 @@ public class ChangeCombatScriptCommand
 
 	public void run( final String command, String parameters )
 	{
+		update( parameters );
+	}
+	
+	public static void update( String parameters )
+	{
 		if ( parameters.length() > 0 )
 		{
 			parameters = parameters.toLowerCase();
@@ -65,7 +70,7 @@ public class ChangeCombatScriptCommand
 				{
 					foundScript = true;
 					CustomCombatManager.setScript( script );
-					KoLmafia.updateDisplay( "CCS set to " + script );
+					KoLmafia.updateDisplay( "CCS set to " + CustomCombatManager.getScript() );
 				}
 			}
 
@@ -77,7 +82,7 @@ public class ChangeCombatScriptCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( "CCS is " + Preferences.getString( "customCombatScript" ) );
+			KoLmafia.updateDisplay( "CCS is " + CustomCombatManager.getScript() );
 		}
 
 		String battleAction = Preferences.getString( "battleAction" );
