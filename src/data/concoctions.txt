@@ -959,13 +959,19 @@ potion of potency	SAUCE	scrumptious reagent	orange
 serum of sarcasm	SAUCE	scrumptious reagent	olive
 tomato juice of powerful power	SAUCE	scrumptious reagent	tomato
 
-evil eyedrops of the ermine	SAUCE	nauseating reagent	strawberry
-evil libation of liveliness	SAUCE	nauseating reagent	grapes
-evil ointment of the occult	SAUCE	nauseating reagent	grapefruit
-evil philter of phorce	SAUCE	nauseating reagent	lemon
-evil potion of potency	SAUCE	nauseating reagent	orange
-evil serum of sarcasm	SAUCE	nauseating reagent	olive
-evil tomato juice of powerful power	SAUCE	nauseating reagent	tomato
+# Evil potions. Unlike regular potions, saucerors only get one potion
+# per brewing. Presumably, a character requires Advanced Saucecrafting
+# to make them, but since only a sauceror with that skill can have
+# nauseating reagent (a quest item) in inventory, simply mark the method
+# as COOK.
+
+evil eyedrops of the ermine	COOK	nauseating reagent	strawberry
+evil libation of liveliness	COOK	nauseating reagent	grapes
+evil ointment of the occult	COOK	nauseating reagent	grapefruit
+evil philter of phorce	COOK	nauseating reagent	lemon
+evil potion of potency	COOK	nauseating reagent	orange
+evil serum of sarcasm	COOK	nauseating reagent	olive
+evil tomato juice of powerful power	COOK	nauseating reagent	tomato
 
 salamander slurry	SAUCE	scrumptious reagent	salamander spleen
 eyedrops of newt	SAUCE	scrumptious reagent	eye of newt
