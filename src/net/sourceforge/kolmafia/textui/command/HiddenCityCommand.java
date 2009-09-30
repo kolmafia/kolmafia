@@ -47,7 +47,7 @@ public class HiddenCityCommand
 {
 	public HiddenCityCommand()
 	{
-		this.usage = " <square> [temple|altar <item>] - set Hidden City square [and perform an action there].";
+		this.usage = " <square> [temple|altar <itemId>] - set Hidden City square [and perform an action there].";
 	}
 
 	public void run( final String cmd, final String parameters )
@@ -74,7 +74,7 @@ public class HiddenCityCommand
 			request1 = new HiddenCityRequest( square );
 			request2 = new HiddenCityRequest( true );
 		}
-		else if ( type.equalsIgnoreCase( "altar" ) && split.length < 3 )
+		else if ( type.equalsIgnoreCase( "altar" ) && split.length == 3 )
 		{
 			AdventureResult result = ItemFinder.getFirstMatchingItem( split[ 2 ], ItemFinder.ANY_MATCH );
 			request1 = new HiddenCityRequest( square );
