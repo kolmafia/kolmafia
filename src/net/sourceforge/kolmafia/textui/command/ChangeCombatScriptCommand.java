@@ -54,29 +54,37 @@ public class ChangeCombatScriptCommand
 		{
 			parameters = parameters.toLowerCase();
 
+			boolean foundScript = false;
 			Iterator iterator = CustomCombatManager.getAvailableScripts().iterator();
 
-			while ( iterator.hasNext() )
+			while ( iterator.hasNext() && !foundScript )
 			{
 				String script = (String) iterator.next();
 
 				if ( script.toLowerCase().indexOf( parameters ) != -1 )
 				{
-					Preferences.setString( "customCombatScript", script );
-					Preferences.setString( "battleAction", "custom combat script" );
+					foundScript = true;
+					CustomCombatManager.setScript( script );
 					KoLmafia.updateDisplay( "CCS set to " + script );
-					return;
 				}
 			}
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No matching CCS found!" );
-			return;
+
+			if ( !foundScript )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No matching CCS found!" );
+				return;
+			}
+		}
+		else
+		{
+			KoLmafia.updateDisplay( "CCS is " + Preferences.getString( "customCombatScript" ) );
 		}
 
-		KoLmafia.updateDisplay( "CCS is " + Preferences.getString( "customCombatScript" ) );
+		String battleAction = Preferences.getString( "battleAction" );
 
-		if ( !Preferences.getString( "battleAction" ).startsWith( "custom" ) )
+		if ( !battleAction.startsWith( "custom" ) )
 		{
-			KoLmafia.updateDisplay( "(but isn't currently being used becase a different combat action is specified.)" );
+			KoLmafia.updateDisplay( "(but battle action is currently set to " + battleAction + ")" );
 		}
 	}
 }

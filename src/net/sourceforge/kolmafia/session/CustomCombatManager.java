@@ -37,9 +37,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-
-import java.nio.channels.FileChannel;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -61,7 +58,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -70,16 +66,18 @@ public abstract class CustomCombatManager
 	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack" );
 
 	private static String[] keys = new String[ 0 ];
-	private static File settingsFile = null;
 
 	private static final LockableListModel availableScripts = new LockableListModel();
 	private static final TreeMap reference = new TreeMap();
 	private static final CombatSettingNode root = new CombatSettingNode();
 
+	public static final void updateFromPreferences()
+	{
+		CustomCombatManager.setScript( CustomCombatManager.getScript() );
+	}
+
 	public static final LockableListModel getAvailableScripts()
 	{
-		CustomCombatManager.availableScripts.clear();
-
 		String[] list = DataUtilities.list( KoLConstants.CCS_LOCATION );
 
 		for ( int i = 0; i < list.length; ++i )
@@ -87,7 +85,11 @@ public abstract class CustomCombatManager
 			if ( list[ i ].endsWith( ".ccs" ) )
 			{
 				String name = list[ i ].substring( 0, list[ i ].length() - 4 );
-				CustomCombatManager.availableScripts.add( name );
+				
+				if ( !CustomCombatManager.availableScripts.contains( name ) )
+				{
+					CustomCombatManager.availableScripts.add( name );
+				}
 			}
 		}
 
@@ -99,19 +101,12 @@ public abstract class CustomCombatManager
 		return CustomCombatManager.availableScripts;
 	}
 
-	public static void setScript()
-	{
-		CustomCombatManager.setScript( CustomCombatManager.settingName() );
-	}
-
 	public static void setScript( String name )
 	{
 		if ( name == null || name.equals( "" ) )
 		{
 			name = "default";
 		}
-
-		name = StringUtilities.globalStringDelete( name.toLowerCase().trim(), " " );
 
 		if ( name.endsWith( ".ccs" ) )
 		{
@@ -123,30 +118,37 @@ public abstract class CustomCombatManager
 			CustomCombatManager.availableScripts.add( name );
 		}
 
-                CustomCombatManager.availableScripts.setSelectedItem( name );
-
-		name = name + ".ccs";
-
 		CustomCombatManager.loadSettings( name );
 		Preferences.setString( "customCombatScript", name );
+
+		CustomCombatManager.availableScripts.setSelectedItem( name );
 	}
 
-	public static final String settingName()
+	public static final String getScript()
 	{
 		String script = Preferences.getString( "customCombatScript" );
-		return script.endsWith( ".ccs" ) ? script.substring( 0, script.length() - 4 ) : "default";
+
+		if ( script == null || script.length() == 0 )
+		{
+			return "default";
+		}
+
+		return script;
 	}
 
-	public static final String settingsFileName()
+	public static final File getFile()
 	{
-		return CustomCombatManager.settingName() + ".ccs";
+		return CustomCombatManager.getFile( CustomCombatManager.getScript() );
 	}
-
-	public static final String settingsFileName( String name )
+	
+	public static final File getFile( String name )
 	{
-		if ( name.endsWith( ".ccs" ) )
-			return name;
-		return name + ".ccs";
+		if ( !name.endsWith( ".ccs" ) )
+		{
+			name = name + ".ccs";
+		}
+
+		return new File( KoLConstants.CCS_LOCATION, name );
 	}
 
 	public static final TreeNode getRoot()
@@ -161,63 +163,38 @@ public abstract class CustomCombatManager
 			return;
 		}
 
-		File source = new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() );
-		File destination = new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName( name ) );
+		File source = getFile();
+		File destination = getFile( name );
 
 		FileUtilities.copyFile( source, destination );
-	}
-
-	public static final String getSettingsFileLocation()
-	{
-		if ( CustomCombatManager.settingsFile == null )
-		{
-			return "unknown";
-		}
-
-		return CustomCombatManager.settingsFile.getAbsolutePath();
 	}
 
 	/**
 	 * Loads the settings located in the given file into this object. Note that all settings are overridden; if the
 	 * given file does not exist, the current global settings will also be rewritten into the appropriate file.
-	 *
+	 * 
 	 * @param source The file that contains (or will contain) the character data
 	 */
 
-	public static final void loadSettings()
-	{
-		CustomCombatManager.loadSettings( CustomCombatManager.settingsFileName() );
-	}
-
-	private static final void loadSettings( final String filename )
+	private static final void loadSettings( String filename )
 	{
 		CustomCombatManager.root.removeAllChildren();
 		CustomCombatManager.reference.clear();
 
-		CustomCombatManager.settingsFile = new File( KoLConstants.CCS_LOCATION, filename );
+		File file = getFile( filename );
 
-		// First guarantee that a settings file exists with
-		// the appropriate Properties data.
-
-		CustomCombatManager.readSettings();
-
-		if ( CustomCombatManager.reference.size() == 0 )
+		if ( !file.exists() )
 		{
-			PrintStream ostream = LogStream.openStream( CustomCombatManager.settingsFile, true );
+			PrintStream ostream = LogStream.openStream( file, true );
 			ostream.println( "[ default ]" );
 			ostream.println( "1: special action" );
 			ostream.println( "2: attack with weapon" );
 			ostream.close();
-
-			CustomCombatManager.readSettings();
 		}
-	}
 
-	private static final void readSettings()
-	{
 		try
 		{
-			BufferedReader reader = FileUtilities.getReader( CustomCombatManager.settingsFile );
+			BufferedReader reader = FileUtilities.getReader( file );
 			String line;
 			CombatSettingNode currentList = CustomCombatManager.root;
 
@@ -365,7 +342,7 @@ public abstract class CustomCombatManager
 
 	public static final void setAutoAttack( int skillId )
 	{
-		if ( skillId != 1 && (skillId < 1000 || skillId > 7000) )
+		if ( skillId != 1 && ( skillId < 1000 || skillId > 7000 ) )
 		{
 			skillId = 0;
 		}
@@ -445,9 +422,9 @@ public abstract class CustomCombatManager
 	 * overwrites the given file.
 	 */
 
-	public static final void saveSettings()
+	public static final void saveSettings( String name )
 	{
-		PrintStream writer = LogStream.openStream( CustomCombatManager.settingsFile, true );
+		PrintStream writer = LogStream.openStream( getFile( name ), true );
 
 		CombatSettingNode combatOptions;
 		for ( int i = 0; i < CustomCombatManager.keys.length; ++i )
@@ -532,7 +509,8 @@ public abstract class CustomCombatManager
 	public static final String getSetting( final String encounter, final int roundCount )
 	{
 		if ( roundCount < 0 || roundCount >= 100 )
-		{	// prevent hang if the combat is somehow not progressing at all
+		{
+			// prevent hang if the combat is somehow not progressing at all
 			return "abort";
 		}
 		String action = Preferences.getString( "battleAction" );
@@ -552,7 +530,7 @@ public abstract class CustomCombatManager
 				return action;
 			}
 		}
-		
+
 		String settingKey = CustomCombatManager.getSettingKey( encounter );
 		CombatSettingNode match = (CombatSettingNode) CustomCombatManager.reference.get( settingKey );
 		HashSet seen = new HashSet();
@@ -560,32 +538,33 @@ public abstract class CustomCombatManager
 		int index = roundCount;
 
 		while ( true )
-		{	
+		{
 			if ( match == null || match.getChildCount() == 0 )
 			{
 				return "attack";
 			}
-	
+
 			int origIndex = index;
 			index = Math.min( index, match.getChildCount() - 1 );
 			CombatActionNode setting = (CombatActionNode) match.getChildAt( index );
 			action = setting == null ? "attack" : setting.getAction();
-			
+
 			// Check for section redirects
+
 			if ( action.equals( "default" ) )
 			{
 				settingKey = action;
 			}
 			else if ( action.startsWith( "section " ) )
 			{
-				settingKey = CustomCombatManager.getSettingKey( 
+				settingKey = CustomCombatManager.getSettingKey(
 					action.substring( 8 ).trim().toLowerCase() );
 			}
 			else
 			{
 				settingKey = null;
 			}
-			
+
 			if ( settingKey != null )
 			{
 				if ( seen.contains( settingKey ) )
@@ -598,7 +577,7 @@ public abstract class CustomCombatManager
 				index = origIndex - index;
 				continue;
 			}
-			
+
 			return action;
 		}
 	}
@@ -753,7 +732,10 @@ public abstract class CustomCombatManager
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 		{
 			int runaway = StringUtilities.parseInt( action );
-			if ( runaway <= 0 ) return "try to run away";
+			if ( runaway <= 0 )
+			{
+				return "try to run away";
+			}
 			return "run away if " + runaway + "% chance of being free";
 		}
 
@@ -907,7 +889,7 @@ public abstract class CustomCombatManager
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 		{
 			int runaway = StringUtilities.parseInt( action );
-			return runaway <= 0 ? "runaway" : ("runaway" + runaway);
+			return runaway <= 0 ? "runaway" : ( "runaway" + runaway );
 		}
 
 		if ( action.startsWith( "item" ) )
@@ -967,7 +949,7 @@ public abstract class CustomCombatManager
 			itemId = ItemPool.FACSIMILE_DICTIONARY;
 		}
 
-		if ( itemId == ItemPool.FACSIMILE_DICTIONARY && InventoryManager.getCount(  ItemPool.FACSIMILE_DICTIONARY ) < 1 )
+		if ( itemId == ItemPool.FACSIMILE_DICTIONARY && InventoryManager.getCount( ItemPool.FACSIMILE_DICTIONARY ) < 1 )
 		{
 			itemId = ItemPool.DICTIONARY;
 		}

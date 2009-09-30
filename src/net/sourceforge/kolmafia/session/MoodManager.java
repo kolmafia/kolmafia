@@ -88,14 +88,12 @@ public abstract class MoodManager
 	private static final SortedListModel availableMoods = new SortedListModel();
 
 	private static int thiefTriggerLimit = 3;
-	private static File settingsFile = null;
-
 	private static boolean isExecuting = false;
 	private static SortedListModel mappedList = null;
 
-	public static final String settingsFileName()
+	public static final File getFile()
 	{
-		return KoLCharacter.baseUserName() + "_moods.txt";
+		return new File( UtilityConstants.SETTINGS_LOCATION, KoLCharacter.baseUserName() + "_moods.txt" );
 	}
 
 	public static final boolean isExecuting()
@@ -103,14 +101,13 @@ public abstract class MoodManager
 		return MoodManager.isExecuting;
 	}
 
-	public static final void restoreDefaults()
+	public static final void updateFromPreferences()
 	{
 		MoodManager.reference.clear();
 		MoodManager.availableMoods.clear();
 		MoodManager.displayList.clear();
 
 		String currentMood = Preferences.getString( "currentMood" );
-		MoodManager.settingsFile = new File( UtilityConstants.SETTINGS_LOCATION, MoodManager.settingsFileName() );
 		MoodManager.loadSettings();
 
 		MoodManager.setMood( currentMood );
@@ -969,7 +966,7 @@ public abstract class MoodManager
 
 	public static final void saveSettings()
 	{
-		PrintStream writer = LogStream.openStream( MoodManager.settingsFile, true );
+		PrintStream writer = LogStream.openStream( getFile(), true );
 
 		SortedListModel triggerList;
 		for ( int i = 0; i < MoodManager.availableMoods.size(); ++i )
@@ -1006,7 +1003,7 @@ public abstract class MoodManager
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			BufferedReader reader = FileUtilities.getReader( MoodManager.settingsFile );
+			BufferedReader reader = FileUtilities.getReader( getFile() );
 
 			String line;
 			String currentKey = "";
@@ -1230,13 +1227,6 @@ public abstract class MoodManager
 			MoodManager.availableMoods.add( key );
 		}
 	}
-
-	/**
-	 * Stores the settings maintained in this <code>KoLSettings</code> to the noted file. Note that this method ALWAYS
-	 * overwrites the given file.
-	 * 
-	 * @param settingsFile The file to which the settings will be stored.
-	 */
 
 	public static class MoodTrigger
 		implements Comparable

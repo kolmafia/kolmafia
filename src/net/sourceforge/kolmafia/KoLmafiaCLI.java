@@ -197,6 +197,7 @@ public class KoLmafiaCLI
 
 		if ( StaticEntity.getClient() == this )
 		{
+			RequestLogger.printLine();
 			System.out.print( " > " );
 		}
 

@@ -131,7 +131,8 @@ public class Preferences
 
 		AdventureFrame.updateFromPreferences();
 		CharPaneDecorator.updateFromPreferences();
-		MoodManager.restoreDefaults();
+		CustomCombatManager.updateFromPreferences();
+		MoodManager.updateFromPreferences();
 		Preferences.fireAllPreferencesChanged();
 	}
 
