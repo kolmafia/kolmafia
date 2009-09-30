@@ -130,28 +130,34 @@ public class FamiliarData
 	public static final void registerFamiliarData( final String searchText )
 	{
 		// Assume he has no familiar
-		FamiliarData firstFamiliar = null;
+		FamiliarData first = FamiliarData.NO_FAMILIAR;
 
-		Matcher familiarMatcher = FamiliarData.REGISTER_PATTERN.matcher( searchText );
-		while ( familiarMatcher.find() )
+		Matcher matcher = FamiliarData.REGISTER_PATTERN.matcher( searchText );
+		while ( matcher.find() )
 		{
-			FamiliarData examinedFamiliar = KoLCharacter.addFamiliar( new FamiliarData( familiarMatcher ) );
+			FamiliarData found = new FamiliarData( matcher );
+			FamiliarData familiar = KoLCharacter.addFamiliar( found );
+
+			// KoLCharacter.addFamiliar returns an existing
+			// FamiliarData object if the familiar is already
+			// registered. Update the weight from KoL's page.
+			familiar.weight = found.weight;
 
 			// First in the list might be equipped
-			if ( firstFamiliar == null )
+			if ( first == FamiliarData.NO_FAMILIAR )
 			{
-				firstFamiliar = examinedFamiliar;
+				first = familiar;
 			}
 		}
 
-		// On the other hand, he may have familiars but none are equipped.
-		if ( firstFamiliar == null || searchText.indexOf( "You do not currently have a familiar" ) != -1 )
+		// He may have familiars but none are equipped.
+		if ( searchText.indexOf( "You do not currently have a familiar" ) != -1 )
 		{
-			firstFamiliar = FamiliarData.NO_FAMILIAR;
+			first = FamiliarData.NO_FAMILIAR;
 		}
 
-		KoLCharacter.setFamiliar( firstFamiliar );
-		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, firstFamiliar.getItem() );
+		KoLCharacter.setFamiliar( first );
+		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
 		FamiliarData.checkLockedItem( searchText );
 	}
 
