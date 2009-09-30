@@ -109,12 +109,7 @@ public class SetPreferencesCommand
 
 		if ( name.equals( "customCombatScript" ) )
 		{
-			while ( name.endsWith( ".ccs" ) )
-			{
-				name = name.substring( 0, name.length() - 4 );
-			}
-
-			CustomCombatManager.setScript( value );
+			ChangeCombatScriptCommand.update( value );
 			return;
 		}
 
