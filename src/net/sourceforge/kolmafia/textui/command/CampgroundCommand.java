@@ -47,7 +47,7 @@ public class CampgroundCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		String[] parameterList = parameters.split( "\\S+" );
+		String[] parameterList = parameters.split( "\\s+" );
 
 		CampgroundRequest request = new CampgroundRequest( parameterList[ 0 ] );
 
