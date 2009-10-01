@@ -249,7 +249,7 @@
             <version upstream="${revision}" debian="${revision}"/>
             <maintainer name="Veracity" email="veracity@hambo.com"/>
             <description synopsis="An alternate interface to Kingdom of Loathing">
-Description goes here
+An alternate interface to Kingdom of Loathing
             </description>
             <tarfileset file="${jarfile}" prefix="usr/lib" filemode="755"/>
             <tarfileset file="${build}/kolmafia.desktop" prefix="usr/share/applications"/>
