@@ -4228,7 +4228,7 @@
 4222
 4221	yield shield	offhand	display	0
 4222
-4223
-4224
+4223	squamous polyp	grow	all	0
+4224	unspeakable lozenges	familiar	all	75
 4225
 4226	Star of Bravery	accessory	display	0

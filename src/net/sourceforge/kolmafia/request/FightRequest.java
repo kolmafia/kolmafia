@@ -1787,9 +1787,10 @@ public class FightRequest
 				m.start( 2 ) != -1 ? 2 : 3 );
 		}
 
-		// Check for extra rollover adventures from your Wild Hare
-		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HARE )
+		// Check for extra rollover adventures
+		switch ( KoLCharacter.getFamiliar().getId() )
 		{
+		case FamiliarPool.HARE:
 			// <name> pulls an oversized pocketwatch out of his
 			// waistcoat and winds it. "Two days slow, that's what
 			// it is," he says.
@@ -1802,6 +1803,16 @@ public class FightRequest
 			// waistcoat and gives the watch another turn. He
 			// vanishes back into the pocket with a sleepy 'feed
 			// your head.'
+			break;
+
+		case FamiliarPool.GIBBERER:
+			// <name> mutters dark secrets under his breath, and
+			// you feel time slow down.
+			if ( responseText.indexOf( "you feel time slow down" ) != -1 )
+			{
+				Preferences.increment( "extraRolloverAdventures", 1 );
+			}
+			break;
 		}
 		
 		// Cancel any combat modifiers
