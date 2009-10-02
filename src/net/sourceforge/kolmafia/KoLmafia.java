@@ -30,7 +30,7 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-	
+
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
@@ -632,7 +632,7 @@ public abstract class KoLmafia
 		{
 			KoLDesktop.getInstance().updateDisplayState( state );
 		}
-		
+
 		KoLmafia.displayState = state;
 	}
 
@@ -818,7 +818,7 @@ public abstract class KoLmafia
 		TurnCounter.stopCounting( "<font color=red>Major Red Recharge</font>" );
 		TurnCounter.stopCounting( "<font color=blue>Major Blue Recharge</font>" );
 		TurnCounter.stopCounting( "<font color=olive>Major Yellow Recharge</font>" );
-		
+
 		Preferences.resetDailies();
 
 		// Libram summoning skills now costs 1 MP again
@@ -1235,7 +1235,7 @@ public abstract class KoLmafia
 
 		return KoLConstants.conditions.isEmpty();
 	}
-	
+
 	public static void abortAfter( String msg )
 	{
 		KoLmafia.abortAfter = msg;
@@ -2247,7 +2247,7 @@ public abstract class KoLmafia
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
 
 		int previousLimit = 0;
-		
+
 		if ( Preferences.getInteger( "autoBuyPriceLimit" ) == 0 )
 		{
 			// this is probably due to an out-of-date defaults.txt
@@ -2380,10 +2380,10 @@ public abstract class KoLmafia
 		String encounterType = KoLmafia.encounterType( encounterName );
 		return encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH;
 	}
-	
+
 	// Used to ignore semirare monsters re-encountered via Spooky Putty
 	private static boolean ignoreSemirare = false;
-	
+
 	public static void ignoreSemirare()
 	{
 		KoLmafia.ignoreSemirare = true;
@@ -2956,33 +2956,30 @@ public abstract class KoLmafia
 			try
 			{
 				String line;
-				StringBuffer contents = new StringBuffer();
+
 				BufferedReader reader =
-					FileUtilities.getReader( "http://sourceforge.net/export/rss2_projfiles.php?group_id=126572" );
+					FileUtilities.getReader( "http://kolmafia.svn.sourceforge.net/svnroot/kolmafia/src/net/sourceforge/kolmafia/KoLConstants.java" );
+
+				String lastVersion = Preferences.getString( "lastRssVersion" );
+				String currentVersion = null;
 
 				while ( ( line = reader.readLine() ) != null )
 				{
-					contents.append( line );
+					if ( line.indexOf( "public static final String VERSION_NAME" ) != -1 )
+					{
+						int quote1 = line.indexOf( "\"" ) + 1;
+						int quote2 = line.lastIndexOf( "\"" );
+
+						currentVersion = line.substring( quote1, quote2 );
+					}
 				}
 
-				String string = contents.toString();
+				reader.close();
 
-				if ( string.indexOf( "<title>SourceForge.net: Inactive feed (group: 126572)</title>" ) != -1 )
+				if ( currentVersion == null )
 				{
-					System.out.println( "Update check failed: inactive feed" );
 					return;
 				}
-
-				Matcher updateMatcher =
-					Pattern.compile( "<title>(KoLmafia [^<]*?) released [^<]*?</title>" ).matcher( string );
-				if ( !updateMatcher.find() )
-				{
-					System.out.println( string );
-					return;
-				}
-
-				String lastVersion = Preferences.getString( "lastRssVersion" );
-				String currentVersion = updateMatcher.group( 1 );
 
 				Preferences.setString( "lastRssVersion", currentVersion );
 
@@ -2993,7 +2990,7 @@ public abstract class KoLmafia
 
 				if ( InputFieldUtilities.confirm( "A new version of KoLmafia is now available.  Would you like to download it now?" ) )
 				{
-					StaticEntity.openSystemBrowser( "https://sourceforge.net/project/showfiles.php?group_id=126572" );
+					StaticEntity.openSystemBrowser( "http://sourceforge.net/projects/kolmafia/files/" );
 				}
 			}
 			catch ( Exception e )
