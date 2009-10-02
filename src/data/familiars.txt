@@ -118,4 +118,4 @@
 114	Rock Lobster	none	4159	extra-strength rubber bands	3	2	2	1
 115
 116
-117	Squamous Gibberer	none	4223	unspeakable lozenges	1	2	3	1
+117	Squamous Gibberer	none	4223	unspeakable lozenges	1	2	2	3
