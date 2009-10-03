@@ -77,7 +77,7 @@ public class Interpreter
 	// For use in runtime error messages
 	private String fileName;
 	private int lineNumber;
-	
+
 	// For use by RuntimeLibrary's CLI command batching feature
 	LinkedHashMap batched;
 
@@ -209,12 +209,19 @@ public class Interpreter
 		this.currentState = Interpreter.STATE_NORMAL;
 		this.resetTracing();
 
-		main = functionName.equals( "main" ) ? this.parser.getMainMethod() : topScope.findFunction( functionName, parameters != null );
-
-		if ( main == null && !topScope.getCommands().hasNext() )
+		if ( functionName.equals( "main" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to invoke " + functionName );
-			return DataTypes.VOID_VALUE;
+			main = this.parser.getMainMethod();
+		}
+		else
+		{
+			main = topScope.findFunction( functionName, parameters != null );
+
+			if ( main == null && !topScope.getCommands().hasNext() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to invoke " + functionName );
+				return DataTypes.VOID_VALUE;
+			}
 		}
 
 		// First execute top-level commands;
