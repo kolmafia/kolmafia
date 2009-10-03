@@ -1252,6 +1252,11 @@ public abstract class ChoiceManager
 			new String[] { "1 of each marble -> 32768 Meat", "skip adventure" } ),
 
 		// Choice 395 is Rumble On
+
+		// Don't Hold a Grudge
+		new ChoiceAdventure(
+			"Manor2", "choiceAdventure402", "Haunted Bathroom",
+			new String[] { "muscle substats", "mysticality substats", "moxie substats" } ),
 	};
 
 	static
