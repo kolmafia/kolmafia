@@ -1517,7 +1517,7 @@ public class Parser
 		{
 			return null;
 		}
-		
+
 		if ( this.nextToken() == null || this.nextToken().equals( "(" )
 			|| this.nextToken().equals( "=" ) )
 		{	// it's a call to a function named sort(), or an assigment to
@@ -1553,7 +1553,7 @@ public class Parser
 		// Parse the key expression in a new scope containing 'index' and 'value'
 		Scope scope = new Scope( varList, parentScope );
 		Value expr = this.parseExpression( scope );
-		
+
 		return new SortBy( (VariableReference) aggregate, indexvar, valuevar, expr );
 	}
 

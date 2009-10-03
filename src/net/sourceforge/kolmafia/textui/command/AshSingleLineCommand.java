@@ -54,7 +54,7 @@ public class AshSingleLineCommand
 
 	public void run( final String cmd, String parameters )
 	{
-		if ( !parameters.endsWith( ";" ) )
+		if ( !parameters.endsWith( ";" ) && !parameters.endsWith( "}" ) )
 		{
 			parameters += ";";
 		}
