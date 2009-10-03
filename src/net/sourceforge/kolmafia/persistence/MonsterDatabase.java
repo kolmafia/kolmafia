@@ -115,57 +115,39 @@ public class MonsterDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
+			Monster monster = null;
+
 			if ( data.length >= 2 )
 			{
-				Monster monster = MonsterDatabase.registerMonster( data[ 0 ], data[ 1 ] );
-				if ( monster == null )
+				monster = MonsterDatabase.registerMonster( data[ 0 ], data[ 1 ] );
+			}
+
+			if ( monster == null )
+			{
+				continue;
+			}
+
+			boolean bogus = false;
+
+			for ( int i = 2; i < data.length; ++i )
+			{
+				AdventureResult item = MonsterDatabase.parseItem( data[ i ] );
+				if ( item == null || item.getItemId() == -1 || item.getName() == null )
 				{
+					RequestLogger.printLine( "Bad item for monster \"" + data[ 0 ] + "\": " + data[ i ] );
+					bogus = true;
 					continue;
 				}
 
-				boolean bad = false;
-				for ( int i = 2; i < data.length; ++i )
-				{
-					String name = data[ i ];
-					AdventureResult item = null;
+				monster.addItem( item );
+			}
 
-					if ( !name.endsWith( ")" ) )
-					{
-						item = new AdventureResult( name, (int) '0' );
-					}
-					else
-					{
-						int left = name.lastIndexOf( " (" );
-						int count = StringUtilities.parseInt( name.substring( left + 2 ) );
-						char prefix = name.charAt( left + 2 );
-						name = name.substring( 0, left );
-						if ( ItemDatabase.getItemId( name, 1 ) != -1 )
-						{
-							item = new AdventureResult( name, (count << 16) | prefix );
-						}
-						else
-						{
-							item = new AdventureResult( data[ i ], (int) '0' );
-						}
-					}
-
-					if ( item != null )
-					{
-						monster.addItem( item );
-						continue;
-					}
-
-					RequestLogger.printLine( "Bad item for monster \"" + data[ 0 ] + "\": " + data[ i ] );
-					bad = true;
-				}
-
-				if ( !bad )
-				{
-					monster.doneWithItems();
-					String keyName = CustomCombatManager.encounterKey( data[ 0 ], true );
-					StringUtilities.registerPrepositions( keyName );
-					MonsterDatabase.MONSTER_DATA.put( keyName, monster );
-				}
+			if ( !bogus )
+			{
+				monster.doneWithItems();
+				String keyName = CustomCombatManager.encounterKey( data[ 0 ], true );
+				StringUtilities.registerPrepositions( keyName );
+				MonsterDatabase.MONSTER_DATA.put( keyName, monster );
 			}
 		}
 
@@ -180,6 +162,36 @@ public class MonsterDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	private static final AdventureResult parseItem( final String data )
+	{
+		String name = data;
+		int count = 0;
+		char prefix = '0';
+
+		// Remove quantity and flag
+		if ( name.endsWith( ")" ) )
+		{
+			int left = name.lastIndexOf( " (" );
+			count =	 StringUtilities.parseInt( name.substring( left + 2 ) );
+			prefix = name.charAt( left + 2 );
+			name = name.substring( 0, left );
+		}
+
+		// Convert item numbers to names
+		if ( name.startsWith( "[" ) )
+		{
+			int end = name.indexOf( "]" );
+			int itemId = StringUtilities.parseInt( name.substring( 1, end ) );
+			name = ItemDatabase.getItemName( itemId );
+		}
+		else if ( ItemDatabase.getItemId( name, 1 ) == -1 )
+		{
+			return new AdventureResult( name, (int)'0' );
+		}
+
+		return new AdventureResult( name, (count << 16) | prefix );
 	}
 
 	public static final Monster findMonster( final String name, boolean trySubstrings )
