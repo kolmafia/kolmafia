@@ -188,7 +188,7 @@ public class MonsterDatabase
 		}
 		else if ( ItemDatabase.getItemId( name, 1 ) == -1 )
 		{
-			return new AdventureResult( name, (int)'0' );
+			return new AdventureResult( data, (int)'0' );
 		}
 
 		return new AdventureResult( name, (count << 16) | prefix );
