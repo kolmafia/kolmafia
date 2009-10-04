@@ -58,6 +58,11 @@ public class ChangeCombatScriptCommand
 		if ( parameters.length() > 0 )
 		{
 			parameters = parameters.toLowerCase();
+			
+			while ( parameters.endsWith( ".ccs" ) )
+			{
+				parameters = parameters.substring( 0, parameters.length() - 4 );
+			}
 
 			boolean foundScript = false;
 			Iterator iterator = CustomCombatManager.getAvailableScripts().iterator();
