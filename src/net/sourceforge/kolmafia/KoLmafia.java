@@ -2377,6 +2377,11 @@ public abstract class KoLmafia
 
 	public static final boolean isAutoStop( final String encounterName )
 	{
+		if ( encounterName.equals( "Under the Knife" ) && Preferences.getString( "choiceAdventure21" ).equals( "2" ) )
+		{
+			return false;
+		}
+
 		String encounterType = KoLmafia.encounterType( encounterName );
 		return encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH;
 	}
