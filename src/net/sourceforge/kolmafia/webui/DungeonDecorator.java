@@ -58,15 +58,12 @@ public abstract class DungeonDecorator
 		{
 			DungeonDecorator.dungeonRoom = StringUtilities.parseInt( roomMatcher.group( 1 ) );
 			DungeonDecorator.dungeonEncounter = "Encounter: " + roomMatcher.group( 2 );
-			if ( DungeonDecorator.dungeonRoom == 10 )
-			{
-				Preferences.setBoolean( "dailyDungeonDone", true );
-			}
 		}
 		else
 		{
 			DungeonDecorator.dungeonRoom = 0;
 			DungeonDecorator.dungeonEncounter = "";
+			Preferences.setBoolean( "dailyDungeonDone", true );
 		}
 	}
 
@@ -77,11 +74,18 @@ public abstract class DungeonDecorator
 
 	public static final String getDungeonRoomString()
 	{
-                return "Daily Dungeon (Room " + DungeonDecorator.getDungeonRoom() + ")";
+		return "Daily Dungeon (Room " + DungeonDecorator.getDungeonRoom() + ")";
 	}
 
 	public static final String getDungeonEncounter()
 	{
-                return DungeonDecorator.dungeonEncounter;
+		// We determined the room number earlier when we visited
+		// dungeon.php. We only log the encounter and complete the
+		// dungeon when we actual spend the turn to visit the room.
+		if ( DungeonDecorator.dungeonRoom == 10 )
+		{
+			Preferences.setBoolean( "dailyDungeonDone", true );
+		}
+		return DungeonDecorator.dungeonEncounter;
 	}
 }
