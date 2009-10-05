@@ -962,13 +962,6 @@ public class ConcoctionDatabase
 				continue;
 			}
 
-			CreateItemRequest instance = CreateItemRequest.getInstance( ar, false );
-
-			if ( instance == null )
-			{
-				continue;
-			}
-
 			if ( considerPulls &&
 				ar.getItemId() > 0 &&
 				item.getPrice() <= 0 &&
@@ -979,6 +972,13 @@ public class ConcoctionDatabase
 			else
 			{
 				item.setPullable( 0 );
+			}
+
+			CreateItemRequest instance = CreateItemRequest.getInstance( ar, false );
+
+			if ( instance == null )
+			{
+				continue;
 			}
 
 			int creatable = Math.max( item.creatable, 0 );

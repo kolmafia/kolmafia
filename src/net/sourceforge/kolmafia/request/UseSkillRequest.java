@@ -151,6 +151,7 @@ public class UseSkillRequest
 	public static final AdventureResult BACON_BRACELET = ItemPool.get( ItemPool.BACONSTONE_BRACELET, 1 );
 	public static final AdventureResult BACON_EARRING = ItemPool.get( ItemPool.BACONSTONE_EARRING, 1 );
 	public static final AdventureResult SOLID_EARRING = ItemPool.get( ItemPool.SOLID_BACONSTONE_EARRING, 1 );
+	public static final AdventureResult EMBLEM_AKGYXOTH = ItemPool.get( ItemPool.EMBLEM_AKGYXOTH, 1 );
 
 	// The following list must contain only accessories!
 	private static final AdventureResult[] AVOID_REMOVAL = new AdventureResult[]
@@ -163,6 +164,7 @@ public class UseSkillRequest
 		UseSkillRequest.BACON_BRACELET,	// -1, discontinued item
 		UseSkillRequest.BACON_EARRING,	// -1
 		UseSkillRequest.SOLID_EARRING,	// -1
+		UseSkillRequest.EMBLEM_AKGYXOTH,	// -1
 		// Removing the following might drop an AT song
 		UseSkillRequest.PLEXI_PENDANT,
 	};
@@ -178,7 +180,6 @@ public class UseSkillRequest
 	// wizard hat (-1) - has to be handled specially since it's not an accessory.
 	// Vile Vagrant Vestments (-5) - unlikely to be equippable during Ronin.
 	// Idol of Ak'gyxoth (-1) - off-hand, would require special handling.
-	// Emblem of Ak'gyxoth (-1) - is going to be equipped at all times, anyway.
 	// Scandalously Skimpy Bikini (4 songs) - custom accessory.
 	// Sombrero de Vida (4 songs) - custom hat.
 

@@ -486,14 +486,16 @@ public class MaximizerFrame
 			}
 			else if ( cmd.startsWith( "concert " ) )
 			{
-				if ( Preferences.getBoolean( "concertVisited" ) )
+				if ( Preferences.getBoolean( "concertVisited" ) ||
+					KoLCharacter.getLevel() < 12 )
 				{
 					cmd = "";
 				}
 			}
 			else if ( cmd.startsWith( "telescope " ) )
 			{
-				if ( Preferences.getBoolean( "telescopeLookedHigh" ) )
+				if ( Preferences.getBoolean( "telescopeLookedHigh" ) ||
+					Preferences.getInteger( "telescopeUpgrades" ) == 0 )
 				{
 					cmd = "";
 				}
@@ -586,6 +588,10 @@ public class MaximizerFrame
 						}
 					}
 					if ( price > maxPrice ) continue;
+				}
+				else if ( item.getCount( KoLConstants.inventory ) == 0 )
+				{
+					continue;
 				}
 			}
 			

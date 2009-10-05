@@ -836,6 +836,8 @@ public abstract class UseLinkDecorator
 			useLocation = "inv_use.php?which=3&whichitem=";
 			break;
 
+		case ItemPool.BAT_BANDANA:
+		case ItemPool.BONERDAGON_SKULL:
 		case ItemPool.HOLY_MACGUFFIN:
 
 			useType = "council";
