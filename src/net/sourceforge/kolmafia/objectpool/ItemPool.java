@@ -119,6 +119,7 @@ public class ItemPool
 	public static final int FAT_STACKS_OF_CASH = 185;
 	public static final int ENCHANTED_BEAN = 186;
 	public static final int BAT_GUANO = 188;
+	public static final int BAT_BANDANA = 191;
 	public static final int BATSKIN_BELT = 192;
 	public static final int MR_ACCESSORY = 194;
 	public static final int RAT_WHISKER = 197;
@@ -243,6 +244,7 @@ public class ItemPool
 	public static final int STAR_KEY = 665;
 	public static final int STEAMING_EVIL = 666;
 	public static final int GIANT_CASTLE_MAP = 667;
+	public static final int BONERDAGON_SKULL = 675;
 	public static final int DRAGONBONE_BELT_BUCKLE = 676;
 	public static final int BADASS_BELT = 677;
 	public static final int DIGITAL_KEY = 691;
