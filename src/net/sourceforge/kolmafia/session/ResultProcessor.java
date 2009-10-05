@@ -96,6 +96,7 @@ public class ResultProcessor
 		}
 
 		return formURLString.startsWith( "adventure.php" ) ||
+			formURLString.startsWith( "choice.php" ) ||
 			formURLString.startsWith( "hermit.php" ) ||
 			formURLString.startsWith( "mallstore.php" ) ||
 			formURLString.startsWith( "barrel.php" ) ||
