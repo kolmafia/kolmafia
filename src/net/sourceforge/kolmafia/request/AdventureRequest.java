@@ -264,6 +264,12 @@ public class AdventureRequest
 			return;
 		}
 
+		if ( this.responseText.indexOf( "You don't have any adventures." ) != -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Ran out of adventures." );
+			return;
+		}
+
 		// The sorceress fight should always result in you getting
 		// a fight redirect.
 
