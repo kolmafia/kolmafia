@@ -171,10 +171,14 @@ public class HiddenCityRequest
 			return;
 		}
 
-		if (!HiddenCityRequest.parseResponse( this.getURLString(), this.responseText ) )
-		{
+		HiddenCityRequest.parseResponse( this.getURLString(), this.responseText );
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Nothing more to do here." );
+		int index = KoLAdventure.findAdventureFailure( this.responseText );
+		if ( index >= 0 )
+		{
+			String failure = KoLAdventure.adventureFailureMessage( index );
+			int severity = KoLAdventure.adventureFailureSeverity( index );
+			KoLmafia.updateDisplay( severity, failure );
 		}
 	}
 
@@ -195,7 +199,7 @@ public class HiddenCityRequest
 		{
 			// We simply visited a square
 			HiddenCityRequest.identifySquare( location, responseText );
-			return false;
+			return true;
 		}
 
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
@@ -255,6 +259,10 @@ public class HiddenCityRequest
 		else if ( responseText.indexOf( "Dr. Henry \"Dakota\" Fanning, Ph.D., R.I.P." ) != -1 )
 		{
 			HiddenCityRequest.addHiddenCityLocation( square, 'A' );
+		}
+		else if ( responseText.indexOf( "cleared that ancient protector spirit out" ) != -1 )
+		{
+			HiddenCityRequest.addHiddenCityLocation( square, 'D' );
 		}
 	}
 
@@ -336,6 +344,22 @@ public class HiddenCityRequest
 
 		String layout = HiddenCityRequest.hiddenCityLayout();
 		return layout.charAt( square - 1 );
+	}
+
+	public static final String getHiddenCityLocationString( final String urlString )
+	{
+		if ( !urlString.startsWith( "hiddencity.php" ) )
+		{
+			return null;
+		}
+
+		int square = HiddenCityRequest.getSquare( urlString );
+		if ( square == 0 )
+		{
+			return null;
+		}
+
+		return "Hidden City (Square " + square + ")";
 	}
 
 	public static final boolean registerRequest( final String urlString )

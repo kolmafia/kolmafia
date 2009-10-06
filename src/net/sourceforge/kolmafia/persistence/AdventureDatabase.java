@@ -374,6 +374,11 @@ public class AdventureDatabase
 			return null;
 		}
 
+		if ( adventureURL.startsWith( "hiddencity.php" ) )
+		{
+			return (KoLAdventure) AdventureDatabase.adventureLookup.get( "hiddencity.php" );
+		}
+
 		if ( adventureURL.startsWith( "sewer.php" ) )
 		{
 			return adventureURL.indexOf( "doodit" ) == -1 ?
@@ -387,7 +392,8 @@ public class AdventureDatabase
 		KoLAdventure location = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureURL );
 		return location == null ||
 			location.getRequest() instanceof ClanRumpusRequest ||
-			location.getRequest() instanceof RichardRequest ? null : location;
+			location.getRequest() instanceof RichardRequest
+			? null : location;
 	}
 
 	public static final String removeField( final String urlString, final String field )
