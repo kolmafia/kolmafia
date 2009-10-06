@@ -317,6 +317,17 @@ public abstract class UseLinkDecorator
 		{
 			link = new UseLink(0, "king's chamber", "knob.php?king=1" );
 		}
+		else if ( effect.equals( "The Ballad of Richie Thingfinder" ) ||
+			  effect.equals( "Benetton's Medley of Diversity" ) ||
+			  effect.equals( "Elron's Explosive Etude" ) ||
+			  effect.equals( "Chorale of Companionship" ) ||
+			  effect.equals( "Prelude of Precision" ) )
+		{
+			// These are all effects which are also items. We know
+			// that they are effects, in this context, so return
+			// true to prevent them from getting "use" links.
+			return true;
+		}
 		else
 		{
 			return false;
