@@ -1327,6 +1327,20 @@ public class KoLAdventure
 			KoLAdventure.PENDING
 		},
 
+		// There are no more ducks here.
+		{
+			"no more ducks here",
+			"Farm area cleared.",
+			KoLAdventure.PENDING
+		},
+
+		// You've already retrieved all of the stolen Meat
+		{
+			"already retrieved all of the stolen Meat",
+			"You already recovered the Nuns' Meat.",
+			KoLAdventure.PENDING
+		},
+
 		// Cobb's Knob King's Chamber after defeating the goblin king.
 		{
 			"You've already slain the Goblin King",
