@@ -766,7 +766,7 @@ public abstract class MushroomManager
 				}
 			}
 
-			for ( int i = 0; i < 16; ++i )
+			for ( int i = 0; dayIndex > 0 && i < 16; ++i )
 			{
 				planningData[ dayIndex - 1 ][ i ] = originalData[ dayIndex - 1 ][ i ];
 			}
