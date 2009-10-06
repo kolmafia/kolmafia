@@ -221,6 +221,10 @@ public class KoLAdventure
 		{
 			return PyramidRequest.getPyramidLocationString( urlString );
 		}
+		if ( urlString.startsWith( "hiddencity.php" ) )
+		{
+			return HiddenCityRequest.getHiddenCityLocationString( urlString );
+		}
 		if ( urlString.startsWith( "dungeon.php" ) )
 		{
 			return DungeonDecorator.getDungeonRoomString();
@@ -1263,10 +1267,10 @@ public class KoLAdventure
 		},
 
 		// Pyramid Lower Chamber while drunk
+		// Hidden City while drunk
 		{
-			"You're too drunk to screw around in here",
+			"You're too drunk to screw around",
 			"You are too drunk to go there.",
-
 		},
 
 		// You can't adventure there without some way of breathing underwater...
@@ -1393,6 +1397,41 @@ public class KoLAdventure
 			"already undefiled",
 			"Cyrpt area cleared.",
 			KoLAdventure.PENDING
+		},
+
+		// This part of the city is awfully unremarkable, now that
+		// you've cleared that ancient protector spirit out.
+		{
+			"cleared that ancient protector spirit out",
+			"You already defeated the protector spirit in that square.",
+		},
+
+		// Now that you've put something in the round depression in the
+		// altar, the altar doesn't really do anything but look
+		// neat. Those ancient guys really knew how to carve themselves
+		// an altar, mmhmm.
+		{
+			"the altar doesn't really do anything but look neat",
+			"You already used the altar in that square.",
+		},
+
+		// Here's poor Dr. Henry "Dakota" Fanning, Ph.D, R.I.P., lying
+		// here in a pile just where you left him.
+		{
+			"lying here in a pile just where you left him",
+			"You already looted Dr. Fanning in that square.",
+		},
+
+		// You wander into the empty temple and look around. Remember
+		// when you were in here before, and tried to gank some old
+		// amulet off of that mummy? And then its ghost came out and
+		// tried to kill you? But you destroyed it, and won the ancient
+		// doohickey?
+		//
+		// Good times, man. Good times.
+		{
+			"You wander into the empty temple",
+			"You already looted the temple in that square.",
 		},
 
 		// There's nothing left of Ol' Scratch but a crater and a
