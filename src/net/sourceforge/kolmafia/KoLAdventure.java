@@ -1342,31 +1342,29 @@ public class KoLAdventure
 		},
 
 		// Orchard failure - You try to enter the feeding chamber, but
-                // your way is blocked by a wriggling mass of filthworm drones.
-                // Looks like they don't let anything in here if they don't
-                // recognize its smell.
+		// your way is blocked by a wriggling mass of filthworm drones.
+		// Looks like they don't let anything in here if they don't
+		// recognize its smell.
 		{
 			"Looks like they don't let anything in here if they don't recognize its smell.",
 			"Use a filthworm hatchling scent gland before trying to adventure here.",
-			KoLAdventure.PENDING
 		},
 
-		// Orchard failure - You try to enter the royal guards' chamber,
-                // but you're immediately shoved back out into the tunnel. Looks
-                // like the guards will only let you in here if you smell like food.
+		// Orchard failure - You try to enter the royal guards'
+		// chamber, but you're immediately shoved back out into the
+		// tunnel. Looks like the guards will only let you in here if
+		// you smell like food.
 		{
 			"Looks like the guards will only let you in here if you smell like food.",
 			"Use a filthworm drone scent gland before trying to adventure here.",
-			KoLAdventure.PENDING
 		},
 
 		// Orchard failure - You try to enter the filthworm queen's
-                // chamber, but the guards outside the door block the entrance.
-                // You must not smell right to 'em.
+		// chamber, but the guards outside the door block the entrance.
+		// You must not smell right to 'em.
 		{
-			"Looks like they don't let anything in here if they don't recognize its smell.",
+			"You must not smell right to 'em.",
 			"Use a filthworm royal guard scent gland before trying to adventure here.",
-			KoLAdventure.PENDING
 		},
 
 		// You've already retrieved all of the stolen Meat
