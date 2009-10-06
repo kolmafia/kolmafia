@@ -45,9 +45,6 @@ import java.util.Collection;
 public class SortedListModel
 	extends LockableListModel
 {
-	private static final int NORMAL = 0;
-	private static final int INSERTION = 1;
-
 	/**
 	 * Constructs a new <code>SortedListModel</code>. In essence, all this class does is call the constructor for the
 	 * <code>LockableListModel</code> with the class object associated with <code>java.lang.Comparable</code>.
@@ -86,7 +83,7 @@ public class SortedListModel
 
 		try
 		{
-			super.add( this.indexOf( 0, this.size() - 1, (Comparable) o, SortedListModel.INSERTION ), o );
+			super.add( this.insertionIndexOf( 0, this.size() - 1, (Comparable) o ), o );
 			return true;
 		}
 		catch ( IllegalArgumentException e1 )
@@ -122,7 +119,7 @@ public class SortedListModel
 
 	public int indexOf( final Object o )
 	{
-		return o == null ? -1 : this.indexOf( 0, this.size() - 1, (Comparable) o, SortedListModel.NORMAL );
+		return o == null ? -1 : this.normalIndexOf( 0, this.size() - 1, (Comparable) o );
 	}
 
 	/**
@@ -140,57 +137,110 @@ public class SortedListModel
 	 * multiple <code>SortedListModel</code> objects of respectable size, having good performance is ideal.
 	 */
 
-	private int indexOf( final int beginIndex, final int endIndex, final Comparable element, final int whichIndexOf )
+	private int normalIndexOf( int beginIndex, int endIndex, final Comparable element )
 	{
-		int compareResult = 0;
+		int compareResult;
 
-		if ( beginIndex == endIndex )
+		while ( true )
 		{
-			compareResult = this.compare( element, (Comparable) this.get( beginIndex ) );
-			if ( whichIndexOf == SortedListModel.INSERTION )
+			if ( beginIndex == endIndex )
 			{
+				compareResult = this.compare( element, (Comparable) this.get( beginIndex ) );
+				return compareResult == 0 ? beginIndex : -1;
+			}
+	
+			if ( beginIndex > endIndex )
+			{
+				return -1;
+			}
+	
+			// calculate the halfway point and compare the element with the
+			// element located at the halfway point - note that in locating
+			// the last index of, the value is rounded up to avoid an infinite
+			// recursive loop
+	
+			int halfwayIndex = beginIndex + endIndex >> 1;
+			compareResult = this.compare( (Comparable) this.get( halfwayIndex ), element );
+	
+			// if the element in the middle is larger than the element being checked,
+			// then it is known that the element is smaller than the middle element,
+			// so it must preceed the middle element
+	
+			if ( compareResult > 0 )
+			{
+				endIndex = halfwayIndex - 1;
+				continue;
+			}
+	
+			// if the element in the middle is smaller than the element being checked,
+			// then it is known that the element is larger than the middle element, so
+			// it must succeed the middle element
+	
+			if ( compareResult < 0 )
+			{
+				beginIndex = halfwayIndex + 1;
+				continue;
+			}
+	
+			// if the element in the middle is equal to the element being checked,
+			// then it is known that you have located at least one occurrence of the
+			// object; because duplicates are not allowed, return the halfway point
+	
+			return halfwayIndex;
+		}
+	}
+
+	private int insertionIndexOf( int beginIndex, int endIndex, final Comparable element )
+	{
+		int compareResult;
+
+		while ( true )
+		{
+			if ( beginIndex == endIndex )
+			{
+				compareResult = this.compare( element, (Comparable) this.get( beginIndex ) );
 				return compareResult < 0 ? beginIndex : beginIndex + 1;
 			}
-
-			return compareResult == 0 ? beginIndex : -1;
+	
+			if ( beginIndex > endIndex )
+			{
+				return beginIndex;
+			}
+	
+			// calculate the halfway point and compare the element with the
+			// element located at the halfway point - note that in locating
+			// the last index of, the value is rounded up to avoid an infinite
+			// recursive loop
+	
+			int halfwayIndex = beginIndex + endIndex >> 1;
+			compareResult = this.compare( (Comparable) this.get( halfwayIndex ), element );
+	
+			// if the element in the middle is larger than the element being checked,
+			// then it is known that the element is smaller than the middle element,
+			// so it must preceed the middle element
+	
+			if ( compareResult > 0 )
+			{
+				endIndex = halfwayIndex - 1;
+				continue;
+			}
+	
+			// if the element in the middle is smaller than the element being checked,
+			// then it is known that the element is larger than the middle element, so
+			// it must succeed the middle element
+	
+			if ( compareResult < 0 )
+			{
+				beginIndex = halfwayIndex + 1;
+				continue;
+			}
+	
+			// if the element in the middle is equal to the element being checked,
+			// then it is known that you have located at least one occurrence of the
+			// object; because duplicates are not allowed, return the halfway point
+	
+			return halfwayIndex + 1;
 		}
-
-		if ( beginIndex > endIndex )
-		{
-			return whichIndexOf == SortedListModel.INSERTION ? beginIndex : -1;
-		}
-
-		// calculate the halfway point and compare the element with the
-		// element located at the halfway point - note that in locating
-		// the last index of, the value is rounded up to avoid an infinite
-		// recursive loop
-
-		int halfwayIndex = beginIndex + endIndex >> 1;
-		compareResult = this.compare( (Comparable) this.get( halfwayIndex ), element );
-
-		// if the element in the middle is larger than the element being checked,
-		// then it is known that the element is smaller than the middle element,
-		// so it must preceed the middle element
-
-		if ( compareResult > 0 )
-		{
-			return this.indexOf( beginIndex, halfwayIndex, element, whichIndexOf );
-		}
-
-		// if the element in the middle is smaller than the element being checked,
-		// then it is known that the element is larger than the middle element, so
-		// it must succeed the middle element
-
-		if ( compareResult < 0 )
-		{
-			return this.indexOf( halfwayIndex + 1, endIndex, element, whichIndexOf );
-		}
-
-		// if the element in the middle is equal to the element being checked,
-		// then it is known that you have located at least one occurrence of the
-		// object; because duplicates are not allowed, return the halfway point
-
-		return whichIndexOf == SortedListModel.NORMAL ? halfwayIndex : halfwayIndex + 1;
 	}
 
 	private int compare( final Comparable left, final Comparable right )

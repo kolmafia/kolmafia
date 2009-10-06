@@ -310,8 +310,13 @@ public class PulverizePanel
 		{
 			if ( KoLConstants.pulverizeQueue.isEmpty() )
 			{
-				InputFieldUtilities.alert( "No items in queue!" );
-				return;
+				(new EnqueueListener()).run();
+
+				if ( KoLConstants.pulverizeQueue.isEmpty() )
+				{
+					InputFieldUtilities.alert( "No items selected or in queue!" );
+					return;
+				}
 			}
 			AdventureResult[] items =
 				new AdventureResult[ KoLConstants.pulverizeQueue.size() ];
@@ -366,7 +371,7 @@ public class PulverizePanel
 			}
 			
 			String message;
-                        if ( KoLmafia.isPlayerOnline( "wadbot" ) )
+			if ( KoLmafia.isPlayerOnline( "wadbot" ) )
 			{	// bot online
 				if ( KoLCharacter.canInteract() )
 				{
