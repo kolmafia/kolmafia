@@ -919,12 +919,13 @@ public class UseSkillRequest
 		}
 
 		skillName = StringUtilities.getCanonicalName( skillName );
-		if ( !UseSkillRequest.ALL_SKILLS.containsKey( skillName ) )
+		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( skillName );
+		if ( request == null )
 		{
-			UseSkillRequest.ALL_SKILLS.put( skillName, new UseSkillRequest( skillName ) );
+			request = new UseSkillRequest( skillName );
+			UseSkillRequest.ALL_SKILLS.put( skillName, request );
 		}
 
-		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( skillName );
 		return request;
 	}
 
@@ -936,12 +937,13 @@ public class UseSkillRequest
 		}
 
 		skillName = StringUtilities.getCanonicalName( skillName );
-		if ( !UseSkillRequest.ALL_SKILLS.containsKey( skillName ) )
+		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( skillName );
+		if ( request == null )
 		{
-			UseSkillRequest.ALL_SKILLS.put( skillName, new UseSkillRequest( skillName ) );
+			request = new UseSkillRequest( skillName );
+			UseSkillRequest.ALL_SKILLS.put( skillName, request );
 		}
 
-		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( skillName );
 		request.setTarget( KoLCharacter.getUserName() );
 		request.setBuffCount( 0 );
 		return request;
