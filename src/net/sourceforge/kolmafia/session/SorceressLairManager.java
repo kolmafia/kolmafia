@@ -2369,80 +2369,84 @@ public abstract class SorceressLairManager
 
 	private static final void familiarBattle( final int n )
 	{
+		// Abort if you cannot heal to greater than 50 HP
+
+		RecoveryManager.recoverHP( 51 );
+		if ( KoLCharacter.getCurrentHP() <= 50 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must have more than 50 HP to proceed." );
+			return;
+		}
+
+		// Since we are facing this familiar for the first time, we
+		// don't know what it is. Pick a random tower familiar.
+
+		String current = KoLCharacter.getFamiliar().getRace();
+
+		for ( int i = 0; i < SorceressLairManager.FAMILIAR_DATA.length; ++i )
+		{
+			String race = SorceressLairManager.FAMILIAR_DATA[ i ][ 1 ];
+
+			// Pick a new familiar, if possible; if we've just
+			// passed familiar #1, our current familiar is
+			// guaranteed to be the wrong one for #2.
+			if ( race.equals( current ) )
+			{
+				continue;
+			}
+
+			FamiliarData familiar = KoLCharacter.findFamiliar( race );
+			if ( familiar != null )
+			{
+				RequestThread.postRequest( new FamiliarRequest( familiar ) );
+				break;
+			}
+		}
+
+		// Go visit the chamber with the currently selected familiar
 		SorceressLairManager.familiarBattle( n, true );
 	}
 
-	private static final void familiarBattle( final int n, final boolean requiresHeal )
+	private static final void familiarBattle( final int n, final boolean init )
 	{
-		// Ensure that the player has more than 50 HP, since
-		// you cannot enter the familiar chamber with less.
+		// Take the current familiar in to face the Sorceress's pet
+		KoLmafia.updateDisplay( "Facing giant familiar..." );
+		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ) );
 
-		String race = null;
+		// If you do not successfully pass the familiar, you will get a
+		// "stomp off in a huff" message.
+		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "stomp off in a huff" ) == -1 )
+		{
+			return;
+		}
+
+		// If we failed, either we had the wrong familiar or it wasn't
+		// heavy enough. Find the necessary familiar and see if the
+		// player has one.
+
+		String text = SorceressLairManager.QUEST_HANDLER.responseText;
 		FamiliarData familiar = null;
+		String race = null;
 
-		if ( requiresHeal )
+		for ( int i = 0; i < SorceressLairManager.FAMILIAR_DATA.length; ++i )
 		{
-			RecoveryManager.recoverHP( 51 );
-
-			// Need more than 50 hit points.  Abort if this is
-			// not the case.
-
-			if ( KoLCharacter.getCurrentHP() <= 50 )
+			String [] data = SorceressLairManager.FAMILIAR_DATA[ i ];
+			if ( text.indexOf( data[ 0 ] ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must have more than 50 HP to proceed." );
-				return;
-			}
-
-			// If you need to heal, then obviously, you don't know
-			// what familiar you have.  Change to a random familiar.
-
-			while ( familiar == null )
-			{
-				race =
-					SorceressLairManager.FAMILIAR_DATA[ KoLConstants.RNG.nextInt( SorceressLairManager.FAMILIAR_DATA.length ) ][ 1 ];
-				if ( !race.equals( KoLCharacter.getFamiliar().getRace() ) )
-				{
-					familiar = KoLCharacter.findFamiliar( race );
-				}
-			}
-
-			RequestThread.postRequest( new FamiliarRequest( familiar ) );
-		}
-
-		// Make sure that the current familiar is at least twenty
-		// pounds, if it's one of the ones which can be used against
-		// the tower familiars; otherwise, it won't survive.
-
-		if ( FamiliarTrainingFrame.buffFamiliar( 20 ) || requiresHeal )
-		{
-			KoLmafia.updateDisplay( "Facing giant familiar..." );
-			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ) );
-
-			// If you do not successfully pass the familiar, you
-			// will get a "stomp off in a huff" message.
-
-			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "stomp off in a huff" ) == -1 )
-			{
-				return;
-			}
-		}
-
-		// Find the necessary familiar and see if the player has one.
-
-		race = null;
-		familiar = null;
-
-		for ( int i = 0; i < SorceressLairManager.FAMILIAR_DATA.length && race == null; ++i )
-		{
-			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( SorceressLairManager.FAMILIAR_DATA[ i ][ 0 ] ) != -1 )
-			{
-				race = SorceressLairManager.FAMILIAR_DATA[ i ][ 1 ];
+				race = data[ 1 ];
 				familiar = KoLCharacter.findFamiliar( race );
+				break;
 			}
+		}
+
+		// If we can't identify the Sorceress's familiar, give up
+		if ( race == null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server side change: cannot identify Sorceress's familiar" );
+			return;
 		}
 
 		// If not, tell the player to get one and come back.
-
 		if ( familiar == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Come back with a 20 pound " + race );
@@ -2450,7 +2454,10 @@ public abstract class SorceressLairManager
 		}
 
 		// Switch to the required familiar
-		RequestThread.postRequest( new FamiliarRequest( familiar ) );
+		if ( KoLCharacter.getFamiliar() != familiar )
+		{
+			RequestThread.postRequest( new FamiliarRequest( familiar ) );
+		}
 
 		// If we can buff it to 20 pounds, try again.
 		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) &&
