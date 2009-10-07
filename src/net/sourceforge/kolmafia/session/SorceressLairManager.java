@@ -2073,25 +2073,60 @@ public abstract class SorceressLairManager
 		return ItemPool.get( ItemPool.STEAMING_EVIL, 1 );
 	}
 
+	private static final void ensureUpdatedDoorCode()
+	{
+		int lastAscension = Preferences.getInteger( "lastDoorCodeReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastDoorCodeReset", KoLCharacter.getAscensions() );
+			Preferences.setString( "doorCode", "" );
+		}
+	}
+
+	private static final String getDoorCode()
+	{
+		SorceressLairManager.ensureUpdatedDoorCode();
+		String code = Preferences.getString( "doorCode" );
+		if ( !code.equals( "" ) )
+		{
+			return code;
+		}
+
+		GenericRequest request = SorceressLairManager.QUEST_HANDLER;
+		RequestThread.postRequest( request.constructURLString( "lair6.php?&preaction=lightdoor" ) );
+		return SorceressLairManager.setDoorCode( request.responseText );
+	}
+
+	private static final String setDoorCode( final String responseText )
+	{
+		SorceressLairManager.ensureUpdatedDoorCode();
+		String code = SorceressLairManager.deduceCode( responseText );
+		if ( code != null )
+		{
+			Preferences.setString( "doorCode", code );
+		}
+		return code;
+	}
+
 	private static final void findDoorCode()
 	{
-		// Enter the chamber
 		KoLmafia.updateDisplay( "Cracking door code..." );
-		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=0" ) );
+
+		// Enter the chamber
+		GenericRequest request = SorceressLairManager.QUEST_HANDLER;
+		RequestThread.postRequest( request.constructURLString( "lair6.php?place=0" ) );
 
 		// Talk to the guards and crack the code
-		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=0&preaction=lightdoor" ) );
-		String code = SorceressLairManager.deduceCode( SorceressLairManager.QUEST_HANDLER.responseText );
-
+		String code = SorceressLairManager.getDoorCode();
 		if ( code == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Couldn't solve door code. Do it yourself and come back!" );
 			return;
 		}
 
-		// Check for success
-		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=0&action=doorcode&code=" + code ) );
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "the door slides open" ) == -1 )
+		// Enter the code and check for success
+		RequestThread.postRequest( request.constructURLString( "lair6.php?action=doorcode&code=" + code ) );
+		if ( request.responseText.indexOf( "the door slides open" ) == -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "I used the wrong code. Sorry." );
 		}
@@ -2402,7 +2437,20 @@ public abstract class SorceressLairManager
 	}
 
 	/*
-	 * Methods to decorate	lair pages for the Relay Browser
+	 * Methods to inspect externally visited lair pages
+	 */
+
+	public static final void parseChamberResponse( final String urlString, final String responseText )
+	{
+		if ( urlString.indexOf( "preaction=lightdoor" ) != -1 )
+		{
+			SorceressLairManager.setDoorCode( responseText );
+			return;
+		}
+	}
+
+	/*
+	 * Methods to decorate lair pages for the Relay Browser
 	 */
 
 	public static final void decorateGates( final StringBuffer buffer )
@@ -2502,6 +2550,19 @@ public abstract class SorceressLairManager
 			return;
 		}
 		buffer.insert( index + search.length(), " selected" );
+	}
+
+	public static final void decorateHeavyDoor( final StringBuffer buffer )
+	{
+		String code = SorceressLairManager.getDoorCode();
+		if ( code != null )
+		{
+			int index = buffer.indexOf( "name=code" );
+			if ( index != -1 )
+			{
+				buffer.insert( index+9, " value=\"" + code + "\"" );
+			}
+		}
 	}
 
 	public static final void decorateFamiliars( final StringBuffer buffer )

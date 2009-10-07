@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
@@ -486,6 +487,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "knoll_mushrooms.php" ) )
 		{
 			MushroomRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "lair6.php" ) )
+		{
+			SorceressLairManager.parseChamberResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "leaflet.php" ) )
