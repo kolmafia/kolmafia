@@ -231,6 +231,7 @@ user	demonName5
 user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
 user	demonSummoned	false
+user	doorCode
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
 user	flyeredML	0
@@ -269,6 +270,7 @@ user	lastBreakfast	-1
 user	lastCellarReset	-1
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
+user	lastDoorCodeReset	-1
 user	lastDustyBottle2271
 user	lastDustyBottle2272
 user	lastDustyBottle2273

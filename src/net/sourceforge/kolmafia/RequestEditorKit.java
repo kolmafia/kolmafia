@@ -607,6 +607,10 @@ public class RequestEditorKit
 		{
 			SorceressLairManager.decorateDigitalKey( buffer );
 		}
+		else if ( location.startsWith( "lair6.php?preaction=heavydoor" ) )
+		{
+			SorceressLairManager.decorateHeavyDoor( buffer );
+		}
 		else if ( location.startsWith( "lair6.php" ) )
 		{
 			SorceressLairManager.decorateFamiliars( buffer );
