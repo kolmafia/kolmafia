@@ -110,7 +110,7 @@ public class MaximizerFrame
 	public static Evaluator eval;
 
 	private static boolean firstTime = true;
-	public static final JComboBox expressionSelect = new JComboBox( "mainstat|mus|mys|mox|familiar weight|HP|MP|ML|DA|DR|+combat|-combat|initiative|exp|meat drop|item drop|2.0 meat, 1.0 item|weapon damage|ranged damage|spell damage|adv|hot res|cold res|spooky res|stench res|sleaze res|all res|ML, 0.001 slime res".split( "\\|") );
+	public static final JComboBox expressionSelect = new JComboBox( "mainstat|mus|mys|mox|familiar weight|HP|MP|ML|DA|DR|+combat|-combat|initiative|exp|meat drop|item drop|2.0 meat, 1.0 item|weapon dmg|ranged dmg|elemental dmg|spell dmg|adv|hot res|cold res|spooky res|stench res|sleaze res|all res|ML, 0.001 slime res".split( "\\|") );
 	static
 	{	// This has to be done before the constructor runs, since the
 		// CLI "maximize" command can set the selected item prior to the
@@ -137,7 +137,7 @@ public class MaximizerFrame
 		"<p>" +
 		"Shorter forms are allowed for many commonly used modifiers.  They can be abbreviated down to just the bold letters:" +
 		"<br><b>mus</b>, <b>mys</b>, <b>mox</b>, <b>main</b>stat, <b>HP</b>, <b>MP</b>, <b>ML</b>, <b>DA</b>, <b>DR</b>, <b>com</b>bat rate, <b>item</b> drop, <b>meat</b> drop, <b>exp</b>erience, <b>adv</b>entures" +
-		"<br>Also, resistance (of any type) can be abbreviated as <b>res</b>.  <b>all res</b>istance is a shortcut for giving the same weight to all five basic elements." +
+		"<br>Also, resistance (of any type) can be abbreviated as <b>res</b>, and damage can be abbreviated as <b>dmg</b>.  <b>all res</b>istance is a shortcut for giving the same weight to all five basic elements.  Likewise, <b>elemental dmg</b> is a shortcut for the five elemental damage types." +
 		"<p>" +
 		"Note that many modifiers come in pairs: a base value, plus a percentage boost (such as Moxie and Moxie Percent), or a penalty value.  In general, you only need to specify the base modifier, and any related modifiers will automatically be taken into account." +
 		"<h3>Limits</h3>" +
@@ -145,6 +145,7 @@ public class MaximizerFrame
 		"<br><b>min</b> - The weight specifies the minimum acceptable value for the preceding modifier.  If the value is lower, the results will be flagged as a failure." +
 		"<br><b>max</b> - The weight specifies the largest useful value for the preceding modifier.  Larger values will be ignored in the score calculation, allowing other specified modifiers to be boosted instead." +
 		"<br>Note that the limit keywords won't quite work as expected for a modifier that you're trying to minimize." +
+		"<br>If <b>min</b> or <b>max</b> is specified at the start of the expression, it applies to the total score (the sum of each modifier value times its weight).  A global <b>max</b> may allow equipment maximization to finish faster, since no further combinations will be considered once the specified value is reached." +
 		"<h3>Equipment</h3>" +
 		"Slot names can be used as keywords:" +
 		"<br><b>hat</b>, <b>weapon</b>, <b>offhand</b>, <b>shirt</b>, <b>pants</b>, <b>acc1</b>, <b>acc2</b>, <b>acc3</b>, <b>familiar</b> (familiar is not yet supported; stickers and fake hands are not currently planned.)" +
@@ -285,6 +286,10 @@ public class MaximizerFrame
 			try
 			{
 				MaximizerFrame.eval.enumerateEquipment( equipLevel, maxPrice, priceLevel );
+			}
+			catch ( MaximizerExceededException e )
+			{
+				MaximizerFrame.boosts.add( new Boost( "", "(maximum achieved, no further combinations checked)", -1, null, 0.0f ) );
 			}
 			catch ( MaximizerInterruptedException e )
 			{
@@ -623,6 +628,11 @@ public class MaximizerFrame
 	{
 	}
 
+	public static class MaximizerExceededException
+		extends MaximizerInterruptedException
+	{
+	}
+
 	private class MaximizerPanel
 		extends GenericPanel
 	{
@@ -770,9 +780,10 @@ public class MaximizerFrame
 	
 	private static class Evaluator
 	{
-		public boolean failed;
+		public boolean failed, exceeded;
 		private Evaluator tiebreaker;
 		private float[] weight, min, max;
+		private float totalMin, totalMax;
 		private int dump = 0;
 		
 		private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
@@ -826,10 +837,13 @@ public class MaximizerFrame
 		
 		private Evaluator()
 		{
+			this.totalMin = Float.NEGATIVE_INFINITY;
+			this.totalMax = Float.POSITIVE_INFINITY;
 		}
 		
 		public Evaluator( String expr )
 		{
+			this();
 			this.tiebreaker = new Evaluator();
 			this.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
 			this.tiebreaker.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
@@ -868,28 +882,24 @@ public class MaximizerFrame
 					if ( index >= 0 )
 					{
 						this.min[ index ] = weight;
-						continue;
 					}
 					else
 					{
-						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
-							"'min' without preceding modifier" );
-						return;
+						this.totalMin = weight;
 					}
+					continue;
 				}
 				else if ( keyword.equals( "max" ) )
 				{
 					if ( index >= 0 )
 					{
 						this.max[ index ] = weight;
-						continue;
 					}
 					else
 					{
-						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
-							"'max' without preceding modifier" );
-						return;
+						this.totalMax = weight;
 					}
+					continue;
 				}
 				else if ( keyword.equals( "dump" ) )
 				{
@@ -950,6 +960,10 @@ public class MaximizerFrame
 					{
 						keyword += "istance";
 					}
+					else if ( keyword.endsWith( " dmg" ) )
+					{
+						keyword = keyword.substring( 0, keyword.length() - 3 ) + "damage";
+					}
 					index = Modifiers.findName( keyword );
 				}
 				
@@ -963,6 +977,15 @@ public class MaximizerFrame
 					this.weight[ Modifiers.SLEAZE_RESISTANCE ] = weight;
 					this.weight[ Modifiers.SPOOKY_RESISTANCE ] = weight;
 					this.weight[ Modifiers.STENCH_RESISTANCE ] = weight;
+					continue;
+				}
+				else if ( keyword.equals( "elemental damage" ) )
+				{
+					this.weight[ Modifiers.COLD_DAMAGE ] = weight;
+					this.weight[ Modifiers.HOT_DAMAGE ] = weight;
+					this.weight[ Modifiers.SLEAZE_DAMAGE ] = weight;
+					this.weight[ Modifiers.SPOOKY_DAMAGE ] = weight;
+					this.weight[ Modifiers.STENCH_DAMAGE ] = weight;
 					continue;
 				}
 				else if ( keyword.equals( "hp" ) )
@@ -1047,6 +1070,7 @@ public class MaximizerFrame
 		public float getScore( Modifiers mods )
 		{
 			this.failed = false;
+			this.exceeded = false;
 			int[] predicted = mods.predict();
 			
 			float score = 0.0f;
@@ -1123,6 +1147,8 @@ public class MaximizerFrame
 				if ( val < min ) this.failed = true;
 				score += weight * Math.min( val, max );
 			}
+			if ( score < this.totalMin ) this.failed = true;
+			if ( score >= this.totalMax ) this.exceeded = true;
 			return score;
 		}
 		
@@ -1555,6 +1581,7 @@ public class MaximizerFrame
 	{
 		private boolean scored = false;
 		private boolean tiebreakered = false;
+		private boolean exceeded;
 		private float score, tiebreaker;
 		private int simplicity;
 		
@@ -1590,6 +1617,7 @@ public class MaximizerFrame
 			if ( !this.calculated ) this.calculate();
 			this.score = MaximizerFrame.eval.getScore( this.mods );
 			this.failed = MaximizerFrame.eval.failed;
+			this.exceeded = MaximizerFrame.eval.exceeded;
 			this.scored = true;
 			return this.score;
 		}
@@ -2019,6 +2047,10 @@ public class MaximizerFrame
 			if ( !KoLmafia.permitsContinue() )
 			{
 				throw new MaximizerInterruptedException();
+			}
+			if ( this.exceeded )
+			{
+				throw new MaximizerExceededException();
 			}
 		}
 		

@@ -847,6 +847,10 @@ public abstract class UseLinkDecorator
 			useLocation = "inv_use.php?which=3&whichitem=";
 			break;
 
+		case ItemPool.GOLD_BOWLING_BALL:
+		case ItemPool.REALLY_DENSE_MEAT_STACK:
+			if ( !location.startsWith( "fight.php" ) ) break;
+			/*FALLTHRU*/
 		case ItemPool.BAT_BANDANA:
 		case ItemPool.BONERDAGON_SKULL:
 		case ItemPool.HOLY_MACGUFFIN:
