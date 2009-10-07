@@ -367,75 +367,6 @@ public abstract class SorceressLairManager
 		return null;
 	}
 
-	public static final void decorateGates( final StringBuffer buffer )
-	{
-		Matcher gateMatcher = SorceressLairManager.GATE_PATTERN.matcher( buffer );
-		SorceressLairManager.decorateGate( buffer, gateMatcher );
-		SorceressLairManager.decorateGate( buffer, gateMatcher );
-		SorceressLairManager.decorateGate( buffer, gateMatcher );
-	}
-
-	public static final void decorateGate( final StringBuffer buffer, final Matcher gateMatcher )
-	{
-		if ( !gateMatcher.find() )
-		{
-			return;
-		}
-
-		String gateName = gateMatcher.group( 1 );
-		if ( gateName == null )
-		{
-			return;
-		}
-
-		// Find the gate in our data
-
-		String[] gateData = SorceressLairManager.findGateByName( gateName );
-
-		if ( gateData == null )
-		{
-			return;
-		}
-
-		// See if we have the needed effect already
-		AdventureResult effect = new AdventureResult( SorceressLairManager.gateEffect( gateData ), 1, true );
-		boolean effectActive = KoLConstants.activeEffects.contains( effect );
-
-		// Pick an item that grants the effect
-		AdventureResult[] items = new AdventureResult[ gateData.length - 3 ];
-		for ( int i = 3; i < gateData.length; ++i )
-		{
-			String name = gateData[ i ];
-			AdventureResult item = AdventureResult.pseudoItem( name );
-			items[ i - 3 ] = item;
-		}
-
-		AdventureResult item = SorceressLairManager.pickOne( items );
-		if ( item == null )
-		{
-			return;
-		}
-
-		String spoiler = "";
-		if ( effectActive )
-		{
-			spoiler = "<br>(" + effect + " - ACTIVE)";
-		}
-		else if ( KoLConstants.inventory.contains( item ) )
-		{
-			UseLink link = new UseLink( item.getItemId(), "use", "inv_use.php?which=3&whichitem=" );
-			spoiler = "<br>(" + effect + " - " + item + " " + link.getItemHTML() + " )";
-		}
-		else
-		{
-			spoiler = "<br>(" + effect + " - " + item + " NONE IN INVENTORY)";
-		}
-
-		String orig = gateMatcher.group(0);
-		int index = buffer.indexOf( orig ) + orig.length();
-		buffer.insert( index, spoiler );
-	}
-
 	// Guardians, what they look like through the Telescope, and the items
 	// that defeat them
 
@@ -2468,5 +2399,117 @@ public abstract class SorceressLairManager
 
 		// We're good to go. Fight!
 		SorceressLairManager.familiarBattle( n, false );
+	}
+
+	/*
+	 * Methods to decorate	lair pages for the Relay Browser
+	 */
+
+	public static final void decorateGates( final StringBuffer buffer )
+	{
+		Matcher gateMatcher = SorceressLairManager.GATE_PATTERN.matcher( buffer );
+		SorceressLairManager.decorateGate( buffer, gateMatcher );
+		SorceressLairManager.decorateGate( buffer, gateMatcher );
+		SorceressLairManager.decorateGate( buffer, gateMatcher );
+	}
+
+	public static final void decorateGate( final StringBuffer buffer, final Matcher gateMatcher )
+	{
+		if ( !gateMatcher.find() )
+		{
+			return;
+		}
+
+		String gateName = gateMatcher.group( 1 );
+		if ( gateName == null )
+		{
+			return;
+		}
+
+		// Find the gate in our data
+
+		String[] gateData = SorceressLairManager.findGateByName( gateName );
+
+		if ( gateData == null )
+		{
+			return;
+		}
+
+		// See if we have the needed effect already
+		AdventureResult effect = new AdventureResult( SorceressLairManager.gateEffect( gateData ), 1, true );
+		boolean effectActive = KoLConstants.activeEffects.contains( effect );
+
+		// Pick an item that grants the effect
+		AdventureResult[] items = new AdventureResult[ gateData.length - 3 ];
+		for ( int i = 3; i < gateData.length; ++i )
+		{
+			String name = gateData[ i ];
+			AdventureResult item = AdventureResult.pseudoItem( name );
+			items[ i - 3 ] = item;
+		}
+
+		AdventureResult item = SorceressLairManager.pickOne( items );
+		if ( item == null )
+		{
+			return;
+		}
+
+		String spoiler = "";
+		if ( effectActive )
+		{
+			spoiler = "<br>(" + effect + " - ACTIVE)";
+		}
+		else if ( KoLConstants.inventory.contains( item ) )
+		{
+			UseLink link = new UseLink( item.getItemId(), "use", "inv_use.php?which=3&whichitem=" );
+			spoiler = "<br>(" + effect + " - " + item + " " + link.getItemHTML() + " )";
+		}
+		else
+		{
+			spoiler = "<br>(" + effect + " - " + item + " NONE IN INVENTORY)";
+		}
+
+		String orig = gateMatcher.group(0);
+		int index = buffer.indexOf( orig ) + orig.length();
+		buffer.insert( index, spoiler );
+	}
+
+	public static final void decorateDigitalKey( final StringBuffer buffer )
+	{
+		SorceressLairManager.decorateDigitalKey( buffer, "seq1", "up" );
+		SorceressLairManager.decorateDigitalKey( buffer, "seq2", "up" );
+		SorceressLairManager.decorateDigitalKey( buffer, "seq3", "down" );
+		SorceressLairManager.decorateDigitalKey( buffer, "seq4", "down" );
+		SorceressLairManager.decorateDigitalKey( buffer, "seq5", "left" );
+		SorceressLairManager.decorateDigitalKey( buffer, "seq6", "right" );
+		SorceressLairManager.decorateDigitalKey( buffer, "seq7", "left" );
+		SorceressLairManager.decorateDigitalKey( buffer, "seq8", "right" );
+		SorceressLairManager.decorateDigitalKey( buffer, "seq9", "b" );
+		SorceressLairManager.decorateDigitalKey( buffer, "seq10", "a" );
+	}
+
+	private static final void decorateDigitalKey( final StringBuffer buffer, final String control, final String option )
+	{
+		int index = buffer.indexOf( control );
+		if ( index == -1 )
+		{
+			return;
+		}
+		String search = "option value=\"" + option + "\"";
+		index = buffer.indexOf( search, index );
+		if ( index == -1 )
+		{
+			return;
+		}
+		buffer.insert( index + search.length(), " selected" );
+	}
+
+	public static final void decorateFamiliars( final StringBuffer buffer )
+	{
+		StringUtilities.insertAfter( buffer, "manages to defeat you.", " <font color=#DD00FF>Angry Goat needed</font>" );
+		StringUtilities.insertAfter( buffer, "eyeing you menacingly.", " <font color=#DD00FF>Barrrnacle needed</font>" );
+		StringUtilities.insertAfter( buffer, "its... er... grin.", " <font color=#DD00FF>Levitating Potato needed</font>" );
+		StringUtilities.insertAfter( buffer, "snip-snap your neck.", " <font color=#DD00FF>Mosquito needed</font>" );
+		StringUtilities.insertAfter( buffer, "proboscis at the ready.", " <font color=#DD00FF>Sabre-Toothed Lime needed</font>" );
 	}
 }
