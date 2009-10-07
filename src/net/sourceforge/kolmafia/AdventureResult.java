@@ -708,11 +708,11 @@ public class AdventureResult
 
 	public int compareTo( final Object o )
 	{
+		if ( o == this ) return 0;
 		if ( !( o instanceof AdventureResult ) )
 		{
 			return -1;
 		}
-		if ( o == this ) return 0;
 
 		AdventureResult ar = (AdventureResult) o;
 		

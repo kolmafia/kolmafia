@@ -592,6 +592,7 @@ public class ItemPool
 	public static final int STEEL_LIVER = 2743;
 	public static final int STEEL_SPLEEN = 2744;
 	public static final int HAROLDS_BELL = 2765;
+	public static final int GOLD_BOWLING_BALL = 2766;
 	public static final int SOLID_BACONSTONE_EARRING = 2780;
 	public static final int BRIMSTONE_BERET = 2813;
 	public static final int BRIMSTONE_BRACELET = 2818;
@@ -602,6 +603,7 @@ public class ItemPool
 	public static final int GRIMACITE_GO_GO_BOOTS = 2823;
 	public static final int GRIMACITE_GIRDLE = 2824;
 	public static final int GRIMACITE_GOWN = 2825;
+	public static final int REALLY_DENSE_MEAT_STACK = 2829;
 	public static final int BOTTLE_ROCKET = 2834;
 	public static final int NAVEL_RING = 2844;
 	public static final int PLASTIC_BIB = 2846;
