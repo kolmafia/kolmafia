@@ -1136,7 +1136,7 @@ public class EquipmentManager
 
 	public static final SpecialOutfit currentOutfit()
 	{
-		for ( int id = 1; id <= EquipmentDatabase.normalOutfits.size(); ++id )
+		for ( int id = 1; id < EquipmentDatabase.normalOutfits.size(); ++id )
 		{
 			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
 			if ( outfit == null )
@@ -1156,7 +1156,8 @@ public class EquipmentManager
 	{
 		int hash = SpecialOutfit.equipmentHash( equipment );
 		
-		for ( int id = 1; id <= EquipmentDatabase.normalOutfits.size(); ++id )
+		int size = EquipmentDatabase.normalOutfits.size();
+		for ( int id = 1; id < size; ++id )
 		{
 			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
 			if ( outfit == null )
