@@ -140,13 +140,13 @@ public class FightRequest
 	// and this is not the case, then correct the use of this Pattern below.
 
 	private static final Pattern PHYSICAL_PATTERN =
-		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) #?(\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,2})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
+		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) #?(\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,3})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
 
 	private static final Pattern HAIKU_DAMAGE_PATTERN =
 		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
 
 	private static final Pattern ELEMENTAL_PATTERN =
-		Pattern.compile( "(sown|) <font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:damage|points|HP worth)" );
+		Pattern.compile( "(sown|) <font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:(?:slimy, (?:clammy|gross) |hotsy-totsy |)damage|points|HP worth)" );
 
 	private static final Pattern SECONDARY_PATTERN = Pattern.compile( "<b>\\+([\\d,]+)</b>" );
 	private static final Pattern MOSQUITO_PATTERN =
