@@ -603,13 +603,13 @@ public class RequestEditorKit
 		{
 			SorceressLairManager.decorateGates( buffer );
 		}
+		else if ( location.startsWith( "lair2.php?preaction=key&whichkey=691" ) )
+		{
+			SorceressLairManager.decorateDigitalKey( buffer );
+		}
 		else if ( location.startsWith( "lair6.php" ) )
 		{
-			StringUtilities.insertAfter( buffer, "manages to defeat you.", " <font color=#DD00FF>Angry Goat needed</font>" );
-			StringUtilities.insertAfter( buffer, "eyeing you menacingly.", " <font color=#DD00FF>Barrrnacle needed</font>" );
-			StringUtilities.insertAfter( buffer, "its... er... grin.", " <font color=#DD00FF>Levitating Potato needed</font>" );
-			StringUtilities.insertAfter( buffer, "snip-snap your neck.", " <font color=#DD00FF>Mosquito needed</font>" );
-			StringUtilities.insertAfter( buffer, "proboscis at the ready.", " <font color=#DD00FF>Sabre-Toothed Lime needed</font>" );
+			SorceressLairManager.decorateFamiliars( buffer );
 
 			if ( buffer.indexOf( "ascend.php" ) != -1 )
 			{
