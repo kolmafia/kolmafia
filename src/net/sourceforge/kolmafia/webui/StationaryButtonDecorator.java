@@ -287,7 +287,8 @@ public class StationaryButtonDecorator
 		}
 		else
 		{
-			int startIndex = response.indexOf( "<a href=\"" );
+			int startIndex = response.indexOf( "<a href=\"",
+				response.indexOf( "<body" ) + 1 );
 			if ( startIndex != -1 )
 			{
 				location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );

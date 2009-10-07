@@ -245,7 +245,7 @@ public class SortedListModel
 
 	private int compare( final Comparable left, final Comparable right )
 	{
-		return left == null ? -1 : right == null ? 1 : left instanceof String || right instanceof String ? left.toString().compareToIgnoreCase(
-			right.toString() ) : left.compareTo( right );
+		return left instanceof String || right instanceof String ?
+			left.toString().compareToIgnoreCase( right.toString() ) : left.compareTo( right );
 	}
 }
