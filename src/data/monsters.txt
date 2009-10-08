@@ -344,7 +344,7 @@ Gnollish Piebaker	HP: 6 Def: 13 Atk: 13 Meat: 22-34	Gnollish pie server (25)	Gno
 Gnollish Plungermaster	HP: 6 Def: 13 Atk: 13 Meat: 22-34	Gnollish plunger (25)	gnoll lips (5)	gnoll teeth (5)
 Gnollish Sorceress	HP: 5 Def: 11 Atk: 11 Meat: 19-28	gnoll teeth (5)	gnoll lips (5)
 Gnollish Tirejuggler	HP: 6 Def: 12 Atk: 12 Meat: 21-30	gnoll teeth (5)	gnoll lips (5)	tires (100)
-Gnollish War Chef	HP: 9 Def: 15 Atk: 14 Meat: 21-30	knoll mushroom (50)	knoll mushroom (50)	skewer (50)
+Gnollish War Chef	HP: 9 Def: 15 Atk: 14 Meat: 20-28	Gnollish slotted spoon (28)	knoll mushroom (50)	knoll mushroom (50)	skewer (50)
 Gnomester Blomester	HP: 35 Def: 35 Atk: 35	cog (15)	spring (15)	flange (5)
 Gnu Jack Gnome	HP: 35 Def: 35 Atk: 35	sprocket (15)	spring (15)	flange (5)
 Goomba	HP: 15 Def: 20 Atk: 20	black pixel (50)	red pixel (80)	white pixel (50)

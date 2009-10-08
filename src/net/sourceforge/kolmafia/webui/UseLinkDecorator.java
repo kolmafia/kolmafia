@@ -888,6 +888,12 @@ public abstract class UseLinkDecorator
 			useLocation = "memories.php";
 			break;
 
+		case ItemPool.SUGAR_SHEET:
+
+			useType = "fold";
+			useLocation = "sugarsheets.php";
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty
