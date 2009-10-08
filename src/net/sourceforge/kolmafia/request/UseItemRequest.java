@@ -107,6 +107,7 @@ public class UseItemRequest
 	}
 
 	public static String lastUpdate = "";
+	public static String limiter = "";
 	private static AdventureResult lastItemUsed = null;
 	private static AdventureResult lastHelperUsed = null;
 	private static int askedAboutOde = 0;
@@ -277,6 +278,9 @@ public class UseItemRequest
 
 	public static final int maximumUses( final int itemId, final int consumptionType, final boolean allowOverDrink )
 	{
+		// Set reasonable default if the item fails to set a specific reason
+		UseItemRequest.limiter = "a wizard";
+		
 		if ( consumptionType == KoLConstants.CONSUME_HOBO ||
 		     consumptionType == KoLConstants.CONSUME_GHOST ||
 		     consumptionType == KoLConstants.CONSUME_SLIME )
@@ -293,15 +297,24 @@ public class UseItemRequest
 		{
 		case ItemPool.GONG:
 		case ItemPool.KETCHUP_HOUND:
+			UseItemRequest.limiter = "usability";
 			return 1;
 
 		case ItemPool.TOASTER:
 		case ItemPool.AMINO_ACIDS:
+			UseItemRequest.limiter = "usability";
 			return 3;
 
 		case ItemPool.DANCE_CARD:
 			// Disallow using a dance card if already active
-			return TurnCounter.isCounting( "Dance Card" ) ? 0 : 1;
+			if ( TurnCounter.isCounting( "Dance Card" ) )
+			{
+				UseItemRequest.limiter = "existing counter";
+				return 0;
+			}
+			// Or if another counter would end on the same turn
+			UseItemRequest.limiter = TurnCounter.getCounters( "", 3, 3 );
+			return UseItemRequest.limiter.length() > 0 ? 0 : 1;
 			
 		case ItemPool.GREEN_PEAWEE_MARBLE:
 		case ItemPool.BROWN_CROCK_MARBLE:
@@ -315,6 +328,7 @@ public class UseItemRequest
 		case ItemPool.BLACK_CATSEYE_MARBLE:
 			// Using up to 1/2 produces bigger marbles.
 			// Larger quantities can be used, but do nothing.
+			UseItemRequest.limiter = "1/2 inventory";
 			return InventoryManager.getCount( itemId ) / 2;
 
 		case ItemPool.CHEF:
@@ -326,8 +340,6 @@ public class UseItemRequest
 		case ItemPool.SCARECROW:
 		case ItemPool.MEAT_GOLEM:
 			// Campground equipment
-			return 1;
-
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
 		case ItemPool.HOT_BEDDING:
@@ -340,48 +352,60 @@ public class UseItemRequest
 		case ItemPool.PLASMA_BALL:
 		case ItemPool.FENG_SHUI:
 			// Dwelling furnishings
+			UseItemRequest.limiter = "campground regulations";
 			return 1;
 
 		case ItemPool.ANCIENT_CURSED_FOOTLOCKER:
+			UseItemRequest.limiter = "simple cursed key";
 			return InventoryManager.getCount( ItemPool.SIMPLE_CURSED_KEY );
 
 		case ItemPool.ORNATE_CURSED_CHEST:
+			UseItemRequest.limiter = "ornate cursed key";
 			return InventoryManager.getCount( ItemPool.ORNATE_CURSED_KEY );
 
 		case ItemPool.GILDED_CURSED_CHEST:
+			UseItemRequest.limiter = "gilded cursed key";
 			return InventoryManager.getCount( ItemPool.GILDED_CURSED_KEY );
 
 		case ItemPool.STUFFED_CHEST:
+			UseItemRequest.limiter = "stuffed key";
 			return InventoryManager.getCount( ItemPool.STUFFED_KEY );
 
 		case ItemPool.MOJO_FILTER:
+			UseItemRequest.limiter = "daily limit";
 			return Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
 
 		case ItemPool.EXPRESS_CARD:
+			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "expressCardUsed" ) ? 0 : 1;
 
 		case ItemPool.SPICE_MELANGE:
+			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "spiceMelangeUsed" ) ? 0 : 1;
 
 		case ItemPool.BURROWGRUB_HIVE:
+			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "burrowgrubHiveUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
 		{
 		case KoLConstants.GROW_FAMILIAR:
-		case KoLConstants.EQUIP_FAMILIAR:
-		case KoLConstants.EQUIP_HAT:
-		case KoLConstants.EQUIP_PANTS:
-		case KoLConstants.EQUIP_SHIRT:
-		case KoLConstants.EQUIP_OFFHAND:
+			UseItemRequest.limiter = "the fine print in your Familiar-Gro\u2122 Terrarium owner's manual";
 			return 1;
 		case KoLConstants.EQUIP_WEAPON:
 			// Even if you can dual-wield, if we attempt to "use" a
 			// weapon, it will become an "equip", which always goes
 			// in the main hand.
+		case KoLConstants.EQUIP_FAMILIAR:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_SHIRT:
+		case KoLConstants.EQUIP_OFFHAND:
+			UseItemRequest.limiter = "slot";
 			return 1;
 		case KoLConstants.EQUIP_ACCESSORY:
+			UseItemRequest.limiter = "slot";
 			return 3;
 		}
 
@@ -389,6 +413,7 @@ public class UseItemRequest
 
 		if ( UseItemRequest.LIMITED_USES.containsKey( key ) )
 		{
+			UseItemRequest.limiter = "unstackable effect";
 			return KoLConstants.activeEffects.contains( UseItemRequest.LIMITED_USES.get( key ) ) ? 0 : 1;
 		}
 
@@ -397,6 +422,7 @@ public class UseItemRequest
 		int fullness = ItemDatabase.getFullness( itemName );
 		if ( fullness > 0 )
 		{
+			UseItemRequest.limiter = "fullness";
 			return ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) / fullness;
 		}
 
@@ -425,8 +451,10 @@ public class UseItemRequest
 				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / mpRestored ) );
 			}
 
+			UseItemRequest.limiter = "needed restoration";
 			if ( spleenHit > 0 )
 			{
+				UseItemRequest.limiter = "needed restoration or spleen";
 				maximumSuggested =
 					Math.min(
 						maximumSuggested, ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit );
@@ -437,12 +465,14 @@ public class UseItemRequest
 
 		if ( spleenHit > 0 )
 		{
+			UseItemRequest.limiter = "spleen";
 			return ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit;
 		}
 
 		int inebrietyHit = ItemDatabase.getInebriety( itemName );
 		if ( inebrietyHit > 0 )
 		{
+			UseItemRequest.limiter = "inebriety";
 			int limit = KoLCharacter.getInebrietyLimit();
 
 			// Green Beer allows drinking to limit + 10,
@@ -628,7 +658,8 @@ public class UseItemRequest
 		if ( maximumUses < this.itemUsed.getCount() )
 		{
 			KoLmafia.updateDisplay( "(usable quantity of " + this.itemUsed +
-				" is currently limited to " + maximumUses + ")" );
+				" is limited to " + maximumUses + " by " +
+				UseItemRequest.limiter + ")" );
 			this.itemUsed = this.itemUsed.getInstance( maximumUses );
 		}
 
