@@ -1257,6 +1257,12 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure402", "Haunted Bathroom",
 			new String[] { "muscle substats", "mysticality substats", "moxie substats" } ),
+
+		// Picking Sides
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure403", "Skate Park",
+			new String[] { "skate blade", "brand new key" },
+			new String[] { "4213", "4206" } ),
 	};
 
 	static

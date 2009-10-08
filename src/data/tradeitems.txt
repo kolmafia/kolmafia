@@ -3828,7 +3828,7 @@
 3822	fishy wand	familiar	all	150
 3823	wad of cotton	usable	display	0
 3824	Grandma's Note	none	none	0
-3825	Grandma's Fuschia Yarn	none	none	0
+3825	Grandma's Fuchsia Yarn	none	none	0
 3826	Grandma's Chartreuse Yarn	none	none	0
 3827	golden plastic oyster egg	none, combat	all	23
 3828	Grandma's Map	none	none	0
@@ -4203,32 +4203,36 @@
 4197
 4198
 4199
-4200
-4201
-4202
-4203
+4200	grouper fangirl	grow	all	250
+4201	gill rings	familiar	all	75
+4202	urchin roe	grow	all	250
+4203	pet anemone	familiar	all	75
 4204
 4205
-4206
-4207
-4208
-4209
-4210
-4211
-4212
-4213
-4214
-4215
-4216
-4217
-4218
-4219
-4220
-4221
-4222
+4206	brand new key	weapon	all	125
+4207	brass dorsal fin	offhand	all	85
+4208	skate skates	none, combat	all	160
+4209	skate skin	none	all	55
+4210	roller skate decoy	none, combat	all	200
+4211	mermaid's purse	multiple	all	180
+4212	underwater slingshot	none, combat	all	75
+4213	skate blade	weapon	all	120
+4214	spangly unitard	none, combat	all	175
+4215	collapsible baton	offhand	all	115
+4216	groupie lipstick	none, combat	all	65
+4217	groupie bra	multiple	all	140
+4218	groupie spangles	multiple	all	45
+4219	skate board	weapon	all	155
+4220	S.A.V.E. flyer	usable	all	15
 4221	yield shield	offhand	display	0
-4222
+4222	map to the Skate Park	none	none	0
 4223	squamous polyp	grow	all	0
 4224	unspeakable lozenges	familiar	all	75
-4225
+4225	roller skate doll	none	all	100
 4226	Star of Bravery	accessory	display	0
+4227
+4228
+4229
+4230
+4231	ice skate decoy	none, combat	all	200
+4232	ice skate doll	none	all	100

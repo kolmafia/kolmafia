@@ -102,6 +102,11 @@ memory of an AG base pair	COMBINE	memory of an A	memory of a G
 memory of an AT base pair	COMBINE	memory of an A	memory of a T
 memory of a GT base pair	COMBINE	memory of a G	memory of a T
 
+ice skate doll	COMBINE	skate skin	spangly unitard
+ice skate decoy	COMBINE	ice skate doll	collapsible baton
+roller skate doll	COMBINE	skate skin	skate skates
+roller skate decoy	COMBINE	roller skate doll	brass dorsal fin
+
 
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing

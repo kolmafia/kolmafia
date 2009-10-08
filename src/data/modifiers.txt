@@ -558,6 +558,7 @@ bottle-rocket crossbow	Moxie Percent: +15, Meat Drop: +15, Item Drop: +10, Softc
 bounty-hunting rifle	Item Drop: +15
 bow staff	Mysticality: +5, Weapon Damage: +3
 boxing glove on a spring	Moxie: +3, Weapon Damage: +4, Initiative: +10
+brand new key	Muscle Percent: +5, Weapon Damage: +20
 broken sword	Spooky Resistance: +1
 bubble bauble bow	Moxie: +3, Mysticality: +2, Item Drop: +5
 bubblewrap crossbow	Moxie: +3, Mysticality: +2
@@ -786,6 +787,8 @@ severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
 shiny butcherknife	Spell Damage: +5
 shuddersword	Muscle: +7, Spell Damage: +7, Spooky Damage: +5
 silver shrimp fork	Spell Damage: +14, Weapon Damage: +5
+skate blade	Moxie Percent: +5, Weakens Monster
+skate board	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Damage Reduction: 10
 skeleton bone	Spooky Damage: +1
 sleazy bindle	Item Drop: +10, Sleaze Damage: +25
 # slightly peevedbow
@@ -953,6 +956,7 @@ box	Meat Drop: +1
 box turtle	Muscle: +1, Damage Reduction: 3
 box-in-the-box	Meat Drop: +2
 box-in-the-box-in-the-box	Meat Drop: +3
+brass dorsal fin	Weapon Damage Percent: +20, Damage Reduction: 13
 brown crock marble	Stench Spell Damage: +35
 bumblebee marble	Spell Damage: +50
 cardboard box turtle	Muscle: +3, Damage Reduction: 4
@@ -962,6 +966,7 @@ charged magnet	Maximum MP: +5, MP Regen Min: 1, MP Regen Max: 2
 # clockwork detective skull
 clownskin buckler	Spooky Damage: +3, Damage Reduction: 3, Clownosity: +2
 coffin lid	Spooky Resistance: +1, Damage Reduction: 3
+collapsible baton	Mysticality Percent: +10, Spell Critical Percent: +5
 # continuum transfunctioner
 # cup of infinite pencils: Never runs out of pencils!
 cup of infinite pencils	Meat Drop: +15
@@ -1683,6 +1688,7 @@ flaming glowsticks	Familiar Weight: +5
 funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently.
+gill rings	Familiar Weight: +5
 green pixie spog	Familiar Weight: +5
 half-height unicycle	Familiar Weight: +5
 hardware upgrade	Familiar Weight: +5
@@ -1721,6 +1727,7 @@ overclocked avian microprocessor	Familiar Weight: +5
 oversized fish scaler	Familiar Effect: "attack"
 palm-frond toupee	Familiar Weight: +5
 # penguin-smacking club: +5 to Familiar Damage
+pet anemone Familiar Weight: +5
 pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11
 pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11
 # plastic bib: Makes your ghost better at eating stuff.
@@ -1948,6 +1955,7 @@ Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
 Burning Hands	Hot Damage: +11
 Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Burning Soul: Sizzle!
+# Busker Do
 Butt-Rock Hair	Moxie Percent: +15
 Cake Caked	Mysticality Percent: +50
 Can Has Cyborger	Moxie Percent: +10
@@ -2075,6 +2083,7 @@ Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
 Eye of the Seal	Item Drop: +10
+Familial Ties	Familiar Weight: [10*zone(The Sea)]
 Fancy Feasted	Moxie Percent: +20
 Far Out	Mysticality: +1
 Fastbreaker	Muscle Percent: +20
@@ -2407,6 +2416,7 @@ Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: 
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
+Spangled Star	Monster Level: +10
 Sparkling Consciousness	Mysticality Percent: +100
 # Spectral: You take and deal almost no damage
 Spicy Limeness	Muscle: -5, Moxie: +5
@@ -2461,6 +2471,7 @@ Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
 Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10
 Sweet and Yellow	Ranged Damage: +30, Initiative: +10
+Swimming Head	Item Drop: [25*zone(The Sea)]
 # Swimming with Sharks: Makes you a better diver
 Swimming with Sharks	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)], Meat Drop: +20
 Synthesized	Damage Reduction: 8, Weapon Damage: -8
