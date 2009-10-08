@@ -843,6 +843,20 @@ public class GenericRequest
 				if ( expired == null ) break;
 				int remain = expired.getTurnsRemaining();
 				if ( remain < 0 ) continue;
+				TurnCounter also = TurnCounter.getExpiredCounter( this, false );
+				while ( also != null )
+				{
+					if ( also.getLabel().equals( "Fortune Cookie" ) )
+					{
+						KoLmafia.updateDisplay( "(" + expired.getLabel() + " counter discarded due to conflict)" );
+						expired = also;
+					}
+					else
+					{
+						KoLmafia.updateDisplay( "(" + also.getLabel() + " counter discarded due to conflict)" );
+					}
+					also = TurnCounter.getExpiredCounter( this, false );
+				}
 				if ( this.invokeCounterScript( expired ) ) continue;
 
 				String message;
