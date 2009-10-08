@@ -345,6 +345,7 @@ user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
 user	lastSemirareReset	-1
+user	lastSkateParkReset	-1
 user	lastStoneSphere2174
 user	lastStoneSphere2175
 user	lastStoneSphere2176
@@ -417,6 +418,7 @@ user	sidequestJunkyardCompleted	none
 user	sidequestLighthouseCompleted	none
 user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
+user	skateParkStatus	war
 user	skillLevel46	2
 user	skillLevel47	1
 user	skillLevel48	2
