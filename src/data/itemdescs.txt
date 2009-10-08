@@ -3828,7 +3828,7 @@
 3822	994220879	fishy wand	fishy wands
 3823	177196435	wad of cotton	wads of cotton
 3824	624587585	Grandma's Note
-3825	492404505	Grandma's Fuschia Yarn
+3825	492404505	Grandma's Fuchsia Yarn
 3826	418019826	Grandma's Chartreuse Yarn
 3827	338398297	golden plastic oyster egg	golden plastic oyster eggs
 3828	382148482	Grandma's Map
@@ -4203,32 +4203,36 @@
 4197
 4198
 4199
-4200
-4201
-4202
-4203
+4200	366226355	grouper fangirl	grouper fangirls
+4201	464741399	gill rings	sets of gill rings
+4202	986186555	urchin roe	urchin roes
+4203	160469192	pet anemone	pet anemones
 4204
 4205
-4206
-4207
-4208
-4209
-4210
-4211
-4212
-4213
-4214
-4215
-4216
-4217
-4218
-4219
-4220
-4221
-4222
+4206	838598305	brand new key	brand new keys
+4207	731630219	brass dorsal fin	brass dorsal fins
+4208	255858390	skate skates	pairs of skate skates
+4209	313629582	skate skin	patches of skate skin
+4210	937611346	roller skate decoy	roller skate decoys
+4211	295799650	mermaid's purse	mermaids' purses
+4212	196801878	underwater slingshot	underwater slingshots
+4213	380903649	skate blade	skate blades
+4214	596786402	spangly unitard	spangly unitards
+4215	695710640	collapsible baton	collapsible batons
+4216	864801403	groupie lipstick	sticks of groupie lipstick
+4217	141656227	groupie bra	groupie bras
+4218	543063362	groupie spangles	groupie spangles
+4219	231121495	skate board	skate boards
+4220	380053261	S.A.V.E. flyer	S.A.V.E. flyers
 4221	399891683	yield shield
-4222
+4222	552478290	map to the Skate Park
 4223	486257340	squamous polyp
 4224	541358579	unspeakable lozenges
-4225
+4225	232702108	roller skate doll	roller skate dolls
 4226	153783629	Star of Bravery
+4227
+4228
+4229
+4230
+4231	152583527	ice skate decoy	ice skate decoys
+4232	156434029	ice skate doll	ice skate dolls

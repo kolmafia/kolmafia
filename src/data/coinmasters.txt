@@ -99,6 +99,7 @@ bs	10	waterlogged bootstraps
 bs	20	decaying wooden oar
 bs	20	giant fishhook
 bs	20	rusty old lantern
+bs	25	map to the Skate Park
 bs	50	map to Madness Reef
 bs	50	map to the Marinara Trench
 bs	50	map to Anemone Mine

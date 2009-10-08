@@ -502,6 +502,7 @@ bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
 bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
 boxing glove on a spring	55	Mox: 12	1-handed club
+brand new key	200	Mus: 85	1-handed knife
 broken sword	135	Mus: 52	1-handed sword
 bubble bauble bow	80	Mox: 25	2-handed bow
 bubblewrap crossbow	60	Mox: 15	2-handed crossbow
@@ -720,6 +721,8 @@ severed flipper	80	Mus: 25	1-handed club
 shiny butcherknife	30	Mys: 0	1-handed utensil
 shuddersword	125	Mus: 45	2-handed sword
 silver shrimp fork	120	Mys: 45	1-handed utensil
+skate blade	200	Mus: 85	1-handed knife
+skate board	200	Mus: 85	2-handed club
 skeleton bone	30	Mus: 0	1-handed club
 sleazy bindle	200	Mus: 200	2-handed polearm
 slightly peevedbow	60	Mox: 15	2-handed bow
@@ -866,6 +869,8 @@ box	0	none
 box turtle	50	Mus: 10	shield
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
+# *** brass dorsal fin is a shield of unknown power.
+brass dorsal fin	0	Mus: 85	shield
 brown crock marble	0	Mys: 85
 bumblebee marble	0	Mys: 85
 cardboard box turtle	70	Mus: 20	shield
@@ -874,6 +879,7 @@ charged magnet	0	none
 clockwork detective skull	0	Mox: 25
 clownskin buckler	60	Mus: 15	shield
 coffin lid	55	Mus: 10	shield
+collapsible baton	0	Mys: 85
 continuum transfunctioner	0	none
 cup of infinite pencils	0	Mus: 175
 cyborg doll	0	Mys: 40

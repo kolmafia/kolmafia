@@ -668,3 +668,10 @@
 667	Cuts Like a Lightly-Buttered Knife	bknife.gif	a6fb94a86856eec4079816d0f19f354e	use 1 Elvish delight
 668	Slimed Stomach	stomach.gif	19a0dbd007a488433f15186b8c5784f2	use 1 Good 'n' Slimy
 669	Chilblains of the Corn	candycorn.gif	5f20c6246d9367a07dcf7a6df4349864	use 1 children of the candy corn
+670
+671
+672	Busker Do	sanddollar.gif	c240d44cd36c02e344e8a9d7bdc354ea
+673	Familial Ties	ties.gif	6b328c67b22420567accd3a9b6424ad8
+674	Swimming Head	loop.gif	8626f8671845ddcf2758099d159f4cbd
+675
+676	Spangled Star	tinystars.gif	c369319642dfc3e85b43bbd33a587069	use 1 groupie spangles
