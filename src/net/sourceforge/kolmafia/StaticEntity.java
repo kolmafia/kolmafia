@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
@@ -559,6 +560,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "questlog.php" ) )
 		{
 			QuestLogRequest.registerQuests( true, location, responseText );
+		}
+
+		else if ( location.startsWith( "sea_skatepark.php" ) )
+		{
+			SkateParkRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "sellstuff.php" ) )
