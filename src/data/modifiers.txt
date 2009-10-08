@@ -1727,7 +1727,7 @@ overclocked avian microprocessor	Familiar Weight: +5
 oversized fish scaler	Familiar Effect: "attack"
 palm-frond toupee	Familiar Weight: +5
 # penguin-smacking club: +5 to Familiar Damage
-pet anemone Familiar Weight: +5
+pet anemone	Familiar Weight: +5
 pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11
 pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11
 # plastic bib: Makes your ghost better at eating stuff.
