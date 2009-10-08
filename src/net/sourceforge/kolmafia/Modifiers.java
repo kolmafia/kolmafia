@@ -1597,13 +1597,17 @@ public class Modifiers
 		return mods.get( mod );
 	}
 
-	public static final float getNumericModifier( final FamiliarData fam, final String mod, final int passedWeight, final AdventureResult item ) {
+	public static final float getNumericModifier( final FamiliarData fam, final String mod, final int passedWeight, final AdventureResult item )
+	{
 		int familiarId = fam != null ? fam.getId() : -1;
-		if ( familiarId == -1 ) { return 0.0f; }
+		if ( familiarId == -1 )
+		{
+			return 0.0f;
+		}
 		Modifiers tempMods = new Modifiers();
 		tempMods.setFamiliar( fam );
 		if ( familiarId != 82 )
-		{ // Mad Hatrack ... hats do not give their normal modifiers (should i be checking the item is a hat?)
+		{ // Mad Hatrack ... hats do not give their normal modifiers (should I be checking the item is a hat?)
 			tempMods.add( Modifiers.getModifiers( item.getName() ) );
 		}
 		int weight = passedWeight + (int) tempMods.get( Modifiers.FAMILIAR_WEIGHT ) + (int) tempMods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
@@ -1711,7 +1715,8 @@ public class Modifiers
 		this.lookupFamiliarModifiers( familiar, weight, famItem );
 	}
 
-	public void lookupFamiliarModifiers( final FamiliarData familiar, int weight, final AdventureResult famItem ) {
+	public void lookupFamiliarModifiers( final FamiliarData familiar, int weight, final AdventureResult famItem )
+	{
 		int familiarId = familiar.getId();
 		weight = Math.max( 1, weight );
 		Modifiers.currentWeight = weight;
