@@ -1039,7 +1039,7 @@ public class RequestEditorKit
 		if ( guardianData != null )
 		{
 			String itemName = SorceressLairManager.guardianItem( guardianData );
-			monsterData.append( "<br />Defeated by a " + itemName );
+			monsterData.append( "<br />Defeated by a <font color=#DD00FF>" + itemName + "</font>" );
 
 			// Auto-select the correct item in the dropdown, which
 			// must be later in the buffer than insertionPoint
