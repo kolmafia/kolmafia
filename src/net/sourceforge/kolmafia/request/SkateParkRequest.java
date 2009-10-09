@@ -33,15 +33,27 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.RequestLogger;
 
 public class SkateParkRequest
 	extends GenericRequest
 {
+	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
+
 	public SkateParkRequest()
 	{
 		super( "sea_skatepark.php" );
+	}
+
+	public SkateParkRequest( final String action)
+	{
+		this();
+		this.addFormField( "action", action );
 	}
 
 	public void processResults()
@@ -56,22 +68,33 @@ public class SkateParkRequest
 			return;
 		}
 
-		SkateParkRequest.ensureUpdatedSkatePark();
+		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		String action = matcher.find() ? matcher.group(1) : null;
+
+		// Deduce the state of war
+		String status = null;
+
 		if ( responseText.indexOf( "ocean/rumble" ) != -1 )
 		{
-			Preferences.setString( "skateParkStatus", "war" );
+			status = "war";
 		}
 		else if ( responseText.indexOf( "ocean/roller_territory" ) != -1 )
 		{
-			Preferences.setString( "skateParkStatus", "roller" );
+			status = "roller";
 		}
 		else if ( responseText.indexOf( "ocean/ice_territory" ) != -1 )
 		{
-			Preferences.setString( "skateParkStatus", "ice" );
+			status = "ice";
 		}
-		else if ( responseText.indexOf( "ocean/ocean_fountain" ) != -1 )
+		else if ( responseText.indexOf( "ocean/fountain" ) != -1 )
 		{
-			Preferences.setString( "skateParkStatus", "peace" );
+			status = "peace";
+		}
+
+		if ( status != null )
+		{
+			SkateParkRequest.ensureUpdatedSkatePark();
+			Preferences.setString( "skateParkStatus", status );
 		}
 	}
 
@@ -85,6 +108,23 @@ public class SkateParkRequest
 		}
 	}
 
+	private static final String actionToPlace( final String action )
+	{
+                if ( action.equals( "state4buff1" ) )
+                {
+                        return "the Band Shell";
+                }
+                if ( action.equals( "state4buff2" ) )
+                {
+                        return "the Eclectic Eels";
+                }
+                if ( action.equals( "state4buff3" ) )
+                {
+                        return "the Merry-Go-Round";
+                }
+                return null;
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "sea_skatepark.php" ) )
@@ -92,6 +132,31 @@ public class SkateParkRequest
 			return false;
 		}
 
-		return false;
+		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		String action = matcher.find() ? matcher.group(1) : null;
+
+		// We have nothing special to do for simple visits.
+
+		if ( action == null )
+		{
+			return true;
+		}
+
+		String place = SkateParkRequest.actionToPlace( action );
+
+		if ( place == null )
+		{
+			return false;
+		}
+
+		String message = "Visiting " + place;
+
+		RequestLogger.printLine( "" );
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
+
+		return true;
 	}
 }
