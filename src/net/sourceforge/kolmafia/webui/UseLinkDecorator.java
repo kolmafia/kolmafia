@@ -530,7 +530,7 @@ public abstract class UseLinkDecorator
 					return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=" );
 				}
 
-				if ( HermitRequest.getWorthlessItemCount() == 0 )
+				if ( HermitRequest.getWorthlessItemCount() != 0 )
 				{
 					return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autopermit=on&action=trade&quantity=1&whichitem=" );
 				}

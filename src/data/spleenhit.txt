@@ -31,7 +31,7 @@ glimmering great tit feather	1	1	0	0	0	0	20 The Great Tit's Blessing (+20 ML)
 glimmering penguin feather	1	1	0	0	0	0	20 Antarctic Memories (+40 HP/MP regen)
 glimmering phoenix feather	1	1	0	0	0	0	20 Phoenix, Right? (+6 exp)
 glimmering raven feather	1	1	0	0	0	0	20 Melancholy Burden (+60% item drop)
-glimmering roc feather	4	1	6-10	24-28	24-26	27-30
+glimmering roc feather	4	4	6-10	24-28	24-26	27-30
 guy made of bee pollen	3	8	6-10	18-60	18-60	18-60
 handful of moss	1	1	0	0	0	12-14
 Hatorade	5	1	0	0	0	0	+1 PvP fight
