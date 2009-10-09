@@ -100,13 +100,13 @@ public class FamiliarTrainingFrame
 	private static final Pattern STEAL_PATTERN =
 		Pattern.compile( "She also drops an item from her mouth.*You acquire an item: <b>(.*?)</b>" );
 	private static final Pattern CAGELOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?(\\1|this turtle).*?[.!]<p>)\\1 struggles for" );
+		Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>.*?(?:\\1|this turtle|Grouper groupies).*?[.!]<p>\\1 struggles for" );
 	private static final Pattern HUNTLOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>(.*?\\1.*?\\.<p>)\\1 finds" );
+		Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>.*?\\1.*?[.!]<p>\\1 finds" );
 	private static final Pattern COURSELOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\1.*?\\.<p>)\\1 makes it through the obstacle course" );
+		Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>.*?(?:\\1|Urchins).*?[.!]<p>\\1 makes it through the obstacle course" );
 	private static final Pattern HIdELOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" );
+		Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>.*?\\1.*?[.!]<p>\\1 manages to stay hidden" );
 
 	private static final StyledChatBuffer results = new StyledChatBuffer( "", false );
 
@@ -1205,7 +1205,7 @@ public class FamiliarTrainingFrame
 		}
 
 		// Close the table
-		text.append( "</table>" );
+		text.append( "</table><br><br>" );
 
 		FamiliarTrainingFrame.results.append( text.toString() );
 
