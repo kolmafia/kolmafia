@@ -471,6 +471,11 @@ user	_gongDrops	0
 user	_hotTubSoaks	0
 user	_navelRunaways	0
 user	_sealsSummoned	0
+user	_skateBuff1	false
+user	_skateBuff2	false
+user	_skateBuff3	false
+user	_skateBuff4	false
+user	_skateBuff5	false
 user	_userMods
 
 user	choiceAdventure2	2

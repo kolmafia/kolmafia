@@ -37,6 +37,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -45,31 +47,210 @@ public class SkateParkRequest
 {
 	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 
+	public static final int LUTZ = 0;
+	public static final int COMET = 1;
+	public static final int BAND_SHELL = 2;
+	public static final int ECLECTIC_EELS = 3;
+	public static final int MERRY_GO_ROUND = 4;
+
+	public static final Object[][] BUFF_DATA =
+	{
+		{
+			"Lutz, the Ice Skate",
+			"lutz, the ice skate",
+			"state2buff1",
+			new Integer( SkateParkRequest.LUTZ ),
+			"_skateBuff1",
+			"You've already dined with Lutz",
+			"ice",
+		},
+		{
+			"Comet, the Roller Skate",
+			"comet, the roller skate",
+			"state3buff1",
+			new Integer( SkateParkRequest.COMET ),
+			"_skateBuff2",
+			"You should probably leave Comet alone for the rest of the day",
+			"roller",
+		},
+		{
+			"the Band Shell",
+			"the band shell",
+			"state4buff1",
+			new Integer( SkateParkRequest.BAND_SHELL ),
+			"_skateBuff3",
+			"You've had about all of that crap you can stand today",
+			"peace",
+		},
+		{
+			"the Eclectic Eels",
+			"the eclectic eels",
+			"state4buff2",
+			new Integer( SkateParkRequest.ECLECTIC_EELS ),
+			"_skateBuff4",
+			"You should probably leave those guys alone until tomorrow",
+			"peace",
+		},
+		{
+			"the Merry-Go-Round",
+			"the merry-go-round",
+			"state4buff3",
+			new Integer( SkateParkRequest.MERRY_GO_ROUND ),
+			"_skateBuff5",
+			"Wait until tomorrow",
+			"peace",
+		},
+	};
+
 	public SkateParkRequest()
 	{
 		super( "sea_skatepark.php" );
 	}
 
-	public SkateParkRequest( final String action)
+	public SkateParkRequest( final int buff)
 	{
 		this();
-		this.addFormField( "action", action );
+		String action = SkateParkRequest.buffToAction( buff );
+		if ( action != null )
+		{
+			this.addFormField( "action", action );
+		}
+	}
+
+	private static String dataPlace( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[0]);
+	}
+
+	private static String dataCanonicalPlace( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[1]);
+	}
+
+	private static String dataAction( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[2]);
+	}
+
+	private static int dataBuff( final Object[] data )
+	{
+		return ( data == null ) ? -1 : ((Integer) data[3]).intValue();
+	}
+
+	private static String dataSetting( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[4]);
+	}
+
+	private static String dataError( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[5]);
+	}
+
+	private static String dataState( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[6]);
+	}
+
+	private static Object[] placeToData( final String place )
+	{
+		Object [] retval = null;
+		for ( int i = 0; i < BUFF_DATA.length; ++i )
+		{
+			Object [] data = BUFF_DATA[i];
+			String canonicalPlace = dataCanonicalPlace( data );
+			if ( canonicalPlace.indexOf( place ) == -1 )
+			{
+				continue;
+			}
+			if ( retval != null )
+			{
+				return null;
+			}
+			retval = data;
+		}
+		return retval;
+	}
+
+	private static Object[] actionToData( final String action )
+	{
+		for ( int i = 0; i < BUFF_DATA.length; ++i )
+		{
+			Object [] data = BUFF_DATA[i];
+			if ( action.equals( dataAction( data ) ) )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
+	private static Object[] buffToData( final int buff )
+	{
+		for ( int i = 0; i < BUFF_DATA.length; ++i )
+		{
+			Object [] data = BUFF_DATA[i];
+			if ( buff == dataBuff( data ) )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
+	public static int placeToBuff( final String place )
+	{
+		return dataBuff( placeToData( place ) );
+	}
+
+	private static String buffToAction( final int buff )
+	{
+		return dataAction( buffToData( buff ) );
+	}
+
+	private static String actionToSetting( final String action )
+	{
+		return dataSetting( actionToData( action ) );
+	}
+
+	private static final String actionToPlace( final String action )
+	{
+		return dataPlace( actionToData( action ) );
 	}
 
 	public void processResults()
 	{
-		SkateParkRequest.parseResponse( this.getURLString(), this.responseText );
-	}
+		String urlString = this.getURLString();
+		String responseText = this.responseText;
+		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		String action = matcher.find() ? matcher.group(1) : null;
+		Object [] data = actionToData( action );
 
-	public static final void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "sea_skatepark.php" ) )
+		if ( SkateParkRequest.parseResponse( urlString, responseText ) )
 		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already visited " + dataPlace( data ) + " today." );
 			return;
 		}
 
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
-		String action = matcher.find() ? matcher.group(1) : null;
+		// Now that we have (perhaps) visited the Skate Park, check war
+		// status. There are no special messages for visiting a place
+		// that is not accessible in the current state.
+
+		SkateParkRequest.ensureUpdatedSkatePark();
+		String status =	Preferences.getString( "skateParkStatus" );
+		if ( !status.equals( dataState( data ) ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot visit " + dataPlace( data ) + "." );
+			return;
+		}
+	}
+
+	public static final boolean parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "sea_skatepark.php" ) )
+		{
+			return false;
+		}
 
 		// Deduce the state of war
 		String status = null;
@@ -78,13 +259,13 @@ public class SkateParkRequest
 		{
 			status = "war";
 		}
-		else if ( responseText.indexOf( "ocean/roller_territory" ) != -1 )
-		{
-			status = "roller";
-		}
 		else if ( responseText.indexOf( "ocean/ice_territory" ) != -1 )
 		{
 			status = "ice";
+		}
+		else if ( responseText.indexOf( "ocean/roller_territory" ) != -1 )
+		{
+			status = "roller";
 		}
 		else if ( responseText.indexOf( "ocean/fountain" ) != -1 )
 		{
@@ -96,6 +277,23 @@ public class SkateParkRequest
 			SkateParkRequest.ensureUpdatedSkatePark();
 			Preferences.setString( "skateParkStatus", status );
 		}
+
+		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		String action = matcher.find() ? matcher.group(1) : null;
+
+		if ( action == null )
+		{
+			return false;
+		}
+
+		Object [] data = actionToData( action );
+		boolean effect = responseText.indexOf( "You acquire an effect" ) != -1;
+		boolean error = responseText.indexOf( dataError( data ) ) != -1;
+		if ( effect || error )
+		{
+			Preferences.setBoolean( dataSetting( data ), true );
+		}
+		return error;
 	}
 
 	private static final void ensureUpdatedSkatePark()
@@ -106,23 +304,6 @@ public class SkateParkRequest
 			Preferences.setInteger( "lastSkateParkReset", KoLCharacter.getAscensions() );
 			Preferences.setString( "skateParkStatus", "war" );
 		}
-	}
-
-	private static final String actionToPlace( final String action )
-	{
-                if ( action.equals( "state4buff1" ) )
-                {
-                        return "the Band Shell";
-                }
-                if ( action.equals( "state4buff2" ) )
-                {
-                        return "the Eclectic Eels";
-                }
-                if ( action.equals( "state4buff3" ) )
-                {
-                        return "the Merry-Go-Round";
-                }
-                return null;
 	}
 
 	public static final boolean registerRequest( final String urlString )

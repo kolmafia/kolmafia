@@ -2104,6 +2104,8 @@ Fiery Heart	Mysticality: [min(T,20)], MP Regen Min: [ceil(min(T,20)/2)], MP Rege
 # Filthworm Guard Stench
 # Filthworm Larva Stench
 # Fire Down Below
+# Finstrong: Makes you a better diver
+Finstrong	Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
 Fire Down Below	Hot Damage: [min(100,T)]
 Fireproof Lips	Hot Resistance: +9
 Fishbreath	Stench Damage: +15
