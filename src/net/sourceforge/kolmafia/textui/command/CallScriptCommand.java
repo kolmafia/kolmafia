@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Profiler;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -152,6 +153,31 @@ public class CallScriptCommand
 					return;
 				}
 
+				if ( command.equals( "profile" ) )
+				{
+					Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+					if ( interpreter != null )
+					{
+						Profiler prof = Profiler.create( "toplevel" );
+						long t0 = System.currentTimeMillis();
+						prof.net0 = t0;
+						interpreter.profiler = prof;
+
+						for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
+						{
+							interpreter.execute( "main", arguments );
+						}
+
+						long t1 = System.currentTimeMillis();
+						prof.total = t1 - t0;
+						prof.net += t1 - prof.net0;
+						prof.finish();
+						interpreter.profiler = null;
+						RequestLogger.printLine( Profiler.summary() );
+					}
+					return;
+				}
+				
 				// If there's an alternate namespace being
 				// used, then be sure to switch.
 

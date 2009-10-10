@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.Profiler;
 
 public class FunctionCall
 	extends Value
@@ -130,7 +131,31 @@ public class FunctionCall
 
 		interpreter.trace( "Entering function " + this.target.getName() );
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
-		Value result = this.target.execute( interpreter );
+		
+		Value result;
+		Profiler prev = interpreter.profiler;
+		if ( prev != null )
+		{
+			long t0 = System.currentTimeMillis();
+			prev.net += t0 - prev.net0;
+			Profiler curr = Profiler.create( this.target.getSignature() );
+			curr.net0 = t0;
+			interpreter.profiler = curr;
+			
+			result = this.target.execute( interpreter );
+			
+			long t1 = System.currentTimeMillis();
+			prev.net0 = t1;
+			interpreter.profiler = prev;
+			curr.total = t1 - t0;
+			curr.net += t1 - curr.net0;
+			curr.finish();
+		}
+		else
+		{
+			result = this.target.execute( interpreter );
+		}
+		
 		interpreter.trace( "Function " + this.target.getName() + " returned: " + result );
 
 		if ( interpreter.getState() != Interpreter.STATE_EXIT )

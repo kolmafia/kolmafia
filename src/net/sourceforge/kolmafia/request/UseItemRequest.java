@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -3281,6 +3282,12 @@ public class UseItemRequest
 		String name = UseItemRequest.lastItemUsed.getName();
 		int consumptionType = ItemDatabase.getConsumptionType( itemId );
 		String useString = null;
+		
+		if ( UseItemRequest.getAdventuresUsedByItem( UseItemRequest.lastItemUsed ) > 0 )
+		{
+			// Never autoattack in an item-generated fight
+			CustomCombatManager.setAutoAttack( 0 );
+		}
 
 		switch ( consumptionType )
 		{
@@ -3406,8 +3413,13 @@ public class UseItemRequest
 
 	public int getAdventuresUsed()
 	{
+		return UseItemRequest.getAdventuresUsedByItem( this.itemUsed );
+	}
+	
+	public static int getAdventuresUsedByItem( AdventureResult item )
+	{
 		int turns = 0;
-		switch ( this.itemUsed.getItemId() )
+		switch ( item.getItemId() )
 		{
 		case ItemPool.BLACK_PUDDING:
 		case ItemPool.DRUM_MACHINE:
@@ -3426,7 +3438,7 @@ public class UseItemRequest
 			break;
 		}
 		
-		return turns * this.itemUsed.getCount();
+		return turns * item.getCount();
 	}
 
 	static private void parseEVHelmet( String responseText )
