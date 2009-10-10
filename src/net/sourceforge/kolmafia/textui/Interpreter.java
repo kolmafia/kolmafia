@@ -73,6 +73,7 @@ public class Interpreter
 	private String currentState = Interpreter.STATE_NORMAL;
 	private PrintStream traceStream = NullStream.INSTANCE;
 	private int traceIndentation = 0;
+	public Profiler profiler;
 
 	// For use in runtime error messages
 	private String fileName;

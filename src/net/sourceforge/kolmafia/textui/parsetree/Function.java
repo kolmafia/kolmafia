@@ -48,6 +48,7 @@ public abstract class Function
 {
 	public Type type;
 	public VariableReferenceList variableReferences;
+	private String signature;
 
 	public Function( final String name, final Type type,
 		final VariableReferenceList variableReferences )
@@ -65,6 +66,41 @@ public abstract class Function
 	public Type getType()
 	{
 		return this.type;
+	}
+	
+	public String getSignature()
+	{
+		if ( this.signature == null )
+		{
+			StringBuffer buf = new StringBuffer();
+			// Since you can't usefully have multiple overloads with the
+			// same parameter types but different return types, including
+			// the return type in the signature isn't very useful.
+			//buf.append( this.type );
+			//buf.append( " " );
+			buf.append( this.name );
+			buf.append( "(" );
+		
+			Iterator i = this.getReferences();
+			boolean first = true;
+			while ( i.hasNext()  )
+			{
+				if ( first )
+				{
+					first = false;
+				}
+				else
+				{
+					buf.append( ", " );
+				}
+				Type paramType = ((VariableReference) i.next()).getType();
+				buf.append( paramType );
+			}
+			
+			buf.append( ")" );
+			this.signature = buf.toString();
+		}
+		return this.signature;
 	}
 
 	public VariableReferenceList getVariableReferences()
