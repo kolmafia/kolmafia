@@ -1065,6 +1065,8 @@ public class MaximizerFrame
 					"Unrecognized keyword: " + keyword );
 				return;
 			}
+			this.weight[ Modifiers.MONSTER_LEVEL ] +=
+				this.weight[ Modifiers.EXPERIENCE ] * 0.000001;
 		}
 		
 		public float getScore( Modifiers mods )
