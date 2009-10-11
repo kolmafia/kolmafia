@@ -4155,7 +4155,7 @@
 4149	quadroculars	familiar	all	75
 4150	lint	none	all	3
 4151	dubious peppermint	multiple	all	40
-4152	Elvish delight	usable	all		40
+4152	Elvish delight	usable	all	40
 4153	rockfish stomach	multiple	all	170
 4154	live lobster	usable	all	0
 4155	wok lobster	usable	all	0
