@@ -43,7 +43,7 @@ public class SkateParkCommand
 {
 	public SkateParkCommand()
 	{
-		this.usage = " lutz | comet | bandshell | merry-go-round | eels - get daily Skate Park buff.";
+		this.usage = " lutz | comet | band shell | merry-go-round | eels - get daily Skate Park buff.";
 	}
 
 	public void run( final String cmd, final String parameters )

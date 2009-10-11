@@ -79,6 +79,16 @@ public class DailyDeedsPanel
 		this.add( new StyxDaily() );
 		this.add( new FriarsDaily() );
 		this.add( new ConcertDaily() );
+		this.add( new SkateDaily( "lutz", "ice", "_skateBuff1",
+			"Fishy" ) );
+		this.add( new SkateDaily( "comet", "roller", "_skateBuff2",
+			"-30% to Sea penalties" ) );
+		this.add( new SkateDaily( "band shell", "peace", "_skateBuff3",
+			"+sand dollars" ) );
+		this.add( new SkateDaily( "eels", "peace", "_skateBuff4",
+			"+10 lbs. underwater" ) );
+		this.add( new SkateDaily( "merry-go-round", "peace", "_skateBuff5",
+			"+25% items underwater" ) );
 		this.add( new DemonDaily( 1, 2 ) );
 		this.add( new DemonDaily( 3, 4 ) );
 		this.add( new DemonDaily( 5, 7 ) );
@@ -347,8 +357,30 @@ public class DailyDeedsPanel
 			int nv = Preferences.getInteger( "nunsVisits" );
 			boolean snc = Preferences.getString( "sidequestNunsCompleted" ).equals( "none" );
 			this.setShown( !snc );
-			this.setEnabled( nv < 3 && !snc);
+			this.setEnabled( nv < 3 && !snc );
 			this.setText( nv + "/3" );
+		}
+	}
+
+	public static class SkateDaily
+		extends Daily
+	{
+		private String state, visited;
+		
+		public SkateDaily( String name, String state, String visited, String desc )
+		{
+			this.state = state;
+			this.visited = visited;
+			this.addListener( "skateParkStatus" );
+			this.addListener( visited );
+			this.addButton( "skate " + name );
+			this.addLabel( desc );
+		}
+		
+		public void update()
+		{
+			this.setShown( Preferences.getString( "skateParkStatus" ).equals( this.state ) );
+			this.setEnabled( !Preferences.getBoolean( this.visited ) );
 		}
 	}
 
