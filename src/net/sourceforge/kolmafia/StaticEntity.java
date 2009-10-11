@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
+import net.sourceforge.kolmafia.request.NemesisRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -351,6 +352,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "campground.php" ) )
 		{
 			CampgroundRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "cave.php" ) )
+		{
+			NemesisRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "charsheet.php" ) &&
