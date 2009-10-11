@@ -174,6 +174,21 @@ public class SushiRequest
 			}
 		}
 
+		// Check for topped sushi
+		for ( int i = 0; i < TOPPING.length; ++i )
+		{
+			Object [] sushi = TOPPING[i];
+			if ( !name.startsWith( (String)sushi[0] ) )
+			{
+				continue;
+			}
+			int index = name.indexOf( " " );
+			if ( index != -1 )
+			{
+				return SushiRequest.nameToId( name.substring( index + 1 ) );
+			}
+		}
+
 		return -1;
 	}
 
