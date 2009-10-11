@@ -46,6 +46,7 @@ public abstract class BasicScope
 	implements ParseTreeNode
 {
 	private final PauseObject pauser = new PauseObject();
+	private static long nextPause = System.currentTimeMillis();
 
 	protected TypeList types;
 	protected VariableList variables;
@@ -419,7 +420,12 @@ public abstract class BasicScope
 		// Thread.yield();
 
 		// ...but the following does.
-		this.pauser.pause( 1 );
+		long t = System.currentTimeMillis();
+		if ( t >= BasicScope.nextPause )
+		{
+			BasicScope.nextPause = t + 100L;
+			this.pauser.pause( 1 );
+		}
 
 		Value result = DataTypes.VOID_VALUE;
 		interpreter.traceIndent();
