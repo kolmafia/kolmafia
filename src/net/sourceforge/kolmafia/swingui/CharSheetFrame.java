@@ -38,6 +38,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -53,7 +54,6 @@ public class CharSheetFrame
 	extends GenericFrame
 {
 	private final JLabel avatar;
-	private JLabel[] statusLabel;
 	private JProgressBar[] tnpDisplay;
 	private final KoLCharacterAdapter statusRefresher;
 
@@ -73,14 +73,12 @@ public class CharSheetFrame
 
 		statusPanel.add( this.createStatusPanel(), BorderLayout.CENTER );
 		statusPanel.add( this.avatar, BorderLayout.WEST );
-
+		
 		JPanel statusContainer = new JPanel( new CardLayout( 10, 10 ) );
 		statusContainer.add( statusPanel, "" );
 
-		JPanel northPanel = new JPanel( new BorderLayout() );
-		northPanel.add( statusContainer, BorderLayout.WEST );
-
-		this.framePanel.add( northPanel, BorderLayout.NORTH );
+		this.framePanel.add( statusContainer, BorderLayout.NORTH );
+		//this.framePanel.add( new JLabel( "summary panel goes here" ), BorderLayout.CENTER );
 
 		this.statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
 		KoLCharacter.addCharacterListener( this.statusRefresher );
@@ -94,51 +92,18 @@ public class CharSheetFrame
 	}
 
 	/**
-	 * Utility method for creating a panel that displays the given label, using formatting if the values are different.
-	 */
-
-	private JPanel createValuePanel( final String title, final int displayIndex )
-	{
-		int index1 = 2 * displayIndex;
-		int index2 = index1 + 1;
-
-		this.statusLabel[ index1 ] = new JLabel( " ", SwingConstants.LEFT );
-		this.statusLabel[ index1 ].setForeground( Color.BLUE );
-		this.statusLabel[ index2 ] = new JLabel( " ", SwingConstants.LEFT );
-
-		JPanel headerPanel = new JPanel();
-		headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.X_AXIS ) );
-
-		headerPanel.add( new JLabel( title + ":  ", SwingConstants.RIGHT ) );
-		headerPanel.add( this.statusLabel[ index1 ] );
-		headerPanel.add( this.statusLabel[ index2 ] );
-
-		JPanel valuePanel = new JPanel( new BorderLayout( 2, 2 ) );
-		valuePanel.add( headerPanel, BorderLayout.EAST );
-		valuePanel.add( this.tnpDisplay[ displayIndex ], BorderLayout.SOUTH );
-
-		return valuePanel;
-	}
-
-	/**
 	 * Utility method for modifying a panel that displays the given label, using formatting if the values are different.
 	 */
 
-	private void refreshValuePanel( final int displayIndex, final int baseValue, final int adjustedValue,
-		final int tillNextPoint )
+	private void refreshValuePanel( final int displayIndex, final int baseValue,
+		final int tillNextPoint, final String label )
 	{
-		int index1 = 2 * displayIndex;
-		int index2 = index1 + 1;
-
-		JLabel adjustedLabel = this.statusLabel[ index1 ];
-		JLabel baseLabel = this.statusLabel[ index2 ];
-
-		adjustedLabel.setText( KoLConstants.COMMA_FORMAT.format( adjustedValue ) );
-		baseLabel.setText( " (" + KoLConstants.COMMA_FORMAT.format( baseValue ) + ")" );
-
-		this.tnpDisplay[ displayIndex ].setMaximum( 2 * baseValue + 1 );
-		this.tnpDisplay[ displayIndex ].setValue( 2 * baseValue + 1 - tillNextPoint );
-		this.tnpDisplay[ displayIndex ].setString( KoLConstants.COMMA_FORMAT.format( this.tnpDisplay[ displayIndex ].getValue() ) + " / " + KoLConstants.COMMA_FORMAT.format( this.tnpDisplay[ displayIndex ].getMaximum() ) );
+		JProgressBar tnp = this.tnpDisplay[ displayIndex ];
+		tnp.setMaximum( 2 * baseValue + 1 );
+		tnp.setValue( 2 * baseValue + 1 - tillNextPoint );
+		tnp.setString( label +
+			KoLConstants.COMMA_FORMAT.format( tnp.getValue() ) + " / " +
+			KoLConstants.COMMA_FORMAT.format( tnp.getMaximum() ) );
 	}
 
 	/**
@@ -148,16 +113,10 @@ public class CharSheetFrame
 	 * @return a <code>JPanel</code> displaying the character's statistics
 	 */
 
-	private JPanel createStatusPanel()
+	private Box createStatusPanel()
 	{
-		JPanel statusLabelPanel = new JPanel();
-		statusLabelPanel.setLayout( new BoxLayout( statusLabelPanel, BoxLayout.Y_AXIS ) );
-
-		this.statusLabel = new JLabel[ 6 ];
-		for ( int i = 0; i < 6; ++i )
-		{
-			this.statusLabel[ i ] = new JLabel( " ", SwingConstants.CENTER );
-		}
+		Box statusPanel = Box.createVerticalBox();
+		statusPanel.add( Box.createVerticalGlue() );
 
 		this.tnpDisplay = new JProgressBar[ 3 ];
 		for ( int i = 0; i < 3; ++i )
@@ -165,15 +124,11 @@ public class CharSheetFrame
 			this.tnpDisplay[ i ] = new JProgressBar();
 			this.tnpDisplay[ i ].setValue( 0 );
 			this.tnpDisplay[ i ].setStringPainted( true );
+			statusPanel.add( this.tnpDisplay[ i ] );
+			statusPanel.add( Box.createVerticalGlue() );
 		}
 
-		JPanel primeStatPanel = new JPanel( new GridLayout( 3, 1, 5, 5 ) );
-		primeStatPanel.add( this.createValuePanel( "Muscle", 0 ) );
-		primeStatPanel.add( this.createValuePanel( "Mysticality", 1 ) );
-		primeStatPanel.add( this.createValuePanel( "Moxie", 2 ) );
-		statusLabelPanel.add( primeStatPanel );
-
-		return statusLabelPanel;
+		return statusPanel;
 	}
 
 	private class StatusRefreshRunnable
@@ -182,12 +137,13 @@ public class CharSheetFrame
 		public void run()
 		{
 			CharSheetFrame.this.refreshValuePanel(
-				0, KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() );
+				0, KoLCharacter.getBaseMuscle(),
+				KoLCharacter.getMuscleTNP(), "Mus: " );
 			CharSheetFrame.this.refreshValuePanel(
-				1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(),
-				KoLCharacter.getMysticalityTNP() );
+				1, KoLCharacter.getBaseMysticality(), KoLCharacter.getMysticalityTNP(), "Mys: " );
 			CharSheetFrame.this.refreshValuePanel(
-				2, KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() );
+				2, KoLCharacter.getBaseMoxie(),
+				KoLCharacter.getMoxieTNP(), "Mox: " );
 
 			// Set the current avatar
 			CharSheetFrame.this.avatar.setIcon( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );

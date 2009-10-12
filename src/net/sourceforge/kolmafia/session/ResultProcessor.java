@@ -71,7 +71,7 @@ public class ResultProcessor
 	private static Pattern CARBS_PATTERN =
 		Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
-	private static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able><tr><td[^>]*?><img[^>]*/([^/]*\\.gif)[^>]*?('descitem\\((.*?)\\)')?></td>(<td[^>]*><[tT]able><tr>)?<td[^>]*?>(.*?)</td>(</tr></table></td>)?</tr></table>" );
+	private static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*?><tr><td[^>]*?><img[^>]*/([^/]*\\.gif)[^>]*?('descitem\\((.*?)\\)')?></td>(<td[^>]*><[tT]able><tr>)?<td[^>]*?>(.*?)</td>(</tr></table></td>)?</tr></table>" );
 	private static Pattern INT_PATTERN = Pattern.compile( ".*?([\\d]+).*" );
 
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
