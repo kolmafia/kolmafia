@@ -679,7 +679,7 @@ public class CreateItemRequest
 		}
 
 		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
-		int quantity = CreateItemRequest.getQuantity( urlString, ingredients ) * multiplier;
+		int quantity = CreateItemRequest.getQuantity( urlString, ingredients, multiplier );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
@@ -1207,7 +1207,7 @@ public class CreateItemRequest
 
 		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
 
-		int quantity = CreateItemRequest.getQuantity( urlString, ingredients ) * multiplier;
+		int quantity = CreateItemRequest.getQuantity( urlString, ingredients, multiplier );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
@@ -1290,9 +1290,10 @@ public class CreateItemRequest
 		return ItemPool.get( StringUtilities.parseInt( itemId ), 1 );
 	}
 
-	private static final int getQuantity(  final String urlString, final AdventureResult [] ingredients )
+	private static final int getQuantity( final String urlString, final AdventureResult [] ingredients, int multiplier )
 	{
-		if ( urlString.indexOf( "max=on" ) == -1 )
+		if ( urlString.indexOf( "max=on" ) == -1 &&
+			urlString.indexOf( "smashall=1" ) == -1 )
 		{
 			Matcher matcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			return matcher.find() ? StringUtilities.parseInt( matcher.group( 2 ) ) : 1;
@@ -1303,10 +1304,10 @@ public class CreateItemRequest
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			AdventureResult item = ingredients[i];
-			quantity = Math.min( item.getCount( KoLConstants.inventory ), quantity );
+			quantity = Math.min( item.getCount( KoLConstants.inventory ) / multiplier, quantity );
 		}
 
-		return quantity;
+		return quantity * multiplier;
 	}
 
 	private static final void useIngredients( final String urlString, AdventureResult [] ingredients, int quantity )
