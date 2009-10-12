@@ -431,60 +431,68 @@ public class MoneyMakingGameManager
 		synchronized ( MoneyMakingGameManager.lock )
 		{
 			MoneyMakingGameManager.lastWinnings = 0;
+		}
 
-			// Find out if the bet took money from inventory or storage
-			String from = MoneyMakingGameRequest.getFromString( urlString );
-			if ( from == null )
-			{
-				return;
-			}
-			boolean storage = from.equals( "storage" );
+		// Find bet amount. If we can't, we failed to take the bet for
+		// some reason.
 
-			// Find bet amount. If we can't, we failed to take the bet for
-			// some reason.
+		Matcher takeMatcher = TAKE_BET_PATTERN.matcher( responseText );
+		if ( !takeMatcher.find() )
+		{
+			return;
+		}
 
-			Matcher takeMatcher = TAKE_BET_PATTERN.matcher( responseText );
-			if ( !takeMatcher.find() )
-			{
-				return;
-			}
-			int amount = StringUtilities.parseInt( takeMatcher.group( 1 ) );
+		// Find out if used Meat from inventory or storage
+		String from = MoneyMakingGameRequest.getFromString( urlString );
+		if ( from == null )
+		{
+			return;
+		}
+		boolean storage = from.equals( "storage" );
 
-			// Start out by deducting the bet cost from the meat source
-			if ( storage )
-			{
-				// Subtract meat from storage
-				KoLCharacter.addStorageMeat( -amount );
-			}
-			else
-			{
-				// Subtract meat from inventory
-				ResultProcessor.processMeat( -amount );
-			}
+		int whichbet = MoneyMakingGameRequest.getWhichBet( urlString );
+		if ( whichbet < 0 )
+		{
+			return;
+		}
 
-			// See if we won.
+		int amount = StringUtilities.parseInt( takeMatcher.group( 1 ) );
 
-			Matcher wonMatcher = WON_BET_PATTERN.matcher( responseText );
-			if ( !wonMatcher.find() )
-			{
-				MoneyMakingGameManager.lastWinnings = -amount;
-				return;
-			}
-			int winnings = StringUtilities.parseInt( wonMatcher.group( 2 ) );
+		String message = "Taking bet " + whichbet + " using " + KoLConstants.COMMA_FORMAT.format( amount ) + " meat from " + from;
 
-			// We did. Add back your winnings.
-			if ( storage )
-			{
-				// Add meat to storage
-				KoLCharacter.addStorageMeat( winnings );
-			}
-			else
-			{
-				// Add meat to inventory
-				ResultProcessor.processMeat( winnings );
-			}
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 
-			MoneyMakingGameManager.lastWinnings = winnings - amount;
+		// We paid to gamble. Deduct the cost.
+		int winnings = -amount;
+
+		// If we won, add in the prize.
+		Matcher wonMatcher = WON_BET_PATTERN.matcher( responseText );
+		if ( wonMatcher.find() )
+		{
+			winnings += StringUtilities.parseInt( wonMatcher.group( 2 ) );
+		}
+
+		// Adjust meat balance
+		if ( storage )
+		{
+			// Add meat to storage
+			KoLCharacter.addStorageMeat( winnings );
+		}
+		else
+		{
+			// Add meat to inventory
+			ResultProcessor.processMeat( winnings );
+		}
+
+		message = "You " + ( winnings >= 0 ? "gain " : "lose " ) + KoLConstants.COMMA_FORMAT.format( Math.abs( winnings ) ) + " Meat" + ( storage ? " from storage" : "" );
+
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+
+		synchronized ( MoneyMakingGameManager.lock )
+		{
+			MoneyMakingGameManager.lastWinnings = winnings;
 		}
 	}
 
