@@ -119,3 +119,5 @@
 115	Urchin Urchin	meat0	4202	pet anemone	3	3	0	2
 116	Grouper Groupie	item0	4200	gill rings	0	2	3	2
 117	Squamous Gibberer	none	4223	unspeakable lozenges	1	2	2	3
+118	Dancing Frog	item0,meat0	4228	miniature tophat	0	0	0	0
+119	Chauvinist Pig	stat0,meat0	4227	 bottle of Cochon Noir	0	0	0	0

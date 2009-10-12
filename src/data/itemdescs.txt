@@ -4230,9 +4230,26 @@
 4224	541358579	unspeakable lozenges
 4225	232702108	roller skate doll	roller skate dolls
 4226	153783629	Star of Bravery
-4227
-4228
-4229
-4230
+4227	989151282	hungover chauvinist pig	hungover chauvinist pigs
+4228	947729454	perfectly ordinary frog	perfectly ordinary frogs
+4229	814373703	amphibious tophat	amphibious tophats
+4230	536045776	bottle of Cochon Noir	bottles of Cochon Noir
 4231	152583527	ice skate decoy	ice skate decoys
 4232	156434029	ice skate doll	ice skate dolls
+4233
+4234
+4235
+4236
+4237
+4238
+4239
+4240
+4241
+4242
+4243
+4244
+4245
+4246
+4247
+4248
+4249	482740948	miniature tophat	miniature tophats

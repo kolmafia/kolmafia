@@ -70,4 +70,5 @@ public class FamiliarPool
 	public static final int SLIMELING = 112;
 	public static final int HE_BOULDER = 113;
 	public static final int GIBBERER = 117;
+	public static final int DANCING_FROG = 118;
 }
