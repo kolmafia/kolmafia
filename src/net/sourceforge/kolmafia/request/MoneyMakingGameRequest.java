@@ -382,15 +382,8 @@ public class MoneyMakingGameRequest
 		}
 		else if ( action.equals( "bet" ) )
 		{
-			// bet.php?action=bet&whichbet=58251231&from=0&confirm=on&pwd
-			String from = getFromString( urlString );
-			int whichbet = getWhichBet( urlString );
-			if ( from == null || whichbet < 0 )
-			{
-				return true;
-			}
-
-			message = "Taking bet " + whichbet + " using meat from " + from;
+			// Log when the bet is resolved
+			return true;
 		}
 		else if ( action.equals( "search" ) )
 		{
