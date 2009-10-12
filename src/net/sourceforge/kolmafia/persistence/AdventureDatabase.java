@@ -630,37 +630,29 @@ public class AdventureDatabase
 
 	public static final String getUnknownName( final String urlString )
 	{
-		if ( urlString.startsWith( "adventure.php" ) && urlString.indexOf( "snarfblat=122" ) != -1 )
+		if ( urlString.startsWith( "adventure.php" ) )
 		{
-			return "Oasis in the Desert";
-		}
-		else if ( urlString.startsWith( "hiddencity.php" ) )
-		{
+			if ( urlString.indexOf( "snarfblat=122" ) != -1 )
+			{
+				return "Oasis in the Desert";
+			}
 			return null;
 		}
-		else if ( urlString.startsWith( "pyramid.php" ) )
+		else if ( urlString.startsWith( "barrel.php" ) )
 		{
-			return PyramidRequest.getPyramidLocationString( urlString );
-		}
-		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
-		{
-			return "Muscle Vacation";
-		}
-		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=2" ) != -1 )
-		{
-			return "Mysticality Vacation";
-		}
-		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=3" ) != -1 )
-		{
-			return "Moxie Vacation";
-		}
-		else if ( urlString.startsWith( "guild.php?action=chal" ) )
-		{
-			return "Guild Challenge";
+			return "Barrel Full of Barrels";
 		}
 		else if ( urlString.startsWith( "basement.php" ) )
 		{
 			return "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
+		}
+		else if ( urlString.startsWith( "cave.php" ) )
+		{
+			if ( urlString.indexOf( "action=sanctum" ) != -1 )
+			{
+				return "Nemesis Cave: Inner Sanctum";
+			}
+			return null;
 		}
 		else if ( urlString.startsWith( "dungeon.php" ) )
 		{
@@ -674,13 +666,84 @@ public class AdventureDatabase
 			}
 			return null;
 		}
+		else if ( urlString.startsWith( "guild.php?action=chal" ) )
+		{
+			return "Guild Challenge";
+		}
+		else if ( urlString.startsWith( "hiddencity.php" ) )
+		{
+			return null;
+		}
+		else if ( urlString.startsWith( "pyramid.php" ) )
+		{
+			return PyramidRequest.getPyramidLocationString( urlString );
+		}
+		else if ( urlString.startsWith( "shore.php" ) )
+		{
+
+			if ( urlString.indexOf( "whichtrip=1" ) != -1 )
+			{
+				return "Muscle Vacation";
+			}
+			else if ( urlString.indexOf( "whichtrip=2" ) != -1 )
+			{
+				return "Mysticality Vacation";
+			}
+			else if ( urlString.indexOf( "whichtrip=3" ) != -1 )
+			{
+				return "Moxie Vacation";
+			}
+		}
 		else if ( urlString.startsWith( "rats.php" ) )
 		{
 			return "Typical Tavern Quest";
 		}
-		else if ( urlString.startsWith( "barrel.php" ) )
+		else if ( urlString.startsWith( "lair4.php" ) )
 		{
-			return "Barrel Full of Barrels";
+			if ( urlString.indexOf( "action=level1" ) != -1 )
+			{
+				return "Sorceress Tower: Level 1";
+			}
+			else if ( urlString.indexOf( "action=level2" ) != -1 )
+			{
+				return "Sorceress Tower: Level 2";
+			}
+			else if ( urlString.indexOf( "action=level3" ) != -1 )
+			{
+				return "Sorceress Tower: Level 3";
+			}
+			return null;
+		}
+		else if ( urlString.startsWith( "lair5.php" ) )
+		{
+			if ( urlString.indexOf( "action=level1" ) != -1 )
+			{
+				return "Sorceress Tower: Level 4";
+			}
+			else if ( urlString.indexOf( "action=level2" ) != -1 )
+			{
+				return "Sorceress Tower: Level 5";
+			}
+			else if ( urlString.indexOf( "action=level3" ) != -1 )
+			{
+				return "Sorceress Tower: Level 6";
+			}
+			return null;
+		}
+		else if ( urlString.startsWith( "lair6.php" ) )
+		{
+			if ( urlString.indexOf( "place=0" ) != -1 )
+			{
+				return "Sorceress Tower: Door Puzzles";
+			}
+			else if ( urlString.indexOf( "place=2" ) != -1 )
+			{
+				return "Sorceress Tower: Shadow Fight";
+			}
+			else if ( urlString.indexOf( "place=5" ) != -1 )
+			{
+				return "Sorceress Tower: Naughty Sorceress";
+			}
 		}
 		else if ( urlString.startsWith( "mining.php" ) )
 		{
@@ -703,42 +766,6 @@ public class AdventureDatabase
 
 			Matcher matcher = AdventureDatabase.MINE_PATTERN.matcher( urlString );
 			return matcher.find() ? "Unknown Mine #" + matcher.group(1) : null;
-		}
-		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
-		{
-			return "Sorceress Tower: Level 1";
-		}
-		else if ( urlString.startsWith( "lair4.php?action=level2" ) )
-		{
-			return "Sorceress Tower: Level 2";
-		}
-		else if ( urlString.startsWith( "lair4.php?action=level3" ) )
-		{
-			return "Sorceress Tower: Level 3";
-		}
-		else if ( urlString.startsWith( "lair5.php?action=level1" ) )
-		{
-			return "Sorceress Tower: Level 4";
-		}
-		else if ( urlString.startsWith( "lair5.php?action=level2" ) )
-		{
-			return "Sorceress Tower: Level 5";
-		}
-		else if ( urlString.startsWith( "lair5.php?action=level3" ) )
-		{
-			return "Sorceress Tower: Level 6";
-		}
-		else if ( urlString.startsWith( "lair6.php?place=0" ) )
-		{
-			return "Sorceress Tower: Door Puzzles";
-		}
-		else if ( urlString.startsWith( "lair6.php?place=2" ) )
-		{
-			return "Sorceress Tower: Shadow Fight";
-		}
-		else if ( urlString.startsWith( "lair6.php?place=5" ) )
-		{
-			return "Sorceress Tower: Naughty Sorceress";
 		}
 
 		return null;

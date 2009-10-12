@@ -145,30 +145,39 @@ public class NemesisRequest
 		}
 
 		int itemId = NemesisRequest.getItem( urlString );
-		if ( itemId == -1 )
+		String itemName = ItemDatabase.getItemName( itemId );
+
+		String message;
+
+		if ( action.equals( "dodoor4" ) )
+		{
+			message = "Speaking password to door 4";
+		}
+		if ( action.equals( "sanctum" ) )
+		{
+			// Logged elsewhere
+			return true;
+		}
+		else if ( itemId == -1 )
 		{
 			return true;
 		}
-
-		String message;
-		if ( action.equals( "dodoor1" ) )
+		else if ( action.equals( "dodoor1" ) )
 		{
-			message = " to door 1";
+			message = "Offering " + itemName + " to door 1";
 		}
 		else if ( action.equals( "dodoor2" ) )
 		{
-			message = " to door 2";
+			message = "Offering " + itemName + " to door 2";
 		}
 		else if ( action.equals( "dodoor3" ) )
 		{
-			message = " to door 3";
+			message = "Offering " + itemName + " to door 3";
 		}
 		else
 		{
 			return false;
 		}
-
-		message = "Offering " + ItemDatabase.getItemName( itemId ) + message;
 
 		RequestLogger.printLine( "" );
 		RequestLogger.printLine( message );

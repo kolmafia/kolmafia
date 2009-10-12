@@ -780,7 +780,7 @@ public class AdventureRequest
 		}
 		else if ( formSource.startsWith( "cave.php" ) )
 		{
-			return formSource.indexOf( "end" ) != -1;
+			return formSource.indexOf( "sanctum" ) != -1;
 		}
 		else if ( formSource.startsWith( "shore.php" ) )
 		{
