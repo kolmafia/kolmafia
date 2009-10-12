@@ -1296,7 +1296,9 @@ public class CreateItemRequest
 			urlString.indexOf( "smashall=1" ) == -1 )
 		{
 			Matcher matcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
-			return matcher.find() ? StringUtilities.parseInt( matcher.group( 2 ) ) : 1;
+			return matcher.find() ?
+				StringUtilities.parseInt( matcher.group( 2 ) ) * multiplier :
+				multiplier;
 		}
 
 		int quantity = Integer.MAX_VALUE;
