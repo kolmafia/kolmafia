@@ -730,7 +730,8 @@ public class AdventureSelectPanel
 			// sure to process them.
 
 			boolean conditionsActive = AdventureSelectPanel.this.conditionsFieldActive.isSelected();
-			String conditionList = ( (String) AdventureSelectPanel.this.conditionField.getText() ).trim().toLowerCase();
+			String text = ( (String) AdventureSelectPanel.this.conditionField.getText() );
+			String conditionList = text == null ? "" : text.trim().toLowerCase();
 
 			Object stats = null;
 			int substatIndex = KoLConstants.conditions.indexOf( KoLConstants.tally.get( 2 ) );
