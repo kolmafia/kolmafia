@@ -303,6 +303,7 @@ public class FamiliarData
 		case ItemPool.FISHY_WAND:
 		case ItemPool.MOONTAN_LOTION:
 		case ItemPool.CONTACT_LENSES:
+		case ItemPool.AMPHIBIOUS_TOPHAT:
 			return 0;
 
 		case ItemPool.TINY_COSTUME_WARDROBE:
@@ -455,13 +456,13 @@ public class FamiliarData
 		case ItemPool.TINY_COSTUME_WARDROBE:
 		case ItemPool.SUGAR_SHIELD:
 			return this.id != FamiliarPool.CHAMELEON &&
-				this.id != FamiliarPool.HATRACK;
+			       this.id != FamiliarPool.HATRACK;
 
 		case ItemPool.SNOOTY_DISGUISE:
 		case ItemPool.GROUCHO_DISGUISE:
 			return this.id == FamiliarPool.PET_ROCK ||
-			this.id == FamiliarPool.TOOTHSOME_ROCK ||
-			this.id == FamiliarPool.BUDDY_BOX;
+			       this.id == FamiliarPool.TOOTHSOME_ROCK ||
+			       this.id == FamiliarPool.BUDDY_BOX;
 
 		case ItemPool.FOIL_BOW:
 		case ItemPool.FOIL_RADAR:
@@ -471,6 +472,9 @@ public class FamiliarData
 		case ItemPool.CHARPUCE_JUBJUB_BIRD:
 		case ItemPool.CRIMSILION_JUBJUB_BIRD:
 			return this.id == FamiliarPool.BANDER;
+
+		case ItemPool.AMPHIBIOUS_TOPHAT:
+			return this.id == FamiliarPool.DANCING_FROG;
 
 		default:
 			if ( this.id == FamiliarPool.HATRACK )

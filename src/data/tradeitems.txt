@@ -4230,9 +4230,26 @@
 4224	unspeakable lozenges	familiar	all	75
 4225	roller skate doll	none	all	100
 4226	Star of Bravery	accessory	display	0
-4227
-4228
-4229
-4230
+4227	hungover chauvinist pig	grow	all	0
+4228	perfectly ordinary frog	grow	all	0
+4229	amphibious tophat	familiar	all	75
+4230	bottle of Cochon Noir	familiar	all	75
 4231	ice skate decoy	none, combat	all	200
 4232	ice skate doll	none	all	100
+4233
+4234
+4235
+4236
+4237
+4238
+4239
+4240
+4241
+4242
+4243
+4244
+4245
+4246
+4247
+4248
+4249	miniature tophat	familiar	all	75
