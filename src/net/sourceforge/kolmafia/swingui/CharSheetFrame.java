@@ -38,6 +38,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -49,6 +50,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 
 public class CharSheetFrame
 	extends GenericFrame
@@ -65,9 +67,9 @@ public class CharSheetFrame
 	{
 		super( "Player Status" );
 
-		this.framePanel.setLayout( new BorderLayout( 20, 20 ) );
+		this.framePanel.setLayout( new BorderLayout() );
 
-		JPanel statusPanel = new JPanel( new BorderLayout( 20, 20 ) );
+		JPanel statusPanel = new JPanel( new BorderLayout( 10, 10 ) );
 
 		this.avatar = new JLabel( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
 
@@ -77,13 +79,17 @@ public class CharSheetFrame
 		JPanel statusContainer = new JPanel( new CardLayout( 10, 10 ) );
 		statusContainer.add( statusPanel, "" );
 
+		JPanel summaryContainer = new JPanel( new CardLayout( 10, 10 ) );
+		summaryContainer.add( AdventureSelectPanel.getAdventureSummary( "statusDropdown" ), "" );
+
 		this.framePanel.add( statusContainer, BorderLayout.NORTH );
-		//this.framePanel.add( new JLabel( "summary panel goes here" ), BorderLayout.CENTER );
+		this.framePanel.add( summaryContainer, BorderLayout.CENTER );
 
 		this.statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
 		KoLCharacter.addCharacterListener( this.statusRefresher );
 
 		this.statusRefresher.updateStatus();
+		JComponentUtilities.setComponentSize( this.framePanel, -1, 480 );
 	}
 
 	public boolean useSidePane()
@@ -128,6 +134,8 @@ public class CharSheetFrame
 			statusPanel.add( Box.createVerticalGlue() );
 		}
 
+		statusPanel.setBorder( BorderFactory.createTitledBorder(
+			"Substats till next point" ) );
 		return statusPanel;
 	}
 

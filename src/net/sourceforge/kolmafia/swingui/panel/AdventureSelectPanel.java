@@ -879,7 +879,7 @@ public class AdventureSelectPanel
 		this.conditionField.setText( text );
 	}
 
-	public JPanel getAdventureSummary( final String property )
+	public static JPanel getAdventureSummary( final String property )
 	{
 		int selectedIndex = Preferences.getInteger( property );
 
@@ -892,15 +892,11 @@ public class AdventureSelectPanel
 		resultSelect.addItem( "Session Results" );
 		resultPanel.add( new GenericScrollPane( KoLConstants.tally, 4 ), String.valueOf( cardCount++ ) );
 
-		if ( property.startsWith( "default" ) )
-		{
-			resultSelect.addItem( "Location Details" );
-			AdventureSelectPanel.this.safetyField = new SafetyField();
-			resultPanel.add( AdventureSelectPanel.this.safetyField, String.valueOf( cardCount++ ) );
+		resultSelect.addItem( "Location Details" );
+		resultPanel.add( new SafetyField(), String.valueOf( cardCount++ ) );
 
-			resultSelect.addItem( "Conditions Left" );
-			resultPanel.add( new GenericScrollPane( KoLConstants.conditions, 4 ), String.valueOf( cardCount++ ) );
-		}
+		resultSelect.addItem( "Conditions Left" );
+		resultPanel.add( new GenericScrollPane( KoLConstants.conditions, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Available Skills" );
 		resultPanel.add( new GenericScrollPane( KoLConstants.availableSkills, 4 ), String.valueOf( cardCount++ ) );
@@ -933,7 +929,7 @@ public class AdventureSelectPanel
 		return containerPanel;
 	}
 
-	private class ResultSelectListener
+	private static class ResultSelectListener
 		implements ActionListener
 	{
 		private final String property;
@@ -959,9 +955,9 @@ public class AdventureSelectPanel
 		}
 	}
 
-	private class SafetyField
+	private static class SafetyField
 		extends JPanel
-		implements Runnable, ListSelectionListener
+		implements Runnable
 	{
 		private String savedText = " ";
 		private final RequestPane safetyDisplay;
@@ -981,7 +977,6 @@ public class AdventureSelectPanel
 			this.add( safetyScroller, BorderLayout.CENTER );
 
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
-			AdventureSelectPanel.this.locationSelect.addListSelectionListener( this );
 
 			this.setSafetyString();
 		}
@@ -991,14 +986,9 @@ public class AdventureSelectPanel
 			this.setSafetyString();
 		}
 
-		public void valueChanged( final ListSelectionEvent e )
-		{
-			this.setSafetyString();
-		}
-
 		private void setSafetyString()
 		{
-			KoLAdventure request = (KoLAdventure) AdventureSelectPanel.this.locationSelect.getSelectedValue();
+			KoLAdventure request = KoLCharacter.getSelectedLocation();
 
 			if ( request == null )
 			{

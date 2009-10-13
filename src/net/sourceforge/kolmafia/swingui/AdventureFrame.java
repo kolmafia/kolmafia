@@ -215,8 +215,8 @@ public class AdventureFrame
 	{
 		AdventureFrame.sessionGrid =
 			new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
-				AdventureFrame.adventureSelector.getAdventureSummary( "defaultDropdown1" ),
-				AdventureFrame.adventureSelector.getAdventureSummary( "defaultDropdown2" ) );
+				AdventureSelectPanel.getAdventureSummary( "defaultDropdown1" ),
+				AdventureSelectPanel.getAdventureSummary( "defaultDropdown2" ) );
 
 		int location = Preferences.getInteger( "defaultDropdownSplit" );
 
