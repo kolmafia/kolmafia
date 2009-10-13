@@ -302,6 +302,7 @@ public abstract class KoLCharacter
 
 	private static final List listenerList = new ArrayList();
 	private static boolean beanstalkArmed = false;
+	private static KoLAdventure selectedLocation;
 
 	// Ascension-related variables
 
@@ -3096,10 +3097,16 @@ public abstract class KoLCharacter
 
 	public static final void updateSelectedLocation( KoLAdventure location )
 	{
+		KoLCharacter.selectedLocation = location;
 		Modifiers.setLocation( location );
 		recalculateAdjustments();
 		KoLCharacter.updateStatus();
 		Preferences.firePreferenceChanged( "(location)" );
+	}
+	
+	public static final KoLAdventure getSelectedLocation()
+	{
+		return KoLCharacter.selectedLocation;
 	}
 
 	public static final boolean recalculateAdjustments()

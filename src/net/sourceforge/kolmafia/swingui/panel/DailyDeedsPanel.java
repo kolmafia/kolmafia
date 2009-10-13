@@ -89,9 +89,12 @@ public class DailyDeedsPanel
 			"+10 lbs. underwater" ) );
 		this.add( new SkateDaily( "merry-go-round", "peace", "_skateBuff5",
 			"+25% items underwater" ) );
-		this.add( new DemonDaily( 1, 2 ) );
-		this.add( new DemonDaily( 3, 4 ) );
-		this.add( new DemonDaily( 5, 7 ) );
+		this.add( new DemonDaily( 1, "yum!",
+			2, "+100% meat, 30 turns" ) );
+		this.add( new DemonDaily( 3, "+5-16 HP/MP, 30 turns",
+			4, "+20 hot damage, +5 DR, 30 turns" ) );
+		this.add( new DemonDaily( 5, "+30 stench damage, 30 turns",
+			7, null ) );
 		this.add( new NunsDaily() );
 		this.add( new BooleanSkillDaily( "rageGlandVented",
 				"Vent Rage Gland", "cast Vent Rage Gland" ) );
@@ -199,11 +202,22 @@ public class DailyDeedsPanel
 			return button;
 		}
 		
-		public void buttonText( int idx, String command )
+		public void addButton( String command, String tip )
+		{
+			this.addButton( command ).setToolTipText( tip );
+		}
+		
+		public JButton buttonText( int idx, String command )
 		{
 			JButton button = (JButton) this.buttons.get( idx );
 			button.setText( command );
 			button.setActionCommand( command );
+			return button;
+		}
+		
+		public void buttonText( int idx, String command, String tip )
+		{
+			this.buttonText( idx, command ).setToolTipText( tip );
 		}
 		
 		public void addLabel( String text )
@@ -389,7 +403,7 @@ public class DailyDeedsPanel
 	{
 		private int demon1, demon2;
 		
-		public DemonDaily( int demon1, int demon2 )
+		public DemonDaily( int demon1, String tip1, int demon2, String tip2 )
 		{
 			this.demon1 = demon1;
 			this.demon2 = demon2;
@@ -397,8 +411,10 @@ public class DailyDeedsPanel
 			this.addListener( "demonSummoned" );
 			this.addListener( "demonName" + demon1 );
 			this.addListener( "demonName" + demon2 );
-			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon1 - 1 ][ 1 ] );
-			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon2 - 1 ][ 1 ] );
+			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon1 - 1 ][ 1 ],
+				tip1 );
+			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon2 - 1 ][ 1 ],
+				tip2 );
 		}
 		
 		public void update()
@@ -471,17 +487,17 @@ public class DailyDeedsPanel
 			{
 				this.setShown( true );
 				this.setEnabled( !cv );
-				this.buttonText( 0, "concert Elvish" );
-				this.buttonText( 1, "concert Winklered" );
-				this.buttonText( 2, "concert White-boy Angst" );
+				this.buttonText( 0, "concert Elvish", "+10% all stats, 20 turns" );
+				this.buttonText( 1, "concert Winklered", "+40% meat, 20 turns" );
+				this.buttonText( 2, "concert White-boy Angst", "+50% initiative, 20 turns" );
 			}
 			else if ( side.equals( "hippy" ) )
 			{
 				this.setShown( true );
 				this.setEnabled( !cv );
-				this.buttonText( 0, "concert Moon'd" );
-				this.buttonText( 1, "concert Dilated Pupils" );
-				this.buttonText( 2, "concert Optimist Primal" );
+				this.buttonText( 0, "concert Moon'd", "+5 stats per fight, 20 turns" );
+				this.buttonText( 1, "concert Dilated Pupils", "+20% items, 20 turns" );
+				this.buttonText( 2, "concert Optimist Primal", "+5 lbs., 20 turns" );
 			}
 			else {
 				this.setShown( false );
@@ -520,9 +536,9 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "friarsBlessingReceived" );
 			this.addListener( "(character)" );
-			this.addButton( "friars food" );
-			this.addButton( "friars familiar" );
-			this.addButton( "friars booze" );
+			this.addButton( "friars food", "+30% food drops, 20 turns" );
+			this.addButton( "friars familiar", "+2 familiar exp per fight, 20 turns" );
+			this.addButton( "friars booze", "+30% booze drops, 20 turns" );
 		}
 		
 		public void update()
@@ -540,9 +556,9 @@ public class DailyDeedsPanel
 		public StyxDaily()
 		{
 			this.addListener( "styxPixieVisited" );
-			this.addButton( "styx muscle" );
-			this.addButton( "styx mysticality" );
-			this.addButton( "styx moxie" );
+			this.addButton( "styx muscle", "+25% musc, +10 weapon dmg, +5 DR, 10 turns" );
+			this.addButton( "styx mysticality", "+25% myst, +15 spell dmg, 10-15 MP regen, 10 turns" );
+			this.addButton( "styx moxie", "+25% mox, +40% meat, +20% item, 10 turns" );
 		}
 		
 		public void update()
@@ -754,7 +770,7 @@ public class DailyDeedsPanel
 		{
 			int bpd = Preferences.getInteger( "blackPuddingsDefeated" );
 			this.setText( bpd + " defeated!" );
-			this.setShown( bpd < 240 );
+			this.setShown( bpd < 240 && KoLCharacter.canEat() );
 		}
 	}
 

@@ -136,6 +136,7 @@ global	saveStateActive
 global	scriptButtonPosition	0
 global	scriptList	restore hp | restore mp
 global	showAllRequests	false
+global	statusDropdown	0
 global	stealthLogin	true
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	true
