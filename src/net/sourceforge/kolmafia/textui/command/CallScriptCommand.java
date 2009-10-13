@@ -116,8 +116,12 @@ public class CallScriptCommand
 			if ( scriptFile == null )
 			{
 				Value rv = KoLmafiaASH.NAMESPACE_INTERPRETER.execute( parameters, arguments );
-				KoLmafia.updateDisplay( "Returned: " + rv );
-				
+				// A script only has a meaningful return value
+				// if it succeeded.
+				if ( KoLmafia.permitsContinue() )
+				{
+					KoLmafia.updateDisplay( "Returned: " + rv );
+				}
 				return;
 			}
 
