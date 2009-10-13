@@ -198,39 +198,32 @@ public class ClanStashRequest
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
-		boolean success = true;
-
 		if ( urlString.indexOf( "takegoodies" ) != -1 )
 		{
-			if ( responseText.indexOf( "You acquire" ) != -1 )
+			if ( responseText.indexOf( "You acquire" ) == -1 )
 			{
-				// Since "you acquire" items, they have already
-				// been added to inventory
-				TransferItemRequest.transferItems( urlString, 
+				return false;
+			}
+
+			// Since "you acquire" items, they have already been
+			// added to inventory
+			TransferItemRequest.transferItems( urlString, 
 					TransferItemRequest.ITEMID_PATTERN,
 					TransferItemRequest.QUANTITY_PATTERN,
 					ClanManager.getStash(),
 					null, 0 );
-			}
-			else
-			{
-				success = false;
-			}
 		}
 		else if ( urlString.indexOf( "addgoodies" ) != -1 )
 		{
-			if ( responseText.indexOf( "to the Goodies Hoard" ) != -1 )
+			if ( responseText.indexOf( "to the Goodies Hoard" ) == -1 )
 			{
-				TransferItemRequest.transferItems( urlString, 
+				return false;
+			}
+			TransferItemRequest.transferItems( urlString, 
 					TransferItemRequest.ITEMID_PATTERN,
 					TransferItemRequest.QTY_PATTERN,
 					KoLConstants.inventory,
 					ClanManager.getStash(), 0 );
-			}
-			else
-			{
-				success = false;
-			}
 		}
 		else if ( urlString.indexOf( "action=contribute" ) != -1 )
 		{
@@ -244,7 +237,7 @@ public class ClanStashRequest
 		ClanManager.setStashRetrieved();
 		ClanStashRequest.parseStash( responseText );
 
-		return success;
+		return true;
 	}
 
 	private static void parseStash( final String responseText )
