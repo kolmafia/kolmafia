@@ -67,24 +67,24 @@ public abstract class ChoiceManager
 	public static int lastDecision = 0;
 	public static String lastResponseText = "";
 
-	private static final AdventureResult PAPAYA = new AdventureResult( 498, 1 );
+	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 
 	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
-	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
+	private static final AdventureResult BALLROOM_KEY = ItemPool.get( ItemPool.BALLROOM_KEY, 1 );
 
 	private static final AdventureResult[] MISTRESS_ITEMS = new AdventureResult[]
 	{
-		new AdventureResult( 1941, 1 ),
-		new AdventureResult( 1942, 1 ),
-		new AdventureResult( 1943, 1 ),
-		new AdventureResult( 1944, 1 ),
-		new AdventureResult( 1945, 1 ),
-		new AdventureResult( 1946, 1 ),
-		new AdventureResult( 2092, 1 )
+		ItemPool.get( ItemPool.CHINTZY_SEAL_PENDANT, 1 ),
+		ItemPool.get( ItemPool.CHINTZY_TURTLE_BROOCH, 1 ),
+		ItemPool.get( ItemPool.CHINTZY_NOODLE_RING, 1 ),
+		ItemPool.get( ItemPool.CHINTZY_SAUCEPAN_EARRING, 1 ),
+		ItemPool.get( ItemPool.CHINTZY_DISCO_BALL_PENDANT, 1 ),
+		ItemPool.get( ItemPool.CHINTZY_ACCORDION_PIN, 1 ),
+		ItemPool.get( ItemPool.ANTIQUE_HAND_MIRROR, 1 ),
 	};
 
 	public static class ChoiceAdventure
@@ -1596,11 +1596,11 @@ public abstract class ChoiceManager
 		// This trades all Spanish flies for around the worlds,
 		// in multiples of 5.  Excess flies are left in inventory.
 		{ new Integer(72), new Integer(1), 
-		  new AdventureResult( "Spanish fly", 5 ) },
+		  ItemPool.get( ItemPool.SPANISH_FLY, 5 ) },
 
 		// No sir, away!  A papaya war is on!
 		{ new Integer(127), new Integer(2), 
-		  new AdventureResult( "papaya", -3 ) },
+		  ItemPool.get( ItemPool.PAPAYA, -1 ) },
 
 		// Do Geese See God?
 		{ new Integer(129), new Integer(1), 
@@ -1616,21 +1616,17 @@ public abstract class ChoiceManager
 
 		// The Blackberry Cobbler
 		{ new Integer(177), new Integer(1), 
-		  new AdventureResult( "blackberry", -10 ) },
+		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
 		{ new Integer(177), new Integer(2), 
-		  new AdventureResult( "blackberry", -10 ) },
+		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
 		{ new Integer(177), new Integer(3), 
-		  new AdventureResult( "blackberry", -10 ) },
+		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
 
 		// Chieftain of the Flies
 		// This trades all Spanish flies for around the worlds,
 		// in multiples of 5.  Excess flies are left in inventory.
 		{ new Integer(181), new Integer(1), 
-		  new AdventureResult( "Spanish fly", 5 ) },
-
-		// The Infiltrationist
-		{ new Integer(188), new Integer(3), 
-		  new AdventureResult( "hot wing", -3 ) },
+		  ItemPool.get( ItemPool.SPANISH_FLY, 5 ) },
 
 		//  O Cap'm, My Cap'm
 		{ new Integer(189), new Integer(1), 
@@ -1638,93 +1634,93 @@ public abstract class ChoiceManager
 		
 		// Mind Yer Binder
 		{ new Integer(230), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -30 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -30 ) },
 
 		// The Guy Who Carves Driftwood Animals
 		{ new Integer(247), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -10 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
 
 		// A Hattery
 		{ new Integer(250), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -250 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
 		{ new Integer(250), new Integer(2), 
-		  new AdventureResult( "hobo nickel", -150 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
 		{ new Integer(250), new Integer(3), 
-		  new AdventureResult( "hobo nickel", -200 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
 
 		// A Pantry
 		{ new Integer(251), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -200 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
 		{ new Integer(251), new Integer(2), 
-		  new AdventureResult( "hobo nickel", -150 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
 		{ new Integer(251), new Integer(3), 
-		  new AdventureResult( "hobo nickel", -250 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
 
 		// Hobo Blanket Bingo
 		{ new Integer(252), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -250 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
 		{ new Integer(252), new Integer(2), 
-		  new AdventureResult( "hobo nickel", -200 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
 		{ new Integer(252), new Integer(3), 
-		  new AdventureResult( "hobo nickel", -150 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
 
 		// Black-and-Blue-and-Decker
 		{ new Integer(255), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -10 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
 		{ new Integer(255), new Integer(2), 
-		  new AdventureResult( "hobo nickel", -10 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
 		{ new Integer(255), new Integer(3), 
-		  new AdventureResult( "hobo nickel", -10 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
 
 		// Instru-mental
 		{ new Integer(258), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -99 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -99 ) },
 
 		// Everybody's Got Something To Hide
 		{ new Integer(261), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -1000 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -1000 ) },
 
 		// Tanning Salon
 		{ new Integer(264), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 		{ new Integer(264), new Integer(2), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Let's All Go To The Movies
 		{ new Integer(267), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 		{ new Integer(267), new Integer(2), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// It's Fun To Stay There
 		{ new Integer(268), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 		{ new Integer(268), new Integer(2), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Triangle, Man
 		{ new Integer(275), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -10 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
 
 		// A Tight Squeeze - jar of squeeze
 		{ new Integer(291), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 		
 		// Cold Comfort - bowl of fishysoisse
 		{ new Integer(292), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 		
 		// Flowers for You - deadly lampshade
 		{ new Integer(293), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 		
 		// Maybe It's a Sexy Snake! - lewd playing card
 		{ new Integer(294), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 		
 		// Juicy! - concentrated garbage juice
 		{ new Integer(295), new Integer(1), 
-		  new AdventureResult( "hobo nickel", -5 ) },
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// A Vent Horizon
 		{ new Integer(304), new Integer(1), 
@@ -1732,7 +1728,7 @@ public abstract class ChoiceManager
 
 		// There is Sauce at the Bottom of the Ocean
 		{ new Integer(305), new Integer(1), 
-		  new AdventureResult( "Mer-kin pressureglobe", -1 ) },
+		  ItemPool.get( ItemPool.MERKIN_PRESSUREGLOBE, -1 ) },
 
 		// The Economist of Scales
 		// This trades 10 dull fish scales in.
@@ -2160,7 +2156,7 @@ public abstract class ChoiceManager
 		ChoiceManager.processChoiceAdventure( request, null );
 	}
 
-        public static final void processChoiceAdventure( final GenericRequest request, final String responseText )
+	public static final void processChoiceAdventure( final GenericRequest request, final String responseText )
 	{
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
@@ -2268,7 +2264,7 @@ public abstract class ChoiceManager
 			// Visiting a choice page but not yet making a decision
 			ChoiceManager.lastChoice = 0;
 			ChoiceManager.lastDecision = 0;
-                        ChoiceManager.lastResponseText = null;
+			ChoiceManager.lastResponseText = null;
 			return;
 		}
 
@@ -2354,7 +2350,7 @@ public abstract class ChoiceManager
 			Preferences.setInteger( "birdformSpooky", 0 );
 			Preferences.setInteger( "birdformStench", 0 );			
 			break;
-                }
+		}
 	}
 
 	public static void postChoice( final GenericRequest request )
@@ -2445,6 +2441,21 @@ public abstract class ChoiceManager
 			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( 8 ) )
 			{
 				CouncilFrame.unlockGoatlet();
+			}
+			break;
+
+		case 188:
+			// The Infiltrationist
+
+			// Once you're inside the frat house, it's a simple
+			// matter of making your way down to the basement and
+			// retrieving Caronch's dentures from the frat boys'
+			// ridiculous trophy case.
+
+			if ( ChoiceManager.lastDecision == 3 &&
+			     text.indexOf( "ridiculous trophy case" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.HOT_WING, -3 ) );
 			}
 			break;
 
@@ -2675,12 +2686,12 @@ public abstract class ChoiceManager
 			break;
 
 		case 392:
-                        // Choice 392 is The Elements of Surprise . . .
+			// Choice 392 is The Elements of Surprise . . .
 
-                        // And as the two of you walk toward the bed, you sense
-                        // your ancestral memories pulling you elsewhere, ever
-                        // elsewhere, because your ancestral memories are
-                        // total, absolute jerks.
+			// And as the two of you walk toward the bed, you sense
+			// your ancestral memories pulling you elsewhere, ever
+			// elsewhere, because your ancestral memories are
+			// total, absolute jerks.
 
 			if ( text.indexOf( "total, absolute jerks" ) != -1 )
 			{

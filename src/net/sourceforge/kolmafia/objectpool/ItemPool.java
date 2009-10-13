@@ -179,6 +179,7 @@ public class ItemPool
 	public static final int BUTTERKNIFE = 481;
 	public static final int TALISMAN = 486;
 	public static final int KETCHUP_HOUND = 493;
+	public static final int PAPAYA = 498;
 	public static final int RAFFLE_TICKET = 500;
 	public static final int PAGODA_PLANS = 502;
 	public static final int HEAVY_METAL_GUITAR = 507;
@@ -426,6 +427,12 @@ public class ItemPool
 	public static final int ANTIQUE_SPEAR = 1931;
 	public static final int ANTIQUE_SHIELD = 1932;
 	public static final int QUILL_PEN = 1957;
+	public static final int CHINTZY_SEAL_PENDANT = 1941;
+	public static final int CHINTZY_TURTLE_BROOCH = 1942;
+	public static final int CHINTZY_NOODLE_RING = 1943;
+	public static final int CHINTZY_SAUCEPAN_EARRING = 1944;
+	public static final int CHINTZY_DISCO_BALL_PENDANT = 1945;
+	public static final int CHINTZY_ACCORDION_PIN = 1946;
 	public static final int INKWELL = 1958;
 	public static final int SCRAP_OF_PAPER = 1959;
 	public static final int EVIL_SCROLL = 1960;
@@ -438,6 +445,7 @@ public class ItemPool
 	public static final int SUNKEN_EYES = 2051;
 	public static final int REASSEMBLED_BLACKBIRD = 2052;
 	public static final int BLACK_MARKET_MAP = 2054;
+	public static final int BLACKBERRY = 2063;
 	public static final int FORGED_ID_DOCUMENTS = 2064;
 	public static final int PADL_PHONE = 2065;
 	public static final int NOVELTY_BUTTON = 2072;
@@ -447,6 +455,7 @@ public class ItemPool
 	public static final int MAKESHIFT_CRANE = 2083;
 	public static final int CAN_OF_STARCH = 2084;
 	public static final int TOWEL = 2085;
+	public static final int ANTIQUE_HAND_MIRROR = 2092;
 	public static final int LUCRE = 2098;
 	public static final int ASCII_SHIRT = 2121;
 	public static final int TOY_MERCENARY = 2139;
