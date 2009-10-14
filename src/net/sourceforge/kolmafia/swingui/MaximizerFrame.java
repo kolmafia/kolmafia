@@ -110,7 +110,40 @@ public class MaximizerFrame
 	public static Evaluator eval;
 
 	private static boolean firstTime = true;
-	public static final JComboBox expressionSelect = new JComboBox( "mainstat|mus|mys|mox|familiar weight|HP|MP|ML|DA|DR|+combat|-combat|initiative|exp|meat drop|item drop|2.0 meat, 1.0 item|weapon dmg|ranged dmg|elemental dmg|spell dmg|adv|hot res|cold res|spooky res|stench res|sleaze res|all res|ML, 0.001 slime res".split( "\\|") );
+
+	private static String [] expressions = {
+		"mainstat",
+		"mus",
+		"mys",
+		"mox",
+		"familiar weight",
+		"HP",
+		"MP",
+		"ML",
+		"DA",
+		"DR",
+		"+combat",
+		"-combat",
+		"initiative",
+		"exp",
+		"meat drop",
+		"item drop",
+		"2.0 meat, 1.0 item",
+		"weapon dmg",
+		"ranged dmg",
+		"elemental dmg",
+		"spell dmg",
+		"adv",
+		"hot res",
+		"cold res",
+		"spooky res",
+		"stench res",
+		"sleaze res",
+		"all res",
+		"ML, 0.001 slime res",
+	};
+
+	public static final JComboBox expressionSelect = new JComboBox( expressions );
 	static
 	{	// This has to be done before the constructor runs, since the
 		// CLI "maximize" command can set the selected item prior to the
