@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class HiddenCityRequest
 	extends GenericRequest
 {
+	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "which=([\\d,]+)" );
 	private static final Pattern ROUND_PATTERN = Pattern.compile( "whichitem=([\\d,]+)" );
 
@@ -162,6 +163,12 @@ public class HiddenCityRequest
 	private static boolean validSquare( int square )
 	{
 		return square >= 1 && square <= 25;
+	}
+
+	public static String getAction( final String urlString )
+	{
+		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		return matcher.find() ? matcher.group(1) : null;
 	}
 
 	public void processResults()
@@ -359,25 +366,66 @@ public class HiddenCityRequest
 			return null;
 		}
 
+		HiddenCityRequest.lastSquare = square;
 		return "Hidden City (Square " + square + ")";
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static final boolean recordToSession( final String urlString, final String redirect )
 	{
-		if ( urlString.indexOf( "snarfblat=118" ) != -1 )
+		// If this wasn't a Hidden City request, nothing to do.
+		if ( !urlString.startsWith( "hiddencity.php" ) )
+		{
+			return false;
+		}
+
+		// If request was not redirected, see if it is a special action
+		// in a square or a simple visit. If the former, we recorded it
+		// in registerRequest
+		if ( urlString.equals( redirect ) )
+		{
+			return HiddenCityRequest.getAction( urlString ) != null;
+		}
+
+		int square = HiddenCityRequest.getSquare( urlString );
+		if ( !HiddenCityRequest.validSquare( square ) )
+		{
+			return false;
+		}
+
+		// If the request was redirected to an adventure, handle it and
+		// let the caller record it
+		if ( redirect.startsWith( "fight.php" ) ||
+		     redirect.indexOf( "snarfblat=118" ) != -1 )
 		{
 			HiddenCityRequest.validateHiddenCity();
-			int square = HiddenCityRequest.lastSquare;
 			if ( HiddenCityRequest.getHiddenCityLocation( square ) == '0' )
 			{
 				HiddenCityRequest.addHiddenCityLocation( square, 'E' );
 			}
-			// Set this square for use in automated adventuring
+
+			// Save current square as potential adventuring location
 			Preferences.setInteger( "hiddenCitySquare", square );
-			return true;
+
+			return false;
 		}
 
+		return false;
+	}
+
+	// KoLAdventure claims all visits to hiddencity.php that do not include
+	// an "action". If they are redirected to a fight or a noncombat
+	// encounter, they get logged as "[123] Hidden City (Square 16)"
+	// followed by an Encounter
+
+	public static final boolean registerRequest( final String urlString )
+	{
 		if ( !urlString.startsWith( "hiddencity.php" ) )
+		{
+			return false;
+		}
+
+		String action = HiddenCityRequest.getAction( urlString );
+		if ( action == null )
 		{
 			return false;
 		}
@@ -385,11 +433,11 @@ public class HiddenCityRequest
 		HiddenCityRequest.validateHiddenCity();
 
 		String message;
-		if ( urlString.indexOf( "action=trisocket" ) != -1 )
+		if ( action.equals( "trisocket" ) )
 		{
 			message = "[" + KoLAdventure.getAdventureCount() + "] Hidden City (Smallish Temple)" + KoLConstants.LINE_BREAK + "Placing triangular stones into carving";
 		}
-		else if ( urlString.indexOf( "action=roundthing" ) != -1 )
+		else if ( action.equals( "roundthing" ) )
 		{
 			Matcher matcher = HiddenCityRequest.ROUND_PATTERN.matcher( urlString );
 			if ( !matcher.find() )
@@ -406,23 +454,7 @@ public class HiddenCityRequest
 		}
 		else
 		{
-			int square = HiddenCityRequest.getSquare( urlString );
-
-			if ( square == 0 )
-			{
-				return true;
-			}
-
-			String name = "Hidden City";
-			Preferences.setString( "lastAdventure", name );
-			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( name ) );
-			StaticEntity.getClient().registerAdventure( name );
-
-			String location = name + " (Square " + square + ")";
-
-
-			message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
-			HiddenCityRequest.lastSquare = square;
+			return false;
 		}
 
 		RequestLogger.printLine( "" );

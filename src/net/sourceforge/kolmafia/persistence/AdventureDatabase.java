@@ -376,6 +376,14 @@ public class AdventureDatabase
 
 		if ( adventureURL.startsWith( "hiddencity.php" ) )
 		{
+			// Special actions in Hidden City squares are not
+			// adventures.
+			if ( HiddenCityRequest.getAction( adventureURL ) != null )
+			{
+				return null;
+			}
+
+			// Otherwise log the square as a visit
 			return (KoLAdventure) AdventureDatabase.adventureLookup.get( "hiddencity.php" );
 		}
 
