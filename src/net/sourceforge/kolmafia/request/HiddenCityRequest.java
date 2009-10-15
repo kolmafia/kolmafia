@@ -424,13 +424,14 @@ public class HiddenCityRequest
 			return false;
 		}
 
+		// Reset layout the first time we visit the map.
+		HiddenCityRequest.validateHiddenCity();
+
 		String action = HiddenCityRequest.getAction( urlString );
 		if ( action == null )
 		{
 			return false;
 		}
-
-		HiddenCityRequest.validateHiddenCity();
 
 		String message;
 		if ( action.equals( "trisocket" ) )

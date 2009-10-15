@@ -470,6 +470,13 @@ public class RequestLogger
 			return;
 		}
 
+		// We want to register simple visits to the Hidden City
+		if ( ( request instanceof HiddenCityRequest || isExternal ) && HiddenCityRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		// Anything else that doesn't submit an actual form
 		// should not be registered.
 
@@ -679,12 +686,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof HermitRequest || isExternal ) && HermitRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof HiddenCityRequest || isExternal ) && HiddenCityRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
