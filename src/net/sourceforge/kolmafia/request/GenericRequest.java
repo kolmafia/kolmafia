@@ -676,6 +676,18 @@ public class GenericRequest
 		return null;
 	}
 
+	public static String decodeURL( final String urlString )
+	{
+		try
+		{
+			return URLDecoder.decode( urlString, "UTF-8" );
+		}
+		catch ( IOException e )
+		{
+			return urlString;
+		}
+	}
+
 	public void removeFormField( final String name )
 	{
 		if ( name == null )

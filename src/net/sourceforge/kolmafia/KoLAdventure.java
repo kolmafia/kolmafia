@@ -1545,10 +1545,18 @@ public class KoLAdventure
 		// Only do this once per adventure attempt.
 		KoLAdventure.locationLogged = true;
 
+		String lastURL = KoLAdventure.lastLocationURL;
+
+		// The Hidden City handles some things on its own
+		if ( HiddenCityRequest.recordToSession( lastURL, urlString ) )
+		{
+			return false;
+		}
+
 		// See if we've been redirected away from the URL that started
 		// us adventuring
 
-		if ( urlString.equals( KoLAdventure.lastLocationURL ) )
+		if ( urlString.equals( lastURL ) )
 		{
 			// No. It is possible that we didn't adventure at all
 			if ( KoLAdventure.findAdventureFailure( responseText ) >= 0 )

@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -499,7 +500,7 @@ public abstract class TransferItemRequest
 		}
 
 		Pattern pattern = Pattern.compile( field + "=([\\d,]+)" );
-		Matcher matcher = pattern.matcher( urlString );
+		Matcher matcher = pattern.matcher( GenericRequest.decodeURL( urlString ) );
 		if ( !matcher.find() )
 		{
 			return 0;
