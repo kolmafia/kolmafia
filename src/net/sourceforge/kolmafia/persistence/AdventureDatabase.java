@@ -376,9 +376,10 @@ public class AdventureDatabase
 
 		if ( adventureURL.startsWith( "hiddencity.php" ) )
 		{
-			// Special actions in Hidden City squares are not
-			// adventures.
-			if ( HiddenCityRequest.getAction( adventureURL ) != null )
+			// Simple visits to the Hidden City map and special
+			// actions in Hidden City squares are not adventures.
+			if ( adventureURL.indexOf( "?" ) == -1 ||
+			     HiddenCityRequest.getAction( adventureURL ) != null )
 			{
 				return null;
 			}
