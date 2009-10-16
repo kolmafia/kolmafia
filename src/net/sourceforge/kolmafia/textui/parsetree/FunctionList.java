@@ -33,44 +33,37 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.TreeMap;
 
 public class FunctionList
 {
-	private ArrayList list = new ArrayList();
+	private TreeMap list = new TreeMap();
+	// Assumes there will not be more than 65535 functions in any scope.
+	// Assumes that \0 will never appear in a function name.
+	private char sequence = '\0';
 
 	public boolean add( final Function f )
 	{
-		list.add( f );
+		this.list.put( f.getName().toLowerCase() + '\0' + this.sequence, f );
+		++this.sequence;
 		return true;
 	}
 
 	public boolean remove( final Function f )
 	{
-		return list.remove( f );
+		return this.list.values().remove( f );
 	}
 
-	public Function[] findFunctions( final String name )
+	public Function[] findFunctions( String name )
 	{
-		ArrayList matches = new ArrayList();
-
-		for ( int i = 0; i < list.size(); ++i )
-		{
-			if ( ( (Function) list.get( i ) ).getName().equalsIgnoreCase( name ) )
-			{
-				matches.add( list.get( i ) );
-			}
-		}
-
-		Function[] matchArray = new Function[ matches.size() ];
-		matches.toArray( matchArray );
-		return matchArray;
+		name = name.toLowerCase();
+		return (Function[]) this.list.subMap( name + '\0', name + '\1' ).values().toArray( new Function[ 0 ] );
 	}
 
 	public Iterator iterator()
 	{
-		return list.iterator();
+		return list.values().iterator();
 	}
 }
 
