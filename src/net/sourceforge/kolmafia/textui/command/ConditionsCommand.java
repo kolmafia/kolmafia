@@ -110,6 +110,7 @@ public class ConditionsCommand
 				ConditionsCommand.addItemCondition( "set", ItemPool.get( ItemPool.FURRY_FUR, 1 ) );
 				ConditionsCommand.addItemCondition( "set", ItemPool.get( ItemPool.GIANT_NEEDLE, 1 ) );
 				ConditionsCommand.addItemCondition( "set", ItemPool.get( ItemPool.AWFUL_POETRY_JOURNAL, 1 ) );
+				hasUpdate = true;
 				continue;
 			}
 

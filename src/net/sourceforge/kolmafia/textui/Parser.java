@@ -41,6 +41,7 @@ import java.io.LineNumberReader;
 import java.io.PrintStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -105,6 +106,7 @@ public class Parser
 	private LineNumberReader commandStream;
 	private String currentLine;
 	private String nextLine;
+	private String currentToken;
 	private int lineNumber;
 
 	private String fullLine;
@@ -234,14 +236,21 @@ public class Parser
 
 	// **************** Parser *****************
 
-	public static final char[] tokenList =
-        { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>', ':' };
-	public static final String[] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
-
-	private static final ArrayList reservedWords = new ArrayList();
+	private static final HashSet multiCharTokens = new HashSet();
+	private static final HashSet reservedWords = new HashSet();
 
 	static
 	{
+		// Tokens
+		multiCharTokens.add( "==" );
+		multiCharTokens.add( "!=" );
+		multiCharTokens.add( "<=" );
+		multiCharTokens.add( ">=" );
+		multiCharTokens.add( "||" );
+		multiCharTokens.add( "&&" );
+		multiCharTokens.add( "/*" );
+		multiCharTokens.add( "*/" );
+
 		// Constants
 		reservedWords.add( "true" );
 		reservedWords.add( "false" );
@@ -2573,6 +2582,7 @@ public class Parser
 				if ( type == null )
 				{	// Plain string
 					this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
+					this.currentToken = null;
 					return new Value( resultString.toString() );
 				}
 				String element = resultString.toString().trim();
@@ -2589,6 +2599,7 @@ public class Parser
 				if ( ch == ']' )
 				{
 					this.currentLine = this.currentLine.substring( i + 1 );
+					this.currentToken = null;
 					if ( list.size() == 0 )
 					{	// Empty list - caller will interpret this specially
 						return null;
@@ -2616,11 +2627,13 @@ public class Parser
 			{
 				buf.deleteCharAt( name.length() - 1 );
 				this.currentLine = buf.toString();
+				this.currentToken = null;
 				type = this.parseType( scope, false, false );
 				if ( type == null && name.endsWith( "es" ) )
 				{
 					buf.deleteCharAt( name.length() - 2 );
 					this.currentLine = buf.toString();
+					this.currentToken = null;
 					type = this.parseType( scope, false, false );
 				}
 				if ( type == null )
@@ -2663,6 +2676,7 @@ public class Parser
 			else if ( this.currentLine.charAt( i ) == ']' )
 			{
 				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
+				this.currentToken = null;
 				String input = resultString.toString().trim();
 				Value value = DataTypes.parseValue( type, input, false );
 				if ( value == null )
@@ -2889,6 +2903,7 @@ public class Parser
 
 		String resultString = this.currentLine.substring( startIndex + 1, endIndex );
 		this.currentLine = this.currentLine.substring( endIndex );
+		this.currentToken = null;
 
 		if ( this.currentToken().equals( ">" ) || this.currentToken().equals( "\"" ) || this.currentToken().equals(
 			"\'" ) )
@@ -3031,6 +3046,10 @@ public class Parser
 
 	private String currentToken()
 	{
+		if ( this.currentToken != null )
+		{
+			return this.currentToken;
+		}
 		this.fixLines();
 		if ( this.currentLine == null )
 		{
@@ -3050,7 +3069,8 @@ public class Parser
 
 		if ( !this.currentLine.trim().equals( "/*" ) )
 		{
-			return this.currentLine.substring( 0, this.tokenLength( this.currentLine ) );
+			this.currentToken = this.currentLine.substring( 0, this.tokenLength( this.currentLine ) );
+			return this.currentToken;
 		}
 
 		while ( this.currentLine != null && !this.currentLine.trim().equals( "*/" ) )
@@ -3129,7 +3149,7 @@ public class Parser
 				return result == 0 ? 2 : result;
 			}
 
-			if ( result < s.length() && this.tokenString( s.substring( result, result + 1 ) ) )
+			if ( result < s.length() && this.tokenChar( s.charAt( result ) ) )
 			{
 				return result == 0 ? 1 : result;
 			}
@@ -3140,6 +3160,7 @@ public class Parser
 
 	private void fixLines()
 	{
+		this.currentToken = null;
 		if ( this.currentLine == null )
 		{
 			return;
@@ -3175,32 +3196,43 @@ public class Parser
 
 		this.nextLine = this.nextLine.trim();
 	}
+	
+	private boolean tokenChar( char ch )
+	{
+		switch ( ch )
+		{
+		case ' ':
+		case '.':
+		case ',':
+		case '{':
+		case '}':
+		case '(':
+		case ')':
+		case '$':
+		case '!':
+		case '+':
+		case '-':
+		case '=':
+		case '"':
+		case '\'':
+		case '*':
+		case '^':
+		case '/':
+		case '%':
+		case '[':
+		case ']':
+		case ';':
+		case '<':
+		case '>':
+		case ':':
+			return true;
+		}
+		return false;
+	}
 
 	private boolean tokenString( final String s )
 	{
-		if ( s.length() == 1 )
-		{
-			for ( int i = 0; i < Parser.tokenList.length; ++i )
-			{
-				if ( s.charAt( 0 ) == Parser.tokenList[ i ] )
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		else
-		{
-			for ( int i = 0; i < Parser.multiCharTokenList.length; ++i )
-			{
-				if ( s.equalsIgnoreCase( Parser.multiCharTokenList[ i ] ) )
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
+		return Parser.multiCharTokens.contains( s );
 	}
 
 	// **************** Parse errors *****************
