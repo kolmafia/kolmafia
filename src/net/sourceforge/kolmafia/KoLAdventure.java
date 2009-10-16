@@ -1241,6 +1241,12 @@ public class KoLAdventure
 			"You can't afford to go out drinking.",
 		},
 
+		// The Road to White Citadel
+		{
+			"You've already found the White Citadel",
+			"The Road to the White Citadel is already cleared.",
+		},
+
 		// Friar's Ceremony Location without the three items
 		{
 			"You don't appear to have all of the elements necessary to perform the ritual",
