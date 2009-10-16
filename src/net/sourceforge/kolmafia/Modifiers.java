@@ -64,7 +64,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class Modifiers
 	extends KoLDatabase
 {
-	private static final Map modifiersByName = new TreeMap();
+	private static final HashMap modifiersByName = new HashMap();
 	private static final HashMap familiarEffectByName = new HashMap();
 	private static final ArrayList passiveSkills = new ArrayList();
 	private static final ArrayList synergies = new ArrayList();
@@ -1009,6 +1009,11 @@ public class Modifiers
 	public static final int findName( String name )
 	{
 		return Modifiers.findName( Modifiers.floatModifiers, name );
+	}
+
+	public static final int findBooleanName( String name )
+	{
+		return Modifiers.findName( Modifiers.booleanModifiers, name );
 	}
 
 	private String name;
