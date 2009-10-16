@@ -141,6 +141,8 @@ public class MaximizerFrame
 		"sleaze res",
 		"all res",
 		"ML, 0.001 slime res",
+		"4 clownosity",
+		"+four songs",
 	};
 
 	public static final JComboBox expressionSelect = new JComboBox( expressions );
@@ -160,12 +162,12 @@ public class MaximizerFrame
 	private static int bestChecked;
 	private static long bestUpdate;
 	
-	private static final String TIEBREAKER = "10 familiar weight, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop";
+	private static final String TIEBREAKER = "5 familiar weight, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop";
 	
 	private static final String HELP_STRING = "<html><table width=750><tr><td>" +
 		"<h3>General</h3>" +
 		"The specification of what attributes to maximize is made by a comma-separated list of keywords, each possibly preceded by a numeric weight.  Commas can be omitted if the next item starts with a +, -, or digit.  Using just a +, or omitting the weight entirely, is equivalent to a weight of 1.  Likewise, using just a - is equivalent to a weight of -1.  Non-integer weights can be used, but may not be meaningful with all keywords." +
-		"<h3>Modifiers</h3>" +
+		"<h3>Numeric Modifiers</h3>" +
 		"The full name of any numeric modifier (as shown by the <b>modref</b> CLI command) is a valid keyword, requesting that its value be maximized.  If multiple modifiers are given, their weights specify their relative importance.  Negative weights mean that smaller values are more desirable for that modifier." +
 		"<p>" +
 		"Shorter forms are allowed for many commonly used modifiers.  They can be abbreviated down to just the bold letters:" +
@@ -179,6 +181,12 @@ public class MaximizerFrame
 		"<br><b>max</b> - The weight specifies the largest useful value for the preceding modifier.  Larger values will be ignored in the score calculation, allowing other specified modifiers to be boosted instead." +
 		"<br>Note that the limit keywords won't quite work as expected for a modifier that you're trying to minimize." +
 		"<br>If <b>min</b> or <b>max</b> is specified at the start of the expression, it applies to the total score (the sum of each modifier value times its weight).  A global <b>max</b> may allow equipment maximization to finish faster, since no further combinations will be considered once the specified value is reached." +
+		"<h3>Other Modifiers</h3>" +
+		"Boolean modifiers can also be used as keywords.  With positive weight, the modifier is required to be true; with negative weight, it is required to be false." +
+		"<p>" +
+		"The only bitmap modifier that currently appears useful for maximization is Clownosity, so it is allowed as a special case.  The weight specifies the required minimum value; only one value is actually meaningful in the game, so <b>4 clownosity</b> is the only useful form of this keyword." +
+		"<p>" +
+		"String modifiers are not currently meaningful for maximization." +
 		"<h3>Equipment</h3>" +
 		"Slot names can be used as keywords:" +
 		"<br><b>hat</b>, <b>weapon</b>, <b>offhand</b>, <b>shirt</b>, <b>pants</b>, <b>acc1</b>, <b>acc2</b>, <b>acc3</b>, <b>familiar</b> (familiar is not yet supported; stickers and fake hands are not currently planned.)" +
@@ -818,6 +826,8 @@ public class MaximizerFrame
 		private float[] weight, min, max;
 		private float totalMin, totalMax;
 		private int dump = 0;
+		private int clownosity = 0;
+		private int booleanMask, booleanValue;
 		
 		private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 		String weaponType = null;
@@ -978,6 +988,11 @@ public class MaximizerFrame
 					}
 					continue;
 				}
+				else if ( keyword.equals( "clownosity" ) )
+				{
+					this.clownosity = (int) weight;
+					continue;
+				}
 				
 				int slot = EquipmentRequest.slotNumber( keyword );
 				if ( slot >= 0 && slot < EquipmentManager.ALL_SLOTS )
@@ -1094,6 +1109,18 @@ public class MaximizerFrame
 					this.weight[ index ] = weight;
 					continue;
 				}
+				
+				int boolIndex = Modifiers.findBooleanName( keyword );
+				if ( boolIndex >= 0 )
+				{
+					this.booleanMask |= 1 << boolIndex;
+					if ( weight > 0.0f )
+					{
+						this.booleanValue |= 1 << boolIndex;
+					}
+					continue;
+				}
+				
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"Unrecognized keyword: " + keyword );
 				return;
@@ -1184,6 +1211,16 @@ public class MaximizerFrame
 			}
 			if ( score < this.totalMin ) this.failed = true;
 			if ( score >= this.totalMax ) this.exceeded = true;
+			if ( !this.failed && this.clownosity > 0 &&
+				mods.getBitmap( Modifiers.CLOWNOSITY ) < this.clownosity )
+			{
+				this.failed = true;
+			}
+			if ( !this.failed && this.booleanMask != 0 &&
+				(mods.getRawBitmap( 0 ) & this.booleanMask) != this.booleanValue )
+			{
+				this.failed = true;
+			}
 			return score;
 		}
 		
@@ -1448,7 +1485,11 @@ public class MaximizerFrame
 						item = item.getInstance( count );
 					}
 					
-					if ( ( hoboPowerUseful &&
+					int bools = mods.getRawBitmap( 0 ) & this.booleanMask;
+					if ( (bools & ~this.booleanValue) != 0 ) continue;
+					
+					if ( bools != 0 ||
+						( hoboPowerUseful &&
 							mods.get( Modifiers.HOBO_POWER ) > 0.0f ) ||
 						( brimstoneUseful &&
 							mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
@@ -1456,6 +1497,8 @@ public class MaximizerFrame
 							mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f ) ||
 						( stickersUseful &&
 							EquipmentManager.isStickerWeapon( item ) ) ||
+						( this.clownosity > 0 &&
+							mods.getRawBitmap( Modifiers.CLOWNOSITY ) != 0 ) ||
 						( (mods.getRawBitmap( Modifiers.SYNERGETIC )
 							& usefulSynergies) != 0 ) )
 					{
