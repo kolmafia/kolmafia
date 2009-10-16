@@ -91,12 +91,18 @@ public class FriarRequest
 		// No, seriously, you can only get one of those per day.
 		if ( this.responseText.indexOf( "one of those per day." ) != -1 )
 		{
+			Preferences.setBoolean( "friarsBlessingReceived", true );
 			KoLmafia.updateDisplay( "You can only get one blessing a day from the Deep Fat Friars." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "You've been blessed." );
-		RequestFrame.refreshStatus();
+		// Brother Corsican smiles and rubs some ashes on your face.
+		if ( this.responseText.indexOf( "smiles and rubs some ashes" ) != -1 )
+		{
+			Preferences.setBoolean( "friarsBlessingReceived", true );
+			KoLmafia.updateDisplay( "You've been blessed." );
+			RequestFrame.refreshStatus();
+		}
 	}
 
 	public static final boolean registerRequest( final String location )
@@ -114,7 +120,6 @@ public class FriarRequest
 		}
 
 		RequestLogger.updateSessionLog( "friars blessing " + matcher.group( 1 ) );
-		Preferences.setBoolean( "friarsBlessingReceived", true );
 		return true;
 	}
 }

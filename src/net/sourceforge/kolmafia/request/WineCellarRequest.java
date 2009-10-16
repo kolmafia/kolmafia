@@ -81,7 +81,15 @@ public class WineCellarRequest
 
 		if ( location.indexOf( "action=summon" ) != -1 )
 		{
-			if ( responseText.indexOf( "You light three black candles" ) != -1 )
+			// You step up to the altar and begin to speak, but then you notice
+			// that the air doesn't have that greasy static-electricity feel
+			// that you associate with an active magical field. It must take 
+			// some time for it to recharge after a summoning attempt.
+			if ( responseText.indexOf( "greasy static-electricity feel" ) != -1 )
+			{
+				Preferences.setBoolean( "demonSummoned", true );
+			}
+			else if ( responseText.indexOf( "You light three black candles" ) != -1 )
 			{
 				AdventureRequest.registerDemonName( "Summoning Chamber", responseText );
 				ResultProcessor.processItem( ItemPool.BLACK_CANDLE, -3 );
