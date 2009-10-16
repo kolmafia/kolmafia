@@ -1600,7 +1600,7 @@ public abstract class ChoiceManager
 
 		// No sir, away!  A papaya war is on!
 		{ new Integer(127), new Integer(2), 
-		  ItemPool.get( ItemPool.PAPAYA, -1 ) },
+		  ItemPool.get( ItemPool.PAPAYA, -3 ) },
 
 		// Do Geese See God?
 		{ new Integer(129), new Integer(1), 
