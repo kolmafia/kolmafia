@@ -522,6 +522,7 @@ public class KoLmafiaCLI
 		new AutoMallCommand().register( "automall" );
 		new AutoSellCommand().register( "sell" ).register( "autosell" );
 		new BacktraceCommand().register( "backtrace" );
+		new BadMoonCommand().register( "badmoon" );
 		new BangPotionsCommand().register( "!" ).register( "bang" );
 		new BasementCommand().register( "basement" );
 		new BreakfastCommand().register( "breakfast" );

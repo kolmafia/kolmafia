@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
+import net.sourceforge.kolmafia.session.BadMoonManager;
 import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
@@ -170,6 +171,7 @@ public abstract class KoLmafia
 	public static final String STOP = "1";
 	public static final String SEMIRARE = "2";
 	public static final String GLYPH = "3";
+	public static final String BADMOON = "4";
 
 	public static final String[][] SPECIAL_ENCOUNTERS =
 	{
@@ -2372,6 +2374,12 @@ public abstract class KoLmafia
 				return KoLmafia.SPECIAL_ENCOUNTERS[ i ][ 1 ];
 			}
 		}
+
+		if ( BadMoonManager.specialAdventure( encounterName ) )
+		{
+			return KoLmafia.BADMOON;
+		}
+
 		return KoLmafia.NONE;
 	}
 
@@ -2383,7 +2391,9 @@ public abstract class KoLmafia
 		}
 
 		String encounterType = KoLmafia.encounterType( encounterName );
-		return encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH;
+		return encounterType == KoLmafia.STOP ||
+		       encounterType == KoLmafia.GLYPH ||
+		       encounterType == KoLmafia.BADMOON;
 	}
 
 	// Used to ignore semirare monsters re-encountered via Spooky Putty
@@ -2410,7 +2420,12 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH )
+		if ( encounterType == KoLmafia.BADMOON )
+		{
+			BadMoonManager.registerAdventure( encounterName );
+		}
+
+		if ( encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH || encounterType == KoLmafia.BADMOON )
 		{
 			RequestLogger.printLine();
 

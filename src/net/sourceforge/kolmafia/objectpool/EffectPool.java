@@ -97,4 +97,9 @@ public class EffectPool
 	{
 		return new AdventureResult( effectName, 1, true );
 	}
+
+	public static final AdventureResult get( final String effectName, final int turns )
+	{
+		return new AdventureResult( effectName, turns, true );
+	}
 }
