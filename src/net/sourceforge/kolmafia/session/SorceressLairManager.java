@@ -2021,6 +2021,7 @@ public abstract class SorceressLairManager
 		SorceressLairManager.QUEST_HANDLER.constructURLString( towerLevel <= 3 ? "lair4.php" : "lair5.php" );
 		SorceressLairManager.QUEST_HANDLER.addFormField( "action", "level" + ( ( towerLevel - 1 ) % 3 + 1 ) );
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );
+		if ( !KoLmafia.permitsContinue() ) return -1;
 
 		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around in the Tower." ) != -1 )
 		{
@@ -2257,6 +2258,7 @@ public abstract class SorceressLairManager
 		// Start the battle!
 
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=2" ) );
+		if ( !KoLmafia.permitsContinue() ) return;
 		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're out of adventures." );
