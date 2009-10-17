@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1263,11 +1264,6 @@ public class Modifiers
 
 	public void add( final int index, final double mod, final String desc )
 	{
-		if ( index < 0 || index >= this.floats.length )
-		{
-			return;
-		}
-
 		switch ( index )
 		{
 		case CRITICAL:
@@ -1299,8 +1295,8 @@ public class Modifiers
 		}
 
 		// Make sure the modifiers apply to current class
-		String type = mods.getString( Modifiers.CLASS );
-		if ( !type.equals( "" ) && !type.equals( KoLCharacter.getClassType() ) )
+		String type = mods.strings[ Modifiers.CLASS ];
+		if ( type != "" && !type.equals( KoLCharacter.getClassType() ) )
 		{
 			return;
 		}
@@ -1664,17 +1660,17 @@ public class Modifiers
 
 				if ( SkillDatabase.getSkillType( SkillDatabase.getSkillId( skill ) ) == SkillDatabase.PASSIVE )
 				{
-					Modifiers.passiveSkills.add( skill );
+					Modifiers.passiveSkills.add( UseSkillRequest.getUnmodifiedInstance( skill ) );
 				}
 			}
 		}
 
-		for ( int i = 0; i < Modifiers.passiveSkills.size(); ++i )
+		for ( int i = Modifiers.passiveSkills.size() - 1; i >= 0; --i )
 		{
-			String skill = (String) Modifiers.passiveSkills.get( i );
+			UseSkillRequest skill = (UseSkillRequest) Modifiers.passiveSkills.get( i );
 			if ( KoLCharacter.hasSkill( skill ) )
 			{
-				this.add( Modifiers.getModifiers( skill ) );
+				this.add( Modifiers.getModifiers( skill.getSkillName() ) );
 			}
 		}
 

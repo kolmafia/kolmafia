@@ -2590,14 +2590,24 @@ public abstract class KoLCharacter
 		return KoLCharacter.hasSkill( skillName, KoLConstants.availableSkills );
 	}
 
+	public static final boolean hasSkill( final UseSkillRequest skill )
+	{
+		return KoLCharacter.hasSkill( skill, KoLConstants.availableSkills );
+	}
+
 	public static final boolean hasSkill( final String skillName, final LockableListModel list )
 	{
-		UseSkillRequest req = UseSkillRequest.getUnmodifiedInstance( skillName );
+		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
+		return KoLCharacter.hasSkill( skill, list );
+	}
+
+	public static final boolean hasSkill( final UseSkillRequest skill, final LockableListModel list )
+	{
 		if ( list == KoLConstants.availableSkills )
 		{
-			return KoLConstants.availableSkillsMap.containsKey( req );
+			return KoLConstants.availableSkillsMap.containsKey( skill );
 		}
-		return list.contains( req );
+		return list.contains( skill );
 	}
 
 	/**
