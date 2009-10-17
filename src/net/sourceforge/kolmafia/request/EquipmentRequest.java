@@ -914,8 +914,8 @@ public class EquipmentRequest
 		}
 		
 		if ( (this.requestType == EquipmentRequest.CHANGE_ITEM ||
-			this.requestType == EquipmentRequest.REMOVE_ITEM) &&
-			this.getURLString().indexOf( "ajax=1" ) != -1 )
+		      this.requestType == EquipmentRequest.REMOVE_ITEM) &&
+		      this.getURLString().indexOf( "ajax=1" ) != -1 )
 		{
 			EquipmentRequest.parseEquipmentChange( this.getURLString(), this.responseText );
 			return;
@@ -1480,6 +1480,24 @@ public class EquipmentRequest
 			}
 
 			if ( EquipmentRequest.switchItem( type, EquipmentRequest.UNEQUIP ) )
+			{
+				ConcoctionDatabase.refreshConcoctions();
+			}
+
+			return;
+		}
+
+		// inv_equip.php?action=hatrack&whichitem=308&ajax=1
+		if ( location.indexOf( "action=hatrack" ) != -1 )
+		{
+			// We equipped an item.
+			int itemId = EquipmentRequest.parseItemId( location );
+			if ( itemId < 0 )
+			{
+				return;
+			}
+
+			if ( EquipmentRequest.switchItem( EquipmentManager.FAMILIAR, ItemPool.get( itemId, 1 ) ) )
 			{
 				ConcoctionDatabase.refreshConcoctions();
 			}
