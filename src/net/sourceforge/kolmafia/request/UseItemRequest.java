@@ -209,6 +209,18 @@ public class UseItemRequest
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 	}
 
+	private final boolean isBingeRequest()
+	{
+		switch ( this.consumptionType )
+		{
+		case KoLConstants.CONSUME_HOBO:
+		case KoLConstants.CONSUME_GHOST:
+		case KoLConstants.CONSUME_SLIME:
+			return true;
+		}
+		return false;
+	}
+
 	private static boolean needsConfirmation( final AdventureResult item )
 	{
 		switch ( item.getItemId() )
@@ -513,6 +525,15 @@ public class UseItemRequest
 
 	public void run()
 	{
+		// Hide memento items from your familiars
+		if ( this.isBingeRequest() &&
+		     Preferences.getBoolean( "mementoListActive" ) &&
+		     KoLConstants.mementoList.contains( this.itemUsed ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Don't feed mementos to your familiars." );
+			return;
+		}
+
 		// Equipment should be handled by a different kind of request.
 
 		int itemId = this.itemUsed.getItemId();
