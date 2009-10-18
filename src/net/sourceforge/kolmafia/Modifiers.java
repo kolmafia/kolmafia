@@ -2191,11 +2191,11 @@ public class Modifiers
 		}
 	}
 	
-	private static class Expression
+	public static class Expression
 	{
 		private float[] stack;	// also holds numeric literals
 		private int sp = 0;
-		private String bytecode;
+		private char[] bytecode;
 		private AdventureResult effect;
 		private String loc, zone, fam, pref;
 		private String text;
@@ -2209,7 +2209,7 @@ public class Modifiers
 			}
 			this.stack = new float[10];
 			this.text = text;
-			this.bytecode = expr() + "r";
+			this.bytecode = (expr() + "r").toCharArray();
 			if ( this.text.length() > 0 )
 			{
 				KoLmafia.updateDisplay( "Modifier syntax error: expected end, found "
@@ -2220,14 +2220,14 @@ public class Modifiers
 		
 		public float eval()
 		{
-			String bytecode = this.bytecode;
+			char[] bytecode = this.bytecode;
 			float[] s = this.stack;
 			int sp = this.sp;
 			int pc = 0;
 			float v = 0.0f;
 			while ( true )
 			{
-				switch ( bytecode.charAt( pc++ ) )
+				switch ( bytecode[ pc++ ] )
 				{
 				case 'r':
 					return s[ --sp ];
