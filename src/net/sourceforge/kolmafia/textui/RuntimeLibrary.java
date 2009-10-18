@@ -784,6 +784,8 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "group_string", DataTypes.REGEX_GROUP_TYPE, params ) );
 
 		// Assorted functions
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "modifier_eval", DataTypes.FLOAT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "is_online", DataTypes.BOOLEAN_TYPE, params ) );
@@ -3257,6 +3259,24 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
+	public static Value modifier_eval( final Value expr )
+	{
+		Modifiers.Expression e;
+		if ( expr.rawValue() instanceof Modifiers.Expression )
+		{
+			e = (Modifiers.Expression) expr.rawValue();
+		}
+		else
+		{
+			e = new Modifiers.Expression( expr.toString(), "" );
+			if ( expr.content == null )
+			{
+				expr.content = e;
+			}
+		}
+		return new Value( e.eval() );
+	}
+	
 	public static Value is_online( final Value arg )
 	{
 		String name = arg.toString();
