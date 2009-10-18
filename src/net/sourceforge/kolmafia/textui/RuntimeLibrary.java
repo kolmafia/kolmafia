@@ -831,6 +831,23 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.FLOAT_TYPE };
 		functions.add( new LibraryFunction( "square_root", DataTypes.FLOAT_TYPE, params ) );
 
+		// Versions of min and max that return int (if both arguments
+		// are int) or float (if at least one arg is a float)
+		//
+		// The float versions must come first.
+
+		params = new Type[] { DataTypes.FLOAT_TYPE, DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "min", DataTypes.FLOAT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "min", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.FLOAT_TYPE, DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "max", DataTypes.FLOAT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "max", DataTypes.INT_TYPE, params ) );
+
 		// Settings-type functions.
 
 		params = new Type[] { DataTypes.STRING_TYPE };
@@ -1089,7 +1106,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "mmg_bet_winnings", DataTypes.INT_TYPE, params ) );
 	}
 
-		public static Method findMethod( final String name, final Class[] args )
+	public static Method findMethod( final String name, final Class[] args )
 		throws NoSuchMethodException
 	{
 		return RuntimeLibrary.class.getMethod( name, args );
@@ -3353,6 +3370,30 @@ public abstract class RuntimeLibrary
 			throw LibraryFunction.interpreter.runtimeException( "Can't take square root of a negative value" );
 		}
 		return new Value( (float) Math.sqrt( value ) );
+	}
+
+	public static Value min( final Value arg1, final Value arg2 )
+	{
+		if ( arg1.getType() == DataTypes.INT_TYPE && arg2.getType() == DataTypes.INT_TYPE )
+		{
+			return new Value(  Math.min( arg1.toIntValue().intValue(),
+						     arg2.toIntValue().intValue() ) );
+		}
+		return new Value( Math.min( arg1.toFloatValue().floatValue(),
+					    arg2.toFloatValue().floatValue() ) );
+
+	}
+
+	public static Value max( final Value arg1, final Value arg2 )
+	{
+		if ( arg1.getType() == DataTypes.INT_TYPE && arg2.getType() == DataTypes.INT_TYPE )
+		{
+			return new Value( Math.max( arg1.toIntValue().intValue(),
+						    arg2.toIntValue().intValue() ) );
+		}
+		return new Value( Math.max( arg1.toFloatValue().floatValue(),
+					    arg2.toFloatValue().floatValue() ) );
+
 	}
 
 	// Settings-type functions.
