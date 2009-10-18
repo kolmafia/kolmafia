@@ -93,11 +93,7 @@ public class MultiUseRequest
 			return;
 		}
 
-		for ( int i = 1; i <= this.getQuantityNeeded() && KoLmafia.permitsContinue(); ++i )
-		{
-			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
-			super.run();
-		}
+		super.run();
 	}
 
 	public void processResults()
