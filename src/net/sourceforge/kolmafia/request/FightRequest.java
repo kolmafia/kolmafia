@@ -439,7 +439,7 @@ public class FightRequest
 		else if ( FightRequest.encounterLookup.equals( "giant octopus" ) &&
 			  KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
 		{
-			ResultProcessor.processResult( ItemPool.get( ItemPool.GRAPPLING_HOOK, -1 ) );
+			ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
 		}
 		
 		if ( FightRequest.action1 == null )

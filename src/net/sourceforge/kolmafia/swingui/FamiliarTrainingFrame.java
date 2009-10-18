@@ -713,7 +713,7 @@ public class FamiliarTrainingFrame
 						return;
 					}
 
-					if ( familiar.getItem().equals( itemName ) )
+					if ( familiar.getItem().getName().equals( itemName ) )
 					{
 						return;
 					}
