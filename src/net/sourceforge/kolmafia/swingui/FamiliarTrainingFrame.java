@@ -870,6 +870,7 @@ public class FamiliarTrainingFrame
 		KoLmafia.updateDisplay( "Starting training session..." );
 
 		// Iterate until we reach the goal
+		FamiliarTrainingFrame.losses = 0;
 		while ( !FamiliarTrainingFrame.goalMet( status, goal, type ) && FamiliarTrainingFrame.losses < 5 )
 		{
 			// If user canceled, bail now
