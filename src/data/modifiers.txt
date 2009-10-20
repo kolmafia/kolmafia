@@ -2736,20 +2736,65 @@ _stickers	Item Drop: +25, Experience: +2, Meat Drop: +25, Muscle Percent: +10, M
 
 # Everything Else section of modifiers.txt
 
+Apathargic Bandersnatch	Free Pull
+astral badger	Free Pull
+bad penguin egg	Free Pull
+bottled green pixie	Free Pull
+brick	Free Pull
+calm attention-deficit demon 	Free Pull
+candy cornucopia 	Free Pull
+can of Binarrrca	Free Pull
+Cheshire Bitten	Free Pull
 Clan VIP Lounge invitation	Free Pull
 Clan VIP Lounge key	Free Pull
-Fly-By-Knight Heraldry form	Free Pull
-Valentine	Free Pull
-brick	Free Pull
-can of Binarrrca	Free Pull
+class five ecto-larva	Free Pull
+coffee sprite	Free Pull
+Comma Chameleon egg	Free Pull
 control crystal	Free Pull
+cotton candy cocoon	Free Pull
 cream pie	Free Pull
+Crimbo P. R. E. S. S. I. E.	Free Pull
+crimbo elfling	Free Pull
 custom avatar form	Free Pull
+cymbal syrup	Free Pull
+dandy lion cub	Free Pull
+Dark Jill-O-Lantern	Free Pull
+deflated inflatable dodecapede	Free Pull
+doppelshifter egg	Free Pull
+emo roe	Free Pull
+floaty stone sphere	Free Pull
+Fly-By-Knight Heraldry form	Free Pull
+hand turkey outline	Free Pull
 heart necklace	Free Pull
+homeless hobo spirit	Free Pull
+hungover chauvinist pig	Free Pull
+infant sandworm	Free Pull
 jazz soap	Free Pull
+jitterbug larva	Free Pull
+llama lama cria	Free Pull
+March hat	Free Pull
+miniscule temporal rip	Free Pull
+orphan baby yeti	Free Pull
+passed-out psychedelic bear	Free Pull
+perfectly ordinary frog	Free Pull
+personal raindrop	Free Pull
 personalized coffee mug	Free Pull
+pygmy bugbear shaman	Free Pull
 roll of toilet paper	Free Pull
+sane hatrack	Free Pull
+siesta-ing Casagnova gnome	Free Pull
+silk garter snake	Free Pull
+spooky rattling cigar box	Free Pull
+squamous polyp	Free Pull
+sweet nutcracker	Free Pull
 time sleigh	Free Pull
+unemployed hunchbacked minion	Free Pull
+unwound cymbal-playing monkey	Free Pull
+uniclops egg	Free Pull
+Valentine	Free Pull
+wizard action figure	Free Pull
+yuletide troll chrysalis	Free Pull
+
 Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
 Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
 El Vibrato punchcard (ATTACK)	Wiki Name: "El Vibrato punchcard (115 holes)"
