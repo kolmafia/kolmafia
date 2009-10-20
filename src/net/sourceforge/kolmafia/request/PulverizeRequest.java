@@ -117,18 +117,27 @@ public class PulverizeRequest
 	{
 		if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( this.item ) )
 		{
+			KoLmafia.updateDisplay( "(smashing of 'Memento' item " + this.item + " disallowed)" );
 			return;
 		}
 
-		if ( this.item.getCount( KoLConstants.inventory ) == this.item.getCount() && !KoLConstants.junkList.contains( this.item ) )
+		if ( this.item.getCount( KoLConstants.inventory ) == this.item.getCount() )
 		{
-			KoLConstants.junkList.add( this.item );
-		}
-
-		if ( KoLConstants.singletonList.contains( this.item ) && !KoLConstants.closet.contains( this.item ) )
-		{
-			this.item = this.item.getInstance( this.item.getCount() - 1 );
-			this.addFormField( "quantity", String.valueOf( this.item.getCount() ) );
+			if ( !KoLCharacter.canInteract() && !KoLConstants.junkList.contains( this.item ) )
+			{
+				KoLConstants.junkList.add( this.item );
+			}
+	
+			if ( KoLConstants.singletonList.contains( this.item ) && !KoLConstants.closet.contains( this.item ) )
+			{
+				KoLmafia.updateDisplay( "(smashable quantity of 'Keep One' item " + this.item + " reduced by 1)" );
+				this.item = this.item.getInstance( this.item.getCount() - 1 );
+				if ( this.item.getCount() <= 0 )
+				{
+					return;
+				}
+				this.addFormField( "qty", String.valueOf( this.item.getCount() ) );
+			}
 		}
 
 		switch ( ItemDatabase.getConsumptionType( this.item.getItemId() ) )
