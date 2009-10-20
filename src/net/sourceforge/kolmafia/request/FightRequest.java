@@ -129,7 +129,7 @@ public class FightRequest
 	private static final Pattern FUMBLE_PATTERN =
 		Pattern.compile( "You drop your .*? on your .*?, doing [\\d,]+ damage" );
 	private static final Pattern CLEESH_PATTERN =
-		Pattern.compile( "You cast CLEESH at your opponent.*?turns into a (\\w*)", Pattern.DOTALL );
+		Pattern.compile( "You cast CLEESH at your opponent.*?into a (\\w*)", Pattern.DOTALL );
 	private static final Pattern WORN_STICKER_PATTERN =
 		Pattern.compile( "A sticker falls off your weapon, faded and torn" );
 	private static final Pattern BALLROOM_SONG_PATTERN =
