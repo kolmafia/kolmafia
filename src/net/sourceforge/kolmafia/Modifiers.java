@@ -2216,6 +2216,20 @@ public class Modifiers
 					+ this.text );
 			}
 			this.text = null;
+			while ( this.stack.length < 100 )
+			{	// Find required stack size to evaluate this expression
+				try
+				{
+					this.eval();
+					break;
+				}
+				catch ( ArrayIndexOutOfBoundsException e )
+				{
+					float[] larger = new float[ this.stack.length * 2 ];
+					System.arraycopy( this.stack, 0, larger, 0, 10 );
+					this.stack = larger;
+				}
+			}
 		}
 		
 		public float eval()
@@ -2227,7 +2241,8 @@ public class Modifiers
 			float v = 0.0f;
 			while ( true )
 			{
-				switch ( bytecode[ pc++ ] )
+				char inst;
+				switch ( inst = bytecode[ pc++ ] )
 				{
 				case 'r':
 					return s[ --sp ];
@@ -2294,6 +2309,21 @@ public class Modifiers
 					break;
 				case '4':
 					v = s[ 4 ];
+					break;
+				case '5':
+					v = s[ 5 ];
+					break;
+				case '6':
+					v = s[ 6 ];
+					break;
+				case '7':
+					v = s[ 7 ];
+					break;
+				case '8':
+					v = s[ 8 ];
+					break;
+				case '9':
+					v = s[ 9 ];
 					break;
 				
 				case 'A':
@@ -2376,8 +2406,14 @@ public class Modifiers
 					v = 0;
 					break;
 				default:
-					KoLmafia.updateDisplay( "Modifier bytecode invalid at " + pc + ": "
-						+ this.bytecode );
+					if ( inst > '\u00FF' )
+					{
+						v = inst - 0x8000;
+						break;
+					}
+					KoLmafia.updateDisplay( "Modifier bytecode invalid at " + 
+						(pc - 1) + ": " + String.valueOf( this.bytecode ) );
+					return 0.0f;
 				}
 				s[ sp++ ] = v;
 			}
@@ -2552,9 +2588,22 @@ public class Modifiers
 			Matcher m = NUM_PATTERN.matcher( this.text );
 			if ( m.matches() )
 			{
-				this.stack[ this.sp++ ] = Float.parseFloat( m.group( 1 ) );
+				float v = Float.parseFloat( m.group( 1 ) );
 				this.text = m.group( 2 );
-				return String.valueOf( (char)( '0' + this.sp - 1 ) );
+				if ( v % 1.0f == 0.0f && v >= -0x7F00 && v < 0x8000 )
+				{
+					return String.valueOf( (char)((int)v + 0x8000) );
+				}
+				else
+				{
+					if ( this.sp >= 10 )
+					{
+						KoLmafia.updateDisplay( "Modifier syntax error: too many numeric literals" );
+						return "0";	
+					}
+					this.stack[ this.sp++ ] = v;
+					return String.valueOf( (char)( '0' + this.sp - 1 ) );
+				}
 			}
 			KoLmafia.updateDisplay( "Modifier syntax error: can't understand " + this.text );
 			this.text = "";
