@@ -41,6 +41,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -57,6 +59,8 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+
+import net.sourceforge.kolmafia.textui.command.SpeculateCommand;
 
 public abstract class UseLinkDecorator
 {
@@ -560,13 +564,21 @@ public abstract class UseLinkDecorator
 				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ).equals( EquipmentRequest.UNEQUIP ) )
 			{
 				return new UsesLink( new UseLink[] {
-						new UseLink( itemId, itemCount, "acc1", "inv_equip.php?which=2&action=equip&slot=1&whichitem=" ),
-						new UseLink( itemId, itemCount, "acc2", "inv_equip.php?which=2&action=equip&slot=2&whichitem=" ),
-						new UseLink( itemId, itemCount, "acc3", "inv_equip.php?which=2&action=equip&slot=3&whichitem=" ),
+					new UseLink( itemId, itemCount,
+						getEquipmentSpeculation( "acc1", itemId, 0,  EquipmentManager.ACCESSORY1 ),
+						"inv_equip.php?which=2&action=equip&slot=1&whichitem=" ),
+					new UseLink( itemId, itemCount,
+						getEquipmentSpeculation( "acc2", itemId, 0,  EquipmentManager.ACCESSORY2 ),
+						 "inv_equip.php?which=2&action=equip&slot=2&whichitem=" ),
+					new UseLink( itemId, itemCount,
+						getEquipmentSpeculation( "acc3", itemId, 0,  EquipmentManager.ACCESSORY3 ),
+						 "inv_equip.php?which=2&action=equip&slot=3&whichitem=" ),
 					} );
 			}
 
-			return new UseLink( itemId, itemCount, "equip", "inv_equip.php?which=2&action=equip&whichitem=" );
+			return new UseLink( itemId, itemCount,
+				getEquipmentSpeculation( "equip", itemId, consumeMethod, -1 ),
+				"inv_equip.php?which=2&action=equip&whichitem=" );
 
 		case KoLConstants.CONSUME_ZAP:
 
@@ -574,6 +586,23 @@ public abstract class UseLinkDecorator
 		}
 
 		return null;
+	}
+	
+	private static int equipSequence = 0;
+	
+	private static final String getEquipmentSpeculation( String label, int itemId, int consumpt, int slot )
+	{
+		if ( slot == -1 )
+		{
+			slot = EquipmentRequest.chooseEquipmentSlot( consumpt );
+		}
+		Speculation spec = new Speculation();
+		spec.equip( slot, ItemPool.get( itemId, 1 ) );
+		Modifiers mods = spec.calculate();
+		String id = "whatif" + UseLinkDecorator.equipSequence++;
+		String table = SpeculateCommand.getHTML( mods, "id='" + id + "' style='background-color: white; visibility: hidden; position: absolute; right: 0px; top: 1.2em;'" );
+		if ( table == null ) return label;
+		return "<span style='position: relative;' onMouseOver=\"document.getElementById('" + id + "').style.visibility='visible';\" onMouseOut=\"document.getElementById('" + id + "').style.visibility='hidden';\">" + table + label + "</span>";
 	}
 
 	private static final UseLink getNavigationLink( int itemId, String location )

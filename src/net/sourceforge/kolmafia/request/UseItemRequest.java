@@ -2491,6 +2491,16 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.DOLPHIN_WHISTLE:
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere
+
+			// GenericRequest.checkItemRedirection( item );
+			ResultProcessor.processResult( item );
+
+			return;
+
 		case ItemPool.STEEL_STOMACH:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
@@ -3452,6 +3462,7 @@ public class UseItemRequest
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
 		case ItemPool.SHAKING_CAMERA:
+		case ItemPool.DOLPHIN_WHISTLE:
 			// Items that can redirect to a fight
 			turns = 1;
 			break;

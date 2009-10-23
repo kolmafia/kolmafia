@@ -93,6 +93,7 @@ bl	200	Manual of Transcendent Olfaction
 
 # Things you can buy with sand dollars
 
+bs	1	dolphin whistle
 bs	5	sea grease
 bs	10	rusty valve wheel
 bs	10	waterlogged bootstraps

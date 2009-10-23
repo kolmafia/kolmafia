@@ -365,6 +365,16 @@ public class ResultProcessor
 		{
 			acquisition = "You acquire an item:";
 		}
+		
+		if ( acquisition.startsWith( "You are slowed too much by the water, and a stupid dolphin" ) )
+		{
+			AdventureResult item = ItemPool.get( parsedResults.nextToken().split( " ", 2 )[ 1 ], 1 );
+			if ( item.getItemId() != -1 )
+			{
+				RequestLogger.printLine( "A dolphin stole: " + item );
+			}
+			return false;
+		}
 
 		if ( acquisition.startsWith( "You acquire" ) )
 		{
@@ -395,7 +405,7 @@ public class ResultProcessor
 			return ResultProcessor.processEffect( parsedResults, acquisition, data );
 		}
 
-		// The following only under Can Has Cyborger
+		// The following only under Can Has Cyborger or The Sea
 
 		if ( lastToken.startsWith( "You gets" ) )
 		{
@@ -404,6 +414,10 @@ public class ResultProcessor
 		else if ( lastToken.startsWith( "You can has" ) )
 		{
 			lastToken = "You gain" + lastToken.substring( 11 );
+		}
+		else if ( lastToken.startsWith( "You manage to grab" ) )
+		{
+			lastToken = "You gain" + lastToken.substring( 18 );
 		}
 
 		if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " ) )

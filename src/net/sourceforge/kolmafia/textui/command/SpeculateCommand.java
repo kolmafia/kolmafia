@@ -60,24 +60,38 @@ public class SpeculateCommand
 		{
 			return;
 		}
-
-		StringBuffer buf = new StringBuffer( "<table border=2>" );
+		String table = SpeculateCommand.getHTML( mods, "" );
+		if ( table != null )
+		{
+			RequestLogger.printLine( table + "<br>" );
+		}
+		else
+		{
+			RequestLogger.printLine( "No modifiers changed." );
+		}
+	}
+		
+	public static String getHTML( Modifiers mods, String attribs )
+	{	
+		StringBuffer buf = new StringBuffer( "<table border=2 " );
+		buf.append( attribs );
+		buf.append( ">" );
 		int len = buf.length();
 		String mod;
 		int i = 0;
 		while ( ( mod = Modifiers.getModifierName( i++ ) ) != null )
 		{
-			this.doNumeric( mod, mods, buf );
+			doNumeric( mod, mods, buf );
 		}
 		i = 0;
 		while ( ( mod = Modifiers.getDerivedModifierName( i++ ) ) != null )
 		{
-			this.doNumeric( mod, mods, buf );
+			doNumeric( mod, mods, buf );
 		}
 		i = 1;
 		while ( ( mod = Modifiers.getBitmapModifierName( i++ ) ) != null )
 		{
-			this.doNumeric( mod, mods, buf );
+			doNumeric( mod, mods, buf );
 		}
 		i = 0;
 		while ( ( mod = Modifiers.getBooleanModifierName( i++ ) ) != null )
@@ -113,16 +127,13 @@ public class SpeculateCommand
 		}
 		if ( buf.length() > len )
 		{
-			buf.append( "</table><br>" );
-			RequestLogger.printLine( buf.toString() );
+			buf.append( "</table>" );
+			return buf.toString();
 		}
-		else
-		{
-			RequestLogger.printLine( "No modifiers changed." );
-		}
+		return null;
 	}
 
-	private void doNumeric( final String mod, final Modifiers mods, final StringBuffer buf )
+	private static void doNumeric( final String mod, final Modifiers mods, final StringBuffer buf )
 	{
 		float was = KoLCharacter.currentNumericModifier( mod );
 		float now = mods.get( mod );

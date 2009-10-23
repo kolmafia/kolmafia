@@ -1934,6 +1934,12 @@ public class GenericRequest
 			consumed = true;
 			break;
 
+		case ItemPool.DOLPHIN_WHISTLE:
+			itemName = "Dolphin Whistle";
+			consumed = true;
+			TurnCounter.startCounting( 10, "Dolphin Whistle cooldown loc=*", "whistle.gif" );
+			break;
+
 		case ItemPool.CARONCH_MAP:
 			itemName = "Cap'm Caronch's Map";
 			break;
