@@ -3071,6 +3071,9 @@ public class UseItemRequest
 		RequestLogger.updateSessionLog( message );
 		RequestLogger.printLine( message );
 
+		TurnCounter.stopCounting( "Semirare window begin" );
+		TurnCounter.stopCounting( "Semirare window end" );
+
 		if ( TurnCounter.isCounting( "Fortune Cookie" ) )
 		{
 			for ( int i = 2; i <= 4; ++i )
