@@ -1471,6 +1471,19 @@ public abstract class KoLCharacter
 		String loc = ( location == null ) ? "" : location.getAdventureName();
 		Preferences.setString( "semirareLocation", loc );
 		TurnCounter.stopCounting( "Fortune Cookie" );
+		TurnCounter.stopCounting( "Semirare window begin" );
+		TurnCounter.stopCounting( "Semirare window end" );
+		int begin = 100;
+		int end = 120;
+		if ( KoLCharacter.canEat() || KoLCharacter.canDrink() )
+		{
+			begin = 160;
+			end = 200;
+		}
+		TurnCounter.startCounting( begin + 1,
+			"Semirare window begin loc=*", "lparen.gif" );
+		TurnCounter.startCounting( end + 1,
+			"Semirare window end loc=*", "rparen.gif" );
 	}
 
 	/**
