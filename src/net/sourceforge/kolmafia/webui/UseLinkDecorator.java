@@ -260,20 +260,12 @@ public abstract class UseLinkDecorator
 			// Only accept if it's a creation method that the
 			// editor kit currently understands and links.
 
-			switch ( mixingMethod )
+			switch ( mixingMethod & KoLConstants.CT_MASK )
 			{
 			case KoLConstants.COMBINE:
 			case KoLConstants.MIX:
-			case KoLConstants.MIX_SPECIAL:
-			case KoLConstants.MIX_SUPER:
-			case KoLConstants.MIX_SALACIOUS:
 			case KoLConstants.COOK:
-			case KoLConstants.COOK_REAGENT:
-			case KoLConstants.SUPER_REAGENT:
-			case KoLConstants.DEEP_SAUCE:
-			case KoLConstants.COOK_PASTA:
 			case KoLConstants.JEWELRY:
-			case KoLConstants.EXPENSIVE_JEWELRY:
 				break;
 			default:
 				continue;
@@ -283,7 +275,7 @@ public abstract class UseLinkDecorator
 
 			if ( ConcoctionDatabase.isPermittedMethod( mixingMethod ) && irequest != null && irequest.getQuantityPossible() > 0 )
 			{
-				return mixingMethod;
+				return mixingMethod & KoLConstants.CT_MASK;
 			}
 		}
 
@@ -380,21 +372,12 @@ public abstract class UseLinkDecorator
 			return new UseLink( itemId, itemCount, "combine", KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "craft.php?mode=combine&a=" );
 
 		case KoLConstants.MIX:
-		case KoLConstants.MIX_SPECIAL:
-		case KoLConstants.MIX_SUPER:
-		case KoLConstants.MIX_SALACIOUS:
 			return new UseLink( itemId, itemCount, "mix", "craft.php?mode=cocktail&a=" );
 
 		case KoLConstants.COOK:
-		case KoLConstants.COOK_REAGENT:
-		case KoLConstants.SUPER_REAGENT:
-		case KoLConstants.DEEP_SAUCE:
-		case KoLConstants.COOK_PASTA:
-		case KoLConstants.COOK_TEMPURA:
 			return new UseLink( itemId, itemCount, "cook", "craft.php?mode=cook&a=" );
 
 		case KoLConstants.JEWELRY:
-		case KoLConstants.EXPENSIVE_JEWELRY:
 			return new UseLink( itemId, itemCount, "jewelry", "craft.php?mode=jewelry&a=" );
 		}
 

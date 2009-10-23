@@ -96,20 +96,14 @@ public class CreateItemCommand
 					return;
 				}
 
-				switch ( ConcoctionDatabase.getMixingMethod( currentMatch ) )
+				switch ( ConcoctionDatabase.getMixingMethod( currentMatch ) & KoLConstants.CT_MASK )
 				{
 				case KoLConstants.COOK:
-				case KoLConstants.COOK_REAGENT:
-				case KoLConstants.SUPER_REAGENT:
-				case KoLConstants.COOK_PASTA:
 
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot cook without a chef-in-the-box." );
 					return;
 
 				case KoLConstants.MIX:
-				case KoLConstants.MIX_SPECIAL:
-				case KoLConstants.MIX_SUPER:
-				case KoLConstants.MIX_SALACIOUS:
 
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
 					return;

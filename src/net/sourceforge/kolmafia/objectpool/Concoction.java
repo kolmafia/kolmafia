@@ -70,7 +70,6 @@ public class Concoction
 	private final int mixingMethod;
 	private int sortOrder;
 
-	private final boolean isTorsoItem;
 	private final boolean isReagentPotion;
 
 	private boolean wasPossible;
@@ -108,7 +107,6 @@ public class Concoction
 		{
 			this.yield = 1;
 			this.name = "unknown";
-			this.isTorsoItem = false;
 			this.isReagentPotion = false;
 			this.fullness = 0;
 			this.inebriety = 0;
@@ -120,11 +118,8 @@ public class Concoction
 			int consumeType = ItemDatabase.getConsumptionType( concoction.getItemId() );
 			this.yield = Math.max( concoction.getCount(), 1 );
 			this.name = concoction.getName();
-			this.isTorsoItem = consumeType == KoLConstants.EQUIP_SHIRT;
 
-			this.isReagentPotion =
-				(this.mixingMethod == KoLConstants.COOK_REAGENT || this.mixingMethod == KoLConstants.SUPER_REAGENT) &&
-				(consumeType == KoLConstants.CONSUME_USE || consumeType == KoLConstants.CONSUME_MULTIPLE);
+			this.isReagentPotion = (this.mixingMethod & KoLConstants.CF_SX3) != 0;
 
 			this.setConsumptionData();
 		}
@@ -459,13 +454,14 @@ public class Concoction
 			AdventureResult.addResultToList( localChanges, ingredient );
 		}
 
-		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] * overAmount;
+		int method = this.mixingMethod & KoLConstants.CT_MASK;
+		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ method ] * overAmount;
 		if ( advs != 0 )
 		{
 			ConcoctionDatabase.queuedAdventuresUsed += advs;
 		}
 
-		if ( this.mixingMethod == KoLConstants.STILL_BOOZE || this.mixingMethod == KoLConstants.STILL_MIXER )
+		if ( method == KoLConstants.STILL_BOOZE || method == KoLConstants.STILL_MIXER )
 		{
 			ConcoctionDatabase.queuedStillsUsed += overAmount;
 		}
@@ -697,7 +693,6 @@ public class Concoction
 		}
 		
 		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) ||
-			(this.isTorsoItem && !KoLCharacter.hasSkill( "Torso Awaregness" ) && !this.usesIngredient( ItemPool.SHIRT_KIT )) ||
 			Preferences.getBoolean( "unknownRecipe" + this.getItemId() ) )
 		{	// Impossible to create any more of this item.
 			return alreadyHave;
@@ -756,7 +751,8 @@ public class Concoction
 
 		// Adventures are also considered an ingredient
 
-		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ];
+		int method = this.mixingMethod & KoLConstants.CT_MASK;
+		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ method ];
 		if ( minMake > 0 && advs != 0 )
 		{
 			Concoction c = ConcoctionDatabase.adventureLimit;
@@ -774,8 +770,8 @@ public class Concoction
 
 		// Still uses are also considered an ingredient.
 
-		if ( minMake > 0 && (this.mixingMethod == KoLConstants.STILL_MIXER ||
-			this.mixingMethod == KoLConstants.STILL_BOOZE) )
+		if ( minMake > 0 && (method == KoLConstants.STILL_MIXER ||
+			method == KoLConstants.STILL_BOOZE) )
 		{
 			Concoction c = ConcoctionDatabase.stillsLimit;
 			minMake = Math.min( minMake, c.canMake( needToMake, visited ) );
@@ -799,7 +795,7 @@ public class Concoction
 		// Avoid mutual recursion.
 
 		int create = quantityNeeded - this.initial;
-		if ( this.mixingMethod != KoLConstants.COMBINE || KoLCharacter.inMuscleSign() || create <= 0 )
+		if ( (this.mixingMethod & KoLConstants.CT_MASK) != KoLConstants.COMBINE || KoLCharacter.inMuscleSign() || create <= 0 )
 		{
 			return 0;
 		}
@@ -822,7 +818,7 @@ public class Concoction
 	{
 		// If we can't make this item, it costs no adventures to use
 		// the quantity on hand.
-		if ( !ConcoctionDatabase.PERMIT_METHOD[ this.mixingMethod ] )
+		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
 		{
 			return 0;
 		}
@@ -841,7 +837,7 @@ public class Concoction
 			return 0;
 		}
 
-		int runningTotal = ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod ] * create;
+		int runningTotal = ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod & KoLConstants.CT_MASK ] * create;
 
 		// If this creation method takes no adventures, no recursion
 

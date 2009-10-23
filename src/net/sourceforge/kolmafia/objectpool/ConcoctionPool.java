@@ -120,7 +120,7 @@ public class ConcoctionPool
 		for ( int i = 0; i < count; ++i )
 		{
 			Concoction concoction = ConcoctionPool.cache.get( i );
-			if ( concoction == null || concoction.getMixingMethod() != mixingMethod )
+			if ( concoction == null || (concoction.getMixingMethod() & KoLConstants.CT_MASK) != mixingMethod )
 			{
 				continue;
 			}

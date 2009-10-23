@@ -252,7 +252,7 @@ public interface KoLConstants
 	public static final int CLASSSKILLS_VERSION = 3;
 	public static final int COINMASTERS_VERSION = 1;
 	public static final int COMBATS_VERSION = 1;
-	public static final int CONCOCTIONS_VERSION = 2;
+	public static final int CONCOCTIONS_VERSION = 3;
 	public static final int DEFAULTS_VERSION = 1;
 	public static final int EQUIPMENT_VERSION = 2;
 	public static final int FAMILIARS_VERSION = 1;
@@ -337,81 +337,121 @@ public interface KoLConstants
 	public static final int CONSUME_SLIME = 97;
 	public static final int CONSUME_HOBO = 98;
 	public static final int CONSUME_GHOST = 99;
+	
+	// Anatomy of a mixingMethod:
+	// The low-order bits (masked by CT_MASK) contain one of the item creation
+	// types below.  This has to be sufficient to determine the crafting URL
+	// or subclass that will be used, and the adventure cost of creation.
+	// CR_xxx bit flags (masked by CR_MASK) express other creation requirements:
+	// necessary skills, equipment, player state, etc.
+	// CF_xxx bits express other information about the item's creation (yield,
+	// desirability, etc.), but do not affect whether it's possible.
 
 	// Item creation types
 
-	public static final int METHOD_COUNT = 33;
-	public static final int SUBCLASS = Integer.MAX_VALUE;
+	public static final int CT_MASK = 0x000000FF;
+	public static final int METHOD_COUNT = 23;
+	public static final int SUBCLASS = 255;
 
 	public static final int NOCREATE = 0;
 
 	// Items anybody can create using meat paste
 	public static final int COMBINE = 1;
-	// Items anybody can create with an E-Z Cook Oven
+	// Items created with an E-Z Cook Oven
 	public static final int COOK = 2;
-	// Items anybody can create with a cocktailcrafting kit
+	// Items created with a cocktailcrafting kit
 	public static final int MIX = 3;
-	// Items anybody can create with a tenderizing hammer
+	// Items anybody can create with a tenderizing hammer or via Innabox
 	public static final int SMITH = 4;
-	// Items requiring Advanced Saucecrafting
-	public static final int COOK_REAGENT = 5;
-	// Items requiring Pastamastery
-	public static final int COOK_PASTA = 6;
-	// Items requiring Tempuramancy
-	public static final int COOK_TEMPURA = 7;
-	// Items requiring Advanced Cocktailcrafting
-	public static final int MIX_SPECIAL = 8;
-	// Items requiring Super-Advanced Meatsmithing
-	public static final int SMITH_WEAPON = 9;
-	// Items requiring Armorcraftiness
-	public static final int SMITH_ARMOR = 10;
+	// Items that can only be created with a tenderizing hammer, not via Innabox
+	public static final int SSMITH = 5;
 	// Items requiring access to Nash Crosby's Still
-	public static final int STILL_BOOZE = 11;
-	public static final int STILL_MIXER = 12;
-	// Items requiring Superhuman Cocktailcrafting
-	public static final int MIX_SUPER = 13;
-	// Items requiring The Way of Sauce
-	public static final int SUPER_REAGENT = 14;
-	// Items requiring Deep Saucery
-	public static final int DEEP_SAUCE = 15;
+	public static final int STILL_BOOZE = 6;
+	public static final int STILL_MIXER = 7;
 	// Items requiring access to the Wok of Ages
-	public static final int WOK = 16;
+	public static final int WOK = 8;
 	// Items requiring access to the Malus of Forethought
-	public static final int MALUS = 17;
-	// Items anybody can create with jewelry-making pliers
-	public static final int JEWELRY = 18;
-	// Items requiring jewelry-making pliers and Really Expensive Jewelrycrafting
-	public static final int EXPENSIVE_JEWELRY = 19;
+	public static final int MALUS = 9;
+	// Items created with jewelry-making pliers
+	public static final int JEWELRY = 10;
 	// Items anybody can create with starcharts, stars, and lines
-	public static final int STARCHART = 20;
+	public static final int STARCHART = 11;
 	// Items anybody can create with pixels
-	public static final int PIXEL = 21;
+	public static final int PIXEL = 12;
 	// Items created with a rolling pin or and an unrolling pin
-	public static final int ROLLING_PIN = 22;
+	public static final int ROLLING_PIN = 13;
 	// Items requiring access to the Gnome supertinker
-	public static final int GNOME_TINKER = 23;
-	// Items requiring access to Roderick the Staffmaker
-	public static final int STAFF = 24;
+	public static final int GNOME_TINKER = 14;
+	// Items requiring access to Roderic the Staffcrafter
+	public static final int STAFF = 15;
 	// Items anybody can create with a sushi-rolling mat
-	public static final int SUSHI = 25;
+	public static final int SUSHI = 16;
 	// Items created by single (or multi) using a single item.
 	// Extra ingredients might also be consumed.
 	// Multi-using more than one of the item creates multiple results.
-	public static final int SINGLE_USE = 26;
+	public static final int SINGLE_USE = 17;
 	// Items created by multi-using specific numbers of a single item.
 	// Extra ingredients might also be consumed.
 	// You must create multiple result items one at a time.
-	public static final int MULTI_USE = 27;
+	public static final int MULTI_USE = 18;
 	// Items formerly creatable in Crimbo Town during Crimbo 2005
-	public static final int CRIMBO05 = 28;
+	public static final int CRIMBO05 = 19;
 	// Items formerly creatable in Crimbo Town during Crimbo 2006
-	public static final int CRIMBO06 = 29;
+	public static final int CRIMBO06 = 20;
 	// Items formerly creatable in Crimbo Town during Crimbo 2007
-	public static final int CRIMBO07 = 30;
-	// Items requiring Salacious Cocktailcrafting
-	public static final int MIX_SALACIOUS = 31;
+	public static final int CRIMBO07 = 21;
 	// Items anybody can create by folding a sugar sheet
-	public static final int SUGAR_FOLDING = 32;
+	public static final int SUGAR_FOLDING = 22;
+	
+	// Item creation requirement flags
+	
+	public static final int CR_MASK = 0x0FFFFF00;
+	// Character gender (for kilt vs. skirt)
+	public static final int CR_MALE = 0x00000100;
+	public static final int CR_FEMALE = 0x00000200;
+	// Holiday-only
+	public static final int CR_SSPD = 0x00000400;
+	// Requires tenderizing hammer (implied for SMITH & SSMITH)
+	public static final int CR_HAMMER = 0x00000800;
+	// Requires depleted Grimacite hammer
+	public static final int CR_GRIMACITE = 0x00001000;
+	// Requires Torso Awaregness
+	public static final int CR_TORSO = 0x00002000;
+	// Requires Super-Advanced Meatsmithing
+	public static final int CR_WEAPON = 0x00004000;
+	// Requires Armorcraftiness
+	public static final int CR_ARMOR = 0x00008000;
+	// Requires Really Expensive Jewerlycrafting
+	public static final int CR_EXPENSIVE = 0x00010000;
+	// Requires Advanced Saucecrafting
+	public static final int CR_REAGENT = 0x00020000;
+	// Requires The Way of Sauce
+	public static final int CR_WAY = 0x00040000;
+	// Requires Deep Saucery
+	public static final int CR_DEEP = 0x00080000;
+	// Requires Pastamastery
+	public static final int CR_PASTA = 0x00100000;
+	// Requires Tempuramancy
+	public static final int CR_TEMPURA = 0x00200000;
+	// Requires Advanced Cocktailcrafting
+	public static final int CR_AC = 0x00400000;
+	// Requires Superhuman Cocktailcrafting
+	public static final int CR_SHC = 0x00800000;
+	// Requires Salacious Cocktailcrafting
+	public static final int CR_SALACIOUS = 0x01000000;
+//	public static final int CR_ = 0x02000000;
+//	public static final int CR_ = 0x04000000;
+//	public static final int CR_ = 0x08000000;
+	
+	// Item creation information flags
+	
+//	public static final int CF_ = 0x10000000;
+	// Saucerors make 3 of this item at a time
+	public static final int CF_SX3 = 0x20000000;
+	// Recipe unexpectedly does not appear in Discoveries
+	public static final int CF_NODISCOVERY = 0x40000000;
+	// Recipe should never be used automatically
+	public static final int CF_MANUAL = 0x80000000;
 
 	// Colors which are used to handle the various KoLmafia states.
 	// Used when changing the display.

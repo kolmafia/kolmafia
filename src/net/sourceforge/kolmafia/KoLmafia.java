@@ -1621,7 +1621,7 @@ public abstract class KoLmafia
 			}
 
 			// Otherwise, accept any COMBINE recipe
-			if ( ConcoctionDatabase.getMixingMethod( currentItem ) == KoLConstants.COMBINE )
+			if ( (ConcoctionDatabase.getMixingMethod( currentItem ) & KoLConstants.CT_MASK) == KoLConstants.COMBINE )
 			{
 				untinkerItems.add( currentItem );
 			}

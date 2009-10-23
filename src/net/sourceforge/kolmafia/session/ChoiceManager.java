@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -2386,6 +2387,7 @@ public abstract class ChoiceManager
 			{
 				KoLCharacter.setGender( text.indexOf( "in more ways than one" ) != -1 ?
 					KoLCharacter.FEMALE : KoLCharacter.MALE );
+				ConcoctionDatabase.refreshConcoctions();
 			}
 			break;
 

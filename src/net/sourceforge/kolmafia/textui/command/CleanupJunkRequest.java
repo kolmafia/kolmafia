@@ -84,7 +84,7 @@ public class CleanupJunkRequest
 					continue;
 				}
 
-				if ( canUntinker && ConcoctionDatabase.getMixingMethod( currentItem ) == KoLConstants.COMBINE )
+				if ( canUntinker && (ConcoctionDatabase.getMixingMethod( currentItem ) & KoLConstants.CT_MASK) == KoLConstants.COMBINE )
 				{
 					RequestThread.postRequest( new UntinkerRequest( currentItem.getItemId() ) );
 					madeUntinkerRequest = true;

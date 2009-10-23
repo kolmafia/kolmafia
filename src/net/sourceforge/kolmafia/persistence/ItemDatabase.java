@@ -1159,7 +1159,7 @@ public class ItemDatabase
 
 		if ( ItemDatabase.getFullness( name ) > 0 )
 		{
-			boolean sushi = ConcoctionDatabase.getMixingMethod( cname ) == KoLConstants.SUSHI;
+			boolean sushi = (ConcoctionDatabase.getMixingMethod( cname ) & KoLConstants.CT_MASK) == KoLConstants.SUSHI;
 			boolean zodiacEffect = !sushi && KoLCharacter.getSign().indexOf( "Opossum" ) != -1;
 			boolean milkEffect = !sushi && KoLConstants.activeEffects.contains( ItemDatabase.MILK );
 			boolean munchiesEffect = !sushi && Preferences.getInteger( "munchiesPillsUsed" ) > 0;

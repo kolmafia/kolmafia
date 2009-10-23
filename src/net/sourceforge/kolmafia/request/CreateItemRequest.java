@@ -146,15 +146,16 @@ public class CreateItemRequest
 		String formSource = "craft.php";
 		String action = "craft";
 		String mode = null;
+		int method = this.mixingMethod & KoLConstants.CT_MASK;
 
 		if ( KoLCharacter.inMuscleSign() )
 		{
-			if ( this.mixingMethod == KoLConstants.COMBINE )
+			if ( method == KoLConstants.COMBINE )
 			{
 				formSource = "knoll.php";
 				action = "combine";
 			}
-			else if ( this.mixingMethod == KoLConstants.SMITH )
+			else if ( method == KoLConstants.SMITH )
 			{
 				formSource = "knoll.php";
 				action = "smith";
@@ -163,36 +164,26 @@ public class CreateItemRequest
 
 		if ( formSource.equals( "craft.php" ) )
 		{
-			switch ( this.mixingMethod )
+			switch ( method )
 			{
 			case KoLConstants.COMBINE:
 				mode = "combine";
 				break;
 
 			case KoLConstants.MIX:
-			case KoLConstants.MIX_SPECIAL:
-			case KoLConstants.MIX_SUPER:
-			case KoLConstants.MIX_SALACIOUS:
 				mode = "cocktail";
 				break;
 
 			case KoLConstants.COOK:
-			case KoLConstants.COOK_REAGENT:
-			case KoLConstants.SUPER_REAGENT:
-			case KoLConstants.DEEP_SAUCE:
-			case KoLConstants.COOK_PASTA:
-			case KoLConstants.COOK_TEMPURA:
 				mode = "cook";
 				break;
 
 			case KoLConstants.SMITH:
-			case KoLConstants.SMITH_ARMOR:
-			case KoLConstants.SMITH_WEAPON:
+			case KoLConstants.SSMITH:
 				mode = "smith";
 				break;
 
 			case KoLConstants.JEWELRY:
-			case KoLConstants.EXPENSIVE_JEWELRY:
 				mode = "jewelry";
 				break;
 
@@ -290,7 +281,7 @@ public class CreateItemRequest
 		// Otherwise, return the appropriate subclass of
 		// item which will be created.
 
-		switch ( mixingMethod )
+		switch ( mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.NOCREATE:
 			return null;
@@ -358,8 +349,9 @@ public class CreateItemRequest
 		// Validate the ingredients once for the item
 		// creation process.
 
-		if ( this.mixingMethod != KoLConstants.SUBCLASS &&
-		     this.mixingMethod != KoLConstants.ROLLING_PIN &&
+		int method = this.mixingMethod & KoLConstants.CT_MASK;
+		if ( method != KoLConstants.SUBCLASS &&
+		     method != KoLConstants.ROLLING_PIN &&
 		     !this.makeIngredients() )
 		{
 			return;
@@ -378,7 +370,7 @@ public class CreateItemRequest
 			this.reconstructFields();
 			this.beforeQuantity = this.createdItem.getCount( KoLConstants.inventory );
 
-			switch ( this.mixingMethod )
+			switch ( method )
 			{
 			case KoLConstants.SUBCLASS:
 
@@ -520,7 +512,7 @@ public class CreateItemRequest
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.name );
 
-		if ( ingredients.length == 1 || this.mixingMethod == KoLConstants.WOK )
+		if ( ingredients.length == 1 || (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.WOK )
 		{
 			if ( this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft() )
 			{
@@ -701,16 +693,25 @@ public class CreateItemRequest
 		{
 			return false;
 		}
+		
+		if ( (this.mixingMethod & KoLConstants.CR_HAMMER) != 0 &&
+			!InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
+		{
+			return false;
+		}
+
+		if ( (this.mixingMethod & KoLConstants.CR_GRIMACITE) != 0 &&
+			!InventoryManager.retrieveItem( ItemPool.GRIMACITE_HAMMER ) )
+		{
+			return false;
+		}
 
 		// If we are not cooking or mixing, or if we already have the
 		// appropriate servant installed, we don't need to repair
 
-		switch ( this.mixingMethod )
+		switch ( this.mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.COOK:
-		case KoLConstants.COOK_REAGENT:
-		case KoLConstants.SUPER_REAGENT:
-		case KoLConstants.COOK_PASTA:
 
 			if ( KoLCharacter.hasChef() )
 			{
@@ -719,9 +720,6 @@ public class CreateItemRequest
 			break;
 
 		case KoLConstants.MIX:
-		case KoLConstants.MIX_SPECIAL:
-		case KoLConstants.MIX_SUPER:
-		case KoLConstants.MIX_SALACIOUS:
 
 			if ( KoLCharacter.hasBartender() )
 			{
@@ -733,8 +731,7 @@ public class CreateItemRequest
 
 			return KoLCharacter.inMuscleSign() || InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER );
 
-		case KoLConstants.SMITH_WEAPON:
-		case KoLConstants.SMITH_ARMOR:
+		case KoLConstants.SSMITH:
 
 			return InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER );
 
@@ -747,20 +744,14 @@ public class CreateItemRequest
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
 
-		switch ( this.mixingMethod )
+		switch ( this.mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.COOK:
-		case KoLConstants.COOK_REAGENT:
-		case KoLConstants.SUPER_REAGENT:
-		case KoLConstants.COOK_PASTA:
 			autoRepairSuccessful =
 				this.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF,ItemPool.BAKE_OVEN );
 			break;
 
 		case KoLConstants.MIX:
-		case KoLConstants.MIX_SPECIAL:
-		case KoLConstants.MIX_SUPER:
-		case KoLConstants.MIX_SALACIOUS:
 			autoRepairSuccessful =
 				this.useBoxServant( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER, ItemPool.COCKTAIL_KIT );
 			break;
@@ -824,7 +815,7 @@ public class CreateItemRequest
 
 		// If this is a combining request, you need meat paste as well.
 
-		if ( this.mixingMethod == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
+		if ( (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
 		{
 			int pasteNeeded = ConcoctionDatabase.getMeatPasteRequired( this.itemId, this.quantityNeeded );
 			AdventureResult paste = ItemPool.get( ItemPool.MEAT_PASTE, pasteNeeded );
@@ -849,7 +840,7 @@ public class CreateItemRequest
 			{
 				if ( ingredients[ i ].getItemId() == ingredients[ j ].getItemId() )
 				{
-					multiplier += ingredients[ i ].getCount();
+					multiplier += ingredients[ j ].getCount();
 				}
 			}
 
@@ -972,31 +963,21 @@ public class CreateItemRequest
 
 	public int getAdventuresUsed()
 	{
-		switch ( this.mixingMethod )
+		switch ( this.mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.SMITH:
 			return KoLCharacter.inMuscleSign() ? 0 : this.quantityNeeded;
 
-		case KoLConstants.SMITH_ARMOR:
-		case KoLConstants.SMITH_WEAPON:
+		case KoLConstants.SSMITH:
 			return this.quantityNeeded;
 
 		case KoLConstants.JEWELRY:
-		case KoLConstants.EXPENSIVE_JEWELRY:
 			return 3 * this.quantityNeeded;
 
 		case KoLConstants.COOK:
-		case KoLConstants.COOK_REAGENT:
-		case KoLConstants.SUPER_REAGENT:
-		case KoLConstants.DEEP_SAUCE:
-		case KoLConstants.COOK_PASTA:
-		case KoLConstants.COOK_TEMPURA:
 			return KoLCharacter.hasChef() ? 0 : this.quantityNeeded;
 
 		case KoLConstants.MIX:
-		case KoLConstants.MIX_SPECIAL:
-		case KoLConstants.MIX_SUPER:
-		case KoLConstants.MIX_SALACIOUS:
 			return KoLCharacter.hasBartender() ? 0 : this.quantityNeeded;
 
 		case KoLConstants.WOK:
