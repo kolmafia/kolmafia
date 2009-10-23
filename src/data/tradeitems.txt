@@ -4000,7 +4000,7 @@
 3994	security blankie	familiar	all	75
 3995	big bundle of chamoix	usable	all	0
 3996	boxcar turtle	usable	display	100
-3997
+3997	dolphin whistle	usable	all	10
 3998	metrognome	familiar	all	75
 3999	infant sandworm	grow	all	0
 4000	string of dingle balls	familiar	all	75

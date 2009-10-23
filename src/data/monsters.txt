@@ -817,3 +817,6 @@ rockfish	HP: 0	rockfish stomach (100)
 
 # Under the effect of Temporary Blindness
 The Darkness (blind)	HP: 0
+
+# Dolphin whistle
+rotten dolphin thief	HP: 0
