@@ -251,10 +251,10 @@ public class ItemFinder
 					&& useType != KoLConstants.CONSUME_DRINK_HELPER );
 				break;
 			case ItemFinder.CREATE_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemName ) == KoLConstants.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 );
+				ItemFinder.conditionalRemove( nameIterator, (ConcoctionDatabase.getMixingMethod( itemName ) & KoLConstants.CT_MASK) == KoLConstants.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 );
 				break;
 			case ItemFinder.UNTINKER_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) != KoLConstants.COMBINE );
+				ItemFinder.conditionalRemove( nameIterator, (ConcoctionDatabase.getMixingMethod( itemId ) & KoLConstants.CT_MASK) != KoLConstants.COMBINE );
 				break;
 			case ItemFinder.EQUIP_MATCH:
 				switch ( useType )

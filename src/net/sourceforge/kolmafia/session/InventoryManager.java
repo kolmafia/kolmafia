@@ -478,7 +478,7 @@ public abstract class InventoryManager
 			}		
 		}
 
-		int mixingMethod = ConcoctionDatabase.getMixingMethod( item );
+		int mixingMethod = ConcoctionDatabase.getMixingMethod( item ) & KoLConstants.CT_MASK;
 		switch ( mixingMethod )
 		{
 		// Sub-ingredients for star charts, pixels and malus
@@ -686,9 +686,10 @@ public abstract class InventoryManager
 	private static int priceToMake( AdventureResult item, int qty, int level )
 	{
 		int id = item.getItemId();
-		int price = 0;
+		int method = ConcoctionDatabase.getMixingMethod( item );
+		int price = ConcoctionDatabase.CREATION_COST[ method & KoLConstants.CT_MASK ];
 		if ( level > 10 || !ConcoctionDatabase.isPermittedMethod(
-			ConcoctionDatabase.getMixingMethod( item ) ) )
+			method ) )
 		{
 			return Integer.MAX_VALUE;
 		}

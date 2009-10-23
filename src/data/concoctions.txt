@@ -1,4 +1,39 @@
-2
+3
+# The mixing method (2nd field in each line) can be a comma-separated list
+# of the following elements:
+#
+# Basic creation type (exactly one is required):
+# COMBINE, COOK, MIX, WOK, MALUS, JEWEL, STAR, SUGAR, PIXEL, ROLL,
+# TINKER, STAFF, SUSHI, SUSE, MUSE
+# BSTILL, MSTILL (booze & mixer upgrades, respectively)
+# SMITH (basic smithing that can be done by Innabox)
+# SSMITH (smithing you have to do yourself - always requires a skill)
+# CRIMBO05, CRIMBO06, CRIMBO07 (historical)
+#
+# Additional requirements (add to a basic creation type):
+# MALE, FEMALE (craftable only by a specific gender)
+# SSPD (craftable only on St. Sneaky Pete's Day)
+# HAMMER (requires a tenderizing hammer - implied for smithing)
+# GRIMACITE (requires a depleted Grimacite hammer)
+# TORSO, WEAPON, ARMOR (smithing-related skills)
+# EXPENSIVE (jewelrymaking skill)
+# REAGENT, WAY, DEEP, PASTAMASTERY, TEMPURAMANCY (cooking)
+# AC, SHC, SALACIOUS (cocktailcrafting skills)
+#
+# Informational flags:
+# SX3 (Saucerors make 3 at a time)
+# NODISCOVERY (does not generate discovery, even though it uses
+#	one of the normally discoverable crafting types)
+# MANUAL (should never be used automatically - for completeness only)
+#	(Mafia currently ignores MANUAL recipes entirely.)
+#
+# Combinations of creation type & skill, for convenience:
+# WSMITH, ASMITH (skilled smithing)
+# PASTA, TEMPURA, SAUCE, SSAUCE, DSAUCE (skilled cooking)
+# ACOCK, SCOCK, SACOCK (skilled mixing)
+# EJEWEL (skilled jewelrymaking)
+
+
 # Items which can be obtained by simply using another item.  There are
 # lots more of these, but this appears to be the only one that
 # guarantees that each item drops exactly once.
@@ -42,15 +77,20 @@ hosed tank	COMBINE	fishtank	fish hose
 imbued seal-blubber candle	COMBINE	powdered sealbone	seal-blubber candle
 intragalactic rowboat	COMBINE	S.O.C.K.	quantum egg
 makeshift SCUBA gear	COMBINE	hosed tank	fishbowl
-Mighty Bjorn action figure	COMBINE	action figure head	action figure body
+makeshift SCUBA gear	COMBINE	hosed fishbowl	fishtank
+Mighty Bjorn action figure	COMBINE, NODISCOVERY	action figure head	action figure body
 oyster basket	COMBINE	tisket	tasket
 really really sticky spider web	COMBINE	really sticky spider web	really sticky spider web
 really sticky spider web	COMBINE	spider web	spider web
 skeleton key	COMBINE	skeleton bone	loose teeth
 Staff of Ed	COMBINE	headpiece of the Staff of Ed	Staff of Fats
+Staff of Ed	COMBINE	Eye of Ed	Staff of Ed, almost
+Staff of Ed, almost	COMBINE	ancient amulet	Staff of Fats
 rusty metal key	COMBINE	rusty metal ring	rusty metal shaft
 tambourine	COMBINE	Gnollish pie tin	tambourine bells
 charged magnet	COMBINE	floaty sand	moxie magnet
+
+meat stack	COMBINE, MANUAL	fairy gravy boat	meat from yesterday
 
 
 # Items involved with the campground, or subcomponents involved in the
@@ -235,6 +275,7 @@ Lucky Surprise Egg	COOK	ten-leaf clover	cocoa egg
 mushroom pizza	COOK	plain pizza	Knob mushroom
 pie crust	COOK	Gnollish pie tin	wad of dough
 plain pizza	COOK	wad of dough	tomato
+plain pizza	COOK	flat dough	tomato
 rocky road ice cream	COOK	glass of goat's milk	floaty gravel
 sausage pizza	COOK	plain pizza	Knob sausage
 spicy bean burrito	COOK	bean burrito	spices
@@ -284,6 +325,7 @@ lihc eye pie	COOK	lihc eye	pie crust
 menudo	COOK	catgut	spices
 papaya taco	COOK	papaya	taco shell
 pr0n cocktail	COOK	pr0n legs	ketchup
+pr0n cocktail	COOK	pr0n legs	catsup
 pr0n taco	COOK	pr0n legs	taco shell
 rat appendix kabob	COOK	rat appendix	skewer
 rat scrapple	COOK	ratgut	spices
@@ -416,6 +458,7 @@ boxed wine (3)	MIX	fermenting powder	bunch of square grapes
 # these mixtures except everyone can make them.
 
 bloody beer	MIX	tomato	ice-cold Sir Schlitz
+bloody beer	MIX	tomato	ice-cold Willer
 bloody mary	MIX	tomato	bottle of vodka
 eggnog	MIX	ghuol egg	spiced rum
 fine wine	MIX	fermenting powder	grapes
@@ -425,8 +468,14 @@ shot of grapefruit schnapps	MIX	fermenting powder	grapefruit
 shot of orange schnapps	MIX	fermenting powder	orange
 shot of tomato schnapps	MIX	fermenting powder	tomato
 bottle of sake (3)	MIX	fermenting powder	white rice
-green beer	MIX	ten-leaf clover	ice-cold Sir Schlitz
 pebblebr&auml;u	MIX	floaty pebbles	ice-cold Sir Schlitz
+pebblebr&auml;u	MIX	floaty pebbles	ice-cold Willer
+
+green beer	MIX, SSPD	ten-leaf clover	ice-cold Sir Schlitz
+green beer	MIX, SSPD	ten-leaf clover	ice-cold Willer
+# Allow manual crafting on unpredicted/held-over SSPDs
+green beer	MIX, MANUAL	ten-leaf clover	ice-cold Sir Schlitz
+green beer	MIX, MANUAL	ten-leaf clover	ice-cold Willer
 
 
 # Tier 3 and tier 4 beverages which can be made by anyone.  These are
@@ -442,6 +491,7 @@ monkey wrench	MIX	bottle of rum	grapefruit
 salty dog	MIX	bottle of gin	grapefruit
 redrum	MIX	bottle of rum	cranberries
 rum and cola	MIX	bottle of rum	Dyspepsi-Cola
+rum and cola	MIX	bottle of rum	Cloaca-Cola
 screwdriver	MIX	bottle of vodka	orange
 spiced rum	MIX	bottle of rum	spices
 strawberry daiquiri	MIX	bottle of rum	strawberry
@@ -450,6 +500,7 @@ tequila sunrise	MIX	bottle of tequila	orange
 vodka and cranberry	MIX	bottle of vodka	cranberries
 vodka martini	MIX	bottle of vodka	olive
 whiskey and cola	MIX	bottle of whiskey	Dyspepsi-Cola
+whiskey and cola	MIX	bottle of whiskey	Cloaca-Cola
 whiskey and soda	MIX	bottle of whiskey	soda water
 whiskey sour	MIX	bottle of whiskey	lemon
 white Canadian	MIX	bottle of vodka	glass of goat's milk
@@ -635,7 +686,7 @@ club of the five seasons	WSMITH	bigger stick	prismatic wad
 rainbow crossbow	WSMITH	dense meat crossbow	prismatic wad
 six-rainbow shield	ASMITH	wonderwall shield	prismatic wad
 
-bad-ass club	SUSE	ingot of seal-iron
+bad-ass club	SUSE, WEAPON, HAMMER	ingot of seal-iron
 
 creepy-ass club	WSMITH	bad-ass club	seal lube
 evil-ass club	WSMITH	bad-ass club	scrap of shadow
@@ -696,10 +747,13 @@ styrofoam sword	SMITH	basic meat sword	styrofoam ore
 Frost&trade; brand sword	SMITH	styrofoam sword	cold powder
 
 dripping meat crossbow	SMITH	basic meat crossbow	ketchup
+dripping meat crossbow	SMITH	basic meat crossbow	catsup
 repeating crossbow	SMITH	dripping meat crossbow	meat engine
 dripping meat staff	SMITH	basic meat staff	ketchup
+dripping meat staff	SMITH	basic meat staff	catsup
 glistening staff	SMITH	dripping meat staff	sleaze powder
 dripping meat sword	SMITH	basic meat sword	ketchup
+dripping meat sword	SMITH	basic meat sword	catsup
 muculent machete	SMITH	dripping meat sword	forest tears
 
 eXtreme meat crossbow	SMITH	basic meat crossbow	stone of eXtreme power
@@ -736,6 +790,7 @@ basic meat pants	SMITH	meat stack	pants kit
 basic meat helmet	SMITH	meat stack	helmet recipe
 enchantlers	SMITH	basic meat helmet	ram horns
 meatloaf helmet	SMITH	basic meat helmet	ketchup
+meatloaf helmet	SMITH	basic meat helmet	catsup
 raspberry beret	SMITH	basic meat helmet	raspberry
 
 basic meat fez	SMITH	basic meat helmet	tassel
@@ -755,9 +810,8 @@ floaty rock pants	ASMITH	basic meat pants	floaty rock
 
 # Weapon made via armorcrafting
 
-# There are two equivalent recipes
 gatorskin umbrella	ASMITH	titanium assault umbrella	gator skin
-# gatorskin umbrella	ASMITH	goatskin umbrella	gator skin
+gatorskin umbrella	ASMITH	goatskin umbrella	gator skin
 
 
 # Accessories made of hides of various sorts.
@@ -799,26 +853,26 @@ gnauga hide chaps	ASMITH	gnauga hide	pants kit
 
 # Skirts made of hides of various sorts.
 
-basic meat skirt	SMITH	meat stack	skirt / kilt kit
-sticky meat skirt	SMITH	really really sticky spider web	basic meat skirt
+basic meat skirt	SMITH, FEMALE	meat stack	skirt / kilt kit
+sticky meat skirt	SMITH, FEMALE	really really sticky spider web	basic meat skirt
 
 furry skirt	ASMITH	furry fur	skirt / kilt kit
-gnauga hide skirt	ASMITH	gnauga hide	skirt / kilt kit
-hippopotamus skirt	ASMITH	hippopotamus skin	skirt / kilt kit
-penguinskin mini-skirt	ASMITH	penguin skin	skirt / kilt kit
-yakskin skirt	ASMITH	yak skin	skirt / kilt kit
+gnauga hide skirt	ASMITH, FEMALE	gnauga hide	skirt / kilt kit
+hippopotamus skirt	ASMITH, FEMALE	hippopotamus skin	skirt / kilt kit
+penguinskin mini-skirt	ASMITH, FEMALE	penguin skin	skirt / kilt kit
+yakskin skirt	ASMITH, FEMALE	yak skin	skirt / kilt kit
 
 
 # Kilts made of hides of various sorts.
 
-basic meat kilt	SMITH	meat stack	skirt / kilt kit
-sticky meat kilt	SMITH	really really sticky spider web	basic meat kilt
+basic meat kilt	SMITH, MALE	meat stack	skirt / kilt kit
+sticky meat kilt	SMITH, MALE	really really sticky spider web	basic meat kilt
 
-furry kilt	ASMITH	furry fur	skirt / kilt kit
-gnauga hide kilt	ASMITH	gnauga hide	skirt / kilt kit
-hippopotamus kilt	ASMITH	hippopotamus skin	skirt / kilt kit
-penguinskin mini-kilt	ASMITH	penguin skin	skirt / kilt kit
-yakskin kilt	ASMITH	yak skin	skirt / kilt kit
+furry kilt	ASMITH, MALE	furry fur	skirt / kilt kit
+gnauga hide kilt	ASMITH, MALE	gnauga hide	skirt / kilt kit
+hippopotamus kilt	ASMITH, MALE	hippopotamus skin	skirt / kilt kit
+penguinskin mini-kilt	ASMITH, MALE	penguin skin	skirt / kilt kit
+yakskin kilt	ASMITH, MALE	yak skin	skirt / kilt kit
 
 
 # Bucklers made of hides of various sorts.
@@ -899,6 +953,17 @@ time trousers	SMITH	petrified time	pants kit
 time sword	SMITH	petrified time	sword hilt
 
 
+# Depleted Grimacite items, all of which require reading plans
+
+depleted Grimacite hammer	SMITH	chunk of depleted Grimacite	chunk of depleted Grimacite
+depleted Grimacite astrolabe	SMITH, GRIMACITE	clockwork sphere	chunk of depleted Grimacite
+depleted Grimacite grappling hook	SMITH, GRIMACITE	pygmy spear	chunk of depleted Grimacite
+depleted Grimacite gravy boat	SMITH, GRIMACITE	fairy gravy boat	chunk of depleted Grimacite
+depleted Grimacite ninja mask	SMITH, GRIMACITE	cold ninja mask	chunk of depleted Grimacite
+depleted Grimacite shinguards	SMITH, GRIMACITE	black greaves	chunk of depleted Grimacite
+depleted Grimacite weightlifting belt	SMITH, GRIMACITE	enormous belt buckle	chunk of depleted Grimacite
+
+
 # Elemental powders can be compressed into nuggets and wads with the Malus
 
 twinkly nuggets	MALUS	twinkly powder (5)
@@ -922,11 +987,11 @@ floaty rock	MALUS	floaty gravel (5)
 
 # KoLmafia currently doesn't support items with more than one creation method
 
-# hot wad	SSAUCE	twinkly wad	sleaze wad
-# cold wad	SSAUCE	twinkly wad	hot wad
-# spooky wad	SSAUCE	twinkly wad	cold wad
-# stench wad	SSAUCE	twinkly wad	spooky wad
-# sleaze wad	SSAUCE	twinkly wad	stench wad
+hot wad	SSAUCE	twinkly wad	sleaze wad
+cold wad	SSAUCE	twinkly wad	hot wad
+spooky wad	SSAUCE	twinkly wad	cold wad
+stench wad	SSAUCE	twinkly wad	spooky wad
+sleaze wad	SSAUCE	twinkly wad	stench wad
 
 
 # Potions you can make by cooking
@@ -947,42 +1012,39 @@ jug of porquoise juice	COOK	jug of Gnomochloric acid	porquoise
 # Reagent potions.  Not to be confused with reagent broth mixtures
 # which can be combined with pasta by pastamancers.
 
-banana smoothie	SAUCE	scrumptious reagent	banana
-cordial of concentration	SAUCE	scrumptious reagent	soda water
-cranberry cordial	SAUCE	scrumptious reagent	cranberries
-eyedrops of the ermine	SAUCE	scrumptious reagent	strawberry
-libation of liveliness	SAUCE	scrumptious reagent	grapes
-milk of magnesium	SAUCE	scrumptious reagent	glass of goat's milk
-oil of expertise	SAUCE	scrumptious reagent	cherry
-oil of oiliness	SAUCE	scrumptious reagent	decaying goldfish liver
-oil of slipperiness	SAUCE	scrumptious reagent	jumbo olive
-oil of stability	SAUCE	scrumptious reagent	lime
-ointment of the occult	SAUCE	scrumptious reagent	grapefruit
-perfume of prejudice	SAUCE	scrumptious reagent	jaba&ntilde;ero pepper
-philter of phorce	SAUCE	scrumptious reagent	lemon
-potion of potency	SAUCE	scrumptious reagent	orange
-serum of sarcasm	SAUCE	scrumptious reagent	olive
-tomato juice of powerful power	SAUCE	scrumptious reagent	tomato
+banana smoothie	SAUCE, SX3	scrumptious reagent	banana
+cordial of concentration	SAUCE, SX3	scrumptious reagent	soda water
+cranberry cordial	SAUCE, SX3	scrumptious reagent	cranberries
+eyedrops of the ermine	SAUCE, SX3	scrumptious reagent	strawberry
+libation of liveliness	SAUCE, SX3	scrumptious reagent	grapes
+milk of magnesium	SAUCE, SX3	scrumptious reagent	glass of goat's milk
+oil of expertise	SAUCE, SX3	scrumptious reagent	cherry
+oil of oiliness	SAUCE, SX3	scrumptious reagent	decaying goldfish liver
+oil of slipperiness	SAUCE, SX3	scrumptious reagent	jumbo olive
+oil of stability	SAUCE, SX3	scrumptious reagent	lime
+ointment of the occult	SAUCE, SX3	scrumptious reagent	grapefruit
+perfume of prejudice	SAUCE, SX3	scrumptious reagent	jaba&ntilde;ero pepper
+philter of phorce	SAUCE, SX3	scrumptious reagent	lemon
+potion of potency	SAUCE, SX3	scrumptious reagent	orange
+serum of sarcasm	SAUCE, SX3	scrumptious reagent	olive
+tomato juice of powerful power	SAUCE, SX3	scrumptious reagent	tomato
 
 # Evil potions. Unlike regular potions, saucerors only get one potion
-# per brewing. Presumably, a character requires Advanced Saucecrafting
-# to make them, but since only a sauceror with that skill can have
-# nauseating reagent (a quest item) in inventory, simply mark the method
-# as COOK.
+# per brewing.
 
-evil eyedrops of the ermine	COOK	nauseating reagent	strawberry
-evil libation of liveliness	COOK	nauseating reagent	grapes
-evil ointment of the occult	COOK	nauseating reagent	grapefruit
-evil philter of phorce	COOK	nauseating reagent	lemon
-evil potion of potency	COOK	nauseating reagent	orange
-evil serum of sarcasm	COOK	nauseating reagent	olive
-evil tomato juice of powerful power	COOK	nauseating reagent	tomato
+evil eyedrops of the ermine	SAUCE	nauseating reagent	strawberry
+evil libation of liveliness	SAUCE	nauseating reagent	grapes
+evil ointment of the occult	SAUCE	nauseating reagent	grapefruit
+evil philter of phorce	SAUCE	nauseating reagent	lemon
+evil potion of potency	SAUCE	nauseating reagent	orange
+evil serum of sarcasm	SAUCE	nauseating reagent	olive
+evil tomato juice of powerful power	SAUCE	nauseating reagent	tomato
 
-salamander slurry	SAUCE	scrumptious reagent	salamander spleen
-eyedrops of newt	SAUCE	scrumptious reagent	eye of newt
-Frogade	SAUCE	scrumptious reagent	squashed frog
+salamander slurry	SAUCE, SX3	scrumptious reagent	salamander spleen
+eyedrops of newt	SAUCE, SX3	scrumptious reagent	eye of newt
+Frogade	SAUCE, SX3	scrumptious reagent	squashed frog
 
-papotion of papower	SAUCE	scrumptious reagent	papaya
+papotion of papower	SAUCE, SX3	scrumptious reagent	papaya
 concoction of clumsiness	SAUCE	scrumptious reagent	lion oil
 
 # Advanced Sauces
@@ -991,24 +1053,24 @@ scrumdiddlyumptious solution	SUSE	delectable catalyst	scrumptious reagent
 
 # Reagent potions.
 
-Connery's Elixir of Audacity	SSAUCE	scrumdiddlyumptious solution	cocktail onion
-Hawking's Elixir of Brilliance	SSAUCE	scrumdiddlyumptious solution	tangerine
-Ferrigno's Elixir of Power	SSAUCE	scrumdiddlyumptious solution	kiwi
-blackberry polite	SSAUCE	scrumdiddlyumptious solution	blackberry
-cologne of contempt	SSAUCE	scrumdiddlyumptious solution	dill
-concentrated cordial of concentration	SSAUCE	scrumdiddlyumptious solution	tonic water
-potent potion of potency	SSAUCE	scrumdiddlyumptious solution	kumquat
-eyedrops of the ocelot	SSAUCE	scrumdiddlyumptious solution	raspberry
-peach lozenge	SSAUCE	scrumdiddlyumptious solution	peach
-pear lozenge	SSAUCE	scrumdiddlyumptious solution	pear
-plum lozenge	SSAUCE	scrumdiddlyumptious solution	plum
-potion of temporary gr8tness	SSAUCE	scrumdiddlyumptious solution	gr8ps
+Connery's Elixir of Audacity	SSAUCE, SX3	scrumdiddlyumptious solution	cocktail onion
+Hawking's Elixir of Brilliance	SSAUCE, SX3	scrumdiddlyumptious solution	tangerine
+Ferrigno's Elixir of Power	SSAUCE, SX3	scrumdiddlyumptious solution	kiwi
+blackberry polite	SSAUCE, SX3	scrumdiddlyumptious solution	blackberry
+cologne of contempt	SSAUCE, SX3	scrumdiddlyumptious solution	dill
+concentrated cordial of concentration	SSAUCE, SX3	scrumdiddlyumptious solution	tonic water
+potent potion of potency	SSAUCE, SX3	scrumdiddlyumptious solution	kumquat
+eyedrops of the ocelot	SSAUCE, SX3	scrumdiddlyumptious solution	raspberry
+peach lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	peach
+pear lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	pear
+plum lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	plum
+potion of temporary gr8tness	SSAUCE, SX3	scrumdiddlyumptious solution	gr8ps
 
-phial of hotness	SAUCE	scrumptious reagent	hot powder
-phial of coldness	SAUCE	scrumptious reagent	cold powder
-phial of spookiness	SAUCE	scrumptious reagent	spooky powder
-phial of stench	SAUCE	scrumptious reagent	stench powder
-phial of sleaziness	SAUCE	scrumptious reagent	sleaze powder
+phial of hotness	SAUCE, SX3	scrumptious reagent	hot powder
+phial of coldness	SAUCE, SX3	scrumptious reagent	cold powder
+phial of spookiness	SAUCE, SX3	scrumptious reagent	spooky powder
+phial of stench	SAUCE, SX3	scrumptious reagent	stench powder
+phial of sleaziness	SAUCE, SX3	scrumptious reagent	sleaze powder
 
 # Deep Sauces
 
@@ -1143,7 +1205,7 @@ star stiletto	STAR	star chart	star (5)	line (4)
 star sword	STAR	star chart	star (7)	line (4)
 star throwing star	STAR	star chart	star (4)	line (2)
 Richard's star key	STAR	star chart	star (8)	line (7)
-star shirt	STAR	star chart	star (15)	line (15)
+star shirt	STAR, TORSO	star chart	star (15)	line (15)
 
 
 # Pixel items.  These are items which are created at the Crackpot
@@ -1256,7 +1318,7 @@ palm-frond net	MUSE	palm frond (3)
 palm-frond whip	MUSE	palm frond (4)
 palm-frond capris	MUSE	palm frond (5)
 extra-large palm-frond toupee	MUSE	palm frond (6)
-palm-frond cloak	MUSE	palm frond (7)
+palm-frond cloak	MUSE, TORSO	palm frond (7)
 
 really thick bandage	MUSE	mummy wrapping (2)
 mummy mask	MUSE	mummy wrapping (4)
@@ -1268,7 +1330,7 @@ duct tape buckler	MUSE	duct tape (10)
 duct tape dockers	MUSE	duct tape (12)
 duct tape fedora	MUSE	duct tape (14)
 duct tape sword	MUSE	duct tape (17)
-duct tape shirt	MUSE	duct tape (23)
+duct tape shirt	MUSE, TORSO	duct tape (23)
 
 clingfilm tangle	MUSE	bit of clingfilm (3)
 clingfilm slippers	MUSE	bit of clingfilm (7)
@@ -1286,14 +1348,14 @@ propeller beanie	MUSE	Bash-&#332;s boxtop (20)
 
 turtlemail coif	MUSE	turtlemail bits (3)
 turtlemail breeches	MUSE	turtlemail bits (5)
-turtlemail hauberk	MUSE	turtlemail bits (8)
+turtlemail hauberk	MUSE, TORSO	turtlemail bits (8)
 
 wumpus-hair bolo	MUSE	wumpus hair (2)
 wumpus-hair net	MUSE	wumpus hair (5)
 wumpus-hair whip	MUSE	wumpus hair (11)
 wumpus-hair wig	MUSE	wumpus hair (16)
 wumpus-hair loincloth	MUSE	wumpus hair (23)
-wumpus-hair sweater	MUSE	wumpus hair (30)
+wumpus-hair sweater	MUSE, TORSO	wumpus hair (30)
 
 # Recipes that involve single-using one of the ingredients
 
@@ -1425,7 +1487,8 @@ sugar shank	SUGAR	sugar sheet
 sugar chapeau	SUGAR	sugar sheet
 sugar shorts	SUGAR	sugar sheet
 sugar shield	SUGAR	sugar sheet
-sugar shirt	SUGAR	sugar sheet
+sugar shirt	SUGAR, TORSO	sugar sheet
+
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
@@ -1472,7 +1535,7 @@ wheel	CRIMBO07	stick	rock
 yo	CRIMBO07	stringy sinew	rock
 
 leaf tube	CRIMBO06	stringy sinew	big leaf
-lit cigar	COMBINE	fire	leaf tube
+lit cigar	COMBINE, NODISCOVERY	fire	leaf tube
 
 
 # Evil Crimbo toys.  These are items which are created by Lady Linnea

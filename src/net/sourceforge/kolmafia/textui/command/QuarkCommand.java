@@ -139,7 +139,7 @@ public class QuarkCommand
 		while ( i.hasNext() )
 		{
 			AdventureResult use = (AdventureResult) i.next();
-			if ( ConcoctionDatabase.getMixingMethod( use.getItemId() ) == KoLConstants.COMBINE )
+			if ( (ConcoctionDatabase.getMixingMethod( use.getItemId() ) & KoLConstants.CT_MASK) == KoLConstants.COMBINE )
 			{
 				return true;
 			}
