@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.webui;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -558,27 +559,56 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, itemCount, "outfit", "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit );
 			}
 			
+			ArrayList uses = new ArrayList();
+			
 			if ( consumeMethod == KoLConstants.EQUIP_ACCESSORY &&
 				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ).equals( EquipmentRequest.UNEQUIP ) && 
 				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ).equals( EquipmentRequest.UNEQUIP ) && 
 				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ).equals( EquipmentRequest.UNEQUIP ) )
 			{
-				return new UsesLink( new UseLink[] {
-					new UseLink( itemId, itemCount,
-						getEquipmentSpeculation( "acc1", itemId, 0,  EquipmentManager.ACCESSORY1 ),
-						"inv_equip.php?which=2&action=equip&slot=1&whichitem=" ),
-					new UseLink( itemId, itemCount,
-						getEquipmentSpeculation( "acc2", itemId, 0,  EquipmentManager.ACCESSORY2 ),
-						 "inv_equip.php?which=2&action=equip&slot=2&whichitem=" ),
-					new UseLink( itemId, itemCount,
-						getEquipmentSpeculation( "acc3", itemId, 0,  EquipmentManager.ACCESSORY3 ),
-						 "inv_equip.php?which=2&action=equip&slot=3&whichitem=" ),
-					} );
+				uses.add( new UseLink( itemId, itemCount,
+					getEquipmentSpeculation( "acc1", itemId, 0,  EquipmentManager.ACCESSORY1 ),
+					"inv_equip.php?which=2&action=equip&slot=1&whichitem=" ) );
+				uses.add( new UseLink( itemId, itemCount,
+					getEquipmentSpeculation( "acc2", itemId, 0,  EquipmentManager.ACCESSORY2 ),
+					 "inv_equip.php?which=2&action=equip&slot=2&whichitem=" ) );
+				uses.add( new UseLink( itemId, itemCount,
+					getEquipmentSpeculation( "acc3", itemId, 0,  EquipmentManager.ACCESSORY3 ),
+					 "inv_equip.php?which=2&action=equip&slot=3&whichitem=" ) );
+			}
+			else
+			{
+				uses.add( new UseLink( itemId, itemCount,
+					getEquipmentSpeculation( "equip", itemId, consumeMethod, -1 ),
+					"inv_equip.php?which=2&action=equip&whichitem=" ) );
 			}
 
-			return new UseLink( itemId, itemCount,
-				getEquipmentSpeculation( "equip", itemId, consumeMethod, -1 ),
-				"inv_equip.php?which=2&action=equip&whichitem=" );
+			if ( consumeMethod == KoLConstants.EQUIP_WEAPON &&
+				EquipmentDatabase.getHands( itemId ) == 1 &&
+				EquipmentDatabase.getHands( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() ) == 1 &&
+				KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) )
+			{
+				uses.add( new UseLink( itemId, itemCount,
+					getEquipmentSpeculation( "offhand", itemId, 0, EquipmentManager.OFFHAND ),
+					"inv_equip.php?which=2&action=dualwield&whichitem=" ) );
+			}
+			
+			if ( consumeMethod != KoLConstants.EQUIP_FAMILIAR &&
+				KoLCharacter.getFamiliar().canEquip( ItemPool.get( itemId, 1 ) ) )
+			{
+				uses.add( new UseLink( itemId, itemCount,
+					getEquipmentSpeculation( "familiar", itemId, 0, EquipmentManager.FAMILIAR ),
+					"inv_equip.php?which=2&action=hatrack&whichitem=" ) );
+			}
+			
+			if ( uses.size() == 1 )
+			{
+				return (UseLink) uses.get( 0 );
+			}
+			else
+			{
+				return new UsesLink( (UseLink[]) uses.toArray( new UseLink[ uses.size() ] ) );
+			}
 
 		case KoLConstants.CONSUME_ZAP:
 
