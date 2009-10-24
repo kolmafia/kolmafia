@@ -2283,7 +2283,9 @@ public abstract class KoLmafia
 			// you run the purchase request
 
 			previousLimit = currentRequest.getLimit();
-			currentRequest.setLimit( Math.min( previousLimit, desiredCount - currentCount ) );
+			currentRequest.setLimit( Math.min(
+				KoLCharacter.getAvailableMeat() / currentPrice,
+				Math.min( previousLimit, desiredCount - currentCount ) ) );
 			RequestThread.postRequest( currentRequest );
 
 			// Now that you have already made a purchase from the
