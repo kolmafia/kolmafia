@@ -596,10 +596,15 @@ public class MonsterDatabase
 				}
 			}
 
-			// The item doesn't drop the item or any of its
+			// The monster doesn't drop the item or any of its
 			// ingredients.
 
 			return false;
+		}
+		
+		public void clearItems()
+		{
+			this.items.clear();
 		}
 
 		public void addItem( final AdventureResult item )

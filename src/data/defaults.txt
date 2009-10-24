@@ -280,6 +280,7 @@ user	demonName5
 user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
 user	demonSummoned	false
+user	dolphinItem
 user	doorCode
 user	expressCardUsed	false
 user	extraRolloverAdventures	0

@@ -160,6 +160,9 @@ public class ValhallaManager
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
 		Preferences.setInteger( "hippiesDefeated", 0 );
 		Preferences.setString( "trapperOre", "chrome" );
+		Preferences.setString( "dolphinItem", "" );
+		Preferences.setString( "spookyPuttyMonster", "" );
+		Preferences.setString( "cameraMonster", "" );
 	}
 
 }

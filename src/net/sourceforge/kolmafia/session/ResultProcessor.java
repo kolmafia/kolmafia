@@ -372,6 +372,7 @@ public class ResultProcessor
 			if ( item.getItemId() != -1 )
 			{
 				RequestLogger.printLine( "A dolphin stole: " + item );
+				Preferences.setString( "dolphinItem", item.getName() );
 			}
 			return false;
 		}
