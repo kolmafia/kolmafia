@@ -69,7 +69,9 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1937,7 +1939,19 @@ public class GenericRequest
 		case ItemPool.DOLPHIN_WHISTLE:
 			itemName = "Dolphin Whistle";
 			consumed = true;
+			Monster m = MonsterDatabase.findMonster( "rotten dolphin thief", false );
+			if ( m != null )
+			{
+				m.clearItems();
+				String stolen = Preferences.getString( "dolphinItem" );
+				if ( stolen.length() > 0 )
+				{
+					m.addItem( ItemPool.get( stolen, (100 << 16) | 'n' ) );
+				}
+				m.doneWithItems();
+			}
 			TurnCounter.startCounting( 10, "Dolphin Whistle cooldown loc=*", "whistle.gif" );
+			Preferences.setString( "dolphinItem", "" );
 			break;
 
 		case ItemPool.CARONCH_MAP:
