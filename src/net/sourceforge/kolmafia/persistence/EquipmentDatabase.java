@@ -260,7 +260,8 @@ public class EquipmentDatabase
 	{
 		while ( ++prevId < EquipmentDatabase.statRequirements.size() )
 		{
-			if ( EquipmentDatabase.statRequirements.get( prevId ).length() > 0 )
+			if ( EquipmentDatabase.statRequirements.get( prevId ).length() > 0 ||
+				ItemDatabase.getConsumptionType( prevId ) == KoLConstants.EQUIP_FAMILIAR )
 			{
 				return prevId;
 			}
