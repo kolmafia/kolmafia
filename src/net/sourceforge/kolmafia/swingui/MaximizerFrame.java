@@ -208,7 +208,7 @@ public class MaximizerFrame
 		"<h3>CLI Use</h3>" +
 		"The Modifier Maximizer can be invoked from the gCLI or a script via <b>maximize <i>expression</i></b>, and will behave as if you'd selected Equipment: on-hand only, Max Price: don't check, and turned off the Include option.  The best equipment will automatically be equipped (unless you invoked the command as <b>maximize? <i>expression</i></b>), but you'll still need to visit the GUI to apply effect boosts - there are too many factors in choosing between the available boosts for that to be safely automated.  An error will be generated if the equipment changes weren't sufficient to fulfill all <b>min</b> keywords in the expression." +
 		"<h3>Limitations &amp; Bugs</h3>" +
-		"This is still a work-in-progress, so don't expect ANYTHING to work perfectly at the moment.  However, here are some details that are especially broken:" +
+		"This is still a work-in-progress, so don't expect everything to work perfectly at the moment.  However, here are some details that are especially broken:" +
 		"<br>\u2022 Items that can be installed at your campground for a bonus (such as Hobopolis bedding) aren't considered." +
 		"<br>\u2022 Your song limit isn't considered when recommending buffs, nor are any daily casting limits." +
 		"<br>\u2022 Mutually exclusive effects aren't handled properly." +
@@ -320,8 +320,11 @@ public class MaximizerFrame
 			{
 				MaximizerFrame.boosts.add( new Boost( "", "(folding equipment is not considered yet)", -1, null, 0.0f ) );
 			}
-			MaximizerFrame.boosts.add( new Boost( "", "(familiar items aren't considered yet)", -1, null, 0.0f ) );
 			MaximizerFrame.best = new Spec();
+			MaximizerFrame.best.getScore();
+			// In case the current outfit scores better than any tried combination,
+			// due to some newly-added constraint (such as +melee):
+			MaximizerFrame.best.failed = true;
 			MaximizerFrame.bestChecked = 0;
 			MaximizerFrame.bestUpdate = System.currentTimeMillis() + 5000;
 			try
@@ -1317,8 +1320,14 @@ public class MaximizerFrame
 				if ( outfit == null ) continue;
 				Modifiers mods = Modifiers.getModifiers( outfit.getName() );
 				if ( mods == null )	continue;
-				float delta = this.getScore( mods ) - nullScore;
-				if ( delta <= 0.0f ) continue;
+				
+				int bools = mods.getRawBitmap( 0 ) & this.booleanMask;
+				if ( (bools & ~this.booleanValue) != 0 ) continue;
+				if ( bools == 0 )
+				{
+					float delta = this.getScore( mods ) - nullScore;
+					if ( delta <= 0.0f ) continue;
+				}
 				usefulOutfits.set( i, true );
 			}
 			
@@ -1373,10 +1382,23 @@ public class MaximizerFrame
 			int id = 0;
 			while ( (id = EquipmentDatabase.nextEquipmentItemId( id )) != -1 )
 			{
-				if ( !EquipmentManager.canEquip( id ) ) continue;
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
-				AdventureResult item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
+				AdventureResult item = null;
+				boolean famCanEquip = KoLCharacter.getFamiliar().canEquip( ItemPool.get( id, 1 ) );
+				if ( famCanEquip && slot != EquipmentManager.FAMILIAR )
+				{
+					item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
+					if ( item.getCount() != 0 )
+					{
+						ranked[ EquipmentManager.FAMILIAR ].add( item );
+					}
+				}
+				if ( !EquipmentManager.canEquip( id ) ) continue;
+				if ( item == null )
+				{
+					item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
+				}
 				int count = item.getCount();
 				if ( count == 0 ) continue;
 				String name = item.getName();
@@ -1387,6 +1409,10 @@ public class MaximizerFrame
 				{
 					switch ( slot )
 					{
+					case EquipmentManager.FAMILIAR:
+						if ( !famCanEquip ) continue;
+						break;
+						
 					case EquipmentManager.WEAPON:
 						int hands = EquipmentDatabase.getHands( id );
 						if ( this.hands == 1 && hands != 1 )
@@ -1621,7 +1647,7 @@ public class MaximizerFrame
 			{
 				if ( thresh < 0 ) return;	// no slots enabled
 				boolean anySlots = false;
-				for ( int i = 0; i < EquipmentManager.FAMILIAR; ++i )
+				for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 				{
 					if ( this.slots[ i ] >= thresh )
 					{
@@ -1773,7 +1799,7 @@ public class MaximizerFrame
 				{
 					if ( idx == -1 )
 					{	// all pieces successfully put on
-						this.tryAccessories( possibles, 0 );
+						this.tryFamiliarItems( possibles );
 						break;
 					}
 					AdventureResult item = (AdventureResult) outfitPieces.get( pieces[ idx ] );
@@ -1838,7 +1864,31 @@ public class MaximizerFrame
 				this.restore( mark );
 			}
 			
+			this.tryFamiliarItems( possibles );
+		}
+		
+		public void tryFamiliarItems( ArrayList[] possibles )
+			throws MaximizerInterruptedException
+		{
+			Object mark = this.mark();
+			if ( this.equipment[ EquipmentManager.FAMILIAR ] == null )
+			{
+				ArrayList possible = possibles[ EquipmentManager.FAMILIAR ];
+				for ( int pos = 0; pos < possible.size(); ++pos )
+				{
+					AdventureResult item = (AdventureResult) possible.get( pos );
+					int count = item.getCount() & Evaluator.TOTAL_MASK;
+					if ( count <= 0 ) continue;
+					this.equipment[ EquipmentManager.FAMILIAR ] = item;
+					this.tryAccessories( possibles, 0 );
+					this.restore( mark );
+				}
+			
+				this.equipment[ EquipmentManager.FAMILIAR ] = EquipmentRequest.UNEQUIP;
+			}
+			
 			this.tryAccessories( possibles, 0 );
+			this.restore( mark );
 		}
 		
 		public void tryAccessories( ArrayList[] possibles, int pos )
