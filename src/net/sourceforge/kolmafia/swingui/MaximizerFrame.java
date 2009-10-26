@@ -176,20 +176,20 @@ public class MaximizerFrame
 		"<p>" +
 		"Note that many modifiers come in pairs: a base value, plus a percentage boost (such as Moxie and Moxie Percent), or a penalty value.  In general, you only need to specify the base modifier, and any related modifiers will automatically be taken into account." +
 		"<h3>Limits</h3>" +
-		"Any modifier keyword can be followed by one or both of these special keywords:" +
+		"Any numeric modifier keyword can be followed by one or both of these special keywords:" +
 		"<br><b>min</b> - The weight specifies the minimum acceptable value for the preceding modifier.  If the value is lower, the results will be flagged as a failure." +
 		"<br><b>max</b> - The weight specifies the largest useful value for the preceding modifier.  Larger values will be ignored in the score calculation, allowing other specified modifiers to be boosted instead." +
 		"<br>Note that the limit keywords won't quite work as expected for a modifier that you're trying to minimize." +
 		"<br>If <b>min</b> or <b>max</b> is specified at the start of the expression, it applies to the total score (the sum of each modifier value times its weight).  A global <b>max</b> may allow equipment maximization to finish faster, since no further combinations will be considered once the specified value is reached." +
 		"<h3>Other Modifiers</h3>" +
-		"Boolean modifiers can also be used as keywords.  With positive weight, the modifier is required to be true; with negative weight, it is required to be false." +
+		"Boolean modifiers can also be used as keywords.  With positive weight, the modifier is required to be true; with negative weight, it is required to be false.  There is one shortcut available: <b>sea</b> requires both Adventure Underwater and Underwater Familiar to be true." +
 		"<p>" +
 		"The only bitmap modifier that currently appears useful for maximization is Clownosity, so it is allowed as a special case.  The weight specifies the required minimum value; only one value is actually meaningful in the game, so <b>4 clownosity</b> is the only useful form of this keyword." +
 		"<p>" +
 		"String modifiers are not currently meaningful for maximization." +
 		"<h3>Equipment</h3>" +
 		"Slot names can be used as keywords:" +
-		"<br><b>hat</b>, <b>weapon</b>, <b>offhand</b>, <b>shirt</b>, <b>pants</b>, <b>acc1</b>, <b>acc2</b>, <b>acc3</b>, <b>familiar</b> (familiar is not yet supported; stickers and fake hands are not currently planned.)" +
+		"<br><b>hat</b>, <b>weapon</b>, <b>offhand</b>, <b>shirt</b>, <b>pants</b>, <b>acc1</b>, <b>acc2</b>, <b>acc3</b>, <b>familiar</b> (stickers and fake hands are not currently planned.)" +
 		"<br>With positive weights, only the specified slots will be considered for maximization.  With negative weights, all but the specified slots will be considered." +
 		"<br><b>empty</b> - With positive weight, consider only slots that are currently empty; with negative weight, only those that aren't empty.  Either way, <b>+<i>slot</i></b> and <b>-<i>slot</i></b> can be used to further refine the selected slots." +
 		"<br><b>hand</b>ed - With a weight of 1, only 1-handed weapons will be considered.  With a larger weight, only weapons with at least that handedness will be considered." +
@@ -996,6 +996,15 @@ public class MaximizerFrame
 					this.clownosity = (int) weight;
 					continue;
 				}
+				else if ( keyword.equals( "sea" ) )
+				{
+					this.booleanMask |= (1 << Modifiers.ADVENTURE_UNDERWATER) |
+						(1 << Modifiers.UNDERWATER_FAMILIAR);
+					this.booleanValue |= (1 << Modifiers.ADVENTURE_UNDERWATER) |
+						(1 << Modifiers.UNDERWATER_FAMILIAR);
+					index = -1;
+					continue;
+				}
 				
 				int slot = EquipmentRequest.slotNumber( keyword );
 				if ( slot >= 0 && slot < EquipmentManager.ALL_SLOTS )
@@ -1121,6 +1130,7 @@ public class MaximizerFrame
 					{
 						this.booleanValue |= 1 << boolIndex;
 					}
+					index = -1;	// min/max not valid at this point
 					continue;
 				}
 				
