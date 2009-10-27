@@ -1614,7 +1614,8 @@ public abstract class KoLCharacter
 
 	public static final float getExperienceAdjustment()
 	{
-		return KoLCharacter.currentModifiers.get( Modifiers.EXPERIENCE );
+		return KoLCharacter.currentModifiers.get(
+			Modifiers.MUS_EXPERIENCE + KoLCharacter.getPrimeIndex() );
 	}
 
 	/**
@@ -3407,6 +3408,35 @@ public abstract class KoLCharacter
 
 		float monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
 		newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f, "ML/4" );
+		
+		float exp = newModifiers.get( Modifiers.EXPERIENCE );
+		if ( exp != 0.0f )
+		{
+			String tuning = newModifiers.getString( Modifiers.STAT_TUNING );
+			int prime = KoLCharacter.getPrimeIndex();
+			if ( tuning.equals( "Muscle" ) ) prime = 0;
+			else if ( tuning.equals( "Mysticality" ) ) prime = 1;
+			else if ( tuning.equals( "Moxie" ) ) prime = 2;
+			
+			switch ( prime )
+			{
+			case 0:
+				newModifiers.add( Modifiers.MUS_EXPERIENCE, exp / 2.0f, "EXP/2" );
+				newModifiers.add( Modifiers.MYS_EXPERIENCE, exp / 4.0f, "EXP/4" );
+				newModifiers.add( Modifiers.MOX_EXPERIENCE, exp / 4.0f, "EXP/4" );
+				break;
+			case 1:
+				newModifiers.add( Modifiers.MYS_EXPERIENCE, exp / 2.0f, "EXP/2" );
+				newModifiers.add( Modifiers.MUS_EXPERIENCE, exp / 4.0f, "EXP/4" );
+				newModifiers.add( Modifiers.MOX_EXPERIENCE, exp / 4.0f, "EXP/4" );
+				break;
+			case 2:
+				newModifiers.add( Modifiers.MOX_EXPERIENCE, exp / 2.0f, "EXP/2" );
+				newModifiers.add( Modifiers.MUS_EXPERIENCE, exp / 4.0f, "EXP/4" );
+				newModifiers.add( Modifiers.MYS_EXPERIENCE, exp / 4.0f, "EXP/4" );
+				break;
+			}
+		}
 
 		// Determine whether or not data has changed
 		

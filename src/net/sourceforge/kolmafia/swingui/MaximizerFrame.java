@@ -122,18 +122,19 @@ public class MaximizerFrame
 		"ML",
 		"DA",
 		"DR",
-		"+combat",
-		"-combat",
+		"+combat -tie",
+		"-combat -tie",
 		"initiative",
 		"exp",
 		"meat drop",
 		"item drop",
 		"2.0 meat, 1.0 item",
+		"item, sea",
 		"weapon dmg",
 		"ranged dmg",
 		"elemental dmg",
 		"spell dmg",
-		"adv",
+		"adv -tie",
 		"hot res",
 		"cold res",
 		"spooky res",
@@ -1138,8 +1139,13 @@ public class MaximizerFrame
 					"Unrecognized keyword: " + keyword );
 				return;
 			}
-			this.weight[ Modifiers.MONSTER_LEVEL ] +=
-				this.weight[ Modifiers.EXPERIENCE ] * 0.000001;
+			
+			// Make sure indirect sources have at least a little weight;
+			float expFudge = this.weight[ Modifiers.EXPERIENCE ] * 0.0001f;
+			this.weight[ Modifiers.MONSTER_LEVEL ] += expFudge;
+			this.weight[ Modifiers.MUS_EXPERIENCE ] += expFudge;
+			this.weight[ Modifiers.MYS_EXPERIENCE ] += expFudge;
+			this.weight[ Modifiers.MOX_EXPERIENCE ] += expFudge;
 		}
 		
 		public float getScore( Modifiers mods )
@@ -1217,6 +1223,9 @@ public class MaximizerFrame
 					{
 						val -= 100.0f;
 					}
+					break;
+				case Modifiers.EXPERIENCE:
+					val = mods.get( Modifiers.MUS_EXPERIENCE + KoLCharacter.getPrimeIndex() );
 					break;
 				}
 				if ( val < min ) this.failed = true;
@@ -1309,15 +1318,12 @@ public class MaximizerFrame
 			// Items automatically considered regardless of their score -
 			// outfit pieces, synergies, hobo power, brimstone, etc.
 			ArrayList[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS ];
-			// Items with a positive score
+			// Items to be considered based on their score
 			ArrayList[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS ];
-			// Items with zero score (in case no positive scores were found)
-			ArrayList[] neutral = new ArrayList[ EquipmentManager.ALL_SLOTS ];
 			for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 			{
 				automatic[ i ] = new ArrayList();
 				ranked[ i ] = new ArrayList();
-				neutral[ i ] = new ArrayList();
 			}
 			
 			float nullScore = this.getScore( new Modifiers() );
@@ -1413,7 +1419,6 @@ public class MaximizerFrame
 				if ( count == 0 ) continue;
 				String name = item.getName();
 				
-				ArrayList[] dest = null;
 				int auxSlot = -1;
 			gotItem:
 				{
@@ -1477,7 +1482,6 @@ public class MaximizerFrame
 							&& !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) ) 
 						{
 							item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
-							dest = automatic;
 							break gotItem;
 						}
 						if ( hoboPowerUseful && name.startsWith( "Hodgman's" ) )
@@ -1511,7 +1515,6 @@ public class MaximizerFrame
 					if ( mods == null )	// no enchantments
 					{
 						if ( (count & Evaluator.BUYABLE_FLAG) != 0 ) continue;
-						dest = neutral;
 						break gotItem;
 					}
 					
@@ -1539,7 +1542,6 @@ public class MaximizerFrame
 							& usefulSynergies) != 0 ) )
 					{
 						item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
-						dest = automatic;
 						break gotItem;
 					}
 					
@@ -1551,29 +1553,22 @@ public class MaximizerFrame
 						newMods.add( Modifiers.getModifiers( intrinsic ) );
 						mods = newMods;
 					}
+					if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
+					{
+						slot = Evaluator.WATCHES;
+					}
 					float delta = this.getScore( mods ) - nullScore;
 					if ( delta < 0.0f ) continue;
 					if ( delta == 0.0f )
 					{
+						if ( KoLCharacter.hasEquipped( item ) ) break gotItem;
 						if ( (count & Evaluator.BUYABLE_FLAG) != 0 ) continue;
-						dest = neutral;
-						if ( mods.get( Modifiers.FAMILIAR_WEIGHT ) <= 0.0f )
-						{	
-							break gotItem;
-						}
+						if ( (count & Evaluator.AUTOMATIC_FLAG) != 0 ) continue;
 					}
-					if ( mods.getBoolean( Modifiers.NONSTACKABLE_WATCH ) )
-					{
-						item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
-						slot = Evaluator.WATCHES;
-						dest = automatic;
-						break gotItem;
-					}
-					dest = ranked;
 				}
 				// "break gotItem" goes here
-				dest[ slot ].add( item );
-				if ( auxSlot != -1 ) dest[ auxSlot ].add( item );
+				ranked[ slot ].add( item );
+				if ( auxSlot != -1 ) ranked[ auxSlot ].add( item );
 			}
 			
 			for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
@@ -1583,16 +1578,6 @@ public class MaximizerFrame
 					RequestLogger.printLine( "SLOT " + slot );
 				}
 				ArrayList list = ranked[ slot ];
-				if ( list.size() == 0 )
-				{
-					list = neutral[ slot ];
-				}
-				else if ( list.size() < Evaluator.MAX_USEFUL[ slot ] )
-				{
-					list.addAll( neutral[ slot ] );
-				}
-				list.addAll( automatic[ slot ] );
-				automatic[ slot ].clear();
 				ListIterator i = list.listIterator();
 				while ( i.hasNext() )
 				{
@@ -1623,6 +1608,7 @@ public class MaximizerFrame
 					RequestLogger.printLine( list.toString() );
 				}
 				i = list.listIterator( list.size() );
+				int total = 0;
 				while ( i.hasPrevious() )
 				{	
 					AdventureResult item = ((Spec) i.previous()).attachment;
@@ -1633,9 +1619,10 @@ public class MaximizerFrame
 						continue;
 					}
 					if ( (count & Evaluator.AUTOMATIC_FLAG) != 0 ||
-						automatic[ slot ].size() < Evaluator.MAX_USEFUL[ slot ] )
+						total < Evaluator.MAX_USEFUL[ slot ] )
 					{
 						automatic[ slot ].add( item );
+						total += count & Evaluator.TOTAL_MASK;
 					}
 				}
 				if ( this.dump > 0 )
@@ -1884,6 +1871,7 @@ public class MaximizerFrame
 			if ( this.equipment[ EquipmentManager.FAMILIAR ] == null )
 			{
 				ArrayList possible = possibles[ EquipmentManager.FAMILIAR ];
+				boolean any = false;
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
@@ -1891,9 +1879,11 @@ public class MaximizerFrame
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.FAMILIAR ] = item;
 					this.tryAccessories( possibles, 0 );
+					any = true;
 					this.restore( mark );
 				}
 			
+				if ( any ) return;
 				this.equipment[ EquipmentManager.FAMILIAR ] = EquipmentRequest.UNEQUIP;
 			}
 			
@@ -1912,6 +1902,7 @@ public class MaximizerFrame
 			if ( free > 0 )
 			{
 				ArrayList possible = possibles[ EquipmentManager.ACCESSORY1 ];
+				boolean any = false;
 				for ( ; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
@@ -1950,9 +1941,12 @@ public class MaximizerFrame
 						}
 
 						this.tryAccessories( possibles, pos + 1 );
+						any = true;
 					}
 					this.restore( mark );
 				}
+				
+				if ( any ) return;
 			
 				if ( this.equipment[ EquipmentManager.ACCESSORY1 ] == null )
 				{
@@ -1983,6 +1977,7 @@ public class MaximizerFrame
 			if ( this.equipment[ EquipmentManager.HAT ] == null )
 			{
 				ArrayList possible = possibles[ EquipmentManager.HAT ];
+				boolean any = false;
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
@@ -1994,9 +1989,11 @@ public class MaximizerFrame
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.HAT ] = item;
 					this.tryShirts( possibles );
+					any = true;
 					this.restore( mark );
 				}
 			
+				if ( any ) return;
 				this.equipment[ EquipmentManager.HAT ] = EquipmentRequest.UNEQUIP;
 			}
 			
@@ -2012,6 +2009,7 @@ public class MaximizerFrame
 				KoLCharacter.hasSkill( "Torso Awaregness" ) )
 			{
 				ArrayList possible = possibles[ EquipmentManager.SHIRT ];
+				boolean any = false;
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
@@ -2023,9 +2021,11 @@ public class MaximizerFrame
 					//if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.SHIRT ] = item;
 					this.tryPants( possibles );
+					any = true;
 					this.restore( mark );
 				}
 			
+				if ( any ) return;
 				this.equipment[ EquipmentManager.SHIRT ] = EquipmentRequest.UNEQUIP;
 			}
 			
@@ -2040,6 +2040,7 @@ public class MaximizerFrame
 			if ( this.equipment[ EquipmentManager.PANTS ] == null )
 			{
 				ArrayList possible = possibles[ EquipmentManager.PANTS ];
+				boolean any = false;
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
@@ -2051,9 +2052,11 @@ public class MaximizerFrame
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.PANTS ] = item;
 					this.tryWeapons( possibles );
+					any = true;
 					this.restore( mark );
 				}
 			
+				if ( any ) return;
 				this.equipment[ EquipmentManager.PANTS ] = EquipmentRequest.UNEQUIP;
 			}
 			
@@ -2068,6 +2071,7 @@ public class MaximizerFrame
 			if ( this.equipment[ EquipmentManager.WEAPON ] == null )
 			{
 				ArrayList possible = possibles[ EquipmentManager.WEAPON ];
+				boolean any = false;
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
@@ -2083,9 +2087,11 @@ public class MaximizerFrame
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.WEAPON ] = item;
 					this.tryOffhands( possibles );
+					any = true;
 					this.restore( mark );
 				}
 			
+				if ( any ) return;
 				this.equipment[ EquipmentManager.WEAPON ] = EquipmentRequest.UNEQUIP;
 			}
 			
@@ -2134,6 +2140,7 @@ public class MaximizerFrame
 				default:
 					possible = possibles[ EquipmentManager.OFFHAND ];
 				}
+				boolean any = false;
 				
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
@@ -2155,10 +2162,11 @@ public class MaximizerFrame
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.OFFHAND ] = item;
 					this.tryOffhands( possibles );
+					any = true;
 					this.restore( mark );
 				}
 			
-				if ( requireGlove ) return;
+				if ( any || requireGlove ) return;
 				this.equipment[ EquipmentManager.OFFHAND ] = EquipmentRequest.UNEQUIP;
 			}
 			else if ( requireGlove && this.equipment[ EquipmentManager.OFFHAND ].getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )

@@ -170,6 +170,9 @@ public class Modifiers
 	public static final int HP_NONMULT = 82;
 	public static final int MP_NONMULT = 83;
 	public static final int SPELL_CRITICAL_PCT = 84;
+	public static final int MUS_EXPERIENCE = 85;
+	public static final int MYS_EXPERIENCE = 86;
+	public static final int MOX_EXPERIENCE = 87;
 	
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -548,6 +551,18 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+)% chance of Spell Critical Hit" ),
 		  Pattern.compile( "Spell Critical Percent: " + EXPR )
 		},
+		{ "Muscle Experience",
+		  Pattern.compile( "([+-]\\d+) Muscle Stat.*Per Fight" ),
+		  Pattern.compile( "Experience \\(Muscle\\): " + EXPR )
+		},
+		{ "Mysticality Experience",
+		  Pattern.compile( "([+-]\\d+) Mysticality Stat.*Per Fight" ),
+		  Pattern.compile( "Experience \\(Mysticality\\): " + EXPR )
+		},
+		{ "Moxie Experience",
+		  Pattern.compile( "([+-]\\d+) Moxie Stat.*Per Fight" ),
+		  Pattern.compile( "Experience \\(Moxie\\): " + EXPR )
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
@@ -711,6 +726,8 @@ public class Modifiers
 	public static final int WIKI_NAME = 3;
 	public static final int MODIFIERS = 4;
 	public static final int OUTFIT = 5;
+	public static final int STAT_TUNING = 6;
+	public static final int FAMILIAR_TUNING = 7;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -737,6 +754,14 @@ public class Modifiers
 		{ "Outfit",
 		  null,
 		  null
+		},
+		{ "Stat Tuning",
+		  null,
+		  Pattern.compile( "Stat Tuning: \"(.*?)\"" )
+		},
+		{ "Familiar Tuning",
+		  null,
+		  Pattern.compile( "Familiar Tuning: \"(.*?)\"" )
 		},
 	};
 
@@ -844,7 +869,7 @@ public class Modifiers
 		if ( G ) mp = (int) Math.ceil( 1.05f * mp );
 		if ( I ) mp = (int) Math.ceil( 1.1f * mp );
 		mp = Math.max( mp, (int) Math.floor( mys * C ) );
-		rv[ Modifiers.BUFFED_MP ] = mp + (int) this.get( Modifiers.MP_NONMULT );;
+		rv[ Modifiers.BUFFED_MP ] = mp + (int) this.get( Modifiers.MP_NONMULT );
 		
 		return rv;
 	}	
@@ -1357,6 +1382,16 @@ public class Modifiers
 				this.strings[ Modifiers.INTRINSIC_EFFECT ] = prev + "\t" + val;
 			}
 		}
+		val = mods.strings[ Modifiers.STAT_TUNING ];
+		if ( val != "" )
+		{
+			this.strings[ Modifiers.STAT_TUNING ] = val;
+		}
+		val = mods.strings[ Modifiers.FAMILIAR_TUNING ];
+		if ( val != "" )
+		{
+			this.strings[ Modifiers.FAMILIAR_TUNING ] = val;
+		}
 
 		// OR in the bitmap modifiers (including all the boolean modifiers)
 		for ( int i = 0; i < this.bitmaps.length; ++i )
@@ -1750,7 +1785,24 @@ public class Modifiers
 		{
 			double factor = this.get( Modifiers.VOLLEYBALL_EFFECTIVENESS );
 			if ( factor == 0.0 ) factor = 1.0;
-			this.add( Modifiers.EXPERIENCE, factor * Math.sqrt( effective ), "Volleyball" );
+			factor = factor * Math.sqrt( effective );
+			String tuning = this.getString( Modifiers.FAMILIAR_TUNING );
+			if ( tuning.equals( "Muscle" ) )
+			{
+				this.add( Modifiers.MUS_EXPERIENCE, factor, "Tuned Volleyball" );
+			}
+			else if ( tuning.equals( "Mysticality" ) )
+			{
+				this.add( Modifiers.MYS_EXPERIENCE, factor, "Tuned Volleyball" );
+			}
+			else if ( tuning.equals( "Moxie" ) )
+			{
+				this.add( Modifiers.MOX_EXPERIENCE, factor, "Tuned Volleyball" );
+			}
+			else
+			{			
+				this.add( Modifiers.EXPERIENCE, factor, "Volleyball" );
+			}
 		}
 
 		effective = cappedWeight * this.get( Modifiers.SOMBRERO_WEIGHT );
