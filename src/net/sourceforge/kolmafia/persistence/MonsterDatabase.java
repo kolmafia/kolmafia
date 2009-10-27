@@ -449,7 +449,7 @@ public class MonsterDatabase
 			this.attack = attack;
 			this.defense = defense;
 			this.initiative = initiative;
-			this.statGain = attack / 4.0f;
+			this.statGain = attack / 8.0f;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
 			this.minMeat = minMeat;
@@ -680,7 +680,7 @@ public class MonsterDatabase
 
 		public float getAdjustedExperience( final float modifier )
 		{
-			this.statGain = this.attack / 4.0f + modifier;
+			this.statGain = this.attack / 8.0f + modifier;
 
 			return Math.max( 1.0f, this.statGain );
 		}

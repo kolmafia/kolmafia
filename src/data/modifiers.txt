@@ -853,8 +853,7 @@ white sword	Muscle: +2
 white whip	Experience: +1
 wholeberd	Weapon Damage: +6
 wiffle-flail	Mysticality: +3, Muscle: +2, Initiative: +20
-# witty rapier: +2 Mysticality Stat(s) Per Fight
-witty rapier	Experience: +2
+witty rapier	Experience (Mysticality): +2
 wooden axe	Muscle: +3
 wooden stakes	Weapon Damage: +1
 world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
@@ -924,7 +923,8 @@ Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15
 Sinful Desires	Spell Damage: +10
 # Spanish fly trap
 The Spirit of Crimbo	Free Pull
-Tiki lighter	Experience: +1
+Tiki lighter	Experience: +1, Stat Tuning: "Moxie"
+# Tuesday's ruby has day-dependent effects which are hard-coded
 Tuesday's ruby	none
 # Wand of Oscus: All Spells Cast Are Stinky
 Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
@@ -938,8 +938,7 @@ antique shield	Initiative: -10, Damage Reduction: 15
 # bag of Crotchety Pine saplings
 # bag of Laughing Willow saplings
 # bag of Saccharine Maple saplings
-# ball-in-a-cup: +2 Mysticality Stat(s) Per Fight
-ball-in-a-cup	Experience: +2
+ball-in-a-cup	Experience (Mysticality): +2
 # balloon shield: Deals 2-3 damage to attackers
 balloon shield	Damage Reduction: 3
 barskin buckler	Muscle: +2, Damage Reduction: 1
@@ -972,7 +971,7 @@ collapsible baton	Mysticality Percent: +10, Spell Critical Percent: +5
 cup of infinite pencils	Meat Drop: +15
 cyborg doll	Muscle: +3
 deck of lewd playing cards	Moxie Percent: +5, Sleaze Damage: +69, Sleaze Spell Damage: +69
-deck of tropical cards	Experience: +1
+deck of tropical cards	Experience: +1, Stat Tuning: "Mysticality"
 # defective skull
 demon buckler	Hot Damage: +3, Damage Reduction: 5
 depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
@@ -1002,8 +1001,7 @@ gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # green balloon
 green peawee marble	Stench Spell Damage: +30
 grisly shield	Damage Reduction: 13, Slime Hates It: +1, Weapon Damage: +50, PvP Fights: +6
-# handmade hobby horse: +2 Muscle Stat(s) Per Fight
-handmade hobby horse	Experience: +2
+handmade hobby horse	Experience (Muscle): +2
 # heart-shaped balloon
 hippo skin buckler	Muscle: +5, Damage Reduction: 5
 hobo code binder	Free Pull
@@ -1058,8 +1056,7 @@ rusty compass	Initiative: +30
 sawblade shield	Weapon Damage: +11, Damage Reduction: 11
 sealskin drum	Weapon Damage: +20, Class: "Seal Clubber"
 sebaceous shield	Stench Damage: +1, Sleaze Damage: +1, Damage Reduction: 2
-# set of jacks: +2 Moxie Stat(s) Per Fight
-set of jacks	Experience: +2
+set of jacks	Experience (Moxie): +2
 sewer turtle	Stench Damage: +1, Damage Reduction: 1
 shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubber"
 # silver sausage
@@ -1111,7 +1108,7 @@ teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 tip jar	Meat Drop: +5
 tortoboggan shield	Initiative: +30, Cold Resistance: +2, Damage Reduction: 6
-tropical paperweight	Experience: +1
+tropical paperweight	Experience: +1, Stat Tuning: "Muscle"
 turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
 turtling rod	Class: "Turtle Tamer"
@@ -1655,7 +1652,7 @@ ant pitchfork	Familiar Effect: "stench damage, meat"
 ant rake	Familiar Effect: "hot damage, meat"
 # ant sickle: Your familiar will sow pain and reap Meat.
 ant sickle	Familiar Effect: "spooky damage, meat"
-aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Effect: "mys stats"
+aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Mysticality", Familiar Effect: "mys stats"
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
 blue suede shoes	Familiar Weight: +5
@@ -1668,11 +1665,11 @@ brass stinger	Familiar Weight: +5
 cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
 candied yam pinky ring	Familiar Weight: +5
-charpuce jub-jub bird	Familiar Weight: +5, Familiar Effect: "mox stats"
+charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Moxie", Familiar Effect: "mox stats"
 chocolate spurs	Familiar Weight: +5
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
-crimsilion jub-jub bird	Familiar Weight: +5, Familiar Effect: "mus stats"
+crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Muscle", Familiar Effect: "mus stats"
 das boot	Familiar Weight: -10, Underwater Familiar, Familiar Effect: "adventure underwater"
 dental pliers	Familiar Weight: +5
 diamond-studded fronts	Familiar Weight: +5
@@ -1893,7 +1890,7 @@ Alchemical, Brother	Mysticality Percent: +30
 # All Covered In Whatsit: Continually take damage
 All Fired Up	Initiative: +30
 # Aloysius' Antiphon of Aptitude: +1 Muscle, Mysticality and Moxie Stat Per Fight
-Aloysius' Antiphon of Aptitude	Experience: +3
+Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Also Schmeckt Zarathustra	Mysticality: +30
 Amorous	Moxie: +5, Sleaze Damage: +5
 Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -1902,7 +1899,8 @@ And Your Family, Too	Familiar Weight: -10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 # Antarctic Memories: Recover HP and MP after battle
 Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
-# Antihangover	Experience: +3
+# Antihangover	actual exp is floor((yesterday's drunkenness)^(1/1.7))
+Antihangover	Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5
 Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Apoplectic with Rage	Mysticality Percent: -10
@@ -2103,12 +2101,9 @@ Fastbreaker	Muscle Percent: +20
 Fat Leon's Phat Loot Lyric	Item Drop: +20
 Fearless	Monster Level: -10
 Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
-# Feet of Grapefruit: +3 Mysticality Stats Per Fight
-Feet of Grapefruit	Experience: +3
-# Feet of Strawberry: +3 Moxie Stats Per Fight
-Feet of Strawberry	Experience: +3
-# Feet of Watermelon: +3 Muscle Stats Per Fight
-Feet of Watermelon	Experience: +3
+Feet of Grapefruit	Experience (Mysticality): +3
+Feet of Strawberry	Experience (Moxie): +3
+Feet of Watermelon	Experience (Muscle): +3
 Festive Radiation	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
 Fever From the Flavor	Cold Resistance: +9
 # Fiery Heart: Mysticality +
@@ -2150,8 +2145,7 @@ Frostbitten	Cold Damage: +10, Damage Reduction: -2
 Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
 Full of Vinegar	Weapon Damage: [+1*D]
-# Full-Body Tan: +18 Moxie Stats Per Fight
-Full-Body Tan	Experience: [L]
+Full-Body Tan	Experience (Moxie): [L]
 Fury of the Bells	Muscle Percent: +10
 Fustulent	Stench Damage: +15, Stench Spell Damage: +15
 Gelded	Monster Level: +5
@@ -2176,7 +2170,6 @@ Grimace	Monster Level: +25, Slime Resistance: +1
 Grulched	Stench Damage: +25, Monster Level: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
 # Haiku State of Mind	large penalty to result parsing
-# Hair of the Fish: Muscle: +X, Mysticality: +X, Moxie: +X
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
 Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
@@ -2194,8 +2187,7 @@ Heart of Pink	Muscle: +3, Mysticality: +3, Moxie: +3, Meat Drop: +20
 # Heart of White: +1 Familiar Experience Per Fight
 Heart of White	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +1
 Heart of Yellow	Muscle: +3, Mysticality: +3, Moxie: +3, Initiative: +20
-# Heavily Breathing: +18 Muscle Stats Per Fight
-Heavily Breathing	Experience: [L]
+Heavily Breathing	Experience (Muscle): [L]
 Heavy Petting	Familiar Weight: +5, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Hella Smart	Mysticality Percent: +25, Spell Damage: +15, MP Regen Min: 10, MP Regen Max: 15
 Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
@@ -2267,8 +2259,7 @@ Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -
 Make Meat FA$T!	Meat Drop: +20
 Mallowed Out	Moxie Percent: [min(500,+5*T)], Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(500,+5*T)]
 Man's Worst Enemy	Familiar Weight: +5
-# Marco Polarity: +18 Mysticality Stats Per Fight
-Marco Polarity	Experience: [L]
+Marco Polarity	Experience (Mysticality): [L]
 Mariachi Mood	Maximum HP: +3, Moxie: +1
 Material Witness	Meat Drop: +10
 Meatwise	Meat Drop: +35
@@ -2509,12 +2500,9 @@ The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
 The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 The Cupcake of Wrath	Monster Level: +10
 The Great Tit's Blessing	Monster Level: +20, Moxie Percent: +5
-# The Halls of Moxiousness: +3 Moxie Stats Per Fight
-The Halls of Moxiousness	Experience: +3
-# The Halls of Muscularity: +3 Muscle Stats Per Fight
-The Halls of Muscularity	Experience: +3
-# The Halls of Mysticality: +3 Mysticality Stats Per Fight
-The Halls of Mysticality	Experience: +3
+The Halls of Moxiousness	Experience (Moxie): +3
+The Halls of Muscularity	Experience (Muscle): +3
+The Halls of Mysticality	Experience (Mysticality): +3
 The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 The Moxious Madrigal	Moxie: +10
 The Q Is Talking To You	Mysticality Percent: +10
