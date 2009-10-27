@@ -4262,7 +4262,7 @@
 4256	spooky sap	multiple, combat	all	50
 4257	petrified wood	none, combat	all	50
 4258	chocolate-covered scarab beetle	food	all	50
-4259	mulled cider	booze	all	50
+4259	mulled cider	drink	all	50
 4260	wolfman mask	hat	all	5
 4261	pumpkinhead mask	hat	all	5
 4262	mummy costume	hat	all	5
@@ -4277,6 +4277,6 @@
 4271
 4272
 4273	ribbon candy	multiple	all	50
-4274	Underworld acorn	none    display	0
+4274	Underworld acorn	none	display	0
 4275	Underworld trunk	none	display	0
 
