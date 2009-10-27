@@ -340,6 +340,7 @@ public class ItemPool
 	public static final int HEXAGONAL_WAND = 1270;
 	public static final int ALUMINUM_WAND = 1271;
 	public static final int MARBLE_WAND = 1272;
+	public static final int MEDICINAL_HERBS = 1274;
 	public static final int MAKEUP_KIT = 1305;
 	public static final int COMFY_BLANKET = 1305;
 	public static final int FACSIMILE_DICTIONARY = 1316;

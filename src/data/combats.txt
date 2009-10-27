@@ -150,6 +150,7 @@ Queen's Chamber	100	The Queen Filthworm
 Rogue Windmill	70	Can-can Dancer	Courtesan	Sensitive Poet-type	The Master of Ceremonies	Voyeuristic Artist
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	Cyborg Policeman	"Handyman" Jay Android	Liquid Metal Robot	Obese Tourist	Space Marine	Terrifying Robot
 Shady Thicket	100	Drunk Duck	Mean Drunk Duck
+Shivering Timbers	100	Deadwood Tree	Fur Tree	Hangman's Tree	Pumpkin Tree	Toilet-papered Tree	Underworld Tree: 0
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
 Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo	Crazy Bastard: -1
 Sorceress' Hedge Maze	100	Topiary Golem

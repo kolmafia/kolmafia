@@ -4253,3 +4253,30 @@
 4247
 4248
 4249	miniature tophat	familiar	all	75
+4250
+4251
+4252
+4253
+4254	spooky bark	multiple	all	10
+4255	Wolfman Nardz	mp	all	50
+4256	spooky sap	multiple, combat	all	50
+4257	petrified wood	none, combat	all	50
+4258	chocolate-covered scarab beetle	food	all	50
+4259	mulled cider	booze	all	50
+4260	wolfman mask	hat	all	5
+4261	pumpkinhead mask	hat	all	5
+4262	mummy costume	hat	all	5
+4263	Ax of L'rose	weapon	display	0
+4264	bark boxers	pants	display	100
+4265	bark beret	hat	display	100
+4266	bark bracelet	accessory	display	100
+4267
+4268
+4269
+4270
+4271
+4272
+4273	ribbon candy	multiple	all	50
+4274	Underworld acorn	none    display	0
+4275	Underworld trunk	none	display	0
+

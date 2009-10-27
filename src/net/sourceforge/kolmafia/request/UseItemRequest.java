@@ -310,6 +310,7 @@ public class UseItemRequest
 		{
 		case ItemPool.GONG:
 		case ItemPool.KETCHUP_HOUND:
+		case ItemPool.MEDICINAL_HERBS:
 			UseItemRequest.limiter = "usability";
 			return 1;
 

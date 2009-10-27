@@ -1346,6 +1346,10 @@ deck of lewd playing cards	MUSE	lewd playing card (52)
 
 propeller beanie	MUSE	Bash-&#332;s boxtop (20)
 
+bark bracelet	MUSE	spooky bark (5)
+bark beret	MUSE	spooky bark (7)
+bark boxers	MUSE	spooky bark (9)
+
 turtlemail coif	MUSE	turtlemail bits (3)
 turtlemail breeches	MUSE	turtlemail bits (5)
 turtlemail hauberk	MUSE, TORSO	turtlemail bits (8)

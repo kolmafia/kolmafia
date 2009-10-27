@@ -55,7 +55,8 @@
 54	Slimesuit	hardened slime hat, hardened slime pants, hardened slime belt
 55	Primitive Radio Duds	Voluminous Radio Hat, Voluminous Radio Pants, Voluminous Radio Sneakers
 56	Floaty Fatigues	floaty rock helmet, floaty rock pants, floaty rock necklace
-
+57
+58	Vestments of the Treeslayer	bark beret, bark boxers, bark bracelet
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.
