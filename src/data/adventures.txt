@@ -182,6 +182,7 @@ Holiday	adventure=23	true	Drunken Stupor
 Holiday	adventure=84	true	St. Sneaky Pete's Day Stupor
 Holiday	adventure=163	true	Yuletide Bonfire
 Holiday	adventure=174	true	Arrrboretum
+Holiday	adventure=216	true	Shivering Timbers
 Holiday	adventure=37	true	Spectral Pickle Factory
 Holiday	adventure=175	true	Spectral Salad Factory
 Holiday	adventure=173	true	Generic Summer Holiday Swimming!

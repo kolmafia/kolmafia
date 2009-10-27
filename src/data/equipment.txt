@@ -46,6 +46,7 @@ asbestos helmet turtle	80	Mox: 25
 asshat	30	none
 balaclava	50	Mox: 10
 balloon helmet	50	Mox: 10
+bark beret	0	Mox: 5
 barskin hat	55	Mox: 12
 basic meat fez	45	Mox: 7
 basic meat helmet	40	Mox: 5
@@ -129,6 +130,7 @@ metallic foil cat ears	30	none
 miner's helmet	80	Mox: 25
 moist sailor's cap	200	Mox: 85
 mullet wig	40	Mox: 5
+mummy costume	10	none
 mummy mask	170	Mox: 70
 nasty rat mask	180	Mox: 75
 nurse's hat	200	Mox: 85
@@ -147,6 +149,7 @@ pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10
 plexiglass pith helmet	180	Mox: 75
 propeller beanie	30	none
+pumpkinhead mask	10	none
 raspberry beret	50	Mox: 10
 ravioli hat	10	none
 red traffic cone	60	Mox: 15
@@ -180,6 +183,7 @@ webbed comic mask	10	none
 willowy bonnet	75	Mox: 22
 witch hat	10	none
 wolf mask	150	Mox: 60
+wolfman mask	10	none
 wooden salad bowl	120	Mox: 45
 wool hat	175	Mox: 72
 worn tophat	125	Mox: 47
@@ -222,6 +226,7 @@ Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
 antique greaves	200	Mus: 85
 astronaut pants	175	Mox: 72
+bark boxers	0	Mox: 5
 barskin loincloth	25	none
 basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
@@ -388,6 +393,7 @@ yak anorak	115	Mus: 42
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 7-inch discus	200	Mox: 85	1-handed boomerang
+Ax of L'rose	50	Mus: 0	2-handed axe
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 Bjorn's Hammer	50	Mus: 10	1-handed club
 Brimstone Bludgeon	200	Mus: 30	1-handed club
@@ -1155,6 +1161,7 @@ baconstone pendant	0	Mys: 10
 baconstone ring	0	Mys: 10
 badass belt	0	Mys: 35
 baneful bandolier	200	Mus: 150
+bark bracelet	0	Mys: 5
 beach glass necklace	0	Mys: 20
 beaten-up Chucks	0	Mys: 45
 beer goggles	0	none

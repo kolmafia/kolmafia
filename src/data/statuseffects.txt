@@ -675,3 +675,26 @@
 674	Swimming Head	loop.gif	8626f8671845ddcf2758099d159f4cbd
 675
 676	Spangled Star	tinystars.gif	c369319642dfc3e85b43bbd33a587069	use 1 groupie spangles
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691	Sappy Blood	blooddrops.gif	be2d899982f60689acf64428f6ad7e29	use 1 spooky sap
+692
+693
+694
+695
+696
+697
+698
+699

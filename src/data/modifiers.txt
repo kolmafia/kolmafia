@@ -86,6 +86,7 @@ asbestos helmet turtle	Hot Resistance: +1, Familiar Effect: "hot atk, 1xFairy, c
 asshat	Stench Resistance: +1, Sleaze Damage: +1, Familiar Effect: "stench atk, 1xVolley, cap 7"
 balaclava	Cold Resistance: +1, Familiar Effect: "cold atk, 1.5xLep, cap 12"
 balloon helmet	Damage Absorption: +20, Clownosity: +1, Familiar Effect: "3xFairy, cap 12"
+bark beret	Damage Reduction: 4
 barskin hat	Muscle: +1, Familiar Effect: "atk, 1xVolley, cap 13"
 basic meat fez	Moxie: +2, Mysticality: +1, Familiar Effect: "3xLep, cap 11"
 basic meat helmet	Muscle: +1, Familiar Effect: "sleaze atk, 2xFairy, cap 10"
@@ -172,6 +173,7 @@ metallic foil cat ears	Intrinsic Effect: "O Hai!", Familiar Effect: "atk, cap 7"
 miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
 moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4
 mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
+# mummy costume
 mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
 nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15
@@ -191,6 +193,7 @@ pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, 
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xVolley, cap 12"
 plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
 propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
+# pumpkinhead mask
 raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
 ravioli hat	Familiar Effect: "atk, cap 2"
 red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
@@ -225,6 +228,7 @@ water-polo cap	Weapon Damage: +30
 webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only
 willowy bonnet	Maximum MP: +40, Familiar Effect: "?xFairy, cap 18"
 wolf mask	Intrinsic Effect: "Complete Delusion", Familiar Effect: "1xBarrr, HP regen, cap 37"
+# wolfman mask
 wooden salad bowl	Familiar Effect: "atk, cap 30"
 wool hat	Damage Absorption: +20, Cold Resistance: +2, Familiar Effect: "1xLep, cap 43"
 worn tophat	Moxie: +7, Initiative: +20, Familiar Effect: "1xBarrr, 1xLep, cap 31"
@@ -270,6 +274,7 @@ Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Tur
 # alpha-mail pants
 antique greaves	Initiative: -10
 astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5
+bark boxers	Damage Reduction: 5
 barskin loincloth	Muscle: +1
 basic meat kilt	Moxie: +1
 basic meat pants	Moxie: +1
@@ -439,6 +444,7 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 7-Foot Dwarven mattock	Weakens Monster
 # 7-inch discus: On Critical:  Music Snobbery!
 7-inch discus	Moxie Percent: +5, Weapon Damage Percent: +10
+# Ax of L'rose
 Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
@@ -1263,6 +1269,7 @@ baconstone pendant	Mysticality: +4, Spell Damage: +10
 baconstone ring	Mysticality: +5, Maximum MP: +10, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 badass belt	Muscle: +5, Mysticality: +5, Moxie: +5
 baneful bandolier	Slime Hates It: +1, Ranged Damage: +30, Hat Drop: +30, Pants Drop: +30
+bark bracelet	Damage Reduction: 2
 beach glass necklace	Muscle: +5
 beaten-up Chucks	Initiative: +40
 # beer goggles: They Do Nothing!
@@ -2370,6 +2377,7 @@ Salamander In Your Stomach	Mysticality: +25
 # Salty Dogs: Makes you a better diver
 Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
 # Salty Mouth: You really need a beer...
+Sappy Blood	Spooky Resistance: 3
 Saucemastery	Maximum HP: +3, Mysticality: +1
 Savage Beast Inside	Muscle: +20
 # Scared Stiff: Extra-Vulnerable to Cold and Spooky

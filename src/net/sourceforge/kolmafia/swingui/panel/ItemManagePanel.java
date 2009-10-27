@@ -441,38 +441,38 @@ public class ItemManagePanel
 
 			int standard = itemCount;
 
-			if ( message.equals( "Feed" ) )
+			if ( !message.equals( "Feed" ) )
 			{
-			}
-			else if ( item instanceof Concoction )
-			{
-				int previous = 0, capacity = itemCount, unit = 0;
+				if ( item instanceof Concoction )
+				{
+					int previous = 0, capacity = itemCount, unit = 0;
 
-				if ( ( (Concoction) item ).getFullness() > 0 )
-				{
-					previous = KoLCharacter.getFullness() + ConcoctionDatabase.getQueuedFullness();
-					capacity = KoLCharacter.getFullnessLimit();
-					unit = ( (Concoction) item ).getFullness();
-					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
+					if ( ( (Concoction) item ).getFullness() > 0 )
+					{
+						previous = KoLCharacter.getFullness() + ConcoctionDatabase.getQueuedFullness();
+						capacity = KoLCharacter.getFullnessLimit();
+						unit = ( (Concoction) item ).getFullness();
+						standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
+					}
+					else if ( ( (Concoction) item ).getInebriety() > 0 )
+					{
+						previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
+						capacity = KoLCharacter.getInebrietyLimit();
+						unit = ( (Concoction) item ).getInebriety();
+						standard = previous > capacity ? itemCount : Math.max( 1, Math.min( ( capacity - previous ) / unit, itemCount ) );
+					}
+					else if ( ( (Concoction) item ).getSpleenHit() > 0 )
+					{
+						previous = KoLCharacter.getSpleenUse() + ConcoctionDatabase.getQueuedSpleenHit();
+						capacity = KoLCharacter.getSpleenLimit();
+						unit = ( (Concoction) item ).getSpleenHit();
+						standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
+					}
 				}
-				else if ( ( (Concoction) item ).getInebriety() > 0 )
-				{
-					previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
-					capacity = KoLCharacter.getInebrietyLimit();
-					unit = ( (Concoction) item ).getInebriety();
-					standard = previous > capacity ? itemCount : Math.max( 1, Math.min( ( capacity - previous ) / unit, itemCount ) );
-				}
-				else if ( ( (Concoction) item ).getSpleenHit() > 0 )
-				{
-					previous = KoLCharacter.getSpleenUse() + ConcoctionDatabase.getQueuedSpleenHit();
-					capacity = KoLCharacter.getSpleenLimit();
-					unit = ( (Concoction) item ).getSpleenHit();
-					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
-				}
-			}
-			else
-			{
-				standard = UseItemRequest.maximumUses( ItemDatabase.getItemId( itemName ), false );
+
+				int maximum = UseItemRequest.maximumUses( ItemDatabase.getItemId( itemName ), false );
+
+				standard = Math.min( standard, maximum );
 			}
 
 			quantity =

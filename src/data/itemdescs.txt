@@ -4253,3 +4253,29 @@
 4247
 4248
 4249	482740948	miniature tophat	miniature tophats
+4250
+4251
+4252
+4253
+4254	264903640	spooky bark	scraps of spooky bark
+4255	646230301	Wolfman Nardz	cans of Wolfman Nardz
+4256	306850709	spooky sap	droplets of spooky sap
+4257	933705532	petrified wood	chunks of petrified wood
+4258	253613208	chocolate-covered scarab beetle	chocolate-covered scarab beetles
+4259	452964956	mulled cider	mugs of mulled cider
+4260	631779409	wolfman mask	wolfman masks
+4261	285361947	pumpkinhead mask	pumpkinhead masks
+4262	668178244	mummy costume	mummy costumes
+4263	830970297	Ax of L'rose
+4264	308641620	bark boxers
+4265	736000092	bark beret
+4266	430887434	bark bracelet
+4267
+4268
+4269
+4270
+4271
+4272
+4273	929052608	ribbon candy	ribbons of ribbon candy
+4274	362801139	Underworld acorn
+4275	816099928	Underworld trunk
