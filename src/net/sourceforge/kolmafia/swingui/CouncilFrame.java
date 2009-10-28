@@ -125,9 +125,20 @@ public class CouncilFrame
 		{
 			CoinMasterRequest.parseBigBrotherVisit( location, responseText );
 		}
-		else if ( location.startsWith( "adventure" ) && KoLCharacter.getInebriety() > 25 )
+		else if ( location.startsWith( "adventure" ) )
 		{
-			CouncilFrame.handleSneakyPeteChange( responseText );
+			if ( location.indexOf( "216" ) != -1 )
+			{
+				CouncilFrame.handleTrickOrTreatingChange( responseText );
+			}
+			else if ( KoLCharacter.getInebriety() > 25 )
+			{
+				CouncilFrame.handleSneakyPeteChange( responseText );
+			}
+		}
+		else if ( location.startsWith( "trickortreat" ) )
+		{
+			CouncilFrame.handleTrickOrTreatingChange( responseText );
 		}
 	}
 
@@ -142,6 +153,25 @@ public class CouncilFrame
 		if ( responseText.indexOf( "Ah, man, you dropped your crown back there!" ) != -1 )
 		{
 			EquipmentManager.discardEquipment( ItemPool.TATTERED_PAPER_CROWN );
+			return;
+		}
+	}
+
+	private static final void handleTrickOrTreatingChange( final String responseText )
+	{
+		if ( responseText.indexOf( "pull the pumpkin off of your head" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.PUMPKINHEAD_MASK );
+			return;
+		}
+		if ( responseText.indexOf( "gick all over your mummy costume" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.MUMMY_COSTUME );
+			return;
+		}
+		if ( responseText.indexOf( "unzipping the mask and throwing it behind you" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.WOLFMAN_MASK );
 			return;
 		}
 	}
