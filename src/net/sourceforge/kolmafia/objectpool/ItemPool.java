@@ -961,6 +961,9 @@ public class ItemPool
 	public static final int SUGAR_SHIRT = 4191;
 	public static final int SUGAR_SHARD = 4192;
 	public static final int AMPHIBIOUS_TOPHAT = 4229;
+	public static final int WOLFMAN_MASK = 4260;
+	public static final int PUMPKINHEAD_MASK = 4261;
+	public static final int MUMMY_COSTUME = 4262;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
