@@ -131,6 +131,12 @@ public class Speculation
 		return this.mods;
 	}
 	
+	public Modifiers getModifiers()
+	{
+		if ( !this.calculated ) this.calculate();
+		return this.mods;
+	}
+	
 	public boolean parse( String text )
 	{
 		boolean quiet = false;
