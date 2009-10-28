@@ -44,10 +44,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -197,6 +199,9 @@ public class MaximizerFrame
 		"<br><b>melee</b> - With positive weight, only melee weapons will be considered.  With negative weight, only ranged weapons will be considered." +
 		"<br><b>type <i>text</i></b> - Only weapons with a type containing <i>text</i> are considered; for example, <b>type club</b> if you plan to do some Seal Clubbing." +
 		"<br><b>shield</b> - With positive weight, only shields will be considered for your off-hand.  Implies <b>1 handed</b>." +
+		"<br><b>equip <i>item</i></b> - The specified item is required (positive weight) or forbidden (negative weight).  Multiple uses of <b>+equip</b> require all of the items to be equipped." +
+		"<br><b>outfit <i>name</i></b> - The specified standard outfit is required or forbidden.  If the name is omitted, the currently equipped outfit is used.  Multiple uses of <b>+outfit</b> are satisfied by any one of the outfits (since you can't be wearing more than one at a time)." +
+		"<br>If both <b>+equip</b> and <b>+outfit</b> are used together, either one will satisfy the condition - all of the items, or one of the outfits.  This special case is needed to be able to specify the conditions for adventuring in the Pirate Cove." +		
 		"<br><b>tie</b>breaker - With negative weight, disables the use of a tiebreaker function that tries to choose equipment with generally beneficial attributes, even if not explicitly requested.  There are only a few cases where this would be desirable: maximizing <b>+combat</b> or <b>-combat</b> (since there's usually only one item that can help), <b>adv</b> and/or <b>PvP fights</b> at rollover, and <b>familiar weight</b> when facing the Naughty Sorceress familiars." +
 		"<h3>Assumptions</h3>" +
 		"All suggestions are based on the assumption that you will be adventuring in the currently selected location, with all your current effects, prior to the next rollover (since some things depend on the moon phases).  For best results, make sure the proper location is selected before maximizing.  This is especially true in The Sea and clan dungeons, which have many location-specific modifiers." +
@@ -448,6 +453,7 @@ public class MaximizerFrame
 			}
 
 			float delta;
+			boolean isSpecial = false;
 			Spec spec = new Spec();
 			AdventureResult effect = new AdventureResult( name, 1, true );
 			name = effect.getName();
@@ -460,7 +466,17 @@ public class MaximizerFrame
 			{
 				spec.addEffect( effect );
 				delta = spec.getScore() - current;
-				if ( delta <= 0.0f ) continue;
+				switch ( MaximizerFrame.eval.checkConstraints(
+					Modifiers.getModifiers( name ) ) )
+				{
+				case -1:
+					continue;
+				case 0:
+					if ( delta <= 0.0f ) continue;
+					break;
+				case 1:
+					isSpecial = true;
+				}
 				cmd = MoodManager.getDefaultAction( "lose_effect", name );
 				if ( cmd.length() == 0 )
 				{
@@ -492,7 +508,17 @@ public class MaximizerFrame
 			{
 				spec.removeEffect( effect );
 				delta = spec.getScore() - current;
-				if ( delta <= 0.0f ) continue;
+				switch ( MaximizerFrame.eval.checkConstraints(
+					Modifiers.getModifiers( name ) ) )
+				{
+				case 1:
+					continue;
+				case 0:
+					if ( delta <= 0.0f ) continue;
+					break;
+				case -1:
+					isSpecial = true;
+				}
 				cmd = MoodManager.getDefaultAction( "gain_effect", name );
 				if ( cmd.length() == 0 )
 				{
@@ -657,7 +683,7 @@ public class MaximizerFrame
 					delta ) + ")";
 			}
 			MaximizerFrame.boosts.add( new Boost( cmd, text, effect, hasEffect,
-				item, delta ) );
+				item, delta, isSpecial ) );
 		}
 		if ( MaximizerFrame.boosts.size() == 0 )
 		{
@@ -839,6 +865,8 @@ public class MaximizerFrame
 		int melee = 0;
 		boolean requireShield = false;
 		boolean noTiebreaker = false;
+		HashSet posOutfits, negOutfits;
+		TreeSet posEquip, negEquip;
 
 		private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*((?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
 		// Groups: 1=sign 2=weight 3=keyword
@@ -891,16 +919,21 @@ public class MaximizerFrame
 		public Evaluator( String expr )
 		{
 			this();
-			this.tiebreaker = new Evaluator();
+			Evaluator tiebreaker = new Evaluator();
+			this.tiebreaker = tiebreaker;
+			this.posOutfits = tiebreaker.posOutfits = new HashSet();
+			this.negOutfits = tiebreaker.negOutfits = new HashSet();
+			this.posEquip = tiebreaker.posEquip = new TreeSet();
+			this.negEquip = tiebreaker.negEquip = new TreeSet();
 			this.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
-			this.tiebreaker.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
-			this.tiebreaker.min = new float[ Modifiers.FLOAT_MODIFIERS ];
-			this.tiebreaker.max = new float[ Modifiers.FLOAT_MODIFIERS ];
-			Arrays.fill( this.tiebreaker.min, Float.NEGATIVE_INFINITY );
-			Arrays.fill( this.tiebreaker.max, Float.POSITIVE_INFINITY );
-			this.tiebreaker.parse( MaximizerFrame.TIEBREAKER );
-			this.min = (float[]) this.tiebreaker.min.clone();
-			this.max = (float[]) this.tiebreaker.max.clone();
+			tiebreaker.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
+			tiebreaker.min = new float[ Modifiers.FLOAT_MODIFIERS ];
+			tiebreaker.max = new float[ Modifiers.FLOAT_MODIFIERS ];
+			Arrays.fill( tiebreaker.min, Float.NEGATIVE_INFINITY );
+			Arrays.fill( tiebreaker.max, Float.POSITIVE_INFINITY );
+			tiebreaker.parse( MaximizerFrame.TIEBREAKER );
+			this.min = (float[]) tiebreaker.min.clone();
+			this.max = (float[]) tiebreaker.max.clone();
 			this.parse( expr );
 		}
 		
@@ -1004,6 +1037,48 @@ public class MaximizerFrame
 					this.booleanValue |= (1 << Modifiers.ADVENTURE_UNDERWATER) |
 						(1 << Modifiers.UNDERWATER_FAMILIAR);
 					index = -1;
+					continue;
+				}
+				else if ( keyword.startsWith( "equip " ) )
+				{
+					AdventureResult match = ItemFinder.getFirstMatchingItem(
+						keyword.substring( 6 ).trim(), ItemFinder.EQUIP_MATCH );
+					if ( match == null )
+					{
+						return;
+					}
+					if ( weight > 0.0f )
+					{
+						this.posEquip.add( match );
+					}
+					else
+					{
+						this.negEquip.add( match );
+					}
+					continue;
+				}
+				else if ( keyword.startsWith( "outfit" ) )
+				{
+					keyword = keyword.substring( 6 ).trim();
+					if ( keyword.equals( "" ) )
+					{	// allow "+outfit" to mean "keep the current outfit on"
+						keyword = KoLCharacter.currentStringModifier( Modifiers.OUTFIT );
+					}
+					SpecialOutfit outfit = EquipmentManager.getMatchingOutfit( keyword );
+					if ( outfit == null || outfit.getOutfitId() <= 0 )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+							"Unknown or custom outfit: " + keyword );
+						return;
+					}
+					if ( weight > 0.0f )
+					{
+						this.posOutfits.add( outfit.getName() );
+					}
+					else
+					{
+						this.negOutfits.add( outfit.getName() );
+					}
 					continue;
 				}
 				
@@ -1141,11 +1216,21 @@ public class MaximizerFrame
 			}
 			
 			// Make sure indirect sources have at least a little weight;
-			float expFudge = this.weight[ Modifiers.EXPERIENCE ] * 0.0001f;
-			this.weight[ Modifiers.MONSTER_LEVEL ] += expFudge;
-			this.weight[ Modifiers.MUS_EXPERIENCE ] += expFudge;
-			this.weight[ Modifiers.MYS_EXPERIENCE ] += expFudge;
-			this.weight[ Modifiers.MOX_EXPERIENCE ] += expFudge;
+			float fudge = this.weight[ Modifiers.EXPERIENCE ] * 0.0001f;
+			this.weight[ Modifiers.MONSTER_LEVEL ] += fudge;
+			this.weight[ Modifiers.MUS_EXPERIENCE ] += fudge;
+			this.weight[ Modifiers.MYS_EXPERIENCE ] += fudge;
+			this.weight[ Modifiers.MOX_EXPERIENCE ] += fudge;
+
+			fudge = this.weight[ Modifiers.ITEMDROP ] * 0.0001f;
+			this.weight[ Modifiers.FOODDROP ] += fudge;
+			this.weight[ Modifiers.BOOZEDROP ] += fudge;
+			this.weight[ Modifiers.HATDROP ] += fudge;
+			this.weight[ Modifiers.WEAPONDROP ] += fudge;
+			this.weight[ Modifiers.OFFHANDDROP ] += fudge;
+			this.weight[ Modifiers.SHIRTDROP ] += fudge;
+			this.weight[ Modifiers.PANTSDROP ] += fudge;
+			this.weight[ Modifiers.ACCESSORYDROP ] += fudge;
 		}
 		
 		public float getScore( Modifiers mods )
@@ -1246,13 +1331,64 @@ public class MaximizerFrame
 			return score;
 		}
 		
+		public void checkEquipment( Modifiers mods, AdventureResult[] equipment )
+		{
+			boolean outfitSatisfied = false;
+			boolean equipSatisfied = this.posOutfits.isEmpty();
+			if ( !this.failed && !this.posEquip.isEmpty() )
+			{
+				equipSatisfied = true;
+				Iterator i = this.posEquip.iterator();
+				while ( i.hasNext() )
+				{
+					AdventureResult item = (AdventureResult) i.next();
+					if ( !KoLCharacter.hasEquipped( equipment, item ) )
+					{
+						equipSatisfied = false;
+						break;
+					}
+				}
+			}
+			if ( !this.failed )
+			{
+				String outfit = mods.getString( Modifiers.OUTFIT );
+				if ( this.negOutfits.contains( outfit ) )
+				{
+					this.failed = true;
+				}
+				else
+				{
+					outfitSatisfied = this.posOutfits.contains( outfit );
+				}
+			}
+			// negEquip is not checked, since enumerateEquipment should make it
+			// impossible for such items to be chosen.
+			if ( !outfitSatisfied && !equipSatisfied )
+			{
+				this.failed = true;
+			}
+		}
+		
 		public float getTiebreaker( Modifiers mods )
 		{
 			if ( this.noTiebreaker ) return 0.0f;
 			return this.tiebreaker.getScore( mods );
 		}
 		
-		public AdventureResult checkItem( int id, int equipLevel, int maxPrice, int priceLevel )
+		public int checkConstraints( Modifiers mods )
+		{
+			// Return value:
+			//	-1: item violates a constraint, don't use it
+			//	0: item not relevant to any constraints
+			//	1: item meets a constraint, give it special handling
+			if ( mods == null ) return 0;
+			int bools = mods.getRawBitmap( 0 ) & this.booleanMask;
+			if ( (bools & ~this.booleanValue) != 0 ) return -1;
+			if ( bools != 0 ) return 1;
+			return 0;
+		}
+		
+		private AdventureResult checkItem( int id, int equipLevel, int maxPrice, int priceLevel )
 		{
 			int count = Math.min( Evaluator.SUBTOTAL_MASK,
 				InventoryManager.getAccessibleCount( id ) );
@@ -1299,7 +1435,7 @@ public class MaximizerFrame
 			return ItemPool.get( id, count );
 		}
 		
-		public AdventureResult validateItem( AdventureResult item, int maxPrice, int priceLevel )
+		private AdventureResult validateItem( AdventureResult item, int maxPrice, int priceLevel )
 		{
 			if ( priceLevel <= 0 ) return item;
 			int count = item.getCount();
@@ -1334,15 +1470,24 @@ public class MaximizerFrame
 			{
 				SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( i );
 				if ( outfit == null ) continue;
+				if ( this.negOutfits.contains( outfit.getName() ) ) continue;
+				if ( this.posOutfits.contains( outfit.getName() ) )
+				{
+					usefulOutfits.set( i, true );
+					continue;
+				}
+				
 				Modifiers mods = Modifiers.getModifiers( outfit.getName() );
 				if ( mods == null )	continue;
 				
-				int bools = mods.getRawBitmap( 0 ) & this.booleanMask;
-				if ( (bools & ~this.booleanValue) != 0 ) continue;
-				if ( bools == 0 )
+				switch ( this.checkConstraints( mods ) )
 				{
+				case -1:
+					continue;
+				case 0:
 					float delta = this.getScore( mods ) - nullScore;
 					if ( delta <= 0.0f ) continue;
+					break;
 				}
 				usefulOutfits.set( i, true );
 			}
@@ -1400,8 +1545,10 @@ public class MaximizerFrame
 			{
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
-				AdventureResult item = null;
-				boolean famCanEquip = KoLCharacter.getFamiliar().canEquip( ItemPool.get( id, 1 ) );
+				AdventureResult item = ItemPool.get( id, 1 );
+				if ( this.negEquip.contains( item ) ) continue;
+				boolean famCanEquip = KoLCharacter.getFamiliar().canEquip( item );
+				item = null;
 				if ( famCanEquip && slot != EquipmentManager.FAMILIAR )
 				{
 					item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
@@ -1503,6 +1650,12 @@ public class MaximizerFrame
 						}
 						outfitPieces.put( item, item );
 					}
+					
+					if ( this.posEquip.contains( item ) )
+					{
+						item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+						break gotItem;
+					}
 	
 					if ( KoLCharacter.hasEquipped( item ) )
 					{	// Make sure the current item in each slot is considered
@@ -1524,11 +1677,16 @@ public class MaximizerFrame
 						item = item.getInstance( count );
 					}
 					
-					int bools = mods.getRawBitmap( 0 ) & this.booleanMask;
-					if ( (bools & ~this.booleanValue) != 0 ) continue;
+					switch ( this.checkConstraints( mods ) )
+					{
+					case -1:
+						continue;
+					case 1:
+						item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+						break gotItem;
+					}
 					
-					if ( bools != 0 ||
-						( hoboPowerUseful &&
+					if ( ( hoboPowerUseful &&
 							mods.get( Modifiers.HOBO_POWER ) > 0.0f ) ||
 						( brimstoneUseful &&
 							mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
@@ -1717,6 +1875,7 @@ public class MaximizerFrame
 			if ( this.scored ) return this.score;
 			if ( !this.calculated ) this.calculate();
 			this.score = MaximizerFrame.eval.getScore( this.mods );
+			MaximizerFrame.eval.checkEquipment( this.mods, this.equipment );
 			this.failed = MaximizerFrame.eval.failed;
 			this.exceeded = MaximizerFrame.eval.exceeded;
 			this.scored = true;
@@ -2220,20 +2379,27 @@ public class MaximizerFrame
 		
 		public static void showProgress()
 		{
-			String msg = MaximizerFrame.bestChecked + " combinations checked, best score " + MaximizerFrame.best.getScore();
+			StringBuffer msg = new StringBuffer();
+			msg.append( MaximizerFrame.bestChecked ); 
+			msg.append( " combinations checked, best score " ); 
+			msg.append( MaximizerFrame.best.getScore() );
+			if ( MaximizerFrame.best.failed )
+			{
+				msg.append( " (FAIL)" ); 
+			}
 			//if ( MaximizerFrame.best.tiebreakered )
 			//{
 			//	msg = msg + " / " + MaximizerFrame.best.getTiebreaker() + " / " +
 			//		MaximizerFrame.best.simplicity;
 			//}
-			KoLmafia.updateDisplay( msg );
+			KoLmafia.updateDisplay( msg.toString() );
 		}
 	}
 	
 	public static class Boost
 	implements Comparable
 	{
-		private boolean isEquipment, isShrug;
+		private boolean isEquipment, isShrug, priority;
 		private String cmd, text;
 		private int slot;
 		private float boost;
@@ -2253,12 +2419,13 @@ public class MaximizerFrame
 			}
 		}
 
-		public Boost( String cmd, String text, AdventureResult effect, boolean isShrug, AdventureResult item, float boost )
+		public Boost( String cmd, String text, AdventureResult effect, boolean isShrug, AdventureResult item, float boost, boolean priority )
 		{
 			this( cmd, text, item, boost );
 			this.isEquipment = false;
 			this.effect = effect;
 			this.isShrug = isShrug;
+			this.priority = priority;
 		}
 
 		public Boost( String cmd, String text, int slot, AdventureResult item, float boost )
@@ -2281,6 +2448,10 @@ public class MaximizerFrame
 			if ( this.isEquipment != other.isEquipment )
 			{
 				return this.isEquipment ? -1 : 1;
+			}
+			if ( this.priority != other.priority )
+			{
+				return this.priority ? -1 : 1;
 			}
 			if ( this.isEquipment ) return 0;	// preserve order of addition
 			int rv = Float.compare( other.boost, this.boost );

@@ -1641,7 +1641,7 @@ hemp backpack	Item Drop: +2
 1.21 jigawatts	Familiar Weight: +5
 100-Watt bulb	Familiar Weight: +5
 Jawmaster 2000&trade;	Familiar Weight: +5
-Mayflower bouquet	Familiar Weight: +5, Softcore Only
+Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Softcore Only
 Meat detector	Familiar Weight: +5
 Panda outfit	Familiar Weight: +5, Item Drop: +5
 Pretty Predator Clawicure Kit	Familiar Weight: +5
@@ -1706,7 +1706,7 @@ icicle katana	Familiar Weight: +5
 lead necklace	Familiar Weight: +3
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater"
-little box of fireworks	Familiar Weight: +5, Softcore Only
+little box of fireworks	Familiar Weight: +5, Experience: +1.5, Softcore Only
 lucky Tam O'Shanter	Meat Drop: +50, Softcore Only
 lucky Tam O'Shatner	Meat Drop: +50, Softcore Only
 magnifying glass	Familiar Weight: +5
@@ -2057,7 +2057,7 @@ Disco Inferno	Moxie: +5, Hot Damage: +3
 Disco Nirvana	Meat Drop: +30
 Disco State of Mind	Moxie: +2
 Dizzy with Rage	Moxie Percent: -10
-# Don't Rest Ye, Bold Adventurer	variable stats
+Don't Rest Ye, Bold Adventurer	Experience: +1
 # Donho's Bubbly Ballad: Makes you a better diver
 Donho's Bubbly Ballad	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
 Down With Chow	Familiar Weight: +10
