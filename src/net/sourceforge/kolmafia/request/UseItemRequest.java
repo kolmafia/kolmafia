@@ -3079,8 +3079,6 @@ public class UseItemRequest
 		RequestLogger.updateSessionLog( message );
 		RequestLogger.printLine( message );
 
-		TurnCounter.stopCounting( "Semirare window begin" );
-		TurnCounter.stopCounting( "Semirare window end" );
 
 		if ( TurnCounter.isCounting( "Fortune Cookie" ) )
 		{
@@ -3091,6 +3089,8 @@ public class UseItemRequest
 				{
 					TurnCounter.stopCounting( "Fortune Cookie" );
 					TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
+					TurnCounter.stopCounting( "Semirare window begin" );
+					TurnCounter.stopCounting( "Semirare window end" );
 					return;
 				}
 			}
@@ -3113,12 +3113,23 @@ public class UseItemRequest
 		for ( int i = 2; i <= 4; ++i )
 		{
 			int number = StringUtilities.parseInt( matcher.group( i ) );
-			if ( number < minCounter )
+			int minEnd = 0;
+			if ( TurnCounter.getCounters( "Semirare window begin", 0, 500 ).equals( "" ) )
+			{	// We are possibly within the window currently.  If the
+				// actual semirare turn has already been missed, a number past
+				// the window end could be valid - but it would have to be
+				// at least 80 turns past the end.
+				minEnd = number - 79;
+			}
+			
+			if ( number < minCounter ||
+				!TurnCounter.getCounters( "Semirare window begin", number + 1, 500 ).equals( "" ) )
 			{
 				KoLmafia.updateDisplay( "Lucky number " + number +
 							" ignored - too soon to be a semirare." );
 			}
-			else if ( number > 205 )
+			else if ( number > 205 ||
+				!TurnCounter.getCounters( "Semirare window end", minEnd, number - 1 ).equals( "" ) )
 			{	// conservative, wiki claims 200 maximum
 				KoLmafia.updateDisplay( "Lucky number " + number +
 							" ignored - too large to be a semirare." );
@@ -3126,8 +3137,11 @@ public class UseItemRequest
 			else
 			{
 				TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
+				TurnCounter.stopCounting( "Semirare window begin" );
+				TurnCounter.stopCounting( "Semirare window end" );
 			}
 		}
+
 	}
 
 	public static final String lastSemirareMessage()
