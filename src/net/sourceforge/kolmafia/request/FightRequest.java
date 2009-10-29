@@ -1637,7 +1637,6 @@ public class FightRequest
 			if ( id > 0 )
 			{
 				EquipmentManager.discardEquipment( id );
-				SpecialOutfit.forgetEquipment( ItemPool.get( id, 1 ) );
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your " +
 					m.group( 1 ) + " got slimed." );
 			}
@@ -1649,7 +1648,6 @@ public class FightRequest
 		if ( responseText.indexOf( "have gotten instantly rusty" ) != -1 )
 		{
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
-			SpecialOutfit.forgetEquipment( FightRequest.BROKEN_GREAVES );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves got rusted." );
 		}
 		

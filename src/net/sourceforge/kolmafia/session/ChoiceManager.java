@@ -2375,9 +2375,7 @@ public abstract class ChoiceManager
 				break;
 			}
 
-			AdventureResult glove = ItemPool.get( ItemPool.SPOOKY_GLOVE, 1 );
 			EquipmentManager.discardEquipment( ItemPool.SPOOKY_GLOVE );
-			SpecialOutfit.forgetEquipment( glove );
 			break;
 		
 		case 21:

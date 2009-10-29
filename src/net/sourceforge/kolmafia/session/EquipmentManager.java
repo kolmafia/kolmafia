@@ -344,6 +344,7 @@ public class EquipmentManager
 	public static final int discardEquipment( final int itemId )
 	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
+		SpecialOutfit.forgetEquipment( item );
 		for ( int slot = 0 ; slot <= EquipmentManager.FAMILIAR ; ++slot )
 		{
 			if ( KoLCharacter.hasEquipped( item, slot ) )
@@ -366,7 +367,6 @@ public class EquipmentManager
 			return;
 		}
 		AdventureResult item = ItemPool.get( itemId, 1 );
-		SpecialOutfit.forgetEquipment( item );
 		
 		int action = Preferences.getInteger( "breakableHandling" + itemId );
 		if ( action == 0 )
