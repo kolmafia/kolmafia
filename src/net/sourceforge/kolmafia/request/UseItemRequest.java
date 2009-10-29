@@ -2365,10 +2365,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "hooks were still on" ) != -1 )
 			{
 				// You lose your weapon
-				EquipmentManager.setEquipment( EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP );
-				AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.WORM_RIDING_HOOKS, -1 ) );
-				SpecialOutfit.forgetEquipment( ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 ) );
+				EquipmentManager.discardEquipment( ItemPool.WORM_RIDING_HOOKS );
 				KoLmafia.updateDisplay( "Don't forget to equip a weapon!" );
 				return;
 			}
