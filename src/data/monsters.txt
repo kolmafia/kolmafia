@@ -1,4 +1,4 @@
-2
+3
 # Monster Name	Monster Parameters
 #
 # Original monster data from Kittiwake's Monster Survival Guide:
