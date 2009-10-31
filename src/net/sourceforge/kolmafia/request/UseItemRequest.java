@@ -3137,10 +3137,10 @@ public class UseItemRequest
 			else
 			{
 				TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
-				TurnCounter.stopCounting( "Semirare window begin" );
-				TurnCounter.stopCounting( "Semirare window end" );
 			}
 		}
+		TurnCounter.stopCounting( "Semirare window begin" );
+		TurnCounter.stopCounting( "Semirare window end" );
 
 	}
 
