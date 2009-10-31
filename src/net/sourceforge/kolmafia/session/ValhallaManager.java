@@ -163,6 +163,7 @@ public class ValhallaManager
 		Preferences.setString( "dolphinItem", "" );
 		Preferences.setString( "spookyPuttyMonster", "" );
 		Preferences.setString( "cameraMonster", "" );
+		TurnCounter.clearCounters();
 	}
 
 }
