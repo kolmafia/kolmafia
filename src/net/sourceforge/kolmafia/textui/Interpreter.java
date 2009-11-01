@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.ValueList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
@@ -412,5 +413,10 @@ public class Interpreter
 	public static final ScriptException runtimeException( final String message, final String fileName, final int lineNumber )
 	{
 		return new ScriptException( message + " " + Parser.getLineAndFile( fileName, lineNumber ) );
+	}
+
+	public final ScriptException undefinedFunctionException( final String name, final ValueList params )
+	{
+		return this.runtimeException( Parser.undefinedFunctionMessage( name, params ) );
 	}
 }

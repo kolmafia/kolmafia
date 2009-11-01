@@ -61,9 +61,9 @@ public class ForEachLoop
 		return this.variableReferences;
 	}
 
-	public Iterator getReferences()
+	public ListIterator getReferences()
 	{
-		return this.variableReferences.iterator();
+		return this.variableReferences.listIterator();
 	}
 
 	public Value getAggregate()
@@ -93,7 +93,7 @@ public class ForEachLoop
 
 		// Iterate over the slice with bound keyvar
 
-		ListIterator it = (ListIterator) this.getReferences();
+		ListIterator it = this.getReferences();
 		return this.executeSlice( interpreter, slice, it, (VariableReference) it.next() );
 	}
 
