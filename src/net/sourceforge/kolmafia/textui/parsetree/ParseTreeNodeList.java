@@ -35,15 +35,20 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
+import java.util.ListIterator;
 public class ParseTreeNodeList
 {
-	private ArrayList list = new ArrayList();
+	protected ArrayList list = new ArrayList();
 
 	public boolean add( final ParseTreeNode n )
 	{
 		list.add( n );
 		return true;
+	}
+
+	public boolean isEmpty()
+	{
+		return list.isEmpty();
 	}
 
 	public ParseTreeNode get( int i )
@@ -54,6 +59,11 @@ public class ParseTreeNodeList
 	public Iterator iterator()
 	{
 		return list.iterator();
+	}
+
+	public ListIterator listIterator()
+	{
+		return list.listIterator();
 	}
 
 	public int size()

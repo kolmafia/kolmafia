@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
 import net.sourceforge.kolmafia.textui.parsetree.Operator;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode;
+import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNodeList;
 import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
@@ -632,7 +633,7 @@ public class Parser
 
 		if ( existing != null && existing.getScope() != null )
 		{
-			throw this.parseException( "Function '" + functionName + "' defined multiple times" );
+			throw this.multiplyDefinedFunctionException( functionName, variableReferences );
 		}
 
 		// Add new function or replace existing forward reference
@@ -1493,8 +1494,8 @@ public class Parser
 				}
 
 				this.readToken(); //read ;
-                                currentIndex = scope.commandCount();
-                                currentInteger = null;
+				currentIndex = scope.commandCount();
+				currentInteger = null;
 				continue;
 			}
 
@@ -1877,7 +1878,7 @@ public class Parser
 
 		if ( target == null )
 		{
-			throw this.parseException( "Undefined reference to function '" + name + "'" );
+			throw this.undefinedFunctionException( name, params );
 		}
 
 		FunctionCall call = new FunctionCall( target, params, this );
@@ -2001,95 +2002,104 @@ public class Parser
 		return parsePostCall( scope, call );
 	}
 
-        private final Function findFunction( final BasicScope scope, final String name, final ValueList params )
+	private final Function findFunction( final BasicScope scope, final String name, final ValueList params )
 	{
-                Function result = this.findFunction( scope, scope.getFunctionList(), name, params, true );
+		Function result = this.findFunction( scope, scope.getFunctionList(), name, params, true );
+		if ( result != null )
+		{
+			return result;
+		}
 
-                if ( result == null )
-                {
-                        result = this.findFunction( scope, RuntimeLibrary.functions, name, params, true );
-                }
-                if ( result == null )
-                {
-                        result = this.findFunction( scope, scope.getFunctionList(), name, params, false );
-                }
-                if ( result == null )
-                {
-                        result = this.findFunction( scope, RuntimeLibrary.functions, name, params, false );
-                }
+		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, true );
+		if ( result != null )
+		{
+			return result;
+		}
 
-                // Just in case there's some people who don't want to edit
-                // their scripts to use the new function format, check for
-                // the old versions as well.
+		result = this.findFunction( scope, scope.getFunctionList(), name, params, false );
+		if ( result != null )
+		{
+			return result;
+		}
 
-                if ( result == null )
-                {
-                        if ( name.endsWith( "to_string" ) )
-                        {
-                                return this.findFunction( scope, "to_string", params );
-                        }
-                        if ( name.endsWith( "to_boolean" ) )
-                        {
-                                return this.findFunction( scope, "to_boolean", params );
-                        }
-                        if ( name.endsWith( "to_int" ) )
-                        {
-                                return this.findFunction( scope, "to_int", params );
-                        }
-                        if ( name.endsWith( "to_float" ) )
-                        {
-                                return this.findFunction( scope, "to_float", params );
-                        }
-                        if ( name.endsWith( "to_item" ) )
-                        {
-                                return this.findFunction( scope, "to_item", params );
-                        }
-                        if ( name.endsWith( "to_class" ) )
-                        {
-                                return this.findFunction( scope, "to_class", params );
-                        }
-                        if ( name.endsWith( "to_stat" ) )
-                        {
-                                return this.findFunction( scope, "to_stat", params );
-                        }
-                        if ( name.endsWith( "to_skill" ) )
-                        {
-                                return this.findFunction( scope, "to_skill", params );
-                        }
-                        if ( name.endsWith( "to_effect" ) )
-                        {
-                                return this.findFunction( scope, "to_effect", params );
-                        }
-                        if ( name.endsWith( "to_location" ) )
-                        {
-                                return this.findFunction( scope, "to_location", params );
-                        }
-                        if ( name.endsWith( "to_familiar" ) )
-                        {
-                                return this.findFunction( scope, "to_familiar", params );
-                        }
-                        if ( name.endsWith( "to_monster" ) )
-                        {
-                                return this.findFunction( scope, "to_monster", params );
-                        }
-                        if ( name.endsWith( "to_slot" ) )
-                        {
-                                return this.findFunction( scope, "to_slot", params );
-                        }
-                        if ( name.endsWith( "to_url" ) )
-                        {
-                                return this.findFunction( scope, "to_url", params );
-                        }
-                }
+		result = this.findFunction( scope, RuntimeLibrary.functions, name, params, false );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// Just in case there's some people who don't want to edit
+		// their scripts to use the new function format, check for
+		// the old versions as well.
+
+		if ( name.endsWith( "to_string" ) )
+		{
+			return this.findFunction( scope, "to_string", params );
+		}
+		if ( name.endsWith( "to_boolean" ) )
+		{
+			return this.findFunction( scope, "to_boolean", params );
+		}
+		if ( name.endsWith( "to_int" ) )
+		{
+			return this.findFunction( scope, "to_int", params );
+		}
+		if ( name.endsWith( "to_float" ) )
+		{
+			return this.findFunction( scope, "to_float", params );
+		}
+		if ( name.endsWith( "to_item" ) )
+		{
+			return this.findFunction( scope, "to_item", params );
+		}
+		if ( name.endsWith( "to_class" ) )
+		{
+			return this.findFunction( scope, "to_class", params );
+		}
+		if ( name.endsWith( "to_stat" ) )
+		{
+			return this.findFunction( scope, "to_stat", params );
+		}
+		if ( name.endsWith( "to_skill" ) )
+		{
+			return this.findFunction( scope, "to_skill", params );
+		}
+		if ( name.endsWith( "to_effect" ) )
+		{
+			return this.findFunction( scope, "to_effect", params );
+		}
+		if ( name.endsWith( "to_location" ) )
+		{
+			return this.findFunction( scope, "to_location", params );
+		}
+		if ( name.endsWith( "to_familiar" ) )
+		{
+			return this.findFunction( scope, "to_familiar", params );
+		}
+		if ( name.endsWith( "to_monster" ) )
+		{
+			return this.findFunction( scope, "to_monster", params );
+		}
+		if ( name.endsWith( "to_slot" ) )
+		{
+			return this.findFunction( scope, "to_slot", params );
+		}
+		if ( name.endsWith( "to_url" ) )
+		{
+			return this.findFunction( scope, "to_url", params );
+		}
 
 		return result;
-        }
+	}
 
-	private final Function findFunction( final BasicScope scope, final FunctionList source,
+	private final Function findFunction( BasicScope scope, final FunctionList source,
 					     final String name, final ValueList params,
 					     boolean isExactMatch )
 	{
-		String errorMessage = null;
+		if ( params == null )
+		{
+			return null;
+		}
 
 		Function[] functions = source.findFunctions( name );
 
@@ -2098,62 +2108,51 @@ public class Parser
 
 		for ( int i = 0; i < functions.length; ++i )
 		{
-			errorMessage = null;
-
-			if ( params == null )
-			{
-				return functions[ i ];
-			}
-
 			Iterator refIterator = functions[ i ].getReferences();
 			Iterator valIterator = params.iterator();
+			boolean matched = true;
 
-			VariableReference currentParam;
-			Value currentValue;
-			int paramIndex = 1;
-
-			while ( errorMessage == null && refIterator.hasNext() && valIterator.hasNext() )
+			while ( refIterator.hasNext() && valIterator.hasNext() )
 			{
-				currentParam = (VariableReference) refIterator.next();
-				currentValue = (Value) valIterator.next();
+				VariableReference currentParam = (VariableReference) refIterator.next();
+				Type paramType = currentParam.getType();
+				Value currentValue = (Value) valIterator.next();
+				Type valueType = currentValue.getType();
 
 				if ( isExactMatch )
 				{
-					if ( currentParam.getType() != currentValue.getType() )
+					if ( paramType != valueType )
 					{
-						errorMessage =
-							"Illegal parameter #" + paramIndex + " for function " + name + ". Got " + currentValue.getType() + ", need " + currentParam.getType();
+						matched = false;
+						break;
 					}
 				}
-				else if ( !Parser.validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
+				else if ( !Parser.validCoercion( paramType, valueType, "parameter" ) )
 				{
-					errorMessage =
-						"Illegal parameter #" + paramIndex + " for function " + name + ". Got " + currentValue.getType() + ", need " + currentParam.getType();
+					matched = false;
+					break;
 				}
-
-				++paramIndex;
 			}
 
-			if ( errorMessage == null && ( refIterator.hasNext() || valIterator.hasNext() ) )
+			if ( refIterator.hasNext() || valIterator.hasNext() )
 			{
-				errorMessage =
-					"Illegal amount of parameters for function " + name + ". Got " + params.size() + ", expected " + functions[ i ].getVariableReferences().size();
+				matched = false;
 			}
 
-			if ( errorMessage == null )
+			if ( matched )
 			{
 				return functions[ i ];
 			}
 		}
 
-		if ( !isExactMatch && scope.getParentScope() != null )
+		if ( isExactMatch || source == RuntimeLibrary.functions )
 		{
-			return findFunction( scope.getParentScope(), name, params );
+			return null;
 		}
 
-		if ( !isExactMatch && source == RuntimeLibrary.functions && errorMessage != null )
+		if ( scope.getParentScope() != null )
 		{
-			throw this.parseException( errorMessage );
+			return findFunction( scope.getParentScope(), name, params );
 		}
 
 		return null;
@@ -3245,6 +3244,55 @@ public class Parser
 	private final ScriptException parseException( final String message )
 	{
 		return new ScriptException( message + " " + this.getLineAndFile() );
+	}
+
+	private final ScriptException undefinedFunctionException( final String name, final ValueList params )
+	{
+		return this.parseException( this.undefinedFunctionMessage( name, params ) );
+	}
+
+	private final ScriptException multiplyDefinedFunctionException( final String name, final VariableReferenceList params )
+	{
+		StringBuffer buffer = new StringBuffer();
+		buffer.append( "Function '" );
+		Parser.appendFunction( buffer, name, params );
+		buffer.append( "' defined multiple times" );
+		return this.parseException( buffer.toString() );
+	}
+
+	public static final String undefinedFunctionMessage( final String name, final ValueList params )
+	{
+		StringBuffer buffer = new StringBuffer();
+		buffer.append( "Function '" );
+		Parser.appendFunction( buffer, name, params );
+		buffer.append( "' undefined" );
+		return buffer.toString();
+	}
+
+	private static final void appendFunction(  final StringBuffer buffer, final String name, final ParseTreeNodeList params )
+	{
+		buffer.append( name );
+		buffer.append( "(" );
+
+		Iterator it = params.iterator();
+		boolean first = true;
+		while ( it.hasNext() )
+		{
+			if ( !first )
+			{
+				buffer.append( ", " );
+			}
+			else
+			{
+				buffer.append( " " );
+				first = false;
+			}
+			Value current = (Value) it.next();
+			Type type = current.getType();
+			buffer.append( type );
+		}
+
+		buffer.append( " )" );
 	}
 
 	private final String getLineAndFile()

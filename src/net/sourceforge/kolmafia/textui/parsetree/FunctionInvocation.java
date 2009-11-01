@@ -92,7 +92,7 @@ public class FunctionInvocation
 		Function function = this.scope.findFunction( func, this.params );
 		if ( function == null )
 		{
-			throw interpreter.runtimeException( "Could not find function named \"" + func + "\" to call" );
+			throw interpreter.undefinedFunctionException( func, this.params );
 		}
 
 		if ( !Parser.validCoercion( this.type, function.getType(), "return" ) )

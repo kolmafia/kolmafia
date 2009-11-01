@@ -33,31 +33,13 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ValueList
+public class ValueList extends ParseTreeNodeList
 {
-	private ArrayList list = new ArrayList();
-
 	public boolean add( final Value n )
 	{
-		list.add( n );
+		this.list.add( n );
 		return true;
-	}
-
-	public boolean isEmpty()
-	{
-		return list.isEmpty();
-	}
-
-	public Iterator iterator()
-	{
-		return list.iterator();
-	}
-
-	public int size()
-	{
-		return list.size();
 	}
 }
