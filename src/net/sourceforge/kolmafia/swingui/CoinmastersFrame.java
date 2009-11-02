@@ -271,7 +271,7 @@ public class CoinmastersFrame
 				return false;
 			}
 
-			if ( this.familiar == null )
+			if ( !this.waterBreathingFamiliar() && this.familiar == null )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your familiar doesn't have the right equipment to adventure underwater." );
 				return false;
@@ -288,11 +288,16 @@ public class CoinmastersFrame
 				RequestThread.postRequest( request );
 			}
 
-			if ( !KoLCharacter.hasEquipped( familiar ) )
+			if ( !this.waterBreathingFamiliar() && !KoLCharacter.hasEquipped( familiar ) )
 			{
 				EquipmentRequest request = new EquipmentRequest( familiar );
 				RequestThread.postRequest( request );
 			}
+		}
+
+		public boolean waterBreathingFamiliar()
+		{
+			return KoLCharacter.getFamiliar().waterBreathing();
 		}
 
 		public int buyDefault( final int max )
