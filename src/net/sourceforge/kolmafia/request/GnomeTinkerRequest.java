@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 public class GnomeTinkerRequest
@@ -43,14 +44,14 @@ public class GnomeTinkerRequest
 {
 	private final AdventureResult[] ingredients;
 
-	public GnomeTinkerRequest( final int itemId )
+	public GnomeTinkerRequest( final Concoction conc )
 	{
-		super( "gnomes.php", itemId );
+		super( "gnomes.php", conc );
 
 		this.addFormField( "place", "tinker" );
 		this.addFormField( "action", "tinksomething" );
 
-		this.ingredients = ConcoctionDatabase.getIngredients( itemId );
+		this.ingredients = conc.getIngredients();
 
 		if ( this.ingredients != null && this.ingredients.length == 3 )
 		{

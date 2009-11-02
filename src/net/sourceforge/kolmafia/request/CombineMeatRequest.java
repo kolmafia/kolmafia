@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -49,17 +50,13 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 public class CombineMeatRequest
 	extends CreateItemRequest
 {
-	private final int meatType;
-
-	public CombineMeatRequest( final int meatType )
+	public CombineMeatRequest( final Concoction conc )
 	{
-		super( "craft.php", meatType );
+		super( "craft.php", conc );
 
 		this.addFormField( "action", "makepaste" );
-		this.addFormField( "whichitem", String.valueOf( meatType ) );
+		this.addFormField( "whichitem", String.valueOf( this.getItemId() ) );
 		this.addFormField( "ajax", "1" );
-
-		this.meatType = meatType;
 	}
 
 	public static int getCost( int itemId )
@@ -82,9 +79,9 @@ public class CombineMeatRequest
 
 	public void run()
 	{
-		String name = ItemDatabase.getItemName( this.meatType );
+		String name = this.getName();
 		int count = this.getQuantityNeeded();
-		int cost = CombineMeatRequest.getCost( this.meatType );
+		int cost = CombineMeatRequest.getCost( this.getItemId() );
 
 		if ( cost * count > KoLCharacter.getAvailableMeat() )
 		{
@@ -93,7 +90,7 @@ public class CombineMeatRequest
 		}
 
 		KoLmafia.updateDisplay( "Creating " + count + " " + name + "..." );
-		this.addFormField( "qty", String.valueOf( this.getQuantityNeeded() ) );
+		this.addFormField( "qty", String.valueOf( count ) );
 		super.run();
 	}
 

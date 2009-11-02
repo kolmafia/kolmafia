@@ -56,14 +56,14 @@ public class ChefStaffRequest
 {
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "whichstaff=(\\d+)" );
 
-	public ChefStaffRequest( final int itemId )
+	public ChefStaffRequest( final Concoction conc )
 	{
-		super( "guild.php", itemId );
+		super( "guild.php", conc );
 
 		this.addFormField( "action", "makestaff" );
 
 		// The first ingredient is the staff we will upgrade
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = conc.getIngredients();
 		AdventureResult staff = ingredients[ 0 ];
 
 		this.addFormField( "whichstaff", String.valueOf( staff.getItemId() ) );

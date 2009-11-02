@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -308,13 +309,13 @@ public class SushiRequest
 		return name;
 	}
 
-	public SushiRequest( String name )
+	public SushiRequest( Concoction conc )
 	{
-		super( "sushi.php", name );
+		super( "sushi.php", conc );
 		this.addFormField( "action", "Yep." );
 
 		// Lower-case it
-		name = StringUtilities.getCanonicalName( name );
+		String name = StringUtilities.getCanonicalName( conc.getName() );
 
 		int sushi = SushiRequest.nameToId( name );
 		if ( sushi > 0 )

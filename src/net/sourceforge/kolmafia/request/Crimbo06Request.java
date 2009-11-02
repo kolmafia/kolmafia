@@ -34,17 +34,18 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 
 public class Crimbo06Request
 	extends CreateItemRequest
 {
-	public Crimbo06Request( final int itemId )
+	public Crimbo06Request( final Concoction conc )
 	{
-		super( "crimbo06.php", itemId );
+		super( "crimbo06.php", conc );
 
 		this.addFormField( "place", "toys" );
 		this.addFormField( "action", "toys" );
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "whichitem", String.valueOf( this.getItemId() ) );
 	}
 
 	public void reconstructFields()

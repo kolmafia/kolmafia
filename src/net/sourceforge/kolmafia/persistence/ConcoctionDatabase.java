@@ -1109,17 +1109,6 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.usableList.sort();
 	}
 
-	public static final int getMeatPasteRequired( final int itemId, final int creationCount )
-	{
-		Concoction item = ConcoctionPool.get( itemId );
-		if ( item == null )
-		{
-			return 0;
-		}
-
-		return item.getMeatPasteNeeded( creationCount + item.initial );
-	}
-
 	private static final void calculateBasicItems( final List availableIngredients )
 	{
 		// Meat paste and meat stacks can be created directly
@@ -1522,7 +1511,7 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.getIngredients( ConcoctionDatabase.getStandardIngredients( name ) );
 	}
 
-	private static final AdventureResult[] getIngredients( AdventureResult[] ingredients )
+	public static final AdventureResult[] getIngredients( AdventureResult[] ingredients )
 	{
 		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
 		return ConcoctionDatabase.getIngredients( ingredients, availableIngredients );

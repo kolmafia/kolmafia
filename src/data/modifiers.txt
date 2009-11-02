@@ -2681,7 +2681,7 @@ Mining Gear	Meat Drop: +5
 # Mutant Couture
 OK Lumberjack Outfit	Critical: 2
 Palmist Paraphernalia	Moxie: +7
-# Pork Elf Prizes
+Pork Elf Prizes	Item Drop: +11
 Pyretic Panhandler Paraphernalia	MP Regen Min: 20, MP Regen Max: 30
 # Radio Free Regalia
 # Roy Orbison Disguise
