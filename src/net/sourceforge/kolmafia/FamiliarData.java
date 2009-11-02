@@ -389,6 +389,26 @@ public class FamiliarData
 		return false;
 	}
 
+	public boolean waterBreathing()
+	{
+		switch ( this.id )
+		{
+		case -1:	// No familiar
+		case FamiliarPool.BARRRNACLE:
+		case FamiliarPool.EMO_SQUID:
+		case FamiliarPool.CUDDLEFISH:
+		case FamiliarPool.CRAB:
+		case FamiliarPool.DRAGONFISH:
+		case FamiliarPool.CLOWNFISH:
+		case FamiliarPool.LOBSTER:
+		case FamiliarPool.GIBBERER:
+		case FamiliarPool.GROUPIE:
+		case FamiliarPool.URCHIN:
+			return true;
+		}
+		return false;
+	}
+
 	public String toString()
 	{
 		return this.id == -1 ? "(none)" : this.race + " (" + this.getModifiedWeight() + " lbs)";

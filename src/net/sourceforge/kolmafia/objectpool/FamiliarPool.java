@@ -43,6 +43,7 @@ public class FamiliarPool
 	public static final int STAB_BAT = 10;
 	public static final int STARFISH = 17;
 	public static final int SOMBRERO = 18;
+	public static final int EMO_SQUID = 30;
 	public static final int DODECAPEDE = 38;
 	public static final int DOPPEL = 40;
 	public static final int RIFTLET = 43;
@@ -65,10 +66,17 @@ public class FamiliarPool
 	public static final int LLAMA = 90;
 	public static final int HAND = 92;
 	public static final int BLACK_CAT = 93;
+	public static final int CUDDLEFISH = 100;
+	public static final int CRAB = 102;
+	public static final int DRAGONFISH = 104;
 	public static final int BANDER = 105;
+	public static final int CLOWNFISH = 106;
 	public static final int SANDWORM = 111;
 	public static final int SLIMELING = 112;
 	public static final int HE_BOULDER = 113;
+	public static final int LOBSTER = 114;
+	public static final int URCHIN = 115;
+	public static final int GROUPIE = 116;
 	public static final int GIBBERER = 117;
 	public static final int DANCING_FROG = 118;
 }
