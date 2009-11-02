@@ -4279,3 +4279,6 @@
 4273	929052608	ribbon candy	ribbons of ribbon candy
 4274	362801139	Underworld acorn
 4275	816099928	Underworld trunk
+4276	544431849	Underworld truncheon	Underworld truncheons
+4277	852145313	Staff of the Woodfire	Staves of the Woodfire
+4278	229893442	Underworld flail	Underworld flails

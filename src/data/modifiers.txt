@@ -520,9 +520,12 @@ Staff of the Soupbone	Spell Damage Percent: +75, Maximum MP: +15, MP Regen Min: 
 Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP Regen Min: 3, MP Regen Max: 4
 Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
+Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical: 2
 # Totally Gay Claymore
 Tropical Crimbo Sword	Weapon Damage: +5
+Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10
+Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10
 Unionize The Elves sign	Weakens Monster
 # Wand of Nagamar
 # X-37 gun: Shoots Elemental Blasts
@@ -1727,7 +1730,7 @@ miniature gravy-covered maypole	Item Drop: +25, Softcore Only
 miniature tophat	Familiar Weight: +5
 mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moonglasses: Makes Familiar Less Sensitive to Light
-moveable feast	Familiar Weight: +5
+moveable feast	Familiar Weight: +5, Softcore Only
 # origami &quot;gentlemen's&quot; magazine: + 10 lbs. of Ghuol Whelp
 origami &quot;gentlemen's&quot; magazine	Softcore Only
 overclocked avian microprocessor	Familiar Weight: +5

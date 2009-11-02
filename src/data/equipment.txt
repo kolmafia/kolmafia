@@ -465,9 +465,12 @@ Staff of the Soupbone	10	Mys: 75	1-handed chefstaff
 Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
 Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
+Staff of the Woodfire	10	Mys: 150	1-handed chefstaff
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
 Totally Gay Claymore	69	Mus: 19	2-handed sword
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
+Underworld flail	200	Mox: 150	2-handed flail
+Underworld truncheon	200	Mus: 150	2-handed club
 Unionize The Elves sign	50	Mus: 10	1-handed club
 Wand of Nagamar	30	Mus: 0	1-handed wand
 X-37 gun	160	Mox: 65	1-handed pistol
