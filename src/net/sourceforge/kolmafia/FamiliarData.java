@@ -315,6 +315,7 @@ public class FamiliarData
 		case ItemPool.PUMPKIN_BUCKET:
 		case ItemPool.MAYFLOWER_BOUQUET:
 		case ItemPool.FIREWORKS:
+		case ItemPool.MOVEABLE_FEAST:
 			return 5;
 
 		case ItemPool.RAT_BALLOON:
@@ -455,6 +456,7 @@ public class FamiliarData
 		case ItemPool.FISHY_WAND:
 		case ItemPool.TINY_COSTUME_WARDROBE:
 		case ItemPool.SUGAR_SHIELD:
+		case ItemPool.MOVEABLE_FEAST:
 			return this.id != FamiliarPool.CHAMELEON &&
 			       this.id != FamiliarPool.HATRACK;
 
@@ -527,6 +529,7 @@ public class FamiliarData
 		case ItemPool.DAS_BOOT:
 		case ItemPool.MINIATURE_ANTLERS:
 		case ItemPool.SUGAR_SHIELD:
+		case ItemPool.MOVEABLE_FEAST:
 			return true;
 		}
 

@@ -1727,6 +1727,7 @@ miniature gravy-covered maypole	Item Drop: +25, Softcore Only
 miniature tophat	Familiar Weight: +5
 mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moonglasses: Makes Familiar Less Sensitive to Light
+moveable feast	Familiar Weight: +5
 # origami &quot;gentlemen's&quot; magazine: + 10 lbs. of Ghuol Whelp
 origami &quot;gentlemen's&quot; magazine	Softcore Only
 overclocked avian microprocessor	Familiar Weight: +5

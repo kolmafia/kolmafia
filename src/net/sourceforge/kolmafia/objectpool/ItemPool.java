@@ -940,6 +940,7 @@ public class ItemPool
 	public static final int BIG_BUMBOOZER_MARBLE = 4105;
 	public static final int SECRET_FROM_THE_FUTURE = 4114;
 	public static final int EMPTY_AGUA_DE_VIDA_BOTTLE = 4130;
+	public static final int MOVEABLE_FEAST = 4135;
 	public static final int RUMPLED_PAPER_STRIP = 4138;
 	public static final int CREASED_PAPER_STRIP = 4139;
 	public static final int FOLDED_PAPER_STRIP = 4140;
