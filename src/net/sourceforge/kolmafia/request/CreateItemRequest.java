@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -76,6 +78,7 @@ public class CreateItemRequest
 	// 1=quantity, 2,3=items used, 4=result (redundant)
 	public static final Pattern DISCOVERY_PATTERN = Pattern.compile( "descitem\\((\\d+)\\);" );
 
+	public Concoction concoction;
 	public AdventureResult createdItem;
 
 	private String name;
@@ -101,44 +104,31 @@ public class CreateItemRequest
 	 * to be created.
 	 *
 	 * @param formSource The form to be used for the item creation
-	 * @param itemId The item ID for the item to be handled
+	 * @param conc The Concoction for the item to be handled
 	 */
 
-	public CreateItemRequest( final String formSource, final int itemId )
+	public CreateItemRequest( final String formSource, final Concoction conc )
 	{
 		super( formSource );
 
-		this.itemId = itemId;
-		this.name = ItemDatabase.getItemName( itemId );
+		this.concoction = conc;
+		this.itemId = conc.getItemId();
+		this.name = conc.getName();
 		this.mixingMethod = KoLConstants.SUBCLASS;
 		this.calculateYield();
 	}
 
-	public CreateItemRequest( final String formSource, final String name )
+	private CreateItemRequest( final Concoction conc )
 	{
-		super( formSource );
+		this( "", conc );
 
-		this.itemId = -1;
-		this.name = name;
-		this.mixingMethod = KoLConstants.SUBCLASS;
-		this.yield = 1;
-		this.createdItem = AdventureResult.tallyItem( name );
-	}
-
-	private CreateItemRequest( final int itemId )
-	{
-		super( "" );
-
-		this.itemId = itemId;
-		this.name = ItemDatabase.getItemDataName( itemId );
-		this.mixingMethod = ConcoctionDatabase.getMixingMethod( this.itemId );
-		this.calculateYield();
+		this.mixingMethod = conc.getMixingMethod();
 	}
 
 	private void calculateYield()
 	{
-		this.yield = ConcoctionDatabase.getYield( this.itemId );
-		this.createdItem = new AdventureResult( this.itemId, this.yield );
+		this.yield = this.concoction.getYield();
+		this.createdItem = this.concoction.getItem().getInstance( this.yield );
 	}
 
 	public void reconstructFields()
@@ -257,8 +247,7 @@ public class CreateItemRequest
 
 		if ( returnNullIfNotPermitted &&
 		     ( Preferences.getBoolean( "unknownRecipe" + item.getItemId() ) ||
-		     	!ConcoctionDatabase.isPermittedMethod(
-		     		ConcoctionDatabase.getMixingMethod( item ) ) ) )
+		     	!ConcoctionDatabase.isPermittedMethod( instance.concoction.getMixingMethod() ) ) )
 		{
 			return null;
 		}
@@ -266,17 +255,20 @@ public class CreateItemRequest
 		return instance;
 	}
 
-	private static final CreateItemRequest constructInstance( final String name )
+	private static final CreateItemRequest constructInstance( final Concoction conc )
 	{
-		AdventureResult item = AdventureResult.tallyItem( name );
-		int itemId = item.getItemId();
-
-		if ( itemId == ItemPool.MEAT_PASTE || itemId == ItemPool.MEAT_STACK || itemId == ItemPool.DENSE_STACK )
+		if ( conc == null )
 		{
-			return new CombineMeatRequest( itemId );
+			return null;
+		}
+		int itemId = conc.getItemId();
+
+		if ( CombineMeatRequest.getCost( itemId ) > 0 )
+		{
+			return new CombineMeatRequest( conc );
 		}
 
-		int mixingMethod = ConcoctionDatabase.getMixingMethod( item );
+		int mixingMethod = conc.getMixingMethod();
 
 		// Otherwise, return the appropriate subclass of
 		// item which will be created.
@@ -287,40 +279,40 @@ public class CreateItemRequest
 			return null;
 
 		case KoLConstants.STARCHART:
-			return new StarChartRequest( itemId );
+			return new StarChartRequest( conc );
 
 		case KoLConstants.SUGAR_FOLDING:
-			return new SugarSheetRequest( itemId );
+			return new SugarSheetRequest( conc );
 
 		case KoLConstants.PIXEL:
-			return new PixelRequest( itemId );
+			return new PixelRequest( conc );
 
 		case KoLConstants.GNOME_TINKER:
-			return new GnomeTinkerRequest( itemId );
+			return new GnomeTinkerRequest( conc );
 
 		case KoLConstants.STAFF:
-			return new ChefStaffRequest( itemId );
+			return new ChefStaffRequest( conc );
 
 		case KoLConstants.SUSHI:
-			return new SushiRequest( name );
+			return new SushiRequest( conc );
 
 		case KoLConstants.SINGLE_USE:
-			return new SingleUseRequest( itemId );
+			return new SingleUseRequest( conc );
 
 		case KoLConstants.MULTI_USE:
-			return new MultiUseRequest( itemId );
+			return new MultiUseRequest( conc );
 
 		case KoLConstants.CRIMBO05:
-			return new Crimbo05Request( itemId );
+			return new Crimbo05Request( conc );
 
 		case KoLConstants.CRIMBO06:
-			return new Crimbo06Request( itemId );
+			return new Crimbo06Request( conc );
 
 		case KoLConstants.CRIMBO07:
-			return new Crimbo07Request( itemId );
+			return new Crimbo07Request( conc );
 
 		default:
-			return new CreateItemRequest( itemId );
+			return new CreateItemRequest( conc );
 		}
 	}
 
@@ -510,7 +502,8 @@ public class CreateItemRequest
 		String path = this.getPath();
 		String quantityField = "quantity";
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.name );
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( 
+			this.concoction.getIngredients() );
 
 		if ( ingredients.length == 1 || (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.WOK )
 		{
@@ -817,7 +810,8 @@ public class CreateItemRequest
 
 		if ( (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
 		{
-			int pasteNeeded = ConcoctionDatabase.getMeatPasteRequired( this.itemId, this.quantityNeeded );
+			int pasteNeeded = this.concoction.getMeatPasteNeeded(
+				this.quantityNeeded + this.concoction.initial );
 			AdventureResult paste = ItemPool.get( ItemPool.MEAT_PASTE, pasteNeeded );
 
 			if ( !InventoryManager.retrieveItem( paste ) )
@@ -826,10 +820,11 @@ public class CreateItemRequest
 			}
 		}
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( this.name );
-		int yield = ConcoctionDatabase.getYield( this.itemId );
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(
+			this.concoction.getIngredients() );
+		int yield = this.yield;
 
-		for ( int i = 0; i < ingredients.length; ++i )
+		for ( int i = 0; i < ingredients.length && foundAllIngredients; ++i )
 		{
 			// First, calculate the multiplier that's needed
 			// for this ingredient to avoid not making enough
@@ -854,7 +849,7 @@ public class CreateItemRequest
 				quantity = ( quantity + yield - 1 ) / yield;
 			}
 
-			if ( !InventoryManager.retrieveItem( ingredients[ i ].getItemId(), quantity ) )
+			if ( !InventoryManager.retrieveItem( ingredients[ i ].getInstance( quantity ) ) )
 			{
 				foundAllIngredients = false;
 			}
@@ -1337,7 +1332,7 @@ public class CreateItemRequest
 			{
 				return value;
 			}
-			value = CreateItemRequest.constructInstance( name );
+			value = CreateItemRequest.constructInstance( ConcoctionPool.get( name ) );
 			if ( value != null )
 			{
 				this.internalMap.put( name, value );

@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -50,12 +51,12 @@ public class PixelRequest
 {
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "makewhich=(\\d+)" );
 
-	public PixelRequest( final int itemId )
+	public PixelRequest( final Concoction conc )
 	{
-		super( "mystic.php", itemId );
+		super( "mystic.php", conc );
 
 		this.addFormField( "action", "makepixel" );
-		this.addFormField( "makewhich", String.valueOf( itemId ) );
+		this.addFormField( "makewhich", String.valueOf( this.getItemId() ) );
 	}
 
 	public void reconstructFields()

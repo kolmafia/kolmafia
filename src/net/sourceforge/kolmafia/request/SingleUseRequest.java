@@ -59,10 +59,10 @@ public class SingleUseRequest
 {
 	final private AdventureResult[] ingredients;
 
-	public SingleUseRequest( final int itemId )
+	public SingleUseRequest( final Concoction conc )
 	{
-		super( "inv_use.php", itemId );
-		this.ingredients = ConcoctionDatabase.getIngredients( itemId );
+		super( "inv_use.php", conc );
+		this.ingredients = conc.getIngredients();
 	}
 
 	public void reconstructFields()
@@ -83,6 +83,7 @@ public class SingleUseRequest
 			this.constructURLString( "inv_use.php" );
 			this.addFormField( "which", "3" );
 			this.addFormField( "whichitem", String.valueOf( use ) );
+			this.addFormField( "ajax", "1" );
 		}
 		else if ( type == KoLConstants.CONSUME_MULTIPLE ||
 			ItemDatabase.getAttribute( use, ItemDatabase.ATTR_MULTIPLE ) )

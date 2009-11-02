@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -54,11 +55,11 @@ public class SugarSheetRequest
 
 	private int stars, lines;
 
-	public SugarSheetRequest( final int itemId )
+	public SugarSheetRequest( final Concoction conc )
 	{
-		super( "sugarsheets.php", itemId );
+		super( "sugarsheets.php", conc );
 		this.addFormField( "action", "fold" );
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "whichitem", String.valueOf( this.getItemId() ) );
 		this.addFormField( "pwd" );
 	}
 
@@ -106,8 +107,6 @@ public class SugarSheetRequest
 		{
 			return true;
 		}
-
-		// int itemId = StringUtilities.parseInt( stamrMatcher.group( 1 ) );
 
 		ResultProcessor.processItem( ItemPool.SUGAR_SHEET, -1 );
 

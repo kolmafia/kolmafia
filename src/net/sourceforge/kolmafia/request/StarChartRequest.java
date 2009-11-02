@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -55,11 +56,11 @@ public class StarChartRequest
 
 	private int stars, lines;
 
-	public StarChartRequest( final int itemId )
+	public StarChartRequest( final Concoction conc )
 	{
-		super( "starchart.php", itemId );
+		super( "starchart.php", conc );
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = conc.getIngredients();
 		if ( ingredients != null )
 		{
 			for ( int i = 0; i < ingredients.length; ++i )

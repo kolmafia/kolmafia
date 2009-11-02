@@ -58,11 +58,11 @@ public class MultiUseRequest
 {
 	private AdventureResult ingredient;
 
-	public MultiUseRequest( final int itemId )
+	public MultiUseRequest( final Concoction conc )
 	{
-		super( "multiuse.php", itemId );
+		super( "multiuse.php", conc );
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = conc.getIngredients();
 
 		// There must be exactly one ingredient
 		if ( ingredients == null || ingredients.length != 1 )

@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -50,13 +51,13 @@ public class Crimbo07Request
 {
 	private static final Pattern CREATE_PATTERN = Pattern.compile( "crimbo07.php.*whichitem=(\\d+).*quantity=(\\d+)" );
 
-	public Crimbo07Request( final int itemId )
+	public Crimbo07Request( final Concoction conc )
 	{
-		super( "crimbo07.php", itemId );
+		super( "crimbo07.php", conc );
 
 		this.addFormField( "place", "toys" );
 		this.addFormField( "action", "toys" );
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "whichitem", String.valueOf( this.getItemId() ) );
 	}
 
 	public void reconstructFields()
