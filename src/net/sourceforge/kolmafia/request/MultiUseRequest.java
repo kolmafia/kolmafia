@@ -79,6 +79,11 @@ public class MultiUseRequest
 		this.addFormField( "whichitem", String.valueOf( use ) );
 	}
 
+	public MultiUseRequest( final int itemId )
+	{
+		this( ConcoctionPool.get( itemId ) );
+	}
+
 	public void reconstructFields()
 	{
 	}
