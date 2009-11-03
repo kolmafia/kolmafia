@@ -3742,7 +3742,7 @@
 3736	enchanted handwarmer	accessory	all	45
 3737	lucky lighter	offhand	all	55
 3738	packet of beer nuts	food	all	12
-3739	Boozehounds Anonymous token	multiple	all	43
+3739	Boozehounds Anonymous token	usable	all	43
 3740	handful of bees	none, combat	all	88
 3741	spectral jelly	none, combat	all	62
 3742	jellyfish gel	multiple	all	27
