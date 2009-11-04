@@ -317,6 +317,7 @@ public abstract class KoLCharacter
 	private static int mindControlLevel = 0;
 
 	private static String autosellMode = "";
+	private static boolean unequipFamiliar = false;
 
 	public static final Object[][] COMBAT_ENTITIES =
 	{
@@ -529,6 +530,7 @@ public abstract class KoLCharacter
 		KoLCharacter.mindControlLevel = 0;
 
 		KoLCharacter.autosellMode = "";
+		KoLCharacter.unequipFamiliar = false;
 
 		// Clear some of the standard lists so they don't
 		// carry over from player to player.
@@ -2234,7 +2236,7 @@ public abstract class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to set the autosellmode
+	 * Accessor method to set the autosell mode
 	 *
 	 * @param mode the new mode
 	 */
@@ -2242,6 +2244,28 @@ public abstract class KoLCharacter
 	public static final void setAutosellMode( final String mode )
 	{
 		KoLCharacter.autosellMode = mode;
+	}
+
+	/**
+	 * Accessor method for the current unequip familiar mode
+	 *
+	 * @return boolean
+	 */
+
+	public static final boolean getUnequipFamiliar()
+	{
+		return KoLCharacter.unequipFamiliar;
+	}
+
+	/**
+	 * Accessor method to set the unequip familiar mode
+	 *
+	 * @param mode the new mode
+	 */
+
+	public static final void setUnequipFamiliar( final boolean mode )
+	{
+		KoLCharacter.unequipFamiliar = mode;
 	}
 
 	/**

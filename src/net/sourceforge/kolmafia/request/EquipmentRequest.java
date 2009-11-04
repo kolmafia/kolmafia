@@ -66,6 +66,7 @@ public class EquipmentRequest
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN =
 		Pattern.compile( "<option value='?([\\d]+)'? descid='?([\\d]+)'?>([^>]*?) \\(([\\d,]+)\\)</option>" );
+	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 
 	// With images:
 	//
@@ -225,6 +226,7 @@ public class EquipmentRequest
 
 		if ( requestType == EquipmentRequest.UNEQUIP_ALL )
 		{
+			this.addFormField( "ajax", "1" );
 			this.addFormField( "action", "unequipall" );
 		}
 	}
@@ -369,8 +371,9 @@ public class EquipmentRequest
 	{
 		super( "inv_equip.php" );
 
-		this.addFormField( "action", "outfit" );
 		this.addFormField( "which", "2" );
+		this.addFormField( "ajax", "1" );
+		this.addFormField( "action", "outfit" );
 		this.addFormField( "whichoutfit", String.valueOf( change.getOutfitId() ) );
 
 		this.requestType = EquipmentRequest.CHANGE_OUTFIT;
@@ -913,8 +916,10 @@ public class EquipmentRequest
 			return;
 		}
 		
-		if ( (this.requestType == EquipmentRequest.CHANGE_ITEM ||
-		      this.requestType == EquipmentRequest.REMOVE_ITEM) &&
+		if ( ( this.requestType == EquipmentRequest.CHANGE_ITEM ||
+		       this.requestType == EquipmentRequest.REMOVE_ITEM ||
+		       this.requestType == EquipmentRequest.CHANGE_OUTFIT ||
+		       this.requestType == EquipmentRequest.UNEQUIP_ALL ) &&
 		      this.getURLString().indexOf( "ajax=1" ) != -1 )
 		{
 			EquipmentRequest.parseEquipmentChange( this.getURLString(), this.responseText );
@@ -1410,10 +1415,20 @@ public class EquipmentRequest
 
 	public static final void parseEquipmentChange( final String location, final String responseText )
 	{
+		Matcher matcher = ACTION_PATTERN.matcher( location );
+
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		String action = matcher.group(1);
+
+		// We have nothing special to do for simple visits.
 		// inv_equip.php?action=equip&whichitem=2764&slot=1&ajax=1
 		// inv_equip.php?action=equip&whichitem=1234&ajax=1
 
-		if ( location.indexOf( "action=equip" ) != -1 )
+		if ( action.equals( "equip" ) )
 		{
 			// We equipped an item.
 			int itemId = EquipmentRequest.parseItemId( location );
@@ -1446,7 +1461,7 @@ public class EquipmentRequest
 		}
 
 		// inv_equip.php?action=dualwield&whichitem=1325&ajax=1
-		if ( location.indexOf( "action=dualwield" ) != -1 )
+		if ( action.equals( "dualwield" ) )
 		{
 			// We equipped an item.
 			int itemId = EquipmentRequest.parseItemId( location );
@@ -1463,8 +1478,40 @@ public class EquipmentRequest
 			return;
 		}
 
+		// inv_equip.php?action=unequipall&ajax=1&
+		if ( action.equals( "unequipall" ) )
+		{
+			// We unequipped everything
+			if ( responseText.indexOf( "All items unequipped" ) == -1 )
+			{
+				return;
+			}
+
+			boolean switched = false;
+			for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+			{
+				// Whether the familiar item is unequipped on
+				// an unequip all is an account preference.
+				if ( i == EquipmentManager.FAMILIAR &&
+				     !KoLCharacter.getUnequipFamiliar() )
+				{
+					continue;
+				}
+
+				if ( EquipmentRequest.switchItem( i, EquipmentRequest.UNEQUIP ) )
+				{
+					switched = true;
+				}
+			}
+
+			if ( switched )
+			{
+				ConcoctionDatabase.refreshConcoctions();
+			}
+		}
+
 		// inv_equip.php?action=unequip&type=acc3&ajax=1
-		if ( location.indexOf( "action=unequip" ) != -1 )
+		if ( action.equals( "unequip" ) )
 		{
 			// We unequipped an item.
 			String slotName = EquipmentRequest.parseSlotName( location );
@@ -1488,7 +1535,7 @@ public class EquipmentRequest
 		}
 
 		// inv_equip.php?action=hatrack&whichitem=308&ajax=1
-		if ( location.indexOf( "action=hatrack" ) != -1 )
+		if ( action.equals( "hatrack" ) )
 		{
 			// We equipped an item.
 			int itemId = EquipmentRequest.parseItemId( location );
@@ -1506,7 +1553,7 @@ public class EquipmentRequest
 		}
 
 		// inv_equip.php?action=outfit&whichoutfit=-28&ajax=1
-		if ( location.indexOf( "action=outfit" ) != -1 )
+		if ( action.equals( "outfit" ) )
 		{
 			// We changed into an outfit.
 
@@ -1608,18 +1655,17 @@ public class EquipmentRequest
 		switch ( slot )
 		{
 		case EquipmentManager.ACCESSORY1:
-			// Heuristic: KoL seems to fill the last slots first.
-			if ( equipment[ EquipmentManager.ACCESSORY3 ] == EquipmentRequest.UNEQUIP )
+			if ( equipment[ EquipmentManager.ACCESSORY1 ] == EquipmentRequest.UNEQUIP )
 			{
-				slot = EquipmentManager.ACCESSORY3;
+				slot = EquipmentManager.ACCESSORY1;
 			}
 			else if ( equipment[ EquipmentManager.ACCESSORY2 ] == EquipmentRequest.UNEQUIP )
 			{
 				slot = EquipmentManager.ACCESSORY2;
 			}
-			else if ( equipment[ EquipmentManager.ACCESSORY1 ] == EquipmentRequest.UNEQUIP )
+			else if ( equipment[ EquipmentManager.ACCESSORY3 ] == EquipmentRequest.UNEQUIP )
 			{
-				slot = EquipmentManager.ACCESSORY1;
+				slot = EquipmentManager.ACCESSORY3;
 			}
 			break;
 
