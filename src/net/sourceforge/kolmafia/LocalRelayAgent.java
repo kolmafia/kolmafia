@@ -162,6 +162,11 @@ public class LocalRelayAgent
 
 		this.requestMethod = requestLine.substring( 0, spaceIndex );
 		this.path = requestLine.substring( spaceIndex + 1, requestLine.lastIndexOf( " " ) );
+		if ( this.path.startsWith( "//" ) )
+		{	// A current KoL bug causes URLs to gain an unnecessary leading
+			// slash after certain chat right-click commands are used.
+			this.path = this.path.substring( 1 );
+		}
 
 		this.request.constructURLString( this.path, this.requestMethod.equals( "POST" ) );
 
