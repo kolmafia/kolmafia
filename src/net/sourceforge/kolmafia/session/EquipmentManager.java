@@ -683,11 +683,21 @@ public class EquipmentManager
 		case EquipmentManager.ACCESSORY3:
 
 			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.accessories );
-			AdventureResult.addResultToList( EquipmentManager.accessories, 
-				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ) );
-			AdventureResult.addResultToList( EquipmentManager.accessories, 
-				EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ) );
-			AdventureResult.addResultToList( EquipmentManager.accessories, equippedItem );
+			AdventureResult accessory = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 );
+			if ( accessory != EquipmentRequest.UNEQUIP )
+			{
+				AdventureResult.addResultToList( EquipmentManager.accessories, accessory );
+			}
+			accessory = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 );
+			if ( accessory != EquipmentRequest.UNEQUIP )
+			{
+				AdventureResult.addResultToList( EquipmentManager.accessories, accessory );
+			}
+			accessory = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 );
+			if ( accessory != EquipmentRequest.UNEQUIP )
+			{
+				AdventureResult.addResultToList( EquipmentManager.accessories, accessory );
+			}
 			break;
 
 		case EquipmentManager.FAMILIAR:

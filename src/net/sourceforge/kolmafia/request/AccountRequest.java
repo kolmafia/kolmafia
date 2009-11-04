@@ -52,6 +52,8 @@ public class AccountRequest
 		Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
 	private static final Pattern AUTOATTACK_AJAX_PATTERN =
 		Pattern.compile( "whichattack=(\\d+)");
+	private static final Pattern UNEQUIP_FAMILIAR_PATTERN =
+		Pattern.compile( "<input type=checkbox name=unfamequip value=1( checked)?>" );
 
 	private static final Pattern SELECTED1_PATTERN =
 		Pattern.compile( "value=\"?(\\d+)\"? selected>" );
@@ -101,6 +103,13 @@ public class AccountRequest
 			boolean checked = matcher.group(1) != null && matcher.group(1).equals( " checked" );
 			String autosellMode = checked ? "compact" : "detailed";
 			KoLCharacter.setAutosellMode( autosellMode );
+		}
+
+		matcher = AccountRequest.UNEQUIP_FAMILIAR_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			boolean checked = matcher.group(1) != null && matcher.group(1).equals( " checked" );
+			KoLCharacter.setUnequipFamiliar( checked );
 		}
 
 		// Consumption restrictions are also found
