@@ -102,7 +102,8 @@ public class MallPurchaseRequest
 		if ( storeId.indexOf( "." ) == -1 )
 		{
 			this.addFormField( "whichstore", storeId );
-			this.addFormField( "buying", "Yep." );
+			this.addFormField( "buying", "1" );
+			this.addFormField( "ajax", "1" );
 			this.hashField = "phash";
 		}
 		else if ( storeId.equals( "galaktik.php" ) )
