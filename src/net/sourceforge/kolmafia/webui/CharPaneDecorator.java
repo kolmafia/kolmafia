@@ -224,6 +224,10 @@ public class CharPaneDecorator
 		{
 			insPos = text.lastIndexOf( "</table>" );
 		}
+		if ( insPos == -1 )
+		{	// something is very wrong
+			insPos = text.length();
+		}
 		buffer.append( text.substring( lastPos, insPos ) );
 		lastPos = insPos;
 		while ( true )

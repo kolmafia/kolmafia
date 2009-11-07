@@ -1280,10 +1280,10 @@ bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: "Accordion Th
 bejeweled cufflinks	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Single Equip
 bejeweled pledge pin	Maximum HP: +40, Single Equip
 # bewitching boots: Slight Cute Resistance
-bewitching boots	Meat Drop: +10
+bewitching boots	Meat Drop: +10, Synergetic
 # bezoar ring: Protects the wearer from poison
 big red clown nose	Maximum HP: +7, Clownosity: +1
-bitter bowtie	Cold Resistance: +1, Meat Drop: +10
+bitter bowtie	Cold Resistance: +1, Meat Drop: +10, Synergetic
 black belt	Muscle: +7, Weapon Damage: +7, Single Equip
 blackberry combat boots	Muscle: +10, Maximum HP: +45, Weapon Damage: +5, Single Equip
 blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Single Equip
@@ -1296,7 +1296,7 @@ booty chest charrrm bracelet	Meat Drop: +10, Single Equip
 bottle opener belt buckle	Single Equip
 bottlecap turtle	Mysticality: +1, Maximum MP: +3
 boxing glove	Weapon Damage: +4
-brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10
+brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10, Synergetic
 brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 # cannonball charrrm bracelet: Explosively hilarious
 cannonball charrrm bracelet	Single Equip
@@ -1400,11 +1400,11 @@ malevolent medallion	Slime Hates It: +1, Spooky Damage: +10, Stench Damage: +10,
 # mayfly bait necklace: Allows Summoning of Mayflies in Combat
 mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only
 memory of a cultist's robe	Single Equip
-molten medallion	Hot Resistance: +1, Item Drop: +5
+molten medallion	Hot Resistance: +1, Item Drop: +5, Synergetic
 monster bait	Combat Rate: +5, Single Equip
-monstrous monocle	Spooky Resistance: +1, Item Drop: +5
+monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
 # mood ring
-musty moccasins	Stench Resistance: +1, Item Drop: +5
+musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Intrinsic Effect: "Omphaloskepsis", Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only
 # old soft shoes: +30% Item Drops from Hobos
@@ -2669,6 +2669,7 @@ Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # El Vibrato Relics
 Encephalic Ensemble	Item Drop: +5
 Filthy Hippy Disguise	Stench Damage: +5
+Floaty Fatigues	Spell Critical Percent: +15
 Frat Boy Ensemble	Sleaze Damage: +5
 Frat Warrior Fatigues	Sleaze Damage: +15
 Furry Suit	Moxie Percent: -75, Monster Level: +5
@@ -2686,6 +2687,7 @@ Mining Gear	Meat Drop: +5
 OK Lumberjack Outfit	Critical: 2
 Palmist Paraphernalia	Moxie: +7
 Pork Elf Prizes	Item Drop: +11
+# Primitive Radio Duds
 Pyretic Panhandler Paraphernalia	MP Regen Min: 20, MP Regen Max: 30
 # Radio Free Regalia
 # Roy Orbison Disguise
@@ -2698,6 +2700,7 @@ Tapered Threads	Initiative: +30
 Terrycloth Tackle	Damage Absorption: +20
 Time Trappings	Adventures: +3
 # Tropical Crimbo Duds
+Vestments of the Treeslayer	Damage Reduction: 4
 Vile Vagrant Vestments	Mana Cost (stackable): -5, Class: "Pastamancer"
 War Hippy Fatigues	Stench Damage: +15
 Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
@@ -2731,6 +2734,12 @@ Loc:The Dive Bar	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Pe
 synergy/serpentine sword/snake shield	Monster Level: +10
 synergy/lupine sword/snarling wolf shield	Spooky Damage: +9
 synergy/cardboard katana/cardboard wakizashi	Weapon Damage: +20
+synergy/bewitching boots/bitter bowtie	Meat Drop: +10, Cold Resistance: +1
+synergy/bitter bowtie/brazen bracelet	Meat Drop: +10, Cold Resistance: +1, Sleaze Resistance: +1
+synergy/brazen bracelet/bewitching boots	Meat Drop: +10, Sleaze Resistance: +1
+synergy/molten medallion/monstrous monocle	Item Drop: +5, Hot Resistance: +1, Spooky Resistance: +1
+synergy/monstrous monocle/musty moccasins	Item Drop: +5, Spooky Resistance: +1, Stench Resistance: +1
+synergy/musty moccasins/molten medallion	Item Drop: +5, Stench Resistance: +1, Hot Resistance: +1
 
 # Maximization categories section of modifiers.txt
 # These pseudo-items list the indirect benefits of certain classes of
