@@ -76,7 +76,6 @@ public class ConcoctionDatabase
 	public static final SortedListModel creatableList = new SortedListModel();
 	public static final LockableListModel usableList = new LockableListModel();
 
-	public static boolean tripleReagent = false;
 	public static boolean ignoreRefresh = false;
 	public static boolean deferRefresh = false;
 	public static boolean refreshDeferred = false;
@@ -1178,7 +1177,6 @@ public class ConcoctionDatabase
 
 	private static final void cachePermitted( final List availableIngredients )
 	{
-		ConcoctionDatabase.tripleReagent = KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR );
 		boolean willBuyServant = KoLCharacter.canInteract() &&
 			Preferences.getBoolean( "autoRepairBoxServants" ) &&
 			( Preferences.getBoolean( "autoSatisfyWithMall" ) ||

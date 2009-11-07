@@ -296,6 +296,7 @@ public abstract class KoLCharacter
 
 	private static int arenaWins = 0;
 	private static int stillsAvailable = 0;
+	private static boolean tripleReagent = false;
 	private static boolean guildStoreStateKnown = false;
 
 	// Listener-driven container items
@@ -520,6 +521,7 @@ public abstract class KoLCharacter
 		KoLCharacter.isUsingStabBat = false;
 
 		KoLCharacter.stillsAvailable = -1;
+		KoLCharacter.tripleReagent = false;
 		KoLCharacter.guildStoreStateKnown = false;
 		KoLCharacter.beanstalkArmed = false;
 
@@ -793,6 +795,7 @@ public abstract class KoLCharacter
 		KoLCharacter.classname = classname;
 		KoLCharacter.classtype = null;
 		KoLCharacter.getClassType();
+		KoLCharacter.tripleReagent = KoLCharacter.classtype == KoLCharacter.SAUCEROR;
 
 		if ( KoLCharacter.classtype == KoLCharacter.ASTRAL_SPIRIT )
 		{
@@ -2692,6 +2695,11 @@ public abstract class KoLCharacter
 		}
 
 		return KoLCharacter.stillsAvailable;
+	}
+
+	public static final boolean tripleReagent()
+	{
+		return KoLCharacter.tripleReagent;
 	}
 
 	public static final void setStillsAvailable( final int stillsAvailable )

@@ -502,6 +502,7 @@ public class CreateItemRequest
 		String path = this.getPath();
 		String quantityField = "quantity";
 
+		this.calculateYield();
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( 
 			this.concoction.getIngredients() );
 
@@ -533,7 +534,6 @@ public class CreateItemRequest
 			}
 		}
 
-		this.calculateYield();
 		int quantity = ( this.quantityNeeded + this.yield - 1 ) / this.yield;
 		this.addFormField( quantityField, String.valueOf( quantity ) );
 
@@ -804,6 +804,7 @@ public class CreateItemRequest
 	{
 		KoLmafia.updateDisplay( "Verifying ingredients for " + this.name + " (" + this.quantityNeeded + ")..." );
 
+		this.calculateYield();
 		boolean foundAllIngredients = true;
 
 		// If this is a combining request, you need meat paste as well.
