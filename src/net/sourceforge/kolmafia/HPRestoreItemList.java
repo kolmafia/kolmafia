@@ -76,8 +76,7 @@ public abstract class HPRestoreItemList
 	public static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem MASSAGE_OIL = new HPRestoreItem( "scented massage oil", Integer.MAX_VALUE );
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
-	private static final HPRestoreItem GRUB =
-		new HPRestoreItem( "plump juicy grub", 95 );
+	private static final HPRestoreItem GRUB = new HPRestoreItem( "plump juicy grub", 95 );
 
 	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
 	{
@@ -103,9 +102,9 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "phonics down", 48 ),
 		new HPRestoreItem( "Disco Power Nap", 40 ),
 		new HPRestoreItem( "cotton candy cone", 39 ),
-		HPRestoreItemList.WALRUS,
 		new HPRestoreItem( "palm-frond fan", 37 ),
 		new HPRestoreItem( "honey-dipped locust", 36 ),
+		HPRestoreItemList.WALRUS,
 		new HPRestoreItem( "red paisley oyster egg", 33 ),
 		new HPRestoreItem( "red polka-dot oyster egg", 33 ),
 		new HPRestoreItem( "red striped oyster egg", 33 ),

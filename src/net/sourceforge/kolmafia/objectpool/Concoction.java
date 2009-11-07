@@ -195,7 +195,7 @@ public class Concoction
 
 	public int getYield()
 	{
-		if ( ConcoctionDatabase.tripleReagent && this.isReagentPotion() )
+		if ( KoLCharacter.tripleReagent() && this.isReagentPotion() )
 		{
 			return 3 * this.yield;
 		}
