@@ -2619,37 +2619,38 @@ public class Parser
 
 		String name = this.currentToken();
 		Type type = this.parseType( scope, false, false );
+		boolean plurals = false;
+
 		if ( type == null )
 		{
 			StringBuffer buf = new StringBuffer( this.currentLine );
-			if ( name.endsWith( "s" ) )
+			int length = name.length();
+
+			if ( name.endsWith( "es" ) )
 			{
-				buf.deleteCharAt( name.length() - 1 );
-				this.currentLine = buf.toString();
-				this.currentToken = null;
-				type = this.parseType( scope, false, false );
-				if ( type == null && name.endsWith( "es" ) )
-				{
-					buf.deleteCharAt( name.length() - 2 );
-					this.currentLine = buf.toString();
-					this.currentToken = null;
-					type = this.parseType( scope, false, false );
-				}
-				if ( type == null )
-				{
-					throw this.parseException( "Unknown type " + name );
-				}
-				if ( !type.isPrimitive() )
-				{
-					throw this.parseException( "Non-primitive type " + name );
-				}
-				Value value = this.parseString( type );
-				if ( value != null ) return value;	// explicit list of values
-				value = type.allValues();
-				if ( value != null ) return value;	// implicit enumeration
-				throw this.parseException( "Can't enumerate all " + name );
+				buf.delete( length - 2, length );
 			}
+			else if ( name.endsWith( "s" ) )
+			{
+				buf.deleteCharAt( length - 1 );
+			}
+			else
+			{
+				throw this.parseException( "Unknown type " + name );
+			}
+
+			this.currentLine = buf.toString();
+			this.currentToken = null;
+			type = this.parseType( scope, false, false );
+
+			plurals = true;
 		}
+
+		if ( type == null )
+		{
+			throw this.parseException( "Unknown type " + name );
+		}
+
 		if ( !type.isPrimitive() )
 		{
 			throw this.parseException( "Non-primitive type " + name );
@@ -2658,6 +2659,21 @@ public class Parser
 		if ( !this.currentToken().equals( "[" ) )
 		{
 			throw this.parseException( "[", this.currentToken() );
+		}
+
+		if ( plurals )
+		{
+			Value value = this.parseString( type );
+			if ( value != null )
+			{
+				return value;	// explicit list of values
+			}
+			value = type.allValues();
+			if ( value != null )
+			{
+				return value;	// implicit enumeration
+			}
+			throw this.parseException( "Can't enumerate all " + name );
 		}
 
 		StringBuffer resultString = new StringBuffer();
