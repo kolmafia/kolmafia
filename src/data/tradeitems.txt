@@ -3840,7 +3840,7 @@
 3834	blended frozen swill	drink	all	105
 3835	tiny costume wardrobe	familiar	all	0
 3836	Elvish sunglasses	accessory	all	0
-3837
+3837	anniversary safety glass vest	shirt	display	0
 3838
 3839
 3840
