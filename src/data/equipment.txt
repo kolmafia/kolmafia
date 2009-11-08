@@ -341,6 +341,7 @@ Mr. Shirt	30	none
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
 Ye Olde Navy Fleece	100	Mus: 35
+anniversary safety glass vest	10	none
 asbestos apron	170	Mus: 70
 barskin cloak	25	none
 bat-ass leather jacket	180	Mus: 77
