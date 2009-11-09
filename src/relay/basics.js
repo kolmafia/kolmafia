@@ -77,7 +77,11 @@ function refreshTopmenu( desiredRefresh )
 		if ( httpObject.readyState != 4 )
 			return;
 
-		var bodyBegin = httpObject.responseText.indexOf( ">", httpObject.responseText.indexOf( "<body" ) ) + 1;
+		// The top menu is malformed: it has two <body> tags
+		// <body><head>...</head><body bgcolor...>
+		// Choose second one.
+
+		var bodyBegin = httpObject.responseText.indexOf( ">", httpObject.responseText.indexOf( "</head><body" ) + 7 ) + 1;
 		var bodyEnd = httpObject.responseText.indexOf( "</body>" );
 
 		if ( bodyBegin > 0 && bodyEnd > 0 )
