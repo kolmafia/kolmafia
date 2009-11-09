@@ -924,7 +924,10 @@ public class GenericRequest
 			{
 				SpecialOutfit.createImplicitCheckpoint();
 				( new EquipmentRequest( hooks, EquipmentManager.WEAPON ) ).run();
-				( new UseItemRequest( machine ) ).run();
+				if ( KoLmafia.permitsContinue() )
+				{
+					( new UseItemRequest( machine ) ).run();
+				}
 				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 		}
