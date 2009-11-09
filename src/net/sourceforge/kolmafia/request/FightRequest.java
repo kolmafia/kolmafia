@@ -3025,8 +3025,8 @@ public class FightRequest
 			else break;
 			int cooldown = KoLCharacter.hasEquipped( ItemPool.get(
 				ItemPool.QUADROCULARS, 1 ) ) ? 101 : 150;
-			TurnCounter.stopCounting( type + " loc=*" );
-			TurnCounter.startCounting( cooldown, type, "heboulder.gif" );
+			TurnCounter.stopCounting( type );
+			TurnCounter.startCounting( cooldown, type + " loc=*", "heboulder.gif" );
 		}
 	}
 
