@@ -495,56 +495,62 @@ public class EquipmentRequest
 			return EquipmentManager.FAMILIAR;
 
 		case KoLConstants.EQUIP_ACCESSORY:
-		{
-			AdventureResult test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 );
-			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
-			{
-				return EquipmentManager.ACCESSORY1;
-			}
-
-			test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 );
-			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
-			{
-				return EquipmentManager.ACCESSORY2;
-			}
-
-			test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 );
-			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
-			{
-				return EquipmentManager.ACCESSORY3;
-			}
-
-			// All accessory slots are in use. Pick #1
-			return EquipmentManager.ACCESSORY1;
-		}
+			return EquipmentRequest.availableAccessory();
 
 		case KoLConstants.CONSUME_STICKER:
-		{
-			AdventureResult test = EquipmentManager.getEquipment( EquipmentManager.STICKER1 );
-			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
-			{
-				return EquipmentManager.STICKER1;
-			}
-
-			test = EquipmentManager.getEquipment( EquipmentManager.STICKER2 );
-			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
-			{
-				return EquipmentManager.STICKER2;
-			}
-
-			test = EquipmentManager.getEquipment( EquipmentManager.STICKER3 );
-			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
-			{
-				return EquipmentManager.STICKER3;
-			}
-			
-			// All sticker slots are in use.  Abort rather than risk peeling the wrong one.
-			return -1;
-		}
+			return EquipmentRequest.availableSticker();
 
 		default:
 			return -1;
 		}
+	}
+
+	private static final int availableAccessory()
+	{
+		AdventureResult test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 );
+		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			return EquipmentManager.ACCESSORY1;
+		}
+
+		test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 );
+		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			return EquipmentManager.ACCESSORY2;
+		}
+
+		test = EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 );
+		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			return EquipmentManager.ACCESSORY3;
+		}
+
+		// All accessory slots are in use. Pick #1
+		return EquipmentManager.ACCESSORY1;
+	}
+
+	private static final int availableSticker()
+	{
+		AdventureResult test = EquipmentManager.getEquipment( EquipmentManager.STICKER1 );
+		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			return EquipmentManager.STICKER1;
+		}
+
+		test = EquipmentManager.getEquipment( EquipmentManager.STICKER2 );
+		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			return EquipmentManager.STICKER2;
+		}
+
+		test = EquipmentManager.getEquipment( EquipmentManager.STICKER3 );
+		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			return EquipmentManager.STICKER3;
+		}
+			
+		// All sticker slots are in use.  Abort rather than risk peeling the wrong one.
+		return -1;
 	}
 
 	public String getOutfitName()
@@ -1437,22 +1443,8 @@ public class EquipmentRequest
 				return;
 			}
 
-			int type = EquipmentManager.itemIdToEquipmentType( itemId );
-			if ( type == EquipmentManager.ACCESSORY1 )
-			{
-				int slot = EquipmentRequest.parseSlot( location );
-				switch ( slot )
-				{
-				case 2:
-					type = EquipmentManager.ACCESSORY2;
-					break;
-				case 3:
-					type = EquipmentManager.ACCESSORY3;
-					break;
-				}
-			}
-
-			if ( EquipmentRequest.switchItem( type, ItemPool.get( itemId, 1 ) ) )
+			int slot = EquipmentRequest.findEquipmentSlot( itemId, location );
+			if ( EquipmentRequest.switchItem( slot, ItemPool.get( itemId, 1 ) ) )
 			{
 				ConcoctionDatabase.refreshConcoctions();
 			}
@@ -1717,6 +1709,31 @@ public class EquipmentRequest
 		}
 
 		return -1;
+	}
+
+	private static int findEquipmentSlot( final int itemId, final String location )
+	{
+		int type = EquipmentManager.itemIdToEquipmentType( itemId );
+
+		// If it's not an accessory, slot is unambiguous
+		if ( type != EquipmentManager.ACCESSORY1 )
+		{
+			return type;
+		}
+
+		// Accessories might specify the slot in the URL
+		switch ( EquipmentRequest.parseSlot( location ) )
+		{
+		case 1:
+			return EquipmentManager.ACCESSORY1;
+		case 2:
+			return EquipmentManager.ACCESSORY2;
+		case 3:
+			return EquipmentManager.ACCESSORY3;
+		}
+
+		// Otherwise, KoL picks the first empty accessory slot.
+		return EquipmentRequest.availableAccessory();
 	}
 
 	public static final boolean registerRequest( final String urlString )
