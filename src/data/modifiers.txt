@@ -886,7 +886,7 @@ yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold
 9-ball	Weapon Damage: +5, Ranged Damage: +5, Spell Damage: +5
 Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Max: 12, Spell Damage Percent: +50, Softcore Only
-Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 10, Brimstone
+Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25, Brimstone
 # C.H.U.M. lantern: (In Sewers)
 C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 Cloaca-Cola shield	Mysticality: +1, Damage Reduction: 4
@@ -2675,7 +2675,7 @@ Frat Boy Ensemble	Sleaze Damage: +5
 Frat Warrior Fatigues	Sleaze Damage: +15
 Furry Suit	Moxie Percent: -75, Monster Level: +5
 Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damage: +5
-# Gnauga Hides
+Gnauga Hides	Damage Reduction: 4
 Grass Guise	HP Regen Min: 2, HP Regen Max: 3
 Grimy Reaper's Vestments	Spooky Damage: +100
 Hodgman's Regal Frippery	Hobo Power: +25

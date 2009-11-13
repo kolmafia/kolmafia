@@ -105,6 +105,13 @@ public class MallSearchRequest
 
 		this.searchString = searchString;
 		this.addFormField( "pudnuggler", this.searchString );
+		this.addFormField( "category", "allitems" );
+		this.addFormField( "consumable_byme", "0" );
+		this.addFormField( "weaponattribute", "3" );
+		this.addFormField( "wearable_byme", "0" );
+		this.addFormField( "nolimits", "0" );
+		this.addFormField( "max_price", "0" );
+		this.addFormField( "sortresultsby", "price" );
 		this.addFormField( "justitems", "0" );
 
 		if ( cheapestCount > 0 )
