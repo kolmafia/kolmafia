@@ -446,7 +446,7 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 # 7-inch discus: On Critical:  Music Snobbery!
 7-inch discus	Moxie Percent: +5, Weapon Damage Percent: +10
 # Ax of L'rose
-Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11
+Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11, Adventures: +3
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
 Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7
