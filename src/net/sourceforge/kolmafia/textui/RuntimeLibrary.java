@@ -1462,11 +1462,14 @@ public abstract class RuntimeLibrary
 
 	public static Value to_string( Value val )
 	{
-		if ( val.rawValue() instanceof StringBuffer )
-		{	// Must capture current value of mutable types!
-			val = val.toStringValue();
-		}
-		return val;
+		// This function previously just returned val, except in the case of
+		// buffers in which case it's necessary to capture the current string
+		// value of the buffer.  That works fine in most cases, but NOT if
+		// the value ever gets used as a key in a map; having a key that's
+		// actually an int (for example) in a string map causes the map
+		// ordering to become inconsistent, because int Values compare
+		// differently than string Values.
+		return val.toStringValue();
 	}
 
 	public static Value to_boolean( final Value value )

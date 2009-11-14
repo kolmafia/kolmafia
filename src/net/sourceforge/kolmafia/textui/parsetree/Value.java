@@ -217,7 +217,7 @@ public class Value
 			return this.contentFloat < it.contentFloat ? -1 : this.contentFloat == it.contentFloat ? 0 : 1;
 		}
 
-		if ( this.contentString != null )
+		if ( this.contentString != null && it.contentString != null )
 		{
 			return this.contentString.compareTo( it.contentString );
 		}
