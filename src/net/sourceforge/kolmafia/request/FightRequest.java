@@ -433,14 +433,6 @@ public class FightRequest
 		{
 			this.handleHulkingConstruct();
 		}
-
-		// So does the Giant Octopus
-
-		else if ( FightRequest.encounterLookup.equals( "giant octopus" ) &&
-			  KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
-		{
-			ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
-		}
 		
 		if ( FightRequest.action1 == null )
 		{
@@ -1496,6 +1488,14 @@ public class FightRequest
 				responseText.indexOf( "darkness.gif" ) != -1 )
 			{
 				encounter = "The Darkness (blind)";
+			}
+
+			else if ( encounter.equalsIgnoreCase( "giant octopus" ) )
+			{
+				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
+				{
+					ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
+				}
 			}
 
 			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );

@@ -54,8 +54,8 @@ function refreshSidebar( desiredRefresh )
 
 		if ( bodyBegin > 0 && bodyEnd > 0 )
 		{
-			top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
-				httpObject.responseText.substring( bodyBegin, bodyEnd );
+			var body = httpObject.responseText.substring( bodyBegin, bodyEnd );
+			top.charpane.document.getElementsByTagName( "body" )[0].innerHTML = body;
 		}
 
 		isRefreshing = false;
@@ -77,17 +77,13 @@ function refreshTopmenu( desiredRefresh )
 		if ( httpObject.readyState != 4 )
 			return;
 
-		// The top menu is malformed: it has two <body> tags
-		// <body><head>...</head><body bgcolor...>
-		// Choose second one.
-
-		var bodyBegin = httpObject.responseText.indexOf( ">", httpObject.responseText.indexOf( "</head><body" ) + 7 ) + 1;
+		var bodyBegin = httpObject.responseText.indexOf( ">", httpObject.responseText.indexOf( "<body" ) ) + 1;
 		var bodyEnd = httpObject.responseText.indexOf( "</body>" );
 
 		if ( bodyBegin > 0 && bodyEnd > 0 )
 		{
-			top.menupane.document.getElementsByTagName( "body" )[0].innerHTML =
-				httpObject.responseText.substring( bodyBegin, bodyEnd );
+			var body = httpObject.responseText.substring( bodyBegin, bodyEnd );
+			top.menupane.document.getElementsByTagName( "body" )[0].innerHTML = body;
 		}
 
 		isRefreshing = false;
