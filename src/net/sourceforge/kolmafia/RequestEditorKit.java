@@ -176,16 +176,16 @@ public class RequestEditorKit
 			return "";
 		}
 
-		// Switch all the <BR> tags that are not understood
-		// by the default Java browser to an understood form,
-		// and remove all <HR> tags.
-
 		if ( logIt )
 		{
 			RequestLogger.updateDebugLog( "Rendering hypertext..." );
 		}
 
 		String displayHTML = RequestEditorKit.getFeatureRichHTML( location, responseText, false );
+
+		// Switch all the <BR> tags that are not understood
+		// by the default Java browser to an understood form,
+		// and remove all <HR> tags.
 
 		displayHTML = KoLConstants.SCRIPT_PATTERN.matcher( displayHTML ).replaceAll( "" );
 		displayHTML = KoLConstants.STYLE_PATTERN.matcher( displayHTML ).replaceAll( "" );
@@ -445,6 +445,9 @@ public class RequestEditorKit
 		{
 			return;
 		}
+
+		// Remove bogus <body> tag preceding <head> tag in topmenu
+		StringUtilities.singleStringReplace( buffer, "<body><head>", "<head>" );
 
 		if ( addComplexFeatures )
 		{
