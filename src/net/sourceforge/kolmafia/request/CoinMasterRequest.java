@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -62,7 +64,7 @@ public class CoinMasterRequest
 	private static final Pattern BHH_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?howmany=(\\d+)" );
 	private static final Pattern BB_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
 	private static final Pattern CAMP_TRADE_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got (\\d+) (dime|quarter)" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got (?:<b>)?(\\d+)(?:</b>)? (dime|quarter|sand dollar)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
@@ -196,14 +198,29 @@ public class CoinMasterRequest
 		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( location );
 		if ( !actionMatcher.find() )
 		{
+			if ( location.indexOf( "who=2" ) != -1 )
+			{
+				// Parse current coin balances
+				CoinMasterRequest.parseBalance( BIGBROTHER, responseText );
+				CoinmastersFrame.externalUpdate();
+			}
+
+			return;
+		}
+
+		String action = actionMatcher.group(1);
+		if ( !action.equals( "buyitem" ) )
+		{
 			return;
 		}
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			CoinMasterRequest.refundPurchase( location, BIGBROTHER );
-			CoinmastersFrame.externalUpdate();
 		}
+
+		CoinMasterRequest.parseBalance( BIGBROTHER, responseText );
+		CoinmastersFrame.externalUpdate();
 	}
 
 	public static void parseBountyVisit( final String location, final String responseText )
@@ -300,25 +317,26 @@ public class CoinMasterRequest
 
 	public static void parseBalance( final String master, final String responseText )
 	{
-		String balance = "0";
-		String property;
 		String test;
 
 		if ( master == HIPPY )
 		{
-			property = "availableDimes";
 			test = "You don't have any dimes";
 		}
 		else if ( master == FRATBOY )
 		{
-			property = "availableQuarters";
 			test = "You don't have any quarters";
+		}
+		else if ( master == BIGBROTHER )
+		{
+			test = "You haven't got any sand dollars";
 		}
 		else
 		{
 			return;
 		}
 
+		String balance = "0";
 		if ( responseText.indexOf( test ) == -1 )
 		{
 			Matcher matcher = CoinMasterRequest.TOKEN_PATTERN.matcher( responseText );
@@ -328,7 +346,26 @@ public class CoinMasterRequest
 			}
 		}
 
-		Preferences.setString( property, balance );
+		if ( master == HIPPY )
+		{
+			Preferences.setString( "availableDimes", balance );
+		}
+		else if ( master == FRATBOY )
+		{
+			Preferences.setString( "availableQuarters", balance );
+		}
+		else if ( master == BIGBROTHER )
+		{
+			// Check and adjust inventory count, just in case
+			int count = StringUtilities.parseInt( balance );
+			AdventureResult item = ItemPool.get( ItemPool.SAND_DOLLAR, count );
+			int icount = item.getCount( KoLConstants.inventory );
+			if ( count != icount )
+			{
+				item = item.getInstance( count - icount );
+				AdventureResult.addResultToList( KoLConstants.inventory, item );
+			}
+		}
 	}
 
 	private static final void refundPurchase( final String urlString, final String master )
