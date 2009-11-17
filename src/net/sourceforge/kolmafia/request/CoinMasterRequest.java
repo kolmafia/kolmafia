@@ -59,11 +59,10 @@ public class CoinMasterRequest
 	extends GenericRequest
 {
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
+	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
-	private static final Pattern BHH_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?howmany=(\\d+)" );
-	private static final Pattern BB_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
-	private static final Pattern CAMP_TRADE_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got (?:<b>)?(\\d+)(?:</b>)? (dime|quarter|sand dollar)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
@@ -370,35 +369,40 @@ public class CoinMasterRequest
 
 	private static final void refundPurchase( final String urlString, final String master )
 	{
-		Matcher matcher;
+		Matcher itemMatcher;
+		Matcher countMatcher;
 		Map prices;
 		String property;
 		String token;
 
 		if ( master == BHH )
 		{
-			matcher = CoinMasterRequest.BHH_BUY_PATTERN.matcher( urlString );
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.lucreBuyPrices();
 			property = "availableLucre";
 			token = "lucre";
 		}
 		else if ( master == BIGBROTHER )
 		{
-			matcher = CoinMasterRequest.BB_BUY_PATTERN.matcher( urlString );
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.sandDollarBuyPrices();
 			property = "availableSandDollars";
 			token = "sand dollars";
 		}
 		else if ( master == HIPPY )
 		{
-			matcher = CoinMasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.dimeBuyPrices();
 			property = "availableDimes";
 			token = "dimes";
 		}
 		else if ( master == FRATBOY )
 		{
-			matcher = CoinMasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.quarterBuyPrices();
 			property = "availableQuarters";
 			token = "quarters";
@@ -408,7 +412,7 @@ public class CoinMasterRequest
 			return;
 		}
 
-		int cost = getPurchaseCost( matcher, prices );
+		int cost = getPurchaseCost( itemMatcher, countMatcher, prices );
 		Preferences.increment( property, cost );
 
 		if ( master == BHH )
@@ -425,16 +429,16 @@ public class CoinMasterRequest
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + token + " to buy that." );
 	}
 
-	private static int getPurchaseCost( final Matcher matcher, final Map prices )
+	private static int getPurchaseCost( final Matcher itemMatcher, final Matcher countMatcher, final Map prices )
 	{
-		if ( !matcher.find() )
+		if ( !itemMatcher.find() || !countMatcher.find() )
 		{
 			return 0;
 		}
 
-		int itemId = StringUtilities.parseInt( matcher.group(1) );
+		int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
 		String name = ItemDatabase.getItemName( itemId );
-		int count = StringUtilities.parseInt( matcher.group(2) );
+		int count = StringUtilities.parseInt( countMatcher.group(1) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		return count * price;
 	}
@@ -459,14 +463,15 @@ public class CoinMasterRequest
 			return;
 		}
 
-		Matcher matcher = CoinMasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
+		Matcher itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+		Matcher countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() || !countMatcher.find() )
 		{
 			return;
 		}
 
-		int itemId = StringUtilities.parseInt( matcher.group(1) );
-		int count = StringUtilities.parseInt( matcher.group(2) );
+		int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
+		int count = StringUtilities.parseInt( countMatcher.group(1) );
 
 		// Get back the items we failed to turn in
 		AdventureResult item = new AdventureResult( itemId, count );
@@ -613,35 +618,40 @@ public class CoinMasterRequest
 
 	private static final void buyStuff( final String urlString, final String master )
 	{
-		Matcher tradeMatcher;
+		Matcher itemMatcher;
+		Matcher countMatcher;
 		Map prices;
 		String token;
 		String property;
 
 		if ( master == BHH )
 		{
-			tradeMatcher = CoinMasterRequest.BHH_BUY_PATTERN.matcher( urlString );
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.lucreBuyPrices();
 			token = "filthy lucre";
 			property = "availableLucre";
 		}
 		else if ( master == BIGBROTHER )
 		{
-			tradeMatcher = CoinMasterRequest.BB_BUY_PATTERN.matcher( urlString );
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.sandDollarBuyPrices();
 			token = "sand dollar";
 			property = "availableSandDollar";
 		}
 		else if ( master == HIPPY )
 		{
-			tradeMatcher = CoinMasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.dimeBuyPrices();
 			token = "dime";
 			property = "availableDimes";
 		}
 		else if ( master == FRATBOY )
 		{
-			tradeMatcher = CoinMasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.quarterBuyPrices();
 			token = "quarter";
 			property = "availableQuarters";
@@ -651,14 +661,14 @@ public class CoinMasterRequest
 			return;
 		}
 
-		if ( !tradeMatcher.find() )
+		if ( !itemMatcher.find() || !countMatcher.find() )
 		{
 			return;
 		}
 
-		int itemId = StringUtilities.parseInt( tradeMatcher.group(1) );
+		int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
 		String name = ItemDatabase.getItemName( itemId );
-		int count = StringUtilities.parseInt( tradeMatcher.group(2) );
+		int count = StringUtilities.parseInt( countMatcher.group(1) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 		String tokenName = ( cost > 1 ) ? ( token + "s" ) : "token";
@@ -684,8 +694,10 @@ public class CoinMasterRequest
 
 	private static final void sellStuff( final String urlString, final String master )
 	{
-		Matcher tradeMatcher = CoinMasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
-		if ( !tradeMatcher.find() )
+		Matcher itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+		Matcher countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
+
+		if ( !itemMatcher.find() || !countMatcher.find() )
 		{
 			return;
 		}
@@ -711,9 +723,9 @@ public class CoinMasterRequest
 			return;
 		}
 
-		int itemId = StringUtilities.parseInt( tradeMatcher.group(1) );
+		int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
 		String name = ItemDatabase.getItemName( itemId );
-		int count = StringUtilities.parseInt( tradeMatcher.group(2) );
+		int count = StringUtilities.parseInt( countMatcher.group(1) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 		String tokenName = ( cost > 1 ) ? ( token + "s" ) : "token";
