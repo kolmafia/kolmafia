@@ -345,6 +345,7 @@ public class OptionsFrame
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },
+			{ "mmgAutoConfirmBets", "Auto-confirm bets in the MMG" },
 			{},
 
 			{ "useLastUserAgent", "(Debug) Use last browser's userAgent" },

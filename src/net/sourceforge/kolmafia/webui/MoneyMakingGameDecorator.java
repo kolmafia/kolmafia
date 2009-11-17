@@ -45,6 +45,12 @@ public abstract class MoneyMakingGameDecorator
 
 	public static final void decorate( final String location, final StringBuffer buffer )
 	{
+		// <input type=checkbox name=confirm>
+		if ( Preferences.getBoolean( "mmgAutoConfirmBets" ) )
+		{
+			StringUtilities.globalStringReplace( buffer, "name=confirm", "name=confirm checked" );
+		}
+
 		String minimum = Preferences.getString( "mmgSearchMinimum" );
 		String maximum = Preferences.getString( "mmgSearchMaximum" );
 
