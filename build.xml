@@ -18,6 +18,7 @@
 	<property name="debfile" location="${dist}/${ant.project.name}.deb"/>
 
 	<property name="main" value="net.sourceforge.kolmafia.KoLmafia"/>
+	<property name="synopsis" value="An alternate interface to Kingdom of Loathing"/>
 
 	<property environment="env"/>
 
@@ -185,8 +186,8 @@
 
 	<target name="jsmooth" depends="init,update,jar">
 
-		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen" classpath="${util}/jsmoothgen-ant.jar" />
-		<jsmooth project="${util}/build.jsmooth" skeletonroot="${util}/skeletons"/>
+		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen" classpath="${util}/windows/jsmoothgen-ant.jar" />
+		<jsmooth project="${util}/windows/build.jsmooth" skeletonroot="${util}/windows/skeletons"/>
 
 	</target>
 
@@ -197,8 +198,8 @@
 
 	<target name="jarbundler" depends="init,update,jar">
 
-		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/jarbundler-1.9.jar" />
-		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/limeglass.icns" />
+		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/jarbundler-1.9.jar" />
+		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/macosx/limeglass.icns" vmoptions="-Xincgc" />
 
 		<delete dir="/Applications/KoLmafia.app" />
 		<move file="${dist}/KoLmafia.app" todir="/Applications" />
@@ -210,7 +211,7 @@
 	<!--  create an OSX disk image  -->
 	<!-- ========================== -->
 
-	<target name="createdmg" depends="init,update,jar">
+	<target name="dmg" depends="init,update,jar">
 
 		<exec executable="rm" dir="${dist}">
 			<arg line="-rf KoLmafia" />
@@ -220,8 +221,8 @@
 
 		<symlink action="single" link="${dist}/KoLmafia/Applications" resource="/Applications" />
 
-		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/jarbundler-1.9.jar" />
-		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/limeglass.icns" />
+		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/jarbundler-1.9.jar" />
+		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/macosx/limeglass.icns" />
 
 		<exec executable="hdiutil" dir="${dist}">
 			<arg line="create ${dmgfile} -srcfolder ${dist}/KoLmafia -volname KoLmafia" />
@@ -236,45 +237,34 @@
 	<!-- ========================== -->
 	<!--  create a Debian package   -->
 	<!-- ========================== -->
-    
-        <target name="createdeb" depends="init,update,jar,version,create-desktop-entry">
-	  <taskdef name="deb" classname="com.googlecode.ant_deb_task.Deb" classpath="${util}/ant-deb.jar" />
-          <deb
-             todir="${dist}"
-             package="kolmafia"
-             priority="optional"
-             section="games"
-             depends="sun-java6-jre"
-          >
-            <version upstream="${revision}" debian="${revision}"/>
-            <maintainer name="Veracity" email="veracity@hambo.com"/>
-            <description synopsis="An alternate interface to Kingdom of Loathing">
-An alternate interface to Kingdom of Loathing
-            </description>
-            <tarfileset file="${jarfile}" prefix="usr/lib" filemode="755"/>
-            <tarfileset file="${build}/kolmafia.desktop" prefix="usr/share/applications"/>
-            <tarfileset file="util/kol.xpm" prefix="usr/share/pixmaps"/>
-            <tarfileset file="util/kol" prefix="usr/bin" filemode="755"/>
-          </deb>
+
+	<target name="debian" depends="init,update,jar,version,desktop">
+
+		<taskdef name="deb" classname="com.googlecode.ant_deb_task.Deb" classpath="${util}/debian/ant-deb.jar" />
+
+		<deb todir="${dist}" package="kolmafia" priority="optional" section="games" depends="sun-java6-jre">
+			<version upstream="${revision}" debian="${revision}"/>
+			<maintainer name="Veracity" email="veracity@hambo.com"/>
+			<description synopsis="${synopsis}">${synopsis}</description>
+			<tarfileset file="${jarfile}" prefix="usr/lib" filemode="755"/>
+			<tarfileset file="${build}/kolmafia.desktop" prefix="usr/share/applications"/>
+			<tarfileset file="util/debian/kol.xpm" prefix="usr/share/pixmaps"/>
+			<tarfileset file="util/debian/kol" prefix="usr/bin" filemode="755"/>
+		</deb>
+
         </target>
 
-	<!-- ============================ -->
-	<!--  create Debian desktop entry -->
-	<!-- ============================ -->
-    
-        <target name="create-desktop-entry" description="create desktop entry file">
-	  <taskdef name="desktopentry" classname="com.googlecode.ant_deb_task.DesktopEntry" classpath="${util}/ant-deb.jar" />
-          <desktopentry
-             toFile="build/kolmafia.desktop"
-             name="${ant.project.name}"
-             comment="An alternate interface to Kingdom of Loathing"
-             exec="/usr/bin/kol"
-             icon="kol.xpm"
-             terminal="false"
-             type="Application"
-             categories="Game;RolePlaying"
-             />
-        </target>
+	<!-- ============================= -->
+	<!--  create Debian desktop entry  -->
+	<!-- ============================= -->
+
+	<target name="desktop">
+
+		<taskdef name="desktopentry" classname="com.googlecode.ant_deb_task.DesktopEntry" classpath="${util}/debian/ant-deb.jar" />
+
+		<desktopentry toFile="build/kolmafia.desktop" name="${ant.project.name}" comment="${synopsis}" exec="/usr/bin/kol" icon="kol.xpm" terminal="false" type="Application" categories="Game;RolePlaying" />
+
+	</target>
 
 	<!-- ================================ -->
 	<!--  generate the alpha testing JAR  -->
@@ -282,13 +272,11 @@ An alternate interface to Kingdom of Loathing
 
 	<target name="debug" depends="start,version">
 
-		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="REVISION = null" value='REVISION = "${revision}"'/>
+		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java" token="REVISION = null" value='REVISION = "${revision}"'/>
 
 		<antcall target="jar"/>
 
-		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token='REVISION = "${revision}"' value="REVISION = null"/>
+		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java" token='REVISION = "${revision}"' value="REVISION = null"/>
 
 	</target>
 
@@ -334,7 +322,9 @@ An alternate interface to Kingdom of Loathing
 	<!-- ==================================================== -->
 
 	<target name="exec" depends="jar">
-		<java fork="true" jar="${jarfile}" dir="${dist}" />
+		<java fork="true" jar="${jarfile}" dir="${dist}">
+			<jvmarg value="-Xincgc" />
+		</java>
 	</target>
 
 
