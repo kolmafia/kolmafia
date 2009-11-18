@@ -222,7 +222,7 @@
 		<symlink action="single" link="${dist}/KoLmafia/Applications" resource="/Applications" />
 
 		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/jarbundler-1.9.jar" />
-		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/macosx/limeglass.icns" />
+		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/macosx/limeglass.icns" vmoptions="-Xincgc" />
 
 		<exec executable="hdiutil" dir="${dist}">
 			<arg line="create ${dmgfile} -srcfolder ${dist}/KoLmafia -volname KoLmafia" />
