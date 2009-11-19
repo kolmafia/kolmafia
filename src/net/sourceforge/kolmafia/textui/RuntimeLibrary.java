@@ -681,6 +681,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "have_bartender", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "have_shop", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "have_display", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "get_counters", DataTypes.STRING_TYPE, params ) );
 
@@ -2261,6 +2267,11 @@ public abstract class RuntimeLibrary
 
 	public static Value display_amount( final Value arg )
 	{
+		if ( !KoLCharacter.hasDisplayCase() )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
 		if ( KoLConstants.collection.isEmpty() )
 		{
 			RequestThread.postRequest( new DisplayCaseRequest() );
@@ -2272,6 +2283,11 @@ public abstract class RuntimeLibrary
 
 	public static Value shop_amount( final Value arg )
 	{
+		if ( !KoLCharacter.hasStore() )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
 		LockableListModel list = StoreManager.getSoldItemList();
 		if ( list.isEmpty() )
 		{
@@ -2812,6 +2828,16 @@ public abstract class RuntimeLibrary
 	public static Value have_bartender()
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasBartender() );
+	}
+
+	public static Value have_shop()
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.hasStore() );
+	}
+
+	public static Value have_display()
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.hasDisplayCase() );
 	}
 
 	public static Value get_counters( final Value label, final Value min, final Value max )
