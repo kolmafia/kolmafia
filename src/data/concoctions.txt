@@ -235,7 +235,6 @@ chef-skull-in-the-box	COMBINE	nothing-in-the-box	chef skull
 nothing-in-the-box	COMBINE	box	spring
 nothing-in-the-box-in-the-box	COMBINE	box-in-the-box	spring
 sprocket assembly	COMBINE	sprocket	spring
-boxing glove on a spring	COMBINE	nothing-in-the-box	boxing glove
 4-d camera	COMBINE	nothing-in-the-box	beer lens
 
 
@@ -446,8 +445,11 @@ plum wine	MIX	fermenting powder	plum
 shot of pear schnapps	MIX	fermenting powder	pear
 shot of peach schnapps	MIX	fermenting powder	peach
 
+# Distillations
+
 bottle of gin (3)	MIX	fermenting powder	juniper berries
 bottle of rum (3)	MIX	fermenting powder	brown sugar cane
+bottle of sake (3)	MIX	fermenting powder	white rice
 bottle of tequila (3)	MIX	fermenting powder	cactus fruit
 bottle of vodka (3)	MIX	fermenting powder	bowl of rye sprouts
 bottle of whiskey (3)	MIX	fermenting powder	cob of corn
@@ -467,7 +469,6 @@ shot of flower schnapps	MIX	fermenting powder	pretty flower
 shot of grapefruit schnapps	MIX	fermenting powder	grapefruit
 shot of orange schnapps	MIX	fermenting powder	orange
 shot of tomato schnapps	MIX	fermenting powder	tomato
-bottle of sake (3)	MIX	fermenting powder	white rice
 pebblebr&auml;u	MIX	floaty pebbles	ice-cold Sir Schlitz
 pebblebr&auml;u	MIX	floaty pebbles	ice-cold Willer
 
@@ -477,6 +478,7 @@ green beer	MIX, SSPD	ten-leaf clover	ice-cold Willer
 green beer	MIX, MANUAL	ten-leaf clover	ice-cold Sir Schlitz
 green beer	MIX, MANUAL	ten-leaf clover	ice-cold Willer
 
+flask of peppermint schnapps	MIX	fermenting powder	flask of peppermint oil
 
 # Tier 3 and tier 4 beverages which can be made by anyone.  These are
 # believed to be the best creatable drinks without buying a DB's skills or
