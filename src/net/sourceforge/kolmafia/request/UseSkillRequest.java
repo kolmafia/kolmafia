@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -276,8 +277,8 @@ public class UseSkillRequest
 			}
 			else
 			{
-				this.target = KoLmafia.getPlayerName( target );
-				this.addFormField( "specificplayer", KoLmafia.getPlayerId( target ) );
+				this.target = ContactManager.getPlayerName( target );
+				this.addFormField( "specificplayer", ContactManager.getPlayerId( target ) );
 			}
 		}
 		else

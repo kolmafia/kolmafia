@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLMailMessage
@@ -76,7 +77,7 @@ public class KoLMailMessage
 		this.senderId = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 1 );
 		this.senderName = messageParser.nextToken();
 
-		KoLmafia.registerPlayer( this.senderName, this.senderId );
+		ContactManager.registerPlayerId( this.senderName, this.senderId );
 
 		while ( !messageParser.nextToken().startsWith( "Date" ) )
 		{

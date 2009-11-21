@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
@@ -103,7 +104,7 @@ public class ClanMembersRequest
 		String currentId;
 		for ( int i = 0; i < titleChange.length; ++i )
 		{
-			currentId = KoLmafia.getPlayerId( (String) titleChange[ i ] );
+			currentId = ContactManager.getPlayerId( (String) titleChange[ i ] );
 			this.addFormField( "title" + currentId, (String) newTitles[ i ] );
 
 			if ( !fields.contains( currentId ) )
@@ -114,7 +115,7 @@ public class ClanMembersRequest
 
 		for ( int i = 0; i < boots.length; ++i )
 		{
-			currentId = KoLmafia.getPlayerId( (String) boots[ i ] );
+			currentId = ContactManager.getPlayerId( (String) boots[ i ] );
 			ClanManager.unregisterMember( currentId );
 			this.addFormField( "boot" + currentId, "on" );
 
@@ -253,7 +254,7 @@ public class ClanMembersRequest
 			String level = memberMatcher.group( 4 );
 			String title = memberMatcher.group( 3 );
 
-			KoLmafia.registerPlayer( name, id );
+			ContactManager.registerPlayerId( name, id );
 			ClanManager.registerMember( name, level, title );
 		}
 	}

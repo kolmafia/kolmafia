@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.StatusEffectPanel;
@@ -97,7 +98,7 @@ public class SkillBuffFrame
 	{
 		if ( !this.contacts.contains( recipient ) )
 		{
-			recipient = KoLmafia.getPlayerName( recipient );
+			recipient = ContactManager.getPlayerName( recipient );
 			this.contacts.add( 0, recipient );
 		}
 
@@ -131,7 +132,7 @@ public class SkillBuffFrame
 			SkillBuffFrame.this.skillSelect = new AutoFilterComboBox( KoLConstants.usableSkills, false );
 			SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
-			SkillBuffFrame.this.contacts = (LockableListModel) KoLConstants.contactList.clone();
+			SkillBuffFrame.this.contacts = (LockableListModel) ContactManager.getMailContacts().clone();
 			SkillBuffFrame.this.targetSelect = new AutoFilterComboBox( SkillBuffFrame.this.contacts, true );
 
 			VerifiableElement[] elements = new VerifiableElement[ 4 ];

@@ -66,12 +66,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.StyledChatBuffer;
 import net.sourceforge.kolmafia.LocalRelayServer;
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
@@ -599,17 +599,14 @@ public class OptionsFrame
 		private final String[][] options =
 		{
 			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
-			{ "useSeparateChannels", "Put different channels into separate displays" },
-			{ "mergeHobopolisChat", "Merge clan dungeon channel displays into /clan" },
-			{ "chatLinksUseRelay", "Use the relay browser when clicking on chat links" },
-			{},
-			{ "greenScreenProtection", "Ignore all event messages in KoLmafia chat" },
-			{ "useChatMonitor", "Add an \"as KoL would show it\" display" },
-			{ "addChatCommandLine", "Add a simplified graphical CLI to tabbed chat" },
-			{},
 			{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
+			{},
 			{ "useContactsFrame", "Use a popup window for /friends and /who" },
+			{ "chatLinksUseRelay", "Use the relay browser when clicking on chat links" },
 			{ "useChatToolbar", "Add a toolbar to chat windows for special commands" },
+			{},
+			{ "mergeHobopolisChat", "Merge clan dungeon channel displays into /clan" },
+			{ "greenScreenProtection", "Ignore event messages in KoLmafia chat" },
 			{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
 		};
 
@@ -617,7 +614,6 @@ public class OptionsFrame
 		private final JRadioButton[] fontSizes;
 
 		private final JCheckBox[] optionBoxes;
-		private final JCheckBox eSoluActiveOption, eSoluColorlessOption;
 		private final JLabel innerGradient, outerGradient;
 
 		public ChatOptionsPanel()
@@ -634,10 +630,7 @@ public class OptionsFrame
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
 
-			this.eSoluActiveOption = new JCheckBox();
-			this.eSoluColorlessOption = new JCheckBox();
-
-			VerifiableElement[] elements = new VerifiableElement[ 4 + this.options.length + 6 ];
+			VerifiableElement[] elements = new VerifiableElement[ 4 + this.options.length + 3 ];
 
 			elements[ 0 ] =
 				new VerifiableElement( "Use small fonts in hypertext displays", JLabel.LEFT, this.fontSizes[ 0 ] );
@@ -645,6 +638,7 @@ public class OptionsFrame
 				new VerifiableElement( "Use medium fonts in hypertext displays", JLabel.LEFT, this.fontSizes[ 1 ] );
 			elements[ 2 ] =
 				new VerifiableElement( "Use large fonts in hypertext displays", JLabel.LEFT, this.fontSizes[ 2 ] );
+
 			elements[ 3 ] = new VerifiableElement();
 
 			for ( int i = 0; i < this.options.length; ++i )
@@ -652,6 +646,7 @@ public class OptionsFrame
 				String[] option = this.options[ i ];
 				JCheckBox optionBox = new JCheckBox();
 				this.optionBoxes[ i ] = optionBox;
+
 				elements[ i + 4 ] =
 					option.length == 0 ?
 					new VerifiableElement() :
@@ -659,14 +654,6 @@ public class OptionsFrame
 			}
 
 			int tabCount = this.options.length + 4;
-			elements[ tabCount++ ] = new VerifiableElement();
-
-			elements[ tabCount++ ] =
-				new VerifiableElement(
-					"Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, this.eSoluActiveOption );
-			elements[ tabCount++ ] =
-				new VerifiableElement(
-					"Switch eSolu scriptlet to colorless mode", JLabel.LEFT, this.eSoluColorlessOption );
 
 			elements[ tabCount++ ] = new VerifiableElement();
 
@@ -697,10 +684,6 @@ public class OptionsFrame
 				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
 			}
 
-			Preferences.setInteger(
-				"eSoluScriptType",
-				this.eSoluActiveOption.isSelected() ? ( this.eSoluColorlessOption.isSelected() ? 2 : 1 ) : 0 );
-
 			if ( this.fontSizes[ 0 ].isSelected() )
 			{
 				Preferences.setString( "chatFontSize", "small" );
@@ -715,7 +698,6 @@ public class OptionsFrame
 			}
 
 			KoLConstants.commandBuffer.append( null );
-			ChatManager.updateFontSize();
 		}
 
 		public void actionCancelled()
@@ -730,9 +712,6 @@ public class OptionsFrame
 				JCheckBox optionBox = this.optionBoxes[ i ];
 				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
 			}
-
-			this.eSoluActiveOption.setSelected( Preferences.getInteger( "eSoluScriptType" ) > 0 );
-			this.eSoluColorlessOption.setSelected( Preferences.getInteger( "eSoluScriptType" ) > 1 );
 
 			this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedA );
 			this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedB );

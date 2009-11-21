@@ -78,7 +78,6 @@ import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
@@ -102,10 +101,10 @@ import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BadMoonManager;
 import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MailManager;
-import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -128,7 +127,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class KoLmafia
 {
 	private static boolean isRefreshing = false;
-	public static boolean isAdventuring = false;
+	private static boolean isAdventuring = false;
 	private static volatile String abortAfter = null;
 
 	public static String lastMessage = "";
@@ -767,7 +766,7 @@ public abstract class KoLmafia
 			return;
 		}
 
-		KoLmafia.registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
+		ContactManager.registerPlayerId( username, String.valueOf( KoLCharacter.getUserId() ) );
 
 		if ( Preferences.getString( "spadingData" ).length() > 10 )
 		{
@@ -1029,77 +1028,6 @@ public abstract class KoLmafia
 		if ( oldCount != KoLConstants.activeEffects.size() )
 		{
 			KoLCharacter.updateStatus();
-		}
-	}
-
-	/**
-	 * Returns the string form of the player Id associated with the given player name.
-	 *
-	 * @param playerId The Id of the player
-	 * @return The player's name if it has been seen, or null if it has not
-	 *         yet appeared in the chat (not likely, but possible).
-	 */
-
-	public static final String getPlayerName( final String playerId )
-	{
-		if ( playerId == null )
-		{
-			return null;
-		}
-
-		String playerName = (String) KoLConstants.seenPlayerNames.get( playerId );
-		return playerName != null ? playerName : playerId;
-	}
-
-	/**
-	 * Returns the string form of the player Id associated with the given
-	 * player name.
-	 *
-	 * @param playerName The name of the player
-	 * @return The player's Id if the player has been seen, or the player's
-	 *         name with spaces replaced with underscores and other elements
-	 *         encoded if the player's Id has not been seen.
-	 */
-
-	public static final String getPlayerId( final String playerName )
-	{
-		if ( playerName == null )
-		{
-			return null;
-		}
-
-		String playerId = (String) KoLConstants.seenPlayerIds.get( playerName.toLowerCase() );
-		return playerId != null ? playerId : playerName;
-	}
-
-	/**
-	 * Registers the given player name and player Id with KoLmafia's player name tracker.
-	 *
-	 * @param playerName The name of the player
-	 * @param playerId The player Id associated with this player
-	 */
-
-	public static final void registerPlayer( String playerName, final String playerId )
-	{
-		playerName = playerName.replaceAll( "[^0-9A-Za-z_ ]", "" );
-		String lowercase = playerName.toLowerCase();
-
-		if ( lowercase.equals( "modwarning" ) || KoLConstants.seenPlayerIds.containsKey( lowercase ) )
-		{
-			return;
-		}
-
-		KoLConstants.seenPlayerIds.put( lowercase, playerId );
-		KoLConstants.seenPlayerNames.put( playerId, playerName );
-	}
-
-	public static final void registerContact( String playerName, final String playerId )
-	{
-		playerName = playerName.toLowerCase().replaceAll( "[^0-9A-Za-z_ ]", "" );
-		KoLmafia.registerPlayer( playerName, playerId );
-		if ( !KoLConstants.contactList.contains( playerName ) )
-		{
-			KoLConstants.contactList.add( playerName.toLowerCase() );
 		}
 	}
 
@@ -2598,7 +2526,7 @@ public abstract class KoLmafia
 		for ( int i = 0; i < targets.length; ++i )
 		{
 			targets[ i ] =
-				KoLmafia.getPlayerId( targets[ i ] ) == null ? targets[ i ] : KoLmafia.getPlayerId( targets[ i ] );
+				ContactManager.getPlayerId( targets[ i ] ) == null ? targets[ i ] : ContactManager.getPlayerId( targets[ i ] );
 		}
 
 		// Sort the list in order to increase the
@@ -2644,7 +2572,7 @@ public abstract class KoLmafia
 		for ( int i = 0; i < targets.length; ++i )
 		{
 			targets[ i ] =
-				KoLmafia.getPlayerName( targets[ i ] ) == null ? targets[ i ] : KoLmafia.getPlayerName( targets[ i ] );
+				ContactManager.getPlayerName( targets[ i ] ) == null ? targets[ i ] : ContactManager.getPlayerName( targets[ i ] );
 		}
 
 		// Sort the list one more time, this time

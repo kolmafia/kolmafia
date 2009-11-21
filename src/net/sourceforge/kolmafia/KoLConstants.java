@@ -41,7 +41,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Locale;
 import java.util.Random;
@@ -53,6 +52,7 @@ import javax.swing.JTextField;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 
 public interface KoLConstants
 	extends UtilityConstants
@@ -72,8 +72,7 @@ public interface KoLConstants
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
 	public static final Pattern LINE_BREAK_PATTERN = Pattern.compile( "\\s*[\r\n]+\\s*" );
 
-	public static final Pattern ANYTAG_PATTERN =
-		Pattern.compile( "(?<!limbos)<(?!i>limbos).*?>" );
+	public static final Pattern ANYTAG_PATTERN = Pattern.compile( "(?<!limbos)<(?!i>limbos).*?>" );
 	public static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
 	public static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
 	public static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
@@ -88,6 +87,7 @@ public interface KoLConstants
 		new DecimalFormat( "#,##0.00;-#,##0.00", new DecimalFormatSymbols( Locale.US ) );
 	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT =
 		new DecimalFormat( "+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat CHAT_LASTSEEN_FORMAT = new DecimalFormat( "0000000000" );
 
 	public static final SimpleDateFormat DAILY_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
 	public static final SimpleDateFormat WEEKLY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W", Locale.US );
@@ -110,74 +110,247 @@ public interface KoLConstants
 
 	public static final String[][] FUNCTION_MENU = new String[][]
 	{
-		{ "Consumables", "inventory.php?which=1" },
-		{ "Equipment", "inventory.php?which=2" },
-		{ "Misc Items", "inventory.php?which=3" },
-		{ "Auto Sell", "sellstuff.php" },
-		{ "Character", "charsheet.php" },
-		{ "Quest Log", "questlog.php" },
-		{ "Skills", "skills.php" },
-		{ "Read Messages", "messages.php" },
-		{ "Account Menu", "account.php" },
-		{ "Documentation", "doc.php?topic=home" },
-		{ "KoL Forums", "http://forums.kingdomofloathing.com/" },
-		{ "Store", "http://store.asymmetric.net/" }
+		{
+			"Consumables",
+			"inventory.php?which=1"
+		},
+		{
+			"Equipment",
+			"inventory.php?which=2"
+		},
+		{
+			"Misc Items",
+			"inventory.php?which=3"
+		},
+		{
+			"Auto Sell",
+			"sellstuff.php"
+		},
+		{
+			"Character",
+			"charsheet.php"
+		},
+		{
+			"Quest Log",
+			"questlog.php"
+		},
+		{
+			"Skills",
+			"skills.php"
+		},
+		{
+			"Read Messages",
+			"messages.php"
+		},
+		{
+			"Account Menu",
+			"account.php"
+		},
+		{
+			"Documentation",
+			"doc.php?topic=home"
+		},
+		{
+			"KoL Forums",
+			"http://forums.kingdomofloathing.com/"
+		},
+		{
+			"Store",
+			"http://store.asymmetric.net/"
+		}
 	};
 
 	public static final String[][] GOTO_MENU = new String[][]
 	{
-		{ "Main Map", "main.php" },
-		{ "Seaside Town", "town.php" },
-		{ "Spookyraven", "manor.php" },
-		{ "Council", "council.php" },
-		{ "Guild Hall", "guild.php" },
-		{ "Clan Hall", "clan_hall.php" },
-		{ "The Mall", "mall.php" },
-		{ "Campground", "campground.php" },
-		{ "Big Mountains", "mountains.php" },
-		{ "Mt. McLargeHuge", "mclargehuge.php" },
-		{ "Nearby Plains", "plains.php" },
-		{ "Cobb's Knob", "knob.php" },
-		{ "Defiled Cyrpt", "cyrpt.php" },
-		{ "The Beanstalk", "beanstalk.php" },
-		{ "Sorceress' Lair", "lair.php" },
-		{ "Desert Beach", "beach.php" },
-		{ "Distant Woods", "woods.php" },
-		{ "Mysterious Island", "island.php" }
+		{
+			"Main Map",
+			"main.php"
+		},
+		{
+			"Seaside Town",
+			"town.php"
+		},
+		{
+			"Spookyraven",
+			"manor.php"
+		},
+		{
+			"Council",
+			"council.php"
+		},
+		{
+			"Guild Hall",
+			"guild.php"
+		},
+		{
+			"Clan Hall",
+			"clan_hall.php"
+		},
+		{
+			"The Mall",
+			"mall.php"
+		},
+		{
+			"Campground",
+			"campground.php"
+		},
+		{
+			"Big Mountains",
+			"mountains.php"
+		},
+		{
+			"Mt. McLargeHuge",
+			"mclargehuge.php"
+		},
+		{
+			"Nearby Plains",
+			"plains.php"
+		},
+		{
+			"Cobb's Knob",
+			"knob.php"
+		},
+		{
+			"Defiled Cyrpt",
+			"cyrpt.php"
+		},
+		{
+			"The Beanstalk",
+			"beanstalk.php"
+		},
+		{
+			"Sorceress' Lair",
+			"lair.php"
+		},
+		{
+			"Desert Beach",
+			"beach.php"
+		},
+		{
+			"Distant Woods",
+			"woods.php"
+		},
+		{
+			"Mysterious Island",
+			"island.php"
+		}
 	};
 
 	public static final String[][] FRAME_NAMES =
 	{
-		{ "Adventure", "AdventureFrame" },
-		{ "Mini-Browser", "RequestFrame" },
-		{ "Relay Server", "LocalRelayServer" },
-		{ "Purchases", "MallSearchFrame" },
-		{ "Graphical CLI", "CommandDisplayFrame" },
-		{ "Player Status", "CharSheetFrame" },
-		{ "Item Manager", "ItemManageFrame" },
-		{ "Gear Changer", "GearChangeFrame" },
-		{ "Store Manager", "StoreManageFrame" },
-		{ "Coin Masters", "CoinmastersFrame" },
-		{ "Museum Display", "MuseumFrame" },
-		{ "Hall of Legends", "MeatManageFrame" },
-		{ "Skill Casting", "SkillBuffFrame" },
-		{ "Contact List", "ContactListFrame" },
-		{ "Buffbot Manager", "BuffBotFrame" },
-		{ "Purchase Buffs", "BuffRequestFrame" },
-		{ "Flower Hunter", "FlowerHunterFrame" },
-		{ "Mushroom Plot", "MushroomFrame" },
-		{ "Familiar Trainer", "FamiliarTrainingFrame" },
-		{ "IcePenguin Express", "MailboxFrame" },
-		{ "Loathing Chat", "ChatManager" },
-		{ "Recent Events", "RecentEventsFrame" },
-		{ "Clan Management", "ClanManageFrame" },
-		{ "Farmer's Almanac", "CalendarFrame" },
-		{ "Internal Database", "DatabaseFrame" },
-		{ "Coin Toss Game", "MoneyMakingGameFrame" },
-		{ "Preferences", "OptionsFrame" },
-		{ "Modifier Maximizer", "MaximizerFrame" }
+		{
+			"Adventure",
+			"AdventureFrame"
+		},
+		{
+			"Mini-Browser",
+			"RequestFrame"
+		},
+		{
+			"Relay Server",
+			"LocalRelayServer"
+		},
+		{
+			"Purchases",
+			"MallSearchFrame"
+		},
+		{
+			"Graphical CLI",
+			"CommandDisplayFrame"
+		},
+		{
+			"Player Status",
+			"CharSheetFrame"
+		},
+		{
+			"Item Manager",
+			"ItemManageFrame"
+		},
+		{
+			"Gear Changer",
+			"GearChangeFrame"
+		},
+		{
+			"Store Manager",
+			"StoreManageFrame"
+		},
+		{
+			"Coin Masters",
+			"CoinmastersFrame"
+		},
+		{
+			"Museum Display",
+			"MuseumFrame"
+		},
+		{
+			"Hall of Legends",
+			"MeatManageFrame"
+		},
+		{
+			"Skill Casting",
+			"SkillBuffFrame"
+		},
+		{
+			"Contact List",
+			"ContactListFrame"
+		},
+		{
+			"Buffbot Manager",
+			"BuffBotFrame"
+		},
+		{
+			"Purchase Buffs",
+			"BuffRequestFrame"
+		},
+		{
+			"Flower Hunter",
+			"FlowerHunterFrame"
+		},
+		{
+			"Mushroom Plot",
+			"MushroomFrame"
+		},
+		{
+			"Familiar Trainer",
+			"FamiliarTrainingFrame"
+		},
+		{
+			"IcePenguin Express",
+			"MailboxFrame"
+		},
+		{
+			"Loathing Chat",
+			"ChatManager"
+		},
+		{
+			"Recent Events",
+			"RecentEventsFrame"
+		},
+		{
+			"Clan Management",
+			"ClanManageFrame"
+		},
+		{
+			"Farmer's Almanac",
+			"CalendarFrame"
+		},
+		{
+			"Internal Database",
+			"DatabaseFrame"
+		},
+		{
+			"Coin Toss Game",
+			"MoneyMakingGameFrame"
+		},
+		{
+			"Preferences",
+			"OptionsFrame"
+		},
+		{
+			"Modifier Maximizer",
+			"MaximizerFrame"
+		}
 	};
-
 
 	// Scripting-related constants.  Used throughout KoLmafia in
 	// order to ensure proper handling of scripts.
@@ -337,7 +510,7 @@ public interface KoLConstants
 	public static final int CONSUME_SLIME = 97;
 	public static final int CONSUME_HOBO = 98;
 	public static final int CONSUME_GHOST = 99;
-	
+
 	// Anatomy of a mixingMethod:
 	// The low-order bits (masked by CT_MASK) contain one of the item creation
 	// types below.  This has to be sufficient to determine the crafting URL
@@ -402,9 +575,9 @@ public interface KoLConstants
 	public static final int CRIMBO07 = 21;
 	// Items anybody can create by folding a sugar sheet
 	public static final int SUGAR_FOLDING = 22;
-	
+
 	// Item creation requirement flags
-	
+
 	public static final int CR_MASK = 0x0FFFFF00;
 	// Character gender (for kilt vs. skirt)
 	public static final int CR_MALE = 0x00000100;
@@ -439,13 +612,13 @@ public interface KoLConstants
 	public static final int CR_SHC = 0x00800000;
 	// Requires Salacious Cocktailcrafting
 	public static final int CR_SALACIOUS = 0x01000000;
-//	public static final int CR_ = 0x02000000;
-//	public static final int CR_ = 0x04000000;
-//	public static final int CR_ = 0x08000000;
-	
+	//	public static final int CR_ = 0x02000000;
+	//	public static final int CR_ = 0x04000000;
+	//	public static final int CR_ = 0x08000000;
+
 	// Item creation information flags
-	
-//	public static final int CF_ = 0x10000000;
+
+	//	public static final int CF_ = 0x10000000;
 	// Saucerors make 3 of this item at a time
 	public static final int CF_SX3 = 0x20000000;
 	// Recipe unexpectedly does not appear in Discoveries
@@ -550,10 +723,6 @@ public interface KoLConstants
 
 	public static final LockableListModel activeEffects = new LockableListModel();
 	public static final ArrayList recentEffects = new ArrayList();
-
-	public static final HashMap seenPlayerIds = new HashMap();
-	public static final HashMap seenPlayerNames = new HashMap();
-	public static final SortedListModel contactList = new SortedListModel();
 
 	public static final SortedListModel hermitItems = new SortedListModel();
 	public static final SortedListModel trapperItems = new SortedListModel();

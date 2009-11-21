@@ -31,8 +31,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
- package net.sourceforge.kolmafia.session;
+package net.sourceforge.kolmafia.session;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,11 +43,10 @@ import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
@@ -54,6 +56,8 @@ public class EventManager
 
 	private static final Pattern EVENT_PATTERN =
 		Pattern.compile( "bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
+
+	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
 
 	public static boolean hasEvents()
 	{
@@ -70,7 +74,12 @@ public class EventManager
 		return EventManager.eventHistory;
 	}
 
-	public static boolean addEvent( String eventText, boolean isChatEvent )
+	public static void addChatEvent( final String eventText )
+	{
+		EventManager.addNormalEvent( EventManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + eventText );
+	}
+
+	public static boolean addNormalEvent( String eventText )
 	{
 		if ( eventText == null )
 		{
@@ -82,7 +91,7 @@ public class EventManager
 			return false;
 		}
 
-		boolean mmg = eventText.indexOf( "href='bet.php'" ) != -1;
+		boolean moneyMakingGameEvent = eventText.indexOf( "href='bet.php'" ) != -1;
 
 		// The event may be marked up with color and links to
 		// user profiles. For example:
@@ -90,16 +99,19 @@ public class EventManager
 		// 04/25/06 12:53:54 PM - New message received from <a target=mainpane href='showplayer.php?who=115875'><font color=green>Brianna</font></a>.
 		// 04/25/06 01:06:43 PM - <a class=nounder target=mainpane href='showplayer.php?who=115875'><b><font color=green>Brianna</font></b></a> has played a song (The Polka of Plenty) for you.
 
-		// Add in a player Id so that the events can be handled
-		// using a ShowDescriptionList.
-
 		// Remove tags that are not hyperlinks
+
 		eventText = eventText.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", "" );
+
 		// Munge links to player profiles
+
 		eventText = eventText.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
+
 		// Remove all remaining tags.
+
 		eventText = eventText.replaceAll( "<.*?>", "" ).replaceAll( "\\s+", " " );
-		if ( mmg )
+
+		if ( moneyMakingGameEvent )
 		{
 			MoneyMakingGameManager.processEvent( eventText );
 		}
@@ -119,18 +131,9 @@ public class EventManager
 		// Balloon messages for whenever the person does not have
 		// focus on KoLmafia.
 
-		if ( !isChatEvent )
+		if ( StaticEntity.usesSystemTray() )
 		{
-			if ( StaticEntity.usesSystemTray() )
-			{
-				SystemTrayFrame.showBalloon( eventText );
-			}
-
-			if ( ChatManager.isRunning() )
-			{
-				int dash = eventText.indexOf( "-" );
-				ChatManager.updateChat( "<font color=green>" + eventText.substring( dash + 2 ) + "</font>" );
-			}
+			SystemTrayFrame.showBalloon( eventText );
 		}
 
 		return true;
@@ -171,7 +174,7 @@ public class EventManager
 
 		for ( int i = 0; i < events.length; ++i )
 		{
-			shouldLoadEventFrame |= EventManager.addEvent( events[i], false );
+			shouldLoadEventFrame |= EventManager.addNormalEvent( events[ i ] );
 		}
 
 		shouldLoadEventFrame &= Preferences.getString( "initialFrames" ).indexOf( "RecentEventsFrame" ) != -1;
@@ -185,9 +188,7 @@ public class EventManager
 		}
 
 		// If we are not running chat, pop up a RecentEventsFrame to
-		// show the events.  Use the standard run method so that you
-		// wait for it to finish before calling it again on another
-		// event.
+		// show the events.
 
 		if ( !ChatManager.isRunning() && shouldLoadEventFrame )
 		{

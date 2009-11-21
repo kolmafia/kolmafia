@@ -44,10 +44,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -56,17 +53,15 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
-
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StyledChatBuffer;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.chat.ChatFormatter;
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatSender;
+import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
-import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -76,12 +71,6 @@ public class ChatFrame
 	extends GenericFrame
 {
 	private static final GenericRequest PROFILER = new GenericRequest( "" );
-
-	protected static final String MSGS_TAB = "/msgs";
-	protected static final String GCLI_TAB = "/gcli";
-
-	private static final Pattern SPLITCOMMAND_PATTERN = Pattern.compile( "/(?:(?:msg|whisper|w|tell)\\s+\\S+|\\S+)\\s+", Pattern.CASE_INSENSITIVE );
-
 	private static final SimpleDateFormat MARK_TIMESTAMP = new SimpleDateFormat( "HH:mm:ss", Locale.US );
 
 	private ChatPanel mainPanel;
@@ -126,6 +115,7 @@ public class ChatFrame
 		this.nameClickSelect.addItem( "Name click shows ascension history" );
 		this.nameClickSelect.addItem( "Name click shows mall store" );
 		this.nameClickSelect.addItem( "Name click performs /whois" );
+		this.nameClickSelect.addItem( "Name click friends the player" );
 		this.nameClickSelect.addItem( "Name click baleets the player" );
 
 		if ( toolbarPanel != null )
@@ -163,11 +153,15 @@ public class ChatFrame
 
 		JToolBar toolbarPanel = super.getToolbar( true );
 
-		toolbarPanel.add( new MessengerButton( "/friends", "who2.gif", "checkFriends" ) );
+		toolbarPanel.add( new InvocationButton( "/friends", "who2.gif", ChatManager.class, "checkFriends" ) );
+
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
-		toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
+		toolbarPanel.add( new InvocationButton(
+			"Add Highlighting", "highlight1.gif", ChatFormatter.class, "addHighlighting" ) );
+
+		toolbarPanel.add( new InvocationButton(
+			"Remove Highlighting", "highlight2.gif", ChatFormatter.class, "removeHighlighting" ) );
 
 		return toolbarPanel;
 	}
@@ -191,13 +185,15 @@ public class ChatFrame
 	{
 		super.dispose();
 
-		if ( this.getAssociatedContact() == null )
+		String contact = this.getAssociatedContact();
+
+		if ( contact == null )
 		{
 			ChatManager.dispose();
 		}
-		else
+		else if ( contact.startsWith( "/" ) )
 		{
-			ChatManager.removeChat( this.getAssociatedContact() );
+			ChatManager.closeWindow( contact );
 		}
 	}
 
@@ -246,16 +242,7 @@ public class ChatFrame
 			entryPanel.add( this.entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
-			if ( associatedContact.equals( ChatFrame.GCLI_TAB ) )
-			{
-				this.add( KoLConstants.commandBuffer.addDisplay( this.chatDisplay ), BorderLayout.CENTER );
-			}
-			else
-			{
-				this.add(
-					ChatManager.getChatBuffer( associatedContact ).addDisplay( this.chatDisplay ),
-					BorderLayout.CENTER );
-			}
+			this.add( ChatManager.getBuffer( associatedContact ).addDisplay( this.chatDisplay ), BorderLayout.CENTER );
 
 			this.add( entryPanel, BorderLayout.SOUTH );
 		}
@@ -281,7 +268,7 @@ public class ChatFrame
 			this.entryField.requestFocusInWindow();
 		}
 
-		public boolean requestFocus( boolean temporary )
+		public boolean requestFocus( final boolean temporary )
 		{
 			super.requestFocus( temporary );
 			return this.entryField.requestFocusInWindow();
@@ -293,7 +280,7 @@ public class ChatFrame
 			return this.entryField.requestFocusInWindow();
 		}
 
-		public boolean requestFocusInWindow( boolean temporary )
+		public boolean requestFocusInWindow( final boolean temporary )
 		{
 			super.requestFocusInWindow( temporary );
 			return this.entryField.requestFocusInWindow();
@@ -358,22 +345,7 @@ public class ChatFrame
 
 				ChatPanel.this.entryField.setText( "" );
 
-				if ( ChatPanel.this.associatedContact.equals( ChatFrame.GCLI_TAB ) )
-				{
-					ChatPanel.this.commandHistory.add( message );
-
-					if ( ChatPanel.this.commandHistory.size() > 10 )
-					{
-						ChatPanel.this.commandHistory.remove( 0 );
-					}
-
-					ChatPanel.this.lastCommandIndex = ChatPanel.this.commandHistory.size();
-
-					CommandDisplayFrame.executeCommand( message );
-					return;
-				}
-
-				StyledChatBuffer buffer = ChatManager.getChatBuffer( ChatPanel.this.associatedContact );
+				StyledChatBuffer buffer = ChatManager.getBuffer( ChatPanel.this.associatedContact );
 
 				if ( message.startsWith( "/clear" ) || message.startsWith( "/cls" ) || message.equals( "clear" ) || message.equals( "cls" ) )
 				{
@@ -384,7 +356,6 @@ public class ChatFrame
 				if ( message.equals( "/m" ) || message.startsWith( "/mark" ) )
 				{
 					buffer.append( "<br><hr><center><font size=2>" + ChatFrame.MARK_TIMESTAMP.format( new Date() ) + "</font></center><br>" );
-
 					return;
 				}
 
@@ -394,64 +365,14 @@ public class ChatFrame
 					return;
 				}
 
-				if ( message.length() <= 256 )
-				{
-					RequestThread.postRequest( new ChatRequest( ChatPanel.this.associatedContact, message ) );
-				}
-				else if ( message.length() < 1000 || ChatPanel.this.associatedContact.equals( "/clan" ) )
-				{
-					// If the message is too long for one message, then
-					// divide it into its component pieces.
-					String command = "";
-					String splitter = " ";
-					String prefix = "... ";
-					String suffix = " ...";
-
-					if ( message.indexOf( " && " ) != -1 )
-					{	// Assume chained commands, must handle differently
-						splitter = " && ";
-						prefix = "";
-						suffix = "";
-					}
-					else if ( message.startsWith( "/" ) )
-					{
-						Matcher m = ChatFrame.SPLITCOMMAND_PATTERN.matcher(
-							message );
-						if ( m.lookingAt() )
-						{
-							command = m.group();
-							message = message.substring( m.end() );
-						}
-					}
-					int maxPiece = 255 - command.length() - suffix.length();
-
-					while ( message.length() > maxPiece )
-					{
-						int splitPos = message.lastIndexOf( splitter, maxPiece );
-						if ( splitPos <= prefix.length() )
-						{	// oops!
-							splitPos = maxPiece;
-						}
-						RequestThread.postRequest( new ChatRequest(
-							ChatPanel.this.associatedContact, command + message.substring( 0, splitPos ) + suffix ) );
-						message = prefix + message.substring( splitPos + splitter.length() );
-					}
-
-					RequestThread.postRequest( new ChatRequest(
-						ChatPanel.this.associatedContact, command + message ) );
-				}
-				else
-				{
-					RequestThread.postRequest( new ChatRequest( ChatPanel.this.associatedContact, message.substring(
-						0, 256 ) ) );
-				}
+				ChatSender.sendMessage( ChatPanel.this.associatedContact, message, true );
 			}
 		}
 	}
 
 	/**
 	 * Returns the name of the contact associated with this frame.
-	 *
+	 * 
 	 * @return The name of the contact associated with this frame
 	 */
 
@@ -478,7 +399,7 @@ public class ChatFrame
 		}
 	}
 
-	public boolean requestFocus( boolean temporary )
+	public boolean requestFocus( final boolean temporary )
 	{
 		super.requestFocus( temporary );
 		if ( this.mainPanel != null )
@@ -500,7 +421,7 @@ public class ChatFrame
 		return false;
 	}
 
-	public boolean requestFocusInWindow( boolean temporary )
+	public boolean requestFocusInWindow( final boolean temporary )
 	{
 		super.requestFocusInWindow( temporary );
 		if ( this.mainPanel != null )
@@ -532,8 +453,10 @@ public class ChatFrame
 			// First, determine the parameters inside of the
 			// location which will be passed to frame classes.
 
-			String playerName = KoLmafia.getPlayerName( locationSplit[ 1 ] );
-			Object[] parameters = new Object[] { playerName };
+			String playerName = ContactManager.getPlayerName( locationSplit[ 1 ] );
+			Object[] parameters = new Object[]
+			{ playerName
+			};
 
 			// Next, determine the option which had been
 			// selected in the link-click.
@@ -550,7 +473,7 @@ public class ChatFrame
 			switch ( linkOption )
 			{
 			case 1:
-				ChatManager.openInstantMessage( (String) parameters[ 0 ], true );
+				ChatManager.openWindow( (String) parameters[ 0 ] );
 				return;
 
 			case 2:
@@ -562,29 +485,33 @@ public class ChatFrame
 				break;
 
 			case 4:
-				urlString = "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[ 0 ] );
+				urlString = "displaycollection.php?who=" + ContactManager.getPlayerId( (String) parameters[ 0 ] );
 				break;
 
 			case 5:
-				urlString = "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[ 0 ] );
+				urlString = "ascensionhistory.php?who=" + ContactManager.getPlayerId( (String) parameters[ 0 ] );
 				break;
 
 			case 6:
 				GenericFrame.createDisplay( MallSearchFrame.class );
 				MallSearchFrame.searchMall( new MallSearchRequest(
-					StringUtilities.parseInt( KoLmafia.getPlayerId( (String) parameters[ 0 ] ) ) ) );
+					StringUtilities.parseInt( ContactManager.getPlayerId( (String) parameters[ 0 ] ) ) ) );
 				return;
 
 			case 7:
-				RequestThread.postRequest( new ChatRequest( "/whois", (String) parameters[ 0 ] ) );
+				ChatSender.sendMessage( "/whois", (String) parameters[ 0 ], true );
 				return;
 
 			case 8:
-				RequestThread.postRequest( new ChatRequest( "/baleet", (String) parameters[ 0 ] ) );
+				ChatSender.sendMessage( "/friend", (String) parameters[ 0 ], true );
+				return;
+
+			case 9:
+				ChatSender.sendMessage( "/baleet", (String) parameters[ 0 ], true );
 				return;
 
 			default:
-				urlString = "showplayer.php?who=" + KoLmafia.getPlayerId( (String) parameters[ 0 ] );
+				urlString = "showplayer.php?who=" + ContactManager.getPlayerId( (String) parameters[ 0 ] );
 				break;
 			}
 
@@ -596,20 +523,6 @@ public class ChatFrame
 			{
 				ProfileFrame.showRequest( ChatFrame.PROFILER.constructURLString( urlString ) );
 			}
-		}
-	}
-
-	private class MessengerButton
-		extends InvocationButton
-	{
-		public MessengerButton( final String title, final String image, final String method )
-		{
-			super( title, image, ChatManager.class, method );
-		}
-
-		public void run()
-		{
-			super.run();
 		}
 	}
 }

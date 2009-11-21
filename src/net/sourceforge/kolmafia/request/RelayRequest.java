@@ -43,8 +43,9 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,7 +58,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.NullStream;
 import net.sourceforge.kolmafia.RequestEditorKit;
@@ -65,6 +65,10 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.chat.ChatFormatter;
+import net.sourceforge.kolmafia.chat.ChatPoller;
+import net.sourceforge.kolmafia.chat.HistoryEntry;
+import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
@@ -75,7 +79,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
@@ -503,8 +506,7 @@ public class RelayRequest
 
 	private void sendLocalImage( final String filename )
 	{
-		URL imageURL = FileUtilities.downloadImage(
-			"http://images.kingdomofloathing.com" + filename.substring( 6 ) );
+		URL imageURL = FileUtilities.downloadImage( "http://images.kingdomofloathing.com" + filename.substring( 6 ) );
 
 		if ( imageURL == null )
 		{
@@ -638,7 +640,8 @@ public class RelayRequest
 		if ( filename.equals( "chat.html" ) )
 		{
 			StringUtilities.singleStringReplace(
-				replyBuffer, "CHATAUTH", "playerid=" + KoLCharacter.getPlayerId() + "&pwd=" + GenericRequest.passwordHash );
+				replyBuffer, "CHATAUTH",
+				"playerid=" + KoLCharacter.getPlayerId() + "&pwd=" + GenericRequest.passwordHash );
 		}
 
 		StringUtilities.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash );
@@ -893,7 +896,7 @@ public class RelayRequest
 			// War Hippy Fatigues
 		case 33:
 			// Frat Warrior Fatigues
-			return checkBattle( outfitId);
+			return checkBattle( outfitId );
 		}
 
 		return false;
@@ -993,10 +996,12 @@ public class RelayRequest
 		}
 		else
 		{
-			message = "You are about to enter the " + ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" ) + " camp and confront the boss.";
+			message =
+				"You are about to enter the " + ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" ) + " camp and confront the boss.";
 		}
 
-		message = message + " Before you do so, you might want to redeem war loot for dimes and quarters and buy equipment. Click on the image to enter battle, once you are ready.";
+		message =
+			message + " Before you do so, you might want to redeem war loot for dimes and quarters and buy equipment. Click on the image to enter battle, once you are ready.";
 
 		this.sendGeneralWarning( "lucre.gif", message );
 	}
@@ -1005,7 +1010,8 @@ public class RelayRequest
 	{
 		String message;
 
-		message = "You are about to defeat the last " + ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" ) + " and open the way to their camp. However, you have not yet finished with the " + ( camp == CoinMasterRequest.HIPPY ? "fratboys" : "hippies" ) + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
+		message =
+			"You are about to defeat the last " + ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" ) + " and open the way to their camp. However, you have not yet finished with the " + ( camp == CoinMasterRequest.HIPPY ? "fratboys" : "hippies" ) + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
 
 		this.sendGeneralWarning( "wossname.gif", message );
 	}
@@ -1261,27 +1267,48 @@ public class RelayRequest
 
 	private void handleChat()
 	{
-		// If you are in chat, and the person submitted a command
-		// via chat, check to see if it's a CLI command.  Otherwise,
-		// run it as normal.
-
-		String chatResponse = ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
-		if ( chatResponse != null )
+		if ( this.getPath().startsWith( "newchatmessages.php" ) )
 		{
-			this.pseudoResponse( "HTTP/1.1 200 OK", "<font color=\"olive\">" + chatResponse + "</font><br>" );
-			return;
+			StringBuffer chatResponse = new StringBuffer();
+	
+			long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
+	
+			List chatMessages = ChatPoller.getEntries( lastSeen, false );
+			Iterator messageIterator = chatMessages.iterator();
+	
+			while ( messageIterator.hasNext() )
+			{
+				HistoryEntry chatMessage = (HistoryEntry) messageIterator.next();
+	
+				String content = chatMessage.getContent();
+				
+				if ( content != null && content.length() > 0 )
+				{
+					if ( chatResponse.length() > 0 )
+					{
+						chatResponse.append( "<br>" );
+					}
+		
+					chatResponse.append( content );
+				}
+	
+				lastSeen = Math.max( lastSeen, chatMessage.getLocalLastSeen() );
+			}
+	
+			chatResponse.append( "<!--lastseen:" );
+			chatResponse.append( KoLConstants.CHAT_LASTSEEN_FORMAT.format( lastSeen ) );
+			chatResponse.append( "-->" );
+	
+			this.responseText = chatResponse.toString();
 		}
-
-		super.run();
-
-		if ( !ChatManager.isRunning() || this.getPath().startsWith( "submitnewchat.php" ) )
+		else
 		{
-			ChatManager.updateChat( this.responseText );
+			this.responseText = ChatSender.sendMessage( null, this.getFormField( "graf" ), false );
 		}
 
 		if ( Preferences.getBoolean( "relayFormatsChatText" ) )
 		{
-			this.responseText = ChatManager.getNormalizedContent( this.responseText, false );
+			this.responseText = ChatFormatter.formatExternalMessage( this.responseText );
 		}
 
 	}
@@ -1314,8 +1341,7 @@ public class RelayRequest
 
 		if ( path.startsWith( "images/playerpics/" ) )
 		{
-			FileUtilities.downloadImage( "http://pics.communityofloathing.com/albums/" + path.substring(
-				path.indexOf( "playerpics" ) ) );
+			FileUtilities.downloadImage( "http://pics.communityofloathing.com/albums/" + path.substring( path.indexOf( "playerpics" ) ) );
 
 			this.sendLocalImage( path );
 			return;
@@ -1391,7 +1417,7 @@ public class RelayRequest
 
 			return;
 		}
-		
+
 		// Track use of "Recall ancient skills button" from the account menu
 		// It doesn't set a flag in your preferences, we will figure
 		// it by checking the account menu for buttons.
@@ -1432,10 +1458,10 @@ public class RelayRequest
 
 		TurnCounter expired = TurnCounter.getExpiredCounter( this, true );
 		while ( expired != null )
-		{	// Read and discard expired informational counters		
+		{ // Read and discard expired informational counters		
 			expired = TurnCounter.getExpiredCounter( this, true );
 		}
-		
+
 		StringBuffer msg = null;
 		String image = null;
 		boolean cookie = false;
@@ -1518,8 +1544,8 @@ public class RelayRequest
 			return;
 		}
 
-		String adventureName = adventure != null ? adventure.getAdventureName() :
-			AdventureDatabase.getUnknownName( urlString );
+		String adventureName =
+			adventure != null ? adventure.getAdventureName() : AdventureDatabase.getUnknownName( urlString );
 
 		if ( adventureName != null && this.getFormField( "confirm" ) == null )
 		{
@@ -1597,20 +1623,20 @@ public class RelayRequest
 				// inventory.
 
 				String place = this.getFormField( "place" );
-				if ( place != null && place.equals( "5" ) &&
-				     !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) &&
-				     !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
+				if ( place != null && place.equals( "5" ) && !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
 				{
-					StringBuffer warning = new StringBuffer( "It's possible there is something very important you're forgetting to do.<br>You lack:" );
+					StringBuffer warning =
+						new StringBuffer(
+							"It's possible there is something very important you're forgetting to do.<br>You lack:" );
 					if ( !InventoryManager.hasItem( ItemPool.WA ) )
 					{
 						if ( !InventoryManager.hasItem( ItemPool.RUBY_W ) )
 						{
-							warning.append( " <span title=\"Friar's Gate\">W</span>" ); 
+							warning.append( " <span title=\"Friar's Gate\">W</span>" );
 						}
 						if ( !InventoryManager.hasItem( ItemPool.METALLIC_A ) )
 						{
-							warning.append( " <span title=\"Airship\">A</span>" ); 
+							warning.append( " <span title=\"Airship\">A</span>" );
 						}
 					}
 					if ( !InventoryManager.hasItem( ItemPool.ND ) )
@@ -1619,16 +1645,16 @@ public class RelayRequest
 						{
 							if ( !InventoryManager.hasItem( ItemPool.NG ) )
 							{
-								warning.append( " <span title=\"Orc Chasm\">N</span>" ); 
+								warning.append( " <span title=\"Orc Chasm\">N</span>" );
 							}
 							else
 							{
-								warning.append( " N (untinker your NG)" ); 
+								warning.append( " N (untinker your NG)" );
 							}
 						}
 						if ( !InventoryManager.hasItem( ItemPool.HEAVY_D ) )
 						{
-							warning.append( " <span title=\"Castle\">D</span>" ); 
+							warning.append( " <span title=\"Castle\">D</span>" );
 						}
 					}
 					this.sendGeneralWarning( "wand.gif", warning.toString() );
@@ -1675,12 +1701,12 @@ public class RelayRequest
 
 		switch ( ItemDatabase.getItemIdFromDescription( item ) )
 		{
-		case 2271:	// dusty bottle of Merlot
-		case 2272:	// dusty bottle of Port
-		case 2273:	// dusty bottle of Pinot Noir
-		case 2274:	// dusty bottle of Zinfandel
-		case 2275:	// dusty bottle of Marsala
-		case 2276:	// dusty bottle of Muscat
+		case 2271: // dusty bottle of Merlot
+		case 2272: // dusty bottle of Port
+		case 2273: // dusty bottle of Pinot Noir
+		case 2274: // dusty bottle of Zinfandel
+		case 2275: // dusty bottle of Marsala
+		case 2276: // dusty bottle of Muscat
 			return false;
 		}
 		return true;

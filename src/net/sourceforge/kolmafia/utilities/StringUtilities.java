@@ -35,14 +35,13 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.io.UnsupportedEncodingException;
 
-import java.net.URLEncoder;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,17 +56,15 @@ public class StringUtilities
 
 	private static final HashMap displayNameCache = new HashMap();
 	private static final HashMap canonicalNameCache = new HashMap();
-	
+
 	private static final HashMap prepositionsMap = new HashMap();
 	private static final WeakHashMap hashCache = new WeakHashMap();
 
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
-	private static final Pattern PREPOSITIONS_PATTERN = Pattern.compile(
-		"\\b(?:about|above|across|after|against|along|among|around|at|before|behind|" +
-		"below|beneath|beside|between|beyond|by|down|during|except|for|from|in|inside|" +
-		"into|like|near|of|off|on|onto|out|outside|over|past|through|throughout|to|" +
-		"under|up|upon|with|within|without)\\b" );
+
+	private static final Pattern PREPOSITIONS_PATTERN =
+		Pattern.compile( "\\b(?:about|above|across|after|against|along|among|around|at|before|behind|" + "below|beneath|beside|between|beyond|by|down|during|except|for|from|in|inside|" + "into|like|near|of|off|on|onto|out|outside|over|past|through|throughout|to|" + "under|up|upon|with|within|without)\\b" );
 
 	/**
 	 * Returns the encoded-encoded version of the provided UTF-8 string.
@@ -75,10 +72,10 @@ public class StringUtilities
 
 	public static final String getEntityEncode( final String utf8String )
 	{
-		return getEntityEncode( utf8String, true );
+		return StringUtilities.getEntityEncode( utf8String, true );
 	}
 
-	public static final String getEntityEncode( String utf8String, boolean cache )
+	public static final String getEntityEncode( String utf8String, final boolean cache )
 	{
 		if ( utf8String == null )
 		{
@@ -97,7 +94,7 @@ public class StringUtilities
 			// If this string is a substring of a longer string, make sure
 			// we aren't keeping a reference to the longer string.
 			utf8String = new String( utf8String );
-			
+
 			if ( utf8String.indexOf( "&" ) == -1 || utf8String.indexOf( ";" ) == -1 )
 			{
 				entityString = CharacterEntities.escape( utf8String );
@@ -126,10 +123,10 @@ public class StringUtilities
 
 	public static final String getEntityDecode( final String entityString )
 	{
-		return getEntityDecode( entityString, true );
+		return StringUtilities.getEntityDecode( entityString, true );
 	}
 
-	public static final String getEntityDecode( String entityString, boolean cache )
+	public static final String getEntityDecode( String entityString, final boolean cache )
 	{
 		if ( entityString == null )
 		{
@@ -148,7 +145,7 @@ public class StringUtilities
 			// If this string is a substring of a longer string, make sure
 			// we aren't keeping a reference to the longer string.
 			entityString = new String( entityString );
-			
+
 			utf8String = CharacterEntities.unescape( entityString );
 
 			if ( cache && entityString.length() < 100 )
@@ -238,7 +235,7 @@ public class StringUtilities
 			// If this string is a substring of a longer string, make sure
 			// we aren't keeping a reference to the longer string.
 			name = new String( name );
-			
+
 			displayName = StringUtilities.getEntityDecode( name );
 			StringUtilities.displayNameCache.put( name, displayName );
 		}
@@ -264,7 +261,7 @@ public class StringUtilities
 			// If this string is a substring of a longer string, make sure
 			// we aren't keeping a reference to the longer string.
 			name = new String( name );
-			
+
 			canonicalName = StringUtilities.getEntityEncode( name ).toLowerCase();
 			if ( name.length() < 100 )
 			{
@@ -277,20 +274,21 @@ public class StringUtilities
 
 	/**
 	 * Returns a list of all elements which contain the given substring in their name.
-	 *
+	 * 
 	 * @param nameMap The map in which to search for the string
 	 * @param substring The substring for which to search
 	 */
 
-	public static final List getMatchingNames( final String [] names, String searchString )
+	public static final List getMatchingNames( final String[] names, String searchString )
 	{
 		boolean isExactMatch = searchString.startsWith( "\"" );
 		List matchList = new ArrayList();
 
 		if ( isExactMatch )
 		{
-			searchString = searchString.substring( 1,
-				searchString.endsWith( "\"" ) ? searchString.length() - 1 : searchString.length() );
+			searchString =
+				searchString.substring(
+					1, searchString.endsWith( "\"" ) ? searchString.length() - 1 : searchString.length() );
 		}
 
 		searchString = StringUtilities.getCanonicalName( searchString.trim() );
@@ -331,23 +329,7 @@ public class StringUtilities
 
 		for ( int i = 0; i < nameCount; ++i )
 		{
-			if ( (hashes[ i ] & hash) == hash &&
-				StringUtilities.substringMatches( names[ i ], searchString, true ) )
-			{
-				matchList.add( names[ i ] );
-			}
-		}
-
-		if ( !matchList.isEmpty() )
-		{
-			return matchList;
-		}
-
-
-		for ( int i = 0; i < nameCount; ++i )
-		{
-			if ( (hashes[ i ] & hash) == hash &&
-				StringUtilities.substringMatches( names[ i ], searchString, false ) )
+			if ( ( hashes[ i ] & hash ) == hash && StringUtilities.substringMatches( names[ i ], searchString, true ) )
 			{
 				matchList.add( names[ i ] );
 			}
@@ -360,27 +342,40 @@ public class StringUtilities
 
 		for ( int i = 0; i < nameCount; ++i )
 		{
-			if ( (hashes[ i ] & hash) == hash &&
-				StringUtilities.fuzzyMatches( names[i], searchString ) )
+			if ( ( hashes[ i ] & hash ) == hash && StringUtilities.substringMatches( names[ i ], searchString, false ) )
 			{
-				matchList.add( names[i] );
+				matchList.add( names[ i ] );
+			}
+		}
+
+		if ( !matchList.isEmpty() )
+		{
+			return matchList;
+		}
+
+		for ( int i = 0; i < nameCount; ++i )
+		{
+			if ( ( hashes[ i ] & hash ) == hash && StringUtilities.fuzzyMatches( names[ i ], searchString ) )
+			{
+				matchList.add( names[ i ] );
 			}
 		}
 
 		return matchList;
 	}
-	
-	private static final int stringHash( String s )
+
+	private static final int stringHash( final String s )
 	{
 		int hash = 0;
 		for ( int i = s.length() - 1; i >= 0; --i )
 		{
-			hash |= 1 << (s.charAt( i ) & 0x1F);
+			hash |= 1 << ( s.charAt( i ) & 0x1F );
 		}
 		return hash;
 	}
 
-	public static final boolean substringMatches( final String source, final String substring, boolean checkBoundaries )
+	public static final boolean substringMatches( final String source, final String substring,
+		final boolean checkBoundaries )
 	{
 		int index = source.indexOf( substring );
 		if ( index == -1 )
@@ -406,7 +401,8 @@ public class StringUtilities
 		return StringUtilities.fuzzyMatches( sourceString, searchString, -1, -1 );
 	}
 
-	private static final boolean fuzzyMatches( final String sourceString, final String searchString, final int lastSourceIndex, final int lastSearchIndex )
+	private static final boolean fuzzyMatches( final String sourceString, final String searchString,
+		final int lastSourceIndex, final int lastSearchIndex )
 	{
 		int maxSearchIndex = searchString.length() - 1;
 
@@ -454,7 +450,8 @@ public class StringUtilities
 		return false;
 	}
 
-	public static final void insertBefore( final StringBuffer buffer, final String searchString, final String insertString )
+	public static final void insertBefore( final StringBuffer buffer, final String searchString,
+		final String insertString )
 	{
 		int searchIndex = buffer.indexOf( searchString );
 		if ( searchIndex == -1 )
@@ -465,7 +462,8 @@ public class StringUtilities
 		buffer.insert( searchIndex, insertString );
 	}
 
-	public static final void insertAfter( final StringBuffer buffer, final String searchString, final String insertString )
+	public static final void insertAfter( final StringBuffer buffer, final String searchString,
+		final String insertString )
 	{
 		int searchIndex = buffer.indexOf( searchString );
 		if ( searchIndex == -1 )
@@ -609,7 +607,18 @@ public class StringUtilities
 		String clean = StringUtilities.NONFLOAT_PATTERN.matcher( string ).replaceAll( "" );
 
 		float result = clean.equals( "" ) || clean.equals( "-" ) ? 0 : Float.parseFloat( clean );
-		return (int) (result * multiplier);
+		return (int) ( result * multiplier );
+	}
+
+	public static final long parseLong( final String string )
+	{
+		if ( string == null )
+		{
+			return 0L;
+		}
+
+		String clean = StringUtilities.NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
+		return clean.equals( "" ) || clean.equals( "-" ) ? 0 : Long.parseLong( clean );
 	}
 
 	public static final float parseFloat( final String string )
@@ -623,40 +632,47 @@ public class StringUtilities
 		return clean.equals( "" ) ? 0.0f : Float.parseFloat( clean );
 	}
 
-	public static final String basicTextWrap(String text) {
+	public static final String basicTextWrap( String text )
+	{
 
-		if (text.length() < 80 || text.startsWith("<html>")) {
+		if ( text.length() < 80 || text.startsWith( "<html>" ) )
+		{
 			return text;
 		}
 
 		StringBuffer result = new StringBuffer();
 
-		while (text.length() > 0) {
-			if (text.length() < 80) {
-				result.append(text);
+		while ( text.length() > 0 )
+		{
+			if ( text.length() < 80 )
+			{
+				result.append( text );
 				text = "";
 			}
-			else {
-				int spaceIndex = text.lastIndexOf(" ", 80);
-				int breakIndex = text.lastIndexOf("\n", spaceIndex);
+			else
+			{
+				int spaceIndex = text.lastIndexOf( " ", 80 );
+				int breakIndex = text.lastIndexOf( "\n", spaceIndex );
 
-				if (breakIndex != -1) {
-					result.append(text.substring(0, breakIndex));
-					result.append("\n");
-					text = text.substring(breakIndex).trim();
+				if ( breakIndex != -1 )
+				{
+					result.append( text.substring( 0, breakIndex ) );
+					result.append( "\n" );
+					text = text.substring( breakIndex ).trim();
 				}
-				else {
-					result.append(text.substring(0, spaceIndex).trim());
-					result.append("\n");
-					text = text.substring(spaceIndex).trim();
+				else
+				{
+					result.append( text.substring( 0, spaceIndex ).trim() );
+					result.append( "\n" );
+					text = text.substring( spaceIndex ).trim();
 				}
 			}
 		}
 
 		return result.toString();
 	}
-	
-	public static final void registerPrepositions( String text )
+
+	public static final void registerPrepositions( final String text )
 	{
 		Matcher m = StringUtilities.PREPOSITIONS_PATTERN.matcher( text );
 		if ( !m.find() )
@@ -665,8 +681,8 @@ public class StringUtilities
 		}
 		StringUtilities.prepositionsMap.put( m.replaceAll( "@" ), text );
 	}
-	
-	public static final String lookupPrepositions( String text )
+
+	public static final String lookupPrepositions( final String text )
 	{
 		Matcher m = StringUtilities.PREPOSITIONS_PATTERN.matcher( text );
 		if ( !m.find() )

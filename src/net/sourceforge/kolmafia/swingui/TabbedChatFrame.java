@@ -46,21 +46,17 @@ import tab.CloseTabbedPane;
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;
 
-import net.sourceforge.kolmafia.session.ChatManager;
 
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class TabbedChatFrame
 	extends ChatFrame
 	implements CloseListener, CloseableTabbedPaneListener
 {
-	private final ChatPanel commandLineDisplay;
-	private static boolean addGCLI = false;
-
 	public TabbedChatFrame()
 	{
-		this.commandLineDisplay = new ChatPanel( ChatFrame.GCLI_TAB );
-		TabbedChatFrame.addGCLI = Preferences.getBoolean( "addChatCommandLine" );
 		this.setTitle( "Loathing Chat" );
 	}
 
@@ -96,14 +92,17 @@ public class TabbedChatFrame
 			return false;
 		}
 
-		String toRemove = this.tabs.getTitleAt( tabIndexToClose );
+		String contact = this.tabs.getTitleAt( tabIndexToClose );
 
-		if ( toRemove.equals( ChatFrame.GCLI_TAB ) )
+		if ( contact == null )
 		{
-			return false;
+			ChatManager.dispose();
 		}
-
-		ChatManager.removeChat( toRemove );
+		else if ( contact.startsWith( "/" ) )
+		{
+			ChatManager.closeWindow( contact );
+		}
+		
 		return true;
 	}
 
@@ -197,19 +196,7 @@ public class TabbedChatFrame
 			// Add a little bit of whitespace to make the
 			// chat tab larger and easier to click.
 
-			if ( TabbedChatFrame.addGCLI && TabbedChatFrame.this.tabs.getTabCount() > 0 && TabbedChatFrame.this.tabs.getTitleAt(
-				TabbedChatFrame.this.tabs.getTabCount() - 1 ).equals( ChatFrame.GCLI_TAB ) )
-			{
-				TabbedChatFrame.this.tabs.removeTabAt( TabbedChatFrame.this.tabs.getTabCount() - 1 );
-			}
-
 			TabbedChatFrame.this.tabs.addTab( this.tabName, this.createdPanel );
-
-			if ( TabbedChatFrame.addGCLI )
-			{
-				TabbedChatFrame.this.tabs.addTab( ChatFrame.GCLI_TAB, TabbedChatFrame.this.commandLineDisplay );
-			}
-
 			this.createdPanel.requestFocusInWindow();
 		}
 	}

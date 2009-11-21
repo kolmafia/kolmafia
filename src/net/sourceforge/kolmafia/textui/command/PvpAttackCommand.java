@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 
 public class PvpAttackCommand
@@ -81,7 +82,7 @@ public class PvpAttackCommand
 
 		for ( int i = 0; i < names.length; ++i )
 		{
-			String playerId = KoLmafia.getPlayerId( names[ i ] );
+			String playerId = ContactManager.getPlayerId( names[ i ] );
 			if ( !playerId.equals( names[ i ] ) )
 			{
 				continue;
@@ -92,7 +93,7 @@ public class PvpAttackCommand
 
 			if ( idMatcher.find() )
 			{
-				KoLmafia.registerPlayer( names[ i ], idMatcher.group( 1 ) );
+				ContactManager.registerPlayerId( names[ i ], idMatcher.group( 1 ) );
 			}
 			else
 			{

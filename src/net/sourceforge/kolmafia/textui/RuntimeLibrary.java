@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -3321,7 +3322,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		RequestThread.postRequest( new ChatRequest( "/clan", message, false ) );
+		ChatSender.sendMessage( "/clan", message, true );
 
 		return DataTypes.VOID_VALUE;
 	}
@@ -3342,7 +3343,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		RequestThread.postRequest( new ChatRequest( recipient, message, false ) );
+		ChatSender.sendMessage( recipient, message, true );
 
 		return DataTypes.VOID_VALUE;
 	}

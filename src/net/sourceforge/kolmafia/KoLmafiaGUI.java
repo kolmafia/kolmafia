@@ -41,6 +41,7 @@ import javax.swing.SwingUtilities;
 
 import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
+import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -58,8 +59,8 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 import net.sourceforge.kolmafia.session.BuffBotManager;
-import net.sourceforge.kolmafia.session.ChatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.MailManager;
@@ -152,11 +153,6 @@ public class KoLmafiaGUI
 	public void initialize( final String username )
 	{
 		super.initialize( username );
-
-		if ( Preferences.getBoolean( "retrieveContacts" ) )
-		{
-			RequestThread.postRequest( new ContactListRequest() );
-		}
 
 		LoginFrame.hideInstance();
 
@@ -377,11 +373,6 @@ public class KoLmafiaGUI
 			}
 			else if ( this.frameClass == ContactListFrame.class )
 			{
-				if ( KoLConstants.contactList.isEmpty() )
-				{
-					RequestThread.postRequest( new ContactListRequest() );
-				}
-
 				if ( GenericFrame.appearsInTab( "ContactListFrame" ) )
 				{
 					return;
