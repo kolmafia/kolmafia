@@ -2596,6 +2596,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 330:
+			// A Shark's Chum
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.increment( "poolSharkCount", 1 );
+			}
+			break;
+
 		case 354:
 			// You Can Never Be Too Rich or Too in the Future
 			ResultProcessor.processResult( ItemPool.get( ItemPool.INDIGO_PARTY_INVITATION, -1 ) );

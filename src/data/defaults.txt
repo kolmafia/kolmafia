@@ -439,6 +439,7 @@ user	plantingDate
 user	plantingDay	-1
 user	plantingLength
 user	plantingScript
+user	poolSharkCount	0
 user	postAscensionScript
 user	preAscensionScript
 user	preBlackbirdFamiliar
