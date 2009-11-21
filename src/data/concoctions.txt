@@ -276,6 +276,7 @@ pie crust	COOK	Gnollish pie tin	wad of dough
 plain pizza	COOK	wad of dough	tomato
 plain pizza	COOK	flat dough	tomato
 rocky road ice cream	COOK	glass of goat's milk	floaty gravel
+rocky road ice cream	COOK	glass of baboon's milk	floaty gravel
 sausage pizza	COOK	plain pizza	Knob sausage
 spicy bean burrito	COOK	bean burrito	spices
 spicy enchanted bean burrito	COOK	enchanted bean burrito	spices
@@ -846,6 +847,7 @@ eelskin pants	ASMITH	eel skin	pants kit
 furry pants	ASMITH	furry fur	pants kit
 hippopotamus pants	ASMITH	hippopotamus skin	pants kit
 penguin shorts	ASMITH	penguin skin	pants kit
+pink pinkslip slip	ASMITH	Mer-kin pinkslip	Mer-kin pinkslip
 square sponge pants	ASMITH	slab of sponge	basic meat pants
 sticky meat pants	SMITH	really really sticky spider web	basic meat pants
 tighty whiteys	SMITH	white snake skin	pants kit
@@ -869,6 +871,7 @@ yakskin skirt	ASMITH, FEMALE	yak skin	skirt / kilt kit
 
 basic meat kilt	SMITH, MALE	meat stack	skirt / kilt kit
 sticky meat kilt	SMITH, MALE	really really sticky spider web	basic meat kilt
+sticky meat kilt	SMITH, MALE	really really sticky spider web	basic meat skirt
 
 furry kilt	ASMITH, MALE	furry fur	skirt / kilt kit
 gnauga hide kilt	ASMITH, MALE	gnauga hide	skirt / kilt kit
