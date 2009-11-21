@@ -55,7 +55,7 @@ public class ChatSender
 
 	private static final Pattern PRIVATE_MESSAGE_PATTERN =
 		Pattern.compile( "/(?:msg|whisper|w|tell)\\s+(\\S+)\\s+", Pattern.CASE_INSENSITIVE );
-	
+
 	private static final ArrayList CHANNEL_COMMANDS = new ArrayList();
 
 	static
@@ -67,14 +67,73 @@ public class ChatSender
 
 	public static final String sendMessage( String contact, String message, final boolean isInternal )
 	{
-		Matcher privateMessageMatcher = ChatSender.PRIVATE_MESSAGE_PATTERN.matcher( message );
+		String graf = getGraf( contact, message, isInternal );
 		
+		if ( graf == null )
+		{
+			return "";
+		}
+		
+		ChatRequest request = new ChatRequest( graf );
+		request.run();
+
+		List chatMessages = new ArrayList();
+
+		if ( graf.equals( "/listen" ) )
+		{
+			ChatParser.parseChannelList( chatMessages, request.responseText );
+		}
+		else if ( graf.startsWith( "/listen " ) )
+		{
+			ChatParser.parseListen( chatMessages, request.responseText );
+		}
+		else if ( graf.startsWith( "/channel " ) )
+		{
+			ChatParser.parseChannel( chatMessages, request.responseText );
+		}
+		else if ( graf.startsWith( "/switch " ) )
+		{
+			ChatParser.parseSwitch( chatMessages, request.responseText );
+		}
+		else if ( graf.startsWith( "/who " ) || graf.equals( "/friends" ) || graf.equals( "/romans" ) )
+		{
+			ChatParser.parseContacts( chatMessages, request.responseText );
+		}
+		else
+		{
+			ChatParser.parseLines( chatMessages, request.responseText );
+
+			if ( isInternal )
+			{
+				executeAjaxCommand( request.responseText );
+			}
+		}
+
+		ChatManager.processMessages( chatMessages, isInternal );
+
+		return request.responseText;
+	}
+
+	private static final String getGraf( String contact, String message, boolean isInternal )
+	{
+		if ( !isInternal )
+		{
+			if ( ChatSender.executeCommand( message ) )
+			{
+				return null;
+			}
+
+			return message;
+		}
+		
+		Matcher privateMessageMatcher = ChatSender.PRIVATE_MESSAGE_PATTERN.matcher( message );
+
 		if ( privateMessageMatcher.find() )
 		{
 			contact = privateMessageMatcher.group( 1 ).trim();
 			message = message.substring( privateMessageMatcher.end() ).trim();
 		}
-		
+
 		if ( message.length() > 256 && contact != null && !contact.equals( "/clan" ) )
 		{
 			// If the message is too long for one message, then
@@ -96,7 +155,7 @@ public class ChatSender
 			else if ( message.startsWith( "/" ) )
 			{
 				int spaceIndex = message.indexOf( " " );
-				
+
 				if ( spaceIndex != -1 )
 				{
 					command = message.substring( 0, spaceIndex ).trim();
@@ -111,9 +170,6 @@ public class ChatSender
 
 			int maxPiece = 255 - command.length() - suffix.length();
 
-			String response;
-			StringBuffer allResponses = new StringBuffer();
-			
 			while ( message.length() > maxPiece )
 			{
 				int splitPos = message.lastIndexOf( splitter, maxPiece );
@@ -122,38 +178,19 @@ public class ChatSender
 					splitPos = maxPiece;
 				}
 
-				response =
-					ChatSender.sendMessage( contact, command + " " + message.substring( 0, splitPos ) + suffix, isInternal );
-				
-				if ( response != null && response.length() > 0 )
-				{
-					if ( allResponses.length() > 0 )
-					{
-						allResponses.append( "<br>" );
-					}
-					
-					allResponses.append( response );
-				}
+				ChatSender.sendMessage(
+					contact, command + " " + message.substring( 0, splitPos ) + suffix, isInternal );
 
 				message = prefix + message.substring( splitPos + splitter.length() );
 			}
-			
 
-			response = ChatSender.sendMessage( contact, command + " " + message, isInternal );
-
-			if ( allResponses.length() > 0 )
-			{
-				allResponses.append( "<br>" );
-			}
-			
-			allResponses.append( response );
-			
-			return allResponses.toString();
+			ChatSender.sendMessage( contact, command + " " + message, isInternal );
+			return null;
 		}
 
 		if ( ChatSender.executeCommand( message ) )
 		{
-			return "";
+			return null;
 		}
 
 		String contactId = "[none]";
@@ -220,54 +257,17 @@ public class ChatSender
 		if ( graf.startsWith( "/listen " ) )
 		{
 			String currentChannel = ChatManager.getCurrentChannel();
-			
+
 			if ( currentChannel != null && graf.endsWith( currentChannel ) )
 			{
-				return "";
+				return null;
 			}
 		}
 		
-		ChatRequest request = new ChatRequest( graf );
-		request.run();
-
-		List chatMessages = new ArrayList();
-
-		if ( graf.equals( "/listen" ) )
-		{
-			ChatParser.parseChannelList( chatMessages, request.responseText );
-		}
-		else if ( graf.startsWith( "/listen " ) )
-		{
-			ChatParser.parseListen( chatMessages, request.responseText );
-		}
-		else if ( graf.startsWith( "/channel " ) )
-		{
-			ChatParser.parseChannel( chatMessages, request.responseText );
-		}
-		else if ( graf.startsWith( "/switch " ) )
-		{
-			ChatParser.parseSwitch( chatMessages, request.responseText );
-		}
-		else if ( graf.startsWith( "/who " ) || graf.equals( "/friends" ) || graf.equals( "/romans" ) )
-		{
-			ChatParser.parseContacts( chatMessages, request.responseText );
-		}
-		else
-		{
-			ChatParser.parseLines( chatMessages, request.responseText );
-			
-			if ( isInternal )
-			{
-				executeAjaxCommand( request.responseText );
-			}
-		}
-
-		ChatManager.processMessages( chatMessages, isInternal );
-		
-		return request.responseText;
+		return graf;
 	}
 
-	public static final boolean executeCommand( String graf )
+	private static final boolean executeCommand( String graf )
 	{
 		if ( graf == null )
 		{
@@ -308,7 +308,7 @@ public class ChatSender
 		CommandDisplayFrame.executeCommand( command );
 		return true;
 	}
-	
+
 	public static void executeAjaxCommand( String responseText )
 	{
 		Matcher dojax = ChatSender.DOJAX_PATTERN.matcher( responseText );
@@ -326,6 +326,6 @@ public class ChatSender
 			StaticEntity.externalUpdate( ChatSender.DOJAX_VISITOR.getURLString(), ChatSender.DOJAX_VISITOR.responseText );
 			EventMessage message = new EventMessage( ChatSender.DOJAX_VISITOR.responseText, null );
 			ChatManager.broadcastEvent( message );
-		}		
+		}
 	}
 }
