@@ -34,11 +34,8 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -119,13 +116,18 @@ public class ContactManager
 
 	/**
 	 * Registers the given player name and player Id with KoLmafia's player name tracker.
-	 *
+	 * 
 	 * @param playerName The name of the player
 	 * @param playerId The player Id associated with this player
 	 */
 
 	public static final void registerPlayerId( String playerName, final String playerId )
 	{
+		if ( playerName.equals( "Mod Warning" ) || playerName.equals( "System Message" ) || playerName.equals( "Dungeon" ) )
+		{
+			return;
+		}
+
 		playerName = playerName.replaceAll( "[^0-9A-Za-z_ ]", "" );
 		String lowercase = playerName.toLowerCase();
 
@@ -140,7 +142,7 @@ public class ContactManager
 
 	/**
 	 * Returns the string form of the player Id associated with the given player name.
-	 *
+	 * 
 	 * @param playerName The name of the player
 	 * @return The player's Id if the player has been seen, or the player's name with spaces replaced with underscores
 	 *         and other elements encoded if the player's Id has not been seen.
@@ -159,7 +161,7 @@ public class ContactManager
 
 	/**
 	 * Returns the string form of the player Id associated with the given player name.
-	 *
+	 * 
 	 * @param playerId The Id of the player
 	 * @return The player's name if it has been seen, or null if it has not yet appeared in the chat (not likely, but
 	 *         possible).
