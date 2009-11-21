@@ -469,8 +469,7 @@ public abstract class ChatManager
 			if ( ChatManager.tabbedFrame == null )
 			{
 				ChatManager.tabbedFrame = new TabbedChatFrame();
-				CreateFrameRunnable.decorate( ChatManager.tabbedFrame );
-				ChatManager.tabbedFrame.setVisible( true );
+				new CreateFrameRunnable( TabbedChatFrame.class ).run();
 			}
 
 			ChatManager.tabbedFrame.addTab( bufferKey );
