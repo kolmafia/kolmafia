@@ -49,6 +49,7 @@ import javax.swing.JList;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.BuffBotFrame;
 
 public class BuffBotHome
@@ -300,7 +301,7 @@ public class BuffBotHome
 
 	public static final void recordBuff( final String name, final String buff, final int casts, final int meatSent )
 	{
-		BuffBotHome.textLogStream.println( BuffBotHome.TIMESTAMP_FORMAT.format( new Date() ) + "," + name + "," + KoLmafia.getPlayerId( name ) + "," + buff + "," + casts + "," + meatSent );
+		BuffBotHome.textLogStream.println( BuffBotHome.TIMESTAMP_FORMAT.format( new Date() ) + "," + name + "," + ContactManager.getPlayerId( name ) + "," + buff + "," + casts + "," + meatSent );
 	}
 
 	/**

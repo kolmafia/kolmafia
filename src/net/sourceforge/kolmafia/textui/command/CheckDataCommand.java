@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.request.ProfileRequest;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CheckDataCommand
@@ -114,7 +115,7 @@ public class CheckDataCommand
 
 		if ( command.equals( "checkprofile" ) )
 		{
-			String playerId = KoLmafia.getPlayerId( parameters );
+			String playerId = ContactManager.getPlayerId( parameters );
 			if ( playerId.equals( parameters ) )
 			{
 				String text = KoLmafia.whoisPlayer( playerId );
@@ -122,7 +123,7 @@ public class CheckDataCommand
 
 				if ( idMatcher.find() )
 				{
-					KoLmafia.registerPlayer( parameters, idMatcher.group( 1 ) );
+					ContactManager.registerPlayerId( parameters, idMatcher.group( 1 ) );
 				}
 				else
 				{

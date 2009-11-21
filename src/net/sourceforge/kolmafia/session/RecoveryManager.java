@@ -322,7 +322,7 @@ public class RecoveryManager
 		// long as your health is above zero, you're okay.
 
 		boolean isNonCombatHealthRestore =
-			settingName.startsWith( "hp" ) && KoLmafia.isAdventuring && KoLmafia.currentAdventure.isNonCombatsOnly();
+			settingName.startsWith( "hp" ) && KoLmafia.isAdventuring() && KoLmafia.currentAdventure.isNonCombatsOnly();
 
 		if ( isNonCombatHealthRestore )
 		{

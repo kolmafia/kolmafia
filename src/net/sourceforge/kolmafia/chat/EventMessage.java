@@ -31,42 +31,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.request;
+package net.sourceforge.kolmafia.chat;
 
-import net.sourceforge.kolmafia.KoLCharacter;
 
-public class ChatRequest
-	extends GenericRequest
+
+public class EventMessage
+	extends ChatMessage
 {
-	/**
-	 * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP file to indicate
-	 * where you left off. Note that this constructor is only available to the <code>ChatRequest</code>; this is done
-	 * because only the <code>ChatRequest</code> knows what the appropriate value should be.
-	 */
-
-	public ChatRequest( final long lastSeen )
+	private String color;
+	
+	public EventMessage( String content, String color )
 	{
-		super( "newchatmessages.php" );
-
-		this.addFormField( "lasttime", String.valueOf( lastSeen ) );
+		this.setContent( content );
+		
+		this.color = color;
 	}
-
-	/**
-	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
-	 * 
-	 * @param message The message to be sent
-	 */
-
-	public ChatRequest( final String graf )
+	
+	public String getColor()
 	{
-		super( "submitnewchat.php" );
-
-		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		this.addFormField( "graf", graf );
-	}
-
-	protected boolean retryOnTimeout()
-	{
-		return true;
+		return this.color;
 	}
 }

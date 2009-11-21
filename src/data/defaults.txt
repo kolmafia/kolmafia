@@ -1,5 +1,4 @@
 1
-global	addChatCommandLine	false
 global	addCreationQueue	true
 global	addStatusBarToFrames	false
 global	allowCloseableDesktopTabs	false
@@ -47,7 +46,6 @@ global	defaultDropdownSplit	0
 global	defaultLimit	5
 global	defaultLoginServer	1
 global	displayName
-global	eSoluScriptType	0
 global	getBreakfast
 global	grabCloversHardcore	false
 global	grabCloversSoftcore	true
@@ -143,14 +141,12 @@ global	switchEquipmentForBuffs	true
 global	tomeSkillsHardcore	Summon Snowcone
 global	tomeSkillsSoftcore	Summon Snowcone
 global	toolbarPosition	1
-global	useChatMonitor	false
 global	useChatToolbar	true
 global	useContactsFrame	true
 global	useCrimboToysHardcore	false
 global	useCrimboToysSoftcore	true
 global	useDecoratedTabs
 global	useLastUserAgent	false
-global	useSeparateChannels	true
 global	useShinyTabbedChat	true
 global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true

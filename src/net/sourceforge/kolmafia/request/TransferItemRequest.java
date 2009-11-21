@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -538,7 +539,7 @@ public abstract class TransferItemRequest
 		if ( recipientMatcher.find() )
 		{
 			itemListBuffer.append( " to " );
-			itemListBuffer.append( KoLmafia.getPlayerName( recipientMatcher.group( 1 ) ) );
+			itemListBuffer.append( ContactManager.getPlayerName( recipientMatcher.group( 1 ) ) );
 		}
 
 		itemListBuffer.append( ": " );

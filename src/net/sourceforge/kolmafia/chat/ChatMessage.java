@@ -31,42 +31,59 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.request;
+package net.sourceforge.kolmafia.chat;
 
-import net.sourceforge.kolmafia.KoLCharacter;
-
-public class ChatRequest
-	extends GenericRequest
+public class ChatMessage
 {
-	/**
-	 * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP file to indicate
-	 * where you left off. Note that this constructor is only available to the <code>ChatRequest</code>; this is done
-	 * because only the <code>ChatRequest</code> knows what the appropriate value should be.
-	 */
-
-	public ChatRequest( final long lastSeen )
+	private String sender;
+	private String recipient;
+	private String content;
+	private boolean isAction;
+	
+	public ChatMessage()
 	{
-		super( "newchatmessages.php" );
-
-		this.addFormField( "lasttime", String.valueOf( lastSeen ) );
 	}
 
-	/**
-	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
-	 * 
-	 * @param message The message to be sent
-	 */
-
-	public ChatRequest( final String graf )
+	public ChatMessage( String sender, String recipient, String content, boolean isAction )
 	{
-		super( "submitnewchat.php" );
-
-		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		this.addFormField( "graf", graf );
+		this.sender = sender;
+		this.recipient = recipient;
+		this.content = content.trim();
+		this.isAction = isAction;
+	}
+	
+	public String getSender()
+	{
+		return sender;
 	}
 
-	protected boolean retryOnTimeout()
+	public void setSender( String sender )
 	{
-		return true;
+		this.sender = sender;
+	}
+
+	public String getRecipient()
+	{
+		return recipient;
+	}
+
+	public void setRecipient( String recipient )
+	{
+		this.recipient = recipient;
+	}
+
+	public String getContent()
+	{
+		return content;
+	}
+
+	public void setContent( String content )
+	{
+		this.content = content.trim();
+	}
+	
+	public boolean isAction()
+	{
+		return isAction;
 	}
 }

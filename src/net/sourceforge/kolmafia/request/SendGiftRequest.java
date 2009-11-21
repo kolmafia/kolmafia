@@ -46,8 +46,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -130,7 +130,7 @@ public class SendGiftRequest
 		this.materialCost = this.wrappingType.materialCost;
 
 		this.addFormField( "action", "Yep." );
-		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "towho", ContactManager.getPlayerId( this.recipient ) );
 		this.addFormField( "note", this.message );
 		this.addFormField( "insidenote", this.message );
 		this.addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
@@ -281,6 +281,6 @@ public class SendGiftRequest
 
 	public String getStatusMessage()
 	{
-		return "Sending package to " + KoLmafia.getPlayerName( this.recipient );
+		return "Sending package to " + ContactManager.getPlayerName( this.recipient );
 	}
 }

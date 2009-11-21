@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -93,7 +94,7 @@ public class BuffBotDatabase
 			{
 				if ( data.length >= 2 )
 				{
-					KoLmafia.registerPlayer( data[ 0 ], data[ 1 ] );
+					ContactManager.registerPlayerId( data[ 0 ], data[ 1 ] );
 	
 					BuffBotDatabase.nameList.add( data[ 0 ].toLowerCase() );
 					BuffBotDatabase.buffDataMap.put( data[ 0 ].toLowerCase(), data );
@@ -114,7 +115,7 @@ public class BuffBotDatabase
 		// If the player is not a known buffbot, go ahead
 		// and allow the amount.
 
-		name = KoLmafia.getPlayerName( name ).toLowerCase();
+		name = ContactManager.getPlayerName( name ).toLowerCase();
 		if ( !BuffBotDatabase.nameList.contains( name ) )
 		{
 			return amount;
@@ -319,7 +320,7 @@ public class BuffBotDatabase
 			this.location = data[ 2 ];
 
 			++BuffBotDatabase.buffBotsAvailable;
-			KoLmafia.registerPlayer( data[ 0 ], data[ 1 ] );
+			ContactManager.registerPlayerId( data[ 0 ], data[ 1 ] );
 		}
 
 		public void run()

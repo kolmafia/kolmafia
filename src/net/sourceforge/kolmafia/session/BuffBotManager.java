@@ -481,7 +481,7 @@ public abstract class BuffBotManager
 			SendMailRequest sending = (SendMailRequest) BuffBotManager.sendList.get( 0 );
 			BuffBotHome.update(
 				BuffBotHome.NOCOLOR,
-				"Sending queued message to " + KoLmafia.getPlayerName( sending.getRecipient() ) + "..." );
+				"Sending queued message to " + ContactManager.getPlayerName( sending.getRecipient() ) + "..." );
 			RequestThread.postRequest( sending );
 
 			BuffBotManager.sendList.clear();

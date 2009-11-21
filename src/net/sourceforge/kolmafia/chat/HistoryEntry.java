@@ -31,42 +31,64 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.request;
+package net.sourceforge.kolmafia.chat;
 
-import net.sourceforge.kolmafia.KoLCharacter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class ChatRequest
-	extends GenericRequest
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+public class HistoryEntry
 {
-	/**
-	 * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP file to indicate
-	 * where you left off. Note that this constructor is only available to the <code>ChatRequest</code>; this is done
-	 * because only the <code>ChatRequest</code> knows what the appropriate value should be.
-	 */
+	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
+	private final String content;
 
-	public ChatRequest( final long lastSeen )
+	private final long localLastSeen;
+	private final long serverLastSeen;
+
+	private final boolean isInternal;
+	private final List chatMessages;
+
+	public HistoryEntry( final String responseText, final boolean isInternal, final long localLastSeen )
 	{
-		super( "newchatmessages.php" );
+		Matcher lastSeenMatcher = HistoryEntry.LASTSEEN_PATTERN.matcher( responseText );
+		lastSeenMatcher.find();
 
-		this.addFormField( "lasttime", String.valueOf( lastSeen ) );
+		this.localLastSeen = localLastSeen;
+		this.serverLastSeen = StringUtilities.parseLong( lastSeenMatcher.group( 1 ) );
+
+		this.content = lastSeenMatcher.replaceFirst( "" );
+
+		this.isInternal = isInternal;
+		this.chatMessages = new ArrayList();
+
+		ChatParser.parseLines( this.chatMessages, this.content );
 	}
 
-	/**
-	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
-	 * 
-	 * @param message The message to be sent
-	 */
-
-	public ChatRequest( final String graf )
+	public String getContent()
 	{
-		super( "submitnewchat.php" );
-
-		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		this.addFormField( "graf", graf );
+		return this.content;
+	}
+	
+	public long getLocalLastSeen()
+	{
+		return this.localLastSeen;
 	}
 
-	protected boolean retryOnTimeout()
+	public long getServerLastSeen()
 	{
-		return true;
+		return this.serverLastSeen;
+	}
+
+	public boolean isInternal()
+	{
+		return this.isInternal;
+	}
+
+	public List getChatMessages()
+	{
+		return this.chatMessages;
 	}
 }

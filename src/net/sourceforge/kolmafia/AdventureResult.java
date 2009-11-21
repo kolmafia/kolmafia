@@ -51,7 +51,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureResult
-	implements Comparable, KoLConstants
+	implements Comparable
 {
 	public static final int[] SESSION_SUBSTATS = new int[ 3 ];
 	public static final int[] SESSION_FULLSTATS = new int[ 3 ];

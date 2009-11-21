@@ -42,10 +42,10 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -86,12 +86,12 @@ public class ProfileRequest
 		if ( playerName.startsWith( "#" ) )
 		{
 			this.playerId = playerName.substring( 1 );
-			this.playerName = KoLmafia.getPlayerName( this.playerId );
+			this.playerName = ContactManager.getPlayerName( this.playerId );
 		}
 		else
 		{
 			this.playerName = playerName;
-			this.playerId = KoLmafia.getPlayerId( playerName );
+			this.playerId = ContactManager.getPlayerId( playerName );
 		}
 
 		this.addFormField( "who", this.playerId );
@@ -632,7 +632,7 @@ public class ProfileRequest
 		if ( dataMatcher.find() )
 		{
 			this.responseText =
-				dataMatcher.replaceFirst( "../ascensions/" + ClanManager.getURLName( KoLmafia.getPlayerName( dataMatcher.group( 1 ) ) ) );
+				dataMatcher.replaceFirst( "../ascensions/" + ClanManager.getURLName( ContactManager.getPlayerName( dataMatcher.group( 1 ) ) ) );
 		}
 
 		this.refreshFields();

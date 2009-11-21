@@ -33,12 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
+import apple.dts.samplecode.osxadapter.OSXAdapter;
 import java.awt.Frame;
 import java.lang.reflect.Constructor;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -47,10 +46,9 @@ import net.sourceforge.kolmafia.swingui.SendMessageFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
-import apple.dts.samplecode.osxadapter.OSXAdapter;
 
 public class CreateFrameRunnable
-	implements Runnable, KoLConstants
+	implements Runnable
 {
 	private final Class creationType;
 	private JFrame creation;
@@ -158,18 +156,21 @@ public class CreateFrameRunnable
 			GenericFrame.appearsInTab( searchString.endsWith( "ChatFrame" ) ? "ChatManager" : searchString );
 
 		// Make the whole desktop the first time we create a tab
+
 		if ( appearsInTab && !KoLDesktop.instanceExists() )
 		{
 			KoLDesktop.getInstance().initializeTabs();
 		}
 
 		// Make the frame for the first time
+
 		if ( !this.loadPreviousFrame() )
 		{
 			this.runConstruction( appearsInTab );
 		}
 
 		// If previously made desktop has been cleared out, remake it.
+
 		if ( appearsInTab && !KoLDesktop.containsTab( (GenericFrame) this.creation ) )
 		{
 			KoLDesktop.getInstance().initializeTabs();
@@ -187,12 +188,14 @@ public class CreateFrameRunnable
 		{
 			( (SkillBuffFrame) this.creation ).setRecipient( (String) this.parameters[ 0 ] );
 		}
+
 		if ( this.creationType == SendMessageFrame.class )
 		{
 			( (SendMessageFrame) this.creation ).setRecipient( this.parameters.length == 0 ? "" : (String) this.parameters[ 0 ] );
 		}
 
 		this.creation.pack();
+
 		if ( !( this.creation instanceof GenericFrame ) )
 		{
 			this.creation.setLocationRelativeTo( null );
@@ -207,10 +210,12 @@ public class CreateFrameRunnable
 		if ( appearsInTab )
 		{
 			KoLDesktop.addTab( (GenericFrame) this.creation );
+
 			if ( !KoLDesktop.isInitializing() )
 			{
 				KoLDesktop.displayDesktop();
 			}
+
 			KoLDesktop.showComponent( (GenericFrame) this.creation );
 		}
 		else
@@ -234,6 +239,7 @@ public class CreateFrameRunnable
 		for ( int i = 0; i < frames.length; ++i )
 		{
 			Frame frame = frames[ i ];
+
 			if ( frame.getClass() == this.creationType )
 			{
 				this.creation = (JFrame) frame;
@@ -273,17 +279,22 @@ public class CreateFrameRunnable
 			return;
 		}
 
+		CreateFrameRunnable.decorate( this.creation );
+	}
+	
+	public static void decorate( JFrame frame )
+	{
 		// Load the KoL frame to the appropriate location
 		// on the screen now that the frame has been packed
 		// to the appropriate size.
 
 		try
 		{
-			if ( this.creation instanceof GenericFrame )
+			if ( frame instanceof GenericFrame )
 			{
-				if ( ( (GenericFrame) this.creation ).useSidePane() )
+				if ( ( (GenericFrame) frame ).useSidePane() )
 				{
-					( (GenericFrame) this.creation ).addCompactPane();
+					( (GenericFrame) frame ).addCompactPane();
 				}
 			}
 			else
@@ -291,10 +302,11 @@ public class CreateFrameRunnable
 				// Set a menu bar for anything that doesn't
 				// extend the KoLmafia frame classes.
 
-				this.creation.setJMenuBar( new GlobalMenuBar() );
+				frame.setJMenuBar( new GlobalMenuBar() );
 			}
 
 			// In the case of OSX, we'll also need a shutdown hook
+
 			boolean isUsingMac = System.getProperty( "os.name" ).startsWith( "Mac" );
 
 			if ( isUsingMac )
@@ -313,7 +325,8 @@ public class CreateFrameRunnable
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, this.creationType.getName() + " could not be loaded" );
+			StaticEntity.printStackTrace( e, frame.getClass().getName() + " could not be loaded" );
 		}
+		
 	}
 }

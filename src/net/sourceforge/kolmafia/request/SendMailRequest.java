@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -56,7 +56,7 @@ public class SendMailRequest
 		this.message = message;
 
 		this.addFormField( "action", "send" );
-		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "towho", ContactManager.getPlayerId( this.recipient ) );
 		this.addFormField( "message", this.message );
 
 		this.isInternal = true;
@@ -71,7 +71,7 @@ public class SendMailRequest
 			"I have opted to let you know that I have chosen to run <" + script.getParser().getScriptName() + ">.  Thanks for writing this script!";
 
 		this.addFormField( "action", "send" );
-		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "towho", ContactManager.getPlayerId( this.recipient ) );
 		this.addFormField( "message", this.message );
 
 		this.isInternal = true;
@@ -85,7 +85,7 @@ public class SendMailRequest
 		this.message = CharacterEntities.unescape( message );
 
 		this.addFormField( "action", "send" );
-		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "towho", ContactManager.getPlayerId( this.recipient ) );
 		this.addFormField( "message", this.message );
 
 		this.isInternal = true;
@@ -100,7 +100,7 @@ public class SendMailRequest
 		this.message = CharacterEntities.unescape( message );
 
 		this.addFormField( "action", "send" );
-		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "towho", ContactManager.getPlayerId( this.recipient ) );
 		this.addFormField( "message", this.message );
 
 		if ( !isInternal )
@@ -128,7 +128,7 @@ public class SendMailRequest
 
 	public String getStatusMessage()
 	{
-		return "Sending kmail to " + KoLmafia.getPlayerName( this.recipient );
+		return "Sending kmail to " + ContactManager.getPlayerName( this.recipient );
 	}
 
 	public String getItemField()

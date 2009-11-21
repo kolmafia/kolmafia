@@ -171,7 +171,7 @@ public abstract class ClanManager
 		while ( whiteListMatcher.find() )
 		{
 			currentName = whiteListMatcher.group( 1 );
-			KoLmafia.registerPlayer( currentName, whiteListMatcher.group( 2 ) );
+			ContactManager.registerPlayerId( currentName, whiteListMatcher.group( 2 ) );
 
 			currentName = currentName.toLowerCase();
 			if ( !ClanManager.currentMembers.contains( currentName ) )
@@ -304,12 +304,12 @@ public abstract class ClanManager
 
 	public static final String getURLName( final String name )
 	{
-		return Preferences.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
+		return Preferences.baseUserName( name ) + "_(%23" + ContactManager.getPlayerId( name ) + ")" + ".htm";
 	}
 
 	public static final String getFileName( final String name )
 	{
-		return Preferences.baseUserName( name ) + "_(#" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
+		return Preferences.baseUserName( name ) + "_(#" + ContactManager.getPlayerId( name ) + ")" + ".htm";
 	}
 
 	private static final void initializeProfile( final String name )
@@ -359,7 +359,7 @@ public abstract class ClanManager
 						KoLConstants.STYLE_PATTERN.matcher(
 							KoLConstants.SCRIPT_PATTERN.matcher( request.responseText ).replaceAll( "" ) ).replaceAll(
 							"" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll(
-					"ascensionhistory.php\\?back=other&who=" + KoLmafia.getPlayerId( name ),
+					"ascensionhistory.php\\?back=other&who=" + ContactManager.getPlayerId( name ),
 					"../ascensions/" + ClanManager.getURLName( name ) );
 
 			ClanManager.profileMap.put( name, data );
@@ -410,7 +410,7 @@ public abstract class ClanManager
 			// Otherwise, run the request and pull the data from the
 			// web server.
 
-			AscensionHistoryRequest request = new AscensionHistoryRequest( name, KoLmafia.getPlayerId( name ) );
+			AscensionHistoryRequest request = new AscensionHistoryRequest( name, ContactManager.getPlayerId( name ) );
 			request.initialize();
 
 			String data =
@@ -458,7 +458,7 @@ public abstract class ClanManager
 
 	public static final void unregisterMember( final String playerId )
 	{
-		String lowercase = KoLmafia.getPlayerName( playerId ).toLowerCase();
+		String lowercase = ContactManager.getPlayerName( playerId ).toLowerCase();
 
 		ClanManager.currentMembers.remove( lowercase );
 		ClanManager.whiteListMembers.remove( lowercase );

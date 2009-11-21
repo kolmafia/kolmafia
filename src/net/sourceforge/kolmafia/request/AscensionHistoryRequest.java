@@ -46,11 +46,11 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -73,7 +73,7 @@ public class AscensionHistoryRequest
 		super( "ascensionhistory.php" );
 
 		this.addFormField( "back", "self" );
-		this.addFormField( "who", KoLmafia.getPlayerId( playerName ) );
+		this.addFormField( "who", ContactManager.getPlayerId( playerName ) );
 
 		this.playerName = playerName;
 		this.playerId = playerId;
@@ -91,7 +91,7 @@ public class AscensionHistoryRequest
 		StringBuffer stringForm = new StringBuffer();
 		stringForm.append( "<tr><td><a href=\"ascensions/" + ClanManager.getURLName( this.playerName ) + "\"><b>" );
 
-		String name = KoLmafia.getPlayerName( this.playerId );
+		String name = ContactManager.getPlayerName( this.playerId );
 		stringForm.append( name.equals( this.playerId ) ? this.playerName : name );
 
 		stringForm.append( "</b></a></td>" );
@@ -444,7 +444,7 @@ public class AscensionHistoryRequest
 		private void setData( final String playerName, final String playerId, final String[] columns )
 		{
 			this.playerId = playerId;
-			this.playerName = KoLmafia.getPlayerName( playerId );
+			this.playerName = ContactManager.getPlayerName( playerId );
 
 			if ( this.playerName.equals( this.playerId ) )
 			{

@@ -36,9 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ContactManager;
 
 public class ContactListRequest
 	extends GenericRequest
@@ -64,16 +62,15 @@ public class ContactListRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
-		KoLConstants.contactList.clear();
 		Matcher listMatcher = ContactListRequest.LIST_PATTERN.matcher( responseText );
+
 		if ( listMatcher.find() )
 		{
 			Matcher entryMatcher = ContactListRequest.ENTRY_PATTERN.matcher( listMatcher.group() );
 			while ( entryMatcher.find() )
 			{
-				KoLmafia.registerContact( entryMatcher.group( 2 ), entryMatcher.group( 1 ) );
+				ContactManager.addMailContact( entryMatcher.group( 2 ), entryMatcher.group( 1 ) );
 			}
 		}
-		Preferences.setString( "retrieveContacts", String.valueOf( !KoLConstants.contactList.isEmpty() ) );
 	}
 }

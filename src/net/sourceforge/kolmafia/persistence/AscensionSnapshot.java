@@ -43,8 +43,8 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest.AscensionDataField;
@@ -93,7 +93,7 @@ public class AscensionSnapshot
 
 	public static final void unregisterMember( final String playerId )
 	{
-		String lowerCaseName = KoLmafia.getPlayerName( playerId ).toLowerCase();
+		String lowerCaseName = ContactManager.getPlayerName( playerId ).toLowerCase();
 		AscensionSnapshot.ascensionMap.remove( lowerCaseName );
 	}
 
@@ -435,7 +435,7 @@ public class AscensionSnapshot
 		{
 			request =
 				AscensionHistoryRequest.getInstance(
-					names[ i ], KoLmafia.getPlayerId( names[ i ] ),
+					names[ i ], ContactManager.getPlayerId( names[ i ] ),
 					(String) AscensionSnapshot.ascensionMap.get( names[ i ] ) );
 			AscensionSnapshot.ascensionDataList.add( request );
 

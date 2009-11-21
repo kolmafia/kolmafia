@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
@@ -181,7 +182,7 @@ public class ProfileSnapshot
 	private static final ProfileRequest getProfile( final String name )
 	{
 		return ProfileRequest.getInstance(
-			name, KoLmafia.getPlayerId( name ), (String) ProfileSnapshot.levelMap.get( name ),
+			name, ContactManager.getPlayerId( name ), (String) ProfileSnapshot.levelMap.get( name ),
 			(String) ProfileSnapshot.profileMap.get( name ), (String) ProfileSnapshot.rosterMap.get( name ) );
 	}
 
@@ -368,7 +369,7 @@ public class ProfileSnapshot
 			strbuf.append( "\">" );
 		}
 
-		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerId( memberName ) ) );
+		strbuf.append( ContactManager.getPlayerName( ContactManager.getPlayerId( memberName ) ) );
 
 		if ( localProfileLink )
 		{
@@ -412,7 +413,7 @@ public class ProfileSnapshot
 
 		AscensionHistoryRequest request =
 			AscensionHistoryRequest.getInstance(
-				memberName, KoLmafia.getPlayerId( memberName ), (String) AscensionSnapshot.getAscensionMap().get(
+				memberName, ContactManager.getPlayerId( memberName ), (String) AscensionSnapshot.getAscensionMap().get(
 					memberName ) );
 
 		List ascensions = request.getAscensionData();
@@ -558,7 +559,7 @@ public class ProfileSnapshot
 			strbuf.append( "\">" );
 		}
 
-		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerId( memberName ) ) );
+		strbuf.append( ContactManager.getPlayerName( ContactManager.getPlayerId( memberName ) ) );
 
 		if ( localProfileLink )
 		{
@@ -675,7 +676,7 @@ public class ProfileSnapshot
 			strbuf.append( "\">" );
 		}
 
-		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerId( memberName ) ) );
+		strbuf.append( ContactManager.getPlayerName( ContactManager.getPlayerId( memberName ) ) );
 
 		if ( localProfileLink )
 		{

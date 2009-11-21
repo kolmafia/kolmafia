@@ -31,42 +31,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.request;
+package net.sourceforge.kolmafia.utilities;
 
-import net.sourceforge.kolmafia.KoLCharacter;
+import java.util.LinkedList;
 
-public class ChatRequest
-	extends GenericRequest
+public class RollingLinkedList
+	extends LinkedList
 {
-	/**
-	 * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP file to indicate
-	 * where you left off. Note that this constructor is only available to the <code>ChatRequest</code>; this is done
-	 * because only the <code>ChatRequest</code> knows what the appropriate value should be.
-	 */
+	private int limit;
 
-	public ChatRequest( final long lastSeen )
+	public RollingLinkedList( int limit )
 	{
-		super( "newchatmessages.php" );
-
-		this.addFormField( "lasttime", String.valueOf( lastSeen ) );
+		this.limit = limit;
 	}
 
-	/**
-	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
-	 * 
-	 * @param message The message to be sent
-	 */
-
-	public ChatRequest( final String graf )
+	public boolean add( Object o )
 	{
-		super( "submitnewchat.php" );
+		if ( size() == this.limit )
+		{
+			this.removeFirst();
+		}
 
-		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		this.addFormField( "graf", graf );
-	}
-
-	protected boolean retryOnTimeout()
-	{
+		super.addLast( o );
 		return true;
 	}
 }

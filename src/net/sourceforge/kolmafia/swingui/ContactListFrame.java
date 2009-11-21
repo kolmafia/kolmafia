@@ -44,33 +44,40 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
-import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class ContactListFrame
 	extends GenericFrame
 {
-	private final SortedListModel contacts;
+	private SortedListModel contacts;
 	private JList contactsDisplay;
 
 	public ContactListFrame()
 	{
-		this( KoLConstants.contactList );
+		this( (SortedListModel) ContactManager.getMailContacts().clone() );
 	}
 
 	public ContactListFrame( final SortedListModel contacts )
 	{
 		super( "Contact List" );
+
 		this.contacts = contacts;
 
+		this.contactsDisplay = new JList( contacts );
+		this.contactsDisplay.setVisibleRowCount( 25 );
+		this.contactsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+
+		ContactListFrame.this.contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
+
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( new ContactListPanel(), "" );
+		this.framePanel.add( new ContactListPanel( this.contactsDisplay ), "" );
 
 		JToolBar toolbarPanel = this.getToolbar();
 		if ( toolbarPanel != null )
@@ -160,16 +167,10 @@ public class ContactListFrame
 	private class ContactListPanel
 		extends JPanel
 	{
-		public ContactListPanel()
+		public ContactListPanel( JList contactsDisplay )
 		{
 			this.setLayout( new GridLayout( 1, 1 ) );
-			ContactListFrame.this.contactsDisplay = new JList( ContactListFrame.this.contacts );
-
-			ContactListFrame.this.contactsDisplay.setVisibleRowCount( 25 );
-			ContactListFrame.this.contactsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-
-			ContactListFrame.this.contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
-			this.add( new GenericScrollPane( ContactListFrame.this.contactsDisplay ) );
+			this.add( new GenericScrollPane( contactsDisplay ) );
 		}
 	}
 
@@ -180,8 +181,8 @@ public class ContactListFrame
 		{
 			JList list = (JList) e.getSource();
 
-			// The only event handled by the adapter is a float-click;
-			// when a float-click is detected, a new ChatFrame is created
+			// The only event handled by the adapter is a double-click;
+			// when a double-click is detected, a new ChatFrame is created
 			// for the specified player.
 
 			if ( e.getClickCount() == 2 )
@@ -190,7 +191,7 @@ public class ContactListFrame
 
 				if ( index >= 0 && index < ContactListFrame.this.contacts.size() )
 				{
-					ChatManager.openInstantMessage( (String) ContactListFrame.this.contacts.get( index ), true );
+					ChatManager.openWindow( (String) ContactListFrame.this.contacts.get( index ) );
 				}
 			}
 		}

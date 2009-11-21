@@ -34,14 +34,12 @@
 package net.sourceforge.kolmafia;
 
 import javax.swing.SwingUtilities;
-
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
-
-import net.sourceforge.kolmafia.session.ChatManager;
-import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
-
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.EventMessage;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public abstract class RequestThread
 {
@@ -223,7 +221,8 @@ public abstract class RequestThread
 	public static final void declareWorldPeace()
 	{
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "KoLmafia declares world peace." );
-		ChatManager.broadcastMessage( "<font color=red>KoLmafia declares world peace.</font><br>" );
+		EventMessage message = new EventMessage( "KoLmafia declares world peace.", "red" );
+		ChatManager.broadcastEvent( message );
 	}
 
 	private static class RunnableWrapper

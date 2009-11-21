@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -187,7 +188,7 @@ public class PvpRequest
 
 		while ( playerMatcher.find() )
 		{
-			KoLmafia.registerPlayer( playerMatcher.group( 2 ), playerMatcher.group( 1 ) );
+			ContactManager.registerPlayerId( playerMatcher.group( 2 ), playerMatcher.group( 1 ) );
 			PvpRequest.searchResults.add( new ProfileRequest( playerMatcher.group( 2 ) ) );
 		}
 	}
@@ -204,7 +205,7 @@ public class PvpRequest
 
 		while ( playerMatcher.find() )
 		{
-			KoLmafia.registerPlayer( playerMatcher.group( 2 ), playerMatcher.group( 1 ) );
+			ContactManager.registerPlayerId( playerMatcher.group( 2 ), playerMatcher.group( 1 ) );
 			currentPlayer =
 				ProfileRequest.getInstance(
 					playerMatcher.group( 2 ), playerMatcher.group( 1 ), playerMatcher.group( 4 ),

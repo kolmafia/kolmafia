@@ -53,10 +53,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
@@ -98,7 +98,7 @@ public class SendMessageFrame
 
 		// Who you want to send it to.
 
-		this.contacts = (LockableListModel) KoLConstants.contactList.clone();
+		this.contacts = (LockableListModel) ContactManager.getMailContacts();
 		this.recipientEntry = new AutoFilterComboBox( this.contacts, true );
 
 		// How much you want to attach, in raw terms.
@@ -182,7 +182,7 @@ public class SendMessageFrame
 
 		if ( !this.contacts.contains( recipient ) )
 		{
-			recipient = KoLmafia.getPlayerName( recipient );
+			recipient = ContactManager.getPlayerName( recipient );
 			this.contacts.add( 0, recipient );
 		}
 
