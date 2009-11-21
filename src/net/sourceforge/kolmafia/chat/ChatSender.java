@@ -309,7 +309,7 @@ public class ChatSender
 		return true;
 	}
 
-	public static void executeAjaxCommand( String responseText )
+	private static void executeAjaxCommand( String responseText )
 	{
 		Matcher dojax = ChatSender.DOJAX_PATTERN.matcher( responseText );
 
