@@ -372,7 +372,6 @@ public class EquipmentRequest
 		super( "inv_equip.php" );
 
 		this.addFormField( "which", "2" );
-		this.addFormField( "ajax", "1" );
 		this.addFormField( "action", "outfit" );
 		this.addFormField( "whichoutfit", String.valueOf( change.getOutfitId() ) );
 
@@ -1550,12 +1549,8 @@ public class EquipmentRequest
 			// We changed into an outfit.
 
 			// Since we don't actually know where accessories end
-			// up, we could ask KoL for an update.
-
-			// RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
-			// return;
-
-			// ...but we'll apply heuristics and hope for the best.
+			// up, we could ask KoL for an update, but we'll apply
+			// heuristics and hope for the best.
 
 			AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
 			AdventureResult[] newEquipment = EquipmentManager.currentEquipment();
