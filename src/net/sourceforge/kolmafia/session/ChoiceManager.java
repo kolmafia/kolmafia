@@ -2383,6 +2383,8 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 &&
 				text.indexOf( "anaesthetizes you" ) != -1 )
 			{
+				Preferences.increment( "sexChanges", 1 );
+				Preferences.setBoolean( "_sexChanged", true );
 				KoLCharacter.setGender( text.indexOf( "in more ways than one" ) != -1 ?
 					KoLCharacter.FEMALE : KoLCharacter.MALE );
 				ConcoctionDatabase.refreshConcoctions();
