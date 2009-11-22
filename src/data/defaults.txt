@@ -459,6 +459,7 @@ user	semirareCounter	0
 user	semirareLocation
 user	serverAddsCustomCombat	false
 user	setAutoAttack	true
+user	sexChanges	0
 user	showGainsPerUnit	false
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none
@@ -522,6 +523,7 @@ user	_gongDrops	0
 user	_hotTubSoaks	0
 user	_navelRunaways	0
 user	_sealsSummoned	0
+user	_sexChanged	false
 user	_skateBuff1	false
 user	_skateBuff2	false
 user	_skateBuff3	false
