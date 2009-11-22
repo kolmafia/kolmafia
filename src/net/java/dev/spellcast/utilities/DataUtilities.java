@@ -35,6 +35,7 @@
 package net.java.dev.spellcast.utilities;
 
 import java.awt.Color;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -46,8 +47,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.util.Arrays;
 
 /**
@@ -59,55 +62,54 @@ import java.util.Arrays;
 
 public class DataUtilities
 {
-	private static final String [] EMPTY_STRING_ARRAY = new String[0];
-	private static final File [] EMPTY_FILE_ARRAY = new File[0];
+	private static final String[] EMPTY_STRING_ARRAY = new String[ 0 ];
+	private static final File[] EMPTY_FILE_ARRAY = new File[ 0 ];
 
 	private static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
 	{
-		public boolean accept( File dir, String name )
+		public boolean accept( final File dir, final String name )
 		{
 			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) && name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf(
 				"datamaps" ) == -1;
 		}
 	};
 
-	public static String [] list( File directory )
+	public static String[] list( final File directory )
 	{
 		if ( !directory.exists() || !directory.isDirectory() )
 		{
-			return EMPTY_STRING_ARRAY;
+			return DataUtilities.EMPTY_STRING_ARRAY;
 		}
 
-		String [] result = directory.list( BACKUP_FILTER );
+		String[] result = directory.list( DataUtilities.BACKUP_FILTER );
 		Arrays.sort( result );
 		return result;
 	}
 
-	public static File [] listFiles( File directory )
+	public static File[] listFiles( final File directory )
 	{
 		if ( !directory.exists() || !directory.isDirectory() )
 		{
-			return EMPTY_FILE_ARRAY;
+			return DataUtilities.EMPTY_FILE_ARRAY;
 		}
 
-		File [] result = directory.listFiles( BACKUP_FILTER );
+		File[] result = directory.listFiles( DataUtilities.BACKUP_FILTER );
 		Arrays.sort( result );
 		return result;
 	}
-
 
 	/**
 	 * A public function used to retrieve the reader for a file. Allows the referencing of files contained within a JAR,
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
 	 * as listed, in reverse order. Note that rather than throwing an exception should the file not be successfully
 	 * found, this function will instead print out an error message and simply return null.
-	 *
+	 * 
 	 * @param file the file to be retrieved
 	 */
 
 	public static BufferedReader getReader( final File file )
 	{
-		return DataUtilities.getReader( getInputStream( file ) );
+		return DataUtilities.getReader( DataUtilities.getInputStream( file ) );
 	}
 
 	/**
@@ -115,7 +117,7 @@ public class DataUtilities
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
 	 * as listed, in reverse order. Note that rather than throwing an exception should the file not be successfully
 	 * found, this function will instead print out an error message and simply return null.
-	 *
+	 * 
 	 * @param directory the subdirectory of the file
 	 * @param filename the name of the file to be retrieved
 	 */
@@ -131,13 +133,12 @@ public class DataUtilities
 		{
 			if ( filename.startsWith( "http://" ) )
 			{
-				HttpURLConnection connection =
-					(HttpURLConnection) new URL( null, filename ).openConnection();
+				HttpURLConnection connection = (HttpURLConnection) new URL( null, filename ).openConnection();
 				InputStream istream = connection.getInputStream();
 
 				if ( connection.getResponseCode() != 200 )
 				{
-					return DataUtilities.getReader( EMPTY_STREAM );
+					return DataUtilities.getReader( DataUtilities.EMPTY_STREAM );
 				}
 
 				return DataUtilities.getReader( istream, connection.getContentEncoding() );
@@ -145,7 +146,7 @@ public class DataUtilities
 		}
 		catch ( IOException e )
 		{
-			return DataUtilities.getReader( EMPTY_STREAM );
+			return DataUtilities.getReader( DataUtilities.EMPTY_STREAM );
 		}
 
 		return DataUtilities.getReader( DataUtilities.getInputStream( directory, filename, allowOverride ) );
@@ -160,7 +161,7 @@ public class DataUtilities
 	{
 		if ( istream == null )
 		{
-			return DataUtilities.getReader( EMPTY_STREAM );
+			return DataUtilities.getReader( DataUtilities.EMPTY_STREAM );
 		}
 
 		InputStreamReader reader = null;
@@ -184,7 +185,7 @@ public class DataUtilities
 		return new BufferedReader( reader );
 	}
 
-	public static InputStream getInputStream( File file )
+	public static InputStream getInputStream( final File file )
 	{
 		File parent = file.getParentFile();
 
@@ -206,7 +207,7 @@ public class DataUtilities
 		{
 			e.printStackTrace();
 
-			return EMPTY_STREAM;
+			return DataUtilities.EMPTY_STREAM;
 		}
 	}
 
@@ -214,7 +215,7 @@ public class DataUtilities
 	 * A public function used to retrieve the input stream, given a filename. Allows referencing images within a JAR,
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
 	 * as listed, in reverse order.
-	 *
+	 * 
 	 * @param directory the subtree in which the file can be found
 	 * @param filename the name of the file to be retrieved
 	 */
@@ -269,7 +270,7 @@ public class DataUtilities
 		}
 
 		// if it's gotten this far, the file does not exist
-		return EMPTY_STREAM;
+		return DataUtilities.EMPTY_STREAM;
 	}
 
 	private static InputStream getInputStream( final ClassLoader loader, final String filename )
@@ -277,17 +278,17 @@ public class DataUtilities
 		return loader.getResourceAsStream( filename );
 	}
 
-	public static OutputStream getOutputStream( String filename )
+	public static OutputStream getOutputStream( final String filename )
 	{
-		return getOutputStream( new File( filename ) );
+		return DataUtilities.getOutputStream( new File( filename ) );
 	}
 
-	public static OutputStream getOutputStream( File file )
+	public static OutputStream getOutputStream( final File file )
 	{
-		return getOutputStream( file, false );
+		return DataUtilities.getOutputStream( file, false );
 	}
 
-	public static OutputStream getOutputStream( File file, boolean shouldAppend )
+	public static OutputStream getOutputStream( final File file, final boolean shouldAppend )
 	{
 		File directory = file.getParentFile();
 
@@ -296,24 +297,14 @@ public class DataUtilities
 			directory.mkdirs();
 		}
 
-		if ( !shouldAppend && file.exists() )
-		{
-			file.delete();
-		}
-
 		try
 		{
-			if ( !file.exists() )
-			{
-				file.createNewFile();
-			}
-
 			return new FileOutputStream( file, shouldAppend );
 		}
 		catch ( Exception e )
 		{
 			e.printStackTrace();
-			return MEMORY_OUTPUT_STREAM;
+			return DataUtilities.MEMORY_OUTPUT_STREAM;
 		}
 	}
 
@@ -321,7 +312,7 @@ public class DataUtilities
 	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
 	 * hexadecimal strings. This function is used to create that hexadecimal string from a color object. Note that the
 	 * traditional pound symbol will also be part of the string.
-	 *
+	 * 
 	 * @param c The color to be translated to a hexadecimal string.
 	 * @return The hexadecimal string representation of the color
 	 */
@@ -343,7 +334,7 @@ public class DataUtilities
 	/**
 	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
 	 * hexadecimal strings. This function is used to create a color object from such a hexadecimal string.
-	 *
+	 * 
 	 * @param hexString The hexadecimal string (with # prefix) to be translated to a color
 	 * @return The color represented by this hexadecimal string
 	 */
@@ -362,7 +353,7 @@ public class DataUtilities
 	 * the purpose of this function is to convert a given long to a zero-filled hexadecimal string of given length.
 	 * Note, however, that negative values and values which cannot be represented with the given number of hexadecimal
 	 * digits will cause an exception to be thrown.
-	 *
+	 * 
 	 * @param value The value to convert to hexadecimal
 	 * @param digitCount The number of digits to use
 	 * @return The hexadecimal string representation of the given value, set to the given length
@@ -394,9 +385,9 @@ public class DataUtilities
 	/**
 	 * A method to convert a given text string to its HTML equivalent. This method is used primarily by the
 	 * <code>ChatBuffer</code> component to translate the plain text values returned by the
-	 * <code>getChatDisplayForm()</code> to values that can be displayed in a <code>JEditorPane</code> set to
-	 * display HTML.
-	 *
+	 * <code>getChatDisplayForm()</code> to values that can be displayed in a <code>JEditorPane</code> set to display
+	 * HTML.
+	 * 
 	 * @param plainText The plain text to be converted to HTML
 	 * @return The HTML representation of the plain text.
 	 */
@@ -420,6 +411,6 @@ public class DataUtilities
 		return html;
 	}
 
-	private static ByteArrayInputStream EMPTY_STREAM = new ByteArrayInputStream( new byte[0] );
+	private static ByteArrayInputStream EMPTY_STREAM = new ByteArrayInputStream( new byte[ 0 ] );
 	private static ByteArrayOutputStream MEMORY_OUTPUT_STREAM = new ByteArrayOutputStream();
 }
