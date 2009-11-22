@@ -1275,7 +1275,9 @@ public class RelayRequest
 	
 			List chatMessages = ChatPoller.getEntries( lastSeen, false );
 			Iterator messageIterator = chatMessages.iterator();
-	
+
+			boolean needsLineBreak = false;
+			
 			while ( messageIterator.hasNext() )
 			{
 				HistoryEntry chatMessage = (HistoryEntry) messageIterator.next();
@@ -1284,11 +1286,13 @@ public class RelayRequest
 				
 				if ( content != null && content.length() > 0 )
 				{
-					if ( chatResponse.length() > 0 )
+					if ( needsLineBreak )
 					{
 						chatResponse.append( "<br>" );
 					}
 		
+					needsLineBreak = !content.endsWith( "<br>" ) && !content.endsWith( "<br/>" );
+					
 					chatResponse.append( content );
 				}
 	
