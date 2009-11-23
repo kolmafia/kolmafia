@@ -239,7 +239,21 @@ public class ChatParser
 
 		if ( line.startsWith( "[" ) )
 		{
-			ChatParser.parseChannelMessage( chatMessages, line );
+			String channel = "/" + line.substring( 1, line.indexOf( "]" ) );
+			String content = line.substring( channel.length() + 2 );
+
+			ChatParser.parseChannelMessage( chatMessages, channel, content );
+			return;
+		}
+
+		Matcher senderMatcher = ChatParser.SENDER_PATTERN.matcher( line );
+
+		if ( senderMatcher.lookingAt() )
+		{
+			String channel = ChatManager.getCurrentChannel();
+			String content = line;
+
+			ChatParser.parseChannelMessage( chatMessages, channel, content );
 			return;
 		}
 
@@ -259,11 +273,8 @@ public class ChatParser
 		chatMessages.add( message );
 	}
 
-	private static void parseChannelMessage( final List chatMessages, final String line )
+	private static void parseChannelMessage( final List chatMessages, final String channel, String content )
 	{
-		String channel = "/" + line.substring( 1, line.indexOf( "]" ) );
-		String content = line.substring( channel.length() + 2 );
-
 		// If the message is coming from a listen channel, you
 		// need to place it in that channel.  Otherwise, place
 		// it in the current channel.
@@ -284,7 +295,7 @@ public class ChatParser
 
 		if ( !senderMatcher.lookingAt() )
 		{
-			System.out.println( "could not parse: " + line );
+			System.out.println( "could not parse: " + content );
 			return;
 		}
 
