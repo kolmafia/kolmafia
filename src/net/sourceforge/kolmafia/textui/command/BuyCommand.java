@@ -77,7 +77,7 @@ public class BuyCommand
 
 			if ( !KoLCharacter.canInteract() && !NPCStoreDatabase.contains( match.getName() ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are not yet out of ronin." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are not yet out of ronin, and are unable to buy this item from a NPC store." );
 				return;
 			}
 

@@ -1951,7 +1951,7 @@
 1945	136822028	chintzy disco ball pendant	chintzy disco ball pendants
 1946	552567580	chintzy accordion pin	chintzy accordion pins
 1947	929527016	worn tophat	worn tophats
-1948	483324925	tap shoes	tap shoess
+1948	483324925	tap shoes	pairs of tap shoes
 1949	839676801	Manetwich	Manetwiches
 1950	661099835	bottle of Vangoghbitussin	bottles of Vangoghbitussin
 1951	748561116	bottle of Pinot Renoir	bottles of Pinot Renoir
