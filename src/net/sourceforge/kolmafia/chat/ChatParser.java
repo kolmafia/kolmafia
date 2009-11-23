@@ -285,7 +285,7 @@ public class ChatParser
 			content = content.substring( 0, content.length() - 4 );
 		}
 
-		Matcher senderMatcher = ChatParser.SENDER_PATTERN.matcher( line );
+		Matcher senderMatcher = ChatParser.SENDER_PATTERN.matcher( content );
 
 		if ( !senderMatcher.lookingAt() )
 		{
