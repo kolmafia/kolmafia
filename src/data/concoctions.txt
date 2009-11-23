@@ -276,7 +276,7 @@ pie crust	COOK	Gnollish pie tin	wad of dough
 plain pizza	COOK	wad of dough	tomato
 plain pizza	COOK	flat dough	tomato
 rocky road ice cream	COOK	glass of goat's milk	floaty gravel
-rocky road ice cream	COOK	glass of baboon's milk	floaty gravel
+rocky road ice cream	COOK	glass of baboon milk	floaty gravel
 sausage pizza	COOK	plain pizza	Knob sausage
 spicy bean burrito	COOK	bean burrito	spices
 spicy enchanted bean burrito	COOK	enchanted bean burrito	spices
@@ -697,7 +697,7 @@ frigid-ass club	WSMITH	bad-ass club	frost-rimed seal hide
 hot-ass club	WSMITH	bad-ass club	sizzling seal fat
 nasty-ass club	WSMITH	bad-ass club	fustulent seal grulch
 
-soup-chucks	WSMITH	soup turtle	soup turtle
+soup-chucks	SMITH	soup turtle	soup turtle
 
 rainbow bomb	COMBINE	stick of dynamite	prismatic wad
 
