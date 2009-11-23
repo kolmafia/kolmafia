@@ -237,23 +237,8 @@ public class ChatParser
 			return;
 		}
 
-		if ( line.startsWith( "[" ) )
+		if ( ChatParser.parseChannelMessage( chatMessages, line ) )
 		{
-			String channel = "/" + line.substring( 1, line.indexOf( "]" ) );
-			String content = line.substring( channel.length() + 2 );
-
-			ChatParser.parseChannelMessage( chatMessages, channel, content );
-			return;
-		}
-
-		Matcher senderMatcher = ChatParser.SENDER_PATTERN.matcher( line );
-
-		if ( senderMatcher.lookingAt() )
-		{
-			String channel = ChatManager.getCurrentChannel();
-			String content = line;
-
-			ChatParser.parseChannelMessage( chatMessages, channel, content );
 			return;
 		}
 
@@ -273,11 +258,20 @@ public class ChatParser
 		chatMessages.add( message );
 	}
 
-	private static void parseChannelMessage( final List chatMessages, final String channel, String content )
+	private static boolean parseChannelMessage( final List chatMessages, final String line )
 	{
-		// If the message is coming from a listen channel, you
-		// need to place it in that channel.  Otherwise, place
-		// it in the current channel.
+		String channel = null;
+		String content = line;
+
+		if ( line.startsWith( "[" ) )
+		{
+			channel = "/" + line.substring( 1, line.indexOf( "]" ) );
+			content = line.substring( channel.length() + 2 );
+		}
+		else
+		{
+			channel = ChatManager.getCurrentChannel();
+		}
 
 		boolean isAction = false;
 
@@ -291,12 +285,11 @@ public class ChatParser
 			content = content.substring( 0, content.length() - 4 );
 		}
 
-		Matcher senderMatcher = ChatParser.SENDER_PATTERN.matcher( content );
+		Matcher senderMatcher = ChatParser.SENDER_PATTERN.matcher( line );
 
 		if ( !senderMatcher.lookingAt() )
 		{
-			System.out.println( "could not parse: " + content );
-			return;
+			return false;
 		}
 
 		String playerId = senderMatcher.group( 1 );
@@ -308,6 +301,8 @@ public class ChatParser
 
 		ChatMessage message = new ChatMessage( playerName, channel, content, isAction );
 		chatMessages.add( message );
+
+		return true;
 	}
 
 	private static void parsePrivateReceiveMessage( final List chatMessages, final String line )
