@@ -139,22 +139,7 @@ public abstract class ChatManager
 
 	public static final void dispose()
 	{
-		if ( !ChatManager.isRunning )
-		{
-			return;
-		}
-
 		ChatManager.isRunning = false;
-
-		ChatSender.sendMessage( null, "/exit", true );
-		ChatManager.currentChannel = null;
-		ChatManager.activeChannels.clear();
-
-		if ( ChatManager.tabbedFrame != null )
-		{
-			ChatManager.tabbedFrame.dispose();
-			ChatManager.tabbedFrame = null;
-		}
 	}
 
 	public static final boolean isRunning()
