@@ -133,8 +133,8 @@ public class ChatParser
 		{
 			String currentChannel = ChatManager.getCurrentChannel();
 
-			chatMessages.add( new DisableMessage( currentChannel, true ) );
 			chatMessages.add( new EnableMessage( channel, true ) );
+			chatMessages.add( new DisableMessage( currentChannel, true ) );
 		}
 	}
 
@@ -149,11 +149,7 @@ public class ChatParser
 
 		if ( content.indexOf( "You are now talking in channel: " ) != -1 )
 		{
-			String currentChannel = ChatManager.getCurrentChannel();
-
-			chatMessages.add( new DisableMessage( currentChannel, true ) );
 			chatMessages.add( new EnableMessage( channel, true ) );
-			chatMessages.add( new EnableMessage( currentChannel, false ) );
 		}
 	}
 
