@@ -167,16 +167,15 @@ public abstract class ChatManager
 		return ChatManager.currentChannel;
 	}
 
-	public static final StyledChatBuffer getBuffer( final String contact )
+	public static final StyledChatBuffer getBuffer( final String bufferKey )
 	{
-		String bufferKey = ChatManager.getBufferKey( contact );
 		StyledChatBuffer buffer = (StyledChatBuffer) ChatManager.instantMessageBuffers.get( bufferKey );
 
 		if ( buffer == null )
 		{
 			buffer = new StyledChatBuffer( bufferKey, true );
 
-			if ( Preferences.getBoolean( "logChatMessages" ) && !contact.startsWith( "[" ) )
+			if ( Preferences.getBoolean( "logChatMessages" ) )
 			{
 				String fileSuffix = bufferKey;
 
@@ -250,15 +249,21 @@ public abstract class ChatManager
 			}
 		}
 
-		String bufferKey;
+		String destination = recipient;
 
 		if ( KoLCharacter.getUserName().equals( recipient ) )
 		{
-			bufferKey = ChatManager.getBufferKey( sender );
+			destination = sender;
 		}
-		else
+
+		String bufferKey = destination.toLowerCase();
+
+		if ( Preferences.getBoolean( "mergeHobopolisChat" ) )
 		{
-			bufferKey = ChatManager.getBufferKey( recipient );
+			if ( destination.equals( "/hobopolis" ) || destination.equals( "/slimetube" ) )
+			{
+				bufferKey = "/clan";
+			}
 		}
 
 		ChatManager.openWindow( bufferKey );
@@ -308,7 +313,7 @@ public abstract class ChatManager
 			ChatManager.currentChannel = sender;
 		}
 	}
-	
+
 	public static final void processChannelDisable( final DisableMessage message )
 	{
 		String sender = message.getSender();
@@ -317,11 +322,6 @@ public abstract class ChatManager
 		{
 			ChatManager.activeChannels.remove( sender );
 			ChatManager.closeWindow( sender );
-		}
-
-		if ( message.isTalkChannel() )
-		{
-			ChatManager.currentChannel = null;
 		}
 	}
 
@@ -421,25 +421,11 @@ public abstract class ChatManager
 	{
 		String displayHTML = ChatFormatter.formatChatMessage( message );
 
-		String[] broadcast = new String[ ChatManager.instantMessageBuffers.size() ];
-		ChatManager.instantMessageBuffers.keySet().toArray( broadcast );
+		Object[] buffers = ChatManager.instantMessageBuffers.values().toArray();
 
-		String bufferKey;
-		StyledChatBuffer buffer;
-
-		ArrayList keysUsed = new ArrayList();
-
-		for ( int i = 0; i < broadcast.length; ++i )
+		for ( int i = 0; i < buffers.length; ++i )
 		{
-			bufferKey = ChatManager.getBufferKey( broadcast[ i ] );
-
-			if ( keysUsed.contains( bufferKey ) )
-			{
-				continue;
-			}
-
-			keysUsed.add( bufferKey );
-			buffer = ChatManager.getBuffer( bufferKey );
+			StyledChatBuffer buffer = (StyledChatBuffer) buffers[ i ];
 
 			buffer.append( displayHTML );
 		}
@@ -500,41 +486,13 @@ public abstract class ChatManager
 
 	public static void applyHighlights()
 	{
-		Object[] keys = ChatManager.instantMessageBuffers.keySet().toArray();
+		Object[] buffers = ChatManager.instantMessageBuffers.values().toArray();
 
-		for ( int i = 0; i < keys.length; ++i )
+		for ( int i = 0; i < buffers.length; ++i )
 		{
-			if ( !keys[ i ].equals( "[high]" ) )
-			{
-				ChatManager.getBuffer( (String) keys[ i ] ).applyHighlights();
-			}
+			StyledChatBuffer buffer = (StyledChatBuffer) buffers[ i ];
+
+			buffer.applyHighlights();
 		}
-	}
-
-	private static final String getBufferKey( final String contact )
-	{
-		if ( contact == null )
-		{
-			return ChatManager.currentChannel;
-		}
-
-		if ( contact.startsWith( "[" ) )
-		{
-			return contact;
-		}
-
-		String contactName = contact.toLowerCase();
-
-		if ( Preferences.getBoolean( "mergeHobopolisChat" ) && ChatManager.isDungeonChannel( contactName ) )
-		{
-			return "/clan";
-		}
-
-		return contactName;
-	}
-
-	private static final boolean isDungeonChannel( final String contactName )
-	{
-		return contactName.equals( "/hobopolis" ) || contactName.equals( "/slimetube" );
 	}
 }

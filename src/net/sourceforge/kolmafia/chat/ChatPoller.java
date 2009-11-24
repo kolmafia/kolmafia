@@ -51,20 +51,18 @@ public class ChatPoller
 
 	private static long localLastSeen = 0;
 	private static long serverLastSeen = 0;
-	
+
 	private static final int CHAT_DELAY = 8000;
 
 	private static String rightClickMenu = "";
-	
+
 	public void run()
 	{
 		ChatPoller.localLastSeen = 0;
 		ChatPoller.serverLastSeen = 0;
 		ChatPoller.chatHistoryEntries.clear();
-		
-		long lastSeen = 0;
 
-		ChatSender.sendMessage( null, "/listen", true );
+		long lastSeen = 0;
 
 		PauseObject pauser = new PauseObject();
 
@@ -86,49 +84,54 @@ public class ChatPoller
 
 	public synchronized static List getEntries( final long lastSeen, final boolean isInternal )
 	{
+		if ( ChatManager.getCurrentChannel() == null )
+		{
+			ChatSender.sendMessage( null, "/listen", true );
+		}
+
 		List newEntries = new ArrayList();
-	
+
 		Iterator entryIterator = ChatPoller.chatHistoryEntries.iterator();
-	
+
 		while ( entryIterator.hasNext() )
 		{
 			HistoryEntry entry = (HistoryEntry) entryIterator.next();
-	
+
 			if ( lastSeen == 0 || entry.getLocalLastSeen() > lastSeen )
 			{
 				newEntries.add( entry );
-	
+
 				while ( entryIterator.hasNext() )
 				{
 					entry = (HistoryEntry) entryIterator.next();
-	
+
 					newEntries.add( entry );
 				}
 			}
 		}
-	
+
 		if ( !newEntries.isEmpty() )
 		{
 			return newEntries;
 		}
-	
+
 		ChatRequest request = null;
-		
+
 		do
 		{
 			request = new ChatRequest( ChatPoller.serverLastSeen );
 			request.run();
 		}
 		while ( request.responseText == null );
-	
+
 		HistoryEntry entry = new HistoryEntry( request.responseText, isInternal, ++ChatPoller.localLastSeen );
 		ChatPoller.serverLastSeen = entry.getServerLastSeen();
-		
+
 		newEntries.add( entry );
-	
+
 		ChatPoller.chatHistoryEntries.add( entry );
 		ChatManager.processMessages( entry.getChatMessages(), isInternal );
-	
+
 		return newEntries;
 	}
 
