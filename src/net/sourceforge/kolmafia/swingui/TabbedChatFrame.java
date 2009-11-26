@@ -33,23 +33,17 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import com.sun.java.forums.CloseableTabbedPane;
+import com.sun.java.forums.CloseableTabbedPaneListener;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
 import tab.CloseTabbedPane;
-
-import com.sun.java.forums.CloseableTabbedPane;
-import com.sun.java.forums.CloseableTabbedPaneListener;
-
-
-import net.sourceforge.kolmafia.chat.ChatManager;
-import net.sourceforge.kolmafia.chat.ChatSender;
-import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class TabbedChatFrame
 	extends ChatFrame
@@ -169,11 +163,6 @@ public class TabbedChatFrame
 	public void dispose()
 	{
 		ChatManager.dispose();
-
-		for ( int i = this.tabs.getTabCount() - 1; i >= 0; --i )
-		{
-			this.closeOperation( null, i );
-		}
 
 		super.dispose();
 	}
