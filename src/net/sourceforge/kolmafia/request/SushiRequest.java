@@ -309,6 +309,35 @@ public class SushiRequest
 		return name;
 	}
 
+	private static final String sushiName( final String urlString )
+	{
+		Matcher matcher = SushiRequest.SUSHI_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return null;
+		}
+
+		int id = StringUtilities.parseInt( matcher.group( 1 ) );
+		int topping = 0;
+		int filling1 = 0;
+
+		matcher = SushiRequest.TOPPING_PATTERN.matcher( urlString );
+
+		if ( matcher.find() )
+		{
+			topping = StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+
+		matcher = SushiRequest.FILLING1_PATTERN.matcher( urlString );
+
+		if ( matcher.find() )
+		{
+			filling1 = StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+
+		return SushiRequest.sushiName( id, topping, filling1 );
+	}
+
 	public SushiRequest( Concoction conc )
 	{
 		super( "sushi.php", conc );
@@ -385,13 +414,11 @@ public class SushiRequest
 			return;
 		}
 
-		Matcher m = CONSUME_PATTERN.matcher( responseText );
-		if ( !m.find() )
+		String name = SushiRequest.sushiName( location );
+		if ( name == null )
 		{
 			return;
 		}
-
-		String name = m.group(1);
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( name );
 		for ( int i = 0; i < ingredients.length; ++i )
@@ -410,31 +437,16 @@ public class SushiRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher matcher = SushiRequest.SUSHI_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
+		if ( !urlString.startsWith( "sushi.php" ) )
 		{
-			return true;
+			return false;
 		}
 
-		int id = StringUtilities.parseInt( matcher.group( 1 ) );
-		int topping = 0;
-		int filling1 = 0;
-
-		matcher = SushiRequest.TOPPING_PATTERN.matcher( urlString );
-
-		if ( matcher.find() )
+		String name = SushiRequest.sushiName( urlString );
+		if ( name == null )
 		{
-			topping = StringUtilities.parseInt( matcher.group( 1 ) );
+			return false;
 		}
-
-		matcher = SushiRequest.FILLING1_PATTERN.matcher( urlString );
-
-		if ( matcher.find() )
-		{
-			filling1 = StringUtilities.parseInt( matcher.group( 1 ) );
-		}
-
-		String name = SushiRequest.sushiName( id, topping, filling1 );
 
 		StringBuffer buf = new StringBuffer();
 		buf.append( "Roll and eat " );
