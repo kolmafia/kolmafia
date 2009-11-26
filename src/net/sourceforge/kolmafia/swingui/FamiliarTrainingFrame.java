@@ -100,7 +100,7 @@ public class FamiliarTrainingFrame
 	private static final Pattern STEAL_PATTERN =
 		Pattern.compile( "She also drops an item from her mouth.*You acquire an item: <b>(.*?)</b>" );
 	private static final Pattern CAGELOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>.*?(?:\\1|this turtle|Grouper groupies).*?[.!]<p>\\1 struggles for" );
+		Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>.*?(?:\\1|this turtle|Grouper groupies|Chauvinist Pigs).*?[.!]<p>\\1 struggles for" );
 	private static final Pattern HUNTLOST_PATTERN =
 		Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>.*?\\1.*?[.!]<p>\\1 finds" );
 	private static final Pattern COURSELOST_PATTERN =
