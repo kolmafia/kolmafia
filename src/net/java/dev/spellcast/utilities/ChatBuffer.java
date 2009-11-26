@@ -93,6 +93,11 @@ public class ChatBuffer
 
 	private final StringBuffer content = new StringBuffer();
 	private final LinkedList displayPanes = new LinkedList();
+	
+	volatile int resetSequence = 0;
+	// Every queued update for this ChatBuffer carries the then-current value of resetSequence,
+	// which is incremented only on updates that completely rewrite the display.  Any update
+	// with an outdated sequence number is simply ignored.
 
 	private PrintWriter logWriter;
 
@@ -301,14 +306,21 @@ public class ChatBuffer
 		implements Runnable
 	{
 		private final String htmlContent;
+		private final int resetSequence;
 
 		public ResetHandler( final String htmlContent )
 		{
 			this.htmlContent = htmlContent;
+			this.resetSequence = ++ChatBuffer.this.resetSequence;
 		}
 
 		public void run()
 		{
+			if ( this.resetSequence != ChatBuffer.this.resetSequence )
+			{
+				return;	// outdated by a subsequent display reset
+			}
+			
 			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
 
 			while ( referenceIterator.hasNext() )
@@ -331,14 +343,21 @@ public class ChatBuffer
 		implements Runnable
 	{
 		private final String newContent;
+		private final int resetSequence;
 
 		public AppendHandler( final String newContent )
 		{
 			this.newContent = newContent;
+			this.resetSequence = ChatBuffer.this.resetSequence;
 		}
 
 		public void run()
 		{
+			if ( this.resetSequence != ChatBuffer.this.resetSequence )
+			{
+				return;	// outdated by a subsequent display reset
+			}
+			
 			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
 
 			while ( referenceIterator.hasNext() )
@@ -386,8 +405,20 @@ public class ChatBuffer
 	private class ScrollHandler
 		implements Runnable
 	{
+		private final int resetSequence;
+
+		public ScrollHandler()
+		{
+			this.resetSequence = ChatBuffer.this.resetSequence;
+		}
+
 		public void run()
 		{
+			if ( this.resetSequence != ChatBuffer.this.resetSequence )
+			{
+				return;	// outdated by a subsequent display reset
+			}
+			
 			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
 
 			while ( referenceIterator.hasNext() )
