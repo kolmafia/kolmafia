@@ -187,7 +187,7 @@ public class ChatFrame
 
 		String contact = this.getAssociatedContact();
 
-		if ( contact == null )
+		if ( contact == null || contact == ChatManager.getCurrentChannel() )
 		{
 			ChatManager.dispose();
 		}

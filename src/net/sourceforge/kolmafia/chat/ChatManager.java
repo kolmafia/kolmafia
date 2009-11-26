@@ -140,6 +140,8 @@ public abstract class ChatManager
 	public static final void dispose()
 	{
 		ChatManager.isRunning = false;
+		
+		ChatManager.activeWindows.clear();
 	}
 
 	public static final boolean isRunning()
@@ -457,7 +459,7 @@ public abstract class ChatManager
 	{
 		ChatManager.activeWindows.remove( bufferKey );
 
-		if ( ChatManager.activeChannels.contains( bufferKey ) )
+		if ( ChatManager.isRunning() && ChatManager.activeChannels.contains( bufferKey ) )
 		{
 			ChatManager.activeChannels.remove( bufferKey );
 			ChatSender.sendMessage( null, "/listen " + bufferKey.substring( 1 ), true );
