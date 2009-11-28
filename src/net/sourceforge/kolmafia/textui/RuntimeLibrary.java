@@ -202,6 +202,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "wait", DataTypes.VOID_TYPE, params ) );
 
@@ -1418,12 +1421,23 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.visit_url( string.toString() );
 	}
 
+	public static Value visit_url( final Value string, final Value usePostMethod )
+	{
+		return RuntimeLibrary.visit_url( string.toString(),
+			usePostMethod.intValue() != 0 );
+	}
+
 	private static Value visit_url( final String location )
+	{
+		return visit_url( location, true );
+	}
+
+	private static Value visit_url( final String location, final boolean usePostMethod )
 	{
 		StringBuffer buffer = new StringBuffer();
 		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 
-		RuntimeLibrary.VISITOR.constructURLString( location );
+		RuntimeLibrary.VISITOR.constructURLString( location, usePostMethod );
 		if ( GenericRequest.shouldIgnore( RuntimeLibrary.VISITOR ) )
 		{
 			return returnValue;

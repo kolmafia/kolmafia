@@ -174,7 +174,7 @@ public class CompactSidePane
 		panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
 		panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
 
-		panels[ ++panelCount ] = new JPanel( new GridLayout( 8, 2 ) );
+		panels[ ++panelCount ] = new JPanel( new GridLayout( 7, 2 ) );
 		panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
 		panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[ panelCount ].add( new JLabel( "Enc: ", JLabel.RIGHT ) );
@@ -213,8 +213,8 @@ public class CompactSidePane
 		refreshPanel.setOpaque( false );
 		refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new CharSheetRequest() ) );
 
-		this.add( compactCard, BorderLayout.NORTH );
 		this.add( refreshPanel, BorderLayout.SOUTH );
+		this.add( compactCard, BorderLayout.NORTH );
 
 		this.levelLabel.setForeground( Color.BLACK );
 		this.roninLabel.setForeground( Color.BLACK );
