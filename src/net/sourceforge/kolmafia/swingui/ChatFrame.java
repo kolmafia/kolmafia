@@ -365,7 +365,7 @@ public class ChatFrame
 					return;
 				}
 
-				ChatSender.sendMessage( ChatPanel.this.associatedContact, message, true );
+				ChatSender.sendMessage( ChatPanel.this.associatedContact, message );
 			}
 		}
 	}
@@ -499,15 +499,15 @@ public class ChatFrame
 				return;
 
 			case 7:
-				ChatSender.sendMessage( "/whois", (String) parameters[ 0 ], true );
+				ChatSender.sendMessage( "/whois " + parameters[ 0 ] );
 				return;
 
 			case 8:
-				ChatSender.sendMessage( "/friend", (String) parameters[ 0 ], true );
+				ChatSender.sendMessage( "/friend " + parameters[ 0 ] );
 				return;
 
 			case 9:
-				ChatSender.sendMessage( "/baleet", (String) parameters[ 0 ], true );
+				ChatSender.sendMessage( "/baleet " + parameters[ 0 ] );
 				return;
 
 			default:

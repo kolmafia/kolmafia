@@ -68,7 +68,7 @@ public class ChatPoller
 
 		do
 		{
-			List entries = ChatPoller.getEntries( lastSeen, true );
+			List entries = ChatPoller.getEntries( lastSeen );
 			Iterator entryIterator = entries.iterator();
 
 			while ( entryIterator.hasNext() )
@@ -82,11 +82,11 @@ public class ChatPoller
 		while ( ChatManager.isRunning() );
 	}
 
-	public synchronized static List getEntries( final long lastSeen, final boolean isInternal )
+	public synchronized static List getEntries( final long lastSeen )
 	{
 		if ( ChatManager.getCurrentChannel() == null )
 		{
-			ChatSender.sendMessage( null, "/listen", true );
+			ChatSender.sendMessage( "/listen" );
 		}
 
 		List newEntries = new ArrayList();
@@ -110,27 +110,18 @@ public class ChatPoller
 			}
 		}
 
-		if ( !newEntries.isEmpty() )
-		{
-			return newEntries;
-		}
-
 		ChatRequest request = null;
 
-		do
-		{
-			request = new ChatRequest( ChatPoller.serverLastSeen );
-			request.run();
-		}
-		while ( request.responseText == null );
+		request = new ChatRequest( ChatPoller.serverLastSeen );
+		request.run();
 
-		HistoryEntry entry = new HistoryEntry( request.responseText, isInternal, ++ChatPoller.localLastSeen );
+		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSeen );
 		ChatPoller.serverLastSeen = entry.getServerLastSeen();
 
 		newEntries.add( entry );
 
 		ChatPoller.chatHistoryEntries.add( entry );
-		ChatManager.processMessages( entry.getChatMessages(), isInternal );
+		ChatManager.processMessages( entry.getChatMessages() );
 
 		return newEntries;
 	}
