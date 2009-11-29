@@ -600,6 +600,7 @@ public class OptionsFrame
 		{
 			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
 			{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
+			{ "addChatCommandLine", "Add a graphical CLI to tabbed chat" },
 			{},
 			{ "useContactsFrame", "Use a popup window for /friends and /who" },
 			{ "chatLinksUseRelay", "Use the relay browser when clicking on chat links" },
