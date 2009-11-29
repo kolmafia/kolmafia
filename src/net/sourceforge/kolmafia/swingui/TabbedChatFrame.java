@@ -41,6 +41,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
 import tab.CloseTabbedPane;
@@ -52,6 +53,11 @@ public class TabbedChatFrame
 	public TabbedChatFrame()
 	{
 		this.setTitle( "Loathing Chat" );
+		
+		if ( Preferences.getBoolean( "addChatCommandLine" ) )
+		{
+			this.tabs.addTab( "[gcli]", new CommandDisplayPanel() );
+		}
 	}
 
 	public JTabbedPane getTabbedPane()

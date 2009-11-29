@@ -1,4 +1,5 @@
 1
+global	addChatCommandLine	false
 global	addCreationQueue	true
 global	addStatusBarToFrames	false
 global	allowCloseableDesktopTabs	false

@@ -34,55 +34,40 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.LayoutFocusTraversalPolicy;
-import javax.swing.WindowConstants;
-
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CommandDisplayFrame
 	extends GenericFrame
 {
+	private static final ArrayList commandQueue = new ArrayList();
 	private static final PauseObject pauser = new PauseObject();
 	private static final CommandQueueHandler handler = new CommandQueueHandler();
+
 	static
 	{
 		CommandDisplayFrame.handler.start();
 	}
 
-	private static final ArrayList commandQueue = new ArrayList();
-	private static final ArrayList commandHistory = new ArrayList();
-	private static int lastCommandIndex = 0;
-
-	private AutoHighlightTextField entryField;
+	private CommandDisplayPanel commandPanel;
 
 	public CommandDisplayFrame()
 	{
 		super( "Graphical CLI" );
-		this.framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
+
+		this.commandPanel = new CommandDisplayPanel();
+		this.framePanel.add( commandPanel, BorderLayout.CENTER );
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -103,136 +88,25 @@ public class CommandDisplayFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		this.entryField.requestFocusInWindow();
+		this.commandPanel.requestFocus();
 	}
 
 	public boolean requestFocus( boolean temporary )
 	{
 		super.requestFocus( temporary );
-		return this.entryField.requestFocusInWindow();
+		return this.commandPanel.requestFocus( temporary );
 	}
 
 	public boolean requestFocusInWindow()
 	{
 		super.requestFocusInWindow();
-		return this.entryField.requestFocusInWindow();
+		return this.commandPanel.requestFocusInWindow();
 	}
 
 	public boolean requestFocusInWindow( boolean temporary )
 	{
 		super.requestFocusInWindow( temporary );
-		return this.entryField.requestFocusInWindow();
-	}
-
-	private class CommandDisplayPanel
-		extends JPanel
-	{
-		private final JButton entryButton;
-
-		public CommandDisplayPanel()
-		{
-			RequestPane outputDisplay = new RequestPane();
-			JScrollPane scrollPane = KoLConstants.commandBuffer.addDisplay( outputDisplay );
-			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
-
-			JPanel entryPanel = new JPanel( new BorderLayout() );
-			CommandDisplayFrame.this.entryField = new AutoHighlightTextField();
-			CommandDisplayFrame.this.entryField.addKeyListener( new CommandEntryListener() );
-
-			this.entryButton = new JButton( "exec" );
-			this.entryButton.addActionListener( new CommandEntryListener() );
-
-			entryPanel.add( CommandDisplayFrame.this.entryField, BorderLayout.CENTER );
-			entryPanel.add( this.entryButton, BorderLayout.EAST );
-
-			this.setLayout( new BorderLayout( 1, 1 ) );
-			this.add( scrollPane, BorderLayout.CENTER );
-			this.add( entryPanel, BorderLayout.SOUTH );
-		}
-
-		public void requestFocus()
-		{
-			super.requestFocus();
-			CommandDisplayFrame.this.entryField.requestFocusInWindow();
-		}
-
-		public boolean requestFocus( boolean temporary )
-		{
-			super.requestFocus( temporary );
-			return CommandDisplayFrame.this.entryField.requestFocusInWindow();
-		}
-
-		public boolean requestFocusInWindow()
-		{
-			super.requestFocusInWindow();
-			return CommandDisplayFrame.this.entryField.requestFocusInWindow();
-		}
-
-		public boolean requestFocusInWindow( boolean temporary )
-		{
-			super.requestFocusInWindow( temporary );
-			return CommandDisplayFrame.this.entryField.requestFocusInWindow();
-		}
-
-		private class CommandEntryListener
-			extends KeyAdapter
-			implements ActionListener
-		{
-			public void actionPerformed( final ActionEvent e )
-			{
-				this.submitCommand();
-			}
-
-			public void keyReleased( final KeyEvent e )
-			{
-				if ( e.isConsumed() )
-				{
-					return;
-				}
-
-				if ( e.getKeyCode() == KeyEvent.VK_UP )
-				{
-					if ( CommandDisplayFrame.lastCommandIndex <= 0 )
-					{
-						return;
-					}
-
-					CommandDisplayFrame.this.entryField.setText( (String) CommandDisplayFrame.commandHistory.get( --CommandDisplayFrame.lastCommandIndex ) );
-					e.consume();
-				}
-				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
-				{
-					if ( CommandDisplayFrame.lastCommandIndex + 1 >= CommandDisplayFrame.commandHistory.size() )
-					{
-						return;
-					}
-
-					CommandDisplayFrame.this.entryField.setText( (String) CommandDisplayFrame.commandHistory.get( ++CommandDisplayFrame.lastCommandIndex ) );
-					e.consume();
-				}
-				else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-				{
-					this.submitCommand();
-					e.consume();
-				}
-			}
-
-			private void submitCommand()
-			{
-				String command = CommandDisplayFrame.this.entryField.getText().trim();
-				CommandDisplayFrame.this.entryField.setText( "" );
-
-				CommandDisplayFrame.commandHistory.add( command );
-
-				if ( CommandDisplayFrame.commandHistory.size() > 10 )
-				{
-					CommandDisplayFrame.commandHistory.remove( 0 );
-				}
-
-				CommandDisplayFrame.lastCommandIndex = CommandDisplayFrame.commandHistory.size();
-				CommandDisplayFrame.executeCommand( command );
-			}
-		}
+		return this.commandPanel.requestFocusInWindow( temporary );
 	}
 
 	public static final boolean hasQueuedCommands()
@@ -285,7 +159,7 @@ public class CommandDisplayFrame
 		{
 			super( "CommandQueueHandler" );
 		}
-		
+
 		public void run()
 		{
 			while ( true )
