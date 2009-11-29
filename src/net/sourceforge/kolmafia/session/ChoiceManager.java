@@ -1219,7 +1219,7 @@ public abstract class ChoiceManager
 			new String[] { null, "4074" } ),
 
 		// Choice 366 is Entrance to the Forgotten City
-		// Choice 367 is Ancient Temple
+		// Choice 367 is Ancient Temple (unlocked)
 		// Choice 368 is City Center
 		// Choice 369 is North Side of the City
 		// Choice 370 is East Side of the City
@@ -1228,7 +1228,7 @@ public abstract class ChoiceManager
 		// Choice 373 is Northern Gate
 		// Choice 374 is An Ancient Tower
 		// Choice 375 is Northern Abandoned Building
-		// Choice 376 is Ancient Temple (unlocked)
+		// Choice 376 is Ancient Temple
 		// Choice 377 is Southern Abandoned Building
 		// Choice 378 is Storehouse
 		// Choice 379 is Northern Building (Basement)
@@ -2640,23 +2640,6 @@ public abstract class ChoiceManager
 			ResultProcessor.processResult( ItemPool.get( ItemPool.SMUGGLER_SHOT_FIRST_BADGE, -1 ) );
 			break;
 
-		case 367:
-			// Choice 367 is Ancient Temple
-
-			// You fit the two halves of the stone circle together,
-			// and slot them into the depression on the door. After
-			// a moment's pause, a low rumbling becomes audible,
-			// and then the stone slab lowers into the ground. The
-			// temple is now open to you, if you are ready to face
-			// whatever lies inside.
-
-			if ( text.indexOf( "two halves of the stone circle" ) != -1 )
-			{
-				ResultProcessor.processResult( ItemPool.get( ItemPool.HALF_STONE_CIRCLE, -1 ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.STONE_HALF_CIRCLE, -1 ) );
-			}
-			break;
-
 		case 373:
 			// Choice 367 is Northern Gate
 
@@ -2676,6 +2659,23 @@ public abstract class ChoiceManager
 			else if ( text.indexOf( "Krakrox plugged the little stone block" ) != -1 )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.LITTLE_STONE_BLOCK, -1 ) );
+			}
+			break;
+
+		case 376:
+			// Choice 376 is Ancient Temple
+
+			// You fit the two halves of the stone circle together,
+			// and slot them into the depression on the door. After
+			// a moment's pause, a low rumbling becomes audible,
+			// and then the stone slab lowers into the ground. The
+			// temple is now open to you, if you are ready to face
+			// whatever lies inside.
+
+			if ( text.indexOf( "two halves of the stone circle" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.HALF_STONE_CIRCLE, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.STONE_HALF_CIRCLE, -1 ) );
 			}
 			break;
 
