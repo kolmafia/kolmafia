@@ -47,11 +47,9 @@ public class HistoryEntry
 
 	private final long localLastSeen;
 	private final long serverLastSeen;
-
-	private final boolean isInternal;
 	private final List chatMessages;
 
-	public HistoryEntry( final String responseText, final boolean isInternal, final long localLastSeen )
+	public HistoryEntry( final String responseText, final long localLastSeen )
 	{
 		Matcher lastSeenMatcher = HistoryEntry.LASTSEEN_PATTERN.matcher( responseText );
 		lastSeenMatcher.find();
@@ -61,7 +59,6 @@ public class HistoryEntry
 
 		this.content = lastSeenMatcher.replaceFirst( "" );
 
-		this.isInternal = isInternal;
 		this.chatMessages = new ArrayList();
 
 		ChatParser.parseLines( this.chatMessages, this.content );
@@ -80,11 +77,6 @@ public class HistoryEntry
 	public long getServerLastSeen()
 	{
 		return this.serverLastSeen;
-	}
-
-	public boolean isInternal()
-	{
-		return this.isInternal;
 	}
 
 	public List getChatMessages()

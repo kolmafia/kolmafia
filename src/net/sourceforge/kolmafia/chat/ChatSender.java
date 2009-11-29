@@ -64,18 +64,30 @@ public class ChatSender
 		ChatSender.CHANNEL_COMMANDS.add( "/me" );
 		ChatSender.CHANNEL_COMMANDS.add( "/ann" );
 	}
-
-	public static final String sendMessage( String contact, String message, final boolean isInternal )
+	
+	public static final void sendMessage( String contact, String message )
 	{
-		String graf = getGraf( contact, message, isInternal );
+		String graf = getGraf( contact, message );
 		
 		if ( graf == null )
+		{
+			return;
+		}
+		
+		String responseText = ChatSender.sendMessage( graf );
+		ChatSender.executeAjaxCommand( responseText );
+	}
+		
+	public static final String sendMessage( String graf )
+	{		
+		if ( ChatSender.executeCommand( graf ) )
 		{
 			return "";
 		}
 		
 		ChatRequest request = new ChatRequest( graf );
-		request.run();
+		
+		RequestThread.postRequest( request );
 
 		List chatMessages = new ArrayList();
 
@@ -102,27 +114,17 @@ public class ChatSender
 		else
 		{
 			ChatParser.parseLines( chatMessages, request.responseText );
-
-			if ( isInternal )
-			{
-				executeAjaxCommand( request.responseText );
-			}
 		}
 
-		ChatManager.processMessages( chatMessages, isInternal );
+		ChatManager.processMessages( chatMessages );
 
 		return request.responseText;
 	}
 
-	private static final String getGraf( String contact, String message, boolean isInternal )
+	private static final String getGraf( String contact, String message )
 	{
-		if ( !isInternal )
+		if ( message.startsWith( "/do " ) || message.startsWith( "/run " ) || message.startsWith( "/cli " ) )
 		{
-			if ( ChatSender.executeCommand( message ) )
-			{
-				return null;
-			}
-
 			return message;
 		}
 		
@@ -178,18 +180,12 @@ public class ChatSender
 					splitPos = maxPiece;
 				}
 
-				ChatSender.sendMessage(
-					contact, command + " " + message.substring( 0, splitPos ) + suffix, isInternal );
+				ChatSender.sendMessage( contact, command + " " + message.substring( 0, splitPos ) + suffix );
 
 				message = prefix + message.substring( splitPos + splitter.length() );
 			}
 
-			ChatSender.sendMessage( contact, command + " " + message, isInternal );
-			return null;
-		}
-
-		if ( ChatSender.executeCommand( message ) )
-		{
+			ChatSender.sendMessage( contact, command + " " + message );
 			return null;
 		}
 
@@ -274,37 +270,14 @@ public class ChatSender
 			return false;
 		}
 
-		graf = graf.trim();
-
-		if ( !graf.startsWith( "/" ) )
+		if ( !graf.startsWith( "/do " ) && !graf.startsWith( "/run " ) && !graf.startsWith( "/cli " ) )
 		{
 			return false;
 		}
+		
+		int spaceIndex = graf.indexOf( " " );
 
-		String lgraf = graf.toLowerCase();
-
-		if ( !lgraf.startsWith( "/" ) )
-		{
-			return false;
-		}
-
-		String baseCommand;
-
-		int spaceIndex = lgraf.indexOf( " " );
-
-		if ( spaceIndex == -1 )
-		{
-			return false;
-		}
-
-		baseCommand = lgraf.substring( 0, spaceIndex );
-
-		if ( !baseCommand.equals( "/do" ) && !baseCommand.equals( "/cli" ) && !baseCommand.equals( "/run" ) )
-		{
-			return false;
-		}
-
-		String command = lgraf.substring( spaceIndex ).trim();
+		String command = graf.substring( spaceIndex ).trim();
 		CommandDisplayFrame.executeCommand( command );
 		return true;
 	}

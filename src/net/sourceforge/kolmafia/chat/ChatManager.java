@@ -188,7 +188,7 @@ public abstract class ChatManager
 		return buffer;
 	}
 
-	public static void processMessages( final List messages, final boolean isInternal )
+	public static void processMessages( final List messages )
 	{
 		Iterator messageIterator = messages.iterator();
 
@@ -196,11 +196,11 @@ public abstract class ChatManager
 		{
 			ChatMessage message = (ChatMessage) messageIterator.next();
 
-			ChatManager.processMessage( message, isInternal );
+			ChatManager.processMessage( message );
 		}
 	}
 
-	public static void processMessage( final ChatMessage message, final boolean isInternal )
+	public static void processMessage( final ChatMessage message )
 	{
 		if ( message instanceof EventMessage )
 		{
@@ -326,15 +326,14 @@ public abstract class ChatManager
 		{
 			if ( content.equalsIgnoreCase( "help" ) )
 			{
-				ChatSender.sendMessage( sender, "Please check my profile.", true );
+				ChatSender.sendMessage( sender, "Please check my profile." );
 				return true;
 			}
 
 			if ( content.equalsIgnoreCase( "restores" ) )
 			{
 				ChatSender.sendMessage(
-					sender, "I currently have " + RecoveryManager.getRestoreCount() + " mana restores at my disposal.",
-					true );
+					sender, "I currently have " + RecoveryManager.getRestoreCount() + " mana restores at my disposal." );
 
 				return true;
 			}
@@ -349,7 +348,7 @@ public abstract class ChatManager
 				}
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, sender + " added to ignore list" );
-				ChatSender.sendMessage( sender, "/baleet", true );
+				ChatSender.sendMessage( sender, "/baleet" );
 				return true;
 			}
 		}
@@ -462,13 +461,13 @@ public abstract class ChatManager
 		if ( ChatManager.isRunning() && ChatManager.activeChannels.contains( bufferKey ) )
 		{
 			ChatManager.activeChannels.remove( bufferKey );
-			ChatSender.sendMessage( null, "/listen " + bufferKey.substring( 1 ), true );
+			ChatSender.sendMessage( "/listen " + bufferKey.substring( 1 ) );
 		}
 	}
 
 	public static final void checkFriends()
 	{
-		ChatSender.sendMessage( null, "/friends", true );
+		ChatSender.sendMessage( "/friends" );
 	}
 
 	public static void applyHighlights()

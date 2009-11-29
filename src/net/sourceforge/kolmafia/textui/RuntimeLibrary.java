@@ -3336,7 +3336,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		ChatSender.sendMessage( "/clan", message, true );
+		ChatSender.sendMessage( "/clan", message );
 
 		return DataTypes.VOID_VALUE;
 	}
@@ -3357,7 +3357,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		ChatSender.sendMessage( recipient, message, true );
+		ChatSender.sendMessage( recipient, message );
 
 		return DataTypes.VOID_VALUE;
 	}

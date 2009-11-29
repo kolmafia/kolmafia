@@ -1273,7 +1273,7 @@ public class RelayRequest
 	
 			long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
 	
-			List chatMessages = ChatPoller.getEntries( lastSeen, false );
+			List chatMessages = ChatPoller.getEntries( lastSeen );
 			Iterator messageIterator = chatMessages.iterator();
 
 			boolean needsLineBreak = false;
@@ -1307,7 +1307,7 @@ public class RelayRequest
 		}
 		else
 		{
-			this.responseText = ChatSender.sendMessage( null, this.getFormField( "graf" ), false );
+			this.responseText = ChatSender.sendMessage( this.getFormField( "graf" ) );
 		}
 
 		if ( Preferences.getBoolean( "relayFormatsChatText" ) )

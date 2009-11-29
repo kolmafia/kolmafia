@@ -56,28 +56,18 @@ public abstract class RequestThread
 			return;
 		}
 
-		try
+		if ( RequestThread.sequenceCount == 0 && !request.hasNoResult() )
 		{
-			RequestThread.executeRequest( request );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	public static final void postRequest( final KoLAdventure request )
-	{
-		if ( request == null )
-		{
-			return;
+			KoLmafia.forceContinue();
 		}
 
-		KoLmafia.forceContinue();
 		++RequestThread.sequenceCount;
-
+		
 		try
 		{
+			// If you're not in the event dispatch thread, you can run
+			// without posting to a separate thread.
+
 			if ( !SwingUtilities.isEventDispatchThread() )
 			{
 				request.run();
@@ -96,27 +86,15 @@ public abstract class RequestThread
 		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
-	/**
-	 * Posts a single request one time possibly forcing concurrency. The display will be enabled if there is no
-	 * sequence.
-	 */
-
-	public static final void executeRequest( final GenericRequest request )
+	public static final void postRequest( final KoLAdventure request )
 	{
 		if ( request == null )
 		{
 			return;
 		}
 
-		if ( RequestThread.sequenceCount == 0 && !request.hasNoResult() )
-		{
-			KoLmafia.forceContinue();
-		}
-
+		KoLmafia.forceContinue();
 		++RequestThread.sequenceCount;
-
-		// If you're not in the event dispatch thread, you can run
-		// without posting to a separate thread.
 
 		try
 		{
