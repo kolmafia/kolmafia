@@ -88,6 +88,8 @@ public class AccountRequest
 
 	public static final void parseAccountData( final String responseText )
 	{
+		PasswordHashRequest.updatePasswordHash( responseText );
+
 		// Disable stationary buttons to avoid conflicts when
 		// the action bar is enabled.
 
