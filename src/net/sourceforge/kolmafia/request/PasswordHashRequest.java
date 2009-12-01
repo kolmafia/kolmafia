@@ -54,18 +54,23 @@ public class PasswordHashRequest
 			return;
 		}
 
-		Matcher pwdmatch = PasswordHashRequest.HASH_PATTERN_1.matcher( this.responseText );
+		PasswordHashRequest.updatePasswordHash( this.responseText );
+	}
+	
+	public static void updatePasswordHash( String responseText )
+	{
+		Matcher pwdmatch = PasswordHashRequest.HASH_PATTERN_1.matcher( responseText );
 		if ( pwdmatch.find() )
 		{
 			GenericRequest.passwordHash = pwdmatch.group( 1 );
 			return;
 		}
 
-		pwdmatch = PasswordHashRequest.HASH_PATTERN_2.matcher( this.responseText );
+		pwdmatch = PasswordHashRequest.HASH_PATTERN_2.matcher( responseText );
 		if ( pwdmatch.find() )
 		{
 			GenericRequest.passwordHash = pwdmatch.group( 1 );
 			return;
-		}
+		}		
 	}
 }
