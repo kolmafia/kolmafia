@@ -314,17 +314,12 @@ public class ChatFormatter
 
 	public static final void removeHighlighting()
 	{
-		Object[] patterns = StyledChatBuffer.highlights.toArray();
+		Object[] patterns = StyledChatBuffer.searchStrings.toArray();
 
 		if ( patterns.length == 0 )
 		{
 			InputFieldUtilities.alert( "No active highlights." );
 			return;
-		}
-
-		for ( int i = 0; i < patterns.length; ++i )
-		{
-			patterns[ i ] = ( (Pattern) patterns[ i ] ).pattern();
 		}
 
 		String selectedValue =
@@ -364,8 +359,6 @@ public class ChatFormatter
 				Preferences.setString( "highlightList", cleanString );
 			}
 		}
-
-		ChatManager.applyHighlights();
 	}
 
 }

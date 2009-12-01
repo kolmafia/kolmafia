@@ -42,7 +42,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -78,14 +77,6 @@ public abstract class ChatManager
 
 	private static TabbedChatFrame tabbedFrame = null;
 
-	public static final void reset()
-	{
-		ChatManager.isRunning = false;
-
-		ChatManager.clanMessages.clear();
-		ChatManager.instantMessageBuffers.clear();
-	}
-
 	/**
 	 * Initializes the chat buffer with the provided chat pane. Note that the chat refresher will also be initialized by
 	 * calling this method; to stop the chat refresher, call the <code>dispose()</code> method.
@@ -98,35 +89,21 @@ public abstract class ChatManager
 			return;
 		}
 
-		ChatManager.reset();
+		ChatManager.isRunning = true;
 
-		// Clear the highlights and add all the ones which
-		// were saved from the last session.
+		StyledChatBuffer.initializeHighlights();
 
-		StyledChatBuffer.clearHighlights();
+		Object[] bufferKeys = ChatManager.instantMessageBuffers.keySet().toArray();
 
-		if ( StyledChatBuffer.highlightBuffer == null )
+		for ( int i = 0; i < bufferKeys.length; ++i )
 		{
-			StyledChatBuffer.highlightBuffer = ChatManager.getBuffer( "[high]" );
-		}
-
-		StyledChatBuffer.highlightBuffer.clear();
-
-		String highlights = Preferences.getString( "highlightList" ).trim();
-
-		if ( highlights.length() > 0 )
-		{
-			String[] highlightList = highlights.split( "\n+" );
-
-			for ( int i = 0; i < highlightList.length; ++i )
+			String bufferKey = (String) bufferKeys[ i ];
+			
+			if ( bufferKey.startsWith( "/" ) )
 			{
-				StyledChatBuffer.addHighlight( highlightList[ i ], DataUtilities.toColor( highlightList[ ++i ] ) );
+				ChatManager.openWindow( bufferKey );
 			}
 		}
-
-		ChatManager.isRunning = true;
-		ChatManager.currentChannel = null;
-		ChatManager.activeChannels.clear();
 
 		new ChatPoller().start();
 
@@ -140,7 +117,7 @@ public abstract class ChatManager
 	public static final void dispose()
 	{
 		ChatManager.isRunning = false;
-		
+		ChatManager.tabbedFrame = null;
 		ChatManager.activeWindows.clear();
 	}
 
@@ -160,7 +137,7 @@ public abstract class ChatManager
 
 		if ( buffer == null )
 		{
-			buffer = new StyledChatBuffer( bufferKey, true );
+			buffer = new StyledChatBuffer( bufferKey, !bufferKey.equals( "[high]" ) );
 
 			if ( Preferences.getBoolean( "logChatMessages" ) )
 			{

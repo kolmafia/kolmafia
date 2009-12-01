@@ -34,22 +34,21 @@
 package net.sourceforge.kolmafia.chat;
 
 import java.awt.Color;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 public class StyledChatBuffer
 	extends ChatBuffer
 {
-	public static final List colors = new ArrayList();
-	public static final List highlights = new ArrayList();
-	public static final List dehighlights = new ArrayList();
+	private static int highlightCount = 0;
+
+	public static final List searchStrings = new ArrayList();
+	public static final List colorStrings = new ArrayList();
 
 	public static StyledChatBuffer highlightBuffer;
 	private final boolean affectsHighlightBuffer;
@@ -60,32 +59,56 @@ public class StyledChatBuffer
 		this.affectsHighlightBuffer = affectsHighlightBuffer;
 	}
 
-	public static final void clearHighlights()
+	public static final boolean initializeHighlights()
 	{
-		StyledChatBuffer.colors.clear();
-		StyledChatBuffer.highlights.clear();
-		StyledChatBuffer.dehighlights.clear();
+		String highlights = Preferences.getString( "highlightList" ).trim();
+
+		if ( highlights.length() == 0 )
+		{
+			return false;
+		}
+
+		if ( StyledChatBuffer.highlightBuffer != null )
+		{
+			StyledChatBuffer.highlightBuffer.clear();
+			return true;
+		}
+
+		ChatManager.openWindow( "[high]" );
+
+		StyledChatBuffer.highlightBuffer = ChatManager.getBuffer( "[high]" );
+
+		StyledChatBuffer.highlightCount = 0;
+		String[] highlightList = highlights.split( "\n+" );
+
+		for ( int i = 0; i < highlightList.length; ++i )
+		{
+			StyledChatBuffer.addHighlight( highlightList[ i ], DataUtilities.toColor( highlightList[ ++i ] ) );
+		}
+
+		return true;
 	}
 
 	public static final String removeHighlight( final int index )
 	{
-		String removedColor = (String) StyledChatBuffer.colors.remove( index );
-		String removedPattern = ( (Pattern) StyledChatBuffer.highlights.remove( index ) ).pattern();
-		StyledChatBuffer.dehighlights.remove( index );
+		--StyledChatBuffer.highlightCount;
 
-		return removedPattern + "\n" + removedColor;
+		String searchString = (String) StyledChatBuffer.searchStrings.remove( index );
+		String colorString = (String) StyledChatBuffer.colorStrings.remove( index );
+
+		return searchString + "\n" + colorString;
 	}
 
-	public static final String addHighlight( final String highlight, final Color color )
+	public static final String addHighlight( final String searchString, final Color color )
 	{
+		++StyledChatBuffer.highlightCount;
+
 		String colorString = DataUtilities.toHexString( color );
+		
+		StyledChatBuffer.searchStrings.add( searchString.toLowerCase() );
+		StyledChatBuffer.colorStrings.add( colorString );
 
-		StyledChatBuffer.colors.add( colorString );
-		StyledChatBuffer.highlights.add( Pattern.compile( highlight, Pattern.CASE_INSENSITIVE ) );
-		StyledChatBuffer.dehighlights.add( Pattern.compile(
-			"(<[^>]*?)<font color=\"" + colorString + "\">" + highlight + "</font>", Pattern.CASE_INSENSITIVE ) );
-
-		return highlight + "\n" + colorString;
+		return searchString + "\n" + colorString;
 	}
 
 	/**
@@ -94,39 +117,31 @@ public class StyledChatBuffer
 
 	public void append( final String message )
 	{
+		if ( message == null )
+		{
+			super.append( null );
+			return;
+		}
+		
 		// Download all the images outside of the Swing thread
 		// by downloading them here.
 
 		String highlightMessage = message;
 
-		if ( this != StyledChatBuffer.highlightBuffer )
+		for ( int i = 0; i < StyledChatBuffer.highlightCount; ++i )
 		{
-			if ( !StyledChatBuffer.highlights.isEmpty() )
-			{
-				String[] colorArray = new String[ StyledChatBuffer.colors.size() ];
-				StyledChatBuffer.colors.toArray( colorArray );
+			String searchString = (String) StyledChatBuffer.searchStrings.get( i );
+			String colorString = (String) StyledChatBuffer.colorStrings.get( i );
 
-				Pattern[] highlightArray = new Pattern[ StyledChatBuffer.highlights.size() ];
-				StyledChatBuffer.highlights.toArray( highlightArray );
-
-				Pattern[] dehighlightArray = new Pattern[ StyledChatBuffer.dehighlights.size() ];
-				StyledChatBuffer.dehighlights.toArray( dehighlightArray );
-
-				for ( int i = 0; i < colorArray.length; ++i )
-				{
-					highlightMessage =
-						this.applyHighlight(
-							highlightMessage, colorArray[ i ], highlightArray[ i ], dehighlightArray[ i ] );
-				}
-			}
+			highlightMessage = this.applyHighlight( highlightMessage, searchString, colorString );
 		}
 
 		super.append( highlightMessage );
 
-		if ( this.affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
+		if ( this.affectsHighlightBuffer && message.length() < highlightMessage.length() )
 		{
-			StyledChatBuffer.highlightBuffer.append( highlightMessage.replaceAll(
-				"(<br>)+", "<br>" + KoLConstants.LINE_BREAK ) );
+			StyledChatBuffer.highlightBuffer.append( message );
+			ChatManager.openWindow( "[high]" );
 		}
 	}
 
@@ -142,59 +157,59 @@ public class StyledChatBuffer
 			return;
 		}
 
-		String colorString;
-		Pattern highlight, dehighlight;
-
-		String highlightMessage;
-
-		String displayString = this.getHTMLContent();
-		String[] lines = displayString.split( "<br>" );
-
-		for ( int j = 0; j < StyledChatBuffer.highlights.size(); ++j )
-		{
-			colorString = (String) StyledChatBuffer.colors.get( j );
-			highlight = (Pattern) StyledChatBuffer.highlights.get( j );
-			dehighlight = (Pattern) StyledChatBuffer.dehighlights.get( j );
-
-			for ( int i = 0; i < lines.length; ++i )
-			{
-				highlightMessage = this.applyHighlight( lines[ i ], colorString, highlight, dehighlight );
-				if ( lines[ i ].compareToIgnoreCase( highlightMessage ) != 0 )
-				{
-					StyledChatBuffer.highlightBuffer.append( highlightMessage + "<br>" );
-				}
-			}
-
-			displayString = this.applyHighlight( displayString, colorString, highlight, dehighlight );
-		}
+		String[] lines = this.getContent().split( "<br>" );
 
 		this.clear();
-		this.append( displayString );
+
+		for ( int i = 0; i < lines.length; ++i )
+		{
+			this.append( lines[ i ] + "<br>" );
+		}
 	}
 
-	private String applyHighlight( final String message, final String colorString, final Pattern highlight,
-		final Pattern dehighlight )
+	private String applyHighlight( final String message, final String searchString, final String colorString )
 	{
 		if ( message.indexOf( "<html>" ) != -1 )
 		{
 			return message;
 		}
 
-		Matcher matching = highlight.matcher( message );
-		String highlightMessage =
-			matching.replaceAll( "<font color=\"" + colorString + "\">" + highlight.pattern() + "</font>" );
+		StringBuffer highlightMessage = new StringBuffer();
+		String remaining = message;
 
-		// Now make sure that the changes occuring inside of
-		// HTML tags don't get saved.
-
-		if ( !message.equals( highlightMessage ) )
+		int searchIndex;
+		
+		while ( ( searchIndex = remaining.toLowerCase().indexOf( searchString ) ) != -1 )
 		{
-			highlightMessage = dehighlight.matcher( highlightMessage ).replaceAll( "$1" + highlight.pattern() );
+			int openIndex = remaining.lastIndexOf( "<", searchIndex );
+			int closeIndex = remaining.lastIndexOf( ">", searchIndex );
+
+			int stopIndex = searchIndex + searchString.length();
+
+			if ( openIndex > closeIndex )
+			{
+				highlightMessage.append( remaining.substring( 0, stopIndex ) );
+				remaining = remaining.substring( stopIndex );
+				continue;
+			}
+
+			highlightMessage.append( remaining.substring( 0, searchIndex ) );
+
+			highlightMessage.append( "<font color=\"" );
+			highlightMessage.append( colorString );
+			highlightMessage.append( "\">" );
+			highlightMessage.append( remaining.substring( searchIndex, stopIndex ) );
+			highlightMessage.append( "</font>" );
+
+			remaining = remaining.substring( stopIndex );
 		}
 
-		// Now that everything is properly replaced, go ahead
-		// and return the finalized string.
+		if ( highlightMessage.length() == 0 )
+		{
+			return message;
+		}
 
-		return highlightMessage;
+		highlightMessage.append( remaining );
+		return highlightMessage.toString();
 	}
 }
