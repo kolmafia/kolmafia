@@ -52,16 +52,13 @@ public class ChatPoller
 	private static long localLastSeen = 0;
 	private static long serverLastSeen = 0;
 
-	private static final int CHAT_DELAY = 8000;
+	private static final int CHAT_DELAY = 500;
+	private static final int CHAT_DELAY_COUNT = 16;
 
 	private static String rightClickMenu = "";
 
 	public void run()
 	{
-		ChatPoller.localLastSeen = 0;
-		ChatPoller.serverLastSeen = 0;
-		ChatPoller.chatHistoryEntries.clear();
-
 		long lastSeen = 0;
 
 		PauseObject pauser = new PauseObject();
@@ -77,7 +74,10 @@ public class ChatPoller
 				lastSeen = Math.max( lastSeen, entry.getLocalLastSeen() );
 			}
 
-			pauser.pause( ChatPoller.CHAT_DELAY );
+			for ( int i = 0; i < ChatPoller.CHAT_DELAY_COUNT && ChatManager.isRunning(); ++i )
+			{
+				pauser.pause( ChatPoller.CHAT_DELAY );
+			}
 		}
 		while ( ChatManager.isRunning() );
 	}
@@ -93,19 +93,22 @@ public class ChatPoller
 
 		Iterator entryIterator = ChatPoller.chatHistoryEntries.iterator();
 
-		while ( entryIterator.hasNext() )
+		if ( lastSeen != 0 )
 		{
-			HistoryEntry entry = (HistoryEntry) entryIterator.next();
-
-			if ( lastSeen == 0 || entry.getLocalLastSeen() > lastSeen )
+			while ( entryIterator.hasNext() )
 			{
-				newEntries.add( entry );
-
-				while ( entryIterator.hasNext() )
+				HistoryEntry entry = (HistoryEntry) entryIterator.next();
+	
+				if ( entry.getLocalLastSeen() > lastSeen )
 				{
-					entry = (HistoryEntry) entryIterator.next();
-
 					newEntries.add( entry );
+	
+					while ( entryIterator.hasNext() )
+					{
+						entry = (HistoryEntry) entryIterator.next();
+	
+						newEntries.add( entry );
+					}
 				}
 			}
 		}

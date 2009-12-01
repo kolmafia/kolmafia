@@ -277,17 +277,17 @@ public class ChatBuffer
 	/**
 	 * Returns all the content stored within this chat buffer.
 	 */
-
-	public String getHTMLContent()
+	
+	public String getContent()
 	{
-		return this.getHTMLContent( this.content.toString() );
+		return this.content.toString();
 	}
-
+	
 	/**
-	 * Returns all the content stored within this chat buffer.
+	 * Returns all the styled content stored within this chat buffer.
 	 */
 
-	public String getHTMLContent( final String content )
+	public String getHTMLContent()
 	{
 		StringBuffer htmlContent = new StringBuffer();
 
@@ -295,7 +295,7 @@ public class ChatBuffer
 		htmlContent.append( this.getStyle() );
 		htmlContent.append( "</style></head><body>" );
 
-		htmlContent.append( content );
+		htmlContent.append( this.content.toString() );
 
 		htmlContent.append( "</body></html>" );
 

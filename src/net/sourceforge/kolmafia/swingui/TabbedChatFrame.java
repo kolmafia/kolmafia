@@ -53,7 +53,7 @@ public class TabbedChatFrame
 	public TabbedChatFrame()
 	{
 		this.setTitle( "Loathing Chat" );
-		
+
 		if ( Preferences.getBoolean( "addChatCommandLine" ) )
 		{
 			this.tabs.addTab( "[gcli]", new CommandDisplayPanel() );
@@ -102,7 +102,7 @@ public class TabbedChatFrame
 		{
 			ChatManager.closeWindow( contact );
 		}
-		
+
 		return true;
 	}
 
@@ -177,7 +177,6 @@ public class TabbedChatFrame
 		implements Runnable
 	{
 		private final String tabName;
-		private ChatPanel createdPanel;
 
 		private TabAdder( final String tabName )
 		{
@@ -186,13 +185,44 @@ public class TabbedChatFrame
 
 		public void run()
 		{
-			this.createdPanel = new ChatPanel( this.tabName );
+			JTabbedPane tabs = TabbedChatFrame.this.tabs;
+			ChatPanel createdPanel = new ChatPanel( this.tabName );
 
-			// Add a little bit of whitespace to make the
-			// chat tab larger and easier to click.
+			int tabOrder = this.getTabOrder( this.tabName );
 
-			TabbedChatFrame.this.tabs.addTab( this.tabName, this.createdPanel );
-			this.createdPanel.requestFocusInWindow();
+			int tabCount = tabs.getTabCount();
+			int tabIndex = tabCount;
+
+			for ( int i = 0; i < tabCount; ++i )
+			{
+				String currentTabName = tabs.getTitleAt( i ).trim();
+
+				int currentTabOrder = this.getTabOrder( currentTabName );
+
+				if ( tabOrder < currentTabOrder || ( tabOrder == currentTabOrder && this.tabName.compareToIgnoreCase( currentTabName ) < 0 ) )
+				{
+					tabIndex = i;
+					break;
+				}
+			}
+
+			tabs.insertTab( this.tabName, null, createdPanel, "", tabIndex );
+			createdPanel.requestFocusInWindow();
+		}
+
+		private int getTabOrder( final String tabName )
+		{
+			if ( tabName.startsWith( "[" ) )
+			{
+				return 2;
+			}
+
+			if ( tabName.startsWith( "/" ) )
+			{
+				return 0;
+			}
+
+			return 1;
 		}
 	}
 
