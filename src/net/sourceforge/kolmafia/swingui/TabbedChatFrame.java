@@ -98,7 +98,7 @@ public class TabbedChatFrame
 		{
 			ChatManager.dispose();
 		}
-		else if ( contact.startsWith( "/" ) )
+		else
 		{
 			ChatManager.closeWindow( contact );
 		}
