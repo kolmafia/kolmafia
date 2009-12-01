@@ -65,6 +65,7 @@ candied yams	3	5	7-14	0	72-75	0
 candy cane	1	4	1-5	10-20	10-20	10-20
 candy cane pizza	4	1	6-11	0	0	0	10 Sugar Rush
 candy cane surprise	3	5	4-5	0	0	0
+candy kneecapping stick	1	4	4	11	17	14	5 Sugar Rush
 candy stake	1	4	1-5	10-20	10-20	10-20
 carob brownies	2	1	2-5	0	17-19	0
 carob chunk cookies	2	1	2-5	0	6-9	0
@@ -201,6 +202,7 @@ irradiated candy cane	1	1	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all)
 it came from beyond dessert	4	1	6-12	7-8	7-8	7-8	10 Sugar Rush
 jack lalanne roll	3	1	9-14	28-46	20-30	20-30	45/55 Fishy
 jarlsberg's key lime pie	4	6	13-19	0	28-33	0	Jarlsberg's key
+jawbruiser	1	4	4	11	17	14	5 Sugar Rush, lose 39 HP
 jumbo dr. lucifer	1	1	1-3	0	0	0	converts all HP to 9-10x MP
 jumbo olive	1	2	1-3	0	0	2-5
 jumping bean burrito	3	1	3-8	0	0	11-14
@@ -227,6 +229,7 @@ large cocoa eggshell fragment	1	1	1-2	0	0	0
 laser-broiled pear	1	1	3-4	8-10	8-10	8-10
 lemon	1	1	1	0	0	0
 lemon meringue pie	3	2	3-9	8-10	0	0
+licorice garrote	1	4	4	11	17	14	5 Sugar Rush
 lihc eye pie	4	2	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
 lime	1	2	1-3	0	0	0
 long pork casserole	3	9	8-15	0	37-51	0

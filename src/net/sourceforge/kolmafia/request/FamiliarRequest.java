@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -192,10 +193,10 @@ public class FamiliarRequest
 
 		switch ( this.changeTo.getId() )
 		{
-		case 54:	// Comma Chameleon
-		case 59:	// Reassembled Blackbird
-		case 82:	// Mad Hatrack
-		case 92:	// Disembodied Hand
+		case FamiliarPool.CHAMELEON:	// Comma Chameleon
+		case FamiliarPool.BLACKBIRD:	// Reassembled Blackbird
+		case FamiliarPool.HATRACK:	// Mad Hatrack
+		case FamiliarPool.HAND:	// Disembodied Hand
 			return;
 		}
 

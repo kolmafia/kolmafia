@@ -692,9 +692,9 @@
 691	Sappy Blood	blooddrops.gif	be2d899982f60689acf64428f6ad7e29	use 1 spooky sap
 692
 693
-694
-695
-696
+694	Belch the Rainbow&trade;	rrainbow.gif	edd8a8dfb261f4a1f07e327c6e43ef0b	use 1 Piddles
+695	Full of Wist	happy.gif	aaf1fc3bc50d02ec5c0bc6742f2a2100	use 1 BitterSweetTarts
+696	Polka Face	accordion.gif	273149593cef0f682ac9ca7d2483d977	use 1 Polka Pop
 697
 698
 699

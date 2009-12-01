@@ -4282,3 +4282,124 @@
 4276	Underworld truncheon	weapon	all	0
 4277	Staff of the Woodfire	weapon	all	0
 4278	Underworld flail	weapon	all	0
+4279
+4280
+4281
+4282
+4283
+4284
+4285
+4286
+4287
+4288
+4289
+4290
+4291
+4292
+4293
+4294
+4295
+4296
+4297
+4298
+4299
+4300
+4301
+4302
+4303
+4304
+4305
+4306
+4307
+4308
+4309
+4310
+4311
+4312
+4313
+4314
+4315	Annual Ascot	accessory	all	0
+4316
+4317
+4318
+4319
+4320
+4321
+4322
+4323
+4324
+4325
+4326
+4327
+4328	suspicious stocking	grow	all	0
+4329	bag of many confections	familiar	all	75
+4330	candy kneecapping stick	food, combat	all	0
+4331	licorice garrote	food, combat	all	0
+4332	candy knuckles	weapon	all	0
+4333	jawbruiser	food	all	0
+4334
+4335
+4336
+4337
+4338
+4339
+4340	Piddles	multiple	all	0
+4341	BitterSweetTarts	multiple	all	0
+4342	Polka Pop	multiple	all	0
+4343
+4344
+4345
+4346
+4347
+4348
+4349
+4350
+4351
+4352
+4353
+4354
+4355
+4356
+4357
+4358
+4359
+4360
+4361
+4362
+4363
+4364
+4365
+4366
+4367
+4368
+4369
+4370
+4371
+4372
+4373
+4374
+4375
+4376
+4377
+4378
+4379
+4380
+4381
+4382
+4383
+4384
+4385
+4386
+4387
+4388
+4389
+4390
+4391
+4392
+4393
+4394
+4395
+4396
+4397
+4398
+4399
