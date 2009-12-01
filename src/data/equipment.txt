@@ -525,6 +525,7 @@ calavera concertina	40	Mox: 5	2-handed accordion
 can cannon	75	Mox: 22	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
 can of maces	50	Mox: 10	1-handed club
+candy knuckles	10	Mus: 0	1-handed knuckles
 cardboard crossbow	60	Mox: 15	2-handed crossbow
 cardboard katana	30	Mus: 0	1-handed sword
 cardboard staff	60	Mus: 15	2-handed staff
@@ -1049,6 +1050,7 @@ yield shield	100	Mus: 35	shield
 Aluminum Epsilon of Humility	0	Mys: 85
 Amulet of Yendor	0	none
 Ankh of Badahnkadh	0	Mys: 67
+Annual Ascot	0	none
 Baron von Ratsworth's money clip	0	Mys: 10
 Baron von Ratsworth's monocle	0	Mys: 10
 Blue Diamond of Honesty	0	Mys: 85

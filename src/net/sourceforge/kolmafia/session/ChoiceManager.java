@@ -2641,7 +2641,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 373:
-			// Choice 367 is Northern Gate
+			// Choice 373 is Northern Gate
 
 			// Krakrox plugged the small stone block he found in
 			// the basement of the abandoned building into the hole

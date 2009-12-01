@@ -578,6 +578,7 @@ bucket of anniversary lard	Muscle: +1, Mysticality: +1, Moxie: +1
 buffalo blade	Muscle: +5, Hot Damage: +3, Sleaze Damage: +2
 bugbear-smiting sword	Weapon Damage: +10, Muscle: +10
 calavera concertina	Moxie: +3
+candy knuckles	Weapon Damage: +25
 can cannon	Moxie: +3, Monster Level: +3, Weapon Damage: +3
 can of fake snow	Cold Damage: +5
 can of maces	Weapon Damage: +2, Sleaze Resistance: +1
@@ -1140,6 +1141,7 @@ Aluminum Epsilon of Humility	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: 
 # Amulet of Yendor: Prevents Level Teleporting
 Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip
 Ankh of Badahnkadh	Spell Damage Percent: +25, Single Equip
+# Annual Ascot	All Attributes +X%
 Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
 Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
@@ -1666,6 +1668,7 @@ ant sickle	Familiar Effect: "spooky damage, meat"
 aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Mysticality", Familiar Effect: "mys stats"
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
+# bag of many confections: Full of Candy!
 blue suede shoes	Familiar Weight: +5
 blundarrrbus	Familiar Weight: +5
 bottle of Cochon Noir	Familiar Weight: +5
@@ -1937,6 +1940,7 @@ Bats in the Belfry	Mysticality Percent: +10
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 # Beer in Your Shoes: More likely to fumble
 # Beer in Your Shoes: Continually take damage
+Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Stench Damage: [min(L,11)], Spooky Damage: [min(L,11)], Sleaze Damage: [min(L,11)]
 Bells in the Batfry	Moxie Percent: +10
 Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
 Bestial Sympathy	Familiar Weight: +3
@@ -2157,6 +2161,7 @@ Frostbitten	Cold Damage: +10, Damage Reduction: -2
 Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
 Full of Vinegar	Weapon Damage: [+1*D]
+Full of Wist	Experience: [min(L,11)]
 Full-Body Tan	Experience (Moxie): [L]
 Fury of the Bells	Muscle Percent: +10
 Fustulent	Stench Damage: +15, Stench Spell Damage: +15
@@ -2339,6 +2344,7 @@ Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
 Piratastic	Moxie: +100
 Pneumatic	Adventure Underwater
+Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Polka of Plenty	Meat Drop: +50
 Ponderous Potency	Weapon Damage: +20
 Pop-eyed	Weapon Damage: +30

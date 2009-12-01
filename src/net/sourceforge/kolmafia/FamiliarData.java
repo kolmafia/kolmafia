@@ -61,7 +61,7 @@ public class FamiliarData
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern REGISTER_PATTERN =
-		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (exp|experience)?, .*? kills?\\)(.*?)<(/tr|form)" );
+		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (exp|experience|candies)?, .*? kills?\\)(.*?)<(/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
@@ -216,12 +216,12 @@ public class FamiliarData
 		{
 			switch ( this.id )
 			{
-			case 82:
+			case FamiliarPool.HATRACK:
 				// Mad Hatrack
 				EquipmentManager.updateEquipmentList( EquipmentManager.HAT );
 				break;
 
-			case 92:
+			case FamiliarPool.HAND:
 				// Disembodied Hand
 				EquipmentManager.updateEquipmentList( EquipmentManager.WEAPON );
 				EquipmentManager.updateEquipmentList( EquipmentManager.OFFHAND );
@@ -304,6 +304,7 @@ public class FamiliarData
 		case ItemPool.MOONTAN_LOTION:
 		case ItemPool.CONTACT_LENSES:
 		case ItemPool.AMPHIBIOUS_TOPHAT:
+		case ItemPool.BAG_OF_MANY_CONFECTIONS:
 			return 0;
 
 		case ItemPool.TINY_COSTUME_WARDROBE:
