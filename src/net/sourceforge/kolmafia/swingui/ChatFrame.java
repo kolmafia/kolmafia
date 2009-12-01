@@ -191,7 +191,7 @@ public class ChatFrame
 		{
 			ChatManager.dispose();
 		}
-		else if ( contact.startsWith( "/" ) )
+		else
 		{
 			ChatManager.closeWindow( contact );
 		}

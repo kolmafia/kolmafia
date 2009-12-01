@@ -461,7 +461,11 @@ public abstract class ChatManager
 		if ( ChatManager.isRunning() && ChatManager.activeChannels.contains( bufferKey ) )
 		{
 			ChatManager.activeChannels.remove( bufferKey );
-			ChatSender.sendMessage( "/listen " + bufferKey.substring( 1 ) );
+			
+			if ( bufferKey.startsWith( "/" ) )
+			{
+				ChatSender.sendMessage( "/listen " + bufferKey.substring( 1 ) );
+			}
 		}
 	}
 
