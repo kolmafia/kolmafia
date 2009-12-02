@@ -260,17 +260,20 @@ public abstract class StaticEntity
 		{
 			String preferredBrowser = Preferences.getString( "preferredWebBrowser" );
 			
-			File preferredBrowserFile = new File( UtilityConstants.ROOT_LOCATION, preferredBrowser );
-			
-			if ( preferredBrowserFile.exists() )
+			if ( !preferredBrowser.equals( "" ) )
 			{
-				try
+				File preferredBrowserFile = new File( UtilityConstants.ROOT_LOCATION, preferredBrowser );
+				
+				if ( preferredBrowserFile.exists() )
 				{
-					preferredBrowser = preferredBrowserFile.getCanonicalPath();
-				}
-				catch ( IOException e )
-				{
-					
+					try
+					{
+						preferredBrowser = preferredBrowserFile.getCanonicalPath();
+					}
+					catch ( IOException e )
+					{
+						
+					}
 				}
 			}
 
