@@ -123,7 +123,12 @@ public class ContactManager
 
 	public static final void registerPlayerId( String playerName, final String playerId )
 	{
-		if ( playerName.equals( "Mod Warning" ) || playerName.equals( "System Message" ) || playerName.equals( "Dungeon" ) )
+		if ( playerId.startsWith( "-" ) )
+		{
+			return;
+		}
+		
+		if ( playerName.equals( "Mod Warning" ) || playerName.equals( "System Message" ) )
 		{
 			return;
 		}
