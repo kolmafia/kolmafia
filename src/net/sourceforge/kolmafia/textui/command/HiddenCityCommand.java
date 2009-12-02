@@ -47,12 +47,12 @@ public class HiddenCityCommand
 {
 	public HiddenCityCommand()
 	{
-		this.usage = " <square> [temple|altar <itemId>] - set Hidden City square [and perform an action there].";
+		this.usage = " <square> [temple | altar <item>] - set Hidden City square [and perform an action there].";
 	}
 
 	public void run( final String cmd, final String parameters )
 	{
-		String[] split = parameters.split( " " );
+		String[] split = parameters.split( " ", 3 );
 
 		int square = StringUtilities.parseInt( split[ 0 ] );
 
@@ -77,12 +77,16 @@ public class HiddenCityCommand
 		else if ( type.equalsIgnoreCase( "altar" ) && split.length == 3 )
 		{
 			AdventureResult result = ItemFinder.getFirstMatchingItem( split[ 2 ], ItemFinder.ANY_MATCH );
+			if ( result == null )
+			{
+				return;
+			}
 			request1 = new HiddenCityRequest( square );
 			request2 = new HiddenCityRequest( true, result.getItemId() );
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown Hidden City request <" + parameters + ">" );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown Hidden City request: " + parameters );
 			return;
 		}
 

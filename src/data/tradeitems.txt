@@ -2945,7 +2945,7 @@
 2939	unemployed hunchbacked minion	grow	all	0
 2940	Spooky Surprise Egg	food	all	420
 2941	Steal This Candy	usable	all	25
-2942	chocolate filthy lucre	usable	all	35
+2942	chocolate filthy lucre	multiple	all	35
 2943	Angry Farmer's Wife Candy	usable	all	30
 2944
 2945	party hat	hat	all	50

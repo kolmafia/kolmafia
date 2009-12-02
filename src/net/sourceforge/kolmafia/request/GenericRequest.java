@@ -1660,6 +1660,12 @@ public class GenericRequest
 			}
 		}
 
+		if ( this.formURLString.startsWith( "fight.php" ) )
+		{	// This has to be done after parseResults() to properly
+			// deal with combat items received during combat.
+			FightRequest.parseCombatItems( this.responseText );
+		}
+
 		// Now let the main method of result processing for
 		// each request type happen.
 
