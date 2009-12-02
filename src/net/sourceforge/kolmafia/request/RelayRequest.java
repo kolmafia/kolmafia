@@ -1320,6 +1320,7 @@ public class RelayRequest
 			this.responseText = ChatFormatter.formatExternalMessage( this.responseText );
 		}
 
+		this.pseudoResponse( "HTTP/1.1 200 OK", this.responseText );
 	}
 
 	public void handleSimple()
