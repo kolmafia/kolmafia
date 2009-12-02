@@ -118,7 +118,7 @@ public class FightRequest
 	public static Interpreter filterInterp;
 	public static String filterFunction;
 
-	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option.*?value=(\\d+).*?\\((\\d+)\\)</option>" );
+	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
 
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
@@ -1708,8 +1708,6 @@ public class FightRequest
 			break;
 		}
 		
-		FightRequest.parseCombatItems( responseText );
-
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
 
@@ -2366,7 +2364,7 @@ public class FightRequest
 		Preferences.setInteger( "pastamancerGhostSummons", uses );
 	}
 	
-	private static final void parseCombatItems( String responseText )
+	public static final void parseCombatItems( String responseText )
 	{
 		int startIndex = responseText.indexOf( "<select name=whichitem>" );
 		if ( startIndex == -1 ) return;
