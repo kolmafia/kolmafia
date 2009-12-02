@@ -243,6 +243,13 @@ public abstract class StaticEntity
 		public void run()
 		{
 			String preferredBrowser = Preferences.getString( "preferredWebBrowser" );
+			
+			File preferredBrowserFile = new File( UtilityConstants.ROOT_LOCATION, preferredBrowser );
+			
+			if ( preferredBrowserFile.exists() )
+			{
+				preferredBrowser = preferredBrowserFile.getAbsolutePath();
+			}
 
 			if ( currentBrowser == null || !currentBrowser.equals( preferredBrowser ) )
 			{

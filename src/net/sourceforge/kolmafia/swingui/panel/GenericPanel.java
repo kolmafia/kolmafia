@@ -59,6 +59,7 @@ import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -409,8 +410,37 @@ public abstract class GenericPanel
 			return this.textField.getText();
 		}
 
-		public void setText( final String text )
+		public void setText( String text )
 		{
+			File root = UtilityConstants.ROOT_LOCATION;
+			String rootPath = root.getAbsolutePath();
+			
+			if ( text.toLowerCase().startsWith( rootPath.toLowerCase() ) )
+			{
+				text = text.substring( rootPath.length() + 1 );
+			}
+			else
+			{
+				File rootParent = root.getParentFile();
+				String rootParentPath = rootParent.getAbsolutePath();
+				
+				if ( text.toLowerCase().startsWith( rootParentPath.toLowerCase() ) )
+				{
+					text = ".." + File.separator + text.substring( rootParentPath.length() + 1 );
+				}
+				else
+				{
+					File rootParentParent = rootParent.getParentFile();
+					String rootParentParentPath = rootParentParent.getAbsolutePath();
+
+					if ( text.toLowerCase().startsWith( rootParentParentPath.toLowerCase() ) )
+					{
+						text = ".." + File.separator + ".." + File.separator +
+							text.substring( rootParentParentPath.length() + 1 );
+					}
+				}
+			}
+			
 			this.textField.setText( text );
 		}
 
@@ -435,7 +465,7 @@ public abstract class GenericPanel
 					return;
 				}
 
-				this.textField.setText( chooser.getSelectedFile().getAbsolutePath() );
+				this.setText( chooser.getSelectedFile().getAbsolutePath() );
 			}
 
 			GenericPanel.this.actionConfirmed();
