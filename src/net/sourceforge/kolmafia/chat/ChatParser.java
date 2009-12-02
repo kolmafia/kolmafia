@@ -53,7 +53,7 @@ public class ChatParser
 		Pattern.compile( "showplayer\\.php\\?who\\=([-\\d]+)[\'\"][^>]*?>(.*?)</a>" );
 
 	private static final Pattern SENDER_PATTERN =
-		Pattern.compile( "<b><a target=mainpane href=\"showplayer\\.php\\?who=(\\d+)\">([^<]+)</a>\\:?</b>\\:? " );
+		Pattern.compile( "<b><a target=mainpane href=\"showplayer\\.php\\?who=([\\-\\d]+)\">([^<]+)</a>\\:?</b>\\:? " );
 
 	private static final Pattern CHANNEL_LISTEN_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 
