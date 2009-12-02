@@ -41,8 +41,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import java.io.File;
+import java.io.IOException;
+
 import java.lang.ref.WeakReference;
+
 import java.util.HashMap;
 
 import javax.swing.Box;
@@ -56,11 +60,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
-
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
@@ -412,36 +414,59 @@ public abstract class GenericPanel
 
 		public void setText( String text )
 		{
-			File root = UtilityConstants.ROOT_LOCATION;
-			String rootPath = root.getAbsolutePath();
-			
-			if ( text.toLowerCase().startsWith( rootPath.toLowerCase() ) )
+			try
 			{
-				text = text.substring( rootPath.length() + 1 );
+				text = this.getRelativePath( text );
 			}
-			else
+			catch ( IOException e )
 			{
-				File rootParent = root.getParentFile();
-				String rootParentPath = rootParent.getAbsolutePath();
 				
-				if ( text.toLowerCase().startsWith( rootParentPath.toLowerCase() ) )
-				{
-					text = ".." + File.separator + text.substring( rootParentPath.length() + 1 );
-				}
-				else
-				{
-					File rootParentParent = rootParent.getParentFile();
-					String rootParentParentPath = rootParentParent.getAbsolutePath();
-
-					if ( text.toLowerCase().startsWith( rootParentParentPath.toLowerCase() ) )
-					{
-						text = ".." + File.separator + ".." + File.separator +
-							text.substring( rootParentParentPath.length() + 1 );
-					}
-				}
 			}
 			
 			this.textField.setText( text );
+		}
+		
+		private String getRelativePath( final String text )
+			throws IOException
+		{
+			File root = UtilityConstants.ROOT_LOCATION;
+			String rootPath = root.getCanonicalPath();
+			
+			if ( text.toLowerCase().startsWith( rootPath.toLowerCase() ) )
+			{
+				return text.substring( rootPath.length() + 1 );
+			}
+
+			File rootParent = root.getParentFile();
+			
+			if ( rootParent == null )
+			{
+				return text;
+			}
+			
+			String rootParentPath = rootParent.getCanonicalPath();
+			
+			if ( text.toLowerCase().startsWith( rootParentPath.toLowerCase() ) )
+			{
+				return ".." + File.separator + text.substring( rootParentPath.length() + 1 );
+			}
+
+			File rootParentParent = rootParent.getParentFile();
+			
+			if ( rootParentParent == null )
+			{
+				return text;
+			}
+			
+			String rootParentParentPath = rootParentParent.getCanonicalPath();
+
+			if ( text.toLowerCase().startsWith( rootParentParentPath.toLowerCase() ) )
+			{
+				return ".." + File.separator + ".." + File.separator +
+					text.substring( rootParentParentPath.length() + 1 );
+			}
+			
+			return text;
 		}
 
 		public void focusLost( final FocusEvent e )
@@ -457,15 +482,22 @@ public abstract class GenericPanel
 		{
 			if ( this.path != null )
 			{
-				JFileChooser chooser = new JFileChooser( this.path.getAbsolutePath() );
-				chooser.showOpenDialog( null );
-
-				if ( chooser.getSelectedFile() == null )
+				try
 				{
-					return;
+					JFileChooser chooser = new JFileChooser( this.path.getCanonicalPath() );
+					chooser.showOpenDialog( null );
+	
+					if ( chooser.getSelectedFile() == null )
+					{
+						return;
+					}
+	
+					this.setText( chooser.getSelectedFile().getCanonicalPath() );
 				}
-
-				this.setText( chooser.getSelectedFile().getAbsolutePath() );
+				catch ( IOException e1 )
+				{
+					
+				}
 			}
 
 			GenericPanel.this.actionConfirmed();

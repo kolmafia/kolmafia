@@ -40,7 +40,9 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import javax.swing.BorderFactory;
@@ -49,7 +51,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
@@ -150,6 +151,17 @@ public class MushroomPlotPanel
 		{
 			return;
 		}
+		
+		String outputPath = null;
+		
+		try
+		{
+			outputPath = output.getCanonicalPath();
+		}
+		catch ( IOException e )
+		{
+			return;
+		}
 
 		try
 		{
@@ -181,7 +193,7 @@ public class MushroomPlotPanel
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Error saving file <" + output.getAbsolutePath() + ">" );
+			StaticEntity.printStackTrace( e, "Error saving file <" + outputPath + ">" );
 		}
 	}
 

@@ -37,7 +37,10 @@ package net.java.dev.spellcast.utilities;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+
 import java.io.File;
+import java.io.IOException;
+
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -45,7 +48,6 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
@@ -167,7 +169,13 @@ public class JComponentUtilities
 		File override = new File( UtilityConstants.ROOT_LOCATION, fullname );
 		if ( override.exists() )
 		{
-			return new ImageIcon( override.getAbsolutePath() );
+			try
+			{
+				return new ImageIcon( override.getCanonicalPath() );
+			}
+			catch ( IOException e )
+			{
+			}
 		}
 
 		result = JComponentUtilities.getImage( UtilityConstants.SYSTEM_CLASSLOADER, fullname );

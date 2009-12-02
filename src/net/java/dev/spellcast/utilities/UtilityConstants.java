@@ -62,8 +62,6 @@ public interface UtilityConstants
 			UtilityConstants.HOME_LOCATION, "Library/Application Support/KoLmafia" ) : UtilityConstants.USE_LINUX_STYLE_DIRECTORIES ? new File(
 			UtilityConstants.HOME_LOCATION, ".kolmafia" ) : UtilityConstants.BASE_LOCATION;
 
-	public static final String ROOT_DIRECTORY = UtilityConstants.ROOT_LOCATION.getAbsolutePath();
-
 	public static final String DATA_DIRECTORY = "data/";
 	public static final String IMAGE_DIRECTORY = "images/";
 	public static final String SETTINGS_DIRECTORY = "settings/";

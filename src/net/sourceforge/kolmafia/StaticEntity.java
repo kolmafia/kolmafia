@@ -33,9 +33,13 @@
 
 package net.sourceforge.kolmafia;
 
+import edu.stanford.ejalbert.BrowserLauncher;
 import java.awt.Frame;
+
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -103,7 +107,6 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.MineDecorator;
-import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity
 {
@@ -222,6 +225,19 @@ public abstract class StaticEntity
 		return StaticEntity.usesRelayWindows == 1;
 	}
 
+	public static final void openSystemBrowser( final File file )
+	{
+		try
+		{
+			String location = file.getCanonicalPath();
+			
+			StaticEntity.openSystemBrowser( location );
+		}
+		catch ( IOException e )
+		{
+		}
+	}
+	
 	public static final void openSystemBrowser( final String location )
 	{
 		( new SystemBrowserThread( location ) ).start();
@@ -248,7 +264,14 @@ public abstract class StaticEntity
 			
 			if ( preferredBrowserFile.exists() )
 			{
-				preferredBrowser = preferredBrowserFile.getAbsolutePath();
+				try
+				{
+					preferredBrowser = preferredBrowserFile.getCanonicalPath();
+				}
+				catch ( IOException e )
+				{
+					
+				}
 			}
 
 			if ( currentBrowser == null || !currentBrowser.equals( preferredBrowser ) )

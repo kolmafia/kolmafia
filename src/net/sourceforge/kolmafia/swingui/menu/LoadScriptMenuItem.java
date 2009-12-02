@@ -33,8 +33,9 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import javax.swing.JFileChooser;
+import java.io.IOException;
 
+import javax.swing.JFileChooser;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -64,20 +65,27 @@ public class LoadScriptMenuItem
 	{
 		String executePath = this.scriptPath;
 
-		if ( this.scriptPath == null )
+		try
 		{
-			JFileChooser chooser = new JFileChooser( KoLConstants.SCRIPT_LOCATION.getAbsolutePath() );
-			int returnVal = chooser.showOpenDialog( null );
-
-			if ( chooser.getSelectedFile() == null )
+			if ( this.scriptPath == null )
 			{
-				return;
+				JFileChooser chooser = new JFileChooser( KoLConstants.SCRIPT_LOCATION.getCanonicalPath() );
+				int returnVal = chooser.showOpenDialog( null );
+	
+				if ( chooser.getSelectedFile() == null )
+				{
+					return;
+				}
+	
+				if ( returnVal == JFileChooser.APPROVE_OPTION )
+				{
+					executePath = chooser.getSelectedFile().getCanonicalPath();
+				}
 			}
-
-			if ( returnVal == JFileChooser.APPROVE_OPTION )
-			{
-				executePath = chooser.getSelectedFile().getAbsolutePath();
-			}
+		}
+		catch ( IOException e )
+		{
+			
 		}
 
 		if ( executePath == null )

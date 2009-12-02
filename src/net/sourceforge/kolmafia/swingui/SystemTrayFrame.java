@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.swingui;
 import com.jeans.trayicon.TrayIconPopup;
 import com.jeans.trayicon.TrayIconPopupSimpleItem;
 import com.jeans.trayicon.WindowsTrayIcon;
-
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,17 +43,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
-
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
@@ -75,12 +72,12 @@ public abstract class SystemTrayFrame
 		FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.gif" );
 		FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.dll" );
 
-		File iconfile = new File( UtilityConstants.IMAGE_LOCATION, "TrayIcon12.dll" );
-		System.load( iconfile.getAbsolutePath() );
-		WindowsTrayIcon.initTrayIcon( "KoLmafia" );
-
 		try
 		{
+			File iconfile = new File( UtilityConstants.IMAGE_LOCATION, "TrayIcon12.dll" );
+			System.load( iconfile.getCanonicalPath() );
+			WindowsTrayIcon.initTrayIcon( "KoLmafia" );
+
 			ImageIcon image = JComponentUtilities.getImage( "", "TrayIcon12.gif" );
 
 			SystemTrayFrame.icon = new WindowsTrayIcon( image.getImage(), 16, 16 );
