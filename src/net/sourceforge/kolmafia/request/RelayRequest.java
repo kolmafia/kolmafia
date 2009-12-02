@@ -40,7 +40,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+
+import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,8 +70,8 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatPoller;
-import net.sourceforge.kolmafia.chat.HistoryEntry;
 import net.sourceforge.kolmafia.chat.ChatSender;
+import net.sourceforge.kolmafia.chat.HistoryEntry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
@@ -392,11 +395,13 @@ public class RelayRequest
 				ostream.println( this.headers.get( i ) );
 			}
 		}
-		else
+		else if ( this.formConnection != null )
 		{
+			HttpURLConnection connection = this.formConnection;
+			
 			String header;
 
-			for ( int i = 0; ( header = this.formConnection.getHeaderFieldKey( i ) ) != null; ++i )
+			for ( int i = 0; ( header = connection.getHeaderFieldKey( i ) ) != null; ++i )
 			{
 				if ( header.startsWith( "Content" ) || header.startsWith( "Cache" ) || header.equals( "Pragma" ) || header.equals( "Set-Cookie" ) )
 				{
@@ -405,7 +410,7 @@ public class RelayRequest
 
 				ostream.print( header );
 				ostream.print( ": " );
-				ostream.println( this.formConnection.getHeaderField( i ) );
+				ostream.println( connection.getHeaderField( i ) );
 			}
 
 			if ( this.responseCode == 200 && this.rawByteBuffer != null )
