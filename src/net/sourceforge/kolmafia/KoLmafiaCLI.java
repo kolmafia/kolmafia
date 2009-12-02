@@ -77,10 +77,18 @@ public class KoLmafiaCLI
 		System.out.println( StaticEntity.getVersion() );
 		System.out.println( KoLConstants.VERSION_DATE );
 		System.out.println();
-		System.out.println( "Currently Running on " + System.getProperty( "os.name" ) );
-		System.out.println( "Local Directory is " + KoLConstants.ROOT_LOCATION.getAbsolutePath() );
-		System.out.println( "Using Java " + System.getProperty( "java.version" ) );
-		System.out.println();
+		
+		try
+		{
+			System.out.println( "Currently Running on " + System.getProperty( "os.name" ) );
+			System.out.println( "Local Directory is " + KoLConstants.ROOT_LOCATION.getCanonicalPath() );
+			System.out.println( "Using Java " + System.getProperty( "java.version" ) );
+			System.out.println();
+		}
+		catch ( IOException e )
+		{
+			
+		}
 
 		StaticEntity.setClient( KoLmafiaCLI.DEFAULT_SHELL );
 		RequestLogger.openStandard();

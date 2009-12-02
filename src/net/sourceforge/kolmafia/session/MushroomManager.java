@@ -803,7 +803,7 @@ public abstract class MushroomManager
 	public static final void saveLayout( final String filename, final String[][] originalData,
 		final String[][] planningData )
 	{
-		File preview = new File( KoLConstants.PLOTS_LOCATION.getAbsolutePath(), filename + ".htm" );
+		File preview = new File( KoLConstants.PLOTS_LOCATION, filename + ".htm" );
 
 		PrintStream textLayout = LogStream.openStream( new File( KoLConstants.PLOTS_LOCATION, filename + ".txt" ), true );
 		PrintStream htmlLayout = LogStream.openStream( preview, true );
@@ -1072,7 +1072,6 @@ public abstract class MushroomManager
 		// Now that everything has been generated, open the HTML
 		// inside of a browser.
 
-		StaticEntity.openSystemBrowser( preview.getAbsolutePath() );
-
+		StaticEntity.openSystemBrowser( preview );
 	}
 }

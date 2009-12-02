@@ -130,7 +130,7 @@ public class CallScriptCommand
 
 			if ( scriptFile.isDirectory() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, scriptFile.getAbsolutePath() + " is a directory." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, scriptFile.getCanonicalPath() + " is a directory." );
 				return;
 			}
 

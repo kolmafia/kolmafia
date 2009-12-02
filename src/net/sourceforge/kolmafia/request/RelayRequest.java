@@ -109,8 +109,6 @@ public class RelayRequest
 	private static final Pattern STORE_PATTERN =
 		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
-	private static final String RELAY_PATH = KoLConstants.RELAY_LOCATION.getAbsolutePath();
-
 	private static String mainpane = "";
 	private static KoLAdventure lastSafety = null;
 
@@ -608,13 +606,7 @@ public class RelayRequest
 		}
 
 		File override = (File) RelayRequest.overrideMap.get( filename );
-
-		if ( !override.getAbsolutePath().startsWith( RELAY_PATH ) )
-		{
-			this.sendNotFound();
-			return;
-		}
-
+		
 		if ( !override.exists() )
 		{
 			if ( filename.equals( "main.html" ) || filename.equals( "main_c.html" ) )
@@ -630,6 +622,21 @@ public class RelayRequest
 			}
 
 			this.downloadSimulatorFile( filename.substring( filename.lastIndexOf( "/" ) + 1 ) );
+		}
+
+		try
+		{
+			String overridePath = override.getCanonicalPath();
+
+			if ( overridePath.indexOf( KoLConstants.RELAY_DIRECTORY ) == -1 )
+			{
+				this.sendNotFound();
+				return;
+			}
+		}
+		catch ( IOException e )
+		{
+			
 		}
 
 		replyBuffer = this.readContents( DataUtilities.getReader( override ) );

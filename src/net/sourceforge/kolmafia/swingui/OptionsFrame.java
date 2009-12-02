@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.swingui;
 
 import com.informit.guides.JDnDList;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -44,6 +43,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -59,7 +59,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -67,8 +66,6 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.LocalRelayServer;
-import net.sourceforge.kolmafia.chat.ChatManager;
-import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -505,24 +502,31 @@ public class OptionsFrame
 
 			public void run()
 			{
-				String rootPath = KoLConstants.SCRIPT_LOCATION.getAbsolutePath();
-				JFileChooser chooser = new JFileChooser( rootPath );
-				int returnVal = chooser.showOpenDialog( null );
-
-				if ( chooser.getSelectedFile() == null )
+				try
 				{
-					return;
-				}
+					String rootPath = KoLConstants.SCRIPT_LOCATION.getCanonicalPath();
 
-				if ( returnVal == JFileChooser.APPROVE_OPTION )
-				{
-					String scriptPath = chooser.getSelectedFile().getAbsolutePath();
-					if ( scriptPath.startsWith( rootPath ) )
+					JFileChooser chooser = new JFileChooser( rootPath );
+					int returnVal = chooser.showOpenDialog( null );
+	
+					if ( chooser.getSelectedFile() == null )
 					{
-						scriptPath = scriptPath.substring( rootPath.length() + 1 );
+						return;
 					}
-
-					ScriptButtonPanel.this.list.add( "call " + scriptPath );
+	
+					if ( returnVal == JFileChooser.APPROVE_OPTION )
+					{
+						String scriptPath = chooser.getSelectedFile().getCanonicalPath();
+						if ( scriptPath.startsWith( rootPath ) )
+						{
+							scriptPath = scriptPath.substring( rootPath.length() + 1 );
+						}
+	
+						ScriptButtonPanel.this.list.add( "call " + scriptPath );
+					}
+				}
+				catch ( IOException e )
+				{
 				}
 
 				ScriptButtonPanel.this.saveSettings();

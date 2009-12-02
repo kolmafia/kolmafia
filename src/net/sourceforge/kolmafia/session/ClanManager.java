@@ -33,40 +33,40 @@
 
 package net.sourceforge.kolmafia.session;
 
+import edu.stanford.ejalbert.BrowserLauncher;
+
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.stanford.ejalbert.BrowserLauncher;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.ClanLogRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-
-import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 
 public abstract class ClanManager
 {
@@ -541,9 +541,9 @@ public abstract class ClanManager
 		// To make things less confusing, load the summary
 		// file inside of the default browser after completion.
 
-		BrowserLauncher.openURL( standardFile.getAbsolutePath() );
-		BrowserLauncher.openURL( softcoreFile.getAbsolutePath() );
-		BrowserLauncher.openURL( hardcoreFile.getAbsolutePath() );
+		StaticEntity.openSystemBrowser( standardFile );
+		StaticEntity.openSystemBrowser( softcoreFile );
+		StaticEntity.openSystemBrowser( hardcoreFile );
 	}
 
 	/**
