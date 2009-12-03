@@ -74,12 +74,6 @@ public class UserDefinedFunction
 			return;
 		}
 		
-		if ( this.callStack.empty() )
-		{	// No point in saving variables for the outermost call.
-			this.callStack.push( null );
-			return;
-		}
-
 		ArrayList values = new ArrayList();
 		Iterator scopes = this.scope.getScopes();
 		while ( scopes.hasNext() )
@@ -103,13 +97,6 @@ public class UserDefinedFunction
 		}
 
 		ArrayList values = (ArrayList) this.callStack.pop();
-		if ( values == null )
-		{	// This was the outermost call, no point in restoring variables
-			// (and it may be useful for post-mortem debugging to be able to
-			// tell what the final variable values were).
-			return;
-		}
-		
 		int i = 0;
 		Iterator scopes = this.scope.getScopes();
 		while ( scopes.hasNext() )
