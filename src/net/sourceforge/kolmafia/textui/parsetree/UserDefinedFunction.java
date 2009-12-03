@@ -73,16 +73,25 @@ public class UserDefinedFunction
 		{
 			return;
 		}
-
-		ArrayList values = new ArrayList();
-		Iterator variables = this.scope.getVariables();
-
-		while ( variables.hasNext() )
-		{
-			Variable current = (Variable) variables.next();
-			values.add( current.getValue( interpreter ) );
+		
+		if ( this.callStack.empty() )
+		{	// No point in saving variables for the outermost call.
+			this.callStack.push( null );
+			return;
 		}
 
+		ArrayList values = new ArrayList();
+		Iterator scopes = this.scope.getScopes();
+		while ( scopes.hasNext() )
+		{
+			Iterator variables = ((BasicScope) scopes.next()).getVariables();
+	
+			while ( variables.hasNext() )
+			{
+				Variable current = (Variable) variables.next();
+				values.add( current.getValue( interpreter ) );
+			}
+		}
 		this.callStack.push( values );
 	}
 
@@ -94,12 +103,24 @@ public class UserDefinedFunction
 		}
 
 		ArrayList values = (ArrayList) this.callStack.pop();
-		Iterator variables = this.scope.getVariables();
-
-		for ( int i = 0; variables.hasNext(); ++i )
+		if ( values == null )
+		{	// This was the outermost call, no point in restoring variables
+			// (and it may be useful for post-mortem debugging to be able to
+			// tell what the final variable values were).
+			return;
+		}
+		
+		int i = 0;
+		Iterator scopes = this.scope.getScopes();
+		while ( scopes.hasNext() )
 		{
-			Variable current = (Variable) variables.next();
-			current.forceValue( (Value) values.get( i ) );
+			Iterator variables = ((BasicScope) scopes.next()).getVariables();
+	
+			for ( ; variables.hasNext(); ++i )
+			{
+				Variable current = (Variable) variables.next();
+				current.forceValue( (Value) values.get( i ) );
+			}
 		}
 	}
 

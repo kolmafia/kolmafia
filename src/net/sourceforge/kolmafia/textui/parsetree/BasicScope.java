@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.kolmafia.KoLmafia;
@@ -52,13 +53,21 @@ public abstract class BasicScope
 	protected VariableList variables;
 	protected FunctionList functions;
 	protected BasicScope parentScope;
+	protected ArrayList nestedScopes;
 
-	public BasicScope( FunctionList functions, VariableList variables, TypeList types, final BasicScope parentScope )
+	public BasicScope( FunctionList functions, VariableList variables, TypeList types, BasicScope parentScope )
 	{
 		this.functions = ( functions == null ) ? new FunctionList() : functions;
 		this.types = ( types == null ) ? new TypeList() : types;
 		this.variables = ( variables == null ) ? new VariableList() : variables;
 		this.parentScope = parentScope;
+		this.nestedScopes = new ArrayList();
+		this.nestedScopes.add( this );
+		while ( parentScope != null )
+		{
+			parentScope.nestedScopes.add( this );
+			parentScope = parentScope.parentScope;
+		}
 	}
 
 	public BasicScope( VariableList variables, final BasicScope parentScope )
@@ -98,6 +107,11 @@ public abstract class BasicScope
 			return this.parentScope.findType( name );
 		}
 		return null;
+	}
+
+	public Iterator getScopes()
+	{
+		return this.nestedScopes.iterator();
 	}
 
 	public Iterator getVariables()
