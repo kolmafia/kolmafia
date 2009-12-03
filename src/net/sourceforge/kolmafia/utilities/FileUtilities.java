@@ -362,8 +362,9 @@ public class FileUtilities
 		try
 		{
 			String localfilePath = localfile.getCanonicalPath();
+			String imagePath = UtilityConstants.IMAGE_LOCATION.getCanonicalPath();
 
-			if ( localfilePath.indexOf( UtilityConstants.IMAGE_DIRECTORY ) == -1 )
+			if ( !localfilePath.startsWith( imagePath ) )
 			{
 				return null;
 			}
