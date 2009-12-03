@@ -431,9 +431,14 @@ public abstract class GenericPanel
 		{
 			File root = UtilityConstants.ROOT_LOCATION;
 			String rootPath = root.getCanonicalPath();
-			
-			if ( text.toLowerCase().startsWith( rootPath.toLowerCase() ) )
+
+			if ( rootPath.endsWith( File.separator ) )
 			{
+				rootPath = rootPath.substring( 0, rootPath.length() - 1 );
+			}
+
+			if ( text.toLowerCase().startsWith( rootPath.toLowerCase() ) )
+			{				
 				return text.substring( rootPath.length() + 1 );
 			}
 
@@ -445,6 +450,11 @@ public abstract class GenericPanel
 			}
 			
 			String rootParentPath = rootParent.getCanonicalPath();
+
+			if ( rootParentPath.endsWith( File.separator ) )
+			{
+				rootParentPath = rootParentPath.substring( 0, rootParentPath.length() - 1 );
+			}
 			
 			if ( text.toLowerCase().startsWith( rootParentPath.toLowerCase() ) )
 			{
@@ -459,6 +469,11 @@ public abstract class GenericPanel
 			}
 			
 			String rootParentParentPath = rootParentParent.getCanonicalPath();
+
+			if ( rootParentParentPath.endsWith( File.separator ) )
+			{
+				rootParentParentPath = rootParentParentPath.substring( 0, rootParentParentPath.length() - 1 );
+			}
 
 			if ( text.toLowerCase().startsWith( rootParentParentPath.toLowerCase() ) )
 			{
