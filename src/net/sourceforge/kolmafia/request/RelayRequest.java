@@ -627,8 +627,9 @@ public class RelayRequest
 		try
 		{
 			String overridePath = override.getCanonicalPath();
+			String relayPath = KoLConstants.RELAY_LOCATION.getCanonicalPath();
 
-			if ( overridePath.indexOf( KoLConstants.RELAY_DIRECTORY ) == -1 )
+			if ( !overridePath.startsWith( relayPath ) )
 			{
 				this.sendNotFound();
 				return;
@@ -1279,6 +1280,8 @@ public class RelayRequest
 
 	private void handleChat()
 	{
+		String chatText;
+		
 		if ( this.getPath().startsWith( "newchatmessages.php" ) )
 		{
 			StringBuffer chatResponse = new StringBuffer();
@@ -1315,19 +1318,19 @@ public class RelayRequest
 			chatResponse.append( KoLConstants.CHAT_LASTSEEN_FORMAT.format( lastSeen ) );
 			chatResponse.append( "-->" );
 	
-			this.responseText = chatResponse.toString();
+			chatText = chatResponse.toString();
 		}
 		else
 		{
-			this.responseText = ChatSender.sendMessage( this.getFormField( "graf" ) );
+			chatText = ChatSender.sendMessage( this.getFormField( "graf" ) );
 		}
 
 		if ( Preferences.getBoolean( "relayFormatsChatText" ) )
 		{
-			this.responseText = ChatFormatter.formatExternalMessage( this.responseText );
+			chatText = ChatFormatter.formatExternalMessage( chatText );
 		}
 
-		this.pseudoResponse( "HTTP/1.1 200 OK", this.responseText );
+		this.pseudoResponse( "HTTP/1.1 200 OK", chatText );
 	}
 
 	public void handleSimple()
