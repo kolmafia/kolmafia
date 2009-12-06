@@ -1377,6 +1377,13 @@ public class KoLAdventure
 			"Use a filthworm royal guard scent gland before trying to adventure here.",
 		},
 
+		// Orchard failure - The filthworm queen has been slain, and the
+		// hive lies empty 'neath the orchard.
+		{
+			"The filthworm queen has been slain",
+			"The filthworm queen has been slain.",
+		},
+
 		// You've already retrieved all of the stolen Meat
 		{
 			"already retrieved all of the stolen Meat",
