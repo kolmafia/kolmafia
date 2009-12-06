@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -136,7 +137,7 @@ public class MaximizerFrame
 		"ranged dmg",
 		"elemental dmg",
 		"spell dmg",
-		"adv -tie",
+		"adv",
 		"hot res",
 		"cold res",
 		"spooky res",
@@ -203,6 +204,9 @@ public class MaximizerFrame
 		"<br><b>outfit <i>name</i></b> - The specified standard outfit is required or forbidden.  If the name is omitted, the currently equipped outfit is used.  Multiple uses of <b>+outfit</b> are satisfied by any one of the outfits (since you can't be wearing more than one at a time)." +
 		"<br>If both <b>+equip</b> and <b>+outfit</b> are used together, either one will satisfy the condition - all of the items, or one of the outfits.  This special case is needed to be able to specify the conditions for adventuring in the Pirate Cove." +		
 		"<br><b>tie</b>breaker - With negative weight, disables the use of a tiebreaker function that tries to choose equipment with generally beneficial attributes, even if not explicitly requested.  There are only a few cases where this would be desirable: maximizing <b>+combat</b> or <b>-combat</b> (since there's usually only one item that can help), <b>adv</b> and/or <b>PvP fights</b> at rollover, and <b>familiar weight</b> when facing the Naughty Sorceress familiars." +
+		"<h3>Familiars</h3>" +
+		"By default, the Modifier Maximizer does not recommend familiars, since there are many possible factors in choosing one beyond those that can be expressed via modifiers.  However, you can request that specific familiars be compared with your current one:" +
+		"<br><b>switch <i>familiar</i></b> - With positive weight, the familiar is added to the list to be considered (unless the player lacks that familiar, or is already using it, in which case there is no effect).  With negative weight, the familiar is added to the list only if the player lacks the previously specified familiar.  For example, <b>switch hobo monkey, -switch leprechaun</b> will only consider the leprechaun if the player doesn't have the monkey." +
 		"<h3>Assumptions</h3>" +
 		"All suggestions are based on the assumption that you will be adventuring in the currently selected location, with all your current effects, prior to the next rollover (since some things depend on the moon phases).  For best results, make sure the proper location is selected before maximizing.  This is especially true in The Sea and clan dungeons, which have many location-specific modifiers." +
 		"<p>" +
@@ -350,6 +354,32 @@ public class MaximizerFrame
 			
 			for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 			{	
+				if ( slot == EquipmentManager.FAMILIAR )
+				{	// Insert any familiar switch at this point
+					FamiliarData fam = MaximizerFrame.best.getFamiliar();
+					if ( !fam.equals( KoLCharacter.getFamiliar() ) )
+					{
+						Spec spec = new Spec();
+						spec.setFamiliar( fam );
+						float delta = spec.getScore() - current;
+						String cmd, text;
+						cmd = "familiar " + fam.getRace();
+						text = cmd + " (" +
+							KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+								
+						Boost boost = new Boost( cmd, text, fam, delta );
+						if ( equipLevel == -1 )
+						{	// called from CLI
+							boost.execute( true );
+							if ( !KoLmafia.permitsContinue() ) equipLevel = 1;
+						}
+						else
+						{
+							MaximizerFrame.boosts.add( boost );
+						}
+					}
+				}
+				
 				String slotname = EquipmentRequest.slotNames[ slot ];
 				AdventureResult item = MaximizerFrame.best.equipment[ slot ];
 				AdventureResult curr = EquipmentManager.getEquipment( slot );
@@ -858,6 +888,7 @@ public class MaximizerFrame
 		private int dump = 0;
 		private int clownosity = 0;
 		private int booleanMask, booleanValue;
+		private ArrayList familiars;
 		
 		private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 		String weaponType = null;
@@ -901,13 +932,21 @@ public class MaximizerFrame
 		public static final int OFFHAND_RANGED = EquipmentManager.ACCESSORY3;
 		public static final int WATCHES = EquipmentManager.STICKER2;
 		public static final int WEAPON_1H = EquipmentManager.STICKER3;
+		// Slots starting with EquipmentManager.ALL_SLOTS are equipment
+		// for other familiars being considered.
 		
-		private static final int[] MAX_USEFUL = new int[ EquipmentManager.ALL_SLOTS ];
-		static {
-			Arrays.fill( MAX_USEFUL, 1 );
-			MAX_USEFUL[ EquipmentManager.HAT ] = 2;	// Mad Hatrack
-			MAX_USEFUL[ Evaluator.WEAPON_1H ] = 3;	// Dual-wield + Hand
-			MAX_USEFUL[ EquipmentManager.ACCESSORY1 ] = 3;
+		private static int maxUseful( int slot )
+		{
+			switch ( slot )
+			{
+			case EquipmentManager.HAT:
+				return 2;	// Mad Hatrack
+			case Evaluator.WEAPON_1H:
+				return 3;	// Dual-wield + Disembodied Hand
+			case EquipmentManager.ACCESSORY1:
+				return 3;
+			}
+			return 1;
 		}
 		
 		private Evaluator()
@@ -925,6 +964,7 @@ public class MaximizerFrame
 			this.negOutfits = tiebreaker.negOutfits = new HashSet();
 			this.posEquip = tiebreaker.posEquip = new TreeSet();
 			this.negEquip = tiebreaker.negEquip = new TreeSet();
+			this.familiars = tiebreaker.familiars = new ArrayList();
 			this.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
 			tiebreaker.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
 			tiebreaker.min = new float[ Modifiers.FLOAT_MODIFIERS ];
@@ -941,6 +981,7 @@ public class MaximizerFrame
 		{
 			expr = expr.trim().toLowerCase();
 			Matcher m = KEYWORD_PATTERN.matcher( expr );
+			boolean hadFamiliar = false;
 			int pos = 0;
 			int index = -1;
 			while ( pos < expr.length() )
@@ -1081,6 +1122,30 @@ public class MaximizerFrame
 					}
 					continue;
 				}
+				else if ( keyword.startsWith( "switch " ) )
+				{
+					keyword = keyword.substring( 7 ).trim();
+					int id = FamiliarDatabase.getFamiliarId( keyword );
+					if ( id == -1 )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+							"Unknown familiar: " + keyword );
+						return;
+					}
+					if ( hadFamiliar && weight < 0.0f ) continue;
+					FamiliarData fam = KoLCharacter.findFamiliar( id );
+					if ( fam == null && weight > 1.0f )
+					{	// Allow a familiar to be faked for testing
+						fam = new FamiliarData( id );
+					}
+					hadFamiliar = fam != null;
+					if ( fam != null && !fam.equals( KoLCharacter.getFamiliar() )
+						&& !this.familiars.contains( fam ) )
+					{
+						this.familiars.add( fam );
+					}
+					continue;
+				}
 				
 				int slot = EquipmentRequest.slotNumber( keyword );
 				if ( slot >= 0 && slot < EquipmentManager.ALL_SLOTS )
@@ -1185,6 +1250,7 @@ public class MaximizerFrame
 				}
 				else if ( keyword.startsWith( "adv" ) )
 				{
+					this.noTiebreaker = true;
 					index = Modifiers.ADVENTURES;
 				}
 				else if ( keyword.startsWith( "exp" ) )
@@ -1453,10 +1519,10 @@ public class MaximizerFrame
 		{
 			// Items automatically considered regardless of their score -
 			// outfit pieces, synergies, hobo power, brimstone, etc.
-			ArrayList[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS ];
+			ArrayList[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 			// Items to be considered based on their score
-			ArrayList[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS ];
-			for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
+			ArrayList[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
+			for ( int i = ranked.length - 1; i >= 0; --i )
 			{
 				automatic[ i ] = new ArrayList();
 				ranked[ i ] = new ArrayList();
@@ -1545,10 +1611,10 @@ public class MaximizerFrame
 			{
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
-				AdventureResult item = ItemPool.get( id, 1 );
-				if ( this.negEquip.contains( item ) ) continue;
-				boolean famCanEquip = KoLCharacter.getFamiliar().canEquip( item );
-				item = null;
+				AdventureResult preItem = ItemPool.get( id, 1 );
+				AdventureResult item = null;
+				if ( this.negEquip.contains( preItem ) ) continue;
+				boolean famCanEquip = KoLCharacter.getFamiliar().canEquip( preItem );
 				if ( famCanEquip && slot != EquipmentManager.FAMILIAR )
 				{
 					item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
@@ -1557,6 +1623,20 @@ public class MaximizerFrame
 						ranked[ EquipmentManager.FAMILIAR ].add( item );
 					}
 				}
+				for ( int f = this.familiars.size() - 1; f >= 0; --f )
+				{
+					FamiliarData fam = (FamiliarData) this.familiars.get( f );
+					if ( !fam.canEquip( preItem ) ) continue;
+					if ( item == null )
+					{
+						item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
+					}
+					if ( item.getCount() != 0 )
+					{
+						ranked[ EquipmentManager.ALL_SLOTS + f ].add( item );
+					}
+				}
+				
 				if ( !EquipmentManager.canEquip( id ) ) continue;
 				if ( item == null )
 				{
@@ -1667,8 +1747,7 @@ public class MaximizerFrame
 					Modifiers mods = Modifiers.getModifiers( name );
 					if ( mods == null )	// no enchantments
 					{
-						if ( (count & Evaluator.BUYABLE_FLAG) != 0 ) continue;
-						break gotItem;
+						mods = new Modifiers();
 					}
 					
 					if ( mods.getBoolean( Modifiers.SINGLE ) )
@@ -1720,7 +1799,7 @@ public class MaximizerFrame
 					if ( delta == 0.0f )
 					{
 						if ( KoLCharacter.hasEquipped( item ) ) break gotItem;
-						if ( (count & Evaluator.BUYABLE_FLAG) != 0 ) continue;
+						if ( ((count >> Evaluator.INITIAL_SHIFT) & Evaluator.SUBTOTAL_MASK) == 0 ) continue;
 						if ( (count & Evaluator.AUTOMATIC_FLAG) != 0 ) continue;
 					}
 				}
@@ -1729,7 +1808,7 @@ public class MaximizerFrame
 				if ( auxSlot != -1 ) ranked[ auxSlot ].add( item );
 			}
 			
-			for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
+			for ( int slot = 0; slot < ranked.length; ++slot )
 			{
 				if ( this.dump > 0 )
 				{
@@ -1756,6 +1835,12 @@ public class MaximizerFrame
 						useSlot = EquipmentManager.WEAPON;
 						break;
 					}
+					if ( slot >= EquipmentManager.ALL_SLOTS )
+					{
+						spec.setFamiliar( (FamiliarData) this.familiars.get(
+							slot - EquipmentManager.ALL_SLOTS ) );
+						useSlot = EquipmentManager.FAMILIAR;
+					}
 					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 					spec.equipment[ useSlot ] = item;
 					i.set( spec );					
@@ -1777,7 +1862,7 @@ public class MaximizerFrame
 						continue;
 					}
 					if ( (count & Evaluator.AUTOMATIC_FLAG) != 0 ||
-						total < Evaluator.MAX_USEFUL[ slot ] )
+						total < Evaluator.maxUseful( slot ) )
 					{
 						automatic[ slot ].add( item );
 						total += count & Evaluator.TOTAL_MASK;
@@ -1830,7 +1915,7 @@ public class MaximizerFrame
 				}
 			}
 			
-			spec.tryAll( usefulOutfits, outfitPieces, automatic );
+			spec.tryAll( this.familiars, usefulOutfits, outfitPieces, automatic );
 		}
 	}
 	
@@ -1936,10 +2021,17 @@ public class MaximizerFrame
 			System.arraycopy( mark, 0, this.equipment, 0, EquipmentManager.ALL_SLOTS );
 		}
 		
-		public void tryAll( BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
+		public void tryAll( ArrayList familiars, BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
 			throws MaximizerInterruptedException
 		{
 			this.tryOutfits( usefulOutfits, outfitPieces, possibles );
+			for ( int i = 0; i < familiars.size(); ++i )
+			{
+				this.setFamiliar( (FamiliarData) familiars.get( i ) );
+				possibles[ EquipmentManager.FAMILIAR ] =
+					possibles[ EquipmentManager.ALL_SLOTS + i ];
+				this.tryOutfits( usefulOutfits, outfitPieces, possibles );
+			}
 		}
 		
 		public void tryOutfits( BooleanArray usefulOutfits, TreeMap outfitPieces, ArrayList[] possibles )
@@ -2035,6 +2127,18 @@ public class MaximizerFrame
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
 					int count = item.getCount() & Evaluator.TOTAL_MASK;
+					if ( item.equals( this.equipment[ EquipmentManager.OFFHAND ] ) )
+					{
+						--count;
+					}
+					if ( item.equals( this.equipment[ EquipmentManager.WEAPON ] ) )
+					{
+						--count;
+					}
+					if ( item.equals( this.equipment[ EquipmentManager.HAT ] ) )
+					{
+						--count;
+					}
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.FAMILIAR ] = item;
 					this.tryAccessories( possibles, 0 );
@@ -2404,6 +2508,7 @@ public class MaximizerFrame
 		private int slot;
 		private float boost;
 		private AdventureResult item, effect;
+		private FamiliarData fam;
 		
 		private Boost( String cmd, String text, AdventureResult item, float boost )
 		{
@@ -2433,6 +2538,14 @@ public class MaximizerFrame
 			this( cmd, text, item, boost );
 			this.isEquipment = true;
 			this.slot = slot;
+		}
+		
+		public Boost( String cmd, String text, FamiliarData fam, float boost )
+		{
+			this( cmd, text, (AdventureResult) null, boost );
+			this.isEquipment = true;
+			this.fam = fam;
+			this.slot = -1;
 		}
 		
 		public String toString()
@@ -2472,7 +2585,11 @@ public class MaximizerFrame
 		{
 			if ( this.isEquipment )
 			{
-				if ( this.slot >= 0 && this.item != null )
+				if ( this.fam != null )
+				{
+					spec.setFamiliar( fam );
+				}
+				else if ( this.slot >= 0 && this.item != null )
 				{
 					spec.equip( slot, this.item );
 				}
