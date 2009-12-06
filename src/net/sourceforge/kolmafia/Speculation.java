@@ -92,6 +92,11 @@ public class Speculation
 		this.familiar = familiar;
 	}
 	
+	public FamiliarData getFamiliar()
+	{
+		return this.familiar;
+	}
+	
 	public void equip( int slot, AdventureResult item )
 	{
 		if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) return;

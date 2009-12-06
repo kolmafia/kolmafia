@@ -156,6 +156,17 @@ public abstract class InventoryManager
 			}
 		}
 		
+		for ( int i = 0; i < KoLCharacter.getFamiliarList().size(); ++i )
+		{
+			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get( i );
+
+			if ( !current.equals( KoLCharacter.getFamiliar() ) &&
+				current.getItem() != null && current.getItem().equals( item ) )
+			{
+				++count;
+			}
+		}
+		
 		return count;
 	}
 		
