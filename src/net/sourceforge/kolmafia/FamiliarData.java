@@ -97,7 +97,7 @@ public class FamiliarData
 		FamiliarDatabase.setFamiliarImageLocation( this.id, dataMatcher.group( 1 ) );
 
 		int kills = StringUtilities.parseInt( dataMatcher.group( 5 ) );
-		this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
+		this.weight = id == 120 ? Math.max( Math.min( 100, (int) Math.sqrt( kills ) ), 1 ) : Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
 
 		this.name = dataMatcher.group( 3 );
 
