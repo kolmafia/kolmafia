@@ -520,9 +520,12 @@ user	_aguaDrops	0
 user	_astralDrops	0
 user	_banderRunaways	0
 user	_cameraUsed	false
+user    _gibbererAdv	0
 user	_gongDrops	0
+user    _hareAdv	0
 user	_hotTubSoaks	0
 user	_navelRunaways	0
+user	_riftletAdv	0
 user	_sealsSummoned	0
 user	_sexChanged	false
 user	_skateBuff1	false
@@ -530,7 +533,9 @@ user	_skateBuff2	false
 user	_skateBuff3	false
 user	_skateBuff4	false
 user	_skateBuff5	false
+user	_timeHelmetAdv	0
 user	_userMods
+user	_vmaskAdv	0
 
 user	choiceAdventure2	2
 user	choiceAdventure3	3

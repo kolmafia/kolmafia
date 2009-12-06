@@ -1674,6 +1674,23 @@ public class FightRequest
 			Preferences.increment( "_aguaDrops", 1 );
 		}
 
+		if ( responseText.indexOf( "shimmers briefly, and you feel it getting earlier." ) != -1 )
+		{
+			Preferences.increment( "_riftletAdv", 1 );
+		}
+
+                if ( responseText.indexOf( "sees that you're about to get attacked and trips it before it can attack you." ) != -1
+                        || responseText.indexOf( "does the Time Warp, then does the Time Warp again. Clearly, madness has taken its toll on him." ) != -1
+                        || responseText.indexOf( "mutters \"I'm late. No... no... I'm early.\" The air shimmers around you." ) != -1 )
+		{
+			Preferences.increment( "_timeHelmetAdv", 1 );
+		}
+
+		if ( responseText.indexOf( "into last week. It saves you some time, because you already beat" ) != -1 )
+		{
+			Preferences.increment( "_vmaskAdv", 1 );
+		}
+
 		FightRequest.updateMonsterHealth( responseText );
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
@@ -1793,6 +1810,7 @@ public class FightRequest
 			if ( responseText.indexOf( "oversized pocketwatch" ) != -1 )
 			{
 				Preferences.increment( "extraRolloverAdventures", 1 );
+				Preferences.increment( "_hareAdv", 1 );
 			}
 
 			// The dormouse emerges groggily from <names>'s
@@ -1807,6 +1825,7 @@ public class FightRequest
 			if ( responseText.indexOf( "you feel time slow down" ) != -1 )
 			{
 				Preferences.increment( "extraRolloverAdventures", 1 );
+				Preferences.increment( "_gibbererAdv", 1 );
 			}
 			break;
 		}

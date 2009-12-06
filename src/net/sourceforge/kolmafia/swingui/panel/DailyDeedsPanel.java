@@ -71,6 +71,7 @@ public class DailyDeedsPanel
 		this.add( new BooleanDaily( "breakfastCompleted", "breakfast" ) );
 		this.add( new RunawaysDaily() );
 		this.add( new DropsDaily() );
+		this.add( new AdvsDaily() );
 		this.add( new SealsDaily() );
 		this.add( new RestsDaily() );
 		this.add( new HotTubDaily() );
@@ -454,14 +455,17 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "telescopeLookedHigh" );
 			this.addListener( "telescopeUpgrades" );
+			this.addListener( "kingLiberated" );
 			this.addButton( "telescope high" );
 			this.addLabel( "" );
 		}
 		
 		public void update()
 		{
+			boolean bm = KoLCharacter.inBadMoon();
+                        boolean kf = Preferences.getBoolean( "kingLiberated" );
 			int nu = Preferences.getInteger( "telescopeUpgrades" );
-			this.setShown( nu > 0 );
+			this.setShown( ( !bm || kf ) && ( nu > 0 ) );
 			this.setEnabled( nu > 0 && !Preferences.getBoolean( "telescopeLookedHigh" ) );
 			this.setText( nu == 0 ? "" : ("+" + nu*5 + "% all, 10 turns") );
 		}
@@ -595,15 +599,18 @@ public class DailyDeedsPanel
 		{
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_hotTubSoaks" );
+			this.addListener( "kingLiberated" );
 			this.addButton( "hottub" );
 			this.addLabel( "" );
 		}
 		
 		public void update()
 		{
-			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean bm = KoLCharacter.inBadMoon();
+                        boolean kf = Preferences.getBoolean( "kingLiberated" );
+                        boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			int nf = Preferences.getInteger( "_hotTubSoaks" );
-			this.setShown( have || nf > 0 );
+			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
 			this.setEnabled( nf < 5 );
 			this.setText( nf + "/5" );
 		}
@@ -698,7 +705,7 @@ public class DailyDeedsPanel
 			this.addListener( "_astralDrops" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			this.setText( "Drops: " + Preferences.getInteger( "_aguaDrops" )
@@ -706,6 +713,30 @@ public class DailyDeedsPanel
 				+ " gong, " + Preferences.getInteger( "_absintheDrops" )
 				+ " absinthe, " + Preferences.getInteger( "_astralDrops" )
 				+ " astral mushroom" );
+		}
+	}
+
+	public static class AdvsDaily
+		extends Daily
+	{
+		public AdvsDaily()
+		{
+			this.addListener( "_gibbererAdv" );
+			this.addListener( "_hareAdv" );
+                        this.addListener( "_riftletAdv" );
+                        this.addListener( "_timeHelmetAdv" );
+                        this.addListener( "_vmaskAdv" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			this.setText( "Advs: " + Preferences.getInteger( "_gibbererAdv" )
+                                + " gibberer, "  + Preferences.getInteger( "_hareAdv" )
+                                + " hare, "  + Preferences.getInteger( "_riftletAdv" )
+                                + " riftlet, "  + Preferences.getInteger( "_timeHelmetAdv" )
+                                + " time helmet, "  + Preferences.getInteger( "_vmaskAdv" )
+                                + " V mask");
 		}
 	}
 
