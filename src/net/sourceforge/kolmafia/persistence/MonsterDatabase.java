@@ -168,13 +168,22 @@ public class MonsterDatabase
 	{
 		String name = data;
 		int count = 0;
+		String countString;
 		char prefix = '0';
 
 		// Remove quantity and flag
 		if ( name.endsWith( ")" ) )
 		{
 			int left = name.lastIndexOf( " (" );
-			count =	 StringUtilities.parseInt( name.substring( left + 2 ) );
+
+			countString = name.substring( left + 2, name.length() - 1 );
+
+			if ( !Character.isDigit( countString.charAt( 0 ) ) )
+			{
+				countString = countString.substring( 1 );
+			}
+
+			count =	 StringUtilities.parseInt( countString );
 			prefix = name.charAt( left + 2 );
 			name = name.substring( 0, left );
 		}
@@ -601,7 +610,7 @@ public class MonsterDatabase
 
 			return false;
 		}
-		
+
 		public void clearItems()
 		{
 			this.items.clear();
@@ -615,7 +624,7 @@ public class MonsterDatabase
 		public void doneWithItems()
 		{
 			this.items.trimToSize();
-			
+
 			// Calculate the probability that an item will be yoinked
 			// based on the integral provided by Buttons on the HCO forums.
 			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396

@@ -491,7 +491,7 @@ public class CharacterEntities
 			Character unicode;
 			if ( entity.charAt( 1 ) == '#' )
 			{
-				unicode = new Character( (char) StringUtilities.parseInt( entity ) );
+				unicode = new Character( (char) StringUtilities.parseInt( entity.substring( 2, entity.length() - 1 ) ) );
 			}
 			else
 			{

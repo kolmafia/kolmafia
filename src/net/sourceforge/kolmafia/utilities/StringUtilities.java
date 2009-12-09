@@ -60,8 +60,7 @@ public class StringUtilities
 	private static final HashMap prepositionsMap = new HashMap();
 	private static final WeakHashMap hashCache = new WeakHashMap();
 
-	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^\\-0-9]" );
-	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
+	private static final Pattern INTEGER_PATTERN = Pattern.compile( "[0-9]+" );
 
 	private static final Pattern PREPOSITIONS_PATTERN =
 		Pattern.compile( "\\b(?:about|above|across|after|against|along|among|around|at|before|behind|" + "below|beneath|beside|between|beyond|by|down|during|except|for|from|in|inside|" + "into|like|near|of|off|on|onto|out|outside|over|past|through|throughout|to|" + "under|up|upon|with|within|without)\\b" );
@@ -274,7 +273,7 @@ public class StringUtilities
 
 	/**
 	 * Returns a list of all elements which contain the given substring in their name.
-	 * 
+	 *
 	 * @param nameMap The map in which to search for the string
 	 * @param substring The substring for which to search
 	 */
@@ -581,55 +580,58 @@ public class StringUtilities
 		}
 	}
 
-	public static final int parseInt( final String string )
+	public static final int parseInt( String string )
 	{
 		if ( string == null )
 		{
 			return 0;
 		}
 
+		string = StringUtilities.globalStringDelete( string, "," );
+
 		float multiplier = 1f;
 
 		if ( string.endsWith( "k" ) || string.endsWith( "K" ) )
 		{
 			multiplier = 1000f;
+			string = string.substring( 0, string.length() - 1 );
 		}
 		else if ( string.endsWith( "m" ) || string.endsWith( "M" ) )
 		{
 			multiplier = 1000000f;
+			string = string.substring( 0, string.length() - 1 );
 		}
 		else
 		{
-			String clean = StringUtilities.NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
-			return clean.equals( "" ) || clean.equals( "-" ) ? 0 : Integer.parseInt( clean );
+			return string.equals( "" ) ? 0 : Integer.parseInt( string );
 		}
 
-		String clean = StringUtilities.NONFLOAT_PATTERN.matcher( string ).replaceAll( "" );
-
-		float result = clean.equals( "" ) || clean.equals( "-" ) ? 0 : Float.parseFloat( clean );
+		float result = string.equals( "" ) || string.equals( "-" ) ? 0 : Float.parseFloat( string );
 		return (int) ( result * multiplier );
 	}
 
-	public static final long parseLong( final String string )
+	public static final long parseLong( String string )
 	{
 		if ( string == null )
 		{
 			return 0L;
 		}
 
-		String clean = StringUtilities.NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
-		return clean.equals( "" ) || clean.equals( "-" ) ? 0 : Long.parseLong( clean );
+		string = StringUtilities.globalStringDelete( string, "," );
+
+		return string.equals( "" ) ? 0 : Long.parseLong( string );
 	}
 
-	public static final float parseFloat( final String string )
+	public static final float parseFloat( String string )
 	{
 		if ( string == null )
 		{
 			return 0.0f;
 		}
 
-		String clean = StringUtilities.NONFLOAT_PATTERN.matcher( string ).replaceAll( "" );
-		return clean.equals( "" ) ? 0.0f : Float.parseFloat( clean );
+		string = StringUtilities.globalStringDelete( string, "," );
+
+		return string.equals( "" ) ? 0.0f : Float.parseFloat( string );
 	}
 
 	public static final String basicTextWrap( String text )
