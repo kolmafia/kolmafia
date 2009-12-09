@@ -205,7 +205,20 @@ public class AdventureDatabase
 				continue;
 			}
 
+			boolean isNumeric = true;
+
+			for ( int i = 0; i < location[ 1 ].length() && isNumeric; ++i )
+			{
+				isNumeric = Character.isDigit( location[ 1 ].charAt( i ) );
+			}
+
+			if ( !isNumeric )
+			{
+				continue;
+			}
+
 			int id = StringUtilities.parseInt( location[ 1 ] );
+
 			if ( !data[ 4 ].equals( "" ) )
 			{
 				AdventureDatabase.conditionsById.set( id, data[ 4 ] );
@@ -449,7 +462,7 @@ public class AdventureDatabase
 			AdventureDatabase.adventureTable[ 2 ].get( tableIndex ),
 			AdventureDatabase.adventureTable[ 3 ].get( tableIndex ) );
 	}
-	
+
 	public static final String getZone( final String location )
 	{
 		return (String) zoneLookup.get( location );

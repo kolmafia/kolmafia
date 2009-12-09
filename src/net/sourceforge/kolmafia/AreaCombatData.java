@@ -88,8 +88,18 @@ public class AreaCombatData
 		if ( colon > 0 )
 		{
 			String weight = name.substring( colon + 1 ).trim();
-			weighting = StringUtilities.parseInt( weight );
+
+			if ( Character.isDigit( weight.charAt( 0 ) ) )
+			{
+				weighting = StringUtilities.parseInt( weight );
+			}
+			else
+			{
+				weighting = StringUtilities.parseInt( weight.substring( 1 ) );
+			}
+
 			name = name.substring( 0, colon );
+
 			switch ( weight.charAt( 0 ) )
 			{
 			case 'e':
