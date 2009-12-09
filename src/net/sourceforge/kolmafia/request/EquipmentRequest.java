@@ -61,7 +61,7 @@ public class EquipmentRequest
 	extends PasswordHashRequest
 {
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
-	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat\\.</b>" );
+	private static final Pattern MEAT_PATTERN = Pattern.compile( "([\\d,]+) meat\\.</b>" );
 	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN =
@@ -191,7 +191,7 @@ public class EquipmentRequest
 		super(
 			requestType == EquipmentRequest.BEDAZZLEMENTS ? "bedazzle.php" :
 			requestType == EquipmentRequest.CLOSET ? "closet.php" :
-			requestType == EquipmentRequest.UNEQUIP_ALL ? "inv_equip.php" : 
+			requestType == EquipmentRequest.UNEQUIP_ALL ? "inv_equip.php" :
 			"inventory.php" );
 
 		this.requestType = requestType;
@@ -344,10 +344,10 @@ public class EquipmentRequest
 
 		// Find out what kind of item it is
 		this.equipmentType = ItemDatabase.getConsumptionType( this.itemId );
-		
+
 		if ( this.equipmentType != KoLConstants.CONSUME_STICKER )
 		{
-			this.error = "You can't equip a " + ItemDatabase.getItemName( this.itemId ) + 
+			this.error = "You can't equip a " + ItemDatabase.getItemName( this.itemId ) +
 				" in a sticker slot.";
 			return;
 		}
@@ -547,7 +547,7 @@ public class EquipmentRequest
 		{
 			return EquipmentManager.STICKER3;
 		}
-			
+
 		// All sticker slots are in use.  Abort rather than risk peeling the wrong one.
 		return -1;
 	}
@@ -766,12 +766,12 @@ public class EquipmentRequest
 			{
 				return;
 			}
-			
+
 			if ( this.equipmentSlot >= EquipmentManager.STICKER1 &&
 			     this.equipmentSlot <= EquipmentManager.STICKER3 &&
 			     !EquipmentManager.getEquipment( this.equipmentSlot ).equals( EquipmentRequest.UNEQUIP ) )
 			{
-				( new EquipmentRequest( EquipmentRequest.UNEQUIP, this.equipmentSlot ) ).run();	
+				( new EquipmentRequest( EquipmentRequest.UNEQUIP, this.equipmentSlot ) ).run();
 			}
 		}
 
@@ -899,7 +899,7 @@ public class EquipmentRequest
 			{
 				ConcoctionDatabase.deferRefresh( true );
 				this.parseCloset();
-	
+
 				(new EquipmentRequest( EquipmentRequest.CONSUMABLES )).run();
 				(new EquipmentRequest( EquipmentRequest.ALL_EQUIPMENT )).run();
 				(new EquipmentRequest( EquipmentRequest.MISCELLANEOUS )).run();
@@ -920,7 +920,7 @@ public class EquipmentRequest
 			EquipmentRequest.parseBedazzlements( this.responseText );
 			return;
 		}
-		
+
 		if ( ( this.requestType == EquipmentRequest.CHANGE_ITEM ||
 		       this.requestType == EquipmentRequest.REMOVE_ITEM ||
 		       this.requestType == EquipmentRequest.CHANGE_OUTFIT ||
@@ -983,7 +983,7 @@ public class EquipmentRequest
 
 		if ( meatInClosetMatcher.find() )
 		{
-			String meatInCloset = meatInClosetMatcher.group();
+			String meatInCloset = meatInClosetMatcher.group( 1 );
 			KoLCharacter.setClosetMeat( StringUtilities.parseInt( meatInCloset ) );
 		}
 
@@ -1083,7 +1083,7 @@ public class EquipmentRequest
 			}
 		}
 	}
-	
+
 	public static final void parseBedazzlements( final String responseText )
 	{
 		Matcher matcher = EquipmentRequest.STICKER_PATTERN.matcher( responseText );
@@ -1113,7 +1113,7 @@ public class EquipmentRequest
 					// Item was in the list for this slot
 					// only so that it could be displayed
 					// as the current item.	 Remove it.
-					EquipmentManager.getEquipmentLists()[ slot ].remove( oldItem );					
+					EquipmentManager.getEquipmentLists()[ slot ].remove( oldItem );
 				}
 				if ( !newItem.equals( EquipmentRequest.UNEQUIP ) )
 				{
@@ -1121,7 +1121,7 @@ public class EquipmentRequest
 				}
 				EquipmentManager.setTurns( slot, 20, 20 );
 			}
-			
+
 			if ( matcher.group( 1 ) != null )
 			{
 				String adjective = matcher.group( 1 );

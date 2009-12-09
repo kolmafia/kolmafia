@@ -587,6 +587,7 @@ public class StringUtilities
 			return 0;
 		}
 
+		string = StringUtilities.globalStringDelete( string, "+" );
 		string = StringUtilities.globalStringDelete( string, "," );
 
 		float multiplier = 1f;
@@ -617,6 +618,7 @@ public class StringUtilities
 			return 0L;
 		}
 
+		string = StringUtilities.globalStringDelete( string, "+" );
 		string = StringUtilities.globalStringDelete( string, "," );
 
 		return string.equals( "" ) ? 0 : Long.parseLong( string );
@@ -629,6 +631,7 @@ public class StringUtilities
 			return 0.0f;
 		}
 
+		string = StringUtilities.globalStringDelete( string, "+" );
 		string = StringUtilities.globalStringDelete( string, "," );
 
 		return string.equals( "" ) ? 0.0f : Float.parseFloat( string );
