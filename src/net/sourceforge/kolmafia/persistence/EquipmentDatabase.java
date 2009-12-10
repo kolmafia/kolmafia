@@ -585,7 +585,13 @@ public class EquipmentDatabase
 			}
 			else
 			{
-				power = StringUtilities.parseInt( req ) * 2 + 30;
+				int colonIndex = req.indexOf( ":" );
+
+				if ( colonIndex != -1 )
+				{
+					String reqValue = req.substring( colonIndex + 1 );
+					power = StringUtilities.parseInt( reqValue ) * 2 + 30;
+				}
 			}
 		}
 		if ( power >= 180 )
