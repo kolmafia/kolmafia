@@ -46,6 +46,8 @@ import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.StaticEntity;
+
 public class StringUtilities
 {
 	private static final HashMap entityEncodeCache = new HashMap();
@@ -61,6 +63,7 @@ public class StringUtilities
 	private static final WeakHashMap hashCache = new WeakHashMap();
 
 	private static final Pattern INTEGER_PATTERN = Pattern.compile( "[0-9]+" );
+	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^0-9\\-]+" );
 
 	private static final Pattern PREPOSITIONS_PATTERN =
 		Pattern.compile( "\\b(?:about|above|across|after|against|along|among|around|at|before|behind|" + "below|beneath|beside|between|beyond|by|down|during|except|for|from|in|inside|" + "into|like|near|of|off|on|onto|out|outside|over|past|through|throughout|to|" + "under|up|upon|with|within|without)\\b" );
@@ -609,13 +612,24 @@ public class StringUtilities
 				return 0;
 			}
 
-			for ( int i = 0; i < string.length(); ++i )
+			boolean isNumeric = true;
+
+			for ( int i = 0; i < string.length() && isNumeric; ++i )
 			{
-				if ( !Character.isDigit( string.charAt( i ) ) )
+				if ( i == 0 )
 				{
-					new Exception( string ).printStackTrace();
-					return 0;
+					isNumeric = string.charAt( i ) == '-' || Character.isDigit( string.charAt( i ) );
 				}
+				else
+				{
+					isNumeric = Character.isDigit( string.charAt( i ) );
+				}
+			}
+
+			if ( !isNumeric )
+			{
+				StaticEntity.printStackTrace( new NumberFormatException( string ) );
+				string = NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
 			}
 
 			return Integer.parseInt( string );
