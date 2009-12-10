@@ -589,7 +589,7 @@ public class EquipmentDatabase
 
 				if ( colonIndex != -1 )
 				{
-					String reqValue = req.substring( colonIndex + 1 );
+					String reqValue = req.substring( colonIndex + 1 ).trim();
 					power = StringUtilities.parseInt( reqValue ) * 2 + 30;
 				}
 			}
