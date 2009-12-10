@@ -231,7 +231,7 @@ public class MallSearchRequest
 	private void searchStore()
 	{
 		Pattern mangledEntityPattern = Pattern.compile( "\\s+;" );
-		
+
 		if ( this.retainAll )
 		{
 			Matcher shopMatcher = MallSearchRequest.STOREID_PATTERN.matcher( this.responseText );
@@ -316,7 +316,7 @@ public class MallSearchRequest
 
 			if ( quantityMatcher.find() )
 			{
-				quantity = StringUtilities.parseInt( quantityMatcher.group() );
+				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 			}
 
 			int limit = quantity;

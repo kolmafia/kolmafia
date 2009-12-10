@@ -62,7 +62,7 @@ public class EquipmentDatabase
 	private static final HashMap outfitPieces = new HashMap();
 	public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
 	public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
-	
+
 	private static final IntegerArray pulverize = new IntegerArray();
 	// Values in pulverize are one of:
 	//	0 - not initialized yet
@@ -90,7 +90,7 @@ public class EquipmentDatabase
 	public static final int ELEM_OTHER = 0x40000;
 	public static final int MASK_ELEMENT = 0x7F000;
 	public static final int MALUS_UPGRADE = 0x100000;
-	
+
 	public static final int[] IMPLICATIONS = {
 		Modifiers.COLD_RESISTANCE, ELEM_HOT | ELEM_SPOOKY,
 		Modifiers.HOT_RESISTANCE, ELEM_STENCH | ELEM_SLEAZE,
@@ -233,7 +233,7 @@ public class EquipmentDatabase
 			}
 			else if ( data[ 1 ].equals( "upgrade" ) )
 			{
-				EquipmentDatabase.pulverize.set( itemId, 
+				EquipmentDatabase.pulverize.set( itemId,
 					EquipmentDatabase.deriveUpgrade( data[ 0 ] ) );
 			}
 			else
@@ -255,7 +255,7 @@ public class EquipmentDatabase
 			StaticEntity.printStackTrace( e );
 		}
 	}
-	
+
 	public static final int nextEquipmentItemId( int prevId )
 	{
 		while ( ++prevId < EquipmentDatabase.statRequirements.size() )
@@ -486,7 +486,7 @@ public class EquipmentDatabase
 
 		return EquipmentDatabase.getWeaponType( itemId );
 	}
-	
+
 	public static final int getPulverization( final String itemName )
 	{
 		if ( itemName == null )
@@ -503,7 +503,7 @@ public class EquipmentDatabase
 
 		return EquipmentDatabase.getPulverization( itemId );
 	}
-	
+
 	public static final int getPulverization( final int id )
 	{
 		if ( id < 0 )
@@ -518,7 +518,7 @@ public class EquipmentDatabase
 		}
 		return pulver;
 	}
-	
+
 	private static final int derivePulverization( final int id )
 	{
 		switch ( ItemDatabase.getConsumptionType( id ) )
@@ -530,11 +530,11 @@ public class EquipmentDatabase
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:
 			break;
-		
+
 		default:
 			return -1;
 		}
-	
+
 		if ( !ItemDatabase.isDisplayable( id ) )
 		{	// quest item
 			return -1;
@@ -549,7 +549,7 @@ public class EquipmentDatabase
 		{
 			return ItemPool.USELESS_POWDER;
 		}
-		
+
 		int pulver = PULVERIZE_BITS | ELEM_TWINKLY;
 		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
@@ -571,14 +571,19 @@ public class EquipmentDatabase
 				}
 			}
 		}
-		
+
 		int power = EquipmentDatabase.power.get( id );
 		if ( power <= 0 )
 		{
 			// power is unknown, derive from requirement (which isn't always accurate)
 			pulver |= YIELD_UNCERTAIN;
 			String req = EquipmentDatabase.statRequirements.get( id );
-			if ( req != null )
+
+			if ( req == null || req.equals( "none" ) )
+			{
+				power = 0;
+			}
+			else
 			{
 				power = StringUtilities.parseInt( req ) * 2 + 30;
 			}
@@ -619,7 +624,7 @@ public class EquipmentDatabase
 		{
 			pulver |= YIELD_1P;
 		}
-		
+
 		return pulver;
 	}
 
@@ -630,7 +635,7 @@ public class EquipmentDatabase
 		{
 			pulver |= YIELD_4P_1N;
 		}
-		
+
 		if ( name.startsWith( "twinkly" ) )
 		{
 			pulver |= ELEM_TWINKLY;
