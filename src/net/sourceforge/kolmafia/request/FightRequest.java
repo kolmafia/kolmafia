@@ -226,7 +226,7 @@ public class FightRequest
 		"master of thieves",
 		"temporal bandit"
 	};
-	
+
 	// Skills which cannot be used with a ranged weapon
 	private static final HashSet INVALID_WITH_RANGED_ATTACK = new HashSet();
 	static
@@ -250,7 +250,7 @@ public class FightRequest
 		INVALID_WITH_RANGED_ATTACK.add( "2107" );
 		INVALID_WITH_RANGED_ATTACK.add( "skill head + knee + shield combo" );
 	}
-	
+
 	// Skills which require a shield
 	private static final HashSet INVALID_WITHOUT_SHIELD = new HashSet();
 	static
@@ -433,7 +433,7 @@ public class FightRequest
 		{
 			this.handleHulkingConstruct();
 		}
-		
+
 		if ( FightRequest.action1 == null )
 		{
 			if ( desiredAction == null )
@@ -441,7 +441,7 @@ public class FightRequest
 				int index = FightRequest.currentRound - 1 - FightRequest.preparatoryRounds;
 				if ( FightRequest.filterInterp != null )
 				{
-					desiredAction = FightRequest.filterInterp.execute( 
+					desiredAction = FightRequest.filterInterp.execute(
 						FightRequest.filterFunction, new String[]
 							{
 								String.valueOf( index ),
@@ -531,7 +531,7 @@ public class FightRequest
 			FightRequest.action1 = String.valueOf( ItemPool.ANTIDOTE );
 			++FightRequest.preparatoryRounds;
 		}
-		
+
 		if ( FightRequest.action1.equals( "special" ) )
 		{
 			FightRequest.waitingForSpecial = false;
@@ -542,7 +542,7 @@ public class FightRequest
 				return;
 			}
 		}
-		
+
 		if ( FightRequest.action1.equals( "abort" ) )
 		{
 			// If the user has chosen to abort combat, flag it.
@@ -1575,61 +1575,61 @@ public class FightRequest
 			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_GREAVES,
 				"Your antique greaves broke." );
 		}
-		
+
 		// "You sigh and discard the belt in a nearby trash can."
 		if ( responseText.indexOf( "You sigh and discard the belt" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.CHEAP_STUDDED_BELT,
 				"Your cheap studded belt broke." );
 		}
-		
+
 		if ( responseText.indexOf( "Your sugar chapeau slides" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_CHAPEAU,
 				"Your sugar chapeau shattered." );
 		}
-		
+
 		if ( responseText.indexOf( "your sugar shank handle" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHANK,
 				"Your sugar shank shattered." );
 		}
-		
+
 		if ( responseText.indexOf( "drop something as sticky as the sugar shield" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIELD,
 				"Your sugar shield shattered." );
 		}
-		
+
 		if ( responseText.indexOf( "Your sugar shillelagh absorbs the shock" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHILLELAGH,
 				"Your sugar shillelagh shattered." );
 		}
-		
+
 		if ( responseText.indexOf( "Your sugar shirt falls apart" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIRT,
 				"Your sugar shirt shattered." );
 		}
-		
+
 		if ( responseText.indexOf( "Your sugar shotgun falls apart" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHOTGUN,
 				"Your sugar shotgun shattered." );
 		}
-		
+
 		if ( responseText.indexOf( "Your sugar shorts crack" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHORTS,
 				"Your sugar shorts shattered." );
 		}
-		
-		// "The Slime draws back and shudders, as if it's about to sneeze.  
-		// Then it blasts you with a massive loogie that sticks to your 
-		// rusty grave robbing shovel, pulls it off of you, and absorbs 
+
+		// "The Slime draws back and shudders, as if it's about to sneeze.
+		// Then it blasts you with a massive loogie that sticks to your
+		// rusty grave robbing shovel, pulls it off of you, and absorbs
 		// it back into the mass."
-		
+
 		Matcher m = FightRequest.SLIMED_PATTERN.matcher( responseText );
 		if ( m.find() )
 		{
@@ -1643,14 +1643,14 @@ public class FightRequest
 		}
 
 		// "As you're trying to get away, you sink in the silty muck on
-		// the sea floor. You manage to get yourself unmired, but your 
+		// the sea floor. You manage to get yourself unmired, but your
 		// greaves seem to have gotten instantly rusty in the process..."
 		if ( responseText.indexOf( "have gotten instantly rusty" ) != -1 )
 		{
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves got rusted." );
 		}
-		
+
 		// Check for familiar item drops
 		if ( responseText.indexOf( "too preoccupied" ) != -1 &&
 			responseText.indexOf( "this world" ) != -1 )
@@ -1724,7 +1724,7 @@ public class FightRequest
 			HobopolisDecorator.handleTownSquare( responseText );
 			break;
 		}
-		
+
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
 
@@ -1757,26 +1757,26 @@ public class FightRequest
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Bounty item failed to drop from expected monster." );
 			}
 		}
-		
+
 		// Check for GMoB defeat
 		if ( responseText.indexOf( "guy made of bee pollen" ) != -1 )
 		{
 			// Record that we beat the guy made of bees.
 			Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 		}
-		
+
 		// Check for free runaways
 		if ( responseText.indexOf( "shimmers as you quickly float away" ) != -1 ||
 			responseText.indexOf( "a leisurely, relaxed pace" ) != -1 )
 		{
 			Preferences.increment( "_navelRunaways", 1 );
 		}
-		
+
 		if ( responseText.indexOf( "his back, and flooms away" ) != -1 )
 		{
 			Preferences.increment( "_banderRunaways", 1 );
 		}
-		
+
 		// Check for worn-out stickers
 		int count = 0;
 		m = WORN_STICKER_PATTERN.matcher( responseText );
@@ -1790,7 +1790,7 @@ public class FightRequest
 				" fell off your weapon." );
 			EquipmentManager.stickersExpired( count );
 		}
-		
+
 		// Check for ballroom song hint
 		m = BALLROOM_SONG_PATTERN.matcher( responseText );
 		if ( m.find() )
@@ -1829,7 +1829,7 @@ public class FightRequest
 			}
 			break;
 		}
-		
+
 		// Cancel any combat modifiers
 		Modifiers.overrideModifier( "fightMods", null );
 
@@ -1893,11 +1893,11 @@ public class FightRequest
 
 		FightRequest.clearInstanceData();
 	}
-	
+
 	private static final boolean getSpecialAction()
 	{
 		ArrayList items = new ArrayList();
-		
+
 		boolean haveSkill, haveItem;
 		String pref = Preferences.getString( "autoOlfact" );
 		if ( !pref.equals( "" ) && !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
@@ -1916,7 +1916,7 @@ public class FightRequest
 				items.add( String.valueOf( ItemPool.ODOR_EXTRACTOR ) );
 			}
 		}
-		
+
 		pref = Preferences.getString( "autoPutty" );
 		if ( !pref.equals( "" ) )
 		{
@@ -1936,7 +1936,7 @@ public class FightRequest
 				}
 			}
 		}
-		
+
 		if ( Preferences.getBoolean( "autoSphereID" ) )
 		{
 			ItemPool.suggestIdentify( items, 2174, 2177, "lastStoneSphere" );
@@ -1945,7 +1945,7 @@ public class FightRequest
 		{
 			ItemPool.suggestIdentify( items, 819, 827, "lastBangPotion" );
 		}
-	
+
 		switch ( items.size() )
 		{
 		case 0:
@@ -1959,7 +1959,7 @@ public class FightRequest
 			return true;
 		}
 	}
-	
+
 	private static final boolean shouldTag( String pref, String msg )
 	{
 		boolean isAbort = false, isMonster = false, rv;
@@ -1970,7 +1970,7 @@ public class FightRequest
 			isAbort = true;
 			pref = pref.substring( 0, pref.length() - 6 ).trim();
 		}
-		
+
 		if ( pref.equals( "goals" ) )
 		{
 			items = KoLConstants.conditions;
@@ -1993,7 +1993,7 @@ public class FightRequest
 			}
 			items = Arrays.asList( temp );
 		}
-		
+
 		if ( isMonster )
 		{
 			rv = FightRequest.encounterLookup.indexOf( pref ) != -1;
@@ -2006,7 +2006,7 @@ public class FightRequest
 		{
 			rv = FightRequest.monsterData.getItems().containsAll( items );
 		}
-	
+
 		if ( rv && isAbort )
 		{
 			KoLmafia.abortAfter( msg );
@@ -2144,7 +2144,7 @@ public class FightRequest
 			"It only seems that way because you haven't learned to count to one."
 		},
 	};
-	
+
 	static {
 		for ( int i = 0; i < PIRATE_INSULTS.length; ++i )
 		{
@@ -2179,7 +2179,7 @@ public class FightRequest
 
 	private static final int findPirateInsult( String insult )
 	{
-		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == 
+		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() ==
 			ItemPool.SWORD_PREPOSITIONS )
 		{
 			insult = StringUtilities.lookupPrepositions( insult );
@@ -2196,7 +2196,7 @@ public class FightRequest
 
 	public static final int findPirateRetort( String insult )
 	{
-		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == 
+		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() ==
 			ItemPool.SWORD_PREPOSITIONS )
 		{
 			insult = StringUtilities.lookupPrepositions( insult );
@@ -2303,7 +2303,7 @@ public class FightRequest
 			Preferences.setInteger( "burrowgrubSummonsRemaining", uses );
 		}
 	}
-	
+
 	private static final void parseFlyerUsage( final String location, final String responseText )
 	{
 		if ( location.indexOf( "240" ) == -1 )
@@ -2382,7 +2382,7 @@ public class FightRequest
 
 		Preferences.setInteger( "pastamancerGhostSummons", uses );
 	}
-	
+
 	public static final void parseCombatItems( String responseText )
 	{
 		int startIndex = responseText.indexOf( "<select name=whichitem>" );
@@ -2434,7 +2434,7 @@ public class FightRequest
 				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
 			}
 		}
-		
+
 		damageMatcher = FightRequest.HAIKU_DAMAGE_PATTERN.matcher( responseText );
 		while ( damageMatcher.find() )
 		{
@@ -2664,17 +2664,13 @@ public class FightRequest
 
 	private static final int getActionCost()
 	{
-		if ( FightRequest.action1.equals( "attack" ) )
+		if ( FightRequest.action1.startsWith( "skill" ) )
 		{
-			return 0;
+			String skillId = FightRequest.action1.substring( 5 );
+			return SkillDatabase.getMPConsumptionById( StringUtilities.parseInt( skillId ) );
 		}
 
-		if ( FightRequest.action1.startsWith( "item" ) )
-		{
-			return 0;
-		}
-
-		return SkillDatabase.getMPConsumptionById( StringUtilities.parseInt( FightRequest.action1 ) );
+		return 0;
 	}
 
 	public static void addItemActionsWithNoCost()
@@ -2782,7 +2778,7 @@ public class FightRequest
 
 		case ItemPool.CAMERA:
 			// With a flash of light and an accompanying old-timey
-			// -POOF- noise, you take snap a picture of him. Your 
+			// -POOF- noise, you take snap a picture of him. Your
 			// camera begins to shake, rattle and roll.
 
 			if ( responseText.indexOf( "old-timey <i>-POOF-</i> noise" ) != -1 )
@@ -2815,7 +2811,7 @@ public class FightRequest
 			return true;
 		}
 	}
-	
+
 	private static final boolean shouldUseAntidote()
 	{
 		if ( !KoLConstants.inventory.contains( FightRequest.ANTIDOTE ) )
@@ -3012,19 +3008,19 @@ public class FightRequest
 		case 7046: // Give Your Opponent "The Bird"
 			Preferences.increment( "birdformSleaze", 1 );
 			break;
-			
+
 		case 7050: // Ask the hobo to tell you a joke
 			Modifiers.overrideModifier( "fightMods", "Meat Drop: +100" );
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			break;
-		
+
 		case 7051: // Ask the hobo to dance for you
 			Modifiers.overrideModifier( "fightMods", "Item Drop: +100" );
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			break;
-		
+
 		case 7082:	// Point at your opponent
 			String type;
 			if ( responseText.indexOf( "firing a searing ray" ) != -1 )
@@ -3071,7 +3067,7 @@ public class FightRequest
 			// A sidepane refresh at the end of the battle will
 			// re-synch everything.
 			break;
-			
+
 		case ItemPool.SHRINKING_POWDER:
 			if ( responseText.indexOf( "gets smaller and angrier" ) != -1 )
 			{
@@ -3158,7 +3154,7 @@ public class FightRequest
 	{
 		return FightRequest.monsterData;
 	}
-	
+
 	public static final int freeRunawayChance()
 	{
 		// Bandersnatch + Ode = weight/5 free runaways
