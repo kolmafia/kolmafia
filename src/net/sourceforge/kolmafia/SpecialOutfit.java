@@ -48,7 +48,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SpecialOutfit
 	implements Comparable
 {
-	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=[\'\"]?(.*?)[\'\"]?>(.*?)</option>" );
 
 	private static final Stack implicitPoints = new Stack();
 	private static final Stack explicitPoints = new Stack();
@@ -104,11 +104,11 @@ public class SpecialOutfit
 	{
 		return this.isWearing( -1 );
 	}
-	
+
 	public boolean isWearing( int hash )
 	{
 		if ( (hash & this.hash) != this.hash ) return false;
-		
+
 		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
 			if ( !KoLCharacter.hasEquipped( (AdventureResult) this.pieces.get( i ) ) )
@@ -128,7 +128,7 @@ public class SpecialOutfit
 	public boolean isWearing( AdventureResult[] equipment, int hash )
 	{
 		if ( (hash & this.hash) != this.hash ) return false;
-		
+
 		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
 			if ( !KoLCharacter.hasEquipped( equipment,
@@ -147,7 +147,7 @@ public class SpecialOutfit
 		this.pieces.toArray( piecesArray );
 		return piecesArray;
 	}
-	
+
 	public static int pieceHash( final AdventureResult piece )
 	{
 		if ( piece == null || piece == EquipmentRequest.UNEQUIP )
@@ -156,7 +156,7 @@ public class SpecialOutfit
 		}
 		return 1 << ( piece.getItemId() & 0x1F );
 	}
-	
+
 	public static int equipmentHash( AdventureResult[] equipment )
 	{
 		int hash = 0;
@@ -396,7 +396,7 @@ public class SpecialOutfit
 			}
 		}
 	}
-	
+
 	/**
 	 * Method to remove all active checkpoints, in cases where restoring the original
 	 * outfit is undesirable (currently, Fernswarthy's Basement).
