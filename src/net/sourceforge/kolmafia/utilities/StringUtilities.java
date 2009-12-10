@@ -604,7 +604,21 @@ public class StringUtilities
 		}
 		else
 		{
-			return string.equals( "" ) ? 0 : Integer.parseInt( string );
+			if ( string.equals( "" ) )
+			{
+				return 0;
+			}
+
+			for ( int i = 0; i < string.length(); ++i )
+			{
+				if ( !Character.isDigit( string.charAt( i ) ) )
+				{
+					new Exception( string ).printStackTrace();
+					return 0;
+				}
+			}
+
+			return Integer.parseInt( string );
 		}
 
 		float result = string.equals( "" ) || string.equals( "-" ) ? 0 : Float.parseFloat( string );
