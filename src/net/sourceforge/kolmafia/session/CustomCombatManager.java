@@ -37,14 +37,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -65,6 +67,8 @@ public abstract class CustomCombatManager
 {
 	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack" );
 
+	public static final Pattern TRY_TO_RUN_AWAY_PATTERN = Pattern.compile( "run away if (\\d+)% chance of being free" );
+		
 	private static String[] keys = new String[ 0 ];
 
 	private static final LockableListModel availableScripts = new LockableListModel();
@@ -731,11 +735,20 @@ public abstract class CustomCombatManager
 
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 		{
-			int runaway = StringUtilities.parseInt( action );
+			Matcher runAwayMatcher = CustomCombatManager.TRY_TO_RUN_AWAY_PATTERN.matcher( action );
+			
+			int runaway = 0;
+
+			if ( runAwayMatcher.find() )
+			{
+				runaway = StringUtilities.parseInt( runAwayMatcher.group( 1 ) );
+			}
+			
 			if ( runaway <= 0 )
 			{
 				return "try to run away";
 			}
+
 			return "run away if " + runaway + "% chance of being free";
 		}
 
