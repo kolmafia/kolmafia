@@ -33,8 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -47,12 +47,11 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MPRestoreItemList;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -63,22 +62,18 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
-import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
-import net.sourceforge.kolmafia.request.HiddenCityRequest;
-import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
-import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
+import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
-import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 
 public class FightRequest
 	extends GenericRequest
@@ -568,14 +563,24 @@ public class FightRequest
 		// User wants to run away
 		if ( FightRequest.action1.indexOf( "run" ) != -1 && FightRequest.action1.indexOf( "away" ) != -1 )
 		{
-			int runaway = StringUtilities.parseInt( FightRequest.action1 );
+			Matcher runAwayMatcher = CustomCombatManager.TRY_TO_RUN_AWAY_PATTERN.matcher( FightRequest.action1 );
+			
+			int runaway = 0;
+
+			if ( runAwayMatcher.find() )
+			{
+				runaway = StringUtilities.parseInt( runAwayMatcher.group( 1 ) );
+			}
+
 			FightRequest.action1 = "runaway";
+
 			if ( runaway > FightRequest.freeRunawayChance() )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound();
 				return;
 			}
+
 			this.addFormField( "action", FightRequest.action1 );
 			return;
 		}

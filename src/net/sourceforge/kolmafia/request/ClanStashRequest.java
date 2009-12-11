@@ -56,7 +56,7 @@ public class ClanStashRequest
 {
 	private static final Pattern LIST_PATTERN = Pattern.compile( "<form name=takegoodies.*?</select>" );
 	private static final Pattern ITEM_PATTERN =
-		Pattern.compile( "<option value=([\\d]+) descid=([\\d]+)>(.*?)( \\([\\d,]+\\))?( \\(-[\\d,]*\\))?</option>" );
+		Pattern.compile( "<option value=([\\d]+) descid=([\\d]+)>(.*?)( \\(([\\d,]+)\\))?( \\(-[\\d,]*\\))?</option>" );
 
 	private final int moveType;
 
@@ -275,7 +275,14 @@ public class ClanStashRequest
 			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 			String descId = matcher.group( 2 );
 			String itemString = matcher.group( 3 );
-			int quantity = matcher.group( 4 ) == null ? 1 : StringUtilities.parseInt( matcher.group( 4 ) );
+
+			String quantityString = matcher.group( 5 );
+			int quantity = 1;
+			
+			if ( quantityString != null )
+			{
+				quantity = StringUtilities.parseInt( quantityString );
+			}
 
 			// If this is a previously unknown item, register it.
 			if ( ItemDatabase.getItemName( itemId ) == null )
