@@ -585,7 +585,7 @@ public class StringUtilities
 
 	public static final int parseInt( String string )
 	{
-		if ( string == null )
+		if ( string == null || string.length() == 0 )
 		{
 			return 0;
 		}
@@ -641,7 +641,7 @@ public class StringUtilities
 
 	public static final long parseLong( String string )
 	{
-		if ( string == null )
+		if ( string == null || string.length() == 0 )
 		{
 			return 0L;
 		}
@@ -654,7 +654,7 @@ public class StringUtilities
 
 	public static final float parseFloat( String string )
 	{
-		if ( string == null )
+		if ( string == null || string.length() == 0 )
 		{
 			return 0.0f;
 		}
