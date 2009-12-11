@@ -59,12 +59,17 @@ public class LogStream
 
 	public static final PrintStream openStream( final File file, final boolean forceNewFile )
 	{
+		return LogStream.openStream( file, forceNewFile, "UTF-8" );
+	}
+	
+	public static final PrintStream openStream( final File file, final boolean forceNewFile, final String encoding )
+	{
 		OutputStream ostream = DataUtilities.getOutputStream( file, !forceNewFile );
 		LogStream newStream;
 
 		try
 		{
-			newStream = new LogStream( ostream );
+			newStream = new LogStream( ostream, encoding );
 		}
 		catch ( IOException e )
 		{
@@ -118,9 +123,9 @@ public class LogStream
 			"Window.documentFile", this.proxy );
 	}
 
-	private LogStream( final OutputStream ostream )
+	private LogStream( final OutputStream ostream, final String encoding )
 		throws IOException
 	{
-		super( ostream, true, "ISO-8859-1" );
+		super( ostream, true, encoding );
 	}
 }

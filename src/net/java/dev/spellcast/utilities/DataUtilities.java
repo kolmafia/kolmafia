@@ -141,7 +141,14 @@ public class DataUtilities
 					return DataUtilities.getReader( DataUtilities.EMPTY_STREAM );
 				}
 
-				return DataUtilities.getReader( istream, connection.getContentEncoding() );
+				String encoding = connection.getContentEncoding();
+				
+				if ( encoding == null )
+				{
+					encoding = "ISO-8859-1";
+				}
+				
+				return DataUtilities.getReader( istream, encoding );
 			}
 		}
 		catch ( IOException e )
@@ -154,7 +161,7 @@ public class DataUtilities
 
 	public static BufferedReader getReader( final InputStream istream )
 	{
-		return DataUtilities.getReader( istream, "ISO-8859-1" );
+		return DataUtilities.getReader( istream, "UTF-8" );
 	}
 
 	public static BufferedReader getReader( final InputStream istream, final String encoding )
@@ -174,7 +181,7 @@ public class DataUtilities
 			}
 			else
 			{
-				reader = new InputStreamReader( istream, "ISO-8859-1" );
+				reader = new InputStreamReader( istream, "UTF-8" );
 			}
 		}
 		catch ( Exception e )

@@ -247,8 +247,8 @@ public abstract class BuffBotManager
 		File datafile = new File( KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt" );
 		File xmlfile = new File( KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".xml" );
 
-		PrintStream settings = LogStream.openStream( datafile, true );
-		PrintStream document = LogStream.openStream( xmlfile, true );
+		PrintStream settings = LogStream.openStream( datafile, true, "ISO-8859-1" );
+		PrintStream document = LogStream.openStream( xmlfile, true, "ISO-8859-1" );
 
 		document.println( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
 		document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"buffbot.xsl\"?>" );
