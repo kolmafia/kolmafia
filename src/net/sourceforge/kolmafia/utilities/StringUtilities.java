@@ -585,13 +585,18 @@ public class StringUtilities
 
 	public static final int parseInt( String string )
 	{
-		if ( string == null || string.length() == 0 )
+		if ( string == null )
 		{
 			return 0;
 		}
 
 		string = StringUtilities.globalStringDelete( string, "+" );
 		string = StringUtilities.globalStringDelete( string, "," );
+		
+		if ( string.length() == 0 )
+		{
+			return 0;
+		}
 
 		float multiplier = 1f;
 
@@ -607,11 +612,6 @@ public class StringUtilities
 		}
 		else
 		{
-			if ( string.equals( "" ) )
-			{
-				return 0;
-			}
-
 			boolean isNumeric = true;
 
 			for ( int i = 0; i < string.length() && isNumeric; ++i )
@@ -630,6 +630,11 @@ public class StringUtilities
 			{
 				StaticEntity.printStackTrace( new NumberFormatException( string ) );
 				string = NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
+
+				if ( string.length() == 0 )
+				{
+					return 0;
+				}
 			}
 
 			return Integer.parseInt( string );
@@ -641,7 +646,7 @@ public class StringUtilities
 
 	public static final long parseLong( String string )
 	{
-		if ( string == null || string.length() == 0 )
+		if ( string == null )
 		{
 			return 0L;
 		}
@@ -649,12 +654,17 @@ public class StringUtilities
 		string = StringUtilities.globalStringDelete( string, "+" );
 		string = StringUtilities.globalStringDelete( string, "," );
 
-		return string.equals( "" ) ? 0 : Long.parseLong( string );
+		if ( string.length() == 0 )
+		{
+			return 0L;
+		}
+
+		return Long.parseLong( string );
 	}
 
 	public static final float parseFloat( String string )
 	{
-		if ( string == null || string.length() == 0 )
+		if ( string == null )
 		{
 			return 0.0f;
 		}
@@ -662,7 +672,12 @@ public class StringUtilities
 		string = StringUtilities.globalStringDelete( string, "+" );
 		string = StringUtilities.globalStringDelete( string, "," );
 
-		return string.equals( "" ) ? 0.0f : Float.parseFloat( string );
+		if ( string.length() == 0 )
+		{
+			return 0L;
+		}
+
+		return Float.parseFloat( string );
 	}
 
 	public static final String basicTextWrap( String text )
