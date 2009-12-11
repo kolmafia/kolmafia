@@ -770,7 +770,15 @@ public class CharPaneDecorator
 			}
 
 			nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
-			int duration = StringUtilities.parseInt( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
+			
+			String durationString = text.substring( lastAppendIndex, nextAppendIndex - 1 );
+			
+			int duration = 0;
+			
+			if ( !durationString.equals( "&infin;" ) )
+			{
+				duration = StringUtilities.parseInt( durationString );
+			}
 
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 			lastAppendIndex = nextAppendIndex;
