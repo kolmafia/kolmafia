@@ -411,7 +411,38 @@ public class EffectDatabase
 		}
 		else
 		{
-			String durationString = parameters.split( " " )[ 0 ];
+			String durationString = "";
+			int spaceIndex = parameters.indexOf( " " );
+			
+			if ( spaceIndex != -1 )
+			{
+				durationString = parameters.substring( 0, spaceIndex );
+			}
+			
+			if ( durationString.equals( "*" ) )
+			{
+				duration = 0;
+			}
+			else
+			{
+				boolean isNumeric = true;
+				
+				for ( int i = 0; i < durationString.length() && isNumeric; ++i )
+				{
+					isNumeric = durationString.charAt( i ) == '-' || Character.isDigit( durationString.charAt( i ) );
+				}
+				
+				if ( isNumeric )
+				{
+					duration = StringUtilities.parseInt( durationString );
+				}
+				else
+				{
+					durationString = "";
+					duration = 1;
+				}
+			}
+			
 			String effectNameString = parameters.substring( durationString.length() ).trim();
 	
 			matchingNames = getMatchingNames( effectNameString );
@@ -421,11 +452,11 @@ public class EffectDatabase
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE,
 					"[" + effectNameString + "] does not match anything in the status effect database." );
+
 				return null;
 			}
 	
 			effectName = (String) matchingNames.get( 0 );
-			duration = durationString.equals( "*" ) ? 0 : StringUtilities.parseInt( durationString );
 		}
 	
 		if ( effectName == null )
