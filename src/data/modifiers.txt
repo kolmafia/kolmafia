@@ -1976,6 +1976,7 @@ Broken Knees	Muscle Percent: -30
 # Brother Corsican's Blessing: +2 Familiar Experience Per Fight
 Brother Flying Burrito's Blessing	Food Drop: +30
 Brother Smothers's Blessing	Booze Drop: +30
+# Bruised Jaw: Mruimed Maw
 Bubble, Bubble	Moxie: -5, Muscle: +5
 Bureaucratized	Familiar Weight: +10
 Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
