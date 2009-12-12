@@ -1581,6 +1581,17 @@ public class FightRequest
 				"Your antique greaves broke." );
 		}
 
+		// You try to unlock your cyber-mattock, but the battery's
+		// dead.  Since the charger won't be invented for several
+		// hundred years, you chuck the useless hunk of plastic as far
+		// from you as you can.
+
+		if ( responseText.indexOf( "You try to unlock your cyber-mattock" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.CYBER_MATTOCK,
+				"Your cyber-mattock broke." );
+		}
+
 		// "You sigh and discard the belt in a nearby trash can."
 		if ( responseText.indexOf( "You sigh and discard the belt" ) != -1 )
 		{

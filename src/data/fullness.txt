@@ -65,7 +65,7 @@ candied yams	3	5	7-14	0	72-75	0
 candy cane	1	4	1-5	10-20	10-20	10-20
 candy cane pizza	4	1	6-11	0	0	0	10 Sugar Rush
 candy cane surprise	3	5	4-5	0	0	0
-candy kneecapping stick	1	4	4	11	17	14	5 Sugar Rush
+candy kneecapping stick	1	4	4-5	10-18	10-18	10-18	5 Sugar Rush
 candy stake	1	4	1-5	10-20	10-20	10-20
 carob brownies	2	1	2-5	0	17-19	0
 carob chunk cookies	2	1	2-5	0	6-9	0
@@ -229,7 +229,7 @@ large cocoa eggshell fragment	1	1	1-2	0	0	0
 laser-broiled pear	1	1	3-4	8-10	8-10	8-10
 lemon	1	1	1	0	0	0
 lemon meringue pie	3	2	3-9	8-10	0	0
-licorice garrote	1	4	4	11	17	14	5 Sugar Rush
+¯licorice garrote	1	4	4-5	10-18	10-18	10-18	5 Sugar Rush
 lihc eye pie	4	2	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
 lime	1	2	1-3	0	0	0
 long pork casserole	3	9	8-15	0	37-51	0
