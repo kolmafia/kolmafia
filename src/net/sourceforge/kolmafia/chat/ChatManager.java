@@ -220,6 +220,18 @@ public abstract class ChatManager
 			destination = sender;
 		}
 
+		String bufferKey = ChatManager.getBufferKey( destination );
+		
+		ChatManager.openWindow( bufferKey );
+
+		StyledChatBuffer buffer = ChatManager.getBuffer( bufferKey );
+
+		String displayHTML = ChatFormatter.formatChatMessage( message );
+		buffer.append( displayHTML );
+	}
+	
+	public static final String getBufferKey( String destination )
+	{
 		String bufferKey = destination.toLowerCase();
 
 		if ( Preferences.getBoolean( "mergeHobopolisChat" ) )
@@ -230,12 +242,7 @@ public abstract class ChatManager
 			}
 		}
 
-		ChatManager.openWindow( bufferKey );
-
-		StyledChatBuffer buffer = ChatManager.getBuffer( bufferKey );
-
-		String displayHTML = ChatFormatter.formatChatMessage( message );
-		buffer.append( displayHTML );
+		return bufferKey;
 	}
 
 	public static final void processEvent( final EventMessage message )
@@ -269,7 +276,10 @@ public abstract class ChatManager
 		if ( !ChatManager.activeChannels.contains( sender ) )
 		{
 			ChatManager.activeChannels.add( sender );
-			ChatManager.openWindow( sender );
+
+			String bufferKey = ChatManager.getBufferKey( sender );
+			
+			ChatManager.openWindow( bufferKey );
 		}
 
 		if ( message.isTalkChannel() )
@@ -285,7 +295,10 @@ public abstract class ChatManager
 		if ( ChatManager.activeChannels.contains( sender ) )
 		{
 			ChatManager.activeChannels.remove( sender );
-			ChatManager.closeWindow( sender );
+
+			String bufferKey = ChatManager.getBufferKey( sender );
+			
+			ChatManager.closeWindow( bufferKey );
 		}
 	}
 
