@@ -95,15 +95,15 @@ public class ChatSender
 		{
 			ChatParser.parseChannelList( chatMessages, request.responseText );
 		}
-		else if ( graf.startsWith( "/listen " ) )
+		else if ( graf.startsWith( "/l " ) || graf.startsWith( "/listen " ) )
 		{
 			ChatParser.parseListen( chatMessages, request.responseText );
 		}
-		else if ( graf.startsWith( "/channel " ) )
+		else if ( graf.startsWith( "/c " ) || graf.startsWith( "/channel " ) )
 		{
 			ChatParser.parseChannel( chatMessages, request.responseText );
 		}
-		else if ( graf.startsWith( "/switch " ) )
+		else if ( graf.startsWith( "/s " ) || graf.startsWith( "/switch " ) )
 		{
 			ChatParser.parseSwitch( chatMessages, request.responseText );
 		}
@@ -250,7 +250,7 @@ public class ChatSender
 			}
 		}
 
-		if ( graf.startsWith( "/listen " ) )
+		if ( graf.startsWith( "/l " ) || graf.startsWith( "/listen " ) )
 		{
 			String currentChannel = ChatManager.getCurrentChannel();
 
