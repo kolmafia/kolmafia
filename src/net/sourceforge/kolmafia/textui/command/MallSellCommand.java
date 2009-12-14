@@ -73,7 +73,7 @@ public class MallSellCommand
 
 				if ( separatorIndex != -1 )
 				{
-					limits[ i ] = StringUtilities.parseInt( description.substring( separatorIndex + 5 ) );
+					limits[ i ] = StringUtilities.parseInt( description.substring( separatorIndex + 5 ).trim() );
 					description = description.substring( 0, separatorIndex ).trim();
 				}
 
