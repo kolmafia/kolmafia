@@ -4337,7 +4337,7 @@
 4331	390509859	licorice garrote
 4332	795046000	candy knuckles	sets of candy knuckles
 4333	707896286	jawbruiser	jawbruisers
-4334
+4334	114513584	fancy chocolate car	fancy chocolate cars
 4335
 4336
 4337
