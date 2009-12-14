@@ -4337,7 +4337,7 @@
 4331	licorice garrote	food, combat	all	0
 4332	candy knuckles	weapon	all	0
 4333	jawbruiser	food	all	0
-4334
+4334	fancy chocolate car	usable	all	0
 4335
 4336
 4337
