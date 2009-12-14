@@ -111,7 +111,7 @@ public class SewerRequest
 		{
 			thirdItem = KoLConstants.RNG.nextInt( 11 ) + 1;
 		}
-		else if ( Character.isDigit( thirdItemString.charAt( 0 ) ) )
+		else if ( StringUtilities.isNumeric( thirdItemString ) )
 		{
 			thirdItem = StringUtilities.parseInt( thirdItemString );
 		}

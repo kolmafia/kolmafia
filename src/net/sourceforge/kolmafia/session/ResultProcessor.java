@@ -454,20 +454,25 @@ public class ResultProcessor
 		// The name of the item follows the number that appears after
 		// the first index.
 
-		String countString = item.split( " " )[ 0 ];
 		int spaceIndex = item.indexOf( " " );
 
-		String itemName = spaceIndex == -1 ? item : item.substring( spaceIndex ).trim();
-		boolean isNumeric = spaceIndex != -1;
-
-		for ( int i = 0; isNumeric && i < countString.length(); ++i )
+		String countString = "";
+		String itemName;
+		
+		if ( spaceIndex != -1 )
 		{
-			isNumeric &= Character.isDigit( countString.charAt( i ) ) || countString.charAt( i ) == ',';
+			countString = item.substring( 0, spaceIndex );
+			itemName = item.substring( spaceIndex ).trim();
+		}
+		else
+		{
+			itemName = item;
 		}
 
-		if ( !isNumeric )
+		if ( !StringUtilities.isNumeric( countString ) )
 		{
 			countString = "1";
+			itemName = item;
 		}
 
 		int itemCount = StringUtilities.parseInt( countString );

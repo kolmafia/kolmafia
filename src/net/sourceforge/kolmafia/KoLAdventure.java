@@ -1110,43 +1110,49 @@ public class KoLAdventure
 
 		this.updateAutoAttack();
 
-		int id = StringUtilities.parseInt( this.adventureId );
-		switch ( id )
+		int id = 0;
+		
+		if ( StringUtilities.isNumeric( this.adventureId ) )
 		{
-		case 118:
-			// The Hidden City is weird. It redirects you to the
-			// container zone (the grid of 25 squares) if you try
-			// to adventure at this adventure ID.
-
-			// We detect adventuring in individual squares
-			// elsewhere.
-			return;
-
-		case 123:
-			AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
-			if ( !KoLConstants.activeEffects.contains( hydrated ) )
+			id = StringUtilities.parseInt( this.adventureId );
+	
+			switch ( id )
 			{
-				( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
+			case 118:
+				// The Hidden City is weird. It redirects you to the
+				// container zone (the grid of 25 squares) if you try
+				// to adventure at this adventure ID.
+	
+				// We detect adventuring in individual squares
+				// elsewhere.
+				return;
+	
+			case 123:
+				AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
+				if ( !KoLConstants.activeEffects.contains( hydrated ) )
+				{
+					( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
+				}
+				if ( !KoLConstants.activeEffects.contains( hydrated ) )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ultrahydration failed!" );
+				}
+				break;
+	
+			case 158:
+				AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
+				AdventureResult polish = ItemPool.get( ItemPool.BALL_POLISH, 1 );
+				AdventureResult sham = ItemPool.get( ItemPool.RIGGING_SHAMPOO, 1 );
+				if ( InventoryManager.hasItem( mop ) &&
+					InventoryManager.hasItem( polish ) &&
+					InventoryManager.hasItem( sham ) )
+				{
+					RequestThread.postRequest( new UseItemRequest( mop ) );
+					RequestThread.postRequest( new UseItemRequest( polish ) );
+					RequestThread.postRequest( new UseItemRequest( sham ) );
+				}
+				break;
 			}
-			if ( !KoLConstants.activeEffects.contains( hydrated ) )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ultrahydration failed!" );
-			}
-			break;
-
-		case 158:
-			AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
-			AdventureResult polish = ItemPool.get( ItemPool.BALL_POLISH, 1 );
-			AdventureResult sham = ItemPool.get( ItemPool.RIGGING_SHAMPOO, 1 );
-			if ( InventoryManager.hasItem( mop ) &&
-				InventoryManager.hasItem( polish ) &&
-				InventoryManager.hasItem( sham ) )
-			{
-				RequestThread.postRequest( new UseItemRequest( mop ) );
-				RequestThread.postRequest( new UseItemRequest( polish ) );
-				RequestThread.postRequest( new UseItemRequest( sham ) );
-			}
-			break;
 		}
 
 		if ( !( this.getRequest() instanceof AdventureRequest ) || this.isValidAdventure )

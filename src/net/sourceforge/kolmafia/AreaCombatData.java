@@ -89,7 +89,7 @@ public class AreaCombatData
 		{
 			String weight = name.substring( colon + 1 ).trim();
 
-			if ( Character.isDigit( weight.charAt( 0 ) ) )
+			if ( StringUtilities.isNumeric( weight ) )
 			{
 				weighting = StringUtilities.parseInt( weight );
 			}

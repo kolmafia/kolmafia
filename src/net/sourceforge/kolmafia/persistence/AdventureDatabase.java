@@ -205,14 +205,7 @@ public class AdventureDatabase
 				continue;
 			}
 
-			boolean isNumeric = true;
-
-			for ( int i = 0; i < location[ 1 ].length() && isNumeric; ++i )
-			{
-				isNumeric = Character.isDigit( location[ 1 ].charAt( i ) );
-			}
-
-			if ( !isNumeric )
+			if ( !StringUtilities.isNumeric( location[ 1 ] ) )
 			{
 				continue;
 			}
