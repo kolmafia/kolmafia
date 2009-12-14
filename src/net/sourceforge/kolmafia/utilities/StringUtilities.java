@@ -62,7 +62,6 @@ public class StringUtilities
 	private static final HashMap prepositionsMap = new HashMap();
 	private static final WeakHashMap hashCache = new WeakHashMap();
 
-	private static final Pattern INTEGER_PATTERN = Pattern.compile( "[0-9]+" );
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^0-9\\-]+" );
 
 	private static final Pattern PREPOSITIONS_PATTERN =
@@ -582,6 +581,75 @@ public class StringUtilities
 			lastIndex = buffer.indexOf( tag, lastIndex + replaceWith.length() );
 		}
 	}
+	
+	public static final boolean isNumeric( String string )
+	{
+		if ( string == null || string.length() == 0 )
+		{
+			return false;
+		}
+		
+		char ch = string.charAt( 0 );
+
+		if ( ( ch != '-' ) && ( ch != '+' ) && !Character.isDigit( ch ) )
+		{
+			return false;
+		}
+
+		for ( int i = 1; i < string.length(); ++i )
+		{
+			ch = string.charAt( i );
+
+			if ( ( ch != ',' ) && !Character.isDigit( ch ) )
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public static final boolean isFloat( String string )
+	{
+		if ( string == null || string.length() == 0 )
+		{
+			return false;
+		}
+		
+		char ch = string.charAt( 0 );
+
+		if ( ( ch != '-' ) && ( ch != '+' ) && !Character.isDigit( ch ) )
+		{
+			return false;
+		}
+
+		boolean hasDecimalSeparator = false;
+
+		for ( int i = 1; i < string.length(); ++i )
+		{
+			ch = string.charAt( i );
+
+			if ( ch == '.' )
+			{
+				if ( hasDecimalSeparator )
+				{
+					return false;
+				}
+
+				hasDecimalSeparator = true;
+			}
+
+			if ( ch != '.' )
+			{
+				if ( ( ch != ',' ) && !Character.isDigit( ch ) )
+				{
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
 
 	public static final int parseInt( String string )
 	{
@@ -589,8 +657,12 @@ public class StringUtilities
 		{
 			return 0;
 		}
+		
+		if ( string.startsWith( "+" ) )
+		{
+			string = string.substring( 1 );
+		}
 
-		string = StringUtilities.globalStringDelete( string, "+" );
 		string = StringUtilities.globalStringDelete( string, "," );
 		
 		if ( string.length() == 0 )
@@ -598,50 +670,43 @@ public class StringUtilities
 			return 0;
 		}
 
-		float multiplier = 1f;
-
-		if ( string.endsWith( "k" ) || string.endsWith( "K" ) )
+		if ( StringUtilities.isNumeric( string ) )
 		{
-			multiplier = 1000f;
-			string = string.substring( 0, string.length() - 1 );
-		}
-		else if ( string.endsWith( "m" ) || string.endsWith( "M" ) )
-		{
-			multiplier = 1000000f;
-			string = string.substring( 0, string.length() - 1 );
-		}
-		else
-		{
-			boolean isNumeric = true;
-
-			for ( int i = 0; i < string.length() && isNumeric; ++i )
-			{
-				if ( i == 0 )
-				{
-					isNumeric = string.charAt( i ) == '-' || Character.isDigit( string.charAt( i ) );
-				}
-				else
-				{
-					isNumeric = Character.isDigit( string.charAt( i ) );
-				}
-			}
-
-			if ( !isNumeric )
-			{
-				StaticEntity.printStackTrace( new NumberFormatException( string ) );
-				string = NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
-
-				if ( string.length() == 0 )
-				{
-					return 0;
-				}
-			}
-
 			return Integer.parseInt( string );
 		}
+		
+		if ( StringUtilities.isFloat( string.substring( 0, string.length() - 1 ) ) )
+		{
+			char ch = string.charAt( string.length() - 1 );
+			string = string.substring( 0, string.length() - 1 );
 
-		float result = string.equals( "" ) || string.equals( "-" ) ? 0 : Float.parseFloat( string );
-		return (int) ( result * multiplier );
+			float base = StringUtilities.parseFloat( string );
+			float multiplier = 1.0f;
+			
+			switch ( ch )
+			{
+			case 'k':
+			case 'K':
+				multiplier = 1000.0f;
+				break;
+			case 'm':
+			case 'M':
+				multiplier = 1000000.0f;
+				break;
+			}
+			
+			return (int) ( base * multiplier );
+		}
+		
+		StaticEntity.printStackTrace( new NumberFormatException( string ) );
+		string = NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
+
+		if ( string.length() == 0 )
+		{
+			return 0;
+		}
+
+		return Integer.parseInt( string );
 	}
 
 	public static final long parseLong( String string )
@@ -651,7 +716,11 @@ public class StringUtilities
 			return 0L;
 		}
 
-		string = StringUtilities.globalStringDelete( string, "+" );
+		if ( string.startsWith( "+" ) )
+		{
+			string = string.substring( 1 );
+		}
+
 		string = StringUtilities.globalStringDelete( string, "," );
 
 		if ( string.length() == 0 )
@@ -669,7 +738,11 @@ public class StringUtilities
 			return 0.0f;
 		}
 
-		string = StringUtilities.globalStringDelete( string, "+" );
+		if ( string.startsWith( "+" ) )
+		{
+			string = string.substring( 1 );
+		}
+
 		string = StringUtilities.globalStringDelete( string, "," );
 
 		if ( string.length() == 0 )

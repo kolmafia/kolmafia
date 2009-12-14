@@ -240,32 +240,29 @@ public class DataTypes
 		// inside of the "item" construct.
 
 		int itemId;
-		for ( int i = 0; i < name.length(); ++i )
+		
+		if ( StringUtilities.isNumeric( name ) )
 		{
-			if ( !Character.isDigit( name.charAt( i ) ) )
+			itemId = StringUtilities.parseInt( name );
+			name = ItemDatabase.getItemName( itemId );
+
+			if ( name == null  )
 			{
-				AdventureResult item = ItemFinder.getFirstMatchingItem( name, false );
-
-				if ( item == null || item.getItemId() == -1 )
-				{
-					return returnDefault ? DataTypes.ITEM_INIT : null;
-				}
-
-				itemId = item.getItemId();
-				name = ItemDatabase.getItemName( itemId );
-				return new Value( DataTypes.ITEM_TYPE, itemId, name );
+				return returnDefault ? DataTypes.ITEM_INIT : null;
 			}
+
+			return new Value( DataTypes.ITEM_TYPE, itemId, name );
 		}
+		
+		AdventureResult item = ItemFinder.getFirstMatchingItem( name, false );
 
-		// Since it is numeric, parse the integer value
-		// and store it inside of the contentInt.
-
-		itemId = StringUtilities.parseInt( name );
-		name = ItemDatabase.getItemName( itemId );
-		if ( name == null  )
+		if ( item == null || item.getItemId() == -1 )
 		{
 			return returnDefault ? DataTypes.ITEM_INIT : null;
 		}
+
+		itemId = item.getItemId();
+		name = ItemDatabase.getItemName( itemId );
 		return new Value( DataTypes.ITEM_TYPE, itemId, name );
 	}
 

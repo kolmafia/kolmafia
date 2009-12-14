@@ -830,9 +830,9 @@ public abstract class CustomCombatManager
 		action = action.trim();
 
 		boolean isSkillNumber = true;
-		for ( int i = 0; i < action.length(); ++i )
+		for ( int i = 0; i < action.length() && isSkillNumber; ++i )
 		{
-			isSkillNumber &= Character.isDigit( action.charAt( i ) );
+			isSkillNumber = Character.isDigit( action.charAt( i ) );
 		}
 
 		if ( isSkillNumber )

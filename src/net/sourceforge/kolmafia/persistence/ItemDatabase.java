@@ -371,17 +371,7 @@ public class ItemDatabase
 			Integer id = new Integer( itemId );
 			String descId = data[1];
 
-			boolean isDescriptionId = true;
-			for ( int i = 0; i < descId.length(); ++i )
-			{
-				if ( !Character.isDigit( descId.charAt( i ) ) )
-				{
-					isDescriptionId = false;
-					break;
-				}
-			}
-
-			if ( isDescriptionId )
+			if ( StringUtilities.isNumeric( descId ) )
 			{
 				ItemDatabase.descriptionById.put( id, descId );
 				ItemDatabase.itemIdByDescription.put( descId, id );

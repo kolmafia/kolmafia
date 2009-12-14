@@ -378,18 +378,17 @@ public class ItemFinder
 			}
 			else
 			{
-				boolean isNumeric = parameters.charAt( 0 ) == '-' || Character.isDigit( parameters.charAt( 0 ) );
-
-				int spaceIndex = 1;
-				while ( isNumeric && spaceIndex < parameters.length() && parameters.charAt( spaceIndex ) != ' ' )
+				int spaceIndex = parameters.indexOf( " " );
+				
+				if ( spaceIndex != -1 )
 				{
-					isNumeric = Character.isDigit( parameters.charAt( spaceIndex++ ) );
-				}
-
-				if ( isNumeric )
-				{
-					itemCount = StringUtilities.parseInt( parameters.substring( 0, spaceIndex ) );
-					parameters = parameters.substring( spaceIndex + 1 ).trim();
+					String itemCountString = parameters.substring( 0, spaceIndex );
+					
+					if ( StringUtilities.isNumeric( itemCountString ) )
+					{					
+						itemCount = StringUtilities.parseInt( itemCountString );
+						parameters = parameters.substring( spaceIndex + 1 ).trim();
+					}
 				}
 			}
 		}
@@ -509,18 +508,17 @@ public class ItemFinder
 			if ( itemNames[ i ].endsWith( " meat" ) )
 			{
 				String amountString = itemNames[ i ].substring( 0, itemNames[ i ].length() - 5 ).trim();
-				char first = amountString.length() > 0 ? amountString.charAt( 0 )
-					: 'x';
-				isMeatMatch = first == '-' || first == '*' || Character.isDigit( first );
-
-				for ( int j = 1; j < amountString.length() && isMeatMatch; ++j )
+				
+				if ( amountString.equals( "*" ) || StringUtilities.isNumeric( amountString ) )
 				{
-					isMeatMatch &= Character.isDigit( amountString.charAt( j ) );
-				}
+					isMeatMatch = true;
 
-				if ( isMeatMatch )
-				{
-					int amount = StringUtilities.parseInt( amountString );
+					int amount = 0;
+					
+					if ( !amountString.equals( "*" ) )
+					{
+						amount = StringUtilities.parseInt( amountString );
+					}
 
 					if ( amount <= 0 )
 					{

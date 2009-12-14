@@ -425,14 +425,7 @@ public class EffectDatabase
 			}
 			else
 			{
-				boolean isNumeric = true;
-				
-				for ( int i = 0; i < durationString.length() && isNumeric; ++i )
-				{
-					isNumeric = durationString.charAt( i ) == '-' || Character.isDigit( durationString.charAt( i ) );
-				}
-				
-				if ( isNumeric )
+				if ( StringUtilities.isNumeric( durationString ) )
 				{
 					duration = StringUtilities.parseInt( durationString );
 				}
