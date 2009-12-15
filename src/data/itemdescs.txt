@@ -4346,32 +4346,32 @@
 4340	569476193	Piddles
 4341	840139975	BitterSweetTarts
 4342	166578470	Polka Pop
-4343
-4344
-4345
-4346
-4347
-4348
-4349
-4350
-4351
-4352
-4353
-4354
-4355
-4356
-4357
-4358
-4359
-4360
-4361
-4362
-4363
-4364
+4343	674483034	Crimbuck	Crimbux
+4344	806374323	Crimbo wreath
+4345	622326963	string of Crimbo lights
+4346	617248703	plastic Crimbo reindeer
+4347	747424805	gingerbread house
+4348	827090683	leftover Crimbo rations
+4349	522903643	snow hat
+4350	412087730	snow pants
+4351	899600672	snow belt
+4352	195782497	pile of loose snow
+4353	408066219	Crimbough
+4354	913990837	A Crimbo Carol, Ch. 1	copies of A Crimbo Carol, Ch. 1
+4355	200012650	A Crimbo Carol, Ch. 2	copies of A Crimbo Carol, Ch. 2
+4356	996470310	A Crimbo Carol, Ch. 3	copies of A Crimbo Carol, Ch. 3
+4357	907193137	A Crimbo Carol, Ch. 4	copies of A Crimbo Carol, Ch. 4
+4358	166936042	A Crimbo Carol, Ch. 5	copies of A Crimbo Carol, Ch. 5
+4359	166936042	A Crimbo Carol, Ch. 6	copies of A Crimbo Carol, Ch. 6
+4360	793381765	expired can of franks 'n' beans	expired cans of franks 'n' beans
+4361	114423964	expired bottle of peppermint schnapps	expired bottles of peppermint schnapps
+4362	875614058	snow halo
+4363	902109161	elf resistance button	elf resistance buttons
+4364	827667136	elven suicide capsule	elven suicide capsules
 4365
 4366
-4367
-4368
+4367	582408038	elven cellocello	shots of elven cellocello
+4368	709698183	wrench handle	wrench handles
 4369
 4370
 4371

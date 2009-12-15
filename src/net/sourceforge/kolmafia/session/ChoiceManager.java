@@ -1264,6 +1264,8 @@ public abstract class ChoiceManager
 			"The Sea", "choiceAdventure403", "Skate Park",
 			new String[] { "skate blade", "brand new key" },
 			new String[] { "4213", "4206" } ),
+
+                // Choice 423 is A Wrenching Encounter
 	};
 
 	static

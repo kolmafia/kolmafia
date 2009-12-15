@@ -107,3 +107,25 @@ bs	50	map to Anemone Mine
 bs	50	map to the Dive Bar
 bs	100	damp old boot
 bs	300	sushi-rolling mat
+
+# Things you can buy with Crimbux
+
+bc	1	battered Crimbo Crate
+bc	5	dusty Crimbo crate
+bc	10	sturdy Crimbo crate
+bc	100	Crimbo wreath
+bc	100	string of Crimbo lights
+bc	100	plastic Crimbo reindeer
+bc	500	gingerbread house
+bc	1000	leftover Crimbo rations
+bc	1000	A Crimbo Carol, Ch. 1
+bc	1000	A Crimbo Carol, Ch. 2
+bc	1000	A Crimbo Carol, Ch. 3
+bc	1000	A Crimbo Carol, Ch. 4
+bc	1000	A Crimbo Carol, Ch. 5
+bc	1000	A Crimbo Carol, Ch. 6
+bc	2000	snow hat
+bc	2000	snow belt
+bc	2000	snow pants
+bc	5000	pile of loose snow
+bc	10000	Crimbough

@@ -232,6 +232,7 @@ public class UseItemRequest
 		case ItemPool.SANDCASTLE:
 		case ItemPool.TWIG_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
+		case ItemPool.GINGERBREAD_HOUSE:
 			return CampgroundRequest.getCurrentDwelling() != null;
  
 		case ItemPool.HOT_BEDDING:

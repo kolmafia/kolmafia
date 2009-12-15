@@ -163,6 +163,7 @@ shapeless wide-brimmed hat	200	Mox: 200
 skeletortoise	30	none
 slime-covered helmet	200	Mox: 200
 snorkel	10	none
+snow hat	50	Mox: 10
 spiky turtle helmet	130	Mox: 50
 sponge helmet	200	Mox: 85
 spooky hockey mask	100	Mox: 35
@@ -298,6 +299,7 @@ plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
 rusty metal greaves	150	Mus: 60
 slime-covered greaves	200	Mox: 200
+snow pants	50	Mox: 10
 snowboarder pants	100	Mox: 35
 spandex anniversary shorts	10	none
 square sponge pants	200	Mox: 85
@@ -1352,6 +1354,7 @@ shiny tribal beads	0	Mys: 25
 silver tongue charrrm bracelet	0	Mys: 80
 sk8board	0	Mys: 20
 slime-covered necklace	0	Mys: 200
+snow belt	0	Mys: 10
 solid baconstone earring	0	Mys: 40
 solid baconstone necklace	0	Mys: 40
 solid baconstone ring	0	Mys: 40

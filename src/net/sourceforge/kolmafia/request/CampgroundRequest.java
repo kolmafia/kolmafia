@@ -229,6 +229,9 @@ public class CampgroundRequest
 		case 7:
 			itemId = ItemPool.HOBO_FORTRESS;
 			break;
+		case 8:
+			itemId = ItemPool.GINGERBREAD_HOUSE;
+			break;
 		default:
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unrecognized housing type!" );
 		}

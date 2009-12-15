@@ -46,7 +46,7 @@ public class CrimboCafeRequest
 {
 	public CrimboCafeRequest( final String name )
 	{
-		super( "Crimbo Cafe", "5" );
+		super( "Crimbo Cafe", "6" );
 
 		int itemId = 0;
 		int price = 0;
@@ -54,32 +54,32 @@ public class CrimboCafeRequest
 		switch ( KoLConstants.cafeItems.indexOf( name ) )
 		{
 		case 0:
-			itemId = -4;
+			itemId = -67;
 			price = 50;
 			break;
 
 		case 1:
-			itemId = -5;
+			itemId = -68;
 			price = 75;
 			break;
 
 		case 2:
-			itemId = -6;
+			itemId = -69;
 			price = 100;
 			break;
 
 		case 3:
-			itemId = -9;
+			itemId = -70;
 			price = 50;
 			break;
 
 		case 4:
-			itemId = -8;
+			itemId = -71;
 			price = 75;
 			break;
 
 		case 5:
-			itemId = -7;
+			itemId = -72;
 			price = 100;
 			break;
 		}
@@ -96,12 +96,12 @@ public class CrimboCafeRequest
 	{
 		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
 		KoLConstants.cafeItems.clear();
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "eggnogtini", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "candycaine", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "braincracker sweet", 100 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "gingerbread stir-fry", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "candy cane pizza", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "gumdrop chow mein", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Caviar Carbonara", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Halibut Alfredo", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Red Herring Velvet Cake", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Gin and Herring", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Black and Tan and Red All Over", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Antarctic Ice Tea", 100 );
 		ConcoctionDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
@@ -131,28 +131,28 @@ public class CrimboCafeRequest
 
 		switch ( itemId )
 		{
-		case -4:
-			itemName = "eggnogtini";
+		case -67:
+			itemName = "Caviar Carbonara";
 			price = 50;
 			break;
-		case -5:
-			itemName = "candycaine";
+		case -68:
+			itemName = "Halibut Alfredo";
 			price = 75;
 			break;
-		case -6:
-			itemName = "braincracker sweet";
+		case -69:
+			itemName = "Red Herring Velvet Cake";
 			price = 100;
 			break;
-		case -9:
-			itemName = "gingerbread stir-fry";
+		case -70:
+			itemName = "Gin and Herring";
 			price = 50;
 			break;
-		case -8:
-			itemName = "candy cane pizza";
+		case -71:
+			itemName = "Black and Tan and Red All Over";
 			price = 75;
 			break;
-		case -7:
-			itemName = "gumdrop chow mein";
+		case -72:
+			itemName = "Antarctic Ice Tea";
 			price = 100;
 			break;
 		default:

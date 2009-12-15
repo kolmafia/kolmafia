@@ -98,6 +98,13 @@
 # Pumpkin Tree
 # Toilet-papered Tree
 #
+# Amateur Elf
+# Auteur Elf
+# Monkey Wrenchin' Elf
+# Provocateur Elf
+# Raconteur Elf
+# Saboteur Elf
+#
 # Item and Meat Drop percentage figures from Yiab's statistical data:
 #
 # http://kol.coldfront.net/thekolwiki/index.php/Parseable_Item_Statistics
@@ -133,6 +140,7 @@ Acid Blob	HP: 40 Def: 38 Atk: 38	magic whistle (15)
 Acoustic Electric Eel	HP: 500 Def: 400 Atk: 405 Meat: 192-288	dull fish scale (15)	eel battery (9)	eel sauce (c10)	eel skin (4)
 Albino Bat	HP: 8 Def: 14 Atk: 12 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (b0)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 120-180	heavy D (40)	original G (40)
+Amateur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Amateur Ninja	HP: 5 Atk: 4 Def: 6 Meat: 16-24	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
 An Angry Bugbear	HP: 12 Def: 15 Atk: 15
 An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky	annoying pitchfork (100)
@@ -148,6 +156,7 @@ Animated Nightstand (White)	HP: 180 Def: 171 Atk: 159	grouchy restless spirit (8
 Anime Smiley	HP: 67 Def: 77 Atk: 77	334 scroll (30)	Tasty Fun Good rice candy (40)	caret (p0)
 Apathetic Lizardman	HP: 14 Def: 20 Atk: 20
 Arc-welding Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
+Auteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Axe Handle	HP: 3 Def: 3 Atk: 1	pine tar (20)
 BASIC Elemental	HP: 40 Def: 50 Atk: 50
 Bad ASCII Art	HP: 1	ASCII shirt (c100)	 30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
@@ -467,6 +476,7 @@ Mob Penguin Smasher		chunk of depleted Grimacite (0)	kneecapping stick (0)	pengu
 Mob Penguin Smith		chunk of depleted Grimacite (0)	iron pasta spoon (0)	scroll of pasta summoning (0)
 Mob Penguin Supervisor		chunk of depleted Grimacite (0)	mafia aria (0)	Mob Penguin cellular phone (0)	support cummerbund (0)
 Mobile Armored Sweat Lodge	HP: 300 Atk: 180 E: stench	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
+Monkey Wrenchin' Elf		elf resistance button (100)	wrench handle (100)
 Monty Basingstoke-Pratt, IV	HP: 240 Meat: 174-215 E: sleaze	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 Mother Slime	HP: 3000 EA: slime
 Mutant Circuit-Soldering Elf		elven moonshine (0)	miniature antlers (0)
@@ -518,6 +528,7 @@ Pretty Fly	HP: 100000
 Procrastination Giant	HP: 150 Def: 125 Atk: 125 Meat: 120-180	procrastination potion (30)
 Protagonist	HP: 80 Def: 100 Atk: 100 Meat: 58-129	phonics down (40)	ridiculously huge sword (10)	super-spiky hair gel (20)	ocarina of space (5)
 Protector Spectre	HP: 116	ancient amulet (100)	spectre scepter (100)
+Provocateur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Psychedelic Fur	HP: 20	a creased paper strip (0)	a crinkled paper strip (0)	a crumpled paper strip (0)	a folded paper strip (0)	a ragged paper strip (0)	a ripped paper strip (0)	a rumpled paper strip (0)	a torn paper strip (0)
 Pufferfish	HP: 750 Def: 500 Atk: 400 Meat: 160-240	pufferfish spine (5)	rough fish scale (4)	seaweed (5)
 Pumped-up Bass	HP: 500 Def: 300 Atk: 330 Meat: 160-240	dull fish scale (15)	beefy fish meat (5)
@@ -528,6 +539,7 @@ Pygmy Headhunter	HP: 151 Def: 146 Atk: 146 E: sleaze Meat: 143-207	briefcase (60
 Quantum Mechanic	HP: 51 Def: 37 Atk: 37	large box (40)	vorpal blade (15)	pile of gold coins (p0)
 Quiet Healer	HP: 90 Def: 95 Atk: 95 Meat: 66-143	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)
 Racecar Bob	HP: 139 Def: 138 Atk: 144 Meat: 43-67	enormous belt buckle (25)	leather chaps (15)	mesh cap (15)	stunt nuts (30)
+Raconteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Raging Bull	HP: 20 Def: 25 Atk: 25 Meat: 24-36	pile of jumping beans (50)	can of Red Minotaur (30)	boxing glove (0)
 Rampaging Adding Machine	HP: 70 Atk: 80 Def: 80
 Ratbat	HP: 22 Def: 25 Atk: 25 Meat: 18-28	rat appendix (15)	ratgut (15)	ratarang (p0)
@@ -542,6 +554,7 @@ Rolling Stone	HP: 135 Def: 140 Atk: 137	palm frond (10)	handful of moss (20)	bro
 Rotund Duck	HP: 225 Atk: 175 Meat: 271-369	duct tape (6)
 Rudolphus of Crimborg		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30)	Mad Train wine (30)	moxie weed (15)	dented harmonica (15)	cheap cigar butt (p0)
+Saboteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Sabre-Toothed Ferret	HP: 200 Atk: 250 Meat: 160-240 E: stench	sabre teeth (25)	Spanish fly (c0)
 Sabre-Toothed Goat	HP: 50 Def: 68 Atk: 68 Meat: 44-66	goat beard (5)	Sabre teeth (5)	billy idol (b0)
 Sabre-Toothed Lime	HP: 8 Def: 14 Atk: 14
