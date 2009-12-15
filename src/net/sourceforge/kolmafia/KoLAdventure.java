@@ -1453,6 +1453,13 @@ public class KoLAdventure
 			"You already looted the temple in that square.",
 		},
 
+		// It looks like things are running pretty smoothly at the
+		// factory right now -- there's nobody to fight.
+		{
+			"things are running pretty smoothly",
+			"Nothing more to do here today.",
+		},
+
 		// There's nothing left of Ol' Scratch but a crater and a
 		// stove.  Burnbarrel Blvd. is still hot, but it's no longer
 		// bothered.  Or worth bothering with.

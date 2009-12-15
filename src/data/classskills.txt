@@ -1,6 +1,6 @@
 3
-#Syntax is:
-#id	Name	Type	MP Cost	Duration[	Level]
+# Syntax is:
+# id	Name	Type	MP Cost	Duration[	Level]
 
 1	Liver of Steel	0	0	0
 2	Chronic Indigestion	5	5	0
@@ -89,6 +89,7 @@
 1021
 1022	Clobber	5	1	0	0
 1023	Harpoon!	5	30	0
+1024	Holiday Weight Gain	3	10	10
 
 # Skills available to Tamers
 
@@ -117,6 +118,7 @@
 2022	Spectral Snapper	5	20	0
 2023	Toss	5	1	0	0
 2024	Summon Leviatuga	5	40	0
+2025	Jingle Bells	4	5	15
 2103	Head + Knee Combo	5	8	0
 2105	Head + Shield Combo	5	9	0
 2106	Knee + Shield Combo	5	10	0
@@ -146,6 +148,7 @@
 3019	Fearful Fettucini	5	24	0
 3020	Spaghetti Spear	5	1	0	0
 3021	Tempuramancy	0	0	0
+3022	Candyblast	5	6	0
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 
@@ -179,6 +182,7 @@
 4019	Scarysauce	4	10	5
 4020	Salsaball	5	1	0	0
 4021	Deep Saucery	0	0	0
+4022	Surge of Icing	5	10	0
 
 # Skills available to Bandits
 
@@ -204,6 +208,7 @@
 5019	Tango of Terror	5	8	0
 5021	Suckerpunch	5	1	0	0
 5022	Salacious Cocktailcrafting	0	0	0
+5023	Stealth Mistletoe	5	5	0
 
 # Skills available to Thieves
 
@@ -234,6 +239,7 @@
 6024	Prelude of Precision	4	50	5
 6025	Sing	5	1	0	0
 6026	Donho's Bubbly Ballad	4	75	5
+6027	Cringle's Curative Carol	4	5	5
 
 # Skills granted conditionally
 

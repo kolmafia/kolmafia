@@ -208,6 +208,7 @@ shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15,
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2
 snorkel	Familiar Effect: "atk, cap 2"
+snow hat	Damage Reduction: 3
 spiky turtle helmet	Weapon Damage: +8, Monster Level: +8, Familiar Effect: "atk, 1xFairy, cap 32"
 sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "atk, 1xFairy"
 spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 25"
@@ -348,6 +349,7 @@ plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30
 poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25
 rusty metal greaves	Initiative: -10
 slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10
+snow pants	Hot Resistance: +2
 snowboarder pants	Damage Absorption: +20
 spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1
 square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30
@@ -1473,6 +1475,7 @@ shiny tribal beads	Mysticality: +6
 silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 sk8board	Initiative: +15
 slime-covered necklace	Weapon Damage: [50*zone(The Slime Tube)], Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200
+snow belt	Cold Damage: +6, Single Equip
 solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single Equip
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
 solid baconstone ring	Mysticality: +12, Maximum MP: +30, MP Regen Min: 2, MP Regen Max: 4, Single Equip
@@ -1762,6 +1765,7 @@ serrated proboscis extension	Familiar Weight: +20
 six-armed sweater	Familiar Weight: +5
 skewer-mounted razor blade	Familiar Weight: +5
 smile-sharpening stone	Familiar Weight: +5
+snow halo	Familiar Weight: +5
 spoon!	Familiar Weight: +5
 string of dingle balls	Familiar Weight: +5
 sucky decal	Familiar Weight: +5
@@ -2217,6 +2221,7 @@ Hip to Be Square Dancin'	Item Drop: +10
 Hippy Stench	Combat Rate: +5
 Hobonic	Hobo Power: +5
 Hoity Toity	Item Drop: +30
+Holiday Bliss	Item Drop: +20, Meat Drop: +20
 Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum MP: +20
 # Hooked Up: Continually gain MP
 Hooked Up	Moxie Percent: -100, MP Regen Min: 10, MP Regen Max: 15
@@ -2485,6 +2490,7 @@ Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
 Strength of Ten Ettins	Muscle Percent: +25
 # Stuck-Up Hair: Damages Attacking Opponents
+Sugar High	Mysticality Percent: +30
 Sugar Rush	Initiative: +20, Muscle Percent: +5, Moxie Percent: +5, Mysticality Percent: -10
 Sunburned	Muscle: -2, Moxie: -2
 Supafly	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +30, Sleaze Damage: +10, Sleaze Resistance: +2

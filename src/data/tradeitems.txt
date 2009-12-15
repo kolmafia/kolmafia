@@ -4346,32 +4346,32 @@
 4340	Piddles	multiple	all	0
 4341	BitterSweetTarts	multiple	all	0
 4342	Polka Pop	multiple	all	0
-4343
-4344
-4345
-4346
-4347
-4348
-4349
-4350
-4351
-4352
-4353
-4354
-4355
-4356
-4357
-4358
-4359
-4360
-4361
-4362
-4363
-4364
+4343	Crimbuck	none	display	0
+4344	Crimbo wreath	usable	all	0
+4345	string of Crimbo lights	usable	all	0
+4346	plastic Crimbo reindeer	usable	all	0
+4347	gingerbread house	usable	all	0
+4348	leftover Crimbo rations	usable	all	0
+4349	snow hat	hat	display	0
+4350	snow pants	pants	display	0
+4351	snow belt	accessory	display	0
+4352	pile of loose snow	grow	all	0
+4353	Crimbough	usable	all	0
+4354	A Crimbo Carol, Ch. 1	usable	all	0
+4355	A Crimbo Carol, Ch. 2	usable	all	0
+4356	A Crimbo Carol, Ch. 3	usable	all	0
+4357	A Crimbo Carol, Ch. 4	usable	all	0
+4358	A Crimbo Carol, Ch. 5	usable	all	0
+4359	A Crimbo Carol, Ch. 6	usable	all	0
+4360	expired can of franks 'n' beans	food	all	0
+4361	expired bottle of peppermint schnapps	drink	all	0
+4362	snow halo	familiar	all	75
+4363	elf resistance button	none	none	0
+4364	elven suicide capsule	usable	all	50
 4365
 4366
-4367
-4368
+4367	elven cellocello	drink	all	85
+4368	wrench handle	none	display	0
 4369
 4370
 4371
