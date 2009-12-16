@@ -250,7 +250,12 @@ public class CafeRequest
 
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		String itemName = ItemDatabase.getItemName( itemId );
-		int price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+		int price = ItemDatabase.getPriceById( itemId ) * 3;
+		if ( price < 0 )
+		{
+			// Not a real item. Get price from the cafe...
+			price = 0;
+		}
 		CafeRequest.registerItemUsage( itemName, price );
 		return true;
 	}

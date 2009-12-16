@@ -4381,7 +4381,7 @@
 4375
 4376
 4377	throwing wrench	weapon	all	35
-4378
+4378	pair of bolt cutters	weapon	all	65
 4379
 4380
 4381

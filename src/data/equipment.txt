@@ -682,6 +682,7 @@ office-supply crossbow	50	Mox: 10	2-handed crossbow
 origami riding crop	100	Mus: 0	1-handed crop
 out-of-tune biwa	30	Mox: 0	2-handed guitar
 oversized pizza cutter	100	Mys: 35	1-handed utensil
+pair of bolt cutters	60	Mus: 15	2-handed club
 palm-frond whip	25	Mus: 0	1-handed whip
 parasitic claw	30	Mus: 0	1-handed club
 pasta spoon	10	Mys: 0	1-handed utensil

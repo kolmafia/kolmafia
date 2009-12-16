@@ -747,6 +747,7 @@ office-supply crossbow	Moxie: +3, Ranged Damage: +3
 origami riding crop	Intrinsic Effect: "Innuendo Shopping", Sleaze Damage: +10, Initiative: +15, Softcore Only
 out-of-tune biwa	Ranged Damage: +2
 oversized pizza cutter	Spell Damage: +13
+pair of bolt cutters	Weakens Monster
 palm-frond whip	Weapon Damage: +30
 parasitic claw	Weapon Damage: +15
 # pasta spoon
