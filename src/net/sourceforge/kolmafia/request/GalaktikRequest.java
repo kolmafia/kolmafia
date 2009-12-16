@@ -222,16 +222,6 @@ public class GalaktikRequest
 		{
 			return;
 		}
-
-		matcher = MEAT_PATTERN.matcher( responseText );
-		if ( !matcher.find() )
-		{
-			return;
-		}
-
-		int cost = StringUtilities.parseInt( matcher.group( 1 ) );
-
-		ResultProcessor.processMeat( -cost );
 	}
 
 	public static final LockableListModel retrieveCures()

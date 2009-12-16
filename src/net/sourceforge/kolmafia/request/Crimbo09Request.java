@@ -136,12 +136,6 @@ public class Crimbo09Request
 			ResultProcessor.processItem( ItemPool.CRIMBUCK, -bet );
 			return;
 		}
-
-		// Buy Crimbux at the change machine
-		if ( action.equals( "buycrimbux" ) )
-		{
-			return;
-		}
 	}
 
 	public static String locationName( final String urlString )
