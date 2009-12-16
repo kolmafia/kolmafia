@@ -47,19 +47,12 @@ import net.sourceforge.kolmafia.webui.MoneyMakingGameDecorator;
 public class MoneyMakingGameRequest
 	extends GenericRequest
 {
-	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	public static final Pattern FROM_PATTERN = Pattern.compile( "from=(\\d*)" );
 	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=(\\d*)" );
 	public static final Pattern WHICHBET_PATTERN = Pattern.compile( "whichbet=(\\d*)" );
 	public static final Pattern BETID_PATTERN = Pattern.compile( "betid=(\\d*)" );
 	public static final Pattern LOWER_PATTERN = Pattern.compile( "lower=(\\d*)" );
 	public static final Pattern HIGHER_PATTERN = Pattern.compile( "higher=(\\d*)" );
-
-	public static final String getAction( final String urlString )
-	{
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
-		return matcher.find() ? matcher.group(1) : null;
-	}
 
 	public static final String getLower( final String urlString )
 	{
@@ -316,7 +309,7 @@ public class MoneyMakingGameRequest
 			return;
 		}
 
-		String action = getAction( urlString );
+		String action = GenericRequest.getAction( urlString );
 
 		// We have nothing else to do for simple visits.
 		if ( action == null )
@@ -344,7 +337,7 @@ public class MoneyMakingGameRequest
 			return false;
 		}
 
-		String action = getAction( urlString );
+		String action = GenericRequest.getAction( urlString );
 
 		// We have nothing special to do for simple visits.
 

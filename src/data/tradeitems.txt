@@ -4371,8 +4371,8 @@
 4365
 4366
 4367	elven cellocello	drink	all	85
-4368	wrench handle	none	display	0
-4369
+4368	wrench handle	none	none	0
+4369	handful of headless bolts	none	none	0
 4370
 4371
 4372
@@ -4380,7 +4380,7 @@
 4374
 4375
 4376
-4377
+4377	throwing wrench	weapon	all	35
 4378
 4379
 4380

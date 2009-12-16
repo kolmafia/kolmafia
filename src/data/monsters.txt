@@ -100,6 +100,7 @@
 #
 # Amateur Elf
 # Auteur Elf
+# Bolt-Cuttin' Elf
 # Monkey Wrenchin' Elf
 # Provocateur Elf
 # Raconteur Elf
@@ -187,6 +188,7 @@ Blooper	HP: 15 Def: 25 Atk: 25	white pixel (70)	white pixel (70)	white pixel (70
 Blur	HP: 141 Def: 140 Atk: 127 Meat: 98-143	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)	Hugo's Weaving Manual (0)
 Boaraffe	HP: 145 Def: 145 Atk: 145 Meat: 83-116	long pork (30)
 Bob Racecar	HP: 139 Def: 145 Atk: 138 Meat: 96-138	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)
+Bolt-Cuttin' Elf		elf resistance button (100)	handful of headless bolts (c100)
 Bookbat	HP: 55 Def: 49 Atk: 51	tattered scrap of paper (30)
 Booty Crab	HP: 69 Atk: 102 Meat: 286-334 E: sleaze	Cap'm Caronch's nasty booty (100)
 Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)
@@ -476,7 +478,7 @@ Mob Penguin Smasher		chunk of depleted Grimacite (0)	kneecapping stick (0)	pengu
 Mob Penguin Smith		chunk of depleted Grimacite (0)	iron pasta spoon (0)	scroll of pasta summoning (0)
 Mob Penguin Supervisor		chunk of depleted Grimacite (0)	mafia aria (0)	Mob Penguin cellular phone (0)	support cummerbund (0)
 Mobile Armored Sweat Lodge	HP: 300 Atk: 180 E: stench	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
-Monkey Wrenchin' Elf		elf resistance button (100)	wrench handle (100)
+Monkey Wrenchin' Elf		elf resistance button (100)	wrench handle (c100)
 Monty Basingstoke-Pratt, IV	HP: 240 Meat: 174-215 E: sleaze	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 Mother Slime	HP: 3000 EA: slime
 Mutant Circuit-Soldering Elf		elven moonshine (0)	miniature antlers (0)

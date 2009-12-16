@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class HiddenCityRequest
 	extends GenericRequest
 {
-	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "which=([\\d,]+)" );
 	private static final Pattern ROUND_PATTERN = Pattern.compile( "whichitem=([\\d,]+)" );
 
@@ -163,12 +162,6 @@ public class HiddenCityRequest
 	private static boolean validSquare( int square )
 	{
 		return square >= 1 && square <= 25;
-	}
-
-	public static String getAction( final String urlString )
-	{
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
-		return matcher.find() ? matcher.group(1) : null;
 	}
 
 	public void processResults()
@@ -383,7 +376,7 @@ public class HiddenCityRequest
 		// in registerRequest
 		if ( urlString.equals( redirect ) )
 		{
-			return HiddenCityRequest.getAction( urlString ) != null;
+			return GenericRequest.getAction( urlString ) != null;
 		}
 
 		int square = HiddenCityRequest.getSquare( urlString );
@@ -427,7 +420,7 @@ public class HiddenCityRequest
 		// Reset layout the first time we visit the map.
 		HiddenCityRequest.validateHiddenCity();
 
-		String action = HiddenCityRequest.getAction( urlString );
+		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
 			return false;

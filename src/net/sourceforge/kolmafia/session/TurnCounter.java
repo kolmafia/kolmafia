@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -407,6 +408,11 @@ implements Comparable
 			// but it's as good a guess as any we can make.
 
 			return 1;
+		}
+
+		if ( path.equals( "crimbo09.php" ) )
+		{
+			return Crimbo09Request.getTurnsUsed( request );
 		}
 
 		int turnMultiplier = 0;

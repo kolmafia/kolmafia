@@ -4371,8 +4371,8 @@
 4365
 4366
 4367	582408038	elven cellocello	shots of elven cellocello
-4368	709698183	wrench handle	wrench handles
-4369
+4368	709698183	wrench handle
+4369	113282875	handful of headless bolts
 4370
 4371
 4372
@@ -4380,7 +4380,7 @@
 4374
 4375
 4376
-4377
+4377	89279226	throwing wrench
 4378
 4379
 4380

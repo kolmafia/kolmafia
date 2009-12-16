@@ -847,6 +847,7 @@ tail o' nine cats	Initiative: +15, Monster Level: +5
 tambourine	Maximum HP: +20, Maximum MP: +20
 teflon spatula	Mysticality Percent: +10, Sleaze Resistance: +3, Spell Damage: +40
 third-hand nunchaku	Weapon Damage: +3
+throwing wrench	Weakens Monster
 time sword	Adventures: +3
 tiny ninja sword	Moxie: +1
 tiny plastic sword	Moxie: +1
