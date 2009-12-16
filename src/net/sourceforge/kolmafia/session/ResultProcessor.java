@@ -421,7 +421,7 @@ public class ResultProcessor
 			lastToken = "You gain" + lastToken.substring( 18 );
 		}
 
-		if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " ) )
+		if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " ) || lastToken.startsWith( "You spent " ) )
 		{
 			return ResultProcessor.processGainLoss( lastToken, data );
 		}

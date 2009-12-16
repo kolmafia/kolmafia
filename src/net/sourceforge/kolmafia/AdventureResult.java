@@ -455,7 +455,7 @@ public class AdventureResult
 
 	public static final AdventureResult parseResult( final String s )
 	{
-		if ( s.startsWith( "You gain" ) || s.startsWith( "You lose" ) )
+		if ( s.startsWith( "You gain" ) || s.startsWith( "You lose" ) || s.startsWith( "You spent" ) )
 		{
 			// A stat has been modified - now you figure out which
 			// one it was, how much it's been modified by, and
