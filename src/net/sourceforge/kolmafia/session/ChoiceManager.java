@@ -1265,7 +1265,8 @@ public abstract class ChoiceManager
 			new String[] { "skate blade", "brand new key" },
 			new String[] { "4213", "4206" } ),
 
-                // Choice 423 is A Wrenching Encounter
+		// Choice 423 is A Wrenching Encounter
+		// Choice 424 is Get Your Bolt On, Michael
 	};
 
 	static
