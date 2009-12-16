@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class NemesisRequest
 	extends GenericRequest
 {
-	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 
 	public NemesisRequest()
@@ -52,9 +51,9 @@ public class NemesisRequest
 		super( "cave.php" );
 	}
 
-	private static String getAction( final String urlString )
+	public static String getAction( final String urlString )
 	{
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 
 		// cave.php is strange:
 		// - visit door1 = action=door1

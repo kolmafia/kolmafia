@@ -96,6 +96,9 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 public class GenericRequest
 	extends Job
 {
+	// Used in many requests. Here for convenience and non-duplication
+	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
+
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
 
@@ -805,6 +808,12 @@ public class GenericRequest
 			return v != null && v.intValue() != 0;
 		}
 		return false;
+	}
+
+	public static String getAction( final String urlString )
+	{
+		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		return matcher.find() ? matcher.group(1) : null;
 	}
 
 	/**
