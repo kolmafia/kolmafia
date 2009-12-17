@@ -40,6 +40,7 @@ import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -63,6 +64,8 @@ public class CoinmastersDatabase
 	private static final LockableListModel buyForSandDollars = new LockableListModel();
 	private static final Map sandDollarBuyPriceByName = new TreeMap();
 
+	private static final LockableListModel buyForCrimbux = new LockableListModel();
+	private static final Map crimbuckBuyPriceByName = new TreeMap();
 
 	private static final Map lighthouseItems = new TreeMap();
 
@@ -136,6 +139,13 @@ public class CoinmastersDatabase
 					buyForSandDollars.add( item );
 					sandDollarBuyPriceByName.put( name, iprice );
 				}
+				else if ( code.equals( "bc" ) )
+				{
+					// Something we buy with Crimbux
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForCrimbux.add( item );
+					crimbuckBuyPriceByName.put( name, iprice );
+				}
 			}
 		}
 
@@ -160,6 +170,36 @@ public class CoinmastersDatabase
 		}
 		Integer price = (Integer) prices.get( StringUtilities.getCanonicalName( name ) );
 		return ( price == null ) ? 0 : price.intValue();
+	}
+
+	public static final boolean availableItem( final String name )
+	{
+		if ( name.equals( "a crimbo carol, ch. 1" ) )
+		{
+			return KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER );
+		}
+		if ( name.equals( "a crimbo carol, ch. 2" ) )
+		{
+			return KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER );
+		}
+		if ( name.equals( "a crimbo carol, ch. 3" ) )
+		{
+			return KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER );
+		}
+		if ( name.equals( "a crimbo carol, ch. 4" ) )
+		{
+			return KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR );
+		}
+		if ( name.equals( "a crimbo carol, ch. 5" ) )
+		{
+			return KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT );
+		}
+		if ( name.equals( "a crimbo carol, ch. 6" ) )
+		{
+			return KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF );
+		}
+
+		return true;
 	}
 
 	public static final LockableListModel getDimeItems()
@@ -210,6 +250,16 @@ public class CoinmastersDatabase
 	public static final Map sandDollarBuyPrices()
 	{
 		return sandDollarBuyPriceByName;
+	}
+
+	public static final LockableListModel getCrimbuckItems()
+	{
+		return buyForCrimbux;
+	}
+
+	public static final Map crimbuckBuyPrices()
+	{
+		return crimbuckBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()

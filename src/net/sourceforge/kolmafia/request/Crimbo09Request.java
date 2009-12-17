@@ -177,6 +177,13 @@ public class Crimbo09Request
 			message = Crimbo09Request.visitLocation( urlString );
 		}
 
+		// Buy stuff in the Crimbo Cartel
+		else if ( action.equals( "buygift" ) )
+		{
+			// Let CoinmasterRequest claim this
+			return false;
+		}
+
 		// Trade elf resistance buttons for Crimbux
 		else if ( action.equals( "tradearmbands" ) )
 		{

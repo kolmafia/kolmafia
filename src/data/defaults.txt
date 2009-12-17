@@ -172,6 +172,7 @@ user	autoRepairBoxServants	true
 user	autoSphereID	false
 user	autoSteal	true
 user	autostartGalaktikQuest	true
+user	availableCrimbux	0
 user	availableDimes	0
 user	availableLucre	0
 user	availableQuarters	0

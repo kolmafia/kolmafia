@@ -35,10 +35,13 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionListener;
 
 import java.util.Map;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -71,9 +74,11 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class CoinmastersFrame
 	extends GenericFrame
+	implements ChangeListener
 {
 	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, -1 );
 	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, -1 );
+	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, -1 );
 
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
 	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
@@ -90,11 +95,13 @@ public class CoinmastersFrame
 	private static int quarters = 0;
 	private static int lucre = 0;
 	private static int sandDollars = 0;
+	private static int crimbux = 0;
 
 	private CoinmasterPanel dimePanel = null;
 	private CoinmasterPanel quarterPanel = null;
 	private CoinmasterPanel lucrePanel = null;
 	private CoinmasterPanel sandDollarPanel = null;
+	private CoinmasterPanel crimbuckPanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -121,8 +128,26 @@ public class CoinmastersFrame
 		panel.add( sandDollarPanel );
 		this.tabs.add( "Big Brother", panel );
 
+		panel = new JPanel( new BorderLayout() );
+		crimbuckPanel = new CrimboCartelPanel();
+		panel.add( crimbuckPanel );
+		this.tabs.add( "Crimbo Cartel", panel );
+
+		this.tabs.addChangeListener( this );
+
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 		CoinmastersFrame.externalUpdate();
+	}
+
+	/**
+	 * Whenever the tab changes, this method is used to change the title to
+	 * count the coins of the new tab
+	 */
+
+	public void stateChanged( final ChangeEvent e )
+	{
+		CoinmasterPanel panel = (CoinmasterPanel)( ((Container)(this.tabs.getSelectedComponent())).getComponent( 0 ) );
+		panel.setTitle();
 	}
 
 	public static void externalUpdate()
@@ -140,8 +165,9 @@ public class CoinmastersFrame
 		Preferences.setInteger( "availableLucre", lucre );
 		sandDollars = SAND_DOLLAR.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableSandDollars", sandDollars );
+		crimbux = CRIMBUCK.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableCrimbux", crimbux );
 
-		INSTANCE.setTitle( "Coin Masters (" + dimes + " dimes/" + quarters + " quarters/" + lucre + " lucre/" + sandDollars +" sand dollars)" );
 		INSTANCE.update();
 	}
 
@@ -151,6 +177,7 @@ public class CoinmastersFrame
 		quarterPanel.update();
 		lucrePanel.update();
 		sandDollarPanel.update();
+		crimbuckPanel.update();
 	}
 
 	private class DimemasterPanel
@@ -306,6 +333,45 @@ public class CoinmastersFrame
 		}
 	}
 
+	private class CrimboCartelPanel
+		extends CoinmasterPanel
+	{
+		public CrimboCartelPanel()
+		{
+			super( CoinmastersDatabase.getCrimbuckItems(),
+			       null,
+			       CoinmastersDatabase.crimbuckBuyPrices(),
+			       "availableCrimbux",
+			       "Crimbuck",
+			       "Crimbo Cartel",
+				null );
+			buyAction = "buyitem";
+		}
+
+		public void update()
+		{
+		}
+
+		public boolean enabled()
+		{
+			return true;
+		}
+
+		public boolean accessible()
+		{
+			return true;
+		}
+
+		public void equip()
+		{
+		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
+		}
+	}
+
 	private class WarMasterPanel
 		extends CoinmasterPanel
 	{
@@ -401,6 +467,12 @@ public class CoinmastersFrame
 				buyPanel = new BuyPanel();
 				this.add( buyPanel, BorderLayout.CENTER );
 			}
+		}
+
+		public void setTitle()
+		{
+			int count =  Preferences.getInteger( CoinmasterPanel.this.property );
+			INSTANCE.setTitle( "Coin Masters (" + count + " " + CoinmasterPanel.this.token + "s)" );
 		}
 
 		public void actionConfirmed()
@@ -770,8 +842,9 @@ public class CoinmastersFrame
 			}
 
 			int price = iprice.intValue();
-			boolean show = true;
-			if ( property != null )
+			boolean show = CoinmastersDatabase.availableItem( canonicalName);
+
+			if ( show && property != null )
 			{
 				int balance = Preferences.getInteger( property );
 				if ( price > balance )
