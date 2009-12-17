@@ -141,12 +141,31 @@ public class ClanMembersRequest
 
 	public void run()
 	{
-		if ( this.isLookup && !this.isDetailLookup )
+		if ( !this.isLookup || this.isDetailLookup )
 		{
-			retrieveClanId();
+			KoLmafia.updateDisplay( "Retrieving clan member list..." );
+			super.run();
+			return;
 		}
 
-		super.run();
+		retrieveClanId();
+
+		KoLmafia.updateDisplay( "Retrieving clan member list..." );
+		
+		for ( int i = 0; i < 5; ++i )
+		{
+			System.out.println(i);
+			this.responseText = null;
+
+			this.constructURLString( "showclan.php?whichclan=" + this.clanId + "&page=" + i, false );
+			
+			super.run();
+			
+			if ( this.responseText == null || this.responseText.indexOf( "next page &gt;&gt;" ) == -1 )
+			{
+				break;
+			}
+		}
 	}
 
 	private void retrieveClanId()
@@ -172,9 +191,6 @@ public class ClanMembersRequest
 
 		this.clanId = clanIdMatcher.group( 1 );
 		this.clanName = clanIdMatcher.group( 2 );
-
-		this.addFormField( "whichclan", this.clanId );
-		KoLmafia.updateDisplay( "Retrieving clan member list..." );
 	}
 
 	public void processResults()
@@ -222,21 +238,23 @@ public class ClanMembersRequest
 		{
 			currentRow = rowMatcher.group( 1 );
 
-			if ( !currentRow.equals( "<td height=4></td>" ) )
+			if ( currentRow.equals( "<td height=4></td>" ) )
 			{
-				dataMatcher = ClanMembersRequest.CELL_PATTERN.matcher( currentRow );
-
-				// The name of the player occurs in the first
-				// field of the table.  Use this to index the
-				// roster map.
-
-				dataMatcher.find();
-				currentName =
-					StringUtilities.globalStringReplace(
-						KoLConstants.ANYTAG_PATTERN.matcher( dataMatcher.group( 1 ) ).replaceAll( "" ).trim(),
-						"&nbsp;", "" ).toLowerCase();
-				ProfileSnapshot.addToRoster( currentName, currentRow );
+				continue;
 			}
+
+			dataMatcher = ClanMembersRequest.CELL_PATTERN.matcher( currentRow );
+
+			// The name of the player occurs in the first
+			// field of the table.  Use this to index the
+			// roster map.
+
+			dataMatcher.find();
+			currentName = dataMatcher.group( 1 );
+			currentName = KoLConstants.ANYTAG_PATTERN.matcher( currentName ).replaceAll( "" );
+			currentName = StringUtilities.globalStringDelete( currentName, "&nbsp;" ).trim();
+
+			ProfileSnapshot.addToRoster( currentName, currentRow );
 		}
 	}
 

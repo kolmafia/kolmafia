@@ -74,6 +74,11 @@ public class KoLDatabase
 
 	public static final String getBreakdown( final List items )
 	{
+		if ( items.isEmpty() )
+		{
+			return KoLConstants.LINE_BREAK;
+		}
+		
 		StringBuffer strbuf = new StringBuffer();
 		strbuf.append( KoLConstants.LINE_BREAK );
 

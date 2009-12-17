@@ -115,7 +115,7 @@ public class ProfileRequest
 	private void refreshFields()
 	{
 		// Nothing to refresh if no text
-		if ( this.responseText.length() == 0 )
+		if ( this.responseText == null || this.responseText.length() == 0 )
 		{
 			return;
 		}
@@ -370,12 +370,20 @@ public class ProfileRequest
 		final String playerLevel, final String responseText, final String rosterRow )
 	{
 		ProfileRequest instance = new ProfileRequest( playerName );
+
 		instance.playerId = playerId;
 
 		// First, initialize the level field for the
 		// current player.
 
-		instance.playerLevel = Integer.valueOf( playerLevel );
+		if ( playerLevel == null )
+		{
+			instance.playerLevel = new Integer( 0 ); 
+		}
+		else
+		{
+			instance.playerLevel = Integer.valueOf( playerLevel );
+		}
 
 		// Next, refresh the fields for this player.
 		// The response text should be copied over
@@ -387,55 +395,68 @@ public class ProfileRequest
 		// Next, parse out all the data in the
 		// row of the detail roster table.
 
-		Matcher dataMatcher = ProfileRequest.DATA_PATTERN.matcher( rosterRow );
-
-		// The name of the player occurs in the first
-		// field of the table.  Because you already
-		// know the name of the player, this can be
-		// arbitrarily skipped.
-
-		dataMatcher.find();
-		
-		// At some point the player class was added to the table.  Skip over it.
-		dataMatcher.find();
-
-		// The player's three primary stats appear in
-		// the next three fields of the table.
-
-		dataMatcher.find();
-		instance.muscle = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
-
-		dataMatcher.find();
-		instance.mysticism = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
-
-		dataMatcher.find();
-		instance.moxie = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
-
-		// The next field contains the total power,
-		// and since this is calculated, it can be
-		// skipped in data retrieval.
-
-		dataMatcher.find();
-
-		// The next three fields contain the ascension
-		// count, number of hardcore runs, and their
-		// pvp ranking.
-
-		dataMatcher.find();
-		dataMatcher.find();
-		dataMatcher.find();
-
-		// Next is the player's rank inside of this clan.
-		// Title was removed, so ... not visible here.
-
-		dataMatcher.find();
-		instance.rank = dataMatcher.group( 1 );
-
-		// The last field contains the total karma
-		// accumulated by this player.
-
-		dataMatcher.find();
-		instance.karma = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
+		if ( rosterRow == null )
+		{
+			instance.muscle = new Integer( 0 );
+			instance.mysticism = new Integer( 0 );
+			instance.moxie = new Integer( 0 );
+			
+			instance.rank = "";
+			instance.karma = new Integer( 0 );
+		}
+		else
+		{
+			Matcher dataMatcher = ProfileRequest.DATA_PATTERN.matcher( rosterRow );
+	
+			// The name of the player occurs in the first
+			// field of the table.  Because you already
+			// know the name of the player, this can be
+			// arbitrarily skipped.
+	
+			dataMatcher.find();
+			
+			// At some point the player class was added to the table.  Skip over it.
+	
+			dataMatcher.find();
+	
+			// The player's three primary stats appear in
+			// the next three fields of the table.
+	
+			dataMatcher.find();
+			instance.muscle = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
+	
+			dataMatcher.find();
+			instance.mysticism = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
+	
+			dataMatcher.find();
+			instance.moxie = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
+	
+			// The next field contains the total power,
+			// and since this is calculated, it can be
+			// skipped in data retrieval.
+	
+			dataMatcher.find();
+	
+			// The next three fields contain the ascension
+			// count, number of hardcore runs, and their
+			// pvp ranking.
+	
+			dataMatcher.find();
+			dataMatcher.find();
+			dataMatcher.find();
+	
+			// Next is the player's rank inside of this clan.
+			// Title was removed, so ... not visible here.
+	
+			dataMatcher.find();
+			instance.rank = dataMatcher.group( 1 );
+	
+			// The last field contains the total karma
+			// accumulated by this player.
+	
+			dataMatcher.find();
+			instance.karma = new Integer( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
+		}
 
 		return instance;
 	}
