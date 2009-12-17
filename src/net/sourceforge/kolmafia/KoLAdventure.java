@@ -925,10 +925,12 @@ public class KoLAdventure
 	public static final int lastAdventureId()
 	{
 		KoLAdventure location = KoLAdventure.lastVisitedLocation;
-		if ( location == null )
+
+		if ( location == null || !StringUtilities.isNumeric( location.adventureId ) )
 		{
 			return 0;
 		}
+
 		return StringUtilities.parseInt( location.adventureId );
 	}
 
