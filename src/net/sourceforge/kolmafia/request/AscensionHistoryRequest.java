@@ -157,12 +157,12 @@ public class AscensionHistoryRequest
 				boolean shouldReplace = false;
 
 				shouldReplace = currentMonth > bestMonth;
-				
+
 				if ( !shouldReplace )
 				{
 					shouldReplace = currentMonth == bestMonth && currentWeek > bestWeek;
 				}
-				
+
 				if ( shouldReplace )
 				{
 					shouldReplace = currentMonth == 9 || currentMonth == 10;
@@ -217,6 +217,11 @@ public class AscensionHistoryRequest
 
 	private void refreshFields()
 	{
+		if ( this.responseText == null || this.responseText.length() == 0 )
+		{
+			return;
+		}
+		
 		this.ascensionData.clear();
 		Matcher fieldMatcher = AscensionHistoryRequest.FIELD_PATTERN.matcher( this.responseText );
 
@@ -408,14 +413,21 @@ public class AscensionHistoryRequest
 		return this.ascensionData;
 	}
 
-	private static final String[] extractColumns( final String rowData )
+	private static final String[] extractColumns( String rowData )
 	{
-		String[] columns = rowData.replaceFirst( "</tr><td.*?>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split(
-			"(</?t[rd].*?>)+" );
-		for ( int i = 5; i <= 6; ++i )
-		{	// These two columns now have alt text that would mess up parsing.
-			columns[i] = columns[i].replaceAll( "<.*?>", "" );
-		}
+		rowData = rowData.replaceFirst( "</tr><td.*?>", "" );
+
+		rowData = StringUtilities.globalStringDelete( rowData, "&nbsp;" );
+		rowData = StringUtilities.globalStringDelete( rowData, " " );
+
+		String[] columns = rowData.split( "(</?t[rd].*?>)+" );
+
+		// These three columns now have text that would mess up parsing.
+
+		columns[ 2 ] = KoLConstants.ANYTAG_PATTERN.matcher( columns[ 2 ] ).replaceAll( "" );
+		columns[ 5 ] = KoLConstants.ANYTAG_PATTERN.matcher( columns[ 5 ] ).replaceAll( "" );
+		columns[ 6 ] = KoLConstants.ANYTAG_PATTERN.matcher( columns[ 6 ] ).replaceAll( "" );
+		
 		return columns;
 	}
 
