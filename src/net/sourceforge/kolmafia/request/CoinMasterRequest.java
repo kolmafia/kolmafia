@@ -63,13 +63,14 @@ public class CoinMasterRequest
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got (?:<b>)?(\\d+)(?:</b>)? (dime|quarter|sand dollar)" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You currently have) (?:<b>)?(\\d+)(?:</b>)? (dime|quarter|sand dollar|Crimbux)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
 	public static final String HIPPY = "Dimemaster";
 	public static final String FRATBOY = "Quartersmaster";
 	private static final String BIGBROTHER = "Big Brother";
+	private static final String CRIMBOCARTEL = "Crimbo Cartel";
 
 	private final String token;
 	private final String master;
@@ -102,6 +103,10 @@ public class CoinMasterRequest
 		else if ( token.equals( "sand dollar" ) )
 		{
 			this.master = BIGBROTHER;
+		}
+		else if ( token.equals( "Crimbuck" ) )
+		{
+			this.master = CRIMBOCARTEL;
 		}
 		else
 		{
@@ -149,7 +154,7 @@ public class CoinMasterRequest
 			this.addFormField( "quantity", String.valueOf( quantity ) );
 			this.addFormField( "who", "2" );
 		}
-		else if ( master == BHH )
+		else if ( master == BHH || master == CRIMBOCARTEL )
 		{
 			this.addFormField( "howmany", String.valueOf( quantity ) );
 		}
@@ -170,6 +175,11 @@ public class CoinMasterRequest
 		if ( token.equals( "sand dollar" ) )
 		{
 			return "monkeycastle.php";
+		}
+
+		if ( token.equals( "Crimbuck" ) )
+		{
+			return "crimbo09.php";
 		}
 
 		if ( token.equals( "dime" ) || token.equals( "quarter" ) )
@@ -219,6 +229,36 @@ public class CoinMasterRequest
 		}
 
 		CoinMasterRequest.parseBalance( BIGBROTHER, responseText );
+		CoinmastersFrame.externalUpdate();
+	}
+
+	public static void parseCrimboCartelVisit( final String location, final String responseText )
+	{
+		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( location );
+		if ( !actionMatcher.find() )
+		{
+			if ( location.indexOf( "place=store" ) != -1 )
+			{
+				// Parse current coin balances
+				CoinMasterRequest.parseBalance( CRIMBOCARTEL, responseText );
+				CoinmastersFrame.externalUpdate();
+			}
+
+			return;
+		}
+
+		String action = actionMatcher.group(1);
+		if ( !action.equals( "buygift" ) )
+		{
+			return;
+		}
+
+		if ( responseText.indexOf( "You don't have enough" ) != -1 )
+		{
+			CoinMasterRequest.refundPurchase( location, CRIMBOCARTEL );
+		}
+
+		CoinMasterRequest.parseBalance( CRIMBOCARTEL, responseText );
 		CoinmastersFrame.externalUpdate();
 	}
 
@@ -330,6 +370,10 @@ public class CoinMasterRequest
 		{
 			test = "You haven't got any sand dollars";
 		}
+		else if ( master == CRIMBOCARTEL )
+		{
+			test = "You do not currently have any Crimbux";
+		}
 		else
 		{
 			return;
@@ -365,6 +409,18 @@ public class CoinMasterRequest
 				AdventureResult.addResultToList( KoLConstants.inventory, item );
 			}
 		}
+		else if ( master == CRIMBOCARTEL )
+		{
+			// Check and adjust inventory count, just in case
+			int count = StringUtilities.parseInt( balance );
+			AdventureResult item = ItemPool.get( ItemPool.CRIMBUCK, count );
+			int icount = item.getCount( KoLConstants.inventory );
+			if ( count != icount )
+			{
+				item = item.getInstance( count - icount );
+				AdventureResult.addResultToList( KoLConstants.inventory, item );
+			}
+		}
 	}
 
 	private static final void refundPurchase( final String urlString, final String master )
@@ -390,6 +446,14 @@ public class CoinMasterRequest
 			prices = CoinmastersDatabase.sandDollarBuyPrices();
 			property = "availableSandDollars";
 			token = "sand dollars";
+		}
+		else if ( master == CRIMBOCARTEL )
+		{
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.crimbuckBuyPrices();
+			property = "availableCrimbux";
+			token = "Crimbuck";
 		}
 		else if ( master == HIPPY )
 		{
@@ -424,6 +488,11 @@ public class CoinMasterRequest
 		{
 			AdventureResult sandDollars = CoinmastersFrame.SAND_DOLLAR.getInstance( cost );
 			ResultProcessor.processResult( sandDollars );
+		}
+		else if ( master == CRIMBOCARTEL )
+		{
+			AdventureResult crimbux = CoinmastersFrame.CRIMBUCK.getInstance( cost );
+			ResultProcessor.processResult( crimbux );
 		}
 
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + token + " to buy that." );
@@ -498,6 +567,11 @@ public class CoinMasterRequest
 		if ( urlString.startsWith( "monkeycastle.php" ) )
 		{
 			return registerSeaRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "crimbo09.php" ) )
+		{
+			return registerCartelRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "bigisland.php" ) )
@@ -588,6 +662,27 @@ public class CoinMasterRequest
 		return true;
 	}
 
+	private static final boolean registerCartelRequest( final String urlString )
+	{
+		// We only claim crimbo09.php?action=buygift
+
+		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( urlString );
+		if ( !actionMatcher.find() )
+		{
+			return false;
+		}
+
+		String action = actionMatcher.group(1);
+
+		if ( !action.equals( "buygift" ) )
+		{
+			return false;
+		}
+
+		CoinMasterRequest.buyStuff( urlString, CRIMBOCARTEL );
+		return true;
+	}
+
 	private static final boolean registerIslandRequest( final String urlString )
 	{
 		String master = findCampMaster( urlString );
@@ -640,6 +735,14 @@ public class CoinMasterRequest
 			token = "sand dollar";
 			property = "availableSandDollar";
 		}
+		else if ( master == CRIMBOCARTEL )
+		{
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.crimbuckBuyPrices();
+			token = "Crimbuck dollar";
+			property = "availableCrimbux";
+		}
 		else if ( master == HIPPY )
 		{
 			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
@@ -686,6 +789,11 @@ public class CoinMasterRequest
 		{
 			AdventureResult sandDollars = CoinmastersFrame.SAND_DOLLAR.getInstance( -cost );
 			ResultProcessor.processResult( sandDollars );
+		}
+		else if ( master == CRIMBOCARTEL )
+		{
+			AdventureResult crimbux = CoinmastersFrame.CRIMBUCK.getInstance( -cost );
+			ResultProcessor.processResult( crimbux );
 		}
 
 		Preferences.increment( property, -cost );
