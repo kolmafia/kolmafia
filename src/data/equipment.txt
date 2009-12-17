@@ -697,6 +697,7 @@ plastic guitar	100	Mox: 35	2-handed guitar
 plexiglass pike pike	180	Mus: 75	2-handed spear
 pocket theremin	35	Mox: 2	2-handed theremin
 pointed stick	160	Mus: 65	1-handed spear
+poison pen	50	Mus: 0	1-handed knife
 pool cue	40	Mus: 0	2-handed staff
 portable corkscrew	30	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol

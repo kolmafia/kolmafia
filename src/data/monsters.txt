@@ -102,6 +102,7 @@
 # Auteur Elf
 # Bolt-Cuttin' Elf
 # Monkey Wrenchin' Elf
+# Propaganda-Spewin' Elf
 # Provocateur Elf
 # Raconteur Elf
 # Saboteur Elf
@@ -188,7 +189,7 @@ Blooper	HP: 15 Def: 25 Atk: 25	white pixel (70)	white pixel (70)	white pixel (70
 Blur	HP: 141 Def: 140 Atk: 127 Meat: 98-143	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)	Hugo's Weaving Manual (0)
 Boaraffe	HP: 145 Def: 145 Atk: 145 Meat: 83-116	long pork (30)
 Bob Racecar	HP: 139 Def: 145 Atk: 138 Meat: 96-138	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)
-Bolt-Cuttin' Elf		elf resistance button (100)	handful of headless bolts (c100)
+Bolt-Cuttin' Elf		elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
 Bookbat	HP: 55 Def: 49 Atk: 51	tattered scrap of paper (30)
 Booty Crab	HP: 69 Atk: 102 Meat: 286-334 E: sleaze	Cap'm Caronch's nasty booty (100)
 Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)
@@ -528,6 +529,7 @@ Possibility Giant	HP: 150 Def: 130 Atk: 130 Meat: 120-180	chaos butterfly (20)	p
 Poutine Ooze	HP: 3 Def: 3 Atk: 3	poutine (40)
 Pretty Fly	HP: 100000
 Procrastination Giant	HP: 150 Def: 125 Atk: 125 Meat: 120-180	procrastination potion (30)
+Propaganda-Spewin' Elf		bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
 Protagonist	HP: 80 Def: 100 Atk: 100 Meat: 58-129	phonics down (40)	ridiculously huge sword (10)	super-spiky hair gel (20)	ocarina of space (5)
 Protector Spectre	HP: 116	ancient amulet (100)	spectre scepter (100)
 Provocateur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)

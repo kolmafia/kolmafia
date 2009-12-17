@@ -1267,6 +1267,7 @@ public abstract class ChoiceManager
 
 		// Choice 423 is A Wrenching Encounter
 		// Choice 424 is Get Your Bolt On, Michael
+		// Choice 425 is Taking a Proper Gander
 	};
 
 	static
