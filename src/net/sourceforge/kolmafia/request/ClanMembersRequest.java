@@ -152,20 +152,17 @@ public class ClanMembersRequest
 
 		KoLmafia.updateDisplay( "Retrieving clan member list..." );
 		
-		for ( int i = 0; i < 5; ++i )
+		int page = 0;
+		
+		do
 		{
-			System.out.println(i);
 			this.responseText = null;
 
-			this.constructURLString( "showclan.php?whichclan=" + this.clanId + "&page=" + i, false );
+			this.constructURLString( "showclan.php?whichclan=" + this.clanId + "&page=" + (page++), false );
 			
 			super.run();
-			
-			if ( this.responseText == null || this.responseText.indexOf( "next page &gt;&gt;" ) == -1 )
-			{
-				break;
-			}
 		}
+		while ( this.responseText != null && this.responseText.indexOf( "next page &gt;&gt;" ) != -1 );
 	}
 
 	private void retrieveClanId()
