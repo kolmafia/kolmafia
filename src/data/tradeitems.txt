@@ -4373,7 +4373,7 @@
 4367	elven cellocello	drink	all	85
 4368	wrench handle	none	none	0
 4369	handful of headless bolts	none	none	0
-4370
+4370	bottle of agitprop ink	none	none	0
 4371
 4372
 4373
@@ -4382,7 +4382,7 @@
 4376
 4377	throwing wrench	weapon	all	35
 4378	pair of bolt cutters	weapon	all	65
-4379
+4379	poison pen	weapon	all	75
 4380
 4381
 4382

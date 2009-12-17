@@ -762,6 +762,7 @@ plastic guitar	Moxie: +5, Initiative: +15
 plexiglass pike pike	Weapon Damage: +25, PvP Fights: +10, Muscle Percent: +30
 pocket theremin	Spooky Damage: +4
 pointed stick	Critical: 2, Weapon Damage: +10
+# poison pen: 75% chance of poisoning opponent.
 pool cue	Moxie: +3
 portable corkscrew	Weapon Damage: +3, Spell Damage: +3
 potato pistol	Moxie: +5, Sleaze Damage: +5

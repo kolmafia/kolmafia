@@ -4373,7 +4373,7 @@
 4367	582408038	elven cellocello	shots of elven cellocello
 4368	709698183	wrench handle
 4369	113282875	handful of headless bolts
-4370
+4370	689022880	bottle of agitprop ink
 4371
 4372
 4373
@@ -4382,7 +4382,7 @@
 4376
 4377	892792262	throwing wrench
 4378	218570311	pair of bolt cutters
-4379
+4379	440133955	poison pen
 4380
 4381
 4382
