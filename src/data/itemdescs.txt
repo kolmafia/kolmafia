@@ -4332,9 +4332,9 @@
 4326
 4327
 4328	171587799	suspicious stocking	suspicious stockings
-4329	899647196	bag of many confections
+4329	899647196	bag of many confections	bags of many confections
 4330	937968773	candy kneecapping stick	candy kneecapping sticks
-4331	390509859	licorice garrote
+4331	390509859	licorice garrote	licorice garrotes
 4332	795046000	candy knuckles	sets of candy knuckles
 4333	707896286	jawbruiser	jawbruisers
 4334	114513584	fancy chocolate car	fancy chocolate cars
@@ -4343,9 +4343,9 @@
 4337
 4338
 4339
-4340	569476193	Piddles
-4341	840139975	BitterSweetTarts
-4342	166578470	Polka Pop
+4340	569476193	Piddles	handfuls of Piddles
+4341	840139975	BitterSweetTarts	rolls of BitterSweetTarts
+4342	166578470	Polka Pop	Polka Pops
 4343	674483034	Crimbuck	Crimbux
 4344	806374323	Crimbo wreath
 4345	622326963	string of Crimbo lights
@@ -4355,7 +4355,7 @@
 4349	522903643	snow hat
 4350	412087730	snow pants
 4351	899600672	snow belt
-4352	195782497	pile of loose snow
+4352	195782497	pile of loose snow	piles of loose snow
 4353	408066219	Crimbough
 4354	913990837	A Crimbo Carol, Ch. 1	copies of A Crimbo Carol, Ch. 1
 4355	200012650	A Crimbo Carol, Ch. 2	copies of A Crimbo Carol, Ch. 2
@@ -4380,9 +4380,9 @@
 4374
 4375
 4376
-4377	892792262	throwing wrench
-4378	218570311	pair of bolt cutters
-4379	440133955	poison pen
+4377	892792262	throwing wrench	throwing wrenches
+4378	218570311	pair of bolt cutters	pairs of bolt cutters
+4379	440133955	poison pen	poison pens
 4380
 4381	856745823	live wire
 4382
