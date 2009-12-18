@@ -807,18 +807,52 @@ public class UseSkillRequest
 
 	public static final void prepareWeapon( final AdventureResult[] options, int skillId )
 	{
-		if ( KoLCharacter.canInteract() && skillId != UseSkillRequest.ODE_TO_BOOZE )
+		if ( KoLCharacter.canInteract() )
 		{
-			if ( InventoryManager.hasItem( options[ 0 ], false ) || InventoryManager.hasItem( options[ 1 ], false ) )
+			if ( InventoryManager.hasItem( options[ 0 ], false ) )
 			{
+				if ( !KoLCharacter.hasEquipped( options[ 0 ] ) )
+				{
+					InventoryManager.retrieveItem( options[ 0 ] );
+				}
+
 				return;
 			}
 
-			InventoryManager.retrieveItem( options[ 1 ] );
-			return;
+			if ( InventoryManager.hasItem( options[ 1 ], false ) )
+			{
+				if ( !KoLCharacter.hasEquipped( options[ 1 ] ) )
+				{				
+					InventoryManager.retrieveItem( options[ 1 ] );
+				}
+
+				return;
+			}
+			
+			// Allow ode to continue through to use a weaker weapon
+			
+			if ( skillId != UseSkillRequest.ODE_TO_BOOZE )
+			{
+				InventoryManager.retrieveItem( options[ 1 ] );
+				return;
+			}
 		}
 
-		boolean unequipLesser = false;
+		// Check for the weakest equipped item
+		
+		AdventureResult equippedItem = null;
+
+		for ( int i = options.length - 1; i >= 0; --i )
+		{
+			if ( KoLCharacter.hasEquipped( options[ i ] ) )
+			{
+				equippedItem = options[ i ];
+				break;
+			}
+		}
+		
+		// Check for the strongest available item
+		
 		for ( int i = 0; i < options.length; ++i )
 		{
 			if ( !InventoryManager.hasItem( options[ i ], false ) )
@@ -826,24 +860,23 @@ public class UseSkillRequest
 				continue;
 			}
 
-			if ( KoLCharacter.hasEquipped( options[ i ] ) )
+			if ( equippedItem != null && options[ i ] != equippedItem )
 			{
-				if ( unequipLesser )
-				{
-					( new EquipmentRequest( EquipmentRequest.UNEQUIP,
-						EquipmentManager.WEAPON ) ).run();
-				}
-				return;
+				( new EquipmentRequest( EquipmentRequest.UNEQUIP,
+					EquipmentManager.WEAPON ) ).run();
 			}
 
-			InventoryManager.retrieveItem( options[ i ] );
-			unequipLesser = true;
-		}
+			if ( !KoLCharacter.hasEquipped( options[ i ] ) )
+			{
+				InventoryManager.retrieveItem( options[ i ] );
+			}
 
-		if ( !unequipLesser )
-		{
-			InventoryManager.retrieveItem( options[ options.length - 1 ] );
+			return;
 		}
+		
+		// Nothing available, try to retrieve the weakest item
+		
+		InventoryManager.retrieveItem( options[ options.length - 1 ] );
 	}
 
 	protected boolean retryOnTimeout()
