@@ -728,6 +728,7 @@ linoleum crossbow	Moxie: +7, Spell Damage: +7
 linoleum staff	Mysticality: +7, Spell Damage: +7
 linoleum sword	Muscle: +7, Spell Damage: +7
 little paper umbrella	Spell Damage: +1
+live wire    Weapon Damage: +3, MP Regen Min: 2, MP Regen Max: 3
 # lucky ball-and-chain
 lupine sword	Spooky Damage: +9, Synergetic
 magic whistle	Monster Level: +4, Familiar Weight: +1

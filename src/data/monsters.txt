@@ -106,6 +106,7 @@
 # Provocateur Elf
 # Raconteur Elf
 # Saboteur Elf
+# Wire-Crossin' Elf
 #
 # Item and Meat Drop percentage figures from Yiab's statistical data:
 #
@@ -190,6 +191,7 @@ Blur	HP: 141 Def: 140 Atk: 127 Meat: 98-143	drum machine (30)	palm frond (10)	ho
 Boaraffe	HP: 145 Def: 145 Atk: 145 Meat: 83-116	long pork (30)
 Bob Racecar	HP: 139 Def: 145 Atk: 138 Meat: 96-138	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)
 Bolt-Cuttin' Elf		elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
+Wire-Crossin' Elf		elf resistance button (100)	handful of wires (c100)
 Bookbat	HP: 55 Def: 49 Atk: 51	tattered scrap of paper (30)
 Booty Crab	HP: 69 Atk: 102 Meat: 286-334 E: sleaze	Cap'm Caronch's nasty booty (100)
 Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)
@@ -750,6 +752,7 @@ Whiny Pirate	HP: 110 Def: 120 Atk: 120 Meat: 64-96	bilge wine (30)
 White Chocolate Golem	HP: 21 Def: 36 Atk: 37	white chocolate chips (50)	mother's secret recipe (p0)
 White Lion	HP: 21 Def: 35 Atk: 36 Meat: 24-36	catgut (15)	lion oil (n20)
 Whitesnake	HP: 21 Def: 34 Atk: 35 Meat: 8-13 "A Little Bit Poisoned"	white snake skin (30)	bird rib (n20)
+Wire-Crossin' Elf		elf resistance button (100)	handful of wires (c100)
 Witty Pirate	HP: 110 Def: 120 Atk: 120 Meat: 64-96	witty rapier (10)	silver tongue charrrm (10)
 Wolfman	HP: 2 Def: 3 Atk: 1 Meat: 10-13
 Writing Desk	HP: 62 Def: 57 Atk: 53	disintegrating quill pen (15)	inkwell (30)	snifter of thoroughly aged brandy (30)
