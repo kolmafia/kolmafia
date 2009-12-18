@@ -4374,7 +4374,7 @@
 4368	wrench handle	none	none	0
 4369	handful of headless bolts	none	none	0
 4370	bottle of agitprop ink	none	none	0
-4371
+4371	handful of wires	none	none	0
 4372
 4373
 4374
@@ -4384,7 +4384,7 @@
 4378	pair of bolt cutters	weapon	all	65
 4379	poison pen	weapon	all	75
 4380
-4381
+4381	live wire	weapon	all	15
 4382
 4383
 4384
