@@ -2372,7 +2372,7 @@
 2366	orange peel hat	hat	all	0
 2367	carbonated soy milk	mp	all	75
 2368	flowing hippy skirt	pants	all	185
-2369	filthy poultice	hp	all	85
+2369	filthy poultice	hp, combat	all	85
 2370	natural fennel soda	mp	all	75
 2371	green smoke bomb	none, combat	all	85
 2372	bunch of bananas	multiple	all	5
@@ -2405,7 +2405,7 @@
 2399	Elmley shades	accessory	all	120
 2400	molotov cocktail cocktail	none, combat	all	150
 2401	beer bong	weapon	all	185
-2402	gauze garter	hp	all	85
+2402	gauze garter	hp, combat	all	85
 2403	barrel of gunpowder	none	none	0
 2404	jam band flyers	none, combat reusable	none	0
 2405	rock band flyers	none, combat reusable	none	0
