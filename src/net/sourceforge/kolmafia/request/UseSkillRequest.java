@@ -105,6 +105,7 @@ public class UseSkillRequest
 	private static final int COCOON = 3012;
 	private static final int DISCO_NAP = 5007;
 	private static final int POWER_NAP = 5011;
+	private static final int ODE_TO_BOOZE = 6014;
 
 	public static String lastUpdate = "";
 
@@ -449,17 +450,17 @@ public class UseSkillRequest
 		{
 			if ( skillId > 2000 && skillId < 3000 )
 			{
-				UseSkillRequest.prepareWeapon( UseSkillRequest.TAMER_WEAPONS );
+				UseSkillRequest.prepareWeapon( UseSkillRequest.TAMER_WEAPONS, skillId );
 			}
 
 			if ( skillId > 4000 && skillId < 5000 )
 			{
-				UseSkillRequest.prepareWeapon( UseSkillRequest.SAUCE_WEAPONS );
+				UseSkillRequest.prepareWeapon( UseSkillRequest.SAUCE_WEAPONS, skillId );
 			}
 
 			if ( skillId > 6000 && skillId < 7000 )
 			{
-				UseSkillRequest.prepareWeapon( UseSkillRequest.THIEF_WEAPONS );
+				UseSkillRequest.prepareWeapon( UseSkillRequest.THIEF_WEAPONS, skillId );
 			}
 		}
 
@@ -804,9 +805,9 @@ public class UseSkillRequest
 		return false;
 	}
 
-	public static final void prepareWeapon( final AdventureResult[] options )
+	public static final void prepareWeapon( final AdventureResult[] options, int skillId )
 	{
-		if ( KoLCharacter.canInteract() )
+		if ( KoLCharacter.canInteract() && skillId != UseSkillRequest.ODE_TO_BOOZE )
 		{
 			if ( InventoryManager.hasItem( options[ 0 ], false ) || InventoryManager.hasItem( options[ 1 ], false ) )
 			{
