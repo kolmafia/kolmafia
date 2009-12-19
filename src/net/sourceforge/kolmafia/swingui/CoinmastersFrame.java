@@ -345,7 +345,7 @@ public class CoinmastersFrame
 			       "Crimbuck",
 			       "Crimbo Cartel",
 				null );
-			buyAction = "buyitem";
+			buyAction = "buygift";
 		}
 
 		public void update()
@@ -548,6 +548,9 @@ public class CoinmastersFrame
 			}
 
 			RequestThread.closeRequestSequence();
+
+			// Update our token count in the title
+			CoinmasterPanel.this.setTitle();
 		}
 
 		private class SellPanel

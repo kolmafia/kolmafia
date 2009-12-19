@@ -52,10 +52,9 @@ public class HistoryEntry
 	public HistoryEntry( final String responseText, final long localLastSeen )
 	{
 		Matcher lastSeenMatcher = HistoryEntry.LASTSEEN_PATTERN.matcher( responseText );
-		lastSeenMatcher.find();
 
 		this.localLastSeen = localLastSeen;
-		this.serverLastSeen = StringUtilities.parseLong( lastSeenMatcher.group( 1 ) );
+		this.serverLastSeen = lastSeenMatcher.find() ? StringUtilities.parseLong( lastSeenMatcher.group( 1 ) ) : 0;
 
 		this.content = lastSeenMatcher.replaceFirst( "" );
 
