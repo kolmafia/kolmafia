@@ -208,7 +208,7 @@ shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15,
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2
 snorkel	Familiar Effect: "atk, cap 2"
-snow hat	Damage Reduction: 3
+snow hat	Damage Reduction: 3, Familiar Effect: "unk, cap 12"
 spiky turtle helmet	Weapon Damage: +8, Monster Level: +8, Familiar Effect: "atk, 1xFairy, cap 32"
 sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "atk, 1xFairy"
 spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 25"
@@ -1895,6 +1895,7 @@ Temporary Blindness (intrinsic)	Moxie Percent: -25, Item Drop: -75, Initiative: 
 1337p4n7Z	Muscle: +6, Moxie: -3
 5 Pounds Lighter	Initiative: +10, Moxie: +5
 A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
+A Few Extra Pounds	Maximum HP: [5*min(L,11)]
 A Little Bit Evil (Accordion Thief)	Monster Level: +2
 A Little Bit Evil (Disco Bandit)	Monster Level: +2
 A Little Bit Evil (Pastamancer)	Monster Level: +2
@@ -2045,6 +2046,7 @@ Cranberry Cordiality	Meat Drop: +10
 Cravin' for a Ravin'	Meat Drop: +100
 Crimbo Epiphany	Mysticality Percent: +10
 Crimbo Nostalgia	Experience: +5
+Cringle's Curative Carol	HP Regen Min: 5, HP Regen Max: 10
 Crocodile Tear	Familiar Weight (hidden): [10*zone(The Sea)]
 Crotchety, Pining	Muscle Percent: +100
 Cruisin' for a Bruisin'	Weapon Damage Percent: +100
@@ -2710,6 +2712,7 @@ Pyretic Panhandler Paraphernalia	MP Regen Min: 20, MP Regen Max: 30
 # Radio Free Regalia
 # Roy Orbison Disguise
 Slimesuit	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
+# Snowman Suit
 Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Swashbuckling Getup	Moxie: +7
 Tapered Threads	Initiative: +30
