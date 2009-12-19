@@ -695,7 +695,7 @@
 694	Belch the Rainbow&trade;	rrainbow.gif	edd8a8dfb261f4a1f07e327c6e43ef0b	use 1 Piddles
 695	Full of Wist	happy.gif	aaf1fc3bc50d02ec5c0bc6742f2a2100	use 1 BitterSweetTarts
 696	Polka Face	accordion.gif	273149593cef0f682ac9ca7d2483d977	use 1 Polka Pop
-697	Bruised Jaw	jawbruise.gif	f4959778ae2895efb4c53a2b82a7fe01
+697	Bruised Jaw	jawbruise.gif	f4959778ae2895efb4c53a2b82a7fe01	eat 1 jawbruiser
 698	A Few Extra Pounds	bathroomscale.gif	210aca072eee884be7fe49b03f5098b6	cast 1 Holiday Weight Gain
 699	Jingle Jangle Jingle	jinglebells.gif	a32acc4a5de83386ae3417140d09bf43	cast 1 Jingle Bells
 700	Cringle's Curative Carol	curative.gif	943d3ca45c939d9bcd9a92ababb7db08	cast 1 Cringle's Curative Carol
