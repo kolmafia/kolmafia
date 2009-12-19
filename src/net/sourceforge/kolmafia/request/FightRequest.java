@@ -293,10 +293,19 @@ public class FightRequest
 
 	public static final boolean wonInitiative()
 	{
-		if ( FightRequest.currentRound != 1 )
-			return false;
+		String responseText = FightRequest.lastResponseText;
 
-		return FightRequest.wonInitiative( FightRequest.lastResponseText );
+		// You can normally only win initiative on round 1.
+		if ( FightRequest.currentRound == 1 )
+			return FightRequest.wonInitiative( responseText );
+
+		// However, if you used Stealth Mistletoe on Round 1, you
+		// effectively won it on round 2 as well
+		if ( FightRequest.currentRound == 2 )
+			return FightRequest.stealthMistletoe( responseText );
+
+		// Otherwise, not a chance
+		return false;
 	}
 
 	private static final boolean canSteal()
@@ -348,6 +357,19 @@ public class FightRequest
 			return true;
 
 		return false;
+	}
+
+	public static final boolean stealthMistletoe( String text )
+	{
+		// If you get the jump and use Stealth Mistletoe, you don't get
+		// attacked and you still have the jump.
+
+		// *** How can we tell that you had the jump when you used it?
+
+		// "You deftly dart around behind your opponent and hang a
+		// sprig of mistletoe above its head while it isn't looking."
+
+		return text.indexOf( "hang a sprig of mistletoe" ) != -1;
 	}
 
 	public void nextRound()
