@@ -4020,7 +4020,7 @@
 4014	memory of an AG base pair	none, combat	display	15
 4015	memory of an AT base pair	none, combat	display	15
 4016	memory of a GT base pair	none, combat	display	15
-4017	squirming Slime larva	none	display	0
+4017	squirming Slime larva	grow	display	0
 4018	rusty metal greaves	pants	display	155
 4019	undissolvable contact lenses	familiar	all	75
 4020	rusty piece of rebar	weapon	all	140
