@@ -255,8 +255,7 @@ public class ItemDatabase
 			}
 
 			int itemId = StringUtilities.parseInt( data[ 0 ] );
-			String name = StringUtilities.getCanonicalName( data[ 1 ] );
-			String canonicalName = StringUtilities.getCanonicalName( name );
+			String canonicalName = StringUtilities.getCanonicalName( data[1] );
 
 			Integer id = new Integer( itemId );
 			ItemDatabase.itemIdByName.put( canonicalName, id );
