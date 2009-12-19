@@ -664,7 +664,7 @@ public abstract class CustomCombatManager
 			return "attack with weapon";
 		}
 
-		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
+		if ( action.indexOf( "pick" ) != -1 || ( action.indexOf( "steal" ) != -1 && action.indexOf( "stealth" ) == -1 ) )
 		{
 			return "try to steal an item";
 		}
@@ -854,7 +854,7 @@ public abstract class CustomCombatManager
 			return "abort";
 		}
 
-		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
+		if ( action.indexOf( "pick" ) != -1 || ( action.indexOf( "steal" ) != -1 && action.indexOf( "stealth" ) == -1 ) )
 		{
 			return "steal";
 		}

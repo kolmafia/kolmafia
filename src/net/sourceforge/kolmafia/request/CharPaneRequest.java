@@ -438,6 +438,10 @@ public class CharPaneRequest
 				EffectDatabase.addDescriptionId( effectId, descriptionId );
 			}
 		}
+		else
+		{
+			effectName = EffectDatabase.getEffectName( effectId );
+		}
 
 		if ( duration.equals( "&infin;" ) )
 		{
