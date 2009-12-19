@@ -575,7 +575,9 @@ public abstract class StaticEntity
 			if ( m.find() )
 			{
 				String num = m.group( 1 );
-				int delta = (num.equals( "one" ) ? 1 : StringUtilities.parseInt( num )) -
+				int delta = ( num.equals( "no" ) ? 0 :
+					      num.equals( "one" ) ? 1 :
+					      StringUtilities.parseInt( num ) ) -
 					InventoryManager.getCount( ItemPool.MR_ACCESSORY );
 				if ( delta != 0 )
 				{
