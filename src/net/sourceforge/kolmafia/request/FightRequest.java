@@ -614,7 +614,8 @@ public class FightRequest
 
 		// Actually steal if the action says to steal
 
-		if ( FightRequest.action1.indexOf( "steal" ) != -1 )
+		if ( FightRequest.action1.indexOf( "steal" ) != -1 &&
+		     FightRequest.action1.indexOf( "stealth" ) == -1 )
 		{
 			if ( FightRequest.canSteal() &&
 			     FightRequest.wonInitiative() &&
