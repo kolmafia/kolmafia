@@ -215,9 +215,9 @@ public class FamiliarRequest
 
 		if ( item == EquipmentManager.lockedFamiliarItem() )
 		{
-			FamiliarRequest.unequipFamiliar( familiar.getId() );
 			if ( this.changeTo.canEquip( item ) )
 			{
+				FamiliarRequest.unequipFamiliar( familiar.getId() );
 				FamiliarRequest.equipFamiliar( this.changeTo.getId(), item.getItemId() );
 			}
 			return;

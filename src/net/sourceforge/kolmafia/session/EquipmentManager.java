@@ -350,7 +350,13 @@ public class EquipmentManager
 			if ( KoLCharacter.hasEquipped( item, slot ) )
 			{
 				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
-				AdventureResult.addResultToList( KoLConstants.inventory, item );
+				// FamiliarData.setItem moved the current
+				// familiar item to inventory when we
+				// unequipped it above
+				if ( slot != EquipmentManager.FAMILIAR )
+				{
+					AdventureResult.addResultToList( KoLConstants.inventory, item );
+				}
 				ResultProcessor.processItem( itemId, -1 );
 				return slot;
 			}
