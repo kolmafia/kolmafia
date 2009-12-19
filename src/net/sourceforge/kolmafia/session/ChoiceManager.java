@@ -1269,6 +1269,8 @@ public abstract class ChoiceManager
 		// Choice 424 is Get Your Bolt On, Michael
 		// Choice 425 is Taking a Proper Gander
 		// Choice 426 is It's Electric, Boogie-oogie-oogie
+		// Choice 427 is A Voice Crying in the Crimbo Factory
+		// Choice 433 is What Indeed?
 	};
 
 	static
