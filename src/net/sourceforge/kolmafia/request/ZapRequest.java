@@ -101,7 +101,8 @@ public class ZapRequest
 				String[] list = line.split( "\\s*,\\s*" );
 				for ( int i = 0; i < list.length; ++i )
 				{
-					int itemId = ItemDatabase.getItemId( list[ i ] );
+					String name = StringUtilities.getCanonicalName( list[ i ] );
+					int itemId = ItemDatabase.getItemId( name );
 					ZapRequest.zappableItems.add( new AdventureResult( itemId, 1 ) );
 					ZapRequest.isZappable.set( itemId, true );
 					ZapRequest.zapGroups.put( new Integer( itemId ), list );

@@ -52,7 +52,7 @@ cool mushroom, pointy mushroom, warm mushroom
 flaming mushroom, frozen mushroom, stinky mushroom
 bubbly potion, cloudy potion, dark potion, effervescent potion, fizzy potion, milky potion, murky potion, smoky potion, swirly potion
 blue-frosted astral cupcake, green-frosted astral cupcake, orange-frosted astral cupcake, pink-frosted astral cupcake, purple-frosted astral cupcake
-jabañero-flavored chewing gum, lime-and-chile-flavored chewing gum, pickle-flavored chewing gum, tamarind-flavored chewing gum
+jaba&ntilde;ero-flavored chewing gum, lime-and-chile-flavored chewing gum, pickle-flavored chewing gum, tamarind-flavored chewing gum
 Cloaca-Cola, Dyspepsi-Cola, Mountain Stream soda
 magicalness-in-a-can, moxie weed, strongness elixir
 concentrated magicalness pill, enchanted barbell, giant moxie weed
