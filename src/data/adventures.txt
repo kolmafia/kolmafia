@@ -187,6 +187,7 @@ Holiday	adventure=37	true	Spectral Pickle Factory
 Holiday	adventure=175	true	Spectral Salad Factory
 Holiday	adventure=173	true	Generic Summer Holiday Swimming!
 Holiday	adventure=222	true	Crimbo Town Toy Factory
+Holiday	adventure=223	true	The Don's Crimbo Compound
 Crimbo08	adventure=192	true	Atomic Crimbo Toy Factory
 Crimbo08	adventure=193	true	Old Crimbo Town Toy Factory
 Crimbo07	adventure=161	true	Sinister Dodecahedron

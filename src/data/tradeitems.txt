@@ -4368,8 +4368,8 @@
 4362	snow halo	familiar	all	75
 4363	elf resistance button	none	none	0
 4364	elven suicide capsule	usable	all	50
-4365
-4366
+4365	penguin focaccia bread	food	all	95
+4366	herringcello	drink	all	145
 4367	elven cellocello	drink	all	85
 4368	wrench handle	none	none	0
 4369	handful of headless bolts	none	none	0
@@ -4377,7 +4377,7 @@
 4371	handful of wires	none	none	0
 4372
 4373
-4374
+4374	cardboard elf ear	none	none	0
 4375
 4376
 4377	throwing wrench	weapon	all	35
@@ -4391,7 +4391,7 @@
 4385
 4386
 4387
-4388
+4388	passable elf mask	hat	all	15
 4389
 4390
 4391

@@ -143,6 +143,7 @@ pail	30	none
 panhandle panhandling hat	150	Mus: 175
 parasitic headgnawer	30	none
 party hat	30	none
+passable elf mask	10	none
 pentacorn hat	40	Mox: 5
 pig-iron helm	90	Mox: 30
 pimpin' meat hat	55	Mox: 12
