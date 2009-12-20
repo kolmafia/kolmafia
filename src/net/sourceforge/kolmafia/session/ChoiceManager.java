@@ -1270,6 +1270,7 @@ public abstract class ChoiceManager
 		// Choice 425 is Taking a Proper Gander
 		// Choice 426 is It's Electric, Boogie-oogie-oogie
 		// Choice 427 is A Voice Crying in the Crimbo Factory
+		// Choice 428 is Disguise the Limit
 		// Choice 433 is What Indeed?
 	};
 

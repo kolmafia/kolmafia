@@ -4368,8 +4368,8 @@
 4362	875614058	snow halo
 4363	902109161	elf resistance button	elf resistance buttons
 4364	827667136	elven suicide capsule	elven suicide capsules
-4365
-4366
+4365	386256116	penguin focaccia bread	loaves of penguin focaccia bread
+4366	492441470	herringcello	glasses of herringcello
 4367	582408038	elven cellocello	shots of elven cellocello
 4368	709698183	wrench handle
 4369	113282875	handful of headless bolts
@@ -4377,7 +4377,7 @@
 4371	311636418	handful of wires
 4372
 4373
-4374
+4374	929547061	cardboard elf ear
 4375
 4376
 4377	892792262	throwing wrench	throwing wrenches
@@ -4391,7 +4391,7 @@
 4385
 4386
 4387
-4388
+4388	707117867	passable elf mask	passable elf masks
 4389
 4390
 4391

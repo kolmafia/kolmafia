@@ -187,6 +187,7 @@ panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
 # parasitic headgnawer: Deals 30-45 damage to attackers
 # party hat: (On the Festival of Jarlsberg only)
 party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Familiar Effect: "4xLep, cap 7"
+# passable elf mask
 pentacorn hat	Familiar Effect: "atk, cap 10"
 pig-iron helm	Muscle: +7, Weapon Damage: +10
 pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"

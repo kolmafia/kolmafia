@@ -109,6 +109,13 @@
 # Saboteur Elf
 # Wire-Crossin' Elf
 #
+# Mob Penguin Arsonist
+# Mob Penguin Caporegime
+# Mob Penguin Demolitionist
+# Mob Penguin Goon
+# Mob Penguin Kneecapper
+# Undercover Penguin
+#
 # Item and Meat Drop percentage figures from Yiab's statistical data:
 #
 # http://kol.coldfront.net/thekolwiki/index.php/Parseable_Item_Statistics
@@ -473,9 +480,14 @@ Mimic (Middle 2 Rows)	HP: 35 Def: 25 Atk: 25
 Mimic (Top 2 Rows)	HP: 45 Def: 35 Atk: 35
 Mind Flayer	HP: 47 Def: 40 Atk: 36	mind flayer corpse (25)	cornuthaum (15)	large box (20)
 Mine Crab	HP: 850 Def: 600 Atk: 700 Meat: 200-300	live nautical mine (20)
+Mob Penguin Arsonist		Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Caporegime		Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Demolitionist		Crimbuck 	herringcello	penguin focaccia bread
 Mob Penguin Enforcer		patent leather shoes (0)
-Mob Penguin Goon		penguin thesaurus (0)
+Mob Penguin Goon		Crimbuck	herringcello	penguin focaccia bread
+# Mob Penguin Goon		penguin thesaurus (0)
 Mob Penguin Hitpenguin		canteen of wine (0)	depleted Grimacite kneecapping stick (0)
+Mob Penguin Kneecapper		Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Psychopath		knuckle sandwich (0)	psycho sweater (c0)
 Mob Penguin Racketeer		gray bow tie (0)
 Mob Penguin Smasher		chunk of depleted Grimacite (0)	kneecapping stick (0)	penguin skin (0)
@@ -695,6 +707,7 @@ Tribal Goblin	HP: 60 Def: 50 Atk: 60	goblin autoblowgun (0)	goblin hunting spear
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)	triffid bark (b0)
 Tyrannosaurus Tex	HP: 100000
 Undead Elbow Macaroni	HP: 1 Def: 2 Atk: 1 E: spooky Meat: 4-6	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
+Undercover Penguin		cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
 Underworld Tree	HP: 0	Underworld acorn (100)	Underworld trunk (100)
 Unholy Diver	HP: 1000 Def: 600 Atk: 700 Meat: 200-300	glowing syringe (c4)	rusty broken diving helmet (3)	rusty porthole (2)	rusty rivet (10)	rusty rivet (10)	rusty rivet (2)	rusty rivet (1)
 Upgraded Ram	HP: 95 Def: 105 Atk: 106 Meat: 83-118 ED: cold	ram horns (5)	ram stick (5)	Ram's Face Lager (30)

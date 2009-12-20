@@ -1462,6 +1462,13 @@ public class KoLAdventure
 			"Nothing more to do here today.",
 		},
 
+		// You should talk to Edwing before you head back in there, and
+		// wait for him to formulate a plan.
+		{
+			"You should talk to Edwing",
+			"Nothing more to do here today.",
+		},
+
 		// There's nothing left of Ol' Scratch but a crater and a
 		// stove.  Burnbarrel Blvd. is still hot, but it's no longer
 		// bothered.  Or worth bothering with.
