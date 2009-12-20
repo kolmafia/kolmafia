@@ -1720,7 +1720,7 @@ public class FightRequest
 
                 if ( responseText.indexOf( "sees that you're about to get attacked and trips it before it can attack you." ) != -1
                         || responseText.indexOf( "does the Time Warp, then does the Time Warp again. Clearly, madness has taken its toll on him." ) != -1
-                        || responseText.indexOf( "mutters \"I'm late. No... no... I'm early.\" The air shimmers around you." ) != -1 )
+                        || responseText.indexOf( "The air shimmers around you." ) != -1 )
 		{
 			Preferences.increment( "_timeHelmetAdv", 1 );
 		}
