@@ -1271,7 +1271,7 @@ public abstract class ChoiceManager
 		// Choice 426 is It's Electric, Boogie-oogie-oogie
 		// Choice 427 is A Voice Crying in the Crimbo Factory
 		// Choice 428 is Disguise the Limit
-		// Choice 433 is What Indeed?
+		// Choice 433 is Everything is Illuminated?
 	};
 
 	static

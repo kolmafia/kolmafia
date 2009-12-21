@@ -235,9 +235,9 @@
 229	Kentucky-fried meat crossbow	weapon	all	75
 230	dead guy's watch	accessory	all	60
 231	Doc Galaktik's Pungent Unguent	hp	all	15
-232	Doc Galaktik's Ailment Ointment	hp	all	30
-233	Doc Galaktik's Restorative Balm	hp	all	60
-234	Doc Galaktik's Homeopathic Elixir	hp	all	120
+232	Doc Galaktik's Ailment Ointment	hp, combat	all	30
+233	Doc Galaktik's Restorative Balm	hp, combat	all	60
+234	Doc Galaktik's Homeopathic Elixir	hp, combat	all	120
 235	Bigger Bugfinder Blade	weapon	display	0
 236	cocktailcrafting kit	none	all	250
 237	bottle of gin	drink	all	35
@@ -347,10 +347,10 @@
 341	Knob Goblin love potion	multiple	all	85
 342	Knob Goblin stink bomb	none, combat	all	65
 343	Knob Goblin sharpening spray	multiple	all	115
-344	Knob Goblin seltzer	mp	all	44
-345	Knob Goblin superseltzer	mp	all	49
+344	Knob Goblin seltzer	mp, combat	all	44
+345	Knob Goblin superseltzer	mp, combat	all	49
 346	scrumptious reagent	none	all	1
-347	Dyspepsi-Cola	mp	all	52
+347	Dyspepsi-Cola	mp, combat	all	52
 348	cold ninja mask	hat	all	90
 349	icy katana hilt	none	all	64
 350	hot katana blade	none	all	35
@@ -360,7 +360,7 @@
 354	frozen nunchaku	weapon	all	90
 355	eXtreme scarf	hat	all	110
 356	snowboarder pants	pants	all	110
-357	Mountain Stream soda	mp	all	58
+357	Mountain Stream soda	mp, combat	all	58
 358	gr8ps	food	all	59
 359	t8r tots	food	all	58
 360	miner's helmet	hat	all	90
@@ -467,9 +467,9 @@
 461	red pixel	none	all	25
 462	green pixel	none	all	25
 463	blue pixel	none	all	25
-464	red pixel potion	hp	all	50
-465	blue pixel potion	mp	all	50
-466	green pixel potion	hpmp	all	50
+464	red pixel potion	hp, combat	all	50
+465	blue pixel potion	mp, combat	all	50
+466	green pixel potion	hpmp, combat	all	50
 467	purple pixel pie	food	all	50
 468	ruby W	none	all	33
 469	wussiness potion	usable	all	28
@@ -477,7 +477,7 @@
 471	hot wing	food	all	32
 472	diamond-studded cane	weapon	all	95
 473	flaming crutch	weapon	all	65
-474	cast	hp	all	32
+474	cast	hp, combat	all	32
 475	leather mask	hat	all	65
 476	hellion cube	none	all	37
 477	infernal insoles	accessory	all	65
@@ -521,7 +521,7 @@
 515	Sneaky Pete's key lime pie	food	all	123
 516	Hey Deze map	usable	none	0
 517	bejeweled accordion strap	accessory	all	1000
-518	magical mystery juice	mp	display	50
+518	magical mystery juice	mp, combat	display	50
 519	moxie magnet	offhand	all	1500
 520	strange leaflet	none	none	0
 521	kickback cookbook	offhand	all	2000
@@ -872,7 +872,7 @@
 866	shaving cream	multiple	all	35
 867	pine tar	multiple	all	31
 868
-869	forest tears	hp	all	33
+869	forest tears	hp, combat	all	33
 870	fetus-smashing club	weapon	display	0
 871	meatcar model	familiar	all	75
 872	Time Juice	usable	display	0
@@ -1337,7 +1337,7 @@
 1331	Cloaca-Cola helmet	hat	all	35
 1332	Cloaca-Cola knapsack	usable	all	200
 1333	Dyspepsi-Cola knapsack	usable	all	200
-1334	Cloaca-Cola	mp	all	52
+1334	Cloaca-Cola	mp, combat	all	52
 1335	Dyspepsi grenade	none, combat	all	150
 1336	Cloaca grenade	none, combat	all	150
 1337
@@ -1791,7 +1791,7 @@
 1785	ga-ga radio	weapon	all	130
 1786	six pack of Mountain Stream	multiple	all	300
 1787	bag of Cheat-Os	multiple	all	50
-1788	unrefined Mountain Stream syrup	mp	all	200
+1788	unrefined Mountain Stream syrup	mp, combat	all	200
 1789	frozen Mob Penguin	multiple	all	300
 1790	Ram's Face Lager	drink	all	55
 1791	ram horns	none	all	55
@@ -1968,7 +1968,7 @@
 1962	Bit O' Ectoplasm	multiple	all	25
 1963	dance card	usable	all	55
 1964	opera mask	hat	all	37
-1965	bottle of Monsieur Bubble	mp	all	50
+1965	bottle of Monsieur Bubble	mp, combat	all	50
 1966	Amulet of Yendor	accessory	gift	5
 1967	jitterbug larva	grow	all	0
 1968	bottle of perfume	familiar	all	75
@@ -2381,7 +2381,7 @@
 2375	banana cream pie	food	all	10
 2376	banana daiquiri	drink	all	10
 2377	bungle in the jungle	drink	all	25
-2378	banana spritzer	multiple	all	10
+2378	banana spritzer	multiple, combat	all	10
 2379	banana smoothie	multiple	all	0
 2380	dandy lion cub	grow	all	0
 2381	woolen cravat	familiar	all	75
@@ -2609,7 +2609,7 @@
 2603	smoldering box	multiple	display	0
 2604	Tuesday's ruby	offhand	all	200
 2605	palm frond	multiple	all	45
-2606	palm-frond fan	hpmp	all	85
+2606	palm-frond fan	hpmp, combat	all	85
 2607	palm-frond whip	weapon	all	95
 2608	palm-frond net	none, combat	all	130
 2609	palm-frond capris	pants	all	145
