@@ -109,6 +109,7 @@
 # Saboteur Elf
 # Wire-Crossin' Elf
 #
+# Mesmerizing Penguin
 # Mob Penguin Arsonist
 # Mob Penguin Caporegime
 # Mob Penguin Demolitionist
@@ -474,6 +475,7 @@ Mer-kin Miner	HP: 750 Def: 450 Atk: 450 Meat: 160-240	Mer-kin food bucket (5)	Me
 Mer-kin Raider	HP: 800 Def: 650 Atk: 750 Meat: 200-300	Mer-kin breastplate (c2)	Mer-kin foodbucket (10)	Mer-kin hookspear (2)	Mer-kin roundshield (2)
 Mer-kin Scavenger	HP: 600 Def: 450 Atk: 450 Meat: 160-240	Mer-kin hookspear (2)	Mer-kin takebag (4)	Mer-kin thingpouch (25)
 Mer-kin Tippler	HP: 750 Def: 400 Atk: 600 Meat: 160-240	Alewife&trade; Ale (40)	Mer-kin foodbucket (5)	Mer-kin pinkslip (5)	slug of vodka (21)
+Mesmerizing Penguin		Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
 Mimic	HP: 50 Def: 45 Atk: 45	dead mimic (n100)
 Mimic (Bottom 2 Rows)	HP: 25 Def: 15 Atk: 15
 Mimic (Middle 2 Rows)	HP: 35 Def: 25 Atk: 25

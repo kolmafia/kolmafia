@@ -4338,7 +4338,7 @@
 4332	candy knuckles	weapon	all	0
 4333	jawbruiser	food	all	0
 4334	fancy chocolate car	usable	all	0
-4335
+4335	tiny plastic 11 Dealer	none	all	0
 4336
 4337
 4338
@@ -4378,17 +4378,17 @@
 4372
 4373
 4374	cardboard elf ear	none	none	0
-4375
+4375	spiraling shape	none	none	0
 4376
 4377	throwing wrench	weapon	all	35
 4378	pair of bolt cutters	weapon	all	65
 4379	poison pen	weapon	all	75
-4380
+4380	speed limit shield	offhand	display	0
 4381	live wire	weapon	all	15
 4382
 4383
 4384
-4385
+4385	pocketwatch on a chain	offhand	all	150
 4386
 4387
 4388	passable elf mask	hat	all	15
