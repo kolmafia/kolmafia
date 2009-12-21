@@ -1063,6 +1063,7 @@ penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
 pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only
 pirate hook	Weapon Damage: +3
 pixel shield	Muscle: +5, Damage Reduction: 3
+pocketwatch on a chain	Monster Level: -10, Experience (Mysticality): +1
 polyalloy shield	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Muscle: +10, Damage Reduction: 9
 rag doll	Muscle: +3
 red China marble	Hot Spell Damage: +40
@@ -1085,6 +1086,7 @@ snake shield	Muscle: +6, Damage Reduction: 7, Synergetic
 snarling wolf shield	Maximum HP: +40, Damage Reduction: 7, Synergetic
 sock monkey	Moxie: +3
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
+speed limit shield	Damage Absorption: +10, Damage Reduction: 6
 spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
 spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
