@@ -1419,6 +1419,7 @@ monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
 musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Intrinsic Effect: "Omphaloskepsis", Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only
+night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1
 # old soft shoes: +30% Item Drops from Hobos
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
@@ -1510,6 +1511,7 @@ tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Singl
 # teflon swim fins: Makes you a better diver
 teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 tin star	Monster Level: +5, Moxie: +3
+tiny plastic 11 Dealer	Meat Drop: +4
 tiny plastic 7-foot dwarf	Monster Level: +1
 tiny plastic Axe Wound	Monster Level: +1
 tiny plastic Baron von Ratsworth	Meat Drop: +3
@@ -1519,6 +1521,7 @@ tiny plastic Bonerdagon	Mysticality: +3
 tiny plastic Boris	Muscle: +5, Mysticality: +3, Moxie: +3
 tiny plastic Boss Bat	Maximum HP: +5
 tiny plastic Cheshire bat	Familiar Weight: +1
+tiny plastic Crimbo Casino	Meat Drop: +4
 tiny plastic Crimbo elf	Familiar Weight: +1
 tiny plastic Crimbo reindeer	Adventures: +1, Single Equip
 tiny plastic Crimbo wreath	MP Regen Min: 1, MP Regen Max: 2, Single Equip
