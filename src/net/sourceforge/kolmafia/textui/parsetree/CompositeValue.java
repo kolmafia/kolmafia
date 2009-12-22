@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class CompositeValue
@@ -114,37 +113,36 @@ public class CompositeValue
 	public int read( final String[] data, final int index, final boolean compact )
 	{
 		CompositeType type = (CompositeType) this.type;
-		Value key = null;
+		Type indexType = type.getIndexType();
+		String keyString = ( index < data.length ) ? data[index] : "none";
+		Value key =  type.getKey( indexType.parseValue( keyString, true ) );
+		Type dataType = type.getDataType( key );
 
-		if ( index < data.length )
+		// If the data is another composite, recurse until we get the
+		// final slice
+
+		if ( dataType instanceof CompositeType )
 		{
-			key = type.getKey( DataTypes.parseValue( type.getIndexType(), data[ index ], true ) );
-		}
-		else
-		{
-			key = type.getKey( DataTypes.parseValue( type.getIndexType(), "none", true ) );
-		}
+			CompositeValue slice = (CompositeValue) this.aref( key );
 
-		// If there's only a key and a value, parse the value
-		// and store it in the composite
+			// Create missing intermediate slice
+			if ( slice == null )
+			{
+				slice = (CompositeValue) this.initialValue( key );
+				this.aset( key, slice );
+			}
 
-		if ( !( type.getDataType( key ) instanceof CompositeType ) )
-		{
-			this.aset( key, DataTypes.parseValue( type.getDataType( key ), data[ index + 1 ], true ) );
-			return 2;
-		}
-
-		// Otherwise, recurse until we get the final slice
-		CompositeValue slice = (CompositeValue) this.aref( key );
-
-		// Create missing intermediate slice
-		if ( slice == null )
-		{
-			slice = (CompositeValue) this.initialValue( key );
-			this.aset( key, slice );
+			return slice.read( data, index + 1, compact ) + 1;
 		}
 
-		return slice.read( data, index + 1, compact ) + 1;
+		// Parse the value and store it in the composite
+
+		Value value = ( index < data.length - 1 ) ?
+			dataType.parseValue( data[ index + 1 ], true ) :
+			dataType.initialValue();
+
+		this.aset( key, value );
+		return 2;
 	}
 
 	public String toString()
