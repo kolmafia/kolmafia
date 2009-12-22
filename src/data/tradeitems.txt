@@ -4390,7 +4390,7 @@
 4384
 4385	pocketwatch on a chain	offhand	all	150
 4386
-4387	night-vision goggles	accessory	all     200
+4387	night-vision goggles	accessory	all	200
 4388	passable elf mask	hat	all	15
 4389
 4390

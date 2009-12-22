@@ -4384,13 +4384,13 @@
 4378	218570311	pair of bolt cutters	pairs of bolt cutters
 4379	440133955	poison pen	poison pens
 4380	637081887	speed limit shield
-4381	856745823	live wire
+4381	856745823	live wire	live wires
 4382
 4383
 4384
-4385	225078043	pocketwatch on a chain
+4385	225078043	pocketwatch on a chain	pocketwatches on chains
 4386
-4387	652015546	night-vision goggles
+4387	652015546	night-vision goggles	pairs of night-vision goggles
 4388	707117867	passable elf mask	passable elf masks
 4389
 4390
