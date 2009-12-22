@@ -192,7 +192,7 @@ Big Creepy Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7 "Hardly Poisoned at All"	spider 
 Big Meat Golem	HP: 100000
 Bizarre Construct	HP: 300 Atk: 300	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
 Black Adder	HP: 124 Def: 127 Atk: 129 Meat: 80-120 "Really Quite Poisoned"	adder bladder (30)	black snake skin (15)	sunken eyes (0)
-Black-and-White-Ops Penguin		Crimbuck (0)	grappling hook (c100)	night vision goggles (0)
+Black-and-White-Ops Penguin		Crimbuck (0)	grappling hook (c100)	night-vision goggles (0)
 Black Panther	HP: 128 Def: 125 Atk: 133 Meat: 120-180	Black No. 2 (20)	broken wings (0)
 Black Pudding	HP: 40 Atk: 50	black pudding (100)	black pudding (100)
 Black Widow	HP: 120 Def: 123 Atk: 132 Meat: 40-60 "Really Quite Poisoned"	black pension check (30)	black picnic basket (15)
