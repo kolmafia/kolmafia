@@ -1419,7 +1419,7 @@ monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
 musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Intrinsic Effect: "Omphaloskepsis", Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only
-night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1
+night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 # old soft shoes: +30% Item Drops from Hobos
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
