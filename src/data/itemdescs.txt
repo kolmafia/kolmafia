@@ -4339,7 +4339,7 @@
 4333	707896286	jawbruiser	jawbruisers
 4334	114513584	fancy chocolate car	fancy chocolate cars
 4335	452938703	tiny plastic 11 Dealer
-4336
+4336	364037536	tiny plastic Crimbo Casino
 4337
 4338
 4339
@@ -4376,7 +4376,7 @@
 4370	689022880	bottle of agitprop ink
 4371	311636418	handful of wires
 4372
-4373
+4373	274224578	grappling hook
 4374	929547061	cardboard elf ear
 4375	373743760	spiraling shape
 4376
@@ -4390,7 +4390,7 @@
 4384
 4385	225078043	pocketwatch on a chain
 4386
-4387
+4387	652015546	night-vision goggles
 4388	707117867	passable elf mask	passable elf masks
 4389
 4390

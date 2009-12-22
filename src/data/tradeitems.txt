@@ -4338,8 +4338,8 @@
 4332	candy knuckles	weapon	all	0
 4333	jawbruiser	food	all	0
 4334	fancy chocolate car	usable	all	0
-4335	tiny plastic 11 Dealer	none	all	0
-4336
+4335	tiny plastic 11 Dealer	accessory	all	0
+4336	tiny plastic Crimbo Casino	accessory	all	0
 4337
 4338
 4339
@@ -4376,7 +4376,7 @@
 4370	bottle of agitprop ink	none	none	0
 4371	handful of wires	none	none	0
 4372
-4373
+4373	grappling hook	none	none	0
 4374	cardboard elf ear	none	none	0
 4375	spiraling shape	none	none	0
 4376
@@ -4390,7 +4390,7 @@
 4384
 4385	pocketwatch on a chain	offhand	all	150
 4386
-4387
+4387	night-vision goggles	accessory	all     200
 4388	passable elf mask	hat	all	15
 4389
 4390

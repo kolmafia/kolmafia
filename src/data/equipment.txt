@@ -1302,6 +1302,7 @@ mood ring	0	none
 musty moccasins	0	Mox: 65
 natty blue ascot	0	Mys: 10
 navel ring of navel gazing	0	none
+night-vision goggles	0	Mox: 10
 old soft shoes	0	Mys: 200
 orange glowstick	0	none
 pat-a-cake pendant	0	none
@@ -1387,6 +1388,7 @@ tap shoes	0	Mys: 30
 tarrrnished charrrm bracelet	0	Mys: 60
 teflon swim fins	0	Mus: 85
 tin star	0	Mys: 15
+tiny plastic 11 Dealer	0	none
 tiny plastic 7-foot dwarf	0	none
 tiny plastic Axe Wound	0	none
 tiny plastic Baron von Ratsworth	0	none
@@ -1396,6 +1398,7 @@ tiny plastic Bonerdagon	0	none
 tiny plastic Boris	0	none
 tiny plastic Boss Bat	0	none
 tiny plastic Cheshire bat	0	none
+tiny plastic Crimbo Casino	0	none
 tiny plastic Crimbo elf	0	none
 tiny plastic Crimbo reindeer	0	none
 tiny plastic Crimbo wreath	0	none
