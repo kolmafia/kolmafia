@@ -270,8 +270,6 @@ public class CafeRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Buy and " + consume + " 1 " + itemName + " for " + price + " Meat" );
 
-		ResultProcessor.processMeat( 0 - price );
-
 		if ( inebriety > 0 )
 		{
 			return;
