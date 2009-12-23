@@ -4340,7 +4340,7 @@
 4334	fancy chocolate car	usable	all	0
 4335	tiny plastic 11 Dealer	accessory	all	0
 4336	tiny plastic Crimbo Casino	accessory	all	0
-4337
+4337	tiny plastic stocking mimic	accessory	all	0
 4338
 4339
 4340	Piddles	multiple	all	0
@@ -4375,7 +4375,7 @@
 4369	handful of headless bolts	none	none	0
 4370	bottle of agitprop ink	none	none	0
 4371	handful of wires	none	none	0
-4372
+4372	chunk of cement	none	none	0
 4373	grappling hook	none	none	0
 4374	cardboard elf ear	none	none	0
 4375	spiraling shape	none	none	0
@@ -4389,7 +4389,7 @@
 4383
 4384
 4385	pocketwatch on a chain	offhand	all	150
-4386
+4386	cement sandals	accessory	all	100
 4387	night-vision goggles	accessory	all	200
 4388	passable elf mask	hat	all	15
 4389

@@ -1202,6 +1202,7 @@ boxing glove	0	Mys: 7
 brazen bracelet	0	Mus: 65
 brown plastic baby	0	none
 cannonball charrrm bracelet	0	Mys: 80
+cement sandals	0	Mus: 10
 cement shoes	0	Mys: 35
 cheap elven gloves	0	none
 cheap studded belt	0	none
@@ -1492,6 +1493,7 @@ tiny plastic spooky pirate skeleton	0	none
 tiny plastic spooky vampire	0	none
 tiny plastic stab bat	0	none
 tiny plastic star starfish	0	none
+tiny plastic stocking mimic	0	none
 tiny plastic strand of DNA	0	none
 tiny plastic sweet nutcracker	0	none
 tiny plastic taco cat	0	none

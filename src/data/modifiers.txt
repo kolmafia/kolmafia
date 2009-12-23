@@ -1312,6 +1312,7 @@ brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10, Synergetic
 brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 # cannonball charrrm bracelet: Explosively hilarious
 cannonball charrrm bracelet	Single Equip
+cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
 cement shoes	Intrinsic Effect: "Sleeping with the Fishes", Mysticality: +20, Moxie: +20
 cheap elven gloves	Mysticality: +1, Sleaze Resistance: +1
 cheap studded belt	Damage Reduction: 1
@@ -1615,6 +1616,7 @@ tiny plastic spooky pirate skeleton	Familiar Weight: +1
 tiny plastic spooky vampire	Monster Level: +1
 tiny plastic stab bat	Familiar Weight: +1
 tiny plastic star starfish	Familiar Weight: +1
+# tiny plastic stocking mimic: +10% Candy Drops from Monsters
 tiny plastic strand of DNA	Muscle: +3, Mysticality: +3, Moxie: +3
 tiny plastic sweet nutcracker	Familiar Weight: +1
 tiny plastic taco cat	Monster Level: +1

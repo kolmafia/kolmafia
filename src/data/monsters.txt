@@ -110,6 +110,7 @@
 # Wire-Crossin' Elf
 #
 # Black-and-White-Ops Penguin
+# Cement Cobbler Penguin
 # Mesmerizing Penguin
 # Mob Penguin Arsonist
 # Mob Penguin Caporegime
@@ -229,6 +230,7 @@ Caveman Frat Pledge	HP: 0 Atk: 255 Meat: 30-50 E: sleaze	stone baseball cap (5)	
 Caveman Hippy	HP: 280 Def: 240 Atk: 240 E: stench	stone frisbee (20)	dreadlock whip (10)	handful of pine needles (20)	Spanish fly (c0)
 Caveman Sorority Girl	HP: 245 Atk: 230 Meat: 40-60 E: sleaze	cup of primitive beer (25)
 Cavewomyn Hippy	HP: 260 Def: 230 Atk: 250 E: stench	handful of pine needles (20)	handful of nuts and berries (20)	Spanish fly (c0)
+Cement Cobbler Penguin		cement sandals (0)	chunk of cement (c100)	Crimbuck (0)
 Chalkdust Wraith	HP: 10 Def: 20 Atk: 20 ED: spooky	handful of hand chalk (100)
 Chatty Pirate	HP: 90 Def: 90 Atk: 100 Meat: 52-76
 Chester	HP: 8000 E: sleaze	Chester's bag of candy (0)	Chester's Aquarius medallion (0)	Chester's moustache (0)	Chester's muscle shirt (c0)	Chester's sunglasses (0)	Chester's cutoffs (0)	extra-greasy slider (0)	extra-greasy slider (0)	Chorale of Companionship (0)

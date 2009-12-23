@@ -1273,6 +1273,7 @@ public abstract class ChoiceManager
 		// Choice 428 is Disguise the Limit
 		// Choice 429 is Diagnosis: Hypnosis
 		// Choice 430 is Secret Agent Penguin
+		// Choice 431 is Zapatos Con Crete
 		// Choice 433 is Everything is Illuminated?
 	};
 

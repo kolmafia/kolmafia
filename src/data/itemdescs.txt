@@ -4340,7 +4340,7 @@
 4334	114513584	fancy chocolate car	fancy chocolate cars
 4335	452938703	tiny plastic 11 Dealer
 4336	364037536	tiny plastic Crimbo Casino
-4337
+4337	162020757	tiny plastic stocking mimic
 4338
 4339
 4340	569476193	Piddles	handfuls of Piddles
@@ -4375,7 +4375,7 @@
 4369	113282875	handful of headless bolts
 4370	689022880	bottle of agitprop ink
 4371	311636418	handful of wires
-4372
+4372	716851308	chunk of cement
 4373	274224578	grappling hook
 4374	929547061	cardboard elf ear
 4375	373743760	spiraling shape
@@ -4389,7 +4389,7 @@
 4383
 4384
 4385	225078043	pocketwatch on a chain	pocketwatches on chains
-4386
+4386	655505187	cement sandals
 4387	652015546	night-vision goggles	pairs of night-vision goggles
 4388	707117867	passable elf mask	passable elf masks
 4389
