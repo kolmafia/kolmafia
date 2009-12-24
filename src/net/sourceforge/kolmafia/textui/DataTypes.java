@@ -215,7 +215,7 @@ public class DataTypes
 	public static final Value parseIntValue( final String name )
 		throws NumberFormatException
 	{
-		return new Value( StringUtilities.parseInt( name ) );
+		return new Value( StringUtilities.parseIntInternal( name, true ) );
 	}
 
 	public static final Value parseFloatValue( final String name )

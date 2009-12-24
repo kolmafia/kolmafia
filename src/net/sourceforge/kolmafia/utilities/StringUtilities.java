@@ -653,6 +653,12 @@ public class StringUtilities
 
 	public static final int parseInt( String string )
 	{
+                return StringUtilities.parseIntInternal( string, false );
+	}
+
+	public static final int parseIntInternal( String string, boolean throwException )
+		throws NumberFormatException
+	{
 		if ( string == null )
 		{
 			return 0;
@@ -697,8 +703,14 @@ public class StringUtilities
 			
 			return (int) ( base * multiplier );
 		}
-		
-		StaticEntity.printStackTrace( new NumberFormatException( string ) );
+
+		NumberFormatException exception = new NumberFormatException( string );
+		if ( throwException )
+		{
+			throw exception;
+		}
+
+		StaticEntity.printStackTrace( exception );
 		string = NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
 
 		if ( string.length() == 0 )
