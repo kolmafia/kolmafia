@@ -69,15 +69,9 @@ public class InventoryPanel
 		this.isEquipmentOnly = isEquipmentOnly;
 
 		boolean isCloset = elementModel == KoLConstants.closet;
-
-		// Unfortunately, Java doesn't doesn't like this:
-		// isEquipmentOnly ? new EquipListener() : new ConsumeListener();
-
-		ActionListener useListener;
-		if ( isEquipmentOnly )
-			useListener = new EquipListener();
-		else
-			useListener = new ConsumeListener();
+		ActionListener useListener = isEquipmentOnly ?
+			(ActionListener) new EquipListener( isCloset ) :
+			(ActionListener) new ConsumeListener( isCloset );
 
 		ArrayList listeners = new ArrayList();
 		listeners.add( useListener );

@@ -570,11 +570,16 @@ public class ItemManagePanel
 	}
 
 	public class ConsumeListener
-		extends ThreadedListener
+		extends TransferListener
 	{
+		public ConsumeListener( final boolean retrieveFromClosetFirst )
+		{
+			super( "Consume", retrieveFromClosetFirst );
+		}
+
 		public void run()
 		{
-			Object[] items = ItemManagePanel.this.getDesiredItems( "Consume" );
+			Object[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
 			{
 				return;
@@ -616,11 +621,16 @@ public class ItemManagePanel
 	}
 
 	public class EquipListener
-		extends ThreadedListener
+		extends TransferListener
 	{
+		public EquipListener( final boolean retrieveFromClosetFirst )
+		{
+			super( "Equip", retrieveFromClosetFirst );
+		}
+
 		public void run()
 		{
-			Object[] items = ItemManagePanel.this.getDesiredItems( "Equip" );
+			Object[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
 			{
 				return;
