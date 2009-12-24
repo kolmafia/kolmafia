@@ -970,6 +970,15 @@ public class ItemPool
 	public static final int CRIMBUCK = 4343;
 	public static final int GINGERBREAD_HOUSE = 4347;
 	public static final int ELF_RESISTANCE_BUTTON = 4363;
+	public static final int WRENCH_HANDLE = 4368;
+	public static final int HEADLESS_BOLTS = 4369;
+	public static final int AGITPROP_INK = 4370;
+	public static final int HANDFUL_OF_WIRES = 4371;
+	public static final int CHUNK_OF_CEMENT = 4372;
+	public static final int PENGUIN_GRAPPLING_HOOK = 4373;
+	public static final int CARDBOARD_ELF_EAR = 4374;
+	public static final int SPIRALING_SHAPE = 4375;
+	public static final int CRIMBOMINATION_CONTRAPTION = 4376;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -411,6 +411,7 @@ Cloaca-Cola-issue combat knife	30	Mus: 0	1-handed knife
 Coily&trade;	200	Mox: 200	2-handed spring
 Crimbo sword	100	Mus: 35	2-handed sword
 Crimbo ukelele	80	Mox: 20	2-handed guitar
+Crimbomination Contraption	0	Mus: 0	2-handed contraption
 Disco Banjo	50	Mox: 10	2-handed banjo
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
 Drowsy Sword	171	Mus: 66	2-handed sword
@@ -1455,6 +1456,7 @@ tiny plastic conservationist hippy	0	none
 tiny plastic cubist bull	0	none
 tiny plastic demoninja	0	none
 tiny plastic disco bandit	0	none
+tiny plastic Don Crimbo	0	none
 tiny plastic drunk goat	0	none
 tiny plastic fat stack of cash	0	none
 tiny plastic fiendish can of asparagus	0	none

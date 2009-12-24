@@ -1274,7 +1274,9 @@ public abstract class ChoiceManager
 		// Choice 429 is Diagnosis: Hypnosis
 		// Choice 430 is Secret Agent Penguin
 		// Choice 431 is Zapatos Con Crete
+		// Choice 432 is Don We Now Our Bright Apparel
 		// Choice 433 is Everything is Illuminated?
+		// Choice 435 is Season's Beatings
 	};
 
 	static

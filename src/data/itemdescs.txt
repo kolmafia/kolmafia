@@ -4341,7 +4341,7 @@
 4335	452938703	tiny plastic 11 Dealer
 4336	364037536	tiny plastic Crimbo Casino
 4337	162020757	tiny plastic stocking mimic
-4338
+4338	734843929	tiny plastic Don Crimbo
 4339
 4340	569476193	Piddles	handfuls of Piddles
 4341	840139975	BitterSweetTarts	rolls of BitterSweetTarts
@@ -4379,7 +4379,7 @@
 4373	274224578	grappling hook
 4374	929547061	cardboard elf ear
 4375	373743760	spiraling shape
-4376
+4376	413011598	Crimbomination Contraption
 4377	892792262	throwing wrench	throwing wrenches
 4378	218570311	pair of bolt cutters	pairs of bolt cutters
 4379	440133955	poison pen	poison pens
