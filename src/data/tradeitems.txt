@@ -4341,7 +4341,7 @@
 4335	tiny plastic 11 Dealer	accessory	all	0
 4336	tiny plastic Crimbo Casino	accessory	all	0
 4337	tiny plastic stocking mimic	accessory	all	0
-4338
+4338	tiny plastic Don Crimbo	accessory	all	0
 4339
 4340	Piddles	multiple	all	0
 4341	BitterSweetTarts	multiple	all	0
@@ -4379,7 +4379,7 @@
 4373	grappling hook	none	none	0
 4374	cardboard elf ear	none	none	0
 4375	spiraling shape	none	none	0
-4376
+4376	Crimbomination Contraption	weapon	display	0
 4377	throwing wrench	weapon	all	35
 4378	pair of bolt cutters	weapon	all	65
 4379	poison pen	weapon	all	75

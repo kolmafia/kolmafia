@@ -1578,6 +1578,7 @@ tiny plastic conservationist hippy	Stench Damage: +5
 tiny plastic cubist bull	Monster Level: +1
 tiny plastic demoninja	Monster Level: +1
 tiny plastic disco bandit	Moxie: +2, Muscle: +1
+tiny plastic Don Crimbo	Weapon Damage Percent: +5
 tiny plastic drunk goat	Monster Level: +1
 tiny plastic fat stack of cash	Meat Drop: +3
 tiny plastic fiendish can of asparagus	Monster Level: +1

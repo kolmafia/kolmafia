@@ -144,10 +144,14 @@ public class CoinmastersFrame
 	 * count the coins of the new tab
 	 */
 
+	private CoinmasterPanel currentPanel()
+	{
+		return (CoinmasterPanel)( ((Container)(this.tabs.getSelectedComponent())).getComponent( 0 ) );
+	}
+
 	public void stateChanged( final ChangeEvent e )
 	{
-		CoinmasterPanel panel = (CoinmasterPanel)( ((Container)(this.tabs.getSelectedComponent())).getComponent( 0 ) );
-		panel.setTitle();
+		this.currentPanel().setTitle();
 	}
 
 	public static void externalUpdate()
@@ -178,6 +182,7 @@ public class CoinmastersFrame
 		lucrePanel.update();
 		sandDollarPanel.update();
 		crimbuckPanel.update();
+		this.currentPanel().setTitle();
 	}
 
 	private class DimemasterPanel

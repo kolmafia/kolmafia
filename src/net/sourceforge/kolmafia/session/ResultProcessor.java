@@ -76,18 +76,18 @@ public class ResultProcessor
 
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 	private static boolean receivedClover = false;
-	
+
 	// This number changes every time an item is processed, and can be used
 	// by other code to tell if an item is received, without necessarily
 	// knowing which item it was.
 
 	public static int itemSequenceCount = 0;
-	
+
 	public static boolean receivedClover()
 	{
 		return ResultProcessor.receivedClover;
 	}
-	
+
 	public static boolean shouldDisassembleClovers( String formURLString )
 	{
 		if ( !ResultProcessor.receivedClover || FightRequest.getCurrentRound() != 0 || !Preferences.getBoolean( "cloverProtectActive" ) )
@@ -103,7 +103,7 @@ public class ResultProcessor
 			formURLString.startsWith( "shore.php" ) ||
 			formURLString.indexOf( "whichitem=553" ) != -1;
 	}
-	
+
 	public static boolean processResults( boolean canBeHaiku, String results )
 	{
 		return ResultProcessor.processResults( false, canBeHaiku, results, null );
@@ -122,7 +122,7 @@ public class ResultProcessor
 	public static boolean processResults( boolean combatResults, boolean canBeHaiku, String results, List data )
 	{
 		ResultProcessor.receivedClover = false;
-		
+
 		if ( data == null )
 		{
 			RequestLogger.updateDebugLog( "Processing results..." );
@@ -160,7 +160,7 @@ public class ResultProcessor
 		//
 		// We could use this to deduce all sorts of things about
 		// unknown items: descitem, autosell price, is quest item ...
-                
+
 		String plainTextResult = KoLConstants.ANYTAG_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
 
 		if ( data == null )
@@ -282,7 +282,7 @@ public class ResultProcessor
 
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			String fam1 = familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace();
-			
+
 			String message = "Your familiar gains a pound: " + fam1;
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message	 );
@@ -365,7 +365,7 @@ public class ResultProcessor
 		{
 			acquisition = "You acquire an item:";
 		}
-		
+
 		if ( acquisition.startsWith( "You are slowed too much by the water, and a stupid dolphin" ) )
 		{
 			AdventureResult item = ItemPool.get( parsedResults.nextToken().split( " ", 2 )[ 1 ], 1 );
@@ -458,7 +458,7 @@ public class ResultProcessor
 
 		String countString = "";
 		String itemName;
-		
+
 		if ( spaceIndex != -1 )
 		{
 			countString = item.substring( 0, spaceIndex );
@@ -876,6 +876,15 @@ public class ResultProcessor
 		return ResultProcessor.processResult( ItemPool.get( itemId, count ) );
 	}
 
+	public static void removeItem( int itemId )
+	{
+		AdventureResult ar = ItemPool.get( itemId, -1 );
+		if ( KoLConstants.inventory.contains( ar ) )
+		{
+			ResultProcessor.processResult( ar );
+		}
+	}
+
 	public static boolean processMeat( int amount )
 	{
 		return ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
@@ -993,7 +1002,7 @@ public class ResultProcessor
 					case ItemPool.WORTHLESS_TRINKET:
 					case ItemPool.WORTHLESS_GEWGAW:
 					case ItemPool.WORTHLESS_KNICK_KNACK:
-					
+
 					// Interchangeable ingredients, which might have been missed
 					// by the getKnownUses check because the recipes are set to
 					// use the other possible ingredient:
@@ -1008,7 +1017,7 @@ public class ResultProcessor
 						shouldRefresh = true;
 					}
 				}
-				
+
 				if ( shouldRefresh )
 				{
 					ConcoctionDatabase.refreshConcoctions();
@@ -1084,44 +1093,43 @@ public class ResultProcessor
 	{
 		// All results, whether positive or negative, are
 		// handled here.
-		
+
 		switch ( result.getItemId() )
 		{
 		case ItemPool.LUCRE:
 		case ItemPool.SAND_DOLLAR:
+		case ItemPool.CRIMBUCK:
 			CoinmastersFrame.externalUpdate();
 			break;
 		}
-		
+
 		// From here on out, only positive results are handled.
 		// This is to reduce the number of 'if' checks.
-		
+
 		if ( result.getCount() < 0 )
 		{
 			return;
 		}
-		
-		int taken = -1;
-		
+
 		switch ( result.getItemId() )
 		{
 		case ItemPool.ROASTED_MARSHMALLOW:
 			// Special Yuletide adventures
 			if ( KoLAdventure.lastAdventureId() == 163 )
 			{
-				taken = ItemPool.MARSHMALLOW;
+				ResultProcessor.removeItem( ItemPool.MARSHMALLOW );
 			}
 			break;
-		
+
 		// Sticker weapons may have been folded from the other form
 		case ItemPool.STICKER_SWORD:
-			taken = ItemPool.STICKER_CROSSBOW;
+			ResultProcessor.removeItem( ItemPool.STICKER_CROSSBOW );
 			break;
-			
+
 		case ItemPool.STICKER_CROSSBOW:
-			taken = ItemPool.STICKER_SWORD;
+			ResultProcessor.removeItem( ItemPool.STICKER_SWORD );
 			break;
-			
+
 		case ItemPool.SOCK:
 			// If you get a S.O.C.K., you lose all the Immateria
 			ResultProcessor.processItem( ItemPool.TISSUE_PAPER_IMMATERIA, -1 );
@@ -1200,23 +1208,23 @@ public class ResultProcessor
 		case ItemPool.EL_VIBRATO_HELMET:
 		case ItemPool.EL_VIBRATO_SPEAR:
 		case ItemPool.EL_VIBRATO_PANTS:
-			if ( combatDrop ) taken = ItemPool.POWER_SPHERE;
+			if ( combatDrop ) ResultProcessor.removeItem( ItemPool.POWER_SPHERE );
 			break;
 
 		case ItemPool.BROKEN_DRONE:
-			if ( combatDrop ) taken = ItemPool.DRONE;
+			if ( combatDrop ) ResultProcessor.removeItem( ItemPool.DRONE );
 			break;
 
 		case ItemPool.REPAIRED_DRONE:
-			if ( combatDrop ) taken = ItemPool.BROKEN_DRONE;
+			if ( combatDrop ) ResultProcessor.removeItem( ItemPool.BROKEN_DRONE );
 			break;
 
 		case ItemPool.AUGMENTED_DRONE:
-			if ( combatDrop ) taken = ItemPool.REPAIRED_DRONE;
+			if ( combatDrop ) ResultProcessor.removeItem( ItemPool.REPAIRED_DRONE );
 			break;
 
 		case ItemPool.TRAPEZOID:
-			taken = ItemPool.POWER_SPHERE;
+			ResultProcessor.removeItem( ItemPool.POWER_SPHERE );
 			break;
 
 		case ItemPool.CITADEL_SATCHEL:
@@ -1270,7 +1278,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.GNOME_DEMODULIZER:
-			taken = ItemPool.CHOMSKYS_COMICS;
+			ResultProcessor.removeItem( ItemPool.CHOMSKYS_COMICS );
 			break;
 
 		case ItemPool.MUS_MANUAL:
@@ -1284,14 +1292,14 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.CARONCH_MAP, -1 );
 			ResultProcessor.processItem( ItemPool.CARONCH_NASTY_BOOTY, -1 );
 			break;
-		
+
 		case ItemPool.TEN_LEAF_CLOVER:
 			ResultProcessor.receivedClover = true;
 			break;
-		
+
 		case ItemPool.BATSKIN_BELT:
 		case ItemPool.DRAGONBONE_BELT_BUCKLE:
-			
+
 			CreateItemRequest beltCreator = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
 			// getQuantityPossible() should take meat paste or
 			// Muscle Sign into account
@@ -1321,7 +1329,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.DAS_BOOT:
-			taken = ItemPool.DAMP_OLD_BOOT;
+			ResultProcessor.removeItem( ItemPool.DAMP_OLD_BOOT );
 			break;
 
 		case ItemPool.PREGNANT_FLAMING_MUSHROOM:
@@ -1345,19 +1353,20 @@ public class ResultProcessor
 		case ItemPool.SMALL_STONE_BLOCK:
 			ResultProcessor.processItem( ItemPool.IRON_KEY, -1 );
 			break;
-		}
-		
-		if ( taken != -1 )
-		{
-			AdventureResult ar = ItemPool.get( taken, -1 );
-			if ( KoLConstants.inventory.contains( ar ) )
-			{
-				ResultProcessor.processResult( ar );
-			}
 
+		case ItemPool.CRIMBOMINATION_CONTRAPTION:
+			ResultProcessor.removeItem( ItemPool.WRENCH_HANDLE );
+			ResultProcessor.removeItem( ItemPool.HEADLESS_BOLTS );
+			ResultProcessor.removeItem( ItemPool.AGITPROP_INK );
+			ResultProcessor.removeItem( ItemPool.HANDFUL_OF_WIRES );
+			ResultProcessor.removeItem( ItemPool.CHUNK_OF_CEMENT );
+			ResultProcessor.removeItem( ItemPool.PENGUIN_GRAPPLING_HOOK );
+			ResultProcessor.removeItem( ItemPool.CARDBOARD_ELF_EAR );
+			ResultProcessor.removeItem( ItemPool.SPIRALING_SHAPE );
+			break;
 		}
 	}
-	
+
 	/**
 	 * Handle lots of items being received at once (specifically, from emptying Hangk's),
 	 * deferring updates to the end as much as possible.

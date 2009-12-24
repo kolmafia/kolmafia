@@ -281,6 +281,7 @@ Dirty Thieving Brigand	HP: 185 Def: 171 Atk: 169 Meat: 822-1157
 Disease-In-The-Box	HP: 14 Def: 18 Atk: 18	box (30)	disease (40)
 Diving Belle	HP: 750 Def: 500 Atk: 400 E: spooky	diving muff (3)	salinated mint julep (32)	water-polo mitt (c0)
 Dodecapede	HP: 8 Def: 12 Atk: 12 "A Little Bit Poisoned"
+Don Crimbo	HP: 1000000	
 Doughbat	HP: 8 Def: 14 Atk: 14 EA: sleaze Meat: 17-27	sonar-in-a-biscuit (20)	wad of dough (30)
 Dr. Awkward	HP: 200 Atk: 170	Drowsy Sword (n100)	Staff of Fats (n100)	fumble formula (p0)
 Drab Bard	HP: 170 Def: 138 Atk: 136 Meat: 34-54	drab sonata (30)	guitar pick (15)	olive (40)
