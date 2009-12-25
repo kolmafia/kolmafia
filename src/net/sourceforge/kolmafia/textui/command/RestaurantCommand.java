@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -67,6 +68,7 @@ public class RestaurantCommand
 	{
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
+			KoLmafia.updateDisplay( "Since you are not in a Mysticality sign, you may not visit the restaurant." );
 			return false;
 		}
 
@@ -131,6 +133,7 @@ public class RestaurantCommand
 	{
 		if ( !KoLCharacter.inMoxieSign() )
 		{
+			KoLmafia.updateDisplay( "Since you are not in a Moxie sign, you may not visit the brewery." );
 			return false;
 		}
 

@@ -51,7 +51,7 @@ public class MicroBreweryRequest
 {
 	private static AdventureResult dailySpecial = null;
 	private static final Pattern SPECIAL_PATTERN =
-		Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
+		Pattern.compile( "Today's Special:.*?<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{
@@ -150,10 +150,13 @@ public class MicroBreweryRequest
 
 		RequestThread.postRequest( new MicroBreweryRequest() );
 
-		int itemId = MicroBreweryRequest.dailySpecial.getItemId();
-		String name = MicroBreweryRequest.dailySpecial.getName();
-		int price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
-		CafeRequest.addMenuItem( KoLConstants.microbreweryItems, name, price );
+		if ( MicroBreweryRequest.dailySpecial != null )
+		{
+			int itemId = MicroBreweryRequest.dailySpecial.getItemId();
+			String name = MicroBreweryRequest.dailySpecial.getName();
+			int price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			CafeRequest.addMenuItem( KoLConstants.microbreweryItems, name, price );
+		}
 
 		ConcoctionDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
