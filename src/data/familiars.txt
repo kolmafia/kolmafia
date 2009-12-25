@@ -123,3 +123,4 @@
 119	Chauvinist Pig	stat0,meat0	4227	 bottle of Cochon Noir	0	3	2	1
 120	Stocking Mimic	none	4328	bag of many confections	0	0	0	0
 121	Snow Angel	none	4352	snow halo	0	0	0	0
+122	Jack-in-the-Box	none	4396	brass crank handle	0	0	0	0

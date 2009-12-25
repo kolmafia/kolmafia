@@ -422,6 +422,7 @@ origami pasties	Meat Drop: +30, Softcore Only
 palm-frond cloak	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 pirate shirt	Moxie: +3
 psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
+# red-and-green sweater: Shocking!
 rhinestone cowboy shirt	Muscle: +5
 safety vest	Damage Reduction: 3, Moxie: +5
 sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
@@ -503,6 +504,8 @@ PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60
 Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
 Periodical Paintbrush	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Softcore Only
 Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
+# Red Rover BB gun: You'll Put Your Eye Out!
+Red Rover BB gun	Critical: 3
 Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 # Ruby Rod
 # Shagadelic Disco Banjo: +7 damage to Disco Bandit Combat Skills
@@ -1048,6 +1051,9 @@ marionette collective	Mysticality: +3
 meat shield	Meat Drop: +3, Damage Reduction: 3
 # mini-zeppelin
 # miniature stuffed Goth Giant
+misfit dolly	Moxie: +5, Spooky Damage: +5
+misfit hobby horse	Muscle: +5, Stench Damage: +5
+misfit teddy bear	Mysticality: +5, Hot Damage: +5
 moxie magnet	Moxie Controls MP
 # naughty fortune teller: + Some Stats Per Fight
 naughty fortune teller	Softcore Only
@@ -1058,6 +1064,8 @@ oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6
 painted shield	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Damage Reduction: 7
 parasitic strangleworm	Damage Reduction: 15
+# peanut brittle shield: +100% Candy Drops from Monsters
+peanut brittle shield	Damage Reduction: 3
 penguin skin buckler	Moxie: +5, Damage Reduction: 5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
 pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only
@@ -1575,6 +1583,7 @@ tiny plastic chunk of depleted Grimacite	HP Regen Min: 1, HP Regen Max: 2, MP Re
 tiny plastic cocoabo	Familiar Weight: +1
 tiny plastic coffee pixie	Familiar Weight: +1
 tiny plastic conservationist hippy	Stench Damage: +5
+tiny plastic Crimbomination	Hot Damage: +1, Cold Damage: +1, Stench Damage: +1, Spooky Damage: +1, Sleaze Damage: +1
 tiny plastic cubist bull	Monster Level: +1
 tiny plastic demoninja	Monster Level: +1
 tiny plastic disco bandit	Moxie: +2, Muscle: +1
@@ -1691,6 +1700,7 @@ bottle of Cochon Noir	Familiar Weight: +5
 bone collar	Familiar Weight: +5
 # bottle of moontan lotion	Makes Familiar More Sensitive to Light
 bottle of perfume	Familiar Weight: +5
+brass crank handle	Familiar Weight: +5
 brass stinger	Familiar Weight: +5
 cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
@@ -2002,6 +2012,7 @@ Burning Hands	Hot Damage: +11
 Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Burning Soul: Sizzle!
 # Busker Do
+Busy Bein' Delicious	Moxie: +5
 Butt-Rock Hair	Moxie Percent: +15
 Cake Caked	Mysticality Percent: +50
 Can Has Cyborger	Moxie Percent: +10
@@ -2358,6 +2369,7 @@ Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 Perceptive Pressure	Item Drop: +50
 Permafrosty	Cold Damage: +50
+Peppermint Bite	Muscle: +5
 Perspicacious Pressure	Mysticality Percent: +300
 Phairly Pheromonal	Familiar Weight: +4
 Phoenix, Right?	Experience: +6
@@ -2514,6 +2526,7 @@ Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent:
 Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Superhuman Sarcasm	Moxie Percent: +100
+Sweet, Nuts	Mysticality: +5
 Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
 Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10

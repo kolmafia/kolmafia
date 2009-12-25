@@ -63,6 +63,8 @@
 47	Slimy Synapses	0	0	0
 48	Slimy Shoulders	0	0	0
 
+53	Summon Crimbo Candy	1	3	0
+
 # Skills available to Clubbers
 
 1000	Seal Clubbing Frenzy	3	1	5	0

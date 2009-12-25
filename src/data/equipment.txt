@@ -372,6 +372,7 @@ origami pasties	100	none
 palm-frond cloak	140	Mus: 55
 pirate shirt	50	Mus: 10
 psycho sweater	100	Mus: 35
+red-and-green sweater	50	Mox: 35
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
@@ -411,7 +412,7 @@ Cloaca-Cola-issue combat knife	30	Mus: 0	1-handed knife
 Coily&trade;	200	Mox: 200	2-handed spring
 Crimbo sword	100	Mus: 35	2-handed sword
 Crimbo ukelele	80	Mox: 20	2-handed guitar
-Crimbomination Contraption	0	Mus: 0	2-handed contraption
+Crimbomination Contraption	100	Mus: 0	2-handed club
 Disco Banjo	50	Mox: 10	2-handed banjo
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
 Drowsy Sword	171	Mus: 66	2-handed sword
@@ -450,6 +451,7 @@ PVC staff	200	Mus: 85	2-handed staff
 Pasta of Peril	50	Mys: 10	1-handed utensil
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
 Radio Free Foil	150	Mus: 60	2-handed sword
+Red Rover BB gun	50	Mox: 10	2-haned gun
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Ruby Rod	120	Mus: 40	1-handed rod
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
@@ -959,6 +961,9 @@ marionette collective	0	Mys: 40
 meat shield	60	Mus: 15	shield
 mini-zeppelin	0	none
 miniature stuffed Goth Giant	0	none
+misfit dolly	0	none
+misfit hobby horse	0	none
+misfit teddy bear	0	none
 moxie magnet	0	none
 naughty fortune teller	0	none
 off-hand balloon	0	none
@@ -969,6 +974,8 @@ oyster egg balloon	0	Mys: 35
 padded tortoise	100	Mus: 35	shield
 painted shield	120	Mus: 45	shield
 parasitic strangleworm	0	none
+# *** peanut brittle shield is a shield of unknown power.
+peanut brittle shield	0	Mus: 10	shield
 penguin skin buckler	95	Mus: 30	shield
 penguin thesaurus	0	none
 pilgrim shield	240	none	shield
@@ -1453,6 +1460,7 @@ tiny plastic chunk of depleted Grimacite	0	none
 tiny plastic cocoabo	0	none
 tiny plastic coffee pixie	0	none
 tiny plastic conservationist hippy	0	none
+tiny plastic Crimbomination	0	none
 tiny plastic cubist bull	0	none
 tiny plastic demoninja	0	none
 tiny plastic disco bandit	0	none

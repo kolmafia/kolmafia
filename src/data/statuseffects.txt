@@ -701,3 +701,9 @@
 700	Cringle's Curative Carol	curative.gif	943d3ca45c939d9bcd9a92ababb7db08	cast 1 Cringle's Curative Carol
 701	Holiday Bliss	sleepy.gif	31b51f4b07633328937bae282d4baa5f
 702	Sugar High	sugarmag.gif	268dcb9173beb3621445fd6931b5a07d	use 1 elven suicide capsule
+703
+704
+705
+706	Peppermint Bite	pepperbark.gif	f482ecd34cc9464a7adb58a4c6fa37df	use 1 Crimbo peppermint bark
+707	Busy Bein' Delicious	fudge.gif	ec9debcc915fb7e165db0b4b59ea9fef	use 1 Crimbo fudge
+708	Sweet, Nuts	pecan.gif	5ef598b1c3f3281266d542d4790448a4	use 1 Crimbo candies pecan
