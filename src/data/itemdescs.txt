@@ -4342,7 +4342,7 @@
 4336	364037536	tiny plastic Crimbo Casino
 4337	162020757	tiny plastic stocking mimic
 4338	734843929	tiny plastic Don Crimbo
-4339
+4339	790690619	tiny plastic Crimbomination	tiny plastic Crimbominations
 4340	569476193	Piddles	handfuls of Piddles
 4341	840139975	BitterSweetTarts	rolls of BitterSweetTarts
 4342	166578470	Polka Pop	Polka Pops
@@ -4385,21 +4385,21 @@
 4379	440133955	poison pen	poison pens
 4380	637081887	speed limit shield
 4381	856745823	live wire	live wires
-4382
-4383
-4384
+4382	341669843	misfit dolly	misfit dollies
+4383	778635233	misfit hobby horse	misfit hobby horses
+4384	400472473	misfit teddy bear	misfit teddy bears
 4385	225078043	pocketwatch on a chain	pocketwatches on chains
 4386	655505187	cement sandals
 4387	652015546	night-vision goggles	pairs of night-vision goggles
 4388	707117867	passable elf mask	passable elf masks
-4389
-4390
-4391
-4392
-4393
-4394
-4395
-4396
-4397
+4389	673654732	peanut brittle shield
+4390	157902742	Red Rover BB gun
+4391		red-and-green sweater
+4392		Crimbo Candy Cookbook	Crimbo Candy Cookbooks
+4393	394756554	Crimbo peppermint bark	pieces of Crimbo peppermint bark
+4394	888561617	Crimbo fudge
+4395	811478748	Crimbo candied pecan	Crimbo candied pecans
+4396	708858717	Jack-in-the-box
+4397	969847579	brass crank handle
 4398
 4399

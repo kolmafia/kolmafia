@@ -4342,7 +4342,7 @@
 4336	tiny plastic Crimbo Casino	accessory	all	0
 4337	tiny plastic stocking mimic	accessory	all	0
 4338	tiny plastic Don Crimbo	accessory	all	0
-4339
+4339	tiny plastic Crimbomination	accessory	all	0
 4340	Piddles	multiple	all	0
 4341	BitterSweetTarts	multiple	all	0
 4342	Polka Pop	multiple	all	0
@@ -4385,21 +4385,21 @@
 4379	poison pen	weapon	all	75
 4380	speed limit shield	offhand	display	0
 4381	live wire	weapon	all	15
-4382
-4383
-4384
+4382	misfit dolly	offhand	all	0
+4383	misfit hobby horse	offhand	all	0
+4384	misfit teddy bear	offhand	all	0
 4385	pocketwatch on a chain	offhand	all	150
 4386	cement sandals	accessory	all	100
 4387	night-vision goggles	accessory	all	200
 4388	passable elf mask	hat	all	15
-4389
-4390
-4391
-4392
-4393
-4394
-4395
-4396
-4397
+4389	peanut brittle shield	offhand	gift	500
+4390	Red Rover BB gun	weapon	gift	500
+4391	red-and-green sweater	shirt	gift	500
+4392	Crimbo Candy Cookbook	usable	gift	500
+4393	Crimbo peppermint bark	multiple	all	5
+4394	Crimbo fudge	multiple	all	5
+4395	Crimbo candied pecan	multiple	all	5
+4396	Jack-in-the-box	grow	gift	0
+4397	brass crank handle	familiar	all	75
 4398
 4399

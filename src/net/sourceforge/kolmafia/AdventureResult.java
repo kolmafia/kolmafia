@@ -462,15 +462,24 @@ public class AdventureResult
 			// return the appropriate value
 
 			StringTokenizer parsedGain = new StringTokenizer( s, " ." );
-			parsedGain.nextToken();
+			parsedGain.nextToken();		// Skip "You"
 
-			int modifier =
-				StringUtilities.parseInt( ( parsedGain.nextToken().startsWith( "gain" ) ? "" : "-" ) + parsedGain.nextToken() );
-			String statname = parsedGain.nextToken();
+			// Decide if the quantity increases or decreases
+			int sign = parsedGain.nextToken().startsWith( "gain" ) ? 1 : -1;
+			// Make sure we are looking at a number
+			String val = parsedGain.nextToken();
+			if ( !StringUtilities.isNumeric( val ) )
+			{
+				return null;
+			}
+
+			// Yes. It is safe to parse it as an integer
+			int modifier = sign * StringUtilities.parseInt( val );
 
 			// Stats actually fall into one of four categories -
 			// simply pick the correct one and return the result.
 
+			String statname = parsedGain.nextToken();
 			if ( parsedGain.hasMoreTokens() )
 			{
 				char identifier = statname.charAt( 0 );
