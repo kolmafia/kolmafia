@@ -850,7 +850,7 @@ public class AdventureRequest
 
 	public static final void handleServerRedirect( final String redirectLocation )
 	{
-		if ( redirectLocation.indexOf( "main.php" ) != -1 )
+		if ( redirectLocation.indexOf( "game.php" ) != -1 )
 		{
 			return;
 		}

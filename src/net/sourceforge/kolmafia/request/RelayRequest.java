@@ -104,8 +104,6 @@ public class RelayRequest
 	private static final HashMap overrideMap = new HashMap();
 
 	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
-	private static final Pattern EMAIL_PATTERN =
-		Pattern.compile( "<table style='border: 1px solid black;' cellpadding=10>.*?</table>", Pattern.DOTALL );
 	private static final Pattern STORE_PATTERN =
 		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
@@ -258,18 +256,6 @@ public class RelayRequest
 			if ( Preferences.getBoolean( "relayUsesIntegratedChat" ) )
 			{
 				StringUtilities.singleStringReplace( responseBuffer, "lchat.php", "chat.html" );
-			}
-		}
-
-		// Fix it a little more by making sure that familiar
-		// changes and equipment changes are remembered.
-
-		else if ( path.equals( "main.php" ) )
-		{
-			Matcher emailMatcher = RelayRequest.EMAIL_PATTERN.matcher( this.responseText );
-			if ( emailMatcher.find() )
-			{
-				responseBuffer = new StringBuffer( emailMatcher.replaceAll( "" ) );
 			}
 		}
 

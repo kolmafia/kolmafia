@@ -133,7 +133,7 @@ public class LoginRequest
 
 		if ( LoginRequest.ignoreLoadBalancer )
 		{
-			this.constructURLString( "main.php" );
+			this.constructURLString( "game.php" );
 		}
 
 		super.run();
@@ -345,7 +345,7 @@ public class LoginRequest
 		// If it's been less than 30 seconds since the last login
 		// attempt, we could be responding to the flurry of login.php
 		// redirects KoL gives us when the Relay Browser tries to open
-		// main.php, topmenu.php, chatlaunch.php, etc.
+		// game.php, topmenu.php, chatlaunch.php, etc.
 		
 		if ( System.currentTimeMillis() - 30000 < LoginRequest.lastLoginAttempt )
 		{
@@ -406,11 +406,6 @@ public class LoginRequest
 		// happens, then validate here.
 
 		LoginRequest.completedLogin = true;
-
-		if ( request.redirectLocation.equals( "main_c.html" ) )
-		{
-			GenericRequest.isCompactMode = true;
-		}
 
 		// If login is successful, notify client of success.
 

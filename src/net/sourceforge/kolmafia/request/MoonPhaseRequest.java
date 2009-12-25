@@ -58,7 +58,7 @@ public class MoonPhaseRequest
 
 	public MoonPhaseRequest()
 	{
-		super( GenericRequest.isCompactMode ? "compactmenu.php" : "topmenu.php" );
+		super( GenericRequest.compactMenuPane ? "compactmenu.php" : "topmenu.php" );
 	}
 
 	protected boolean retryOnTimeout()
@@ -99,7 +99,7 @@ public class MoonPhaseRequest
 
 	public static final void decorate( final StringBuffer buffer )
 	{
-		if ( GenericRequest.isCompactMode )
+		if ( GenericRequest.compactMenuPane )
 		{
 			MoonPhaseRequest.adjustCompactMenu( buffer );
 		}

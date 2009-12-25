@@ -127,7 +127,9 @@ public class GenericRequest
 	private static boolean suppressUpdate = false;
 
 	protected String encounter = "";
-	public static boolean isCompactMode = false;
+
+	public static boolean compactCharacterPane = false;
+	public static boolean compactMenuPane = false;
 
 	public static final String[][] SERVERS =
 	{
@@ -300,7 +302,7 @@ public class GenericRequest
 		}
 
 		Preferences.setString( "loginServerName", GenericRequest.KOL_HOST );
-		System.setProperty( "http.referer", "http://" + GenericRequest.KOL_HOST + "/main.php" );
+		System.setProperty( "http.referer", "http://" + GenericRequest.KOL_HOST + "/game.php" );
 	}
 
 	private static int retryServer = 0;
@@ -1293,7 +1295,7 @@ public class GenericRequest
 		if ( istream == null )
 		{
 			this.responseCode = 302;
-			this.redirectLocation = "main.php";
+			this.redirectLocation = "game.php";
 			return true;
 		}
 
