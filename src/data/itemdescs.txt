@@ -4347,16 +4347,16 @@
 4341	840139975	BitterSweetTarts	rolls of BitterSweetTarts
 4342	166578470	Polka Pop	Polka Pops
 4343	674483034	Crimbuck	Crimbux
-4344	806374323	Crimbo wreath
+4344	806374323	Crimbo wreath	Crimbo wreaths
 4345	622326963	string of Crimbo lights
-4346	617248703	plastic Crimbo reindeer
+4346	617248703	plastic Crimbo reindeer	plastic Crimbo reindeer
 4347	747424805	gingerbread house
-4348	827090683	leftover Crimbo rations
+4348	827090683	leftover Crimbo rations	tins of leftover Crimbo rations
 4349	522903643	snow hat
-4350	412087730	snow pants
-4351	899600672	snow belt
+4350	412087730	snow pants	pairs of snow pants
+4351	899600672	snow belt	snow belts
 4352	195782497	pile of loose snow	piles of loose snow
-4353	408066219	Crimbough
+4353	408066219	Crimbough	Crimboughs
 4354	913990837	A Crimbo Carol, Ch. 1	copies of A Crimbo Carol, Ch. 1
 4355	200012650	A Crimbo Carol, Ch. 2	copies of A Crimbo Carol, Ch. 2
 4356	996470310	A Crimbo Carol, Ch. 3	copies of A Crimbo Carol, Ch. 3
@@ -4389,7 +4389,7 @@
 4383	778635233	misfit hobby horse	misfit hobby horses
 4384	400472473	misfit teddy bear	misfit teddy bears
 4385	225078043	pocketwatch on a chain	pocketwatches on chains
-4386	655505187	cement sandals
+4386	655505187	cement sandals	pairs of cement sandals
 4387	652015546	night-vision goggles	pairs of night-vision goggles
 4388	707117867	passable elf mask	passable elf masks
 4389	673654732	peanut brittle shield
