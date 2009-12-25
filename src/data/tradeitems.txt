@@ -1,9 +1,12 @@
 3
-#	PRIMARY_USE: none,food,drink,usable,multiple,grow,zap,familiar,accessory,
-#	hat,pants,shirt,weapon,offhand,mp,message,hp,hpmp,reusable,container,
-#	sphere,food helper,drink helper,sticker
-#	SECONDARY_USE: usable,multiple,reusable,combat,combat reusable,single,solo,
-#	curse,bounty
+#	PRIMARY_USE: none, food, drink, usable, multiple, grow, zap,
+#	familiar, accessory, hat, pants, shirt, weapon, offhand, mp,
+#	message, hp, hpmp, reusable, container, sphere, food helper,
+#	drink helper, sticker
+#
+#	SECONDARY_USE: usable, multiple, reusable, combat, combat
+#	reusable, single, solo, curse, bounty, candy
+#
 1	seal-clubbing club	weapon	all	1
 2	seal tooth	message, combat reusable	all	1
 3	helmet turtle	hat	all	1
@@ -266,7 +269,7 @@
 260	White Citadel fries	food	all	40
 261	White Citadel burger	food	all	50
 262	piece of wedding cake	food	all	12
-263	white chocolate chips	food	all	24
+263	white chocolate chips	food, candy	all	24
 264	white chocolate chip cookies	food	all	44
 265	white satin pants	pants	all	45
 266	white lightning	drink	all	15
@@ -300,10 +303,10 @@
 294	pail	hat	all	35
 295	demonskin trousers	pants	all	75
 296	dungeoneer's dungarees	pants	all	35
-297	tamarind-flavored chewing gum	multiple	all	20
-298	lime-and-chile-flavored chewing gum	multiple	all	20
-299	pickle-flavored chewing gum	multiple	all	20
-300	jaba&ntilde;ero-flavored chewing gum	multiple	all	20
+297	tamarind-flavored chewing gum	multiple, candy	all	20
+298	lime-and-chile-flavored chewing gum	multiple, candy	all	20
+299	pickle-flavored chewing gum	multiple, candy	all	20
+300	jaba&ntilde;ero-flavored chewing gum	multiple, candy	all	20
 301	flat dough	usable	all	25
 302	Knob sausage	food	all	17
 303	Knob mushroom	food	all	16
@@ -543,7 +546,7 @@
 537	pr0n legs	none	all	52
 538	f3d0r4	hat	all	130
 539	lowercase N	none	all	51
-540	Tasty Fun Good rice candy	multiple	all	54
+540	Tasty Fun Good rice candy	multiple, candy	all	54
 541	draggin' ball hat	hat	all	120
 542	1337 7r0uZ0RZ	pants	all	130
 543	Trollhouse cookies	food	all	58
@@ -620,7 +623,7 @@
 614	probability potion	usable	all	128
 615	chaos butterfly	usable, combat	all	124
 616	furry fur	none	all	129
-617	Angry Farmer candy	multiple	all	137
+617	Angry Farmer candy	multiple, candy	all	137
 618	Mick's IcyVapoHotness Rub	multiple	all	141
 619	giant needle	weapon	all	165
 620	thin black candle	multiple	all	144
@@ -908,14 +911,14 @@
 902	100-Watt bulb	familiar	all	75
 903	Spasmi Dolorosi Del Rene Champagne	drink	all	0
 904	old school Mafia knickerbockers	pants	all	0
-905	Yummy Tummy bean	multiple	all	20
-906	Rock Pops	multiple	all	25
-907	Mr. Mediocrebar	multiple	all	50
-908	Cold Hots candy	multiple	all	0
-909	Wint-O-Fresh mint	multiple	all	0
+905	Yummy Tummy bean	multiple, candy	all	20
+906	Rock Pops	multiple, candy	all	25
+907	Mr. Mediocrebar	multiple, candy	all	50
+908	Cold Hots candy	multiple, candy	all	0
+909	Wint-O-Fresh mint	multiple, candy	all	0
 910	dwarf bread	food	all	21
-911	Senior Mints	multiple	all	0
-912	pixellated candy heart	multiple	all	0
+911	Senior Mints	multiple, candy	all	0
+912	pixellated candy heart	multiple, candy	all	0
 913	candied kobold	multiple	all	0
 914	hand turkey outline	grow	all	0
 915	candied yam pinky ring	familiar	all	75
@@ -924,7 +927,7 @@
 918	Radio Free Baseball Cap	hat	all	0
 919	Radio Free Pants	pants	all	0
 920	Radio Free Foil	weapon	all	0
-921	radio button candy	food	all	0
+921	radio button candy	food, candy	all	0
 922	severed rocking horse head	accessory	all	0
 923	broken cellular phone	none	all	0
 924	crimbo elfling	grow	all	0
@@ -936,7 +939,7 @@
 930
 931	spiced rum	drink	all	35
 932	eggnog	drink	all	49
-933	candy cane	food	all	0
+933	candy cane	food, candy	all	0
 934	gingerbread bugbear	food	all	0
 935	imitation nice watch	accessory	all	0
 936	Hanukkimbo dreidl	grow	all	0
@@ -1166,7 +1169,7 @@
 1160	irate sombrero	hat	all	55
 1161	pile of candy	multiple	all	50
 1162	handsomeness potion	multiple	all	50
-1163	marzipan skull	multiple	all	40
+1163	marzipan skull	multiple, candy	all	40
 1164	poultrygeist	none	all	50
 1165	hovering sombrero	grow	all	100
 1166	tiny maracas	familiar	all	75
@@ -1347,9 +1350,9 @@
 1341	Dyspepsi-Cola-issue canteen	accessory	all	35
 1342	picture of a dead guy's girlfriend	usable	all	35
 1343	zombie pineal gland	none	all	0
-1344	Gummi-Gnauga	multiple	all	30
-1345	Now and Earlier	multiple	all	35
-1346	Sugar Cog	multiple	all	30
+1344	Gummi-Gnauga	multiple, candy	all	30
+1345	Now and Earlier	multiple, candy	all	35
+1346	Sugar Cog	multiple, candy	all	30
 1347	loaded serum blowgun	none	all	0
 1348	empty blowgun	none	all	0
 1349	miniscule temporal rip	grow	all	0
@@ -1385,7 +1388,7 @@
 1379	tiny plastic Crimbo reindeer	accessory	all	30
 1380
 1381	aspirin	usable	all	0
-1382	fancy chocolate	usable	all	0
+1382	fancy chocolate	usable, candy	all	0
 1383	length of string	none	all	13
 1384	googly eye	none	all	14
 1385	stuffing	none	all	15
@@ -1497,14 +1500,14 @@
 1491	rice bowl	offhand	all	110
 1492	ninja mop	weapon	all	112
 1493	ridiculously overelaborate ninja weapon	weapon	all	120
-1494	sugar-coated pine cone	multiple	all	10
+1494	sugar-coated pine cone	multiple, candy	all	10
 1495	blue traffic cone	hat	display	100
 1496	gloomy mushroom wine	drink	all	90
 1497	oily mushroom wine	drink	all	90
 1498	McPhee's Grimoire of Hilarious Object Summoning	usable	all	0
 1499	whoopie cushion	message	gift	5
 1500	fake fake vomit	none	gift	5
-1501	explosion-flavored chewing gum	usable	gift	5
+1501	explosion-flavored chewing gum	usable, candy	gift	5
 1502	clown hammer	weapon	gift	5
 1503	rubber emo roe	message	gift	5
 1504	yellow snowcone	usable	gift	5
@@ -1655,7 +1658,7 @@
 1649	brick	none, curse	gift	0
 1650	milk of magnesium	usable	all	36
 1651	foie gras	food	all	30
-1652	candy brain	multiple	all	54
+1652	candy brain	multiple, candy	all	54
 1653	jewel-eyed wizard hat	hat	all	0
 1654	wad of Crovacite	offhand	display	0
 1655	white collar	accessory	all	60
@@ -1705,7 +1708,7 @@
 1699	catgut taco	food	all	84
 1700	goat cheese taco	food	all	84
 1701	pr0n taco	food	all	84
-1702	alphabet gum	usable	all	15
+1702	alphabet gum	usable, candy	all	15
 1703	Comma Chameleon egg	grow	all	0
 1704	roofie	usable	all	35
 1705	flaregun	none, combat	all	45
@@ -1786,7 +1789,7 @@
 1780	ram stick	weapon	all	120
 1781	enchantlers	hat	all	120
 1782	ram-battering staff	weapon	all	140
-1783	crazy little Turkish delight	food	all	50
+1783	crazy little Turkish delight	food, candy	all	50
 1784	Snow Queen Crown	hat	all	120
 1785	ga-ga radio	weapon	all	130
 1786	six pack of Mountain Stream	multiple	all	300
@@ -2002,7 +2005,7 @@
 1996	right half of a heart necklace	accessory	gift	0
 1997	left half of a heart necklace	accessory	gift	0
 1998	pack of KWE trading card	usable	all	50
-1999	stick of &quot;gum&quot;	usable	all	5
+1999	stick of &quot;gum&quot;	usable, candy	all	5
 2000	Das &Uuml;berk&uuml;hlraum trading card	message	all	50
 2001	Vaso De Agua trading card	message	all	50
 2002	The Grand Poo-Bah trading card	message	all	50
@@ -2091,7 +2094,7 @@
 2085	bottle of ultravitamins	usable	all	100
 2086	antique bottle of cough syrup	usable	all	100
 2087	tube of hair oil	usable	all	100
-2088	Daffy Taffy	usable	all	30
+2088	Daffy Taffy	usable, candy	all	30
 2089	Crimboween memo	message	all	10
 2090	pilgrim shield	offhand	all	0
 2091	fancy bath salts	none, combat	all	300
@@ -2196,11 +2199,11 @@
 2190	yuletide troll chrysalis	grow	all	0
 2191	giant book of ancient carols	familiar	all	75
 2192	disintegrating sheet music	none, curse	all	15
-2193	candy stake	food	all	15
+2193	candy stake	food, candy	all	15
 2194	spooky eggnog	drink	all	49
 2195	ancient unspeakable fruitcake	food	all	37
 2196	gingerbread horror	food	all	25
-2197	fancy but probably evil chocolate	usable	all	0
+2197	fancy but probably evil chocolate	usable, candy	all	0
 2198	bat-shaped Crimboween cookie	food	all	50
 2199	skull-shaped Crimboween cookie	food	all	50
 2200	tombstone-shaped Crimboween cookie	food	all	50
@@ -2223,7 +2226,7 @@
 2217	super ka-bob	food	all	115
 2218	beer basted brat	food	all	160
 2219	Tropical Crimbo Sword	weapon	all	0
-2220	orange and black Crimboween candy	multiple	all	15
+2220	orange and black Crimboween candy	multiple, candy	all	15
 2221	Great Ball of Frozen Fire	usable	all	0
 2222	liar's pants	pants, usable	all	0
 2223	flaming juggler's balls	weapon, usable	all	0
@@ -2263,7 +2266,7 @@
 2257	reinforced furry underpants	accessory	all	35
 2258	&quot;I Love Me, Vol. I&quot;	message	none	0
 2259	photograph of God	none	none	0
-2260	hard rock candy	none	none	0
+2260	hard rock candy	none, candy	none	0
 2261	hard-boiled ostrich egg	none	none	0
 2262	bird rib	none	all	15
 2263	lion oil	none	all	15
@@ -2307,12 +2310,12 @@
 2301	Chomsky's comic books	none	none	0
 2302	worm-riding hooks	weapon	none	0
 2303	Libram of Candy Heart Summoning	usable	all	0
-2304	white candy heart	multiple	all	5
-2305	pink candy heart	multiple	all	5
-2306	orange candy heart	multiple	all	5
-2307	lavender candy heart	multiple	all	5
-2308	yellow candy heart	multiple	all	5
-2309	green candy heart	multiple	all	5
+2304	white candy heart	multiple, candy	all	5
+2305	pink candy heart	multiple, candy	all	5
+2306	orange candy heart	multiple, candy	all	5
+2307	lavender candy heart	multiple, candy	all	5
+2308	yellow candy heart	multiple, candy	all	5
+2309	green candy heart	multiple, candy	all	5
 2310	white candygram	multiple	display	0
 2311	pink candygram	multiple	display	0
 2312	orange candygram	multiple	display	0
@@ -2579,7 +2582,7 @@
 2573	ant sickle	familiar	all	75
 2574	ant pick	familiar	all	75
 2575	bronzed locust	none, combat	all	55
-2576	honey-dipped locust	hpmp	all	115
+2576	honey-dipped locust	hpmp, candy	all	115
 2577	giant cactus quill	weapon	all	155
 2578	Staff of the Short Order Cook	weapon	display	25
 2579	cactus fruit	food	all	35
@@ -2944,8 +2947,8 @@
 2938	miniature Jacob's ladder	familiar	all	75
 2939	unemployed hunchbacked minion	grow	all	0
 2940	Spooky Surprise Egg	food	all	420
-2941	Steal This Candy	usable	all	25
-2942	chocolate filthy lucre	multiple	all	35
+2941	Steal This Candy	usable, candy	all	25
+2942	chocolate filthy lucre	multiple, candy	all	35
 2943	Angry Farmer's Wife Candy	usable	all	30
 2944
 2945	party hat	hat	all	50
@@ -2958,7 +2961,7 @@
 2952	blue glowstick	accessory	display	0
 2953	charrrm bracelet	none	all	30
 2954	tip jar	offhand	all	140
-2955	yam candy	food	all	50
+2955	yam candy	food, candy	all	50
 2956	cocktail napkin	none, combat	all	25
 2957	rum barrel charrrm	usable	all	60
 2958	tube of cranberry Go-Goo	food	all	40
@@ -3049,7 +3052,7 @@
 3043	metallic foil bow	familiar, usable	all	70
 3044	metallic foil radar dish	familiar, usable	all	70
 3045	nanite-infested gingerbread bugbear	food	all	0
-3046	nanite-infested candy cane	food	all	0
+3046	nanite-infested candy cane	food, candy	all	0
 3047	nanite-infested fruitcake	food	all	37
 3048	nanite-infested eggnog	drink	all	49
 3049	El Vibrato power sphere	sphere	all	0
@@ -3057,7 +3060,7 @@
 3051	cursed cutlass	weapon	display	0
 3052	cursed breeches	pants	display	0
 3053	mood ring	accessory	gift	5
-3054	black candy heart	multiple	gift	5
+3054	black candy heart	multiple, candy	gift	5
 3055	cymbal syrup	usable	gift	5
 3056	metallic foil cat ears	hat, usable	all	35
 3057	nanofiber cloth	none	all	16
@@ -3094,7 +3097,7 @@
 3088	biomechanical crimborg helmet	hat	display	0
 3089	C.B.F.G.	weapon	display	0
 3090	biomechanical crimborg leg armor	pants	display	0
-3091	vitachoconutriment capsule	usable	all	0
+3091	vitachoconutriment capsule	usable, candy	all	0
 3092	handmade hobby horse	offhand, reusable	all	0
 3093	ball-in-a-cup	offhand, reusable	all	0
 3094	set of jacks	offhand, reusable	all	0
@@ -3128,7 +3131,7 @@
 3122	divine cracker	none, combat	all	0
 3123	divine champagne flute	drink helper	all	0
 3124	fruitfilm	multiple	all	35
-3125	piece of after eight	multiple	all	35
+3125	piece of after eight	multiple, candy	all	35
 3126	hobo nickel	none	display	0
 3127	sandcastle	usable	all	300
 3128	marshmallow	none	all	0
@@ -3425,13 +3428,13 @@
 3419
 3420
 3421	little box of fireworks	familiar	all	0
-3422	sterno-flavored Hob-O	multiple	all	5
-3423	frostbite-flavored Hob-O	multiple	all	5
-3424	fry-oil-flavored Hob-O	multiple	all	5
-3425	garbage-juice-flavored Hob-O	multiple	all	5
-3426	strawberry-flavored Hob-O	multiple	all	5
+3422	sterno-flavored Hob-O	multiple, candy	all	5
+3423	frostbite-flavored Hob-O	multiple, candy	all	5
+3424	fry-oil-flavored Hob-O	multiple, candy	all	5
+3425	garbage-juice-flavored Hob-O	multiple, candy	all	5
+3426	strawberry-flavored Hob-O	multiple, candy	all	5
 3427	roll of Hob-Os	multiple	all	25
-3428	Everlasting Deckswabber	multiple	all	50
+3428	Everlasting Deckswabber	multiple, candy	all	50
 3429
 3430	bindle of joy	usable	gift	0
 3431	cotton candy cocoon	grow	all	0
@@ -3452,13 +3455,13 @@
 3446	groovy prism necklace	accessory	all	250
 3447	six-rainbow shield	offhand	all	150
 3448	rainbow bomb	none, combat	all	150
-3449	cotton candy cone	hpmp	all	35
-3450	cotton candy pinch	hpmp	all	35
-3451	cotton candy smidgen	hpmp	all	35
-3452	cotton candy skoshe	hpmp	all	35
-3453	cotton candy plug	hpmp	all	35
-3454	cotton candy pillow	hpmp	all	35
-3455	cotton candy bale	hpmp	all	35
+3449	cotton candy cone	hpmp, candy	all	35
+3450	cotton candy pinch	hpmp, candy	all	35
+3451	cotton candy smidgen	hpmp, candy	all	35
+3452	cotton candy skoshe	hpmp, candy	all	35
+3453	cotton candy plug	hpmp, candy	all	35
+3454	cotton candy pillow	hpmp, candy	all	35
+3455	cotton candy bale	hpmp, candy	all	35
 3456	trusty torch	weapon	display	0
 3457	Junior Adventurer's merit badge	accessory	display	0
 3458	STYX deodorant body spray	usable	display	0
@@ -3499,7 +3502,7 @@
 3493	fish stick	weapon	all	190
 3494	fish bazooka	weapon	all	250
 3495	sea salt crystal	multiple	all	100
-3496	bazookafish bubble gum	usable	all	5
+3496	bazookafish bubble gum	usable, candy	all	5
 3497	bottle of Pete's Sake	drink	all	70
 3498	invisible bag	hat	all	5
 3499	witch hat	hat	all	5
@@ -3587,7 +3590,7 @@
 3581	sushi-rolling mat	none	display	0
 3582	white rice	food	all	0
 3583
-3584	irradiated candy cane	food	all	0
+3584	irradiated candy cane	food, candy	all	0
 3585	gingerbread mutant bugbear	food	all	0
 3586	oozenog	drink	all	0
 3587	sugar plum	usable	none	0
@@ -3634,7 +3637,7 @@
 3628	pair of ragged claws	grow	all	0
 3629	burrowgrub hive	reusable	display	0
 3630	dusty Crimbo crate	multiple	all	0
-3631	Gummi-DNA	multiple	all	30
+3631	Gummi-DNA	multiple, candy	all	30
 3632	radioactive chew toy	familiar	all	70
 3633	elven socks	accessory	all	30
 3634	cheap elven gloves	accessory	all	30
@@ -3763,7 +3766,7 @@
 3757	love song of sugary cuteness	multiple, combat	all	0
 3758	love song of disturbing obsession	multiple, combat	all	0
 3759	love song of naughty innuendo	multiple, combat	all	0
-3760	breath mint	multiple	all	0
+3760	breath mint	multiple, candy	all	0
 3761	vampire pearl ring	accessory	all	150
 3762	vampire pearl necklace	accessory	all	150
 3763	slug of vodka	drink	all	70
@@ -4154,7 +4157,7 @@
 4148	floaty stone sphere	grow	all	0
 4149	quadroculars	familiar	all	75
 4150	lint	none	all	3
-4151	dubious peppermint	multiple	all	40
+4151	dubious peppermint	multiple, candy	all	40
 4152	Elvish delight	usable	all	40
 4153	rockfish stomach	multiple	all	170
 4154	live lobster	usable	all	0
@@ -4166,8 +4169,8 @@
 4160	pebblebr&auml;u	drink	all	50
 4161	rocky road ice cream	food	all	150
 4162	extra-strength rubber bands	familiar	all	75
-4163	children of the candy corn	usable	all	0
-4164	Good 'n' Slimy	usable	all	0
+4163	children of the candy corn	usable, candy	all	0
+4164	Good 'n' Slimy	usable, candy	all	0
 4165	Staff of the Soupbone	weapon	display	25
 4166	Voluminous Radio Pants	pants	all	0
 4167	Voluminous Radio Hat	hat	all	0
@@ -4195,7 +4198,7 @@
 4189	floaty inverse geode	usable	all	0
 4190	control crystal	none	display	0
 4191	sugar shirt	shirt	display	0
-4192	sugar shard	hpmp	all	0
+4192	sugar shard	hpmp, candy	all	0
 4193
 4194
 4195
@@ -4259,7 +4262,7 @@
 4253
 4254	spooky bark	multiple	all	10
 4255	Wolfman Nardz	mp	all	50
-4256	spooky sap	multiple, combat	all	50
+4256	spooky sap	multiple, combat, candy	all	50
 4257	petrified wood	none, combat	all	50
 4258	chocolate-covered scarab beetle	food	all	50
 4259	mulled cider	drink	all	50
@@ -4276,7 +4279,7 @@
 4270
 4271
 4272
-4273	ribbon candy	multiple	all	50
+4273	ribbon candy	multiple, candy	all	50
 4274	Underworld acorn	none	display	0
 4275	Underworld trunk	none	display	0
 4276	Underworld truncheon	weapon	all	0
@@ -4333,19 +4336,19 @@
 4327
 4328	suspicious stocking	grow	all	0
 4329	bag of many confections	familiar	all	75
-4330	candy kneecapping stick	food, combat	all	0
-4331	licorice garrote	food, combat	all	0
-4332	candy knuckles	weapon	all	0
-4333	jawbruiser	food	all	0
-4334	fancy chocolate car	usable	all	0
+4330	candy kneecapping stick	food, combat, candy	all	0
+4331	licorice garrote	food, combat, candy	all	0
+4332	candy knuckles	weapon, candy	all	0
+4333	jawbruiser	food, candy	all	0
+4334	fancy chocolate car	usable, candy	all	0
 4335	tiny plastic 11 Dealer	accessory	all	0
 4336	tiny plastic Crimbo Casino	accessory	all	0
 4337	tiny plastic stocking mimic	accessory	all	0
 4338	tiny plastic Don Crimbo	accessory	all	0
 4339	tiny plastic Crimbomination	accessory	all	0
-4340	Piddles	multiple	all	0
-4341	BitterSweetTarts	multiple	all	0
-4342	Polka Pop	multiple	all	0
+4340	Piddles	multiple	all, candy	0
+4341	BitterSweetTarts	multiple, candy	all	0
+4342	Polka Pop	multiple, candy	all	0
 4343	Crimbuck	none	display	0
 4344	Crimbo wreath	usable	all	0
 4345	string of Crimbo lights	usable	all	0
@@ -4396,9 +4399,9 @@
 4390	Red Rover BB gun	weapon	gift	500
 4391	red-and-green sweater	shirt	gift	500
 4392	Crimbo Candy Cookbook	usable	gift	500
-4393	Crimbo peppermint bark	multiple	all	5
-4394	Crimbo fudge	multiple	all	5
-4395	Crimbo candied pecan	multiple	all	5
+4393	Crimbo peppermint bark	multiple, candy	all	5
+4394	Crimbo fudge	multiple, candy	all	5
+4395	Crimbo candied pecan	multiple, candy	all	5
 4396	Jack-in-the-box	grow	gift	0
 4397	brass crank handle	familiar	all	75
 4398
