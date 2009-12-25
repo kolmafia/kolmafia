@@ -51,7 +51,7 @@ public class ChezSnooteeRequest
 {
 	private static AdventureResult dailySpecial = null;
 	private static final Pattern SPECIAL_PATTERN =
-		Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
+		Pattern.compile( "Today's Special:.*?<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{
@@ -150,10 +150,13 @@ public class ChezSnooteeRequest
 
 		RequestThread.postRequest( new ChezSnooteeRequest() );
 
-		int itemId = ChezSnooteeRequest.dailySpecial.getItemId();
-		String name = ChezSnooteeRequest.dailySpecial.getName();
-		int price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
-		CafeRequest.addMenuItem( KoLConstants.restaurantItems, name, price );
+		if ( ChezSnooteeRequest.dailySpecial != null )
+		{
+			int itemId = ChezSnooteeRequest.dailySpecial.getItemId();
+			String name = ChezSnooteeRequest.dailySpecial.getName();
+			int price = Math.max( 1, Math.abs( ItemDatabase.getPriceById( itemId ) ) ) * 3;
+			CafeRequest.addMenuItem( KoLConstants.restaurantItems, name, price );
+		}
 
 		ConcoctionDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
