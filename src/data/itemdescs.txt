@@ -4394,8 +4394,8 @@
 4388	707117867	passable elf mask	passable elf masks
 4389	673654732	peanut brittle shield
 4390	157902742	Red Rover BB gun
-4391		red-and-green sweater
-4392		Crimbo Candy Cookbook	Crimbo Candy Cookbooks
+4391	633528799	red-and-green sweater
+4392	294757522	Crimbo Candy Cookbook	Crimbo Candy Cookbooks
 4393	394756554	Crimbo peppermint bark	pieces of Crimbo peppermint bark
 4394	888561617	Crimbo fudge
 4395	811478748	Crimbo candied pecan	Crimbo candied pecans
