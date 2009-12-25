@@ -2706,14 +2706,7 @@ public abstract class KoLmafia
 
 	public void openRelayBrowser()
 	{
-		if ( GenericRequest.isCompactMode )
-		{
-			this.openRelayBrowser( "main_c.html", false );
-		}
-		else
-		{
-			this.openRelayBrowser( "main.html", false );
-		}
+		this.openRelayBrowser( "game.php", false );
 	}
 
 	public void openRelayBrowser( final String location )
