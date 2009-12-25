@@ -158,7 +158,7 @@ public class CharPaneRequest
 		// determine whether or not you are in compact
 		// mode - be sure to refresh this value.
 
-		GenericRequest.isCompactMode = responseText.indexOf( "<br>Lvl. " ) != -1;
+		GenericRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
 
 		// The easiest way to retrieve the KoLCharacter pane data is to
 		// use regular expressions. But, the only data that requires
@@ -167,7 +167,7 @@ public class CharPaneRequest
 
 		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
 		{
-			if ( GenericRequest.isCompactMode )
+			if ( GenericRequest.compactCharacterPane )
 			{
 				CharPaneRequest.handleCompactMode( responseText );
 			}
@@ -402,7 +402,7 @@ public class CharPaneRequest
 		String effectName = null;
 		int durationIndex = -1;
 
-		if ( GenericRequest.isCompactMode )
+		if ( GenericRequest.compactCharacterPane )
 		{
 			int startIndex = responseText.indexOf( "alt=\"", searchIndex ) + 5;
 			effectName = responseText.substring( startIndex, responseText.indexOf( "\"", startIndex ) );

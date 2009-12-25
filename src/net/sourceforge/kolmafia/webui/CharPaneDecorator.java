@@ -126,12 +126,12 @@ public class CharPaneDecorator
 
 		if ( Preferences.getInteger( "recentLocations" ) >= 1 )
 		{
-			CharPaneDecorator.addRecentLocations( buffer, GenericRequest.isCompactMode );
+			CharPaneDecorator.addRecentLocations( buffer, GenericRequest.compactCharacterPane );
 		}
 		
 		CharPaneDecorator.addFamiliarAnnotation( buffer,
 			CharPaneDecorator.getFamiliarAnnotation(),
-			GenericRequest.isCompactMode );
+			GenericRequest.compactCharacterPane );
 	}
 	
 	public static final String getFamiliarAnnotation()
@@ -187,7 +187,7 @@ public class CharPaneDecorator
 		buffer.setLength( 0 );
 		int lastPos = 0;
 		int insPos;
-		boolean compact = GenericRequest.isCompactMode;
+		boolean compact = GenericRequest.compactCharacterPane;
 		Matcher m = CharPaneDecorator.EFFECT_PATTERN.matcher( text );
 		while ( m.find() )
 		{
@@ -315,7 +315,7 @@ public class CharPaneDecorator
 
 		if ( KoLCharacter.getCurrentHP() < threshold )
 		{
-			if ( GenericRequest.isCompactMode )
+			if ( GenericRequest.compactCharacterPane )
 			{
 				startingIndex = text.indexOf( "<td align=right>HP:", startingIndex );
 				startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
@@ -344,9 +344,9 @@ public class CharPaneDecorator
 			startingIndex = text.indexOf( ">", startingIndex ) + 1;
 			lastAppendIndex = startingIndex;
 
-			startingIndex = text.indexOf( GenericRequest.isCompactMode ? "/" : "&", startingIndex );
+			startingIndex = text.indexOf( GenericRequest.compactCharacterPane ? "/" : "&", startingIndex );
 
-			if ( !GenericRequest.isCompactMode )
+			if ( !GenericRequest.compactCharacterPane )
 			{
 				buffer.append( fontTag );
 			}
@@ -369,7 +369,7 @@ public class CharPaneDecorator
 			lastAppendIndex = startingIndex;
 
 			buffer.append( "</a>" );
-			if ( !GenericRequest.isCompactMode )
+			if ( !GenericRequest.compactCharacterPane )
 			{
 				buffer.append( "</span>" );
 			}
@@ -386,7 +386,7 @@ public class CharPaneDecorator
 
 		if ( KoLCharacter.getCurrentMP() < threshold )
 		{
-			if ( GenericRequest.isCompactMode )
+			if ( GenericRequest.compactCharacterPane )
 			{
 				startingIndex = text.indexOf( "<td align=right>MP:", startingIndex );
 				startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
@@ -408,7 +408,7 @@ public class CharPaneDecorator
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "\">" );
 			startingIndex =
-				GenericRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
+				GenericRequest.compactCharacterPane ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
@@ -470,7 +470,7 @@ public class CharPaneDecorator
 			// effects that will get saved to a mood, and there's
 			// nothing that can be maintained.
 		}
-		else if ( GenericRequest.isCompactMode )
+		else if ( GenericRequest.compactCharacterPane )
 		{
 			int effectIndex = text.indexOf( "eff(", startingIndex );
 			boolean shouldAddDivider = effectIndex == -1;
@@ -596,7 +596,7 @@ public class CharPaneDecorator
 
 				buffer.append( "<tr>" );
 
-				if ( !GenericRequest.isCompactMode || !Preferences.getBoolean( "relayTextualizesEffects" ) )
+				if ( !GenericRequest.compactCharacterPane || !Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><img src=\"" );
 					buffer.append( EffectDatabase.getImage( effectId ) );
@@ -607,7 +607,7 @@ public class CharPaneDecorator
 					buffer.append( "\" onClick='eff(\"" + descriptionId + "\");'></td>" );
 				}
 
-				if ( !GenericRequest.isCompactMode || Preferences.getBoolean( "relayTextualizesEffects" ) )
+				if ( !GenericRequest.compactCharacterPane || Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><font size=2>" );
 					buffer.append( escapedEffectName );
@@ -660,7 +660,7 @@ public class CharPaneDecorator
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 			lastAppendIndex = nextAppendIndex;
 
-			if ( GenericRequest.isCompactMode )
+			if ( GenericRequest.compactCharacterPane )
 			{
 				if ( Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
