@@ -669,7 +669,7 @@ public class StringUtilities
 			string = string.substring( 1 );
 		}
 
-		string = StringUtilities.globalStringDelete( string, "," );
+		string = StringUtilities.globalStringDelete( string, "," ).trim();
 		
 		if ( string.length() == 0 )
 		{
