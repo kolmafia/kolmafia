@@ -107,12 +107,160 @@ public class Operator
 
 	public boolean isArithmetic()
 	{
-		return this.operator.equals( "+" ) || this.operator.equals( "-" ) || this.operator.equals( "*" ) || this.operator.equals( "^" ) || this.operator.equals( "/" ) || this.operator.equals( "%" );
+		return this.operator.equals( "+" ) ||
+			this.operator.equals( "-" ) ||	
+			this.operator.equals( "*" ) ||
+			this.operator.equals( "^" ) ||
+			this.operator.equals( "/" ) ||
+			this.operator.equals( "%" );
+	}
+
+	public boolean isComparison()
+	{
+		return this.operator.equals( "==" ) ||
+			this.operator.equals( "!=" ) || 
+			this.operator.equals( "<" ) ||
+			this.operator.equals( ">" ) ||
+			this.operator.equals( "<=" ) ||
+			this.operator.equals( ">=" );
 	}
 
 	public String toString()
 	{
 		return this.operator;
+	}
+
+	private Value compareValues( final Interpreter interpreter, Value leftValue, Value rightValue )
+	{
+		Type lType = leftValue.getType();
+		Type rType = rightValue.getType();
+		boolean bool;
+
+		// If the left value is coercable into a string, perform string
+		// comparison
+
+		if ( lType.equals( DataTypes.TYPE_STRING ) ||
+		     lType.equals( DataTypes.TYPE_BUFFER ) ||
+		     lType.equals( DataTypes.TYPE_LOCATION ) ||
+		     lType.equals( DataTypes.TYPE_MONSTER ) )
+		{
+			int c = leftValue.toString().compareToIgnoreCase( rightValue.toString() );
+			bool = this.operator.equals( "==" ) ? c == 0 :
+			       this.operator.equals( "!=" ) ? c != 0 :
+			       this.operator.equals( ">=" ) ? c >= 0 :
+			       this.operator.equals( "<=" ) ? c <= 0 :
+			       this.operator.equals( ">" ) ? c > 0 :
+			       this.operator.equals( "<" ) ? c < 0 :
+			       false;
+		}
+
+		// If either value is a float, coerce to float and compare.
+
+		else if ( lType.equals( DataTypes.TYPE_FLOAT ) || rType.equals( DataTypes.TYPE_FLOAT ) )
+		{
+			float lfloat = leftValue.toFloatValue().floatValue();
+			float rfloat = rightValue.toFloatValue().floatValue();
+			bool = this.operator.equals( "==" ) ? lfloat == rfloat :
+			       this.operator.equals( "!=" ) ? lfloat != rfloat :
+			       this.operator.equals( ">=" ) ? lfloat >= rfloat :
+			       this.operator.equals( "<=" ) ? lfloat <= rfloat :
+			       this.operator.equals( ">" ) ? lfloat > rfloat :
+			       this.operator.equals( "<" ) ? lfloat < rfloat :
+			       false;
+		}
+
+		// Otherwise, compare integers
+
+		else
+		{
+			int lint = leftValue.intValue();
+			int rint = rightValue.intValue();
+			bool = this.operator.equals( "==" ) ? lint == rint :
+			       this.operator.equals( "!=" ) ? lint != rint :
+			       this.operator.equals( ">=" ) ? lint >= rint :
+			       this.operator.equals( "<=" ) ? lint <= rint :
+			       this.operator.equals( ">" ) ? lint > rint :
+			       this.operator.equals( "<" ) ? lint < rint :
+			       false;
+		}
+
+		Value result = bool ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
+		interpreter.trace( "<- " + result );
+		interpreter.traceUnindent();
+		return result;
+	}
+
+	private Value performArithmetic( final Interpreter interpreter, Value leftValue, Value rightValue )
+	{
+		Type lType = leftValue.getType();
+		Type rType = rightValue.getType();
+		Value result;
+
+		// If the left value is coercable into a string, perform string
+		// concatenation
+
+		if ( lType.equals( DataTypes.TYPE_STRING ) ||
+		     lType.equals( DataTypes.TYPE_BUFFER ) ||
+		     lType.equals( DataTypes.TYPE_LOCATION ) ||
+		     lType.equals( DataTypes.TYPE_MONSTER ) )
+		{
+			// Since we only do string concatenation, we should
+			// only get here if the operator is "+".
+			if ( !this.operator.equals( "+" ) )
+			{
+				throw interpreter.runtimeException( "Operator '" + this.operator + "' applied to string operands", this.fileName, this.lineNumber );
+			}
+
+			String string = leftValue.toStringValue().toString() + rightValue.toStringValue().toString();
+			result = new Value( string );
+		}
+
+		// If either value is a float, coerce to float and compare.
+
+		else if ( lType.equals( DataTypes.TYPE_FLOAT ) || rType.equals( DataTypes.TYPE_FLOAT ) )
+		{
+			float rfloat = rightValue.toFloatValue().floatValue();
+			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
+			      rfloat == 0.0f )
+			{
+				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
+			}
+			
+			float lfloat = leftValue.toFloatValue().floatValue();
+
+			result = this.operator.equals( "+" ) ? new Value( lfloat + rfloat ) :
+				this.operator.equals( "-" ) ? new Value( lfloat - rfloat ) :
+				this.operator.equals( "*" ) ? new Value( lfloat * rfloat ) :
+				this.operator.equals( "/" ) ? new Value( lfloat / rfloat ) :
+				this.operator.equals( "%" ) ? new Value( lfloat % rfloat ) :
+				this.operator.equals( "^" ) ? new Value( (float) Math.pow( lfloat, rfloat ) ) :
+				DataTypes.ZERO_FLOAT_VALUE;
+		}
+
+		// Otherwise, perform arithmetic on integers
+
+		else
+		{
+			int rint = rightValue.intValue();
+			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
+			      rint == 0 )
+			{
+				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
+			}
+			
+			int lint = leftValue.intValue();
+			result = this.operator.equals( "+" ) ? new Value( lint + rint ) :
+				this.operator.equals( "-" ) ? new Value( lint - rint ) :
+				this.operator.equals( "*" ) ? new Value( lint * rint ) :
+				this.operator.equals( "/" ) ? new Value( lint / rint ) :
+				this.operator.equals( "%" ) ? new Value( lint % rint ) :
+				this.operator.equals( "^" ) ? new Value( (int) Math.pow( lint, rint ) ) :
+				DataTypes.ZERO_VALUE;
+		}
+
+		interpreter.trace( "<- " + result );
+		interpreter.traceUnindent();
+		return result;
 	}
 
 	public Value applyTo( final Interpreter interpreter, final Value lhs, final Value rhs )
@@ -290,175 +438,16 @@ public class Operator
 			return null;
 		}
 
-		Type lType = lhs.getType();
-		Type rType = rhs.getType();
-
-		// String operators
-		if ( this.operator.equals( "+" ) )
+		// Comparison operators
+		if ( this.isComparison() )
 		{
-			if ( lType.equals( DataTypes.TYPE_STRING ) ||
-			     lType.equals( DataTypes.TYPE_BUFFER ) ||
-			     rType.equals( DataTypes.TYPE_STRING ) ||
-			     rType.equals( DataTypes.TYPE_BUFFER ))
-			{
-				String string = leftValue.toStringValue().toString() + rightValue.toStringValue().toString();
-				Value result = new Value( string );
-				interpreter.trace( "<- " + result );
-				interpreter.traceUnindent();
-				return result;
-			}
-		}
-
-		if ( this.operator.equals( "==" ) )
-		{
-			if ( lType.equals( DataTypes.TYPE_STRING ) ||
-			     lType.equals( DataTypes.TYPE_BUFFER ) ||
-			     lType.equals( DataTypes.TYPE_LOCATION ) ||
-			     lType.equals( DataTypes.TYPE_MONSTER ) )
-			{
-				Value result =
-					new Value( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
-				interpreter.trace( "<- " + result );
-				interpreter.traceUnindent();
-				return result;
-			}
-		}
-
-		if ( this.operator.equals( "!=" ) )
-		{
-			if ( lType.equals( DataTypes.TYPE_STRING ) ||
-			     lType.equals( DataTypes.TYPE_BUFFER ) ||
-			     lType.equals( DataTypes.TYPE_LOCATION ) ||
-			     lType.equals( DataTypes.TYPE_MONSTER ) )
-			{
-				Value result =
-					new Value( !leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
-				interpreter.trace( "<- " + result );
-				interpreter.traceUnindent();
-				return result;
-			}
+			return this.compareValues( interpreter, leftValue, rightValue );
 		}
 
 		// Arithmetic operators
-		boolean isInt;
-		float lfloat = 0.0f, rfloat = 0.0f;
-		int lint = 0, rint = 0;
-
-		if ( lType.equals( DataTypes.TYPE_FLOAT ) || rType.equals( DataTypes.TYPE_FLOAT ) )
+		if ( this.isArithmetic() )
 		{
-			isInt = false;
-			lfloat = leftValue.toFloatValue().floatValue();
-			rfloat = rightValue.toFloatValue().floatValue();
-		}
-		else
-		{
-			isInt = true;
-			lint = leftValue.intValue();
-			rint = rightValue.intValue();
-		}
-
-		if ( this.operator.equals( "+" ) )
-		{
-			Value result = isInt ? new Value( lint + rint ) : new Value( lfloat + rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "-" ) )
-		{
-			Value result = isInt ? new Value( lint - rint ) : new Value( lfloat - rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "*" ) )
-		{
-			Value result = isInt ? new Value( lint * rint ) : new Value( lfloat * rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "^" ) )
-		{
-			Value result = isInt ? new Value( (int) Math.pow( lint, rint ) ) : new Value( (float) Math.pow( lfloat, rfloat ) );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "/" ) )
-		{
-			if ( isInt ? rint == 0 : rfloat == 0.0f )
-			{
-				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
-			}
-			Value result = isInt ? new Value( lint / rint ) : new Value( lfloat / rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "%" ) )
-		{
-			if ( isInt ? rint == 0 : rfloat == 0.0f )
-			{
-				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
-			}
-			Value result = isInt ? new Value( lint % rint ) : new Value( lfloat % rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "<" ) )
-		{
-			Value result = isInt ? new Value( lint < rint ) : new Value( lfloat < rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( ">" ) )
-		{
-			Value result = isInt ? new Value( lint > rint ) : new Value( lfloat > rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "<=" ) )
-		{
-			Value result = isInt ? new Value( lint <= rint ) : new Value( lfloat <= rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( ">=" ) )
-		{
-			Value result = isInt ? new Value( lint >= rint ) : new Value( lfloat >= rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "==" ) )
-		{
-			Value result = isInt ? new Value( lint == rint ) : new Value( lfloat == rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
-		}
-
-		if ( this.operator.equals( "!=" ) )
-		{
-			Value result = isInt ? new Value( lint != rint ) : new Value( lfloat != rfloat );
-			interpreter.trace( "<- " + result );
-			interpreter.traceUnindent();
-			return result;
+			return this.performArithmetic( interpreter, leftValue, rightValue );
 		}
 
 		// Unknown operator
