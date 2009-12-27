@@ -5,6 +5,7 @@ global	addStatusBarToFrames	false
 global	allowCloseableDesktopTabs	false
 global	allowNegativeTally	true
 global	allowNonMoodBurning	true
+global	allowSummonBurning	true
 global	alwaysGetBreakfast	false
 global	autoLogin
 global	allowSocketTimeout	true

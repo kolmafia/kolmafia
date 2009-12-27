@@ -329,6 +329,7 @@ public class OptionsFrame
 			{ "removeMalignantEffects", "Auto-remove malignant status effects" },
 			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
 			{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
+			{ "allowSummonBurning", "Cast summoning skills during buff balancing" },
 
 			{},
 
