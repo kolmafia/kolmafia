@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -349,14 +350,6 @@ public class AdventureRequest
 			ResultProcessor.processMeat( -30 );
 		}
 
-		// Shore Trips cost 500 meat each; handle
-		// the processing here.
-
-		if ( this.formSource.equals( "shore.php" ) )
-		{
-			ResultProcessor.processMeat( -500 );
-		}
-
 		// Trick-or-treating requires a costume;
 		// notify the user of this error.
 
@@ -365,6 +358,40 @@ public class AdventureRequest
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must wear a costume." );
 			return;
 		}
+	}
+
+	public static final void handleShoreVisit( final String location, final String responseText )
+	{
+		if ( location.indexOf( "whichtrip" ) == -1 )
+		{
+			return;
+		}
+
+		// You're too drunk to go on vacation. Which makes sense,
+		// somehow. Trust me.
+		//
+		// What? Where? Huh?
+		//
+		// You can't afford to go on a vacation.
+		//
+		// You don't have enough Adventures left
+
+		if ( responseText.indexOf( "You're too drunk" ) != -1 ||
+		     responseText.indexOf( "What? Where? Huh?" ) != -1 ||
+		     responseText.indexOf( "You can't afford" ) != -1 ||
+		     responseText.indexOf( "You don't have enough Adventures left" ) != -1 )
+		{
+			return;
+		}
+
+		// Shore Trips cost 500 meat each
+		ResultProcessor.processMeat( -500 );
+
+		// Start a counter to allow people to time getting tower items.
+		// We want an interval of 35. This is called before we account
+		// for the 3 vacations spend adventuring.
+		TurnCounter.stopCounting( "The Shore" );
+		TurnCounter.startCounting( 38, "The Shore shore.php", "dinghy.gif", true );
 	}
 
 	public static final String registerEncounter( final GenericRequest request )

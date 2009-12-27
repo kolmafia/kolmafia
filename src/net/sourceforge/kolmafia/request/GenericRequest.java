@@ -1651,6 +1651,10 @@ public class GenericRequest
 		{
 			FightRequest.updateCombatData( this.getURLString(), this.encounter, this.responseText );
 		}
+		else if ( this.formURLString.startsWith( "shore.php" ) )
+		{
+			AdventureRequest.handleShoreVisit( this.getURLString(), this.responseText );
+		}
 
 		int effectCount = KoLConstants.activeEffects.size();
 
