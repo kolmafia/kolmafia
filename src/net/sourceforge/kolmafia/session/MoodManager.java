@@ -504,8 +504,9 @@ public abstract class MoodManager
 		// Pre-calculate possible breakfast/libram skill
 
 		boolean onlyMood = !Preferences.getBoolean( "allowNonMoodBurning" );
+		String breakfast = Preferences.getBoolean( "allowSummonBurning" ) ?
+			MoodManager.considerBreakfastSkill( minimum ) : null;
 		int summonThreshold = Preferences.getInteger( "manaBurnSummonThreshold" );
-		String breakfast = onlyMood ? null : MoodManager.considerBreakfastSkill( minimum );
 		int durationLimit = KoLCharacter.getAdventuresLeft() + 1000;
 		Burn chosen = null;
 		ArrayList burns = new ArrayList();
@@ -536,8 +537,9 @@ public abstract class MoodManager
 				continue;
 			}
 
-			// Don't recast Hobopolis buffs, since they have daily limits
-			// and the player may have other plans for the remaining casts.
+			// Don't recast Hobopolis buffs, since they have daily
+			// limits and the player may have other plans for the
+			// remaining casts.
 
 			if ( skillId >= 6020 && skillId <= 6024 )
 			{
@@ -565,15 +567,6 @@ public abstract class MoodManager
 				continue;
 			}
 
-			// If the player only wants to cast buffs related to
-			// their mood, then skip the buff if it's not in the
-			// any of the player's moods.
-
-			if ( onlyMood && !MoodManager.effectInMood( currentEffect ) )
-			{
-				continue;
-			}
-
 			// If the player wants to burn mana on summoning
 			// skills, only do so if all potential effects have at
 			// least 10 turns remaining.
@@ -581,6 +574,15 @@ public abstract class MoodManager
 			if ( breakfast != null && currentDuration >= summonThreshold )
 			{
 				return breakfast;
+			}
+
+			// If the player only wants to cast buffs related to
+			// their mood, then skip the buff if it's not in the
+			// any of the player's moods.
+
+			if ( onlyMood && !MoodManager.effectInMood( currentEffect ) )
+			{
+				continue;
 			}
 
 			// If we don't have enough MP for this skill, consider
