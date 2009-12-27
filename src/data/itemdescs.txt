@@ -4348,11 +4348,11 @@
 4342	166578470	Polka Pop	Polka Pops
 4343	674483034	Crimbuck	Crimbux
 4344	806374323	Crimbo wreath	Crimbo wreaths
-4345	622326963	string of Crimbo lights
+4345	622326963	string of Crimbo lights	strings of Crimbo lights
 4346	617248703	plastic Crimbo reindeer	plastic Crimbo reindeer
-4347	747424805	gingerbread house
+4347	747424805	gingerbread house	gingerbread houses
 4348	827090683	leftover Crimbo rations	tins of leftover Crimbo rations
-4349	522903643	snow hat
+4349	522903643	snow hat	snow hats
 4350	412087730	snow pants	pairs of snow pants
 4351	899600672	snow belt	snow belts
 4352	195782497	pile of loose snow	piles of loose snow
