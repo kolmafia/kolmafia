@@ -387,6 +387,16 @@ public class AdventureRequest
 		// Shore Trips cost 500 meat each
 		ResultProcessor.processMeat( -500 );
 
+                // If we did not get a tower item and were already counting
+                // down, keep the existing counter.
+		if ( responseText.indexOf( "barbed-wire fence" ) == -1 &&
+		     responseText.indexOf( "tropical orchid" ) == -1 &&
+		     responseText.indexOf( "stick of dynamite" ) == -1 &&
+		     TurnCounter.isCounting( "The Shore" ) )
+		{
+			return;
+		}
+
 		// Start a counter to allow people to time getting tower items.
 		// We want an interval of 35. This is called before we account
 		// for the 3 vacations spend adventuring.
