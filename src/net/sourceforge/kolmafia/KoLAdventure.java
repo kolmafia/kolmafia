@@ -1236,6 +1236,25 @@ public class KoLAdventure
 			KoLAdventure.PENDING
 		},
 
+		// Out of adventures at Shore
+		{
+			"You don't have enough Adventures left",
+			"You're out of adventures.",
+			KoLAdventure.PENDING
+		},
+
+		// Out of meat at Shore
+		{
+			"You can't afford to go on a vacation",
+			"You can't afford to go on a vacation.",
+		},
+
+		// Too drunk at shore
+		{
+			"You're too drunk to go on vacation",
+			"You are too drunk to go on a vacation.",
+		},
+
 		// Beaten up at zero HP
 		{
 			"You're way too beaten up to go on an adventure right now",
