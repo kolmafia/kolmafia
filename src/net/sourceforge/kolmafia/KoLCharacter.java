@@ -43,10 +43,13 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -550,6 +553,9 @@ public abstract class KoLCharacter
 		DwarfFactoryRequest.reset();
 		MoneyMakingGameManager.reset();
 		WumpusManager.reset();
+		ClanManager.clearCache();
+		DisplayCaseManager.clearCache();
+		StoreManager.clearCache();
 		InventoryManager.resetInventory();
 		EquipmentManager.resetEquipment();
 		ConcoctionDatabase.refreshConcoctions();

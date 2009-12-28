@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
@@ -2287,7 +2288,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.ZERO_VALUE;
 		}
 
-		if ( KoLConstants.collection.isEmpty() )
+		if ( !DisplayCaseManager.collectionRetrieved )
 		{
 			RequestThread.postRequest( new DisplayCaseRequest() );
 		}
@@ -2303,11 +2304,12 @@ public abstract class RuntimeLibrary
 			return DataTypes.ZERO_VALUE;
 		}
 
-		LockableListModel list = StoreManager.getSoldItemList();
-		if ( list.isEmpty() )
+		if ( !StoreManager.soldItemsRetrieved )
 		{
 			RequestThread.postRequest( new ManageStoreRequest() );
 		}
+
+		LockableListModel list = StoreManager.getSoldItemList();
 
 		SoldItem item = new SoldItem( arg.intValue(), 0, 0, 0, 0 );
 		int index = list.indexOf( item );
@@ -2323,11 +2325,12 @@ public abstract class RuntimeLibrary
 
 	public static Value stash_amount( final Value arg )
 	{
-		List stash = ClanManager.getStash();
-		if ( stash.isEmpty() )
+		if ( !ClanManager.stashRetrieved )
 		{
 			RequestThread.postRequest( new ClanStashRequest() );
 		}
+
+		List stash = ClanManager.getStash();
 
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new Value( item.getCount( stash ) );

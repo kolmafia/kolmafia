@@ -65,9 +65,12 @@ public abstract class DisplayCaseManager
 	private static final LockableListModel headers = new LockableListModel();
 	private static final LockableListModel shelves = new LockableListModel();
 
+	public static boolean collectionRetrieved = false;
+
 	public static final void clearCache()
 	{
 		KoLConstants.collection.clear();
+		DisplayCaseManager.collectionRetrieved = false;
 		DisplayCaseManager.headers.clear();
 		DisplayCaseManager.shelves.clear();
 	}
@@ -239,6 +242,8 @@ public abstract class DisplayCaseManager
 				new AdventureResult( itemId, itemCount ),
 				shelf );
 		}
+
+		DisplayCaseManager.collectionRetrieved = true;
 	}
 
 	private static final void registerItem( final AdventureResult item, final int shelf )
