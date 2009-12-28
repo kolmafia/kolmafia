@@ -86,13 +86,15 @@ public abstract class StoreManager
 	private static int searchCount = 0;
 	private static final PauseObject pauser = new PauseObject();
 
+	public static boolean soldItemsRetrieved = false;
+
 	public static final void clearCache()
 	{
-		StoreManager.potentialEarnings = 0;
-
+		StoreManager.soldItemsRetrieved = false;
 		StoreManager.storeLog.clear();
 		StoreManager.soldItemList.clear();
 		StoreManager.sortedSoldItemList.clear();
+		StoreManager.potentialEarnings = 0;
 	}
 
 	public static final long getPotentialEarnings()
@@ -279,6 +281,8 @@ public abstract class StoreManager
 
 		StoreManager.sortItemsByName = false;
 		StoreManager.sortedSoldItemList.sort();
+
+		StoreManager.soldItemsRetrieved = true;
 
 		// Now, update the title of the store manage
 		// frame to reflect the new price.

@@ -75,7 +75,7 @@ public abstract class ClanManager
 	private static String snapshotFolder = "clan/";
 	private static String clanId = null;
 	private static String clanName = null;
-	private static boolean stashRetrieved = false;
+	public static boolean stashRetrieved = false;
 	private static boolean ranksRetrieved = false;
 
 	private static final ArrayList currentMembers = new ArrayList();
