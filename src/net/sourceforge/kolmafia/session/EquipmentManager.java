@@ -957,6 +957,17 @@ public class EquipmentManager
 	}
 
 	/**
+	 * Accessor method to determine if character's weapon's is a club
+	 *
+	 * @return boolean true if weapon is a club
+	 */
+
+	public static final boolean wieldingClub()
+	{
+		return EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() ).equals( "club" );
+	}
+
+	/**
 	 * Accessor method to determine if character is currently using a shield
 	 *
 	 * @return boolean true if character has a shield equipped

@@ -1432,6 +1432,25 @@ public class ItemDatabase
 		return false;
 	}
 
+	public static final boolean isSealFigurine( final int itemId )
+	{
+		switch (itemId )
+		{
+		case ItemPool.WRETCHED_SEAL:
+		case ItemPool.CUTE_BABY_SEAL:
+		case ItemPool.ARMORED_SEAL:
+		case ItemPool.ANCIENT_SEAL:
+		case ItemPool.SLEEK_SEAL:
+		case ItemPool.SHADOWY_SEAL:
+		case ItemPool.STINKING_SEAL:
+		case ItemPool.CHARRED_SEAL:
+		case ItemPool.COLD_SEAL:
+		case ItemPool.SLIPPERY_SEAL:
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Returns the kind of consumption associated with an item
 	 *

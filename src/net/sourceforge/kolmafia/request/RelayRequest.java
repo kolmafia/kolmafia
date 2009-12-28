@@ -107,6 +107,8 @@ public class RelayRequest
 	private static final Pattern STORE_PATTERN =
 		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+
 	private static String mainpane = "";
 	private static KoLAdventure lastSafety = null;
 
@@ -1005,6 +1007,48 @@ public class RelayRequest
 		this.sendGeneralWarning( "lucre.gif", message );
 	}
 
+	private boolean sendInfernalSealWarning( final String urlString, final KoLAdventure adventure )
+	{
+		// If user has already confirmed he wants to do it, accept it
+		if ( this.getFormField( "confirm" ) != null )
+		{
+			return false;
+		}
+
+		// If he's not using an item, nothing to worry about
+		if ( !urlString.startsWith( "inv_use.php" ) )
+		{
+			return false;
+		}
+
+		Matcher matcher = RelayRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		// If it's not a seal figurine, no problem
+		if ( !ItemDatabase.isSealFigurine( StringUtilities.parseInt( matcher.group(1) ) ) )
+		{
+			return false;
+		}
+
+		// If he's wielding a club, life is wonderful. ish.
+		if ( EquipmentManager.wieldingClub() )
+		{
+			return false;
+		}
+
+		String message;
+
+		message =
+			"You are trying to summon an infernal seal, but you are not wielding a club. You are either incredibly puissant or incredibly foolish. If you are sure you want to do this, click on the image and proceed to your doom.";
+
+		this.sendGeneralWarning( "iblubbercandle.gif", message );
+
+		return true;
+	}
+
 	private void sendWossnameWarning( final String camp )
 	{
 		String message;
@@ -1541,11 +1585,19 @@ public class RelayRequest
 		String urlString = this.getURLString();
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
 
-		// We want to do some checks for the battlefield:
+		// Do some checks for the battlefield:
 		// - make sure player doesn't lose a Wossname by accident
 		// - give player chance to cash in dimes and quarters
 
 		if ( this.sendBattlefieldWarning( urlString, adventure ) )
+		{
+			return;
+		}
+
+		// Do some checks fighting infernal seals
+		// - make sure player is wielding a club
+
+		if ( this.sendInfernalSealWarning( urlString, adventure ) )
 		{
 			return;
 		}
