@@ -51,14 +51,23 @@ public class HistoryEntry
 
 	public HistoryEntry( final String responseText, final long localLastSeen )
 	{
-		Matcher lastSeenMatcher = HistoryEntry.LASTSEEN_PATTERN.matcher( responseText );
-
 		this.localLastSeen = localLastSeen;
-		this.serverLastSeen = lastSeenMatcher.find() ? StringUtilities.parseLong( lastSeenMatcher.group( 1 ) ) : 0;
-
-		this.content = lastSeenMatcher.replaceFirst( "" );
-
 		this.chatMessages = new ArrayList();
+
+		Matcher matcher = responseText != null ?
+			HistoryEntry.LASTSEEN_PATTERN.matcher( responseText ) :
+			null;
+
+		if ( matcher != null && matcher.find() )
+		{
+			this.serverLastSeen = StringUtilities.parseLong( matcher.group( 1 ) );
+			this.content = matcher.replaceFirst( "" );
+		}
+		else
+		{
+			this.serverLastSeen = 0;
+			this.content = responseText;
+		}
 
 		ChatParser.parseLines( this.chatMessages, this.content );
 	}
