@@ -539,7 +539,16 @@ public class UseItemRequest
 		// Equipment should be handled by a different kind of request.
 
 		int itemId = this.itemUsed.getItemId();
-		
+		boolean isSealFigurine = ItemDatabase.isSealFigurine( itemId );
+
+		// Seal figurines require special handling in the HTML, but
+		// they also require some use protection
+		if ( isSealFigurine && !EquipmentManager.wieldingClub() )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You really should wield a club before using that." );
+			return;
+		}
+
 		switch ( itemId )
 		{
 		case ItemPool.STICKER_SWORD:
@@ -808,7 +817,6 @@ public class UseItemRequest
 			this.consumptionType == KoLConstants.CONSUME_EAT ? "Eating" : this.consumptionType == KoLConstants.CONSUME_DRINK ? "Drinking" : "Using";
 
 		String originalURLString = this.getURLString();
-		boolean isSealFigurine = ItemDatabase.isSealFigurine( itemId );
 
 		for ( int i = 1; i <= iterations && KoLmafia.permitsContinue(); ++i )
 		{
