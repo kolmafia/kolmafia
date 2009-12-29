@@ -177,6 +177,7 @@ public class DataTypes
 		simpleTypes.add( DataTypes.STRING_TYPE );
 		simpleTypes.add( DataTypes.BUFFER_TYPE );
 		simpleTypes.add( DataTypes.MATCHER_TYPE );
+		simpleTypes.add( DataTypes.AGGREGATE_TYPE );
 
 		simpleTypes.add( DataTypes.ITEM_TYPE );
 		simpleTypes.add( DataTypes.LOCATION_TYPE );

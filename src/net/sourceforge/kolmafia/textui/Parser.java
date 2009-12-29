@@ -290,6 +290,7 @@ public class Parser
 		reservedWords.add( "string" );
 		reservedWords.add( "buffer" );
 		reservedWords.add( "matcher" );
+		reservedWords.add( "aggregate" );
 
 		reservedWords.add( "item" );
 		reservedWords.add( "location" );
