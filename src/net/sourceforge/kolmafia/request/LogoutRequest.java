@@ -91,7 +91,6 @@ public class LogoutRequest
 		}
 
 		super.run();
-		KoLCharacter.reset( "" );
 
 		RequestLogger.closeSessionLog();
 		RequestLogger.closeDebugLog();
@@ -99,6 +98,8 @@ public class LogoutRequest
 
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Logout request submitted." );
 		GenericRequest.reset();
+		KoLCharacter.reset( "" );
+
 		LogoutRequest.isRunning = false;
 	}
 

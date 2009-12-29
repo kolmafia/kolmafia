@@ -52,13 +52,13 @@ public class MoonPhaseRequest
 	private static final Pattern MENU2_PATTERN = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL );
 
 	/**
-	 * The phases of the moons can be retrieved from the top menu, which varies based on whether or not the player is
-	 * using compact mode.
+	 * The phases of the moons can be retrieved from the top menu, which
+	 * varies based on whether or not the player is using compact mode.
 	 */
 
 	public MoonPhaseRequest()
 	{
-		super( GenericRequest.compactMenuPane ? "compactmenu.php" : "topmenu.php" );
+		super( "topmenu.php" );
 	}
 
 	protected boolean retryOnTimeout()
@@ -102,6 +102,11 @@ public class MoonPhaseRequest
 		if ( GenericRequest.compactMenuPane )
 		{
 			MoonPhaseRequest.adjustCompactMenu( buffer );
+			StringUtilities.singleStringReplace( buffer, "parent.location.href=\"logout.php", "parent.location.href=\"/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
+		}
+		else
+		{
+			StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
 		}
 	}
 
@@ -125,6 +130,9 @@ public class MoonPhaseRequest
 		functionMenu.append( "<option value=\"donatepopup.php?pid=" );
 		functionMenu.append( KoLCharacter.getUserId() );
 		functionMenu.append( "\">Donate</option>" );
+
+		functionMenu.append( "<option value=\"logout.php\">Log Out</option>" );
+
 		functionMenu.append( "</select>" );
 
 		Matcher menuMatcher = MoonPhaseRequest.MENU1_PATTERN.matcher( buffer.toString() );

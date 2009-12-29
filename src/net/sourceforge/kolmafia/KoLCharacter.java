@@ -720,8 +720,10 @@ public abstract class KoLCharacter
 	
 	public static final int getGender()
 	{
-		if ( KoLCharacter.gender == 0 )
-		{	// Can't tell?  Look at their vinyl boots!
+		// We can only ask for the gender if we are logged in
+		if ( KoLCharacter.gender == 0 &&
+		     !GenericRequest.passwordHash.equals( "" ) )
+		{	// Can't tell?	Look at their vinyl boots!
 			GenericRequest req = new GenericRequest(
 				"desc_item.php?whichitem=809051828" );
 			RequestThread.postRequest( req );
