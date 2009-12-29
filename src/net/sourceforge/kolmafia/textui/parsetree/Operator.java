@@ -105,6 +105,14 @@ public class Operator
 		return -1;
 	}
 
+	private static boolean isStringLike( Type type )
+	{
+		return type.equals( DataTypes.TYPE_STRING ) ||
+		       type.equals( DataTypes.TYPE_BUFFER ) ||
+		       type.equals( DataTypes.TYPE_LOCATION ) ||
+		       type.equals( DataTypes.TYPE_MONSTER );
+	}
+
 	public boolean isArithmetic()
 	{
 		return this.operator.equals( "+" ) ||
@@ -132,17 +140,12 @@ public class Operator
 
 	private Value compareValues( final Interpreter interpreter, Value leftValue, Value rightValue )
 	{
-		Type lType = leftValue.getType();
-		Type rType = rightValue.getType();
+		Type ltype = leftValue.getType();
+		Type rtype = rightValue.getType();
 		boolean bool;
 
-		// If the left value is coercable into a string, perform string
-		// comparison
-
-		if ( lType.equals( DataTypes.TYPE_STRING ) ||
-		     lType.equals( DataTypes.TYPE_BUFFER ) ||
-		     lType.equals( DataTypes.TYPE_LOCATION ) ||
-		     lType.equals( DataTypes.TYPE_MONSTER ) )
+		// If either side is non-numeric, perform string comparison
+		if ( Operator.isStringLike( ltype) || Operator.isStringLike( rtype ) )
 		{
 			int c = leftValue.toString().compareToIgnoreCase( rightValue.toString() );
 			bool = this.operator.equals( "==" ) ? c == 0 :
@@ -156,7 +159,7 @@ public class Operator
 
 		// If either value is a float, coerce to float and compare.
 
-		else if ( lType.equals( DataTypes.TYPE_FLOAT ) || rType.equals( DataTypes.TYPE_FLOAT ) )
+		else if ( ltype.equals( DataTypes.TYPE_FLOAT ) || rtype.equals( DataTypes.TYPE_FLOAT ) )
 		{
 			float lfloat = leftValue.toFloatValue().floatValue();
 			float rfloat = rightValue.toFloatValue().floatValue();
@@ -192,17 +195,12 @@ public class Operator
 
 	private Value performArithmetic( final Interpreter interpreter, Value leftValue, Value rightValue )
 	{
-		Type lType = leftValue.getType();
-		Type rType = rightValue.getType();
+		Type ltype = leftValue.getType();
+		Type rtype = rightValue.getType();
 		Value result;
 
-		// If the left value is coercable into a string, perform string
-		// concatenation
-
-		if ( lType.equals( DataTypes.TYPE_STRING ) ||
-		     lType.equals( DataTypes.TYPE_BUFFER ) ||
-		     lType.equals( DataTypes.TYPE_LOCATION ) ||
-		     lType.equals( DataTypes.TYPE_MONSTER ) )
+		// If either side is non-numeric, perform string operations
+		if ( Operator.isStringLike( ltype) || Operator.isStringLike( rtype ) )
 		{
 			// Since we only do string concatenation, we should
 			// only get here if the operator is "+".
@@ -217,7 +215,7 @@ public class Operator
 
 		// If either value is a float, coerce to float and compare.
 
-		else if ( lType.equals( DataTypes.TYPE_FLOAT ) || rType.equals( DataTypes.TYPE_FLOAT ) )
+		else if ( ltype.equals( DataTypes.TYPE_FLOAT ) || rtype.equals( DataTypes.TYPE_FLOAT ) )
 		{
 			float rfloat = rightValue.toFloatValue().floatValue();
 			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
