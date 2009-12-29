@@ -135,6 +135,10 @@ public interface KoLConstants
 			"questlog.php"
 		},
 		{
+			"Crafting",
+			"craft.php"
+		},
+		{
 			"Skills",
 			"skills.php"
 		},
@@ -157,7 +161,7 @@ public interface KoLConstants
 		{
 			"Store",
 			"http://store.asymmetric.net/"
-		}
+		},
 	};
 
 	public static final String[][] GOTO_MENU = new String[][]

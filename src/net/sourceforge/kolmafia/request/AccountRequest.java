@@ -96,8 +96,8 @@ public class AccountRequest
 		Preferences.setBoolean( "serverAddsCustomCombat", responseText.indexOf( ">Disable Combat Action Bars<" ) != -1 );
 
 		// Remember if the sidepane and/or top menu is in compact mode
-		GenericRequest.compactCharacterPane = responseText.indexOf( ">Switch to compact character pane<" ) != -1;
-		GenericRequest.compactMenuPane = responseText.indexOf( ">Switch to compact menu pane<" ) != -1;
+		GenericRequest.compactCharacterPane = responseText.indexOf( ">Switch to compact character pane<" ) == -1;
+		GenericRequest.compactMenuPane = responseText.indexOf( ">Switch to compact menu pane<" ) == -1;
 
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.

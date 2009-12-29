@@ -478,7 +478,6 @@ public class RequestEditorKit
 
 		if ( location.indexOf( "menu.php" ) != -1 )
 		{
-			StringUtilities.singleStringReplace( buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );
 			MoonPhaseRequest.decorate( buffer );
 			StringUtilities.singleStringReplace( buffer, "</body>",
 				"<div style='position: absolute; right: 0px; bottom: 0px;'><font size=-1>[<a href=\"" + location + "\">re</a>]</font></div></body>" );
