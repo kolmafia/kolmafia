@@ -77,6 +77,7 @@ public class UseSkillRequest
 		"Advanced Cocktailcrafting",
 		"Advanced Saucecrafting",
 		"Pastamastery",
+		"Summon Crimbo Candy",
 	};
 
 	public static final String[] TOME_SKILLS =
@@ -375,6 +376,12 @@ public class UseSkillRequest
 		case SkillDatabase.TASTEFUL:
 
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire2Summons" ), 0 );
+			break;
+
+		// You can summon Crimbo candy once a day
+		case SkillDatabase.CRIMBO_CANDY:
+
+			maximumCast = Math.max( 1 - Preferences.getInteger( "_candySummons" ), 0 );
 			break;
 
 		// Rainbow Gravitation can be cast 3 times per day.  Each
@@ -1157,6 +1164,10 @@ public class UseSkillRequest
 
 		case SkillDatabase.TASTEFUL:
 			Preferences.increment( "grimoire2Summons", 1 );
+			break;
+
+		case SkillDatabase.CRIMBO_CANDY:
+			Preferences.increment( "_candySummons", 1 );
 			break;
 
 		case SkillDatabase.CANDY_HEART:
