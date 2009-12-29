@@ -531,14 +531,20 @@ public class MallPurchaseRequest
 
 	public void processResults()
 	{
-		MallPurchaseRequest.parseResponse( this.getURLString(), this.responseText );
+		String urlString = this.getURLString();
+		MallPurchaseRequest.parseResponse( urlString, this.responseText );
 
 		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
+		
 		if ( quantityAcquired > 0 )
 		{
-			ResultProcessor.processResult(
-				new AdventureResult( AdventureResult.MEAT, -1 * this.getPrice() * quantityAcquired ) );
-			KoLCharacter.updateStatus();
+			// NPC stores say "You spent xxx Meat" and we have
+			// already parsed that.
+			if ( !urlString.startsWith( "store.php" ) )
+			{
+				ResultProcessor.processMeat( -1 * this.getPrice() * quantityAcquired );
+				KoLCharacter.updateStatus();
+			}
 
 			return;
 		}

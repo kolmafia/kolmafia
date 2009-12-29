@@ -1882,7 +1882,7 @@ public class GenericRequest
 			// MoneyMakingGameRequest sort it all out.
 			this.containsUpdate = true;
 		}
-		else if ( urlString.startsWith( "mallstore.php" ) || urlString.startsWith( "store.php" ) )
+		else if ( urlString.startsWith( "mallstore.php" ) )
 		{
 			// Mall stores themselves can only contain processable
 			// results when actually buying an item, and then only
