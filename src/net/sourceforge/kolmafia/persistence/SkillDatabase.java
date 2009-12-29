@@ -89,6 +89,7 @@ public class SkillDatabase
 
 	public static final int OLFACTION = 19;
 	public static final int RAINBOW = 44;
+	public static final int CRIMBO_CANDY = 53;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String GNOME_SKILLS = "gnome trainer";
