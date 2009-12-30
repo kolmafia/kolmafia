@@ -1509,11 +1509,27 @@ public abstract class RuntimeLibrary
 			String string = value.toString();
 			try
 			{
-				return DataTypes.parseIntValue( string );
+				return new Value( StringUtilities.parseIntInternal1( string, true ) );
 			}
 			catch ( NumberFormatException e )
 			{
-				throw LibraryFunction.interpreter.runtimeException( "Cannot convert \"" + string + "\" to an integer" );
+			}
+
+			// Try again with lax parsing
+
+			try
+			{
+				int retval = StringUtilities.parseIntInternal2( string );
+				Exception ex = LibraryFunction.interpreter.runtimeException( "The string \"" + string + "\" is not an integer; returning " + retval );
+				RequestLogger.printLine( ex.getMessage() );
+				return new Value( retval );
+			}
+			catch ( NumberFormatException e )
+			{
+				// Even with lax parsing, we failed.
+				Exception ex = LibraryFunction.interpreter.runtimeException( "The string \"" + string + "\" does not look like an integer; returning 0" );
+				RequestLogger.printLine( ex.getMessage() );
+				return DataTypes.ZERO_VALUE;
 			}
 		}
 

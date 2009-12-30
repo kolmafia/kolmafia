@@ -653,23 +653,28 @@ public class StringUtilities
 
 	public static final int parseInt( String string )
 	{
-                return StringUtilities.parseIntInternal( string, false );
+                return StringUtilities.parseIntInternal1( string, false );
 	}
 
-	public static final int parseIntInternal( String string, boolean throwException )
+	public static final int parseIntInternal1( String string, boolean throwException )
 		throws NumberFormatException
 	{
 		if ( string == null )
 		{
 			return 0;
 		}
-		
+
+		// Remove commas anywhere in the string
+		string = StringUtilities.globalStringDelete( string, "," );
+
+		// Remove whitespace from front and end of string
+		string = string.trim();
+
+		// Remove + sign from start of string
 		if ( string.startsWith( "+" ) )
 		{
 			string = string.substring( 1 );
 		}
-
-		string = StringUtilities.globalStringDelete( string, "," ).trim();
 		
 		if ( string.length() == 0 )
 		{
@@ -681,12 +686,11 @@ public class StringUtilities
 			return Integer.parseInt( string );
 		}
 		
-		if ( StringUtilities.isFloat( string.substring( 0, string.length() - 1 ) ) )
+		String fstring = string.substring( 0, string.length() - 1 );
+		if ( StringUtilities.isFloat( fstring ) )
 		{
 			char ch = string.charAt( string.length() - 1 );
-			string = string.substring( 0, string.length() - 1 );
-
-			float base = StringUtilities.parseFloat( string );
+			float base = StringUtilities.parseFloat( fstring );
 			float multiplier = 1.0f;
 			
 			switch ( ch )
@@ -711,6 +715,13 @@ public class StringUtilities
 		}
 
 		StaticEntity.printStackTrace( exception );
+
+		return StringUtilities.parseIntInternal2( string );
+	}
+
+	public static final int parseIntInternal2( String string )
+		throws NumberFormatException
+	{
 		string = NONINTEGER_PATTERN.matcher( string ).replaceAll( "" );
 
 		if ( string.length() == 0 )
