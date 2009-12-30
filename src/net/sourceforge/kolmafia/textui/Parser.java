@@ -2003,6 +2003,23 @@ public class Parser
 		return parsePostCall( scope, call );
 	}
 
+        private static final String [] COMPAT_FUNCTIONS = {
+                "to_string",
+                "to_boolean",
+                "to_int",
+                "to_float",
+                "to_item",
+                "to_class",
+                "to_stat",
+                "to_skill",
+                "to_effect",
+                "to_location",
+                "to_familiar",
+                "to_monster",
+                "to_slot",
+                "to_url",
+        };
+
 	private final Function findFunction( final BasicScope scope, final String name, final ValueList params )
 	{
 		Function result = this.findFunction( scope, scope.getFunctionList(), name, params, true );
@@ -2029,68 +2046,19 @@ public class Parser
 			return result;
 		}
 
-		// Just in case there's some people who don't want to edit
-		// their scripts to use the new function format, check for
-		// the old versions as well.
+		// Just in case some people didn't edit their scripts to use
+		// the new function format, check for the old versions as well.
 
-		if ( name.endsWith( "to_string" ) )
+		for ( int i = 0; i < COMPAT_FUNCTIONS.length; ++i )
 		{
-			return this.findFunction( scope, "to_string", params );
-		}
-		if ( name.endsWith( "to_boolean" ) )
-		{
-			return this.findFunction( scope, "to_boolean", params );
-		}
-		if ( name.endsWith( "to_int" ) )
-		{
-			return this.findFunction( scope, "to_int", params );
-		}
-		if ( name.endsWith( "to_float" ) )
-		{
-			return this.findFunction( scope, "to_float", params );
-		}
-		if ( name.endsWith( "to_item" ) )
-		{
-			return this.findFunction( scope, "to_item", params );
-		}
-		if ( name.endsWith( "to_class" ) )
-		{
-			return this.findFunction( scope, "to_class", params );
-		}
-		if ( name.endsWith( "to_stat" ) )
-		{
-			return this.findFunction( scope, "to_stat", params );
-		}
-		if ( name.endsWith( "to_skill" ) )
-		{
-			return this.findFunction( scope, "to_skill", params );
-		}
-		if ( name.endsWith( "to_effect" ) )
-		{
-			return this.findFunction( scope, "to_effect", params );
-		}
-		if ( name.endsWith( "to_location" ) )
-		{
-			return this.findFunction( scope, "to_location", params );
-		}
-		if ( name.endsWith( "to_familiar" ) )
-		{
-			return this.findFunction( scope, "to_familiar", params );
-		}
-		if ( name.endsWith( "to_monster" ) )
-		{
-			return this.findFunction( scope, "to_monster", params );
-		}
-		if ( name.endsWith( "to_slot" ) )
-		{
-			return this.findFunction( scope, "to_slot", params );
-		}
-		if ( name.endsWith( "to_url" ) )
-		{
-			return this.findFunction( scope, "to_url", params );
+			String fname = COMPAT_FUNCTIONS[i];
+			if ( !name.equals( fname ) && name.endsWith( fname ) )
+			{
+				return this.findFunction( scope, fname, params );
+			}
 		}
 
-		return result;
+		return null;
 	}
 
 	private final Function findFunction( BasicScope scope, final FunctionList source,

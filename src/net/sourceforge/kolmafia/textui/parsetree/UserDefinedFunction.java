@@ -126,7 +126,7 @@ public class UserDefinedFunction
 
 		Value result = this.scope.execute( interpreter );
 
-		if ( result.getType().equals( this.type ) )
+		if ( result.getType().equals( this.type.getBaseType() ) )
 		{
 			return result;
 		}
