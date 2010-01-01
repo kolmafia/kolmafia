@@ -101,7 +101,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel quarterPanel = null;
 	private CoinmasterPanel lucrePanel = null;
 	private CoinmasterPanel sandDollarPanel = null;
-	private CoinmasterPanel crimbuckPanel = null;
+	// private CoinmasterPanel crimbuckPanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -128,10 +128,10 @@ public class CoinmastersFrame
 		panel.add( sandDollarPanel );
 		this.tabs.add( "Big Brother", panel );
 
-		panel = new JPanel( new BorderLayout() );
-		crimbuckPanel = new CrimboCartelPanel();
-		panel.add( crimbuckPanel );
-		this.tabs.add( "Crimbo Cartel", panel );
+		// panel = new JPanel( new BorderLayout() );
+		// crimbuckPanel = new CrimboCartelPanel();
+		// panel.add( crimbuckPanel );
+		// this.tabs.add( "Crimbo Cartel", panel );
 
 		this.tabs.addChangeListener( this );
 
@@ -181,7 +181,7 @@ public class CoinmastersFrame
 		quarterPanel.update();
 		lucrePanel.update();
 		sandDollarPanel.update();
-		crimbuckPanel.update();
+		// crimbuckPanel.update();
 		this.currentPanel().setTitle();
 	}
 
