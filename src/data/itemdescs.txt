@@ -4401,5 +4401,9 @@
 4395	811478748	Crimbo candied pecan	Crimbo candied pecans
 4396	708858717	Jack-in-the-box
 4397	969847579	brass crank handle
-4398
-4399
+4398	272747310	stinky cheese ball	stinky cheese balls
+4399	337462585	stinky cheese sword
+4400	723906628	stinky cheese diaper
+4401	821534695	stinky cheese wheel
+4402	548672093	stinky cheese eye
+4403	399631690	Staff of Queso Escusado

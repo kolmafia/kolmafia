@@ -359,6 +359,8 @@ star pants	Initiative: +20
 sticky meat kilt	Moxie: +3
 sticky meat pants	Moxie: +3
 sticky meat skirt	Moxie: +3
+# stinky cheese diaper: +X Adventure(s) per day when equipped
+stinky cheese diaper	Softcore Only
 # studded leather boxer shorts
 sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 swashbuckling pants	Moxie: +4
@@ -522,6 +524,7 @@ Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, M
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4
 Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
+Staff of Queso Escusado	Spell Damage Percent: +50, Stench Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
 Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Soupbone	Spell Damage Percent: +75, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6
 Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP Regen Min: 3, MP Regen Max: 4
@@ -837,6 +840,8 @@ starchy crossbow	Moxie: +3
 starchy staff	Mysticality: +3
 starchy sword	Muscle: +3
 stinkin' bindle	Item Drop: +10, Stench Damage: +25
+# stinky cheese sword: +X stench damage
+stinky cheese sword	Softcore Only
 # stolen accordion
 stone banjo	Moxie: +1
 # stuffed crazy bastard sword
@@ -1100,6 +1105,8 @@ spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Ab
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 steely marble	Sleaze Spell Damage: +65
+# stinky cheese wheel: +X Damage Absorption
+stinky cheese wheel	Softcore Only
 # stuffed Baron von Ratsworth
 # stuffed Cheshire bitten
 # stuffed MagiMechTech MicroMechaMech
@@ -1509,6 +1516,9 @@ stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Percent
 stainless steel solitaire	Mana Cost: -2, Adventures: +2, Mysticality Percent: +15, Single Equip
 stainless steel suspenders	Damage Absorption: +60, Maximum MP: +40, Moxie Percent: +15, Single Equip
 stick-on eyebrow piercing	Muscle: +1
+# stinky cheese eye: +X% Meat Drops from Monsters
+# stinky cheese eye: +X% Item Drops from Monsters
+stinky cheese eye	Softcore Only
 string of blue beads	Mysticality: +1
 string of green beads	Moxie: +1
 string of red beads	Muscle: +1
