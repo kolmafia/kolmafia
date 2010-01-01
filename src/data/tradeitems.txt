@@ -4404,5 +4404,9 @@
 4395	Crimbo candied pecan	multiple, candy	all	5
 4396	Jack-in-the-box	grow	gift	0
 4397	brass crank handle	familiar	all	75
-4398
-4399
+4398	stinky cheese ball	usable	all	0
+4399	stinky cheese sword	weapon, usable	all	0
+4400	stinky cheese diaper	pants, usable	all	0
+4401	stinky cheese wheel	offhand, usable	all	0
+4402	stinky cheese eye	accessory, usable	all	0
+4403	Staff of Queso Escusado	weapon, usable	all	0
