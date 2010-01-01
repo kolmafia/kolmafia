@@ -2151,12 +2151,14 @@ public class UseItemRequest
 		case ItemPool.CHEF:
 		case ItemPool.CLOCKWORK_CHEF:
 			KoLCharacter.setChef( true );
+			Preferences.setInteger( "chefTurnsUsed", 0 );
 			RequestThread.postRequest( new CampgroundRequest() );
 			return;
 
 		case ItemPool.BARTENDER:
 		case ItemPool.CLOCKWORK_BARTENDER:
 			KoLCharacter.setBartender( true );
+			Preferences.setInteger( "bartenderTurnsUsed", 0 );
 			RequestThread.postRequest( new CampgroundRequest() );
 			return;
 

@@ -609,6 +609,16 @@ public class CreateItemRequest
 				Preferences.setBoolean( pref, false );
 				ConcoctionDatabase.refreshConcoctions();
 			}
+
+			// Account for box servant usage, if any
+			if ( mode.equals( "cook" ) && KoLCharacter.hasChef() )
+			{
+				Preferences.increment( "chefTurnsUsed", qty );
+			}
+			else if ( mode.equals( "cocktail" ) && KoLCharacter.hasBartender() )
+			{
+				Preferences.increment( "bartenderTurnsUsed", qty );
+			}
 		}
 
 		if ( responseText.indexOf( "Smoke" ) != -1 )

@@ -228,6 +228,7 @@ user	badMoonEncounter47	false
 user	badMoonEncounter48	false
 user	barrelGoal	1
 user	barrelLayout	?????????
+user	bartenderTurnsUsed	0
 user	basementMallPrices	1
 user	battleAction	attack with weapon
 user	betweenBattleScript
@@ -251,6 +252,7 @@ user	cameraMonster
 user	cellarLayout	0
 user	chatbotScript
 user	chatbotScriptExecuted	false
+user	chefTurnsUsed	0
 user	chosenTrip
 user	clanAttacksEnabled	false
 user	cocktailSummons	0
