@@ -935,8 +935,7 @@ gnauga hide buckler	95	Mus: 30	shield
 golden sausage	0	none
 green balloon	0	none
 green peawee marble	0	Mys: 85
-# *** grisly shield is a shield of unknown power.
-grisly shield	0	Mus: 150	shield
+grisly shield	200	Mus: 150	shield
 handmade hobby horse	0	none
 heart-shaped balloon	0	none
 hippo skin buckler	95	Mus: 30	shield
@@ -970,8 +969,7 @@ misfit teddy bear	0	none
 moxie magnet	0	none
 naughty fortune teller	0	none
 off-hand balloon	0	none
-# *** old-school flying disc is a shield of unknown power.
-old-school flying disc	0	Mus: 200	shield
+old-school flying disc	220	Mus: 200	shield
 oyster basket	0	none
 oyster egg balloon	0	Mys: 35
 padded tortoise	100	Mus: 35	shield
@@ -1007,8 +1005,7 @@ snake shield	117	Mus: 42	shield
 snarling wolf shield	117	Mus: 42	shield
 sock monkey	0	Mys: 40
 spaghetti-box banjo	0	Mys: 150
-# *** speed limit shield is a shield of unknown power.
-speed limit shield	0	Mus: 35	shield
+speed limit shield	100	Mus: 35	shield
 spiky turtle shield	130	Mus: 50	shield
 spongy shield	200	Mus: 95	shield
 star buckler	165	Mus: 67	shield
@@ -1059,8 +1056,7 @@ velcro shield	220	Mus: 85	shield
 vinyl shield	220	Mus: 85	shield
 voodoo doll	0	none
 wad of Crovacite	0	none
-# *** washboard shield is a shield of unknown power.
-washboard shield	0	Mus: 150	shield
+washboard shield	160	Mus: 150	shield
 white balloon	0	none
 white satin shield	80	Mus: 25	shield
 wicker shield	175	Mus: 70	shield

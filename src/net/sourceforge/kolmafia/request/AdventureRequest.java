@@ -401,7 +401,7 @@ public class AdventureRequest
 		// We want an interval of 35. This is called before we account
 		// for the 3 vacations spend adventuring.
 		TurnCounter.stopCounting( "The Shore" );
-		TurnCounter.startCounting( 38, "The Shore shore.php", "dinghy.gif", true );
+		TurnCounter.startCounting( 38, "The Shore loc=*", "dinghy.gif", true );
 	}
 
 	public static final String registerEncounter( final GenericRequest request )
