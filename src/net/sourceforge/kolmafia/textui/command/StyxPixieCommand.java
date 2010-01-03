@@ -37,7 +37,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.request.StyxPixieRequest;
+import net.sourceforge.kolmafia.request.HeyDezeRequest;
 
 public class StyxPixieCommand
 	extends AbstractCommand
@@ -60,15 +60,15 @@ public class StyxPixieCommand
 
 		if ( command.equalsIgnoreCase( "muscle" ) )
 		{
-			RequestThread.postRequest( new StyxPixieRequest( KoLConstants.MUSCLE ) );
+			RequestThread.postRequest( new HeyDezeRequest( KoLConstants.MUSCLE ) );
 		}
 		else if ( command.equalsIgnoreCase( "mysticality" ) )
 		{
-			RequestThread.postRequest( new StyxPixieRequest( KoLConstants.MYSTICALITY ) );
+			RequestThread.postRequest( new HeyDezeRequest( KoLConstants.MYSTICALITY ) );
 		}
 		else if ( command.equalsIgnoreCase( "moxie" ) )
 		{
-			RequestThread.postRequest( new StyxPixieRequest( KoLConstants.MOXIE ) );
+			RequestThread.postRequest( new HeyDezeRequest( KoLConstants.MOXIE ) );
 		}
 		else
 		{

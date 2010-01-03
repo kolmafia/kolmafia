@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -44,7 +45,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class StyxPixieRequest
+public class HeyDezeRequest
 	extends GenericRequest
 {
 	private int effectId = 0;
@@ -52,7 +53,7 @@ public class StyxPixieRequest
 
 	private static final Pattern ID_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
 
-	public StyxPixieRequest( final int stat )
+	public HeyDezeRequest( final int stat )
 	{
 		super( "heydeze.php" );
 
@@ -106,6 +107,29 @@ public class StyxPixieRequest
 		super.run();
 	}
 
+	private static String styxStatString( final String urlString )
+	{
+
+		Matcher matcher = HeyDezeRequest.ID_PATTERN.matcher( urlString );
+
+		if ( !matcher.find() )
+		{
+			return null;
+		}
+
+		switch ( StringUtilities.parseInt( matcher.group( 1 ) ) )
+		{
+		case 446:
+			return "muscle";
+		case 447:
+			return "mysticality";
+		case 448:
+			return "moxie";
+		}
+
+		return null;
+	}
+
 	public void processResults()
 	{
 		if ( this.responseText == null || this.responseText.equals( "" ) )
@@ -125,37 +149,84 @@ public class StyxPixieRequest
 		RequestFrame.refreshStatus();
 	}
 
-	public static final boolean registerRequest( final String location )
+	public static String locationName( final String urlString )
 	{
-		if ( !location.startsWith( "heydeze.php" ) )
+		if ( urlString.indexOf( "place=styx" ) != -1 )
+		{
+			return "The Styx Pixie";
+		}
+		if ( urlString.indexOf( "place=heartbreaker" ) != -1 )
+		{
+			return "Heartbreaker's Hotel";
+		}
+		if ( urlString.indexOf( "place=meansucker" ) != -1 )
+		{
+			return "Meansucker's House";
+		}
+		return null;
+	}
+
+	private static String visitLocation( final String urlString )
+	{
+		String name = HeyDezeRequest.locationName( urlString );
+		if ( name != null )
+		{
+			return "Visiting " + name + " in Hey Deze";
+		}
+		return null;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "heydeze.php" ) )
 		{
 			return false;
 		}
 
-		Matcher idMatcher = StyxPixieRequest.ID_PATTERN.matcher( location );
+		String action = GenericRequest.getAction( urlString );
+		String message = null;
 
-		if ( !idMatcher.find() )
+		// We want to log certain simple visits
+		if ( action == null )
+		{
+			message = HeyDezeRequest.visitLocation( urlString );
+		}
+
+		// Visit the Styx Pixie
+		else if ( action.equals( "styxbuff" ) )
+		{
+			String stat = HeyDezeRequest.styxStatString( urlString );
+			if ( stat == null )
+			{
+				return false;
+			}
+
+			message = "styx " + stat;
+			Preferences.setBoolean( "styxPixieVisited", true );
+		}
+
+		// Take the Hellevator
+		else if ( action.equals( "elevator" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Heartbreaker's Hotel";
+		}
+
+		// Unknown action
+		else
+		{
+			return false;
+		}
+
+		if ( message == null )
 		{
 			return true;
 		}
 
-		String stat = "";
+		RequestLogger.printLine();
+		RequestLogger.updateSessionLog();
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 
-		switch ( StringUtilities.parseInt( idMatcher.group( 1 ) ) )
-		{
-		case 446:
-			stat = "muscle";
-			break;
-		case 447:
-			stat = "mysticality";
-			break;
-		case 448:
-			stat = "moxie";
-			break;
-		}
-
-		RequestLogger.updateSessionLog( "styx " + stat );
-		Preferences.setBoolean( "styxPixieVisited", true );
 		return true;
 	}
 }
