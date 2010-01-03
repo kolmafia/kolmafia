@@ -79,4 +79,5 @@ public class FamiliarPool
 	public static final int GROUPIE = 116;
 	public static final int GIBBERER = 117;
 	public static final int DANCING_FROG = 118;
+	public static final int STOCKING_MIMIC = 120;
 }

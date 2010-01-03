@@ -1839,7 +1839,7 @@ public class FightRequest
 				m.start( 2 ) != -1 ? 2 : 3 );
 		}
 
-		// Check for extra rollover adventures
+		// Check for special familiar actions
 		switch ( KoLCharacter.getFamiliar().getId() )
 		{
 		case FamiliarPool.HARE:
@@ -1865,6 +1865,21 @@ public class FightRequest
 			{
 				Preferences.increment( "extraRolloverAdventures", 1 );
 				Preferences.increment( "_gibbererAdv", 1 );
+			}
+			break;
+
+		case FamiliarPool.STOCKING_MIMIC:
+			// <name> reaches deep inside himself and pulls out a
+			// big bag of candy. Cool!
+			if ( responseText.indexOf( "pulls out a big bag of candy" ) != -1 )
+			{
+				AdventureResult item = ItemPool.get( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
+				// The Stocking Mimic will do this once a day
+				Preferences.setBoolean( "_bagOfCandy", true );
+				// Add bag of many confections to inventory
+				ResultProcessor.processItem( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
+				// Equip familiar with it
+				KoLCharacter.getFamiliar().setItem( item );
 			}
 			break;
 		}

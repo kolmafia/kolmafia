@@ -522,6 +522,7 @@ user	welcomeBackAdv	0
 user	_absintheDrops	0
 user	_aguaDrops	0
 user	_astralDrops	0
+user	_bagOfCandy	false
 user	_banderRunaways	0
 user	_cameraUsed	false
 user	_candySummons	0
