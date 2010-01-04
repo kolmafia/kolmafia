@@ -73,8 +73,9 @@ public class CallScriptCommand
 			parameters = parameters.trim();
 			File scriptFile = KoLmafiaCLI.findScriptFile( parameters );
 
-			// If still no script was found, perhaps it's the secret invocation
-			// of the "#x script" that allows a script to be run multiple times.
+			// If still no script was found, perhaps it's the
+			// secret invocation of the "#x script" that allows a
+			// script to be run multiple times.
 
 			if ( scriptFile == null )
 			{
@@ -94,8 +95,8 @@ public class CallScriptCommand
 				}
 			}
 
-			// Maybe the more ambiguous invocation of an ASH script which does
-			// not use parentheses?
+			// Maybe the more ambiguous invocation of an ASH script
+			// which does not use parentheses?
 
 			if ( scriptFile == null )
 			{
@@ -110,8 +111,8 @@ public class CallScriptCommand
 				}
 			}
 
-			// If not even that, perhaps it's the invocation of a function which
-			// is defined in the ASH namespace?
+			// If not even that, perhaps it's the invocation of a
+			// function which is defined in the ASH namespace?
 
 			if ( scriptFile == null )
 			{
@@ -125,8 +126,8 @@ public class CallScriptCommand
 				return;
 			}
 
-			// In theory, you could execute EVERY script in a directory, but instead,
-			// let's make it be an error state.
+			// In theory, you could execute EVERY script in a
+			// directory, but instead, let's make it an error.
 
 			if ( scriptFile.isDirectory() )
 			{

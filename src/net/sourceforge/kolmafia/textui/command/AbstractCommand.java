@@ -44,15 +44,17 @@ import net.sourceforge.kolmafia.utilities.PrefixMap;
 
 public abstract class AbstractCommand
 {
-	// Assign 'flags' in an instance initializer if the command needs one of these:
-	// KoLmafiaCLI.FULL_LINE_CMD - the command's parameters are the entire remainder
-	//	of the line, semicolons do not end the command.
-	// KoLmafiaCLI.FLOW_CONTROL_CMD - the remainder of the command line, plus additional
-	//	lines as needed to ensure that at least one command is included, and that the
-	//	final command is not itself flagged as FLOW_CONTROL_CMD, are made available to
-	//	this command via its 'continuation' field, rather than being executed.  The
-	//	command can examine and modify the continuation, and execute it zero or more
-	//	times by calling CLI.executeLine(continuation).
+	// Assign 'flags' in an instance initializer if the command needs one
+	// of these:
+	// KoLmafiaCLI.FULL_LINE_CMD - the command's parameters are the entire
+	//	remainder of the line, semicolons do not end the command.
+	// KoLmafiaCLI.FLOW_CONTROL_CMD - the remainder of the command line,
+	//	plus additional lines as needed to ensure that at least one
+	//	command is included, and that the final command is not itself
+	//	flagged as FLOW_CONTROL_CMD, are made available to this command
+	//	via its 'continuation' field, rather than being executed.  The
+	//	command can examine and modify the continuation, and execute it
+	//	zero or more times by calling CLI.executeLine(continuation).
 
 	public int flags = 0;
 
@@ -62,38 +64,44 @@ public abstract class AbstractCommand
 	public String usage = " - no help available.";
 
 	// Usage strings should start with a space, or [?] if they support the
-	// isExecutingCheckOnlyCommand flag, followed by any parameters (with placeholder
-	// names enclosed in angle brackets - they'll be italicized in HTML output).
+	// isExecutingCheckOnlyCommand flag, followed by any parameters (with
+	// placeholder names enclosed in angle brackets - they'll be italicized
+	// in HTML output).
 	// There should then be a dash and a brief description of the command.
-
 	// Or, override getUsage(cmd) to dynamically construct the usage text
-	// (but it would probably be better to have separate commands in that case).
+	// (but it would probably be better to have separate commands in that
+	// case).
 
 	public String getUsage( final String cmd )
 	{
 		return this.usage;
 	}
 
-	// Override one of run(cmd, parameters), run(cmd, parameters[]), or run(cmd)
-	// to specify the command's action, with different levels of parameter processing.
+	// Override one of run(cmd, parameters), run(cmd, parameters[]), or
+	// run(cmd) to specify the command's action, with different levels of
+	// parameter processing.
 
 	public abstract void run( final String cmd, final String parameters );
 
-	// 'CLI' is provided as a reference back to the invoking instance of KoLmafiaCLI,
-	// for convenience if the command needs to call any of its non-static methods.
-	// Note that this reference can become invalid if another CLI instance is recursively
-	// invoked, and happens to execute the same command; any command that uses 'CLI' more
-	// than once should put it in a local variable first.
+	// 'CLI' is provided as a reference back to the invoking instance of
+	// KoLmafiaCLI, for convenience if the command needs to call any of its
+	// non-static methods.
+	// Note that this reference can become invalid if another CLI instance
+	// is recursively invoked, and happens to execute the same command; any
+	// command that uses 'CLI' more than once should put it in a local
+	// variable first.
 
 	public KoLmafiaCLI CLI;
 
-	// FLOW_CONTROL_CMDs will have the command line they're to operate on stored here:
+	// FLOW_CONTROL_CMDs will have the command line they're to operate on
+	// stored here:
 
 	public String continuation;
 
-	// Each command class must be instantiated (probably in a static initializer), and
-	// at least one of these methods called on it to add it to the command table.  These
-	// methods return 'this', for easy chaining.
+	// Each command class must be instantiated (probably in a static
+	// initializer), and at least one of these methods called on it to add
+	// it to the command table.  These methods return 'this', for easy
+	// chaining.
 
 	public AbstractCommand register( final String name )
 	{
