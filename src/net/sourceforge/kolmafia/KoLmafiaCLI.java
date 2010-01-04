@@ -304,7 +304,7 @@ public class KoLmafiaCLI
 
 		while ( KoLmafia.permitsContinue() & line.length() > 0 )
 		{
-			String command, parameters;
+			String command, lcommand, parameters;
 			int splitIndex = line.indexOf( ";" );
 			if ( splitIndex != -1 )
 			{
@@ -316,31 +316,44 @@ public class KoLmafiaCLI
 				parameters = line;
 				line = "";
 			}
+
 			if ( parameters.length() == 0 )
 			{
 				continue;
 			}
 
 			splitIndex = parameters.indexOf( " " );
+
 			// First, check for parameterless commands.
 			// Multi-word commands can only match here.
-			command = parameters.toLowerCase();
-			if ( splitIndex == -1 || AbstractCommand.lookup.get( command ) != null && AbstractCommand.lookup.getKeyType( command ) == PrefixMap.EXACT_KEY )
+			lcommand = parameters.toLowerCase();
+
+			if ( splitIndex == -1 )
 			{
+				command = parameters;
+				parameters = "";
+			}
+			else if ( AbstractCommand.lookup.get( lcommand ) != null && AbstractCommand.lookup.getKeyType( lcommand ) == PrefixMap.EXACT_KEY )
+			{
+				command = lcommand;
 				parameters = "";
 			}
 			else
 			{
-				command = command.substring( 0, splitIndex );
+				command = parameters.substring( 0, splitIndex );
+				lcommand = command.toLowerCase();
 				parameters = parameters.substring( splitIndex + 1 ).trim();
 			}
 
 			if ( command.endsWith( "?" ) )
 			{
+				int length = command.length();
 				KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
-				command = command.substring( 0, command.length() - 1 );
+				command = command.substring( 0, length - 1 );
+				lcommand = lcommand.substring( 0, length - 1 );
 			}
-			AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get( command );
+
+			AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get( lcommand );
 			int flags = handler == null ? 0 : handler.flags;
 			if ( flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals( "" ) )
 			{
@@ -354,7 +367,7 @@ public class KoLmafiaCLI
 				handler.continuation = continuation;
 				handler.CLI = this;
 				RequestThread.openRequestSequence();
-				handler.run( command, parameters );
+				handler.run( lcommand, parameters );
 				RequestThread.closeRequestSequence();
 				handler.CLI = null;
 				KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
@@ -369,7 +382,9 @@ public class KoLmafiaCLI
 		}
 
 		if ( KoLmafia.permitsContinue() )
-		{ // Notify user-entered Daily Deeds that the command was successful.
+		{
+			// Notify user-entered Daily Deeds that the command was
+			// successful.
 			Preferences.firePreferenceChanged( origLine );
 		}
 	}
@@ -440,37 +455,39 @@ public class KoLmafiaCLI
 
 	public void executeCommand( String command, String parameters )
 	{
+		String lcommand = command.toLowerCase();
+
 		// If the command has already been disabled, then return
 		// from this function.
 
-		if ( StaticEntity.isDisabled( command ) )
+		if ( StaticEntity.isDisabled( lcommand ) )
 		{
-			RequestLogger.printLine( "Called disabled command: " + command + " " + parameters );
+			RequestLogger.printLine( "Called disabled command: " + lcommand + " " + parameters );
 			return;
 		}
 
 		if ( parameters.equals( "refresh" ) )
 		{
-			parameters = command;
-			command = "refresh";
+			parameters = lcommand;
+			lcommand = command = "refresh";
 		}
 
-		AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get( command );
+		AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get( lcommand );
 
 		if ( handler == null )
 		{
-			handler = AbstractCommand.getSubstringMatch( command );
+			handler = AbstractCommand.getSubstringMatch( lcommand );
 		}
 
 		if ( handler != null )
 		{
-			if ( command.endsWith( "*" ) )
+			if ( lcommand.endsWith( "*" ) )
 			{
 				RequestLogger.printLine( "(A * after a command name indicates that it can be " + "typed in a longer form.  There's no need to type the asterisk!)" );
 			}
 
 			handler.CLI = this;
-			handler.run( command, parameters );
+			handler.run( lcommand, parameters );
 			handler.CLI = null;
 
 			return;
