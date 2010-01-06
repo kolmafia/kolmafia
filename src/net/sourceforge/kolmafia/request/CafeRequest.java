@@ -280,7 +280,7 @@ public class CafeRequest
 		{
 			if ( KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 			{
-				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + fullness );
+				Preferences.increment( "currentFullness", fullness );
 			}
 			return;
 		}

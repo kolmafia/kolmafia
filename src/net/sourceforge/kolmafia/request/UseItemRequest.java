@@ -3353,7 +3353,7 @@ public class UseItemRequest
 				count = maxcount;
 				UseItemRequest.lastItemUsed = UseItemRequest.lastItemUsed.getInstance( maxcount );
 			}
-			Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + fullness * count );
+			Preferences.increment( "currentFullness", fullness * count );
 			Preferences.setInteger( "munchiesPillsUsed", Math.max( Preferences.getInteger( "munchiesPillsUsed" ) - count, 0 ) );
 			break;
 		}

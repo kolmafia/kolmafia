@@ -103,7 +103,7 @@ public class InvocationButton
 		{
 			if ( this.method != null )
 			{
-				this.method.invoke( this.object, (java.lang.Object) null );
+				this.method.invoke( this.object, (Object []) null );
 			}
 		}
 		catch ( Exception e1 )
