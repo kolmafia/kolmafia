@@ -88,7 +88,7 @@ public class InvocationMenuItem
 
 			if ( this.method != null )
 			{
-				this.method.invoke( this.object instanceof KoLmafia ? StaticEntity.getClient() : this.object, null );
+				this.method.invoke( this.object instanceof KoLmafia ? StaticEntity.getClient() : this.object,(java.lang.Object) null );
 			}
 
 			RequestThread.closeRequestSequence();
