@@ -2,7 +2,7 @@ function basementUpdate( command )
 {
 	var httpObject = getHttpObject();
 	if ( !httpObject )
-		return true;
+		return;
 
 	isRefreshing = true;
 	httpObject.onreadystatechange = function()
