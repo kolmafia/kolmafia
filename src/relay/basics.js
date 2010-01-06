@@ -41,7 +41,7 @@ function refreshSidebar( desiredRefresh )
 {
 	var httpObject = getHttpObject();
 	if ( !httpObject )
-		return true;
+		return;
 
 	isRefreshing = true;
 	httpObject.onreadystatechange = function()
@@ -69,7 +69,7 @@ function refreshTopmenu( desiredRefresh )
 {
 	var httpObject = getHttpObject();
 	if ( !httpObject )
-		return true;
+		return;
 
 	isRefreshing = true;
 	httpObject.onreadystatechange = function()
