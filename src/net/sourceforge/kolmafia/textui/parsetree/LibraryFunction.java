@@ -116,7 +116,7 @@ public class LibraryFunction
 		{
 			// Invoke the method
 			LibraryFunction.interpreter = interpreter;
-			return (Value) this.method.invoke( this, (java.lang.Object) this.values );
+			return (Value) this.method.invoke( this, (Object []) this.values );
 		}
 		catch ( InvocationTargetException e )
 		{

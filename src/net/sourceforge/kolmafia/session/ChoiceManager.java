@@ -2521,7 +2521,7 @@ public abstract class ChoiceManager
 				ResultProcessor.processResult( cost );
 
 				// You gain 5 fullness
-				Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() + 5 );
+				Preferences.increment( "currentFullness", 5 );
 			}
 			break;
 

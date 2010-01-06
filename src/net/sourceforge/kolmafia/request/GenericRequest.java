@@ -1951,7 +1951,7 @@ public class GenericRequest
 		{
 		case ItemPool.BLACK_PUDDING:
 			itemName = "Black Pudding";
-			Preferences.setInteger( "currentFullness", KoLCharacter.getFullness() - 3 );
+			Preferences.increment( "currentFullness", -3 );
 			consumed = true;
 			break;
 
