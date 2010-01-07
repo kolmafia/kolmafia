@@ -180,7 +180,7 @@ public class SkillDatabase
 		case 3:			// Smile of Mr. A
 		case SNOWCONE:		// Summon Snowcones
 		case STICKER:		// Summon Stickers
-		case SUGAR:			// Summon Sugar Sheets
+		case SUGAR:		// Summon Sugar Sheets
 		case HILARIOUS:		// Summon Hilarious Objects
 		case TASTEFUL:		// Summon Tasteful Items
 		case CANDY_HEART:	// Summon Candy Hearts

@@ -969,6 +969,12 @@ public class ItemPool
 	public static final int BAG_OF_MANY_CONFECTIONS = 4329;
 	public static final int CRIMBUCK = 4343;
 	public static final int GINGERBREAD_HOUSE = 4347;
+	public static final int CRIMBO_CAROL_V1 = 4354;
+	public static final int CRIMBO_CAROL_V2 = 4355;
+	public static final int CRIMBO_CAROL_V3 = 4356;
+	public static final int CRIMBO_CAROL_V4 = 4357;
+	public static final int CRIMBO_CAROL_V5 = 4358;
+	public static final int CRIMBO_CAROL_V6 = 4359;
 	public static final int ELF_RESISTANCE_BUTTON = 4363;
 	public static final int WRENCH_HANDLE = 4368;
 	public static final int HEADLESS_BOLTS = 4369;
@@ -979,12 +985,14 @@ public class ItemPool
 	public static final int CARDBOARD_ELF_EAR = 4374;
 	public static final int SPIRALING_SHAPE = 4375;
 	public static final int CRIMBOMINATION_CONTRAPTION = 4376;
+	public static final int CRIMBO_CANDY_COOKBOOK = 4392;
 	public static final int STINKY_CHEESE_BALL = 4398;
 	public static final int STINKY_CHEESE_SWORD = 4399;
 	public static final int STINKY_CHEESE_DIAPER = 4400;
 	public static final int STINKY_CHEESE_WHEEL = 4401;
 	public static final int STINKY_CHEESE_EYE = 4402;
 	public static final int STINKY_CHEESE_STAFF = 4403;
+	public static final int ZU_MANNKASE_DIENEN = 4409;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

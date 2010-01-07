@@ -185,6 +185,7 @@
 4020	Salsaball	5	1	0	0
 4021	Deep Saucery	0	0	0
 4022	Surge of Icing	5	10	0
+4023	K&auml;seso&szlig;esturm	5	10	0
 
 # Skills available to Bandits
 

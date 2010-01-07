@@ -4410,3 +4410,11 @@
 4401	stinky cheese wheel	offhand, usable	all	0
 4402	stinky cheese eye	accessory, usable	all	0
 4403	Staff of Queso Escusado	weapon, usable	all	0
+4404
+4405	foreign box	usable	gift	0
+4406
+4407
+4408
+4409	Zu Mannk&auml;se Dienen	usable	all	0
+4410
+4411
