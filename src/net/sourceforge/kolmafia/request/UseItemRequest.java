@@ -2196,6 +2196,14 @@ public class UseItemRequest
 		case ItemPool.HODGMAN_JOURNAL_2:
 		case ItemPool.HODGMAN_JOURNAL_3:
 		case ItemPool.HODGMAN_JOURNAL_4:
+		case ItemPool.CRIMBO_CAROL_V1:
+		case ItemPool.CRIMBO_CAROL_V2:
+		case ItemPool.CRIMBO_CAROL_V3:
+		case ItemPool.CRIMBO_CAROL_V4:
+		case ItemPool.CRIMBO_CAROL_V5:
+		case ItemPool.CRIMBO_CAROL_V6:
+		case ItemPool.CRIMBO_CANDY_COOKBOOK:
+		case ItemPool.ZU_MANNKASE_DIENEN:
 
 			String skill = UseItemRequest.itemToSkill( item.getItemId() );
 			if ( skill == null || KoLCharacter.hasSkill( skill ) )
@@ -3059,6 +3067,22 @@ public class UseItemRequest
 			return "Slimy Synapses";
 		case ItemPool.SLIME_SOAKED_SWEAT_GLAND:
 			return "Slimy Shoulders";
+		case ItemPool.CRIMBO_CAROL_V1:
+			return "Holiday Weight Gain";
+		case ItemPool.CRIMBO_CAROL_V2:
+			return "Jingle Bells";
+		case ItemPool.CRIMBO_CAROL_V3:
+			return "Candyblast";
+		case ItemPool.CRIMBO_CAROL_V4:
+			return "Surge of Icing";
+		case ItemPool.CRIMBO_CAROL_V5:
+			return "Stealth Mistletoe";
+		case ItemPool.CRIMBO_CAROL_V6:
+			return "Cringle's Curative Carol";
+		case ItemPool.CRIMBO_CANDY_COOKBOOK:
+			return "Summon Crimbo Candy";
+		case ItemPool.ZU_MANNKASE_DIENEN:
+			return "K&auml;seso&szlig;esturm";
 		}
 
 		return null;
