@@ -288,16 +288,23 @@ public class ChatParser
 			return false;
 		}
 
-		String playerId = senderMatcher.group( 1 );
-		String playerName = senderMatcher.group( 2 );
-
-		ContactManager.registerPlayerId( playerName, playerId );
+		String playerId = senderMatcher.group( 1 ).trim();
+		String playerName = senderMatcher.group( 2 ).trim();
 
 		content = senderMatcher.replaceFirst( "" );
+		
+		ChatMessage message;
+		
+		if ( playerName.equals( "Mod Warning" ) || playerName.equals( "Mod Announcement" ) || playerName.equals( "System Message" ) )
+		{
+			message = new ModeratorMessage( playerName, playerId, content );
+		}
+		else
+		{
+			message = new ChatMessage( playerName, channel, content, isAction );
+		}
 
-		ChatMessage message = new ChatMessage( playerName, channel, content, isAction );
-		chatMessages.add( message );
-
+		chatMessages.add( message );		
 		return true;
 	}
 
