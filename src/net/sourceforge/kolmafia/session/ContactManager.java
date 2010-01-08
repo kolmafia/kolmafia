@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.RequestThread;
@@ -44,6 +45,8 @@ import net.sourceforge.kolmafia.swingui.ContactListFrame;
 
 public class ContactManager
 {
+	private static final Pattern INVALID_CHARACTERS = Pattern.compile( "[^0-9A-Za-z_ ]" );
+	
 	private static final HashMap seenPlayerIds = new HashMap();
 	private static final HashMap seenPlayerNames = new HashMap();
 
@@ -127,16 +130,10 @@ public class ContactManager
 		{
 			return;
 		}
-		
-		if ( playerName.equals( "Mod Warning" ) || playerName.equals( "System Message" ) )
-		{
-			return;
-		}
 
-		playerName = playerName.replaceAll( "[^0-9A-Za-z_ ]", "" );
-		String lowercase = playerName.toLowerCase();
+		String lowercase = INVALID_CHARACTERS.matcher( playerName ).replaceAll( "" ).toLowerCase();
 
-		if ( lowercase.equals( "modwarning" ) || ContactManager.seenPlayerIds.containsKey( lowercase ) )
+		if ( ContactManager.seenPlayerIds.containsKey( lowercase ) )
 		{
 			return;
 		}

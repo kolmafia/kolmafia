@@ -171,18 +171,20 @@ public class ChatFormatter
 				displayHTML.append( "</font>" );
 			}
 		}
-		else if ( sender.equals( "Mod Warning" ) || sender.equals( "System Message" ) )
+		else if ( message instanceof ModeratorMessage )
 		{
-			displayHTML.append( "<font color=\"red\"><b>" );
+			ModeratorMessage modMessage = (ModeratorMessage) message;
+			
+			displayHTML.append( "<font color=\"red\">" );
+			displayHTML.append( "<a href=\"showplayer.php?who=" );
+			displayHTML.append( modMessage.getModeratorId() );
+			displayHTML.append( "\">" );
+			displayHTML.append("<b>" );
 			displayHTML.append( sender );
 			displayHTML.append( "</b>" );
+			displayHTML.append( "</a>" );
 
-			if ( !message.isAction() )
-			{
-				displayHTML.append( ":" );
-			}
-
-			displayHTML.append( " " );
+			displayHTML.append( ": " );
 			displayHTML.append( message.getContent() );
 			displayHTML.append( "</font>" );
 		}
