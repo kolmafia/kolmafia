@@ -194,7 +194,7 @@ public class ContactListFrame
 					String contact = (String) ContactListFrame.this.contacts.get( index );
 					String bufferKey = contact.toLowerCase();
 					
-					ChatManager.openWindow( bufferKey );
+					ChatManager.openWindow( bufferKey, false );
 				}
 			}
 		}

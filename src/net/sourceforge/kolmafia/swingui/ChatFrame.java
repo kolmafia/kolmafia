@@ -473,7 +473,7 @@ public class ChatFrame
 			switch ( linkOption )
 			{
 			case 1:
-				ChatManager.openWindow( (String) parameters[ 0 ] );
+				ChatManager.openWindow( (String) parameters[ 0 ], false );
 				return;
 
 			case 2:
