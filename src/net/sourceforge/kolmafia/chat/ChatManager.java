@@ -101,7 +101,7 @@ public abstract class ChatManager
 			
 			if ( bufferKey.startsWith( "/" ) )
 			{
-				ChatManager.openWindow( bufferKey );
+				ChatManager.openWindow( bufferKey, false );
 			}
 		}
 
@@ -222,7 +222,7 @@ public abstract class ChatManager
 
 		String bufferKey = ChatManager.getBufferKey( destination );
 		
-		ChatManager.openWindow( bufferKey );
+		ChatManager.openWindow( bufferKey, true );
 
 		StyledChatBuffer buffer = ChatManager.getBuffer( bufferKey );
 
@@ -279,7 +279,7 @@ public abstract class ChatManager
 
 			String bufferKey = ChatManager.getBufferKey( sender );
 			
-			ChatManager.openWindow( bufferKey );
+			ChatManager.openWindow( bufferKey, false );
 		}
 
 		if ( message.isTalkChannel() )
@@ -407,7 +407,7 @@ public abstract class ChatManager
 		}
 	}
 
-	public static final void openWindow( final String bufferKey )
+	public static final void openWindow( final String bufferKey, boolean highlightOnOpen )
 	{
 		if ( !ChatManager.isRunning || bufferKey == null )
 		{
@@ -435,7 +435,12 @@ public abstract class ChatManager
 			}
 
 			ChatManager.tabbedFrame.addTab( bufferKey );
-			ChatManager.tabbedFrame.highlightTab( bufferKey );
+			
+			if ( highlightOnOpen )
+			{
+				ChatManager.tabbedFrame.highlightTab( bufferKey );
+			}
+
 			return;
 		}
 
