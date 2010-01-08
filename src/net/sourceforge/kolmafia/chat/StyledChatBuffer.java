@@ -50,13 +50,9 @@ public class StyledChatBuffer
 	public static final List searchStrings = new ArrayList();
 	public static final List colorStrings = new ArrayList();
 
-	public static StyledChatBuffer highlightBuffer;
-	private final boolean affectsHighlightBuffer;
-
 	public StyledChatBuffer( final String title, final boolean affectsHighlightBuffer )
 	{
 		super( title );
-		this.affectsHighlightBuffer = affectsHighlightBuffer;
 	}
 
 	public static final boolean initializeHighlights()
@@ -67,16 +63,6 @@ public class StyledChatBuffer
 		{
 			return false;
 		}
-
-		if ( StyledChatBuffer.highlightBuffer != null )
-		{
-			StyledChatBuffer.highlightBuffer.clear();
-			return true;
-		}
-
-		ChatManager.openWindow( "[high]" );
-
-		StyledChatBuffer.highlightBuffer = ChatManager.getBuffer( "[high]" );
 
 		StyledChatBuffer.highlightCount = 0;
 		String[] highlightList = highlights.split( "\n+" );
@@ -137,12 +123,6 @@ public class StyledChatBuffer
 		}
 
 		super.append( highlightMessage );
-
-		if ( this.affectsHighlightBuffer && message.length() < highlightMessage.length() )
-		{
-			StyledChatBuffer.highlightBuffer.append( message );
-			ChatManager.openWindow( "[high]" );
-		}
 	}
 
 	public String getStyle()
@@ -152,11 +132,6 @@ public class StyledChatBuffer
 
 	public void applyHighlights()
 	{
-		if ( this == StyledChatBuffer.highlightBuffer )
-		{
-			return;
-		}
-
 		String[] lines = this.getContent().split( "<br>" );
 
 		this.clear();

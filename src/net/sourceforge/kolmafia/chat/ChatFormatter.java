@@ -293,9 +293,6 @@ public class ChatFormatter
 
 		Color color = ChatFormatter.getRandomColor();
 
-		StyledChatBuffer.highlightBuffer = ChatManager.getBuffer( "[high]" );
-		StyledChatBuffer.highlightBuffer.clear();
-
 		StringBuffer newSetting = new StringBuffer();
 
 		newSetting.append( Preferences.getString( "highlightList" ) );
@@ -330,15 +327,11 @@ public class ChatFormatter
 			return;
 		}
 
-		StyledChatBuffer.highlightBuffer = ChatManager.getBuffer( "[high]" );
-		StyledChatBuffer.highlightBuffer.clear();
-
 		for ( int i = 0; i < patterns.length; ++i )
 		{
 			if ( patterns[ i ].equals( selectedValue ) )
 			{
 				String settingString = StyledChatBuffer.removeHighlight( i );
-				StyledChatBuffer.highlightBuffer.clear();
 
 				String oldSetting = Preferences.getString( "highlightList" );
 				int startIndex = oldSetting.indexOf( settingString );
