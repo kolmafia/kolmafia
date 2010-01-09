@@ -1188,6 +1188,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_GHOST:
 		case KoLConstants.CONSUME_HOBO:
 		case KoLConstants.CONSUME_SLIME:
+		case KoLConstants.CONSUME_MIMIC:
 			if ( !UseItemRequest.parseBinge( this.getURLString(), this.responseText ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your current familiar can't use that." );
@@ -1224,6 +1225,13 @@ public class UseItemRequest
 		if ( responseText.indexOf( "don't have that many" ) != -1 )
 		{
 			return true;
+		}
+
+		// <name> takes the <candy> and quickly consumes them.	He
+		// grows a bit.
+		if ( responseText.indexOf( "He grows a bit" ) != -1 )
+		{
+			KoLCharacter.getFamiliar().addExperience( item.getCount() );
 		}
 
 		ResultProcessor.processResult( item.getNegation() );

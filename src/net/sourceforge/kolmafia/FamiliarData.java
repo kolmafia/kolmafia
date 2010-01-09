@@ -68,9 +68,9 @@ public class FamiliarData
 	private static final Pattern LOCK_PATTERN = Pattern.compile( "familiar.php\\?action=lockequip.*'This Familiar Equipment is (Locked|Unlocked)'" );
 
 	private final int id;
-
-	private int weight;
 	private final String name, race;
+	private int experience;
+	private int weight;
 	private AdventureResult item;
 
 	public FamiliarData( final int id )
@@ -91,18 +91,29 @@ public class FamiliarData
 	private FamiliarData( final Matcher dataMatcher )
 	{
 		this.id = StringUtilities.parseInt( dataMatcher.group( 2 ) );
+		this.name = dataMatcher.group( 3 );
 		this.race = dataMatcher.group( 4 );
 
 		FamiliarDatabase.registerFamiliar( this.id, this.race );
 		FamiliarDatabase.setFamiliarImageLocation( this.id, dataMatcher.group( 1 ) );
 
-		int kills = StringUtilities.parseInt( dataMatcher.group( 5 ) );
-		this.weight = id == 120 ? Math.max( Math.min( 100, (int) Math.sqrt( kills ) ), 1 ) : Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
-
-		this.name = dataMatcher.group( 3 );
+		this.experience = StringUtilities.parseInt( dataMatcher.group( 5 ) );
+		this.setWeight();
 
 		String itemData = dataMatcher.group( 7 );
 		this.item = parseFamiliarItem( this.id, itemData );
+	}
+
+	public final void addExperience( final int exp )
+	{
+		this.experience += exp;
+		this.setWeight();
+	}
+
+	private final void setWeight()
+	{
+		int max = this.id == FamiliarPool.STOCKING_MIMIC ? 100 : 20;
+		this.weight =  Math.max( Math.min( max, (int) Math.sqrt( this.experience ) ), 1 );
 	}
 
 	private static final AdventureResult parseFamiliarItem( final int id, final String text )

@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -1840,7 +1841,8 @@ public class FightRequest
 		}
 
 		// Check for special familiar actions
-		switch ( KoLCharacter.getFamiliar().getId() )
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		switch ( familiar.getId() )
 		{
 		case FamiliarPool.HARE:
 			// <name> pulls an oversized pocketwatch out of his
@@ -1879,7 +1881,13 @@ public class FightRequest
 				// Add bag of many confections to inventory
 				ResultProcessor.processItem( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
 				// Equip familiar with it
-				KoLCharacter.getFamiliar().setItem( item );
+				familiar.setItem( item );
+			}
+
+                        // <name> gorges himself on candy from his bag.
+			if ( responseText.indexOf( "gorges himself on candy from his bag" ) != -1 )
+			{
+				familiar.addExperience( 1 );
 			}
 			break;
 		}

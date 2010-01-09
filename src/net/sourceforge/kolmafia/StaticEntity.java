@@ -502,7 +502,9 @@ public abstract class StaticEntity
 
 			// If there is a binge message, parse it
 			if ( location.indexOf( "action=ghost" ) != -1 ||
-			     location.indexOf( "action=hobo" ) != -1)
+			     location.indexOf( "action=hobo" ) != -1 ||
+			     location.indexOf( "action=slime" ) != -1 ||
+			     location.indexOf( "action=candy" ) != -1 )
 			{
 				UseItemRequest.parseBinge( location, responseText );
 			}
