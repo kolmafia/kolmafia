@@ -3332,11 +3332,12 @@ public class UseItemRequest
 	{
 		if ( urlString.startsWith( "skills.php" ) )
 		{
-			// Don't overwrite lastItemUsed when restoratives are used from
-			// the Skills page or quickskills menu.  The request was
-			// initially made to inv_use.php (and lastItemUsed was set at
-			// that time), which redirects to skills.php - but without
-			// enough information in the URL to determine exactly what was used.
+			// Don't overwrite lastItemUsed when restoratives are
+			// used from the Skills page or quickskills menu.  The
+			// request was initially made to inv_use.php (and
+			// lastItemUsed was set at that time), which redirects
+			// to skills.php - but without enough information in
+			// the URL to determine exactly what was used.
 			return true;
 		}
 		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );

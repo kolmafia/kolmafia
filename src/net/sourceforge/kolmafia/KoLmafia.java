@@ -913,11 +913,16 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( new FamiliarRequest() );
 
-		// Retrieve campground data to see if the user is able to
-		// cook or make drinks
+		// Retrieve campground data to see if the user has box servants
+		// or a bookshelf
 
 		KoLmafia.updateDisplay( "Retrieving campground data..." );
 		RequestThread.postRequest( new CampgroundRequest() );
+		if ( KoLCharacter.hasBookshelf() )
+		{
+			// Synchronize mana cost for libram summons
+			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+		}
 		KoLCharacter.checkTelescope();
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )

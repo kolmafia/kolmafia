@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CampgroundRequest
 	extends GenericRequest
 {
-	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	private static final Pattern LIBRAM_PATTERN =
 		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song) *.[(]([\\d,]+) MP[)]" );
 	private static final Pattern HOUSING_PATTERN =
@@ -127,14 +126,13 @@ public class CampgroundRequest
 			return;
 		}
 
-		Matcher matcher= CampgroundRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
+		String action = GenericRequest.getAction( urlString );
+
+		if ( action == null )
 		{
 			CampgroundRequest.parseCampground( responseText );
 			return;
 		}
-
-		String action = matcher.group(1);
 
 		if ( action.endsWith( "powerelvibratoportal" ) )
 		{
