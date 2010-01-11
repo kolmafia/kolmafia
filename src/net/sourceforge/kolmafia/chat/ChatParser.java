@@ -301,6 +301,7 @@ public class ChatParser
 		}
 		else
 		{
+			ContactManager.registerPlayerId( playerName, playerId );
 			message = new ChatMessage( playerName, channel, content, isAction );
 		}
 

@@ -45,8 +45,6 @@ import net.sourceforge.kolmafia.swingui.ContactListFrame;
 
 public class ContactManager
 {
-	private static final Pattern INVALID_CHARACTERS = Pattern.compile( "[^0-9A-Za-z_ ]" );
-	
 	private static final HashMap seenPlayerIds = new HashMap();
 	private static final HashMap seenPlayerNames = new HashMap();
 
@@ -131,7 +129,7 @@ public class ContactManager
 			return;
 		}
 
-		String lowercase = INVALID_CHARACTERS.matcher( playerName ).replaceAll( "" ).toLowerCase();
+		String lowercase = playerName.toLowerCase();
 
 		if ( ContactManager.seenPlayerIds.containsKey( lowercase ) )
 		{
