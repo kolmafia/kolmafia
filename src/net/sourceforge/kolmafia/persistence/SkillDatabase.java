@@ -439,7 +439,7 @@ public class SkillDatabase
 	public static final int libramSkillMPConsumption()
 	{
 		int cast = Preferences.getInteger( "libramSummons" );
-		return libramSkillMPConsumption( cast );
+		return libramSkillMPConsumption( cast + 1 );
 	}
 
 	public static final void setLibramSkillCasts( int cost )
@@ -494,10 +494,10 @@ public class SkillDatabase
 	public static final int libramSkillMPConsumption( final int cast )
 	{
 		// Old formula: n * (n+1) / 2
-		// return Math.max( ( cast + 1 ) * ( cast + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+		// return Math.max( (cast * ( cast + 1 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 
 		// New formula: 1 + (n * (n-1) / 2)
-		return Math.max( 1 + ( cast + 1 ) * cast / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+		return Math.max( 1 + cast * ( cast - 1 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 	}
 
 	/**

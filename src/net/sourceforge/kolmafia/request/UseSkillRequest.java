@@ -109,6 +109,8 @@ public class UseSkillRequest
 	private static final int ODE_TO_BOOZE = 6014;
 
 	public static String lastUpdate = "";
+	private static int lastSkillUsed = -1;
+	private static int lastSkillCount = 0;
 
 	private final int skillId;
 	private final String skillName;
@@ -899,6 +901,7 @@ public class UseSkillRequest
 	public void processResults()
 	{
 		UseSkillRequest.lastUpdate = "";
+
 		boolean shouldStop = UseSkillRequest.parseResponse( this.getURLString(), this.responseText );
 
 		if ( !UseSkillRequest.lastUpdate.equals( "" ) )
@@ -993,6 +996,12 @@ public class UseSkillRequest
 
 	public static final boolean parseResponse( final String urlString, final String responseText )
 	{
+		int skillId = UseSkillRequest.lastSkillUsed;
+		if ( skillId == -1 )
+		{
+			return false;
+		}
+
 		if ( responseText == null || responseText.trim().length() == 0 )
 		{
 			int initialMP = KoLCharacter.getCurrentMP();
@@ -1079,7 +1088,6 @@ public class UseSkillRequest
 			return true;
 		}
 
-		int skillId = UseSkillRequest.getSkillId( urlString );
 		String skillName = SkillDatabase.getSkillName( skillId );
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
@@ -1096,11 +1104,13 @@ public class UseSkillRequest
 				"Your opera mask shattered." );
 		}
 
-		int count = UseSkillRequest.getCount( urlString, skillId );
+		int count = UseSkillRequest.lastSkillCount;
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId ) * count;
 		if ( exceeded )
-		{	// We're out of sync with the actual number of times this skill
-			// has been cast.  Adjust the counter by 1 at a time.
+		{
+			// We're out of sync with the actual number of times
+			// this skill has been cast.  Adjust the counter by 1
+			// at a time.
 			count = 1;
 			mpCost = 0;
 		}
@@ -1174,7 +1184,7 @@ public class UseSkillRequest
 		case SkillDatabase.PARTY_FAVOR:
 		case SkillDatabase.LOVE_SONG:
 			int cast = Preferences.getInteger( "libramSummons" );
-			mpCost = SkillDatabase.libramSkillMPConsumption( cast, count );
+			mpCost = SkillDatabase.libramSkillMPConsumption( cast + 1, count );
 			Preferences.increment( "libramSummons", count );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
@@ -1288,6 +1298,9 @@ public class UseSkillRequest
 
 		int count = UseSkillRequest.getCount( urlString, skillId );
 		String skillName = SkillDatabase.getSkillName( skillId );
+
+		UseSkillRequest.lastSkillUsed = skillId;
+		UseSkillRequest.lastSkillCount = count;
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "cast " + count + " " + skillName );
