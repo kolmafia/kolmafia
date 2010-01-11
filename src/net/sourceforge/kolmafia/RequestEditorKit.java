@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
@@ -454,6 +455,9 @@ public class RequestEditorKit
 			StringUtilities.insertBefore(
 				buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script>" );
 
+			StringUtilities.insertBefore(
+				buffer, "</head>", "<link rel=\"stylesheet\" href=\"/basics.css\" />" );
+			
 			if ( location.indexOf( "?" ) == -1 && RequestEditorKit.maps.contains( location ) )
 			{
 				buffer.insert(
@@ -968,9 +972,12 @@ public class RequestEditorKit
 			return;
 		}
 
-		int insertionPoint;
 		boolean haiku = false;
+
 		int nameIndex = buffer.indexOf( "<span id='monname" );
+
+		int insertionPointForData;
+
 		if ( nameIndex != -1 )
 		{
 			int combatIndex = buffer.indexOf( "</span>", nameIndex );
@@ -978,25 +985,25 @@ public class RequestEditorKit
 			{
 				return;
 			}
-			insertionPoint = combatIndex + 7;
+			insertionPointForData = combatIndex + 7;
 		}
 		else
 		{
 			// find bold "Combat"
-			insertionPoint = buffer.indexOf( "<b>" );
-			if ( insertionPoint == -1 )
+			insertionPointForData = buffer.indexOf( "<b>" );
+			if ( insertionPointForData == -1 )
 			{
 				return;
 			}
 			// find bold monster name
-			insertionPoint = buffer.indexOf( "<b>", insertionPoint + 4 );
-			if ( insertionPoint == -1 )
+			insertionPointForData = buffer.indexOf( "<b>", insertionPointForData + 4 );
+			if ( insertionPointForData == -1 )
 			{
 				return;
 			}
 			// find end of haiku
-			insertionPoint = buffer.indexOf( "</td>", insertionPoint + 4 );
-			if ( insertionPoint == -1 )
+			insertionPointForData = buffer.indexOf( "</td>", insertionPointForData + 4 );
+			if ( insertionPointForData == -1 )
 			{
 				return;
 			}
@@ -1097,7 +1104,17 @@ public class RequestEditorKit
 
 		IslandDecorator.appendMissingGremlinTool( monsterData );
 		monsterData.append( "</font>" );
-		buffer.insert( insertionPoint, monsterData.toString() );
+		buffer.insert( insertionPointForData, monsterData.toString() );
+
+		// Insert color for monster element
+		
+		int monsterElement = monster.getDefenseElement();
+		
+		if ( !haiku && monsterElement != MonsterDatabase.NONE )
+		{
+			int insertionPointForElement = nameIndex + 6;
+			buffer.insert( insertionPointForElement, "class=\"element" + monsterElement + "\" " );
+		}
 	}
 
 	private static final void addMultiuseModifiers( final StringBuffer buffer )
