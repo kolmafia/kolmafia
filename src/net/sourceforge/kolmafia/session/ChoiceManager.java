@@ -2500,10 +2500,10 @@ public abstract class ChoiceManager
 		case 205:
 			// Van, Damn
 
-			// Abort for Hobopolis bosses
+			// Stop for Hobopolis bosses
 			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
 				RequestThread.enableDisplayIfSequenceComplete();
 			}
 			break;
