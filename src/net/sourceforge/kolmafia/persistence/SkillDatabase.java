@@ -752,6 +752,7 @@ public class SkillDatabase
 		{
 		case 8000:	// Summon Snowcones
 		case 8001:	// Summon Stickers
+		case 8002:	// Summon Sugar Sheets
 		case 8100:	// Summon Candy Hearts
 		case 8101:	// Summon Party Favor
 		case 8102:	// Summon Love Song
