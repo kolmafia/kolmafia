@@ -997,10 +997,15 @@ public class UseSkillRequest
 	public static final boolean parseResponse( final String urlString, final String responseText )
 	{
 		int skillId = UseSkillRequest.lastSkillUsed;
+		int count = UseSkillRequest.lastSkillCount;
+
 		if ( skillId == -1 )
 		{
 			return false;
 		}
+
+		UseSkillRequest.lastSkillUsed = -1;
+		UseSkillRequest.lastSkillCount = 0;
 
 		if ( responseText == null || responseText.trim().length() == 0 )
 		{
@@ -1104,7 +1109,6 @@ public class UseSkillRequest
 				"Your opera mask shattered." );
 		}
 
-		int count = UseSkillRequest.lastSkillCount;
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId ) * count;
 		if ( exceeded )
 		{

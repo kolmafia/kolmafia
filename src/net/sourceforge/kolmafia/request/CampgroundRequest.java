@@ -461,7 +461,7 @@ public class CampgroundRequest
 		if ( !matcher.find() )
 		{
 			// Simple visit. Nothing to log.
-			return false;
+			return true;
 		}
 
 		String action = matcher.group(1);
@@ -480,6 +480,12 @@ public class CampgroundRequest
 
 		if ( action.startsWith( "summon" ) )
 		{
+			// Detect a redirection to campground.php from
+			// skills.php The first one was already logged.
+			if ( urlString.indexOf( "skilluse=1" ) != -1 )
+			{
+				return true;
+			}
 			return UseSkillRequest.registerRequest( urlString );
 		}
 
@@ -488,13 +494,13 @@ public class CampgroundRequest
 		if ( action.equals( "bookshelf" ) )
 		{
 			// Nothing to log.
-			return false;
+			return true;
 		}
 
 		if ( action.equals( "inspectdwelling" ) )
 		{
 			// Nothing to log.
-			return false;
+			return true;
 		}
 
 		if ( action.equals( "rest" ) )
