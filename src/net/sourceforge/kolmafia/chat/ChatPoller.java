@@ -39,6 +39,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -65,13 +66,20 @@ public class ChatPoller
 
 		do
 		{
-			List entries = ChatPoller.getEntries( lastSeen );
-			Iterator entryIterator = entries.iterator();
-
-			while ( entryIterator.hasNext() )
+			try
 			{
-				HistoryEntry entry = (HistoryEntry) entryIterator.next();
-				lastSeen = Math.max( lastSeen, entry.getLocalLastSeen() );
+				List entries = ChatPoller.getEntries( lastSeen );
+				Iterator entryIterator = entries.iterator();
+
+				while ( entryIterator.hasNext() )
+				{
+					HistoryEntry entry = (HistoryEntry) entryIterator.next();
+					lastSeen = Math.max( lastSeen, entry.getLocalLastSeen() );
+				}
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
 			}
 
 			for ( int i = 0; i < ChatPoller.CHAT_DELAY_COUNT && ChatManager.isRunning(); ++i )
@@ -98,15 +106,15 @@ public class ChatPoller
 			while ( entryIterator.hasNext() )
 			{
 				HistoryEntry entry = (HistoryEntry) entryIterator.next();
-	
+
 				if ( entry.getLocalLastSeen() > lastSeen )
 				{
 					newEntries.add( entry );
-	
+
 					while ( entryIterator.hasNext() )
 					{
 						entry = (HistoryEntry) entryIterator.next();
-	
+
 						newEntries.add( entry );
 					}
 				}
