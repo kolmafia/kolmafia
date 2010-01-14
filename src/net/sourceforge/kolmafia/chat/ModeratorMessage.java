@@ -5,8 +5,9 @@ public class ModeratorMessage
 {
 	private String playerId;
 	
-	public ModeratorMessage( String messageType, String playerId, String content )
+	public ModeratorMessage( String channel, String messageType, String playerId, String content )
 	{
+		this.setRecipient( channel );
 		this.setSender( messageType );
 		this.setContent( content );
 	}

@@ -297,7 +297,7 @@ public class ChatParser
 		
 		if ( playerName.equals( "Mod Warning" ) || playerName.equals( "Mod Announcement" ) || playerName.equals( "System Message" ) )
 		{
-			message = new ModeratorMessage( playerName, playerId, content );
+			message = new ModeratorMessage( channel, playerName, playerId, content );
 		}
 		else
 		{
