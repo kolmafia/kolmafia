@@ -60,7 +60,7 @@ public class IslandArenaRequest
 	{
 		{ "Elvish", "All Attributes +10%" },
 		{ "Winklered", "Meat Drop +40%" },
-		{ "White-boy Angst", "Initiative +50" },
+		{ "White-boy Angst", "Initiative +50%" },
 	};
 
 	private static String quest = "";
