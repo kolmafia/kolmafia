@@ -3061,7 +3061,7 @@
 3052	cursed breeches	pants	display	0
 3053	mood ring	accessory	gift	5
 3054	black candy heart	multiple, candy	gift	5
-3055	cymbal syrup	usable	gift	5
+3055	cymbal syrup	usable	gift	0
 3056	metallic foil cat ears	hat, usable	all	35
 3057	nanofiber cloth	none	all	16
 3058	iGoogly	none	all	14
@@ -3655,7 +3655,7 @@
 3646	elven <i>limbos</i> gingerbread	food	all	100
 3647	elven whittling knife	weapon	all	400
 3648	magic dragonfish fry	grow	all	0
-3649	map to Madness Reef	none	none	0
+3649	map to Madness Reef	none	all	0
 3650	toast with jam	food	all	40
 3651	miniature antlers	familiar	all	150
 3652	elven moonshine	drink	all	100
@@ -3689,7 +3689,7 @@
 3680	glowing esca	offhand	all	150
 3681	bubbling tempura batter	none	all	0
 3682	globe of Deep Sauce	none	all	0
-3683	map to the Marinara Trench	none	none	0
+3683	map to the Marinara Trench	none	all	0
 3684	tempura carrot	food	all	375
 3685	tempura cucumber	food	all	375
 3686	tempura avocado	food	all	375
@@ -3707,7 +3707,7 @@
 3698	velcro ore	none	all	75
 3699	teflon ore	none	all	75
 3700	vinyl ore	none	all	75
-3701	map to Anemone Mine	none	none	0
+3701	map to Anemone Mine	none	all	0
 3702	marine aquamarine	none	all	350
 3703	rusty valve wheel	none	all	30
 3704	waterlogged bootstraps	none	all	30
@@ -3780,7 +3780,7 @@
 3771	salacious lychee chuhai	drink	all	215
 3772	Alewife&trade; Ale	drink	all	95
 3773	seaode	none	all	155
-3774	map to the Dive Bar	none	none	0
+3774	map to the Dive Bar	none	all	0
 3775	Mer-kin pinkslip	none, combat	all	85
 3776	pink pinkslip slip	pants	all	111
 3777	sea salt scrubs	shirt	all	140
@@ -3962,7 +3962,7 @@
 3953	stuffed mink	accessory	gift	20
 3954	stuffed teddy butler	offhand	gift	20
 3955	stuffed martini	offhand	gift	0
-3956	stuffed crazy bastard sword	weapon	gift	0
+3956	stuffed crazy bastard sword	weapon	gift	20
 3957	stuffed tin of caviar	offhand	gift	20
 3958	bejeweled cufflinks	accessory	gift	20
 3959	garish pinky ring	accessory	gift	20
@@ -4175,7 +4175,7 @@
 4166	Voluminous Radio Pants	pants	all	0
 4167	Voluminous Radio Hat	hat	all	0
 4168	Voluminous Radio Sneakers	accessory	all	0
-4169	4-d camera	none, combat, single	all	45
+4169	4-d camera	none, combat, single	all	55
 4170	shaking 4-d camera	usable	none	0
 4171	crystallized memory	usable	all	0
 4172	floaty rock helmet	hat	all	0
@@ -4213,7 +4213,7 @@
 4204
 4205
 4206	brand new key	weapon	all	125
-4207	brass dorsal fin	offhand	all	85
+4207	brass dorsal fin	offhand	all	95
 4208	skate skates	none, combat	all	160
 4209	skate skin	none	all	55
 4210	roller skate decoy	none, combat	all	200
@@ -4228,7 +4228,7 @@
 4219	skate board	weapon	all	155
 4220	S.A.V.E. flyer	usable	all	15
 4221	yield shield	offhand	display	0
-4222	map to the Skate Park	none	none	0
+4222	map to the Skate Park	none	all	0
 4223	squamous polyp	grow	all	0
 4224	unspeakable lozenges	familiar	all	75
 4225	roller skate doll	none	all	100
@@ -4346,9 +4346,9 @@
 4337	tiny plastic stocking mimic	accessory	all	0
 4338	tiny plastic Don Crimbo	accessory	all	0
 4339	tiny plastic Crimbomination	accessory	all	0
-4340	Piddles	multiple	all, candy	0
-4341	BitterSweetTarts	multiple, candy	all	0
-4342	Polka Pop	multiple, candy	all	0
+4340	Piddles	multiple, candy	all	10
+4341	BitterSweetTarts	multiple, candy	all	10
+4342	Polka Pop	multiple, candy	all	10
 4343	Crimbuck	none	display	0
 4344	Crimbo wreath	usable	all	0
 4345	string of Crimbo lights	usable	all	0
