@@ -46,7 +46,7 @@ asbestos helmet turtle	80	Mox: 25
 asshat	30	none
 balaclava	50	Mox: 10
 balloon helmet	50	Mox: 10
-bark beret	0	Mox: 5
+bark beret	40	Mox: 5
 barskin hat	55	Mox: 12
 basic meat fez	45	Mox: 7
 basic meat helmet	40	Mox: 5
@@ -228,7 +228,7 @@ Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
 antique greaves	200	Mus: 85
 astronaut pants	175	Mox: 72
-bark boxers	0	Mox: 5
+bark boxers	40	Mox: 5
 barskin loincloth	25	none
 basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
@@ -452,7 +452,7 @@ PVC staff	200	Mus: 85	2-handed staff
 Pasta of Peril	50	Mys: 10	1-handed utensil
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
 Radio Free Foil	150	Mus: 60	2-handed sword
-Red Rover BB gun	50	Mox: 10	2-haned gun
+Red Rover BB gun	50	Mox: 10	2-handed gun
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Ruby Rod	120	Mus: 40	1-handed rod
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
@@ -461,6 +461,7 @@ Spooky Putty ball	100	Mox: 0	1-handed superball
 Spooky Putty snake	10	Mys: 0	1-handed chefstaff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
+Staff of Queso Escusado	10	Mys: 0	1-handed chefstaff
 Staff of the Black Kettle	10	Mys: 75	1-handed chefstaff
 Staff of the Deepest Freeze	10	Mys: 200	1-handed chefstaff
 Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
@@ -468,7 +469,6 @@ Staff of the Grease Trap	10	Mys: 125	1-handed chefstaff
 Staff of the Greasefire	10	Mys: 20	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
-Staff of Queso Escusado	10	Mys: 0	1-handed chefstaff
 Staff of the Short Order Cook	10	Mys: 15	1-handed chefstaff
 Staff of the Soupbone	10	Mys: 75	1-handed chefstaff
 Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
@@ -598,8 +598,8 @@ eXtreme meat sword	60	Mus: 15	2-handed sword
 eggbeater	25	Mys: 0	1-handed utensil
 elven whittling knife	100	Mus: 35	1-handed knife
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
-evil-ass club	160	Mus: 65	2-handed club
 evil paper umbrella	30	Mus: 0	1-handed umbrella
+evil-ass club	160	Mus: 65	2-handed club
 fetus-smashing club	200	Mus: 85	2-handed club
 filthy pestle	60	Mys: 15	1-handed utensil
 finger cymbals	65	Mox: 17	1-handed cymbals
@@ -704,7 +704,7 @@ plastic guitar	100	Mox: 35	2-handed guitar
 plexiglass pike pike	180	Mus: 75	2-handed spear
 pocket theremin	35	Mox: 2	2-handed theremin
 pointed stick	160	Mus: 65	1-handed spear
-poison pen	50	Mus: 0	1-handed knife
+poison pen	50	Mus: 10	1-handed knife
 pool cue	40	Mus: 0	2-handed staff
 portable corkscrew	30	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol
@@ -821,6 +821,7 @@ yak whip	20	Mus: 0	1-handed whip
 yohohoyo	160	Mox: 65	1-handed yoyo
 
 # Off-hand section of equipment.txt
+
 'WILL WORK FOR BOOZE' sign	0	Mus: 175
 1-ball	0	none
 17-ball	0	none
@@ -975,8 +976,7 @@ oyster egg balloon	0	Mys: 35
 padded tortoise	100	Mus: 35	shield
 painted shield	120	Mus: 45	shield
 parasitic strangleworm	0	none
-# *** peanut brittle shield is a shield of unknown power.
-peanut brittle shield	0	Mus: 10	shield
+peanut brittle shield	55	Mus: 10	shield
 penguin skin buckler	95	Mus: 30	shield
 penguin thesaurus	0	none
 pilgrim shield	240	none	shield
@@ -1011,8 +1011,7 @@ spongy shield	200	Mus: 95	shield
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
 steely marble	0	Mys: 85
-# *** stinky cheese wheel is a shield of unknown power
-stinky cheese wheel	0	none	shield
+stinky cheese wheel	100	none	shield
 stuffed Baron von Ratsworth	0	none
 stuffed Cheshire bitten	0	none
 stuffed MagiMechTech MicroMechaMech	0	none
@@ -1413,7 +1412,9 @@ tiny plastic Crimbo Casino	0	none
 tiny plastic Crimbo elf	0	none
 tiny plastic Crimbo reindeer	0	none
 tiny plastic Crimbo wreath	0	none
+tiny plastic Crimbomination	0	none
 tiny plastic Crimboween pentagram	0	none
+tiny plastic Don Crimbo	0	none
 tiny plastic Dr. Awkward	0	Mys: 10
 tiny plastic Ed the Undying	0	Mys: 10
 tiny plastic Felonia	0	none
@@ -1462,11 +1463,9 @@ tiny plastic chunk of depleted Grimacite	0	none
 tiny plastic cocoabo	0	none
 tiny plastic coffee pixie	0	none
 tiny plastic conservationist hippy	0	none
-tiny plastic Crimbomination	0	none
 tiny plastic cubist bull	0	none
 tiny plastic demoninja	0	none
 tiny plastic disco bandit	0	none
-tiny plastic Don Crimbo	0	none
 tiny plastic drunk goat	0	none
 tiny plastic fat stack of cash	0	none
 tiny plastic fiendish can of asparagus	0	none
