@@ -539,6 +539,7 @@ user	_skateBuff2	false
 user	_skateBuff3	false
 user	_skateBuff4	false
 user	_skateBuff5	false
+user	_stinkyCheeseCount	0
 user	_timeHelmetAdv	0
 user	_userMods
 user	_vmaskAdv	0

@@ -335,19 +335,22 @@ public class Preferences
 		final boolean mod )
 	{
 		int current = Preferences.getInteger( name );
-		current += increment;
-
-		if ( max > 0 && current > max )
+		if ( increment != 0 )
 		{
-			current = max;
-		}
+			current += increment;
 
-		if ( mod && current >= max )
-		{
-			current %= max;
-		}
+			if ( max > 0 && current > max )
+			{
+				current = max;
+			}
 
-		Preferences.setInteger( name, current );
+			if ( mod && current >= max )
+			{
+				current %= max;
+			}
+
+			Preferences.setInteger( name, current );
+		}
 		return current;
 	}
 

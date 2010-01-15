@@ -1451,6 +1451,20 @@ public class ItemDatabase
 		return false;
 	}
 
+	public static final boolean isStinkyCheeseItem( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.STINKY_CHEESE_SWORD:
+		case ItemPool.STINKY_CHEESE_DIAPER:
+		case ItemPool.STINKY_CHEESE_WHEEL:
+		case ItemPool.STINKY_CHEESE_EYE:
+		case ItemPool.STINKY_CHEESE_STAFF:
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Returns the kind of consumption associated with an item
 	 *

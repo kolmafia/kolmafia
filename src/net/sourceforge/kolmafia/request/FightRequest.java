@@ -1481,6 +1481,14 @@ public class FightRequest
 		if ( FightRequest.currentRound == 1 )
 		{
 			FightRequest.haveFought = true;
+
+			// Increment stinky cheese counter
+			int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
+			if ( stinkyCount > 0 )
+			{
+				Preferences.increment( "_stinkyCheeseCount", stinkyCount );
+			}
+
 			// If this is the first round, then register the
 			// opponent you are fighting against.
 
