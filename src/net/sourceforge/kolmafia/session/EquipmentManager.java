@@ -95,6 +95,7 @@ public class EquipmentManager
 	private static final ArrayList[] historyLists = new ArrayList[ EquipmentManager.ALL_SLOTS ];
 
 	private static int fakeHandCount = 0;
+	private static int stinkyCheeseLevel = 0;
 
 	private static final LockableListModel customOutfits = new LockableListModel();
 	private static final LockableListModel outfits = new LockableListModel();
@@ -144,6 +145,7 @@ public class EquipmentManager
 		}
 
 		EquipmentManager.fakeHandCount = 0;
+		EquipmentManager.stinkyCheeseLevel = 0;
 		EquipmentManager.customOutfits.clear();
 		EquipmentManager.outfits.clear();
 		EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
@@ -257,6 +259,8 @@ public class EquipmentManager
 
 	public static final void setEquipment( final int slot, AdventureResult item )
 	{
+		AdventureResult old = EquipmentManager.getEquipment( slot );
+
 		// Accessories are special in terms of testing for existence
 		// in equipment lists -- they are all mirrors of accessories.
 
@@ -338,6 +342,41 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Winter's Bite Technique" );
 			KoLCharacter.addAvailableSkill( "The 17 Cuts" );
 			break;
+		case ItemPool.RED_AND_GREEN_SWEATER:
+			KoLCharacter.addAvailableSkill( "Static Shock" );
+			break;
+		case ItemPool.STINKY_CHEESE_EYE:
+			KoLCharacter.addAvailableSkill( "Give Your Opponent the Stinkeye" );
+			break;
+		}
+
+		// If we are either swapping out or in a stinky cheese item,
+		// recalculate stinky cheese level.
+		if ( ItemDatabase.isStinkyCheeseItem( old.getItemId() ) ||
+		     ItemDatabase.isStinkyCheeseItem( item.getItemId() ) )
+		{
+			AdventureResult weapon = EquipmentManager.getEquipment( WEAPON );
+			AdventureResult offhand = EquipmentManager.getEquipment( OFFHAND );
+			AdventureResult pants = EquipmentManager.getEquipment( PANTS );
+			AdventureResult acc1 = EquipmentManager.getEquipment( ACCESSORY1 );
+			AdventureResult acc2 = EquipmentManager.getEquipment( ACCESSORY2 );
+			AdventureResult acc3 = EquipmentManager.getEquipment( ACCESSORY3 );
+
+			boolean sword = weapon.getItemId() == ItemPool.STINKY_CHEESE_SWORD ||
+				offhand.getItemId() == ItemPool.STINKY_CHEESE_SWORD;
+			boolean staff = weapon.getItemId() == ItemPool.STINKY_CHEESE_STAFF;
+			boolean diaper = pants.getItemId() == ItemPool.STINKY_CHEESE_DIAPER;
+			boolean wheel = offhand.getItemId() == ItemPool.STINKY_CHEESE_WHEEL;
+			boolean eye = acc1.getItemId() == ItemPool.STINKY_CHEESE_EYE ||
+				acc2.getItemId() == ItemPool.STINKY_CHEESE_EYE ||
+				acc3.getItemId() == ItemPool.STINKY_CHEESE_EYE;
+
+			EquipmentManager.stinkyCheeseLevel =
+				( sword ? 1 : 0 ) +
+				( staff ? 1 : 0 ) +
+				( diaper ? 1 : 0 ) +
+				( wheel ? 1 : 0 ) +
+				( eye ? 1 : 0 );
 		}
 	}
 
@@ -554,6 +593,11 @@ public class EquipmentManager
 	public static final void setFakeHands( final int hands )
 	{
 		EquipmentManager.fakeHandCount = hands;
+	}
+
+	public static final int getStinkyCheeseLevel()
+	{
+		return EquipmentManager.stinkyCheeseLevel;
 	}
 
 	/**

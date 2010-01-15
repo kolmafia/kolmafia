@@ -985,6 +985,7 @@ public class ItemPool
 	public static final int CARDBOARD_ELF_EAR = 4374;
 	public static final int SPIRALING_SHAPE = 4375;
 	public static final int CRIMBOMINATION_CONTRAPTION = 4376;
+	public static final int RED_AND_GREEN_SWEATER = 4391;
 	public static final int CRIMBO_CANDY_COOKBOOK = 4392;
 	public static final int STINKY_CHEESE_BALL = 4398;
 	public static final int STINKY_CHEESE_SWORD = 4399;

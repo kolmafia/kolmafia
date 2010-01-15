@@ -359,8 +359,7 @@ star pants	Initiative: +20
 sticky meat kilt	Moxie: +3
 sticky meat pants	Moxie: +3
 sticky meat skirt	Moxie: +3
-# stinky cheese diaper: +X Adventure(s) per day when equipped
-stinky cheese diaper	Softcore Only
+stinky cheese diaper	Softcore Only, Adventures: [max(1,min(10,pref(_stinkyCheeseCount)/10))]
 # studded leather boxer shorts
 sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 swashbuckling pants	Moxie: +4
@@ -840,8 +839,7 @@ starchy crossbow	Moxie: +3
 starchy staff	Mysticality: +3
 starchy sword	Muscle: +3
 stinkin' bindle	Item Drop: +10, Stench Damage: +25
-# stinky cheese sword: +X stench damage
-stinky cheese sword	Softcore Only
+stinky cheese sword	Softcore Only, Stench Damage: [max(1,min(33,pref(_stinkyCheeseCount)/3))]
 # stolen accordion
 stone banjo	Moxie: +1
 # stuffed crazy bastard sword
@@ -1105,8 +1103,7 @@ spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Ab
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 steely marble	Sleaze Spell Damage: +65
-# stinky cheese wheel: +X Damage Absorption
-stinky cheese wheel	Softcore Only
+stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,pref(_stinkyCheeseCount)/2))]
 # stuffed Baron von Ratsworth
 # stuffed Cheshire bitten
 # stuffed MagiMechTech MicroMechaMech
@@ -1516,9 +1513,7 @@ stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Percent
 stainless steel solitaire	Mana Cost: -2, Adventures: +2, Mysticality Percent: +15, Single Equip
 stainless steel suspenders	Damage Absorption: +60, Maximum MP: +40, Moxie Percent: +15, Single Equip
 stick-on eyebrow piercing	Muscle: +1
-# stinky cheese eye: +X% Meat Drops from Monsters
-# stinky cheese eye: +X% Item Drops from Monsters
-stinky cheese eye	Softcore Only
+stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,pref(_stinkyCheeseCount)/5))], Item Drop: [max(1,min(20,pref(_stinkyCheeseCount)/5))]
 string of blue beads	Mysticality: +1
 string of green beads	Moxie: +1
 string of red beads	Muscle: +1
