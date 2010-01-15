@@ -144,6 +144,7 @@ public class FamiliarTrainingFrame
 	private static final AdventureResult FLOWER_BOUQUET = ItemPool.get( ItemPool.MAYFLOWER_BOUQUET, 1 );
 	private static final AdventureResult FIREWORKS = ItemPool.get( ItemPool.FIREWORKS, 1 );
 	private static final AdventureResult DOPPELGANGER = ItemPool.get( ItemPool.FAMILIAR_DOPPELGANGER, 1 );
+	private static final AdventureResult SUGAR_SHIELD = ItemPool.get( ItemPool.SUGAR_SHIELD, 1 );
 
 	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
 	private static final AdventureResult GREEN_SNOWCONE = ItemPool.get( ItemPool.GREEN_SNOWCONE, 1 );
@@ -1246,7 +1247,13 @@ public class FamiliarTrainingFrame
 			return true;
 		}
 
-		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) && !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) && !InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) && status.familiarItemWeight != 0 && !InventoryManager.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
+		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) &&
+		     !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) &&
+		     !InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) &&
+		     !InventoryManager.hasItem( FamiliarTrainingFrame.SUGAR_SHIELD ) &&
+		     status.familiarItemWeight != 0 &&
+		     !InventoryManager.hasItem( status.familiarItem ) &&
+		     KoLCharacter.canInteract() )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
 			RequestThread.postRequest( new EquipmentRequest( status.familiarItem ) );
@@ -1585,6 +1592,7 @@ public class FamiliarTrainingFrame
 		boolean pumpkinBucket;
 		boolean flowerBouquet;
 		boolean boxFireworks;
+		boolean sugarShield;
 		boolean doppelganger;
 
 		int tpCount;
@@ -1706,6 +1714,7 @@ public class FamiliarTrainingFrame
 			this.pumpkinBucket = false;
 			this.flowerBouquet = false;
 			this.boxFireworks = false;
+			this.sugarShield = false;
 			this.doppelganger = false;
 
 			this.whipCount = 0;
@@ -1763,6 +1772,12 @@ public class FamiliarTrainingFrame
 				{
 					this.boxFireworks = true;
 					this.item = FamiliarTrainingFrame.FIREWORKS;
+				}
+
+				if ( itemId == FamiliarTrainingFrame.SUGAR_SHIELD.getItemId() )
+				{
+					this.sugarShield = true;
+					this.item = FamiliarTrainingFrame.SUGAR_SHIELD;
 				}
 
 				if ( itemId == FamiliarTrainingFrame.LEAD_NECKLACE.getItemId() )
@@ -1859,18 +1874,22 @@ public class FamiliarTrainingFrame
 
 			if ( !KoLCharacter.isHardcore() )
 			{
-				// If current familiar is not wearing a pumpkin basket,
+				// If current familiar is not wearing a pumpkin bucket,
 				// search inventory
 				this.pumpkinBucket |= FamiliarTrainingFrame.PUMPKIN_BUCKET.getCount( inventory ) > 0;
 
-				// If current familiar is not wearing a flowerBouquet,
+				// If current familiar is not wearing a Mayflower bouquet,
 				// search inventory
 				this.flowerBouquet |= FamiliarTrainingFrame.FLOWER_BOUQUET.getCount( inventory ) > 0;
 
-				// If current familiar is not wearing a boxFireworks,
+				// If current familiar is not wearing a box of fireworks,
 				// search inventory
 				this.boxFireworks |= FamiliarTrainingFrame.FIREWORKS.getCount( inventory ) > 0;
 			}
+
+			// If current familiar is not wearing a sugar shield,
+			// search inventory
+			this.sugarShield |= FamiliarTrainingFrame.SUGAR_SHIELD.getCount( inventory ) > 0;
 
 			// If current familiar is not wearing a lead necklace,
 			// search inventory
@@ -1914,7 +1933,11 @@ public class FamiliarTrainingFrame
 			// a lead necklace or a rat head balloon, search other
 			// familiars; we'll steal it from them if necessary
 
-			if ( this.familiar.getId() == FamiliarPool.CHAMELEON || this.leadNecklace && this.ratHeadBalloon && this.pumpkinBucket && this.flowerBouquet && this.bathysphere && this.dasBoot )
+			if ( this.familiar.getId() == FamiliarPool.CHAMELEON ||
+			     this.leadNecklace && this.ratHeadBalloon &&
+			     this.pumpkinBucket && this.flowerBouquet && 
+			     this.boxFireworks && this.sugarShield && 
+			     this.bathysphere && this.dasBoot )
 			{
 				return;
 			}
@@ -1940,6 +1963,7 @@ public class FamiliarTrainingFrame
 				this.flowerBouquet |= item.getItemId() == FamiliarTrainingFrame.FLOWER_BOUQUET.getItemId();
 				this.doppelganger |= item.getItemId() == FamiliarTrainingFrame.DOPPELGANGER.getItemId();
 				this.boxFireworks |= item.getItemId() == FamiliarTrainingFrame.FIREWORKS.getItemId();
+				this.sugarShield |= item.getItemId() == FamiliarTrainingFrame.SUGAR_SHIELD.getItemId();
 			}
 		}
 
@@ -2052,14 +2076,26 @@ public class FamiliarTrainingFrame
 				this.getAccessoryWeights( weight + this.specWeight );
 			}
 
-			// If we have a pumpkin basket, use it
+			// If we have a sugar shield, use it
+			if ( this.sugarShield )
+			{
+				this.getAccessoryWeights( weight + 10 );
+			}
+
+			// If we have a pumpkin bucket, use it
 			if ( this.pumpkinBucket )
 			{
 				this.getAccessoryWeights( weight + 5 );
 			}
 
-			// If we have a flower bouquet, use it
+			// If we have a Mayflower bouquet, use it
 			if ( this.flowerBouquet )
+			{
+				this.getAccessoryWeights( weight + 5 );
+			}
+
+			// If we have a little box of fireworks, use it
+			if ( this.boxFireworks )
 			{
 				this.getAccessoryWeights( weight + 5 );
 			}
@@ -2335,6 +2371,10 @@ public class FamiliarTrainingFrame
 			{
 				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.FIREWORKS, hat );
 			}
+			if ( this.sugarShield )
+			{
+				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.SUGAR_SHIELD, hat );
+			}
 			if ( this.leadNecklace )
 			{
 				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.LEAD_NECKLACE, hat );
@@ -2502,6 +2542,10 @@ public class FamiliarTrainingFrame
 			else if ( item == this.specItem )
 			{
 				weight += this.specWeight;
+			}
+			else if ( item == FamiliarTrainingFrame.SUGAR_SHIELD )
+			{
+				weight += 10;
 			}
 			else if ( item == FamiliarTrainingFrame.PUMPKIN_BUCKET )
 			{
@@ -2762,6 +2806,14 @@ public class FamiliarTrainingFrame
 			{
 				weight += 5;
 			}
+			else if ( this.boxFireworks )
+			{
+				weight += 5;
+			}
+			else if ( this.sugarShield )
+			{
+				weight += 10;
+			}
 			else if ( this.specWeight > 3 )
 			{
 				weight += this.specWeight;
@@ -2907,6 +2959,10 @@ public class FamiliarTrainingFrame
 			{
 				text.append( " " + FamiliarTrainingFrame.FIREWORKS.getName() + " (+5)" );
 			}
+			else if ( this.item == FamiliarTrainingFrame.SUGAR_SHIELD )
+			{
+				text.append( " " + FamiliarTrainingFrame.SUGAR_SHIELD.getName() + " (+10)" );
+			}
 			else if ( this.item == FamiliarTrainingFrame.LEAD_NECKLACE )
 			{
 				text.append( " " + FamiliarTrainingFrame.LEAD_NECKLACE.getName() + " (+3)" );
@@ -2978,6 +3034,10 @@ public class FamiliarTrainingFrame
 				if ( this.specItem != null )
 				{
 					text.append( " " + this.specItem.getName() + " (+" + this.specWeight + ")" );
+				}
+				if ( this.sugarShield )
+				{
+					text.append( " sugar shield (+10)" );
 				}
 				if ( this.pumpkinBucket )
 				{
@@ -3074,7 +3134,7 @@ public class FamiliarTrainingFrame
 					changes += that.item == null ? 1 : 10;
 				}
 
-				// Pumpkin basket is also ideal, lead necklace
+				// Pumpkin bucket is also ideal, lead necklace
 				// is less than ideal, standard item is ideal.
 
 				if ( this.item != that.item )
