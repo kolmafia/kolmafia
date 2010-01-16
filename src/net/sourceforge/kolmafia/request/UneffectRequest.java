@@ -174,6 +174,16 @@ public class UneffectRequest
 			return "Moxie of the Mariachi";
 		}
 
+		if ( effectName.equalsIgnoreCase( "A Few Extra Pounds" ) )
+		{
+			return "Holiday Weight Gain";
+		}
+
+		if ( effectName.equalsIgnoreCase( "Jingle Jangle Jingle" ) )
+		{
+			return "Jingle Bells";
+		}
+
 		return effectName;
 	}
 
@@ -212,6 +222,16 @@ public class UneffectRequest
 		if ( skillName.equals( "Moxie of the Mariachi" ) )
 		{
 			return "Mariachi Mood";
+		}
+
+		if ( skillName.equalsIgnoreCase( "Holiday Weight Gain" ) )
+		{
+			return "A Few Extra Pounds";
+		}
+
+		if ( skillName.equalsIgnoreCase( "Jingle Bells" ) )
+		{
+			return "Jingle Jangle Jingle";
 		}
 
 		return skillName;
