@@ -2347,9 +2347,8 @@ public class Modifiers
 					v = Modifiers.currentFamiliar.indexOf( this.fam ) == -1 ? 0.0f : 1.0f;
 					break;
 				case 'p':
-					v = Preferences.getFloat( this.pref );
+					v = StringUtilities.parseFloat( Preferences.getString( this.pref ) );
 					break;
-					
 				case 'm':
 					v = Math.min( s[ --sp ], s[ --sp ] );
 					break;
