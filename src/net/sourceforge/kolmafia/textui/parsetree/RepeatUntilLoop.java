@@ -64,7 +64,10 @@ public class RepeatUntilLoop
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( this.toString() );
+		if (interpreter.isTracing() )
+		{
+			interpreter.trace( this.toString() );
+		}
 
 		Value conditionResult;
 
@@ -85,12 +88,18 @@ public class RepeatUntilLoop
 				return result;
 			}
 
-			interpreter.trace( "Test: " + this.condition );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Test: " + this.condition );
+			}
 
 			conditionResult = this.condition.execute( interpreter );
 			interpreter.captureValue( conditionResult );
 
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
+			}
 
 			if ( conditionResult == null )
 			{

@@ -461,7 +461,10 @@ public abstract class BasicScope
 				result = DataTypes.VOID_VALUE;
 			}
 
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + result.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + result.toQuotedString() );
+			}
 
 			if ( interpreter.getState() != Interpreter.STATE_NORMAL )
 			{

@@ -70,7 +70,10 @@ public class RecordInitializer
 				continue;
 			}
 
-			interpreter.trace( "Field #" + (fieldCount + 1) + ": " + fieldValue.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Field #" + (fieldCount + 1) + ": " + fieldValue.toQuotedString() );
+			}
 
 			Value value = fieldValue.execute( interpreter );
 			interpreter.captureValue( value );
@@ -85,7 +88,10 @@ public class RecordInitializer
 				return null;
 			}
 
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
+			}
 
 			content[ fieldCount ] = value;
 			fieldCount++;

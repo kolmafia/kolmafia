@@ -90,12 +90,18 @@ public class FunctionReturn
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( "Eval: " + this.returnValue );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Eval: " + this.returnValue );
+		}
 
 		Value result = this.returnValue.execute( interpreter );
 		interpreter.captureValue( result );
 
-		interpreter.trace( "Returning: " + result );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Returning: " + result );
+		}
 		interpreter.traceUnindent();
 
 		if ( result == null )

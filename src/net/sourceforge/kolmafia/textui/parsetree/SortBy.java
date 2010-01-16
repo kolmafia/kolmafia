@@ -66,7 +66,10 @@ public class SortBy
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( this.toString() );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( this.toString() );
+		}
 		
 		AggregateValue map = (AggregateValue) this.aggregate.execute( interpreter );
 		interpreter.captureValue( map );
@@ -86,7 +89,10 @@ public class SortBy
 			this.indexvar.setValue( interpreter, index );
 			Value value = map.aref( index, interpreter );
 			this.valuevar.setValue( interpreter, value );
-			interpreter.trace( "Element #" + i + ": " + index + " = " + value );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Element #" + i + ": " + index + " = " + value );
+			}
 			Value sortkey = this.expr.execute( interpreter );
 			if ( interpreter.getState() == Interpreter.STATE_EXIT )
 			{
@@ -94,7 +100,10 @@ public class SortBy
 				return null;
 			}
 			interpreter.captureValue( sortkey );
-			interpreter.trace( "Key = " + sortkey );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Key = " + sortkey );
+			}
 			values[ i ] = new Pair( sortkey, value );
 		}
 		

@@ -152,7 +152,10 @@ public class Interpreter
 			this.parser = new Parser( scriptFile, stream, null );
 			this.scope = parser.parse();
 			this.resetTracing();
-			this.printScope( this.scope );
+			if ( this.isTracing() )
+			{
+				this.printScope( this.scope );
+			}
 			return true;
 		}
 		catch ( ScriptException e )
@@ -230,7 +233,10 @@ public class Interpreter
 
 		if ( executeTopLevel )
 		{
-			this.trace( "Executing top-level commands" );
+			if ( this.isTracing() )
+			{
+				this.trace( "Executing top-level commands" );
+			}
 			result = topScope.execute( this );
 		}
 
@@ -242,7 +248,10 @@ public class Interpreter
 		// Now execute main function, if any
 		if ( main != null )
 		{
-			this.trace( "Executing main function" );
+			if ( this.isTracing() )
+			{
+				this.trace( "Executing main function" );
+			}
 
 			if ( !this.requestUserParams( main, parameters ) )
 			{
@@ -359,15 +368,20 @@ public class Interpreter
 
 	// **************** Tracing *****************
 
-	private final void indentLine( final int indent )
+	public final boolean isTracing()
 	{
-		Interpreter.indentLine( this.traceStream, indent );
+		return this.traceStream != NullStream.INSTANCE;
 	}
 
 	public final void resetTracing()
 	{
 		this.traceIndentation = 0;
 		this.traceStream = RequestLogger.getDebugStream();
+	}
+
+	private final void indentLine( final int indent )
+	{
+		Interpreter.indentLine( this.traceStream, indent );
 	}
 
 	public final void traceIndent()

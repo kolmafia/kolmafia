@@ -84,12 +84,18 @@ public class Assignment
 		else
 		{
 			interpreter.traceIndent();
-			interpreter.trace( "Eval: " + this.rhs );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Eval: " + this.rhs );
+			}
 
 			value = this.rhs.execute( interpreter );
 			interpreter.captureValue( value );
 
-			interpreter.trace( "Set: " + value );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Set: " + value );
+			}
 			interpreter.traceUnindent();
 		}
 

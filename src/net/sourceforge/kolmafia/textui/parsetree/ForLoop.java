@@ -99,15 +99,21 @@ public class ForLoop
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( this.toString() );
+
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( this.toString() );
+			interpreter.trace( "Initial: " + this.initial );
+		}
 
 		// Get the initial value
-		interpreter.trace( "Initial: " + this.initial );
-
 		Value initialValue = this.initial.execute( interpreter );
 		interpreter.captureValue( initialValue );
 
-		interpreter.trace( "[" + interpreter.getState() + "] <- " + initialValue );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "[" + interpreter.getState() + "] <- " + initialValue );
+		}
 
 		if ( initialValue == null )
 		{
@@ -115,13 +121,19 @@ public class ForLoop
 			return null;
 		}
 
-		// Get the final value
-		interpreter.trace( "Last: " + this.last );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Last: " + this.last );
+		}
 
+		// Get the final value
 		Value lastValue = this.last.execute( interpreter );
 		interpreter.captureValue( lastValue );
 
-		interpreter.trace( "[" + interpreter.getState() + "] <- " + lastValue );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "[" + interpreter.getState() + "] <- " + lastValue );
+		}
 
 		if ( lastValue == null )
 		{
@@ -129,13 +141,19 @@ public class ForLoop
 			return null;
 		}
 
-		// Get the increment
-		interpreter.trace( "Increment: " + this.increment );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Increment: " + this.increment );
+		}
 
+		// Get the increment
 		Value incrementValue = this.increment.execute( interpreter );
 		interpreter.captureValue( incrementValue );
 
-		interpreter.trace( "[" + interpreter.getState() + "] <- " + incrementValue );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "[" + interpreter.getState() + "] <- " + incrementValue );
+		}
 
 		if ( incrementValue == null )
 		{
