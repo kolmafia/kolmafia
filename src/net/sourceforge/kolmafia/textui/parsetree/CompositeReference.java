@@ -108,7 +108,10 @@ public class CompositeReference
 		this.index = null;
 
 		interpreter.traceIndent();
-		interpreter.trace( "AREF: " + this.slice.toString() );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "AREF: " + this.slice.toString() );
+		}
 
 		Iterator it = this.indices.iterator();
 
@@ -117,7 +120,10 @@ public class CompositeReference
 			Value exp = (Value) it.next();
 
 			interpreter.traceIndent();
-			interpreter.trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
+			}
 
 			this.index = exp.execute( interpreter );
 			interpreter.captureValue( this.index );
@@ -126,7 +132,10 @@ public class CompositeReference
 				this.index = DataTypes.VOID_VALUE;
 			}
 
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + this.index.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + this.index.toQuotedString() );
+			}
 			interpreter.traceUnindent();
 
 			if ( interpreter.getState() == Interpreter.STATE_EXIT )
@@ -148,7 +157,10 @@ public class CompositeReference
 
 				this.slice = result;
 
-				interpreter.trace( "AREF <- " + this.slice.toString() );
+				if ( interpreter.isTracing() )
+				{
+					interpreter.trace( "AREF <- " + this.slice.toString() );
+				}
 			}
 		}
 
@@ -172,7 +184,10 @@ public class CompositeReference
 			}
 
 			interpreter.traceIndent();
-			interpreter.trace( "AREF <- " + result.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "AREF <- " + result.toQuotedString() );
+			}
 			interpreter.traceUnindent();
 
 			return result;
@@ -189,7 +204,10 @@ public class CompositeReference
 		{
 			this.slice.aset( this.index, targetValue, interpreter );
 			interpreter.traceIndent();
-			interpreter.trace( "ASET: " + targetValue.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "ASET: " + targetValue.toQuotedString() );
+			}
 			interpreter.traceUnindent();
 		}
 	}
@@ -206,7 +224,10 @@ public class CompositeReference
 				result = this.slice.initialValue( this.index );
 			}
 			interpreter.traceIndent();
-			interpreter.trace( "remove <- " + result.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "remove <- " + result.toQuotedString() );
+			}
 			interpreter.traceUnindent();
 			return result;
 		}
@@ -223,7 +244,10 @@ public class CompositeReference
 			result = this.slice.aref( index, interpreter ) != null;
 		}
 		interpreter.traceIndent();
-		interpreter.trace( "contains <- " + result );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "contains <- " + result );
+		}
 		interpreter.traceUnindent();
 		return result;
 	}

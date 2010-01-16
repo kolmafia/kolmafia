@@ -64,16 +64,25 @@ public class WhileLoop
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( this.toString() );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( this.toString() );
+		}
 
 		while ( true )
 		{
-			interpreter.trace( "Test: " + this.condition );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Test: " + this.condition );
+			}
 
 			Value conditionResult = this.condition.execute( interpreter );
 			interpreter.captureValue( conditionResult );
 
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult );
+			}
 
 			if ( conditionResult == null )
 			{

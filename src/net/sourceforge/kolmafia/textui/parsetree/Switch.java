@@ -81,14 +81,23 @@ public class Switch
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( this.toString() );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( this.toString() );
+		}
 
-		interpreter.trace( "Value: " + this.condition );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Value: " + this.condition );
+		}
 
 		Value value = this.condition.execute( interpreter );
 		interpreter.captureValue( value );
 
-		interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "[" + interpreter.getState() + "] <- " + value );
+		}
 
 		if ( value == null )
 		{
@@ -111,12 +120,18 @@ public class Switch
 			for ( int index = 0; index < tests.length; ++index )
 			{
 				Value test = tests[ index ];
-				interpreter.trace( "test: " + test );
+				if ( interpreter.isTracing() )
+				{
+					interpreter.trace( "test: " + test );
+				}
 
 				Value result = test.execute( interpreter );
 				interpreter.captureValue( result );
 
-				interpreter.trace( "[" + interpreter.getState() + "] <- " + result );
+				if ( interpreter.isTracing() )
+				{
+					interpreter.trace( "[" + interpreter.getState() + "] <- " + result );
+				}
 
 				if ( result == null )
 				{

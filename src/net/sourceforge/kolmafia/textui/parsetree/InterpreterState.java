@@ -55,9 +55,12 @@ public abstract class InterpreterState
 
 	public Value execute( final Interpreter interpreter )
 	{
-		interpreter.traceIndent();
-		interpreter.trace( this.toString() );
-		interpreter.traceUnindent();
+		if ( interpreter.isTracing() )
+		{
+			interpreter.traceIndent();
+			interpreter.trace( this.toString() );
+			interpreter.traceUnindent();
+		}
 		interpreter.setState( this.state );
 		return DataTypes.VOID_VALUE;
 	}

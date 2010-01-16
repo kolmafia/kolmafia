@@ -56,7 +56,10 @@ public class Else
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( "else" );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "else" );
+		}
 		Value result = this.scope.execute( interpreter );
 		interpreter.traceUnindent();
 

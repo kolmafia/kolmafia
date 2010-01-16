@@ -188,7 +188,10 @@ public class Operator
 		}
 
 		Value result = bool ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
-		interpreter.trace( "<- " + result );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "<- " + result );
+		}
 		interpreter.traceUnindent();
 		return result;
 	}
@@ -256,7 +259,10 @@ public class Operator
 				DataTypes.ZERO_VALUE;
 		}
 
-		interpreter.trace( "<- " + result );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "<- " + result );
+		}
 		interpreter.traceUnindent();
 		return result;
 	}
@@ -264,23 +270,35 @@ public class Operator
 	public Value applyTo( final Interpreter interpreter, final Value lhs, final Value rhs )
 	{
 		interpreter.traceIndent();
-		interpreter.trace( "Operator: " + this.operator );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Operator: " + this.operator );
+		}
 
 		// Unary operator with special evaluation of argument
 		if ( this.operator.equals( "remove" ) )
 		{
 			CompositeReference operand = (CompositeReference) lhs;
-			interpreter.traceIndent();
-			interpreter.trace( "Operand: " + operand );
-			interpreter.traceUnindent();
+                        if ( interpreter.isTracing() )
+                        {
+                                interpreter.traceIndent();
+                                interpreter.trace( "Operand: " + operand );
+                                interpreter.traceUnindent();
+                        }
 			Value result = operand.removeKey( interpreter );
-			interpreter.trace( "<- " + result );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "<- " + result );
+			}
 			interpreter.traceUnindent();
 			return result;
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( "Operand 1: " + lhs );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Operand 1: " + lhs );
+		}
 
 		Value leftValue = lhs.execute( interpreter );
 		interpreter.captureValue( leftValue );
@@ -288,7 +306,10 @@ public class Operator
 		{
 			leftValue = DataTypes.VOID_VALUE;
 		}
-		interpreter.trace( "[" + interpreter.getState() + "] <- " + leftValue.toQuotedString() );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "[" + interpreter.getState() + "] <- " + leftValue.toQuotedString() );
+		}
 		interpreter.traceUnindent();
 
 		if ( interpreter.getState() == Interpreter.STATE_EXIT )
@@ -301,7 +322,10 @@ public class Operator
 		if ( this.operator.equals( "!" ) )
 		{
 			Value result = new Value( leftValue.intValue() == 0 );
-			interpreter.trace( "<- " + result );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "<- " + result );
+			}
 			interpreter.traceUnindent();
 			return result;
 		}
@@ -321,7 +345,10 @@ public class Operator
 			{
 				throw Interpreter.runtimeException( "Internal error: Unary minus can only be applied to numbers", this.fileName, this.lineNumber );
 			}
-			interpreter.trace( "<- " + result );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "<- " + result );
+			}
 			interpreter.traceUnindent();
 			return result;
 		}
@@ -337,26 +364,38 @@ public class Operator
 		{
 			if ( leftValue.intValue() == 1 )
 			{
-				interpreter.trace( "<- " + DataTypes.TRUE_VALUE );
+				if ( interpreter.isTracing() )
+				{
+					interpreter.trace( "<- " + DataTypes.TRUE_VALUE );
+				}
 				interpreter.traceUnindent();
 				return DataTypes.TRUE_VALUE;
 			}
 			interpreter.traceIndent();
-			interpreter.trace( "Operand 2: " + rhs );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Operand 2: " + rhs );
+			}
 			Value rightValue = rhs.execute( interpreter );
 			interpreter.captureValue( rightValue );
 			if ( rightValue == null )
 			{
 				rightValue = DataTypes.VOID_VALUE;
 			}
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
+			}
 			interpreter.traceUnindent();
 			if ( interpreter.getState() == Interpreter.STATE_EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
 			}
-			interpreter.trace( "<- " + rightValue );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "<- " + rightValue );
+			}
 			interpreter.traceUnindent();
 			return rightValue;
 		}
@@ -366,25 +405,37 @@ public class Operator
 			if ( leftValue.intValue() == 0 )
 			{
 				interpreter.traceUnindent();
-				interpreter.trace( "<- " + DataTypes.FALSE_VALUE );
+				if ( interpreter.isTracing() )
+				{
+					interpreter.trace( "<- " + DataTypes.FALSE_VALUE );
+				}
 				return DataTypes.FALSE_VALUE;
 			}
 			interpreter.traceIndent();
-			interpreter.trace( "Operand 2: " + rhs );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Operand 2: " + rhs );
+			}
 			Value rightValue = rhs.execute( interpreter );
 			interpreter.captureValue( rightValue );
 			if ( rightValue == null )
 			{
 				rightValue = DataTypes.VOID_VALUE;
 			}
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
+			}
 			interpreter.traceUnindent();
 			if ( interpreter.getState() == Interpreter.STATE_EXIT )
 			{
 				interpreter.traceUnindent();
 				return null;
 			}
-			interpreter.trace( "<- " + rightValue );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "<- " + rightValue );
+			}
 			interpreter.traceUnindent();
 			return rightValue;
 		}
@@ -399,14 +450,20 @@ public class Operator
 		if ( this.operator.equals( "contains" ) )
 		{
 			interpreter.traceIndent();
-			interpreter.trace( "Operand 2: " + rhs );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Operand 2: " + rhs );
+			}
 			Value rightValue = rhs.execute( interpreter );
 			interpreter.captureValue( rightValue );
 			if ( rightValue == null )
 			{
 				rightValue = DataTypes.VOID_VALUE;
 			}
-			interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
+			}
 			interpreter.traceUnindent();
 			if ( interpreter.getState() == Interpreter.STATE_EXIT )
 			{
@@ -414,21 +471,30 @@ public class Operator
 				return null;
 			}
 			Value result = new Value( leftValue.contains( rightValue ) );
-			interpreter.trace( "<- " + result );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "<- " + result );
+			}
 			interpreter.traceUnindent();
 			return result;
 		}
 
 		// Binary operators
 		interpreter.traceIndent();
-		interpreter.trace( "Operand 2: " + rhs );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Operand 2: " + rhs );
+		}
 		Value rightValue = rhs.execute( interpreter );
 		interpreter.captureValue( rightValue );
 		if ( rightValue == null )
 		{
 			rightValue = DataTypes.VOID_VALUE;
 		}
-		interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
+		}
 		interpreter.traceUnindent();
 		if ( interpreter.getState() == Interpreter.STATE_EXIT )
 		{

@@ -80,7 +80,10 @@ public class ForEachLoop
 		}
 
 		interpreter.traceIndent();
-		interpreter.trace( this.toString() );
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( this.toString() );
+		}
 
 		// Evaluate the aggref to get the slice
 		AggregateValue slice = (AggregateValue) this.aggregate.execute( interpreter );
@@ -115,7 +118,10 @@ public class ForEachLoop
 			// Bind variable to key
 			variable.setValue( interpreter, key );
 
-			interpreter.trace( "Key #" + i + ": " + key );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Key #" + i + ": " + key );
+			}
 
 			// If there are more indices to bind, recurse
 			Value result;
