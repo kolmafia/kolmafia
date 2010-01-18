@@ -120,8 +120,8 @@
 119	On the Shoulders of Giants	farout.gif	68ea640257b2b74627e74ce275a555fc	use 1 Hawking's Elixir of Brilliance
 120	Shot in the Arse	shotarse.gif	d65d1192f0638f8f72e2f18b99c33a91
 121	Cock of the Walk	cockghost.gif	4bd0338c8030f6aaa95ea5eda777484c	use 1 Connery's Elixir of Audacity
-122	Eggs-tra Sensory Perception	eggplain.gif	5ca8ae9f3177d3f1bfee8ceccde554b7	use 1 off-white paisley oyster egg
-123	Egg-stortionary Tactics	eggplain.gif	3cef8a2a9750292400d4380caacda408	use 1 black paisley oyster egg
+122	Eggs-tra Sensory Perception	eggplain.gif	5ca8ae9f3177d3f1bfee8ceccde554b7	use either 1 off-white paisley oyster egg, 1 off-white polka-dot oyster egg, 1 off-white striped oyster egg
+123	Egg-stortionary Tactics	eggplain.gif	3cef8a2a9750292400d4380caacda408	use either 1 black paisley oyster egg, 1 black polka-dot oyster egg, 1 black striped oyster egg
 124	Egg-stra Arm	eggplain.gif	f571d1555a2465e9e8fb0fb3b31b18e5	use 1 yellow striped oyster egg
 125	Egg-headedness	eggplain.gif	e6b783e02fa92072ca81c7585912ba37	use 1 yellow paisley oyster egg
 126	Egg-cellent Vocabulary	eggplain.gif	f7347c1d229420acff2226dac4125a0a	use 1 yellow polka-dot oyster egg
