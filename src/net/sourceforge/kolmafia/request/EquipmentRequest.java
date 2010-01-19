@@ -1171,7 +1171,10 @@ public class EquipmentRequest
 					equipment[ EquipmentManager.HAT ] = new AdventureResult( name, 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Hat: " + equipment[ EquipmentManager.HAT ] );
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Hat: " + equipment[ EquipmentManager.HAT ] );
+				}
 			}
 		}
 
@@ -1187,7 +1190,10 @@ public class EquipmentRequest
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Weapon: " + equipment[ EquipmentManager.WEAPON ] );
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Weapon: " + equipment[ EquipmentManager.WEAPON ] );
+				}
 			}
 		}
 
@@ -1203,7 +1209,10 @@ public class EquipmentRequest
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Off-hand: " + equipment[ EquipmentManager.OFFHAND ] );
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Off-hand: " + equipment[ EquipmentManager.OFFHAND ] );
+				}
 			}
 		}
 
@@ -1219,7 +1228,10 @@ public class EquipmentRequest
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Shirt: " + equipment[ EquipmentManager.SHIRT ] );
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Shirt: " + equipment[ EquipmentManager.SHIRT ] );
+				}
 			}
 		}
 
@@ -1235,7 +1247,10 @@ public class EquipmentRequest
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Pants: " + equipment[ EquipmentManager.PANTS ] );
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Pants: " + equipment[ EquipmentManager.PANTS ] );
+				}
 			}
 		}
 
@@ -1251,7 +1266,10 @@ public class EquipmentRequest
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Accessory 1: " + equipment[ EquipmentManager.ACCESSORY1 ] );
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Accessory 1: " + equipment[ EquipmentManager.ACCESSORY1 ] );
+				}
 			}
 		}
 
@@ -1267,7 +1285,10 @@ public class EquipmentRequest
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Accessory 2: " + equipment[ EquipmentManager.ACCESSORY2 ] );
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Accessory 2: " + equipment[ EquipmentManager.ACCESSORY2 ] );
+				}
 			}
 		}
 
@@ -1283,9 +1304,11 @@ public class EquipmentRequest
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Accessory 3: " + equipment[ EquipmentManager.ACCESSORY3 ] );
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Accessory 3: " + equipment[ EquipmentManager.ACCESSORY3 ] );
+				}
 			}
-
 		}
 
 		if ( responseText.indexOf( "unequip&type=familiarequip" ) != -1 )
@@ -1300,7 +1323,10 @@ public class EquipmentRequest
 						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
 				}
 
-				RequestLogger.updateDebugLog( "Familiar: " + equipment[ EquipmentManager.FAMILIAR ] );
+				if ( RequestLogger.isDebugging() )
+				{
+					RequestLogger.updateDebugLog( "Familiar: " + equipment[ EquipmentManager.FAMILIAR ] );
+				}
 			}
 		}
 

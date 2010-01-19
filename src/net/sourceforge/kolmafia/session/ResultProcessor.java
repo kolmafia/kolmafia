@@ -123,7 +123,7 @@ public class ResultProcessor
 	{
 		ResultProcessor.receivedClover = false;
 
-		if ( data == null )
+		if ( data == null && RequestLogger.isDebugging() )
 		{
 			RequestLogger.updateDebugLog( "Processing results..." );
 		}
@@ -712,7 +712,10 @@ public class ResultProcessor
 	{
 		result = result.trim();
 
-		RequestLogger.updateDebugLog( "Parsing result: " + result );
+		if ( RequestLogger.isDebugging() )
+		{
+                        RequestLogger.updateDebugLog( "Parsing result: " + result );
+                }
 
 		try
 		{
@@ -730,7 +733,10 @@ public class ResultProcessor
 
 	private static boolean parseEffect( String result )
 	{
-		RequestLogger.updateDebugLog( "Parsing effect: " + result );
+		if ( RequestLogger.isDebugging() )
+		{
+			RequestLogger.updateDebugLog( "Parsing effect: " + result );
+		}
 
 		StringTokenizer parsedEffect = new StringTokenizer( result, "()" );
 		String name = parsedEffect.nextToken().trim();
@@ -761,7 +767,10 @@ public class ResultProcessor
 			return false;
 		}
 
-		RequestLogger.updateDebugLog( "Processing result: " + result );
+		if ( RequestLogger.isDebugging() )
+		{
+			RequestLogger.updateDebugLog( "Processing result: " + result );
+		}
 
 		String resultName = result.getName();
 		boolean shouldRefresh = false;
@@ -1378,7 +1387,11 @@ public class ResultProcessor
 			return;
 		}
 
-		RequestLogger.updateDebugLog( "Processing bulk items" );
+		if ( RequestLogger.isDebugging() )
+		{
+			RequestLogger.updateDebugLog( "Processing bulk items" );
+		}
+
 		KoLmafia.updateDisplay( "Processing, this may take a while..." );
 		for ( int i = 0; i < items.length; ++i )
 		{

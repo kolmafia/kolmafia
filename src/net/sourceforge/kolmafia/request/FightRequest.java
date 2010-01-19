@@ -2789,7 +2789,7 @@ public class FightRequest
 				// "Safe" interval between uses is 10 turns
 				// http://alliancefromhell.com/forum/viewtopic.php?t=1398
 				TurnCounter.stopCounting( "Communications Windchimes" );
-				TurnCounter.startCounting( 10, "Communications Windchimes loc=*", "chimes.gif", true );
+				TurnCounter.startCounting( 10, "Communications Windchimes loc=*", "chimes.gif" );
 			}
 
 			// Then he takes your windchimes and wanders off.
@@ -2816,7 +2816,7 @@ public class FightRequest
 				// "Safe" interval between uses is 10 turns
 				// http://alliancefromhell.com/forum/viewtopic.php?t=1398
 				TurnCounter.stopCounting( "PADL Phone" );
-				TurnCounter.startCounting( 10, "PADL Phone loc=*", "padl.gif", true );
+				TurnCounter.startCounting( 10, "PADL Phone loc=*", "padl.gif" );
 			}
 
 			// Then he takes your phone and wanders off.
@@ -2828,7 +2828,7 @@ public class FightRequest
 
 		case ItemPool.HAROLDS_BELL:
 
-			TurnCounter.startCounting( 20, "Harold's Bell loc=*", "bell.gif", true );
+			TurnCounter.startCounting( 20, "Harold's Bell loc=*", "bell.gif" );
 			return true;
 
 		case ItemPool.SPOOKY_PUTTY_SHEET:

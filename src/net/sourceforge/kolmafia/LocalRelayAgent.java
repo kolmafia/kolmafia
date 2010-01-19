@@ -149,9 +149,8 @@ public class LocalRelayAgent
 		if ( debugging )
 		{
 			RequestLogger.updateDebugLog( "-----From Browser-----" );
+			RequestLogger.updateDebugLog( requestLine );
 		}
-
-		RequestLogger.updateDebugLog( requestLine );
 
 		if ( requestLine == null )
 		{
@@ -433,7 +432,7 @@ public class LocalRelayAgent
 			this.request.printHeaders( RequestLogger.getDebugStream() );
 		}
 
-		if ( debugging || Preferences.getBoolean( "logDecoratedResponses" ) )
+		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logDecoratedResponses" ) )
 		{
 			String text = this.request.responseText;
 			if ( !Preferences.getBoolean( "logReadableHTML" ) )

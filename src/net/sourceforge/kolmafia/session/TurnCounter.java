@@ -21,7 +21,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TurnCounter
-implements Comparable
+	implements Comparable
 {
 	private static final ArrayList relayCounters = new ArrayList();
 	private static final HashSet ALL_LOCATIONS = new HashSet();
@@ -133,13 +133,13 @@ implements Comparable
 
 	public static final void clearCounters()
 	{
-		relayCounters.clear();
+		TurnCounter.relayCounters.clear();
 		TurnCounter.saveCounters();
 	}
 
 	public static final void loadCounters()
 	{
-		relayCounters.clear();
+		TurnCounter.relayCounters.clear();
 
 		String counters = Preferences.getString( "relayCounters" );
 		if ( counters.length() == 0 )
@@ -155,14 +155,14 @@ implements Comparable
 			String name = tokens.nextToken();
 			if ( !tokens.hasMoreTokens() ) break;
 			String image = tokens.nextToken();
-			startCounting( turns, name, image, false );
+			startCountingInternal( turns, name, image );
 		}
 	}
 
 	public static final void saveCounters()
 	{
 		StringBuffer counters = new StringBuffer();
-		Iterator it = relayCounters.iterator();
+		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
@@ -216,7 +216,7 @@ implements Comparable
 		int thisTurn = KoLCharacter.getCurrentRun();
 		int currentTurns = thisTurn + turnsUsed - 1;
 
-		Iterator it = relayCounters.iterator();
+		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
@@ -253,7 +253,7 @@ implements Comparable
 		int currentTurns = KoLCharacter.getCurrentRun();
 
 		StringBuffer counters = new StringBuffer();
-		Iterator it = relayCounters.iterator();
+		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
@@ -280,34 +280,29 @@ implements Comparable
 		return counters.toString();
 	}
 
-	public static final void startCounting( final int value, final String label, final String image, boolean save )
-	{
-		if ( value < 0 )
-		{
-			return;
-		}
-
-		TurnCounter counter = new TurnCounter( value, label, image );
-
-		if ( !relayCounters.contains( counter ) )
-		{
-			relayCounters.add( counter );
-			if ( save )
-			{
-				TurnCounter.saveCounters();
-			}
-		}
-	}
-
 	public static final void startCounting( final int value, final String label, final String image )
 	{
-		TurnCounter.startCounting( value, label, image, true );
+		TurnCounter.startCountingInternal( value, label, image );
+		TurnCounter.saveCounters();
+	}
+
+	private static final void startCountingInternal( final int value, final String label, final String image )
+	{
+		if ( value >= 0 )
+		{
+			TurnCounter counter = new TurnCounter( value, label, image );
+
+			if ( !TurnCounter.relayCounters.contains( counter ) )
+			{
+				TurnCounter.relayCounters.add( counter );
+			}
+		}
 	}
 
 	public static final void stopCounting( final String label )
 	{
 		TurnCounter current;
-		Iterator it = relayCounters.iterator();
+		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
@@ -326,7 +321,7 @@ implements Comparable
 		TurnCounter current;
 		int searchValue = KoLCharacter.getCurrentRun() + value;
 
-		Iterator it = relayCounters.iterator();
+		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
@@ -465,7 +460,7 @@ implements Comparable
 
 	public static final void deleteByHash( final int hash )
 	{
-		Iterator it = relayCounters.iterator();
+		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
@@ -480,7 +475,7 @@ implements Comparable
 
 	public static final Iterator iterator()
 	{
-		Collections.sort( relayCounters );
-		return relayCounters.iterator();
+		Collections.sort( TurnCounter.relayCounters );
+		return TurnCounter.relayCounters.iterator();
 	}
 }
