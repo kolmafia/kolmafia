@@ -170,8 +170,10 @@ public class RequestEditorKit
 	 * be properly rendered by post-3.2 browsers.
 	 */
 
-	public static final String getDisplayHTML( final String location, final String responseText, final boolean logIt )
+	public static final String getDisplayHTML( final String location, final String responseText, boolean logIt )
 	{
+		logIt &= RequestLogger.isDebugging();
+
 		if ( responseText == null || responseText.length() == 0 )
 		{
 			return "";
@@ -375,8 +377,8 @@ public class RequestEditorKit
 
 		if ( logIt )
 		{
-				// Print it to the debug log for reference purposes.
-				RequestLogger.updateDebugLog( displayHTML );
+			// Print it to the debug log for reference purposes.
+			RequestLogger.updateDebugLog( displayHTML );
 		}
 
 		// All HTML is now properly rendered!  Return compiled string.

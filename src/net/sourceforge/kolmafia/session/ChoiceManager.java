@@ -2229,7 +2229,6 @@ public abstract class ChoiceManager
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Manual control requested for choice #" + choice );
 				RequestThread.enableDisplayIfSequenceComplete();
-				StaticEntity.printRequestData( request );
 				request.showInBrowser( true );
 				return;
 			}

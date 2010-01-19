@@ -974,7 +974,7 @@ public abstract class StaticEntity
 			return;
 		}
 
-		boolean shouldOpenStream = RequestLogger.isDebugging();
+		boolean shouldOpenStream = !RequestLogger.isDebugging();
 		if ( shouldOpenStream )
 		{
 			RequestLogger.openDebugLog();
