@@ -68,7 +68,8 @@ public class FamiliarData
 	private static final Pattern LOCK_PATTERN = Pattern.compile( "familiar.php\\?action=lockequip.*'This Familiar Equipment is (Locked|Unlocked)'" );
 
 	private final int id;
-	private final String name, race;
+	private final String race;
+	private String name;
 	private int experience;
 	private int weight;
 	private AdventureResult item;
@@ -113,7 +114,12 @@ public class FamiliarData
 	private final void setWeight()
 	{
 		int max = this.id == FamiliarPool.STOCKING_MIMIC ? 100 : 20;
-		this.weight =  Math.max( Math.min( max, (int) Math.sqrt( this.experience ) ), 1 );
+		this.weight = Math.max( Math.min( max, (int) Math.sqrt( this.experience ) ), 1 );
+	}
+
+	public final void setName( final String name )
+	{
+		this.name = name;
 	}
 
 	private static final AdventureResult parseFamiliarItem( final int id, final String text )

@@ -93,6 +93,8 @@ public class UseItemRequest
 	private static final Pattern HELPER_PATTERN = Pattern.compile( "(utensil|whichcard)=(\\d+)" );
 	private static final Pattern FORTUNE_PATTERN =
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
+	private static final Pattern FAMILIAR_NAME_PATTERN =
+		Pattern.compile( "You decide to name this familiar <b>(.*?)</b>" );
 
 	private static final HashMap LIMITED_USES = new HashMap();
 
@@ -1427,7 +1429,12 @@ public class UseItemRequest
 				return;
 			}
 
-			KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
+			FamiliarData familiar = KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
+			Matcher matcher = UseItemRequest.FAMILIAR_NAME_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				familiar.setName( matcher.group(1) );
+			}
 
 			// Don't bother showing the result
 			// UseItemRequest.showItemUsage( showHTML, responseText );
