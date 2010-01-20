@@ -578,7 +578,7 @@ public class ResultProcessor
 
 		lastToken = lastToken.trim();
 
-		if ( lastToken.indexOf( "Meat" ) != -1 )
+		if ( lastToken.indexOf( "Meat" ) != -1 || lastToken.indexOf( "Meets" ) != -1 )
 		{
 			return ResultProcessor.processMeat( lastToken, data );
 		}
