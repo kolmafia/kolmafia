@@ -1590,10 +1590,9 @@ public class Modifiers
 			this.set( Modifiers.MP_REGEN_MIN, 0 );
 			this.set( Modifiers.MP_REGEN_MAX, 0 );
 
-			// Set modifiers depending on what day of the week it
-			// is at the KoL servers
+			// Set modifiers depending on what KoL day of the week it is
 
-			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-7" ) );
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
 			switch ( date.get( Calendar.DAY_OF_WEEK ) )
 			{
 			case Calendar.SUNDAY:

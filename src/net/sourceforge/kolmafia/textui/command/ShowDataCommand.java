@@ -131,18 +131,6 @@ public class ShowDataCommand
 		{
 			Date today = new Date();
 
-			try
-			{
-				today = KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( today ) );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-
 			desiredStream.println( CalendarFrame.LONG_FORMAT.format( today ) + " - " + HolidayDatabase.getCalendarDayAsString( today ) );
 			desiredStream.println();
 
@@ -160,16 +148,20 @@ public class ShowDataCommand
 			desiredStream.println( HolidayDatabase.getHoliday( today ) );
 			desiredStream.println( HolidayDatabase.getMoonEffect() );
 			desiredStream.println();
+			return;
 		}
-		else if ( desiredData.equals( "session" ) )
+
+		if ( desiredData.equals( "session" ) )
 		{
 			desiredStream.println( "Player: " + KoLCharacter.getUserName() );
 			desiredStream.println( "Session Id: " + GenericRequest.serverCookie );
 			desiredStream.println( "Password Hash: " + GenericRequest.passwordHash );
 			desiredStream.println( "Current Server: " + GenericRequest.KOL_HOST );
 			desiredStream.println();
+			return;
 		}
-		else if ( desiredData.equals( "status" ) )
+
+		if ( desiredData.equals( "status" ) )
 		{
 			desiredStream.println( "Name: " + KoLCharacter.getUserName() );
 			desiredStream.println( "Class: " + KoLCharacter.getClassType() );
@@ -196,8 +188,10 @@ public class ShowDataCommand
 			desiredStream.println( "Drunk: " + KoLCharacter.getInebriety() );
 
 			desiredStream.println();
+			return;
 		}
-		else if ( desiredData.equals( "modifiers" ) )
+
+		if ( desiredData.equals( "modifiers" ) )
 		{
 			desiredStream.println( "ML: " + KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) );
 			desiredStream.println( "Enc: " + KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatRateAdjustment() ) + "%" );
@@ -210,8 +204,10 @@ public class ShowDataCommand
 			desiredStream.println( "Item: " + KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 
 			desiredStream.println();
+			return;
 		}
-		else if ( desiredData.startsWith( "equip" ) )
+
+		if ( desiredData.startsWith( "equip" ) )
 		{
 			desiredStream.println( "Hat: " + EquipmentManager.getEquipment( EquipmentManager.HAT ) );
 			desiredStream.println( "Weapon: " + EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
@@ -248,22 +244,28 @@ public class ShowDataCommand
 				desiredStream.println( "Sticker 3: " + ShowDataCommand.getStickerText(
 					st3, EquipmentManager.getTurns( EquipmentManager.STICKER3 ) ) );
 			}
+			return;
 		}
-		else if ( desiredData.equals( "encounters" ) )
+
+		if ( desiredData.equals( "encounters" ) )
 		{
 			desiredStream.println( "Encounter Listing: " );
 
 			desiredStream.println();
 			RequestLogger.printList( KoLConstants.encounterList, desiredStream );
+			return;
 		}
-		else if ( desiredData.equals( "locations" ) )
+
+		if ( desiredData.equals( "locations" ) )
 		{
 			desiredStream.println( "Visited Locations: " );
 			desiredStream.println();
 
 			RequestLogger.printList( KoLConstants.adventureList, desiredStream );
+			return;
 		}
-		else if ( desiredData.equals( "counters" ) )
+
+		if ( desiredData.equals( "counters" ) )
 		{
 			desiredStream.println( UseItemRequest.lastSemirareMessage() );
 			desiredStream.println();
@@ -279,116 +281,120 @@ public class ShowDataCommand
 				desiredStream.println( counters );
 			}
 			desiredStream.println();
+			return;
 		}
-		else
+
+		List mainList =
+			desiredData.equals( "closet" ) ? KoLConstants.closet :
+			desiredData.equals( "summary" ) ? KoLConstants.tally :
+			desiredData.equals( "storage" ) ? KoLConstants.storage :
+			desiredData.equals( "display" ) ? KoLConstants.collection :
+			desiredData.equals( "outfits" ) ? EquipmentManager.getOutfits() :
+			desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
+			KoLConstants.inventory;
+
+		if ( desiredData.equals( "effects" ) )
 		{
-			List mainList =
-				desiredData.equals( "closet" ) ? KoLConstants.closet : desiredData.equals( "summary" ) ? KoLConstants.tally : desiredData.equals( "storage" ) ? KoLConstants.storage : desiredData.equals( "display" ) ? KoLConstants.collection : desiredData.equals( "outfits" ) ? EquipmentManager.getOutfits() : desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() : KoLConstants.inventory;
+			mainList = KoLConstants.activeEffects;
+			AdventureResult[] effects = new AdventureResult[ mainList.size() ];
+			mainList.toArray( effects );
 
-			if ( desiredData.equals( "effects" ) )
+			int nBuffs = 0;
+
+			for ( int i = 0; i < effects.length; ++i )
 			{
-				mainList = KoLConstants.activeEffects;
-				AdventureResult[] effects = new AdventureResult[ mainList.size() ];
-				mainList.toArray( effects );
-
-				int nBuffs = 0;
-
-				for ( int i = 0; i < effects.length; ++i )
+				String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
+				if ( SkillDatabase.contains( skillName ) )
 				{
-					String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
-					if ( SkillDatabase.contains( skillName ) )
+					int skillId = SkillDatabase.getSkillId( skillName );
+					if ( skillId > 6000 && skillId < 7000 )
 					{
-						int skillId = SkillDatabase.getSkillId( skillName );
-						if ( skillId > 6000 && skillId < 7000 )
-						{
-							++nBuffs;
-						}
+						++nBuffs;
 					}
 				}
-
-				desiredStream.println( nBuffs + " of " + UseSkillRequest.songLimit() + " AT buffs active." );
 			}
 
-			if ( desiredData.startsWith( "skills" ) )
+			desiredStream.println( nBuffs + " of " + UseSkillRequest.songLimit() + " AT buffs active." );
+		}
+
+		if ( desiredData.startsWith( "skills" ) )
+		{
+			mainList = KoLConstants.availableSkills;
+			filter = filter.toLowerCase();
+
+			if ( filter.startsWith( "cast" ) )
 			{
-				mainList = KoLConstants.availableSkills;
-				filter = filter.toLowerCase();
+				mainList = new ArrayList();
+				mainList.addAll( KoLConstants.availableSkills );
 
-				if ( filter.startsWith( "cast" ) )
-				{
-					mainList = new ArrayList();
-					mainList.addAll( KoLConstants.availableSkills );
-
-					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.CASTABLE );
-					mainList.retainAll( intersect );
-					filter = "";
-				}
-
-				if ( filter.startsWith( "pass" ) )
-				{
-					mainList = new ArrayList();
-					mainList.addAll( KoLConstants.availableSkills );
-
-					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.PASSIVE );
-					mainList.retainAll( intersect );
-					filter = "";
-				}
-
-				if ( filter.startsWith( "self" ) )
-				{
-					mainList = new ArrayList();
-					mainList.addAll( KoLConstants.availableSkills );
-
-					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.SELF_ONLY );
-					mainList.retainAll( intersect );
-					filter = "";
-				}
-
-				if ( filter.startsWith( "buff" ) )
-				{
-					mainList = new ArrayList();
-					mainList.addAll( KoLConstants.availableSkills );
-
-					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.BUFF );
-					mainList.retainAll( intersect );
-					filter = "";
-				}
-
-				if ( filter.startsWith( "combat" ) )
-				{
-					mainList = new ArrayList();
-					mainList.addAll( KoLConstants.availableSkills );
-
-					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
-					mainList.retainAll( intersect );
-					filter = "";
-				}
+				List intersect = SkillDatabase.getSkillsByType( SkillDatabase.CASTABLE );
+				mainList.retainAll( intersect );
+				filter = "";
 			}
 
-			if ( filter.equals( "" ) )
+			if ( filter.startsWith( "pass" ) )
 			{
-				RequestLogger.printList( mainList, desiredStream );
+				mainList = new ArrayList();
+				mainList.addAll( KoLConstants.availableSkills );
+
+				List intersect = SkillDatabase.getSkillsByType( SkillDatabase.PASSIVE );
+				mainList.retainAll( intersect );
+				filter = "";
 			}
-			else
+
+			if ( filter.startsWith( "self" ) )
 			{
-				String currentItem;
-				List resultList = new ArrayList();
+				mainList = new ArrayList();
+				mainList.addAll( KoLConstants.availableSkills );
 
-				Object[] items = new Object[ mainList.size() ];
-				mainList.toArray( items );
+				List intersect = SkillDatabase.getSkillsByType( SkillDatabase.SELF_ONLY );
+				mainList.retainAll( intersect );
+				filter = "";
+			}
 
-				for ( int i = 0; i < items.length; ++i )
-				{
-					currentItem = StringUtilities.getCanonicalName( items[ i ].toString() );
-					if ( currentItem.indexOf( filter ) != -1 )
-					{
-						resultList.add( items[ i ] );
-					}
-				}
+			if ( filter.startsWith( "buff" ) )
+			{
+				mainList = new ArrayList();
+				mainList.addAll( KoLConstants.availableSkills );
 
-				RequestLogger.printList( resultList, desiredStream );
+				List intersect = SkillDatabase.getSkillsByType( SkillDatabase.BUFF );
+				mainList.retainAll( intersect );
+				filter = "";
+			}
+
+			if ( filter.startsWith( "combat" ) )
+			{
+				mainList = new ArrayList();
+				mainList.addAll( KoLConstants.availableSkills );
+
+				List intersect = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
+				mainList.retainAll( intersect );
+				filter = "";
 			}
 		}
+
+		if ( filter.equals( "" ) )
+		{
+			RequestLogger.printList( mainList, desiredStream );
+			return;
+		}
+
+		String currentItem;
+		List resultList = new ArrayList();
+
+		Object[] items = new Object[ mainList.size() ];
+		mainList.toArray( items );
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			currentItem = StringUtilities.getCanonicalName( items[ i ].toString() );
+			if ( currentItem.indexOf( filter ) != -1 )
+			{
+				resultList.add( items[ i ] );
+			}
+		}
+
+		RequestLogger.printList( resultList, desiredStream );
 	}
 
 	private static final String getStatString( final int base, final int adjusted, final int tnp )
