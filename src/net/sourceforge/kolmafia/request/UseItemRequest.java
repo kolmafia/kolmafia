@@ -94,7 +94,7 @@ public class UseItemRequest
 	private static final Pattern FORTUNE_PATTERN =
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
 	private static final Pattern FAMILIAR_NAME_PATTERN =
-		Pattern.compile( "You decide to name this familiar <b>(.*?)</b>" );
+		Pattern.compile( "You decide to name (?:.*?) <b>(.*?)</b>" );
 
 	private static final HashMap LIMITED_USES = new HashMap();
 
