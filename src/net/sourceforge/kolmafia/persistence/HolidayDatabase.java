@@ -59,17 +59,18 @@ public class HolidayDatabase
 	{
 		try
 		{
-			// Change it so that it doesn't recognize daylight
-			// savings to ensure different localizations work.
+			// Use a timezone such that the "day" begins at rollover.
 
-			Calendar myCalendar = Calendar.getInstance( TimeZone.getTimeZone( "GMT-4" ) );
+			Calendar myCalendar = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
 
 			myCalendar.set( 2005, 8, 17, 0, 0, 0 );
 			HolidayDatabase.NEWYEAR = myCalendar.getTimeInMillis();
 
+			// the date of White Wednesday, which throws everything off by a day
 			myCalendar.set( 2005, 9, 27, 0, 0, 0 );
 			HolidayDatabase.BOUNDARY = myCalendar.getTimeInMillis();
 
+			// the day the thing crashed into Grimace
 			myCalendar.set( 2006, 5, 3, 0, 0, 0 );
 			HolidayDatabase.COLLISION = myCalendar.getTimeInMillis();
 		}
@@ -1096,7 +1097,8 @@ public class HolidayDatabase
 		if ( !currentYear.equals( HolidayDatabase.cachedYear ) )
 		{
 			HolidayDatabase.cachedYear = currentYear;
-			Calendar holidayFinder = Calendar.getInstance( TimeZone.getTimeZone( "GMT-5" ) );
+			// Calculate holidays for the in-game timezone (days which start at rollover)
+			Calendar holidayFinder = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
 
 			// Apparently, Easter isn't the second Sunday in April;
 			// it actually depends on the occurrence of the first

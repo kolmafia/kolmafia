@@ -70,8 +70,10 @@ public class CalendarFrame
 
 	static
 	{
-		CalendarFrame.SHORT_FORMAT.setTimeZone( TimeZone.getDefault() );
-		CalendarFrame.LONG_FORMAT.setTimeZone( TimeZone.getDefault() );
+		// all dates are presented as if the day begins at rollover
+
+		CalendarFrame.SHORT_FORMAT.setTimeZone( TimeZone.getTimeZone("GMT-0330") );
+		CalendarFrame.LONG_FORMAT.setTimeZone( TimeZone.getTimeZone("GMT-0330") );
 	}
 
 	// static final array of file names (not including .gif extension)
@@ -108,7 +110,7 @@ public class CalendarFrame
 
 		try
 		{
-			CalendarFrame.selectedDate = Calendar.getInstance( TimeZone.getDefault(), Locale.US );
+			CalendarFrame.selectedDate = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330"), Locale.US );
 		}
 		catch ( Exception e )
 		{
@@ -427,7 +429,7 @@ public class CalendarFrame
 			super( model );
 			this.model = model;
 
-			this.dateCalculator = Calendar.getInstance( TimeZone.getDefault(), Locale.US );
+			this.dateCalculator = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330"), Locale.US );
 			this.normalRenderer = new DefaultTableCellRenderer();
 
 			this.todayRenderer = new DefaultTableCellRenderer();

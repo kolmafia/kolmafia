@@ -331,11 +331,10 @@ public abstract class KoLmafia
 		KoLConstants.trapperItems.add( new AdventureResult( 393, 1 ) );
 		KoLConstants.trapperItems.add( new AdventureResult( 395, 1 ) );
 
-		// Change it so that it doesn't recognize daylight savings in order
-		// to ensure different localizations work.
+		// All dates are presented as if the day began at rollover.
 
-		TimeZone koltime = (TimeZone) TimeZone.getDefault().clone();
-		koltime.setRawOffset( 1000 * 60 * -270 );
+		TimeZone koltime = (TimeZone) TimeZone.getTimeZone("GMT-0330");
+		
 		KoLConstants.DAILY_FORMAT.setTimeZone( koltime );
 
 		// Reload your settings and determine all the different users which

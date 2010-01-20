@@ -43,6 +43,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -1739,7 +1740,7 @@ public abstract class RuntimeLibrary
 	{
 		String[] files = new String[ dayCount ];
 
-		Calendar timestamp = Calendar.getInstance();
+		Calendar timestamp = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330") );
 
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, files.length );
 		ArrayValue value = new ArrayValue( type );
