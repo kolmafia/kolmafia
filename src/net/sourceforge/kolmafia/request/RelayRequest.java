@@ -470,16 +470,15 @@ public class RelayRequest
 
 	private StringBuffer readContents( final BufferedReader reader )
 	{
-		String line = null;
 		StringBuffer contentBuffer = new StringBuffer();
+		if ( reader == null )
+		{
+			return contentBuffer;
+		}
 
 		try
 		{
-			if ( reader == null )
-			{
-				return contentBuffer;
-			}
-
+			String line;
 			while ( ( line = reader.readLine() ) != null )
 			{
 				contentBuffer.append( line );
@@ -586,8 +585,6 @@ public class RelayRequest
 
 	private void sendLocalFile( final String filename )
 	{
-		StringBuffer replyBuffer = new StringBuffer();
-
 		if ( !RelayRequest.overrideMap.containsKey( filename ) )
 		{
 			RelayRequest.overrideMap.put( filename, new File( KoLConstants.RELAY_LOCATION, filename ) );
@@ -628,7 +625,7 @@ public class RelayRequest
 			
 		}
 
-		replyBuffer = this.readContents( DataUtilities.getReader( override ) );
+		StringBuffer replyBuffer = this.readContents( DataUtilities.getReader( override ) );
 
 		// Add Javascript to the KoL simulator pages so that
 		// everything loads correctly the first time.
@@ -647,8 +644,8 @@ public class RelayRequest
 
 		StringUtilities.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash );
 
-		// Make sure to print the reply buffer to the
-		// response buffer for the local relay server.
+		// Print the reply buffer to the response buffer for the local
+		// relay server.
 
 		if ( this.isChatRequest )
 		{
@@ -1403,8 +1400,7 @@ public class RelayRequest
 			return;
 		}
 
-		// If it's an ASH override script, make sure to handle it
-		// exactly as it should.
+		// If it's an ASH override script, handle it
 
 		if ( path.endsWith( ".ash" ) )
 		{
