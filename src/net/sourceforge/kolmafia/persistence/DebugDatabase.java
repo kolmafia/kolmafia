@@ -734,23 +734,8 @@ public class DebugDatabase
 				report.println( "# *** " + name + " is marked as " + oldHanded + " but should be " + handed + "." );
 			}
 		}
-		else if ( isShield && power == 0 )
-		{
-			report.println( "# *** " + name + " is a shield of unknown power." );
-		}
 
-		if ( isWeapon )
-		{
-			report.println( name + "\t" + power + "\t" + req + "\t" + weaponType );
-		}
-		else if ( isShield )
-		{
-			report.println( name + "\t" + power + "\t" + req + "\tshield" );
-		}
-		else
-		{
-			report.println( name + "\t" + power + "\t" + req );
-		}
+		EquipmentDatabase.writeEquipmentItem( report, name, power, req, weaponType, isWeapon, isShield );
 	}
 
 	private static final void checkItemModifiers( final PrintStream report )

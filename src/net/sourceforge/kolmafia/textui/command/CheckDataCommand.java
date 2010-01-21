@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -60,10 +61,9 @@ public class CheckDataCommand
 		{
 			// EquipmentRequest registers new items with
 			// ItemDatabase when it looks at the closet or at
-			// inventory and automatically writes an override file
-			// whenever you do a full refresh, if any new items
-			// were found.
+			// inventory
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
+			ItemDatabase.saveDataOverride();
 			EffectDatabase.findStatusEffects();
 			RequestLogger.printLine( "Data tables updated." );
 			return;

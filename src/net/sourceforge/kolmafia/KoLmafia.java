@@ -931,6 +931,13 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( CharPaneRequest.getInstance() );
 
+		// We've looked at items in the closet, inventory and storage.
+		// We've seen status effects on the charpane.
+		// Write override files in /data to remember new items and
+		// status effects, if necessary, to save future server hits.
+
+		ItemDatabase.saveDataOverride();
+
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		KoLmafia.isRefreshing = false;

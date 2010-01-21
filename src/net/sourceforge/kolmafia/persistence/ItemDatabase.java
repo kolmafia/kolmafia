@@ -1471,6 +1471,11 @@ public class ItemDatabase
 		return (String) ItemDatabase.dataNameById.get( itemId );
 	}
 
+	public static final Set dataNameEntrySet()
+	{
+		return ItemDatabase.dataNameById.entrySet();
+	}
+
 	/**
 	 * Returns the name for an item, given its Id number.
 	 *
