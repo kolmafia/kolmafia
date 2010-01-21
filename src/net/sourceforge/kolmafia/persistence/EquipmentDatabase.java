@@ -382,10 +382,38 @@ public class EquipmentDatabase
 		}
 	}
 
-	public static final void registerItem( final String itemName, final String description )
+	public static final void registerItem( final int itemId, final String description )
 	{
 		// A new item has been detected. Examine the item description
 		// and decide what it is.
+		int power = DebugDatabase.parsePower( description );
+		String type = DebugDatabase.parseType( description );
+		String req = DebugDatabase.parseReq( description, type );
+
+		EquipmentDatabase.power.set( itemId, power );
+		EquipmentDatabase.statRequirements.set( itemId, req );
+
+		if ( type.indexOf( "weapon" ) != -1 )
+		{
+			int hval = 0;
+			String tval = null;
+			int index = type.indexOf( " " );
+			if ( index > 0 )
+			{
+				hval = StringUtilities.parseInt( type.substring( 0, 1 ) );
+				tval = type.substring( index + 1 );
+			}
+			else
+			{
+				tval = type;
+			}
+			EquipmentDatabase.hands.set( itemId, hval );
+			EquipmentDatabase.itemTypes.set( itemId, tval );
+		}
+		else if ( type.indexOf( "shield" ) != -1 )
+		{
+			EquipmentDatabase.itemTypes.set( itemId, "shield" );
+		}
 	}
 
 	public static final int nextEquipmentItemId( int prevId )

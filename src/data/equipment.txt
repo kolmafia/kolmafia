@@ -1184,7 +1184,7 @@ baconstone earring	0	Mys: 10
 baconstone pendant	0	Mys: 10
 baconstone ring	0	Mys: 10
 badass belt	0	Mys: 35
-baneful bandolier	200	Mus: 150
+baneful bandolier	0	Mus: 150
 bark bracelet	0	Mys: 5
 beach glass necklace	0	Mys: 20
 beaten-up Chucks	0	Mys: 45
@@ -1301,7 +1301,7 @@ lucky bottlecap	0	Mys: 200
 lucky rabbit's foot	0	Mys: 15
 makeshift SCUBA gear	0	none
 makeshift cape	0	Mys: 35
-malevolent medallion	200	Mys: 150
+malevolent medallion	0	Mys: 150
 mayfly bait necklace	0	none
 memory of a cultist's robe	0	none
 molten medallion	0	Mys: 65
@@ -1387,7 +1387,7 @@ stainless steel scarf	0	Mys: 30
 stainless steel solitaire	0	Mys: 30
 stainless steel suspenders	0	Mys: 30
 stick-on eyebrow piercing	0	none
-stinky cheese eye	100	none
+stinky cheese eye	0	none
 string of blue beads	0	none
 string of green beads	0	none
 string of red beads	0	none
