@@ -423,16 +423,21 @@ public class LocalRelayAgent
 		this.writer.write( this.request.rawByteBuffer );
 		this.writer.flush();
 
-		boolean debugging = RequestLogger.isDebugging() && Preferences.getBoolean( "logBrowserInteractions" );
+		if ( !RequestLogger.isDebugging() )
+		{
+			return;
+		}
 
-		if ( debugging )
+		boolean interactions = Preferences.getBoolean( "logBrowserInteractions" );
+
+		if ( interactions )
 		{
 			RequestLogger.updateDebugLog( "-----To Browser-----" );
 			RequestLogger.updateDebugLog( this.request.statusLine );
 			this.request.printHeaders( RequestLogger.getDebugStream() );
 		}
 
-		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logDecoratedResponses" ) )
+		if ( Preferences.getBoolean( "logDecoratedResponses" ) )
 		{
 			String text = this.request.responseText;
 			if ( !Preferences.getBoolean( "logReadableHTML" ) )
@@ -442,7 +447,7 @@ public class LocalRelayAgent
 			RequestLogger.updateDebugLog( text );
 		}
 
-		if ( debugging )
+		if ( interactions )
 		{
 			RequestLogger.updateDebugLog( "----------" );
 		}
