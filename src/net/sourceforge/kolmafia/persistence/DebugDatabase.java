@@ -152,27 +152,6 @@ public class DebugDatabase
 		}
 	}
 
-	public static final void findItemDescriptions()
-	{
-		// EquipmentRequest now registers new items with ItemDatabase
-		// when it looks at the closet or at inventory. Therefore,
-		// force a refresh and see if ItemDatabase has new discoveries.
-
-		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
-
-		if ( ItemDatabase.newItems )
-		{
-			DebugDatabase.saveDataOverride();
-		}
-	}
-
-	public static final void saveDataOverride()
-	{
-		ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
-		ItemDatabase.writeItemdescs( new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" ) );
-		EquipmentDatabase.writeEquipment( new File( UtilityConstants.DATA_LOCATION, "equipment.txt" ) );
-	}
-
 	// **********************************************************
 
 	// Support for the "checkitems" command, which compares KoLmafia's
