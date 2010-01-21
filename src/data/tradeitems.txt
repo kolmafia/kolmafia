@@ -2752,7 +2752,7 @@
 2743	steel margarita	drink	none	0
 2744	steel-scented air freshener	usable	none	0
 2745	gremlin mutagen	usable	all	124
-2746	Extra-potent gremlin mutagen	usable	all	184
+2746	extra-potent gremlin mutagen	usable	all	184
 2747	chunk of depleted Grimacite	none	all	0
 2748	furniture dolly	accessory	all	180
 2749	Staff of the Grease Trap	weapon	display	25

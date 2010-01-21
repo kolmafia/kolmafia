@@ -2749,7 +2749,7 @@
 2743	941463343	steel margarita
 2744	899745433	steel-scented air freshener
 2745	181938691	gremlin mutagen	vials of gremlin mutagen
-2746	658492681	Extra-potent gremlin mutagen	vials of extra-potent gremlin mutagen
+2746	658492681	extra-potent gremlin mutagen	vials of extra-potent gremlin mutagen
 2747	714178698	chunk of depleted Grimacite	chunks of depleted Grimacite
 2748	623524316	furniture dolly	furniture dollies
 2749	578975886	Staff of the Grease Trap	Staves of the Grease Trap
@@ -4064,7 +4064,7 @@
 4058	158275016	ancient stone fist	ancient stone fists
 4059	516274004	ancient stone head	ancient stone heads
 4060	296866991	Indigo Party Invitation
-4061	296866991	Violet Hunt Invitation
+4061	537027194	Violet Hunt Invitation
 4062	319161030	Blue Milk Club Card
 4063	455247433	Mecha Mayhem Club Card
 4064	222586103	'Smuggler Shot First' Button
@@ -4361,7 +4361,7 @@
 4355	200012650	A Crimbo Carol, Ch. 2	copies of A Crimbo Carol, Ch. 2
 4356	996470310	A Crimbo Carol, Ch. 3	copies of A Crimbo Carol, Ch. 3
 4357	907193137	A Crimbo Carol, Ch. 4	copies of A Crimbo Carol, Ch. 4
-4358	166936042	A Crimbo Carol, Ch. 5	copies of A Crimbo Carol, Ch. 5
+4358	981406827	A Crimbo Carol, Ch. 5	copies of A Crimbo Carol, Ch. 5
 4359	166936042	A Crimbo Carol, Ch. 6	copies of A Crimbo Carol, Ch. 6
 4360	793381765	expired can of franks 'n' beans	expired cans of franks 'n' beans
 4361	114423964	expired bottle of peppermint schnapps	expired bottles of peppermint schnapps

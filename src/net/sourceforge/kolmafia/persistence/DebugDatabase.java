@@ -276,17 +276,18 @@ public class DebugDatabase
 		boolean correct = true;
 
 		int type = ItemDatabase.getConsumptionType( itemId );
-		String primary = ItemDatabase.typeToPrimaryUsage( type );
 		String descType = DebugDatabase.parseType( text );
-		if ( !DebugDatabase.typesMatch( type, descType ) )
+		int descPrimary = DebugDatabase.typeToPrimary( descType );
+		if ( !typesMatch( type, descPrimary ) )
 		{
+			String primary = ItemDatabase.typeToPrimaryUsage( type );
 			report.println( "# *** " + name + " (" + itemId + ") has primary usage of " + primary + " but is described as " + descType + "." );
 			correct = false;
 
 		}
 
 		int attrs = ItemDatabase.getAttributes( itemId );
-		int descAttrs = DebugDatabase.parseAttributes( text );
+		int descAttrs = DebugDatabase.typeToSecondary( descType );
 		if ( !DebugDatabase.attributesMatch( attrs, descAttrs ) )
 		{
 			String secondary = ItemDatabase.attrsToSecondaryUsage( attrs );
@@ -422,8 +423,7 @@ public class DebugDatabase
 	}
 
 	private static final Pattern PRICE_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
-
-	private static final int parsePrice( final String text )
+	public static final int parsePrice( final String text )
 	{
 		Matcher matcher = DebugDatabase.PRICE_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -434,7 +434,7 @@ public class DebugDatabase
 		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
-	private static final String parseAccess( final String text )
+	public static final String parseAccess( final String text )
 	{
 		if ( text.indexOf( "Quest Item" ) != -1 )
 		{
@@ -455,34 +455,113 @@ public class DebugDatabase
 	}
 
 	private static final Pattern TYPE_PATTERN = Pattern.compile( "Type: <b>(.*?)</b>" );
-
-	private static final String parseType( final String text )
+	public static final String parseType( final String text )
 	{
 		Matcher matcher = DebugDatabase.TYPE_PATTERN.matcher( text );
-		if ( !matcher.find() )
-		{
-			return "";
-		}
-
-		return matcher.group( 1 );
+		return matcher.find() ? matcher.group( 1 ) : "";
 	}
 
-	private static final boolean typesMatch( final int type, final String descType )
+	public static final int typeToPrimary( final String type )
 	{
-		if ( descType.equals( "" ) )
+		if ( type.equals( "" ) || type.equals( "crafting item" ) )
 		{
-			return true;
+			return KoLConstants.NO_CONSUME;
 		}
+		if ( type.equals( "food" ) || type.equals( "beverage" ) )
+		{
+			return KoLConstants.CONSUME_EAT;
+		}
+		if ( type.equals( "booze" ) )
+		{
+			return KoLConstants.CONSUME_DRINK;
+		}
+		if ( type.indexOf( "self or others" ) != -1 )
+		{
+			// Curse items are special
+			return KoLConstants.NO_CONSUME;
+		}
+		if ( type.indexOf( "usable" ) != -1 || type.equals( "gift package" ) )
+		{
+			return KoLConstants.CONSUME_USE;
+		}
+		if ( type.equals( "potion" ) )
+		{
+			return KoLConstants.CONSUME_MULTIPLE;
+		}
+		if ( type.equals( "familiar" ) )
+		{
+			return KoLConstants.GROW_FAMILIAR;
+		}
+		if ( type.equals( "familiar equipment" ) )
+		{
+			return KoLConstants.EQUIP_FAMILIAR;
+		}
+		if ( type.startsWith( "accessory" ) )
+		{
+			return KoLConstants.EQUIP_ACCESSORY;
+		}
+		if ( type.startsWith( "container" ) )
+		{
+			return KoLConstants.EQUIP_CONTAINER;
+		}
+		if ( type.startsWith( "hat" ) )
+		{
+			return KoLConstants.EQUIP_HAT;
+		}
+		if ( type.startsWith( "shirt" ) )
+		{
+			return KoLConstants.EQUIP_SHIRT;
+		}
+		if ( type.startsWith( "pants" ) )
+		{
+			return KoLConstants.EQUIP_PANTS;
+		}
+		if ( type.indexOf( "weapon" ) != -1 )
+		{
+			return KoLConstants.EQUIP_WEAPON;
+		}
+		if ( type.startsWith( "off-hand item" ) )
+		{
+			return KoLConstants.EQUIP_OFFHAND;
+		}
+		return KoLConstants.NO_CONSUME;
+	}
 
+	public static final int typeToSecondary( final String type )
+	{
+		int attributes = 0;
+		if ( type.indexOf( "combat" ) != -1 )
+		{
+			attributes |= ItemDatabase.ATTR_COMBAT;
+		}
+		if ( type.indexOf( "self or others" ) != -1 )
+		{
+			attributes |= ItemDatabase.ATTR_CURSE;
+		}
+		return attributes;
+	}
+
+	private static final boolean typesMatch( final int type, final int descType )
+	{
 		switch ( type )
 		{
 		case KoLConstants.NO_CONSUME:
-			return descType.equals( "" ) || descType.equals( "crafting item" );
+			// We intentionally disallow certain items from being
+			// "used" through the GUI.
+			return descType == KoLConstants.NO_CONSUME ||
+			       descType == KoLConstants.CONSUME_USE;
 		case KoLConstants.CONSUME_EAT:
-
-			return descType.equals( "food" ) || descType.equals( "beverage" );
 		case KoLConstants.CONSUME_DRINK:
-			return descType.equals( "booze" );
+		case KoLConstants.GROW_FAMILIAR:
+		case KoLConstants.EQUIP_FAMILIAR:
+		case KoLConstants.EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_CONTAINER:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_SHIRT:
+		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.EQUIP_OFFHAND:
+			return descType == type;
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.MP_RESTORE:
@@ -490,49 +569,38 @@ public class DebugDatabase
 		case KoLConstants.HPMP_RESTORE:
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.INFINITE_USES:
+			return descType == KoLConstants.CONSUME_USE ||
+			       descType == KoLConstants.CONSUME_MULTIPLE ||
+			       descType == KoLConstants.CONSUME_EAT ||
+			       descType == KoLConstants.CONSUME_DRINK ||
+			       descType == KoLConstants.NO_CONSUME;
 		case KoLConstants.CONSUME_FOOD_HELPER:
 		case KoLConstants.CONSUME_DRINK_HELPER:
 		case KoLConstants.CONSUME_STICKER:
-			return descType.indexOf( "usable" ) != -1 || descType.equals( "gift package" ) || descType.equals( "food" ) || descType.equals( "booze" ) || descType.equals( "potion" );
-		case KoLConstants.CONSUME_SPECIAL:
-			return descType.indexOf( "usable" ) != -1 || descType.equals( "food" ) || descType.equals( "beverage" ) || descType.equals( "booze" );
-		case KoLConstants.GROW_FAMILIAR:
-			return descType.equals( "familiar" );
+			return descType == KoLConstants.NO_CONSUME ||
+			       descType == KoLConstants.CONSUME_USE;
+		case KoLConstants.CONSUME_SPHERE:
 		case KoLConstants.CONSUME_ZAP:
-			return descType.equals( "" );
-		case KoLConstants.EQUIP_FAMILIAR:
-			return descType.equals( "familiar equipment" );
-		case KoLConstants.EQUIP_ACCESSORY:
-			return descType.equals( "accessory" );
-		case KoLConstants.EQUIP_CONTAINER:
-			return descType.equals( "container" );
-		case KoLConstants.EQUIP_HAT:
-			return descType.equals( "hat" );
-		case KoLConstants.EQUIP_PANTS:
-			return descType.equals( "pants" );
-		case KoLConstants.EQUIP_SHIRT:
-			return descType.equals( "shirt" );
-		case KoLConstants.EQUIP_WEAPON:
-			return descType.indexOf( "weapon" ) != -1;
-		case KoLConstants.EQUIP_OFFHAND:
-			return descType.indexOf( "off-hand item" ) != -1;
-		case KoLConstants.COMBAT_ITEM:
-			return descType.indexOf( "combat" ) != -1;
-		case KoLConstants.CONSUME_HOBO:
-		case KoLConstants.CONSUME_GHOST:
-		case KoLConstants.CONSUME_SLIME:
-			return false;
+			return descType == KoLConstants.NO_CONSUME;
 		}
-		return false;
-	}
-
-	private static final int parseAttributes( final String text )
-	{
-		return 0;
+		return true;
 	}
 
 	private static final boolean attributesMatch( final int attrs, final int descAttrs )
 	{
+		// If the description says "combat", allow "combat" or "combat reusable"
+		if ( ( descAttrs & ItemDatabase.ATTR_COMBAT ) != 0 &&
+		     ( attrs & ItemDatabase.ATTR_COMBAT|ItemDatabase.ATTR_COMBAT_REUSABLE ) == 0 )
+		{
+			return false;
+		}
+
+		// If the description says "curse", require "curse"
+		if ( ( descAttrs & ItemDatabase.ATTR_CURSE ) != ( attrs & ItemDatabase.ATTR_CURSE ) )
+		{
+			return false;
+		}
+
 		return true;
 	}
 
@@ -625,10 +693,6 @@ public class DebugDatabase
 		}
 	}
 
-	private static final Pattern POWER_PATTERN = Pattern.compile( "Power: <b>(\\d+)</b>" );
-	private static final Pattern REQ_PATTERN = Pattern.compile( "(\\w+) Required: <b>(\\d+)</b>" );
-	private static final Pattern WEAPON_PATTERN = Pattern.compile( "weapon [(](.*?)[)]" );
-
 	private static final void checkEquipmentDatum( final String name, final String text, final PrintStream report )
 	{
 		Matcher matcher;
@@ -652,11 +716,7 @@ public class DebugDatabase
 		int power = 0;
 		if ( isWeapon || hasPower )
 		{
-			matcher = DebugDatabase.POWER_PATTERN.matcher( text );
-			if ( matcher.find() )
-			{
-				power = StringUtilities.parseInt( matcher.group( 1 ) );
-			}
+			power = DebugDatabase.parsePower( text );
 		}
 		else if ( isShield )
 		{
@@ -665,57 +725,15 @@ public class DebugDatabase
 			power = EquipmentDatabase.getPower( name );
 		}
 
-		String weaponType = "";
-		if ( isWeapon )
-		{
-			matcher = DebugDatabase.WEAPON_PATTERN.matcher( text );
-			if ( matcher.find() )
-			{
-				weaponType = matcher.group( 1 );
-			}
-		}
-
-		String req = "none";
-
-		matcher = DebugDatabase.REQ_PATTERN.matcher( text );
-		if ( matcher.find() )
-		{
-			String stat = matcher.group( 1 );
-			if ( stat.equals( "Muscle" ) )
-			{
-				req = "Mus: " + matcher.group( 2 );
-			}
-			else if ( stat.equals( "Mysticality" ) )
-			{
-				req = "Mys: " + matcher.group( 2 );
-			}
-			else if ( stat.equals( "Moxie" ) )
-			{
-				req = "Mox: " + matcher.group( 2 );
-			}
-		}
-		else if ( isWeapon )
-		{
-			if ( type.indexOf( "ranged" ) != -1 )
-			{
-				req = "Mox: 0";
-			}
-			else if ( weaponType.indexOf( "utensil" ) != -1 || weaponType.indexOf( "saucepan" ) != -1 || weaponType.indexOf( "chefstaff" ) != -1 )
-			{
-				req = "Mys: 0";
-			}
-			else
-			{
-				req = "Mus: 0";
-			}
-		}
-
 		// Now check against what we already have
 		int oldPower = EquipmentDatabase.getPower( name );
 		if ( power != oldPower )
 		{
 			report.println( "# *** " + name + " has power " + oldPower + " but should be " + power + "." );
 		}
+
+		String weaponType = isWeapon ? DebugDatabase.parseWeaponType( type ) : "";
+		String req = DebugDatabase.parseReq( text, type );
 
 		String oldReq = EquipmentDatabase.getEquipRequirement( name );
 		if ( !req.equals( oldReq ) )
@@ -736,6 +754,62 @@ public class DebugDatabase
 		}
 
 		EquipmentDatabase.writeEquipmentItem( report, name, power, req, weaponType, isWeapon, isShield );
+	}
+
+	private static final Pattern POWER_PATTERN = Pattern.compile( "Power: <b>(\\d+)</b>" );
+	public static final int parsePower( final String text )
+	{
+		Matcher matcher = DebugDatabase.POWER_PATTERN.matcher( text );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	private static final Pattern WEAPON_PATTERN = Pattern.compile( "weapon [(](.*?)[)]" );
+	public static final String parseWeaponType( final String text )
+	{
+		Matcher matcher = DebugDatabase.WEAPON_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	private static final Pattern REQ_PATTERN = Pattern.compile( "(\\w+) Required: <b>(\\d+)</b>" );
+	public static final String parseReq( final String text, final String type )
+	{
+		Matcher matcher = DebugDatabase.REQ_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			String stat = matcher.group( 1 );
+			if ( stat.equals( "Muscle" ) )
+			{
+				return "Mus: " + matcher.group( 2 );
+			}
+			if ( stat.equals( "Mysticality" ) )
+			{
+				return "Mys: " + matcher.group( 2 );
+			}
+			if ( stat.equals( "Moxie" ) )
+			{
+				return "Mox: " + matcher.group( 2 );
+			}
+		}
+
+		if ( type.indexOf( "weapon" ) != -1 )
+		{
+			if ( type.indexOf( "ranged" ) != -1 )
+			{
+				return "Mox: 0";
+			}
+			else if ( type.indexOf( "utensil" ) != -1 ||
+				  type.indexOf( "saucepan" ) != -1 ||
+				  type.indexOf( "chefstaff" ) != -1 )
+			{
+				return "Mys: 0";
+			}
+			else
+			{
+				return "Mus: 0";
+			}
+		}
+
+		return "none";
 	}
 
 	private static final void checkItemModifiers( final PrintStream report )

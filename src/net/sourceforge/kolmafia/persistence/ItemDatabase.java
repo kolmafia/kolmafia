@@ -836,28 +836,39 @@ public class ItemDatabase
 	{
 		int itemId = id.intValue();
 
-		String description = DebugDatabase.itemDescriptionText( itemId );
-		if ( description == null )
+		String text = DebugDatabase.itemDescriptionText( itemId );
+		if ( text == null )
 		{
 			// Assume defaults
-			ItemDatabase.useTypeById.set( itemId, 0 );
+			ItemDatabase.useTypeById.set( itemId, KoLConstants.NO_CONSUME );
 			ItemDatabase.attributesById.set( itemId, 0 );
 			ItemDatabase.accessById.put( id, "all" );
-			ItemDatabase.priceById.set( itemId, -1 );
+			ItemDatabase.priceById.set( itemId, 0 );
 			return;
 		}
 
 		// Parse use type, access, and price from description
-		ItemDatabase.useTypeById.set( itemId, 0 );
-		ItemDatabase.attributesById.set( itemId, 0 );
-		ItemDatabase.accessById.put( id, "all" );
-		ItemDatabase.priceById.set( itemId, -1 );
+		String type = DebugDatabase.parseType( text );
+		int usage = DebugDatabase.typeToPrimary( type );
+		ItemDatabase.useTypeById.set( itemId, usage );
+
+		String access = DebugDatabase.parseAccess( text );
+		ItemDatabase.accessById.put( id, access );
+
+		int attrs = DebugDatabase.typeToSecondary( type );
+		attrs |= access.equals( "all" ) ? ItemDatabase.ATTR_TRADEABLE : 0;
+		attrs |= access.equals( "all" ) || access.equals( "gift" ) ? ItemDatabase.ATTR_GIFTABLE : 0;
+		attrs |= access.equals( "all" ) || access.equals( "gift" ) || access.equals( "display" ) ? ItemDatabase.ATTR_DISPLAYABLE : 0;
+		ItemDatabase.attributesById.set( itemId, attrs );
+
+		int price = DebugDatabase.parsePrice( text );
+		ItemDatabase.priceById.set( itemId, price );
 
 		// Let equipment database do what it wishes with this item
-		EquipmentDatabase.registerItem( itemName, description );
+		EquipmentDatabase.registerItem( itemId, text );
 
 		// Let modifiers database do what it wishes with this item
-		Modifiers.registerItem( itemName, description );
+		Modifiers.registerItem( itemName, text );
 	}
 
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
