@@ -953,7 +953,7 @@ public class ItemManagePanel
 	{
 		public RefreshButton()
 		{
-			super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
+			super( "refresh", new EquipmentRequest( EquipmentRequest.REFRESH ) );
 		}
 	}
 }

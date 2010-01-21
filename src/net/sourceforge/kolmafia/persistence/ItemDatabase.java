@@ -153,11 +153,11 @@ public class ItemDatabase
 	public static final int ATTR_TRADEABLE = 0x00000001;
 	public static final int ATTR_GIFTABLE = 0x00000002;
 	public static final int ATTR_DISPLAYABLE = 0x00000004;
-	public static final int ATTR_USABLE = 0x00000008;
-	public static final int ATTR_MULTIPLE = 0x00000010;
-	public static final int ATTR_REUSABLE = 0x00000020;
-	public static final int ATTR_COMBAT = 0x00000040;
-	public static final int ATTR_COMBAT_REUSABLE = 0x00000080;
+	public static final int ATTR_COMBAT = 0x00000008;
+	public static final int ATTR_COMBAT_REUSABLE = 0x00000010;
+	public static final int ATTR_USABLE = 0x00000020;
+	public static final int ATTR_MULTIPLE = 0x00000040;
+	public static final int ATTR_REUSABLE = 0x00000080;
 	public static final int ATTR_SINGLE = 0x00000100;
 	public static final int ATTR_SOLO = 0x00000200;
 	public static final int ATTR_CURSE = 0x00000400;
@@ -166,46 +166,68 @@ public class ItemDatabase
 	public static final int ATTR_MATCHABLE = 0x00002000;
 	
 	private static final HashMap PRIMARY_USE = new HashMap();
+	private static final HashMap INVERSE_PRIMARY_USE = new HashMap();
 	private static final HashMap SECONDARY_USE = new HashMap();
+	private static final TreeMap INVERSE_SECONDARY_USE = new TreeMap();
+	private static final Set secondaryUsageEntrySet;
+
+	private static void definePrimaryUse( final String key, final int usage )
+	{
+		Integer val = new Integer( usage );
+		PRIMARY_USE.put( key, val );
+		INVERSE_PRIMARY_USE.put( val, key );
+	}
+
+	private static void defineSecondaryUse( final String key, final int usage )
+	{
+		Integer val = new Integer( usage );
+		SECONDARY_USE.put( key, val );
+		INVERSE_SECONDARY_USE.put( val, key );
+	}
+
 	static
 	{
-		PRIMARY_USE.put( "none", new Integer( KoLConstants.NO_CONSUME ) );
-		PRIMARY_USE.put( "food", new Integer( KoLConstants.CONSUME_EAT ) );
-		PRIMARY_USE.put( "drink", new Integer( KoLConstants.CONSUME_DRINK ) );
-		PRIMARY_USE.put( "usable", new Integer( KoLConstants.CONSUME_USE ) );
-		PRIMARY_USE.put( "multiple", new Integer( KoLConstants.CONSUME_MULTIPLE ) );
-		PRIMARY_USE.put( "grow", new Integer( KoLConstants.GROW_FAMILIAR ) );
-		PRIMARY_USE.put( "zap", new Integer( KoLConstants.CONSUME_ZAP ) );
-		PRIMARY_USE.put( "familiar", new Integer( KoLConstants.EQUIP_FAMILIAR ) );
-		PRIMARY_USE.put( "accessory", new Integer( KoLConstants.EQUIP_ACCESSORY ) );
-		PRIMARY_USE.put( "hat", new Integer( KoLConstants.EQUIP_HAT ) );
-		PRIMARY_USE.put( "pants", new Integer( KoLConstants.EQUIP_PANTS ) );
-		PRIMARY_USE.put( "shirt", new Integer( KoLConstants.EQUIP_SHIRT ) );
-		PRIMARY_USE.put( "weapon", new Integer( KoLConstants.EQUIP_WEAPON ) );
-		PRIMARY_USE.put( "offhand", new Integer( KoLConstants.EQUIP_OFFHAND ) );
-		PRIMARY_USE.put( "mp", new Integer( KoLConstants.MP_RESTORE ) );
-		PRIMARY_USE.put( "message", new Integer( KoLConstants.MESSAGE_DISPLAY ) );
-		PRIMARY_USE.put( "hp", new Integer( KoLConstants.HP_RESTORE ) );
-		PRIMARY_USE.put( "hpmp", new Integer( KoLConstants.HPMP_RESTORE ) );
-		PRIMARY_USE.put( "reusable", new Integer( KoLConstants.INFINITE_USES ) );
-		PRIMARY_USE.put( "container", new Integer( KoLConstants.EQUIP_CONTAINER ) );
-		PRIMARY_USE.put( "sphere", new Integer( KoLConstants.CONSUME_SPHERE ) );
-		PRIMARY_USE.put( "food helper", new Integer( KoLConstants.CONSUME_FOOD_HELPER ) );
-		PRIMARY_USE.put( "drink helper", new Integer( KoLConstants.CONSUME_DRINK_HELPER ) );
-		PRIMARY_USE.put( "sticker", new Integer( KoLConstants.CONSUME_STICKER ) );
+		ItemDatabase.definePrimaryUse( "none", KoLConstants.NO_CONSUME );
+		ItemDatabase.definePrimaryUse( "food", KoLConstants.CONSUME_EAT );
+		ItemDatabase.definePrimaryUse( "drink", KoLConstants.CONSUME_DRINK );
+		ItemDatabase.definePrimaryUse( "usable", KoLConstants.CONSUME_USE );
+		ItemDatabase.definePrimaryUse( "multiple", KoLConstants.CONSUME_MULTIPLE );
+		ItemDatabase.definePrimaryUse( "grow", KoLConstants.GROW_FAMILIAR );
+		ItemDatabase.definePrimaryUse( "zap", KoLConstants.CONSUME_ZAP );
+		ItemDatabase.definePrimaryUse( "familiar", KoLConstants.EQUIP_FAMILIAR );
+		ItemDatabase.definePrimaryUse( "accessory", KoLConstants.EQUIP_ACCESSORY );
+		ItemDatabase.definePrimaryUse( "hat", KoLConstants.EQUIP_HAT );
+		ItemDatabase.definePrimaryUse( "pants", KoLConstants.EQUIP_PANTS );
+		ItemDatabase.definePrimaryUse( "shirt", KoLConstants.EQUIP_SHIRT );
+		ItemDatabase.definePrimaryUse( "weapon", KoLConstants.EQUIP_WEAPON );
+		ItemDatabase.definePrimaryUse( "offhand", KoLConstants.EQUIP_OFFHAND );
+		ItemDatabase.definePrimaryUse( "mp", KoLConstants.MP_RESTORE );
+		ItemDatabase.definePrimaryUse( "message", KoLConstants.MESSAGE_DISPLAY );
+		ItemDatabase.definePrimaryUse( "hp", KoLConstants.HP_RESTORE );
+		ItemDatabase.definePrimaryUse( "hpmp", KoLConstants.HPMP_RESTORE );
+		ItemDatabase.definePrimaryUse( "reusable", KoLConstants.INFINITE_USES );
+		ItemDatabase.definePrimaryUse( "container", KoLConstants.EQUIP_CONTAINER );
+		ItemDatabase.definePrimaryUse( "sphere", KoLConstants.CONSUME_SPHERE );
+		ItemDatabase.definePrimaryUse( "food helper", KoLConstants.CONSUME_FOOD_HELPER );
+		ItemDatabase.definePrimaryUse( "drink helper", KoLConstants.CONSUME_DRINK_HELPER );
+		ItemDatabase.definePrimaryUse( "sticker", KoLConstants.CONSUME_STICKER );
 		
-		SECONDARY_USE.put( "usable", new Integer( ItemDatabase.ATTR_USABLE ) );
-		SECONDARY_USE.put( "multiple", new Integer( ItemDatabase.ATTR_MULTIPLE ) );
-		SECONDARY_USE.put( "reusable", new Integer( ItemDatabase.ATTR_REUSABLE ) );
-		SECONDARY_USE.put( "combat", new Integer( ItemDatabase.ATTR_COMBAT ) );
-		SECONDARY_USE.put( "combat reusable", new Integer( ItemDatabase.ATTR_COMBAT_REUSABLE ) );
-		SECONDARY_USE.put( "single", new Integer( ItemDatabase.ATTR_SINGLE ) );
-		SECONDARY_USE.put( "solo", new Integer( ItemDatabase.ATTR_SOLO ) );
-		SECONDARY_USE.put( "curse", new Integer( ItemDatabase.ATTR_CURSE ) );
-		SECONDARY_USE.put( "bounty", new Integer( ItemDatabase.ATTR_BOUNTY ) );
-		SECONDARY_USE.put( "candy", new Integer( ItemDatabase.ATTR_CANDY ) );
-		SECONDARY_USE.put( "matchable", new Integer( ItemDatabase.ATTR_MATCHABLE ) );
+		ItemDatabase.defineSecondaryUse( "usable", ItemDatabase.ATTR_USABLE );
+		ItemDatabase.defineSecondaryUse( "multiple", ItemDatabase.ATTR_MULTIPLE );
+		ItemDatabase.defineSecondaryUse( "reusable", ItemDatabase.ATTR_REUSABLE );
+		ItemDatabase.defineSecondaryUse( "combat", ItemDatabase.ATTR_COMBAT );
+		ItemDatabase.defineSecondaryUse( "combat reusable", ItemDatabase.ATTR_COMBAT_REUSABLE );
+		ItemDatabase.defineSecondaryUse( "single", ItemDatabase.ATTR_SINGLE );
+		ItemDatabase.defineSecondaryUse( "solo", ItemDatabase.ATTR_SOLO );
+		ItemDatabase.defineSecondaryUse( "curse", ItemDatabase.ATTR_CURSE );
+		ItemDatabase.defineSecondaryUse( "bounty", ItemDatabase.ATTR_BOUNTY );
+		ItemDatabase.defineSecondaryUse( "candy", ItemDatabase.ATTR_CANDY );
+		ItemDatabase.defineSecondaryUse( "matchable", ItemDatabase.ATTR_MATCHABLE );
+
+		secondaryUsageEntrySet = INVERSE_SECONDARY_USE.entrySet();
 	}
+
+	public static boolean newItems = false;
 
 	static
 	{
@@ -214,6 +236,8 @@ public class ItemDatabase
 
 	public static void reset()
 	{
+		ItemDatabase.newItems = false;
+
 		if ( !ItemDatabase.itemIdByName.isEmpty() )
 		{
 			ItemDatabase.miniReset();
@@ -305,7 +329,6 @@ public class ItemDatabase
 			if ( useType == null )
 			{
 				RequestLogger.printLine( "Unknown primary usage for " + name + ": " + usage );
-				ItemDatabase.PRIMARY_USE.put( usage, new Integer( 0 ) );
 			}
 			else
 			{
@@ -318,7 +341,6 @@ public class ItemDatabase
 				if ( useType == null )
 				{
 					RequestLogger.printLine( "Unknown secondary usage for " + name + ": " + usage );
-					ItemDatabase.SECONDARY_USE.put( usage, new Integer( 0 ) );
 				}
 				else
 				{
@@ -353,6 +375,77 @@ public class ItemDatabase
 		{
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	public static void writeTradeitems( final File output )
+	{
+		PrintStream writer = LogStream.openStream( output, true );
+		writer.println( KoLConstants.TRADEITEMS_VERSION );
+
+		Iterator it = ItemDatabase.nameByIdKeySet().iterator();
+		int lastInteger = 1;
+
+		while ( it.hasNext() )
+		{
+			Integer nextInteger = (Integer) it.next();
+			int itemId = nextInteger.intValue();
+
+			for ( int i = lastInteger; i < itemId; ++i )
+			{
+				writer.println( i );
+			}
+
+			lastInteger = itemId + 1;
+
+			String name = ItemDatabase.getItemDataName( nextInteger );
+			int type = ItemDatabase.getConsumptionType( itemId );
+			int attrs = ItemDatabase.getAttributes( itemId );
+			String access = ItemDatabase.getAccessById( nextInteger );
+			int price = ItemDatabase.getPriceById( itemId );
+			ItemDatabase.writeTradeitem( writer, itemId, name, type, attrs, access, price );
+		}
+
+		writer.close();
+	}
+
+	public static void writeTradeitem( final PrintStream writer, final int itemId, final String name,
+					   final int type, final int attrs, final String access, final int price )
+	{
+		writer.println( itemId + "\t" +
+				name + "\t" +
+				typeToPrimaryUsage( type ) + attrsToSecondaryUsage( attrs ) + "\t" +
+				access + "\t" +
+				price );
+	}
+
+	public static void writeItemdescs( final File output )
+	{
+		PrintStream writer = LogStream.openStream( output, true );
+		writer.println( KoLConstants.ITEMDESCS_VERSION );
+
+		Iterator it = ItemDatabase.descriptionIdEntrySet().iterator();
+		int lastInteger = 1;
+
+		while ( it.hasNext() )
+		{
+			Entry entry = (Entry) it.next();
+			Integer nextInteger = (Integer) entry.getKey();
+			int id = nextInteger.intValue();
+
+			for ( int i = lastInteger; i < id; ++i )
+			{
+				writer.println( i );
+			}
+
+			lastInteger = id + 1;
+
+			String descId = (String) entry.getValue();
+			String name = ItemDatabase.getItemDataName( nextInteger );
+			String plural = ItemDatabase.getPluralById( id );
+			writer.println( id + "\t" + descId + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural ) );
+		}
+
+		writer.close();
 	}
 
 	private static void readItemDescriptions()
@@ -695,14 +788,17 @@ public class ItemDatabase
 		ItemDatabase.registerItem( itemId, itemName, descId, "" );
 	}
 
-	public static final void registerItem( final int itemId, final String itemName, final String descriptionId, final String relString )
+	public static final void registerItem( final int itemId, final String itemName, final String descId, final String relString )
 	{
 		if ( itemName == null )
 		{
 			return;
 		}
 
-		RequestLogger.printLine( "Unknown item found: " + itemName + " (#" + itemId + ", desc=" + descriptionId + ", rel=\"" + relString + "\")" );
+		// Remember that a new item has been discovered
+		ItemDatabase.newItems = true;
+
+		RequestLogger.printLine( "Unknown item found: " + itemName + " (#" + itemId + ", desc=" + descId + ", rel=\"" + relString + "\")" );
 
 		// "id=588&s=118&q=0&d=1&g=0&t=1&n=50&m=0&u=.&ou=use"
 		//   id = item Id
@@ -716,16 +812,41 @@ public class ItemDatabase
 		//   u = ?
 		//   ou = ?
 
-		ItemDatabase.useTypeById.set( itemId, 0 );
-		ItemDatabase.priceById.set( itemId, -1 );
-
 		Integer id = new Integer( itemId );
 
-		ItemDatabase.descriptionById.put( id, descriptionId );
+		ItemDatabase.descriptionById.put( id, descId );
 		ItemDatabase.dataNameById.put( id, itemName );
 		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
-
+		ItemDatabase.parseItemDescription( id, itemName );
 		ItemDatabase.registerItemAlias( itemId, itemName, null );
+	}
+
+	private static void parseItemDescription( final Integer id, final String itemName )
+	{
+		int itemId = id.intValue();
+
+		String description = DebugDatabase.itemDescriptionText( itemId );
+		if ( description == null )
+		{
+			// Assume defaults
+			ItemDatabase.useTypeById.set( itemId, 0 );
+			ItemDatabase.attributesById.set( itemId, 0 );
+			ItemDatabase.accessById.put( id, "all" );
+			ItemDatabase.priceById.set( itemId, -1 );
+			return;
+		}
+
+		// Parse use type, access, and price from description
+		ItemDatabase.useTypeById.set( itemId, 0 );
+		ItemDatabase.attributesById.set( itemId, 0 );
+		ItemDatabase.accessById.put( id, "all" );
+		ItemDatabase.priceById.set( itemId, -1 );
+
+		// Let equipment database do what it wishes with this item
+		EquipmentDatabase.registerItem( itemName, description );
+
+		// Let modifiers database do what it wishes with this item
+		Modifiers.registerItem( itemName, description );
 	}
 
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
@@ -1238,6 +1359,36 @@ public class ItemDatabase
 		return ItemDatabase.attributesById.get( itemId );
 	}
 
+	public static final String attrsToSecondaryUsage( int attrs )
+	{
+		// Mask out attributes which are part of access
+		attrs &= ~( ATTR_TRADEABLE|ATTR_GIFTABLE|ATTR_DISPLAYABLE );
+
+		// If there are no other attributes, return empty string
+		if ( attrs == 0 )
+		{
+			return "";
+		}
+
+		// Otherwise, iterate over bits
+		StringBuffer result = new StringBuffer();
+		Iterator it = ItemDatabase.secondaryUsageEntrySet.iterator();
+
+		while ( it.hasNext() )
+		{
+			Entry entry = (Entry) it.next();
+			Integer bit = (Integer) entry.getKey();
+
+			if ( ( attrs & bit.intValue() ) != 0 )
+			{
+				result.append( ", " );
+				result.append( (String) entry.getValue() );
+			}
+		}
+
+		return result.toString();
+	}
+
 	public static final boolean getAttribute( int itemId, int mask )
 	{
 		return (ItemDatabase.attributesById.get( itemId ) & mask) != 0;
@@ -1474,6 +1625,11 @@ public class ItemDatabase
 	public static final int getConsumptionType( final int itemId )
 	{
 		return itemId <= 0 ? KoLConstants.NO_CONSUME : ItemDatabase.useTypeById.get( itemId );
+	}
+
+	public static final String typeToPrimaryUsage( final int type )
+	{
+		return (String) ItemDatabase.INVERSE_PRIMARY_USE.get( new Integer( type ) );
 	}
 
 	public static final int getConsumptionType( final String itemName )

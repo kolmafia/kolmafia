@@ -62,7 +62,7 @@ public class StorageRequest
 	private static final Pattern STORAGE_PATTERN = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL );
 	private static final Pattern FREEPULLS_PATTERN = Pattern.compile( "<select name=whichitem>.*?</select>", Pattern.DOTALL );
 	private static final Pattern OPTION_PATTERN =
-		Pattern.compile( "<option[^>]*? value='?([\\d]+)'?>(.*?)( \\(([\\d,]+)\\))?</option>" );
+		Pattern.compile( "<option( descid='?([\\d]+)'?)? value='?([\\d]+)'?>(.*?)( \\(([\\d,]+)\\))?</option>" );
 
 	private int moveType;
 
@@ -283,8 +283,6 @@ public class StorageRequest
 
 	private static void parseStorage( final String responseText )
 	{
-		List storageContents = KoLConstants.storage;
-
 		// Compute the number of pulls remaining based
 		// on the response text.
 
@@ -302,17 +300,19 @@ public class StorageRequest
 			ItemManageFrame.setPullsRemaining( -1 );
 		}
 
-		// Start with an empty list
-
-		if ( !storageContents.isEmpty() )
+		// Only parse once
+		if ( !KoLConstants.storage.isEmpty() )
 		{
 			return;
 		}
 
-		// If there's nothing inside storage, return
-		// because there's nothing to parse.
+		parseStorageSection( StorageRequest.STORAGE_PATTERN, responseText, KoLConstants.storage );
+		parseStorageSection( StorageRequest.FREEPULLS_PATTERN, responseText, KoLConstants.freepulls );
+	}
 
-		storageMatcher = StorageRequest.STORAGE_PATTERN.matcher( responseText );
+	private static void parseStorageSection( final Pattern pattern, final String responseText, final List list )
+	{
+		Matcher storageMatcher = pattern.matcher( responseText );
 		if ( !storageMatcher.find() )
 		{
 			return;
@@ -321,7 +321,7 @@ public class StorageRequest
 		Matcher optionMatcher = StorageRequest.OPTION_PATTERN.matcher( storageMatcher.group() );
 		while ( optionMatcher.find() )
 		{
-			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
+			int itemId = StringUtilities.parseInt( optionMatcher.group( 3 ) );
 			if ( itemId == 0 )
 			{
 				continue;
@@ -329,38 +329,14 @@ public class StorageRequest
 
 			if ( ItemDatabase.getItemName( itemId ) == null )
 			{
-				ItemDatabase.registerItem( itemId, optionMatcher.group( 2 ).trim() );
+				String descId = optionMatcher.group(1) != null ? optionMatcher.group( 2 ) : "";
+				String name = optionMatcher.group( 4 );
+				ItemDatabase.registerItem( itemId, name, descId );
 			}
 
-			int count = optionMatcher.group(3) == null ? 1 : StringUtilities.parseInt( optionMatcher.group( 4 ) );
+			int count = optionMatcher.group(5) == null ? 1 : StringUtilities.parseInt( optionMatcher.group( 6 ) );
 			AdventureResult result = new AdventureResult( itemId, count );
-			AdventureResult.addResultToList( storageContents, result );
-		}
-
-		storageMatcher = StorageRequest.FREEPULLS_PATTERN.matcher( responseText );
-		if ( !storageMatcher.find() )
-		{
-			return;
-		}
-
-		List freepullsContents = KoLConstants.freepulls;
-		optionMatcher = StorageRequest.OPTION_PATTERN.matcher( storageMatcher.group() );
-		while ( optionMatcher.find() )
-		{
-			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
-			if ( itemId == 0 )
-			{
-				continue;
-			}
-
-			if ( ItemDatabase.getItemName( itemId ) == null )
-			{
-				ItemDatabase.registerItem( itemId, optionMatcher.group( 2 ).trim() );
-			}
-
-			int count = optionMatcher.group(3) == null ? 1 : StringUtilities.parseInt( optionMatcher.group( 4 ) );
-			AdventureResult result = new AdventureResult( itemId, count );
-			AdventureResult.addResultToList( freepullsContents, result );
+			AdventureResult.addResultToList( list, result );
 		}
 	}
 

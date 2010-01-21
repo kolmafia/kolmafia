@@ -334,7 +334,7 @@ public class ClanManageFrame
 		{
 			super( KoLConstants.inventory );
 			this.setButtons( new ActionListener[] { new StorageListener(), new RequestButton(
-				"refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
+				"refresh", new EquipmentRequest( EquipmentRequest.REFRESH ) ) } );
 		}
 
 		private class StorageListener
