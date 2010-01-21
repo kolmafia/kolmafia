@@ -894,10 +894,9 @@ public abstract class KoLmafia
 		RequestThread.postRequest( new AccountRequest() );
 		RequestThread.postRequest( new QuestLogRequest() );
 
-		// Retrieve the items which are available for consumption
-		// and item creation.
+		// Retrieve the contents of the closet and inventory
 
-		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
+		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
 
 		// If the password hash is not available, then that means you
 		// might be mid-transition.

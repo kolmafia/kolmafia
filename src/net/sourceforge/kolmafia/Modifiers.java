@@ -2765,4 +2765,10 @@ public class Modifiers
 			StaticEntity.printStackTrace( e );
 		}
 	}
+
+	public static final void registerItem( final String itemName, final String description )
+	{
+		// A new item has been detected. Examine the item description
+		// and decide what it is.
+	}
 }

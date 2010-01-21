@@ -118,7 +118,8 @@ public class EquipmentRequest
 
 	private static final int FAKE_HAND = 1511;
 
-	public static final int CLOSET = 1;
+	public static final int REFRESH = 1;
+
 	public static final int CONSUMABLES = 2;
 	public static final int EQUIPMENT = 3;	// loads current equipment only
 	public static final int MISCELLANEOUS = 4;
@@ -188,11 +189,7 @@ public class EquipmentRequest
 
 	public EquipmentRequest( final int requestType )
 	{
-		super(
-			requestType == EquipmentRequest.BEDAZZLEMENTS ? "bedazzle.php" :
-			requestType == EquipmentRequest.CLOSET ? "closet.php" :
-			requestType == EquipmentRequest.UNEQUIP_ALL ? "inv_equip.php" :
-			"inventory.php" );
+		super( EquipmentRequest.choosePage( requestType ) );
 
 		this.requestType = requestType;
 		this.outfit = null;
@@ -202,53 +199,67 @@ public class EquipmentRequest
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
 
-		if ( requestType == EquipmentRequest.BEDAZZLEMENTS )
+		switch ( requestType )
 		{
+		case EquipmentRequest.REFRESH:
+		case EquipmentRequest.BEDAZZLEMENTS:
 			// no fields necessary
-		}
-		else if ( requestType == EquipmentRequest.EQUIPMENT )
-		{
+			break;
+		case EquipmentRequest.EQUIPMENT:
+			// Current equipment only
 			this.addFormField( "ajax", "1" );
 			this.addFormField( "curequip", "1" );
-		}
-		else if ( requestType == EquipmentRequest.MISCELLANEOUS )
-		{
-			this.addFormField( "which", "3" );
-		}
-		else if ( requestType == EquipmentRequest.CONSUMABLES )
-		{
+			break;
+		case EquipmentRequest.CONSUMABLES:
 			this.addFormField( "which", "1" );
-		}
-		else if ( requestType != EquipmentRequest.CLOSET )
-		{
+			break;
+		case EquipmentRequest.SAVE_OUTFIT:
+		case EquipmentRequest.CHANGE_OUTFIT:
+		case EquipmentRequest.CHANGE_ITEM:
+		case EquipmentRequest.REMOVE_ITEM:
+		case EquipmentRequest.ALL_EQUIPMENT:
 			this.addFormField( "which", "2" );
-		}
-
-		if ( requestType == EquipmentRequest.UNEQUIP_ALL )
-		{
+			break;
+		case EquipmentRequest.MISCELLANEOUS:
+			this.addFormField( "which", "3" );
+			break;
+		case EquipmentRequest.UNEQUIP_ALL:
 			this.addFormField( "ajax", "1" );
 			this.addFormField( "action", "unequipall" );
+			this.addFormField( "which", "2" );
+			break;
+		}
+	}
+
+	private static String choosePage( final int requestType )
+	{
+		switch ( requestType )
+		{
+		case EquipmentRequest.REFRESH:
+			return "closet.php";
+		case EquipmentRequest.BEDAZZLEMENTS:
+			return "bedazzle.php";
+		case EquipmentRequest.SAVE_OUTFIT:
+		case EquipmentRequest.UNEQUIP_ALL:
+			return "inv_equip.php";
+		default:
+			return "inventory.php";
 		}
 	}
 
 	public EquipmentRequest( final String changeName )
 	{
-		super( "inv_equip.php" );
-
-		this.addFormField( "which", "2" );
+		this( EquipmentRequest.SAVE_OUTFIT );
 		this.addFormField( "action", "customoutfit" );
 		this.addFormField( "outfitname", changeName );
-		this.requestType = EquipmentRequest.SAVE_OUTFIT;
 		this.outfitName = changeName;
-		this.error = null;
 	}
 
 	public EquipmentRequest( final AdventureResult changeItem )
 	{
-		this(
-			changeItem,
-			EquipmentRequest.chooseEquipmentSlot( ItemDatabase.getConsumptionType( changeItem.getItemId() ) ),
-			false );
+		this( changeItem,
+		      EquipmentRequest.chooseEquipmentSlot( ItemDatabase.getConsumptionType( changeItem.getItemId() ) ),
+		      false );
 	}
 
 	public EquipmentRequest( final AdventureResult changeItem, final int equipmentSlot )
@@ -258,8 +269,7 @@ public class EquipmentRequest
 
 	public EquipmentRequest( final AdventureResult changeItem, final int equipmentSlot, final boolean force )
 	{
-		super( equipmentSlot >= EquipmentManager.STICKER1 ?
-			"bedazzle.php" : "inv_equip.php" );
+		super( equipmentSlot >= EquipmentManager.STICKER1 ? "bedazzle.php" : "inv_equip.php" );
 		this.error = null;
 		if ( equipmentSlot >= EquipmentManager.STICKER1 )
 		{
@@ -783,6 +793,10 @@ public class EquipmentRequest
 
 		switch ( this.requestType )
 		{
+		case EquipmentRequest.REFRESH:
+			KoLmafia.updateDisplay( "Refreshing closet..." );
+			break;
+
 		case EquipmentRequest.CONSUMABLES:
 			KoLmafia.updateDisplay( "Updating consumable items..." );
 			break;
@@ -793,10 +807,6 @@ public class EquipmentRequest
 
 		case EquipmentRequest.MISCELLANEOUS:
 			KoLmafia.updateDisplay( "Updating miscellaneous items..." );
-			break;
-
-		case EquipmentRequest.CLOSET:
-			KoLmafia.updateDisplay( "Refreshing closet..." );
 			break;
 
 		case EquipmentRequest.BEDAZZLEMENTS:
@@ -888,16 +898,15 @@ public class EquipmentRequest
 		super.processResults();
 
 		// Fetch updated equipment
-		if ( this.requestType == EquipmentRequest.CLOSET )
+		if ( this.requestType == EquipmentRequest.REFRESH )
 		{
-			KoLmafia.setIsRefreshing( true );
-
-			InventoryManager.resetInventory();
-			EquipmentManager.resetEquipment();
-
 			try
 			{
+				KoLmafia.setIsRefreshing( true );
+				InventoryManager.resetInventory();
+				EquipmentManager.resetEquipment();
 				ConcoctionDatabase.deferRefresh( true );
+
 				this.parseCloset();
 
 				(new EquipmentRequest( EquipmentRequest.CONSUMABLES )).run();
@@ -908,9 +917,8 @@ public class EquipmentRequest
 			finally
 			{
 				ConcoctionDatabase.deferRefresh( false );
+				KoLmafia.setIsRefreshing( false );
 			}
-
-			KoLmafia.setIsRefreshing( false );
 
 			return;
 		}
@@ -931,21 +939,18 @@ public class EquipmentRequest
 			return;
 		}
 
+		String text = this.responseText;
 		if ( this.requestType != EquipmentRequest.MISCELLANEOUS && this.requestType != EquipmentRequest.CONSUMABLES )
 		{
-			EquipmentRequest.parseEquipment( this.getURLString(), this.responseText );
+			EquipmentRequest.parseEquipment( this.getURLString(), text );
+			int outfitDivider = text.indexOf( "Save as Custom Outfit" );
+			if ( outfitDivider != -1 )
+			{
+				text = text.substring( outfitDivider );
+			}
 		}
 
-		int outfitDivider = this.responseText.indexOf( "Save as Custom Outfit" );
-
-		if ( outfitDivider != -1 )
-		{
-			EquipmentRequest.parseQuestItems( this.responseText.substring( outfitDivider ) );
-		}
-		else
-		{
-			EquipmentRequest.parseQuestItems( this.responseText );
-		}
+		EquipmentRequest.parseQuestItems( text );
 	}
 
 	private static final boolean switchItem( final AdventureResult oldItem, final AdventureResult newItem )

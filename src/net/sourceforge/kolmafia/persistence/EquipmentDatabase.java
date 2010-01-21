@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -254,6 +256,17 @@ public class EquipmentDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	public static void writeEquipment( final File output )
+	{
+                // Iterate over all items and save by equipment category.
+	}
+
+	public static final void registerItem( final String itemName, final String description )
+	{
+		// A new item has been detected. Examine the item description
+		// and decide what it is.
 	}
 
 	public static final int nextEquipmentItemId( int prevId )

@@ -152,60 +152,15 @@ public class DebugDatabase
 		}
 	}
 
-	private static final Pattern CLOSET_ITEM_PATTERN =
-		Pattern.compile( "<option value='(\\d+)' descid='(.*?)'>(.*?) \\(" );
-	private static final Pattern DESCRIPTION_PATTERN =
-		Pattern.compile( "onClick='descitem\\((\\d+)\\);'></td><td valign=top><b>(.*?)</b>" );
-
 	public static final void findItemDescriptions()
 	{
-		RequestLogger.printLine( "Checking for new non-quest items..." );
+		// EquipmentRequest now registers new items with ItemDatabase
+		// when it looks at the closet or at inventory. Therefore,
+		// force a refresh and see if ItemDatabase has new discoveries.
 
-		GenericRequest updateRequest = new EquipmentRequest( EquipmentRequest.CLOSET );
-		RequestThread.postRequest( updateRequest );
-		Matcher itemMatcher = DebugDatabase.CLOSET_ITEM_PATTERN.matcher( updateRequest.responseText );
+		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
 
-		boolean foundChanges = false;
-
-		while ( itemMatcher.find() )
-		{
-			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-			String descId = ItemDatabase.getDescriptionId( itemId );
-			if ( descId != null && !descId.equals( "" ) )
-			{
-				continue;
-			}
-
-			foundChanges = true;
-			ItemDatabase.registerItem( itemId, itemMatcher.group( 3 ), itemMatcher.group( 2 ) );
-		}
-
-		RequestLogger.printLine( "Parsing for quest items..." );
-		GenericRequest itemChecker = new GenericRequest( "inventory.php?which=3" );
-
-		RequestThread.postRequest( itemChecker );
-		itemMatcher = DebugDatabase.DESCRIPTION_PATTERN.matcher( itemChecker.responseText );
-
-		while ( itemMatcher.find() )
-		{
-			String itemName = itemMatcher.group( 2 );
-			int itemId = ItemDatabase.getItemId( itemName );
-
-			if ( itemId == -1 )
-			{
-				continue;
-			}
-
-			if ( !ItemDatabase.getDescriptionId( itemId ).equals( "" ) )
-			{
-				continue;
-			}
-
-			foundChanges = true;
-			ItemDatabase.registerItem( itemId, itemName, itemMatcher.group( 1 ) );
-		}
-
-		if ( foundChanges )
+		if ( ItemDatabase.newItems )
 		{
 			DebugDatabase.saveDataOverride();
 		}
@@ -213,68 +168,9 @@ public class DebugDatabase
 
 	public static final void saveDataOverride()
 	{
-		File output = new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" );
-		PrintStream writer = LogStream.openStream( output, true );
-		writer.println( KoLConstants.TRADEITEMS_VERSION );
-
-		int lastInteger = 1;
-		Iterator it = ItemDatabase.nameByIdKeySet().iterator();
-
-		while ( it.hasNext() )
-		{
-			Integer nextInteger = (Integer) it.next();
-			int id = nextInteger.intValue();
-
-			for ( int i = lastInteger; i < id; ++i )
-			{
-				writer.println( i );
-			}
-
-			lastInteger = id + 1;
-
-			String name = ItemDatabase.getItemDataName( nextInteger );
-			String access = ItemDatabase.getAccessById( nextInteger );
-			if ( access != null )
-			{
-				int type = ItemDatabase.getConsumptionType( id );
-				int price = ItemDatabase.getPriceById( id );
-				writer.println( id + "\t" + name + "\t" + type + "\t" + access + "\t" + price );
-			}
-			else
-			{
-				writer.println( id + "\t" + name + "\t0\tunknown\t-1" );
-			}
-		}
-
-		writer.close();
-
-		output = new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" );
-		writer = LogStream.openStream( output, true );
-		writer.println( KoLConstants.ITEMDESCS_VERSION );
-
-		lastInteger = 1;
-		it = ItemDatabase.descriptionIdEntrySet().iterator();
-
-		while ( it.hasNext() )
-		{
-			Entry entry = (Entry) it.next();
-			Integer nextInteger = (Integer) entry.getKey();
-			int id = nextInteger.intValue();
-
-			for ( int i = lastInteger; i < id; ++i )
-			{
-				writer.println( i );
-			}
-
-			lastInteger = id + 1;
-
-			String descId = (String) entry.getValue();
-			String name = ItemDatabase.getItemDataName( nextInteger );
-			String plural = ItemDatabase.getPluralById( id );
-			writer.println( id + "\t" + descId + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural ) );
-		}
-
-		writer.close();
+		ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
+		ItemDatabase.writeItemdescs( new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" ) );
+		EquipmentDatabase.writeEquipment( new File( UtilityConstants.DATA_LOCATION, "equipment.txt" ) );
 	}
 
 	// **********************************************************
@@ -401,10 +297,22 @@ public class DebugDatabase
 		boolean correct = true;
 
 		int type = ItemDatabase.getConsumptionType( itemId );
+		String primary = ItemDatabase.typeToPrimaryUsage( type );
 		String descType = DebugDatabase.parseType( text );
 		if ( !DebugDatabase.typesMatch( type, descType ) )
 		{
-			report.println( "# *** " + name + " (" + itemId + ") has consumption type of " + type + " but is described as " + descType + "." );
+			report.println( "# *** " + name + " (" + itemId + ") has primary usage of " + primary + " but is described as " + descType + "." );
+			correct = false;
+
+		}
+
+		int attrs = ItemDatabase.getAttributes( itemId );
+		int descAttrs = DebugDatabase.parseAttributes( text );
+		if ( !DebugDatabase.attributesMatch( attrs, descAttrs ) )
+		{
+			String secondary = ItemDatabase.attrsToSecondaryUsage( attrs );
+			String descSecondary = ItemDatabase.attrsToSecondaryUsage( descAttrs );
+			report.println( "# *** " + name + " (" + itemId + ") has secondary usage of " + secondary + " but is described as " + descSecondary + "." );
 			correct = false;
 
 		}
@@ -464,10 +372,15 @@ public class DebugDatabase
 			break;
 		}
 
-		report.println( itemId + "\t" + name + "\t" + type + "\t" + descAccess + "\t" + descPrice );
+		ItemDatabase.writeTradeitem( report, itemId, name, type, attrs, descAccess, descPrice );
 	}
 
 	private static final GenericRequest DESC_ITEM_REQUEST = new GenericRequest( "desc_item.php" );
+
+	public static final String itemDescriptionText( final int itemId )
+	{
+                return DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( itemId, true ) );
+	}
 
 	public static final String rawItemDescriptionText( final int itemId )
 	{
@@ -501,6 +414,11 @@ public class DebugDatabase
 
 	private static final String itemDescriptionText( final String rawText )
 	{
+		if ( rawText == null )
+		{
+			return null;
+		}
+
 		Matcher matcher = DebugDatabase.ITEM_DATA_PATTERN.matcher( rawText );
 		if ( !matcher.find() )
 		{
@@ -627,6 +545,16 @@ public class DebugDatabase
 			return false;
 		}
 		return false;
+	}
+
+	private static final int parseAttributes( final String text )
+	{
+		return 0;
+	}
+
+	private static final boolean attributesMatch( final int attrs, final int descAttrs )
+	{
+		return true;
 	}
 
 	private static final void checkLevels( final PrintStream report )
@@ -1612,7 +1540,7 @@ public class DebugDatabase
 			Node element = elements.item( i );
 			checkPulverize( element, writer, seen );
 		}
-		
+
 		for ( int id = 1; id <= ItemDatabase.maxItemId(); ++id )
 		{
 			int pulver = EquipmentDatabase.getPulverization( id );
@@ -1696,7 +1624,7 @@ public class DebugDatabase
 				twinkly = !DebugDatabase.getStringValue( child ).equals( "0" );
 			}
 		}
-		
+
 		if ( id < 1 )
 		{
 			writer.println( name + ": anvil doesn't know ID, so can't check" );
@@ -1883,12 +1811,12 @@ public class DebugDatabase
 
 	private static final Pattern ZAPGROUP_PATTERN = Pattern.compile( "Template:ZAP .*?</a>.*?<td>.*?<td>" );
 	private static final Pattern ZAPITEM_PATTERN = Pattern.compile( ">([^<]+)</a>" );
-	
+
 	public static final void checkZapGroups()
 	{
 		RequestLogger.printLine( "Checking zap groups..." );
 		PrintStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "zapreport.txt" ), true );
-		
+
 		String[] groups = DebugDatabase.ZAPGROUP_PATTERN.split(
 			DebugDatabase.readWikiData( "Zapping" ) );
 		for ( int i = 1; i < groups.length; ++i )
@@ -1912,7 +1840,7 @@ public class DebugDatabase
 		}
 		report.close();
 	}
-	
+
 	private static void checkZapGroup( ArrayList items, PrintStream report )
 	{
 		String firstItem = (String) items.get( 0 );

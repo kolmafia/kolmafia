@@ -71,7 +71,7 @@ public class RefreshStatusCommand
 		}
 		else if ( parameters.startsWith( "inv" ) )
 		{
-			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
 			return;
 		}
 		else if ( parameters.startsWith( "camp" ) )
