@@ -377,6 +377,17 @@ public class ItemDatabase
 		}
 	}
 
+	public static final void saveDataOverride()
+	{
+		if ( ItemDatabase.newItems )
+		{
+			ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
+			ItemDatabase.writeItemdescs( new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" ) );
+			EquipmentDatabase.writeEquipment( new File( UtilityConstants.DATA_LOCATION, "equipment.txt" ) );
+			ItemDatabase.newItems = false;
+		}
+	}
+
 	public static void writeTradeitems( final File output )
 	{
 		PrintStream writer = LogStream.openStream( output, true );
