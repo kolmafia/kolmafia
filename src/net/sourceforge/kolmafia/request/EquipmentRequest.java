@@ -920,9 +920,6 @@ public class EquipmentRequest
 				KoLmafia.setIsRefreshing( false );
 			}
 
-			// Write override files in /data if necessary
-			ItemDatabase.saveDataOverride();
-
 			return;
 		}
 

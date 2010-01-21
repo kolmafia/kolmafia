@@ -38,11 +38,16 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -260,7 +265,121 @@ public class EquipmentDatabase
 
 	public static void writeEquipment( final File output )
 	{
-                // Iterate over all items and save by equipment category.
+		// One map per equipment category
+		Map hats = new TreeMap();
+		Map weapons = new TreeMap();
+		Map offhands = new TreeMap();
+		Map shirts = new TreeMap();
+		Map pants = new TreeMap();
+		Map accessories = new TreeMap();
+		Map containers = new TreeMap();
+
+		// Iterate over all items and assign item id to category
+		Iterator it = ItemDatabase.dataNameEntrySet().iterator();
+		while ( it.hasNext() )
+		{
+			Entry entry = (Entry) it.next();
+			Integer key = (Integer) entry.getKey();
+			String name = (String) entry.getValue();
+			int type = ItemDatabase.getConsumptionType( key.intValue() );
+
+			switch ( type )
+			{
+			case KoLConstants.EQUIP_HAT:
+				hats.put( name, key );
+				break;
+			case KoLConstants.EQUIP_PANTS:
+				pants.put( name, key );
+				break;
+			case KoLConstants.EQUIP_SHIRT:
+				shirts.put( name, key );
+				break;
+			case KoLConstants.EQUIP_WEAPON:
+				weapons.put( name, key );
+				break;
+			case KoLConstants.EQUIP_OFFHAND:
+				offhands.put( name, key );
+				break;
+			case KoLConstants.EQUIP_ACCESSORY:
+				accessories.put( name, key );
+				break;
+			case KoLConstants.EQUIP_CONTAINER:
+				containers.put( name, key );
+				break;
+			default:
+				continue;
+			}
+		}
+
+		// Open the output file
+		PrintStream writer = LogStream.openStream( output, true );
+		writer.println( KoLConstants.EQUIPMENT_VERSION );
+
+		// For each equipment category, write the map entries
+		EquipmentDatabase.writeEquipmentCategory( writer, hats, "Hats" );
+		writer.println();
+		EquipmentDatabase.writeEquipmentCategory( writer, pants, "Pants" );
+		writer.println();
+		EquipmentDatabase.writeEquipmentCategory( writer, shirts, "Shirts" );
+		writer.println();
+		EquipmentDatabase.writeEquipmentCategory( writer, weapons, "Weapons" );
+		writer.println();
+		EquipmentDatabase.writeEquipmentCategory( writer, offhands, "Off-hand" );
+		writer.println();
+		EquipmentDatabase.writeEquipmentCategory( writer, accessories, "Accessories" );
+		writer.println();
+		EquipmentDatabase.writeEquipmentCategory( writer, containers, "Containers" );
+
+		writer.close();
+	}
+
+	public static void writeEquipmentCategory( final PrintStream writer, final Map map, final String tag )
+	{
+		writer.println( "# " + tag + " section of equipment.txt" );
+		writer.println();
+
+		Object[] keys = map.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String) keys[ i ];
+			Integer val = (Integer) map.get( name );
+			int itemId = val.intValue();
+			int power = EquipmentDatabase.getPower( itemId );
+			String req = EquipmentDatabase.getEquipRequirement( itemId );
+			int usage = ItemDatabase.getConsumptionType( itemId );
+			boolean isWeapon = usage == KoLConstants.EQUIP_WEAPON;
+			String type = EquipmentDatabase.itemTypes.get( itemId );
+			boolean isShield = type != null && type.equals( "shield" );
+			String weaponType = "";
+			if ( isWeapon )
+			{
+				int hands = EquipmentDatabase.hands.get( itemId );
+				weaponType = String.valueOf( hands ) + "-handed " + type;
+			}
+			EquipmentDatabase.writeEquipmentItem( writer, name, power, req, weaponType, isWeapon, isShield );
+		}
+	}
+
+	public static void writeEquipmentItem( final PrintStream writer, final String name, final int power,
+					       final String req, final String weaponType,
+					       final boolean isWeapon, final boolean isShield )
+	{
+		if ( isWeapon )
+		{
+			writer.println( name + "\t" + power + "\t" + req + "\t" + weaponType );
+		}
+		else if ( isShield )
+		{
+			if ( power == 0 )
+			{
+				writer.println( "# *** " + name + " is a shield of unknown power." );
+			}
+			writer.println( name + "\t" + power + "\t" + req + "\tshield" );
+		}
+		else
+		{
+			writer.println( name + "\t" + power + "\t" + req );
+		}
 	}
 
 	public static final void registerItem( final String itemName, final String description )
