@@ -901,7 +901,9 @@ public abstract class CustomCombatManager
 
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 		{
-			int runaway = StringUtilities.parseInt( action );
+			Matcher runAwayMatcher = CustomCombatManager.TRY_TO_RUN_AWAY_PATTERN.matcher( action );
+			int runaway = runAwayMatcher.find() ?
+                                StringUtilities.parseInt( runAwayMatcher.group( 1 ) ) : 0;
 			return runaway <= 0 ? "runaway" : ( "runaway" + runaway );
 		}
 
