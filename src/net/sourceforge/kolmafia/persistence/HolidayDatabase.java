@@ -53,7 +53,6 @@ public class HolidayDatabase
 	private static long COLLISION = 0;
 
 	private static long MS_PER_DAY = 86400000L;
-	private static long MS_UTC_4_OFFSET = -14400000L;
 
 	static
 	{
@@ -368,7 +367,14 @@ public class HolidayDatabase
 
 	public static final int getHamburglarPosition( final Date time )
 	{
-		long timeDifference = time.getTime() + HolidayDatabase.MS_UTC_4_OFFSET;
+		long currentTime = time.getTime();
+		long timeDifference = currentTime - HolidayDatabase.NEWYEAR;
+
+		if ( currentTime > HolidayDatabase.BOUNDARY )
+		{
+			timeDifference -= MS_PER_DAY;
+		}
+
 		if ( timeDifference < HolidayDatabase.COLLISION )
 		{
 			return -1;
