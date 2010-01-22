@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -2786,7 +2787,8 @@ public class Modifiers
 		Map containers = new TreeMap();
 		Map famitems = new TreeMap();
 		Map bedazzlements = new TreeMap();
-		Map others = new TreeMap();
+		Map freepulls = new TreeMap();
+		Map wikiname = new TreeMap();
 
 		// Iterate over all items and assign item id to category
 		Iterator it = ItemDatabase.dataNameEntrySet().iterator();
@@ -2800,39 +2802,45 @@ public class Modifiers
 			switch ( type )
 			{
 			case KoLConstants.EQUIP_HAT:
-				hats.put( name, key );
+				hats.put( name, null );
 				break;
 			case KoLConstants.EQUIP_PANTS:
-				pants.put( name, key );
+				pants.put( name, null );
 				break;
 			case KoLConstants.EQUIP_SHIRT:
-				shirts.put( name, key );
+				shirts.put( name, null );
 				break;
 			case KoLConstants.EQUIP_WEAPON:
-				weapons.put( name, key );
+				weapons.put( name, null );
 				break;
 			case KoLConstants.EQUIP_OFFHAND:
-				offhands.put( name, key );
+				offhands.put( name, null );
 				break;
 			case KoLConstants.EQUIP_ACCESSORY:
-				accessories.put( name, key );
+				accessories.put( name, null );
 				break;
 			case KoLConstants.EQUIP_CONTAINER:
-				containers.put( name, key );
+				containers.put( name, null );
 				break;
 			case KoLConstants.EQUIP_FAMILIAR:
-				famitems.put( name, key );
+				famitems.put( name, null );
 				break;
 			case KoLConstants.CONSUME_STICKER:
-				bedazzlements.put( name, key );
+				bedazzlements.put( name, null );
 				break;
 			default:
 				Modifiers mods = Modifiers.getModifiers( name );
-				if ( mods != null &&
-				     ( mods.getBoolean( Modifiers.FREE_PULL ) ||
-				       !mods.getString( Modifiers.WIKI_NAME).equals( "" ) ) )
+				if ( mods == null )
 				{
-					others.put( name, key );
+					break;
+				}
+				if ( mods.getBoolean( Modifiers.FREE_PULL ) )
+				{
+					freepulls.put( name, null );
+				}
+				else if ( !mods.getString( Modifiers.WIKI_NAME).equals( "" ) )
+				{
+					wikiname.put( name, null );
 				}
 				break;
 			}
@@ -2850,7 +2858,7 @@ public class Modifiers
 			String name = "Fam:" + (String) entry.getValue();
 			if ( Modifiers.getModifiers( name ) != null )
 			{
-				familiars.put( name, key );
+				familiars.put( name, null );
 			}
 		}
 
@@ -2880,7 +2888,7 @@ public class Modifiers
 			// Skip effect which is also an item
 			if ( !name.equals( "The Spirit of Crimbo" ) )
 			{
-				effects.put( name, key );
+				effects.put( name, null );
 			}
 		}
 
@@ -2895,7 +2903,7 @@ public class Modifiers
 			String name = (String) entry.getValue();
 			if ( SkillDatabase.getSkillType( key.intValue() ) == SkillDatabase.PASSIVE )
 			{
-				passives.put( name, key );
+				passives.put( name, null );
 			}
 		}
 
@@ -2922,7 +2930,7 @@ public class Modifiers
 			String name = "Zone:" + key;
 			if ( Modifiers.getModifiers( name ) != null )
 			{
-				zones.put( name, key );
+				zones.put( name, null );
 			}
 		}
 
@@ -2936,28 +2944,29 @@ public class Modifiers
 			String name = "Loc:" + key.getAdventureName();
 			if ( Modifiers.getModifiers( name ) != null )
 			{
-				locations.put( name, key );
+				locations.put( name, null );
 			}
 		}
 
-		// Make a map of synergies - hard-coded, for now
+		// Make a map of synergies
 		Map synergies = new TreeMap();
-		synergies.put( "synergy/serpentine sword/snake shield", null );
-		synergies.put( "synergy/lupine sword/snarling wolf shield", null );
-		synergies.put( "synergy/cardboard katana/cardboard wakizashi", null );
-		synergies.put( "synergy/bewitching boots/bitter bowtie", null );
-		synergies.put( "synergy/bitter bowtie/brazen bracelet", null );
-		synergies.put( "synergy/brazen bracelet/bewitching boots", null );
-		synergies.put( "synergy/molten medallion/monstrous monocle", null );
-		synergies.put( "synergy/monstrous monocle/musty moccasins", null );
-		synergies.put( "synergy/musty moccasins/molten medallion", null );
 
-		// Make a map of maximization categories - hard-coded, for now
+		it = Modifiers.synergies.iterator();
+		while ( it.hasNext() )
+		{
+			String name = (String) it.next();
+			int mask = ((Integer) it.next()).intValue();
+			synergies.put( name, null );
+		}
+
+		// Make a map of maximization categories
 		Map maximization = new TreeMap();
-		maximization.put( "_hoboPower", null );
-		maximization.put( "_brimstone", null );
-		maximization.put( "_slimeHate", null );
-		maximization.put( "_stickers", null );
+		int maximizationCount = MaximizerFrame.maximizationCategories.length;
+
+		for ( int i = 0; i < maximizationCount; ++i )
+		{
+			maximization.put( MaximizerFrame.maximizationCategories[i], null );
+		}
 
 		// Open the output file
 		PrintStream writer = LogStream.openStream( output, true );
@@ -3000,7 +3009,8 @@ public class Modifiers
 		writer.println();
 		Modifiers.writeModifierCategory( writer, maximization, "Maximization categories" );
 		writer.println();
-		Modifiers.writeModifierCategory( writer, others, "Everything Else" );
+		Modifiers.writeModifierCategory( writer, freepulls, "Everything Else" );
+		Modifiers.writeModifierCategory( writer, wikiname );
 
 		writer.close();
 	}
@@ -3008,6 +3018,11 @@ public class Modifiers
 	private static void writeModifierCategory( final PrintStream writer, final Map map, final String tag )
 	{
 		writer.println( "# " + tag + " section of modifiers.txt" );
+		Modifiers.writeModifierCategory( writer, map );
+	}
+
+	private static void writeModifierCategory( final PrintStream writer, final Map map )
+	{
 		writer.println();
 
 		Object[] keys = map.keySet().toArray();

@@ -114,7 +114,8 @@ public class MaximizerFrame
 
 	private static boolean firstTime = true;
 
-	private static String [] expressions = {
+	private static String [] expressions =
+	{
 		"mainstat",
 		"mus",
 		"mys",
@@ -147,6 +148,14 @@ public class MaximizerFrame
 		"ML, 0.001 slime res",
 		"4 clownosity",
 		"+four songs",
+	};
+
+	public static String [] maximizationCategories =
+	{
+		"_hoboPower",
+		"_brimstone",
+		"_slimeHate",
+		"_stickers",
 	};
 
 	public static final JComboBox expressionSelect = new JComboBox( expressions );
@@ -1570,9 +1579,6 @@ public class MaximizerFrame
 			}
 			
 			boolean hoboPowerUseful = false;
-			boolean brimstoneUseful = false;
-			boolean slimeHateUseful = false;
-			boolean stickersUseful = false;
 			{
 				Modifiers mods = Modifiers.getModifiers( "_hoboPower" );
 				if ( mods != null &&
@@ -1581,6 +1587,8 @@ public class MaximizerFrame
 					hoboPowerUseful = true;
 				}
 			}
+
+			boolean brimstoneUseful = false;
 			{
 				Modifiers mods = Modifiers.getModifiers( "_brimstone" );
 				if ( mods != null &&
@@ -1589,6 +1597,8 @@ public class MaximizerFrame
 					brimstoneUseful = true;
 				}
 			}
+
+			boolean slimeHateUseful = false;
 			{
 				Modifiers mods = Modifiers.getModifiers( "_slimeHate" );
 				if ( mods != null &&
@@ -1597,6 +1607,8 @@ public class MaximizerFrame
 					slimeHateUseful = true;
 				}
 			}
+
+			boolean stickersUseful = false;
 			{
 				Modifiers mods = Modifiers.getModifiers( "_stickers" );
 				if ( mods != null &&
