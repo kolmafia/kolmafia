@@ -66,6 +66,53 @@ public class CampgroundRequest
 	private static AdventureResult currentDwelling = null;
 	private static AdventureResult currentBed = null;
 
+	public static final int [] campgroundItems =
+	{
+		// Housing
+		ItemPool.BIG_ROCK,
+		ItemPool.NEWBIESPORT_TENT,
+		ItemPool.BARSKIN_TENT,
+		ItemPool.COTTAGE,
+		ItemPool.HOUSE,
+		ItemPool.SANDCASTLE,
+		ItemPool.TWIG_HOUSE,
+		ItemPool.GINGERBREAD_HOUSE,
+		ItemPool.HOBO_FORTRESS,
+
+		// Bedding
+		ItemPool.BEANBAG_CHAIR,
+		ItemPool.COLD_BEDDING,
+		ItemPool.GAUZE_HAMMOCK,
+		ItemPool.HOT_BEDDING,
+		ItemPool.SLEAZE_BEDDING,
+		ItemPool.SPOOKY_BEDDING,
+		ItemPool.STENCH_BEDDING,
+
+		// Inside dwelling
+		ItemPool.BLACK_BLUE_LIGHT,
+		ItemPool.FENG_SHUI,
+		ItemPool.LOUDMOUTH_LARRY,
+		ItemPool.PLASMA_BALL,
+
+		// Outside dwelling
+		ItemPool.BARBED_FENCE,
+		ItemPool.BARTENDER,
+		ItemPool.CHEF,
+		ItemPool.CLOCKWORK_BARTENDER,
+		ItemPool.CLOCKWORK_CHEF,
+		ItemPool.CLOCKWORK_MAID,
+		ItemPool.MAID,
+		ItemPool.MEAT_GOLEM,
+		ItemPool.PAGODA_PLANS,
+		ItemPool.PICKET_FENCE,
+		ItemPool.PRETTY_BOUQUET,
+		ItemPool.SCARECROW,
+		ItemPool.TOILET_PAPER,
+
+		// Special item that aids resting
+		ItemPool.COMFY_BLANKET,
+	};
+
 	public static void reset()
 	{
 		KoLConstants.campground.clear();
@@ -328,6 +375,7 @@ public class CampgroundRequest
 		case ItemPool.HOUSE:
 		case ItemPool.SANDCASTLE:
 		case ItemPool.TWIG_HOUSE:
+		case ItemPool.GINGERBREAD_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
 			return true;
 		}
@@ -350,8 +398,10 @@ public class CampgroundRequest
 			return 5;
 		case ItemPool.TWIG_HOUSE:
 			return 6;
-		case ItemPool.HOBO_FORTRESS:
+		case ItemPool.GINGERBREAD_HOUSE:
 			return 7;
+		case ItemPool.HOBO_FORTRESS:
+			return 8;
 		}
 		return 0;
 	}

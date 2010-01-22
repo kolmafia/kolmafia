@@ -856,19 +856,19 @@ public class DebugDatabase
 
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
-			report.println( "# " + name + ": " + (String) unknown.get( i ) );
+			Modifiers.writeModifierComment( report, name, (String) unknown.get( i ) );
 		}
 
 		if ( known.equals( "" ) )
 		{
 			if ( unknown.size() == 0 )
 			{
-				report.println( "# " + name );
+				Modifiers.writeModifierComment( report, name );
 			}
 		}
 		else
 		{
-			report.println( name + "\t" + known );
+			Modifiers.writeModifierString( report, name, known );
 		}
 	}
 

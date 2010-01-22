@@ -484,7 +484,7 @@
 483	Eye of the Seal	eyeball.gif	65b4d02c0fa6d2243ad53008a91c9482	use 1 seal eyeball
 484	Souper Vengeful	bowl.gif	bee077703c6f7d57498e2a0173956d4e	eat 1 turtle soup
 485	El Tango de la Maldita Suegra	notes.gif	106410abe0c898c4b0f194b04eaada12	use 1 evil vihuela
-486
+486	Innuendo Shopping	wink.gif	84f618526c7db5789fc68c3ecb940010	#wearing origami riding crop
 487	Well-preserved	drone3.gif	ba7b40665f789b6ffa055e2ad316263c	use 1 warm El Vibrato drone
 488
 489	Inscrutable exoskeleton	drone5.gif	c281cb24d6830c8c01ecf4b8d28adff6	use 1 glowing El Vibrato drone
@@ -654,7 +654,7 @@
 653	Bitterskin	bitterskin.gif	d94d955ab2d6b053c25ca2e567b6bbfa	use 1 bitter pill
 654	Mighty Shout	breath.gif	6526584640bf272feded10f8963ce523	#using Mighty Shout combat skill
 655	Pasty	proteintube.gif	950efe4d4bc5f179cfa4b911e1764dab	eat 1 protein paste
-656
+656	Cake Caked	cupcakecup.gif	8b39e6f6fcd95bb55c7958863934af10	eat 1 cupcake-in-a-cup
 657	Shamboozled	chamflute.gif	a59ae4860da9d7bed64bbf4b7f0fa7eb	drink 1 sham champagne
 658	Pumped Stomach	stomach.gif	475fc219b93c4205c4b42e7e68b75994	use 1 tempura air
 659	Pneumatic	airpotion.gif	b8c0560ec4b89793eeb5b78c6acba0f3	use 1 pressurized potion of pneumaticity

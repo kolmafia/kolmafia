@@ -333,7 +333,7 @@ public class EquipmentDatabase
 		writer.close();
 	}
 
-	public static void writeEquipmentCategory( final PrintStream writer, final Map map, final String tag )
+	private static void writeEquipmentCategory( final PrintStream writer, final Map map, final String tag )
 	{
 		writer.println( "# " + tag + " section of equipment.txt" );
 		writer.println();
