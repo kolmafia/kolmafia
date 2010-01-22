@@ -34,10 +34,13 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
@@ -46,16 +49,21 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -2764,6 +2772,283 @@ public class Modifiers
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	public static void writeModifiers( final File output )
+	{
+		// One map per equipment category
+		Map hats = new TreeMap();
+		Map weapons = new TreeMap();
+		Map offhands = new TreeMap();
+		Map shirts = new TreeMap();
+		Map pants = new TreeMap();
+		Map accessories = new TreeMap();
+		Map containers = new TreeMap();
+		Map famitems = new TreeMap();
+		Map bedazzlements = new TreeMap();
+		Map others = new TreeMap();
+
+		// Iterate over all items and assign item id to category
+		Iterator it = ItemDatabase.dataNameEntrySet().iterator();
+		while ( it.hasNext() )
+		{
+			Entry entry = (Entry) it.next();
+			Integer key = (Integer) entry.getKey();
+			String name = (String) entry.getValue();
+			int type = ItemDatabase.getConsumptionType( key.intValue() );
+
+			switch ( type )
+			{
+			case KoLConstants.EQUIP_HAT:
+				hats.put( name, key );
+				break;
+			case KoLConstants.EQUIP_PANTS:
+				pants.put( name, key );
+				break;
+			case KoLConstants.EQUIP_SHIRT:
+				shirts.put( name, key );
+				break;
+			case KoLConstants.EQUIP_WEAPON:
+				weapons.put( name, key );
+				break;
+			case KoLConstants.EQUIP_OFFHAND:
+				offhands.put( name, key );
+				break;
+			case KoLConstants.EQUIP_ACCESSORY:
+				accessories.put( name, key );
+				break;
+			case KoLConstants.EQUIP_CONTAINER:
+				containers.put( name, key );
+				break;
+			case KoLConstants.EQUIP_FAMILIAR:
+				famitems.put( name, key );
+				break;
+			case KoLConstants.CONSUME_STICKER:
+				bedazzlements.put( name, key );
+				break;
+			default:
+				Modifiers mods = Modifiers.getModifiers( name );
+				if ( mods != null &&
+				     ( mods.getBoolean( Modifiers.FREE_PULL ) ||
+				       !mods.getString( Modifiers.WIKI_NAME).equals( "" ) ) )
+				{
+					others.put( name, key );
+				}
+				break;
+			}
+		}
+
+		// Make a map of familiars
+		Map familiars = new TreeMap();
+		familiars.put( "Fam:(none)", null );
+
+		it = FamiliarDatabase.entrySet().iterator();
+		while ( it.hasNext() )
+		{
+			Entry entry = (Entry) it.next();
+			Integer key = (Integer) entry.getKey();
+			String name = "Fam:" + (String) entry.getValue();
+			if ( Modifiers.getModifiers( name ) != null )
+			{
+				familiars.put( name, key );
+			}
+		}
+
+		// Make a map of campground items
+		Map campground = new TreeMap();
+
+		for ( int i = 0; i < CampgroundRequest.campgroundItems.length; ++i )
+		{
+			int itemId = CampgroundRequest.campgroundItems[i];
+			// Skip toilet paper, since we want that in the free
+			// pull section
+			if ( itemId != ItemPool.TOILET_PAPER )
+			{
+				campground.put( ItemDatabase.getItemDataName( itemId ), null );
+			}
+		}
+
+		// Make a map of status effects
+		Map effects = new TreeMap();
+
+		it = EffectDatabase.dataNameEntrySet().iterator();
+		while ( it.hasNext() )
+		{
+			Entry entry = (Entry) it.next();
+			Integer key = (Integer) entry.getKey();
+			String name = (String) entry.getValue();
+			// Skip effect which is also an item
+			if ( !name.equals( "The Spirit of Crimbo" ) )
+			{
+				effects.put( name, key );
+			}
+		}
+
+		// Make a map of passive skills
+		Map passives = new TreeMap();
+
+		it = SkillDatabase.entrySet().iterator();
+		while ( it.hasNext() )
+		{
+			Entry entry = (Entry) it.next();
+			Integer key = (Integer) entry.getKey();
+			String name = (String) entry.getValue();
+			if ( SkillDatabase.getSkillType( key.intValue() ) == SkillDatabase.PASSIVE )
+			{
+				passives.put( name, key );
+			}
+		}
+
+		// Make a map of outfits
+		Map outfits = new TreeMap();
+		int outfitCount = EquipmentDatabase.getOutfitCount();
+
+		for ( int i = 1; i <= outfitCount; ++i )
+		{
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( i );
+			if ( outfit != null )
+			{
+				outfits.put( outfit.getName(), null );
+			}
+		}
+
+		// Make a map of zones
+		Map zones = new TreeMap();
+
+		it = AdventureDatabase.ZONE_DESCRIPTIONS.keySet().iterator();
+		while ( it.hasNext() )
+		{
+			String key = (String) it.next();
+			String name = "Zone:" + key;
+			if ( Modifiers.getModifiers( name ) != null )
+			{
+				zones.put( name, key );
+			}
+		}
+
+		// Make a map of locations
+		Map locations = new TreeMap();
+
+		it = AdventureDatabase.getAsLockableListModel().iterator();
+		while ( it.hasNext() )
+		{
+			KoLAdventure key = (KoLAdventure) it.next();
+			String name = "Loc:" + key.getAdventureName();
+			if ( Modifiers.getModifiers( name ) != null )
+			{
+				locations.put( name, key );
+			}
+		}
+
+		// Make a map of synergies - hard-coded, for now
+		Map synergies = new TreeMap();
+		synergies.put( "synergy/serpentine sword/snake shield", null );
+		synergies.put( "synergy/lupine sword/snarling wolf shield", null );
+		synergies.put( "synergy/cardboard katana/cardboard wakizashi", null );
+		synergies.put( "synergy/bewitching boots/bitter bowtie", null );
+		synergies.put( "synergy/bitter bowtie/brazen bracelet", null );
+		synergies.put( "synergy/brazen bracelet/bewitching boots", null );
+		synergies.put( "synergy/molten medallion/monstrous monocle", null );
+		synergies.put( "synergy/monstrous monocle/musty moccasins", null );
+		synergies.put( "synergy/musty moccasins/molten medallion", null );
+
+		// Make a map of maximization categories - hard-coded, for now
+		Map maximization = new TreeMap();
+		maximization.put( "_hoboPower", null );
+		maximization.put( "_brimstone", null );
+		maximization.put( "_slimeHate", null );
+		maximization.put( "_stickers", null );
+
+		// Open the output file
+		PrintStream writer = LogStream.openStream( output, true );
+		writer.println( KoLConstants.EQUIPMENT_VERSION );
+
+		// For each equipment category, write the map entries
+		Modifiers.writeModifierCategory( writer, hats, "Hats" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, pants, "Pants" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, shirts, "Shirts" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, weapons, "Weapons" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, offhands, "Off-hand" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, accessories, "Accessories" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, containers, "Containers" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, famitems, "Familiar Items" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, familiars, "Familiars" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, bedazzlements, "Bedazzlements" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, campground, "Campground equipment" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, effects, "Status Effects" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, passives, "Passive Skills" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, outfits, "Outfits" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, zones, "Zone-specific" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, locations, "Location-specific" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, synergies, "Synergies" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, maximization, "Maximization categories" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, others, "Everything Else" );
+
+		writer.close();
+	}
+
+	private static void writeModifierCategory( final PrintStream writer, final Map map, final String tag )
+	{
+		writer.println( "# " + tag + " section of modifiers.txt" );
+		writer.println();
+
+		Object[] keys = map.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String) keys[ i ];
+			String cname = StringUtilities.getCanonicalName( name );
+			Object modifiers = Modifiers.modifiersByName.get( cname );
+			Modifiers.writeModifierItem( writer, name, modifiers );
+		}
+	}
+
+	public static void writeModifierItem( final PrintStream writer, final String name, Object modifiers )
+	{
+		if ( modifiers == null )
+		{
+			Modifiers.writeModifierComment( writer, name );
+			return;
+		}
+
+		if ( modifiers instanceof Modifiers )
+		{
+			modifiers = ((Modifiers) modifiers).getString( Modifiers.MODIFIERS );
+		}
+
+		Modifiers.writeModifierString( writer, name, (String) modifiers );
+	}
+
+	public static void writeModifierString( final PrintStream writer, final String name, final String modifiers )
+	{
+		writer.println( name + "\t" + modifiers );
+	}
+
+	public static void writeModifierComment( final PrintStream writer, final String name, final String unknown )
+	{
+		writer.println( "# " + name + ": " + unknown );
+	}
+
+	public static void writeModifierComment( final PrintStream writer, final String name )
+	{
+		writer.println( "# " + name );
 	}
 
 	public static final void registerItem( final String itemName, final String description )

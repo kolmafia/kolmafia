@@ -384,6 +384,7 @@ public class ItemDatabase
 			ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
 			ItemDatabase.writeItemdescs( new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" ) );
 			EquipmentDatabase.writeEquipment( new File( UtilityConstants.DATA_LOCATION, "equipment.txt" ) );
+			// Modifiers.writeModifiers( new File( UtilityConstants.DATA_LOCATION, "modifiers.txt" ) );
 			ItemDatabase.newItems = false;
 		}
 	}

@@ -257,6 +257,11 @@ public class EffectDatabase
 		return EffectDatabase.nameById.entrySet();
 	}
 
+	public static final Set dataNameEntrySet()
+	{
+		return EffectDatabase.dataNameById.entrySet();
+	}
+
 	public static final Collection values()
 	{
 		return EffectDatabase.nameById.values();
