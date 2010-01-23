@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -3053,22 +3054,61 @@ public class Modifiers
 
 	public static void writeModifierString( final PrintStream writer, final String name, final String modifiers )
 	{
-		writer.println( name + "\t" + modifiers );
+		writer.println( Modifiers.modifierString( name, modifiers ) );
+	}
+
+	public static String modifierString( final String name, final String modifiers )
+	{
+		return name + "\t" + modifiers;
 	}
 
 	public static void writeModifierComment( final PrintStream writer, final String name, final String unknown )
 	{
-		writer.println( "# " + name + ": " + unknown );
+		writer.println( Modifiers.modifierCommentString( name, unknown ) );
+	}
+
+	public static String modifierCommentString( final String name, final String unknown )
+	{
+		return "# " + name + ": " + unknown;
 	}
 
 	public static void writeModifierComment( final PrintStream writer, final String name )
 	{
-		writer.println( "# " + name );
+		writer.println( Modifiers.modifierCommentString( name ) );
 	}
 
-	public static final void registerItem( final String itemName, final String description )
+	public static String modifierCommentString( final String name )
+	{
+		return "# " + name;
+	}
+
+	public static final void registerItem( final String name, final String text )
 	{
 		// A new item has been detected. Examine the item description
 		// and decide what it is.
+		ArrayList unknown = new ArrayList();
+		String known = DebugDatabase.parseItemEnchantments( text, unknown );
+
+		for ( int i = 0; i < unknown.size(); ++i )
+		{
+			RequestLogger.printLine( Modifiers.modifierCommentString( name, (String) unknown.get( i ) ) );
+		}
+
+		if ( known.equals( "" ) )
+		{
+			if ( unknown.size() == 0 )
+			{
+				RequestLogger.printLine( Modifiers.modifierCommentString( name ) );
+			}
+		}
+		else
+		{
+			RequestLogger.printLine( Modifiers.modifierString( name, known ) );
+			String canon = StringUtilities.getCanonicalName( name );
+			if ( !Modifiers.modifiersByName.containsKey( canon ) )
+			{
+				Modifiers.modifiersByName.put( canon, known );
+			}
+		}
 	}
 }
