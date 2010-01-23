@@ -42,6 +42,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -49,6 +51,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -364,25 +367,34 @@ public class EquipmentDatabase
 					       final String req, final String weaponType,
 					       final boolean isWeapon, final boolean isShield )
 	{
+		if ( isShield && power == 0 )
+		{
+			writer.println( "# *** " + name + " is a shield of unknown power." );
+		}
+		writer.println( EquipmentDatabase.equipmentString( name, power, req, weaponType, isWeapon, isShield ) );
+	}
+
+	public static String equipmentString( final String name, final int power,
+					      final String req, final String weaponType,
+					      final boolean isWeapon, final boolean isShield )
+	{
 		if ( isWeapon )
 		{
-			writer.println( name + "\t" + power + "\t" + req + "\t" + weaponType );
+			return name + "\t" + power + "\t" + req + "\t" + weaponType;
 		}
 		else if ( isShield )
 		{
-			if ( power == 0 )
-			{
-				writer.println( "# *** " + name + " is a shield of unknown power." );
-			}
-			writer.println( name + "\t" + power + "\t" + req + "\tshield" );
+			return name + "\t" + power + "\t" + req + "\tshield";
 		}
 		else
 		{
-			writer.println( name + "\t" + power + "\t" + req );
+			return name + "\t" + power + "\t" + req;
 		}
 	}
 
-	public static final void registerItem( final int itemId, final String description )
+	private static final Pattern WEAPON_TYPE_PATTERN = Pattern.compile( "\\(((\\d)-handed .*?)\\)" );
+
+	public static final void registerItem( final int itemId, final String itemName, final String description )
 	{
 		// A new item has been detected. Examine the item description
 		// and decide what it is.
@@ -393,27 +405,34 @@ public class EquipmentDatabase
 		EquipmentDatabase.power.set( itemId, power );
 		EquipmentDatabase.statRequirements.set( itemId, req );
 
+		boolean isWeapon = false, isShield = false;
+		String weaponType = "";
+
 		if ( type.indexOf( "weapon" ) != -1 )
 		{
 			int hval = 0;
-			String tval = null;
-			int index = type.indexOf( " " );
-			if ( index > 0 )
+			Matcher matcher = WEAPON_TYPE_PATTERN.matcher( type );
+			if ( matcher.find() )
 			{
-				hval = StringUtilities.parseInt( type.substring( 0, 1 ) );
-				tval = type.substring( index + 1 );
+				hval = StringUtilities.parseInt( matcher.group(2) );
+				weaponType = matcher.group(1);
 			}
 			else
 			{
-				tval = type;
+				weaponType = type;
 			}
 			EquipmentDatabase.hands.set( itemId, hval );
-			EquipmentDatabase.itemTypes.set( itemId, tval );
+			EquipmentDatabase.itemTypes.set( itemId, weaponType );
+			isWeapon = true;
 		}
 		else if ( type.indexOf( "shield" ) != -1 )
 		{
-			EquipmentDatabase.itemTypes.set( itemId, "shield" );
+			isShield = true;
+			weaponType = "shield";
+			EquipmentDatabase.itemTypes.set( itemId, weaponType );
 		}
+
+		RequestLogger.printLine( EquipmentDatabase.equipmentString( itemName, power, req, weaponType, isWeapon, isShield ) );
 	}
 
 	public static final int nextEquipmentItemId( int prevId )

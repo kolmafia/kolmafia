@@ -423,11 +423,17 @@ public class ItemDatabase
 	public static void writeTradeitem( final PrintStream writer, final int itemId, final String name,
 					   final int type, final int attrs, final String access, final int price )
 	{
-		writer.println( itemId + "\t" +
-				name + "\t" +
-				typeToPrimaryUsage( type ) + attrsToSecondaryUsage( attrs ) + "\t" +
-				access + "\t" +
-				price );
+		writer.println( tradeitemString( itemId, name, type, attrs, access, price ) );
+	}
+
+	public static String tradeitemString( final int itemId, final String name, final int type,
+					      final int attrs, final String access, final int price )
+	{
+		return itemId + "\t" +
+		       name + "\t" +
+		       typeToPrimaryUsage( type ) + attrsToSecondaryUsage( attrs ) + "\t" +
+		       access + "\t" +
+		       price;
 	}
 
 	public static void writeItemdescs( final File output )
@@ -454,10 +460,15 @@ public class ItemDatabase
 			String descId = (String) entry.getValue();
 			String name = ItemDatabase.getItemDataName( nextInteger );
 			String plural = ItemDatabase.getPluralById( id );
-			writer.println( id + "\t" + descId + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural ) );
+			writer.println( ItemDatabase.itemdescString( id, descId, name, plural ) );
 		}
 
 		writer.close();
+	}
+
+	public static String itemdescString( final int id, final String descId, final String name, final String plural)
+	{
+		return id + "\t" + descId + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural );
 	}
 
 	private static void readItemDescriptions()
@@ -829,12 +840,13 @@ public class ItemDatabase
 		ItemDatabase.descriptionById.put( id, descId );
 		ItemDatabase.dataNameById.put( id, itemName );
 		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
-		ItemDatabase.parseItemDescription( id, itemName );
 		ItemDatabase.registerItemAlias( itemId, itemName, null );
+		ItemDatabase.parseItemDescription( id, itemName );
 	}
 
 	private static void parseItemDescription( final Integer id, final String itemName )
 	{
+		String descId = ItemDatabase.getDescriptionId( id );
 		int itemId = id.intValue();
 
 		String text = DebugDatabase.itemDescriptionText( itemId );
@@ -865,11 +877,19 @@ public class ItemDatabase
 		int price = DebugDatabase.parsePrice( text );
 		ItemDatabase.priceById.set( itemId, price );
 
+		// Print what goes in tradeitems.txt and itemdescs.txt
+		RequestLogger.printLine( "--------------------" );
+		RequestLogger.printLine( ItemDatabase.tradeitemString( itemId, itemName, usage, attrs, access, price ) );
+		RequestLogger.printLine( ItemDatabase.itemdescString( itemId, descId, itemName, "" ) );
+
 		// Let equipment database do what it wishes with this item
-		EquipmentDatabase.registerItem( itemId, text );
+		EquipmentDatabase.registerItem( itemId, itemName, text );
 
 		// Let modifiers database do what it wishes with this item
 		Modifiers.registerItem( itemName, text );
+
+		// Done generating data
+		RequestLogger.printLine( "--------------------" );
 	}
 
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
