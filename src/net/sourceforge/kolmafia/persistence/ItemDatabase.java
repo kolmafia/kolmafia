@@ -801,11 +801,6 @@ public class ItemDatabase
 	 * mall or in the player's inventory.
 	 */
 
-	public static final void registerItem( final int itemId, final String itemName )
-	{
-		ItemDatabase.registerItem( itemId, itemName, "", "" );
-	}
-
 	public static final void registerItem( final int itemId, final String itemName, final String descId )
 	{
 		ItemDatabase.registerItem( itemId, itemName, descId, "" );
@@ -882,11 +877,14 @@ public class ItemDatabase
 		RequestLogger.printLine( ItemDatabase.tradeitemString( itemId, itemName, usage, attrs, access, price ) );
 		RequestLogger.printLine( ItemDatabase.itemdescString( itemId, descId, itemName, "" ) );
 
-		// Let equipment database do what it wishes with this item
-		EquipmentDatabase.registerItem( itemId, itemName, text );
+		if ( EquipmentDatabase.isEquipment( usage ) )
+		{
+			// Let equipment database do what it wishes with this item
+			EquipmentDatabase.registerItem( itemId, itemName, text );
 
-		// Let modifiers database do what it wishes with this item
-		Modifiers.registerItem( itemName, text );
+			// Let modifiers database do what it wishes with this item
+			Modifiers.registerItem( itemName, text );
+		}
 
 		// Done generating data
 		RequestLogger.printLine( "--------------------" );

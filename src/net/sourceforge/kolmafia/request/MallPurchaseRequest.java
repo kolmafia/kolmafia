@@ -161,11 +161,6 @@ public class MallPurchaseRequest
 
 		this.itemId = itemId;
 
-		if ( ItemDatabase.getItemName( itemId ) == null && itemName != null )
-		{
-			ItemDatabase.registerItem( itemId, itemName );
-		}
-
 		this.itemName = ItemDatabase.getItemName( this.itemId );
 		if ( this.itemName == null )
 		{
