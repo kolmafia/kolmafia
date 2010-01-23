@@ -52,7 +52,10 @@ public class MallSearchRequest
 	private static final Pattern STORELIMIT_PATTERN = Pattern.compile( "Limit ([\\d,]+) /" );
 	private static final Pattern STOREPRICE_PATTERN =
 		Pattern.compile( "radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>" );
-	private static final Pattern STOREDETAIL_PATTERN = Pattern.compile( "<tr class=\"graybelow.+?</tr>" );
+	private static final Pattern ITEMDETAIL_PATTERN =
+                Pattern.compile( "<table class=\"itemtable\".*?item_(\\d+).*?descitem\\((\\d+)\\).*?<a[^>]*>(.*?)</a>(.*?)</table>" );
+	private static final Pattern STOREDETAIL_PATTERN =
+                Pattern.compile( "<tr class=\"graybelow.+?</tr>" );
 
 	private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile( "stock\">([\\d,]+)<" );
 	private static final Pattern LISTLIMIT_PATTERN = Pattern.compile( "([\\d,]+)\\&nbsp;\\/\\&nbsp;day" );
@@ -303,61 +306,68 @@ public class MallSearchRequest
 		int startIndex = this.responseText.indexOf( "Search Results:" );
 		String storeListResult = this.responseText.substring( startIndex < 0 ? 0 : startIndex );
 
-		Matcher linkMatcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher( storeListResult );
-		String linkText = null;
-
 		int previousItemId = -1;
-
-		while ( linkMatcher.find() )
+		Matcher itemMatcher = MallSearchRequest.ITEMDETAIL_PATTERN.matcher( storeListResult );
+		while ( itemMatcher.find() )
 		{
-			linkText = linkMatcher.group();
-			Matcher quantityMatcher = MallSearchRequest.LISTQUANTITY_PATTERN.matcher( linkText );
-			int quantity = 0;
-
-			if ( quantityMatcher.find() )
+			int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
+			String itemName = itemMatcher.group(3);
+			if ( !itemName.equals( ItemDatabase.getItemName( itemId ) ) )
 			{
-				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+				String descId = itemMatcher.group(2);
+				ItemDatabase.registerItem( itemId, itemName, descId );
 			}
 
-			int limit = quantity;
-			boolean canPurchase = true;
+			String itemListResult = itemMatcher.group(4);
+			Matcher linkMatcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher( itemListResult );
 
-			Matcher limitMatcher = MallSearchRequest.LISTLIMIT_PATTERN.matcher( linkText );
-			if ( limitMatcher.find() )
+			while ( linkMatcher.find() )
 			{
-				limit = StringUtilities.parseInt( limitMatcher.group( 1 ) );
-				canPurchase = linkText.indexOf( "graybelow limited" ) == -1;
+				String linkText = linkMatcher.group();
+				Matcher quantityMatcher = MallSearchRequest.LISTQUANTITY_PATTERN.matcher( linkText );
+				int quantity = 0;
+
+				if ( quantityMatcher.find() )
+				{
+					quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+				}
+
+				int limit = quantity;
+				boolean canPurchase = true;
+
+				Matcher limitMatcher = MallSearchRequest.LISTLIMIT_PATTERN.matcher( linkText );
+				if ( limitMatcher.find() )
+				{
+					limit = StringUtilities.parseInt( limitMatcher.group( 1 ) );
+					canPurchase = linkText.indexOf( "graybelow limited" ) == -1;
+				}
+
+				// The next token contains data which identifies the shop
+				// and the item (which will be used later), and the price!
+				// which means you don't need to consult the next token.
+
+				Matcher detailsMatcher = MallSearchRequest.LISTDETAIL_PATTERN.matcher( linkText );
+				if ( !detailsMatcher.find() )
+				{
+					continue;
+				}
+
+				if ( previousItemId != itemId )
+				{
+					previousItemId = itemId;
+					this.addNPCStoreItem( itemName );
+					itemNames.remove( itemName );
+				}
+
+				// Only add mall store results if the NPC store option
+				// is not available.
+
+				int shopId = StringUtilities.parseInt( detailsMatcher.group( 1 ) );
+				int price = StringUtilities.parseInt( detailsMatcher.group( 3 ) );
+				String shopName = detailsMatcher.group( 4 ).replaceAll( "<br>", " " );
+
+				this.results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
 			}
-
-			// The next token contains data which identifies the shop
-			// and the item (which will be used later), and the price!
-			// which means you don't need to consult thenext token.
-
-			Matcher detailsMatcher = MallSearchRequest.LISTDETAIL_PATTERN.matcher( linkText );
-			if ( !detailsMatcher.find() )
-			{
-				continue;
-			}
-
-			int shopId = StringUtilities.parseInt( detailsMatcher.group( 1 ) );
-			int itemId = StringUtilities.parseInt( detailsMatcher.group( 2 ) );
-			int price = StringUtilities.parseInt( detailsMatcher.group( 3 ) );
-
-			String shopName = detailsMatcher.group( 4 ).replaceAll( "<br>", " " );
-			String itemName = ItemDatabase.getItemName( itemId );
-
-			if ( previousItemId != itemId )
-			{
-				previousItemId = itemId;
-				this.addNPCStoreItem( itemName );
-				itemNames.remove( itemName );
-			}
-
-			// Only add mall store results if the NPC store option
-			// is not available.
-
-			this.results.add( new MallPurchaseRequest(
-				itemName, itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC

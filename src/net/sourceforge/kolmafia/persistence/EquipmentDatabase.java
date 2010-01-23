@@ -266,6 +266,23 @@ public class EquipmentDatabase
 		}
 	}
 
+	public static boolean isEquipment( final int type )
+	{
+		switch ( type )
+		{
+		case KoLConstants.EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_CONTAINER:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_SHIRT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.EQUIP_OFFHAND:
+			return true;
+		}
+
+		return false;
+	}
+
 	public static void writeEquipment( final File output )
 	{
 		// One map per equipment category
@@ -394,13 +411,13 @@ public class EquipmentDatabase
 
 	private static final Pattern WEAPON_TYPE_PATTERN = Pattern.compile( "\\(((\\d)-handed .*?)\\)" );
 
-	public static final void registerItem( final int itemId, final String itemName, final String description )
+	public static final void registerItem( final int itemId, final String itemName, final String text )
 	{
 		// A new item has been detected. Examine the item description
 		// and decide what it is.
-		int power = DebugDatabase.parsePower( description );
-		String type = DebugDatabase.parseType( description );
-		String req = DebugDatabase.parseReq( description, type );
+		int power = DebugDatabase.parsePower( text );
+		String type = DebugDatabase.parseType( text );
+		String req = DebugDatabase.parseReq( text, type );
 
 		EquipmentDatabase.power.set( itemId, power );
 		EquipmentDatabase.statRequirements.set( itemId, req );

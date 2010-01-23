@@ -229,8 +229,12 @@ public abstract class DisplayCaseManager
 			int itemId = StringUtilities.parseInt( optionMatcher.group( 3 ) );
 			if ( ItemDatabase.getItemName( itemId ) == null )
 			{
-				String itemName = optionMatcher.group( 1 );
-				ItemDatabase.registerItem( itemId, itemName );
+				// Do not register new items discovered in your
+				// display case, since descid is not available
+				//
+				// String itemName = optionMatcher.group( 1 );
+				// ItemDatabase.registerItem( itemId, itemName );
+				continue;
 			}
 
 			String countString = optionMatcher.group( 2 );

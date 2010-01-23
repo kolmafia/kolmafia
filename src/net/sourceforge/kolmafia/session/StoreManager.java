@@ -222,7 +222,11 @@ public abstract class StoreManager
 				itemId = StringUtilities.parseInt( priceMatcher.group( 4 ) );
 				if ( ItemDatabase.getItemName( itemId ) == null )
 				{
-					ItemDatabase.registerItem( itemId, priceMatcher.group( 1 ) );
+					// Do not register new items discovered in your store,
+					// since the descid is not available
+					//
+					// ItemDatabase.registerItem( itemId, priceMatcher.group( 1 ) );
+					continue;
 				}
 
 				quantity = StringUtilities.parseInt( priceMatcher.group( 2 ) );
@@ -252,7 +256,11 @@ public abstract class StoreManager
 				itemId = StringUtilities.parseInt( itemMatcher.group( 6 ) );
 				if ( ItemDatabase.getItemName( itemId ) == null )
 				{
-					ItemDatabase.registerItem( itemId, itemMatcher.group( 1 ) );
+					// Do not register new items discovered in your store,
+					// since the descid is not available
+					//
+					// ItemDatabase.registerItem( itemId, itemMatcher.group( 1 ) );
+					continue;
 				}
 
 				int count = itemMatcher.group(2) == null ? 1 : StringUtilities.parseInt( itemMatcher.group(3) );
