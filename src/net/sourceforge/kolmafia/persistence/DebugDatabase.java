@@ -875,7 +875,7 @@ public class DebugDatabase
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
 		Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
 
-	private static final String parseItemEnchantments( final String text, final ArrayList unknown )
+	public static final String parseItemEnchantments( final String text, final ArrayList unknown )
 	{
 		String known = parseStandardEnchantments( text, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
 
