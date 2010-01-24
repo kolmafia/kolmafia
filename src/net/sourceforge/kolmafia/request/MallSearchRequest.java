@@ -312,7 +312,7 @@ public class MallSearchRequest
 		{
 			int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
 			String itemName = itemMatcher.group(3);
-			if ( !itemName.equals( ItemDatabase.getItemName( itemId ) ) )
+			if ( !itemName.equals( ItemDatabase.getItemDataName( itemId ) ) )
 			{
 				String descId = itemMatcher.group(2);
 				ItemDatabase.registerItem( itemId, itemName, descId );
