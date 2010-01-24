@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -74,8 +75,17 @@ public class EffectDatabase
 	private static final Map descriptionById = new TreeMap();
 	private static final Map effectByDescription = new HashMap();
 
+	public static boolean newEffects = false;
+
 	static
 	{
+		EffectDatabase.reset();
+	}
+
+	public static void reset()
+	{
+		EffectDatabase.newEffects = false;
+
 		BufferedReader reader =
 			FileUtilities.getVersionedReader( "statuseffects.txt", KoLConstants.STATUSEFFECTS_VERSION );
 		String[] data;
@@ -290,21 +300,6 @@ public class EffectDatabase
 		return StringUtilities.getMatchingNames( EffectDatabase.canonicalNames, substring );
 	}
 
-	public static final void addDescriptionId( final int effectId, final String descriptionId )
-	{
-		if ( effectId == -1 )
-		{
-			return;
-		}
-
-		Integer id = new Integer( effectId );
-
-		EffectDatabase.effectByDescription.put( descriptionId, id );
-		EffectDatabase.descriptionById.put( id, descriptionId );
-
-		EffectDatabase.saveDataOverride();
-	}
-
 	private static final Pattern STATUS_EFFECT_PATTERN =
 		Pattern.compile( "<input type=radio name=whicheffect value=(\\d+)></td><td><img src=\"http://images.kingdomofloathing.com/itemimages/(.*?)\" width=30 height=30></td><td>(.*?) \\(" );
 
@@ -330,9 +325,13 @@ public class EffectDatabase
 				continue;
 			}
 
+			String name = effectsMatcher.group( 3 );
+			String image = effectsMatcher.group( 2 );
+			String descId = null;
+			String defaultAction = null;
+			EffectDatabase.addToDatabase( effectId, name, image, descId, defaultAction );
+
 			foundChanges = true;
-			EffectDatabase.addToDatabase(
-				effectId, effectsMatcher.group( 3 ), effectsMatcher.group( 2 ), null, null );
 		}
 
 		RequestThread.postRequest( CharPaneRequest.getInstance() );
@@ -342,56 +341,113 @@ public class EffectDatabase
 			EffectDatabase.canonicalNames = new String[ EffectDatabase.effectByName.size() ];
 			EffectDatabase.effectByName.keySet().toArray( EffectDatabase.canonicalNames );
 
-			EffectDatabase.saveDataOverride();
+			// Force charpane request to learn new descids
+			CharPaneRequest.getInstance().run();
 		}
 	}
 
-	public static final void saveDataOverride()
+	public static final void addDescriptionId( final int effectId, final String name, final String descId )
 	{
-		File output = new File( UtilityConstants.DATA_LOCATION, "statuseffects.txt" );
+		if ( effectId == -1 )
+		{
+			return;
+		}
+
+		Integer id = new Integer( effectId );
+		EffectDatabase.effectByDescription.put( descId, id );
+		EffectDatabase.descriptionById.put( id, descId );
+
+		String text = DebugDatabase.effectDescriptionText( effectId );
+		if ( text == null )
+		{
+			return;
+		}
+
+		String image = (String) EffectDatabase.imageById.get( id );
+
+		RequestLogger.printLine( "--------------------" );
+		RequestLogger.printLine( EffectDatabase.effectString( effectId, name, image, descId, null ) );
+
+		// Let modifiers database do what it wishes with this effect
+		Modifiers.registerEffect( name, text );
+
+		// Done generating data
+		RequestLogger.printLine( "--------------------" );
+
+		EffectDatabase.newEffects = true;
+	}
+
+	public static final void writeEffects( final File output )
+	{
 		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.STATUSEFFECTS_VERSION );
 
-		int lastInteger = 1;
 		Iterator it = EffectDatabase.dataNameById.entrySet().iterator();
+		int lastInteger = 1;
 
 		while ( it.hasNext() )
 		{
 			Entry entry = (Entry) it.next();
-
 			Integer nextInteger = (Integer) entry.getKey();
+			int effectId = nextInteger.intValue();
+
+                        // Skip pseudo effects
+                        if ( effectId < 1 )
+                        {
+                                continue;
+                        }
+
 			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
 			{
 				writer.println( i );
 			}
 
-			lastInteger = nextInteger.intValue() + 1;
+			lastInteger = effectId + 1;
 
 			String name = (String) entry.getValue();
 			String image = (String) EffectDatabase.imageById.get( nextInteger );
-
-			writer.print( nextInteger + "\t" + name + "\t" + image );
-
-			writer.print( "\t" );
-			if ( EffectDatabase.descriptionById.containsKey( nextInteger ) )
-			{
-				String effectId = (String) EffectDatabase.descriptionById.get( nextInteger );
-				writer.print( effectId );
-			}
-
+			String descId = (String) EffectDatabase.descriptionById.get( nextInteger );
 			String canonicalName = StringUtilities.getCanonicalName( name );
-			writer.print( "\t" );
-			if ( EffectDatabase.defaultActions.containsKey( canonicalName ) )
-			{
-				String defaultAction = (String) EffectDatabase.defaultActions.get( canonicalName );
-				writer.print( defaultAction );
-			}
-
-
-			writer.println();
+			String defaultAction = (String) EffectDatabase.defaultActions.get( canonicalName );
+			EffectDatabase.writeEffect( writer, effectId, name, image, descId, defaultAction );
 		}
 
 		writer.close();
+	}
+
+	public static void writeEffect( final PrintStream writer, final int effectId, final String name,
+					final String image, final String descId, final String defaultAction )
+	{
+		writer.println( EffectDatabase.effectString( effectId, name, image, descId, defaultAction ) );
+	}
+
+	public static String effectString( final int effectId, final String name,
+					   String image, String descId, String defaultAction )
+	{
+		// The effect file can have 3, 4, or 5 fields. "image" must be
+		// present, even if we don't have the actual file name.
+		if ( image == null )
+		{
+			image = "";
+		}
+
+		if ( defaultAction != null )
+		{
+			// It's unlikely we'll know the default action without
+			// knowing the effect ID, but handle it just in case
+			if ( descId == null )
+			{
+				descId = "";
+			}
+			return effectId + "\t" + name + "\t" + image + "\t" + descId + "\t" + defaultAction;
+		}
+
+		if ( descId != null )
+		{
+			return effectId + "\t" + name + "\t" + image + "\t" + descId;
+		}
+
+		return effectId + "\t" + name + "\t" + image;
 	}
 
 	/**

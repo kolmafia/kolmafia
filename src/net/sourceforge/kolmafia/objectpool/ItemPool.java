@@ -342,7 +342,7 @@ public class ItemPool
 	public static final int MARBLE_WAND = 1272;
 	public static final int MEDICINAL_HERBS = 1274;
 	public static final int MAKEUP_KIT = 1305;
-	public static final int COMFY_BLANKET = 1305;
+	public static final int COMFY_BLANKET = 1311;
 	public static final int FACSIMILE_DICTIONARY = 1316;
 	public static final int CLOACA_COLA = 1334;
 	public static final int TOY_SOLDIER = 1397;

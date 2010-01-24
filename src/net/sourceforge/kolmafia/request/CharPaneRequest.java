@@ -434,8 +434,7 @@ public class CharPaneRequest
 
 			if ( effectId != -1 )
 			{
-				RequestLogger.printLine( "Status effect database updated." );
-				EffectDatabase.addDescriptionId( effectId, descriptionId );
+				EffectDatabase.addDescriptionId( effectId, effectName, descriptionId );
 			}
 		}
 		else

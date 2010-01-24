@@ -853,7 +853,11 @@ public class DebugDatabase
 	{
 		ArrayList unknown = new ArrayList();
 		String known = DebugDatabase.parseItemEnchantments( text, unknown );
+		DebugDatabase.logModifierDatum( name, known, unknown, report );
+	}
 
+	private static final void logModifierDatum( final String name, final String known, final ArrayList unknown, final PrintStream report )
+	{
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
 			Modifiers.writeModifierComment( report, name, (String) unknown.get( i ) );
@@ -1061,6 +1065,11 @@ public class DebugDatabase
 
 	private static final GenericRequest DESC_EFFECT_REQUEST = new GenericRequest( "desc_effect.php" );
 
+	public static final String effectDescriptionText( final int effectId )
+	{
+                return DebugDatabase.effectDescriptionText( DebugDatabase.rawEffectDescriptionText( effectId ) );
+	}
+
 	private static final String rawEffectDescriptionText( final int effectId )
 	{
 		String descId = EffectDatabase.getDescriptionId( effectId );
@@ -1087,6 +1096,11 @@ public class DebugDatabase
 
 	private static final String effectDescriptionText( final String rawText )
 	{
+		if ( rawText == null )
+		{
+			return null;
+		}
+
 		Matcher matcher = DebugDatabase.EFFECT_DATA_PATTERN.matcher( rawText );
 		if ( !matcher.find() )
 		{
@@ -1126,27 +1140,16 @@ public class DebugDatabase
 	private static final Pattern EFFECT_ENCHANTMENT_PATTERN =
 		Pattern.compile( "<font color=blue><b>(.*)</b></font>", Pattern.DOTALL );
 
+	public static final String parseEffectEnchantments( final String text, final ArrayList unknown )
+	{
+		return parseStandardEnchantments( text, unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN );
+	}
+
 	private static final void checkEffectModifierDatum( final String name, final String text, final PrintStream report )
 	{
 		ArrayList unknown = new ArrayList();
-		String known = DebugDatabase.parseStandardEnchantments( text, unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN );
-
-		for ( int i = 0; i < unknown.size(); ++i )
-		{
-			report.println( "# " + name + ": " + (String) unknown.get( i ) );
-		}
-
-		if ( known.equals( "" ) )
-		{
-			if ( unknown.size() == 0 )
-			{
-				report.println( "# " + name );
-			}
-		}
-		else
-		{
-			report.println( name + "\t" + known );
-		}
+		String known = DebugDatabase.parseEffectEnchantments( text, unknown );
+		DebugDatabase.logModifierDatum( name, known, unknown, report );
 	}
 
 	// **********************************************************

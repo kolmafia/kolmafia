@@ -377,18 +377,6 @@ public class ItemDatabase
 		}
 	}
 
-	public static final void saveDataOverride()
-	{
-		if ( ItemDatabase.newItems )
-		{
-			ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
-			ItemDatabase.writeItemdescs( new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" ) );
-			EquipmentDatabase.writeEquipment( new File( UtilityConstants.DATA_LOCATION, "equipment.txt" ) );
-			Modifiers.writeModifiers( new File( UtilityConstants.DATA_LOCATION, "modifiers.txt" ) );
-			ItemDatabase.newItems = false;
-		}
-	}
-
 	public static void writeTradeitems( final File output )
 	{
 		PrintStream writer = LogStream.openStream( output, true );
@@ -401,6 +389,12 @@ public class ItemDatabase
 		{
 			Integer nextInteger = (Integer) it.next();
 			int itemId = nextInteger.intValue();
+
+			// Skip pseudo items
+			if ( itemId == 13 )
+			{
+				continue;
+			}
 
 			for ( int i = lastInteger; i < itemId; ++i )
 			{
@@ -423,7 +417,7 @@ public class ItemDatabase
 	public static void writeTradeitem( final PrintStream writer, final int itemId, final String name,
 					   final int type, final int attrs, final String access, final int price )
 	{
-		writer.println( tradeitemString( itemId, name, type, attrs, access, price ) );
+		writer.println( ItemDatabase.tradeitemString( itemId, name, type, attrs, access, price ) );
 	}
 
 	public static String tradeitemString( final int itemId, final String name, final int type,
@@ -448,27 +442,33 @@ public class ItemDatabase
 		{
 			Entry entry = (Entry) it.next();
 			Integer nextInteger = (Integer) entry.getKey();
-			int id = nextInteger.intValue();
+			int itemId = nextInteger.intValue();
 
-			for ( int i = lastInteger; i < id; ++i )
+			// Skip pseudo items
+			if ( itemId == 13 )
+			{
+				continue;
+			}
+
+			for ( int i = lastInteger; i < itemId; ++i )
 			{
 				writer.println( i );
 			}
 
-			lastInteger = id + 1;
+			lastInteger = itemId + 1;
 
 			String descId = (String) entry.getValue();
 			String name = ItemDatabase.getItemDataName( nextInteger );
-			String plural = ItemDatabase.getPluralById( id );
-			writer.println( ItemDatabase.itemdescString( id, descId, name, plural ) );
+			String plural = ItemDatabase.getPluralById( itemId );
+			writer.println( ItemDatabase.itemdescString( itemId, descId, name, plural ) );
 		}
 
 		writer.close();
 	}
 
-	public static String itemdescString( final int id, final String descId, final String name, final String plural)
+	public static String itemdescString( final int itemId, final String descId, final String name, final String plural)
 	{
-		return id + "\t" + descId + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural );
+		return itemId + "\t" + descId + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural );
 	}
 
 	private static void readItemDescriptions()
@@ -879,6 +879,8 @@ public class ItemDatabase
 
 		if ( EquipmentDatabase.isEquipment( usage ) )
 		{
+			EquipmentDatabase.newEquipment = true;
+
 			// Let equipment database do what it wishes with this item
 			EquipmentDatabase.registerItem( itemId, itemName, text );
 
