@@ -3084,11 +3084,22 @@ public class Modifiers
 
 	public static final void registerItem( final String name, final String text )
 	{
-		// A new item has been detected. Examine the item description
-		// and decide what it is.
+		// Examine the item description and decide what it is.
 		ArrayList unknown = new ArrayList();
 		String known = DebugDatabase.parseItemEnchantments( text, unknown );
+		Modifiers.registerObject( name, unknown, known );
+	}
 
+	public static final void registerEffect( final String name, final String text )
+	{
+		// Examine the item description and decide what it is.
+		ArrayList unknown = new ArrayList();
+		String known = DebugDatabase.parseEffectEnchantments( text, unknown );
+		Modifiers.registerObject( name, unknown, known );
+	}
+
+	private static final void registerObject( final String name, final ArrayList unknown, final String known )
+	{
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
 			RequestLogger.printLine( Modifiers.modifierCommentString( name, (String) unknown.get( i ) ) );

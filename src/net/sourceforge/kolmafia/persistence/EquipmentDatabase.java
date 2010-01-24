@@ -119,8 +119,17 @@ public class EquipmentDatabase
 		Modifiers.STENCH_SPELL_DAMAGE, ELEM_STENCH,
 	};
 
+	public static boolean newEquipment = false;
+
 	static
 	{
+		EquipmentDatabase.reset();
+	}
+
+	public static void reset()
+	{
+		EquipmentDatabase.newEquipment = false;
+
 		BufferedReader reader = FileUtilities.getVersionedReader( "equipment.txt", KoLConstants.EQUIPMENT_VERSION );
 
 		String[] data;

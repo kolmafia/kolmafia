@@ -63,6 +63,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -936,7 +938,7 @@ public abstract class KoLmafia
 		// Write override files in /data to remember new items and
 		// status effects, if necessary, to save future server hits.
 
-		ItemDatabase.saveDataOverride();
+		KoLmafia.saveDataOverride();
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
@@ -975,6 +977,30 @@ public abstract class KoLmafia
 		KoLConstants.tally.add( new AdventureResult( AdventureResult.MEAT ) );
 		KoLConstants.tally.add( AdventureResult.SESSION_SUBSTATS_RESULT );
 		KoLConstants.tally.add( AdventureResult.SESSION_FULLSTATS_RESULT );
+	}
+
+	public static final void saveDataOverride()
+	{
+		if ( ItemDatabase.newItems )
+		{
+			ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
+			ItemDatabase.writeItemdescs( new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" ) );
+			ItemDatabase.newItems = false;
+		}
+		if ( EquipmentDatabase.newEquipment )
+		{
+			EquipmentDatabase.writeEquipment( new File( UtilityConstants.DATA_LOCATION, "equipment.txt" ) );
+		}
+		if ( EffectDatabase.newEffects )
+		{
+			EffectDatabase.writeEffects( new File( UtilityConstants.DATA_LOCATION, "statuseffects.txt" ) );
+		}
+		if ( EquipmentDatabase.newEquipment || EffectDatabase.newEffects)
+		{
+			Modifiers.writeModifiers( new File( UtilityConstants.DATA_LOCATION, "modifiers.txt" ) );
+			EquipmentDatabase.newEquipment = false;
+			EffectDatabase.newEffects = false;
+		}
 	}
 
 	public boolean isSemirare( AdventureResult result )

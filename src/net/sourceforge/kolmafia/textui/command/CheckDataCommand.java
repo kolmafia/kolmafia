@@ -63,8 +63,8 @@ public class CheckDataCommand
 			// ItemDatabase when it looks at the closet or at
 			// inventory
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
-			ItemDatabase.saveDataOverride();
 			EffectDatabase.findStatusEffects();
+			KoLmafia.saveDataOverride();
 			RequestLogger.printLine( "Data tables updated." );
 			return;
 		}
