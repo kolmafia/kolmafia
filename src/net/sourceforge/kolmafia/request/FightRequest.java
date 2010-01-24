@@ -1563,10 +1563,26 @@ public class FightRequest
 		else
 		{
 			// Otherwise, the player can change the monster
+			String newMonster = null;
+
 			Matcher matcher = CLEESH_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
-				FightRequest.encounterLookup = CustomCombatManager.encounterKey( matcher.group(1) );
+				newMonster = matcher.group(1);
+			}
+
+			// You start to run up to the hole, then change your
+			// mind as a giant sandworm erupts out of it, howling
+			// with fury.
+
+			else if ( responseText.indexOf( "a giant sandworm erupts out of it" ) != -1 )
+			{
+				newMonster = "giant sandworm";
+			}
+
+			if ( newMonster != null )
+			{
+				FightRequest.encounterLookup = CustomCombatManager.encounterKey( newMonster );
 				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
 				FightRequest.healthModifier = 0;
 			}
