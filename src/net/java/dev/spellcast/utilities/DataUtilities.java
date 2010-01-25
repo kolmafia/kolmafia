@@ -52,6 +52,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common functions needed by many of the
@@ -62,6 +66,27 @@ import java.util.Arrays;
 
 public class DataUtilities
 {
+	private static JarFile jarfile;
+	static
+	{
+		URL url = UtilityConstants.SYSTEM_CLASSLOADER.getResource( "data" );
+		String data = url.getPath();
+		String prefix = data.substring( 5, data.indexOf( "!" ) );
+		try
+		{
+			DataUtilities.jarfile = new JarFile( new File( prefix ) );
+		}
+		catch ( Exception e )
+		{
+		}
+	}
+
+	private static String lastMessage = null;
+	public static String getLastMessage()
+	{
+		return DataUtilities.lastMessage;
+	}
+
 	private static final String[] EMPTY_STRING_ARRAY = new String[ 0 ];
 	private static final File[] EMPTY_FILE_ARRAY = new File[ 0 ];
 
@@ -234,8 +259,8 @@ public class DataUtilities
 
 	public static InputStream getInputStream( String directory, String filename, final boolean allowOverride )
 	{
-		// Reformat the name of the directory and the
-		// filename to use strictly forward slashes.
+		// Reformat the name of the directory and the filename to use
+		// strictly forward slashes.
 
 		directory = directory.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
@@ -245,23 +270,14 @@ public class DataUtilities
 			directory += "/";
 		}
 
-		InputStream locationAsInputStream;
 		String fullname = directory + filename;
+		DataUtilities.lastMessage = null;
 
-		if ( allowOverride )
+		InputStream locationAsInputStream = DataUtilities.getOverrideStream( fullname, allowOverride );
+		if ( locationAsInputStream != null )
 		{
-			File override = new File( UtilityConstants.ROOT_LOCATION, fullname );
-			if ( override.exists() )
-			{
-				try
-				{
-					return new FileInputStream( override );
-				}
-				catch ( Exception e )
-				{
-					e.printStackTrace();
-				}
-			}
+			DataUtilities.lastMessage = "Using data override: " + fullname;
+			return locationAsInputStream;
 		}
 
 		locationAsInputStream = DataUtilities.getInputStream( UtilityConstants.SYSTEM_CLASSLOADER, fullname );
@@ -278,6 +294,49 @@ public class DataUtilities
 
 		// if it's gotten this far, the file does not exist
 		return DataUtilities.EMPTY_STREAM;
+	}
+
+	public static InputStream getOverrideStream( String fullname, final boolean allowOverride )
+	{
+		// Don't look for an override file unless allowed to
+		if ( !allowOverride )
+		{
+			return null;
+		}
+
+		// See if override file exists
+		File override = new File( UtilityConstants.ROOT_LOCATION, fullname );
+		if ( !override.exists() )
+		{
+			return null;
+		}
+
+		// See if override file is newer than that shipped with the .jar file
+		ZipEntry internal = DataUtilities.jarfile.getEntry( fullname );
+		if ( internal != null )
+		{
+			// This file exists internally. Check creation dates.
+			long idate = internal.getTime();
+			long odate = override.lastModified();
+
+			// If internal date is newer, skip override file
+			if ( idate > odate )
+			{
+				DataUtilities.lastMessage = "Skipping stale data override: " + fullname;
+				return null;
+			}
+		}
+
+		try
+		{
+			return new FileInputStream( override );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	private static InputStream getInputStream( final ClassLoader loader, final String filename )

@@ -379,6 +379,7 @@ public class ItemDatabase
 
 	public static void writeTradeitems( final File output )
 	{
+		RequestLogger.printLine( "Writing data override: " + output );
 		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.TRADEITEMS_VERSION );
 
@@ -432,6 +433,7 @@ public class ItemDatabase
 
 	public static void writeItemdescs( final File output )
 	{
+		RequestLogger.printLine( "Writing data override: " + output );
 		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.ITEMDESCS_VERSION );
 
