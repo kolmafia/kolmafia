@@ -394,15 +394,26 @@ public class TurnCounter
 			return request.getAdventuresUsed();
 		}
 
+		String urlString = request.getURLString();
 		String path = request.getPath();
 
-		if ( path.equals( "adventure.php" ) )
+		if ( urlString.startsWith( "adventure.php" ) )
 		{
 			// Assume unknown adventure locations take 1 turn each
 			// This is likely not true under the Sea, for example,
 			// but it's as good a guess as any we can make.
 
 			return 1;
+		}
+
+		if ( path.equals( "hiddencity.php" ) )
+		{
+			// Visiting the hidden city takes a map, but visiting a
+			// square usually does. Not always: simply visiting an
+			// altar does not take a turn. But give a warning, in
+			// case they are exploring
+
+			return urlString.indexOf( "?" ) == -1 ? 0 : 1;
 		}
 
 		if ( path.equals( "crimbo09.php" ) )
@@ -412,34 +423,34 @@ public class TurnCounter
 
 		int turnMultiplier = 0;
 
-		if ( path.equals( "cook.php" ) )
+		if ( path.equals( "craft.php" )	 )
 		{
-			turnMultiplier = KoLCharacter.hasChef() ? 0 : 1;
-		}
-		else if ( path.equals( "cocktail.php" ) )
-		{
-			turnMultiplier = KoLCharacter.hasBartender() ? 0 : 1;
-		}
-		else if ( path.equals( "smith.php" ) )
-		{
-			turnMultiplier = 1;
-		}
-		else if ( path.equals( "jewelry.php" ) )
-		{
-			turnMultiplier = 3;
-		}
+			String mode = request.getFormField( "mode" );
 
-		String action = request.getFormField( "action" );
-
-		if ( action != null )
-		{
-			if ( action.equals( "wokcook" ) )
+			if ( mode.equals( "cook" ) )
+			{
+				turnMultiplier = KoLCharacter.hasChef() ? 0 : 1;
+			}
+			else if ( mode.equals( "cocktail" ) )
+			{
+				turnMultiplier = KoLCharacter.hasBartender() ? 0 : 1;
+			}
+			else if ( mode.equals( "smith" ) )
 			{
 				turnMultiplier = 1;
 			}
-			else if ( action.equals( "pulverize" ) )
+			else if ( mode.equals( "jewelry" ) )
 			{
-				turnMultiplier = 0;
+				turnMultiplier = 3;
+			}
+		}
+		else if ( path.equals( "guild.php" ) )
+		{
+			String action = request.getFormField( "action" );
+
+			if ( action.equals( "wokcook" ) )
+			{
+				turnMultiplier = 1;
 			}
 		}
 
