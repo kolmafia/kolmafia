@@ -2778,6 +2778,8 @@ public class Modifiers
 
 	public static void writeModifiers( final File output )
 	{
+		RequestLogger.printLine( "Writing data override: " + output );
+
 		// One map per equipment category
 		Map hats = new TreeMap();
 		Map weapons = new TreeMap();

@@ -80,23 +80,23 @@ public class EquipmentRequest
 	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "id=\"ic(\\d*)\" rel=\"([^\"]*)\">(<td class=\"img\".*?descitem.(\\d*))?.*?<b class=\"ircm\">(<a.*?descitem.(\\d*)[^>]*>)?(elven <i>limbos</i> gingerbread|[^<]+)(?:</a>)?</b>(?:&nbsp;<span>)?([^<]*?)(?:</span>)" );
 
 	private static final Pattern HAT_PATTERN =
-		Pattern.compile( "Hat</a>:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
+		Pattern.compile( "Hat</a>:</td>(<td><img.*?descitem\\(([\\d]+))?.*?<b>(.*?)</b>.*unequip&type=hat" );
 	private static final Pattern WEAPON_PATTERN =
-		Pattern.compile( "Weapon</a>:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" );
+		Pattern.compile( "Weapon</a>:</td>(<td><img.*?descitem\\(([\\d]+))?.*?<b>(.*?)</b>.*unequip&type=weapon" );
 	private static final Pattern OFFHAND_PATTERN =
-		Pattern.compile( "Off-Hand</a>:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
+		Pattern.compile( "Off-Hand</a>:</td>(<td><img.*?descitem\\(([\\d]+))?.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
 	private static final Pattern SHIRT_PATTERN =
-		Pattern.compile( "Shirt</a>:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" );
+		Pattern.compile( "Shirt</a>:</td>(<td><img.*?descitem\\(([\\d]+))?.*?<b>(.*?)</b>.*unequip&type=shirt" );
 	private static final Pattern PANTS_PATTERN =
-		Pattern.compile( "Pants</a>:</td>.*?<b>(.*?)</b>.*unequip&type=pants" );
+		Pattern.compile( "Pants</a>:</td>(<td><img.*?descitem\\(([\\d]+))?.*?<b>(.*?)</b>.*unequip&type=pants" );
 	private static final Pattern ACC1_PATTERN =
-		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc1\"" );
+		Pattern.compile( "Accessory</a>&nbsp;1:</td>(<td><img.*?descitem\\(([\\d]+))?.*?<b>(.*?)</b>.*unequip&type=acc1\"" );
 	private static final Pattern ACC2_PATTERN =
-		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc2\"" );
+		Pattern.compile( "Accessory</a>&nbsp;2:</td>(<td><img.*?descitem\\(([\\d]+))?.*?<b>(.*?)</b>.*unequip&type=acc2\"" );
 	private static final Pattern ACC3_PATTERN =
-		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc3\"" );
+		Pattern.compile( "Accessory</a>&nbsp;3:</td>(<td><img.*?descitem\\(([\\d]+))?.*?<b>(.*?)</b>.*unequip&type=acc3\"" );
 	private static final Pattern FAMILIARITEM_PATTERN =
-		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=familiarequip\"" );
+		Pattern.compile( "Familiar</a>:</td>(<td><img.*?descitem\\(([\\d]+))?.*?<b>(.*?)</b>.*unequip&type=familiarequip\"" );
 	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
 	private static final Pattern STICKER_PATTERN = Pattern.compile(
 		"<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify" );
@@ -1162,178 +1162,33 @@ public class EquipmentRequest
 		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray();
 		int fakeHands = 0;
 
-		String name;
-		Matcher equipmentMatcher;
-
-		if ( responseText.indexOf( "unequip&type=hat" ) != -1 )
-		{
-			equipmentMatcher = EquipmentRequest.HAT_PATTERN.matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				name = equipmentMatcher.group( 1 ).trim();
-				if ( EquipmentDatabase.contains( name ) )
-				{
-					equipment[ EquipmentManager.HAT ] = new AdventureResult( name, 1, false );
-				}
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( "Hat: " + equipment[ EquipmentManager.HAT ] );
-				}
-			}
-		}
-
-		if ( responseText.indexOf( "unequip&type=weapon" ) != -1 )
-		{
-			equipmentMatcher = EquipmentRequest.WEAPON_PATTERN.matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				name = equipmentMatcher.group( 1 ).trim();
-				if ( EquipmentDatabase.contains( name ) )
-				{
-					equipment[ EquipmentManager.WEAPON ] =
-						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
-				}
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( "Weapon: " + equipment[ EquipmentManager.WEAPON ] );
-				}
-			}
-		}
-
-		if ( responseText.indexOf( "unequip&type=offhand" ) != -1 )
-		{
-			equipmentMatcher = EquipmentRequest.OFFHAND_PATTERN.matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				name = equipmentMatcher.group( 1 ).trim();
-				if ( EquipmentDatabase.contains( name ) )
-				{
-					equipment[ EquipmentManager.OFFHAND ] =
-						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
-				}
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( "Off-hand: " + equipment[ EquipmentManager.OFFHAND ] );
-				}
-			}
-		}
-
-		if ( responseText.indexOf( "unequip&type=shirt" ) != -1 )
-		{
-			equipmentMatcher = EquipmentRequest.SHIRT_PATTERN.matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				name = equipmentMatcher.group( 1 ).trim();
-				if ( EquipmentDatabase.contains( name ) )
-				{
-					equipment[ EquipmentManager.SHIRT ] =
-						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
-				}
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( "Shirt: " + equipment[ EquipmentManager.SHIRT ] );
-				}
-			}
-		}
-
-		if ( responseText.indexOf( "unequip&type=pants" ) != -1 )
-		{
-			equipmentMatcher = EquipmentRequest.PANTS_PATTERN.matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				name = equipmentMatcher.group( 1 ).trim();
-				if ( EquipmentDatabase.contains( name ) )
-				{
-					equipment[ EquipmentManager.PANTS ] =
-						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
-				}
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( "Pants: " + equipment[ EquipmentManager.PANTS ] );
-				}
-			}
-		}
-
-		if ( responseText.indexOf( "unequip&type=acc1" ) != -1 )
-		{
-			equipmentMatcher = EquipmentRequest.ACC1_PATTERN.matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				name = equipmentMatcher.group( 1 ).trim();
-				if ( EquipmentDatabase.contains( name ) )
-				{
-					equipment[ EquipmentManager.ACCESSORY1 ] =
-						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
-				}
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( "Accessory 1: " + equipment[ EquipmentManager.ACCESSORY1 ] );
-				}
-			}
-		}
-
-		if ( responseText.indexOf( "unequip&type=acc2" ) != -1 )
-		{
-			equipmentMatcher = EquipmentRequest.ACC2_PATTERN.matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				name = equipmentMatcher.group( 1 ).trim();
-				if ( EquipmentDatabase.contains( name ) )
-				{
-					equipment[ EquipmentManager.ACCESSORY2 ] =
-						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
-				}
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( "Accessory 2: " + equipment[ EquipmentManager.ACCESSORY2 ] );
-				}
-			}
-		}
-
-		if ( responseText.indexOf( "unequip&type=acc3" ) != -1 )
-		{
-			equipmentMatcher = EquipmentRequest.ACC3_PATTERN.matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				name = equipmentMatcher.group( 1 ).trim();
-				if ( EquipmentDatabase.contains( name ) )
-				{
-					equipment[ EquipmentManager.ACCESSORY3 ] =
-						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
-				}
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( "Accessory 3: " + equipment[ EquipmentManager.ACCESSORY3 ] );
-				}
-			}
-		}
-
-		if ( responseText.indexOf( "unequip&type=familiarequip" ) != -1 )
-		{
-			equipmentMatcher = EquipmentRequest.FAMILIARITEM_PATTERN.matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				name = equipmentMatcher.group( 1 ).trim();
-				if ( ItemDatabase.contains( name ) )
-				{
-					equipment[ EquipmentManager.FAMILIAR ] =
-						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
-				}
-
-				if ( RequestLogger.isDebugging() )
-				{
-					RequestLogger.updateDebugLog( "Familiar: " + equipment[ EquipmentManager.FAMILIAR ] );
-				}
-			}
-		}
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=hat", EquipmentRequest.HAT_PATTERN,
+						 "Hat: ", EquipmentManager.HAT );
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=weapon", EquipmentRequest.WEAPON_PATTERN,
+						 "Weapon: ", EquipmentManager.WEAPON );
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=offhand", EquipmentRequest.OFFHAND_PATTERN,
+						 "Offhand: ", EquipmentManager.OFFHAND );
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=shirt", EquipmentRequest.SHIRT_PATTERN,
+						 "Shirt: ", EquipmentManager.SHIRT );
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=pants", EquipmentRequest.PANTS_PATTERN,
+						 "Pants: ", EquipmentManager.PANTS );
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=acc1", EquipmentRequest.ACC1_PATTERN,
+						 "Accessory 1: ", EquipmentManager.ACCESSORY1 );
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=acc2", EquipmentRequest.ACC2_PATTERN,
+						 "Accessory 2: ", EquipmentManager.ACCESSORY2 );
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=acc3", EquipmentRequest.ACC3_PATTERN,
+						 "Accessory 3: ", EquipmentManager.ACCESSORY3 );
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=familiarequip", EquipmentRequest.FAMILIARITEM_PATTERN,
+						 "Familiar: ", EquipmentManager.FAMILIAR );
 
 		int index = 0;
 		while ( ( index = responseText.indexOf( "unequip&type=fakehand", index ) ) != -1 )
@@ -1384,6 +1239,48 @@ public class EquipmentRequest
 		if ( refresh )
 		{
 			ConcoctionDatabase.refreshConcoctions();
+		}
+	}
+
+	private static final void parseEquipment( final String responseText, AdventureResult[] equipment,
+						  final String test, final Pattern pattern,
+						  final String tag, final int slot )
+	{
+		if ( responseText.indexOf( test ) == -1 )
+		{
+			return;
+		}
+
+		Matcher matcher = pattern.matcher( responseText );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		String name = matcher.group( 3 ).trim();
+		AdventureResult item = equipment[ slot ];
+		if ( EquipmentDatabase.contains( name ) )
+		{
+			item = new AdventureResult( name, 1, false );
+		}
+		else
+		{
+			String descId = matcher.group( 1 ) != null ? matcher.group( 2 ) : "";
+			RequestLogger.printLine( "Found unknown equipped item: \"" + name + "\" descid = " + descId );
+
+			// No itemId available for equipped items!
+			// ItemDatabase.registerItem( itemId, name, descId );
+
+			// Put in a dummy item. If it gets unequipped, we will
+			// find and identify it in inventory.
+			item = AdventureResult.tallyItem( name, 1, false );
+		}
+
+		equipment[ slot ] = item;
+
+		if ( RequestLogger.isDebugging() )
+		{
+			RequestLogger.updateDebugLog( tag + equipment[ slot ] );
 		}
 	}
 

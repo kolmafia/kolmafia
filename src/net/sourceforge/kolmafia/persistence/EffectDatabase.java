@@ -379,6 +379,7 @@ public class EffectDatabase
 
 	public static final void writeEffects( final File output )
 	{
+		RequestLogger.printLine( "Writing data override: " + output );
 		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.STATUSEFFECTS_VERSION );
 

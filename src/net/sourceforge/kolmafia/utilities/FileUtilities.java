@@ -52,6 +52,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -61,22 +62,32 @@ public class FileUtilities
 
 	public static final BufferedReader getReader( final String filename )
 	{
-		return DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename );
+		return FileUtilities.getReader( DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename ) );
 	}
 
 	public static final BufferedReader getReader( final File file )
 	{
-		return DataUtilities.getReader( file );
+		return FileUtilities.getReader( DataUtilities.getReader( file ) );
 	}
 
 	public static final BufferedReader getReader( final InputStream istream )
 	{
-		return DataUtilities.getReader( istream );
+		return FileUtilities.getReader( DataUtilities.getReader( istream ) );
+	}
+
+	private static final BufferedReader getReader( final BufferedReader reader )
+	{
+		String lastMessage = DataUtilities.getLastMessage();
+		if ( lastMessage != null )
+		{
+			RequestLogger.printLine( lastMessage );
+		}
+		return reader;
 	}
 
 	public static final BufferedReader getVersionedReader( final String filename, final int version )
 	{
-		BufferedReader reader = DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, true );
+		BufferedReader reader = FileUtilities.getReader( DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, true ) );
 
 		// If no file, no reader
 		if ( reader == null )
@@ -98,6 +109,7 @@ public class FileUtilities
 			{
 				return reader;
 			}
+			RequestLogger.printLine( "Incorrect version of \"" + filename + "\". Found " + fileVersion + " require " + version );
 		}
 		catch ( Exception e )
 		{

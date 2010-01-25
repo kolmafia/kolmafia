@@ -294,6 +294,8 @@ public class EquipmentDatabase
 
 	public static void writeEquipment( final File output )
 	{
+		RequestLogger.printLine( "Writing data override: " + output );
+
 		// One map per equipment category
 		Map hats = new TreeMap();
 		Map weapons = new TreeMap();
