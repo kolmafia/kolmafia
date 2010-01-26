@@ -71,15 +71,22 @@ public class DataUtilities
 
 	static
 	{
-		try
+		URL url = UtilityConstants.SYSTEM_CLASSLOADER.getResource( "data" );
+		if ( url == null )
 		{
-			URL url = UtilityConstants.MAINCLASS_CLASSLOADER.getResource( "data" );
-			DataUtilities.jarPath = url != null ? url.getPath() : "";
-			String prefix = DataUtilities.jarPath.substring( 5, DataUtilities.jarPath.indexOf( "!" ) );
-			DataUtilities.jarFile = new JarFile( new File( prefix ) );
+			url = UtilityConstants.MAINCLASS_CLASSLOADER.getResource( "data" );
 		}
-		catch ( Exception e )
+		if ( url != null )
 		{
+			try
+			{
+				DataUtilities.jarPath = url.getPath();
+				String prefix = DataUtilities.jarPath.substring( 5, DataUtilities.jarPath.indexOf( "!" ) );
+				DataUtilities.jarFile = new JarFile( new File( prefix ) );
+			}
+			catch ( Exception e )
+			{
+			}
 		}
 	}
 
