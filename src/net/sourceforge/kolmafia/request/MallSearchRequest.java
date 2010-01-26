@@ -374,6 +374,9 @@ public class MallSearchRequest
 		// store data and finalize the list.
 
 		this.finalizeList( itemNames );
+
+		// If new items have been detected, write override files
+		KoLmafia.saveDataOverride();
 	}
 
 	private void addNPCStoreItem( final String itemName )

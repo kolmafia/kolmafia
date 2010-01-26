@@ -59,12 +59,23 @@ public class CheckDataCommand
 	{
 		if ( command.equals( "newdata" ) )
 		{
+			// Defer writing of override files until we've
+			// completed our requests.
+			KoLmafia.deferDataOverride( true );
+
 			// EquipmentRequest registers new items with
 			// ItemDatabase when it looks at the closet or at
-			// inventory
+			// inventory.
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
+
+			// EffectDatabase looks at what the soft green remedy
+			// offers to remove to get new effect ids and then
+			// looks at the charpane to get effect descids.
 			EffectDatabase.findStatusEffects();
-			KoLmafia.saveDataOverride();
+
+			// Enable and write override files, if necessary
+			KoLmafia.deferDataOverride( false );
+
 			RequestLogger.printLine( "Data tables updated." );
 			return;
 		}

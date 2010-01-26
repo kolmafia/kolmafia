@@ -496,6 +496,9 @@ public class CharPaneRequest
 		KoLmafia.applyEffects();
 		KoLConstants.activeEffects.retainAll( visibleEffects );
 
+		// If new effects have been detected, write override files
+		KoLmafia.saveDataOverride();
+
 		if ( TurnCounter.isCounting( "Wormwood" ) )
 		{
 			return;
