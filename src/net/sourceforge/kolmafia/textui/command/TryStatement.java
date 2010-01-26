@@ -18,7 +18,7 @@ public class TryStatement
 	public void run( final String command, final String parameters )
 	{
 		KoLmafiaCLI CLI = this.CLI;
-		CLI.elseInvalid();
+		CLI.setElseValid( false );
 		CLI.executeLine( this.continuation );
 		if ( KoLmafia.permitsContinue() )
 		{

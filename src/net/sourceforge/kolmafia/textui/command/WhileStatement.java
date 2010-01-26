@@ -43,6 +43,12 @@ public class WhileStatement
 		this.usage = " <condition>; <commands> - do commands repeatedly while condition is true.";
 	}
 
+	public void validateParameters( final String parameters )
+	{
+		super.validateParameters( parameters );
+		this.CLI.setElseValid( false );
+	}
+
 	public void run( final String command, final String parameters )
 	{
 		// must make local copies since the executed commands could overwrite these
@@ -52,7 +58,7 @@ public class WhileStatement
 		CLI.elseRuns( true );
 		while ( ConditionalStatement.test( parameters ) )
 		{
-			CLI.elseInvalid();
+			CLI.setElseValid( false );
 			CLI.executeLine( continuation );
 			CLI.elseRuns( false );
 		}
