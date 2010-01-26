@@ -918,11 +918,6 @@ public abstract class KoLmafia
 
 		KoLmafia.updateDisplay( "Retrieving campground data..." );
 		RequestThread.postRequest( new CampgroundRequest() );
-		if ( KoLCharacter.hasBookshelf() )
-		{
-			// Synchronize mana cost for libram summons
-			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
-		}
 		KoLCharacter.checkTelescope();
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
