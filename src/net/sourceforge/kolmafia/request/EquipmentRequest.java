@@ -918,6 +918,9 @@ public class EquipmentRequest
 			{
 				ConcoctionDatabase.deferRefresh( false );
 				KoLmafia.setIsRefreshing( false );
+
+				// If new items have been detected, write override files
+				KoLmafia.saveDataOverride();
 			}
 
 			return;

@@ -293,6 +293,9 @@ public class ClanStashRequest
 			intermediateList.add( new AdventureResult( itemId, quantity ) );
 		}
 
+		// If new items have been detected, write override files
+		KoLmafia.saveDataOverride();
+
 		// Remove everything that is no longer in the
 		// clan stash, and THEN update the quantities
 		// of items which are still there.

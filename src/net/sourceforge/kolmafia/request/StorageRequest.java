@@ -308,6 +308,9 @@ public class StorageRequest
 
 		parseStorageSection( StorageRequest.STORAGE_PATTERN, responseText, KoLConstants.storage );
 		parseStorageSection( StorageRequest.FREEPULLS_PATTERN, responseText, KoLConstants.freepulls );
+
+		// If new items have been detected, write override files
+		KoLmafia.saveDataOverride();
 	}
 
 	private static void parseStorageSection( final Pattern pattern, final String responseText, final List list )

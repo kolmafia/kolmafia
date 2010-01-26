@@ -928,13 +928,6 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( CharPaneRequest.getInstance() );
 
-		// We've looked at items in the closet, inventory and storage.
-		// We've seen status effects on the charpane.
-		// Write override files in /data to remember new items and
-		// status effects, if necessary, to save future server hits.
-
-		KoLmafia.saveDataOverride();
-
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		KoLmafia.isRefreshing = false;
@@ -974,8 +967,26 @@ public abstract class KoLmafia
 		KoLConstants.tally.add( AdventureResult.SESSION_FULLSTATS_RESULT );
 	}
 
+	private static boolean deferDataOverride = false;
+
+	public static final void deferDataOverride( final boolean defer )
+	{
+		KoLmafia.deferDataOverride = defer;
+
+		// If writing override files was deferred but is no longer, write them now.
+		if ( !defer )
+		{
+			KoLmafia.saveDataOverride();
+		}
+	}
+
 	public static final void saveDataOverride()
 	{
+		if ( KoLmafia.deferDataOverride )
+		{
+			return;
+		}
+
 		if ( ItemDatabase.newItems )
 		{
 			ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
