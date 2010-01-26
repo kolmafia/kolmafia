@@ -66,15 +66,17 @@ import java.util.zip.ZipEntry;
 
 public class DataUtilities
 {
-	private static JarFile jarfile;
+	private static String jarPath = null;
+	private static JarFile jarFile = null;
+
 	static
 	{
-		URL url = UtilityConstants.SYSTEM_CLASSLOADER.getResource( "data" );
-		String data = url.getPath();
-		String prefix = data.substring( 5, data.indexOf( "!" ) );
 		try
 		{
-			DataUtilities.jarfile = new JarFile( new File( prefix ) );
+			URL url = UtilityConstants.MAINCLASS_CLASSLOADER.getResource( "data" );
+			DataUtilities.jarPath = url != null ? url.getPath() : "";
+			String prefix = DataUtilities.jarPath.substring( 5, DataUtilities.jarPath.indexOf( "!" ) );
+			DataUtilities.jarFile = new JarFile( new File( prefix ) );
 		}
 		catch ( Exception e )
 		{
@@ -312,18 +314,25 @@ public class DataUtilities
 		}
 
 		// See if override file is newer than that shipped with the .jar file
-		ZipEntry internal = DataUtilities.jarfile.getEntry( fullname );
-		if ( internal != null )
+		if ( DataUtilities.jarFile == null )
 		{
-			// This file exists internally. Check creation dates.
-			long idate = internal.getTime();
-			long odate = override.lastModified();
-
-			// If internal date is newer, skip override file
-			if ( idate > odate )
+			DataUtilities.lastMessage = "Unable to locate jar file (" + DataUtilities.jarPath + ") for internal data";
+		}
+		else
+		{
+			ZipEntry internal = DataUtilities.jarFile.getEntry( fullname );
+			if ( internal != null )
 			{
-				DataUtilities.lastMessage = "Skipping stale data override: " + fullname;
-				return null;
+				// This file exists internally. Check creation dates.
+				long idate = internal.getTime();
+				long odate = override.lastModified();
+
+				// If internal date is newer, skip override file
+				if ( idate > odate )
+				{
+					DataUtilities.lastMessage = "Skipping stale data override: " + fullname;
+					return null;
+				}
 			}
 		}
 
