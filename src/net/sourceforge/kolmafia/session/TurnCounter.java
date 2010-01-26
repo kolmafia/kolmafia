@@ -427,7 +427,11 @@ public class TurnCounter
 		{
 			String mode = request.getFormField( "mode" );
 
-			if ( mode.equals( "cook" ) )
+			if ( mode == null )
+			{
+				return 0;
+			}
+			else if ( mode.equals( "cook" ) )
 			{
 				turnMultiplier = KoLCharacter.hasChef() ? 0 : 1;
 			}
@@ -448,6 +452,10 @@ public class TurnCounter
 		{
 			String action = request.getFormField( "action" );
 
+			if ( action == null )
+			{
+				return 0;
+			}
 			if ( action.equals( "wokcook" ) )
 			{
 				turnMultiplier = 1;
