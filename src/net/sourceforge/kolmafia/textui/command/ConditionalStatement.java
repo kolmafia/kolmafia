@@ -57,6 +57,15 @@ public abstract class ConditionalStatement
 		this.flags = KoLmafiaCLI.FLOW_CONTROL_CMD;
 	}
 
+	public void validateParameters( final String parameters )
+	{
+		if ( parameters.equals( "" ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No condition specified." );
+		}
+		this.CLI.setElseValid( true );
+	}
+
 	/**
 	 * Utility method which tests if the given condition is true. Note that this only examines level, health, mana,
 	 * items, meat and status effects.
@@ -115,7 +124,15 @@ public abstract class ConditionalStatement
 		// involving left and right values.
 
 		String operator =
-			parameters.indexOf( "==" ) != -1 ? "==" : parameters.indexOf( "!=" ) != -1 ? "!=" : parameters.indexOf( ">=" ) != -1 ? ">=" : parameters.indexOf( "<=" ) != -1 ? "<=" : parameters.indexOf( "<>" ) != -1 ? "!=" : parameters.indexOf( "=" ) != -1 ? "==" : parameters.indexOf( ">" ) != -1 ? ">" : parameters.indexOf( "<" ) != -1 ? "<" : null;
+			parameters.indexOf( "==" ) != -1 ? "==" :
+			parameters.indexOf( "=" ) != -1 ? "==" :
+			parameters.indexOf( "!=" ) != -1 ? "!=" :
+			parameters.indexOf( ">=" ) != -1 ? ">=" :
+			parameters.indexOf( "<=" ) != -1 ? "<=" :
+			parameters.indexOf( "<>" ) != -1 ? "!=" :
+			parameters.indexOf( ">" ) != -1 ? ">" :
+			parameters.indexOf( "<" ) != -1 ? "<" :
+			null;
 
 		if ( operator == null )
 		{
@@ -126,6 +143,8 @@ public abstract class ConditionalStatement
 
 		String left = tokens[ 0 ].trim();
 		String right = tokens[ tokens.length - 1 ].trim();
+
+                System.out.println( "left = " + left + " operator = " + operator + " right = " + right );
 
 		int leftValue;
 		int rightValue;
@@ -144,11 +163,24 @@ public abstract class ConditionalStatement
 			return false;
 		}
 
-		return operator.equals( "==" ) ? leftValue == rightValue : operator.equals( "!=" ) ? leftValue != rightValue : operator.equals( ">=" ) ? leftValue >= rightValue : operator.equals( ">" ) ? leftValue > rightValue : operator.equals( "<=" ) ? leftValue <= rightValue : operator.equals( "<" ) ? leftValue < rightValue : false;
+                System.out.println( "lvalue = " + leftValue + " operator = " + operator + " rvalue = " + rightValue );
+
+		return operator.equals( "==" ) ? leftValue == rightValue :
+		       operator.equals( "!=" ) ? leftValue != rightValue :
+		       operator.equals( ">=" ) ? leftValue >= rightValue :
+		       operator.equals( ">" ) ? leftValue > rightValue :
+		       operator.equals( "<=" ) ? leftValue <= rightValue :
+		       operator.equals( "<" ) ? leftValue < rightValue :
+		       false;
 	}
 
 	static final int lvalue( final String left )
 	{
+		if ( StringUtilities.isNumeric( left ) )
+		{
+			return StringUtilities.parseInt( left );
+		}
+
 		if ( left.equals( "level" ) )
 		{
 			return KoLCharacter.getLevel();

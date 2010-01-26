@@ -43,12 +43,17 @@ public class IfStatement
 		this.usage = " <condition>; <commands> - do commands once if condition is true (see condref).";
 	}
 
+	public void validateParameters( final String parameters )
+	{
+		super.validateParameters( parameters );
+		CLI.elseRuns( false );
+	}
+
 	public void run( final String command, final String parameters )
 	{
 		KoLmafiaCLI CLI = this.CLI;
 		if ( ConditionalStatement.test( parameters ) )
 		{
-			CLI.elseInvalid();
 			CLI.executeLine( this.continuation );
 			CLI.elseRuns( false );
 		}

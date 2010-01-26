@@ -363,6 +363,13 @@ public class KoLmafiaCLI
 
 			if ( flags == KoLmafiaCLI.FLOW_CONTROL_CMD )
 			{
+				handler.CLI = this;
+				handler.validateParameters( parameters );
+				handler.CLI = null;
+				if ( !KoLmafia.permitsContinue() )
+				{
+					return;
+				}
 				String continuation = this.getContinuation( line );
 				handler.continuation = continuation;
 				handler.CLI = this;
@@ -505,31 +512,26 @@ public class KoLmafiaCLI
 	public void elseRuns( final boolean shouldRun )
 	{
 		this.elseRuns = shouldRun;
-		this.elseValid = true;
 	}
 
 	/**
 	 * Indicates that a following "else" command is not valid here.
 	 */
-	public void elseInvalid()
+	public boolean elseValid()
 	{
-		this.elseValid = false;
+		return this.elseValid;
+	}
+
+	public void setElseValid( boolean elseValid )
+	{
+		this.elseValid = elseValid;
 	}
 
 	/**
-	 * Tests whether a "else" command should be executed, and mark further "else"s as invalid. If this "else" is
-	 * invalid, generate an error and return false.
+	 * Tests whether a "else" command should be executed.
 	 */
 	public boolean elseRuns()
 	{
-		if ( !this.elseValid )
-		{
-			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE,
-				"'else' must follow a conditional command, and both must be at the outermost level." );
-			return false;
-		}
-		this.elseValid = false;
 		return this.elseRuns;
 	}
 
