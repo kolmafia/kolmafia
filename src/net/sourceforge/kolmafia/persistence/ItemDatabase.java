@@ -803,23 +803,9 @@ public class ItemDatabase
 	 * mall or in the player's inventory.
 	 */
 
-	public static final void registerItem( final int itemId, final String itemName, final String descId )
+	private static Pattern RELSTRING_PATTERN = Pattern.compile( "([\\w]+)=([\\w]+)&?");
+	public static final void registerItem( final String itemName, final String descId, final String relString )
 	{
-		ItemDatabase.registerItem( itemId, itemName, descId, "" );
-	}
-
-	public static final void registerItem( final int itemId, final String itemName, final String descId, final String relString )
-	{
-		if ( itemName == null )
-		{
-			return;
-		}
-
-		// Remember that a new item has been discovered
-		ItemDatabase.newItems = true;
-
-		RequestLogger.printLine( "Unknown item found: " + itemName + " (#" + itemId + ", desc=" + descId + ", rel=\"" + relString + "\")" );
-
 		// "id=588&s=118&q=0&d=1&g=0&t=1&n=50&m=0&u=.&ou=use"
 		//   id = item Id
 		//   s = sell value
@@ -831,6 +817,37 @@ public class ItemDatabase
 		//   m = ?
 		//   u = ?
 		//   ou = ?
+
+		int itemId = 0;
+
+		Matcher matcher = RELSTRING_PATTERN.matcher( relString );
+		while ( matcher.find() )
+		{
+			String tag = matcher.group(1);
+			String value = matcher.group(2);
+			if ( tag.equals( "id" ) )
+			{
+				itemId = StringUtilities.parseInt( value );
+			}
+		}
+
+		if ( itemId > 0 )
+		{
+			ItemDatabase.registerItem( itemId, itemName, descId );
+		}
+	}
+
+	public static final void registerItem( final int itemId, final String itemName, final String descId )
+	{
+		if ( itemName == null )
+		{
+			return;
+		}
+
+		// Remember that a new item has been discovered
+		ItemDatabase.newItems = true;
+
+		RequestLogger.printLine( "Unknown item found: " + itemName + " (" + itemId + ", desc=" + descId + ")" );
 
 		Integer id = new Integer( itemId );
 

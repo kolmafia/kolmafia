@@ -74,6 +74,8 @@ public class ResultProcessor
 	private static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*?><tr><td[^>]*?><img[^>]*/([^/]*\\.gif)[^>]*?('descitem\\((.*?)\\)')?></td>(<td[^>]*><[tT]able><tr>)?<td[^>]*?>(.*?)</td>(</tr></table></td>)?</tr></table>" );
 	private static Pattern INT_PATTERN = Pattern.compile( ".*?([\\d]+).*" );
 
+	private static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?<b>([^<]*)</b></td></tr></table>" );
+
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 	private static boolean receivedClover = false;
 
@@ -137,6 +139,9 @@ public class ResultProcessor
 			KoLmafia.applyEffects();
 		}
 
+		// Save override data for new items and effects
+		KoLmafia.saveDataOverride();
+
 		return requiresRefresh;
 	}
 
@@ -150,16 +155,25 @@ public class ResultProcessor
 	{
 		// Results now come in like this:
 		//
-		// <table class="item" style="float: none"
-		// rel="id=617&s=137&q=0&d=1&g=0&t=1&n=1&m=1&u=u"><tr><td><img
-		// src="http://images.kingdomofloathing.com/itemimages/rcandy.gif"
-		// alt="Angry Farmer candy" title="Angry Farmer candy"
-		// class=hand onClick='descitem(893169457)'></td><td
-		// valign=center class=effect>You acquire an item: <b>Angry
-		// Farmer candy</b></td></tr></table>
+		// <table class="item" style="float: none" rel="id=617&s=137&q=0&d=1&g=0&t=1&n=1&m=1&u=u">
+		// <tr><td><img src="http://images.kingdomofloathing.com/itemimages/rcandy.gif"
+		// alt="Angry Farmer candy" title="Angry Farmer candy" class=hand onClick='descitem(893169457)'></td>
+		// <td valign=center class=effect>You acquire an item: <b>Angry Farmer candy</b></td></tr></table>
 		//
-		// We could use this to deduce all sorts of things about
-		// unknown items: descitem, autosell price, is quest item ...
+		// Pre-process all such matches and register new items
+
+		Matcher itemMatcher = ResultProcessor.ITEM_TABLE_PATTERN.matcher( results );
+		while ( itemMatcher.find() )
+		{
+			String relString = itemMatcher.group(1);
+			String descId = itemMatcher.group(2);
+			String itemName = itemMatcher.group(3);
+			int itemId = ItemDatabase.getItemIdFromDescription( descId );
+			if ( itemId == -1 )
+			{
+				ItemDatabase.registerItem( itemName, descId, relString );
+			}
+		}
 
 		String plainTextResult = KoLConstants.ANYTAG_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
 
