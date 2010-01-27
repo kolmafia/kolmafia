@@ -91,6 +91,11 @@ public class HiddenCityRequest
 		this.itemId = itemId;
 	}
 
+	public int getAdventuresUsed()
+	{
+		return 1;
+	}
+
 	public void reconstructFields()
 	{
 		this.constructURLString( "hiddencity.php" );
