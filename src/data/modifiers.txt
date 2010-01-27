@@ -2895,13 +2895,13 @@ dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
 eel battery	Effect: "It's Electric!", Effect Duration: 15
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 ennui-flavored potato chips	Effect: "Also Schmeckt Zarathustra", Effect Duration: 10
-evil eyedrops of the ermine	Effect: "Ermine Eyes", Effect Duration: 10
-evil libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: 10
-evil ointment of the occult	Effect: "Mystically Oiled", Effect Duration: 10
-evil philter of phorce	Effect: "Phorcefullness", Effect Duration: 10
-evil potion of potency	Effect: "Pronounced Potency", Effect Duration: 10
-evil serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: 10
-evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: 10
+evil eyedrops of the ermine	Effect: "Ermine Eyes", Effect Duration: [R+5]
+evil libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R+5]
+evil ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R+5]
+evil philter of phorce	Effect: "Phorcefullness", Effect Duration: [R+5]
+evil potion of potency	Effect: "Pronounced Potency", Effect Duration: [R+5]
+evil serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R+5]
+evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R+5]
 evil vihuela	Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
 explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 extra-potent gremlin mutagen	Effect: "Seriously Mutated"

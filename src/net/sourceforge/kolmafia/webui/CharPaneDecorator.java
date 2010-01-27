@@ -162,7 +162,7 @@ public class CharPaneDecorator
 		int pos;
 		if ( compact )
 		{
-			pos = buffer.indexOf( "<a target=mainpane href=\"familiar.php\">" );
+			pos = buffer.indexOf( "<a target=mainpane href=\"familiar.php\"" );
 			if ( pos == -1 ) return;
 			buffer.insert( pos, text );
 		}
