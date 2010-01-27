@@ -890,45 +890,23 @@ public class DebugDatabase
 		if ( known.indexOf( "Damage Reduction" ) == -1 )
 		{
 			String dr = Modifiers.parseDamageReduction( text );
-			if ( dr != null )
-			{
-				if ( !known.equals( "" ) )
-				{
-					known += ", ";
-				}
-				known += dr;
-			}
+			known = DebugDatabase.appendModifier( known, dr );
 		}
 
 		String single = Modifiers.parseSingleEquip( text );
-		if ( single != null )
-		{
-			if ( !known.equals( "" ) )
-			{
-				known += ", ";
-			}
-			known += single;
-		}
+		known = DebugDatabase.appendModifier( known, single );
 
 		String softcore = Modifiers.parseSoftcoreOnly( text );
-		if ( softcore != null )
-		{
-			if ( !known.equals( "" ) )
-			{
-				known += ", ";
-			}
-			known += softcore;
-		}
+		known = DebugDatabase.appendModifier( known, softcore );
 
 		String freepull = Modifiers.parseFreePull( text );
-		if ( freepull != null )
-		{
-			if ( !known.equals( "" ) )
-			{
-				known += ", ";
-			}
-			known += freepull;
-		}
+		known = DebugDatabase.appendModifier( known, freepull );
+
+		String effect = Modifiers.parseEffect( text );
+		known = DebugDatabase.appendModifier( known, effect );
+
+		String duration = Modifiers.parseDuration( text );
+		known = DebugDatabase.appendModifier( known, duration );
 
 		return known;
 	}
@@ -966,11 +944,7 @@ public class DebugDatabase
 			String mod = Modifiers.parseModifier( enchantment );
 			if ( mod != null )
 			{
-				if ( !known.equals( "" ) )
-				{
-					known += ", ";
-				}
-				known += mod;
+				known = DebugDatabase.appendModifier( known, mod );
 				continue;
 			}
 
@@ -981,6 +955,11 @@ public class DebugDatabase
 		}
 
 		return known;
+	}
+
+	private static final String appendModifier( final String known, final String mod )
+	{
+                return mod == null ? known : known.equals( "" ) ? mod : known + ", " + mod;
 	}
 
 	// **********************************************************

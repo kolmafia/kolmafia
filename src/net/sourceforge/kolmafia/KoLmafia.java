@@ -991,7 +991,6 @@ public abstract class KoLmafia
 		{
 			ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
 			ItemDatabase.writeItemdescs( new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" ) );
-			ItemDatabase.newItems = false;
 		}
 		if ( EquipmentDatabase.newEquipment )
 		{
@@ -1001,9 +1000,10 @@ public abstract class KoLmafia
 		{
 			EffectDatabase.writeEffects( new File( UtilityConstants.DATA_LOCATION, "statuseffects.txt" ) );
 		}
-		if ( EquipmentDatabase.newEquipment || EffectDatabase.newEffects)
+		if ( ItemDatabase.newItems || EquipmentDatabase.newEquipment || EffectDatabase.newEffects)
 		{
 			Modifiers.writeModifiers( new File( UtilityConstants.DATA_LOCATION, "modifiers.txt" ) );
+			ItemDatabase.newItems = false;
 			EquipmentDatabase.newEquipment = false;
 			EffectDatabase.newEffects = false;
 		}

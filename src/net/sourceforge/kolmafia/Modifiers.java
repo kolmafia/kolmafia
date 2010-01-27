@@ -183,6 +183,7 @@ public class Modifiers
 	public static final int MUS_EXPERIENCE = 85;
 	public static final int MYS_EXPERIENCE = 86;
 	public static final int MOX_EXPERIENCE = 87;
+	public static final int EFFECT_DURATION = 88;
 	
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -573,6 +574,10 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) Moxie Stat.*Per Fight" ),
 		  Pattern.compile( "Experience \\(Moxie\\): " + EXPR )
 		},
+		{ "Effect Duration",
+		  null,
+		  Pattern.compile( "Effect Duration: " + EXPR )
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
@@ -738,6 +743,7 @@ public class Modifiers
 	public static final int OUTFIT = 5;
 	public static final int STAT_TUNING = 6;
 	public static final int FAMILIAR_TUNING = 7;
+	public static final int EFFECT = 8;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -772,6 +778,10 @@ public class Modifiers
 		{ "Familiar Tuning",
 		  null,
 		  Pattern.compile( "Familiar Tuning: \"(.*?)\"" )
+		},
+		{ "Effect",
+		  null,
+		  Pattern.compile( "Effect: \"(.*?)\"" )
 		},
 	};
 
@@ -1929,6 +1939,32 @@ public class Modifiers
 		return null;
 	}
 
+	private static final Pattern EFFECT_PATTERN = Pattern.compile( "Effect: <b><a[^>]*>([^<]*)</a></b>" );
+
+	public static final String parseEffect( final String text )
+	{
+		Matcher matcher = Modifiers.EFFECT_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierName( Modifiers.stringModifiers, Modifiers.EFFECT ) + ": \"" + matcher.group( 1 ) + "\"";
+		}
+
+		return null;
+	}
+
+	private static final Pattern DURATION_PATTERN = Pattern.compile( "Duration: <b>([\\d]*) Adventures</b>" );
+
+	public static final String parseDuration( final String text )
+	{
+		Matcher matcher = Modifiers.DURATION_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.EFFECT_DURATION ) + ": " + matcher.group( 1 );
+		}
+
+		return null;
+	}
+
 	private static final Pattern ALL_ATTR_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)$" );
 	private static final Pattern ALL_ATTR_PCT_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)%$" );
 	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus&nbsp;for&nbsp;(.*)&nbsp;only" );
@@ -2449,7 +2485,7 @@ public class Modifiers
 					v = 0;
 					break;
 				case 'R':
-					v = 0;
+					v = KoLCharacter.getReagentPotionDuration();
 					break;
 				case 'S':
 					v = KoLCharacter.getSpleenUse();
@@ -2791,6 +2827,7 @@ public class Modifiers
 		Map famitems = new TreeMap();
 		Map bedazzlements = new TreeMap();
 		Map freepulls = new TreeMap();
+		Map potions = new TreeMap();
 		Map wikiname = new TreeMap();
 
 		// Iterate over all items and assign item id to category
@@ -2837,7 +2874,11 @@ public class Modifiers
 				{
 					break;
 				}
-				if ( mods.getBoolean( Modifiers.FREE_PULL ) )
+				if ( !mods.getString( Modifiers.EFFECT ).equals( "" ) )
+				{
+					potions.put( name, null );
+				}
+				else if ( mods.getBoolean( Modifiers.FREE_PULL ) )
 				{
 					freepulls.put( name, null );
 				}
@@ -3012,7 +3053,8 @@ public class Modifiers
 		writer.println();
 		Modifiers.writeModifierCategory( writer, maximization, "Maximization categories" );
 		writer.println();
-		Modifiers.writeModifierCategory( writer, freepulls, "Everything Else" );
+		Modifiers.writeModifierCategory( writer, potions, "Everything Else" );
+		Modifiers.writeModifierCategory( writer, freepulls );
 		Modifiers.writeModifierCategory( writer, wikiname );
 
 		writer.close();
