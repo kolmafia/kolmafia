@@ -818,6 +818,14 @@ public abstract class KoLCharacter
 		FightRequest.initialize();
 	}
 
+	public static final int getReagentPotionDuration()
+	{
+		return 5 +
+		       ( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 ) +
+		       ( KoLCharacter.classtype == KoLCharacter.SAUCEROR ? 5 : 0 );
+
+	}
+
 	/**
 	 * Accessor method to retrieve the name of the character's class.
 	 *
