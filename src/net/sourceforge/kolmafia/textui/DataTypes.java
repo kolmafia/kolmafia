@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.textui;
 
 import java.util.List;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -557,18 +559,25 @@ public class DataTypes
 		case TYPE_BOOLEAN:
 			return (String) InputFieldUtilities.input( message, DataTypes.BOOLEANS );
 
-		case TYPE_LOCATION:
-			return ( (KoLAdventure) InputFieldUtilities.input(
-				message, AdventureDatabase.getAsLockableListModel(),
-				AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) ) ).getAdventureName();
+		case TYPE_LOCATION: {
+			LockableListModel inputs = AdventureDatabase.getAsLockableListModel();
+			KoLAdventure initial = AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) );
+			KoLAdventure value = (KoLAdventure) InputFieldUtilities.input( message, inputs, initial );
+			return value == null ? null : value.getAdventureName();
+		}
 
-		case TYPE_SKILL:
-			return ( (UseSkillRequest) InputFieldUtilities.input( message, SkillDatabase.getSkillsByType(
-				SkillDatabase.CASTABLE ).toArray() ) ).getSkillName();
+		case TYPE_SKILL: {
+			Object [] inputs = SkillDatabase.getSkillsByType( SkillDatabase.CASTABLE ).toArray();
+			UseSkillRequest value = (UseSkillRequest) InputFieldUtilities.input( message, inputs );
+			return value == null ? null : value.getSkillName();
+		}
 
-		case TYPE_FAMILIAR:
-			return ( (FamiliarData) InputFieldUtilities.input(
-				message, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() ) ).getRace();
+		case TYPE_FAMILIAR: {
+			Object [] inputs = KoLCharacter.getFamiliarList().toArray();
+			FamiliarData initial = KoLCharacter.getFamiliar();
+			FamiliarData value = (FamiliarData) InputFieldUtilities.input( message, inputs, initial );
+			return value == null ? null : value.getRace();
+		}
 
 		case TYPE_SLOT:
 			return (String) InputFieldUtilities.input( message, EquipmentRequest.slotNames );
