@@ -1072,7 +1072,7 @@ public class EquipmentRequest
 
 			if ( itemName == null || !canonicalName.equals( itemName ) )
 			{
-				ItemDatabase.registerItem( itemId, realName, descId, relString );
+				ItemDatabase.registerItem( itemId, realName, descId );
 			}
 
 			// The inventory never has the plural name.
