@@ -309,7 +309,15 @@ public class Interpreter
 					return false;
 				}
 
-				value = DataTypes.parseValue( type, input, false );
+				try
+				{
+					value = DataTypes.parseValue( type, input, false );
+				}
+				catch ( Exception e )
+				{
+					value = null;
+				}
+
 				if ( value == null )
 				{
 					RequestLogger.printLine( "Bad " + type.toString() + " value: \"" + input + "\"" );
