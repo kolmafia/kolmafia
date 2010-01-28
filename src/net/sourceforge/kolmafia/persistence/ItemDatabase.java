@@ -803,7 +803,7 @@ public class ItemDatabase
 	 * mall or in the player's inventory.
 	 */
 
-	private static Pattern RELSTRING_PATTERN = Pattern.compile( "([\\w]+)=([\\w]+)&?");
+	private static Pattern RELSTRING_PATTERN = Pattern.compile( "([\\w]+)=([^&]*)&?");
 	public static final void registerItem( final String itemName, final String descId, final String relString )
 	{
 		// "id=588&s=118&q=0&d=1&g=0&t=1&n=50&m=0&u=.&ou=use"
@@ -828,6 +828,7 @@ public class ItemDatabase
 			if ( tag.equals( "id" ) )
 			{
 				itemId = StringUtilities.parseInt( value );
+				break;
 			}
 		}
 
