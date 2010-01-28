@@ -346,12 +346,16 @@ public class EffectDatabase
 		}
 	}
 
-	public static final void addDescriptionId( final int effectId, final String name, final String descId )
+	public static final void addDescriptionId( final int effectId, String name, String descId )
 	{
 		if ( effectId == -1 )
 		{
 			return;
 		}
+
+		// Detach name and descid from being substrings
+		name = new String( name );
+		descId = new String( descId );
 
 		Integer id = new Integer( effectId );
 		EffectDatabase.effectByDescription.put( descId, id );

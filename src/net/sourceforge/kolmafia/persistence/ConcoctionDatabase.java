@@ -288,7 +288,7 @@ public class ConcoctionDatabase
 
 		boolean bogus = false;
 
-		String name = data[ 0 ];
+		String name = new String( data[ 0 ] );
 		String[] mixes = data[ 1 ].split( "\\s*,\\s*" );
 		int mixingMethod = 0;
 		for ( int i = 0; i < mixes.length; ++i )
@@ -298,7 +298,7 @@ public class ConcoctionDatabase
 			if ( val == null )
 			{
 				RequestLogger.printLine( "Unknown mixing method or flag (" + mix + ") for concoction: " + name );
-				ConcoctionDatabase.mixingMethods.put( mix, new Integer( 0 ) );
+				ConcoctionDatabase.mixingMethods.put( new String( mix ), new Integer( 0 ) );
 				// This is not necessarily a fatal error; it could just be a
 				// newly-defined informational flag.
 				continue;

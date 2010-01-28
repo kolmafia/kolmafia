@@ -2749,9 +2749,11 @@ public class Modifiers
 			{
 				KoLmafia.updateDisplay( "Duplicate modifiers for: " + name );
 			}
-			Modifiers.modifiersByName.put( name, data[ 1 ] );
+
+			String modifiers = new String( data[ 1 ] );
+			Modifiers.modifiersByName.put( name, modifiers );
 			
-			Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher( data[ 1 ] );
+			Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher( modifiers );
 			if ( matcher.find() )
 			{
 				Modifiers.familiarEffectByName.put( name, matcher.group( 1 ) );

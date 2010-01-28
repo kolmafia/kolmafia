@@ -149,7 +149,9 @@ public class EquipmentDatabase
 			}
 
 			EquipmentDatabase.power.set( itemId, StringUtilities.parseInt( data[ 1 ] ) );
-			EquipmentDatabase.statRequirements.set( itemId, data[ 2 ] );
+
+			String reqs = new String( data[ 2 ] );
+			EquipmentDatabase.statRequirements.set( itemId, reqs );
 
 			int hval = 0;
 			String tval = null;
@@ -161,11 +163,11 @@ public class EquipmentDatabase
 				if ( index > 0 )
 				{
 					hval = StringUtilities.parseInt( str.substring( 0, 1 ) );
-					tval = str.substring( index + 1 );
+					tval = new String( str.substring( index + 1 ) );
 				}
 				else
 				{
-					tval = str;
+					tval = new String( str );
 				}
 			}
 

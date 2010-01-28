@@ -79,8 +79,11 @@ public class FamiliarDatabase
 
 	private static final Map[] eventSkillByName = new HashMap[ 4 ];
 
+	public static boolean newFamiliars = false;
+
 	static
 	{
+		FamiliarDatabase.newFamiliars = false;
 		for ( int i = 0; i < 4; ++i )
 		{
 			FamiliarDatabase.eventSkillByName[ i ] = new HashMap();
@@ -108,7 +111,7 @@ public class FamiliarDatabase
 			{
 				familiarId = Integer.valueOf( data[ 0 ] );
 				familiarName = StringUtilities.getDisplayName( data[ 1 ] );
-				familiarType = data[ 2 ];
+				familiarType = new String( data[ 2 ] );
 				familiarLarva = Integer.valueOf( data[ 3 ] );
 				familiarItemName = StringUtilities.getDisplayName( data[ 4 ] );
 
@@ -126,10 +129,10 @@ public class FamiliarDatabase
 				FamiliarDatabase.fairyById.set( familiarId.intValue(), familiarType.indexOf( "item0" ) != -1 );
 				FamiliarDatabase.meatDropById.set( familiarId.intValue(), familiarType.indexOf( "meat0" ) != -1 );
 
+				String canonical = StringUtilities.getCanonicalName( data[ 1 ] );
 				for ( int i = 0; i < 4; ++i )
 				{
-					FamiliarDatabase.eventSkillByName[ i ].put(
-						StringUtilities.getCanonicalName( data[ 1 ] ), Integer.valueOf( data[ i + 5 ] ) );
+					FamiliarDatabase.eventSkillByName[ i ].put( canonical, Integer.valueOf( data[ i + 5 ] ) );
 				}
 			}
 			catch ( Exception e )
@@ -347,9 +350,6 @@ public class FamiliarDatabase
 				StringUtilities.getCanonicalName( name ), new Integer( skills[ i ] ) );
 		}
 
-		// After familiar skills are reset, rewrite the data
-		// file override.
-
 		FamiliarDatabase.saveDataOverride();
 	}
 
@@ -366,8 +366,15 @@ public class FamiliarDatabase
 
 	private static final void saveDataOverride()
 	{
-		File output = new File( UtilityConstants.DATA_LOCATION, "familiars.txt" );
+                FamiliarDatabase.writeFamiliars( new File( UtilityConstants.DATA_LOCATION, "familiars.txt" ) );
+                FamiliarDatabase.newFamiliars = false;
+	}
+
+	public static void writeFamiliars( final File output )
+	{
+		RequestLogger.printLine( "Writing data override: " + output );
 		PrintStream writer = LogStream.openStream( output, true );
+		writer.println( KoLConstants.FAMILIARS_VERSION );
 
 		writer.println( "# Original familiar arena stats from Vladjimir's arena data" );
 		writer.println( "# http://www.the-rye.dreamhosters.com/familiars/" );

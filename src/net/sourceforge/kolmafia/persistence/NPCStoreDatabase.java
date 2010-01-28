@@ -75,8 +75,8 @@ public class NPCStoreDatabase
 				continue;
 			}
 
-			String storeName = data[0];
-			String storeId = data[1];
+			String storeName = new String( data[0] );
+			String storeId = new String( data[1] );
 			String itemName = data[ 2 ];
 			int itemId = ItemDatabase.getItemId( itemName );
 			int price = StringUtilities.parseInt( data[ 3 ] );

@@ -135,14 +135,17 @@ public class AdventureDatabase
 		{
 			if ( data.length >= 3 )
 			{
-				AdventureDatabase.PARENT_ZONES.put( data[ 0 ], data[ 1 ] );
+				String zone = new String( data[ 0 ] );
+				String parent = new String( data[ 1 ] );
+				String description = new String( data[ 2 ] );
 
-				if ( !AdventureDatabase.PARENT_LIST.contains( data[ 1 ] ) )
+				AdventureDatabase.PARENT_ZONES.put( zone, parent );
+				if ( !AdventureDatabase.PARENT_LIST.contains( parent ) )
 				{
-					AdventureDatabase.PARENT_LIST.add( data[ 1 ] );
+					AdventureDatabase.PARENT_LIST.add( parent );
 				}
 
-				AdventureDatabase.ZONE_DESCRIPTIONS.put( data[ 0 ], data[ 2 ] );
+				AdventureDatabase.ZONE_DESCRIPTIONS.put( zone, description );
 			}
 		}
 
@@ -181,10 +184,10 @@ public class AdventureDatabase
 				continue;
 			}
 
-			String zone = data[ 0 ];
+			String zone = new String( data[ 0 ] );
 			String[] location = data[ 1 ].split( "=" );
 			boolean hasCloverAdventure = data[ 2 ].equals( "true" );
-			String name = data[ 3 ];
+			String name = new String( data[ 3 ] );
 
 			if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )
 			{
@@ -195,7 +198,7 @@ public class AdventureDatabase
 			AdventureDatabase.zoneLookup.put( name, zone );
 			AdventureDatabase.adventureTable[ 0 ].add( zone );
 			AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
-			AdventureDatabase.adventureTable[ 2 ].add( location[ 1 ] );
+			AdventureDatabase.adventureTable[ 2 ].add( new String( location[ 1 ] ) );
 			AdventureDatabase.adventureTable[ 3 ].add( name );
 
 			AdventureDatabase.cloverLookup.put( name, hasCloverAdventure ? Boolean.TRUE : Boolean.FALSE );
@@ -214,7 +217,7 @@ public class AdventureDatabase
 
 			if ( !data[ 4 ].equals( "" ) )
 			{
-				AdventureDatabase.conditionsById.set( id, data[ 4 ] );
+				AdventureDatabase.conditionsById.set( id, new String( data[ 4 ] ) );
 			}
 
 			if ( data.length <= 5 )
@@ -224,7 +227,7 @@ public class AdventureDatabase
 
 			if ( !data[ 5 ].equals( "" ) )
 			{
-				AdventureDatabase.bountiesById.set( id, data[ 5 ] );
+				AdventureDatabase.bountiesById.set( id, new String( data[ 5 ] ) );
 			}
 		}
 
