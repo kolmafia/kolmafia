@@ -61,7 +61,7 @@ public class FamiliarData
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern REGISTER_PATTERN =
-		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (exp|experience|candies)?, .*? kills?\\)(.*?)<(/tr|form)" );
+		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
@@ -144,12 +144,12 @@ public class FamiliarData
 		return ItemPool.get( itemName, 1 );
 	}
 
-	public static final void registerFamiliarData( final String searchText )
+	public static final void registerFamiliarData( final String responseText )
 	{
 		// Assume he has no familiar
 		FamiliarData first = FamiliarData.NO_FAMILIAR;
 
-		Matcher matcher = FamiliarData.REGISTER_PATTERN.matcher( searchText );
+		Matcher matcher = FamiliarData.REGISTER_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
 			FamiliarData found = new FamiliarData( matcher );
@@ -168,19 +168,19 @@ public class FamiliarData
 		}
 
 		// He may have familiars but none are equipped.
-		if ( searchText.indexOf( "You do not currently have a familiar" ) != -1 )
+		if ( responseText.indexOf( "You do not currently have a familiar" ) != -1 )
 		{
 			first = FamiliarData.NO_FAMILIAR;
 		}
 
 		KoLCharacter.setFamiliar( first );
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
-		FamiliarData.checkLockedItem( searchText );
+		FamiliarData.checkLockedItem( responseText );
 	}
 
-	public static final void checkLockedItem( final String searchText )
+	public static final void checkLockedItem( final String responseText )
 	{
-		Matcher lockMatcher = FamiliarData.LOCK_PATTERN.matcher( searchText );
+		Matcher lockMatcher = FamiliarData.LOCK_PATTERN.matcher( responseText );
 		boolean locked = false;
 
 		if ( lockMatcher.find() )
