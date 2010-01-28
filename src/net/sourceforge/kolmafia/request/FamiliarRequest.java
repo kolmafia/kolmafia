@@ -188,18 +188,6 @@ public class FamiliarRequest
 			return;
 		}
 
-		// If we are switching to certain specialized familiars, don't
-		// steal any equipment from the old familiar
-
-		switch ( this.changeTo.getId() )
-		{
-		case FamiliarPool.CHAMELEON:	// Comma Chameleon
-		case FamiliarPool.BLACKBIRD:	// Reassembled Blackbird
-		case FamiliarPool.HATRACK:	// Mad Hatrack
-		case FamiliarPool.HAND:	// Disembodied Hand
-			return;
-		}
-
 		AdventureResult item = familiar.getItem();
 
 		// If the old familiar wasn't wearing equipment, nothing to
@@ -223,6 +211,18 @@ public class FamiliarRequest
 			return;
 		}
 
+		// If we are switching to certain specialized familiars, don't
+		// steal any equipment from the old familiar
+
+		switch ( this.changeTo.getId() )
+		{
+		case FamiliarPool.CHAMELEON:	// Comma Chameleon
+		case FamiliarPool.BLACKBIRD:	// Reassembled Blackbird
+		case FamiliarPool.HATRACK:	// Mad Hatrack
+		case FamiliarPool.HAND:	// Disembodied Hand
+			return;
+		}
+
 		// If the new familiar already has an item, leave it alone.
 
 		if ( !this.changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) )
@@ -230,18 +230,13 @@ public class FamiliarRequest
 			return;
 		}
 
-		// If the new familiar can't equip the old item, don't steal
-
-		if ( !this.changeTo.canEquip( item ) )
+		// The new familiar has no item. Find a good one to steal.
+		AdventureResult use = this.changeTo.findGoodItem( true );
+		if ( use != null )
 		{
-			return;
+			KoLmafia.updateDisplay( use.getName() + " is better than (none).  Switching items..." );
+			RequestThread.postRequest( new EquipmentRequest( use, EquipmentManager.FAMILIAR ) );
 		}
-
-		// It's probably worthwhile to transfer the item from the old
-		// familiar to the new one. Do so.
-
-		KoLmafia.updateDisplay( familiar.getItem().getName() + " is better than " + this.changeTo.getItem().getName() + ".  Switching items..." );
-		( new EquipmentRequest( item, EquipmentManager.FAMILIAR ) ).run();
 	}
 
 	public void processResults()

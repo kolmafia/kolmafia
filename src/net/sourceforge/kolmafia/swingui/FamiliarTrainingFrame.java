@@ -135,16 +135,6 @@ public class FamiliarTrainingFrame
 	// Familiar buffing items
 	private static final AdventureResult PITH_HELMET = new AdventureResult( 1231, 1 );
 	private static final AdventureResult CRUMPLED_FEDORA = new AdventureResult( 3328, 1 );
-	private static final AdventureResult LEAD_NECKLACE = ItemPool.get( ItemPool.LEAD_NECKLACE, 1 );
-	private static final AdventureResult RAT_HEAD_BALLOON = ItemPool.get( ItemPool.RAT_BALLOON, 1 );
-	private static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
-	private static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
-
-	private static final AdventureResult PUMPKIN_BUCKET = ItemPool.get( ItemPool.PUMPKIN_BUCKET, 1 );
-	private static final AdventureResult FLOWER_BOUQUET = ItemPool.get( ItemPool.MAYFLOWER_BOUQUET, 1 );
-	private static final AdventureResult FIREWORKS = ItemPool.get( ItemPool.FIREWORKS, 1 );
-	private static final AdventureResult DOPPELGANGER = ItemPool.get( ItemPool.FAMILIAR_DOPPELGANGER, 1 );
-	private static final AdventureResult SUGAR_SHIELD = ItemPool.get( ItemPool.SUGAR_SHIELD, 1 );
 
 	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
 	private static final AdventureResult GREEN_SNOWCONE = ItemPool.get( ItemPool.GREEN_SNOWCONE, 1 );
@@ -945,30 +935,8 @@ public class FamiliarTrainingFrame
 
 		if ( familiar.getId() != FamiliarPool.CHAMELEON )
 		{
-			if ( InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) )
-			{
-				RequestThread.postRequest( new EquipmentRequest(
-					FamiliarTrainingFrame.PUMPKIN_BUCKET, EquipmentManager.FAMILIAR ) );
-			}
-			else if ( InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) )
-			{
-				RequestThread.postRequest( new EquipmentRequest(
-					FamiliarTrainingFrame.FLOWER_BOUQUET, EquipmentManager.FAMILIAR ) );
-			}
-			else if ( InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) )
-			{
-				RequestThread.postRequest( new EquipmentRequest(
-					FamiliarTrainingFrame.FIREWORKS, EquipmentManager.FAMILIAR ) );
-			}
-			else if ( status.familiarItemWeight != 0 && InventoryManager.hasItem( status.familiarItem ) )
-			{
-				RequestThread.postRequest( new EquipmentRequest( status.familiarItem, EquipmentManager.FAMILIAR ) );
-			}
-			else if ( InventoryManager.hasItem( FamiliarTrainingFrame.LEAD_NECKLACE ) )
-			{
-				RequestThread.postRequest( new EquipmentRequest(
-					FamiliarTrainingFrame.LEAD_NECKLACE, EquipmentManager.FAMILIAR ) );
-			}
+			// Find and wear an appropriate item
+			familiar.findAndWearItem( false );
 		}
 
 		boolean result = type == FamiliarTrainingFrame.BUFFED ? FamiliarTrainingFrame.buffFamiliar( goal ) : true;
@@ -1247,10 +1215,10 @@ public class FamiliarTrainingFrame
 			return true;
 		}
 
-		if ( !InventoryManager.hasItem( FamiliarTrainingFrame.PUMPKIN_BUCKET ) &&
-		     !InventoryManager.hasItem( FamiliarTrainingFrame.FLOWER_BOUQUET ) &&
-		     !InventoryManager.hasItem( FamiliarTrainingFrame.FIREWORKS ) &&
-		     !InventoryManager.hasItem( FamiliarTrainingFrame.SUGAR_SHIELD ) &&
+		if ( !InventoryManager.hasItem( FamiliarData.PUMPKIN_BUCKET ) &&
+		     !InventoryManager.hasItem( FamiliarData.FLOWER_BOUQUET ) &&
+		     !InventoryManager.hasItem( FamiliarData.FIREWORKS ) &&
+		     !InventoryManager.hasItem( FamiliarData.SUGAR_SHIELD ) &&
 		     status.familiarItemWeight != 0 &&
 		     !InventoryManager.hasItem( status.familiarItem ) &&
 		     KoLCharacter.canInteract() )
@@ -1756,58 +1724,58 @@ public class FamiliarTrainingFrame
 					this.specWeight = this.familiarItemWeight;
 				}
 
-				if ( itemId == FamiliarTrainingFrame.PUMPKIN_BUCKET.getItemId() )
+				if ( itemId == FamiliarData.PUMPKIN_BUCKET.getItemId() )
 				{
 					this.pumpkinBucket = true;
-					this.item = FamiliarTrainingFrame.PUMPKIN_BUCKET;
+					this.item = FamiliarData.PUMPKIN_BUCKET;
 				}
 
-				if ( itemId == FamiliarTrainingFrame.FLOWER_BOUQUET.getItemId() )
+				if ( itemId == FamiliarData.FLOWER_BOUQUET.getItemId() )
 				{
 					this.flowerBouquet = true;
-					this.item = FamiliarTrainingFrame.FLOWER_BOUQUET;
+					this.item = FamiliarData.FLOWER_BOUQUET;
 				}
 
-				if ( itemId == FamiliarTrainingFrame.FIREWORKS.getItemId() )
+				if ( itemId == FamiliarData.FIREWORKS.getItemId() )
 				{
 					this.boxFireworks = true;
-					this.item = FamiliarTrainingFrame.FIREWORKS;
+					this.item = FamiliarData.FIREWORKS;
 				}
 
-				if ( itemId == FamiliarTrainingFrame.SUGAR_SHIELD.getItemId() )
+				if ( itemId == FamiliarData.SUGAR_SHIELD.getItemId() )
 				{
 					this.sugarShield = true;
-					this.item = FamiliarTrainingFrame.SUGAR_SHIELD;
+					this.item = FamiliarData.SUGAR_SHIELD;
 				}
 
-				if ( itemId == FamiliarTrainingFrame.LEAD_NECKLACE.getItemId() )
+				if ( itemId == FamiliarData.LEAD_NECKLACE.getItemId() )
 				{
 					this.leadNecklace = true;
-					this.item = FamiliarTrainingFrame.LEAD_NECKLACE;
+					this.item = FamiliarData.LEAD_NECKLACE;
 				}
 
-				if ( itemId == FamiliarTrainingFrame.RAT_HEAD_BALLOON.getItemId() )
+				if ( itemId == FamiliarData.RAT_HEAD_BALLOON.getItemId() )
 				{
 					this.ratHeadBalloon = true;
-					this.item = FamiliarTrainingFrame.RAT_HEAD_BALLOON;
+					this.item = FamiliarData.RAT_HEAD_BALLOON;
 				}
 
 				if ( itemId == ItemPool.BATHYSPHERE )
 				{
 					this.bathysphere = true;
-					this.item = FamiliarTrainingFrame.BATHYSPHERE;
+					this.item = FamiliarData.BATHYSPHERE;
 				}
 
 				if ( itemId == ItemPool.DAS_BOOT )
 				{
 					this.dasBoot = true;
-					this.item = FamiliarTrainingFrame.DAS_BOOT;
+					this.item = FamiliarData.DAS_BOOT;
 				}
 
-				if ( itemId == FamiliarTrainingFrame.DOPPELGANGER.getItemId() )
+				if ( itemId == FamiliarData.DOPPELGANGER.getItemId() )
 				{
 					this.doppelganger = true;
-					this.item = FamiliarTrainingFrame.DOPPELGANGER;
+					this.item = FamiliarData.DOPPELGANGER;
 				}
 			}
 
@@ -1876,40 +1844,40 @@ public class FamiliarTrainingFrame
 			{
 				// If current familiar is not wearing a pumpkin bucket,
 				// search inventory
-				this.pumpkinBucket |= FamiliarTrainingFrame.PUMPKIN_BUCKET.getCount( inventory ) > 0;
+				this.pumpkinBucket |= FamiliarData.PUMPKIN_BUCKET.getCount( inventory ) > 0;
 
 				// If current familiar is not wearing a Mayflower bouquet,
 				// search inventory
-				this.flowerBouquet |= FamiliarTrainingFrame.FLOWER_BOUQUET.getCount( inventory ) > 0;
+				this.flowerBouquet |= FamiliarData.FLOWER_BOUQUET.getCount( inventory ) > 0;
 
 				// If current familiar is not wearing a box of fireworks,
 				// search inventory
-				this.boxFireworks |= FamiliarTrainingFrame.FIREWORKS.getCount( inventory ) > 0;
+				this.boxFireworks |= FamiliarData.FIREWORKS.getCount( inventory ) > 0;
 			}
 
 			// If current familiar is not wearing a sugar shield,
 			// search inventory
-			this.sugarShield |= FamiliarTrainingFrame.SUGAR_SHIELD.getCount( inventory ) > 0;
+			this.sugarShield |= FamiliarData.SUGAR_SHIELD.getCount( inventory ) > 0;
 
 			// If current familiar is not wearing a lead necklace,
 			// search inventory
-			this.leadNecklace |= FamiliarTrainingFrame.LEAD_NECKLACE.getCount( inventory ) > 0;
+			this.leadNecklace |= FamiliarData.LEAD_NECKLACE.getCount( inventory ) > 0;
 
 			// If current familiar is not wearing a rat head
 			// balloon, search inventory
-			this.ratHeadBalloon |= FamiliarTrainingFrame.RAT_HEAD_BALLOON.getCount( inventory ) > 0;
+			this.ratHeadBalloon |= FamiliarData.RAT_HEAD_BALLOON.getCount( inventory ) > 0;
 
 			// If current familiar is not wearing a bathysphere,
 			// search inventory
-			this.bathysphere |= FamiliarTrainingFrame.BATHYSPHERE.getCount( inventory ) > 0;
+			this.bathysphere |= FamiliarData.BATHYSPHERE.getCount( inventory ) > 0;
 
 			// If current familiar is not wearing das boot
 			// search inventory
-			this.dasBoot |= FamiliarTrainingFrame.DAS_BOOT.getCount( inventory ) > 0;
+			this.dasBoot |= FamiliarData.DAS_BOOT.getCount( inventory ) > 0;
 
 			// If current familiar is not wearing a doppel,
 			// search inventory
-			this.doppelganger |= FamiliarTrainingFrame.DOPPELGANGER.getCount( inventory ) > 0;
+			this.doppelganger |= FamiliarData.DOPPELGANGER.getCount( inventory ) > 0;
 
 			this.whipCount =
 				Math.min(
@@ -1955,15 +1923,15 @@ public class FamiliarTrainingFrame
 					continue;
 				}
 
-				this.leadNecklace |= item.getItemId() == FamiliarTrainingFrame.LEAD_NECKLACE.getItemId();
-				this.ratHeadBalloon |= item.getItemId() == FamiliarTrainingFrame.RAT_HEAD_BALLOON.getItemId();
+				this.leadNecklace |= item.getItemId() == FamiliarData.LEAD_NECKLACE.getItemId();
+				this.ratHeadBalloon |= item.getItemId() == FamiliarData.RAT_HEAD_BALLOON.getItemId();
 				this.bathysphere |= item.getItemId() == ItemPool.BATHYSPHERE;
 				this.dasBoot |= item.getItemId() == ItemPool.DAS_BOOT;
-				this.pumpkinBucket |= item.getItemId() == FamiliarTrainingFrame.PUMPKIN_BUCKET.getItemId();
-				this.flowerBouquet |= item.getItemId() == FamiliarTrainingFrame.FLOWER_BOUQUET.getItemId();
-				this.doppelganger |= item.getItemId() == FamiliarTrainingFrame.DOPPELGANGER.getItemId();
-				this.boxFireworks |= item.getItemId() == FamiliarTrainingFrame.FIREWORKS.getItemId();
-				this.sugarShield |= item.getItemId() == FamiliarTrainingFrame.SUGAR_SHIELD.getItemId();
+				this.pumpkinBucket |= item.getItemId() == FamiliarData.PUMPKIN_BUCKET.getItemId();
+				this.flowerBouquet |= item.getItemId() == FamiliarData.FLOWER_BOUQUET.getItemId();
+				this.doppelganger |= item.getItemId() == FamiliarData.DOPPELGANGER.getItemId();
+				this.boxFireworks |= item.getItemId() == FamiliarData.FIREWORKS.getItemId();
+				this.sugarShield |= item.getItemId() == FamiliarData.SUGAR_SHIELD.getItemId();
 			}
 		}
 
@@ -2174,7 +2142,7 @@ public class FamiliarTrainingFrame
 			if ( this.doppelganger )
 			{
 				RequestThread.postRequest( new EquipmentRequest(
-					FamiliarTrainingFrame.DOPPELGANGER, EquipmentManager.FAMILIAR ) );
+					FamiliarData.DOPPELGANGER, EquipmentManager.FAMILIAR ) );
 			}
 
 			// If we are already suitably equipped, stop now
@@ -2351,7 +2319,7 @@ public class FamiliarTrainingFrame
 
 			if ( this.doppelganger )
 			{
-				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.DOPPELGANGER, hat );
+				this.getAccessoryGearSets( weight, FamiliarData.DOPPELGANGER, hat );
 				return;
 			}
 
@@ -2361,35 +2329,35 @@ public class FamiliarTrainingFrame
 			}
 			if ( this.pumpkinBucket )
 			{
-				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.PUMPKIN_BUCKET, hat );
+				this.getAccessoryGearSets( weight, FamiliarData.PUMPKIN_BUCKET, hat );
 			}
 			if ( this.flowerBouquet )
 			{
-				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.FLOWER_BOUQUET, hat );
+				this.getAccessoryGearSets( weight, FamiliarData.FLOWER_BOUQUET, hat );
 			}
 			if ( this.boxFireworks )
 			{
-				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.FIREWORKS, hat );
+				this.getAccessoryGearSets( weight, FamiliarData.FIREWORKS, hat );
 			}
 			if ( this.sugarShield )
 			{
-				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.SUGAR_SHIELD, hat );
+				this.getAccessoryGearSets( weight, FamiliarData.SUGAR_SHIELD, hat );
 			}
 			if ( this.leadNecklace )
 			{
-				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.LEAD_NECKLACE, hat );
+				this.getAccessoryGearSets( weight, FamiliarData.LEAD_NECKLACE, hat );
 			}
 			if ( this.ratHeadBalloon )
 			{
-				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.RAT_HEAD_BALLOON, hat );
+				this.getAccessoryGearSets( weight, FamiliarData.RAT_HEAD_BALLOON, hat );
 			}
 			if ( this.bathysphere )
 			{
-				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.BATHYSPHERE, hat );
+				this.getAccessoryGearSets( weight, FamiliarData.BATHYSPHERE, hat );
 			}
 			if ( this.dasBoot )
 			{
-				this.getAccessoryGearSets( weight, FamiliarTrainingFrame.DAS_BOOT, hat );
+				this.getAccessoryGearSets( weight, FamiliarData.DAS_BOOT, hat );
 			}
 
 			this.getAccessoryGearSets( weight, null, hat );
@@ -2535,7 +2503,7 @@ public class FamiliarTrainingFrame
 				weight += 5;
 			}
 
-			if ( item == FamiliarTrainingFrame.DOPPELGANGER )
+			if ( item == FamiliarData.DOPPELGANGER )
 			{
 				;
 			}
@@ -2543,35 +2511,35 @@ public class FamiliarTrainingFrame
 			{
 				weight += this.specWeight;
 			}
-			else if ( item == FamiliarTrainingFrame.SUGAR_SHIELD )
+			else if ( item == FamiliarData.SUGAR_SHIELD )
 			{
 				weight += 10;
 			}
-			else if ( item == FamiliarTrainingFrame.PUMPKIN_BUCKET )
+			else if ( item == FamiliarData.PUMPKIN_BUCKET )
 			{
 				weight += 5;
 			}
-			else if ( item == FamiliarTrainingFrame.FLOWER_BOUQUET )
+			else if ( item == FamiliarData.FLOWER_BOUQUET )
 			{
 				weight += 5;
 			}
-			else if ( item == FamiliarTrainingFrame.FIREWORKS )
+			else if ( item == FamiliarData.FIREWORKS )
 			{
 				weight += 5;
 			}
-			else if ( item == FamiliarTrainingFrame.LEAD_NECKLACE )
+			else if ( item == FamiliarData.LEAD_NECKLACE )
 			{
 				weight += 3;
 			}
-			else if ( item == FamiliarTrainingFrame.RAT_HEAD_BALLOON )
+			else if ( item == FamiliarData.RAT_HEAD_BALLOON )
 			{
 				weight -= 3;
 			}
-			else if ( item == FamiliarTrainingFrame.BATHYSPHERE )
+			else if ( item == FamiliarData.BATHYSPHERE )
 			{
 				weight -= 20;
 			}
-			else if ( item == FamiliarTrainingFrame.DAS_BOOT )
+			else if ( item == FamiliarData.DAS_BOOT )
 			{
 				weight -= 10;
 			}
@@ -2644,7 +2612,7 @@ public class FamiliarTrainingFrame
 
 			if ( prize != null )
 			{
-				if ( prize.equals( FamiliarTrainingFrame.LEAD_NECKLACE.getName() ) )
+				if ( prize.equals( FamiliarData.LEAD_NECKLACE.getName() ) )
 				{
 					this.leadNecklace = true;
 				}
@@ -2943,41 +2911,41 @@ public class FamiliarTrainingFrame
 				text.append( " plexiglass pith helmet (+5)" );
 			}
 
-			if ( this.item == FamiliarTrainingFrame.DOPPELGANGER )
+			if ( this.item == FamiliarData.DOPPELGANGER )
 			{
-				text.append( " " + FamiliarTrainingFrame.DOPPELGANGER.getName() + " (+0)" );
+				text.append( " " + FamiliarData.DOPPELGANGER.getName() + " (+0)" );
 			}
-			else if ( this.item == FamiliarTrainingFrame.PUMPKIN_BUCKET )
+			else if ( this.item == FamiliarData.PUMPKIN_BUCKET )
 			{
-				text.append( " " + FamiliarTrainingFrame.PUMPKIN_BUCKET.getName() + " (+5)" );
+				text.append( " " + FamiliarData.PUMPKIN_BUCKET.getName() + " (+5)" );
 			}
-			else if ( this.item == FamiliarTrainingFrame.FLOWER_BOUQUET )
+			else if ( this.item == FamiliarData.FLOWER_BOUQUET )
 			{
-				text.append( " " + FamiliarTrainingFrame.FLOWER_BOUQUET.getName() + " (+5)" );
+				text.append( " " + FamiliarData.FLOWER_BOUQUET.getName() + " (+5)" );
 			}
-			else if ( this.item == FamiliarTrainingFrame.FIREWORKS )
+			else if ( this.item == FamiliarData.FIREWORKS )
 			{
-				text.append( " " + FamiliarTrainingFrame.FIREWORKS.getName() + " (+5)" );
+				text.append( " " + FamiliarData.FIREWORKS.getName() + " (+5)" );
 			}
-			else if ( this.item == FamiliarTrainingFrame.SUGAR_SHIELD )
+			else if ( this.item == FamiliarData.SUGAR_SHIELD )
 			{
-				text.append( " " + FamiliarTrainingFrame.SUGAR_SHIELD.getName() + " (+10)" );
+				text.append( " " + FamiliarData.SUGAR_SHIELD.getName() + " (+10)" );
 			}
-			else if ( this.item == FamiliarTrainingFrame.LEAD_NECKLACE )
+			else if ( this.item == FamiliarData.LEAD_NECKLACE )
 			{
-				text.append( " " + FamiliarTrainingFrame.LEAD_NECKLACE.getName() + " (+3)" );
+				text.append( " " + FamiliarData.LEAD_NECKLACE.getName() + " (+3)" );
 			}
-			else if ( this.item == FamiliarTrainingFrame.RAT_HEAD_BALLOON )
+			else if ( this.item == FamiliarData.RAT_HEAD_BALLOON )
 			{
-				text.append( " " + FamiliarTrainingFrame.RAT_HEAD_BALLOON.getName() + " (-3)" );
+				text.append( " " + FamiliarData.RAT_HEAD_BALLOON.getName() + " (-3)" );
 			}
-			else if ( this.item == FamiliarTrainingFrame.BATHYSPHERE )
+			else if ( this.item == FamiliarData.BATHYSPHERE )
 			{
-				text.append( " " + FamiliarTrainingFrame.BATHYSPHERE.getName() + " (-20)" );
+				text.append( " " + FamiliarData.BATHYSPHERE.getName() + " (-20)" );
 			}
-			else if ( this.item == FamiliarTrainingFrame.DAS_BOOT )
+			else if ( this.item == FamiliarData.DAS_BOOT )
 			{
-				text.append( " " + FamiliarTrainingFrame.DAS_BOOT.getName() + " (-10)" );
+				text.append( " " + FamiliarData.DAS_BOOT.getName() + " (-10)" );
 			}
 			else if ( this.item != null )
 			{
@@ -3140,7 +3108,7 @@ public class FamiliarTrainingFrame
 				if ( this.item != that.item )
 				{
 					changes +=
-						that.item == null ? 1 : that.item.getItemId() == FamiliarTrainingFrame.LEAD_NECKLACE.getItemId() ? 10 : 5;
+						that.item == null ? 1 : that.item.getItemId() == FamiliarData.LEAD_NECKLACE.getItemId() ? 10 : 5;
 				}
 
 				if ( this.weapon != that.weapon )
