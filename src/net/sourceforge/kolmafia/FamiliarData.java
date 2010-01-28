@@ -280,9 +280,50 @@ public class FamiliarData
 
 	public int getModifiedWeight()
 	{
-		int weight = this.weight + KoLCharacter.getFamiliarWeightAdjustment();
-		float percent = KoLCharacter.getFamiliarWeightPercentAdjustment() / 100.0f;
+                // Start with base weight of familiar
+		int weight = this.weight;
 
+		// Get current fixed and percent weight modifiers
+		Modifiers current = KoLCharacter.getCurrentModifiers();
+		float fixed = current.get( Modifiers.FAMILIAR_WEIGHT ) + current.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+		float percent = current.get( Modifiers.FAMILIAR_WEIGHT_PCT );
+
+		// If this is not the current familiar, adjust modifiers to
+		// reflect this familiar's current equipment.
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		if ( this != familiar )
+		{
+			// Subtract modifiers for current familiar's equipment
+			AdventureResult item = familiar.getItem();
+			if ( item != EquipmentRequest.UNEQUIP )
+			{
+				Modifiers mods = Modifiers.getModifiers( item.getName() );
+				if ( mods != null )
+				{
+					fixed -= mods.get( Modifiers.FAMILIAR_WEIGHT );
+					fixed -= mods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+					percent -= mods.get( Modifiers.FAMILIAR_WEIGHT_PCT );
+				}
+			}
+
+			// Add modifiers for this familiar's equipment
+			item = this.getItem();
+			if ( item != EquipmentRequest.UNEQUIP )
+			{
+				Modifiers mods = Modifiers.getModifiers( item.getName() );
+				if ( mods != null )
+				{
+					fixed += mods.get( Modifiers.FAMILIAR_WEIGHT );
+					fixed += mods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+					percent += mods.get( Modifiers.FAMILIAR_WEIGHT_PCT );
+				}
+			}
+		}
+
+		// Add in fixed modifiers
+		weight += (int) fixed;
+
+                // Adjust by percent modifiers
 		if ( percent != 0.0f )
 		{
 			weight = (int) Math.floor( weight + weight * percent );
