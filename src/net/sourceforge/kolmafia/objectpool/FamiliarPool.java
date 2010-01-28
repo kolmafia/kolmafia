@@ -55,6 +55,7 @@ public class FamiliarPool
 	public static final int ORB = 56;
 	public static final int BLACKBIRD = 59;
 	public static final int TOOTHSOME_ROCK = 63;
+	public static final int DANDY_LION = 66;
 	public static final int OAF = 67;
 	public static final int PIXIE = 70;
 	public static final int PARROT = 72;

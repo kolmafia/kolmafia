@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Component;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,14 +47,16 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarData
 	implements Comparable
@@ -66,6 +69,16 @@ public class FamiliarData
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
 	private static final Pattern LOCK_PATTERN = Pattern.compile( "familiar.php\\?action=lockequip.*'This Familiar Equipment is (Locked|Unlocked)'" );
+
+	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
+	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
+	public static final AdventureResult DOPPELGANGER = ItemPool.get( ItemPool.FAMILIAR_DOPPELGANGER, 1 );
+	public static final AdventureResult FIREWORKS = ItemPool.get( ItemPool.FIREWORKS, 1 );
+	public static final AdventureResult FLOWER_BOUQUET = ItemPool.get( ItemPool.MAYFLOWER_BOUQUET, 1 );
+	public static final AdventureResult LEAD_NECKLACE = ItemPool.get( ItemPool.LEAD_NECKLACE, 1 );
+	public static final AdventureResult PUMPKIN_BUCKET = ItemPool.get( ItemPool.PUMPKIN_BUCKET, 1 );
+	public static final AdventureResult RAT_HEAD_BALLOON = ItemPool.get( ItemPool.RAT_BALLOON, 1 );
+	public static final AdventureResult SUGAR_SHIELD = ItemPool.get( ItemPool.SUGAR_SHIELD, 1 );
 
 	private final int id;
 	private final String race;
@@ -634,10 +647,82 @@ public class FamiliarData
 			return true;
 		}
 
-		if ( this.id == 66 )
+		if ( this.id == FamiliarPool.DANDY_LION )
 		{
-			return EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName().endsWith( "whip" ) || EquipmentManager.getEquipment(
-				EquipmentManager.OFFHAND ).getName().endsWith( "whip" );
+			return EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName().endsWith( "whip" ) ||
+			       EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).getName().endsWith( "whip" );
+		}
+
+		return false;
+	}
+
+	public final void findAndWearItem( boolean steal )
+	{
+		AdventureResult use = this.findGoodItem( steal );
+		if ( use != null )
+		{
+			RequestThread.postRequest( new EquipmentRequest( use, EquipmentManager.FAMILIAR ) );
+		}
+	}
+
+	public final AdventureResult findGoodItem( boolean steal )
+	{
+		if ( FamiliarData.availableItem( FamiliarData.PUMPKIN_BUCKET, steal ) )
+		{
+			return FamiliarData.PUMPKIN_BUCKET;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.FIREWORKS, steal ) )
+		{
+			return FamiliarData.FIREWORKS;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.FLOWER_BOUQUET, steal ) )
+		{
+			return FamiliarData.FLOWER_BOUQUET;
+		}
+
+		int itemId = FamiliarDatabase.getFamiliarItemId( this.id );
+		AdventureResult item = itemId > 0 ? ItemPool.get( itemId, 1 ) : null;
+		if ( item != null && FamiliarData.availableItem( item, false ) )
+		{
+			return item;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.LEAD_NECKLACE, steal ) )
+		{
+			return FamiliarData.LEAD_NECKLACE;
+		}
+
+		return null;
+	}
+
+	private static final boolean availableItem( AdventureResult item, boolean steal )
+	{
+		if ( item.getCount( KoLConstants.inventory ) > 0 )
+		{
+			return true;
+		}
+
+		if ( !steal )
+		{
+			return false;
+		}
+
+		FamiliarData current = KoLCharacter.getFamiliar();
+		List familiars = KoLCharacter.getFamiliarList();
+		int count = familiars.size();
+		for ( int i = 0; i < count; ++i )
+		{
+			FamiliarData familiar = (FamiliarData) familiars.get( i );
+			if ( !familiar.equals( current ) )
+			{
+				AdventureResult equipped = familiar.getItem();
+				if ( equipped != null && equipped.equals( item ) )
+				{
+					return true;
+				}
+			}
 		}
 
 		return false;

@@ -272,6 +272,12 @@ public class FamiliarDatabase
 		return (String) FamiliarDatabase.familiarItemById.get( new Integer( familiarId ) );
 	}
 
+	public static final int getFamiliarItemId( final int familiarId )
+	{
+		String name = FamiliarDatabase.getFamiliarItem( familiarId );
+		return name == null ? -1 : ItemDatabase.getItemId( name );
+	}
+
 	public static final int getFamiliarByItem( final String item )
 	{
 		Object familiarId = FamiliarDatabase.familiarByItem.get( StringUtilities.getCanonicalName( item ) );
