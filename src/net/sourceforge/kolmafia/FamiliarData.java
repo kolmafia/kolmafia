@@ -576,6 +576,8 @@ public class FamiliarData
 		case ItemPool.BATHYSPHERE:
 		case ItemPool.DAS_BOOT:
 		case ItemPool.MINIATURE_ANTLERS:
+		case ItemPool.FISHY_WAND:
+		case ItemPool.TINY_COSTUME_WARDROBE:
 		case ItemPool.SUGAR_SHIELD:
 		case ItemPool.MOVEABLE_FEAST:
 			return true;
