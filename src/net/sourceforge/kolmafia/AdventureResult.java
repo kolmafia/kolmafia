@@ -170,6 +170,11 @@ public class AdventureResult
 		{
 			this.normalizeItemName();
 		}
+		else
+		{
+			// Detach substring from larger text
+			this.name = new String( name );
+		}
 	}
 
 	private static int choosePriority( final String name )
@@ -227,6 +232,14 @@ public class AdventureResult
 		{
 			this.name = EffectDatabase.getEffectName( effectId );
 		}
+		else
+		{
+			this.name = new String( this.name );
+			if ( StaticEntity.getClient() != null )
+			{
+				RequestLogger.printLine( "Unknown effect found: " + this.name );
+			}
+		}
 	}
 
 	public void normalizeItemName()
@@ -250,9 +263,13 @@ public class AdventureResult
 		{
 			this.name = ItemDatabase.getItemName( this.itemId );
 		}
-		else if ( StaticEntity.getClient() != null )
+		else
 		{
-			RequestLogger.printLine( "Unknown item found: " + this.name );
+			this.name = new String( this.name );
+			if ( StaticEntity.getClient() != null )
+			{
+				RequestLogger.printLine( "Unknown item found: " + this.name );
+			}
 		}
 	}
 

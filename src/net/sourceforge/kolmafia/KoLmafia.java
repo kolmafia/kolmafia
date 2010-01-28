@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -992,20 +993,29 @@ public abstract class KoLmafia
 			ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
 			ItemDatabase.writeItemdescs( new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" ) );
 		}
+
 		if ( EquipmentDatabase.newEquipment )
 		{
 			EquipmentDatabase.writeEquipment( new File( UtilityConstants.DATA_LOCATION, "equipment.txt" ) );
 		}
+
 		if ( EffectDatabase.newEffects )
 		{
 			EffectDatabase.writeEffects( new File( UtilityConstants.DATA_LOCATION, "statuseffects.txt" ) );
 		}
+
 		if ( ItemDatabase.newItems || EquipmentDatabase.newEquipment || EffectDatabase.newEffects)
 		{
 			Modifiers.writeModifiers( new File( UtilityConstants.DATA_LOCATION, "modifiers.txt" ) );
 			ItemDatabase.newItems = false;
 			EquipmentDatabase.newEquipment = false;
 			EffectDatabase.newEffects = false;
+		}
+
+		if ( FamiliarDatabase.newFamiliars )
+		{
+			FamiliarDatabase.writeFamiliars( new File( UtilityConstants.DATA_LOCATION, "familiars.txt" ) );
+			FamiliarDatabase.newFamiliars = false;
 		}
 	}
 

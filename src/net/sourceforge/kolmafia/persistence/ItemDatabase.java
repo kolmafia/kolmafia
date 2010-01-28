@@ -140,6 +140,27 @@ public class ItemDatabase
 		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 1 ] = new HashMap();
 	}
 
+	private static final String[] ACCESS =
+	{
+		"none",
+		"display",
+		"gift",
+		"all",
+	};
+
+	private final static String parseAccess( final String data )
+	{
+		for ( int i = 0; i < ItemDatabase.ACCESS.length; ++i )
+		{
+			String access = ItemDatabase.ACCESS[ i ];
+			if ( access.equals( data ) )
+			{
+				return access;
+			}
+		}
+		return "bogus";
+	};
+
 	private static final Map muscleByName = new HashMap();
 	private static final Map mysticalityByName = new HashMap();
 	private static final Map moxieByName = new HashMap();
@@ -314,9 +335,9 @@ public class ItemDatabase
 			}
 
 			int itemId = StringUtilities.parseInt( data[ 0 ] );
-			String name = data[ 1 ];
+			String name = new String( data[ 1 ] );
 			String[] usages = data[ 2 ].split( "\\s*,\\s*" );
-			String access = data[ 3 ];
+			String access = ItemDatabase.parseAccess( data[ 3 ] );
 			int price = StringUtilities.parseInt( data[ 4 ] );
 
 			Integer id = new Integer( itemId );
@@ -478,7 +499,6 @@ public class ItemDatabase
 		BufferedReader reader = FileUtilities.getVersionedReader( "itemdescs.txt", KoLConstants.ITEMDESCS_VERSION );
 		String[] data;
 
-
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length < 2 )
@@ -492,13 +512,14 @@ public class ItemDatabase
 
 			if ( StringUtilities.isNumeric( descId ) )
 			{
+				descId = new String( descId );
 				ItemDatabase.descriptionById.put( id, descId );
 				ItemDatabase.itemIdByDescription.put( descId, id );
 			}
 
-			if ( data.length == 4 )
+			if ( data.length > 3 )
 			{
-				String plural = data[ 3 ];
+				String plural = new String( data[ 3 ] );
 				ItemDatabase.pluralById.set( itemId, plural );
 				ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
 			}
@@ -838,12 +859,16 @@ public class ItemDatabase
 		}
 	}
 
-	public static final void registerItem( final int itemId, final String itemName, final String descId )
+	public static final void registerItem( final int itemId, String itemName, String descId )
 	{
 		if ( itemName == null )
 		{
 			return;
 		}
+
+		// Detach item name and descid from being substrings
+		itemName = new String( itemName );
+		descId = new String( descId );
 
 		// Remember that a new item has been discovered
 		ItemDatabase.newItems = true;
