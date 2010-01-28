@@ -61,7 +61,7 @@ public class FamiliarData
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern REGISTER_PATTERN =
-		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(/tr|form)" );
+		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
@@ -92,17 +92,21 @@ public class FamiliarData
 	private FamiliarData( final Matcher dataMatcher )
 	{
 		this.id = StringUtilities.parseInt( dataMatcher.group( 2 ) );
-		this.name = dataMatcher.group( 3 );
 		this.race = dataMatcher.group( 4 );
 
 		FamiliarDatabase.registerFamiliar( this.id, this.race );
 		FamiliarDatabase.setFamiliarImageLocation( this.id, dataMatcher.group( 1 ) );
 
+		this.update( dataMatcher );
+	}
+
+	public final void update( final Matcher dataMatcher )
+	{
+		this.name = dataMatcher.group( 3 );
 		this.experience = StringUtilities.parseInt( dataMatcher.group( 5 ) );
 		this.setWeight();
-
-		String itemData = dataMatcher.group( 7 );
-		this.item = parseFamiliarItem( this.id, itemData );
+		String itemData = dataMatcher.group( 6 );
+		this.item = FamiliarData.parseFamiliarItem( this.id, itemData );
 	}
 
 	public final void addExperience( final int exp )
@@ -152,13 +156,19 @@ public class FamiliarData
 		Matcher matcher = FamiliarData.REGISTER_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
-			FamiliarData found = new FamiliarData( matcher );
-			FamiliarData familiar = KoLCharacter.addFamiliar( found );
-
-			// KoLCharacter.addFamiliar returns an existing
-			// FamiliarData object if the familiar is already
-			// registered. Update the weight from KoL's page.
-			familiar.weight = found.weight;
+			String race = matcher.group( 4 );
+			FamiliarData familiar = KoLCharacter.findFamiliar( race );
+			if ( familiar == null )
+			{
+				// Add new familiar to list
+				familiar = new FamiliarData( matcher );
+				KoLCharacter.addFamiliar( familiar );
+			}
+			else
+			{
+				// Update existing familiar
+				familiar.update( matcher );
+			}
 
 			// First in the list might be equipped
 			if ( first == FamiliarData.NO_FAMILIAR )
