@@ -822,7 +822,14 @@ public class FightRequest
 			return;
 		}
 
-		// If the player wants to use a skill, make sure he knows it
+		// We do not verify that the character actually knows the skill
+		// or that it is currently available. It can be complicated:
+		// birdform skills are available only in birdform., but some
+		// are available only if you've prepped them by eating the
+		// appropriate kind of bug.
+
+		// We do ensure that it is a combat skill.
+
 		String skillName =
 			SkillDatabase.getSkillName( StringUtilities.parseInt( FightRequest.action1.substring( 5 ) ) );
 
@@ -878,7 +885,7 @@ public class FightRequest
 			FightRequest.castNoodles = true;
 		}
 
-		// Skills use MP. Make sure the character has enough
+		// Skills use MP. Make sure the character has enough.
 		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && !GenericRequest.passwordHash.equals( "" ) )
 		{
 			if ( !Preferences.getBoolean( "autoManaRestore" ) )
@@ -887,6 +894,7 @@ public class FightRequest
 				this.nextRound();
 				return;
 			}
+
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			{
 				if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() && KoLConstants.inventory.contains( MPRestoreItemList.CONFIGURES[ i ].getItem() ) )
@@ -1155,7 +1163,8 @@ public class FightRequest
 			return true;
 		}
 
-		if ( FightRequest.willUsuallyMiss() || FightRequest.willUsuallyDodge() )
+		if ( FightRequest.willUsuallyMiss( defenseModifier ) ||
+		     FightRequest.willUsuallyDodge( offenseModifier ) )
 		{
 			return false;
 		}
@@ -3012,6 +3021,11 @@ public class FightRequest
 
 			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action2 ), responseText );
 
+			return;
+		}
+
+		if ( responseText.indexOf( "You don't have that skill" ) != -1 )
+		{
 			return;
 		}
 
