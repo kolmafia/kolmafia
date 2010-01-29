@@ -74,8 +74,6 @@ public class ResultProcessor
 	private static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*?><tr><td[^>]*?><img[^>]*/([^/]*\\.gif)[^>]*?('descitem\\((.*?)\\)')?></td>(<td[^>]*><[tT]able><tr>)?<td[^>]*?>(.*?)</td>(</tr></table></td>)?</tr></table>" );
 	private static Pattern INT_PATTERN = Pattern.compile( ".*?([\\d]+).*" );
 
-	private static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?<b>([^<]*)</b></td></tr></table>" );
-
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 	private static boolean receivedClover = false;
 
@@ -151,6 +149,8 @@ public class ResultProcessor
 			KoLConstants.activeEffects.contains( ResultProcessor.haikuEffect );
 	}
 
+	private static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?<b>([^<]*)</b></td></tr></table>" );
+
 	private static boolean processNormalResults( boolean combatResults, String results, List data )
 	{
 		// Results now come in like this:
@@ -166,8 +166,8 @@ public class ResultProcessor
 		while ( itemMatcher.find() )
 		{
 			String relString = itemMatcher.group(1);
-			String descId = itemMatcher.group(2);
-			String itemName = itemMatcher.group(3);
+			String itemName = itemMatcher.group(2);
+			String descId = itemMatcher.group(3);
 			int itemId = ItemDatabase.getItemIdFromDescription( descId );
 			if ( itemId == -1 )
 			{
