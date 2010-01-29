@@ -283,11 +283,10 @@ public class EffectDatabase
 	}
 
 	/**
-	 * Returns whether or not an item with a given name exists in the database; this is useful in the event that an item
-	 * is encountered which is not tradeable (and hence, should not be displayed).
+	 * Returns whether or not an effect with a given name exists in the database
 	 *
 	 * @param effectName The name of the effect to lookup
-	 * @return <code>true</code> if the item is in the database
+	 * @return <code>true</code> if the effect is in the database
 	 */
 
 	public static final boolean contains( final String effectName )
