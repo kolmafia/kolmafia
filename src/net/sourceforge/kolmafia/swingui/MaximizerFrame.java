@@ -497,9 +497,8 @@ public class MaximizerFrame
 			AdventureResult effect = new AdventureResult( name, 1, true );
 			name = effect.getName();
 			boolean hasEffect = KoLConstants.activeEffects.contains( effect );
-
+			Iterator sources;
 			String cmd, text;
-			AdventureResult item = null;
 			int price = 0;
 			if ( !hasEffect )
 			{
@@ -516,31 +515,16 @@ public class MaximizerFrame
 				case 1:
 					isSpecial = true;
 				}
+				sources = EffectDatabase.getAllActions( name );
 				cmd = MoodManager.getDefaultAction( "lose_effect", name );
-				if ( cmd.length() == 0 )
+				if ( !sources.hasNext() )
 				{
 					if ( includeAll )
 					{
-						text = EffectDatabase.getActionNote( name );
-						if ( text != null )
-						{
-							if ( text.indexOf( "BM" ) != -1 &&
-								!KoLCharacter.inBadMoon() )
-							{
-								continue;	// no use displaying this in non-BM
-							}
-							text = "(get " + name + " via " + text + ")";
-						}
-						else
-						{
-							text = "(no direct source of " + name + ")";
-						}
+						sources = Collections.singletonList(
+							"(no known source of " + name + ")" ).iterator();
 					}
 					else continue;
-				}
-				else
-				{
-					text = cmd;
 				}
 			}
 			else
@@ -563,166 +547,204 @@ public class MaximizerFrame
 				{
 					if ( includeAll )
 					{
-						text = "(find some way to remove " + name + ")";
+						cmd = "(find some way to remove " + name + ")";
 					}
 					else continue;
+				}
+				sources = Collections.singletonList( cmd ).iterator();
+			}
+			
+			boolean orFlag = false;
+			while ( sources.hasNext() )
+			{
+				cmd = text = (String) sources.next();
+				AdventureResult item = null;
+				
+				if ( cmd.startsWith( "#" ) )	// usage note, no command
+				{
+					if ( includeAll )
+					{
+						if ( cmd.indexOf( "BM" ) != -1 &&
+							!KoLCharacter.inBadMoon() )
+						{
+							continue;	// no use displaying this in non-BM
+						}
+						text = (orFlag ? "(...or get " : "(get ")
+							+ name + " via " + cmd.substring( 1 ) + ")";
+						orFlag = false;
+						cmd = "";
+					}
+					else continue;
+				}
+				
+				if ( hasEffect &&
+					cmd.toLowerCase().indexOf( name.toLowerCase() ) == -1 )
+				{
+					text = text + " (to remove " + name + ")";
+				}
+
+				if ( cmd.startsWith( "(" ) )	// preformatted note
+				{
+					cmd = "";
+					orFlag = false;
+				}
+				else if ( cmd.startsWith( "use " ) || cmd.startsWith( "chew " ) ||
+					cmd.startsWith( "drink " ) || cmd.startsWith( "eat " ) )
+				{
+					item = ItemFinder.getFirstMatchingItem(
+						cmd.substring( cmd.indexOf( " " ) + 1 ).trim(), false );
+				}
+				else if ( cmd.startsWith( "gong " ) )
+				{
+					item = ItemPool.get( ItemPool.GONG, 1 );
+				}
+				else if ( cmd.startsWith( "cast " ) )
+				{
+					if ( !KoLCharacter.hasSkill( UneffectRequest.effectToSkill( name ) ) )
+					{
+						if ( includeAll )
+						{
+							text = "(learn to " + cmd + ", or get it from a buffbot)";
+							cmd = "";
+						}
+						else continue;
+					}
+				}
+				else if ( cmd.startsWith( "concert " ) )
+				{
+					if ( Preferences.getBoolean( "concertVisited" ) ||
+						KoLCharacter.getLevel() < 12 )
+					{
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "telescope " ) )
+				{
+					if ( Preferences.getBoolean( "telescopeLookedHigh" ) ||
+						Preferences.getInteger( "telescopeUpgrades" ) == 0 )
+					{
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "styx " ) )
+				{
+					if ( !KoLCharacter.inBadMoon() )
+					{
+						continue;
+					}
+				}
+				
+				if ( item != null )
+				{
+					String iname = item.getName();
+					
+					int full = ItemDatabase.getFullness( iname );
+					if ( full > 0 &&
+						KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )
+					{
+						cmd = "";
+					}
+					full = ItemDatabase.getInebriety( iname );
+					if ( full > 0 &&
+						KoLCharacter.getInebriety() + full > KoLCharacter.getInebrietyLimit() )
+					{
+						cmd = "";
+					}
+					full = ItemDatabase.getSpleenHit( iname );
+					if ( full > 0 && cmd.indexOf( "chew" ) == -1 )
+					{
+						RequestLogger.printLine( "(Note: extender for " +
+							name + " is a spleen item that doesn't use 'chew')" );
+					}
+					if ( full > 0 &&
+						KoLCharacter.getSpleenUse() + full > KoLCharacter.getSpleenLimit() )
+					{
+						cmd = "";
+					}
+					if ( !ItemDatabase.meetsLevelRequirement( iname ) )
+					{
+						if ( includeAll )
+						{
+							text = "level up & " + text;
+							cmd = "";
+						}
+						else continue;
+					}
+					
+					if ( cmd.length() > 0 )
+					{
+						Concoction c = ConcoctionPool.get( item );
+						price = c.price;
+						int count = Math.max( 0, item.getCount() - c.initial );
+						if ( count > 0 )
+						{
+							int create = Math.min( count, c.creatable );
+							count -= create;
+							if ( create > 0 )
+							{
+								text = create > 1 ? "make " + create + " & " + text
+									: "make & " + text;
+							}
+							int buy = price > 0 ? Math.min( count, KoLCharacter.getAvailableMeat() / price ) : 0;
+							count -= buy;
+							if ( buy > 0 )
+							{
+								text = buy > 1 ? "buy " + buy + " & " + text
+									: "buy & " + text;
+								cmd = "buy " + buy + " \u00B6" + item.getItemId() +
+									";" + cmd;
+							}
+							if ( count > 0 )
+							{
+								if ( !KoLCharacter.canInteract() )
+								{
+									continue;
+								}
+								text = count > 1 ? "acquire " + count + " & " + text
+									: "acquire & " + text;
+							}
+						}
+						if ( priceLevel == 2 || (priceLevel == 1 && count > 0) )
+						{
+							if ( price <= 0 && KoLCharacter.canInteract() &&
+								ItemDatabase.isTradeable( item.getItemId() ) )
+							{
+								if ( MallPriceDatabase.getPrice( item.getItemId() )
+									> maxPrice * 2 )
+								{
+									continue;
+								}
+	
+								price = StoreManager.getMallPrice( item );
+							}
+						}
+						if ( price > maxPrice ) continue;
+					}
+					else if ( item.getCount( KoLConstants.inventory ) == 0 )
+					{
+						continue;
+					}
+				}
+				
+				if ( price > 0 )
+				{
+					text = text + " (" + KoLConstants.COMMA_FORMAT.format( price ) +
+						" meat, " + 
+						KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
 				}
 				else
 				{
-					text = cmd;
-					if ( cmd.toLowerCase().indexOf( name.toLowerCase() ) == -1 )
-					{
-						text = text + " (to remove " + name + ")";
-					}
+					text = text + " (" + KoLConstants.MODIFIER_FORMAT.format(
+						delta ) + ")";
 				}
-			}
-			
-			if ( cmd.startsWith( "use " ) || cmd.startsWith( "chew " ) ||
-				cmd.startsWith( "drink " ) || cmd.startsWith( "eat " ) )
-			{
-				item = ItemFinder.getFirstMatchingItem(
-					cmd.substring( cmd.indexOf( " " ) + 1 ).trim(), false );
-			}
-			else if ( cmd.startsWith( "gong " ) )
-			{
-				item = ItemPool.get( ItemPool.GONG, 1 );
-			}
-			else if ( cmd.startsWith( "cast " ) )
-			{
-				if ( !KoLCharacter.hasSkill( UneffectRequest.effectToSkill( name ) ) )
+				if ( orFlag )
 				{
-					if ( includeAll )
-					{
-						text = "(learn to " + cmd + ", or get it from a buffbot)";
-						cmd = "";
-					}
-					else continue;
+					text = "...or " + text;
 				}
+				MaximizerFrame.boosts.add( new Boost( cmd, text, effect, hasEffect,
+					item, delta, isSpecial ) );
+				orFlag = true;
 			}
-			else if ( cmd.startsWith( "concert " ) )
-			{
-				if ( Preferences.getBoolean( "concertVisited" ) ||
-					KoLCharacter.getLevel() < 12 )
-				{
-					cmd = "";
-				}
-			}
-			else if ( cmd.startsWith( "telescope " ) )
-			{
-				if ( Preferences.getBoolean( "telescopeLookedHigh" ) ||
-					Preferences.getInteger( "telescopeUpgrades" ) == 0 )
-				{
-					cmd = "";
-				}
-			}
-			else if ( cmd.startsWith( "styx " ) )
-			{
-				if ( !KoLCharacter.inBadMoon() )
-				{
-					continue;
-				}
-			}
-			
-			if ( item != null )
-			{
-				String iname = item.getName();
-				
-				int full = ItemDatabase.getFullness( iname );
-				if ( full > 0 &&
-					KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )
-				{
-					cmd = "";
-				}
-				full = ItemDatabase.getInebriety( iname );
-				if ( full > 0 &&
-					KoLCharacter.getInebriety() + full > KoLCharacter.getInebrietyLimit() )
-				{
-					cmd = "";
-				}
-				full = ItemDatabase.getSpleenHit( iname );
-				if ( full > 0 &&
-					KoLCharacter.getSpleenUse() + full > KoLCharacter.getSpleenLimit() )
-				{
-					cmd = "";
-				}
-				if ( !ItemDatabase.meetsLevelRequirement( iname ) )
-				{
-					if ( includeAll )
-					{
-						text = "level up & " + text;
-						cmd = "";
-					}
-					else continue;
-				}
-				
-				if ( cmd.length() > 0 )
-				{
-					Concoction c = ConcoctionPool.get( item );
-					price = c.price;
-					int count = Math.max( 0, item.getCount() - c.initial );
-					if ( count > 0 )
-					{
-						int create = Math.min( count, c.creatable );
-						count -= create;
-						if ( create > 0 )
-						{
-							text = create > 1 ? "make " + create + " & " + text
-								: "make & " + text;
-						}
-						int buy = price > 0 ? Math.min( count, KoLCharacter.getAvailableMeat() / price ) : 0;
-						count -= buy;
-						if ( buy > 0 )
-						{
-							text = buy > 1 ? "buy " + buy + " & " + text
-								: "buy & " + text;
-							cmd = "buy " + buy + " \u00B6" + item.getItemId() +
-								";" + cmd;
-						}
-						if ( count > 0 )
-						{
-							if ( !KoLCharacter.canInteract() )
-							{
-								continue;
-							}
-							text = count > 1 ? "acquire " + count + " & " + text
-								: "acquire & " + text;
-						}
-					}
-					if ( priceLevel == 2 || (priceLevel == 1 && count > 0) )
-					{
-						if ( price <= 0 && KoLCharacter.canInteract() &&
-							ItemDatabase.isTradeable( item.getItemId() ) )
-						{
-							if ( MallPriceDatabase.getPrice( item.getItemId() )
-								> maxPrice * 2 )
-							{
-								continue;
-							}
-
-							price = StoreManager.getMallPrice( item );
-						}
-					}
-					if ( price > maxPrice ) continue;
-				}
-				else if ( item.getCount( KoLConstants.inventory ) == 0 )
-				{
-					continue;
-				}
-			}
-			
-			if ( price > 0 )
-			{
-				text = text + " (" + KoLConstants.COMMA_FORMAT.format( price ) +
-					" meat, " + 
-					KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
-			}
-			else
-			{
-				text = text + " (" + KoLConstants.MODIFIER_FORMAT.format(
-					delta ) + ")";
-			}
-			MaximizerFrame.boosts.add( new Boost( cmd, text, effect, hasEffect,
-				item, delta, isSpecial ) );
 		}
 		if ( MaximizerFrame.boosts.size() == 0 )
 		{
@@ -2580,8 +2602,6 @@ public class MaximizerFrame
 			}
 			if ( this.isEquipment ) return 0;	// preserve order of addition
 			int rv = Float.compare( other.boost, this.boost );
-			if ( rv == 0 ) rv = other.cmd.compareTo( this.cmd );
-			if ( rv == 0 ) rv = other.text.compareTo( this.text );
 			return rv;
 		}
 		

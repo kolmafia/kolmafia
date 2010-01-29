@@ -1,4 +1,4 @@
-2
+3
 1	Light!	light.gif	29e5ac45852cffc2c37ad392eb87bab7	use 1 birthday candle
 2	Sleepy	sleepy.gif	35b38533640fed03c12460b1dca98e81	use 1 decorative fountain
 3	Confused	confused.gif	d335051a5afb4fa12036998ac13f167b	use 1 Senior Mints
@@ -110,7 +110,7 @@
 109	Whitened Teeth	goldfronts.gif	0f3c00c6477cf3c3ca13602bfee2d863	#clan buff
 110	Hopped Up on Goofballs	hoppedup.gif	061ca4225eeb3189b93a4a6c5e47351e	use 1 goofballs
 111	Goofball Withdrawal	withdraw.gif	29b44ff4d574d3698bb85eb97c4d37bc
-112	Antsy in your Pantsy	syrup.gif	ea9571b76d8c4d7df9ba47e27058bcf2	#maple syrup or sugar-coated pine cone
+112	Antsy in your Pantsy	syrup.gif	ea9571b76d8c4d7df9ba47e27058bcf2	use 1 sugar-coated pine cone|eat 1 maple syrup
 113	Popping Stomach	rockpops.gif	ab4ca3339e28ef091322625f1b62c71b	use 1 Rock Pops
 114	Dwarven Hardiness	happy.gif	99f5e9eb51172bcac524605eace88feb	eat 1 dwarf bread
 115	Apathy	apathy.gif	4ecdbe1ae06dfa3e3caa02cbf3676ffe	use 1 Mr. Mediocrebar
@@ -120,12 +120,12 @@
 119	On the Shoulders of Giants	farout.gif	68ea640257b2b74627e74ce275a555fc	use 1 Hawking's Elixir of Brilliance
 120	Shot in the Arse	shotarse.gif	d65d1192f0638f8f72e2f18b99c33a91
 121	Cock of the Walk	cockghost.gif	4bd0338c8030f6aaa95ea5eda777484c	use 1 Connery's Elixir of Audacity
-122	Eggs-tra Sensory Perception	eggplain.gif	5ca8ae9f3177d3f1bfee8ceccde554b7	use either 1 off-white paisley oyster egg, 1 off-white polka-dot oyster egg, 1 off-white striped oyster egg
-123	Egg-stortionary Tactics	eggplain.gif	3cef8a2a9750292400d4380caacda408	use either 1 black paisley oyster egg, 1 black polka-dot oyster egg, 1 black striped oyster egg
-124	Egg-stra Arm	eggplain.gif	f571d1555a2465e9e8fb0fb3b31b18e5	use 1 yellow striped oyster egg
-125	Egg-headedness	eggplain.gif	e6b783e02fa92072ca81c7585912ba37	use 1 yellow paisley oyster egg
-126	Egg-cellent Vocabulary	eggplain.gif	f7347c1d229420acff2226dac4125a0a	use 1 yellow polka-dot oyster egg
-127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72	#spooky eyeliner/lipstick, gloomy mushroom wine
+122	Eggs-tra Sensory Perception	eggplain.gif	5ca8ae9f3177d3f1bfee8ceccde554b7	chew either 1 off-white paisley oyster egg, 1 off-white polka-dot oyster egg, 1 off-white striped oyster egg
+123	Egg-stortionary Tactics	eggplain.gif	3cef8a2a9750292400d4380caacda408	chew either 1 black paisley oyster egg, 1 black polka-dot oyster egg, 1 black striped oyster egg
+124	Egg-stra Arm	eggplain.gif	f571d1555a2465e9e8fb0fb3b31b18e5	chew 1 yellow striped oyster egg
+125	Egg-headedness	eggplain.gif	e6b783e02fa92072ca81c7585912ba37	chew 1 yellow paisley oyster egg
+126	Egg-cellent Vocabulary	eggplain.gif	f7347c1d229420acff2226dac4125a0a	chew 1 yellow polka-dot oyster egg
+127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72	use either 1 spooky eyeliner, 1 spooky lipstick|drink 1 gloomy mushroom wine
 128	Flower Power	flower.gif	e91ceabee446030ff33cc79d06a8d551	drink 1 shot of flower schnapps
 129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3	eat 1 lihc eye pie
 130	Springy Fusilli	fusilli.gif	bb44871dd165d4dc9b4d35daa46908ef	cast 1 Springy Fusilli
@@ -238,9 +238,9 @@
 237	Radium Radicality	tongue.gif	b1952cfcb421593dfe0a16edd41a913d	use 1 radium-flavored potato chips
 238	Wintergreen Warmongery	angry.gif	33a94f73f343e88ee4b17d18e516bd49	use 1 wintergreen-flavored potato chips
 239	Also Schmeckt Zarathustra	waxlips.gif	40047d675d023d456eca562f0479656a	use 1 ennui-flavored potato chips
-240	Vitamin-Maxed	goofballs.gif	30b35877440e5cc89f36a65b15274a04	use 1 bottle of ultravitamins
-241	Got Your Boots On	boot.gif	4021090627813d8ea662ca050395f338	use 1 tube of hair oil
-242	The Q Is Talking To You	q.gif	4d1451739cd618bf2dcdff61af68ae65	use 1 antique bottle of cough syrup
+240	Vitamin-Maxed	goofballs.gif	30b35877440e5cc89f36a65b15274a04	chew 1 bottle of ultravitamins
+241	Got Your Boots On	boot.gif	4021090627813d8ea662ca050395f338	chew 1 tube of hair oil
+242	The Q Is Talking To You	q.gif	4d1451739cd618bf2dcdff61af68ae65	chew 1 antique bottle of cough syrup
 243	Bad Luck	bmirror.gif	d7d35d7b14c7322fef4ddd80a0847473	use 1 antique hand mirror
 244	Deadly Flashing Blade	blacksword.gif	05bc11c2da34e7f6fe1511ec6850fe2e	use 1 adder bladder
 245	Locks Like the Raven	blackbird2.gif	6d4452e978741bda60e82e316fdd7ba5	use 1 Black No. 2
@@ -523,11 +523,11 @@
 522	New and Improved	exclam.gif	0e37dd043a3b0b8d82b20dc0dc5899e2	gong roach allstats
 523	Extra Sensory Perception	eyes.gif	2cca34cf2648600f341dc5e449af1aa4	gong roach itemdrop
 524	Unpopular	sad.gif	70a42e022a0fe19477d8b1adeed519b5	gong roach ML
-525	Phoenix, Right?	fire.gif	4ccff5c09faa470c287093ff46eac1fd	use 1 glimmering phoenix feather
-526	Antarctic Memories	snowflake.gif	3a2019c428e67db659941f725b51a88a	use 1 glimmering penguin feather
-527	Carrion' On	bonepile.gif	447b7c96f0e5c93fb9a64f92850f0b3e	use 1 glimmering buzzard feather
-528	Melancholy Burden	blackbird1.gif	99d1d6de637d4289842cba0ffc2aec19	use 1 glimmering raven feather
-529	The Great Tit's Blessing	wink.gif	429a69b3cdc061390828454dd06b6825	use 1 glimmering great tit feather
+525	Phoenix, Right?	fire.gif	4ccff5c09faa470c287093ff46eac1fd	chew 1 glimmering phoenix feather
+526	Antarctic Memories	snowflake.gif	3a2019c428e67db659941f725b51a88a	chew 1 glimmering penguin feather
+527	Carrion' On	bonepile.gif	447b7c96f0e5c93fb9a64f92850f0b3e	chew 1 glimmering buzzard feather
+528	Melancholy Burden	blackbird1.gif	99d1d6de637d4289842cba0ffc2aec19	chew 1 glimmering raven feather
+529	The Great Tit's Blessing	wink.gif	429a69b3cdc061390828454dd06b6825	chew 1 glimmering great tit feather
 530	The Ballad of Richie Thingfinder	richie.gif	ff0e9ff0189cea375f60b5860463518d	cast 1 The Ballad of Richie Thingfinder
 531	Benetton's Medley of Diversity	medley.gif	c8d08f07fdafe4308601d97322ca69dd	cast 1 Benetton's Medley of Diversity
 532	Elron's Explosive Etude	etude.gif	26318ef7c75a6bf1fa80584e2e8941b3	cast 1 Elron's Explosive Etude
@@ -641,7 +641,7 @@
 640	Memory of Resilience	mem_res.gif	226bdb08cd448b56097b87754a4c543d	#using GT base pair in combat
 641	Grimace	hernia.gif	e4f1112898cf840ef868a6833fde9f69	eat 1 slimy sweetbreads
 642	Bilious	angry.gif	abe97593a0f3b79395f10a45d782d6fd	drink 1 slimy fermented bile bladder
-643	Slimebreath	breath.gif	02cbec5ae667b2b427d86363b7b7cc63	use 1 slimy alveolus
+643	Slimebreath	breath.gif	02cbec5ae667b2b427d86363b7b7cc63	chew 1 slimy alveolus
 644	Serenity	snowflakes.gif	f76cecbb61243d7dd7425fec99082980	#adv in Seaside Megalopolis
 645	Phairly Pheromonal	stench.gif	6e0ad7f808c7e80f85b1920c7e94b3e2	#adv in Seaside Megalopolis
 646	Nano-juiced	strboost.gif	21f5a7cc7499b3e93f8da7c8e7bb2746	#adv in Seaside Megalopolis

@@ -37,7 +37,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -164,11 +166,46 @@ public class EffectDatabase
 	public static final String getDefaultAction( final String effectName )
 	{
 		String rv = StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
-		if ( rv != null && rv.startsWith( "#" ) )
-		{	// Callers of this API expect an actual command, not a note.
-			rv = null;
+		if ( rv == null )
+		{
+			return null;
 		}
-		return rv;
+		if ( rv.startsWith( "#" ) )
+		{	// Callers of this API expect an actual command, not a note.
+			return null;
+		}
+		return rv.split( "\\|" )[0];
+	}
+
+	public static final Iterator getAllActions( final String effectName )
+	{
+		String actions = StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		if ( actions == null )
+		{
+			return Collections.EMPTY_LIST.iterator();
+		}
+		ArrayList rv = new ArrayList();
+		String[] pieces = actions.split( "\\|" );
+		for ( int i = 0; i < pieces.length; ++i )
+		{
+			String action = pieces[ i ];
+			String[] either = action.split( " ", 3 );
+			if ( either.length == 3 && either[ 1 ].equals( "either" ) )
+			{	// Split commands like "use either X, Y" into "use X", "use Y"
+				String cmd = either[ 0 ];
+				either = either[ 2 ].split( "\\s*,\\s*" );
+				for ( int j = 0; j < either.length; ++j )
+				{
+					rv.add( cmd + " " + either[ j ] );
+				}
+			}
+			else
+			{
+				rv.add( action );
+			}
+		}
+			
+		return rv.iterator();
 	}
 
 	public static final String getActionNote( final String effectName )
