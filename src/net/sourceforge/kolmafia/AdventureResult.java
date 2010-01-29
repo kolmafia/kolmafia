@@ -235,10 +235,6 @@ public class AdventureResult
 		else
 		{
 			this.name = new String( this.name );
-			if ( StaticEntity.getClient() != null )
-			{
-				RequestLogger.printLine( "Unknown effect found: " + this.name );
-			}
 		}
 	}
 

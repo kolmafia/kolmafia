@@ -839,27 +839,31 @@ public abstract class SorceressLairManager
 				return false;
 			}
 
-			// We want to remove unpleasant effects created by
-			// consuming items used to pass the gates.
-			//
-			// Wussiness - removed by tiny house
-			// Hardly Poisoned at All - removed by tiny house
-			//
-			// Teleportitis - removed by universal remedy
-
-			if ( KoLConstants.activeEffects.contains( SorceressLairManager.WUSSINESS ) || KoLConstants.activeEffects.contains( SorceressLairManager.HARDLY_POISONED ) )
+			if ( Preferences.getBoolean( "removeMalignantEffects" ) )
 			{
-				if ( InventoryManager.hasItem( UneffectRequest.TINY_HOUSE ) )
+				// We want to remove unpleasant effects created by
+				// consuming items used to pass the gates.
+				//
+				// Wussiness - removed by tiny house
+				// Hardly Poisoned at All - removed by tiny house
+				//
+				// Teleportitis - removed by universal remedy
+
+				if ( KoLConstants.activeEffects.contains( SorceressLairManager.WUSSINESS ) ||
+				     KoLConstants.activeEffects.contains( SorceressLairManager.HARDLY_POISONED ) )
 				{
-					RequestThread.postRequest( new UseItemRequest( UneffectRequest.TINY_HOUSE ) );
+					if ( InventoryManager.hasItem( UneffectRequest.TINY_HOUSE ) )
+					{
+						RequestThread.postRequest( new UseItemRequest( UneffectRequest.TINY_HOUSE ) );
+					}
 				}
-			}
 
-			if ( KoLConstants.activeEffects.contains( SorceressLairManager.TELEPORTITIS ) )
-			{
-				if ( InventoryManager.hasItem( UneffectRequest.REMEDY ) )
+				if ( KoLConstants.activeEffects.contains( SorceressLairManager.TELEPORTITIS ) )
 				{
-					RequestThread.postRequest( new UneffectRequest( SorceressLairManager.TELEPORTITIS ) );
+					if ( InventoryManager.hasItem( UneffectRequest.REMEDY ) )
+					{
+						RequestThread.postRequest( new UneffectRequest( SorceressLairManager.TELEPORTITIS ) );
+					}
 				}
 			}
 		}
