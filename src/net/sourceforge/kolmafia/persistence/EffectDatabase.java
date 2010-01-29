@@ -95,6 +95,11 @@ public class EffectDatabase
 			if ( data.length >= 3 )
 			{
 				Integer effectId = Integer.valueOf( data[ 0 ] );
+				if ( effectId.intValue() < 0 )
+				{
+					continue;
+				}
+
 				String name = data[ 1 ];
 				String image = data[ 2 ];
 				String descId = data.length > 3 ? data[ 3 ] : null;
@@ -113,7 +118,7 @@ public class EffectDatabase
 					EffectDatabase.addToDatabase(
 						new Integer( -2 ),
 						"Temporary Blindness (intrinsic)",
-						image, descId, defaultAction );
+						image, null, defaultAction );
 				}
 			}
 		}
