@@ -2310,7 +2310,9 @@ public class Modifiers
 		
 		public Expression( String text, String name )
 		{
-			if ( text.indexOf( "T" ) != -1 )
+			// The first check also matches "[zone(The Slime Tube)]"
+			// Hence the second check.
+			if ( text.indexOf( "T" ) != -1 && EffectDatabase.contains( name ) )
 			{
 				this.effect = new AdventureResult( name, 0, true );
 			}
