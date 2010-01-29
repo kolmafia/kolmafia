@@ -228,7 +228,7 @@ public class AdventureResult
 		}
 
 		int effectId = EffectDatabase.getEffectId( this.name );
-		if ( effectId > 0 )
+		if ( effectId != -1 )
 		{
 			this.name = EffectDatabase.getEffectName( effectId );
 		}
