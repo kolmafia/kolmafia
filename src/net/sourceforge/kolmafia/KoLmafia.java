@@ -897,6 +897,11 @@ public abstract class KoLmafia
 		RequestThread.postRequest( new AccountRequest() );
 		RequestThread.postRequest( new QuestLogRequest() );
 
+		// Retrieve the list of familiars which are available to
+		// the player.
+
+		RequestThread.postRequest( new FamiliarRequest() );
+
 		// Retrieve the contents of the closet and inventory
 
 		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
@@ -908,11 +913,6 @@ public abstract class KoLmafia
 		{
 			return;
 		}
-
-		// Retrieve the list of familiars which are available to
-		// the player.
-
-		RequestThread.postRequest( new FamiliarRequest() );
 
 		// Retrieve campground data to see if the user has box servants
 		// or a bookshelf

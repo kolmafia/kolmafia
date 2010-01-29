@@ -86,6 +86,7 @@ public class FamiliarData
 	private int experience;
 	private int weight;
 	private AdventureResult item;
+	private boolean feasted;
 
 	public FamiliarData( final int id )
 	{
@@ -100,6 +101,7 @@ public class FamiliarData
 
 		this.weight = weight;
 		this.item = item;
+		this.feasted = false;
 	}
 
 	private FamiliarData( final Matcher dataMatcher )
@@ -132,6 +134,26 @@ public class FamiliarData
 	{
 		int max = this.id == FamiliarPool.STOCKING_MIMIC ? 100 : 20;
 		this.weight = Math.max( Math.min( max, (int) Math.sqrt( this.experience ) ), 1 );
+	}
+
+	public final void checkWeight( final int weight, final boolean feasted )
+	{
+		// Sanity check: don't adjust NO_FAMILIAR
+		if ( this.id == -1 )
+		{
+			return;
+		}
+
+		// Called from CharPaneRequest with KoL's idea of current
+		// familiar's weight and "well-fed" status.
+		this.feasted = feasted;
+
+		int delta = weight - this.getModifiedWeight();
+		if ( delta != 0 )
+		{
+			RequestLogger.printLine( "Adjusting familiar weight by " + delta + " pound" + ( delta == 1 ? "" : "s" ) );
+			this.weight += delta;
+		}
 	}
 
 	public final void setName( final String name )
@@ -340,6 +362,12 @@ public class FamiliarData
 		if ( percent != 0.0f )
 		{
 			weight = (int) Math.floor( weight + weight * percent );
+		}
+
+		// If the familiar is well-fed, it's 10 lbs. heavier
+		if ( this.feasted )
+		{
+			weight += 10;
 		}
 
 		return Math.max( 1, weight );
