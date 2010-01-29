@@ -707,3 +707,9 @@
 706	Peppermint Bite	pepperbark.gif	f482ecd34cc9464a7adb58a4c6fa37df	use 1 Crimbo peppermint bark
 707	Busy Bein' Delicious	fudge.gif	ec9debcc915fb7e165db0b4b59ea9fef	use 1 Crimbo fudge
 708	Sweet, Nuts	pecan.gif	5ef598b1c3f3281266d542d4790448a4	use 1 Crimbo candies pecan
+709
+710
+711
+712
+713
+714	Having a Ball!	plasticball.gif	b806c288732675bf60db7b948d748320

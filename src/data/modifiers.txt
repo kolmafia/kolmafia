@@ -2208,6 +2208,8 @@ Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
 Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+# Having a Ball!: percentages are [max(1,floor(colorful plastic balls/100))]
+Having a Ball!	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0
 Head on Fire, Ass Catching	Initiative: +10
 Healthy Bronze Glow	Moxie Percent: +50
 Healthy Green Glow	Familiar Weight: +10

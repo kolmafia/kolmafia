@@ -57,6 +57,7 @@ public class ClanRumpusRequest
 	public static final int MOXIE = 3;
 	public static final int SOFA = 4;
 	public static final int CHIPS = 5;
+	public static final int BALLS = 6;
 
 	private static final Pattern TURN_PATTERN = Pattern.compile( "numturns=(\\d+)" );
 
@@ -96,7 +97,9 @@ public class ClanRumpusRequest
 		// Row 2, Column 3: Spot 6
 		{},
 		// Row 3, Column 1: Spot 7
-		{},
+		{
+			"Awesome Ball Pit",
+		},
 		// Row 3, Column 2: Spot 8
 		{},
 		// Row 3, Column 3: Spot 9
@@ -122,7 +125,7 @@ public class ClanRumpusRequest
 		// Row 2, Column 3: Spot 6
 		{},
 		// Row 3, Column 1: Spot 7
-		{},
+		{ 0 },
 		// Row 3, Column 2: Spot 8
 		{},
 		// Row 3, Column 3: Spot 9
@@ -277,6 +280,11 @@ public class ClanRumpusRequest
 			this.constructURLString( "clan_rumpus.php" );
 			this.addFormField( "preaction", "buychips" );
 			this.addFormField( "whichbag", String.valueOf( this.option ) );
+			break;
+
+		case BALLS:
+			this.constructURLString( "clan_rumpus.php" );
+			this.addFormField( "preaction", "ballpit" );
 			break;
 
 		default:
@@ -445,6 +453,14 @@ public class ClanRumpusRequest
 		if ( urlString.indexOf( "action=buychips" ) != -1 )
 		{
 			String message = "Buying chips from Snack Machine in clan rumpus room";
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			return true;
+		}
+
+		if ( urlString.indexOf( "preaction=ballpit" ) != -1 )
+		{
+			String message = "Jumping into Awesome Ball Pit in clan rumpus room";
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 			return true;
