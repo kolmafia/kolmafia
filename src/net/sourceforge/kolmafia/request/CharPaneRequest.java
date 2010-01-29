@@ -188,6 +188,7 @@ public class CharPaneRequest
 
 		CharPaneRequest.refreshEffects( responseText );
 		KoLCharacter.recalculateAdjustments();
+		CharPaneRequest.checkFamiliar( responseText );
 		KoLCharacter.updateStatus();
 
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
@@ -260,9 +261,23 @@ public class CharPaneRequest
 	{
 		try
 		{
-			CharPaneRequest.handleStatPoints( responseText, "Mus", "Mys", "Mox" );
-			CharPaneRequest.handleMiscPoints( responseText, "HP", "MP", "Meat", "Adv", "", "<b>", "</b>" );
-			CharPaneRequest.handleMindControl( responseText, "MC", "Radio", "AOT5K", "HH" );
+			CharPaneRequest.handleStatPoints( responseText, CharPaneRequest.compactStatsPattern );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		try
+		{
+			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.compactMiscPattern );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		try
+		{
+			CharPaneRequest.handleMindControl( responseText, CharPaneRequest.compactMCPatterns );
 		}
 		catch ( Exception e )
 		{
@@ -274,10 +289,23 @@ public class CharPaneRequest
 	{
 		try
 		{
-			CharPaneRequest.handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
-			CharPaneRequest.handleMiscPoints(
-				responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
-			CharPaneRequest.handleMindControl( responseText, "Mind Control", "Detuned Radio", "Annoy-o-Tron 5k", "Heartbreaker's" );
+			CharPaneRequest.handleStatPoints( responseText, CharPaneRequest.expandedStatsPattern );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		try
+		{
+			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.expandedMiscPattern );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		try
+		{
+			CharPaneRequest.handleMindControl( responseText, CharPaneRequest.expandedMCPatterns );
 		}
 		catch ( Exception e )
 		{
@@ -285,116 +313,141 @@ public class CharPaneRequest
 		}
 	}
 
-	private static final void handleStatPoints( final String responseText, final String musString,
-		final String mysString, final String moxString )
-		throws Exception
+	private static final Pattern makeStatPattern( final String musString, final String mysString, final String moxString )
 	{
-		int[] modified = new int[ 3 ];
-
-		Matcher statMatcher =
-			Pattern.compile(
-				musString + ".*?<b>(.*?)</b>.*?" + mysString + ".*?<b>(.*?)</b>.*?" + moxString + ".*?<b>(.*?)</b>" ).matcher(
-				responseText );
-
-		if ( statMatcher.find() )
-		{
-			for ( int i = 0; i < 3; ++i )
-			{
-				Matcher modifiedMatcher =
-					Pattern.compile( "<font color=blue>(\\d+)</font>&nbsp;\\((\\d+)\\)" ).matcher(
-						statMatcher.group( i + 1 ) );
-
-				if ( modifiedMatcher.find() )
-				{
-					modified[ i ] = StringUtilities.parseInt( modifiedMatcher.group( 1 ) );
-				}
-				else
-				{
-					modified[ i ] =
-						StringUtilities.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll(
-							"[^\\d]+", "" ) );
-				}
-			}
-
-			KoLCharacter.setStatPoints(
-				modified[ 0 ], KoLCharacter.getTotalMuscle(), modified[ 1 ], KoLCharacter.getTotalMysticality(),
-				modified[ 2 ], KoLCharacter.getTotalMoxie() );
-		}
+		return Pattern.compile( musString + ".*?<b>(.*?)</b>.*?" + mysString + ".*?<b>(.*?)</b>.*?" + moxString + ".*?<b>(.*?)</b>" );
 	}
 
-	private static final void handleMiscPoints( final String responseText, final String hpString,
-		final String mpString, final String meatString, final String advString, final String spacer,
-		final String openTag, final String closeTag )
+	private static Pattern compactStatsPattern =
+		CharPaneRequest.makeStatPattern( "Mus", "Mys", "Mox" );
+	private static Pattern expandedStatsPattern =
+		CharPaneRequest.makeStatPattern( "Muscle", "Mysticality", "Moxie" );
+
+	private static Pattern modifiedPattern =
+		Pattern.compile( "<font color=blue>(\\d+)</font>&nbsp;\\((\\d+)\\)" );
+
+	private static final void handleStatPoints( final String responseText, final Pattern pattern )
+		throws Exception
+	{
+		Matcher statMatcher = pattern.matcher( responseText );
+		if ( !statMatcher.find() )
+		{
+			return;
+		}
+
+		int[] modified = new int[ 3 ];
+		for ( int i = 0; i < 3; ++i )
+		{
+			Matcher modifiedMatcher = modifiedPattern.matcher( statMatcher.group( i + 1 ) );
+
+			if ( modifiedMatcher.find() )
+			{
+				modified[ i ] = StringUtilities.parseInt( modifiedMatcher.group( 1 ) );
+			}
+			else
+			{
+				modified[ i ] =
+					StringUtilities.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll(
+									  "[^\\d]+", "" ) );
+			}
+		}
+
+		KoLCharacter.setStatPoints( modified[ 0 ],
+					    KoLCharacter.getTotalMuscle(),
+					    modified[ 1 ],
+					    KoLCharacter.getTotalMysticality(),
+					    modified[ 2 ],
+					    KoLCharacter.getTotalMoxie() );
+	}
+
+	private static final Pattern makeMiscPattern( final String hpString, final String mpString,
+						      final String meatString, final String advString,
+						      final String spacer, final String openTag, final String closeTag )
+	{
+		return Pattern.compile( hpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" + mpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" + meatString + ".*?" + openTag + "(.*?)" + closeTag + ".*?" + advString + ".*?" + openTag + "(.*?)" + closeTag );
+	}
+
+	private static Pattern compactMiscPattern =
+		CharPaneRequest.makeMiscPattern( "HP", "MP", "Meat", "Adv", "", "<b>", "</b>" );
+	private static Pattern expandedMiscPattern =
+		CharPaneRequest.makeMiscPattern( "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
+
+	private static final void handleMiscPoints( final String responseText, final Pattern pattern )
 		throws Exception
 	{
 		// On the other hand, health and all that good stuff is
 		// complicated, has nested images, and lots of other weird
 		// stuff. Handle it in a non-modular fashion.
 
-		Matcher miscMatcher =
-			Pattern.compile(
-				hpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" + mpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" + meatString + ".*?" + openTag + "(.*?)" + closeTag + ".*?" + advString + ".*?" + openTag + "(.*?)" + closeTag ).matcher(
-				responseText );
+		Matcher miscMatcher = pattern.matcher( responseText );
 
-		if ( miscMatcher.find() )
+		if ( !miscMatcher.find() )
 		{
-			String currentHP = miscMatcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-			String maximumHP = miscMatcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+                        return;
+                }
 
-			String currentMP = miscMatcher.group( 3 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-			String maximumMP = miscMatcher.group( 4 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+                String currentHP = miscMatcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+                String maximumHP = miscMatcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
-			KoLCharacter.setHP(
-				StringUtilities.parseInt( currentHP ), StringUtilities.parseInt( maximumHP ),
-				StringUtilities.parseInt( maximumHP ) );
-			KoLCharacter.setMP(
-				StringUtilities.parseInt( currentMP ), StringUtilities.parseInt( maximumMP ),
-				StringUtilities.parseInt( maximumMP ) );
+                String currentMP = miscMatcher.group( 3 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+                String maximumMP = miscMatcher.group( 4 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
-			String availableMeat = miscMatcher.group( 5 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-			KoLCharacter.setAvailableMeat( StringUtilities.parseInt( availableMeat ) );
+                KoLCharacter.setHP( StringUtilities.parseInt( currentHP ),
+                                    StringUtilities.parseInt( maximumHP ),
+                                    StringUtilities.parseInt( maximumHP ) );
+                KoLCharacter.setMP( StringUtilities.parseInt( currentMP ),
+                                    StringUtilities.parseInt( maximumMP ),
+                                    StringUtilities.parseInt( maximumMP ) );
 
-			String adventuresLeft = miscMatcher.group( 6 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-			int oldAdventures = KoLCharacter.getAdventuresLeft();
-			int newAdventures = StringUtilities.parseInt( adventuresLeft );
-			ResultProcessor.processAdventures( newAdventures - oldAdventures );
-		}
+                String availableMeat = miscMatcher.group( 5 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+                KoLCharacter.setAvailableMeat( StringUtilities.parseInt( availableMeat ) );
+
+                String adventuresLeft = miscMatcher.group( 6 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+                int oldAdventures = KoLCharacter.getAdventuresLeft();
+                int newAdventures = StringUtilities.parseInt( adventuresLeft );
+                ResultProcessor.processAdventures( newAdventures - oldAdventures );
 	}
 
-	private static final void handleMindControl( final String text, final String string1, final String string2, final String string3, final String string4 )
+	private static final void handleMindControl( final String text, final Pattern [] patterns )
 	{
-		int level = CharPaneRequest.handleMindControl( text, string1 );
-		if ( level > 0 )
+		for ( int i = 0; i < patterns.length; ++i )
 		{
-			KoLCharacter.setMindControlLevel( level );
-			return;
+			int level = CharPaneRequest.handleMindControl( text, patterns[i] );
+			if ( level > 0 )
+			{
+				KoLCharacter.setMindControlLevel( level );
+				return;
+			}
 		}
-		level = CharPaneRequest.handleMindControl( text, string2 );
-		if ( level > 0 )
-		{
-			KoLCharacter.setMindControlLevel( level );
-			return;
-		}
-		level = CharPaneRequest.handleMindControl( text, string3 );
-		if ( level > 0 )
-		{
-			KoLCharacter.setMindControlLevel( level );
-			return;
-		}
-		level = CharPaneRequest.handleMindControl( text, string4 );
-		if ( level > 0 )
-		{
-			KoLCharacter.setMindControlLevel( level );
-			return;
-		}
+
 		KoLCharacter.setMindControlLevel( 0 );
 	}
 
-	private static final int handleMindControl( final String responseText, final String mcString )
+	private static final Pattern makeMCPattern( final String mcString )
 	{
-		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
+		return Pattern.compile( mcString + "</a>: ?(?:</td><td>)?<b>(\\d+)</b>" );
+	}
 
-		return matcher.find() ? StringUtilities.parseInt( matcher.group( 2 ) ) : 0;
+        private static Pattern [] compactMCPatterns =
+        {
+                CharPaneRequest.makeMCPattern( "MC" ),
+                CharPaneRequest.makeMCPattern( "Radio" ),
+                CharPaneRequest.makeMCPattern( "AOT5K" ),
+                CharPaneRequest.makeMCPattern( "HH" ),
+        };
+
+        private static Pattern [] expandedMCPatterns =
+        {
+                CharPaneRequest.makeMCPattern( "Mind Control" ),
+                CharPaneRequest.makeMCPattern( "Detuned Radio" ),
+                CharPaneRequest.makeMCPattern( "Annoy-o-Tron 5k" ),
+                CharPaneRequest.makeMCPattern( "Heartbreaker's" ),
+        };
+
+	private static final int handleMindControl( final String responseText, final Pattern pattern )
+	{
+		Matcher matcher = pattern.matcher( responseText );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
 	public static final AdventureResult extractEffect( final String responseText, int searchIndex )
@@ -517,6 +570,25 @@ public class CharPaneRequest
 		else if ( absintheCount > 0 )
 		{
 			TurnCounter.startCounting( absintheCount - 1, "Wormwood loc=151 loc=152 loc=153 wormwood.php", "tinybottle.gif" );
+		}
+	}
+
+	private static Pattern compactFamiliarPattern =
+		Pattern.compile( "<br>([\\d]+) lb" );
+	private static Pattern expandedFamiliarPattern =
+		Pattern.compile( "<b>([\\d]+)</b> pound" );
+
+	private static final void checkFamiliar( final String responseText )
+	{
+		Pattern pattern = GenericRequest.compactCharacterPane ?
+			CharPaneRequest.compactFamiliarPattern :
+			CharPaneRequest.expandedFamiliarPattern;
+		Matcher familiarMatcher = pattern.matcher( responseText );
+		if ( familiarMatcher.find() )
+		{
+			int weight = StringUtilities.parseInt( familiarMatcher.group(1) );
+			boolean feasted = responseText.indexOf( "well-fed" ) != -1;
+			KoLCharacter.getFamiliar().checkWeight( weight, feasted );
 		}
 	}
 }

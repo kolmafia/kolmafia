@@ -1769,6 +1769,8 @@ miniature gravy-covered maypole	Item Drop: +25, Softcore Only
 miniature tophat	Familiar Weight: +5
 mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moonglasses: Makes Familiar Less Sensitive to Light
+# moveable feast: Familiar gains 1 extra experience per Adventure
+# moveable feast: Familiar will start food fights!
 moveable feast	Familiar Weight: +5, Softcore Only
 # origami &quot;gentlemen's&quot; magazine: + 10 lbs. of Ghuol Whelp
 origami &quot;gentlemen's&quot; magazine	Softcore Only
