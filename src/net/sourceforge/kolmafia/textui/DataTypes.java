@@ -215,16 +215,28 @@ public class DataTypes
 		return null;
 	}
 
-	public static final Value parseIntValue( final String name )
-		throws NumberFormatException
+	public static final Value parseIntValue( final String name, final boolean returnDefault )
 	{
-		return new Value( StringUtilities.parseIntInternal1( name, true ) );
+		try
+		{
+			return new Value( StringUtilities.parseIntInternal1( name, true ) );
+		}
+		catch ( NumberFormatException e )
+		{
+			return returnDefault ? DataTypes.ZERO_VALUE : null;
+		}
 	}
 
-	public static final Value parseFloatValue( final String name )
-		throws NumberFormatException
+	public static final Value parseFloatValue( final String name, final boolean returnDefault )
 	{
-		return new Value( StringUtilities.parseFloat( name ) );
+		try
+		{
+			return new Value( StringUtilities.parseFloat( name ) );
+		}
+		catch ( NumberFormatException e )
+		{
+			return returnDefault ? DataTypes.ZERO_FLOAT_VALUE : null;
+		}
 	}
 
 	public static final Value parseStringValue( final String name )

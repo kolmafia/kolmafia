@@ -152,9 +152,9 @@ public class Type
 		case DataTypes.TYPE_BOOLEAN:
 			return DataTypes.parseBooleanValue( name, returnDefault );
 		case DataTypes.TYPE_INT:
-			return DataTypes.parseIntValue( name );
+			return DataTypes.parseIntValue( name, returnDefault );
 		case DataTypes.TYPE_FLOAT:
-			return DataTypes.parseFloatValue( name );
+			return DataTypes.parseFloatValue( name, returnDefault );
 		case DataTypes.TYPE_STRING:
 			return DataTypes.parseStringValue( name );
 		case DataTypes.TYPE_ITEM:

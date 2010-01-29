@@ -1541,7 +1541,17 @@ public abstract class RuntimeLibrary
 	{
 		if ( value.getType().equals( DataTypes.TYPE_STRING ) )
 		{
-			return DataTypes.parseFloatValue( value.toString() );
+			String string = value.toString();
+			try
+			{
+				return new Value( StringUtilities.parseFloat( string ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				Exception ex = LibraryFunction.interpreter.runtimeException( "The string \"" + string + "\" is not a float; returning 0.0" );
+				RequestLogger.printLine( ex.getMessage() );
+				return DataTypes.ZERO_FLOAT_VALUE;
+			}
 		}
 
 		if ( value.intValue() != 0 )
@@ -2134,7 +2144,7 @@ public abstract class RuntimeLibrary
 		{
 			value.aset(
 				DataTypes.parseItemValue( items[i].getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ) ) );
+				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ), true ) );
 		}
 
 		return value;
@@ -2151,7 +2161,7 @@ public abstract class RuntimeLibrary
 		{
 			value.aset(
 				DataTypes.parseItemValue( items[i].getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ) ) );
+				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ), true ) );
 		}
 
 		return value;
@@ -2933,7 +2943,7 @@ public abstract class RuntimeLibrary
 			{
 				value.aset(
 					DataTypes.parseItemValue( result.getName(), true ),
-					DataTypes.parseIntValue( String.valueOf( result.getCount() ) ) );
+					DataTypes.parseIntValue( String.valueOf( result.getCount() ), true ) );
 			}
 		}
 
@@ -3928,7 +3938,7 @@ public abstract class RuntimeLibrary
 			result = (AdventureResult) data.get( i );
 			value.aset(
 				DataTypes.parseItemValue( result.getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ) ) );
+				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
 		}
 
 		return value;
@@ -3947,7 +3957,7 @@ public abstract class RuntimeLibrary
 			result = (AdventureResult) data.get( i );
 			value.aset(
 				DataTypes.parseItemValue( result.getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ) ) );
+				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
 		}
 
 		return value;
