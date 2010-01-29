@@ -115,7 +115,10 @@ public class Speculation
 
 	public void addEffect( AdventureResult effect )
 	{
-		this.effects.add( effect );
+		if ( !this.effects.contains( effect ) )
+		{
+			this.effects.add( effect );
+		}
 	}
 
 	public void removeEffect( AdventureResult effect )
