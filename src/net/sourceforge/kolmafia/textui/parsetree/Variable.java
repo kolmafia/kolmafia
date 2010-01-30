@@ -66,6 +66,11 @@ public class Variable
 		return this.type;
 	}
 
+	public Type getBaseType()
+	{
+		return this.type.getBaseType();
+	}
+
 	public Value getValue( final Interpreter interpreter )
 	{
 		if ( this.expression != null )
@@ -114,33 +119,27 @@ public class Variable
 
 	public void setValue( Interpreter interpreter, final Value targetValue )
 	{
-		if ( this.getType().equals( targetValue.getType() ) )
+		if ( this.getBaseType().equals( targetValue.getType() ) )
 		{
 			this.content = targetValue;
 			this.expression = null;
 		}
-		else if ( this.getType().equals( DataTypes.TYPE_STRING ) )
+		else if ( this.getBaseType().equals( DataTypes.TYPE_STRING ) )
 		{
 			this.content = targetValue.toStringValue();
 			this.expression = null;
 		}
-		else if ( this.getType().equals( DataTypes.TYPE_INT ) && targetValue.getType().equals( DataTypes.TYPE_FLOAT ) )
+		else if ( this.getBaseType().equals( DataTypes.TYPE_INT ) && targetValue.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
 			this.content = targetValue.toIntValue();
 			this.expression = null;
 		}
-		else if ( this.getType().equals( DataTypes.TYPE_FLOAT ) && targetValue.getType().equals( DataTypes.TYPE_INT ) )
+		else if ( this.getBaseType().equals( DataTypes.TYPE_FLOAT ) && targetValue.getType().equals( DataTypes.TYPE_INT ) )
 		{
 			this.content = targetValue.toFloatValue();
 			this.expression = null;
 		}
-		else if ( this.getType().equals( DataTypes.TYPE_ANY ) )
-		{
-			this.content = targetValue;
-			this.expression = null;
-		}
-		else if ( this.getType().getBaseType().equals( DataTypes.TYPE_AGGREGATE ) &&
-			  targetValue.getType().getBaseType().equals( DataTypes.TYPE_AGGREGATE ) )
+		else if ( this.getBaseType().equals( DataTypes.TYPE_ANY ) )
 		{
 			this.content = targetValue;
 			this.expression = null;

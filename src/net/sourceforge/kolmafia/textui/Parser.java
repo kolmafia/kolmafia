@@ -2770,7 +2770,7 @@ public class Parser
 					throw this.parseException( "Index for '" + var.getName() + "' expected" );
 				}
 
-				if ( !index.getType().equals( atype.getIndexType() ) )
+				if ( !index.getType().getBaseType().equals( atype.getIndexType().getBaseType() ) )
 				{
 					throw this.parseException(
 						"Index for '" + var.getName() + "' has wrong data type " + "(expected " + atype.getIndexType() + ", got " + index.getType() + ")" );
