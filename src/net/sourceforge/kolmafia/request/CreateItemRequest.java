@@ -74,7 +74,7 @@ public class CreateItemRequest
 	public static final Pattern CRAFT_PATTERN_2 = Pattern.compile( "steps\\[\\]=(\\d+),(\\d+)" );
 	
 	public static final Pattern CRAFT_COMMENT_PATTERN =
-		Pattern.compile( "<!-- ?cr:(\\d+)x(\\d+),(\\d+)=(\\d+) ?-->" );
+		Pattern.compile( "<!-- ?cr:(\\d+)x(-?\\d+),(-?\\d+)=(\\d+) ?-->" );
 	// 1=quantity, 2,3=items used, 4=result (redundant)
 	public static final Pattern DISCOVERY_PATTERN = Pattern.compile( "descitem\\((\\d+)\\);" );
 
@@ -591,17 +591,38 @@ public class CreateItemRequest
 		m = CRAFT_COMMENT_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
+			// item ids can be -1, if crafting uses a single item
 			int qty = StringUtilities.parseInt( m.group( 1 ) );
 			int item1 = StringUtilities.parseInt( m.group( 2 ) );
 			int item2 = StringUtilities.parseInt( m.group( 3 ) );
-			ResultProcessor.processItem( item1, -qty );
-			ResultProcessor.processItem( item2, -qty );
+			if ( item1 > 0 )
+			{
+				ResultProcessor.processItem( item1, -qty );
+			}
+			if ( item2 > 0 )
+			{
+				ResultProcessor.processItem( item2, -qty );
+			}
 			if ( paste )
 			{
 				ResultProcessor.processItem( ItemPool.MEAT_PASTE, -qty );
 			}
-			RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
-				ItemDatabase.getItemName( item1 ) + " and " + ItemDatabase.getItemName( item2 ) );	
+			if ( item1 < 0 )
+			{
+				RequestLogger.updateSessionLog( "Crafting used " + qty +
+								ItemDatabase.getItemName( item2 ) );
+			}
+			else if ( item2 < 0 )
+			{
+				RequestLogger.updateSessionLog( "Crafting used " + qty +
+								ItemDatabase.getItemName( item1 ) );
+			}
+			else
+			{
+				RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
+								ItemDatabase.getItemName( item1 ) + " and " + 
+								ItemDatabase.getItemName( item2 ) );
+			}
 			String pref = "unknownRecipe" + m.group( 4 );
 			if ( Preferences.getBoolean( pref ) )
 			{
@@ -1198,12 +1219,16 @@ public class CreateItemRequest
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
+			AdventureResult item = ingredients[i];
+			if ( item.getItemId() == 0 )
+			{
+				continue;
+			}
+
 			if ( i > 0 )
 			{
 				command.append( " + " );
 			}
-
-			AdventureResult item = ingredients[i];
 
 			command.append( quantity );
 			command.append( ' ' );
