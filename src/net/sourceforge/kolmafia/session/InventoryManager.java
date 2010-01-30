@@ -200,7 +200,11 @@ public abstract class InventoryManager
 		int itemId = item.getItemId();
 		int availableCount = 0;
 
-		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
+		if ( itemId == 0 )
+		{
+			return true;
+		}
+		else if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
 			availableCount = HermitRequest.getWorthlessItemCount();
 		}
