@@ -117,7 +117,6 @@ global	relayAddsUseLinks	true
 global	relayAddsWikiLinks	false
 global	relayAllowsOverrides	false
 global	relayBrowserOnly	false
-global	relayBrowserOnly	false
 global	relayFormatsChatText	true
 global	relayHidesJunkMallItems	true
 global	relayMaintainsEffects	false
@@ -474,9 +473,9 @@ user	sidequestLighthouseCompleted	none
 user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
 user	skateParkStatus	war
-user	skillLevel46	2
-user	skillLevel47	1
-user	skillLevel48	2
+user	skillLevel46	0
+user	skillLevel47	0
+user	skillLevel48	0
 user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false
