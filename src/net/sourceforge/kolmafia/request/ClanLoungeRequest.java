@@ -36,20 +36,20 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanLoungeRequest
 	extends GenericRequest
 {
-	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
-
 	private static final int SEARCH = 0;
 
 	public static final int KLAW = 1;
@@ -87,6 +87,39 @@ public class ClanLoungeRequest
 		super( "clan_viplounge.php" );
 		this.action = action;
 		this.option = option;
+	}
+
+	public static final AdventureResult VIP_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
+	private static final GenericRequest VIP_KEY_REQUEST =
+		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { ClanLoungeRequest.VIP_KEY } );
+	private static final GenericRequest VISIT_REQUEST = new ClanLoungeRequest();
+
+	private static void pullVIPKey()
+	{
+		if ( VIP_KEY.getCount( KoLConstants.inventory ) > 0 )
+		{
+			return;
+		}
+
+		// If you have a VIP Lounge Key in storage, pull it.
+		if ( VIP_KEY.getCount( KoLConstants.storage ) > 0 )
+		{
+			RequestThread.postRequest( VIP_KEY_REQUEST );
+		}
+	}
+
+	public static void visitLounge()
+	{
+		// Pull a key from storage, if necessary
+		ClanLoungeRequest.pullVIPKey();
+
+		// If we have no Clan VIP Lounge key, nothing to do
+		if ( VIP_KEY.getCount( KoLConstants.inventory ) == 0 )
+		{
+			return;
+		}
+
+		RequestThread.postRequest( VISIT_REQUEST );
 	}
 
 	/**
@@ -180,13 +213,17 @@ public class ClanLoungeRequest
 			return;
 		}
 
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 
-		// We have nothing special to do for simple visits.
-
+		// For a simple visit, look at the Crimbo tree and report on
+		// whether there is a present waiting.
 		if ( action == null )
 		{
+			if ( responseText.indexOf( "tree5.gif" ) != -1 )
+			{
+				RequestLogger.printLine( "You have a present under the Crimbo tree in your clan's VIP lounge!" );
+			}
 			return;
 		}
 
