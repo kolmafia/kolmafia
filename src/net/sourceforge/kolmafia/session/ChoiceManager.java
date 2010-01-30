@@ -1278,6 +1278,8 @@ public abstract class ChoiceManager
 		// Choice 432 is Don We Now Our Bright Apparel
 		// Choice 433 is Everything is Illuminated?
 		// Choice 435 is Season's Beatings
+
+		// Choice 438 is From Little Acorns...
 	};
 
 	static
@@ -1751,6 +1753,10 @@ public abstract class ChoiceManager
 		  new AdventureResult( "dull fish scale", -10 ) },
 		{ new Integer(310), new Integer(2),
 		  new AdventureResult( "rough fish scale", -10 ) },
+
+		// From Little Acorns...
+		{ new Integer(438), new Integer(1),
+		  ItemPool.get( ItemPool.UNDERWORLD_ACORN, -1 ) },
 	};
 
 	private static final AdventureResult getCost( final int choice, final int decision )
@@ -2739,6 +2745,7 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( i, -1 ) );
 				}
 			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
