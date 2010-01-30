@@ -71,7 +71,7 @@ public class ResultProcessor
 	private static Pattern CARBS_PATTERN =
 		Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
-	private static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*?><tr><td[^>]*?><img[^>]*/([^/]*\\.gif)[^>]*?('descitem\\((.*?)\\)')?></td>(<td[^>]*><[tT]able><tr>)?<td[^>]*?>(.*?)</td>(</tr></table></td>)?</tr></table>" );
+	private static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*><tr><td[^>]*><img[^>]*/([^/]*\\.gif)(?:[^>]*descitem\\(([\\d]*)\\))?[^>]*></td>(?:<td[^>]*><[tT]able><tr>)?<td[^>]*>(.*?)</td>(?:</tr></table></td>)?</tr></table>" );
 	private static Pattern INT_PATTERN = Pattern.compile( ".*?([\\d]+).*" );
 
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
@@ -119,6 +119,8 @@ public class ResultProcessor
 		return ResultProcessor.processResults( false, canBeHaiku, results, data );
 	}
 
+	private static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\)" );
+
 	public static boolean processResults( boolean combatResults, boolean canBeHaiku, String results, List data )
 	{
 		ResultProcessor.receivedClover = false;
@@ -126,6 +128,36 @@ public class ResultProcessor
 		if ( data == null && RequestLogger.isDebugging() )
 		{
 			RequestLogger.updateDebugLog( "Processing results..." );
+		}
+
+		// Results now come in like this:
+		//
+		// <table class="item" style="float: none" rel="id=617&s=137&q=0&d=1&g=0&t=1&n=1&m=1&u=u">
+		// <tr><td><img src="http://images.kingdomofloathing.com/itemimages/rcandy.gif"
+		// alt="Angry Farmer candy" title="Angry Farmer candy" class=hand onClick='descitem(893169457)'></td>
+		// <td valign=center class=effect>You acquire an item: <b>Angry Farmer candy</b></td></tr></table>
+		//
+		// Or, in haiku:
+		//
+		// <table class="item" style="float: none" rel="id=83&s=5&q=0&d=1&g=0&t=1&n=1&m=0&u=.">
+		// <tr><td><img src="http://images.kingdomofloathing.com/itemimages/rustyshaft.gif"
+		// alt="rusty metal shaft" title="rusty metal shaft" class=hand onClick='descitem(228339790)'></td>
+		// <td valign=center class=effect><b>rusty metal shaft</b><br>was once your foe's, is now yours.<br>
+		// Beaters-up, keepers.</td></tr></table>
+		//
+		// Pre-process all such matches and register new items
+
+		Matcher itemMatcher = ResultProcessor.ITEM_TABLE_PATTERN.matcher( results );
+		while ( itemMatcher.find() )
+		{
+			String relString = itemMatcher.group(1);
+			String itemName = itemMatcher.group(2);
+			String descId = itemMatcher.group(3);
+			int itemId = ItemDatabase.getItemIdFromDescription( descId );
+			if ( itemId == -1 )
+			{
+				ItemDatabase.registerItem( itemName, descId, relString );
+			}
 		}
 
 		boolean requiresRefresh = canBeHaiku && haveHaikuResults() ?
@@ -146,35 +178,11 @@ public class ResultProcessor
 	private static boolean haveHaikuResults()
 	{
 		return KoLAdventure.lastAdventureId() == 138 ||
-			KoLConstants.activeEffects.contains( ResultProcessor.haikuEffect );
+		       KoLConstants.activeEffects.contains( ResultProcessor.haikuEffect );
 	}
-
-	private static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?<b>([^<]*)</b></td></tr></table>" );
 
 	private static boolean processNormalResults( boolean combatResults, String results, List data )
 	{
-		// Results now come in like this:
-		//
-		// <table class="item" style="float: none" rel="id=617&s=137&q=0&d=1&g=0&t=1&n=1&m=1&u=u">
-		// <tr><td><img src="http://images.kingdomofloathing.com/itemimages/rcandy.gif"
-		// alt="Angry Farmer candy" title="Angry Farmer candy" class=hand onClick='descitem(893169457)'></td>
-		// <td valign=center class=effect>You acquire an item: <b>Angry Farmer candy</b></td></tr></table>
-		//
-		// Pre-process all such matches and register new items
-
-		Matcher itemMatcher = ResultProcessor.ITEM_TABLE_PATTERN.matcher( results );
-		while ( itemMatcher.find() )
-		{
-			String relString = itemMatcher.group(1);
-			String itemName = itemMatcher.group(2);
-			String descId = itemMatcher.group(3);
-			int itemId = ItemDatabase.getItemIdFromDescription( descId );
-			if ( itemId == -1 )
-			{
-				ItemDatabase.registerItem( itemName, descId, relString );
-			}
-		}
-
 		String plainTextResult = KoLConstants.ANYTAG_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
 
 		if ( data == null )
@@ -208,8 +216,8 @@ public class ResultProcessor
 		do
 		{
 			String image = matcher.group(1);
-			String descid = matcher.group(3);
-			String haiku = matcher.group(5);
+			String descid = matcher.group(2);
+			String haiku = matcher.group(3);
 
 			if ( descid != null )
 			{
@@ -230,6 +238,26 @@ public class ResultProcessor
 			Matcher m = INT_PATTERN.matcher( haiku );
 			if ( !m.find() )
 			{
+				if ( image.equals( "strboost.gif" ) && haiku.indexOf( "<b>" ) != -1 )
+				{
+					String message = "You gain a Muscle point!";
+					shouldRefresh |= ResultProcessor.processGainLoss( message, data );
+					continue;
+				}
+
+				if ( image.equals( "snowflakes.gif" ) && haiku.indexOf( "<b>" ) != -1 )
+				{
+					String message = "You gain a Mysticality point!";
+					shouldRefresh |= ResultProcessor.processGainLoss( message, data );
+					continue;
+				}
+
+				if ( image.equals( "wink.gif" ) && haiku.indexOf( "<b>" ) != -1 )
+				{
+					String message = "You gain a Moxie point!";
+					shouldRefresh |= ResultProcessor.processGainLoss( message, data );
+					continue;
+				}
 				continue;
 			}
 
@@ -250,8 +278,81 @@ public class ResultProcessor
 
 			if ( image.equals( "hp.gif" ) )
 			{
-				// Lost HP
-				String message = "You lose " + points + " hit points";
+				// Gained or lost HP
+
+				String gain = "lose";
+
+				// Your wounds fly away
+				// on a refreshing spring breeze.
+				// You gain <b>X</b> hit points.
+
+				// When <b><font color=black>XX</font></b> hit points<
+				// are restored to your body,
+				// you make an "ahhhhhhhh" sound.
+
+				// You're feeling better --
+				// <b><font color=black>XXX</font></b> hit points better -
+				// than you were before.
+
+				if ( haiku.indexOf( "Your wounds fly away" ) != -1 ||
+				     haiku.indexOf( "restored to your body" ) != -1 ||
+				     haiku.indexOf( "You're feeling better" ) != -1 )
+				{
+					gain = "gain";
+				}
+
+				String message = "You " + gain + " " + points + " hit points";
+
+				RequestLogger.printLine( message );
+				if ( Preferences.getBoolean( "logGainMessages" ) )
+				{
+					RequestLogger.updateSessionLog( message );
+				}
+
+				ResultProcessor.parseResult( message );
+				continue;
+			}
+
+			if ( image.equals( "mp.gif" ) )
+			{
+				// Gained or lost MP
+
+				String gain = "lose";
+
+				// You feel quite refreshed,
+				// like a frog drinking soda,
+				// gaining <b>X</b> MP.
+
+				// A contented belch.
+				// Ripples in a mystic pond.
+				// You gain <b>X</b> MP.
+
+				// Like that wimp Dexter,
+				// you have become ENERGIZED,
+				// with <b>XX</b> MP.
+
+				// <b>XX</b> magic points
+				// fall upon you like spring rain.
+				// Mana from heaven.
+
+				// Spring rain falls within
+				// metaphorically, I mean.
+				// <b>XXX</b> mp.
+
+				// <b>XXX</b> MP.
+				// Like that sports drink commercial --
+				// is it in you?  Yes.
+
+				if ( haiku.indexOf( "You feel quite refreshed" ) != -1 ||
+				     haiku.indexOf( "A contented belch" ) != -1 ||
+				     haiku.indexOf( "ENERGIZED" ) != -1 ||
+				     haiku.indexOf( "Mana from heaven" ) != -1 ||
+				     haiku.indexOf( "Spring rain falls within" ) != -1 ||
+				     haiku.indexOf( "sports drink" ) != -1 )
+				{
+					gain = "gain";
+				}
+				String message = "You " + gain + " " + points + " Mojo points";
 
 				RequestLogger.printLine( message );
 				if ( Preferences.getBoolean( "logGainMessages" ) )
@@ -290,7 +391,11 @@ public class ResultProcessor
 
 	private static void processFamiliarWeightGain( final String results )
 	{
-		if ( results.indexOf( "gains a pound" ) != -1 )
+		if ( results.indexOf( "gains a pound" ) != -1 ||
+		     // The following are Haiku results
+		     results.indexOf( "gained a pound" ) != -1 ||
+		     results.indexOf( "puts on weight" ) != -1 ||
+		     results.indexOf( "gaining weight" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
 

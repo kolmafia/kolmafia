@@ -873,11 +873,12 @@ public class ItemDatabase
 		// Remember that a new item has been discovered
 		ItemDatabase.newItems = true;
 
-		RequestLogger.printLine( "Unknown item found: " + itemName + " (" + itemId + ", desc=" + descId + ")" );
+		RequestLogger.printLine( "Unknown item found: " + itemName + " (" + itemId + ", " + descId + ")" );
 
 		Integer id = new Integer( itemId );
 
 		ItemDatabase.descriptionById.put( id, descId );
+		ItemDatabase.itemIdByDescription.put( descId, id );
 		ItemDatabase.dataNameById.put( id, itemName );
 		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
 		ItemDatabase.registerItemAlias( itemId, itemName, null );

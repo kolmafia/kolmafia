@@ -1605,8 +1605,9 @@ public class FightRequest
 			Matcher familiarActMatcher = FightRequest.FAMILIAR_ACT_PATTERN.matcher( responseText );
 			while ( familiarActMatcher.find() )
 			{
-				String action =
-					"Round " + ( FightRequest.currentRound - 1 ) + ": " + KoLConstants.ANYTAG_PATTERN.matcher( familiarActMatcher.group() ).replaceAll( "" );
+				String message = StringUtilities.globalStringReplace( familiarActMatcher.group(), "<br>", " / " );
+				message = KoLConstants.ANYTAG_PATTERN.matcher( message ).replaceAll( "" );
+				String action = "Round " + ( FightRequest.currentRound - 1 ) + ": " + message;
 				RequestLogger.printLine( action );
 				RequestLogger.updateSessionLog( action );
 			}
