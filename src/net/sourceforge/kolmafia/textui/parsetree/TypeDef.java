@@ -50,6 +50,16 @@ public class TypeDef
 		return this.base.getBaseType();
 	}
 
+	public Value initialValue()
+	{
+		return this.base.initialValue();
+	}
+
+	public Value parseValue( final String name, final boolean returnDefault )
+	{
+		return this.base.parseValue( name, returnDefault );
+	}
+
 	public Value initialValueExpression()
 	{
 		return new TypeInitializer( this.base.getBaseType() );

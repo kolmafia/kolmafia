@@ -120,7 +120,6 @@ public class Type
 			return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer() );
 		case DataTypes.TYPE_MATCHER:
 			return new Value( DataTypes.MATCHER_TYPE, "", Pattern.compile( "" ).matcher( "" ) );
-
 		case DataTypes.TYPE_ITEM:
 			return DataTypes.ITEM_INIT;
 		case DataTypes.TYPE_LOCATION:
