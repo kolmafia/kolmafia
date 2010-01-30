@@ -71,6 +71,12 @@ public class UntinkerRequest
 	private int iterationsNeeded;
 	private AdventureResult item;
 
+	public static final void reset()
+	{
+		UntinkerRequest.canUntinker = false;
+		UntinkerRequest.lastUserId = -1;
+	}
+
 	public UntinkerRequest( final int itemId )
 	{
 		this( itemId, Integer.MAX_VALUE );

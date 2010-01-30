@@ -61,6 +61,10 @@ public class ValhallaManager
 		
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "preAscensionScript" ) );
+
+		// GenericRequest keys on the following preference to decide
+		// whether to call ValhallaManager.onAscension()
+		Preferences.setInteger( "lastBreakfast", 0 );
 	}
 
 	public static void onAscension()
@@ -71,6 +75,7 @@ public class ValhallaManager
 		Preferences.setInteger( "lastBreakfast", -1 );
 
 		KoLmafia.resetCounters();
+		UntinkerRequest.reset();
 		ValhallaManager.resetPerAscensionCounters();
 
 		StaticEntity.getClient().resetSession();
@@ -155,14 +160,24 @@ public class ValhallaManager
 		Preferences.setInteger( "currentBountyItem", 0 );
 		Preferences.setString( "currentHippyStore", "none" );
 		Preferences.setString( "currentWheelPosition", "muscle" );
+		Preferences.setString( "warProgress", "unstarted" );
 		Preferences.setInteger( "fratboysDefeated", 0 );
+		Preferences.setInteger( "hippiesDefeated", 0 );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
-		Preferences.setInteger( "hippiesDefeated", 0 );
 		Preferences.setString( "trapperOre", "chrome" );
+		Preferences.setString( "louvreLayout", "" );
+		Preferences.setString( "violetFogLayout", "" );
 		Preferences.setString( "dolphinItem", "" );
 		Preferences.setString( "spookyPuttyMonster", "" );
 		Preferences.setString( "cameraMonster", "" );
+		Preferences.setString( "telescope1", "" );
+		Preferences.setString( "telescope2", "" );
+		Preferences.setString( "telescope3", "" );
+		Preferences.setString( "telescope4", "" );
+		Preferences.setString( "telescope5", "" );
+		Preferences.setString( "telescope6", "" );
+		Preferences.setString( "telescope7", "" );
 		TurnCounter.clearCounters();
 	}
 
