@@ -89,7 +89,7 @@ public class FightRequest
 	private static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
 	private static final AdventureResult CUNCTATITIS = new AdventureResult( "Cunctatitis", 1, true );
 	private static final AdventureResult ONTHETRAIL = new AdventureResult( "On the Trail", 1, true );
-	private static final AdventureResult BIRDFORM = new AdventureResult( "Form of...Bird!", 1, true );
+	public static final AdventureResult BIRDFORM = new AdventureResult( "Form of...Bird!", 1, true );
 
 	public static final AdventureResult DICTIONARY1 = ItemPool.get( ItemPool.DICTIONARY, 1 );
 	public static final AdventureResult DICTIONARY2 = ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 );
@@ -306,7 +306,7 @@ public class FightRequest
 		return false;
 	}
 
-	private static final boolean canSteal()
+	public static final boolean canSteal()
 	{
 		if ( FightRequest.canSteal )
 		{

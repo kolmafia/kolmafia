@@ -2663,6 +2663,12 @@ public class UseItemRequest
 				}
 			}
 
+			// You don't consume inebriety potions in HCO or HCT
+			if ( responseText.indexOf( "You decide not to drink it" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+			}
+
 			return;
 
 		case ItemPool.ANCIENT_CURSED_FOOTLOCKER:

@@ -102,88 +102,106 @@ public class StationaryButtonDecorator
 		}
 		insertionPoint = buffer.indexOf( ">", insertionPoint ) + 1;
 
-                StringBuffer actionBuffer = new StringBuffer();
+		StringBuffer actionBuffer = new StringBuffer();
 
-                actionBuffer.append( "<div id=\"mafiabuttons\"><center>" );
-                actionBuffer.append( "<table width=\"95%\"><tr><td align=left>" );
+		actionBuffer.append( "<div id=\"mafiabuttons\"><center>" );
+		actionBuffer.append( "<table width=\"95%\"><tr><td align=left>" );
 
-                StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", true );
+		StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", true );
 
-                if ( KoLCharacter.isMoxieClass() )
-                {
-                        StationaryButtonDecorator.addFightButton(
-                                urlString, buffer, actionBuffer, "steal", FightRequest.wonInitiative() );
-                }
+		boolean inBirdForm = KoLConstants.activeEffects.contains( FightRequest.BIRDFORM );
+		if ( inBirdForm || KoLCharacter.isMoxieClass() )
+		{
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "steal", FightRequest.wonInitiative() );
+		}
 
-                if ( EquipmentManager.usingChefstaff() )
-                {
-                        StationaryButtonDecorator.addFightButton(
-                                urlString, buffer, actionBuffer, "jiggle", FightRequest.getCurrentRound() > 0 );
-                }
+		if ( EquipmentManager.usingChefstaff() )
+		{
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "jiggle", FightRequest.getCurrentRound() > 0 );
+		}
 
-                if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
-                {
-                        StationaryButtonDecorator.addFightButton(
-                                urlString, buffer, actionBuffer, "3004", FightRequest.getCurrentRound() > 0 );
-                }
+		if ( !inBirdForm && KoLCharacter.hasSkill( "Entangling Noodles" ) )
+		{
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "3004", FightRequest.getCurrentRound() > 0 );
+		}
 
-                StationaryButtonDecorator.addFightButton(
-                        urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
+		StationaryButtonDecorator.addFightButton(
+			urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
 
-                for ( int i = 1; i <= KoLConstants.STATIONARY_BUTTON_COUNT; ++i )
-                {
-                        String action = Preferences.getString( "stationaryButton" + i );
-                        if ( action.equals( "" ) || action.equals( "none" ) )
-                        {
-                                continue;
-                        }
+		for ( int i = 1; i <= KoLConstants.STATIONARY_BUTTON_COUNT; ++i )
+		{
+			String action = Preferences.getString( "stationaryButton" + i );
+			if ( action.equals( "" ) || action.equals( "none" ) )
+			{
+				continue;
+			}
 
-                        String name = SkillDatabase.getSkillName( Integer.parseInt( action ) );
+			String name = SkillDatabase.getSkillName( Integer.parseInt( action ) );
+			boolean hasSkill = KoLCharacter.hasSkill( name );
 
-                        if ( !KoLCharacter.hasSkill( name ) )
-                        {
-                                for ( int j = i; j < 5; ++j )
-                                {
-                                        Preferences.setString(
-                                                "stationaryButton" + j, Preferences.getString( "stationaryButton" + ( j + 1 ) ) );
-                                }
+			// If we are in bird form, we can only use birdform
+			// skills. Such skills do not appear on our list of
+			// known skills.
 
-                                Preferences.setString( "stationaryButton5", "" );
-                                continue;
-                        }
+			// Display only unknown skills in birdform but keep
+			// known skills in the preferences
+			if ( inBirdForm )
+			{
+				if ( hasSkill )
+				{
+					continue;
+				}
+			}
 
-                        StationaryButtonDecorator.addFightButton(
-                                urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
-                }
+			// If we are not in birdform, remove unknown skills
+			// from preferences
+			else if ( !hasSkill )
+			{
+				for ( int j = i; j < 5; ++j )
+				{
+					Preferences.setString(
+						"stationaryButton" + j, Preferences.getString( "stationaryButton" + ( j + 1 ) ) );
+				}
 
-                if ( StationaryButtonDecorator.combatHotkeys.isEmpty() )
-                {
-                        StationaryButtonDecorator.reloadCombatHotkeyMap();
-                }
+				Preferences.setString( "stationaryButton5", "" );
+				continue;
+			}
 
-                actionBuffer.append( "</td><td align=right>" );
-                actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
+		}
 
-                actionBuffer.append( "<option>- update hotkeys -</option>" );
+		if ( StationaryButtonDecorator.combatHotkeys.isEmpty() )
+		{
+			StationaryButtonDecorator.reloadCombatHotkeyMap();
+		}
 
-                for ( int i = 0; i < StationaryButtonDecorator.combatHotkeys.size(); ++i )
-                {
-                        actionBuffer.append( "<option>" );
-                        actionBuffer.append( i );
-                        actionBuffer.append( ": " );
+		actionBuffer.append( "</td><td align=right>" );
+		actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
 
-                        actionBuffer.append( StationaryButtonDecorator.combatHotkeys.get( i ) );
-                        actionBuffer.append( "</option>" );
-                }
+		actionBuffer.append( "<option>- update hotkeys -</option>" );
 
-                actionBuffer.append( "</select>" );
+		for ( int i = 0; i < StationaryButtonDecorator.combatHotkeys.size(); ++i )
+		{
+			actionBuffer.append( "<option>" );
+			actionBuffer.append( i );
+			actionBuffer.append( ": " );
 
-                actionBuffer.append( "</td></tr></table>" );
-                actionBuffer.append( "</center></div>" );
-                buffer.insert( insertionPoint, actionBuffer.toString() );
+			actionBuffer.append( StationaryButtonDecorator.combatHotkeys.get( i ) );
+			actionBuffer.append( "</option>" );
+		}
 
-                StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/hotkeys.js\"></script>" );
-                StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
+		actionBuffer.append( "</select>" );
+
+		actionBuffer.append( "</td></tr></table>" );
+		actionBuffer.append( "</center></div>" );
+		buffer.insert( insertionPoint, actionBuffer.toString() );
+
+		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/hotkeys.js\"></script>" );
+		StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
 	}
 
 	private static final void addFightButton( final String urlString, final StringBuffer response,
