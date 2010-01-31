@@ -73,7 +73,7 @@ public class ResultProcessor
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 	private static Pattern INT_PATTERN = Pattern.compile( ".*?([\\d]+).*" );
 
-	public static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*><tr>(?:<td[^>]*><img[^>]*/([^/]*\\.gif)(?:[^>]*descitem\\(([\\d]*)\\))?[^>]*></td>)?(?:<td[^>]*>)?(?:<span[^>]*>)?(?:<[tT]able><tr>)?<td valign=center align=left>(.*?)</td>(?:</tr></table>(?:</span>)?</td>)?</tr></table>" );
+	public static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*><tr>(?:<td[^>]*><img[^>]*/([^/]*\\.gif)(?:[^>]*descitem\\(([\\d]*)\\))?[^>]*></td>)?(?:<td[^>]*>)?(?:<span[^>]*title=\"([^\"]*)\"[^>]*>)?(?:<[tT]able><tr>)?<td valign=center[^>]*>(.*?)</td>(?:</tr></table>(?:</span>)?</td>)?</tr></table>" );
 
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 	private static boolean receivedClover = false;
@@ -161,7 +161,7 @@ public class ResultProcessor
 			}
 		}
 
-		boolean requiresRefresh = canBeHaiku && haveHaikuResults() ?
+		boolean requiresRefresh = canBeHaiku && haveHaikuResults( results ) ?
 			processHaikuResults( combatResults, results, data ) :
 			processNormalResults( combatResults, results, data );
 
@@ -176,10 +176,14 @@ public class ResultProcessor
 		return requiresRefresh;
 	}
 
-	public static boolean haveHaikuResults()
+	public static boolean haveHaikuResults( final String responseText )
 	{
+		// Adventuring in the Haiku Dungeon
+		// Currently have Haiku State of Mind
+		// Just acquired Haiku State of Mind
 		return KoLAdventure.lastAdventureId() == 138 ||
-		       KoLConstants.activeEffects.contains( ResultProcessor.haikuEffect );
+		       KoLConstants.activeEffects.contains( ResultProcessor.haikuEffect ) ||
+		       responseText.indexOf( EffectPool.HAIKU_STATE_OF_MIND ) != -1 ;
 	}
 
 	private static boolean processNormalResults( boolean combatResults, String results, List data )
@@ -228,8 +232,6 @@ public class ResultProcessor
 			}
 
 			String descid = matcher.group(2);
-			String haiku = matcher.group(3);
-
 			if ( descid != null )
 			{
 				// Found an item
@@ -239,6 +241,8 @@ public class ResultProcessor
 
 				continue;
 			}
+
+			String haiku = matcher.group(4);
 
 			if ( data == null && image.equals( familiar ) )
 			{

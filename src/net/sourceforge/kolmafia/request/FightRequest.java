@@ -1598,7 +1598,7 @@ public class FightRequest
 		// information in their session logs. We'll do Haiku familiar
 		// actions when we deal with monster health
 
-		boolean haikuResults = ResultProcessor.haveHaikuResults();
+		boolean haikuResults = ResultProcessor.haveHaikuResults( responseText );
 		if ( !haikuResults && Preferences.getBoolean( "logFamiliarActions" ) )
 		{
 			Matcher familiarActMatcher = FightRequest.FAMILIAR_ACT_PATTERN.matcher( responseText );
@@ -2757,7 +2757,7 @@ public class FightRequest
 		do
 		{
 			String image = matcher.group(1);
-			String haiku = matcher.group(3);
+			String haiku = matcher.group(4);
 
 			if ( image != null )
 			{
