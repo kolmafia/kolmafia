@@ -550,6 +550,7 @@ public class KoLmafiaCLI
 		new AutoSellCommand().register( "sell" ).register( "autosell" );
 		new BacktraceCommand().register( "backtrace" );
 		new BadMoonCommand().register( "badmoon" );
+		new BallPitCommand().register( "ballpit" );
 		new BangPotionsCommand().register( "!" ).register( "bang" );
 		new BasementCommand().register( "basement" );
 		new BreakfastCommand().register( "breakfast" );
@@ -564,6 +565,7 @@ public class KoLmafiaCLI
 		new CheckDataCommand().register( "newdata" ).register( "checkitems" ).register( "checkeffects" ).register(
 			"checkplurals" ).register( "checkmodifiers" ).register( "checkconsumption" ).register( "checkprofile" ).register(
 			"checkpulverization" ).register( "checkzapgroups" );
+		new ChipsCommand().register( "chips" );
 		new ClanCommand().register( "clan" );
 		new ClanSofaCommand().register( "sofa" ).register( "sleep" );
 		new ClanStashCommand().register( "stash" );
