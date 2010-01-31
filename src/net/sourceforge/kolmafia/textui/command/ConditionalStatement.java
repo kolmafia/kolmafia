@@ -144,8 +144,6 @@ public abstract class ConditionalStatement
 		String left = tokens[ 0 ].trim();
 		String right = tokens[ tokens.length - 1 ].trim();
 
-                System.out.println( "left = " + left + " operator = " + operator + " right = " + right );
-
 		int leftValue;
 		int rightValue;
 
@@ -162,8 +160,6 @@ public abstract class ConditionalStatement
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, parameters + " is not a valid construct." );
 			return false;
 		}
-
-                System.out.println( "lvalue = " + leftValue + " operator = " + operator + " rvalue = " + rightValue );
 
 		return operator.equals( "==" ) ? leftValue == rightValue :
 		       operator.equals( "!=" ) ? leftValue != rightValue :
