@@ -138,9 +138,6 @@ public class FightRequest
 	private static final Pattern PHYSICAL_PATTERN =
 		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) #?(\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,3})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
 
-	private static final Pattern HAIKU_DAMAGE_PATTERN =
-		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
-
 	private static final Pattern ELEMENTAL_PATTERN =
 		Pattern.compile( "(sown|) <font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:(?:slimy, (?:clammy|gross) |hotsy-totsy |)damage|points|HP worth)" );
 
@@ -1598,14 +1595,16 @@ public class FightRequest
 		}
 
 		// Log familiar actions, if the player wishes to include this
-		// information in their session logs.
+		// information in their session logs. We'll do Haiku familiar
+		// actions when we deal with monster health
 
-		if ( Preferences.getBoolean( "logFamiliarActions" ) )
+		boolean haikuResults = ResultProcessor.haveHaikuResults();
+		if ( !haikuResults && Preferences.getBoolean( "logFamiliarActions" ) )
 		{
 			Matcher familiarActMatcher = FightRequest.FAMILIAR_ACT_PATTERN.matcher( responseText );
 			while ( familiarActMatcher.find() )
 			{
-				String message = StringUtilities.globalStringReplace( familiarActMatcher.group(), "<br>", " / " );
+				String message = familiarActMatcher.group();
 				message = KoLConstants.ANYTAG_PATTERN.matcher( message ).replaceAll( "" );
 				String action = "Round " + ( FightRequest.currentRound - 1 ) + ": " + message;
 				RequestLogger.printLine( action );
@@ -1765,7 +1764,7 @@ public class FightRequest
 			Preferences.increment( "_vmaskAdv", 1 );
 		}
 
-		FightRequest.updateMonsterHealth( responseText );
+		FightRequest.updateMonsterHealth( responseText, haikuResults );
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
 		while ( blindIndex != -1 )
@@ -2503,105 +2502,14 @@ public class FightRequest
 		}
 	}
 
-	private static final void updateMonsterHealth( final String responseText )
+	private static final void updateMonsterHealth( final String responseText, final boolean haikuResults )
 	{
-		// Check if fumbled first, since that causes a special case later.
-
-		boolean fumbled = FightRequest.FUMBLE_PATTERN.matcher( responseText ).find();
-
 		// Monster damage is verbose, so accumulate in a single variable
 		// for the entire results and just show the total.
 
-		int damageThisRound = 0;
-
-		Matcher damageMatcher = FightRequest.ELEMENTAL_PATTERN.matcher( responseText );
-		while ( damageMatcher.find() )
-		{
-			if ( !damageMatcher.group( 1 ).equals( "" ) )
-			{
-				continue;
-			}
-
-			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 2 ) );
-
-			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 3 ) );
-			while ( secondaryMatcher.find() )
-			{
-				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
-			}
-		}
-
-		damageMatcher = FightRequest.HAIKU_DAMAGE_PATTERN.matcher( responseText );
-		while ( damageMatcher.find() )
-		{
-			String[] pieces = damageMatcher.group( 1 ).split( "[^\\d,]+" );
-			for ( int i = 0; i < pieces.length; ++i )
-			{
-				damageThisRound += StringUtilities.parseInt( pieces[ i ] );
-			}
-		}
-
-		damageMatcher = FightRequest.PHYSICAL_PATTERN.matcher( responseText );
-
-		for ( int i = 0; damageMatcher.find(); ++i )
-		{
-			// In a fumble, the first set of text indicates that
-			// there is no actual damage done to the monster.
-
-			if ( i == 0 && fumbled )
-			{
-				continue;
-			}
-
-			// Currently, all of the explicit attack messages that
-			// preceed the number all imply that this is not damage
-			// against the monster or is damage that should not
-			// count (reap/sow X damage.)
-
-			if ( !damageMatcher.group( 1 ).equals( "" ) )
-			{
-				continue;
-			}
-
-			// "shambles up to your opponent" following a number is
-			// most likely a familiar naming problem, so it should
-			// not count.
-
-			if ( damageMatcher.group( 4 ).equals( "shambles up " ) )
-			{
-				continue;
-			}
-
-			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 2 ) );
-
-			// The last string contains all of the extra damage
-			// from dual-wielding or elemental damage, e.g. "(+3)
-			// (+10)".
-
-			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 3 ) );
-			while ( secondaryMatcher.find() )
-			{
-				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
-			}
-		}
-
-		// Mosquito and Boss Bat can muck with the monster's HP, but
-		// they don't have normal text.
-
-		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.MOSQUITO )
-		{
-			damageMatcher = FightRequest.MOSQUITO_PATTERN.matcher( responseText );
-			if ( damageMatcher.find() )
-			{
-				damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
-			}
-		}
-
-		damageMatcher = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
-		if ( damageMatcher.find() )
-		{
-			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
-		}
+		int damageThisRound = haikuResults ?
+			FightRequest.countHaikuDamage( responseText ) :
+			FightRequest.countNormalDamage( responseText );
 
 		// Done with all processing for monster damage, now handle responseText.
 
@@ -2736,6 +2644,171 @@ public class FightRequest
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 		}
+	}
+
+	private static final int countNormalDamage( final String responseText )
+	{
+		int damageThisRound = 0;
+
+		// Check if fumbled first, since that causes a special case later.
+
+		boolean fumbled = FightRequest.FUMBLE_PATTERN.matcher( responseText ).find();
+
+		Matcher damageMatcher = FightRequest.ELEMENTAL_PATTERN.matcher( responseText );
+		while ( damageMatcher.find() )
+		{
+			if ( !damageMatcher.group( 1 ).equals( "" ) )
+			{
+				continue;
+			}
+
+			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 2 ) );
+
+			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 3 ) );
+			while ( secondaryMatcher.find() )
+			{
+				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
+			}
+		}
+
+		damageMatcher = FightRequest.PHYSICAL_PATTERN.matcher( responseText );
+
+		for ( int i = 0; damageMatcher.find(); ++i )
+		{
+			// In a fumble, the first set of text indicates that
+			// there is no actual damage done to the monster.
+
+			if ( i == 0 && fumbled )
+			{
+				continue;
+			}
+
+			// Currently, all of the explicit attack messages that
+			// preceed the number all imply that this is not damage
+			// against the monster or is damage that should not
+			// count (reap/sow X damage.)
+
+			if ( !damageMatcher.group( 1 ).equals( "" ) )
+			{
+				continue;
+			}
+
+			// "shambles up to your opponent" following a number is
+			// most likely a familiar naming problem, so it should
+			// not count.
+
+			if ( damageMatcher.group( 4 ).equals( "shambles up " ) )
+			{
+				continue;
+			}
+
+			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 2 ) );
+
+			// The last string contains all of the extra damage
+			// from dual-wielding or elemental damage, e.g. "(+3)
+			// (+10)".
+
+			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 3 ) );
+			while ( secondaryMatcher.find() )
+			{
+				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
+			}
+		}
+
+		// Mosquito and Boss Bat can muck with the monster's HP, but
+		// they don't have normal text.
+
+		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.MOSQUITO )
+		{
+			damageMatcher = FightRequest.MOSQUITO_PATTERN.matcher( responseText );
+			if ( damageMatcher.find() )
+			{
+				damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
+			}
+		}
+
+		damageMatcher = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
+		if ( damageMatcher.find() )
+		{
+			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
+		}
+
+		return damageThisRound;
+	}
+
+	private static final Pattern HAIKU_DAMAGE1_PATTERN =
+		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
+
+	private static final Pattern HAIKU_DAMAGE2_PATTERN =
+		Pattern.compile( "<b>([\\d]+)</b> damage" );
+
+	private static final int countHaikuDamage( final String responseText )
+	{
+		Matcher matcher = ResultProcessor.getHaikuMatcher( responseText );
+		if ( !matcher.find() )
+		{
+			return 0;
+		}
+
+		String familiar = KoLCharacter.getFamiliar().getImageLocation();
+		boolean logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
+
+		int damageThisRound = 0;
+		do
+		{
+			String image = matcher.group(1);
+			String haiku = matcher.group(3);
+
+			if ( image != null )
+			{
+				// First log a familiar action
+				if ( logFamiliar && image.equals( familiar ) )
+				{
+					String message = StringUtilities.globalStringReplace( haiku, "<br>", " / " );
+					message = KoLConstants.ANYTAG_PATTERN.matcher( message ).replaceAll( "" );
+					String action = "Round " + ( FightRequest.currentRound - 1 ) + ": " + message;
+					RequestLogger.printLine( action );
+					RequestLogger.updateSessionLog( action );
+				}
+
+				// Then look for Damage: title in the image
+				Matcher damageMatcher = FightRequest.HAIKU_DAMAGE1_PATTERN.matcher( matcher.group(0) );
+				boolean foundDamageTitle = false;
+				while ( damageMatcher.find() )
+				{
+					foundDamageTitle = true;
+					String[] pieces = damageMatcher.group( 1 ).split( "[^\\d,]+" );
+					for ( int i = 0; i < pieces.length; ++i )
+					{
+						damageThisRound += StringUtilities.parseInt( pieces[ i ] );
+					}
+				}
+
+				if ( foundDamageTitle )
+				{
+					continue;
+				}
+
+				// Damage can come in other ways, too...
+				if ( haiku.indexOf( "17 small cuts" ) != -1 )
+				{
+					// Casting The 17 Cuts
+					damageThisRound += 17;
+					continue;
+				}
+
+				// Look for damage in the text if there is no title
+			}
+
+			// Damage from skills and spells comes without an image
+			Matcher damageMatcher = FightRequest.HAIKU_DAMAGE2_PATTERN.matcher( matcher.group(0) );
+			if ( damageMatcher.find() )
+			{
+				damageThisRound += StringUtilities.parseInt( damageMatcher.group(1) );
+			}
+		} while ( matcher.find() );
+
+		return damageThisRound;
 	}
 
 	private static final void clearInstanceData()

@@ -71,8 +71,9 @@ public class ResultProcessor
 	private static Pattern CARBS_PATTERN =
 		Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
-	private static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*><tr><td[^>]*><img[^>]*/([^/]*\\.gif)(?:[^>]*descitem\\(([\\d]*)\\))?[^>]*></td>(?:<td[^>]*><[tT]able><tr>)?<td[^>]*>(.*?)</td>(?:</tr></table></td>)?</tr></table>" );
 	private static Pattern INT_PATTERN = Pattern.compile( ".*?([\\d]+).*" );
+
+	public static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*><tr>(?:<td[^>]*><img[^>]*/([^/]*\\.gif)(?:[^>]*descitem\\(([\\d]*)\\))?[^>]*></td>)?(?:<td[^>]*>)?(?:<span[^>]*>)?(?:<[tT]able><tr>)?<td valign=center align=left>(.*?)</td>(?:</tr></table>(?:</span>)?</td>)?</tr></table>" );
 
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 	private static boolean receivedClover = false;
@@ -175,7 +176,7 @@ public class ResultProcessor
 		return requiresRefresh;
 	}
 
-	private static boolean haveHaikuResults()
+	public static boolean haveHaikuResults()
 	{
 		return KoLAdventure.lastAdventureId() == 138 ||
 		       KoLConstants.activeEffects.contains( ResultProcessor.haikuEffect );
@@ -202,9 +203,14 @@ public class ResultProcessor
 		return shouldRefresh;
 	}
 
+	public static Matcher getHaikuMatcher( String responseText )
+	{
+		return ResultProcessor.HAIKU_PATTERN.matcher( responseText );
+	}
+
 	private static boolean processHaikuResults( boolean combatResults, String results, List data )
 	{
-		Matcher matcher = HAIKU_PATTERN.matcher( results );
+		Matcher matcher = ResultProcessor.getHaikuMatcher( results );
 		if ( !matcher.find() )
 		{
 			return false;
@@ -216,6 +222,11 @@ public class ResultProcessor
 		do
 		{
 			String image = matcher.group(1);
+			if ( image == null )
+			{
+				continue;
+			}
+
 			String descid = matcher.group(2);
 			String haiku = matcher.group(3);
 
