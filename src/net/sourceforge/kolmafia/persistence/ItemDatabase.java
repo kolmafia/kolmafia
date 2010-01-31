@@ -835,9 +835,17 @@ public class ItemDatabase
 		//   g = gift item
 		//   t = transferable
 		//   n = number
-		//   m = ?
-		//   u = ?
-		//   ou = ?
+		//   m = multiusable
+		//   u = how can this be used?
+		//	 e = Eatable (food/drink) (inv_eat)
+		//	 b = Booze (inv_booze)
+		//	 q = eQuipable (inv_equip)
+		//	 u = potion/Useable (inv_use/multiuse)
+		//	 . = can't (or doesn't fit those types)
+		//  ou = "other use text" which is used to make drinks show
+		//	 "drink" instead of "eat" and for items which over-ride
+		//	 the word "use" in links, like the PYEC or scratch 'n'
+		//	 sniff stickers.
 
 		int itemId = 0;
 
