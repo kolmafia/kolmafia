@@ -96,9 +96,12 @@ public class FightRequest
 	private static final AdventureResult SOLDIER = ItemPool.get( ItemPool.TOY_SOLDIER, 1 );
 	private static final AdventureResult TEQUILA = ItemPool.get( ItemPool.TEQUILA, -1 );
 
+	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
+
 	private static int lastUserId = 0;
 	private static String lostInitiative = "";
 	private static String wonInitiative = "";
+
 	private static int preparatoryRounds = 0;
 	private static String consultScriptThatDidNothing = null;
 	private static boolean waitingForSpecial;
@@ -108,6 +111,8 @@ public class FightRequest
 	private static boolean isTrackingFights = false;
 	private static boolean foundNextRound = false;
 	private static boolean haveFought = false;
+	private static boolean shouldRefresh = false;
+	private static boolean haveHaikuResults = false;
 
 	private static boolean isAutomatingFight = false;
 	private static boolean isUsingConsultScript = false;
@@ -1063,6 +1068,32 @@ public class FightRequest
 		RequestThread.closeRequestSequence();
 	}
 
+	public static final boolean processResults( final String responseText )
+	{
+		// If we had Haiku results, we processed them earlier
+		return FightRequest.haveHaikuResults ?
+		       FightRequest.shouldRefresh :
+		       ResultProcessor.processNormalResults( true, responseText, null );
+	}
+
+	public static boolean haveHaikuResults( final String responseText )
+	{
+		// Adventuring in the Haiku Dungeon
+		// Currently have Haiku State of Mind
+		// Just acquired Haiku State of Mind
+		FightRequest.haveHaikuResults = 
+			KoLAdventure.lastAdventureId() == 138 ||
+			KoLConstants.activeEffects.contains( FightRequest.haikuEffect ) ||
+			responseText.indexOf( EffectPool.HAIKU_STATE_OF_MIND ) != -1 ;
+
+		return FightRequest.haveHaikuResults;
+	}
+
+	public static boolean haveHaikuResults()
+	{
+		return FightRequest.haveHaikuResults;
+	}
+
 	public static final int getMonsterLevelModifier()
 	{
 		if ( FightRequest.monsterData == null )
@@ -1425,7 +1456,9 @@ public class FightRequest
 
 		if ( shouldLogAction )
 		{
-			action.append( "Round 1: " + KoLCharacter.getUserName() + " " );
+			action.append( "Round 1: " );
+			action.append( KoLCharacter.getUserName() );
+			action.append( " " );
 		}
 
 		if ( FightRequest.action1.equals( "1" ) )
@@ -1454,8 +1487,9 @@ public class FightRequest
 		if ( shouldLogAction )
 		{
 			action.append( " (auto-attack)" );
-			RequestLogger.printLine( action.toString() );
-			RequestLogger.updateSessionLog( action.toString() );
+			String message = action.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 		}
 		if ( FightRequest.action1.equals( "3004" ) )
 		{
@@ -1487,6 +1521,7 @@ public class FightRequest
 		if ( FightRequest.currentRound == 1 )
 		{
 			FightRequest.haveFought = true;
+			FightRequest.haveHaikuResults = false;
 
 			// Increment stinky cheese counter
 			int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
@@ -1598,17 +1633,26 @@ public class FightRequest
 		// information in their session logs. We'll do Haiku familiar
 		// actions when we deal with monster health
 
-		boolean haikuResults = ResultProcessor.haveHaikuResults( responseText );
-		if ( !haikuResults && Preferences.getBoolean( "logFamiliarActions" ) )
+		FightRequest.haveHaikuResults( responseText );
+
+		if ( FightRequest.haveHaikuResults )
+		{
+			// Parse haiku and process everything in order
+			FightRequest.processHaikuResults( responseText );
+		}
+		else if ( Preferences.getBoolean( "logFamiliarActions" ) )
 		{
 			Matcher familiarActMatcher = FightRequest.FAMILIAR_ACT_PATTERN.matcher( responseText );
+			StringBuffer action = new StringBuffer();
 			while ( familiarActMatcher.find() )
 			{
-				String message = familiarActMatcher.group();
-				message = KoLConstants.ANYTAG_PATTERN.matcher( message ).replaceAll( "" );
-				String action = "Round " + ( FightRequest.currentRound - 1 ) + ": " + message;
-				RequestLogger.printLine( action );
-				RequestLogger.updateSessionLog( action );
+				String famact = familiarActMatcher.group();
+				famact = KoLConstants.ANYTAG_PATTERN.matcher( famact ).replaceAll( "" );
+				FightRequest.getRound( action );
+				action.append( famact );
+				String message = action.toString();
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
 		}
 
@@ -1764,7 +1808,10 @@ public class FightRequest
 			Preferences.increment( "_vmaskAdv", 1 );
 		}
 
-		FightRequest.updateMonsterHealth( responseText, haikuResults );
+		if ( !FightRequest.haveHaikuResults )
+		{
+			FightRequest.updateMonsterHealth( responseText );
+		}
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
 		while ( blindIndex != -1 )
@@ -2502,50 +2549,33 @@ public class FightRequest
 		}
 	}
 
-	private static final void updateMonsterHealth( final String responseText, final boolean haikuResults )
+	private static final void getRound( final StringBuffer action )
 	{
-		// Monster damage is verbose, so accumulate in a single variable
-		// for the entire results and just show the total.
+		action.setLength( 0 );
+		action.append( "Round " );
+		action.append( FightRequest.currentRound - 1 );
+		action.append( ": " );
+	}
 
-		int damageThisRound = haikuResults ?
-			FightRequest.countHaikuDamage( responseText ) :
-			FightRequest.countNormalDamage( responseText );
+	private static final void updateMonsterHealth( final String responseText )
+	{
+		int damageThisRound = FightRequest.countNormalDamage( responseText );
+		FightRequest.updateMonsterHealth( responseText, damageThisRound );
+	}
 
-		// Done with all processing for monster damage, now handle responseText.
-
+	private static final void updateMonsterHealth( final String responseText, final int damageThisRound )
+	{
 		FightRequest.healthModifier += damageThisRound;
+
 		if ( !Preferences.getBoolean( "logMonsterHealth" ) )
 		{
 			return;
 		}
 
+		// Done with all processing for monster damage, now handle responseText.
 		StringBuffer action = new StringBuffer();
 
-		if ( damageThisRound != 0 )
-		{
-			action.setLength( 0 );
-			action.append( "Round " );
-			action.append( FightRequest.currentRound - 1 );
-			action.append( ": " );
-			action.append( FightRequest.encounterLookup );
-
-			if ( damageThisRound > 0 )
-			{
-				action.append( " takes " );
-				action.append( damageThisRound );
-				action.append( " damage." );
-			}
-			else
-			{
-				action.append( " heals " );
-				action.append( -1 * damageThisRound );
-				action.append( " hit points." );
-			}
-
-			String message = action.toString();
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-		}
+		FightRequest.logMonsterDamage( action, damageThisRound );
 
 		// Even though we don't have an exact value, at least try to
 		// detect if the monster's HP has changed.  Once spaded, we can
@@ -2553,10 +2583,7 @@ public class FightRequest
 
 		if ( FightRequest.GHUOL_HEAL.matcher( responseText ).find() || FightRequest.NS_HEAL.matcher( responseText ).find() )
 		{
-			action.setLength( 0 );
-			action.append( "Round " );
-			action.append( FightRequest.currentRound - 1 );
-			action.append( ": " );
+			FightRequest.getRound( action );
 			action.append( FightRequest.encounterLookup );
 			action.append( " heals an unspaded amount of hit points." );
 
@@ -2568,10 +2595,7 @@ public class FightRequest
 		Matcher detectiveMatcher = FightRequest.DETECTIVE_PATTERN.matcher( responseText );
 		if ( detectiveMatcher.find() )
 		{
-			action.setLength( 0 );
-			action.append( "Round " );
-			action.append( FightRequest.currentRound - 1 );
-			action.append( ": " );
+			FightRequest.getRound( action );
 			action.append( FightRequest.encounterLookup );
 			action.append( " shows detective skull health estimate of " );
 			action.append( detectiveMatcher.group( 1 ) );
@@ -2584,10 +2608,7 @@ public class FightRequest
 		Matcher helmetMatcher = FightRequest.SPACE_HELMET_PATTERN.matcher( responseText );
 		if ( helmetMatcher.find() )
 		{
-			action.setLength( 0 );
-			action.append( "Round " );
-			action.append( FightRequest.currentRound - 1 );
-			action.append( ": " );
+			FightRequest.getRound( action );
 			action.append( FightRequest.encounterLookup );
 			action.append( " shows toy space helmet health estimate of " );
 			action.append( helmetMatcher.group( 1 ) );
@@ -2600,10 +2621,7 @@ public class FightRequest
 		int hp = DwarfFactoryRequest.deduceHP( responseText );
 		if ( hp > 0  )
 		{
-			action.setLength( 0 );
-			action.append( "Round " );
-			action.append( FightRequest.currentRound - 1 );
-			action.append( ": " );
+			FightRequest.getRound( action );
 			action.append( FightRequest.encounterLookup );
 			action.append( " shows dwarvish war mattock health estimate of " );
 			action.append( hp );
@@ -2616,10 +2634,7 @@ public class FightRequest
 		int attack = DwarfFactoryRequest.deduceAttack( responseText );
 		if ( attack > 0 )
 		{
-			action.setLength( 0 );
-			action.append( "Round " );
-			action.append( FightRequest.currentRound - 1 );
-			action.append( ": " );
+			FightRequest.getRound( action );
 			action.append( FightRequest.encounterLookup );
 			action.append( " shows dwarvish war helmet attack rating of " );
 			action.append( attack );
@@ -2632,10 +2647,7 @@ public class FightRequest
 		int defense = DwarfFactoryRequest.deduceDefense( responseText );
 		if ( defense > 0 )
 		{
-			action.setLength( 0 );
-			action.append( "Round " );
-			action.append( FightRequest.currentRound - 1 );
-			action.append( ": " );
+			FightRequest.getRound( action );
 			action.append( FightRequest.encounterLookup );
 			action.append( " shows dwarvish war kilt defense rating of " );
 			action.append( defense );
@@ -2644,6 +2656,34 @@ public class FightRequest
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 		}
+	}
+
+	private static final void logMonsterDamage( final StringBuffer action, final int damage )
+	{
+		if ( damage == 0 )
+		{
+			return;
+		}
+
+		FightRequest.getRound( action );
+		action.append( FightRequest.encounterLookup );
+
+		if ( damage > 0 )
+		{
+			action.append( " takes " );
+			action.append( damage );
+			action.append( " damage." );
+		}
+		else
+		{
+			action.append( " heals " );
+			action.append( -1 * damage );
+			action.append( " hit points." );
+		}
+
+		String message = action.toString();
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 	}
 
 	private static final int countNormalDamage( final String responseText )
@@ -2740,75 +2780,287 @@ public class FightRequest
 		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
 
 	private static final Pattern HAIKU_DAMAGE2_PATTERN =
-		Pattern.compile( "<b>([\\d]+)</b> damage" );
+		Pattern.compile( "<b>(?:<font color=[\"]?(\\w+)[\"]?>)?([\\d,]+)(?:</font>)?</b> damage" );
 
-	private static final int countHaikuDamage( final String responseText )
+	public static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*><tr>(?:<td[^>]*><img[^>]*/([^/]*\\.gif)(?:[^>]*descitem\\(([\\d]*)\\))?[^>]*></td>)?(?:<td[^>]*>)?(?:<span[^>]*title=\"([^\"]*)\"[^>]*>)?(?:<[tT]able><tr>)?<td valign=center[^>]*>(.*?)</td>(?:</tr></table>(?:</span>)?</td>)?</tr></table>" );
+
+	private static Pattern INT_PATTERN = Pattern.compile( "([\\d]+)" );
+
+	public static Matcher getHaikuMatcher( String responseText )
 	{
-		Matcher matcher = ResultProcessor.getHaikuMatcher( responseText );
+		return FightRequest.HAIKU_PATTERN.matcher( responseText );
+	}
+
+	private static final void processHaikuResults( final String responseText )
+	{
+		// Preprocess results and register new items
+		ResultProcessor.registerNewItems( responseText );
+
+		// Assume this response does not warrant a refresh
+		FightRequest.shouldRefresh = false;
+
+		Matcher matcher = FightRequest.getHaikuMatcher( responseText );
 		if ( !matcher.find() )
 		{
-			return 0;
+			return;
 		}
 
 		String familiar = KoLCharacter.getFamiliar().getImageLocation();
 		boolean logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
+		boolean logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
+		StringBuffer action = new StringBuffer();
 
-		int damageThisRound = 0;
+		boolean shouldRefresh = false;
+
 		do
 		{
 			String image = matcher.group(1);
-			String haiku = matcher.group(4);
 
-			if ( image != null )
+			if ( image == null )
 			{
-				// First log a familiar action
-				if ( logFamiliar && image.equals( familiar ) )
+				// Damage from skills and spells comes without an image
+				Matcher damageMatcher = FightRequest.HAIKU_DAMAGE2_PATTERN.matcher( matcher.group(0) );
+				if ( damageMatcher.find() )
 				{
-					String message = StringUtilities.globalStringReplace( haiku, "<br>", " / " );
-					message = KoLConstants.ANYTAG_PATTERN.matcher( message ).replaceAll( "" );
-					String action = "Round " + ( FightRequest.currentRound - 1 ) + ": " + message;
-					RequestLogger.printLine( action );
-					RequestLogger.updateSessionLog( action );
-				}
-
-				// Then look for Damage: title in the image
-				Matcher damageMatcher = FightRequest.HAIKU_DAMAGE1_PATTERN.matcher( matcher.group(0) );
-				boolean foundDamageTitle = false;
-				while ( damageMatcher.find() )
-				{
-					foundDamageTitle = true;
-					String[] pieces = damageMatcher.group( 1 ).split( "[^\\d,]+" );
-					for ( int i = 0; i < pieces.length; ++i )
+					int damage = StringUtilities.parseInt( damageMatcher.group(2) );
+					if ( logMonsterHealth )
 					{
-						damageThisRound += StringUtilities.parseInt( pieces[ i ] );
+						FightRequest.logMonsterDamage( action, damage );
 					}
+					FightRequest.healthModifier += damage;
 				}
 
-				if ( foundDamageTitle )
-				{
-					continue;
-				}
-
-				// Damage can come in other ways, too...
-				if ( haiku.indexOf( "17 small cuts" ) != -1 )
-				{
-					// Casting The 17 Cuts
-					damageThisRound += 17;
-					continue;
-				}
-
-				// Look for damage in the text if there is no title
+				continue;
 			}
 
-			// Damage from skills and spells comes without an image
-			Matcher damageMatcher = FightRequest.HAIKU_DAMAGE2_PATTERN.matcher( matcher.group(0) );
-			if ( damageMatcher.find() )
+			String descid = matcher.group(2);
+
+			if ( descid != null )
 			{
-				damageThisRound += StringUtilities.parseInt( damageMatcher.group(1) );
+				// Found an item
+				int itemId = ItemDatabase.getItemIdFromDescription( descid );
+				AdventureResult result = ItemPool.get( itemId, 1 );
+				ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+				continue;
+			}
+
+			String haiku = matcher.group(4);
+
+			if ( image.equals( familiar ) )
+			{
+				if ( logFamiliar )
+				{
+					String famact = StringUtilities.globalStringReplace( haiku, "<br>", " / " );
+					famact = KoLConstants.ANYTAG_PATTERN.matcher( famact ).replaceAll( "" );
+					FightRequest.getRound( action );
+					action.append( famact );
+
+					String message = action.toString();
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+				}
+
+				ResultProcessor.processFamiliarWeightGain( haiku );
+			}
+
+			// Look for Damage: title in the image
+			Matcher damageMatcher = FightRequest.HAIKU_DAMAGE1_PATTERN.matcher( matcher.group(0) );
+			boolean foundDamageTitle = false;
+			while ( damageMatcher.find() )
+			{
+				foundDamageTitle = true;
+				String[] pieces = damageMatcher.group( 1 ).split( "[^\\d,]+" );
+				int damage = 0;
+				for ( int i = 0; i < pieces.length; ++i )
+				{
+					damage += StringUtilities.parseInt( pieces[ i ] );
+				}
+				if ( logMonsterHealth )
+				{
+					FightRequest.logMonsterDamage( action, damage );
+				}
+				FightRequest.healthModifier += damage;
+			}
+
+			if ( foundDamageTitle )
+			{
+				continue;
+			}
+
+			// Damage can come in other ways, too...
+			if ( haiku.indexOf( "17 small cuts" ) != -1 )
+			{
+				// Casting The 17 Cuts
+				if ( logMonsterHealth )
+				{
+					FightRequest.logMonsterDamage( action, 17 );
+				}
+				FightRequest.healthModifier += 17;
+				continue;
+			}
+
+			Matcher m = INT_PATTERN.matcher( haiku );
+			if ( !m.find() )
+			{
+				if ( image.equals( "strboost.gif" ) && haiku.indexOf( "<b>" ) != -1 )
+				{
+					String message = "You gain a Muscle point!";
+					shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+					continue;
+				}
+
+				if ( image.equals( "snowflakes.gif" ) && haiku.indexOf( "<b>" ) != -1 )
+				{
+					String message = "You gain a Mysticality point!";
+					shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+					continue;
+				}
+
+				if ( image.equals( "wink.gif" ) && haiku.indexOf( "<b>" ) != -1 )
+				{
+					String message = "You gain a Moxie point!";
+					shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+					continue;
+				}
+				continue;
+			}
+
+			String points = m.group(1);
+
+			if ( image.equals( "meat.gif" ) )
+			{
+				String message = "You gain " + points + " Meat";
+				ResultProcessor.processMeat( message, null );
+				shouldRefresh = true;
+				continue;
+			}
+
+			if ( image.equals( "hp.gif" ) )
+			{
+				// Gained or lost HP
+
+				String gain = "lose";
+
+				// Your wounds fly away
+				// on a refreshing spring breeze.
+				// You gain <b>X</b> hit points.
+
+				// When <b><font color=black>XX</font></b> hit points<
+				// are restored to your body,
+				// you make an "ahhhhhhhh" sound.
+
+				// You're feeling better --
+				// <b><font color=black>XXX</font></b> hit points better -
+				// than you were before.
+
+				if ( haiku.indexOf( "Your wounds fly away" ) != -1 ||
+				     haiku.indexOf( "restored to your body" ) != -1 ||
+				     haiku.indexOf( "You're feeling better" ) != -1 )
+				{
+					gain = "gain";
+				}
+
+				String message = "You " + gain + " " + points + " hit points";
+
+				RequestLogger.printLine( message );
+				if ( Preferences.getBoolean( "logGainMessages" ) )
+				{
+					RequestLogger.updateSessionLog( message );
+				}
+
+				ResultProcessor.parseResult( message );
+				continue;
+			}
+
+			if ( image.equals( "mp.gif" ) )
+			{
+				// Gained or lost MP
+
+				String gain = "lose";
+
+				// You feel quite refreshed,
+				// like a frog drinking soda,
+				// gaining <b>X</b> MP.
+
+				// A contented belch.
+				// Ripples in a mystic pond.
+				// You gain <b>X</b> MP.
+
+				// Like that wimp Dexter,
+				// you have become ENERGIZED,
+				// with <b>XX</b> MP.
+
+				// <b>XX</b> magic points
+				// fall upon you like spring rain.
+				// Mana from heaven.
+
+				// Spring rain falls within
+				// metaphorically, I mean.
+				// <b>XXX</b> mp.
+
+				// <b>XXX</b> MP.
+				// Like that sports drink commercial --
+				// is it in you?  Yes.
+
+				if ( haiku.indexOf( "You feel quite refreshed" ) != -1 ||
+				     haiku.indexOf( "A contented belch" ) != -1 ||
+				     haiku.indexOf( "ENERGIZED" ) != -1 ||
+				     haiku.indexOf( "Mana from heaven" ) != -1 ||
+				     haiku.indexOf( "Spring rain falls within" ) != -1 ||
+				     haiku.indexOf( "sports drink" ) != -1 )
+				{
+					gain = "gain";
+				}
+				String message = "You " + gain + " " + points + " Mojo points";
+
+				RequestLogger.printLine( message );
+				if ( Preferences.getBoolean( "logGainMessages" ) )
+				{
+					RequestLogger.updateSessionLog( message );
+				}
+
+				ResultProcessor.parseResult( message );
+				continue;
+			}
+
+			if ( image.equals( "strboost.gif" ) )
+			{
+				String message = "You gain " + points + " Strongness";
+				shouldRefresh |= ResultProcessor.processStatGain( message, null );
+				continue;
+			}
+
+			if ( image.equals( "snowflakes.gif" ) )
+			{
+				String message = "You gain " + points + " Magicalness";
+				shouldRefresh |= ResultProcessor.processStatGain( message, null );
+				continue;
+			}
+
+			if ( image.equals( "wink.gif" ) )
+			{
+				String message = "You gain " + points + " Roguishness";
+				shouldRefresh |= ResultProcessor.processStatGain( message, null );
+				continue;
+			}
+
+			if ( haiku.indexOf( "damage" ) != -1 )
+			{
+				// Using a combat item
+				int damage = StringUtilities.parseInt( points );
+				if ( logMonsterHealth )
+				{
+					FightRequest.logMonsterDamage( action, damage );
+				}
+				FightRequest.healthModifier += damage;
+				continue;
 			}
 		} while ( matcher.find() );
 
-		return damageThisRound;
+		FightRequest.shouldRefresh = shouldRefresh;
+
+		// Look for special effects
+		FightRequest.updateMonsterHealth( responseText, 0 );
 	}
 
 	private static final void clearInstanceData()
@@ -3373,7 +3625,9 @@ public class FightRequest
 
 		if ( shouldLogAction )
 		{
-			action.append( "Round " + FightRequest.currentRound + ": " + KoLCharacter.getUserName() + " " );
+			FightRequest.getRound( action );
+			action.append( KoLCharacter.getUserName() );
+			action.append( " " );
 		}
 
 		if ( urlString.indexOf( "runaway" ) != -1 )
@@ -3515,8 +3769,9 @@ public class FightRequest
 
 		if ( shouldLogAction )
 		{
-			RequestLogger.printLine( action.toString() );
-			RequestLogger.updateSessionLog( action.toString() );
+			String message = action.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 		}
 
 		return true;

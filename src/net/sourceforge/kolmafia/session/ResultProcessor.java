@@ -71,11 +71,7 @@ public class ResultProcessor
 	private static Pattern CARBS_PATTERN =
 		Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
-	private static Pattern INT_PATTERN = Pattern.compile( ".*?([\\d]+).*" );
 
-	public static Pattern HAIKU_PATTERN = Pattern.compile( "<[tT]able[^>]*><tr>(?:<td[^>]*><img[^>]*/([^/]*\\.gif)(?:[^>]*descitem\\(([\\d]*)\\))?[^>]*></td>)?(?:<td[^>]*>)?(?:<span[^>]*title=\"([^\"]*)\"[^>]*>)?(?:<[tT]able><tr>)?<td valign=center[^>]*>(.*?)</td>(?:</tr></table>(?:</span>)?</td>)?</tr></table>" );
-
-	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 	private static boolean receivedClover = false;
 
 	// This number changes every time an item is processed, and can be used
@@ -120,16 +116,10 @@ public class ResultProcessor
 		return ResultProcessor.processResults( false, canBeHaiku, results, data );
 	}
 
-	private static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\)" );
+	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\)" );
 
-	public static boolean processResults( boolean combatResults, boolean canBeHaiku, String results, List data )
+	public static void registerNewItems( String results )
 	{
-		ResultProcessor.receivedClover = false;
-
-		if ( data == null && RequestLogger.isDebugging() )
-		{
-			RequestLogger.updateDebugLog( "Processing results..." );
-		}
 
 		// Results now come in like this:
 		//
@@ -160,10 +150,20 @@ public class ResultProcessor
 				ItemDatabase.registerItem( itemName, descId, relString );
 			}
 		}
+	}
 
-		boolean requiresRefresh = canBeHaiku && haveHaikuResults( results ) ?
-			processHaikuResults( combatResults, results, data ) :
-			processNormalResults( combatResults, results, data );
+	public static boolean processResults( boolean combatResults, boolean canBeHaiku, String results, List data )
+	{
+		ResultProcessor.receivedClover = false;
+
+		if ( data == null && RequestLogger.isDebugging() )
+		{
+			RequestLogger.updateDebugLog( "Processing results..." );
+		}
+
+		ResultProcessor.registerNewItems( results );
+
+		boolean requiresRefresh = processNormalResults( combatResults, results, data );
 
 		if ( data == null )
 		{
@@ -176,17 +176,7 @@ public class ResultProcessor
 		return requiresRefresh;
 	}
 
-	public static boolean haveHaikuResults( final String responseText )
-	{
-		// Adventuring in the Haiku Dungeon
-		// Currently have Haiku State of Mind
-		// Just acquired Haiku State of Mind
-		return KoLAdventure.lastAdventureId() == 138 ||
-		       KoLConstants.activeEffects.contains( ResultProcessor.haikuEffect ) ||
-		       responseText.indexOf( EffectPool.HAIKU_STATE_OF_MIND ) != -1 ;
-	}
-
-	private static boolean processNormalResults( boolean combatResults, String results, List data )
+	public static boolean processNormalResults( boolean combatResults, String results, List data )
 	{
 		String plainTextResult = KoLConstants.ANYTAG_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
 
@@ -207,204 +197,7 @@ public class ResultProcessor
 		return shouldRefresh;
 	}
 
-	public static Matcher getHaikuMatcher( String responseText )
-	{
-		return ResultProcessor.HAIKU_PATTERN.matcher( responseText );
-	}
-
-	private static boolean processHaikuResults( boolean combatResults, String results, List data )
-	{
-		Matcher matcher = ResultProcessor.getHaikuMatcher( results );
-		if ( !matcher.find() )
-		{
-			return false;
-		}
-
-		boolean shouldRefresh = false;
-		String familiar = KoLCharacter.getFamiliar().getImageLocation();
-
-		do
-		{
-			String image = matcher.group(1);
-			if ( image == null )
-			{
-				continue;
-			}
-
-			String descid = matcher.group(2);
-			if ( descid != null )
-			{
-				// Found an item
-				int itemId = ItemDatabase.getItemIdFromDescription( descid );
-				AdventureResult result = ItemPool.get( itemId, 1 );
-				ResultProcessor.processItem( combatResults, "You acquire an item:", result, data );
-
-				continue;
-			}
-
-			String haiku = matcher.group(4);
-
-			if ( data == null && image.equals( familiar ) )
-			{
-				ResultProcessor.processFamiliarWeightGain( haiku );
-				continue;
-			}
-
-			Matcher m = INT_PATTERN.matcher( haiku );
-			if ( !m.find() )
-			{
-				if ( image.equals( "strboost.gif" ) && haiku.indexOf( "<b>" ) != -1 )
-				{
-					String message = "You gain a Muscle point!";
-					shouldRefresh |= ResultProcessor.processGainLoss( message, data );
-					continue;
-				}
-
-				if ( image.equals( "snowflakes.gif" ) && haiku.indexOf( "<b>" ) != -1 )
-				{
-					String message = "You gain a Mysticality point!";
-					shouldRefresh |= ResultProcessor.processGainLoss( message, data );
-					continue;
-				}
-
-				if ( image.equals( "wink.gif" ) && haiku.indexOf( "<b>" ) != -1 )
-				{
-					String message = "You gain a Moxie point!";
-					shouldRefresh |= ResultProcessor.processGainLoss( message, data );
-					continue;
-				}
-				continue;
-			}
-
-			String points = m.group(1);
-
-			if ( image.equals( "meat.gif" ) )
-			{
-				String message = "You gain " + points + " Meat";
-				ResultProcessor.processMeat( message, data );
-				shouldRefresh = true;
-				continue;
-			}
-
-			if ( data != null )
-			{
-				continue;
-			}
-
-			if ( image.equals( "hp.gif" ) )
-			{
-				// Gained or lost HP
-
-				String gain = "lose";
-
-				// Your wounds fly away
-				// on a refreshing spring breeze.
-				// You gain <b>X</b> hit points.
-
-				// When <b><font color=black>XX</font></b> hit points<
-				// are restored to your body,
-				// you make an "ahhhhhhhh" sound.
-
-				// You're feeling better --
-				// <b><font color=black>XXX</font></b> hit points better -
-				// than you were before.
-
-				if ( haiku.indexOf( "Your wounds fly away" ) != -1 ||
-				     haiku.indexOf( "restored to your body" ) != -1 ||
-				     haiku.indexOf( "You're feeling better" ) != -1 )
-				{
-					gain = "gain";
-				}
-
-				String message = "You " + gain + " " + points + " hit points";
-
-				RequestLogger.printLine( message );
-				if ( Preferences.getBoolean( "logGainMessages" ) )
-				{
-					RequestLogger.updateSessionLog( message );
-				}
-
-				ResultProcessor.parseResult( message );
-				continue;
-			}
-
-			if ( image.equals( "mp.gif" ) )
-			{
-				// Gained or lost MP
-
-				String gain = "lose";
-
-				// You feel quite refreshed,
-				// like a frog drinking soda,
-				// gaining <b>X</b> MP.
-
-				// A contented belch.
-				// Ripples in a mystic pond.
-				// You gain <b>X</b> MP.
-
-				// Like that wimp Dexter,
-				// you have become ENERGIZED,
-				// with <b>XX</b> MP.
-
-				// <b>XX</b> magic points
-				// fall upon you like spring rain.
-				// Mana from heaven.
-
-				// Spring rain falls within
-				// metaphorically, I mean.
-				// <b>XXX</b> mp.
-
-				// <b>XXX</b> MP.
-				// Like that sports drink commercial --
-				// is it in you?  Yes.
-
-				if ( haiku.indexOf( "You feel quite refreshed" ) != -1 ||
-				     haiku.indexOf( "A contented belch" ) != -1 ||
-				     haiku.indexOf( "ENERGIZED" ) != -1 ||
-				     haiku.indexOf( "Mana from heaven" ) != -1 ||
-				     haiku.indexOf( "Spring rain falls within" ) != -1 ||
-				     haiku.indexOf( "sports drink" ) != -1 )
-				{
-					gain = "gain";
-				}
-				String message = "You " + gain + " " + points + " Mojo points";
-
-				RequestLogger.printLine( message );
-				if ( Preferences.getBoolean( "logGainMessages" ) )
-				{
-					RequestLogger.updateSessionLog( message );
-				}
-
-				ResultProcessor.parseResult( message );
-				continue;
-			}
-
-			if ( image.equals( "strboost.gif" ) )
-			{
-				String message = "You gain " + points + " Strongness";
-				shouldRefresh |= ResultProcessor.processStatGain( message, data );
-				continue;
-			}
-
-			if ( image.equals( "snowflakes.gif" ) )
-			{
-				String message = "You gain " + points + " Magicalness";
-				shouldRefresh |= ResultProcessor.processStatGain( message, data );
-				continue;
-			}
-
-			if ( image.equals( "wink.gif" ) )
-			{
-				String message = "You gain " + points + " Roguishness";
-				shouldRefresh |= ResultProcessor.processStatGain( message, data );
-				continue;
-			}
-		} while ( matcher.find() );
-
-		return shouldRefresh;
-	}
-
-	private static void processFamiliarWeightGain( final String results )
+	public static void processFamiliarWeightGain( final String results )
 	{
 		if ( results.indexOf( "gains a pound" ) != -1 ||
 		     // The following are Haiku results
@@ -630,7 +423,7 @@ public class ResultProcessor
 		ResultProcessor.processItem( combatResults, acquisition, result, data );
 	}
 
-	private static void processItem( boolean combatResults, String acquisition, AdventureResult result, List data )
+	public static void processItem( boolean combatResults, String acquisition, AdventureResult result, List data )
 	{
 		if ( data != null )
 		{
@@ -696,7 +489,7 @@ public class ResultProcessor
 		return parseEffect( effectName + " (" + duration + ")" );
 	}
 
-	private static boolean processGainLoss( String lastToken, final List data )
+	public static boolean processGainLoss( String lastToken, final List data )
 	{
 		int periodIndex = lastToken.indexOf( "." );
 		if ( periodIndex != -1 )
@@ -736,7 +529,7 @@ public class ResultProcessor
 		return ResultProcessor.processStatGain( lastToken, data );
 	}
 
-	private static boolean processMeat( String lastToken, List data )
+	public static boolean processMeat( String lastToken, List data )
 	{
 		AdventureResult result = ResultProcessor.parseResult( lastToken );
 
@@ -813,7 +606,7 @@ public class ResultProcessor
 		return true;
 	}
 
-	private static boolean processStatGain( String lastToken, List data )
+	public static boolean processStatGain( String lastToken, List data )
 	{
 		if ( data != null )
 		{
@@ -842,7 +635,7 @@ public class ResultProcessor
 		}
 	}
 
-	private static AdventureResult parseResult( String result )
+	public static AdventureResult parseResult( String result )
 	{
 		result = result.trim();
 

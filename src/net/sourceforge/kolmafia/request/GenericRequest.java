@@ -1890,12 +1890,13 @@ public class GenericRequest
 			this.containsUpdate = this.getFormField( "whichitem" ) != null &&
 				ResultProcessor.processResults( false, this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
 		}
+		else if ( urlString.startsWith( "fight.php" ) )
+		{
+			this.containsUpdate = FightRequest.processResults( this.responseText );
+		}
 		else
 		{
-			boolean combat = urlString.startsWith( "fight.php" );
-			this.containsUpdate = ResultProcessor.processResults( 
-				combat, combat || urlString.startsWith( "adventure.php" ) ||
-				urlString.startsWith( "choice.php" ), this.responseText );
+			this.containsUpdate = ResultProcessor.processResults( false, this.responseText );
 		}
 	}
 
