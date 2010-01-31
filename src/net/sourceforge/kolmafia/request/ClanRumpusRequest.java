@@ -59,6 +59,32 @@ public class ClanRumpusRequest
 	public static final int CHIPS = 5;
 	public static final int BALLS = 6;
 
+	public static final int RADIUM = 1;
+	public static final int WINTERGREEN = 2;
+	public static final int ENNUI = 3;
+
+	public static final Object [][] CHIP_FLAVORS = new Object[][]
+	{
+		{ "radium", new Integer( RADIUM ) },
+		{ "wintergreen", new Integer( WINTERGREEN ) },
+		{ "ennui", new Integer( ENNUI ) },
+	};
+
+	public static final int findChips( final String name )
+	{
+		for ( int i = 0; i < CHIP_FLAVORS.length; ++i )
+		{
+			String flavor = (String) CHIP_FLAVORS[i][0];
+			if ( name.equals( flavor ) )
+			{
+				Integer index = (Integer) CHIP_FLAVORS[i][1];
+				return index.intValue();
+			}
+		}
+
+		return 0;
+	}
+
 	private static final Pattern TURN_PATTERN = Pattern.compile( "numturns=(\\d+)" );
 
 	public static final String[][] EQUIPMENT = 
