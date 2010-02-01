@@ -33,29 +33,25 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ColorEchoCommand
+public class FullEchoCommand
 	extends AbstractCommand
 {
-	public ColorEchoCommand()
 	{
-		this.usage = " <color> <text> - show text using color (specified by name or #RRGGBB).";
+		this.usage = " <text> - include text in the session log.";
+		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}
 
 	public void run( final String cmd, String parameters )
 	{
-		int spaceIndex = parameters.indexOf( " " );
-		String color = "#000000";
+		parameters = StringUtilities.globalStringDelete( parameters, "\r" );
+		parameters = StringUtilities.globalStringDelete( parameters, "\n" );
+		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
-		if ( spaceIndex != -1 )
-		{
-			color = parameters.substring( 0, spaceIndex ).replaceAll( "[\">]", "" );
-		}
-
-		parameters = parameters.substring( spaceIndex + 1 );
-		StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
-		RequestLogger.printLine( "<font color=\"" + color + "\">" + parameters + "</font>" );
+		RequestLogger.printLine( parameters );
+		RequestLogger.getSessionStream().println( " > " + parameters );
 	}
 }

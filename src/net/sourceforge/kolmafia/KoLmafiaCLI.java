@@ -304,12 +304,15 @@ public class KoLmafiaCLI
 
 		while ( KoLmafia.permitsContinue() & line.length() > 0 )
 		{
-			String command, lcommand, parameters;
+			line = line.trim();
+
 			int splitIndex = line.indexOf( ";" );
+			String parameters;
+
 			if ( splitIndex != -1 )
 			{
-				parameters = line.substring( 0, splitIndex ).trim();
-				line = line.substring( splitIndex + 1 ).trim();
+				parameters = line.substring( 0, splitIndex );
+				line = line.substring( splitIndex + 1 );
 			}
 			else
 			{
@@ -317,38 +320,51 @@ public class KoLmafiaCLI
 				line = "";
 			}
 
-			if ( parameters.length() == 0 )
+			// At this point, "parameters" has no leading
+			// spaces. It may have trailing spaces.
+
+			String trimmed = parameters.trim();
+			if ( trimmed.length() == 0 )
 			{
 				continue;
 			}
 
-			splitIndex = parameters.indexOf( " " );
+			// "trimmed" has no leading or trailing spaces. Its
+			// first word is the command.
 
-			// First, check for parameterless commands.
-			// Multi-word commands can only match here.
-			lcommand = parameters.toLowerCase();
+			splitIndex = trimmed.indexOf( " " );
+
+			String lcommand = trimmed.toLowerCase();
+			String command;
 
 			if ( splitIndex == -1 )
 			{
-				command = parameters;
-				parameters = "";
+				// Single word command. No parameters.
+				command = trimmed;
+				trimmed = "";
 			}
 			else if ( AbstractCommand.lookup.get( lcommand ) != null && AbstractCommand.lookup.getKeyType( lcommand ) == PrefixMap.EXACT_KEY )
 			{
+				// Multiword command
 				command = lcommand;
-				parameters = "";
+				trimmed = "";
 			}
 			else
 			{
-				command = parameters.substring( 0, splitIndex );
+				command = trimmed.substring( 0, splitIndex );
 				lcommand = command.toLowerCase();
-				parameters = parameters.substring( splitIndex + 1 ).trim();
+				parameters = parameters.substring( splitIndex + 1 );
+				trimmed = parameters.trim();
 			}
+
+			// "parameters" has no leading spaces. It may have
+			// trailing spaces.
+			// "trimmed" has no leading or trailing spaces.
 
 			if ( command.endsWith( "?" ) )
 			{
-				int length = command.length();
 				KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
+				int length = command.length();
 				command = command.substring( 0, length - 1 );
 				lcommand = lcommand.substring( 0, length - 1 );
 			}
@@ -357,7 +373,9 @@ public class KoLmafiaCLI
 			int flags = handler == null ? 0 : handler.flags;
 			if ( flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals( "" ) )
 			{
-				parameters = parameters + " ; " + line;
+				// parameters are un-trimmed original
+				// parameters + rest of line
+				trimmed = parameters + ";" + line;
 				line = "";
 			}
 
@@ -374,16 +392,16 @@ public class KoLmafiaCLI
 				handler.continuation = continuation;
 				handler.CLI = this;
 				RequestThread.openRequestSequence();
-				handler.run( lcommand, parameters );
+				handler.run( lcommand, trimmed );
 				RequestThread.closeRequestSequence();
 				handler.CLI = null;
 				KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
-				this.previousLine = command + " " + parameters + ";" + continuation;
+				this.previousLine = command + " " + trimmed + ";" + continuation;
 				return;
 			}
 
 			RequestThread.openRequestSequence();
-			this.executeCommand( command, parameters );
+			this.executeCommand( command, trimmed );
 			RequestThread.closeRequestSequence();
 			KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 		}
@@ -398,6 +416,8 @@ public class KoLmafiaCLI
 
 	private String getContinuation( String line )
 	{
+		line = line.trim();
+
 		StringBuffer block = new StringBuffer( line );
 		boolean seenCmd = false, needAnotherCmd = false;
 		while ( true )
@@ -602,6 +622,7 @@ public class KoLmafiaCLI
 		new FakeAddItemCommand().register( "fakeitem" );
 		new FakeRemoveItemCommand().register( "removeitem" );
 		new FamiliarCommand().register( "familiar" );
+		new FullEchoCommand().register( "fecho" ).register( "fprint" );
 		new FlowerHuntCommand().register( "flowers" );
 		new FoldItemCommand().register( "fold" ).register( "squeeze" );
 		new ForumCommand().registerPrefix( "forum" );
@@ -723,9 +744,10 @@ public class KoLmafiaCLI
 		// which is more readily printable.
 
 		displayText = KoLmafiaCLI.HTMLTAG_PATTERN.matcher( displayText ).replaceAll( "" );
-		displayText =
-			displayText.replaceAll( "&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll(
-				"&quot;", "" );
+		displayText = displayText.replaceAll( "&nbsp;", " " );
+		displayText = displayText.replaceAll( "&trade;", " [tm]" );
+		displayText = displayText.replaceAll( "&ntilde;", "n" );
+		displayText = displayText.replaceAll( "&quot;", "" );
 
 		// Allow only one new line at a time in the HTML
 		// that is printed.
