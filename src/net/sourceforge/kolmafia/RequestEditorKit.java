@@ -105,7 +105,6 @@ public class RequestEditorKit
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
-	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(<b>(\\d+ )?)ten-leaf clover((s)?</b>)" );
 
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
@@ -493,17 +492,13 @@ public class RequestEditorKit
 		// It's possible that clovers were auto-disassembled.
 		// Go ahead and make the updates.
 
-		if ( ResultProcessor.shouldDisassembleClovers( location ) )
+		if ( ResultProcessor.disassembledClovers( location ) )
 		{
-			Matcher matcher = CLOVER_PATTERN.matcher( buffer );
-			if ( matcher.find() )
-			{
-				StringUtilities.singleStringReplace( buffer,
-					matcher.group(1) + "ten-leaf clover" + matcher.group(3),
-					matcher.group(1) + "disassembled clover" + matcher.group(3) );
-				StringUtilities.singleStringReplace( buffer, "clover.gif", "disclover.gif" );
-				StringUtilities.singleStringReplace( buffer, "370834526", "328909735" );
-			}
+			// Replace not only the bolded item name, but
+			// also alt and title tags of the image
+			StringUtilities.globalStringReplace( buffer, "ten-leaf clover", "disassembled clover" );
+			StringUtilities.singleStringReplace( buffer, "clover.gif", "disclover.gif" );
+			StringUtilities.singleStringReplace( buffer, "370834526", "328909735" );
 		}
 
 		// Change El Vibrato punchcard names wherever they are found

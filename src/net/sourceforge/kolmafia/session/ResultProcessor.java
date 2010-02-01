@@ -73,6 +73,7 @@ public class ResultProcessor
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 
 	private static boolean receivedClover = false;
+	private static boolean receivedDisassembledClover = false;
 
 	// This number changes every time an item is processed, and can be used
 	// by other code to tell if an item is received, without necessarily
@@ -85,13 +86,28 @@ public class ResultProcessor
 		return ResultProcessor.receivedClover;
 	}
 
+	public static boolean receivedDisassembledClover()
+	{
+		return ResultProcessor.receivedDisassembledClover;
+	}
+
 	public static boolean shouldDisassembleClovers( String formURLString )
 	{
-		if ( !ResultProcessor.receivedClover || FightRequest.getCurrentRound() != 0 || !Preferences.getBoolean( "cloverProtectActive" ) )
-		{
-			return false;
-		}
+		return ResultProcessor.receivedClover &&
+		       FightRequest.getCurrentRound() == 0 &&
+		       Preferences.getBoolean( "cloverProtectActive" ) &&
+		       isCloverURL( formURLString );
+	}
 
+	public static boolean disassembledClovers( String formURLString )
+	{
+		return ResultProcessor.receivedDisassembledClover &&
+		       Preferences.getBoolean( "cloverProtectActive" ) &&
+		       isCloverURL( formURLString );
+	}
+
+	private static boolean isCloverURL( String formURLString )
+	{
 		return formURLString.startsWith( "adventure.php" ) ||
 			formURLString.startsWith( "choice.php" ) ||
 			formURLString.startsWith( "hermit.php" ) ||
@@ -155,6 +171,7 @@ public class ResultProcessor
 	public static boolean processResults( boolean combatResults, String results, List data )
 	{
 		ResultProcessor.receivedClover = false;
+		ResultProcessor.receivedDisassembledClover = false;
 
 		if ( data == null && RequestLogger.isDebugging() )
 		{
@@ -1231,6 +1248,10 @@ public class ResultProcessor
 
 		case ItemPool.TEN_LEAF_CLOVER:
 			ResultProcessor.receivedClover = true;
+			break;
+
+		case ItemPool.DISASSEMBLED_CLOVER:
+			ResultProcessor.receivedDisassembledClover = true;
 			break;
 
 		case ItemPool.BATSKIN_BELT:
