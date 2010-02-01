@@ -700,8 +700,9 @@ public class KoLmafiaCLI
 		new UnequipCommand().register( "unequip" ).register( "remove" );
 		new UntinkerCommand().register( "untinker" );
 		new UpdateDataCommand().register( "update" );
-		new UseItemCommand().register( "eat" ).register( "drink" ).register( "use" ).register( "chew" ).register(
-			"overdrink" ).register( "hobo" ).register( "ghost" ).register( "slimeling" );
+		new UseItemCommand().register( "eat" ).register( "drink" ).register( "use" ).register( "chew" )
+			.register( "overdrink" )
+			.register( "hobo" ).register( "ghost" ).register( "slimeling" );
 		new UseSkillCommand().register( "cast" ).register( "skill" );
 		new VersionCommand().register( "version" );
 		new VisitURLCommand().register( "text" ).registerPrefix( "http://" ).registerSubstring( ".php" );
