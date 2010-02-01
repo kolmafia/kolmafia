@@ -54,11 +54,11 @@ public class EchoCommand
 			parameters = HolidayDatabase.getCalendarDayAsString( new Date() );
 		}
 
-		parameters = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( parameters, "\n" ), "\r" );
+		parameters = StringUtilities.globalStringDelete( parameters, "\r" );
+		parameters = StringUtilities.globalStringDelete( parameters, "\n" );
 		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 		RequestLogger.printLine( parameters );
 		RequestLogger.getSessionStream().println( " > " + parameters );
 	}
-
 }
