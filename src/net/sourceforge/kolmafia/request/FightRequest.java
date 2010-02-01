@@ -3408,7 +3408,7 @@ public class FightRequest
 			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 1;
 			break;
 
-                case 5023: // Disco Eye-Poke
+                case 5023: // Stealth Mistletoe
                         FightRequest.stealthMistletoe = 2;
                         break;
 
