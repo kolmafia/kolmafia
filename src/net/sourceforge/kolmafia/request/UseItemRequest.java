@@ -997,6 +997,11 @@ public class UseItemRequest
 	
 	public static final boolean allowFoodConsumption()
 	{
+		if ( StaticEntity.isHeadless() )
+		{
+			return true;
+		}
+
 		// If already have Got Milk effect
 		if ( KoLConstants.activeEffects.contains( ItemDatabase.MILK ) )
 		{
