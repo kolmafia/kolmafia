@@ -101,19 +101,19 @@ public class ResultProcessor
 			formURLString.indexOf( "whichitem=553" ) != -1;
 	}
 
-	public static boolean processResults( boolean canBeHaiku, String results )
+	public static boolean processResults( String results )
 	{
-		return ResultProcessor.processResults( false, canBeHaiku, results, null );
+		return ResultProcessor.processResults( false, results, null );
 	}
 
-	public static boolean processResults( boolean combatResults, boolean canBeHaiku, String results )
+	public static boolean processResults( boolean combatResults, String results )
 	{
-		return ResultProcessor.processResults( combatResults, canBeHaiku, results, null );
+		return ResultProcessor.processResults( combatResults, results, null );
 	}
 
-	public static boolean processResults( boolean canBeHaiku, String results, List data )
+	public static boolean processResults( String results, List data )
 	{
-		return ResultProcessor.processResults( false, canBeHaiku, results, data );
+		return ResultProcessor.processResults( false, results, data );
 	}
 
 	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\)" );
@@ -152,7 +152,7 @@ public class ResultProcessor
 		}
 	}
 
-	public static boolean processResults( boolean combatResults, boolean canBeHaiku, String results, List data )
+	public static boolean processResults( boolean combatResults, String results, List data )
 	{
 		ResultProcessor.receivedClover = false;
 
@@ -1025,7 +1025,7 @@ public class ResultProcessor
 		}
 	}
 
-	private static void gainItem( boolean combatDrop, AdventureResult result )
+	private static void gainItem( boolean combatResults, AdventureResult result )
 	{
 		// All results, whether positive or negative, are
 		// handled here.
@@ -1144,19 +1144,19 @@ public class ResultProcessor
 		case ItemPool.EL_VIBRATO_HELMET:
 		case ItemPool.EL_VIBRATO_SPEAR:
 		case ItemPool.EL_VIBRATO_PANTS:
-			if ( combatDrop ) ResultProcessor.removeItem( ItemPool.POWER_SPHERE );
+			if ( combatResults ) ResultProcessor.removeItem( ItemPool.POWER_SPHERE );
 			break;
 
 		case ItemPool.BROKEN_DRONE:
-			if ( combatDrop ) ResultProcessor.removeItem( ItemPool.DRONE );
+			if ( combatResults ) ResultProcessor.removeItem( ItemPool.DRONE );
 			break;
 
 		case ItemPool.REPAIRED_DRONE:
-			if ( combatDrop ) ResultProcessor.removeItem( ItemPool.BROKEN_DRONE );
+			if ( combatResults ) ResultProcessor.removeItem( ItemPool.BROKEN_DRONE );
 			break;
 
 		case ItemPool.AUGMENTED_DRONE:
-			if ( combatDrop ) ResultProcessor.removeItem( ItemPool.REPAIRED_DRONE );
+			if ( combatResults ) ResultProcessor.removeItem( ItemPool.REPAIRED_DRONE );
 			break;
 
 		case ItemPool.TRAPEZOID:
