@@ -191,6 +191,7 @@ public class FightRequest
 	private static boolean castNoodles = false;
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
+	private static int stealthMistletoe = 1;
 	private static boolean summonedGhost = false;
 	private static int currentRound = 0;
 	private static int levelModifier = 0;
@@ -3069,6 +3070,7 @@ public class FightRequest
 		FightRequest.castNoodles = false;
 		FightRequest.castCleesh = false;
 		FightRequest.jiggledChefstaff = false;
+		FightRequest.stealthMistletoe = 1;
 		FightRequest.summonedGhost = false;
 		FightRequest.desiredScroll = null;
 
@@ -3383,24 +3385,32 @@ public class FightRequest
 			break;
 
 		case 5003: // Disco Eye-Poke
-			FightRequest.levelModifier -= 1;
+			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 3;
 			break;
 
 		case 5005: // Disco Dance of Doom
-			FightRequest.levelModifier -= 3;
+			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 5;
 			break;
 
 		case 5008: // Disco Dance II: Electric Boogaloo
-			FightRequest.levelModifier -= 5;
+			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 7;
 			break;
 
 		case 5012: // Disco Face Stab
-			FightRequest.levelModifier -= 7;
+			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 10;
 			break;
 
 		case 5019: // Tango of Terror
-			FightRequest.levelModifier -= 6;
+			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 8;
 			break;
+
+		case 5021: // Suckerpunch
+			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 1;
+			break;
+
+                case 5023: // Disco Eye-Poke
+                        FightRequest.stealthMistletoe = 2;
+                        break;
 
 		case 7038: // Vicious Talon Slash
 		case 7039: // All-You-Can-Beat Wing Buffet
