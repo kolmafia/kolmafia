@@ -37,9 +37,11 @@ import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.BuffBotHome;
@@ -65,6 +67,7 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 public abstract class ChatManager
 {
 	private static final LinkedList clanMessages = new RollingLinkedList( 20 );
+	private static final Set validChatReplyRecipients = new HashSet();
 
 	private static final TreeMap instantMessageBuffers = new TreeMap();
 
@@ -119,6 +122,16 @@ public abstract class ChatManager
 		new ChatPoller().start();
 
 		RequestThread.postRequest( new ChannelColorsRequest() );
+	}
+	
+	public static final boolean isValidChatReplyRecipient( String playerName )
+	{
+		if ( validChatReplyRecipients.contains( playerName ) )
+		{
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**
@@ -399,7 +412,9 @@ public abstract class ChatManager
 			content
 		};
 
+		ChatManager.validChatReplyRecipients.add( sender );
 		interpreter.execute( "main", scriptParameters );
+		ChatManager.validChatReplyRecipients.remove( sender );
 
 		return true;
 	}
