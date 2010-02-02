@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
@@ -397,6 +398,11 @@ public abstract class StaticEntity
 			location.indexOf( "ajax=1" ) == -1 )
 		{
 			CharSheetRequest.parseStatus( responseText );
+		}
+
+		else if ( location.startsWith( "clan_rumpus.php" ) )
+		{
+			ClanRumpusRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "clan_stash.php" ) )

@@ -239,6 +239,25 @@ public class ClanLoungeRequest
 			}
 		}
 
+		if ( action.equals( "klaw" ) )
+		{
+			// You carefully guide the claw over a prize and press
+			// the button (which is mahogany inlaid with
+			// mother-of-pearl -- very nice!) -- the claw slowly
+			// descends...
+			if ( responseText.indexOf( "claw slowly descends" ) != -1 )
+			{
+				Preferences.increment( "_deluxeKlawSummons", 1 );
+			}
+			// You probably shouldn't play with this machine any
+			// more today -- you wouldn't want to look greedy in
+			// front of the other VIPs, would you?
+			else if ( responseText.indexOf( "you wouldn't want to look greedy" ) != -1 )
+			{
+				Preferences.setInteger( "_deluxeKlawSummons", 3 );
+			}
+		}
+
 		if ( action.equals( "crimbotree" ) )
 		{
 			// You look under the Crimbo Tree and find a present
@@ -257,18 +276,15 @@ public class ClanLoungeRequest
 
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
-
-		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.KLAW );
-		RequestThread.postRequest( request );
-
+		// 
 		// Unlike the regular Klaw, there is no message to tell you
 		// that you are done for the day except when you try one too
 		// many times: "You probably shouldn't play with this machine
 		// any more today -- you wouldn't want to look greedy in front
 		// of the other VIPs, would you?"
 
-		// Do it at most two more times.
-		for ( int i = 0; i < 2 && request.responseText.indexOf( "want to look greedy" ) == -1; ++i )
+		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.KLAW );
+		while ( Preferences.getInteger( "_deluxeKlawSummons" ) < 3 )
 		{
 			request.run();
 		}
