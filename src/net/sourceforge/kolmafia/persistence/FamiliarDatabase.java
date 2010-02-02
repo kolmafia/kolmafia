@@ -58,9 +58,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class FamiliarDatabase
 	extends KoLDatabase
 {
-	private static final String DEFAULT_ITEM = "steaming evil";
-	private static final Integer DEFAULT_LARVA = new Integer( 666 );
-
 	private static final Map familiarById = new TreeMap();
 	private static final Map familiarByName = new TreeMap();
 	private static final Map familiarByLarva = new HashMap();
@@ -158,9 +155,11 @@ public class FamiliarDatabase
 	}
 
 	/**
-	 * Temporarily adds a familiar to the familiar database. This is used whenever KoLmafia encounters an unknown
-	 * familiar on login and is designed to minimize crashing as a result.
+	 * Temporarily adds a familiar to the familiar database. This is used
+	 * whenever KoLmafia encounters an unknown familiar on login
 	 */
+
+	private static Integer ZERO = new Integer( 0 );
 
 	public static final void registerFamiliar( final int familiarId, final String familiarName )
 	{
@@ -172,20 +171,15 @@ public class FamiliarDatabase
 
 		RequestLogger.printLine( "New familiar: \"" + familiarName + "\" (" + familiarId + ")" );
 
-		// Because I'm intelligent, assume that both the familiar item
-		// and the familiar larva are the steaming evil (for now).
-
 		Integer dummyId = new Integer( familiarId );
 
 		FamiliarDatabase.familiarById.put( dummyId, familiarName );
 		FamiliarDatabase.familiarByName.put( canon, dummyId );
-		FamiliarDatabase.familiarByLarva.put( FamiliarDatabase.DEFAULT_LARVA, dummyId );
-		FamiliarDatabase.familiarItemById.put( dummyId, FamiliarDatabase.DEFAULT_ITEM );
-		FamiliarDatabase.familiarByItem.put( StringUtilities.getCanonicalName( FamiliarDatabase.DEFAULT_ITEM ), dummyId );
-		Integer zero = new Integer( 0 );
+		FamiliarDatabase.familiarByLarva.put( FamiliarDatabase.ZERO, dummyId );
+		FamiliarDatabase.familiarItemById.put( dummyId, "" );
 		for ( int i = 0; i < 4; ++i )
 		{
-			FamiliarDatabase.eventSkillByName[ i ].put( canon, zero );
+			FamiliarDatabase.eventSkillByName[ i ].put( canon, FamiliarDatabase.ZERO );
 		}
 		FamiliarDatabase.newFamiliars = true;
 	}
