@@ -33,11 +33,8 @@
 
 package net.sourceforge.kolmafia.session;
 
-import edu.stanford.ejalbert.BrowserLauncher;
-
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
@@ -163,25 +160,31 @@ public abstract class ClanManager
 			"clan/" + ClanManager.clanId + "/" + KoLConstants.WEEKLY_FORMAT.format( new Date() ) + "/";
 		KoLmafia.updateDisplay( "Clan data retrieved." );
 
-		GenericRequest whiteListFinder = new GenericRequest( "clan_whitelist.php" );
-		whiteListFinder.run();
-
-		String currentName;
-		Matcher whiteListMatcher = ClanManager.WHITELIST_PATTERN.matcher( whiteListFinder.responseText );
-		while ( whiteListMatcher.find() )
+		GenericRequest whiteListFinder = new GenericRequest( "clan_office.php" );
+		whiteListFinder.run();		
+		
+		if ( whiteListFinder.responseText != null && whiteListFinder.responseText.indexOf( "clan_whitelist.php" ) != -1 )
 		{
-			currentName = whiteListMatcher.group( 1 );
-			ContactManager.registerPlayerId( currentName, whiteListMatcher.group( 2 ) );
+			whiteListFinder = new GenericRequest( "clan_whitelist.php" );
+			whiteListFinder.run();
 
-			currentName = currentName.toLowerCase();
-			if ( !ClanManager.currentMembers.contains( currentName ) )
+			String currentName;
+			Matcher whiteListMatcher = ClanManager.WHITELIST_PATTERN.matcher( whiteListFinder.responseText );
+			while ( whiteListMatcher.find() )
 			{
-				ClanManager.whiteListMembers.add( currentName );
+				currentName = whiteListMatcher.group( 1 );
+				ContactManager.registerPlayerId( currentName, whiteListMatcher.group( 2 ) );
+	
+				currentName = currentName.toLowerCase();
+				if ( !ClanManager.currentMembers.contains( currentName ) )
+				{
+					ClanManager.whiteListMembers.add( currentName );
+				}
 			}
+	
+			Collections.sort( ClanManager.currentMembers );
+			Collections.sort( ClanManager.whiteListMembers );
 		}
-
-		Collections.sort( ClanManager.currentMembers );
-		Collections.sort( ClanManager.whiteListMembers );
 	}
 
 	public static final void resetClanId()
