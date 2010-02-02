@@ -164,15 +164,13 @@ public class FamiliarDatabase
 
 	public static final void registerFamiliar( final int familiarId, final String familiarName )
 	{
-		if ( FamiliarDatabase.familiarByName.containsKey( StringUtilities.getCanonicalName( familiarName ) ) )
+		String canon = StringUtilities.getCanonicalName( familiarName );
+		if ( FamiliarDatabase.familiarByName.containsKey( canon ) )
 		{
 			return;
 		}
 
-		if ( RequestLogger.isDebugging() )
-		{
-			RequestLogger.updateDebugLog( "New familiar: \"" + familiarId + "\" (" + familiarName + ")" );
-		}
+		RequestLogger.printLine( "New familiar: \"" + familiarName + "\" (" + familiarId + ")" );
 
 		// Because I'm intelligent, assume that both the familiar item
 		// and the familiar larva are the steaming evil (for now).
@@ -180,10 +178,16 @@ public class FamiliarDatabase
 		Integer dummyId = new Integer( familiarId );
 
 		FamiliarDatabase.familiarById.put( dummyId, familiarName );
-		FamiliarDatabase.familiarByName.put( StringUtilities.getCanonicalName( familiarName ), dummyId );
+		FamiliarDatabase.familiarByName.put( canon, dummyId );
 		FamiliarDatabase.familiarByLarva.put( FamiliarDatabase.DEFAULT_LARVA, dummyId );
 		FamiliarDatabase.familiarItemById.put( dummyId, FamiliarDatabase.DEFAULT_ITEM );
 		FamiliarDatabase.familiarByItem.put( StringUtilities.getCanonicalName( FamiliarDatabase.DEFAULT_ITEM ), dummyId );
+		Integer zero = new Integer( 0 );
+		for ( int i = 0; i < 4; ++i )
+		{
+			FamiliarDatabase.eventSkillByName[ i ].put( canon, zero );
+		}
+		FamiliarDatabase.newFamiliars = true;
 	}
 
 	/**
@@ -195,7 +199,12 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarName( final int familiarId )
 	{
-		return (String) FamiliarDatabase.familiarById.get( new Integer( familiarId ) );
+		return FamiliarDatabase.getFamiliarName( new Integer( familiarId ) );
+	}
+
+	public static final String getFamiliarName( final Integer familiarId )
+	{
+		return (String) FamiliarDatabase.familiarById.get( familiarId );
 	}
 
 	/**
@@ -269,10 +278,20 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarItem( final int familiarId )
 	{
-		return (String) FamiliarDatabase.familiarItemById.get( new Integer( familiarId ) );
+		return FamiliarDatabase.getFamiliarItem( new Integer( familiarId ) );
+	}
+
+	public static final String getFamiliarItem( final Integer familiarId )
+	{
+		return (String) FamiliarDatabase.familiarItemById.get( familiarId );
 	}
 
 	public static final int getFamiliarItemId( final int familiarId )
+	{
+		return FamiliarDatabase.getFamiliarItemId( new Integer( familiarId ) );
+	}
+
+	public static final int getFamiliarItemId( final Integer familiarId )
 	{
 		String name = FamiliarDatabase.getFamiliarItem( familiarId );
 		return name == null ? -1 : ItemDatabase.getItemId( name );
@@ -282,6 +301,58 @@ public class FamiliarDatabase
 	{
 		Object familiarId = FamiliarDatabase.familiarByItem.get( StringUtilities.getCanonicalName( item ) );
 		return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
+	}
+
+	public static final int getFamiliarLarva( final int familiarId )
+	{
+		return FamiliarDatabase.getFamiliarLarva( new Integer( familiarId ) );
+	}
+
+	public static final int getFamiliarLarva( final Integer familiarId )
+	{
+		Integer id = (Integer) FamiliarDatabase.familiarLarvaById.get( familiarId );
+		return id == null ? 0 : id.intValue();
+	}
+
+	public static final String getFamiliarType( final int familiarId )
+	{
+		StringBuffer buffer = new StringBuffer();
+		String sep = "";
+		if ( FamiliarDatabase.combatById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "combat" );
+		}
+		if ( FamiliarDatabase.volleyById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "stat0" );
+		}
+		if ( FamiliarDatabase.sombreroById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "stat1" );
+		}
+		if ( FamiliarDatabase.fairyById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "item0" );
+		}
+		if ( FamiliarDatabase.meatDropById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "meat0" );
+		}
+		if ( sep.equals( "" )  )
+		{
+			buffer.append( "none" );
+		}
+		return buffer.toString();
 	}
 
 	public static final void setFamiliarImageLocation( final int familiarId, final String location )
@@ -339,6 +410,11 @@ public class FamiliarDatabase
 
 	public static final int[] getFamiliarSkills( final int id )
 	{
+		return FamiliarDatabase.getFamiliarSkills( new Integer( id ) );
+	}
+
+	public static final int[] getFamiliarSkills( final Integer id )
+	{
 		String name = StringUtilities.getCanonicalName( FamiliarDatabase.getFamiliarName( id ) );
 		int skills[] = new int[ 4 ];
 		for ( int i = 0; i < 4; ++i )
@@ -350,12 +426,12 @@ public class FamiliarDatabase
 
 	public static final void setFamiliarSkills( final String name, final int[] skills )
 	{
+		String canon = StringUtilities.getCanonicalName( name );
 		for ( int i = 0; i < 4; ++i )
 		{
-			FamiliarDatabase.eventSkillByName[ i ].put(
-				StringUtilities.getCanonicalName( name ), new Integer( skills[ i ] ) );
+			FamiliarDatabase.eventSkillByName[ i ].put( canon, new Integer( skills[ i ] ) );
 		}
-
+		FamiliarDatabase.newFamiliars = true;
 		FamiliarDatabase.saveDataOverride();
 	}
 
@@ -370,10 +446,10 @@ public class FamiliarDatabase
 		return FamiliarDatabase.familiarById.entrySet();
 	}
 
-	private static final void saveDataOverride()
+	public static final void saveDataOverride()
 	{
-                FamiliarDatabase.writeFamiliars( new File( UtilityConstants.DATA_LOCATION, "familiars.txt" ) );
-                FamiliarDatabase.newFamiliars = false;
+		FamiliarDatabase.writeFamiliars( new File( UtilityConstants.DATA_LOCATION, "familiars.txt" ) );
+		FamiliarDatabase.newFamiliars = false;
 	}
 
 	public static void writeFamiliars( final File output )
@@ -383,33 +459,55 @@ public class FamiliarDatabase
 		writer.println( KoLConstants.FAMILIARS_VERSION );
 
 		writer.println( "# Original familiar arena stats from Vladjimir's arena data" );
-		writer.println( "# http://www.the-rye.dreamhosters.com/familiars/" );
+		writer.println( "# http://www.therye.org/familiars/" );
+		writer.println();
+		writer.println( "# no.	name	type	larva	item	CM	SH	OC	H&S" );
 		writer.println();
 
 		Integer[] familiarIds = new Integer[ FamiliarDatabase.familiarById.size() ];
 		FamiliarDatabase.familiarById.keySet().toArray( familiarIds );
 
+		int lastInteger = 1;
 		for ( int i = 0; i < familiarIds.length; ++i )
 		{
-			writer.print( familiarIds[ i ].intValue() );
-			writer.print( "\t" );
+			Integer nextInteger = familiarIds[ i ];
+			int familiarId = nextInteger.intValue();
 
-			writer.print( FamiliarDatabase.familiarLarvaById.get( familiarIds[ i ] ) );
-			writer.print( "\t" );
-
-			writer.print( FamiliarDatabase.getFamiliarName( familiarIds[ i ].intValue() ) );
-			writer.print( "\t" );
-
-			writer.print( FamiliarDatabase.getFamiliarItem( familiarIds[ i ].intValue() ) );
-
-			int[] skills = FamiliarDatabase.getFamiliarSkills( familiarIds[ i ].intValue() );
-			for ( int j = 0; j < skills.length; ++j )
+			for ( int j = lastInteger; j < familiarId; ++j )
 			{
-				writer.print( "\t" );
-				writer.print( skills[ j ] );
+				writer.println( j );
 			}
 
-			writer.println();
+			lastInteger = familiarId + 1;
+
+			String name = FamiliarDatabase.getFamiliarName( nextInteger );
+			String type = FamiliarDatabase.getFamiliarType( familiarId );
+			int larva = FamiliarDatabase.getFamiliarLarva( nextInteger ) ;
+			int itemId = FamiliarDatabase.getFamiliarItemId( nextInteger );
+			int[] skills = FamiliarDatabase.getFamiliarSkills( nextInteger );
+
+			FamiliarDatabase.writeFamiliar( writer, familiarId, name, type, larva, itemId, skills );
 		}
+	}
+
+	public static void writeFamiliar( final PrintStream writer, final int familiarId, final String name,
+					  final String type, final int larva, final int itemId, final int [] skills )
+	{
+		writer.println( FamiliarDatabase.familiarString( familiarId, name, type, larva, itemId, skills ) );
+	}
+
+	public static String familiarString( final int familiarId, final String name,
+					     final String type, final int larva, final int itemId, final int [] skills )
+	{
+		String item = itemId == -1 ? "" : ItemDatabase.getItemDataName( itemId );
+		return familiarId + "\t" +
+		       name + "\t" +
+		       type + "\t" +
+		       larva + "\t" +
+		       item + "\t" +
+		       skills[0] + "\t" +
+		       skills[1] + "\t" +
+		       skills[2] + "\t" +
+		       skills[3];
 	}
 }

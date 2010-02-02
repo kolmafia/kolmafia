@@ -16,6 +16,7 @@
 10	Stab Bat	combat	523	shock collar	3	2	1	0
 11	Grue	combat	525	moonglasses	2	0	1	3
 12	Blood-Faced Volleyball	stat0	528	palm-frond toupee	0	1	3	2
+13
 14	Ghuol Whelp	none	529	tiny knife and fork	1	2	0	3
 15	Baby Gravy Fairy	item0	561	eye-pod	0	3	1	2
 16	Cocoabo	combat	591	chocolate spurs	2	3	0	1
@@ -66,6 +67,7 @@
 61	Ninja Snowflake	combat	2231	icicle katana	3	0	3	3
 62	Evil Teddy Bear	combat	2146	evil teddy bear sewing kit	3	2	0	1
 63	Toothsome Rock	none	2148	pet rock &quot;Groucho&quot; disguise	0	0	0	0
+64
 65	Ancient Yuletide Troll	stat0	2190	giant book of ancient carols	2	3	1	0
 66	Dandy Lion	item0	2380	woolen cravat	0	3	2	1
 67	O.A.F.	none	2445	hardware upgrade	0	0	0	0
@@ -74,8 +76,8 @@
 70	Green Pixie	combat,item0	2650	green pixie spog	3	2	0	2
 71	Ragamuffin Imp	combat	2738		3	3	3	3
 72	Exotic Parrot	none	2709	cracker	3	3	2	0
-73	Wizard Action Figure	combat, stat0, item0	2836	mint-condition magic wand	2	3	2	2
-74	Gluttonous Green Ghost	combat, stat0	2845	plastic bib	2	3	3	1
+73	Wizard Action Figure	combat,stat0,item0	2836	mint-condition magic wand	2	3	2	2
+74	Gluttonous Green Ghost	combat,stat0	2845	plastic bib	2	3	3	1
 75	Casagnova Gnome	item0,meat0	2937	miniature castagnets	0	1	3	2
 76	Hunchbacked Minion	stat0,meat0	2939	miniature Jacob's ladder	1	3	0	2
 77	Crimbo P. R. E. S. S. I. E.	none	3042	metallic foil bow	3	2	0	1
@@ -106,21 +108,21 @@
 102	Imitation Crab	combat	3598	imitation whetstone	3	1	2	2
 103	Pair of Ragged Claws	combat	3628	radioactive chew toy	1	1	1	1
 104	Magic Dragonfish	none	3648	fin-bit wax	1	1	2	0
-105	Frumious Bandersnatch	stat0,combat	3799	aquaviolet jub-jub bird	3	2	2	0
+105	Frumious Bandersnatch	combat,stat0	3799	aquaviolet jub-jub bird	3	2	2	0
 106	Midget Clownfish	combat	3815	half-height unicycle	0	1	2	2
 107	Syncopated Turtle	item0	3928	metrognome	0	2	3	2
 108	Grinning Turtle	stat0	3929	security blankie	1	0	0	3
 109	Purse Rat	none	3962	tiny cell phone	0	0	0	0
 110	Wereturtle	combat	3979	bottle of moontan lotion	3	1	0	2
 111	Baby Sandworm	stat1	3999	string of dingle balls	1	2	2	3
-112	Slimeling	item0,combat	4017	undissolvable contact lenses	3	3	2	2
-113	He-Boulder	meat0, combat	4148	quadroculars	3	3	2	1
+112	Slimeling	combat,item0	4017	undissolvable contact lenses	3	3	2	2
+113	He-Boulder	combat,meat0	4148	quadroculars	3	3	2	1
 114	Rock Lobster	none	4159	extra-strength rubber bands	3	2	2	1
 115	Urchin Urchin	meat0	4202	pet anemone	3	3	0	2
 116	Grouper Groupie	item0	4200	gill rings	0	2	3	2
 117	Squamous Gibberer	none	4223	unspeakable lozenges	1	2	2	3
 118	Dancing Frog	item0,meat0	4228	miniature tophat	1	2	2	3
-119	Chauvinist Pig	stat0,meat0	4227	 bottle of Cochon Noir	0	3	2	1
+119	Chauvinist Pig	stat0,meat0	4227	bottle of Cochon Noir	0	3	2	1
 120	Stocking Mimic	none	4328	bag of many confections	0	0	0	0
 121	Snow Angel	none	4352	snow halo	2	1	3	2
 122	Jack-in-the-Box	none	4396	brass crank handle	0	0	0	0
