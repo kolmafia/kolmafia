@@ -53,6 +53,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -242,7 +243,10 @@ public class ChatFrame
 			entryPanel.add( this.entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
-			this.add( ChatManager.getBuffer( associatedContact ).addDisplay( this.chatDisplay ), BorderLayout.CENTER );
+			ChatBuffer buffer = ChatManager.getBuffer( associatedContact );
+			buffer.clear();
+			
+			this.add( buffer.addDisplay( this.chatDisplay ), BorderLayout.CENTER );
 
 			this.add( entryPanel, BorderLayout.SOUTH );
 		}
