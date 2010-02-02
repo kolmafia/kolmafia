@@ -485,89 +485,9 @@ public class ValhallaDecorator
 			buffer.append( "<nobr>acquire dwarvish war outfit piece</nobr><br>" );
 		}
 
-		if ( InventoryManager.hasItem( ItemPool.SMALL_LAMINATED_CARD ) )
-		{
-			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.LITTLE_LAMINATED_CARD ) )
-		{
-			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.NOTBIG_LAMINATED_CARD ) )
-		{
-			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.UNLARGE_LAMINATED_CARD ) )
-		{
-			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.DWARVISH_DOCUMENT ) )
-		{
-			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.DWARVISH_PAPER ) )
-		{
-			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.DWARVISH_PARCHMENT ) )
-		{
-			buffer.append( "<nobr>autosell dwarvish quest items</nobr><br>" );
-		}
-
 		if ( InventoryManager.hasItem( ItemPool.GUNPOWDER ) )
 		{
 			buffer.append( "<nobr>trade in barrels of gunpowder for big boom</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.CULTIST_ROBE ) )
-		{
-			buffer.append( "<nobr>autosell your memory of a cultist's robe(s)</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.CREASED_PAPER_STRIP ) )
-		{
-			buffer.append( "<nobr>autosell your creased paper strip</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.CRINKLED_PAPER_STRIP ) )
-		{
-			buffer.append( "<nobr>autosell your crinkled paper strip</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.CRUMPLED_PAPER_STRIP ) )
-		{
-			buffer.append( "<nobr>autosell your crumpled paper strip</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.FOLDED_PAPER_STRIP ) )
-		{
-			buffer.append( "<nobr>autosell your folded paper strip</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.RAGGED_PAPER_STRIP ) )
-		{
-			buffer.append( "<nobr>autosell your ragged paper strip</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.RIPPED_PAPER_STRIP ) )
-		{
-			buffer.append( "<nobr>autosell your ripped paper strip</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.RUMPLED_PAPER_STRIP ) )
-		{
-			buffer.append( "<nobr>autosell your rumpled paper strip</nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.TORN_PAPER_STRIP ) )
-		{
-			buffer.append( "<nobr>autosell your torn paper strip</nobr><br>" );
 		}
 
 		GenericRequest trophyCheck = new GenericRequest( "trophy.php" );

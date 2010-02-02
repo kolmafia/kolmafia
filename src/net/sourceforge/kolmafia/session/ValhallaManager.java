@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -18,6 +19,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -25,13 +27,33 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class ValhallaManager
 {
+	private static final AdventureResult [] AUTOSELLABLE = new AdventureResult []
+	{
+		ItemPool.get( ItemPool.SMALL_LAMINATED_CARD, 1 ),
+		ItemPool.get( ItemPool.LITTLE_LAMINATED_CARD, 1 ),
+		ItemPool.get( ItemPool.NOTBIG_LAMINATED_CARD, 1 ),
+		ItemPool.get( ItemPool.UNLARGE_LAMINATED_CARD, 1 ),
+		ItemPool.get( ItemPool.DWARVISH_DOCUMENT, 1 ),
+		ItemPool.get( ItemPool.DWARVISH_PAPER, 1 ),
+		ItemPool.get( ItemPool.DWARVISH_PARCHMENT, 1 ),
+		ItemPool.get( ItemPool.CULTIST_ROBE, 1 ),
+		ItemPool.get( ItemPool.CREASED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.CRINKLED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.CRUMPLED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.FOLDED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.RAGGED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.RIPPED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.RUMPLED_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.TORN_PAPER_STRIP, 1 ),
+	};
+
 	public static void preAscension()
 	{
 		// Untinker the Bitchin' meatcar
 
 		if ( InventoryManager.hasItem( ItemPool.BITCHIN_MEATCAR ) )
 		{
-			new UntinkerRequest( ItemPool.BITCHIN_MEATCAR ).run();
+			RequestThread.postRequest( new UntinkerRequest( ItemPool.BITCHIN_MEATCAR ) );
 		}
 
 		// Create a badass belt
@@ -40,7 +62,7 @@ public class ValhallaManager
 		if ( belt != null && belt.getQuantityPossible() > 0 )
 		{
 			belt.setQuantityNeeded( belt.getQuantityPossible() );
-			belt.run();
+			RequestThread.postRequest( belt );
 		}
 
 		// Use any 31337 scrolls.
@@ -49,7 +71,7 @@ public class ValhallaManager
 		int count = scroll.getCount( KoLConstants.inventory );
 		if ( count > 0 )
 		{
-			new UseItemRequest( scroll.getInstance( count ) ).run();
+			RequestThread.postRequest( new UseItemRequest( scroll.getInstance( count ) ) );
 		}
 
 		// Trade in gunpowder.
@@ -58,7 +80,25 @@ public class ValhallaManager
 		{
 			BreakfastManager.visitPyro();
 		}
-		
+
+		// Sell autosellable quest items
+
+		ArrayList items = new ArrayList();
+		for ( int i = 0; i < ValhallaManager.AUTOSELLABLE.length; ++i )
+		{
+			AdventureResult item = ValhallaManager.AUTOSELLABLE[i];
+			if ( KoLConstants.inventory.contains( item ) )
+			{
+				items.add( item );
+			}
+		}
+
+		if ( items.size() > 0 )
+		{
+			SellStuffRequest request = new SellStuffRequest( items.toArray(), SellStuffRequest.AUTOSELL );
+			RequestThread.postRequest( request );
+		}
+
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "preAscensionScript" ) );
 
