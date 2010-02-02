@@ -1295,7 +1295,7 @@ public class GenericRequest
 		if ( istream == null )
 		{
 			this.responseCode = 302;
-			this.redirectLocation = "game.php";
+			this.redirectLocation = "main.php";
 			return true;
 		}
 
