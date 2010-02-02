@@ -222,6 +222,12 @@ public class FamiliarData
 		KoLCharacter.setFamiliar( first );
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
 		FamiliarData.checkLockedItem( responseText );
+
+		// If we discovered new familiars, write an override file
+		if ( FamiliarDatabase.newFamiliars )
+		{
+			FamiliarDatabase.saveDataOverride();
+		}
 	}
 
 	public static final void checkLockedItem( final String responseText )
