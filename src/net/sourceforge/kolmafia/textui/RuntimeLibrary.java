@@ -37,9 +37,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+
 import java.lang.reflect.Method;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,6 +73,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -84,7 +88,6 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
-import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -3387,7 +3390,7 @@ public abstract class RuntimeLibrary
 	{
 		String recipient = recipientValue.toString();
 
-		if ( !ClanManager.isMember( recipient ) )
+		if ( !ChatManager.isValidChatReplyRecipient( recipient ) && !ClanManager.isMember( recipient ) )
 		{
 			return DataTypes.VOID_VALUE;
 		}
