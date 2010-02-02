@@ -73,7 +73,8 @@ public class BreakfastManager
 	{
 		if ( InventoryManager.hasItem( toaster ) )
 		{
-			for ( int i = 0; i < 3 && KoLmafia.permitsContinue(); ++i )
+			int count = 3 - Preferences.getInteger( "_toastSummons" );
+			for ( int i = 0; i < count && KoLmafia.permitsContinue(); ++i )
 			{
 				RequestThread.postRequest( new UseItemRequest( toaster ) );
 			}

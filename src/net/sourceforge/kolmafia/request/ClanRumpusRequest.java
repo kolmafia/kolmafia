@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanRumpusRequest
@@ -350,6 +351,73 @@ public class ClanRumpusRequest
 			KoLmafia.updateDisplay( "Resting completed." );
 			return;
 		}
+
+		ClanRumpusRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "clan_rumpus.php" ) )
+		{
+			return;
+		}
+
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
+		String action = matcher.find() ? matcher.group(1) : null;
+
+		if ( action == null )
+		{
+			return;
+		}
+
+		if ( action.equals( "ballpit" ) )
+		{
+			// You play in the ball pit. Wheeeeeee!
+			// (You've already played in the ball pit today.)
+			if ( responseText.indexOf( "play in the ball pit" ) != -1 ||
+			     responseText.indexOf( "already played in the ball pit" ) != -1 )
+			{
+				Preferences.setBoolean( "_ballpit", true );
+			}
+			return;
+		}
+
+		if ( action.equals( "buychips" ) )
+		{
+			// a bag of chips drops into the tray at the bottom
+			if ( responseText.indexOf( "a bag of chips drops" ) != -1 )
+			{
+				Preferences.increment( "_chipBags", 1 );
+			}
+			// You press the button and the big metal coil rotates,
+			// but not far enough to actually drop the
+			// chips. Dangit!
+			else if ( responseText.indexOf( "but not far enough" ) != -1 )
+			{
+				Preferences.setInteger( "_chipBags", 3 );
+			}
+
+			return;
+		}
+
+		if ( urlString.indexOf( "spot=3" ) != -1 && urlString.indexOf( "furni=3" ) != -1 )
+		{
+			// You carefully guide the claw over the prize that
+			// looks the easiest to grab. You press the button and
+			// the claw slowly descends.
+			if ( responseText.indexOf( "slowly descends" ) != -1 )
+			{
+				Preferences.increment( "_klawSummons", 1 );
+			}
+			// The machine makes a horrible clanking noise, and a
+			// wisp of smoke pours out of the prize chute.
+			else if ( responseText.indexOf( "seems to be broken down" ) != -1 )
+			{
+				Preferences.setInteger( "_klawSummons", 3 );
+			}
+
+			return;
+		}
 	}
 
 	public static void getBreakfast()
@@ -366,7 +434,7 @@ public class ClanRumpusRequest
 		{
 			request.visitEquipment( 3, 3 );
 
-			while ( request.responseText.indexOf( "wisp of smoke" ) == -1 && request.responseText.indexOf( "broken down" ) == -1 )
+			while ( Preferences.getInteger( "_klawSummons" ) < 3 )
 			{
 				request.run();
 			}

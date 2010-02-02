@@ -319,6 +319,9 @@ public class UseItemRequest
 			return 1;
 
 		case ItemPool.TOASTER:
+			UseItemRequest.limiter = "usability";
+			return 3 - Preferences.getInteger( "_toastSummons" );
+
 		case ItemPool.AMINO_ACIDS:
 			UseItemRequest.limiter = "usability";
 			return 3;
@@ -1621,6 +1624,19 @@ public class UseItemRequest
 				UseItemRequest.handleFortuneCookie( matcher );
 			}
 
+			return;
+
+		case ItemPool.TOASTER:
+
+			// You push the lever and are rewarded with toast
+			if ( responseText.indexOf( "rewarded with toast" ) != -1 )
+			{
+				Preferences.increment( "_toastSummons", 1 );
+			}
+			else
+			{
+				Preferences.setInteger( "_toastSummons", 3 );
+			}
 			return;
 
 		case ItemPool.GATES_SCROLL:
