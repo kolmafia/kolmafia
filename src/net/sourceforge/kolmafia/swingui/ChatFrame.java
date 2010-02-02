@@ -245,7 +245,7 @@ public class ChatFrame
 
 			ChatBuffer buffer = ChatManager.getBuffer( associatedContact );
 			buffer.clear();
-			
+
 			this.add( buffer.addDisplay( this.chatDisplay ), BorderLayout.CENTER );
 
 			this.add( entryPanel, BorderLayout.SOUTH );
@@ -451,85 +451,82 @@ public class ChatFrame
 				StaticEntity.getClient().openRelayBrowser( location );
 				return;
 			}
-			
+
 			int equalsIndex = location.indexOf( "=" );
-			
+
 			String[] locationSplit;
-			
+
 			if ( equalsIndex == -1 )
 			{
-				locationSplit = new String[1];
-				locationSplit[0] = location;
+				locationSplit = new String[ 1 ];
+				locationSplit[ 0 ] = location;
 			}
 			else
 			{
-				locationSplit = new String[2];
-				locationSplit[0] = location.substring( 0, equalsIndex );
-				locationSplit[1] = location.substring( equalsIndex + 1 );
+				locationSplit = new String[ 2 ];
+				locationSplit[ 0 ] = location.substring( 0, equalsIndex );
+				locationSplit[ 1 ] = location.substring( equalsIndex + 1 );
 			}
 
 			// First, determine the parameters inside of the
 			// location which will be passed to frame classes.
 
-			String playerName = ContactManager.getPlayerName( locationSplit[ 1 ] );
-			Object[] parameters = new Object[]
-			{ playerName
-			};
+			String playerId = locationSplit[ 1 ];
+			String playerName = ContactManager.getPlayerName( playerId );
 
 			// Next, determine the option which had been
 			// selected in the link-click.
 
-			int linkOption = locationSplit.length == 2 ? 0 : StringUtilities.parseInt( locationSplit[ 2 ] );
-
-			if ( linkOption == 0 )
-			{
-				linkOption = ChatFrame.this.nameClickSelect.getSelectedIndex();
-			}
+			int linkOption = ChatFrame.this.nameClickSelect.getSelectedIndex();
 
 			String urlString = null;
 
 			switch ( linkOption )
 			{
 			case 1:
-				ChatManager.openWindow( (String) parameters[ 0 ], false );
+				ChatManager.openWindow( playerName, false );
 				return;
 
 			case 2:
+
+				Object[] parameters = new Object[]
+				{ playerName
+				};
+
 				GenericFrame.createDisplay( SendMessageFrame.class, parameters );
 				return;
 
 			case 3:
-				urlString = "makeoffer.php?towho=" + parameters[ 0 ];
+				urlString = "makeoffer.php?towho=" + playerId;
 				break;
 
 			case 4:
-				urlString = "displaycollection.php?who=" + ContactManager.getPlayerId( (String) parameters[ 0 ] );
+				urlString = "displaycollection.php?who=" + playerId;
 				break;
 
 			case 5:
-				urlString = "ascensionhistory.php?who=" + ContactManager.getPlayerId( (String) parameters[ 0 ] );
+				urlString = "ascensionhistory.php?who=" + playerId;
 				break;
 
 			case 6:
 				GenericFrame.createDisplay( MallSearchFrame.class );
-				MallSearchFrame.searchMall( new MallSearchRequest(
-					StringUtilities.parseInt( ContactManager.getPlayerId( (String) parameters[ 0 ] ) ) ) );
+				MallSearchFrame.searchMall( new MallSearchRequest( StringUtilities.parseInt( playerId ) ) );
 				return;
 
 			case 7:
-				ChatSender.sendMessage( "/whois " + parameters[ 0 ] );
+				ChatSender.sendMessage( "/whois " + playerName );
 				return;
 
 			case 8:
-				ChatSender.sendMessage( "/friend " + parameters[ 0 ] );
+				ChatSender.sendMessage( "/friend " + playerName );
 				return;
 
 			case 9:
-				ChatSender.sendMessage( "/baleet " + parameters[ 0 ] );
+				ChatSender.sendMessage( "/baleet " + playerName );
 				return;
 
 			default:
-				urlString = "showplayer.php?who=" + ContactManager.getPlayerId( (String) parameters[ 0 ] );
+				urlString = "showplayer.php?who=" + playerId;
 				break;
 			}
 
