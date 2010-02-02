@@ -33,20 +33,15 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.awt.Frame;
-
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.session.ActionBarManager;
 
 public class LogoutRequest
 	extends GenericRequest
@@ -81,7 +76,7 @@ public class LogoutRequest
 
 		KoLAdventure.resetAutoAttack();
 
-		ChatManager.dispose();
+		ChatManager.reset();
 		BuffBotHome.setBuffBotActive( false );
 
 		String scriptSetting = Preferences.getString( "logoutScript" );

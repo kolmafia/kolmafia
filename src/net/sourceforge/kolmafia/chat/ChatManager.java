@@ -76,6 +76,17 @@ public abstract class ChatManager
 	private static List activeChannels = new ArrayList();
 
 	private static TabbedChatFrame tabbedFrame = null;
+	
+	public static final void reset()
+	{
+		ChatManager.dispose();
+
+		ChatManager.clanMessages.clear();
+		
+		ChatManager.instantMessageBuffers.clear();		
+		ChatManager.activeChannels.clear();
+		ChatManager.currentChannel = null;
+	}
 
 	/**
 	 * Initializes the chat buffer with the provided chat pane. Note that the chat refresher will also be initialized by
