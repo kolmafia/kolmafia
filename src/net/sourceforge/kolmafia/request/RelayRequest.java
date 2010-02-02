@@ -592,7 +592,7 @@ public class RelayRequest
 
 		File override = (File) RelayRequest.overrideMap.get( filename );
 		
-		if ( !override.exists() )
+		if ( override == null || !override.exists() )
 		{
 			if ( filename.equals( "main.html" ) || filename.equals( "main_c.html" ) )
 			{
@@ -607,6 +607,7 @@ public class RelayRequest
 			}
 
 			this.downloadSimulatorFile( filename.substring( filename.lastIndexOf( "/" ) + 1 ) );
+			return;
 		}
 
 		try
