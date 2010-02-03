@@ -382,7 +382,7 @@ public class KoLmafiaCLI
 			if ( flags == KoLmafiaCLI.FLOW_CONTROL_CMD )
 			{
 				handler.CLI = this;
-				handler.validateParameters( parameters );
+				handler.validateParameters( trimmed );
 				handler.CLI = null;
 				if ( !KoLmafia.permitsContinue() )
 				{
