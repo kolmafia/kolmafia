@@ -61,6 +61,15 @@
 60
 61
 62	Snowman Suit	snow hat, snow pants, snow belt
+63
+64
+65
+66
+67
+68
+69
+70	BRICKOfig Outfit	BRICKO hat, BRICKO sword, BRICKO pants
+
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.

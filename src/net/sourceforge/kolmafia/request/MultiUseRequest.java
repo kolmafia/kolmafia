@@ -64,8 +64,8 @@ public class MultiUseRequest
 
 		AdventureResult[] ingredients = conc.getIngredients();
 
-		// There must be exactly one ingredient
-		if ( ingredients == null || ingredients.length != 1 )
+		// There must be at least one ingredient
+		if ( ingredients == null )
 		{
 			return;
 		}

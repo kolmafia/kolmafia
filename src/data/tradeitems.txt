@@ -4475,7 +4475,7 @@
 4466
 4467
 4468	Libram of BRICKOs	usable	all	0
-4469	BRICKO brick	usable	all	0
+4469	BRICKO brick	multiple	all	0
 4470	BRICKO eye brick	none	all	0
 4471	BRICKO hat	hat	all	0
 4472	BRICKO pants	pants	all	0
@@ -4491,7 +4491,7 @@
 4482
 4483
 4484
-4485
+4485	BRICKO pyramid	usable	all	0
 4486	BRICKO pearl	none	all	500
 4487	BRICKO bulwark	offhand	all	5
 4488	BRICKO trunk	usable	all	0
