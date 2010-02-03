@@ -344,6 +344,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "eat", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "eatsilent", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "drink", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
@@ -1940,6 +1943,18 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "eat", count + " \u00B6" + item.intValue() );
+		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	}
+
+	public static Value eatsilent( final Value countValue, final Value item )
+	{
+		int count = countValue.intValue();
+		if ( count <= 0 )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "eatsilent", count + " \u00B6" + item.intValue() );
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 

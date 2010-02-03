@@ -711,7 +711,7 @@ public class KoLmafiaCLI
 		new UntinkerCommand().register( "untinker" );
 		new UpdateDataCommand().register( "update" );
 		new UseItemCommand().register( "eat" ).register( "drink" ).register( "use" ).register( "chew" )
-			.register( "overdrink" )
+			.register( "eatsilent" ).register( "overdrink" )
 			.register( "hobo" ).register( "ghost" ).register( "slimeling" );
 		new UseSkillCommand().register( "cast" ).register( "skill" );
 		new VersionCommand().register( "version" );

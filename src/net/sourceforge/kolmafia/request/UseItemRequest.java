@@ -115,6 +115,7 @@ public class UseItemRequest
 	private static AdventureResult lastHelperUsed = null;
 	private static int askedAboutOde = 0;
 	private static int askedAboutMilk = 0;
+	private static int ignoreMilkPrompt = 0;
 	private static int permittedOverdrink = 0;
 	private static AdventureResult queuedFoodHelper = null;
 	private static int queuedFoodHelperCount = 0;
@@ -920,6 +921,11 @@ public class UseItemRequest
 		return false;
 	}
 
+	public static final void ignoreMilkPrompt()
+	{
+		UseItemRequest.ignoreMilkPrompt = KoLCharacter.getUserId();
+	}
+
 	public static final void permitOverdrink()
 	{
 		UseItemRequest.permittedOverdrink = KoLCharacter.getUserId();
@@ -1005,14 +1011,20 @@ public class UseItemRequest
 			return true;
 		}
 
-		// If already have Got Milk effect
-		if ( KoLConstants.activeEffects.contains( ItemDatabase.MILK ) )
+		// If we've already asked about milk, don't nag
+		if ( UseItemRequest.askedAboutMilk == KoLCharacter.getUserId() )
 		{
 			return true;
 		}
 
-		// If we've already asked about milk, don't nag
-		if ( UseItemRequest.askedAboutMilk == KoLCharacter.getUserId() )
+		// If user specifically said not to worry about milk, don't nag
+		if ( UseItemRequest.ignoreMilkPrompt == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
+		// If already have Got Milk effect
+		if ( KoLConstants.activeEffects.contains( ItemDatabase.MILK ) )
 		{
 			return true;
 		}

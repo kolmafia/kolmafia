@@ -59,6 +59,11 @@ public class UseItemCommand
 			UseItemRequest.permitOverdrink();
 			command = "drink";
 		}
+		else if ( command.equals( "eatsilent" ) )
+		{
+			UseItemRequest.ignoreMilkPrompt();
+			command = "eat";
+		}
 		SpecialOutfit.createImplicitCheckpoint();
 		UseItemCommand.use( command, parameters );
 		SpecialOutfit.restoreImplicitCheckpoint();
