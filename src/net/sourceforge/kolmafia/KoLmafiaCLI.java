@@ -381,14 +381,11 @@ public class KoLmafiaCLI
 
 			if ( flags == KoLmafiaCLI.FLOW_CONTROL_CMD )
 			{
-				handler.CLI = this;
-				handler.validateParameters( trimmed );
-				handler.CLI = null;
+				String continuation = this.getContinuation( line );
 				if ( !KoLmafia.permitsContinue() )
 				{
 					return;
 				}
-				String continuation = this.getContinuation( line );
 				handler.continuation = continuation;
 				handler.CLI = this;
 				RequestThread.openRequestSequence();
@@ -464,6 +461,19 @@ public class KoLmafiaCLI
 				return block.toString();
 			}
 
+			// We need another line to complete the command.  However, if the
+			// original command didn't come from the input stream (the gCLI
+			// entry field, perhaps), trying to read a line would just hang.
+			if ( this == KoLmafiaCLI.DEFAULT_SHELL && !StaticEntity.isHeadless() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Multi-line statements cannot be used from the gCLI." );
+				return "";
+			}
+
+			if ( StaticEntity.getClient() == this )
+			{
+				System.out.print( "+> " );
+			}
 			line = this.getNextLine();
 			if ( line == null )
 			{
@@ -532,17 +542,17 @@ public class KoLmafiaCLI
 		this.elseValid = true;
 	}
 
-	/**
-	 * Indicates that a following "else" command is not valid here.
-	 */
 	public boolean elseValid()
 	{
 		return this.elseValid;
 	}
 
-	public void setElseValid( boolean elseValid )
+	/**
+	 * Indicates that a following "else" command is not valid here.
+	 */
+	public void elseInvalid()
 	{
-		this.elseValid = elseValid;
+		this.elseValid = false;
 	}
 
 

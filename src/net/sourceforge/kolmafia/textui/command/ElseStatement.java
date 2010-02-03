@@ -45,17 +45,13 @@ public class ElseStatement
 		this.usage = " ; <commands> - do commands if preceding if/while/try didn't execute.";
 	}
 
-	public void validateParameters( final String parameters )
+	public void run( final String command, final String parameters )
 	{
-		KoLmafiaCLI CLI = this.CLI;
 		if ( !parameters.equals( "" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Condition not allowed for else." );
+			return;
 		}
-	}
-
-	public void run( final String command, final String parameters )
-	{
 		KoLmafiaCLI CLI = this.CLI;
 		if ( CLI.elseRuns() )
 		{
