@@ -42,6 +42,7 @@
 # Hats section of modifiers.txt
 
 Ancient Saucehelm	Mysticality: +11, Spell Damage: +11, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 12"
+BRICKO hat	Maximum MP: +3
 Baron von Ratsworth's tophat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
 Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Four Songs, Brimstone, Familiar Effect: "1xVolley, 1xLep"
 # Cerebral Cloche: Jellyfish Vision
@@ -245,6 +246,7 @@ yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "?xVolley
 # Pants section of modifiers.txt
 
 1337 7r0uZ0RZ	Intrinsic Effect: "1337p4n7Z"
+BRICKO pants	Damage Absorption: +9
 Boss Bat britches	Moxie: +5
 Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50, Brimstone
 Can-Can skirt	Muscle Percent: +10
@@ -453,6 +455,7 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 # 7-inch discus: On Critical:  Music Snobbery!
 7-inch discus	Moxie Percent: +5, Weapon Damage Percent: +10
 # Ax of L'rose
+BRICKO sword	Weapon Damage: +6
 Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11, Adventures: +3
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
@@ -903,6 +906,7 @@ yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold
 7-ball	Meat Drop: +5
 9-ball	Weapon Damage: +5, Ranged Damage: +5, Spell Damage: +5
 Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
+BRICKO bulwark	Maximum HP: +6, Damage Reduction: 3
 Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Max: 12, Spell Damage Percent: +50, Softcore Only
 Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25, Brimstone
 # C.H.U.M. lantern: (In Sewers)
