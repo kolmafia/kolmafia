@@ -2257,6 +2257,7 @@ public class UseItemRequest
 		case ItemPool.CANDY_BOOK:
 		case ItemPool.DIVINE_BOOK:
 		case ItemPool.LOVE_BOOK:
+		case ItemPool.BRICKO_BOOK:
 			// Librams
 		case ItemPool.JEWELRY_BOOK:
 		case ItemPool.OLFACTION_BOOK:
@@ -3106,6 +3107,8 @@ public class UseItemRequest
 			return "Summon Party Favor";
 		case ItemPool.LOVE_BOOK:
 			return "Summon Love Song";
+		case ItemPool.BRICKO_BOOK:
+			return "Summon BRICKOs";
 		case ItemPool.JEWELRY_BOOK:
 			return "Really Expensive Jewelrycrafting";
 		case ItemPool.OLFACTION_BOOK:

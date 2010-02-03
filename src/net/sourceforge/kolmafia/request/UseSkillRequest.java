@@ -92,6 +92,7 @@ public class UseSkillRequest
 		"Summon Candy Hearts",
 		"Summon Party Favor",
 		"Summon Love Song",
+		"Summon BRICKOs",
 	};
 
 	public static final String[] GRIMOIRE_SKILLS =
@@ -219,6 +220,7 @@ public class UseSkillRequest
 		case SkillDatabase.CANDY_HEART:
 		case SkillDatabase.PARTY_FAVOR:
 		case SkillDatabase.LOVE_SONG:
+		case SkillDatabase.BRICKOS:
 			return "campground.php";
 		}
 
@@ -259,6 +261,10 @@ public class UseSkillRequest
 
 		case SkillDatabase.LOVE_SONG:
 			this.addFormField( "preaction", "summonlovesongs" );
+			break;
+
+		case SkillDatabase.BRICKOS:
+			this.addFormField( "preaction", "summonbrickos" );
 			break;
 
 		default:
@@ -1187,6 +1193,7 @@ public class UseSkillRequest
 		case SkillDatabase.CANDY_HEART:
 		case SkillDatabase.PARTY_FAVOR:
 		case SkillDatabase.LOVE_SONG:
+		case SkillDatabase.BRICKOS:
 			int cast = Preferences.getInteger( "libramSummons" );
 			mpCost = SkillDatabase.libramSkillMPConsumption( cast + 1, count );
 			Preferences.increment( "libramSummons", count );
@@ -1254,6 +1261,11 @@ public class UseSkillRequest
 		if ( action.equals( "lovesongs" ) )
 		{
 			return SkillDatabase.LOVE_SONG;
+		}
+
+		if ( action.equals( "brickos" ) )
+		{
+			return SkillDatabase.BRICKOS;
 		}
 
 		return -1;
