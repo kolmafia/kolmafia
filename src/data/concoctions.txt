@@ -1366,6 +1366,19 @@ wumpus-hair wig	MUSE	wumpus hair (16)
 wumpus-hair loincloth	MUSE	wumpus hair (23)
 wumpus-hair sweater	MUSE, TORSO	wumpus hair (30)
 
+BRICKO ooze	MUSE	BRICKO brick (2)	BRICKO eye brick (1)
+BRICKO hat	MUSE	BRICKO brick (3)
+BRICKO bat	MUSE	BRICKO brick (5)	BRICKO eye brick (1)
+BRICKO sword	MUSE	BRICKO brick (6)
+BRICKO oyster	MUSE	BRICKO brick (8)	BRICKO eye brick (1)
+BRICKO pants	MUSE	BRICKO brick (9)
+BRICKO turtle	MUSE	BRICKO brick (11)	BRICKO eye brick (1)
+BRICKO elephant	MUSE	BRICKO brick (23)	BRICKO eye brick (1)
+BRICKO octopus	MUSE	BRICKO brick (37)	BRICKO eye brick (1)
+BRICKO python	MUSE	BRICKO brick (69)	BRICKO eye brick (1)
+BRICKO pyramid	MUSE	BRICKO brick (420)	BRICKO eye brick (1)
+
+
 # Recipes that involve single-using one of the ingredients
 
 booty chest charrrm bracelet	SUSE	booty chest charrrm	charrrm bracelet

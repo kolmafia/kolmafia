@@ -547,6 +547,7 @@ public class UseItemRequest
 
 		int itemId = this.itemUsed.getItemId();
 		boolean isSealFigurine = ItemDatabase.isSealFigurine( itemId );
+		boolean isBRICKOMonster = ItemDatabase.isBRICKOMonster( itemId );
 
 		// Seal figurines require special handling in the HTML, but
 		// they also require some use protection
@@ -849,7 +850,8 @@ public class UseItemRequest
 			{	// the first iteration may have been short
 				this.itemUsed = this.itemUsed.getInstance( 20 );
 			}
-			if ( isSealFigurine && KoLmafia.permitsContinue() )
+
+			if ( ( isSealFigurine || isBRICKOMonster ) && KoLmafia.permitsContinue() )
 			{
 				this.addFormField( "checked", "1" );
 				super.run();
@@ -2548,6 +2550,30 @@ public class UseItemRequest
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1 ) );
 				Preferences.setString( "spookyPuttyMonster", "" );
+				return;
+			}
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere
+
+			// GenericRequest.checkItemRedirection( item );
+			ResultProcessor.processResult( item );
+
+			return;
+
+		case ItemPool.BRICKO_OOZE:
+		case ItemPool.BRICKO_BAT:
+		case ItemPool.BRICKO_OYSTER:
+		case ItemPool.BRICKO_TURTLE:
+		case ItemPool.BRICKO_ELEPHANT:
+		case ItemPool.BRICKO_OCTOPUS:
+		case ItemPool.BRICKO_PYTHON:
+
+			// You're too drunk to mess with BRICKO right now.
+
+			if ( responseText.indexOf( "You're too drunk" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
 				return;
 			}
 

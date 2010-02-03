@@ -1704,6 +1704,22 @@ public class ItemDatabase
 		return false;
 	}
 
+	public static final boolean isBRICKOMonster( final int itemId )
+	{
+		switch (itemId )
+		{
+		case ItemPool.BRICKO_OOZE:
+		case ItemPool.BRICKO_BAT:
+		case ItemPool.BRICKO_OYSTER:
+		case ItemPool.BRICKO_TURTLE:
+		case ItemPool.BRICKO_ELEPHANT:
+		case ItemPool.BRICKO_OCTOPUS:
+		case ItemPool.BRICKO_PYTHON:
+			return true;
+		}
+		return false;
+	}
+
 	public static final boolean isStinkyCheeseItem( final int itemId )
 	{
 		switch ( itemId )

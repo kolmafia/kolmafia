@@ -996,6 +996,13 @@ public class ItemPool
 	public static final int STINKY_CHEESE_STAFF = 4403;
 	public static final int ZU_MANNKASE_DIENEN = 4409;
 	public static final int BRICKO_BOOK = 4468;
+	public static final int BRICKO_OOZE = 4474;
+	public static final int BRICKO_BAT = 4475;
+	public static final int BRICKO_OYSTER = 4476;
+	public static final int BRICKO_TURTLE = 4477;
+	public static final int BRICKO_ELEPHANT = 4478;
+	public static final int BRICKO_OCTOPUS = 4479;
+	public static final int BRICKO_PYTHON = 4480;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

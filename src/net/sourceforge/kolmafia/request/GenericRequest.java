@@ -2022,6 +2022,17 @@ public class GenericRequest
 			ResultProcessor.processResult( sealRitualCandles( itemId ) );
 			break;
 
+		case ItemPool.BRICKO_OOZE:
+		case ItemPool.BRICKO_BAT:
+		case ItemPool.BRICKO_OYSTER:
+		case ItemPool.BRICKO_TURTLE:
+		case ItemPool.BRICKO_ELEPHANT:
+		case ItemPool.BRICKO_OCTOPUS:
+		case ItemPool.BRICKO_PYTHON:
+			itemName = item.getName();
+			consumed = true;
+			break;
+
 		default:
 			return;
 		}
