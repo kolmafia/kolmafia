@@ -584,7 +584,7 @@ public class KoLmafiaCLI
 		new AreaSummaryCommand().register( "safe" );
 		new AshMultiLineCommand().register( "<inline-ash-script>" );
 		new AshRefCommand().register( "ashref" );
-		new AshSingleLineCommand().register( "ash" );
+		new AshSingleLineCommand().register( "ash" ).register( "ashq" );
 		new AutoAttackCommand().register( "aa" ).register( "autoattack" );
 		new AutoMallCommand().register( "automall" );
 		new AutoSellCommand().register( "sell" ).register( "autosell" );

@@ -63,6 +63,10 @@ public class AshSingleLineCommand
 		Interpreter interpreter = new Interpreter();
 		interpreter.validate( null, istream );
 		Value rv = interpreter.execute( "main", null );
+		if ( cmd.endsWith( "q" ) )
+		{
+			return;
+		}
 		KoLmafia.updateDisplay( "Returned: " + rv );
 		if ( rv instanceof CompositeValue )
 		{
