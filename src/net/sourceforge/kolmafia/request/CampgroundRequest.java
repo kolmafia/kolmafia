@@ -465,6 +465,10 @@ public class CampgroundRequest
 			"Libram of Love Songs",
 			"Summon Love Song"
 		},
+		{
+			"Libram of BRICKOs",
+			"Summon BRICKOs"
+		},
 	};
 
 	private static void parseBookTitles( final String responseText )
