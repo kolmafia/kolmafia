@@ -48,17 +48,10 @@ public class ElseStatement
 	public void validateParameters( final String parameters )
 	{
 		KoLmafiaCLI CLI = this.CLI;
-		if ( !CLI.elseValid() )
-		{
-			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE,
-				"'else' must follow a conditional command, and both must be at the outermost level." );
-		}
-		else if ( !parameters.equals( "" ) )
+		if ( !parameters.equals( "" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Condition not allowed for else." );
 		}
-		CLI.setElseValid( false );
 	}
 
 	public void run( final String command, final String parameters )
@@ -67,7 +60,6 @@ public class ElseStatement
 		if ( CLI.elseRuns() )
 		{
 			CLI.executeLine( this.continuation );
-			CLI.elseRuns( false );
 		}
 	}
 }

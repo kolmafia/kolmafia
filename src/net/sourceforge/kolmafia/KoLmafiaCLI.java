@@ -526,12 +526,10 @@ public class KoLmafiaCLI
 		CallScriptCommand.call( "call", command + " " + parameters );
 	}
 
-	/**
-	 * Sets whether a following "else" command should be executed.
-	 */
 	public void elseRuns( final boolean shouldRun )
 	{
 		this.elseRuns = shouldRun;
+		this.elseValid = true;
 	}
 
 	/**
@@ -547,11 +545,23 @@ public class KoLmafiaCLI
 		this.elseValid = elseValid;
 	}
 
+
 	/**
-	 * Tests whether a "else" command should be executed.
+	 * Tests whether a "else" command should be executed, and mark further
+	 * "else"s as invalid. If this "else" is invalid, generate an error and
+	 * return false.
 	 */
+
 	public boolean elseRuns()
 	{
+		if ( !this.elseValid )	 
+		{	 
+			KoLmafia.updateDisplay(	 
+				KoLConstants.ERROR_STATE,	 
+				"'else' must follow a conditional command, and both must be at the outermost level." );	 
+			return false;	 
+		}	 
+		this.elseValid = false;
 		return this.elseRuns;
 	}
 
