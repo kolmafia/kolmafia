@@ -55,12 +55,9 @@ public class WhileStatement
 		KoLmafiaCLI CLI = this.CLI;
 		String continuation = this.continuation;
 
-		CLI.elseRuns( true );
 		while ( ConditionalStatement.test( parameters ) )
 		{
-			CLI.setElseValid( false );
 			CLI.executeLine( continuation );
-			CLI.elseRuns( false );
 		}
 	}
 }
