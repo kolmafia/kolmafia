@@ -90,6 +90,14 @@ public class ChatPoller
 		while ( ChatManager.isRunning() );
 	}
 
+	public static final void reset()
+	{
+		ChatPoller.chatHistoryEntries.clear();
+
+		ChatPoller.localLastSeen = 0;
+		ChatPoller.serverLastSeen = 0;
+	}
+	
 	public synchronized static List getEntries( final long lastSeen )
 	{
 		if ( ChatManager.getCurrentChannel() == null )
