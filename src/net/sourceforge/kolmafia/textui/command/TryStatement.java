@@ -22,12 +22,12 @@ public class TryStatement
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Condition not allowed for try." );
 		}
-		this.CLI.setElseValid( true );
 	}
 
 	public void run( final String command, final String parameters )
 	{
 		KoLmafiaCLI CLI = this.CLI;
+		CLI.setElseValid( false );
 		CLI.executeLine( this.continuation );
 		if ( KoLmafia.permitsContinue() )
 		{
