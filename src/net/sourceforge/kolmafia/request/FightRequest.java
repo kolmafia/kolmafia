@@ -3635,7 +3635,9 @@ public class FightRequest
 
 		if ( shouldLogAction )
 		{
-			FightRequest.getRound( action );
+			action.append( "Round " );
+			action.append( FightRequest.currentRound );
+			action.append( ": " );
 			action.append( KoLCharacter.getUserName() );
 			action.append( " " );
 		}

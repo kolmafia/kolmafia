@@ -57,6 +57,11 @@ public class MrStoreRequest
 		super( "mrstore.php" );
 	}
 
+	public void processResults()
+	{
+		MrStoreRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "mrstore.php" ) )
