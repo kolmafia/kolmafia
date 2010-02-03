@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.NemesisRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
@@ -615,6 +616,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "questlog.php" ) )
 		{
 			QuestLogRequest.registerQuests( true, location, responseText );
+		}
+
+		else if ( location.startsWith( "raffle.php" ) )
+		{
+			RaffleRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "sea_skatepark.php" ) )
