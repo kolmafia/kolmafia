@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
+import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -117,7 +118,6 @@ public abstract class StaticEntity
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
 	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
-	private static final Pattern MR_A_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(y|ies) to trade." );
 	private static final Pattern SLIMESKILL_PATTERN = Pattern.compile( "giving you \\+(\\d+)" );
 
 	private static KoLmafia client;
@@ -580,19 +580,7 @@ public abstract class StaticEntity
 
 		else if ( location.startsWith( "mrstore.php" ) )
 		{
-			Matcher m = MR_A_PATTERN.matcher( responseText );
-			if ( m.find() )
-			{
-				String num = m.group( 1 );
-				int delta = ( num.equals( "no" ) ? 0 :
-					      num.equals( "one" ) ? 1 :
-					      StringUtilities.parseInt( num ) ) -
-					InventoryManager.getCount( ItemPool.MR_ACCESSORY );
-				if ( delta != 0 )
-				{
-					ResultProcessor.processItem( ItemPool.MR_ACCESSORY, delta );
-				}
-			}
+			MrStoreRequest.parseResponse( location, responseText );
 		}
 
 		else if ( ( location.startsWith( "multiuse.php" ) ||
