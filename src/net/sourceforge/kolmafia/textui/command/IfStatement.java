@@ -48,7 +48,7 @@ public class IfStatement
 		KoLmafiaCLI CLI = this.CLI;
 		if ( ConditionalStatement.test( parameters ) )
 		{
-			CLI.setElseValid( false );
+			CLI.elseInvalid();
 			CLI.executeLine( this.continuation );
 			CLI.elseRuns( false );
 		}

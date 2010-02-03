@@ -16,18 +16,15 @@ public class TryStatement
 		this.usage = " ; <commands> - do commands, and continue even if an error occurs.";
 	}
 
-	public void validateParameters( final String parameters )
+	public void run( final String command, final String parameters )
 	{
 		if ( !parameters.equals( "" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Condition not allowed for try." );
+			return;
 		}
-	}
-
-	public void run( final String command, final String parameters )
-	{
 		KoLmafiaCLI CLI = this.CLI;
-		CLI.setElseValid( false );
+		CLI.elseInvalid();
 		CLI.executeLine( this.continuation );
 		if ( KoLmafia.permitsContinue() )
 		{

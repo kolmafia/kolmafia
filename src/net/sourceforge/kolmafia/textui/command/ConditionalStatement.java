@@ -57,15 +57,6 @@ public abstract class ConditionalStatement
 		this.flags = KoLmafiaCLI.FLOW_CONTROL_CMD;
 	}
 
-	public void validateParameters( final String parameters )
-	{
-		if ( parameters.equals( "" ) )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No condition specified." );
-		}
-		this.CLI.setElseValid( true );
-	}
-
 	/**
 	 * Utility method which tests if the given condition is true. Note that this only examines level, health, mana,
 	 * items, meat and status effects.
@@ -75,6 +66,11 @@ public abstract class ConditionalStatement
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
+			return false;
+		}
+		if ( parameters.equals( "" ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No condition specified." );
 			return false;
 		}
 
@@ -136,6 +132,7 @@ public abstract class ConditionalStatement
 
 		if ( operator == null )
 		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, parameters + " contains no comparison operator." );
 			return false;
 		}
 
