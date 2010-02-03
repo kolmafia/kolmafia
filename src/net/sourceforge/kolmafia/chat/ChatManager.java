@@ -83,6 +83,7 @@ public abstract class ChatManager
 	public static final void reset()
 	{
 		ChatManager.dispose();
+		ChatPoller.reset();
 
 		ChatManager.clanMessages.clear();
 		
