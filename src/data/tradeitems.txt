@@ -4487,7 +4487,7 @@
 4478	BRICKO elephant	usable	all	0
 4479	BRICKO octopus	usable	all	0
 4480	BRICKO python	usable	all	0
-4481
+4481	BRICKO vacuum cleaner	usable	all	0
 4482
 4483
 4484

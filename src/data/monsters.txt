@@ -180,6 +180,7 @@ BRICKO Turtle	HP: 0
 BRICKO Elephant	HP: 0
 BRICKO Octopus	HP: 0
 BRICKO Python	HP: 0
+BRICKO Vacuum Cleaner	HP: 0
 Bad ASCII Art	HP: 1	ASCII shirt (c100)	 30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
 Bailey's Beetle	HP: 215 Def: 195 Atk: 195 E: stench	green clay bead (30)	floorboard cruft (30)	battered hubcap (30)	communications windchimes (12)	reinforced beaded headband (1)	round purple sunglasses (2)	bullet-proof corduroys (4)
 Baiowulf	HP: 40 Def: 25 Atk: 25	Talisman of Baio (100)
