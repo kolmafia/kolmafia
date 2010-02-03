@@ -1715,6 +1715,7 @@ public class ItemDatabase
 		case ItemPool.BRICKO_ELEPHANT:
 		case ItemPool.BRICKO_OCTOPUS:
 		case ItemPool.BRICKO_PYTHON:
+		case ItemPool.BRICKO_VACUUM_CLEANER:
 			return true;
 		}
 		return false;
