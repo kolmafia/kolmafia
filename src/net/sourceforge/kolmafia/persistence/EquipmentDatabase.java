@@ -422,7 +422,7 @@ public class EquipmentDatabase
 		}
 	}
 
-	private static final Pattern WEAPON_TYPE_PATTERN = Pattern.compile( "\\(((\\d)-handed .*?)\\)" );
+	private static final Pattern WEAPON_TYPE_PATTERN = Pattern.compile( "\\(((\\d)-handed (.*?))\\)" );
 
 	public static final void registerItem( final int itemId, final String itemName, final String text )
 	{
@@ -440,19 +440,23 @@ public class EquipmentDatabase
 
 		if ( type.indexOf( "weapon" ) != -1 )
 		{
-			int hval = 0;
 			Matcher matcher = WEAPON_TYPE_PATTERN.matcher( type );
+			int hval;
+			String tval;
 			if ( matcher.find() )
 			{
-				hval = StringUtilities.parseInt( matcher.group(2) );
 				weaponType = matcher.group(1);
+				hval = StringUtilities.parseInt( matcher.group(2) );
+				tval = matcher.group(3);
 			}
 			else
 			{
 				weaponType = type;
+				hval = 0;
+				tval = type;
 			}
 			EquipmentDatabase.hands.set( itemId, hval );
-			EquipmentDatabase.itemTypes.set( itemId, weaponType );
+			EquipmentDatabase.itemTypes.set( itemId, tval );
 			isWeapon = true;
 		}
 		else if ( type.indexOf( "shield" ) != -1 )
