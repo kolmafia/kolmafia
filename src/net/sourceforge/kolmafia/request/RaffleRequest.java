@@ -47,7 +47,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class RaffleRequest
 	extends GenericRequest
 {
-	private static final Pattern BUY_PATTERN = Pattern.compile( "where=(\\d+).*quantity=(\\d+)" );
+	private static final Pattern WHERE_PATTERN = Pattern.compile( "where=(\\d+)" );
+	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
 	public static final int INVENTORY = 0;
 	public static final int STORAGE = 1;
@@ -96,14 +97,57 @@ public class RaffleRequest
 
 	public void processResults()
 	{
+		String urlString = this.getURLString();
+		String responseText = this.responseText;
+
 		// You cannot afford that many tickets.
-		if ( this.responseText.indexOf( "You cannot afford" ) != -1 )
+		if ( !RaffleRequest.parseResponse( urlString, responseText ) )
 		{
 			String where = ( this.source == RaffleRequest.INVENTORY ) ? "inventory" : "storage";
-			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "You don't have enough meat in " + where );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough meat in " + where );
 			return;
 		}
+	}
+
+	public static final boolean parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "raffle.php" ) )
+		{
+			return true;
+		}
+
+		if ( responseText.indexOf( "You cannot afford" ) != -1 )
+		{
+			return false;
+		}
+
+		Matcher matcher = RaffleRequest.WHERE_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return true;
+		}
+
+		int where = StringUtilities.parseInt( matcher.group(1) );
+		if ( where != RaffleRequest.STORAGE )
+		{
+			// Buying from inventory handles meat elsewhere
+			return true;
+		}
+
+		matcher = RaffleRequest.QUANTITY_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return true;
+		}
+
+		int quantity = StringUtilities.parseInt( matcher.group(1) );
+		int cost = 1000 * quantity;
+		KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - cost );
+
+		// You spent 1,000 meat caused 1000 meat to be deducted from inventory
+		ResultProcessor.processMeat( cost );
+
+		return true;
 	}
 
 	public static final boolean registerRequest( final String location )
@@ -113,8 +157,8 @@ public class RaffleRequest
 			return false;
 		}
 
-		Matcher matcher = RaffleRequest.BUY_PATTERN.matcher( location );
 
+		Matcher matcher = RaffleRequest.WHERE_PATTERN.matcher( location );
 		if ( !matcher.find() )
 		{
 			return true;
@@ -122,27 +166,16 @@ public class RaffleRequest
 
 		int where = StringUtilities.parseInt( matcher.group(1) );
 		String loc = where == RaffleRequest.INVENTORY ? "inventory" : where == RaffleRequest.STORAGE ? "storage" : "nowhere";
-		int quantity = StringUtilities.parseInt( matcher.group(2) );
+
+		matcher = RaffleRequest.QUANTITY_PATTERN.matcher( location );
+		if ( !matcher.find() )
+		{
+			return true;
+		}
+
+		int quantity = StringUtilities.parseInt( matcher.group(1) );
 
 		RequestLogger.updateSessionLog( "raffle " + quantity + " " + loc );
-
-		int cost = 1000 * quantity;
-		switch ( where )
-		{
-		case RaffleRequest.INVENTORY:
-			if ( cost <= KoLCharacter.getAvailableMeat() )
-			{
-				ResultProcessor.processMeat( -cost );
-			}
-			break;
-
-		case RaffleRequest.STORAGE:
-			if ( cost <= KoLCharacter.getStorageMeat() )
-			{
-				KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - cost );
-			}
-			break;
-		}
 
 		return true;
 	}
