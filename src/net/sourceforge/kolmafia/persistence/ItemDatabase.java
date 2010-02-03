@@ -937,10 +937,10 @@ public class ItemDatabase
 
 			// Let equipment database do what it wishes with this item
 			EquipmentDatabase.registerItem( itemId, itemName, text );
-
-			// Let modifiers database do what it wishes with this item
-			Modifiers.registerItem( itemName, text );
 		}
+
+		// Let modifiers database do what it wishes with this item
+		Modifiers.registerItem( itemName, text );
 
 		// Done generating data
 		RequestLogger.printLine( "--------------------" );
