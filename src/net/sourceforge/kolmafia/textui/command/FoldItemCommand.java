@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -43,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -59,45 +61,97 @@ public class FoldItemCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
-		if ( item == null )
+		// Determine which item to create
+		AdventureResult target = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
+		if ( target == null )
 		{
 			return;
 		}
-		ArrayList group = ItemDatabase.getFoldGroup( item.getName() );
+
+		// If we already have the item in inventory, we're done
+		if ( target.getCount( KoLConstants.inventory ) > 0 )
+		{
+			return;
+		}
+
+		// Find the fold group containing this item
+		String targetName = target.getName();
+		ArrayList group = ItemDatabase.getFoldGroup( targetName );
 		if ( group == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That's not a transformable item!" );
 			return;
 		}
+
+		// Locate the item in the fold group
+		int count = group.size();
+		int targetIndex = 0;
+		for ( int i = 1; i < count; ++i )
+		{
+			String form = (String) group.get( i );
+			if ( form.equals( targetName ) )
+			{
+				targetIndex = i;
+				break;
+			}
+		}
+
+		// Iterate backwards to find closest item to transform. Skip index 0.
+		int sourceIndex = targetIndex > 1 ? targetIndex - 1 : count - 1;
+
+		while ( sourceIndex != targetIndex )
+		{
+			String form = (String) group.get( sourceIndex );
+			AdventureResult item = new AdventureResult( form, 1, false );
+
+			// If we have this item in inventory, use it to start folding
+			if ( item.getCount( KoLConstants.inventory ) > 0 )
+			{
+				break;
+			}
+
+			// Consider the next item. Skip index 0.
+			sourceIndex = sourceIndex > 1 ? sourceIndex - 1 : count - 1;
+		}
+
+		// Punt now if have nothing foldable
+		if ( sourceIndex == targetIndex )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have anything transformable into that item!" );
+			return;
+		}
+
 		int damage = ( (Integer) group.get( 0 ) ).intValue();
 		damage = damage == 0 ? 0 : KoLCharacter.getMaximumHP() * damage / 100 + 2;
-		int tries = 0;
-		SpecialOutfit.createImplicitCheckpoint();
-		try1 : while ( ++tries <= 20 && KoLmafia.permitsContinue() && !InventoryManager.hasItem( item ) )
+
+		// Fold repeatedly until target is obtained
+		while ( sourceIndex != targetIndex )
 		{
-			for ( int i = 1; i < group.size(); ++i )
+			String form = (String) group.get( sourceIndex );
+			AdventureResult item = new AdventureResult( form, 1, false );
+
+			// Consider the next item. Skip index 0.
+			sourceIndex = sourceIndex < count - 1 ? sourceIndex + 1 : 1;
+
+			// If we don't have this item in inventory,  skip
+			if ( item.getCount( KoLConstants.inventory ) == 0 )
 			{
-				AdventureResult otherForm = new AdventureResult( (String) group.get( i ), 1 );
-				if ( InventoryManager.hasItem( otherForm ) )
-				{
-					if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
-					{
-						RequestLogger.printLine( otherForm + " => " + item );
-						break try1;
-					}
-					int hp = KoLCharacter.getCurrentHP();
-					if ( hp > 0 && hp < damage )
-					{
-						RecoveryManager.recoverHP( damage );
-					}
-					RequestThread.postRequest( new UseItemRequest( otherForm ) );
-					continue try1;
-				}
+				continue;
 			}
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have anything transformable into that item!" );
-			break;
+
+			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+			{
+				RequestLogger.printLine( form + " => " + target );
+				break;
+			}
+
+			int hp = KoLCharacter.getCurrentHP();
+			if ( hp > 0 && hp < damage )
+			{
+				RecoveryManager.recoverHP( damage );
+			}
+
+			RequestThread.postRequest( new UseItemRequest( item ) );
 		}
-		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 }
