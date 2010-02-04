@@ -86,8 +86,7 @@ public abstract class ChatManager
 		ChatPoller.reset();
 
 		ChatManager.clanMessages.clear();
-		
-		ChatManager.instantMessageBuffers.clear();		
+		ChatManager.instantMessageBuffers.clear();
 		ChatManager.activeChannels.clear();
 		ChatManager.currentChannel = null;
 	}
@@ -142,8 +141,24 @@ public abstract class ChatManager
 	public static final void dispose()
 	{
 		ChatManager.isRunning = false;
+
+		Object[] bufferKeys = ChatManager.activeWindows.toArray();
+
+		for ( int i = 0; i < bufferKeys.length; ++i )
+		{
+			String bufferKey = (String) bufferKeys[ i ];
+
+			if ( ChatManager.tabbedFrame != null )
+			{
+				ChatManager.tabbedFrame.removeTab( bufferKey );
+			}
+			else
+			{
+				ChatManager.closeWindow( bufferKey );
+			}
+		}
+		
 		ChatManager.tabbedFrame = null;
-		ChatManager.activeWindows.clear();
 	}
 
 	public static final boolean isRunning()
@@ -160,32 +175,34 @@ public abstract class ChatManager
 	{
 		StyledChatBuffer buffer = (StyledChatBuffer) ChatManager.instantMessageBuffers.get( bufferKey );
 
-		if ( buffer == null )
+		if ( buffer != null )
 		{
-			buffer = new StyledChatBuffer( bufferKey, !bufferKey.equals( "[high]" ) );
+			return buffer;
+		}
 
-			if ( Preferences.getBoolean( "logChatMessages" ) )
+		buffer = new StyledChatBuffer( bufferKey, !bufferKey.equals( "[high]" ) );
+
+		if ( Preferences.getBoolean( "logChatMessages" ) )
+		{
+			String fileSuffix = bufferKey;
+
+			if ( fileSuffix.startsWith( "/" ) )
 			{
-				String fileSuffix = bufferKey;
-
-				if ( fileSuffix.startsWith( "/" ) )
-				{
-					fileSuffix = "[" + fileSuffix.substring( 1 ) + "]";
-				}
-
-				StringBuffer fileName = new StringBuffer();
-				fileName.append( KoLConstants.DAILY_FORMAT.format( new Date() ) );
-				fileName.append( "_" );
-				fileName.append( KoLCharacter.baseUserName() );
-				fileName.append( "_" );
-				fileName.append( fileSuffix );
-				fileName.append( ".html" );
-
-				buffer.setLogFile( new File( KoLConstants.CHATLOG_LOCATION, fileName.toString() ) );
+				fileSuffix = "[" + fileSuffix.substring( 1 ) + "]";
 			}
 
-			ChatManager.instantMessageBuffers.put( bufferKey, buffer );
+			StringBuffer fileName = new StringBuffer();
+			fileName.append( KoLConstants.DAILY_FORMAT.format( new Date() ) );
+			fileName.append( "_" );
+			fileName.append( KoLCharacter.baseUserName() );
+			fileName.append( "_" );
+			fileName.append( fileSuffix );
+			fileName.append( ".html" );
+
+			buffer.setLogFile( new File( KoLConstants.CHATLOG_LOCATION, fileName.toString() ) );
 		}
+
+		ChatManager.instantMessageBuffers.put( bufferKey, buffer );
 
 		return buffer;
 	}
@@ -457,8 +474,7 @@ public abstract class ChatManager
 		{
 			if ( ChatManager.tabbedFrame == null )
 			{
-				ChatManager.tabbedFrame = new TabbedChatFrame();
-				new CreateFrameRunnable( TabbedChatFrame.class ).run();
+				ChatManager.tabbedFrame = (TabbedChatFrame) new CreateFrameRunnable( TabbedChatFrame.class ).createFrame();
 			}
 
 			ChatManager.tabbedFrame.addTab( bufferKey );

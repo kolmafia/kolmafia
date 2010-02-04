@@ -143,8 +143,8 @@ public class CreateFrameRunnable
 			return;
 		}
 	}
-
-	public void createFrame()
+	
+	public JFrame createFrame()
 	{
 		// If there is no creation creation, then return
 		// from the method because there's nothing to do.
@@ -178,7 +178,7 @@ public class CreateFrameRunnable
 
 		if ( this.creation == null )
 		{
-			return;
+			return null;
 		}
 
 		// Some frames have a recipient parameter that
@@ -224,7 +224,9 @@ public class CreateFrameRunnable
 			this.creation.requestFocus();
 		}
 
+		JFrame frame = this.creation;
 		this.creation = null;
+		return frame;
 	}
 
 	private boolean loadPreviousFrame()

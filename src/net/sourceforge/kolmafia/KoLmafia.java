@@ -59,6 +59,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -718,8 +719,8 @@ public abstract class KoLmafia
 	 */
 
 	public void initialize( final String username )
-	{
-                // Load the JSON string first, so we can use it, if necessary.
+	{		
+		// Load the JSON string first, so we can use it, if necessary.
 		ActionBarManager.loadJSONString();
 
 		// Initialize the variables to their initial states to avoid
@@ -729,6 +730,7 @@ public abstract class KoLmafia
 
 		// Reset all per-player information
 
+		ChatManager.reset();		
 		MailManager.clearMailboxes();
 		StoreManager.clearCache();
 		DisplayCaseManager.clearCache();

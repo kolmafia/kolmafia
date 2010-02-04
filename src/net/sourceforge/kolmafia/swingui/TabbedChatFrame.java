@@ -52,6 +52,8 @@ public class TabbedChatFrame
 {
 	public TabbedChatFrame()
 	{
+		super( null );
+		
 		this.setTitle( "Loathing Chat" );
 
 		if ( Preferences.getBoolean( "addChatCommandLine" ) )
@@ -148,6 +150,18 @@ public class TabbedChatFrame
 			// since nothing bad really happened.
 		}
 	}
+	
+	public void removeTab( final String tabName )
+	{
+		for ( int i = 0; i < this.tabs.getTabCount(); ++i )
+		{
+			if ( this.tabs.getTitleAt( i ).trim().equals( tabName ) )
+			{
+				this.closeOperation( null, i );
+				return;
+			}
+		}
+	}
 
 	public void highlightTab( final String tabName )
 	{
@@ -164,13 +178,6 @@ public class TabbedChatFrame
 				return;
 			}
 		}
-	}
-
-	public void dispose()
-	{
-		ChatManager.dispose();
-
-		super.dispose();
 	}
 
 	private class TabAdder

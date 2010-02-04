@@ -76,7 +76,7 @@ public class LogoutRequest
 
 		KoLAdventure.resetAutoAttack();
 
-		ChatManager.reset();
+		ChatManager.dispose();
 		BuffBotHome.setBuffBotActive( false );
 
 		String scriptSetting = Preferences.getString( "logoutScript" );

@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LocalRelayAgent;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -249,6 +250,7 @@ public class LoginRequest
 	public void run()
 	{
 		LoginRequest.completedLogin = false;
+
 		GenericRequest.reset();
 		LocalRelayAgent.reset();
 

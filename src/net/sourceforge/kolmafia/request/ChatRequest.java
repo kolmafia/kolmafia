@@ -69,9 +69,4 @@ public class ChatRequest
 	{
 		return true;
 	}
-
-	public void processResponse()
-	{
-		// System.out.println( this.responseText );
-	}
 }
