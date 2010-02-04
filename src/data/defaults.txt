@@ -12,9 +12,9 @@ global	allowSocketTimeout	true
 global	autoHighlightOnFocus	true
 global	autoPlantHardcore	false
 global	autoPlantSoftcore	false
-global	autoSatisfyWithCloset	true
-global	autoSatisfyWithMall	true
-global	autoSatisfyWithNPCs	true
+global	autoSatisfyWithCloset	false
+global	autoSatisfyWithMall	false
+global	autoSatisfyWithNPCs	false
 global	autoSatisfyWithStash	false
 global	breakfastHardcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 global	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
@@ -112,24 +112,24 @@ global	relayAddsGraphicalCLI	false
 global	relayAddsKoLSimulator	false
 global	relayAddsQuickScripts	false
 global	relayAddsRestoreLinks	true
-global	relayAddsRoundNumber	false
+global	relayAddsRoundNumber	true
 global	relayAddsUpArrowLinks	true
 global	relayAddsUseLinks	true
 global	relayAddsWikiLinks	false
 global	relayAllowsOverrides	false
 global	relayBrowserOnly	false
 global	relayFormatsChatText	true
-global	relayHidesJunkMallItems	true
+global	relayHidesJunkMallItems	false
 global	relayMaintainsEffects	false
-global	relayMaintainsHealth	true
+global	relayMaintainsHealth	false
 global	relayMaintainsMana	false
 global	relayTextualizesEffects	false
-global	relayTrimsZapList	true
+global	relayTrimsZapList	false
 global	relayUsesCachedImages	false
 global	relayUsesInlineLinks	false
 global	relayUsesIntegratedChat	false
 global	relayViewsCustomItems	false
-global	removeMalignantEffects	true
+global	removeMalignantEffects	false
 global	saveSettingsOnSet	true
 global	saveState
 global	saveStateActive
@@ -139,7 +139,7 @@ global	showAllRequests	false
 global	statusDropdown	0
 global	stealthLogin	true
 global	swingLookAndFeel
-global	switchEquipmentForBuffs	true
+global	switchEquipmentForBuffs	false
 global	tomeSkillsHardcore	Summon Snowcone
 global	tomeSkillsSoftcore	Summon Snowcone
 global	toolbarPosition	1
@@ -165,11 +165,11 @@ user	autoAbortThreshold	-0.05
 user	autoAntidote	0
 user	autoBuyPriceLimit	20000
 user	autoEntangle	false
-user	autoManaRestore	true
+user	autoManaRestore	false
 user	autoOlfact
 user	autoPotionID	false
 user	autoPutty
-user	autoRepairBoxServants	true
+user	autoRepairBoxServants	false
 user	autoSphereID	false
 user	autoSteal	true
 user	autostartGalaktikQuest	true
@@ -425,7 +425,7 @@ user	mmgAutoConfirmBets	false
 user	mmgSearchMinimum
 user	mmgSearchMaximum
 user	moleTunnelLevel	0
-user	mpAutoRecovery	0.0
+user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3
 user	munchiesPillsUsed	0
