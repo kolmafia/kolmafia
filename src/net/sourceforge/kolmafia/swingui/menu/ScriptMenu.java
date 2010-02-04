@@ -37,6 +37,7 @@ import java.io.File;
 
 import javax.swing.JComponent;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -120,10 +121,12 @@ public class ScriptMenu
 
 	public JComponent[] getHeaders()
 	{
-		JComponent[] headers = new JComponent[ 2 ];
+		JComponent[] headers = new JComponent[ 3 ];
 
 		headers[ 0 ] = new LoadScriptMenuItem();
 		headers[ 1 ] = new InvocationMenuItem( "Refresh menu", GenericFrame.class, "compileScripts" );
+		headers[ 2 ] = new JMenuItem( "(Shift key to edit)" );
+		headers[ 2 ].setEnabled( false );
 
 		return headers;
 	}

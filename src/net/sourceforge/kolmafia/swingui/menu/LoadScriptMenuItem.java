@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -94,6 +95,13 @@ public class LoadScriptMenuItem
 		}
 
 		KoLmafia.forceContinue();
-		CommandDisplayFrame.executeCommand( "call " + executePath );
+		if ( (this.event.getModifiers() & ActionEvent.SHIFT_MASK) != 0 )
+		{
+			CommandDisplayFrame.executeCommand( "edit " + executePath );
+		}
+		else
+		{
+			CommandDisplayFrame.executeCommand( "call " + executePath );
+		}
 	}
 }

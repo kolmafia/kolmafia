@@ -221,8 +221,4 @@ public abstract class AbstractCommand
 
 		return new AdventureResult( (String) potentialEffects.get( 0 ), 0, true );
 	}
-
-	public void validateParameters( final String parameters )
-	{
-	}
 }

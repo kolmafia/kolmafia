@@ -631,6 +631,7 @@ public class KoLmafiaCLI
 		new DustyBottlesCommand().register( "dusty" );
 		new DwarfFactoryCommand().register( "factory" );
 		new EchoCommand().register( "echo" ).register( "print" );
+		new EditCommand().register( "edit" );
 		new EditMoodCommand().registerPrefix( "trigger" );
 		new ElseIfStatement().register( "elseif" );
 		new ElseStatement().register( "else" );
