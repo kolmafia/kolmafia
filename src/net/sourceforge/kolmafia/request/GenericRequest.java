@@ -2030,6 +2030,8 @@ public class GenericRequest
 		case ItemPool.BRICKO_OCTOPUS:
 		case ItemPool.BRICKO_PYTHON:
 		case ItemPool.BRICKO_VACUUM_CLEANER:
+		case ItemPool.BRICKO_AIRSHIP:
+		case ItemPool.BRICKO_CATHEDRAL:
 			itemName = item.getName();
 			consumed = true;
 			break;

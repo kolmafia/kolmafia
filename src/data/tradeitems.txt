@@ -4488,14 +4488,16 @@
 4479	BRICKO octopus	usable	all	0
 4480	BRICKO python	usable	all	0
 4481	BRICKO vacuum cleaner	usable	all	0
-4482
-4483
+4482	BRICKO airship	usable	all	0
+4483	BRICKO cathedral	usable	all	0
 4484
 4485	BRICKO pyramid	usable	all	0
 4486	BRICKO pearl	none	all	500
 4487	BRICKO bulwark	offhand	all	5
 4488	BRICKO trunk	usable	all	0
-4489
+4489	gilded BRICKO brick	none, combat	all	5000
 4490
 4491	black BRICKO brick	none, combat	all	50
 4492	green BRICKO brick	none, combat	all	100
+4493	broken BRICKO brick	none, combat	all	200
+4494	BRICKO reactor	none, combat	all	1000
