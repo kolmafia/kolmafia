@@ -102,6 +102,7 @@ global	pathedSummonsSoftcore	false
 global	preferredWebBrowser
 global	previousNotifyList	<>
 global	previousUpdateVersion
+global	previousUpdateRevision	0
 global	protectAgainstOverdrink	true
 global	proxySet	false
 global	readManualHardcore	true

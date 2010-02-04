@@ -2049,11 +2049,6 @@ public class UseItemRequest
 
 		case ItemPool.CARONCH_MAP:
 
-			if ( responseText.indexOf( "fight.php" ) != -1 )
-			{
-				// GenericRequest.checkItemRedirection( item );
-			}
-
 			// The item is only consumed once you turn in
 			// the nasty booty. That's handled elsewhere.
 
@@ -2433,11 +2428,6 @@ public class UseItemRequest
 
 			// <script type="text/javascript">top.mainpane.document.location="fight.php";</script>
 
-			if ( responseText.indexOf( "fight.php" ) != -1 )
-			{
-				// GenericRequest.checkItemRedirection( item );
-			}
-
 			// Even if we are redirected to a fight, the item is
 			// consumed elsewhere
 
@@ -2484,11 +2474,6 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			}
 
-			if ( responseText.indexOf( "fight.php" ) != -1 )
-			{
-				// GenericRequest.checkItemRedirection( item );
-			}
-
 			// Even if we are redirected to a fight, the item is
 			// consumed elsewhere
 
@@ -2529,11 +2514,6 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			}
 
-			if ( responseText.indexOf( "fight.php" ) != -1 )
-			{
-				// GenericRequest.checkItemRedirection( item );
-			}
-
 			// Even if we are redirected to a fight, the item is
 			// not consumed
 
@@ -2556,7 +2536,6 @@ public class UseItemRequest
 			// If we are redirected to a fight, the item is
 			// consumed elsewhere
 
-			// GenericRequest.checkItemRedirection( item );
 			ResultProcessor.processResult( item );
 
 			return;
@@ -2569,6 +2548,8 @@ public class UseItemRequest
 		case ItemPool.BRICKO_OCTOPUS:
 		case ItemPool.BRICKO_PYTHON:
 		case ItemPool.BRICKO_VACUUM_CLEANER:
+		case ItemPool.BRICKO_AIRSHIP:
+		case ItemPool.BRICKO_CATHEDRAL:
 
 			// You're too drunk to mess with BRICKO right now.
 
@@ -2581,7 +2562,6 @@ public class UseItemRequest
 			// If we are redirected to a fight, the item is
 			// consumed elsewhere
 
-			// GenericRequest.checkItemRedirection( item );
 			ResultProcessor.processResult( item );
 
 			return;
@@ -2589,6 +2569,7 @@ public class UseItemRequest
 		case ItemPool.SHAKING_CAMERA:
 
 			Preferences.setBoolean( "_cameraUsed", true );
+
 			// You get the sense that the monster in this camera
 			// isn't ready to be developed just yet. It'll probably
 			// be ready tomorrow. And no, you can't speed it up by
@@ -2597,7 +2578,6 @@ public class UseItemRequest
 			// If we are redirected to a fight, the item is
 			// consumed elsewhere
 
-			// GenericRequest.checkItemRedirection( item );
 			ResultProcessor.processResult( item );
 
 			return;
@@ -2607,7 +2587,6 @@ public class UseItemRequest
 			// If we are redirected to a fight, the item is
 			// consumed elsewhere
 
-			// GenericRequest.checkItemRedirection( item );
 			ResultProcessor.processResult( item );
 
 			return;
@@ -3094,11 +3073,6 @@ public class UseItemRequest
 			//
 			// inv_use.php?which=3&whichitem=3902&pwd
 			// inv_use.php?whichitem=3902&checked=1&pwd
-
-			if ( responseText.indexOf( "fight.php" ) != -1 )
-			{
-				// GenericRequest.checkItemRedirection( item );
-			}
 
 			return;
 

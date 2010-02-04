@@ -131,23 +131,42 @@ public abstract class StaticEntity
 
 	public static final String getVersion()
 	{
+		int revision = StaticEntity.getRevision();
+		return ( revision == 0 ) ? KoLConstants.VERSION_NAME : ( "KoLmafia r" + revision );
+	}
+
+	public static final int getRevision()
+	{
 		if ( KoLConstants.REVISION == null )
 		{
-			return KoLConstants.VERSION_NAME;
+			return 0;
 		}
 
 		int colonIndex = KoLConstants.REVISION.indexOf( ":" );
+		String revision = KoLConstants.REVISION;
 		if ( colonIndex != -1 )
 		{
-			return "KoLmafia r" + KoLConstants.REVISION.substring( 0, colonIndex );
+			revision = KoLConstants.REVISION.substring( 0, colonIndex );
 		}
-
-		if ( KoLConstants.REVISION.endsWith( "M" ) )
+		else if ( KoLConstants.REVISION.endsWith( "M" ) )
 		{
-			return "KoLmafia r" + KoLConstants.REVISION.substring( 0, KoLConstants.REVISION.length() - 1 );
+			revision = KoLConstants.REVISION.substring( 0, KoLConstants.REVISION.length() - 1 );
 		}
 
-		return "KoLmafia r" + KoLConstants.REVISION;
+		return StringUtilities.isNumeric( revision ) ? StringUtilities.parseInt( revision ) : 0;
+	}
+
+	public static final int parseRevision( String version )
+	{
+		if ( version == null )
+		{
+			return 0;
+		}
+		if ( version.startsWith( "KoLmafia r" ) )
+		{
+			version = version.substring( 10 );
+		}
+		return StringUtilities.isNumeric( version ) ? StringUtilities.parseInt( version ) : 0;
 	}
 
 	public static final void setClient( final KoLmafia client )

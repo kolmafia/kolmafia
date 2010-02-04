@@ -368,25 +368,9 @@ public abstract class KoLmafia
 			KoLConstants.saveStateNames.add( actualName );
 		}
 
-		// Also clear out any outdated data files. Include the
-		// adventure table, in case this is causing problems.
+		// Clear out any outdated data files.
 
-		String version = Preferences.getString( "previousUpdateVersion" );
-
-		if ( version == null || !version.equals( KoLConstants.VERSION_NAME ) )
-		{
-			Preferences.setString( "previousUpdateVersion", KoLConstants.VERSION_NAME );
-			for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
-			{
-				File outdated = new File( UtilityConstants.DATA_LOCATION, KoLConstants.OVERRIDE_DATA[ i ] );
-				if ( outdated.exists() )
-				{
-					outdated.delete();
-				}
-
-				KoLmafia.deleteSimulator( new File( KoLConstants.RELAY_LOCATION, "simulator" ) );
-			}
-		}
+		KoLmafia.checkDataOverrides();
 
 		// Change the default look and feel to match the player's
 		// preferences. Always do this.
@@ -539,14 +523,60 @@ public abstract class KoLmafia
 		}
 	}
 
-	private static final void deleteSimulator( final File location )
+	private static final void checkDataOverrides()
+	{
+		String lastVersion = Preferences.getString( "previousUpdateVersion" );
+		int lastRevision = Preferences.getInteger( "previousUpdateRevision" );
+		String currentVersion = StaticEntity.getVersion();
+		int currentRevision = StaticEntity.getRevision();
+		String message;
+
+		if ( lastVersion == null || lastVersion.equals( "" ) )
+		{
+			message = "Clearing data overrides: initializing from " + currentVersion;
+		}
+		else if ( !lastVersion.equals( KoLConstants.VERSION_NAME ) )
+		{
+			message = "Clearing data overrides: upgrade from " + lastVersion + " to " + currentVersion;
+		}
+		else if ( lastRevision == 0 && currentRevision > 0 )
+		{
+			message = "Clearing data overrides: upgrade from " + lastVersion + " to r" + currentRevision;
+		}
+		else if ( lastRevision < currentRevision )
+		{
+			message = "Clearing data overrides: upgrade from r" + lastRevision + " to r" + currentRevision;
+		}
+		else
+		{
+			return;
+		}
+
+		System.out.println( message );
+
+		Preferences.setString( "previousUpdateVersion", KoLConstants.VERSION_NAME );
+		Preferences.setInteger( "previousUpdateRevision", currentRevision );
+
+		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
+		{
+			File outdated = new File( UtilityConstants.DATA_LOCATION, KoLConstants.OVERRIDE_DATA[ i ] );
+			if ( outdated.exists() )
+			{
+				outdated.delete();
+			}
+
+			KoLmafia.deleteDirectory( new File( KoLConstants.RELAY_LOCATION, "simulator" ) );
+		}
+	}
+
+	private static final void deleteDirectory( final File location )
 	{
 		if ( location.isDirectory() )
 		{
 			File[] files = DataUtilities.listFiles( location );
 			for ( int i = 0; i < files.length; ++i )
 			{
-				KoLmafia.deleteSimulator( files[ i ] );
+				KoLmafia.deleteDirectory( files[ i ] );
 			}
 		}
 
