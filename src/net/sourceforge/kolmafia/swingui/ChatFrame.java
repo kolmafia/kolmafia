@@ -78,15 +78,6 @@ public class ChatFrame
 	private final JComboBox nameClickSelect;
 
 	/**
-	 * Constructs a new <code>ChatFrame</code>.
-	 */
-
-	public ChatFrame()
-	{
-		this( "" );
-	}
-
-	/**
 	 * Constructs a new <code>ChatFrame</code> which is intended to be used for instant messaging to the specified
 	 * contact.
 	 */
@@ -184,8 +175,6 @@ public class ChatFrame
 
 	public void dispose()
 	{
-		super.dispose();
-
 		String contact = this.getAssociatedContact();
 
 		if ( contact == null || contact == ChatManager.getCurrentChannel() )
@@ -196,6 +185,8 @@ public class ChatFrame
 		{
 			ChatManager.closeWindow( contact );
 		}
+
+		super.dispose();
 	}
 
 	/**
