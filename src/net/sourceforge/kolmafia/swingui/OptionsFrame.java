@@ -85,7 +85,11 @@ public class OptionsFrame
 	{
 		super( "Preferences" );
 
-		this.addTab( "General", new GeneralOptionsPanel() );
+		JPanel generalPanel = new JPanel();
+		generalPanel.setLayout( new BoxLayout( generalPanel, BoxLayout.Y_AXIS ) );
+		generalPanel.add( new GeneralOptionsPanel() );
+		generalPanel.add( new EditorPanel() );
+		this.addTab( "General", generalPanel );
 
 		JPanel browserPanel = new JPanel();
 		browserPanel.setLayout( new BoxLayout( browserPanel, BoxLayout.Y_AXIS ) );
@@ -1310,6 +1314,61 @@ public class OptionsFrame
 		public void actionCancelled()
 		{
 			this.preferredWebBrowser.setText( Preferences.getString( "preferredWebBrowser" ) );
+		}
+	}
+
+	protected class EditorPanel
+		extends OptionsPanel
+	{
+		private final FileSelectPanel preferredEditor;
+
+		public EditorPanel()
+		{
+			super( "External Script Editor" );
+
+			AutoHighlightTextField textField = new AutoHighlightTextField();
+			boolean button = true;
+			String helpText = "";
+			String path = null;
+
+			{
+				button = false;
+				path = "";
+				helpText = "The command will be invoked with the full path to the script as its only parameter.";
+			}
+
+			this.preferredEditor = new FileSelectPanel( textField, button );
+			if ( button )
+			{
+				this.preferredEditor.setPath( new File( path ) );
+			}
+
+			VerifiableElement[] elements = new VerifiableElement[ 1 ];
+			elements[ 0 ] = new VerifiableElement( "Editor command: ", this.preferredEditor );
+
+			this.setContent( elements );
+
+			JTextArea message = new JTextArea( helpText );
+			message.setColumns( 40 );
+			message.setLineWrap( true );
+			message.setWrapStyleWord( true );
+			message.setEditable( false );
+			message.setOpaque( false );
+			message.setFont( KoLConstants.DEFAULT_FONT );
+
+			this.container.add( message, BorderLayout.SOUTH );
+
+			this.actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			Preferences.setString( "externalEditor", this.preferredEditor.getText() );
+		}
+
+		public void actionCancelled()
+		{
+			this.preferredEditor.setText( Preferences.getString( "externalEditor" ) );
 		}
 	}
 

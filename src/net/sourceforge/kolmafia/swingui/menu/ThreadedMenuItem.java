@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -43,6 +44,8 @@ public class ThreadedMenuItem
 	extends JMenuItem
 	implements Runnable
 {
+	protected ActionEvent event;
+	
 	public ThreadedMenuItem( final String label )
 	{
 		super( label );
@@ -64,6 +67,7 @@ public class ThreadedMenuItem
 	{
 		public void actionPerformed( final ActionEvent e )
 		{
+			ThreadedMenuItem.this.event = e;
 			ThreadedMenuItem.this.run();
 			RequestThread.enableDisplayIfSequenceComplete();
 		}

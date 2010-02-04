@@ -283,7 +283,7 @@ public class Preferences
 
 	public static final boolean isUserEditable( final String property )
 	{
-		return !property.startsWith( "saveState" );
+		return !property.startsWith( "saveState" ) && !property.equals( "externalEditor" );
 	}
 
 	public static final void setString( final String name, final String value )
