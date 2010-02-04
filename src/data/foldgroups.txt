@@ -1,13 +1,20 @@
 1
 # Transformable item groups
+#
 # 1st field on each line is the % of max HP that will be inflicted as damage.
+#
+# The items in each group are ordered: an item deterministically
+# transforms into the next in the list.
+#
+# Torso Awaregness is required to make a shirt
+# Spirit of Rigatoni or a special sauce glove is required to make a chefstaff
 
 0	scratch 'n' sniff sword	scratch 'n' sniff crossbow
 0	metallic foil bow	metallic foil radar dish	metallic foil cat ears
-0	makeshift cape	makeshift skirt	makeshift turban	makeshift crane
+0	makeshift cape	makeshift skirt	makeshift crane	makeshift turban
 0	aquaviolet jub-jub bird	crimsilion jub-jub bird	charpuce jub-jub bird
 0	turtle wax shield	turtle wax helmet	turtle wax greaves
-5	ice baby	ice pick	ice sickle	ice skates
+5	ice sickle	ice baby	ice pick	ice skates
 5	liar's pants	flaming juggler's balls	flaming pink shirt	flaming familiar doppelg&auml;nger	evil flaming eyeball pendant
 5	naughty fortune teller	origami &quot;gentlemen's&quot; magazine	naughty paper shuriken	origami pasties	origami riding crop
 5	Spooky Putty mitre	Spooky Putty leotard	Spooky Putty ball	Spooky Putty sheet	Spooky Putty snake

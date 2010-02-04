@@ -997,7 +997,7 @@ public class EquipmentManager
 
 	public static final boolean usingChefstaff()
 	{
-		return EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() ).equals( "chefstaff" );
+		return EquipmentDatabase.isChefStaff( EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
 	}
 
 	/**

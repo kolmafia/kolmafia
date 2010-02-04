@@ -700,6 +700,16 @@ public class EquipmentDatabase
 		return EquipmentDatabase.getWeaponType( itemId );
 	}
 
+	public static final boolean isChefStaff( final AdventureResult item )
+	{
+		return EquipmentDatabase.getItemType( item.getItemId() ).equals( "chefstaff" );
+	}
+
+	public static final boolean isShirt( final AdventureResult item )
+	{
+		return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_SHIRT;
+	}
+
 	public static final int getPulverization( final String itemName )
 	{
 		if ( itemName == null )
