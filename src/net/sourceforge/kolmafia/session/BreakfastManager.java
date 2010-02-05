@@ -1,4 +1,40 @@
+/**
+ * Copyright (c) 2005-2009, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package net.sourceforge.kolmafia.session;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -247,23 +283,40 @@ public class BreakfastManager
 
 		boolean done = true;
 
-		done &= castBookSkills( Preferences.getString( "tomeSkills" + suffix ), KoLConstants.TOME, UseSkillRequest.TOME_SKILLS, allowRestore, manaRemaining );
-		done &= castBookSkills( Preferences.getString( "grimoireSkills" + suffix ), KoLConstants.GRIMOIRE, UseSkillRequest.GRIMOIRE_SKILLS, allowRestore, manaRemaining );
-		done &= castBookSkills( Preferences.getString( "libramSkills" + suffix ), KoLConstants.LIBRAM, UseSkillRequest.LIBRAM_SKILLS, allowRestore, manaRemaining );
+		done &= castBookSkills( getBreakfastTomeSkills(), KoLConstants.TOME, allowRestore, manaRemaining );
+		done &= castBookSkills( getBreakfastGrimoireSkills(), KoLConstants.GRIMOIRE, allowRestore, manaRemaining );
+		done &= castBookSkills( getBreakfastLibramSkills(), KoLConstants.LIBRAM, allowRestore, manaRemaining );
 
 		return done;
 	}
 
-	public static boolean castBookSkills( final String name, final int type, final String [] skills, final boolean allowRestore, final int manaRemaining )
+	public static List getBreakfastTomeSkills()
 	{
+		return BreakfastManager.getBreakfastBookSkills( "tomeSkills", UseSkillRequest.TOME_SKILLS );
+	}
+
+	public static List getBreakfastGrimoireSkills()
+	{
+		return BreakfastManager.getBreakfastBookSkills( "grimoireSkills", UseSkillRequest.GRIMOIRE_SKILLS );
+	}
+
+	public static List getBreakfastLibramSkills()
+	{
+		return BreakfastManager.getBreakfastBookSkills( "libramSkills", UseSkillRequest.LIBRAM_SKILLS );
+	}
+
+	private static List getBreakfastBookSkills( final String setting, final String [] skills )
+	{
+		String suffix = KoLCharacter.canInteract() ? "Softcore" : "Hardcore";
+		String name = Preferences.getString( setting + suffix );
+		ArrayList list = new ArrayList();
+
 		if ( name.equals( "none" ) )
 		{
-			return true;
+			return list;
 		}
 
 		boolean castAll = name.equals( "all" );
-		int skillCount = 0;
-		String skill = null;
 
 		// Determine how many skills we will cast from this list
 		for ( int i = 0; i < skills.length; ++i )
@@ -280,9 +333,15 @@ public class BreakfastManager
 				continue;
 			}
 
-			skillCount++;
-			skill = skillName;
+			list.add( skillName );
 		}
+
+		return list;
+	}
+
+	public static boolean castBookSkills( final List castable, final int type, final boolean allowRestore, final int manaRemaining )
+	{
+		int skillCount = castable.size();
 
 		// If none, we are done
 		if ( skillCount == 0 )
@@ -318,7 +377,8 @@ public class BreakfastManager
 		if ( skillCount == 1 )
 		{
 			// We are casting exactly one skill from this list.
-			return BreakfastManager.castBookSkill( skill, totalCasts, allowRestore, manaRemaining );
+			String skillName = (String) castable.get(0);
+			return BreakfastManager.castBookSkill( skillName, totalCasts, allowRestore, manaRemaining );
 		}
 
 		// Determine number of times we will cast each skill. Divide
@@ -332,14 +392,9 @@ public class BreakfastManager
 		// We are casting more than one skill from this list. Cast one
 		// at a time until we are done.
 
-		for ( int i = 0; i < skills.length; ++i )
+		for ( int i = 0; i < skillCount; ++i )
 		{
-			String skillName = skills[ i ];
-
-			if ( !KoLCharacter.hasSkill( skillName ) )
-			{
-				continue;
-			}
+			String skillName = (String) castable.get(i);
 
 			done &= BreakfastManager.castBookSkill( skillName, cast, allowRestore, manaRemaining );
 			cast = nextCast;
