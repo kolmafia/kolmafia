@@ -87,9 +87,9 @@
 86	Missing Eyebrows	sad.gif	71c7813ec6c1d4f79b9a4a44a6654181
 87	Two Left Feet	twoleft.gif	bdc371492a7b729af57b724c82c6ce09
 88
-89	Tingly Wrists	feather.gif	5a7834b36760978ce7766b95753fa4f2	#using phonics down
-90	Tingly Elbows	feather.gif	54aa2c7ffc56b273ae9a6bfe26f10aad	#using phonics down
-91	Tingly Biceps	feather.gif	fbf879a2f5e27198361d24f57cfd1130	#using phonics down
+89	Tingly Wrists	feather.gif	5a7834b36760978ce7766b95753fa4f2	#using phonics down - 1/3 chance
+90	Tingly Elbows	feather.gif	54aa2c7ffc56b273ae9a6bfe26f10aad	#using phonics down - 1/3 chance
+91	Tingly Biceps	feather.gif	fbf879a2f5e27198361d24f57cfd1130	#using phonics down - 1/3 chance
 92	Sticky Hands	glove.gif	652fac966f18c8d0051cc3af5ad42740	use 1 pine tar
 93	Clean-Shaven	shaven.gif	58e37fc744c725866f00b6e96da534a8	use 1 shaving cream
 94	Aspect of the GravyPlum Fairy	gravy.gif	4b79673d34d9748b440cb33977667cbd	#Sweet Nutcracker buff
@@ -277,8 +277,8 @@
 276	Disco Inferno	discoball.gif	72ebc0a6df7f0525c08ecae2904535e7	#DB combo
 277	Disco Nirvana	discoball.gif	f6763ce5ad70a6e3d7f388ff5043e3cd	#DB combo
 278	Disco Concentration	discoball.gif	a52f3893d9736c8541e13224d11cf00a	#DB combo
-279	Full of Vinegar	wine2.gif	68d41be21e343fcf84c5bfc5d96fecf0
-280	Kiss of the Black Fairy	skull.gif	8348ca470188c975bcb78c67a58c39ab
+279	Full of Vinegar	wine2.gif	68d41be21e343fcf84c5bfc5d96fecf0	#dusty wine
+280	Kiss of the Black Fairy	skull.gif	8348ca470188c975bcb78c67a58c39ab	#dusty wine
 281	Tangled Up	sad.gif	224ddd0d75c25d180c1f10a90bdab68a	#fighting Protector Spectre
 282	A Little Bit Poisoned	poison.gif	15e7e83d8630cf9b824a2645851458c5
 283	Somewhat Poisoned	poison.gif	189ac7bc3487eabe0d4f1dd8b2b34897
@@ -587,9 +587,9 @@
 586	Drunk With Power	moon4.gif	b2a15cf693cf363a637c8af66666db63	drink 1 elven moonshine
 587	Cruisin' for a Bruisin'	beatenup.gif	711efb04706e595abc96fdd2dba9e737	eat 1 knuckle sandwich
 588	Crimbo Nostalgia	scook3.gif	be14674a5367afafdeb370c2d97889dc	#can of franks 'n' beans or bottle of peppermint schnapps
-589	Quivering with Rage	angry.gif	c63a6e26c9843c2be0c8833be87a0fe9	#Vent Rage Gland
-590	Apoplectic with Rage	angry.gif	f3c81d0dd6a00f9a6460d678dccfc72a	#Vent Rage Gland
-591	Dizzy with Rage	angry.gif	7b330916f0ba1d13c23803b54ddb5776	#Vent Rage Gland
+589	Quivering with Rage	angry.gif	c63a6e26c9843c2be0c8833be87a0fe9	#Vent Rage Gland - 1/3 chance
+590	Apoplectic with Rage	angry.gif	f3c81d0dd6a00f9a6460d678dccfc72a	#Vent Rage Gland - 1/3 chance
+591	Dizzy with Rage	angry.gif	7b330916f0ba1d13c23803b54ddb5776	#Vent Rage Gland - 1/3 chance
 592	Puissant Pressure	potion14.gif	7509692416f131a7b0e5ee5a6d3c3ca1	use 1 pressurized potion of puissance
 593	Perspicacious Pressure	potion10.gif	d67ba800f80120434424f4b2b1941d5f	use 1 pressurized potion of perspicacity
 594	Pulchritudinous Pressure	potion14.gif	fa7497adb007a9437432b2bd3a56e9d2	use 1 pressurized potion of pulchritude
@@ -669,10 +669,10 @@
 668	Slimed Stomach	stomach.gif	19a0dbd007a488433f15186b8c5784f2	use 1 Good 'n' Slimy
 669	Chilblains of the Corn	candycorn.gif	5f20c6246d9367a07dcf7a6df4349864	use 1 children of the candy corn
 670
-671	Finstrong	sharkfin.gif	b5d70211928b246813b3180d445d4d4c
-672	Busker Do	sanddollar.gif	c240d44cd36c02e344e8a9d7bdc354ea
-673	Familial Ties	ties.gif	6b328c67b22420567accd3a9b6424ad8
-674	Swimming Head	loop.gif	8626f8671845ddcf2758099d159f4cbd
+671	Finstrong	sharkfin.gif	b5d70211928b246813b3180d445d4d4c	#Comet, the Roller Skate
+672	Busker Do	sanddollar.gif	c240d44cd36c02e344e8a9d7bdc354ea	#The Bandshell
+673	Familial Ties	ties.gif	6b328c67b22420567accd3a9b6424ad8	#The Eclectic Eels
+674	Swimming Head	loop.gif	8626f8671845ddcf2758099d159f4cbd	#A Merry-Go Round
 675
 676	Spangled Star	tinystars.gif	c369319642dfc3e85b43bbd33a587069	use 1 groupie spangles
 677
@@ -699,11 +699,11 @@
 698	A Few Extra Pounds	bathroomscale.gif	210aca072eee884be7fe49b03f5098b6	cast 1 Holiday Weight Gain
 699	Jingle Jangle Jingle	jinglebells.gif	a32acc4a5de83386ae3417140d09bf43	cast 1 Jingle Bells
 700	Cringle's Curative Carol	curative.gif	943d3ca45c939d9bcd9a92ababb7db08	cast 1 Cringle's Curative Carol
-701	Holiday Bliss	sleepy.gif	31b51f4b07633328937bae282d4baa5f
-702	Sugar High	sugarmag.gif	268dcb9173beb3621445fd6931b5a07d	use 1 elven suicide capsule
-703
-704
-705
+701	Holiday Bliss	sleepy.gif	31b51f4b07633328937bae282d4baa5f	#resting with Crimbo decorations
+702	Sugar High	sugarmag.gif	268dcb9173beb3621445fd6931b5a07d	#elven suicide capsule - 1/3 chance
+703	Sugar Smacks	sugarstr.gif	c78dc8f3ef4be37bcae07851eed778aa	#elven suicide capsule - 1/3 chance
+704	Sugary Tongue	sugarmox.gif	648433091ffc2fff7213017c95bbae75	#elven suicide capsule - 1/3 chance
+705	First Eye Blind	eyeout.gif	c72d704135c084eb394f42ebf2357f7b	#critical hit with Red Rover BB gun
 706	Peppermint Bite	pepperbark.gif	f482ecd34cc9464a7adb58a4c6fa37df	use 1 Crimbo peppermint bark
 707	Busy Bein' Delicious	fudge.gif	ec9debcc915fb7e165db0b4b59ea9fef	use 1 Crimbo fudge
 708	Sweet, Nuts	pecan.gif	5ef598b1c3f3281266d542d4790448a4	use 1 Crimbo candies pecan
@@ -712,4 +712,4 @@
 711
 712
 713
-714	Having a Ball!	plasticball.gif	b806c288732675bf60db7b948d748320
+714	Having a Ball!	plasticball.gif	b806c288732675bf60db7b948d748320	#clan ball pit
