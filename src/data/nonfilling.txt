@@ -1,0 +1,19 @@
+1
+# Item	Level req	Usage note (optional)
+BRICKO airship	11
+BRICKO cathedral	13
+BRICKO elephant	3
+BRICKO gargantuchicken	15
+BRICKO octopus	5
+BRICKO python	7
+BRICKO vacuum cleaner	9
+dolphin whistle	13
+figurine of a charred seal	6
+figurine of a cold seal	6
+figurine of a cute baby seal	5
+figurine of a shadowy seal	6
+figurine of a sleek seal	12
+figurine of a slippery seal	6
+figurine of a stinking seal	6
+figurine of an ancient seal	6
+figurine of an armored seal	9

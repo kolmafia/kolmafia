@@ -409,6 +409,7 @@ public interface KoLConstants
 		"itemdescs.txt",
 		"modifiers.txt",
 		"monsters.txt",
+		"nonfilling.txt",
 		"npcstores.txt",
 		"outfits.txt",
 		"packages.txt",
@@ -439,6 +440,7 @@ public interface KoLConstants
 	public static final int ITEMDESCS_VERSION = 1;
 	public static final int MODIFIERS_VERSION = 2;
 	public static final int MONSTERS_VERSION = 3;
+	public static final int NONFILLING_VERSION = 1;
 	public static final int NPCSTORES_VERSION = 1;
 	public static final int OUTFITS_VERSION = 1;
 	public static final int PACKAGES_VERSION = 1;
