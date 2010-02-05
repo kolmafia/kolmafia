@@ -113,7 +113,6 @@ global	relayAddsGraphicalCLI	false
 global	relayAddsKoLSimulator	false
 global	relayAddsQuickScripts	false
 global	relayAddsRestoreLinks	true
-global	relayAddsRoundNumber	true
 global	relayAddsUpArrowLinks	true
 global	relayAddsUseLinks	true
 global	relayAddsWikiLinks	false
