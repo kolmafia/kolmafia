@@ -40,6 +40,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -722,22 +723,15 @@ public abstract class MoodManager
 			return null;
 		}
 
-		ArrayList libramSkills = new ArrayList();
+		List castable =	 BreakfastManager.getBreakfastLibramSkills();
+		int skillCount = castable.size();
 
-		for ( int i = 0; i < UseSkillRequest.LIBRAM_SKILLS.length; ++i )
-		{
-			if ( KoLCharacter.hasSkill( UseSkillRequest.LIBRAM_SKILLS[ i ] ) )
-			{
-				libramSkills.add( UseSkillRequest.LIBRAM_SKILLS[ i ] );
-			}
-		}
-
-		if ( libramSkills.isEmpty() )
+		if ( skillCount == 0 )
 		{
 			return null;
 		}
 
-		return "cast 1 " + libramSkills.get( Preferences.getInteger( "libramSummons" ) % libramSkills.size() );
+		return "cast 1 " + (String) castable.get( Preferences.getInteger( "libramSummons" ) % skillCount );
 	}
 
 	public static final void execute( final int multiplicity )
