@@ -2155,6 +2155,7 @@ Fiery Heart	Mysticality: [min(T,20)], MP Regen Min: [ceil(min(T,20)/2)], MP Rege
 Finstrong	Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
 Fire Down Below	Hot Damage: [min(100,T)]
 Fireproof Lips	Hot Resistance: +9
+First Eye Blind	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Fishbreath	Stench Damage: +15
 # Fishy: -1 Adventure cost underwater
 Fishy Fortification	Maximum HP: +50, Muscle Percent: +10
@@ -2509,6 +2510,8 @@ Strength of Ten Ettins	Muscle Percent: +25
 # Stuck-Up Hair: Damages Attacking Opponents
 Sugar High	Mysticality Percent: +30
 Sugar Rush	Initiative: +20, Muscle Percent: +5, Moxie Percent: +5, Mysticality Percent: -10
+Sugar Smacks	Muscle Percent: +30
+Sugary Tongue	Moxie Percent: +30
 Sunburned	Muscle: -2, Moxie: -2
 Supafly	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +30, Sleaze Damage: +10, Sleaze Resistance: +2
 Super-Charged	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
