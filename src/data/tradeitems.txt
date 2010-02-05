@@ -4490,7 +4490,7 @@
 4481	BRICKO vacuum cleaner	usable	all	0
 4482	BRICKO airship	usable	all	0
 4483	BRICKO cathedral	usable	all	0
-4484
+4484	BRICKO gargantuchicken	usable	all	0
 4485	BRICKO pyramid	usable	all	0
 4486	BRICKO pearl	none	all	500
 4487	BRICKO bulwark	offhand	all	5

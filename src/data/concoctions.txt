@@ -1380,6 +1380,7 @@ BRICKO pyramid	MUSE	BRICKO brick (420)
 BRICKO vacuum cleaner	MUSE	BRICKO brick (1100)	BRICKO eye brick (1)
 BRICKO airship	MUSE	BRICKO brick (2300)	BRICKO eye brick (1)
 BRICKO cathedral	MUSE	BRICKO brick (3700)	BRICKO eye brick (1)
+BRICKO gargantuchicken	MUSE	BRICKO brick (6900)	BRICKO eye brick (1)
 
 # Recipes that involve single-using one of the ingredients
 

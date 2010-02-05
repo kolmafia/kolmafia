@@ -45,11 +45,13 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FoldItemCommand
 	extends AbstractCommand
@@ -76,10 +78,29 @@ public class FoldItemCommand
 
 		// Find the fold group containing this item
 		String targetName = target.getName();
+		String canon = StringUtilities.getCanonicalName( targetName );
 		ArrayList group = ItemDatabase.getFoldGroup( targetName );
 		if ( group == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That's not a transformable item!" );
+			return;
+		}
+
+		// Confirm that we'll be able to make this item
+		boolean canShirt = KoLCharacter.hasSkill( "Torso Awaregness" );
+		if ( !canShirt && EquipmentDatabase.isShirt( target ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't make a shirt" );
+			return;
+		}
+
+		boolean canStaff =
+			KoLCharacter.hasSkill( "Spirit of Rigatoni" ) ||
+			( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
+			  KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPECIAL_SAUCE_GLOVE, 1 ) ) );
+		if ( !canStaff && EquipmentDatabase.isChefStaff( target ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't make a chefstaff" );
 			return;
 		}
 
@@ -89,24 +110,35 @@ public class FoldItemCommand
 		for ( int i = 1; i < count; ++i )
 		{
 			String form = (String) group.get( i );
-			if ( form.equals( targetName ) )
+			if ( form.equals( canon ) )
 			{
 				targetIndex = i;
 				break;
 			}
 		}
 
-		// Iterate backwards to find closest item to transform. Skip index 0.
-		int sourceIndex = targetIndex > 1 ? targetIndex - 1 : count - 1;
+		// Sanity check
+		if ( targetIndex == 0 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal error: cannot find " + targetName + " in fold group" );
+			return;
+		}
+
+		// Iterate backwards to find closest item to transform. Skip
+		// index 0.
+		int sourceIndex = ( targetIndex > 1 ) ? targetIndex - 1 : count - 1;
+		AdventureResult source = null;
 
 		while ( sourceIndex != targetIndex )
 		{
 			String form = (String) group.get( sourceIndex );
 			AdventureResult item = new AdventureResult( form, 1, false );
 
-			// If we have this item in inventory, use it to start folding
+			// If we have this item in inventory, use it to start
+			// folding
 			if ( item.getCount( KoLConstants.inventory ) > 0 )
 			{
+				source = item;
 				break;
 			}
 
@@ -115,9 +147,15 @@ public class FoldItemCommand
 		}
 
 		// Punt now if have nothing foldable
-		if ( sourceIndex == targetIndex )
+		if ( source == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have anything transformable into that item!" );
+			return;
+		}
+
+		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+		{
+			RequestLogger.printLine( source + " => " + target );
 			return;
 		}
 
@@ -131,18 +169,12 @@ public class FoldItemCommand
 			AdventureResult item = new AdventureResult( form, 1, false );
 
 			// Consider the next item. Skip index 0.
-			sourceIndex = sourceIndex < count - 1 ? sourceIndex + 1 : 1;
+			sourceIndex = ( sourceIndex < count - 1 ) ? sourceIndex + 1 : 1;
 
 			// If we don't have this item in inventory,  skip
 			if ( item.getCount( KoLConstants.inventory ) == 0 )
 			{
 				continue;
-			}
-
-			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
-			{
-				RequestLogger.printLine( form + " => " + target );
-				break;
 			}
 
 			int hp = KoLCharacter.getCurrentHP();
