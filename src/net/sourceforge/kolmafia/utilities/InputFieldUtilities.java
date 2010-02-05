@@ -187,7 +187,7 @@ public class InputFieldUtilities {
 			return defaultValue;
 		}
 
-		int result = StringUtilities.parseInt(currentValue);
+		int result = StringUtilities.parseIntInternal2(currentValue);
 		return result == 0 ? defaultValue : result;
 	}
 
@@ -230,7 +230,7 @@ public class InputFieldUtilities {
 			return maximumValue;
 		}
 
-		int desiredValue = StringUtilities.parseInt(currentValue);
+		int desiredValue = StringUtilities.parseIntInternal2(currentValue);
 		return desiredValue < 0 ? maximumValue - desiredValue : Math.min(
 			desiredValue, maximumValue);
 	}
