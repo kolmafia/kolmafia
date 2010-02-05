@@ -174,14 +174,15 @@ Auteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsu
 Axe Handle	HP: 3 Def: 3 Atk: 1	pine tar (20)
 BASIC Elemental	HP: 40 Def: 50 Atk: 50
 BRICKO Airship	HP: 0
-BRICKO Bat	HP: 0
+BRICKO Bat	HP: 100
 BRICKO Cathedral	HP: 0
-BRICKO Elephant	HP: 0
-BRICKO Octopus	HP: 0
-BRICKO Ooze	HP: 0
-BRICKO Oyster	HP: 0
+BRICKO Elephant	HP: 200
+BRICKO Gargantuchicken	HP: 0
+BRICKO Octopus	HP: 250
+BRICKO Ooze	HP: 50
+BRICKO Oyster	HP: 125
 BRICKO Python	HP: 0
-BRICKO Turtle	HP: 0
+BRICKO Turtle	HP: 150
 BRICKO Vacuum Cleaner	HP: 0
 Bad ASCII Art	HP: 1	ASCII shirt (c100)	 30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
 Bailey's Beetle	HP: 215 Def: 195 Atk: 195 E: stench	green clay bead (30)	floorboard cruft (30)	battered hubcap (30)	communications windchimes (12)	reinforced beaded headband (1)	round purple sunglasses (2)	bullet-proof corduroys (4)
