@@ -279,6 +279,7 @@ public class ItemDatabase
 		ItemDatabase.readConsumptionData( "fullness.txt", KoLConstants.FULLNESS_VERSION, ItemDatabase.fullnessByName );
 		ItemDatabase.readConsumptionData( "inebriety.txt", KoLConstants.INEBRIETY_VERSION, ItemDatabase.inebrietyByName );
 		ItemDatabase.readConsumptionData( "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION , ItemDatabase.spleenHitByName );
+		ItemDatabase.readNonfillingData();
 
 		ItemDatabase.readFoldGroups();
 
@@ -545,6 +546,41 @@ public class ItemDatabase
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			ItemDatabase.saveItemValues( data, map );
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	private static void readNonfillingData()
+	{
+		BufferedReader reader = FileUtilities.getVersionedReader( "nonfilling.txt", KoLConstants.NONFILLING_VERSION );
+
+		String[] data;
+		Integer id;
+
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
+		{
+			if ( data.length < 2 )
+				continue;
+	
+			String name = StringUtilities.getCanonicalName( data[ 0 ] );
+			ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 1 ] ) );
+	
+			if ( data.length < 3 )
+				continue;
+	
+			String notes = data[ 2 ];
+			if ( notes.length() > 0 )
+			{
+				ItemDatabase.notesByName.put( name, notes );
+			}
 		}
 
 		try
