@@ -4501,6 +4501,6 @@
 4492	green BRICKO brick	none, combat	all	100
 4493	broken BRICKO brick	none, combat	all	200
 4494	BRICKO reactor	none, combat	all	1000
-4495
+4495	BRICKO egg	grow	all	0
 4496	extra-heavy BRICKO brick	familiar	all	75
 
