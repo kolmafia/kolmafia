@@ -29,12 +29,12 @@
 28	Butt-Rock Hair	buttrock.gif	04bc18fe47f495a894774fa1bbb9713d	use 5 hair spray
 29	Contemptible Emanations	stench.gif	20f081726fb8cfa9a64736d6fb8333a4	use 1 cologne of contempt
 30	Incredibly Hulking	strboost.gif	fd5616e89e1c2ecb0b01b61929682d2d	use 1 Ferrigno's Elixir of Power
-31	Superhuman Sarcasm	wink.gif	2ca6aa31e5eed5cd125e9fd374b74a78	use 1 serum of sarcasm
-32	Tomato Power	tomato.gif	1eb060ef5cd5a7cff1a210edc5b62748	use 1 tomato juice of powerful power
-33	Phorcefullness	strboost.gif	e176f70d3a673e928e6c93aa523b5e14	use 1 philter of phorce
-34	Pronounced Potency	nicesword.gif	e4f2a1e71b5609afa4ad710a4a37cbdd	use 1 potion of potency
+31	Superhuman Sarcasm	wink.gif	2ca6aa31e5eed5cd125e9fd374b74a78	use either 1 serum of sarcasm, 1 evil serum of sarcasm
+32	Tomato Power	tomato.gif	1eb060ef5cd5a7cff1a210edc5b62748	use either 1 tomato juice of powerful power, 1 evil tomato juice of powerful power
+33	Phorcefullness	strboost.gif	e176f70d3a673e928e6c93aa523b5e14	use either 1 philter of phorce, 1 evil philter of phorce
+34	Pronounced Potency	nicesword.gif	e4f2a1e71b5609afa4ad710a4a37cbdd	use either 1 potion of potency, 1 evil potion of potency
 35	Concentration	farout.gif	7cb1ce3c6611696ed66b0f180fcb79d4	use 1 cordial of concentration
-36	Mystically Oiled	potion4.gif	df21506858f7dfabf69c62d6562dc574	use 1 ointment of the occult
+36	Mystically Oiled	potion4.gif	df21506858f7dfabf69c62d6562dc574	use either 1 ointment of the occult, 1 evil ointment of the occult
 37	Expert Oiliness	potion4.gif	e29bedb34840827fd6c9e6887d04d2b4	use 1 oil of expertise
 38	Gr8tness	grapes.gif	22a24325a136bd388cd85852ffee92e3	use 1 potion of temporary gr8tness
 39	Hernia!	hernia.gif	eb4f2cac29d8c2a73a6b0f1d532f61c9	#using mafia aria without cummerbund
@@ -203,8 +203,8 @@
 202	Spooky Demeanor	scwad.gif	89099ac4df5c9d8171b4930a79feaeae	chew 1 spooky wad
 203	Stenchtastic	scwad.gif	798bb9ee21a7f86fea8ed2a1c8fc9be1	chew 1 stench wad
 204	Supafly	scwad.gif	9251834d917d63e231fac176d8842811	chew 1 sleaze wad
-205	Provocative Perkiness	hoppedup.gif	a5416e0b53cb9482aaa8294b3ebf58b5	use 1 libation of liveliness
-206	Ermine Eyes	bigeyes.gif	00fb00c69272d752ee0bab0e83ea729f	use 1 eyedrops of the ermine
+205	Provocative Perkiness	hoppedup.gif	a5416e0b53cb9482aaa8294b3ebf58b5	use either 1 libation of liveliness, 1 evil libation of liveliness
+206	Ermine Eyes	bigeyes.gif	00fb00c69272d752ee0bab0e83ea729f	use either 1 eyedrops of the ermine, 1 evil eyedrops of the ermine
 207	Eau D'enmity	stench.gif	e81a1fd67fb48499d12619574610759f	use 1 perfume of prejudice
 208	Ocelot Eyes	bigeyes.gif	c857c096f180a92bbd6b378c363f8b63	use 1 eyedrops of the ocelot
 209	Ponderous Potency	strboost.gif	7f39a1d79d44181871af122ba6c8c851	use 1 potent potion of potency
@@ -436,9 +436,9 @@
 435	Beer in Your Shoes	footprints.gif	fb06ebe1f825ce046930e2630203969a	#fighting Elite Beer Bongadier
 436	Toad In The Hole	squashfrog.gif	b17642b2ee44782a692b2d7861b50ac0	#fighting Green Ops Soldier
 437	Strangulated	sad.gif	65e393732d2282a4a698417581c1e899	#fighting Panty Raider Frat Boy
-438	Ham-Fisted	ham.gif	a71e21c4a39a13558719fef8980422d4	use 1 jug of hamethyst juice
-439	Baconstoned	bacon.gif	8a3686b9ef4909ca99587bc6489008c4	use 1 jug of baconstone juice
-440	Je Ne Sais Porquoise	confused.gif	7a1d33bd3c697d55c26eb70a1845a5d5	use 1 jug of porquoise juice
+438	Ham-Fisted	ham.gif	a71e21c4a39a13558719fef8980422d4	use 1 jug of hamethyst juice|use 1 flask of hamethyst juice|use 1 vial of hamethyst juice
+439	Baconstoned	bacon.gif	8a3686b9ef4909ca99587bc6489008c4	use 1 jug of baconstone juice|use 1 flask of baconstone juice|use 1 vial of baconstone juice
+440	Je Ne Sais Porquoise	confused.gif	7a1d33bd3c697d55c26eb70a1845a5d5	use 1 jug of porquoise juice|use 1 flask of porquoise juice|use 1 vial of porquoise juice
 441	Fit To Be Tide	waves.gif	938dde0221273af2e2cefeafacddf498	#Summoning Chamber
 442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8	#Summoning Chamber
 443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13	#Summoning Chamber

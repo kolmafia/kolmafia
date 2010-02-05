@@ -696,7 +696,8 @@ public class MaximizerFrame
 							}
 							if ( count > 0 )
 							{
-								if ( !KoLCharacter.canInteract() )
+								if ( !KoLCharacter.canInteract() ||
+									!ItemDatabase.isTradeable( item.getItemId() ) )
 								{
 									continue;
 								}
