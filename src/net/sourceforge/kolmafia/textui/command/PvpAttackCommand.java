@@ -116,8 +116,9 @@ public class PvpAttackCommand
 		KoLmafia.updateDisplay( "Determining current rank..." );
 		RequestThread.postRequest( new PvpRequest() );
 
-		PvpManager.executeFlowerHuntRequest( targets, new PvpRequest(
-			parameters, stance, KoLCharacter.canInteract() ? "dignity" : "flowers" ) );
+		String mission = KoLCharacter.canInteract() ? "dignity" : "flowers";
+		PvpRequest request = new PvpRequest( parameters, stance, mission );
+		PvpManager.executePvpRequest( targets, request );
 
 		RequestThread.closeRequestSequence();
 	}

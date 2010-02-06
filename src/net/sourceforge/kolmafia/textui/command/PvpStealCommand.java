@@ -33,18 +33,54 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.PvpManager;
 
-public class FlowerHuntCommand
+public class PvpStealCommand
 	extends AbstractCommand
 {
-	public FlowerHuntCommand()
+	public PvpStealCommand()
 	{
-		this.usage = " - commit random acts of PvP.";
+		this.usage = " flowers | meat | loot [food | booze] | rank | dignity - commit random acts of PvP.";
 	}
 
 	public void run( final String cmd, final String parameters )
 	{
-		PvpManager.executePvpRequest( "flowers" );
+		String mission;
+		if ( parameters.equals("flowers") ||
+		     parameters.equals("rank") ||
+		     parameters.equals("dignity") ||
+		     parameters.equals("meat") )
+		{
+			mission = parameters;
+		}
+		else if ( parameters.startsWith("loot") )
+		{
+			if ( parameters.endsWith("booze") )
+			{
+				mission = "lootbooze";
+			} else if ( parameters.endsWith("food") )
+			{
+				mission = "lootfood";
+			} else
+			{
+				mission = "lootwhatever";
+			}
+		}
+		else
+		{
+			KoLmafia.updateDisplay(KoLConstants.ERROR_STATE, "What do you want to steal?");
+			return;
+		}
+
+		if( KoLCharacter.isFallingDown() )
+		{
+			KoLmafia.updateDisplay(KoLConstants.ERROR_STATE, "You cannot PvP while falling-down drunk.");
+			return;
+		}
+
+		PvpManager.executePvpRequest( mission );
 	}
 }

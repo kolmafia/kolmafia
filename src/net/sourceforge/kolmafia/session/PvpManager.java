@@ -293,7 +293,7 @@ public class PvpManager
 		}
 	}
 
-	public static void executeFlowerHuntRequest()
+	public static void executePvpRequest( final String mission )
 	{
 		RequestThread.openRequestSequence();
 
@@ -319,7 +319,7 @@ public class PvpManager
 		int lastSearch = 0, desiredRank;
 
 		ProfileRequest[] results = null;
-		PvpRequest request = new PvpRequest( "", stance, "flowers" );
+		PvpRequest request = new PvpRequest( "", stance, mission );
 
 		while ( !KoLmafia.refusesContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 )
 		{
@@ -337,7 +337,7 @@ public class PvpManager
 				PvpRequest.getSearchResults().toArray( results );
 			}
 
-			executeFlowerHuntRequest( results, request );
+			executePvpRequest( results, request );
 
 			if ( !KoLmafia.refusesContinue() )
 			{
@@ -353,7 +353,7 @@ public class PvpManager
 		RequestThread.closeRequestSequence();
 	}
 
-	public static final void executeFlowerHuntRequest( final ProfileRequest[] targets, final PvpRequest request )
+	public static final void executePvpRequest( final ProfileRequest[] targets, final PvpRequest request )
 	{
 		for ( int i = 0; i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
 		{
