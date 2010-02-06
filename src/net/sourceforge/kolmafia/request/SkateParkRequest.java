@@ -45,8 +45,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 public class SkateParkRequest
 	extends GenericRequest
 {
-	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
-
 	public static final int LUTZ = 0;
 	public static final int COMET = 1;
 	public static final int BAND_SHELL = 2;
@@ -222,7 +220,7 @@ public class SkateParkRequest
 	{
 		String urlString = this.getURLString();
 		String responseText = this.responseText;
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 		Object [] data = actionToData( action );
 
@@ -278,7 +276,7 @@ public class SkateParkRequest
 			Preferences.setString( "skateParkStatus", status );
 		}
 
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 
 		if ( action == null )
@@ -313,7 +311,7 @@ public class SkateParkRequest
 			return false;
 		}
 
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 
 		// We have nothing special to do for simple visits.

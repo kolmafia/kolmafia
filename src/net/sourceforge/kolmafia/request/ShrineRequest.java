@@ -33,10 +33,14 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ShrineRequest
 	extends GenericRequest
@@ -99,15 +103,36 @@ public class ShrineRequest
 
 	public void processResults()
 	{
-		if ( this.responseText.indexOf( "You gain" ) == -1 )
-		{
-			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE,
-				this.responseText.indexOf( "That's not enough" ) == -1 ? "Donation limit exceeded." : "Donation must be larger." );
+                String error = ShrineRequest.parseResponse( this.getURLString(), this.responseText ); 
+                if ( error != null )
+                {
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
 			return;
+                }
+		KoLmafia.updateDisplay( "Donation complete." );
+	}
+
+	public static final String parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "shrines.php" ) )
+		{
+			return null;
 		}
 
-		ResultProcessor.processMeat( 0 - this.amount );
-		KoLmafia.updateDisplay( "Donation complete." );
+		if ( responseText.indexOf( "You gain" ) == -1 )
+		{
+                        return responseText.indexOf( "That's not enough" ) == -1 ?
+                                "Donation limit exceeded." :
+                                "Donation must be larger.";
+		}
+
+		Matcher matcher = GenericRequest.HOWMUCH_PATTERN.matcher( urlString );
+                if ( matcher.find() )
+                {
+                        int qty = StringUtilities.parseInt( matcher.group(1) );
+                        ResultProcessor.processMeat( 0 - qty );
+                }
+
+                return null;
 	}
 }

@@ -98,6 +98,7 @@ public class GenericRequest
 {
 	// Used in many requests. Here for convenience and non-duplication
 	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
+	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=(\\d*)" );
 
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;

@@ -60,7 +60,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class DwarfFactoryRequest
 	extends GenericRequest
 {
-	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	public static final Pattern RUNE_PATTERN = Pattern.compile( "title=\"Dwarf (Digit|Word) Rune (.)\"" );
 	public static final Pattern ITEMDESC_PATTERN = Pattern.compile( "descitem\\((\\d*)\\)" );
 	public static final Pattern MEAT_PATTERN = Pattern.compile( "You (gain|lose) (\\d*) Meat" );
@@ -137,7 +136,7 @@ public class DwarfFactoryRequest
 			return;
 		}
 
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 
 		// We have nothing special to do for simple visits.
@@ -207,7 +206,7 @@ public class DwarfFactoryRequest
 			return;
 		}
 
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 
 		if ( action == null )
@@ -689,7 +688,7 @@ public class DwarfFactoryRequest
 			return false;
 		}
 
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 
 		// We have nothing special to do for simple visits.
