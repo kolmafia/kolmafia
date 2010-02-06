@@ -511,7 +511,7 @@ public class CampgroundRequest
 			return false;
 		}
 
-		Matcher matcher= CampgroundRequest.ACTION_PATTERN.matcher( urlString );
+		Matcher matcher= GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
 			// Simple visit. Nothing to log.

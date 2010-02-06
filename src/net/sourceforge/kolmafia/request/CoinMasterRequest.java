@@ -61,7 +61,6 @@ public class CoinMasterRequest
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
-	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You currently have) (?:<b>)?(\\d+)(?:</b>)? (dime|quarter|sand dollar|Crimbux)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
@@ -204,7 +203,7 @@ public class CoinMasterRequest
 
 	public static void parseBigBrotherVisit( final String location, final String responseText )
 	{
-		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( location );
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( location );
 		if ( !actionMatcher.find() )
 		{
 			if ( location.indexOf( "who=2" ) != -1 )
@@ -234,7 +233,7 @@ public class CoinMasterRequest
 
 	public static void parseCrimboCartelVisit( final String location, final String responseText )
 	{
-		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( location );
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( location );
 		if ( !actionMatcher.find() )
 		{
 			if ( location.indexOf( "place=store" ) != -1 )
@@ -264,7 +263,7 @@ public class CoinMasterRequest
 
 	public static void parseBountyVisit( final String location, final String responseText )
 	{
-		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( location );
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( location );
 		if ( !actionMatcher.find() )
 		{
 			// I'm still waiting for you to bring me 5 discarded
@@ -308,7 +307,7 @@ public class CoinMasterRequest
 			return;
 		}
 
-		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( location );
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( location );
 		if ( !actionMatcher.find() )
 		{
 			// Parse current coin balances
@@ -584,7 +583,7 @@ public class CoinMasterRequest
 
 	private static final boolean registerHunterRequest( final String urlString )
 	{
-		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( urlString );
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !actionMatcher.find() )
 		{
 			RequestLogger.updateSessionLog();
@@ -645,7 +644,7 @@ public class CoinMasterRequest
 	{
 		// We only claim monkeycastle.php?action=buyitem
 
-		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( urlString );
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !actionMatcher.find() )
 		{
 			return false;
@@ -666,7 +665,7 @@ public class CoinMasterRequest
 	{
 		// We only claim crimbo09.php?action=buygift
 
-		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( urlString );
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !actionMatcher.find() )
 		{
 			return false;
@@ -691,7 +690,7 @@ public class CoinMasterRequest
 			return false;
 		}
 
-		Matcher actionMatcher = CoinMasterRequest.ACTION_PATTERN.matcher( urlString );
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !actionMatcher.find() )
 		{
 			return true;

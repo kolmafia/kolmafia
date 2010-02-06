@@ -48,7 +48,6 @@ public class MoneyMakingGameRequest
 	extends GenericRequest
 {
 	public static final Pattern FROM_PATTERN = Pattern.compile( "from=(\\d*)" );
-	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=(\\d*)" );
 	public static final Pattern WHICHBET_PATTERN = Pattern.compile( "whichbet=(\\d*)" );
 	public static final Pattern BETID_PATTERN = Pattern.compile( "betid=(\\d*)" );
 	public static final Pattern LOWER_PATTERN = Pattern.compile( "lower=(\\d*)" );
@@ -85,7 +84,7 @@ public class MoneyMakingGameRequest
 
 	public static final int getHowMuch( final String urlString )
 	{
-		return MoneyMakingGameRequest.parseInteger( HOWMUCH_PATTERN, urlString );
+		return MoneyMakingGameRequest.parseInteger( GenericRequest.HOWMUCH_PATTERN, urlString );
 	}
 
 	public static final int getWhichBet( final String urlString )

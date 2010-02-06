@@ -54,7 +54,6 @@ public class GuildRequest
 {
 	private static final Pattern STILLS_PATTERN = Pattern.compile( "with (\\d+) bright" );
 	private static final Pattern PLACE_PATTERN = Pattern.compile( "place=([^&]*)" );
-	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	public static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d*)" );
 
 	public GuildRequest()
@@ -327,7 +326,7 @@ public class GuildRequest
 			return;
 		}
 
-		matcher = ACTION_PATTERN.matcher( urlString );
+		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 
 		// We have nothing special to do for other simple visits.
@@ -391,7 +390,7 @@ public class GuildRequest
 			return true;
 		}
 
-		matcher = ACTION_PATTERN.matcher( urlString );
+		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 
 		// We have nothing special to do for other simple visits.

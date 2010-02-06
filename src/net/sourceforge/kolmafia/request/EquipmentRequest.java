@@ -66,7 +66,6 @@ public class EquipmentRequest
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN =
 		Pattern.compile( "<option value='?([\\d]+)'? descid='?([\\d]+)'?>([^>]*?) \\(([\\d,]+)\\)</option>" );
-	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 
 	// With images:
 	//
@@ -1351,7 +1350,7 @@ public class EquipmentRequest
 
 	public static final void parseEquipmentChange( final String location, final String responseText )
 	{
-		Matcher matcher = ACTION_PATTERN.matcher( location );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( location );
 
 		if ( !matcher.find() )
 		{

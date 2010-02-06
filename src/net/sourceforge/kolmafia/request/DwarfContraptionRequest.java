@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class DwarfContraptionRequest
 	extends GenericRequest
 {
-	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	public static final Pattern GAUGES_PATTERN = Pattern.compile( "temp0=(\\d*)&temp1=(\\d*)&temp2=(\\d*)&temp3=(\\d*)" );
 	public static final Pattern HOPPER_PATTERN = Pattern.compile( "action=dohopper(\\d*).*howmany=(\\d*).*whichore=([^&]*)" );
 	public static final Pattern CHAMBER_PATTERN = Pattern.compile( "howmany=(\\d*).*whichitem=([^&]*)" );
@@ -199,7 +198,7 @@ public class DwarfContraptionRequest
 			return;
 		}
 
-		Matcher actionMatcher = ACTION_PATTERN.matcher( urlString );
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = null;
 
 		while ( actionMatcher.find() )
@@ -313,7 +312,7 @@ public class DwarfContraptionRequest
 			return false;
 		}
 
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = null;
 
 		// The contraption can have URLs with multiple actions. The

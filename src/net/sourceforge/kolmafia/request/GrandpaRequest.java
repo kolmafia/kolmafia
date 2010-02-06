@@ -46,7 +46,6 @@ public class GrandpaRequest
 	extends GenericRequest
 {
 	private static final Pattern WHO_PATTERN = Pattern.compile( "who=(\\d*)" );
-	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]+)" );
 	private static final Pattern QUERY_PATTERN = Pattern.compile( "topic=([^&]*)" );
 
 	public GrandpaRequest()
@@ -108,7 +107,7 @@ public class GrandpaRequest
 			return true;
 		}
 
-		matcher = GrandpaRequest.ACTION_PATTERN.matcher( urlString );
+		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
 			return false;
