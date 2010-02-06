@@ -706,7 +706,7 @@
 705	First Eye Blind	eyeout.gif	c72d704135c084eb394f42ebf2357f7b	#critical hit with Red Rover BB gun
 706	Peppermint Bite	pepperbark.gif	f482ecd34cc9464a7adb58a4c6fa37df	use 1 Crimbo peppermint bark
 707	Busy Bein' Delicious	fudge.gif	ec9debcc915fb7e165db0b4b59ea9fef	use 1 Crimbo fudge
-708	Sweet, Nuts	pecan.gif	5ef598b1c3f3281266d542d4790448a4	use 1 Crimbo candies pecan
+708	Sweet, Nuts	pecan.gif	5ef598b1c3f3281266d542d4790448a4	use 1 Crimbo candied pecan
 709
 710
 711
