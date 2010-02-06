@@ -507,6 +507,7 @@ public abstract class KoLCharacter
 
 		KoLCharacter.isHardcore = false;
 		KoLCharacter.inRonin = true;
+		KoLCharacter.inebriety = 0;
 		KoLCharacter.skillsRecalled = false;
 		KoLCharacter.hasStore = false;
 		KoLCharacter.hasDisplayCase = false;
