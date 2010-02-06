@@ -294,6 +294,9 @@ user	grimoire1Summons	0
 user	grimoire2Summons	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
+user	heroDonationBoris	0
+user	heroDonationJarlsberg	0
+user	heroDonationSneakyPete	0
 user	hiddenCityLayout	0000000000000000000000000
 user	hiddenCitySquare	0
 user	hippiesDefeated	0
