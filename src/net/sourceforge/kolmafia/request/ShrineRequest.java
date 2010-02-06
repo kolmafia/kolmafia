@@ -39,6 +39,8 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -51,10 +53,9 @@ public class ShrineRequest
 
 	private static final AdventureResult[] STATUE_KEYS =
 	{
-		null,
-		new AdventureResult( "Boris's key", 0 ),
-		new AdventureResult( "Jarlsberg's key", 0 ),
-		new AdventureResult( "Sneaky Pete's key", 0 )
+		ItemPool.get( ItemPool.BORIS_KEY, 1 ),
+		ItemPool.get( ItemPool.JARLSBERG_KEY, 1 ),
+		ItemPool.get( ItemPool.SNEAKY_PETE_KEY, 1 ),
 	};
 
 	private final int amount;
@@ -80,7 +81,7 @@ public class ShrineRequest
 		this.amount = amount;
 		this.statue =
 			heroId == ShrineRequest.BORIS ? "boris" : heroId == ShrineRequest.JARLSBERG ? "jarlsberg" : "pete";
-		this.hasStatueKey = KoLConstants.inventory.contains( ShrineRequest.STATUE_KEYS[ heroId ] );
+		this.hasStatueKey = KoLConstants.inventory.contains( ShrineRequest.STATUE_KEYS[ heroId - 1 ] );
 	}
 
 	/**
@@ -119,20 +120,42 @@ public class ShrineRequest
 			return null;
 		}
 
-		if ( responseText.indexOf( "You gain" ) == -1 )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
-                        return responseText.indexOf( "That's not enough" ) == -1 ?
-                                "Donation limit exceeded." :
-                                "Donation must be larger.";
+			return null;
+		}
+
+		String preference =
+			action.equals( "boris" ) ? "heroDonationBoris" :
+			action.equals( "jarlsberg" ) ? "heroDonationJarlsberg" :
+			action.equals( "sneakypete" ) ? "heroDonationSneakyPete" :
+			null;
+
+		if ( preference == null )
+		{
+			return null;
 		}
 
 		Matcher matcher = GenericRequest.HOWMUCH_PATTERN.matcher( urlString );
-                if ( matcher.find() )
-                {
-                        int qty = StringUtilities.parseInt( matcher.group(1) );
-                        ResultProcessor.processMeat( 0 - qty );
-                }
+		if ( !matcher.find() )
+		{
+			return null;
+		}
 
-                return null;
+		// If we get here, we tried donating
+
+		if ( responseText.indexOf( "You gain" ) == -1 )
+		{
+			return responseText.indexOf( "That's not enough" ) == -1 ?
+				"Donation limit exceeded." :
+				"Donation must be larger.";
+		}
+
+		int qty = StringUtilities.parseInt( matcher.group(1) );
+		ResultProcessor.processMeat( 0 - qty );
+		Preferences.increment( preference, qty );
+
+		return null;
 	}
 }
