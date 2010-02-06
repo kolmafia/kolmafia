@@ -358,6 +358,10 @@ public class FlowerHunterFrame
 			if ( KoLCharacter.canInteract() )
 			{
 				this.victorySelect.addItem( "Nab yourself some dignity" );
+				this.victorySelect.addItem( "Steal some meat" );
+				this.victorySelect.addItem( "Steal some food" );
+				this.victorySelect.addItem( "Steal some booze" );
+				this.victorySelect.addItem( "Steal some loot" );
 			}
 
 			VerifiableElement[] elements = new VerifiableElement[ 4 ];
@@ -408,6 +412,22 @@ public class FlowerHunterFrame
 			case 2:
 				mission = "dignity";
 				break;
+
+			case 3:
+				mission = "meat";
+				break;
+
+			case 4:
+				mission = "lootfood";
+				break;
+
+			case 5:
+				mission = "lootbooze";
+				break;
+
+			case 6:
+				mission = "lootwhatever";
+				break;
 			}
 
 			RequestThread.openRequestSequence();
@@ -417,7 +437,7 @@ public class FlowerHunterFrame
 
 			request = new PvpRequest( "", this.stanceSelect.getSelectedIndex() + 1, mission );
 
-			PvpManager.executeFlowerHuntRequest( selection, request );
+			PvpManager.executePvpRequest( selection, request );
 			FlowerHunterFrame.this.updateRank();
 
 			if ( KoLmafia.permitsContinue() )
