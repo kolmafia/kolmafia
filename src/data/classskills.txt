@@ -120,7 +120,7 @@
 2022	Spectral Snapper	5	20	0
 2023	Toss	5	1	0	0
 2024	Summon Leviatuga	5	40	0
-2025	Jingle Bells	4	5	15
+2025	Jingle Bells	3	5	15
 2103	Head + Knee Combo	5	8	0
 2105	Head + Shield Combo	5	9	0
 2106	Knee + Shield Combo	5	10	0
