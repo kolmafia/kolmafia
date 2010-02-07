@@ -52,6 +52,7 @@ public class LicenseDisplayListener
 		"foxtrot-license.txt",
 		"jsmooth-license.txt",
 		"osxadapter-license.txt",
+		"htmlcleaner-license.txt",
 		"unlicensed.htm"
 	};
 
@@ -64,6 +65,7 @@ public class LicenseDisplayListener
 		"Foxtrot",
 		"JSmooth",
 		"OSXAdapter",
+		"HtmlCleaner",
 		"Unlicensed"
 	};
 

@@ -4,23 +4,28 @@
 	<!--  set the global properties for this build  -->
 	<!-- ========================================== -->
 
-	<property name="root" location="."/>
-	<property name="src" location="src"/>
-	<property name="lib" location="lib"/>
-	<property name="util" location="util"/>
-	<property name="build" location="build"/>
-	<property name="dist" location="dist"/>
-	<property name="docs" location="${dist}/docs"/>
+	<property name="root" value="."/>
+	<property name="src" value="src"/>
+	<property name="lib" value="lib"/>
+	<property name="util" value="util"/>
+	<property name="build" value="build"/>
+	<property name="dist" value="dist"/>
+	<property name="docs" value="${dist}/docs"/>
 
-	<property name="jarfile" location="${dist}/${ant.project.name}.jar"/>
-	<property name="tarfile" location="${dist}/${ant.project.name}.tar.gz"/>
-	<property name="dmgfile" location="${dist}/${ant.project.name}.dmg"/>
-	<property name="debfile" location="${dist}/${ant.project.name}.deb"/>
+	<property name="jarfile" value="${dist}/${ant.project.name}.jar"/>
+	<property name="tarfile" value="${dist}/${ant.project.name}.tar.gz"/>
+	<property name="dmgfile" value="${dist}/${ant.project.name}.dmg"/>
+	<property name="debfile" value="${dist}/${ant.project.name}.deb"/>
 
 	<property name="main" value="net.sourceforge.kolmafia.KoLmafia"/>
 	<property name="synopsis" value="An alternate interface to Kingdom of Loathing"/>
 
 	<property environment="env"/>
+
+	<!-- classpath -->
+	<path id="classpath.compile">
+		<pathelement location="${lib}/htmlcleaner_2_1.jar"/>
+	</path>
 
 	<!-- ========================================== -->
 	<!--  create directories used by other targets  -->
@@ -135,8 +140,13 @@
 
 	<target name="compile" depends="init,jikeshome,javahome">
 
-		<javac source="1.4" srcdir="${src}" destdir="${build}"
-			failonerror="false" debug="on" debuglevel="lines,vars,source" deprecation="off" nowarn="on"/>
+		<javac srcdir="${src}" destdir="${build}"
+                       source="1.4" 
+		       failonerror="false" debug="on"
+		       debuglevel="lines,vars,source" deprecation="off"
+		       nowarn="on">
+			<classpath refid="classpath.compile"/>
+                </javac>
 
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${src}">
@@ -145,7 +155,9 @@
 		</copy>
 
 		<copy todir="${build}" preservelastmodified="true">
-			<fileset dir="${lib}" />
+			<fileset dir="${lib}">
+				<exclude name="**/*.jar"/>
+			</fileset>
 		</copy>
 
 	</target>
@@ -171,7 +183,9 @@
 
 	<target name="jar" depends="init,compile">
 
-		<jar destfile="${jarfile}" basedir="${build}" update="true" index="true" compress="true">
+		<jar destfile="${jarfile}" basedir="${build}"
+                     update="true" index="true" compress="true">
+			<zipfileset src="${lib}/htmlcleaner_2_1.jar" prefix=""/>
 			<manifest>
 				<attribute name="Main-Class" value="${main}"/>
 			</manifest>
