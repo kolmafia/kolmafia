@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
@@ -48,30 +50,46 @@ public class BurnMpCommand
 			" extra | * | <num> | -num - use excess/all/specified/all but specified MP for buff extension and summons.";
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void run( final String cmd, String parameters )
 	{
-		SpecialOutfit.createImplicitCheckpoint();
-
-		RecoveryManager.recoverHP();
+		// Remove extra words. For example, "mana"
+		int space = parameters.indexOf( " " );
+		if ( space != -1)
+		{
+			parameters = parameters.substring( 0, space );
+		}
 
 		if ( parameters.startsWith( "extra" ) )
 		{
+			SpecialOutfit.createImplicitCheckpoint();
+			RecoveryManager.recoverHP();
 			MoodManager.burnExtraMana( true );
+			SpecialOutfit.restoreImplicitCheckpoint();
+			return;
 		}
-		else if ( parameters.startsWith( "*" ) )
+
+		int amount;
+		if ( parameters.startsWith( "*" ) )
 		{
-			MoodManager.burnMana( 0 );
+			amount = 0;
 		}
-		else
+		else if ( StringUtilities.isNumeric( parameters ) )
 		{
-			int amount = StringUtilities.parseInt( parameters );
+			amount = StringUtilities.parseInt( parameters );
 			if ( amount > 0 )
 			{
 				amount -= KoLCharacter.getCurrentMP();
 			}
-			MoodManager.burnMana( -amount );
+		}
+		else
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Specify how much mana you want to burn" );
+			return;
 		}
 
+		SpecialOutfit.createImplicitCheckpoint();
+		RecoveryManager.recoverHP();
+		MoodManager.burnMana( -amount );
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 }
