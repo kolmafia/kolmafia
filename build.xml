@@ -24,7 +24,6 @@
 
 	<!-- classpath -->
 	<path id="classpath.compile">
-		<pathelement location="${lib}/htmlcleaner_2_1.jar"/>
 	</path>
 
 	<!-- ========================================== -->
@@ -185,7 +184,6 @@
 
 		<jar destfile="${jarfile}" basedir="${build}"
                      update="true" index="true" compress="true">
-			<zipfileset src="${lib}/htmlcleaner_2_1.jar" prefix=""/>
 			<manifest>
 				<attribute name="Main-Class" value="${main}"/>
 			</manifest>
