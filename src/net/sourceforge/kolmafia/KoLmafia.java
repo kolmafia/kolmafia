@@ -684,7 +684,18 @@ public abstract class KoLmafia
 		RequestThread.openRequestSequence();
 
 		LoginRequest.isLoggingIn( true );
-		this.initialize( name );
+
+		try
+		{
+			this.initialize( name );
+		}
+		catch ( Exception e )
+		{
+			// What should we do here?
+			StaticEntity.printStackTrace( e, "Error during session initialization" );
+			return;
+		}
+
 		LoginRequest.isLoggingIn( false );
 
 		if ( Preferences.getBoolean( name, "getBreakfast" ) )
