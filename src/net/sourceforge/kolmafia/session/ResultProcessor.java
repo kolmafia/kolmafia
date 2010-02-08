@@ -65,11 +65,6 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class ResultProcessor
 {
-	private static Pattern FUMBLE_PATTERN =
-		Pattern.compile( "You drop your .*? on your .*?, doing ([\\d,]+) damage" );
-	private static Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
-	private static Pattern CARBS_PATTERN =
-		Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 
 	private static boolean receivedClover = false;
@@ -200,7 +195,6 @@ public class ResultProcessor
 		if ( data == null )
 		{
 			ResultProcessor.processFamiliarWeightGain( plainTextResult );
-			ResultProcessor.processFumble( plainTextResult );
 		}
 
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, KoLConstants.LINE_BREAK );
@@ -233,59 +227,6 @@ public class ResultProcessor
 		}
 	}
 
-	private static void processFumble( String plainTextResult )
-	{
-		Matcher damageMatcher = ResultProcessor.FUMBLE_PATTERN.matcher( plainTextResult );
-
-		while ( damageMatcher.find() )
-		{
-			String message = "You lose " + damageMatcher.group( 1 ) + " hit points";
-
-			RequestLogger.printLine( message );
-			if ( Preferences.getBoolean( "logGainMessages" ) )
-			{
-				RequestLogger.updateSessionLog( message );
-			}
-
-			ResultProcessor.parseResult( message );
-		}
-
-		if ( !KoLCharacter.isUsingStabBat() )
-		{
-			return;
-		}
-
-		damageMatcher = ResultProcessor.STABBAT_PATTERN.matcher( plainTextResult );
-
-		if ( damageMatcher.find() )
-		{
-			String message = "You lose " + damageMatcher.group( 1 ) + " hit points";
-
-			RequestLogger.printLine( message );
-			if ( Preferences.getBoolean( "logGainMessages" ) )
-			{
-				RequestLogger.updateSessionLog( message );
-			}
-
-			ResultProcessor.parseResult( message );
-		}
-
-		damageMatcher = ResultProcessor.CARBS_PATTERN.matcher( plainTextResult );
-
-		if ( damageMatcher.find() )
-		{
-			String message = "You lose " + damageMatcher.group( 1 ) + " hit points";
-
-			RequestLogger.printLine( message );
-			if ( Preferences.getBoolean( "logGainMessages" ) )
-			{
-				RequestLogger.updateSessionLog( message );
-			}
-
-			ResultProcessor.parseResult( message );
-		}
-	}
-
 	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List data )
 	{
 		String lastToken = parsedResults.nextToken();
@@ -294,21 +235,14 @@ public class ResultProcessor
 		// which makes the parser think it's found an item.
 
 		if ( lastToken.indexOf( "You acquire a skill" ) != -1 ||
-			lastToken.indexOf( "You learn a skill" ) != -1 ||
-			lastToken.indexOf( "You gain a skill" ) != -1 ||
-			lastToken.indexOf( "You have learned a skill" ) != -1)
+		     lastToken.indexOf( "You learn a skill" ) != -1 ||
+		     lastToken.indexOf( "You gain a skill" ) != -1 ||
+		     lastToken.indexOf( "You have learned a skill" ) != -1)
 		{
 			return false;
 		}
 
 		String acquisition = lastToken.trim();
-
-		// The following only under Can Has Cyborger. Sigh.
-
-		if ( acquisition.startsWith( "O hai, I made dis" ) )
-		{
-			acquisition = "You acquire an item:";
-		}
 
 		if ( acquisition.startsWith( "You are slowed too much by the water, and a stupid dolphin" ) )
 		{
@@ -350,17 +284,9 @@ public class ResultProcessor
 			return ResultProcessor.processEffect( parsedResults, acquisition, data );
 		}
 
-		// The following only under Can Has Cyborger or The Sea
+		// The following only under The Sea
 
-		if ( lastToken.startsWith( "You gets" ) )
-		{
-			lastToken = "You gain" + lastToken.substring( 8 );
-		}
-		else if ( lastToken.startsWith( "You can has" ) )
-		{
-			lastToken = "You gain" + lastToken.substring( 11 );
-		}
-		else if ( lastToken.startsWith( "You manage to grab" ) )
+		if ( lastToken.startsWith( "You manage to grab" ) )
 		{
 			lastToken = "You gain" + lastToken.substring( 18 );
 		}

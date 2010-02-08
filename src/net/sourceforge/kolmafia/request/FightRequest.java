@@ -135,11 +135,6 @@ public class FightRequest
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
-
-	private static final Pattern FAMILIAR_ACT_PATTERN =
-		Pattern.compile( "<!--familiarmessage-->.*?</table>", Pattern.DOTALL );
-	private static final Pattern FUMBLE_PATTERN =
-		Pattern.compile( "You drop your .*? on your .*?, doing [\\d,]+ damage" );
 	private static final Pattern CLEESH_PATTERN =
 		Pattern.compile( "You cast CLEESH at your opponent.*?into a (\\w*)", Pattern.DOTALL );
 	private static final Pattern WORN_STICKER_PATTERN =
@@ -147,19 +142,6 @@ public class FightRequest
 	private static final Pattern BALLROOM_SONG_PATTERN =
 		Pattern.compile( "You hear strains of (?:(lively)|(mellow)|(lovely)) music in the distance" );
 
-	// NOTE: All of the non-empty patterns that can match in the first group
-	// imply that the entire expression should be ignored.	If you add one
-	// and this is not the case, then correct the use of this Pattern below.
-
-	private static final Pattern PHYSICAL_PATTERN =
-		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) #?(\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,3})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
-
-	private static final Pattern ELEMENTAL_PATTERN =
-		Pattern.compile( "(sown|) <font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:(?:slimy, (?:clammy|gross) |hotsy-totsy |)damage|points|HP worth)" );
-
-	private static final Pattern SECONDARY_PATTERN = Pattern.compile( "<b>\\+([\\d,]+)</b>" );
-	private static final Pattern MOSQUITO_PATTERN =
-		Pattern.compile( "sucks some blood out of your opponent and injects it into you.*?You gain ([\\d,]+) hit point" );
 	private static final Pattern BOSSBAT_PATTERN =
 		Pattern.compile( "until he disengages, two goofy grins on his faces.*?You lose ([\\d,]+)" );
 	private static final Pattern GHUOL_HEAL = Pattern.compile( "feasts on a nearby corpse, and looks refreshed\\." );
@@ -1092,10 +1074,7 @@ public class FightRequest
 
 	public static final boolean processResults( final String responseText )
 	{
-		// If we had Haiku results, we processed them earlier
-		return FightRequest.haveHaikuResults ?
-		       FightRequest.shouldRefresh :
-		       ResultProcessor.processNormalResults( true, responseText, null );
+		return FightRequest.shouldRefresh;
 	}
 
 	public static boolean haveHaikuResults( final String responseText )
@@ -1518,9 +1497,10 @@ public class FightRequest
 			FightRequest.castNoodles = true;
 		}
 
-		++FightRequest.currentRound;
 		++FightRequest.preparatoryRounds;
 	}
+
+	private static final Pattern ONTURN_PATTERN = Pattern.compile( "onturn = (\\d+)" );
 
 	public static final void updateCombatData( final String location, String encounter, final String responseText )
 	{
@@ -1538,7 +1518,22 @@ public class FightRequest
 		// Spend MP and consume items
 		FightRequest.payActionCost( responseText );
 
-		++FightRequest.currentRound;
+		if ( FightRequest.currentRound == 0 )
+		{
+			FightRequest.checkForInitiative( responseText );
+			FightRequest.currentRound = 1;
+		}
+
+		// Sanity check: compare our round with what KoL claims it is
+		Matcher m = ONTURN_PATTERN.matcher( responseText );
+		if ( m.find() )
+		{
+			int round = StringUtilities.parseInt( m.group(1) );
+			if ( round != FightRequest.currentRound )
+			{
+				RequestLogger.printLine( "KoLmafia thinks it is round " + FightRequest.currentRound + " but KoL thinks it is round " + round );
+			}
+		}
 
 		if ( FightRequest.currentRound == 1 )
 		{
@@ -1610,7 +1605,6 @@ public class FightRequest
 			}
 
 			FightRequest.isTrackingFights = false;
-			FightRequest.checkForInitiative( responseText );
 			FightRequest.waitingForSpecial = false;
 			for ( int i = 0; i < 10; ++i )
 			{
@@ -1628,10 +1622,10 @@ public class FightRequest
 			// Otherwise, the player can change the monster
 			String newMonster = null;
 
-			Matcher matcher = CLEESH_PATTERN.matcher( responseText );
-			if ( matcher.find() )
+			m = CLEESH_PATTERN.matcher( responseText );
+			if ( m.find() )
 			{
-				newMonster = matcher.group(1);
+				newMonster = m.group(1);
 			}
 
 			// You start to run up to the hole, then change your
@@ -1672,6 +1666,9 @@ public class FightRequest
 			// Experimental: clean HTML and process it
 			FightRequest.processNormalResults( responseText );
 		}
+
+		// Look for special effects
+		FightRequest.updateMonsterHealth( responseText, 0 );
 
 		// Check for equipment breakage.
 
@@ -1764,7 +1761,7 @@ public class FightRequest
 		// rusty grave robbing shovel, pulls it off of you, and absorbs
 		// it back into the mass."
 
-		Matcher m = FightRequest.SLIMED_PATTERN.matcher( responseText );
+		m = FightRequest.SLIMED_PATTERN.matcher( responseText );
 		if ( m.find() )
 		{
 			int id = ItemDatabase.getItemId( m.group( 1 ) );
@@ -1856,6 +1853,9 @@ public class FightRequest
 			HobopolisDecorator.handleTownSquare( responseText );
 			break;
 		}
+
+		// We are done processing this round.
+		++FightRequest.currentRound;
 
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
@@ -2565,14 +2565,8 @@ public class FightRequest
 	{
 		action.setLength( 0 );
 		action.append( "Round " );
-		action.append( FightRequest.currentRound - 1 );
+		action.append( FightRequest.currentRound );
 		action.append( ": " );
-	}
-
-	private static final void updateMonsterHealth( final String responseText )
-	{
-		int damageThisRound = FightRequest.countNormalDamage( responseText );
-		FightRequest.updateMonsterHealth( responseText, damageThisRound );
 	}
 
 	private static final void updateMonsterHealth( final String responseText, final int damageThisRound )
@@ -2588,6 +2582,19 @@ public class FightRequest
 		StringBuffer action = new StringBuffer();
 
 		FightRequest.logMonsterDamage( action, damageThisRound );
+
+		// Boss Bat can muck with the monster's HP, but doesn't have
+		// normal text.
+
+		Matcher m = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
+		if ( m.find() )
+		{
+			int damage = -StringUtilities.parseInt( m.group( 1 ) );
+			FightRequest.healthModifier += damage;
+			action.append( FightRequest.encounterLookup );
+			action.append( " sinks his fangs into you!" );
+			FightRequest.logMonsterDamage( action, damage );
+		}
 
 		// Even though we don't have an exact value, at least try to
 		// detect if the monster's HP has changed.  Once spaded, we can
@@ -2698,49 +2705,48 @@ public class FightRequest
 		RequestLogger.updateSessionLog( message );
 	}
 
-	private static final int countNormalDamage( final String responseText )
+	// NOTE: All of the non-empty patterns that can match in the first group
+	// imply that the entire expression should be ignored.	If you add one
+	// and this is not the case, then correct the use of this Pattern below.
+
+	private static final Pattern PHYSICAL_PATTERN =
+		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) #?(\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,3})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
+
+	private static final Pattern ELEMENTAL_PATTERN =
+		Pattern.compile( "(sown|) <font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:(?:slimy, (?:clammy|gross) |hotsy-totsy |)damage|points|HP worth)" );
+
+	private static final Pattern SECONDARY_PATTERN = Pattern.compile( "<b>\\+([\\d,]+)</b>" );
+
+	private static final int parseNormalDamage( final String text )
 	{
-		int damageThisRound = 0;
+		int damage = 0;
 
-		// Check if fumbled first, since that causes a special case later.
-
-		boolean fumbled = FightRequest.FUMBLE_PATTERN.matcher( responseText ).find();
-
-		Matcher damageMatcher = FightRequest.ELEMENTAL_PATTERN.matcher( responseText );
-		while ( damageMatcher.find() )
+		Matcher m = FightRequest.ELEMENTAL_PATTERN.matcher( text );
+		while ( m.find() )
 		{
-			if ( !damageMatcher.group( 1 ).equals( "" ) )
+			if ( !m.group( 1 ).equals( "" ) )
 			{
 				continue;
 			}
 
-			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 2 ) );
+			damage += StringUtilities.parseInt( m.group( 2 ) );
 
-			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 3 ) );
+			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( m.group( 3 ) );
 			while ( secondaryMatcher.find() )
 			{
-				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
+				damage += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
 			}
 		}
 
-		damageMatcher = FightRequest.PHYSICAL_PATTERN.matcher( responseText );
-
-		for ( int i = 0; damageMatcher.find(); ++i )
+		m = FightRequest.PHYSICAL_PATTERN.matcher( text );
+		while ( m.find() )
 		{
-			// In a fumble, the first set of text indicates that
-			// there is no actual damage done to the monster.
-
-			if ( i == 0 && fumbled )
-			{
-				continue;
-			}
-
 			// Currently, all of the explicit attack messages that
 			// preceed the number all imply that this is not damage
 			// against the monster or is damage that should not
 			// count (reap/sow X damage.)
 
-			if ( !damageMatcher.group( 1 ).equals( "" ) )
+			if ( !m.group( 1 ).equals( "" ) )
 			{
 				continue;
 			}
@@ -2749,43 +2755,25 @@ public class FightRequest
 			// most likely a familiar naming problem, so it should
 			// not count.
 
-			if ( damageMatcher.group( 4 ).equals( "shambles up " ) )
+			if ( m.group( 4 ).equals( "shambles up " ) )
 			{
 				continue;
 			}
 
-			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 2 ) );
+			damage += StringUtilities.parseInt( m.group( 2 ) );
 
 			// The last string contains all of the extra damage
 			// from dual-wielding or elemental damage, e.g. "(+3)
 			// (+10)".
 
-			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( damageMatcher.group( 3 ) );
+			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( m.group( 3 ) );
 			while ( secondaryMatcher.find() )
 			{
-				damageThisRound += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
+				damage += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
 			}
 		}
 
-		// Mosquito and Boss Bat can muck with the monster's HP, but
-		// they don't have normal text.
-
-		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.MOSQUITO )
-		{
-			damageMatcher = FightRequest.MOSQUITO_PATTERN.matcher( responseText );
-			if ( damageMatcher.find() )
-			{
-				damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
-			}
-		}
-
-		damageMatcher = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
-		if ( damageMatcher.find() )
-		{
-			damageThisRound += StringUtilities.parseInt( damageMatcher.group( 1 ) );
-		}
-
-		return damageThisRound;
+		return damage;
 	}
 
 	private static final Pattern HAIKU_DAMAGE1_PATTERN =
@@ -2798,14 +2786,14 @@ public class FightRequest
 
 	private static Pattern INT_PATTERN = Pattern.compile( "([\\d]+)" );
 
-	public static Matcher getHaikuMatcher( String responseText )
+	public static Matcher getHaikuMatcher( String text )
 	{
-		return FightRequest.HAIKU_PATTERN.matcher( responseText );
+		return FightRequest.HAIKU_PATTERN.matcher( text );
 	}
 
-	private static final void processHaikuResults( final String responseText )
+	private static final void processHaikuResults( final String text )
 	{
-		Matcher matcher = FightRequest.getHaikuMatcher( responseText );
+		Matcher matcher = FightRequest.getHaikuMatcher( text );
 		if ( !matcher.find() )
 		{
 			return;
@@ -3064,38 +3052,45 @@ public class FightRequest
 		} while ( matcher.find() );
 
 		FightRequest.shouldRefresh = shouldRefresh;
-
-		// Look for special effects
-		FightRequest.updateMonsterHealth( responseText, 0 );
 	}
 
-	private static final void processNormalResults( final String responseText )
+	public static class TagStatus
 	{
-		// Log familiar actions, if the player wishes to include this
-		// information in their session logs. We do Haiku familiar
-		// actions when we deal with monster health
+		public final String familiar;
+		public final String diceMessage;
+		public final boolean logFamiliar;
+		public final boolean logGainMessages;
+		public final boolean logMonsterHealth;
+		public final StringBuffer action;
+		public boolean shouldRefresh;
+		public boolean famaction = false;
+		public boolean mosquito = false;
+		public boolean dice = false;
+		public boolean won = false;
 
-		if ( Preferences.getBoolean( "logFamiliarActions" ) )
+		public TagStatus()
 		{
-			Matcher familiarActMatcher = FightRequest.FAMILIAR_ACT_PATTERN.matcher( responseText );
-			StringBuffer action = new StringBuffer();
-			while ( familiarActMatcher.find() )
-			{
-				String famact = familiarActMatcher.group();
-				famact = KoLConstants.ANYTAG_PATTERN.matcher( famact ).replaceAll( "" );
-				FightRequest.getRound( action );
-				action.append( famact );
-				String message = action.toString();
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-			}
+			FamiliarData current = KoLCharacter.getFamiliar();
+			this.familiar = current.getImageLocation();
+			this.diceMessage = ( current.getId() == FamiliarPool.DICE ) ? ( current.getName() + " begins to roll." ) : null;
+			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
+			this.logGainMessages = Preferences.getBoolean( "logGainMessages" );
+			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
+			this.action = new StringBuffer();
+
+			this.shouldRefresh = false;
 		}
+	}
+
+	private static final void processNormalResults( final String text )
+	{
+		TagStatus status = new TagStatus();
 
 		TagNode node = null;
 		try
 		{
 			// Clean the HTML on this fight response page
-			node = cleaner.clean( responseText );
+			node = cleaner.clean( text );
 		}
 		catch ( IOException e )
 		{
@@ -3110,17 +3105,343 @@ public class FightRequest
 			return;
 		}
 
-		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logCleanedHTML" ) )
+		// Find the 'monpic' image
+		TagNode img = node.findElementByAttValue( "id", "monname", true, false );
+		if ( img == null )
 		{
-			FightRequest.logHTML( node );
+			RequestLogger.printLine( "Cannot find monster." );
+			return;
 		}
 
-		/// Code: xxx
+		// Walk up the tree: <td><center><table><tbody><tr><td><img>
+		// 
+		// The children of that node have everything interesting about
+		// the fight.
+		TagNode fight = img.getParent().getParent().getParent().getParent().getParent().getParent();
 
-		FightRequest.shouldRefresh = shouldRefresh;
+		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logCleanedHTML" ) )
+		{
+			FightRequest.logHTML( fight );
+		}
 
-		// Look for special effects
-		FightRequest.updateMonsterHealth( responseText );
+		FightRequest.processNode( fight, status );
+
+		FightRequest.shouldRefresh = status.shouldRefresh;
+	}
+
+	private static Pattern FUMBLE_PATTERN =
+		Pattern.compile( "You drop your .*? on your .*?, doing ([\\d,]+) damage" );
+	private static final Pattern MOSQUITO_PATTERN =
+		Pattern.compile( "sucks some blood out of your opponent and injects it into you." );
+	private static Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
+	private static Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
+
+	private static final int parseFamiliarDamage( final String text, TagStatus status )
+	{
+		int damage = FightRequest.parseNormalDamage( text );
+
+		// Mosquito can muck with the monster's HP, but doesn't have
+		// normal text.
+
+		switch ( KoLCharacter.getFamiliar().getId() )
+		{
+		case FamiliarPool.MOSQUITO:
+		{
+			Matcher m = FightRequest.MOSQUITO_PATTERN.matcher( text );
+			if ( m.find() )
+			{
+				status.mosquito = true;
+			}
+			break;
+		}
+
+		case FamiliarPool.STAB_BAT:
+		{
+			Matcher m = FightRequest.STABBAT_PATTERN.matcher( text );
+
+			if ( m.find() )
+			{
+				String message = "You lose " + m.group( 1 ) + " hit points";
+
+				RequestLogger.printLine( message );
+				if ( status.logGainMessages )
+				{
+					RequestLogger.updateSessionLog( message );
+				}
+
+				ResultProcessor.parseResult( message );
+			}
+			break;
+		}
+
+		case FamiliarPool.ORB:
+		{
+			Matcher m = FightRequest.CARBS_PATTERN.matcher( text );
+
+			if ( m.find() )
+			{
+				String message = "You lose " + m.group( 1 ) + " hit points";
+
+				RequestLogger.printLine( message );
+				if ( status.logGainMessages )
+				{
+					RequestLogger.updateSessionLog( message );
+				}
+
+				ResultProcessor.parseResult( message );
+			}
+			break;
+		}
+		}
+
+		return damage;
+	}
+
+	private static final void processNode( final TagNode node, final TagStatus status )
+	{
+		String name = node.getName();
+		StringBuffer action = status.action;
+
+		// Skip scripts, forms, buttons, and html links
+		if ( name.equals( "script" ) || 
+		     name.equals( "form" ) ||
+		     name.equals( "input" ) ||
+		     name.equals( "a" ) )
+		{
+			return;
+		}
+
+		/// node-specific processing
+		if ( name.equals( "table" ) )
+		{
+			StringBuffer text = node.getText();
+			if ( status.famaction )
+			{
+				status.famaction = false;
+				if ( status.logFamiliar )
+				{
+					FightRequest.logText( text, status );
+				}
+				int damage = FightRequest.parseFamiliarDamage( text.toString(), status );
+				FightRequest.logMonsterDamage( action, damage );
+				return;
+			}
+
+			// Tables often appear in fight results to hold images.
+			TagNode inode = node.findElementByName( "img", true );
+			if ( inode == null )
+			{
+				// No image. Parse combat damage.
+				int damage = FightRequest.parseNormalDamage( text.toString() );
+				FightRequest.logMonsterDamage( action, damage );
+				return;
+			}
+
+			String src = inode.getAttributeByName( "src" );
+			String image = src == null ? null : src.substring( src.lastIndexOf( "/" ) + 1 );
+			String onclick = inode.getAttributeByName( "onclick" );
+			String descid = null;
+			if ( onclick != null )
+			{
+				Matcher m = INT_PATTERN.matcher( onclick );
+				descid = m.find() ? m.group(1) : null;
+			}
+
+			if ( descid != null )
+			{
+				// You acquire an item
+				int itemId = ItemDatabase.getItemIdFromDescription( descid );
+				AdventureResult result = ItemPool.get( itemId, 1 );
+				ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+				return;
+			}
+
+			if ( image.equals( "meat.gif" ) )
+			{
+				// You acquire meat
+				ResultProcessor.processMeat( text.toString(), null );
+				status.shouldRefresh = true;
+				return;
+			}
+
+			if ( image.equals( "hp.gif" ) || 
+			     image.equals( "mp.gif" ) )
+			{
+				// You gain HP or MP
+                                String str = text.toString();
+
+				if ( status.mosquito )
+				{
+					status.mosquito = false;
+					Matcher m = INT_PATTERN.matcher( str );
+					int damage = m.find() ? StringUtilities.parseInt( m.group(1) ) : 0;
+					FightRequest.logMonsterDamage( action, damage );
+				}
+
+				RequestLogger.printLine( str );
+				if ( status.logGainMessages )
+				{
+					RequestLogger.updateSessionLog( str );
+				}
+
+				ResultProcessor.parseResult( str );
+				return;
+			}
+
+			if ( image.equals( status.familiar ) )
+			{
+				// Familiar action?
+				if ( status.logFamiliar )
+				{
+					FightRequest.logText( text, status );
+				}
+				int damage = FightRequest.parseFamiliarDamage( text.toString(), status );
+				FightRequest.logMonsterDamage( action, damage );
+				return;
+			}
+
+			// Combat item usage
+			int damage = FightRequest.parseNormalDamage( text.toString() );
+			FightRequest.logMonsterDamage( action, damage );
+			return;
+		}
+
+		Iterator it = node.getChildren().iterator();
+		while ( it.hasNext() )
+		{
+			Object child = it.next();
+
+			if ( child instanceof CommentToken )
+			{
+				CommentToken object = (CommentToken) child;
+				String content = object.getContent();
+				if ( content.equals( "familiarmessage" ) )
+				{
+					status.famaction = true;
+				}
+				else if ( content.equals( "WINWINWIN" ) )
+				{
+					status.won = true;
+				}
+				continue;
+			}
+
+			if ( child instanceof ContentToken )
+			{
+				ContentToken object = (ContentToken) child;
+				String text = object.getContent().trim();
+				if ( text.equals( "" ) )
+				{
+					continue;
+				}
+
+				if ( FightRequest.handleFuzzyDice( node, text, status ) )
+				{
+					continue;
+				}
+
+				if ( FightRequest.processFumble( text, status ) )
+				{
+					continue;
+				}
+
+				int damage = FightRequest.parseNormalDamage( text );
+                                if ( damage != 0 )
+                                {
+                                        FightRequest.logMonsterDamage( action, damage );
+                                }
+				else if ( text.startsWith( "You gain" ) )
+				{
+					ResultProcessor.processGainLoss( text, null );
+				}
+				continue;
+			}
+
+			if ( child instanceof TagNode )
+			{
+				TagNode object = (TagNode) child;
+				FightRequest.processNode( object, status );
+				continue;
+			}
+		}
+	}
+
+	private static boolean handleFuzzyDice( TagNode node, String content, TagStatus status )
+	{
+		if ( !status.logFamiliar || status.diceMessage == null )
+		{
+			return false;
+		}
+
+		if ( content.startsWith( status.diceMessage ) )
+		{
+			status.dice = true;
+			return true;
+		}
+
+		if ( !status.dice )
+		{
+			return false;
+		}
+
+		if ( content.equals( "&nbsp;&nbsp;&nbsp;&nbsp;" ) )
+		{
+			return true;
+		}
+
+
+		// We finally have the whole message.
+		StringBuffer action = status.action;
+		action.setLength( 0 );
+		action.append( status.diceMessage );
+		action.append( " " );
+		action.append( " " );
+		action.append( content );
+		FightRequest.logText( action, status );
+
+		// No longer accumulating fuzzy dice message
+                status.dice = false;
+
+                return true;
+	}
+
+	private static boolean processFumble( String text, TagStatus status )
+	{
+		Matcher m = FightRequest.FUMBLE_PATTERN.matcher( text );
+
+		if ( m.find() )
+		{
+			String message = "You lose " + m.group( 1 ) + " hit points";
+
+			RequestLogger.printLine( message );
+			if ( status.logGainMessages )
+			{
+				RequestLogger.updateSessionLog( message );
+			}
+
+			ResultProcessor.parseResult( message );
+			return true;
+		}
+
+		return false;
+	}
+
+	private static final void logText( StringBuffer buffer, final TagStatus status )
+	{
+		FightRequest.logText( buffer.toString(), status );
+	}
+
+	private static final void logText( String text, final TagStatus status )
+	{
+		text = StringUtilities.globalStringReplace( text, "<br>", " / " );
+		text = KoLConstants.ANYTAG_PATTERN.matcher( text ).replaceAll( "" );
+
+		StringBuffer action = status.action;
+		FightRequest.getRound( action );
+		action.append( text );
+		String message = action.toString();
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 	}
 
 	private static final void clearInstanceData()

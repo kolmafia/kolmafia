@@ -39,6 +39,7 @@ public class FamiliarPool
 	public static final int POTATO = 3;
 	public static final int GOAT = 4;
 	public static final int LIME = 5;
+	public static final int DICE = 6;
 	public static final int BARRRNACLE = 8;
 	public static final int STAB_BAT = 10;
 	public static final int STARFISH = 17;
