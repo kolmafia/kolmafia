@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -80,6 +81,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
+import org.htmlcleaner.CleanerProperties;
+import org.htmlcleaner.CommentToken;
 import org.htmlcleaner.ContentToken;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -168,9 +171,6 @@ public class FightRequest
 		Pattern.compile( "Opponent HP: (\\d+)" );
 	private static final Pattern SLIMED_PATTERN =
 		Pattern.compile( "it blasts you with a massive loogie that sticks to your (.*?), pulls it off of you" );
-
-	// Make an HTML claner
-	private static HtmlCleaner cleaner = new HtmlCleaner();
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult TURTLE = ItemPool.get( ItemPool.TURTLE_TOTEM, 1);
@@ -284,10 +284,20 @@ public class FightRequest
 		INVALID_OUT_OF_WATER.add( "skill summon leviatuga" );
 	}
 
+	// Make an HTML cleaner
+	private static HtmlCleaner cleaner = new HtmlCleaner();
+
+	static
+	{
+		CleanerProperties props = FightRequest.cleaner.getProperties();
+		props.setTranslateSpecialEntities( false );
+		props.setRecognizeUnicodeChars( false );
+		props.setOmitXmlDeclaration( true );
+	}
+
 	/**
-	 * Constructs a new <code>FightRequest</code>. Theprovided will be used to determine whether or not the fight
-	 * should be started and/or continued, and the user settings will be used to determine the kind of action1 to be
-	 * taken during the battle.
+	 * Constructs a new <code>FightRequest</code>. User settings will be
+	 * used to determine the kind of action to be taken during the battle.
 	 */
 
 	private FightRequest()
@@ -1641,10 +1651,14 @@ public class FightRequest
 			}
 		}
 
-		FightRequest.haveHaikuResults( responseText );
+		// Preprocess results and register new items
+		ResultProcessor.registerNewItems( responseText );
 
-		// Experimental: clean HTML and process it
-		FightRequest.cleanAndProcessHTML( location, responseText );
+		// Assume this response does not warrant a refresh
+		FightRequest.shouldRefresh = false;
+
+		// Determine whether entire response is in haiku
+		FightRequest.haveHaikuResults( responseText );
 
 		// If we have haiku results, process everything - monster
 		// health, familiar actions, dropped items, stat gains, ...
@@ -1653,25 +1667,10 @@ public class FightRequest
 			// Parse haiku and process everything in order
 			FightRequest.processHaikuResults( responseText );
 		}
-
-		// Log familiar actions, if the player wishes to include this
-		// information in their session logs. We do Haiku familiar
-		// actions when we deal with monster health
-
-		else if ( Preferences.getBoolean( "logFamiliarActions" ) )
+		else
 		{
-			Matcher familiarActMatcher = FightRequest.FAMILIAR_ACT_PATTERN.matcher( responseText );
-			StringBuffer action = new StringBuffer();
-			while ( familiarActMatcher.find() )
-			{
-				String famact = familiarActMatcher.group();
-				famact = KoLConstants.ANYTAG_PATTERN.matcher( famact ).replaceAll( "" );
-				FightRequest.getRound( action );
-				action.append( famact );
-				String message = action.toString();
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-			}
+			// Experimental: clean HTML and process it
+			FightRequest.processNormalResults( responseText );
 		}
 
 		// Check for equipment breakage.
@@ -1814,9 +1813,9 @@ public class FightRequest
 			Preferences.increment( "_riftletAdv", 1 );
 		}
 
-                if ( responseText.indexOf( "sees that you're about to get attacked and trips it before it can attack you." ) != -1
-                        || responseText.indexOf( "does the Time Warp, then does the Time Warp again. Clearly, madness has taken its toll on him." ) != -1
-                        || responseText.indexOf( "The air shimmers around you." ) != -1 )
+		if ( responseText.indexOf( "sees that you're about to get attacked and trips it before it can attack you." ) != -1
+			|| responseText.indexOf( "does the Time Warp, then does the Time Warp again. Clearly, madness has taken its toll on him." ) != -1
+			|| responseText.indexOf( "The air shimmers around you." ) != -1 )
 		{
 			Preferences.increment( "_timeHelmetAdv", 1 );
 		}
@@ -1824,11 +1823,6 @@ public class FightRequest
 		if ( responseText.indexOf( "into last week. It saves you some time, because you already beat" ) != -1 )
 		{
 			Preferences.increment( "_vmaskAdv", 1 );
-		}
-
-		if ( !FightRequest.haveHaikuResults )
-		{
-			FightRequest.updateMonsterHealth( responseText );
 		}
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
@@ -1982,7 +1976,7 @@ public class FightRequest
 				familiar.setItem( item );
 			}
 
-                        // <name> gorges himself on candy from his bag.
+			// <name> gorges himself on candy from his bag.
 			if ( responseText.indexOf( "gorges himself on candy from his bag" ) != -1 )
 			{
 				familiar.addExperience( 1 );
@@ -2052,115 +2046,6 @@ public class FightRequest
 		}
 
 		FightRequest.clearInstanceData();
-	}
-
-	private static final void cleanAndProcessHTML( final String location, final String responseText )
-	{
-		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logCleanedHTML" ) )
-		{
-			try
-			{
-				// Clean the HTML on this fight response page
-				TagNode node = cleaner.clean( responseText );
-				FightRequest.logHTML( node );
-			}
-			catch ( IOException e )
-			{
-			}
-		}
-	}
-
-	private static final void logHTML( final TagNode node )
-	{
-		StringBuffer buffer = new StringBuffer();
-
-		// Log only the "content" of the fight response
-		TagNode content = node.findElementByAttValue( "class", "content", true, false );
-		if ( content != null )
-		{
-			// Remove the "fightform"
-			TagNode fightForm = content.findElementByAttValue( "id", "fightform", true, false );
-			if ( fightForm != null )
-			{
-				fightForm.removeFromTree();
-			}
-			FightRequest.logHTML( content, buffer, 0 );
-		}
-	}
-
-	private static final void logHTML( final TagNode node, final StringBuffer buffer, int level )
-	{
-		String name = node.getName();
-		if ( name.equals( "script" ) )
-		{
-			return;
-		}
-
-		FightRequest.indent( buffer, level );
-		FightRequest.printTag( buffer, node );
-		RequestLogger.updateDebugLog( buffer.toString() );
-		
-		Iterator it = node.getChildren().iterator();
-		while ( it.hasNext() )
-		{
-			Object child = it.next();
-
-			if ( child instanceof ContentToken )
-			{
-				ContentToken object = (ContentToken) child;
-				String content = object.getContent().trim();
-				if ( content.equals( "" ) )
-				{
-					continue;
-				}
-
-				FightRequest.indent( buffer, level + 1 );
-				buffer.append( content );
-				RequestLogger.updateDebugLog( buffer.toString() );
-				continue;
-			}
-
-			if ( child instanceof TagNode )
-			{
-				TagNode object = (TagNode) child;
-				FightRequest.logHTML( object, buffer, level + 1 );
-				continue;
-			}
-		}
-	}
-
-	private static final void indent( final StringBuffer buffer, int level )
-	{
-		buffer.setLength( 0 );
-		for ( int i = 0; i < level; ++i )
-		{
-			buffer.append( " " );
-			buffer.append( " " );
-		}
-	}
-
-	private static final void printTag( final StringBuffer buffer, TagNode node )
-	{
-		String name = node.getName();
-		Map attributes = node.getAttributes();
-
-		buffer.append( "<" );
-		buffer.append( name );
-
-		if ( !attributes.isEmpty() )
-		{
-			Iterator it = attributes.keySet().iterator();
-			while ( it.hasNext() )
-			{
-				String key = (String) it.next();
-				buffer.append( " " );
-				buffer.append( key );
-				buffer.append( "=\"" );
-				buffer.append( (String) attributes.get( key ) );
-				buffer.append( "\"" );
-			}
-		}
-		buffer.append( ">" );
 	}
 
 	private static final boolean getSpecialAction()
@@ -2385,7 +2270,7 @@ public class FightRequest
 			"Obviously neither your tongue nor your wit is sharp enough for the job."
 		},
 		{
-			"Do ye hear that, ye craven blackguard?  It be the sound of yer doom!",
+			"Do ye hear that, ye craven blackguard?	 It be the sound of yer doom!",
 			"It can't be any worse than the smell of your breath!"
 		},
 		{
@@ -2920,12 +2805,6 @@ public class FightRequest
 
 	private static final void processHaikuResults( final String responseText )
 	{
-		// Preprocess results and register new items
-		ResultProcessor.registerNewItems( responseText );
-
-		// Assume this response does not warrant a refresh
-		FightRequest.shouldRefresh = false;
-
 		Matcher matcher = FightRequest.getHaikuMatcher( responseText );
 		if ( !matcher.find() )
 		{
@@ -3188,6 +3067,60 @@ public class FightRequest
 
 		// Look for special effects
 		FightRequest.updateMonsterHealth( responseText, 0 );
+	}
+
+	private static final void processNormalResults( final String responseText )
+	{
+		// Log familiar actions, if the player wishes to include this
+		// information in their session logs. We do Haiku familiar
+		// actions when we deal with monster health
+
+		if ( Preferences.getBoolean( "logFamiliarActions" ) )
+		{
+			Matcher familiarActMatcher = FightRequest.FAMILIAR_ACT_PATTERN.matcher( responseText );
+			StringBuffer action = new StringBuffer();
+			while ( familiarActMatcher.find() )
+			{
+				String famact = familiarActMatcher.group();
+				famact = KoLConstants.ANYTAG_PATTERN.matcher( famact ).replaceAll( "" );
+				FightRequest.getRound( action );
+				action.append( famact );
+				String message = action.toString();
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+		}
+
+		TagNode node = null;
+		try
+		{
+			// Clean the HTML on this fight response page
+			node = cleaner.clean( responseText );
+		}
+		catch ( IOException e )
+		{
+			// Oops.
+			StaticEntity.printStackTrace( e );
+			return;
+		}
+
+		if ( node == null )
+		{
+			RequestLogger.printLine( "HTML cleaning failed." );
+			return;
+		}
+
+		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logCleanedHTML" ) )
+		{
+			FightRequest.logHTML( node );
+		}
+
+		/// Code: xxx
+
+		FightRequest.shouldRefresh = shouldRefresh;
+
+		// Look for special effects
+		FightRequest.updateMonsterHealth( responseText );
 	}
 
 	private static final void clearInstanceData()
@@ -3534,9 +3467,9 @@ public class FightRequest
 			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 1;
 			break;
 
-                case 5023: // Stealth Mistletoe
-                        FightRequest.stealthMistletoe = 2;
-                        break;
+		case 5023: // Stealth Mistletoe
+			FightRequest.stealthMistletoe = 2;
+			break;
 
 		case 7038: // Vicious Talon Slash
 		case 7039: // All-You-Can-Beat Wing Buffet
@@ -3913,5 +3846,105 @@ public class FightRequest
 		}
 
 		return true;
+	}
+
+	// Log cleaned HTML
+
+	private static final void logHTML( final TagNode node )
+	{
+		StringBuffer buffer = new StringBuffer();
+		FightRequest.logHTML( node, buffer, 0 );
+	}
+
+	private static final void logHTML( final TagNode node, final StringBuffer buffer, int level )
+	{
+		String name = node.getName();
+
+		// Skip scripts, forms, buttons, and html links
+		if ( name.equals( "script" ) || 
+		     name.equals( "form" ) ||
+		     name.equals( "input" ) ||
+		     name.equals( "a" ) )
+		{
+			return;
+		}
+
+		FightRequest.indent( buffer, level );
+		FightRequest.printTag( buffer, node );
+		RequestLogger.updateDebugLog( buffer.toString() );
+		
+		Iterator it = node.getChildren().iterator();
+		while ( it.hasNext() )
+		{
+			Object child = it.next();
+
+			if ( child instanceof CommentToken )
+			{
+				CommentToken object = (CommentToken) child;
+				String content = object.getContent();
+				FightRequest.indent( buffer, level + 1 );
+				buffer.append( "<!--" );
+				buffer.append( content );
+				buffer.append( "-->" );
+				RequestLogger.updateDebugLog( buffer.toString() );
+				continue;
+			}
+
+			if ( child instanceof ContentToken )
+			{
+				ContentToken object = (ContentToken) child;
+				String content = object.getContent().trim();
+				if ( content.equals( "" ) )
+				{
+					continue;
+				}
+
+				FightRequest.indent( buffer, level + 1 );
+				buffer.append( content );
+				RequestLogger.updateDebugLog( buffer.toString() );
+				continue;
+			}
+
+			if ( child instanceof TagNode )
+			{
+				TagNode object = (TagNode) child;
+				FightRequest.logHTML( object, buffer, level + 1 );
+				continue;
+			}
+		}
+	}
+
+	private static final void indent( final StringBuffer buffer, int level )
+	{
+		buffer.setLength( 0 );
+		for ( int i = 0; i < level; ++i )
+		{
+			buffer.append( " " );
+			buffer.append( " " );
+		}
+	}
+
+	private static final void printTag( final StringBuffer buffer, TagNode node )
+	{
+		String name = node.getName();
+		Map attributes = node.getAttributes();
+
+		buffer.append( "<" );
+		buffer.append( name );
+
+		if ( !attributes.isEmpty() )
+		{
+			Iterator it = attributes.keySet().iterator();
+			while ( it.hasNext() )
+			{
+				String key = (String) it.next();
+				buffer.append( " " );
+				buffer.append( key );
+				buffer.append( "=\"" );
+				buffer.append( (String) attributes.get( key ) );
+				buffer.append( "\"" );
+			}
+		}
+		buffer.append( ">" );
 	}
 }
