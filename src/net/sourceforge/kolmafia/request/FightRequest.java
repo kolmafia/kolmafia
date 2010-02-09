@@ -2712,20 +2712,25 @@ public class FightRequest
 		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) #?(\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,3})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
 
 	private static final Pattern ELEMENTAL_PATTERN =
-		Pattern.compile( "(sown|) <font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (\\([^.]*\\) |)(?:(?:slimy, (?:clammy|gross) |hotsy-totsy |)damage|points|HP worth)" );
+		Pattern.compile( "(sown|) \\+?([\\d,]+) (\\([^.]*\\) |)(?:(?:slimy, (?:clammy|gross) |hotsy-totsy |)damage|points|HP worth)" );
 
-	private static final Pattern SECONDARY_PATTERN = Pattern.compile( "<b>\\+([\\d,]+)</b>" );
+	private static final Pattern SECONDARY_PATTERN = Pattern.compile( "\\+([\\d,]+)" );
 
 	private static final int parseNormalDamage( final String text )
 	{
+		if ( text.equals( "" ) )
+		{
+			return 0;
+		}
+
 		int damage = 0;
 
 		Matcher m = FightRequest.ELEMENTAL_PATTERN.matcher( text );
-		while ( m.find() )
+		if ( m.find() )
 		{
 			if ( !m.group( 1 ).equals( "" ) )
 			{
-				continue;
+				return 0;
 			}
 
 			damage += StringUtilities.parseInt( m.group( 2 ) );
@@ -2735,10 +2740,11 @@ public class FightRequest
 			{
 				damage += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
 			}
+			return damage;
 		}
 
 		m = FightRequest.PHYSICAL_PATTERN.matcher( text );
-		while ( m.find() )
+		if ( m.find() )
 		{
 			// Currently, all of the explicit attack messages that
 			// preceed the number all imply that this is not damage
@@ -2747,7 +2753,7 @@ public class FightRequest
 
 			if ( !m.group( 1 ).equals( "" ) )
 			{
-				continue;
+				return 0;
 			}
 
 			// "shambles up to your opponent" following a number is
@@ -2756,7 +2762,7 @@ public class FightRequest
 
 			if ( m.group( 4 ).equals( "shambles up " ) )
 			{
-				continue;
+				return 0;
 			}
 
 			damage += StringUtilities.parseInt( m.group( 2 ) );
@@ -2770,9 +2776,11 @@ public class FightRequest
 			{
 				damage += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
 			}
+
+			return damage;
 		}
 
-		return damage;
+		return 0;
 	}
 
 	private static final Pattern HAIKU_DAMAGE1_PATTERN =
@@ -3343,6 +3351,28 @@ public class FightRequest
 			// Unknown.
 		}
 
+		if ( name.equals( "p" ) )
+		{
+			StringBuffer text = node.getText();
+			String str = text.toString();
+
+			if ( FightRequest.processFumble( str, status ) )
+			{
+				return;
+			}
+
+			int damage = FightRequest.parseNormalDamage( str );
+			if ( damage != 0 )
+			{
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterDamage( action, damage );
+				}
+				FightRequest.healthModifier += damage;
+				return;
+			}
+		}
+
 		Iterator it = node.getChildren().iterator();
 		while ( it.hasNext() )
 		{
@@ -3367,6 +3397,7 @@ public class FightRequest
 			{
 				ContentToken object = (ContentToken) child;
 				String text = object.getContent().trim();
+
 				if ( text.equals( "" ) )
 				{
 					continue;
@@ -3374,12 +3405,12 @@ public class FightRequest
 
 				if ( FightRequest.handleFuzzyDice( node, text, status ) )
 				{
-					continue;
+					return;
 				}
 
 				if ( FightRequest.processFumble( text, status ) )
 				{
-					continue;
+					return;
 				}
 
 				int damage = FightRequest.parseNormalDamage( text );
@@ -3390,10 +3421,13 @@ public class FightRequest
 						FightRequest.logMonsterDamage( action, damage );
 					}
 					FightRequest.healthModifier += damage;
+					return;
                                 }
-				else if ( text.startsWith( "You gain" ) )
+
+				if ( text.startsWith( "You gain" ) )
 				{
 					ResultProcessor.processGainLoss( text, null );
+					continue;
 				}
 				continue;
 			}
@@ -4226,7 +4260,8 @@ public class FightRequest
 		if ( name.equals( "script" ) || 
 		     name.equals( "form" ) ||
 		     name.equals( "input" ) ||
-		     name.equals( "a" ) )
+		     name.equals( "a" ) ||
+		     name.equals( "div" ) )
 		{
 			return;
 		}
