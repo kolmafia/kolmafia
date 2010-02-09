@@ -36,13 +36,13 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TravelingTraderRequest
@@ -53,7 +53,7 @@ public class TravelingTraderRequest
 	// src='http://images.kingdomofloathing.com/itemimages/scwad.gif'>
 	// <b>twinkly wads</b><br>(You have <b>3,348</b> on you.)
 
-	private static final Pattern ACQUIRE = Pattern.compile( "The traveling trader is looking to acquire.*descitem\\(([\\d]+)\\).*<b>([^<]*)</b><br>\\(You have <b>([\\d,]*|none)</b> on you.\\)" );
+	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "The traveling trader is looking to acquire.*descitem\\(([\\d]+)\\).*<b>([^<]*)</b><br>\\(You have <b>([\\d,]*|none)</b> on you.\\)" );
 
 	// <tr><td><input type=radio name=whichitem value=4411
 	// checked="checked"></td><td><a class=nounder
@@ -63,6 +63,11 @@ public class TravelingTraderRequest
 	// wads</td></tr
 
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+).*?>.*?descitem.*?([\\d]+).*?<b>([^<]*)</b></a></td><td>([\\d]+)", Pattern.DOTALL );
+
+        // You currently have <b>1,022</b> twinkly wads in Hagnk's Ancestral
+        // Storage
+
+	private static final Pattern STORAGE_PATTERN = Pattern.compile( "You currently have <b>([\\d,]+)</b> (.*?) in Hagnk's Ancestral Storage", Pattern.DOTALL );
 
 	private TravelingTraderRequest()
 	{
@@ -82,25 +87,58 @@ public class TravelingTraderRequest
 		}
 
 		// Learn what item he is trading for and sanity check number of
-		// <items> in inventory
-		Matcher matcher = ACQUIRE.matcher( responseText );
+		// <items> in inventory and in storage
+
+		String descId = "";
+		String plural1 = null;
+		int num1 = 0;
+
+		Matcher matcher = ACQUIRE_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
-			String descId = matcher.group( 1 );
-			int itemId = ItemDatabase.getItemIdFromDescription( descId );
-			if ( itemId != -1 )
+			descId = matcher.group( 1 );
+			plural1 = matcher.group( 2 );
+			String num = matcher.group( 3 );
+			num1 = num == null ? 0 :
+				num.equals( "none" ) ? 0 :
+				num.equals( "one" ) ? 1 :
+				StringUtilities.parseInt( num );
+		}
+
+		// The plural and number in storage
+		String plural2 = null;
+		int num2 = 0;
+
+		matcher = STORAGE_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String num = matcher.group( 1 );
+			num2 = num == null ? 0 :
+				num.equals( "none" ) ? 0 :
+				num.equals( "one" ) ? 1 :
+				StringUtilities.parseInt( num );
+			plural2 = matcher.group( 2 );
+		}
+
+		int itemId = ItemDatabase.getItemIdFromDescription( descId );
+		if ( itemId != -1 )
+		{
+			AdventureResult item = ItemPool.get( itemId, 1 );
+			int icount = item.getCount( KoLConstants.inventory );
+			int idelta = num1 - icount;
+			if ( idelta != 0 )
 			{
-				int count = InventoryManager.getCount( itemId );
-				String plural = matcher.group( 2 );
-				String num = matcher.group( 3 );
-				int delta = ( num == null ? 0 :
-					      num.equals( "none" ) ? 0 :
-					      num.equals( "one" ) ? 1 :
-					      StringUtilities.parseInt( num ) ) - count;
-				if ( delta != 0 )
-				{
-					ResultProcessor.processItem( itemId, delta );
-				}
+				AdventureResult result = new AdventureResult( itemId, idelta );
+				AdventureResult.addResultToList( KoLConstants.inventory, result );
+				AdventureResult.addResultToList( KoLConstants.tally, result );
+			}
+
+			int scount = item.getCount( KoLConstants.storage );
+			int sdelta = num2 - scount;
+			if ( sdelta != 0 )
+			{
+				AdventureResult result = new AdventureResult( itemId, sdelta );
+				AdventureResult.addResultToList( KoLConstants.storage, result );
 			}
 		}
 
@@ -108,15 +146,15 @@ public class TravelingTraderRequest
 		matcher = ITEM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
-			int itemId = StringUtilities.parseInt( matcher.group(1) );
-			String descId = matcher.group(2);
-			String itemName = matcher.group(3);
+			int id = StringUtilities.parseInt( matcher.group(1) );
+			String desc = matcher.group(2);
+			String name = matcher.group(3);
 			int cost = StringUtilities.parseInt( matcher.group(4) );
 
-			String data = ItemDatabase.getItemDataName( itemId );
-			if ( data == null || !data.equals( itemName ) )
+			String data = ItemDatabase.getItemDataName( id );
+			if ( data == null || !data.equals( name ) )
 			{
-				ItemDatabase.registerItem( itemId, itemName, descId );
+				ItemDatabase.registerItem( id, name, desc );
 			}
 		}
 
