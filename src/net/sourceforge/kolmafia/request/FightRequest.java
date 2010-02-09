@@ -3248,20 +3248,22 @@ public class FightRequest
 			String src = inode.getAttributeByName( "src" );
 			String image = src == null ? null : src.substring( src.lastIndexOf( "/" ) + 1 );
 			String onclick = inode.getAttributeByName( "onclick" );
-			String descid = null;
 			if ( onclick != null )
 			{
-				Matcher m = INT_PATTERN.matcher( onclick );
-				descid = m.find() ? m.group(1) : null;
-			}
+				if ( onclick.startsWith( "descitem" ) )
+				{
+					Matcher m = INT_PATTERN.matcher( onclick );
+					String descid = m.find() ? m.group(1) : null;
 
-			if ( descid != null )
-			{
-				// You acquire an item
-				int itemId = ItemDatabase.getItemIdFromDescription( descid );
-				AdventureResult result = ItemPool.get( itemId, 1 );
-				ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
-				return;
+					if ( descid != null )
+					{
+						// You acquire an item
+						int itemId = ItemDatabase.getItemIdFromDescription( descid );
+						AdventureResult result = ItemPool.get( itemId, 1 );
+						ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+					}
+					return;
+				}
 			}
 
 			if ( image.equals( "meat.gif" ) )
@@ -3276,18 +3278,18 @@ public class FightRequest
 			     image.equals( "mp.gif" ) )
 			{
 				// You gain HP or MP
-                                String str = text.toString();
+				String str = text.toString();
 
 				if ( status.mosquito )
 				{
 					status.mosquito = false;
 					Matcher m = INT_PATTERN.matcher( str );
 					int damage = m.find() ? StringUtilities.parseInt( m.group(1) ) : 0;
-                                        if ( status.logMonsterHealth )
-                                        {
-                                                FightRequest.logMonsterDamage( action, damage );
-                                        }
-                                        FightRequest.healthModifier += damage;
+					if ( status.logMonsterHealth )
+					{
+						FightRequest.logMonsterDamage( action, damage );
+					}
+					FightRequest.healthModifier += damage;
 				}
 
 				RequestLogger.printLine( str );
@@ -3317,13 +3319,29 @@ public class FightRequest
 			}
 
 			// Combat item usage
-			int damage = FightRequest.parseNormalDamage( text.toString() );
-			if ( status.logMonsterHealth )
+			String str = text.toString();
+			int damage = FightRequest.parseNormalDamage( str );
+			if ( damage != 0 )
 			{
-				FightRequest.logMonsterDamage( action, damage );
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterDamage( action, damage );
+				}
+				FightRequest.healthModifier += damage;
+				return;
 			}
-			FightRequest.healthModifier += damage;
-			return;
+
+			if ( str.startsWith( "You gain" ) ||
+			     str.startsWith( "You lose" ) ||
+			     str.startsWith( "You acquire" ) )
+			{
+				// This could be an effect or an item which you
+				// cannot click on - acquired mid-battle
+				ResultProcessor.processGainLoss( text.toString(), null );
+				return;
+			}
+
+			// Unknown.
 		}
 
 		Iterator it = node.getChildren().iterator();
