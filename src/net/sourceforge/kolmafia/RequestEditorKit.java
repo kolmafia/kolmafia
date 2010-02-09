@@ -1735,7 +1735,7 @@ public class RequestEditorKit
 		int index = buffer.indexOf( "<p><a href=\"adventure.php?snarfblat=109\">" );
 		if ( index != -1 )
 		{
-			String link = "<p><a href=\"inv_use.php?whichitem=1963&which=3&pwd=" + GenericRequest.passwordHash + "\">Use another dance card</a>";		
+			String link = "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\">Use another dance card</a>";
 			buffer.insert( index, link );
 		}
 	}
