@@ -4417,7 +4417,7 @@
 4408
 4409	Zu Mannk&auml;se Dienen	usable	all	0
 4410
-4411
+4411	Inigo's Incantation of Inspiration	usable	all	0
 4412
 4413
 4414	colorful plastic ball	multiple	all	0
