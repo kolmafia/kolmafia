@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.SuspiciousGuyRequest;
+import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -708,6 +709,11 @@ public abstract class StaticEntity
 		{
 			ArtistRequest.parseResponse( location, responseText );
 			SuspiciousGuyRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "traveler.php" ) )
+		{
+			TravelingTraderRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "wand.php" ) )
