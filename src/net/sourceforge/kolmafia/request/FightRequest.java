@@ -1496,8 +1496,6 @@ public class FightRequest
 		{
 			FightRequest.castNoodles = true;
 		}
-
-		++FightRequest.preparatoryRounds;
 	}
 
 	private static final Pattern ONTURN_PATTERN = Pattern.compile( "onturn = (\\d+)" );
@@ -1522,6 +1520,7 @@ public class FightRequest
 		{
 			FightRequest.checkForInitiative( responseText );
 			FightRequest.currentRound = 1;
+			++FightRequest.preparatoryRounds;
 		}
 
 		// Sanity check: compare our round with what KoL claims it is
