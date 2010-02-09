@@ -303,12 +303,12 @@ public class FightRequest
 		String responseText = FightRequest.lastResponseText;
 
 		// You can normally only win initiative on round 1.
-		if ( FightRequest.currentRound == 1 )
+		if ( FightRequest.currentRound <= 2 )
 			return FightRequest.wonInitiative( responseText );
 
 		// However, if you used Stealth Mistletoe on Round 1, you
 		// effectively won it on round 2 as well
-		if ( FightRequest.currentRound == 2 )
+		if ( FightRequest.currentRound == 3 )
 			return FightRequest.stealthMistletoe( responseText );
 
 		// Otherwise, not a chance
@@ -3223,7 +3223,11 @@ public class FightRequest
 					FightRequest.logText( text, status );
 				}
 				int damage = FightRequest.parseFamiliarDamage( text.toString(), status );
-				FightRequest.logMonsterDamage( action, damage );
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterDamage( action, damage );
+				}
+				FightRequest.healthModifier += damage;
 				return;
 			}
 
@@ -3233,7 +3237,11 @@ public class FightRequest
 			{
 				// No image. Parse combat damage.
 				int damage = FightRequest.parseNormalDamage( text.toString() );
-				FightRequest.logMonsterDamage( action, damage );
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterDamage( action, damage );
+				}
+				FightRequest.healthModifier += damage;
 				return;
 			}
 
@@ -3275,7 +3283,11 @@ public class FightRequest
 					status.mosquito = false;
 					Matcher m = INT_PATTERN.matcher( str );
 					int damage = m.find() ? StringUtilities.parseInt( m.group(1) ) : 0;
-					FightRequest.logMonsterDamage( action, damage );
+                                        if ( status.logMonsterHealth )
+                                        {
+                                                FightRequest.logMonsterDamage( action, damage );
+                                        }
+                                        FightRequest.healthModifier += damage;
 				}
 
 				RequestLogger.printLine( str );
@@ -3296,13 +3308,21 @@ public class FightRequest
 					FightRequest.logText( text, status );
 				}
 				int damage = FightRequest.parseFamiliarDamage( text.toString(), status );
-				FightRequest.logMonsterDamage( action, damage );
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterDamage( action, damage );
+				}
+				FightRequest.healthModifier += damage;
 				return;
 			}
 
 			// Combat item usage
 			int damage = FightRequest.parseNormalDamage( text.toString() );
-			FightRequest.logMonsterDamage( action, damage );
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterDamage( action, damage );
+			}
+			FightRequest.healthModifier += damage;
 			return;
 		}
 
@@ -3348,7 +3368,11 @@ public class FightRequest
 				int damage = FightRequest.parseNormalDamage( text );
                                 if ( damage != 0 )
                                 {
-                                        FightRequest.logMonsterDamage( action, damage );
+					if ( status.logMonsterHealth )
+					{
+						FightRequest.logMonsterDamage( action, damage );
+					}
+					FightRequest.healthModifier += damage;
                                 }
 				else if ( text.startsWith( "You gain" ) )
 				{
