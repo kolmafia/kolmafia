@@ -511,6 +511,7 @@ public class RequestEditorKit
 		if ( location.startsWith( "adventure.php" ) )
 		{
 			RequestEditorKit.fixDucks( buffer );
+			RequestEditorKit.fixRottingMatilda( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "ascend.php" ) )
@@ -1716,6 +1717,26 @@ public class RequestEditorKit
 		if ( index != -1 )
 		{
 			buffer.insert( index, "<center><table width=95% cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Adventure Again:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center><p><a href=\"" + url + "\">Go back to The Mysterious Island of Mystery</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center>" );
+		}
+	}
+
+	private static final AdventureResult DANCE_CARD = ItemPool.get( ItemPool.DANCE_CARD, 1);
+
+	private static final void fixRottingMatilda( final StringBuffer buffer )
+	{
+		// Give player a link to use another dance card
+
+		if ( buffer.indexOf( "Rotting Matilda" ) == -1 ||
+		     DANCE_CARD.getCount( KoLConstants.inventory ) <= 0 )
+		{
+			return;
+		}
+
+		int index = buffer.indexOf( "<p><a href=\"adventure.php?snarfblat=109\">" );
+		if ( index != -1 )
+		{
+			String link = "<p><a href=\"inv_use.php?whichitem=1963&which=3&pwd=" + GenericRequest.passwordHash + "\">Use another dance card</a>";		
+			buffer.insert( index, link );
 		}
 	}
 
