@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 public class ResultProcessor
 {
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
+	private static Pattern INT_PATTERN = Pattern.compile( "([\\d]+)" );
 
 	private static boolean receivedClover = false;
 	private static boolean receivedDisassembledClover = false;
@@ -395,17 +396,32 @@ public class ResultProcessor
 		}
 
 		String effectName = parsedResults.nextToken();
+                String message;
 
 		if ( acquisition.startsWith( "You lose" ) )
 		{
-			String message = acquisition + " " + effectName;
+			message = acquisition + " " + effectName;
+		}
+		else
+		{
+			String lastToken = parsedResults.nextToken();
+			message = acquisition + " " + effectName + " " + lastToken;
+		}
 
-			RequestLogger.printLine( message );
-			if ( Preferences.getBoolean( "logStatusEffects" ) )
-			{
-				RequestLogger.updateSessionLog( message );
-			}
+		return ResultProcessor.processEffect( effectName, message );
+	}
 
+	public static boolean processEffect( String effectName, String message )
+	{
+		RequestLogger.printLine( message );
+
+		if ( Preferences.getBoolean( "logStatusEffects" ) )
+		{
+			RequestLogger.updateSessionLog( message );
+		}
+
+		if ( message.startsWith( "You lose" ) )
+		{
 			AdventureResult result = EffectPool.get( effectName );
 			AdventureResult.removeResultFromList( KoLConstants.recentEffects, result );
 			AdventureResult.removeResultFromList( KoLConstants.activeEffects, result );
@@ -413,23 +429,18 @@ public class ResultProcessor
 			return true;
 		}
 
-		String lastToken = parsedResults.nextToken();
-		String message = acquisition + " " + effectName + " " + lastToken;
-
-		RequestLogger.printLine( message );
-		if ( Preferences.getBoolean( "logStatusEffects" ) )
+		if ( message.indexOf( "duration" ) != -1 )
 		{
-			RequestLogger.updateSessionLog( message );
+			Matcher m = INT_PATTERN.matcher( message );
+			if ( m.find() )
+			{
+				int duration = StringUtilities.parseInt( m.group(1) );
+				return parseEffect( effectName + " (" + duration + ")" );
+			}
 		}
 
-		if ( lastToken.indexOf( "duration" ) == -1 )
-		{
-			parseEffect( effectName );
-			return false;
-		}
-
-		String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
-		return parseEffect( effectName + " (" + duration + ")" );
+		parseEffect( effectName );
+		return false;
 	}
 
 	public static boolean processGainLoss( String lastToken, final List data )
