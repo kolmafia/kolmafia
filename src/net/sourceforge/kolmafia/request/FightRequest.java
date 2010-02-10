@@ -2791,9 +2791,6 @@ public class FightRequest
 		return 0;
 	}
 
-	private static final Pattern HAIKU_DAMAGE1_PATTERN =
-		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
-
 	private static final Pattern HAIKU_DAMAGE2_PATTERN =
 		Pattern.compile( "<b>(?:<font color=[\"]?(\\w+)[\"]?>)?([\\d,]+)(?:</font>)?</b> damage" );
 
@@ -2880,26 +2877,7 @@ public class FightRequest
 				ResultProcessor.processFamiliarWeightGain( haiku );
 			}
 
-			// Look for Damage: title in the image
-			Matcher damageMatcher = FightRequest.HAIKU_DAMAGE1_PATTERN.matcher( matcher.group(0) );
-			boolean foundDamageTitle = false;
-			while ( damageMatcher.find() )
-			{
-				foundDamageTitle = true;
-				String[] pieces = damageMatcher.group( 1 ).split( "[^\\d,]+" );
-				int damage = 0;
-				for ( int i = 0; i < pieces.length; ++i )
-				{
-					damage += StringUtilities.parseInt( pieces[ i ] );
-				}
-				if ( logMonsterHealth )
-				{
-					FightRequest.logMonsterDamage( action, damage );
-				}
-				FightRequest.healthModifier += damage;
-			}
-
-			if ( foundDamageTitle )
+			if ( FightRequest.foundHaikuDamage( matcher.group( 0 ), action, logMonsterHealth ) )
 			{
 				continue;
 			}
@@ -3077,6 +3055,36 @@ public class FightRequest
 		FightRequest.shouldRefresh = shouldRefresh;
 	}
 
+	private static final Pattern HAIKU_DAMAGE1_PATTERN =
+		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
+
+	private static final boolean foundHaikuDamage( final String text, final StringBuffer action, final boolean logMonsterHealth )
+	{
+		// Look for Damage: title in the image
+		Matcher matcher = FightRequest.HAIKU_DAMAGE1_PATTERN.matcher( text );
+		boolean foundDamageTitle = false;
+		while ( matcher.find() )
+		{
+			foundDamageTitle = true;
+			String[] pieces = matcher.group( 1 ).split( "[^\\d,]+" );
+			int damage = 0;
+			for ( int i = 0; i < pieces.length; ++i )
+			{
+				damage += StringUtilities.parseInt( pieces[ i ] );
+			}
+			if ( damage != 0 )
+			{
+				if ( logMonsterHealth )
+				{
+					FightRequest.logMonsterDamage( action, damage );
+				}
+				FightRequest.healthModifier += damage;
+			}
+		}
+
+		return foundDamageTitle;
+	}
+
 	public static class TagStatus
 	{
 		public final String familiar;
@@ -3249,16 +3257,23 @@ public class FightRequest
 			if ( status.famaction )
 			{
 				status.famaction = false;
+				if ( ResultProcessor.processFamiliarWeightGain( str ) )
+				{
+					return;
+				}
 				if ( status.logFamiliar )
 				{
 					FightRequest.logText( text, status );
 				}
 				int damage = FightRequest.parseFamiliarDamage( str, status );
-				if ( status.logMonsterHealth )
+				if ( damage != 0 )
 				{
-					FightRequest.logMonsterDamage( action, damage );
+					if ( status.logMonsterHealth )
+					{
+						FightRequest.logMonsterDamage( action, damage );
+					}
+					FightRequest.healthModifier += damage;
 				}
-				FightRequest.healthModifier += damage;
 				return;
 			}
 
@@ -3307,11 +3322,32 @@ public class FightRequest
 				}
 			}
 
+			if ( image.equals( "hkatana.gif" ) )
+			{
+				// You struck with your haiku katana. Pull the
+				// damage out of the img tag if we can
+				String title = inode.getAttributeByName( "title" );
+				if ( title != null )
+				{
+					title = "title=\"" + title + "\"";
+					if (foundHaikuDamage( title, action, status.logMonsterHealth ) )
+					{
+
+						return;
+					}
+				}
+			}
+
 			if ( image.equals( "meat.gif" ) )
 			{
-				// You acquire meat. If we are in The Themthar
-				// Hills and we have seen the "you won"
-				// comment, the nuns take it.
+				// Adjust for Can Has Cyborger
+				str = StringUtilities.singleStringReplace( str, "gets", "gain" );
+				str = StringUtilities.singleStringReplace( str, "Meets", "Meat" );
+
+				// If we are in The Themthar Hills and we have
+				// seen the "you won" comment, the nuns take
+				// the meat.
+
 				ResultProcessor.processMeat( str, status.won && status.nunnery );
 				status.shouldRefresh = true;
 				return;
@@ -3345,17 +3381,26 @@ public class FightRequest
 
 			if ( image.equals( status.familiar ) )
 			{
-				// Familiar action?
+				if ( ResultProcessor.processFamiliarWeightGain( str ) )
+				{
+					return;
+				}
+
+				// Familiar combat action?
 				if ( status.logFamiliar )
 				{
 					FightRequest.logText( text, status );
 				}
+
 				int damage = FightRequest.parseFamiliarDamage( str, status );
-				if ( status.logMonsterHealth )
+				if ( damage != 0 )
 				{
-					FightRequest.logMonsterDamage( action, damage );
+					if ( status.logMonsterHealth )
+					{
+						FightRequest.logMonsterDamage( action, damage );
+					}
+					FightRequest.healthModifier += damage;
 				}
-				FightRequest.healthModifier += damage;
 				return;
 			}
 
@@ -3450,6 +3495,14 @@ public class FightRequest
 
 				if ( text.startsWith( "You gain" ) )
 				{
+					ResultProcessor.processGainLoss( text, null );
+					continue;
+				}
+
+				if ( text.startsWith( "You can has" ) )
+				{
+					// Adjust for Can Has Cyborger
+					text = StringUtilities.singleStringReplace( text, "can has", "gain" );
 					ResultProcessor.processGainLoss( text, null );
 					continue;
 				}
