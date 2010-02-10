@@ -346,7 +346,7 @@ public class FamiliarRequest
 		// equipped, then cache your earlier familiar so that as soon
 		// as you use the map, KoLmafia knows to change it back.
 
-		if ( id == 59 )
+		if ( id == FamiliarPool.BLACKBIRD )
 		{
 			Preferences.setString( "preBlackbirdFamiliar", familiar.getRace() );
 		}

@@ -3499,19 +3499,27 @@ public class UseItemRequest
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.BLACKBIRD )
 			{
 				AdventureResult map = UseItemRequest.lastItemUsed;
-				FamiliarData blackbird = new FamiliarData( FamiliarPool.BLACKBIRD );
 
-				if ( !KoLCharacter.getFamiliarList().contains( blackbird ) )
+				// Get the player's current blackbird, complete
+				// with whatever name it's been given.
+				FamiliarData blackbird = KoLCharacter.findFamiliar( FamiliarPool.BLACKBIRD );
+
+				// If there is no blackbird in the terrarium,
+				// grow one from the hatchling.
+				if ( blackbird == null )
 				{
 					( new UseItemRequest( ItemPool.get( ItemPool.REASSEMBLED_BLACKBIRD, 1 ) ) ).run();
 					UseItemRequest.lastItemUsed = map;
+					blackbird = KoLCharacter.findFamiliar( FamiliarPool.BLACKBIRD );
 				}
 
-				if ( !KoLmafia.permitsContinue() )
+				// If still couldn't find it, bail
+				if ( blackbird == null )
 				{
 					return true;
 				}
 
+				// Take the blackbird out of the terrarium
 				( new FamiliarRequest( blackbird ) ).run();
 			}
 			break;
