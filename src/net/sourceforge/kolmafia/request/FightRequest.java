@@ -1868,19 +1868,11 @@ public class FightRequest
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
 
-		if ( Preferences.getBoolean( "serverAddsCustomCombat" ) )
+		if ( responseText.indexOf( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
+					   "(show old combat form)" :
+					   "fight.php" ) != -1 )
 		{
-			if ( responseText.indexOf( "(show old combat form)" ) != -1 )
-			{
-				return;
-			}
-		}
-		else
-		{
-			if ( responseText.indexOf( "fight.php" ) != -1 )
-			{
-				return;
-			}
+			return;
 		}
 
 		// Check for bounty item not dropping from a monster
@@ -2572,9 +2564,16 @@ public class FightRequest
 	private static final void getRound( final StringBuffer action )
 	{
 		action.setLength( 0 );
-		action.append( "Round " );
-		action.append( FightRequest.currentRound );
-		action.append( ": " );
+		if ( FightRequest.currentRound == 0 )
+		{
+			action.append( "After Battle: " );
+		}
+		else
+		{
+			action.append( "Round " );
+			action.append( FightRequest.currentRound );
+			action.append( ": " );
+		}
 	}
 
 	private static final void updateMonsterHealth( final String responseText, final int damageThisRound )
@@ -2821,6 +2820,8 @@ public class FightRequest
 		StringBuffer action = new StringBuffer();
 
 		boolean shouldRefresh = false;
+		boolean nunnery = KoLAdventure.lastVisitedLocation().getAdventureId().equals( "126" );
+		boolean won = false;
 
 		do
 		{
@@ -2840,6 +2841,12 @@ public class FightRequest
 					FightRequest.healthModifier += damage;
 				}
 
+				continue;
+			}
+
+			if ( image.equals( "happy.gif" ) )
+			{
+				won = true;
 				continue;
 			}
 
@@ -2940,7 +2947,7 @@ public class FightRequest
 			if ( image.equals( "meat.gif" ) )
 			{
 				String message = "You gain " + points + " Meat";
-				ResultProcessor.processMeat( message, null );
+				ResultProcessor.processMeat( message, won && nunnery );
 				shouldRefresh = true;
 				continue;
 			}
@@ -3082,6 +3089,7 @@ public class FightRequest
 		public boolean famaction = false;
 		public boolean mosquito = false;
 		public boolean dice = false;
+		public boolean nunnery = false;
 		public boolean won = false;
 
 		public TagStatus()
@@ -3095,6 +3103,9 @@ public class FightRequest
 			this.action = new StringBuffer();
 
 			this.shouldRefresh = false;
+
+			// Note if we are fighting The Themthar Hills
+			this.nunnery = KoLAdventure.lastVisitedLocation().getAdventureId().equals( "126" );
 		}
 	}
 
@@ -3297,8 +3308,10 @@ public class FightRequest
 
 			if ( image.equals( "meat.gif" ) )
 			{
-				// You acquire meat
-				ResultProcessor.processMeat( str, null );
+				// You acquire meat. If we are in The Themthar
+				// Hills and we have seen the "you won"
+				// comment, the nuns take it.
+				ResultProcessor.processMeat( str, status.won && status.nunnery );
 				status.shouldRefresh = true;
 				return;
 			}
@@ -3398,6 +3411,7 @@ public class FightRequest
 				else if ( content.equals( "WINWINWIN" ) )
 				{
 					status.won = true;
+					FightRequest.currentRound = 0;
 				}
 				continue;
 			}
