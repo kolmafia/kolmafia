@@ -208,7 +208,7 @@ public class ResultProcessor
 		return shouldRefresh;
 	}
 
-	public static void processFamiliarWeightGain( final String results )
+	public static boolean processFamiliarWeightGain( final String results )
 	{
 		if ( results.indexOf( "gains a pound" ) != -1 ||
 		     // The following are Haiku results
@@ -224,7 +224,10 @@ public class ResultProcessor
 			String message = "Your familiar gains a pound: " + fam1;
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message	 );
+			return true;
 		}
+
+		return false;
 	}
 
 	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List data )
