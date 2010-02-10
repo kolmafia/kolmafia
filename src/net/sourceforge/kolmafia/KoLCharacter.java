@@ -3022,45 +3022,13 @@ public abstract class KoLCharacter
 
 	public static final boolean hasEquipped( final AdventureResult item )
 	{
-		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
-		{
-		case KoLConstants.EQUIP_WEAPON:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.WEAPON ) || KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND );
-
-		case KoLConstants.EQUIP_OFFHAND:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.OFFHAND );
-
-		case KoLConstants.EQUIP_HAT:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.HAT );
-
-		case KoLConstants.EQUIP_SHIRT:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.SHIRT );
-
-		case KoLConstants.EQUIP_PANTS:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.PANTS );
-
-		case KoLConstants.EQUIP_ACCESSORY:
-			return	KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) || 
-				KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY2 ) ||
-				KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY3 );
-
-		case KoLConstants.CONSUME_STICKER:
-			return	KoLCharacter.hasEquipped( item, EquipmentManager.STICKER1 ) ||
-				KoLCharacter.hasEquipped( item, EquipmentManager.STICKER2 ) ||
-				KoLCharacter.hasEquipped( item, EquipmentManager.STICKER3 );
-
-		case KoLConstants.EQUIP_FAMILIAR:
-			return KoLCharacter.hasEquipped( item, EquipmentManager.FAMILIAR );
-		}
-
-		return false;
+		return KoLCharacter.equipmentSlot( item ) != EquipmentManager.NONE;
 	}
 
 	public static final boolean hasEquipped( AdventureResult[] equipment, final AdventureResult item, final int equipmentSlot )
 	{
 		AdventureResult current = equipment[ equipmentSlot ];
-		if ( current == null ) return false;
-		return current.getItemId() == item.getItemId();
+		return ( current == null ) ? false : ( current.getItemId() == item.getItemId() );
 	}
 
 	public static final boolean hasEquipped( AdventureResult[] equipment, final AdventureResult item )

@@ -48,7 +48,9 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -128,29 +130,60 @@ public class FoldItemCommand
 		// index 0.
 		int sourceIndex = ( targetIndex > 1 ) ? targetIndex - 1 : count - 1;
 		AdventureResult source = null;
+		AdventureResult worn = null;
+		int wornIndex = 0;
+		int slot = EquipmentManager.NONE;
+		boolean multiple = false;
 
 		while ( sourceIndex != targetIndex )
 		{
 			String form = (String) group.get( sourceIndex );
 			AdventureResult item = new AdventureResult( form, 1, false );
 
-			// If we have this item in inventory, use it to start
-			// folding
+			// If we have this item in inventory, use it
 			if ( item.getCount( KoLConstants.inventory ) > 0 )
 			{
 				source = item;
 				break;
 			}
 
+			// If we have this item equipped, remember where
+			int where = KoLCharacter.equipmentSlot( item );
+			if ( where != EquipmentManager.NONE )
+			{
+				if ( worn == null )
+				{
+					worn = item;
+					wornIndex = sourceIndex;
+					slot = where;
+				}
+				else
+				{
+					multiple = true;
+				}
+			}
+
 			// Consider the next item. Skip index 0.
 			sourceIndex = sourceIndex > 1 ? sourceIndex - 1 : count - 1;
 		}
 
-		// Punt now if have nothing foldable
+		// If nothing in inventory is foldable, consider equipment
 		if ( source == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have anything transformable into that item!" );
-			return;
+			// Too many choices. Let player decide which one
+			if ( multiple )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unequip the item you want to fold into that." );
+				return;
+			}
+			if ( worn == null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have anything transformable into that item!" );
+				return;
+			}
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
+			source = worn;
+			sourceIndex = wornIndex;
 		}
 
 		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
