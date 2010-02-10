@@ -483,15 +483,21 @@ public class ResultProcessor
 		return ResultProcessor.processStatGain( lastToken, data );
 	}
 
-	public static boolean processMeat( String lastToken, List data )
+	public static boolean processMeat( String text, boolean nunnery )
 	{
-		AdventureResult result = ResultProcessor.parseResult( lastToken );
-
-		if ( data == null && ResultProcessor.isNunneryMeat( result ) )
+		if ( nunnery )
 		{
+			AdventureResult result = ResultProcessor.parseResult( text );
 			IslandDecorator.addNunneryMeat( result );
 			return false;
 		}
+
+		return ResultProcessor.processMeat( text, null );
+	}
+
+	public static boolean processMeat( String lastToken, List data )
+	{
+		AdventureResult result = ResultProcessor.parseResult( lastToken );
 
 		if ( data != null )
 		{
@@ -525,39 +531,6 @@ public class ResultProcessor
 		}
 
 		return ResultProcessor.processResult( result );
-	}
-
-	private static boolean isNunneryMeat( final AdventureResult result )
-	{
-		KoLAdventure location = KoLAdventure.lastVisitedLocation();
-
-		// If we are not in the Themthar Hills, this is real meat
-		if ( location == null || !location.getAdventureId().equals( "126" ) )
-		{
-			return false;
-		}
-
-		// If we didn't just complete a fight, this is real meat stolen
-		// in the middle of the battle
-		if ( !RequestLogger.getLastURLString().startsWith( "fight.php" ) ||
-			FightRequest.getCurrentRound() != 0 )
-		{
-			return false;
-		}
-
-		// This is meat gained during the last round of the battle.
-		// What to do about meat vortex or familiar stolen meat?
-
-		// Heuristic: if the quantity of meat gained is less than the
-		// minimum we expect, given current Meat Drop modifier, assume
-		// it's from a familiar or combat item.
-
-		if ( result.getCount() < IslandDecorator.minimumBrigandMeat() )
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	public static boolean processStatGain( String lastToken, List data )
