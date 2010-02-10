@@ -3105,7 +3105,8 @@ public class FightRequest
 			this.shouldRefresh = false;
 
 			// Note if we are fighting The Themthar Hills
-			this.nunnery = KoLAdventure.lastVisitedLocation().getAdventureId().equals( "126" );
+			KoLAdventure location = KoLAdventure.lastVisitedLocation();
+			this.nunnery = location != null && location.getAdventureId().equals( "126" );
 		}
 	}
 

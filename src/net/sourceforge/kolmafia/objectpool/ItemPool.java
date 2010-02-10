@@ -995,6 +995,7 @@ public class ItemPool
 	public static final int STINKY_CHEESE_EYE = 4402;
 	public static final int STINKY_CHEESE_STAFF = 4403;
 	public static final int ZU_MANNKASE_DIENEN = 4409;
+	public static final int INIGO_BOOK = 4411;
 	public static final int BRICKO_BOOK = 4468;
 	public static final int BRICKO_OOZE = 4474;
 	public static final int BRICKO_BAT = 4475;

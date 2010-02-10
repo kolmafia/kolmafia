@@ -243,6 +243,7 @@
 6025	Sing	5	1	0	0
 6026	Donho's Bubbly Ballad	4	75	5
 6027	Cringle's Curative Carol	4	5	5
+6028	Inigo's Incantation of Inspiration	4	100	5
 
 # Skills granted conditionally
 
