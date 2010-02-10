@@ -4414,7 +4414,7 @@
 4408
 4409	398556198	Zu Mannk&auml;se Dienen	copies of Zu Mannk&auml;se Dienen
 4410
-4411	629749615	Inigo's Incantation of Inspiration
+4411	629749615	Inigo's Incantation of Inspiration	copies of Inigo's Incantation of Inspiration
 4412
 4413
 4414	929593771	colorful plastic ball	colorful plastic balls

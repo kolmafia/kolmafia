@@ -2287,6 +2287,7 @@ public class UseItemRequest
 		case ItemPool.CRIMBO_CAROL_V6:
 		case ItemPool.CRIMBO_CANDY_COOKBOOK:
 		case ItemPool.ZU_MANNKASE_DIENEN:
+		case ItemPool.INIGO_BOOK:
 
 			String skill = UseItemRequest.itemToSkill( item.getItemId() );
 			if ( skill == null || KoLCharacter.hasSkill( skill ) )
@@ -3178,6 +3179,8 @@ public class UseItemRequest
 			return "Summon Crimbo Candy";
 		case ItemPool.ZU_MANNKASE_DIENEN:
 			return "K&auml;seso&szlig;esturm";
+		case ItemPool.INIGO_BOOK:
+			return "Inigo's Incantation of Inspiration";
 		}
 
 		return null;

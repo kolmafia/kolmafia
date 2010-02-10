@@ -713,3 +713,5 @@
 712
 713
 714	Having a Ball!	plasticball.gif	b806c288732675bf60db7b948d748320	#clan ball pit
+715
+716	Inigo's Incantation of Inspiration	incantation.gif	13a38b36b281484553a9ea836fd3b2d8	cast 1 Inigo's Incantation of Inspiration

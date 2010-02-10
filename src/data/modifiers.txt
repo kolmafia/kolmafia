@@ -2261,6 +2261,7 @@ In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 In the Saucestream	Mysticality Percent: +15
 Incredibly Hulking	Muscle Percent: +200
 # Infinite Loop
+# Inigo's Incantation of Inspiration: Lets you craft things more quickly
 # Innuendo Shopping
 Inscrutable exoskeleton	Damage Absorption: +300
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20

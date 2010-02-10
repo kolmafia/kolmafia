@@ -113,26 +113,10 @@ public class ResultProcessor
 			formURLString.indexOf( "whichitem=553" ) != -1;
 	}
 
-	public static boolean processResults( String results )
-	{
-		return ResultProcessor.processResults( false, results, null );
-	}
-
-	public static boolean processResults( boolean combatResults, String results )
-	{
-		return ResultProcessor.processResults( combatResults, results, null );
-	}
-
-	public static boolean processResults( String results, List data )
-	{
-		return ResultProcessor.processResults( false, results, data );
-	}
-
 	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\)" );
 
 	public static void registerNewItems( String results )
 	{
-
 		// Results now come in like this:
 		//
 		// <table class="item" style="float: none" rel="id=617&s=137&q=0&d=1&g=0&t=1&n=1&m=1&u=u">
@@ -162,6 +146,21 @@ public class ResultProcessor
 				ItemDatabase.registerItem( itemName, descId, relString );
 			}
 		}
+	}
+
+	public static boolean processResults( String results )
+	{
+		return ResultProcessor.processResults( false, results, null );
+	}
+
+	public static boolean processResults( boolean combatResults, String results )
+	{
+		return ResultProcessor.processResults( combatResults, results, null );
+	}
+
+	public static boolean processResults( String results, List data )
+	{
+		return ResultProcessor.processResults( false, results, data );
 	}
 
 	public static boolean processResults( boolean combatResults, String results, List data )
