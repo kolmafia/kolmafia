@@ -303,12 +303,12 @@ public class FightRequest
 		String responseText = FightRequest.lastResponseText;
 
 		// You can normally only win initiative on round 1.
-		if ( FightRequest.currentRound <= 2 )
+		if ( FightRequest.currentRound == 1 )
 			return FightRequest.wonInitiative( responseText );
 
 		// However, if you used Stealth Mistletoe on Round 1, you
 		// effectively won it on round 2 as well
-		if ( FightRequest.currentRound == 3 )
+		if ( FightRequest.currentRound == 2 )
 			return FightRequest.stealthMistletoe( responseText );
 
 		// Otherwise, not a chance
@@ -1394,7 +1394,7 @@ public class FightRequest
 		return desiredSkill == 0 ? "attack" : "skill" + desiredSkill;
 	}
 
-	private static final void checkForInitiative( final String responseText )
+	private static final boolean checkForInitiative( final String responseText )
 	{
 		if ( FightRequest.isAutomatingFight )
 		{
@@ -1431,7 +1431,7 @@ public class FightRequest
 				RequestLogger.updateSessionLog( FightRequest.lostInitiative );
 			}
 
-			return;
+			return false;
 		}
 
 		// Now that you've won initiative, figure out what actually
@@ -1450,7 +1450,7 @@ public class FightRequest
 
 		if ( FightRequest.action1.equals( "" ) || FightRequest.action1.equals( "0" ) )
 		{
-			return;
+			return false;
 		}
 
 		StringBuffer action = new StringBuffer();
@@ -1492,10 +1492,15 @@ public class FightRequest
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 		}
+
 		if ( FightRequest.action1.equals( "3004" ) )
 		{
 			FightRequest.castNoodles = true;
 		}
+
+		// We used up a round's actions
+		++FightRequest.preparatoryRounds;
+		return true;
 	}
 
 	private static final Pattern ONTURN_PATTERN = Pattern.compile( "onturn = (\\d+)" );
@@ -1516,12 +1521,10 @@ public class FightRequest
 		// Spend MP and consume items
 		FightRequest.payActionCost( responseText );
 
-		if ( FightRequest.currentRound == 0 )
-		{
-			FightRequest.checkForInitiative( responseText );
-			FightRequest.currentRound = 1;
-			++FightRequest.preparatoryRounds;
-		}
+		boolean autoAttacked = false;
+
+		// We've started a new round
+		++FightRequest.currentRound;
 
 		// Sanity check: compare our round with what KoL claims it is
 		Matcher m = ONTURN_PATTERN.matcher( responseText );
@@ -1615,6 +1618,8 @@ public class FightRequest
 					break;
 				}
 			}
+
+			autoAttacked = FightRequest.checkForInitiative( responseText );
 		}
 		else
 		{
@@ -1668,6 +1673,13 @@ public class FightRequest
 
 		// Look for special effects
 		FightRequest.updateMonsterHealth( responseText, 0 );
+
+		// *** This doesn't seem right, but is currently necessary for
+		// *** CCS scripts to behave correctly. FIX
+		if ( autoAttacked )
+		{
+			++FightRequest.currentRound;
+		}
 
 		// Check for equipment breakage.
 
@@ -1852,9 +1864,6 @@ public class FightRequest
 			HobopolisDecorator.handleTownSquare( responseText );
 			break;
 		}
-
-		// We are done processing this round.
-		++FightRequest.currentRound;
 
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
