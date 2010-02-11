@@ -685,6 +685,7 @@ public class KoLmafiaCLI
 		new PastamancerEntityCommand().register( "entity" );
 		new PirateInsultsCommand().register( "insults" );
 		new PlayerSnapshotCommand().register( "log" );
+		new PoolCommand().register( "pool" );
 		new PripheaCommand().register( "priphea" );
 		new PulverizeCommand().register( "smash" ).register( "pulverize" );
 		new PvpAttackCommand().register( "pvp" ).register( "attack" );
