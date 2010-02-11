@@ -2310,12 +2310,12 @@
 2301	Chomsky's comic books	none	none	0
 2302	worm-riding hooks	weapon	none	0
 2303	Libram of Candy Heart Summoning	usable	all	0
-2304	white candy heart	multiple, candy	all	5
-2305	pink candy heart	multiple, candy	all	5
-2306	orange candy heart	multiple, candy	all	5
-2307	lavender candy heart	multiple, candy	all	5
-2308	yellow candy heart	multiple, candy	all	5
-2309	green candy heart	multiple, candy	all	5
+2304	white candy heart	multiple, curse, candy	all	5
+2305	pink candy heart	multiple, curse, candy	all	5
+2306	orange candy heart	multiple, curse, candy	all	5
+2307	lavender candy heart	multiple, curse, candy	all	5
+2308	yellow candy heart	multiple, curse, candy	all	5
+2309	green candy heart	multiple, curse, candy	all	5
 2310	white candygram	multiple	display	0
 2311	pink candygram	multiple	display	0
 2312	orange candygram	multiple	display	0
@@ -3060,7 +3060,7 @@
 3051	cursed cutlass	weapon	display	0
 3052	cursed breeches	pants	display	0
 3053	mood ring	accessory	gift	5
-3054	black candy heart	multiple, candy	gift	5
+3054	black candy heart	multiple, curse, candy	gift	5
 3055	cymbal syrup	usable	gift	0
 3056	metallic foil cat ears	hat, usable	all	35
 3057	nanofiber cloth	none	all	16
@@ -3280,13 +3280,13 @@
 3271	crotchety pants	pants	display	0
 3272	Saccharine Maple pendant	accessory	display	0
 3273	willowy bonnet	hat	display	0
-3274	flavored foot massage oil	none	gift	5
-3275	foam dart	none	gift	5
+3274	flavored foot massage oil	none, curse	gift	5
+3275	foam dart	none, curse	gift	5
 3276	black-and-blue light	usable	gift	5
 3277	Loudmouth Larry Lamprey	usable	gift	5
 3278	cheap studded belt	accessory	gift	5
 3279	personal massager	usable	gift	5
-3280	personalized coffee mug	none	gift	0
+3280	personalized coffee mug	none, curse	gift	0
 3281	blue plasma ball	usable	gift	5
 3282	stick-on eyebrow piercing	accessory	gift	5
 3283	delicious salad	food	all	1

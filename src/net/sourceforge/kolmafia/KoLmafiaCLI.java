@@ -715,6 +715,7 @@ public class KoLmafiaCLI
 		new SubmitSpadeDataCommand().register( "spade" );
 		new SummonDemonCommand().register( "summon" );
 		new TelescopeCommand().register( "telescope" );
+		new ThrowItemCommand().register( "throw" );
 		new TrainFamiliarCommand().register( "train" );
 		new TryStatement().register( "try" );
 		new UnaliasCommand().register( "unalias" );
