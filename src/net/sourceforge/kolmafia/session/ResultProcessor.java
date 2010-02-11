@@ -247,17 +247,6 @@ public class ResultProcessor
 
 		String acquisition = lastToken.trim();
 
-		if ( acquisition.startsWith( "You are slowed too much by the water, and a stupid dolphin" ) )
-		{
-			AdventureResult item = ItemPool.get( parsedResults.nextToken().split( " ", 2 )[ 1 ], 1 );
-			if ( item.getItemId() != -1 )
-			{
-				RequestLogger.printLine( "A dolphin stole: " + item );
-				Preferences.setString( "dolphinItem", item.getName() );
-			}
-			return false;
-		}
-
 		if ( acquisition.startsWith( "You acquire" ) )
 		{
 			if ( acquisition.indexOf( "clan trophy" ) != -1 )
@@ -285,13 +274,6 @@ public class ResultProcessor
 		if ( acquisition.startsWith( "You lose an effect" ) )
 		{
 			return ResultProcessor.processEffect( parsedResults, acquisition, data );
-		}
-
-		// The following only under The Sea
-
-		if ( lastToken.startsWith( "You manage to grab" ) )
-		{
-			lastToken = "You gain" + lastToken.substring( 18 );
 		}
 
 		if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " ) || lastToken.startsWith( "You spent " ) )
@@ -461,7 +443,7 @@ public class ResultProcessor
 
 		lastToken = lastToken.trim();
 
-		if ( lastToken.indexOf( "Meat" ) != -1 || lastToken.indexOf( "Meets" ) != -1 )
+		if ( lastToken.indexOf( "Meat" ) != -1 )
 		{
 			return ResultProcessor.processMeat( lastToken, data );
 		}

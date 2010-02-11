@@ -62,7 +62,7 @@ public class TurnCounter
 				this.URL = word;
 			}
 			else break;
-			
+
 			this.parsedLabel = this.parsedLabel.substring( 0, pos ).trim();
 			pos = this.parsedLabel.lastIndexOf( " " );
 		}
@@ -86,7 +86,7 @@ public class TurnCounter
 	public String imageURL()
 	{
 		if ( this.URL != null ) return this.URL;
-		
+
 		if ( this.exemptions != null && this.exemptions.size() == 1 )
 		{	// Exactly one exempt location
 			String loc = (String) this.exemptions.iterator().next();
@@ -105,10 +105,26 @@ public class TurnCounter
 	{
 		return this.image;
 	}
-	
+
 	public int getTurnsRemaining()
 	{
 		return this.value - KoLCharacter.getCurrentRun();
+	}
+
+	public static int turnsRemaining( final String label )
+	{
+		Iterator it = TurnCounter.relayCounters.iterator();
+
+		while ( it.hasNext() )
+		{
+			TurnCounter current = (TurnCounter) it.next();
+			if ( current.parsedLabel.equals( label ) )
+			{
+				return current.value - KoLCharacter.getCurrentRun();
+			}
+		}
+
+		return -1;
 	}
 
 	public boolean equals( final Object o )
@@ -212,7 +228,6 @@ public class TurnCounter
 			return null;
 		}
 
-		TurnCounter current;
 		int thisTurn = KoLCharacter.getCurrentRun();
 		int currentTurns = thisTurn + turnsUsed - 1;
 
@@ -220,7 +235,7 @@ public class TurnCounter
 
 		while ( it.hasNext() )
 		{
-			current = (TurnCounter) it.next();
+			TurnCounter current = (TurnCounter) it.next();
 
 			if ( current.value > currentTurns ||
 				current.lastWarned == thisTurn ||
@@ -228,7 +243,7 @@ public class TurnCounter
 			{
 				continue;
 			}
-			
+
 			if ( informational && current.value > thisTurn )
 			{	// Defer until later, there's no point in reporting an
 				// informational counter prior to actual expiration.
@@ -239,7 +254,7 @@ public class TurnCounter
 			{
 				it.remove();
 			}
-			
+
 			current.lastWarned = thisTurn;
 			return current;
 		}
@@ -249,7 +264,6 @@ public class TurnCounter
 
 	public static final String getUnexpiredCounters()
 	{
-		TurnCounter current;
 		int currentTurns = KoLCharacter.getCurrentRun();
 
 		StringBuffer counters = new StringBuffer();
@@ -257,7 +271,7 @@ public class TurnCounter
 
 		while ( it.hasNext() )
 		{
-			current = (TurnCounter) it.next();
+			TurnCounter current = (TurnCounter) it.next();
 
 			if ( current.value < currentTurns )
 			{	// Can't remove the counter - a counterScript may still
@@ -301,12 +315,11 @@ public class TurnCounter
 
 	public static final void stopCounting( final String label )
 	{
-		TurnCounter current;
 		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			current = (TurnCounter) it.next();
+			TurnCounter current = (TurnCounter) it.next();
 			if ( current.parsedLabel.equals( label ) )
 			{
 				it.remove();
@@ -318,14 +331,13 @@ public class TurnCounter
 
 	public static final boolean isCounting( final String label, final int value )
 	{
-		TurnCounter current;
 		int searchValue = KoLCharacter.getCurrentRun() + value;
 
 		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			current = (TurnCounter) it.next();
+			TurnCounter current = (TurnCounter) it.next();
 			if ( current.parsedLabel.equals( label ) && current.value == searchValue )
 			{
 				return true;
@@ -337,12 +349,11 @@ public class TurnCounter
 
 	public static final boolean isCounting( final String label )
 	{
-		TurnCounter current;
 		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			current = (TurnCounter) it.next();
+			TurnCounter current = (TurnCounter) it.next();
 			if ( current.parsedLabel.equals( label ) )
 			{
 				return true;
@@ -359,12 +370,11 @@ public class TurnCounter
 		minTurns += KoLCharacter.getCurrentRun();
 		maxTurns += KoLCharacter.getCurrentRun();
 		StringBuffer buf = new StringBuffer();
-		TurnCounter current;
 		Iterator it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			current = (TurnCounter) it.next();
+			TurnCounter current = (TurnCounter) it.next();
 			if ( current.value < minTurns || current.value > maxTurns )
 			{
 				continue;

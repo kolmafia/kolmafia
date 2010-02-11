@@ -493,12 +493,6 @@ public class AdventureResult
 			// simply pick the correct one and return the result.
 
 			String statname = parsedGain.nextToken();
-			if ( parsedGain.hasMoreTokens() )
-			{
-				char identifier = statname.charAt( 0 );
-				return new AdventureResult(
-					identifier == 'H' || identifier == 'h' ? AdventureResult.HP : AdventureResult.MP, modifier );
-			}
 
 			if ( statname.startsWith( "Adv" ) )
 			{
@@ -514,6 +508,13 @@ public class AdventureResult
 			{
 				// "Meat" or "Meets", if Can Has Cyborger
 				return new AdventureResult( AdventureResult.MEAT, modifier );
+			}
+
+			if ( parsedGain.hasMoreTokens() )
+			{
+				char identifier = statname.charAt( 0 );
+				return new AdventureResult(
+					identifier == 'H' || identifier == 'h' ? AdventureResult.HP : AdventureResult.MP, modifier );
 			}
 
 			// In the current implementations, all stats gains are

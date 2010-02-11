@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
@@ -892,6 +893,26 @@ public class RequestEditorKit
 			String message = "<tr><td colspan=2>" + RequestEditorKit.advertisingMessage() + "</td></tr>";
 			flyerIndex = buffer.indexOf( "</tr>", flyerIndex );
 			buffer.insert( flyerIndex + 5, message );
+		}
+
+		// You are slowed too much by the water, and a stupid dolphin
+		// swims up and snags <b>a seaweed</b> before you can grab
+		// it.<p>
+
+		int dolphinIndex = buffer.indexOf( "a stupid dolphin swims up and snags" );
+		if ( dolphinIndex != -1 )
+		{
+			// If we have a dolphin whistle in inventory and the
+			// cooldown period is over, offer a link to use it.
+			// (counter decremented after charpane refresh, hence,
+			// check <2 rather than < 1
+			if ( InventoryManager.hasItem( ItemPool.DOLPHIN_WHISTLE ) &&
+			     TurnCounter.turnsRemaining( "Dolphin Whistle cooldown" ) < 2 )
+			{
+				String message = "<br><font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=3997\">use dolphin whistle</a>]</font><br>";
+				dolphinIndex = buffer.indexOf( "<p>", dolphinIndex );
+				buffer.replace( dolphinIndex, dolphinIndex + 3, message );
+			}
 		}
 
 		Matcher matcher = DwarfFactoryRequest.attackMessage( buffer );

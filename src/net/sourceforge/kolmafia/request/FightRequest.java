@@ -1498,8 +1498,6 @@ public class FightRequest
 			FightRequest.castNoodles = true;
 		}
 
-		// We used up a round's actions
-		++FightRequest.preparatoryRounds;
 		return true;
 	}
 
@@ -1678,6 +1676,7 @@ public class FightRequest
 		// *** CCS scripts to behave correctly. FIX
 		if ( autoAttacked )
 		{
+			++FightRequest.preparatoryRounds;
 			++FightRequest.currentRound;
 		}
 
@@ -3293,56 +3292,15 @@ public class FightRequest
 
 			String src = inode.getAttributeByName( "src" );
 			String image = src == null ? null : src.substring( src.lastIndexOf( "/" ) + 1 );
-			String onclick = inode.getAttributeByName( "onclick" );
-			if ( onclick != null )
-			{
-				if ( onclick.startsWith( "descitem" ) )
-				{
-					Matcher m = INT_PATTERN.matcher( onclick );
-					String descid = m.find() ? m.group(1) : null;
-
-					if ( descid != null )
-					{
-						// You acquire an item
-						int itemId = ItemDatabase.getItemIdFromDescription( descid );
-						AdventureResult result = ItemPool.get( itemId, 1 );
-						ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
-					}
-					return;
-				}
-
-				if ( onclick.startsWith( "eff" ) )
-				{
-					// Gain/loss of effect
-					String effect = inode.getAttributeByName( "title" );
-                                        // For prettiness
-                                        String munged = StringUtilities.singleStringReplace( str, "(", " (" );
-					ResultProcessor.processEffect( effect, munged );
-					return;
-				}
-			}
-
-			if ( image.equals( "hkatana.gif" ) )
-			{
-				// You struck with your haiku katana. Pull the
-				// damage out of the img tag if we can
-				String title = inode.getAttributeByName( "title" );
-				if ( title != null )
-				{
-					title = "title=\"" + title + "\"";
-					if (foundHaikuDamage( title, action, status.logMonsterHealth ) )
-					{
-
-						return;
-					}
-				}
-			}
 
 			if ( image.equals( "meat.gif" ) )
 			{
 				// Adjust for Can Has Cyborger
 				str = StringUtilities.singleStringReplace( str, "gets", "gain" );
 				str = StringUtilities.singleStringReplace( str, "Meets", "Meat" );
+
+				// Adjust for The Sea
+				str = StringUtilities.singleStringReplace( str, "manage to grab", "gain" );
 
 				// If we are in The Themthar Hills and we have
 				// seen the "you won" comment, the nuns take
@@ -3402,6 +3360,98 @@ public class FightRequest
 					FightRequest.healthModifier += damage;
 				}
 				return;
+			}
+
+			if ( image.equals( "hkatana.gif" ) )
+			{
+				// You struck with your haiku katana. Pull the
+				// damage out of the img tag if we can
+				String title = inode.getAttributeByName( "title" );
+				if ( title != null )
+				{
+					title = "title=\"" + title + "\"";
+					if (foundHaikuDamage( title, action, status.logMonsterHealth ) )
+					{
+
+						return;
+					}
+				}
+			}
+
+			if ( image.equals( "realdolphin_r.gif" ) )
+			{
+				// You are slowed too much by the water, and a
+				// stupid dolphin swims up and snags a seaweed
+				// before you can grab it.
+
+				// Inside this table is another table with
+				// another image of the stolen dolphin item.
+
+				TagNode tnode = node.findElementByName( "table", true );
+				if ( tnode == null )
+				{
+					return;
+				}
+
+				TagNode inode2 = tnode.findElementByName( "img", true );
+				if ( inode2 == null )
+				{
+					return;
+				}
+
+				String onclick = inode2.getAttributeByName( "onclick" );
+				if ( onclick == null || !onclick.startsWith( "descitem" ) )
+				{
+					return;
+				}
+
+				Matcher m = INT_PATTERN.matcher( onclick );
+				String descid = m.find() ? m.group(1) : null;
+
+				if ( descid == null )
+				{
+					return;
+				}
+
+				int itemId = ItemDatabase.getItemIdFromDescription( descid );
+				if ( itemId == -1 )
+				{
+					return;
+				}
+
+				AdventureResult result = ItemPool.get( itemId, 1 );
+				RequestLogger.printLine( "A dolphin stole: " + result );
+				Preferences.setString( "dolphinItem", result.getName() );
+				return;
+			}
+
+			String onclick = inode.getAttributeByName( "onclick" );
+			if ( onclick != null )
+			{
+				if ( onclick.startsWith( "descitem" ) )
+				{
+					Matcher m = INT_PATTERN.matcher( onclick );
+					String descid = m.find() ? m.group(1) : null;
+
+					if ( descid != null )
+					{
+						// You acquire an item
+						int itemId = ItemDatabase.getItemIdFromDescription( descid );
+						AdventureResult result = ItemPool.get( itemId, 1 );
+						ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+					}
+					return;
+				}
+
+				if ( onclick.startsWith( "eff" ) )
+				{
+					// Gain/loss of effect
+					String effect = inode.getAttributeByName( "title" );
+                                        // For prettiness
+                                        String munged = StringUtilities.singleStringReplace( str, "(", " (" );
+					ResultProcessor.processEffect( effect, munged );
+					return;
+				}
 			}
 
 			// Combat item usage
