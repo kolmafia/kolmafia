@@ -175,7 +175,7 @@ public class FileUtilities
 		}
 
 		String line = readLine( reader );
-		return line == null ? null : line.split( "\t" );
+		return line == null ? null : line.split( "\t", -1 );
 	}
 
 	public static final boolean loadLibrary( final File parent, final String directory, final String filename )
