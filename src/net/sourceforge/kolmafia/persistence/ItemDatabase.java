@@ -861,42 +861,68 @@ public class ItemDatabase
 	 */
 
 	private static Pattern RELSTRING_PATTERN = Pattern.compile( "([\\w]+)=([^&]*)&?");
-	public static final void registerItem( final String itemName, final String descId, final String relString )
+
+        // "id=588&s=118&q=0&d=1&g=0&t=1&n=50&m=0&u=.&ou=use"
+        //   id = item Id
+        //   s = sell value
+        //   q = quest item
+        //   d = discardable
+        //   g = gift item
+        //   t = transferable
+        //   n = number
+        //   m = multiusable
+        //   u = how can this be used?
+        //	 e = Eatable (food/drink) (inv_eat)
+        //	 b = Booze (inv_booze)
+        //	 q = eQuipable (inv_equip)
+        //	 u = potion/Useable (inv_use/multiuse)
+        //	 . = can't (or doesn't fit those types)
+        //  ou = "other use text" which is used to make drinks show
+        //	 "drink" instead of "eat" and for items which over-ride
+        //	 the word "use" in links, like the PYEC or scratch 'n'
+        //	 sniff stickers.
+
+	public static final String relStringValue( final String relString, final String search )
 	{
-		// "id=588&s=118&q=0&d=1&g=0&t=1&n=50&m=0&u=.&ou=use"
-		//   id = item Id
-		//   s = sell value
-		//   q = quest item
-		//   d = discardable
-		//   g = gift item
-		//   t = transferable
-		//   n = number
-		//   m = multiusable
-		//   u = how can this be used?
-		//	 e = Eatable (food/drink) (inv_eat)
-		//	 b = Booze (inv_booze)
-		//	 q = eQuipable (inv_equip)
-		//	 u = potion/Useable (inv_use/multiuse)
-		//	 . = can't (or doesn't fit those types)
-		//  ou = "other use text" which is used to make drinks show
-		//	 "drink" instead of "eat" and for items which over-ride
-		//	 the word "use" in links, like the PYEC or scratch 'n'
-		//	 sniff stickers.
-
-		int itemId = 0;
-
 		Matcher matcher = RELSTRING_PATTERN.matcher( relString );
 		while ( matcher.find() )
 		{
 			String tag = matcher.group(1);
 			String value = matcher.group(2);
-			if ( tag.equals( "id" ) )
+			if ( tag.equals( search ) )
 			{
-				itemId = StringUtilities.parseInt( value );
-				break;
+				return value;
 			}
 		}
 
+		return null;
+	}
+
+	public static final int relStringNumericValue( final String relString, final String search )
+	{
+		String value = ItemDatabase.relStringValue( relString, search );
+		return value != null ? StringUtilities.parseInt( value ) : -1;
+	}
+
+	public static final int relStringItemId( final String relString )
+	{
+		return ItemDatabase.relStringNumericValue( relString, "id" );
+	}
+
+	public static final int relStringCount( final String relString )
+	{
+		return ItemDatabase.relStringNumericValue( relString, "n" );
+	}
+
+	public static final boolean relStringMultiusable( final String relString )
+	{
+		String value = ItemDatabase.relStringValue( relString, "m" );
+		return value != null && value.equals( "1" );
+	}
+
+	public static final void registerItem( final String itemName, final String descId, final String relString )
+	{
+		int itemId = ItemDatabase.relStringItemId( relString );
 		if ( itemId > 0 )
 		{
 			ItemDatabase.registerItem( itemId, itemName, descId );

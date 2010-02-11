@@ -3432,14 +3432,19 @@ public class FightRequest
 				{
 					Matcher m = INT_PATTERN.matcher( onclick );
 					String descid = m.find() ? m.group(1) : null;
-
-					if ( descid != null )
+					if ( descid == null )
 					{
-						// You acquire an item
-						int itemId = ItemDatabase.getItemIdFromDescription( descid );
-						AdventureResult result = ItemPool.get( itemId, 1 );
-						ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
-					}
+                                                // Unexpected.
+                                                return;
+                                        }
+
+					// Get rel string to find count
+					String rel = node.getAttributeByName( "rel" );
+					int count = rel != null ? ItemDatabase.relStringCount( rel ) : 1;
+					// You acquire an item
+					int itemId = ItemDatabase.getItemIdFromDescription( descid );
+					AdventureResult result = ItemPool.get( itemId, count );
+					ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
 					return;
 				}
 
