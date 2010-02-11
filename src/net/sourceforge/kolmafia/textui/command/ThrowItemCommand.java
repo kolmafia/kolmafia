@@ -34,26 +34,51 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.request.CurseRequest;
 
-public class AcquireCommand
+public class ThrowItemCommand
 	extends AbstractCommand
 {
-	public AcquireCommand()
+	public ThrowItemCommand()
 	{
-		this.usage = "[?] <item> - ensure that you have item, creating or buying it if needed.";
+		this.usage = "[?] <item> at <player> [ || <message> ] - use item on someone else";
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void run( String command, String parameters )
 	{
+		String msg = "";
+		int splitPos = parameters.indexOf( "||" );
+		if ( splitPos != -1 )
+		{
+			msg = parameters.substring( splitPos + 2 ).trim();
+			parameters = parameters.substring( 0, splitPos ).trim();
+			RequestLogger.printLine( "(personalized messages not supported yet)" );
+		}
+		splitPos = parameters.indexOf( " at " );
+		if ( splitPos == -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No <s>victim</s>recipient specified." );
+			return;
+		}
+		String target = parameters.substring( splitPos + 4 ).trim();
+		parameters = parameters.substring( 0, splitPos ).trim();
 		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
 		if ( item != null )
 		{
-			SpecialOutfit.createImplicitCheckpoint();
-			InventoryManager.retrieveItem( item, false );
-			SpecialOutfit.restoreImplicitCheckpoint();
+			if ( !ItemDatabase.getAttribute( item.getItemId(), ItemDatabase.ATTR_CURSE ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " +
+					item.getName() + " is not properly balanced for throwing." );
+				return;
+			}
+			RequestThread.postRequest( new CurseRequest( item, target, msg ) );
 		}
 	}
 }

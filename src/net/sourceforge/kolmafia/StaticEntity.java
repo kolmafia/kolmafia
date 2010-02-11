@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
+import net.sourceforge.kolmafia.request.CurseRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
@@ -450,6 +451,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "crimbo09.php" ) )
 		{
 			Crimbo09Request.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "curse.php" ) )
+		{
+			CurseRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "familiar.php" ) && location.indexOf( "ajax=1" ) == -1)

@@ -685,6 +685,16 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Helper queued for next " + count + " beverage" +
 				(count == 1 ? "" : "s") + " drunk." );
 			return;
+		
+		case KoLConstants.NO_CONSUME:
+			// no primary use, but a secondary use may be applicable
+			if ( ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_CURSE ) )
+			{
+				RequestThread.postRequest( new CurseRequest( this.itemUsed ) );
+				return;
+			}
+			KoLmafia.updateDisplay( this.itemUsed.getName() + " is unusable." );
+			return;
 		}
 
 		UseItemRequest.lastUpdate = "";
