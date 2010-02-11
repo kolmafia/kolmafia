@@ -65,6 +65,66 @@ public class ClanLoungeRequest
 	private int action;
 	private int option;
 
+	private static final Pattern STANCE_PATTERN = Pattern.compile( "stance=(\\d*)" );
+
+	public static final Object [][] POOL_GAMES = new Object[][]
+	{
+		{
+			"aggressive", 
+			"muscle",
+			"billiards belligerence",
+			new Integer( AGGRESSIVE_STANCE )
+		},
+		{
+			"strategic",
+			"mysticality",
+			"mental a-cue-ity",
+			new Integer( STRATEGIC_STANCE )
+		},
+		{
+			"stylish",
+			"moxie",
+			"hustlin'",
+			new Integer( STYLISH_STANCE )
+		},
+	};
+
+	public static final int findPoolGame( String tag )
+	{
+		if ( StringUtilities.isNumeric( tag ) )
+		{
+			int index = StringUtilities.parseInt( tag );
+			if ( index >= 1 && index <= POOL_GAMES.length )
+			{
+				return index;
+			}
+		}
+
+		tag = tag.toLowerCase();
+		for ( int i = 0; i < POOL_GAMES.length; ++i )
+		{
+			Object [] game = POOL_GAMES[i];
+			Integer index = (Integer) game[3];
+			String stance = (String) game[0];
+			if ( stance.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String stat = (String) game[1];
+			if ( stat.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String effect = (String) game[2];
+			if ( effect.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+		}
+
+		return 0;
+	}
+
 	/**
 	 * Constructs a new <code>ClanLoungeRequest</code>.
 	 *
@@ -155,10 +215,6 @@ public class ClanLoungeRequest
 		{
 			return "Visiting " + name + " in clan VIP lounge";
 		}
-		if ( urlString.indexOf( "poolgame" ) != -1 )
-		{
-			return "Playing a pool game in clan VIP lounge";
-		}
 		return null;
 	}
 
@@ -208,7 +264,7 @@ public class ClanLoungeRequest
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "clan_viplounge.php" ) )
+		if ( !urlString.startsWith( "clan_viplounge.php" ) || responseText == null )
 		{
 			return;
 		}
@@ -237,6 +293,8 @@ public class ClanLoungeRequest
 			{
 				Preferences.increment( "_hotTubSoaks", 1 );
 			}
+
+			return;
 		}
 
 		if ( action.equals( "klaw" ) )
@@ -256,12 +314,57 @@ public class ClanLoungeRequest
 			{
 				Preferences.setInteger( "_deluxeKlawSummons", 3 );
 			}
+
+			return;
+		}
+
+		if ( action.equals( "pooltable" ) )
+		{
+			// You've already played quite a bit of pool today, so
+			// you just watch with your hands in your pockets.
+
+			if ( responseText.indexOf( "hands in your pockets" ) != -1 )
+			{
+				Preferences.setInteger( "_poolgames", 3 );
+			}
+
+			return;
+		}
+
+		if ( action.equals( "poolgame" ) )
+		{
+			// You skillfully defeat (player) and take control of
+			// the table. Go you!
+			//
+			// You play a game of pool against yourself.
+			// Unsurprisingly, you win! Inevitably, you lose.
+			// 
+			// Try as you might, you are unable to defeat
+			// (player). Ah well. You gave it your best.
+
+			if ( responseText.indexOf( "take control of the table" ) != -1 ||
+			     responseText.indexOf( "play a game of pool against yourself" ) != -1 ||
+			     responseText.indexOf( "you are unable to defeat" ) != -1 )
+			{
+				Preferences.increment( "_poolgames", 1, 3, false );
+			}
+
+			// You're kind of pooled out for today. Maybe you'll be
+			// in the mood to play again tomorrow.
+			else if ( responseText.indexOf( "pooled out for today" ) != -1 )
+			{
+				Preferences.setInteger( "_poolgames", 3 );
+			}
+
+			return;
 		}
 
 		if ( action.equals( "crimbotree" ) )
 		{
 			// You look under the Crimbo Tree and find a present
 			// with your name on it! You excitedly tear it open.
+
+			return;
 		}
 	}
 
@@ -301,10 +404,26 @@ public class ClanLoungeRequest
 
 		if ( message == null )
 		{
-			return false;
+			String action = GenericRequest.getAction( urlString );
+			if ( !action.equals( "poolgame" ) )
+			{
+				return false;
+			}
+
+			Matcher m = STANCE_PATTERN.matcher( urlString );
+			if ( !m.find() )
+			{
+				return false;
+			}
+			int stance = StringUtilities.parseInt( m.group(1) );
+			if ( stance < 1 || stance > POOL_GAMES.length )
+			{
+				return false;
+			}
+			message = "pool " + (String)POOL_GAMES[ stance - 1 ][0];
 		}
 
-		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );
 
 		return true;
