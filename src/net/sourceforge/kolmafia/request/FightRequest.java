@@ -2716,7 +2716,7 @@ public class FightRequest
 	// and this is not the case, then correct the use of this Pattern below.
 
 	private static final Pattern PHYSICAL_PATTERN =
-		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) #?(\\d[\\d,]*) (\\([^.]*\\) |)((?:\\w+ ){0,3})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
+		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|) #?(\\d[\\d,]*) (\\([^.]*\\) |)((?:[^\\s]+ ){0,3})(?:damage|points?|notch(?:es)?|to your opponent|force damage|tiny holes)" );
 
 	private static final Pattern ELEMENTAL_PATTERN =
 		Pattern.compile( "(sown|) \\+?([\\d,]+) (\\([^.]*\\) |)(?:(?:slimy, (?:clammy|gross) |hotsy-totsy |)damage|points|HP worth)" );
@@ -3088,6 +3088,7 @@ public class FightRequest
 	{
 		public final String familiar;
 		public final String diceMessage;
+		public final String ghost;
 		public final boolean logFamiliar;
 		public final boolean logGainMessages;
 		public final boolean logMonsterHealth;
@@ -3114,6 +3115,16 @@ public class FightRequest
 			// Note if we are fighting The Themthar Hills
 			KoLAdventure location = KoLAdventure.lastVisitedLocation();
 			this.nunnery = location != null && location.getAdventureId().equals( "126" );
+
+			if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER )
+			{
+				String name = Preferences.getString( "pastamancerGhostName" );
+				this.ghost = name.equals( "" ) ? null : name;
+			}
+			else
+			{
+				this.ghost = null;
+			}
 		}
 	}
 
@@ -3535,6 +3546,15 @@ public class FightRequest
 				if ( FightRequest.processFumble( text, status ) )
 				{
 					return;
+				}
+
+				if ( status.ghost != null && text.indexOf( status.ghost) != -1 )
+				{
+					// Pastamancer ghost action
+					if ( status.logFamiliar )
+					{
+						FightRequest.logText( text, status );
+					}
 				}
 
 				int damage = FightRequest.parseNormalDamage( text );
@@ -4258,7 +4278,11 @@ public class FightRequest
 			FightRequest.action1 = "summon ghost";
 			if ( shouldLogAction )
 			{
-				action.append( "summons a ghost!" );
+				action.append( "summons " );
+				action.append( Preferences.getString( "pastamancerGhostName" ) );
+				action.append( " the " );
+				action.append( Preferences.getString( "pastamancerGhostType" ) );
+				action.append( "!" );
 			}
 		}
 		else if ( urlString.indexOf( "chefstaff" ) != -1 )
