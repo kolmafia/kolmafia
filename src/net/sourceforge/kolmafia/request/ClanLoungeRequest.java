@@ -125,6 +125,20 @@ public class ClanLoungeRequest
 		return 0;
 	}
 
+	public static final String prettyStanceName( final int stance )
+	{
+		switch ( stance )
+		{
+		case AGGRESSIVE_STANCE:
+			return "an aggressive stance";
+		case STRATEGIC_STANCE:
+			return "a strategic stance";
+		case STYLISH_STANCE:
+			return "a stylish stance";
+		}
+		return "an unknown stance";
+	}
+
 	/**
 	 * Constructs a new <code>ClanLoungeRequest</code>.
 	 *
@@ -236,10 +250,12 @@ public class ClanLoungeRequest
 			break;
 
 		case ClanLoungeRequest.POOL_TABLE:
+			RequestLogger.printLine( "Approaching pool table with " + ClanLoungeRequest.prettyStanceName( option ) + "." );
+
 			this.constructURLString( "clan_viplounge.php" );
 			if ( option != 0 )
 			{
-				this.addFormField( "action", "poolgame" );
+				this.addFormField( "preaction", "poolgame" );
 				this.addFormField( "stance", String.valueOf( option ) );
 			}
 			else
@@ -258,6 +274,36 @@ public class ClanLoungeRequest
 		}
 
 		super.run();
+
+		switch ( this.action )
+		{
+		case ClanLoungeRequest.POOL_TABLE:
+			if ( responseText == null )
+			{
+				RequestLogger.printLine( "No pool table found!" );
+			}
+			if ( responseText.indexOf( "You skillfully defeat" ) != -1 )
+			{
+				RequestLogger.printLine( "You won the pool game!" );
+			}
+			else if ( responseText.indexOf( "You play a game of pool against yourself" ) != -1 )
+			{
+				RequestLogger.printLine( "You beat yourself at pool. Is that a win or a loss?" );
+			}
+			else if ( responseText.indexOf( "you are unable to defeat" ) != -1 )
+			{
+				RequestLogger.printLine( "You lost. Boo hoo." );
+			}
+			else if ( responseText.indexOf( "kind of pooled out" ) != -1 )
+			{
+				RequestLogger.printLine( "You decided not to play." );
+			}
+			else
+			{
+				RequestLogger.printLine( "Huh? Unknown response." );
+			}
+			break;
+		}
 
 		ClanLoungeRequest.parseResponse( this.getURLString(), this.responseText );
 	}
