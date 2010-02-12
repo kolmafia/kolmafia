@@ -292,7 +292,7 @@ Dirty Thieving Brigand	HP: 185 Def: 171 Atk: 169 Meat: 822-1157
 Disease-In-The-Box	HP: 14 Def: 18 Atk: 18	box (30)	disease (40)
 Diving Belle	HP: 750 Def: 500 Atk: 400 E: spooky	diving muff (3)	salinated mint julep (32)	water-polo mitt (c0)
 Dodecapede	HP: 8 Def: 12 Atk: 12 "A Little Bit Poisoned"
-Don Crimbo	HP: 1000000	
+Don Crimbo	HP: 1000000
 Doughbat	HP: 8 Def: 14 Atk: 14 EA: sleaze Meat: 17-27	sonar-in-a-biscuit (20)	wad of dough (30)
 Dr. Awkward	HP: 200 Atk: 170	Drowsy Sword (n100)	Staff of Fats (n100)	fumble formula (p0)
 Drab Bard	HP: 170 Def: 138 Atk: 136 Meat: 34-54	drab sonata (30)	guitar pick (15)	olive (40)
@@ -716,7 +716,7 @@ Tomb Bat	HP: 180 Def: 175 Atk: 175 Meat: 40-60	leathery bat skin (30)	unidentifi
 Tomb Rat	HP: 175 Def: 165 Atk: 161 Meat: 60-90	tomb ratchet (c20)	leathery rat skin (30)	unidentified jerky (12)
 Tomb Servant	HP: 185 Def: 170 Atk: 160 Meat: 40-60 E: spooky	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (12)
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
-Toothy Pirate	HP: 75 Def: 85 Atk: 83 Meat: 36-54	bottle of rum (20)	cocktail napkin (10)	
+Toothy Pirate	HP: 75 Def: 85 Atk: 83 Meat: 36-54	bottle of rum (20)	cocktail napkin (10)
 Toothy Sklelton	HP: 50 Def: 58 Atk: 57 E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)	bone flute (10)
 Topiary Golem	HP: 250 Def: 232 Atk: 232	hedge maze puzzle (60)
 Towering Construct	HP: 450 Atk: 350	El Vibrato punchcard (165 holes) (1)	El Vibrato punchcard (176 holes) (1)
