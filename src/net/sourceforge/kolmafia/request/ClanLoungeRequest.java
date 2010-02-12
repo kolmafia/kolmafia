@@ -468,6 +468,10 @@ public class ClanLoungeRequest
 			}
 			message = "pool " + (String)POOL_GAMES[ stance - 1 ][0];
 		}
+		else
+		{
+			RequestLogger.printLine( message );
+		}
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );
