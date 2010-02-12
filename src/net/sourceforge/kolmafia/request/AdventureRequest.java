@@ -632,6 +632,18 @@ public class AdventureRequest
 					}
 				}
 				return "Unrecognized Limerick";
+			
+			case 114:	// Outskirts of The Knob
+				// Unstubbed
+				// You go back to the tree where the wounded Knob Goblin guard was resting, 
+				// and find him just where you left him, continuing to whine about his stubbed toe.
+				//
+				// "Here you go, tough guy" you say, and hand him the unguent.
+				if ( responseText.indexOf( "you say, and hand him the unguent" ) != -1 )
+				{
+					ResultProcessor.processItem( ItemPool.PUNGENT_UNGUENT, -1 );
+				}
+				break;
 			}
 		}
 		else if ( urlString.startsWith( "barrel.php" ) )
