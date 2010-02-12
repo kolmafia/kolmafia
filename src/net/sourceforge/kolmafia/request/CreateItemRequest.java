@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -852,8 +854,20 @@ public class CreateItemRequest
 			}
 		}
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(
-			this.concoction.getIngredients() );
+		AdventureResult[] ingredients = (AdventureResult[]) ConcoctionDatabase.getIngredients(
+			this.concoction.getIngredients() ).clone();
+		// Sort ingredients by their creatability, so that if the overall creation
+		// is going to fail, it should do so immediately, without wasted effort.
+		Arrays.sort( ingredients, new Comparator() {
+			public int compare( Object o1, Object o2 )
+			{
+				Concoction left = ConcoctionPool.get( (AdventureResult) o1 );
+				if ( left == null ) return -1;
+				Concoction right = ConcoctionPool.get( (AdventureResult) o2 );
+				if ( right == null ) return 1;
+				return left.creatable - right.creatable;
+			}
+		} );
 		int yield = this.yield;
 
 		for ( int i = 0; i < ingredients.length && foundAllIngredients; ++i )
