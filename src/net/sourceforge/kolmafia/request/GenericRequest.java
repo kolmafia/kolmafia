@@ -382,7 +382,7 @@ public class GenericRequest
 		else
 		{
 			this.formURLString = newURLString.substring( 0, formSplitIndex );
-			this.addFormFields( newURLString.substring( formSplitIndex + 1 ), true );
+			this.addFormFields( newURLString.substring( formSplitIndex + 1 ), false );
 		}
 
 		if ( !this.formURLString.equals( oldURLString ) )
@@ -470,9 +470,10 @@ public class GenericRequest
 	}
 
 	/**
-	 * Adds the given form field to the GenericRequest. Descendant classes should use this method if they plan on submitting
-	 * forms to Kingdom of Loathing before a call to the <code>super.run()</code> method. Ideally, these fields can be
-	 * added at construction time.
+	 * Adds the given form field to the GenericRequest. Descendant classes
+	 * should use this method if they plan on submitting forms to Kingdom
+	 * of Loathing before a call to the <code>super.run()</code>
+	 * method. Ideally, these fields can be added at construction time.
 	 *
 	 * @param name The name of the field to be added
 	 * @param value The value of the field to be added
@@ -556,7 +557,7 @@ public class GenericRequest
 		// Browsers are inconsistent about what, exactly, they supply.
 		// 
 		// When you visit the crafting "Discoveries" page and select a
-		// multi-step recipe, you the following as the path:
+		// multi-step recipe, you get the following as the path:
 		//
 		// craft.php?mode=cook&steps[]=2262,2263&steps[]=2264,2265
 		//
@@ -586,7 +587,18 @@ public class GenericRequest
 		//
 		// or, more correctly, with the data URLencoded:
 		//
-		// craft.php?mode=cook&steps[]=2262%2C2263&steps[]=2264%2C2265&action=craft&qty=1&pwd
+		// craft.php?mode=cook&steps%5B%5D=2262%2C2263&steps%5B%5D=2264%2C2265&action=craft&qty=1&pwd
+		//
+		// One additional wrinkle: we now see the following URL:
+		//
+		// craft.php?mode=combine&steps%5B%5D=118,119&steps%5B%5D=120,121
+		//
+		// given the following POST data:
+		//
+		// mode=combine&pwd=5a88021883a86d2b669654f79598101e&action=craft&steps%255B%255D=118%2C119&steps%255B%255D=120%2C121&qty=1
+		//
+		// Notice that the URL is actually NOT encoded and the POST
+		// data IS encoded. So, %255B -> %5B
 
 		int equalIndex = element.indexOf( "=" );
 		if ( equalIndex != -1 )
@@ -596,13 +608,12 @@ public class GenericRequest
 			try
 			{
 				String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
+
 				// The name may or may not be encoded.
 				name = URLDecoder.decode( name, "UTF-8" );
-
-				// The value may or may not be encoded.
 				value = URLDecoder.decode( value, charset );
 
-				// But we want to always submit it encoded.
+				// But we want to always submit value encoded.
 				value = URLEncoder.encode( value, charset );
 			}
 			catch ( IOException e )
