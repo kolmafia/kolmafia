@@ -593,7 +593,7 @@ public class FightRequest
 		if ( FightRequest.action1.indexOf( "run" ) != -1 && FightRequest.action1.indexOf( "away" ) != -1 )
 		{
 			Matcher runAwayMatcher = CustomCombatManager.TRY_TO_RUN_AWAY_PATTERN.matcher( FightRequest.action1 );
-			
+
 			int runaway = 0;
 
 			if ( runAwayMatcher.find() )
@@ -1082,7 +1082,7 @@ public class FightRequest
 		// Adventuring in the Haiku Dungeon
 		// Currently have Haiku State of Mind
 		// Just acquired Haiku State of Mind
-		FightRequest.haveHaikuResults = 
+		FightRequest.haveHaikuResults =
 			KoLAdventure.lastAdventureId() == 138 ||
 			KoLConstants.activeEffects.contains( FightRequest.haikuEffect ) ||
 			responseText.indexOf( EffectPool.HAIKU_STATE_OF_MIND ) != -1 ;
@@ -3160,7 +3160,7 @@ public class FightRequest
 		}
 
 		// Walk up the tree: <td><center><table><tbody><tr><td><img>
-		// 
+		//
 		// The children of that node have everything interesting about
 		// the fight.
 		TagNode fight = img.getParent().getParent().getParent().getParent().getParent().getParent();
@@ -3249,7 +3249,7 @@ public class FightRequest
 		StringBuffer action = status.action;
 
 		// Skip scripts, forms, buttons, and html links
-		if ( name.equals( "script" ) || 
+		if ( name.equals( "script" ) ||
 		     name.equals( "form" ) ||
 		     name.equals( "input" ) ||
 		     name.equals( "a" ) ||
@@ -3332,7 +3332,7 @@ public class FightRequest
 				return;
 			}
 
-			if ( image.equals( "hp.gif" ) || 
+			if ( image.equals( "hp.gif" ) ||
 			     image.equals( "mp.gif" ) )
 			{
 				// You gain HP or MP
@@ -3449,6 +3449,20 @@ public class FightRequest
 			String onclick = inode.getAttributeByName( "onclick" );
 			if ( onclick != null )
 			{
+				if ( onclick.startsWith( "descitem" ) )
+				{
+					Matcher m = INT_PATTERN.matcher( onclick );
+					if ( !m.find() )
+					{
+						return;
+					}
+
+					int itemId = ItemDatabase.getItemIdFromDescription( m.group(1) );
+					AdventureResult result = ItemPool.get( itemId, 1 );
+					ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+					return;
+				}
+
 				if ( onclick.startsWith( "eff" ) )
 				{
 					// Gain/loss of effect
@@ -4403,7 +4417,7 @@ public class FightRequest
 		String name = node.getName();
 
 		// Skip scripts, forms, buttons, and html links
-		if ( name.equals( "script" ) || 
+		if ( name.equals( "script" ) ||
 		     name.equals( "form" ) ||
 		     name.equals( "input" ) ||
 		     name.equals( "a" ) ||
@@ -4415,7 +4429,7 @@ public class FightRequest
 		FightRequest.indent( buffer, level );
 		FightRequest.printTag( buffer, node );
 		RequestLogger.updateDebugLog( buffer.toString() );
-		
+
 		Iterator it = node.getChildren().iterator();
 		while ( it.hasNext() )
 		{
