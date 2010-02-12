@@ -3291,6 +3291,17 @@ public class FightRequest
 			TagNode inode = node.findElementByName( "img", true );
 			if ( inode == null )
 			{
+				// There can be a rel string with no image
+				String rel = node.getAttributeByName( "rel" );
+				if ( rel != null )
+				{
+					int itemId = ItemDatabase.relStringItemId( rel );
+					int count = ItemDatabase.relStringCount( rel );
+					AdventureResult result = ItemPool.get( itemId, count );
+					ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+					return;
+				}
+
 				// No image. Parse combat damage.
 				int damage = FightRequest.parseNormalDamage( str );
 				if ( status.logMonsterHealth )
