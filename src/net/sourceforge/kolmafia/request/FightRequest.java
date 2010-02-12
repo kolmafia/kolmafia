@@ -3261,6 +3261,16 @@ public class FightRequest
 		/// node-specific processing
 		if ( name.equals( "table" ) )
 		{
+			// Items have "rel" strings.
+			String cl = node.getAttributeByName( "class" );
+			String rel = node.getAttributeByName( "rel" );
+			if ( cl != null && cl.equals( "item" ) && rel != null )
+			{
+				AdventureResult result = ItemDatabase.itemFromRelString( rel );
+				ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+				return;
+			}
+
 			StringBuffer text = node.getText();
 			String str = text.toString();
 
@@ -3291,17 +3301,6 @@ public class FightRequest
 			TagNode inode = node.findElementByName( "img", true );
 			if ( inode == null )
 			{
-				// There can be a rel string with no image
-				String rel = node.getAttributeByName( "rel" );
-				if ( rel != null )
-				{
-					int itemId = ItemDatabase.relStringItemId( rel );
-					int count = ItemDatabase.relStringCount( rel );
-					AdventureResult result = ItemPool.get( itemId, count );
-					ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
-					return;
-				}
-
 				// No image. Parse combat damage.
 				int damage = FightRequest.parseNormalDamage( str );
 				if ( status.logMonsterHealth )
@@ -3450,26 +3449,6 @@ public class FightRequest
 			String onclick = inode.getAttributeByName( "onclick" );
 			if ( onclick != null )
 			{
-				if ( onclick.startsWith( "descitem" ) )
-				{
-					Matcher m = INT_PATTERN.matcher( onclick );
-					String descid = m.find() ? m.group(1) : null;
-					if ( descid == null )
-					{
-                                                // Unexpected.
-                                                return;
-                                        }
-
-					// Get rel string to find count
-					String rel = node.getAttributeByName( "rel" );
-					int count = rel != null ? ItemDatabase.relStringCount( rel ) : 1;
-					// You acquire an item
-					int itemId = ItemDatabase.getItemIdFromDescription( descid );
-					AdventureResult result = ItemPool.get( itemId, count );
-					ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
-					return;
-				}
-
 				if ( onclick.startsWith( "eff" ) )
 				{
 					// Gain/loss of effect

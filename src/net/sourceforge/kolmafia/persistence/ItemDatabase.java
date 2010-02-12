@@ -882,6 +882,29 @@ public class ItemDatabase
         //	 the word "use" in links, like the PYEC or scratch 'n'
         //	 sniff stickers.
 
+	public static final AdventureResult itemFromRelString( final String relString )
+	{
+		int itemId = -1;
+		int count = 1;
+
+		Matcher matcher = RELSTRING_PATTERN.matcher( relString );
+		while ( matcher.find() )
+		{
+			String tag = matcher.group(1);
+			String value = matcher.group(2);
+			if ( tag.equals( "id" ) )
+			{
+				itemId = StringUtilities.parseInt( value );
+			}
+			else if ( tag.equals( "n" ) )
+			{
+				count = StringUtilities.parseInt( value );
+			}
+		}
+
+		return ItemPool.get( itemId, count );
+	}
+
 	public static final String relStringValue( final String relString, final String search )
 	{
 		Matcher matcher = RELSTRING_PATTERN.matcher( relString );
