@@ -1896,9 +1896,8 @@ public class FightRequest
 			Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 		}
 
-		// Check for free runaways
-		if ( responseText.indexOf( "shimmers as you quickly float away" ) != -1 ||
-			responseText.indexOf( "a leisurely, relaxed pace" ) != -1 )
+		// Check for runaways. Only a free runaway decreases chance
+		if ( responseText.indexOf( "shimmers as you quickly float away" ) != -1 )
 		{
 			Preferences.increment( "_navelRunaways", 1 );
 		}
