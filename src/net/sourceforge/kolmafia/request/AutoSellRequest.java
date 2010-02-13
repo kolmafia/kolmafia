@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,6 +46,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -96,8 +98,7 @@ public class AutoSellRequest
 		// Autosell: "compact" or "detailed" mode
 
 		// Verify that item actually is autosellable
-		int price = ItemDatabase.getPriceById( item.getItemId() );
-		if ( price <= 0 )
+		if ( ItemDatabase.getPriceById( item.getItemId() ) <= 0 )
 		{
 			return;
 		}
@@ -145,40 +146,56 @@ public class AutoSellRequest
 	{
 		// If you are autoselling multiple items, then it depends on
 		// which mode you are using.
+		return KoLCharacter.getAutosellMode().equals( "detailed" ) ?
+			this.getDetailedModeCapacity() :
+			this.getCompactModeCapacity();
+	}
 
-		int mode = KoLCharacter.getAutosellMode().equals( "detailed" ) ? 1 : 0;
-
-		AdventureResult currentAttachment;
-		int inventoryCount, attachmentCount;
-
+	public int getCompactModeCapacity()
+	{
 		for ( int i = 0; i < this.attachments.length; ++i )
 		{
-			currentAttachment = (AdventureResult) this.attachments[ i ];
-
-			inventoryCount = currentAttachment.getCount( KoLConstants.inventory );
+			AdventureResult currentAttachment = (AdventureResult) this.attachments[ i ];
+			int inventoryCount = currentAttachment.getCount( KoLConstants.inventory );
 			if ( inventoryCount == 0 )
 			{
 				continue;
 			}
 
-			attachmentCount = currentAttachment.getCount();
+			int attachmentCount = currentAttachment.getCount();
 
-			if ( mode == 0 )
+			// We are in compact mode. If we are not selling
+			// everything, we must do it one item at a time
+			if ( attachmentCount < inventoryCount )
 			{
-				// We are in compact mode. If we are not
-				// selling everything, we must do it one item
-				// at a time
-				if ( attachmentCount < inventoryCount )
-				{
-					return 1;
-				}
+				return 1;
+			}
 
-				// Otherwise, look at remaining items
+			// Otherwise, look at remaining items
+		}
+
+		return Integer.MAX_VALUE;
+	}
+
+	public int getDetailedModeCapacity()
+	{
+		int mode = 1;
+
+		for ( int i = 0; i < this.attachments.length; ++i )
+		{
+			AdventureResult currentAttachment = (AdventureResult) this.attachments[ i ];
+
+			int inventoryCount = currentAttachment.getCount( KoLConstants.inventory );
+			if ( inventoryCount == 0 )
+			{
 				continue;
 			}
 
-			if ( mode == 1 )
+			int attachmentCount = currentAttachment.getCount();
+
+			switch ( mode )
 			{
+			case 1:
 				// We are in detailed "sell all" mode.
 				if ( attachmentCount >= inventoryCount )
 				{
@@ -199,29 +216,97 @@ public class AutoSellRequest
 				// Switch to "quantity" mode
 				this.addFormField( "mode", "3" );
 				return 1;
-			}
 
-			// We are in detailed "all but one" mode. This item had
-			// better also be "all but one"
+			case 2:
+				// We are in detailed "all but one" mode. This
+				// item had better also be "all but one"
 
-			if ( attachmentCount != inventoryCount - 1 )
-			{
+				if ( attachmentCount == inventoryCount - 1 )
+				{
+					continue;
+				}
+
 				// Nope. Switch to "quantity" mode
 				this.addFormField( "mode", "3" );
 				return 1;
 			}
-
-			// We continue in "all but one" mode
 		}
 
-		// We can sell all the items with the same mode.
-		if ( mode > 0 )
-		{
-			// Add detailed "mode" field
-			this.addFormField( "mode", String.valueOf( mode ) );
-		}
+		// Add detailed "mode" field
+		this.addFormField( "mode", String.valueOf( mode ) );
 
 		return Integer.MAX_VALUE;
+	}
+
+	public ArrayList generateSubInstances()
+	{
+		// *** Look at all of the attachments and divide them into
+		// *** groups: all, all but one, specific quantities.
+
+		ArrayList subinstances = new ArrayList();
+
+		if ( KoLmafia.refusesContinue() )
+		{
+			return subinstances;
+		}
+
+		// Autosell singleton items only if we buy them again
+		boolean allowSingleton = KoLCharacter.canInteract();
+
+		// Autosell memento items only if player doesn't care
+		boolean allowMemento = !Preferences.getBoolean( "mementoListActive" );
+
+		int capacity = this.getCapacity();
+
+		ArrayList nextAttachments = new ArrayList();
+		int index = 0;
+
+		while ( index < this.attachments.length )
+		{
+			nextAttachments.clear();
+
+			do
+			{
+				AdventureResult item = (AdventureResult) this.attachments[ index++ ];
+
+				if ( item == null )
+				{
+					continue;
+				}
+
+				if ( !allowMemento && KoLConstants.mementoList.contains( item ) )
+				{
+					continue;
+				}
+
+				int availableCount = item.getCount( this.source );
+
+				if ( !allowSingleton && KoLConstants.singletonList.contains( item ) )
+				{
+					availableCount = keepSingleton( item, availableCount );
+				}
+
+				if ( availableCount <= 0 )
+				{
+					continue;
+				}
+
+				nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
+			}
+			while ( index < this.attachments.length && nextAttachments.size() < capacity );
+
+			// For each broken-up request, create a new request
+			// which will has the appropriate data to post.
+
+			if ( !nextAttachments.isEmpty() )
+			{
+				TransferItemRequest subinstance = this.getSubInstance( nextAttachments.toArray() );
+				subinstance.isSubInstance = true;
+				subinstances.add( subinstance );
+			}
+		}
+
+		return subinstances;
 	}
 
 	public TransferItemRequest getSubInstance( final Object[] attachments )

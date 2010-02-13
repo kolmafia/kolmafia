@@ -52,9 +52,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class AutoMallRequest
 	extends TransferItemRequest
 {
-	public static final Pattern AUTOSELL_PATTERN = Pattern.compile( "for ([\\d,]+) [Mm]eat" );
-	private static final Pattern EMBEDDED_ID_PATTERN = Pattern.compile( "item(\\d+)" );
-
 	private final int[] prices;
 	private final int[] limits;
 
