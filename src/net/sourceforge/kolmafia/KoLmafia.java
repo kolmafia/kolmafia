@@ -73,6 +73,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AccountRequest;
+import net.sourceforge.kolmafia.request.AutoMallRequest;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -97,7 +99,6 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
-import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -2954,12 +2955,12 @@ public abstract class KoLmafia
 
 		if ( autosell.size() > 0 && KoLmafia.permitsContinue() )
 		{
-			RequestThread.postRequest( new SellStuffRequest( autosell.toArray(), SellStuffRequest.AUTOSELL ) );
+			RequestThread.postRequest( new AutoSellRequest( autosell.toArray() ) );
 		}
 
 		if ( automall.size() > 0 && KoLmafia.permitsContinue() )
 		{
-			RequestThread.postRequest( new SellStuffRequest( automall.toArray(), SellStuffRequest.AUTOMALL ) );
+			RequestThread.postRequest( new AutoMallRequest( automall.toArray() ) );
 		}
 
 		// Now, remove all the items that you intended

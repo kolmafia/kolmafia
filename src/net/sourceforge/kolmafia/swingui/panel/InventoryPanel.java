@@ -52,7 +52,8 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.AutoMallRequest;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -75,8 +76,8 @@ public class InventoryPanel
 
 		ArrayList listeners = new ArrayList();
 		listeners.add( useListener );
-		listeners.add( new AutoSellListener( isCloset, SellStuffRequest.AUTOSELL ) );
-		listeners.add( new AutoSellListener( isCloset, SellStuffRequest.AUTOMALL ) );
+		listeners.add( new AutoSellListener( isCloset, true ) );
+		listeners.add( new AutoSellListener( isCloset, false ) );
 		listeners.add( new PulverizeListener( isCloset ) );
 		listeners.add( new PutInClosetListener( isCloset ) );
 		listeners.add( new PutOnDisplayListener( isCloset ) );

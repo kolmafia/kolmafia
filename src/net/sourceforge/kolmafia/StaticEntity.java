@@ -55,6 +55,8 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
+import net.sourceforge.kolmafia.request.AutoMallRequest;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -87,7 +89,6 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
-import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
@@ -592,7 +593,7 @@ public abstract class StaticEntity
 
 		else if ( location.startsWith( "managestore.php" ) )
 		{
-			SellStuffRequest.parseMallSell( location, responseText );
+			AutoMallRequest.parseTransfer( location, responseText );
 		}
 
 		else if ( location.startsWith( "manor3" ) )
@@ -645,12 +646,12 @@ public abstract class StaticEntity
 
 		else if ( location.startsWith( "sellstuff.php" ) )
 		{
-			SellStuffRequest.parseCompactAutoSell( location, responseText );
+			AutoSellRequest.parseCompactAutoSell( location, responseText );
 		}
 
 		else if ( location.startsWith( "sellstuff_ugly.php" ) )
 		{
-			SellStuffRequest.parseDetailedAutoSell( location, responseText );
+			AutoSellRequest.parseDetailedAutoSell( location, responseText );
 		}
 
 		else if ( location.startsWith( "sendmessage.php" ) )

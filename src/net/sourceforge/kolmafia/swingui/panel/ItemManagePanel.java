@@ -56,13 +56,14 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.AutoMallRequest;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
-import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -693,28 +694,28 @@ public class ItemManagePanel
 	public class AutoSellListener
 		extends TransferListener
 	{
-		private final int sellType;
+		private final boolean autosell;
 
-		public AutoSellListener( final boolean retrieveFromClosetFirst, final int sellType )
+		public AutoSellListener( final boolean retrieveFromClosetFirst, final boolean autosell )
 		{
-			super( sellType == SellStuffRequest.AUTOSELL ? "Autoselling" : "Mallselling", retrieveFromClosetFirst );
-			this.sellType = sellType;
+			super( autosell ? "Autoselling" : "Mallselling", retrieveFromClosetFirst );
+			this.autosell = autosell;
 		}
 
 		public void run()
 		{
-			if ( this.sellType == SellStuffRequest.AUTOMALL && !KoLCharacter.hasStore() )
+			if ( !this.autosell && !KoLCharacter.hasStore() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't own a store in the mall." );
 				return;
 			}
 
-			if ( this.sellType == SellStuffRequest.AUTOSELL && !InputFieldUtilities.confirm( "Are you sure you would like to sell the selected items?" ) )
+			if ( this.autosell && !InputFieldUtilities.confirm( "Are you sure you would like to sell the selected items?" ) )
 			{
 				return;
 			}
 
-			if ( this.sellType == SellStuffRequest.AUTOMALL && !InputFieldUtilities.confirm( "Are you sure you would like to place the selected items in your store?" ) )
+			if ( !this.autosell && !InputFieldUtilities.confirm( "Are you sure you would like to place the selected items in your store?" ) )
 			{
 				return;
 			}
@@ -725,12 +726,19 @@ public class ItemManagePanel
 				return;
 			}
 
-			RequestThread.postRequest( new SellStuffRequest( items, this.sellType ) );
+			if ( autosell )
+			{
+				RequestThread.postRequest( new AutoSellRequest( items ) );
+			}
+			else
+			{
+				RequestThread.postRequest( new AutoMallRequest( items ) );
+			}
 		}
 
 		public String toString()
 		{
-			return this.sellType == SellStuffRequest.AUTOSELL ? "auto sell" : "place in mall";
+			return this.autosell ? "auto sell" : "place in mall";
 		}
 	}
 

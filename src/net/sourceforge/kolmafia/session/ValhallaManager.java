@@ -17,9 +17,9 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -95,7 +95,7 @@ public class ValhallaManager
 
 		if ( items.size() > 0 )
 		{
-			SellStuffRequest request = new SellStuffRequest( items.toArray(), SellStuffRequest.AUTOSELL );
+			AutoSellRequest request = new AutoSellRequest( items.toArray() );
 			RequestThread.postRequest( request );
 		}
 
