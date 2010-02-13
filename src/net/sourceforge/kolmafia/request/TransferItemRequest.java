@@ -135,6 +135,44 @@ public abstract class TransferItemRequest
 
 	private void runSubInstances()
 	{
+		// Generate the subinstances. Subclasses can override how this
+		// is done. The first request will have the Meat, if any.
+
+		ArrayList subinstances = this.generateSubInstances();
+
+		// Run the subinstances.
+		TransferItemRequest[] requests = new TransferItemRequest[ subinstances.size() ];
+		subinstances.toArray( requests );
+
+		RequestThread.openRequestSequence();
+
+		String status = this.getStatusMessage();
+		for ( int i = 0; i < requests.length; ++i )
+		{
+			if ( requests.length == 1 )
+			{
+				KoLmafia.updateDisplay( status + "..." );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( status + " (request " + ( i + 1 ) + " of " + requests.length + ")..." );
+			}
+
+			requests[ i ].run();
+		}
+
+		RequestThread.closeRequestSequence();
+	}
+
+	public ArrayList generateSubInstances()
+	{
+		ArrayList subinstances = new ArrayList();
+
+		if ( KoLmafia.refusesContinue() )
+		{
+			return subinstances;
+		}
+
 		boolean allowNoDisplay = this.allowUndisplayableTransfer();
 		boolean allowNoGift = this.allowUngiftableTransfer();
 		boolean allowSingleton = this.allowSingletonTransfer();
@@ -142,19 +180,18 @@ public abstract class TransferItemRequest
 		boolean allowMemento = !Preferences.getBoolean( "mementoListActive" ) || this.allowMementoTransfer();
 		int capacity = this.getCapacity();
 
-		ArrayList subinstances = new ArrayList();
 		int meatAttachment = 0;
 
 		ArrayList nextAttachments = new ArrayList();
-		int index1 = 0;
+		int index = 0;
 
-		while ( index1 < this.attachments.length )
+		while ( index < this.attachments.length )
 		{
 			nextAttachments.clear();
 
 			do
 			{
-				AdventureResult item = (AdventureResult) this.attachments[ index1++ ];
+				AdventureResult item = (AdventureResult) this.attachments[ index++ ];
 
 				if ( item == null )
 				{
@@ -201,13 +238,12 @@ public abstract class TransferItemRequest
 
 				nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
 			}
-			while ( index1 < this.attachments.length && nextAttachments.size() < capacity );
+			while ( index < this.attachments.length && nextAttachments.size() < capacity );
 
-			// For each broken-up request, you create a new sending
-			// request which will create the appropriate data to
-			// post.
+			// For each broken-up request, create a new request
+			// which will has the appropriate data to post.
 
-			if ( !KoLmafia.refusesContinue() && !nextAttachments.isEmpty() )
+			if ( !nextAttachments.isEmpty() )
 			{
 				TransferItemRequest subinstance = this.getSubInstance( nextAttachments.toArray() );
 				subinstance.isSubInstance = true;
@@ -215,50 +251,25 @@ public abstract class TransferItemRequest
 			}
 		}
 
-		// Now that you've determined all the sub instances, run
-		// all of them.
-
 		if ( subinstances.size() == 0 )
 		{
-			if ( meatAttachment > 0 )
-			{
-				this.addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
-			}
-
-			KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
-			super.run();
-
-			return;
+			// This can only happen if we are sending no items
+			subinstances.add( this );
 		}
-
-		TransferItemRequest[] requests = new TransferItemRequest[ subinstances.size() ];
-		subinstances.toArray( requests );
-
-		RequestThread.openRequestSequence();
 
 		if ( meatAttachment > 0 )
 		{
-			requests[ 0 ].addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
+			// Attach all the Meat to the first request
+			TransferItemRequest first = (TransferItemRequest) subinstances.get(0);
+			
+			first.addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
+
 		}
 
-		for ( int i = 0; i < requests.length; ++i )
-		{
-			if ( requests.length == 1 )
-			{
-				KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( this.getStatusMessage() + " (request " + ( i + 1 ) + " of " + requests.length + ")..." );
-			}
-
-			requests[ i ].run();
-		}
-
-		RequestThread.closeRequestSequence();
+		return subinstances;
 	}
 
-	private int keepSingleton( final AdventureResult item, final int count )
+	public int keepSingleton( final AdventureResult item, final int count )
 	{
 		// We're doing something dangerous with a singleton item
 
@@ -280,8 +291,8 @@ public abstract class TransferItemRequest
 	}
 
 	/**
-	 * Runs the request. Note that this does not report an error if it fails; it merely parses the results to see if any
-	 * gains were made.
+	 * Runs the request. Note that this does not report an error if it
+	 * fails; it merely parses the results to see if any gains were made.
 	 */
 
 	public void run()
