@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -68,6 +70,7 @@ public class RefreshStatusCommand
 		else if ( parameters.startsWith( "stick" ) )
 		{
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS ) );
+			parameters = "equip";
 		}
 		else if ( parameters.startsWith( "inv" ) )
 		{
@@ -89,6 +92,12 @@ public class RefreshStatusCommand
 			parameters = "familiars";
 			RequestThread.postRequest( new FamiliarRequest() );
 		}
+		else
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, parameters +
+				" cannot be refreshed." );
+			return;
+		};
 
 		ShowDataCommand.show( parameters );
 	}
