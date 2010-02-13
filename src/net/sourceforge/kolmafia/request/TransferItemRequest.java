@@ -254,6 +254,7 @@ public abstract class TransferItemRequest
 		if ( subinstances.size() == 0 )
 		{
 			// This can only happen if we are sending no items
+			this.isSubInstance = true;
 			subinstances.add( this );
 		}
 
