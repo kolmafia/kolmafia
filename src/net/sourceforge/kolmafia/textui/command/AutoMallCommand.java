@@ -39,7 +39,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.AutoMallRequest;
 
 public class AutoMallCommand
 	extends AbstractCommand
@@ -90,7 +90,7 @@ public class AutoMallCommand
 
 		if ( !sellList.isEmpty() )
 		{
-			RequestThread.postRequest( new SellStuffRequest( sellList.toArray(), SellStuffRequest.AUTOMALL ) );
+			RequestThread.postRequest( new AutoMallRequest( sellList.toArray() ) );
 		}
 
 		RequestThread.closeRequestSequence();

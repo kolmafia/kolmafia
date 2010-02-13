@@ -46,60 +46,22 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class SellStuffRequest
+public class AutoSellRequest
 	extends TransferItemRequest
 {
 	public static final Pattern AUTOSELL_PATTERN = Pattern.compile( "for ([\\d,]+) [Mm]eat" );
 	private static final Pattern EMBEDDED_ID_PATTERN = Pattern.compile( "item(\\d+)" );
 
-	private final int sellType;
-
-	private final int[] prices;
-	private final int[] limits;
-
-	public static final int AUTOSELL = 1;
-	public static final int AUTOMALL = 2;
-
-	public SellStuffRequest( final AdventureResult item )
+	public AutoSellRequest( final AdventureResult item )
 	{
-		this( new AdventureResult[] { item }, SellStuffRequest.AUTOSELL );
+		this( new AdventureResult[] { item } );
 	}
 
-	public SellStuffRequest( final AdventureResult item, final int price, final int limit )
+	public AutoSellRequest( final Object[] items )
 	{
-		this( new AdventureResult[] { item }, new int[] { price }, new int[] { limit }, SellStuffRequest.AUTOMALL );
-	}
-
-	public SellStuffRequest( final Object[] items, final int sellType )
-	{
-		this( items, new int[ 0 ], new int[ 0 ], sellType );
-	}
-
-	public SellStuffRequest( final Object[] items, final int[] prices, final int[] limits, final int sellType )
-	{
-		super( SellStuffRequest.getSellPage( sellType ), items );
-
-		this.sellType = sellType;
-		this.prices = new int[ prices.length ];
-		this.limits = new int[ limits.length ];
-
-		if ( sellType == SellStuffRequest.AUTOMALL )
-		{
-			this.addFormField( "action", "additem" );
-
-			for ( int i = 0; i < prices.length; ++i )
-			{
-				this.prices[ i ] = prices[ i ];
-			}
-
-			for ( int i = 0; i < limits.length; ++i )
-			{
-				this.limits[ i ] = limits[ i ];
-			}
-		}
+		super( AutoSellRequest.getSellPage(), items );
 	}
 
 	public String getItemField()
@@ -117,46 +79,20 @@ public class SellStuffRequest
 		return "sendmeat";
 	}
 
-	private static final String getSellPage( final int sellType )
+	private static final String getSellPage()
 	{
-		if ( sellType == SellStuffRequest.AUTOMALL )
-		{
-			return "managestore.php";
-		}
-
 		// Get the autosell mode the first time we need it
 		if ( KoLCharacter.getAutosellMode().equals( "" ) )
 		{
 			( new AccountRequest() ).run();
 		}
 
-		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
-		{
-			return "sellstuff_ugly.php";
-		}
-
-		return "sellstuff.php";
+		return KoLCharacter.getAutosellMode().equals( "detailed" ) ?
+			"sellstuff_ugly.php" : "sellstuff.php";
 	}
 
 	public void attachItem( final AdventureResult item, final int index )
 	{
-		if ( this.sellType == SellStuffRequest.AUTOMALL )
-		{
-			this.addFormField( "item" + index, String.valueOf( item.getItemId() ) );
-			this.addFormField( this.getQuantityField() + index, String.valueOf( item.getCount() ) );
-			
-			int pos = Arrays.asList( this.attachments ).indexOf( item ) & 0xFFFF;
-
-			this.addFormField(
-				"price" + index,
-				pos >= this.prices.length || this.prices[ pos ] == 0 ? "" : String.valueOf( this.prices[ pos ] ) );
-			this.addFormField(
-				"limit" + index,
-				pos >= this.limits.length || this.limits[ pos ] == 0 ? "" : String.valueOf( this.limits[ pos ] ) );
-
-			return;
-		}
-
 		// Autosell: "compact" or "detailed" mode
 
 		// Verify that item actually is autosellable
@@ -207,16 +143,8 @@ public class SellStuffRequest
 
 	public int getCapacity()
 	{
-		// If you are attempting to send things to the mall,
-		// the capacity is one.
-
-		if ( this.sellType == SellStuffRequest.AUTOMALL )
-		{
-			return 11;
-		}
-
-		// Otherwise, if you are autoselling multiple items,
-		// then it depends on which mode you are using.
+		// If you are autoselling multiple items, then it depends on
+		// which mode you are using.
 
 		int mode = KoLCharacter.getAutosellMode().equals( "detailed" ) ? 1 : 0;
 
@@ -298,62 +226,29 @@ public class SellStuffRequest
 
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
-		int[] prices = new int[ this.prices.length == 0 ? 0 : attachments.length ];
-		int[] limits = new int[ this.prices.length == 0 ? 0 : attachments.length ];
-
-		for ( int i = 0; i < prices.length; ++i )
-		{
-			for ( int j = 0; j < this.attachments.length; ++j )
-			{
-				if ( attachments[ i ].equals( this.attachments[ j ] ) )
-				{
-					prices[ i ] = this.prices[ j ];
-					limits[ i ] = this.limits[ j ];
-				}
-			}
-		}
-
-		return new SellStuffRequest( attachments, prices, limits, this.sellType );
+		return new AutoSellRequest( attachments );
 	}
 
 	public void processResults()
 	{
 		super.processResults();
-
-		if ( this.sellType == SellStuffRequest.AUTOMALL )
-		{
-			// We placed stuff in the mall.
-			if ( this.responseText.indexOf( "You don't have a store." ) != -1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a store." );
-				return;
-			}
-
-			KoLmafia.updateDisplay( "Items offered up for sale." );
-			return;
-		}
-
 		KoLmafia.updateDisplay( "Items sold." );
 	}
 
 	public boolean parseTransfer()
 	{
-		return SellStuffRequest.parseTransfer( this.getURLString(), this.responseText );
+		return AutoSellRequest.parseTransfer( this.getURLString(), this.responseText );
         }
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
 		if ( urlString.startsWith( "sellstuff.php" ) )
 		{
-			return SellStuffRequest.parseCompactAutoSell( urlString, responseText );
+			return AutoSellRequest.parseCompactAutoSell( urlString, responseText );
 		}
 		if ( urlString.startsWith( "sellstuff_ugly.php" ) )
 		{
-			return SellStuffRequest.parseDetailedAutoSell( urlString, responseText );
-		}
-		if ( urlString.startsWith( "managestore.php" ) )
-		{
-			return SellStuffRequest.parseMallSell( urlString, responseText );
+			return AutoSellRequest.parseDetailedAutoSell( urlString, responseText );
 		}
 		return false;
 	}
@@ -407,14 +302,14 @@ public class SellStuffRequest
 		}
 
 		TransferItemRequest.transferItems( urlString, 
-			SellStuffRequest.EMBEDDED_ID_PATTERN,
+			AutoSellRequest.EMBEDDED_ID_PATTERN,
 			null,
 			KoLConstants.inventory, null, quantity );
 
 		// "You sell your 2 disturbing fanfics to an organ
 		// grinder's monkey for 264 Meat."
 
-		Matcher matcher = SellStuffRequest.AUTOSELL_PATTERN.matcher( responseText );
+		Matcher matcher = AutoSellRequest.AUTOSELL_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
 			int amount = StringUtilities.parseInt( matcher.group( 1 ) );
@@ -430,36 +325,41 @@ public class SellStuffRequest
 		return true;
 	}
 
-	public static final boolean parseMallSell( final String urlString, final String responseText )
+	public boolean allowMementoTransfer()
 	{
-		if ( urlString.indexOf( "action=additem" ) == -1 )
-		{
-			return false;
-		}
+		return false;
+	}
 
-		if ( responseText.indexOf( "You don't have a store." ) != -1 )
-		{
-			return false;
-		}
+	public boolean allowSingletonTransfer()
+	{
+		return KoLCharacter.canInteract();
+	}
 
-		TransferItemRequest.transferItems( urlString, 
-			TransferItemRequest.ITEMID_PATTERN,
-			TransferItemRequest.QTY_PATTERN,
-			KoLConstants.inventory, null, 1 );
-
-		ConcoctionDatabase.refreshConcoctions();
-		StoreManager.update( responseText, false );
+	public boolean allowUntradeableTransfer()
+	{
 		return true;
+	}
+
+	public boolean allowUndisplayableTransfer()
+	{
+		return true;
+	}
+
+	public boolean allowUngiftableTransfer()
+	{
+		return true;
+	}
+
+	public String getStatusMessage()
+	{
+		return "Autoselling items to NPCs";
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
 		Pattern itemPattern = null;
 		Pattern quantityPattern = null;
-
 		int quantity = 1;
-
-		String sellType = null;
 
 		if ( urlString.startsWith( "sellstuff.php" ) )
 		{
@@ -479,7 +379,6 @@ public class SellStuffRequest
 			}
 
 			itemPattern = TransferItemRequest.ITEMID_PATTERN;
-			sellType = "autosell";
 		}
 		else if ( urlString.startsWith( "sellstuff_ugly.php" ) )
 		{
@@ -498,14 +397,7 @@ public class SellStuffRequest
 				quantity = -1;
 			}
 
-			itemPattern = SellStuffRequest.EMBEDDED_ID_PATTERN;
-			sellType = "autosell";
-		}
-		else if ( urlString.startsWith( "managestore.php" ) && urlString.indexOf( "action=additem" ) != -1 )
-		{
-			itemPattern = TransferItemRequest.ITEMID_PATTERN;
-			quantityPattern = TransferItemRequest.QTY_PATTERN;
-			sellType = "mallsell";
+			itemPattern = AutoSellRequest.EMBEDDED_ID_PATTERN;
 		}
 		else
 		{
@@ -513,36 +405,6 @@ public class SellStuffRequest
 		}
 
 		return TransferItemRequest.registerRequest(
-			sellType, urlString, itemPattern, quantityPattern, KoLConstants.inventory, quantity );
-	}
-
-	public boolean allowMementoTransfer()
-	{
-		return false;
-	}
-
-	public boolean allowSingletonTransfer()
-	{
-		return KoLCharacter.canInteract();
-	}
-
-	public boolean allowUntradeableTransfer()
-	{
-		return this.sellType == SellStuffRequest.AUTOSELL;
-	}
-
-	public boolean allowUndisplayableTransfer()
-	{
-		return this.sellType == SellStuffRequest.AUTOSELL;
-	}
-
-	public boolean allowUngiftableTransfer()
-	{
-		return this.sellType == SellStuffRequest.AUTOSELL;
-	}
-
-	public String getStatusMessage()
-	{
-		return this.sellType == SellStuffRequest.AUTOMALL ? "Transferring items to store" : "Autoselling items to NPCs";
+			"autosell", urlString, itemPattern, quantityPattern, KoLConstants.inventory, quantity );
 	}
 }

@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallSellCommand
@@ -126,6 +126,6 @@ public class MallSellCommand
 			}
 		}
 
-		RequestThread.postRequest( new SellStuffRequest( items, prices, limits, SellStuffRequest.AUTOMALL ) );
+		RequestThread.postRequest( new AutoMallRequest( items, prices, limits ) );
 	}
 }

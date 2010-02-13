@@ -63,8 +63,9 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.AutoMallRequest;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
-import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.button.TableButton;
@@ -348,7 +349,7 @@ public class StoreManageFrame
 			StoreManageFrame.this.addTable.setValueAt( new Integer( 0 ), 0, 1 );
 			StoreManageFrame.this.addTable.setValueAt( new Integer( 0 ), 0, 3 );
 
-			RequestThread.postRequest( new SellStuffRequest( soldItem, price, limit ) );
+			RequestThread.postRequest( new AutoMallRequest( soldItem, price, limit ) );
 		}
 	}
 
@@ -431,7 +432,7 @@ public class StoreManageFrame
 			}
 
 			RequestThread.openRequestSequence();
-			RequestThread.postRequest( new SellStuffRequest( items, SellStuffRequest.AUTOMALL ) );
+			RequestThread.postRequest( new AutoMallRequest( items ) );
 			RequestThread.postRequest( new ManageStoreRequest( false ) );
 			RequestThread.closeRequestSequence();
 		}
@@ -439,7 +440,7 @@ public class StoreManageFrame
 		public void actionCancelled()
 		{
 			Object[] items = this.getDesiredItems( "Autosell" );
-			RequestThread.postRequest( new SellStuffRequest( items, SellStuffRequest.AUTOSELL ) );
+			RequestThread.postRequest( new AutoSellRequest( items ) );
 		}
 	}
 
@@ -491,7 +492,7 @@ public class StoreManageFrame
 							( (SoldItem) items[ i ] ).getItemId(), ( (SoldItem) items[ i ] ).getQuantity() );
 				}
 
-				RequestThread.postRequest( new SellStuffRequest( itemsToSell, SellStuffRequest.AUTOSELL ) );
+				RequestThread.postRequest( new AutoSellRequest( itemsToSell ) );
 			}
 		}
 	}

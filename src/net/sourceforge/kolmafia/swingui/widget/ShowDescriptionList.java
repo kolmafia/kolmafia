@@ -60,10 +60,10 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
-import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -825,8 +825,8 @@ public class ShowDescriptionList
 				return;
 			}
 
-			RequestThread.postRequest( new SellStuffRequest(
-				ShowDescriptionList.this.getSelectedValues(), SellStuffRequest.AUTOSELL ) );
+			RequestThread.postRequest( new AutoSellRequest(
+				ShowDescriptionList.this.getSelectedValues() ) );
 		}
 	}
 
