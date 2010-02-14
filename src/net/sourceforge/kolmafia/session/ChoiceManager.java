@@ -1919,7 +1919,7 @@ public abstract class ChoiceManager
 			// Fill in items corresponding to choices
 			for ( int i = 0; i < 3; ++i )
 			{
-				if ( result[ 2 ][ i ].equals( "shot of rotgut" ) )
+				if ( result[ 2 ][ i ].startsWith( "shot of rotgut" ) )
 				{
 					result[ 3 ][ i ] = "2948";
 				}
@@ -1981,7 +1981,7 @@ public abstract class ChoiceManager
 		{
 			// A parallel array of items is the fourth element
 			// Caller will fill it in
-			result[ 3 ] = new String[ 3 ];
+			result[ 3 ] = new String[ result[ 2 ].length ];
 		}
 
 		return result;
@@ -2016,15 +2016,9 @@ public abstract class ChoiceManager
 
 		case 184:
 			// That Explains All The Eyepatches
-			result = new String[ 3 ];
+			result = new String[ 6 ];
 
-			// The choices are all stat based.
-			//
-			// The are definitely NOT based on buffed stat.	 It
-			// could be based on base stat or on character class -
-			// which are the same, bar great effort
-			//
-			// Base stat appears to have been incorrect - use character class.
+			// The choices are based on character class.
 
 			int stat = KoLCharacter.getPrimeIndex() + 1;
 
@@ -2032,9 +2026,12 @@ public abstract class ChoiceManager
 			// Mys: drunkenness, shot of rotgut (2948), shot of rotgut (2948)
 			// Mox: combat, drunkenness, shot of rotgut (2948)
 
-			result[ 0 ] = stat == KoLConstants.MYSTICALITY ? "drunkenness and stats" : "enter combat";
-			result[ 1 ] = stat == KoLConstants.MOXIE ? "drunkenness and stats" : "shot of rotgut";
-			result[ 2 ] = stat == KoLConstants.MUSCLE ? "drunkenness and stats" : "shot of rotgut";
+			result[ 0 ] = stat == KoLConstants.MYSTICALITY ? "3 drunk and stats (varies by class)" : "enter combat (varies by class)";
+			result[ 1 ] = stat == KoLConstants.MOXIE ? "3 drunk and stats (varies by class)" : "shot of rotgut (varies by class)";
+			result[ 2 ] = stat == KoLConstants.MUSCLE ? "3 drunk and stats (varies by class)" : "shot of rotgut (varies by class)";
+			result[ 3 ] = "always 3 drunk & stats";
+			result[ 4 ] = "always shot of rotgut";
+			result[ 5 ] = "combat (or rotgut if Myst class)";
 			return result;
 
 		case 187:
@@ -3244,6 +3241,36 @@ public abstract class ChoiceManager
 
 			return EquipmentManager.isWearingOutfit( 8 ) ? decision : "2";
 
+		// That Explains All The Eyepatches
+		case 184:
+			switch ( KoLCharacter.getPrimeIndex() * 10 + StringUtilities.parseInt( decision ) )
+			{
+			// Options 4-6 are mapped to the actual class-specific options:
+			// 4=drunk & stats, 5=rotgut, 6=combat (not available to Myst)
+			// Mus
+			case 04:
+				return "3";
+			case 05:
+				return "2";
+			case 06:
+				return "1";
+			// Mys
+			case 14:
+				return "1";
+			case 15:
+				return "2";
+			case 16:
+				return "3";
+			// Mox
+			case 24:
+				return "2";
+			case 25:
+				return "3";
+			case 26:
+				return "1";
+			}
+			return decision;
+			
 		// In the Shade
 		case 298:
 			if ( decision.equals( "1" ) )
