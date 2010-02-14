@@ -1284,19 +1284,23 @@ public class UseSkillRequest
 			}
 		}
 
+		int maxcasts;
+		int availableMP = KoLCharacter.getCurrentMP();
+		if ( SkillDatabase.isLibramSkill( skillId ) )
+		{
+			maxcasts = SkillDatabase.libramSkillCasts( availableMP );
+		}
+		else
+		{
+			maxcasts = availableMP / SkillDatabase.getMPConsumptionById( skillId );
+		}
+		
 		if ( countMatcher.group( 1 ).startsWith( "*" ) )
 		{
-			int availableMP = KoLCharacter.getCurrentMP();
-			if ( SkillDatabase.isLibramSkill( skillId ) )
-			{
-				return SkillDatabase.libramSkillCasts( availableMP );
-			}
-			else
-			{
-				return availableMP / SkillDatabase.getMPConsumptionById( skillId );
-			}
+			return maxcasts;
 		}
-		return StringUtilities.parseInt( countMatcher.group( 1 ) );
+		return Math.min( maxcasts,
+			StringUtilities.parseInt( countMatcher.group( 1 ) ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )
