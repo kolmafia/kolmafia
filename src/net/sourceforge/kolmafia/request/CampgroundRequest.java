@@ -56,7 +56,7 @@ public class CampgroundRequest
 	extends GenericRequest
 {
 	private static final Pattern LIBRAM_PATTERN =
-		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song) *.[(]([\\d,]+) MP[)]" );
+		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs) *.[(]([\\d,]+) MP[)]" );
 	private static final Pattern HOUSING_PATTERN =
 		Pattern.compile( "/rest(\\d+)(tp)?(_free)?.gif" );
 	private static final Pattern FURNISHING_PATTERN =

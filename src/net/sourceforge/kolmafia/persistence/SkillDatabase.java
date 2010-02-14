@@ -467,6 +467,9 @@ public class SkillDatabase
 		}
 
 		// Otherwise, derive number of casts from unadjusted mana cost
+		// Make sure we have updated modifiers - otherwise, the initial
+		// cost setting done at login may ignore our MP cost adjustments.
+		KoLCharacter.recalculateAdjustments();
 		cost -= KoLCharacter.getManaCostAdjustment();
 
 		// cost = 1 + (n * (n-1) / 2)
