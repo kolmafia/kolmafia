@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +58,8 @@ public class AutoSellRequest
 	public static final Pattern AUTOSELL_PATTERN = Pattern.compile( "for ([\\d,]+) [Mm]eat" );
 	private static final Pattern EMBEDDED_ID_PATTERN = Pattern.compile( "item(\\d+)" );
 
+	private boolean setMode = false;
+
 	public AutoSellRequest( final AdventureResult item )
 	{
 		this( new AdventureResult[] { item } );
@@ -64,6 +68,7 @@ public class AutoSellRequest
 	public AutoSellRequest( final Object[] items )
 	{
 		super( AutoSellRequest.getSellPage(), items );
+		this.addFormField( "action", "sell" );
 	}
 
 	public String getItemField()
@@ -73,7 +78,7 @@ public class AutoSellRequest
 
 	public String getQuantityField()
 	{
-		return "qty";
+		return "quantity";
 	}
 
 	public String getMeatField()
@@ -95,154 +100,89 @@ public class AutoSellRequest
 
 	public void attachItem( final AdventureResult item, final int index )
 	{
-		// Autosell: "compact" or "detailed" mode
-
-		// Verify that item actually is autosellable
-		if ( ItemDatabase.getPriceById( item.getItemId() ) <= 0 )
-		{
-			return;
-		}
-
-		this.addFormField( "action", "sell" );
-
 		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
 		{
-			if ( this.getCapacity() == 1 )
-			{
-				this.addFormField( "quantity", String.valueOf( item.getCount() ) );
-			}
-
-			String itemId = String.valueOf( item.getItemId() );
-			this.addFormField( "item" + itemId, itemId );
+			this.attachDetailedItem( item );
 		}
 		else
 		{
-			if ( this.getCapacity() == 1 )
-			{
-				// If we are doing the requests one at a time,
-				// specify the item quantity
+			this.attachCompactItem( item );
+		}
+	}
 
-				this.addFormField( "type", "quant" );
-				this.addFormField( "howmany", String.valueOf( item.getCount() ) );
+	public void attachDetailedItem( final AdventureResult item )
+	{
+		if ( !this.setMode )
+		{
+			int count = item.getCount();
+			int icount = item.getCount( KoLConstants.inventory );
+
+			if ( count == icount )
+			{
+				this.addFormField( "mode", "1" );
+			}
+			else if ( count == icount - 1 )
+			{
+				this.addFormField( "mode", "2" );
 			}
 			else
 			{
-				// Otherwise, we are selling all.  As of
-				// 2/1/2006, must specify a quantity field even
-				// for this - but the value is ignored
+				this.addFormField( "mode", "3" );
+				this.addFormField( "quantity", String.valueOf( count ) );
+			}
+
+			this.setMode = true;
+		}
+
+		String itemId = String.valueOf( item.getItemId() );
+		this.addFormField( "item" + itemId, itemId );
+	}
+
+	public void attachCompactItem( final AdventureResult item )
+	{
+		if ( !this.setMode )
+		{
+			int count = item.getCount();
+			int icount = item.getCount( KoLConstants.inventory );
+
+			if ( count == icount )
+			{
+				// As of 2/1/2006, must specify a quantity
+				// field for this - but the value is ignored
 
 				this.addFormField( "type", "all" );
 				this.addFormField( "howmany", "1" );
 			}
+			else if ( count == icount - 1 )
+			{
+				// As of 2/1/2006, must specify a quantity
+				// field for this - but the value is ignored
 
-			// This is a multiple selection input field.
-			// Therefore, you can give it multiple items.
+				this.addFormField( "type", "allbutone" );
+				this.addFormField( "howmany", "1" );
+			}
+			else
+			{
+				this.addFormField( "type", "quant" );
+				this.addFormField( "howmany", String.valueOf( count ) );
+			}
 
-			this.addFormField( "whichitem[]", String.valueOf( item.getItemId() ), true );
+			this.setMode = true;
 		}
+
+		// This is a multiple selection input field.
+		// Therefore, you can give it multiple items.
+
+		this.addFormField( "whichitem[]", String.valueOf( item.getItemId() ), true );
 	}
 
 	public int getCapacity()
 	{
-		// If you are autoselling multiple items, then it depends on
-		// which mode you are using.
-		return KoLCharacter.getAutosellMode().equals( "detailed" ) ?
-			this.getDetailedModeCapacity() :
-			this.getCompactModeCapacity();
-	}
-
-	public int getCompactModeCapacity()
-	{
-		for ( int i = 0; i < this.attachments.length; ++i )
-		{
-			AdventureResult currentAttachment = (AdventureResult) this.attachments[ i ];
-			int inventoryCount = currentAttachment.getCount( KoLConstants.inventory );
-			if ( inventoryCount == 0 )
-			{
-				continue;
-			}
-
-			int attachmentCount = currentAttachment.getCount();
-
-			// We are in compact mode. If we are not selling
-			// everything, we must do it one item at a time
-			if ( attachmentCount < inventoryCount )
-			{
-				return 1;
-			}
-
-			// Otherwise, look at remaining items
-		}
-
-		return Integer.MAX_VALUE;
-	}
-
-	public int getDetailedModeCapacity()
-	{
-		int mode = 1;
-
-		for ( int i = 0; i < this.attachments.length; ++i )
-		{
-			AdventureResult currentAttachment = (AdventureResult) this.attachments[ i ];
-
-			int inventoryCount = currentAttachment.getCount( KoLConstants.inventory );
-			if ( inventoryCount == 0 )
-			{
-				continue;
-			}
-
-			int attachmentCount = currentAttachment.getCount();
-
-			switch ( mode )
-			{
-			case 1:
-				// We are in detailed "sell all" mode.
-				if ( attachmentCount >= inventoryCount )
-				{
-					continue;
-				}
-
-				// ...but no longer
-				if ( i == 0 && attachmentCount == inventoryCount - 1 )
-
-				{
-					// First item and we're selling one
-					// less than max. Switch to detailed
-					// "all but one" mode
-					mode = 2;
-					continue;
-				}
-
-				// Switch to "quantity" mode
-				this.addFormField( "mode", "3" );
-				return 1;
-
-			case 2:
-				// We are in detailed "all but one" mode. This
-				// item had better also be "all but one"
-
-				if ( attachmentCount == inventoryCount - 1 )
-				{
-					continue;
-				}
-
-				// Nope. Switch to "quantity" mode
-				this.addFormField( "mode", "3" );
-				return 1;
-			}
-		}
-
-		// Add detailed "mode" field
-		this.addFormField( "mode", String.valueOf( mode ) );
-
 		return Integer.MAX_VALUE;
 	}
 
 	public ArrayList generateSubInstances()
 	{
-		// *** Look at all of the attachments and divide them into
-		// *** groups: all, all but one, specific quantities.
-
 		ArrayList subinstances = new ArrayList();
 
 		if ( KoLmafia.refusesContinue() )
@@ -256,54 +196,111 @@ public class AutoSellRequest
 		// Autosell memento items only if player doesn't care
 		boolean allowMemento = !Preferences.getBoolean( "mementoListActive" );
 
-		int capacity = this.getCapacity();
+		// Look at all of the attachments and divide them into groups:
+		// all, all but one, another quantity
 
-		ArrayList nextAttachments = new ArrayList();
-		int index = 0;
+		ArrayList all = new ArrayList();
+		ArrayList allButOne = new ArrayList();
+		HashSet others = new HashSet();
 
-		while ( index < this.attachments.length )
+		for ( int index = 0; index < this.attachments.length; ++index )
 		{
-			nextAttachments.clear();
+			AdventureResult item = (AdventureResult) this.attachments[ index ];
 
-			do
+			if ( item == null )
 			{
-				AdventureResult item = (AdventureResult) this.attachments[ index++ ];
-
-				if ( item == null )
-				{
-					continue;
-				}
-
-				if ( !allowMemento && KoLConstants.mementoList.contains( item ) )
-				{
-					continue;
-				}
-
-				int availableCount = item.getCount( this.source );
-
-				if ( !allowSingleton && KoLConstants.singletonList.contains( item ) )
-				{
-					availableCount = keepSingleton( item, availableCount );
-				}
-
-				if ( availableCount <= 0 )
-				{
-					continue;
-				}
-
-				nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
+				continue;
 			}
-			while ( index < this.attachments.length && nextAttachments.size() < capacity );
 
-			// For each broken-up request, create a new request
-			// which will has the appropriate data to post.
-
-			if ( !nextAttachments.isEmpty() )
+			if ( ItemDatabase.getPriceById( item.getItemId() ) <= 0 )
 			{
-				TransferItemRequest subinstance = this.getSubInstance( nextAttachments.toArray() );
-				subinstance.isSubInstance = true;
-				subinstances.add( subinstance );
+				continue;
 			}
+
+			// If this item is already on the "sell all" list, skip
+			if ( all.contains( item ) )
+			{
+				continue;
+			}
+
+			if ( !allowMemento && KoLConstants.mementoList.contains( item ) )
+			{
+				continue;
+			}
+
+			int inventoryCount = item.getCount( KoLConstants.inventory );
+			int availableCount = inventoryCount;
+
+			if ( !allowSingleton && KoLConstants.singletonList.contains( item ) )
+			{
+				availableCount = this.keepSingleton( item, availableCount );
+			}
+
+			if ( availableCount <= 0 )
+			{
+				continue;
+			}
+
+			int desiredCount = Math.min( item.getCount(), availableCount );
+			AdventureResult desiredItem = item.getInstance( desiredCount );
+
+			if ( desiredCount == inventoryCount )
+			{
+				all.add( desiredItem );
+			}
+			else if ( desiredCount == inventoryCount - 1 )
+			{
+				allButOne.add( desiredItem );
+			}
+			else
+			{
+				others.add( desiredItem );
+			}
+		}
+
+		// For each group - individual quantities, all but one, all -
+		// create a subinstance. 
+
+		// Iterate over remaining items. Each distinct count goes into
+		// its own subinstance
+		while ( others.size() > 0 )
+		{
+			ArrayList items = new ArrayList();
+			Iterator it = others.iterator();
+
+			int count = -1;
+			while ( it.hasNext() )
+			{
+				AdventureResult item = (AdventureResult) it.next();
+				int icount = item.getCount();
+				if ( count == -1 )
+				{
+					count = icount;
+				}
+				if ( count == icount )
+				{
+					it.remove();
+					items.add( item );
+				}
+			}
+
+			TransferItemRequest subinstance = this.getSubInstance( items.toArray() );
+			subinstance.isSubInstance = true;
+			subinstances.add( subinstance );
+		}
+
+		if ( allButOne.size() > 0 )
+		{
+			TransferItemRequest subinstance = this.getSubInstance( allButOne.toArray() );
+			subinstance.isSubInstance = true;
+			subinstances.add( subinstance );
+		}
+
+		if ( all.size() > 0 )
+		{
+			TransferItemRequest subinstance = this.getSubInstance( all.toArray() );
+			subinstance.isSubInstance = true;
+			subinstances.add( subinstance );
 		}
 
 		return subinstances;
@@ -323,7 +320,7 @@ public class AutoSellRequest
 	public boolean parseTransfer()
 	{
 		return AutoSellRequest.parseTransfer( this.getURLString(), this.responseText );
-        }
+	}
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
