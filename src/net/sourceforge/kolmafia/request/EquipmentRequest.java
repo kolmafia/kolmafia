@@ -844,7 +844,10 @@ public class EquipmentRequest
 		case EquipmentRequest.CHANGE_ITEM:
 		case EquipmentRequest.CHANGE_OUTFIT:
 
-			Matcher resultMatcher = EquipmentRequest.CELL_PATTERN.matcher( this.responseText );
+			String text = this.responseText == null ? "" : this.responseText;
+			// What SHOULD we do if get a null responseText?
+
+			Matcher resultMatcher = EquipmentRequest.CELL_PATTERN.matcher( text );
 			if ( resultMatcher.find() )
 			{
 				String result = resultMatcher.group( 1 ).replaceAll( "</?b>", "" );
@@ -855,7 +858,12 @@ public class EquipmentRequest
 					return;
 				}
 
-				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 && result.indexOf( "equips an item" ) == -1  && result.indexOf( "You apply the shiny sticker" ) == -1 && result.indexOf( "fold it into an impromptu sword" ) == -1 )
+				if ( result.indexOf( "You put" ) == -1 &&
+				     result.indexOf( "You equip" ) == -1 &&
+				     result.indexOf( "Item equipped" ) == -1 &&
+				     result.indexOf( "equips an item" ) == -1 &&
+				     result.indexOf( "You apply the shiny sticker" ) == -1 &&
+				     result.indexOf( "fold it into an impromptu sword" ) == -1 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, result );
 					return;
