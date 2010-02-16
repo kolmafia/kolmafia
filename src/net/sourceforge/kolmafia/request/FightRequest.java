@@ -3573,7 +3573,7 @@ public class FightRequest
 
 				if ( text.startsWith( "You gain" ) )
 				{
-					ResultProcessor.processGainLoss( text, null );
+					status.shouldRefresh = ResultProcessor.processGainLoss( text, null );
 					continue;
 				}
 
