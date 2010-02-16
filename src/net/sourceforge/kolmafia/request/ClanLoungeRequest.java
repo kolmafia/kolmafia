@@ -371,7 +371,7 @@ public class ClanLoungeRequest
 
 			if ( responseText.indexOf( "hands in your pockets" ) != -1 )
 			{
-				Preferences.setInteger( "_poolgames", 3 );
+				Preferences.setInteger( "_poolGames", 3 );
 			}
 
 			return;
@@ -392,14 +392,14 @@ public class ClanLoungeRequest
 			     responseText.indexOf( "play a game of pool against yourself" ) != -1 ||
 			     responseText.indexOf( "you are unable to defeat" ) != -1 )
 			{
-				Preferences.increment( "_poolgames", 1, 3, false );
+				Preferences.increment( "_poolGames", 1, 3, false );
 			}
 
 			// You're kind of pooled out for today. Maybe you'll be
 			// in the mood to play again tomorrow.
 			else if ( responseText.indexOf( "pooled out for today" ) != -1 )
 			{
-				Preferences.setInteger( "_poolgames", 3 );
+				Preferences.setInteger( "_poolGames", 3 );
 			}
 
 			return;

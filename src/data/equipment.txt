@@ -836,8 +836,7 @@ yohohoyo	160	Mox: 65	1-handed yoyo
 7-ball	0	none
 9-ball	0	none
 Abyssal ember	0	Mus: 35
-# *** BRICKO bulwark is a shield of unknown power.
-BRICKO bulwark	0	none	shield
+BRICKO bulwark	60	none	shield
 Bag o' Tricks	0	none
 Brimstone Bunker	240	Mus: 30	shield
 C.H.U.M. lantern	0	Mus: 150
