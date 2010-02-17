@@ -65,11 +65,12 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -701,6 +702,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "sewer.php" ) )
 		{
 			StationaryButtonDecorator.decorate( location, buffer );
+		}
+		else if ( location.startsWith( "town_right.php" ) )
+		{
+			UntinkerRequest.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "valhalla.php" ) )
 		{
