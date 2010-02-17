@@ -210,8 +210,10 @@ sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2
+snailmail coif	Muscle: +10, Damage Reduction: 8
 snorkel	Familiar Effect: "atk, cap 2"
 snow hat	Damage Reduction: 3, Familiar Effect: "unk, cap 12"
+spangly sombrero	Experience (Moxie): +3
 spiky turtle helmet	Weapon Damage: +8, Monster Level: +8, Familiar Effect: "atk, 1xFairy, cap 32"
 sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "atk, 1xFairy"
 spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 25"
@@ -354,9 +356,11 @@ plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30
 poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25
 rusty metal greaves	Initiative: -10
 slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10
+snailmail breeches	Maximum HP: +20, Maximum MP: +20, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 snow pants	Hot Resistance: +2
 snowboarder pants	Damage Absorption: +20
 spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1
+spangly mariachi pants	MP Regen Min: 5, MP Regen Max: 10
 square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30
 stainless steel slacks	Initiative: +15, Meat Drop: +20, Moxie Percent: +15
 star pants	Initiative: +20
@@ -432,6 +436,7 @@ rhinestone cowboy shirt	Muscle: +5
 safety vest	Damage Reduction: 3, Moxie: +5
 sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
 shark jumper	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 20, HP Regen Max: 40
+snailmail hauberk	Damage Absorption: +60, HP Regen Min: 6, HP Regen Max: 14, MP Regen Min: 6, MP Regen Max: 14
 soggy wofl t-shirt	Muscle: +3
 souvenir ski t-shirt	Moxie: +5
 star shirt	Muscle: +5, Mysticality: +5, Moxie: +5
@@ -1750,6 +1755,7 @@ hypodermic needle	Familiar Weight: +5
 iced-out bling	Familiar Weight: +5
 icicle katana	Familiar Weight: +5
 # imitation whetstone: Makes Imitation Crab claws sharper
+# jalape&ntilde;o slices: +10 lbs. of Leprechaun
 lead necklace	Familiar Weight: +3
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater"
@@ -1789,6 +1795,7 @@ pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11
 pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11
 # plastic bib: Makes your ghost better at eating stuff.
 plastic pumpkin bucket	Familiar Weight: +5, Item Drop: +13, Softcore Only
+# pretty pink bow: +10 lbs. of Ghoul Whelp
 prosthetic forehead	Familiar Weight: +5
 psychedelic bubble wand	Familiar Weight: +5
 # quadroculars: Helps Your He-Boulder See Better (x4)
@@ -1804,6 +1811,7 @@ serrated proboscis extension	Familiar Weight: +20
 six-armed sweater	Familiar Weight: +5
 skewer-mounted razor blade	Familiar Weight: +5
 smile-sharpening stone	Familiar Weight: +5
+# smiley-face sticker: +10 lbs. of Volleyball
 snow halo	Familiar Weight: +5
 spoon!	Familiar Weight: +5
 string of dingle balls	Familiar Weight: +5
@@ -1827,6 +1835,7 @@ tiny maracas	Familiar Weight: +5
 # tiny nose-bone fetish: Reduces familiar's MP expenditure by 2-4.
 tiny shaker of salt	Familiar Weight: +5
 toy six-seater hovercraft	Familiar Weight: -5
+# tiny sombrero: +10 lbs. of Sombrero
 # tuning fork: Familiar Will Attack You Less Often
 # undissolvable contact lenses: Helps your Slimeling See Better
 unspeakable lozenges	Familiar Weight: +5
@@ -2946,6 +2955,7 @@ green snowcone	Effect: "Green Tongue", Effect Duration: 20
 gremlin juice	Effect: "Comic Violence", Effect Duration: 5
 gremlin mutagen	Effect: "Mutated"
 groupie spangles	Effect: "Spangled Star", Effect Duration: 5
+gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
 hair of the fish	Effect: "Antihangover", Effect Duration: 10
 half-orchid	Effect: "Bestial Sympathy", Effect Duration: 10
 handful of Crotchety Pine needles	Effect: "Crotchety, Pining", Effect Duration: 100

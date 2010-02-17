@@ -163,9 +163,12 @@ seal-skull helmet	10	none
 sequined fez	80	Mox: 25
 shapeless wide-brimmed hat	200	Mox: 200
 skeletortoise	30	none
+sleep mask	150	Mox: 60
 slime-covered helmet	200	Mox: 200
+snailmail coif	165	Mox: 67
 snorkel	10	none
 snow hat	50	Mox: 10
+spangly sombrero	150	Mox: 150
 spiky turtle helmet	130	Mox: 50
 sponge helmet	200	Mox: 85
 spooky hockey mask	100	Mox: 35
@@ -302,9 +305,11 @@ plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
 rusty metal greaves	150	Mus: 60
 slime-covered greaves	200	Mox: 200
+snailmail breeches	165	Mus: 67
 snow pants	50	Mox: 10
 snowboarder pants	100	Mox: 35
 spandex anniversary shorts	10	none
+spangly mariachi pants	150	Mox: 60
 square sponge pants	200	Mox: 85
 stainless steel slacks	90	Mox: 30
 star pants	165	Mox: 67
@@ -380,6 +385,7 @@ rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
 shark jumper	200	Mus: 85
+snailmail hauberk	165	Mus: 67
 soggy wofl t-shirt	45	Mus: 7
 souvenir ski t-shirt	100	Mus: 35
 star shirt	165	Mus: 67
