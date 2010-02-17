@@ -3297,25 +3297,25 @@
 3288	shimmering tendrils	usable	display	500
 3289	scintillating powder	usable	display	400
 3290	abandoned candy	multiple	all	150
-3291
-3292
-3293
-3294
-3295
-3296
-3297
-3298
-3299
-3300
-3301
-3302
-3303
-3304
-3305
-3306
-3307
-3308
-3309
+3291	secret tropical island volcano lair map	none	none	0
+3292	adorable seal larva	grow	display	0
+3293	untamable turtle	grow	display	0
+3294	macaroni duck	grow	display	0
+3295	friendly cheez blob	grow	display	0
+3296	unusual disco ball	grow	display	0
+3297	stray chihuahua	grow	display	0
+3298	pretty pink bow	familiar	all	75
+3299	smiley-face sticker	familiar	all	75
+3300	farfalle bow tie	familiar	all	75
+3301	jalape&ntilde;o slices	familiar	all	75
+3302	stick-on mini solar panels	familiar	all	75
+3303	tiny sombrero	familiar	all	75
+3304	Argarggagarg's fang	none	display	4000
+3305	Safari Jack's moustache	none	display	4000
+3306	Yakisoba's hat	none	display	4000
+3307	Heimandatz's heart	none	display	4000
+3308	Jocko Homo's head	none	display	4000
+3309	The Mariachi's guitar case	none	display	4000
 3310	sealskin drum	offhand	display	0
 3311	washboard shield	offhand	display	0
 3312	spaghetti-box banjo	offhand	display	0
@@ -4239,24 +4239,24 @@
 4230	bottle of Cochon Noir	familiar	all	75
 4231	ice skate decoy	none, combat	all	200
 4232	ice skate doll	none	all	100
-4233
+4233	hacienda key	none	none	0
 4234
 4235
-4236
+4236	can of sterno	none, combat	all	65
 4237
 4238
 4239
-4240
-4241
+4240	gun cleaning kit	multiple	all	50
+4241	sleep mask	hat	all	80
 4242
 4243
 4244
-4245
+4245	leather bookmark	none	all	100
 4246
-4247
+4247	decanter of fine Scotch	drink	all	110
 4248
 4249	miniature tophat	familiar	all	75
-4250
+4250	fisherman's sack	usable	none	99
 4251
 4252
 4253
@@ -4451,9 +4451,9 @@
 4442
 4443
 4444
-4445
+4445	spangly mariachi pants	pants	all	85
 4446
-4447
+4447	spangly sombrero	hat	all	80
 4448
 4449
 4450
@@ -4463,10 +4463,10 @@
 4454
 4455
 4456
-4457
-4458
-4459
-4460
+4457	snailmail bits	multiple	all	56
+4458	snailmail coif	hat	all	140
+4459	snailmail breeches	pants	all	150
+4460	snailmail hauberk	shirt	all	160
 4461
 4462
 4463
@@ -4496,11 +4496,10 @@
 4487	BRICKO bulwark	offhand	all	5
 4488	BRICKO trunk	usable	all	0
 4489	gilded BRICKO brick	none, combat	all	5000
-4490
+4490	gilded BRICKO chalice	none	all	21337
 4491	black BRICKO brick	none, combat	all	50
 4492	green BRICKO brick	none, combat	all	100
 4493	broken BRICKO brick	none, combat	all	200
 4494	BRICKO reactor	none, combat	all	1000
 4495	BRICKO egg	grow	all	0
 4496	extra-heavy BRICKO brick	familiar	all	75
-

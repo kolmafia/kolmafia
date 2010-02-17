@@ -1355,6 +1355,10 @@ bark bracelet	MUSE	spooky bark (5)
 bark beret	MUSE	spooky bark (7)
 bark boxers	MUSE	spooky bark (9)
 
+snailmail coif	MUSE	snailmail bits (3)
+snailmail breeches	MUSE	snailmail bits (5)
+snailmail hauberk	MUSE, TORSO	snailmail bits (8)
+
 turtlemail coif	MUSE	turtlemail bits (3)
 turtlemail breeches	MUSE	turtlemail bits (5)
 turtlemail hauberk	MUSE, TORSO	turtlemail bits (8)
@@ -1381,6 +1385,8 @@ BRICKO vacuum cleaner	MUSE	BRICKO brick (1100)	BRICKO eye brick (1)
 BRICKO airship	MUSE	BRICKO brick (2300)	BRICKO eye brick (1)
 BRICKO cathedral	MUSE	BRICKO brick (3700)	BRICKO eye brick (1)
 BRICKO gargantuchicken	MUSE	BRICKO brick (6900)	BRICKO eye brick (1)
+
+gilded BRICKO chalice	MUSE	gilded BRICKO brick (11)
 
 # Recipes that involve single-using one of the ingredients
 
