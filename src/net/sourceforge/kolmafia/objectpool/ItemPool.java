@@ -998,6 +998,9 @@ public class ItemPool
 	public static final int ZU_MANNKASE_DIENEN = 4409;
 	public static final int INIGO_BOOK = 4411;
 	public static final int BRICKO_BOOK = 4468;
+	public static final int BRICKO_HAT = 4471;
+	public static final int BRICKO_PANTS = 4472;
+	public static final int BRICKO_SWORD = 4473;
 	public static final int BRICKO_OOZE = 4474;
 	public static final int BRICKO_BAT = 4475;
 	public static final int BRICKO_OYSTER = 4476;

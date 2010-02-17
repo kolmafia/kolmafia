@@ -559,6 +559,20 @@ public class UseItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.BRICKO_SWORD:
+		case ItemPool.BRICKO_HAT:
+		case ItemPool.BRICKO_PANTS:
+			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"You don't have one of those." );
+				return;
+			}
+			KoLmafia.updateDisplay( "Splitting bricks..." );
+			GenericRequest req = new GenericRequest( "inventory.php?action=breakbricko&pwd&whichitem=" + itemId );
+			RequestThread.postRequest( req );
+			StaticEntity.externalUpdate( req.getURLString(), req.responseText ); 			return;
+
 		case ItemPool.STICKER_SWORD:
 		case ItemPool.STICKER_CROSSBOW:
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
@@ -3318,7 +3332,9 @@ public class UseItemRequest
 		     !urlString.startsWith( "inv_booze.php" ) &&
 		     !urlString.startsWith( "multiuse.php" ) &&
 		     !urlString.startsWith( "inv_familiar.php" ) &&
-		     !urlString.startsWith( "inv_use.php" ) )
+		     !urlString.startsWith( "inv_use.php" ) &&
+		     !(urlString.startsWith( "inventory.php" ) &&
+		     	urlString.indexOf( "action=breakbricko" ) != -1) )
 		{
 			return null;
 		}
