@@ -748,6 +748,12 @@ public class ItemPool
 	public static final int SCINTILLATING_POWDER = 3289;
 	public static final int PERSONAL_MASSAGER = 3279;
 	public static final int PLASMA_BALL = 3281;
+	public static final int PRETTY_PINK_BOW = 3298;
+	public static final int SMILEY_FACE_STICKER = 3299;
+	public static final int FARFALLE_BOW_TIE = 3300;
+	public static final int JALAPENO_SLICES = 3301;
+	public static final int SOLAR_PANELS = 3302;
+	public static final int TINY_SOMBRERO = 3303;
 	public static final int EPIC_WAD = 3316;
 	public static final int SCRATCHS_FORK = 3323;
 	public static final int FROSTYS_MUG = 3324;
