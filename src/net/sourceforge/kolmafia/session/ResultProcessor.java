@@ -113,7 +113,8 @@ public class ResultProcessor
 			formURLString.indexOf( "whichitem=553" ) != -1;
 	}
 
-	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\)" );
+	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?</table>" );
+	public static Pattern BOLD_NAME_PATTERN = Pattern.compile( "<b>([^<]*)</b>" );
 
 	public static void registerNewItems( String results )
 	{
@@ -140,11 +141,16 @@ public class ResultProcessor
 			String relString = itemMatcher.group(1);
 			String itemName = itemMatcher.group(2);
 			String descId = itemMatcher.group(3);
-			int itemId = ItemDatabase.getItemIdFromDescription( descId );
-			if ( itemId == -1 )
+
+			// If we already know this descid, known item.
+			if ( ItemDatabase.getItemIdFromDescription( descId ) != -1 )
 			{
-				ItemDatabase.registerItem( itemName, descId, relString );
+				continue;
 			}
+
+			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
+			String items = boldMatcher.find() ? boldMatcher.group(1) : null;
+			ItemDatabase.registerItem( itemName, descId, relString, items );
 		}
 	}
 

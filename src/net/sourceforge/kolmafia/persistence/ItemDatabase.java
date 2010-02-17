@@ -862,25 +862,25 @@ public class ItemDatabase
 
 	private static Pattern RELSTRING_PATTERN = Pattern.compile( "([\\w]+)=([^&]*)&?");
 
-        // "id=588&s=118&q=0&d=1&g=0&t=1&n=50&m=0&u=.&ou=use"
-        //   id = item Id
-        //   s = sell value
-        //   q = quest item
-        //   d = discardable
-        //   g = gift item
-        //   t = transferable
-        //   n = number
-        //   m = multiusable
-        //   u = how can this be used?
-        //	 e = Eatable (food/drink) (inv_eat)
-        //	 b = Booze (inv_booze)
-        //	 q = eQuipable (inv_equip)
-        //	 u = potion/Useable (inv_use/multiuse)
-        //	 . = can't (or doesn't fit those types)
-        //  ou = "other use text" which is used to make drinks show
-        //	 "drink" instead of "eat" and for items which over-ride
-        //	 the word "use" in links, like the PYEC or scratch 'n'
-        //	 sniff stickers.
+	// "id=588&s=118&q=0&d=1&g=0&t=1&n=50&m=0&u=.&ou=use"
+	//   id = item Id
+	//   s = sell value
+	//   q = quest item
+	//   d = discardable
+	//   g = gift item
+	//   t = transferable
+	//   n = number
+	//   m = multiusable
+	//   u = how can this be used?
+	//	 e = Eatable (food/drink) (inv_eat)
+	//	 b = Booze (inv_booze)
+	//	 q = eQuipable (inv_equip)
+	//	 u = potion/Useable (inv_use/multiuse)
+	//	 . = can't (or doesn't fit those types)
+	//  ou = "other use text" which is used to make drinks show
+	//	 "drink" instead of "eat" and for items which over-ride
+	//	 the word "use" in links, like the PYEC or scratch 'n'
+	//	 sniff stickers.
 
 	public static final AdventureResult itemFromRelString( final String relString )
 	{
@@ -943,16 +943,67 @@ public class ItemDatabase
 		return value != null && value.equals( "1" );
 	}
 
+	public static final void registerItem( final String itemName, final String descId, final String relString, final String items )
+	{
+		int itemId = -1;
+		int count = 1;
+
+		Matcher matcher = RELSTRING_PATTERN.matcher( relString );
+		while ( matcher.find() )
+		{
+			String tag = matcher.group(1);
+			String value = matcher.group(2);
+			if ( tag.equals( "id" ) )
+			{
+				itemId = StringUtilities.parseInt( value );
+			}
+			else if ( tag.equals( "n" ) )
+			{
+				count = StringUtilities.parseInt( value );
+			}
+		}
+
+		// If we could not find the item id, nothing to do
+		if ( itemId < 0 )
+		{
+			return;
+		}
+
+		// If we found more than one item and the "items" string is not
+		// null, we probably have the plural.
+		String plural = null;
+		if ( count > 1 && items != null )
+		{
+			int space = items.indexOf( " " );
+			if ( space != -1 )
+			{
+				String num = items.substring( 0, space );
+				if ( StringUtilities.isNumeric( num ) &&
+				     StringUtilities.parseInt( num ) == count )
+				{
+					plural = items.substring( space + 1 );
+				}
+			}
+		}
+
+		ItemDatabase.registerItem( itemId, itemName, descId, plural );
+	}
+
 	public static final void registerItem( final String itemName, final String descId, final String relString )
 	{
 		int itemId = ItemDatabase.relStringItemId( relString );
 		if ( itemId > 0 )
 		{
-			ItemDatabase.registerItem( itemId, itemName, descId );
+			ItemDatabase.registerItem( itemId, itemName, descId, null );
 		}
 	}
 
 	public static final void registerItem( final int itemId, String itemName, String descId )
+	{
+		ItemDatabase.registerItem( itemId, itemName, descId, null );
+	}
+
+	public static final void registerItem( final int itemId, String itemName, String descId, final String plural )
 	{
 		if ( itemName == null )
 		{
@@ -975,6 +1026,11 @@ public class ItemDatabase
 		ItemDatabase.dataNameById.put( id, itemName );
 		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
 		ItemDatabase.registerItemAlias( itemId, itemName, null );
+		if ( plural != null )
+		{
+			ItemDatabase.pluralById.set( itemId, plural );
+			ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
+		}
 		ItemDatabase.parseItemDescription( id, itemName );
 	}
 
@@ -1014,7 +1070,9 @@ public class ItemDatabase
 		// Print what goes in tradeitems.txt and itemdescs.txt
 		RequestLogger.printLine( "--------------------" );
 		RequestLogger.printLine( ItemDatabase.tradeitemString( itemId, itemName, usage, attrs, access, price ) );
-		RequestLogger.printLine( ItemDatabase.itemdescString( itemId, descId, itemName, "" ) );
+
+		String plural = ItemDatabase.getPluralById( itemId );
+		RequestLogger.printLine( ItemDatabase.itemdescString( itemId, descId, itemName, plural ) );
 
 		if ( EquipmentDatabase.isEquipment( usage ) )
 		{
