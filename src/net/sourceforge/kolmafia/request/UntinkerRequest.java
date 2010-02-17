@@ -298,6 +298,53 @@ public class UntinkerRequest
 		return UntinkerRequest.AVAILABLE_CHECKER.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}
 
+	public static final void decorate( final String urlString, final StringBuffer buffer )
+	{
+		// We only decorate simple visits to the untinker
+		if ( urlString.indexOf( "place=untinker" ) == -1 )
+		{
+			return;
+		}
+
+		// Hey, man -- is an adventurer you? I lost my screwdriver
+		// somewhere near Degrassi Knoll, but every time I try to get
+		// it back, the Gnolls punch me in the eye.
+		// 
+		// You look pretty tough, though -- do you think you could get
+		// it back for me?
+		//
+		// Have you had any luck finding my screwdriver? I lost it at
+		// Degrassi Knoll, you'll recall.
+
+		// Initial visit
+		String test = "do you think you could get it back for me?&quot;";
+		int index = buffer.indexOf( test );
+
+		if ( index == -1 )
+		{
+			// Subsequent visits
+			test = "I lost it at Degrassi Knoll, you'll recall.&quot;";
+			index = buffer.indexOf( test );
+		}
+
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		String link;
+		if ( KoLCharacter.inMuscleSign() )
+		{
+			link = "<font size=1>[<a href=\"knoll.php?place=smith\">visit Innabox</a>]</font>";
+		}
+		else
+			link = "<font size=1>[<a href=\"adventure.php?snarfblat=18\">Degrassi Knoll</a>]</font>";
+		{
+		}
+
+		buffer.insert( index + test.length(), link );
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		// Either place=untinker or action=untinker
