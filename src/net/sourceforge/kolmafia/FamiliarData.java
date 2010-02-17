@@ -421,6 +421,12 @@ public class FamiliarData
 		case ItemPool.CONTACT_LENSES:
 		case ItemPool.AMPHIBIOUS_TOPHAT:
 		case ItemPool.BAG_OF_MANY_CONFECTIONS:
+		case ItemPool.PRETTY_PINK_BOW:
+		case ItemPool.SMILEY_FACE_STICKER:
+		case ItemPool.FARFALLE_BOW_TIE:
+		case ItemPool.JALAPENO_SLICES:
+		case ItemPool.SOLAR_PANELS:
+		case ItemPool.TINY_SOMBRERO:
 			return 0;
 
 		case ItemPool.TINY_COSTUME_WARDROBE:
