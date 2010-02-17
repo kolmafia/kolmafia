@@ -530,7 +530,8 @@ public abstract class StaticEntity
 			}
 
 			// If there is a consumption message, parse it
-			if ( location.indexOf( "action=message" ) != -1 )
+			if ( location.indexOf( "action=message" ) != -1 ||
+				location.indexOf( "action=breakbricko" ) != -1 )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
 			}

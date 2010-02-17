@@ -4477,9 +4477,9 @@
 4468	Libram of BRICKOs	usable	all	0
 4469	BRICKO brick	multiple	all	0
 4470	BRICKO eye brick	none	all	0
-4471	BRICKO hat	hat	all	0
-4472	BRICKO pants	pants	all	0
-4473	BRICKO sword	weapon	all	0
+4471	BRICKO hat	hat, usable	all	0
+4472	BRICKO pants	pants, usable	all	0
+4473	BRICKO sword	weapon, usable	all	0
 4474	BRICKO ooze	usable	all	0
 4475	BRICKO bat	usable	all	0
 4476	BRICKO oyster	usable	all	0
