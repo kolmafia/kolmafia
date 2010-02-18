@@ -138,6 +138,7 @@ public class UseSkillRequest
 
 	public static final AdventureResult[] THIEF_WEAPONS = new AdventureResult[]
 	{
+		ItemPool.get( ItemPool.TRICKSTER_TRIKITIXA, 1 ),
 		ItemPool.get( ItemPool.SQUEEZEBOX_OF_THE_AGES, 1 ),
 		ItemPool.get( ItemPool.ROCK_N_ROLL_LEGEND, 1 ),
 		ItemPool.get( ItemPool.CALAVERA_CONCERTINA, 1 ),
