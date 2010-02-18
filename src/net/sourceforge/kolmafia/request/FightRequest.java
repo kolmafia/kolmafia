@@ -3724,6 +3724,7 @@ public class FightRequest
 		KoLCharacter.battleSkillNames.add( "item Miniborg Destroy-O-Bot" );
 
 		KoLCharacter.battleSkillNames.add( "item naughty paper shuriken" );
+		KoLCharacter.battleSkillNames.add( "item bottle of G&uuml;-Gone" );
 	}
 
 	private static final boolean isItemConsumed( final int itemId, final String responseText )

@@ -884,6 +884,7 @@ public class ItemPool
 	public static final int PLASTIC_GUITAR = 3863;
 	public static final int FINGER_CYMBALS = 3864;
 	public static final int KETTLE_DRUM = 3865;
+	public static final int BOTTLE_OF_GU_GONE = 3898;
 	public static final int SEAL_BLUBBER_CANDLE = 3901;
 	public static final int WRETCHED_SEAL = 3902;
 	public static final int CUTE_BABY_SEAL = 3903;
