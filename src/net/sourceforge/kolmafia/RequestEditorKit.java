@@ -750,10 +750,6 @@ public class RequestEditorKit
 				{
 					StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/onfocus.js\"></script>" );
 				}
-				else if ( location.indexOf( "chat" ) == -1 )
-				{
-					buffer.append( "<script src=\"/onfocus.js\"></script>" );
-				}
 			}
 		}
 

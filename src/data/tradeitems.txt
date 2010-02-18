@@ -3888,9 +3888,9 @@
 3879
 3880
 3881
-3882
-3883
-3884
+3882	encoded cult documents	none	none	0
+3883	cult memo	none	none	0
+3884	decoded cult documents	none	none	0
 3885	vial of red slime	multiple	none	33
 3886	vial of yellow slime	multiple	none	33
 3887	vial of blue slime	multiple	none	33
@@ -4240,26 +4240,26 @@
 4231	ice skate decoy	none, combat	all	200
 4232	ice skate doll	none	all	100
 4233	hacienda key	none	none	0
-4234
-4235
+4234	silver pat&eacute; knife	weapon	all	75
+4235	silver salt-shaker	none	all	150
 4236	can of sterno	none, combat	all	65
-4237
-4238
-4239
+4237	silver cheese-slicer	weapon	all	70
+4238	fancy beef jerky	food	all	85
+4239	crescent wrench	weapon	all	55
 4240	gun cleaning kit	multiple	all	50
 4241	sleep mask	hat	all	80
-4242
-4243
-4244
+4242	sock garters	accessory	all	35
+4243	mariachi toothpaste	multiple	all	40
+4244	heavy leather-bound tome	weapon	all	85
 4245	leather bookmark	none	all	100
-4246
+4246	ivory cue ball	offhand	all	30
 4247	decanter of fine Scotch	drink	all	110
-4248
+4248	expensive cigar	usable	all	120
 4249	miniature tophat	familiar	all	75
 4250	fisherman's sack	usable	none	99
-4251
-4252
-4253
+4251	fish-oil smoke bomb	none, combat	none	33
+4252	vial of squid ink	multiple	none	33
+4253	potion of fishy speed	multiple	none	33
 4254	spooky bark	multiple	all	10
 4255	Wolfman Nardz	mp	all	50
 4256	spooky sap	multiple, combat, candy	all	50
@@ -4278,7 +4278,7 @@
 4269
 4270
 4271
-4272
+4272	Lederhosen of the Night	pants	display	0
 4273	ribbon candy	multiple, candy	all	50
 4274	Underworld acorn	none	display	0
 4275	Underworld trunk	none	display	0
@@ -4327,13 +4327,13 @@
 4318
 4319
 4320
-4321
+4321	The Trickster's Trikitixa	weapon	none	0
 4322
 4323
 4324
 4325
 4326
-4327
+4327	El Hebilla del Cintur&oacute;n de Lopez	accessory	display	0
 4328	suspicious stocking	grow	all	0
 4329	bag of many confections	familiar	all	75
 4330	candy kneecapping stick	food, combat, candy	all	0
@@ -4444,17 +4444,17 @@
 4435
 4436
 4437
-4438
-4439
-4440
-4441
-4442
-4443
-4444
+4438	hellseal whisker	none	all	10
+4439	hellseal claw	none	all	15
+4440	guard turtle shell	hat	all	65
+4441	crowbar	weapon	all	45
+4442	spaghetti cult rosary	accessory	all	75
+4443	spaghetti cult mask	hat	all	50
+4444	guard turtle collar	familiar	all	75
 4445	spangly mariachi pants	pants	all	85
-4446
+4446	spangly mariachi vest	shirt	all	90
 4447	spangly sombrero	hat	all	80
-4448
+4448	Instant Karma	usable	display	0
 4449
 4450
 4451
@@ -4467,7 +4467,7 @@
 4458	snailmail coif	hat	all	140
 4459	snailmail breeches	pants	all	150
 4460	snailmail hauberk	shirt	all	160
-4461
+4461	seal-brain elixir	multiple	all	33
 4462
 4463
 4464
@@ -4503,3 +4503,11 @@
 4494	BRICKO reactor	none, combat	all	1000
 4495	BRICKO egg	grow	all	0
 4496	extra-heavy BRICKO brick	familiar	all	75
+4497	recording of The Ballad of Richie Thingfinder	multiple	all	78
+4498	recording of Benetton's Medley of Diversity	multiple	all	78
+4499	recording of Elron's Explosive Etude	multiple	all	78
+4500	recording of Chorale of Companionship	multiple	all	78
+4501	recording of Prelude of Precision	multiple	all	78
+4502	recording of Donho's Bubbly Ballad	multiple	all	78
+4503	recording of Inigo's Incantation of Inspiration	multiple	all	78
+4504	heart of the volcano	accessory	display	10000

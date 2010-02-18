@@ -1266,6 +1266,27 @@ public abstract class ChoiceManager
 			new String[] { "skate blade", "brand new key" },
 			new String[] { "4213", "4206" } ),
 
+		// Choice 409 is The Island Barracks
+		//	1 = only option
+		// Choice 410 is A Short Hallway
+		//	1 = left, 2 = right, 3 = exit
+		// Choice 411 is Hallway Left
+		//	1 = kitchen, 2 = dining room, 3 = storeroom, 4 = exit
+		// Choice 412 is Hallway Right
+		//	1 = bedroom, 2 = library, 3 = parlour, 4 = exit
+		// Choice 413 is Kitchen
+		//	1 = cupboards, 2 = pantry, 3 = fridges, 4 = exit
+		// Choice 414 is Dining Room
+		//	1 = tables, 2 = sideboard, 3 = china cabinet, 4 = exit
+		// Choice 415 is Store Room
+		//	1 = crates, 2 = workbench, 3 = gun cabinet, 4 = exit
+		// Choice 416 is Bedroom
+		//	1 = beds, 2 = dressers, 3 = bathroom, 4 = exit
+		// Choice 417 is Library
+		//	1 = bookshelves, 2 = chairs, 3 = chess set, 4 = exit
+		// Choice 418 is Parlour
+		//	1 = pool table, 2 = bar, 3 = fireplace, 4 = exit
+
 		// Choice 423 is A Wrenching Encounter
 		// Choice 424 is Get Your Bolt On, Michael
 		// Choice 425 is Taking a Proper Gander

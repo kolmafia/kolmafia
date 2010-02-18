@@ -109,6 +109,7 @@ goofily-plumed helmet	70	Mox: 20
 grass hat	80	Mox: 25
 green traffic cone	60	Mox: 15
 grungy bandana	150	Mox: 60
+guard turtle shell	160	Mox: 65
 hardened slime hat	200	Mox: 200
 helmet turtle	10	none
 ice pick	100	none
@@ -168,6 +169,7 @@ slime-covered helmet	200	Mox: 200
 snailmail coif	165	Mox: 67
 snorkel	10	none
 snow hat	50	Mox: 10
+spaghetti cult mask	155	Mox: 62
 spangly sombrero	150	Mox: 150
 spiky turtle helmet	130	Mox: 50
 sponge helmet	200	Mox: 85
@@ -220,6 +222,7 @@ Knob Goblin Uberpants	45	Mox: 7
 Knob Goblin elite pants	60	Mox: 15
 Knob Goblin harem pants	10	none
 Knob Goblin pants	25	none
+Lederhosen of the Night	125	Mox: 30
 Ol' Scratch's ol' britches	200	Mys: 200
 Orcish cargo shorts	60	Mox: 15
 Oscus's dumpster waders	200	Mys: 200
@@ -388,6 +391,7 @@ shark jumper	200	Mus: 85
 snailmail hauberk	165	Mus: 67
 soggy wofl t-shirt	45	Mus: 7
 souvenir ski t-shirt	100	Mus: 35
+spangly mariachi vest	150	Mus: 60
 star shirt	165	Mus: 67
 sugar shirt	100	none
 supportive bra	50	Mox: 10
@@ -485,6 +489,7 @@ Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
 Staff of the Woodfire	10	Mys: 150	1-handed chefstaff
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
+The Trickster's Trikitixa	200	Mox: 60	2-handed accordion
 Totally Gay Claymore	69	Mus: 19	2-handed sword
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
 Underworld flail	200	Mox: 150	2-handed flail
@@ -572,6 +577,8 @@ corrupt club of corruption	40	Mus: 5	1-handed club
 costume sword	10	Mus: 0	1-handed sword
 crazy bastard sword	125	Mus: 25	1-handed sword
 creepy-ass club	160	Mus: 65	2-handed club
+crescent wrench	150	Mus: 60	1-handed club
+crowbar	140	Mus: 55	1-handed club
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed club
@@ -653,6 +660,7 @@ half-sized guitar	40	Mox: 5	2-handed guitar
 halfberd	30	Mus: 0	1-handed polearm
 halibut	200	Mus: 85	2-handed fish
 happiness	165	Mox: 67	1-handed pistol
+heavy leather-bound tome	150	Mus: 60	1-handed club
 heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
 hippo whip	20	Mus: 0	1-handed whip
@@ -751,6 +759,8 @@ serpentine sword	115	Mus: 42	1-handed sword
 severed flipper	80	Mus: 25	1-handed club
 shiny butcherknife	30	Mys: 0	1-handed utensil
 shuddersword	125	Mus: 45	2-handed sword
+silver cheese-slicer	140	Mys: 55	1-handed utensil
+silver pat&eacute; knife	140	Mys: 55	1-handed utensil
 silver shrimp fork	120	Mys: 45	1-handed utensil
 skate blade	200	Mus: 85	1-handed knife
 skate board	200	Mus: 85	2-handed club
@@ -954,6 +964,7 @@ hors d'oeuvre tray	115	Mus: 40	shield
 hypnodisk	0	none
 ice baby	0	none
 incredibly creepy marionette	0	Mys: 40
+ivory cue ball	0	none
 jet bennie marble	0	Mys: 85
 joybuzzer	0	none
 keg shield	175	Mus: 70	shield
@@ -1097,6 +1108,7 @@ Copper Alpha of Sincerity	0	Mys: 85
 Counterclockwise Watch	0	none
 Dyspepsi-Cola-issue canteen	0	none
 Earring of Fire	0	Mys: 60
+El Hebilla del Cintur&oacute;n de Lopez	0	Mox: 45
 El Vibrato translator	0	Mys: 200
 Elmley shades	0	Mys: 75
 Elvish sunglasses	0	none
@@ -1288,6 +1300,7 @@ hamethyst necklace	0	Mys: 10
 hamethyst ring	0	Mys: 10
 hardened slime belt	0	Mys: 200
 headhunter necktie	0	Mys: 65
+heart of the volcano	0	Mys: 50
 hemp string	0	Mys: 20
 hippy medical kit	0	Mys: 72
 hippy protest button	0	Mys: 65
@@ -1382,11 +1395,13 @@ silver tongue charrrm bracelet	0	Mys: 80
 sk8board	0	Mys: 20
 slime-covered necklace	0	Mys: 200
 snow belt	0	Mys: 10
+sock garters	0	Mys: 60
 solid baconstone earring	0	Mys: 40
 solid baconstone necklace	0	Mys: 40
 solid baconstone ring	0	Mys: 40
 solid gold pegleg	0	Mys: 60
 spade necklace	0	none
+spaghetti cult rosary	0	Mys: 55
 spark plug earring	0	Mys: 75
 sparkly engagement ring	0	none
 special sauce glove	0	none

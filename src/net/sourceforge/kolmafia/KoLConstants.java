@@ -237,7 +237,11 @@ public interface KoLConstants
 		{
 			"Mysterious Island",
 			"island.php"
-		}
+		},
+		{
+			"Volcanic Island",
+			"volcanoisland.php"
+		},
 	};
 
 	public static final String[][] FRAME_NAMES =

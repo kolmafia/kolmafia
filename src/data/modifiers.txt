@@ -151,6 +151,7 @@ goofily-plumed helmet	Familiar Effect: "atk, cap 17"
 grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
 green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
 grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
+guard turtle shell	Maximum HP: +50
 hardened slime hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
 helmet turtle	Familiar Effect: "atk, cap 2"
 ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
@@ -213,6 +214,7 @@ slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistanc
 snailmail coif	Muscle: +10, Damage Reduction: 8
 snorkel	Familiar Effect: "atk, cap 2"
 snow hat	Damage Reduction: 3, Familiar Effect: "unk, cap 12"
+spaghetti cult mask	Spell Damage Percent: +15
 spangly sombrero	Experience (Moxie): +3
 spiky turtle helmet	Weapon Damage: +8, Monster Level: +8, Familiar Effect: "atk, 1xFairy, cap 32"
 sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "atk, 1xFairy"
@@ -266,6 +268,7 @@ Knob Goblin Uberpants	Muscle: +2, Mysticality: +2, Moxie: +2
 Knob Goblin elite pants	Moxie: +3
 Knob Goblin harem pants	Moxie: +1
 Knob Goblin pants	Muscle: +1
+Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief"
 Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "Sauceror"
 Orcish cargo shorts	Muscle: +3, Mysticality: -3
 Oscus's dumpster waders	Hot Resistance: +3, Spooky Resistance: +3, Class: "Pastamancer"
@@ -439,6 +442,7 @@ shark jumper	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spo
 snailmail hauberk	Damage Absorption: +60, HP Regen Min: 6, HP Regen Max: 14, MP Regen Min: 6, MP Regen Max: 14
 soggy wofl t-shirt	Muscle: +3
 souvenir ski t-shirt	Moxie: +5
+spangly mariachi vest	Moxie Percent: +10, Initiative: -25
 star shirt	Muscle: +5, Mysticality: +5, Moxie: +5
 sugar shirt	Experience: +3
 supportive bra	Moxie: +3
@@ -542,6 +546,8 @@ Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20,
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
 Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical: 2
+# The Trickster's Trikitixa: Special Attack: Extreme High Note
+The Trickster's Trikitixa	Moxie: +15, Ranged Damage: +23, Item Drop: +11, Class: "Accordion Thief"
 # Totally Gay Claymore
 Tropical Crimbo Sword	Weapon Damage: +5
 Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10
@@ -634,6 +640,8 @@ corrupt club of corruption	Weapon Damage: +5, Class: "Seal Clubber"
 costume sword	Weapon Damage: -10, Initiative: +30
 crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +2, PvP Fights: +7
 creepy-ass club	Weapon Damage: +25, Monster Level: +15, Sleaze Damage: +15, Class: "Seal Clubber"
+crescent wrench	Weapon Damage: +8
+crowbar	Initiative: +25
 crowbarrr	Initiative: +15
 curdflinger	Moxie: +3, Weakens Monster
 curmudgel	Monster Level: +8, Weapon Damage: +10
@@ -720,6 +728,7 @@ half-sized guitar	Moxie: +2, Ranged Damage: +4
 halfberd	Weapon Damage: +2
 halibut	Stench Damage: +100, Sleaze Damage: +100, Moxie Percent: -10
 happiness	Hot Damage: +12
+heavy leather-bound tome	Weakens Monster
 heavy metal thunderrr guitarrr	Weapon Damage: +16
 # heteroerotic frat-paddle
 hippo whip	Monster Level: +10
@@ -820,6 +829,8 @@ serpentine sword	Monster Level: +10, Synergetic
 severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
 shiny butcherknife	Spell Damage: +5
 shuddersword	Muscle: +7, Spell Damage: +7, Spooky Damage: +5
+silver cheese-slicer	Spell Damage Percent: +10
+silver pat&eacute; knife	Spell Critical Percent: +5
 silver shrimp fork	Spell Damage: +14, Weapon Damage: +5
 skate blade	Moxie Percent: +5, Weakens Monster
 skate board	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Damage Reduction: 10
@@ -1046,6 +1057,7 @@ hors d'oeuvre tray	Initiative: +20, Damage Reduction: 7
 hypnodisk	Item Drop: +25
 ice baby	Experience: +3, Softcore Only
 incredibly creepy marionette	Mysticality: +3
+ivory cue ball	Item Drop: +5
 jet bennie marble	Spooky Spell Damage: +55
 # joybuzzer: Grants &quot;Shake Hands&quot; Combat Skill
 # joybuzzer: (31-50 damage per successful handshake)
@@ -1200,6 +1212,7 @@ Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: 
 Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
+El Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Four Songs, Class: "Accordion Thief", Single Equip
 # El Vibrato translator
 Elmley shades	Muscle: +12, Critical: 2, Single Equip
 # Elvish sunglasses: +25% Pickpocket Chance
@@ -1410,6 +1423,7 @@ hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +3, Single Equip
 hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 hardened slime belt	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 10, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 30, Mysticality Percent: +20, Single Equip
 headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
+heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, MP Regen Max: 5
 # hemp string
 hippy medical kit	Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10, Single Equip
 # hippy protest button: Damages Attacking Opponent
@@ -1510,11 +1524,13 @@ silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 sk8board	Initiative: +15
 slime-covered necklace	Weapon Damage: [50*zone(The Slime Tube)], Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200
 snow belt	Cold Damage: +6, Single Equip
+sock garters	Cold Resistance: +2, Single Equip
 solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single Equip
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
 solid baconstone ring	Mysticality: +12, Maximum MP: +30, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 solid gold pegleg	Initiative: -50, Single Equip
 # spade necklace
+spaghetti cult rosary	Maximum MP: +50
 spark plug earring	MP Regen Min: 3, MP Regen Max: 4, Spooky Resistance: +2
 sparkly engagement ring	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip
 # special sauce glove: Allows you to equip Chefstaves
@@ -1737,6 +1753,7 @@ extra-strength rubber bands	Familiar Weight: +5
 eye 'n' horn shampoo	Familiar Weight: +5
 eye-pod	Familiar Weight: +5
 false eyelashes	Familiar Weight: +5
+# farfalle bow tie: +10 lbs. of Barnacle
 fin-bit wax	Familiar Weight: +5
 # fishy wand: Lets your familiar cast fishy spells
 fishy wand	Familiar Effect: "fishy spells"
@@ -1814,6 +1831,7 @@ smile-sharpening stone	Familiar Weight: +5
 # smiley-face sticker: +10 lbs. of Volleyball
 snow halo	Familiar Weight: +5
 spoon!	Familiar Weight: +5
+# stick-on mini solar panels: +10 lbs. of Starfish
 string of dingle balls	Familiar Weight: +5
 sucky decal	Familiar Weight: +5
 sugar shield	Familiar Weight: +10
@@ -3021,6 +3039,7 @@ pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
 plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 potent potion of potency	Effect: "Ponderous Potency", Effect Duration: [R]
+potion of fishy speed	Effect: "Fishily Speeding", Effect Duration: 20
 potion of potency	Effect: "Pronounced Potency", Effect Duration: [R]
 potion of temporary gr8tness	Effect: "Gr8tness", Effect Duration: [R]
 powdered toad horn	Effect: "Squirming Like a Toad", Effect Duration: 10
@@ -3081,21 +3100,22 @@ twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
 unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 upsy daisy	Effect: "Ass Over Teakettle", Effect Duration: 10
 # vial of amber slime
+vial of baconstone juice	Effect: "Baconstoned", Effect Duration: 5
 vial of blue slime	Effect: "Slimily Speedy", Effect Duration: 15
 vial of brown slime	Effect: "A Little Bit Poisoned", Effect Duration: 5
 vial of chartreuse slime	Effect: "Mucilaginous Mentalism", Effect Duration: 15
 # vial of green slime
+vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of indigo slime	Effect: "Ichorous Intensity", Effect Duration: 15
 vial of orange slime	Effect: "Bilious Brawn", Effect Duration: 15
+vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of purple slime	Effect: "Ichorous Intensity", Effect Duration: 15
 vial of red slime	Effect: "Slimily Strong", Effect Duration: 15
+vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 vial of teal slime	Effect: "Mucilaginous Moxiousness", Effect Duration: 15
 vial of vermilion slime	Effect: "Mucilaginous Muscle", Effect Duration: 15
 vial of violet slime	Effect: "Bilious Brains", Effect Duration: 15
 vial of yellow slime	Effect: "Slimily Sagacious", Effect Duration: 15
-vial of baconstone juice	Effect: "Baconstoned", Effect Duration: 5
-vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
-vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
