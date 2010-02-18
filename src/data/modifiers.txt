@@ -207,6 +207,7 @@ rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50
 safarrri hat	Maximum HP: +15, Familiar Effect: "2xVolley, cap 22"
 samurai turtle helmet	Muscle: +1, Weapon Damage: +2, Familiar Effect: "?xBarrr, cap 6"
 seal-skull helmet	Familiar Effect: "atk, cap 2"
+sealhide hood	Initiative: +20
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
@@ -358,6 +359,7 @@ pixel pants	Maximum HP: +10, Maximum MP: +10
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30
 poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25
 rusty metal greaves	Initiative: -10
+sealhide leggings	HP Regen Min: 5, HP Regen Max: 10
 slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10
 snailmail breeches	Maximum HP: +20, Maximum MP: +20, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 snow pants	Hot Resistance: +2
@@ -1109,6 +1111,7 @@ rice bowl	Food Drop: +20
 rusty compass	Initiative: +30
 # rusty old lantern
 sawblade shield	Weapon Damage: +11, Damage Reduction: 11
+sealhide buckler	Damage Reduction: 7
 sealskin drum	Weapon Damage: +20, Class: "Seal Clubber"
 sebaceous shield	Stench Damage: +1, Sleaze Damage: +1, Damage Reduction: 2
 set of jacks	Experience (Moxie): +2
@@ -2740,6 +2743,7 @@ Filthy Hippy Disguise	Stench Damage: +5
 Floaty Fatigues	Spell Critical Percent: +15
 Frat Boy Ensemble	Sleaze Damage: +5
 Frat Warrior Fatigues	Sleaze Damage: +15
+Frigid Northlands Garb	Cold Resistance: +3
 Furry Suit	Moxie Percent: -75, Monster Level: +5
 Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damage: +5
 Gnauga Hides	Damage Reduction: 4

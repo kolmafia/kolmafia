@@ -61,13 +61,13 @@
 60
 61
 62	Snowman Suit	snow hat, snow pants, snow belt
-63
+63	Frigid Northlands Garb	sealhide hood, sealhide buckler, sealhide leggings
 64
 65
 66
 67
 68
-69	Legendary Regalia of the Master Squeezeboxer	El Sombrero De Lopez, The Trickster's Trikitixa, Lederhosen of the Night, El Hebilla del Cinturón de Lopez
+69	Legendary Regalia of the Master Squeezeboxer	El Sombrero De Lopez, The Trickster's Trikitixa, Lederhosen of the Night, El Hebilla del Cintur&oacute;n de Lopez
 70	BRICKOfig Outfit	BRICKO hat, BRICKO sword, BRICKO pants
 
 
