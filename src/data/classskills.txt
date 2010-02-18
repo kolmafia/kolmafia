@@ -56,13 +56,15 @@
 41	Marginally Insane	0	0	0
 42	Raise Backup Dancer	5	120	0
 43	Creepy Lullaby	5	30	0
-
 44	Rainbow Gravitation	1	30	0
 45	Vent Rage Gland	3	15	0
 46	Slimy Sinews	0	0	0
 47	Slimy Synapses	0	0	0
 48	Slimy Shoulders	0	0	0
-
+49	Gothy Handwave	5	1	0
+50	Break It On Down	5	2	0
+51	Pop and Lock It	5	2	0
+52	Run Like the Wind	5	2	0
 53	Summon Crimbo Candy	1	3	0
 
 # Skills available to Clubbers

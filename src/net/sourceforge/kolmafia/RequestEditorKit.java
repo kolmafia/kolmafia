@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 import net.sourceforge.kolmafia.webui.MineDecorator;
 import net.sourceforge.kolmafia.webui.MoneyMakingGameDecorator;
+import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
@@ -965,6 +966,10 @@ public class RequestEditorKit
 		case 206: // Seaside Megalopolis
 			MemoriesDecorator.decorateMegalopolisFight( buffer );
 			break;
+
+		case 219: // Outside the Club
+			NemesisDecorator.decorateRaverFight( buffer );
+			break;
 		}
 	}
 
@@ -1039,7 +1044,7 @@ public class RequestEditorKit
 			monsterData.append( "<br><br>Pretend that the line<br>below has five syllables:" );
 		}
 
-		if ( monster.getHP() != 0 )
+		if ( monster.getHP() > 0 )
 		{
 			monsterData.append( "<br />HP: " );
 			monsterData.append( FightRequest.getMonsterHealth() );
@@ -1081,6 +1086,13 @@ public class RequestEditorKit
 
 			int itemId = ItemDatabase.getItemId( itemName );
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( itemId ) );
+		}
+
+		String danceMoveStatus = NemesisDecorator.danceMoveStatus( monsterName );
+		if ( danceMoveStatus != null )
+		{
+			monsterData.append( "<br />" );
+			monsterData.append( danceMoveStatus );
 		}
 
 		List items = FightRequest.getLastMonster().getItems();

@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
+import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 import org.htmlcleaner.CleanerProperties;
@@ -3988,6 +3989,10 @@ public class FightRequest
 
 		switch ( skillId )
 		{
+		case 49:   // Gothy Handwave
+			NemesisDecorator.useGothyHandwave( FightRequest.encounterLookup, responseText );
+			break;
+
 		case 2005: // Shieldbutt
 		case 2105: // Head + Shield Combo
 		case 2106: // Knee + Shield Combo

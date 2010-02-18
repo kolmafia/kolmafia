@@ -271,6 +271,9 @@ user	currentSpleenUse	0
 user	currentWheelPosition	muscle
 user	customCombatScript	default
 user	dailyDungeonDone	false
+user	dbNemesisSkill1	0
+user	dbNemesisSkill2	0
+user	dbNemesisSkill3	0
 user	defaultAutoAttack	0
 user	defaultFlowerLossMessage
 user	defaultFlowerWinMessage
@@ -376,6 +379,7 @@ user	lastKingLiberation	-1
 user	lastLouvreMap	0
 user	lastMessageId
 user	lastMiningReset	-1
+user	lastNemesisReset	-1
 user	lastPaperStripReset	-1
 user	lastPaperStrip3144
 user	lastPaperStrip4138

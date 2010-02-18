@@ -153,6 +153,7 @@ A.M.C. Gremlin	HP: 170 Def: 170 Atk: 172 Meat: 40-60	gremlin juice (3)
 Acid Blob	HP: 40 Def: 38 Atk: 38	magic whistle (15)
 Acoustic Electric Eel	HP: 500 Def: 400 Atk: 405 Meat: 192-288	dull fish scale (15)	eel battery (9)	eel sauce (c10)	eel skin (4)
 Albino Bat	HP: 8 Def: 14 Atk: 12 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (b0)
+Alert Mariachi	HP: 0	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 120-180	heavy D (40)	original G (40)
 Amateur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Amateur Ninja	HP: 5 Atk: 4 Def: 6 Meat: 16-24	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
@@ -215,11 +216,13 @@ Boaraffe	HP: 145 Def: 145 Atk: 145 Meat: 83-116	long pork (30)
 Bob Racecar	HP: 139 Def: 145 Atk: 138 Meat: 96-138	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)
 Bolt-Cuttin' Elf		elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
 Bookbat	HP: 55 Def: 49 Atk: 51	tattered scrap of paper (30)
+Booth Slime	HP: 0	vial of blue slime (0)
 Booty Crab	HP: 69 Atk: 102 Meat: 286-334 E: sleaze	Cap'm Caronch's nasty booty (100)
 Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)
 Bow-making Mummy		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Bowling Cricket	HP: 100000
 Brainsweeper	HP: 9 Def: 18 Atk: 18 Meat: 29-47	disembodied brain (30)
+Breakdancing Raver	HP: -1
 Bread Golem	HP: 8 Def: 16 Atk: 24 Meat: 26-41	wad of dough (30)
 Briefcase Bat	HP: 11 Def: 17 Atk: 17 Meat: 25-37	bat guano (10)	briefcase (40)	sonar-in-a-biscuit (20)
 Bronze Chef	HP: 100000
@@ -323,6 +326,7 @@ eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5)
 eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 74 Meat: 32-48 E: sleaze	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p0)
 eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 39 E: sleaze Meat: 24-36	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-54	evil golden arch (30)	infernal insoles (10)
+Fan Slime	HP: 0	vial of yellow slime (0)
 Fancy Bath Slug	HP: 100000
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
 Ferocious Bugbear	HP: 5 Atk: 3 Def: 3 Meat: 16-24	bugbear beanie (20)	bugbear bungguard (20)
@@ -553,6 +557,7 @@ Perpendicular Bat	HP: 12 Def: 18 Atk: 18 Meat: 26-40	batgut (15)	bat wing (15)	s
 Pine Bat	HP: 8 Def: 12 Atk: 14 EA: stench Meat: 18-27	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
 Plaque of Locusts	HP: 140 Def: 138 Atk: 134	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
 Pooltergeist	HP: 25 Def: 20 Atk: 20	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
+Pop-and-Lock Raver	HP: -1
 Portly Abomination	HP: 63 Def: 73 Atk: 73 Meat: 61-91
 Possessed Can of Tomatoes	HP: 1 Def: 1 Atk: 1 Meat: 2-4	razor-sharp can lid (45)	tomato (60)	possessed tomato (p0)	shredded can label (b0)
 Possessed Pipe-Organ	HP: 100000
@@ -590,6 +595,7 @@ Roller Skate	HP: 0	brand new key (0)	brass dorsal fin (0)	skate skin (0)	skate s
 Rolling Stone	HP: 135 Def: 140 Atk: 137	palm frond (10)	handful of moss (20)	brown sugar cane (20)	mother's little helper (10)	Tuesday's ruby (5)	hot date (5)
 Rotund Duck	HP: 225 Atk: 175 Meat: 271-369	duct tape (6)
 Rudolphus of Crimborg		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
+Running Man	HP: -1
 Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30)	Mad Train wine (30)	moxie weed (15)	dented harmonica (15)	cheap cigar butt (p0)
 Saboteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Sabre-Toothed Ferret	HP: 200 Atk: 250 Meat: 160-240 E: stench	sabre teeth (25)	Spanish fly (c0)
@@ -621,6 +627,7 @@ Skullbat	HP: 10 Def: 16 Atk: 16 EA: spooky Meat: 25-37	broken skull (40)	loose t
 Skullery Maid	HP: 4 Def: 4 Atk: 3	bottle of popskull (30)	dishrag (5)
 Sleaze Hobo	HP: 500 Def: 350 Atk: 350 E: sleaze	hobo nickel (0)	sleazy bindle (0)	Summer Nights (0)	Sensual Massage for Creeps (0)	stained mattress (0)
 Sleeping Knob Goblin Guard	HP: 1 Def: 1 Atk: 1 Meat: 4-6	viking helmet (30)	Knob Goblin pants (5)	Knob Goblin scimitar (30)
+Sleepy Mariachi	HP: 0	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Slick Lihc	HP: 50 Def: 60 Atk: 59 E: spooky	lihc eye (20)	lihc face (7)	shimmering tendrils (c5)
 Slime1	HP: 200 Def: 100 Atk: 100 EA: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)	wad of slimy rags (n1)
 Slime2	HP: 200 Def: 100 Atk: 100 EA: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)
@@ -661,6 +668,7 @@ Striking Middle-Management Elf		felt (10)	wooden block (10)	stuffing (10)	length
 Striking Pencil-Pusher Elf		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Stocking-Stuffer Elf		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
 Sub-Assistant Knob Mad Scientist	HP: 1 Def: 2 Atk: 1 Meat: 5-7	Knob Goblin firecracker (100)	Knob Goblin pants (10)	strongness elixir (30)
+Surprised Mariachi	HP: 0	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Swamp Duck	HP: 182 Atk: 169 Meat: 120-172 E: stench	fetid feather (10)	duct tape (5)
 Swarm of Fire Ants	HP: 135 Def: 133 Atk: 142 E: heat	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
 Swarm of Killer Bees	HP: 45 Def: 39 Atk: 41 "Somewhat Poisoned"	baby killer bee (5)	royal jelly (25)
@@ -734,6 +742,7 @@ Vampire Bat	HP: 10 Def: 16 Atk: 17 Meat: 34-54	bat wing (15)	batgut (15)	sonar-i
 Vampire Clam	HP: 14 Def: 19 Atk: 21	vampire pearl (p0)
 Vampire Duck	HP: 198 Atk: 175 Meat: 131-165 E: spooky	frightful feather (10)	duct tape (5)	vampire glitter (c0)
 Vegetable Gremlin	HP: 170 Def: 172 Atk: 168 Meat: 40-60	gremlin juice (3)	molybdenum screwdriver (0)
+Vendor Slime	HP: 0	vial of red slime (0)
 Vengeful Turtle Spectre	HP: 20	a creased paper strip (0)	a crinkled paper strip (0)	a crumpled paper strip (0)	a folded paper strip (0)	a ragged paper strip (0)	a ripped paper strip (0)	a rumpled paper strip (0)	a torn paper strip (0)
 Vicious Easel	HP: 100000
 Vicious Gnauga	HP: 40 Def: 40 Atk: 45	gnauga hide (10)
