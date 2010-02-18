@@ -707,101 +707,127 @@ public class AdventureRequest
 
 	private static final Object[][] demons =
 	{
-		{ "Summoning Chamber",
-		  Pattern.compile( "Did you say your name was (.*?)\\?" ),
-		  "delicious-looking pies"
+		{
+			"Summoning Chamber",
+			Pattern.compile( "Did you say your name was (.*?)\\?" ),
+			"delicious-looking pies",
+			"demonName1",
 		},
-		{ "Hoom Hah",
-		  Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" ),
-		  "fifty meat"
+		{
+			"Hoom Hah",
+			Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" ),
+			"fifty meat",
+			"demonName2",
 		},
-		{ "Every Seashell Has a Story to Tell If You're Listening",
-		  Pattern.compile( "Hello\\? Is (.*?) there\\?" ),
-		  "fish-guy"
+		{
+			"Every Seashell Has a Story to Tell If You're Listening",
+			Pattern.compile( "Hello\\? Is (.*?) there\\?" ),
+			"fish-guy",
+			"demonName3",
 		},
-		{ "Leavesdropping",
-		  Pattern.compile( "(.*?), we call you! \\1, come to us!" ),
-		  "bullwhip"
+		{
+			"Leavesdropping",
+			Pattern.compile( "(.*?), we call you! \\1, come to us!" ),
+			"bullwhip",
+			"demonName4",
 		},
-		{ "These Pipes... Aren't Clean!",
-		  Pattern.compile( "Blurgle. (.*?). Gurgle. By the way," ),
-		  "coprodaemon" },
+		{
+			"These Pipes... Aren't Clean!",
+			Pattern.compile( "Blurgle. (.*?). Gurgle. By the way," ),
+			"coprodaemon",
+			"demonName5",
+		},
+		{
+			"Flying In Circles",
+			Pattern.compile( "\"(.*?)!\" he screams." ),
+			"Lord of Revenge",
+			"demonName8",
+		},
 	};
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );
 
 	public static final void registerDemonName( final String encounter, final String responseText )
 	{
+		String demon = null;
+		String setting = null;
+		String place = null;
+
 		for ( int i = 0; i < AdventureRequest.demons.length; ++i )
 		{
-			String name = (String) AdventureRequest.demons[ i ][ 0 ];
-			if ( name == null || !name.equals( encounter ) )
+			Object [] demons = AdventureRequest.demons[ i ];
+			place = (String) demons[ 0 ];
+			if ( place == null || !place.equals( encounter ) )
 			{
 				continue;
 			}
 
-			Pattern pattern = (Pattern) AdventureRequest.demons[ i ][ 1 ];
+			Pattern pattern = (Pattern) demons[ 1 ];
 			Matcher matcher = pattern.matcher( responseText );
-
-			String demon = null;
-			int index = -1;
 
 			if ( matcher.find() )
 			{
 				// We found the name
 				demon = matcher.group( 1 );
-				index = i + 1;
+				setting = (String) demons[ 3 ];
+				break;
 			}
-			else if ( i != 0 )
+
+			// If we are not in the summoning chamber and failed to
+			// deduce the name, give up.
+			if ( i != 0 )
 			{
-				// It's not the Summoning Chamber.
 				return;
 			}
-			else
+
+			// It is the Summoning Chamber. If he used a valid
+			// demon name, we can deduce which one it is from the
+			// result text
+
+			matcher = AdventureRequest.NAME_PATTERN.matcher( responseText );
+			if ( !matcher.find() )
 			{
-				// It is the Summoning Chamber. If he used a
-				// valid demon name, we can deduce which one it
-				// is from the result text
+				return;
+			}
 
-				matcher = AdventureRequest.NAME_PATTERN.matcher( responseText );
-				if ( !matcher.find() )
+			// Save the name he used.
+			demon = matcher.group( 1 );
+
+			// Look for tell-tale string
+			for ( int j = 0; j < AdventureRequest.demons.length; ++j )
+			{
+				demons = AdventureRequest.demons[ j ];
+				place = (String) demons[ 0 ];
+				String text = (String) demons[ 2 ];
+				if ( responseText.indexOf( text ) != -1 )
 				{
-					return;
-				}
-
-				// Save the name he used.
-				demon = matcher.group( 1 );
-
-				// Look for tell-tale string
-				for ( int j = 0; j < AdventureRequest.demons.length; ++j )
-				{
-					String text = (String) AdventureRequest.demons[ j ][ 2 ];
-					if ( responseText.indexOf( text ) != -1 )
-					{
-						index = j + 1;
-						break;
-					}
-				}
-
-				// Couldn't figure out which demon he called.
-				if ( index == -1 )
-				{
-					return;
+					setting = (String) demons[ 4 ];
+					break;
 				}
 			}
 
-			String settingName = "demonName" + index;
-			String previousName = Preferences.getString( settingName );
+			break;
+		}
 
-			if ( previousName.equals( demon ) )
-				return;
+		// Couldn't figure out which demon he called.
+		if ( setting == null )
+		{
+			return;
+		}
 
-			RequestLogger.printLine( "Demon name: " + demon );
-			RequestLogger.updateSessionLog( "Demon name: " + demon );
-			Preferences.setString( settingName, demon );
+		String previousName = Preferences.getString( setting );
+		if ( previousName.equals( demon ) )
+		{
+			return;
+		}
 
-			if ( KoLConstants.conditions.isEmpty() )
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, (String) demons[ index - 1 ][0] );
+		RequestLogger.printLine( "Demon name: " + demon );
+		RequestLogger.updateSessionLog( "Demon name: " + demon );
+		Preferences.setString( setting, demon );
+
+		if ( KoLConstants.conditions.isEmpty() )
+		{
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, place );
 		}
 	}
 

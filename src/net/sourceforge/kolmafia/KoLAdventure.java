@@ -83,6 +83,7 @@ public class KoLAdventure
 		{ "Haunted Bathroom", "Demonic Taint" },
 		{ null, "pile of smoking rags" },
 		{ null, "Drinks" },
+		{ "Nemesis' Lair", "Existential Torment" },
 	};
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
