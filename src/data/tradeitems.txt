@@ -4421,10 +4421,10 @@
 4412
 4413
 4414	colorful plastic ball	multiple	all	0
-4415
-4416
+4415	sealhide hood	hat	all	55
+4416	sealhide leggings	pants	all	60
 4417
-4418
+4418	sealhide buckler	offhand	all	45
 4419
 4420
 4421

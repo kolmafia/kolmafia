@@ -4418,10 +4418,10 @@
 4412
 4413
 4414	929593771	colorful plastic ball	colorful plastic balls
-4415
-4416
+4415	914417114	sealhide hood	sealhide hoods
+4416	484195586	sealhide leggings	sealhide leggings
 4417
-4418
+4418	590197284	sealhide buckler	sealhide bucklers
 4419
 4420
 4421
