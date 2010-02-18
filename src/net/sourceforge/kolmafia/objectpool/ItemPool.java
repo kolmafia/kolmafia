@@ -975,6 +975,7 @@ public class ItemPool
 	public static final int PUMPKINHEAD_MASK = 4261;
 	public static final int MUMMY_COSTUME = 4262;
 	public static final int UNDERWORLD_ACORN = 4274;
+	public static final int TRICKSTER_TRIKITIXA = 4321;
 	public static final int BAG_OF_MANY_CONFECTIONS = 4329;
 	public static final int CRIMBUCK = 4343;
 	public static final int GINGERBREAD_HOUSE = 4347;
