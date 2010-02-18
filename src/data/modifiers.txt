@@ -3080,6 +3080,19 @@ twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
 unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 upsy daisy	Effect: "Ass Over Teakettle", Effect Duration: 10
+# vial of amber slime
+vial of blue slime	Effect: "Slimily Speedy", Effect Duration: 15
+vial of brown slime	Effect: "A Little Bit Poisoned", Effect Duration: 5
+vial of chartreuse slime	Effect: "Mucilaginous Mentalism", Effect Duration: 15
+# vial of green slime
+vial of indigo slime	Effect: "Ichorous Intensity", Effect Duration: 15
+vial of orange slime	Effect: "Bilious Brawn", Effect Duration: 15
+vial of purple slime	Effect: "Ichorous Intensity", Effect Duration: 15
+vial of red slime	Effect: "Slimily Strong", Effect Duration: 15
+vial of teal slime	Effect: "Mucilaginous Moxiousness", Effect Duration: 15
+vial of vermilion slime	Effect: "Mucilaginous Muscle", Effect Duration: 15
+vial of violet slime	Effect: "Bilious Brains", Effect Duration: 15
+vial of yellow slime	Effect: "Slimily Sagacious", Effect Duration: 15
 vial of baconstone juice	Effect: "Baconstoned", Effect Duration: 5
 vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5

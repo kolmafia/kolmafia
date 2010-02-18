@@ -41,6 +41,8 @@ Farm	IsleWar	McMillicancuddy's Farm
 Orchard	IsleWar	Organic Orchard
 Junkyard	IsleWar	Wartime Junkyard
 
+Volcano	Volcano	Secret Tropical Island Volcano Lair
+
 Signed Zones	Signed Zones	Signed Zones
 Gyms	Signed Zones	Clan/Signed Gyms
 MusSign	Signed Zones	Muscle Sign

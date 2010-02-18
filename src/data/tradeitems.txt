@@ -3891,20 +3891,20 @@
 3882
 3883
 3884
-3885
-3886
-3887
-3888
-3889
-3890
-3891
-3892
-3893
-3894
-3895
-3896
-3897
-3898
+3885	vial of red slime	multiple	none	33
+3886	vial of yellow slime	multiple	none	33
+3887	vial of blue slime	multiple	none	33
+3888	vial of orange slime	multiple	none	66
+3889	vial of green slime	multiple	none	66
+3890	vial of violet slime	multiple	none	66
+3891	vial of vermilion slime	multiple	none	99
+3892	vial of amber slime	multiple	none	99
+3893	vial of chartreuse slime	multiple	none	99
+3894	vial of teal slime	multiple	none	99
+3895	vial of indigo slime	multiple	none	99
+3896	vial of purple slime	multiple	none	99
+3897	vial of brown slime	multiple	none	3
+3898	bottle of G&uuml;-Gone	none, combat reusable	none	0
 3899
 3900
 3901	seal-blubber candle	none	display	50

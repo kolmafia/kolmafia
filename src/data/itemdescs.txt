@@ -3888,20 +3888,20 @@
 3882
 3883
 3884
-3885
-3886
-3887
-3888
-3889
-3890
-3891
-3892
-3893
-3894
-3895
-3896
-3897
-3898
+3885	404702785	vial of red slime
+3886	343218750	vial of yellow slime
+3887	667810358	vial of blue slime
+3888	400803781	vial of orange slime
+3889	653259272	vial of green slime
+3890	400938779	vial of violet slime
+3891	240883568	vial of vermilion slime
+3892	262092512	vial of amber slime
+3893	422037511	vial of chartreuse slime
+3894	867609165	vial of teal slime
+3895	455694019	vial of indigo slime
+3896	553670862	vial of purple slime
+3897	615023386	vial of brown slime
+3898	959190225	bottle of G&uuml;-Gone
 3899
 3900
 3901	851290259	seal-blubber candle	seal-blubber candles
