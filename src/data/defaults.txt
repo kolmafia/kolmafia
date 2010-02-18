@@ -281,6 +281,7 @@ user	demonName4
 user	demonName5
 user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
+user	demonName8
 user	demonSummoned	false
 user	dolphinItem
 user	doorCode
