@@ -61,6 +61,9 @@ Boss Bat's Lair	100	Beefy Bodyguard Bat	The Boss Bat
 Bugbear Pens	100	An Angry Bugbear: 3	A Bugged Bugbear: 3	Mad Bugbears: 3	A Revolting Bugbear: 3	A Revolving Bugbear: 3	An Annoying Spooky Gravy Fairy: 2
 Burnbarrel Blvd.	-1	Hot Hobo	Ol' Scratch: 0
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
+Convention Hall Lobby	100	Booth Slime	Fan Slime	Vendor Slime
+Outside the Club	100	Breakdancing Raver	Pop-and-Lock Raver	Running Man
+The Barracks	100
 # Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
 # Crimbo Town Toy Factory	100	Arc-welding Elfborg	Decal-applying Elfborg	Ribbon-cutting Elfborg	Weapons-assembly Elfborg
 Crimbo Town Toy Factory	100	Amateur Elf	Auteur Elf	Bolt-Cuttin' Elf	Monkey Wrenchin' Elf	Propaganda-Spewin' Elf	Provocateur Elf	Raconteur Elf	Saboteur Elf	Wire-Crossin' Elf
