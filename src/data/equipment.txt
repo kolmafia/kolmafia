@@ -225,6 +225,7 @@ Knob Goblin elite pants	60	Mox: 15
 Knob Goblin harem pants	10	none
 Knob Goblin pants	25	none
 Lederhosen of the Night	125	Mox: 30
+Newman's Own Trousers	125	Mys: 30
 Ol' Scratch's ol' britches	200	Mys: 200
 Orcish cargo shorts	60	Mox: 15
 Oscus's dumpster waders	200	Mys: 200
@@ -1129,6 +1130,7 @@ French slippers	0	none
 Frosty's carrot	0	Mus: 200
 Gaia beads	0	Mys: 72
 Golden Mr. Accessory	0	none
+Gravyskin Belt of the Sauceblob	0	Mys: 45
 Green Clover of Justice	0	Mys: 85
 Grimacite galoshes	0	Mys: 17
 Grimacite garter	0	Mys: 17
@@ -1407,6 +1409,7 @@ shiny ring	0	Mys: 10
 shiny tribal beads	0	Mys: 25
 silver tongue charrrm bracelet	0	Mys: 80
 sk8board	0	Mys: 20
+slime convention pin	0	none
 slime-covered necklace	0	Mys: 200
 snow belt	0	Mys: 10
 sock garters	0	Mys: 60
