@@ -489,6 +489,9 @@ Disco Banjo	Moxie: +7, Class: "Disco Bandit"
 Dr. Hobo's scalpel	Weapon Damage: +3, Stench Damage: +1
 Drowsy Sword	Weakens Monster, Monster Level: -10
 # El Vibrato energy spear
+# Flail of the Seven Aspects: Handle Doubles as a Turtling Rod
+# Flail of the Seven Aspects: Special Attack: Turtle of Seven Tails
+Flail of the Seven Aspects	Muscle: +15, Never Fumble
 Frost&trade; brand sword	Muscle: +3, Monster Level: +3, Cold Damage: +3
 Frosty's arm	Weapon Damage: +30, Cold Damage: +30
 Frosty's nailbat	Muscle Percent: +30, Critical Hit Percent: +3, Cold Damage: +30, Class: "Seal Clubber"
@@ -561,6 +564,10 @@ Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10
 Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10
 Unionize The Elves sign	Weakens Monster
 # Wand of Nagamar
+# Windsor Pan of the Source: Special Attack: Saucemageddon
+Windsor Pan of the Source	Mysticality: +15, Spell Damage: +23, Spell Critical Percent: +11
+# Wrath of the Capsaician Pastalords: Special Attack: Noodles of Fire
+Wrath of the Capsaician Pastalords	Mysticality: +15, Food Drop: +50, Initiative: +40
 # X-37 gun: Shoots Elemental Blasts
 Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30

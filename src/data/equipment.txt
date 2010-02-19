@@ -435,6 +435,7 @@ Disco Banjo	50	Mox: 10	2-handed banjo
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
 Drowsy Sword	171	Mus: 66	2-handed sword
 El Vibrato energy spear	200	Mus: 200	2-handed spear
+Flail of the Seven Aspects	200	Mus: 60	1-handed flail
 Frost&trade; brand sword	70	Mus: 20	1-handed sword
 Frosty's arm	200	Mus: 200	1-handed staff
 Frosty's nailbat	200	Mus: 200	2-handed club
@@ -501,6 +502,8 @@ Underworld flail	200	Mox: 150	2-handed flail
 Underworld truncheon	200	Mus: 150	2-handed club
 Unionize The Elves sign	50	Mus: 10	1-handed club
 Wand of Nagamar	30	Mus: 0	1-handed wand
+Windsor Pan of the Source	200	Mys: 60	1-handed saucepan
+Wrath of the Capsaician Pastalords	200	Mys: 60	1-handed utensil
 X-37 gun	160	Mox: 65	1-handed pistol
 Zim Merman's guitar	200	Mox: 85	2-handed guitar
 Zombo's shoulder blade	200	Mus: 200	2-handed sword
