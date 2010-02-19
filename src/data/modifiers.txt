@@ -199,6 +199,7 @@ plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, 
 propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 # pumpkinhead mask
 raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
+rave visor	Maximum MP: +20
 ravioli hat	Familiar Effect: "atk, cap 2"
 red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
 reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
@@ -211,6 +212,7 @@ sealhide hood	Initiative: +20
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
+# sleep mask
 slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2
 snailmail coif	Muscle: +10, Damage Reduction: 8
 snorkel	Familiar Effect: "atk, cap 2"
@@ -281,6 +283,7 @@ Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only
 # Travoltan trousers: (unless Mysticality is higher)
 Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only, Moxie May Control MP
 Tropical Crimbo Shorts	Initiative: +30
+Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit"
 Voluminous Radio Pants	HP Regen Min: 0, HP Regen Max: 5
 Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Turtle Tamer"
 # alpha-mail pants
@@ -526,6 +529,8 @@ Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
 Red Rover BB gun	Critical: 3
 Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 # Ruby Rod
+# Seeger's Unstoppable Banjo: +15 damage to Disco Bandit Combat Skills, Special Attack: Funk Bluegrass Fusion
+Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23
 # Shagadelic Disco Banjo: +7 damage to Disco Bandit Combat Skills
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical: 5
@@ -1046,6 +1051,7 @@ foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 glass gnoll eye	Mysticality: +3
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
 glowing esca	Item Drop: [20*zone(The Sea)]
+glowstick on a string	Weapon Damage: +10
 gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # golden sausage
 # green balloon
@@ -1193,6 +1199,8 @@ Ankh of Badahnkadh	Spell Damage Percent: +25, Single Equip
 # Annual Ascot	All Attributes +X%
 Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
+# Bling of the New Wave: 1 Additional Pickpocket Attempt
+Bling of the New Wave	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Class: "Disco Bandit", Single Equip
 Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Bonerdagon necklace	Muscle: +5, Moxie: +5, Initiative: +30
 Boris's ring	Muscle: +10
@@ -1351,6 +1359,7 @@ bottlecap turtle	Mysticality: +1, Maximum MP: +3
 boxing glove	Weapon Damage: +4
 brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10, Synergetic
 brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
+# candy necklace: +10% Candy Drops from Monsters
 # cannonball charrrm bracelet: Explosively hilarious
 cannonball charrrm bracelet	Single Equip
 cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
@@ -1467,6 +1476,7 @@ night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
+pacifier necklace	Sleaze Damage: +20
 pat-a-cake pendant	Mysticality: +1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
 peace-sign necklace	Damage Reduction: 3
@@ -1554,6 +1564,7 @@ stuffed shoulder parrot	Maximum MP: +5
 support cummerbund	Maximum HP: +20
 tap shoes	Moxie: +11, Initiative: -20, Single Equip
 tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
+teddybear backpack	Meat Drop: +10
 # teflon swim fins: Makes you a better diver
 teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 tin star	Monster Level: +5, Moxie: +3
@@ -1768,6 +1779,7 @@ gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently.
 gill rings	Familiar Weight: +5
 green pixie spog	Familiar Weight: +5
+# guard turtle collar
 half-height unicycle	Familiar Weight: +5
 hardware upgrade	Familiar Weight: +5
 hot pink lipstick	Familiar Weight: +5
@@ -1855,6 +1867,7 @@ tiny makeup kit	Familiar Weight: +15
 tiny maracas	Familiar Weight: +5
 # tiny nose-bone fetish: Reduces familiar's MP expenditure by 2-4.
 tiny shaker of salt	Familiar Weight: +5
+# tiny sombrero
 toy six-seater hovercraft	Familiar Weight: -5
 # tiny sombrero: +10 lbs. of Sombrero
 # tuning fork: Familiar Will Attack You Less Often
@@ -2314,7 +2327,7 @@ Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Knob Goblin Lust Frenzy	Moxie: +2
-# Knob Goblin Perfume: You smell like a Knob Goblin harem girl!
+Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
 La Bamba	Item Drop: +3
 Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
@@ -2433,6 +2446,8 @@ Rage of the Reindeer	Weapon Damage: +10, Muscle Percent: +10
 Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Hot Damage: +15, Hot Resistance: +3, Cold Damage: +15, Cold Resistance: +3, Stench Damage: +15, Stench Resistance: +3, Spooky Damage: +15, Spooky Resistance: +3, Sleaze Damage: +15, Sleaze Resistance: +3
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Rat-Faced	Moxie Percent: +10
+Rave Concentration	Item Drop: +30
+Rave Nirvana	Meat Drop: +50
 Raving Lunatic	Weapon Damage: +20
 Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 Really Deep Breath	Adventure Underwater
@@ -2725,6 +2740,7 @@ Wrath	Weapon Damage: +10, Spell Damage: +10, Damage Reduction: -4
 Antique Arms and Armor	Muscle: +15
 Arboreal Raiment	Stench Resistance: +3
 # Arrrbor Day Aparrrrrel
+# BRICKOfig Outfit
 Black Armaments	Muscle: +6
 Bounty-Hunting Rig	Item Drop: +15
 # Bow Tux
@@ -2754,6 +2770,7 @@ Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
 Hyperborean Hobo Habiliments	Cold Damage: +50
 Knob Goblin Elite Guard Uniform	Muscle: +7
 Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
+# Legendary Regalia of the Master Squeezeboxer
 Mining Gear	Meat Drop: +5
 # Mutant Couture
 OK Lumberjack Outfit	Critical: 2
@@ -2857,7 +2874,6 @@ Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
 Knob Goblin love potion	Effect: "Knob Goblin Lust Frenzy", Effect Duration: 5
 Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 10
-Knob Goblin perfume	Effect: "Knob Goblin Perfume"
 Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 10
 Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5

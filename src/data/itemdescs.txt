@@ -4196,9 +4196,9 @@
 4190	111489868	control crystal	control crystals
 4191	851515177	sugar shirt	sugar shirts
 4192	672893541	sugar shard	sugar shards
-4193
+4193	638571639	rave visor	rave visors
 4194
-4195
+4195	577301630	pacifier necklace	pacifier necklaces
 4196
 4197
 4198
@@ -4274,7 +4274,7 @@
 4268
 4269
 4270
-4271
+4271	927774724	Volartta's bellbottoms
 4272	678653784	Lederhosen of the Night
 4273	929052608	ribbon candy	ribbons of ribbon candy
 4274	362801139	Underworld acorn	Underworld acorns
@@ -4323,13 +4323,13 @@
 4317
 4318
 4319
-4320
+4320	971981173	Seeger's Unstoppable Banjo
 4321	952292059	The Trickster's Trikitixa
 4322
 4323
 4324
 4325
-4326
+4326	829566476	Bling of the New Wave
 4327	129795064	El Hebilla del Cintur&oacute;n de Lopez
 4328	171587799	suspicious stocking	suspicious stockings
 4329	899647196	bag of many confections	bags of many confections
@@ -4431,9 +4431,9 @@
 4425
 4426
 4427
-4428
-4429
-4430
+4428	873692545	glowstick on a string	glowsticks on strings
+4429	239314123	candy necklace	candy necklaces
+4430	233616866	teddybear backpack	teddybear backpack
 4431
 4432
 4433

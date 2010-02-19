@@ -690,8 +690,8 @@
 689
 690
 691	Sappy Blood	blooddrops.gif	be2d899982f60689acf64428f6ad7e29	use 1 spooky sap
-692
-693
+692	Rave Concentration	discoball.gif	37ab27a56e15da57af8fbf4dc14f88da	#DB combo
+693	Rave Nirvana	discoball.gif	7e52eb422eb2d74d0030dd61f4cd681b	#DB combo
 694	Belch the Rainbow&trade;	rrainbow.gif	edd8a8dfb261f4a1f07e327c6e43ef0b	use 1 Piddles
 695	Full of Wist	happy.gif	aaf1fc3bc50d02ec5c0bc6742f2a2100	use 1 BitterSweetTarts
 696	Polka Face	accordion.gif	273149593cef0f682ac9ca7d2483d977	use 1 Polka Pop
