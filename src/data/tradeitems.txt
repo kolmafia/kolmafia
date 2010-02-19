@@ -4323,9 +4323,9 @@
 4314
 4315	Annual Ascot	accessory	all	0
 4316
-4317
-4318
-4319
+4317	Flail of the Seven Aspects	weapon	none	0
+4318	Wrath of the Capsaician Pastalords	weapon	none	0
+4319	Windsor Pan of the Source	weapon	none	0
 4320	Seeger's Unstoppable Banjo	weapon	none	0
 4321	The Trickster's Trikitixa	weapon	none	0
 4322

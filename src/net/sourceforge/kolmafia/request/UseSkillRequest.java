@@ -124,6 +124,7 @@ public class UseSkillRequest
 
 	public static final AdventureResult[] TAMER_WEAPONS = new AdventureResult[]
 	{
+		ItemPool.get( ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 1 ),
 		ItemPool.get( ItemPool.CHELONIAN_MORNINGSTAR, 1 ),
 		ItemPool.get( ItemPool.MACE_OF_THE_TORTOISE, 1 ),
 		ItemPool.get( ItemPool.TURTLE_TOTEM, 1 )
@@ -131,6 +132,7 @@ public class UseSkillRequest
 
 	public static final AdventureResult[] SAUCE_WEAPONS = new AdventureResult[]
 	{
+		ItemPool.get( ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 1 ),
 		ItemPool.get( ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 1 ),
 		ItemPool.get( ItemPool.FIVE_ALARM_SAUCEPAN, 1 ),
 		ItemPool.get( ItemPool.SAUCEPAN, 1 )
@@ -825,6 +827,8 @@ public class UseSkillRequest
 	{
 		if ( KoLCharacter.canInteract() )
 		{
+			// The first weapon is a quest item: the reward for
+			// finally defeating your Nemesis
 			if ( InventoryManager.hasItem( options[ 0 ], false ) )
 			{
 				if ( !KoLCharacter.hasEquipped( options[ 0 ] ) )
@@ -835,6 +839,8 @@ public class UseSkillRequest
 				return;
 			}
 
+			// The second weapon is a quest item: the Legendary
+			// Epic Weapon of the class
 			if ( InventoryManager.hasItem( options[ 1 ], false ) )
 			{
 				if ( !KoLCharacter.hasEquipped( options[ 1 ] ) )
@@ -844,12 +850,25 @@ public class UseSkillRequest
 
 				return;
 			}
+
+			// The third weapon is tradeable: the Epic Weapon of
+			// the class
+			if ( InventoryManager.hasItem( options[ 2 ], false ) )
+			{
+				if ( !KoLCharacter.hasEquipped( options[ 2 ] ) )
+				{
+					InventoryManager.retrieveItem( options[ 2 ] );
+				}
+
+				return;
+			}
 			
 			// Allow ode to continue through to use a weaker weapon
 			
 			if ( skillId != UseSkillRequest.ODE_TO_BOOZE )
 			{
-				InventoryManager.retrieveItem( options[ 1 ] );
+				// Otherwise, obtain the Epic Weapon
+				InventoryManager.retrieveItem( options[ 2 ] );
 				return;
 			}
 		}

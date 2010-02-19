@@ -4320,9 +4320,9 @@
 4314
 4315	804577053	Annual Ascot
 4316
-4317
-4318
-4319
+4317	601506510	Flail of the Seven Aspects
+4318	251972482	Wrath of the Capsaician Pastalords
+4319	832914462	Windsor Pan of the Source
 4320	971981173	Seeger's Unstoppable Banjo
 4321	952292059	The Trickster's Trikitixa
 4322
