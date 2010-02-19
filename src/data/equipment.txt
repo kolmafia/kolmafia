@@ -154,6 +154,7 @@ plexiglass pith helmet	180	Mox: 75
 propeller beanie	30	none
 pumpkinhead mask	10	none
 raspberry beret	50	Mox: 10
+rave visor	150	Mox: 60
 ravioli hat	10	none
 red traffic cone	60	Mox: 15
 reinforced beaded headband	170	Mox: 70
@@ -161,6 +162,7 @@ rusty diving helmet	200	Mox: 85
 safarrri hat	90	Mox: 30
 samurai turtle helmet	25	none
 seal-skull helmet	10	none
+sealhide hood	160	Mox: 65
 sequined fez	80	Mox: 25
 shapeless wide-brimmed hat	200	Mox: 200
 skeletortoise	30	none
@@ -231,6 +233,7 @@ Radio Free Pants	150	Mox: 60
 Spooky Putty leotard	100	none
 Travoltan trousers	100	none
 Tropical Crimbo Shorts	100	Mox: 35
+Volartta's bellbottoms	125	Mox: 30
 Voluminous Radio Pants	150	Mox: 60
 Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
@@ -307,6 +310,7 @@ pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
 rusty metal greaves	150	Mus: 60
+sealhide leggings	160	Mox: 65
 slime-covered greaves	200	Mox: 200
 snailmail breeches	165	Mus: 67
 snow pants	50	Mox: 10
@@ -468,6 +472,7 @@ Radio Free Foil	150	Mus: 60	2-handed sword
 Red Rover BB gun	50	Mox: 10	2-handed gun
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Ruby Rod	120	Mus: 40	1-handed rod
+Seeger's Unstoppable Banjo	200	Mox: 60	2-handed banjo
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Spirit Precipice	135	Mus: 45	2-handed sword
 Spooky Putty ball	100	Mox: 0	1-handed superball
@@ -951,6 +956,7 @@ giant stuffed bugbear	0	none
 glass gnoll eye	0	Mys: 2
 glow-in-the-dark stuffed burrowgrub	0	none
 glowing esca	0	Mys: 85
+glowstick on a string	0	Mox: 60
 gnauga hide buckler	95	Mus: 30	shield
 golden sausage	0	none
 green balloon	0	none
@@ -1012,6 +1018,8 @@ rice bowl	0	none
 rusty compass	0	Mys: 15
 rusty old lantern	0	Mys: 85
 sawblade shield	180	Mus: 75	shield
+# *** sealhide buckler is a shield of unknown power.
+sealhide buckler	0	Mus: 65	shield
 sealskin drum	0	Mus: 150
 sebaceous shield	40	Mus: 2	shield
 set of jacks	0	none
@@ -1091,6 +1099,7 @@ Ankh of Badahnkadh	0	Mys: 67
 Annual Ascot	0	none
 Baron von Ratsworth's money clip	0	Mys: 10
 Baron von Ratsworth's monocle	0	Mys: 10
+Bling of the New Wave	0	Mox: 45
 Blue Diamond of Honesty	0	Mys: 85
 Bonerdagon necklace	0	Mys: 25
 Boris's ring	0	Mys: 25
@@ -1230,6 +1239,7 @@ bottlecap turtle	0	Mys: 12
 boxing glove	0	Mys: 7
 brazen bracelet	0	Mus: 65
 brown plastic baby	0	none
+candy necklace	0	Mox: 60
 cannonball charrrm bracelet	0	Mys: 80
 cement sandals	0	Mus: 10
 cement shoes	0	Mys: 35
@@ -1336,6 +1346,7 @@ navel ring of navel gazing	0	none
 night-vision goggles	0	Mox: 10
 old soft shoes	0	Mys: 200
 orange glowstick	0	none
+pacifier necklace	0	Mox: 60
 pat-a-cake pendant	0	none
 patent leather shoes	0	none
 peace-sign necklace	0	Mys: 20
@@ -1420,6 +1431,7 @@ stuffed shoulder parrot	0	Mys: 25
 support cummerbund	0	Mys: 35
 tap shoes	0	Mys: 30
 tarrrnished charrrm bracelet	0	Mys: 60
+teddybear backpack	0	Mox: 60
 teflon swim fins	0	Mus: 85
 tin star	0	Mys: 15
 tiny plastic 11 Dealer	0	none

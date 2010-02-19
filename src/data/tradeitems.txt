@@ -4199,9 +4199,9 @@
 4190	control crystal	none	display	0
 4191	sugar shirt	shirt	display	0
 4192	sugar shard	hpmp, candy	all	0
-4193
+4193	rave visor	hat	none	25
 4194
-4195
+4195	pacifier necklace	accessory	none	20
 4196
 4197
 4198
@@ -4277,7 +4277,7 @@
 4268
 4269
 4270
-4271
+4271	Volartta's bellbottoms	pants	display	0
 4272	Lederhosen of the Night	pants	display	0
 4273	ribbon candy	multiple, candy	all	50
 4274	Underworld acorn	none	display	0
@@ -4326,13 +4326,13 @@
 4317
 4318
 4319
-4320
+4320	Seeger's Unstoppable Banjo	weapon	none	0
 4321	The Trickster's Trikitixa	weapon	none	0
 4322
 4323
 4324
 4325
-4326
+4326	Bling of the New Wave	accessory	display	0
 4327	El Hebilla del Cintur&oacute;n de Lopez	accessory	display	0
 4328	suspicious stocking	grow	all	0
 4329	bag of many confections	familiar	all	75
@@ -4434,9 +4434,9 @@
 4425
 4426
 4427
-4428
-4429
-4430
+4428	glowstick on a string	offhand	none	30
+4429	candy necklace	accessory	none	25
+4430	teddybear backpack	accessory	none	45
 4431
 4432
 4433
