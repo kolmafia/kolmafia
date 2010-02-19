@@ -344,6 +344,12 @@
 7093
 7094	Static Shock	5	0	0
 7095	Give Your Opponent the Stinkeye	5	0	0
+7096	Bashing Slam Smash	5	15	0
+7097	Turtle of Seven Tails	5	15	0
+7098	Noodles of Fire	5	15	0
+7099	Saucemageddon	5	35	0
+7100
+7101	Extreme High Note	5	15	0
 
 # Skills granted by books on your Mystical Bookshelf
 
