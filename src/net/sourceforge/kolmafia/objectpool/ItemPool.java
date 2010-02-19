@@ -978,6 +978,9 @@ public class ItemPool
 	public static final int FLAIL_OF_THE_SEVEN_ASPECTS = 4317;
 	public static final int WINDSOR_PAN_OF_THE_SOURCE = 4319;
 	public static final int TRICKSTER_TRIKITIXA = 4321;
+	public static final int SAUCEBLOB_BELT = 4325;
+	public static final int NEW_WAVE_BLING = 4326;
+	public static final int BELT_BUCKLE_OF_LOPEZ = 4327;
 	public static final int BAG_OF_MANY_CONFECTIONS = 4329;
 	public static final int CRIMBUCK = 4343;
 	public static final int GINGERBREAD_HOUSE = 4347;

@@ -65,7 +65,7 @@
 64
 65
 66
-67
+67	Legendary Regalia of the Saucemaestro	Ancient Saucehelm, Windsor Pan of the Source, Newman's Own Trousers, Gravyskin Belt of the Sauceblob
 68	Legendary Regalia of the Groovelord	Disco 'Fro Pick, Seeger's Unstoppable Banjo, Volartta's bellbottoms, Bling of the New Wave
 69	Legendary Regalia of the Master Squeezeboxer	El Sombrero De Lopez, The Trickster's Trikitixa, Lederhosen of the Night, El Hebilla del Cintur&oacute;n de Lopez
 70	BRICKOfig Outfit	BRICKO hat, BRICKO sword, BRICKO pants

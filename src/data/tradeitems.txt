@@ -4190,11 +4190,11 @@
 4181	sugar chapeau	hat	display	0
 4182	sugar shorts	pants	display	0
 4183	sugar shield	familiar	display	0
-4184
-4185
-4186
-4187
-4188
+4184	slime convention swag bag	usable	all	0
+4185	slime convention flyers	none	all	5
+4186	slime convention coupons	none	all	5
+4187	slime convention pin	accessory	all	5
+4188	slime convention t-shirt	none	all	10
 4189	floaty inverse geode	usable	all	0
 4190	control crystal	none	display	0
 4191	sugar shirt	shirt	display	0
@@ -4276,7 +4276,7 @@
 4267
 4268
 4269
-4270
+4270	Newman's Own Trousers	pants	display	0
 4271	Volartta's bellbottoms	pants	display	0
 4272	Lederhosen of the Night	pants	display	0
 4273	ribbon candy	multiple, candy	all	50
@@ -4331,7 +4331,7 @@
 4322
 4323
 4324
-4325
+4325	Gravyskin Belt of the Sauceblob	accessory	display	0
 4326	Bling of the New Wave	accessory	display	0
 4327	El Hebilla del Cintur&oacute;n de Lopez	accessory	display	0
 4328	suspicious stocking	grow	all	0

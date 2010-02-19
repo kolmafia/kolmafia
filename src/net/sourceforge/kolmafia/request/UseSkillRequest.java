@@ -162,6 +162,8 @@ public class UseSkillRequest
 	public static final AdventureResult SOLID_EARRING = ItemPool.get( ItemPool.SOLID_BACONSTONE_EARRING, 1 );
 	public static final AdventureResult EMBLEM_AKGYXOTH = ItemPool.get( ItemPool.EMBLEM_AKGYXOTH, 1 );
 
+	public static final AdventureResult SAUCEBLOB_BELT = ItemPool.get( ItemPool.SAUCEBLOB_BELT, 1 );
+
 	// The following list must contain only accessories!
 	private static final AdventureResult[] AVOID_REMOVAL = new AdventureResult[]
 	{
@@ -417,13 +419,17 @@ public class UseSkillRequest
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "noodleSummons" ), 0 );
 			break;
 
-		// The Way of Sauce affects # of summons for
-		// Advanced Saucecrafting
+		// The Way of Sauce affects # of summons for Advanced
+		// Saucecrafting. So does the Gravyskin Belt of the Sauceblob
 
 		case 4006:
 
 			maximumCast = KoLCharacter.hasSkill( "The Way of Sauce" ) ? 5 : 3;
-
+			if ( KoLCharacter.hasEquipped( UseSkillRequest.SAUCEBLOB_BELT ) ||
+			     UseSkillRequest.SAUCEBLOB_BELT.getCount( KoLConstants.inventory ) > 0 )
+			{
+				maximumCast += 3;
+			}
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "reagentSummons" ), 0 );
 			break;
 

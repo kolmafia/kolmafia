@@ -4187,11 +4187,11 @@
 4181	779768689	sugar chapeau	sugar chapeaux
 4182	286938389	sugar shorts	pairs of sugar shorts
 4183	959769145	sugar shield	sugar shields
-4184
-4185
-4186
-4187
-4188
+4184	963950794	slime convention swag bag
+4185	337131284	slime convention flyers
+4186	203828439	slime convention coupons
+4187	729648311	slime convention pin
+4188	700699400	slime convention t-shirt
 4189	803350174	floaty inverse geode	floaty inverse geodes
 4190	111489868	control crystal	control crystals
 4191	851515177	sugar shirt	sugar shirts
@@ -4273,7 +4273,7 @@
 4267
 4268
 4269
-4270
+4270	502777744	Newman's Own Trousers
 4271	927774724	Volartta's bellbottoms
 4272	678653784	Lederhosen of the Night
 4273	929052608	ribbon candy	ribbons of ribbon candy
@@ -4328,7 +4328,7 @@
 4322
 4323
 4324
-4325
+4325	918726420	Gravyskin Belt of the Sauceblob
 4326	829566476	Bling of the New Wave
 4327	129795064	El Hebilla del Cintur&oacute;n de Lopez
 4328	171587799	suspicious stocking	suspicious stockings

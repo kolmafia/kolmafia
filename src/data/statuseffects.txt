@@ -677,18 +677,18 @@
 676	Spangled Star	tinystars.gif	c369319642dfc3e85b43bbd33a587069	use 1 groupie spangles
 677
 678
-679
-680
-681
-682
-683
-684
-685
-686
-687
-688
-689
-690
+679	Slimeform	slimeform.gif	17c1f6148164a952b47aca992d19788a	use 1 vial of amber slime
+680	Slimily Strong	slimemus1.gif	5830ffdb05ae738704fae8dd011fd6c4	use 1 vial of red slime
+681	Slimily Sagacious	slimemag1.gif	db0054b25085fc227d2c1d47bd0d0b28	use 1 vial of blue slime
+682	Slimily Speedy	slimemox1.gif	fbc97b3af6cb263d9b9b167aa037047d	use 1 vial of yellow slime
+683	Bilious Brawn	slimemus2.gif	088ac5b93b9a5ebaef993d5c34f2b63e	use 1 vial of orange slime
+684	Bilious Brains	slimemag2.gif	b2f1fe4ec7e423e882bdc67bf85d8a6f	use 1 vial of green slime
+685	Bilious Briskness	slimemox2.gif	327d2d509f14652e6ac132b4e8106abd	use 1 vial of violet slime
+686	Mucilaginous Muscle	slimemus3.gif	08ca45370dfd0c2d1a3f0712c2e4cec6	use 1 vial of teal slime
+687	Mucilaginous Mentalism	slimemag2.gif	a927a68ba8f82283ab8066eac0f0f318	use 1 vial of vermilion slime
+688	Mucilaginous Moxiousness	slimemox3.gif	80ae9703b266dcee1ff08740a3b255df	use 1 vial of purple slime
+689	Ichorous Intensity	slimecharge.gif	4d6c52fffc5bfddee764bdec0093f12c	use 1 vial of chartreuse slime
+690	Ichorous Eyesight	slimeeyes.gif	d835f8a2f8056b5aabb64e3d3b8a459e	use 1 vial of indigo slime
 691	Sappy Blood	blooddrops.gif	be2d899982f60689acf64428f6ad7e29	use 1 spooky sap
 692	Rave Concentration	discoball.gif	37ab27a56e15da57af8fbf4dc14f88da	#DB combo
 693	Rave Nirvana	discoball.gif	7e52eb422eb2d74d0030dd61f4cd681b	#DB combo

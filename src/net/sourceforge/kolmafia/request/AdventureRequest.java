@@ -739,24 +739,33 @@ public class AdventureRequest
 		},
 		{
 			"Flying In Circles",
-			// SC: "<Demon name>!" he screams as he tumbles
-			// backwards. "LORD OF REVENGE! GIVE ME STRENGTH!"
+			// SC: Then his claws slip, and he falls
+			// backwards.<p>"<Demon Name>!" he screams as he
+			// tumbles backwards. "LORD OF REVENGE! GIVE ME
+			// STRENGTH!"
 			// 
-			// TT: "<Demon Name>" she shrieks as she plummets
+			// TT: With a scrape, her sickle slips from the
+			// rock.<p>"<Demon Name>" she shrieks as she plummets
 			// toward the lava. "Lord of Revenge! I accept your
 			// contract! Give me your power!"
 			//
-			// PA: "<i><Demon Name></i>!" it howls. "<i>Lord of
+			// PA: Its noodles lose their grip, and the evil
+			// pastaspawn falls toward the churning
+			// lava.<p>"<i><Demon Name></i>!" it howls. "<i>Lord of
 			// Revenge! Come to my aid!</i>"
 			//
-			// SA:	"<Demon Name>! Revenge!"
+			// SA: As it falls, a mouth opens on its surface and
+			// howls: "<Demon Name>! Revenge!"
 			//
-			// DB: "<Demon Name>! Lord of Revenge! I call to you!
-			// I pray to you! Help m--"
+			// DB: His grip slips, and he falls.<p>"<Demon Name>!
+			// Lord of Revenge! I call to you!  I pray to you! Help
+			// m--"
 			//
-			// AT: "<Demon name>!" he screams. "Emperador de la
-			// Venganza! Come to my aid! I beg of you!"
-			Pattern.compile( "\"(.*?)!\" he screams." ),
+			// AT: His grip slips, and he tumbles
+			// backward.<p>"<Demon Name>!" he screams. "Emperador
+			// de la Venganza! Come to my aid!  I beg of you!"
+
+			Pattern.compile( "(?:he falls backwards|her sickle slips from the rock|falls toward the churning lava|a mouth opens on its surface and howls|His grip slips, and he falls|he tumbles backward).*?\"(?:<i>)?(.*?)(?:</i>)?!?\"?(?: he screams| she shrieks| it howls| Revenge| Lord of Revenge)" ),
 			"Lord of Revenge",
 			"demonName8",
 		},

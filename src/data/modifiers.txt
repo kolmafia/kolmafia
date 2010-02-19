@@ -272,6 +272,7 @@ Knob Goblin elite pants	Moxie: +3
 Knob Goblin harem pants	Moxie: +1
 Knob Goblin pants	Muscle: +1
 Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief"
+Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror"
 Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "Sauceror"
 Orcish cargo shorts	Muscle: +3, Mysticality: -3
 Oscus's dumpster waders	Hot Resistance: +3, Spooky Resistance: +3, Class: "Pastamancer"
@@ -1241,6 +1242,9 @@ Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
 Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
+# Gravyskin Belt of the Sauceblob: 3 Additional Scrumptious Reagent Summons Per Day*
+# * This enchantment works even when this item is not equipped
+Gravyskin Belt of the Sauceblob	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Sauceror", Single Equip
 Green Clover of Justice	Muscle: +8, Mysticality: +8, Moxie: +8, Item Drop: +8, Single Equip
 Grimacite galoshes	Meat Drop: +25, Moxie Percent: [10*G]
 Grimacite garter	Spell Damage: +15, Mysticality Percent: [10*G]
@@ -1542,6 +1546,7 @@ shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 shiny tribal beads	Mysticality: +6
 silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 sk8board	Initiative: +15
+slime convention pin	Moxie: -1
 slime-covered necklace	Weapon Damage: [50*zone(The Slime Tube)], Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200
 snow belt	Cold Damage: +6, Single Equip
 sock garters	Cold Resistance: +2, Single Equip
@@ -2027,6 +2032,9 @@ Bestial Sympathy	Familiar Weight: +3
 Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
 Bilious	Monster Level: +25, Slime Resistance: +1
+Bilious Brains	Mysticality Percent: +100
+Bilious Brawn	Muscle Percent: +100
+Bilious Briskness	Moxie Percent: +100
 Billiards Belligerence	Weapon Damage Percent: +50, Familiar Weight: +5
 # Biologically Shocked: Unleash strange forces in combat
 Bitterskin	Slime Hates It: +1
@@ -2306,6 +2314,8 @@ Hustlin'	Initiative: +50, Item Drop: +10
 Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
+Ichorous Eyesight	Item Drop: +10
+Ichorous Intensity	Spell Damage Percent: +20
 Impregnably Delicious	Damage Reduction: 30
 In Tuna	MP Regen Min: 3, MP Regen Max: 5
 In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -2382,6 +2392,9 @@ Missing Fingers	Muscle: -3
 Mmmmmelon	Item Drop: +30
 Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Moon'd	Experience: +5
+Mucilaginous Mentalism	Mysticality Percent: +200
+Mucilaginous Moxiousness	Moxie Percent: +200
+Mucilaginous Muscle	Muscle Percent: +200
 Muscularrr	Muscle Percent: +10
 Musk of the Moose	Combat Rate: +5
 Mutated	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
@@ -2506,6 +2519,10 @@ Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
 Slimed	Spooky Damage: +20
 Slimed Stomach	Sleaze Resistance: +1
+# Slimeform: Ewww.
+Slimily Sagacious	Mysticality Percent: +50
+Slimily Speedy	Moxie Percent: +50
+Slimily Strong	Muscle Percent: +50
 Slippery Oiliness	Equalize: "Moxie"
 Smelly Pants	Stench Resistance: +1
 # Smokin': Damages Attacking Opponents
@@ -3127,23 +3144,23 @@ twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
 unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 upsy daisy	Effect: "Ass Over Teakettle", Effect Duration: 10
-# vial of amber slime
+vial of amber slime	Effect: "Slimeform", Effect Duration: 5
 vial of baconstone juice	Effect: "Baconstoned", Effect Duration: 5
-vial of blue slime	Effect: "Slimily Speedy", Effect Duration: 15
+vial of blue slime	Effect: "Slimily Sagacious", Effect Duration: 15
 vial of brown slime	Effect: "A Little Bit Poisoned", Effect Duration: 5
-vial of chartreuse slime	Effect: "Mucilaginous Mentalism", Effect Duration: 15
-# vial of green slime
+vial of chartreuse slime	Effect: "Ichorous Intensity", Effect Duration: 15
+vial of green slime	Effect: "Bilious Brains", Effect Duration: 15
 vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
-vial of indigo slime	Effect: "Ichorous Intensity", Effect Duration: 15
+vial of indigo slime	Effect: "Ichorous Eyesight", Effect Duration: 15
 vial of orange slime	Effect: "Bilious Brawn", Effect Duration: 15
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
-vial of purple slime	Effect: "Ichorous Intensity", Effect Duration: 15
+vial of purple slime	Effect: "Mucilaginous Moxiousness", Effect Duration: 15
 vial of red slime	Effect: "Slimily Strong", Effect Duration: 15
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
-vial of teal slime	Effect: "Mucilaginous Moxiousness", Effect Duration: 15
-vial of vermilion slime	Effect: "Mucilaginous Muscle", Effect Duration: 15
-vial of violet slime	Effect: "Bilious Brains", Effect Duration: 15
-vial of yellow slime	Effect: "Slimily Sagacious", Effect Duration: 15
+vial of teal slime	Effect: "Mucilaginous Muscle", Effect Duration: 15
+vial of vermilion slime	Effect: "Mucilaginous Mentalism", Effect Duration: 15
+vial of violet slime	Effect: "Bilious Briskness", Effect Duration: 15
+vial of yellow slime	Effect: "Slimily Speedy", Effect Duration: 15
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
