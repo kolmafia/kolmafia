@@ -90,7 +90,7 @@
 84	Untamed Turtle	none	3293	smiley-face sticker	0	0	0	0
 85	Animated Macaroni Duck	combat	3294	farfalle bow tie	0	0	0	0
 86	Pet Cheezling	none	3295	jalape&ntilde;o slices	2	2	0	2
-87	Autonomous Disco Ball	combat	3296	stick-on mini solar panels	0	0	0	0
+87	Autonomous Disco Ball	combat	3296	stick-on mini solar panels	3	2	1	0
 88	Mariachi Chihuahua	combat	3297	tiny sombrero	3	2	1	0
 89	Hobo Monkey	meat0	3342	tiny bindle	0	3	3	3
 90	Llama Lama	none	3351	zen motorcycle	1	2	3	2
