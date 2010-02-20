@@ -534,13 +534,16 @@ public class ChoiceOptionsPanel
 				return;
 			}
 
-			Preferences.setString( "choiceAdventure189", "1" );
-			String value = "";
+			// For manual control, do not take a choice first
 			if ( dest.startsWith( "manual" ) )
 			{
-				value = "manual";
+				Preferences.setString( "choiceAdventure189", "0" );
+				Preferences.setString( "oceanDestination", "manual" );
+				return;
 			}
-			else if ( dest.startsWith( "muscle" ) )
+
+			String value = "";
+			if ( dest.startsWith( "muscle" ) )
 			{
 				value = "muscle";
 			}
@@ -574,6 +577,7 @@ public class ChoiceOptionsPanel
 				value = "manual";
 			}
 
+			Preferences.setString( "choiceAdventure189", "1" );
 			Preferences.setString( "oceanDestination", value );
 		}
 
