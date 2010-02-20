@@ -4181,7 +4181,7 @@
 4172	floaty rock helmet	hat	all	0
 4173	floaty rock pants	pants	all	0
 4174	floaty rock necklace	accessory	all	0
-4175
+4175	spaghetti cult robe	accessory	none	0
 4176	sugar sheet	none	all	0
 4177	Tome of Sugar Shummoning	usable	all	0
 4178	sugar shotgun	weapon	display	0
@@ -4200,7 +4200,7 @@
 4191	sugar shirt	shirt	display	0
 4192	sugar shard	hpmp, candy	all	0
 4193	rave visor	hat	none	25
-4194
+4194	baggy rave pants	pants	none	45
 4195	pacifier necklace	accessory	none	20
 4196
 4197
@@ -4468,12 +4468,12 @@
 4459	snailmail breeches	pants	all	150
 4460	snailmail hauberk	shirt	all	160
 4461	seal-brain elixir	multiple	all	33
-4462
-4463
-4464
-4465
-4466
-4467
+4462	chocolate seal-clubbing club	multiple	all	0
+4463	chocolate turtle totem	multiple	all	0
+4464	chocolate pasta spoon	multiple	all	0
+4465	chocolate saucepan	multiple	all	0
+4466	chocolate disco ball	multiple	all	0
+4467	chocolate stolen accordion	multiple	all	0
 4468	Libram of BRICKOs	usable	all	0
 4469	BRICKO brick	multiple	all	0
 4470	BRICKO eye brick	none	all	0
@@ -4511,3 +4511,4 @@
 4502	recording of Donho's Bubbly Ballad	multiple	all	78
 4503	recording of Inigo's Incantation of Inspiration	multiple	all	78
 4504	heart of the volcano	accessory	display	10000
+4505	Northern pemmican	multiple	all	0

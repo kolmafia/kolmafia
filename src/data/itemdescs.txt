@@ -4178,7 +4178,7 @@
 4172	941370030	floaty rock helmet	floaty rock helmets
 4173	883831428	floaty rock pants	floaty rock pantss
 4174	645577244	floaty rock necklace	floaty rock necklaces
-4175
+4175	687144134	spaghetti cult robe
 4176	319769847	sugar sheet	sugar sheets
 4177	798312635	Tome of Sugar Shummoning	Tomes of Sugar Shummoning
 4178	360499180	sugar shotgun	sugar shotguns
@@ -4197,7 +4197,7 @@
 4191	851515177	sugar shirt	sugar shirts
 4192	672893541	sugar shard	sugar shards
 4193	638571639	rave visor	rave visors
-4194
+4194	445527206	baggy rave pants	pairs of baggy rave pants
 4195	577301630	pacifier necklace	pacifier necklaces
 4196
 4197
@@ -4465,12 +4465,12 @@
 4459	645828332	snailmail breeches
 4460	143480509	snailmail hauberk
 4461	441670255	seal-brain elixir
-4462
-4463
-4464
-4465
-4466
-4467
+4462	914337293	chocolate seal-clubbing club
+4463	704750003	chocolate turtle totem
+4464	799053536	chocolate pasta spoon
+4465	894875363	chocolate saucepan
+4466	181522203	chocolate disco ball
+4467	707981124	chocolate stolen accordion
 4468	377804923	Libram of BRICKOs	Librams of BRICKOs
 4469	261433979	BRICKO brick
 4470	992023114	BRICKO eye brick
@@ -4508,3 +4508,4 @@
 4502	942976753	recording of Donho's Bubbly Ballad
 4503	562003052	recording of Inigo's Incantation of Inspiration
 4504	884068139	heart of the volcano
+4505	752101511	Northern pemmican

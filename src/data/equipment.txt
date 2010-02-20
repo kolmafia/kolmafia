@@ -241,6 +241,7 @@ Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
 antique greaves	200	Mus: 85
 astronaut pants	175	Mox: 72
+baggy rave pants	150	Mox: 60
 bark boxers	40	Mox: 5
 barskin loincloth	25	none
 basic meat kilt	40	Mox: 5
@@ -1421,6 +1422,7 @@ solid baconstone necklace	0	Mys: 40
 solid baconstone ring	0	Mys: 40
 solid gold pegleg	0	Mys: 60
 spade necklace	0	none
+spaghetti cult robe	0	none
 spaghetti cult rosary	0	Mys: 55
 spark plug earring	0	Mys: 75
 sparkly engagement ring	0	none
