@@ -217,6 +217,7 @@ Crimbo pants	100	Mox: 35
 Danglin' Chad's loincloth	200	Mox: 75
 Dyspepsi-Cola fatigues	30	none
 El Vibrato leg guards	200	Mox: 200
+Galapagosian Cuisses	125	Mus: 30
 Grimacite gaiters	150	Mox: 40
 Grimacite greaves	125	Mox: 47
 Hodgman's lobsterskin pants	200	Mox: 200
@@ -637,6 +638,7 @@ flaming cardboard sword	70	Mus: 20	1-handed sword
 flaming crutch	60	Mus: 15	1-handed club
 flaming juggler's balls	100	Mox: 0	1-handed euphemisms
 flypaper staff	80	Mus: 25	2-handed staff
+fouet de tortue-dressage	20	Mus: 0	1-handed whip
 freezin' bindle	200	Mus: 200	2-handed polearm
 frigid hanky&#363;	80	Mox: 25	2-handed bow
 frigid-ass club	160	Mus: 65	2-handed club
@@ -1129,6 +1131,7 @@ Emblem of Ak'gyxoth	0	Mys: 30
 French slippers	0	none
 Frosty's carrot	0	Mus: 200
 Gaia beads	0	Mys: 72
+Garter of the Turtle Poacher	0	Mus: 45
 Golden Mr. Accessory	0	none
 Gravyskin Belt of the Sauceblob	0	Mys: 45
 Green Clover of Justice	0	Mys: 85

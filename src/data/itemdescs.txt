@@ -3884,7 +3884,7 @@
 3878
 3879
 3880
-3881
+3881	372027690	fouet de tortue-dressage
 3882	803938411	encoded cult documents
 3883	706925963	cult memo
 3884	361604348	decoded cult documents
@@ -4271,7 +4271,7 @@
 4265	736000092	bark beret	bark berets
 4266	430887434	bark bracelet	bark bracelets
 4267
-4268
+4268	642836412	Galapagosian Cuisses
 4269
 4270	502777744	Newman's Own Trousers
 4271	927774724	Volartta's bellbottoms
@@ -4326,7 +4326,7 @@
 4320	971981173	Seeger's Unstoppable Banjo
 4321	952292059	The Trickster's Trikitixa
 4322
-4323
+4323	977005028	Garter of the Turtle Poacher
 4324
 4325	918726420	Gravyskin Belt of the Sauceblob
 4326	829566476	Bling of the New Wave
@@ -4460,7 +4460,7 @@
 4454
 4455
 4456
-4457	130170442	snailmail bits
+4457	130170442	snailmail bits	piles of snailmail bits
 4458	123208807	snailmail coif
 4459	645828332	snailmail breeches
 4460	143480509	snailmail hauberk
