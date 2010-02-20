@@ -716,6 +716,13 @@ public class SkillDatabase
 			// Bad Moon skills
 			return false;
 
+		case 49:	// Gothy Handwave
+		case 50:	// Break It On Down
+		case 51:	// Pop and Lock It
+		case 52:	// Run Like the Wind
+			// Nemesis skills
+			return false;
+
 		case 2103:	// Head + Knee Combo
 		case 2105:	// Head + Shield Combo
 		case 2106:	// Knee + Shield Combo

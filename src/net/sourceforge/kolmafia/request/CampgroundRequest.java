@@ -73,6 +73,7 @@ public class CampgroundRequest
 		ItemPool.NEWBIESPORT_TENT,
 		ItemPool.BARSKIN_TENT,
 		ItemPool.COTTAGE,
+		ItemPool.BRICKO_PYRAMID,
 		ItemPool.HOUSE,
 		ItemPool.SANDCASTLE,
 		ItemPool.TWIG_HOUSE,
@@ -245,10 +246,10 @@ public class CampgroundRequest
 		}
 
 		CampgroundRequest.reset();
-		CampgroundRequest.currentDwellingLevel = StringUtilities.parseInt( m.group( 1 ) );
 
+		int dwellingNumber = StringUtilities.parseInt( m.group( 1 ) );
 		int itemId = -1;
-		switch ( CampgroundRequest.currentDwellingLevel )
+		switch ( dwellingNumber )
 		{
 		case 0:
 			itemId = ItemPool.BIG_ROCK;	// placeholder for "the ground"
@@ -277,13 +278,17 @@ public class CampgroundRequest
 		case 8:
 			itemId = ItemPool.GINGERBREAD_HOUSE;
 			break;
+		case 9:
+			itemId = ItemPool.BRICKO_PYRAMID;
+			break;
 		default:
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unrecognized housing type!" );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
 		}
 
 		if ( itemId != -1 )
 		{
 			CampgroundRequest.currentDwelling = ItemPool.get( itemId, 1 );
+			CampgroundRequest.currentDwellingLevel = CampgroundRequest.dwellingLevel( itemId );
 			KoLConstants.campground.add( CampgroundRequest.currentDwelling );
 		}
 			
@@ -372,6 +377,7 @@ public class CampgroundRequest
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
 		case ItemPool.COTTAGE:
+		case ItemPool.BRICKO_PYRAMID:
 		case ItemPool.HOUSE:
 		case ItemPool.SANDCASTLE:
 		case ItemPool.TWIG_HOUSE:
@@ -392,16 +398,18 @@ public class CampgroundRequest
 			return 2;
 		case ItemPool.COTTAGE:
 			return 3;
-		case ItemPool.HOUSE:
+		case ItemPool.BRICKO_PYRAMID:
 			return 4;
-		case ItemPool.SANDCASTLE:
+		case ItemPool.HOUSE:
 			return 5;
-		case ItemPool.TWIG_HOUSE:
+		case ItemPool.SANDCASTLE:
 			return 6;
-		case ItemPool.GINGERBREAD_HOUSE:
+		case ItemPool.TWIG_HOUSE:
 			return 7;
-		case ItemPool.HOBO_FORTRESS:
+		case ItemPool.GINGERBREAD_HOUSE:
 			return 8;
+		case ItemPool.HOBO_FORTRESS:
+			return 9;
 		}
 		return 0;
 	}

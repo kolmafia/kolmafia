@@ -1025,6 +1025,8 @@ public class ItemPool
 	public static final int BRICKO_VACUUM_CLEANER = 4481;
 	public static final int BRICKO_AIRSHIP = 4482;
 	public static final int BRICKO_CATHEDRAL = 4483;
+	public static final int BRICKO_CHICKEN = 4484;
+	public static final int BRICKO_PYRAMID = 4485;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

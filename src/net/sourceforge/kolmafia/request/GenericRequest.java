@@ -2045,6 +2045,7 @@ public class GenericRequest
 		case ItemPool.BRICKO_VACUUM_CLEANER:
 		case ItemPool.BRICKO_AIRSHIP:
 		case ItemPool.BRICKO_CATHEDRAL:
+		case ItemPool.BRICKO_CHICKEN:
 			itemName = item.getName();
 			consumed = true;
 			break;

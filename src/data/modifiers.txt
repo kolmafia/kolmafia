@@ -1934,6 +1934,7 @@ scratch 'n' sniff wrestler sticker	Muscle Percent: +10, Mysticality Percent: +10
 
 # Campground equipment section of modifiers.txt
 
+BRICKO pyramid	Base Resting HP: +34, Base Resting MP: +35
 Feng Shui for Big Dumb Idiots	Bonus Resting MP: +7
 Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base Resting MP: +40
 # Loudmouth Larry Lamprey
