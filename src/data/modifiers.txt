@@ -1558,6 +1558,7 @@ solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
 solid baconstone ring	Mysticality: +12, Maximum MP: +30, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 solid gold pegleg	Initiative: -50, Single Equip
 # spade necklace
+# spaghetti cult robe
 spaghetti cult rosary	Maximum MP: +50
 spark plug earring	MP Regen Min: 3, MP Regen Max: 4, Spooky Resistance: +2
 sparkly engagement ring	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip
@@ -2914,6 +2915,7 @@ Mer-kin hidepaint	Effect: "Colorfully Concealed", Effect Duration: 10
 Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10
 Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
 Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
+Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
 Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Piddles	Effect: "Belch the Rainbow&#153;", Effect Duration: 10

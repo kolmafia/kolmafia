@@ -45,6 +45,12 @@ public class ValhallaManager
 		ItemPool.get( ItemPool.RIPPED_PAPER_STRIP, 1 ),
 		ItemPool.get( ItemPool.RUMPLED_PAPER_STRIP, 1 ),
 		ItemPool.get( ItemPool.TORN_PAPER_STRIP, 1 ),
+		ItemPool.get( ItemPool.RAVE_VISOR, 1 ),
+		ItemPool.get( ItemPool.BAGGY_RAVE_PANTS, 1 ),
+		ItemPool.get( ItemPool.PACIFIER_NECKLACE, 1 ),
+		ItemPool.get( ItemPool.GLOWSTICK_ON_A_STRING, 1 ),
+		ItemPool.get( ItemPool.CANDY_NECKLACE, 1 ),
+		ItemPool.get( ItemPool.TEDDYBEAR_BACKPACK, 1 ),
 	};
 
 	public static void preAscension()
@@ -87,9 +93,10 @@ public class ValhallaManager
 		for ( int i = 0; i < ValhallaManager.AUTOSELLABLE.length; ++i )
 		{
 			AdventureResult item = ValhallaManager.AUTOSELLABLE[i];
-			if ( KoLConstants.inventory.contains( item ) )
+			count = item.getCount( KoLConstants.inventory );
+			if ( count > 0 )
 			{
-				items.add( item );
+				items.add( item.getInstance( count ) );
 			}
 		}
 

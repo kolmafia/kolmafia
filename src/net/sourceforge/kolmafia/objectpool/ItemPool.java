@@ -970,6 +970,9 @@ public class ItemPool
 	public static final int SUGAR_SHIELD = 4183;
 	public static final int SUGAR_SHIRT = 4191;
 	public static final int SUGAR_SHARD = 4192;
+	public static final int RAVE_VISOR = 4193;
+	public static final int BAGGY_RAVE_PANTS = 4194;
+	public static final int PACIFIER_NECKLACE = 4195;
 	public static final int AMPHIBIOUS_TOPHAT = 4229;
 	public static final int WOLFMAN_MASK = 4260;
 	public static final int PUMPKINHEAD_MASK = 4261;
@@ -1010,6 +1013,9 @@ public class ItemPool
 	public static final int STINKY_CHEESE_STAFF = 4403;
 	public static final int ZU_MANNKASE_DIENEN = 4409;
 	public static final int INIGO_BOOK = 4411;
+	public static final int GLOWSTICK_ON_A_STRING = 4428;
+	public static final int CANDY_NECKLACE = 4429;
+	public static final int TEDDYBEAR_BACKPACK = 4430;
 	public static final int SNAILMAIL_BITS = 4457;
 	public static final int BRICKO_BOOK = 4468;
 	public static final int BRICKO_HAT = 4471;
