@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,6 +52,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
@@ -530,6 +532,18 @@ public abstract class UseLinkDecorator
 			case ItemPool.SPOOKY_PUTTY_MONSTER:
 			case ItemPool.SHAKING_CAMERA:
 			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
+
+			case ItemPool.GONG:
+				// No use link if already under influence.
+				List active = KoLConstants.activeEffects;
+				if ( active.contains( FightRequest.BIRDFORM ) ||
+				     active.contains( FightRequest.MOLEFORM ) )
+				{
+					return null;
+				}
+				
+				// In-line use link does not work.
 				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
 
 			default:
