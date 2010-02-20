@@ -2042,7 +2042,7 @@ public class Modifiers
 			{
 				cls = KoLCharacter.SEAL_CLUBBER;
 			}
-			else if ( plural.equals( "Turtle&nbsp; Tamers" ) )
+			else if ( plural.equals( "Turtle&nbsp;Tamers" ) )
 			{
 				cls = KoLCharacter.TURTLE_TAMER;
 			}

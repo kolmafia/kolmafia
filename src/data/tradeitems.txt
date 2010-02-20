@@ -3887,7 +3887,7 @@
 3878
 3879
 3880
-3881
+3881	fouet de tortue-dressage	weapon	none	0
 3882	encoded cult documents	none	none	0
 3883	cult memo	none	none	0
 3884	decoded cult documents	none	none	0
@@ -4274,7 +4274,7 @@
 4265	bark beret	hat	display	100
 4266	bark bracelet	accessory	display	100
 4267
-4268
+4268	Galapagosian Cuisses	pants	display	0
 4269
 4270	Newman's Own Trousers	pants	display	0
 4271	Volartta's bellbottoms	pants	display	0
@@ -4329,7 +4329,7 @@
 4320	Seeger's Unstoppable Banjo	weapon	none	0
 4321	The Trickster's Trikitixa	weapon	none	0
 4322
-4323
+4323	Garter of the Turtle Poacher	accessory	display	0
 4324
 4325	Gravyskin Belt of the Sauceblob	accessory	display	0
 4326	Bling of the New Wave	accessory	display	0
