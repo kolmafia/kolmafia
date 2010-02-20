@@ -2575,6 +2575,7 @@ public class UseItemRequest
 		case ItemPool.BRICKO_VACUUM_CLEANER:
 		case ItemPool.BRICKO_AIRSHIP:
 		case ItemPool.BRICKO_CATHEDRAL:
+		case ItemPool.BRICKO_CHICKEN:
 
 			// You're too drunk to mess with BRICKO right now.
 
