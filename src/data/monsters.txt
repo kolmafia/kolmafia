@@ -823,11 +823,11 @@ Urge to Stare at Your Hands	HP: 50 Def: 53 Atk: 53	blue-frosted astral cupcake (
 Visible Music	HP: 50 Def: 53 Atk: 53	orange-frosted astral cupcake (15)
 
 # Great Trip
-Angels of Avalon	HP: 150 Def: 145 Atk: 145	blue-frosted astral cupcake (15)
 Bustle in the Hedgerow	HP: 150 Def: 145 Atk: 145	green-frosted astral cupcake (15)
-Elders of the Gentle Race	HP: 150 Def: 145 Atk: 145 EA: sleaze	purple-frosted astral cupcake (15)
 Gathering of Angels?	HP: 150 Def: 145 Atk: 145 EA: sleaze	orange-frosted astral cupcake (15)
 Higher Plane Serpents	HP: 150 Def: 145 Atk: 145	pink-frosted astral cupcake (15)
+The Angels of Avalon	HP: 150 Def: 145 Atk: 145	blue-frosted astral cupcake (15)
+The Elders of the Gentle Race	HP: 150 Def: 145 Atk: 145 EA: sleaze	purple-frosted astral cupcake (15)
 
 # Mouldering Mansion
 An Usher	HP: 0	patent antipsychotics (20)
