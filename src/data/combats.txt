@@ -39,7 +39,7 @@ A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U
 An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae
 Anemone Mine	-1	Anemone Combatant	Killer Clownfish	Mer-kin Miner
 Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Sky)	Trippy Floating Head (Stench)	Trippy Floating Head (Todd)	Zombie Baby
-Astral Mushroom (Great Trip)	100	Angels of Avalon	Bustle in the Hedgerow	Elders of the Gentle Race	Gathering of Angels?	Higher Plane Serpents
+Astral Mushroom (Great Trip)	100	Bustle in the Hedgerow	Gathering of Angels?	Higher Plane Serpents	The Angels of Avalon	The Elders of the Gentle Race
 Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	The Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
 Atomic Crimbo Toy Factory	100	Mutant Circuit-Soldering Elf	Mutant Cookie-Baking Elf	Mutant Doll-Dressing Elf	Mutant Gift-Wrapping Elf	Mutant Whistle-Carving Elf
 Back 40	100	Fire-Breathing Duck	Scorched Duck
