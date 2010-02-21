@@ -591,7 +591,7 @@ public class KoLmafiaCLI
 		new BacktraceCommand().register( "backtrace" );
 		new BadMoonCommand().register( "badmoon" );
 		new BallPitCommand().register( "ballpit" );
-		new BangPotionsCommand().register( "!" ).register( "bang" );
+		new BangPotionsCommand().register( "!" ).register( "bang" ).register( "vials" );
 		new BasementCommand().register( "basement" );
 		new BreakfastCommand().register( "breakfast" );
 		new BudgetCommand().register( "budget" );

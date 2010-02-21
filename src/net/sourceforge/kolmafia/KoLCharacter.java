@@ -3532,6 +3532,10 @@ public abstract class KoLCharacter
 			{
 				Preferences.setString( "lastBangPotion" + i, "" );
 			}
+			for ( int i = ItemPool.VIAL_1_1; i <= ItemPool.VIAL_3_6; ++i )
+			{
+				Preferences.setString( "lastSlimeVial" + i, "" );
+			}
 		}
 
 		for ( int i = 819; i <= 827; ++i )
@@ -3542,6 +3546,22 @@ public abstract class KoLCharacter
 				String name = ItemDatabase.getItemName( i );
 				String testName = name + " of " + testProperty;
 				String testPlural = name + "s of " + testProperty;
+				ItemDatabase.registerItemAlias( i, testName, testPlural );
+			}
+		}
+
+		for ( int i = ItemPool.VIAL_1_1; i <= ItemPool.VIAL_3_6; ++i )
+		{
+			String testProperty = Preferences.getString( "lastSlimeVial" + i );
+			if ( !testProperty.equals( "" ) )
+			{
+				String name = ItemDatabase.getItemName( i );
+				String testName = name + ": " + testProperty;
+				String testPlural = ItemDatabase.getPluralById( i );
+				if ( testPlural != null )
+				{
+					testPlural = testPlural + ": " + testProperty;
+				}
 				ItemDatabase.registerItemAlias( i, testName, testPlural );
 			}
 		}

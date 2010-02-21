@@ -2756,9 +2756,9 @@ public class UseItemRequest
 				if ( responseText.indexOf( strings[i][2] ) != -1 )
 				{
 					if ( ItemPool.eliminationProcessor( strings, i,
-									    item.getItemId(),
-									    819, 827,
-									    "lastBangPotion" ) )
+						item.getItemId(),
+						819, 827,
+						"lastBangPotion", " of " ) )
 					{
 						KoLmafia.updateDisplay( "All bang potions have been identified!" );
 					}
@@ -2772,6 +2772,72 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 
+			return;
+
+		case ItemPool.VIAL_1_1:
+		case ItemPool.VIAL_1_2:
+		case ItemPool.VIAL_1_3:
+
+			strings = ItemPool.slimeVialStrings[0];
+			for ( int i = 0; i < strings.length; ++i )
+			{
+				if ( responseText.indexOf( strings[i][1] ) != -1 )
+				{
+					if ( ItemPool.eliminationProcessor( strings, i,
+						item.getItemId(),
+						ItemPool.VIAL_1_1, ItemPool.VIAL_1_3,
+						"lastSlimeVial", ": " ) )
+					{
+						KoLmafia.updateDisplay( "All primary slime vials have been identified!" );
+					}
+					break;
+				}
+			}
+			return;
+
+		case ItemPool.VIAL_2_1:
+		case ItemPool.VIAL_2_2:
+		case ItemPool.VIAL_2_3:
+
+			strings = ItemPool.slimeVialStrings[1];
+			for ( int i = 0; i < strings.length; ++i )
+			{
+				if ( responseText.indexOf( strings[i][1] ) != -1 )
+				{
+					if ( ItemPool.eliminationProcessor( strings, i,
+						item.getItemId(),
+						ItemPool.VIAL_2_1, ItemPool.VIAL_2_3,
+						"lastSlimeVial", ": " ) )
+					{
+						KoLmafia.updateDisplay( "All secondary slime vials have been identified!" );
+					}
+					break;
+				}
+			}
+			return;
+
+		case ItemPool.VIAL_3_1:
+		case ItemPool.VIAL_3_2:
+		case ItemPool.VIAL_3_3:
+		case ItemPool.VIAL_3_4:
+		case ItemPool.VIAL_3_5:
+		case ItemPool.VIAL_3_6:
+
+			strings = ItemPool.slimeVialStrings[2];
+			for ( int i = 0; i < strings.length; ++i )
+			{
+				if ( responseText.indexOf( strings[i][1] ) != -1 )
+				{
+					if ( ItemPool.eliminationProcessor( strings, i,
+						item.getItemId(),
+						ItemPool.VIAL_3_1, ItemPool.VIAL_3_6,
+						"lastSlimeVial", ": " ) )
+					{
+						KoLmafia.updateDisplay( "All tertiary slime vials have been identified!" );
+					}
+					break;
+				}
+			}
 			return;
 
 		case ItemPool.ANCIENT_CURSED_FOOTLOCKER:
