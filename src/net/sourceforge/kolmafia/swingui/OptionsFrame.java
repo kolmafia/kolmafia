@@ -226,6 +226,7 @@ public class OptionsFrame
 			{},
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
+			{ "relayAddsDiscoHelper", "Add Disco Bandit heleper to fights" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
 			{},
 			{ "relayMaintainsEffects", "Run moods during manual adventuring" },

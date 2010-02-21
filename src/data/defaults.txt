@@ -110,6 +110,7 @@ global	proxySet	false
 global	readManualHardcore	true
 global	readManualSoftcore	true
 global	relayAddsCustomCombat	true
+global	relayAddsDiscoHelper	false
 global	relayAddsGraphicalCLI	false
 global	relayAddsKoLSimulator	false
 global	relayAddsQuickScripts	false
@@ -473,6 +474,12 @@ user	prismaticSummons	0
 user	pyramidPosition	0
 user	pyramidBombUsed	false
 user	rageGlandVented	false
+user	raveCombo1
+user	raveCombo2
+user	raveCombo3
+user	raveCombo4
+user	raveCombo5
+user	raveCombo6
 user	reagentSummons	0
 user	recentLocations	5
 user	recoveryScript

@@ -83,6 +83,12 @@ public class NemesisDecorator
 		Preferences.setInteger( "dbNemesisSkill1", 0 );
 		Preferences.setInteger( "dbNemesisSkill2", 0 );
 		Preferences.setInteger( "dbNemesisSkill3", 0 );
+		Preferences.setString( "raveCombo1", "" );
+		Preferences.setString( "raveCombo2", "" );
+		Preferences.setString( "raveCombo3", "" );
+		Preferences.setString( "raveCombo4", "" );
+		Preferences.setString( "raveCombo5", "" );
+		Preferences.setString( "raveCombo6", "" );
 		Preferences.setInteger( "lastNemesisReset", KoLCharacter.getAscensions() );
 	}
 
