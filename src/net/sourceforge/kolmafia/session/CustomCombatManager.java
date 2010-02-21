@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -491,6 +492,14 @@ public abstract class CustomCombatManager
 		}
 
 		String location = Preferences.getString( "lastAdventure" ).toLowerCase();
+		if ( MonsterDatabase.findMonster( encounter, false ) == null )
+		{	// An unrecognized monster is likely to be:
+			// * something new that the player may want to see personally,
+			//	so allow an [unrecognized] section to match them.
+			// * something fundamentally different from the known monsters
+			//	in the current zone, so don't try to use a [zone name] match.
+			location = "unrecognized";
+		}
 
 		// If no matches were found, then see if there is a match
 		// against the adventure location.

@@ -2107,6 +2107,7 @@ Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, 
 # Cold Breath: Can breathe frigid air in combat
 Cold Hard Skin	Cold Damage: +25, Maximum HP: +200
 Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
+Cold-Blooded Warm Fuzzies	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, MP Regen Min: 20, MP Regen Max: 30
 # Coldform: Cold, Cold, Cold!
 Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
 Colorfully Concealed	Combat Rate: [-5*zone(The Sea)]
@@ -2799,6 +2800,7 @@ Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
 Hyperborean Hobo Habiliments	Cold Damage: +50
 Knob Goblin Elite Guard Uniform	Muscle: +7
 Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
+# Legendary Regalia of the Chelonian Overlord
 # Legendary Regalia of the Groovelord
 # Legendary Regalia of the Master Squeezeboxer
 # Legendary Regalia of the Saucemaestro
