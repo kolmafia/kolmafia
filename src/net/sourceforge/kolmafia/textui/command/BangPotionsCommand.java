@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
@@ -42,16 +43,28 @@ public class BangPotionsCommand
 {
 	public BangPotionsCommand()
 	{
-		this.usage = " - list the Dungeons of Doom potions you've identified.";
+		this.usage = " - list the potions you've identified.";
 	}
 
 	public void run( final String cmd, final String parameters )
 	{
-		for ( int i = 819; i <= 827; ++i )
+		int first = 819, last = 827;
+		int chopl = 0, chopr = 7;
+		String pref = "lastBangPotion";
+		if ( cmd.startsWith( "v" ) )
+		{
+			first = ItemPool.VIAL_1_1;
+			last = ItemPool.VIAL_3_6;
+			chopl = 8;
+			chopr = 6;
+			pref = "lastSlimeVial";
+		}
+		
+		for ( int i = first; i <= last; ++i )
 		{
 			String potion = ItemDatabase.getItemName( i );
-			potion = potion.substring( 0, potion.length() - 7 );
-			RequestLogger.printLine( potion + ": " + Preferences.getString( "lastBangPotion" + i ) );
+			potion = potion.substring( chopl, potion.length() - chopr );
+			RequestLogger.printLine( potion + ": " + Preferences.getString( pref + i ) );
 		}
 	}
 }

@@ -389,6 +389,21 @@ public class AdventureResult
 
 			return AdventureResult.bangPotionName( this.itemId );
 
+		case ItemPool.VIAL_1_1:
+		case ItemPool.VIAL_1_2:
+		case ItemPool.VIAL_1_3:
+		case ItemPool.VIAL_2_1:
+		case ItemPool.VIAL_2_2:
+		case ItemPool.VIAL_2_3:
+		case ItemPool.VIAL_3_1:
+		case ItemPool.VIAL_3_2:
+		case ItemPool.VIAL_3_3:
+		case ItemPool.VIAL_3_4:
+		case ItemPool.VIAL_3_5:
+		case ItemPool.VIAL_3_6:
+
+			return AdventureResult.slimeVialName( this.itemId );
+
 		case ItemPool.MOSSY_STONE_SPHERE:
 		case ItemPool.SMOOTH_STONE_SPHERE:
 		case ItemPool.CRACKED_STONE_SPHERE:
@@ -964,20 +979,43 @@ public class AdventureResult
 		return itemName + " of " + effect;
 	}
 
-	public final String bangPotionAlias()
+	public static final String slimeVialName( final int itemId )
 	{
-		if ( this.itemId < 819 || this.itemId > 827 )
-		{
-			return this.name;
-		}
+		String itemName = ItemDatabase.getItemName( itemId );
 
-		String effect = Preferences.getString( "lastBangPotion" + this.itemId );
+		String effect = Preferences.getString( "lastSlimeVial" + itemId );
 		if ( effect.equals( "" ) )
 		{
-			return this.name;
+			return itemName;
 		}
 
-		return "potion of " + effect;
+		return itemName + ": " + effect;
+	}
+
+	public final String bangPotionAlias()
+	{
+		if ( this.itemId >= 819 && this.itemId <= 827 )
+		{
+			String effect = Preferences.getString( "lastBangPotion" + this.itemId );
+			if ( effect.equals( "" ) )
+			{
+				return this.name;
+			}
+	
+			return "potion of " + effect;
+		}
+		if ( this.itemId >= ItemPool.VIAL_1_1 && this.itemId <= ItemPool.VIAL_3_6 )
+		{
+			String effect = Preferences.getString( "lastSlimeVial" + this.itemId );
+			if ( effect.equals( "" ) )
+			{
+				return this.name;
+			}
+	
+			return "vial of slime: " + effect;
+		}
+		
+		return this.name;
 	}
 
 	public static final String stoneSphereName( final int itemId )

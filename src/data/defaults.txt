@@ -407,6 +407,18 @@ user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
 user	lastSemirareReset	-1
 user	lastSkateParkReset	-1
+user	lastSlimeVial3885
+user	lastSlimeVial3886
+user	lastSlimeVial3887
+user	lastSlimeVial3888
+user	lastSlimeVial3889
+user	lastSlimeVial3890
+user	lastSlimeVial3891
+user	lastSlimeVial3892
+user	lastSlimeVial3893
+user	lastSlimeVial3894
+user	lastSlimeVial3895
+user	lastSlimeVial3896
 user	lastStoneSphere2174
 user	lastStoneSphere2175
 user	lastStoneSphere2176

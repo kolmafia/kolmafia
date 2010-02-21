@@ -884,6 +884,18 @@ public class ItemPool
 	public static final int PLASTIC_GUITAR = 3863;
 	public static final int FINGER_CYMBALS = 3864;
 	public static final int KETTLE_DRUM = 3865;
+	public static final int VIAL_1_1 = 3885;
+	public static final int VIAL_1_2 = 3886;
+	public static final int VIAL_1_3 = 3887;
+	public static final int VIAL_2_1 = 3888;
+	public static final int VIAL_2_2 = 3889;
+	public static final int VIAL_2_3 = 3890;
+	public static final int VIAL_3_1 = 3891;
+	public static final int VIAL_3_2 = 3892;
+	public static final int VIAL_3_3 = 3893;
+	public static final int VIAL_3_4 = 3894;
+	public static final int VIAL_3_5 = 3895;
+	public static final int VIAL_3_6 = 3896;
 	public static final int BOTTLE_OF_GU_GONE = 3898;
 	public static final int SEAL_BLUBBER_CANDLE = 3901;
 	public static final int WRETCHED_SEAL = 3902;
@@ -1106,14 +1118,41 @@ public class ItemPool
 		{ "nature", "bright green light" },
 	};
 	
+	public static final String[][][] slimeVialStrings =
+	{
+		// name, inventory use mssage
+		{	// primary
+			{ "strong", "Slimily Strong" },
+			{ "sagacious", "Slimily Sagacious" },
+			{ "speedy", "Slimily Speedy" },
+		},
+		{	// secondary
+			{ "brawn", "Bilious Brawn" },
+			{ "brains", "Bilious Brains" },
+			{ "briskness", "Bilious Briskness" },
+		},
+		{	// tertiary
+			{ "slimeform", "Slimeform" },
+			{ "eyesight", "Ichorous Eyesight" },
+			{ "intensity", "Ichorous Intensity" },
+			{ "muscle", "Mucilaginous Muscle" },
+			{ "mentalism", "Mucilaginous Mentalism" },
+			{ "moxiousness", "Mucilaginous Moxiousness" },
+		},
+	};
+	
 	public static final boolean eliminationProcessor( final String[][] strings, final int index,
-		final int id, final int minId, final int maxId, final String baseName )
+		final int id, final int minId, final int maxId, final String baseName, final String joiner )
 	{
 		String effect = strings[index][0];
 		Preferences.setString( baseName + id, effect );
 		String name = ItemDatabase.getItemName( id );
-		String testName = name + " of " + effect;
-		String testPlural = name + "s of " + effect;
+		String testName = name + joiner + effect;
+		String testPlural = ItemDatabase.getPluralById( id );
+		if ( testPlural != null )
+		{
+			testPlural = testPlural + joiner + effect;
+		}
 		ItemDatabase.registerItemAlias( id, testName, testPlural );
 		
 		HashSet possibilities = new HashSet();
