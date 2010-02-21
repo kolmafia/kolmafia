@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
+import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
@@ -592,6 +593,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
+			DiscoCombatHelper.decorate( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.addFightModifiers( location, buffer );
 		}

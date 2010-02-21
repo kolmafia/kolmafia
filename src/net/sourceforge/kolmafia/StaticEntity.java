@@ -114,6 +114,7 @@ import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.MineDecorator;
 
 public abstract class StaticEntity
@@ -842,6 +843,7 @@ public abstract class StaticEntity
 		KoLCharacter.updateStatus();
 		KoLCharacter.addDerivedSkills();
 		KoLConstants.usableSkills.sort();
+		DiscoCombatHelper.learnSkill( skillName );
 		ConcoctionDatabase.refreshConcoctions();
 		if ( SkillDatabase.isBookshelfSkill( skillName ) )
 		{

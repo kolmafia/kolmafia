@@ -86,6 +86,8 @@ import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 
+import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
+
 /**
  * A container class representing the <code>KoLCharacter</code>. This class also allows for data listeners that are
  * updated whenever the character changes; ultimately, the purpose of this class is to shift away from the
@@ -2392,6 +2394,8 @@ public abstract class KoLCharacter
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
+
+		DiscoCombatHelper.initialize();
 	}
 
 	public static final void setPermedSkills( final List newSkillSet )
