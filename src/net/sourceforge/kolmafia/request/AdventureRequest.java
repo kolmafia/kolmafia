@@ -827,7 +827,7 @@ public class AdventureRequest
 				String text = (String) demons[ 2 ];
 				if ( responseText.indexOf( text ) != -1 )
 				{
-					setting = (String) demons[ 4 ];
+					setting = (String) demons[ 3 ];
 					break;
 				}
 			}
