@@ -34,8 +34,6 @@
 # Scaling monsters:
 #
 # Baron Von Ratsworth
-# Naughty Sorceress
-# Naughty Sorceress (second form)
 #
 # Mob Penguin Enforcer
 # Mob Penguin Goon
@@ -706,9 +704,9 @@ The Little Man in the Canoe	HP: 150 Def: 165 Atk: 165 E: sleaze	line (30)	star (
 The Man	HP: 2000 ED: sleaze	really dense meat stack (100)
 The Master of Thieves		Platinum Yendorian Express Card (100)
 The Muff	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	star (30)
-The Naughty Sorceress
-The Naughty Sorceress (2)
-The Naughty Sorceress (3)
+The Naughty Sorceress	HP: 400
+The Naughty Sorceress (2)	HP: 600
+The Naughty Sorceress (3)	HP: 10000000
 The Pork Sword	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	star (30)	star (30)
 The Queen Filthworm	HP: 200 Atk: 173 Meat: 1000 E: stench	heart of the filthworm queen (100)
 The Remains of a Jilted Mistress	HP: 145 Def: 154 Atk: 164 ED: spooky	antique hand mirror (40)
@@ -731,6 +729,7 @@ Towering Construct	HP: 450 Atk: 350	El Vibrato punchcard (165 holes) (1)	El Vibr
 Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Tribal Goblin	HP: 60 Def: 50 Atk: 60	goblin autoblowgun (0)	goblin hunting spear (0)	shiny tribal beads (0)
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)	triffid bark (b0)
+Trophyfish	HP: 15000
 Tyrannosaurus Tex	HP: 100000
 Undead Elbow Macaroni	HP: 1 Def: 2 Atk: 1 E: spooky Meat: 4-6	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
 Undercover Penguin		cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
