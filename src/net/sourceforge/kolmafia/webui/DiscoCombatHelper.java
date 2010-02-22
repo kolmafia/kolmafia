@@ -367,13 +367,6 @@ public class DiscoCombatHelper
 			return;
 		}
 
-		// Reset when you win the fight
-		if ( responseText.indexOf( "WINWINWIN" ) != -1 )
-		{
-			DiscoCombatHelper.counter = 0;
-			return;
-		}
-
 		// Track last three disco skills used in sequence.
 
 		int index = DiscoCombatHelper.counter;
