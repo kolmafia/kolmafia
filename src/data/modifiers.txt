@@ -2435,6 +2435,7 @@ Pasty	Muscle Percent: +50
 Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
+# Pemmican't: +10 Damage against Seals
 Peppermint Bite	Muscle: +5
 Perceptive Pressure	Item Drop: +50
 Permafrosty	Cold Damage: +50
@@ -2479,6 +2480,8 @@ Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 Really Deep Breath	Adventure Underwater
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
 Red Door Syndrome	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+# Red Misty-Eyed: +10 Damage against Seals
+Red Misty-Eyed	Damage Reduction:3, Muscle Percent: +50
 Red Neck	Muscle: +15, Moxie: -5
 Red Tongue	Meat Drop: +50
 Reedy Pipes	Moxie Percent: +5
@@ -2500,6 +2503,7 @@ Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Seal Clubbing Frenzy	Muscle: +2
+Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Seeing Colors	Mysticality Percent: +50
 Serenity	Moxie Percent: +15
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50

@@ -710,8 +710,16 @@
 709
 710
 711	Cold-Blooded Warm Fuzzies	grinturtle.gif	86cb8548c2b3619029106f8bf8717b1c	#TT Nemesis quest
-712
+712	Having a Ball!	plasticball.gif	b806c288732675bf60db7b948d748320	#clan ball pit
 713
-714	Having a Ball!	plasticball.gif	b806c288732675bf60db7b948d748320	#clan ball pit
+714
 715
 716	Inigo's Incantation of Inspiration	incantation.gif	13a38b36b281484553a9ea836fd3b2d8	cast 1 Inigo's Incantation of Inspiration|use 1 recording of Inigo's Incantation of Inspiration
+717	Red Misty-Eyed	eyeball.gif	820b089cdb98e5f389fb24448c4d6a37	use 1 sealhide seal doll
+718	B-b-brr!	sphererough.gif	c7cfec0c1b99f8ab69bdd4dd24dd6735	# snowball
+719	Sealed Brain	realbrain.gif	12fa21a06cde21c7a65f2244cd02dacb	use 1 seal-brain elixir
+720
+721
+722
+723
+724	Pemmican't	cruft.gif	63f212fdef4d2731cf9944afd3a9cb22	eat 1 Northern pemmican
