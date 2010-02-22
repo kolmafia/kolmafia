@@ -4462,7 +4462,7 @@
 4453
 4454
 4455
-4456
+4456	snowball	usable, curse	all	5
 4457	snailmail bits	multiple	all	56
 4458	snailmail coif	hat	all	140
 4459	snailmail breeches	pants	all	150
