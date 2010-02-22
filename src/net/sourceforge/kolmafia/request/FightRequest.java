@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
@@ -134,7 +135,7 @@ public class FightRequest
 
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
 
-	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
+	public static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
 	private static final Pattern CLEESH_PATTERN =
@@ -1536,6 +1537,9 @@ public class FightRequest
 				RequestLogger.printLine( "KoLmafia thinks it is round " + FightRequest.currentRound + " but KoL thinks it is round " + round );
 			}
 		}
+
+		// Track disco skill sequences
+		DiscoCombatHelper.parseFightRound( location, responseText );
 
 		if ( FightRequest.currentRound == 1 )
 		{
