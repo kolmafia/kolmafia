@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -49,6 +51,7 @@ public class DiscoCombatHelper
 	// Only Disco Bandits can do combos.
 	public static boolean canCombo;
 
+	private static final int UNKNOWN = -1;
 	public static final int DISCO_EYE_POKE = 0;
 	public static final int DISCO_DANCE_OF_DOOM = 1;
 	public static final int DISCO_DANCE_II = 2;
@@ -190,41 +193,45 @@ public class DiscoCombatHelper
 		},
 		// Rave Concentration
 		{
-			{ BREAK_IT_ON_DOWN },
-			{ POP_AND_LOCK_IT },
-			{ RUN_LIKE_THE_WIND },
+			{ UNKNOWN },
+			{ UNKNOWN },
+			{ UNKNOWN },
 		},
 		// Rave Nirvana
 		{
-			{ BREAK_IT_ON_DOWN },
-			{ POP_AND_LOCK_IT },
-			{ RUN_LIKE_THE_WIND },
+			{ UNKNOWN },
+			{ UNKNOWN },
+			{ UNKNOWN },
 		},
 		// Rave Knockout
 		{
-			{ BREAK_IT_ON_DOWN },
-			{ POP_AND_LOCK_IT },
-			{ RUN_LIKE_THE_WIND },
+			{ UNKNOWN },
+			{ UNKNOWN },
+			{ UNKNOWN },
 		},
 		// Rave Bleeding
 		{
-			{ BREAK_IT_ON_DOWN },
-			{ POP_AND_LOCK_IT },
-			{ RUN_LIKE_THE_WIND },
+			{ UNKNOWN },
+			{ UNKNOWN },
+			{ UNKNOWN },
 		},
 		// Rave Steal
 		{
-			{ BREAK_IT_ON_DOWN },
-			{ POP_AND_LOCK_IT },
-			{ RUN_LIKE_THE_WIND },
+			{ UNKNOWN },
+			{ UNKNOWN },
+			{ UNKNOWN },
 		},
 		// Rave Substats
 		{
-			{ BREAK_IT_ON_DOWN },
-			{ POP_AND_LOCK_IT },
-			{ RUN_LIKE_THE_WIND },
+			{ UNKNOWN },
+			{ UNKNOWN },
+			{ UNKNOWN },
 		},
 	};
+
+	// Count of disco skills used in sequence
+	private static int counter = 0;
+	private static final int [] sequence = new int[3];
 
 	public static final void initialize()
 	{
@@ -245,6 +252,28 @@ public class DiscoCombatHelper
 		{
 			DiscoCombatHelper.checkCombo( i );
 		}
+
+		DiscoCombatHelper.counter = 0;
+		DiscoCombatHelper.sequence[ 0 ] = 0;
+		DiscoCombatHelper.sequence[ 1 ] = 0;
+		DiscoCombatHelper.sequence[ 2 ] = 0;
+	}
+
+	private static int skillIdToSkill( final String skill )
+	{
+		return DiscoCombatHelper.skillIdToSkill( StringUtilities.parseInt( skill ) );
+	}
+
+	private static int skillIdToSkill( final int skill )
+	{
+		for ( int i = 0; i < NUM_SKILLS; ++i )
+		{
+			if ( skill == SKILL_ID[i] )
+			{
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	private static final void checkCombo( final int combo )
@@ -316,6 +345,104 @@ public class DiscoCombatHelper
 			DiscoCombatHelper.checkCombo( i );
 		}
 	}
+
+	public static final void parseFightRound( final String urlString, final String responseText )
+	{
+		if ( !DiscoCombatHelper.canCombo )
+		{
+			return;
+		}
+
+		Matcher matcher = FightRequest.SKILL_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			DiscoCombatHelper.counter = 0;
+			return;
+		}
+
+		int skill = DiscoCombatHelper.skillIdToSkill( matcher.group(1) );
+		if ( skill < 0 )
+		{
+			DiscoCombatHelper.counter = 0;
+			return;
+		}
+
+		// Track last three disco skills used in sequence.
+
+		int index = DiscoCombatHelper.counter;
+		if ( index == 3 )
+		{
+			// Shift skills back
+			DiscoCombatHelper.sequence[ 0 ] = DiscoCombatHelper.sequence[ 1 ];
+			DiscoCombatHelper.sequence[ 1 ] = DiscoCombatHelper.sequence[ 2 ];
+			index = 2;
+		}
+
+		DiscoCombatHelper.sequence[index++] = skill;
+		DiscoCombatHelper.counter = index;
+
+		// If we have completed a known disco or rave combo, reset
+		// A combo must have at least two skills.
+		for ( int i = 0; DiscoCombatHelper.counter > 1 && i < NUM_COMBOS; ++i )
+		{
+			if ( !knownCombo[ i ] )
+			{
+				continue;
+			}
+
+			int [][] data = COMBO_SKILLS[ i ];
+
+			// If we have the correct number of skills to match
+			// this sequence, check it.
+
+			if ( DiscoCombatHelper.counter == data.length &&
+			     checkSequence( data, 0 ) )
+			{
+				DiscoCombatHelper.counter = 0;
+				break;
+			}
+
+			// If we have three skills in a row, we can match
+			// either a three-skill combo or a two-skill combo
+
+			if ( DiscoCombatHelper.counter == 3 &&
+			     data.length == 2 &&
+			     checkSequence( data, 1 ) )
+			{
+				DiscoCombatHelper.counter = 0;
+				break;
+			}
+		}
+
+		// If three different rave skills are used in sequence,
+		// identify the rave combo
+	}
+
+	private static final boolean checkSequence( final int[][] data, final int offset )
+	{
+		// Compare the skill sequence (starting at offset) to a given
+		// combo.
+
+		for ( int i = 0; i < data.length; ++i )
+		{
+			int skill = DiscoCombatHelper.sequence[ i + offset ];
+			int [] skills = data[ i ];
+			boolean found = false;
+			for ( int j = 0; j < skills.length; ++j )
+			{
+				if ( skill == skills[ j ] )
+				{
+					found = true;
+					break;
+				}
+			}
+			if ( !found )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	private static final StringBuffer generateTable()
 	{
@@ -323,6 +450,20 @@ public class DiscoCombatHelper
 		int combos = 0;
 
 		buffer.append( "<table border=2 cols=5>" );
+		if ( DiscoCombatHelper.counter > 0 )
+		{
+			buffer.append( "<caption>" );
+			for ( int i = 0; i < DiscoCombatHelper.counter; ++i )
+			{
+				if ( i > 0 )
+				{
+					buffer.append( ", " );
+				}
+				int skill = DiscoCombatHelper.sequence[i];
+				buffer.append( SKILLS[ skill ] );
+			}
+			buffer.append( "</caption>" );
+		}
 		for ( int i = 0; i < NUM_COMBOS; ++i )
 		{
 			if ( !knownCombo[ i ] )
