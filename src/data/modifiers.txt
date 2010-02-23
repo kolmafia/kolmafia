@@ -538,6 +538,9 @@ Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23
 # Shagadelic Disco Banjo: +7 damage to Disco Bandit Combat Skills
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10
+# Sledgehammer of the V&aelig;lkyr: +20% Physical Damage
+# Sledgehammer of the V&aelig;lkyr: Special Attack: Bashing Slam Smash
+Sledgehammer of the V&aelig;lkyr	Muscle: +23, Critical: 4, Class: "Seal Clubber"
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical: 5
 Spooky Putty ball	Spooky Damage: +10, Softcore Only
 Spooky Putty snake	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
@@ -1229,6 +1232,9 @@ Chester's moustache	Sleaze Damage: +20, Class: "Disco Bandit", Single Equip
 # Chester's sunglasses: Reduce enemy defense by 15%
 Chester's sunglasses	Moxie Percent: +15, Sleaze Damage: +20, Single Equip
 Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Damage: +40, Single Equip
+# Claw of the Infernal Seal: 5 Additional Seal Summons Per Day*
+# * This enchantment works even when this item is not equipped
+Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Seal Clubber", Single Equip
 Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
 Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip

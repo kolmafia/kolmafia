@@ -389,18 +389,18 @@ public class AdventureResult
 
 			return AdventureResult.bangPotionName( this.itemId );
 
-		case ItemPool.VIAL_1_1:
-		case ItemPool.VIAL_1_2:
-		case ItemPool.VIAL_1_3:
-		case ItemPool.VIAL_2_1:
-		case ItemPool.VIAL_2_2:
-		case ItemPool.VIAL_2_3:
-		case ItemPool.VIAL_3_1:
-		case ItemPool.VIAL_3_2:
-		case ItemPool.VIAL_3_3:
-		case ItemPool.VIAL_3_4:
-		case ItemPool.VIAL_3_5:
-		case ItemPool.VIAL_3_6:
+		case ItemPool.VIAL_OF_RED_SLIME:
+		case ItemPool.VIAL_OF_YELLOW_SLIME:
+		case ItemPool.VIAL_OF_BLUE_SLIME:
+		case ItemPool.VIAL_OF_ORANGE_SLIME:
+		case ItemPool.VIAL_OF_GREEN_SLIME:
+		case ItemPool.VIAL_OF_VIOLET_SLIME:
+		case ItemPool.VIAL_OF_VERMILION_SLIME:
+		case ItemPool.VIAL_OF_AMBER_SLIME:
+		case ItemPool.VIAL_OF_CHARTREUSE_SLIME:
+		case ItemPool.VIAL_OF_TEAL_SLIME:
+		case ItemPool.VIAL_OF_INDIGO_SLIME:
+		case ItemPool.VIAL_OF_PURPLE_SLIME:
 
 			return AdventureResult.slimeVialName( this.itemId );
 
@@ -1004,7 +1004,7 @@ public class AdventureResult
 	
 			return "potion of " + effect;
 		}
-		if ( this.itemId >= ItemPool.VIAL_1_1 && this.itemId <= ItemPool.VIAL_3_6 )
+		if ( this.itemId >= ItemPool.VIAL_OF_RED_SLIME && this.itemId <= ItemPool.VIAL_OF_PURPLE_SLIME )
 		{
 			String effect = Preferences.getString( "lastSlimeVial" + this.itemId );
 			if ( effect.equals( "" ) )

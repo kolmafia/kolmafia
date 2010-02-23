@@ -1235,7 +1235,7 @@ public class RequestEditorKit
 				}
 			}
 		}
-		for ( int i = ItemPool.VIAL_1_1; i <= ItemPool.VIAL_3_6; ++i )
+		for ( int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
 			String plural = ItemDatabase.getPluralById( i );
@@ -1289,7 +1289,7 @@ public class RequestEditorKit
 				StringUtilities.globalStringReplace( buffer, name + " of " + effect + "s", name + "s of " + effect );
 			}
 		}
-		for ( int i = ItemPool.VIAL_1_1; i <= ItemPool.VIAL_3_6; ++i )
+		for ( int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
 			String plural = ItemDatabase.getPluralById( i );

@@ -2548,7 +2548,7 @@
 2542	379926519	lesser grodulated violet	lesser grodulated violets
 2543	593800005	tin magnolia	tin magnolias
 2544	423673086	begpwnia	begpwnias
-2545	928534008	upsy daisy	upsy daisies
+2545	928534008	upsy daisy	oopsie daisies
 2546	213398305	half-orchid	half-orchids
 2547	222722891	tin star	tin stars
 2548	576823351	outrageous sombrero	outrageous sombreros
@@ -4319,13 +4319,13 @@
 4313
 4314
 4315	804577053	Annual Ascot
-4316
+4316	139769370	Sledgehammer of the V&aelig;lkyr
 4317	601506510	Flail of the Seven Aspects
 4318	251972482	Wrath of the Capsaician Pastalords
 4319	832914462	Windsor Pan of the Source
 4320	971981173	Seeger's Unstoppable Banjo
 4321	952292059	The Trickster's Trikitixa
-4322
+4322	383507132	Claw of the Infernal Seal
 4323	977005028	Garter of the Turtle Poacher
 4324
 4325	918726420	Gravyskin Belt of the Sauceblob

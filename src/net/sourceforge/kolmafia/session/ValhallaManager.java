@@ -51,6 +51,19 @@ public class ValhallaManager
 		ItemPool.get( ItemPool.GLOWSTICK_ON_A_STRING, 1 ),
 		ItemPool.get( ItemPool.CANDY_NECKLACE, 1 ),
 		ItemPool.get( ItemPool.TEDDYBEAR_BACKPACK, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_RED_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_YELLOW_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_BLUE_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_ORANGE_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_GREEN_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_VIOLET_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_VERMILION_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_AMBER_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_CHARTREUSE_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_TEAL_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_INDIGO_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_PURPLE_SLIME, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_BROWN_SLIME, 1 ),
 	};
 
 	public static void preAscension()

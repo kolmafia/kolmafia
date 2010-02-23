@@ -53,8 +53,8 @@ public class BangPotionsCommand
 		String pref = "lastBangPotion";
 		if ( cmd.startsWith( "v" ) )
 		{
-			first = ItemPool.VIAL_1_1;
-			last = ItemPool.VIAL_3_6;
+			first = ItemPool.VIAL_OF_RED_SLIME;
+			last = ItemPool.VIAL_OF_PURPLE_SLIME;
 			chopl = 8;
 			chopr = 6;
 			pref = "lastSlimeVial";
