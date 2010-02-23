@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.HashMap;
 
@@ -75,6 +76,8 @@ public class ConcoctionDatabase
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
 	public static final SortedListModel creatableList = new SortedListModel();
 	public static final LockableListModel usableList = new LockableListModel();
+	
+	public static String excuse;	// reason why creation is impossible
 
 	public static boolean ignoreRefresh = false;
 	public static boolean deferRefresh = false;
@@ -105,9 +108,12 @@ public class ConcoctionDatabase
 	public static final boolean[] PERMIT_METHOD = new boolean[ KoLConstants.METHOD_COUNT ];
 	public static final int[] ADVENTURE_USAGE = new int[ KoLConstants.METHOD_COUNT ];
 	public static final int[] CREATION_COST = new int[ KoLConstants.METHOD_COUNT ];
+	public static final String[] EXCUSE = new String[ KoLConstants.METHOD_COUNT ];
 	public static int creationFlags;
 
 	private static final AdventureResult[] NO_INGREDIENTS = new AdventureResult[ 0 ];
+	
+	private static final AdventureResult INIGO = new AdventureResult( "Inigo's Incantation of Inspiration", 0, true );
 
 	private static final HashMap mixingMethods = new HashMap();
 
@@ -497,6 +503,40 @@ public class ConcoctionDatabase
 	{
 		return ConcoctionDatabase.PERMIT_METHOD[ method & KoLConstants.CT_MASK ] &&
 			(method & KoLConstants.CR_MASK & ~ConcoctionDatabase.creationFlags) == 0;
+	}
+
+	public static final boolean checkPermittedMethod( int method )
+	{	// same as isPermittedMethod(), but sets excuse
+		if ( !ConcoctionDatabase.PERMIT_METHOD[ method & KoLConstants.CT_MASK ] )
+		{
+			ConcoctionDatabase.excuse = ConcoctionDatabase.EXCUSE[ method & KoLConstants.CT_MASK ];
+			return false;
+		}
+		
+		method = method & KoLConstants.CR_MASK & ~ConcoctionDatabase.creationFlags;
+		if ( method != 0 )
+		{
+			String reason = "unknown";
+			Iterator i = ConcoctionDatabase.mixingMethods.entrySet().iterator();
+			while ( i.hasNext() )
+			{
+				Map.Entry e = (Map.Entry) i.next();
+				int v = ((Integer) e.getValue()).intValue();
+				// Look for a mixingMethod token that corresponds to a CR_xxx
+				// flag, and has at least one of the failing CR bits.
+				if ( (v & method) != 0 &&
+					(v & ~KoLConstants.CR_MASK) == 0 )
+				{
+					reason = (String) e.getKey();
+					break;
+				}
+			}
+			ConcoctionDatabase.excuse = "You lack a skill or other prerequisite for creating that item (" + reason + ").";
+			return false;
+		}
+		
+		ConcoctionDatabase.excuse = null;
+		return true;
 	}
 
 	private static final AdventureResult parseIngredient( final String data )
@@ -1217,6 +1257,8 @@ public class ConcoctionDatabase
 		Arrays.fill( ConcoctionDatabase.PERMIT_METHOD, false );
 		Arrays.fill( ConcoctionDatabase.ADVENTURE_USAGE, 0 );
 		Arrays.fill( ConcoctionDatabase.CREATION_COST, 0 );
+		Arrays.fill( ConcoctionDatabase.EXCUSE, null );
+		int Inigo = ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5;
 
 		// It is never possible to create items which are flagged
 		// NOCREATE
@@ -1231,13 +1273,14 @@ public class ConcoctionDatabase
 		// moxie sign and they have a bitchin' meat car.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.GNOME_TINKER ] = KoLCharacter.inMoxieSign();
-
+		ConcoctionDatabase.EXCUSE[ KoLConstants.GNOME_TINKER ] = "Only moxie signs can use the Supertinkerer.";
+		
 		// Smithing of items is possible whenever the person
 		// has a hammer.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] =
 			KoLCharacter.getAvailableMeat() >= 1000;
-		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SMITH ] = 1;
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SMITH ] = Math.max( 0, 1 - Inigo );
 		
 		if ( InventoryManager.hasItem( ItemPool.TENDER_HAMMER ) )
 		{
@@ -1255,7 +1298,7 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SSMITH ] =
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ];
-		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SSMITH ] = 1;
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SSMITH ] = Math.max( 0, 1 - Inigo );
 
 		// Standard smithing is also possible if the person is in
 		// a muscle sign.
@@ -1282,7 +1325,7 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.JEWELRY ] =
 			InventoryManager.hasItem( ItemPool.JEWELRY_PLIERS );
-		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.JEWELRY ] = 3;
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.JEWELRY ] = Math.max( 0, 3 - Inigo );
 
 		if ( KoLCharacter.canCraftExpensiveJewelry() )
 		{
@@ -1309,6 +1352,8 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.STAFF ] =
 			KoLCharacter.isMysticalityClass();
+		ConcoctionDatabase.EXCUSE[ KoLConstants.STAFF ] =
+			"Only mysticality classes can make chefstaves.";
 
 		// It's not possible to ask Uncle Crimbo 2005 to make toys
 		// It's not possible to ask Ugh Crimbo 2006 to make toys
@@ -1329,14 +1374,17 @@ public class ConcoctionDatabase
 			willBuyServant || KoLCharacter.hasChef() || ConcoctionDatabase.isAvailable( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF );
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK ] =
 			MallPriceDatabase.getPrice( ItemPool.CHEF ) / 90;
+		ConcoctionDatabase.EXCUSE[ KoLConstants.COOK ] =
+			"You have chosen not to cook without a chef-in-the-box.";
 
 		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] &&
-			!Preferences.getBoolean( "requireBoxServants" ) )
+			(Inigo > 0 || !Preferences.getBoolean( "requireBoxServants" )) )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
 				InventoryManager.hasItem( ItemPool.BAKE_OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
-			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 1;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = Math.max( 0, 1 - Inigo );
 			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK ] = 0;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK ] = "You cannot cook without an oven.";
 		}
 
 		// Cooking may require an additional skill.
@@ -1373,14 +1421,17 @@ public class ConcoctionDatabase
 			willBuyServant || KoLCharacter.hasBartender() || ConcoctionDatabase.isAvailable( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER );
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX ] =
 			MallPriceDatabase.getPrice( ItemPool.BARTENDER ) / 90;
+		ConcoctionDatabase.EXCUSE[ KoLConstants.MIX ] =
+			"You have chosen not to mix without a bartender-in-the-box.";
 
 		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] &&
-			!Preferences.getBoolean( "requireBoxServants" ) )
+			(Inigo > 0 || !Preferences.getBoolean( "requireBoxServants" )) )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
 				InventoryManager.hasItem( ItemPool.COCKTAIL_KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
-			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = 1;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = Math.max( 0, 1 - Inigo );
 			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX ] = 0;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX ] = "You cannot mix without a cocktailcrafting kit.";
 		}
 
 		// Mixing may require an additional skill.
@@ -1411,23 +1462,30 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.STILL_MIXER ] =
 			ConcoctionDatabase.CREATION_COST[ KoLConstants.STILL_BOOZE ] =
 				Preferences.getInteger( "valueOfStill" );
+		ConcoctionDatabase.EXCUSE[ KoLConstants.STILL_MIXER ] =
+			ConcoctionDatabase.EXCUSE[ KoLConstants.STILL_BOOZE ] =
+				KoLCharacter.isMoxieClass() ? "You have no Still uses remaining."
+				: "Only moxie classes can use the Still.";
 
 		// Using the Wok of Ages is possible if the person has
 		// Transcendental Noodlecraft and is a Mysticality class
 		// character.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.WOK ] =
-			KoLCharacter.canUseWok() && KoLCharacter.getAdventuresLeft() > 0;
+			KoLCharacter.canUseWok();
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.WOK ] = 1;
+		ConcoctionDatabase.EXCUSE[ KoLConstants.WOK ] = "Only mysticality classes can use the Wok.";
 
 		// Using the Malus of Forethought is possible if the person has
 		// Pulverize and is a Muscle class character.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MALUS ] = KoLCharacter.canUseMalus();
+		ConcoctionDatabase.EXCUSE[ KoLConstants.MALUS ] = "You require Malus access to be able to pulverize.";
 
 		// You can make Sushi if you have a sushi-rolling mat
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SUSHI ] = InventoryManager.hasItem( ItemPool.SUSHI_ROLLING_MAT );
+		ConcoctionDatabase.EXCUSE[ KoLConstants.SUSHI ] = "You cannot make sushi without a sushi-rolling mat.";
 		
 		// Other creatability flags
 		
@@ -1451,8 +1509,11 @@ public class ConcoctionDatabase
 			int adv = ConcoctionDatabase.ADVENTURE_USAGE[ i ];
 			if ( ConcoctionDatabase.PERMIT_METHOD[ i ] && adv > 0 )
 			{
-				ConcoctionDatabase.PERMIT_METHOD[ i ] =
-					ConcoctionDatabase.ADVENTURE_USAGE[ i ] <= KoLCharacter.getAdventuresLeft();
+				if ( adv > KoLCharacter.getAdventuresLeft() )
+				{
+					ConcoctionDatabase.PERMIT_METHOD[ i ] = false;
+					ConcoctionDatabase.EXCUSE[ i ] = "You don't have enough adventures left to create that.";
+				}
 				ConcoctionDatabase.CREATION_COST[ i ] += adv * value;
 			}
 		}
