@@ -88,36 +88,10 @@ public class CreateItemCommand
 
 			if ( irequest == null )
 			{
-				if ( Preferences.getBoolean( "unknownRecipe" + currentMatch.getItemId() ) )
-				{
-					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE,
-						"That item requires a recipe.  If you've already learned it, visit the crafting discoveries page in the relay browser to let KoLmafia know about it." );
-					return;
-				}
-
-				switch ( ConcoctionDatabase.getMixingMethod( currentMatch ) & KoLConstants.CT_MASK )
-				{
-				case KoLConstants.COOK:
-
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot cook without a chef-in-the-box." );
-					return;
-
-				case KoLConstants.MIX:
-
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
-					return;
-
-				case KoLConstants.SUSHI:
-					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE, "You cannot make sushi without a sushi-rolling mat." );
-					return;
-
-				default:
-
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That item cannot be created." );
-					return;
-				}
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					ConcoctionDatabase.excuse != null ? ConcoctionDatabase.excuse
+					: "That item cannot be created." );
+				return;
 			}
 
 			irequest.setQuantityNeeded( currentMatch.getCount() );

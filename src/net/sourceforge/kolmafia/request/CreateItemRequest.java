@@ -236,6 +236,7 @@ public class CreateItemRequest
 
 		if ( instance == null )
 		{
+			ConcoctionDatabase.excuse = null;
 			return instance;
 		}
 
@@ -247,11 +248,17 @@ public class CreateItemRequest
 		// If the item creation process is not permitted, then return
 		// null to indicate that it is not possible to create the item.
 
-		if ( returnNullIfNotPermitted &&
-		     ( Preferences.getBoolean( "unknownRecipe" + item.getItemId() ) ||
-		     	!ConcoctionDatabase.isPermittedMethod( instance.concoction.getMixingMethod() ) ) )
+		if ( returnNullIfNotPermitted )
 		{
-			return null;
+			if ( Preferences.getBoolean( "unknownRecipe" + item.getItemId() ) )
+			{
+				ConcoctionDatabase.excuse = "That item requires a recipe.  If you've already learned it, visit the crafting discoveries page in the relay browser to let KoLmafia know about it.";
+				return null;
+			}
+			if ( !ConcoctionDatabase.checkPermittedMethod( instance.concoction.getMixingMethod() ) )
+			{	// checkPermittedMethod set the excuse
+				return null;
+			}
 		}
 
 		return instance;
