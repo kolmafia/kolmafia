@@ -379,6 +379,29 @@ public class EquipmentManager
 				( eye ? 1 : 0 );
 		}
 	}
+	
+	public static final void transformEquipment( AdventureResult before, AdventureResult after )
+	{
+		SpecialOutfit.forgetEquipment( before );
+		for ( int slot = 0 ; slot <= EquipmentManager.FAMILIAR ; ++slot )
+		{
+			if ( KoLCharacter.hasEquipped( before, slot ) )
+			{
+				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
+				// FamiliarData.setItem moved the current
+				// familiar item to inventory when we
+				// unequipped it above
+				if ( slot != EquipmentManager.FAMILIAR )
+				{
+					AdventureResult.addResultToList( KoLConstants.inventory, before );
+				}
+				ResultProcessor.processResult( before.getInstance( -1 ) );
+				EquipmentManager.setEquipment( slot, after );
+				return;
+			}
+		}
+		RequestLogger.printLine( "(unable to determine slot of transformed equipment)" );
+	}
 
 	public static final int discardEquipment( final int itemId )
 	{
