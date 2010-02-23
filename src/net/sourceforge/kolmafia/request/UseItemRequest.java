@@ -2774,9 +2774,9 @@ public class UseItemRequest
 
 			return;
 
-		case ItemPool.VIAL_1_1:
-		case ItemPool.VIAL_1_2:
-		case ItemPool.VIAL_1_3:
+		case ItemPool.VIAL_OF_RED_SLIME:
+		case ItemPool.VIAL_OF_YELLOW_SLIME:
+		case ItemPool.VIAL_OF_BLUE_SLIME:
 
 			strings = ItemPool.slimeVialStrings[0];
 			for ( int i = 0; i < strings.length; ++i )
@@ -2785,7 +2785,7 @@ public class UseItemRequest
 				{
 					if ( ItemPool.eliminationProcessor( strings, i,
 						item.getItemId(),
-						ItemPool.VIAL_1_1, ItemPool.VIAL_1_3,
+						ItemPool.VIAL_OF_RED_SLIME, ItemPool.VIAL_OF_BLUE_SLIME,
 						"lastSlimeVial", ": " ) )
 					{
 						KoLmafia.updateDisplay( "All primary slime vials have been identified!" );
@@ -2795,9 +2795,9 @@ public class UseItemRequest
 			}
 			return;
 
-		case ItemPool.VIAL_2_1:
-		case ItemPool.VIAL_2_2:
-		case ItemPool.VIAL_2_3:
+		case ItemPool.VIAL_OF_ORANGE_SLIME:
+		case ItemPool.VIAL_OF_GREEN_SLIME:
+		case ItemPool.VIAL_OF_VIOLET_SLIME:
 
 			strings = ItemPool.slimeVialStrings[1];
 			for ( int i = 0; i < strings.length; ++i )
@@ -2806,7 +2806,7 @@ public class UseItemRequest
 				{
 					if ( ItemPool.eliminationProcessor( strings, i,
 						item.getItemId(),
-						ItemPool.VIAL_2_1, ItemPool.VIAL_2_3,
+						ItemPool.VIAL_OF_ORANGE_SLIME, ItemPool.VIAL_OF_VIOLET_SLIME,
 						"lastSlimeVial", ": " ) )
 					{
 						KoLmafia.updateDisplay( "All secondary slime vials have been identified!" );
@@ -2816,12 +2816,12 @@ public class UseItemRequest
 			}
 			return;
 
-		case ItemPool.VIAL_3_1:
-		case ItemPool.VIAL_3_2:
-		case ItemPool.VIAL_3_3:
-		case ItemPool.VIAL_3_4:
-		case ItemPool.VIAL_3_5:
-		case ItemPool.VIAL_3_6:
+		case ItemPool.VIAL_OF_VERMILION_SLIME:
+		case ItemPool.VIAL_OF_AMBER_SLIME:
+		case ItemPool.VIAL_OF_CHARTREUSE_SLIME:
+		case ItemPool.VIAL_OF_TEAL_SLIME:
+		case ItemPool.VIAL_OF_INDIGO_SLIME:
+		case ItemPool.VIAL_OF_PURPLE_SLIME:
 
 			strings = ItemPool.slimeVialStrings[2];
 			for ( int i = 0; i < strings.length; ++i )
@@ -2830,7 +2830,7 @@ public class UseItemRequest
 				{
 					if ( ItemPool.eliminationProcessor( strings, i,
 						item.getItemId(),
-						ItemPool.VIAL_3_1, ItemPool.VIAL_3_6,
+						ItemPool.VIAL_OF_VERMILION_SLIME, ItemPool.VIAL_OF_PURPLE_SLIME,
 						"lastSlimeVial", ": " ) )
 					{
 						KoLmafia.updateDisplay( "All tertiary slime vials have been identified!" );

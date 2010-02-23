@@ -3536,7 +3536,7 @@ public abstract class KoLCharacter
 			{
 				Preferences.setString( "lastBangPotion" + i, "" );
 			}
-			for ( int i = ItemPool.VIAL_1_1; i <= ItemPool.VIAL_3_6; ++i )
+			for ( int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i )
 			{
 				Preferences.setString( "lastSlimeVial" + i, "" );
 			}
@@ -3554,7 +3554,7 @@ public abstract class KoLCharacter
 			}
 		}
 
-		for ( int i = ItemPool.VIAL_1_1; i <= ItemPool.VIAL_3_6; ++i )
+		for ( int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i )
 		{
 			String testProperty = Preferences.getString( "lastSlimeVial" + i );
 			if ( !testProperty.equals( "" ) )
