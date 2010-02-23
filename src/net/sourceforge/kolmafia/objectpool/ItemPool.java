@@ -568,7 +568,9 @@ public class ItemPool
 	public static final int SHAGADELIC_DISCO_BANJO = 2556;
 	public static final int SQUEEZEBOX_OF_THE_AGES = 2557;
 	public static final int CHELONIAN_MORNINGSTAR = 2558;
+	public static final int HAMMER_OF_SMITING = 2559;
 	public static final int SEVENTEEN_ALARM_SAUCEPAN = 2560;
+	public static final int GREEK_PASTA_OF_PERIL = 2561;
 	public static final int AZAZELS_UNICORN = 2566;
 	public static final int AZAZELS_LOLLYPOP = 2567;
 	public static final int AZAZELS_TUTU = 2568;
@@ -990,8 +992,11 @@ public class ItemPool
 	public static final int PUMPKINHEAD_MASK = 4261;
 	public static final int MUMMY_COSTUME = 4262;
 	public static final int UNDERWORLD_ACORN = 4274;
+	public static final int SLEDGEHAMMER_OF_THE_VAELKYR = 4316;
 	public static final int FLAIL_OF_THE_SEVEN_ASPECTS = 4317;
+	public static final int WRATH_OF_THE_PASTALORDS = 4318;
 	public static final int WINDSOR_PAN_OF_THE_SOURCE = 4319;
+	public static final int SEEGERS_BANJO = 4320;
 	public static final int TRICKSTER_TRIKITIXA = 4321;
 	public static final int SAUCEBLOB_BELT = 4325;
 	public static final int NEW_WAVE_BLING = 4326;
