@@ -406,6 +406,7 @@ public class AdventureDatabase
 
 		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm=on" );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "blech" );
 
 		KoLAdventure location = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureURL );
 		return location == null ||

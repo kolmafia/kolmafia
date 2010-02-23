@@ -3606,7 +3606,7 @@ public class FightRequest
 					continue;
 				}
 
-				if ( FightRequest.handleFuzzyDice( node, text, status ) )
+				if ( FightRequest.handleFuzzyDice( text, status ) )
 				{
 					return;
 				}
@@ -3636,6 +3636,17 @@ public class FightRequest
 					return;
                                 }
 
+				if ( text.startsWith( "You acquire a skill" ) )
+				{
+					TagNode bnode = node.findElementByName( "b", true );
+					if ( bnode != null )
+					{
+						String skill = bnode.getText().toString();
+						StaticEntity.learnSkill( skill );
+					}
+					continue;
+				}
+
 				if ( text.startsWith( "You gain" ) )
 				{
 					status.shouldRefresh = ResultProcessor.processGainLoss( text, null );
@@ -3661,7 +3672,7 @@ public class FightRequest
 		}
 	}
 
-	private static boolean handleFuzzyDice( TagNode node, String content, TagStatus status )
+	private static boolean handleFuzzyDice( String content, TagStatus status )
 	{
 		if ( !status.logFamiliar || status.diceMessage == null )
 		{
