@@ -3531,8 +3531,8 @@ public class FightRequest
 				{
 					// Gain/loss of effect
 					String effect = inode.getAttributeByName( "title" );
-                                        // For prettiness
-                                        String munged = StringUtilities.singleStringReplace( str, "(", " (" );
+					// For prettiness
+					String munged = StringUtilities.singleStringReplace( str, "(", " (" );
 					ResultProcessor.processEffect( effect, munged );
 					return;
 				}
@@ -3626,15 +3626,15 @@ public class FightRequest
 				}
 
 				int damage = FightRequest.parseNormalDamage( text );
-                                if ( damage != 0 )
-                                {
+				if ( damage != 0 )
+				{
 					if ( status.logMonsterHealth )
 					{
 						FightRequest.logMonsterDamage( action, damage );
 					}
 					FightRequest.healthModifier += damage;
 					return;
-                                }
+				}
 
 				if ( text.startsWith( "You acquire a skill" ) )
 				{
@@ -3706,9 +3706,9 @@ public class FightRequest
 		FightRequest.logText( action, status );
 
 		// No longer accumulating fuzzy dice message
-                status.dice = false;
+		status.dice = false;
 
-                return true;
+		return true;
 	}
 
 	private static boolean processFumble( String text, TagStatus status )

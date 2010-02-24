@@ -60,6 +60,8 @@ public class DiscoCombatHelper
 	public static final int POP_AND_LOCK_IT = 5;
 	public static final int RUN_LIKE_THE_WIND = 6;
 
+	public static final int FIRST_RAVE_SKILL = 4;
+	public static final int LAST_RAVE_SKILL = 6;
 	public static final int NUM_SKILLS = 7;
 
 	public static final String [] SKILLS = new String[]
@@ -153,7 +155,7 @@ public class DiscoCombatHelper
 		},
 		{
 			"Rave Steal",
-			"Auto-steal Outside the Club",
+			"Steal item",
 		},
 		{
 			"Rave Substats",
@@ -276,6 +278,18 @@ public class DiscoCombatHelper
 		return -1;
 	}
 
+	private static int skillNameToSkill( final String name )
+	{
+		for ( int i = 0; i < NUM_SKILLS; ++i )
+		{
+			if ( SKILLS[i].equals( name ) )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	private static final void checkCombo( final int combo )
 	{
 		// If it's a rave skill, we need to have learned it in battle.
@@ -283,7 +297,24 @@ public class DiscoCombatHelper
 		{
 			String setting = "raveCombo" + String.valueOf( combo - FIRST_RAVE_COMBO + 1 );
 			String seq = Preferences.getString( setting );
-			knownCombo[ combo ] = !seq.equals( "" );
+			String[] skills = seq.split( "," );
+			if ( skills.length == 3 )
+			{
+				int [][] data = COMBO_SKILLS[ combo ];
+				for ( int i = 0; i < skills.length; ++i )
+				{
+					int skill = DiscoCombatHelper.skillNameToSkill( skills[ i ] );
+					if ( skill < FIRST_RAVE_SKILL || skill > LAST_RAVE_SKILL )
+					{
+						knownCombo[ combo ] = false;
+						return;
+					}
+					data[i][0] = skill;
+				}
+				knownCombo[ combo ] = true;
+				return;
+			}
+			knownCombo[ combo ] = false;
 			return;
 		}
 
@@ -353,6 +384,23 @@ public class DiscoCombatHelper
 			return;
 		}
 
+		// Two of the Rave Combos we can learn show up in the next
+		// round of battle, regardless of what we do this round.
+
+		if ( DiscoCombatHelper.counter ==  3 )
+		{
+			// Your opponent seems to be temporarily unconscious
+			if ( responseText.indexOf( "seems to be temporarily unconscious" ) != -1 )
+			{
+				DiscoCombatHelper.learnRaveCombo( RAVE_KNOCKOUT );
+			}
+			// He bleeds from various wounds you've inflicted
+			if ( responseText.indexOf( "bleeds from various wounds you've inflicted" ) != -1 )
+			{
+				DiscoCombatHelper.learnRaveCombo( RAVE_BLEEDING );
+			}
+		}
+
 		Matcher matcher = FightRequest.SKILL_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
@@ -396,7 +444,7 @@ public class DiscoCombatHelper
 			// this sequence, check it.
 
 			if ( DiscoCombatHelper.counter == data.length &&
-			     checkSequence( data, 0 ) )
+			     DiscoCombatHelper.checkSequence( data, 0 ) )
 			{
 				DiscoCombatHelper.counter = 0;
 				break;
@@ -407,7 +455,7 @@ public class DiscoCombatHelper
 
 			if ( DiscoCombatHelper.counter == 3 &&
 			     data.length == 2 &&
-			     checkSequence( data, 1 ) )
+			     DiscoCombatHelper.checkSequence( data, 1 ) )
 			{
 				DiscoCombatHelper.counter = 0;
 				break;
@@ -416,6 +464,91 @@ public class DiscoCombatHelper
 
 		// If three different rave skills are used in sequence,
 		// identify the rave combo
+
+		if ( DiscoCombatHelper.counter ==  3 )
+		{
+			// Your savage beatdown seems to have knocked loose
+			// some treasure. Sweet!
+			if ( responseText.indexOf( "seems to have knocked loose some treasure" ) != -1 )
+			{
+				DiscoCombatHelper.learnRaveCombo( RAVE_STEAL );
+			}
+			// As your opponent groans in pain, you feel pretty
+			// good about the extra dance practice you're
+			// getting. You're starting to get tired of beating up
+			// on this same dude. Why isn't he dead yet?
+			else if ( responseText.indexOf( "extra dance practice" ) != -1 )
+			{
+				DiscoCombatHelper.learnRaveCombo( RAVE_SUBSTATS );
+			}
+
+			// Your dance routine leaves you feeling extra-focused
+			// and in the zone. Ooh yeeaah.
+
+			else if ( responseText.indexOf( "extra-focused and in the zone" ) != -1 )
+			{
+				DiscoCombatHelper.learnRaveCombo( RAVE_CONCENTRATION );
+			}
+
+			// Your dance routine leaves you feeling particularly
+			// groovy and at one with the universe. It's a little
+			// unsettling, but you soon get used to it.
+
+			else if ( responseText.indexOf( "feeling particularly groovy" ) != -1 )
+			{
+				DiscoCombatHelper.learnRaveCombo( RAVE_NIRVANA );
+			}
+		}
+	}
+
+	private static final void learnRaveCombo( int combo )
+	{
+		// Sanity check: we used three skills in a row
+		if ( DiscoCombatHelper.counter !=  3 )
+		{
+			return;
+		}
+
+		int skill1 = DiscoCombatHelper.sequence[0];
+		int skill2 = DiscoCombatHelper.sequence[1];
+		int skill3 = DiscoCombatHelper.sequence[2];
+
+		// Sanity check: last three skills must all be different
+		if ( skill1 == skill2 || skill1 == skill3 || skill2 == skill3 )
+		{
+			return;
+		}
+
+		// Sanity check: last three skills must all be rave skills
+		if ( skill1 < FIRST_RAVE_SKILL || skill1 > LAST_RAVE_SKILL ||
+		     skill2 < FIRST_RAVE_SKILL || skill2 > LAST_RAVE_SKILL ||
+		     skill3 < FIRST_RAVE_SKILL || skill3 > LAST_RAVE_SKILL )
+		{
+			return;
+		}
+
+		// Clear sequence counter
+		DiscoCombatHelper.counter = 0;
+
+		// If we already know this combo, nothing to do
+		if ( knownCombo[ combo ] )
+		{
+			return;
+		}
+
+		// We have learned the combo!
+		knownCombo[ combo ] = true;
+
+		// Generate the setting.
+		String setting = "raveCombo" + String.valueOf( combo - FIRST_RAVE_COMBO + 1 );
+		String value = SKILLS[ skill1 ] + "," + SKILLS[ skill2 ] + "," + SKILLS[ skill3 ];
+		Preferences.setString( setting, value );
+
+		// Save the skills in the table
+		int [][] data = COMBO_SKILLS[ combo ];
+		data[0][0] = skill1;
+		data[1][0] = skill2;
+		data[2][0] = skill3;
 	}
 
 	private static final boolean checkSequence( final int[][] data, final int offset )
