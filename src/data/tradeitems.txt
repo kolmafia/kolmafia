@@ -4301,7 +4301,7 @@
 4292
 4293
 4294
-4295
+4295	crystal orb of spirit wrangling	reusable	none	0
 4296
 4297
 4298

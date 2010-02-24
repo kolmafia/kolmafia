@@ -993,6 +993,7 @@ public class ItemPool
 	public static final int PUMPKINHEAD_MASK = 4261;
 	public static final int MUMMY_COSTUME = 4262;
 	public static final int UNDERWORLD_ACORN = 4274;
+	public static final int CRYSTAL_ORB = 4295;
 	public static final int SLEDGEHAMMER_OF_THE_VAELKYR = 4316;
 	public static final int FLAIL_OF_THE_SEVEN_ASPECTS = 4317;
 	public static final int WRATH_OF_THE_PASTALORDS = 4318;
