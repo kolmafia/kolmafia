@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.CraftRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -333,6 +334,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "craft", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "create", DataTypes.BOOLEAN_TYPE, params ) );
@@ -1908,6 +1912,23 @@ public abstract class RuntimeLibrary
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" 
 			+ item.intValue() + "@" + limit.intValue() );
 		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
+	}
+
+	public static Value craft( final Value modeValue, final Value countValue, final Value item1, final Value item2 )
+	{
+		int count = countValue.intValue();
+		if ( count <= 0 )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
+		String mode = modeValue.toString();
+		int id1 = item1.intValue();
+		int id2 = item2.intValue();
+
+		CraftRequest req = new CraftRequest( mode, count, id1, id2 );
+		RequestThread.postRequest( req );
+		return new Value( req.created() );
 	}
 
 	public static Value create( final Value countValue, final Value item )

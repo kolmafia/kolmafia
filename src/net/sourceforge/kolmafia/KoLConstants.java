@@ -523,13 +523,18 @@ public interface KoLConstants
 	public static final int CONSUME_GHOST = 99;
 
 	// Anatomy of a mixingMethod:
-	// The low-order bits (masked by CT_MASK) contain one of the item creation
-	// types below.  This has to be sufficient to determine the crafting URL
-	// or subclass that will be used, and the adventure cost of creation.
-	// CR_xxx bit flags (masked by CR_MASK) express other creation requirements:
-	// necessary skills, equipment, player state, etc.
-	// CF_xxx bits express other information about the item's creation (yield,
-	// desirability, etc.), but do not affect whether it's possible.
+
+	// The low-order bits (masked by CT_MASK) contain one of the item
+	// creation types below.  This has to be sufficient to determine the
+	// crafting URL or subclass that will be used, and the adventure cost
+	// of creation.
+	//
+	// CR_xxx bit flags (masked by CR_MASK) express other creation
+	// requirements: necessary skills, equipment, player state, etc.
+	//
+	// CF_xxx bits express other information about the item's creation
+	// (yield, desirability, etc.), but do not affect whether it's
+	// possible.
 
 	// Item creation types
 

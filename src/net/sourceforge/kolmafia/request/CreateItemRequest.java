@@ -63,7 +63,7 @@ public class CreateItemRequest
 	extends GenericRequest
 	implements Comparable
 {
-	private static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
+	public static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
 	private static final CreationRequestMap ALL_CREATIONS = new CreationRequestMap();
 
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
@@ -567,11 +567,11 @@ public class CreateItemRequest
 		}
 	}
 
-	public static void parseCrafting( final String location, final String responseText )
+	public static int parseCrafting( final String location, final String responseText )
 	{
 		if ( !location.startsWith( "craft.php" ) )
 		{
-			return;
+			return 0;
 		}
 
 		Matcher m = MODE_PATTERN.matcher( location );
@@ -592,10 +592,11 @@ public class CreateItemRequest
 				}
 			}
 		
-			return;
+			return 0;
 		}
 		
 		boolean paste = mode.equals( "combine" ) && !KoLCharacter.inMuscleSign();
+		int created = 0;
 
 		m = CRAFT_COMMENT_PATTERN.matcher( responseText );
 		while ( m.find() )
@@ -649,6 +650,8 @@ public class CreateItemRequest
 			{
 				Preferences.increment( "bartenderTurnsUsed", qty );
 			}
+
+			created = qty;
 		}
 
 		if ( responseText.indexOf( "Smoke" ) != -1 )
@@ -666,6 +669,8 @@ public class CreateItemRequest
 			}
 			RequestLogger.updateSessionLog( "Your " + servant + " blew up" );
 		}
+
+		return created;
 	}
 
 	public static boolean parseGuildCreation( final String urlString, final String responseText )
@@ -722,19 +727,24 @@ public class CreateItemRequest
 
 	private boolean autoRepairBoxServant()
 	{
+                return CreateItemRequest.autoRepairBoxServant( this.mixingMethod );
+        }
+
+	public static boolean autoRepairBoxServant( final int mixingMethod )
+	{
 		if ( KoLmafia.refusesContinue() )
 		{
 			return false;
 		}
 		
-		if ( (this.mixingMethod & KoLConstants.CR_HAMMER) != 0 &&
-			!InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
+		if ( ( mixingMethod & KoLConstants.CR_HAMMER) != 0 &&
+                     !InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
 		{
 			return false;
 		}
 
-		if ( (this.mixingMethod & KoLConstants.CR_GRIMACITE) != 0 &&
-			!InventoryManager.retrieveItem( ItemPool.GRIMACITE_HAMMER ) )
+		if ( ( mixingMethod & KoLConstants.CR_GRIMACITE) != 0 &&
+                     !InventoryManager.retrieveItem( ItemPool.GRIMACITE_HAMMER ) )
 		{
 			return false;
 		}
@@ -742,7 +752,7 @@ public class CreateItemRequest
 		// If we are not cooking or mixing, or if we already have the
 		// appropriate servant installed, we don't need to repair
 
-		switch ( this.mixingMethod & KoLConstants.CT_MASK )
+		switch ( mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.COOK:
 
@@ -777,32 +787,34 @@ public class CreateItemRequest
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
 
-		switch ( this.mixingMethod & KoLConstants.CT_MASK )
+		switch ( mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.COOK:
 			autoRepairSuccessful =
-				this.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF,ItemPool.BAKE_OVEN );
+				CreateItemRequest.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF,ItemPool.BAKE_OVEN );
 			break;
 
 		case KoLConstants.MIX:
 			autoRepairSuccessful =
-				this.useBoxServant( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER, ItemPool.COCKTAIL_KIT );
+				CreateItemRequest.useBoxServant( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER, ItemPool.COCKTAIL_KIT );
 			break;
 		}
 
 		return autoRepairSuccessful && KoLmafia.permitsContinue();
 	}
 
-	private boolean retrieveNoServantItem( final int noServantItem )
+	private static boolean retrieveNoServantItem( final int noServantItem )
 	{
-		return !Preferences.getBoolean( "requireBoxServants" ) && KoLCharacter.getAdventuresLeft() > 0 && InventoryManager.retrieveItem( noServantItem );
+		return !Preferences.getBoolean( "requireBoxServants" ) &&
+			KoLCharacter.getAdventuresLeft() > 0 &&
+			InventoryManager.retrieveItem( noServantItem );
 	}
 
-	private boolean useBoxServant( final int servant, final int clockworkServant, final int noServantItem )
+	private static boolean useBoxServant( final int servant, final int clockworkServant, final int noServantItem )
 	{
 		if ( !Preferences.getBoolean( "autoRepairBoxServants" ) )
 		{
-			return this.retrieveNoServantItem( noServantItem );
+			return CreateItemRequest.retrieveNoServantItem( noServantItem );
 		}
 
 		// First, check to see if a box servant is available
@@ -828,7 +840,7 @@ public class CreateItemRequest
 			}
 			else
 			{
-				return this.retrieveNoServantItem( noServantItem );
+				return CreateItemRequest.retrieveNoServantItem( noServantItem );
 			}
 		}
 
