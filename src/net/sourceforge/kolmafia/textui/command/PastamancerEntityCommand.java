@@ -57,15 +57,27 @@ public class PastamancerEntityCommand
 
 		KoLCharacter.ensureUpdatedPastamancerGhost();
 		String name = Preferences.getString( "pastamancerGhostName" );
-		if ( name.equals( "" ) )
-		{
-			RequestLogger.printLine( "You have not summoned a combat entity yet." );
-			return;
-		}
-
 		String type = Preferences.getString( "pastamancerGhostType" );
 		int experience = Preferences.getInteger( "pastamancerGhostExperience" );
 		int summons = Preferences.getInteger( "pastamancerGhostSummons" );
-		RequestLogger.printLine( "You've summoned " + name + " the " + type + " (" + experience + " exp) " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today." );
+		if ( name.equals( "" ) )
+		{
+			RequestLogger.printLine( "You've summoned " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today, but do not currently have a combat entity." );
+			return;
+		}
+		else
+		{
+			RequestLogger.printLine( "You've summoned " + name + " the " + type + " (" + experience + " exp) " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today." );
+		}
+
+		name = Preferences.getString( "pastamancerOrbedName" );
+		if ( name.equals( "" ) )
+		{
+			return;
+		}
+
+		type = Preferences.getString( "pastamancerOrbedType" );
+		experience = Preferences.getInteger( "pastamancerOrbedExperience" );
+		RequestLogger.printLine( "Your crystal orb contains " + name + " the " + type + " (" + experience + " exp)." );
 	}
 }

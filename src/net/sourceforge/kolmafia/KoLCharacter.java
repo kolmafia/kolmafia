@@ -3603,6 +3603,9 @@ public abstract class KoLCharacter
 			Preferences.setString( "pastamancerGhostType", "" );
 			Preferences.setString( "pastamancerGhostName", "" );
 			Preferences.setInteger( "pastamancerGhostExperience", 0 );
+			Preferences.setString( "pastamancerOrbedType", "" );
+			Preferences.setString( "pastamancerOrbedName", "" );
+			Preferences.setInteger( "pastamancerOrbedExperience", 0 );
 		}
 	}
 

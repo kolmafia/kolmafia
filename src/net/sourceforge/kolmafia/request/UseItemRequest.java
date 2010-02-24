@@ -1612,6 +1612,25 @@ public class UseItemRequest
 
 		switch ( item.getItemId() )
 		{
+		case ItemPool.CRYSTAL_ORB:
+			String oldType = Preferences.getString( "pastamancerGhostType" );
+			String oldName = Preferences.getString( "pastamancerGhostName" );
+			int oldExp = Preferences.getInteger( "pastamancerGhostExperience" );
+			String newType = Preferences.getString( "pastamancerOrbedType" );
+			String newName = Preferences.getString( "pastamancerOrbedName" );
+			int newExp = Preferences.getInteger( "pastamancerOrbedExperience" );
+
+			Preferences.setString( "pastamancerGhostType", newType );
+			Preferences.setString( "pastamancerGhostName", newName );
+			Preferences.setInteger( "pastamancerGhostExperience", newExp );
+			Preferences.setString( "pastamancerOrbedType", oldType );
+			Preferences.setString( "pastamancerOrbedName", oldName );
+			Preferences.setInteger( "pastamancerOrbedExperience", oldExp );
+			
+			if ( oldType.equals( "" ) ) oldType = "nothing";
+			if ( newType.equals( "" ) ) newType = "nothing";
+			KoLmafia.updateDisplay( "Exchanged " + newType + " (now in use) with " + oldType + " (now in orb)." );
+			return;
 
 		// If it's a gift package, get the inner message
 

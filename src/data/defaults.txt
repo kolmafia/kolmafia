@@ -462,6 +462,9 @@ user	pastamancerGhostExperience	0
 user	pastamancerGhostName
 user	pastamancerGhostSummons	0
 user	pastamancerGhostType
+user	pastamancerOrbedExperience	0
+user	pastamancerOrbedName
+user	pastamancerOrbedType
 user	plantingDate
 user	plantingDay	-1
 user	plantingLength
