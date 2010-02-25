@@ -475,7 +475,8 @@ public class ChatFrame
 			switch ( linkOption )
 			{
 			case 1:
-				ChatManager.openWindow( playerName, false );
+				String bufferKey = ChatManager.getBufferKey( playerName );				
+				ChatManager.openWindow( bufferKey, false );
 				return;
 
 			case 2:
