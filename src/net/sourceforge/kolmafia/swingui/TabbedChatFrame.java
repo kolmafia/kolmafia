@@ -206,7 +206,7 @@ public class TabbedChatFrame
 
 				int currentTabOrder = this.getTabOrder( currentTabName );
 
-				if ( tabOrder < currentTabOrder || ( tabOrder == currentTabOrder && this.tabName.compareToIgnoreCase( currentTabName ) < 0 ) )
+				if ( tabOrder < currentTabOrder )
 				{
 					tabIndex = i;
 					break;
