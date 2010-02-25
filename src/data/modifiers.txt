@@ -1239,7 +1239,7 @@ Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: 
 Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
-El Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Four Songs, Class: "Accordion Thief", Single Equip
+El Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Additional Song, Class: "Accordion Thief", Single Equip
 # El Vibrato translator
 Elmley shades	Muscle: +12, Critical: 2, Single Equip
 # Elvish sunglasses: +25% Pickpocket Chance

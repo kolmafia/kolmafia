@@ -631,8 +631,9 @@ public class Modifiers
 	public static final int MOXIE_CONTROLS_MP = 17;
 	public static final int MOXIE_MAY_CONTROL_MP = 18;
 	public static final int FOUR_SONGS = 19;
-	public static final int ADVENTURE_UNDERWATER = 20;
-	public static final int UNDERWATER_FAMILIAR = 21;
+	public static final int ADDITIONAL_SONG = 20;
+	public static final int ADVENTURE_UNDERWATER = 21;
+	public static final int UNDERWATER_FAMILIAR = 22;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -715,6 +716,10 @@ public class Modifiers
 		{ "Four Songs",
 		  Pattern.compile( "Allows you to keep 4 songs in your head instead of 3" ),
 		  Pattern.compile( "Four Songs" )
+		},
+		{ "Additional Song",
+		  Pattern.compile( "Keep 1 additional song in your head" ),
+		  Pattern.compile( "Additional Song" )
 		},
 		{ "Adventure Underwater",
 		  Pattern.compile( "Lets you breathe underwater" ),
