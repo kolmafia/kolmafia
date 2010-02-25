@@ -4302,7 +4302,7 @@
 4293
 4294
 4295	crystal orb of spirit wrangling	reusable	none	0
-4296
+4296	depleted uranium seal figurine	reusable	display	170
 4297
 4298
 4299
