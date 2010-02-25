@@ -3125,6 +3125,7 @@ public class UseItemRequest
 		case ItemPool.CHARRED_SEAL:
 		case ItemPool.COLD_SEAL:
 		case ItemPool.SLIPPERY_SEAL:
+		case ItemPool.DEPLETED_URANIUM_SEAL:
 
 			// Even if we are redirected to a fight, the item is
 			// consumed elsewhere
@@ -3667,6 +3668,7 @@ public class UseItemRequest
 		case ItemPool.CHARRED_SEAL:
 		case ItemPool.COLD_SEAL:
 		case ItemPool.SLIPPERY_SEAL:
+		case ItemPool.DEPLETED_URANIUM_SEAL:
 			// You only actually use a seal figurine when you
 			// "Begin the Ritual"
 			if ( urlString.indexOf( "checked" ) != -1 )

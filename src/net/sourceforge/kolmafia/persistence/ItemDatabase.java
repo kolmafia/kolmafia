@@ -1842,6 +1842,7 @@ public class ItemDatabase
 		case ItemPool.CHARRED_SEAL:
 		case ItemPool.COLD_SEAL:
 		case ItemPool.SLIPPERY_SEAL:
+		case ItemPool.DEPLETED_URANIUM_SEAL:
 			return true;
 		}
 		return false;

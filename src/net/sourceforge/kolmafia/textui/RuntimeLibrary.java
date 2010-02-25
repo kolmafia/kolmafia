@@ -1442,13 +1442,12 @@ public abstract class RuntimeLibrary
 
 	public static Value visit_url( final Value string, final Value usePostMethod )
 	{
-		return RuntimeLibrary.visit_url( string.toString(),
-			usePostMethod.intValue() != 0 );
+		return RuntimeLibrary.visit_url( string.toString(), usePostMethod.intValue() == 1 );
 	}
 
 	private static Value visit_url( final String location )
 	{
-		return visit_url( location, true );
+		return RuntimeLibrary.visit_url( location, true );
 	}
 
 	private static Value visit_url( final String location, final boolean usePostMethod )
