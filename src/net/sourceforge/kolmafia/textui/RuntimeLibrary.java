@@ -2777,7 +2777,7 @@ public abstract class RuntimeLibrary
 
 	public static Value steal()
 	{
-		if ( !FightRequest.wonInitiative() )
+		if ( !FightRequest.canStillSteal() )
 		{
 			return RuntimeLibrary.attack();
 		}

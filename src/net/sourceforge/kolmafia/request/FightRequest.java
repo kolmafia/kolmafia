@@ -101,7 +101,7 @@ public class FightRequest
 
 	private static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
 	private static final AdventureResult CUNCTATITIS = new AdventureResult( "Cunctatitis", 1, true );
-	private static final AdventureResult ONTHETRAIL = new AdventureResult( "On the Trail", 1, true );
+	public static final AdventureResult ONTHETRAIL = new AdventureResult( "On the Trail", 1, true );
 	public static final AdventureResult BIRDFORM = new AdventureResult( "Form of...Bird!", 1, true );
 	public static final AdventureResult MOLEFORM = new AdventureResult( "Shape of...Mole!", 1, true );
 
@@ -113,8 +113,8 @@ public class FightRequest
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 
 	private static int lastUserId = 0;
-	private static String lostInitiative = "";
-	private static String wonInitiative = "";
+	private static String lostInitiativeMessage = "";
+	private static String wonInitiativeMessage = "";
 
 	private static int preparatoryRounds = 0;
 	private static String consultScriptThatDidNothing = null;
@@ -187,6 +187,7 @@ public class FightRequest
 	private static boolean castNoodles = false;
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
+	private static boolean canOlfact = true;
 	private static int stealthMistletoe = 1;
 	private static boolean summonedGhost = false;
 	private static int currentRound = 0;
@@ -335,36 +336,65 @@ public class FightRequest
 		return true;
 	}
 
-	public static final boolean wonInitiative()
+	private static final Pattern CAN_STEAL_PATTERN =
+		Pattern.compile( "value=\"(Pick (?:His|Her|Their|Its) Pocket(?: Again)?|Look for Shiny Objects)\"" );
+
+	public static final boolean canStillSteal()
 	{
+		// Return true if you can still steal during this battle.
+
+		// Must be a Moxie class character or any character in Birdform
+		if ( !( FightRequest.canSteal || KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) ) )
+		{
+			return false;
+		}
+
+		// Look for buttons that allow you to pickpocket
 		String responseText = FightRequest.lastResponseText;
-
-		// You can normally only win initiative on round 1.
-		if ( FightRequest.currentRound == 1 )
-			return FightRequest.wonInitiative( responseText );
-
-		// However, if you used Stealth Mistletoe on Round 1, you
-		// effectively won it on round 2 as well
-		if ( FightRequest.currentRound == 2 )
-			return FightRequest.stealthMistletoe( responseText );
-
-		// Otherwise, not a chance
-		return false;
+		Matcher matcher = FightRequest.CAN_STEAL_PATTERN.matcher( responseText );
+		return matcher.find();
 	}
 
-	public static final boolean canSteal()
+	public static final boolean canCastNoodles()
 	{
-		if ( FightRequest.canSteal )
+		return !FightRequest.castNoodles;
+	}
+
+	public static final boolean canOlfact()
+	{
+		return FightRequest.canOlfact && !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
+
+	}
+
+	public static final boolean canStillSummon()
+	{
+		// Return true if you can still summon during this battle.
+
+		// Must be a Pastamancer
+		if ( !FightRequest.canSummon )
 		{
-			return true;
+			return false;
 		}
 
-		if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		// Look for active buttons that allow you to summon
+		// ***
+
+		if ( !FightRequest.wonInitiative() )
 		{
-			return true;
+			return false;
 		}
 
-		return false;
+		// Check daily summon limit
+		int summons = Preferences.getInteger( "pastamancerGhostSummons" );
+		int limit = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPAGHETTI_BANDOLIER, 1 ) ) ? 10 : 15;
+
+		return ( summons < limit );
+	}
+
+	public static final boolean wonInitiative()
+	{
+		return	FightRequest.currentRound == 1 &&
+			FightRequest.wonInitiative( FightRequest.lastResponseText );
 	}
 
 	public static final boolean wonInitiative( String text )
@@ -401,19 +431,6 @@ public class FightRequest
 			return true;
 
 		return false;
-	}
-
-	public static final boolean stealthMistletoe( String text )
-	{
-		// If you get the jump and use Stealth Mistletoe, you don't get
-		// attacked and you still have the jump.
-
-		// *** How can we tell that you had the jump when you used it?
-
-		// "You deftly dart around behind your opponent and hang a
-		// sprig of mistletoe above its head while it isn't looking."
-
-		return text.indexOf( "hang a sprig of mistletoe" ) != -1;
 	}
 
 	public void nextRound()
@@ -683,8 +700,7 @@ public class FightRequest
 		if ( FightRequest.action1.indexOf( "steal" ) != -1 &&
 		     FightRequest.action1.indexOf( "stealth" ) == -1 )
 		{
-			if ( FightRequest.canSteal() &&
-			     FightRequest.wonInitiative() &&
+			if ( FightRequest.canStillSteal() &&
 			     FightRequest.monsterData != null &&
 			     FightRequest.monsterData.shouldSteal() )
 			{
@@ -702,9 +718,7 @@ public class FightRequest
 
 		if ( FightRequest.action1.equals( "summon ghost" ) )
 		{
-			if ( FightRequest.canSummon &&
-			     FightRequest.wonInitiative() &&
-			     Preferences.getInteger( "pastamancerGhostSummons" ) < 10 )
+			if ( FightRequest.canStillSummon() )
 			{
 				this.addFormField( "action", "summon" );
 				return;
@@ -925,7 +939,6 @@ public class FightRequest
 				this.nextRound();
 				return;
 			}
-			FightRequest.castNoodles = true;
 		}
 
 		// Skills use MP. Make sure the character has enough.
@@ -1449,8 +1462,8 @@ public class FightRequest
 		if ( FightRequest.lastUserId != KoLCharacter.getUserId() )
 		{
 			FightRequest.lastUserId = KoLCharacter.getUserId();
-			FightRequest.lostInitiative = "Round 0: " + KoLCharacter.getUserName() + " loses initiative!";
-			FightRequest.wonInitiative = "Round 0: " + KoLCharacter.getUserName() + " wins initiative!";
+			FightRequest.lostInitiativeMessage = "Round 0: " + KoLCharacter.getUserName() + " loses initiative!";
+			FightRequest.wonInitiativeMessage = "Round 0: " + KoLCharacter.getUserName() + " wins initiative!";
 		}
 
 		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
@@ -1464,8 +1477,8 @@ public class FightRequest
 
 			if ( shouldLogAction )
 			{
-				RequestLogger.printLine( FightRequest.lostInitiative );
-				RequestLogger.updateSessionLog( FightRequest.lostInitiative );
+				RequestLogger.printLine( FightRequest.lostInitiativeMessage );
+				RequestLogger.updateSessionLog( FightRequest.lostInitiativeMessage );
 			}
 
 			return false;
@@ -1476,8 +1489,8 @@ public class FightRequest
 
 		if ( shouldLogAction )
 		{
-			RequestLogger.printLine( FightRequest.wonInitiative );
-			RequestLogger.updateSessionLog( FightRequest.wonInitiative );
+			RequestLogger.printLine( FightRequest.wonInitiativeMessage );
+			RequestLogger.updateSessionLog( FightRequest.wonInitiativeMessage );
 		}
 
 		FightRequest.action1 = Preferences.getString( "defaultAutoAttack" );
@@ -1528,11 +1541,6 @@ public class FightRequest
 			String message = action.toString();
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
-		}
-
-		if ( FightRequest.action1.equals( "3004" ) )
-		{
-			FightRequest.castNoodles = true;
 		}
 
 		return true;
@@ -3755,6 +3763,7 @@ public class FightRequest
 		IslandDecorator.startFight();
 		FightRequest.castNoodles = false;
 		FightRequest.castCleesh = false;
+		FightRequest.canOlfact = true;
 		FightRequest.jiggledChefstaff = false;
 		FightRequest.stealthMistletoe = 1;
 		FightRequest.summonedGhost = false;
@@ -4399,12 +4408,18 @@ public class FightRequest
 				}
 				else
 				{
-					if ( skill.equalsIgnoreCase( "Transcendent Olfaction" ) &&
-						!KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
+					if ( skillId.equals( "19" ) )
 					{
-						Preferences.setString( "olfactedMonster",
-							FightRequest.encounterLookup );
-						Preferences.setString( "autoOlfact", "" );
+						if ( !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
+						{
+							Preferences.setString( "olfactedMonster", FightRequest.encounterLookup );
+							Preferences.setString( "autoOlfact", "" );
+							FightRequest.canOlfact = false;
+						}
+					}
+					else if ( skillId.equals( "3004" ) )
+					{
+						FightRequest.castNoodles = true;
 					}
 
 					FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( "skill " + skill );
@@ -4436,6 +4451,7 @@ public class FightRequest
 							Preferences.setString( "olfactedMonster",
 								FightRequest.encounterLookup );
 							Preferences.setString( "autoOlfact", "" );
+							FightRequest.canOlfact = false;
 						}
 						FightRequest.action1 = String.valueOf( itemId );
 						if ( shouldLogAction )

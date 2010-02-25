@@ -113,7 +113,7 @@ public class StationaryButtonDecorator
 		if ( inBirdForm || KoLCharacter.isMoxieClass() )
 		{
 			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "steal", FightRequest.wonInitiative() );
+				urlString, buffer, actionBuffer, "steal", FightRequest.canStillSteal() );
 		}
 
 		if ( EquipmentManager.usingChefstaff() )
@@ -124,8 +124,18 @@ public class StationaryButtonDecorator
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Entangling Noodles" ) )
 		{
+			boolean enabled = FightRequest.getCurrentRound() > 0 &&
+				FightRequest.canCastNoodles();
 			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "3004", FightRequest.getCurrentRound() > 0 );
+				urlString, buffer, actionBuffer, "3004", enabled );
+		}
+
+		if ( !inBirdForm && KoLCharacter.hasSkill( "Transcendent Olfaction" ) )
+		{
+			boolean enabled = FightRequest.getCurrentRound() > 0 &&
+				FightRequest.canOlfact();
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "19", enabled );
 		}
 
 		StationaryButtonDecorator.addFightButton(
@@ -333,83 +343,89 @@ public class StationaryButtonDecorator
 
 		switch ( skillId )
 		{
-		case 15: // CLEESH
-		case 7002: // Shake Hands
-		case 7003: // Hot Breath
-		case 7004: // Cold Breath
-		case 7005: // Spooky Breath
-		case 7006: // Stinky Breath
-		case 7007: // Sleazy Breath
+		case 15:	// CLEESH
+		case 7002:	// Shake Hands
+		case 7003:	// Hot Breath
+		case 7004:	// Cold Breath
+		case 7005:	// Spooky Breath
+		case 7006:	// Stinky Breath
+		case 7007:	// Sleazy Breath
 			name = StringUtilities.globalStringDelete( name, " " );
 			break;
 
-		case 7001: // Give In To Your Vampiric Urges
+		case 7001:	// Give In To Your Vampiric Urges
 			name = "bakula";
 			break;
 
-		case 7008: // Moxious Maneuver
+		case 7008:	// Moxious Maneuver
 			name = "moxman";
 			break;
 
-		case 7010: // red bottle-rocket
-		case 7011: // blue bottle-rocket
-		case 7012: // orange bottle-rocket
-		case 7013: // purple bottle-rocket
-		case 7014: // black bottle-rocket
+		case 7010:	// red bottle-rocket
+		case 7011:	// blue bottle-rocket
+		case 7012:	// orange bottle-rocket
+		case 7013:	// purple bottle-rocket
+		case 7014:	// black bottle-rocket
 			name = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( name, "fire " ), "bottle-" );
 			break;
 
-		case 2103: // Head + Knee Combo
-		case 2105: // Head + Shield Combo
-		case 2106: // Knee + Shield Combo
-		case 2107: // Head + Knee + Shield Combo
+		case 2103:	// Head + Knee Combo
+		case 2105:	// Head + Shield Combo
+		case 2106:	// Knee + Shield Combo
+		case 2107:	// Head + Knee + Shield Combo
 			name = name.substring( 0, name.length() - 6 );
 			break;
 
-		case 1003: // thrust-smack
+		case 1003:	// thrust-smack
 			name = "thrust";
 			break;
 
-		case 1004: // lunge-smack
-		case 1005: // lunging thrust-smack
+		case 1004:	// lunge-smack
+		case 1005:	// lunging thrust-smack
 			name = "lunge";
 			break;
 
-		case 2: // Chronic Indigestion
-		case 7009: // Magic Missile
-		case 3004: // Entangling Noodles
-		case 3009: // Lasagna Bandages
-		case 3019: // Fearful Fettucini
-		case 19: // Transcendent Olfaction
-		case 7063: // Falling Leaf Whirlwind
+		case 2:		// Chronic Indigestion
+		case 7009:	// Magic Missile
+		case 3004:	// Entangling Noodles
+		case 3009:	// Lasagna Bandages
+		case 3019:	// Fearful Fettucini
+		case 19:	// Transcendent Olfaction
+		case 7063:	// Falling Leaf Whirlwind
 			name = name.substring( name.lastIndexOf( " " ) + 1 );
 			break;
 
-		case 3003: // Minor Ray of Something
-		case 3005: // eXtreme Ray of Something
-		case 3007: // Cone of Whatever
-		case 3008: // Weapon of the Pastalord
-		case 3020: // Spaghetti Spear
-		case 4003: // Stream of Sauce
-		case 4009: // Wave of Sauce
-		case 5019: // Tango of Terror
-		case 7061: // Spring Raindrop Attack
-		case 7062: // Summer Siesta
-		case 7064: // Winter's Bite Technique
+		case 50:	// Break It On Down
+		case 51:	// Pop and Lock It
+		case 52:	// Run Like the WInd
+		case 3003:	// Minor Ray of Something
+		case 3005:	// eXtreme Ray of Something
+		case 3007:	// Cone of Whatever
+		case 3008:	// Weapon of the Pastalord
+		case 3020:	// Spaghetti Spear
+		case 4003:	// Stream of Sauce
+		case 4009:	// Wave of Sauce
+		case 5019:	// Tango of Terror
+		case 7061:	// Spring Raindrop Attack
+		case 7062:	// Summer Siesta
+		case 7064:	// Winter's Bite Technique
 			name = name.substring( 0, name.indexOf( " " ) );
 			break;
 
-		case 5003: // Disco Eye-Poke
-		case 5012: // Disco Face Stab
-			name = StringUtilities.globalStringDelete( StringUtilities.globalStringDelete( name.substring( 6 ), "-" ), " " );
+		case 5003:	// Disco Eye-Poke
+			name = "eyepoke";
 			break;
 
-		case 5005: // Disco Dance of Doom
+		case 5005:	// Disco Dance of Doom
 			name = "dance1";
 			break;
 
-		case 5008: // Disco Dance II: Electric Boogaloo
+		case 5008:	// Disco Dance II: Electric Boogaloo
 			name = "dance2";
+			break;
+
+		case 5012:	// Disco Face Stab
+			name = "facestab";
 			break;
 		}
 

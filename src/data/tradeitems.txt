@@ -4330,7 +4330,7 @@
 4321	The Trickster's Trikitixa	weapon	none	0
 4322	Claw of the Infernal Seal	accessory	display	0
 4323	Garter of the Turtle Poacher	accessory	display	0
-4324
+4324	Bandolier of the Spaghetti Element	accessory	display	0
 4325	Gravyskin Belt of the Sauceblob	accessory	display	0
 4326	Bling of the New Wave	accessory	display	0
 4327	El Hebilla del Cintur&oacute;n de Lopez	accessory	display	0

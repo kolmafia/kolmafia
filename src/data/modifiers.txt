@@ -1210,6 +1210,8 @@ Aluminum Epsilon of Humility	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: 
 Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip
 Ankh of Badahnkadh	Spell Damage Percent: +25, Single Equip
 Annual Ascot	Muscle Percent: +12, Mysticality Percent: +12, Moxie Percent: +12
+# Bandolier of the Spaghetti Elemental: Summon 5 Additional Pasta Guardians Per Day
+Bandolier of the Spaghetti Elemental	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Pastamancer", Single Equip
 Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
 # Bling of the New Wave: 1 Additional Pickpocket Attempt
@@ -1249,6 +1251,8 @@ Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # French slippers
 Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
 Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
+# Garter of the Turtle Poacher: Increases the Effectiveness of Turtle Pheromones*
+# * This enchantment works even when this item is not equipped
 Garter of the Turtle Poacher	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Turtle Tamer", Single Equip
 Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 # Gravyskin Belt of the Sauceblob: 3 Additional Scrumptious Reagent Summons Per Day*
