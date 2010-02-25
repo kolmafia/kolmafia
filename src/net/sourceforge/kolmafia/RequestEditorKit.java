@@ -514,9 +514,9 @@ public class RequestEditorKit
 
 		if ( location.startsWith( "adventure.php" ) )
 		{
+			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.fixDucks( buffer );
 			RequestEditorKit.fixRottingMatilda( buffer );
-			StationaryButtonDecorator.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "ascend.php" ) )
 		{
@@ -593,8 +593,8 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
-			DiscoCombatHelper.decorate( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
+			DiscoCombatHelper.decorate( buffer );
 			RequestEditorKit.addFightModifiers( location, buffer );
 		}
 		else if ( location.startsWith( "hermit.php" ) )

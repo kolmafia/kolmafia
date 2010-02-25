@@ -1105,6 +1105,7 @@ Aluminum Epsilon of Humility	0	Mys: 85
 Amulet of Yendor	0	none
 Ankh of Badahnkadh	0	Mys: 67
 Annual Ascot	0	none
+Bandolier of the Spaghetti Elemental	0	Mys: 45
 Baron von Ratsworth's money clip	0	Mys: 10
 Baron von Ratsworth's monocle	0	Mys: 10
 Bling of the New Wave	0	Mox: 45

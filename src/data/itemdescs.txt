@@ -4327,7 +4327,7 @@
 4321	952292059	The Trickster's Trikitixa
 4322	383507132	Claw of the Infernal Seal
 4323	977005028	Garter of the Turtle Poacher
-4324
+4324	510892854	Bandolier of the Spaghetti Elemental
 4325	918726420	Gravyskin Belt of the Sauceblob
 4326	829566476	Bling of the New Wave
 4327	129795064	El Hebilla del Cintur&oacute;n de Lopez
