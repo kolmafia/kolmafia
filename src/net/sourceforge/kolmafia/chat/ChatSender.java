@@ -88,6 +88,11 @@ public class ChatSender
 		ChatRequest request = new ChatRequest( graf );
 		
 		RequestThread.postRequest( request );
+		
+		if ( request.responseText == null )
+		{
+			return "";
+		}
 
 		List chatMessages = new ArrayList();
 
