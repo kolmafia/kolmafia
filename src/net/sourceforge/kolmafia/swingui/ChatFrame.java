@@ -235,7 +235,6 @@ public class ChatFrame
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
 			ChatBuffer buffer = ChatManager.getBuffer( associatedContact );
-			buffer.clear();
 
 			this.add( buffer.addDisplay( this.chatDisplay ), BorderLayout.CENTER );
 
