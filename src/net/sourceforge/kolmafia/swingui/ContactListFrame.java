@@ -192,7 +192,7 @@ public class ContactListFrame
 				if ( index >= 0 && index < ContactListFrame.this.contacts.size() )
 				{
 					String contact = (String) ContactListFrame.this.contacts.get( index );
-					String bufferKey = contact.toLowerCase();
+					String bufferKey = ChatManager.getBufferKey( contact );
 					
 					ChatManager.openWindow( bufferKey, false );
 				}
