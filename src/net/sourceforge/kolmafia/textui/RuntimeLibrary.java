@@ -104,6 +104,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
@@ -406,6 +407,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_campground", DataTypes.RESULT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "get_related", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_npc_item", DataTypes.BOOLEAN_TYPE, params ) );
@@ -2203,6 +2207,38 @@ public abstract class RuntimeLibrary
 				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ), true ) );
 		}
 
+		return value;
+	}
+
+	public static Value get_related( Value item, Value type )
+	{
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		String which = type.toString();
+		
+		if ( which.equals( "zap" ) )
+		{
+			String[] zapgroup = ZapRequest.getZapGroup( item.intValue() );
+			for ( int i = zapgroup.length - 1; i >= 0; --i )
+			{
+				Value key = DataTypes.parseItemValue( zapgroup[ i ], true );
+				if ( key.intValue() != item.intValue() )
+				{
+					value.aset( key, DataTypes.ZERO_VALUE );
+				}
+			}
+		}
+		else if ( which.equals( "fold" ) )
+		{
+			ArrayList list = ItemDatabase.getFoldGroup( item.toString() );
+			if ( list == null ) return value;
+			// Don't use element 0, that's the damage percentage
+			for ( int i = list.size() - 1; i > 0; --i )
+			{
+				value.aset(
+					DataTypes.parseItemValue( (String) list.get( i ), true ),
+					new Value( i ) );
+			}
+		}
 		return value;
 	}
 
