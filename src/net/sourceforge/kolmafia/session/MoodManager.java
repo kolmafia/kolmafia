@@ -282,7 +282,7 @@ public abstract class MoodManager
 		UseSkillRequest[] skills = new UseSkillRequest[ KoLConstants.availableSkills.size() ];
 		KoLConstants.availableSkills.toArray( skills );
 
-		MoodManager.thiefTriggerLimit = KoLCharacter.currentBooleanModifier( Modifiers.FOUR_SONGS ) ? 4 : 3;
+		MoodManager.thiefTriggerLimit = UseSkillRequest.songLimit();
 		ArrayList thiefSkills = new ArrayList();
 
 		for ( int i = 0; i < skills.length; ++i )

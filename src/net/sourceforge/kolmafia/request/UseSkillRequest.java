@@ -600,7 +600,16 @@ public class UseSkillRequest
 
 	public static final int songLimit()
 	{
-		return KoLCharacter.currentBooleanModifier( Modifiers.FOUR_SONGS ) ? 4 : 3;
+		int rv = 3;
+		if ( KoLCharacter.currentBooleanModifier( Modifiers.FOUR_SONGS ) )
+		{
+			++rv;
+		}
+		if ( KoLCharacter.currentBooleanModifier( Modifiers.ADDITIONAL_SONG ) )
+		{
+			++rv;
+		}
+		return rv;
 	}
 
 	public void run()
@@ -1071,7 +1080,7 @@ public class UseSkillRequest
 
 		if ( responseText.indexOf( "too many songs" ) != -1 )
 		{
-			UseSkillRequest.lastUpdate = "Selected target has 3 AT buffs already.";	
+			UseSkillRequest.lastUpdate = "Selected target has the maximum number of AT buffs already.";	
 			return false;
 		}
 
