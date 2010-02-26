@@ -1059,7 +1059,7 @@ public class GenericRequest
 			KoLCharacter.setConsumptionRestriction( AscensionSnapshot.NOPATH );
 		}
 
-		if ( urlString.startsWith( "ascend.php" ) )
+		if ( urlString.startsWith( "ascend.php" ) && urlString.indexOf( "action=ascend" ) != -1 )
 		{
 			ValhallaManager.preAscension();
 		}

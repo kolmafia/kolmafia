@@ -1319,23 +1319,24 @@ public class UseSkillRequest
 			}
 		}
 
-		int maxcasts;
 		int availableMP = KoLCharacter.getCurrentMP();
+		int maxcasts;
 		if ( SkillDatabase.isLibramSkill( skillId ) )
 		{
 			maxcasts = SkillDatabase.libramSkillCasts( availableMP );
 		}
 		else
 		{
-			maxcasts = availableMP / SkillDatabase.getMPConsumptionById( skillId );
+			int MP = SkillDatabase.getMPConsumptionById( skillId );
+			maxcasts = MP == 0 ? 1 : availableMP / MP;
 		}
 		
 		if ( countMatcher.group( 1 ).startsWith( "*" ) )
 		{
 			return maxcasts;
 		}
-		return Math.min( maxcasts,
-			StringUtilities.parseInt( countMatcher.group( 1 ) ) );
+
+		return Math.min( maxcasts, StringUtilities.parseInt( countMatcher.group( 1 ) ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -1346,7 +1347,8 @@ public class UseSkillRequest
 		}
 
 		int skillId = UseSkillRequest.getSkillId( urlString );
-		if ( skillId == -1 )
+                // Quick skills has (select a skill) with ID = 999
+		if ( skillId == -1 || skillId == 999 )
 		{
 			return false;
 		}

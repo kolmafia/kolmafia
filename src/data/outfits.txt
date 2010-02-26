@@ -62,9 +62,9 @@
 61
 62	Snowman Suit	snow hat, snow pants, snow belt
 63	Frigid Northlands Garb	sealhide hood, sealhide buckler, sealhide leggings
-#64	Legendary Regalia of the Seal Crusher	Scalp of Gorgolok, Sledgehammer of the V&aelig;lkyr, Krakrox's Loincloth, Claw of the Infernal Seal
+64	Legendary Regalia of the Seal Crusher	Scalp of Gorgolok, Sledgehammer of the V&aelig;lkyr, Krakrox's Loincloth, Claw of the Infernal Seal
 65	Legendary Regalia of the Chelonian Overlord	Elder Turtle Shell, Flail of the Seven Aspects, Galapagosian Cuisses, Garter of the Turtle Poacher
-#66	Legendary Regalia of the Pasta Master	Colander of Em-er'il, Wrath of the Capsaician Pastalords, Angelhair Culottes, Bandolier of the Spaghetti Elemental
+66	Legendary Regalia of the Pasta Master	Colander of Em-er'il, Wrath of the Capsaician Pastalords, Angelhair Culottes, Bandolier of the Spaghetti Elemental
 67	Legendary Regalia of the Saucemaestro	Ancient Saucehelm, Windsor Pan of the Source, Newman's Own Trousers, Gravyskin Belt of the Sauceblob
 68	Legendary Regalia of the Groovelord	Disco 'Fro Pick, Seeger's Unstoppable Banjo, Volartta's bellbottoms, Bling of the New Wave
 69	Legendary Regalia of the Master Squeezeboxer	El Sombrero De Lopez, The Trickster's Trikitixa, Lederhosen of the Night, El Hebilla del Cintur&oacute;n de Lopez
