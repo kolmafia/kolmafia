@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.util.Iterator;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -43,6 +45,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
@@ -57,7 +60,9 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
+import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.swingui.widget.UnanimatedLabel;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
@@ -173,6 +178,7 @@ public class CompactSidePane
 
 		panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
 		panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
+		panels[ panelCount ].addMouseListener( new FamPopListener() );	
 
 		panels[ ++panelCount ] = new JPanel( new GridLayout( 7, 2 ) );
 		panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
@@ -246,6 +252,96 @@ public class CompactSidePane
 		{
 			CompactSidePane.this.modPopup.show( e.getComponent(),
 				e.getX(), e.getY() );
+		}
+	}
+
+	private class FamPopListener
+		extends MouseAdapter
+	{
+		public void mousePressed( MouseEvent e )
+		{
+			JPopupMenu famPopup = new JPopupMenu();
+			JMenu stat = new JMenu( "statgain" );
+			JMenu item = new JMenu( "itemdrop" );
+			JMenu meat = new JMenu( "meatdrop" );
+			JMenu combat = new JMenu( "combat" );
+			JMenu other = new JMenu( "other" );
+			
+			Iterator i = KoLCharacter.getFamiliarList().iterator();
+			while ( i.hasNext() )
+			{
+				FamiliarData fam = (FamiliarData) i.next();
+				if ( fam.equals( KoLCharacter.getFamiliar() ) )
+				{
+					continue;	// no menu item for this one
+				}
+				if ( fam.getFavorite() )
+				{
+					famPopup.add( new FamiliarMenuItem( fam ) );
+					continue;
+				}
+				
+				int id = fam.getId();
+				Modifiers mods = Modifiers.getModifiers( "Fam:" + fam.getRace() );
+				boolean added = false;
+				if ( FamiliarDatabase.isVolleyType( id ) ||
+					FamiliarDatabase.isSombreroType( id ) ||
+					(mods != null && mods.get( Modifiers.VOLLEYBALL_WEIGHT ) != 0.0f) )
+				{
+					stat.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isFairyType( id ) )
+				{
+					item.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isMeatDropType( id ) )
+				{
+					meat.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isCombatType( id ) )
+				{
+					combat.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				
+				if ( !added )
+				{
+					other.add( new FamiliarMenuItem( fam ) );
+				}
+			}
+			
+			famPopup.add( stat );
+			famPopup.add( item );
+			famPopup.add( meat );
+			famPopup.add( combat );
+			famPopup.add( other );
+
+			famPopup.show( e.getComponent(),
+				e.getX(), e.getY() );
+		}
+	}
+
+	private static class FamiliarMenuItem
+		extends ThreadedMenuItem
+	{
+		private final FamiliarData fam;
+
+		public FamiliarMenuItem( final FamiliarData fam )
+		{
+			super( fam.getRace() );
+			this.fam = fam;
+			if ( fam.getFavorite() )
+			{
+				this.setIcon( FamiliarDatabase.getFamiliarImage( fam.getId() ) );
+			}
+		}
+	
+		public void run()
+		{
+			CommandDisplayFrame.executeCommand( "familiar " + this.fam.getRace() );
 		}
 	}
 

@@ -88,6 +88,7 @@ public class FamiliarData
 	private int weight;
 	private AdventureResult item;
 	private boolean feasted;
+	private boolean favorite;
 
 	public FamiliarData( final int id )
 	{
@@ -123,6 +124,7 @@ public class FamiliarData
 		this.setWeight();
 		String itemData = dataMatcher.group( 6 );
 		this.item = FamiliarData.parseFamiliarItem( this.id, itemData );
+		this.favorite = itemData.indexOf( "[unfavorite]" ) != -1;
 	}
 
 	public final void addExperience( final int exp )
@@ -482,6 +484,11 @@ public class FamiliarData
 	public String getRace()
 	{
 		return this.race;
+	}
+
+	public boolean getFavorite()
+	{
+		return this.favorite;
 	}
 
 	public String getImageLocation()
