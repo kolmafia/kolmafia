@@ -2588,17 +2588,18 @@ public class FightRequest
 		}
 
 		int uses = Preferences.getInteger( "pastamancerGhostSummons" );
+		int limit = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPAGHETTI_BANDOLIER, 1 ) ) ? 10 : 15;
 
 		// You are mentally exhausted by the effort of summoning <name>.
 		if ( responseText.indexOf( "You are mentally exhausted" ) != -1 )
 		{
-			uses = 10;
+			uses = limit;
 		}
 
 		// Your brain feels tired.
-		else if ( responseText.indexOf( "Your brain feels tired" ) != -1 && uses < 8 )
+		else if ( responseText.indexOf( "Your brain feels tired" ) != -1 && uses < limit - 2 )
 		{
-			uses = 8;
+			uses = limit - 2;
 		}
 		else
 		{
@@ -3027,13 +3028,6 @@ public class FightRequest
 				}
 
 				String message = "You " + gain + " " + points + " hit points";
-
-				RequestLogger.printLine( message );
-				if ( Preferences.getBoolean( "logGainMessages" ) )
-				{
-					RequestLogger.updateSessionLog( message );
-				}
-
 				shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 				continue;
 			}
@@ -3078,12 +3072,6 @@ public class FightRequest
 					gain = "gain";
 				}
 				String message = "You " + gain + " " + points + " Mojo points";
-
-				RequestLogger.printLine( message );
-				if ( Preferences.getBoolean( "logGainMessages" ) )
-				{
-					RequestLogger.updateSessionLog( message );
-				}
 
 				shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 				continue;
@@ -3162,7 +3150,6 @@ public class FightRequest
 		public final String diceMessage;
 		public final String ghost;
 		public final boolean logFamiliar;
-		public final boolean logGainMessages;
 		public final boolean logMonsterHealth;
 		public final StringBuffer action;
 		public boolean shouldRefresh;
@@ -3178,7 +3165,6 @@ public class FightRequest
 			this.familiar = current.getImageLocation();
 			this.diceMessage = ( current.getId() == FamiliarPool.DICE ) ? ( current.getName() + " begins to roll." ) : null;
 			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
-			this.logGainMessages = Preferences.getBoolean( "logGainMessages" );
 			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
 			this.action = new StringBuffer();
 
@@ -3280,13 +3266,6 @@ public class FightRequest
 			if ( m.find() )
 			{
 				String message = "You lose " + m.group( 1 ) + " hit points";
-
-				RequestLogger.printLine( message );
-				if ( status.logGainMessages )
-				{
-					RequestLogger.updateSessionLog( message );
-				}
-
 				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 			}
 			break;
@@ -3299,13 +3278,6 @@ public class FightRequest
 			if ( m.find() )
 			{
 				String message = "You lose " + m.group( 1 ) + " hit points";
-
-				RequestLogger.printLine( message );
-				if ( status.logGainMessages )
-				{
-					RequestLogger.updateSessionLog( message );
-				}
-
 				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 			}
 			break;
@@ -3418,12 +3390,6 @@ public class FightRequest
 						FightRequest.logMonsterDamage( action, damage );
 					}
 					FightRequest.healthModifier += damage;
-				}
-
-				RequestLogger.printLine( str );
-				if ( status.logGainMessages )
-				{
-					RequestLogger.updateSessionLog( str );
 				}
 
 				status.shouldRefresh = ResultProcessor.processGainLoss( str, null );
@@ -3726,13 +3692,6 @@ public class FightRequest
 		if ( m.find() )
 		{
 			String message = "You lose " + m.group( 1 ) + " hit points";
-
-			RequestLogger.printLine( message );
-			if ( status.logGainMessages )
-			{
-				RequestLogger.updateSessionLog( message );
-			}
-
 			status.shouldRefresh = ResultProcessor.processGainLoss( message, null );
 			return true;
 		}
