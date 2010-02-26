@@ -206,6 +206,7 @@ yellow traffic cone	60	Mox: 15
 # Pants section of equipment.txt
 
 1337 7r0uZ0RZ	110	Mox: 40
+Angelhair Culottes	125	Mys: 30
 BRICKO pants	90	none
 Boss Bat britches	65	Mox: 17
 Brimstone Boxers	200	Mox: 30
@@ -225,6 +226,7 @@ Knob Goblin Uberpants	45	Mox: 7
 Knob Goblin elite pants	60	Mox: 15
 Knob Goblin harem pants	10	none
 Knob Goblin pants	25	none
+Krakrox's Loincloth	125	Mus: 30
 Lederhosen of the Night	125	Mox: 30
 Newman's Own Trousers	125	Mys: 30
 Ol' Scratch's ol' britches	200	Mys: 200

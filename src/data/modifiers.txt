@@ -253,6 +253,7 @@ yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "?xVolley
 # Pants section of modifiers.txt
 
 1337 7r0uZ0RZ	Intrinsic Effect: "1337p4n7Z"
+Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer"
 BRICKO pants	Damage Absorption: +9
 Boss Bat britches	Moxie: +5
 Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50, Brimstone
@@ -272,6 +273,7 @@ Knob Goblin Uberpants	Muscle: +2, Mysticality: +2, Moxie: +2
 Knob Goblin elite pants	Moxie: +3
 Knob Goblin harem pants	Moxie: +1
 Knob Goblin pants	Muscle: +1
+Krakrox's Loincloth	Muscle: +11, Initiative: +15, Class: "Seal Clubber"
 Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief"
 Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror"
 Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "Sauceror"
@@ -493,7 +495,7 @@ Drowsy Sword	Weakens Monster, Monster Level: -10
 # El Vibrato energy spear
 # Flail of the Seven Aspects: Handle Doubles as a Turtling Rod
 # Flail of the Seven Aspects: Special Attack: Turtle of Seven Tails
-Flail of the Seven Aspects	Muscle: +15, Never Fumble
+Flail of the Seven Aspects	Muscle: +15, Never Fumble, Class: "Turtle Tamer"
 Frost&trade; brand sword	Muscle: +3, Monster Level: +3, Cold Damage: +3
 Frosty's arm	Weapon Damage: +30, Cold Damage: +30
 Frosty's nailbat	Muscle Percent: +30, Critical Hit Percent: +3, Cold Damage: +30, Class: "Seal Clubber"
@@ -534,8 +536,9 @@ Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
 Red Rover BB gun	Critical: 3
 Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 # Ruby Rod
-# Seeger's Unstoppable Banjo: +15 damage to Disco Bandit Combat Skills, Special Attack: Funk Bluegrass Fusion
-Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23
+# Seeger's Unstoppable Banjo: +15 damage to Disco Bandit Combat Skills
+# Seeger's Unstoppable Banjo: Special Attack: Funk Bluegrass Fusion
+Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23, Class: "Disco Bandit"
 # Shagadelic Disco Banjo: +7 damage to Disco Bandit Combat Skills
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10
 # Sledgehammer of the V&aelig;lkyr: +20% Physical Damage
@@ -570,9 +573,9 @@ Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscl
 Unionize The Elves sign	Weakens Monster
 # Wand of Nagamar
 # Windsor Pan of the Source: Special Attack: Saucemageddon
-Windsor Pan of the Source	Mysticality: +15, Spell Damage: +23, Spell Critical Percent: +11
+Windsor Pan of the Source	Mysticality: +15, Spell Damage: +23, Spell Critical Percent: +11, Class: "Sauceror"
 # Wrath of the Capsaician Pastalords: Special Attack: Noodles of Fire
-Wrath of the Capsaician Pastalords	Mysticality: +15, Food Drop: +50, Initiative: +40
+Wrath of the Capsaician Pastalords	Mysticality: +15, Food Drop: +50, Initiative: +40, Class: "Pastamancer"
 # X-37 gun: Shoots Elemental Blasts
 Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
@@ -2817,7 +2820,9 @@ Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
 # Legendary Regalia of the Chelonian Overlord
 # Legendary Regalia of the Groovelord
 # Legendary Regalia of the Master Squeezeboxer
+# Legendary Regalia of the Pasta Master
 # Legendary Regalia of the Saucemaestro
+# Legendary Regalia of the Seal Crusher
 Mining Gear	Meat Drop: +5
 # Mutant Couture
 OK Lumberjack Outfit	Critical: 2

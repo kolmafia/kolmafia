@@ -4270,9 +4270,9 @@
 4264	308641620	bark boxers	bark boxerss
 4265	736000092	bark beret	bark berets
 4266	430887434	bark bracelet	bark bracelets
-4267
+4267	215031220	Krakrox's Loincloth
 4268	642836412	Galapagosian Cuisses
-4269
+4269	430637408	Angelhair Culottes
 4270	502777744	Newman's Own Trousers
 4271	927774724	Volartta's bellbottoms
 4272	678653784	Lederhosen of the Night

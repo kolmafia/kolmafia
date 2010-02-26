@@ -348,7 +348,7 @@
 7097	Turtle of Seven Tails	5	15	0
 7098	Noodles of Fire	5	15	0
 7099	Saucemageddon	5	35	0
-7100
+7100	Funk Bluegrass Fusion	5	10	0
 7101	Extreme High Note	5	15	0
 
 # Skills granted by books on your Mystical Bookshelf

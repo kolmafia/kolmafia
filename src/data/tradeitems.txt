@@ -4273,9 +4273,9 @@
 4264	bark boxers	pants	display	100
 4265	bark beret	hat	display	100
 4266	bark bracelet	accessory	display	100
-4267
+4267	Krakrox's Loincloth	pants	display	0
 4268	Galapagosian Cuisses	pants	display	0
-4269
+4269	Angelhair Culottes	pants	display	0
 4270	Newman's Own Trousers	pants	display	0
 4271	Volartta's bellbottoms	pants	display	0
 4272	Lederhosen of the Night	pants	display	0
