@@ -3034,7 +3034,7 @@ public class FightRequest
 					RequestLogger.updateSessionLog( message );
 				}
 
-				ResultProcessor.parseResult( message );
+				shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 				continue;
 			}
 
@@ -3085,7 +3085,7 @@ public class FightRequest
 					RequestLogger.updateSessionLog( message );
 				}
 
-				ResultProcessor.parseResult( message );
+				shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 				continue;
 			}
 
@@ -3287,7 +3287,7 @@ public class FightRequest
 					RequestLogger.updateSessionLog( message );
 				}
 
-				ResultProcessor.parseResult( message );
+				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 			}
 			break;
 		}
@@ -3306,7 +3306,7 @@ public class FightRequest
 					RequestLogger.updateSessionLog( message );
 				}
 
-				ResultProcessor.parseResult( message );
+				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 			}
 			break;
 		}
@@ -3426,7 +3426,7 @@ public class FightRequest
 					RequestLogger.updateSessionLog( str );
 				}
 
-				ResultProcessor.parseResult( str );
+				status.shouldRefresh = ResultProcessor.processGainLoss( str, null );
 				return;
 			}
 
@@ -3733,7 +3733,7 @@ public class FightRequest
 				RequestLogger.updateSessionLog( message );
 			}
 
-			ResultProcessor.parseResult( message );
+			status.shouldRefresh = ResultProcessor.processGainLoss( message, null );
 			return true;
 		}
 
