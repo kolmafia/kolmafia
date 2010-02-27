@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -90,6 +91,7 @@ public class BreakfastManager
 			useCrimboToys();
 			getHermitClovers();
 			visitBigIsland();
+			visitVolcanoIsland();
 		}
 
 		boolean recoverMana = Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
@@ -432,6 +434,11 @@ public class BreakfastManager
 		RequestThread.postRequest( skill );
 
 		return castCount == maximumCast;
+	}
+
+	public static void visitVolcanoIsland()
+	{
+		VolcanoIslandRequest.getBreakfast();
 	}
 
 	public static void visitBigIsland()

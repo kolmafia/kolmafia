@@ -26,7 +26,14 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class ValhallaManager
+
 {
+	private static final AdventureResult [] USABLE = new AdventureResult []
+	{
+		ItemPool.get( ItemPool.ELITE_SCROLL, 1 ),
+		ItemPool.get( ItemPool.FISHERMANS_SACK, 1 ),
+	};
+
 	private static final AdventureResult [] AUTOSELLABLE = new AdventureResult []
 	{
 		ItemPool.get( ItemPool.SMALL_LAMINATED_CARD, 1 ),
@@ -64,6 +71,9 @@ public class ValhallaManager
 		ItemPool.get( ItemPool.VIAL_OF_INDIGO_SLIME, 1 ),
 		ItemPool.get( ItemPool.VIAL_OF_PURPLE_SLIME, 1 ),
 		ItemPool.get( ItemPool.VIAL_OF_BROWN_SLIME, 1 ),
+		ItemPool.get( ItemPool.FISH_OIL_SMOKE_BOMB, 1 ),
+		ItemPool.get( ItemPool.VIAL_OF_SQUID_INK, 1 ),
+		ItemPool.get( ItemPool.POTION_OF_FISHY_SPEED, 1 ),
 	};
 
 	public static void preAscension()
@@ -84,20 +94,22 @@ public class ValhallaManager
 			RequestThread.postRequest( belt );
 		}
 
-		// Use any 31337 scrolls.
-
-		AdventureResult scroll = ItemPool.get( ItemPool.ELITE_SCROLL, 1 );
-		int count = scroll.getCount( KoLConstants.inventory );
-		if ( count > 0 )
-		{
-			RequestThread.postRequest( new UseItemRequest( scroll.getInstance( count ) ) );
-		}
-
 		// Trade in gunpowder.
 
 		if ( InventoryManager.hasItem( ItemPool.GUNPOWDER ) )
 		{
 			BreakfastManager.visitPyro();
+		}
+
+		// Use any usable quest items
+		for ( int i = 0; i < ValhallaManager.USABLE.length; ++i )
+		{
+			AdventureResult item = ValhallaManager.USABLE[i];
+			int count = item.getCount( KoLConstants.inventory );
+			if ( count > 0 )
+			{
+				RequestThread.postRequest( new UseItemRequest( item.getInstance( count ) ) );
+			}
 		}
 
 		// Sell autosellable quest items
@@ -106,7 +118,7 @@ public class ValhallaManager
 		for ( int i = 0; i < ValhallaManager.AUTOSELLABLE.length; ++i )
 		{
 			AdventureResult item = ValhallaManager.AUTOSELLABLE[i];
-			count = item.getCount( KoLConstants.inventory );
+			int count = item.getCount( KoLConstants.inventory );
 			if ( count > 0 )
 			{
 				items.add( item.getInstance( count ) );
