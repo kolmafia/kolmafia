@@ -52,7 +52,7 @@
 46	Snowy Owl	combat	1410	Pretty Predator Clawicure Kit	3	3	3	3
 47	Teddy Bear	none	1395	teddy bear sewing kit	3	2	0	1
 48	Ninja Pirate Zombie Robot	combat	1353	rhesus monkey	3	3	3	3
-49	Sleazy Gravy Fairy	item0	1431	hot pink lipstick	3	3	2	1
+49	Sleazy Gravy Fairy	combat,item0	1431	hot pink lipstick	3	3	2	1
 50	Wild Hare	none	1488	miniature dormouse	1	3	2	0
 51	Wind-up Chattering Teeth	combat	1524	diamond-studded fronts	3	0	2	1
 52	Spirit Hobo	combat,stat0	1536	weegee sqouija	2	1	3	0
@@ -80,10 +80,10 @@
 74	Gluttonous Green Ghost	combat,stat0	2845	plastic bib	2	3	3	1
 75	Casagnova Gnome	item0,meat0	2937	miniature castagnets	0	1	3	2
 76	Hunchbacked Minion	stat0,meat0	2939	miniature Jacob's ladder	1	3	0	2
-77	Crimbo P. R. E. S. S. I. E.	none	3042	metallic foil bow	3	2	0	1
+77	Crimbo P. R. E. S. S. I. E.	combat	3042	metallic foil bow	3	2	0	1
 78	Bulky Buddy Box	none	3079		0	0	0	0
 79	Teddy Borg	none	3080	teddy borg sewing kit	3	2	0	1
-80	RoboGoose	none	3107	overclocked avian microprocessor	2	3	1	0
+80	RoboGoose	combat	3107	overclocked avian microprocessor	2	3	1	0
 81	El Vibrato Megadrone	none	3217		3	3	3	3
 82	Mad Hatrack	none	3219		3	0	1	2
 83	Adorable Seal Larva	combat	3292	pretty pink bow	0	0	0	0
@@ -95,7 +95,7 @@
 89	Hobo Monkey	meat0	3342	tiny bindle	0	3	3	3
 90	Llama Lama	none	3351	zen motorcycle	1	2	3	2
 91	Cotton Candy Carnie	none	3431	cotton candy cordial	0	2	2	3
-92	Disembodied Hand	none	3434		3	2	0	2
+92	Disembodied Hand	combat	3434		3	2	0	2
 93	Black Cat	none	3443		0	0	0	0
 94	Uniclops	stat0,meat0	3481	eye 'n' horn shampoo	2	1	2	3
 95	Psychedelic Bear	item0,meat0	3482	psychedelic bubble wand	1	3	2	1
@@ -117,13 +117,13 @@
 111	Baby Sandworm	stat1	3999	string of dingle balls	1	2	2	3
 112	Slimeling	combat,item0	4017	undissolvable contact lenses	3	3	2	2
 113	He-Boulder	combat,meat0	4148	quadroculars	3	3	2	1
-114	Rock Lobster	none	4159	extra-strength rubber bands	3	2	2	1
+114	Rock Lobster	combat	4159	extra-strength rubber bands	3	2	2	1
 115	Urchin Urchin	meat0	4202	pet anemone	3	3	0	2
 116	Grouper Groupie	item0	4200	gill rings	0	2	3	2
 117	Squamous Gibberer	none	4223	unspeakable lozenges	1	2	2	3
 118	Dancing Frog	item0,meat0	4228	miniature tophat	1	2	2	3
 119	Chauvinist Pig	stat0,meat0	4227	bottle of Cochon Noir	0	3	2	1
-120	Stocking Mimic	none	4328	bag of many confections	0	0	0	0
-121	Snow Angel	none	4352	snow halo	2	1	3	2
+120	Stocking Mimic	combat	4328	bag of many confections	0	0	0	0
+121	Snow Angel	combat	4352	snow halo	2	1	3	2
 122	Jack-in-the-Box	none	4396	brass crank handle	0	0	0	0
 123	BRICKO chick	combat	4495	extra-heavy BRICKO brick	0	0	0	0

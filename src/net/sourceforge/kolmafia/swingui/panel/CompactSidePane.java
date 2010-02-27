@@ -266,11 +266,22 @@ public class CompactSidePane
 			JMenu meat = new JMenu( "meatdrop" );
 			JMenu combat = new JMenu( "combat" );
 			JMenu other = new JMenu( "other" );
-			
-			Iterator i = KoLCharacter.getFamiliarList().iterator();
-			while ( i.hasNext() )
+			String custom[] = new String[9];
+			JMenu customMenu[] = new JMenu[9];
+			for ( int i = 0; i < 9; ++i )
 			{
-				FamiliarData fam = (FamiliarData) i.next();
+				String pref = Preferences.getString( "familiarCategory" + (i + 1) );
+				if ( pref.length() > 0 )
+				{
+					custom[ i ] = pref.toLowerCase();
+					customMenu[ i ] = new JMenu( pref.split( "\\|", 2 )[ 0 ] );
+				}
+			}
+			
+			Iterator it = KoLCharacter.getFamiliarList().iterator();
+			while ( it.hasNext() )
+			{
+				FamiliarData fam = (FamiliarData) it.next();
 				if ( fam.equals( KoLCharacter.getFamiliar() ) )
 				{
 					continue;	// no menu item for this one
@@ -301,10 +312,20 @@ public class CompactSidePane
 					meat.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
-				if ( FamiliarDatabase.isCombatType( id ) )
+				if ( fam.isCombatFamiliar() )
 				{
 					combat.add( new FamiliarMenuItem( fam ) );
 					added = true;
+				}
+				
+				String key = "|" + fam.getRace().toLowerCase();
+				for ( int i = 0; i < 9; ++i )
+				{
+					if ( custom[ i ] != null && custom[ i ].indexOf( key ) != -1 )
+					{
+						customMenu[ i ].add( new FamiliarMenuItem( fam ) );
+						added = true;
+					}
 				}
 				
 				if ( !added )
@@ -317,6 +338,14 @@ public class CompactSidePane
 			famPopup.add( item );
 			famPopup.add( meat );
 			famPopup.add( combat );
+			for ( int i = 0; i < 9; ++i )
+			{
+				if ( customMenu[ i ] != null &&
+					customMenu[ i ].getMenuComponentCount() > 0 )
+				{
+					famPopup.add( customMenu[ i ] );
+				}
+			}
 			famPopup.add( other );
 
 			famPopup.show( e.getComponent(),
