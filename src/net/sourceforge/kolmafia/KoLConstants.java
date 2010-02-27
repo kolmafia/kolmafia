@@ -425,8 +425,6 @@ public interface KoLConstants
 		"zonelist.txt"
 	};
 
-	public static final int STATIONARY_BUTTON_COUNT = 3;
-
 	// The current version number of each data file
 
 	public static final int ADVENTURES_VERSION = 4;
