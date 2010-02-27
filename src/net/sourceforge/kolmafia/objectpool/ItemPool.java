@@ -989,6 +989,10 @@ public class ItemPool
 	public static final int BAGGY_RAVE_PANTS = 4194;
 	public static final int PACIFIER_NECKLACE = 4195;
 	public static final int AMPHIBIOUS_TOPHAT = 4229;
+	public static final int FISHERMANS_SACK = 4250;
+	public static final int FISH_OIL_SMOKE_BOMB = 4251;
+	public static final int VIAL_OF_SQUID_INK = 4252;
+	public static final int POTION_OF_FISHY_SPEED = 4253;
 	public static final int WOLFMAN_MASK = 4260;
 	public static final int PUMPKINHEAD_MASK = 4261;
 	public static final int MUMMY_COSTUME = 4262;
