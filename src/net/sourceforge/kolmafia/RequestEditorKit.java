@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
+import net.sourceforge.kolmafia.webui.DvorakDecorator;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
@@ -705,6 +706,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "sewer.php" ) )
 		{
 			StationaryButtonDecorator.decorate( location, buffer );
+		}
+		else if ( location.startsWith( "tiles.php" ) )
+		{
+			DvorakDecorator.decorate( buffer );
 		}
 		else if ( location.startsWith( "town_right.php" ) )
 		{

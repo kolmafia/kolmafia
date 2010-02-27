@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
+import net.sourceforge.kolmafia.webui.DvorakDecorator;
 
 public class AdventureRequest
 	extends GenericRequest
@@ -906,6 +907,7 @@ public class AdventureRequest
 		else if ( formSource.startsWith( "tiles.php" ) )
 		{
 			// Only register initial encounter of Dvorak's Revenge
+			DvorakDecorator.saveResponse( responseText );
 			return responseText.indexOf( "I before E, except after C" ) != -1;
 		}
 		else if ( formSource.startsWith( "barrel.php?smash" ) )
