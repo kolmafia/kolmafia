@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.webui.DvorakDecorator;
 
 public class CompleteQuestCommand
 	extends AbstractCommand
@@ -76,6 +77,13 @@ public class CompleteQuestCommand
 			StaticEntity.getClient().locateTavernFaucet();
 			return;
 		}
+
+		if ( command.equals( "dvorak" ) )
+		{
+			DvorakDecorator.solve();
+			return;
+		}
+
 		KoLmafia.updateDisplay( "What... is your quest?  [internal error]" );
 	}
 }

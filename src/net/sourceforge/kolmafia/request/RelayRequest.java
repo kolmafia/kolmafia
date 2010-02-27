@@ -119,6 +119,8 @@ public class RelayRequest
 	public String contentType = null;
 	public String statusLine = "HTTP/1.1 302 Found";
 
+	public static String specialCommandResponse = "";
+
 	public RelayRequest( final boolean allowOverride )
 	{
 		super( "" );
@@ -1232,6 +1234,13 @@ public class RelayRequest
 		{
 			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
+		}
+		else if ( path.endsWith( "specialCommand" ) )
+		{
+			submitCommand( this.getFormField( "cmd" ) );
+			this.contentType = "text/html";
+			this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
+			RelayRequest.specialCommandResponse = "";
 		}
 		else if ( path.endsWith( "sideCommand" ) )
 		{
