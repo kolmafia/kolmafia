@@ -125,6 +125,7 @@ global	relayHidesJunkMallItems	false
 global	relayMaintainsEffects	false
 global	relayMaintainsHealth	false
 global	relayMaintainsMana	false
+global	relaySkillButtonCount	5
 global	relayTextualizesEffects	false
 global	relayTrimsZapList	false
 global	relayUsesCachedImages	false

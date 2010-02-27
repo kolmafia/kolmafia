@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
+import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class RelayRequest
 	extends PasswordHashRequest
@@ -304,33 +305,7 @@ public class RelayRequest
 			if ( action != null && action.equals( "skill" ) )
 			{
 				String skillId = this.getFormField( "whichskill" );
-				if ( skillId != null && !skillId.equals( "none" ) && !skillId.equals( "3004" ) )
-				{
-					String testAction;
-					int maximumIndex = KoLConstants.STATIONARY_BUTTON_COUNT + 1;
-					int insertIndex = maximumIndex;
-
-					for ( int i = 1; i <= KoLConstants.STATIONARY_BUTTON_COUNT && insertIndex == maximumIndex; ++i )
-					{
-						testAction = Preferences.getString( "stationaryButton" + i );
-						if ( testAction.equals( "" ) || testAction.equals( "none" ) || testAction.equals( skillId ) )
-						{
-							insertIndex = i;
-						}
-					}
-
-					if ( insertIndex == maximumIndex )
-					{
-						insertIndex = KoLConstants.STATIONARY_BUTTON_COUNT;
-						for ( int i = 2; i <= KoLConstants.STATIONARY_BUTTON_COUNT; ++i )
-						{
-							Preferences.setString(
-								"stationaryButton" + ( i - 1 ), Preferences.getString( "stationaryButton" + i ) );
-						}
-					}
-
-					Preferences.setString( "stationaryButton" + insertIndex, skillId );
-				}
+                                StationaryButtonDecorator.addButton( skillId );
 			}
 		}
 

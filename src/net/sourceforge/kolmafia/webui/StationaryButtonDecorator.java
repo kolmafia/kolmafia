@@ -53,6 +53,89 @@ public class StationaryButtonDecorator
 {
 	private static final ArrayList combatHotkeys = new ArrayList();
 
+	private static final boolean builtInSkill( final String skillId )
+	{
+		// Entangling Noodles
+		if ( skillId.equals( "3004" ) )
+		{
+			return true;
+		}
+
+		// Transcendent Olfaction
+		if ( skillId.equals( "19" ) )
+		{
+			return true;
+		}
+			     
+		return false;
+	}
+
+	public static final void addButton( final String skillId )
+	{
+		if ( skillId == null || skillId.equals( "none" ) )
+		{
+			return;
+		}
+
+		// Don't add a button for using a built-in skill
+		if ( StationaryButtonDecorator.builtInSkill( skillId ) )
+		{
+			return;
+		}
+
+		int buttons = Preferences.getInteger( "relaySkillButtonCount" );
+		int maximumIndex = buttons + 1;
+		int insertIndex = 0;
+
+		// Examine all buttons and find a place for this skill.
+		for ( int i = 1; i < maximumIndex; )
+		{
+			String old = Preferences.getString( "stationaryButton" + i );
+			// Remove built-in skills.
+			if ( StationaryButtonDecorator.builtInSkill( old ) )
+			{
+				StationaryButtonDecorator.removeButton( i, buttons );
+				continue;
+			}
+
+			// If the button is already there, use it.
+			if ( old.equals( skillId ) )
+			{
+				insertIndex = i;
+			}
+
+			// If we already have an insertion point, keep it
+			else if ( insertIndex != 0 )
+			{
+			}
+
+			// Choose first unused button.
+			else if ( old.equals( "" ) || old.equals( "none" ) )
+			{
+				insertIndex = i;
+			}
+			++i;
+		}
+
+		// If all buttons are in use, remove oldest and insert at end.
+		if ( insertIndex == 0 )
+		{
+			StationaryButtonDecorator.removeButton( 1, buttons );
+			insertIndex = buttons;
+		}
+
+		Preferences.setString( "stationaryButton" + insertIndex, skillId );
+	}
+
+	private static final void removeButton( final int index, int buttons )
+	{
+		for ( int i = index + 1; i <= buttons; ++i )
+		{
+			String next = Preferences.getString( "stationaryButton" + i );
+			Preferences.setString( "stationaryButton" + ( i - 1 ), next );
+		}
+	}
+
 	public static final void decorate( final String urlString, final StringBuffer buffer )
 	{
 		if ( Preferences.getBoolean( "hideServerDebugText" ) )
@@ -141,7 +224,8 @@ public class StationaryButtonDecorator
 		StationaryButtonDecorator.addFightButton(
 			urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
 
-		for ( int i = 1; i <= KoLConstants.STATIONARY_BUTTON_COUNT; ++i )
+		int buttons = Preferences.getInteger( "relaySkillButtonCount" );
+		for ( int i = 1; i <= buttons; ++i )
 		{
 			String action = Preferences.getString( "stationaryButton" + i );
 			if ( action.equals( "" ) || action.equals( "none" ) )
