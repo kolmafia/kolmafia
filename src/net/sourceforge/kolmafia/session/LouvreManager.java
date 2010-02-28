@@ -38,11 +38,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class LouvreManager
 {
@@ -946,5 +950,55 @@ public abstract class LouvreManager
 	public static final void showGemelliMap()
 	{
 		StaticEntity.openSystemBrowser( "http://louvre.bewarethefgc.com/index.php?mapstring=" + LouvreManager.gemelliCode() );
+	}
+
+	public static final void decorate( final StringBuffer buffer )
+	{
+		// Insert a "Goal" button in-line
+		String search = "</form></center></td></tr>";
+		int index = buffer.lastIndexOf( search );
+		if ( index == -1 )
+		{
+			return;
+		}
+		index += 7;
+
+		// Build a "Goal" button
+		StringBuffer button = new StringBuffer();
+                String url = "/KoLmafia/specialCommand?cmd=louvre&pwd=" + GenericRequest.passwordHash;
+		button.append( "<form name=goalform action='" + url + "' method=post>" );
+		button.append( "<input class=button type=submit value=\"Go To Goal\">" );
+		button.append( "</form>" );
+
+		// Insert it into the page
+		buffer.insert( index, button );
+	}
+
+	public static final void gotoGoal()
+	{
+		String responseText = ChoiceManager.lastResponseText;
+		Matcher choiceMatcher = LouvreManager.CHOICE_PATTERN.matcher( responseText );
+		boolean louvre = false;
+		if ( choiceMatcher.find() )
+		{
+			int choice = StringUtilities.parseInt( choiceMatcher.group( 1 ) );
+			if ( choice >= FIRST_CHOICE - 1 && choice <= LAST_CHOICE )
+			{
+				louvre = true;
+			}
+		}
+
+		if ( !louvre )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't appear to in the Louvre" );
+			return;
+		}
+
+		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
+		ChoiceManager.processChoiceAdventure( request, responseText );
+
+		StringBuffer buffer = new StringBuffer( request.responseText );
+		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
+		RelayRequest.specialCommandResponse = buffer.toString();
 	}
 }

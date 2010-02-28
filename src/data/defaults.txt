@@ -549,6 +549,11 @@ user	valueOfAdventure	500
 user	valueOfStill	0
 user	violetFogGoal	0
 user	violetFogLayout
+user	volcanoMaze1
+user	volcanoMaze2
+user	volcanoMaze3
+user	volcanoMaze4
+user	volcanoMaze5
 user	warProgress	unstarted
 user	welcomeBackAdv	0
 user	_absintheDrops	0
