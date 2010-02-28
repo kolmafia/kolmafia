@@ -337,13 +337,18 @@ public class GenericRequest
 	 * @param formURLString The form to be used in posting data
 	 */
 
-	public GenericRequest( final String newURLString )
+	public GenericRequest( final String newURLString, final boolean usePostMethod )
 	{
 		this.data = new ArrayList();
 		if ( !newURLString.equals( "" ) )
 		{
-			this.constructURLString( newURLString );
+			this.constructURLString( newURLString, usePostMethod );
 		}
+	}
+
+	public GenericRequest( final String newURLString )
+	{
+                this( newURLString, true );
 	}
 
 	public boolean hasNoResult()

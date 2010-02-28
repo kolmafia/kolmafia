@@ -89,6 +89,11 @@ public class NemesisDecorator
 		Preferences.setString( "raveCombo4", "" );
 		Preferences.setString( "raveCombo5", "" );
 		Preferences.setString( "raveCombo6", "" );
+		Preferences.setString( "volcanoMaze1", "" );
+		Preferences.setString( "volcanoMaze2", "" );
+		Preferences.setString( "volcanoMaze3", "" );
+		Preferences.setString( "volcanoMaze4", "" );
+		Preferences.setString( "volcanoMaze5", "" );
 		Preferences.setInteger( "lastNemesisReset", KoLCharacter.getAscensions() );
 	}
 

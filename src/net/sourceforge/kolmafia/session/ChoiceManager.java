@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1858,6 +1859,13 @@ public abstract class ChoiceManager
 	{
 		switch ( choice )
 		{
+		case 91:
+		case 92: case 93: case 94: case 95:
+		case 96: case 97: case 98:
+		case 99: case 100: case 101:
+		case 102: case 103: case 104:
+			LouvreManager.decorate( buffer );
+			break;
 		case 134:
 		case 135:
 			PyramidRequest.decorateChoice( choice, buffer );

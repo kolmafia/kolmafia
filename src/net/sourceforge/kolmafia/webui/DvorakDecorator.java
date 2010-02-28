@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -57,15 +58,11 @@ public abstract class DvorakDecorator
 
 		// Build a "Solve!" button
 		StringBuffer button = new StringBuffer();
-		button.append( "<input type=\"button\" onClick=\"document.location.href='" );
-		button.append( "/KoLmafia/specialCommand?cmd=dvorak" );
-		button.append( "&pwd=" );
-		button.append( GenericRequest.passwordHash );
-		button.append( "';void(0);\" value=\"" );
-		button.append( "Solve!" );
-		button.append( "\"" );
-		button.append( " id=\"defaultButton\"" );
-		button.append( ">&nbsp;" );
+
+                String url = "/KoLmafia/specialCommand?cmd=dvorak&pwd=" + GenericRequest.passwordHash;
+		button.append( "<form name=solveform action='" + url + "' method=post>" );
+		button.append( "<input class=button type=submit value=\"Solve!\">" );
+		button.append( "</form>" );
 
 		// Insert it into the page
 		buffer.insert( index, button );
@@ -179,7 +176,9 @@ public abstract class DvorakDecorator
 
 		KoLmafia.updateDisplay( "Tile puzzle completed." );
 
-		RelayRequest.specialCommandResponse = request.responseText;
+		StringBuffer buffer = new StringBuffer( request.responseText );
+		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
+		RelayRequest.specialCommandResponse = buffer.toString();
 		DvorakDecorator.lastResponse = null;
 	}
 }
