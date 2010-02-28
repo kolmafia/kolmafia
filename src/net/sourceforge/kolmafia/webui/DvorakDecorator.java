@@ -53,19 +53,19 @@ public abstract class DvorakDecorator
 		{
 			return;
 		}
-		index += search.length();
+		index += 6;
 
 		// Build a "Solve!" button
 		StringBuffer button = new StringBuffer();
-		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
-		buffer.append( "/KoLmafia/specialCommand?cmd=dvorak" );
-		buffer.append( "&pwd=" );
-		buffer.append( GenericRequest.passwordHash );
-		buffer.append( "';void(0);\" value=\"" );
-		buffer.append( "Solve!" );
-		buffer.append( "\"" );
-		buffer.append( " id=\"defaultButton\"" );
-		buffer.append( ">&nbsp;" );
+		button.append( "<input type=\"button\" onClick=\"document.location.href='" );
+		button.append( "/KoLmafia/specialCommand?cmd=dvorak" );
+		button.append( "&pwd=" );
+		button.append( GenericRequest.passwordHash );
+		button.append( "';void(0);\" value=\"" );
+		button.append( "Solve!" );
+		button.append( "\"" );
+		button.append( " id=\"defaultButton\"" );
+		button.append( ">&nbsp;" );
 
 		// Insert it into the page
 		buffer.insert( index, button );
