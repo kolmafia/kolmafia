@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -55,9 +56,9 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1857,15 +1858,17 @@ public abstract class ChoiceManager
 
 	public static final void decorateChoice( final int choice, final StringBuffer buffer )
 	{
+		if ( ( choice >= 48 && choice <= 70 ) ||
+		     ( choice >= 91 && choice <= 104 ) )
+		{
+			// Add "Go To Goal" button for the Violet Fog and the
+			// Louvre.
+			ChoiceManager.addGoalButton( buffer );
+			return;
+		}
+
 		switch ( choice )
 		{
-		case 91:
-		case 92: case 93: case 94: case 95:
-		case 96: case 97: case 98:
-		case 99: case 100: case 101:
-		case 102: case 103: case 104:
-			LouvreManager.decorate( buffer );
-			break;
 		case 134:
 		case 135:
 			PyramidRequest.decorateChoice( choice, buffer );
@@ -3453,5 +3456,38 @@ public abstract class ChoiceManager
 		// the first choice no matter what.
 
 		return "1";
+	}
+
+	public static final void addGoalButton( final StringBuffer buffer )
+	{
+		// Insert a "Goal" button in-line
+		String search = "</form></center></td></tr>";
+		int index = buffer.lastIndexOf( search );
+		if ( index == -1 )
+		{
+			return;
+		}
+		index += 7;
+
+		// Build a "Goal" button
+		StringBuffer button = new StringBuffer();
+                String url = "/KoLmafia/specialCommand?cmd=choice-goal&pwd=" + GenericRequest.passwordHash;
+		button.append( "<form name=goalform action='" + url + "' method=post>" );
+		button.append( "<input class=button type=submit value=\"Go To Goal\">" );
+		button.append( "</form>" );
+
+		// Insert it into the page
+		buffer.insert( index, button );
+	}
+
+	public static final void gotoGoal()
+	{
+		String responseText = ChoiceManager.lastResponseText;
+		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
+		ChoiceManager.processChoiceAdventure( request, responseText );
+
+		StringBuffer buffer = new StringBuffer( request.responseText );
+		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
+		RelayRequest.specialCommandResponse = buffer.toString();
 	}
 }
