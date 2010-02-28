@@ -160,6 +160,7 @@ public class LocalRelayAgent
 		int spaceIndex = requestLine.indexOf( " " );
 
 		this.requestMethod = requestLine.substring( 0, spaceIndex );
+		boolean usePostMethod = this.requestMethod.equals( "POST" );
 		this.path = requestLine.substring( spaceIndex + 1, requestLine.lastIndexOf( " " ) );
 		if ( this.path.startsWith( "//" ) )
 		{	// A current KoL bug causes URLs to gain an unnecessary leading
@@ -167,7 +168,7 @@ public class LocalRelayAgent
 			this.path = this.path.substring( 1 );
 		}
 
-		this.request.constructURLString( this.path, this.requestMethod.equals( "POST" ) );
+		this.request.constructURLString( this.path, usePostMethod );
 
 		String currentLine;
 		int contentLength = 0;
@@ -186,6 +187,13 @@ public class LocalRelayAgent
 				{
 					RequestLogger.printLine( "Request from bogus referer ignored: " + path );
 					return false;
+				}
+				// If we last ran a command, the browser will
+				// submit requests with a bogus root.
+				if ( referer.indexOf( "/KoLmafia" ) != -1 && this.path.startsWith( "/KoLmafia" ) )
+				{
+					this.path = this.path.substring( 9 );
+					this.request.constructURLString( this.path, usePostMethod );
 				}
 			}
 			else if ( currentLine.startsWith( "If-Modified-Since" ) )
