@@ -185,7 +185,9 @@ public class LocalRelayAgent
 				String referer = currentLine.substring( 9 );
 				if ( !referer.equals( "" ) && !referer.startsWith( "http://127.0.0.1" ) )
 				{
-					RequestLogger.printLine( "Request from bogus referer ignored: " + path );
+					RequestLogger.printLine( "Request from bogus referer ignored" );
+					RequestLogger.printLine( "Path: \"" + path + "\"" );
+					RequestLogger.printLine( "Referer: \"" + referer + "\"" );
 					return false;
 				}
 				// If we last ran a command, the browser will
@@ -195,21 +197,28 @@ public class LocalRelayAgent
 					this.path = this.path.substring( 9 );
 					this.request.constructURLString( this.path, usePostMethod );
 				}
+				continue;
 			}
-			else if ( currentLine.startsWith( "If-Modified-Since" ) )
+
+			if ( currentLine.startsWith( "If-Modified-Since" ) )
 			{
 				this.isCheckingModified = true;
 				continue;
 			}
-			else if ( currentLine.startsWith( "Content-Length" ) )
+
+			if ( currentLine.startsWith( "Content-Length" ) )
 			{
 				contentLength = StringUtilities.parseInt( currentLine.substring( 16 ) );
+				continue;
 			}
-			else if ( currentLine.startsWith( "User-Agent" ) )
+
+			if ( currentLine.startsWith( "User-Agent" ) )
 			{
 				GenericRequest.saveUserAgent( currentLine.substring( 12 ) );
+				continue;
 			}
-			else if ( currentLine.startsWith( "Cookie" ) )
+
+			if ( currentLine.startsWith( "Cookie" ) )
 			{
 				if ( this.path.startsWith( "/inventory" ) )
 				{
@@ -222,6 +231,7 @@ public class LocalRelayAgent
 						}
 					}
 				}
+				continue;
 			}
 		}
 
@@ -256,18 +266,26 @@ public class LocalRelayAgent
 		String pwd = this.request.getFormField( "pwd" );
 		if ( pwd == null )
 		{
+			// KoLmafia internal pages use only "pwd"
+			if ( this.path.startsWith( "/KoLmafia" ) )
+			{
+				RequestLogger.printLine( "Missing password hash" );
+				RequestLogger.printLine( "Path: \"" + this.path + "\"" );
+				return false;
+			}
 			pwd = this.request.getFormField( "phash" );
-		}
-
-		// KoLmafia internal pages use only "pwd"
-		if ( this.path.startsWith( "/KoLmafia" ) )
-		{
-			return pwd != null;
 		}
 
 		// All other pages need either no password hash
 		// or a valid password hash.
-		return pwd == null || pwd.equals( GenericRequest.passwordHash );
+		if ( pwd != null && !pwd.equals( GenericRequest.passwordHash ) )
+		{
+			RequestLogger.printLine( "Password hash mismatch" );
+			RequestLogger.printLine( "Path: \"" + this.path + "\"" );
+			return false;
+		}
+
+		return true;
 	}
 
 	private boolean shouldSendNotModified()
