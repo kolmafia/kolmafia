@@ -624,7 +624,7 @@ public class FightRequest
 		if ( FightRequest.action1.equals( "abort" ) )
 		{
 			// If the user has chosen to abort combat, flag it.
-			FightRequest.action1 = "abort";
+			--FightRequest.preparatoryRounds;
 			return;
 		}
 
@@ -1115,7 +1115,8 @@ public class FightRequest
 			FightRequest.clearInstanceData();
 		}
 
-		if ( KoLmafia.refusesContinue() && FightRequest.currentRound != 0 )
+		if ( KoLmafia.refusesContinue() && FightRequest.currentRound != 0
+			&& !FightRequest.isTrackingFights() )
 		{
 			this.showInBrowser( true );
 		}
@@ -1557,7 +1558,6 @@ public class FightRequest
 
 	public static final void updateCombatData( final String location, String encounter, final String responseText )
 	{
-		FightRequest.foundNextRound = true;
 		FightRequest.lastResponseText = responseText;
 
 		FightRequest.parseBangPotion( responseText );
@@ -1931,6 +1931,7 @@ public class FightRequest
 					   "(show old combat form)" :
 					   "fight.php" ) != -1 )
 		{
+			FightRequest.foundNextRound = true;
 			return;
 		}
 
@@ -2108,6 +2109,7 @@ public class FightRequest
 			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
 		}
 
+		FightRequest.foundNextRound = true;
 		FightRequest.clearInstanceData();
 	}
 
