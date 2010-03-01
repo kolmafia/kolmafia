@@ -939,6 +939,8 @@ public class FightRequest
 				this.nextRound();
 				return;
 			}
+
+			FightRequest.castNoodles = true;
 		}
 
 		// Skills use MP. Make sure the character has enough.
@@ -1541,6 +1543,11 @@ public class FightRequest
 			String message = action.toString();
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
+		}
+
+		if ( FightRequest.action1.equals( "3004" ) )
+		{
+			FightRequest.castNoodles = true;
 		}
 
 		return true;

@@ -1533,7 +1533,7 @@ public class UseItemRequest
 
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
-			UseItemRequest.lastUpdate = "Your spleen might go kabooie.";
+			UseItemRequest.lastUpdate = "Your spleen might go kablooie.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 
 			int spleenHit = ItemDatabase.getSpleenHit( item.getName() ) * item.getCount();
