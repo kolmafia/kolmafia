@@ -49,6 +49,30 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class NemesisManager
 {
+	public static final void ensureUpdatedNemesisStatus()
+	{
+		if ( Preferences.getInteger( "lastNemesisReset" ) == KoLCharacter.getAscensions() )
+		{
+			return;
+		}
+
+		Preferences.setInteger( "dbNemesisSkill1", 0 );
+		Preferences.setInteger( "dbNemesisSkill2", 0 );
+		Preferences.setInteger( "dbNemesisSkill3", 0 );
+		Preferences.setString( "raveCombo1", "" );
+		Preferences.setString( "raveCombo2", "" );
+		Preferences.setString( "raveCombo3", "" );
+		Preferences.setString( "raveCombo4", "" );
+		Preferences.setString( "raveCombo5", "" );
+		Preferences.setString( "raveCombo6", "" );
+		Preferences.setString( "volcanoMaze1", "" );
+		Preferences.setString( "volcanoMaze2", "" );
+		Preferences.setString( "volcanoMaze3", "" );
+		Preferences.setString( "volcanoMaze4", "" );
+		Preferences.setString( "volcanoMaze5", "" );
+		Preferences.setInteger( "lastNemesisReset", KoLCharacter.getAscensions() );
+	}
+
 	public static final void decorate( final String location, final StringBuffer buffer )
 	{
 		if ( !location.startsWith( "cave.php" ) )

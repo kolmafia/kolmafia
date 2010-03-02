@@ -103,6 +103,7 @@ import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -729,6 +730,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "trophy.php" ) )
 		{
 			TrophyHutRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "volcanomaze.php" ) )
+		{
+			VolcanoMazeRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "wand.php" ) )

@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.webui;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NemesisDecorator
@@ -72,30 +73,6 @@ public class NemesisDecorator
 			"You watch him go, and soon realize he isn't actually running anywhere",
 		},
 	};
-
-	public static final void ensureUpdatedNemesisStatus()
-	{
-		if ( Preferences.getInteger( "lastNemesisReset" ) == KoLCharacter.getAscensions() )
-		{
-			return;
-		}
-
-		Preferences.setInteger( "dbNemesisSkill1", 0 );
-		Preferences.setInteger( "dbNemesisSkill2", 0 );
-		Preferences.setInteger( "dbNemesisSkill3", 0 );
-		Preferences.setString( "raveCombo1", "" );
-		Preferences.setString( "raveCombo2", "" );
-		Preferences.setString( "raveCombo3", "" );
-		Preferences.setString( "raveCombo4", "" );
-		Preferences.setString( "raveCombo5", "" );
-		Preferences.setString( "raveCombo6", "" );
-		Preferences.setString( "volcanoMaze1", "" );
-		Preferences.setString( "volcanoMaze2", "" );
-		Preferences.setString( "volcanoMaze3", "" );
-		Preferences.setString( "volcanoMaze4", "" );
-		Preferences.setString( "volcanoMaze5", "" );
-		Preferences.setInteger( "lastNemesisReset", KoLCharacter.getAscensions() );
-	}
 
 	public static final void useGothyHandwave( final String monster, final String responseText )
 	{
@@ -137,13 +114,13 @@ public class NemesisDecorator
 			return;
 		}
 
-		NemesisDecorator.ensureUpdatedNemesisStatus();
+		NemesisManager.ensureUpdatedNemesisStatus();
 		Preferences.increment( setting, 1 );
 	}
 
 	public static final String danceMoveStatus( final String monster )
 	{
-		NemesisDecorator.ensureUpdatedNemesisStatus();
+		NemesisManager.ensureUpdatedNemesisStatus();
 		for ( int i = 0; i < NemesisDecorator.SPECIAL_MOVES.length; ++i )
 		{
 			String moves[] = NemesisDecorator.SPECIAL_MOVES[ i ];
@@ -172,7 +149,7 @@ public class NemesisDecorator
 
 	public static final void decorateRaverFight( final StringBuffer buffer )
 	{
-		NemesisDecorator.ensureUpdatedNemesisStatus();
+		NemesisManager.ensureUpdatedNemesisStatus();
 		for ( int i = 0; i < NemesisDecorator.SPECIAL_MOVES.length; ++i )
 		{
 			String move = NemesisDecorator.SPECIAL_MOVES[ i ][3];

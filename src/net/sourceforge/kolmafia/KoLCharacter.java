@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -555,6 +556,7 @@ public abstract class KoLCharacter
 
 		DwarfFactoryRequest.reset();
 		MoneyMakingGameManager.reset();
+		VolcanoMazeManager.reset();
 		WumpusManager.reset();
 		ClanManager.clearCache();
 		DisplayCaseManager.clearCache();

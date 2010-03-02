@@ -53,6 +53,7 @@ public class LicenseDisplayListener
 		"jsmooth-license.txt",
 		"osxadapter-license.txt",
 		"htmlcleaner-license.txt",
+		"json.txt",
 		"unlicensed.htm"
 	};
 
@@ -66,6 +67,7 @@ public class LicenseDisplayListener
 		"JSmooth",
 		"OSXAdapter",
 		"HtmlCleaner",
+		"JSON",
 		"Unlicensed"
 	};
 

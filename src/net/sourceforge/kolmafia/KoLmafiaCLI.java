@@ -729,6 +729,7 @@ public class KoLmafiaCLI
 		new UseSkillCommand().register( "cast" ).register( "skill" );
 		new VersionCommand().register( "version" );
 		new VisitURLCommand().register( "text" ).registerPrefix( "http://" ).registerSubstring( ".php" );
+		new VolcanoCommand().register( "volcano" );
 		new WaitCommand().register( "wait" ).register( "pause" );
 		new WhileStatement().register( "while" );
 		new WikiLookupCommand().register( "lookup" );
