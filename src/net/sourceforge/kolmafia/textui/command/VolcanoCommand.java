@@ -51,6 +51,12 @@ public class VolcanoCommand
 		String[] split = parameters.split( " " );
 		String command = split[ 0 ];
 
+		if ( command.equals( "clear" ) )
+		{
+			VolcanoMazeManager.clear();
+			return;
+		}
+
 		if ( command.equals( "visit" ) )
 		{
 			VolcanoMazeManager.visit();
