@@ -128,6 +128,15 @@ public abstract class VolcanoMazeManager
 		VolcanoMazeManager.found = 1;
 	}
 
+	public static final void clear()
+	{
+		VolcanoMazeManager.reset();
+		for ( int map = 0; map < maps.length; ++map )
+		{
+			VolcanoMazeManager.clearCurrentMap( map );
+		}
+	}
+
 	private static final void loadCurrentMaps()
 	{
 		if ( !VolcanoMazeManager.loaded )
@@ -159,6 +168,12 @@ public abstract class VolcanoMazeManager
 			VolcanoMazeManager.addSquares( map );
 		}
 		
+	}
+
+	private static final void clearCurrentMap( final int map )
+	{
+		String setting = "volcanoMaze" + String.valueOf( map + 1 );
+		Preferences.setString( setting, "" );
 	}
 
 	private static final boolean validMap( final String coordinates )
@@ -688,17 +703,29 @@ public abstract class VolcanoMazeManager
 		public int pickNeighbor( final int square )
 		{
 			Integer [] neighbors = this.neighbors( square );
+
+			// We might be stuck
 			if ( neighbors.length == 0 )
 			{
 				return -1;
 			}
-			int next = neighbors[ 0 ].intValue();
-			// Don't pick the goal!
-			if ( next != VolcanoMazeManager.goal )
+
+			// If there is only one neighbor, that's it
+			if ( neighbors.length == 1 )
 			{
-				return next;
+				int next = neighbors[ 0 ].intValue();
+				// Don't pick the goal!
+				return ( next != VolcanoMazeManager.goal ) ? next : -1;
 			}
-			return ( neighbors.length > 1 ) ? neighbors[ 1 ].intValue() : -1;
+
+			// Otherwise, pick one at random.
+			int next = VolcanoMazeManager.goal;
+			while ( next == VolcanoMazeManager.goal )
+			{
+				int rnd = KoLConstants.RNG.nextInt( neighbors.length  );
+				next = neighbors[ rnd ].intValue();
+			}
+			return next;
 		}
 
 		public void print( final int player )
