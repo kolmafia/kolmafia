@@ -43,7 +43,7 @@ public class VolcanoCommand
 {
 	public VolcanoCommand()
 	{
-		this.usage = " visit | map [n] | move x y | movep x y - play in the lava maze.";
+		this.usage = " visit | map [n] | platforms | jump | move x y | movep x y - play in the lava maze.";
 	}
 
 	public void run( final String cmd, final String parameters )
@@ -54,6 +54,18 @@ public class VolcanoCommand
 		if ( command.equals( "visit" ) )
 		{
 			VolcanoMazeManager.visit();
+			return;
+		}
+
+		if ( command.equals( "platforms" ) )
+		{
+			VolcanoMazeManager.platforms();
+			return;
+		}
+
+		if ( command.equals( "jump" ) )
+		{
+			VolcanoMazeManager.jump();
 			return;
 		}
 

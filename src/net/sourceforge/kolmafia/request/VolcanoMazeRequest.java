@@ -52,6 +52,11 @@ public class VolcanoMazeRequest
 		super( "volcanomaze.php" );
 	}
 
+	public VolcanoMazeRequest( final boolean jump )
+	{
+		super( "volcanomaze.php?jump=1", false );
+	}
+
 	public VolcanoMazeRequest( final int pos )
 	{
 		super( VolcanoMazeRequest.getMoveURL( pos ), false );
@@ -64,8 +69,8 @@ public class VolcanoMazeRequest
 
 	public static String getMoveURL( final int pos )
 	{
-		int row = pos / 13;
-		int col = pos % 13;
+		int row = pos / VolcanoMazeManager.NCOLS;
+		int col = pos % VolcanoMazeManager.NCOLS;
 		return VolcanoMazeRequest.getMoveURL( col, row );
 	}
 
