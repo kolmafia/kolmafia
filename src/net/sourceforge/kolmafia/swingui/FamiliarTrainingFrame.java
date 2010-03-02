@@ -676,7 +676,7 @@ public class FamiliarTrainingFrame
 						RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, array ) );
 					}
 
-					FamiliarRequest[] array = new FamiliarRequest[ this.requests.size() ];
+					GenericRequest[] array = new GenericRequest[ this.requests.size() ];
 					this.requests.toArray( array );
 
 					for ( int i = 0; i < array.length; ++i )
@@ -729,7 +729,16 @@ public class FamiliarTrainingFrame
 						return;
 					}
 
-					this.requests.add( new FamiliarRequest( familiar, item ) );
+					GenericRequest req;
+					if ( KoLCharacter.getFamiliar().equals( familiar ) )
+					{
+						req = new EquipmentRequest( item );
+					}
+					else
+					{
+						req = new FamiliarRequest( familiar, item );
+					}
+					this.requests.add( req );
 
 					return;
 				}

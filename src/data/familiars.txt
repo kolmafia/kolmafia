@@ -86,7 +86,7 @@
 80	RoboGoose	combat	3107	overclocked avian microprocessor	2	3	1	0
 81	El Vibrato Megadrone	none	3217		3	3	3	3
 82	Mad Hatrack	none	3219		3	0	1	2
-83	Adorable Seal Larva	combat	3292	pretty pink bow	0	0	0	0
+83	Adorable Seal Larva	combat	3292	pretty pink bow	3	2	1	2
 84	Untamed Turtle	none	3293	smiley-face sticker	0	0	0	0
 85	Animated Macaroni Duck	combat	3294	farfalle bow tie	0	0	0	0
 86	Pet Cheezling	none	3295	jalape&ntilde;o slices	2	2	0	2
