@@ -49,7 +49,7 @@ public class VolcanoMazeRequest
 {
 	public VolcanoMazeRequest()
 	{
-		super( "volcanomaze.php" );
+		super( "volcanomaze.php?start=1", false );
 	}
 
 	public VolcanoMazeRequest( final boolean jump )
@@ -79,9 +79,30 @@ public class VolcanoMazeRequest
 		return "volcanomaze.php?move=" + String.valueOf( col ) + "," + String.valueOf( row ) + "&ajax=1";
 	}
 
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
+	}
+
 	public void run()
 	{
 		super.run();
+
+		// A niggling voice in the back of your head (that's me)
+		// reminds you that you're heading toward what is likely to be
+		// the Final Battle against your Nemesis, and therefore you
+		// should probably equip that Legendary Epic Weapon of yours
+		// first. Just sayin'.
+		if ( this.responseText.indexOf( "A niggling voice" ) != -1 )
+		{
+			// Should we auto-equip the LEW?
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip your Legendary Epic Weapon and try again." );
+			return;
+		}
+
+		// Still, it wouldn't be a final battle without an especially
+		// fiendish final puzzle, now would it?
+
 		VolcanoMazeRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 

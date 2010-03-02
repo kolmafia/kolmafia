@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,8 +56,6 @@ import org.json.JSONObject;
 public abstract class VolcanoMazeManager
 {
 	private static boolean loaded = false;
-	private static VolcanoMazeRequest VISITOR = new VolcanoMazeRequest();
-	private static VolcanoMazeRequest JUMP = new VolcanoMazeRequest( true );
 
 	// The set of 5 maps in the cycle
 	private static VolcanoMap [] maps = new VolcanoMap[5];
@@ -482,6 +481,9 @@ public abstract class VolcanoMazeManager
 		// Visit the cave to find out where we are
 		if ( currentLocation < 0 )
 		{
+			// Must make a new VolcanoMazeRequest every time since
+			// that class follows redirects.
+			VolcanoMazeRequest VISITOR = new VolcanoMazeRequest();
 			RequestThread.postRequest( VISITOR );
 		}
 
@@ -522,12 +524,18 @@ public abstract class VolcanoMazeManager
 	// CLI command support
 	public static final void visit()
 	{
+		// Must make a new VolcanoMazeRequest every time since that
+		// class follows redirects.
+		VolcanoMazeRequest VISITOR = new VolcanoMazeRequest();
 		RequestThread.postRequest( VISITOR );
 		VolcanoMazeManager.printCurrentCoordinates();
 	}
 
 	public static final void jump()
 	{
+		// Must make a new VolcanoMazeRequest every time since that
+		// class follows redirects.
+		VolcanoMazeRequest JUMP = new VolcanoMazeRequest( true );
 		RequestThread.postRequest( JUMP );
 		VolcanoMazeManager.printCurrentCoordinates();
 	}
@@ -624,11 +632,11 @@ public abstract class VolcanoMazeManager
 		}
 	}
 
-	public static class VolcanoMap
+	private static class VolcanoMap
 	{
 		public final String coordinates;
 		public final Integer [] platforms;
-		public final boolean[][] board = new boolean[ NROWS ][ NCOLS ];
+		public final boolean[] board = new boolean[ CELLS ];
 
 		public VolcanoMap( final String coordinates )
 		{
@@ -646,12 +654,12 @@ public abstract class VolcanoMazeManager
 				}
 				Integer ival = new Integer( coord );
 				list.add( ival );
-				int row = row( ival.intValue() );
-				int col = col( ival.intValue() );
-				this.board[row][col] = true;
+				this.board[ ival.intValue() ] = true;
 			}
-
 			this.platforms = (Integer []) list.toArray( new Integer[ list.size() ] );
+
+			// Every board has the goal platform
+			this.board[ VolcanoMazeManager.goal ] = true;
 		}
 
 		public String getCoordinates()
@@ -664,56 +672,36 @@ public abstract class VolcanoMazeManager
 			return this.platforms;
 		}
 
-		public boolean inMap( final int square )
+		public boolean [] getBoard()
 		{
-			return this.inMap( row( square ), col( square ) );
+			return this.board;
 		}
 
 		public boolean inMap( final int row, final int col )
 		{
-			return this.board[ row ][ col ];
+			return this.inMap( pos( row, col ) );
 		}
 
-		public Integer [] neighbors( final int square )
+		public boolean inMap( final int square )
 		{
-			ArrayList list = new ArrayList();
-			int row = row( square );
-			int col = col( square );
-
-			this.addSquare( list, row - 1, col - 1 );
-			this.addSquare( list, row - 1, col );
-			this.addSquare( list, row - 1, col + 1 );
-			this.addSquare( list, row, col - 1 );
-			this.addSquare( list, row, col + 1 );
-			this.addSquare( list, row + 1, col - 1 );
-			this.addSquare( list, row + 1, col );
-			this.addSquare( list, row + 1, col + 1 );
-
-			return (Integer []) list.toArray( new Integer[ list.size() ] );
-		}
-
-		private void addSquare( ArrayList list, int row, int col )
-		{
-			if ( row >= 0 && row < NROWS && col >= 0 && col < NCOLS	 && this.board[ row ][ col ] )
-			{
-				list.add( new Integer( pos( row, col ) ) );
-			}
+			return this.board[ square ];
 		}
 
 		public int pickNeighbor( final int square )
 		{
-			Integer [] neighbors = this.neighbors( square );
+			Neighbors neighbors = new Neighbors( square, this );
+			Integer [] platforms = neighbors.getPlatforms();
 
 			// We might be stuck
-			if ( neighbors.length == 0 )
+			if ( platforms.length == 0 )
 			{
 				return -1;
 			}
 
 			// If there is only one neighbor, that's it
-			if ( neighbors.length == 1 )
+			if ( platforms.length == 1 )
 			{
-				int next = neighbors[ 0 ].intValue();
+				int next = platforms[ 0 ].intValue();
 				// Don't pick the goal!
 				return ( next != VolcanoMazeManager.goal ) ? next : -1;
 			}
@@ -722,8 +710,8 @@ public abstract class VolcanoMazeManager
 			int next = VolcanoMazeManager.goal;
 			while ( next == VolcanoMazeManager.goal )
 			{
-				int rnd = KoLConstants.RNG.nextInt( neighbors.length  );
-				next = neighbors[ rnd ].intValue();
+				int rnd = KoLConstants.RNG.nextInt( platforms.length  );
+				next = platforms[ rnd ].intValue();
 			}
 			return next;
 		}
@@ -751,7 +739,7 @@ public abstract class VolcanoMazeManager
 					{
 						buffer.append( "*" );
 					}
-					else if ( board[row][col] )
+					else if ( board[ pos( row, col ) ] )
 					{
 						buffer.append( "O" );
 					}
@@ -799,7 +787,7 @@ public abstract class VolcanoMazeManager
 					{
 						buffer.append( "platformgoal" );
 					}
-					else if ( board[row][col] )
+					else if ( board[ pos( row, col ) ] )
 					{
 						buffer.append( "platform3" );
 					}
@@ -817,6 +805,47 @@ public abstract class VolcanoMazeManager
 			buffer.append( "</table>" );
 			RequestLogger.printLine( buffer.toString() );
 			RequestLogger.printLine();
+		}
+	}
+
+	private static class Neighbors
+	{
+		public final Integer [] platforms;
+
+		public Neighbors( final int square, final VolcanoMap map )
+		{
+			int row = row( square );
+			int col = col( square );
+
+			ArrayList list = new ArrayList();
+			Neighbors.addSquare( list, map, row - 1, col - 1 );
+			Neighbors.addSquare( list, map, row - 1, col );
+			Neighbors.addSquare( list, map, row - 1, col + 1 );
+			Neighbors.addSquare( list, map, row, col - 1 );
+			Neighbors.addSquare( list, map, row, col + 1 );
+			Neighbors.addSquare( list, map, row + 1, col - 1 );
+			Neighbors.addSquare( list, map, row + 1, col );
+			Neighbors.addSquare( list, map, row + 1, col + 1 );
+
+                        this.platforms = new Integer[ list.size() ];
+                        list.toArray( this.platforms );
+		}
+
+		public Integer [] getPlatforms()
+		{
+			return this.platforms;
+		}
+
+		private static void addSquare( List list, final VolcanoMap map, int row, int col )
+		{
+			if ( row >= 0 && row < NROWS && col >= 0 && col < NCOLS	 )
+			{
+				int square = pos( row, col );
+				if ( map.inMap( square ) )
+				{
+					list.add( new Integer( square ) );
+				}
+			}
 		}
 	}
 }
