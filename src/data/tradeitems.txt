@@ -3880,13 +3880,13 @@
 3871	office-supply crossbow	weapon	all	99
 3872	pocket theremin	weapon	all	55
 3873	rave whistle	weapon	all	60
-3874
-3875
-3876
-3877
-3878
-3879
-3880
+3874	hellseal hide	none	none	0
+3875	shredded hellseal hide	none	all	0
+3876	hellseal brain	none	none	0
+3877	burst hellseal brain	none	all	0
+3878	hellseal sinew	none	none	0
+3879	torn hellseal sinew	none	all	0
+3880	hellseal disguise	none	none	0
 3881	fouet de tortue-dressage	weapon	none	0
 3882	encoded cult documents	none	none	0
 3883	cult memo	none	none	0
