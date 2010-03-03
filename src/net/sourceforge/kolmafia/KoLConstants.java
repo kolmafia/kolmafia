@@ -537,7 +537,7 @@ public interface KoLConstants
 	// Item creation types
 
 	public static final int CT_MASK = 0x000000FF;
-	public static final int METHOD_COUNT = 23;
+	public static final int METHOD_COUNT = 24;
 	public static final int SUBCLASS = 255;
 
 	public static final int NOCREATE = 0;
@@ -589,6 +589,8 @@ public interface KoLConstants
 	public static final int CRIMBO07 = 21;
 	// Items anybody can create by folding a sugar sheet
 	public static final int SUGAR_FOLDING = 22;
+	// Items requiring access to Phineas
+	public static final int PHINEAS = 23;
 
 	// Item creation requirement flags
 

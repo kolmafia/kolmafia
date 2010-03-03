@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
+import net.sourceforge.kolmafia.request.PhineasRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -730,6 +731,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "trophy.php" ) )
 		{
 			TrophyHutRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "volcanoisland.php" ) )
+		{
+			PhineasRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "volcanomaze.php" ) )

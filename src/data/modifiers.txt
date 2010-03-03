@@ -447,6 +447,7 @@ psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
 rhinestone cowboy shirt	Muscle: +5
 safety vest	Damage Reduction: 3, Moxie: +5
 sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
+sealhide cloak	Cold Resistance: +2
 shark jumper	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 20, HP Regen Max: 40
 snailmail hauberk	Damage Absorption: +60, HP Regen Min: 6, HP Regen Max: 14, MP Regen Min: 6, MP Regen Max: 14
 soggy wofl t-shirt	Muscle: +3
@@ -848,6 +849,7 @@ scorpion whip	Weapon Damage: +13
 scratch 'n' sniff crossbow	none
 scratch 'n' sniff sword	none
 # seal-clubbing club
+sealhide whip	Cold Damage: +25
 serpentine sword	Monster Level: +10, Synergetic
 severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
 shiny butcherknife	Spell Damage: +5
@@ -1554,6 +1556,9 @@ round purple sunglasses	Sleaze Resistance: +1, Single Equip
 # rubber WWtNSD? bracelet
 rum barrel charrrm bracelet	Booze Drop: +5
 rusty chain necklace	Muscle: +9, Maximum HP: +25
+sealhide belt	Maximum HP: +25, Maximum MP: +25
+sealhide gloves	Weapon Damage: +10
+sealhide moccasins	Muscle: +5, Mysticality: +5, Moxie: +5, Single Equip
 second-hand knockoff engagement ring	Muscle: +1, Mysticality: +1, Moxie: +1, Single Equip
 severed rocking horse head	Muscle: +3, Mysticality: +3, Moxie: +3
 shark tooth necklace	Moxie Percent: +5, Initiative: +35, Single Equip
@@ -3136,6 +3141,7 @@ sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5
 seal eyeball	Effect: "Eye of the Seal", Effect Duration: 10
 seal lube	Effect: "Lubed", Effect Duration: 10
+sealhide seal doll	Effect: "Red Misty-Eyed", Effect Duration: 10
 sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
 shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15

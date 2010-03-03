@@ -4423,15 +4423,15 @@
 4414	colorful plastic ball	multiple	all	0
 4415	sealhide hood	hat	all	55
 4416	sealhide leggings	pants	all	60
-4417
+4417	sealhide cloak	shirt	display	50
 4418	sealhide buckler	offhand	all	45
-4419
-4420
-4421
-4422
-4423
+4419	sealhide whip	weapon	display	35
+4420	sealhide moccasins	accessory	display	75
+4421	sealhide gloves	accessory	display	55
+4422	sealhide belt	accessory	display	30
+4423	sealhide snare	none, combat	display	25
 4424
-4425
+4425	sealhide seal doll	multiple	display	20
 4426
 4427
 4428	glowstick on a string	offhand	none	30

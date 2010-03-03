@@ -171,6 +171,11 @@ public class VolcanoIslandRequest
 			return false;
 		}
 
+		if ( urlString.indexOf( "subaction=make" ) != -1 )
+		{
+			return PhineasRequest.registerRequest( urlString );
+		}
+
 		String message = VolcanoIslandRequest.visitNPC( urlString );
 		if ( message == null )
 		{
