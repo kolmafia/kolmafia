@@ -1213,6 +1213,12 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.CARDBOARD_ELF_EAR );
 			ResultProcessor.removeItem( ItemPool.SPIRALING_SHAPE );
 			break;
+
+		case ItemPool.HELLSEAL_DISGUISE:
+			ResultProcessor.processItem( ItemPool.HELLSEAL_HIDE, -6 );
+			ResultProcessor.processItem( ItemPool.HELLSEAL_BRAIN, -6 );
+			ResultProcessor.processItem( ItemPool.HELLSEAL_SINEW, -6 );
+			break;
 		}
 	}
 

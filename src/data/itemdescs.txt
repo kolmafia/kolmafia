@@ -3877,13 +3877,13 @@
 3871	239668406	office-supply crossbow	office-supply crossbows
 3872	658375124	pocket theremin	pocket theremins
 3873	583533695	rave whistle	rave whistles
-3874
-3875
-3876
-3877
-3878
-3879
-3880
+3874	722615668	hellseal hide
+3875	922350618	shredded hellseal hide
+3876	526628418	hellseal brain
+3877	437729665	burst hellseal brain
+3878	338238390	hellseal sinew
+3879	897775188	torn hellseal sinew
+3880	700815984	hellseal disguise
 3881	372027690	fouet de tortue-dressage
 3882	803938411	encoded cult documents
 3883	706925963	cult memo
