@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,8 +59,9 @@ public abstract class VolcanoMazeManager
 {
 	private static boolean loaded = false;
 
-	// The set of 5 maps in the cycle
-	private static VolcanoMap [] maps = new VolcanoMap[5];
+	// The number of maps in the cycle
+	public static final int MAPS = 5;
+	private static VolcanoMap [] maps = new VolcanoMap[ MAPS ];
 
 	// Which map we are currently on
 	private static int currentMap = 0;
@@ -71,13 +74,14 @@ public abstract class VolcanoMazeManager
 	public static final int NCOLS = 13;
 	private static final int CELLS = NCOLS * NROWS;
 	private static final int MIN_SQUARE = 0;
-	private static final int MAX_SQUARE = ( NROWS * NCOLS ) - 1;
+	private static final int MAX_SQUARE = CELLS - 1;
 
 	// An array, indexed by position, of map # on which this position is
 	// above the lava.
-	private static final int[] squares = new int[ NROWS * NCOLS ];
+	private static final int[] squares = new int[ CELLS ];
+	private static final Neighbors[] neighbors = new Neighbors[ CELLS ];
 
-	// The number of know platforms. After 5 maps are known, this had
+	// The number of know platforms. After MAPS maps are known, this had
 	// better be all of them.
 	private static int found = 1;		// Goal known
 
@@ -124,6 +128,7 @@ public abstract class VolcanoMazeManager
 			VolcanoMazeManager.maps[ map ] = null;
 		}
 		Arrays.fill( VolcanoMazeManager.squares, 0 );
+		Arrays.fill( VolcanoMazeManager.neighbors, null );
 		VolcanoMazeManager.found = 1;
 	}
 
@@ -320,7 +325,7 @@ public abstract class VolcanoMazeManager
 					VolcanoMazeManager.currentLocation = squint;
 				}
 
-                                // Sanity check
+				// Sanity check
 				else if ( special.equals( "goal" ) && VolcanoMazeManager.goal != squint )
 				{
 					RequestLogger.printLine( "Map says goal is on square " + squint + ", not " + VolcanoMazeManager.goal );
@@ -501,17 +506,19 @@ public abstract class VolcanoMazeManager
 			VolcanoMap map = VolcanoMazeManager.maps[ currentMap ];
 			int me = VolcanoMazeManager.currentLocation;
 			int next = map.pickNeighbor( me );
-			RequestLogger.printLine( "Move to: " + VolcanoMazeManager.coordinateString( next, currentMap ) );
 
 			if ( next < 0 )
 			{
-				// This shouldn't happen
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You seem to be stuck" );
 				return;
 			}
-			VolcanoMazeRequest req = new VolcanoMazeRequest( next );
+
+			RequestLogger.printLine( "Move to: " + VolcanoMazeManager.coordinateString( next, currentMap ) );
+
 			int ofound = VolcanoMazeManager.found;
+			VolcanoMazeRequest req = new VolcanoMazeRequest( next );
 			RequestThread.postRequest( req );
+
 			if ( ofound >= VolcanoMazeManager.found )
 			{
 				// This shouldn't happen
@@ -566,9 +573,9 @@ public abstract class VolcanoMazeManager
 
 	public static final void displayMap( final int num )
 	{
-		if ( num < 1 || num > 5 )
+		if ( num < 1 || num > MAPS )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Choose map # from 1 - 5" );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Choose map # from 1 - " + MAPS );
 			return;
 		}
 
@@ -630,6 +637,98 @@ public abstract class VolcanoMazeManager
 		{
 			return;
 		}
+
+		// Sanity check
+		if ( VolcanoMazeManager.found < CELLS )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "We couldn't discover all the maps" );
+			return;
+		}
+
+		// Generate neighbors for every cell
+		for ( int square = 0; square < CELLS; ++square )
+		{
+			if ( square == goal )
+			{
+				continue;
+			}
+			int index = VolcanoMazeManager.squares[ square ];
+			VolcanoMap map = VolcanoMazeManager.maps[ index % MAPS ];
+			VolcanoMazeManager.neighbors[ square ] = map.neighbors( square );
+		}
+
+		// Find the neighbors for the current location in the current
+		// map. These are the first hop for all possible paths.
+		VolcanoMap current = VolcanoMazeManager.maps[ currentMap ];
+		Neighbors roots = current.neighbors( currentLocation );
+
+		// The work queue of Paths
+		LinkedList queue = new LinkedList();
+
+		// Make a path for each root and add it to the queue.
+		Integer [] starts = roots.getPlatforms();
+		for ( int i = 0; i < starts.length; ++i )
+		{
+			queue.addLast( new Path( starts[ i ] ) );
+		}
+
+		int solutionLength = Integer.MAX_VALUE;
+		Path solution = null;
+
+		// Perform a breadth-first search of the maze
+		int pathCount = 0;
+		while ( !queue.isEmpty() )
+		{
+			Path path = (Path) queue.removeFirst();
+			++pathCount;
+			// System.out.println( "Examining path: " + path );
+
+			// If this path is longer than the solution, skip it
+			if ( path.size() >= solutionLength )
+			{
+				// drop path
+				continue;
+			}
+			
+			Integer last = path.getLast();
+			Neighbors neighbors = VolcanoMazeManager.neighbors[ last.intValue() ];
+			Integer [] platforms = neighbors.getPlatforms();
+
+			// Examine each neighbor
+			for ( int i = 0; i < platforms.length; ++i )
+			{
+				Integer platform = platforms[ i ];
+				// If this is a goal, we have a solution
+				if ( platform.intValue() == VolcanoMazeManager.goal )
+				{
+					if ( path.size() < solutionLength )
+					{
+						solution = new Path( path, platform );
+						solutionLength = solution.size();
+					}
+				}
+				// If neighbor not on path, add and search it
+				else if ( !path.contains( platform ) )
+				{
+					queue.addLast( new Path( path, platform ) );
+				}
+			}
+		}
+
+		if ( solution == null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't get there from here. Swim to shore and try again." );
+
+			return;
+		}
+
+		RequestLogger.printLine( "We examined " + KoLConstants.COMMA_FORMAT.format( pathCount ) + " paths and found a solution with " + solutionLength + " hops." );
+		Iterator it = solution.iterator();
+		while ( it.hasNext() )
+		{
+			Integer next = (Integer) it.next();
+			RequestLogger.printLine( "Hop to " + VolcanoMazeManager.coordinateString( next.intValue() ) );
+		}
 	}
 
 	private static class VolcanoMap
@@ -687,9 +786,14 @@ public abstract class VolcanoMazeManager
 			return this.board[ square ];
 		}
 
+		public Neighbors neighbors( final int square )
+		{
+			return new Neighbors( square, this );
+		}
+
 		public int pickNeighbor( final int square )
 		{
-			Neighbors neighbors = new Neighbors( square, this );
+			Neighbors neighbors = this.neighbors( square );
 			Integer [] platforms = neighbors.getPlatforms();
 
 			// We might be stuck
@@ -710,7 +814,7 @@ public abstract class VolcanoMazeManager
 			int next = VolcanoMazeManager.goal;
 			while ( next == VolcanoMazeManager.goal )
 			{
-				int rnd = KoLConstants.RNG.nextInt( platforms.length  );
+				int rnd = KoLConstants.RNG.nextInt( platforms.length );
 				next = platforms[ rnd ].intValue();
 			}
 			return next;
@@ -827,8 +931,8 @@ public abstract class VolcanoMazeManager
 			Neighbors.addSquare( list, map, row + 1, col );
 			Neighbors.addSquare( list, map, row + 1, col + 1 );
 
-                        this.platforms = new Integer[ list.size() ];
-                        list.toArray( this.platforms );
+			this.platforms = new Integer[ list.size() ];
+			list.toArray( this.platforms );
 		}
 
 		public Integer [] getPlatforms()
@@ -846,6 +950,70 @@ public abstract class VolcanoMazeManager
 					list.add( new Integer( square ) );
 				}
 			}
+		}
+	}
+
+	private static class Path
+	{
+		private final ArrayList list;
+
+		public Path( final Integer square )
+		{
+			list = new ArrayList();
+			list.add( square );
+		}
+
+		public Path( final Path prefix, final Integer square )
+		{
+			list = (ArrayList) prefix.list.clone();
+			list.add( square );
+		}
+
+		public boolean contains( final Integer elem )
+		{
+			return list.contains( elem );
+		}
+
+		public Integer get( final int index )
+		{
+			return (Integer) list.get( index );
+		}
+
+		public Integer getLast()
+		{
+			return (Integer) list.get( list.size() - 1 );
+		}
+
+		public Iterator iterator()
+		{
+			return list.iterator();
+		}
+
+		public int size()
+		{
+			return list.size();
+		}
+
+		public String toString()
+		{
+			StringBuffer buffer = new StringBuffer();
+			int count = list.size();
+			boolean first = true;
+			buffer.append( "[" );
+			for ( int i = 0; i < count; ++i )
+			{
+				if ( first )
+				{
+					first = false;
+				}
+				else
+				{
+					buffer.append( "," );
+				}
+				buffer.append( String.valueOf( list.get( i ) ) );
+			}
+			buffer.append( "]" );
+			return buffer.toString();
 		}
 	}
 }
