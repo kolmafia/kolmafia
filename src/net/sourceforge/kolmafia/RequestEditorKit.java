@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
@@ -718,6 +719,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "valhalla.php" ) )
 		{
 			ValhallaDecorator.decorateAfterLife( location, buffer );
+		}
+		else if ( location.startsWith( "volcanomaze.php" ) )
+		{
+			VolcanoMazeManager.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "wand.php" ) &&
 			location.indexOf( "notrim=1" ) == -1 )

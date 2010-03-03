@@ -43,6 +43,7 @@ import java.io.PrintStream;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -120,6 +121,7 @@ public class RelayRequest
 	public String statusLine = "HTTP/1.1 302 Found";
 
 	public static String specialCommandResponse = "";
+	public static String redirectedCommandURL = "";
 
 	public RelayRequest( final boolean allowOverride )
 	{
@@ -1242,6 +1244,11 @@ public class RelayRequest
 			this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
 			RelayRequest.specialCommandResponse = "";
 		}
+		else if ( path.endsWith( "redirectedCommand" ) )
+		{
+			submitCommand( this.getFormField( "cmd" ) );
+			this.pseudoResponse( "HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL );
+		}
 		else if ( path.endsWith( "sideCommand" ) )
 		{
 			submitCommand( this.getFormField( "cmd" ), true );
@@ -1280,6 +1287,13 @@ public class RelayRequest
 
 	private void submitCommand( String command, boolean suppressUpdate )
 	{
+		try
+		{
+			command = URLDecoder.decode( command, "UTF-8" );
+		}
+		catch ( Exception e )
+		{
+		}
 		GenericRequest.suppressUpdate( suppressUpdate );
 		CommandDisplayFrame.executeCommand( command );
 
