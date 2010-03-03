@@ -574,10 +574,11 @@ public class RequestLogger
 			return;
 		}
 
-		// Check UseItemRequest early, so that lastItemUsed gets cleared
-		// when processing anything else.  Otherwise, any non-item-use
-		// that redirects to inventory.php?action=message (such as outfit
-		// changes) will cause the last item to be processed again.
+		// Check UseItemRequest early, so that lastItemUsed gets
+		// cleared when processing anything else.  Otherwise, any
+		// non-item-use that redirects to inventory.php?action=message
+		// (such as outfit changes) will cause the last item to be
+		// processed again.
 		
 		// However, we have to check CreateItemRequest even earlier, so
 		// that it can handle single-/multi-use concoctions.

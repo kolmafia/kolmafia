@@ -169,6 +169,8 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO06", new Integer( KoLConstants.CRIMBO06 ));
 		// Items formerly creatable in Crimbo Town during Crimbo 2007
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO07", new Integer( KoLConstants.CRIMBO07 ));
+		// Items requiring access to Phineas
+		ConcoctionDatabase.mixingMethods.put( "PHINEAS", new Integer( KoLConstants.PHINEAS ));
 		
 		// Creation flags
 		
@@ -1354,6 +1356,13 @@ public class ConcoctionDatabase
 			KoLCharacter.isMysticalityClass();
 		ConcoctionDatabase.EXCUSE[ KoLConstants.STAFF ] =
 			"Only mysticality classes can make chefstaves.";
+
+		// Phineas will make things for Seal Clubbers who have defeated
+		// their Nemesis, and hence have their ULEW
+
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.PHINEAS ] = 
+			InventoryManager.hasItem( ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR );
+		ConcoctionDatabase.EXCUSE[ KoLConstants.PHINEAS ] = "Only Seal Clubbers who have defeated Gorgolok can use Phineas.";
 
 		// It's not possible to ask Uncle Crimbo 2005 to make toys
 		// It's not possible to ask Ugh Crimbo 2006 to make toys

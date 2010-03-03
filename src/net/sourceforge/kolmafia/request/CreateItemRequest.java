@@ -320,6 +320,9 @@ public class CreateItemRequest
 		case KoLConstants.CRIMBO07:
 			return new Crimbo07Request( conc );
 
+		case KoLConstants.PHINEAS:
+			return new PhineasRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}
@@ -1064,6 +1067,11 @@ public class CreateItemRequest
 		if ( urlString.startsWith( "mystic.php" ) )
 		{
 			return PixelRequest.registerRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "volcanoisland.php" ) )
+		{
+			return PhineasRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "sushi.php" ) )

@@ -4,7 +4,7 @@
 #
 # Basic creation type (exactly one is required):
 # COMBINE, COOK, MIX, WOK, MALUS, JEWEL, STAR, SUGAR, PIXEL, ROLL,
-# TINKER, STAFF, SUSHI, SUSE, MUSE
+# TINKER, STAFF, SUSHI, SUSE, MUSE, PHINEAS
 # BSTILL, MSTILL (booze & mixer upgrades, respectively)
 # SMITH (basic smithing that can be done by Innabox)
 # SSMITH (smithing you have to do yourself - always requires a skill)
@@ -1335,6 +1335,22 @@ pixel sword	PIXEL	white pixel (20)	black pixel (10)	blue pixel (10)
 pixel shield	PIXEL	red pixel (20)	black pixel (10)	white pixel (10)
 digital key	PIXEL	white pixel (30)
 pixel boomerang	PIXEL	black pixel (10)	white pixel (10)	blue pixel (20)
+
+
+# Sealhide items.  These are items which are created at Phineas
+# after defeating Gorgolok and collecting enough seal parts.
+
+sealhide hood	PHINEAS	hellseal brain (3)	hellseal sinew (2)	hellseal hide (2)	hellseal whisker (3)	hellseal claw (5)
+sealhide leggings	PHINEAS	hellseal brain (2)	hellseal sinew (3)	hellseal hide (3)	hellseal whisker (5)	hellseal claw (3)
+sealhide cloak	PHINEAS	hellseal brain (2)	hellseal sinew (3)	hellseal hide (3)	hellseal whisker (5)	hellseal claw (3)
+sealhide buckler	PHINEAS	hellseal brain (2)	hellseal sinew (1)	hellseal hide (2)	hellseal whisker (2)	hellseal claw (1)
+sealhide whip	PHINEAS	hellseal brain (1)	hellseal sinew (3)	hellseal hide (1)	hellseal whisker (1)	hellseal claw (2)
+sealhide moccasins	PHINEAS	hellseal brain (1)	hellseal sinew (1)	hellseal hide (1)	hellseal whisker (4)	hellseal claw (2)
+sealhide gloves	PHINEAS	hellseal brain (1)	hellseal sinew (1)	hellseal hide (1)	hellseal whisker (2)	hellseal claw (4)
+sealhide belt	PHINEAS	hellseal brain (1)	hellseal sinew (1)	hellseal hide (1)	hellseal whisker (3)	hellseal claw (3)
+sealhide snare	PHINEAS	hellseal sinew (1)	hellseal whisker (2)	hellseal claw (2)
+sealhide seal doll	PHINEAS	hellseal hide (1)	hellseal whisker (2)	hellseal claw (1)
+seal-brain elixir	PHINEAS	hellseal brain (1)	hellseal whisker (2)	hellseal claw (1)
 
 
 # Jewelry making recipes.  These are recipes which are only available

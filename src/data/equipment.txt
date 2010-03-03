@@ -396,6 +396,7 @@ red-and-green sweater	50	Mox: 35
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
+sealhide cloak	160	Mus: 65
 shark jumper	200	Mus: 85
 snailmail hauberk	165	Mus: 67
 soggy wofl t-shirt	45	Mus: 7
@@ -770,6 +771,7 @@ scorpion whip	20	Mus: 0	1-handed whip
 scratch 'n' sniff crossbow	100	Mox: 0	1-handed crossbow
 scratch 'n' sniff sword	100	Mus: 0	1-handed sword
 seal-clubbing club	10	Mus: 0	1-handed club
+sealhide whip	35	Mus: 2	1-handed whip
 serpentine sword	115	Mus: 42	1-handed sword
 severed flipper	80	Mus: 25	1-handed club
 shiny butcherknife	30	Mys: 0	1-handed utensil
@@ -1410,6 +1412,9 @@ rubber WWSPD? bracelet	0	none
 rubber WWtNSD? bracelet	0	none
 rum barrel charrrm bracelet	0	Mys: 40
 rusty chain necklace	0	Mys: 75
+sealhide belt	0	Mys: 65
+sealhide gloves	0	Mys: 65
+sealhide moccasins	0	Mys: 65
 second-hand knockoff engagement ring	0	none
 severed rocking horse head	0	Mys: 10
 shark tooth necklace	0	Mys: 85

@@ -4418,17 +4418,17 @@
 4412
 4413
 4414	929593771	colorful plastic ball	colorful plastic balls
-4415	914417114	sealhide hood	sealhide hoods
+4415	782912002	sealhide hood	sealhide hoods
 4416	484195586	sealhide leggings	sealhide leggings
-4417
+4417	254366277	sealhide cloak
 4418	590197284	sealhide buckler	sealhide bucklers
-4419
-4420
-4421
-4422
-4423
+4419	211585957	sealhide whip
+4420	798133371	sealhide moccasins
+4421	406886160	sealhide gloves
+4422	675204610	sealhide belt
+4423	424846386	sealhide snare
 4424
-4425
+4425	422170714	sealhide seal doll
 4426
 4427
 4428	873692545	glowstick on a string	glowsticks on strings
