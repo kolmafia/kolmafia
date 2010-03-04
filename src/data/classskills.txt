@@ -153,6 +153,8 @@
 3020	Spaghetti Spear	5	1	0	0
 3021	Tempuramancy	0	0	0
 3022	Candyblast	5	6	0
+3023
+3024	Canticle of Carboloading	3	10	0
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 
