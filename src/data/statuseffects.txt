@@ -723,3 +723,20 @@
 722
 723
 724	Pemmican't	cruft.gif	63f212fdef4d2731cf9944afd3a9cb22	eat 1 Northern pemmican
+725	Down the Rabbit Hole	hare.gif	907cb5ad2ab24111f4cc83b0609ad087
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741	Weapon of Mass Destruction	csword.gif	bd9060b9f8b3bbdb886e324c369c81ac

@@ -56,6 +56,7 @@ public class ClanLoungeRequest
 	public static final int HOTTUB = 2;
 	public static final int POOL_TABLE = 3;
 	public static final int CRIMBO_TREE = 4;
+	public static final int LOOKING_GLASS = 5;
 
 	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
@@ -219,6 +220,10 @@ public class ClanLoungeRequest
 		{
 			return "Crimbo Tree";
 		}
+		if ( urlString.indexOf( "lookingglass" ) != -1 )
+		{
+			return "Looking Glass";
+		}
 		return null;
 	}
 
@@ -267,6 +272,11 @@ public class ClanLoungeRequest
 		case ClanLoungeRequest.CRIMBO_TREE:
 			this.constructURLString( "clan_viplounge.php" );
 			this.addFormField( "action", "crimbotree" );
+			break;
+
+		case ClanLoungeRequest.LOOKING_GLASS:
+			this.constructURLString( "clan_viplounge.php" );
+			this.addFormField( "action", "lookingglass" );
 			break;
 
 		default:
@@ -410,6 +420,11 @@ public class ClanLoungeRequest
 			// You look under the Crimbo Tree and find a present
 			// with your name on it! You excitedly tear it open.
 
+			return;
+		}
+
+		if ( action.equals( "lookingglass" ) )
+		{
 			return;
 		}
 	}

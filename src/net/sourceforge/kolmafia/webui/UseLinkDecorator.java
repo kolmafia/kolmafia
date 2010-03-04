@@ -546,6 +546,10 @@ public abstract class UseLinkDecorator
 				// In-line use link does not work.
 				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
 
+			case ItemPool.REFLECTION_OF_MAP:
+				// In-line use link does not work.
+				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
+
 			default:
 
 				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=" );
