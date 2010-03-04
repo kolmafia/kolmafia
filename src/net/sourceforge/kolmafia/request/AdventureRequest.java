@@ -766,7 +766,7 @@ public class AdventureRequest
 			// backward.<p>"<Demon Name>!" he screams. "Emperador
 			// de la Venganza! Come to my aid!  I beg of you!"
 
-			Pattern.compile( "(?:he falls backwards|her sickle slips from the rock|falls toward the churning lava|a mouth opens on its surface and howls|His grip slips, and he falls|he tumbles backward).*?\"(?:<i>)?(.*?)(?:</i>)?!?\"?(?: he screams| she shrieks| it howls| Revenge| Lord of Revenge)" ),
+			Pattern.compile( "(?:he falls backwards|her sickle slips from the rock|falls toward the churning lava|a mouth opens on its surface and howls|His grip slips, and he falls|he tumbles backward).*?&quot;(?:<i>)?(.*?)(?:</i>)?!?&quot;?(?: he screams| she shrieks| it howls| Revenge| Lord of Revenge)" ),
 			"Lord of Revenge",
 			"demonName8",
 		},

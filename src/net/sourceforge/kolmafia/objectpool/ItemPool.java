@@ -1009,6 +1009,8 @@ public class ItemPool
 	public static final int WINDSOR_PAN_OF_THE_SOURCE = 4319;
 	public static final int SEEGERS_BANJO = 4320;
 	public static final int TRICKSTER_TRIKITIXA = 4321;
+	public static final int INFERNAL_SEAL_CLAW = 4322;
+	public static final int TURTLE_POACHER_GARTER = 4323;
 	public static final int SPAGHETTI_BANDOLIER = 4324;
 	public static final int SAUCEBLOB_BELT = 4325;
 	public static final int NEW_WAVE_BLING = 4326;

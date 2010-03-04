@@ -46,8 +46,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -61,8 +63,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class DailyDeedsPanel
 	extends Box
 {
-	private static final ArrayList allPanels = new ArrayList();
-	
+	private static final ArrayList allPanels = new ArrayList();	
+	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
+
 	public DailyDeedsPanel()
 	{
 		super( BoxLayout.Y_AXIS );
@@ -671,8 +674,13 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			this.setShown( KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER );
-			this.setText( Preferences.getInteger( "_sealsSummoned" ) +
-				"/5 seals summoned" );
+			int maxSummons = 5;
+			if ( KoLCharacter.hasEquipped( DailyDeedsPanel.INFERNAL_SEAL_CLAW ) ||
+			     DailyDeedsPanel.INFERNAL_SEAL_CLAW.getCount( KoLConstants.inventory ) > 0 )
+			{
+				maxSummons = 10;
+			}
+			this.setText( Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned" );
 		}
 	}
 
