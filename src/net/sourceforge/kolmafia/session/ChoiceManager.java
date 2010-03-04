@@ -1301,9 +1301,13 @@ public abstract class ChoiceManager
 		// Choice 432 is Don We Now Our Bright Apparel
 		// Choice 433 is Everything is Illuminated?
 		// Choice 435 is Season's Beatings
-
+		// Choice 436 is unknown
 		// Choice 437 is Flying In Circles
 		// Choice 438 is From Little Acorns...
+		// Choice 439 is unknown
+		// Choice 440 is unknown
+		// Choice 441 is The Mad Tea Party
+		// Choice 442 is A Moment of Reflection
 	};
 
 	static

@@ -4509,3 +4509,27 @@
 4503	562003052	recording of Inigo's Incantation of Inspiration
 4504	884068139	heart of the volcano
 4505	752101511	Northern pemmican
+4506
+4507	653994440	Clan looking glass
+4508	830929931	&quot;DRINK ME&quot; potion
+4509	206445172	reflection of a map
+4510
+4511
+4512
+4513
+4514
+4515
+4516
+4517
+4518
+4519
+4520
+4521
+4522	148797319	Tiger-lily's milk
+4523
+4524
+4525	783806940	powdered donut
+4526	797377031	bucket of honey
+4527	548989564	elephant stinger
+4528	620918435	dragon snaps
+4529	244946017	snapdragon pistil

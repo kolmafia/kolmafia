@@ -43,7 +43,7 @@ public class VolcanoCommand
 {
 	public VolcanoCommand()
 	{
-		this.usage = " visit | solve | map [n] | platforms | jump | move x y | movep x y - play in the lava maze.";
+		this.usage = " visit | solve | map [n] | platforms | jump | move row col | movep row col - play in the lava maze.";
 	}
 
 	public void run( final String cmd, final String parameters )
@@ -111,14 +111,42 @@ public class VolcanoCommand
 				VolcanoMazeManager.displayMap();
 				return;
 			}
-			String val = split[ 1 ];
-			if ( !StringUtilities.isNumeric( val ) )
+			int map = VolcanoCommand.getMap( split[1] );
+			if ( map < 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Which map # do you want to look at?" );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Map # must be between 1 and 5" );
 				return;
 			}
-			int map = StringUtilities.parseInt( val );
 			VolcanoMazeManager.displayMap( map );
+			return;
+		}
+
+		if ( command.equals( "test" ) )
+		{
+			if ( split.length != 4 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Specify map x y" );
+				return;
+			}
+			int map = VolcanoCommand.getMap( split[1] );
+			if ( map < 0 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Map # must be between 1 and 5" );
+				return;
+			}
+			int x = VolcanoCommand.getCell( split[2] );
+			if ( x < 0 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Coordinate 'x' must be between 0 and 12" );
+				return;
+			}
+			int y = VolcanoCommand.getCell( split[3] );
+			if ( y < 0 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Coordinate 'y' must be between 0 and 12" );
+				return;
+			}
+			VolcanoMazeManager.test( map, x, y );
 			return;
 		}
 
@@ -137,5 +165,19 @@ public class VolcanoCommand
 			return -1;
 		}
 		return cell;
+	}
+
+	private static int getMap( final String str )
+	{
+		if ( !StringUtilities.isNumeric( str ) )
+		{
+			return -1;
+		}
+		int map = StringUtilities.parseInt( str );
+		if ( map < 1 || map > 5 )
+		{
+			return -1;
+		}
+		return map;
 	}
 }

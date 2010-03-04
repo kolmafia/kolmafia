@@ -699,6 +699,8 @@ eXtreme meat crossbow	Moxie: +7
 eXtreme meat staff	Mysticality: +7
 eXtreme meat sword	Muscle: +7
 eggbeater	Spell Damage: +2
+# elephant stinger: 50% chance of poisoning opponent
+elephant stinger	Muscle: +3
 # elven whittling knife: On Critical:  Whittles enemy down
 # especially homoerotic frat-paddle
 evil paper umbrella	Monster Level: +1
@@ -1146,6 +1148,8 @@ six-rainbow shield	Maximum HP: +50, Cold Resistance: +3, Hot Resistance: +3, Sle
 slime-covered compass	Slime Resistance: +2, Initiative: +40
 slime-covered lantern	Slime Resistance: +2, Maximum HP: +50, Maximum MP: +50, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
 snake shield	Muscle: +6, Damage Reduction: 7, Synergetic
+# snapdragon pistil: All Spells Cast Are Hot
+snapdragon pistil	Spell Critical Percent: +5
 snarling wolf shield	Maximum HP: +40, Damage Reduction: 7, Synergetic
 sock monkey	Moxie: +3
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
@@ -2178,6 +2182,7 @@ Dizzy with Rage	Moxie Percent: -10
 Don't Rest Ye, Bold Adventurer	Experience: +1
 # Donho's Bubbly Ballad: Makes you a better diver
 Donho's Bubbly Ballad	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
+# Down the Rabbit Hole: Lets you adventure in The Rabbit Hole in The Nearby Plains
 Down With Chow	Familiar Weight: +10
 Draggin' Balls	Moxie: +6, Muscle: -3
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
@@ -2691,6 +2696,7 @@ Vitamin-Maxed	Muscle Percent: +10
 # Warm Belly: Makes sushi taste better
 Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
+Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
@@ -2910,6 +2916,7 @@ Ben-Gal&trade; Balm	Effect: "Go Get 'Em, Tiger!", Effect Duration: 3
 BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
 Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
 Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
+Clan looking glass	Free Pull
 Climate Colada	Effect: "Weather, Man", Effect Duration: 20
 Cold Hots candy	Effect: "Sugar Rush"
 Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [R]
@@ -2918,6 +2925,7 @@ Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
 Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
+&quot;DRINK ME&quot; potion	Effect: "Down the Rabbit Hole", Effect Duration: 20
 Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10

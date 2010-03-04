@@ -713,6 +713,14 @@ public class AdventureDatabase
 				return "Moxie Vacation";
 			}
 		}
+		else if ( urlString.startsWith( "rabbithole.php" ) )
+		{
+			if ( urlString.indexOf( "action=teaparty" ) != -1 )
+			{
+				return "The Mad Tea Party";
+			}
+			return null;
+		}
 		else if ( urlString.startsWith( "rats.php" ) )
 		{
 			return "Typical Tavern Quest";

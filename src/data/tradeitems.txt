@@ -4512,3 +4512,27 @@
 4503	recording of Inigo's Incantation of Inspiration	multiple	all	78
 4504	heart of the volcano	accessory	display	10000
 4505	Northern pemmican	multiple	all	0
+4506
+4507	Clan looking glass	usable	all	0
+4508	&quot;DRINK ME&quot; potion	usable	all	0
+4509	reflection of a map	reusable	display	0
+4510
+4511
+4512
+4513
+4514
+4515
+4516
+4517
+4518
+4519
+4520
+4521
+4522	Tiger-lily's milk	food	all	35
+4523
+4524
+4525	powdered donut	food	all	35
+4526	bucket of honey	food	all	66
+4527	elephant stinger	weapon	all	58
+4528	dragon snaps	food	all	35
+4529	snapdragon pistil	offhand	all	49
