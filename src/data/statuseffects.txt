@@ -724,32 +724,31 @@
 723
 724	Pemmican't	cruft.gif	63f212fdef4d2731cf9944afd3a9cb22	eat 1 Northern pemmican
 725	Down the Rabbit Hole	hare.gif	907cb5ad2ab24111f4cc83b0609ad087
-726
-727
-728
-729
-730
+726	Assaulted with Pepper	blpepper.gif	3ea2b2308ef23f53d670c9d27f380c7d
+727	Three Days Slow	watch.gif	fa9a60563732a82bd6c68671998f7e4e
+728	Cat-Alyzed	blackcat2.gif	2a82a72fecb3e47c6e10c0b4a09f3e30
+#729	Anytwo Five Elevenis?	hobbyhorse.gif
+730	Coated Arms	nicesword.gif	b68894530a671bcdbbfc612f1afa1e20
 731	Smoky Third Eye	zomboeye.gif	5591b2d4198456fc6a9d584ad65542fc
 732	Full Bottle in front of Me	wine.gif	7f7bf04b109cad766fa8994dc1a1062c
-733
+733	Thick-Skinned	balm.gif	3542fecc143611d7850447ee982c48a5
 734	20-20 Second Sight	glasseye.gif	2158b56c85250de3ec8d3631092b47d1
 735	Slimy Hands	glove.gif	d5030e0c82d9e372eb1cdf95446b9b0d
-736
+736	Bottle in front of Me	missingwine.gif	96725b7d3308d6495e1b4fa49648f121
 737	Fan-Cooled	palmfan.gif	4f824ddf25b79c18c1d55d4da9282b95
 738	Ginger Snapped	dragonsnaps.gif	fd72b3fea9532eff99df7dabc76e7785
-739
+#739	<Stench Damage Effect>
 740	Pockets of Fire	fire.gif	063e77cadd47be4f3fafdf59b20dbaf7
 741	Weapon of Mass Destruction	csword.gif	bd9060b9f8b3bbdb886e324c369c81ac
-742
-743
-744
-745
-746
-747
-748
-749
+#	Dances with Tweedles	dance1.gif	15bdf07a543b55d176ef4c7dc7c8ddd0
+#	Patched In	librarycard.gif	3ebf7251799ce3a1e5efecf754f1ea56
+#	You Can Really Taste the Dormouse	dormouse.gif	87639937c57c2ab181a017d719e7d496
+#	Turtle Titters	turtle.gif	9e65ef420fa82ab98bc6a0745bfd61a5
+747	Cat Class, Cat Style	tigereye.gif	7e27f53d80222fbd7e07938e591b40be
+#	Surreally Buff
+#	Quadrilled
 750
 751
-752	Grrrrrrreat!	milk.gif	b9be2b2f79923a03775bea5398ebcbd1
-753	Powdered	powderdonut.gif	05f0c0ae4356266dfebc5f31c7a85170
-754	Oh Snap	dragonsnaps.gif	dcd3c00daf806f985a5387988dd06564
+752	Grrrrrrreat!	milk.gif	b9be2b2f79923a03775bea5398ebcbd1	eat 1 Tiger-lily's milk
+753	Powdered	powderdonut.gif	05f0c0ae4356266dfebc5f31c7a85170	eat 1 powdered donut
+754	Oh Snap	dragonsnaps.gif	dcd3c00daf806f985a5387988dd06564	eat 1 dragon snaps

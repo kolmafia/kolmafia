@@ -2032,6 +2032,7 @@ Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Rege
 # Antihangover	actual exp is floor((yesterday's drunkenness)^(1/1.7))
 Antihangover	Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5
 Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
+Anytwo Five Elevenis?	Muscle: +10
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Apoplectic with Rage	Mysticality Percent: -10
 Arabian Knighthood	Muscle Percent: +5
@@ -2041,6 +2042,7 @@ Artificially Sweet	Moxie Percent: +100
 Aspect of the GravyPlum Fairy	Item Drop: +10
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +5, Spell Damage: +5
 Ass Over Teakettle	Initiative: +50
+Assaulted with Pepper	Monster Level: +20
 Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Axe Wound	Muscle: -5
 Baconstoned	Mysticality Percent: +50, Spell Damage: +11
@@ -2080,6 +2082,7 @@ Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
 Bootyliciousness	Item Drop: +10
+Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
 Braaains	Meat Drop: +50, Initiative: -50
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
@@ -2110,6 +2113,7 @@ Carlweather's Cantata of Confrontation	Combat Rate: +5
 Carol of the Bones	Muscle Percent: +10
 Carrion' On	Meat Drop: +60
 Carrrsmic	Mysticality Percent: +10
+Cat-Alyzed	Moxie: +10
 Chain Chain Chains	Spooky Damage: +10
 # Chalked Weapon: Regular Attacks Can't Miss
 Chalky Hand	Never Fumble, Weapon Damage: +3
@@ -2126,6 +2130,7 @@ Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Clean-Shaven	Moxie: +5
 Cletus's Canticle of Celerity	Initiative: +20
 # Clumsy: Always Fumble
+Coated Arms	Weapon Damage: +15
 # Coated in Slime: It Burns!  It Burns!
 Cock of the Walk	Moxie Percent: +200
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
@@ -2167,6 +2172,7 @@ Cuts Like a Buttered Knife	Sleaze Damage: +50
 Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Cybernetic Muscles	Muscle Percent: +10
 Dance Interpreter	Item Drop: +20
+Dances with Tweedles	Meat Drop: +40
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
 Deadly Flashing Blade	Weapon Damage: +10
@@ -2464,6 +2470,7 @@ Oxygenated Blood	Adventure Underwater
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 Pasta Oneness	Mysticality: +2
 Pasty	Muscle Percent: +50
+Patched In	Mysticality Percent: +20
 Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
@@ -2678,7 +2685,9 @@ The Sonata of Sneakiness	Combat Rate: -5
 # The Spirit of Crimbo
 The Sweats	Stench Resistance: +5
 The Vitus Virus	Item Drop: +50, Experience: -5
+Thick-Skinned	Maximum MP: +50
 Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
+# Three Days Slow: +2 Familiar Experience Per Adventure
 Ticking Clock	Initiative: +30
 Tin, Man	Damage Reduction: 5
 Tingly Biceps	Muscle: +5
@@ -2694,6 +2703,7 @@ Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Truly Gritty	Weapon Damage: +20, Muscle: +20
 Tundra Mouth	Cold Damage: [min(100,T)]
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
+Turtle Titters	Experience: +3
 Twinklebritches	Damage Reduction: 3
 Twinkly Weapon	Weapon Damage: +3
 # Two Left Feet
@@ -2728,6 +2738,7 @@ Woad Warrior	Muscle: +25
 Wreathed in Merriment	Moxie Percent: +10
 Wussiness	Muscle: -3
 # Yellow Tongue: Eww.
+You Can Really Taste the Dormouse	Familiar Weight: +5
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
 Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50

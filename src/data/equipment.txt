@@ -173,7 +173,7 @@ snailmail coif	165	Mox: 67
 snorkel	10	none
 snow hat	50	Mox: 10
 spaghetti cult mask	155	Mox: 62
-spangly sombrero	150	Mox: 150
+spangly sombrero	150	Mox: 60
 spiky turtle helmet	130	Mox: 50
 sponge helmet	200	Mox: 85
 spooky hockey mask	100	Mox: 35
@@ -318,7 +318,7 @@ poodle skirt	200	Mox: 200
 rusty metal greaves	150	Mus: 60
 sealhide leggings	160	Mox: 65
 slime-covered greaves	200	Mox: 200
-snailmail breeches	165	Mus: 67
+snailmail breeches	165	Mox: 67
 snow pants	50	Mox: 10
 snowboarder pants	100	Mox: 35
 spandex anniversary shorts	10	none

@@ -69,6 +69,7 @@ cup of primitive beer	1	12	2-5	50-65	0	0	12-15 MP, lose 10-18 HP
 cursed bottle of black-label rum	3	3	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	1	0	0	0
 cyder	3	5	5	0	0	0
+decanter of fine scotch	4	9	0	0	0	0
 dew yoana lei	3	4	5-6	0	34-80	0	20 Brined Liver
 dew yoana salacious lei	4	8	11-14	0	60-115	0	30 Brined Liver
 dirty martini	6	6	22-26	0	0	16-20	tiny plastic sword
@@ -147,6 +148,7 @@ mcmillicancuddy's special lager	1	10	2-4	10-15	10-15	10-15	10-20 MP
 melon-infused sake	4	7	14-17	0	75-120	0	1 Warm Belly (+hot damage, +10 Fishy)
 melted jell-o shot	1	10	2-4	0-40	0-40	0-40
 mimosette	3	3	5-10	16-20	0	0
+missing wine	1	5	0	0	0	0
 mon tiki	4	6	14-18	40-47	0	0
 monkey wrench	3	1	5-6	0	8-10	0
 moons-shine	4	1	6-10	7-8	7-8	7-8
