@@ -196,6 +196,7 @@ pig-iron helm	Muscle: +7, Weapon Damage: +10
 pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xVolley, cap 12"
 plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
+powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4
 propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 # pumpkinhead mask
 raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
@@ -1057,6 +1058,7 @@ easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 # eelskin shield: Damages Attacking Opponent (Underwater Only)
 eelskin shield	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13
 enchanted brass knuckles	Critical: 2
+eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
 # fake hand: Gives Extra Offhand Equipment Slot
 fake hand	Weapon Damage: -1
 fancy opera glasses	Meat Drop: +5, Item Drop: +5
