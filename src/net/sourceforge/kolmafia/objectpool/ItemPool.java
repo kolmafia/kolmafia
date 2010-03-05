@@ -181,7 +181,7 @@ public class ItemPool
 	public static final int TALISMAN = 486;
 	public static final int KETCHUP_HOUND = 493;
 	public static final int PAPAYA = 498;
-	public static final int RAFFLE_TICKET = 500;
+	public static final int ELF_FARM_RAFFLE_TICKET = 500;
 	public static final int PAGODA_PLANS = 502;
 	public static final int HEAVY_METAL_GUITAR = 507;
 	public static final int HEY_DEZE_NUTS = 509;
@@ -273,6 +273,7 @@ public class ItemPool
 	public static final int STINKY_MUSHROOM = 757;
 	public static final int CUMMERBUND = 778;
 	public static final int MAFIA_ARIA = 781;
+	public static final int RAFFLE_TICKET = 785;
 	public static final int PLUS_SIGN = 818;
 	public static final int MILKY_POTION = 819;
 	public static final int SWIRLY_POTION = 820;
