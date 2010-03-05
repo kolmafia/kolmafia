@@ -719,7 +719,7 @@
 718	B-b-brr!	sphererough.gif	c7cfec0c1b99f8ab69bdd4dd24dd6735	# snowball
 719	Sealed Brain	realbrain.gif	12fa21a06cde21c7a65f2244cd02dacb	use 1 seal-brain elixir
 720
-721
+721	Earworm	larva.gif	9ed86341d30a9cc55db66ee59b33fd5b
 722
 723
 724	Pemmican't	cruft.gif	63f212fdef4d2731cf9944afd3a9cb22	eat 1 Northern pemmican
@@ -729,14 +729,27 @@
 728
 729
 730
-731
-732
+731	Smoky Third Eye	zomboeye.gif	5591b2d4198456fc6a9d584ad65542fc
+732	Full Bottle in front of Me	wine.gif	7f7bf04b109cad766fa8994dc1a1062c
 733
-734
-735
+734	20-20 Second Sight	glasseye.gif	2158b56c85250de3ec8d3631092b47d1
+735	Slimy Hands	glove.gif	d5030e0c82d9e372eb1cdf95446b9b0d
 736
-737
-738
+737	Fan-Cooled	palmfan.gif	4f824ddf25b79c18c1d55d4da9282b95
+738	Ginger Snapped	dragonsnaps.gif	fd72b3fea9532eff99df7dabc76e7785
 739
-740
+740	Pockets of Fire	fire.gif	063e77cadd47be4f3fafdf59b20dbaf7
 741	Weapon of Mass Destruction	csword.gif	bd9060b9f8b3bbdb886e324c369c81ac
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752	Grrrrrrreat!	milk.gif	b9be2b2f79923a03775bea5398ebcbd1
+753	Powdered	powderdonut.gif	05f0c0ae4356266dfebc5f31c7a85170
+754	Oh Snap	dragonsnaps.gif	dcd3c00daf806f985a5387988dd06564
