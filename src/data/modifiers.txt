@@ -2000,6 +2000,7 @@ white picket fence	Bonus Resting MP: +1
 &quot;The Disease&quot;	Moxie: -5
 'Roids of the Rhinoceros	Muscle: +100
 1337p4n7Z	Muscle: +6, Moxie: -3
+20-20 Second Sight	Maximum MP: +25
 5 Pounds Lighter	Initiative: +10, Moxie: +5
 A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 A Few Extra Pounds	Maximum HP: [5*min(L,11)]
@@ -2194,6 +2195,7 @@ Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 Drunk With Power	Spell Damage Percent: +100
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
+# Earworm: Get them out! Get them out!
 Easily Embarrassed	Sleaze Vulnerability
 Eau D'enmity	Monster Level: +5
 # Eau de Tortue: You smell like turtle pheromones
@@ -2226,6 +2228,7 @@ Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
 Eye of the Seal	Item Drop: +10
 Familial Ties	Familiar Weight: [10*zone(The Sea)]
+Fan-Cooled	Cold Damage: +10
 Fancy Feasted	Moxie Percent: +20
 Far Out	Mysticality: +1
 Fastbreaker	Muscle Percent: +20
@@ -2273,6 +2276,7 @@ Frostbitten	Cold Damage: +10, Damage Reduction: -2
 # Frosty the Hitman: +0-2 <font color=blueviolet>Sleaze Damage</font>
 Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
+Full Bottle in front of Me	Spell Damage Percent: +30
 Full of Vinegar	Weapon Damage: [+1*D]
 Full of Wist	Experience: [min(L,11)]
 Full-Body Tan	Experience (Moxie): [L]
@@ -2281,6 +2285,7 @@ Fustulent	Stench Damage: +15, Stench Spell Damage: +15
 Gelded	Monster Level: +5
 # Get Me Off This Crazy Thing!: Jane!
 Ghostly Shell	Damage Absorption: +80
+Ginger Snapped	Spooky Damage: +10
 Glittering Eyelashes	Mysticality Percent: +15
 Gnawed-Off Arm	Muscle: -5
 Go Get 'Em, Tiger!	Muscle Percent: +15
@@ -2297,6 +2302,7 @@ Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
 Green Tongue	Familiar Weight: +5
 Grilled	Muscle: -10
 Grimace	Monster Level: +25, Slime Resistance: +1
+Grrrrrrreat!	Experience (Muscle): +10
 Grulched	Stench Damage: +25, Monster Level: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
 # Haiku State of Mind: large penalty to result parsing
@@ -2444,6 +2450,7 @@ No Worries	Experience: +3
 Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
+Oh Snap	Experience (Moxie): +10
 Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Omphaloskepsis	Damage Reduction: [L]
 On the Shoulders of Giants	Mysticality Percent: +200
@@ -2471,11 +2478,13 @@ Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
 Piratastic	Moxie: +100
 Pneumatic	Adventure Underwater
+Pockets of Fire	Hot Damage: +10
 Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Polka of Plenty	Meat Drop: +50
 Ponderous Potency	Weapon Damage: +20
 Pop-eyed	Weapon Damage: +30
 # Popping Stomach: Tee-hee!
+Powdered	Experience (Mysticality): +10
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Prelude of Precision	Critical Hit Percent: +2
 Prestidigysfunction	Mysticality Percent: -95
@@ -2558,8 +2567,10 @@ Slimed Stomach	Sleaze Resistance: +1
 Slimily Sagacious	Mysticality Percent: +50
 Slimily Speedy	Moxie Percent: +50
 Slimily Strong	Muscle Percent: +50
+Slimy Hands	Sleaze Damage: +10
 Slippery Oiliness	Equalize: "Moxie"
 Smelly Pants	Stench Resistance: +1
+Smoky Third Eye	Mysticality: +10
 # Smokin': Damages Attacking Opponents
 Smooth Movements	Combat Rate: -5
 Smugness	Moxie: +5
