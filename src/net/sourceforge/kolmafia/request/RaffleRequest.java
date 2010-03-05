@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -128,11 +129,6 @@ public class RaffleRequest
 		}
 
 		int where = StringUtilities.parseInt( matcher.group(1) );
-		if ( where != RaffleRequest.STORAGE )
-		{
-			// Buying from inventory handles meat elsewhere
-			return true;
-		}
 
 		matcher = RaffleRequest.QUANTITY_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
@@ -142,10 +138,18 @@ public class RaffleRequest
 
 		int quantity = StringUtilities.parseInt( matcher.group(1) );
 		int cost = 1000 * quantity;
-		KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - cost );
 
-		// You spent 1,000 meat caused 1000 meat to be deducted from inventory
-		ResultProcessor.processMeat( cost );
+		if ( where == RaffleRequest.STORAGE )
+		{
+			KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - cost );
+		}
+		else
+		{
+			ResultProcessor.processMeat( -cost );
+		}
+
+		AdventureResult item = new AdventureResult( ItemPool.RAFFLE_TICKET, quantity );
+		ResultProcessor.processItem( false, "You acquire", item, null );
 
 		return true;
 	}

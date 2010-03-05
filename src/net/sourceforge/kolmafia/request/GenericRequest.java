@@ -1899,6 +1899,10 @@ public class GenericRequest
 			// MoneyMakingGameRequest sort it all out.
 			this.containsUpdate = true;
 		}
+		else if ( urlString.startsWith( "raffle.php" ) )
+		{
+			this.containsUpdate = true;
+		}
 		else if ( urlString.startsWith( "mallstore.php" ) )
 		{
 			// Mall stores themselves can only contain processable
