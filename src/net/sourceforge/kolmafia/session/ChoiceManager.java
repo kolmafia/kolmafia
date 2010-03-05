@@ -1308,6 +1308,10 @@ public abstract class ChoiceManager
 		// Choice 440 is unknown
 		// Choice 441 is The Mad Tea Party
 		// Choice 442 is A Moment of Reflection
+		// Choice 444 is The Field of Strawberries
+		//	      is The Caucus Racetrack
+		//	      is The Croquet Grounds
+		// Choice 450 is The Duchess' Cottage
 	};
 
 	static

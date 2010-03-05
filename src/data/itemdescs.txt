@@ -3303,7 +3303,7 @@
 3297	283953320	stray chihuahua
 3298	465542731	pretty pink bow
 3299	976860960	smiley-face sticker
-3300	589480055	farfalle bow tie
+3300	751941279	farfalle bow tie
 3301	232729466	jalape&ntilde;o slices
 3302	220396904	stick-on mini solar panels
 3303	115828284	tiny sombrero
@@ -4513,15 +4513,15 @@
 4507	653994440	Clan looking glass
 4508	830929931	&quot;DRINK ME&quot; potion
 4509	206445172	reflection of a map
-4510
+4510	590148722	walrus ice cream
 4511
-4512
+4512	813784592	eggman noodles
 4513
 4514
 4515
-4516
-4517
-4518
+4516	186390697	missing wine
+4517	788868127	yellow matter custard
+4518	409872360	delicious comfit?
 4519
 4520
 4521
@@ -4534,7 +4534,7 @@
 4528	620918435	dragon snaps
 4529	244946017	snapdragon pistil
 4530
-4531	725654828	rook cookie
+4531	133321821	rook cookie
 4532	725654828	bishop cookie
 4533	329900305	knight cookie
 4534	189215534	king cookie

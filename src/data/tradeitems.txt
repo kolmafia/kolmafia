@@ -3304,12 +3304,12 @@
 3295	friendly cheez blob	grow	display	0
 3296	unusual disco ball	grow	display	0
 3297	stray chihuahua	grow	display	0
-3298	pretty pink bow	familiar	all	75
-3299	smiley-face sticker	familiar	all	75
-3300	farfalle bow tie	familiar	all	75
-3301	jalape&ntilde;o slices	familiar	all	75
-3302	stick-on mini solar panels	familiar	all	75
-3303	tiny sombrero	familiar	all	75
+3298	pretty pink bow	familiar	all	10
+3299	smiley-face sticker	familiar	all	10
+3300	farfalle bow tie	familiar	all	10
+3301	jalape&ntilde;o slices	familiar	all	10
+3302	stick-on mini solar panels	familiar	all	10
+3303	tiny sombrero	familiar	all	10
 3304	Argarggagarg's fang	none	display	4000
 3305	Safari Jack's moustache	none	display	4000
 3306	Yakisoba's hat	none	display	4000
@@ -3881,11 +3881,11 @@
 3872	pocket theremin	weapon	all	55
 3873	rave whistle	weapon	all	60
 3874	hellseal hide	none	none	0
-3875	shredded hellseal hide	none	all	0
+3875	shredded hellseal hide	none	display	0
 3876	hellseal brain	none	none	0
-3877	burst hellseal brain	none	all	0
+3877	burst hellseal brain	none	display	0
 3878	hellseal sinew	none	none	0
-3879	torn hellseal sinew	none	all	0
+3879	torn hellseal sinew	none	display	0
 3880	hellseal disguise	none	none	0
 3881	fouet de tortue-dressage	weapon	none	0
 3882	encoded cult documents	none	none	0
@@ -4421,10 +4421,10 @@
 4412
 4413
 4414	colorful plastic ball	multiple	all	0
-4415	sealhide hood	hat	all	55
-4416	sealhide leggings	pants	all	60
+4415	sealhide hood	hat	display	55
+4416	sealhide leggings	pants	display	60
 4417	sealhide cloak	shirt	display	50
-4418	sealhide buckler	offhand	all	45
+4418	sealhide buckler	offhand	display	45
 4419	sealhide whip	weapon	display	35
 4420	sealhide moccasins	accessory	display	75
 4421	sealhide gloves	accessory	display	55
@@ -4516,15 +4516,15 @@
 4507	Clan looking glass	usable	all	0
 4508	&quot;DRINK ME&quot; potion	usable	all	0
 4509	reflection of a map	reusable	display	0
-4510
+4510	walrus ice cream	food	gift	0
 4511
-4512
+4512	eggman noodles	none	gift	0
 4513
 4514
 4515
-4516
-4517
-4518
+4516	missing wine	booze	gift	0
+4517	yellow matter custard	food	all	55
+4518	delicious comfit?	multiple	all	88
 4519
 4520
 4521
