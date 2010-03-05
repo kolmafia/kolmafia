@@ -664,7 +664,7 @@ public abstract class VolcanoMazeManager
 
 	public static final void solve()
 	{
-		// Save it to give back to the user's browser
+		// Save URL to give back to the user's browser
 		RelayRequest.redirectedCommandURL = "/volcanomaze.php?start=1";
 
 		VolcanoMazeManager.discoverMaps();

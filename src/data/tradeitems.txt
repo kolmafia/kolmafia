@@ -4432,7 +4432,7 @@
 4423	sealhide snare	none, combat	display	25
 4424
 4425	sealhide seal doll	multiple	display	20
-4426
+4426	black hymnal	usable	none	0
 4427
 4428	glowstick on a string	offhand	none	30
 4429	candy necklace	accessory	none	25
@@ -4529,10 +4529,16 @@
 4520
 4521
 4522	Tiger-lily's milk	food	all	35
-4523
-4524
+4523	eye of the Tiger-lily	offhand	all	83
+4524	powdered wig	hat	all	94
 4525	powdered donut	food	all	35
 4526	bucket of honey	food	all	66
 4527	elephant stinger	weapon	all	58
 4528	dragon snaps	food	all	35
 4529	snapdragon pistil	offhand	all	49
+4530
+4531	rook cookie	food	all	100
+4532	bishop cookie	food	all	100
+4533	knight cookie	food	all	100
+4534	king cookie	food	all	200
+4535	queen cookie	food	all	400

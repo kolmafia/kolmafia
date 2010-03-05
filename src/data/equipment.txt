@@ -151,6 +151,7 @@ pig-iron helm	90	Mox: 30
 pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10
 plexiglass pith helmet	180	Mox: 75
+powdered wig	70	Mox: 20
 propeller beanie	30	none
 pumpkinhead mask	10	none
 raspberry beret	50	Mox: 10
@@ -956,6 +957,7 @@ duct tape buckler	200	Mus: 82	shield
 easter egg balloon	0	Mys: 35
 eelskin shield	200	Mus: 85	shield
 enchanted brass knuckles	0	Mys: 10
+eye of the Tiger-lily	0	Mys: 20
 fake hand	0	none
 fancy opera glasses	0	Mys: 10
 flaming talons	0	Mys: 30

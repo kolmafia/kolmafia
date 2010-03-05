@@ -4429,7 +4429,7 @@
 4423	424846386	sealhide snare
 4424
 4425	422170714	sealhide seal doll
-4426
+4426	266993166	black hymnal
 4427
 4428	873692545	glowstick on a string	glowsticks on strings
 4429	239314123	candy necklace	candy necklaces
@@ -4526,10 +4526,16 @@
 4520
 4521
 4522	148797319	Tiger-lily's milk
-4523
-4524
+4523	134210242	eye of the Tiger-lily
+4524	941584214	powdered wig
 4525	783806940	powdered donut
 4526	797377031	bucket of honey
 4527	548989564	elephant stinger
 4528	620918435	dragon snaps
 4529	244946017	snapdragon pistil
+4530
+4531	725654828	rook cookie
+4532	725654828	bishop cookie
+4533	329900305	knight cookie
+4534	189215534	king cookie
+4535	574685883	queen cookie
