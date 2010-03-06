@@ -582,53 +582,47 @@ public class SkillDatabase
 			return actualDuration;
 		}
 
+		if ( InventoryManager.hasItem( UseSkillRequest.WIZARD_HAT ) )
+		{
+			actualDuration += 5;
+		}
+
 		AdventureResult[] weapons = null;
+		int[] bonus = null;
 
 		if ( skillId > 2000 && skillId < 3000 )
 		{
 			weapons = UseSkillRequest.TAMER_WEAPONS;
+			bonus = UseSkillRequest.TAMER_WEAPONS_BONUS;
 		}
 
 		if ( skillId > 4000 && skillId < 5000 )
 		{
 			weapons = UseSkillRequest.SAUCE_WEAPONS;
+			bonus = UseSkillRequest.SAUCE_WEAPONS_BONUS;
 		}
 
 		if ( skillId > 6000 && skillId < 7000 )
 		{
 			weapons = UseSkillRequest.THIEF_WEAPONS;
+			bonus = UseSkillRequest.THIEF_WEAPONS_BONUS;
 		}
 
 		if ( weapons != null )
 		{
-			if ( KoLConstants.inventory.contains( weapons[ 0 ] ) || KoLCharacter.hasEquipped( weapons[ 0 ] ) )
-			{
-				actualDuration += 10;
-			}
-			else if ( KoLConstants.inventory.contains( weapons[ 1 ] ) || KoLCharacter.hasEquipped( weapons[ 1 ] ) )
-			{
-				actualDuration += 5;
-			}
-			else if ( weapons == UseSkillRequest.THIEF_WEAPONS )
-			{
-				if ( KoLConstants.inventory.contains( weapons[ 2 ] ) || KoLCharacter.hasEquipped( weapons[ 2 ] ) )
+			for ( int i = 0; i < weapons.length; ++ i )
+			{	// This is not 100% correct; an equipped buff weapon
+				// trumps a better one in inventory.  That's not a
+				// problem in ronin/HC, since equipment optimization
+				// will unequip the lesser weapon in that case.
+				if ( KoLConstants.inventory.contains( weapons[ i ] ) ||
+					KoLCharacter.hasEquipped( weapons[ i ] ) )
 				{
-					actualDuration += 2;
-				}
-				else if ( !KoLConstants.inventory.contains( weapons[ 3 ] ) && !KoLCharacter.hasEquipped( weapons[ 3 ] ) )
-				{
-					return 0;
+					return actualDuration + bonus[ i ];
 				}
 			}
-			else if ( !KoLConstants.inventory.contains( weapons[ 2 ] ) && !KoLCharacter.hasEquipped( weapons[ 2 ] ) )
-			{
-				return 0;
-			}
-		}
 
-		if ( InventoryManager.hasItem( UseSkillRequest.WIZARD_HAT ) )
-		{
-			actualDuration += 5;
+			return 0;	// no buff implement either equipped or in inventory
 		}
 
 		return actualDuration;

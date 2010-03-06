@@ -129,6 +129,7 @@ public class UseSkillRequest
 		ItemPool.get( ItemPool.MACE_OF_THE_TORTOISE, 1 ),
 		ItemPool.get( ItemPool.TURTLE_TOTEM, 1 )
 	};
+	public static final int[] TAMER_WEAPONS_BONUS = new int[] { 15, 10, 5, 0 };
 
 	public static final AdventureResult[] SAUCE_WEAPONS = new AdventureResult[]
 	{
@@ -137,6 +138,7 @@ public class UseSkillRequest
 		ItemPool.get( ItemPool.FIVE_ALARM_SAUCEPAN, 1 ),
 		ItemPool.get( ItemPool.SAUCEPAN, 1 )
 	};
+	public static final int[] SAUCE_WEAPONS_BONUS = new int[] { 15, 10, 5, 0 };
 
 	public static final AdventureResult[] THIEF_WEAPONS = new AdventureResult[]
 	{
@@ -146,6 +148,7 @@ public class UseSkillRequest
 		ItemPool.get( ItemPool.CALAVERA_CONCERTINA, 1 ),
 		ItemPool.get( ItemPool.STOLEN_ACCORDION, 1 )
 	};
+	public static final int[] THIEF_WEAPONS_BONUS = new int[] { 15, 10, 5, 2, 0 };
 
 	public static final AdventureResult PLEXI_PENDANT = ItemPool.get( ItemPool.PLEXIGLASS_PENDANT, 1 );
 	public static final AdventureResult BRIM_BERET = ItemPool.get( ItemPool.BRIMSTONE_BERET, 1 );

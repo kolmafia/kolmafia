@@ -718,7 +718,8 @@ public abstract class MoodManager
 
 	private static final String considerLibramSummon( final int minimum )
 	{
-		if ( SkillDatabase.libramSkillMPConsumption() > KoLCharacter.getCurrentMP() - minimum )
+		int castCount = SkillDatabase.libramSkillCasts( KoLCharacter.getCurrentMP() - minimum );
+		if ( castCount <= 0 )
 		{
 			return null;
 		}
@@ -730,8 +731,21 @@ public abstract class MoodManager
 		{
 			return null;
 		}
+		
+		int nextCast = Preferences.getInteger( "libramSummons" );
+		StringBuffer buf = new StringBuffer();
+		for ( int i = 0; i < skillCount; ++i )
+		{
+			int thisCast = (castCount + skillCount - 1 - i) / skillCount;
+			if ( thisCast <= 0 ) continue;
+			buf.append( "cast " );
+			buf.append( thisCast );
+			buf.append( " " );
+			buf.append( (String) castable.get( (i + nextCast) % skillCount ) );
+			buf.append( ";" );
+		}
 
-		return "cast 1 " + (String) castable.get( Preferences.getInteger( "libramSummons" ) % skillCount );
+		return buf.toString();
 	}
 
 	public static final void execute( final int multiplicity )
