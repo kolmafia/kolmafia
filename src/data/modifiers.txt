@@ -1827,6 +1827,7 @@ hypodermic needle	Familiar Weight: +5
 iced-out bling	Familiar Weight: +5
 icicle katana	Familiar Weight: +5
 # imitation whetstone: Makes Imitation Crab claws sharper
+ittah bittah hookah	Familiar Weight: +5
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
 lead necklace	Familiar Weight: +3
 limburger biker boots	Familiar Weight: +5

@@ -3469,13 +3469,12 @@ public abstract class ChoiceManager
 	public static final void addGoalButton( final StringBuffer buffer )
 	{
 		// Insert a "Goal" button in-line
-		String search = "</form></center></td></tr>";
+		String search = "<form name=choiceform1";
 		int index = buffer.lastIndexOf( search );
 		if ( index == -1 )
 		{
 			return;
 		}
-		index += 7;
 
 		// Build a "Goal" button
 		StringBuffer button = new StringBuffer();
