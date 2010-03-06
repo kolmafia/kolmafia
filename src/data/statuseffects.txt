@@ -746,9 +746,13 @@
 #	Turtle Titters	turtle.gif	9e65ef420fa82ab98bc6a0745bfd61a5
 747	Cat Class, Cat Style	tigereye.gif	7e27f53d80222fbd7e07938e591b40be
 #	Surreally Buff
-#	Quadrilled
+#749	Quadrilled
 750
 751
 752	Grrrrrrreat!	milk.gif	b9be2b2f79923a03775bea5398ebcbd1	eat 1 Tiger-lily's milk
 753	Powdered	powderdonut.gif	05f0c0ae4356266dfebc5f31c7a85170	eat 1 powdered donut
 754	Oh Snap	dragonsnaps.gif	dcd3c00daf806f985a5387988dd06564	eat 1 dragon snaps
+755	Towering Strength	chessrook.gif	e207377e9fe65b7c8b59dee7c2b52f98	eat either 1 rook cookie, 1 queen cookie
+756	Mitre Cut	chessbishop.gif	a4c9b76038c75c9562ac7031d863a3d7	eat either 1 bishop cookie, 1 queen cookie
+757	Knightlife	chessknight.gif	70dad19fed205a244eeb24af489f1c17	eat either 1 knight cookie, 1 queen cookie
+758	The Royal We	chessking.gif	c3f6b286c4cab341465ab4675143190d	eat either 1 king cookie, 1 queen cookie
