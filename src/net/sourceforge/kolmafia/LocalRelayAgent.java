@@ -163,8 +163,10 @@ public class LocalRelayAgent
 		boolean usePostMethod = this.requestMethod.equals( "POST" );
 		this.path = requestLine.substring( spaceIndex + 1, requestLine.lastIndexOf( " " ) );
 		if ( this.path.startsWith( "//" ) )
-		{	// A current KoL bug causes URLs to gain an unnecessary leading
-			// slash after certain chat right-click commands are used.
+		{
+			// A current KoL bug causes URLs to gain an unnecessary
+			// leading slash after certain chat right-click
+			// commands are used.
 			this.path = this.path.substring( 1 );
 		}
 
@@ -183,7 +185,7 @@ public class LocalRelayAgent
 			if ( currentLine.startsWith( "Referer: " ) )
 			{
 				String referer = currentLine.substring( 9 );
-				if ( !referer.equals( "" ) && !referer.startsWith( "http://127.0.0.1" ) )
+				if ( !referer.equals( "" ) && !referer.startsWith( "http://127.0.0.1:" ) )
 				{
 					RequestLogger.printLine( "Request from bogus referer ignored" );
 					RequestLogger.printLine( "Path: \"" + path + "\"" );
@@ -192,7 +194,9 @@ public class LocalRelayAgent
 				}
 				// If we last ran a command, the browser will
 				// submit requests with a bogus root.
-				if ( referer.indexOf( "/KoLmafia" ) != -1 && this.path.startsWith( "/KoLmafia" ) )
+				if ( referer.indexOf( "/KoLmafia" ) != -1 &&
+				     this.path.startsWith( "/KoLmafia" ) &&
+				     this.path.indexOf( ".php" ) != -1 )
 				{
 					this.path = this.path.substring( 9 );
 					this.request.constructURLString( this.path, usePostMethod );

@@ -1629,10 +1629,12 @@ public class RequestEditorKit
 			return;
 		}
 
-		int index1 = 0, index2 = 0;
-
 		String text = buffer.toString();
 		buffer.setLength( 0 );
+
+		int index1 = text.indexOf( "<form name=choiceform1" );
+		buffer.append( text.substring( 0, index1 ) );
+		int index2 = 0;
 
 		for ( int i = 0; i < possibleDecisions[ 2 ].length; ++i )
 		{
