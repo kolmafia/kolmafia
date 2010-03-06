@@ -64,7 +64,6 @@ public class CreateItemRequest
 	implements Comparable
 {
 	public static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
-	private static final CreationRequestMap ALL_CREATIONS = new CreationRequestMap();
 
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
 	public static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
@@ -222,17 +221,33 @@ public class CreateItemRequest
 
 	public static final CreateItemRequest getInstance( final int itemId )
 	{
-		return CreateItemRequest.getInstance( ItemPool.get( itemId, 1 ), true );
+		return CreateItemRequest.getInstance( ConcoctionPool.get( itemId ), true );
+	}
+
+	public static final CreateItemRequest getInstance( final String name )
+	{
+		return CreateItemRequest.getInstance( ConcoctionPool.get( name ), true );
 	}
 
 	public static final CreateItemRequest getInstance( final AdventureResult item )
 	{
-		return CreateItemRequest.getInstance( item, true );
+		return CreateItemRequest.getInstance( ConcoctionPool.get( item ), true );
 	}
 
-	public static final CreateItemRequest getInstance( final AdventureResult item, final boolean returnNullIfNotPermitted )
+	public static final CreateItemRequest getInstance( final AdventureResult item, final boolean rNINP )
 	{
-		CreateItemRequest instance = CreateItemRequest.ALL_CREATIONS.get( item.getName() );
+		return CreateItemRequest.getInstance( ConcoctionPool.get( item ), rNINP );
+	}
+
+	public static final CreateItemRequest getInstance( final Concoction conc, final boolean returnNullIfNotPermitted )
+	{
+		if ( conc == null )
+		{
+			ConcoctionDatabase.excuse = null;
+			return null;
+		}
+		
+		CreateItemRequest instance = conc.getRequest();
 
 		if ( instance == null )
 		{
@@ -250,7 +265,7 @@ public class CreateItemRequest
 
 		if ( returnNullIfNotPermitted )
 		{
-			if ( Preferences.getBoolean( "unknownRecipe" + item.getItemId() ) )
+			if ( Preferences.getBoolean( "unknownRecipe" + conc.getItemId() ) )
 			{
 				ConcoctionDatabase.excuse = "That item requires a recipe.  If you've already learned it, visit the crafting discoveries page in the relay browser to let KoLmafia know about it.";
 				return null;
@@ -264,7 +279,9 @@ public class CreateItemRequest
 		return instance;
 	}
 
-	private static final CreateItemRequest constructInstance( final Concoction conc )
+	// This API should only be called by Concoction.getRequest(), which
+	// is responsible for caching the instances.
+	public static final CreateItemRequest constructInstance( final Concoction conc )
 	{
 		if ( conc == null )
 		{
@@ -1395,26 +1412,6 @@ public class CreateItemRequest
 		if ( urlString.indexOf( "mode=combine" ) != -1 )
 		{
 			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
-		}
-	}
-
-	private static class CreationRequestMap
-	{
-		private final TreeMap internalMap = new TreeMap();
-
-		public CreateItemRequest get( final String name )
-		{
-			CreateItemRequest value = (CreateItemRequest) this.internalMap.get( name );
-			if ( value != null )
-			{
-				return value;
-			}
-			value = CreateItemRequest.constructInstance( ConcoctionPool.get( name ) );
-			if ( value != null )
-			{
-				this.internalMap.put( name, value );
-			}
-			return value;
 		}
 	}
 }

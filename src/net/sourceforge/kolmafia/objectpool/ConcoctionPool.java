@@ -93,7 +93,7 @@ public class ConcoctionPool
 		ConcoctionPool.values = null;
 
 		int itemId = c.getItemId();
-		if ( itemId > 0)
+		if ( itemId > 0 )
 		{
 			ConcoctionPool.cache.set( itemId, c );
 		}

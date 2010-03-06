@@ -433,7 +433,17 @@ public class RequestFrame
 
 			if ( current.sideDisplay != null )
 			{
-				current.sideDisplay.setText( displayHTML );
+				try
+				{
+					current.sideDisplay.setText( displayHTML );
+				}
+				catch ( Exception e )
+				{
+					// This should not happen. Therefore, print
+					// a stack trace for debug purposes.
+		
+					StaticEntity.printStackTrace( e );
+				}
 			}
 		}
 	}
