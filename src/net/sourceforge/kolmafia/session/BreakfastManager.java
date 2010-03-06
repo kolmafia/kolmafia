@@ -287,7 +287,7 @@ public class BreakfastManager
 
 		done &= castBookSkills( getBreakfastTomeSkills(), KoLConstants.TOME, allowRestore, manaRemaining );
 		done &= castBookSkills( getBreakfastGrimoireSkills(), KoLConstants.GRIMOIRE, allowRestore, manaRemaining );
-		done &= castBookSkills( getBreakfastLibramSkills(), KoLConstants.LIBRAM, allowRestore, manaRemaining );
+		castBookSkills( getBreakfastLibramSkills(), KoLConstants.LIBRAM, allowRestore, manaRemaining );
 
 		return done;
 	}
