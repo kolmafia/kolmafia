@@ -46,7 +46,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.CombineMeatRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /**
@@ -65,6 +66,7 @@ public class Concoction
 	private String name;
 
 	public final AdventureResult concoction;
+	private CreateItemRequest request;
 
 	private final int yield;
 	private final int mixingMethod;
@@ -122,6 +124,10 @@ public class Concoction
 			this.isReagentPotion = (this.mixingMethod & KoLConstants.CF_SX3) != 0;
 
 			this.setConsumptionData();
+			if ( CombineMeatRequest.getCost( concoction.getItemId() ) > 0 )
+			{
+				this.request = new CombineMeatRequest( this );
+			}
 		}
 
 		this.ingredients = new ArrayList();
@@ -376,6 +382,15 @@ public class Concoction
 	public int getSpleenHit()
 	{
 		return this.spleenhit;
+	}
+	
+	public CreateItemRequest getRequest()
+	{
+		if ( this.request == null && this.mixingMethod != 0 )
+		{
+			this.request = CreateItemRequest.constructInstance( this );
+		}
+		return this.request;
 	}
 
 	public boolean hasIngredients( final AdventureResult[] ingredients )

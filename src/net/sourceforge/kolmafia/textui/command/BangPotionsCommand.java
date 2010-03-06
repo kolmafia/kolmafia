@@ -33,10 +33,13 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 
 public class BangPotionsCommand
 	extends AbstractCommand
@@ -64,7 +67,33 @@ public class BangPotionsCommand
 		{
 			String potion = ItemDatabase.getItemName( i );
 			potion = potion.substring( chopl, potion.length() - chopr );
-			RequestLogger.printLine( potion + ": " + Preferences.getString( pref + i ) );
+			StringBuffer buf = new StringBuffer( potion );
+			buf.append( ": " );
+			buf.append( Preferences.getString( pref + i ) );
+			AdventureResult item = ItemPool.get( i, 1 );
+			int have = item.getCount( KoLConstants.inventory );
+			int closet = item.getCount( KoLConstants.closet );
+			CreateItemRequest creator = CreateItemRequest.getInstance( item );
+			int create = creator == null ? 0 : creator.getQuantityPossible();
+			if ( have + closet + create > 0 )
+			{
+				buf.append( " (have " );
+				buf.append( have );
+				if ( closet > 0 )
+				{
+					buf.append( ", " );
+					buf.append( closet );
+					buf.append( " in closet" );
+				}
+				if ( create > 0 )
+				{
+					buf.append( ", can make " );
+					buf.append( create );
+				}
+				buf.append( ")" );
+			
+			}
+			RequestLogger.printLine( buf.toString() );
 		}
 	}
 }
