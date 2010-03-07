@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import apple.dts.samplecode.osxadapter.OSXAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -1451,6 +1453,8 @@ public abstract class KoLCharacter
 	{
 		if ( adventuresLeft != KoLCharacter.adventuresLeft )
 		{
+			OSXAdapter.setDockIconBadge( String.valueOf( adventuresLeft ) );
+		
 			KoLCharacter.adventuresLeft = adventuresLeft;
 			if ( KoLCharacter.canEat() && !KoLCharacter.hasChef() || KoLCharacter.canDrink() && !KoLCharacter.hasBartender() )
 			{
