@@ -1218,8 +1218,12 @@ public class ItemPool
 		effect = (String) possibilities.iterator().next();
 		Preferences.setString( baseName + missing, effect );
 		name = ItemDatabase.getItemName( missing );
-		testName = name + " of " + effect;
-		testPlural = name + "s of " + effect;
+		testName = name + joiner + effect;
+		testPlural = ItemDatabase.getPluralById( missing );
+		if ( testPlural != null )
+		{
+			testPlural = testPlural + joiner + effect;
+		}
 		ItemDatabase.registerItemAlias( missing, testName, testPlural );
 		return true;	
 	}
