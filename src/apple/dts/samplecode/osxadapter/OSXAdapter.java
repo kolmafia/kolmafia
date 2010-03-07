@@ -203,4 +203,30 @@ public class OSXAdapter implements InvocationHandler {
             }
         }
     }
+    
+    // KoLmafia extensions below this point
+    
+    private static Method badgeMethod;
+    private static Object[] badgeParams;
+    
+    public static void setDockIconBadge( String badge )
+    {
+    	if ( macOSXApplication == null ) return;
+        try
+        {
+        	if ( badgeParams == null )
+        	{
+        		badgeParams = new Object[ 1 ];
+				badgeMethod = macOSXApplication.getClass().getDeclaredMethod( "setDockIconBadge", new Class[] { String.class } );
+			}
+			if ( badgeMethod != null )
+			{
+				badgeParams[ 0 ] = badge;
+				badgeMethod.invoke( macOSXApplication, badgeParams );
+			}
+        }
+        catch (Exception ex) {
+            // Ignore errors - they're expected under OSX 10.4 and earlier.
+        }
+    }
 }
