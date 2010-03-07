@@ -717,6 +717,7 @@ flamin' bindle	Item Drop: +10, Hot Damage: +25
 flaming cardboard sword	Muscle: +3, Weapon Damage: +3, Hot Damage: +3
 flaming crutch	Hot Damage: +3
 flaming juggler's balls	Hot Damage: +10, Experience: +2, Softcore Only
+flamingo mallet	Monster Level: +4, Meat Drop: +5
 flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
 fouet de tortue-dressage	Familiar Weight: +10
 freezin' bindle	Item Drop: +10, Cold Damage: +25
@@ -2508,6 +2509,7 @@ Pulchritudinous Pressure	Moxie Percent: +300
 Pumped Stomach	Adventure Underwater
 Pumped Up	Muscle: +5
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
+Quadrilled	Item Drop: +20
 Quivering with Rage	Muscle Percent: -10
 Radiant Personality	Moxie Percent: +30
 Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3, Critical: 2
@@ -2646,6 +2648,7 @@ Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent:
 Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Superhuman Sarcasm	Moxie Percent: +100
+Surreally Buff	Muscle Percent: +20
 Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
 Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10

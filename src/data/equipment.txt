@@ -644,6 +644,7 @@ flamin' bindle	200	Mus: 200	2-handed polearm
 flaming cardboard sword	70	Mus: 20	1-handed sword
 flaming crutch	60	Mus: 15	1-handed club
 flaming juggler's balls	100	Mox: 0	1-handed euphemisms
+flamingo mallet	70	Mus: 0	2-handed club
 flypaper staff	80	Mus: 25	2-handed staff
 fouet de tortue-dressage	20	Mus: 0	1-handed whip
 freezin' bindle	200	Mus: 200	2-handed polearm

@@ -226,7 +226,7 @@ public abstract class VioletFogManager
 	private static final int FIRST_GOAL_LOCATION = 62;
 	public static final String FogGoals [] =
 	{
-		"Escape from the Fog",		// 48-61
+		"escape from the fog",		// 48-61
 		"Cerebral Cloche",		// 62
 		"Cerebral Crossbow",		// 63
 		"Cerebral Culottes",		// 64
@@ -306,6 +306,42 @@ public abstract class VioletFogManager
 
 		Preferences.setInteger( "lastVioletFogMap", KoLCharacter.getAscensions() );
 		Preferences.setString( "violetFogLayout", map.toString() );
+	}
+
+	private static final String currentGoalString()
+	{
+		int goal = Preferences.getInteger( "violetFogGoal" );
+
+		if ( goal < 0 || goal > 11 )
+		{
+			return "unknown";
+		}
+		
+		if ( goal == 10 )	// Boost Prime Stat
+		{
+			goal = KoLCharacter.getPrimeIndex() + 4;
+		}
+		else if ( goal == 11 )	// Boost Lowest Stat
+		{
+			long mus = KoLCharacter.getTotalMuscle();
+			long mys = KoLCharacter.getTotalMysticality();
+			long mox = KoLCharacter.getTotalMoxie();
+
+			if ( mus <= mys && mus <= mox )
+			{
+				goal = 4;
+			}
+			else if ( mys <= mus && mys <= mox )
+			{
+				goal = 5;
+			}
+			else
+			{
+				goal = 6;
+			}
+		}
+
+		return VioletFogManager.FogGoals[ goal ];
 	}
 
 	public static final boolean fogChoice( final int choice )
@@ -757,5 +793,11 @@ public abstract class VioletFogManager
 	public static final void showGemelliMap()
 	{
 		StaticEntity.openSystemBrowser( "http://fog.bewarethefgc.com/index.php?mapstring=" + VioletFogManager.gemelliCode() );
+	}
+
+	public static final void addGoalButton( final StringBuffer buffer )
+	{
+		String goal = VioletFogManager.currentGoalString();
+		ChoiceManager.addGoalButton( buffer, goal );
 	}
 }

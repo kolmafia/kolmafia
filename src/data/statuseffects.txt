@@ -737,16 +737,17 @@
 736	Bottle in front of Me	missingwine.gif	96725b7d3308d6495e1b4fa49648f121
 737	Fan-Cooled	palmfan.gif	4f824ddf25b79c18c1d55d4da9282b95
 738	Ginger Snapped	dragonsnaps.gif	fd72b3fea9532eff99df7dabc76e7785
-#739	<Stench Damage Effect>
+739	Egg on your Face	egg.gif	94c63fe46de6924eb623e8f1c5f86c95
 740	Pockets of Fire	fire.gif	063e77cadd47be4f3fafdf59b20dbaf7
 741	Weapon of Mass Destruction	csword.gif	bd9060b9f8b3bbdb886e324c369c81ac
-#	Dances with Tweedles	dance1.gif	15bdf07a543b55d176ef4c7dc7c8ddd0
-#	Patched In	librarycard.gif	3ebf7251799ce3a1e5efecf754f1ea56
-#	You Can Really Taste the Dormouse	dormouse.gif	87639937c57c2ab181a017d719e7d496
-#	Turtle Titters	turtle.gif	9e65ef420fa82ab98bc6a0745bfd61a5
+742
+743	Dances with Tweedles	dance1.gif	15bdf07a543b55d176ef4c7dc7c8ddd0
+744	Patched In	librarycard.gif	3ebf7251799ce3a1e5efecf754f1ea56
+745	You Can Really Taste the Dormouse	dormouse.gif	87639937c57c2ab181a017d719e7d496
+746	Turtle Titters	turtle.gif	9e65ef420fa82ab98bc6a0745bfd61a5
 747	Cat Class, Cat Style	tigereye.gif	7e27f53d80222fbd7e07938e591b40be
-#	Surreally Buff
-#749	Quadrilled
+748	Surreally Buff	strboost.gif	2e2ff53bcec1ce3fa0b0add058d9a38b
+749	Quadrilled	lobster.gif	1aff1c8a4389fcaeed66502163c05f57
 750
 751
 752	Grrrrrrreat!	milk.gif	b9be2b2f79923a03775bea5398ebcbd1	eat 1 Tiger-lily's milk
