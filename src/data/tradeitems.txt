@@ -4514,20 +4514,20 @@
 4505	Northern pemmican	multiple	all	0
 4506
 4507	Clan looking glass	usable	all	0
-4508	&quot;DRINK ME&quot; potion	usable	all	0
+4508	&quot;DRINK ME&quot; potion	multiple	all	0
 4509	reflection of a map	reusable	display	0
 4510	walrus ice cream	food	gift	0
-4511
+4511	beautiful soup	food	gift	0
 4512	eggman noodles	none	gift	0
-4513
-4514
-4515
+4513	vial of jus de larmes	none	gift	0
+4514	Humpty Dumplings	food	gift	0
+4515	Lobster <i>qua</i> Grill	food	gift	0
 4516	missing wine	booze	gift	0
 4517	yellow matter custard	food	all	55
 4518	delicious comfit?	multiple	all	88
 4519	ittah bittah hookah	familiar	display	0
-4520
-4521
+4520	flamingo mallet	weapon	all	72
+4521	croquet hedgehog	none, combat	all	45
 4522	Tiger-lily's milk	food	all	35
 4523	eye of the Tiger-lily	offhand	all	83
 4524	powdered wig	hat	all	94

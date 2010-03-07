@@ -337,6 +337,17 @@ public abstract class LouvreManager
 		}
 	}
 
+	private static final String currentGoalString()
+	{
+		LouvreManager.resetDecisions();
+		int goal = Preferences.getInteger( "louvreGoal" );
+		if ( goal <= 0 || goal > LouvreManager.LouvreGoals.length )
+		{
+			return "unknown";
+		}
+		return LouvreManager.LouvreGoals[ goal - 1 ];
+	}
+
 	public static final String handleChoice( final String choice, final int stepCount )
 	{
 		// We only handle LouvreManager choices
@@ -949,5 +960,11 @@ public abstract class LouvreManager
 	public static final void showGemelliMap()
 	{
 		StaticEntity.openSystemBrowser( "http://louvre.bewarethefgc.com/index.php?mapstring=" + LouvreManager.gemelliCode() );
+	}
+
+	public static final void addGoalButton( final StringBuffer buffer )
+	{
+		String goal = LouvreManager.currentGoalString();
+		ChoiceManager.addGoalButton( buffer, goal );
 	}
 }

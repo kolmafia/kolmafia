@@ -1308,6 +1308,7 @@ public abstract class ChoiceManager
 		// Choice 440 is unknown
 		// Choice 441 is The Mad Tea Party
 		// Choice 442 is A Moment of Reflection
+		// Choice 443 is Chess Puzzle
 		// Choice 444 is The Field of Strawberries
 		//	      is The Caucus Racetrack
 		//	      is The Croquet Grounds
@@ -1866,12 +1867,17 @@ public abstract class ChoiceManager
 
 	public static final void decorateChoice( final int choice, final StringBuffer buffer )
 	{
-		if ( ( choice >= 48 && choice <= 70 ) ||
-		     ( choice >= 91 && choice <= 104 ) )
+		if ( choice >= 48 && choice <= 70 )
 		{
-			// Add "Go To Goal" button for the Violet Fog and the
-			// Louvre.
-			ChoiceManager.addGoalButton( buffer );
+			// Add "Go To Goal" button for the Violet Fog
+			VioletFogManager.addGoalButton( buffer );
+			return;
+		}
+
+		if ( choice >= 91 && choice <= 104 )
+		{
+			// Add "Go To Goal" button for the Louvre.
+			LouvreManager.addGoalButton( buffer );
 			return;
 		}
 
@@ -3466,7 +3472,7 @@ public abstract class ChoiceManager
 		return "1";
 	}
 
-	public static final void addGoalButton( final StringBuffer buffer )
+	public static final void addGoalButton( final StringBuffer buffer, final String goal )
 	{
 		// Insert a "Goal" button in-line
 		String search = "<form name=choiceform1";
@@ -3481,7 +3487,11 @@ public abstract class ChoiceManager
                 String url = "/KoLmafia/specialCommand?cmd=choice-goal&pwd=" + GenericRequest.passwordHash;
 		button.append( "<form name=goalform action='" + url + "' method=post>" );
 		button.append( "<input class=button type=submit value=\"Go To Goal\">" );
-		button.append( "</form>" );
+
+		// Add the goal
+		button.append( "<br><font size=-1>(" );
+		button.append( goal );
+		button.append( ")</font></form>" );
 
 		// Insert it into the page
 		buffer.insert( index, button );
