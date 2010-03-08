@@ -33,14 +33,18 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -194,6 +198,23 @@ public abstract class RabbitHoleManager
 		"chess_qbb.gif",
 	};
 
+	private static final String[] TITLES = new String[]
+	{
+		"blank square",
+		"White Pawn",
+		"White Rook",
+		"White Knight",
+		"White Bishop",
+		"White King",
+		"White Queen",
+		"Black Pawn",
+		"Black Rook",
+		"Black Knight",
+		"Black Bishop",
+		"Black King",
+		"Black Queen",
+	};
+
 	static
 	{
 		for ( int i = 0; i < RabbitHoleManager.IMAGES.length; ++i )
@@ -243,8 +264,8 @@ public abstract class RabbitHoleManager
 	{
 		public final static int UNKNOWN = 0;
 
-		public final static int BLACK = 1;
-		public final static int WHITE = 2;
+		public final static int WHITE = 1;
+		public final static int BLACK = 2;
 
 		public final static int EMPTY = 0;
 		public final static int PAWN = 1;
@@ -255,10 +276,11 @@ public abstract class RabbitHoleManager
 		public final static int QUEEN = 6;
 
 		private final int color;
-		private final String title;
-		private final String image;
 		private final int piece;
 		private final int side;
+
+		private static final Square WHITE_SQUARE = new Square( WHITE );
+		private static final Square BLACK_SQUARE = new Square( BLACK );
 
 		public Square( final Matcher matcher )
 		{
@@ -267,19 +289,10 @@ public abstract class RabbitHoleManager
 			{
 				this.color = WHITE;
 			}
-			else if ( colorString.equals( "979797" ) )
+			else
 			{
 				this.color = BLACK;
 			}
-			else
-			{
-				this.color = UNKNOWN;
-			}
-
-			this.title = matcher.group( 2 );
-
-			String imageString = matcher.group( 3 );
-			this.image = "otherimages/chess/" + imageString + ".gif";
 
 			if ( matcher.group( 4 ) == null )
 			{
@@ -334,9 +347,56 @@ public abstract class RabbitHoleManager
 			}
 		}
 
+		public Square( final int color )
+		{
+			this( color, EMPTY, UNKNOWN );
+		}
+
+		public Square( final int color, final int piece, final int side )
+		{
+			this.color = color;
+			this.piece = piece;
+			this.side = side;
+		}
+
+		public static Square getColoredSquare( final int color )
+		{
+			return color == WHITE ? WHITE_SQUARE : BLACK_SQUARE;
+		}
+
+		public String getTitle()
+		{
+			int index = this.piece;
+			if ( index > 0 )
+			{
+				if (this.side == BLACK )
+				{
+					index += 6;
+				}
+			}
+			return TITLES[ index ];
+		}
+
+		public String getColorString()
+		{
+			return this.color == WHITE ? "White Square" : "Black Square";
+		}
+
 		public String getImage()
 		{
-			return this.image;
+			int index = this.piece;
+			if ( index > 0 )
+			{
+				if (this.color == BLACK )
+				{
+					index += 12;
+				}
+				if (this.side == BLACK )
+				{
+					index += 6;
+				}
+			}
+			return IMAGES[ index ];
 		}
 
 		public int getColor()
@@ -354,6 +414,16 @@ public abstract class RabbitHoleManager
 			return this.piece;
 		}
 
+		public boolean isPiece()
+		{
+			return this.piece != Square.EMPTY;
+		}
+
+		public Square convert()
+		{
+			return new Square( this.color, this.piece, this.side == WHITE ? BLACK : WHITE );
+		}
+
 		private static String whiteSquare = "style=\"width: 60px; height: 60px; text-align: center; background-color: #fff;\"";
 		private static String blackSquare = "style=\"width: 60px; height: 60px; text-align: center; background-color: #979797;\"";
 
@@ -362,8 +432,8 @@ public abstract class RabbitHoleManager
 			buffer.append( "<td " );
 			buffer.append( this.color == Square.WHITE ? whiteSquare : blackSquare );
 			buffer.append( ">" );
-			buffer.append( "<img src=\"http://images.kingdomofloathing.com/" );
-			buffer.append( this.image );
+			buffer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/chess/" );
+			buffer.append( this.getImage() );
 			buffer.append( "\" height=50 width=50/>" );
 			buffer.append( "</td>" );
 		}
@@ -377,60 +447,373 @@ public abstract class RabbitHoleManager
 			}
 			else
 			{
-				switch ( this.side )
-				{
-				case WHITE:
-					buffer.append( "White" );
-					break;
-				case BLACK:
-					buffer.append( "Black" );
-					break;
-				}
-				buffer.append( " " );
-				switch ( this.piece )
-				{
-				case PAWN:
-					buffer.append( "Pawn" );
-					break;
-				case ROOK:
-					buffer.append( "Rook" );
-					break;
-				case KNIGHT:
-					buffer.append( "Knight" );
-					break;
-				case BISHOP:
-					buffer.append( "Bishop" );
-					break;
-				case KING:
-					buffer.append( "King" );
-					break;
-				case QUEEN:
-					buffer.append( "Queen" );
-					break;
-				}
+				buffer.append( this.getTitle() );
 				buffer.append( " on a" );
 			}
 			buffer.append( " " );
-			switch ( this.color )
+			buffer.append( this.getColorString() );
+			return buffer.toString();
+		}
+
+		public static String coords( final int square )
+		{
+			int row = square / 8;
+			int col = square % 8;
+			return "(" + String.valueOf( row + 1 ) + "," + String.valueOf( col + 1 ) + ")";
+		} 
+	}
+
+	private static class Board
+		implements Cloneable
+	{
+		private Square[] board;
+		private int current;
+		private int pieces;
+
+		public Board()
+		{
+			this.board = new Square[ 64 ];
+			this.current = -1;
+			this.pieces = 0;
+		}
+
+		private Board( Square [] board, int current, int pieces )
+		{
+			this.board = (Square [])board.clone();
+			this.current = current;
+			this.pieces = pieces;
+		}
+
+		public Object clone()
+		{
+			return new Board( this.board, this.current, this.pieces );
+		}
+
+		public int getCurrent()
+		{
+			return this.current;
+		}
+
+		public int getPieces()
+		{
+			return this.pieces;
+		}
+
+		public Square get( final int index )
+		{
+			return this.board[ index ];
+		}
+
+		public Square add( final int index, final Square square )
+		{
+			Square old = this.board[ index ];
+			this.board[ index ] = square;
+			if ( square.isPiece() )
 			{
-			case WHITE:
-				buffer.append( "White Square" );
+				this.pieces++;
+				if ( square.getSide() == Square.WHITE )
+				{
+					this.current = index;
+				}
+			}
+			return old;
+		}
+
+		public Square remove( final int index )
+		{
+			Square square = this.board[ index ];
+			if ( square.isPiece() )
+			{
+				Square empty = Square.getColoredSquare( square.getColor() );
+				this.board[ index ] = empty;
+				this.pieces--;
+			}
+			return square;
+		}
+
+		public void set( final int index, final Square square )
+		{
+			this.remove( index );
+			this.add( index, square );
+		}
+
+		public Square move( final int index1, final int index2 )
+		{
+			// Remove the piece from current location
+			Square old = remove( index1 );
+
+			// Remove the piece from destination location
+			Square captured = remove( index2 );
+
+			// If it was a capture, we take over piece type
+			if ( captured.isPiece() )
+			{
+				this.add( index2, captured.convert() );
+			}
+
+			// Otherwise, we simply move into the square
+			else
+			{
+				this.add( index2, old );
+			}
+
+			// Return the former contents of the square
+			return captured;
+		}
+
+		public int getWinningMove()
+		{
+			if ( this.current < 0 )
+			{
+				return -1;
+			}
+
+			Square square = this.board[ this.current ];
+			if ( !square.isPiece() )
+			{
+				return -1;
+			}
+
+			int row = this.current / 8;
+			int col = this.current % 8;
+
+			switch ( square.getPiece() )
+			{
+			case Square.PAWN:
+			case Square.KING:
+				if ( row != 1 )
+				{
+					return -1;
+				}
+				// Fall through
+			case Square.ROOK:
+			case Square.QUEEN:
+				return col;
+
+			case Square.KNIGHT:
+				if ( row == 1 )
+				{
+					return col < 2 ? col + 2 : col - 2;
+				}
+				if ( row == 2 )
+				{
+					return col < 1 ? col + 1 : col - 1;
+				}
+				return -1;
+				
+			case Square.BISHOP:
+				if ( row + col <= 7 )
+				{
+					return row + col;
+				}
+				if ( col - row >= 0 )
+				{
+					return col - row;
+				}
+				return -1;
+			}
+
+			return -1;
+		}
+
+		public Integer [] getMoves()
+		{
+			if ( this.current < 0 )
+			{
+				return new Integer[0];
+			}
+
+			Square square = this.board[ this.current ];
+			if ( !square.isPiece() )
+			{
+				return new Integer[0];
+			}
+
+			ArrayList list = new ArrayList();
+
+			// Depending on type of piece, generate all moves
+			// available on current board configuration
+
+			int row = this.current / 8;
+			int col = this.current % 8;
+
+			switch ( square.getPiece() )
+			{
+			case Square.PAWN:
+				// Pawns capture diagonally forward one row
+				this.addMove( list, row - 1, col - 1 );
+				this.addMove( list, row - 1, col + 1 );
 				break;
-			case BLACK:
-				buffer.append( "Black Square" );
+			case Square.KING:
+				// Kings move one in any direction
+				this.addMove( list, row - 1, col - 1 );
+				this.addMove( list, row - 1, col );
+				this.addMove( list, row - 1, col + 1 );
+				this.addMove( list, row, col - 1 );
+				this.addMove( list, row, col + 1 );
+				this.addMove( list, row + 1, col - 1 );
+				this.addMove( list, row + 1, col );
+				this.addMove( list, row + 1, col + 1 );
+				break;
+			case Square.KNIGHT:
+				// Knights wiggle
+				this.addMove( list, row - 2, col - 1 );
+				this.addMove( list, row - 2, col + 1 );
+				this.addMove( list, row - 1, col + 2 );
+				this.addMove( list, row + 1, col + 2 );
+				this.addMove( list, row + 2, col + 1 );
+				this.addMove( list, row + 2, col - 1 );
+				this.addMove( list, row + 1, col - 2 );
+				this.addMove( list, row - 1, col - 2 );
+				break;
+			case Square.ROOK:
+				this.addRookMoves( list, row, col );
+				break;
+			case Square.BISHOP:
+				this.addBishopMoves( list, row, col );
+				break;
+			case Square.QUEEN:
+				this.addRookMoves( list, row, col );
+				this.addBishopMoves( list, row, col );
 				break;
 			}
-			return buffer.toString();
+
+			// Convert the list into an array
+			Integer [] array = new Integer[ list.size() ];
+			return (Integer []) list.toArray( array );
+		}
+
+		private void addRookMoves( final ArrayList list, final int row, final int col )
+		{
+			// Go West. Quit when you hit a piece
+			for ( int i = col - 1; i >= 0; --i )
+			{
+				if ( this.addMove( list, row, i ) )
+				{
+					break;
+				}
+			}
+			// Go East. Quit when you hit a piece
+			for ( int i = col + 1; i <= 7; ++i )
+			{
+				if ( this.addMove( list, row, i ) )
+				{
+					break;
+				}
+			}
+			// Go North. Quit when you hit a piece
+			for ( int i = row - 1; i >= 0; --i )
+			{
+				if ( this.addMove( list, i, col ) )
+				{
+					break;
+				}
+			}
+			// Go South. Quit when you hit a piece
+			for ( int i = row + 1; i <= 7; ++i )
+			{
+				if ( this.addMove( list, i, col ) )
+				{
+					break;
+				}
+			}
+		}
+
+		private void addBishopMoves( final ArrayList list, final int row, final int col )
+		{
+			// Go Northwest. Quit when you hit a piece
+			for ( int irow = row - 1, icol = col - 1; irow >= 0 && icol >= 0; --irow, --icol )
+			{
+				if ( this.addMove( list, irow, icol ) )
+				{
+					break;
+				}
+			}
+			// Go Northeast. Quit when you hit a piece
+			for ( int irow = row - 1, icol = col + 1; irow >= 0 && icol <=7; --irow, ++icol )
+			{
+				if ( this.addMove( list, irow, icol ) )
+				{
+					break;
+				}
+			}
+			// Go Southwest. Quit when you hit a piece
+			for ( int irow = row + 1, icol = col - 1; irow <= 7 && icol >= 0; ++irow, --icol )
+			{
+				if ( this.addMove( list, irow, icol ) )
+				{
+					break;
+				}
+			}
+			// Go Southeast. Quit when you hit a piece
+			for ( int irow = row + 1, icol = col + 1; irow <= 7 && icol <= 7; ++irow, ++icol )
+			{
+				if ( this.addMove( list, irow, icol ) )
+				{
+					break;
+				}
+			}
+		}
+
+		private boolean addMove( final ArrayList list, final int row, final int col )
+		{
+			// If the proposed move is off the board, fail
+			if ( row < 0 || row > 7 || col < 0 || col > 7 )
+			{
+				return false;
+			}
+
+			// If the proposed move is not a capture, fail
+			int square = ( row * 8 ) + col;
+			if ( !this.board[ square ].isPiece() )
+			{
+				return false;
+			}
+
+			// Otherwise, tally the move and succeed
+			list.add( new Integer( square ) );
+			return true;
+		}
+
+		public void appendHTML( final StringBuffer buffer )
+		{
+			buffer.append( "<table cols=9>" );
+			buffer.append( "<tr>" );
+			buffer.append( "<td></td><" );
+			for ( int i = 1; i <= 8; i++ )
+			{
+				buffer.append( "<td><b>" );
+				buffer.append( String.valueOf( i ) );
+				buffer.append( "</b></td>" );
+			}
+			buffer.append( "</tr>" );
+			for ( int i = 0; i < 64; i++ )
+			{
+				Square square = this.board[ i ];
+				if ( i % 8 == 0 )
+				{
+					buffer.append( "<tr>" );
+					buffer.append( "<td><b>" );
+					buffer.append( String.valueOf( i / 8 + 1) );
+					buffer.append( "</b></td>" );
+				}
+				square.appendHTML( buffer );
+				if ( i % 8 == 7 )
+				{
+					buffer.append( "</tr>" );
+				}
+			}
+			buffer.append( "</table>" );
 		}
 	}
 
-	private static Square[] board;
+	private static Board board;
 
 	public static final void parseChessPuzzle( final String responseText )
 	{
 		if ( board == null )
 		{
-			board = new Square[ 64 ];
+			board = new Board();
 		}
 
 		Matcher matcher = RabbitHoleManager.SQUARE_PATTERN.matcher( responseText );
@@ -439,7 +822,7 @@ public abstract class RabbitHoleManager
 		{
 			if ( index < 64 )
 			{
-				board[ index ] = new Square( matcher );
+				board.add( index, new Square( matcher ) );
 			}
 			index++;
 		}
@@ -452,32 +835,172 @@ public abstract class RabbitHoleManager
 		}
 	}
 
-	public static final void test()
+	// CLI command support
+	public static final void board()
 	{
 		if ( RabbitHoleManager.board == null )
 		{
+			RequestLogger.printLine( "I haven't seen a chessboard recently." );
 			return;
 		}
 
 		StringBuffer buffer = new StringBuffer();
-		buffer.append( "<table cols=8>" );
-		for ( int i = 0; i < 64; i++ )
-		{
-			Square square = RabbitHoleManager.board[ i ];
-			if ( i % 8 == 0 )
-			{
-				buffer.append( "<tr>" );
-			}
-			square.appendHTML( buffer );
-			if ( i % 8 == 7 )
-			{
-				buffer.append( "</tr>" );
-			}
-		}
-		buffer.append( "</table>" );
+		board.appendHTML( buffer );
 
 		RequestLogger.printLine( buffer.toString() );
 		RequestLogger.printLine();
+	}
+
+	public static final void test()
+	{
+		if ( RabbitHoleManager.board == null )
+		{
+			RequestLogger.printLine( "I haven't seen a chessboard recently." );
+			return;
+		}
+
+		Path solution = RabbitHoleManager.solve( RabbitHoleManager.board );
+
+		if ( solution == null )
+		{
+			RequestLogger.printLine( "I couldn't solve the current board." );
+			return;
+		}
+
+		Integer [] path = solution.toArray();
+		int square = board.getCurrent();
+		RequestLogger.printLine( "The " +
+				       board.get( square ).getTitle() +
+				       " on square " +
+				       Square.coords( square ) );
+		for ( int i = 0; i < path.length - 1; ++i )
+		{
+			square = path[ i ].intValue();
+			RequestLogger.printLine( "...takes the " +
+						 board.get( square ).getTitle() +
+						 " on square " +
+						 Square.coords( square ) );
+		}
+		square = path[ path.length - 1 ].intValue();
+		RequestLogger.printLine( "...which moves to square " + Square.coords( square ) + " to win." );
+	}
+
+	public static final void solve()
+	{
+		if ( RabbitHoleManager.board == null )
+		{
+			RequestLogger.printLine( "I haven't seen a chessboard recently." );
+			return;
+		}
+
+		String responseText = ChoiceManager.lastResponseText;
+		StringBuffer buffer = new StringBuffer( responseText );
+		RequestEditorKit.getFeatureRichHTML( "choice.php", buffer, true );
+		RelayRequest.specialCommandResponse = buffer.toString();
+	}
+
+	private static final Path solve( final Board board )
+	{
+		// Attempt to solve by moving the current piece
+		return RabbitHoleManager.solve( (Board)board.clone(), new Path() );
+	}
+
+	private static final Path solve( final Board board, final Path path )
+	{
+		int current = board.getCurrent();
+
+		// If there is no current square, no path
+		if ( current < 0 )
+		{
+			return null;
+		}
+
+		// If there is only one piece left standing, we have a
+		// potential solution
+		if ( board.getPieces() == 1 )
+		{
+			// Find the move which takes the current piece to the
+			// top row
+			int end = board.getWinningMove();
+			if ( end < 0 )
+			{
+				// Oops. You can't get there from here.
+				return null;
+			}
+			// Ad the final move to the path and return it
+			path.add( end );
+			return path;
+		}
+
+		// Save the current piece
+		Square currentPiece = board.get( current );
+
+		// Get possible moves for the current piece
+		Integer [] moves = board.getMoves();
+
+		for ( int i = 0; i < moves.length; ++i )
+		{
+			Integer move = moves[ i ];
+			int square = move.intValue();
+
+			// If there is a piece on the square, try taking it
+			if ( board.get( square ).isPiece() )
+			{
+				// Add the new square to the current path
+				path.add( square );
+
+				// Move the current piece to the new location
+				Square captured = board.move( current, square );
+
+				// Recurse
+				Path newPath = solve( board, path );
+
+				// If we found a solution, we are golden
+				if ( newPath != null )
+				{
+					return newPath;
+				}
+
+				// Otherwise, backtrack
+				path.remove();
+				board.set( square, captured );
+				board.set( current, currentPiece );
+			}
+		}
+
+		// We were unable to find a path to the goal
+		return null;
+	}
+
+	private static class Path
+	{
+		private final ArrayList list;
+
+		public Path()
+		{
+			list = new ArrayList();
+		}
+
+		public void add( final int square )
+		{
+			list.add( new Integer( square ) );
+		}
+
+		public void remove()
+		{
+			list.remove( list.size() - 1 );
+		}
+
+		public int size()
+		{
+			return list.size();
+		}
+
+		public Integer [] toArray()
+		{
+			Integer [] array = (Integer []) list.toArray( new Integer[ list.size() ] );
+			return array;
+		}
 	}
 
 	private static final Pattern MOVE_PATTERN = Pattern.compile("move=((\\d+)(:?%2C|,)(\\d+))");
@@ -492,13 +1015,25 @@ public abstract class RabbitHoleManager
 		Preferences.setInteger( "lastRabbitHoleReset", KoLCharacter.getAscensions() );
 	}
 
-	public static final void decorate( final String location, final StringBuffer buffer )
+	public static final void decorateChessPuzzle( final StringBuffer buffer )
 	{
-		if ( !location.startsWith( "rabbithole.php" ) )
+		// Add a "Solve!" button to the Chess Board
+		String search = "</form>";
+		int index = buffer.lastIndexOf( search );
+		if ( index == -1 )
 		{
 			return;
 		}
+		index += 7;
 
-		// Add a "Solve!" button to the Chess Board
+		StringBuffer button = new StringBuffer();
+
+		String url = "/KoLmafia/specialCommand?cmd=chess+solve&pwd=" + GenericRequest.passwordHash;
+		button.append( "<form name=solveform action='" + url + "' method=post>" );
+		button.append( "<input class=button type=submit value=\"Solve!\">" );
+		button.append( "</form>" );
+
+		// Insert it into the page
+		buffer.insert( index, button );
 	}
 }
