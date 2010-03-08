@@ -129,6 +129,13 @@ public class RelayRequest
 		this.allowOverride = allowOverride && Preferences.getBoolean( "relayAllowsOverrides" );
 	}
 
+	public String getHashField()
+	{
+		// Do not automatically include the password hash on requests
+		// relayed from the browser.
+		return null;
+	}
+
 	public GenericRequest constructURLString( final String newURLString )
 	{
 		return this.constructURLString( newURLString, true );

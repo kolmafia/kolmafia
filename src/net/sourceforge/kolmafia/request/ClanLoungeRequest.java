@@ -425,6 +425,7 @@ public class ClanLoungeRequest
 
 		if ( action.equals( "lookingglass" ) )
 		{
+			Preferences.setBoolean( "_lookingGlass", true );
 			return;
 		}
 	}
@@ -450,6 +451,12 @@ public class ClanLoungeRequest
 		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.KLAW );
 		while ( Preferences.getInteger( "_deluxeKlawSummons" ) < 3 )
 		{
+			request.run();
+		}
+
+		if ( !Preferences.getBoolean( "_lookingGlass" ) )
+		{
+			request = new ClanLoungeRequest( ClanLoungeRequest.LOOKING_GLASS );
 			request.run();
 		}
 	}

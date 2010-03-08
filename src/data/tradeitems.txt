@@ -4519,7 +4519,7 @@
 4510	walrus ice cream	food	gift	0
 4511	beautiful soup	food	gift	0
 4512	eggman noodles	none	gift	0
-4513	vial of jus de larmes	none	gift	0
+4513	Vial of <i>jus de larmes</i>	none	gift	0
 4514	Humpty Dumplings	food	gift	0
 4515	Lobster <i>qua</i> Grill	food	gift	0
 4516	missing wine	drink	gift	0

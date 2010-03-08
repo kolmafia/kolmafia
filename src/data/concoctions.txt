@@ -265,7 +265,7 @@ goat cheese pizza	COOK	plain pizza	goat cheese
 guano coffee cup	SUSE	bat guano
 herb brownies	COOK	herbs	Uncle Jick's Brownie Mix
 hippy herbal tea	COOK	guano coffee cup	herbs
-Humpty Dumplings	COOK	eggman noodles	vial of jus de larmes
+Humpty Dumplings	COOK	eggman noodles	Vial of <i>jus de larmes</i>
 insanely spicy bean burrito	COOK	spicy bean burrito	jaba&ntilde;ero pepper
 insanely spicy enchanted bean burrito	COOK	spicy enchanted bean burrito	jaba&ntilde;ero pepper
 insanely spicy jumping bean burrito	COOK	spicy jumping bean burrito	jaba&ntilde;ero pepper

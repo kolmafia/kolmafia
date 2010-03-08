@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
@@ -83,6 +84,7 @@ import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
+import net.sourceforge.kolmafia.request.RabbitHoleRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
@@ -90,7 +92,6 @@ import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.SuspiciousGuyRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
@@ -790,6 +791,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof PyroRequest || isExternal ) && PyroRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof RabbitHoleRequest || isExternal ) && RabbitHoleRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
