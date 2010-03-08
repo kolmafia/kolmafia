@@ -753,7 +753,7 @@ public class GenericRequest
 	private String getDataString( final boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
-		String hashField = getHashField();
+		String hashField = this.getHashField();
 
 		for ( int i = 0; i < this.data.size(); ++i )
 		{
@@ -773,18 +773,18 @@ public class GenericRequest
 				}
 
 				hashField = element;
+                                continue;
 			}
-			else
+
+			if ( dataBuffer.length() > 0 )
 			{
-				if ( dataBuffer.length() > 0 )
-				{
-					dataBuffer.append( '&' );
-				}
-				dataBuffer.append( element );
+				dataBuffer.append( '&' );
 			}
+
+			dataBuffer.append( element );
 		}
 
-		if ( !GenericRequest.passwordHash.equals( "" ) )
+		if ( hashField != null && !GenericRequest.passwordHash.equals( "" ) )
 		{
 			if ( dataBuffer.length() > 0 )
 			{

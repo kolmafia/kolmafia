@@ -2791,6 +2791,19 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 441:
+			// The Mad Tea Party
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// I'm sorry, but there's a very strict dress
+				// code for this party
+				if ( text.indexOf( "very strict dress code" ) == -1 )
+				{
+					Preferences.setBoolean( "_madTeaParty", true );
+				}
+			}
+			break;
+
 		case 442:
 			// A Moment of Reflection
 			if ( ChoiceManager.lastDecision == 5 )
