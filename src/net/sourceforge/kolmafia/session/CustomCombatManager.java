@@ -774,6 +774,10 @@ public abstract class CustomCombatManager
 			{
 				return "skill " + potentialSkill.toLowerCase();
 			}
+			else
+			{
+				return "note unknown/ambiguous " + action;
+			}
 		}
 
 		// Well, it's either a standard skill, or it's an item,

@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -986,23 +987,34 @@ public class SkillDatabase
 		String name = substring.toLowerCase();
 	
 		int skillIndex = -1;
-		int substringIndex = Integer.MAX_VALUE;
-	
+		boolean ambiguous = false;
 		int currentIndex;
 	
 		for ( int i = 0; i < skills.length; ++i )
 		{
 			String skill = skills[ i ].getSkillName();
-			currentIndex = skill.toLowerCase().indexOf( name );
-	
-			if ( currentIndex != -1 && currentIndex < substringIndex )
+			if ( skill.toLowerCase().indexOf( name ) != -1 )
 			{
-				skillIndex = i;
-				substringIndex = currentIndex;
+				if ( ambiguous )
+				{
+					RequestLogger.printLine( skill );
+				}
+				else if ( skillIndex != -1 )
+				{
+					RequestLogger.printLine( "Possible matches:" );
+					RequestLogger.printLine( skills[ skillIndex ].getSkillName() );
+					RequestLogger.printLine( skill );
+					ambiguous = true;
+				}
+				else
+				{
+					skillIndex = i;
+				}
 			}
 		}
 	
-		return skillIndex == -1 ? null : skills[ skillIndex ].getSkillName();
+		return (ambiguous || skillIndex == -1) ? null
+			: skills[ skillIndex ].getSkillName();
 	}
 
 	/**

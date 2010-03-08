@@ -136,6 +136,7 @@ public class ShowDataCommand
 
 			desiredStream.println( "Ronald: " + HolidayDatabase.getRonaldPhaseAsString() );
 			desiredStream.println( "Grimace: " + HolidayDatabase.getGrimacePhaseAsString() );
+			desiredStream.println( "Mini-moon: " + HolidayDatabase.getHamburglarPositionAsString() );
 			desiredStream.println();
 
 			String[] holidayPredictions = HolidayDatabase.getHolidayPredictions( today );
