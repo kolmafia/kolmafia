@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -84,7 +85,8 @@ public class UseSkillCommand
 			String skillName = SkillDatabase.getUsableSkillName( skillNameString );
 			if ( skillName == null )
 			{
-				KoLmafia.updateDisplay( "You don't have a skill matching \"" + parameters + "\"" );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					"You don't have a skill uniquely matching \"" + parameters + "\"" );
 				return;
 			}
 

@@ -290,69 +290,68 @@ public class HolidayDatabase
 
 		int newStep = HolidayDatabase.getPhaseStep();
 
-		if ( oldStep == newStep )
+		if ( oldStep != newStep )
 		{
-			return;
+			// There are several reasons why our calculation of the KoL
+			// moon phases might disagree with KoL's
+	
+			// - We assume KoL dates change at midnight of a calendar
+			//   day. They do not. They change at KoL Rollover, which is
+			//   before midnight in Arizona.
+			//
+			// - If you are in a different timezone than the KoL servers,
+			//   Rollover happens at different times. Even if you are in
+			//   the same timezone as Arizona, you may observe DST, and KoL
+			//   does not.
+			//
+			// - The local computer clock may be off
+	
+			// If we ignore, for the moment, the last case, KoLmafia's idea
+			// of the KoL date could be one off from KoL's idea:
+			//
+			// - If Rollover is finished but it is not yet midnight in this
+			//   timezone, KoL will be one day ahead
+			//
+			// - If it is after midnight in this timezone, but Rollover has
+			//   not occurred for KoL, KoL will be one day behind.
+	
+			// Therefore, assuming the local computer clock is correct, We
+			// could be one day out of phase in either direction.
+	
+			// Unfortunately, a computer's clock can be arbitrarily
+			// incorrect. We can accomodate that if we can, somehow, synch
+			// up with the date used by KoL itself. We have two options:
+	
+			// We can easily see KoL's moon phases on the top menu. These
+			// go through a 16-day cycle. If the local clock is 7 or fewer
+			// days off, we can assume that our relative error to KoL is
+			// from -8 to +7.
+	
+			// We can see KoL's actual month and day from the chatlaunch
+			// frame. That goes through a 96-day cycle, which would allow
+			// us to correct a phase error from -48 to +47.
+	
+			// For now, since we already read the moon phases, we'll do the
+			// former, and assume that the phase error is between -8 days
+			// and +7 days.
+	
+			int phaseError = oldStep - newStep;
+	
+			if ( phaseError > 7 )
+			{
+				phaseError -= 16;
+			}
+	
+			String message = "Old phase = " + oldStep + " new phase = " + newStep + " phase error = " + phaseError;
+			RequestLogger.printLine( message );
+	
+			// Adjust the new year by the appropriate number of days.
+	
+			HolidayDatabase.NEWYEAR += phaseError * MS_PER_DAY;
+			HolidayDatabase.BOUNDARY += phaseError * MS_PER_DAY;
+			HolidayDatabase.COLLISION += phaseError * MS_PER_DAY;
 		}
-
-		// There are several reasons why our calculation of the KoL
-		// moon phases might disagree with KoL's
-
-		// - We assume KoL dates change at midnight of a calendar
-		//   day. They do not. They change at KoL Rollover, which is
-		//   before midnight in Arizona.
-		//
-		// - If you are in a different timezone than the KoL servers,
-		//   Rollover happens at different times. Even if you are in
-		//   the same timezone as Arizona, you may observe DST, and KoL
-		//   does not.
-		//
-		// - The local computer clock may be off
-
-		// If we ignore, for the moment, the last case, KoLmafia's idea
-		// of the KoL date could be one off from KoL's idea:
-		//
-		// - If Rollover is finished but it is not yet midnight in this
-		//   timezone, KoL will be one day ahead
-		//
-		// - If it is after midnight in this timezone, but Rollover has
-		//   not occurred for KoL, KoL will be one day behind.
-
-		// Therefore, assuming the local computer clock is correct, We
-		// could be one day out of phase in either direction.
-
-		// Unfortunately, a computer's clock can be arbitrarily
-		// incorrect. We can accomodate that if we can, somehow, synch
-		// up with the date used by KoL itself. We have two options:
-
-		// We can easily see KoL's moon phases on the top menu. These
-		// go through a 16-day cycle. If the local clock is 7 or fewer
-		// days off, we can assume that our relative error to KoL is
-		// from -8 to +7.
-
-		// We can see KoL's actual month and day from the chatlaunch
-		// frame. That goes through a 96-day cycle, which would allow
-		// us to correct a phase error from -48 to +47.
-
-		// For now, since we already read the moon phases, we'll do the
-		// former, and assume that the phase error is between -8 days
-		// and +7 days.
-
-		int phaseError = oldStep - newStep;
-
-		if ( phaseError > 7 )
-		{
-			phaseError -= 16;
-		}
-
-		String message = "Old phase = " + oldStep + " new phase = " + newStep + " phase error = " + phaseError;
-		RequestLogger.printLine( message );
-
-		// Adjust the new year by the appropriate number of days.
-
-		HolidayDatabase.NEWYEAR += phaseError * MS_PER_DAY;
-		HolidayDatabase.BOUNDARY += phaseError * MS_PER_DAY;
-		HolidayDatabase.COLLISION += phaseError * MS_PER_DAY;
+		HolidayDatabase.HAMBURGLAR_POSITION = HolidayDatabase.getHamburglarPosition( new Date() );
 	}
 
 	public static final int getRonaldPhase()
@@ -368,20 +367,14 @@ public class HolidayDatabase
 	public static final int getHamburglarPosition( final Date time )
 	{
 		long currentTime = time.getTime();
-		long timeDifference = currentTime - HolidayDatabase.NEWYEAR;
+		long timeDifference = currentTime - HolidayDatabase.COLLISION;
 
-		if ( currentTime > HolidayDatabase.BOUNDARY )
-		{
-			timeDifference -= MS_PER_DAY;
-		}
-
-		if ( timeDifference < HolidayDatabase.COLLISION )
+		if ( timeDifference < 0 )
 		{
 			return -1;
 		}
 
-		timeDifference -= HolidayDatabase.COLLISION;
-		int dayDifference = (int) Math.floor( timeDifference / MS_PER_DAY );
+		int dayDifference = (int)(timeDifference / MS_PER_DAY);
 		return ( dayDifference * 2 % 11 + 11 ) % 11;
 	}
 
@@ -427,6 +420,42 @@ public class HolidayDatabase
 			return "third quarter";
 		case 7:
 			return "waning crescent";
+		default:
+			return "unknown";
+		}
+	}
+
+	public static final String getHamburglarPositionAsString()
+	{
+		return HolidayDatabase.getHamburglarPositionName( HolidayDatabase.HAMBURGLAR_POSITION );
+	}
+
+	public static final String getHamburglarPositionName( final int phase )
+	{
+		switch ( phase )
+		{
+		case 0:
+			return "in front of Grimace, L side";
+		case 1:
+			return "in front of Grimace, R side";
+		case 2:
+			return "far right";
+		case 3:
+			return "behind Grimace";
+		case 4:
+			return "in back, near Grimace";
+		case 5:
+			return "in back, near Ronald";
+		case 6:
+			return "behind Ronald";
+		case 7:
+			return "far left";
+		case 8:
+			return "in front of Ronald, L side";
+		case 9:
+			return "in front of Ronald, R side";
+		case 10:
+			return "front center";
 		default:
 			return "unknown";
 		}
