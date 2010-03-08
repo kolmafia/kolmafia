@@ -4522,7 +4522,7 @@
 4513	vial of jus de larmes	none	gift	0
 4514	Humpty Dumplings	food	gift	0
 4515	Lobster <i>qua</i> Grill	food	gift	0
-4516	missing wine	booze	gift	0
+4516	missing wine	drink	gift	0
 4517	yellow matter custard	food	all	55
 4518	delicious comfit?	multiple	all	88
 4519	ittah bittah hookah	familiar	display	0

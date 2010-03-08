@@ -2790,6 +2790,15 @@ public abstract class ChoiceManager
 				}
 			}
 			break;
+
+		case 442:
+			// A Moment of Reflection
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				// Option 5 is Chess Puzzle
+				RabbitHoleManager.parseChessPuzzle( text );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
