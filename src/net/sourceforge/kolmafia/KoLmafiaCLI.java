@@ -605,6 +605,7 @@ public class KoLmafiaCLI
 		new CheckDataCommand().register( "newdata" ).register( "checkitems" ).register( "checkeffects" ).register(
 			"checkplurals" ).register( "checkmodifiers" ).register( "checkconsumption" ).register( "checkprofile" ).register(
 			"checkpulverization" ).register( "checkzapgroups" );
+		new ChessCommand().register( "chess" );
 		new ChipsCommand().register( "chips" );
 		new ClanCommand().register( "clan" );
 		new ClanSofaCommand().register( "sofa" ).register( "sleep" );

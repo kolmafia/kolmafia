@@ -1893,6 +1893,9 @@ public abstract class ChoiceManager
 		case 392:
 			MemoriesDecorator.decorateElements( choice, buffer );
 			break;
+		case 443:
+			// Chess Puzzle
+			RabbitHoleManager.decorateChessPuzzle( buffer );
 		}
 	}
 
