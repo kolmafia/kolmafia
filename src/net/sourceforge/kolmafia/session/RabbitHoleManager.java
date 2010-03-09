@@ -807,10 +807,16 @@ public abstract class RabbitHoleManager
 		}
 	}
 
+	private static String testData = null;
 	private static Board board;
 
 	public static final void parseChessPuzzle( final String responseText )
 	{
+		if ( responseText == null )
+		{
+			return;
+		}
+
 		if ( board == null )
 		{
 			board = new Board();
@@ -840,6 +846,11 @@ public abstract class RabbitHoleManager
 	{
 		if ( RabbitHoleManager.board == null )
 		{
+			RabbitHoleManager.parseChessPuzzle( RabbitHoleManager.testData );
+		}
+
+		if ( RabbitHoleManager.board == null )
+		{
 			RequestLogger.printLine( "I haven't seen a chessboard recently." );
 			return;
 		}
@@ -853,6 +864,11 @@ public abstract class RabbitHoleManager
 
 	public static final void test()
 	{
+		if ( RabbitHoleManager.board == null )
+		{
+			RabbitHoleManager.parseChessPuzzle( RabbitHoleManager.testData );
+		}
+
 		if ( RabbitHoleManager.board == null )
 		{
 			RequestLogger.printLine( "I haven't seen a chessboard recently." );
@@ -889,16 +905,33 @@ public abstract class RabbitHoleManager
 
 	public static final void solve()
 	{
+		RelayRequest.specialCommandResponse = ChoiceManager.lastResponseText;
+
 		if ( RabbitHoleManager.board == null )
 		{
 			RequestLogger.printLine( "I haven't seen a chessboard recently." );
 			return;
 		}
 
-		String responseText = ChoiceManager.lastResponseText;
-		StringBuffer buffer = new StringBuffer( responseText );
-		RequestEditorKit.getFeatureRichHTML( "choice.php", buffer, true );
-		RelayRequest.specialCommandResponse = buffer.toString();
+		Path solution = RabbitHoleManager.solve( RabbitHoleManager.board );
+
+		if ( solution == null )
+		{
+			RequestLogger.printLine( "I couldn't solve the current board." );
+			return;
+		}
+
+		Integer [] path = solution.toArray();
+		for ( int i = 0; i < path.length; ++i )
+		{
+			int square = path[ i ].intValue();
+			int row = square / 8;
+			int col = square % 8;
+			String url = "choice.php?pwd&whichchoice=443&option=1&xy=" + String.valueOf( col ) + "," + String.valueOf( row );
+			GenericRequest req = new GenericRequest( url );
+			req.run();
+			RelayRequest.specialCommandResponse = req.responseText;
+		}
 	}
 
 	private static final Path solve( final Board board )

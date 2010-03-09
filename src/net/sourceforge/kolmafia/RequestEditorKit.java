@@ -1302,6 +1302,14 @@ public class RequestEditorKit
 		for ( int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
+
+			// I have no idea how this can happen, but it does,
+			// and it screws people up badly when it does
+			if ( name == null )
+			{
+				continue;
+			}
+
 			String plural = ItemDatabase.getPluralById( i );
 			if ( buffer.indexOf( name ) != -1 ||
 				(plural != null && buffer.indexOf( plural ) != -1) )
