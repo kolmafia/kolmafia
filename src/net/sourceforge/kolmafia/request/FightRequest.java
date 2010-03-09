@@ -1935,6 +1935,17 @@ public class FightRequest
 			return;
 		}
 
+		// The turtle blinks at you with gratitude for freeing it from
+		// its brainwashing, and trudges off over the horizon.
+		// ...Eventually.
+		if ( responseText.indexOf( "freeing it from its brainwashing" ) != -1 )
+		{
+			int free = Preferences.increment( "guardTurtlesFreed" );
+			String message = "Freed guard turtle #" + free;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+
 		if ( responseText.indexOf( "your Epic Weapon reverts to its original form in a puff of failure" ) != -1 )
 		{
 			FightRequest.transmogrifyNemesisWeapon( true );

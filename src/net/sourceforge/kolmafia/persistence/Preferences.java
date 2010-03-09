@@ -326,13 +326,17 @@ public class Preferences
 		return getFloat( null, name );
 	}
 
+	public static final int increment( final String name )
+	{
+		return Preferences.increment( name, 1, 0, false );
+	}
+
 	public static final int increment( final String name, final int increment )
 	{
 		return Preferences.increment( name, increment, 0, false );
 	}
 
-	public static final int increment( final String name, final int increment, final int max,
-		final boolean mod )
+	public static final int increment( final String name, final int increment, final int max, final boolean mod )
 	{
 		int current = Preferences.getInteger( name );
 		if ( increment != 0 )
