@@ -715,6 +715,7 @@ public class SkillDatabase
 		case 50:	// Break It On Down
 		case 51:	// Pop and Lock It
 		case 52:	// Run Like the Wind
+		case 3024:	// Canticle of Carboloading
 			// Nemesis skills
 			return false;
 
