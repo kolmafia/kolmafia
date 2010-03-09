@@ -65,7 +65,7 @@ public class EquipmentRequest
 	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN =
-		Pattern.compile( "<option value='?([\\d]+)'? descid='?([\\d]+)'?>([^>]*?) \\(([\\d,]+)\\)</option>" );
+		Pattern.compile( "<option value='?([\\d]+)'? descid='?([\\d]+)'?>(.*?) \\(([\\d,]+)\\)</option>" );
 
 	// With images:
 	//
