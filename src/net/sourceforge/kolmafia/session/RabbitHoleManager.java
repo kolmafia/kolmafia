@@ -885,6 +885,8 @@ public abstract class RabbitHoleManager
 		RequestLogger.printLine( "...which moves to square " + Square.coords( square ) + " to win." );
 	}
 
+	private static final Pattern MOVE_PATTERN = Pattern.compile("move=((\\d+)(:?%2C|,)(\\d+))");
+
 	public static final void solve()
 	{
 		if ( RabbitHoleManager.board == null )
@@ -927,7 +929,7 @@ public abstract class RabbitHoleManager
 				// Oops. You can't get there from here.
 				return null;
 			}
-			// Ad the final move to the path and return it
+			// Add the final move to the path and return it
 			path.add( end );
 			return path;
 		}
@@ -940,32 +942,33 @@ public abstract class RabbitHoleManager
 
 		for ( int i = 0; i < moves.length; ++i )
 		{
-			Integer move = moves[ i ];
-			int square = move.intValue();
+			int square = moves[ i ].intValue();
 
-			// If there is a piece on the square, try taking it
-			if ( board.get( square ).isPiece() )
+			// If there is no piece on the square, skip
+			if ( !board.get( square ).isPiece() )
 			{
-				// Add the new square to the current path
-				path.add( square );
-
-				// Move the current piece to the new location
-				Square captured = board.move( current, square );
-
-				// Recurse
-				Path newPath = solve( board, path );
-
-				// If we found a solution, we are golden
-				if ( newPath != null )
-				{
-					return newPath;
-				}
-
-				// Otherwise, backtrack
-				path.remove();
-				board.set( square, captured );
-				board.set( current, currentPiece );
+				continue;
 			}
+
+			// Add the new square to the current path
+			path.add( square );
+
+			// Move the current piece to the new location
+			Square captured = board.move( current, square );
+
+			// Recurse
+			Path newPath = solve( board, path );
+
+			// If we found a solution, we are golden
+			if ( newPath != null )
+			{
+				return newPath;
+			}
+
+			// Otherwise, backtrack
+			path.remove();
+			board.set( square, captured );
+			board.set( current, currentPiece );
 		}
 
 		// We were unable to find a path to the goal
@@ -1001,18 +1004,6 @@ public abstract class RabbitHoleManager
 			Integer [] array = (Integer []) list.toArray( new Integer[ list.size() ] );
 			return array;
 		}
-	}
-
-	private static final Pattern MOVE_PATTERN = Pattern.compile("move=((\\d+)(:?%2C|,)(\\d+))");
-
-
-	public static final void ensureUpdatedRabbitHoleStatus()
-	{
-		if ( Preferences.getInteger( "lastRabbitHoleReset" ) == KoLCharacter.getAscensions() )
-		{
-			return;
-		}
-		Preferences.setInteger( "lastRabbitHoleReset", KoLCharacter.getAscensions() );
 	}
 
 	public static final void decorateChessPuzzle( final StringBuffer buffer )
