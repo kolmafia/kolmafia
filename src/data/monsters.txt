@@ -208,7 +208,7 @@ Black Panther	HP: 128 Def: 125 Atk: 133 Meat: 120-180	Black No. 2 (20)	broken wi
 Black Pudding	HP: 40 Atk: 50	black pudding (100)	black pudding (100)
 Black Widow	HP: 120 Def: 123 Atk: 132 Meat: 40-60 "Really Quite Poisoned"	black pension check (30)	black picnic basket (15)
 Blackberry Bush	HP: 136 Def: 127 Atk: 126	blackberry (15)	blackberry (15)	blackberry (15)
-Blooper	HP: 15 Def: 25 Atk: 25	white pixel (70)	white pixel (70)	white pixel (70)
+Blooper	HP: 15 Def: 25 Atk: 25	white pixel (80)	white pixel (70)	white pixel (60)
 Blur	HP: 141 Def: 140 Atk: 127 Meat: 98-143	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)	Hugo's Weaving Manual (0)
 Boaraffe	HP: 145 Def: 145 Atk: 145 Meat: 83-116	long pork (30)
 Bob Racecar	HP: 139 Def: 145 Atk: 138 Meat: 96-138	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)
