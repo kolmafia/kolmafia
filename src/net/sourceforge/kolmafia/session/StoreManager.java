@@ -481,7 +481,9 @@ public abstract class StoreManager
 		// With the item name properly formatted, issue
 		// the search request.
 
-		RequestThread.postRequest( new MallSearchRequest( itemName, maximumResults, results, true ) );
+		RequestThread.postRequest( new MallSearchRequest(
+			MallSearchRequest.getSearchString( itemName ),
+			maximumResults, results, true ) );
 
 		if ( !toString )
 		{
