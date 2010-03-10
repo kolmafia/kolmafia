@@ -3375,6 +3375,35 @@ public class FightRequest
 				return;
 			}
 
+			// Look for items and effects first
+			String onclick = inode.getAttributeByName( "onclick" );
+			if ( onclick != null )
+			{
+				if ( onclick.startsWith( "descitem" ) )
+				{
+					Matcher m = INT_PATTERN.matcher( onclick );
+					if ( !m.find() )
+					{
+						return;
+					}
+
+					int itemId = ItemDatabase.getItemIdFromDescription( m.group(1) );
+					AdventureResult result = ItemPool.get( itemId, 1 );
+					ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+					return;
+				}
+
+				if ( onclick.startsWith( "eff" ) )
+				{
+					// Gain/loss of effect
+					String effect = inode.getAttributeByName( "title" );
+					// For prettiness
+					String munged = StringUtilities.singleStringReplace( str, "(", " (" );
+					ResultProcessor.processEffect( effect, munged );
+					return;
+				}
+			}
+
 			String src = inode.getAttributeByName( "src" );
 			String image = src == null ? null : src.substring( src.lastIndexOf( "/" ) + 1 );
 
@@ -3478,13 +3507,13 @@ public class FightRequest
 					return;
 				}
 
-				String onclick = inode2.getAttributeByName( "onclick" );
-				if ( onclick == null || !onclick.startsWith( "descitem" ) )
+				String onclick2 = inode2.getAttributeByName( "onclick" );
+				if ( onclick2 == null || !onclick2.startsWith( "descitem" ) )
 				{
 					return;
 				}
 
-				Matcher m = INT_PATTERN.matcher( onclick );
+				Matcher m = INT_PATTERN.matcher( onclick2 );
 				String descid = m.find() ? m.group(1) : null;
 
 				if ( descid == null )
@@ -3502,34 +3531,6 @@ public class FightRequest
 				RequestLogger.printLine( "A dolphin stole: " + result );
 				Preferences.setString( "dolphinItem", result.getName() );
 				return;
-			}
-
-			String onclick = inode.getAttributeByName( "onclick" );
-			if ( onclick != null )
-			{
-				if ( onclick.startsWith( "descitem" ) )
-				{
-					Matcher m = INT_PATTERN.matcher( onclick );
-					if ( !m.find() )
-					{
-						return;
-					}
-
-					int itemId = ItemDatabase.getItemIdFromDescription( m.group(1) );
-					AdventureResult result = ItemPool.get( itemId, 1 );
-					ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
-					return;
-				}
-
-				if ( onclick.startsWith( "eff" ) )
-				{
-					// Gain/loss of effect
-					String effect = inode.getAttributeByName( "title" );
-					// For prettiness
-					String munged = StringUtilities.singleStringReplace( str, "(", " (" );
-					ResultProcessor.processEffect( effect, munged );
-					return;
-				}
 			}
 
 			// Combat item usage
@@ -3607,6 +3608,15 @@ public class FightRequest
 
 				if ( FightRequest.processFumble( text, status ) )
 				{
+					return;
+				}
+
+				if ( text.indexOf( "you feel all warm and fuzzy" ) != -1 )
+				{
+					if ( status.logFamiliar )
+					{
+						FightRequest.logText( "A freed guard turtle returns.", status );
+					}
 					return;
 				}
 

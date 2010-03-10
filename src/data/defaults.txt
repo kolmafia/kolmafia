@@ -256,6 +256,7 @@ user	cellarLayout	0
 user	chatbotScript
 user	chatbotScriptExecuted	false
 user	chefTurnsUsed	0
+user	chessboardsCleared	0
 user	chosenTrip
 user	clanAttacksEnabled	false
 user	cocktailSummons	0

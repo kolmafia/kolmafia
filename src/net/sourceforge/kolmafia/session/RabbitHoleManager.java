@@ -455,11 +455,36 @@ public abstract class RabbitHoleManager
 			return buffer.toString();
 		}
 
+		public String code()
+		{
+			switch ( this.piece )
+			{
+			case PAWN:
+				return "P";
+			case ROOK:
+				return "R";
+			case KNIGHT:
+				return "N";
+			case BISHOP:
+				return "B";
+			case KING:
+				return "K";
+			case QUEEN:
+				return "Q";
+			}
+			return "";
+		} 
+
 		public static String coords( final int square )
 		{
 			int row = square / 8;
 			int col = square % 8;
-			return "(" + String.valueOf( row + 1 ) + "," + String.valueOf( col + 1 ) + ")";
+			return Character.toString( (char)('a' + col) ) + String.valueOf( row + 1 );
+		} 
+
+		public String notation( final int square )
+		{
+			return this.code() + Square.coords( square );
 		} 
 	}
 
@@ -780,10 +805,10 @@ public abstract class RabbitHoleManager
 			buffer.append( "<table cols=9>" );
 			buffer.append( "<tr>" );
 			buffer.append( "<td></td><" );
-			for ( int i = 1; i <= 8; i++ )
+			for ( int i = 0; i < 8; i++ )
 			{
 				buffer.append( "<td><b>" );
-				buffer.append( String.valueOf( i ) );
+				buffer.append( (char)( 'a' + i ) );
 				buffer.append( "</b></td>" );
 			}
 			buffer.append( "</tr>" );
@@ -885,20 +910,35 @@ public abstract class RabbitHoleManager
 
 		Integer [] path = solution.toArray();
 		int square = board.getCurrent();
+		Square piece = board.get( square );
 		RequestLogger.printLine( "The " +
-				       board.get( square ).getTitle() +
+				       piece.getTitle() +
 				       " on square " +
 				       Square.coords( square ) );
 		for ( int i = 0; i < path.length - 1; ++i )
 		{
-			square = path[ i ].intValue();
+			int next  = path[ i ].intValue();
+			Square nextPiece  = board.get( next );
 			RequestLogger.printLine( "...takes the " +
-						 board.get( square ).getTitle() +
+						 nextPiece.getTitle() +
 						 " on square " +
-						 Square.coords( square ) );
+						 Square.coords( next ) +
+						 " (" +
+						 piece.notation( square ) +
+						 "x" +
+						 nextPiece.notation( next ) +
+						 ")" );
+			square = next;
+			piece = nextPiece;
 		}
-		square = path[ path.length - 1 ].intValue();
-		RequestLogger.printLine( "...which moves to square " + Square.coords( square ) + " to win." );
+		int next = path[ path.length - 1 ].intValue();
+		RequestLogger.printLine( "...which moves to square " +
+					 Square.coords( square ) +
+					 " to win. (" +
+					 piece.notation( square ) +
+					 "-" +
+					 Square.coords( next ) +
+					 ")" );
 	}
 
 	private static final Pattern MOVE_PATTERN = Pattern.compile("move=((\\d+)(:?%2C|,)(\\d+))");

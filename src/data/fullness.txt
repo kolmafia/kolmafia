@@ -36,7 +36,7 @@ bell-shaped crimbo cookie	2	7	6-12	0	0	0	10/20 Fury of the Bells (+10% mus)
 better than cuddling cake	3	1	4	0	0	0
 # big merv's protein shakes	5	1	60-80	220-400	0	0
 birthday party jellybean cheesecake	3	1	3	20	20	20
-bishop cookie	1	13	0	0	0	0
+bishop cookie	1	13	4-5	0	0	0
 black forest cake	3	7	6-8	0	25-50	0	5 Sugar Rush
 black forest ham	3	7	8-9	25-45	0	0
 black pudding	3	7	5-7	10-12	10-12	9-12
@@ -218,9 +218,9 @@ jumping bean burrito	3	1	3-8	0	0	11-14
 jumping bean taco	1	1	1-3	0	0	4-20
 juniper berries	1	2	1	0	0	10-15
 ketchup	1	1	1	0	0	0
-king cookie	1	13	0	0	0	0
+king cookie	1	13	4-5	15-30	15-30	15-30
 kiwi	1	2	1-3	0	0	0
-knight cookie	1	13	0	0	0	0
+knight cookie	1	13	4-5	0	0	0
 knob ka-bobs	1	10	2-4	0	20-30	0
 knob lo mein	4	6	14-20	0	31-34	0
 knob mushroom	2	1	2-3	0	0	0
@@ -308,7 +308,7 @@ protein paste	2	7	6-8	38-46	0	0	10 Pasty (+50% mus)
 purple pixel pie	3	1	3-6	12-18	12-18	12-18
 python roll	3	1	9-14	8-16	0	20-30	45/55 Fishy
 questionable taco	3	1	4-5	0	0	0	lovecat tail
-queen cookie	1	13	5	24-36	24-36	24-36
+queen cookie	1	13	4-5	20-40	20-40	20-40
 radio button candy	1	8	2-9	30-50	33-49	30-50
 raspberry	1	2	1-3	0	0	0
 rat appendix chow mein	5	7	21-29	0	0	70-75
@@ -320,7 +320,7 @@ red herring velvet cake	5	1	14-19	0	0	0
 retenez l'herbe pat&eacute;	3	9	13-20	40-50	40-50	40-50
 roasted marshmallow	1	1	1	0	0	0	3 Mallowed Out (+all)
 rocky road ice cream	2	7	10	12-14	12-14	12-14	40 A Contender (+200% all)
-rook cookie	1	13	0	0	0	0
+rook cookie	1	13	4-5	0	0	0
 royal jelly	1	1	1	10-15	0	0
 royal jelly taco	1	1	1-3	4-20	0	0
 s.t.l.t.	4	4	10-15	10-30	10-30	13-27
