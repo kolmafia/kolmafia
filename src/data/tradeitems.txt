@@ -4515,7 +4515,7 @@
 4506
 4507	Clan looking glass	usable	all	0
 4508	&quot;DRINK ME&quot; potion	multiple	all	0
-4509	reflection of a map	reusable	display	0
+4509	reflection of a map	usable	display	0
 4510	walrus ice cream	food	gift	0
 4511	beautiful soup	food	gift	0
 4512	eggman noodles	none	gift	0

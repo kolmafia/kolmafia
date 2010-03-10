@@ -2008,6 +2008,11 @@ public abstract class ChoiceManager
 		case 360:
 			// Wumpus Hunt
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Jungles of Ancient Loathing" );
+
+		case 442:
+			// A Moment of Reflection
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Rabbit Hole" );
+
 		}
 		return null;
 	}
@@ -2174,6 +2179,39 @@ public abstract class ChoiceManager
 		case 360:
 			// Wumpus Hunt
 			return WumpusManager.dynamicChoiceOptions( ChoiceManager.lastResponseText );
+
+
+		case 442:
+			// A Moment of Reflection
+			result = new String[ 6 ];
+			int count = 0;
+			if ( InventoryManager.getCount( ItemPool.BEAUTIFUL_SOUP ) > 0 )
+			{
+				++count;
+			}
+			if ( InventoryManager.getCount( ItemPool.LOBSTER_QUA_GRILL ) > 0 )
+			{
+				++count;
+			}
+			if ( InventoryManager.getCount( ItemPool.MISSING_WINE ) > 0 )
+			{
+				++count;
+			}
+			if ( InventoryManager.getCount( ItemPool.WALRUS_ICE_CREAM ) > 0 )
+			{
+				++count;
+			}
+			if ( InventoryManager.getCount( ItemPool.HUMPTY_DUMPLINGS ) > 0 )
+			{
+				++count;
+			}
+			result [ 0 ] = "Seal Clubber/Pastamancer item, or yellow matter custard";
+			result [ 1 ] = "Sauceror/Accordion Thief item, or delicious comfit?";
+			result [ 2 ] = "Disco Bandit/Turtle Tamer item, or fight croqueteer";
+			result [ 3 ] = "you have " + count + "/5 of the items needed for an ittah bittah hookah";
+			result [ 4 ] = "get a chess cookie";
+			result [ 5 ] = "skip adventure";
+			return result;
 		}
 		return null;
 	}
@@ -2814,6 +2852,11 @@ public abstract class ChoiceManager
 				// Option 5 is Chess Puzzle
 				RabbitHoleManager.parseChessPuzzle( text );
 			}
+			else if ( ChoiceManager.lastDecision == 6 )
+			{
+				// Option 6 does not consume the map
+				ResultProcessor.processItem( ItemPool.REFLECTION_OF_MAP, 1 );
+			}
 			break;
 
 		case 443:
@@ -2823,6 +2866,19 @@ public abstract class ChoiceManager
 				// Option 1 is "Play"
 				String location = request.getURLString();
 				RabbitHoleManager.parseChessMove( location, text );
+			}
+			break;
+			
+		case 450:
+			// The Duchess' Cottage
+			if ( ChoiceManager.lastDecision == 1 &&
+				text.indexOf( "Delectable and pulchritudinous!" ) != -1 )
+			{	// Option 1 is Feed the Duchess
+				ResultProcessor.processItem( ItemPool.BEAUTIFUL_SOUP, -1 );
+				ResultProcessor.processItem( ItemPool.LOBSTER_QUA_GRILL, -1 );
+				ResultProcessor.processItem( ItemPool.MISSING_WINE, -1 );
+				ResultProcessor.processItem( ItemPool.WALRUS_ICE_CREAM, -1 );
+				ResultProcessor.processItem( ItemPool.HUMPTY_DUMPLINGS, -1 );
 			}
 			break;
 		}

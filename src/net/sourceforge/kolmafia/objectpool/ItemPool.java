@@ -1067,6 +1067,11 @@ public class ItemPool
 	public static final int BRICKO_CHICKEN = 4484;
 	public static final int BRICKO_PYRAMID = 4485;
 	public static final int REFLECTION_OF_MAP = 4509;
+	public static final int WALRUS_ICE_CREAM = 4510;
+	public static final int BEAUTIFUL_SOUP = 4511;
+	public static final int HUMPTY_DUMPLINGS = 4514;
+	public static final int LOBSTER_QUA_GRILL = 4515;
+	public static final int MISSING_WINE = 4516;
 	public static final int ITTAH_BITTAH_HOOKAH = 4519;
 
 	public static final AdventureResult get( String itemName, int count )

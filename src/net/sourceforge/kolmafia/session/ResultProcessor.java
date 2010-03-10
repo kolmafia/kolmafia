@@ -196,7 +196,7 @@ public class ResultProcessor
 
 	public static boolean processNormalResults( boolean combatResults, String results, List data )
 	{
-		String plainTextResult = KoLConstants.ANYTAG_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
+		String plainTextResult = KoLConstants.ANYTAG_BUT_ITALIC_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
 
 		if ( data == null )
 		{
