@@ -177,7 +177,8 @@ public class MallSearchRequest
 		{
 			KoLmafia.updateDisplay( this.retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
 		}
-		else if ( this.searchString.startsWith( "\"" ) || this.searchString.startsWith( "\'" ) )
+		else if ( this.searchString.startsWith( "\"" ) &&
+			this.searchString.endsWith( "\"" ) )
 		{
 			KoLmafia.updateDisplay( "Searching for " + this.searchString + "..." );
 		}
