@@ -4256,7 +4256,7 @@
 4247	decanter of fine Scotch	drink	all	110
 4248	expensive cigar	usable	all	120
 4249	miniature tophat	familiar	all	75
-4250	fisherman's sack	usable	none	99
+4250	fisherman's sack	multiple	none	99
 4251	fish-oil smoke bomb	none, combat	none	33
 4252	vial of squid ink	multiple	none	33
 4253	potion of fishy speed	multiple	none	33

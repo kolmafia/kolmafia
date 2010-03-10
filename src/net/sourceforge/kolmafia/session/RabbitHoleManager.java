@@ -524,9 +524,15 @@ public abstract class RabbitHoleManager
 			return this.pieces;
 		}
 
+		public static int square( final int row, final int col )
+		{
+			return ( row * 8 ) + col;
+		}
+
 		public Square get( final int index )
 		{
-			return this.board[ index ];
+			Square piece = this.board[ index ];
+			return piece != null ? piece : new Square( Square.BLACK );
 		}
 
 		public Square add( final int index, final Square square )
@@ -833,18 +839,32 @@ public abstract class RabbitHoleManager
 	}
 
 	private static String testData = null;
+	private static Board original;
 	private static Board board;
+	private static int moves;
 
 	public static final void parseChessPuzzle( final String responseText )
+	{
+		RabbitHoleManager.parseChessPuzzle( responseText, true );
+	}
+
+	private static final void parseChessPuzzle( final String responseText, final boolean initialVisit )
 	{
 		if ( responseText == null )
 		{
 			return;
 		}
 
-		if ( board == null )
+		RabbitHoleManager.board = new Board();
+
+		if ( initialVisit )
 		{
-			board = new Board();
+			RabbitHoleManager.original = RabbitHoleManager.board;
+			RabbitHoleManager.moves = 0;
+		}
+		else
+		{
+			++RabbitHoleManager.moves;
 		}
 
 		Matcher matcher = RabbitHoleManager.SQUARE_PATTERN.matcher( responseText );
@@ -858,7 +878,7 @@ public abstract class RabbitHoleManager
 			index++;
 		}
 
-		if ( index != 64 )
+		if ( index != 0 && index != 64 )
 		{
 			KoLmafia.updateDisplay( "What kind of a chessboard is that? I found " + index + " squares!" );
 			RabbitHoleManager.board = null;
@@ -866,8 +886,60 @@ public abstract class RabbitHoleManager
 		}
 	}
 
+	private static final Pattern MOVE_PATTERN = Pattern.compile("xy=((\\d+)(?:%2C|,)(\\d+))");
+
+	public static final void parseChessMove( final String urlString, final String responseText )
+	{
+		// Parse the destination square out of the URL
+		Matcher matcher = MOVE_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		int col = StringUtilities.parseInt( matcher.group( 2 ) );
+		int row = StringUtilities.parseInt( matcher.group( 3 ) );
+		int moveSquare = Board.square( row, col );
+
+		// Save the original piece
+		int square = RabbitHoleManager.board.getCurrent();
+		Square piece = RabbitHoleManager.board.get( square );
+
+		// Parse the new board
+		RabbitHoleManager.parseChessPuzzle( responseText, false );
+
+		// Find the new piece
+		int newSquare = RabbitHoleManager.board.getCurrent();
+
+		// Assume we are capturing
+		String action = "x";
+
+		// If we completed the puzzle, there will no longer be a board
+		if ( RabbitHoleManager.board.getPieces() == 0 )
+		{
+			// We simply moved
+			newSquare = moveSquare;
+			action = "-";
+		}
+
+		// Did we actually move where we expected?
+		else if ( newSquare != moveSquare )
+		{
+			// No. Bogus move
+			return;
+		}
+
+		Square newPiece = RabbitHoleManager.board.get( newSquare );
+
+		// Log the move in chess notation
+		String message = RabbitHoleManager.moves + ": " + piece.notation( square ) + action + newPiece.notation( newSquare );
+
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+	}
+
 	// CLI command support
-	public static final void board()
+	public static final void board( final boolean current )
 	{
 		if ( RabbitHoleManager.board == null )
 		{
@@ -880,14 +952,18 @@ public abstract class RabbitHoleManager
 			return;
 		}
 
+		RabbitHoleManager.board( current ? RabbitHoleManager.board : RabbitHoleManager.original );
+	}
+
+	private static final void board( final Board board )
+	{
 		StringBuffer buffer = new StringBuffer();
 		board.appendHTML( buffer );
-
 		RequestLogger.printLine( buffer.toString() );
 		RequestLogger.printLine();
 	}
 
-	public static final void test()
+	public static final void test( final boolean current )
 	{
 		if ( RabbitHoleManager.board == null )
 		{
@@ -900,6 +976,11 @@ public abstract class RabbitHoleManager
 			return;
 		}
 
+		RabbitHoleManager.test( current ? RabbitHoleManager.board : RabbitHoleManager.original );
+	}
+
+	private static final void test( final Board board )
+	{
 		Path solution = RabbitHoleManager.solve( RabbitHoleManager.board );
 
 		if ( solution == null )
@@ -933,15 +1014,13 @@ public abstract class RabbitHoleManager
 		}
 		int next = path[ path.length - 1 ].intValue();
 		RequestLogger.printLine( "...which moves to square " +
-					 Square.coords( square ) +
+					 Square.coords( next ) +
 					 " to win. (" +
 					 piece.notation( square ) +
 					 "-" +
 					 Square.coords( next ) +
 					 ")" );
 	}
-
-	private static final Pattern MOVE_PATTERN = Pattern.compile("move=((\\d+)(:?%2C|,)(\\d+))");
 
 	public static final void solve()
 	{

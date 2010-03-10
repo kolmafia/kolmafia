@@ -2815,6 +2815,16 @@ public abstract class ChoiceManager
 				RabbitHoleManager.parseChessPuzzle( text );
 			}
 			break;
+
+		case 443:
+			// Chess Puzzle
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// Option 1 is "Play"
+				String location = request.getURLString();
+				RabbitHoleManager.parseChessMove( location, text );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
