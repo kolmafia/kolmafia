@@ -439,6 +439,9 @@ public class ClanLoungeRequest
 			return;
 		}
 
+		// Visit the lounge to see what furniture is available
+		RequestThread.postRequest( VISIT_REQUEST );
+
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
 		// 
@@ -454,7 +457,9 @@ public class ClanLoungeRequest
 			request.run();
 		}
 
-		if ( !Preferences.getBoolean( "_lookingGlass" ) )
+		// Not every clan has a looking glass
+		if ( VISIT_REQUEST.responseText.indexOf( "lookingglass.gif" ) != -1 &&
+		     !Preferences.getBoolean( "_lookingGlass" ) )
 		{
 			request = new ClanLoungeRequest( ClanLoungeRequest.LOOKING_GLASS );
 			request.run();
