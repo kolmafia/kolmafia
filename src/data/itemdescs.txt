@@ -4511,12 +4511,12 @@
 4505	752101511	Northern pemmican
 4506
 4507	653994440	Clan looking glass
-4508	830929931	&quot;DRINK ME&quot; potion
+4508	830929931	&quot;DRINK ME&quot; potion	bottles of &quot;DRINK ME&quot; potion
 4509	206445172	reflection of a map
 4510	590148722	walrus ice cream
 4511	569697802	beautiful soup
 4512	813784592	eggman noodles
-4513	209380924	Vial of <i>jus de larmes</i>
+4513	209380924	Vial of <i>jus de larmes</i>	vials of <i>jus de larmes</i>
 4514	665901795	Humpty Dumplings
 4515	429299421	Lobster <i>qua</i> Grill
 4516	186390697	missing wine

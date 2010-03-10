@@ -1179,4 +1179,21 @@ public abstract class RabbitHoleManager
 		// Insert it into the page
 		buffer.insert( index, button );
 	}
+	
+	public static final void decorateRabbitHole( final StringBuffer buffer )
+	{
+		int index = buffer.lastIndexOf( "<Center>" );
+		if ( true )	//index == -1 )
+		{
+			return;
+		}
+		index += 8;
+		String ending = buffer.substring( index );
+		buffer.delete( index, Integer.MAX_VALUE );
+		buffer.append( "Hat the player: <select onChange='alert(this.options[this.selectedIndex].value)'>" );
+		buffer.append( "<option value=123>this hat</option>" );
+		buffer.append( "<option value=456 selected>that hat</option>" );
+		buffer.append( "</select><br/>" );
+		buffer.append( ending );
+	}
 }

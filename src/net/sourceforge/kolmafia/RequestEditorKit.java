@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
+import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -685,6 +686,10 @@ public class RequestEditorKit
 		{
 			StringUtilities.singleStringReplace( buffer, "value=rank checked", "value=rank" );
 			StringUtilities.insertAfter( buffer, "value=flowers", " checked" );
+		}
+		else if ( location.startsWith( "rabbithole.php" ) )
+		{
+			RabbitHoleManager.decorateRabbitHole( buffer );
 		}
 		else if ( location.startsWith( "rats.php" ) )
 		{

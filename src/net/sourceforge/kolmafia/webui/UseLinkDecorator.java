@@ -316,6 +316,10 @@ public abstract class UseLinkDecorator
 		{
 			link = new UseLink(0, "king's chamber", "knob.php?king=1" );
 		}
+		else if ( effect.equals( "Down the Rabbit Hole" ) )
+		{
+			link = new UseLink(0, "rabbit hole", "rabbithole.php" );
+		}
 		else if ( effect.equals( "The Ballad of Richie Thingfinder" ) ||
 			  effect.equals( "Benetton's Medley of Diversity" ) ||
 			  effect.equals( "Elron's Explosive Etude" ) ||
