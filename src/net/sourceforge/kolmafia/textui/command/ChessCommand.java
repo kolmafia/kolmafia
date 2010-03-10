@@ -53,13 +53,13 @@ public class ChessCommand
 
 		if ( command.equals( "board" ) )
 		{
-			RabbitHoleManager.board();
+			RabbitHoleManager.board( split.length == 1 );
 			return;
 		}
 
 		if ( command.equals( "test" ) )
 		{
-			RabbitHoleManager.test();
+			RabbitHoleManager.test( split.length == 1 );
 			return;
 		}
 

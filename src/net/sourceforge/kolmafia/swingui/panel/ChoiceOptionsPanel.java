@@ -489,6 +489,9 @@ public class ChoiceOptionsPanel
 			else if ( dest.equals( "manual" ) )
 			{
 				setSelectedIndex( 1 );
+				// People with old settings files will have the
+				// wrong choice setting. Fix it for them.
+				Preferences.setString( "choiceAdventure189", "0" );
 			}
 			else if ( dest.equals( "muscle" ) )
 			{
