@@ -4431,7 +4431,7 @@
 4422	sealhide belt	accessory	display	30
 4423	sealhide snare	none, combat	display	25
 4424
-4425	sealhide seal doll	multiple	display	20
+4425	sealhide seal doll	usable	display	20
 4426	black hymnal	usable	none	0
 4427
 4428	glowstick on a string	offhand	none	30
@@ -4467,7 +4467,7 @@
 4458	snailmail coif	hat	all	140
 4459	snailmail breeches	pants	all	150
 4460	snailmail hauberk	shirt	all	160
-4461	seal-brain elixir	multiple	all	33
+4461	seal-brain elixir	usable	all	33
 4462	chocolate seal-clubbing club	multiple	all	0
 4463	chocolate turtle totem	multiple	all	0
 4464	chocolate pasta spoon	multiple	all	0

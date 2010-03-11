@@ -2258,6 +2258,7 @@ Fire Down Below	Hot Damage: [min(100,T)]
 Fireproof Lips	Hot Resistance: +9
 First Eye Blind	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Fishbreath	Stench Damage: +15
+Fishily Speeding	Initiative: +50
 # Fishy: -1 Adventure cost underwater
 Fishy Fortification	Maximum HP: +50, Muscle Percent: +10
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
@@ -2368,6 +2369,7 @@ In the Saucestream	Mysticality Percent: +15
 Incredibly Hulking	Muscle Percent: +200
 # Infinite Loop
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
+Inky Camouflage	Combat Rate: -5
 # Innuendo Shopping
 Inscrutable exoskeleton	Damage Absorption: +300
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
@@ -2720,6 +2722,7 @@ Twinkly Weapon	Weapon Damage: +3
 Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
 Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
+Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
 Violent Night	Critical: 2
 Vitamin-Maxed	Muscle Percent: +10
