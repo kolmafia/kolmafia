@@ -764,16 +764,17 @@ public class GenericRequest
 				continue;
 			}
 
-			if ( element.startsWith( "pwd" ) || element.startsWith( "phash" ) )
+			if ( hashField != null && element.startsWith( hashField ) )
 			{
 				int index = element.indexOf( '=' );
-				if ( index != -1 )
-				{
-					element = element.substring( 0, index );
-				}
+				int length = hashField.length();
 
-				hashField = element;
-                                continue;
+				// If this is exactly the hashfield, either
+				// with or without a value, omit it.
+				if ( length == ( index == -1 ? element.length() : length ) )
+				{
+					continue;
+				}
 			}
 
 			if ( dataBuffer.length() > 0 )

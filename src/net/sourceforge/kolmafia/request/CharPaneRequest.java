@@ -88,6 +88,11 @@ public class CharPaneRequest
 		return true;
 	}
 
+	public String getHashField()
+	{
+		return null;
+	}
+
 	public static final boolean canInteract()
 	{
 		return CharPaneRequest.canInteract;
