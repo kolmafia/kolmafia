@@ -675,8 +675,8 @@
 674	Swimming Head	loop.gif	8626f8671845ddcf2758099d159f4cbd	#A Merry-Go Round
 675	Existential Torment	confused.gif	923a6a502a859e5b7946af1228f18764	#Summoning Chamber
 676	Spangled Star	tinystars.gif	c369319642dfc3e85b43bbd33a587069	use 1 groupie spangles
-677
-678
+677	Inky Camouflage	blackface.gif	9d1bab97634b51545cd882c8aad3515a	use 1 vial of squid ink
+678	Fishily Speeding	fish.gif	d5630a21f9a0eeb110616952fd5a3ce2	use 1 potion of fishy speed
 679	Slimeform	slimeform.gif	17c1f6148164a952b47aca992d19788a	use 1 vial of slime: slimeform
 680	Slimily Strong	slimemus1.gif	5830ffdb05ae738704fae8dd011fd6c4	use 1 vial of slime: strong
 681	Slimily Sagacious	slimemag1.gif	db0054b25085fc227d2c1d47bd0d0b28	use 1 vial of slime: sagacious
@@ -720,7 +720,7 @@
 719	Sealed Brain	realbrain.gif	12fa21a06cde21c7a65f2244cd02dacb	use 1 seal-brain elixir
 720
 721	Earworm	larva.gif	9ed86341d30a9cc55db66ee59b33fd5b
-722
+722	Very Clean Guns	happiness.gif	6ab901c4e598d8c59f6d4539d4e07ae0	use 1 gun cleaning kit
 723
 724	Pemmican't	cruft.gif	63f212fdef4d2731cf9944afd3a9cb22	eat 1 Northern pemmican
 725	Down the Rabbit Hole	hare.gif	907cb5ad2ab24111f4cc83b0609ad087	use 1 DRINK ME potion
