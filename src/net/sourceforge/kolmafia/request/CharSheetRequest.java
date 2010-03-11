@@ -79,6 +79,11 @@ public class CharSheetRequest
 		return true;
 	}
 
+	public String getHashField()
+	{
+		return null;
+	}
+
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving character data..." );
