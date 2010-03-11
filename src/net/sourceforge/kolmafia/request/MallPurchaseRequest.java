@@ -175,7 +175,7 @@ public class MallPurchaseRequest
 		this.isNPCStore = false;
 		this.canPurchase = canPurchase;
 
-		this.addFormField( "pwd" );
+		this.hashField = "pwd";
 		this.addFormField( "whichstore", String.valueOf( shopId ) );
 		this.addFormField( "buying", "1" );
 		this.addFormField( "ajax", "1" );
