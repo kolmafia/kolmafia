@@ -43,7 +43,7 @@ public class ChessCommand
 {
 	public ChessCommand()
 	{
-		this.usage = " board | test | solve - play on the Great Big Chessboard.";
+		this.usage = " load config | board | test | solve - play on the Great Big Chessboard.";
 	}
 
 	public void run( final String cmd, final String parameters )
@@ -51,15 +51,33 @@ public class ChessCommand
 		String[] split = parameters.split( " " );
 		String command = split[ 0 ];
 
+		if ( command.equals( "reset" ) )
+		{
+			RabbitHoleManager.reset();
+			return;
+		}
+
+		if ( command.equals( "load" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Load what board?" );
+				return;
+			}
+
+			RabbitHoleManager.load( split[ 1 ], true );
+			return;
+		}
+
 		if ( command.equals( "board" ) )
 		{
-			RabbitHoleManager.board( split.length == 1 );
+			RabbitHoleManager.board();
 			return;
 		}
 
 		if ( command.equals( "test" ) )
 		{
-			RabbitHoleManager.test( split.length == 1 );
+			RabbitHoleManager.test();
 			return;
 		}
 
