@@ -196,6 +196,7 @@ Batwinged Gremlin	HP: 170 Def: 171 Atk: 169	gremlin juice (3)	molybdenum hammer 
 Bazookafish	HP: 500 Def: 325 Atk: 375 Meat: 176-264	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (15)	fish bazooka (2)
 Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
 Beefy Bodyguard Bat	HP: 36 Atk: 26 Meat: 200-300
+Beelephant	HP: 0	bucket of honey (0)	elephant stinger (0)	reflection of a map (c0)
 Beer Batter	HP: 100000
 Beer Bongadier	HP: 210 Def: 195 Atk: 180 E: sleaze	beer bong (20)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (2)
 Best-Selling Novelist	HP: 100000
@@ -636,6 +637,7 @@ Slithering Hollandaise Glob	HP: 20	a creased paper strip (0)	a crinkled paper st
 Slow Talkin' Elliot	HP: 200 Meat: 130-154 E: stench	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	Slow Talkin' Elliot's dogtags (100)
 Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34	bottle of rum (50)	eyepatch (10)	Jolly Roger charrrm bracelet (20)	vial of pirate sweat (b0)
 Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky	smart skull (50)
+Snapdragon	HP: 0	dragon snaps (0)	snapdragon pistil (0)	reflection of a map (c0)
 Snow Queen	HP: 70 Def: 105 Atk: 107 E: cold	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Some Zombie Waltzers	HP: 120 Def: 110 Atk: 110 Meat: 80-120 E: spooky	ballroom blintz (15)	dance card (15)
 Somerset Lopez, Dread Mariach	HP: 0	El Sombrero De Lopez (100)
@@ -713,6 +715,7 @@ The Remains of a Jilted Mistress	HP: 145 Def: 154 Atk: 164 ED: spooky	antique ha
 The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze	star (30)	star (30)	line (30)	line (30)
 The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	line (30)
 The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
+Tiger-Lily	HP: 0	eye of the Tiger-lily (0)	Tiger-lily's milk (0)	reflection of a map (c0)
 Time Bandit		Counterclockwise Watch (100)
 Tipsy Pirate	HP: 70 Def: 80 Atk: 80 Meat: 36-54	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
 Toilet Papergeist	HP: 105 Def: 100 Atk: 88 ED: spooky	cardboard wakizashi (5)	roll of toilet paper (50)
@@ -782,6 +785,7 @@ War Hippy Sky Captain	HP: 200 Def: 175 Atk: 185 E: stench	bullet-proof corduroys
 War Hippy Spy	HP: 180 Atk: 165 E: stench	bullet-proof corduroys (5)	reinforced beaded headband (5)	round purple sunglasses (5)
 War Hippy Windtalker	HP: 200 Def: 180 Atk: 185 E: stench	bullet-proof corduroys (1)	communications windchimes (18)	communications windchimes (18)	communications windchimes (18)	Lockenstock&trade; sandals (2)	reinforced beaded headband (1)	round purple sunglasses (1)	green clay bead (0)
 War Pledge	HP: 180 Atk: 165 E: sleaze	distressed denim pants (5)	bejeweled pledge pin (5)	beer helmet (5)
+Wasp in a Wig	HP: 0	powdered donut (0)	powdered wig (0)	reflection of a map (c0)
 Warty Pirate	HP: 110 Def: 120 Atk: 120 Meat: 64-96	copper ha'penny charrrm (10)	fish-liver oil (30)	vinegar-soaked lemon slice (30)
 Warwelf	HP: 2 Def: 3 Atk: 4 Meat: 10-14
 Wealthy Pirate	HP: 110 Def: 120 Atk: 120 Meat: 160-240	booty chest charrrm (10)	solid gold pegleg (5)	fat wallet (p0)

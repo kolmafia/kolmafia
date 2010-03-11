@@ -752,7 +752,7 @@ public class AdventureRequest
 			//
 			// PA: Its noodles lose their grip, and the evil
 			// pastaspawn falls toward the churning
-			// lava.<p>"<i><Demon Name></i>!" it howls. "<i>Lord of
+			// lava.<p><i>"<Demon Name>!"</i> it howls. "<i>Lord of
 			// Revenge! Come to my aid!</i>"
 			//
 			// SA: As it falls, a mouth opens on its surface and
