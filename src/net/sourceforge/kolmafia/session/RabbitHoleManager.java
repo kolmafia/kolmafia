@@ -34,22 +34,29 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class RabbitHoleManager
 {
+	public static final Pattern HAT_CLEANER_PATTERN = Pattern.compile( "\\s" );
 	public final static Object [][] HAT_DATA =
 	{
 		{
@@ -214,6 +221,10 @@ public abstract class RabbitHoleManager
 		"Black King",
 		"Black Queen",
 	};
+	
+	private static final String SYMBOLS =
+		"\u2659\u2656\u2658\u2657\u2654\u2655" +
+		"\u265F\u265C\u265E\u265D\u265A\u265B";
 
 	static
 	{
@@ -384,6 +395,20 @@ public abstract class RabbitHoleManager
 			return TITLES[ index ];
 		}
 
+		public String getSymbol()
+		{
+			int index = this.piece;
+			if ( index <= 0 )
+			{
+				return "&nbsp;";
+			}
+			if (this.side == BLACK )
+			{
+				index += 6;
+			}
+			return SYMBOLS.substring( index - 1, index );
+		}
+
 		public String getColorString()
 		{
 			return this.color == WHITE ? "White Square" : "Black Square";
@@ -431,18 +456,31 @@ public abstract class RabbitHoleManager
 			return new Square( this.color, this.piece, this.side == WHITE ? BLACK : WHITE );
 		}
 
-		private static String whiteSquare = "style=\"width: 60px; height: 60px; text-align: center; background-color: #fff;\"";
+		private static String whiteSquare = "style=\"width: 60px; height: 60px; text-align: center; background-color: #ffffff;\"";
 		private static String blackSquare = "style=\"width: 60px; height: 60px; text-align: center; background-color: #979797;\"";
+		private static String whiteCompact = "style=\"width: 30px; height: 30px; text-align: center; background-color: #ffffff; font-size: 30px\"";
+		private static String blackCompact = "style=\"width: 30px; height: 30px; text-align: center; background-color: #DDDDDD; font-size: 30px\"";
 
 		public void appendHTML( final StringBuffer buffer )
 		{
-			buffer.append( "<td " );
-			buffer.append( this.color == Square.WHITE ? whiteSquare : blackSquare );
-			buffer.append( ">" );
-			buffer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/chess/" );
-			buffer.append( this.getImage() );
-			buffer.append( "\" height=50 width=50/>" );
-			buffer.append( "</td>" );
+			if ( Preferences.getBoolean( "compactChessboard" ) )
+			{
+				buffer.append( "<td " );
+				buffer.append( this.color == Square.WHITE ? whiteCompact : blackCompact );
+				buffer.append( ">" );
+				buffer.append( this.getSymbol() );
+				buffer.append( "</td>" );
+			}
+			else
+			{
+				buffer.append( "<td " );
+				buffer.append( this.color == Square.WHITE ? whiteSquare : blackSquare );
+				buffer.append( ">" );
+				buffer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/chess/" );
+				buffer.append( this.getImage() );
+				buffer.append( "\" height=50 width=50/>" );
+				buffer.append( "</td>" );
+			}
 		}
 
 		public String toString()
@@ -1338,20 +1376,66 @@ public abstract class RabbitHoleManager
 		buffer.insert( index, button );
 	}
 	
+	public static final String getHatDescription( int length )
+	{
+		Object[][] data = RabbitHoleManager.HAT_DATA;
+		for ( int i = data.length - 1; i >= 0; --i )
+		{
+			if ( ((Integer) data[ i ][ 0 ]).intValue() == length )
+			{
+				return data[ i ][ 1 ] + " (" + data[ i ][ 2 ] + ")";
+			}
+		}
+		return "unknown (" + length + " characters)";
+	}
+	
 	public static final void decorateRabbitHole( final StringBuffer buffer )
 	{
-		int index = buffer.lastIndexOf( "<Center>" );
-		if ( true )	//index == -1 )
+		int index = buffer.lastIndexOf( "</table>" );
+		if ( index == -1 )
 		{
 			return;
 		}
 		index += 8;
+		
+		List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+		AdventureResult curHat = EquipmentManager.getEquipment( EquipmentManager.HAT );
+		TreeMap options = new TreeMap();
+		Iterator i = hats.iterator();
+		while ( i.hasNext() )
+		{
+			AdventureResult hat = (AdventureResult) i.next();
+			if ( hat.equals( EquipmentRequest.UNEQUIP ) )
+			{	// no buff without a hat!
+				continue;
+			}
+			int len = RabbitHoleManager.HAT_CLEANER_PATTERN.matcher( hat.getName() ).replaceAll( "" ).length();
+			StringBuffer buf = new StringBuffer( "<option value=" );
+			buf.append( hat.getItemId() );
+			if ( hat.equals( curHat ) )
+			{
+				buf.append( " selected" );
+			}
+			buf.append( ">" );
+			buf.append( hat.getName() );
+			buf.append( ": " );
+			buf.append( RabbitHoleManager.getHatDescription( len ) );
+			buf.append( "</option>" );
+			options.put( new Integer( (len << 24) | hat.getItemId() ),
+				buf.toString() );
+		}
+		
 		String ending = buffer.substring( index );
 		buffer.delete( index, Integer.MAX_VALUE );
-		buffer.append( "Hat the player: <select onChange='alert(this.options[this.selectedIndex].value)'>" );
-		buffer.append( "<option value=123>this hat</option>" );
-		buffer.append( "<option value=456 selected>that hat</option>" );
-		buffer.append( "</select><br/>" );
+		buffer.append( "Hat the player: <select onChange=\"singleUse('inv_equip.php', 'which=2&action=equip&pwd=" );
+		buffer.append( GenericRequest.passwordHash );
+		buffer.append( "&ajax=1&whichitem=' + this.options[this.selectedIndex].value);\">" );
+		i = options.values().iterator();
+		while ( i.hasNext() )
+		{
+			buffer.append( (String) i.next() );
+		}
+		buffer.append( "</select>" );
 		buffer.append( ending );
 	}
 }

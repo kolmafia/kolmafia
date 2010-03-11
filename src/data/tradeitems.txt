@@ -4245,7 +4245,7 @@
 4236	can of sterno	none, combat	all	65
 4237	silver cheese-slicer	weapon	all	70
 4238	fancy beef jerky	food	all	85
-4239	crescent wrench	weapon	all	55
+4239	pipe wrench	weapon	all	55
 4240	gun cleaning kit	multiple	all	50
 4241	sleep mask	hat	all	80
 4242	sock garters	accessory	all	35
