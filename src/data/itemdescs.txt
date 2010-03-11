@@ -4242,7 +4242,7 @@
 4236	703973859	can of sterno
 4237	561415537	silver cheese-slicer
 4238	293476536	fancy beef jerky
-4239	186033978	crescent wrench
+4239	186033978	pipe wrench	pipe wrenches
 4240	447418622	gun cleaning kit
 4241	355769017	sleep mask
 4242	344817655	sock garters
