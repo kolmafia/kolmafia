@@ -359,7 +359,14 @@ public abstract class RabbitHoleManager
 			this.side = side;
 		}
 
-		public static Square getColoredSquare( final int color )
+		public Square( final int color, final String pc, final String sc )
+		{
+			this.color = color;
+			this.piece = Square.codeToPiece( pc );
+			this.side = Square.codeToSide( sc );
+		}
+
+		public static Square getSquare( final int color )
 		{
 			return color == WHITE ? WHITE_SQUARE : BLACK_SQUARE;
 		}
@@ -455,7 +462,7 @@ public abstract class RabbitHoleManager
 			return buffer.toString();
 		}
 
-		public String code()
+		public String pieceCode()
 		{
 			switch ( this.piece )
 			{
@@ -475,6 +482,50 @@ public abstract class RabbitHoleManager
 			return "";
 		} 
 
+		public static int codeToPiece( final String code )
+		{
+			switch ( code.charAt( 0 ) )
+			{
+			case 'P': case 'p':
+				return PAWN;
+			case 'R': case 'r':
+				return ROOK;
+			case 'N': case 'n':
+				return KNIGHT;
+			case 'B': case 'b':
+				return BISHOP;
+			case 'K': case 'k':
+				return KING;
+			case 'Q': case 'q':
+				return QUEEN;
+			}
+			return UNKNOWN;
+		} 
+
+		public String sideCode()
+		{
+			switch ( this.side )
+			{
+			case BLACK:
+				return "B";
+			case WHITE:
+				return "W";
+			}
+			return "";
+		} 
+
+		public static int codeToSide( final String code )
+		{
+			switch ( code.charAt( 0 ) )
+			{
+			case 'B': case 'b':
+				return BLACK;
+			case 'W': case 'w':
+				return WHITE;
+			}
+			return UNKNOWN;
+		}
+
 		public static String coords( final int square )
 		{
 			int row = square / 8;
@@ -484,7 +535,7 @@ public abstract class RabbitHoleManager
 
 		public String notation( final int square )
 		{
-			return this.code() + Square.coords( square );
+			return this.sideCode() + this.pieceCode() + Square.coords( square );
 		} 
 	}
 
@@ -500,18 +551,86 @@ public abstract class RabbitHoleManager
 			this.board = new Square[ 64 ];
 			this.current = -1;
 			this.pieces = 0;
+
+			// Load up with empty white and black squares
+			for ( int i = 0; i < 64; ++i )
+			{
+				board[ i ] = Square.getSquare( Board.color( i ) );
+			}
 		}
 
-		private Board( Square [] board, int current, int pieces )
+		public static int color( final int square )
 		{
-			this.board = (Square [])board.clone();
-			this.current = current;
-			this.pieces = pieces;
+			int row = square / 8;
+			int col = square % 8;
+			return (row + col ) % 2 == 0 ? Square.WHITE : Square.BLACK;
+		}
+
+		private static final Pattern CONFIG_PATTERN = Pattern.compile("([bwBW])([prnbkqPRNBKQ])([abcdefghABCDEFGH])([12345678])" );
+
+		public Board( final String config )
+		{
+			// Create an empty board
+			this();
+
+			// Split the config string into squares
+			Matcher m = Board.CONFIG_PATTERN.matcher( config );
+			while ( m.find() )
+			{
+				// Find the square
+				String cs = m.group( 3 );
+				String rs = m.group( 4 );
+				int square = Board.square( rs, cs );
+				int color = Board.color( square );
+
+				// Find the piece
+				String sc = m.group( 1 );
+				String pc = m.group( 2 );
+				Square piece = new Square( color, pc, sc );
+
+				// Place the piece on the square
+				this.board[ square ] = piece;
+				this.pieces++;
+				if ( piece.getSide() == Square.WHITE )
+				{
+					this.current = square;
+				}
+			}
+		}
+
+		private Board( Board board )
+		{
+			this.board = (Square [])board.board.clone();
+			this.current = board.current;
+			this.pieces = board.pieces;
+		}
+
+		public String config()
+		{
+			StringBuffer buffer = new StringBuffer();
+			boolean first = true;
+			for ( int i = 0; i < 64; ++i )
+			{
+				Square piece = this.board[ i ];
+				if ( piece.isPiece() )
+				{
+					if ( first )
+					{
+						first = false;
+					}
+					else
+					{
+						buffer.append( "," );
+					}
+					buffer.append( piece.notation( i ) );
+				}
+			}
+			return buffer.toString();
 		}
 
 		public Object clone()
 		{
-			return new Board( this.board, this.current, this.pieces );
+			return new Board( this );
 		}
 
 		public int getCurrent()
@@ -527,6 +646,13 @@ public abstract class RabbitHoleManager
 		public static int square( final int row, final int col )
 		{
 			return ( row * 8 ) + col;
+		}
+
+		public static int square( final String rs, final String cs )
+		{
+			int col = cs.charAt( 0 ) - 'a';
+			int row = rs.charAt( 0 ) - '1';
+			return Board.square( row, col );
 		}
 
 		public Square get( final int index )
@@ -555,7 +681,7 @@ public abstract class RabbitHoleManager
 			Square square = this.board[ index ];
 			if ( square.isPiece() )
 			{
-				Square empty = Square.getColoredSquare( square.getColor() );
+				Square empty = Square.getSquare( square.getColor() );
 				this.board[ index ] = empty;
 				this.pieces--;
 			}
@@ -839,7 +965,6 @@ public abstract class RabbitHoleManager
 	}
 
 	private static String testData = null;
-	private static Board original;
 	private static Board board;
 	private static int moves;
 
@@ -859,7 +984,6 @@ public abstract class RabbitHoleManager
 
 		if ( initialVisit )
 		{
-			RabbitHoleManager.original = RabbitHoleManager.board;
 			RabbitHoleManager.moves = 0;
 		}
 		else
@@ -883,6 +1007,11 @@ public abstract class RabbitHoleManager
 			KoLmafia.updateDisplay( "What kind of a chessboard is that? I found " + index + " squares!" );
 			RabbitHoleManager.board = null;
 			return;
+		}
+
+		if ( initialVisit )
+		{
+			Preferences.setString( "lastChessboard", RabbitHoleManager.board.config() );
 		}
 	}
 
@@ -939,7 +1068,13 @@ public abstract class RabbitHoleManager
 	}
 
 	// CLI command support
-	public static final void board( final boolean current )
+	public static final void reset()
+	{
+		RabbitHoleManager.board = null;
+		RabbitHoleManager.moves = 0;
+	}
+
+	public static final void load()
 	{
 		if ( RabbitHoleManager.board == null )
 		{
@@ -948,39 +1083,62 @@ public abstract class RabbitHoleManager
 
 		if ( RabbitHoleManager.board == null )
 		{
-			RequestLogger.printLine( "I haven't seen a chessboard recently." );
-			return;
+			String config = Preferences.getString( "lastChessboard" );
+			RabbitHoleManager.load( config, false );
 		}
 
-		RabbitHoleManager.board( current ? RabbitHoleManager.board : RabbitHoleManager.original );
+		if ( RabbitHoleManager.board == null )
+		{
+			RequestLogger.printLine( "I haven't seen a chessboard recently." );
+		}
+	}
+
+	public static final void load( final String config, final boolean save )
+	{
+		if ( config.trim().equals( "" ) )
+		{
+			return;
+		}
+		RabbitHoleManager.board = new Board( config );
+
+		if ( save && !KoLCharacter.getUserName().equals( "" ) )
+		{
+			Preferences.setString( "lastChessboard", RabbitHoleManager.board.config() );
+		}
+	}
+
+	public static final void board()
+	{
+		RabbitHoleManager.load();
+		RabbitHoleManager.board( RabbitHoleManager.board );
 	}
 
 	private static final void board( final Board board )
 	{
+		if ( board == null )
+		{
+			return;
+		}
+
 		StringBuffer buffer = new StringBuffer();
 		board.appendHTML( buffer );
 		RequestLogger.printLine( buffer.toString() );
 		RequestLogger.printLine();
 	}
 
-	public static final void test( final boolean current )
+	public static final void test()
 	{
-		if ( RabbitHoleManager.board == null )
-		{
-			RabbitHoleManager.parseChessPuzzle( RabbitHoleManager.testData );
-		}
-
-		if ( RabbitHoleManager.board == null )
-		{
-			RequestLogger.printLine( "I haven't seen a chessboard recently." );
-			return;
-		}
-
-		RabbitHoleManager.test( current ? RabbitHoleManager.board : RabbitHoleManager.original );
+		RabbitHoleManager.load();
+		RabbitHoleManager.test( RabbitHoleManager.board );
 	}
 
 	private static final void test( final Board board )
 	{
+		if ( board == null )
+		{
+			return;
+		}
+
 		Path solution = RabbitHoleManager.solve( RabbitHoleManager.board );
 
 		if ( solution == null )
