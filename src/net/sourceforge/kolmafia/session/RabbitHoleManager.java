@@ -140,6 +140,11 @@ public abstract class RabbitHoleManager
 			"Weapon Damage +30%",
 		},
 		{
+			new Integer( 21 ),
+			"Orchid Blood",
+			"Regenerate 5-10 MP per Adventure",
+		},
+		{
 			new Integer( 22 ),
 			"Dances with Tweedles",
 			"+40% Meat from Monsters",
@@ -173,6 +178,16 @@ public abstract class RabbitHoleManager
 			new Integer( 28 ),
 			"Quadrilled",
 			"+20% Items from Monsters",
+		},
+		{
+			new Integer( 29 ),
+			"Coming Up Roses",
+			"Regenerate 10-20 MP per Adventure",
+		},
+		{
+			new Integer( 30 ),
+			"Oleaginous Soles",
+			"+40% Combat Initiative",
 		},
 	};
 
