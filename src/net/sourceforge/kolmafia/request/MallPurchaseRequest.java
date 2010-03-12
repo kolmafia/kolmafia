@@ -57,7 +57,6 @@ public class MallPurchaseRequest
 	implements Comparable
 {
 	private static final AdventureResult TROUSERS = new AdventureResult( 1792, 1 );
-	private static final AdventureResult RABBIT_HOLE = new AdventureResult( "Down the Rabbit Hole", 1, true );
 	private static final Pattern YIELD_PATTERN =
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
 	public static final Pattern PIRATE_EPHEMERA_PATTERN =
@@ -141,9 +140,10 @@ public class MallPurchaseRequest
 	}
 
 	/**
-	 * Constructs a new <code>MallPurchaseRequest</code> with the given values. Note that the only value which can be
-	 * modified at a later time is the quantity of items being purchases; all others are consistent through the time
-	 * when the purchase is actually executed.
+	 * Constructs a new <code>MallPurchaseRequest</code> with the given
+	 * values. Note that the only value which can be modified at a later
+	 * time is the quantity of items being purchases; all others are
+	 * consistent through the time when the purchase is actually executed.
 	 *
 	 * @param itemName The name of the item to be purchased
 	 * @param itemId The database Id for the item to be purchased
@@ -460,16 +460,7 @@ public class MallPurchaseRequest
 
 		int neededOutfit = 0;
 
-		if ( this.npcStoreId.equals( "a" ) )
-		{
-			// You can only get to the Tweedleporium if you can go
-			// Down the Rabbit Hole
-			if ( !KoLConstants.activeEffects.contains( MallPurchaseRequest.RABBIT_HOLE ) )
-			{
-				return false;
-			}
-		}
-		else if ( this.npcStoreId.equals( "b" ) )
+		if ( this.npcStoreId.equals( "b" ) )
 		{
 			neededOutfit = 1;
 		}
@@ -805,7 +796,7 @@ public class MallPurchaseRequest
 			storeName = storeId != null ? storeId : "an NPC Store";
 		}
 
-		// in a perfect world where I was not so lazy, I'd verify that
+		// In a perfect world where I was not so lazy, I'd verify that
 		// the price string was really an int and might find another
 		// way to effectively strip leading zeros from the display
 
