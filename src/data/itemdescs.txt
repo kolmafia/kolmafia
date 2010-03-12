@@ -4452,7 +4452,7 @@
 4446	934829470	spangly mariachi vest
 4447	715757851	spangly sombrero
 4448	820448502	Instant Karma
-4449
+4449	614550467	antique painting of a landscape
 4450
 4451
 4452
@@ -4533,9 +4533,18 @@
 4527	548989564	elephant stinger
 4528	620918435	dragon snaps
 4529	244946017	snapdragon pistil
-4530
+4530	696712624	puff of smoke
 4531	133321821	rook cookie
 4532	725654828	bishop cookie
 4533	329900305	knight cookie
 4534	189215534	king cookie
 4535	574685883	queen cookie
+4536
+4537	435098110	insane tophat
+4538	587782581	helm of the white knight
+4539	348947721	wristwatch of the white knight
+4540	889966720	trousers of the white knight
+4541	749554417	fancy tophat
+4542	972582317	fancy black tie
+4543	711452958	fancy tuxedo pants
+4544	773251324	stuffed porpoise

@@ -134,6 +134,7 @@ extra-large palm-frond toupee	Experience: +2, Familiar Effect: "1xVolley, 1xPota
 eyepatch	Moxie: +2, Familiar Effect: "3xBarrr, cap 6"
 f3d0r4	Moxie: +6, Familiar Effect: "atk, 1xLep, cap 27"
 fancy ball mask	Moxie Percent: +10, Familiar Effect: "1xBarr, 1xFairy, cap 22"
+fancy tophat	Mysticality Percent: +15
 festive holiday hat	Moxie: +1, Cold Resistance: +1
 fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
 filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1xPotato, cap 15"
@@ -153,10 +154,12 @@ green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2x
 grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
 guard turtle shell	Maximum HP: +50
 hardened slime hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
+helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 helmet turtle	Familiar Effect: "atk, cap 2"
 ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "?xVolley, 8xLep, cap 2"
 invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
+# insane tophat: We're All Mad Here!
 irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
 # jewel-eyed wizard hat: +5 Duration to Buffs You Cast
 # jewel-eyed wizard hat: Allows casting of Magic Missile
@@ -321,6 +324,7 @@ dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistanc
 # dwarvish war kilt: Blinky Lights
 # eelskin pants: Damages Attacking Opponent (Underwater Only)
 eelskin pants	Mysticality Percent: +5
+fancy tuxedo pants	Moxie Percent: +15
 filthy corduroys	Mysticality: +3, Moxie: -3
 floaty rock pants	Spell Critical Percent: +10
 flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15
@@ -387,6 +391,7 @@ swashbuckling pants	Moxie: +4
 tighty whiteys	Spooky Resistance: +2
 time trousers	Adventures: +3
 tree skirt	Moxie: +5
+trousers of the white knight	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +15, Maximum MP: +15
 # troutpiece
 turtle wax greaves	Muscle: +2
 turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2
@@ -1181,6 +1186,7 @@ stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,floor(pref(_
 # stuffed martini
 # stuffed mind flayer
 # stuffed monocle
+# stuffed porpoise
 # stuffed sabre-toothed lime
 # stuffed scary death orb
 # stuffed sleazy gravy fairy
@@ -1441,6 +1447,7 @@ energy drink IV	MP Regen Min: 5, MP Regen Max: 7, Single Equip
 enormous hoop earring	Moxie: +5
 evil flaming eyeball pendant	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
 exclusive ultra-rare item	Muscle: +15, Mysticality: +15, Moxie: +15
+fancy black tie	Muscle Percent: +15, Single Equip
 filigreed hamethyst earring	Muscle: +8, Critical: 3
 filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +3, Single Equip
 filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4, Single Equip
@@ -1745,6 +1752,7 @@ white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 white collar	Meat Drop: +3, Moxie: +1
 woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 wrench bracelet	Muscle: +5, Weapon Damage: +9
+wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip
 # x-ray specs
 ye olde golde frontes	Muscle: +15, Class: "Disco Bandit", Single Equip
 yellow glowstick	Maximum MP: +5, Moxie: -3
