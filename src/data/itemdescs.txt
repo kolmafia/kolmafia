@@ -4452,13 +4452,13 @@
 4446	934829470	spangly mariachi vest
 4447	715757851	spangly sombrero
 4448	820448502	Instant Karma
-4449	614550467	antique painting of a landscape
-4450
-4451
-4452
-4453
-4454
-4455
+4449	614550467	antique painting of a landscape	antique paintings of landscapes
+4450	768406233	map to The Landscaper's Lair
+4451	295116386	pointy red hat
+4452	440448738	machetito
+4453	205764152	lawnmower blade
+4454	586816345	grass clippings
+4455	684538700	The Landscaper's leafblower
 4456	309448805	snowball	snowballs
 4457	130170442	snailmail bits	piles of snailmail bits
 4458	123208807	snailmail coif
