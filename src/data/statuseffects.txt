@@ -740,7 +740,7 @@
 739	Egg on your Face	egg.gif	94c63fe46de6924eb623e8f1c5f86c95	#tea party with 18-char hat
 740	Pockets of Fire	fire.gif	063e77cadd47be4f3fafdf59b20dbaf7	#tea party with 19-char hat
 741	Weapon of Mass Destruction	csword.gif	bd9060b9f8b3bbdb886e324c369c81ac	#tea party with 20-char hat
-742	Orchid Blood	troporchid.gif	7903f5c2c752c95411ec9887eabc558c
+742	Orchid Blood	troporchid.gif	7903f5c2c752c95411ec9887eabc558c	#tea party with 21-char hat
 743	Dances with Tweedles	dance1.gif	15bdf07a543b55d176ef4c7dc7c8ddd0	#tea party with 22-char hat
 744	Patched In	librarycard.gif	3ebf7251799ce3a1e5efecf754f1ea56	#tea party with 23-char hat
 745	You Can Really Taste the Dormouse	dormouse.gif	87639937c57c2ab181a017d719e7d496	#tea party with 24-char hat
@@ -748,8 +748,8 @@
 747	Cat Class, Cat Style	tigereye.gif	7e27f53d80222fbd7e07938e591b40be	#tea party with 26-char hat
 748	Surreally Buff	strboost.gif	2e2ff53bcec1ce3fa0b0add058d9a38b	#tea party with 27-char hat
 749	Quadrilled	lobster.gif	1aff1c8a4389fcaeed66502163c05f57	#tea party with 28-char hat
-750	Coming Up Roses	rose.gif	64743357843a6e08d1299dc4157044a7
-751	Oleaginous Soles	insoles.gif	ffc5606554ed13a40a62cdcbd63eb631
+750	Coming Up Roses	rose.gif	64743357843a6e08d1299dc4157044a7	#tea party with 29-char hat
+751	Oleaginous Soles	insoles.gif	ffc5606554ed13a40a62cdcbd63eb631	#tea party with 30-char hat
 752	Grrrrrrreat!	milk.gif	b9be2b2f79923a03775bea5398ebcbd1	eat 1 Tiger-lily's milk
 753	Powdered	powderdonut.gif	05f0c0ae4356266dfebc5f31c7a85170	eat 1 powdered donut
 754	Oh Snap	dragonsnaps.gif	dcd3c00daf806f985a5387988dd06564	eat 1 dragon snaps

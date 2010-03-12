@@ -57,6 +57,7 @@ public class MallPurchaseRequest
 	implements Comparable
 {
 	private static final AdventureResult TROUSERS = new AdventureResult( 1792, 1 );
+	private static final AdventureResult RABBIT_HOLE = new AdventureResult( "Down the Rabbit Hole", 1, true );
 	private static final Pattern YIELD_PATTERN =
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
 	public static final Pattern PIRATE_EPHEMERA_PATTERN =
@@ -359,8 +360,10 @@ public class MallPurchaseRequest
 	}
 
 	/**
-	 * Executes the purchase request. This calculates the number of items which will be purchased and adds it to the
-	 * list. Note that it marks whether or not it's already been run to avoid problems with repeating the request.
+	 * Executes the purchase request. This calculates the number of items
+	 * which will be purchased and adds it to the list. Note that it marks
+	 * whether or not it's already been run to avoid problems with
+	 * repeating the request.
 	 */
 
 	public void run()
@@ -457,7 +460,16 @@ public class MallPurchaseRequest
 
 		int neededOutfit = 0;
 
-		if ( this.npcStoreId.equals( "b" ) )
+		if ( this.npcStoreId.equals( "a" ) )
+		{
+			// You can only get to the Tweedleporium if you can go
+			// Down the Rabbit Hole
+			if ( !KoLConstants.activeEffects.contains( MallPurchaseRequest.RABBIT_HOLE ) )
+			{
+				return false;
+			}
+		}
+		else if ( this.npcStoreId.equals( "b" ) )
 		{
 			neededOutfit = 1;
 		}
