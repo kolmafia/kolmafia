@@ -88,7 +88,7 @@
 82	Mad Hatrack	none	3219		3	0	1	2
 83	Adorable Seal Larva	combat	3292	pretty pink bow	3	2	1	2
 84	Untamed Turtle	none	3293	smiley-face sticker	0	0	0	0
-85	Animated Macaroni Duck	combat	3294	farfalle bow tie	0	0	0	0
+85	Animated Macaroni Duck	combat	3294	farfalle bow tie	2	2	2	2
 86	Pet Cheezling	none	3295	jalape&ntilde;o slices	2	2	0	2
 87	Autonomous Disco Ball	combat	3296	stick-on mini solar panels	3	2	1	0
 88	Mariachi Chihuahua	combat	3297	tiny sombrero	3	2	1	0
