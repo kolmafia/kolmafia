@@ -4456,12 +4456,12 @@
 4447	spangly sombrero	hat	all	80
 4448	Instant Karma	usable	display	0
 4449	antique painting of a landscape	usable	all	0
-4450
-4451
-4452
-4453
-4454
-4455
+4450	map to The Landscaper's Lair	reusable	none	0
+4451	pointy red hat	hat	all	115
+4452	machetito	weapon	all	115
+4453	lawnmower blade	weapon	all	125
+4454	grass clippings	none, combat	all	0
+4455	The Landscaper's leafblower	weapon	all	300
 4456	snowball	usable, curse	all	5
 4457	snailmail bits	multiple	all	56
 4458	snailmail coif	hat	all	140

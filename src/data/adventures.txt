@@ -80,6 +80,7 @@ Rift	adventure=85	true	Battlefield (No Uniform)	Cloaca-Cola helmet, Cloaca-Cola 
 Rift	adventure=86	true	Battlefield (Cloaca Uniform)
 Rift	adventure=87	true	Battlefield (Dyspepsi Uniform)
 RabbitHole	adventure=225	true	The Red Queen's Garden	+1 reflection of a map
+Landscaper	adventure=224	true	A Well-Groomed Lawn	4 grass clippings
 Plains	adventure=18	true	Degrassi Knoll	1 gnollish toolbox, 1 tires|1 frilly skirt, 1 maiden wig	6 oily rag
 Plains	adventure=20	true	Fun House	1 disease|1 box	20 empty greasepaint tube
 Plains	adventure=21	true	Pre-Cyrpt Cemetary	1 smart skull|3 shysterweed|+1 poltergeist-in-the-jar-o
