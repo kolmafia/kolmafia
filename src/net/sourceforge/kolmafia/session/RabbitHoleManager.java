@@ -1083,9 +1083,10 @@ public abstract class RabbitHoleManager
 		int row = StringUtilities.parseInt( matcher.group( 3 ) );
 		int moveSquare = Board.square( row, col );
 
-		// Save the original piece
+		// Save the original piece and the one it captures
 		int square = RabbitHoleManager.board.getCurrent();
 		Square piece = RabbitHoleManager.board.get( square );
+		Square newPiece = RabbitHoleManager.board.get( moveSquare );
 
 		// Parse the new board
 		RabbitHoleManager.parseChessPuzzle( responseText, false );
@@ -1110,8 +1111,6 @@ public abstract class RabbitHoleManager
 			// No. Bogus move
 			return;
 		}
-
-		Square newPiece = RabbitHoleManager.board.get( newSquare );
 
 		// Log the move in chess notation
 		String message = RabbitHoleManager.moves + ": " + piece.notation( square ) + action + newPiece.notation( newSquare );
