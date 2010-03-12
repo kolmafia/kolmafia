@@ -2144,6 +2144,7 @@ Cold-Blooded Warm Fuzzies	Muscle Percent: +20, Mysticality Percent: +20, Moxie P
 Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
 Colorfully Concealed	Combat Rate: [-5*zone(The Sea)]
 # Comic Violence: Regular Attacks Can't Miss
+Coming Up Roses	MP Regen Min: 10, MP Regen Max: 20
 Compensatory Cruelness	Weapon Damage: +5
 Complete Delusion	Muscle: +4, Moxie: +5
 Concentrated Concentration	Spell Damage Percent: +20
@@ -2463,6 +2464,7 @@ Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
 Oh Snap	Experience (Moxie): +10
+Oleaginous Soles	Initiative: +40
 Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Omphaloskepsis	Damage Reduction: [L]
 On the Shoulders of Giants	Mysticality Percent: +200
@@ -2471,6 +2473,7 @@ Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
 One Very Clear Eye	Item Drop: +100
 Optimist Primal	Familiar Weight: +5
 Orange Tongue	Experience: +3
+Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Oriental Mysticism	Mysticality Percent: +5
 Oxygenated Blood	Adventure Underwater
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
