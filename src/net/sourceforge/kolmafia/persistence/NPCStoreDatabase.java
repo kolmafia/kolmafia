@@ -60,6 +60,7 @@ public class NPCStoreDatabase
 {
 	private static final HashMultimap NPC_ITEMS = new HashMultimap();
 	private static final AdventureResult LAB_KEY = new AdventureResult( 339, 1 );
+	private static final AdventureResult RABBIT_HOLE = new AdventureResult( "Down the Rabbit Hole", 1, true );
 	private static final Map storeNameById = new TreeMap();
 
 	static
@@ -164,6 +165,12 @@ public class NPCStoreDatabase
 		{
 			return (KoLCharacter.isMuscleClass() || classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9) &&
 				KoLCharacter.getGuildStoreOpen();
+		}
+		else if ( storeId.equals( "a" ) )
+		{
+			// You can only get to the Tweedleporium if you can go
+			// Down the Rabbit Hole
+			return KoLConstants.activeEffects.contains( NPCStoreDatabase.RABBIT_HOLE );
 		}
 		else if ( storeId.equals( "b" ) )
 		{
