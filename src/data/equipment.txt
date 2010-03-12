@@ -92,6 +92,7 @@ extra-large palm-frond toupee	150	Mox: 60
 eyepatch	25	none
 f3d0r4	110	Mox: 40
 fancy ball mask	90	Mox: 15
+fancy tophat	100	Mox: 35
 festive holiday hat	30	none
 fez of etymology	120	Mox: 45
 filthy knitted dread sack	60	Mox: 15
@@ -111,9 +112,11 @@ green traffic cone	60	Mox: 15
 grungy bandana	150	Mox: 60
 guard turtle shell	160	Mox: 65
 hardened slime hat	200	Mox: 200
+helm of the white knight	60	Mox: 15
 helmet turtle	10	none
 ice pick	100	none
 indie comic hipster glasses	10	none
+insane tophat	30	none
 invisible bag	10	none
 irate sombrero	45	Mox: 7
 jewel-eyed wizard hat	10	none
@@ -271,6 +274,7 @@ duct tape dockers	195	Mox: 82
 dungeoneer's dungarees	30	none
 dwarvish war kilt	165	Mox: 67
 eelskin pants	200	Mox: 85
+fancy tuxedo pants	100	Mox: 35
 filthy corduroys	60	Mox: 15
 floaty rock pants	100	Mox: 35
 flowing hippy skirt	180	Mox: 75
@@ -336,6 +340,7 @@ swashbuckling pants	80	Mox: 25
 tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
 tree skirt	100	Mox: 35
+trousers of the white knight	60	Mox: 15
 troutpiece	110	Mox: 40
 turtle wax greaves	40	Mox: 5
 turtlemail breeches	80	Mox: 25
@@ -1075,6 +1080,7 @@ stuffed key	0	none
 stuffed martini	0	none
 stuffed mind flayer	0	none
 stuffed monocle	0	none
+stuffed porpoise	0	none
 stuffed sabre-toothed lime	0	none
 stuffed scary death orb	0	none
 stuffed sleazy gravy fairy	0	none
@@ -1303,6 +1309,7 @@ energy drink IV	0	Mys: 75
 enormous hoop earring	0	Mys: 45
 evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
+fancy black tie	0	Mys: 35
 filigreed hamethyst earring	0	Mys: 40
 filigreed hamethyst necklace	0	Mys: 40
 filigreed hamethyst ring	0	Mys: 40
@@ -1596,6 +1603,7 @@ white belt	0	Mys: 5
 white collar	0	none
 woven baling wire bracelets	0	Mys: 75
 wrench bracelet	0	Mys: 75
+wristwatch of the white knight	0	Mys: 15
 x-ray specs	0	none
 ye olde golde frontes	0	Mox: 5
 yellow glowstick	0	none

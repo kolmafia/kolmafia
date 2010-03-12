@@ -639,12 +639,30 @@ public class MallPurchaseRequest
 		}
 	}
 
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*>.*?<b>(.*?)</b>", Pattern.DOTALL );
+
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "store.php" ) )
 		{
 			return;
 		}
+
+		// Learn new items by simply visiting a store
+		Matcher matcher = ITEM_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			int id = StringUtilities.parseInt( matcher.group(1) );
+			String desc = matcher.group(2);
+			String name = matcher.group(3);
+			String data = ItemDatabase.getItemDataName( id );
+			if ( data == null || !data.equals( name ) )
+			{
+				ItemDatabase.registerItem( id, name, desc );
+			}
+		}
+
+		KoLmafia.saveDataOverride();
 
 		Matcher m = MallPurchaseRequest.NPCSTOREID_PATTERN.matcher(urlString);
 		if ( !m.find() )

@@ -4455,7 +4455,7 @@
 4446	spangly mariachi vest	shirt	all	90
 4447	spangly sombrero	hat	all	80
 4448	Instant Karma	usable	display	0
-4449
+4449	antique painting of a landscape	usable	all	0
 4450
 4451
 4452
@@ -4536,9 +4536,18 @@
 4527	elephant stinger	weapon	all	58
 4528	dragon snaps	food	all	35
 4529	snapdragon pistil	offhand	all	49
-4530
+4530	puff of smoke	none, curse	gift	50
 4531	rook cookie	food	all	100
 4532	bishop cookie	food	all	100
 4533	knight cookie	food	all	100
 4534	king cookie	food	all	200
 4535	queen cookie	food	all	400
+4536
+4537	insane tophat	hat	gift	100
+4538	helm of the white knight	hat	gift	150
+4539	wristwatch of the white knight	accessory	gift	150
+4540	trousers of the white knight	pants	gift	150
+4541	fancy tophat	hat	display	5000
+4542	fancy black tie	accessory	display	5000
+4543	fancy tuxedo pants	pants	display	5000
+4544	stuffed porpoise	offhand	gift	50

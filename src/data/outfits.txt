@@ -69,7 +69,8 @@
 68	Legendary Regalia of the Groovelord	Disco 'Fro Pick, Seeger's Unstoppable Banjo, Volartta's bellbottoms, Bling of the New Wave
 69	Legendary Regalia of the Master Squeezeboxer	El Sombrero De Lopez, The Trickster's Trikitixa, Lederhosen of the Night, El Hebilla del Cintur&oacute;n de Lopez
 70	BRICKOfig Outfit	BRICKO hat, BRICKO sword, BRICKO pants
-
+71	Knight's Armor	helm of the white knight, trousers of the white knight, wristwatch of the white knight
+72	Fancy Tux	fancy tophat, fancy tuxedo pants, fancy black tie
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.
