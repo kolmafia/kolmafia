@@ -2909,7 +2909,7 @@ public class FightRequest
 		StringBuffer action = new StringBuffer();
 
 		boolean shouldRefresh = false;
-		boolean nunnery = KoLAdventure.lastVisitedLocation().getAdventureId().equals( "126" );
+		boolean nunnery = FightRequest.encounterLookup.equals( "dirty thieving brigand" );
 		boolean won = false;
 
 		do
@@ -3191,8 +3191,7 @@ public class FightRequest
 			this.shouldRefresh = false;
 
 			// Note if we are fighting The Themthar Hills
-			KoLAdventure location = KoLAdventure.lastVisitedLocation();
-			this.nunnery = location != null && location.getAdventureId().equals( "126" );
+			this.nunnery = FightRequest.encounterLookup.equals( "dirty thieving brigand" );
 
 			if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER )
 			{
