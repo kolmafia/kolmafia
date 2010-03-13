@@ -2249,20 +2249,17 @@ public abstract class ChoiceManager
 
 	public static final boolean processChoiceAdventure()
 	{
-		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER );
+		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, null );
 		return ChoiceManager.CHOICE_HANDLER.containsUpdate;
 	}
 
-	/**
-	 * Utility method which notifies thethat it needs to process the given choice adventure.
-	 */
-
-	public static final void processChoiceAdventure( final GenericRequest request )
+	public static final String processChoiceAdventure( final String responseText )
 	{
-		ChoiceManager.processChoiceAdventure( request, null );
+		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, responseText );
+		return RequestEditorKit.getFeatureRichHTML( "choice.php", ChoiceManager.CHOICE_HANDLER.responseText, true );
 	}
 
-	public static final void processChoiceAdventure( final GenericRequest request, final String responseText )
+	private static final void processChoiceAdventure( final GenericRequest request, final String responseText )
 	{
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
