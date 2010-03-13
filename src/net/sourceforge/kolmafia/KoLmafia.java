@@ -153,7 +153,6 @@ public abstract class KoLmafia
 	private static boolean hadPendingState = false;
 
 	public static String currentIterationString = "";
-	public static int adventureGains = 0;
 	public static boolean tookChoice = false;
 	public static boolean redoSkippedAdventures = true;
 
@@ -918,6 +917,7 @@ public abstract class KoLmafia
 		// Load saved counters before any requests are made, since both
 		// charpane and charsheet requests can set them.
 
+		CharPaneRequest.reset();
 		KoLCharacter.setCurrentRun( 0 );
 		TurnCounter.loadCounters();
 
@@ -1294,7 +1294,6 @@ public abstract class KoLmafia
 		KoLmafia.forceContinue();
 		KoLmafia.abortAfter = null;
 
-		int adventuresBeforeRequest;
 		int currentIteration = 0;
 
 		boolean checkBounty = false;
@@ -1308,14 +1307,13 @@ public abstract class KoLmafia
 
 		while ( KoLmafia.permitsContinue() && ++currentIteration <= totalIterations )
 		{
-			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
-			KoLmafia.adventureGains = 0;
+			int runBeforeRequest = KoLCharacter.getCurrentRun();
 			KoLmafia.tookChoice = false;
 
 			this.executeRequestOnce( request, wasAdventuring, currentIteration, totalIterations, items, creatables );
 
 			if ( isAdventure && KoLmafia.redoSkippedAdventures &&
-				( adventuresBeforeRequest + KoLmafia.adventureGains ) == KoLCharacter.getAdventuresLeft() )
+			     runBeforeRequest == KoLCharacter.getCurrentRun() )
 			{
 				--currentIteration;
 			}

@@ -640,11 +640,6 @@ public class ResultProcessor
 				TurnCounter.saveCounters();
 				AdventureResult.addResultToList( KoLConstants.tally, result.getNegation() );
 			}
-			else if ( KoLmafia.isAdventuring() )
-			{
-				// Remember adventures gained while adventuring
-				KoLmafia.adventureGains += result.getCount();
-			}
 		}
 		else if ( resultName.equals( AdventureResult.CHOICE ) )
 		{
@@ -735,14 +730,20 @@ public class ResultProcessor
 		return ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
 	}
 
-	public static boolean processAdventures( int amount )
+	public static void processAdventuresLeft( int amount )
 	{
-		if ( amount == 0 )
+		if ( amount != 0 )
 		{
-			return false;
+			KoLCharacter.setAdventuresLeft( KoLCharacter.getAdventuresLeft() + amount );
 		}
+	}
 
-		return ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, amount ) );
+	public static void processAdventuresUsed( int amount )
+	{
+		if ( amount != 0 )
+		{
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, -amount ) );
+		}
 	}
 
 	private static void processCondition( AdventureResult result, String resultName, int conditionIndex )
@@ -891,7 +892,6 @@ public class ResultProcessor
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) )
 		{
-			KoLCharacter.setAdventuresLeft( KoLCharacter.getAdventuresLeft() + result.getCount() );
 			if ( result.getCount() < 0 )
 			{
 				AdventureResult[] effectsArray = new AdventureResult[ KoLConstants.activeEffects.size() ];

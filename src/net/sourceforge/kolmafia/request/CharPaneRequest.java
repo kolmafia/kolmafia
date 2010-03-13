@@ -66,6 +66,7 @@ public class CharPaneRequest
 	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat( "EEE, d MMM yyyy HH:mm:ss z", Locale.US );
 
 	private static long timestamp = 0;
+	private static int turnsthisrun = 0;
 
 	private static final CharPaneRequest instance = new CharPaneRequest();
 
@@ -76,6 +77,14 @@ public class CharPaneRequest
 		// when the request is actually run.
 
 		super( "charpane.php" );
+	}
+
+	public static final void reset()
+	{
+		CharPaneRequest.lastResponse = "";
+		CharPaneRequest.canInteract = false;
+		CharPaneRequest.timestamp = 0;
+		CharPaneRequest.turnsthisrun = 0;
 	}
 
 	public static final CharPaneRequest getInstance()
@@ -156,16 +165,39 @@ public class CharPaneRequest
 			return;
 		}
 
+		// KoL now includes Javascript variables in each charpane
+		//
+		// var turnsplayed = 232576;
+		// var turnsthisrun = 232576;
+		// var rollover = 1268537400;
+		// var rightnow = 1268496181;
+		// var pwdhash = "...";
+		//
+		// "turnsthisrun" is of interest for several reasons: we can
+		// use it to order (some) charpane requests, even if the
+		// timestamp is the same, and we can use it to synchronize
+		// KolMafia with KoL's turn counter
+
+		int turnsthisrun = parseTurnsThisRun( responseText );
+		int mafiaturnsthisrun = KoLCharacter.getCurrentRun();
+		if ( turnsthisrun < CharPaneRequest.turnsthisrun ||
+		     turnsthisrun < mafiaturnsthisrun )
+		{
+			return;
+		}
+
+		// Since we believe this update, synchronize with it
+		ResultProcessor.processAdventuresUsed( turnsthisrun - mafiaturnsthisrun );
+
 		CharPaneRequest.timestamp = timestamp;
+		CharPaneRequest.turnsthisrun = turnsthisrun;
 		CharPaneRequest.lastResponse = responseText;
 
-		// By refreshing the KoLCharacter pane, you can
-		// determine whether or not you are in compact
-		// mode - be sure to refresh this value.
+		// We can deduce whether we are in compact charpane mode
 
 		GenericRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
 
-		// The easiest way to retrieve the KoLCharacter pane data is to
+		// The easiest way to retrieve the character pane data is to
 		// use regular expressions. But, the only data that requires
 		// synchronization is the modified stat values, health and
 		// mana.
@@ -215,6 +247,19 @@ public class CharPaneRequest
 		}
 
 		return 0;
+	}
+
+	public static final Pattern TURNS_PATTERN = Pattern.compile( "var turnsthisrun = (\\d*);" );
+
+	private static final int parseTurnsThisRun( final String responseText )
+	{
+		Matcher matcher = CharPaneRequest.TURNS_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			return StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+
+		return -1;
 	}
 
 	private static final boolean checkInteraction( final String responseText )
@@ -410,7 +455,7 @@ public class CharPaneRequest
                 String adventuresLeft = miscMatcher.group( 6 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
                 int oldAdventures = KoLCharacter.getAdventuresLeft();
                 int newAdventures = StringUtilities.parseInt( adventuresLeft );
-                ResultProcessor.processAdventures( newAdventures - oldAdventures );
+                ResultProcessor.processAdventuresLeft( newAdventures - oldAdventures );
 	}
 
 	private static final void handleMindControl( final String text, final Pattern [] patterns )
