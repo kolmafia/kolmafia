@@ -581,6 +581,7 @@ public class AdventureRequest
 
 	private static String[][] LIMERICKS =
 	{
+		{ "Nantucket Snapper", "ancient old turtle" },
 		{ "The Apathetic Lizardman", "lizardman quite apathetic" },
 		{ "The Bleary-Eyed Cyclops", "bleary-eyed cyclops" },
 		{ "The Crass Goblin", "goblin is crass" },
@@ -591,10 +592,13 @@ public class AdventureRequest
 		{ "The Gnome with a Truncheon", "gnome with a truncheon" },
 		{ "The Goblin King's Vassal", "Goblin King's vassal" },
 		{ "The Insatiable Maiden", "insatiable maiden" },
+		{ "The Jewelry Gnoll", "bejeweled it" },
+		{ "The Martini Booth", "martini booth" },
 		{ "The One-Legged Trouser", "one-pantlegged schnauzer" },
 		{ "The Orc With a Spork", "waving a spork" },
 		{ "The Slime Puddle", "slime puddle" },
 		{ "The Sozzled Old Dragon", "sozzled old dragon" },
+		{ "The Superior Ogre", "I am superior" },
 		{ "The Unguarded Chest", "chest full of meat" },
 		{ "The Unpleasant Satyr", "unpleasant satyr" },
 		{ "The Vampire Buffer", "vampire buffer" },
