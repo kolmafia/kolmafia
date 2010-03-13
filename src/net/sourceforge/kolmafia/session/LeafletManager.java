@@ -175,14 +175,20 @@ public abstract class LeafletManager
 	private static boolean petunias; // true if petunias are done
 	private static boolean giant; // true if giant is done
 
-	public static final String leafletNoMagic()
+	public static final String locationName()
 	{
-		return LeafletManager.robStrangeLeaflet( false );
+		String response = LeafletManager.executeCommand( "inv" );
+		return LeafletManager.locationName( response );
 	}
 
 	public static final String leafletWithMagic()
 	{
 		return LeafletManager.robStrangeLeaflet( true );
+	}
+
+	public static final String leafletNoMagic()
+	{
+		return LeafletManager.robStrangeLeaflet( false );
 	}
 
 	public static final String robStrangeLeaflet( final boolean invokeMagic )
@@ -201,53 +207,24 @@ public abstract class LeafletManager
 			}
 		}
 
-		// Deduce location and status of items and actions
-		// by initializing the leaflet variables.
-
-		KoLmafia.updateDisplay( "Determining current leaflet progress..." );
-		LeafletManager.initialize();
-
-		if ( !KoLmafia.permitsContinue() )
+		try
 		{
-			return LeafletManager.LEAFLET_REQUEST.responseText;
+			// Deduce location and status of items and actions
+			LeafletManager.initialize();
+
+			// Solve the puzzles.
+			LeafletManager.solveLeaflet( invokeMagic );
 		}
-
-		// Solve the puzzles.
-
-		// For completeness, get the leaflet
-		LeafletManager.getLeaflet();
-
-		// Open the chest to get the house
-		LeafletManager.openChest();
-
-		// Get the grue egg from the hole
-		LeafletManager.robHole();
-
-		// Invoke the magic word, if the player wants to;
-		// otherwise, retrieve the trophy in all cases.
-
-		if ( !LeafletManager.invokeMagic( invokeMagic ) )
+		catch ( LeafletException e )
 		{
-			KoLmafia.updateDisplay( "Serpent-slaying quest complete." );
-			return LeafletManager.LEAFLET_REQUEST.responseText;
-		}
-
-		// Get the ring
-		LeafletManager.getRing();
-
-		String extra =
-			LeafletManager.trophy ? " (trophy available)" : LeafletManager.magic != null ? " (magic invoked)" : "";
-		KoLmafia.updateDisplay( "Strange leaflet completed" + extra + "." );
-
-		if ( LeafletManager.magic != null )
-		{
-			KoLCharacter.updateStatus();
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
 		}
 
 		return LeafletManager.LEAFLET_REQUEST.responseText;
 	}
 
 	private static final void initialize()
+		throws LeafletException
 	{
 		// We know nothing about the state of the objects.
 
@@ -267,6 +244,7 @@ public abstract class LeafletManager
 		// command -- this will return your current virtual inventory
 		// and also shows your current location in the page title
 
+		KoLmafia.updateDisplay( "Determining current leaflet progress..." );
 		String response = LeafletManager.executeCommand( "inv" );
 
 		LeafletManager.leaflet = response.indexOf( "A junk mail leaflet" ) != -1;
@@ -285,7 +263,53 @@ public abstract class LeafletManager
 		LeafletManager.trophy = response.indexOf( "A shiny bowling trophy" ) != -1;
 	}
 
-	public static final int getLocation( final String response )
+	private static final void solveLeaflet( final boolean invokeMagic )
+		throws LeafletException
+	{
+		// For completeness, get the leaflet
+		LeafletManager.getLeaflet();
+
+		// Open the chest to get the house
+		LeafletManager.openChest();
+
+		// Get the grue egg from the hole
+		LeafletManager.robHole();
+
+		// Invoke the magic word, if the player wants to;
+		// otherwise, retrieve the trophy in all cases.
+
+		if ( !LeafletManager.invokeMagic( invokeMagic ) )
+		{
+			KoLmafia.updateDisplay( "Serpent-slaying quest complete." );
+			return;
+		}
+
+		// Get the ring
+		LeafletManager.getRing();
+
+		String extra =
+			LeafletManager.trophy ? " (trophy available)" : LeafletManager.magic != null ? " (magic invoked)" : "";
+		KoLmafia.updateDisplay( "Strange leaflet completed" + extra + "." );
+
+		if ( LeafletManager.magic != null )
+		{
+			KoLCharacter.updateStatus();
+		}
+	}
+
+	private static final String executeCommand( final String command )
+	{
+		LeafletManager.LEAFLET_REQUEST.setCommand( command );
+		RequestThread.postRequest( LeafletManager.LEAFLET_REQUEST );
+
+		// Figure out where we are
+		LeafletManager.parseLocation( LeafletManager.LEAFLET_REQUEST.responseText );
+
+		// Let the caller look at the results, if desired
+		return LeafletManager.LEAFLET_REQUEST.responseText;
+	}
+
+	private static final int getLocation( final String response )
 	{
 		for ( int location = 0; location < LeafletManager.LOCATIONS.length; ++location )
 		{
@@ -299,18 +323,12 @@ public abstract class LeafletManager
 		return -1;
 	}
 
-	public static final String locationName()
-	{
-		String response = LeafletManager.executeCommand( "inv" );
-		return LeafletManager.locationName( response );
-	}
-
-	public static final String locationName( final String response )
+	private static final String locationName( final String response )
 	{
                 return LeafletManager.locationName( LeafletManager.getLocation( response ) );
 	}
 
-	public static final String locationName( final int location )
+	private static final String locationName( final int location )
 	{
                 if ( location < 0 || location >= LeafletManager.LOCATIONS.length )
                 {
@@ -382,8 +400,7 @@ public abstract class LeafletManager
 			break;
 
 		default:
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server-side change detected.  Script aborted." );
-			break;
+			throw new LeafletException( "Server-side change detected. Script aborted." );
 		}
 	}
 
@@ -912,15 +929,12 @@ public abstract class LeafletManager
 		LeafletManager.fireplace = true;
 	}
 
-	private static final String executeCommand( final String command )
+	private static class LeafletException
+                extends RuntimeException
 	{
-		LeafletManager.LEAFLET_REQUEST.setCommand( command );
-		RequestThread.postRequest( LeafletManager.LEAFLET_REQUEST );
-
-		// Figure out where we are
-		LeafletManager.parseLocation( LeafletManager.LEAFLET_REQUEST.responseText );
-
-		// Let the caller look at the results, if desired
-		return LeafletManager.LEAFLET_REQUEST.responseText;
-	}
+                public LeafletException( final String s )
+		{
+                        super( s == null ? "" : s );
+                }
+        }
 }
