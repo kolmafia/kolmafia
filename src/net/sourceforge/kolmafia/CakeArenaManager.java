@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 
@@ -104,8 +105,14 @@ public class CakeArenaManager
 						text.append( "<font color=red><b>Round " + j + " of " + repeatCount + "</b></font>: " );
 					}
 
-					text.append( request.responseText.substring( 0, request.responseText.indexOf( "</table>" ) ).replaceAll(
-						"><", "" ).replaceAll( "<.*?>", " " ) );
+					int start = request.responseText.indexOf( "<body>" );
+					int end = request.responseText.indexOf( "</table>", start );
+					
+					String body = request.responseText.substring( start, end );
+					body = body.replaceAll( "<p>", KoLConstants.LINE_BREAK );
+					body = body.replaceAll( "<.*?>", "" );
+					body = body.replaceAll( KoLConstants.LINE_BREAK, "<br>" );
+					text.append( body );
 
 					text.append( "<br><br>" );
 					FamiliarTrainingFrame.getResults().append( text.toString() );
