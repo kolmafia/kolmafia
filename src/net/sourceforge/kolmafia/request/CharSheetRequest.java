@@ -212,7 +212,7 @@ public class CharSheetRequest
 
 		int oldAdventures = KoLCharacter.getAdventuresLeft();
 		int newAdventures = GenericRequest.intToken( cleanContent );
-		ResultProcessor.processAdventures( newAdventures - oldAdventures );
+		ResultProcessor.processAdventuresLeft( newAdventures - oldAdventures );
 
 		while ( !token.startsWith( "Meat" ) )
 		{
