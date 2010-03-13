@@ -50,8 +50,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CurseRequest
 	extends GenericRequest
 {
-	private static final Pattern PARAM_PATTERN = Pattern.compile( "(?=.*action=use)(?=.*whichitem=(\\d+)).*targetplayer=([^&]*)" );
-	// \1 = itemid, \2 = player
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern PLAYER_PATTERN = Pattern.compile( "(?=.*action=use).*targetplayer=([^&]*)" );
+	private static final Pattern QTY_PATTERN = Pattern.compile( "You have ([\\d,]+) more |You don't have any more " );
 	
 	private AdventureResult itemUsed;
 
@@ -94,12 +95,33 @@ public class CurseRequest
 			return;
 		}
 		
-		Matcher m = CurseRequest.PARAM_PATTERN.matcher( location );
+		Matcher m = CurseRequest.ITEM_PATTERN.matcher( location );
 		if ( !m.find() )
 		{
 			return;
 		}
+		AdventureResult item = ItemPool.get( StringUtilities.parseInt( m.group( 1 ) ), 1 );
 
+		m = CurseRequest.QTY_PATTERN.matcher( responseText );
+		if ( !m.find() )
+		{
+			return;
+		}
+		int qty = m.group( 1 ) == null ? 0
+			: StringUtilities.parseInt( m.group( 1 ) );
+		qty = item.getCount( KoLConstants.inventory ) - qty;
+		if ( qty != 0 )
+		{
+			item = item.getInstance( qty );
+			ResultProcessor.processResult( item.getNegation() );
+		}
+
+		m = CurseRequest.PLAYER_PATTERN.matcher( location );
+		if ( !m.find() )
+		{
+			return;
+		}
+		
 		if ( responseText.indexOf( "You don't have that item" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Have not, throw not." );
@@ -115,7 +137,7 @@ public class CurseRequest
 		
 		if ( responseText.indexOf( "That player could not be found" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, m.group( 2 ) + " evaded your thrown item by the unusual strategy of being nonexistent." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, m.group( 1 ) + " evaded your thrown item by the unusual strategy of being nonexistent." );
 			return;
 		}
 		
@@ -127,11 +149,8 @@ public class CurseRequest
 			return;
 		}
 		
-		AdventureResult item = ItemPool.get(
-			StringUtilities.parseInt( m.group( 1 ) ), -1 );
-		ResultProcessor.processResult( item );
-		RequestLogger.updateSessionLog( "throw " + item.getName() +
-			" at " + m.group( 2 ) );
+		RequestLogger.updateSessionLog( "throw " + item +
+			" at " + m.group( 1 ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )
