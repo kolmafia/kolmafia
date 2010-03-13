@@ -428,8 +428,9 @@ public class UseSkillRequest
 		case 4006:
 
 			maximumCast = KoLCharacter.hasSkill( "The Way of Sauce" ) ? 5 : 3;
-			if ( KoLCharacter.hasEquipped( UseSkillRequest.SAUCEBLOB_BELT ) ||
-			     UseSkillRequest.SAUCEBLOB_BELT.getCount( KoLConstants.inventory ) > 0 )
+			if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
+			     ( KoLCharacter.hasEquipped( UseSkillRequest.SAUCEBLOB_BELT ) ||
+			       UseSkillRequest.SAUCEBLOB_BELT.getCount( KoLConstants.inventory ) > 0 ) )
 			{
 				maximumCast += 3;
 			}
