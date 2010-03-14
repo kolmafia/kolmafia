@@ -338,7 +338,7 @@ public abstract class BasicScope
 					return functions[ i ];
 				}
 			}
-			else if ( paramCount == 1 )
+			else if ( hasParameters && paramCount == 1 )
 			{
 				if ( isSingleString )
 				{
@@ -353,7 +353,7 @@ public abstract class BasicScope
 				bestMatch = functions[ i ];
 				minParamCount = 1;
 			}
-			else if ( !hasParameters )
+			else
 			{
 				if ( paramCount < minParamCount )
 				{
