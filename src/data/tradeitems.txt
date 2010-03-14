@@ -4552,3 +4552,4 @@
 4543	fancy tuxedo pants	pants	display	5000
 4544	stuffed porpoise	offhand	gift	50
 4545	stuffed pocketwatch	offhand	gift	50
+4546	stuffed bandersnatch	offhand	gift	50

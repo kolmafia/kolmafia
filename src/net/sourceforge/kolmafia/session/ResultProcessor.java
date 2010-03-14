@@ -900,7 +900,12 @@ public class ResultProcessor
 				for ( int i = effectsArray.length - 1; i >= 0; --i )
 				{
 					AdventureResult effect = effectsArray[ i ];
-					if ( effect.getCount() + result.getCount() <= 0 )
+					int duration = effect.getCount();
+					if ( duration == Integer.MAX_VALUE )
+					{
+						// Intrinsic effect
+					}
+					else if ( duration + result.getCount() <= 0 )
 					{
 						KoLConstants.activeEffects.remove( i );
 					}

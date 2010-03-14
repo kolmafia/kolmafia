@@ -1181,6 +1181,7 @@ stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,floor(pref(_
 # stuffed Mob Penguin
 # stuffed astral badger
 # stuffed baby gravy fairy
+# stuffed bandersnatch
 # stuffed can of asparagus
 # stuffed cocoabo
 # stuffed dodecapede
@@ -1192,6 +1193,7 @@ stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,floor(pref(_
 # stuffed martini
 # stuffed mind flayer
 # stuffed monocle
+# stuffed pocketwatch
 # stuffed porpoise
 # stuffed sabre-toothed lime
 # stuffed scary death orb

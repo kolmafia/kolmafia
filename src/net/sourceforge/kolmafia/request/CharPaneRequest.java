@@ -547,7 +547,7 @@ public class CharPaneRequest
 
 		if ( duration.equals( "&infin;" ) )
 		{
-			duration = String.valueOf( Integer.MAX_VALUE - 100 );
+			duration = String.valueOf( Integer.MAX_VALUE );
 			if ( effectName.equalsIgnoreCase( "Temporary Blindness" ) )
 			{
 				effectName = "Temporary Blindness (intrinsic)";

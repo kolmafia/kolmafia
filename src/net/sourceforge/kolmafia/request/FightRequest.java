@@ -3334,21 +3334,22 @@ public class FightRequest
 				return;
 			}
 
-			StringBuffer text = node.getText();
-			String str = text.toString();
-
 			if ( status.famaction )
 			{
 				status.famaction = false;
-				if ( ResultProcessor.processFamiliarWeightGain( str ) )
-				{
-					return;
-				}
-				if ( status.logFamiliar )
-				{
-					FightRequest.logText( text, status );
-				}
-				int damage = FightRequest.parseFamiliarDamage( str, status );
+				FightRequest.processFamiliarAction( node, status );
+				return;
+			}
+
+			StringBuffer text = node.getText();
+			String str = text.toString();
+
+			// Tables often appear in fight results to hold images.
+			TagNode inode = node.findElementByName( "img", true );
+			if ( inode == null )
+			{
+				// No image. Parse combat damage.
+				int damage = FightRequest.parseNormalDamage( str );
 				if ( damage != 0 )
 				{
 					if ( status.logMonsterHealth )
@@ -3357,20 +3358,13 @@ public class FightRequest
 					}
 					FightRequest.healthModifier += damage;
 				}
-				return;
-			}
 
-			// Tables often appear in fight results to hold images.
-			TagNode inode = node.findElementByName( "img", true );
-			if ( inode == null )
-			{
-				// No image. Parse combat damage.
-				int damage = FightRequest.parseNormalDamage( str );
-				if ( status.logMonsterHealth )
+				// If it's not combat damage, perhaps it's a stat gain
+				else if ( str.startsWith( "You gain" ) )
 				{
-					FightRequest.logMonsterDamage( action, damage );
+					status.shouldRefresh = ResultProcessor.processGainLoss( str, null );
 				}
-				FightRequest.healthModifier += damage;
+
 				return;
 			}
 
@@ -3446,26 +3440,7 @@ public class FightRequest
 
 			if ( image.equals( status.familiar ) )
 			{
-				if ( ResultProcessor.processFamiliarWeightGain( str ) )
-				{
-					return;
-				}
-
-				// Familiar combat action?
-				if ( status.logFamiliar )
-				{
-					FightRequest.logText( text, status );
-				}
-
-				int damage = FightRequest.parseFamiliarDamage( str, status );
-				if ( damage != 0 )
-				{
-					if ( status.logMonsterHealth )
-					{
-						FightRequest.logMonsterDamage( action, damage );
-					}
-					FightRequest.healthModifier += damage;
-				}
+				FightRequest.processFamiliarAction( node, status );
 				return;
 			}
 
@@ -3672,6 +3647,52 @@ public class FightRequest
 				FightRequest.processNode( object, status );
 				continue;
 			}
+		}
+	}
+
+	private static void processFamiliarAction( TagNode node, TagStatus status )
+	{
+		StringBuffer action = status.action;
+
+		// Preprocess this node: remove tables and process them later.
+		// This will also remove the table text from the node text and
+		// thus improve the message we log.
+
+		TagNode [] tables = node.getElementsByName( "table", true );
+		for ( int i = 0; i < tables.length; ++i )
+		{
+			TagNode table = tables[i];
+			table.getParent().removeChild( table );
+		}
+
+		StringBuffer text = node.getText();
+		String str = text.toString();
+
+		if ( ResultProcessor.processFamiliarWeightGain( str ) )
+		{
+			return;
+		}
+
+		// Familiar combat action?
+		if ( status.logFamiliar )
+		{
+			FightRequest.logText( text, status );
+		}
+		int damage = FightRequest.parseFamiliarDamage( str, status );
+		if ( damage != 0 )
+		{
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterDamage( action, damage );
+			}
+			FightRequest.healthModifier += damage;
+		}
+
+		// Now process additional familiar actions
+		for ( int i = 0; i < tables.length; ++i )
+		{
+			TagNode table = tables[i];
+			FightRequest.processNode( table, status );
 		}
 	}
 
