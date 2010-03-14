@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 
+import com.velocityreviews.forums.HttpTimeoutClient;
 import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class GenericRequest
@@ -184,9 +185,10 @@ public class GenericRequest
 	}
 
 	/**
-	 * static final method called when <code>GenericRequest</code> is first instantiated or whenever the settings have
-	 * changed. This initializes the login server to the one stored in the user's settings, as well as initializes the
-	 * user's proxy settings.
+	 * static final method called when <code>GenericRequest</code> is first
+	 * instantiated or whenever the settings have changed. This initializes
+	 * the login server to the one stored in the user's settings, as well
+	 * as initializes the user's proxy settings.
 	 */
 
 	public static final void applySettings()
@@ -262,8 +264,9 @@ public class GenericRequest
 	}
 
 	/**
-	 * static final method used to manually set the server to be used as the root for all requests by all KoLmafia
-	 * clients running on the current JVM instance.
+	 * static final method used to manually set the server to be used as
+	 * the root for all requests by all KoLmafia clients running on the
+	 * current JVM instance.
 	 *
 	 * @param server The hostname of the server to be used.
 	 */
@@ -331,8 +334,8 @@ public class GenericRequest
 	}
 
 	/**
-	 * Constructs a new GenericRequest which will notify the given client of any changes and will use the given URL for data
-	 * submission.
+	 * Constructs a new GenericRequest which will notify the given client
+	 * of any changes and will use the given URL for data submission.
 	 *
 	 * @param formURLString The form to be used in posting data
 	 */
@@ -435,8 +438,9 @@ public class GenericRequest
 	}
 
 	/**
-	 * Clears the data fields so that the descending class can have a fresh set of data fields. This allows requests
-	 * with variable numbers of parameters to be reused.
+	 * Clears the data fields so that the descending class can have a fresh
+	 * set of data fields. This allows requests with variable numbers of
+	 * parameters to be reused.
 	 */
 
 	public void clearDataFields()
@@ -1186,6 +1190,21 @@ public class GenericRequest
 
 		if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "valhalla.php" ) )
 		{
+			int timeout;
+			if ( !urlString.startsWith( "login.php" ) ||
+			     LoginRequest.playersOnline > 500 )
+			{
+				// 24 seconds is the default timeout
+				timeout = 24000;
+			}
+			else
+			{
+				// If we are logging in right after rollover,
+				// cut KoL some more slack and wait 120 seconds
+				timeout = 120000;
+			}
+
+			HttpTimeoutClient.setHttpTimeout( timeout );
 			return new URL( context, urlString, HttpTimeoutHandler.getInstance() );
 		}
 

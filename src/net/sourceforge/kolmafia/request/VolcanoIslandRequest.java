@@ -74,7 +74,6 @@ public class VolcanoIslandRequest
 	public VolcanoIslandRequest( final String action )
 	{
 		super( "volcanoisland.php" );
-		this.addFormField( "pwd" );
 		this.addFormField( "action", action );
 	}
 
