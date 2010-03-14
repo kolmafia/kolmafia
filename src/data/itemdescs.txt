@@ -4548,3 +4548,4 @@
 4542	972582317	fancy black tie
 4543	711452958	fancy tuxedo pants
 4544	773251324	stuffed porpoise
+4544	452249553	stuffed pocketwatch
