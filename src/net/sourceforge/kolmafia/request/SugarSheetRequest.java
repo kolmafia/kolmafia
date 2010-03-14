@@ -60,7 +60,6 @@ public class SugarSheetRequest
 		super( "sugarsheets.php", conc );
 		this.addFormField( "action", "fold" );
 		this.addFormField( "whichitem", String.valueOf( this.getItemId() ) );
-		this.addFormField( "pwd" );
 	}
 
 	public void reconstructFields()

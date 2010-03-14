@@ -72,6 +72,8 @@ public class LoginRequest
 	private final String username;
 	private final String password;
 
+	public static int playersOnline = 0;
+
 	public LoginRequest( final String username, final String password )
 	{
 		super( "login.php" );
@@ -153,14 +155,17 @@ public class LoginRequest
 			return false;
 		}
 
-		// We got this far, so that means we now have a
-		// challenge pattern.
+		// We got this far, so that means we now have a challenge
+		// pattern.
 
 		Matcher playersMatcher = LoginRequest.PLAYERS_PATTERN.matcher( this.responseText );
 		if ( playersMatcher.find() )
 		{
-			KoLmafia.updateDisplay( playersMatcher.group( 1 ) + " players online." );
+			LoginRequest.playersOnline = StringUtilities.parseInt( playersMatcher.group( 1 ) );
+			KoLmafia.updateDisplay( LoginRequest.playersOnline + " players online." );
 		}
+
+		/*
 		playersMatcher = LoginRequest.GRIMBO_PATTERN.matcher( this.responseText );
 		if ( playersMatcher.find() )
 		{
@@ -173,6 +178,7 @@ public class LoginRequest
 			KoLmafia.updateDisplay( playersMatcher.group( 7 ) + " " +
 				playersMatcher.group( 8 ) );
 		}
+		*/
 
 		try
 		{

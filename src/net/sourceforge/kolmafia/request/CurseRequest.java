@@ -66,7 +66,6 @@ public class CurseRequest
 		super( "curse.php" );
 		this.itemUsed = item;
 		this.addFormField( "action", "use" );
-		this.addFormField( "pwd" );
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 		this.addFormField( "targetplayer", target );
 	}

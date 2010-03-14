@@ -92,7 +92,6 @@ public class TrophyRequest
 				this.addFormField( "public" + t.id, "on" );
 			}
 		}
-		this.addFormField( "pwd" );
 		super.run();
 		
 		// Multiple trophy moving only works via GET, not POST.
