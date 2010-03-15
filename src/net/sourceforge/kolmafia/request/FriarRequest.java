@@ -88,20 +88,26 @@ public class FriarRequest
 			return;
 		}
 
-		// No, seriously, you can only get one of those per day.
+		FriarRequest.parseResponse( this.getURLString(), this.responseText );
+
 		if ( this.responseText.indexOf( "one of those per day." ) != -1 )
 		{
-			Preferences.setBoolean( "friarsBlessingReceived", true );
 			KoLmafia.updateDisplay( "You can only get one blessing a day from the Deep Fat Friars." );
 			return;
 		}
 
-		// Brother Corsican smiles and rubs some ashes on your face.
-		if ( this.responseText.indexOf( "smiles and rubs some ashes" ) != -1 )
+		KoLmafia.updateDisplay( "You've been blessed." );
+		RequestFrame.refreshStatus();
+	}
+
+	public static final void parseResponse( final String location, final String responseText )
+	{
+		// No, seriously, you can only get one of those per day.
+		// Brother <name> smiles and rubs some ashes on your face.
+		if ( responseText.indexOf( "one of those per day." ) != -1 ||
+		     responseText.indexOf( "smiles and rubs some ashes" ) != -1 )
 		{
 			Preferences.setBoolean( "friarsBlessingReceived", true );
-			KoLmafia.updateDisplay( "You've been blessed." );
-			RequestFrame.refreshStatus();
 		}
 	}
 
