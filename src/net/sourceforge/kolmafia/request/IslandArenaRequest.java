@@ -172,9 +172,15 @@ public class IslandArenaRequest
 			return;
 		}
 
-		Preferences.setBoolean( "concertVisited", true );
+		IslandArenaRequest.parseResponse( this.getURLString(), this.responseText );
 
-		if ( this.responseText.indexOf( "You're all rocked out." ) != -1 )
+		// Unfortunately, you think you've pretty much tapped out this
+		// event's entertainment potential for today
+		//
+		// You're all rocked out.
+
+		if ( this.responseText.indexOf( "pretty much tapped out" ) != -1 ||
+		     this.responseText.indexOf( "You're all rocked out" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "You can only visit the Mysterious Island Arena once a day." );
 			return;
@@ -182,6 +188,14 @@ public class IslandArenaRequest
 
 		KoLmafia.updateDisplay( "A music lover is you." );
 		RequestFrame.refreshStatus();
+	}
+
+	public static final void parseResponse( final String location, final String responseText )
+	{
+		if ( location.indexOf( "action=concert" ) != -1 )
+		{
+			Preferences.setBoolean( "concertVisited", true );
+		}
 	}
 
 	public static final boolean registerRequest( final String location )
