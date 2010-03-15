@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
@@ -521,6 +522,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "dwarffactory.php" ) )
 		{
 			DwarfFactoryRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "friars.php" ) )
+		{
+			FriarRequest.parseResponse( location, responseText );
 		}
 
 		// Keep your current equipment and familiars updated, if you
