@@ -1075,6 +1075,7 @@ stuffed astral badger	0	none
 stuffed baby gravy fairy	0	none
 stuffed bandersnatch	0	none
 stuffed can of asparagus	0	none
+stuffed caterpillar	0	none
 stuffed cocoabo	0	none
 stuffed dodecapede	0	none
 stuffed flaming gravy fairy	0	none

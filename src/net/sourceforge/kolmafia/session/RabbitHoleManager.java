@@ -1024,6 +1024,11 @@ public abstract class RabbitHoleManager
 	public static final void parseChessPuzzle( final String responseText )
 	{
 		RabbitHoleManager.parseChessPuzzle( responseText, true );
+		if ( RabbitHoleManager.board != null )
+		{
+			String message = "Board: " + RabbitHoleManager.board.config();
+			RequestLogger.updateSessionLog( message );
+		}
 	}
 
 	private static final void parseChessPuzzle( final String responseText, final boolean initialVisit )
@@ -1451,5 +1456,12 @@ public abstract class RabbitHoleManager
 		}
 		buffer.append( "</select>" );
 		buffer.append( ending );
+	}
+
+	public static final boolean registerChessboardRequest( final String urlString )
+	{
+		// Don't log anything here. We will log it when we get the
+		// response and see the board.
+		return true;
 	}
 }
