@@ -777,9 +777,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.MATCHER_TYPE };
 		functions.add( new LibraryFunction( "find", DataTypes.BOOLEAN_TYPE, params ) );
 		params = new Type[] { DataTypes.MATCHER_TYPE };
-		functions.add( new LibraryFunction( "start", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "start", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "start", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.MATCHER_TYPE };
-		functions.add( new LibraryFunction( "end", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "end", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.MATCHER_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "end", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MATCHER_TYPE };
 		functions.add( new LibraryFunction( "group", DataTypes.STRING_TYPE, params ) );
@@ -3203,6 +3207,24 @@ public abstract class RuntimeLibrary
 		}
 	}
 
+	public static Value start( final Value matcher, final Value group )
+	{
+		Matcher m = (Matcher) matcher.rawValue();
+		int index = group.intValue();
+		try
+		{
+			return new Value( m.start( index ) );
+		}
+		catch ( IllegalStateException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+		}
+		catch ( IndexOutOfBoundsException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
+		}
+	}
+
 	public static Value end( final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
@@ -3213,6 +3235,24 @@ public abstract class RuntimeLibrary
 		catch ( IllegalStateException e )
 		{
 			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+		}
+	}
+
+	public static Value end( final Value matcher, final Value group )
+	{
+		Matcher m = (Matcher) matcher.rawValue();
+		int index = group.intValue();
+		try
+		{
+			return new Value( m.end( index ) );
+		}
+		catch ( IllegalStateException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+		}
+		catch ( IndexOutOfBoundsException e )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
 		}
 	}
 
