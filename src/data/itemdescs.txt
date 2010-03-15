@@ -3237,7 +3237,7 @@
 3231	380893218	tattered paper crown	tattered paper crowns
 3232	787163245	vanilla-frosted king cake	vanilla-frosted king cakes
 3233	199932706	inflatable duck	inflatable ducks
-3234	190515908	water wings	water wingss
+3234	190515908	water wings	sets of water wings
 3235	265675713	foam noodle	foam noodles
 3236	831722443	Kissin' Cousins	copies of Kissin' Cousins
 3237	186707798	Tales from the Fireside	copies of Tales from the Fireside
@@ -3295,24 +3295,24 @@
 3289	712356699	scintillating powder	scintillating powders
 3290	189526641	abandoned candy	abandoned candys
 3291	844206887	secret tropical island volcano lair map
-3292	141694486	adorable seal larva
-3293	493540053	untamable turtle
-3294	600037556	macaroni duck
-3295	577185674	friendly cheez blob
-3296	291670015	unusual disco ball
-3297	283953320	stray chihuahua
-3298	465542731	pretty pink bow
-3299	976860960	smiley-face sticker
-3300	751941279	farfalle bow tie
+3292	141694486	adorable seal larva	adorable seal larvae
+3293	493540053	untamable turtle	untamable turtles
+3294	600037556	macaroni duck	macaroni ducks
+3295	577185674	friendly cheez blob	friendly cheez blobs
+3296	291670015	unusual disco ball	unusual disco balls
+3297	283953320	stray chihuahua	stray chihuahuas
+3298	465542731	pretty pink bow	pretty pink bows
+3299	976860960	smiley-face sticker	smiley-face stickers
+3300	751941279	farfalle bow tie	farfalle bow ties
 3301	232729466	jalape&ntilde;o slices
-3302	220396904	stick-on mini solar panels
-3303	115828284	tiny sombrero
-3304	725610761	Argarggagarg's fang
-3305	808388401	Safari Jack's moustache
-3306	620347391	Yakisoba's hat
-3307	756449982	Heimandatz's heart
-3308	653978734	Jocko Homo's head
-3309	168780365	The Mariachi's guitar case
+3302	220396904	stick-on mini solar panels	sets of stick-on mini solar panels
+3303	115828284	tiny sombrero	tiny sombreros
+3304	725610761	Argarggagarg's fang	Argarggagarg's fangs
+3305	808388401	Safari Jack's moustache	Safari Jack's moustaches
+3306	620347391	Yakisoba's hat	Yakisoba's hats
+3307	756449982	Heimandatz's heart	Heimandatz's hearts
+3308	653978734	Jocko Homo's head	Jocko Homo's heads
+3309	168780365	The Mariachi's guitar case	The Mariachi's guitar cases
 3310	991608648	sealskin drum	sealskin drums
 3311	202540664	washboard shield	washboard shields
 3312	410330006	spaghetti-box banjo	spaghetti-box banjos
@@ -3878,11 +3878,11 @@
 3872	658375124	pocket theremin	pocket theremins
 3873	583533695	rave whistle	rave whistles
 3874	722615668	hellseal hide
-3875	922350618	shredded hellseal hide
+3875	922350618	shredded hellseal hide	shredded hellseal hides
 3876	526628418	hellseal brain
-3877	437729665	burst hellseal brain
+3877	437729665	burst hellseal brain	burst hellseal brains
 3878	338238390	hellseal sinew
-3879	897775188	torn hellseal sinew
+3879	897775188	torn hellseal sinew	torn hellseal sinews
 3880	700815984	hellseal disguise
 3881	372027690	fouet de tortue-dressage
 3882	803938411	encoded cult documents
@@ -4187,11 +4187,11 @@
 4181	779768689	sugar chapeau	sugar chapeaux
 4182	286938389	sugar shorts	pairs of sugar shorts
 4183	959769145	sugar shield	sugar shields
-4184	963950794	slime convention swag bag
-4185	337131284	slime convention flyers
-4186	203828439	slime convention coupons
-4187	729648311	slime convention pin
-4188	700699400	slime convention t-shirt
+4184	963950794	slime convention swag bag	slime convention swag bags
+4185	337131284	slime convention flyers	stacks of slime convention flyers
+4186	203828439	slime convention coupons	stacks of slime convention coupons
+4187	729648311	slime convention pin	slime convention pins
+4188	700699400	slime convention t-shirt	slime convention t-shirts
 4189	803350174	floaty inverse geode	floaty inverse geodes
 4190	111489868	control crystal	control crystals
 4191	851515177	sugar shirt	sugar shirts
@@ -4238,20 +4238,20 @@
 4232	156434029	ice skate doll	ice skate dolls
 4233	492993089	hacienda key	hacienda keys
 4234	699112843	silver pat&eacute; knife
-4235	850274892	silver salt-shaker
-4236	703973859	can of sterno
-4237	561415537	silver cheese-slicer
-4238	293476536	fancy beef jerky
+4235	850274892	silver salt-shaker	silver salt-shakers
+4236	703973859	can of sterno	cans of sterno
+4237	561415537	silver cheese-slicer	silver cheese-slicers
+4238	293476536	fancy beef jerky	bags of fancy beef jerky
 4239	186033978	pipe wrench	pipe wrenches
-4240	447418622	gun cleaning kit
-4241	355769017	sleep mask
-4242	344817655	sock garters
-4243	235155722	mariachi toothpaste
-4244	470670240	heavy leather-bound tome
-4245	124254562	leather bookmark
-4246	470263121	ivory cue ball
-4247	554380931	decanter of fine Scotch
-4248	783019240	expensive cigar
+4240	447418622	gun cleaning kit	gun cleaning kits
+4241	355769017	sleep mask	sleep masks
+4242	344817655	sock garters	pairs of sock garters
+4243	235155722	mariachi toothpaste	tubes of mariachi toothpaste
+4244	470670240	heavy leather-bound tome	heavy leather-bound tomes
+4245	124254562	leather bookmark	leather bookmarks
+4246	470263121	ivory cue ball	ivory cue balls
+4247	554380931	decanter of fine Scotch	decanters of fine Scotch
+4248	783019240	expensive cigar	expensive cigars
 4249	482740948	miniature tophat	miniature tophats
 4250	828704447	fisherman's sack
 4251	180431667	fish-oil smoke bomb	fish-oil smoke bombs
@@ -4270,12 +4270,12 @@
 4264	308641620	bark boxers	bark boxerss
 4265	736000092	bark beret	bark berets
 4266	430887434	bark bracelet	bark bracelets
-4267	215031220	Krakrox's Loincloth
-4268	642836412	Galapagosian Cuisses
-4269	430637408	Angelhair Culottes
-4270	502777744	Newman's Own Trousers
-4271	927774724	Volartta's bellbottoms
-4272	678653784	Lederhosen of the Night
+4267	215031220	Krakrox's Loincloth	Krakrox's Loincloths
+4268	642836412	Galapagosian Cuisses	pairs of Galapagosian Cuisses
+4269	430637408	Angelhair Culottes	pairs of Angelhair Culottes
+4270	502777744	Newman's Own Trousers	pairs of Newman's Own Trousers
+4271	927774724	Volartta's bellbottoms	pairs of Volartta's bellbottoms
+4272	678653784	Lederhosen of the Night	pairs of Lederhosen of the Night
 4273	929052608	ribbon candy	ribbons of ribbon candy
 4274	362801139	Underworld acorn	Underworld acorns
 4275	816099928	Underworld trunk	Underworld trunks
@@ -4325,11 +4325,11 @@
 4319	832914462	Windsor Pan of the Source
 4320	971981173	Seeger's Unstoppable Banjo
 4321	952292059	The Trickster's Trikitixa
-4322	383507132	Claw of the Infernal Seal
-4323	977005028	Garter of the Turtle Poacher
-4324	510892854	Bandolier of the Spaghetti Elemental
-4325	918726420	Gravyskin Belt of the Sauceblob
-4326	829566476	Bling of the New Wave
+4322	383507132	Claw of the Infernal Seal	Claws of the Infernal Seal
+4323	977005028	Garter of the Turtle Poacher	Garters of the Turtle Poacher
+4324	510892854	Bandolier of the Spaghetti Elemental	Bandoliers of the Spaghetti Elemental
+4325	918726420	Gravyskin Belt of the Sauceblob	Gravyskin Belts of the Sauceblob
+4326	829566476	Bling of the New Wave	Bling-Bling of the New Wave
 4327	129795064	El Hebilla del Cintur&oacute;n de Lopez
 4328	171587799	suspicious stocking	suspicious stockings
 4329	899647196	bag of many confections	bags of many confections
@@ -4338,10 +4338,10 @@
 4332	795046000	candy knuckles	sets of candy knuckles
 4333	707896286	jawbruiser	jawbruisers
 4334	114513584	fancy chocolate car	fancy chocolate cars
-4335	452938703	tiny plastic 11 Dealer
-4336	364037536	tiny plastic Crimbo Casino
-4337	162020757	tiny plastic stocking mimic
-4338	734843929	tiny plastic Don Crimbo
+4335	452938703	tiny plastic 11 Dealer	tiny plastic 11 Dealers
+4336	364037536	tiny plastic Crimbo Casino	tiny plastic Crimbo Casinos
+4337	162020757	tiny plastic stocking mimic	tiny plastic stocking mimics
+4338	734843929	tiny plastic Don Crimbo	tiny plastic Don Crimbos
 4339	790690619	tiny plastic Crimbomination	tiny plastic Crimbominations
 4340	569476193	Piddles	handfuls of Piddles
 4341	840139975	BitterSweetTarts	rolls of BitterSweetTarts
@@ -4365,7 +4365,7 @@
 4359	166936042	A Crimbo Carol, Ch. 6	copies of A Crimbo Carol, Ch. 6
 4360	793381765	expired can of franks 'n' beans	expired cans of franks 'n' beans
 4361	114423964	expired bottle of peppermint schnapps	expired bottles of peppermint schnapps
-4362	875614058	snow halo
+4362	875614058	snow halo	snow halos
 4363	902109161	elf resistance button	elf resistance buttons
 4364	827667136	elven suicide capsule	elven suicide capsules
 4365	386256116	penguin focaccia bread	loaves of penguin focaccia bread
@@ -4392,21 +4392,21 @@
 4386	655505187	cement sandals	pairs of cement sandals
 4387	652015546	night-vision goggles	pairs of night-vision goggles
 4388	707117867	passable elf mask	passable elf masks
-4389	673654732	peanut brittle shield
-4390	157902742	Red Rover BB gun
-4391	633528799	red-and-green sweater
+4389	673654732	peanut brittle shield	peanut brittle shields
+4390	157902742	Red Rover BB gun	Red Rover BB guns
+4391	633528799	red-and-green sweater	red-and-green sweaters
 4392	294757522	Crimbo Candy Cookbook	Crimbo Candy Cookbooks
 4393	394756554	Crimbo peppermint bark	pieces of Crimbo peppermint bark
-4394	888561617	Crimbo fudge
+4394	888561617	Crimbo fudge	chunks of Crimbo fudge
 4395	811478748	Crimbo candied pecan	Crimbo candied pecans
 4396	708858717	Jack-in-the-box
-4397	969847579	brass crank handle
+4397	969847579	brass crank handle	brass crank handles
 4398	272747310	stinky cheese ball	stinky cheese balls
-4399	337462585	stinky cheese sword
-4400	723906628	stinky cheese diaper
-4401	821534695	stinky cheese wheel
-4402	548672093	stinky cheese eye
-4403	399631690	Staff of Queso Escusado
+4399	337462585	stinky cheese sword	stinky cheese swords
+4400	723906628	stinky cheese diaper	stinky cheese diapers
+4401	821534695	stinky cheese wheel	stinky cheese wheels
+4402	548672093	stinky cheese eye	stinky cheese eyes
+4403	399631690	Staff of Queso Escusado	Staves of Queso Escusado
 4404
 4405	800942495	foreign box
 4406
@@ -4420,15 +4420,15 @@
 4414	929593771	colorful plastic ball	colorful plastic balls
 4415	782912002	sealhide hood	sealhide hoods
 4416	484195586	sealhide leggings	sealhide leggings
-4417	254366277	sealhide cloak
+4417	254366277	sealhide cloak	sealhide cloaks
 4418	590197284	sealhide buckler	sealhide bucklers
-4419	211585957	sealhide whip
-4420	798133371	sealhide moccasins
-4421	406886160	sealhide gloves
-4422	675204610	sealhide belt
-4423	424846386	sealhide snare
+4419	211585957	sealhide whip	sealhide whips
+4420	798133371	sealhide moccasins	pairs of sealhide moccasins
+4421	406886160	sealhide gloves	pairs of sealhide gloves
+4422	675204610	sealhide belt	sealhide belts
+4423	424846386	sealhide snare	sealhide snares
 4424
-4425	422170714	sealhide seal doll
+4425	422170714	sealhide seal doll	sealhide seal dolls
 4426	266993166	black hymnal
 4427
 4428	873692545	glowstick on a string	glowsticks on strings
@@ -4441,113 +4441,113 @@
 4435
 4436
 4437
-4438	280561254	hellseal whisker
-4439	569161263	hellseal claw
-4440	595745705	guard turtle shell
-4441	604995970	crowbar
-4442	402496878	spaghetti cult rosary
-4443	720529962	spaghetti cult mask
-4444	157406277	guard turtle collar
-4445	278195083	spangly mariachi pants
-4446	934829470	spangly mariachi vest
-4447	715757851	spangly sombrero
-4448	820448502	Instant Karma
+4438	280561254	hellseal whisker	hellseal whiskers
+4439	569161263	hellseal claw	hellseal claws
+4440	595745705	guard turtle shell	guard turtle shells
+4441	604995970	crowbar	crowbars
+4442	402496878	spaghetti cult rosary	spaghetti cult rosaries
+4443	720529962	spaghetti cult mask	spaghetti cult masks
+4444	157406277	guard turtle collar	guard turtle collars
+4445	278195083	spangly mariachi pants	pairs of spangly mariachi pants
+4446	934829470	spangly mariachi vest	spangly mariachi vests
+4447	715757851	spangly sombrero	spangly sombreros
+4448	820448502	Instant Karma	units of Instant Karma
 4449	614550467	antique painting of a landscape	antique paintings of landscapes
 4450	768406233	map to The Landscaper's Lair
-4451	295116386	pointy red hat
-4452	440448738	machetito
-4453	205764152	lawnmower blade
-4454	586816345	grass clippings
-4455	684538700	The Landscaper's leafblower
+4451	295116386	pointy red hat	pointy red hats
+4452	440448738	machetito	machetitos
+4453	205764152	lawnmower blade	lawnmower blades
+4454	586816345	grass clippings	piles of grass clippings
+4455	684538700	The Landscaper's leafblower	The Landscaper's leafblowers
 4456	309448805	snowball	snowballs
 4457	130170442	snailmail bits	piles of snailmail bits
-4458	123208807	snailmail coif
-4459	645828332	snailmail breeches
-4460	143480509	snailmail hauberk
-4461	441670255	seal-brain elixir
-4462	914337293	chocolate seal-clubbing club
-4463	704750003	chocolate turtle totem
-4464	799053536	chocolate pasta spoon
-4465	894875363	chocolate saucepan
-4466	181522203	chocolate disco ball
-4467	707981124	chocolate stolen accordion
+4458	123208807	snailmail coif	snailmail coifs
+4459	645828332	snailmail breeches	snailmail breechess
+4460	143480509	snailmail hauberk	snailmail hauberks
+4461	441670255	seal-brain elixir	seal-brain elixirs
+4462	914337293	chocolate seal-clubbing club	chocolate seal-clubbing clubs
+4463	704750003	chocolate turtle totem	chocolate turtle totems
+4464	799053536	chocolate pasta spoon	chocolate pasta spoons
+4465	894875363	chocolate saucepan	chocolate saucepans
+4466	181522203	chocolate disco ball	chocolate disco balls
+4467	707981124	chocolate stolen accordion	chocolate stolen accordion
 4468	377804923	Libram of BRICKOs	Librams of BRICKOs
-4469	261433979	BRICKO brick
-4470	992023114	BRICKO eye brick
-4471	900406416	BRICKO hat
-4472	218609014	BRICKO pants
-4473	223980432	BRICKO sword
-4474	756763514	BRICKO ooze
-4475	431520568	BRICKO bat
-4476	610058823	BRICKO oyster
-4477	683953384	BRICKO turtle
-4478	144877483	BRICKO elephant
-4479	195101266	BRICKO octopus
-4480	845406334	BRICKO python
-4481	340234646	BRICKO vacuum cleaner
-4482	607260141	BRICKO airship
+4469	261433979	BRICKO brick	BRICKO bricks
+4470	992023114	BRICKO eye brick	BRICKO eye bricks
+4471	900406416	BRICKO hat	BRICKO hats
+4472	218609014	BRICKO pants	pairs of BRICKO pants
+4473	223980432	BRICKO sword	BRICKO swords
+4474	756763514	BRICKO ooze	BRICKO oozes
+4475	431520568	BRICKO bat	BRICKO bats
+4476	610058823	BRICKO oyster	BRICKO oysters
+4477	683953384	BRICKO turtle	BRICKO turtles
+4478	144877483	BRICKO elephant	BRICKO elephants
+4479	195101266	BRICKO octopus	BRICKO octopodes
+4480	845406334	BRICKO python	BRICKO pythons
+4481	340234646	BRICKO vacuum cleaner	BRICKO vacuum cleaners
+4482	607260141	BRICKO airship	BRICKO airships
 4483	574950494	BRICKO cathedral
 4484	882944801	BRICKO gargantuchicken
-4485	816950143	BRICKO pyramid
-4486	469823948	BRICKO pearl
-4487	241906055	BRICKO bulwark
-4488	545980435	BRICKO trunk
+4485	816950143	BRICKO pyramid	BRICKO pyramids
+4486	469823948	BRICKO pearl	BRICKO pearls
+4487	241906055	BRICKO bulwark	BRICKO bulwarks
+4488	545980435	BRICKO trunk	BRICKO trunks
 4489	817114403	gilded BRICKO brick
 4490	479855884	gilded BRICKO chalice
-4491	571768901	black BRICKO brick
-4492	507141038	green BRICKO brick
-4493	679532075	broken BRICKO brick
-4494	708797753	BRICKO reactor
+4491	571768901	black BRICKO brick	black BRICKO bricks
+4492	507141038	green BRICKO brick	green BRICKO bricks
+4493	679532075	broken BRICKO brick	broken BRICKO bricks
+4494	708797753	BRICKO reactor	BRICKO reactors
 4495	822542961	BRICKO egg
-4496	561314686	extra-heavy BRICKO brick
-4497	997530659	recording of The Ballad of Richie Thingfinder
-4498	558913906	recording of Benetton's Medley of Diversity
-4499	844840376	recording of Elron's Explosive Etude
-4500	392111504	recording of Chorale of Companionship
-4501	299881158	recording of Prelude of Precision
-4502	942976753	recording of Donho's Bubbly Ballad
-4503	562003052	recording of Inigo's Incantation of Inspiration
-4504	884068139	heart of the volcano
+4496	561314686	extra-heavy BRICKO brick	extra-heavy BRICKO bricks
+4497	997530659	recording of The Ballad of Richie Thingfinder	recordings of The Ballad of Richie Thingfinder
+4498	558913906	recording of Benetton's Medley of Diversity	recordings of Benetton's Medley of Diversity
+4499	844840376	recording of Elron's Explosive Etude	recordings of Elron's Explosive Etude
+4500	392111504	recording of Chorale of Companionship	recordings of Chorale of Companionship
+4501	299881158	recording of Prelude of Precision	recordings of Prelude of Precision
+4502	942976753	recording of Donho's Bubbly Ballad	recordings of Donho's Bubbly Ballad
+4503	562003052	recording of Inigo's Incantation of Inspiration	recordings of Inigo's Incantation of Inspiration
+4504	884068139	heart of the volcano	hearts of the volcano
 4505	752101511	Northern pemmican
 4506
-4507	653994440	Clan looking glass
+4507	653994440	Clan looking glass	Clan looking glass crates
 4508	830929931	&quot;DRINK ME&quot; potion	bottles of &quot;DRINK ME&quot; potion
-4509	206445172	reflection of a map
-4510	590148722	walrus ice cream
-4511	569697802	beautiful soup
-4512	813784592	eggman noodles
+4509	206445172	reflection of a map	reflections of maps
+4510	590148722	walrus ice cream	bowls of walrus ice cream
+4511	569697802	beautiful soup	bowls of beautiful soup
+4512	813784592	eggman noodles	clumps of eggman noodles
 4513	209380924	Vial of <i>jus de larmes</i>	vials of <i>jus de larmes</i>
 4514	665901795	Humpty Dumplings
 4515	429299421	Lobster <i>qua</i> Grill
-4516	186390697	missing wine
-4517	788868127	yellow matter custard
-4518	409872360	delicious comfit?
+4516	186390697	missing wine	bottles of missing wine
+4517	788868127	yellow matter custard	yellow matter custards
+4518	409872360	delicious comfit?	delicious comfits?
 4519	279445768	ittah bittah hookah
-4520	268765322	flamingo mallet
-4521	911001686	croquet hedgehog
-4522	148797319	Tiger-lily's milk
-4523	134210242	eye of the Tiger-lily
-4524	941584214	powdered wig
-4525	783806940	powdered donut
-4526	797377031	bucket of honey
-4527	548989564	elephant stinger
-4528	620918435	dragon snaps
-4529	244946017	snapdragon pistil
-4530	696712624	puff of smoke
-4531	133321821	rook cookie
-4532	725654828	bishop cookie
-4533	329900305	knight cookie
-4534	189215534	king cookie
-4535	574685883	queen cookie
+4520	268765322	flamingo mallet	flamingo mallets
+4521	911001686	croquet hedgehog	croquet hedgehogs
+4522	148797319	Tiger-lily's milk	glasses of Tiger-lily's milk
+4523	134210242	eye of the Tiger-lily	eyes of the Tiger-lily
+4524	941584214	powdered wig	powdered wigs
+4525	783806940	powdered donut	powdered donuts
+4526	797377031	bucket of honey	buckets of honey
+4527	548989564	elephant stinger	elephant stingers
+4528	620918435	dragon snaps	handfuls of dragon snaps
+4529	244946017	snapdragon pistil	snapdragon pistils
+4530	696712624	puff of smoke	puff of smokes
+4531	133321821	rook cookie	rook cookies
+4532	725654828	bishop cookie	bishop cookies
+4533	329900305	knight cookie	knight cookies
+4534	189215534	king cookie	king cookies
+4535	574685883	queen cookie	queen cookies
 4536
-4537	435098110	insane tophat
-4538	587782581	helm of the white knight
-4539	348947721	wristwatch of the white knight
-4540	889966720	trousers of the white knight
+4537	435098110	insane tophat	insane tophats
+4538	587782581	helm of the white knight	helms of the white knight
+4539	348947721	wristwatch of the white knight	wristwatches of the white knight
+4540	889966720	trousers of the white knight	pairs of trousers of the white knight
 4541	749554417	fancy tophat
 4542	972582317	fancy black tie
 4543	711452958	fancy tuxedo pants
 4544	773251324	stuffed porpoise
-4545	452249553	stuffed pocketwatch
-4546	466263735	stuffed bandersnatch
+4545	452249553	stuffed pocketwatch	stuffed pocketwatches
+4546	466263735	stuffed bandersnatch	stuffed bandersnatches
 4547	594339174	stuffed caterpillar
