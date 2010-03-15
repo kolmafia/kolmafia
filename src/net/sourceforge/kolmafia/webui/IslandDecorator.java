@@ -1342,6 +1342,7 @@ public class IslandDecorator
 		{
 		case ARENA:
 			IslandDecorator.parseArena( responseText );
+			IslandArenaRequest.parseResponse( location, responseText );
 			break;
 		case JUNKYARD:
 			IslandDecorator.parseJunkyard( responseText );
@@ -1366,7 +1367,8 @@ public class IslandDecorator
 
 	private static final int parseQuest( final String location )
 	{
-		if ( location.indexOf( "place=concert" ) != -1 )
+		if ( location.indexOf( "place=concert" ) != -1 ||
+		     location.indexOf( "action=concert" ) != -1 )
 		{
 			return IslandDecorator.ARENA;
 		}
@@ -1790,6 +1792,7 @@ public class IslandDecorator
 		{
 		case ARENA:
 			IslandDecorator.parseArena( responseText );
+			IslandArenaRequest.parseResponse( location, responseText );
 			break;
 		case NUNS:
 			IslandDecorator.parseNunnery( responseText );
