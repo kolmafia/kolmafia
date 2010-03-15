@@ -504,7 +504,7 @@ public class RequestLogger
 
 		if ( urlString.startsWith( "choice" ) )
 		{
-			RequestLogger.updateSessionLog( urlString );
+			ChoiceManager.registerRequest( urlString );
 			return;
 		}
 

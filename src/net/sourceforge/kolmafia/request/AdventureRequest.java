@@ -441,7 +441,7 @@ public class AdventureRequest
 			{
 				choice = StringUtilities.parseInt( matcher.group(1) );
 			}
-			encounter = parseChoiceEncounter( choice, responseText );
+			encounter = parseChoiceEncounter( urlString, choice, responseText );
 			type = choiceType( choice );
 		}
 		else
@@ -559,11 +559,17 @@ public class AdventureRequest
 		return encounter;
 	}
 
-	private static final String parseChoiceEncounter( final int choice, final String responseText )
+	private static final String parseChoiceEncounter( final String urlString, final int choice, final String responseText )
 	{
 		if ( LouvreManager.louvreChoice( choice ) )
 		{
 			return LouvreManager.encounterName( choice );
+		}
+
+		// No "encounter" when moving on the chessboard
+		if ( choice == 443 && urlString.indexOf( "xy" ) != -1 )
+		{
+			return null;
 		}
 
 		return parseEncounter( responseText );

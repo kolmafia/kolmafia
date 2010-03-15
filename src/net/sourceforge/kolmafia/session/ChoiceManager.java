@@ -3595,4 +3595,23 @@ public abstract class ChoiceManager
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
 		RelayRequest.specialCommandResponse = buffer.toString();
 	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "choice.php" ) )
+		{
+			return false;
+		}
+
+		// The Chessboard is special
+		if ( urlString.indexOf( "whichchoice=443" ) != -1 )
+		{
+			return RabbitHoleManager.registerChessboardRequest( urlString );
+		}
+
+		// By default, we log the url of any choice we take
+		RequestLogger.updateSessionLog( urlString );
+
+		return true;
+	}
 }

@@ -4550,3 +4550,4 @@
 4544	773251324	stuffed porpoise
 4545	452249553	stuffed pocketwatch
 4546	466263735	stuffed bandersnatch
+4547	594339174	stuffed caterpillar

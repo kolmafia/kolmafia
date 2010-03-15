@@ -4553,3 +4553,4 @@
 4544	stuffed porpoise	offhand	gift	50
 4545	stuffed pocketwatch	offhand	gift	50
 4546	stuffed bandersnatch	offhand	gift	50
+4547	stuffed caterpillar	offhand	gift	50

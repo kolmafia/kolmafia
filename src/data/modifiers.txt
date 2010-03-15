@@ -1183,6 +1183,7 @@ stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,floor(pref(_
 # stuffed baby gravy fairy
 # stuffed bandersnatch
 # stuffed can of asparagus
+# stuffed caterpillar
 # stuffed cocoabo
 # stuffed dodecapede
 # stuffed flaming gravy fairy

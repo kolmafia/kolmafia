@@ -1693,6 +1693,12 @@ public class GenericRequest
 			AdventureRequest.handleShoreVisit( this.getURLString(), this.responseText );
 		}
 
+		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
+		{
+			GenericRequest.choiceHandled = true;
+			ChoiceManager.postChoice( this );
+		}
+
 		int effectCount = KoLConstants.activeEffects.size();
 
 		if ( !this.hasNoResult )
@@ -1728,12 +1734,6 @@ public class GenericRequest
 		if ( ResultProcessor.shouldDisassembleClovers( this.getURLString() ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
-		}
-
-		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
-		{
-			GenericRequest.choiceHandled = true;
-			ChoiceManager.postChoice( this );
 		}
 
 		// Once everything is complete, decide whether or not
