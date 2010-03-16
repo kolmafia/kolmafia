@@ -780,14 +780,18 @@ public class SkillDatabase
 
 	public static final List getSkillsByType( final int type )
 	{
+		return SkillDatabase.getSkillsByType( type, false );
+	}
+
+	public static final List getSkillsByType( final int type, final boolean onlyKnown )
+	{
 		ArrayList list = new ArrayList();
 
-		boolean shouldAdd = false;
 		Object[] keys = SkillDatabase.skillTypeById.keySet().toArray();
 
 		for ( int i = 0; i < keys.length; ++i )
 		{
-			shouldAdd = false;
+			boolean shouldAdd = false;
 
 			Object id = keys[ i ];
 			Object value = SkillDatabase.skillTypeById.get( id );
@@ -813,10 +817,13 @@ public class SkillDatabase
 				shouldAdd = skillType == type;
 			}
 
-			if ( shouldAdd )
+			if ( !shouldAdd ||
+			     onlyKnown && !KoLCharacter.hasSkill( skillId ) )
 			{
-				list.add( UseSkillRequest.getInstance( ( (Integer) keys[ i ] ).intValue() ) );
+				continue;
 			}
+
+			list.add( UseSkillRequest.getInstance( ( (Integer) keys[ i ] ).intValue() ) );
 		}
 
 		return list;
@@ -1028,12 +1035,23 @@ public class SkillDatabase
 	}
 
 	/**
-	 * Utility method used to retrieve the full name of a combat skill, given a substring representing it.
+	 * Utility method used to retrieve the full name of a castable skill,
+	 * given a substring representing it.
 	 */
 	
 	public static final String getUsableSkillName( final String substring )
 	{
 		return getSkillName( substring, getSkillsByType( CASTABLE ) );
+	}
+
+	/**
+	 * Utility method used to retrieve the full name of a known castable
+	 * skill, given a substring representing it.
+	 */
+	
+	public static final String getUsableKnownSkillName( final String substring )
+	{
+		return getSkillName( substring, getSkillsByType( CASTABLE, true ) );
 	}
 
 	/**

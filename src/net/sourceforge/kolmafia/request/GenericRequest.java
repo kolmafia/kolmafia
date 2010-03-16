@@ -810,7 +810,7 @@ public class GenericRequest
 
 	private boolean shouldUpdateDebugLog()
 	{
-		return RequestLogger.isDebugging() && !this.isChatRequest;
+		return RequestLogger.isDebugging() /* && !this.isChatRequest */;
 	}
 
 	private boolean invokeCounterScript( TurnCounter expired )
@@ -932,7 +932,11 @@ public class GenericRequest
 		}
 		else if ( location.startsWith( "hermit.php?autopermit=on" ) )
 		{
-			InventoryManager.retrieveItem( HermitRequest.PERMIT.getInstance( 1 ) );
+			HermitRequest.ensureUpdatedHermit();
+			if ( !Preferences.getBoolean( "hermitHax0red" ) )
+			{
+				InventoryManager.retrieveItem( HermitRequest.PERMIT.getInstance( 1 ) );
+			}
 		}
 		else if ( location.startsWith( "mountains.php?orcs=1" ) )
 		{

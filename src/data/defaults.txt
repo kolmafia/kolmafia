@@ -305,6 +305,7 @@ user	grimoire2Summons	0
 user	guardTurtlesFreed	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
+user	hermitHax0red	false
 user	heroDonationBoris	0
 user	heroDonationJarlsberg	0
 user	heroDonationSneakyPete	0
@@ -381,6 +382,7 @@ user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
 user	lastHiddenCityAscension	0
 user	lastFratboyCall	-1
+user	lastHermitReset	-1
 user	lastHippyCall	-1
 user	lastKingLiberation	-1
 user	lastLouvreMap	0

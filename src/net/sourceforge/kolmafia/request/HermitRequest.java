@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -65,7 +66,7 @@ public class HermitRequest
 	public static final AdventureResult GEWGAW = ItemPool.get( ItemPool.WORTHLESS_GEWGAW, 1 );
 	public static final AdventureResult KNICK_KNACK = ItemPool.get( ItemPool.WORTHLESS_KNICK_KNACK, 1 );
 
-	public static final AdventureResult HACK_SCROLL = ItemPool.get( 567, 1 );
+	public static final AdventureResult HACK_SCROLL = ItemPool.get( ItemPool.HERMIT_SCRIPT, 1 );
 	public static final AdventureResult SUMMON_SCROLL = ItemPool.get( 553, 1 );
 	public static final AdventureResult ANCIENT_SEAL = ItemPool.get( ItemPool.ANCIENT_SEAL, 1 );
 
@@ -153,10 +154,13 @@ public class HermitRequest
 			RequestThread.postRequest( new UseItemRequest( HermitRequest.HACK_SCROLL ) );
 		}
 
+		// If we are want to make a trade, fetch enough worthless items
 		if ( HermitRequest.getWorthlessItemCount() < this.quantity )
 		{
 			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM.getInstance( this.quantity ) );
 		}
+
+		// Otherwise, we are simply visiting and need only one
 		else if ( HermitRequest.getWorthlessItemCount() == 0 )
 		{
 			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM );
@@ -178,7 +182,9 @@ public class HermitRequest
 		if ( !HermitRequest.parseHermitTrade( this.getURLString(), this.responseText ) )
 		{
 			// If we got here, the hermit wouldn't talk to us.
-			if ( InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
+			HermitRequest.ensureUpdatedHermit();
+			if ( !Preferences.getBoolean( "hermitHax0red" ) &&
+			     InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
 			{
 				this.run();
 				return;
@@ -285,8 +291,14 @@ public class HermitRequest
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 		int quantity = StringUtilities.parseInt( matcher.group( 2 ) );
 
+		// If he is confused, you've used a hermit script
+		if ( responseText.indexOf( "looks confused for a moment" ) != -1 )
+		{
+			HermitRequest.ensureUpdatedHermit();
+			Preferences.setBoolean( "hermitHax0red", true );
+		}
 		// If he is NOT confused, he took Hermit permits
-		if ( responseText.indexOf( "looks confused for a moment" ) == -1 )
+		else
 		{
                         ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
 		}
@@ -338,6 +350,17 @@ public class HermitRequest
 		}
 
 		return KoLConstants.hermitItems.contains( CLOVER );
+	}
+
+	public static final void ensureUpdatedHermit()
+	{
+		int lastAscension = Preferences.getInteger( "lastHermitReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastHermitReset", KoLCharacter.getAscensions() );
+
+			Preferences.setBoolean( "hermitHax0red", false );
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
