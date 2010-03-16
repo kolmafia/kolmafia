@@ -783,8 +783,8 @@ public class UseItemRequest
 		}
 
 		if ( price != 0 && !UseItemRequest.sequentialConsume( itemId ) &&
-			this.consumptionType != KoLConstants.INFINITE_USES &&
-			!InventoryManager.retrieveItem( this.itemUsed ) )
+		     this.consumptionType != KoLConstants.INFINITE_USES &&
+		     !InventoryManager.retrieveItem( this.itemUsed ) )
 		{
 			if ( itemId == ItemPool.SELTZER || itemId == ItemPool.MAFIA_ARIA )
 			{

@@ -1207,6 +1207,7 @@ stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,floor(pref(_
 # stuffed tin of caviar
 # stuffed treasure chest
 # stuffed undead elbow macaroni
+# stuffed walrus
 # stuffed yeti
 # stuffed yo-yo
 # stuffed zmobie

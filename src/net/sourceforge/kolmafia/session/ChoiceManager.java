@@ -2455,8 +2455,11 @@ public abstract class ChoiceManager
 		}
 	}
 
-	public static void postChoice( final GenericRequest request )
+	public static void postChoice1( final GenericRequest request )
 	{
+		// Things that can or need to be done BEFORE processing results.
+		// Remove spent items or meat here.
+
 		String text = request.responseText;
 
 		if ( ChoiceManager.lastChoice == 0 )
@@ -2468,85 +2471,6 @@ public abstract class ChoiceManager
 
 		switch ( ChoiceManager.lastChoice )
 		{
-		case 7:
-			// How Depressing
-
-			if ( ChoiceManager.lastDecision != 1 )
-			{
-				break;
-			}
-
-			EquipmentManager.discardEquipment( ItemPool.SPOOKY_GLOVE );
-			break;
-		
-		case 21:
-			// Under the Knife
-			if ( ChoiceManager.lastDecision == 1 &&
-				text.indexOf( "anaesthetizes you" ) != -1 )
-			{
-				Preferences.increment( "sexChanges", 1 );
-				Preferences.setBoolean( "_sexChanged", true );
-				KoLCharacter.setGender( text.indexOf( "in more ways than one" ) != -1 ?
-					KoLCharacter.FEMALE : KoLCharacter.MALE );
-				ConcoctionDatabase.refreshConcoctions();
-			}
-			break;
-
-		case 48: case 49: case 50: case 51: case 52:
-		case 53: case 54: case 55: case 56: case 57:
-		case 58: case 59: case 60: case 61: case 62:
-		case 63: case 64: case 65: case 66: case 67:
-		case 68: case 69: case 70:
-			// Choices in the Violet Fog
-			VioletFogManager.mapChoice( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
-			break;
-
-		case 81:
-			// Take a Look, it's in a Book!
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				Preferences.setInteger( "lastGalleryUnlock", KoLCharacter.getAscensions() );
-				break;
-			}
-			// fall through
-		case 80:
-			// Take a Look, it's in a Book!
-			if ( ChoiceManager.lastDecision == 99 )
-			{
-				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
-			}
-			break;
-
-		case 92: case 93: case 94: case 95: case 96:
-		case 97: case 98: case 99: case 100: case 101:
-		case 102: case 103: case 104:
-			// Choices in the Louvre
-			LouvreManager.mapChoice( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
-			break;
-
-		case 105:
-			if ( ChoiceManager.lastDecision == 3 )
-			{
-				checkGuyMadeOfBees( request );
-			}
-			break;
-		
-		case 112:
-			// Please, Hammer
-			if ( ChoiceManager.lastDecision == 1 && KoLmafia.isAdventuring() )
-			{
-				InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
-			}
-			break;
-
-		case 162:
-			// Between a Rock and Some Other Rocks
-			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( 8 ) )
-			{
-				CouncilFrame.unlockGoatlet();
-			}
-			break;
-
 		case 188:
 			// The Infiltrationist
 
@@ -2559,39 +2483,6 @@ public abstract class ChoiceManager
 			     text.indexOf( "ridiculous trophy case" ) != -1 )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.HOT_WING, -3 ) );
-			}
-			break;
-
-		case 197:
-			// Somewhat Higher and Mostly Dry
-		case 198:
-			// Disgustin' Junction
-		case 199:
-			// The Former or the Ladder
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				ChoiceManager.checkDungeonSewers( request );
-			}
-			break;
-
-		case 200:
-			// Enter The Hoboverlord
-		case 201:
-			// Home, Home in the Range
-		case 202:
-			// Bumpity Bump Bump
-		case 203:
-			// Deep Enough to Dive
-		case 204:
-			// Welcome To You!
-		case 205:
-			// Van, Damn
-
-			// Stop for Hobopolis bosses
-			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
-			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
-				RequestThread.enableDisplayIfSequenceComplete();
 			}
 			break;
 
@@ -2659,54 +2550,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 304:
-			// A Vent Horizon
-
-			// "You conjure some delicious batter from the core of
-			// the thermal vent. It pops and sizzles as you stick
-			// it in your sack."
-
-			if ( text.indexOf( "pops and sizzles" ) == -1 )
-			{
-				return;
-			}
-
-			Preferences.increment( "tempuraSummons", 1 );
-			break;
-
-		case 309:
-			// Barback
-
-			// "You head down the tunnel into the cave, and manage
-			// to find another seaode. Sweet! I mean... salty!"
-
-			if ( text.indexOf( "salty!" ) == -1 )
-			{
-				return;
-			}
-
-			Preferences.increment( "seaodesFound", 1 );
-			break;
-
-		case 326:
-			// Showdown
-
-			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
-					"Mother Slime waits for you." );
-				RequestThread.enableDisplayIfSequenceComplete();
-			}
-			break;
-
-		case 330:
-			// A Shark's Chum
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				Preferences.increment( "poolSharkCount", 1 );
-			}
-			break;
-
 		case 354:
 			// You Can Never Be Too Rich or Too in the Future
 			ResultProcessor.processResult( ItemPool.get( ItemPool.INDIGO_PARTY_INVITATION, -1 ) );
@@ -2725,10 +2568,6 @@ public abstract class ChoiceManager
 		case 358:
 			// Brings All the Boys to the Blue Yard
 			ResultProcessor.processResult( ItemPool.get( ItemPool.BLUE_MILK_CLUB_CARD, -1 ) );
-			break;
-
-		case 360:
-			WumpusManager.takeChoice( ChoiceManager.lastDecision, text );
 			break;
 
 		case 362:
@@ -2817,7 +2656,7 @@ public abstract class ChoiceManager
 
 			}
 			break;
-		
+
 		case 393:
 			// The Collector
 			if ( ChoiceManager.lastDecision == 1 )
@@ -2829,33 +2668,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 441:
-			// The Mad Tea Party
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				// I'm sorry, but there's a very strict dress
-				// code for this party
-				if ( text.indexOf( "very strict dress code" ) == -1 )
-				{
-					Preferences.setBoolean( "_madTeaParty", true );
-				}
-			}
-			break;
-
-		case 442:
-			// A Moment of Reflection
-			if ( ChoiceManager.lastDecision == 5 )
-			{
-				// Option 5 is Chess Puzzle
-				RabbitHoleManager.parseChessPuzzle( text );
-			}
-			else if ( ChoiceManager.lastDecision == 6 )
-			{
-				// Option 6 does not consume the map
-				ResultProcessor.processItem( ItemPool.REFLECTION_OF_MAP, 1 );
-			}
-			break;
-
 		case 443:
 			// Chess Puzzle
 			if ( ChoiceManager.lastDecision == 1 )
@@ -2863,6 +2675,11 @@ public abstract class ChoiceManager
 				// Option 1 is "Play"
 				String location = request.getURLString();
 				RabbitHoleManager.parseChessMove( location, text );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				// Option 2 is "Walk away from the board"
+				ResultProcessor.processItem( ItemPool.REFLECTION_OF_MAP, 1 );
 			}
 			break;
 			
@@ -2882,6 +2699,207 @@ public abstract class ChoiceManager
 
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
+	}
+
+	public static void postChoice2( final GenericRequest request )
+	{
+		// Things that can or need to be done AFTER processing results.
+
+		if ( ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0 )
+		{
+			return;
+		}
+
+		String text = request.responseText;
+
+		switch ( ChoiceManager.lastChoice )
+		{
+		case 7:
+			// How Depressing
+
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				EquipmentManager.discardEquipment( ItemPool.SPOOKY_GLOVE );
+			}
+			break;
+		
+		case 21:
+			// Under the Knife
+			if ( ChoiceManager.lastDecision == 1 &&
+				text.indexOf( "anaesthetizes you" ) != -1 )
+			{
+				Preferences.increment( "sexChanges", 1 );
+				Preferences.setBoolean( "_sexChanged", true );
+				KoLCharacter.setGender( text.indexOf( "in more ways than one" ) != -1 ?
+					KoLCharacter.FEMALE : KoLCharacter.MALE );
+				ConcoctionDatabase.refreshConcoctions();
+			}
+			break;
+
+		case 48: case 49: case 50: case 51: case 52:
+		case 53: case 54: case 55: case 56: case 57:
+		case 58: case 59: case 60: case 61: case 62:
+		case 63: case 64: case 65: case 66: case 67:
+		case 68: case 69: case 70:
+			// Choices in the Violet Fog
+			VioletFogManager.mapChoice( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
+			break;
+
+		case 81:
+			// Take a Look, it's in a Book!
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setInteger( "lastGalleryUnlock", KoLCharacter.getAscensions() );
+				break;
+			}
+			// fall through
+		case 80:
+			// Take a Look, it's in a Book!
+			if ( ChoiceManager.lastDecision == 99 )
+			{
+				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
+			}
+			break;
+
+		case 92: case 93: case 94: case 95: case 96:
+		case 97: case 98: case 99: case 100: case 101:
+		case 102: case 103: case 104:
+			// Choices in the Louvre
+			LouvreManager.mapChoice( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
+			break;
+
+		case 105:
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				checkGuyMadeOfBees( request );
+			}
+			break;
+		
+		case 112:
+			// Please, Hammer
+			if ( ChoiceManager.lastDecision == 1 && KoLmafia.isAdventuring() )
+			{
+				InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
+			}
+			break;
+
+		case 162:
+			// Between a Rock and Some Other Rocks
+			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( 8 ) )
+			{
+				CouncilFrame.unlockGoatlet();
+			}
+			break;
+
+		case 197:
+			// Somewhat Higher and Mostly Dry
+		case 198:
+			// Disgustin' Junction
+		case 199:
+			// The Former or the Ladder
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ChoiceManager.checkDungeonSewers( request );
+			}
+			break;
+
+		case 200:
+			// Enter The Hoboverlord
+		case 201:
+			// Home, Home in the Range
+		case 202:
+			// Bumpity Bump Bump
+		case 203:
+			// Deep Enough to Dive
+		case 204:
+			// Welcome To You!
+		case 205:
+			// Van, Damn
+
+			// Stop for Hobopolis bosses
+			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
+				RequestThread.enableDisplayIfSequenceComplete();
+			}
+			break;
+
+		case 304:
+			// A Vent Horizon
+
+			// "You conjure some delicious batter from the core of
+			// the thermal vent. It pops and sizzles as you stick
+			// it in your sack."
+
+			if ( text.indexOf( "pops and sizzles" ) != -1 )
+			{
+				Preferences.increment( "tempuraSummons", 1 );
+			}
+			break;
+
+		case 309:
+			// Barback
+
+			// "You head down the tunnel into the cave, and manage
+			// to find another seaode. Sweet! I mean... salty!"
+
+			if ( text.indexOf( "salty!" ) != -1 )
+			{
+				Preferences.increment( "seaodesFound", 1 );
+			}
+			break;
+
+		case 326:
+			// Showdown
+
+			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+					"Mother Slime waits for you." );
+				RequestThread.enableDisplayIfSequenceComplete();
+			}
+			break;
+
+		case 330:
+			// A Shark's Chum
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.increment( "poolSharkCount", 1 );
+			}
+			break;
+
+		case 360:
+			WumpusManager.takeChoice( ChoiceManager.lastDecision, text );
+			break;
+
+		case 441:
+			// The Mad Tea Party
+
+                        // I'm sorry, but there's a very strict dress code for
+                        // this party
+
+			if ( ChoiceManager.lastDecision == 1  &&
+			     text.indexOf( "very strict dress code" ) == -1 )
+			{
+				Preferences.setBoolean( "_madTeaParty", true );
+			}
+			break;
+
+		case 442:
+			// A Moment of Reflection
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				// Option 5 is Chess Puzzle
+				RabbitHoleManager.parseChessPuzzle( text );
+			}
+
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				// Option 6 does not consume the map. Others do.
+				ResultProcessor.processItem( ItemPool.REFLECTION_OF_MAP, -1 );
+			}
+			break;
+		}
 	}
 
 	public static void visitChoice( final String responseText )
