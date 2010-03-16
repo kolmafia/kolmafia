@@ -302,8 +302,6 @@ public class ChatSender
 			}
 
 			StaticEntity.externalUpdate( ChatSender.DOJAX_VISITOR.getURLString(), ChatSender.DOJAX_VISITOR.responseText );
-			EventMessage message = new EventMessage( ChatSender.DOJAX_VISITOR.responseText, null );
-			ChatManager.broadcastEvent( message );
 		}
 	}
 }

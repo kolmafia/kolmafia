@@ -1099,6 +1099,7 @@ stuffed teddy butler	0	none
 stuffed tin of caviar	0	none
 stuffed treasure chest	0	none
 stuffed undead elbow macaroni	0	none
+stuffed walrus	0	none
 stuffed yeti	0	none
 stuffed yo-yo	0	none
 stuffed zmobie	0	none

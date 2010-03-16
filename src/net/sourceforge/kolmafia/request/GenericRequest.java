@@ -434,7 +434,7 @@ public class GenericRequest
 
 	public String getURLString()
 	{
-		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDataString( false );
+		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDisplayDataString();
 	}
 
 	/**
@@ -754,8 +754,12 @@ public class GenericRequest
 		return "pwd";
 	}
 
-	private String getDataString( final boolean includeHash )
+	private String constructDataString()
 	{
+		// This returns the data string as we will submit it to KoL: if
+		// the request wants us to include the password hash, we
+		// include the actual value
+
 		StringBuffer dataBuffer = new StringBuffer();
 		String hashField = this.getHashField();
 
@@ -797,12 +801,44 @@ public class GenericRequest
 			}
 
 			dataBuffer.append( hashField );
+			dataBuffer.append( '=' );
+			dataBuffer.append( GenericRequest.passwordHash );
+		}
 
-			if ( includeHash )
+		return dataBuffer.toString();
+	}
+
+	private String getDisplayDataString()
+	{
+		// This returns the data string as we will display it in the
+		// logs: omitting the actual boring value of the password hash
+
+		StringBuffer dataBuffer = new StringBuffer();
+
+		for ( int i = 0; i < this.data.size(); ++i )
+		{
+			String element = (String) this.data.get( i );
+
+			if ( element.equals( "" ) )
 			{
-				dataBuffer.append( '=' );
-				dataBuffer.append( GenericRequest.passwordHash );
+				continue;
 			}
+
+			if ( element.startsWith( "pwd=" ) )
+			{
+				element = "pwd";
+			}
+			else if ( element.startsWith( "phash=" ) )
+			{
+				element = "phash";
+			}
+
+			if ( dataBuffer.length() > 0 )
+			{
+				dataBuffer.append( '&' );
+			}
+
+			dataBuffer.append( element );
 		}
 
 		return dataBuffer.toString();
@@ -810,7 +846,7 @@ public class GenericRequest
 
 	private boolean shouldUpdateDebugLog()
 	{
-		return RequestLogger.isDebugging() /* && !this.isChatRequest */;
+		return RequestLogger.isDebugging() && !this.isChatRequest;
 	}
 
 	private boolean invokeCounterScript( TurnCounter expired )
@@ -1170,7 +1206,7 @@ public class GenericRequest
 			if ( this.dataChanged )
 			{
 				this.dataChanged = false;
-				this.dataString = this.getDataString( true ).getBytes();
+				this.dataString = this.constructDataString().getBytes();
 			}
 
 			this.formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
@@ -1697,6 +1733,12 @@ public class GenericRequest
 			AdventureRequest.handleShoreVisit( this.getURLString(), this.responseText );
 		}
 
+		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
+		{
+			// Handle choices BEFORE result processing
+			ChoiceManager.postChoice1( this );
+		}
+
 		int effectCount = KoLConstants.activeEffects.size();
 
 		if ( !this.hasNoResult )
@@ -1729,8 +1771,9 @@ public class GenericRequest
 
 		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
 		{
+			// Handle choices AFTER result processing
 			GenericRequest.choiceHandled = true;
-			ChoiceManager.postChoice( this );
+			ChoiceManager.postChoice2( this );
 		}
 
 		// Let clover protection kick in if needed
