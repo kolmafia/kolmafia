@@ -1693,12 +1693,6 @@ public class GenericRequest
 			AdventureRequest.handleShoreVisit( this.getURLString(), this.responseText );
 		}
 
-		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
-		{
-			GenericRequest.choiceHandled = true;
-			ChoiceManager.postChoice( this );
-		}
-
 		int effectCount = KoLConstants.activeEffects.size();
 
 		if ( !this.hasNoResult )
@@ -1728,6 +1722,12 @@ public class GenericRequest
 		// each request type happen.
 
 		this.processResults();
+
+		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
+		{
+			GenericRequest.choiceHandled = true;
+			ChoiceManager.postChoice( this );
+		}
 
 		// Let clover protection kick in if needed
 
