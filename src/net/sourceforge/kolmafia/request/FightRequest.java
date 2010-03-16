@@ -386,7 +386,7 @@ public class FightRequest
 
 		// Check daily summon limit
 		int summons = Preferences.getInteger( "pastamancerGhostSummons" );
-		int limit = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPAGHETTI_BANDOLIER, 1 ) ) ? 10 : 15;
+		int limit = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPAGHETTI_BANDOLIER, 1 ) ) ? 15 : 10;
 
 		return ( summons < limit );
 	}
@@ -2608,7 +2608,7 @@ public class FightRequest
 		}
 
 		int uses = Preferences.getInteger( "pastamancerGhostSummons" );
-		int limit = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPAGHETTI_BANDOLIER, 1 ) ) ? 10 : 15;
+		int limit = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPAGHETTI_BANDOLIER, 1 ) ) ? 15 : 10;
 
 		// You are mentally exhausted by the effort of summoning <name>.
 		if ( responseText.indexOf( "You are mentally exhausted" ) != -1 )
