@@ -1067,6 +1067,20 @@ public class OptionsFrame
 				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
 			}
 
+			: System.getProperty( "os.name" ).startsWith( "Mac" ) ?
+
+			new String [][]
+			{
+				{ "guiUsesOneWindow", "Restrict interface to a single window" },
+				{ "useDockIconBadge", "Show turns remaining on Dock icon (OSX 10.5+)" },
+				{ "addCreationQueue", "Add creation queueing interface to item manager" },
+				{ "addStatusBarToFrames", "Add a status line to independent windows" },
+				{ "autoHighlightOnFocus", "Highlight text fields when selected" },
+				{},
+				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+			}
+
 			:
 
 			new String [][]

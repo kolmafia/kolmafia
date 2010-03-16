@@ -152,6 +152,7 @@ global	useContactsFrame	true
 global	useCrimboToysHardcore	false
 global	useCrimboToysSoftcore	true
 global	useDecoratedTabs
+global	useDockIconBadge	false
 global	useLastUserAgent	false
 global	useShinyTabbedChat	true
 global	useSystemTrayIcon	false
