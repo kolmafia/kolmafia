@@ -146,6 +146,7 @@ public class Aliases
 
 	public static void print()
 	{
+                String LINE_BREAK = System.getProperty( "line.separator" );
 		ArrayList aliasList = new ArrayList();
 		Iterator it = Aliases.aliasSet.iterator();
 		while ( it.hasNext() )
@@ -154,7 +155,8 @@ public class Aliases
 			String aliasString = (String) current.getKey();
 			String aliasCommand = (String) current.getValue();
 
-			aliasList.add( aliasString + " => " + aliasCommand );
+			aliasList.add( aliasString + " => " + aliasCommand +
+                                LINE_BREAK);
 		}
 
 		RequestLogger.printList( aliasList );
