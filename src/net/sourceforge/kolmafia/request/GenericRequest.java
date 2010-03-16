@@ -2057,9 +2057,10 @@ public class GenericRequest
 		case ItemPool.CHARRED_SEAL:
 		case ItemPool.COLD_SEAL:
 		case ItemPool.SLIPPERY_SEAL:
+			consumed = true;
+			// Fall through
 		case ItemPool.DEPLETED_URANIUM_SEAL:
 			itemName = "Infernal Seal Ritual";
-			consumed = true;
 			Preferences.increment( "_sealsSummoned", 1 );
 			ResultProcessor.processResult( sealRitualCandles( itemId ) );
 			break;
