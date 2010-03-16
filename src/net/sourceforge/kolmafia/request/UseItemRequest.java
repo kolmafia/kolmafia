@@ -1427,9 +1427,9 @@ public class UseItemRequest
 		}
 		
 		if ( ConcoctionDatabase.singleUseCreation( item.getName() ) != null ||
-			ConcoctionDatabase.multiUseCreation( item.getName() ) != null )
+		     ConcoctionDatabase.multiUseCreation( item.getName() ) != null )
 		{
-			// These all create things via "use" or "multiuse" of a
+			// These all create things via "use" or "multiuse" of
 			// an ingredient and perhaps consume other ingredients.
 			// SingleUseRequest or MultiUseRequest removed all the
 			// ingredients.
@@ -2473,8 +2473,9 @@ public class UseItemRequest
 
 			// <script type="text/javascript">top.mainpane.document.location="fight.php";</script>
 
-			// Even if we are redirected to a fight, the item is
-			// consumed elsewhere
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
 
 			ResultProcessor.processResult( item );
 
@@ -2519,8 +2520,9 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			}
 
-			// Even if we are redirected to a fight, the item is
-			// consumed elsewhere
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
 
 			ResultProcessor.processResult( item );
 
@@ -2559,8 +2561,9 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			}
 
-			// Even if we are redirected to a fight, the item is
-			// not consumed
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
 
 			ResultProcessor.processResult( item );
 
@@ -2579,7 +2582,8 @@ public class UseItemRequest
 			}
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
 
 			ResultProcessor.processResult( item );
 
@@ -2599,14 +2603,9 @@ public class UseItemRequest
 
 			// You're too drunk to mess with BRICKO right now.
 
-			if ( responseText.indexOf( "You're too drunk" ) != -1 )
-			{
-				ResultProcessor.processResult( item );
-				return;
-			}
-
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
 
 			ResultProcessor.processResult( item );
 
@@ -2622,7 +2621,8 @@ public class UseItemRequest
 			// blowing on it.
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
 
 			ResultProcessor.processResult( item );
 
@@ -2631,7 +2631,8 @@ public class UseItemRequest
 		case ItemPool.DOLPHIN_WHISTLE:
 
 			// If we are redirected to a fight, the item is
-			// consumed elsewhere
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
 
 			ResultProcessor.processResult( item );
 
@@ -3126,11 +3127,14 @@ public class UseItemRequest
 		case ItemPool.CHARRED_SEAL:
 		case ItemPool.COLD_SEAL:
 		case ItemPool.SLIPPERY_SEAL:
-		case ItemPool.DEPLETED_URANIUM_SEAL:
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
 
-			// Even if we are redirected to a fight, the item is
-			// consumed elsewhere
 			ResultProcessor.processResult( item );
+
+			// The depleted uranium seal was NOT removed above.
+		case ItemPool.DEPLETED_URANIUM_SEAL:
 
 			// You've summoned too many Infernal seals today. Any
 			// more and you're afraid the corruption will be too
