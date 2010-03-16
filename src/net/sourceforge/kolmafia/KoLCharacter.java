@@ -1453,7 +1453,10 @@ public abstract class KoLCharacter
 	{
 		if ( adventuresLeft != KoLCharacter.adventuresLeft )
 		{
-			OSXAdapter.setDockIconBadge( String.valueOf( adventuresLeft ) );
+			if ( Preferences.getBoolean( "useDockIconBadge" ) )
+			{
+				OSXAdapter.setDockIconBadge( String.valueOf( adventuresLeft ) );
+			}
 		
 			KoLCharacter.adventuresLeft = adventuresLeft;
 			if ( KoLCharacter.canEat() && !KoLCharacter.hasChef() || KoLCharacter.canDrink() && !KoLCharacter.hasBartender() )
