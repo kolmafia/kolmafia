@@ -206,6 +206,7 @@ public class ItemPool
 	public static final int ELITE_SCROLL = 553;
 	public static final int CAN_LID = 559;
 	public static final int SONAR = 563;
+	public static final int HERMIT_SCRIPT = 567;
 	public static final int LUCIFER = 571;
 	public static final int REMEDY = 588;
 	public static final int TINY_HOUSE = 592;

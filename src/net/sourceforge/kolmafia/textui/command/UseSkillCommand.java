@@ -82,7 +82,7 @@ public class UseSkillCommand
 			String buffCountString = buffParameters[ 0 ];
 			String skillNameString = buffParameters[ 1 ];
 
-			String skillName = SkillDatabase.getUsableSkillName( skillNameString );
+			String skillName = SkillDatabase.getUsableKnownSkillName( skillNameString );
 			if ( skillName == null )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,

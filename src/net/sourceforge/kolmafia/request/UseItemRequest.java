@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
@@ -1725,6 +1726,12 @@ public class UseItemRequest
 					item.getInstance( item.getCount() - 1 ) );
 			}
 
+			return;
+
+		case ItemPool.HERMIT_SCRIPT:
+
+			HermitRequest.ensureUpdatedHermit();
+			Preferences.setBoolean( "hermitHax0red", true );
 			return;
 
 		case ItemPool.SPARKLER:
