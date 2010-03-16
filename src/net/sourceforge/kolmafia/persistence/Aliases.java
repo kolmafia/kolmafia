@@ -10,9 +10,11 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -146,19 +148,29 @@ public class Aliases
 
 	public static void print()
 	{
-                String LINE_BREAK = System.getProperty( "line.separator" );
-		ArrayList aliasList = new ArrayList();
+		StringBuffer buffer = new StringBuffer();
 		Iterator it = Aliases.aliasSet.iterator();
+		boolean first = true;
 		while ( it.hasNext() )
 		{
 			Entry current = (Entry) it.next();
 			String aliasString = (String) current.getKey();
 			String aliasCommand = (String) current.getValue();
-
-			aliasList.add( aliasString + " => " + aliasCommand +
-                                LINE_BREAK);
+			if ( first )
+			{
+				first = false;
+			}
+			else
+			{
+				buffer.append( KoLConstants.LINE_BREAK );
+				buffer.append( KoLConstants.LINE_BREAK );
+			}
+			buffer.append( "<b>" );
+			buffer.append( aliasString );
+			buffer.append( "</b> => " );
+			buffer.append( CharacterEntities.escape( aliasCommand ) );
 		}
 
-		RequestLogger.printList( aliasList );
+		RequestLogger.printLine( buffer.toString() );
 	}
 }

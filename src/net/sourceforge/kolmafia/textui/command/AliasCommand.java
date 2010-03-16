@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.Aliases;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
 public class AliasCommand
 	extends AbstractCommand
@@ -67,6 +68,6 @@ public class AliasCommand
 		Aliases.add( aliasString, aliasCommand );
 
 		RequestLogger.printLine( "String successfully aliased." );
-		RequestLogger.printLine( aliasString + " => " + aliasCommand );
+		RequestLogger.printLine( aliasString + " => " + CharacterEntities.escape( aliasCommand ) );
 	}
 }
