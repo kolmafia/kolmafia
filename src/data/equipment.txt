@@ -1467,6 +1467,7 @@ stinky cheese eye	0	none
 string of blue beads	0	none
 string of green beads	0	none
 string of red beads	0	none
+stuffed carpenter	0	none
 stuffed mink	0	none
 stuffed shoulder parrot	0	Mys: 25
 support cummerbund	0	Mys: 35

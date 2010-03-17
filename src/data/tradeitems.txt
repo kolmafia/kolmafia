@@ -4555,3 +4555,4 @@
 4546	stuffed bandersnatch	offhand	gift	50
 4547	stuffed caterpillar	offhand	gift	50
 4548	stuffed walrus	offhand	gift	50
+4549	stuffed carpenter	accessory	gift	50

@@ -4552,3 +4552,4 @@
 4546	466263735	stuffed bandersnatch	stuffed bandersnatches
 4547	594339174	stuffed caterpillar
 4548	140434950	stuffed walrus
+4549	346569840	stuffed carpenter
