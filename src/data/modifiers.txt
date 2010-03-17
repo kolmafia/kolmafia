@@ -217,7 +217,7 @@ sealhide hood	Initiative: +20
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
-# sleep mask
+sleep mask	Intrinsic Effect: "Temporary Blindness (intrinsic)"
 slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2
 snailmail coif	Muscle: +10, Damage Reduction: 8
 snorkel	Familiar Effect: "atk, cap 2"
@@ -298,7 +298,7 @@ Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Tur
 # alpha-mail pants
 antique greaves	Initiative: -10
 astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5
-# baggy rave pants
+baggy rave pants	Damage Absorption: +20
 bark boxers	Damage Reduction: 5
 barskin loincloth	Muscle: +1
 basic meat kilt	Moxie: +1
@@ -550,9 +550,9 @@ Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23, Class: "Disco Bandit"
 # Shagadelic Disco Banjo: +7 damage to Disco Bandit Combat Skills
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10
-# Sledgehammer of the V&aelig;lkyr: +20% Physical Damage
+# Sledgehammer of the V&aelig;lkyr: +20% Physical Damage (currently approximated with Weapon Damage)
 # Sledgehammer of the V&aelig;lkyr: Special Attack: Bashing Slam Smash
-Sledgehammer of the V&aelig;lkyr	Muscle: +23, Critical: 4, Class: "Seal Clubber"
+Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critical: 4, Class: "Seal Clubber"
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical: 5
 Spooky Putty ball	Spooky Damage: +10, Softcore Only
 Spooky Putty snake	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
@@ -821,7 +821,7 @@ penguin whip	Meat Drop: +3
 perforated battle paddle	Weapon Damage: +10
 pernicious cudgel	Slime Hates It: +1, Sleaze Damage: +30, Critical Hit Percent: +2
 pestoblade	Muscle: +3, Stench Damage: +3
-# pipe wrench
+pipe wrench	Weapon Damage: +8
 pitchfork	Weapon Damage: +9
 pixel boomerang	Item Drop: +5
 pixel sword	Initiative: +15
@@ -1838,7 +1838,7 @@ gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently.
 gill rings	Familiar Weight: +5
 green pixie spog	Familiar Weight: +5
-# guard turtle collar
+# guard turtle collar: +10 to Familiar Damage
 half-height unicycle	Familiar Weight: +5
 hardware upgrade	Familiar Weight: +5
 hot pink lipstick	Familiar Weight: +5
@@ -1848,6 +1848,7 @@ icicle katana	Familiar Weight: +5
 # imitation whetstone: Makes Imitation Crab claws sharper
 ittah bittah hookah	Familiar Weight: +5
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
+jalape&ntilde;o slices	Meat Drop: +60.9
 lead necklace	Familiar Weight: +3
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater"
@@ -1904,6 +1905,7 @@ six-armed sweater	Familiar Weight: +5
 skewer-mounted razor blade	Familiar Weight: +5
 smile-sharpening stone	Familiar Weight: +5
 # smiley-face sticker: +10 lbs. of Volleyball
+smiley-face sticker	Experience: +3.16
 snow halo	Familiar Weight: +5
 spoon!	Familiar Weight: +5
 # stick-on mini solar panels: +10 lbs. of Starfish
@@ -1927,9 +1929,8 @@ tiny makeup kit	Familiar Weight: +15
 tiny maracas	Familiar Weight: +5
 # tiny nose-bone fetish: Reduces familiar's MP expenditure by 2-4.
 tiny shaker of salt	Familiar Weight: +5
-# tiny sombrero
-toy six-seater hovercraft	Familiar Weight: -5
 # tiny sombrero: +10 lbs. of Sombrero
+toy six-seater hovercraft	Familiar Weight: -5
 # tuning fork: Familiar Will Attack You Less Often
 # undissolvable contact lenses: Helps your Slimeling See Better
 unspeakable lozenges	Familiar Weight: +5
@@ -2049,8 +2050,8 @@ Ancestral Disapproval	Mysticality Percent: +10
 And Your Family, Too	Familiar Weight: -10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
-# Antihangover	actual exp is floor((yesterday's drunkenness)^(1/1.7))
-Antihangover	Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5
+# Antihangover	actual bonus is floor((yesterday's drunkenness)^(1/1.7))
+Antihangover	Muscle: +5, Mysticality: +5, Moxie: +5
 Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Anytwo Five Elevenis?	Muscle: +10
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
@@ -2412,7 +2413,7 @@ Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 # Juiced Up: Makes you a better diver
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
-Knightlife	Moxie Percent: [100+pref(chessboardsCleared)]
+Knightlife	Moxie Percent: [100+2*pref(chessboardsCleared)]
 Knob Goblin Lust Frenzy	Moxie: +2
 Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
 La Bamba	Item Drop: +3
@@ -2459,7 +2460,7 @@ Minty Freshness	Moxie Percent: +10
 Missing Eyebrows	Moxie: -3
 Missing Fingers	Muscle: -3
 # Missing Kidney: Call 911 Immediately
-Mitre Cut	 Mysticality Percent: [100+pref(chessboardsCleared)]
+Mitre Cut	 Mysticality Percent: [100+2*pref(chessboardsCleared)]
 Mmmmmelon	Item Drop: +30
 Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Moon'd	Experience: +5
@@ -2730,7 +2731,7 @@ Tingly Wrists	Mysticality: +5
 Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 # Toad In The Hole: Continually take damage
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
-Towering Strength	Muscle Percent: [100+pref(chessboardsCleared)]
+Towering Strength	Muscle Percent: [100+2*pref(chessboardsCleared)]
 Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 # Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
@@ -2805,7 +2806,7 @@ Hide of the Otter	Damage Absorption: +20
 Hide of the Walrus	Damage Absorption: +40
 # Immaculate Seasoning: auto-choose hot vs. cold
 # Impetuous Sauciness: +5 reagent potion duration
-# Intrinsic Spiciness: +1 spell damage per player level, max 10
+Intrinsic Spiciness	Spell Damage: [min(L,10)]
 # Liver of Steel
 Mad Looting Skillz	Item Drop: +20
 Marginally Insane	Maximum MP Percent: +10
@@ -2872,6 +2873,7 @@ Dire Drifter Duds	Familiar Weight: +5
 Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # El Vibrato Relics
 Encephalic Ensemble	Item Drop: +5
+Fancy Tux	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Filthy Hippy Disguise	Stench Damage: +5
 Floaty Fatigues	Spell Critical Percent: +15
 Frat Boy Ensemble	Sleaze Damage: +5
@@ -2885,6 +2887,7 @@ Grimy Reaper's Vestments	Spooky Damage: +100
 Hodgman's Regal Frippery	Hobo Power: +25
 Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
 Hyperborean Hobo Habiliments	Cold Damage: +50
+# Knight's Armor
 Knob Goblin Elite Guard Uniform	Muscle: +7
 Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
 # Legendary Regalia of the Chelonian Overlord
