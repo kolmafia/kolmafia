@@ -1617,6 +1617,7 @@ stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyChee
 string of blue beads	Mysticality: +1
 string of green beads	Moxie: +1
 string of red beads	Muscle: +1
+# stuffed carpenter
 # stuffed mink
 stuffed shoulder parrot	Maximum MP: +5
 support cummerbund	Maximum HP: +20
