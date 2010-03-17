@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 import net.sourceforge.kolmafia.request.AutoSellRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -225,6 +226,9 @@ public class ValhallaManager
 			RequestThread.postRequest(
 				new GenericRequest( "galaktik.php?action=startquest&pwd" ) );
 		}
+
+		// Pull a VIP key and report on whether a present is available
+		ClanLoungeRequest.visitLounge();
 	}
 
 	public static final void resetPerAscensionCounters()
