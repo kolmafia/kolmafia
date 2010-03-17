@@ -156,7 +156,7 @@ Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	Cyborg Policem
 Shady Thicket	100	Drunk Duck	Mean Drunk Duck
 Shivering Timbers	100	Deadwood Tree	Fur Tree	Hangman's Tree	Pumpkin Tree	Toilet-papered Tree	Underworld Tree: 0
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
-Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo	Crazy Bastard: -1
+Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo: o1	Hung-Over Half-Orc Hobo: e1	Crazy Bastard: -1
 Sorceress' Hedge Maze	100	Topiary Golem
 South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
 Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar

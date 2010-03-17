@@ -486,7 +486,7 @@
 480	455935752	box of birthday candles
 481	294854152	eldritch butterknife
 482	969408234	Mr. Container	Mr. Containers
-483	521931231	Newbiesport&trade; backpack
+483	521931231	Newbiesport&trade; backpack	Newbiesport&trade; backpacks
 484	478166706	hemp backpack	hemp backpacks
 485	997590293	snakehead charrrm	snakehead charrrms
 486	898684465	Talisman o' Nam	Talismen o' Nam
@@ -606,7 +606,7 @@
 600	999889384	Dr. Hobo's scalpel	Dr. Hobo's scalpels
 601	950206440	Dr. Hobo's map
 602	300611011	Degrassi Knoll shopping list
-603	965414342	Item #13
+603	965414342	Item #13	Items #13
 604	207575307	Penultimate Fantasy chest	Penultimate Fantasy chests
 605	783607250	Tissue Paper Immateria
 606	583731799	Tin Foil Immateria
@@ -850,7 +850,7 @@
 844	155535035	papaya slung	papaya slungs
 845	31337	MAHI fez	MAHI feces
 846
-847
+847	1997970	heteroerotic frat-paddle	heteroerotic frat-paddles
 848	10000001	hypodermic needle	hypodermic needles
 849	10616161	Meat detector	Meat detectors
 850	10045001	many-eyed glasses	pairs of many-eyed glasses
@@ -3045,7 +3045,7 @@
 3039	173317473	cursed cannonball	cursed cannonballs
 3040	642277267	cursed voodoo skull	cursed voodoo skulls
 3041	149512464	cursed dirty joke scroll	cursed dirty joke scrolls
-3042	622329601	Crimbo P. R. E. S. S. I. E.
+3042	622329601	Crimbo P. R. E. S. S. I. E.	Crimbo P. R. E. S. S. I. E.s
 3043	637200318	metallic foil bow	metallic foil bows
 3044	501377601	metallic foil radar dish	metallic foil radar dishs
 3045	967669535	nanite-infested gingerbread bugbear	nanite-infested gingerbread bugbears
@@ -3220,7 +3220,7 @@
 3214	328029577	dwarvish parchment
 3215	480795503	overcharged El Vibrato power sphere	overcharged El Vibrato power spheres
 3216	925591992	Fly-By-Knight Heraldry form	Fly-By-Knight Heraldry forms
-3217	193025375	El Vibrato Megadrone
+3217	193025375	El Vibrato Megadrone	El Vibrato Megadrones
 3218	180768335	purple glowstick	purple glowstyx
 3219	652434605	sane hatrack	sane hatrackers
 3220	608608209	hobo code binder	hobo code binders
@@ -3415,10 +3415,10 @@
 3409	874739671	Hodgman's garbage sticker	Hodgman's garbage stickers
 3410	986607676	Hodgman's metal detector	Hodgman's metal detectors
 3411	753829066	Hodgman's cane	Hodgman's canes
-3412	443125100	Hodgman's journal #1:  The Lean Times
-3413	359048124	Hodgman's journal #2:  Entrepreneurythmics
-3414	456659256	Hodgman's journal #3:  Pumping Tin
-3415	435985770	Hodgman's journal #4:  View From The Big Top
+3412	443125100	Hodgman's journal #1:  The Lean Times	copies of Hodgman's journal #1
+3413	359048124	Hodgman's journal #2:  Entrepreneurythmics	copies of Hodgman's journal #2
+3414	456659256	Hodgman's journal #3:  Pumping Tin	copies of Hodgman's journal #3
+3415	435985770	Hodgman's journal #4:  View From The Big Top	copies of Hodgman's journal #4
 3416	128693993	hobo fortress blueprints	sets of hobo fortress blueprints
 3417
 3418
@@ -3468,7 +3468,7 @@
 3462	376514717	terrible poem	terrible poetries
 3463	293461627	bottle of sake	bottles of sake
 3464	435365663	little round pebble	little round pebbles
-3465	303006655	Bash-&#332;s cereal
+3465	303006655	Bash-&#332;s cereal	Bash-&#332;s cereals
 3466	261469707	haiku katana	haiku katana
 3467	114774654	bargain flash powder	bags of bargain flash powder
 3468	734986269	blue plastic baby	blue plastic babies
@@ -3476,7 +3476,7 @@
 3470	149442346	little bitty bathysphere
 3471	242928980	damp old boot
 3472	909119591	Seasonal Beret	Seasonal Berets
-3473	524041290	Bash-&#332;s boxtop
+3473	524041290	Bash-&#332;s boxtop	Bash-&#332;s boxtops
 3474	517550983	cranberry cordial	cranberry cordials
 3475	202269894	blackberry polite	blackberry polites
 3476	984579541	plum lozenge	plum lozenges
@@ -3537,7 +3537,7 @@
 3531	364676045	rattlesnake enrager	rattlesnake enragers
 3532	389238235	ant antidepressant	bottles of ant antidepressant
 3533	409013542	cactus monocle	cactus monocles
-3534	768366195	Jawmaster 2000&trade;
+3534	768366195	Jawmaster 2000&trade;	Jawmasters 2000&trade;
 3535	820037367	plans for depleted Grimacite hammer	plans for depleted Grimacite hammers
 3536	927505126	plans for depleted Grimacite gravy boat	plans for depleted Grimacite gravy boats
 3537	798308680	plans for depleted Grimacite weightlifting belt	plans for depleted Grimacite weightlifting belts
@@ -4237,7 +4237,7 @@
 4231	152583527	ice skate decoy	ice skate decoys
 4232	156434029	ice skate doll	ice skate dolls
 4233	492993089	hacienda key	hacienda keys
-4234	699112843	silver pat&eacute; knife
+4234	699112843	silver pat&eacute; knife	silver pat&eacute; knives
 4235	850274892	silver salt-shaker	silver salt-shakers
 4236	703973859	can of sterno	cans of sterno
 4237	561415537	silver cheese-slicer	silver cheese-slicers
@@ -4253,7 +4253,7 @@
 4247	554380931	decanter of fine Scotch	decanters of fine Scotch
 4248	783019240	expensive cigar	expensive cigars
 4249	482740948	miniature tophat	miniature tophats
-4250	828704447	fisherman's sack
+4250	828704447	fisherman's sack	fisherman sacks
 4251	180431667	fish-oil smoke bomb	fish-oil smoke bombs
 4252	710069136	vial of squid ink
 4253	373271067	potion of fishy speed
@@ -4330,7 +4330,7 @@
 4324	510892854	Bandolier of the Spaghetti Elemental	Bandoliers of the Spaghetti Elemental
 4325	918726420	Gravyskin Belt of the Sauceblob	Gravyskin Belts of the Sauceblob
 4326	829566476	Bling of the New Wave	Bling-Bling of the New Wave
-4327	129795064	El Hebilla del Cintur&oacute;n de Lopez
+4327	129795064	El Hebilla del Cintur&oacute;n de Lopez	Las Hebillas del Cintur&oacute;n de Lopez
 4328	171587799	suspicious stocking	suspicious stockings
 4329	899647196	bag of many confections	bags of many confections
 4330	937968773	candy kneecapping stick	candy kneecapping sticks
@@ -4508,7 +4508,7 @@
 4502	942976753	recording of Donho's Bubbly Ballad	recordings of Donho's Bubbly Ballad
 4503	562003052	recording of Inigo's Incantation of Inspiration	recordings of Inigo's Incantation of Inspiration
 4504	884068139	heart of the volcano	hearts of the volcano
-4505	752101511	Northern pemmican
+4505	752101511	Northern pemmican	globs of Northern pemmican
 4506
 4507	653994440	Clan looking glass	Clan looking glass crates
 4508	830929931	&quot;DRINK ME&quot; potion	bottles of &quot;DRINK ME&quot; potion
@@ -4517,8 +4517,8 @@
 4511	569697802	beautiful soup	bowls of beautiful soup
 4512	813784592	eggman noodles	clumps of eggman noodles
 4513	209380924	Vial of <i>jus de larmes</i>	vials of <i>jus de larmes</i>
-4514	665901795	Humpty Dumplings
-4515	429299421	Lobster <i>qua</i> Grill
+4514	665901795	Humpty Dumplings	bowls of Humpty Dumplings
+4515	429299421	Lobster <i>qua</i> Grill	pieces of Lobster <i>qua</i> Grill
 4516	186390697	missing wine	bottles of missing wine
 4517	788868127	yellow matter custard	yellow matter custards
 4518	409872360	delicious comfit?	delicious comfits?
@@ -4544,9 +4544,9 @@
 4538	587782581	helm of the white knight	helms of the white knight
 4539	348947721	wristwatch of the white knight	wristwatches of the white knight
 4540	889966720	trousers of the white knight	pairs of trousers of the white knight
-4541	749554417	fancy tophat
+4541	749554417	fancy tophat	fancy tophats
 4542	972582317	fancy black tie
-4543	711452958	fancy tuxedo pants
+4543	711452958	fancy tuxedo pants	pairs of fancy tuxedo pants
 4544	773251324	stuffed porpoise
 4545	452249553	stuffed pocketwatch	stuffed pocketwatches
 4546	466263735	stuffed bandersnatch	stuffed bandersnatches

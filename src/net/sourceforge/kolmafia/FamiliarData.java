@@ -220,6 +220,11 @@ public class FamiliarData
 		{
 			first = FamiliarData.NO_FAMILIAR;
 		}
+		else if ( first != FamiliarData.NO_FAMILIAR )
+		{	// There's no indication of whether your current familiar is a
+			// favorite or not.  Safest to assume it is:
+			first.setFavorite( true );			
+		}
 
 		KoLCharacter.setFamiliar( first );
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
@@ -490,6 +495,11 @@ public class FamiliarData
 	public boolean getFavorite()
 	{
 		return this.favorite;
+	}
+
+	public void setFavorite( boolean favor )
+	{
+		this.favorite = favor;
 	}
 
 	public String getImageLocation()
