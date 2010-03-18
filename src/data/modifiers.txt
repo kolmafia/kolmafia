@@ -1209,7 +1209,6 @@ stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,floor(pref(_
 # stuffed tin of caviar
 # stuffed treasure chest
 # stuffed undead elbow macaroni
-# stuffed walrus
 # stuffed yeti
 # stuffed yo-yo
 # stuffed zmobie
@@ -1619,8 +1618,9 @@ stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyChee
 string of blue beads	Mysticality: +1
 string of green beads	Moxie: +1
 string of red beads	Muscle: +1
-# stuffed carpenter
+stuffed carpenter	Synergetic
 # stuffed mink
+stuffed walrus	Synergetic
 stuffed shoulder parrot	Maximum MP: +5
 support cummerbund	Maximum HP: +20
 tap shoes	Moxie: +11, Initiative: -20, Single Equip
@@ -2960,6 +2960,7 @@ synergy/molten medallion/monstrous monocle	Item Drop: +5, Hot Resistance: +1, Sp
 synergy/monstrous monocle/musty moccasins	Item Drop: +5, Spooky Resistance: +1, Stench Resistance: +1
 synergy/musty moccasins/molten medallion	Item Drop: +5, Stench Resistance: +1, Hot Resistance: +1
 synergy/serpentine sword/snake shield	Monster Level: +10
+synergy/stuffed carpenter/stuffed walrus	HP Regen Min: 5, HP Regen Max: 5, MP Regen Min: 5, MP Regen Max: 5
 
 # Maximization categories section of modifiers.txt
 # These pseudo-items list the indirect benefits of certain classes of
