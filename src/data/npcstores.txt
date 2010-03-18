@@ -265,6 +265,12 @@ Barrrtleby's Barrrgain Books	r	abridged dictionary	1000
 
 The Tweedleporium	a	puff of smoke	100
 The Tweedleporium	a	stuffed porpoise	10000
+The Tweedleporium	a	stuffed pocketwatch	10000
+The Tweedleporium	a	stuffed bandersnatch	10000
+The Tweedleporium	a	stuffed caterpillar	10000
+The Tweedleporium	a	stuffed walrus	10000
+The Tweedleporium	a	stuffed carpenter	10000
+The Tweedleporium	a	stuffed dodo	10000
 The Tweedleporium	a	insane tophat	20000
 The Tweedleporium	a	helm of the white knight	30000
 The Tweedleporium	a	trousers of the white knight	30000

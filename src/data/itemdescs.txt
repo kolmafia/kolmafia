@@ -4553,3 +4553,5 @@
 4547	594339174	stuffed caterpillar
 4548	140434950	stuffed walrus
 4549	346569840	stuffed carpenter
+4550	408045306	stuffed dodo
+4551	403824160	detour shield
