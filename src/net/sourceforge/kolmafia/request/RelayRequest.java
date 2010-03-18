@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2009, KoLmafia development team
+ * Copyright (c) 2005-2010, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -109,7 +109,8 @@ public class RelayRequest
 	private static final Pattern STORE_PATTERN =
 		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
-	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+
 
 	private static String mainpane = "";
 	private static KoLAdventure lastSafety = null;
