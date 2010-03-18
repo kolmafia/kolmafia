@@ -67,6 +67,7 @@ public class ResultProcessor
 {
 	private static Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 	private static Pattern INT_PATTERN = Pattern.compile( "([\\d]+)" );
+	private static Pattern TRAILING_INT_PATTERN = Pattern.compile( "(.*?)(?:\\s*\\((\\d+)\\))?" );
 
 	private static boolean receivedClover = false;
 	private static boolean receivedDisassembledClover = false;
@@ -574,11 +575,15 @@ public class ResultProcessor
 			RequestLogger.updateDebugLog( "Parsing effect: " + result );
 		}
 
-		StringTokenizer parsedEffect = new StringTokenizer( result, "()" );
-		String name = parsedEffect.nextToken().trim();
-		int count = parsedEffect.hasMoreTokens() ? StringUtilities.parseInt( parsedEffect.nextToken() ) : 1;
+		Matcher m = ResultProcessor.TRAILING_INT_PATTERN.matcher( result );
+		int count = 1;
+		if ( m.matches() )
+		{
+			result = m.group( 1 );
+			count = StringUtilities.parseInt( m.group( 2 ) );
+		}
 
-		return ResultProcessor.processResult( new AdventureResult( name, count, true ) );
+		return ResultProcessor.processResult( new AdventureResult( result, count, true ) );
 	}
 
 	/**
