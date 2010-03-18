@@ -750,7 +750,7 @@ goatskin umbrella	Stench Damage: +15
 # goblin autoblowgun: 50% chance of poisoning opponent.
 goblin autoblowgun	Ranged Damage: +5
 # goblin hunting spear: +15 Damage vs. Jungle Beasts
-goblin hunting spear	Weapon Damage: +5
+goblin hunting spear	Weapon Damage: [5+15*loc(jungle)]
 goulauncher	Moxie: +4, Spooky Damage: +5
 grass blade	Weapon Damage: +5
 grass whistle	Moxie: +6, MP Regen Min: 4, MP Regen Max: 6
