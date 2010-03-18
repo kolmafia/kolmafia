@@ -2645,7 +2645,7 @@
 2636	mummy mask	hat	all	165
 2637	gauze shorts	pants	all	165
 2638	gauze hammock	usable	all	200
-2639	black cherry soda	multiple	all	40
+2639	black cherry soda	mp	all	40
 2640	black greaves	pants	all	145
 2641	black cowboy hat	hat	all	145
 2642	Maxwell's Silver Hammer	weapon	all	180
