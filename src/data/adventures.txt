@@ -65,6 +65,7 @@ Manor0	adventure=181	true	Haunted Wine Cellar (Southeast)		20 disintegrating cor
 Woods	adventure=15	true	Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood	3 triffid bark
 Woods	adventure=17	true	Hidden Temple	3 choiceadv
 Woods	adventure=118	true	Hidden City	1 pygmy blowgun|+1 shrinking powder
+Woods	rats=0	true	Tavern Cellar
 Woods	adventure=25	true	Typical Tavern	1 beer goggles
 Woods	adventure=79	true	Friar's Gate	1 wussiness potion, 1 ruby W, 1 Azazel's unicorn, 1 Azazel's lollipop, 1 Azazel's tutu|3 fraudwort|+1 SPF 451 lip balm|+5 figurine of a charred seal
 Woods	adventure=73	true	8-Bit Realm	1 digital key|+1 fire flower
