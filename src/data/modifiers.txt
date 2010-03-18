@@ -1064,6 +1064,7 @@ deck of tropical cards	Experience: +1, Stat Tuning: "Mysticality"
 demon buckler	Hot Damage: +3, Damage Reduction: 5
 depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
 # detective skull
+detour shield	Damage Absorption: +10, Damage Reduction: 6
 disturbing fanfic	Sleaze Spell Damage: +30
 duct tape buckler	Maximum HP: +65, Maximum MP: +65, Damage Reduction: 12
 easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
@@ -1186,6 +1187,7 @@ stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,floor(pref(_
 # stuffed caterpillar
 # stuffed cocoabo
 # stuffed dodecapede
+# stuffed dodo
 # stuffed flaming gravy fairy
 # stuffed frozen gravy fairy
 # stuffed ghuol whelp
