@@ -514,8 +514,9 @@ public class CharPaneRequest
 		else
 		{
 			int startIndex = responseText.indexOf( "<font size=2>", searchIndex ) + 13;
-			effectName = responseText.substring( startIndex, responseText.indexOf( "(", startIndex ) ).trim();
-			durationIndex = responseText.indexOf( "(", startIndex ) + 1;
+			durationIndex = responseText.indexOf( "</font", startIndex );
+			durationIndex = responseText.lastIndexOf( "(", durationIndex ) + 1;
+			effectName = responseText.substring( startIndex, durationIndex - 1 ).trim();
 		}
 
 		searchIndex = responseText.indexOf( "onClick='eff", searchIndex );
