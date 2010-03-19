@@ -2283,11 +2283,11 @@ public class UseItemRequest
 				// by result parsing, but we need to get rid of the old.
 				for ( int i = 4552; i <= 4558; ++i )
 				{
-					AdventureResult punc = ItemPool.get( i, -1 );
+					AdventureResult punc = ItemPool.get( i, 1 );
 					int count = punc.getCount( KoLConstants.inventory );
 					if ( count > 0 )
 					{
-						ResultProcessor.processResult( item.getInstance( -count ) );
+						ResultProcessor.processResult( punc.getInstance( -count ) );
 					}
 				}
 			}
