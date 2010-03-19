@@ -105,9 +105,9 @@ public class LogStream
 
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			newStream.println( " Please note: do not post this log in the KoLmafia thread. If you" );
-			newStream.println( " would like the dev team to look at it, please create a bug report" );
+			newStream.println( " would like the dev team to look at it, please write a bug report" );
 			newStream.println( " at kolmafia.us. Include specific information about what you were " );
-			newStream.println( " doing when you made this log and attach it to the report. " );
+			newStream.println( " doing when you made this and include the log as an attachment." );
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			newStream.println( " Timestamp: " + ( new Date() ).toString() );
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
