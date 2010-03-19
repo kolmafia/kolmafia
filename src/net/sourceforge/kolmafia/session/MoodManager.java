@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1545,7 +1546,7 @@ public abstract class MoodManager
 
 		public static final MoodTrigger constructNode( final String line )
 		{
-			String[] pieces = line.split( " => " );
+			String[] pieces = CharacterEntities.unescape( line ).split( " => " );
 			if ( pieces.length != 2 )
 			{
 				return null;
