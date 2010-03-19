@@ -95,6 +95,7 @@ Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown
 Giant's Castle	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
 Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 Granary	100	Rotund Duck
+Greater-Than Sign	-1	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
 Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Skullbat	Doughbat	Vampire Bat
 Guards' Chamber	100	Filthworm Royal Guard
@@ -209,7 +210,6 @@ Icy Peak of the Past	-1
 Frat House In Disguise	0
 Friar Ceremony Location	0
 Goat Party	0
-Greater-Than Sign	0
 Hidden Temple	0
 Hippy Camp In Disguise	0
 Lemon Party	0

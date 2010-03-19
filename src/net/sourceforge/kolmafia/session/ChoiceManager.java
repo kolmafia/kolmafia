@@ -1313,6 +1313,12 @@ public abstract class ChoiceManager
 		//	      is The Caucus Racetrack
 		//	      is The Croquet Grounds
 		// Choice 450 is The Duchess' Cottage
+
+		// Typographical Clutter
+		new ChoiceAdventure(
+			"Dungeon", "choiceAdventure451", "Greater-Than Sign",
+			new String[] { "left parenthesis", "moxie, alternately lose then gain meat", "plus sign, then muscle", "mysticality substats", "get teleportitis" },
+			new String[] { "4552", null, "818", null, null } ),
 	};
 
 	static

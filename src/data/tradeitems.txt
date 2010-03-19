@@ -4558,3 +4558,10 @@
 4549	stuffed carpenter	accessory	gift	50
 4550	stuffed dodo	offhand	gift	0
 4551	detour shield	offhand	display	0
+4552	left parenthesis	none	display	50
+4553	lowercase a	none	display	50
+4554	percent sign	none	display	50
+4555	left bracket	none	display	50
+4556	right parenthesis	none	display	50
+4557	dollar sign	none	display	50
+4558	equal sign	none	display	50

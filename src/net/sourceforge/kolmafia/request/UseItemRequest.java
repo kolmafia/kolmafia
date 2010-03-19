@@ -2277,6 +2277,20 @@ public class UseItemRequest
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
+			else
+			{	// Various punctuation mark items are replaced by their
+				// identified versions.  The new items will be detected
+				// by result parsing, but we need to get rid of the old.
+				for ( int i = 4552; i <= 4558; ++i )
+				{
+					AdventureResult punc = ItemPool.get( i, -1 );
+					int count = punc.getCount( KoLConstants.inventory );
+					if ( count > 0 )
+					{
+						ResultProcessor.processResult( item.getInstance( -count ) );
+					}
+				}
+			}
 
 			return;
 
