@@ -213,9 +213,6 @@
 		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/jarbundler-1.9.jar" />
 		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/macosx/limeglass.icns" vmoptions="-Xincgc" />
 
-		<delete dir="/Applications/KoLmafia.app" />
-		<move file="${dist}/KoLmafia.app" todir="/Applications" />
-
 	</target>
 
 
@@ -325,6 +322,7 @@
 		<antcall target="tar"/>
 		<antcall target="jar"/>
 		<antcall target="jsmooth"/>
+		<antcall target="jarbundler"/>
 
 	</target>
 
