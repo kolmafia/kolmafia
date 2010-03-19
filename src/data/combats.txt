@@ -36,6 +36,7 @@
 
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U. M. chieftain: 0
+A Well-Groomed Lawn	100	Menacing lawn gnome	Mowing lawn gnome	Mounted lawn gnome
 An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae
 Anemone Mine	-1	Anemone Combatant	Killer Clownfish	Mer-kin Miner
 Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Sky)	Trippy Floating Head (Stench)	Trippy Floating Head (Todd)	Zombie Baby
@@ -48,11 +49,11 @@ Barrel full of Barrels	-1	Mimic (Bottom 2 Rows)	Mimic (Middle 2 Rows)	Mimic (Top
 Barrrney's Barrr	80	Tetchy Pirate	Tipsy Pirate	Toothy Pirate
 Bat Hole Entryway	100	Albino Bat	Pine Bat	Regular Old Bat
 Batrat and Ratbat Burrow	100	Batrat	Ratbat
-Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
-Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier
+Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
+Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1
 Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
 Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker	Brutus, the Toga-Clad Lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-Generation Frat Boy: 0	The Man: 0
-Battlefield (No Uniform)	0	Time Bandit: -1
+Battlefield (No Uniform)	0	The Temporal Bandit: -1
 Beanbat Chamber	100	Beanbat
 Belowdecks	100	Gaudy Pirate	Grassy Pirate	Gritty Pirate	Groovy Pirate	Grungy Pirate
 Black Forest	100	Black Adder	The Black Knight	Black Panther	Black Widow	Blackberry Bush
@@ -63,7 +64,6 @@ Burnbarrel Blvd.	-1	Hot Hobo	Ol' Scratch: 0
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
 Convention Hall Lobby	100	Booth Slime	Fan Slime	Vendor Slime
 Outside the Club	100	Breakdancing Raver	Pop-and-Lock Raver	Running Man
-The Barracks	100
 # Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
 # Crimbo Town Toy Factory	100	Arc-welding Elfborg	Decal-applying Elfborg	Ribbon-cutting Elfborg	Weapons-assembly Elfborg
 Crimbo Town Toy Factory	100	Amateur Elf	Auteur Elf	Bolt-Cuttin' Elf	Monkey Wrenchin' Elf	Propaganda-Spewin' Elf	Provocateur Elf	Raconteur Elf	Saboteur Elf	Wire-Crossin' Elf
@@ -80,7 +80,7 @@ Degrassi Knoll	80	Gnollish Crossdresser: 2	Gnollish Flyslayer: 2	Gnollish Gearhe
 Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locusts	Rock Scorpion	Swarm of Fire Ants
 Dire Warren	100	Fluffy Bunny
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
-El Vibrato Island	-1	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
+El Vibrato Island	100	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
 Exposure Esplanade	-1	Cold Hobo	Frosty: 0
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
@@ -95,7 +95,7 @@ Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown
 Giant's Castle	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
 Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 Granary	100	Rotund Duck
-Greater-Than Sign	-1	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
+Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
 Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Skullbat	Doughbat	Vampire Bat
 Guards' Chamber	100	Filthworm Royal Guard
@@ -135,6 +135,7 @@ Menagerie 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
 Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
 Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
+Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	velvet underground dweller	weather underground dweller
 Nemesis Cave	100	Infernal Seal Larva	Infernal Seal Spawn	Vengeful Turtle Spectre	Haunted Soup Tureen	Slithering Hollandaise Glob	Pernicious Puddle of Pesto	Evil Spaghetti Cultist	Evil Spaghetti Cult Priest	Talking Head	Psychedelic Fur	Evil Vihuela-playing Mariachi	Evil Trumpet-playing Mariachi
 Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
 Oasis in the Desert	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
@@ -166,9 +167,11 @@ Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	
 Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 Stately Pleasure Dome	70	Ancient Mariner	Angry Poet	Kubla Khan	Roller-skating Muse	Toothless Mastiff Bitch
 The Ancient Hobo Burial Ground	-1	Spooky Hobo	Zombo: 0
+The Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Briny Deeps	100	Funk Sole Brother	Pumped-Up Bass	School of Wizardfish
 The Brinier Deepers	100	Bazookafish	Clubfish	Scimitarfish
 The Briniest Deepests	100	Acoustic Electric Eel	Decent White Shark	Ganger
+The Broodling Grounds	100	hellseal pup	mother hellseal: 0
 The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
 The Heap	-1	Stench Hobo	Oscus: 0
@@ -176,10 +179,14 @@ The Jungles of Ancient Loathing	-1	Ancient Guardian Statue	Evil Cultist	Jungle B
 The Marinara Trench	95	Diving Belle	Fisherfish	Giant Squid	Mer-kin Diver
 The Mer-Kin Outpost	100	Mer-kin Burglar	Mer-kin Healer	Mer-kin Raider
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
+The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal: 0	warehouse worker	Stella, the Turtle Poacher: 0	evil spaghetti cult zealot	Spaghetti Elemental: 0	security slime	Lumpy, the Sinister Sauceblob: 0	daft punk	The Spirit of New Wave: 0	mariachi bruiser	Somerset Lopez, Dread Mariachi: 0
+The Outer Compound	100	guard turtle
 The Primordial Soup	-1	Cluster of Angry Bacteria	Corrosive Algae	Hostile Amoeba	Mad Flagellate	Violent Fungus	Cyrus the Virus: 0
 The Purple Light District	-1	Sleaze Hobo	Chester: 0
+The Red Queen's Garden	100	Snapdragon	Beelephant	Tiger-lily	wasp in a wig
 The Skate Park	-1	Grouper Groupie	Ice Skate	Roller Skate	Skate Board Member	Urchin Urchin
 The Slime Tube	95	Slime1	Slime2	Slime3	Slime4	Slime5	Mother Slime: 0
+The Temple Portico	100	evil spaghetti cult middle-manager	evil spaghetti cult neophyte	evil spaghetti cult technician
 The Upper Chamber	100	Tomb Asp	Tomb Rat	Tomb Servant
 The Wreck of the Edgar Fitzsimmons	100	Cargo Crab	Drowned Sailor	Mer-kin Scavenger	Mine Crab	Unholy Diver
 Themthar Hills	100	Dirty Thieving Brigand
