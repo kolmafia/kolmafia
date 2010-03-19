@@ -650,7 +650,7 @@ flamin' bindle	200	Mus: 200	2-handed polearm
 flaming cardboard sword	70	Mus: 20	1-handed sword
 flaming crutch	60	Mus: 15	1-handed club
 flaming juggler's balls	100	Mox: 0	1-handed euphemisms
-flamingo mallet	70	Mus: 0	2-handed club
+flamingo mallet	70	Mus: 20	2-handed club
 flypaper staff	80	Mus: 25	2-handed staff
 fouet de tortue-dressage	20	Mus: 0	1-handed whip
 freezin' bindle	200	Mus: 200	2-handed polearm
@@ -1101,7 +1101,6 @@ stuffed teddy butler	0	none
 stuffed tin of caviar	0	none
 stuffed treasure chest	0	none
 stuffed undead elbow macaroni	0	none
-stuffed walrus	0	none
 stuffed yeti	0	none
 stuffed yo-yo	0	none
 stuffed zmobie	0	none
@@ -1472,6 +1471,7 @@ string of red beads	0	none
 stuffed carpenter	0	none
 stuffed mink	0	none
 stuffed shoulder parrot	0	Mys: 25
+stuffed walrus	0	none
 support cummerbund	0	Mys: 35
 tap shoes	0	Mys: 30
 tarrrnished charrrm bracelet	0	Mys: 60
