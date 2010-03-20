@@ -443,6 +443,20 @@ public abstract class KoLCharacter
 			Pattern.compile( "You call out to (.*?) with your mind" ),
 			"bowtiebat.gif",
 		},
+		{
+			"Spaghetti Elemental",
+			new Integer( ItemPool.DECODED_CULT_DOCUMENTS ),
+			// "I guess you need a name, huh?" you reply. "I'll
+			// call you... um... SshoKodo. That'll do."
+			Pattern.compile( "I'll call you... *um... *([^.]*). * That'll do." ),
+			// You close your eyes and reach out across the border
+			// between worlds, to the Elemental Plane of
+			// Spaghetti. Soon you feel a familiar presence, and
+			// pull SshoKodo into the material world.
+			Pattern.compile( "and pull (.*?) into the material world\\." ),
+			"spagelem1.gif",
+			"spagelem2.gif",
+		},
 	};
 
 	/**

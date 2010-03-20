@@ -3083,6 +3083,7 @@ public class UseItemRequest
 		case ItemPool.WINE_SOAKED_BONE_CHIPS:
 		case ItemPool.CRUMBLING_RAT_SKULL:
 		case ItemPool.TWITCHING_TRIGGER_FINGER:
+		case ItemPool.DECODED_CULT_DOCUMENTS:
 
 			KoLCharacter.ensureUpdatedPastamancerGhost();
 			int itemId = item.getItemId();

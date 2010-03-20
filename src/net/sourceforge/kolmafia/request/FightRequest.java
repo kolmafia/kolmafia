@@ -2098,8 +2098,10 @@ public class FightRequest
 				for ( int i = 0; i < KoLCharacter.COMBAT_ENTITIES.length; ++ i )
 				{
 					Object [] entity = KoLCharacter.COMBAT_ENTITIES[i];
-					String gif = (String)entity[4];
-					if ( responseText.indexOf( gif ) != -1 )
+					String gif1 = (String)entity[4];
+					String gif2 = entity.length > 5 ? (String)entity[5] : null;
+					if ( responseText.indexOf( gif1 ) != -1 ||
+					     ( gif2 != null && responseText.indexOf( gif2 ) != -1 ) )
 					{
 						Preferences.increment( "pastamancerGhostExperience", 1 );
 						break;

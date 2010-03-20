@@ -892,6 +892,7 @@ public class ItemPool
 	public static final int HELLSEAL_BRAIN = 3876;
 	public static final int HELLSEAL_SINEW = 3878;
 	public static final int HELLSEAL_DISGUISE = 3880;
+	public static final int DECODED_CULT_DOCUMENTS = 3884;
 	public static final int VIAL_OF_RED_SLIME = 3885;
 	public static final int VIAL_OF_YELLOW_SLIME = 3886;
 	public static final int VIAL_OF_BLUE_SLIME = 3887;
