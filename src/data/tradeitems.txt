@@ -3889,7 +3889,7 @@
 3880	hellseal disguise	none	none	0
 3881	fouet de tortue-dressage	weapon	none	0
 3882	encoded cult documents	none	none	0
-3883	cult memo	none	none	0
+3883	cult memo	reusable	none	0
 3884	decoded cult documents	reusable	none	0
 3885	vial of red slime	multiple	none	33
 3886	vial of yellow slime	multiple	none	33

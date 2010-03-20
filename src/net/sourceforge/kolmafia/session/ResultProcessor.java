@@ -1235,6 +1235,10 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.HELLSEAL_BRAIN, -6 );
 			ResultProcessor.processItem( ItemPool.HELLSEAL_SINEW, -6 );
 			break;
+
+		case ItemPool.DECODED_CULT_DOCUMENTS:
+			ResultProcessor.processItem( ItemPool.CULT_MEMO, -5 );
+			break;
 		}
 	}
 
