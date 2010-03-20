@@ -328,7 +328,7 @@ public abstract class KoLCharacter
 	private static String autosellMode = "";
 	private static boolean unequipFamiliar = false;
 
-	public static final Object[][] COMBAT_ENTITIES =
+	public static final Object[][] PASTA_GUARDIANS =
 	{
 		// Entity type
 		// Item that summons it
@@ -454,14 +454,49 @@ public abstract class KoLCharacter
 			// Spaghetti. Soon you feel a familiar presence, and
 			// pull SshoKodo into the material world.
 			Pattern.compile( "and pull (.*?) into the material world\\." ),
-			"spagelem1.gif",
-			"spagelem2.gif",
+			new String[] {
+				"spagelem1.gif",
+				"spagelem2.gif",
+			},
 		},
 	};
 
+	public static final int findGuardianByImage( final String responseText )
+	{
+		for ( int i = 0; i < KoLCharacter.PASTA_GUARDIANS.length; ++ i )
+		{
+			Object [] guardian = KoLCharacter.PASTA_GUARDIANS[i];
+			Object images = guardian[4];
+			if ( images instanceof String )
+			{
+				String gif = (String) images;
+				if ( responseText.indexOf( gif ) != -1 )
+				{
+					return i;
+				}
+			}
+			if ( images instanceof String[] )
+			{
+				String [] array = (String []) images;
+				for ( int j = 0; j < array.length; ++j )
+				{
+					String gif = array[ j ];
+					if ( responseText.indexOf( gif ) != -1 )
+					{
+						return i;
+					}
+				}
+			}
+		}
+
+		return -1;
+	}
+
 	/**
-	 * Constructs a new <code>KoLCharacter</code> with the given name. All fields are initialized to their default
-	 * values (nothing), and it is the responsibility of other methods to initialize the fields with their real values.
+	 * Constructs a new <code>KoLCharacter</code> with the given name. All
+	 * fields are initialized to their default values (nothing), and it is
+	 * the responsibility of other methods to initialize the fields with
+	 * their real values.
 	 *
 	 * @param newUsername The name of the character this <code>KoLCharacter</code> represents
 	 */
@@ -3617,7 +3652,7 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final void ensureUpdatedPastamancerGhost()
+	public static final void ensureUpdatedPastaGuardians()
 	{
 		int lastAscension = Preferences.getInteger( "lastPastamancerGhostReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )

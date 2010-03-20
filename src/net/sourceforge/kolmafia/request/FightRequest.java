@@ -2095,18 +2095,11 @@ public class FightRequest
 				// entity is still present by looking for its
 				// image.
 
-				for ( int i = 0; i < KoLCharacter.COMBAT_ENTITIES.length; ++ i )
-				{
-					Object [] entity = KoLCharacter.COMBAT_ENTITIES[i];
-					String gif1 = (String)entity[4];
-					String gif2 = entity.length > 5 ? (String)entity[5] : null;
-					if ( responseText.indexOf( gif1 ) != -1 ||
-					     ( gif2 != null && responseText.indexOf( gif2 ) != -1 ) )
-					{
-						Preferences.increment( "pastamancerGhostExperience", 1 );
-						break;
-					}
-				}
+                                int guardian = KoLCharacter.findGuardianByImage( responseText );
+                                if ( guardian != -1 )
+                                {
+                                        Preferences.increment( "pastamancerGhostExperience", 1 );
+                                }
 			}
 		}
 
@@ -2580,10 +2573,10 @@ public class FightRequest
 		String name = null;
 		String type = null;
 
-		KoLCharacter.ensureUpdatedPastamancerGhost();
-		for ( int i = 0; i < KoLCharacter.COMBAT_ENTITIES.length; ++ i )
+		KoLCharacter.ensureUpdatedPastaGuardians();
+		for ( int i = 0; i < KoLCharacter.PASTA_GUARDIANS.length; ++ i )
 		{
-			Object [] entity = KoLCharacter.COMBAT_ENTITIES[i];
+			Object [] entity = KoLCharacter.PASTA_GUARDIANS[i];
 			Pattern pattern = (Pattern)entity[3];
 			Matcher matcher = pattern.matcher( responseText );
 			if ( matcher.find() )
@@ -4317,8 +4310,7 @@ public class FightRequest
 		}
 		else if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.NAVEL_RING, 1 ) ) )
 		{
-			return Math.max( 20, 120 - 10 *
-				Preferences.getInteger( "_navelRunaways" ) );
+			return Math.max( 20, Math.min( 100, 120 - 10 * Preferences.getInteger( "_navelRunaways" ) ) );
 		}
 		return 0;
 	}

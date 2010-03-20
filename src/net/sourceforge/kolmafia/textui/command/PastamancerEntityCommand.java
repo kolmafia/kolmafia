@@ -44,7 +44,7 @@ public class PastamancerEntityCommand
 {
 	public PastamancerEntityCommand()
 	{
-		this.usage = " - give details of your current pastamancer combat entity.";
+		this.usage = " - give details of your current pasta guardians.";
 	}
 
 	public void run( final String cmd, final String parameters )
@@ -55,19 +55,21 @@ public class PastamancerEntityCommand
 			return;
 		}
 
-		KoLCharacter.ensureUpdatedPastamancerGhost();
+		KoLCharacter.ensureUpdatedPastaGuardians();
+
+		int summons = Preferences.getInteger( "pastamancerGhostSummons" );
+		RequestLogger.printLine( "You've summoned a pasta guardian " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today." );
+
 		String name = Preferences.getString( "pastamancerGhostName" );
 		String type = Preferences.getString( "pastamancerGhostType" );
 		int experience = Preferences.getInteger( "pastamancerGhostExperience" );
-		int summons = Preferences.getInteger( "pastamancerGhostSummons" );
 		if ( name.equals( "" ) )
 		{
-			RequestLogger.printLine( "You've summoned " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today, but do not currently have a combat entity." );
-			return;
+			RequestLogger.printLine( "You do not currently have an active pasta guardian." );
 		}
 		else
 		{
-			RequestLogger.printLine( "You've summoned " + name + " the " + type + " (" + experience + " exp) " + summons + " time" + ( summons != 1 ? "s" : "" ) + " today." );
+			RequestLogger.printLine( "Your active pasta guardian is " + name + " the " + type + " (" + experience + " exp). " );
 		}
 
 		name = Preferences.getString( "pastamancerOrbedName" );

@@ -3085,11 +3085,11 @@ public class UseItemRequest
 		case ItemPool.TWITCHING_TRIGGER_FINGER:
 		case ItemPool.DECODED_CULT_DOCUMENTS:
 
-			KoLCharacter.ensureUpdatedPastamancerGhost();
+			KoLCharacter.ensureUpdatedPastaGuardians();
 			int itemId = item.getItemId();
-			for ( int i = 0; i < KoLCharacter.COMBAT_ENTITIES.length; ++ i )
+			for ( int i = 0; i < KoLCharacter.PASTA_GUARDIANS.length; ++ i )
 			{
-				Object [] entity = KoLCharacter.COMBAT_ENTITIES[i];
+				Object [] entity = KoLCharacter.PASTA_GUARDIANS[i];
 				int summonItem = ((Integer)entity[1]).intValue();
 				if ( itemId != summonItem )
 				{
@@ -3109,7 +3109,12 @@ public class UseItemRequest
 				return;
 			}
 
-			ResultProcessor.processResult( item );
+			// The decoded cult documents are reusable, whether or
+			// not the summon succeeded.
+			if ( item.getItemId() != ItemPool.DECODED_CULT_DOCUMENTS )
+			{
+				ResultProcessor.processResult( item );
+			}
 			return;
 
 		case ItemPool.BOOZEHOUND_TOKEN:
