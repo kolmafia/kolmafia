@@ -682,7 +682,7 @@ public class KoLmafiaCLI
 		new OlfactionCommand().registerPrefix( "olfact" ).register( "putty" );
 		new OutfitCheckpointCommand().register( "checkpoint" );
 		new OutfitCommand().register( "outfit" );
-		new PastamancerEntityCommand().register( "entity" );
+		new PastamancerEntityCommand().register( "entity" ).register( "guardian" );
 		new PirateInsultsCommand().register( "insults" );
 		new PlayerSnapshotCommand().register( "log" );
 		new PoolCommand().register( "pool" );
