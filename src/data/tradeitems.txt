@@ -4468,12 +4468,12 @@
 4459	snailmail breeches	pants	all	150
 4460	snailmail hauberk	shirt	all	160
 4461	seal-brain elixir	usable	all	33
-4462	chocolate seal-clubbing club	multiple	all	0
-4463	chocolate turtle totem	multiple	all	0
-4464	chocolate pasta spoon	multiple	all	0
-4465	chocolate saucepan	multiple	all	0
-4466	chocolate disco ball	multiple	all	0
-4467	chocolate stolen accordion	multiple	all	0
+4462	chocolate seal-clubbing club	usable	all	0
+4463	chocolate turtle totem	usable	all	0
+4464	chocolate pasta spoon	usable	all	0
+4465	chocolate saucepan	usable	all	0
+4466	chocolate disco ball	usable	all	0
+4467	chocolate stolen accordion	usable	all	0
 4468	Libram of BRICKOs	usable	all	0
 4469	BRICKO brick	multiple	all	0
 4470	BRICKO eye brick	none	all	0
