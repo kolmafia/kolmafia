@@ -65,6 +65,8 @@ public class CharPaneDecorator
 		"<td align=right>(<a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]+)\">.*?</a>:)</td>" );
 	private static final Pattern EFFECT_PATTERN = Pattern.compile(
 		"onClick='eff\\(.*?(\\d+)(?:</a>)?\\)" );
+	private static final Pattern FONT_TAG_PATTERN = Pattern.compile(
+		"^((?:<font .*?>)?)(.*?)((?:</font>)?)$", Pattern.DOTALL );
 
 	private static final ArrayList recentLocations = new ArrayList();
 
@@ -248,6 +250,8 @@ public class CharPaneDecorator
 
 		if ( compact )
 		{
+			Matcher m = CharPaneDecorator.FONT_TAG_PATTERN.matcher( current.getLabel() );
+			m.find();	// this cannot fail, group 2 matches anything
 			buffer.append( "<tr><td>" );
 			if ( url != null )
 			{
@@ -256,19 +260,23 @@ public class CharPaneDecorator
 			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
 			buffer.append( current.getImage() );
 			buffer.append( "\" title=\"" );
-			buffer.append( current.getLabel() );
+			buffer.append( m.group( 2 ) );
 			buffer.append( "\">" );
 			if ( url != null )
 			{
 				buffer.append( "</a>" );
 			}
-			buffer.append ("</td><td>(<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
+			buffer.append ("</td><td>" );
+			buffer.append( m.group( 1 ) );
+			buffer.append ("(<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
 			buffer.append( System.identityHashCode( current ) );
 			buffer.append( "&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "\">" );
 			buffer.append( current.getTurnsRemaining() );
-			buffer.append( "</a>)</td></tr>" );
+			buffer.append( "</a>)" );
+			buffer.append( m.group( 3 ) );
+			buffer.append( "</td></tr>" );
 		}
 		else	// !compact
 		{
@@ -299,6 +307,10 @@ public class CharPaneDecorator
 	public static final void addRestoreLinks( final StringBuffer buffer )
 	{
 		String text = buffer.toString();
+		if ( text.indexOf( "Astral Spirit" ) != -1 )
+		{	// No restoration needed in Valhalla!
+			return;
+		}
 		buffer.setLength( 0 );
 
 		String fontTag = "";
