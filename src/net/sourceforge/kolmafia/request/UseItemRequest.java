@@ -1525,6 +1525,13 @@ public class UseItemRequest
 			return;
 		}
 
+		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal data error: item incorrectly flagged as multi-usable." );
+			ResultProcessor.processResult( item );
+			return;
+		}
+
 		if ( responseText.indexOf( "You may not" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Pathed ascension." );
