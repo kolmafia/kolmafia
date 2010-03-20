@@ -542,6 +542,12 @@ public class ResultProcessor
 			AdventureResult item = new AdventureResult( matcher.group( 1 ), -1, false );
 			AdventureResult.addResultToList( KoLConstants.inventory, item );
 			AdventureResult.addResultToList( KoLConstants.tally, item );
+			switch ( item.getItemId() )
+			{
+			case ItemPool.INSTANT_KARMA:
+				Preferences.increment( "discardedKarma" );
+				break;
+			}
 		}
 	}
 

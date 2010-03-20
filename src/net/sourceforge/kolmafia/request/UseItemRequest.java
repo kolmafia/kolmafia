@@ -3734,7 +3734,6 @@ public class UseItemRequest
 		switch ( item.getItemId() )
 		{
 		case ItemPool.BLACK_PUDDING:
-		case ItemPool.DRUM_MACHINE:
 		case ItemPool.CARONCH_MAP:
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
@@ -3743,6 +3742,12 @@ public class UseItemRequest
 		case ItemPool.DOLPHIN_WHISTLE:
 			// Items that can redirect to a fight
 			turns = 1;
+			break;
+		
+		case ItemPool.DRUM_MACHINE:
+			// Drum machine doesn't take a turn if you have worm-riding hooks equipped.
+			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
+			turns = KoLCharacter.hasEquipped( hooks ) ? 0 : 1;
 			break;
 		
 		case ItemPool.GONG:

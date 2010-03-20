@@ -291,6 +291,7 @@ user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
 user	demonName8
 user	demonSummoned	false
+user	discardedKarma	0
 user	dolphinItem
 user	doorCode
 user	expressCardUsed	false
