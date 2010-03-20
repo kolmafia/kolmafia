@@ -254,6 +254,8 @@ public class ValhallaManager
 		Preferences.setString( "telescope5", "" );
 		Preferences.setString( "telescope6", "" );
 		Preferences.setString( "telescope7", "" );
+		Preferences.setInteger( "discardedKarma", Math.max( 0,
+			Preferences.getInteger( "discardedKarma" ) - 3 ) );
 		TurnCounter.clearCounters();
 	}
 

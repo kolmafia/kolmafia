@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -420,6 +421,19 @@ public class ValhallaDecorator
 
 	private static final void listCommonTasks( final StringBuffer buffer )
 	{
+		int disc = Preferences.getInteger( "discardedKarma" );
+		int count = InventoryManager.getCount( ItemPool.INSTANT_KARMA );
+		if ( disc < 3 && count > 0 )
+		{
+			buffer.append( "<nobr><a href=\"javascript:if(confirm('Are you sure you want to discard your Instant Karma?')) singleUse('inventory.php?which=1&action=discard&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "&whichitem=4448&ajax=1');void(0);\">discard karma</a> (~" );
+			buffer.append( disc );
+			buffer.append( " discarded, have " );
+			buffer.append( count );
+			buffer.append( ")</nobr><br>" );
+		}
+
 		if ( KoLCharacter.hasChef() )
 		{
 			buffer.append( "<nobr>blow up your chef</nobr><br>" );
