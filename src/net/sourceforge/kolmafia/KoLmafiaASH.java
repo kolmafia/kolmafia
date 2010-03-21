@@ -99,7 +99,7 @@ public abstract class KoLmafiaASH
 			RequestThread.enableDisplayIfSequenceComplete();
 			KoLmafiaASH.serverReplyBuffer.setLength( 0 );
 
-			KoLmafiaASH.relayRequest.constructURLString( request.getURLString() );
+			KoLmafiaASH.relayRequest.constructURLString( request.getFullURLString() );
 
 			KoLmafiaASH.relayScript.execute( "main", null );
 
