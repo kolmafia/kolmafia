@@ -2594,12 +2594,17 @@ public class FightRequest
 
 		FightRequest.summonedGhost = true;
 
-		if ( !name.equals( Preferences.getString( "pastamancerGhostName" ) ) ||
-		     !type.equals( Preferences.getString( "pastamancerGhostType" ) ) )
+		// If we have a new Pasta Guardian, reset type and experience
+		if ( !type.equals( Preferences.getString( "pastamancerGhostType" ) ) )
 		{
-			Preferences.setString( "pastamancerGhostName", name );
 			Preferences.setString( "pastamancerGhostType", type );
 			Preferences.setInteger( "pastamancerGhostExperience", 0 );
+		}
+
+		// Spaghetti Elementals change their name as they grow
+		if ( !name.equals( Preferences.getString( "pastamancerGhostName" ) ) )
+		{
+			Preferences.setString( "pastamancerGhostName", name );
 		}
 
 		int uses = Preferences.getInteger( "pastamancerGhostSummons" );
