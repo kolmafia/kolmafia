@@ -437,6 +437,11 @@ public class GenericRequest
 		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDisplayDataString();
 	}
 
+	public String getFullURLString()
+	{
+		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDataString();
+	}
+
 	/**
 	 * Clears the data fields so that the descending class can have a fresh
 	 * set of data fields. This allows requests with variable numbers of
@@ -754,7 +759,7 @@ public class GenericRequest
 		return "pwd";
 	}
 
-	private String constructDataString()
+	private String getDataString()
 	{
 		// This returns the data string as we will submit it to KoL: if
 		// the request wants us to include the password hash, we
@@ -1206,7 +1211,7 @@ public class GenericRequest
 			if ( this.dataChanged )
 			{
 				this.dataChanged = false;
-				this.dataString = this.constructDataString().getBytes();
+				this.dataString = this.getDataString().getBytes();
 			}
 
 			this.formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
