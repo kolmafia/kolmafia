@@ -2096,10 +2096,12 @@ public class FightRequest
 				// image.
 
                                 int guardian = KoLCharacter.findGuardianByImage( responseText );
-                                if ( guardian != -1 )
-                                {
-                                        Preferences.increment( "pastamancerGhostExperience", 1 );
-                                }
+				if ( guardian != -1 )
+				{
+					// Legendary Regalia of the Pasta Master
+					int exp = EquipmentManager.isWearingOutfit( 66 ) ? 2 : 1;
+					Preferences.increment( "pastamancerGhostExperience", exp );
+				}
 			}
 		}
 
