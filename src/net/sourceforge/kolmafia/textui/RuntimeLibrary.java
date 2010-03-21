@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
@@ -129,6 +130,7 @@ import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -202,6 +204,10 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "form_field", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "form_fields", new AggregateType(
+			DataTypes.STRING_TYPE, DataTypes.STRING_TYPE ), params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
@@ -892,6 +898,12 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "url_decode", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "entity_encode", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "entity_decode", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "get_property", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
@@ -1416,13 +1428,48 @@ public abstract class RuntimeLibrary
 
 	public static Value form_field( final Value key )
 	{
-		if ( KoLmafiaASH.relayRequest == null )
+		if ( KoLmafiaASH.relayScript == null )
 		{
 			return DataTypes.STRING_INIT;
 		}
 
 		String value = KoLmafiaASH.relayRequest.getFormField( key.toString() );
 		return value == null ? DataTypes.STRING_INIT : new Value( value );
+	}
+
+	public static Value form_fields()
+	{
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, DataTypes.STRING_TYPE );
+		MapValue value = new MapValue( type );
+		if ( KoLmafiaASH.relayScript == null )
+		{
+			return value;
+		}
+		
+		Iterator i = KoLmafiaASH.relayRequest.getFormFields().iterator();
+		while ( i.hasNext() )
+		{
+			String field = (String) i.next();
+			String[] pieces = field.split( "=", 2 );
+			if ( pieces.length == 1 )
+			{
+				value.aset( new Value( pieces[ 0 ] ), DataTypes.STRING_INIT);
+			}
+			else
+			{
+				try
+				{	// Something's messed up here - form values are
+					// double-URLencoded!
+					String decoded = URLDecoder.decode( pieces[ 1 ], "UTF-8" );
+					decoded = URLDecoder.decode( decoded, "UTF-8" );
+					value.aset( new Value( pieces[ 0 ] ), new Value( decoded ) );
+				}
+				catch ( IOException e )
+				{
+				}
+			}		
+		}
+		return value;
 	}
 
 	public static Value visit_url()
@@ -3628,6 +3675,18 @@ public abstract class RuntimeLibrary
 		throws UnsupportedEncodingException
 	{
 		return new Value( URLDecoder.decode( arg.toString(), "UTF-8" ) );
+	}
+
+	public static Value entity_encode( final Value arg )
+		throws UnsupportedEncodingException
+	{
+		return new Value( CharacterEntities.escape( arg.toString() ) );
+	}
+
+	public static Value entity_decode( final Value arg )
+		throws UnsupportedEncodingException
+	{
+		return new Value( CharacterEntities.unescape( arg.toString() ) );
 	}
 
 	public static Value get_property( final Value name )
