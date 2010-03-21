@@ -713,7 +713,7 @@ public abstract class RuntimeLibrary
 		// String parsing functions.
 
 		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "is_numeric", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "is_integer", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "contains_text", DataTypes.BOOLEAN_TYPE, params ) );
@@ -2973,7 +2973,7 @@ public abstract class RuntimeLibrary
 
 	// String parsing functions.
 
-	public static Value is_numeric( final Value string )
+	public static Value is_integer( final Value string )
 	{
 		return DataTypes.makeBooleanValue( StringUtilities.isNumeric( string.toString() ) );
 	}
