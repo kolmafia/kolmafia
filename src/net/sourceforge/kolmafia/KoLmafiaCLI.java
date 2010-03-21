@@ -877,4 +877,32 @@ public class KoLmafiaCLI
 
 		return null;
 	}
+	
+	public static String buildRelayScriptMenu()
+	{
+		boolean any = false;
+		StringBuffer buf = new StringBuffer();
+		buf.append( "<select onchange='if (this.selectedIndex>0) { top.mainpane.location=this.options[this.selectedIndex].value; this.options[0].selected=true;}'><option>-run script-</option>" );
+		File[] files = DataUtilities.listFiles( KoLConstants.RELAY_LOCATION );
+		for ( int i = 0; i < files.length; ++i )
+		{
+			String name = files[ i ].getName();
+			if ( name.startsWith( "relay_" ) && name.endsWith( ".ash" ) )
+			{
+				any = true;
+				buf.append( "<option value='" );
+				buf.append( name );
+				buf.append( "'>" );
+				buf.append( name.substring( 6, name.length() - 4 ) );
+				buf.append( "</option>" );
+			}
+		}
+
+		if ( any )
+		{
+			buf.append( "</select>&nbsp;" );
+			return buf.toString();
+		}
+		return "";
+	}
 }

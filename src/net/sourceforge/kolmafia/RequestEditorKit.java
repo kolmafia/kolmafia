@@ -492,7 +492,7 @@ public class RequestEditorKit
 		{
 			MoonPhaseRequest.decorate( buffer );
 			StringUtilities.singleStringReplace( buffer, "</body>",
-				"<div style='position: absolute; right: 0px; bottom: 0px;'><font size=-1>[<a href=\"" + location + "\">re</a>]</font></div></body>" );
+				"<div style='position: absolute; right: 0px; bottom: 0px;'><font size=-1>" + KoLmafiaCLI.buildRelayScriptMenu() + "[<a href=\"" + location + "\">re</a>]</font></div></body>" );
 			return;
 		}
 

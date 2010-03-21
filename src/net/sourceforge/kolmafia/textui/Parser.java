@@ -2332,6 +2332,12 @@ public class Parser
 			result = DataTypes.FALSE_VALUE;
 		}
 
+		else if ( this.currentToken().equals( "__FILE__" ) )
+		{
+			this.readToken();
+			result = new Value( String.valueOf( this.shortFileName ) );
+		}
+
 		// numbers
 		else if ( ( result = this.parseNumber() ) != null )
 		{

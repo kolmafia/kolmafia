@@ -47,6 +47,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -668,6 +669,28 @@ public class GenericRequest
 			fields.add( tokens[ i ] );
 		}
 		return this.findField( fields, key );
+	}
+
+	public List getFormFields()
+	{
+		if ( !this.data.isEmpty() )
+		{
+			return this.data;
+		}
+
+		int index = this.formURLString.indexOf( "?" );
+		if ( index == -1 )
+		{
+			return Collections.EMPTY_LIST;
+		}
+
+		String[] tokens = this.formURLString.substring( index + 1 ).split( "&" );
+		List fields = new ArrayList();
+		for ( int i = 0; i < tokens.length; ++i )
+		{
+			fields.add( tokens[ i ] );
+		}
+		return fields;
 	}
 
 	private String findField( final List data, final String key )
