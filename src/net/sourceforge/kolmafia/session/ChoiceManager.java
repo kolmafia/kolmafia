@@ -2259,13 +2259,7 @@ public abstract class ChoiceManager
 		return ChoiceManager.CHOICE_HANDLER.containsUpdate;
 	}
 
-	public static final String processChoiceAdventure( final String responseText )
-	{
-		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, responseText );
-		return RequestEditorKit.getFeatureRichHTML( "choice.php", ChoiceManager.CHOICE_HANDLER.responseText, true );
-	}
-
-	private static final void processChoiceAdventure( final GenericRequest request, final String responseText )
+	public static final void processChoiceAdventure( final GenericRequest request, final String responseText )
 	{
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
@@ -2344,9 +2338,9 @@ public abstract class ChoiceManager
 			decision = ChoiceManager.pickOutfitChoice( option, decision );
 
 			request.clearDataFields();
-			request.addFormField( "pwd" );
 			request.addFormField( "whichchoice", choice );
 			request.addFormField( "option", decision );
+			request.addFormField( "pwd", GenericRequest.passwordHash );
 
 			request.run();
 		}
