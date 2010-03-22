@@ -248,7 +248,7 @@ public class RequestEditorKit
 		// sure to convert them to standard <A> tags linking to
 		// the correct document.
 
-		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\([\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
+		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\((?<!discardconf\\()[\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
 		displayHTML =
 			displayHTML.replaceAll(
 				"<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
