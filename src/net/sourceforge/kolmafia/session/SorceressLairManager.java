@@ -2324,15 +2324,67 @@ public abstract class SorceressLairManager
 			return;
 		}
 
-		for ( int i = 0; i < SorceressLairManager.GUARDIAN_DATA.length; ++i )
+		boolean getEverything = true;
+		if ( !KoLCharacter.inBadMoon() )
 		{
-			String name = SorceressLairManager.guardianItem( SorceressLairManager.GUARDIAN_DATA[ i ] );
-			AdventureResult item = new AdventureResult( name, 1, false );
-			if ( !KoLConstants.inventory.contains( item ) )
+			// Find out how good our telescope is.
+			int upgrades = KoLCharacter.getTelescopeUpgrades();
+			if ( upgrades >= 6 )
 			{
-				if ( SorceressLairManager.isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
+				// We have either a complete telescope or we are only missing
+				// the last upgrade.  The last tower guardian is special and
+				// always needs an item from the shore which cannot be created,
+				// so just don't think about it.  Make sure we've looked through
+				// our telescope since we last ascended.
+				KoLCharacter.checkTelescope();
+				
+				getEverything = false;
+ 				
+				for ( int i = 1; i < 7; ++i )
 				{
-					InventoryManager.retrieveItem( item );
+					String prop = Preferences.getString( "telescope" + ( i + 1 ) );
+					String[] desc = SorceressLairManager.findGuardianByDescription( prop );
+					if ( desc != null )
+					{
+						String name = SorceressLairManager.guardianItem( desc );
+						AdventureResult item = ItemPool.get( name, 1 );
+						if ( !KoLConstants.inventory.contains( item ) )
+						{
+							if ( SorceressLairManager.isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
+							{
+								InventoryManager.retrieveItem( item );
+							}
+						}
+					}
+					else
+					{
+						// We couldn't identify a tower guardian, so defensively
+						// acquire every known tower item that we can.  This
+						// will probably mean that we get tower items that we
+						// don't need, but that is better than going into a
+						// fight without an item that could be easily created.
+						KoLmafia.updateDisplay( "Tower Guardian #" + i + ": " + prop + " unrecognized." );
+						getEverything = true;
+						break;
+					}
+				}
+			}
+		}
+		
+		// If we managed to run through a full telescope's worth of data, then
+		// we're already done.  Otherwise, just get everything.
+		if ( getEverything )
+		{
+			for ( int i = 0; i < SorceressLairManager.GUARDIAN_DATA.length; ++i )
+			{
+				String name = SorceressLairManager.guardianItem( SorceressLairManager.GUARDIAN_DATA[ i ] );
+				AdventureResult item = new AdventureResult( name, 1, false );
+				if ( !KoLConstants.inventory.contains( item ) )
+				{
+					if ( SorceressLairManager.isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
+					{
+						InventoryManager.retrieveItem( item );
+					}
 				}
 			}
 		}
