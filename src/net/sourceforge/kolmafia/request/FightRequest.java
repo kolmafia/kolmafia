@@ -1623,6 +1623,13 @@ public class FightRequest
 					responseText.indexOf( "rectify" ) != -1 ? "Orcish Frat Boy (Music Lover)" :
 						"Orcish Frat Boy (Paddler)";
 			}
+			else if ( encounter.equalsIgnoreCase( "Guard Turtle" ) )
+			{
+				if ( responseText.indexOf( "frenchturtle.gif" ) != -1 )
+				{
+					encounter = "French Guard Turtle";
+				}
+			}
 			else if ( encounter.equalsIgnoreCase( "Trippy Floating Head" ) )
 			{
 				encounter =
