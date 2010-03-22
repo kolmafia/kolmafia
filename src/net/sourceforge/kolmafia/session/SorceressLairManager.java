@@ -1893,9 +1893,14 @@ public abstract class SorceressLairManager
 		}
 
 		int requiredItemId = -1;
-		for ( int towerLevel = currentLevel; KoLCharacter.getAdventuresLeft() > 0 && KoLmafia.permitsContinue() && towerLevel <= 6; ++towerLevel )
+		for ( int towerLevel = currentLevel; towerLevel <= 6; ++towerLevel )
 		{
 			requiredItemId = SorceressLairManager.fightGuardian( towerLevel );
+			if ( !KoLmafia.permitsContinue() )
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
+				return requiredItemId;
+			}
 
 			if ( !SorceressLairManager.QUEST_HANDLER.containsUpdate )
 			{
@@ -2267,6 +2272,7 @@ public abstract class SorceressLairManager
 		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're out of adventures." );
+			return;
 		}
 
 		int itemIndex = 0;
