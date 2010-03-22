@@ -313,6 +313,7 @@ public class FightRequest
 		props.setTranslateSpecialEntities( false );
 		props.setRecognizeUnicodeChars( false );
 		props.setOmitXmlDeclaration( true );
+		props.setPruneTags( "script" );
 	}
 
 	/**
@@ -3534,6 +3535,13 @@ public class FightRequest
 				return;
 			}
 
+			boolean ghostAction = status.ghost != null && str.indexOf( status.ghost) != -1;
+			if ( ghostAction && status.logFamiliar )
+			{
+				// Pastamancer ghost action
+				FightRequest.logText( text, status );
+			}
+
 			int damage = FightRequest.parseNormalDamage( str );
 			if ( damage != 0 )
 			{
@@ -3542,6 +3550,11 @@ public class FightRequest
 					FightRequest.logMonsterDamage( action, damage );
 				}
 				FightRequest.healthModifier += damage;
+				return;
+			}
+
+			if ( ghostAction )
+			{
 				return;
 			}
 		}
@@ -3596,13 +3609,11 @@ public class FightRequest
 					return;
 				}
 
-				if ( status.ghost != null && text.indexOf( status.ghost) != -1 )
+				if ( status.ghost != null && status.logFamiliar &&
+				     text.indexOf( status.ghost) != -1 )
 				{
 					// Pastamancer ghost action
-					if ( status.logFamiliar )
-					{
-						FightRequest.logText( text, status );
-					}
+					FightRequest.logText( text, status );
 				}
 
 				int damage = FightRequest.parseNormalDamage( text );
