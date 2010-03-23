@@ -1073,13 +1073,16 @@ public class UseSkillRequest
 		}
 
 		boolean exceeded = false;
-		if ( responseText.indexOf( "You can only conjure" ) != -1 || responseText.indexOf( "You can only scrounge up" ) != -1 || responseText.indexOf( "You can only summon" ) != -1 )
+		if ( responseText.indexOf( "You can only conjure" ) != -1 ||
+		     responseText.indexOf( "You can only scrounge up" ) != -1 ||
+		     responseText.indexOf( "You can only summon" ) != -1 )
 		{
 			UseSkillRequest.lastUpdate = "Summon limit exceeded.";
 			exceeded = true;
-			// Must continue with parsing in this case, so that the cast
-			// counter can be incremented, in the hopes of eventually
-			// getting back in sync with the actual number of casts.
+			// Must continue with parsing in this case, so that the
+			// cast counter can be incremented, in the hopes of
+			// eventually getting back in sync with the actual
+			// number of casts.
 		}
 
 		if ( responseText.indexOf( "too many songs" ) != -1 )
@@ -1136,6 +1139,13 @@ public class UseSkillRequest
 		{
 			UseSkillRequest.lastUpdate = "Only Accordion Thieves can use that skill.";
 			return true;
+		}
+
+		// You think your stomach has had enough for one day.
+		if ( responseText.indexOf( "enough for one day" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "You can only do that once a day.";	
+			return false;
 		}
 
 		String skillName = SkillDatabase.getSkillName( skillId );
@@ -1201,6 +1211,10 @@ public class UseSkillRequest
 
 		case 3006:
 			Preferences.increment( "noodleSummons", count );
+			break;
+
+		case 3024:
+			Preferences.increment( "carboLoading", 1 );
 			break;
 
 		case 4006:
