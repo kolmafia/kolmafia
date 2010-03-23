@@ -455,6 +455,7 @@ public class AdventureRequest
 			return "";
 		}
 
+		Preferences.setString( "lastEncounter", encounter );
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
 		AdventureRequest.registerDemonName( encounter, responseText );
