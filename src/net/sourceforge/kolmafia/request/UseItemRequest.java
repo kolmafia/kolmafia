@@ -1525,6 +1525,15 @@ public class UseItemRequest
 			return;
 		}
 
+		// You feel the canticle take hold, and feel suddenly bloated
+		// as the pasta expands in your belly.
+		if ( consumptionType == KoLConstants.CONSUME_EAT &&
+		     KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
+		     responseText.indexOf( "feel suddenly bloated" ) != -1 )
+		{
+			Preferences.setInteger( "carboLoading", 0 );
+		}
+
 		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal data error: item incorrectly flagged as multi-usable." );
@@ -1562,8 +1571,9 @@ public class UseItemRequest
 		// that was consumed that resulted in nothing.  Eating
 		// too much is flagged as a continuable state.
 		
-		// Note that there is at least one item (memory of amino acids) that
-		// can fail with a "too full" message, even though it's not a food.
+		// Note that there is at least one item (memory of amino acids)
+		// that can fail with a "too full" message, even though it's
+		// not a food.
 
 		if ( responseText.indexOf( "too full" ) != -1 )
 		{
