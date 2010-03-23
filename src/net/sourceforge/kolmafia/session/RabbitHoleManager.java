@@ -1108,6 +1108,11 @@ public abstract class RabbitHoleManager
 			// We simply moved
 			newSquare = moveSquare;
 			action = "-";
+			// Verify that KoL recognizes that we cleared the board
+			if ( responseText.indexOf( "queen cookie" ) != -1 )
+			{
+				Preferences.increment( "chessboardsCleared", 1 );
+			}
 		}
 
 		// Did we actually move where we expected?

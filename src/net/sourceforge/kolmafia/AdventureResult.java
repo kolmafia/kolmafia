@@ -230,7 +230,15 @@ public class AdventureResult
 		int effectId = EffectDatabase.getEffectId( this.name );
 		if ( effectId != -1 )
 		{
-			this.name = EffectDatabase.getEffectName( effectId );
+			String name = EffectDatabase.getEffectName( effectId );
+			if ( name != null )
+			{
+				this.name = name;
+			}
+			else
+			{
+				RequestLogger.printLine( "Effect database error: id = " + effectId + " name = \"" + this.name + "\"" );
+			}
 		}
 		else
 		{
@@ -257,15 +265,20 @@ public class AdventureResult
 
 		if ( this.itemId > 0 )
 		{
-			this.name = ItemDatabase.getItemName( this.itemId );
+			String name = ItemDatabase.getItemName( this.itemId );
+			if ( name != null )
+			{
+				this.name = name;
+			}
+			else
+			{
+				RequestLogger.printLine( "Item database error: id = " + this.itemId + " name = \"" + this.name + "\"" );
+			}
 		}
 		else
 		{
 			this.name = new String( this.name );
-			if ( StaticEntity.getClient() != null )
-			{
-				RequestLogger.printLine( "Unknown item found: " + this.name );
-			}
+			RequestLogger.printLine( "Unknown item found: " + this.name );
 		}
 	}
 
@@ -758,6 +771,18 @@ public class AdventureResult
 		if ( priorityDifference != 0 )
 		{
 			return priorityDifference;
+		}
+
+		// Do not take exceptions if name is null
+
+		if ( this.name == null )
+		{
+			return 1;
+		}
+
+		if ( ar.name == null )
+		{
+			return -1;
 		}
 
 		int nameComparison = this.name.compareToIgnoreCase( ar.name );

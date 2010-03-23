@@ -209,14 +209,16 @@ public class EquipmentDatabase
 					outfitList = EquipmentDatabase.normalOutfits;
 				}
 
-				outfitList.set( arrayIndex, new SpecialOutfit( outfitId, data[ 1 ] ) );
+				SpecialOutfit outfit = new SpecialOutfit( outfitId, data[ 1 ] );
+				outfitList.set( arrayIndex, outfit );
 
 				String[] pieces = data[ 2 ].split( "\\s*,\\s*" );
+				Integer id = new Integer( outfitId );
 				for ( int i = 0; i < pieces.length; ++i )
 				{
-					EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( pieces[ i ] ), new Integer(
-						outfitId ) );
-					outfitList.get( arrayIndex ).addPiece( new AdventureResult( pieces[ i ], 1, false ) );
+					String name = pieces[ i ];
+					EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( name ), id );
+					outfit.addPiece( new AdventureResult( name, 1, false ) );
 				}
 			}
 		}
