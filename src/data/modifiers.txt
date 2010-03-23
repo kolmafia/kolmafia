@@ -2416,7 +2416,7 @@ Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 # Juiced Up: Makes you a better diver
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
-Knightlife	Moxie Percent: [100+2*pref(chessboardsCleared)]
+Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
 Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
 La Bamba	Item Drop: +3
@@ -2463,7 +2463,7 @@ Minty Freshness	Moxie Percent: +10
 Missing Eyebrows	Moxie: -3
 Missing Fingers	Muscle: -3
 # Missing Kidney: Call 911 Immediately
-Mitre Cut	 Mysticality Percent: [100+2*pref(chessboardsCleared)]
+Mitre Cut	 Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
 Mmmmmelon	Item Drop: +30
 Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Moon'd	Experience: +5
@@ -2716,7 +2716,7 @@ The Moxious Madrigal	Moxie: +10
 The Q Is Talking To You	Mysticality Percent: +10
 The Rage	Muscle Percent: +50, Mysticality Percent: -50
 The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
-The Royal We	Experience: [25+floor(pref(chessboardsCleared)/2)]
+The Royal We	Experience: [25+floor(min(50,pref(chessboardsCleared))/2)]
 The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
 The Sonata of Sneakiness	Combat Rate: -5
 # The Spirit of Crimbo
@@ -2734,7 +2734,7 @@ Tingly Wrists	Mysticality: +5
 Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 # Toad In The Hole: Continually take damage
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
-Towering Strength	Muscle Percent: [100+2*pref(chessboardsCleared)]
+Towering Strength	Muscle Percent: [100+2*pref(min(50,chessboardsCleared))]
 Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 # Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
