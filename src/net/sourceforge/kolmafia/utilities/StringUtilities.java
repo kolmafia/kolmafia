@@ -353,6 +353,13 @@ public class StringUtilities
 		{
 			return matchList;
 		}
+		
+		// There is an oddball special case here: a search string containing
+		// spaces can successfully fuzzy-match an item name with no spaces, 
+		// for example "in the box" will match "chef-in-the-box".  However,
+		// the hash check would prevent us from even trying such a match.
+		// Therefore, strip out the bit representing a space in the hash:
+		hash &= ~StringUtilities.stringHash( " " );
 
 		for ( int i = 0; i < nameCount; ++i )
 		{
