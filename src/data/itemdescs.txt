@@ -4330,7 +4330,7 @@
 4324	510892854	Bandolier of the Spaghetti Elemental	Bandoliers of the Spaghetti Elemental
 4325	918726420	Gravyskin Belt of the Sauceblob	Gravyskin Belts of the Sauceblob
 4326	829566476	Bling of the New Wave	Bling-Bling of the New Wave
-4327	129795064	El Hebilla del Cintur&oacute;n de Lopez	Las Hebillas del Cintur&oacute;n de Lopez
+4327	129795064	La Hebilla del Cintur&oacute;n de Lopez	Las Hebillas del Cintur&oacute;n de Lopez
 4328	171587799	suspicious stocking	suspicious stockings
 4329	899647196	bag of many confections	bags of many confections
 4330	937968773	candy kneecapping stick	candy kneecapping sticks

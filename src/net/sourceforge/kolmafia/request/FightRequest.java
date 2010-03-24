@@ -3027,7 +3027,7 @@ public class FightRequest
 			if ( image.equals( "meat.gif" ) )
 			{
 				String message = "You gain " + points + " Meat";
-				ResultProcessor.processMeat( message, won && nunnery );
+				ResultProcessor.processMeat( message, won, nunnery );
 				shouldRefresh = true;
 				continue;
 			}
@@ -3423,7 +3423,7 @@ public class FightRequest
 				// seen the "you won" comment, the nuns take
 				// the meat.
 
-				ResultProcessor.processMeat( str, status.won && status.nunnery );
+				ResultProcessor.processMeat( str, status.won, status.nunnery );
 				status.shouldRefresh = true;
 				return;
 			}
