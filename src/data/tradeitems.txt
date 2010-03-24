@@ -4333,7 +4333,7 @@
 4324	Bandolier of the Spaghetti Elemental	accessory	display	0
 4325	Gravyskin Belt of the Sauceblob	accessory	display	0
 4326	Bling of the New Wave	accessory	display	0
-4327	El Hebilla del Cintur&oacute;n de Lopez	accessory	display	0
+4327	La Hebilla del Cintur&oacute;n de Lopez	accessory	display	0
 4328	suspicious stocking	grow	all	0
 4329	bag of many confections	familiar	all	75
 4330	candy kneecapping stick	food, combat, candy	all	0

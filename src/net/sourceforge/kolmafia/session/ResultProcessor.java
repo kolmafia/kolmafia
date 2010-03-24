@@ -465,10 +465,42 @@ public class ResultProcessor
 
 		return ResultProcessor.processStatGain( lastToken, data );
 	}
-
-	public static boolean processMeat( String text, boolean nunnery )
+	
+	private static boolean possibleMeatDrop( int drop, int bonus )
 	{
-		if ( nunnery )
+		float rate = (KoLCharacter.getMeatDropPercentAdjustment() + 100 + bonus) / 100.0f;
+		return Math.floor( Math.ceil( drop / rate ) * rate ) == drop;
+	}
+
+	public static boolean processMeat( String text, boolean won, boolean nunnery )
+	{
+		if ( won && Preferences.getBoolean( "meatDropSpading" ) )
+		{
+			int drop = ResultProcessor.parseResult( text ).getCount();
+			if ( !ResultProcessor.possibleMeatDrop( drop, 0 ) )
+			{
+				StringBuffer buf = new StringBuffer( " Alert - possible unknown meat bonus:" );
+				for ( int i = 1; i <= 100 && buf.length() < 80; ++i )
+				{
+					if ( ResultProcessor.possibleMeatDrop( drop, i ) )
+					{
+						buf.append( " +" );
+						buf.append( i );
+					}
+					if ( ResultProcessor.possibleMeatDrop( drop, -i ) )
+					{
+						buf.append( " -" );
+						buf.append( i );
+					}
+				}
+				RequestLogger.updateSessionLog( "Spade " + buf );
+				buf.insert( 0, "<font color=green>\u2660" );
+				buf.append( "</font>" );
+				RequestLogger.printLine( buf.toString() );
+			}
+		}
+		
+		if ( won && nunnery )
 		{
 			AdventureResult result = ResultProcessor.parseResult( text );
 			IslandDecorator.addNunneryMeat( result );
