@@ -652,6 +652,7 @@ public class KoLmafiaCLI
 		new GongCommand().register( "gong" );
 		new GrandpaCommand().register( "grandpa" );
 		new HallOfLegendsCommand().register( "donate" );
+		new HatterCommand().register( "hatter" );
 		new HermitCommand().register( "hermit" );
 		new HiddenCityCommand().register( "hiddencity" );
 		new HotTubCommand().register( "hottub" ).register( "soak" );
