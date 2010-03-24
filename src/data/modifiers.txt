@@ -2734,7 +2734,7 @@ Tingly Wrists	Mysticality: +5
 Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 # Toad In The Hole: Continually take damage
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
-Towering Strength	Muscle Percent: [100+2*pref(min(50,chessboardsCleared))]
+Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 # Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
