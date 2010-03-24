@@ -59,8 +59,10 @@ public abstract class DvorakDecorator
 		// Build a "Solve!" button
 		StringBuffer button = new StringBuffer();
 
-                String url = "/KoLmafia/specialCommand?cmd=dvorak&pwd=" + GenericRequest.passwordHash;
-		button.append( "<form name=solveform action='" + url + "' method=post>" );
+		button.append( "<form name=solveform action='" );
+		button.append( "/KoLmafia/specialCommand?cmd=dvorak&pwd=" );
+		button.append( GenericRequest.passwordHash );
+		button.append( "' method=post>" );
 		button.append( "<input class=button type=submit value=\"Solve!\">" );
 		button.append( "</form>" );
 
