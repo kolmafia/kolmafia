@@ -378,7 +378,16 @@ public class StationaryButtonDecorator
 
 	private static final String getAdventureAgainLocation( StringBuffer response )
 	{
-		String location = "main.php";
+		// Get the "adventure again" link from the page
+		int startIndex = response.indexOf( "<a href=\"", response.indexOf( "<body" ) + 1 );
+		if ( startIndex != -1 )
+		{
+			return response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
+		}
+
+		// If there is none, perhaps we fought a monster as a result of
+		// using an item.
+
 		String monster = FightRequest.getLastMonsterName();
 
 		if ( monster.equals( "giant sandworm" ) )
@@ -386,28 +395,19 @@ public class StationaryButtonDecorator
 			AdventureResult drumMachine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
 			if ( KoLConstants.inventory.contains( drumMachine ) )
 			{
-				location = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + ItemPool.DRUM_MACHINE;
+				return "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + ItemPool.DRUM_MACHINE;
 			}
-			else
-			{
-				location = "adventure.php?snarfblat=122";
-			}
-		}
-		else if ( monster.equals( "scary pirate" ) )
-		{
-			location = "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + ItemPool.CURSED_PIECE_OF_THIRTEEN;
-		}
-		else
-		{
-			int startIndex = response.indexOf( "<a href=\"",
-				response.indexOf( "<body" ) + 1 );
-			if ( startIndex != -1 )
-			{
-				location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
-			}
+
+			// Look for more drum machines in the Oasis
+			return "adventure.php?snarfblat=122";
 		}
 
-		return location;
+		if ( monster.equals( "scary pirate" ) )
+		{
+			return "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + ItemPool.CURSED_PIECE_OF_THIRTEEN;
+		}
+
+		return "main.php";
 	}
 
 	private static final String getActionName( final String action )
