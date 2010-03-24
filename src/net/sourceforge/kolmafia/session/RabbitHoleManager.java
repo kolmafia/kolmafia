@@ -1400,15 +1400,26 @@ public abstract class RabbitHoleManager
 		buffer.insert( index, button );
 	}
 	
+	public static final Object[] getHatData( int length )
+	{
+		Object[][] hat_data = RabbitHoleManager.HAT_DATA;
+		for ( int i = hat_data.length - 1; i >= 0; --i )
+		{
+			Object [] data = hat_data[i];
+			if ( ((Integer) data[ 0 ]).intValue() == length )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
 	public static final String getHatDescription( int length )
 	{
-		Object[][] data = RabbitHoleManager.HAT_DATA;
-		for ( int i = data.length - 1; i >= 0; --i )
+		Object [] data = RabbitHoleManager.getHatData( length );
+		if ( data != null )
 		{
-			if ( ((Integer) data[ i ][ 0 ]).intValue() == length )
-			{
-				return data[ i ][ 1 ] + " (" + data[ i ][ 2 ] + ")";
-			}
+			return data[ 1 ] + " (" + data[ 2 ] + ")";
 		}
 		return "unknown (" + length + " characters)";
 	}
@@ -1461,6 +1472,90 @@ public abstract class RabbitHoleManager
 		}
 		buffer.append( "</select>" );
 		buffer.append( ending );
+	}
+	
+	public static final void hatCommand()
+	{
+		// Make a map of all hats indexed by length
+		List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+		TreeMap lengths = new TreeMap();
+		Iterator it = hats.iterator();
+		while ( it.hasNext() )
+		{
+			AdventureResult hat = (AdventureResult) it.next();
+			if ( hat.equals( EquipmentRequest.UNEQUIP ) )
+			{	// no buff without a hat!
+				continue;
+			}
+
+			String name = hat.getName();
+
+			Integer len = new Integer( RabbitHoleManager.HAT_CLEANER_PATTERN.matcher( name ).replaceAll( "" ).length() );
+			StringBuffer buffer = (StringBuffer) lengths.get( len );
+
+			if ( buffer == null )
+			{
+				buffer = new StringBuffer();
+				lengths.put( len, buffer );
+			}
+			else
+			{
+				buffer.append( "|" );
+			}
+			buffer.append( name );
+		}
+
+		if ( lengths.size() == 0 )
+		{
+			RequestLogger.printLine( "You don't have any hats" );
+			return;
+		}
+
+		StringBuffer output = new StringBuffer();
+
+		output.append( "<table border=2 cols=3>" );
+		output.append( "<tr>" );
+		output.append( "<th>Hat</th>" );
+		output.append( "<th>Benefit</th>" );
+		output.append( "<th>Effect</th>" );
+		output.append( "</tr>" );
+		
+		// For each hat length, generate a table row
+		it = lengths.keySet().iterator();
+		while ( it.hasNext() )
+		{
+			Integer key = (Integer) it.next();
+			Object [] data = RabbitHoleManager.getHatData( key.intValue() );
+			if ( data == null )
+			{
+				continue;
+			}
+
+			StringBuffer buffer = (StringBuffer) lengths.get( key );
+			String[] split = buffer.toString().split( "\\|" );
+			output.append( "<tr><td>" );
+			output.append( split[0] );
+			output.append( "</td><td rowspan=" );
+			output.append( String.valueOf( split.length ) );
+			output.append( ">" );
+			output.append( (String) data[ 2 ] );
+			output.append( "</td><td rowspan=" );
+			output.append( String.valueOf( split.length ) );
+			output.append( ">" );
+			output.append( (String) data[ 1 ] );
+			output.append( "</td></tr>" );
+			for ( int i = 1; i < split.length; ++i )
+			{
+				output.append( "<tr><td>" );
+				output.append( split[i] );
+				output.append( "</td></tr>" );
+			}
+		}
+
+		output.append( "</table>" );
+
+		RequestLogger.printLine( output.toString() );
+		RequestLogger.printLine();
 	}
 
 	public static final boolean registerChessboardRequest( final String urlString )
