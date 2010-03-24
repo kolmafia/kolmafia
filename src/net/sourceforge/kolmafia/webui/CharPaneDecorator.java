@@ -666,6 +666,7 @@ public class CharPaneDecorator
 			}
 
 			String effectName = effect.getName();
+			int duration = effect.getCount();
 			String escapedEffectName = StringUtilities.getEntityEncode( effectName );
 
 			int nextAppendIndex = text.indexOf( "(", startingIndex ) + 1;
@@ -782,16 +783,6 @@ public class CharPaneDecorator
 			}
 
 			nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
-			
-			String durationString = text.substring( lastAppendIndex, nextAppendIndex - 1 );
-			
-			int duration = 0;
-			
-			if ( !durationString.equals( "&infin;" ) )
-			{
-				duration = StringUtilities.parseInt( durationString );
-			}
-
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 			lastAppendIndex = nextAppendIndex;
 

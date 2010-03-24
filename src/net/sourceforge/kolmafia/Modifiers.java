@@ -2326,7 +2326,7 @@ public class Modifiers
 			this.bytecode = (expr() + "r").toCharArray();
 			if ( this.text.length() > 0 )
 			{
-				KoLmafia.updateDisplay( "Modifier syntax error: expected end, found "
+				KoLmafia.updateDisplay( "Modifier syntax error for '" + name + "': expected end, found "
 					+ this.text );
 			}
 			this.text = null;
