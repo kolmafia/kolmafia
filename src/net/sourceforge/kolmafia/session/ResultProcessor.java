@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -480,6 +481,14 @@ public class ResultProcessor
 			if ( !ResultProcessor.possibleMeatDrop( drop, 0 ) )
 			{
 				StringBuffer buf = new StringBuffer( " Alert - possible unknown meat bonus:" );
+				if ( KoLCharacter.currentNumericModifier( Modifiers.SPORADIC_MEATDROP ) != 0.0f )
+				{
+					buf.append( " (sporadic!)" );
+				}
+				if ( KoLCharacter.currentNumericModifier( Modifiers.MEAT_BONUS ) != 0.0f )
+				{
+					buf.append( " (ant tool!)" );
+				}
 				for ( int i = 1; i <= 100 && buf.length() < 80; ++i )
 				{
 					if ( ResultProcessor.possibleMeatDrop( drop, i ) )

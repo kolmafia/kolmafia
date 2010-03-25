@@ -3233,6 +3233,9 @@ public abstract class KoLCharacter
 
 		Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
 		Modifiers.setFamiliar( familiar );
+		AdventureResult item = equipment[ EquipmentManager.WEAPON ];
+		Modifiers.mainhandClass = item == null ? ""
+			: EquipmentDatabase.getItemType( item.getItemId() );
 		
 		// Area-specific adjustments
 		newModifiers.add( Modifiers.getModifiers( "loc:" + Modifiers.currentLocation ) );
@@ -3300,7 +3303,6 @@ public abstract class KoLCharacter
 		// Look at items
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
-			AdventureResult item;
 			if ( slot == EquipmentManager.OFFHAND )
 			{	// Must do this slot last, since there may be Hobo Power
 				// modifiers in all other slots.
@@ -3377,7 +3379,7 @@ public abstract class KoLCharacter
 		{
 			for ( int slot = EquipmentManager.STICKER1; slot <= EquipmentManager.STICKER3; ++slot )
 			{
-				AdventureResult item = equipment[ slot ];
+				item = equipment[ slot ];
 				if ( item == null )
 				{
 					continue;
@@ -3416,7 +3418,7 @@ public abstract class KoLCharacter
 		// Add modifiers from campground equipment.
 		for ( int i = 0; i< KoLConstants.campground.size(); ++i )
 		{
-			AdventureResult item = (AdventureResult) KoLConstants.campground.get( i );
+			item = (AdventureResult) KoLConstants.campground.get( i );
 			String name = item.getName();
 			for ( int count = item.getCount(); count > 0; --count )
 			{

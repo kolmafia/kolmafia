@@ -10,6 +10,9 @@
 #	specified text, 0 elsewhere.
 # Familiar function: fam(text)
 #	This has a value of 1 if the player's familiar type contains the text, else 0.
+# Weapon function: mainhand(text)
+#	This has a value of 1 of the player's mainhand weapon class (sword, club, etc.)
+#	contains the text.
 # Preferences function: pref(text)
 # There can be at most one of each text function in any single expression.
 # Upper-case letters are varying values:
@@ -497,8 +500,7 @@ Coily&trade;	Moxie Percent: +15, Item Drop: +10, Meat Drop: +25
 Crimbo sword	Weapon Damage: +5
 Crimbo ukelele	Item Drop: +10
 # Crimbomination Contraption
-# Disco Banjo: +3 damage to Disco Bandit Combat Skills
-Disco Banjo	Moxie: +7, Class: "Disco Bandit"
+Disco Banjo	Moxie: +7, Class: "Disco Bandit", DB Combat Damage: +3
 Dr. Hobo's scalpel	Weapon Damage: +3, Stench Damage: +1
 Drowsy Sword	Weakens Monster, Monster Level: -10
 # El Vibrato energy spear
@@ -545,11 +547,9 @@ Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
 Red Rover BB gun	Critical: 3
 Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 # Ruby Rod
-# Seeger's Unstoppable Banjo: +15 damage to Disco Bandit Combat Skills
 # Seeger's Unstoppable Banjo: Special Attack: Funk Bluegrass Fusion
-Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23, Class: "Disco Bandit"
-# Shagadelic Disco Banjo: +7 damage to Disco Bandit Combat Skills
-Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10
+Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23, Class: "Disco Bandit", DB Combat Damage: +15
+Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7
 # Sledgehammer of the V&aelig;lkyr: +20% Physical Damage (currently approximated with Weapon Damage)
 # Sledgehammer of the V&aelig;lkyr: Special Attack: Bashing Slam Smash
 Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critical: 4, Class: "Seal Clubber"
@@ -1114,8 +1114,7 @@ lucky lighter	Hot Damage: +6, Critical: 2
 mad scientist's sock monkey	Moxie: +3
 magic lamp	Mysticality: +5
 magical ice cubes	Cold Damage: +1
-# makeshift castanets: +10 damage to Disco Bandit Combat Skills
-makeshift castanets	Class: "Disco Bandit"
+makeshift castanets	Class: "Disco Bandit", DB Combat Damage: +10
 marinara jug	Spell Damage: +30, Class: "Sauceror"
 marionette	Mysticality: +3
 marionette collective	Mysticality: +3
@@ -1135,8 +1134,7 @@ oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6
 painted shield	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Damage Reduction: 7
 parasitic strangleworm	Damage Reduction: 15
-# peanut brittle shield: +100% Candy Drops from Monsters
-peanut brittle shield	Damage Reduction: 3
+peanut brittle shield	Damage Reduction: 3, Candy Drop: +100
 penguin skin buckler	Moxie: +5, Damage Reduction: 5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
 pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only
@@ -1257,9 +1255,8 @@ Cape of the Goblin King	Moxie: +7
 Cat-Herding Prod	Muscle: +15, Mysticality: +15, Moxie: +15
 # Chester's Aquarius medallion: All Spells Cast Are Sleazy
 Chester's Aquarius medallion	Sleaze Spell Damage: +30, Single Equip
-# Chester's moustache: +20 damage to Disco Bandit Combat Skills
 # Chester's moustache: Disco Bandit Combat Skills weaken enemies by an additional 50%
-Chester's moustache	Sleaze Damage: +20, Class: "Disco Bandit", Single Equip
+Chester's moustache	Sleaze Damage: +20, Class: "Disco Bandit", Single Equip, DB Combat Damage: +20
 # Chester's sunglasses: Reduce enemy defense by 15%
 Chester's sunglasses	Moxie Percent: +15, Sleaze Damage: +20, Single Equip
 Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Damage: +40, Single Equip
@@ -1412,7 +1409,7 @@ bottlecap turtle	Mysticality: +1, Maximum MP: +3
 boxing glove	Weapon Damage: +4
 brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10, Synergetic
 brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
-# candy necklace: +10% Candy Drops from Monsters
+candy necklace	Candy Drop: +10
 # cannonball charrrm bracelet: Explosively hilarious
 cannonball charrrm bracelet	Single Equip
 cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
@@ -1529,9 +1526,9 @@ night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 # old soft shoes: +30% Item Drops from Hobos
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
-# pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
 pacifier necklace	Sleaze Damage: +20
-pat-a-cake pendant	Mysticality: +1
+# pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
+pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
 peace-sign necklace	Damage Reduction: 3
 phat turquoise bracelet	Mysticality: +5
@@ -1567,7 +1564,8 @@ ring of conflict	Combat Rate: -5, Single Equip
 ring of fire resistance	Hot Resistance: +2
 ring of gain strength	Muscle: +10
 # ring of half-assed regeneration: Sporadic HP Regeneration
-ring of half-assed regeneration	Single Equip
+# actual max is 3, fudged so that (min+max)/2 matches the actual average
+ring of half-assed regeneration	HP Regen Min: 0, HP Regen Max: 1.333, Single Equip
 ring of increase damage	Weapon Damage: +10, Spell Damage: +10
 ring of teleportation	Intrinsic Effect: "Teleportitis", Single Equip
 rope with some soap on it	Spell Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
@@ -1735,7 +1733,7 @@ tiny plastic spooky pirate skeleton	Familiar Weight: +1
 tiny plastic spooky vampire	Monster Level: +1
 tiny plastic stab bat	Familiar Weight: +1
 tiny plastic star starfish	Familiar Weight: +1
-# tiny plastic stocking mimic: +10% Candy Drops from Monsters
+tiny plastic stocking mimic	Candy Drop: +10
 tiny plastic strand of DNA	Muscle: +3, Mysticality: +3, Moxie: +3
 tiny plastic sweet nutcracker	Familiar Weight: +1
 tiny plastic taco cat	Monster Level: +1
@@ -1782,7 +1780,7 @@ hemp backpack	Item Drop: +2
 1.21 jigawatts	Familiar Weight: +5
 100-Watt bulb	Familiar Weight: +5
 Jawmaster 2000&trade;	Familiar Weight: +5
-Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Softcore Only
+Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Meat Drop (sporadic): +5, Item Drop (sporadic): +2.5, Experience (familiar): +0.375, Softcore Only
 Meat detector	Familiar Weight: +5
 Panda outfit	Familiar Weight: +5, Item Drop: +5
 Pretty Predator Clawicure Kit	Familiar Weight: +5
@@ -1791,15 +1789,15 @@ amphibious tophat	Underwater Familiar
 annoying pitchfork	Monster Level: +5
 ant antidepressant	Familiar Weight: +5
 # ant hoe: Your familiar will sow pain and reap Meat.
-ant hoe	Familiar Effect: "sleaze damage, meat"
+ant hoe	Familiar Effect: "sleaze damage, meat", Meat Bonus: +12.5
 # ant pick: Your familiar will sow pain and reap Meat.
-ant pick	Familiar Effect: "cold damage, meat"
+ant pick	Familiar Effect: "cold damage, meat", Meat Bonus: +12.5
 # ant pitchfork: Your familiar will sow pain and reap Meat.
-ant pitchfork	Familiar Effect: "stench damage, meat"
+ant pitchfork	Familiar Effect: "stench damage, meat", Meat Bonus: +12.5
 # ant rake: Your familiar will sow pain and reap Meat.
-ant rake	Familiar Effect: "hot damage, meat"
+ant rake	Familiar Effect: "hot damage, meat", Meat Bonus: +12.5
 # ant sickle: Your familiar will sow pain and reap Meat.
-ant sickle	Familiar Effect: "spooky damage, meat"
+ant sickle	Familiar Effect: "spooky damage, meat", Meat Bonus: +12.5
 aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Mysticality", Familiar Effect: "mys stats"
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
@@ -1833,8 +1831,7 @@ false eyelashes	Familiar Weight: +5
 fin-bit wax	Familiar Weight: +5
 # fishy wand: Lets your familiar cast fishy spells
 fishy wand	Familiar Effect: "fishy spells"
-# flaming familiar doppelg&auml;nger: Familiar gains 1-2 extra experience per Adventure
-flaming familiar doppelg&auml;nger	Monster Level: +5, Softcore Only
+flaming familiar doppelg&auml;nger	Monster Level: +5, Experience (familiar): +1.5, Softcore Only
 flaming glowsticks	Familiar Weight: +5
 funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
@@ -1855,7 +1852,7 @@ jalape&ntilde;o slices	Meat Drop: +60.9
 lead necklace	Familiar Weight: +3
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater"
-little box of fireworks	Familiar Weight: +5, Experience: +1.5, Softcore Only
+little box of fireworks	Familiar Weight: +5, Experience: +1.5, Item Drop (sporadic): +12.5, Softcore Only
 lucky Tam O'Shanter	Meat Drop: +50, Softcore Only
 lucky Tam O'Shatner	Meat Drop: +50, Softcore Only
 magnifying glass	Familiar Weight: +5
@@ -1876,9 +1873,8 @@ miniature gravy-covered maypole	Item Drop: +25, Softcore Only
 miniature tophat	Familiar Weight: +5
 mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moonglasses: Makes Familiar Less Sensitive to Light
-# moveable feast: Familiar gains 1 extra experience per Adventure
 # moveable feast: Familiar will start food fights!
-moveable feast	Familiar Weight: +5, Softcore Only
+moveable feast	Familiar Weight: +5, Experience (familiar): +1, Softcore Only
 # origami &quot;gentlemen's&quot; magazine: + 10 lbs. of Ghuol Whelp
 origami &quot;gentlemen's&quot; magazine	Softcore Only
 overclocked avian microprocessor	Familiar Weight: +5
@@ -1932,7 +1928,7 @@ tiny makeup kit	Familiar Weight: +15
 tiny maracas	Familiar Weight: +5
 # tiny nose-bone fetish: Reduces familiar's MP expenditure by 2-4.
 tiny shaker of salt	Familiar Weight: +5
-# tiny sombrero: +10 lbs. of Sombrero
+tiny sombrero	Sombrero Bonus: +10
 toy six-seater hovercraft	Familiar Weight: -5
 # tuning fork: Familiar Will Attack You Less Often
 # undissolvable contact lenses: Helps your Slimeling See Better
@@ -2096,7 +2092,7 @@ Billiards Belligerence	Weapon Damage Percent: +50, Familiar Weight: +5
 # Biologically Shocked: Unleash strange forces in combat
 Bitterskin	Slime Hates It: +1
 Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
-Black Tongue	Familiar Weight: +5, Experience: +3, Meat Drop: +30, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
+Black Tongue	Familiar Weight: +5, Experience: +3, Meat Drop: +30, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20, Experience (familiar): +2
 Blackberry Politeness	Meat Drop: +20
 # Blessed by the RNG: ???
 Blessing of Bulbazinalli	Damage Reduction: 10
@@ -2116,7 +2112,7 @@ Brined Liver	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone
 Broken Fast	Item Drop: +30
 Broken Heart	Muscle: [min(T,20)], HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)]
 Broken Knees	Muscle Percent: -30
-# Brother Corsican's Blessing: +2 Familiar Experience Per Fight
+Brother Corsican's Blessing	Experience (familiar): +2
 Brother Flying Burrito's Blessing	Food Drop: +30
 Brother Smothers's Blessing	Booze Drop: +30
 # Bruised Jaw: Mruimed Maw
@@ -2334,7 +2330,7 @@ Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Greased: Continually take damage
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
-Green Tongue	Familiar Weight: +5
+Green Tongue	Familiar Weight: +5, Experience (familiar): +2
 Grilled	Muscle: -10
 Grimace	Monster Level: +25, Slime Resistance: +1
 Grrrrrrreat!	Experience (Muscle): +10
@@ -2357,8 +2353,7 @@ Heart of Green	Muscle: +3, Mysticality: +3, Moxie: +3, Familiar Weight: +3
 Heart of Lavender	Muscle: +3, Mysticality: +3, Moxie: +3, Item Drop: +10
 Heart of Orange	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Hot Spell Damage: +5, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 5, MP Regen Max: 6
 Heart of Pink	Muscle: +3, Mysticality: +3, Moxie: +3, Meat Drop: +20
-# Heart of White: +1 Familiar Experience Per Fight
-Heart of White	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +1
+Heart of White	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +1, Experience (familiar): +1
 Heart of Yellow	Muscle: +3, Mysticality: +3, Moxie: +3, Initiative: +20
 Heavily Breathing	Experience (Muscle): [L]
 Heavy Petting	Familiar Weight: +5, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
@@ -2491,7 +2486,7 @@ Ocelot Eyes	Item Drop: +10
 Oh Snap	Experience (Moxie): +10
 Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Oleaginous Soles	Initiative: +40
-Omphaloskepsis	Damage Reduction: [L]
+Omphaloskepsis	Damage Reduction: [L], Meat Drop (sporadic): +4.25, Item Drop (sporadic): +4.25, Experience: +0.6375
 On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
 Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
@@ -2724,7 +2719,7 @@ The Sweats	Stench Resistance: +5
 The Vitus Virus	Item Drop: +50, Experience: -5
 Thick-Skinned	Maximum MP: +50
 Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
-# Three Days Slow: +2 Familiar Experience Per Adventure
+Three Days Slow	Experience (familiar): +3
 Ticking Clock	Initiative: +30
 Tin, Man	Damage Reduction: 5
 Tingly Biceps	Muscle: +5
@@ -2798,7 +2793,7 @@ Cosmic Ugnderstanding	Maximum MP Percent: +5
 Diminished Gag Reflex	Stench Resistance: +2
 Disco Fever	Ranged Damage: [L]
 # Double-Fisted Skull Smashing
-Expert Panhandling	Meat Drop: +10
+Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 # Eye of the Stoat	+0.5X critical hits, improve smacks
 # Flavour of Magic
 Gnefarious Pickpocketing	Meat Drop: +10
@@ -2893,11 +2888,11 @@ Hyperborean Hobo Habiliments	Cold Damage: +50
 # Knight's Armor
 Knob Goblin Elite Guard Uniform	Muscle: +7
 Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
-# Legendary Regalia of the Chelonian Overlord
+Legendary Regalia of the Chelonian Overlord	Experience (familiar): +1
 # Legendary Regalia of the Groovelord
 # Legendary Regalia of the Master Squeezeboxer
-# Legendary Regalia of the Pasta Master
-# Legendary Regalia of the Saucemaestro
+# Legendary Regalia of the Pasta Master	+1 pasta guardian exp
+# Legendary Regalia of the Saucemaestro	improved HP/MP return from saucespheres
 # Legendary Regalia of the Seal Crusher
 Mining Gear	Meat Drop: +5
 # Mutant Couture
