@@ -83,6 +83,7 @@ public class Modifiers
 	public static String currentZone = "";
 	public static float currentML = 4.0f;
 	public static String currentFamiliar = "";
+	public static String mainhandClass = "";
 	public static float hoboPower = 0.0f;
 	private static float currentWeight = 0.0f;
 
@@ -184,6 +185,13 @@ public class Modifiers
 	public static final int MYS_EXPERIENCE = 86;
 	public static final int MOX_EXPERIENCE = 87;
 	public static final int EFFECT_DURATION = 88;
+	public static final int CANDYDROP = 89;
+	public static final int DB_COMBAT_DAMAGE = 90;
+	public static final int SOMBRERO_BONUS = 91;
+	public static final int FAMILIAR_EXP = 92;
+	public static final int SPORADIC_MEATDROP = 93;
+	public static final int SPORADIC_ITEMDROP = 94;
+	public static final int MEAT_BONUS = 95;
 	
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -578,6 +586,34 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Effect Duration: " + EXPR )
 		},
+		{ "Candy Drop",
+		  Pattern.compile( "([+-]\\d+)% Candy Drops? [Ff]rom Monsters$" ),
+		  Pattern.compile( "Candy Drop: " + EXPR )
+		},
+		{ "DB Combat Damage",
+		  Pattern.compile( "([+-]\\d+) damage to Disco Bandit Combat Skills" ),
+		  Pattern.compile( "DB Combat Damage: " + EXPR )
+		},
+		{ "Sombrero Bonus",
+		  Pattern.compile( "([+-]\\d+) lbs?\\. of Sombrero" ),
+		  Pattern.compile( "Sombrero Bonus: " + EXPR )
+		},
+		{ "Familiar Experience",
+		  Pattern.compile( "([+-]\\d+) Familiar Experience" ),
+		  Pattern.compile( "Experience \\(familiar\\): " + EXPR )
+		},
+		{ "Sporadic Meat Drop",
+		  null,
+		  Pattern.compile( "Meat Drop \\(sporadic\\): " + EXPR )
+		},
+		{ "Sporadic Item Drop",
+		  null,
+		  Pattern.compile( "Item Drop \\(sporadic\\): " + EXPR )
+		},
+		{ "Meat Bonus",
+		  null,
+		  Pattern.compile( "Meat Bonus: " + EXPR )
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
@@ -907,7 +943,14 @@ public class Modifiers
 	public static final void overrideModifier( String name, Object value )
 	{
 		name = StringUtilities.getCanonicalName( name );
-		Modifiers.modifiersByName.put( name, value );
+		if ( value != null )
+		{
+			Modifiers.modifiersByName.put( name, value );
+		}
+		else
+		{
+			Modifiers.modifiersByName.remove( name );
+		}
 	}
 
 	public static final String getModifierName( final int index )
@@ -1834,6 +1877,7 @@ public class Modifiers
 		{
 			effective = weight;
 		}
+		effective += this.get( Modifiers.SOMBRERO_BONUS );
 		if ( effective != 0.0 )
 		{
 			double factor = this.get( Modifiers.SOMBRERO_EFFECTIVENESS );
@@ -2309,7 +2353,7 @@ public class Modifiers
 		private int sp = 0;
 		private char[] bytecode;
 		private AdventureResult effect;
-		private String loc, zone, fam, pref;
+		private String loc, zone, fam, pref, mainhand;
 		private String text;
 		private static final Pattern NUM_PATTERN = Pattern.compile( "([+-]?[\\d.]+)(.*)" );
 		
@@ -2397,6 +2441,9 @@ public class Modifiers
 					break;
 				case 'w':
 					v = Modifiers.currentFamiliar.indexOf( this.fam ) == -1 ? 0.0f : 1.0f;
+					break;
+				case 'h':
+					v = Modifiers.mainhandClass.indexOf( this.mainhand ) == -1 ? 0.0f : 1.0f;
 					break;
 				case 'p':
 					v = StringUtilities.parseFloat( Preferences.getString( this.pref ) );
@@ -2686,6 +2733,11 @@ public class Modifiers
 			{
 				this.pref = this.until( ")" );
 				return "p";
+			}
+			if ( this.optional( "mainhand(" ) )
+			{
+				this.mainhand = this.until( ")" ).toLowerCase();
+				return "h";
 			}
 			if ( this.text.length() == 0 )
 			{

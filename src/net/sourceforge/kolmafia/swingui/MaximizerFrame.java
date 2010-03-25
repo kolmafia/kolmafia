@@ -175,7 +175,7 @@ public class MaximizerFrame
 	private static int bestChecked;
 	private static long bestUpdate;
 	
-	private static final String TIEBREAKER = "5 familiar weight, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop";
+	private static final String TIEBREAKER = "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage";
 	
 	private static final String HELP_STRING = "<html><table width=750><tr><td>" +
 		"<h3>General</h3>" +
@@ -1197,6 +1197,10 @@ public class MaximizerFrame
 					{
 						keyword = keyword.substring( 0, keyword.length() - 3 ) + "damage";
 					}
+					else if ( keyword.endsWith( " exp" ) )
+					{
+						keyword = keyword.substring( 0, keyword.length() - 3 ) + "experience";
+					}
 					index = Modifiers.findName( keyword );
 				}
 				
@@ -1370,10 +1374,10 @@ public class MaximizerFrame
 					val += Math.min( 0.0f, mods.get( Modifiers.INITIATIVE_PENALTY ) );
 					break;
 				case Modifiers.MEATDROP:
-					val += 100.0f + Math.min( 0.0f, mods.get( Modifiers.MEATDROP_PENALTY ) );
+					val += 100.0f + Math.min( 0.0f, mods.get( Modifiers.MEATDROP_PENALTY ) ) + mods.get( Modifiers.SPORADIC_MEATDROP ) + mods.get( Modifiers.MEAT_BONUS ) / 10000.0f;
 					break;
 				case Modifiers.ITEMDROP:
-					val += 100.0f + Math.min( 0.0f, mods.get( Modifiers.ITEMDROP_PENALTY ) );
+					val += 100.0f + Math.min( 0.0f, mods.get( Modifiers.ITEMDROP_PENALTY ) ) + mods.get( Modifiers.SPORADIC_ITEMDROP );
 					break;
 				case Modifiers.HP:
 					val = predicted[ Modifiers.BUFFED_HP ];
