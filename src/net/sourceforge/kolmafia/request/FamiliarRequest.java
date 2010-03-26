@@ -219,7 +219,10 @@ public class FamiliarRequest
 		case FamiliarPool.CHAMELEON:	// Comma Chameleon
 		case FamiliarPool.BLACKBIRD:	// Reassembled Blackbird
 		case FamiliarPool.HATRACK:	// Mad Hatrack
-		case FamiliarPool.HAND:	// Disembodied Hand
+		case FamiliarPool.HAND:		// Disembodied Hand
+		case FamiliarPool.STOCKING_MIMIC:
+			// Leave the Stocking Mimic unequipped, to allow it to
+			// generate its own candy-generating item.
 			return;
 		}
 
