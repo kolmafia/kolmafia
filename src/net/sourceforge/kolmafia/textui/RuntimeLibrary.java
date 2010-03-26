@@ -1451,23 +1451,28 @@ public abstract class RuntimeLibrary
 		{
 			String field = (String) i.next();
 			String[] pieces = field.split( "=", 2 );
-			if ( pieces.length == 1 )
-			{
-				value.aset( new Value( pieces[ 0 ] ), DataTypes.STRING_INIT);
-			}
-			else
+			String name = pieces[ 0 ];
+			Value keyval = DataTypes.STRING_INIT;
+			if ( pieces.length > 1 )
 			{
 				try
 				{	// Something's messed up here - form values are
 					// double-URLencoded!
 					String decoded = URLDecoder.decode( pieces[ 1 ], "UTF-8" );
 					decoded = URLDecoder.decode( decoded, "UTF-8" );
-					value.aset( new Value( pieces[ 0 ] ), new Value( decoded ) );
+					keyval = new Value( decoded );
 				}
 				catch ( IOException e )
 				{
 				}
-			}		
+			}
+			Value keyname = new Value( name );
+			while ( value.contains( keyname ) )
+			{	// Make a unique name for duplicate fields
+				name = name + "_";
+				keyname = new Value( name );
+			}
+			value.aset( keyname, keyval );
 		}
 		return value;
 	}
