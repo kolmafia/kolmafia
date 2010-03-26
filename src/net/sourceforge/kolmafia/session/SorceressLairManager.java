@@ -399,11 +399,6 @@ public abstract class SorceressLairManager
 			"leftovers of indeterminate origin"
 		},
 		{
-			"collapsed mineshaft golem",
-			"wooden beam",
-			"stick of dynamite"
-		},
-		{
 			"concert pianist",
 			"long coattails",
 			"Knob Goblin firecracker"
@@ -429,11 +424,6 @@ public abstract class SorceressLairManager
 			"pygmy blowgun"
 		},
 		{
-			"enraged cow",
-			"pair of horns",
-			"barbed-wire fence"
-		},
-		{
 			"fancy bath slug",
 			"slimy eyestalk",
 			"fancy bath salts"
@@ -447,11 +437,6 @@ public abstract class SorceressLairManager
 			"flaming samurai",
 			"flaming katana",
 			"frigid ninja stars"
-		},
-		{
-			"giant bee",
-			"formidable stinger",
-			"tropical orchid"
 		},
 		{
 			"giant desktop globe",
@@ -492,6 +477,22 @@ public abstract class SorceressLairManager
 			"vicious easel",
 			"tall wooden frame",
 			"disease"
+		},
+		// The possibilities exclusive to the 6th floor must be last
+		{
+			"enraged cow",
+			"pair of horns",
+			"barbed-wire fence"
+		},
+		{
+			"giant bee",
+			"formidable stinger",
+			"tropical orchid"
+		},
+		{
+			"collapsed mineshaft golem",
+			"wooden beam",
+			"stick of dynamite"
 		},
 	};
 
@@ -2330,7 +2331,7 @@ public abstract class SorceressLairManager
 			return;
 		}
 
-		boolean getEverything = true;
+		int startGetting = 0;
 		if ( !KoLCharacter.inBadMoon() )
 		{
 			// Find out how good our telescope is.
@@ -2344,7 +2345,8 @@ public abstract class SorceressLairManager
 				// our telescope since we last ascended.
 				KoLCharacter.checkTelescope();
 				
-				getEverything = false;
+				startGetting = SorceressLairManager.GUARDIAN_DATA.length -
+					(upgrades == 6 ? 3 : 0);
  				
 				for ( int i = 1; i < 7; ++i )
 				{
@@ -2370,27 +2372,26 @@ public abstract class SorceressLairManager
 						// don't need, but that is better than going into a
 						// fight without an item that could be easily created.
 						KoLmafia.updateDisplay( "Tower Guardian #" + i + ": " + prop + " unrecognized." );
-						getEverything = true;
+						startGetting = 0;
 						break;
 					}
 				}
 			}
 		}
 		
-		// If we managed to run through a full telescope's worth of data, then
-		// we're already done.  Otherwise, just get everything.
-		if ( getEverything )
+		// Get everything that we can't be sure about needing or not -
+		// from the start if we don't have enough of a telescope to rule out
+		// any possibilities, 3 from the end if we only have 6 upgrades and
+		// can't tell which Shore item is required, nothing if we have all 7.
+		for ( int i = startGetting; i < SorceressLairManager.GUARDIAN_DATA.length; ++i )
 		{
-			for ( int i = 0; i < SorceressLairManager.GUARDIAN_DATA.length; ++i )
+			String name = SorceressLairManager.guardianItem( SorceressLairManager.GUARDIAN_DATA[ i ] );
+			AdventureResult item = new AdventureResult( name, 1, false );
+			if ( !KoLConstants.inventory.contains( item ) )
 			{
-				String name = SorceressLairManager.guardianItem( SorceressLairManager.GUARDIAN_DATA[ i ] );
-				AdventureResult item = new AdventureResult( name, 1, false );
-				if ( !KoLConstants.inventory.contains( item ) )
+				if ( SorceressLairManager.isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
 				{
-					if ( SorceressLairManager.isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
-					{
-						InventoryManager.retrieveItem( item );
-					}
+					InventoryManager.retrieveItem( item );
 				}
 			}
 		}
