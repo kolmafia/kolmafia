@@ -4565,3 +4565,9 @@
 4556	right parenthesis	none	display	50
 4557	dollar sign	none	display	50
 4558	equal sign	none	display	50
+4559
+4560
+4561
+4562
+4563
+4564	slippery when wet shield	offhand	display	0
