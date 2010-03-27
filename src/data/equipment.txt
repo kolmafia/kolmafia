@@ -1055,6 +1055,8 @@ silver sausage	0	none
 six-rainbow shield	195	Mus: 70	shield
 slime-covered compass	0	Mys: 200
 slime-covered lantern	0	Mys: 200
+# *** slippery when wet shield is a shield of unknown power.
+slippery when wet shield	0	Mus: 35	shield
 snake shield	117	Mus: 42	shield
 snapdragon pistil	0	Mys: 20
 snarling wolf shield	117	Mus: 42	shield
