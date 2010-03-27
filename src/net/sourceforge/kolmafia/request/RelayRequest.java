@@ -1411,6 +1411,7 @@ public class RelayRequest
 
 		if ( path.endsWith( ".ash" ) )
 		{
+			KoLmafia.forceContinue();
 			if ( !KoLmafiaASH.getClientHTML( this ) )
 			{
 				this.sendNotFound();
