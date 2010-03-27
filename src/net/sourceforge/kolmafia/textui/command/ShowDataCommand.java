@@ -38,6 +38,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -385,11 +387,13 @@ public class ShowDataCommand
 
 		Object[] items = new Object[ mainList.size() ];
 		mainList.toArray( items );
+		Matcher m = Pattern.compile( "&lt;.*?&gt;" ).matcher( "" );
 
 		for ( int i = 0; i < items.length; ++i )
 		{
 			currentItem = StringUtilities.getCanonicalName( items[ i ].toString() );
-			if ( currentItem.indexOf( filter ) != -1 )
+			if ( currentItem.indexOf( filter ) != -1 ||
+				m.reset( currentItem ).replaceAll( "" ).indexOf( filter ) != -1 )
 			{
 				resultList.add( items[ i ] );
 			}
