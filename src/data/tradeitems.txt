@@ -4258,8 +4258,8 @@
 4249	miniature tophat	familiar	all	75
 4250	fisherman's sack	multiple	none	99
 4251	fish-oil smoke bomb	none, combat	none	33
-4252	vial of squid ink	multiple	none	33
-4253	potion of fishy speed	multiple	none	33
+4252	vial of squid ink	usable	none	33
+4253	potion of fishy speed	usable	none	33
 4254	spooky bark	multiple	all	10
 4255	Wolfman Nardz	mp	all	50
 4256	spooky sap	multiple, combat, candy	all	50
