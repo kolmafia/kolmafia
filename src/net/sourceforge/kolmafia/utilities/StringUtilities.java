@@ -287,6 +287,14 @@ public class StringUtilities
 
 		if ( isExactMatch )
 		{
+			String fullString = StringUtilities.getCanonicalName( searchString.trim() );
+
+			if ( Arrays.binarySearch( names, fullString ) >= 0 )
+			{
+				matchList.add( fullString );
+				return matchList;
+			}
+
 			searchString =
 				searchString.substring(
 					1, searchString.endsWith( "\"" ) ? searchString.length() - 1 : searchString.length() );
@@ -299,19 +307,14 @@ public class StringUtilities
 			return matchList;
 		}
 
-		if ( isExactMatch )
-		{
-			if ( Arrays.binarySearch( names, searchString ) >= 0 )
-			{
-				matchList.add( searchString );
-			}
-
-			return matchList;
-		}
-
 		if ( Arrays.binarySearch( names, searchString ) >= 0 )
 		{
 			matchList.add( searchString );
+			return matchList;
+		}
+
+		if ( isExactMatch )
+		{
 			return matchList;
 		}
 
