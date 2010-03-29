@@ -279,6 +279,11 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_element", DataTypes.ELEMENT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_plural", DataTypes.STRING_TYPE, params ) );
@@ -1716,6 +1721,10 @@ public abstract class RuntimeLibrary
 
 	public static Value to_slot( final Value item )
 	{
+		if ( !item.getType().equals( DataTypes.TYPE_ITEM ) )
+		{
+			return DataTypes.parseSlotValue( item.toString(), true );
+		}
 		switch ( ItemDatabase.getConsumptionType( item.intValue() ) )
 		{
 		case KoLConstants.EQUIP_HAT:
@@ -1735,6 +1744,11 @@ public abstract class RuntimeLibrary
 		default:
 			return DataTypes.parseSlotValue( "none", true );
 		}
+	}
+
+	public static Value to_element( final Value value )
+	{
+		return DataTypes.parseElementValue( value.toString(), true );
 	}
 	
 	public static Value to_plural( final Value item ) {
