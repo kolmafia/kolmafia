@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.ScriptException;
 
 public class CompositeValue
 	extends Value
@@ -116,6 +117,11 @@ public class CompositeValue
 		Type indexType = type.getIndexType();
 		String keyString = ( index < data.length ) ? data[index] : "none";
 		Value key =  type.getKey( indexType.parseValue( keyString, true ) );
+		if ( key == null )
+		{
+			throw new ScriptException( "Invalid key in data file: " + keyString );
+		}
+
 		Type dataType = type.getDataType( key );
 
 		// If the data is another composite, recurse until we get the

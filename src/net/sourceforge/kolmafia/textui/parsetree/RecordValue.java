@@ -219,11 +219,6 @@ public class RecordValue
 			}
 		}
 
-		for ( int offset = size; offset < types.length; ++offset )
-		{
-			array[ offset ] = DataTypes.parseValue( types[ offset ], "none", true );
-		}
-
 		// assert index == data.length
 		return index - first;
 	}
