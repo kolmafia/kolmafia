@@ -65,7 +65,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
-import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
@@ -81,7 +80,6 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -560,7 +558,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "bet.php" ) )
 		{
-			MoneyMakingGameDecorator.decorate( location, buffer );;
+			MoneyMakingGameDecorator.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "bigisland.php" ) )
 		{
@@ -662,7 +660,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "mining.php" ) )
 		{
-			MineDecorator.decorate( location, buffer );;
+			MineDecorator.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "mountains.php" ) )
 		{
@@ -784,7 +782,7 @@ public class RequestEditorKit
 		String test = "<b>You gain a Level!</b>";
 		int index = buffer.indexOf( test );
 
-		if ( index == -1 )
+		if ( index == -1 || Preferences.getBoolean( "kingLiberated" ))
 		{
 			return;
 		}
