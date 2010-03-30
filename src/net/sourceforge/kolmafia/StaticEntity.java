@@ -1005,6 +1005,10 @@ public abstract class StaticEntity
 			StaticEntity.backtraceTrigger = null;
 			KoLmafia.updateDisplay( "Backtrace triggered, debug log printed." );
 		}
+		else if ( !message.equals( "" ) )
+		{
+			KoLmafia.updateDisplay( message );
+		}
 		else
 		{
 			KoLmafia.updateDisplay( "Unexpected error, debug log printed." );
@@ -1033,8 +1037,8 @@ public abstract class StaticEntity
 		}
 		catch ( Exception e )
 		{
-			// Okay, since you're in the middle of handling an exception
-			// and got a new one, just return from here.
+			// Okay, since you're in the middle of handling an
+			// exception and got a new one, just return from here.
 		}
 	}
 

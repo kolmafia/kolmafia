@@ -3776,32 +3776,47 @@ public abstract class RuntimeLibrary
 		}
 		catch ( Exception e )
 		{
-			// Okay, runtime error. Indicate that there was
-			// a bad currentLine in the data file and print the
-			// stack trace.
-
-			StringBuffer buffer = new StringBuffer( "Invalid line in data file:" );
+			StringBuffer buffer = new StringBuffer( "Invalid line in data file" );
 			if ( data != null )
 			{
-				buffer.append( KoLConstants.LINE_BREAK );
-
+				buffer.append( ": \"" );
 				for ( int i = 0; i < data.length; ++i )
 				{
-					buffer.append( '\t' );
+					if ( i > 0 )
+					{
+						buffer.append( '\t' );
+					}
 					buffer.append( data[ i ] );
 				}
+				buffer.append( "\"" );
 			}
 
-			StaticEntity.printStackTrace( e, buffer.toString() );
+			// Print the bad data that caused the error
+			Exception ex = LibraryFunction.interpreter.runtimeException( buffer.toString() );
+
+			// If it's a ScriptException, we generated it ourself
+			if ( e instanceof ScriptException )
+			{
+				// Print the bad data and the resulting error
+				RequestLogger.printLine( ex.getMessage() );
+				RequestLogger.printLine( e.getMessage() );
+			}
+			else
+			{
+				// Otherwise, print a stack trace
+				StaticEntity.printStackTrace( e, ex.getMessage() );
+			}
 			return DataTypes.FALSE_VALUE;
 		}
-
-		try
+		finally
 		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+			}
 		}
 
 		return DataTypes.TRUE_VALUE;
