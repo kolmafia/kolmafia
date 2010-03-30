@@ -241,6 +241,7 @@ public class ValhallaManager
 		Preferences.setInteger( "hippiesDefeated", 0 );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
+		Preferences.setInteger( "meansuckerPrice", 400 );
 		Preferences.setString( "trapperOre", "chrome" );
 		Preferences.setString( "louvreLayout", "" );
 		Preferences.setString( "violetFogLayout", "" );

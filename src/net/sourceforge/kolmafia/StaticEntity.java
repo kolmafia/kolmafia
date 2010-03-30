@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
@@ -488,6 +489,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "hermit.php" ) )
 		{
 			HermitRequest.parseHermitTrade( location, responseText );
+		}
+
+		else if ( location.startsWith( "heydeze.php" ) )
+		{
+			HeyDezeRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "hiddencity.php" ) )

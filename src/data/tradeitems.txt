@@ -4430,7 +4430,7 @@
 4421	sealhide gloves	accessory	display	55
 4422	sealhide belt	accessory	display	30
 4423	sealhide snare	none, combat	display	25
-4424
+4424	puzzling trophy	none	display	0
 4425	sealhide seal doll	usable	display	20
 4426	black hymnal	usable	none	0
 4427
