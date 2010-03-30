@@ -4427,7 +4427,7 @@
 4421	406886160	sealhide gloves	pairs of sealhide gloves
 4422	675204610	sealhide belt	sealhide belts
 4423	424846386	sealhide snare	sealhide snares
-4424
+4424	547775646	puzzling trophy
 4425	422170714	sealhide seal doll	sealhide seal dolls
 4426	266993166	black hymnal
 4427

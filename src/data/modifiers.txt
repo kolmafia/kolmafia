@@ -1410,7 +1410,7 @@ bottlecap turtle	Mysticality: +1, Maximum MP: +3
 boxing glove	Weapon Damage: +4
 brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10, Synergetic
 brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
-candy necklace	Candy Drop: +10
+candy necklace	Candy Drop: +10, Single Equip
 # cannonball charrrm bracelet: Explosively hilarious
 cannonball charrrm bracelet	Single Equip
 cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
@@ -1527,7 +1527,7 @@ night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 # old soft shoes: +30% Item Drops from Hobos
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
-pacifier necklace	Sleaze Damage: +20
+pacifier necklace	Sleaze Damage: +20, Single Equip
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
 pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
@@ -1624,7 +1624,7 @@ stuffed shoulder parrot	Maximum MP: +5
 support cummerbund	Maximum HP: +20
 tap shoes	Moxie: +11, Initiative: -20, Single Equip
 tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
-teddybear backpack	Meat Drop: +10
+teddybear backpack	Meat Drop: +10, Single Equip
 # teflon swim fins: Makes you a better diver
 teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 tin star	Monster Level: +5, Moxie: +3

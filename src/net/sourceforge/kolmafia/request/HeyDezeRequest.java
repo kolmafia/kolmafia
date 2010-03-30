@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -132,6 +133,8 @@ public class HeyDezeRequest
 
 	public void processResults()
 	{
+		HeyDezeRequest.parseResponse( this.getURLString(), this.responseText );
+
 		if ( this.responseText == null || this.responseText.equals( "" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Styx Pixie." );
@@ -147,6 +150,34 @@ public class HeyDezeRequest
 
 		KoLmafia.updateDisplay( "You feel " + this.desc + "." );
 		RequestFrame.refreshStatus();
+	}
+
+	// (cost: 1,600 Meat)
+	private static final Pattern COST_PATTERN = Pattern.compile( "\\(cost: ([\\d,]*) Meat\\)" );
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( urlString.indexOf( "place=meansucker" ) != -1 )
+		{
+			Matcher m = COST_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				int price = StringUtilities.parseInt( m.group( 1 ) );;
+				Preferences.setInteger( "meansuckerPrice", price );
+			}
+			return;
+		}
+
+		if ( urlString.indexOf( "action=skillGET" ) != -1 )
+		{
+			if ( responseText.indexOf( "You have learned a new skill" ) != -1 )
+			{
+				int price = Preferences.getInteger( "meansuckerPrice" );
+				ResultProcessor.processMeat( -price );
+				Preferences.setInteger( "meansuckerPrice", price * 2 );
+			}
+			return;
+		}
 	}
 
 	public static String locationName( final String urlString )
@@ -190,6 +221,12 @@ public class HeyDezeRequest
 		if ( action == null )
 		{
 			message = HeyDezeRequest.visitLocation( urlString );
+		}
+
+		// Visit the Meansucker's House
+		else if ( action.equals( "skillGET" ) )
+		{
+			return true;
 		}
 
 		// Visit the Styx Pixie

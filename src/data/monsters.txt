@@ -224,7 +224,7 @@ Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (15)	bottle of rum (15)	bottle 
 Bow-making Mummy		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Bowling Cricket	HP: 100000
 Brainsweeper	HP: 9 Def: 18 Atk: 18 Meat: 29-47	disembodied brain (30)
-Breakdancing Raver	HP: -1
+Breakdancing Raver	HP: -1	candy necklace (c0)	rave visor (c0)	teddybear backpack (c0)
 Bread Golem	HP: 8 Def: 16 Atk: 24 Meat: 26-41	wad of dough (30)
 Briefcase Bat	HP: 11 Def: 17 Atk: 17 Meat: 25-37	bat guano (10)	briefcase (40)	sonar-in-a-biscuit (20)
 Bronze Chef	HP: 100000
@@ -589,7 +589,7 @@ Perpendicular Bat	HP: 12 Def: 18 Atk: 18 Meat: 26-40	batgut (15)	bat wing (15)	s
 Pine Bat	HP: 8 Def: 12 Atk: 14 EA: stench Meat: 18-27	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
 Plaque of Locusts	HP: 140 Def: 138 Atk: 134	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
 Pooltergeist	HP: 25 Def: 20 Atk: 20	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
-Pop-and-Lock Raver	HP: -1
+Pop-and-Lock Raver	HP: -1	baggy rave pants (c0)	glowstick on a string (c0)	teddybear backpack (c0)
 Portly Abomination	HP: 63 Def: 73 Atk: 73 Meat: 61-91
 Possessed Can of Tomatoes	HP: 1 Def: 1 Atk: 1 Meat: 2-4	razor-sharp can lid (45)	tomato (60)	possessed tomato (p0)	shredded can label (b0)
 Possessed Pipe-Organ	HP: 100000
@@ -627,7 +627,7 @@ Roller Skate	HP: 0	brand new key (0)	brass dorsal fin (0)	skate skin (0)	skate s
 Rolling Stone	HP: 135 Def: 140 Atk: 137	palm frond (10)	handful of moss (20)	brown sugar cane (20)	mother's little helper (10)	Tuesday's ruby (5)	hot date (5)
 Rotund Duck	HP: 225 Atk: 175 Meat: 271-369	duct tape (6)
 Rudolphus of Crimborg		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
-Running Man	HP: -1
+Running Man	HP: -1	candy necklace (c0)	glowstick on a string (c0)	pacifier necklace (c0)
 Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30)	Mad Train wine (30)	moxie weed (15)	dented harmonica (15)	cheap cigar butt (p0)
 Saboteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Sabre-Toothed Ferret	HP: 200 Atk: 250 Meat: 160-240 E: stench	sabre teeth (25)	Spanish fly (c0)
