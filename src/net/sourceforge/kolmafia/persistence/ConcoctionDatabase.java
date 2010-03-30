@@ -245,6 +245,7 @@ public class ConcoctionDatabase
 	private static final HashMap chefStaff = new HashMap();
 	private static final HashMap singleUse = new HashMap();
 	private static final HashMap multiUse = new HashMap();
+	private static final HashMap noodles = new HashMap();
 
 	static
 	{
@@ -378,6 +379,14 @@ public class ConcoctionDatabase
 			case KoLConstants.MULTI_USE:
 				ConcoctionDatabase.multiUse.put( ingredients[ 0 ].getName(), concoction );
 				break;
+			case KoLConstants.WOK:
+				ConcoctionDatabase.noodles.put( concoction.getName(), concoction );
+				break;
+			}
+
+			if ( ( mixingMethod & KoLConstants.CR_PASTA ) != 0 )
+			{
+				ConcoctionDatabase.noodles.put( concoction.getName(), concoction );
 			}
 		}
 	}
@@ -395,6 +404,11 @@ public class ConcoctionDatabase
 	public static Concoction multiUseCreation( final String name )
 	{
 		return name == null ? null : (Concoction) ConcoctionDatabase.multiUse.get( name );
+	}
+
+	public static Concoction noodleCreation( final String name )
+	{
+		return name == null ? null : (Concoction) ConcoctionDatabase.noodles.get( name );
 	}
 
 	private static boolean pseudoItemMixingMethod( final int mixingMethod )

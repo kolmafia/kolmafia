@@ -864,7 +864,7 @@ public class UseItemRequest
 			}
 			
 			if ( this.consumptionType == KoLConstants.CONSUME_EAT &&
-				!UseItemRequest.allowFoodConsumption() )
+			     !this.allowFoodConsumption() )
 			{
 				return;
 			}
@@ -1030,14 +1030,53 @@ public class UseItemRequest
 
 		return true;
 	}
-	
-	public static final boolean allowFoodConsumption()
+
+	private final boolean allowFoodConsumption()
 	{
 		if ( StaticEntity.isHeadless() )
 		{
 			return true;
 		}
 
+		if ( !askAboutMilk() )
+		{
+			return false;
+		}
+
+		// If we are not a Pastamancer, that's good enough. If we are,
+		// make sure the player isn't going to accidentally scuttle the
+		// stupid Spaghettihose trophy.
+		if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER )
+		{
+			return true;
+		}
+
+		// If carboLoading is 0, it doesn't matter what you eat.
+		// If it's 1, this might be normal aftercore eating.
+		// If it's 10, the character will qualify for the trophy
+		int carboLoading = Preferences.getInteger( "carboLoading" );
+		if ( carboLoading <= 1 || carboLoading >= 10 )
+		{
+			return true;
+		}
+
+		// If the food is not made with noodles, no fear
+		if ( ConcoctionDatabase.noodleCreation( this.itemUsed.getName() ) == null )
+		{
+			return true;
+		}
+
+		// Nag
+		if ( !InputFieldUtilities.confirm( "Eating pasta with only " + carboLoading + " levels of Carboloading will ruin your chance to get the Spaghettihose trophy. Are you sure?" ) )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private static final boolean askAboutMilk()
+	{
 		// If we've already asked about milk, don't nag
 		if ( UseItemRequest.askedAboutMilk == KoLCharacter.getUserId() )
 		{
