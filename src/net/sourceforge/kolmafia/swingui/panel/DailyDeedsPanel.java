@@ -78,6 +78,7 @@ public class DailyDeedsPanel
 		this.add( new SealsDaily() );
 		this.add( new RestsDaily() );
 		this.add( new HotTubDaily() );
+		this.add( new PoolDaily() );
 		this.add( new BooleanDaily( "dailyDungeonDone", "adv * Daily Dungeon" ) );
 		this.add( new TelescopeDaily() );
 		this.add( new StyxDaily() );
@@ -616,6 +617,32 @@ public class DailyDeedsPanel
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
 			this.setEnabled( nf < 5 );
 			this.setText( nf + "/5" );
+		}
+	}
+
+	public static class PoolDaily
+		extends Daily
+	{
+		public PoolDaily()
+		{
+			this.addItem( ItemPool.VIP_LOUNGE_KEY );
+			this.addListener( "_poolGames" );
+			this.addListener( "kingLiberated" );
+			this.addButton( "pool 1", "weapon dmg +50%, +5 lbs, 10 turns" );
+			this.addButton( "pool 2", "spell dmg +50%, 10 MP per Adv, 10 turns" );
+			this.addButton( "pool 3", "init +50%, +10% item, 10 turns" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+                        boolean kf = Preferences.getBoolean( "kingLiberated" );
+                        boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			int nf = Preferences.getInteger( "_poolGames" );
+			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
+			this.setEnabled( nf < 3 );
+			this.setText( nf + "/3" );
 		}
 	}
 
