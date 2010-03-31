@@ -2189,6 +2189,7 @@ Crusty Head	Damage Reduction: 10
 # Cunctatitis: Eh.  You'll figure out what this effect does later...
 Cupcake of Choice	Item Drop: +30
 Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+Curiosity of Br'er Tarrypin	Experience (familiar): +1
 # Curse Magnet: Curses!
 # Curse of the Black Pearl Onion: Nasty belches during combat
 # Cursed by The RNG: ???
@@ -3248,23 +3249,11 @@ twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
 unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 upsy daisy	Effect: "Ass Over Teakettle", Effect Duration: 10
-vial of amber slime	Effect: "Slimeform", Effect Duration: 5
 vial of baconstone juice	Effect: "Baconstoned", Effect Duration: 5
-vial of blue slime	Effect: "Slimily Sagacious", Effect Duration: 15
 vial of brown slime	Effect: "A Little Bit Poisoned", Effect Duration: 5
-vial of chartreuse slime	Effect: "Ichorous Intensity", Effect Duration: 15
-vial of green slime	Effect: "Bilious Brains", Effect Duration: 15
 vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
-vial of indigo slime	Effect: "Ichorous Eyesight", Effect Duration: 15
-vial of orange slime	Effect: "Bilious Brawn", Effect Duration: 15
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
-vial of purple slime	Effect: "Mucilaginous Moxiousness", Effect Duration: 15
-vial of red slime	Effect: "Slimily Strong", Effect Duration: 15
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
-vial of teal slime	Effect: "Mucilaginous Muscle", Effect Duration: 15
-vial of vermilion slime	Effect: "Mucilaginous Mentalism", Effect Duration: 15
-vial of violet slime	Effect: "Bilious Briskness", Effect Duration: 15
-vial of yellow slime	Effect: "Slimily Speedy", Effect Duration: 15
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
