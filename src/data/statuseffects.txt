@@ -624,9 +624,9 @@
 623	Really Deep Breath	lung.gif	9b9dee30c980dce984ac9fe98836aaa8	use 1 hyperinflated seal lung
 624	Scrappy, Shadowy	lmask.gif	989ff1379e0d7f1f8f3452770fd6e48e	use 1 scrap of shadow
 625	Grulched	grulch.gif	912eba457b36763732a38a50f8299ba8	use 1 fustulent seal grulch
-626	Billiards Belligerence	2ball.gif	0bc328cead1daf748aeee4b4d5d4545a	#VIP pool table (aggressive)
-627	Mental A-cue-ity	9ball.gif	1829f131d831dace601cd8b5c98263f3	#VIP pool table (strategic)
-628	Hustlin'	8ball.gif	e0d75ad666dc7129cde81073d073baef	#VIP pool table (stylish)
+626	Billiards Belligerence	2ball.gif	0bc328cead1daf748aeee4b4d5d4545a	pool 1
+627	Mental A-cue-ity	9ball.gif	1829f131d831dace601cd8b5c98263f3	pool 2
+628	Hustlin'	8ball.gif	e0d75ad666dc7129cde81073d073baef	pool 3
 629	Chalked Weapon	billiardschalk.gif	2300c913a0bcf689c92d64629df0abe1	use 1 cube of billiard chalk
 630	Sizzling with Fury	angry.gif	849b3898a4f06be783b66570f515de50	use 1 sizzling seal fat
 631	Cold Hard Skin	hskin.gif	23235e424a824750da885f9d1f624a28	use 1 frost-rimed seal hide
