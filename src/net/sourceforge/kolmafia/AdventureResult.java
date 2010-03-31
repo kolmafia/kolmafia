@@ -1116,6 +1116,10 @@ public class AdventureResult
 			return count;
 		}
 		
+		public void normalizeItemName()
+		{	// Overridden to avoid "unknown item found" messages.
+		}
+		
 		public static WildcardResult getInstance( String text )
 		{
 			if ( text.indexOf( "any" ) == -1 )
@@ -1124,7 +1128,8 @@ public class AdventureResult
 			}
 			
 			String[] pieces = text.split( " ", 2 );
-			int count = StringUtilities.parseInt( pieces[ 0 ] );
+			int count = StringUtilities.isNumeric( pieces[ 0 ] ) ?
+				StringUtilities.parseInt( pieces[ 0 ] ) : 0;
 			if ( pieces.length > 1 && count != 0 )
 			{
 				text = pieces[ 1 ];
