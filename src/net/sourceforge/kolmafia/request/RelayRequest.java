@@ -225,7 +225,9 @@ public class RelayRequest
 
 	public void processResults()
 	{
-		if ( !this.hasNoResult() && !this.getPath().startsWith( "fight.php" ) )
+		String path = this.getPath();
+		if ( (!this.hasNoResult() && !path.startsWith( "fight.php" )) ||
+			path.startsWith( "desc_" ) )
 		{
 			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
 		}
