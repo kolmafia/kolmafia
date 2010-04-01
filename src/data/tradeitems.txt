@@ -4571,3 +4571,16 @@
 4562
 4563
 4564	slippery when wet shield	offhand	display	0
+4565
+4566
+4567
+4568
+4569
+4570
+4571
+4572
+4573
+4574	panicked kernel	grow	all	0
+4575	bugged beanie	familiar, usable	all	75
+4576	bugged balaclava	familiar	all	75
+4577	bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	familiar	all	75

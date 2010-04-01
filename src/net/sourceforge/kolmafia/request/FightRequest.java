@@ -2066,6 +2066,13 @@ public class FightRequest
 			}
 			break;
 		}
+		
+		// Check for weapon-specific cases
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LEAFBLOWER, 1 ) ) )
+		{
+			Preferences.setInteger( "_leafblowerML", Math.min( 25, 1 +
+				Preferences.getInteger( "_leafblowerML" ) ) );
+		}
 
 		// Cancel any combat modifiers
 		Modifiers.overrideModifier( "fightMods", null );

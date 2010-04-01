@@ -110,6 +110,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -129,7 +130,8 @@ public abstract class StaticEntity
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
 	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
-	private static final Pattern SLIMESKILL_PATTERN = Pattern.compile( "giving you \\+(\\d+)" );
+	private static final Pattern DESCITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern DESCEFFECT_PATTERN = Pattern.compile( "whicheffect=([0-9a-zA-Z]+)" );
 
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
@@ -508,15 +510,26 @@ public abstract class StaticEntity
 			if ( m.find() )
 			{
 				int skill = StringUtilities.parseInt( m.group( 1 ) );
-				if ( skill >= 46 && skill <= 48 )
-				{
-					m = SLIMESKILL_PATTERN.matcher( responseText );
-					if ( m.find() )
-					{
-						Preferences.setInteger( "skillLevel" + skill,
-							StringUtilities.parseInt( m.group( 1 ) ) );
-					}
-				}
+				ConsequenceManager.parseSkillDesc( skill, responseText );
+			}
+		}
+
+		else if ( location.startsWith( "desc_item.php" ) &&
+			location.indexOf( "otherplayer=" ) == -1 )
+		{
+			Matcher m = DESCITEM_PATTERN.matcher( location );
+			if ( m.find() )
+			{
+				ConsequenceManager.parseItemDesc( m.group( 1 ), responseText );
+			}
+		}
+
+		else if ( location.startsWith( "desc_effect.php" ) )
+		{
+			Matcher m = DESCEFFECT_PATTERN.matcher( location );
+			if ( m.find() )
+			{
+				ConsequenceManager.parseEffectDesc( m.group( 1 ), responseText );
 			}
 		}
 

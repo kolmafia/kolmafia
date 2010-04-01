@@ -1053,6 +1053,7 @@ public class ItemPool
 	public static final int CANDY_NECKLACE = 4429;
 	public static final int TEDDYBEAR_BACKPACK = 4430;
 	public static final int INSTANT_KARMA = 4448;
+	public static final int LEAFBLOWER = 4455;
 	public static final int SNAILMAIL_BITS = 4457;
 	public static final int BRICKO_BOOK = 4468;
 	public static final int BRICKO_HAT = 4471;

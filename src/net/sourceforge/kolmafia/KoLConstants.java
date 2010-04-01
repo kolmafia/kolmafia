@@ -405,6 +405,7 @@ public interface KoLConstants
 		"classskills.txt",
 		"combats.txt",
 		"concoctions.txt",
+		"consequences.txt",
 		"defaults.txt",
 		"equipment.txt",
 		"familiars.txt",
@@ -434,6 +435,7 @@ public interface KoLConstants
 	public static final int COINMASTERS_VERSION = 1;
 	public static final int COMBATS_VERSION = 1;
 	public static final int CONCOCTIONS_VERSION = 3;
+	public static final int CONSEQUENCES_VERSION = 1;
 	public static final int DEFAULTS_VERSION = 1;
 	public static final int EQUIPMENT_VERSION = 2;
 	public static final int FAMILIARS_VERSION = 1;
