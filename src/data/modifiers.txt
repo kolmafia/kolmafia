@@ -573,7 +573,7 @@ Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20,
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
 Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical: 2
-The Landscaper's leafblower	Monster Level: +1
+The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
 # The Trickster's Trikitixa: Special Attack: Extreme High Note
 The Trickster's Trikitixa	Moxie: +15, Ranged Damage: +23, Item Drop: +11, Class: "Accordion Thief"
 # Totally Gay Claymore
@@ -1811,6 +1811,9 @@ bottle of Cochon Noir	Familiar Weight: +5
 bottle of perfume	Familiar Weight: +5
 brass crank handle	Familiar Weight: +5
 brass stinger	Familiar Weight: +5
+bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	Food Drop: +5, Pants Drop: +5, Candy Drop: +5
+bugged balaclava	Monster Level: +20
+bugged beanie	Familiar Weight: +10
 cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
 candied yam pinky ring	Familiar Weight: +5
@@ -2345,8 +2348,7 @@ Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
 Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
-# Having a Ball!: percentages are [max(1,floor(colorful plastic balls/100))]
-Having a Ball!	Muscle Percent: +1, Mysticality Percent: +1, Moxie Percent: +1
+Having a Ball!	Muscle Percent: [pref(ballpitBonus)], Mysticality Percent: [pref(ballpitBonus)], Moxie Percent: [pref(ballpitBonus)]
 Head on Fire, Ass Catching	Initiative: +10
 Healthy Bronze Glow	Moxie Percent: +50
 Healthy Green Glow	Familiar Weight: +10
@@ -3308,6 +3310,7 @@ jitterbug larva	Free Pull
 llama lama cria	Free Pull
 miniscule temporal rip	Free Pull
 orphan baby yeti	Free Pull
+panicked kernel	Free Pull
 passed-out psychedelic bear	Free Pull
 perfectly ordinary frog	Free Pull
 personal raindrop	Free Pull

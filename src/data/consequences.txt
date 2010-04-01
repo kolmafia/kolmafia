@@ -1,0 +1,31 @@
+1
+# Format:
+#	type <tab> spec <tab> regex <tab> action [ <tab> action ]...
+#
+# type is one of:
+#	DESC_ITEM - spec is an item name, regex is applied to its description.
+#	DESC_SKILL - spec is a skill name, regex is applied to its description.
+#	DESC_EFFECT - spec is an effect name, regex is applied to its description.
+#
+# Only one kind of action is currently defined:
+#	name=value - set a preference.
+#
+# Two levels of text substitution are performed on actions:
+#	1. A $ followed by a digit is replaced by the corresponding numbered group
+#		in the regex match.
+#	2. Text enclosed in [square brackets] is interpreted as a modifier
+#		expression, and replaced with the resulting value.
+#		See modifiers.txt for full details, although only the basic math
+#		operators are expected to be useful here.
+
+DESC_ITEM	The Landscaper's leafblower	\+(\d+) Monster Level	_leafblowerML=$1
+
+DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=$1
+DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1
+DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=$1
+
+DESC_EFFECT	Towering Strength	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_EFFECT	Mitre Cut	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_EFFECT	Knightlife	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_EFFECT	Having a Ball!	\+(\d+)%	ballpitBonus=$1
+

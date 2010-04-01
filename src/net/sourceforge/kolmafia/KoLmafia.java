@@ -107,6 +107,7 @@ import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BadMoonManager;
 import net.sourceforge.kolmafia.session.BreakfastManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -867,6 +868,7 @@ public abstract class KoLmafia
 		TurnCounter.stopCounting( "<font color=olive>Major Yellow Recharge</font>" );
 
 		Preferences.resetDailies();
+		ConsequenceManager.updateOneDesc();
 
 		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();

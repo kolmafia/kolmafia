@@ -41,6 +41,7 @@ global	connectViaAddress	false
 global	cookies.inventory
 global	copyAsHTML	false
 global	customizedTabs	false
+global	debugConsequences	false
 global	debugPathnames	true
 global	defaultBorderColor	blue
 global	defaultDropdown1	0
@@ -231,6 +232,7 @@ user	badMoonEncounter45	false
 user	badMoonEncounter46	false
 user	badMoonEncounter47	false
 user	badMoonEncounter48	false
+user	ballpitBonus	1
 user	barrelGoal	1
 user	barrelLayout	?????????
 user	bartenderTurnsUsed	0
@@ -583,6 +585,7 @@ user	_gongDrops	0
 user	_hareAdv	0
 user	_hotTubSoaks	0
 user	_klawSummons	0
+user	_leafblowerML	1
 user	_lookingGlass	false
 user	_navelRunaways	0
 user	_poolGames	0
