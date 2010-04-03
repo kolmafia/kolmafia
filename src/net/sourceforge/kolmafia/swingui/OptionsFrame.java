@@ -349,8 +349,12 @@ public class OptionsFrame
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },
 			{ "mmgAutoConfirmBets", "Auto-confirm bets in the MMG" },
+			
 			{},
 
+			{ "sharePriceData", "Share recent Mall price data with other users" },
+
+			{},
 			{ "useLastUserAgent", "(Debug) Use last browser's userAgent" },
 			{ "logBrowserInteractions", "(Debug) Verbosely log communication between KoLmafia and browser" },
 			{ "logCleanedHTML", "(Debug) Invoke HTML cleaner and log resulting tree" },

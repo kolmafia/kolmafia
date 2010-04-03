@@ -84,6 +84,11 @@ public class LogoutRequest
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 		}
+		
+		if ( Preferences.getBoolean( "sharePriceData" ) )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "spade prices http://kolmafia.us/scripts/updateprices.php" );
+		}
 
 		super.run();
 
