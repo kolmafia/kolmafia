@@ -4509,7 +4509,7 @@
 4503	562003052	recording of Inigo's Incantation of Inspiration	recordings of Inigo's Incantation of Inspiration
 4504	884068139	heart of the volcano	hearts of the volcano
 4505	752101511	Northern pemmican	globs of Northern pemmican
-4506
+4506	296832113	puzzling ribbon
 4507	653994440	Clan looking glass	Clan looking glass crates
 4508	830929931	&quot;DRINK ME&quot; potion	bottles of &quot;DRINK ME&quot; potion
 4509	206445172	reflection of a map	reflections of maps

@@ -1134,6 +1134,7 @@ old-school flying disc	Muscle Percent: +15, Damage Reduction: 10, Familiar Weigh
 oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6
 painted shield	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Damage Reduction: 7
+panicked kernel	Free Pull
 parasitic strangleworm	Damage Reduction: 15
 peanut brittle shield	Damage Reduction: 3, Candy Drop: +100
 penguin skin buckler	Moxie: +5, Damage Reduction: 5
