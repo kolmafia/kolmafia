@@ -140,7 +140,7 @@ public class MallSearchRequest
 			return itemName;
 		}
 
-		String canonicalName = "\"" + StringUtilities.getCanonicalName( ItemDatabase.getItemName( itemId ) ) + "\"";
+		String canonicalName = "\"" + StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) ) + "\"";
 		int entityIndex = canonicalName.indexOf( "&" );
 
 		if ( entityIndex == -1 )

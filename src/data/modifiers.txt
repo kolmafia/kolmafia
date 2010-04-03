@@ -161,8 +161,8 @@ helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP R
 helmet turtle	Familiar Effect: "atk, cap 2"
 ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "?xVolley, 8xLep, cap 2"
-invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
 # insane tophat: We're All Mad Here!
+invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
 irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
 # jewel-eyed wizard hat: +5 Duration to Buffs You Cast
 # jewel-eyed wizard hat: Allows casting of Magic Missile
@@ -810,6 +810,7 @@ obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damag
 ocarina of space	Muscle: +4, Mysticality: +4, Moxie: +4, Ranged Damage: +5, Experience: +2
 octopus's spade	Item Drop: +5, Initiative: +10, Weapon Damage: +15
 office-supply crossbow	Moxie: +3, Ranged Damage: +3
+old school Mafi<i>a kni</i>cke&frac12;&aelig;	Ranged Damage: +27
 origami riding crop	Intrinsic Effect: "Innuendo Shopping", Sleaze Damage: +10, Initiative: +15, Softcore Only
 out-of-tune biwa	Ranged Damage: +2
 oversized pizza cutter	Spell Damage: +13
@@ -1775,6 +1776,7 @@ Mr. Container	Item Drop: +3
 Newbiesport&trade; backpack	Item Drop: +1
 Radio KoL Coffee Mug	Muscle: +10, Mysticality: +10, Moxie: +10, Hot Damage: +10
 hemp backpack	Item Drop: +2
+T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 
 # Familiar Items section of modifiers.txt
 

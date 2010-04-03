@@ -102,7 +102,7 @@ public class StringUtilities
 			}
 			else
 			{
-				entityString = utf8String;
+				entityString = CharacterEntities.escape( CharacterEntities.unescape( utf8String ) );
 			}
 
 			// The following replacement makes the Hodgman journals (which have
