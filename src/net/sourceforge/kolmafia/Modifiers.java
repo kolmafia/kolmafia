@@ -868,15 +868,15 @@ public class Modifiers
 		}
 	
 		rv[ Modifiers.BUFFED_MUS ] = mus + (int) this.get( Modifiers.MUS ) +
-			(int) Math.ceil( this.get( Modifiers.MUS_PCT ) * mus / 100.0f );
+			(int) Math.ceil( this.get( Modifiers.MUS_PCT ) * mus / 100.0 );
 		rv[ Modifiers.BUFFED_MYS ] = mys + (int) this.get( Modifiers.MYS ) +
-			(int) Math.ceil( this.get( Modifiers.MYS_PCT ) * mys / 100.0f );
+			(int) Math.ceil( this.get( Modifiers.MYS_PCT ) * mys / 100.0 );
 		rv[ Modifiers.BUFFED_MOX ] = mox + (int) this.get( Modifiers.MOX ) +
-			(int) Math.ceil( this.get( Modifiers.MOX_PCT ) * mox / 100.0f );
+			(int) Math.ceil( this.get( Modifiers.MOX_PCT ) * mox / 100.0f);
 		
 		int hpbase = rv[ Modifiers.BUFFED_MUS ];
 		int hpboost = (int) this.get( Modifiers.HP_PCT );
-		float C = KoLCharacter.isMuscleClass() ? 1.5f : 1.0f;
+		double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
 		boolean G = false, A = false, R = false;
 		if ( hpboost >= 25 )
 		{	// Spirit of Ravioli
@@ -895,9 +895,9 @@ public class Modifiers
 		int hp = (int) Math.floor( Math.max(
 			(hpbase + 3) * C + this.get( Modifiers.HP ),
 			mus * C ) );
-		if ( R ) hp = (int) Math.ceil( 1.25f * hp );
-		if ( A ) hp = (int) Math.ceil( 1.1f * hp );
-		if ( G ) hp = (int) Math.ceil( 1.05f * hp );
+		if ( R ) hp = (int) Math.ceil( 1.25 * hp );
+		if ( A ) hp = (int) Math.ceil( 1.1 * hp );
+		if ( G ) hp = (int) Math.ceil( 1.05 * hp );
 		rv[ Modifiers.BUFFED_HP ] = hp + (int) this.get( Modifiers.HP_NONMULT );
 		
 		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
@@ -908,7 +908,7 @@ public class Modifiers
 			mpbase = (int) rv[ Modifiers.BUFFED_MOX ];
 		}
 		int mpboost = (int) this.get( Modifiers.MP_PCT );
-		C = KoLCharacter.isMysticalityClass() ? 1.5f : 1.0f;
+		C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
 		G = false;
 		boolean I = false, W = false;
 		if ( mpboost >= 50 )
@@ -926,9 +926,9 @@ public class Modifiers
 			G = true;
 		}
 		int mp = (int) Math.floor( mpbase * C + this.get( Modifiers.MP ) );
-		if ( W ) mp = (int) Math.floor( 1.5f * mp );
-		if ( G ) mp = (int) Math.ceil( 1.05f * mp );
-		if ( I ) mp = (int) Math.ceil( 1.1f * mp );
+		if ( W ) mp = (int) Math.floor( 1.5 * mp );
+		if ( G ) mp = (int) Math.ceil( 1.05 * mp );
+		if ( I ) mp = (int) Math.ceil( 1.1 * mp );
 		mp = Math.max( mp, (int) Math.floor( mys * C ) );
 		rv[ Modifiers.BUFFED_MP ] = mp + (int) this.get( Modifiers.MP_NONMULT );
 		
