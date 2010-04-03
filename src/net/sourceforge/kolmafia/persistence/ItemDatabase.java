@@ -139,6 +139,14 @@ public class ItemDatabase
 		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 0 ] = new HashMap();
 		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 1 ] = new HashMap();
 	}
+	
+	private static Object[][] ALIASES = {
+		{ new Integer( 4577 ), "bugged bonnet" },
+		{ new Integer( 4578 ), "bugged meat stabbing club" },
+		{ new Integer( 4579 ), "bugged Knob Goblin love potion" },
+		{ new Integer( 4580 ), "bugged old school Mafia knickerbockers" },
+		{ new Integer( 4581 ), "bugged Talisman of Baio" },
+	};
 
 	private static final String[] ACCESS =
 	{
@@ -657,6 +665,14 @@ public class ItemDatabase
 		{
 			String name = StringUtilities.getCanonicalName( SushiRequest.SUSHI[i] );
 			itemIdByName.put( name, id );
+		}
+		
+		// Miscellaneous aliases for untypeable item names
+		for ( int i = 0; i < ItemDatabase.ALIASES.length; ++i )
+		{
+			ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName(
+				(String) ItemDatabase.ALIASES[ i ][ 1 ] ),
+				ItemDatabase.ALIASES[ i ][ 0 ] );
 		}
 	}
 

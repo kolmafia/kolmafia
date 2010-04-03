@@ -4582,5 +4582,9 @@
 4573
 4574	panicked kernel	grow	all	0
 4575	bugged beanie	familiar, usable	all	75
-4576	bugged balaclava	familiar	all	75
+4576	bugged balaclava	familiar, usable	all	75
 4577	bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	familiar	all	75
+4578	meat st&permil;&iquest;bing club	none	all	100
+4579	Knob G&Atilde;&para;blin l&Atilde;&sup2;ve potion	usable	all	85
+4580	old school Mafi<i>a kni</i>cke&frac12;&aelig;	weapon	all	109
+4581	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	container	all	191

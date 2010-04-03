@@ -1027,12 +1027,17 @@ public class EquipmentRequest
 			lastFindIndex = optionMatcher.end();
 			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
 			String descId = optionMatcher.group( 2 );
-			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemName( itemId ) );
+			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) );
 			String realName = optionMatcher.group( 3 );
-			String canonicalName = StringUtilities.getCanonicalName( realName.toLowerCase() );
+			String canonicalName = StringUtilities.getCanonicalName( realName );
 
 			if ( itemName == null || !canonicalName.equals( itemName ) )
 			{
+//System.out.println(realName);
+//System.out.println(ItemDatabase.getItemName( itemId ));
+//System.out.println(ItemDatabase.getItemDataName( itemId ));
+//System.out.println(itemName);
+//System.out.println(canonicalName);
 				ItemDatabase.registerItem( itemId, realName, descId );
 			}
 

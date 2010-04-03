@@ -730,6 +730,7 @@ obsidian dagger	30	Mus: 10	1-handed knife
 ocarina of space	120	Mox: 45	2-handed flute
 octopus's spade	200	Mus: 85	1-handed knife
 office-supply crossbow	50	Mox: 10	2-handed crossbow
+old school Mafi<i>a kni</i>cke&frac12;&aelig;	117	Mys: 41	1-handed sword
 origami riding crop	100	Mus: 0	1-handed crop
 out-of-tune biwa	30	Mox: 0	2-handed guitar
 oversized pizza cutter	100	Mys: 35	1-handed utensil
@@ -1153,7 +1154,6 @@ Copper Alpha of Sincerity	0	Mys: 85
 Counterclockwise Watch	0	none
 Dyspepsi-Cola-issue canteen	0	none
 Earring of Fire	0	Mys: 60
-El Hebilla del Cintur&oacute;n de Lopez	0	Mox: 45
 El Vibrato translator	0	Mys: 200
 Elmley shades	0	Mys: 75
 Elvish sunglasses	0	none
@@ -1185,6 +1185,7 @@ Jolly Roger charrrm bracelet	0	Mys: 20
 Junior Adventurer's merit badge	0	none
 Junior LAAAAME merit badge	0	none
 LWA ring	0	none
+La Hebilla del Cintur&oacute;n de Lopez	0	
 Lead Zeta of Chastity	0	Mys: 85
 Lockenstock&trade; sandals	0	Mys: 65
 Lord Spookyraven's ear trumpet	0	Mys: 40

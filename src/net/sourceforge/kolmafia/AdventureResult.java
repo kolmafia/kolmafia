@@ -575,6 +575,10 @@ public class AdventureResult
 		item.priority = AdventureResult.ITEM_PRIORITY;
 		item.itemId = ItemDatabase.getItemId( name, 1, false );
 		item.count[0] = count;
+		if ( item.itemId > 0 )
+		{	// normalize name
+			item.name = ItemDatabase.getItemName( item.itemId );
+		}
 
 		return item;
 	}
