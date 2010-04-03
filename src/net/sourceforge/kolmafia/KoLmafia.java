@@ -706,6 +706,11 @@ public abstract class KoLmafia
 			Preferences.setInteger( "lastBreakfast", today );
 		}
 
+		if ( Preferences.getBoolean( "sharePriceData" ) )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "update prices http://kolmafia.us/scripts/updateprices.php?action=getmap" );
+		}
+
 		// Also, do mushrooms, if a mushroom script has already
 		// been setup by the user.
 
