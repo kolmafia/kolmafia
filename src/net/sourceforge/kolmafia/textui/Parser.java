@@ -556,7 +556,9 @@ public class Parser
 
 		RecordType rec =
 			new RecordType(
-				recordName == null ? "(anonymous record)" : recordName, fieldNameArray, fieldTypeArray );
+				recordName != null ? recordName :
+					( "(anonymous record " + Integer.toHexString( fieldNameArray.hashCode() ) + ")" ),
+				fieldNameArray, fieldTypeArray );
 
 		if ( recordName != null )
 		{
