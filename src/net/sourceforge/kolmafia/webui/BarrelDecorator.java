@@ -252,6 +252,8 @@ public abstract class BarrelDecorator
 		// the player is defeated by the mimic (or runs away) after an
 		// unrelated item drop; but it's hard to imagine that happening
 		// to anyone who has the Summon Hobo Underling skill available.
+		
+		// Also a possible problem: Oyster Egg Day drops!
 
 		char type;
 		String name = item.getName();
@@ -259,7 +261,8 @@ public abstract class BarrelDecorator
 		{
 			type = 'B';
 		}
-		else if ( ItemDatabase.getSpleenHit( name ) > 0 )
+		else if ( ItemDatabase.getSpleenHit( name ) > 0 &&
+			!name.endsWith( "egg" ) )
 		{
 			type = 'S';
 		}
