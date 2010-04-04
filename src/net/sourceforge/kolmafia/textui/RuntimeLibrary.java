@@ -128,6 +128,8 @@ import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
+import net.sourceforge.kolmafia.textui.parsetree.RecordType;
+import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -139,6 +141,11 @@ public abstract class RuntimeLibrary
 {
 	private static final GenericRequest VISITOR = new GenericRequest( "" );
 	private static final RelayRequest RELAYER = new RelayRequest( false );
+
+	private static final RecordType itemDropRec = new RecordType(
+		"{item drop; int rate; string type;}",
+		new String[] { "drop", "rate", "type" },
+		new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE } );
 
 	public static final FunctionList functions = new FunctionList();
 
@@ -1033,7 +1040,15 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
 		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
+		
+		Type itemDropRecArray = new AggregateType( itemDropRec, 0 );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "item_drops_array", itemDropRecArray, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "item_drops_array", itemDropRecArray, params ) );
+		
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "meat_drop", DataTypes.INT_TYPE, params ) );
 
@@ -4167,6 +4182,40 @@ public abstract class RuntimeLibrary
 				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
 		}
 
+		return value;
+	}
+	
+	public static Value item_drops_array()
+	{
+		return item_drops_array( FightRequest.getLastMonster() );
+	}
+
+	public static Value item_drops_array( final Value arg )
+	{
+		return item_drops_array( (Monster) arg.rawValue() );
+	}
+	
+	public static Value item_drops_array( Monster monster )
+	{
+		List data = monster == null ? new ArrayList() : monster.getItems();
+		int dropCount = data.size();
+		AggregateType type = new AggregateType( RuntimeLibrary.itemDropRec, dropCount );
+		ArrayValue value = new ArrayValue( type );
+		for ( int i = 0; i < dropCount; ++i )
+		{
+			AdventureResult result = (AdventureResult) data.get( i );
+			int count = result.getCount();
+			char dropType = (char) (count & 0xFFFF);
+			RecordValue rec = (RecordValue) value.aref( new Value( i ) );
+			
+			rec.aset( 0, DataTypes.parseItemValue( result.getName(), true ), null );
+			rec.aset( 1, new Value( count >> 16 ), null );
+			if ( dropType < '1' || dropType > '9' )
+			{	// leave as an empty string if no special type was given
+				rec.aset( 2, new Value( String.valueOf( dropType ) ), null );
+			}
+		}
+		
 		return value;
 	}
 
