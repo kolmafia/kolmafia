@@ -424,10 +424,16 @@ public class CompactSidePane
 		this.itemDropLabel.setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 		int hobo = KoLCharacter.getHoboPower();
 		int clown = KoLCharacter.getClownosity();
+		int rave = KoLCharacter.currentBitmapModifier( Modifiers.RAVEOSITY );
 		if ( hobo != 0 )
 		{
 			this.hoboLabel.setText( "Hobo: " );
 			this.hoboPowerLabel.setText( KoLConstants.MODIFIER_FORMAT.format( hobo ) );
+		}
+		else if ( rave != 0 )
+		{
+			this.hoboLabel.setText( "Rave: " );
+			this.hoboPowerLabel.setText( rave + "/7" );
 		}
 		else if ( clown != 0 )
 		{
