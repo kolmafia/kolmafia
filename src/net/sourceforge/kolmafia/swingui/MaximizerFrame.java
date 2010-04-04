@@ -147,6 +147,7 @@ public class MaximizerFrame
 		"all res",
 		"ML, 0.001 slime res",
 		"4 clownosity",
+		"7 raveosity",
 		"+four songs",
 	};
 
@@ -197,7 +198,7 @@ public class MaximizerFrame
 		"<h3>Other Modifiers</h3>" +
 		"Boolean modifiers can also be used as keywords.  With positive weight, the modifier is required to be true; with negative weight, it is required to be false.  There is one shortcut available: <b>sea</b> requires both Adventure Underwater and Underwater Familiar to be true." +
 		"<p>" +
-		"The only bitmap modifier that currently appears useful for maximization is Clownosity, so it is allowed as a special case.  The weight specifies the required minimum value; only one value is actually meaningful in the game, so <b>4 clownosity</b> is the only useful form of this keyword." +
+		"The only bitmap modifiers that currently appear useful for maximization are Clownosity and Raveosity, so they are allowed as a special case.  The weight specifies the required minimum value; only one value is actually meaningful for each keyword, so <b>4 clownosity</b> and <b>7 raveosity</b> are the only useful forms." +
 		"<p>" +
 		"String modifiers are not currently meaningful for maximization." +
 		"<h3>Equipment</h3>" +
@@ -919,6 +920,7 @@ public class MaximizerFrame
 		private float totalMin, totalMax;
 		private int dump = 0;
 		private int clownosity = 0;
+		private int raveosity = 0;
 		private int booleanMask, booleanValue;
 		private ArrayList familiars;
 		
@@ -1101,6 +1103,11 @@ public class MaximizerFrame
 				else if ( keyword.equals( "clownosity" ) )
 				{
 					this.clownosity = (int) weight;
+					continue;
+				}
+				else if ( keyword.equals( "raveosity" ) )
+				{
+					this.raveosity = (int) weight;
 					continue;
 				}
 				else if ( keyword.equals( "sea" ) )
@@ -1422,6 +1429,11 @@ public class MaximizerFrame
 			if ( score >= this.totalMax ) this.exceeded = true;
 			if ( !this.failed && this.clownosity > 0 &&
 				mods.getBitmap( Modifiers.CLOWNOSITY ) < this.clownosity )
+			{
+				this.failed = true;
+			}
+			if ( !this.failed && this.raveosity > 0 &&
+				mods.getBitmap( Modifiers.RAVEOSITY ) < this.raveosity )
 			{
 				this.failed = true;
 			}
@@ -1814,6 +1826,8 @@ public class MaximizerFrame
 							EquipmentManager.isStickerWeapon( item ) ) ||
 						( this.clownosity > 0 &&
 							mods.getRawBitmap( Modifiers.CLOWNOSITY ) != 0 ) ||
+						( this.raveosity > 0 &&
+							mods.getRawBitmap( Modifiers.RAVEOSITY ) != 0 ) ||
 						( (mods.getRawBitmap( Modifiers.SYNERGETIC )
 							& usefulSynergies) != 0 ) )
 					{

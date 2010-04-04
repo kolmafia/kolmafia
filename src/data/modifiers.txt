@@ -207,7 +207,7 @@ powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4
 propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 # pumpkinhead mask
 raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
-rave visor	Maximum MP: +20
+rave visor	Maximum MP: +20, Raveosity: +2
 ravioli hat	Familiar Effect: "atk, cap 2"
 red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
 reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
@@ -301,7 +301,7 @@ Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Tur
 # alpha-mail pants
 antique greaves	Initiative: -10
 astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5
-baggy rave pants	Damage Absorption: +20
+baggy rave pants	Damage Absorption: +20, Raveosity: +2
 bark boxers	Damage Reduction: 5
 barskin loincloth	Muscle: +1
 basic meat kilt	Moxie: +1
@@ -843,7 +843,7 @@ ram stick	Moxie: +5
 ram-battering staff	Hot Spell Damage: +10, Moxie: +5
 ratarang	Ranged Damage: +7, Moxie: +3
 rattail whip	Moxie: +5, Monster Level: +5
-rave whistle	Maximum HP: +10, Monster Level: +10
+rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
 repeating crossbow	Moxie: +2, Critical: 3
 rib of the Bonerdagon	Muscle: +5, Mysticality: +5, Spell Damage: +15
 ridiculously huge sword	Weapon Damage: +12, Muscle: +4
@@ -1087,7 +1087,7 @@ foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 glass gnoll eye	Mysticality: +3
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
 glowing esca	Item Drop: [20*zone(The Sea)]
-glowstick on a string	Weapon Damage: +10
+glowstick on a string	Weapon Damage: +10, Raveosity: +1
 gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # golden sausage
 # green balloon
@@ -1411,7 +1411,7 @@ bottlecap turtle	Mysticality: +1, Maximum MP: +3
 boxing glove	Weapon Damage: +4
 brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10, Synergetic
 brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
-candy necklace	Candy Drop: +10, Single Equip
+candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
 # cannonball charrrm bracelet: Explosively hilarious
 cannonball charrrm bracelet	Single Equip
 cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
@@ -1528,7 +1528,7 @@ night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 # old soft shoes: +30% Item Drops from Hobos
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
-pacifier necklace	Sleaze Damage: +20, Single Equip
+pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
 pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
@@ -1625,7 +1625,7 @@ stuffed shoulder parrot	Maximum MP: +5
 support cummerbund	Maximum HP: +20
 tap shoes	Moxie: +11, Initiative: -20, Single Equip
 tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
-teddybear backpack	Meat Drop: +10, Single Equip
+teddybear backpack	Meat Drop: +10, Single Equip, Raveosity: +1
 # teflon swim fins: Makes you a better diver
 teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 tin star	Monster Level: +5, Moxie: +3

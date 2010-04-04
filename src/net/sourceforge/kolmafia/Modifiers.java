@@ -622,6 +622,7 @@ public class Modifiers
 	public static final int CLOWNOSITY = 1;
 	public static final int BRIMSTONE = 2;
 	public static final int SYNERGETIC = 3;
+	public static final int RAVEOSITY = 4;
 
 	private static final Object[][] bitmapModifiers =
 	{
@@ -631,7 +632,7 @@ public class Modifiers
 		},
 		{ "Clownosity",
 		  null,
-		  Pattern.compile( "Clownosity: ([+-]\\d+)" )
+		  Pattern.compile( "Clownosity: (\\+?\\d+)" )
 		},
 		{ "Brimstone",
 		  null,
@@ -640,6 +641,10 @@ public class Modifiers
 		{ "Synergetic",
 		  null,
 		  Pattern.compile( "Synergetic" )
+		},
+		{ "Raveosity",
+		  null,
+		  Pattern.compile( "Raveosity: (\\+?\\d+)" )
 		},
 	};
 
