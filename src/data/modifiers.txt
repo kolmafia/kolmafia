@@ -1813,8 +1813,8 @@ bottle of Cochon Noir	Familiar Weight: +5
 bottle of perfume	Familiar Weight: +5
 brass crank handle	Familiar Weight: +5
 brass stinger	Familiar Weight: +5
-bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	Food Drop: +5, Pants Drop: +5, Candy Drop: +5
-bugged balaclava	Monster Level: +20
+bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	Food Drop: +5, Pants Drop: +5, Candy Drop: +5, Fairy: 1.0
+bugged balaclava	Monster Level: +20, Volleyball: 1.0
 bugged beanie	Familiar Weight: +10
 cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
