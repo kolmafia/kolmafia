@@ -127,3 +127,4 @@
 121	Snow Angel	combat	4352	snow halo	2	1	3	2
 122	Jack-in-the-Box	none	4396	brass crank handle	0	0	0	0
 123	BRICKO chick	combat	4495	extra-heavy BRICKO brick	0	0	0	0
+124	Baby Bugged Bugbear	none	4574	bugged beanie	0	0	0	0
