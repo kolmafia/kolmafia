@@ -1553,6 +1553,13 @@ public class UseItemRequest
 			}
 
 			FamiliarData familiar = KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
+
+			// If this is a previously unknown familiar, punt
+			if ( familiar == null )
+			{
+				return;
+			}
+
 			Matcher matcher = UseItemRequest.FAMILIAR_NAME_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
