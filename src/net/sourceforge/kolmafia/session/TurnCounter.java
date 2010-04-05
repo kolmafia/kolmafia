@@ -250,7 +250,7 @@ public class TurnCounter
 				continue;
 			}
 
-			if ( current.value < thisTurn + 3 )
+			if ( current.value <= thisTurn )
 			{
 				it.remove();
 			}
