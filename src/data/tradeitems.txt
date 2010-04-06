@@ -4565,21 +4565,21 @@
 4556	right parenthesis	none	display	50
 4557	dollar sign	none	display	50
 4558	equal sign	none	display	50
-4559
-4560
-4561
-4562
-4563
+4559	antique record album	usable	all	0
+4560	map to Professor Jacking's laboratory	reusable	none	0
+4561	can of depilatory cream	none	all	35
+4562	hair of the calf	none	display	11
+4563	world's most unappetizing beverage	drink	display	4
 4564	slippery when wet shield	offhand	display	0
-4565
-4566
+4565	raisin	food	all	17
+4566	tiny fly glasses	familiar	all	55
 4567
-4568
-4569
-4570
-4571
-4572
-4573
+4568	a dance upon the palate	food	none	0
+4569	tiny frozen prehistoric meteorite jawbreaker	food	display	66
+4570	Crazyleg's razor	reusable	none	0
+4571	squirmy violent party snack	food	display	88
+4572	can-you-dig-it?	weapon	display	23
+4573	The Legendary Beat	reusable	display	1337
 4574	panicked kernel	grow	all	0
 4575	bugged beanie	familiar, usable	all	75
 4576	bugged balaclava	familiar, usable	all	75
@@ -4588,3 +4588,9 @@
 4579	Knob G&Atilde;&para;blin l&Atilde;&sup2;ve potion	usable	all	85
 4580	old school Mafi<i>a kni</i>cke&frac12;&aelig;	weapon	all	109
 4581	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	container	all	191
+4582	fat bottom quark	none, combat	all	66
+4583	big glob of skin	usable, combat	display	65
+4584	six tiny wedges of goat cheese	food	all	22
+4585	collection of tiny spooky objects	usable	all	0
+4586	boulder	none, combat	all	44
+4587	tiny goth giant	none, combat	all	1000

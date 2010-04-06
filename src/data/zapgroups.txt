@@ -144,3 +144,6 @@ vial of red slime, vial of yellow slime, vial of blue slime
 vial of orange slime, vial of green slime, vial of violet slime
 vial of vermilion slime, vial of amber slime, vial of chartreuse slime, vial of teal slime, vial of purple slime, vial of indigo slime
 bugged beanie, bugged balaclava, bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t
+Voluminous Radio Hat, Voluminous Radio Pants, Voluminous Radio Sneakers
+hellseal brain, hellseal hide, hellseal sinew
+burst hellseal brain, shredded hellseal hide, torn hellseal sinew

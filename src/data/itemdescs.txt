@@ -4492,7 +4492,7 @@
 4486	469823948	BRICKO pearl	BRICKO pearls
 4487	241906055	BRICKO bulwark	BRICKO bulwarks
 4488	545980435	BRICKO trunk	BRICKO trunks
-4489	817114403	gilded BRICKO brick
+4489	817114403	gilded BRICKO brick	gilded BRICKO bricks
 4490	479855884	gilded BRICKO chalice
 4491	571768901	black BRICKO brick	black BRICKO bricks
 4492	507141038	green BRICKO brick	green BRICKO bricks
@@ -4555,28 +4555,28 @@
 4549	346569840	stuffed carpenter	stuffed carpenters
 4550	408045306	stuffed dodo	stuffed dodos
 4551	403824160	detour shield
-4552	495591261	left parenthesis
-4553	211638517	lowercase a
-4554	981502191	percent sign
-4555	163708096	left bracket
-4556	527378567	right parenthesis
-4557	210432488	dollar sign
-4558	496894710	equal sign
-4559
-4560
-4561
-4562
-4563
+4552	495591261	left parenthesis	left parenthesiss
+4553	211638517	lowercase a	lowercase as
+4554	981502191	percent sign	percent signs
+4555	163708096	left bracket	left brackets
+4556	527378567	right parenthesis	right parenthesiss
+4557	210432488	dollar sign	dollar signs
+4558	496894710	equal sign	equal signs
+4559	476342822	antique record album	antique record albums
+4560	690134738	map to Professor Jacking's laboratory
+4561	589465573	can of depilatory cream	cans of depilatory cream
+4562	974833934	hair of the calf	hairs of the calf
+4563	692707595	world's most unappetizing beverage	world's most unappetizing beverages
 4564	649265161	slippery when wet shield
-4565
-4566
+4565	141578960	raisin	raisins
+4566	911217999	tiny fly glasses	pairs of tiny fly glasses
 4567
-4568
-4569
-4570
-4571
-4572
-4573
+4568	721929940	a dance upon the palate
+4569	889717914	tiny frozen prehistoric meteorite jawbreaker	tiny frozen prehistoric meteorite jawbreakers
+4570	568374640	Crazyleg's razor
+4571	211053476	squirmy violent party snack	squirmy violent party snacks
+4572	374949238	can-you-dig-it?
+4573	403676546	The Legendary Beat
 4574	719542869	panicked kernel	panicked kernels
 4575	731436094	bugged beanie	bugged beanies
 4576	700311806	bugged balaclava	bugged balaclavas
@@ -4585,3 +4585,9 @@
 4579	531809811	Knob G&Atilde;&para;blin l&Atilde;&sup2;ve potion	Knob G&Atilde;&para;blin l&Atilde;&sup2;ve potions
 4580	928129389	old school Mafi<i>a kni</i>cke&frac12;&aelig;	old school Mafi<i>a kni</i>cke&frac12;&aelig;s
 4581	924680007	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;
+4582	480226250	fat bottom quark	fat bottom quarks
+4583	140370104	big glob of skin	big globs of skin
+4584	850170108	six tiny wedges of goat cheese	sets of six tiny wedges of goat cheese
+4585	262106157	collection of tiny spooky objects	collections of tiny spooky objects
+4586	444310068	boulder	boulders
+4587	262678358	tiny goth giant	tiny goth giants

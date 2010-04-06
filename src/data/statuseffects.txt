@@ -757,3 +757,10 @@
 756	Mitre Cut	chessbishop.gif	a4c9b76038c75c9562ac7031d863a3d7	eat either 1 bishop cookie, 1 queen cookie
 757	Knightlife	chessknight.gif	70dad19fed205a244eeb24af489f1c17	eat either 1 knight cookie, 1 queen cookie
 758	The Royal We	chessking.gif	c3f6b286c4cab341465ab4675143190d	eat either 1 king cookie, 1 queen cookie
+759	Discomfited	lump.gif	87613dd8cce26a5557db77ab059bf039	use 1 delicious comfit?
+760	Literally Insane	hoppedup.gif	014e23721238e11887e0c59d3a6598e4	drink 1 world's most unappetizing beverage
+761	Smooth Legs	legs.gif	5c98b82deef3b04787cc6c80b6a4829a	#Crazyleg's razor w/ Literally Insane and Broken Dancing
+762	Stubbly Legs	disease.gif	5b4c6abcc2613b0465137b1d9b80d719	#Jacking's mirror w/Smooth Legs
+763	Hurricane Force	vortex.gif	566d93ecc4d9582d5db151fd19905bf3	#dancing on the Kingdom
+764	Broken Dancing	dance2.gif	42977729045fe7f0ea20e4bc62c1794a	eat 1 squirmy violent party snack
+765	Clyde's Blessing	notes.gif	65e7e5329863e18944233f6b6a9a90fe	use The Legendary Beat
