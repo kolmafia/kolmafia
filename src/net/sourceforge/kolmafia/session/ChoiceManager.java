@@ -1319,6 +1319,34 @@ public abstract class ChoiceManager
 			"Dungeon", "choiceAdventure451", "Greater-Than Sign",
 			new String[] { "left parenthesis", "moxie, alternately lose then gain meat", "plus sign, then muscle", "mysticality substats", "get teleportitis" },
 			new String[] { "4552", null, "818", null, null } ),
+
+		// Leave a Message and I'll Call You Back
+		new ChoiceAdventure(
+			"Jacking", "choiceAdventure452", "Small-O-Fier",
+			new String[] { "combat", "tiny fly glasses", "fruit" },
+			new String[] { null, "4566", null } ),
+
+		// Getting a Leg Up
+		new ChoiceAdventure(
+			"Jacking", "choiceAdventure453", "Small-O-Fier",
+			new String[] { "combat", "stats", "hair of the calf" },
+			new String[] { null, null, "4562" } ),
+
+		// Just Like the Ocean Under the Moon
+		new ChoiceAdventure(
+			"Jacking", "choiceAdventure454", "Small-O-Fier",
+			new String[] { "combat", "HP and MP" } ),
+
+		// Double Trouble in the Stubble
+		new ChoiceAdventure(
+			"Jacking", "choiceAdventure455", "Small-O-Fier",
+			new String[] { "stats", "quest item" } ),
+
+		// Made it, Ma!  Top of the World!
+		new ChoiceAdventure(
+			"Jacking", "choiceAdventure456", "Huge-A-Ma-tron",
+			new String[] { "combat", "Hurricane Force", "a dance upon the palate", "stats" },
+			new String[] { null, null, "4568", null } ),
 	};
 
 	static

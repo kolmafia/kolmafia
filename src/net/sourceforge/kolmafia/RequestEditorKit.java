@@ -105,6 +105,7 @@ import net.sourceforge.kolmafia.webui.ValhallaDecorator;
 public class RequestEditorKit
 	extends HTMLEditorKit
 {
+	private static final Pattern FORM_PATTERN = Pattern.compile( "<form name=choiceform(\\d+)" );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN =
@@ -1641,15 +1642,24 @@ public class RequestEditorKit
 		}
 
 		String text = buffer.toString();
-		buffer.setLength( 0 );
-
-		int index1 = text.indexOf( "<form name=choiceform1" );
-		buffer.append( text.substring( 0, index1 ) );
-		int index2 = 0;
-
-		for ( int i = 0; i < possibleDecisions[ 2 ].length; ++i )
+		Matcher matcher = FORM_PATTERN.matcher( text );
+		if ( !matcher.find() )
 		{
-			index2 = text.indexOf( "</form>", index1 );
+			return;
+		}
+
+		int index1 = matcher.start();
+
+		// Figure out which choice option comes first; at least one
+		// choice changes.
+		int first = StringUtilities.parseInt( matcher.group( 1 ) );
+
+		buffer.setLength( 0 );
+		buffer.append( text.substring( 0, index1 ) );
+
+		for ( int i = first - 1; i < possibleDecisions[ 2 ].length; ++i )
+		{
+			int index2 =  text.indexOf( "</form>", index1 );
 
 			// If KoL says we've run out of choices, quit now
 			if ( index2 == -1 )
