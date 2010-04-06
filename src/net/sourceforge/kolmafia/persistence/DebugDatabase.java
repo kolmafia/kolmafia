@@ -1211,7 +1211,7 @@ public class DebugDatabase
 
 	// **********************************************************
 
-	public static final void checkPlurals( final int itemId )
+	public static final void checkPlurals( int itemId )
 	{
 		RequestLogger.printLine( "Checking plurals..." );
 		PrintStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "plurals.txt" ), true );
@@ -1219,12 +1219,17 @@ public class DebugDatabase
 		if ( itemId == 0 )
 		{
 			Iterator it = ItemDatabase.descriptionIdKeySet().iterator();
+			++itemId;
 			while ( it.hasNext() )
 			{
 				int id = ( (Integer) it.next() ).intValue();
 				if ( id < 0 )
 				{
 					continue;
+				}
+				while ( itemId < id )
+				{
+					report.println( itemId++ );
 				}
 				DebugDatabase.checkPlural( id, report );
 			}

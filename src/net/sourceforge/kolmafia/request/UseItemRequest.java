@@ -96,6 +96,8 @@ public class UseItemRequest
 		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
 	private static final Pattern FAMILIAR_NAME_PATTERN =
 		Pattern.compile( "You decide to name (?:.*?) <b>(.*?)</b>" );
+	private static final Pattern FRUIT_TUBING_PATTERN =
+		Pattern.compile( "(?=.*?action=addfruit).*whichfruit=(\\d+)" );
 
 	private static final HashMap LIMITED_USES = new HashMap();
 
@@ -114,6 +116,7 @@ public class UseItemRequest
 	public static String limiter = "";
 	private static AdventureResult lastItemUsed = null;
 	private static AdventureResult lastHelperUsed = null;
+	private static AdventureResult lastFruit = null;
 	private static int askedAboutOde = 0;
 	private static int askedAboutMilk = 0;
 	private static int ignoreMilkPrompt = 0;
@@ -1676,6 +1679,21 @@ public class UseItemRequest
 
 		switch ( item.getItemId() )
 		{
+		case ItemPool.JACKING_MAP:
+			// The <fruit> disappears into the tube and begins bouncing
+			// around noisily inside the machine.
+			
+			// The <fruit> is sucked into the tube, displacing the <fruit>
+			// that was bouncing around in the machine. You wonder where it went.
+			if ( UseItemRequest.lastFruit != null &&
+				responseText.indexOf( "into the tube" ) != -1 )
+			{
+				ResultProcessor.processResult(
+					UseItemRequest.lastFruit.getNegation() );
+				UseItemRequest.lastFruit = null;
+			}
+			return;
+		
 		case ItemPool.CRYSTAL_ORB:
 			String oldType = Preferences.getString( "pastamancerGhostType" );
 			String oldName = Preferences.getString( "pastamancerGhostName" );
@@ -3693,6 +3711,17 @@ public class UseItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.JACKING_MAP:
+			UseItemRequest.lastFruit = null;
+			Matcher m = UseItemRequest.FRUIT_TUBING_PATTERN.matcher( urlString );
+			if ( m.find() )
+			{
+				UseItemRequest.lastFruit = ItemPool.get(
+					StringUtilities.parseInt( m.group( 1 ) ), 1 );
+				useString = "insert " + UseItemRequest.lastFruit + " into pneumatic tube interface";
+			}
+			break;
+			
 		case ItemPool.EXPRESS_CARD:
 			Preferences.setBoolean( "expressCardUsed", true );
 			break;
