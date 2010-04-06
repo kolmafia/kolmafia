@@ -570,6 +570,7 @@ calavera concertina	40	Mox: 5	2-handed accordion
 can cannon	75	Mox: 22	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
 can of maces	50	Mox: 10	1-handed club
+can-you-dig-it?	10	Mus: 0	1-handed spade
 candy knuckles	10	Mus: 0	1-handed knuckles
 cardboard crossbow	60	Mox: 15	2-handed crossbow
 cardboard katana	30	Mus: 0	1-handed sword
@@ -1627,4 +1628,5 @@ yellow glowstick	0	none
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	none
 Radio KoL Coffee Mug	0	none
+T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	none	
 hemp backpack	0	none

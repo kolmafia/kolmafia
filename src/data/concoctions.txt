@@ -1646,6 +1646,11 @@ sugar shield	SUGAR	sugar sheet
 sugar shirt	SUGAR, TORSO	sugar sheet
 
 
+# Legendary Beat quest items
+squirmy violent party snack	COOK	a dance upon the palate	tiny frozen prehistoric meteorite jawbreaker
+world's most unappetizing beverage	MIX	hair of the calf	can of depilatory cream
+
+
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
 

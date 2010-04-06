@@ -397,6 +397,12 @@ public abstract class UseLinkDecorator
 
 	private static final UseLink getUseLink( int itemId, int itemCount, int consumeMethod )
 	{
+		if ( !ItemDatabase.meetsLevelRequirement(
+			ItemDatabase.getItemName( itemId ) ) )
+		{
+			return null;
+		}
+		
 		switch ( consumeMethod )
 		{
 		case KoLConstants.GROW_FAMILIAR:

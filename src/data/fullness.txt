@@ -382,6 +382,7 @@ spooky mushroom	2	1	2-3	0	0	0
 spooky shroomkabob	2	1	2-5	0	0	6-11
 spooky stir-fry	2	3	2-10	0	0	14-18
 spooky surprise egg	1	1	1	0	0	0	series 2 tiny plastic
+squirmy violent party snack	1	1	3	9	4	16	10 Broken Dancing (Legendary Beat quest)
 stale baguette	3	1	3-6	0	0	0	lose 3 HP
 stalk of asparagus	1	1	1-2	0	1-3	0
 star key lime pie	4	6	13-19	20-24	20-24	20-24	2-4 lines, 2-4 stars
