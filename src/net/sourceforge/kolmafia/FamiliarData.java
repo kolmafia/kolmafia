@@ -434,6 +434,7 @@ public class FamiliarData
 		case ItemPool.JALAPENO_SLICES:
 		case ItemPool.SOLAR_PANELS:
 		case ItemPool.TINY_SOMBRERO:
+		case ItemPool.TINY_FLY_GLASSES:
 			return 0;
 
 		case ItemPool.TINY_COSTUME_WARDROBE:
@@ -619,6 +620,7 @@ public class FamiliarData
 		case ItemPool.SUGAR_SHIELD:
 		case ItemPool.MOVEABLE_FEAST:
 		case ItemPool.ITTAH_BITTAH_HOOKAH:
+		case ItemPool.TINY_FLY_GLASSES:
 			return this.id != FamiliarPool.CHAMELEON &&
 			       this.id != FamiliarPool.HATRACK;
 
@@ -695,6 +697,7 @@ public class FamiliarData
 		case ItemPool.SUGAR_SHIELD:
 		case ItemPool.MOVEABLE_FEAST:
 		case ItemPool.ITTAH_BITTAH_HOOKAH:
+		case ItemPool.TINY_FLY_GLASSES:
 			return true;
 		}
 
