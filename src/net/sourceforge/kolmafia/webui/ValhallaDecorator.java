@@ -282,7 +282,7 @@ public class ValhallaDecorator
 		buffer.append( KoLConstants.LINE_BREAK );
 
 		buffer.append( "<tr><td align=right><b>Skill to Keep:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=keepskill><option value=9999 selected></option><option value=0 selected>(no skill)</option>" );
+		buffer.append( "<select style=\"width: 250px\" name=keepskill><option value=9999 selected></option><option value=\"-1\" selected>(no skill)</option>" );
 
 		int skillId;
 		for ( int i = 0; i < recentSkills.size(); ++i )
