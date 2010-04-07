@@ -254,13 +254,14 @@ public class StationaryButtonDecorator
 			// from preferences
 			else if ( !hasSkill )
 			{
-				for ( int j = i; j < 5; ++j )
+				for ( int j = i; j < buttons; ++j )
 				{
 					Preferences.setString(
 						"stationaryButton" + j, Preferences.getString( "stationaryButton" + ( j + 1 ) ) );
 				}
 
-				Preferences.setString( "stationaryButton5", "" );
+				Preferences.setString( "stationaryButton" + buttons, "" );
+				--i;	// retry with the skill that's now in this position
 				continue;
 			}
 
