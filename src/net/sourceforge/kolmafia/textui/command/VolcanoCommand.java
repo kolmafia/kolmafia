@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -50,6 +51,12 @@ public class VolcanoCommand
 	{
 		String[] split = parameters.split( " " );
 		String command = split[ 0 ];
+
+		if ( command.equals( "slime" ) )
+		{
+			VolcanoIslandRequest.getSlime();
+			return;
+		}
 
 		if ( command.equals( "clear" ) )
 		{

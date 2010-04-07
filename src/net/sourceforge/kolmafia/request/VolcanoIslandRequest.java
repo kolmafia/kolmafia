@@ -83,6 +83,12 @@ public class VolcanoIslandRequest
 		this.addFormField( "subaction", subaction );
 	}
 
+	public static void getSlime()
+	{
+		VolcanoIslandRequest request = new VolcanoIslandRequest( NPC, SLIME);
+		RequestThread.postRequest( request );
+	}
+
 	public static String npcName()
 	{
 		String classType = KoLCharacter.getClassType();
