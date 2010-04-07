@@ -82,10 +82,7 @@ public abstract class UseLinkDecorator
 		}
 
 		// Defer use links until later if this isn't the final combat round
-		boolean duringCombat = inCombat &&
-			( Preferences.getBoolean( "serverAddsCustomCombat" ) 
-				? buffer.indexOf( "(show old combat form)" ) != -1
-				: buffer.indexOf( "fight.php" ) != -1 );
+		boolean duringCombat = inCombat && FightRequest.getCurrentRound() != 0;
 
 		String text = buffer.toString();
 		buffer.setLength( 0 );

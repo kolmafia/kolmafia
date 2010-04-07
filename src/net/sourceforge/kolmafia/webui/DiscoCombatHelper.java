@@ -709,8 +709,8 @@ public class DiscoCombatHelper
 			return;
 		}
 
-		// If you've already won the fight, punt
-		if ( buffer.indexOf( "WINWINWIN" ) != -1 )
+		// If the fight is over, punt
+		if ( FightRequest.getCurrentRound() == 0 )
 		{
 			return;
 		}
