@@ -1080,6 +1080,7 @@ public class ItemPool
 	public static final int ITTAH_BITTAH_HOOKAH = 4519;
 	public static final int JACKING_MAP = 4560;
 	public static final int TINY_FLY_GLASSES = 4566;
+	public static final int LEGENDARY_BEAT = 4573;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
