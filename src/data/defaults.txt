@@ -587,6 +587,7 @@ user	_hareAdv	0
 user	_hotTubSoaks	0
 user	_klawSummons	0
 user	_leafblowerML	1
+user	_legendaryBeat	false
 user	_lookingGlass	false
 user	_navelRunaways	0
 user	_poolGames	0

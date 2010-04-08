@@ -1679,6 +1679,10 @@ public class UseItemRequest
 
 		switch ( item.getItemId() )
 		{
+		case ItemPool.LEGENDARY_BEAT:
+			Preferences.setBoolean( "_legendaryBeat", true );
+			return;
+			
 		case ItemPool.JACKING_MAP:
 			// The <fruit> disappears into the tube and begins bouncing
 			// around noisily inside the machine.

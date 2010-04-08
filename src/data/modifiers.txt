@@ -2160,6 +2160,7 @@ Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Clean-Shaven	Moxie: +5
 Cletus's Canticle of Celerity	Initiative: +20
 # Clumsy: Always Fumble
+Clyde's Blessing	Item Drop: +50
 Coated Arms	Weapon Damage: +15
 # Coated in Slime: It Burns!  It Burns!
 Cock of the Walk	Moxie Percent: +200

@@ -111,6 +111,8 @@ public class DailyDeedsPanel
 			ItemPool.NEVERENDING_SODA, "use Oscus's neverending soda" ) );
 		this.add( new BooleanItemDaily( "expressCardUsed",
 			ItemPool.EXPRESS_CARD, "use Yendorian Express card" ) );
+		this.add( new BooleanItemDaily( "_legendaryBeat",
+			ItemPool.LEGENDARY_BEAT, "use Legendary Beat" ) );
 		this.add( new MojoDaily() );
 		this.add( new MelangeDaily() );
 		this.add( new StillsDaily() );
