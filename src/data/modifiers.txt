@@ -1929,7 +1929,7 @@ tiny bust of Pallas	Familiar Weight: +5
 tiny cell phone	Familiar Weight: +10
 # tiny costume wardrobe: Contains Many Adorable Costumes
 tiny costume wardrobe	Familiar Weight: [25*fam(doppelshifter)], Softcore Only
-tiny fly glasses	Familiar Experience: +1
+tiny fly glasses	Experience (familiar): +1
 tiny knife and fork	Familiar Weight: +5
 tiny makeup kit	Familiar Weight: +15
 tiny maracas	Familiar Weight: +5
@@ -2963,9 +2963,9 @@ synergy/bitter bowtie/brazen bracelet	Meat Drop: +10, Cold Resistance: +1, Sleaz
 synergy/brazen bracelet/bewitching boots	Meat Drop: +10, Sleaze Resistance: +1
 synergy/cardboard katana/cardboard wakizashi	Weapon Damage: +20
 synergy/lupine sword/snarling wolf shield	Spooky Damage: +9
-synergy/molten medallion/monstrous monocle	Item Drop: +5, Hot Resistance: +1, Spooky Resistance: +1
-synergy/monstrous monocle/musty moccasins	Item Drop: +5, Spooky Resistance: +1, Stench Resistance: +1
-synergy/musty moccasins/molten medallion	Item Drop: +5, Stench Resistance: +1, Hot Resistance: +1
+synergy/molten medallion/monstrous monocle	Item Drop: +10, Hot Resistance: +1, Spooky Resistance: +1
+synergy/monstrous monocle/musty moccasins	Item Drop: +10, Spooky Resistance: +1, Stench Resistance: +1
+synergy/musty moccasins/molten medallion	Item Drop: +10, Stench Resistance: +1, Hot Resistance: +1
 synergy/serpentine sword/snake shield	Monster Level: +10
 synergy/stuffed carpenter/stuffed walrus	HP Regen Min: 5, HP Regen Max: 5, MP Regen Min: 5, MP Regen Max: 5
 
