@@ -159,7 +159,7 @@ An Angry Bugbear	HP: 12 Def: 15 Atk: 15
 An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky	annoying pitchfork (100)
 Ancient Guardian Statue	HP: 80 Def: 60 Atk: 50	ancient stone fist (0)	ancient stone head (0)
 Ancient Insane Monk	HP: 6 Atk: 4 Def: 4	Bash-&#332;s cereal (15)	bottle of sake (25)	haiku challenge map (c0)	little round pebble (p0)
-Ancient Protector Spirit	HP: 80 Def: 158 Atk: 158	obsidian dagger (20)	mossy stone sphere (20)	rough stone sphere (20)	smooth stone sphere (20)	cracked stone sphere (20)
+Ancient Protector Spirit	HP: 80 Def: 158 Atk: 158	obsidian dagger (c100)	mossy stone sphere (c100)	rough stone sphere (c100)	smooth stone sphere (c100)	cracked stone sphere (c100)
 Ancient temple guardian	HP: 0 Def: 80 Atk: 70	ancient stone fist (0)	ancient stone head (0)
 Anemone Combatant	HP: 600 Def: 650 Atk: 400 Meat: 80-120 "Majorly Poisoned"	anemone nematocyst (25)
 Anglerbush	HP: 10 Def: 9 Atk: 7	meat stack (35)
