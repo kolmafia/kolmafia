@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.webui;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -118,42 +119,60 @@ public class NemesisDecorator
 		Preferences.increment( setting, 1 );
 	}
 
-	public static final String danceMoveStatus( final String monster )
+	private static final String [] findRaver( final String monster )
 	{
-		NemesisManager.ensureUpdatedNemesisStatus();
 		for ( int i = 0; i < NemesisDecorator.SPECIAL_MOVES.length; ++i )
 		{
 			String moves[] = NemesisDecorator.SPECIAL_MOVES[ i ];
 			if ( monster.equalsIgnoreCase( moves[0] ) )
 			{
-				StringBuffer buffer = new StringBuffer();
-				String skill = moves[ 1 ];
-				buffer.append( skill );
-				if ( KoLCharacter.hasSkill( skill ) )
-				{
-					buffer.append( " (<b>KNOWN</b>)" );
-				}
-				else
-				{
-					String setting = moves[ 2 ];
-					String current = Preferences.getString( setting );
-					buffer.append( " (" );
-					buffer.append( current );
-					buffer.append( ")" );
-				}
-				return buffer.toString();
+				return moves;
+
 			}
 		}
+
+		return null;
+	}
+
+	public static final String danceMoveStatus( final String monster )
+	{
+		NemesisManager.ensureUpdatedNemesisStatus();
+		String moves[] = NemesisDecorator.findRaver( monster );
+		if ( moves != null )
+		{
+			StringBuffer buffer = new StringBuffer();
+			String skill = moves[ 1 ];
+			buffer.append( skill );
+			if ( KoLCharacter.hasSkill( skill ) )
+			{
+				buffer.append( " (<b>KNOWN</b>)" );
+			}
+			else
+			{
+				String setting = moves[ 2 ];
+				String current = Preferences.getString( setting );
+				buffer.append( " (" );
+				buffer.append( current );
+				buffer.append( ")" );
+			}
+			return buffer.toString();
+		}
+
 		return null;
 	}
 
 	public static final void decorateRaverFight( final StringBuffer buffer )
 	{
 		NemesisManager.ensureUpdatedNemesisStatus();
-		for ( int i = 0; i < NemesisDecorator.SPECIAL_MOVES.length; ++i )
+		String moves[] = NemesisDecorator.findRaver( FightRequest.getLastMonsterName() );
+		if ( moves != null )
 		{
-			String move = NemesisDecorator.SPECIAL_MOVES[ i ][3];
-			StringUtilities.singleStringReplace( buffer, move, "<font color=#DD00FF>" + move + "</font>" );
+			String skill = moves[ 1 ];
+			if ( !KoLCharacter.hasSkill( skill ) )
+			{
+				String move = moves[3];
+				StringUtilities.singleStringReplace( buffer, move, "<font color=#DD00FF>" + move + "</font>" );
+			}
 		}
 	}
 }
