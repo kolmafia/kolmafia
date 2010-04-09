@@ -144,7 +144,6 @@ public class AccountRequest
 		if ( responseText.indexOf( "<input class=button type=submit value=\"Drop Bad Moon\">" ) != -1 )
 		{
 			KoLCharacter.setSign( "Bad Moon" );
-			KoLCharacter.setHardcore( true );
 		}
 		else
 		{
@@ -152,7 +151,6 @@ public class AccountRequest
 			{
 				KoLCharacter.setSign( "None" );
 			}
-			KoLCharacter.setHardcore( responseText.indexOf( "<input class=button type=submit value=\"Drop Hardcore\">" ) != -1 );
 		}
 
 		// Your skills have been recalled if you have freed the king
