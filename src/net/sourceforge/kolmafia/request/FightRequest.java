@@ -1933,11 +1933,20 @@ public class FightRequest
 		}
 
 		// Reset round information if the battle is complete.
-		// This is recognized when fight.php has no data.
 
-		if ( responseText.indexOf( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
+		boolean won = responseText.indexOf( "<!--WINWINWIN-->" ) != -1;
+
+                // If we won, the fight is over for sure. It might be over
+                // anyway. We can detect this in one of two ways: if you have
+                // the CAB enabled, there will be no link to the old combat
+                // form. Otherwise, a link to fight.php indicates that the
+                // fight is continuing
+
+		if ( !won &&
+		     responseText.indexOf( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
 					   "(show old combat form)" :
 					   "fight.php" ) != -1 )
+
 		{
 			FightRequest.foundNextRound = true;
 			return;
@@ -2077,7 +2086,7 @@ public class FightRequest
 		// Cancel any combat modifiers
 		Modifiers.overrideModifier( "fightMods", null );
 
-		if ( responseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
+		if ( won )
 		{
 			String monster = FightRequest.encounterLookup;
 
