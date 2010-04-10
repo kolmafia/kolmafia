@@ -984,6 +984,7 @@ public abstract class KoLmafia
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		KoLmafia.isRefreshing = false;
+		ConcoctionDatabase.refreshConcoctions();
 
 		// Visit lounge and report on whether you have a present waiting
 		ClanLoungeRequest.visitLounge();

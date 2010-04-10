@@ -877,10 +877,7 @@ public class ConcoctionDatabase
 			!ConcoctionDatabase.queuedBoozeIngredients.isEmpty() ||
 			!ConcoctionDatabase.queuedSpleenIngredients.isEmpty();
 
-		if ( !includeCloset && !includeStash && !includeQueue &&
-			ConcoctionDatabase.queuedFoodIngredients.isEmpty() &&
-			ConcoctionDatabase.queuedBoozeIngredients.isEmpty() &&
-			ConcoctionDatabase.queuedSpleenIngredients.isEmpty() )
+		if ( !includeCloset && !includeStorage && !includeStash && !includeQueue )
 		{
 			return KoLConstants.inventory;
 		}
