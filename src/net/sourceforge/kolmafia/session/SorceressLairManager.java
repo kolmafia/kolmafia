@@ -99,6 +99,7 @@ public abstract class SorceressLairManager
 		ItemPool.get( ItemPool.STONE_BANJO, 1 ),
 		ItemPool.get( ItemPool.DISCO_BANJO, 1 ),
 		ItemPool.get( ItemPool.SHAGADELIC_DISCO_BANJO, 1 ),
+		ItemPool.get( ItemPool.SEEGERS_BANJO, 1 ),
 		ItemPool.get( ItemPool.CRIMBO_UKELELE, 1 ),
 		ItemPool.get( ItemPool.MASSIVE_SITAR, 1 ),
 		ItemPool.get( ItemPool.ZIM_MERMANS_GUITAR, 1 ),

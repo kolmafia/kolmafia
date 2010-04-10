@@ -1,21 +1,21 @@
 2
 # Hats section of equipment.txt
 
-Ancient Saucehelm	75	Mys: 15
+Ancient Saucehelm	100	Mys: 15
 BRICKO hat	30	none
 Baron von Ratsworth's tophat	75	Mox: 22
 Brimstone Beret	200	Mox: 30
 Cerebral Cloche	90	Mox: 30
 Cloaca-Cola helmet	30	none
-Colander of Em-er'il	75	Mys: 15
+Colander of Em-er'il	100	Mys: 15
 Crimbo hat	100	Mox: 35
 Crown of the Goblin King	70	Mox: 20
-Disco 'Fro Pick	75	Mox: 15
+Disco 'Fro Pick	100	Mox: 15
 Dolphin King's crown	35	Mox: 2
 Dyspepsi-Cola helmet	30	none
-El Sombrero De Lopez	75	Mox: 15
+El Sombrero De Lopez	100	Mox: 15
 El Vibrato helmet	200	Mox: 200
-Elder Turtle Shell	75	Mus: 15
+Elder Turtle Shell	100	Mus: 15
 Frosty's old silk hat	200	Mus: 200
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
@@ -31,7 +31,7 @@ Mohawk wig	140	Mox: 55
 Ol' Scratch's stovepipe hat	200	Mys: 200
 Orcish baseball cap	60	Mox: 15
 Radio Free Baseball Cap	150	Mox: 60
-Scalp of Gorgolok	75	Mus: 15
+Scalp of Gorgolok	100	Mus: 15
 Seasonal Beret	100	Mys: 35
 Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
