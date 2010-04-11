@@ -6,9 +6,15 @@
 #	DESC_ITEM - spec is an item name, regex is applied to its description.
 #	DESC_SKILL - spec is a skill name, regex is applied to its description.
 #	DESC_EFFECT - spec is an effect name, regex is applied to its description.
+#	MONSTER - spec is a KoL monster name, regex is applied to the initial combat
+#		page.  The first text action replaces the monster's name.
 #
-# Only one kind of action is currently defined:
+# The currently defined actions are:
+#	"text" - returns a text value.  Normally this would just be printed, but some
+#		consequence types may define some other meaning for text actions.
 #	name=value - set a preference.
+#	anything else - assumed to be a text action.  Not safe for text that starts
+#		with a punctuation mark, or contains an equal sign; quote it to be sure.
 #
 # Two levels of text substitution are performed on actions:
 #	1. A $ followed by a digit is replaced by the corresponding numbered group
@@ -19,6 +25,8 @@
 #		operators are expected to be useful here.
 
 DESC_ITEM	The Landscaper's leafblower	\+(\d+) Monster Level	_leafblowerML=$1
+DESC_ITEM	Spooky Putty monster	a picture of (a|an|something totally unrecognizable|)\s*(.*?)!	spookyPuttyMonster=$2
+DESC_ITEM	shaking 4-d camera	an angry (monster)?(.*?) or something	cameraMonster=$2
 
 DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=$1
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1
@@ -28,4 +36,26 @@ DESC_EFFECT	Towering Strength	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_EFFECT	Mitre Cut	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_EFFECT	Knightlife	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_EFFECT	Having a Ball!	\+(\d+)%	ballpitBonus=$1
+DESC_EFFECT	On the Trail	I mean "(.*?)\."<	olfactedMonster=$1
 
+# Monster disambiguation:
+
+MONSTER	Animated Nightstand	darkstand\.gif	"Animated Nightstand (Mahogany)"
+MONSTER	Animated Nightstand	.	"Animated Nightstand (White)"
+
+MONSTER	Orcish Frat Boy	fratskirt\.gif	"Orcish Frat Boy (Pledge)"
+MONSTER	Orcish Frat Boy	rectify	"Orcish Frat Boy (Music Lover)"
+MONSTER	Orcish Frat Boy	.	"Orcish Frat Boy (Paddler)"
+
+MONSTER	Guard Turtle	frenchturtle\.gif	"French Guard Turtle"
+
+MONSTER	Trippy Floating Head	kasemhead\.gif	"Trippy Floating Head (Casey Kasem)"
+MONSTER	Trippy Floating Head	tarkinhead\.gif	"Trippy Floating Head (Grand Moff Tarkin)"
+MONSTER	Trippy Floating Head	.	"Trippy Floating Head (Mona Lisa)"
+
+MONSTER	Ninja Snowman	ninjarice\.gif	"Ninja Snowman (Chopsticks)"
+MONSTER	Ninja Snowman	.	"Ninja Snowman (Hilt/Mask)"
+
+MONSTER	The Darkness	darkness\.gif	"The Darkness (blind)"
+
+MONSTER	Ed the Undying	/ed(\d)\.gif	"Ed the Undying ($1)"
