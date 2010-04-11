@@ -311,7 +311,13 @@ Drunken Rat	HP: 8 Def: 11 Atk: 9 Meat: 8-12	rat whisker (100)	rat appendix (20)
 Dyspepsi-Cola General	HP: 40 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
 Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)	lucky lighter (p0)
-Ed the Undying	HP: 256 Atk: 180	Holy MacGuffin (100)
+Ed the Undying (1)	HP: 256 Atk: 180
+Ed the Undying (2)	HP: 256 Atk: 180
+Ed the Undying (3)	HP: 128 Atk: 180
+Ed the Undying (4)	HP: 64 Atk: 180
+Ed the Undying (5)	HP: 32 Atk: 180
+Ed the Undying (6)	HP: 16 Atk: 180
+Ed the Undying (7)	HP: 8 Atk: 180	Holy MacGuffin (n100)
 Edwing Abbidriel	HP: 0	elf resistance button (100)
 El Diablo	HP: 100000
 Electron Submarine	HP: 100000

@@ -70,6 +70,7 @@ public abstract class ConsequenceManager
 	private static final HashMap effectDescs = new HashMap();
 	private static final HashMap skillDescs = new HashMap();
 	private static final ArrayList descriptions = new ArrayList();
+	private static final HashMap monsters = new HashMap();
 
 	private static final Pattern GROUP_PATTERN = Pattern.compile( "\\$(\\d)" );
 	private static final Pattern EXPR_PATTERN = Pattern.compile( "\\[(.+?)\\]" );
@@ -161,6 +162,10 @@ public abstract class ConsequenceManager
 					+ key );
 			}
 		}
+		else if ( type.equals( "MONSTER" ) )
+		{
+			cons.register( ConsequenceManager.monsters, spec.toLowerCase() );
+		}
 		else
 		{
 			RequestLogger.printLine( "Unknown consequence type: " + type );
@@ -210,6 +215,21 @@ public abstract class ConsequenceManager
 		StaticEntity.externalUpdate( req.getURLString(), req.responseText );
 	}
 
+	public static String disambiguateMonster( String monster, String responseText )
+	{
+		Consequence cons = (Consequence) ConsequenceManager.monsters.get(
+			monster.toLowerCase() );
+		if ( cons != null )
+		{
+			String rv = cons.test( responseText, false );
+			if ( rv != null )
+			{
+				return rv;
+			}
+		}
+		return monster;
+	}
+	
 	private static class Consequence
 	{
 		private String[] data;
@@ -243,14 +263,14 @@ public abstract class ConsequenceManager
 			map.put( key, this );
 		}
 		
-		public void test( CharSequence text )
-		{
-			this.test( text, true );
-		}
-		
 		public String toString()
 		{
 			return "consequence " + this.getType() + "/" + this.getSpec();
+		}
+		
+		public void test( CharSequence text )
+		{
+			this.test( text, true );
 		}
 		
 		public String test( CharSequence text, boolean printText )
@@ -259,6 +279,10 @@ public abstract class ConsequenceManager
 			if ( this.next != null )
 			{
 				rv = this.next.test( text, printText );
+				if ( rv != null && !printText )
+				{
+					return rv;
+				}
 			}
 			else if ( Preferences.getBoolean( "debugConsequences" ) )
 			{
@@ -331,7 +355,14 @@ public abstract class ConsequenceManager
 				RequestLogger.printLine( "Firing action: " + action );
 			}
 			
-			int pos = action.indexOf( '=' );
+			int pos;
+			if ( action.startsWith( "\"" ) )
+			{
+				pos = action.length() - (action.endsWith( "\"" ) ? 1 : 0);
+				return action.substring( 1, pos );
+			}
+			
+			pos = action.indexOf( '=' );
 			if ( pos != -1 )
 			{
 				Preferences.setString( action.substring( 0, pos ).trim(),

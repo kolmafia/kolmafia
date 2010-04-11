@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
+import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
@@ -1610,49 +1611,15 @@ public class FightRequest
 
 			// If this is the first round, then register the
 			// opponent you are fighting against.
+			
+			encounter = ConsequenceManager.disambiguateMonster(
+				encounter, responseText );
 
-			if ( encounter.equalsIgnoreCase( "Animated Nightstand" ) )
-			{
-				encounter = responseText.indexOf( "darkstand.gif" ) != -1 ?
-					"Animated Nightstand (Mahogany)" : "Animated Nightstand (White)" ;
-			}
-			else if ( encounter.equalsIgnoreCase( "Orcish Frat Boy" ) )
-			{
-				encounter =
-					responseText.indexOf( "fratskirt.gif" ) != -1 ? "Orcish Frat Boy (Pledge)" :
-					responseText.indexOf( "rectify" ) != -1 ? "Orcish Frat Boy (Music Lover)" :
-						"Orcish Frat Boy (Paddler)";
-			}
-			else if ( encounter.equalsIgnoreCase( "Guard Turtle" ) )
-			{
-				if ( responseText.indexOf( "frenchturtle.gif" ) != -1 )
-				{
-					encounter = "French Guard Turtle";
-				}
-			}
-			else if ( encounter.equalsIgnoreCase( "Trippy Floating Head" ) )
-			{
-				encounter =
-					responseText.indexOf( "kasemhead.gif" ) != -1 ? "Trippy Floating Head (Casey Kasem)" :
-					responseText.indexOf( "tarkinhead.gif" ) != -1 ? "Trippy Floating Head (Grand Moff Tarkin)" :
-						"Trippy Floating Head (Mona Lisa)";
-			}
-			else if ( encounter.equalsIgnoreCase( "Ninja Snowman" ) )
-			{
-				encounter = responseText.indexOf( "ninjarice.gif" ) != -1 ?
-					"Ninja Snowman (Chopsticks)" : "Ninja Snowman (Hilt/Mask)";
-			}
-			else if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
+			if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
 			{
 				HiddenCityRequest.addHiddenCityLocation( 'P' );
 
 			}
-			else if ( encounter.equalsIgnoreCase( "The Darkness" ) &&
-				responseText.indexOf( "darkness.gif" ) != -1 )
-			{
-				encounter = "The Darkness (blind)";
-			}
-
 			else if ( encounter.equalsIgnoreCase( "giant octopus" ) )
 			{
 				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
