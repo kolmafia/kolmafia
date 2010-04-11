@@ -1166,6 +1166,17 @@ public abstract class KoLCharacter
 		EquipmentManager.updateEquipmentLists();
 		Preferences.firePreferenceChanged( "(equippable)" );
 	}
+	
+	public static final int getTriggerItem( int stat )
+	{
+		return KoLCharacter.triggerItem[ stat ];
+	}
+	
+	public static final int getTriggerPoints( int stat )
+	{
+		return KoLCharacter.calculateBasePoints(
+			KoLCharacter.triggerSubpoints[ stat ] );
+	}
 
 	/**
 	 * Utility method for calculating how many subpoints are need to reach

@@ -50,6 +50,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 
 public class CharSheetFrame
@@ -110,6 +111,19 @@ public class CharSheetFrame
 		tnp.setString( label +
 			KoLConstants.COMMA_FORMAT.format( tnp.getValue() ) + " / " +
 			KoLConstants.COMMA_FORMAT.format( tnp.getMaximum() ) );
+		int points = KoLCharacter.getTriggerPoints( displayIndex );
+		if ( points == Integer.MAX_VALUE )
+		{
+			tnp.setToolTipText( "You can equip everything you have!" );
+		}
+		else
+		{
+			tnp.setToolTipText( "At " + points +
+				" points, you'll be able to equip a " +
+				ItemDatabase.getItemName(
+					KoLCharacter.getTriggerItem( displayIndex ) ) +
+				" (and maybe more)" );
+		}
 	}
 
 	/**
