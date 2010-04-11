@@ -675,6 +675,7 @@ public class Modifiers
 	public static final int ADDITIONAL_SONG = 20;
 	public static final int ADVENTURE_UNDERWATER = 21;
 	public static final int UNDERWATER_FAMILIAR = 22;
+	public static final int GENERIC = 23;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -770,6 +771,10 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Underwater Familiar" )
 		},
+		{ "Generic",
+		  null,
+		  Pattern.compile( "Generic" )
+		},
 	};
 
 	public static final int BOOLEAN_MODIFIERS = Modifiers.booleanModifiers.length;
@@ -790,6 +795,7 @@ public class Modifiers
 	public static final int STAT_TUNING = 6;
 	public static final int FAMILIAR_TUNING = 7;
 	public static final int EFFECT = 8;
+	public static final int EQUIPS_ON = 9;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -828,6 +834,10 @@ public class Modifiers
 		{ "Effect",
 		  null,
 		  Pattern.compile( "Effect: \"(.*?)\"" )
+		},
+		{ "Equips On",
+		  null,
+		  Pattern.compile( "Equips On: \"(.*?)\"" )
 		},
 	};
 
