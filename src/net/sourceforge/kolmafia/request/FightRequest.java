@@ -140,7 +140,7 @@ public class FightRequest
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
 	private static final Pattern CLEESH_PATTERN =
-		Pattern.compile( "You cast CLEESH at your opponent.*?into a (\\w*)", Pattern.DOTALL );
+		Pattern.compile( "<script>newpic\\(\".*?\", \"(.*?)\"\\)" );
 	private static final Pattern WORN_STICKER_PATTERN =
 		Pattern.compile( "A sticker falls off your weapon, faded and torn" );
 	private static final Pattern BALLROOM_SONG_PATTERN =
@@ -1654,31 +1654,23 @@ public class FightRequest
 
 			autoAttacked = FightRequest.checkForInitiative( responseText );
 		}
-		else
+
 		{
-			// Otherwise, the player can change the monster
-			String newMonster = null;
+			// The player (or perhaps their familiar or pasta guardian)
+			// can change the monster
 
 			m = CLEESH_PATTERN.matcher( responseText );
 			if ( m.find() )
 			{
-				newMonster = m.group(1);
-			}
-
-			// You start to run up to the hole, then change your
-			// mind as a giant sandworm erupts out of it, howling
-			// with fury.
-
-			else if ( responseText.indexOf( "a giant sandworm erupts out of it" ) != -1 )
-			{
-				newMonster = "giant sandworm";
-			}
-
-			if ( newMonster != null )
-			{
+				String newMonster = m.group( 1 );
 				FightRequest.encounterLookup = CustomCombatManager.encounterKey( newMonster );
 				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
 				FightRequest.healthModifier = 0;
+				
+				newMonster = "Round " + FightRequest.currentRound +
+					": your opponent becomes " + newMonster + "!";
+				RequestLogger.printLine( newMonster );
+				RequestLogger.updateSessionLog( newMonster );
 			}
 		}
 
