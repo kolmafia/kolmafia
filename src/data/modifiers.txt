@@ -1783,24 +1783,24 @@ hemp backpack	Item Drop: +2
 1.21 jigawatts	Familiar Weight: +5
 100-Watt bulb	Familiar Weight: +5
 Jawmaster 2000&trade;	Familiar Weight: +5
-Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Meat Drop (sporadic): +5, Item Drop (sporadic): +2.5, Experience (familiar): +0.375, Softcore Only
+Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Meat Drop (sporadic): +5, Item Drop (sporadic): +2.5, Experience (familiar): +0.375, Softcore Only, Generic
 Meat detector	Familiar Weight: +5
-Panda outfit	Familiar Weight: +5, Item Drop: +5
+Panda outfit	Familiar Weight: +5, Item Drop: +5, Generic
 Pretty Predator Clawicure Kit	Familiar Weight: +5
-Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5
-amphibious tophat	Underwater Familiar
-annoying pitchfork	Monster Level: +5
+Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Generic
+amphibious tophat	Underwater Familiar, Equips On: "Dancing Frog"
+annoying pitchfork	Monster Level: +5, Generic
 ant antidepressant	Familiar Weight: +5
 # ant hoe: Your familiar will sow pain and reap Meat.
-ant hoe	Familiar Effect: "sleaze damage, meat", Meat Bonus: +12.5
+ant hoe	Familiar Effect: "sleaze damage, meat", Meat Bonus: +12.5, Generic
 # ant pick: Your familiar will sow pain and reap Meat.
-ant pick	Familiar Effect: "cold damage, meat", Meat Bonus: +12.5
+ant pick	Familiar Effect: "cold damage, meat", Meat Bonus: +12.5, Generic
 # ant pitchfork: Your familiar will sow pain and reap Meat.
-ant pitchfork	Familiar Effect: "stench damage, meat", Meat Bonus: +12.5
+ant pitchfork	Familiar Effect: "stench damage, meat", Meat Bonus: +12.5, Generic
 # ant rake: Your familiar will sow pain and reap Meat.
-ant rake	Familiar Effect: "hot damage, meat", Meat Bonus: +12.5
+ant rake	Familiar Effect: "hot damage, meat", Meat Bonus: +12.5, Generic
 # ant sickle: Your familiar will sow pain and reap Meat.
-ant sickle	Familiar Effect: "spooky damage, meat", Meat Bonus: +12.5
+ant sickle	Familiar Effect: "spooky damage, meat", Meat Bonus: +12.5, Generic
 aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Mysticality", Familiar Effect: "mys stats"
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
@@ -1813,18 +1813,18 @@ bottle of Cochon Noir	Familiar Weight: +5
 bottle of perfume	Familiar Weight: +5
 brass crank handle	Familiar Weight: +5
 brass stinger	Familiar Weight: +5
-bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	Food Drop: +5, Pants Drop: +5, Candy Drop: +5, Fairy: 1.0
-bugged balaclava	Monster Level: +20, Volleyball: 1.0
+bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	Food Drop: +5, Pants Drop: +5, Candy Drop: +5, Fairy: 1.0, Equips On: "Baby Bugged Bugbear"
+bugged balaclava	Monster Level: +20, Volleyball: 1.0, Equips On: "Baby Bugged Bugbear"
 bugged beanie	Familiar Weight: +10
 cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
 candied yam pinky ring	Familiar Weight: +5
-charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Moxie", Familiar Effect: "mox stats"
+charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Moxie", Familiar Effect: "mox stats", Equips On: "Frumious Bandersnatch"
 chocolate spurs	Familiar Weight: +5
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
-crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Muscle", Familiar Effect: "mus stats"
-das boot	Familiar Weight: -10, Underwater Familiar, Familiar Effect: "adventure underwater"
+crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Muscle", Familiar Effect: "mus stats", Equips On: "Frumious Bandersnatch"
+das boot	Familiar Weight: -10, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
 dental pliers	Familiar Weight: +5
 diamond-studded fronts	Familiar Weight: +5
 # evil teddy bear sewing kit: Teddy Bear loses less stuffing when hit.
@@ -1836,8 +1836,8 @@ false eyelashes	Familiar Weight: +5
 # farfalle bow tie: +10 lbs. of Barnacle
 fin-bit wax	Familiar Weight: +5
 # fishy wand: Lets your familiar cast fishy spells
-fishy wand	Familiar Effect: "fishy spells"
-flaming familiar doppelg&auml;nger	Monster Level: +5, Experience (familiar): +1.5, Softcore Only
+fishy wand	Familiar Effect: "fishy spells", Generic
+flaming familiar doppelg&auml;nger	Monster Level: +5, Experience (familiar): +1.5, Softcore Only, Generic
 flaming glowsticks	Familiar Weight: +5
 funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
@@ -1845,6 +1845,7 @@ gazing shoes	Familiar Weight: +5
 gill rings	Familiar Weight: +5
 green pixie spog	Familiar Weight: +5
 # guard turtle collar: +10 to Familiar Damage
+guard turtle collar	Generic
 half-height unicycle	Familiar Weight: +5
 hardware upgrade	Familiar Weight: +5
 hot pink lipstick	Familiar Weight: +5
@@ -1852,47 +1853,47 @@ hypodermic needle	Familiar Weight: +5
 iced-out bling	Familiar Weight: +5
 icicle katana	Familiar Weight: +5
 # imitation whetstone: Makes Imitation Crab claws sharper
-ittah bittah hookah	Familiar Weight: +5
+ittah bittah hookah	Familiar Weight: +5, Generic
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
 jalape&ntilde;o slices	Meat Drop: +60.9
-lead necklace	Familiar Weight: +3
+lead necklace	Familiar Weight: +3, Generic
 limburger biker boots	Familiar Weight: +5
-little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater"
-little box of fireworks	Familiar Weight: +5, Experience: +1.5, Item Drop (sporadic): +12.5, Softcore Only
-lucky Tam O'Shanter	Meat Drop: +50, Softcore Only
-lucky Tam O'Shatner	Meat Drop: +50, Softcore Only
+little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
+little box of fireworks	Familiar Weight: +5, Experience: +1.5, Item Drop (sporadic): +12.5, Softcore Only, Generic
+lucky Tam O'Shanter	Meat Drop: +50, Softcore Only, Generic
+lucky Tam O'Shatner	Meat Drop: +50, Softcore Only, Generic
 magnifying glass	Familiar Weight: +5
 many-eyed glasses	Familiar Weight: +5
 meatcar model	Familiar Weight: +5
 menorette	Familiar Weight: +5
 metal mandible	Familiar Weight: +5
 metallic foil bow	Familiar Weight: +5
-metallic foil radar dish	Familiar Weight: +5, Volleyball: -1, Sombrero: +1
+metallic foil radar dish	Familiar Weight: +5, Volleyball: -1, Sombrero: +1, Equips On: "Crimbo P. R. E. S. S. I. E."
 metrognome	Familiar Weight: +5
 miniature Jacob's ladder	Familiar Weight: +5
-miniature antlers	Familiar Weight: [1+ceil(M/2)]
+miniature antlers	Familiar Weight: [1+ceil(M/2)], Generic
 miniature carton of clove cigarettes	Familiar Weight: +5
 miniature castagnets	Familiar Weight: +5
 # miniature dormouse: Makes March Hare More Better
 miniature espresso maker	Familiar Weight: +5
-miniature gravy-covered maypole	Item Drop: +25, Softcore Only
+miniature gravy-covered maypole	Item Drop: +25, Softcore Only, Generic
 miniature tophat	Familiar Weight: +5
 mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moonglasses: Makes Familiar Less Sensitive to Light
 # moveable feast: Familiar will start food fights!
-moveable feast	Familiar Weight: +5, Experience (familiar): +1, Softcore Only
+moveable feast	Familiar Weight: +5, Experience (familiar): +1, Softcore Only, Generic
 # origami &quot;gentlemen's&quot; magazine: + 10 lbs. of Ghuol Whelp
-origami &quot;gentlemen's&quot; magazine	Softcore Only
+origami &quot;gentlemen's&quot; magazine	Softcore Only, Generic
 overclocked avian microprocessor	Familiar Weight: +5
 # oversized fish scaler: Allows familiar to scale fish
-oversized fish scaler	Familiar Effect: "attack"
+oversized fish scaler	Familiar Effect: "attack", Generic
 palm-frond toupee	Familiar Weight: +5
 # penguin-smacking club: +5 to Familiar Damage
 pet anemone	Familiar Weight: +5
-pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11
-pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11
+pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box"
+pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box"
 # plastic bib: Makes your ghost better at eating stuff.
-plastic pumpkin bucket	Familiar Weight: +5, Item Drop: +13, Softcore Only
+plastic pumpkin bucket	Familiar Weight: +5, Item Drop: +13, Softcore Only, Generic
 # pretty pink bow: +10 lbs. of Ghoul Whelp
 prosthetic forehead	Familiar Weight: +5
 psychedelic bubble wand	Familiar Weight: +5
@@ -1900,7 +1901,7 @@ psychedelic bubble wand	Familiar Weight: +5
 quadroculars	Familiar Weight: +5
 radioactive chew toy	Familiar Weight: +5
 rainbow tie	Familiar Weight: +5
-rat head balloon	Familiar Weight: -3
+rat head balloon	Familiar Weight: -3, Generic
 rattlesnake enrager	Familiar Weight: +5
 rhesus monkey	Familiar Weight: +5
 security blankie	Familiar Weight: +5
@@ -1916,7 +1917,7 @@ spoon!	Familiar Weight: +5
 # stick-on mini solar panels: +10 lbs. of Starfish
 string of dingle balls	Familiar Weight: +5
 sucky decal	Familiar Weight: +5
-sugar shield	Familiar Weight: +10
+sugar shield	Familiar Weight: +10, Generic
 # targeting chip: More likely to use more powerful attacks
 tasteful black bow tie	Familiar Weight: +5
 # teddy bear sewing kit: Teddy Bear loses less stuffing when hit.
@@ -1928,8 +1929,8 @@ tiny bindle	Familiar Weight: +5
 tiny bust of Pallas	Familiar Weight: +5
 tiny cell phone	Familiar Weight: +10
 # tiny costume wardrobe: Contains Many Adorable Costumes
-tiny costume wardrobe	Familiar Weight: [25*fam(doppelshifter)], Softcore Only
-tiny fly glasses	Experience (familiar): +1
+tiny costume wardrobe	Familiar Weight: [25*fam(doppelshifter)], Softcore Only, Generic
+tiny fly glasses	Experience (familiar): +1, Generic
 tiny knife and fork	Familiar Weight: +5
 tiny makeup kit	Familiar Weight: +15
 tiny maracas	Familiar Weight: +5
@@ -1941,7 +1942,7 @@ toy six-seater hovercraft	Familiar Weight: -5
 # undissolvable contact lenses: Helps your Slimeling See Better
 unspeakable lozenges	Familiar Weight: +5
 velvet choker	Familiar Weight: +5
-wax lips	Experience: +3, Softcore Only
+wax lips	Experience: +3, Softcore Only, Generic
 # weegee sqouija: Hobo's Booze Is More Effective
 woolen cravat	Familiar Weight: +5
 # zen motorcycle: Makes Llama Lamas friendlier

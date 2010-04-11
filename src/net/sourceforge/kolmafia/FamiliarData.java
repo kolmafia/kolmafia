@@ -389,98 +389,8 @@ public class FamiliarData
 
 	public static final int itemWeightModifier( final int itemId )
 	{
-		switch ( itemId )
-		{
-		case -1: // bogus item id
-		case 0: // another bogus item id
-
-		case ItemPool.SHOCK_COLLAR:
-		case ItemPool.MOONGLASSES:
-		case ItemPool.TAM_O_SHANTER:
-		case ItemPool.TARGETING_CHIP:
-		case ItemPool.ANNOYING_PITCHFORK:
-		case ItemPool.GRAVY_MAYPOLE:
-		case ItemPool.WAX_LIPS:
-		case ItemPool.NOSE_BONE_FETISH:
-		case ItemPool.TEDDY_SEWING_KIT:
-		case ItemPool.MINIATURE_DORMOUSE:
-		case ItemPool.WEEGEE_SQOUIJA:
-		case ItemPool.TAM_O_SHATNER:
-		case ItemPool.BADGER_BADGE:
-		case ItemPool.TUNING_FORK:
-		case ItemPool.CAN_OF_STARCH:
-		case ItemPool.EVIL_TEDDY_SEWING_KIT:
-		case ItemPool.ANCIENT_CAROLS:
-		case ItemPool.FAMILIAR_DOPPELGANGER:
-		case ItemPool.ANT_HOE:
-		case ItemPool.ANT_RAKE:
-		case ItemPool.ANT_PITCHFORK:
-		case ItemPool.ANT_SICKLE:
-		case ItemPool.ANT_PICK:
-		case ItemPool.PLASTIC_BIB:
-		case ItemPool.TEDDY_BORG_SEWING_KIT:
-		case ItemPool.FISH_SCALER:
-		case ItemPool.ORIGAMI_MAGAZINE:
-		case ItemPool.ZEN_MOTORCYCLE:
-		case ItemPool.IMITATION_WHETSTONE:
-		case ItemPool.FISHY_WAND:
-		case ItemPool.MOONTAN_LOTION:
-		case ItemPool.CONTACT_LENSES:
-		case ItemPool.AMPHIBIOUS_TOPHAT:
-		case ItemPool.BAG_OF_MANY_CONFECTIONS:
-		case ItemPool.PRETTY_PINK_BOW:
-		case ItemPool.SMILEY_FACE_STICKER:
-		case ItemPool.FARFALLE_BOW_TIE:
-		case ItemPool.JALAPENO_SLICES:
-		case ItemPool.SOLAR_PANELS:
-		case ItemPool.TINY_SOMBRERO:
-		case ItemPool.TINY_FLY_GLASSES:
-			return 0;
-
-		case ItemPool.TINY_COSTUME_WARDROBE:
-			return KoLCharacter.getFamiliar().getId() == FamiliarPool.DOPPEL ? 25 : 0;
-
-		case ItemPool.LEAD_NECKLACE:
-			return 3;
-
-		case ItemPool.PUMPKIN_BUCKET:
-		case ItemPool.MAYFLOWER_BOUQUET:
-		case ItemPool.FIREWORKS:
-		case ItemPool.MOVEABLE_FEAST:
-		case ItemPool.ITTAH_BITTAH_HOOKAH:
-			return 5;
-
-		case ItemPool.RAT_BALLOON:
-			return -3;
-
-		case ItemPool.TOY_HOVERCRAFT:
-			return -5;
-
-		case ItemPool.DAS_BOOT:
-			return -10;
-
-		case ItemPool.BATHYSPHERE:
-			return -20;
-
-		case ItemPool.MAKEUP_KIT:
-		case ItemPool.PARROT_CRACKER:
-			return 15;
-
-		case ItemPool.SNOOTY_DISGUISE:
-		case ItemPool.GROUCHO_DISGUISE:
-			return 11;
-
-		case ItemPool.TINY_CELL_PHONE:
-		case ItemPool.SUGAR_SHIELD:
-			return 10;
-
-		case ItemPool.MINIATURE_ANTLERS:
-			// Depends on moon phases, somehow. Not yet spaded.
-			return 0;
-
-		default:
-			return 5;
-		}
+		Modifiers mods = Modifiers.getModifiers( ItemDatabase.getItemName( itemId ) );
+		return mods == null ? 0 : (int) mods.get( Modifiers.FAMILIAR_WEIGHT );
 	}
 
 	public String getName()
@@ -533,22 +443,8 @@ public class FamiliarData
 
 	public boolean waterBreathing()
 	{
-		switch ( this.id )
-		{
-		case -1:	// No familiar
-		case FamiliarPool.BARRRNACLE:
-		case FamiliarPool.EMO_SQUID:
-		case FamiliarPool.CUDDLEFISH:
-		case FamiliarPool.CRAB:
-		case FamiliarPool.DRAGONFISH:
-		case FamiliarPool.CLOWNFISH:
-		case FamiliarPool.LOBSTER:
-		case FamiliarPool.GIBBERER:
-		case FamiliarPool.GROUPIE:
-		case FamiliarPool.URCHIN:
-			return true;
-		}
-		return false;
+		Modifiers mods = Modifiers.getModifiers( "fam:" + this.getRace() );
+		return mods != null && mods.getBoolean( Modifiers.UNDERWATER_FAMILIAR );
 	}
 
 	public String toString()
@@ -582,84 +478,70 @@ public class FamiliarData
 		{
 			return false;
 		}
-
+		
 		if ( item == EquipmentRequest.UNEQUIP )
 		{
 			return true;
 		}
+		
+		int itemId = item.getItemId();
+		if ( itemId <= 0 )
+		{
+			return false;
+		}
 
-		switch ( item.getItemId() )
+		switch ( this.id )
 		{
 		case -1:
-		case 0:
 			return false;
-
-		case ItemPool.LEAD_NECKLACE:
-		case ItemPool.TAM_O_SHANTER:
-		case ItemPool.ANNOYING_PITCHFORK:
-		case ItemPool.GRAVY_MAYPOLE:
-		case ItemPool.RAT_BALLOON:
-		case ItemPool.WAX_LIPS:
-		case ItemPool.TAM_O_SHATNER:
-		case ItemPool.PUMPKIN_BUCKET:
-		case ItemPool.FAMILIAR_DOPPELGANGER:
-		case ItemPool.MAYFLOWER_BOUQUET:
-		case ItemPool.ANT_HOE:
-		case ItemPool.ANT_RAKE:
-		case ItemPool.ANT_PITCHFORK:
-		case ItemPool.ANT_SICKLE:
-		case ItemPool.ANT_PICK:
-		case ItemPool.FISH_SCALER:
-		case ItemPool.ORIGAMI_MAGAZINE:
-		case ItemPool.FIREWORKS:
-		case ItemPool.BATHYSPHERE:
-		case ItemPool.DAS_BOOT:
-		case ItemPool.MINIATURE_ANTLERS:
-		case ItemPool.FISHY_WAND:
-		case ItemPool.TINY_COSTUME_WARDROBE:
-		case ItemPool.SUGAR_SHIELD:
-		case ItemPool.MOVEABLE_FEAST:
-		case ItemPool.ITTAH_BITTAH_HOOKAH:
-		case ItemPool.TINY_FLY_GLASSES:
-			return this.id != FamiliarPool.CHAMELEON &&
-			       this.id != FamiliarPool.HATRACK;
-
-		case ItemPool.SNOOTY_DISGUISE:
-		case ItemPool.GROUCHO_DISGUISE:
-			return this.id == FamiliarPool.PET_ROCK ||
-			       this.id == FamiliarPool.TOOTHSOME_ROCK ||
-			       this.id == FamiliarPool.BUDDY_BOX;
-
-		case ItemPool.FOIL_BOW:
-		case ItemPool.FOIL_RADAR:
-			return this.id == FamiliarPool.PRESSIE;
-
-		case ItemPool.AQUAVIOLET_JUBJUB_BIRD:
-		case ItemPool.CHARPUCE_JUBJUB_BIRD:
-		case ItemPool.CRIMSILION_JUBJUB_BIRD:
-			return this.id == FamiliarPool.BANDER;
-
-		case ItemPool.AMPHIBIOUS_TOPHAT:
-			return this.id == FamiliarPool.DANCING_FROG;
-
-		default:
-			if ( this.id == FamiliarPool.HATRACK )
-			{
-				// Mad Hatrack can wear hats
-				return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_HAT;
-			}
-
-			if ( this.id == FamiliarPool.HAND )
-			{
-				// Disembodied Hand can equip one-handed weapons
-				// Disembodied Hand cannot equip chefstaves
-				int itemId = item.getItemId();
-				return ( EquipmentDatabase.getHands( itemId ) == 1 &&
-					 !EquipmentDatabase.getItemType( itemId ).equals( "chefstaff" ) );
-			}
 			
-			return item.getName().equals( FamiliarDatabase.getFamiliarItem( this.id ) );
+		case FamiliarPool.CHAMELEON:
+			return false;
+			
+		case FamiliarPool.HATRACK:
+			return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_HAT;
+
+		case FamiliarPool.HAND:
+			// Disembodied Hand can equip one-handed weapons
+			// Disembodied Hand cannot equip chefstaves
+			if ( EquipmentDatabase.getHands( itemId ) == 1 &&
+				 !EquipmentDatabase.getItemType( itemId ).equals( "chefstaff" ) )
+			{
+				return true;
+			}
+			break;
 		}
+		
+		String name = item.getName();
+		if ( name.equals( FamiliarDatabase.getFamiliarItem( this.id ) ) )
+		{
+			return true;
+		}
+
+		Modifiers mods = Modifiers.getModifiers( name );
+		if ( mods == null )
+		{
+			return false;
+		}
+		if ( mods.getBoolean( Modifiers.GENERIC ) )
+		{
+			return true;
+		}
+		
+		String others = mods.getString( Modifiers.EQUIPS_ON );
+		if ( others == null || others.equals( "" ) )
+		{
+			return false;
+		}
+		String[] pieces = others.split( "\\s*\\|\\s*" );
+		for ( int i = pieces.length - 1; i >= 0; --i )
+		{
+			if ( pieces[ i ].equals( this.getRace() ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static boolean lockableItem( final AdventureResult item )
@@ -669,39 +551,8 @@ public class FamiliarData
 			return false;
 		}
 
-		switch ( item.getItemId() )
-		{
-		case ItemPool.LEAD_NECKLACE:
-		case ItemPool.TAM_O_SHANTER:
-		case ItemPool.ANNOYING_PITCHFORK:
-		case ItemPool.GRAVY_MAYPOLE:
-		case ItemPool.RAT_BALLOON:
-		case ItemPool.WAX_LIPS:
-		case ItemPool.TAM_O_SHATNER:
-		case ItemPool.PUMPKIN_BUCKET:
-		case ItemPool.FAMILIAR_DOPPELGANGER:
-		case ItemPool.MAYFLOWER_BOUQUET:
-		case ItemPool.ANT_HOE:
-		case ItemPool.ANT_RAKE:
-		case ItemPool.ANT_PITCHFORK:
-		case ItemPool.ANT_SICKLE:
-		case ItemPool.ANT_PICK:
-		case ItemPool.FISH_SCALER:
-		case ItemPool.ORIGAMI_MAGAZINE:
-		case ItemPool.FIREWORKS:
-		case ItemPool.BATHYSPHERE:
-		case ItemPool.DAS_BOOT:
-		case ItemPool.MINIATURE_ANTLERS:
-		case ItemPool.FISHY_WAND:
-		case ItemPool.TINY_COSTUME_WARDROBE:
-		case ItemPool.SUGAR_SHIELD:
-		case ItemPool.MOVEABLE_FEAST:
-		case ItemPool.ITTAH_BITTAH_HOOKAH:
-		case ItemPool.TINY_FLY_GLASSES:
-			return true;
-		}
-
-		return false;
+		Modifiers mods = Modifiers.getModifiers( item.getName() );
+		return mods != null && mods.getBoolean( Modifiers.GENERIC );
 	}
 
 	public boolean isCombatFamiliar()
