@@ -2757,7 +2757,7 @@ public class Modifiers
 			if ( this.text.length() == 0 )
 			{
 				KoLmafia.updateDisplay( "Modifier syntax error: unexpected end of expr" );
-				return "0";	
+				return "\u8000";	
 			}
 			rv = this.text.substring( 0, 1 );
 			if ( rv.charAt( 0 ) >= 'A' && rv.charAt( 0 ) <= 'Z' )
@@ -2779,7 +2779,7 @@ public class Modifiers
 					if ( this.sp >= 10 )
 					{
 						KoLmafia.updateDisplay( "Modifier syntax error: too many numeric literals" );
-						return "0";	
+						return "\u8000";	
 					}
 					this.stack[ this.sp++ ] = v;
 					return String.valueOf( (char)( '0' + this.sp - 1 ) );
@@ -2787,7 +2787,7 @@ public class Modifiers
 			}
 			KoLmafia.updateDisplay( "Modifier syntax error: can't understand " + this.text );
 			this.text = "";
-			return "0";	
+			return "\u8000";	
 		}
 	}
 	
