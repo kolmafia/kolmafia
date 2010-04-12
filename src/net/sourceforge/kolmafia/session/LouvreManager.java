@@ -101,12 +101,12 @@ public abstract class LouvreManager
 		{ 0, 99, 100 },			// 96
 		{ 0, 101, 102 },		// 97
 		{ 0, 103, 104 },		// 98
-		{ 0, 3, 6 },			// 99
-		{ 0, 1, 6 },			// 100
+		{ 0, 6, 3 },			// 99
+		{ 0, 6, 1 },			// 100
 		{ 0, 1, 4 },			// 101
-		{ 0, 2, 4 },			// 102
+		{ 0, 4, 2 },			// 102
 		{ 0, 2, 5 },			// 103
-		{ 0, 3, 5 },			// 104
+		{ 0, 5, 3 },			// 104
 	};
 
 	private static final int LouvreGoalHops [][] =
@@ -333,7 +333,7 @@ public abstract class LouvreManager
 		}
 		else
 		{
-			Preferences.setInteger( "louvreGoal", Preferences.getInteger( "louvreDesiredGoal" ) );
+			Preferences.setInteger( "louvreGoal", goal );
 		}
 	}
 
@@ -635,9 +635,9 @@ public abstract class LouvreManager
 		// An array of choice spoilers is the third element
 		int choices[] = LouvreManager.choiceTuple( choice );
 		result[ 2 ] = new String[ 3 ];
-		result[ 2 ][ 0 ] = LouvreManager.choiceName( choice, choices[ 0 ] );
-		result[ 2 ][ 1 ] = LouvreManager.choiceName( choice, choices[ 1 ] );
-		result[ 2 ][ 2 ] = LouvreManager.choiceName( choice, choices[ 2 ] );
+		result[ 2 ][ 0 ] = LouvreManager.choiceName( choice, choices[ 0 ], 0 );
+		result[ 2 ][ 1 ] = LouvreManager.choiceName( choice, choices[ 1 ], 1 );
+		result[ 2 ][ 2 ] = LouvreManager.choiceName( choice, choices[ 2 ], 2 );
 
 		return result;
 	}
@@ -653,12 +653,39 @@ public abstract class LouvreManager
 		return "Louvre It or Leave It (" + name + ")";
 	}
 
-	private static final String choiceName( final int choice, final int destination )
+	private static final String choiceName( final int choice, final int destination, final int which )
 	{
 		switch ( destination )
 		{
 		case 0:
-			return "";
+			// return "";
+			float[] probs = probabilities( choice )[ which ];
+			StringBuffer buf = new StringBuffer( "Calculated probabilities:" );
+			for ( int i = 0; i < 3; ++i )
+			{
+				if ( probs[ i ] < 0.05f )
+				{	// probably just a round-off error, not a significant chance
+					continue;
+				}
+				buf.append( "<br>" );
+				buf.append( Math.round(probs[ i ] * 100.0f) );
+				buf.append( "% - " );
+				int dest = LouvreManager.LouvreLocationExits[ choice - LouvreManager.FIRST_CHOICE ][ i ];
+				if ( dest == 0 )
+				{
+					buf.append( "return to stairs" );
+				}
+				else if ( dest <= 6 )
+				{
+					buf.append( LouvreManager.LouvreGoals[ dest - 1 ] );
+				}
+				else
+				{
+					buf.append( LouvreManager.LouvreLocationNames[ dest - LouvreManager.FIRST_CHOICE ] );
+				}
+			}
+			return buf.toString();
+			
 		case 1:
 		case 2:
 		case 3:
@@ -686,6 +713,222 @@ public abstract class LouvreManager
 		int option = StringUtilities.parseInt( decision ) - 1;
 		int destination = LouvreManager.LouvreChoiceTable[ source - LouvreManager.FIRST_CHOICE ][ option ];
 		return LouvreManager.louvreChoice( destination );
+	}
+	
+	// Derive values for the 5 pseudorandom bits that were used to generate
+	// this location's exits.  1.0 = true, 0.0 = false, 0.5 = indeterminate.
+	private static final float[] derive( int location )
+	{
+		float bits[] = new float[] { 0.5f, 0.5f, 0.5f, 0.5f, 0.5f };
+		if ( !LouvreManager.louvreChoice( location ) )
+		{	// allow calls for an out-of-range location, to simplify edge cases
+			return bits;
+		}
+		int choices[] = LouvreManager.choiceTuple( location );
+//System.out.println("derive(" + location + ") " +choices[0] + " " + choices[1] + " " + choices[2]);
+		// Find which permutation matches the mapped exits
+		int[] baseperm = LouvreManager.LouvreLocationExits[ location - LouvreManager.FIRST_CHOICE ];
+//System.out.println(" baseperm = "  +baseperm[0] + " " + baseperm[1] + " " + baseperm[2]);
+		int perm = which( baseperm, choices[ 0 ] ) << 8 |
+			which( baseperm, choices[ 1 ] ) << 4 |
+			which( baseperm, choices[ 2 ] );
+		switch ( perm )
+		{
+		// No exits mapped:
+		case 0x000:
+			break;
+			
+		// All 3 exits mapped, or 2 mapped implying the 3rd:
+		case 0xCBA:
+		case 0x0BA:
+		case 0xC0A:
+		case 0xCB0:
+			bits[ 0 ] = 1.0f;
+			break;
+		
+		case 0xABC:
+		case 0x0BC:
+		case 0xA0C:
+		case 0xAB0:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 1.0f;
+			break;
+			
+		case 0xACB:
+		case 0x0CB:
+		case 0xA0B:
+		case 0xAC0:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.0f;
+			bits[ 2 ] = 1.0f;
+			break;
+			
+		case 0xCAB:
+		case 0x0AB:
+		case 0xC0B:
+		case 0xCA0:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.0f;
+			bits[ 2 ] = 0.0f;
+			bits[ 3 ] = 1.0f;
+			break;
+			
+		case 0xBAC:
+		case 0x0AC:
+		case 0xB0C:
+		case 0xBA0:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.0f;
+			bits[ 2 ] = 0.0f;
+			bits[ 3 ] = 0.0f;
+			bits[ 4 ] = 1.0f;
+			break;
+			
+		case 0xBCA:
+		case 0x0CA:
+		case 0xB0A:
+		case 0xBC0:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.0f;
+			bits[ 2 ] = 0.0f;
+			bits[ 3 ] = 0.0f;
+			bits[ 4 ] = 0.0f;
+			break;
+		
+		// Only one exit mapped
+		case 0xA00:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.75f;
+			bits[ 2 ] = 0.75f;
+			bits[ 3 ] = 0.01f;
+			break;
+		
+		case 0xB00:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.0f;
+			bits[ 2 ] = 0.0f;
+			bits[ 3 ] = 0.0f;
+			break;
+
+		case 0xC00:
+			bits[ 0 ] = 0.75f;
+			bits[ 1 ] = 0.01f;
+			bits[ 2 ] = 0.01f;
+			bits[ 3 ] = 0.99f;
+			break;
+
+		case 0x0A0:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.0f;
+			bits[ 2 ] = 0.0f;
+			bits[ 3 ] = 0.75f;
+			bits[ 4 ] = 0.99f;
+			break;
+
+		case 0x0B0:
+			bits[ 0 ] = 0.75f;
+			bits[ 1 ] = 0.99f;
+			bits[ 2 ] = 0.01f;
+			bits[ 3 ] = 0.01f;
+			break;
+
+		case 0x0C0:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.0f;
+			bits[ 2 ] = 0.75f;
+			bits[ 3 ] = 0.01f;
+			bits[ 4 ] = 0.01f;
+			break;
+
+		case 0x00A:
+			bits[ 0 ] = 0.75f;
+			bits[ 1 ] = 0.01f;
+			bits[ 2 ] = 0.01f;
+			bits[ 3 ] = 0.01f;
+			bits[ 4 ] = 0.01f;
+			break;
+
+		case 0x00B:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.0f;
+			bits[ 2 ] = 0.75f;
+			bits[ 3 ] = 0.99f;
+			break;
+
+		case 0x00C:
+			bits[ 0 ] = 0.0f;
+			bits[ 1 ] = 0.75f;
+			bits[ 2 ] = 0.01f;
+			bits[ 3 ] = 0.01f;
+			bits[ 4 ] = 0.99f;
+			break;
+		
+		default:
+			System.out.println( "Impossible permutation: " +
+				Integer.toHexString( perm ) );
+		}
+//System.out.println( " perm & bits: " + Integer.toHexString( perm ) + " [" + bits[0] + " " + bits[1] + " " + bits[2] + " " + bits[3] + " " + bits[4] + "]");
+		
+		return bits;
+	}
+	
+	private static final int which( int[] perm, int dest )
+	{
+		dest = (dest == 0) ? -1 :
+			(dest >= 92 && dest <= 95) ? 0 : dest;
+		if ( dest == perm[ 0 ] ) return 0xA;
+		if ( dest == perm[ 1 ] ) return 0xB;
+		if ( dest == perm[ 2 ] ) return 0xC;
+		return 0x0;
+	}
+
+	// Predict values for the pseudorandom bits for a location, taking into
+	// acount known correlations with other locations.
+	private static final float[] predict( int location )
+	{
+		return derive( location );	// for now...
+	}
+	
+	// Calculate probabilities, indexed by <direction>, <base permutation index>
+	// for possible exits.
+	private static final float[][] probabilities( int location )
+	{
+		float[][] rv = new float[ 3 ][ 3 ];
+		
+		float[] bits = predict( location );
+		float t;	// remaining probability to distribute
+		final int A = 0, B = 1, C = 2;
+		
+		rv[ 0 ][ C ] += bits[ 0 ];
+		rv[ 1 ][ B ] += bits[ 0 ];
+		rv[ 2 ][ A ] += bits[ 0 ];
+		t = 1 - bits[ 0 ];
+	
+		rv[ 0 ][ A ] += bits[ 1 ] * t;
+		rv[ 1 ][ B ] += bits[ 1 ] * t;
+		rv[ 2 ][ C ] += bits[ 1 ] * t;
+		t *= 1 - bits[ 1 ];
+	
+		rv[ 0 ][ A ] += bits[ 2 ] * t;
+		rv[ 1 ][ C ] += bits[ 2 ] * t;
+		rv[ 2 ][ B ] += bits[ 2 ] * t;
+		t *= 1 - bits[ 2 ];
+	
+		rv[ 0 ][ C ] += bits[ 3 ] * t;
+		rv[ 1 ][ A ] += bits[ 3 ] * t;
+		rv[ 2 ][ B ] += bits[ 3 ] * t;
+		t *= 1 - bits[ 3 ];
+	
+		rv[ 0 ][ B ] += bits[ 4 ] * t;
+		rv[ 1 ][ A ] += bits[ 4 ] * t;
+		rv[ 2 ][ C ] += bits[ 4 ] * t;
+		t *= 1 - bits[ 4 ];
+	
+		rv[ 0 ][ B ] += t;
+		rv[ 1 ][ C ] += t;
+		rv[ 2 ][ A ] += t;
+	
+		return rv;
 	}
 
 	// The Wiki has a LouvreManager Map:
@@ -736,9 +979,9 @@ public abstract class LouvreManager
 		104,		// 10
 		99,		// 11
 		100,		// 12
-		5,		// 13
-		6,		// 14
-		7,		// 15
+		4,		// 13
+		5,		// 14
+		6,		// 15
 		1,		// 16
 		2,		// 17
 		3,		// 18
