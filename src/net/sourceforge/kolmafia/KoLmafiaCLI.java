@@ -624,6 +624,7 @@ public class KoLmafiaCLI
 		new CountersCommand().register( "counters" );
 		new CreateItemCommand().register( "create" ).register( "make" ).register( "bake" ).register( "mix" ).register(
 			"smith" ).register( "tinker" ).register( "ply" );
+		new CrimboTreeCommand().register( "crimbotree" );
 		new DebugCreateCommand().register( "debugcreate" );
 		new DebugRequestCommand().register( "debug" );
 		new DemonNamesCommand().register( "demons" );

@@ -67,6 +67,7 @@ public class ClanLoungeRequest
 	private int option;
 
 	private static final Pattern STANCE_PATTERN = Pattern.compile( "stance=(\\d*)" );
+	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
 	{
@@ -334,7 +335,18 @@ public class ClanLoungeRequest
 		{
 			if ( responseText.indexOf( "tree5.gif" ) != -1 )
 			{
+				Preferences.setInteger( "crimboTreeDays", 0 );
 				RequestLogger.printLine( "You have a present under the Crimbo tree in your clan's VIP lounge!" );
+			}
+			else if( responseText.indexOf( "crimbotree" ) != -1 )
+			{
+				Preferences.setBoolean( "_crimboTree", true );
+				ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.CRIMBO_TREE );
+				request.run();
+			}
+			else if( responseText.indexOf( "crimbotree" ) == -1 )
+			{
+				Preferences.setBoolean( "_crimboTree", false );
 			}
 			return;
 		}
@@ -419,6 +431,32 @@ public class ClanLoungeRequest
 		{
 			// You look under the Crimbo Tree and find a present
 			// with your name on it! You excitedly tear it open.
+			if ( responseText.indexOf( "You look under the Crimbo Tree and find a present" ) != -1 )
+			{
+				Preferences.setInteger( "crimboTreeDays", 7 );
+			}
+			else if ( responseText.indexOf( "Check back tomorrow" ) != -1 )
+			{
+				Preferences.setInteger( "crimboTreeDays", 1 );
+			}
+			else if ( responseText.indexOf( "There's nothing under the Crimbo Tree" ) != -1 )
+			{
+				int ctd = Preferences.getInteger( "crimboTreeDays" );
+				String groupStr = "";
+				Matcher m = TREE_PATTERN.matcher( responseText );
+				boolean matchFound = m.find();
+				if( matchFound )
+				{
+					for (int i=0; i<=m.groupCount(); i++)
+					{
+						groupStr = m.group(i);
+						if( !StringUtilities.isNumeric(groupStr) ) continue;
+						ctd = Integer.parseInt( groupStr );
+						Preferences.setInteger( "crimboTreeDays", ctd );
+						return;
+					}
+				}
+			}
 
 			return;
 		}
@@ -464,7 +502,17 @@ public class ClanLoungeRequest
 			request = new ClanLoungeRequest( ClanLoungeRequest.LOOKING_GLASS );
 			request.run();
 		}
-	}
+
+		// Not every clan has a crimbo tree
+		if ( VISIT_REQUEST.responseText.indexOf( "crimbotree" ) != -1 )
+		{
+			Preferences.setBoolean( "_crimboTree", true );
+		}
+		if ( VISIT_REQUEST.responseText.indexOf( "tree5.gif" ) != -1 )
+		{
+			Preferences.setInteger( "_crimboTreeDays", 0 );
+		}
+}
 
 	public static boolean registerRequest( final String urlString )
 	{
