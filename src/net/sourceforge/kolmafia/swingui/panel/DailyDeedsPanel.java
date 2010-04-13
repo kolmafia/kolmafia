@@ -79,6 +79,7 @@ public class DailyDeedsPanel
 		this.add( new RestsDaily() );
 		this.add( new HotTubDaily() );
 		this.add( new PoolDaily() );
+		this.add( new CrimboTreeDaily() );
 		this.add( new BooleanDaily( "dailyDungeonDone", "adv * Daily Dungeon" ) );
 		this.add( new TelescopeDaily() );
 		this.add( new StyxDaily() );
@@ -645,6 +646,30 @@ public class DailyDeedsPanel
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
 			this.setEnabled( nf < 3 );
 			this.setText( nf + "/3" );
+		}
+	}
+
+	public static class CrimboTreeDaily
+		extends Daily
+	{
+		public CrimboTreeDaily()
+		{
+			this.addListener( "_crimboTree" );
+			this.addListener( "crimboTreeDays" );
+			this.addListener( "kingLiberated" );
+			this.addButton( "crimbotree get" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+                        boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean tree = Preferences.getBoolean( "_crimboTree" );
+			int ctd = Preferences.getInteger( "crimboTreeDays" );
+			this.setShown( ( !bm || kf ) && tree );
+			this.setEnabled( ctd == 0 );
+			this.setText( ctd + " days to go." );
 		}
 	}
 
