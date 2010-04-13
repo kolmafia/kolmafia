@@ -364,7 +364,7 @@ Flock of Stab-Bats	HP: 155 Def: 148 Atk: 155 Meat: 51-80	bat wing (30)	batblade 
 Fluffy Bunny	HP: 1 Def: 1 Atk: 1
 Forest Spirit	HP: 3 Def: 2 Atk: 1	forest tears (30)
 Frat Warrior Drill Sergeant	HP: 200 Atk: 175 E: sleaze	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)
-French Guard turtle	HP: 140 Def: 150	guard turtle shell (0)	guard turtle collar (0)
+French Guard turtle	HP: 140 Def: 140 Atk: 140	guard turtle shell (0)	guard turtle collar (0)
 Frog	HP: 3 Def: 3 Atk: 3 Meat: 8-12	squashed frog (100)
 Frosty	HP: 350 E: cold
 Frozen Duck	HP: 180 Atk: 170 Meat: 125-152 E: cold	frozen feather (10)	duct tape (5)
@@ -431,7 +431,7 @@ Group of cultists	HP: 75 Def: 70 Atk: 80	memory of a cultist's robe (0)
 Grouper Groupie	HP: 0	groupie bra (0)	groupie lipstick (0)	groupie spangles (c0)
 Grungy Pirate	HP: 120 Def: 140 Atk: 140	acoustic guitarrr (20)	grungy bandana (10)	grungy flannel shirt (c5)
 Guard Bugbear	HP: 6 Def: 12 Atk: 12 Meat: 21-30	bugbear beanie (25)	bugbear bungguard (0)
-Guard turtle	HP: 140 Def: 150	guard turtle shell (0)	guard turtle collar (0)
+Guard turtle	HP: 140 Def: 140 Atk: 140	guard turtle shell (0)	guard turtle collar (0)
 Guy with a Pitchfork, and his Wife	HP: 120 Def: 110 Atk: 110 Meat: 80-120	pitchfork (5)
 Handsome Mariachi	HP: 15 Def: 27 Atk: 17 Meat: 4-6	bottle of tequila (30)	chorizo taco (20)	handsomeness potion (20)
 Hangman's Tree	HP: 0	petrified wood (5)	spooky bark (10)	spooky sap (5)
