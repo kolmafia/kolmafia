@@ -176,9 +176,6 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "launch_ui", DataTypes.VOID_TYPE, params ) );
-
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "logprint", DataTypes.VOID_TYPE, params ) );
 
@@ -1272,14 +1269,7 @@ public abstract class RuntimeLibrary
 	{
 		return DataTypes.makeBooleanValue( InputFieldUtilities.confirm( message.toString() ) );
 	}
-
-	public static Value launch_ui( final Value title, final Value serverFunc, final Value listeners )
-	{
-		//new ScriptUIFrame( LibraryFunction.interpreter, title.toString(),
-		//	serverFunc.toString(), listeners.toString() );
-		return DataTypes.VOID_VALUE;
-	}
-
+        
 	public static Value logprint( final Value string )
 	{
 		String parameters = string.toString();
