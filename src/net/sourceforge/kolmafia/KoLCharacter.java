@@ -37,31 +37,26 @@ import apple.dts.samplecode.osxadapter.OSXAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
-import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -86,7 +81,6 @@ import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 
-import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
@@ -638,6 +632,7 @@ public abstract class KoLCharacter
 		KoLCharacter.ensureUpdatedPirateInsults();
 		KoLCharacter.ensureUpdatedPotionEffects();
 		KoLCharacter.ensureUpdatedSemirareCounter();
+		KoLCharacter.ensureUpdatedSkatePark();
 		KoLCharacter.ensureUpdatedSphereEffects();
 		KoLCharacter.ensureUpdatedCellar();
 	}
@@ -859,9 +854,9 @@ public abstract class KoLCharacter
 		KoLCharacter.classname = classname;
 		KoLCharacter.classtype = null;
 		KoLCharacter.getClassType();
-		KoLCharacter.tripleReagent = KoLCharacter.classtype == KoLCharacter.SAUCEROR;
+		KoLCharacter.tripleReagent = KoLCharacter.classtype.equals( KoLCharacter.SAUCEROR );
 
-		if ( KoLCharacter.classtype == KoLCharacter.ASTRAL_SPIRIT )
+		if ( KoLCharacter.classtype.equals( KoLCharacter.ASTRAL_SPIRIT ) )
 		{
 			return;
 		}
@@ -878,7 +873,7 @@ public abstract class KoLCharacter
 	{
 		return 5 +
 		       ( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 ) +
-		       ( KoLCharacter.classtype == KoLCharacter.SAUCEROR ? 5 : 0 );
+		       ( KoLCharacter.classtype.equals(KoLCharacter.SAUCEROR) ? 5 : 0 );
 
 	}
 
@@ -2087,7 +2082,7 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		if ( KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON )
+		if ( KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON && !Preferences.getBoolean( "kingLiberated" ) )
 		{
 			return;
 		}
@@ -3639,6 +3634,16 @@ public abstract class KoLCharacter
 				}
 				ItemDatabase.registerItemAlias( i, testName, testPlural );
 			}
+		}
+	}
+
+	private static final void ensureUpdatedSkatePark()
+	{
+		int lastAscension = Preferences.getInteger( "lastSkateParkReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setString( "skateParkStatus", "war" );
+			Preferences.setInteger( "lastSkateParkReset", KoLCharacter.getAscensions() );
 		}
 	}
 
