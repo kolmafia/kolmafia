@@ -386,6 +386,7 @@ eXtreme Bi-Polar Fleece Vest	90	Mus: 30
 filthy hippy poncho	40	Mus: 5
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
+flyest of shirts	80	Mus: 25
 frilly shirt	20	none
 gingham blouse	100	Mus: 35
 gnauga hide vest	80	Mus: 25

@@ -4573,7 +4573,7 @@
 4564	slippery when wet shield	offhand	display	0
 4565	raisin	food	all	17
 4566	tiny fly glasses	familiar	all	55
-4567
+4567	flyest of shirts	shirt	display	144
 4568	a dance upon the palate	food	none	0
 4569	tiny frozen prehistoric meteorite jawbreaker	food	display	66
 4570	Crazyleg's razor	reusable	none	0

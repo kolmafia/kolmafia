@@ -441,6 +441,7 @@ eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
 filthy hippy poncho	Mysticality: +3
 flaming pink shirt	Item Drop: +15, Softcore Only
 floral print shirt	Mysticality: +5
+flyest of shirts	Moxie: +5, Spell Damage: +5
 frilly shirt	Mysticality: +3
 gingham blouse	Muscle: +5
 gnauga hide vest	Damage Reduction: 6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
@@ -727,6 +728,7 @@ flaming crutch	Hot Damage: +3
 flaming juggler's balls	Hot Damage: +10, Experience: +2, Softcore Only
 flamingo mallet	Monster Level: +4, Meat Drop: +5
 flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
+# fouet de tortue-dressage: +10 to Familiar Damage
 fouet de tortue-dressage	Familiar Weight: +10
 freezin' bindle	Item Drop: +10, Cold Damage: +25
 frigid hanky&#363;	Cold Damage: +6, Moxie: +2, Wiki Name: "frigid hankyu"
