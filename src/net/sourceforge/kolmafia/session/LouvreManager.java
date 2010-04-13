@@ -799,8 +799,7 @@ public abstract class LouvreManager
 		case 0xA00:
 			bits[ 0 ] = 0.0f;
 			bits[ 1 ] = 0.75f;
-			bits[ 2 ] = 0.75f;
-			bits[ 3 ] = 0.01f;
+			bits[ 2 ] = 0.74f;
 			break;
 		
 		case 0xB00:
@@ -812,9 +811,9 @@ public abstract class LouvreManager
 
 		case 0xC00:
 			bits[ 0 ] = 0.75f;
-			bits[ 1 ] = 0.01f;
-			bits[ 2 ] = 0.01f;
-			bits[ 3 ] = 0.99f;
+			bits[ 1 ] = 0.24f;
+			bits[ 2 ] = 0.24f;
+			bits[ 3 ] = 0.74f;
 			break;
 
 		case 0x0A0:
@@ -822,45 +821,43 @@ public abstract class LouvreManager
 			bits[ 1 ] = 0.0f;
 			bits[ 2 ] = 0.0f;
 			bits[ 3 ] = 0.75f;
-			bits[ 4 ] = 0.99f;
+			bits[ 4 ] = 0.74f;
 			break;
 
 		case 0x0B0:
 			bits[ 0 ] = 0.75f;
-			bits[ 1 ] = 0.99f;
-			bits[ 2 ] = 0.01f;
-			bits[ 3 ] = 0.01f;
+			bits[ 1 ] = 0.74f;
 			break;
 
 		case 0x0C0:
 			bits[ 0 ] = 0.0f;
 			bits[ 1 ] = 0.0f;
 			bits[ 2 ] = 0.75f;
-			bits[ 3 ] = 0.01f;
-			bits[ 4 ] = 0.01f;
+			bits[ 3 ] = 0.24f;
+			bits[ 4 ] = 0.24f;
 			break;
 
 		case 0x00A:
 			bits[ 0 ] = 0.75f;
-			bits[ 1 ] = 0.01f;
-			bits[ 2 ] = 0.01f;
-			bits[ 3 ] = 0.01f;
-			bits[ 4 ] = 0.01f;
+			bits[ 1 ] = 0.24f;
+			bits[ 2 ] = 0.24f;
+			bits[ 3 ] = 0.24f;
+			bits[ 4 ] = 0.24f;
 			break;
 
 		case 0x00B:
 			bits[ 0 ] = 0.0f;
 			bits[ 1 ] = 0.0f;
 			bits[ 2 ] = 0.75f;
-			bits[ 3 ] = 0.99f;
+			bits[ 3 ] = 0.74f;
 			break;
 
 		case 0x00C:
 			bits[ 0 ] = 0.0f;
 			bits[ 1 ] = 0.75f;
-			bits[ 2 ] = 0.01f;
-			bits[ 3 ] = 0.01f;
-			bits[ 4 ] = 0.99f;
+			bits[ 2 ] = 0.24f;
+			bits[ 3 ] = 0.24f;
+			bits[ 4 ] = 0.74f;
 			break;
 		
 		default:
@@ -881,12 +878,98 @@ public abstract class LouvreManager
 		if ( dest == perm[ 2 ] ) return 0xC;
 		return 0x0;
 	}
+	
+	private static final boolean definitive( float val )
+	{
+		return val == 0.0f || val == 1.0f;
+	}
+
+	private static final boolean conflicts( float curr, float becomes )
+	{
+		return (curr == 0.24f && becomes == 1.0) ||
+			(curr == 0.74f && becomes == 0.0);
+	}
 
 	// Predict values for the pseudorandom bits for a location, taking into
 	// acount known correlations with other locations.
 	private static final float[] predict( int location )
 	{
-		return derive( location );	// for now...
+		boolean[][] seenChange = new boolean[2][5];
+		for ( int loc = LouvreManager.FIRST_CHOICE; loc < LouvreManager.LAST_CHOICE; ++loc )
+		{
+			float[] left = derive( loc );
+			float[] right = derive( loc + 1 );
+			for ( int bit = 0; bit < 5; ++bit )
+			{
+				if ( definitive( left[ bit ] ) &&
+					definitive( right[ bit ] ) &&
+					left[ bit ] != right[ bit ] )
+				{	// If a bit definitely changed value between two consecutive
+					// locations, all other changes to that bit can only be an
+					// even distance away.
+					seenChange[ loc & 1 ][ bit ] = true;
+				}
+			}			
+		}
+		
+		float[] curr = derive( location );
+//System.out.println( "Derived: " + curr[0] + " " + curr[1] + " " + curr[2] + " " + curr[3] + " " + curr[4]);
+		float[] prev = derive( location - 1 );
+		float[] next = derive( location + 1 );
+		for ( int bit = 0; bit < 5; ++bit )
+		{
+			boolean conflict = false;
+			if ( definitive( curr[ bit ] ) )
+			{	// leave it alone
+			}
+			else if ( seenChange[ location & 1 ][ bit ] &&
+				definitive( prev[ bit ] ) )
+			{
+				conflict = conflicts( curr[ bit ], prev[ bit ] );
+				curr[ bit ] = prev[ bit ];
+			}
+			else if ( seenChange[ 1 - (location & 1) ][ bit ] &&
+				definitive( next[ bit ] ) )
+			{
+				conflict = conflicts( curr[ bit ], next[ bit ] );
+				curr[ bit ] = next[ bit ];
+			}
+			else if ( curr[ bit ] == 0.24f || curr[ bit ] == 0.74f )
+			{	// this should override the probabilistic correlations
+				// with the adjacent locations
+			}
+			else
+			{
+				curr[ bit ] = (curr[ bit ] + prev[ bit ] + next[ bit ]) / 3.0f;
+			}
+			
+			if ( conflict )
+			{	// A bit has been proven to not be observable in a given state,
+				// but also proven to be in that state.  The implication is that
+				// a previous bit was true, rendering this bit irrelevant.
+				// Handle this by looking backwards for a bit that's likely to be
+				// true, and upgrading it to certainty.
+				for ( int prevBit = bit - 1; prevBit >= 0; -- prevBit )
+				{
+					if ( curr[ prevBit ] > 0.5f )
+					{
+						curr[ prevBit ] = 1.0f;
+						break;
+					}
+				}			
+			}
+		}
+	
+//System.out.println( "predict: " + curr[0] + " " + curr[1] + " " + curr[2] + " " + curr[3] + " " + curr[4]);
+		return curr;
+	}
+	
+	private static final float adjust( float val )
+	{	// In the final stage of calculation, unobservable values are no
+		// longer significant - upgrade them to their only observable value.
+		return val == 0.24f ? 0.0f :
+			val == 0.74f ? 1.0f :
+			val;	
 	}
 	
 	// Calculate probabilities, indexed by <direction>, <base permutation index>
@@ -896,33 +979,39 @@ public abstract class LouvreManager
 		float[][] rv = new float[ 3 ][ 3 ];
 		
 		float[] bits = predict( location );
+		float b;	// adjusted value of current bit
 		float t;	// remaining probability to distribute
 		final int A = 0, B = 1, C = 2;
 		
-		rv[ 0 ][ C ] += bits[ 0 ];
-		rv[ 1 ][ B ] += bits[ 0 ];
-		rv[ 2 ][ A ] += bits[ 0 ];
-		t = 1 - bits[ 0 ];
+		b = adjust( bits[ 0 ] );
+		rv[ 0 ][ C ] += b;
+		rv[ 1 ][ B ] += b;
+		rv[ 2 ][ A ] += b;
+		t = 1 - b;
 	
-		rv[ 0 ][ A ] += bits[ 1 ] * t;
-		rv[ 1 ][ B ] += bits[ 1 ] * t;
-		rv[ 2 ][ C ] += bits[ 1 ] * t;
-		t *= 1 - bits[ 1 ];
+		b = adjust( bits[ 1 ] );
+		rv[ 0 ][ A ] += b * t;
+		rv[ 1 ][ B ] += b * t;
+		rv[ 2 ][ C ] += b * t;
+		t *= 1 - b;
 	
-		rv[ 0 ][ A ] += bits[ 2 ] * t;
-		rv[ 1 ][ C ] += bits[ 2 ] * t;
-		rv[ 2 ][ B ] += bits[ 2 ] * t;
-		t *= 1 - bits[ 2 ];
+		b = adjust( bits[ 2 ] );
+		rv[ 0 ][ A ] += b * t;
+		rv[ 1 ][ C ] += b * t;
+		rv[ 2 ][ B ] += b * t;
+		t *= 1 - b;
 	
-		rv[ 0 ][ C ] += bits[ 3 ] * t;
-		rv[ 1 ][ A ] += bits[ 3 ] * t;
-		rv[ 2 ][ B ] += bits[ 3 ] * t;
-		t *= 1 - bits[ 3 ];
+		b = adjust( bits[ 3 ] );
+		rv[ 0 ][ C ] += b * t;
+		rv[ 1 ][ A ] += b * t;
+		rv[ 2 ][ B ] += b * t;
+		t *= 1 - b;
 	
-		rv[ 0 ][ B ] += bits[ 4 ] * t;
-		rv[ 1 ][ A ] += bits[ 4 ] * t;
-		rv[ 2 ][ C ] += bits[ 4 ] * t;
-		t *= 1 - bits[ 4 ];
+		b = adjust( bits[ 4 ] );
+		rv[ 0 ][ B ] += b * t;
+		rv[ 1 ][ A ] += b * t;
+		rv[ 2 ][ C ] += b * t;
+		t *= 1 - b;
 	
 		rv[ 0 ][ B ] += t;
 		rv[ 1 ][ C ] += t;
