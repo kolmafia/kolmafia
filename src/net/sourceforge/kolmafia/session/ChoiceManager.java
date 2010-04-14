@@ -90,6 +90,24 @@ public abstract class ChoiceManager
 		ItemPool.get( ItemPool.ANTIQUE_HAND_MIRROR, 1 ),
 	};
 
+	private static final Pattern HELLEVATOR_PATTERN = Pattern.compile( "the (lobby|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh) (button|floor)" );
+
+	private static final String[] FLOORS = new String[]
+	{
+		"lobby",
+		"first",
+		"second",
+		"third",
+		"fourth",
+		"fifth",
+		"sixth",
+		"seventh",
+		"eighth",
+		"ninth",
+		"tenth",
+		"eleventh",
+	};
+
 	public static class ChoiceAdventure
 		implements Comparable
 	{
@@ -2695,6 +2713,28 @@ public abstract class ChoiceManager
 				}
 			}
 			break;
+
+		case 394: {
+			// Hellevator Music
+			// Parse response
+			Matcher matcher = HELLEVATOR_PATTERN.matcher( text );
+			if ( !matcher.find() )
+			{
+				break;
+			}
+			String floor = matcher.group( 1 );
+			for ( int mcd = 0; mcd < FLOORS.length; ++mcd )
+			{
+				if ( floor.equals( FLOORS[ mcd ] ) )
+				{
+					String message = "Setting monster level to " + mcd;
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+					break;
+				}
+			}
+			break;
+		}
 
 		case 443:
 			// Chess Puzzle
