@@ -167,7 +167,7 @@ public class ClanLoungeRequest
 
 	public static final AdventureResult VIP_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
 	private static final GenericRequest VIP_KEY_REQUEST =
-		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { ClanLoungeRequest.VIP_KEY } );
+		new StorageRequest( StorageRequest.FREEPULL_TO_INVENTORY, new AdventureResult[] { ClanLoungeRequest.VIP_KEY } );
 	private static final GenericRequest VISIT_REQUEST = new ClanLoungeRequest();
 
 	private static void pullVIPKey()
@@ -178,7 +178,7 @@ public class ClanLoungeRequest
 		}
 
 		// If you have a VIP Lounge Key in storage, pull it.
-		if ( VIP_KEY.getCount( KoLConstants.storage ) > 0 )
+		if ( VIP_KEY.getCount( KoLConstants.freepulls ) > 0 )
 		{
 			RequestThread.postRequest( VIP_KEY_REQUEST );
 		}
