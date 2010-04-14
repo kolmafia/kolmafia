@@ -35,12 +35,14 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.ListIterator;
 
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Parser;
 
 public class ForEachLoop
 	extends Loop
@@ -48,12 +50,19 @@ public class ForEachLoop
 	private final VariableReferenceList variableReferences;
 	private final Value aggregate;
 
-	public ForEachLoop( final Scope scope, final VariableReferenceList variableReferences,
-		final Value aggregate )
+	// For runtime error messages
+	String fileName;
+	int lineNumber;
+
+	public ForEachLoop( final Scope scope,
+			    final VariableReferenceList variableReferences,
+			    final Value aggregate, final Parser parser )
 	{
 		super( scope );
 		this.variableReferences = variableReferences;
 		this.aggregate = aggregate;
+		this.fileName = parser.getShortFileName();
+		this.lineNumber = parser.getLineNumber();
 	}
 
 	public VariableReferenceList getVariableReferences()
@@ -103,24 +112,34 @@ public class ForEachLoop
 	private Value executeSlice( final Interpreter interpreter, final AggregateValue slice, final ListIterator it,
 		final VariableReference variable )
 	{
-		// Get an array of keys for the slice
-		Value[] keys = slice.keys();
-
 		// Get the next key variable
 		VariableReference nextVariable = it.hasNext() ? (VariableReference) it.next() : null;
 
+		// Get an iterator over the keys for the slice
+                Iterator keys = slice.iterator();
+
 		// While there are further keys
-		for ( int i = 0; i < keys.length; ++i )
+                while ( keys.hasNext() )
 		{
 			// Get current key
-			Value key = keys[ i ];
+			Value key;
+
+			try
+			{
+				key = (Value) keys.next();
+			}
+			catch ( ConcurrentModificationException e )
+			{
+				interpreter.setLineAndFile( this.fileName, this.lineNumber );
+				throw interpreter.runtimeException( "Map modified within foreach" );
+			}
 
 			// Bind variable to key
 			variable.setValue( interpreter, key );
 
 			if ( interpreter.isTracing() )
 			{
-				interpreter.trace( "Key #" + i + ": " + key );
+				interpreter.trace( "Key: " + key );
 			}
 
 			// If there are more indices to bind, recurse

@@ -1663,7 +1663,7 @@ public class Parser
 		Scope scope = this.parseLoopScope( functionType, varList, parentScope );
 
 		// Add the foreach node with the list of varRefs
-		return new ForEachLoop( scope, variableReferences, aggregate );
+		return new ForEachLoop( scope, variableReferences, aggregate, this );
 	}
 
 	private ForLoop parseFor( final Type functionType, final BasicScope parentScope )

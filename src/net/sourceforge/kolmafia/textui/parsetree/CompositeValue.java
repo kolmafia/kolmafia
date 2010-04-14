@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.ScriptException;
@@ -82,6 +84,11 @@ public class CompositeValue
 	public Value[] keys()
 	{
 		return new Value[ 0 ];
+	}
+
+	public Iterator iterator()
+	{
+		return Arrays.asList( this.keys() ).iterator();
 	}
 
 	public Value initialValue( final Object key )
