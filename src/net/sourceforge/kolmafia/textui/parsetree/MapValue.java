@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -109,5 +110,11 @@ public class MapValue
 		Value[] keys = new Value[ set.size() ];
 		set.toArray( keys );
 		return keys;
+	}
+
+	public Iterator iterator()
+	{
+		Set set = ( (TreeMap) this.content ).keySet();
+		return set.iterator();
 	}
 }
