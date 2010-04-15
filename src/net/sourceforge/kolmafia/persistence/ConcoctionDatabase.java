@@ -1601,6 +1601,13 @@ public class ConcoctionDatabase
 		// Ensure that you're retrieving the same ingredients that
 		// were used in the calculations.  Usually this is the case,
 		// but ice-cold beer and ketchup are tricky cases.
+		
+		if ( ingredients.length > 2 )
+		{	// This is not a standard crafting recipe - and in the one case
+			// where such a recipe uses one of these ingredients (Sir Schlitz
+			// for the Staff of the Short Order Cook), it's not interchangeable.
+			return ingredients;		
+		}
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
