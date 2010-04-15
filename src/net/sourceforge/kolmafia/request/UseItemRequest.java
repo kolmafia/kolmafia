@@ -1954,7 +1954,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
 			{
-				UseItemRequest.lastUpdate = "You music was inadequate.";
+				UseItemRequest.lastUpdate = "Your music was inadequate.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
