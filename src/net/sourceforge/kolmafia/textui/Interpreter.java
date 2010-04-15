@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
@@ -75,6 +76,9 @@ public class Interpreter
 	private PrintStream traceStream = NullStream.INSTANCE;
 	private int traceIndentation = 0;
 	public Profiler profiler;
+	
+	// key, then aggregate, then iterator for every active foreach loop
+	public ArrayList iterators = new ArrayList();
 
 	// For use in runtime error messages
 	private String fileName;

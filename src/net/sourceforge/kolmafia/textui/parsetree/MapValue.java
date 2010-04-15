@@ -82,6 +82,20 @@ public class MapValue
 
 	public Value remove( final Value key, final Interpreter interpreter )
 	{
+		for ( int i = interpreter.iterators.size() - 3; i >= 0; i -= 3 )
+		{
+			if ( interpreter.iterators.get( i + 1 ) == this &&
+				key.equals( (Value) interpreter.iterators.get( i ) ) )
+			{
+				Value rv = this.aref( key, interpreter );
+				((Iterator) interpreter.iterators.get( i + 2 )).remove();
+				// The following is needed in case remove is used more than
+				// once on the same key:
+				interpreter.iterators.set( i, null );
+				return rv;
+			}
+		}
+		
 		TreeMap map = (TreeMap) this.content;
 		return (Value) map.remove( key );
 	}

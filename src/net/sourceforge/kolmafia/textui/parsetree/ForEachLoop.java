@@ -116,10 +116,15 @@ public class ForEachLoop
 		VariableReference nextVariable = it.hasNext() ? (VariableReference) it.next() : null;
 
 		// Get an iterator over the keys for the slice
-                Iterator keys = slice.iterator();
+		Iterator keys = slice.iterator();
+		
+		int stackPos = interpreter.iterators.size();
+		interpreter.iterators.add( null );	// key
+		interpreter.iterators.add( slice );	// map
+		interpreter.iterators.add( keys );	// iterator
 
 		// While there are further keys
-                while ( keys.hasNext() )
+		while ( keys.hasNext() )
 		{
 			// Get current key
 			Value key;
@@ -127,6 +132,7 @@ public class ForEachLoop
 			try
 			{
 				key = (Value) keys.next();
+				interpreter.iterators.set( stackPos, key );
 			}
 			catch ( ConcurrentModificationException e )
 			{
@@ -179,6 +185,9 @@ public class ForEachLoop
 				it.previous();
 			}
 			interpreter.traceUnindent();
+			interpreter.iterators.remove( stackPos + 2 );
+			interpreter.iterators.remove( stackPos + 1 );
+			interpreter.iterators.remove( stackPos );
 			return result;
 		}
 
@@ -187,6 +196,9 @@ public class ForEachLoop
 			it.previous();
 		}
 		interpreter.traceUnindent();
+		interpreter.iterators.remove( stackPos + 2 );
+		interpreter.iterators.remove( stackPos + 1 );
+		interpreter.iterators.remove( stackPos );
 		return DataTypes.VOID_VALUE;
 	}
 
