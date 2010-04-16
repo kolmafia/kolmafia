@@ -934,6 +934,13 @@ public abstract class LouvreManager
 				conflict = conflicts( curr[ bit ], next[ bit ] );
 				curr[ bit ] = next[ bit ];
 			}
+			else if ( definitive( prev[ bit ] ) &&
+				definitive( next[ bit ] ) &&
+				prev[ bit ] == next[ bit ] )
+			{
+				conflict = conflicts( curr[ bit ], prev[ bit ] );
+				curr[ bit ] = prev[ bit ];
+			}
 			else if ( curr[ bit ] < 0 )
 			{	// this should override the probabilistic correlations
 				// with the adjacent locations
