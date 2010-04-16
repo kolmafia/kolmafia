@@ -1236,7 +1236,7 @@
 1227	stainless steel scarf	accessory	display	0
 1228	stainless steel slacks	pants	display	0
 1229	stainless steel suspenders	accessory	display	0
-1230	plexiglass pike pike	weapon	display	0
+1230	plexiglass pikestaff	weapon	display	0
 1231	plexiglass pith helmet	hat	display	0
 1232	plexiglass pocketwatch	accessory	display	0
 1233	plexiglass pinky ring	accessory	display	0

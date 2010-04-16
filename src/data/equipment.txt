@@ -749,7 +749,7 @@ pitchfork	125	Mus: 47	1-handed spear
 pixel boomerang	50	Mox: 10	1-handed boomerang
 pixel sword	50	Mus: 10	1-handed sword
 plastic guitar	100	Mox: 35	2-handed guitar
-plexiglass pike pike	180	Mus: 75	2-handed spear
+plexiglass pikestaff	180	Mus: 75	2-handed club
 pocket theremin	35	Mox: 2	2-handed theremin
 pointed stick	160	Mus: 65	1-handed spear
 poison pen	50	Mus: 10	1-handed knife
