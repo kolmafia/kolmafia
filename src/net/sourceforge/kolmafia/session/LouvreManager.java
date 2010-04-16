@@ -663,7 +663,7 @@ public abstract class LouvreManager
 			StringBuffer buf = new StringBuffer( "Calculated probabilities:" );
 			for ( int i = 0; i < 3; ++i )
 			{
-				if ( probs[ i ] < 0.05f )
+				if ( probs[ i ] < 0.01f )
 				{	// probably just a round-off error, not a significant chance
 					continue;
 				}
@@ -798,8 +798,8 @@ public abstract class LouvreManager
 		// Only one exit mapped
 		case 0xA00:
 			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.75f;
-			bits[ 2 ] = 0.74f;
+			bits[ 1 ] = 0.67f;
+			bits[ 2 ] = -0.67f;
 			break;
 		
 		case 0xB00:
@@ -810,54 +810,54 @@ public abstract class LouvreManager
 			break;
 
 		case 0xC00:
-			bits[ 0 ] = 0.75f;
-			bits[ 1 ] = 0.24f;
-			bits[ 2 ] = 0.24f;
-			bits[ 3 ] = 0.74f;
+			bits[ 0 ] = 0.89f;
+			bits[ 1 ] = -0.44f;
+			bits[ 2 ] = -0.44f;
+			bits[ 3 ] = -0.56f;
 			break;
 
 		case 0x0A0:
 			bits[ 0 ] = 0.0f;
 			bits[ 1 ] = 0.0f;
 			bits[ 2 ] = 0.0f;
-			bits[ 3 ] = 0.75f;
-			bits[ 4 ] = 0.74f;
+			bits[ 3 ] = 0.67f;
+			bits[ 4 ] = -0.67f;
 			break;
 
 		case 0x0B0:
-			bits[ 0 ] = 0.75f;
-			bits[ 1 ] = 0.74f;
+			bits[ 0 ] = 0.67f;
+			bits[ 1 ] = -0.67f;
 			break;
 
 		case 0x0C0:
 			bits[ 0 ] = 0.0f;
 			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 0.75f;
-			bits[ 3 ] = 0.24f;
-			bits[ 4 ] = 0.24f;
+			bits[ 2 ] = 0.8f;
+			bits[ 3 ] = -0.4f;
+			bits[ 4 ] = -0.4f;
 			break;
 
 		case 0x00A:
-			bits[ 0 ] = 0.75f;
-			bits[ 1 ] = 0.24f;
-			bits[ 2 ] = 0.24f;
-			bits[ 3 ] = 0.24f;
-			bits[ 4 ] = 0.24f;
+			bits[ 0 ] = 0.94f;
+			bits[ 1 ] = -0.47f;
+			bits[ 2 ] = -0.47f;
+			bits[ 3 ] = -0.47f;
+			bits[ 4 ] = -0.47f;
 			break;
 
 		case 0x00B:
 			bits[ 0 ] = 0.0f;
 			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 0.75f;
-			bits[ 3 ] = 0.74f;
+			bits[ 2 ] = 0.67f;
+			bits[ 3 ] = -0.67f;
 			break;
 
 		case 0x00C:
 			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.75f;
-			bits[ 2 ] = 0.24f;
-			bits[ 3 ] = 0.24f;
-			bits[ 4 ] = 0.74f;
+			bits[ 1 ] = 0.8f;
+			bits[ 2 ] = -0.4f;
+			bits[ 3 ] = -0.4f;
+			bits[ 4 ] = -0.6f;
 			break;
 		
 		default:
@@ -886,8 +886,8 @@ public abstract class LouvreManager
 
 	private static final boolean conflicts( float curr, float becomes )
 	{
-		return (curr == 0.24f && becomes == 1.0) ||
-			(curr == 0.74f && becomes == 0.0);
+		return (becomes == 1.0 && -0.5f < curr && curr < 0.0f) ||
+			(becomes == 0.0 && curr < -0.5f);
 	}
 
 	// Predict values for the pseudorandom bits for a location, taking into
@@ -934,24 +934,25 @@ public abstract class LouvreManager
 				conflict = conflicts( curr[ bit ], next[ bit ] );
 				curr[ bit ] = next[ bit ];
 			}
-			else if ( curr[ bit ] == 0.24f || curr[ bit ] == 0.74f )
+			else if ( curr[ bit ] < 0 )
 			{	// this should override the probabilistic correlations
 				// with the adjacent locations
 			}
 			else
 			{
-				curr[ bit ] = (curr[ bit ] + prev[ bit ] + next[ bit ]) / 3.0f;
+				curr[ bit ] = (curr[ bit ] + Math.abs( prev[ bit ] ) + 
+					Math.abs( next[ bit ] )) / 3.0f;
 			}
 			
 			if ( conflict )
 			{	// A bit has been proven to not be observable in a given state,
 				// but also proven to be in that state.  The implication is that
 				// a previous bit was true, rendering this bit irrelevant.
-				// Handle this by looking backwards for a bit that's likely to be
-				// true, and upgrading it to certainty.
+				// Handle this by looking backwards for a bit that's possible to
+				// be true, and upgrading it to certainty.
 				for ( int prevBit = bit - 1; prevBit >= 0; -- prevBit )
 				{
-					if ( curr[ prevBit ] > 0.5f )
+					if ( curr[ prevBit ] > 0.0f )
 					{
 						curr[ prevBit ] = 1.0f;
 						break;
@@ -967,8 +968,8 @@ public abstract class LouvreManager
 	private static final float adjust( float val )
 	{	// In the final stage of calculation, unobservable values are no
 		// longer significant - upgrade them to their only observable value.
-		return val == 0.24f ? 0.0f :
-			val == 0.74f ? 1.0f :
+		return val < -0.5f ? 1.0f :
+			val < 0.0f ? 0.0f :
 			val;	
 	}
 	

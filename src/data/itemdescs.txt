@@ -1233,7 +1233,7 @@
 1227	321944533	stainless steel scarf	stainless steel scarfs
 1228	235417138	stainless steel slacks	pairs of stainless steel slacks
 1229	301172153	stainless steel suspenders	stainless steel suspenders
-1230	179184971	plexiglass pike pike	plexiglass pike pikes
+1230	179184971	plexiglass pikestaff
 1231	954817595	plexiglass pith helmet	plexiglass pith helmets
 1232	611681149	plexiglass pocketwatch	plexiglass pocketwatches
 1233	445862793	plexiglass pinky ring	plexiglass pinky rings

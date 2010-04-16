@@ -829,7 +829,7 @@ pitchfork	Weapon Damage: +9
 pixel boomerang	Item Drop: +5
 pixel sword	Initiative: +15
 plastic guitar	Moxie: +5, Initiative: +15
-plexiglass pike pike	Weapon Damage: +25, PvP Fights: +10, Muscle Percent: +30
+plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +10, Muscle Percent: +30
 pocket theremin	Spooky Damage: +4
 pointed stick	Critical: 2, Weapon Damage: +10
 # poison pen: 75% chance of poisoning opponent.
