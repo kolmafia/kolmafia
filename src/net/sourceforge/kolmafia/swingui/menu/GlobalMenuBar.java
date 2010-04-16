@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
-import net.sourceforge.kolmafia.session.NemesisManager;
+//import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
@@ -162,7 +162,7 @@ public class GlobalMenuBar
 
 		questsMenu.add( new JSeparator() );
 
-		questsMenu.add( new InvocationMenuItem( "Nemesis Quest", NemesisManager.class, "faceNemesis" ) );
+//		questsMenu.add( new InvocationMenuItem( "Nemesis Quest", NemesisManager.class, "faceNemesis" ) );
 		questsMenu.add( new InvocationMenuItem( "Leaflet (No Stats)", LeafletManager.class, "leafletNoMagic" ) );
 		questsMenu.add( new InvocationMenuItem( "Leaflet (With Stats)", LeafletManager.class, "leafletWithMagic" ) );
 
