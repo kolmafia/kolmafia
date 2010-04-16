@@ -4570,13 +4570,13 @@
 4564	649265161	slippery when wet shield
 4565	141578960	raisin	raisins
 4566	911217999	tiny fly glasses	pairs of tiny fly glasses
-4567	216260644	flyest of shirts
-4568	721929940	a dance upon the palate
+4567	216260644	flyest of shirts	supafly shirts
+4568	721929940	a dance upon the palate	a dance upon the palates
 4569	889717914	tiny frozen prehistoric meteorite jawbreaker	tiny frozen prehistoric meteorite jawbreakers
-4570	568374640	Crazyleg's razor
+4570	568374640	Crazyleg's razor	Crazyleg's razors
 4571	211053476	squirmy violent party snack	squirmy violent party snacks
-4572	374949238	can-you-dig-it?
-4573	403676546	The Legendary Beat
+4572	374949238	can-you-dig-it?	can-you-dig-them?
+4573	403676546	The Legendary Beat	The Legendary Beats
 4574	719542869	panicked kernel	panicked kernels
 4575	731436094	bugged beanie	bugged beanies
 4576	700311806	bugged balaclava	bugged balaclavas
