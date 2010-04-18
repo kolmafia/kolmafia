@@ -180,8 +180,11 @@ public class CharPaneRequest
 
 		int turnsthisrun = parseTurnsThisRun( responseText );
 		int mafiaturnsthisrun = KoLCharacter.getCurrentRun();
-		if ( turnsthisrun < CharPaneRequest.turnsthisrun ||
-		     turnsthisrun < mafiaturnsthisrun )
+
+		// In Valhalla, turnsthisrun equals 0. Always accept that.
+		if ( turnsthisrun > 0 &&
+		     ( turnsthisrun < CharPaneRequest.turnsthisrun ||
+		       turnsthisrun < mafiaturnsthisrun ) )
 		{
 			return;
 		}

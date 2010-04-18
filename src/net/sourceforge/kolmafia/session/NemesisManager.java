@@ -255,8 +255,4 @@ public abstract class NemesisManager
 			this.right = words.length == 3 ? words[2] : "";
 		}
 	}
-
-	public static final void faceNemesis()
-	{
-	}
 }
