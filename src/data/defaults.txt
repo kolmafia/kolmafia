@@ -257,6 +257,7 @@ user	burrowgrubHiveUsed	false
 user	burrowgrubSummonsRemaining	0
 user	buyScript
 user	cameraMonster
+user	camerasUsed	0
 user	carboLoading	0
 user	cellarLayout	0
 user	chatbotScript
