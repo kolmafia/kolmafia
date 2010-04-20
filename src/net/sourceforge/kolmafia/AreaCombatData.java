@@ -536,7 +536,8 @@ public class AreaCombatData
 			buffer.append( "<br>" );
 
 			float stealRate = ( (Float) pocketRates.get( i ) ).floatValue();
-			float dropRate = Math.min( (item.getCount() >> 16) * itemModifier, 100.0f );
+			int rawDropRate = item.getCount() >> 16;
+			float dropRate = Math.min( rawDropRate * itemModifier, 100.0f );
 			float effectiveDropRate = stealRate * 100.0f + ( 1.0f - stealRate ) * dropRate;
 
 			String rate1 = this.format( dropRate );
@@ -566,9 +567,11 @@ public class AreaCombatData
 				break;
 
 			case 'p':
-				if ( stealing )
+				if ( stealing && rawDropRate > 0 )
 				{
-					buffer.append( " 5% (pickpocket only)" );
+					buffer.append( " " );
+					buffer.append( rawDropRate );
+					buffer.append( "% (pickpocket only)" );
 				}
 				else
 				{

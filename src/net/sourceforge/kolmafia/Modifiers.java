@@ -192,6 +192,7 @@ public class Modifiers
 	public static final int SPORADIC_MEATDROP = 93;
 	public static final int SPORADIC_ITEMDROP = 94;
 	public static final int MEAT_BONUS = 95;
+	public static final int PICKPOCKET_CHANCE = 96;
 	
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -613,6 +614,10 @@ public class Modifiers
 		{ "Meat Bonus",
 		  null,
 		  Pattern.compile( "Meat Bonus: " + EXPR )
+		},
+		{ "Pickpocket Chance",
+		  Pattern.compile( "([+-]\\d+)% Pickpocket Chance" ),
+		  Pattern.compile( "Pickpocket Chance: " + EXPR )
 		},
 	};
 
