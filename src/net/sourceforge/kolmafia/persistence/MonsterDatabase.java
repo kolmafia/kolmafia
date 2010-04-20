@@ -647,7 +647,10 @@ public class MonsterDatabase
 					switch ( (char) item.getCount() & 0xFFFF )
 					{
 					case 'p':
-						probability = 0.05f;
+						if ( probability == 0.0f )
+						{	// assume some probability of a pickpocket-only item
+							probability = 0.05f;
+						}
 						break;
 					case 'n':
 					case 'c':

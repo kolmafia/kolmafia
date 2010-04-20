@@ -1273,9 +1273,8 @@ Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
 # El Vibrato translator
 Elmley shades	Muscle: +12, Critical: 2, Single Equip
-# Elvish sunglasses: +25% Pickpocket Chance
 # Elvish sunglasses: Lets you Rock Out
-Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Single Equip, Softcore Only
+Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Pickpocket Chance: +25, Single Equip, Softcore Only
 Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # French slippers
 Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
@@ -2250,8 +2249,7 @@ Egg-headedness	Mysticality Percent: +10
 Egg-stortionary Tactics	Meat Drop: +50
 Egg-stra Arm	Muscle Percent: +10
 Eggs-tra Sensory Perception	Item Drop: +10
-# El Tango de la Maldita Suegra: +20% Pickpocket Chance
-El Tango de la Maldita Suegra	Initiative: +15
+El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Elron's Explosive Etude	Spell Damage Percent: +50
 Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -2923,7 +2921,7 @@ Slimesuit	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky
 Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Swashbuckling Getup	Moxie: +7
 Tapered Threads	Initiative: +30
-# Tawdry Tramp Togs
+Tawdry Tramp Togs	DB Combat Damage: +20, Class: "Disco Bandit"
 # Terrifying Clown Suit
 Terrycloth Tackle	Damage Absorption: +20
 Time Trappings	Adventures: +3

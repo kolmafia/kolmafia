@@ -1127,7 +1127,9 @@ public class RequestEditorKit
 				switch ( (char) item.getCount() & 0xFFFF )
 				{
 				case 'p':
-					monsterData.append( " (pp only)" );
+					monsterData.append( " (" );
+					monsterData.append( rate );
+					monsterData.append( " pp only)" );
 					break;
 				case 'b':
 					monsterData.append( " (bounty)" );
