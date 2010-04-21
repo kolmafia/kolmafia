@@ -1556,7 +1556,7 @@ public class FightRequest
 		return true;
 	}
 
-	private static final Pattern ONTURN_PATTERN = Pattern.compile( "onturn = (\\d+)" );
+	public static final Pattern ONTURN_PATTERN = Pattern.compile( "onturn = (\\d+)" );
 
 	public static final void updateCombatData( final String location, String encounter, final String responseText )
 	{
@@ -3307,6 +3307,11 @@ public class FightRequest
 		}
 
 		/// node-specific processing
+		if ( name.equals( "hr" ) )
+		{
+			++FightRequest.currentRound;
+		}
+		
 		if ( name.equals( "table" ) )
 		{
 			// Items have "rel" strings.
@@ -3558,6 +3563,10 @@ public class FightRequest
 				{
 					status.won = true;
 					FightRequest.currentRound = 0;
+				}
+				else if ( content.startsWith( " macroaction:" ) )
+				{
+					FightRequest.logText( content.trim(), status );
 				}
 				continue;
 			}
@@ -4388,6 +4397,14 @@ public class FightRequest
 			{
 				action.append( "jiggles the " );
 				action.append( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() );
+			}
+		}
+		else if ( urlString.indexOf( "macro" ) != -1 )
+		{
+			FightRequest.action1 = "";
+			if ( shouldLogAction )
+			{
+				action.append( "executes a macro!" );
 			}
 		}
 		else
