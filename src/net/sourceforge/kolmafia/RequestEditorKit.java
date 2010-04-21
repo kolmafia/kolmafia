@@ -111,6 +111,7 @@ public class RequestEditorKit
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
+	private static final Pattern ROUND_SEP_PATTERN = Pattern.compile( "<(?:b>Combat!</b>|hr.*?>)" );
 
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
@@ -883,11 +884,7 @@ public class RequestEditorKit
 				" <font color=olive>yellow eye</font>" );
 		}
 
-		int combatIndex = buffer.indexOf( "!</b>" );
-		if ( combatIndex != -1 )
-		{
-			buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
-		}
+		RequestEditorKit.insertRoundNumbers( buffer );
 		
 		int runaway = FightRequest.freeRunawayChance();
 		if ( runaway > 0 )
@@ -1617,6 +1614,34 @@ public class RequestEditorKit
 				StringUtilities.globalStringReplace( buffer, name, name + " of " + effect );
 			}
 		}
+	}
+	
+	private static final void insertRoundNumbers( final StringBuffer buffer )
+	{
+		Matcher m = FightRequest.ONTURN_PATTERN.matcher( buffer );
+		if ( !m.find() )
+		{
+			return;
+		}
+		int round = StringUtilities.parseInt( m.group( 1 ) );
+		m = RequestEditorKit.ROUND_SEP_PATTERN.matcher( buffer.toString() );
+		buffer.setLength( 0 );
+		while ( m.find() )
+		{
+			if ( m.group().startsWith( "<b" ) )
+			{	// Initial round - add # after "Combat"
+				m.appendReplacement( buffer, "<b>Combat: Round " );
+				buffer.append( round++ );
+				buffer.append( "!</b>" );
+			}
+			else
+			{	// Subsequent rounds - replace <hr> with bar like title
+				m.appendReplacement( buffer, "<table width=100%><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Round " );
+				buffer.append( round++ );
+				buffer.append( "!</b></td></tr></table>" );
+			}
+		}
+		m.appendTail( buffer );
 	}
 
 	private static final void addChoiceSpoilers( final String location, final StringBuffer buffer )
