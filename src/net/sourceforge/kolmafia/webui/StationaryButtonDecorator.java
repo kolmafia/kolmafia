@@ -296,7 +296,10 @@ public class StationaryButtonDecorator
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 
 		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/hotkeys.js\"></script>" );
-		StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
+		if ( !Preferences.getBoolean( "macroLens" ) )
+		{	// this would make it impossible to type numbers in the macro field!
+			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
+		}
 	}
 
 	private static final void addFightButton( final String urlString, final StringBuffer response,

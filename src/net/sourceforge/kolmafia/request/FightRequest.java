@@ -1502,8 +1502,9 @@ public class FightRequest
 
 		// If no default action is made by the player, then the round
 		// remains the same.  Simply report winning/losing initiative.
+		// Same applies for autoattack macros, we detect their action elsewhere.
 
-		if ( FightRequest.action1.equals( "" ) || FightRequest.action1.equals( "0" ) )
+		if ( FightRequest.action1.equals( "" ) || FightRequest.action1.equals( "0" ) || FightRequest.action1.startsWith( "99" ) )
 		{
 			return false;
 		}

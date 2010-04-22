@@ -886,6 +886,13 @@ public class RequestEditorKit
 
 		RequestEditorKit.insertRoundNumbers( buffer );
 		
+		if ( Preferences.getBoolean( "macroLens" ) )
+		{
+			StringUtilities.singleStringReplace( buffer,
+				"<input type=\"hidden\" name=\"macrotext\" value=\"\">",
+				"<tr><td><textarea name=\"macrotext\" cols=50 rows=10 placeholder=\"type macro here\"></textarea></td></tr>" );
+		}
+		
 		int runaway = FightRequest.freeRunawayChance();
 		if ( runaway > 0 )
 		{
