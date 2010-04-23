@@ -198,7 +198,7 @@ Batrat	HP: 20 Def: 23 Atk: 23 Meat: 18-28	bat wing (15)	bat guano (15)	batgut (1
 Batwinged Gremlin	HP: 170 Def: 171 Atk: 169	gremlin juice (3)	molybdenum hammer (0)
 Bazookafish	HP: 500 Def: 325 Atk: 375 Meat: 176-264	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (15)	fish bazooka (2)
 Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
-Beefy Bodyguard Bat	HP: 36 Atk: 26 Meat: 200-300
+Beefy Bodyguard Bat	HP: 25 Def: 25 Atk: 26 Meat: 200-300
 Beelephant	HP: 0	bucket of honey (20)	elephant stinger (0)	reflection of a map (c0)
 Beer Batter	HP: 100000
 Beer Bongadier	HP: 210 Def: 195 Atk: 180 E: sleaze	beer bong (20)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (2)
