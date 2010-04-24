@@ -45,11 +45,20 @@ public class Assignment
 {
 	private final VariableReference lhs;
 	private final Value rhs;
+	private final Operator oper;
 
 	public Assignment( final VariableReference lhs, final Value rhs )
 	{
 		this.lhs = lhs;
 		this.rhs = rhs;
+		this.oper = null;
+	}
+
+	public Assignment( final VariableReference lhs, final Value rhs, final Operator oper )
+	{
+		this.lhs = lhs;
+		this.rhs = rhs;
+		this.oper = oper;
 	}
 
 	public VariableReference getLeftHandSide()
@@ -104,24 +113,25 @@ public class Assignment
 			return null;
 		}
 
+		Value newValue;
 		if ( this.lhs.getType().equals( DataTypes.TYPE_STRING ) )
 		{
-			this.lhs.setValue( interpreter, value.toStringValue() );
+			newValue = this.lhs.setValue( interpreter, value.toStringValue(), oper );
 		}
 		else if ( this.lhs.getType().equals( DataTypes.TYPE_INT ) )
 		{
-			this.lhs.setValue( interpreter, value.toIntValue() );
+			newValue = this.lhs.setValue( interpreter, value.toIntValue(), oper );
 		}
 		else if ( this.lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
-			this.lhs.setValue( interpreter, value.toFloatValue() );
+			newValue = this.lhs.setValue( interpreter, value.toFloatValue(), oper );
 		}
 		else
 		{
-			this.lhs.setValue( interpreter, value );
+			newValue = this.lhs.setValue( interpreter, value );
 		}
 
-		return DataTypes.VOID_VALUE;
+		return newValue;
 	}
 
 	public String toString()
@@ -135,6 +145,10 @@ public class Assignment
 		stream.println( "<ASSIGN " + this.lhs.getName() + ">" );
 		VariableReference lhs = this.getLeftHandSide();
 		Parser.printIndices( lhs.getIndices(), stream, indent + 1 );
+		if ( this.oper != null )
+		{
+			oper.print( stream, indent + 1 );
+		}
 		this.getRightHandSide().print( stream, indent + 1 );
 	}
 }
