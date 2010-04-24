@@ -133,6 +133,7 @@ public class FightRequest
 	private static boolean isUsingConsultScript = false;
 	public static Interpreter filterInterp;
 	public static String filterFunction;
+	public static String macroOverride;
 
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
 
@@ -140,11 +141,15 @@ public class FightRequest
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
 	private static final Pattern CLEESH_PATTERN =
-		Pattern.compile( "<script>newpic\\(\".*?\", \"(.*?)\"\\)" );
+		Pattern.compile( "newpic\\(\".*?\", \"(.*?)\"\\)" );
 	private static final Pattern WORN_STICKER_PATTERN =
 		Pattern.compile( "A sticker falls off your weapon, faded and torn" );
 	private static final Pattern BALLROOM_SONG_PATTERN =
 		Pattern.compile( "You hear strains of (?:(lively)|(mellow)|(lovely)) music in the distance" );
+	private static final Pattern MACRO_PATTERN =
+		Pattern.compile( "\\G.*?<!-- macroaction: *(\\w+) ++(\\d+)?,? *(\\d+)?.*?(?=$|<!-- macroaction)", Pattern.DOTALL );
+	private static final Pattern FULLPAGE_PATTERN =
+		Pattern.compile( "^.*$", Pattern.DOTALL );
 
 	private static final Pattern BOSSBAT_PATTERN =
 		Pattern.compile( "until he disengages, two goofy grins on his faces.*?You lose ([\\d,]+)" );
@@ -314,7 +319,6 @@ public class FightRequest
 		props.setTranslateSpecialEntities( false );
 		props.setRecognizeUnicodeChars( false );
 		props.setOmitXmlDeclaration( true );
-		props.setPruneTags( "script" );
 	}
 
 	/**
@@ -463,6 +467,11 @@ public class FightRequest
 			{
 				this.addFormField( "ireallymeanit", FightRequest.ireallymeanit );
 				FightRequest.ireallymeanit = null;
+				if ( FightRequest.macroOverride != null )
+				{
+					this.addFormField( "action", "macro" );
+					this.addFormField( "macrotext", FightRequest.macroOverride );
+				}
 			}
 			return;
 		}
@@ -1504,54 +1513,25 @@ public class FightRequest
 		// remains the same.  Simply report winning/losing initiative.
 		// Same applies for autoattack macros, we detect their action elsewhere.
 
-		if ( FightRequest.action1.equals( "" ) || FightRequest.action1.equals( "0" ) || FightRequest.action1.startsWith( "99" ) )
+		if ( FightRequest.action1.equals( "" ) ||
+			FightRequest.action1.equals( "0" ) ||
+			FightRequest.action1.startsWith( "99" ) ||
+			responseText.indexOf( "<!-- macroaction:" ) != -1 )
 		{
 			return false;
 		}
 
-		StringBuffer action = new StringBuffer();
-
-		if ( shouldLogAction )
-		{
-			action.append( "Round 1: " );
-			action.append( KoLCharacter.getUserName() );
-			action.append( " " );
-		}
-
 		if ( FightRequest.action1.equals( "1" ) )
 		{
-			if ( shouldLogAction )
-			{
-				action.append( "attacks!" );
-			}
-
-			FightRequest.action1 = "attack";
+			FightRequest.registerRequest( false, "fight.php?[AA]attack" );
 		}
 		else if ( FightRequest.action1.equals( "3" ) )
 		{
-			if ( shouldLogAction )
-			{
-				action.append( "tries to steal an item!" );
-			}
-
-			FightRequest.action1 = "steal";
+			FightRequest.registerRequest( false, "fight.php?[AA]steal" );
 		}
-		else if ( shouldLogAction )
+		else
 		{
-			action.append( "casts " + SkillDatabase.getSkillName( Integer.parseInt( FightRequest.action1 ) ).toUpperCase() + "!" );
-		}
-
-		if ( shouldLogAction )
-		{
-			action.append( " (auto-attack)" );
-			String message = action.toString();
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-		}
-
-		if ( FightRequest.action1.equals( "3004" ) )
-		{
-			FightRequest.castNoodles = true;
+			FightRequest.registerRequest( false, "fight.php?[AA]whichskill=" + FightRequest.action1 );
 		}
 
 		return true;
@@ -1571,29 +1551,9 @@ public class FightRequest
 		FightRequest.parseGhostSummoning( location, responseText );
 		FightRequest.parseFlyerUsage( location, responseText );
 
-		// Spend MP and consume items
-		FightRequest.payActionCost( responseText );
-
 		boolean autoAttacked = false;
 
-		// We've started a new round
-		++FightRequest.currentRound;
-
-		// Sanity check: compare our round with what KoL claims it is
-		Matcher m = ONTURN_PATTERN.matcher( responseText );
-		if ( m.find() )
-		{
-			int round = StringUtilities.parseInt( m.group(1) );
-			if ( round != FightRequest.currentRound )
-			{
-				RequestLogger.printLine( "KoLmafia thinks it is round " + FightRequest.currentRound + " but KoL thinks it is round " + round );
-			}
-		}
-
-		// Track disco skill sequences
-		DiscoCombatHelper.parseFightRound( location, responseText );
-
-		if ( FightRequest.currentRound == 1 )
+		if ( FightRequest.currentRound == 0 )
 		{
 			FightRequest.haveFought = true;
 			FightRequest.haveHaikuResults = false;
@@ -1655,50 +1615,31 @@ public class FightRequest
 
 			autoAttacked = FightRequest.checkForInitiative( responseText );
 		}
-
+		
+		Matcher macroMatcher = FightRequest.MACRO_PATTERN.matcher( responseText );
+		if ( macroMatcher.find() )
 		{
-			// The player (or perhaps their familiar or pasta guardian)
-			// can change the monster
+			FightRequest.registerMacroAction( macroMatcher );
+		}
+		else	// no macro results
+		{	// replace with dummy matcher that matches the full page
+			macroMatcher = FightRequest.FULLPAGE_PATTERN.matcher( responseText );
+			macroMatcher.find();
+		}
 
-			m = CLEESH_PATTERN.matcher( responseText );
-			if ( m.find() )
+		// We've started a new round
+		++FightRequest.currentRound;
+
+		// Sanity check: compare our round with what KoL claims it is
+		Matcher m = ONTURN_PATTERN.matcher( responseText );
+		if ( m.find() )
+		{
+			int round = StringUtilities.parseInt( m.group(1) );
+			if ( round != FightRequest.currentRound )
 			{
-				String newMonster = m.group( 1 );
-				FightRequest.encounterLookup = CustomCombatManager.encounterKey( newMonster );
-				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
-				FightRequest.healthModifier = 0;
-				
-				newMonster = "Round " + FightRequest.currentRound +
-					": your opponent becomes " + newMonster + "!";
-				RequestLogger.printLine( newMonster );
-				RequestLogger.updateSessionLog( newMonster );
+				RequestLogger.printLine( "KoLmafia thinks it is round " + FightRequest.currentRound + " but KoL thinks it is round " + round );
 			}
 		}
-
-		// Preprocess results and register new items
-		ResultProcessor.registerNewItems( responseText );
-
-		// Assume this response does not warrant a refresh
-		FightRequest.shouldRefresh = false;
-
-		// Determine whether entire response is in haiku
-		FightRequest.haveHaikuResults( responseText );
-
-		// If we have haiku results, process everything - monster
-		// health, familiar actions, dropped items, stat gains, ...
-		if ( FightRequest.haveHaikuResults )
-		{
-			// Parse haiku and process everything in order
-			FightRequest.processHaikuResults( responseText );
-		}
-		else
-		{
-			// Experimental: clean HTML and process it
-			FightRequest.processNormalResults( responseText );
-		}
-
-		// Look for special effects
-		FightRequest.updateMonsterHealth( responseText, 0 );
 
 		// *** This doesn't seem right, but is currently necessary for
 		// *** CCS scripts to behave correctly. FIX
@@ -1707,6 +1648,56 @@ public class FightRequest
 			++FightRequest.preparatoryRounds;
 			++FightRequest.currentRound;
 		}
+
+		// Assume this response does not warrant a refresh
+		FightRequest.shouldRefresh = false;
+
+		// Preprocess results and register new items
+		ResultProcessor.registerNewItems( responseText );
+		
+		// Determine whether entire response is in haiku
+		FightRequest.haveHaikuResults( responseText );
+
+		// If we have haiku results, process everything - monster
+		// health, familiar actions, dropped items, stat gains, ...
+		if ( FightRequest.haveHaikuResults )
+		{	// WRONG WRONG WRONG - haiku status can change in the middle of
+			// a multi-round macro result!!!
+			// Parse haiku and process everything in order
+			FightRequest.processHaikuResults( responseText );
+		}
+		else
+		{
+			// Experimental: clean HTML and process it
+			FightRequest.processNormalResults( responseText, macroMatcher );
+		}
+		
+		// Perform other processing for the final round
+		FightRequest.updateRoundData( macroMatcher );
+
+		FightRequest.foundNextRound = true;
+	}
+
+	// This performs checks that have to be applied to a single round of
+	// combat results, and that aren't (yet) part of the processNormalResults
+	// loop.  responseText will be a fragment of the page; anything that needs
+	// to check something outside of the round (such as looking at the action
+	// menus to see if an item or skill is still available) should use
+	// FightRequest.lastResponseText instead.
+	private static final void updateRoundData( final Matcher macroMatcher )
+	{
+		String responseText = macroMatcher.group();
+		boolean finalRound = macroMatcher.end() ==
+			FightRequest.lastResponseText.length();
+
+		// Look for special effects
+		FightRequest.updateMonsterHealth( responseText, 0 );
+
+		// Spend MP and consume items
+		FightRequest.payActionCost( responseText );
+
+		// Track disco skill sequences
+		DiscoCombatHelper.parseFightRound( FightRequest.action1, responseText );
 
 		// Check for equipment breakage.
 
@@ -1799,7 +1790,7 @@ public class FightRequest
 		// rusty grave robbing shovel, pulls it off of you, and absorbs
 		// it back into the mass."
 
-		m = FightRequest.SLIMED_PATTERN.matcher( responseText );
+		Matcher m = FightRequest.SLIMED_PATTERN.matcher( responseText );
 		if ( m.find() )
 		{
 			int id = ItemDatabase.getItemId( m.group( 1 ) );
@@ -1893,22 +1884,24 @@ public class FightRequest
 		}
 
 		// Reset round information if the battle is complete.
+		if ( !finalRound )
+		{
+			return;
+		}
 
 		boolean won = responseText.indexOf( "<!--WINWINWIN-->" ) != -1;
 
-                // If we won, the fight is over for sure. It might be over
-                // anyway. We can detect this in one of two ways: if you have
-                // the CAB enabled, there will be no link to the old combat
-                // form. Otherwise, a link to fight.php indicates that the
-                // fight is continuing
+		// If we won, the fight is over for sure. It might be over
+		// anyway. We can detect this in one of two ways: if you have
+		// the CAB enabled, there will be no link to the old combat
+		// form. Otherwise, a link to fight.php indicates that the
+		// fight is continuing
 
 		if ( !won &&
-		     responseText.indexOf( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
-					   "(show old combat form)" :
-					   "fight.php" ) != -1 )
-
+			responseText.indexOf( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
+				"(show old combat form)" :
+				"fight.php" ) != -1 )
 		{
-			FightRequest.foundNextRound = true;
 			return;
 		}
 
@@ -2079,7 +2072,7 @@ public class FightRequest
 				// entity is still present by looking for its
 				// image.
 
-                                int guardian = KoLCharacter.findGuardianByImage( responseText );
+				int guardian = KoLCharacter.findGuardianByImage( responseText );
 				if ( guardian != -1 )
 				{
 					// Legendary Regalia of the Pasta Master
@@ -2101,7 +2094,6 @@ public class FightRequest
 			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
 		}
 
-		FightRequest.foundNextRound = true;
 		FightRequest.clearInstanceData();
 	}
 
@@ -2532,7 +2524,8 @@ public class FightRequest
 
 	private static final void parseFlyerUsage( final String location, final String responseText )
 	{
-		if ( location.indexOf( "240" ) == -1 )
+		// URL check not working for macro'ed flyering
+		if ( false )	//location.indexOf( "240" ) == -1 )
 		{	// jam band flyers=2404, rock band flyers=2405
 			return;
 		}
@@ -2551,7 +2544,8 @@ public class FightRequest
 
 	private static final void parseGhostSummoning( final String location, final String responseText )
 	{
-		if ( location.indexOf( "summon" ) == -1 )
+		// URL check not working for macro'ed summoning
+		if ( false )	//location.indexOf( "summon" ) == -1 )
 		{
 			return;
 		}
@@ -3164,6 +3158,7 @@ public class FightRequest
 		public boolean dice = false;
 		public boolean nunnery = false;
 		public boolean won = false;
+		public Matcher macroMatcher;
 
 		public TagStatus()
 		{
@@ -3191,9 +3186,10 @@ public class FightRequest
 		}
 	}
 
-	private static final void processNormalResults( final String text )
+	private static final void processNormalResults( final String text, final Matcher macroMatcher )
 	{
 		TagStatus status = new TagStatus();
+		status.macroMatcher = macroMatcher;
 
 		TagNode node = null;
 		try
@@ -3298,8 +3294,7 @@ public class FightRequest
 		StringBuffer action = status.action;
 
 		// Skip scripts, forms, buttons, and html links
-		if ( name.equals( "script" ) ||
-		     name.equals( "form" ) ||
+		if ( name.equals( "form" ) ||
 		     name.equals( "input" ) ||
 		     name.equals( "a" ) ||
 		     name.equals( "div" ) )
@@ -3308,12 +3303,36 @@ public class FightRequest
 		}
 
 		/// node-specific processing
-		if ( name.equals( "hr" ) )
+		if ( name.equals( "script" ) )
 		{
-			++FightRequest.currentRound;
+			Matcher m = CLEESH_PATTERN.matcher( node.getText() );
+			if ( m.find() )
+			{
+				String newMonster = m.group( 1 );
+				FightRequest.encounterLookup = CustomCombatManager.encounterKey( newMonster );
+				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
+				FightRequest.healthModifier = 0;
+				
+				FightRequest.logText( "your opponent becomes " + newMonster + "!", status );
+			}
+		
+			return;
 		}
 		
-		if ( name.equals( "table" ) )
+		if ( name.equals( "hr" ) )
+		{
+			FightRequest.updateRoundData( status.macroMatcher );
+			if ( status.macroMatcher.find() )
+			{
+				FightRequest.registerMacroAction( status.macroMatcher );
+				++FightRequest.currentRound;
+			}
+			else
+			{
+				FightRequest.logText( "unspecified macro action?", status );
+			}
+		}
+		else if ( name.equals( "table" ) )
 		{
 			// Items have "rel" strings.
 			String cl = node.getAttributeByName( "class" );
@@ -3512,8 +3531,7 @@ public class FightRequest
 
 			// Unknown.
 		}
-
-		if ( name.equals( "p" ) )
+		else if ( name.equals( "p" ) )
 		{
 			StringBuffer text = node.getText();
 			String str = text.toString();
@@ -3565,10 +3583,7 @@ public class FightRequest
 					status.won = true;
 					FightRequest.currentRound = 0;
 				}
-				else if ( content.startsWith( " macroaction:" ) )
-				{
-					FightRequest.logText( content.trim(), status );
-				}
+				// macroaction: comment handled elsewhere
 				continue;
 			}
 
@@ -4324,6 +4339,55 @@ public class FightRequest
 		}
 		return 0;
 	}
+	
+	private static final void registerMacroAction( Matcher m )
+	{	// In the interests of keeping action logging centralized, turn the
+		// macro action (indicated via a macroaction: HTML comment) into a
+		// fake fight.php URL and call registerRequest on it.
+		
+		String action = m.group( 1 );
+		if ( action.equals( "attack" ) )
+		{
+			FightRequest.registerRequest( false, "fight.php?attack" );
+		}
+		else if ( action.equals( "runaway" ) )
+		{
+			FightRequest.registerRequest( false, "fight.php?runaway" );
+		}
+		else if ( action.equals( "pickpocket" ) || action.equals( "steal" ) )
+		{
+			FightRequest.registerRequest( false, "fight.php?steal" );
+		}
+		else if ( action.startsWith( "summon" ) )
+		{
+			FightRequest.registerRequest( false, "fight.php?summon" );
+		}
+		else if ( action.equals( "jiggle" ) || action.equals( "chefstaff" ) )
+		{
+			FightRequest.registerRequest( false, "fight.php?chefstaff" );
+		}
+		else if ( action.equals( "skill" ) )
+		{
+			FightRequest.registerRequest( false, "fight.php?whichskill=" + m.group( 2 ) );
+		}
+		else if ( action.equals( "use" ) )
+		{
+			String item1 = m.group( 2 );
+			String item2 = m.group( 3 );
+			if ( item2 == null )
+			{
+				FightRequest.registerRequest( false, "fight.php?whichitem=" + item1 );
+			}
+			else
+			{
+				FightRequest.registerRequest( false, "fight.php?whichitem=" + item1  + "&whichitem2=" + item2 );
+			}
+		}
+		else
+		{
+			System.out.println( "unrecognized macroaction: " + action );
+		}
+	}
 
 	public static final boolean registerRequest( final boolean isExternal, final String urlString )
 	{
@@ -4355,7 +4419,15 @@ public class FightRequest
 			action.append( " " );
 		}
 
-		if ( urlString.indexOf( "runaway" ) != -1 )
+		if ( urlString.indexOf( "macro" ) != -1 )
+		{
+			FightRequest.action1 = "";
+			if ( shouldLogAction )
+			{
+				action.append( "executes a macro!" );
+			}
+		}
+		else if ( urlString.indexOf( "runaway" ) != -1 )
 		{
 			FightRequest.action1 = "runaway";
 			if ( shouldLogAction )
@@ -4398,14 +4470,6 @@ public class FightRequest
 			{
 				action.append( "jiggles the " );
 				action.append( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() );
-			}
-		}
-		else if ( urlString.indexOf( "macro" ) != -1 )
-		{
-			FightRequest.action1 = "";
-			if ( shouldLogAction )
-			{
-				action.append( "executes a macro!" );
 			}
 		}
 		else
@@ -4508,11 +4572,19 @@ public class FightRequest
 						action.append( "!" );
 					}
 				}
+				else
+				{
+					System.out.println( "unable to parse " + urlString );
+				}
 			}
 		}
 
 		if ( shouldLogAction )
 		{
+			if ( urlString.indexOf( "[AA]" ) != -1 )
+			{	// pseudo-parameter for parsing an autoattack
+				action.append( " (auto-attack)" );			
+			}
 			String message = action.toString();
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
