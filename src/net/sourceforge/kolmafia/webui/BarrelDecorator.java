@@ -48,9 +48,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BarrelDecorator
 {
-	private static final Pattern UNSMASHED = Pattern.compile( "smash=(\\d+)&pwd=(\\w+)'>" +
-		"<img src='http://images.kingdomofloathing.com/otherimages/mountains/smallbarrel.gif' " +
-		"border=0 alt=\"An Unsmashed Barrel \\(1\\)\" title=\"An Unsmashed Barrel \\(1\\)\">" );
+	private static final Pattern UNSMASHED = Pattern.compile( "smash=(\\d+)&pwd=(\\w+)'><img src='http://images.kingdomofloathing.com/otherimages/mountains/smallbarrel.gif'.*?>" );
 	private static long unsmashedSquares = 0;
 	private static int unsmashedUser = -1;
 		
