@@ -249,8 +249,8 @@ public class Parser
 		multiCharTokens.add( ">=" );
 		multiCharTokens.add( "||" );
 		multiCharTokens.add( "&&" );
+		multiCharTokens.add( "//" );
 		multiCharTokens.add( "/*" );
-		multiCharTokens.add( "*/" );
 
 		// Constants
 		reservedWords.add( "true" );
@@ -3038,46 +3038,64 @@ public class Parser
 
 	private String currentToken()
 	{
-		if ( this.currentToken != null )
+		// Repeat until we get a token
+		while ( true )
 		{
-			return this.currentToken;
-		}
-		this.fixLines();
-		if ( this.currentLine == null )
-		{
-			return null;
-		}
+			// If we've already parsed a token, return it
+			if ( this.currentToken != null )
+			{
+				return this.currentToken;
+			}
 
-		while ( this.currentLine.startsWith( "#" ) || this.currentLine.startsWith( "//" ) )
-		{
-			this.currentLine = "";
-
+			// Locate next token
 			this.fixLines();
 			if ( this.currentLine == null )
 			{
 				return null;
 			}
-		}
 
-		if ( !this.currentLine.trim().equals( "/*" ) )
-		{
+			// "#" starts a whole-line comment
+			if ( this.currentLine.startsWith( "#" ) )
+			{
+				// Skip the comment
+				this.currentLine = "";
+				continue;
+			}
+
+			// Get the next token for consideration
 			this.currentToken = this.currentLine.substring( 0, this.tokenLength( this.currentLine ) );
-			return this.currentToken;
-		}
 
-		while ( this.currentLine != null && !this.currentLine.trim().equals( "*/" ) )
-		{
-			this.currentLine = "";
-			this.fixLines();
-		}
+			// "//" starts a comment which consumes the rest of the line
+			if ( this.currentToken.equals( "//" ) )
+			{
+				// Skip the comment
+				this.currentToken = null;
+				this.currentLine = "";
+				continue;
+			}
 
-		if ( this.currentLine == null )
-		{
-			return null;
-		}
+			// "/*" starts a comment which is terminated by "*/"
+			if ( !this.currentToken.equals( "/*" ) )
+			{
+				return this.currentToken;
+			}
 
-		this.currentLine = "";
-		return this.currentToken();
+			while ( this.currentLine != null )
+			{
+				int end = this.currentLine.indexOf( "*/" );
+				if ( end == -1 )
+				{
+					// Skip entire line
+					this.currentLine = "";
+					this.fixLines();
+					continue;
+				}
+
+				this.currentLine = this.currentLine.substring( end + 2 );
+				this.currentToken = null;
+				break;
+			}
+		}
 	}
 
 	private String nextToken()
