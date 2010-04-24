@@ -1899,16 +1899,32 @@ public abstract class RuntimeLibrary
 	
 	public static Value adventure( final Value countValue, final Value loc, final Value filterFunc )
 	{
-		try
+		String filter = filterFunc.toString();
+		if ( filter.indexOf( ';' ) != -1 )
 		{
-			FightRequest.filterFunction = filterFunc.toString();
-			FightRequest.filterInterp = LibraryFunction.interpreter;
-			return RuntimeLibrary.adventure( countValue, loc );
+			try
+			{
+				FightRequest.macroOverride = filter;
+				return RuntimeLibrary.adventure( countValue, loc );
+			}
+			finally
+			{
+				FightRequest.macroOverride = null;
+			}
 		}
-		finally
+		else
 		{
-			FightRequest.filterInterp = null;
-		}		
+			try
+			{
+				FightRequest.filterFunction = filter;
+				FightRequest.filterInterp = LibraryFunction.interpreter;
+				return RuntimeLibrary.adventure( countValue, loc );
+			}
+			finally
+			{
+				FightRequest.filterInterp = null;
+			}
+		}
 	}
 
 	public static Value adv1( final Value loc, final Value advValue, final Value filterFunc )
@@ -1922,9 +1938,14 @@ public abstract class RuntimeLibrary
 		try
 		{
 			adventure.overrideAdventuresUsed( advValue.intValue() );
-			FightRequest.filterFunction = filterFunc.toString();
-			if ( FightRequest.filterFunction.length() > 0 )
+			String filter = filterFunc.toString();
+			if ( filter.indexOf( ';' ) != -1 )
 			{
+				FightRequest.macroOverride = filter;
+			}
+			else if ( filter.length() > 0 )
+			{
+				FightRequest.filterFunction = filter;
 				FightRequest.filterInterp = LibraryFunction.interpreter;
 			}
 			KoLmafia.redoSkippedAdventures = false;
@@ -1934,6 +1955,7 @@ public abstract class RuntimeLibrary
 		{
 			KoLmafia.redoSkippedAdventures = true;
 			FightRequest.filterInterp = null;
+			FightRequest.macroOverride = null;
 			adventure.overrideAdventuresUsed( -1 );
 		}		
 		return RuntimeLibrary.continueValue();

@@ -377,7 +377,7 @@ public class DiscoCombatHelper
 		}
 	}
 
-	public static final void parseFightRound( final String urlString, final String responseText )
+	public static final void parseFightRound( final String action, final String responseText )
 	{
 		if ( !DiscoCombatHelper.canCombo )
 		{
@@ -401,14 +401,13 @@ public class DiscoCombatHelper
 			}
 		}
 
-		Matcher matcher = FightRequest.SKILL_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
+		if ( !action.startsWith( "skill" ) )
 		{
 			DiscoCombatHelper.counter = 0;
 			return;
 		}
 
-		int skill = DiscoCombatHelper.skillIdToSkill( matcher.group(1) );
+		int skill = DiscoCombatHelper.skillIdToSkill( action.substring( 5 ) );
 		if ( skill < 0 )
 		{
 			DiscoCombatHelper.counter = 0;
