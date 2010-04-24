@@ -196,20 +196,47 @@ public class CompositeReference
 		return null;
 	}
 
-	public void setValue( final Interpreter interpreter, final Value targetValue )
+	public Value setValue( Interpreter interpreter, final Value targetValue, final Operator oper )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		// Iterate through indices to final slice
 		if ( this.getSlice( interpreter ) )
 		{
-			this.slice.aset( this.index, targetValue, interpreter );
+			Value newValue = targetValue;
+
 			interpreter.traceIndent();
+
+			if ( oper != null )
+			{
+				Value currentValue = this.slice.aref( this.index, interpreter );
+
+				if ( currentValue == null )
+				{
+					currentValue = this.slice.initialValue( this.index );
+					this.slice.aset( this.index, currentValue, interpreter );
+				}
+
+				if ( interpreter.isTracing() )
+				{
+					interpreter.trace( "AREF <- " + currentValue.toQuotedString() );
+				}
+
+				newValue = oper.applyTo( interpreter, currentValue, targetValue );
+			}
+
+			this.slice.aset( this.index, newValue, interpreter );
+
 			if ( interpreter.isTracing() )
 			{
-				interpreter.trace( "ASET: " + targetValue.toQuotedString() );
+				interpreter.trace( "ASET: " + newValue.toQuotedString() );
 			}
+
 			interpreter.traceUnindent();
+
+			return newValue;
 		}
+
+		return null;
 	}
 
 	public Value removeKey( final Interpreter interpreter )

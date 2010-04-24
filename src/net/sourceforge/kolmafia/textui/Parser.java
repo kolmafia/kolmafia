@@ -251,6 +251,11 @@ public class Parser
 		multiCharTokens.add( "&&" );
 		multiCharTokens.add( "//" );
 		multiCharTokens.add( "/*" );
+		multiCharTokens.add( "+=" );
+		multiCharTokens.add( "-=" );
+		multiCharTokens.add( "*=" );
+		multiCharTokens.add( "/=" );
+		multiCharTokens.add( "%=" );
 
 		// Constants
 		reservedWords.add( "true" );
@@ -2136,7 +2141,9 @@ public class Parser
 			return null;
 		}
 
-		if ( !this.nextToken().equals( "=" ) && !this.nextToken().equals( "[" ) && !this.nextToken().equals( "." ) )
+		if ( !this.nextToken().equals( "=" ) && !this.nextToken().equals( "[" ) && !this.nextToken().equals( "." ) &&
+		     !this.nextToken().equals( "+=" ) && !this.nextToken().equals( "-=" ) && !this.nextToken().equals( "*=" ) &&
+		     !this.nextToken().equals( "/=" ) && !this.nextToken().equals( "%=" ) )
 		{
 			return null;
 		}
@@ -2157,12 +2164,14 @@ public class Parser
 			throw this.parseException( "Variable reference expected" );
 		}
 
-		if ( !this.currentToken().equals( "=" ) )
+		String oper = this.currentToken();
+		if ( !oper.equals( "=" ) && !oper.equals( "+=" ) && !oper.equals( "-=" ) && !oper.equals( "*=" ) &&
+		     !oper.equals( "/=" ) && !oper.equals( "%=" ))
 		{
 			return null;
 		}
 
-		this.readToken(); //=
+		this.readToken(); // oper
 
 		Value rhs = this.parseExpression( scope );
 
@@ -2177,7 +2186,9 @@ public class Parser
 				"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
 		}
 
-		return new Assignment( (VariableReference) lhs, rhs );
+		Operator op = oper.equals( "=" ) ? null : new Operator( oper.substring( 0, 1 ), this );
+
+		return new Assignment( (VariableReference) lhs, rhs, op );
 	}
 
 	private Value parseRemove( final BasicScope scope )

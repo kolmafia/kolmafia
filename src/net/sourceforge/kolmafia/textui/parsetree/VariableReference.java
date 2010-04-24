@@ -92,9 +92,21 @@ public class VariableReference
 		this.target.forceValue( targetValue );
 	}
 
-	public void setValue( Interpreter interpreter, final Value targetValue )
+	public Value setValue( final Interpreter interpreter, final Value targetValue )
 	{
-		this.target.setValue( interpreter, targetValue );
+		return this.setValue( interpreter, targetValue, null );
+	}
+
+	public Value setValue( Interpreter interpreter, final Value targetValue, final Operator oper )
+	{
+		Value newValue = targetValue;
+		if ( oper != null )
+		{
+			Value currentValue = this.target.getValue( interpreter );;
+			newValue = oper.applyTo( interpreter, currentValue, targetValue );
+		}
+		this.target.setValue( interpreter, newValue );
+		return newValue;
 	}
 
 	public String toString()
