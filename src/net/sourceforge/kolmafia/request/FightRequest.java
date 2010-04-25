@@ -116,6 +116,7 @@ public class FightRequest
 	private static int lastUserId = 0;
 	private static String lostInitiativeMessage = "";
 	private static String wonInitiativeMessage = "";
+	public static String lastMacroUsed = "";
 
 	private static int preparatoryRounds = 0;
 	private static String consultScriptThatDidNothing = null;
@@ -146,6 +147,8 @@ public class FightRequest
 		Pattern.compile( "A sticker falls off your weapon, faded and torn" );
 	private static final Pattern BALLROOM_SONG_PATTERN =
 		Pattern.compile( "You hear strains of (?:(lively)|(mellow)|(lovely)) music in the distance" );
+	private static final Pattern WHICHMACRO_PATTERN =
+		Pattern.compile( "whichmacro=(\\d+)" );
 	private static final Pattern MACRO_PATTERN =
 		Pattern.compile( "\\G.*?<!-- macroaction: *(\\w+) ++(\\d+)?,? *(\\d+)?.*?(?=$|<!-- macroaction)", Pattern.DOTALL );
 	private static final Pattern FULLPAGE_PATTERN =
@@ -2484,7 +2487,8 @@ public class FightRequest
 
 	private static final void parseGrubUsage( final String location, final String responseText )
 	{
-		if ( location.indexOf( "7074" ) == -1 )
+		// URL no longer a meaningful test of whether a grub was used
+		if ( false )	//location.indexOf( "7074" ) == -1 )
 		{
 			return;
 		}
@@ -2493,29 +2497,33 @@ public class FightRequest
 		// through your body, and absorb it into your bloodstream.
 		// It's refreshingly disgusting!
 
-		if ( responseText.indexOf( "refreshingly disgusting" ) != -1 )
+		int pos = responseText.indexOf( "refreshingly disgusting" );
+		if ( pos != -1 )
 		{
+			int uses = Preferences.getInteger( "burrowgrubSummonsRemaining" ) - 1;
+			
+			while ( (pos = responseText.indexOf( "refreshingly disgusting", pos + 23 )) != -1 )
+			{
+				--uses;
+			}
+	
 			// We have used our burrowgrub hive today
 			Preferences.setBoolean( "burrowgrubHiveUsed", true );
-
-			int uses = Preferences.getInteger( "burrowgrubSummonsRemaining" );
 
 			// <option value="7074" picurl="nopic" selected>Consume
 			// Burrowgrub (0 Mojo Points)</option>
 
 			if ( responseText.indexOf( "option value=\"7074\"" ) == -1 )
 			{
-				// No more uses today
-				uses = 0;
-			}
-			// At least one more use today
-			else if ( uses >= 2)
-			{
-				uses = uses - 1;
+				// We can't actually conclude anything from the lack of an
+				// option to consume another one - it's possible that the
+				// combat finished with no further user input.
+				uses = Math.max( 0, uses );
 			}
 			else
-			{
-				uses = 1;
+			{	// At least one more use today
+
+				uses = Math.max( 1, uses );
 			}
 
 			Preferences.setInteger( "burrowgrubSummonsRemaining", uses );
@@ -3372,7 +3380,7 @@ public class FightRequest
 				// If it's not combat damage, perhaps it's a stat gain
 				else if ( str.startsWith( "You gain" ) )
 				{
-					status.shouldRefresh = ResultProcessor.processGainLoss( str, null );
+					status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
 				}
 
 				return;
@@ -3444,7 +3452,7 @@ public class FightRequest
 					FightRequest.healthModifier += damage;
 				}
 
-				status.shouldRefresh = ResultProcessor.processGainLoss( str, null );
+				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
 				return;
 			}
 
@@ -3647,7 +3655,7 @@ public class FightRequest
 
 				if ( text.startsWith( "You gain" ) )
 				{
-					status.shouldRefresh = ResultProcessor.processGainLoss( text, null );
+					status.shouldRefresh |= ResultProcessor.processGainLoss( text, null );
 					continue;
 				}
 
@@ -3762,7 +3770,7 @@ public class FightRequest
 		if ( m.find() )
 		{
 			String message = "You lose " + m.group( 1 ) + " hit points";
-			status.shouldRefresh = ResultProcessor.processGainLoss( message, null );
+			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 			return true;
 		}
 
@@ -4421,6 +4429,11 @@ public class FightRequest
 
 		if ( urlString.indexOf( "macro" ) != -1 )
 		{
+			Matcher m = FightRequest.WHICHMACRO_PATTERN.matcher( urlString );
+			if ( m.find() )
+			{
+				FightRequest.lastMacroUsed = m.group( 1 );
+			}
 			FightRequest.action1 = "";
 			if ( shouldLogAction )
 			{

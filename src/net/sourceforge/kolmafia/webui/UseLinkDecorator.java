@@ -174,7 +174,7 @@ public abstract class UseLinkDecorator
 			"A sticker falls off your weapon, faded and torn. <font size=1>" +
 			"[<a href=\"bedazzle.php\">bedazzle</a>]</font>" );
 		
-		if ( inCombat && !duringCombat && UseLinkDecorator.deferred.length() > 0 )
+		if ( inCombat && !duringCombat )
 		{
 			int pos = buffer.lastIndexOf( "</table>" );
 			if ( pos == -1 )
@@ -183,10 +183,28 @@ public abstract class UseLinkDecorator
 			}
 			text = buffer.substring( pos );
 			buffer.setLength( pos );
-			buffer.append( "</table><table><tr><td colspan=2>Previously seen:</td></tr>" );
-			buffer.append( UseLinkDecorator.deferred );
+			buffer.append( "</table><table><tr><td>[" );
+			String macro = FightRequest.lastMacroUsed;
+			if ( false )	//macro != null && !macro.equals( "" ) && !macro.equals( "0" ) )
+			{	// Unfortunately, selecting a macro for editing only works
+				// as a POST request.
+				buffer.append( "<a href=\"/account_combatmacros.php?action=edit&macroid=" );
+				buffer.append( macro );
+				buffer.append( "\">edit last macro</a>" );
+			}
+			else
+			{
+				buffer.append( "<a href=\"/account_combatmacros.php\">edit macros</a>" );
+			}
+			buffer.append( "]</td></tr>" );
+			
+			if ( UseLinkDecorator.deferred.length() > 0 )
+			{
+				buffer.append( "</table><table><tr><td colspan=2>Previously seen:</td></tr>" );
+				buffer.append( UseLinkDecorator.deferred );
+				UseLinkDecorator.deferred.setLength( 0 );
+			}
 			buffer.append( text );
-			UseLinkDecorator.deferred.setLength( 0 );
 		}
 	}
 
