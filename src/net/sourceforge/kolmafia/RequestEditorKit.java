@@ -515,7 +515,11 @@ public class RequestEditorKit
 		// Now handle the changes which only impact a single
 		// page one at a time.
 
-		if ( location.startsWith( "adventure.php" ) )
+		if ( location.startsWith( "account_combatmacros.php" ) )
+		{
+			StringUtilities.insertAfter( buffer, "</textarea>", "<script language=JavaScript src=\"/macrohelper.js\"></script>" );
+		}
+		else if ( location.startsWith( "adventure.php" ) )
 		{
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.fixDucks( buffer );
