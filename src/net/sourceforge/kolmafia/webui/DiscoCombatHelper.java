@@ -401,7 +401,7 @@ public class DiscoCombatHelper
 			}
 		}
 
-		if ( !action.startsWith( "skill" ) )
+		if ( action == null || !action.startsWith( "skill" ) )
 		{
 			DiscoCombatHelper.counter = 0;
 			return;
