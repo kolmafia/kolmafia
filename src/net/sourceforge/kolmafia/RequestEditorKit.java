@@ -894,7 +894,7 @@ public class RequestEditorKit
 		{
 			StringUtilities.singleStringReplace( buffer,
 				"<input type=\"hidden\" name=\"macrotext\" value=\"\">",
-				"<tr><td><textarea name=\"macrotext\" cols=50 rows=10 placeholder=\"type macro here\"></textarea></td></tr>" );
+				"<tr><td><textarea name=\"macrotext\" cols=25 rows=10 placeholder=\"type macro here\"></textarea><script language=JavaScript src=\"/macrohelper.js\"></script></td></tr>" );
 		}
 		
 		int runaway = FightRequest.freeRunawayChance();
