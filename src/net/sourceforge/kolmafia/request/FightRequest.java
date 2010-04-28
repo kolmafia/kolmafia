@@ -1665,7 +1665,15 @@ public class FightRequest
 	// FightRequest.lastResponseText instead.
 	private static final void updateRoundData( final Matcher macroMatcher )
 	{
-		String responseText = macroMatcher.group();
+		String responseText;
+		try
+		{
+			responseText = macroMatcher.group();
+		}
+		catch ( IllegalStateException e )
+		{	// page structure is botched - should have already been reported
+			return;
+		}
 		boolean finalRound = macroMatcher.end() ==
 			FightRequest.lastResponseText.length();
 

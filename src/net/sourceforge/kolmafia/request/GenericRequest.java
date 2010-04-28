@@ -1718,7 +1718,14 @@ public class GenericRequest
 
 		if ( this.responseText != null )
 		{
-			this.processResponse();
+			try
+			{
+				this.processResponse();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
 		}
 
 		return true;
