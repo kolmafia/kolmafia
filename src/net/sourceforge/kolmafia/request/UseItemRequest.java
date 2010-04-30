@@ -117,6 +117,7 @@ public class UseItemRequest
 	private static AdventureResult lastItemUsed = null;
 	private static AdventureResult lastHelperUsed = null;
 	private static AdventureResult lastFruit = null;
+	private static boolean lastLook = false;
 	private static int askedAboutOde = 0;
 	private static int askedAboutMilk = 0;
 	private static int ignoreMilkPrompt = 0;
@@ -1699,6 +1700,10 @@ public class UseItemRequest
 			return;
 		
 		case ItemPool.CRYSTAL_ORB:
+			if ( UseItemRequest.lastLook )
+			{	// [look] rather than [use]
+				return;
+			}
 			String oldType = Preferences.getString( "pastamancerGhostType" );
 			String oldName = Preferences.getString( "pastamancerGhostName" );
 			int oldExp = Preferences.getInteger( "pastamancerGhostExperience" );
@@ -3669,6 +3674,7 @@ public class UseItemRequest
 		}
 
 		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString );
+		UseItemRequest.lastLook = urlString.indexOf( "action=look" ) != -1;
 
 		int itemId = UseItemRequest.lastItemUsed.getItemId();
 		int count = UseItemRequest.lastItemUsed.getCount();
