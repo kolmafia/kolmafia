@@ -3287,7 +3287,7 @@ public class Parser
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "Function '" );
 		Parser.appendFunction( buffer, name, params );
-		buffer.append( "' undefined" );
+		buffer.append( "' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts." );
 		return buffer.toString();
 	}
 
