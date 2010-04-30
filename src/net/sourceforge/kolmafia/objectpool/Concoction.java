@@ -237,6 +237,15 @@ public class Concoction
 		{
 			return this.sortOrder - o.sortOrder;
 		}
+		
+		if ( this.name.startsWith( "steel" ) )
+		{
+			return -1;
+		}
+		else if ( o.name.startsWith( "steel" ) )
+		{
+			return 1;
+		}
 
 		boolean thisCantConsume = false, oCantConsume = false;
 		int limit;
