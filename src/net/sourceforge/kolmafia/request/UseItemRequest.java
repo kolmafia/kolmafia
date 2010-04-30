@@ -2442,6 +2442,7 @@ public class UseItemRequest
 		case ItemPool.CRIMBO_CANDY_COOKBOOK:
 		case ItemPool.ZU_MANNKASE_DIENEN:
 		case ItemPool.INIGO_BOOK:
+		case ItemPool.UNCLE_ROMULUS:
 		case ItemPool.BLACK_HYMNAL:
 
 			String skill = UseItemRequest.itemToSkill( item.getItemId() );
@@ -3414,6 +3415,8 @@ public class UseItemRequest
 			return "K&auml;seso&szlig;esturm";
 		case ItemPool.INIGO_BOOK:
 			return "Inigo's Incantation of Inspiration";
+		case ItemPool.UNCLE_ROMULUS:
+			return "Curiosity of Br'er Tarrypin";
 		case ItemPool.BLACK_HYMNAL:
 			return "Canticle of Carboloading";
 		}
