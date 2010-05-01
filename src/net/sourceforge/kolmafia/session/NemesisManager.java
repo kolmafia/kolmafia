@@ -49,6 +49,80 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class NemesisManager
 {
+	public static final String[][] DOOR_DATA =
+	{
+		// Class, door1 item, door2 item, door3 item
+		{
+			KoLCharacter.SEAL_CLUBBER,
+			// viking helmet
+			"value='37'",
+			// insanely spicy bean burrito
+			"value='316'",
+			// clown whip
+			"value='2478'",
+		},
+		{
+			KoLCharacter.TURTLE_TAMER,
+			// viking helmet
+			"value='37'",
+			// insanely spicy bean burrito
+			"value='316'",
+			// clown buckler
+			"value='2477'",
+		},
+		{
+			KoLCharacter.PASTAMANCER,
+			// stalk of asparagus
+			"value='560'",
+			// insanely spicy enchanted bean burrito
+			"value='319'",
+		},
+		{
+			KoLCharacter.SAUCEROR,
+			// stalk of asparagus
+			"value='560'",
+			// insanely spicy enchanted bean burrito
+			"value='319'",
+		},
+		{
+			KoLCharacter.DISCO_BANDIT,
+			// dirty hobo gloves
+			"value='565'",
+			// insanely spicy jumping bean burrito
+			"value='1256'",
+		},
+		{
+			KoLCharacter.ACCORDION_THIEF,
+			// dirty hobo gloves
+			"value='565'",
+			// insanely spicy jumping bean burrito
+			"value='1256'",
+		},
+	};
+
+	private static final void selectDoorItem( final int door, final StringBuffer buffer )
+	{
+		String myClass = KoLCharacter.getClassType();
+		for ( int i = 0; i < DOOR_DATA.length; ++i )
+		{
+			String [] data = DOOR_DATA[i];
+			if ( myClass.equals( data[0] ) )
+			{
+				if ( data.length <= door )
+				{
+					return;
+				}
+				String item = data[ door ];
+				int index = buffer.indexOf( item );
+				if ( index != -1 )
+				{
+					buffer.insert( index+item.length(), " selected" );
+				}
+				return;
+			}
+		}
+	}
+
 	public static final void ensureUpdatedNemesisStatus()
 	{
 		if ( Preferences.getInteger( "lastNemesisReset" ) == KoLCharacter.getAscensions() )
@@ -77,6 +151,24 @@ public abstract class NemesisManager
 	{
 		if ( !location.startsWith( "cave.php" ) )
 		{
+			return;
+		}
+
+		if ( location.indexOf( "action=door1" ) != -1 )
+		{
+			NemesisManager.selectDoorItem( 1, buffer );
+			return;
+		}
+
+		if ( location.indexOf( "action=door2" ) != -1 )
+		{
+			NemesisManager.selectDoorItem( 2, buffer );
+			return;
+		}
+
+		if ( location.indexOf( "action=door3" ) != -1 )
+		{
+			NemesisManager.selectDoorItem( 3, buffer );
 			return;
 		}
 
