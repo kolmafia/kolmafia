@@ -1047,6 +1047,7 @@ public class ItemPool
 	public static final int STINKY_CHEESE_EYE = 4402;
 	public static final int STINKY_CHEESE_STAFF = 4403;
 	public static final int UNCLE_ROMULUS = 4407;
+	public static final int SNAKE_CHARMING_BOOK = 4408;
 	public static final int ZU_MANNKASE_DIENEN = 4409;
 	public static final int INIGO_BOOK = 4411;
 	public static final int BLACK_HYMNAL = 4426;
