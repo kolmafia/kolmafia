@@ -518,12 +518,21 @@ public abstract class CustomCombatManager
 
 		return longestMatch == -1 ? "default" : CustomCombatManager.keys[ longestMatch ];
 	}
+	
+	private static boolean atEndOfCCS;
+	
+	public static final boolean atEndOfCCS()
+	{
+		return CustomCombatManager.atEndOfCCS;
+	}
 
 	public static final String getSetting( final String encounter, final int roundCount )
 	{
+		CustomCombatManager.atEndOfCCS = false;
 		if ( roundCount < 0 || roundCount >= 100 )
 		{
 			// prevent hang if the combat is somehow not progressing at all
+			CustomCombatManager.atEndOfCCS = true;
 			return "abort";
 		}
 		String action = Preferences.getString( "battleAction" );
@@ -540,6 +549,7 @@ public abstract class CustomCombatManager
 			case 2:
 				return "special action";
 			default:
+				CustomCombatManager.atEndOfCCS = true;
 				return action;
 			}
 		}
@@ -554,6 +564,7 @@ public abstract class CustomCombatManager
 		{
 			if ( match == null || match.getChildCount() == 0 )
 			{
+				CustomCombatManager.atEndOfCCS = true;
 				return "attack";
 			}
 
@@ -561,6 +572,7 @@ public abstract class CustomCombatManager
 			index = Math.min( index, match.getChildCount() - 1 );
 			CombatActionNode setting = (CombatActionNode) match.getChildAt( index );
 			action = setting == null ? "attack" : setting.getAction();
+			CustomCombatManager.atEndOfCCS = origIndex >= index;
 
 			// Check for section redirects
 
@@ -583,6 +595,7 @@ public abstract class CustomCombatManager
 				if ( seen.contains( settingKey ) )
 				{
 					KoLmafia.abortAfter( "CCS aborted due to recursive section reference." );
+					CustomCombatManager.atEndOfCCS = true;
 					return "attack";
 				}
 				seen.add( settingKey );

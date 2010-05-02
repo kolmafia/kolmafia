@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -134,6 +135,7 @@ public class FightRequest
 	public static Interpreter filterInterp;
 	public static String filterFunction;
 	public static String macroOverride;
+	private static StringBuffer macro;
 
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
 
@@ -152,6 +154,8 @@ public class FightRequest
 		Pattern.compile( "\\G.*?<!-- macroaction: *(\\w+) ++(\\d+)?,? *(\\d+)?.*?(?=$|<!-- macroaction)", Pattern.DOTALL );
 	private static final Pattern FULLPAGE_PATTERN =
 		Pattern.compile( "^.*$", Pattern.DOTALL );
+	private static final Pattern MACRO_COMPACT_PATTERN =
+		Pattern.compile( "(?:#.*?)?([;\\n])[\\s;\\n]*" );
 
 	private static final Pattern BOSSBAT_PATTERN =
 		Pattern.compile( "until he disengages, two goofy grins on his faces.*?You lose ([\\d,]+)" );
@@ -499,6 +503,29 @@ public class FightRequest
 			FightRequest.action1 = "abort";
 			return;
 		}
+		
+		if ( FightRequest.macro == null )
+		{
+			//FightRequest.macrofy();
+		}
+		if ( FightRequest.macro != null && FightRequest.macro.length() > 0 )
+		{
+			FightRequest.action1 = "macro";
+			this.addFormField( "action", "macro" );
+			this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( FightRequest.macro ).replaceAll( "$1" ) );
+			
+			// In case the player continues the script from the relay browser,
+			// insert a jump to the next restart point.
+			if ( macro.indexOf( "#mafiarestart" ) != -1 )
+			{
+				String label = "mafiaskip" + macro.length();
+				StringUtilities.singleStringReplace( macro,
+					"#mafiarestart", "mark " + label );
+				StringUtilities.singleStringReplace( macro,
+					"#mafiaheader", "#mafiaheader\ngoto " + label );
+			}
+			return;		
+		}
 
 		this.nextRound( null );
 	}
@@ -587,9 +614,10 @@ public class FightRequest
 					else
 					{
 						FightRequest.consultScriptThatDidNothing = FightRequest.action1;
-						--FightRequest.preparatoryRounds;
 					}
 				}
+				FightRequest.preparatoryRounds +=
+					FightRequest.currentRound - initialRound - 1;
 
 				return;
 			}
@@ -714,8 +742,8 @@ public class FightRequest
 		     FightRequest.action1.indexOf( "stealth" ) == -1 )
 		{
 			if ( FightRequest.canStillSteal() &&
-			     FightRequest.monsterData != null &&
-			     FightRequest.monsterData.shouldSteal() )
+			     (FightRequest.monsterData == null ||
+			     FightRequest.monsterData.shouldSteal()) )
 			{
 				FightRequest.action1 = "steal";
 				this.addFormField( "action", "steal" );
@@ -1002,6 +1030,163 @@ public class FightRequest
 
 		this.addFormField( "action", "skill" );
 		this.addFormField( "whichskill", FightRequest.action1.substring( 5 ) );
+	}
+	
+	private static void macrofy()
+	{
+		StringBuffer macro = new StringBuffer();
+		FightRequest.macro = macro;
+		boolean funk = KoLCharacter.hasSkill( "Ambidextrous Funkslinging" );
+		
+		if ( FightRequest.filterInterp != null )
+		{
+			macro.setLength( 0 );
+			RequestLogger.printLine( "(unable to macrofy due to combat filter)" );
+			return;
+		}
+		
+		if ( FightRequest.encounterLookup.equals( "hulking construct" ) )
+		{	// use ATTACK & WALL punchcards
+			macro.append( "if hascombatitem 3146 && hascombatitem 3155\n" );
+			if ( funk )
+			{
+				macro.append( "  use 3146,3155\n" );
+			}
+			else
+			{
+				macro.append( "  use 3146; use 3155\n" );
+			}
+			macro.append( "endif\nrunaway; repeat\n" );
+			return;
+		}
+		
+		float thresh = Preferences.getFloat( "autoAbortThreshold" );
+		if ( thresh > 0.0f )
+		{
+			macro.append( "abort hppercentbelow " );
+			macro.append( (int) (thresh * 100.0f) );
+			macro.append( '\n' );
+		}
+		
+		macro.append( "sub mafiaround\n" );
+		macro.append( "endsub#mafiaround\n" );
+		macro.append( "#mafiaheader\n" );
+		
+		for ( int i = 0; i < 10000; ++i )
+		{
+			if ( FightRequest.encounterLookup.equals( "rampaging adding machine" )
+				&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
+				&& !FightRequest.waitingForSpecial )
+			{
+				macro.setLength( 0 );
+				RequestLogger.printLine( "(unable to macrofy vs. RAM)" );
+				return;
+			}
+		
+			String action = CustomCombatManager.getShortCombatOptionName(
+				CustomCombatManager.getSetting( FightRequest.encounterLookup, i ) );
+			int finalRound = 0;
+			if ( CustomCombatManager.atEndOfCCS() )
+			{
+				macro.append( "mark mafiafinal\n" );
+				finalRound = macro.length();
+			}
+			
+			if ( action.startsWith( "consult" ) ||
+				action.startsWith( "delevel" ) ||
+				action.startsWith( "jiggle" ) ||
+				action.startsWith( "twiddle" ) )
+			{
+				macro.setLength( 0 );
+				RequestLogger.printLine( "(unable to macrofy due to action: " +
+					action + ")" );
+				return;
+			}
+			else if ( action.equals( "special" ) )
+			{
+				if ( FightRequest.waitingForSpecial )
+				{	// only allow once per combat
+					FightRequest.waitingForSpecial = false;
+					// TODO
+				}
+			}
+			else if ( action.equals( "abort" ) )
+			{
+				if ( finalRound != 0 )
+				{
+					macro.append( "abort \"KoLmafia CCS abort\"\n" );
+				}
+				else
+				{
+					macro.append( "abort \"Click Script button again to continue\"\n" );
+					macro.append( "#mafiarestart\n" );
+				}
+			}
+			else if ( action.equals( "abort after" ) )
+			{
+				KoLmafia.abortAfter( "Aborted by CCS request" );
+			}
+			else if ( action.equals( "skip" ) )
+			{	// nothing to do
+			}
+			else if ( action.equals( "runaway" ) )
+			{
+				macro.append( "runaway\n" );
+			}
+			else if ( action.startsWith( "runaway" ) )
+			{
+				int runaway = StringUtilities.parseInt( action.substring( 7 ) );
+				if ( FightRequest.freeRunawayChance() >= runaway )
+				{
+					macro.append( "runaway\n" );
+				}
+			}
+			else if ( action.startsWith( "attack" ) )
+			{
+				macro.append( "call mafiaround; attack\n" );
+			}
+			else if ( action.equals( "steal" ) )
+			{
+				if ( FightRequest.monsterData == null ||
+			     	FightRequest.monsterData.shouldSteal() )
+				{
+			     	macro.append( "pickpocket\n" );
+				}
+			}
+			else if ( action.equals( "summon ghost" ) )
+			{
+				macro.append( "summonspirit" );
+			}
+			else if ( action.startsWith( "skill" ) )
+			{
+				macro.append( "call mafiaround; skill " + action.substring( 5 ) );
+				// TODO
+			}
+			else if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+			{	// can't use items in Birdform
+			}
+			else	// must be an item use
+			{
+				macro.append( "call mafiaround; use " + action );
+				// TODO
+			}	
+			
+			if ( finalRound != 0 )
+			{
+				if ( finalRound == macro.length() )
+				{	// last line of CCS generated no action!
+					macro.append( "call mafiaround; attack\n" );
+				}
+				macro.append( "goto mafiafinal" );
+				break;
+			}
+		}
+	
+		if ( Preferences.getBoolean( "macroDebug" ) )
+		{
+			RequestLogger.printLine( "Generated macro:" );
+			RequestLogger.printList( Arrays.asList( macro.toString().split( "\n" ) ) );
+		}
 	}
 
 	private boolean singleUseCombatItem( int itemId )
@@ -1653,6 +1838,12 @@ public class FightRequest
 		
 		// Perform other processing for the final round
 		FightRequest.updateRoundData( macroMatcher );
+		
+		if (responseText.indexOf( "Macro Abort" ) != -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Combat macro abort!" );
+			FightRequest.action1 = "abort";
+		}
 
 		FightRequest.foundNextRound = true;
 	}
@@ -2862,6 +3053,8 @@ public class FightRequest
 
 	private static Pattern INT_PATTERN = Pattern.compile( "\\d+" );
 
+	private static Pattern EFF_PATTERN = Pattern.compile( "eff\\(['\"](.*?)['\"]" );
+
 	private static final int parseHaikuDamage( final String text )
 	{
 		if ( text.indexOf( "damage" ) == -1 &&
@@ -3359,10 +3552,16 @@ public class FightRequest
 					return;
 				}
 
-				if ( onclick.startsWith( "eff" ) )
+				Matcher m = EFF_PATTERN.matcher( onclick );
+				if ( m.find() )
 				{
 					// Gain/loss of effect
-					String effect = inode.getAttributeByName( "title" );
+					status.shouldRefresh = true;
+					String effect = EffectDatabase.getEffectName( m.group( 1 ) );
+					if ( effect == null )
+					{
+						return;
+					}
 					// For prettiness
 					String munged = StringUtilities.singleStringReplace( str, "(", " (" );
 					if ( status.haiku )
@@ -3370,7 +3569,6 @@ public class FightRequest
 						munged = "You acquire an effect: " + effect;
 					}
 					ResultProcessor.processEffect( effect, munged );
-					status.shouldRefresh = true;
 					if ( effect.equalsIgnoreCase( EffectPool.HAIKU_STATE_OF_MIND ) )
 					{
 						status.haiku = true;
@@ -3785,6 +3983,7 @@ public class FightRequest
 		FightRequest.currentRound = 0;
 		FightRequest.preparatoryRounds = 0;
 		FightRequest.consultScriptThatDidNothing = null;
+		FightRequest.macro = null;
 	}
 
 	private static final int getActionCost()

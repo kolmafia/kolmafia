@@ -195,7 +195,7 @@ Bar	HP: 5 Def: 3 Atk: 1 Meat: 12-20	bar skin (25)
 Baron Von Ratsworth
 Baseball Bat	HP: 9 Def: 15 Atk: 15 Meat: 17-27	baseball (30)	sonar-in-a-biscuit (20)
 Batrat	HP: 20 Def: 23 Atk: 23 Meat: 18-28	bat wing (15)	bat guano (15)	batgut (15)
-Batwinged Gremlin	HP: 170 Def: 171 Atk: 169	gremlin juice (3)	molybdenum hammer (0)
+Batwinged Gremlin	HP: 170 Def: 171 Atk: 169	gremlin juice (3)	molybdenum hammer (c0)
 Bazookafish	HP: 500 Def: 325 Atk: 375 Meat: 176-264	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (15)	fish bazooka (2)
 Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
 Beefy Bodyguard Bat	HP: 25 Def: 25 Atk: 26 Meat: 200-300
@@ -327,7 +327,7 @@ Elite Beer Bongadier	HP: 230 Def: 205 Atk: 190 E: sleaze	beer bong (30)	beer hel
 Empty Suit of Armor	HP: 120 Def: 115 Atk: 115 ED: spooky	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
 Endangered Inflatable White Tiger	HP: 100000
 Enraged Cow	HP: 100000
-Erudite Gremlin	HP: 170 Def: 169 Atk: 171 Meat: 40-60	gremlin juice (3)	molybdenum crescent wrench (0)
+Erudite Gremlin	HP: 170 Def: 169 Atk: 171 Meat: 40-60	gremlin juice (3)	molybdenum crescent wrench (c0)
 Evil Cultist	HP: 70 Def: 50 Atk: 60	memory of a cultist's robe (0)
 Evil Olive	HP: 140 Def: 145 Atk: 145	bottle of gin (30)	olive (40)	jumbo olive (10)
 Evil spaghetti cult assassin	HP: 115 Def: 95 Atk: 95
@@ -698,7 +698,7 @@ Spaghetti Demon	HP: 0
 Spaghetti Elemental	HP: 0
 Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam Witch sammich (50)	sammich crust (b0)
 Spectral Jellyfish	HP: 60 Def: 70 Atk: 70 "Somewhat Poisoned"	spectral jelly (p1)
-Spider Gremlin	HP: 170 Def: 168 Atk: 172 Meat: 40-60	gremlin juice (3)	molybdenum pliers (0)
+Spider Gremlin	HP: 170 Def: 168 Atk: 172 Meat: 40-60	gremlin juice (3)	molybdenum pliers (c0)
 Spiny Skelelton	HP: 50 Def: 54 Atk: 53 E: spooky	skeleton bone (40)	smart skull (50)	spiked femur (10)
 Sponge	HP: 1000 Def: 450 Atk: 350	sand dollar (10)	sand dollar (9)	sand dollar (1)	slab of sponge (5)
 Spooky Gravy Fairy Guard	HP: 45 Def: 54 Atk: 56 E: spooky	spooky mushroom (40)	halfberd (5)	small leather glove (10)
@@ -803,7 +803,7 @@ Urchin Urchin	HP: 0	mermaid's purse (0)	bazookafish bubblegum (0)	underwater sli
 Vampire Bat	HP: 10 Def: 16 Atk: 17 Meat: 34-54	bat wing (15)	batgut (15)	sonar-in-a-biscuit (20)
 Vampire Clam	HP: 14 Def: 19 Atk: 21	vampire pearl (p35)
 Vampire Duck	HP: 198 Atk: 175 Meat: 131-165 E: spooky	frightful feather (10)	duct tape (5)	vampire glitter (c0)
-Vegetable Gremlin	HP: 170 Def: 172 Atk: 168 Meat: 40-60	gremlin juice (3)	molybdenum screwdriver (0)
+Vegetable Gremlin	HP: 170 Def: 172 Atk: 168 Meat: 40-60	gremlin juice (3)	molybdenum screwdriver (c0)
 Vendor Slime	HP: 0	vial of red slime (0)
 Vengeful Turtle Spectre	HP: 20	a creased paper strip (0)	a crinkled paper strip (0)	a crumpled paper strip (0)	a folded paper strip (0)	a ragged paper strip (0)	a ripped paper strip (0)	a rumpled paper strip (0)	a torn paper strip (0)
 Vicious Easel	HP: 100000
