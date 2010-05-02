@@ -76,6 +76,8 @@ public abstract class NemesisManager
 			"value='560'",
 			// insanely spicy enchanted bean burrito
 			"value='319'",
+			// boring spaghetti
+			"value='579'",
 		},
 		{
 			KoLCharacter.SAUCEROR,
@@ -83,6 +85,8 @@ public abstract class NemesisManager
 			"value='560'",
 			// insanely spicy enchanted bean burrito
 			"value='319'",
+			// tomato juice of powerful power
+			"value='420'",
 		},
 		{
 			KoLCharacter.DISCO_BANDIT,
