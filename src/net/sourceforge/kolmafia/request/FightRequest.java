@@ -616,8 +616,11 @@ public class FightRequest
 						FightRequest.consultScriptThatDidNothing = FightRequest.action1;
 					}
 				}
-				FightRequest.preparatoryRounds +=
-					FightRequest.currentRound - initialRound - 1;
+				if ( FightRequest.currentRound != 0 )
+				{	// don't adjust round # if fight is over!
+					FightRequest.preparatoryRounds +=
+						FightRequest.currentRound - initialRound - 1;
+				}
 
 				return;
 			}
