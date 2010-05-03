@@ -294,6 +294,10 @@ public class AdventureSelectPanel
 			return ( (KoLAdventure) element ).getParentZoneDescription().equals( this.selectedZone );
 		}
 	}
+	
+	public static final int[] POISON_ID = {
+		0, 436, 264, 284, 283, 282, 8
+	};
 
 	public static int getPoisonLevel( String text )
 	{

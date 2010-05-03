@@ -478,6 +478,10 @@ public class FightRequest
 					this.addFormField( "action", "macro" );
 					this.addFormField( "macrotext", FightRequest.macroOverride );
 				}
+				else if ( FightRequest.isAutomatingFight )
+				{
+					// an empty macro doesn't suppress autoattack, alas
+				}
 			}
 			return;
 		}
@@ -506,7 +510,7 @@ public class FightRequest
 		
 		if ( FightRequest.macro == null )
 		{
-			//FightRequest.macrofy();
+			FightRequest.macrofy();
 		}
 		if ( FightRequest.macro != null && FightRequest.macro.length() > 0 )
 		{
@@ -1072,6 +1076,7 @@ public class FightRequest
 		}
 		
 		macro.append( "sub mafiaround\n" );
+		FightRequest.macroUseAntidote( macro );
 		macro.append( "endsub#mafiaround\n" );
 		macro.append( "#mafiaheader\n" );
 		
@@ -1110,7 +1115,19 @@ public class FightRequest
 				if ( FightRequest.waitingForSpecial )
 				{	// only allow once per combat
 					FightRequest.waitingForSpecial = false;
-					// TODO
+					if ( FightRequest.getSpecialAction() )
+					{
+						if ( FightRequest.action1.startsWith( "skill" ) )
+						{
+							macro.append( "call mafiaround; skill " + FightRequest.action1.substring( 5 ) + "\n" );
+							// TODO
+						}
+						else
+						{
+							macro.append( "call mafiaround; use " + FightRequest.action1 + "\n" );
+							// TODO
+						}
+					}
 				}
 			}
 			else if ( action.equals( "abort" ) )
@@ -1158,19 +1175,54 @@ public class FightRequest
 			}
 			else if ( action.equals( "summon ghost" ) )
 			{
-				macro.append( "summonspirit" );
+				macro.append( "summonspirit\n" );
 			}
 			else if ( action.startsWith( "skill" ) )
 			{
-				macro.append( "call mafiaround; skill " + action.substring( 5 ) );
-				// TODO
+				int skillId = StringUtilities.parseInt( action.substring( 5 ) );
+				String skillName = SkillDatabase.getSkillName( skillId );
+						
+				if ( skillName.equals( "Transcendent Olfaction" ) )
+				{
+					// You can't sniff if you are already on the trail.
+		
+					// You can't sniff in Bad Moon, even though the skill
+					// shows up on the char sheet, unless you've recalled
+					// your skills.
+		
+					if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+					{	// ignore
+					}
+					else
+					{	// must insert On The Trail check in generated macro
+						// too, in case more than one olfact is attempted.
+						macro.append( "if !haseffect 331\n" );
+						macro.append( "call mafiaround; skill " + skillId + "\n" );
+						macro.append( "endif\n" );
+					}
+				}
+				else if ( skillName.equals( "CLEESH" ) )
+				{	// Macrofied combat will continue with the same CCS after
+					// a CLEESH, unlike round-by-round combat which switches
+					// sections.  Make sure there's something to finish off
+					// the amphibian.
+					macro.append( "call mafiaround; skill " + skillId + "\n" );
+					if ( finalRound != 0 )
+					{
+						macro.append( "attack; repeat\n" );
+					}
+				}
+				else
+				{
+					macro.append( "call mafiaround; skill " + skillId + "\n" );
+				}
 			}
 			else if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
 			{	// can't use items in Birdform
 			}
 			else	// must be an item use
 			{
-				macro.append( "call mafiaround; use " + action );
+				macro.append( "call mafiaround; use " + action + "\n" );
 				// TODO
 			}	
 			
@@ -1189,8 +1241,44 @@ public class FightRequest
 		{
 			RequestLogger.printLine( "Generated macro:" );
 			RequestLogger.printList( Arrays.asList( macro.toString().split( "\n" ) ) );
+			RequestLogger.printLine( "" );
+		}
+		
+		HashSet allCalls = new HashSet();
+		Matcher m = FightRequest.ALLCALLS_PATTERN.matcher( macro );
+		while ( m.find() )
+		{
+			allCalls.add( m.group( 1 ) );
+		}
+		m = FightRequest.ALLSUBS_PATTERN.matcher( macro.toString() );
+		while ( m.find() )
+		{
+			String label = m.group( 1 );
+			if ( m.group( 2 ) != null || !allCalls.contains( label ) )
+			{	// this sub is useless!
+				Matcher del = Pattern.compile( "call " + label + "\\b|sub " +
+					label + "\\b.*?endsub", Pattern.DOTALL ).matcher(
+						macro.toString() );
+				macro.setLength( 0 );
+				while ( del.find() )
+				{
+					del.appendReplacement( macro, "" );
+				}
+				del.appendTail( macro );
+			}
+		}
+	
+		if ( Preferences.getBoolean( "macroDebug" ) )
+		{
+			RequestLogger.updateDebugLog( "Optimized macro:" );
+			RequestLogger.updateDebugLog( macro.toString() );
 		}
 	}
+	
+	private static final Pattern ALLCALLS_PATTERN =
+		Pattern.compile( "call (\\w+)" );
+	private static final Pattern ALLSUBS_PATTERN =
+		Pattern.compile( "sub (\\w+)([\\s;\\n]+endsub)?" );
 
 	private boolean singleUseCombatItem( int itemId )
 	{
@@ -1842,9 +1930,9 @@ public class FightRequest
 		// Perform other processing for the final round
 		FightRequest.updateRoundData( macroMatcher );
 		
-		if (responseText.indexOf( "Macro Abort" ) != -1 )
+		if ( responseText.indexOf( "Macro Abort" ) != -1 ||
+			responseText.indexOf( "macro abort" ) != -1)
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Combat macro abort!" );
 			FightRequest.action1 = "abort";
 		}
 
@@ -4159,6 +4247,47 @@ public class FightRequest
 			}
 		}
 		return false;
+	}
+
+	private static final void macroUseAntidote( StringBuffer macro )
+	{
+		if ( !KoLConstants.inventory.contains( FightRequest.ANTIDOTE ) )
+		{
+			return;
+		}
+		if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		{
+			return;	// can't use items!
+		}
+		int minLevel = Preferences.getInteger( "autoAntidote" );
+		int poison = FightRequest.monsterData == null ? 0 :
+			FightRequest.monsterData.getPoison();
+		if ( poison > minLevel || minLevel == 0 )
+		{
+			return;	// no poison expected that the user wants to remove
+		}
+		
+		macro.append( "if hascombatitem " );
+		macro.append( ItemPool.ANTIDOTE );
+		macro.append( " && (" );
+		boolean first = true;
+		for ( int i = minLevel; i > 0; --i )
+		{
+			if ( poison != 0 && i != poison )
+			{	// only check for the monster's known poison attack
+				continue;
+			}
+			if ( !first )
+			{
+				macro.append( " || " );
+			}
+			first = false;
+			macro.append( "haseffect " );
+			macro.append( AdventureSelectPanel.POISON_ID[ i ] );
+		}
+		macro.append( ")\n  use " );
+		macro.append( ItemPool.ANTIDOTE );
+		macro.append( "\nendif\n" );
 	}
 
 	private static final void payActionCost( final String responseText )
