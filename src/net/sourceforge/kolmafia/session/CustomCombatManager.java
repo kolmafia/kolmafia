@@ -572,7 +572,7 @@ public abstract class CustomCombatManager
 			index = Math.min( index, match.getChildCount() - 1 );
 			CombatActionNode setting = (CombatActionNode) match.getChildAt( index );
 			action = setting == null ? "attack" : setting.getAction();
-			CustomCombatManager.atEndOfCCS = origIndex >= index;
+			CustomCombatManager.atEndOfCCS = index == match.getChildCount() - 1;
 
 			// Check for section redirects
 
@@ -774,9 +774,9 @@ public abstract class CustomCombatManager
 			return "run away if " + runaway + "% chance of being free";
 		}
 
-		if ( action.startsWith( "item" ) )
+		if ( action.startsWith( "item" ) || action.startsWith( "use " ) )
 		{
-			String item = CustomCombatManager.getLongItemAction( action.substring( 4 ) );
+			String item = CustomCombatManager.getLongItemAction( action.substring( 4 ).trim() );
 			return item.startsWith( "attack" ) ? item : "item " + item;
 		}
 
