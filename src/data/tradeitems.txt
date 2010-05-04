@@ -4594,3 +4594,30 @@
 4585	collection of tiny spooky objects	usable	all	0
 4586	boulder	none, combat	all	44
 4587	tiny goth giant	none, combat	all	1000
+4588
+4589
+4590
+4591
+4592
+4593
+4594
+4595
+4596
+4597
+4598
+4599
+4600
+4601
+4602
+4603
+4604
+4605
+4606
+4607
+4608
+4609
+4610
+4611
+4612
+4613
+4614	Crown of Thrones	hat	all	0

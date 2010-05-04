@@ -9,6 +9,7 @@ Cerebral Cloche	90	Mox: 30
 Cloaca-Cola helmet	30	none
 Colander of Em-er'il	100	Mys: 15
 Crimbo hat	100	Mox: 35
+Crown of Thrones	100	none
 Crown of the Goblin King	70	Mox: 20
 Disco 'Fro Pick	100	Mox: 15
 Dolphin King's crown	35	Mox: 2
