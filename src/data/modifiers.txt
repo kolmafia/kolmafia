@@ -53,6 +53,9 @@ Cerebral Cloche	Maximum MP: +15, Familiar Effect: "1.5xLep, cap 22"
 Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
 Colander of Em-er'il	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 6, Class: "Pastamancer", Familiar Effect: "3xGhuol, cap 12"
 Crimbo hat	Spooky Resistance: +1, Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
+# Crown of Thrones: Put a Familiar In It!
+# Crown of Thrones: That Familiar gains 1 Experience per Fight
+Crown of Thrones	Softcore Only
 Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
 Disco 'Fro Pick	Moxie: +11, Initiative: +11, Class: "Disco Bandit", Familiar Effect: "3xGhuol, cap 12"
 Dolphin King's crown	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xGhuol, cap 8"
