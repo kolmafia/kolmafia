@@ -233,6 +233,7 @@ public class ValhallaManager
 
 	public static final void resetPerAscensionCounters()
 	{
+		Preferences.setFloat( "slimelingFullness", (float) 0.0 );
 		Preferences.setInteger( "currentBountyItem", 0 );
 		Preferences.setString( "currentHippyStore", "none" );
 		Preferences.setString( "currentWheelPosition", "muscle" );

@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -3654,6 +3655,16 @@ public class UseItemRequest
 		int count = item.getCount();
 		String name = item.getName();
 		String useString = "feed " + count + " " + name + " to " + familiar.getRace();
+
+        // estimate slimeling charges
+        if (id == FamiliarPool.SLIMELING)
+        {
+            // round down for now, since we don't know how this really works
+            float charges = item.getCount() * EquipmentDatabase.getPower(item.getItemId()) / 10.0F;
+            Preferences.setFloat("slimelingFullness", Preferences.getFloat("slimelingFullness") + charges);
+			// Preferences.increment( "slimelingFullness", charges );
+            useString += " (estimated " + charges + " charges)";
+        }
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( useString );

@@ -154,6 +154,8 @@ public class CharPaneDecorator
 				fam.getModifiedWeight() / 5;
 		case FamiliarPool.HARE:
 			return Preferences.getInteger( "extraRolloverAdventures" ) + " adv";
+		case FamiliarPool.SLIMELING:
+			return "~" + Preferences.getFloat( "slimelingFullness" ) + " full";
 		}
 		return null;
 	}
