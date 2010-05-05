@@ -764,3 +764,5 @@
 763	Hurricane Force	vortex.gif	566d93ecc4d9582d5db151fd19905bf3	#dancing on the Kingdom
 764	Broken Dancing	dance2.gif	42977729045fe7f0ea20e4bc62c1794a	eat 1 squirmy violent party snack
 765	Clyde's Blessing	notes.gif	65e7e5329863e18944233f6b6a9a90fe	use The Legendary Beat
+766
+767	Cinco Elementos	rrainbow.gif	28bb9531a284151316db1be5e27370c1	drink 1 Cinco Mayo Lager
