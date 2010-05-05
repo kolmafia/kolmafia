@@ -327,6 +327,34 @@ public class FamiliarRequest
 			return true;
 		}
 
+		// See if we are putting the familiar into the Crown of Thrones
+		if ( urlString.indexOf( "action=hatseat" ) != -1 )
+		{
+			Matcher familiarMatcher = FamiliarRequest.UNEQUIP_PATTERN.matcher( urlString );
+			if ( !familiarMatcher.find() )
+			{
+				return true;
+			}
+
+			int id = StringUtilities.parseInt( familiarMatcher.group( 1 ) );
+			if ( id == 0 )
+			{
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Removing familiar from Crown of Thrones" );
+				return true;
+			}
+
+			FamiliarData fam = KoLCharacter.findFamiliar( id );
+			if ( fam == null )
+			{
+				return true;
+			}
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Putting " + fam.getRace() + " into Crown of Thrones" );
+			return true;
+		}
+
 		Matcher familiarMatcher = FamiliarRequest.EQUIP_PATTERN.matcher( urlString );
 		if ( !familiarMatcher.find() )
 		{
