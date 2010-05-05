@@ -1039,6 +1039,39 @@ public class FightRequest
 		this.addFormField( "whichskill", FightRequest.action1.substring( 5 ) );
 	}
 	
+	private static void macroManaRestore( StringBuffer macro )
+	{
+		int cumulative = 0;
+		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+		{
+			if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() )
+			{
+				int count = MPRestoreItemList.CONFIGURES[ i ].getItem().getCount(
+					KoLConstants.inventory );
+				if ( count <= 0 ) continue;			
+				String item = String.valueOf(
+					MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
+				cumulative += count;
+				if ( cumulative >= 30 )
+				{	// Assume this item will be sufficient for all requests
+					macro.append( "call mafiaround; use " );
+					macro.append( item );
+					macro.append( "\nmark mafiampexit\n" );
+					return;
+				}
+
+				macro.append( "if hascombatitem " );
+				macro.append( item );
+				macro.append( "\ncall mafiaround; use " );
+				macro.append( item );
+				macro.append( "\ngoto mafiampexit\n endif\n" );
+			}
+		}
+
+		macro.append( "abort \"No MP restoratives!\"\n" );
+		macro.append( "mark mafiampexit\n" );
+	}
+	
 	private static void macrofy()
 	{
 		StringBuffer macro = new StringBuffer();
@@ -1078,6 +1111,11 @@ public class FightRequest
 		macro.append( "sub mafiaround\n" );
 		FightRequest.macroUseAntidote( macro );
 		macro.append( "endsub#mafiaround\n" );
+
+		macro.append( "sub mafiamp\n" );
+		FightRequest.macroManaRestore( macro );
+		macro.append( "endsub#mafiamp\n" );
+
 		macro.append( "#mafiaheader\n" );
 		
 		for ( int i = 0; i < 10000; ++i )
@@ -1119,8 +1157,9 @@ public class FightRequest
 					{
 						if ( FightRequest.action1.startsWith( "skill" ) )
 						{
-							macro.append( "call mafiaround; skill " + FightRequest.action1.substring( 5 ) + "\n" );
-							// TODO
+							FightRequest.macroSkill( macro,
+								StringUtilities.parseInt(
+									FightRequest.action1.substring( 5 ) ) );
 						}
 						else
 						{
@@ -1197,7 +1236,7 @@ public class FightRequest
 					{	// must insert On The Trail check in generated macro
 						// too, in case more than one olfact is attempted.
 						macro.append( "if !haseffect 331\n" );
-						macro.append( "call mafiaround; skill " + skillId + "\n" );
+						FightRequest.macroSkill( macro, skillId );
 						macro.append( "endif\n" );
 					}
 				}
@@ -1206,7 +1245,7 @@ public class FightRequest
 					// a CLEESH, unlike round-by-round combat which switches
 					// sections.  Make sure there's something to finish off
 					// the amphibian.
-					macro.append( "call mafiaround; skill " + skillId + "\n" );
+					FightRequest.macroSkill( macro, skillId );
 					if ( finalRound != 0 )
 					{
 						macro.append( "attack; repeat\n" );
@@ -1214,7 +1253,7 @@ public class FightRequest
 				}
 				else
 				{
-					macro.append( "call mafiaround; skill " + skillId + "\n" );
+					FightRequest.macroSkill( macro, skillId );
 				}
 			}
 			else if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
@@ -1279,6 +1318,28 @@ public class FightRequest
 		Pattern.compile( "call (\\w+)" );
 	private static final Pattern ALLSUBS_PATTERN =
 		Pattern.compile( "sub (\\w+)([\\s;\\n]+endsub)?" );
+		
+	private static void macroSkill( StringBuffer macro, int skillId )
+	{
+		int cost = SkillDatabase.getMPConsumptionById( skillId );
+		if ( cost > KoLCharacter.getMaximumMP() )
+		{
+			return;	// no point in even trying
+		}
+		
+		if ( cost > 0 && Preferences.getBoolean( "autoManaRestore" ) &&
+			!KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		{
+			macro.append( "while mpbelow " );
+			macro.append( cost );
+			macro.append( "\ncall mafiamp\nendwhile\n" );
+		}
+		macro.append( "if hasskill " );
+		macro.append( skillId );
+		macro.append( "\ncall mafiaround; skill " );
+		macro.append( skillId );
+		macro.append( "\nendif\n" );
+	}
 
 	private boolean singleUseCombatItem( int itemId )
 	{
@@ -1931,6 +1992,7 @@ public class FightRequest
 		FightRequest.updateRoundData( macroMatcher );
 		
 		if ( responseText.indexOf( "Macro Abort" ) != -1 ||
+			responseText.indexOf( "Macro abort" ) != -1 ||
 			responseText.indexOf( "macro abort" ) != -1)
 		{
 			FightRequest.action1 = "abort";
