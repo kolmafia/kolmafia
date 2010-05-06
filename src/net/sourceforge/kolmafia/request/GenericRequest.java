@@ -979,7 +979,12 @@ public class GenericRequest
 				{
 					message = expired.getLabel() + " counter will expire after " + remain + " more turn" + ((remain == 1) ? "." : "s.");
 				}
-
+				
+				if ( expired.getLabel().equals( "Fortune Cookie" ) )
+				{
+					message += " " + UseItemRequest.lastSemirareMessage();
+				}
+				
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
 				return;
 			}
