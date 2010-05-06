@@ -3928,6 +3928,7 @@ public class FightRequest
 					FightRequest.logMonsterDamage( action, damage );
 				}
 				FightRequest.healthModifier += damage;
+				FightRequest.processComments( node, status );
 				return;
 			}
 
@@ -3945,17 +3946,7 @@ public class FightRequest
 			if ( child instanceof CommentToken )
 			{
 				CommentToken object = (CommentToken) child;
-				String content = object.getContent();
-				if ( content.equals( "familiarmessage" ) )
-				{
-					status.famaction = true;
-				}
-				else if ( content.equals( "WINWINWIN" ) )
-				{
-					status.won = true;
-					FightRequest.currentRound = 0;
-				}
-				// macroaction: comment handled elsewhere
+				FightRequest.processComment( object, status );
 				continue;
 			}
 
@@ -4040,6 +4031,37 @@ public class FightRequest
 				continue;
 			}
 		}
+	}
+
+	private static void processComments( TagNode node, TagStatus status )
+	{
+		Iterator it = node.getChildren().iterator();
+		while ( it.hasNext() )
+		{
+			Object child = it.next();
+
+			if ( child instanceof CommentToken )
+			{
+				CommentToken object = (CommentToken) child;
+				FightRequest.processComment( object, status );
+				continue;
+			}
+		}
+	}
+
+	private static void processComment( CommentToken object, TagStatus status )
+	{
+		String content = object.getContent();
+		if ( content.equals( "familiarmessage" ) )
+		{
+			status.famaction = true;
+		}
+		else if ( content.equals( "WINWINWIN" ) )
+		{
+			status.won = true;
+			FightRequest.currentRound = 0;
+		}
+		// macroaction: comment handled elsewhere
 	}
 
 	private static void processFamiliarAction( TagNode node, TagStatus status )
