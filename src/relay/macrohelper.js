@@ -34,6 +34,8 @@ var arglessCmds = {
 	"pickpocket": true,
 	"summonspirit": true,
 	"runaway": true,
+	"jiggle": true,
+	"scrollwhendone": true,
 };
 
 var optargCmds = {
@@ -48,11 +50,11 @@ var argCmds = {
 	"abort": true,
 	"skill": true,
 	"use": true,
+	"icon": true,
 };
 
 var labelCmds = {
 // Cmds which can be followed by a single word
-	"icon": true,
 	"mark": true,
 	"sub": true,
 	"call": true,
@@ -110,6 +112,7 @@ var argPreds = {
 // Predicates which take an arbitrary argument (not further parsed)
 	"haseffect": true,
 	"hascombatitem": true,
+	"hasskill": true,
 };
 
 function predicate(text, err)
@@ -298,6 +301,6 @@ function syntaxcheck()
 	}
 
 	if (output.value == "") {
-		output.value = "No errors found (KoLmafia syntax checker v1.0)";
+		output.value = "No errors found (KoLmafia syntax checker v1.1)";
 	}
 }

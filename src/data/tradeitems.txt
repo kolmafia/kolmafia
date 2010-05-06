@@ -3903,7 +3903,7 @@
 3894	vial of teal slime	multiple	none	99
 3895	vial of indigo slime	multiple	none	99
 3896	vial of purple slime	multiple	none	99
-3897	vial of brown slime	multiple	none	3
+3897	vial of brown slime	usable	none	3
 3898	bottle of G&uuml;-Gone	none, combat reusable	none	0
 3899
 3900
