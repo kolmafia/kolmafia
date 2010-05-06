@@ -49,6 +49,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
@@ -544,9 +545,14 @@ public abstract class CustomCombatManager
 				return Preferences.getBoolean( "autoSteal" ) ?
 					"try to steal an item" : "skip";
 			case 1:
+				return Preferences.getBoolean( "autoSteal" ) &&
+					KoLCharacter.hasEquipped(
+						ItemPool.get( ItemPool.NEW_WAVE_BLING, 1 ) ) ?
+							"try to steal an item" : "skip";
+			case 2:
 				return Preferences.getBoolean( "autoEntangle" ) ?
 					"skill Entangling Noodles" : "skip";
-			case 2:
+			case 3:
 				return "special action";
 			default:
 				CustomCombatManager.atEndOfCCS = true;

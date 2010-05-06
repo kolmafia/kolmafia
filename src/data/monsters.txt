@@ -148,7 +148,7 @@ A Bugged Bugbear	HP: 14 Def: 18 Atk: 14	gnoll teeth (30)	gnoll lips (30)	softwar
 A Revolting Bugbear	HP: 10 Def: 13 Atk: 13 E: stench
 A Revolving Bugbear	HP: 11 Def: 15 Atk: 14
 A.M.C. Gremlin	HP: 170 Def: 170 Atk: 172 Meat: 40-60	gremlin juice (3)
-Acid Blob	HP: 40 Def: 38 Atk: 38	magic whistle (15)
+Acid Blob	HP: 60 Def: 58 Atk: 58	magic whistle (15)
 Acoustic Electric Eel	HP: 500 Def: 400 Atk: 405 Meat: 192-288	dull fish scale (15)	eel battery (9)	eel sauce (c10)	eel skin (4)
 Albino Bat	HP: 8 Def: 14 Atk: 12 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (b0)
 Alert Mariachi	HP: 0	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
@@ -493,7 +493,7 @@ Knott Yeti	HP: 90 Def: 103 Atk: 105 E: cold Meat: 168-234	yeti fur (30)
 Koopa Troopa	HP: 15 Def: 20 Atk: 20	black pixel (50)	green pixel (80)	white pixel (50)
 L Imp	HP: 44 Def: 44 Atk: 44 E: heat Meat: 24-36	Imp Ale (30)	cast (30)	flaming crutch (30)
 Lamz0r N00b	HP: 69 Def: 79 Atk: 79 Meat: 24-36	33398 scroll (30)	draggin' ball hat (10)	plastic guitar (0)	Nardz energy beverage (p30)
-Large Kobold	HP: 30 Def: 35 Atk: 43	ring of aggravate monster (15)	small box (40)	worthless piece of yellow glass (b0)
+Large Kobold	HP: 50 Def: 55 Atk: 57	ring of aggravate monster (15)	small box (40)	worthless piece of yellow glass (b0)
 Larval Filthworm	HP: 180 Atk: 165 Meat: 41-60 E: stench	filthworm hatchling scent gland (10)
 Lemon-In-The-Box	HP: 12 Def: 17 Atk: 17	box (20)	lemon (50)
 Lesser Fruit Golem	HP: 9 Def: 17 Atk: 23	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
@@ -537,11 +537,11 @@ Mer-kin Raider	HP: 800 Def: 650 Atk: 750 Meat: 200-300	Mer-kin breastplate (c2)	
 Mer-kin Scavenger	HP: 600 Def: 450 Atk: 450 Meat: 160-240	Mer-kin hookspear (2)	Mer-kin takebag (4)	Mer-kin thingpouch (25)
 Mer-kin Tippler	HP: 750 Def: 400 Atk: 600 Meat: 160-240	Alewife&trade; Ale (40)	Mer-kin foodbucket (5)	Mer-kin pinkslip (5)	slug of vodka (21)
 Mesmerizing Penguin		Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
-Mimic	HP: 50 Def: 45 Atk: 45	dead mimic (n100)
+Mimic	HP: 70 Def: 65 Atk: 65	dead mimic (n100)
 Mimic (Bottom 2 Rows)	HP: 25 Def: 15 Atk: 15
 Mimic (Middle 2 Rows)	HP: 35 Def: 25 Atk: 25
 Mimic (Top 2 Rows)	HP: 45 Def: 35 Atk: 35
-Mind Flayer	HP: 47 Def: 40 Atk: 36	mind flayer corpse (25)	cornuthaum (15)	large box (20)
+Mind Flayer	HP: 67 Def: 60 Atk: 59	mind flayer corpse (25)	cornuthaum (15)	large box (20)
 Mine Crab	HP: 850 Def: 600 Atk: 700 Meat: 200-300	live nautical mine (20)
 Mob Penguin Arsonist		Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Caporegime		Crimbuck	herringcello	penguin focaccia bread
@@ -623,7 +623,7 @@ Pumpkin Tree	HP: 0	petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spo
 Pygmy Assault Squad	HP: 148 Def: 152 Atk: 152 Meat: 102-145	bottle of alcohol (40)	pygmy pygment (25)	pygmy spear (5)	jungle drum (10)
 Pygmy Blowgunner	HP: 147 Def: 156 Atk: 156 Meat: 86-118	big bad voodoo mask (5)	pygmy blowgun (30)	pygmy nose-bone (10)
 Pygmy Headhunter	HP: 151 Def: 146 Atk: 146 E: sleaze Meat: 143-207	briefcase (60)	headhunter necktie (5)	pointed stick (10)	world's smallest violin (5)
-Quantum Mechanic	HP: 51 Def: 37 Atk: 37	large box (40)	vorpal blade (15)	pile of gold coins (p20)
+Quantum Mechanic	HP: 71 Def: 57 Atk: 61	large box (40)	vorpal blade (15)	pile of gold coins (p20)
 Quiet Healer	HP: 90 Def: 95 Atk: 95 Meat: 66-143	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)
 Racecar Bob	HP: 139 Def: 138 Atk: 144 Meat: 43-67	enormous belt buckle (25)	leather chaps (15)	mesh cap (15)	stunt nuts (30)
 Raconteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
@@ -723,7 +723,7 @@ Sub-Assistant Knob Mad Scientist	HP: 1 Def: 2 Atk: 1 Meat: 5-7	Knob Goblin firec
 Surprised Mariachi	HP: 0	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Swamp Duck	HP: 182 Atk: 169 Meat: 120-172 E: stench	fetid feather (10)	duct tape (5)
 Swarm of Fire Ants	HP: 135 Def: 133 Atk: 142 E: heat	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
-Swarm of Killer Bees	HP: 45 Def: 39 Atk: 41 "Somewhat Poisoned"	baby killer bee (5)	royal jelly (25)
+Swarm of Killer Bees	HP: 65 Def: 59 Atk: 59 "Somewhat Poisoned"	baby killer bee (5)	royal jelly (25)
 swarm of lowercase As	HP: 0	lowercase A (0)	percent sign (0)
 Swarm of Scarab Beatles	HP: 131 Def: 131 Atk: 136 E: spooky	Colonel Mustard's Lonely Spades Club Jacket (c1)	Corporal Fennel's Lonely Clubs Club Jacket (c1)	General Sage's Lonely Diamonds Club Jacket (c1)	Private Pepper's Lonely Hearts Club Jacket (c1)	savoy truffle (10)	rocky raccoon (40)	mojo filter (5)	Maxwell's Silver Hammer (5)	carbonated water lily (10)	palm frond (10)	hot date (5)	happiness (5)
 Swarthy Pirate	HP: 53 Def: 63 Atk: 63 Meat: 20-32	leotarrrd (10)	pirate pelvis (20)	stuffed shoulder parrot (10)
