@@ -1365,6 +1365,8 @@ public abstract class ChoiceManager
 			"Jacking", "choiceAdventure456", "Huge-A-Ma-tron",
 			new String[] { "combat", "Hurricane Force", "a dance upon the palate", "stats" },
 			new String[] { null, null, "4568", null } ),
+
+		// Choice 457 is ... Grow Unspeakable Horrors
 	};
 
 	static

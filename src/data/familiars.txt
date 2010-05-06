@@ -128,3 +128,13 @@
 122	Jack-in-the-Box	none	4396	brass crank handle	0	0	0	0
 123	BRICKO chick	combat	4495	extra-heavy BRICKO brick	1	2	2	1
 124	Baby Bugged Bugbear	none	4574	bugged beanie	0	0	0	0
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134	Underworld Bonsai	combat	4616	miniature pruning shears	3	1	2	0
