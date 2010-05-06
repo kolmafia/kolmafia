@@ -1140,7 +1140,6 @@ public class FightRequest
 			
 			if ( action.startsWith( "consult" ) ||
 				action.startsWith( "delevel" ) ||
-				action.startsWith( "jiggle" ) ||
 				action.startsWith( "twiddle" ) )
 			{
 				macro.setLength( 0 );
@@ -1216,6 +1215,13 @@ public class FightRequest
 			{
 				macro.append( "summonspirit\n" );
 			}
+			else if ( action.equals( "jiggle" ) )
+			{
+				if ( EquipmentManager.usingChefstaff() )
+				{
+					macro.append( "call mafiaround; jiggle\n" );
+				}
+			}
 			else if ( action.startsWith( "skill" ) )
 			{
 				int skillId = StringUtilities.parseInt( action.substring( 5 ) );
@@ -1279,7 +1285,7 @@ public class FightRequest
 		if ( Preferences.getBoolean( "macroDebug" ) )
 		{
 			RequestLogger.printLine( "Generated macro:" );
-			RequestLogger.printList( Arrays.asList( macro.toString().split( "\n" ) ) );
+			FightRequest.indentify( macro.toString(), false );
 			RequestLogger.printLine( "" );
 		}
 		
@@ -1310,7 +1316,7 @@ public class FightRequest
 		if ( Preferences.getBoolean( "macroDebug" ) )
 		{
 			RequestLogger.updateDebugLog( "Optimized macro:" );
-			RequestLogger.updateDebugLog( macro.toString() );
+			FightRequest.indentify( macro.toString(), true );
 		}
 	}
 	
@@ -1318,6 +1324,34 @@ public class FightRequest
 		Pattern.compile( "call (\\w+)" );
 	private static final Pattern ALLSUBS_PATTERN =
 		Pattern.compile( "sub (\\w+)([\\s;\\n]+endsub)?" );
+		
+	private static void indentify( String macro, boolean debug )
+	{
+		String indent = "";
+		String element = debug ? "\t" : "\u00A0\u00A0\u00A0\u00A0";
+		String[] pieces = macro.split( "\n" );
+		for ( int i = 0; i < pieces.length; ++i )
+		{
+			String line = pieces[ i ].trim();
+			if ( line.startsWith( "end" ) && indent.length() > 0 )
+			{
+				indent = indent.substring( element.length() );
+			}
+			if ( debug )
+			{
+				RequestLogger.updateDebugLog( indent + line );
+			}
+			else
+			{
+				RequestLogger.printLine( indent + line );
+			}
+			if ( line.startsWith( "if " ) || line.startsWith( "while " ) ||
+				line.startsWith( "sub " ) )
+			{
+				indent = indent + element;
+			}
+		}
+	}
 		
 	private static void macroSkill( StringBuffer macro, int skillId )
 	{
@@ -4734,7 +4768,7 @@ public class FightRequest
 		{
 			FightRequest.registerRequest( false, "fight.php?runaway" );
 		}
-		else if ( action.equals( "pickpocket" ) || action.equals( "steal" ) )
+		else if ( action.equals( "steal" ) )
 		{
 			FightRequest.registerRequest( false, "fight.php?steal" );
 		}
@@ -4742,7 +4776,7 @@ public class FightRequest
 		{
 			FightRequest.registerRequest( false, "fight.php?summon" );
 		}
-		else if ( action.equals( "jiggle" ) || action.equals( "chefstaff" ) )
+		else if ( action.equals( "chefstaff" ) )
 		{
 			FightRequest.registerRequest( false, "fight.php?chefstaff" );
 		}
