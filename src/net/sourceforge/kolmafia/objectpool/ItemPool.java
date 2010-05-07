@@ -683,7 +683,11 @@ public class ItemPool
 	public static final int MINIBORG_HIVEMINDER = 3113;
 	public static final int MINIBORG_DESTROYOBOT = 3114;
 	public static final int DIVINE_BOOK = 3117;
+	public static final int DIVINE_NOISEMAKER = 3118;
+	public static final int DIVINE_SILLY_STRING = 3119;
+	public static final int DIVINE_BLOWOUT = 3120;
 	public static final int DIVINE_CHAMPAGNE_POPPER = 3121;
+	public static final int DIVINE_CRACKER = 3122;
 	public static final int DIVINE_FLUTE = 3123;
 	public static final int HOBO_NICKEL = 3126;
 	public static final int SANDCASTLE = 3127;

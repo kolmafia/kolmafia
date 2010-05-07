@@ -886,6 +886,13 @@ public abstract class InventoryManager
 		case ItemPool.SUGARY_CUTENESS:
 		case ItemPool.DISTURBING_OBSESSION:
 		case ItemPool.NAUGHTY_INNUENDO:
+			// Divine items
+		case ItemPool.DIVINE_NOISEMAKER:
+		case ItemPool.DIVINE_SILLY_STRING:
+		case ItemPool.DIVINE_BLOWOUT:
+		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
+		case ItemPool.DIVINE_CRACKER:
+		case ItemPool.DIVINE_FLUTE:
 			return true;
 		}
 		return false;
