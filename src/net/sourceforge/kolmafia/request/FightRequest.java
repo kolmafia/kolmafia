@@ -3734,7 +3734,8 @@ public class FightRequest
 			String onclick = inode.getAttributeByName( "onclick" );
 			if ( onclick != null )
 			{
-				if ( onclick.startsWith( "descitem" ) )
+				if ( onclick.startsWith( "descitem" ) &&
+					str.indexOf( "clan's basement" ) == -1 )
 				{
 					Matcher m = INT_PATTERN.matcher( onclick );
 					if ( !m.find() )
