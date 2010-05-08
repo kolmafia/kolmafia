@@ -726,7 +726,7 @@ public class FightRequest
 
 		if ( FightRequest.action1.startsWith( "twiddle" ) )
 		{
-			FightRequest.action1 = null;
+			--FightRequest.preparatoryRounds;
 			return;
 		}
 
@@ -792,6 +792,62 @@ public class FightRequest
 			// You can only jiggle once per round.
 			--FightRequest.preparatoryRounds;
 			this.nextRound();
+			return;
+		}
+
+		// Handle DB combos.
+
+		if ( FightRequest.action1.startsWith( "combo " ) )
+		{
+			int[] combo = DiscoCombatHelper.getCombo(
+				FightRequest.action1.substring( 6 ) );
+			if ( combo == null )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
+			
+			int cost = 0;
+			StringBuffer macro = new StringBuffer();
+			for ( int i = 0; i < combo.length; ++i )
+			{
+				int skillId = combo[ i ];
+				cost += SkillDatabase.getMPConsumptionById( skillId );
+				macro.append( "skill " );
+				macro.append( skillId );
+				macro.append( ";" );
+			}
+			
+			// Combos use MP. Make sure the character has enough.
+			if ( KoLCharacter.getCurrentMP() < cost && !GenericRequest.passwordHash.equals( "" ) )
+			{
+				if ( !Preferences.getBoolean( "autoManaRestore" ) )
+				{
+					--FightRequest.preparatoryRounds;
+					this.nextRound();
+					return;
+				}
+	
+				for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+				{
+					if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() && KoLConstants.inventory.contains( MPRestoreItemList.CONFIGURES[ i ].getItem() ) )
+					{
+						FightRequest.action1 = String.valueOf( MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
+	
+						++FightRequest.preparatoryRounds;
+						this.updateCurrentAction();
+						return;
+					}
+				}
+	
+				FightRequest.action1 = "abort";
+				return;
+			}
+
+			this.addFormField( "action", "macro" );
+			this.addFormField( "macrotext", macro.toString() );
+			FightRequest.preparatoryRounds += combo.length - 1;
 			return;
 		}
 
@@ -1222,6 +1278,14 @@ public class FightRequest
 					macro.append( "call mafiaround; jiggle\n" );
 				}
 			}
+			else if ( action.startsWith( "combo " ) )
+			{
+				int[] combo = DiscoCombatHelper.getCombo( action.substring( 6 ) );
+				if ( combo != null )
+				{
+					FightRequest.macroCombo( macro, combo );
+				}
+			}
 			else if ( action.startsWith( "skill" ) )
 			{
 				int skillId = StringUtilities.parseInt( action.substring( 5 ) );
@@ -1373,6 +1437,46 @@ public class FightRequest
 		macro.append( "\ncall mafiaround; skill " );
 		macro.append( skillId );
 		macro.append( "\nendif\n" );
+	}
+
+	private static void macroCombo( StringBuffer macro, int[] combo )
+	{
+		int cost = 0;
+		for ( int i = 0; i < combo.length; ++i )
+		{
+			cost += SkillDatabase.getMPConsumptionById( combo[ i ] );
+		}
+		if ( cost > KoLCharacter.getMaximumMP() )
+		{
+			return;	// no point in even trying
+		}
+		
+		boolean restore =  Preferences.getBoolean( "autoManaRestore" ) &&
+			!KoLConstants.activeEffects.contains( FightRequest.BIRDFORM );
+		if ( restore )
+		{
+			macro.append( "while mpbelow " );
+			macro.append( cost );
+			macro.append( "\ncall mafiamp\nendwhile\n" );
+		}
+		else
+		{
+			macro.append( "if !mpbelow " );
+			macro.append( cost );
+			macro.append( "\n" );
+		}
+		macro.append( "call mafiaround; " );
+		for ( int i = 0; i < combo.length; ++i )
+		{
+			macro.append( "skill " );
+			macro.append( combo[ i ] );
+			macro.append( "; " );
+		}
+		macro.append( "\n" );
+		if ( !restore )
+		{
+			macro.append( "endif\n" );
+		}
 	}
 
 	private boolean singleUseCombatItem( int itemId )

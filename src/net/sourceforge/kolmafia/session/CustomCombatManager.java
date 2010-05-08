@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 
 public abstract class CustomCombatManager
 {
@@ -779,6 +780,16 @@ public abstract class CustomCombatManager
 
 			return "run away if " + runaway + "% chance of being free";
 		}
+		
+		if ( action.startsWith( "combo " ) )
+		{
+			String combo = DiscoCombatHelper.disambiguateCombo( action.substring( 6 ) );
+			if ( combo == null )
+			{
+				return "note unknown " + action;
+			}
+			return "combo " + combo;
+		}
 
 		if ( action.startsWith( "item" ) || action.startsWith( "use " ) )
 		{
@@ -937,6 +948,16 @@ public abstract class CustomCombatManager
 			int runaway = runAwayMatcher.find() ?
                                 StringUtilities.parseInt( runAwayMatcher.group( 1 ) ) : 0;
 			return runaway <= 0 ? "runaway" : ( "runaway" + runaway );
+		}
+
+		if ( action.startsWith( "combo " ) )
+		{
+			String combo = DiscoCombatHelper.disambiguateCombo( action.substring( 6 ) );
+			if ( combo == null )
+			{
+				return "skip";
+			}
+			return "combo " + combo;
 		}
 
 		if ( action.startsWith( "item" ) )
