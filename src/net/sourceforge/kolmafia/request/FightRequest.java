@@ -2270,16 +2270,12 @@ public class FightRequest
 					m.group( 1 ) + " got slimed." );
 			}
 		}
-
-        // "[slimeling] leaps on your opponent, sliming it for XX damage.  It's inspiring!"
+                // "[slimeling] leaps on your opponent, sliming it for XX damage.  It's inspiring!"
 		if ( responseText.indexOf( "leaps on your opponent" ) != -1 )
-        {
-            Preferences.setFloat("slimelingFullness", Preferences.getFloat("slimelingFullness") - 1.0F);
-			// Preferences.increment( "slimelingFullness", -1 );
-            if (Preferences.getFloat("slimelingFullness") < 0.0)
-                Preferences.setFloat("slimelingFullness",(float) 0.0);
-        }
-
+                {
+                    Preferences.setFloat("slimelingFullness", Math.max(Preferences.getFloat("slimelingFullness") - 1.0F, 0.0F));
+                }
+                
 		// "As you're trying to get away, you sink in the silty muck on
 		// the sea floor. You manage to get yourself unmired, but your
 		// greaves seem to have gotten instantly rusty in the process..."
