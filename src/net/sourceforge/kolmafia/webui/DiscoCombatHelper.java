@@ -111,9 +111,10 @@ public class DiscoCombatHelper
 	public static final int RAVE_BLEEDING = 8;
 	public static final int RAVE_STEAL = 9;
 	public static final int RAVE_SUBSTATS = 10;
+	public static final int RANDOM_RAVE = 11;
 
 	public static final int FIRST_RAVE_COMBO = 5;
-	public static final int NUM_COMBOS = 11;
+	public static final int NUM_COMBOS = 12;
 
 	public static final String [][] COMBOS =
 	{
@@ -160,6 +161,10 @@ public class DiscoCombatHelper
 		{
 			"Rave Substats",
 			"2-4 substats",
+		},
+		{
+			"Random Rave",
+			"Learn a new combo!",
 		},
 	};
 
@@ -229,6 +234,12 @@ public class DiscoCombatHelper
 			{ UNKNOWN },
 			{ UNKNOWN },
 		},
+		// Random Rave
+		{
+			{ UNKNOWN },
+			{ UNKNOWN },
+			{ UNKNOWN },
+		},
 	};
 
 	// Count of disco skills used in sequence
@@ -289,18 +300,102 @@ public class DiscoCombatHelper
 		}
 		return -1;
 	}
+	
+	public static String disambiguateCombo( String name )
+	{
+		name = name.trim().toLowerCase();
+		for ( int i = 0; i < NUM_COMBOS; ++i )
+		{
+			if ( COMBOS[ i ][ 0 ].toLowerCase().indexOf( name ) != -1 )
+			{
+				return COMBOS[ i ][ 0 ];
+			}
+		}
+		return null;
+	}
+	
+	public static int[] getCombo( String name )
+	{
+		name = name.trim().toLowerCase();
+		for ( int i = 0; i < NUM_COMBOS; ++i )
+		{
+			if ( COMBOS[ i ][ 0 ].toLowerCase().indexOf( name ) != -1 )
+			{
+				return getCombo( i );
+			}
+		}
+		return null;
+	}
+	
+	private static int[] getCombo( final int combo )
+	{
+		if ( !DiscoCombatHelper.canCombo || !knownCombo[ combo ] )
+		{
+			return null;
+		}
+		
+		int[][] data = COMBO_SKILLS[ combo ];
+		int[] rv = new int[ data.length ];
+		for ( int i = 0; i < data.length; ++i )
+		{
+			// Some combo allow multiple skills. Pick the first known one.
+			int [] skills = data[i];
+			for ( int j = 0; j < skills.length; ++j )
+			{
+				int skill = skills[ j ];
+				if ( knownSkill[ skill ] )
+				{
+					rv[ i ] = SKILL_ID[ skill ];
+					break;
+				}
+			}
+		}
+		return rv;
+	}
 
 	private static final void checkCombo( final int combo )
 	{
+		int [][] data = COMBO_SKILLS[ combo ];
+
 		// If it's a rave skill, we need to have learned it in battle.
-		if ( combo >= FIRST_RAVE_COMBO )
+		if ( combo == RANDOM_RAVE )
+		{
+			data[ 0 ][ 0 ] = UNKNOWN;
+		findUnknownCombo:
+			for ( int sel = 0; sel < 27; ++sel )
+			{
+				int s1 = sel % 3 + FIRST_RAVE_SKILL;
+				int s2 = (sel / 3) % 3 + FIRST_RAVE_SKILL;
+				int s3 = (sel / 9) % 3 + FIRST_RAVE_SKILL;
+				if ( s1 == s2 || s1 == s3 || s2 == s3 )
+				{
+					continue;
+				}
+				
+				for ( int test = FIRST_RAVE_COMBO; test < RANDOM_RAVE; ++test )
+				{
+					int[][] testdata = COMBO_SKILLS[ test ];
+					if ( s1 == testdata[ 0 ][ 0 ] &&
+						s2 == testdata[ 1 ][ 0 ] &&
+						s3 == testdata[ 2 ][ 0 ] )
+					{
+						continue findUnknownCombo;
+					}
+				}
+			
+				data[ 0 ][ 0 ] = s1;
+				data[ 1 ][ 0 ] = s2;
+				data[ 2 ][ 0 ] = s3;
+				break;
+			}		
+		}
+		else if ( combo >= FIRST_RAVE_COMBO )
 		{
 			String setting = "raveCombo" + String.valueOf( combo - FIRST_RAVE_COMBO + 1 );
 			String seq = Preferences.getString( setting );
 			String[] skills = seq.split( "," );
 			if ( skills.length == 3 )
 			{
-				int [][] data = COMBO_SKILLS[ combo ];
 				for ( int i = 0; i < skills.length; ++i )
 				{
 					int skill = DiscoCombatHelper.skillNameToSkill( skills[ i ] );
@@ -319,7 +414,6 @@ public class DiscoCombatHelper
 		}
 
 		// Check that we know all the skills
-		int [][] data = COMBO_SKILLS[ combo ];
 		for ( int i = 0; i < data.length; ++i )
 		{
 			// Some combo allow multiple skills. Any will do.
@@ -328,7 +422,7 @@ public class DiscoCombatHelper
 			for ( int j = 0; j < skills.length; ++j )
 			{
 				int skill = skills[ j ];
-				if ( knownSkill[ skill ] )
+				if ( skill != UNKNOWN && knownSkill[ skill ] )
 				{
 					known = true;
 					break;
@@ -432,7 +526,7 @@ public class DiscoCombatHelper
 		// A combo must have at least two skills.
 		for ( int i = 0; DiscoCombatHelper.counter > 1 && i < NUM_COMBOS; ++i )
 		{
-			if ( !knownCombo[ i ] )
+			if ( !knownCombo[ i ] || i == RANDOM_RAVE )
 			{
 				continue;
 			}
@@ -464,7 +558,7 @@ public class DiscoCombatHelper
 		// If three different rave skills are used in sequence,
 		// identify the rave combo
 
-		if ( DiscoCombatHelper.counter ==  3 )
+		if ( DiscoCombatHelper.counter == 3 )
 		{
 			// Your savage beatdown seems to have knocked loose
 			// some treasure. Sweet!
@@ -548,6 +642,9 @@ public class DiscoCombatHelper
 		data[0][0] = skill1;
 		data[1][0] = skill2;
 		data[2][0] = skill3;
+
+		// Update the random combo
+		DiscoCombatHelper.checkCombo( RANDOM_RAVE );
 	}
 
 	private static final boolean checkSequence( final int[][] data, final int offset )
@@ -610,9 +707,7 @@ public class DiscoCombatHelper
 			buffer.append( "<tr>" );
 
 			// Combo name
-			buffer.append( "<td>" );
-			buffer.append( combo[ 0 ] );
-			buffer.append( "</td>" );
+			DiscoCombatHelper.addComboButton( buffer, combo[ 0 ], getCombo( i ) );
 
 			// Combo effect
 			buffer.append( "<td>" );
@@ -666,13 +761,40 @@ public class DiscoCombatHelper
 		return buffer;
 	}
 
+	private static final void addComboButton( final StringBuffer buffer, final String name, int[] combo )
+	{
+		buffer.append( "<form method=POST action=\"fight.php\"><td>" );
+		buffer.append( "<input type=hidden name=\"action\" value=\"macro\">" );
+		buffer.append( "<input type=hidden name=\"macrotext\" value=\"" );
+
+		int cost = 0;
+		for ( int i = 0; i < combo.length; ++i )
+		{
+			int skillId = combo[ i ];
+			cost += SkillDatabase.getMPConsumptionById( skillId );
+			buffer.append( "skill " );
+			buffer.append( skillId );
+			buffer.append( ";" );
+		}
+
+		buffer.append( "\"><input onclick=\"return killforms(this);\" type=\"submit\" value=\"" );
+		buffer.append( name );
+		buffer.append( "\"" );
+		if ( DiscoCombatHelper.counter > 0 || cost > KoLCharacter.getCurrentMP() )
+		{
+			buffer.append( " disabled" );
+		}
+
+		buffer.append( ">&nbsp;</td></form>" );
+	}
+
 	private static final void addDiscoButton( final StringBuffer buffer, final int skill, boolean isEnabled )
 	{
 		String skillName = SKILLS[ skill ];
 		int skillId = SKILL_ID[ skill ];
 		String name = BUTTON_NAME[ skill ];
 
-		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
+		buffer.append( "<input type=\"button\" onClick=\"killforms(this); document.location.href='" );
 		buffer.append( "fight.php?action=skill&whichskill=" );
 		buffer.append( String.valueOf( skillId ) );
 
