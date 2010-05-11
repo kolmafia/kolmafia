@@ -211,7 +211,7 @@ wet stunt nut stew	COOK	wet stew	stunt nuts
 Humpty Dumplings	COOK	eggman noodles	Vial of <i>jus de larmes</i>
 
 baneful bandolier	SMITH	caustic slime nodule	slime-covered necklace
-bitter pill	COOK	caustic slime nodule	scrumptious reagent
+bitter pill	SAUCE, MANUAL	caustic slime nodule	scrumptious reagent
 corroded breeches	SMITH	caustic slime nodule	slime-covered greaves
 corrosive cowl	SMITH	caustic slime nodule	slime-covered helmet
 diabolical crossbow	SMITH	caustic slime nodule	slime-covered speargun
