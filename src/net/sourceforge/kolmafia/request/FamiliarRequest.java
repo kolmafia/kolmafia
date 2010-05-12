@@ -341,6 +341,10 @@ public class FamiliarRequest
 			{
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "Removing familiar from Crown of Thrones" );
+				if ( urlString.indexOf( "ajax=" ) != -1 )
+				{
+					KoLCharacter.setEnthroned( FamiliarData.NO_FAMILIAR );
+				}
 				return true;
 			}
 
@@ -352,6 +356,10 @@ public class FamiliarRequest
 
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "Putting " + fam.getRace() + " into Crown of Thrones" );
+			if ( urlString.indexOf( "ajax=" ) != -1 )
+			{
+				KoLCharacter.setEnthroned( fam );
+			}
 			return true;
 		}
 

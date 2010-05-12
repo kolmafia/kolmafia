@@ -190,6 +190,7 @@ public class FamiliarData
 	{
 		// Assume he has no familiar
 		FamiliarData first = FamiliarData.NO_FAMILIAR;
+		FamiliarData hatseat = FamiliarData.NO_FAMILIAR;
 
 		Matcher matcher = FamiliarData.REGISTER_PATTERN.matcher( responseText );
 		while ( matcher.find() )
@@ -206,6 +207,11 @@ public class FamiliarData
 			{
 				// Update existing familiar
 				familiar.update( matcher );
+			}
+			
+			if ( matcher.group( 6 ).indexOf( "kick out" ) != -1 )
+			{
+				hatseat = familiar;
 			}
 
 			// First in the list might be equipped
@@ -229,6 +235,7 @@ public class FamiliarData
 		KoLCharacter.setFamiliar( first );
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
 		FamiliarData.checkLockedItem( responseText );
+		KoLCharacter.setEnthroned( hatseat );
 
 		// If we discovered new familiars, write an override file
 		if ( FamiliarDatabase.newFamiliars )
@@ -499,7 +506,8 @@ public class FamiliarData
 			return false;
 			
 		case FamiliarPool.HATRACK:
-			return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_HAT;
+			return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_HAT &&
+				item.getItemId() != ItemPool.HATSEAT;
 
 		case FamiliarPool.HAND:
 			// Disembodied Hand can equip one-handed weapons

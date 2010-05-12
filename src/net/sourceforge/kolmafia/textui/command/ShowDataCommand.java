@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -212,7 +213,12 @@ public class ShowDataCommand
 
 		if ( desiredData.startsWith( "equip" ) )
 		{
-			desiredStream.println( "Hat: " + EquipmentManager.getEquipment( EquipmentManager.HAT ) );
+			AdventureResult hat = EquipmentManager.getEquipment( EquipmentManager.HAT );
+			desiredStream.println( "Hat: " + hat );
+			if ( hat.getItemId() == ItemPool.HATSEAT )
+			{
+				desiredStream.println( "Carrying: " + KoLCharacter.getEnthroned() );
+			}
 			desiredStream.println( "Weapon: " + EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
 
 			if ( EquipmentManager.getFakeHands() > 0 )

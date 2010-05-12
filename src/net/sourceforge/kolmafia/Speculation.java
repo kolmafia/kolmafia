@@ -56,7 +56,7 @@ public class Speculation
 	private int MCD;
 	public AdventureResult[] equipment;
 	private ArrayList effects;
-	private FamiliarData familiar;
+	private FamiliarData familiar, enthroned;
 	protected boolean calculated = false;
 	protected Modifiers mods;
 
@@ -134,6 +134,7 @@ public class Speculation
 			this.equipment,
 			this.effects,
 			this.familiar,
+			this.enthroned,
 			true );
 		this.calculated = true;
 		return this.mods;

@@ -2510,6 +2510,12 @@ public class FightRequest
 				Preferences.getInteger( "_leafblowerML" ) ) );
 		}
 
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&
+			responseText.indexOf( "gains 1 Experience" ) != -1 )
+		{
+			KoLCharacter.getEnthroned().addExperience( 1 );
+		}
+
 		// Cancel any combat modifiers
 		Modifiers.overrideModifier( "fightMods", null );
 
