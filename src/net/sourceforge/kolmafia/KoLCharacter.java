@@ -295,6 +295,7 @@ public abstract class KoLCharacter
 	public static final SortedListModel familiars = new SortedListModel();
 	private static boolean isUsingStabBat = false;
 	public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
+	public static FamiliarData currentEnthroned = FamiliarData.NO_FAMILIAR;
 
 	private static int arenaWins = 0;
 	private static int stillsAvailable = 0;
@@ -2745,6 +2746,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.currentFamiliar == null ? FamiliarData.NO_FAMILIAR : KoLCharacter.currentFamiliar;
 	}
 
+	public static final FamiliarData getEnthroned()
+	{
+		return KoLCharacter.currentEnthroned == null ? FamiliarData.NO_FAMILIAR : KoLCharacter.currentEnthroned;
+	}
+
 	public static final boolean isUsingStabBat()
 	{
 		return KoLCharacter.isUsingStabBat;
@@ -2895,6 +2901,10 @@ public abstract class KoLCharacter
 	public static final void setFamiliar( final FamiliarData familiar )
 	{
 		KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar( familiar );
+		if ( KoLCharacter.currentFamiliar.equals( KoLCharacter.currentEnthroned ) )
+		{
+			KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
+		}
 
 		KoLCharacter.familiars.setSelectedItem( KoLCharacter.currentFamiliar );
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, KoLCharacter.currentFamiliar.getItem() );
@@ -2904,6 +2914,13 @@ public abstract class KoLCharacter
 			KoLCharacter.currentFamiliar.getRace().equals( "Scary Death Orb" );
 
 		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
+	}
+
+	public static final void setEnthroned( final FamiliarData familiar )
+	{
+		KoLCharacter.currentEnthroned = KoLCharacter.addFamiliar( familiar );
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 	}
@@ -3230,10 +3247,11 @@ public abstract class KoLCharacter
 				EquipmentManager.allEquipment(),
 				KoLConstants.activeEffects,
 				KoLCharacter.currentFamiliar,
+				KoLCharacter.currentEnthroned,
 				false ) );
 	}
 
-	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List effects, FamiliarData familiar, boolean applyIntrinsics )
+	public static final Modifiers recalculateAdjustments( boolean debug, int MCD, AdventureResult[] equipment, List effects, FamiliarData familiar, FamiliarData enthroned,  boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
