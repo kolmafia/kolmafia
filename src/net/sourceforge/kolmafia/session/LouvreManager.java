@@ -715,23 +715,31 @@ public abstract class LouvreManager
 		return LouvreManager.louvreChoice( destination );
 	}
 	
-	// Derive values for the 5 pseudorandom bits that were used to generate
-	// this location's exits.  1.0 = true, 0.0 = false, 0.5 = indeterminate.
+	// Derive probabilities for each of the 7 possible permutations.  One permutation (ABC)
+	// has two entries, because there are two distinct RNG states that can produce it, and
+	// it's sometimes possible to determine that only one of those two states is possible.
+	// Values are in the range 0-1, and should always total to 1.
 	private static final float[] derive( int location )
 	{
-		float bits[] = new float[] { 0.5f, 0.5f, 0.5f, 0.5f, 0.5f };
+		float probs[] = new float[] { 36/81f, 12/81f, 9/81f, 12/81f, 6/81f, 4/81f, 2/81f };
 		if ( !LouvreManager.louvreChoice( location ) )
 		{	// allow calls for an out-of-range location, to simplify edge cases
-			return bits;
+			return probs;
 		}
 		int choices[] = LouvreManager.choiceTuple( location );
-//System.out.println("derive(" + location + ") " +choices[0] + " " + choices[1] + " " + choices[2]);
+
 		// Find which permutation matches the mapped exits
 		int[] baseperm = LouvreManager.LouvreLocationExits[ location - LouvreManager.FIRST_CHOICE ];
-//System.out.println(" baseperm = "  +baseperm[0] + " " + baseperm[1] + " " + baseperm[2]);
 		int perm = which( baseperm, choices[ 0 ] ) << 8 |
 			which( baseperm, choices[ 1 ] ) << 4 |
 			which( baseperm, choices[ 2 ] );
+		
+		// The first random number may be used twice, both to choose one of the three
+		// return-to-stairs locations, and as the first step in scrambling the exits.
+		// If we have a mapped Escher link, that can help determine the RNG state.
+		boolean asc = any( choices, 95 );
+		boolean nonasc = any( choices, 93 ) || any( choices, 94 );
+			
 		switch ( perm )
 		{
 		// No exits mapped:
@@ -743,130 +751,109 @@ public abstract class LouvreManager
 		case 0x0BA:
 		case 0xC0A:
 		case 0xCB0:
-			bits[ 0 ] = 1.0f;
+			probs = new float[] { 1, 0, 0, 0, 0, 0, 0 };
 			break;
 		
 		case 0xABC:
 		case 0x0BC:
 		case 0xA0C:
 		case 0xAB0:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 1.0f;
+			if ( nonasc )
+			{
+				probs = new float[] { 0, 1, 0, 0, 0, 0, 0 };
+			}
+			else if ( asc )
+			{
+				probs = new float[] { 0, 0, 1, 0, 0, 0, 0 };
+			}
+			else
+			{
+				probs = new float[] { 0, 12/21f, 9/21f, 0, 0, 0, 0 };
+			}
 			break;
 			
 		case 0xACB:
 		case 0x0CB:
 		case 0xA0B:
 		case 0xAC0:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 1.0f;
+			probs = new float[] { 0, 0, 0, 1, 0, 0, 0 };
 			break;
 			
 		case 0xCAB:
 		case 0x0AB:
 		case 0xC0B:
 		case 0xCA0:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 0.0f;
-			bits[ 3 ] = 1.0f;
-			break;
-			
-		case 0xBAC:
-		case 0x0AC:
-		case 0xB0C:
-		case 0xBA0:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 0.0f;
-			bits[ 3 ] = 0.0f;
-			bits[ 4 ] = 1.0f;
+			probs = new float[] { 0, 0, 0, 0, 1, 0, 0 };
 			break;
 			
 		case 0xBCA:
 		case 0x0CA:
 		case 0xB0A:
 		case 0xBC0:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 0.0f;
-			bits[ 3 ] = 0.0f;
-			bits[ 4 ] = 0.0f;
+			probs = new float[] { 0, 0, 0, 0, 0, 1, 0 };
 			break;
 		
+		case 0xBAC:
+		case 0x0AC:
+		case 0xB0C:
+		case 0xBA0:
+			probs = new float[] { 0, 0, 0, 0, 0, 0, 1 };
+			break;
+			
 		// Only one exit mapped
 		case 0xA00:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.67f;
-			bits[ 2 ] = -0.67f;
+			if ( nonasc )
+			{
+				probs = new float[] { 0, 1, 0, 0, 0, 0, 0 };
+			}
+			else if ( asc )
+			{
+				probs = new float[] { 0, 0, 9/21f, 12/21f, 0, 0, 0 };
+			}
+			else
+			{
+				probs = new float[] { 0, 12/33f, 9/33f, 12/33f, 0, 0, 0 };
+			}
 			break;
 		
 		case 0xB00:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 0.0f;
-			bits[ 3 ] = 0.0f;
+			probs = new float[] { 0, 0, 0, 0, 0, 4/6f, 2/6f };
 			break;
 
 		case 0xC00:
-			bits[ 0 ] = 0.89f;
-			bits[ 1 ] = -0.44f;
-			bits[ 2 ] = -0.44f;
-			bits[ 3 ] = -0.56f;
+			probs = new float[] { 36/42f, 0, 0, 0, 6/42f, 0, 0 };
 			break;
 
 		case 0x0A0:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 0.0f;
-			bits[ 3 ] = 0.67f;
-			bits[ 4 ] = -0.67f;
+			probs = new float[] { 0, 0, 0, 0, 6/8f, 0, 2/8f };
 			break;
 
 		case 0x0B0:
-			bits[ 0 ] = 0.67f;
-			bits[ 1 ] = -0.67f;
+			probs = new float[] { 36/57f, 12/57f, 9/57f, 0, 0, 0, 0 };
 			break;
 
 		case 0x0C0:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 0.8f;
-			bits[ 3 ] = -0.4f;
-			bits[ 4 ] = -0.4f;
+			probs = new float[] { 0, 0, 0, 12/16f, 0, 4/16f, 0 };
 			break;
 
 		case 0x00A:
-			bits[ 0 ] = 0.94f;
-			bits[ 1 ] = -0.47f;
-			bits[ 2 ] = -0.47f;
-			bits[ 3 ] = -0.47f;
-			bits[ 4 ] = -0.47f;
+			probs = new float[] { 36/40f, 0, 0, 0, 0, 4/40f, 0 };
 			break;
 
 		case 0x00B:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.0f;
-			bits[ 2 ] = 0.67f;
-			bits[ 3 ] = -0.67f;
+			probs = new float[] { 0, 0, 0, 12/18f, 6/18f, 0, 0 };
 			break;
 
 		case 0x00C:
-			bits[ 0 ] = 0.0f;
-			bits[ 1 ] = 0.8f;
-			bits[ 2 ] = -0.4f;
-			bits[ 3 ] = -0.4f;
-			bits[ 4 ] = -0.6f;
+			probs = new float[] { 0, 12/23f, 9/23f, 0, 0, 0, 2/23f };
 			break;
 		
 		default:
 			System.out.println( "Impossible permutation: " +
 				Integer.toHexString( perm ) );
 		}
-//System.out.println( " perm & bits: " + Integer.toHexString( perm ) + " [" + bits[0] + " " + bits[1] + " " + bits[2] + " " + bits[3] + " " + bits[4] + "]");
 		
-		return bits;
+		return probs;
 	}
 	
 	private static final int which( int[] perm, int dest )
@@ -879,105 +866,104 @@ public abstract class LouvreManager
 		return 0x0;
 	}
 	
+	private static final boolean any( int[] choices, int dest )
+	{
+		return choices[ 0 ] == dest || choices[ 1 ] == dest ||
+			choices[ 2 ] == dest;
+	}
+	
 	private static final boolean definitive( float val )
 	{
 		return val == 0.0f || val == 1.0f;
 	}
 
-	private static final boolean conflicts( float curr, float becomes )
-	{
-		return (becomes == 1.0 && -0.5f < curr && curr < 0.0f) ||
-			(becomes == 0.0 && curr < -0.5f);
-	}
-
-	// Predict values for the pseudorandom bits for a location, taking into
-	// acount known correlations with other locations.
+	// Predict values for permutation chances for a location, possibly taking into account
+	// the adjacent locations.  We know that the locations are in pairs with identical
+	// permutations; we just need to find out whether it's the pairs starting with an even
+	// location number that are identical, or pairs starting with an odd number.
 	private static final float[] predict( int location )
 	{
-		boolean[][] seenChange = new boolean[2][5];
+		boolean[] seenChange = new boolean[2];
 		for ( int loc = LouvreManager.FIRST_CHOICE; loc < LouvreManager.LAST_CHOICE; ++loc )
 		{
 			float[] left = derive( loc );
 			float[] right = derive( loc + 1 );
-			for ( int bit = 0; bit < 5; ++bit )
+			boolean definitiveChange = true;
+			for ( int p = 0; p < 7; ++p )
 			{
-				if ( definitive( left[ bit ] ) &&
-					definitive( right[ bit ] ) &&
-					left[ bit ] != right[ bit ] )
-				{	// If a bit definitely changed value between two consecutive
-					// locations, all other changes to that bit can only be an
-					// even distance away.
-					seenChange[ loc & 1 ][ bit ] = true;
+				if ( left[ p ] > 0.0f && right[ p ] > 0.0f )
+				{	// The two locations have a non-zero probability of this permutation;
+					// it's therefore possible that they have identical permutations.
+					definitiveChange = false;
+					break;
 				}
-			}			
+			}
+			seenChange[ loc & 1 ] |= definitiveChange;
 		}
 		
 		float[] curr = derive( location );
-//System.out.println( "Derived: " + curr[0] + " " + curr[1] + " " + curr[2] + " " + curr[3] + " " + curr[4]);
 		float[] prev = derive( location - 1 );
 		float[] next = derive( location + 1 );
-		for ( int bit = 0; bit < 5; ++bit )
+		for ( int p = 0; p < 7; ++p )
 		{
-			boolean conflict = false;
-			if ( definitive( curr[ bit ] ) )
+			if ( definitive( curr[ p ] ) )
 			{	// leave it alone
 			}
-			else if ( seenChange[ location & 1 ][ bit ] &&
-				definitive( prev[ bit ] ) )
+			else if ( seenChange[ 0 ] && seenChange[ 1 ] )
+			{	// This should be impossible, unless KoL upgrades to a version of PHP
+				// that fixes the RNG bugs that lead to the ability to predict locations.
+			}
+			else if ( seenChange[ location & 1 ] )
 			{
-				conflict = conflicts( curr[ bit ], prev[ bit ] );
-				curr[ bit ] = prev[ bit ];
+				float other = prev[ p ];
+				if ( other == 0.0f )
+				{	// this permutation is impossible
+					curr[ p ] = 0.0f;
+				}
+				else if ( other == 1.0f )
+				{	// all others are now impossible
+					Arrays.fill( curr, 0.0f );
+					curr[ p ] = 1.0f;
+				}
 			}
-			else if ( seenChange[ 1 - (location & 1) ][ bit ] &&
-				definitive( next[ bit ] ) )
+			else if ( seenChange[ 1 - (location & 1) ] )
 			{
-				conflict = conflicts( curr[ bit ], next[ bit ] );
-				curr[ bit ] = next[ bit ];
+				float other = next[ p ];
+				if ( other == 0.0f )
+				{	// this permutation is impossible
+					curr[ p ] = 0.0f;
+				}
+				else if ( other == 1.0f )
+				{	// all others are now impossible
+					Arrays.fill( curr, 0.0f );
+					curr[ p ] = 1.0f;
+				}
 			}
-			else if ( definitive( prev[ bit ] ) &&
-				definitive( next[ bit ] ) &&
-				prev[ bit ] == next[ bit ] )
-			{
-				conflict = conflicts( curr[ bit ], prev[ bit ] );
-				curr[ bit ] = prev[ bit ];
+			else if ( prev[ p ] == 0.0f && next[ p ] == 0.0f )
+			{	// Neither adjacent location has this permutation, and we can't differ
+				// from both.
+				curr[ p ] = 0.0f;
 			}
-			else if ( curr[ bit ] < 0 )
-			{	// this should override the probabilistic correlations
-				// with the adjacent locations
-			}
-			else
-			{
-				curr[ bit ] = (curr[ bit ] + Math.abs( prev[ bit ] ) + 
-					Math.abs( next[ bit ] )) / 3.0f;
-			}
-			
-			if ( conflict )
-			{	// A bit has been proven to not be observable in a given state,
-				// but also proven to be in that state.  The implication is that
-				// a previous bit was true, rendering this bit irrelevant.
-				// Handle this by looking backwards for a bit that's possible to
-				// be true, and upgrading it to certainty.
-				for ( int prevBit = bit - 1; prevBit >= 0; -- prevBit )
-				{
-					if ( curr[ prevBit ] > 0.0f )
-					{
-						curr[ prevBit ] = 1.0f;
-						break;
-					}
-				}			
+			else if ( prev[ p ] == 1.0f && next[ p ] == 1.0f )
+			{	// Both adjacent locations have this permutation, and we can't differ
+				// from both.
+				Arrays.fill( curr, 0.0f );
+				curr[ p ] = 1.0f;
 			}
 		}
-	
-//System.out.println( "predict: " + curr[0] + " " + curr[1] + " " + curr[2] + " " + curr[3] + " " + curr[4]);
+		
+		// Normalize the array so that the values add to 1
+		float total = 0.0f;
+		for ( int p = 0; p < 7; ++p )
+		{
+			total += curr[ p ];
+		}
+		if ( total == 1.0f || total == 0.0f ) return curr;
+		for ( int p = 0; p < 7; ++p )
+		{
+			curr[ p ] /= total;
+		}
 		return curr;
-	}
-	
-	private static final float adjust( float val )
-	{	// In the final stage of calculation, unobservable values are no
-		// longer significant - upgrade them to their only observable value.
-		return val < -0.5f ? 1.0f :
-			val < 0.0f ? 0.0f :
-			val;	
 	}
 	
 	// Calculate probabilities, indexed by <direction>, <base permutation index>
@@ -986,44 +972,39 @@ public abstract class LouvreManager
 	{
 		float[][] rv = new float[ 3 ][ 3 ];
 		
-		float[] bits = predict( location );
-		float b;	// adjusted value of current bit
+		float[] probs = predict( location );
 		float t;	// remaining probability to distribute
 		final int A = 0, B = 1, C = 2;
 		
-		b = adjust( bits[ 0 ] );
-		rv[ 0 ][ C ] += b;
-		rv[ 1 ][ B ] += b;
-		rv[ 2 ][ A ] += b;
-		t = 1 - b;
+		t = probs[ 0 ];
+		rv[ 0 ][ C ] += t;
+		rv[ 1 ][ B ] += t;
+		rv[ 2 ][ A ] += t;
 	
-		b = adjust( bits[ 1 ] );
-		rv[ 0 ][ A ] += b * t;
-		rv[ 1 ][ B ] += b * t;
-		rv[ 2 ][ C ] += b * t;
-		t *= 1 - b;
+		t = probs[ 1 ] + probs[ 2 ];
+		rv[ 0 ][ A ] += t;
+		rv[ 1 ][ B ] += t;
+		rv[ 2 ][ C ] += t;
 	
-		b = adjust( bits[ 2 ] );
-		rv[ 0 ][ A ] += b * t;
-		rv[ 1 ][ C ] += b * t;
-		rv[ 2 ][ B ] += b * t;
-		t *= 1 - b;
+		t = probs[ 3 ];
+		rv[ 0 ][ A ] += t;
+		rv[ 1 ][ C ] += t;
+		rv[ 2 ][ B ] += t;
 	
-		b = adjust( bits[ 3 ] );
-		rv[ 0 ][ C ] += b * t;
-		rv[ 1 ][ A ] += b * t;
-		rv[ 2 ][ B ] += b * t;
-		t *= 1 - b;
+		t = probs[ 4 ];
+		rv[ 0 ][ C ] += t;
+		rv[ 1 ][ A ] += t;
+		rv[ 2 ][ B ] += t;
 	
-		b = adjust( bits[ 4 ] );
-		rv[ 0 ][ B ] += b * t;
-		rv[ 1 ][ A ] += b * t;
-		rv[ 2 ][ C ] += b * t;
-		t *= 1 - b;
-	
+		t = probs[ 5 ];
 		rv[ 0 ][ B ] += t;
 		rv[ 1 ][ C ] += t;
 		rv[ 2 ][ A ] += t;
+	
+		t = probs[ 6 ];
+		rv[ 0 ][ B ] += t;
+		rv[ 1 ][ A ] += t;
+		rv[ 2 ][ C ] += t;
 	
 		return rv;
 	}
