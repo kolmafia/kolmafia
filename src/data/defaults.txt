@@ -458,6 +458,7 @@ user	louvreOverride
 user	luckySewerAdventure	stolen accordion
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
+user	mayflyExperience	0
 user	meansuckerPrice	400
 user	meatDropSpading	false
 user	mineLayout1
@@ -595,6 +596,7 @@ user	_klawSummons	0
 user	_leafblowerML	1
 user	_legendaryBeat	false
 user	_lookingGlass	false
+user	_mayflySummons	0
 user	_navelRunaways	0
 user	_poolGames	0
 user	_riftletAdv	0

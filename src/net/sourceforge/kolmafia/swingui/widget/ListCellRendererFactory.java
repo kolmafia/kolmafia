@@ -57,6 +57,8 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
+import net.sourceforge.kolmafia.swingui.GearChangeFrame;
+
 public class ListCellRendererFactory
 {
 	public static final DefaultListCellRenderer getDefaultRenderer()
@@ -86,6 +88,11 @@ public class ListCellRendererFactory
 			if ( value == null )
 			{
 				return defaultComponent;
+			}
+			
+			if ( isSelected )
+			{
+				GearChangeFrame.showModifiers( value, false );
 			}
 
 			if ( value instanceof AdventureResult )
@@ -547,6 +554,11 @@ public class ListCellRendererFactory
 				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			};
 
+			if ( isSelected )
+			{
+				GearChangeFrame.showModifiers( value, false );
+			}
+
 			AdventureResult ar = (AdventureResult) value;
 			int equipmentType = ItemDatabase.getConsumptionType( ar.getName() );
 
@@ -627,6 +639,11 @@ public class ListCellRendererFactory
 			{
 				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			};
+
+			if ( isSelected )
+			{
+				GearChangeFrame.showModifiers( value, true );
+			}
 
 			AdventureResult ar = (AdventureResult) value;
 			String effect = Modifiers.getFamiliarEffect( ar.getName() );

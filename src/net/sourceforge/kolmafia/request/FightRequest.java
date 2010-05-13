@@ -4434,6 +4434,7 @@ public class FightRequest
 			if ( responseText.indexOf( "old-timey <i>-POOF-</i> noise" ) != -1 )
 			{
 				Preferences.setString( "cameraMonster", FightRequest.encounterLookup );
+				Preferences.increment( "camerasUsed" );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -4682,6 +4683,15 @@ public class FightRequest
 
 		case 5023: // Stealth Mistletoe
 			FightRequest.stealthMistletoe = 2;
+			break;
+			
+		case 7024:	// Summon Mayfly Swarm
+			if ( responseText.indexOf( "mayfly bait and swing it" ) != -1 )
+			{
+				Preferences.increment( "_mayflySummons", 1 );
+				Preferences.increment( "mayflyExperience",
+					responseText.indexOf( "mayfly aphrodisiac" ) != -1 ? 2 : 1 );
+			}
 			break;
 
 		case 7038: // Vicious Talon Slash

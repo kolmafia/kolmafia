@@ -1280,12 +1280,6 @@ public class ResultProcessor
 		case ItemPool.DECODED_CULT_DOCUMENTS:
 			ResultProcessor.processItem( ItemPool.CULT_MEMO, -5 );
 			break;
-
-		case ItemPool.SHAKING_CAMERA:
-			// The shaking 4-d camera is a quest item. So, you can
-			// only gain one via successful use of a 4-d camera
-			Preferences.increment( "camerasUsed" );
-			break;
 		}
 	}
 
