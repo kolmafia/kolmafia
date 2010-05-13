@@ -67,7 +67,7 @@ public abstract class StoreManager
 	private static final Pattern ADDER_PATTERN =
 		Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)( *\\((\\d*)\\))?</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" );
 	private static final Pattern PRICER_PATTERN =
-		Pattern.compile( "<tr><td><b>([^<]*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
+		Pattern.compile( "<tr><td><b>(?!Item:)(.*?)&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
 
 	private static final int RECENT_FIRST = 1;
 	private static final int OLDEST_FIRST = 2;
