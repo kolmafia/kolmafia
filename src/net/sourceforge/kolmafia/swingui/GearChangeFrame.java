@@ -62,13 +62,16 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -92,6 +95,8 @@ public class GearChangeFrame
 	private final OutfitComboBox outfitSelect, customSelect;
 	private final FamiliarComboBox familiarSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
+	private int modifiersWidth;
+	private JLabel modifiersLabel;
 	private FamLockCheckbox	famLockCheckbox;
 
 	public GearChangeFrame()
@@ -134,6 +139,91 @@ public class GearChangeFrame
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
+	}
+	
+	public static void showModifiers( Object value, boolean isFamiliarItem )
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+		
+		String name = null;
+		if ( value instanceof AdventureResult )
+		{
+			name = ((AdventureResult) value).getName();
+			if ( isFamiliarItem &&
+				KoLCharacter.getFamiliar().getId() == FamiliarPool.HATRACK )
+			{
+				name = "FamItem:" + name;
+			}
+		}
+		else if ( value instanceof SpecialOutfit )
+		{
+			name = ((SpecialOutfit) value).getName();
+		}
+		
+		Modifiers mods = Modifiers.getModifiers( name );
+		if ( mods == null )
+		{
+			GearChangeFrame.INSTANCE.modifiersLabel.setText( "" );
+			return;
+		}
+		name = mods.getString( Modifiers.INTRINSIC_EFFECT );
+		if ( name.length() > 0 )
+		{
+			Modifiers newMods = new Modifiers();
+			newMods.add( mods );
+			newMods.add( Modifiers.getModifiers( name ) );
+			mods = newMods;
+		}
+		
+		StringBuffer buff = new StringBuffer();
+		buff.append( "<html><table><tr><td width=" );
+		buff.append( GearChangeFrame.INSTANCE.modifiersWidth );
+		buff.append( ">" );
+		
+		for ( int i = 0; i < Modifiers.FLOAT_MODIFIERS; ++i )
+		{
+			float val = mods.get( i );
+			if ( val == 0.0f ) continue;
+			name = Modifiers.getModifierName( i );
+			name = StringUtilities.singleStringReplace( name, "Familiar", "Fam" );
+			name = StringUtilities.singleStringReplace( name, "Experience", "Exp" );
+			name = StringUtilities.singleStringReplace( name, "Damage", "Dmg" );
+			name = StringUtilities.singleStringReplace( name, "Resistance", "Res" );
+			name = StringUtilities.singleStringReplace( name, "Percent", "%" );
+			buff.append( name );
+			buff.append( ":<div align=right>" );
+			buff.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( val ) );
+			buff.append( "</div>" );
+		}
+		
+		boolean anyBool = false;
+		for ( int i = 1; i < Modifiers.BITMAP_MODIFIERS; ++i )
+		{
+			if ( mods.getRawBitmap( i ) == 0 ) continue;
+			if ( anyBool )
+			{
+				buff.append( ", " );
+			}
+			anyBool = true;
+			buff.append( Modifiers.getBitmapModifierName( i ) );
+		}
+		
+		for ( int i = 1; i < Modifiers.BOOLEAN_MODIFIERS; ++i )
+		{
+			if ( !mods.getBoolean( i ) ) continue;
+			if ( anyBool )
+			{
+				buff.append( ", " );
+			}
+			anyBool = true;
+			buff.append( Modifiers.getBooleanModifierName( i ) );
+		}
+		
+		buff.append( "</td></tr></table></html>" );
+		GearChangeFrame.INSTANCE.modifiersLabel.setText( buff.toString() );
 	}
 
 	private class EquipPanel
@@ -204,6 +294,12 @@ public class GearChangeFrame
 
 			this.setContent( elements );
 			GearChangeFrame.this.outfitButton = this.cancelledButton;
+			GearChangeFrame.this.modifiersWidth =
+				this.eastContainer.getPreferredSize().width;
+			JLabel mods = new JLabel();
+			GearChangeFrame.this.modifiersLabel = mods;
+			this.cancelledButton.getParent().getParent().add(
+				mods, BorderLayout.CENTER );
 			this.setEnabled( true );
 		}
 
@@ -378,6 +474,8 @@ public class GearChangeFrame
 		public OutfitComboBox( final LockableListModel slot )
 		{
 			super( slot );
+			
+			this.setRenderer( ListCellRendererFactory.getDefaultRenderer() );
 			this.addActionListener( new ChangeOutfitListener() );
 		}
 
