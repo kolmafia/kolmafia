@@ -189,6 +189,7 @@ Memories	adventure=205	true	The Jungles of Ancient Loathing
 Memories	adventure=206	true	Seaside Megalopolis
 Jacking	adventure=227	true	Small-O-Fier	1 world's most unappetizing beverage|1 can-you-dig-it?
 Jacking	adventure=228	true	Huge-A-Ma-tron	1 Crazyleg's razor, 1 squirmy violent party snack
+Kegger	adventure=231	true	Kegger in the Woods
 Holiday	trickortreat=Yep.	true	Trick-or-Treating
 Holiday	adventure=23	true	Drunken Stupor
 Holiday	adventure=84	true	St. Sneaky Pete's Day Stupor

@@ -1045,6 +1045,7 @@ black catseye marble	Spooky Spell Damage: +75
 black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 borg sock monkey	Moxie: +3
+bottle of Goldschn&ouml;ckered	Hot Damage: +5, Cold Resistance: +2
 box	Meat Drop: +1
 box turtle	Muscle: +1, Damage Reduction: 3
 box-in-the-box	Meat Drop: +2

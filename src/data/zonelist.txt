@@ -58,6 +58,7 @@ Portal	Item-Driven	El Vibrato Island
 Wormwood	Item-Driven	Worm Wood
 Memories	Item-Driven	Memories
 Jacking	Item-Driven	Prof. Jacking's Lab
+Kegger	Item-Driven	Kegger in the Woods
 
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
