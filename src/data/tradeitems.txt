@@ -4605,13 +4605,13 @@
 4596
 4597
 4598
-4599
-4600
-4601
-4602
-4603
-4604
-4605
+4599	antique bottle opener	usable	all	0
+4600	map to the Kegger in the Woods	reusable	none	0
+4601	plastic cup of beer	drink, combat	all	10
+4602	orquette's phone number	none	none	0
+4603	bronze handcuffs	none, combat	all	100
+4604	silver keg	usable	all	150
+4605	bottle of Goldschn&ouml;ckered	offhand	display	200
 4606
 4607
 4608
@@ -4624,3 +4624,4 @@
 4615	Cinco Mayo Lager	drink	all	0
 4616	Underworld sapling	grow	all	0
 4617	miniature pruning shears	familiar	all	75
+4618	plastic cup of flat beer	none, combat	all	10

@@ -979,6 +979,15 @@ public abstract class UseLinkDecorator
 			useLocation = "sugarsheets.php";
 			break;
 
+		// Link to the kegger if you acquired a phone number. That's
+		// not useful, but having the item count in the link is
+
+		case ItemPool.ORQUETTES_PHONE_NUMBER:
+
+			useType = String.valueOf( InventoryManager.getCount( itemId ) );
+			useLocation = "adventure.php?snarfblat=231";
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty

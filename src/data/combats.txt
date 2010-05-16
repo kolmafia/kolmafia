@@ -124,6 +124,7 @@ Hole in the Sky	100	The Astronomer: 3	One-Eyed Willie: o2	The Burrowing Bishop: 
 Huge-A-Ma-tron	-1	Castle In The Clouds In The Sky	Fearsome Wacken: 0	Loose Coalition of Yetis, Snowmen, and Goats	Spookyraven Manor	The Whole Kingdom: 0
 Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2	Knott Slanding: -1
 Itznotyerzitz Mine	75	7-Foot Dwarf: 2	7-Foot Dwarf Foreman: 1
+Kegger in the Woods	-1	Actual Orcish Frat Boy	Jailbait Orquette	Juvenile Delinquent Orquette	Orcish Juvenile Delinquent	Orcish Frat Wannaboy	Totally Trashed Orquette
 King's Chamber	100	The Knob Goblin King
 Knob Goblin Harem	60	Knob Goblin Elite Guardsman: 1	Knob Goblin Harem Girl: 2
 Knob Goblin Kitchens	100	Knob Goblin Chef: 2	Knob Goblin Master Chef: 1	Knob Goblin Elite Guard Captain: 0

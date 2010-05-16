@@ -1686,11 +1686,12 @@ public class UseItemRequest
 			return;
 			
 		case ItemPool.JACKING_MAP:
-			// The <fruit> disappears into the tube and begins bouncing
-			// around noisily inside the machine.
-			
-			// The <fruit> is sucked into the tube, displacing the <fruit>
-			// that was bouncing around in the machine. You wonder where it went.
+			// The <fruit> disappears into the tube and begins
+			// bouncing around noisily inside the machine.
+
+			// The <fruit> is sucked into the tube, displacing the
+			// <fruit> that was bouncing around in the machine. You
+			// wonder where it went.
 			if ( UseItemRequest.lastFruit != null &&
 				responseText.indexOf( "into the tube" ) != -1 )
 			{
@@ -3656,15 +3657,15 @@ public class UseItemRequest
 		String name = item.getName();
 		String useString = "feed " + count + " " + name + " to " + familiar.getRace();
 
-                // estimate slimeling charges
-                if (id == FamiliarPool.SLIMELING)
-                {
-                    // round down for now, since we don't know how this really works
-                    float charges = item.getCount() * EquipmentDatabase.getPower(item.getItemId()) / 10.0F;
-                    Preferences.setFloat("slimelingFullness", Preferences.getFloat("slimelingFullness") + charges);
-                    // Preferences.increment( "slimelingFullness", charges );
-                    useString += " (estimated " + charges + " charges)";
-                }
+		// Estimate Slimeling charges
+		if ( id == FamiliarPool.SLIMELING )
+		{
+			// round down for now, since we don't know how this
+			// really works
+			float charges = item.getCount() * EquipmentDatabase.getPower( item.getItemId() ) / 10.0F;
+			Preferences.setFloat( "slimelingFullness", Preferences.getFloat( "slimelingFullness" ) + charges );
+			useString += " (estimated " + charges + " charges)";
+		}
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( useString );

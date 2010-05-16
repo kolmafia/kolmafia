@@ -1366,7 +1366,8 @@ public abstract class ChoiceManager
 			new String[] { "combat", "Hurricane Force", "a dance upon the palate", "stats" },
 			new String[] { null, null, "4568", null } ),
 
-		// Choice 457 is ... Grow Unspeakable Horrors
+		// Choice 457 is Oh, No! Five-Oh!
+		// Choice 458 is ... Grow Unspeakable Horrors
 	};
 
 	static
@@ -1844,6 +1845,10 @@ public abstract class ChoiceManager
 		// From Little Acorns...
 		{ new Integer(438), new Integer(1),
 		  ItemPool.get( ItemPool.UNDERWORLD_ACORN, -1 ) },
+
+		// Oh, No! Five-Oh!
+		{ new Integer(457), new Integer(1),
+		  ItemPool.get( ItemPool.KEGGER_MAP, -1 ) },
 	};
 
 	private static final AdventureResult getCost( final int choice, final int decision )

@@ -4602,13 +4602,13 @@
 4596
 4597
 4598
-4599
-4600
-4601
-4602
-4603
-4604
-4605
+4599	594439545	antique bottle opener
+4600	577302208	map to the Kegger in the Woods
+4601	560829856	plastic cup of beer
+4602	569897810	orquette's phone number
+4603	374119884	bronze handcuffs
+4604	914658794	silver keg
+4605	263925450	bottle of Goldschn&ouml;ckered
 4606
 4607
 4608
@@ -4621,3 +4621,4 @@
 4615	328670887	Cinco Mayo Lager	cans of Cinco Mayo Lager
 4616	435527262	Underworld sapling
 4617	375104342	miniature pruning shears
+4618	976623598	plastic cup of flat beer
