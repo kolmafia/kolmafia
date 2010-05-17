@@ -1845,10 +1845,6 @@ public abstract class ChoiceManager
 		// From Little Acorns...
 		{ new Integer(438), new Integer(1),
 		  ItemPool.get( ItemPool.UNDERWORLD_ACORN, -1 ) },
-
-		// Oh, No! Five-Oh!
-		{ new Integer(457), new Integer(1),
-		  ItemPool.get( ItemPool.KEGGER_MAP, -1 ) },
 	};
 
 	private static final AdventureResult getCost( final int choice, final int decision )
@@ -2770,6 +2766,15 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.HUMPTY_DUMPLINGS, -1 );
 			}
 			break;
+			
+		case 457:
+			// Oh, No! Five-Oh!
+			int count = InventoryManager.getCount( ItemPool.ORQUETTES_PHONE_NUMBER );
+			if ( ChoiceManager.lastDecision == 1 && count > 0 )
+			{
+				ResultProcessor.processItem( ItemPool.ORQUETTES_PHONE_NUMBER, -count );
+				ResultProcessor.processItem( ItemPool.KEGGER_MAP, -1 );
+			}
 		}
 
 		// Certain choices cost meat or items when selected
