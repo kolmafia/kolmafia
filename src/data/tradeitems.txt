@@ -2609,7 +2609,7 @@
 2600	carbonated water lily	mp	all	85
 2601	Staff of the Midnight Snack	weapon	display	25
 2602	Staff of Blood and Pudding	weapon	display	25
-2603	smoldering box	multiple	display	0
+2603	smoldering box	usable	display	0
 2604	Tuesday's ruby	offhand	all	200
 2605	palm frond	multiple	all	45
 2606	palm-frond fan	hpmp, combat	all	85
