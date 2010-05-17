@@ -1049,8 +1049,7 @@ rice bowl	0	none
 rusty compass	0	Mys: 15
 rusty old lantern	0	Mys: 85
 sawblade shield	180	Mus: 75	shield
-# *** sealhide buckler is a shield of unknown power.
-sealhide buckler	0	Mus: 65	shield
+sealhide buckler	160	Mus: 65	shield
 sealskin drum	0	Mus: 150
 sebaceous shield	40	Mus: 2	shield
 set of jacks	0	none
@@ -1060,8 +1059,7 @@ silver sausage	0	none
 six-rainbow shield	195	Mus: 70	shield
 slime-covered compass	0	Mys: 200
 slime-covered lantern	0	Mys: 200
-# *** slippery when wet shield is a shield of unknown power.
-slippery when wet shield	0	Mus: 35	shield
+slippery when wet shield	100	Mus: 35	shield
 snake shield	117	Mus: 42	shield
 snapdragon pistil	0	Mys: 20
 snarling wolf shield	117	Mus: 42	shield
@@ -1189,7 +1187,7 @@ Jolly Roger charrrm bracelet	0	Mys: 20
 Junior Adventurer's merit badge	0	none
 Junior LAAAAME merit badge	0	none
 LWA ring	0	none
-La Hebilla del Cintur&oacute;n de Lopez	0	
+La Hebilla del Cintur&oacute;n de Lopez	0	Mox: 45
 Lead Zeta of Chastity	0	Mys: 85
 Lockenstock&trade; sandals	0	Mys: 65
 Lord Spookyraven's ear trumpet	0	Mys: 40
