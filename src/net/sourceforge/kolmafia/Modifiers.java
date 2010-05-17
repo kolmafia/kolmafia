@@ -809,7 +809,7 @@ public class Modifiers
 		  Pattern.compile( "Class: \"(.*?)\"" )
 		},
 		{ "Intrinsic Effect",
-		  Pattern.compile( "Intrinsic effect: (.*)" ),
+		  Pattern.compile( "Intrinsic Effect: <a.*?><font color=blue>(.*)</font></a>" ),
 		  Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
 		},
 		{ "Equalize",
