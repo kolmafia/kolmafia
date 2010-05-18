@@ -3341,7 +3341,7 @@ public abstract class KoLCharacter
 			{	// Normal slot
 				item = equipment[ slot ];
 			}
-			if ( item == null )
+			if ( item == null || item == EquipmentRequest.UNEQUIP )
 			{
 				continue;
 			}
@@ -3386,6 +3386,12 @@ public abstract class KoLCharacter
 			switch ( slot )
 			{
 			case EquipmentManager.HAT:
+				if ( id == ItemPool.HATSEAT )
+				{
+					newModifiers.add( Modifiers.getModifiers( "Throne:" +
+						enthroned.getRace() ) );
+				}
+				/*FALLTHRU*/
 			case EquipmentManager.PANTS:
 				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, taoFactor *
 					EquipmentDatabase.getPower( item.getItemId() ), "hat/pants power" );
