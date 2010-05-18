@@ -1982,6 +1982,128 @@ Fam:Squamous Gibberer	Underwater Familiar
 Fam:Urchin Urchin	Underwater Familiar
 Fam:Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 
+# Enthroned familiars section of modifiers.txt
+
+Throne:Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:Angry Goat	Muscle Percent: +15
+Throne:Animated Macaroni Duck	Familiar Weight: +5
+Throne:Astral Badger	Maximum HP: +10, Maximum MP: +10
+Throne:Attention-Deficit Demon	Meat Drop: +20
+Throne:Autonomous Disco Ball	Familiar Weight: +5
+Throne:Baby Bugged Bugbear	Muscle: -10, Mysticality: -10, Moxie: -10, Experience: +2
+Throne:Baby Gravy Fairy	Weapon Damage: +10, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
+Throne:Baby Mutant Rattlesnake	Experience (Muscle): +2
+Throne:Baby Sandworm	Maximum HP: +10, Maximum MP: +10
+Throne:Baby Yeti	Spell Damage Percent: +10
+Throne:Barrrnacle	Familiar Weight: +5
+Throne:Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10
+Throne:Blood-Faced Volleyball	Experience (Moxie): +2
+Throne:BRICKO chick	 Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+Throne:Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne:Casagnova Gnome	Meat Drop: +20, HP Regen Min: 16, HP Regen Max: 20, MP Regen Min: 9, MP Regen Max: 11
+Throne:Chauvinist Pig	Experience (Muscle): +2
+Throne:Cheshire Bat	Experience (Mysticality): +2, HP Regen Min: 8, HP Regen Max: 10
+Throne:Clockwork Grapefruit	Moxie Percent: +15
+Throne:Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Coffee Pixie	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
+Throne:Cotton Candy Carnie	Initiative: +20
+Throne:Crimbo Elf	Weapon Damage: +10
+Throne:Crimbo P. R. E. S. S. I. E.	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Cuddlefish	Initiative: +20
+Throne:Cymbal-Playing Monkey	Experience (Moxie): +2
+Throne:Dancing Frog	Meat Drop: +20
+Throne:Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:El Vibrato Megadrone	Monster Level: +10, MP Regen Min: 10, MP Regen Max: 15
+Throne:Emo Squid	Initiative: +20
+Throne:Evil Teddy Bear	Initiative: +20
+Throne:Exotic Parrot	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne:Feather Boa Constrictor	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne:Flaming Gravy Fairy	Hot Damage: +20	
+Throne:Frozen Gravy Fairy	Cold Damage: +20
+Throne:Frumious Bandersnatch	Experience: +2
+Throne:Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
+Throne:Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:Gluttonous Green Ghost	Food Drop: +15
+Throne:Green Pixie	Maximum HP: +10, Maximum MP: +10
+Throne:Grinning Turtle	Experience (Muscle): +2
+Throne:Grouper Groupie	Meat Drop: +20
+Throne:Grue	Mysticality Percent: +15
+Throne:Hand Turkey	Meat Drop: +20
+Throne:Hanukkimbo Dreidl	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Hobo Monkey	Meat Drop: +25
+Throne:Hovering Sombrero	Experience (Mysticality): +2
+Throne:Howling Balloon Monkey	Spell Damage Percent: +10
+Throne:Hunchbacked Minion	Experience (Muscle): +2
+Throne:Imitation Crab	Muscle Percent: +15
+Throne:Inflatable Dodecapede	Mysticality Percent: +15
+Throne:Jack-in-the-Box	Experience: +2
+Throne:Jill-O-Lantern	Experience (Moxie): +2, HP Regen Min: 8, HP Regen Max: 10
+Throne:Jitterbug	Meat Drop: +20
+Throne:Jumpsuited Hound Dog	Weapon Damage: +20, HP Regen Min: 4, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
+Throne:Killer Bee	Experience (Muscle): +2, HP Regen Min: 8, HP Regen Max: 10
+Throne:Leprechaun	Meat Drop: +20
+Throne:Levitating Potato	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne:Llama Lama	Maximum HP: +10, Maximum MP: +10, MP Regen Min: 5, MP Regen Max: 6
+Throne:Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Max: 10
+Throne:MagiMechTech MicroMechaMech	Muscle Percent: +15
+Throne:Mariachi Chihuahua	Experience (Moxie): +2
+Throne:Midget Clownfish	Spell Damage Percent: +10
+Throne:Misshapen Animal Skeleton	Familiar Weight: +5
+Throne:Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
+Throne:Mutant Cactus Bud	Meat Drop: +20
+Throne:Mutant Fire Ant	Hot Damage: +20
+Throne:Mutant Gila Monster	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:Nervous Tick	Experience (Moxie): +2, HP Regen Min: 8, HP Regen Max: 10
+Throne:Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
+Throne:Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
+Throne:O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
+Throne:Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
+Throne:Pair of Ragged Claws	Familiar Weight: +5
+Throne:Penguin Goodfella	Familiar Weight: +5
+Throne:Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
+Throne:Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne:Psychedelic Bear	Meat Drop: +20
+Throne:Purse Rat	Experience: +2
+Throne:Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne:Ragamuffin Imp	Mysticality Percent: +15
+Throne:Reassembled Blackbird	Item Drop: +15
+Throne:RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Rock Lobster	Spell Damage Percent: +15, MP Regen Min: 11, MP Regen Max: 15
+Throne:Sabre-Toothed Lime	Moxie Percent: +15
+Throne:Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
+Throne:Sleazy Gravy Fairy	Sleaze Damage: +20
+Throne:Slimeling	Weapon Drop: +15
+Throne:Snow Angel	Spell Damage Percent: +10
+Throne:Snowy Owl	Mysticality Percent: +15, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne:Spirit Hobo	Booze Drop: +15
+Throne:Spooky Gravy Fairy	Spooky Damage: +20
+Throne:Spooky Pirate Skeleton	Familiar Weight: +5
+Throne:Squamous Gibberer	Initiative: +20
+Throne:Stab Bat	Muscle Percent: +15
+Throne:Star Starfish	Spell Damage Percent: +10
+Throne:Stinky Gravy Fairy	Stench Damage: +20
+Throne:Stocking Mimic	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Sugar Fruit Fairy	Experience (Mysticality): +2
+Throne:Sweet Nutcracker	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:Syncopated Turtle	Initiative: +20
+Throne:Teddy Bear	Initiative: +20
+Throne:Teddy Borg	Initiative: +20
+Throne:Temporal Riftlet	Initiative: +20
+Throne:Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne:Underworld Bonsai	Spell Damage Percent: +10
+Throne:Uniclops	Experience (Mysticality): +2
+Throne:Untamed Turtle	Initiative: +20
+Throne:Urchin Urchin	Weapon Damage: +10
+Throne:Wereturtle	Muscle Percent: +15
+Throne:Whirling Maple Leaf	Spell Damage Percent: +10
+Throne:Wild Hare	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne:Wind-up Chattering Teeth	Muscle Percent: +15
+Throne:Wizard Action Figure	Spell Damage Percent: +10, MP Regen Min: 5, MP Regen Max: 5
+
 # Bedazzlements section of modifiers.txt
 
 scratch 'n' sniff UPC sticker	Meat Drop: +25

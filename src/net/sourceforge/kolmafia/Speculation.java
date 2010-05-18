@@ -80,6 +80,7 @@ public class Speculation
 			else break;
 		}
 		this.familiar = KoLCharacter.currentFamiliar;
+		this.enthroned = KoLCharacter.currentEnthroned;
 	}
 	
 	public void setMindControlLevel( int MCD )
@@ -90,6 +91,11 @@ public class Speculation
 	public void setFamiliar( FamiliarData familiar )
 	{
 		this.familiar = familiar;
+	}
+	
+	public void setEnthroned( FamiliarData familiar )
+	{
+		this.enthroned = familiar;
 	}
 	
 	public FamiliarData getFamiliar()

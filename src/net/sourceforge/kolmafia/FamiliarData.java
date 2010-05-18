@@ -453,6 +453,19 @@ public class FamiliarData
 		Modifiers mods = Modifiers.getModifiers( "fam:" + this.getRace() );
 		return mods != null && mods.getBoolean( Modifiers.UNDERWATER_FAMILIAR );
 	}
+	
+	public boolean enthroneable()
+	{
+		switch ( this.id )
+		{
+		case FamiliarPool.DOPPEL:
+		case FamiliarPool.CHAMELEON:
+		case FamiliarPool.HATRACK:
+		case FamiliarPool.HAND:
+			return false;
+		}
+		return true;
+	}
 
 	public String toString()
 	{
