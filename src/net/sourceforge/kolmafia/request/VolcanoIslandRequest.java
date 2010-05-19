@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class VolcanoIslandRequest
@@ -166,6 +167,27 @@ public class VolcanoIslandRequest
 		{
 			VolcanoIslandRequest request = new VolcanoIslandRequest();
 			request.run();
+		}
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "volcanoisland.php" ) ||
+		     urlString.indexOf( "action=tniat" ) == -1 )
+		{
+			return;
+		}
+
+		// A Pastamancer wearing the spaghetti cult robes loses them
+		// when first visiting the Temple
+		//
+		// "A fierce wind whips through the chamber, first blowing back
+		// your hood and then ripping the robe from your shoulders."
+
+		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
+		     responseText.indexOf( "ripping the robe from your shoulders" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.SPAGHETTI_CULT_ROBE );
 		}
 	}
 

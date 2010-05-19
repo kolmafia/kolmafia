@@ -107,6 +107,7 @@ import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
@@ -767,6 +768,7 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "volcanoisland.php" ) )
 		{
 			PhineasRequest.parseResponse( location, responseText );
+			VolcanoIslandRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "volcanomaze.php" ) )
