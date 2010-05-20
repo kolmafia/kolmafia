@@ -1033,11 +1033,6 @@ public class EquipmentRequest
 
 			if ( itemName == null || !canonicalName.equals( itemName ) )
 			{
-//System.out.println(realName);
-//System.out.println(ItemDatabase.getItemName( itemId ));
-//System.out.println(ItemDatabase.getItemDataName( itemId ));
-//System.out.println(itemName);
-//System.out.println(canonicalName);
 				ItemDatabase.registerItem( itemId, realName, descId );
 			}
 
@@ -1552,6 +1547,10 @@ public class EquipmentRequest
 			case 'm':
 				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
 					"mood", text );
+				break;
+			case 't':
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+					"enthrone", text );
 				break;
 			}
 		}

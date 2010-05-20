@@ -56,10 +56,11 @@ public class FamiliarRequest
 	private static final Pattern EQUIP_PATTERN = Pattern.compile( "newfam=(\\d+)" );
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "whichfam=(\\d+).*whichitem=(\\d+)" );
 
-	private final FamiliarData changeTo;
-	private final AdventureResult item;
-	private final boolean unequip;
-	private final boolean locking;
+	private FamiliarData changeTo;
+	private AdventureResult item;
+	private boolean unequip;
+	private boolean locking;
+	private boolean enthrone;
 
 	public FamiliarRequest()
 	{
@@ -68,6 +69,20 @@ public class FamiliarRequest
 		this.item = null;
 		this.locking = false;
 		this.unequip = false;
+		this.enthrone = false;
+	}
+	
+	public static FamiliarRequest enthroneRequest( final FamiliarData changeTo )
+	{
+		FamiliarRequest rv = new FamiliarRequest();
+		rv.changeTo = changeTo;
+		rv.enthrone = true;
+		rv.addFormField( "action", "hatseat" );
+		int id = changeTo.getId();
+		rv.addFormField( "famid", id <= 0 ? "0" : String.valueOf( id ) );
+		rv.addFormField( "ajax", "1" );
+		rv.addFormField( "pwd" );
+		return rv;
 	}
 
 	public FamiliarRequest( final FamiliarData changeTo )
@@ -83,6 +98,7 @@ public class FamiliarRequest
 		this.item = null;
 		this.locking = false;
 		this.unequip = unequip;
+		this.enthrone = false;
 
 		if ( this.changeTo == FamiliarData.NO_FAMILIAR )
 		{
@@ -93,6 +109,7 @@ public class FamiliarRequest
 			this.addFormField( "action", "newfam" );
 			this.addFormField( "newfam", String.valueOf( this.changeTo.getId() ) );
 		}
+		this.addFormField( "ajax", "1" );
 	}
 
 	public FamiliarRequest( final FamiliarData familiar, final AdventureResult item )
@@ -103,6 +120,7 @@ public class FamiliarRequest
 		this.item = item;
 		this.locking = false;
 		this.unequip = false;
+		this.enthrone = false;
 
 		this.addFormField( "action", "equip" );
 		this.addFormField( "whichfam", String.valueOf( familiar.getId() ) );
@@ -117,6 +135,7 @@ public class FamiliarRequest
 		this.item = null;
 		this.locking = true;
 		this.unequip = false;
+		this.enthrone = false;
 	}
 
 	public String getFamiliarChange()
@@ -154,20 +173,47 @@ public class FamiliarRequest
 		}
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
-
-		if ( familiar.getId() == this.changeTo.getId() )
+		if ( this.enthrone )
 		{
-			return;
+			if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId()
+				!= ItemPool.HATSEAT )
+			{
+				return;
+			}
+			
+			FamiliarData enthroned = KoLCharacter.getEnthroned();
+	
+			if ( enthroned.getId() == this.changeTo.getId() )
+			{
+				return;
+			}
+	
+			if ( enthroned != FamiliarData.NO_FAMILIAR )
+			{
+				KoLmafia.updateDisplay( "Kicking " + enthroned.getName() + " the " + enthroned.getRace() + " off the throne..." );
+			}
+	
+			if ( this.changeTo != FamiliarData.NO_FAMILIAR )
+			{
+				KoLmafia.updateDisplay( "Carrying " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " in the Crown of Thrones..." );
+			}
 		}
-
-		if ( familiar != FamiliarData.NO_FAMILIAR )
+		else	// !enthrone
 		{
-			KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
-		}
-
-		if ( this.changeTo != FamiliarData.NO_FAMILIAR )
-		{
-			KoLmafia.updateDisplay( "Taking " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " out of terrarium..." );
+			if ( familiar.getId() == this.changeTo.getId() )
+			{
+				return;
+			}
+	
+			if ( familiar != FamiliarData.NO_FAMILIAR )
+			{
+				KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
+			}
+	
+			if ( this.changeTo != FamiliarData.NO_FAMILIAR )
+			{
+				KoLmafia.updateDisplay( "Taking " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " out of terrarium..." );
+			}
 		}
 
 		super.run();
@@ -183,7 +229,8 @@ public class FamiliarRequest
 		// If we didn't have a familiar before or don't have one now,
 		// leave equipment alone.
 
-		if ( familiar == FamiliarData.NO_FAMILIAR || this.changeTo == FamiliarData.NO_FAMILIAR)
+		if ( this.enthrone || familiar == FamiliarData.NO_FAMILIAR ||
+			this.changeTo == FamiliarData.NO_FAMILIAR )
 		{
 			return;
 		}
@@ -244,7 +291,10 @@ public class FamiliarRequest
 
 	public void processResults()
 	{
-		FamiliarData.registerFamiliarData( this.responseText );
+		if ( this.getFormField( "ajax" ) == null )
+		{
+			FamiliarData.registerFamiliarData( this.responseText );
+		}
 
 		if ( this.item != null )
 		{
@@ -252,7 +302,7 @@ public class FamiliarRequest
 		}
 		else if ( this.locking )
 		{
-                        String locked = EquipmentManager.familiarItemLocked() ? "locked" : "unlocked";
+			String locked = EquipmentManager.familiarItemLocked() ? "locked" : "unlocked";
 			KoLmafia.updateDisplay( "Familiar item " + locked + "." );
 		}
 		else if ( this.changeTo == null )
@@ -277,6 +327,11 @@ public class FamiliarRequest
 		{
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "familiar none" );
+			if ( urlString.indexOf( "ajax=" ) != -1 )
+			{
+				KoLCharacter.setFamiliar( FamiliarData.NO_FAMILIAR );
+			}
+			EquipmentManager.lockFamiliarItem( false );
 			return true;
 		}
 
@@ -337,10 +392,10 @@ public class FamiliarRequest
 			}
 
 			int id = StringUtilities.parseInt( familiarMatcher.group( 1 ) );
-			if ( id == 0 )
+			if ( id <= 0 )
 			{
 				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "Removing familiar from Crown of Thrones" );
+				RequestLogger.updateSessionLog( "enthrone none" );
 				if ( urlString.indexOf( "ajax=" ) != -1 )
 				{
 					KoLCharacter.setEnthroned( FamiliarData.NO_FAMILIAR );
@@ -355,7 +410,7 @@ public class FamiliarRequest
 			}
 
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "Putting " + fam.getRace() + " into Crown of Thrones" );
+			RequestLogger.updateSessionLog( "enthrone " + fam.toString() );
 			if ( urlString.indexOf( "ajax=" ) != -1 )
 			{
 				KoLCharacter.setEnthroned( fam );
@@ -401,16 +456,16 @@ public class FamiliarRequest
 
 		if ( lockedItem != EquipmentRequest.UNEQUIP )
 		{
-                        if ( changeTo.canEquip( lockedItem ) )
-                        {
-                                FamiliarRequest.unequipFamiliar( familiar.getId() );
-                                FamiliarRequest.equipFamiliar( changeTo.getId(), lockedItem.getItemId() );
-                                EquipmentManager.lockFamiliarItem( changeTo );
-                        }
-                        else
-                        {
-                                EquipmentManager.lockFamiliarItem( false );
-                        }
+			if ( changeTo.canEquip( lockedItem ) )
+			{
+				FamiliarRequest.unequipFamiliar( familiar.getId() );
+				FamiliarRequest.equipFamiliar( changeTo.getId(), lockedItem.getItemId() );
+				EquipmentManager.lockFamiliarItem( changeTo );
+			}
+			else
+			{
+				EquipmentManager.lockFamiliarItem( false );
+			}
 		}
 
 		// If we're not going to see the familiar page, change to the

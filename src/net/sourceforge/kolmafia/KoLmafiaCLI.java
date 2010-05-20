@@ -637,6 +637,7 @@ public class KoLmafiaCLI
 		new ElseIfStatement().register( "elseif" );
 		new ElseStatement().register( "else" );
 		new EnableCommand().register( "enable" ).register( "disable" );
+		new EnthroneCommand().register( "enthrone" );
 		new EquipCommand().register( "equip" ).register( "wear" ).register( "wield" );
 		new EventsCommand().register( "events" );
 		new ExitCommand().register( "exit" ).register( "quit" );

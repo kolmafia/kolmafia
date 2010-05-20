@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -217,6 +218,20 @@ public class Speculation
 				}
 				FamiliarData fam = new FamiliarData( id );
 				this.setFamiliar( fam );
+			}
+			else if ( cmd.equals( "enthrone" ) )
+			{
+				int id = FamiliarDatabase.getFamiliarId( params );
+				if ( id == -1 && !params.equals( "none" ) )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						"Unknown familiar: " + params );
+					return true;
+				}
+				FamiliarData fam = new FamiliarData( id );
+				this.setEnthroned( fam );
+				this.equip( EquipmentManager.HAT,
+					ItemPool.get( ItemPool.HATSEAT, 1 ) );
 			}
 			else if ( cmd.equals( "up" ) )
 			{
