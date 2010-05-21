@@ -194,8 +194,8 @@ public abstract class CustomCombatManager
 		{
 			PrintStream ostream = LogStream.openStream( file, true );
 			ostream.println( "[ default ]" );
-			ostream.println( "1: special action" );
-			ostream.println( "2: attack with weapon" );
+			ostream.println( "special action" );
+			ostream.println( "attack with weapon" );
 			ostream.close();
 		}
 
@@ -439,30 +439,21 @@ public abstract class CustomCombatManager
 			writer.println( "[ " + CustomCombatManager.keys[ i ] + " ]" );
 
 			combatOptions = (CombatSettingNode) CustomCombatManager.reference.get( CustomCombatManager.keys[ i ] );
-			String action = null, newAction = null;
 
 			for ( int j = 0; j < combatOptions.getChildCount(); ++j )
 			{
-				if ( action == null )
-				{
-					action = ( (CombatActionNode) combatOptions.getChildAt( j ) ).getAction();
-					writer.println( combatOptions.getChildAt( j ) );
-				}
-				else
-				{
-					newAction = ( (CombatActionNode) combatOptions.getChildAt( j ) ).getAction();
-					if ( !action.equals( newAction ) )
-					{
-						action = newAction;
-						writer.println( combatOptions.getChildAt( j ) );
-					}
-				}
+				writer.println( ( (CombatActionNode) combatOptions.getChildAt( j ) ).getAction() );
 			}
 
 			writer.println();
 		}
 
 		writer.close();
+	}
+	
+	public static final boolean containsKey( final String key )
+	{
+		return CustomCombatManager.reference.containsKey( key );
 	}
 
 	public static final String getSettingKey( final String encounter )
@@ -678,7 +669,21 @@ public abstract class CustomCombatManager
 			return this.index + ": " + this.action;
 		}
 	}
-
+	
+	private static final boolean isMacroAction( String action )
+	{
+		return action.startsWith( "scrollwhendone" ) ||
+			action.startsWith( "mark " ) ||
+			action.startsWith( "goto " ) ||
+			action.startsWith( "if " ) ||
+			action.startsWith( "endif" ) ||
+			action.startsWith( "while " ) ||
+			action.startsWith( "endwhile" ) ||
+			action.startsWith( "sub " ) ||
+			action.startsWith( "endsub" ) ||
+			action.startsWith( "call " );
+	}
+	
 	public static final String getLongCombatOptionName( String action )
 	{
 		if ( action == null )
@@ -691,6 +696,16 @@ public abstract class CustomCombatManager
 		if ( action.startsWith( "attack" ) || action.length() == 0 )
 		{
 			return "attack with weapon";
+		}
+		
+		if ( action.startsWith( "\"" ) )
+		{
+			return action;
+		}
+		
+		if ( isMacroAction( action ) )
+		{
+			return action;
 		}
 
 		if ( action.indexOf( "pick" ) != -1 || ( action.indexOf( "steal" ) != -1 && action.indexOf( "stealth" ) == -1 && action.indexOf( "combo" ) == -1 ) )
@@ -871,6 +886,16 @@ public abstract class CustomCombatManager
 		}
 
 		action = action.trim();
+
+		if ( action.startsWith( "\"" ) )
+		{
+			return action;
+		}
+		
+		if ( isMacroAction( action ) )
+		{
+			return "\"" + action + "\"";
+		}
 
 		boolean isSkillNumber = true;
 		for ( int i = 0; i < action.length() && isSkillNumber; ++i )
