@@ -134,7 +134,6 @@ public class BreakfastManager
 	{
 		if ( InventoryManager.hasItem( key ) && Preferences.getBoolean( "visitLounge" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
-			InventoryManager.retrieveItem( key );
 			ClanLoungeRequest.getBreakfast();
 			KoLmafia.forceContinue();
 		}
