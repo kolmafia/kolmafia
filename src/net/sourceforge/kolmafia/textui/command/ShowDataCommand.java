@@ -239,7 +239,8 @@ public class ShowDataCommand
 			desiredStream.println();
 
 			desiredStream.println( "Pet: " + KoLCharacter.getFamiliar() );
-			desiredStream.println( "Item: " + EquipmentManager.getFamiliarItem() );
+			desiredStream.println( "Item: " + EquipmentManager.getFamiliarItem() +
+				(EquipmentManager.familiarItemLocked() ? " (locked)" : "") );
 			AdventureResult st1 = EquipmentManager.getEquipment( EquipmentManager.STICKER1 );
 			AdventureResult st2 = EquipmentManager.getEquipment( EquipmentManager.STICKER2 );
 			AdventureResult st3 = EquipmentManager.getEquipment( EquipmentManager.STICKER3 );
