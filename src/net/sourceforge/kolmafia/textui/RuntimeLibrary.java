@@ -671,11 +671,17 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_enthroned_familiar", DataTypes.FAMILIAR_TYPE, params ) );
+
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "have_familiar", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "use_familiar", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "enthrone_familiar", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "familiar_equipment", DataTypes.ITEM_TYPE, params ) );
@@ -2990,6 +2996,11 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
 	}
 
+	public static Value my_enthroned_familiar()
+	{
+		return DataTypes.makeFamiliarValue( KoLCharacter.getEnthroned().getId() );
+	}
+
 	public static Value have_familiar( final Value familiar )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.findFamiliar( familiar.toString() ) != null );
@@ -2998,6 +3009,12 @@ public abstract class RuntimeLibrary
 	public static Value use_familiar( final Value familiar )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "familiar", familiar.toString() );
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value enthrone_familiar( final Value familiar )
+	{
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "enthrone", familiar.toString() );
 		return RuntimeLibrary.continueValue();
 	}
 
