@@ -184,7 +184,7 @@ public class ClanLoungeRequest
 		}
 	}
 
-	public static void visitLounge()
+	public static boolean visitLounge()
 	{
 		// Pull a key from storage, if necessary
 		ClanLoungeRequest.pullVIPKey();
@@ -192,10 +192,14 @@ public class ClanLoungeRequest
 		// If we have no Clan VIP Lounge key, nothing to do
 		if ( VIP_KEY.getCount( KoLConstants.inventory ) == 0 )
 		{
-			return;
+			return false;
 		}
 
 		RequestThread.postRequest( VISIT_REQUEST );
+
+		// If you are not in a clan, KoL redirects you to
+		// clan_signup.php - which we do not follow.
+		return VISIT_REQUEST.redirectLocation == null;
 	}
 
 	/**
@@ -286,13 +290,20 @@ public class ClanLoungeRequest
 
 		super.run();
 
+		if ( this.action == ClanLoungeRequest.SEARCH )
+		{
+			return;
+		}
+
+		if ( this.redirectLocation != null && this.redirectLocation.equals( "clan_signup.php" ) )
+		{
+			RequestLogger.printLine( "You don't seem to be in a clan!" );
+			return;
+		}
+
 		switch ( this.action )
 		{
 		case ClanLoungeRequest.POOL_TABLE:
-			if ( responseText == null )
-			{
-				RequestLogger.printLine( "No pool table found!" );
-			}
 			if ( responseText.indexOf( "You skillfully defeat" ) != -1 )
 			{
 				RequestLogger.printLine( "You won the pool game!" );
@@ -471,14 +482,16 @@ public class ClanLoungeRequest
 	public static void getBreakfast()
 	{
 		// No Clan Lounge in Bad Moon
-		boolean kl = Preferences.getBoolean( "kingLiberated" );
-		if ( KoLCharacter.inBadMoon() && !kl)
+		if ( KoLCharacter.inBadMoon() && !Preferences.getBoolean( "kingLiberated" ))
 		{
 			return;
 		}
 
 		// Visit the lounge to see what furniture is available
-		RequestThread.postRequest( VISIT_REQUEST );
+		if ( !visitLounge() )
+		{
+			return;
+		}
 
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
@@ -508,6 +521,7 @@ public class ClanLoungeRequest
 		{
 			Preferences.setBoolean( "_crimboTree", true );
 		}
+
 		if ( VISIT_REQUEST.responseText.indexOf( "tree5.gif" ) != -1 )
 		{
 			Preferences.setInteger( "_crimboTreeDays", 0 );
