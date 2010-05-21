@@ -1771,6 +1771,10 @@ public class RequestEditorKit
 		case 392:
 			MemoriesDecorator.decorateElementsResponse( buffer );
 			break;
+		case 443:
+			// Chess Puzzle
+			RabbitHoleManager.decorateChessPuzzleResponse( buffer );
+			break;
 		}
 	}
 

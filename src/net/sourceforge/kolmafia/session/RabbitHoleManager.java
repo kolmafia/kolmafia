@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -1261,6 +1262,8 @@ public abstract class RabbitHoleManager
 		}
 
 		Integer [] path = solution.toArray();
+		String response = "";
+
 		for ( int i = 0; i < path.length; ++i )
 		{
 			int square = path[ i ].intValue();
@@ -1269,8 +1272,10 @@ public abstract class RabbitHoleManager
 			String url = "choice.php?pwd&whichchoice=443&option=1&xy=" + String.valueOf( col ) + "," + String.valueOf( row );
 			GenericRequest req = new GenericRequest( url );
 			req.run();
-			RelayRequest.specialCommandResponse = req.responseText;
+			response = req.responseText;
 		}
+
+		RelayRequest.specialCommandResponse = RabbitHoleManager.decorateChessPuzzleResponse( response );
 	}
 
 	private static final Path solve( final Board board )
@@ -1387,6 +1392,7 @@ public abstract class RabbitHoleManager
 		{
 			return;
 		}
+
 		index += 7;
 
 		StringBuffer button = new StringBuffer();
@@ -1398,6 +1404,35 @@ public abstract class RabbitHoleManager
 
 		// Insert it into the page
 		buffer.insert( index, button );
+	}
+
+	private static final AdventureResult REFLECTION_OF_MAP = ItemPool.get( ItemPool.REFLECTION_OF_MAP, 1);
+        private static final String ADVENTURE_AGAIN = "<b>Adventure Again:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>";
+
+	public static final void decorateChessPuzzleResponse( final StringBuffer buffer )
+	{
+		// Give player a link to use another reflection of a map
+		if ( REFLECTION_OF_MAP.getCount( KoLConstants.inventory ) <= 0 )
+		{
+			return;
+		}
+
+		int index = buffer.indexOf( RabbitHoleManager.ADVENTURE_AGAIN );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		index += RabbitHoleManager.ADVENTURE_AGAIN.length();
+		String link = "<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&whichitem=4509\">Use another reflection of a map</a><p>";
+		buffer.insert( index, link );
+	}
+
+	public static final String decorateChessPuzzleResponse( final String response )
+	{
+		StringBuffer buffer = new StringBuffer( response );
+		RabbitHoleManager.decorateChessPuzzleResponse( buffer );
+		return buffer.toString();
 	}
 	
 	public static final Object[] getHatData( int length )
