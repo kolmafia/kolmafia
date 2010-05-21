@@ -684,7 +684,8 @@ public class FightRequest
 			return;
 		}
 
-		if ( FightRequest.action1.equals( "skip" ) )
+		if ( FightRequest.action1.equals( "skip" ) ||
+			FightRequest.action1.startsWith( "\"" ))
 		{
 			--FightRequest.preparatoryRounds;
 			this.nextRound();
@@ -1174,6 +1175,7 @@ public class FightRequest
 
 		macro.append( "#mafiaheader\n" );
 		
+		boolean globalPrefix = CustomCombatManager.containsKey( "global prefix" );
 		for ( int i = 0; i < 10000; ++i )
 		{
 			if ( FightRequest.encounterLookup.equals( "rampaging adding machine" )
@@ -1186,9 +1188,10 @@ public class FightRequest
 			}
 		
 			String action = CustomCombatManager.getShortCombatOptionName(
-				CustomCombatManager.getSetting( FightRequest.encounterLookup, i ) );
+				CustomCombatManager.getSetting( globalPrefix ? "global prefix"
+					: FightRequest.encounterLookup, i ) );
 			int finalRound = 0;
-			if ( CustomCombatManager.atEndOfCCS() )
+			if ( !globalPrefix && CustomCombatManager.atEndOfCCS() )
 			{
 				macro.append( "mark mafiafinal\n" );
 				finalRound = macro.length();
@@ -1202,6 +1205,16 @@ public class FightRequest
 				RequestLogger.printLine( "(unable to macrofy due to action: " +
 					action + ")" );
 				return;
+			}
+			else if ( action.startsWith( "\"" ) )
+			{
+				macro.append( action.substring( 1 ) );
+				int pos = macro.length() - 1;
+				if ( macro.charAt( pos ) == '"' )
+				{
+					macro.deleteCharAt( pos );
+				}
+				macro.append( "\n" );
 			}
 			else if ( action.equals( "special" ) )
 			{
@@ -1343,6 +1356,11 @@ public class FightRequest
 				}
 				macro.append( "goto mafiafinal" );
 				break;
+			}
+			else if ( globalPrefix && CustomCombatManager.atEndOfCCS() )
+			{
+				globalPrefix = false;
+				i = -1;	// continue with actual CCS section
 			}
 		}
 	
