@@ -189,6 +189,7 @@ public abstract class CustomCombatManager
 		CustomCombatManager.reference.clear();
 
 		File file = getFile( filename );
+		String indent = "";
 
 		if ( !file.exists() )
 		{
@@ -220,6 +221,7 @@ public abstract class CustomCombatManager
 
 					CustomCombatManager.reference.put( currentKey, currentList );
 					CustomCombatManager.root.add( currentList );
+					indent = "";
 					continue;
 				}
 
@@ -243,17 +245,31 @@ public abstract class CustomCombatManager
 					}
 				}
 
-				if ( desiredIndex >= currentList.getChildCount() )
+				if ( desiredIndex > currentList.getChildCount() )
 				{
 					String action =
 						currentList.getChildCount() > 0 ? ( (CombatActionNode) currentList.getLastChild() ).action : "attack with weapon";
 
-					while ( currentList.getChildCount() < desiredIndex - 1 )
+					while ( currentList.getChildCount() < desiredIndex )
 					{
-						currentList.add( new CombatActionNode( currentList.getChildCount() + 1, action ) );
+						if ( currentList.getChildCount() == desiredIndex - 1 )
+						{
+							action = line;
+						}
+						
+						if ( action.startsWith( "end" ) && indent.length() > 0 )
+						{
+							indent = indent.substring( 4 );
+						}
+						currentList.add( new CombatActionNode(
+							currentList.getChildCount() + 1, indent, action ) );
+						if ( action.startsWith( "if" ) ||
+							action.startsWith( "while" ) ||
+							action.startsWith( "sub" ) )
+						{
+							indent += "\u0020\u0020\u0020\u0020";
+						}
 					}
-
-					currentList.add( new CombatActionNode( desiredIndex, line ) );
 				}
 			}
 
@@ -654,6 +670,14 @@ public abstract class CustomCombatManager
 			this.action = CustomCombatManager.getLongCombatOptionName( action );
 		}
 
+		public CombatActionNode( final int index, final String indent, final String action )
+		{
+			super( action, false );
+
+			this.index = index;
+			this.action = indent + CustomCombatManager.getLongCombatOptionName( action );
+		}
+
 		public boolean startsWith( final String prefix )
 		{
 			return this.action.startsWith( prefix );
@@ -681,7 +705,8 @@ public abstract class CustomCombatManager
 			action.startsWith( "endwhile" ) ||
 			action.startsWith( "sub " ) ||
 			action.startsWith( "endsub" ) ||
-			action.startsWith( "call " );
+			action.startsWith( "call " ) ||
+			action.startsWith( "#" );
 	}
 	
 	public static final String getLongCombatOptionName( String action )
