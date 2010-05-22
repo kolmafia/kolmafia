@@ -174,10 +174,12 @@ public class CustomCombatPanel
 	{
 		public CustomCombatEditorPanel()
 		{
-			super( "Editor", "save", "help", new JTextArea() );
+			super( "Editor", "save", "cancel", new JTextArea() );
 			CustomCombatPanel.this.combatEditor = (JTextArea) this.scrollComponent;
 			CustomCombatPanel.this.combatEditor.setFont( KoLConstants.DEFAULT_FONT );
 			CustomCombatPanel.this.refreshCombatTree();
+			
+			this.eastPanel.add( new HelpButton(), BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -207,11 +209,26 @@ public class CustomCombatPanel
 
 		public void actionCancelled()
 		{
-			StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
+			CustomCombatPanel.this.refreshCombatEditor();
+			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this, "tree" );
 		}
 
 		public void setEnabled( final boolean isEnabled )
 		{
+		}
+		
+		public class HelpButton
+			extends ThreadedButton
+		{
+			public HelpButton()
+			{
+				super( "help" );
+			}
+			
+			public void run()
+			{
+				StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
+			}
 		}
 	}
 
