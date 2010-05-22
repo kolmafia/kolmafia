@@ -470,7 +470,11 @@ public class MaximizerFrame
 				if ( equipLevel == -1 )
 				{	// called from CLI
 					boost.execute( true );
-					if ( !KoLmafia.permitsContinue() ) equipLevel = 1;
+					if ( !KoLmafia.permitsContinue() )
+					{
+						equipLevel = 1;
+						MaximizerFrame.boosts.add( boost );
+					}
 				}
 				else
 				{
@@ -594,6 +598,15 @@ public class MaximizerFrame
 				{
 					item = ItemFinder.getFirstMatchingItem(
 						cmd.substring( cmd.indexOf( " " ) + 1 ).trim(), false );
+					if ( item == null && cmd.indexOf( "," ) == -1 )
+					{
+						if ( includeAll )
+						{
+							text = "(identify & " + cmd + ")";
+							cmd = "";
+						}
+						else continue;
+					}
 				}
 				else if ( cmd.startsWith( "gong " ) )
 				{
