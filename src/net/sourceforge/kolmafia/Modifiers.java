@@ -1404,6 +1404,13 @@ public class Modifiers
 				this.floats[ index ] = -3;
 			}
 			break;
+		case FAMILIAR_WEIGHT_PCT:
+			// The three current sources of -wt% do not stack
+			if ( this.floats[ index ] > mod )
+			{
+				this.floats[ index ] = (float) mod;
+			}
+			break;
 		default:
 			this.floats[ index ] += mod;
 			break;
