@@ -382,7 +382,7 @@ public class FamiliarData
                 // Adjust by percent modifiers
 		if ( percent != 0.0f )
 		{
-			weight = (int) Math.floor( weight + weight * percent );
+			weight = (int) Math.floor( weight + weight * (percent / 100.0f) );
 		}
 
 		// If the familiar is well-fed, it's 10 lbs. heavier
