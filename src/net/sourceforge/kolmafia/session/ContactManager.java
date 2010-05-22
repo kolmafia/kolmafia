@@ -62,15 +62,16 @@ public class ContactManager
 	{
 		if ( ContactManager.mailContacts.isEmpty() )
 		{
-			if ( Preferences.getBoolean( "retrieveContacts" ) )
-			{
-				RequestThread.postRequest( new ContactListRequest() );
-			}
-
-			Preferences.setBoolean( "retrieveContacts", !ContactManager.mailContacts.isEmpty() );
+			RequestThread.postRequest( new ContactListRequest() );
 		}
 
 		return ContactManager.mailContacts;
+	}
+
+	public static final void updateMailContacts()
+	{
+		ContactManager.mailContacts.clear();
+		ContactManager.getMailContacts();
 	}
 
 	/**

@@ -510,7 +510,6 @@ user	recoveryScript
 user	relayCounters
 user	requireBoxServants	false
 user	requireSewerTestItems	false
-user	retrieveContacts	true
 user	seaodesFound	0
 user	semirareCounter	0
 user	semirareLocation
