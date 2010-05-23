@@ -192,7 +192,7 @@ Baiowulf	HP: 40 Def: 25 Atk: 25	Talisman of Baio (100)
 Bangyomaman Warrior	HP: 160 Def: 140 Atk: 150	neurostim pill (0)	X-37 gun (0)	essence of heat (c100)
 Banshee Librarian	HP: 69 Def: 52 Atk: 57 ED: spooky	disintegrating quill pen (20)
 Bar	HP: 5 Def: 3 Atk: 1 Meat: 12-20	bar skin (25)
-Baron Von Ratsworth
+Baron Von Ratsworth	HP: 0
 Baseball Bat	HP: 9 Def: 15 Atk: 15 Meat: 17-27	baseball (30)	sonar-in-a-biscuit (20)
 Batrat	HP: 20 Def: 23 Atk: 23 Meat: 18-28	bat wing (15)	bat guano (15)	batgut (15)
 Batwinged Gremlin	HP: 170 Def: 171 Atk: 169	gremlin juice (3)	molybdenum hammer (c0)
