@@ -241,6 +241,14 @@ public class ResultProcessor
 	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List data )
 	{
 		String lastToken = parsedResults.nextToken();
+		
+		// Skip bogus lead necklace drops from the Baby Bugged Bugbear
+		
+		if ( lastToken.equals( " Parse error (function not found) in arena.php line 2225" ) )
+		{
+			parsedResults.nextToken();
+			return false;
+		}
 
 		// Skip skill acquisition - it's followed by a boldface
 		// which makes the parser think it's found an item.

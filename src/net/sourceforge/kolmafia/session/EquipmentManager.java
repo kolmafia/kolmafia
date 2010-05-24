@@ -237,6 +237,11 @@ public class EquipmentManager
 					EquipmentManager.getEquipment( EquipmentManager.STICKER3 ) );
 			}
 		}
+		else if ( itemId == ItemPool.HATSEAT )
+		{
+			//RequestLogger.printLine( "EqMgr.pR " + item );
+			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.HAT ], item );
+		}
 		else
 		{
 			int equipmentType = EquipmentManager.consumeFilterToEquipmentType( consumeType );
@@ -472,7 +477,9 @@ public class EquipmentManager
 			AdventureResult prev = (AdventureResult) list.get( i );
 			if ( prev.equals( EquipmentRequest.UNEQUIP ) ||
 				prev.equals( item ) ||
-				!InventoryManager.hasItem( prev ) )
+				!InventoryManager.hasItem( prev ) ||
+				(slot == EquipmentManager.FAMILIAR &&
+					!KoLCharacter.getFamiliar().canEquip( prev )) )
 			{
 				continue;
 			}
