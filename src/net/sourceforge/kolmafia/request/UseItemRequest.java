@@ -3739,6 +3739,11 @@ public class UseItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.REFLECTION_OF_MAP:
+			useString = "[" + KoLAdventure.getAdventureCount() + "] Reflection of a Map";
+			KoLAdventure.locationLogged = true;
+			break;
+
 		case ItemPool.JACKING_MAP:
 			UseItemRequest.lastFruit = null;
 			Matcher m = UseItemRequest.FRUIT_TUBING_PATTERN.matcher( urlString );
@@ -3866,6 +3871,11 @@ public class UseItemRequest
 		case ItemPool.SHAKING_CAMERA:
 		case ItemPool.DOLPHIN_WHISTLE:
 			// Items that can redirect to a fight
+			turns = 1;
+			break;
+
+		case ItemPool.REFLECTION_OF_MAP:
+			// Items that can redirect to a choice adventure
 			turns = 1;
 			break;
 		

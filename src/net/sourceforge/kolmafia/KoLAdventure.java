@@ -91,7 +91,7 @@ public class KoLAdventure
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );
 
 	private static KoLAdventure lastVisitedLocation = null;
-	private static boolean locationLogged = false;
+	public static boolean locationLogged = false;
 	private static String lastLocationName = null;
 	private static String lastLocationURL = null;
 

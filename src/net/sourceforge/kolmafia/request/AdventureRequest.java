@@ -410,10 +410,10 @@ public class AdventureRequest
 		String urlString = request.getURLString();
 		String responseText = request.responseText;
 
-		// If we were redirected into a fight through using an item,
-		// there will be an encounter in the responseText. Otherwise,
-		// if KoLAdventure didn't log the location, there can't be an
-		// encounter for us to log.
+		// If we were redirected into a fight or a choice through using
+		// an item, there will be an encounter in the responseText.
+		// Otherwise, if KoLAdventure didn't log the location, there
+		// can't be an encounter for us to log.
 
 		if ( GenericRequest.itemMonster == null && !KoLAdventure.recordToSession( urlString, responseText ) )
 		{
