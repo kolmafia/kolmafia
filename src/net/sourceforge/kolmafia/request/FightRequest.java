@@ -1057,6 +1057,12 @@ public class FightRequest
 				this.nextRound();
 				return;
 			}
+			
+			if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+			{
+				FightRequest.action1 = "abort";
+				return;
+			}
 
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			{
@@ -1101,7 +1107,8 @@ public class FightRequest
 		int cumulative = 0;
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 		{
-			if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() )
+			if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() &&
+				!KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
 			{
 				int count = MPRestoreItemList.CONFIGURES[ i ].getItem().getCount(
 					KoLConstants.inventory );
@@ -1443,8 +1450,7 @@ public class FightRequest
 			return;	// no point in even trying
 		}
 		
-		if ( cost > 0 && Preferences.getBoolean( "autoManaRestore" ) &&
-			!KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		if ( cost > 0 && Preferences.getBoolean( "autoManaRestore" ) )
 		{
 			macro.append( "while mpbelow " );
 			macro.append( cost );
@@ -1469,8 +1475,7 @@ public class FightRequest
 			return;	// no point in even trying
 		}
 		
-		boolean restore =  Preferences.getBoolean( "autoManaRestore" ) &&
-			!KoLConstants.activeEffects.contains( FightRequest.BIRDFORM );
+		boolean restore =  Preferences.getBoolean( "autoManaRestore" );
 		if ( restore )
 		{
 			macro.append( "while mpbelow " );
