@@ -1233,7 +1233,7 @@
 1227	321944533	stainless steel scarf	stainless steel scarfs
 1228	235417138	stainless steel slacks	pairs of stainless steel slacks
 1229	301172153	stainless steel suspenders	stainless steel suspenders
-1230	179184971	plexiglass pikestaff
+1230	179184971	plexiglass pikestaff	plexiglass pikestaffs
 1231	954817595	plexiglass pith helmet	plexiglass pith helmets
 1232	611681149	plexiglass pocketwatch	plexiglass pocketwatches
 1233	445862793	plexiglass pinky ring	plexiglass pinky rings
@@ -4399,7 +4399,7 @@
 4393	394756554	Crimbo peppermint bark	pieces of Crimbo peppermint bark
 4394	888561617	Crimbo fudge	chunks of Crimbo fudge
 4395	811478748	Crimbo candied pecan	Crimbo candied pecans
-4396	708858717	Jack-in-the-box
+4396	708858717	Jack-in-the-box	Jacks-in-the-box
 4397	969847579	brass crank handle	brass crank handles
 4398	272747310	stinky cheese ball	stinky cheese balls
 4399	337462585	stinky cheese sword	stinky cheese swords
@@ -4522,7 +4522,7 @@
 4516	186390697	missing wine	bottles of missing wine
 4517	788868127	yellow matter custard	yellow matter custards
 4518	409872360	delicious comfit?	delicious comfits?
-4519	279445768	ittah bittah hookah
+4519	279445768	ittah bittah hookah	ittah bittah hookahs
 4520	268765322	flamingo mallet	flamingo mallets
 4521	911001686	croquet hedgehog	croquet hedgehogs
 4522	148797319	Tiger-lily's milk	glasses of Tiger-lily's milk
@@ -4602,12 +4602,12 @@
 4596
 4597
 4598
-4599	594439545	antique bottle opener
+4599	594439545	antique bottle opener	antique bottle openers
 4600	577302208	map to the Kegger in the Woods
-4601	560829856	plastic cup of beer
+4601	560829856	plastic cup of beer	plastic cups of beer
 4602	569897810	orquette's phone number
-4603	374119884	bronze handcuffs
-4604	914658794	silver keg
+4603	374119884	bronze handcuffs	pairs of bronze handcuffs
+4604	914658794	silver keg	silver kegs
 4605	263925450	bottle of Goldschn&ouml;ckered
 4606
 4607
@@ -4617,8 +4617,14 @@
 4611
 4612
 4613
-4614	239178788	Crown of Thrones
+4614	239178788	Crown of Thrones	Crowns of Thrones
 4615	328670887	Cinco Mayo Lager	cans of Cinco Mayo Lager
-4616	435527262	Underworld sapling
-4617	375104342	miniature pruning shears
-4618	976623598	plastic cup of flat beer
+4616	435527262	Underworld sapling	Underworld saplings
+4617	375104342	miniature pruning shears	pairs of miniature pruning shears
+4618	976623598	plastic cup of flat beer	plastic cups of flat beer
+4619
+4620
+4621
+4622
+4623	297173409	chocolate-covered caviar	wads of chocolate-covered caviars
+4624	137520522	pawn cookie	pawn cookies
