@@ -290,11 +290,6 @@ public class ClanLoungeRequest
 
 		super.run();
 
-		if ( this.action == ClanLoungeRequest.SEARCH )
-		{
-			return;
-		}
-
 		if ( this.redirectLocation != null && this.redirectLocation.equals( "clan_signup.php" ) )
 		{
 			RequestLogger.printLine( "You don't seem to be in a clan!" );
