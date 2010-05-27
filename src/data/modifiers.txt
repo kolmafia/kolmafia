@@ -2675,6 +2675,7 @@ Pulchritudinous Pressure	Moxie Percent: +300
 Pumped Stomach	Adventure Underwater
 Pumped Up	Muscle: +5
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
+Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 Quadrilled	Item Drop: +20
 Quivering with Rage	Muscle Percent: -10
 Radiant Personality	Moxie Percent: +30
