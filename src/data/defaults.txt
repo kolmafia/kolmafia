@@ -611,6 +611,7 @@ user	_stinkyCheeseCount	0
 user	_madTeaParty	false
 user	_timeHelmetAdv	0
 user	_toastSummons	0
+user	_tokenDrops	0
 user	_userMods
 user	_vmaskAdv	0
 

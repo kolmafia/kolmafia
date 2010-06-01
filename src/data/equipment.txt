@@ -1397,6 +1397,7 @@ pig-iron bracers	0	Mys: 30
 pink glowstick	0	none
 pink plastic baby	0	none
 pirate fledges	0	Mys: 60
+plastic spider ring	0	none
 plexiglass pendant	0	Mys: 75
 plexiglass pinky ring	0	Mys: 75
 plexiglass pocketwatch	0	Mys: 75
@@ -1629,5 +1630,5 @@ yellow glowstick	0	none
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	none
 Radio KoL Coffee Mug	0	none
-T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	none	
+T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	none
 hemp backpack	0	none
