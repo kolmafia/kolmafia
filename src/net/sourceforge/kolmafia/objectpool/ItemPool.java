@@ -1091,6 +1091,8 @@ public class ItemPool
 	public static final int KEGGER_MAP = 4600;
 	public static final int ORQUETTES_PHONE_NUMBER = 4602;
 	public static final int HATSEAT = 4614;
+	public static final int GG_TOKEN = 4621;
+	public static final int GG_TICKET = 4622;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

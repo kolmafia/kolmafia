@@ -77,6 +77,7 @@ public class FamiliarDatabase
 	private static final Map[] eventSkillByName = new HashMap[ 4 ];
 
 	public static boolean newFamiliars = false;
+	public static int maxFamiliarId = 0;
 
 	static
 	{
@@ -106,7 +107,12 @@ public class FamiliarDatabase
 
 			try
 			{
-				familiarId = Integer.valueOf( data[ 0 ] );
+				int id = StringUtilities.parseInt( data[ 0 ] );
+				if ( id > FamiliarDatabase.maxFamiliarId )
+				{
+					FamiliarDatabase.maxFamiliarId = id;
+				}
+				familiarId = Integer.valueOf( id );
 				familiarName = StringUtilities.getDisplayName( data[ 1 ] );
 				familiarType = new String( data[ 2 ] );
 				familiarLarva = Integer.valueOf( data[ 3 ] );
@@ -171,6 +177,10 @@ public class FamiliarDatabase
 
 		RequestLogger.printLine( "New familiar: \"" + familiarName + "\" (" + familiarId + ")" );
 
+		if ( familiarId > FamiliarDatabase.maxFamiliarId )
+		{
+			FamiliarDatabase.maxFamiliarId = familiarId;
+		}
 		Integer dummyId = new Integer( familiarId );
 
 		FamiliarDatabase.familiarById.put( dummyId, familiarName );

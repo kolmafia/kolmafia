@@ -765,6 +765,7 @@ public class DailyDeedsPanel
 			this.addListener( "_gongDrops" );
 			this.addListener( "_absintheDrops" );
 			this.addListener( "_astralDrops" );
+			this.addListener( "_tokenDrops" );
 			this.addLabel( "" );
 		}
 
@@ -774,7 +775,8 @@ public class DailyDeedsPanel
 				+ " agua, " + Preferences.getInteger( "_gongDrops" )
 				+ " gong, " + Preferences.getInteger( "_absintheDrops" )
 				+ " absinthe, " + Preferences.getInteger( "_astralDrops" )
-				+ " astral mushroom" );
+				+ " astral, " + Preferences.getInteger( "_tokenDrops" )
+				+ " token" );
 		}
 	}
 

@@ -191,6 +191,9 @@ public class BasementDecorator
 			case FamiliarPool.LLAMA:
 				useful = Preferences.getInteger( "_gongDrops" ) < 5;
 				break;
+			case FamiliarPool.TRON:
+				useful = Preferences.getInteger( "_tokenDrops" ) < 5;
+				break;
 			}
 			if ( !useful ) continue;
 

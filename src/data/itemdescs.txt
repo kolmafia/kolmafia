@@ -4622,9 +4622,14 @@
 4616	435527262	Underworld sapling	Underworld saplings
 4617	375104342	miniature pruning shears	pairs of miniature pruning shears
 4618	976623598	plastic cup of flat beer	plastic cups of flat beer
-4619
-4620
-4621
-4622
+4619	310810715	glowing frisbee
+4620	862163692	portable motorcycle
+4621	851982858	Game Grid token
+4622	798956435	Game Grid ticket
 4623	297173409	chocolate-covered caviar	wads of chocolate-covered caviars
 4624	137520522	pawn cookie	pawn cookies
+4625	936288573	coffee pixie stick
+4626	574320533	superduperball
+4627	761041299	finger cuffs
+4628	185244129	little parachute guy
+4629	987547828	plastic spider ring

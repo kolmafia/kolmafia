@@ -4625,9 +4625,14 @@
 4616	Underworld sapling	grow	all	0
 4617	miniature pruning shears	familiar	all	75
 4618	plastic cup of flat beer	none, combat	all	10
-4619
-4620
-4621
-4622
+4619	glowing frisbee	grow	all	0
+4620	portable motorcycle	familiar	all	75
+4621	Game Grid token	none	all	0
+4622	Game Grid ticket	none	all	0
 4623	chocolate-covered caviar	multiple	all	333
 4624	pawn cookie	food	all	100
+4625	coffee pixie stick	usable	display	50
+4626	superduperball	usable	display	10
+4627	finger cuffs	none, combat	display	10
+4628	little parachute guy	none, combat	display	10
+4629	plastic spider ring	accessory	display	5

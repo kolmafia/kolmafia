@@ -687,6 +687,14 @@ public abstract class UseLinkDecorator
 
 		switch ( itemId )
 		{
+		// Game Grid tokens get a link to the arcade.
+
+		case ItemPool.GG_TOKEN:
+
+			useType = "arcade";
+			useLocation = "arcade.php";
+			break;
+
 		// Soft green echo eyedrop antidote gets an uneffect link
 
 		case ItemPool.REMEDY:

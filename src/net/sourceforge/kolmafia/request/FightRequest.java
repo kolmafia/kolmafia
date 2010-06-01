@@ -2333,6 +2333,11 @@ public class FightRequest
 			Preferences.increment( "_aguaDrops", 1 );
 		}
 
+		if ( responseText.indexOf( "hands you an actual, literal token" ) != -1 )
+		{
+			Preferences.increment( "_tokenDrops", 1 );
+		}
+
 		if ( responseText.indexOf( "shimmers briefly, and you feel it getting earlier." ) != -1 )
 		{
 			Preferences.increment( "_riftletAdv", 1 );
