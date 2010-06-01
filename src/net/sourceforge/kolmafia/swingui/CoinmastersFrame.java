@@ -79,6 +79,7 @@ public class CoinmastersFrame
 	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, -1 );
 	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, -1 );
 	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, -1 );
+	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, -1 );
 
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
 	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
@@ -96,11 +97,13 @@ public class CoinmastersFrame
 	private static int lucre = 0;
 	private static int sandDollars = 0;
 	private static int crimbux = 0;
+	private static int tickets = 0;
 
 	private CoinmasterPanel dimePanel = null;
 	private CoinmasterPanel quarterPanel = null;
 	private CoinmasterPanel lucrePanel = null;
 	private CoinmasterPanel sandDollarPanel = null;
+	private CoinmasterPanel ticketPanel = null;
 	// private CoinmasterPanel crimbuckPanel = null;
 
 	public CoinmastersFrame()
@@ -127,6 +130,11 @@ public class CoinmastersFrame
 		sandDollarPanel = new BigBrotherPanel();
 		panel.add( sandDollarPanel );
 		this.tabs.add( "Big Brother", panel );
+
+		panel = new JPanel( new BorderLayout() );
+		ticketPanel = new TicketCounterPanel();
+		panel.add( ticketPanel );
+		this.tabs.add( "Ticket Counter", panel );
 
 		// panel = new JPanel( new BorderLayout() );
 		// crimbuckPanel = new CrimboCartelPanel();
@@ -171,6 +179,8 @@ public class CoinmastersFrame
 		Preferences.setInteger( "availableSandDollars", sandDollars );
 		crimbux = CRIMBUCK.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableCrimbux", crimbux );
+		tickets = TICKET.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableTickets", tickets );
 
 		INSTANCE.update();
 	}
@@ -181,6 +191,7 @@ public class CoinmastersFrame
 		quarterPanel.update();
 		lucrePanel.update();
 		sandDollarPanel.update();
+		ticketPanel.update();
 		// crimbuckPanel.update();
 		this.currentPanel().setTitle();
 	}
@@ -351,6 +362,45 @@ public class CoinmastersFrame
 			       "Crimbo Cartel",
 				null );
 			buyAction = "buygift";
+		}
+
+		public void update()
+		{
+		}
+
+		public boolean enabled()
+		{
+			return true;
+		}
+
+		public boolean accessible()
+		{
+			return true;
+		}
+
+		public void equip()
+		{
+		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
+		}
+	}
+
+	private class TicketCounterPanel
+		extends CoinmasterPanel
+	{
+		public TicketCounterPanel()
+		{
+			super( CoinmastersDatabase.getTicketItems(),
+			       null,
+			       CoinmastersDatabase.ticketBuyPrices(),
+			       "availableTickets",
+			       "Game Grid ticket",
+			       "Ticket Counter",
+				null );
+			buyAction = "redeem";
 		}
 
 		public void update()

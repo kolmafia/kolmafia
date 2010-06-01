@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.AccountRequest;
+import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
@@ -401,6 +402,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "account_contactlist.php" ) )
 		{
 			ContactListRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "arcade.php" ) )
+		{
+			ArcadeRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "arena.php" ) )

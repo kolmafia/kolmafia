@@ -187,6 +187,7 @@ user	availableDimes	0
 user	availableLucre	0
 user	availableQuarters	0
 user	availableSandDollars	0
+user	availableTickets	0
 user	badMoonEncounter01	false
 user	badMoonEncounter02	false
 user	badMoonEncounter03	false

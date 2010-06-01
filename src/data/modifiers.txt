@@ -155,6 +155,9 @@ gasmask	Stench Resistance: +3, Familiar Effect: "?xBarrr, cap 12"
 giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
 goofily-plumed helmet	Familiar Effect: "atk, cap 17"
+googly-ball hat	Mysticality: +10, Mysticality Experience: +3
+googly-heart hat	Moxie: +10, Moxie Experience: +3
+googly-star hat	Muscle: +10, Muscle Experience: +3
 grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
 green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
 grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
@@ -655,6 +658,7 @@ cast-iron legacy paddle	Muscle: +15, Weapon Damage: +10
 charming flute	Moxie: +8
 # cheap plastic blowgun: 50% chance of poisoning opponent.
 cheap plastic bottle opener	Sleaze Damage: +2
+cheap plastic kazoo	Monster Level: +10
 # chisel
 chopsticks	Initiative: +20, Spell Damage: +12
 chrome crossbow	Moxie: +7, Adventures: +3
@@ -784,6 +788,7 @@ icy-hot katana	Hot Damage: +3, Cold Damage: +3
 immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 infernal fife	Hot Damage: +7
 infernal toilet brush	Stench Damage: +20, Maximum HP: +20, Maximum MP: +20, Class: "Seal Clubber"
+# inflatable baseball bat
 iron pasta spoon	Spell Damage: +10
 jack flapper	Spell Damage: +5
 jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
@@ -919,6 +924,7 @@ styrofoam sword	Muscle: +3, Monster Level: +3
 sugar shank	Weapon Damage Percent: +50
 sugar shillelagh	Weapon Damage Percent: +50
 sugar shotgun	Weapon Damage Percent: +50
+super-sweet boom box	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Four Songs
 # sweet ninja sword
 sword behind inappropriate prepositions	Muscle: +7, Adventures: +5
 sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3

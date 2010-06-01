@@ -67,6 +67,9 @@ public class CoinmastersDatabase
 	private static final LockableListModel buyForCrimbux = new LockableListModel();
 	private static final Map crimbuckBuyPriceByName = new TreeMap();
 
+	private static final LockableListModel buyForTickets = new LockableListModel();
+	private static final Map ticketBuyPriceByName = new TreeMap();
+
 	private static final Map lighthouseItems = new TreeMap();
 
 	static
@@ -145,6 +148,13 @@ public class CoinmastersDatabase
 					AdventureResult item = new AdventureResult( name, 0, false );
 					buyForCrimbux.add( item );
 					crimbuckBuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "bt" ) )
+				{
+					// Something we buy with Game Grid tickets
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForTickets.add( item );
+					ticketBuyPriceByName.put( name, iprice );
 				}
 			}
 		}
@@ -260,6 +270,16 @@ public class CoinmastersDatabase
 	public static final Map crimbuckBuyPrices()
 	{
 		return crimbuckBuyPriceByName;
+	}
+
+	public static final LockableListModel getTicketItems()
+	{
+		return buyForTickets;
+	}
+
+	public static final Map ticketBuyPrices()
+	{
+		return ticketBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()

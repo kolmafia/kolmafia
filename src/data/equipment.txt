@@ -108,6 +108,9 @@ gasmask	50	Mox: 10
 giant discarded bottlecap	155	Mox: 62
 goat beard	60	Mox: 15
 goofily-plumed helmet	70	Mox: 20
+googly-ball hat	200	Mys: 111
+googly-heart hat	200	Mox: 111
+googly-star hat	200	Mus: 111
 grass hat	80	Mox: 25
 green traffic cone	60	Mox: 15
 grungy bandana	150	Mox: 60
@@ -584,6 +587,7 @@ cast-iron legacy paddle	190	Mus: 80	2-handed club
 charming flute	170	Mox: 70	2-handed flute
 cheap plastic blowgun	25	Mox: 0	1-handed blowgun
 cheap plastic bottle opener	30	Mys: 0	1-handed utensil
+cheap plastic kazoo	50	Mox: 10	1-handed kazoo
 chisel	10	Mus: 0	1-handed knife
 chopsticks	75	Mys: 23	1-handed utensil
 chrome crossbow	120	Mox: 45	2-handed crossbow
@@ -703,6 +707,7 @@ icy-hot katana	90	Mus: 30	2-handed sword
 immense cyborg hand	150	Mus: 60	1-handed club
 infernal fife	55	Mox: 12	2-handed flute
 infernal toilet brush	100	Mus: 35	1-handed club
+inflatable baseball bat	50	Mus: 0	2-handed club
 iron pasta spoon	110	Mys: 40	1-handed utensil
 jack flapper	35	Mys: 2	1-handed utensil
 jungle drum	160	Mox: 65	2-handed drum
@@ -836,6 +841,7 @@ suede shortsword	40	Mus: 5	1-handed sword
 sugar shank	100	Mus: 0	1-handed knife
 sugar shillelagh	100	Mus: 0	2-handed club
 sugar shotgun	100	Mox: 0	1-handed pistol
+super-sweet boom box	200	Mox: 75	1-handed radio
 sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 sword of static	75	Mus: 22	1-handed sword

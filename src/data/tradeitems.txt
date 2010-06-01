@@ -4633,6 +4633,13 @@
 4624	pawn cookie	food	all	100
 4625	coffee pixie stick	usable	display	50
 4626	superduperball	usable	display	10
-4627	finger cuffs	none, combat	display	10
+4627	finger cuffs	usable, combat	display	10
 4628	little parachute guy	none, combat	display	10
 4629	plastic spider ring	accessory	display	5
+4630	cheap plastic kazoo	weapon	display	55
+4631	inflatable baseball bat	weapon	display	55
+4632	googly-star hat	hat	display	10
+4633	googly-ball hat	hat	display	10
+4634	googly-heart hat	hat	display	10
+4635	super-sweet boom box	weapon	display	1000
+4636	Game Grid valued membership card	usable	display	0
