@@ -1009,6 +1009,7 @@ public class ResultProcessor
 		case ItemPool.LUCRE:
 		case ItemPool.SAND_DOLLAR:
 		case ItemPool.CRIMBUCK:
+		case ItemPool.GG_TICKET:
 			CoinmastersFrame.externalUpdate();
 			break;
 		}

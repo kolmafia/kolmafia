@@ -129,3 +129,18 @@ bc	2000	snow belt
 bc	2000	snow pants
 bc	5000	pile of loose snow
 bc	10000	Crimbough
+
+# Things you can buy with Game Grid tickets
+
+bt	1	finger cuffs
+bt	2	little parachute guy
+bt	5	superduperball
+bt	10	coffee pixie stick
+bt	25	plastic spider ring
+bt	100	cheap plastic kazoo
+bt	100	inflatable baseball bat
+bt	250	googly-star hat
+bt	250	googly-ball hat
+bt	250	googly-heart hat
+bt	2000	Game Grid valued membership card
+bt	5000	super-sweet boom box
