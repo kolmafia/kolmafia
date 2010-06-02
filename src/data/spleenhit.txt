@@ -19,7 +19,7 @@ bottle of ultravitamins	1	6	0	18-20	0	0	10 Vitamin-Maxed (+10% mus)
 Breathetastic&trade; Premium Canned Air	5	9	20-25	60-70	60-70	60-70
 can of Red Minotaur	3	1	0	0	0	0	+1 PvP fight, 5 Wings
 can-can-in-a-can	1	1	0	0	0	10-12
-coffee pixie stick	1	1	5-10	0	0	0
+coffee pixie stick	4	4	5-10	0	0	0
 cold wad	1	6	1	24-30	16-20	8-10	10 Cold Blooded (+30% mus, +20% mys, +10% mox, cold dmg/res)
 concentrated magicalness pill	1	2	0	0	5-7	0
 enchanted barbell	1	2	0	5-7	0	0
