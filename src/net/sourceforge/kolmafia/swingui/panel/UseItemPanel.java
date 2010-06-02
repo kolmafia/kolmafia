@@ -133,7 +133,9 @@ public class UseItemPanel
 				break;
 
 			default:
-				return false;
+				filter = UsableItemFilterField.this.other &&
+					ItemDatabase.getAttribute( itemId,
+						ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE | ItemDatabase.ATTR_CURSE );
 			}
 
 			return filter && super.isVisible( element );

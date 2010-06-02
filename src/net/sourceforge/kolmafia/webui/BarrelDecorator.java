@@ -259,7 +259,7 @@ public abstract class BarrelDecorator
 		{
 			type = 'B';
 		}
-		else if ( ItemDatabase.getSpleenHit( name ) > 0 &&
+		else if ( ItemDatabase.getSpleenHit( name ) == 1 &&
 			!name.endsWith( "egg" ) )
 		{
 			type = 'S';

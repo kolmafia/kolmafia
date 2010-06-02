@@ -589,29 +589,8 @@ public class ItemManagePanel
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult item = (AdventureResult) items[ i ];
-				int usageType = UseItemRequest.getConsumptionType( item );
-
-				switch ( usageType )
-				{
-				case KoLConstants.NO_CONSUME:
-				case KoLConstants.COMBAT_ITEM:
-					break;
-
-				case KoLConstants.EQUIP_FAMILIAR:
-				case KoLConstants.EQUIP_ACCESSORY:
-				case KoLConstants.EQUIP_HAT:
-				case KoLConstants.EQUIP_PANTS:
-				case KoLConstants.EQUIP_SHIRT:
-				case KoLConstants.EQUIP_WEAPON:
-				case KoLConstants.EQUIP_OFFHAND:
-					RequestThread.postRequest( new EquipmentRequest(
-									   item, EquipmentManager.consumeFilterToEquipmentType( usageType ) ) );
-					break;
-
-				default:
-					RequestThread.postRequest( new UseItemRequest( (AdventureResult) items[ i ] ) );
-					break;
-				}
+				RequestThread.postRequest(
+					new UseItemRequest( (AdventureResult) items[ i ] ) );
 			}
 		}
 
