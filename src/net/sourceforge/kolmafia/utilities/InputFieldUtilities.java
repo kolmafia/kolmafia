@@ -44,6 +44,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
@@ -133,14 +134,26 @@ public class InputFieldUtilities {
 			JOptionPane.INFORMATION_MESSAGE, null, inputs, initial);
 	}
 
-	public static final Object[] multiple( final String message, final LockableListModel inputs)
+	public static final Object[] multiple( final String message, final LockableListModel inputs )
+	{
+		return InputFieldUtilities.multiple( message, inputs, null );
+	}
+
+
+	public static final Object[] multiple( final String message, final LockableListModel inputs, final ListElementFilter filter )
 	{
 
 		JList selector = new JList(inputs);
 		selector.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new AutoFilterTextField(selector), BorderLayout.NORTH);
+		panel.add( filter == null ? new AutoFilterTextField( selector ) :
+			new AutoFilterTextField( selector ) {
+				public boolean isVisible( Object o )
+				{
+					return filter.isVisible( o ) && super.isVisible( o );
+				}			
+			}, BorderLayout.NORTH);
 		panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
 
 		int option =
