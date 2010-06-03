@@ -248,7 +248,7 @@ public class SendMessageFrame
 			return false;
 		}
 
-		return ItemDatabase.isTradeable( ar.getItemId() );
+		return ItemDatabase.isGiftable( ar.getItemId() );
 	}
 
 	public void attachItem()
@@ -259,13 +259,12 @@ public class SendMessageFrame
 			return;
 		}
 
-		source = (LockableListModel) source.clone();
-		source.setFilter( this );
+		source = source.getMirrorImage();
 
 		int tradeableItemCount = source.getSize();
 
 		AdventureResult current;
-		Object[] values = InputFieldUtilities.multiple( "What would you like to send?", source );
+		Object[] values = InputFieldUtilities.multiple( "What would you like to send?", source, this );
 
 		if ( values.length < tradeableItemCount )
 		{
