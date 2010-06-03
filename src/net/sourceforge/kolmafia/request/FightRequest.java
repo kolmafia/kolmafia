@@ -3693,9 +3693,10 @@ public class FightRequest
 			return;
 		}
 
-		// Find the 'monpic' image
-		TagNode img = node.findElementByAttValue( "id", "monpic", true, false );
-		if ( img == null )
+		// Find the 'monname' span - the 'monpic' image doesn't seem to
+		// be reliable any more.
+		TagNode mon = node.findElementByAttValue( "id", "monname", true, false );
+		if ( mon == null )
 		{
 			RequestLogger.printLine( "Cannot find monster." );
 			return;
@@ -3705,7 +3706,7 @@ public class FightRequest
 		//
 		// The children of that node have everything interesting about
 		// the fight.
-		TagNode fight = img.getParent().getParent().getParent().getParent().getParent().getParent();
+		TagNode fight = mon.getParent().getParent().getParent().getParent().getParent().getParent();
 
 		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logCleanedHTML" ) )
 		{
