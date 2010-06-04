@@ -444,6 +444,13 @@ public abstract class MoodManager
 	public static final void burnExtraMana( final boolean isManualInvocation )
 	{
 		String nextBurnCast;
+		
+		float manaBurnTrigger = Preferences.getFloat( "manaBurningTrigger" );
+		if ( !isManualInvocation && KoLCharacter.getCurrentMP() <
+			(int) (manaBurnTrigger * KoLCharacter.getMaximumMP()) )
+		{
+			return;
+		}
 
 		boolean was = MoodManager.isExecuting;
 		MoodManager.isExecuting = true;
