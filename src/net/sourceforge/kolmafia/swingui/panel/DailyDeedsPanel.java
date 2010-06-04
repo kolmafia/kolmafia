@@ -54,11 +54,9 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.textui.command.AbstractCommand;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DailyDeedsPanel
 	extends Box
@@ -80,6 +78,8 @@ public class DailyDeedsPanel
 		this.add( new HotTubDaily() );
 		this.add( new PoolDaily() );
 		this.add( new CrimboTreeDaily() );
+		this.add( new ChipsDaily() );
+		this.add( new PitDaily() );
 		this.add( new BooleanDaily( "dailyDungeonDone", "adv * Daily Dungeon" ) );
 		this.add( new TelescopeDaily() );
 		this.add( new StyxDaily() );
@@ -868,6 +868,46 @@ public class DailyDeedsPanel
 			this.setShown( bpd < 240 && KoLCharacter.canEat() );
 		}
 	}
+
+	public static class ChipsDaily
+	extends Daily
+	{
+		public ChipsDaily()
+		{
+			this.addListener( "_chipBags" );
+			this.addButton( "chips radium", "moxie +30 for 10" );
+			this.addButton( "chips wintergreen", "muscle +30 for 10" );
+			this.addButton( "chips ennui", "mysticality +30 for 10" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			int nf = Preferences.getInteger( "_chipBags" );
+			this.setShown( KoLCharacter.hasClan() &&
+				KoLCharacter.canInteract() );
+			this.setEnabled( nf < 3 );
+			this.setText( nf + "/3" );
+		}
+	}
+	public static class PitDaily
+	extends Daily
+	{
+		public PitDaily()
+		{
+			this.addListener( "_ballpit" );
+			this.addButton( "ballpit", "stat boost for 20" );
+		}
+
+		public void update()
+		{
+ 			boolean dun = Preferences.getBoolean( "_ballpit" );
+			this.setShown( KoLCharacter.hasClan() &&
+				KoLCharacter.canInteract());
+			this.setEnabled( !dun );
+		}
+	}
+
 
 	static { new Later().register( "later" ); }
 	public static class Later
