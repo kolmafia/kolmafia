@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1733,6 +1734,23 @@ public class RelayRequest
 			{
 				RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR ) );
+			}
+		}
+		else if ( path.startsWith( "arcade.php" ) &&
+			this.getFormField( "confirm" ) == null )
+		{
+			String action = this.getFormField( "action" );
+			String game = this.getFormField( "whichgame" );
+			int power = EquipmentDatabase.getPower(
+				EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
+			if ( action != null && action.equals( "game" ) &&
+				game != null && game.equals( "2" ) &&
+				(power <= 50 || power >= 150 ||
+					EquipmentManager.getEquipment( EquipmentManager.HAT ) == EquipmentRequest.UNEQUIP ||
+					EquipmentManager.getEquipment( EquipmentManager.PANTS ) == EquipmentRequest.UNEQUIP) )
+			{
+				this.sendGeneralWarning( "ggtoken.gif", "You might not be properly equipped to play this game.<br>Click the token if you'd like to continue anyway." );
+				return;
 			}
 		}
 

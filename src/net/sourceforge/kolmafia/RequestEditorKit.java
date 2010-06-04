@@ -525,6 +525,29 @@ public class RequestEditorKit
 			RequestEditorKit.fixDucks( buffer );
 			RequestEditorKit.fixRottingMatilda( buffer );
 		}
+		else if ( location.startsWith( "arcade.php" ) )
+		{
+			StringBuffer note = new StringBuffer( "Arcade (" );
+			int count = InventoryManager.getCount( ItemPool.GG_TOKEN );
+			note.append( count );
+			note.append( " token" );
+			if ( count != 1 )
+			{
+				note.append( 's' );
+			}
+			note.append( ", " );
+			count = InventoryManager.getCount( ItemPool.GG_TICKET );
+			note.append( count );
+			note.append( " ticket" );
+			if ( count != 1 )
+			{
+				note.append( 's' );
+			}
+			note.append( ")</b>" );
+			
+			StringUtilities.singleStringReplace( buffer,
+				"Arcade</b>", note.toString() );
+		}
 		else if ( location.startsWith( "ascend.php" ) )
 		{
 			ValhallaDecorator.decorateGashJump( buffer );
