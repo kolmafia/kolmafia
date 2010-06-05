@@ -2955,7 +2955,7 @@
 2946	V for Vivala mask	accessory	all	0
 2947	The Big Book of Pirate Insults	none, combat reusable	all	250
 2948	shot of rotgut	drink	all	50
-2949	jar of &quot;Creole Lady&quot; marrrmalade	multiple	all	45
+2949	jar of &quot;Creole Lady&quot; marrrmalade	usable	all	45
 2950	Cap'm Caronch's Map	usable	none	0
 2951	Orcish Frat House blueprints	usable	none	0
 2952	blue glowstick	accessory	display	0
