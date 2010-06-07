@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -71,7 +72,8 @@ public abstract class ChoiceManager
 	public static String lastResponseText = "";
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
-	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
+	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 
 	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
@@ -1368,6 +1370,7 @@ public abstract class ChoiceManager
 
 		// Choice 457 is Oh, No! Five-Oh!
 		// Choice 458 is ... Grow Unspeakable Horrors
+		// Choice 485 is Fighters of Fighting
 	};
 
 	static
@@ -1951,6 +1954,11 @@ public abstract class ChoiceManager
 		case 443:
 			// Chess Puzzle
 			RabbitHoleManager.decorateChessPuzzle( buffer );
+			break;
+		case 485:
+			// Fighters of Fighting
+			ArcadeRequest.decorateFightersOfFighting( buffer );
+			break;
 		}
 	}
 
@@ -2775,6 +2783,11 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.ORQUETTES_PHONE_NUMBER, -count );
 				ResultProcessor.processItem( ItemPool.KEGGER_MAP, -1 );
 			}
+
+		// Fighters Of Fighting
+		case 485:
+			ArcadeRequest.postChoiceFightersOfFighting( request );
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -3014,6 +3027,11 @@ public abstract class ChoiceManager
 		// Wumpus Hunt
 		case 360:
 			WumpusManager.visitChoice( responseText );
+			break;
+
+		// Fighters Of Fighting
+		case 485:
+			ArcadeRequest.visitChoiceFightersOfFighting( responseText );
 			break;
 		}
 	}
@@ -3701,10 +3719,19 @@ public abstract class ChoiceManager
 			return false;
 		}
 
-		// The Chessboard is special
-		if ( urlString.indexOf( "whichchoice=443" ) != -1 )
+		Matcher matcher = ChoiceManager.URL_CHOICE_PATTERN.matcher( urlString );
+		if ( matcher.find() )
 		{
-			return RabbitHoleManager.registerChessboardRequest( urlString );
+			int choice = StringUtilities.parseInt ( matcher.group( 1 ) );
+			switch ( choice )
+			{
+			case 443:
+				// Chess Puzzle
+				return RabbitHoleManager.registerChessboardRequest( urlString );
+			case 485:
+				// Fighters Of Fighting
+				return true;
+			}
 		}
 
 		// By default, we log the url of any choice we take
