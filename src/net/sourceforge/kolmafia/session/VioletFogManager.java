@@ -349,10 +349,8 @@ public abstract class VioletFogManager
 		return choice >= VioletFogManager.FIRST_CHOICE && choice <= VioletFogManager.LAST_CHOICE;
 	}
 
-	public static final String handleChoice( final String choice )
+	public static final String handleChoice( final int source )
 	{
-		int source = StringUtilities.parseInt( choice );
-
 		// We only handle Violet Fog choices
 		if ( !VioletFogManager.fogChoice( source ) )
 		{

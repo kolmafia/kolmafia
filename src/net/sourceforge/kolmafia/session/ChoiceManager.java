@@ -2359,7 +2359,18 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			String choice = choiceMatcher.group( 1 );
+			String whichchoice = choiceMatcher.group( 1 );
+			int choice = StringUtilities.parseInt( whichchoice );
+
+			// If this choice has special handling that can't be
+			// handled by a single preference (extra fields, for
+			// example), handle it elsewhere.
+
+			if ( ChoiceManager.specialChoiceHandling( choice, request ) )
+			{
+				return;
+			}
+
 			String option = "choiceAdventure" + choice;
 			String decision = Preferences.getString( option );
 
@@ -2382,7 +2393,7 @@ public abstract class ChoiceManager
 
 			if ( decision.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unsupported choice adventure #" + choice );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unsupported choice adventure #" + whichchoice );
 				RequestThread.enableDisplayIfSequenceComplete();
 				StaticEntity.printRequestData( request );
 				request.showInBrowser( true );
@@ -2395,7 +2406,7 @@ public abstract class ChoiceManager
 			decision = ChoiceManager.pickOutfitChoice( option, decision );
 
 			request.clearDataFields();
-			request.addFormField( "whichchoice", choice );
+			request.addFormField( "whichchoice", whichchoice );
 			request.addFormField( "option", decision );
 			request.addFormField( "pwd", GenericRequest.passwordHash );
 
@@ -3311,11 +3322,35 @@ public abstract class ChoiceManager
 		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
-	private static final String specialChoiceDecision( final String choice, final String option, final String decision, final int stepCount )
+	private static final boolean specialChoiceHandling( final int choice, final GenericRequest request )
 	{
-		int choiceValue = StringUtilities.parseInt( choice );
+		String decision = null;
+		switch ( choice )
+		{
+		case 485:
+			// Fighters of Fighting
+			decision = ArcadeRequest.autoChoiceFightersOfFighting( request );
+			break;
+		}
 
-		switch ( choiceValue )
+		if ( decision == null )
+		{
+			return false;
+		}
+
+		request.addFormField( "whichchoice", String.valueOf( choice ) );
+		request.addFormField( "option", decision );
+		request.addFormField( "pwd", GenericRequest.passwordHash );
+		request.run();
+
+		ChoiceManager.lastResponseText = request.responseText;
+
+		return true;
+	}
+
+	private static final String specialChoiceDecision( final int choice, final String option, final String decision, final int stepCount )
+	{
+		switch ( choice )
 		{
 		// Heart of Very, Very Dark Darkness
 		case 5:
@@ -3346,7 +3381,7 @@ public abstract class ChoiceManager
 				{
 					if ( AdventureDatabase.WOODS_ITEMS[ i ].getCount( KoLConstants.conditions ) > 0 )
 					{
-						return choiceValue == 26 ? String.valueOf( i / 4 + 1 ) : String.valueOf( i % 4 / 2 + 1 );
+						return choice == 26 ? String.valueOf( i / 4 + 1 ) : String.valueOf( i % 4 / 2 + 1 );
 					}
 				}
 			}
