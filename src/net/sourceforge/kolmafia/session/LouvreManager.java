@@ -348,10 +348,9 @@ public abstract class LouvreManager
 		return LouvreManager.LouvreGoals[ goal - 1 ];
 	}
 
-	public static final String handleChoice( final String choice, final int stepCount )
+	public static final String handleChoice( final int source, final int stepCount )
 	{
 		// We only handle LouvreManager choices
-		int source = StringUtilities.parseInt( choice );
 		if ( !LouvreManager.louvreChoice( source ) )
 		{
 			return "";

@@ -354,7 +354,7 @@ public class ArcadeRequest
 		// Serenity
 		{	// hk, gk, ls, tp, gp, kp
 			"a hard boot to the head",
-			"a nice solid kick to the gonads",
+			"a nice, solid kick to the gonads",
 			"knock your ankles out from under you",
 			"launches a fist at your throat",
 			"punched in the small intestine",
@@ -623,6 +623,7 @@ public class ArcadeRequest
 		{
 			return;
 		}
+
 		if ( text.indexOf( "Game Over!" ) != -1 )
 		{
 			ArcadeRequest.logFinalRound( MSTRING[ move ], text );
@@ -631,6 +632,54 @@ public class ArcadeRequest
 		{
 			ArcadeRequest.logRound( MSTRING[ move ], text );
 		}
+	}
+
+	public static final String autoChoiceFightersOfFighting( final GenericRequest request )
+	{
+		String text = request.responseText;
+
+		// If this is the initial visit, decision = 6
+		Matcher matcher = MATCH_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			request.clearDataFields();
+			return "6";
+		}
+
+		// If it is an intermediate round, choose the best move
+		matcher = ROUND_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return null;
+		}
+
+		String challenge = matcher.group( 1 );
+		String oname = matcher.group( 6 );
+		int opponent = findOpponent( oname );
+		if ( opponent < 0 )
+		{
+			return null;
+		}
+
+		int threat = findThreat( opponent, challenge );
+		if ( threat < 0 )
+		{
+			return null;
+		}
+
+		int [] effects = EFFECTIVENESS[ opponent ][ threat ];
+
+		for ( int i = 0; i < effects.length; ++i )
+		{
+			if ( effects[i] == GOOD )
+			{
+				request.clearDataFields();
+				request.addFormField( "attack", MCODE[ i ] );
+				return "1";
+			}
+		}
+
+		return null;
 	}
 
 	public static final void decorateFightersOfFighting( final StringBuffer buffer )
