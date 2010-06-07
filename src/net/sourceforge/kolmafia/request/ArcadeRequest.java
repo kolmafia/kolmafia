@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -80,7 +82,7 @@ public class ArcadeRequest
 
 	private static final Pattern GAME_PATTERN = Pattern.compile( "whichgame=(\\d+)" );
 
-	private static final int getGame( final String urlString )
+	private static final int getGame( final String urlString  )
 	{
 		Matcher matcher = ArcadeRequest.GAME_PATTERN.matcher( urlString );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : 0;
@@ -145,12 +147,12 @@ public class ArcadeRequest
 		{
 		case 1: // Space Trip
 		case 2:	// DemonStar
-		case 4:	// The Fighters of Fighting
+		case 4:	// Fighters of Fighting
 			// These games only take tokens, and you don't have any
 
-                        // If we succeed in playing a game, we were redirected
-                        // to a choice adventure and never get here. Therefore,
-                        // deduct tokens in registerRequest
+			// If we succeed in playing a game, we were redirected
+			// to a choice adventure and never get here. Therefore,
+			// deduct tokens in registerRequest
 
 			if ( responseText.indexOf( "These games only take tokens" ) == -1 )
 			{
@@ -204,8 +206,8 @@ public class ArcadeRequest
 				case 2:	// DemonStar
 					name = "DemonStar";
 					break;
-				case 4:	// The Fighters of Fighting
-					name = "The Fighters of Fighting";
+				case 4:	// Fighters of Fighting
+					name = "Fighters of Fighting";
 					break;
 				default:
 					return false;
@@ -237,5 +239,462 @@ public class ArcadeRequest
 		RequestLogger.updateSessionLog( message );
 
 		return true;
+	}
+
+	/*
+	 * Support for individual games
+	 */
+
+	/* Fighters of Fighting */
+
+	// Opponents
+	private static final int KITTY = 0;
+	private static final int MORBIDDA = 1;
+	private static final int ROO = 2;
+	private static final int SERENITY = 3;
+	private static final int THORNY = 4;
+	private static final int VASO = 5;
+
+	private static final String [] OSTRING = new String[]
+	{
+		"Kitty the Zmobie Basher",
+		"Morbidda",
+		"Roo",
+		"Serenity",
+		"Thorny Toad",
+		"Vaso De Agua",
+	};
+
+	private static final int findOpponent( final String name )
+	{
+		for ( int i = 0; i < OSTRING.length; ++i )
+		{
+			if ( OSTRING[i].equals( name ) )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	// Moves
+	private static final int HEAD_KICK = 0;
+	private static final int GROIN_KICK = 1;
+	private static final int LEG_SWEEP = 2;
+	private static final int THROAT_PUNCH = 3;
+	private static final int GUT_PUNCH = 4;
+	private static final int KNEE_PUNCH = 5;
+
+	private static final String [] MSTRING = new String[]
+	{
+		"Head Kick",
+		"Groin Kick",
+		"Leg Sweep",
+		"Throat Punch",
+		"Gut Punch",
+		"Knee Punch",
+	};
+
+	private static final String [] MCODE = new String[]
+	{
+		"hk",
+		"gk",
+		"lk",
+		"tp",
+		"gp",
+		"kp",
+	};
+
+	private static final int findPlayerMove( final GenericRequest request )
+	{
+		String field = request.getFormField( "attack" );
+		if ( field != null )
+		{
+			for ( int i = 0; i < MCODE.length; ++i )
+			{
+				if ( MCODE[i].equals( field ) )
+				{
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	// Threat Strings: Indexed by opponent, threat
+	private static final String [][] THREATS = new String[][]
+	{
+		// Kitty the Zmobie Basher
+		{	// hk, gk, ls, tp, gp, kp
+			"launches a kick straight at your forehead",
+			"get some paininess in your sexy parts",
+			"ready to sweep your leg",
+			"about to punch you in the throat",
+			"like a punch to the gut",
+			"aims a punch at your kneecap",
+		},
+		// Morbidda
+		{	// hk, gk, ls, tp, gp, kp
+			"launching itself at your head",
+			"aims a knee square at your groin",
+			"trying to trip you up",
+			"aims it at your throat",
+			"aims a punch at your solar plexus",
+			"fist to kneecap",
+		},
+		// Roo
+		{	// hk, gk, ls, tp, gp, kp
+			"aims one big, flat foot at your head",
+			"aims a foot right at your crotch",
+			"aims his tail at your ankles",
+			"punch you in the throat",
+			"prepares to suckerpunch you in the gut",
+			"aims a punch square at your kneecap",
+		},
+		// Serenity
+		{	// hk, gk, ls, tp, gp, kp
+			"a hard boot to the head",
+			"a nice solid kick to the gonads",
+			"knock your ankles out from under you",
+			"launches a fist at your throat",
+			"punched in the small intestine",
+			"about to punch you in the knee",
+		},
+		// Thorny Toad
+		{	// hk, gk, ls, tp, gp, kp
+			"a vicious kick to the head",
+			"he's going for the groin",
+			"crouches to try and sweep your legs",
+			"launches a fist at your throat",
+			"aims it square at your gut",
+			"aims a punch at your knee",
+		},
+		// Vaso De Agua
+		{	// hk, gk, ls, tp, gp, kp
+			"you see his foot flying at your head",
+			"a well-placed foot to the groin",
+			"my feet had been knocked out from under me",
+			"aims it straight at your throat",
+			"aims a helpful fist at your gut",
+			"about to punch you in the knee",
+		},
+	};
+
+	private static final int findThreat( final int opponent, final String challenge )
+	{
+		if ( opponent < 0 )
+		{
+			return -1;
+		}
+
+		String [] challenges = THREATS[ opponent ];
+		for ( int i = 0; i < challenges.length; ++i )
+		{
+			if ( challenge.indexOf( challenges[ i ] ) != -1 )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private static final String findThreatName( final String name, final String challenge )
+	{
+		int threat = ArcadeRequest.findThreat( findOpponent( name ), challenge );
+		return threat < 0 ? null : MSTRING[ threat ];
+	}
+
+	// Effectiveness
+	private static final int FAIL = 0;
+	private static final int POOR = 1;
+	private static final int FAIR = 2;
+	private static final int GOOD = 3;
+
+	private static final String [] ESTRING = new String[]
+	{
+		"Fail",
+		"Poor",
+		"Fair",
+		"Good",
+	};
+
+	private static final int [][][] EFFECTIVENESS = new int [][][]
+	{
+		// Kitty the Zmobie Basher
+		{
+			// vs HK:   hk	 gk	ls    tp    gp	  kp
+			{	   GOOD, FAIR, FAIL, FAIL, FAIL, POOR },
+			// vs GK:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIR, FAIL, GOOD, POOR, FAIL, FAIL },
+			// vs LS:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, GOOD, FAIR, FAIL, POOR, FAIL },
+			// vs TP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIL, POOR, FAIR, FAIL, GOOD },
+			// vs GP:   hk	 gk	ls    tp    gp	  kp
+			{	   POOR, FAIL, FAIL, FAIL, GOOD, FAIR },
+			// vs KP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, POOR, FAIL, GOOD, FAIR, FAIL },
+		},
+		// Morbidda
+		{
+			// vs HK:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, GOOD, FAIR, POOR, FAIL, FAIL },
+			// vs GK:   hk	 gk	ls    tp    gp	  kp
+			{	   GOOD, FAIR, FAIL, FAIL, POOR, FAIL },
+			// vs LS:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIR, FAIL, GOOD, FAIL, FAIL, POOR },
+			// vs TP:   hk	 gk	ls    tp    gp	  kp
+			{	   POOR, FAIL, FAIL, GOOD, FAIR, FAIL },
+			// vs GP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, POOR, FAIL, FAIR, FAIL, GOOD },
+			// vs KP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIL, POOR, FAIL, GOOD, FAIR },
+		},
+		// Roo
+		{
+			// vs HK:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, POOR, FAIL, FAIL, FAIR, GOOD },
+			// vs GK:   hk	 gk	ls    tp    gp	  kp
+			{	   POOR, FAIL, FAIL, GOOD, FAIL, FAIR },
+			// vs LS:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIL, POOR, FAIR, GOOD, FAIL },
+			// vs TP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIR, GOOD, FAIL, FAIL, POOR, FAIL },
+			// vs GP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIR, GOOD, POOR, FAIL, FAIL },
+			// vs KP:   hk	 gk	ls    tp    gp	  kp
+			{	   GOOD, FAIL, FAIR, FAIL, FAIL, POOR },
+		},
+		// Serenity
+		{	// *** Incomplete info in Wiki
+			// vs HK:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIL, GOOD, FAIL, FAIL, FAIL },
+			// vs GK:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, GOOD, FAIR, FAIL, FAIL, FAIL },
+			// vs LS:   hk	 gk	ls    tp    gp	  kp
+			{	   GOOD, FAIL, FAIL, FAIL, FAIL, FAIL },
+			// vs TP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, POOR, FAIL, FAIL, GOOD, FAIL },
+			// vs GP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIL, FAIL, GOOD, FAIL, FAIL },
+			// vs KP:   hk	 gk	ls    tp    gp	  kp
+			{	   POOR, FAIL, FAIL, FAIR, FAIL, GOOD },
+		},
+		// Thorny Toad
+		{
+			// vs HK:   hk	 gk	ls    tp    gp	  kp
+			{	   POOR, FAIL, FAIL, GOOD, FAIL, FAIR },
+			// vs GK:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIL, POOR, FAIR, GOOD, FAIL },
+			// vs LS:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, POOR, FAIL, FAIL, FAIR, GOOD },
+			// vs TP:   hk	 gk	ls    tp    gp	  kp
+			{	   GOOD, FAIL, FAIR, POOR, FAIL, FAIL },
+			// vs GP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIR, GOOD, FAIL, FAIL, FAIL, POOR },
+			// vs KP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIR, GOOD, FAIL, POOR, FAIL },
+		},
+		// Vaso De Agua
+		{
+			// vs HK:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIL, POOR, FAIR, GOOD, FAIL },
+			// vs GK:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, POOR, FAIL, FAIL, FAIR, GOOD },
+			// vs LS:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIR, FAIL, FAIL, GOOD, FAIL, POOR },
+			// vs TP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIL, FAIR, GOOD, FAIL, FAIL, POOR },
+			// vs GP:   hk	 gk	ls    tp    gp	  kp
+			{	   GOOD, FAIL, FAIR, FAIL, POOR, FAIL },
+			// vs KP:   hk	 gk	ls    tp    gp	  kp
+			{	   FAIR, GOOD, FAIL, POOR, FAIL, FAIL },
+		},
+	};
+
+	private final static Pattern MATCH_PATTERN = Pattern.compile( "&quot;(.*?) Vs. (.*?) FIGHT!&quot;", Pattern.DOTALL );
+
+	private static int round = 0;
+	public static final void visitChoiceFightersOfFighting( final String responseText )
+	{
+		// Called when we first visit the Fighters of Fighting.
+		Matcher matcher = MATCH_PATTERN.matcher( responseText );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		String message = "Match: " + matcher.group( 1 ) + " vs. " + matcher.group( 2 );
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+
+		// Reset round counter
+		ArcadeRequest.round = 0;
+	}
+
+	private final static Pattern ROUND_PATTERN = Pattern.compile( "Results:.*?<td>(.*?)</td>.*?Score: ([0123456789,]*)</td>.*?title=\"(\\d+) HP\".*?title=\"(\\d+) HP\".*?<b>(.*?)</b>.*?>VS<.*?<b>(.*?)</b>", Pattern.DOTALL );
+
+	private static final void logRound( final String text )
+	{
+		ArcadeRequest.logRound( null, text );
+	}
+
+	private static final void logRound( final String move, final String text )
+	{
+		Matcher matcher = ROUND_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		StringBuffer buffer = new StringBuffer();
+		String challenge = matcher.group( 1 );
+		String score = matcher.group( 2 );
+		String pHP = matcher.group( 3 );
+		String oHP = matcher.group( 4 );
+		String player = matcher.group( 5 );
+		String opponent = matcher.group( 6 );
+		String threat = findThreatName( opponent, challenge );
+		buffer.append( "Round " );
+		buffer.append( String.valueOf( ArcadeRequest.round ) );
+		buffer.append( ": " );
+		if ( move != null )
+		{
+			buffer.append( move );
+			buffer.append( " " );
+		}
+		buffer.append( player );
+		buffer.append( " (" );
+		buffer.append( pHP );
+		buffer.append( " HP) " );
+		buffer.append( opponent );
+		buffer.append( " (" );
+		buffer.append( oHP );
+		buffer.append( " HP) Score: " );
+		buffer.append( score );
+		buffer.append( " Threat: " );
+		buffer.append( threat );
+		String message = buffer.toString();
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+		ArcadeRequest.round++;
+	}
+
+	private final static Pattern FINAL_ROUND_PATTERN = Pattern.compile( "Game Over!<p>(?:<b>)?(.*?)(?:</b>)?<p>Score: ([0123456789,]*)", Pattern.DOTALL );
+
+	private static final void logFinalRound( final String move, final String text )
+	{
+		Matcher matcher = FINAL_ROUND_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		StringBuffer buffer = new StringBuffer();
+		String result = matcher.group( 1 );
+		String score = matcher.group( 2 );
+		buffer.append( "Round " );
+		buffer.append( String.valueOf( ArcadeRequest.round ) );
+		buffer.append( ": " );
+		buffer.append( move );
+		buffer.append( " Result: " );
+		buffer.append( result );
+		buffer.append( " Final Score: " );
+		buffer.append( score );
+		String message = buffer.toString();
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+	}
+
+	public static final void postChoiceFightersOfFighting( final GenericRequest request )
+	{
+		String text = request.responseText;
+		// If this is the very first round of the match, parse and log
+		// the threat
+		if ( ChoiceManager.lastDecision == 6 )
+		{
+			ArcadeRequest.logRound( text );
+			return;
+		}
+
+		// Find the move the player used
+		int move = findPlayerMove( request );
+		if ( move < 0 )
+		{
+			return;
+		}
+		if ( text.indexOf( "Game Over!" ) != -1 )
+		{
+			ArcadeRequest.logFinalRound( MSTRING[ move ], text );
+		}
+		else
+		{
+			ArcadeRequest.logRound( MSTRING[ move ], text );
+		}
+	}
+
+	public static final void decorateFightersOfFighting( final StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "arcadeGameHints" ) )
+		{
+			return;
+		}
+
+		String text = buffer.toString();
+
+		Matcher matcher = ROUND_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		String challenge = matcher.group( 1 );
+		String oname = matcher.group( 6 );
+		int opponent = findOpponent( oname );
+		if ( opponent < 0 )
+		{
+			return;
+		}
+
+		int threat = findThreat( opponent, challenge );
+		if ( threat < 0 )
+		{
+			return;
+		}
+
+		int [] effects = EFFECTIVENESS[ opponent ][ threat ];
+
+		int index1 = text.indexOf( "<form method=\"post\" action=\"choice.php\">" );
+		if ( index1 < 0 )
+		{
+			return;
+		}
+
+		buffer.setLength( 0 );
+		buffer.append( text.substring( 0, index1 ) );
+
+		for ( int i = 0; i < 6; ++i )
+		{
+			int index2 =  text.indexOf( "</form>", index1 );
+
+			// If KoL says we've run out of choices, quit now
+			if ( index2 == -1 )
+			{
+				break;
+			}
+
+			// Start spoiler text
+			buffer.append( text.substring( index1, index2 ) );
+			buffer.append( "<br><font size=-1>(" );
+
+			// Say what the choice will give you
+			buffer.append( ESTRING[ effects[ i ] ] );
+
+			// Finish spoiler text
+			buffer.append( ")</font></form>" );
+			index1 = index2 + 7;
+		}
+
+		buffer.append( text.substring( index1 ) );
 	}
 }

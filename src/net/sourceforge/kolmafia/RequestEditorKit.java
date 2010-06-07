@@ -106,7 +106,7 @@ public class RequestEditorKit
 	extends HTMLEditorKit
 {
 	private static final Pattern FORM_PATTERN = Pattern.compile( "<form name=choiceform(\\d+)" );
-	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
 	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );

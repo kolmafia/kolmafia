@@ -244,6 +244,7 @@ public class OptionsFrame
 			{ "relayTrimsZapList", "Trim zap list to show only known zappable items" },
 			{},
 			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
+			{ "arcadeGameHints", "Provide hints for games in the Game Grid Arcade" },
 		};
 
 		/**
