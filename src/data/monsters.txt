@@ -176,17 +176,17 @@ Auteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsu
 Axe Handle	HP: 3 Def: 3 Atk: 1	pine tar (20)
 B&eacute;arnaise zombie	HP: 0
 BASIC Elemental	HP: 40 Def: 50 Atk: 50
-BRICKO Airship	HP: 10500
-BRICKO Bat	HP: 100
-BRICKO Cathedral	HP: 100000 Def: 653 Atk: 725	gilded BRICKO brick (100)
-BRICKO Elephant	HP: 200
-BRICKO Gargantuchicken	HP: 1000000
-BRICKO Octopus	HP: 250
-BRICKO Ooze	HP: 50
-BRICKO Oyster	HP: 125
-BRICKO Python	HP: 0
-BRICKO Turtle	HP: 150
-BRICKO Vacuum Cleaner	HP: 2500
+BRICKO Airship	HP: 10500 Def: 500 Atk: 600	BRICKO reactor (0)
+BRICKO Bat	HP: 100 Def: 70 Atk: 70
+BRICKO Cathedral	HP: 100000 Def: 725 Atk: 725	gilded BRICKO brick (100)
+BRICKO Elephant	HP: 200 Def: 130 Atk: 130
+BRICKO Gargantuchicken	HP: 1000000 Def: 1000 Atk: 1000	BRICKO egg (100)
+BRICKO Octopus	HP: 250 Def: 140 Atk: 140
+BRICKO Ooze	HP: 50 Def: 40 Atk: 40
+BRICKO Oyster	HP: 125 Def: 100 Atk: 100	black BRICKO brick (0)
+BRICKO Python	HP: 300 Def: 160 Atk: 160	green BRICKO brick (25)
+BRICKO Turtle	HP: 150 Def: 120 Atk: 120
+BRICKO Vacuum Cleaner	HP: 2500 Def: 400 Atk: 400	broken BRICKO brick (0)
 Bailey's Beetle	HP: 215 Def: 195 Atk: 195 E: stench	green clay bead (30)	floorboard cruft (30)	battered hubcap (30)	communications windchimes (12)	reinforced beaded headband (1)	round purple sunglasses (2)	bullet-proof corduroys (4)
 Baiowulf	HP: 40 Def: 25 Atk: 25	Talisman of Baio (100)
 Bangyomaman Warrior	HP: 160 Def: 140 Atk: 150	neurostim pill (0)	X-37 gun (0)	essence of heat (c100)
