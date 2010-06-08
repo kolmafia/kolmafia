@@ -3702,11 +3702,20 @@ public class FightRequest
 			return;
 		}
 
-		// Walk up the tree: <td><center><table><tbody><tr><td><img>
+		// Walk up the tree and find <center>
 		//
 		// The children of that node have everything interesting about
 		// the fight.
-		TagNode fight = mon.getParent().getParent().getParent().getParent().getParent().getParent();
+		TagNode fight = mon;
+                while ( true )
+                {
+                        fight = fight.getParent();
+                        String name = fight.getName();
+                        if ( name.equals( "center" ) || name.equals( "body" ) )
+                        {
+                                break;
+                        }
+                }
 
 		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logCleanedHTML" ) )
 		{
@@ -4117,8 +4126,8 @@ public class FightRequest
 					return;
 				}
 
-				if ( status.ghost != null && status.logFamiliar &&
-				     text.indexOf( status.ghost) != -1 )
+				boolean ghostAction = status.ghost != null && text.indexOf( status.ghost) != -1;
+				if ( ghostAction && status.logFamiliar )
 				{
 					// Pastamancer ghost action
 					FightRequest.logText( text, status );
@@ -4132,7 +4141,7 @@ public class FightRequest
 						FightRequest.logMonsterDamage( action, damage );
 					}
 					FightRequest.healthModifier += damage;
-					return;
+					continue;
 				}
 
 				if ( text.startsWith( "You acquire a skill" ) )
