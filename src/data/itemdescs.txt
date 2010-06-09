@@ -2603,7 +2603,7 @@
 2597	631907210	leathery bat skin	leathery bat skins
 2598	996364808	leathery rat skin	leathery rat skins
 2599	666281098	Discount Telescope Warehouse gift certificate	Discount Telescope Warehouse gift certificates
-2600	496663617	carbonated water lily	carbonated water lilys
+2600	496663617	carbonated water lily	carbonated water lilies
 2601	338816180	Staff of the Midnight Snack	Staves of the Midnight Snack
 2602	572669193	Staff of Blood and Pudding	Staves of Blood and Pudding
 2603	852684951	smoldering box	smoldering boxes
