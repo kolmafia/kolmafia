@@ -3704,18 +3704,23 @@ public class FightRequest
 
 		// Walk up the tree and find <center>
 		//
-		// The children of that node have everything interesting about
-		// the fight.
+		// The parent of that node has everything interesting about the
+		// fight.
 		TagNode fight = mon;
-                while ( true )
-                {
-                        fight = fight.getParent();
-                        String name = fight.getName();
-                        if ( name.equals( "center" ) || name.equals( "body" ) )
-                        {
-                                break;
-                        }
-                }
+		while ( true )
+		{
+			fight = fight.getParent();
+			if ( fight == null )
+			{
+				return;
+			}
+			if ( fight.getName().equals( "center" ) )
+			{
+				// One more level
+				fight = fight.getParent();
+				break;
+			}
+		}
 
 		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logCleanedHTML" ) )
 		{
