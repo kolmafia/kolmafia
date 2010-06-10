@@ -105,7 +105,6 @@ var numPreds = {
 var stringPreds = {
 // Predicates which take a string argument
 	"match": true,
-	"monstername": true,
 };
 
 var argPreds = {
@@ -113,6 +112,7 @@ var argPreds = {
 	"haseffect": true,
 	"hascombatitem": true,
 	"hasskill": true,
+	"monstername": true,
 };
 
 function predicate(text, err)
@@ -301,6 +301,6 @@ function syntaxcheck()
 	}
 
 	if (output.value == "") {
-		output.value = "No errors found (KoLmafia syntax checker v1.1)";
+		output.value = "No errors found (KoLmafia syntax checker v1.2)";
 	}
 }
