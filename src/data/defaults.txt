@@ -271,6 +271,7 @@ user	chessboardsCleared	0
 user	chosenTrip
 user	clanAttacksEnabled	false
 user	cocktailSummons	0
+user	counterScript
 user	concertVisited	false
 user	crimboTreeDays	7
 user	currentBountyItem	0
