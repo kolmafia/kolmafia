@@ -299,7 +299,7 @@ plain pizza	2	1	2-4	0	0	0
 plum	1	4	3	15-20	0	0
 pointy mushroom	2	1	2-3	0	0	12-14	lose 1 HP
 poutine	2	1	2-3	2-3	2-3	2-3
-powdered donut	1	1	1	0	5-10	0	5 Grrrrrrreat! (+10 Mysticality stats/fight)
+powdered donut	1	1	1	0	5-10	0	5 Powdered (+10 Mysticality stats/fight)
 pr0n chow mein	4	7	16-23	20-26	0	20-26
 pr0n cocktail	2	1	2-5	8-12	8-12	8-12
 pr0n m4nic0tti	4	3	8-14	0	0	28-30
