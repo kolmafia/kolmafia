@@ -1655,7 +1655,7 @@
 1646	spooky and sour sauce	none	all	100
 1647	stench and sour sauce	none	all	100
 1648	sleazy and sour sauce	none	all	100
-1649	brick	none, curse	gift	0
+1649	brick	none, curse	display	0
 1650	milk of magnesium	usable	all	36
 1651	foie gras	food	all	30
 1652	candy brain	multiple, candy	all	54

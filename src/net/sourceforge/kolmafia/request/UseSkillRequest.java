@@ -671,8 +671,12 @@ public class UseSkillRequest
 
 			// If none, attempt to recover MP in order to cast;
 			// take auto-recovery into account.
+			// Also recover MP if an opera mask is worn, to maximize its benefit.
+			// (That applies only to AT buffs, but it's unlikely that an opera mask
+			// will be worn at any other time than casting one.)
 
-			if ( currentCast == 0 )
+			if ( currentCast == 0 ||
+				EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId() == ItemPool.OPERA_MASK )
 			{
 				currentCast = Math.min( castsRemaining, maximumCast );
 				int currentMP = KoLCharacter.getCurrentMP();

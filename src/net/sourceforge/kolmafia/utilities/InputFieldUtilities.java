@@ -154,6 +154,7 @@ public class InputFieldUtilities {
 					return filter.isVisible( o ) && super.isVisible( o );
 				}			
 			}, BorderLayout.NORTH);
+		inputs.updateFilter( false );
 		panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
 
 		int option =
