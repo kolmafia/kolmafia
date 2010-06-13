@@ -788,7 +788,7 @@ icy-hot katana	Hot Damage: +3, Cold Damage: +3
 immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 infernal fife	Hot Damage: +7
 infernal toilet brush	Stench Damage: +20, Maximum HP: +20, Maximum MP: +20, Class: "Seal Clubber"
-# inflatable baseball bat
+inflatable baseball bat	Weapon Damage: +30
 iron pasta spoon	Spell Damage: +10
 jack flapper	Spell Damage: +5
 jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20

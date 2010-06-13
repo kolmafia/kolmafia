@@ -257,8 +257,10 @@ public abstract class UseLinkDecorator
 			return KoLConstants.NOCREATE;
 
 		// The eyepatch can be combined, but is usually an outfit piece
+		// The dreadsack can be combined, but is usually an outfit piece
 		// The frilly skirt is usually used for the frathouse blueprints
 		case ItemPool.EYEPATCH:
+		case ItemPool.DREADSACK:
 		case ItemPool.FRILLY_SKIRT:
 			return KoLConstants.NOCREATE;
 
