@@ -3693,9 +3693,16 @@ public class FightRequest
 			return;
 		}
 
-		// Find the 'monname' span - the 'monpic' image doesn't seem to
-		// be reliable any more.
-		TagNode mon = node.findElementByAttValue( "id", "monname", true, false );
+		// Look first for 'monpic' image. All haiku monsters and most
+		// normal monsters have that.
+		TagNode mon = node.findElementByAttValue( "id", "monpic", true, false );
+		// If that fails, look for 'monname' span.
+		if ( mon == null )
+		{
+			mon = node.findElementByAttValue( "id", "monname", true, false );
+		}
+
+		// If that fails, we can't figure out where to start parsing
 		if ( mon == null )
 		{
 			RequestLogger.printLine( "Cannot find monster." );
