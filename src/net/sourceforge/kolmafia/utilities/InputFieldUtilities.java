@@ -103,7 +103,7 @@ public class InputFieldUtilities {
 				InputFieldUtilities.activeWindow, panel,
 				StringUtilities.basicTextWrap(message),
 				JOptionPane.OK_CANCEL_OPTION);
-		return option == JOptionPane.CANCEL_OPTION
+		return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION 
 			? null : selector.getSelectedValue();
 	}
 
@@ -161,7 +161,7 @@ public class InputFieldUtilities {
 				InputFieldUtilities.activeWindow, panel,
 				StringUtilities.basicTextWrap(message),
 				JOptionPane.OK_CANCEL_OPTION);
-		return option == JOptionPane.CANCEL_OPTION
+		return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION
 			? new Object[0] : selector.getSelectedValues();
 	}
 
