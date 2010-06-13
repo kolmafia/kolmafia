@@ -3719,6 +3719,7 @@ public class FightRequest
 			fight = fight.getParent();
 			if ( fight == null )
 			{
+				RequestLogger.printLine( "Cannot find combat results." );
 				return;
 			}
 			if ( fight.getName().equals( "center" ) )
@@ -3904,6 +3905,10 @@ public class FightRequest
 					int itemId = ItemDatabase.getItemIdFromDescription( m.group() );
 					AdventureResult result = ItemPool.get( itemId, 1 );
 					ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+					if ( str.indexOf( "Item unequipped:" ) != -1 )
+					{	// Item removed by Zombo
+						EquipmentManager.discardEquipment( itemId );
+					}
 					return;
 				}
 
@@ -4810,6 +4815,12 @@ public class FightRequest
 				ItemPool.QUADROCULARS, 1 ) ) ? 101 : 150;
 			TurnCounter.stopCounting( type );
 			TurnCounter.startCounting( cooldown, type + " loc=*", "heboulder.gif" );
+			break;
+		
+		case 7100: // Funk Bluegrass Fusion
+			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 20;
+			break;
+
 		}
 	}
 

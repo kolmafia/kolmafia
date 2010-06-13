@@ -545,7 +545,7 @@ public abstract class CustomCombatManager
 			return "abort";
 		}
 		String action = Preferences.getString( "battleAction" );
-		if ( !action.startsWith( "custom" ) )
+		if ( !action.startsWith( "custom" ) && !encounter.equals( "global prefix" ) )
 		{
 			switch ( roundCount )
 			{
