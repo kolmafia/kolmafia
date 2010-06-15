@@ -1289,6 +1289,34 @@ public class ResultProcessor
 		case ItemPool.DECODED_CULT_DOCUMENTS:
 			ResultProcessor.processItem( ItemPool.CULT_MEMO, -5 );
 			break;
+
+		case ItemPool.PIXEL_CHAIN_WHIP:
+			// If you acquire a pixel chain whip, you lose the
+			// pixel whip you were wielding and wield the chain
+			// whip in its place.
+
+			AdventureResult whip = ItemPool.get( ItemPool.PIXEL_WHIP, 1 );
+			if ( KoLCharacter.hasEquipped( whip ) )
+			{
+				int slot = EquipmentManager.discardEquipment( whip );
+				EquipmentManager.setEquipment( slot, result );
+
+			}
+			break;
+
+		case ItemPool.PIXEL_MORNING_STAR:
+			// If you acquire a pixel morning star, you lose the
+			// pixel chain whip you were wielding and wield the
+			// morning star in its place.
+
+			AdventureResult chainWhip = ItemPool.get( ItemPool.PIXEL_CHAIN_WHIP, 1 );
+			if ( KoLCharacter.hasEquipped( chainWhip ) )
+			{
+				int slot = EquipmentManager.discardEquipment( chainWhip );
+				EquipmentManager.setEquipment( slot, result );
+
+			}
+			break;
 		}
 	}
 

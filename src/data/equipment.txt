@@ -753,7 +753,10 @@ pestoblade	50	Mus: 10	1-handed sword
 pipe wrench	150	Mus: 60	1-handed club
 pitchfork	125	Mus: 47	1-handed spear
 pixel boomerang	50	Mox: 10	1-handed boomerang
+pixel chain whip	50	Mus: 10	1-handed whip
+pixel morning star	75	Mus: 22	1-handed whip
 pixel sword	50	Mus: 10	1-handed sword
+pixel whip	10	Mus: 0	1-handed whip
 plastic guitar	100	Mox: 35	2-handed guitar
 plexiglass pikestaff	180	Mus: 75	2-handed club
 pocket theremin	35	Mox: 2	2-handed theremin

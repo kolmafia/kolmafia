@@ -1223,6 +1223,12 @@ public class KoLAdventure
 			"You can't get to that area.",
 		},
 
+		// 8-bit realm and Vanya's Castle
+		{
+			"You can't get to the 8-bit realm right now",
+			"You can't get to that area.",
+		},
+
 		// Out of adventures
 		{
 			"You're out of adventures",

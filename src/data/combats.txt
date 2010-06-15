@@ -62,6 +62,7 @@ Boss Bat's Lair	100	Beefy Bodyguard Bat	The Boss Bat
 Bugbear Pens	100	An Angry Bugbear: 3	A Bugged Bugbear: 3	Mad Bugbears: 3	A Revolting Bugbear: 3	A Revolving Bugbear: 3	An Annoying Spooky Gravy Fairy: 2
 Burnbarrel Blvd.	-1	Hot Hobo	Ol' Scratch: 0
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
+Chapel	100
 Convention Hall Lobby	100	Booth Slime	Fan Slime	Vendor Slime
 Outside the Club	100	Breakdancing Raver	Pop-and-Lock Raver	Running Man
 # Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
@@ -88,6 +89,7 @@ Family Plot	100	Vampire Duck	Zombie Duck
 Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
 Feeding Chamber	100	Filthworm Drone
 Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
+Foyer	100	Fleaman	Ghost	Medusa
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
 Frat House (Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority Girl
 Friar's Gate	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1

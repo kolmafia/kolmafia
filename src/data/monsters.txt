@@ -360,6 +360,7 @@ Fisherfish	HP: 650 Def: 475 Atk: 550 Meat: 240-360	glowing esca (3)	halibut (c3)
 Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat Meat: 4-7	meat paste (40)	meat paste (40)	meat paste (40)
 Flaming Samurai	HP: 100000
 Flaming Troll	HP: 73 Def: 83 Atk: 83 Meat: 32-48	flaming talons (10)	Trollhouse cookies (40)
+Fleaman	HP: 0	black pixel (0)	brown pixel (0)	brown pixel (0)
 Flint-Scraping Cave Elf		rock (15)	stick (10)	stick (5)
 Floating Platter of Hors D'Oeuvres	HP: 120 Def: 110 Atk: 110 ED: spooky	dehydrated caviar (30)	desiccated apricot (30)	flute of flat champagne (30)	hors d 'oeuvre tray (4)
 Flock of seagulls	HP: 0
@@ -385,6 +386,7 @@ Gaunt Ghuol	HP: 50 Def: 56 Atk: 55 E: spooky Meat: 18-24	ghuol ears (20)	ghuol e
 Gelatinous Cube	HP: 6 Atk: 3 Def: 3  Meat: 20-30	Orcish meat locker (25)	rusty metal ring (25)	rusty metal shaft (25)
 Generic Duck	HP: 180 Atk: 166 Def: 166 Meat: 70-80
 Ghastly Organist	HP: 120 Def: 110 Atk: 100	opera mask (20)
+Ghost	HP: 0	white pixel (0)	white pixel (0)	white pixel (0)	white pixel (0)	white pixel (0)
 Ghost Miner	HP: 31 Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 Ghostly Pickle Factory Worker	HP: 180 Def: 200 Atk: 200	ghost cucumber (30)	ghost cucumber (30)
 Ghuol	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 30-36	ghuol egg (25)	ghuol ears (25)
@@ -528,6 +530,7 @@ Mariachi Calavera	HP: 30 Def: 22 Atk: 22	bottle of tequila (30)	marzipan skull (
 Mayonnaise Wasp	HP: 11 Def: 17 Atk: 17 "A Little Bit Poisoned"
 Me4t BegZ0r	HP: 77 Def: 87 Atk: 87	meat vortex (100)
 Mean Drunk Duck	HP: 184 Atk: 180 Meat: 174-229	bottle of vodka (20)	bottle of tequila (20)	bottle of whiskey (20)	duct tape (5)
+Medusa	HP: 0	blue pixel (0)	white pixel (0)	white pixel (0)
 Menacing Construct	HP: 400 Def: 350 Atk: 400	El Vibrato punchcard (115 holes) (1)	El Vibrato punchcard (142 holes) (1)
 Menacing Lawn Gnome	HP: 75 Def: 50 Atk: 50	machetito (0)	pointy red hat (0)
 Menacing Thug	HP: 65 Def: 55 Atk: 55

@@ -835,7 +835,10 @@ pestoblade	Muscle: +3, Stench Damage: +3
 pipe wrench	Weapon Damage: +8
 pitchfork	Weapon Damage: +9
 pixel boomerang	Item Drop: +5
+pixel chain whip	Muscle: +4, Mysticality: +4, Moxie: +4
+pixel morning star	Muscle: +5, Mysticality: +5, Moxie: +5
 pixel sword	Initiative: +15
+pixel whip	Muscle: +3, Mysticality: +3, Moxie: +3
 plastic guitar	Moxie: +5, Initiative: +15
 plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +10, Muscle Percent: +30
 pocket theremin	Spooky Damage: +4
