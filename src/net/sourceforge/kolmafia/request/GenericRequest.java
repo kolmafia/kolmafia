@@ -2022,6 +2022,10 @@ public class GenericRequest
 		{
 			this.containsUpdate = FightRequest.processResults( this.responseText );
 		}
+		else if ( urlString.startsWith( "adventure.php" ) )
+		{
+			this.containsUpdate = ResultProcessor.processResults( true, this.responseText );
+		}
 		else
 		{
 			this.containsUpdate = ResultProcessor.processResults( false, this.responseText );
