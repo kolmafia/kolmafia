@@ -39,10 +39,9 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -78,6 +77,32 @@ public class PixelRequest
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
+	}
+
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=makewhich value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*>([^&]*)&nbsp;", Pattern.DOTALL );
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "mystic.php" ) )
+		{
+			return;
+		}
+
+		// Learn new trade items by simply visiting Phineas
+		Matcher matcher = ITEM_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			int id = StringUtilities.parseInt( matcher.group(1) );
+			String desc = matcher.group(2);
+			String name = matcher.group(3);
+			String data = ItemDatabase.getItemDataName( id );
+			if ( data == null || !data.equalsIgnoreCase( name ) )
+			{
+				ItemDatabase.registerItem( id, name.toLowerCase(), desc );
+			}
+		}
+
+		KoLmafia.saveDataOverride();
 	}
 
 	public static final boolean registerRequest( final String urlString )

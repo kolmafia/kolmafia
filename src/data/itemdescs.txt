@@ -4591,16 +4591,16 @@
 4585	262106157	collection of tiny spooky objects	collections of tiny spooky objects
 4586	444310068	boulder	boulders
 4587	262678358	tiny goth giant	tiny goth giants
-4588
-4589
-4590
-4591
-4592
-4593
-4594
-4595
-4596
-4597
+4588	768196937	brown pixel	brown pixels
+4589	678588952	pixel whip	pixel whip
+4590	637629378	pixel chain whip
+4591	533398816	pixel morning star
+4592	309280416	pixel orb
+4593	643478165	pixellated moneybag	pixellated moneybags
+4594	493000605	pixel cross	pixel crosss
+4595	484723817	pixel holy water	pixel holy waters
+4596	291539872	map to Vanya's Castle
+4597	326976545	antique 8-Bit Power magazine	antique issues of 8-Bit Power magazine
 4598
 4599	594439545	antique bottle opener	antique bottle openers
 4600	577302208	map to the Kegger in the Woods

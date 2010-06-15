@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
 import net.sourceforge.kolmafia.request.PhineasRequest;
+import net.sourceforge.kolmafia.request.PixelRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -647,6 +648,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "mrstore.php" ) )
 		{
 			MrStoreRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "mystic.php" ) )
+		{
+			PixelRequest.parseResponse( location, responseText );
 		}
 
 		else if ( ( location.startsWith( "multiuse.php" ) ||

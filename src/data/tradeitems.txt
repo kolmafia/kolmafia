@@ -4594,16 +4594,16 @@
 4585	collection of tiny spooky objects	usable	all	0
 4586	boulder	none, combat	all	44
 4587	tiny goth giant	none, combat	all	1000
-4588
-4589
-4590
-4591
-4592
-4593
-4594
-4595
-4596
-4597
+4588	brown pixel	none	all	25
+4589	pixel whip	weapon	all	15
+4590	pixel chain whip	weapon	display	65
+4591	pixel morning star	weapon	display	80
+4592	pixel orb	usable	all	0
+4593	pixellated moneybag	usable	all	0
+4594	pixel cross	none, combat	all	35
+4595	pixel holy water	none, combat	all	35
+4596	map to Vanya's Castle	usable	none	0
+4597	antique 8-Bit Power magazine	usable	all	0
 4598
 4599	antique bottle opener	usable	all	0
 4600	map to the Kegger in the Woods	reusable	none	0

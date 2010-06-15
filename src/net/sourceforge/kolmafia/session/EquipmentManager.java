@@ -411,6 +411,11 @@ public class EquipmentManager
 	public static final int discardEquipment( final int itemId )
 	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
+		return EquipmentManager.discardEquipment( item );
+	}
+
+	public static final int discardEquipment( final AdventureResult item )
+	{
 		SpecialOutfit.forgetEquipment( item );
 		for ( int slot = 0 ; slot <= EquipmentManager.FAMILIAR ; ++slot )
 		{
@@ -424,7 +429,7 @@ public class EquipmentManager
 				{
 					AdventureResult.addResultToList( KoLConstants.inventory, item );
 				}
-				ResultProcessor.processItem( itemId, -1 );
+				ResultProcessor.processItem( item.getItemId(), -1 );
 				return slot;
 			}
 		}
