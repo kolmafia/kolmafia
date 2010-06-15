@@ -4818,7 +4818,7 @@ public class FightRequest
 			break;
 		
 		case 7100: // Funk Bluegrass Fusion
-			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 20;
+			FightRequest.levelModifier -= 20;
 			break;
 
 		}
