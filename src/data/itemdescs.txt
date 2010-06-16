@@ -4601,7 +4601,7 @@
 4595	484723817	pixel holy water	pixel holy waters
 4596	291539872	map to Vanya's Castle
 4597	326976545	antique 8-Bit Power magazine	antique issues of 8-Bit Power magazine
-4598
+4598	344585269	pixel stopwatch
 4599	594439545	antique bottle opener	antique bottle openers
 4600	577302208	map to the Kegger in the Woods
 4601	560829856	plastic cup of beer	plastic cups of beer

@@ -4604,7 +4604,7 @@
 4595	pixel holy water	none, combat	all	35
 4596	map to Vanya's Castle	usable	none	0
 4597	antique 8-Bit Power magazine	usable	all	0
-4598
+4598	pixel stopwatch	none, combat	all	0
 4599	antique bottle opener	usable	all	0
 4600	map to the Kegger in the Woods	reusable	none	0
 4601	plastic cup of beer	drink, combat	all	10
