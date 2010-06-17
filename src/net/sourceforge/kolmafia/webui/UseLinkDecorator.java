@@ -589,6 +589,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.WORM_RIDING_HOOKS:
 
 				return new UseLink( itemId, itemCount, "wormride", "beach.php?action=woodencity" );
+
 			case ItemPool.PIXEL_CHAIN_WHIP:
 			case ItemPool.PIXEL_MORNING_STAR:
 				// If we "acquire" the pixel whip upgrades in
@@ -596,6 +597,22 @@ public abstract class UseLinkDecorator
 				if ( location.startsWith( "adventure.php" ) )
 				{
 					return null;
+				}
+				break;
+
+			case ItemPool.INFERNAL_SEAL_CLAW:
+			case ItemPool.TURTLE_POACHER_GARTER:
+			case ItemPool.SPAGHETTI_BANDOLIER:
+			case ItemPool.SAUCEBLOB_BELT:
+			case ItemPool.NEW_WAVE_BLING:
+			case ItemPool.BELT_BUCKLE_OF_LOPEZ:
+				// If we "acquire" the Nemesis accessories from
+				// a fight, give a link to the guild to collect
+				// the reward, not an "outfit" link.
+				if ( location.startsWith( "fight.php" ) )
+				{
+					// scg = Same Class in Guild
+					return new UseLink( itemId, "guild", "guild.php?place=scg" );
 				}
 				break;
 			}
