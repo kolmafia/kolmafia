@@ -372,7 +372,7 @@ public abstract class UseLinkDecorator
 		}
 		else
 		{
-			link = getUseLink( itemId, itemCount, consumeMethod );
+			link = getUseLink( itemId, itemCount, location, consumeMethod );
 		}
 
 		if ( link == null )
@@ -406,7 +406,7 @@ public abstract class UseLinkDecorator
 		return null;
 	}
 
-	private static final UseLink getUseLink( int itemId, int itemCount, int consumeMethod )
+	private static final UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod )
 	{
 		if ( !ItemDatabase.meetsLevelRequirement(
 			ItemDatabase.getItemName( itemId ) ) )
@@ -589,6 +589,15 @@ public abstract class UseLinkDecorator
 			case ItemPool.WORM_RIDING_HOOKS:
 
 				return new UseLink( itemId, itemCount, "wormride", "beach.php?action=woodencity" );
+			case ItemPool.PIXEL_CHAIN_WHIP:
+			case ItemPool.PIXEL_MORNING_STAR:
+				// If we "acquire" the pixel whip upgrades in
+				// the Chapel, they are autoequipped
+				if ( location.startsWith( "adventure.php" ) )
+				{
+					return null;
+				}
+				break;
 			}
 
 			int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
