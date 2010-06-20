@@ -62,6 +62,7 @@ public class ArcadeRequest
 	public void reconstructFields()
 	{
 	}
+
 	public static final int getTurnsUsed( GenericRequest request )
 	{
 		String action = request.getFormField( "action" );
@@ -72,7 +73,10 @@ public class ArcadeRequest
 
 		String game = request.getFormField( "whichgame" );
 		if ( game != null && 
-		     ( game.equals( "1" ) || game.equals( "2" ) || game.equals( "4" ) ) )
+		     ( game.equals( "1" ) ||
+		       game.equals( "2" ) ||
+		       game.equals( "3" ) ||
+		       game.equals( "4" ) ) )
 		{
 			return 1;
 		}
@@ -147,6 +151,7 @@ public class ArcadeRequest
 		{
 		case 1: // Space Trip
 		case 2:	// DemonStar
+		case 3:	// Dungeon Fist!
 		case 4:	// Fighters of Fighting
 			// These games only take tokens, and you don't have any
 
@@ -205,6 +210,9 @@ public class ArcadeRequest
 					break;
 				case 2:	// DemonStar
 					name = "DemonStar";
+					break;
+				case 3:	// Dungeon Fist!
+					name = "Dungeon Fist!";
 					break;
 				case 4:	// Fighters of Fighting
 					name = "Fighters of Fighting";
