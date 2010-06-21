@@ -1992,11 +1992,12 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "mall.php" ) ||
 		     urlString.startsWith( "searchmall.php" ) ||
-		     urlString.startsWith( "account.php" ) )
+		     urlString.startsWith( "account.php" ) ||
+		     urlString.startsWith( "records.php" ) )
 		{
 			// These pages cannot possibly contain an actual item
 			// drop, but may have a bogus "You acquire an item:" as
-			// part of a store name or profile quote.
+			// part of a store name, profile quote, familiar name, etc.
 			this.containsUpdate = false;
 		}
 		else if ( urlString.startsWith( "bet.php" ) )

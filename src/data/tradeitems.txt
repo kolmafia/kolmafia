@@ -2641,7 +2641,7 @@
 2632	mother's little helper	multiple	all	115
 2633	pat-a-cake pendant	accessory	all	25
 2634	mummy wrapping	multiple	all	50
-2635	really thick bandage	usable	all	90
+2635	really thick bandage	hp	all	90
 2636	mummy mask	hat	all	165
 2637	gauze shorts	pants	all	165
 2638	gauze hammock	usable	all	200
