@@ -402,11 +402,6 @@ public class ArcadeRequest
 			ArcadeRequest.logText( "You find a key" );
 		}
 
-		else if ( responseText.indexOf( "a large wooden treasure chest" ) != -1 )
-		{
-			ArcadeRequest.logText( "You find treasure" );
-		}
-
 		else if ( responseText.indexOf( "A blue potion bottle rests on the floor in the alcove" ) != -1 )
 		{
 			ArcadeRequest.logText( "You find a Magic Potion" );
@@ -442,11 +437,16 @@ public class ArcadeRequest
 			     responseText.indexOf( "the wall disappears" ) != -1 )
 			{
 				ArcadeRequest.logText( "You unlock the door" );
-			}
 
-			if ( responseText.indexOf( "a square black pit" ) != -1 )
-			{
-				ArcadeRequest.logText( "You find the exit" );
+				if ( responseText.indexOf( "a large wooden treasure chest" ) != -1 )
+				{
+					ArcadeRequest.logText( "You find treasure" );
+				}
+
+				else if ( responseText.indexOf( "a square black pit" ) != -1 )
+				{
+					ArcadeRequest.logText( "You find the exit" );
+				}
 			}
 		}
 
@@ -757,8 +757,7 @@ public class ArcadeRequest
 		}
 
 		String message = "Match: " + matcher.group( 1 ) + " vs. " + matcher.group( 2 );
-		RequestLogger.printLine( message );
-		RequestLogger.updateSessionLog( message );
+		ArcadeRequest.logText( message );
 
 		// Reset round counter
 		ArcadeRequest.round = 0;
@@ -806,9 +805,7 @@ public class ArcadeRequest
 		buffer.append( score );
 		buffer.append( " Threat: " );
 		buffer.append( threat );
-		String message = buffer.toString();
-		RequestLogger.printLine( message );
-		RequestLogger.updateSessionLog( message );
+		ArcadeRequest.logText( buffer.toString() );
 		ArcadeRequest.round++;
 	}
 
@@ -833,9 +830,7 @@ public class ArcadeRequest
 		buffer.append( result );
 		buffer.append( " Final Score: " );
 		buffer.append( score );
-		String message = buffer.toString();
-		RequestLogger.printLine( message );
-		RequestLogger.updateSessionLog( message );
+		ArcadeRequest.logText( buffer.toString() );
 	}
 
 	public static final void postChoiceFightersOfFighting( final GenericRequest request )
