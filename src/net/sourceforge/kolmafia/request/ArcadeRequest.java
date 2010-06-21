@@ -306,7 +306,7 @@ public class ArcadeRequest
 	        |                               |               |
 	  +-----+----+    +----------+    +-----X----+    +-----+----+
 	  |          |    |          |    |          |    |  Ghosts  |
-	  |  Ghosts  +----+  MUSCLE  +----+ TREASURE |    |  FOOD    |
+	  |  Ghosts  +----+  MUSCLE  |    | TREASURE |    |  FOOD    |
 	  |          |    |  POTION  |    |          |    |  KEY     |
 	  +----------+    +----------+    +----------+    +----------+
 	*/
@@ -317,6 +317,8 @@ public class ArcadeRequest
 		// Parse out the choice names
 		ArcadeRequest.parseChoiceNames( responseText );
 	}
+
+	private final static Pattern FINAL_SCORE_PATTERN = Pattern.compile( "FINAL SCORE: ([0123456789,]*)", Pattern.DOTALL );
 
 	public static final void postChoiceDungeonFist( final GenericRequest request )
 	{
@@ -332,6 +334,8 @@ public class ArcadeRequest
 		// Log what we see
 		String responseText = request.responseText;
 
+		// First: look for encounters
+
 		if ( responseText.indexOf( "bright pink" ) != -1 )
 		{
 			ArcadeRequest.logText( "Encounter: Grunts" );
@@ -343,24 +347,24 @@ public class ArcadeRequest
 		// Now that that's taken care of, you turn to regard the large
 		// stone box. That's probably not something you want to leave
 		// intact, you reckon.
-                //
+		//
 		// Having dealt with the monsters, you decide it's time to deal
 		// with this big stone box-thing.
 
-		if ( responseText.indexOf( "look thoughtfully at the big stone box" ) != -1 ||
+		else if ( responseText.indexOf( "look thoughtfully at the big stone box" ) != -1 ||
 		     responseText.indexOf( "it's time to deal with this big stone box" ) != -1 ||
 		     responseText.indexOf( "turn to regard the large stone box" ) != -1 )
 		{
 			ArcadeRequest.logText( "Encounter: Large Stone Boxes" );
 		}
 
-		if ( responseText.indexOf( "horrible demonic creatures" ) != -1 ||
+		else if ( responseText.indexOf( "horrible demonic creatures" ) != -1 ||
 		     responseText.indexOf( "fire-breathing demons" ) != -1 )
 		{
 			ArcadeRequest.logText( "Encounter: Demons" );
 		}
 
-		if ( responseText.indexOf( "gray spectres" ) != -1 ||
+		else if ( responseText.indexOf( "gray spectres" ) != -1 ||
 		     responseText.indexOf( "angry tormented spirits" ) != -1)
 		{
 			ArcadeRequest.logText( "Encounter: Ghosts" );
@@ -378,7 +382,7 @@ public class ArcadeRequest
 		// The ghosts are all gone, but the little piles of bones
 		// remain. Probably ought to do something about that.
 
-		if ( responseText.indexOf( "shouldn't leave those piles of bones" ) != -1 ||
+		else if ( responseText.indexOf( "shouldn't leave those piles of bones" ) != -1 ||
 		     responseText.indexOf( "decide to clean up these piles of bones" ) != -1 ||
 		     responseText.indexOf( "decide to bust up their bones" ) != -1 || 
 		     responseText.indexOf( "the little piles of bones remain" ) != -1 )
@@ -386,70 +390,87 @@ public class ArcadeRequest
 			ArcadeRequest.logText( "Encounter: Bone Piles" );
 		}
 
-		if ( responseText.indexOf( "A seven-foot tall humanoid figure" ) != -1 )
+		else if ( responseText.indexOf( "A seven-foot tall humanoid figure" ) != -1 )
 		{
 			ArcadeRequest.logText( "Encounter: Death" );
 		}
 
-		if ( responseText.indexOf( "SOMEONE SHOT THE FOOD!" ) != -1 )
-		{
-			ArcadeRequest.logText( "You shoot the food" );
-		}
-
-		if ( responseText.indexOf( "even if it isn't actually food" ) != -1 )
-		{
-			ArcadeRequest.logText( "You find food" );
-		}
+		// Second: look for items
 
 		if ( responseText.indexOf( "you find a large brass key" ) != -1 )
 		{
 			ArcadeRequest.logText( "You find a key" );
 		}
 
-		if ( responseText.indexOf( "a large wooden treasure chest" ) != -1 )
+		else if ( responseText.indexOf( "a large wooden treasure chest" ) != -1 )
 		{
 			ArcadeRequest.logText( "You find treasure" );
 		}
 
-		if ( responseText.indexOf( "A blue potion bottle rests on the floor in the alcove" ) != -1 )
+		else if ( responseText.indexOf( "A blue potion bottle rests on the floor in the alcove" ) != -1 )
 		{
 			ArcadeRequest.logText( "You find a Magic Potion" );
 		}
 
-		if ( responseText.indexOf( "discover a large blue bottle" ) != -1 )
+		else if ( responseText.indexOf( "discover a large blue bottle" ) != -1 )
 		{
 			ArcadeRequest.logText( "You find a Muscle Potion" );
 		}
 
-		if ( responseText.indexOf( "you find a large glowing blue bottle" ) != -1 )
+		else if ( responseText.indexOf( "you find a large glowing blue bottle" ) != -1 )
 		{
 			ArcadeRequest.logText( "You find a Combat Potion" );
 		}
 
+		else if ( responseText.indexOf( "SOMEONE SHOT THE FOOD!" ) != -1 )
+		{
+			ArcadeRequest.logText( "You shoot the food" );
+		}
+
+		else if ( responseText.indexOf( "even if it isn't actually food" ) != -1 )
+		{
+			ArcadeRequest.logText( "You find food" );
+		}
+
+		// Third: look for room features:
+
 		if ( responseText.indexOf( "strange light-blue metal" ) != -1 )
 		{
 			ArcadeRequest.logText( "You find a locked door" );
+
+			if ( responseText.indexOf( "the wall is gone" ) != -1 || 
+			     responseText.indexOf( "the wall disappears" ) != -1 )
+			{
+				ArcadeRequest.logText( "You unlock the door" );
+			}
+
+			if ( responseText.indexOf( "a square black pit" ) != -1 )
+			{
+				ArcadeRequest.logText( "You find the exit" );
+			}
 		}
 
-		if ( responseText.indexOf( "the wall is gone" ) != -1 || 
-		     responseText.indexOf( "the wall disappears" ) != -1 )
+		// Finally, see if the game is over
+		Matcher matcher = ArcadeRequest.FINAL_SCORE_PATTERN.matcher( responseText );
+		if ( matcher.find() )
 		{
-			ArcadeRequest.logText( "You unlock the door" );
-		}
+			String message = "";
+			if ( responseText.indexOf( "YOU HAVE ESCAPED THE DUNGEON!" ) != -1 )
+			{
+				message = "YOU HAVE ESCAPED THE DUNGEON! ";
 
-		if ( responseText.indexOf( "a square black pit" ) != -1 )
-		{
-			ArcadeRequest.logText( "You find the exit" );
-		}
+			}
 
-		if ( responseText.indexOf( "YOU HAVE ESCAPED THE DUNGEON!" ) != -1 )
-		{
-			ArcadeRequest.logText( "YOU HAVE ESCAPED THE DUNGEON!" );
-		}
+			else if ( responseText.indexOf( "YOU HAVE DIED." ) != -1 )
+			{
+				message = "YOU HAVE DIED. ";
+			}
 
-		if ( responseText.indexOf( "YOU HAVE DIED." ) != -1 )
-		{
-			ArcadeRequest.logText( "YOU HAVE DIED." );
+			ArcadeRequest.logText( message + matcher.group(0) );
+
+			// The game is over. No more choices.
+			ArcadeRequest.choices = null;
+			return;
 		}
 
 		// Parse out the new choice names
