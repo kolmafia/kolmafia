@@ -856,7 +856,7 @@ public abstract class ChoiceManager
 		// Chatterboxing
 		new ChoiceAdventure(
 			"Island", "choiceAdventure191", "F'c'le",
-			new String[] { "moxie substats", "lose hp", "muscle substats", "mysticality substats" } ),
+			new String[] { "moxie substats", "use valuable trinket to banish, or lose hp", "muscle substats", "mysticality substats", "use valuable trinket to banish, or moxie", "use valuable trinket to banish, or muscle", "use valuable trinket to banish, or mysticality", "use valuable trinket to banish, or mainstat" } ),
 
 		// Choice 192 is unknown
 		// Choice 193 is Modular, Dude
@@ -2180,6 +2180,19 @@ public abstract class ChoiceManager
 			int wings = InventoryManager.getCount( ItemPool.HOT_WING );
 			result[ 2 ] = "frilly skirt (" + ( ok3a ? "" : "NOT " ) + " equipped) + 3 hot wings (" + wings + " in inventory)";
 
+			return result;
+		
+		case 191:
+			// Chatterboxing
+			result = new String[ 4 ];
+			
+			int trinks = InventoryManager.getCount( ItemPool.VALUABLE_TRINKET );
+			result[ 0 ] = "moxie substats";
+			result[ 1 ] = trinks == 0 ? "lose hp (no valuable trinkets)" :
+				"use valuable trinket to banish (" + trinks + " in inventory)";
+			result[ 2 ] = "muscle substats";
+			result[ 3 ] = "mysticality substats";
+			
 			return result;
 
 		case 272:
@@ -3554,6 +3567,31 @@ public abstract class ChoiceManager
 				return "3";
 			case 26:
 				return "1";
+			}
+			return decision;
+			
+		// Chatterboxing
+		case 191:
+			boolean trink = InventoryManager.getCount( ItemPool.VALUABLE_TRINKET ) > 0;
+			switch ( StringUtilities.parseInt( decision ) )
+			{
+			case 5:	// banish or mox
+				return trink ? "2" : "1";
+			case 6:	// banish or mus
+				return trink ? "2" : "3";
+			case 7:	// banish or mys
+				return trink ? "2" : "4";
+			case 8:	// banish or mainstat
+				if ( trink ) return "2";
+				switch ( KoLCharacter.getPrimeIndex() )
+				{
+				case 0:
+					return "3";
+				case 1:
+					return "4";
+				case 2:
+					return "1";
+				}
 			}
 			return decision;
 			
