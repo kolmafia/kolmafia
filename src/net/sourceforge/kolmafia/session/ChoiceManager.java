@@ -1371,6 +1371,7 @@ public abstract class ChoiceManager
 		// Choice 457 is Oh, No! Five-Oh!
 		// Choice 458 is ... Grow Unspeakable Horrors
 		// Choice 485 is Fighters of Fighting
+		// Choice 486 is Dungeon Fist!
 	};
 
 	static
@@ -2541,14 +2542,14 @@ public abstract class ChoiceManager
 		// Things that can or need to be done BEFORE processing results.
 		// Remove spent items or meat here.
 
-		String text = request.responseText;
-
 		if ( ChoiceManager.lastChoice == 0 )
 		{
 			// We are viewing the choice page for the first time.
-			ChoiceManager.visitChoice( text );
+			ChoiceManager.visitChoice( request );
 			return;
 		}
+
+		String text = request.responseText;
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -2812,6 +2813,11 @@ public abstract class ChoiceManager
 		case 485:
 			ArcadeRequest.postChoiceFightersOfFighting( request );
 			break;
+
+		case 486:
+			// Dungeon Fist!
+			ArcadeRequest.postChoiceDungeonFist( request );
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -3019,8 +3025,9 @@ public abstract class ChoiceManager
 		}
 	}
 
-	public static void visitChoice( final String responseText )
+	public static void visitChoice( final GenericRequest request )
 	{
+		String responseText = request.responseText;
 		Matcher matcher = ChoiceManager.CHOICE_PATTERN.matcher( responseText );
 
 		if ( !matcher.find() )
@@ -3030,7 +3037,7 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		ChoiceManager.lastChoice = StringUtilities.parseInt ( matcher.group( 1 ) );
+		ChoiceManager.lastChoice = StringUtilities.parseInt( matcher.group( 1 ) );
 		ChoiceManager.lastResponseText = responseText;
 
 		switch ( ChoiceManager.lastChoice )
@@ -3055,7 +3062,12 @@ public abstract class ChoiceManager
 
 		// Fighters Of Fighting
 		case 485:
-			ArcadeRequest.visitChoiceFightersOfFighting( responseText );
+			ArcadeRequest.visitFightersOfFightingChoice( responseText );
+			break;
+
+		// DungeonFist!
+		case 486:
+			ArcadeRequest.visitDungeonFistChoice( responseText );
 			break;
 		}
 	}
@@ -3803,6 +3815,8 @@ public abstract class ChoiceManager
 				return RabbitHoleManager.registerChessboardRequest( urlString );
 			case 485:
 				// Fighters Of Fighting
+			case 486:
+				// Dungeon Fist!
 				return true;
 			}
 		}
