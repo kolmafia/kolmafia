@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -252,6 +253,208 @@ public class ArcadeRequest
 	/*
 	 * Support for individual games
 	 */
+
+	private static final void logText( final String text )
+	{
+		RequestLogger.printLine( text );
+		RequestLogger.updateSessionLog( text );
+	}
+
+	private final static Pattern CHOICE_PATTERN = Pattern.compile( "<form name=choiceform.*?name=option value=(\\d+)>.*?class=button type=submit value=\"(.*?)\".*?></form>", Pattern.DOTALL );
+
+	// The strings tagging each available choice
+	private static String [] choices = null;
+
+	private static void parseChoiceNames( final String responseText )
+	{
+		ArrayList tags = new ArrayList();
+		Matcher matcher = CHOICE_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			tags.add( matcher.group( 2 ) );
+		}
+		ArcadeRequest.choices = new String [ tags.size() ];
+		tags.toArray( ArcadeRequest.choices );
+	}
+
+	/* Dungeon Fist! */
+
+	/*
+	  +----------+    +----------+    +----------+    +----------+
+	  |          |    |          |    |          |    |          |
+	  |   EXIT   X----+  Grunts  +----+  MAGIC   +----+  Ghosts  |
+	  |          |    |          |    |  POTION  |    |          |
+	  +----------+    +-----+----+    +----------+    +-----+----+
+	                        |                               |
+	  +----------+    +-----+----+    +----------+    +-----+----+
+	  |          |    |          |    |          |    |          |
+	  |          +----+          +----+          |    |   FOOD   |
+	  |          |    |          |    |          |    |          |
+	  +-----+----+    +-----+----+    +-----+----+    +----------+
+	        |               |               |               
+	  +-----+----+    +-----+----+    +-----+----+    +----------+
+	  |          |    |  Grunts  |    |          |    |          |
+	  |          +----+  COMBAT  +----+  Death   +----+  Demons  |
+	  |          |    |  POTION  |    |          |    |   KEY    |
+	  +----------+    +-----+----+    +-----+----+    +-----+----+
+	                        |               |               |
+	  +----------+    +-----+----+    +-----+----+    +-----+----+
+	  |          |    |          |    |          |    |          |
+	  |  Demons  +----+  START   +----+          |    |          |
+	  |          |    |          |    |          |    |          |
+	  +-----+----+    +----------+    +-----+----+    +-----+----+
+	        |                               |               |
+	  +-----+----+    +----------+    +-----X----+    +-----+----+
+	  |          |    |          |    |          |    |  Ghosts  |
+	  |  Ghosts  +----+  MUSCLE  +----+ TREASURE |    |  FOOD    |
+	  |          |    |  POTION  |    |          |    |  KEY     |
+	  +----------+    +----------+    +----------+    +----------+
+	*/
+
+	public static final void visitDungeonFistChoice( final String responseText )
+	{
+		// Called when we visit Dungeon Fist!
+		// Parse out the choice names
+		ArcadeRequest.parseChoiceNames( responseText );
+	}
+
+	public static final void postChoiceDungeonFist( final GenericRequest request )
+	{
+		// Called when we have taken a choice in Dungeon Fist!
+		int choice = ChoiceManager.lastDecision;
+		if ( choice >= 1 && choice <= ArcadeRequest.choices.length )
+		{
+			// Log the action the player took
+			String action = ArcadeRequest.choices[ choice - 1 ];
+			ArcadeRequest.logText( "Action: " + action );
+		}
+
+		// Log what we see
+		String responseText = request.responseText;
+
+		if ( responseText.indexOf( "bright pink" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Grunts" );
+		}
+
+		// You wipe off your blade and look thoughtfully at the big
+		// stone box. Then you thoughtfully decide to smash it to bits.
+		//
+		// Now that that's taken care of, you turn to regard the large
+		// stone box. That's probably not something you want to leave
+		// intact, you reckon.
+                //
+		// Having dealt with the monsters, you decide it's time to deal
+		// with this big stone box-thing.
+
+		if ( responseText.indexOf( "look thoughtfully at the big stone box" ) != -1 ||
+		     responseText.indexOf( "it's time to deal with this big stone box" ) != -1 ||
+		     responseText.indexOf( "turn to regard the large stone box" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Large Stone Boxes" );
+		}
+
+		if ( responseText.indexOf( "horrible demonic creatures" ) != -1 ||
+		     responseText.indexOf( "fire-breathing demons" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Demons" );
+		}
+
+		if ( responseText.indexOf( "gray spectres" ) != -1 ||
+		     responseText.indexOf( "angry tormented spirits" ) != -1)
+		{
+			ArcadeRequest.logText( "Encounter: Ghosts" );
+		}
+
+		// Now that all the ghosts are taken care of, you decide you
+		// probably shouldn't leave those piles of bones lying around.
+		//
+		// Finished with those mindless wraiths, you decide to clean up
+		// These piles of bones. And by 'clean' I mean 'smash'.
+		//
+		// Having dealt with the ghosts, you decide to bust up their
+		// bones as well. That'll teach 'em!
+		//
+		// The ghosts are all gone, but the little piles of bones
+		// remain. Probably ought to do something about that.
+
+		if ( responseText.indexOf( "shouldn't leave those piles of bones" ) != -1 ||
+		     responseText.indexOf( "decide to clean up these piles of bones" ) != -1 ||
+		     responseText.indexOf( "decide to bust up their bones" ) != -1 || 
+		     responseText.indexOf( "the little piles of bones remain" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Bone Piles" );
+		}
+
+		if ( responseText.indexOf( "A seven-foot tall humanoid figure" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Death" );
+		}
+
+		if ( responseText.indexOf( "SOMEONE SHOT THE FOOD!" ) != -1 )
+		{
+			ArcadeRequest.logText( "You shoot the food" );
+		}
+
+		if ( responseText.indexOf( "even if it isn't actually food" ) != -1 )
+		{
+			ArcadeRequest.logText( "You find food" );
+		}
+
+		if ( responseText.indexOf( "you find a large brass key" ) != -1 )
+		{
+			ArcadeRequest.logText( "You find a key" );
+		}
+
+		if ( responseText.indexOf( "a large wooden treasure chest" ) != -1 )
+		{
+			ArcadeRequest.logText( "You find treasure" );
+		}
+
+		if ( responseText.indexOf( "A blue potion bottle rests on the floor in the alcove" ) != -1 )
+		{
+			ArcadeRequest.logText( "You find a Magic Potion" );
+		}
+
+		if ( responseText.indexOf( "discover a large blue bottle" ) != -1 )
+		{
+			ArcadeRequest.logText( "You find a Muscle Potion" );
+		}
+
+		if ( responseText.indexOf( "you find a large glowing blue bottle" ) != -1 )
+		{
+			ArcadeRequest.logText( "You find a Combat Potion" );
+		}
+
+		if ( responseText.indexOf( "strange light-blue metal" ) != -1 )
+		{
+			ArcadeRequest.logText( "You find a locked door" );
+		}
+
+		if ( responseText.indexOf( "the wall is gone" ) != -1 || 
+		     responseText.indexOf( "the wall disappears" ) != -1 )
+		{
+			ArcadeRequest.logText( "You unlock the door" );
+		}
+
+		if ( responseText.indexOf( "a square black pit" ) != -1 )
+		{
+			ArcadeRequest.logText( "You find the exit" );
+		}
+
+		if ( responseText.indexOf( "YOU HAVE ESCAPED THE DUNGEON!" ) != -1 )
+		{
+			ArcadeRequest.logText( "YOU HAVE ESCAPED THE DUNGEON!" );
+		}
+
+		if ( responseText.indexOf( "YOU HAVE DIED." ) != -1 )
+		{
+			ArcadeRequest.logText( "YOU HAVE DIED." );
+		}
+
+		// Parse out the new choice names
+		ArcadeRequest.parseChoiceNames( responseText );
+	}
 
 	/* Fighters of Fighting */
 
@@ -523,7 +726,7 @@ public class ArcadeRequest
 	private final static Pattern MATCH_PATTERN = Pattern.compile( "&quot;(.*?) Vs. (.*?) FIGHT!&quot;", Pattern.DOTALL );
 
 	private static int round = 0;
-	public static final void visitChoiceFightersOfFighting( final String responseText )
+	public static final void visitFightersOfFightingChoice( final String responseText )
 	{
 		// Called when we first visit the Fighters of Fighting.
 		Matcher matcher = MATCH_PATTERN.matcher( responseText );
