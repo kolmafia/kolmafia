@@ -973,4 +973,15 @@ public class ArcadeRequest
 
 		buffer.append( text.substring( index1 ) );
 	}
+	
+	public static final void decorateDungeonFist( final StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "arcadeGameHints" ) )
+		{
+			return;
+		}
+
+		StringUtilities.singleStringReplace( buffer, "</body>",
+			"<center><p><img src='/images/otherimages/arcade/DungeonFistMap.png' width=544 height=672 alt='Snapshot of initial maze' title='Snapshot of initial maze'></center></body>" );
+	}
 }

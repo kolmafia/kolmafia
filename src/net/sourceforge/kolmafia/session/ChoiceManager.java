@@ -1960,6 +1960,10 @@ public abstract class ChoiceManager
 			// Fighters of Fighting
 			ArcadeRequest.decorateFightersOfFighting( buffer );
 			break;
+		case 486:
+			// Dungeon Fist
+			ArcadeRequest.decorateDungeonFist( buffer );
+			break;
 		}
 	}
 
