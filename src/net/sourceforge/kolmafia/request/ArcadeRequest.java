@@ -324,7 +324,7 @@ public class ArcadeRequest
 	{
 		// Called when we have taken a choice in Dungeon Fist!
 		int choice = ChoiceManager.lastDecision;
-		if ( choice >= 1 && choice <= ArcadeRequest.choices.length )
+		if ( ArcadeRequest.choices != null && choice >= 1 && choice <= ArcadeRequest.choices.length )
 		{
 			// Log the action the player took
 			String action = ArcadeRequest.choices[ choice - 1 ];
