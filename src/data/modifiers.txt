@@ -1392,6 +1392,7 @@ acid-squirting flower	Single Equip
 albatross necklace	Mysticality Percent: +10, Single Equip
 amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 amulet of extreme plot significance	Maximum MP: +30
+anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 arrrgyle socks	Mysticality: +6
 baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip
 baconstone earring	Mysticality: +2, Mana Cost: -1, Single Equip

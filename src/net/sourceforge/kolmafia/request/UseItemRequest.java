@@ -2442,10 +2442,11 @@ public class UseItemRequest
 		case ItemPool.CRIMBO_CAROL_V5:
 		case ItemPool.CRIMBO_CAROL_V6:
 		case ItemPool.CRIMBO_CANDY_COOKBOOK:
-		case ItemPool.ZU_MANNKASE_DIENEN:
-		case ItemPool.INIGO_BOOK:
+		case ItemPool.SLAPFIGHTING_BOOK:
 		case ItemPool.UNCLE_ROMULUS:
 		case ItemPool.SNAKE_CHARMING_BOOK:
+		case ItemPool.ZU_MANNKASE_DIENEN:
+		case ItemPool.INIGO_BOOK:
 		case ItemPool.BLACK_HYMNAL:
 
 			String skill = UseItemRequest.itemToSkill( item.getItemId() );
@@ -3414,14 +3415,16 @@ public class UseItemRequest
 			return "Cringle's Curative Carol";
 		case ItemPool.CRIMBO_CANDY_COOKBOOK:
 			return "Summon Crimbo Candy";
-		case ItemPool.ZU_MANNKASE_DIENEN:
-			return "K&auml;seso&szlig;esturm";
-		case ItemPool.INIGO_BOOK:
-			return "Inigo's Incantation of Inspiration";
+		case ItemPool.SLAPFIGHTING_BOOK:
+			return "Iron Palm Technique";
 		case ItemPool.UNCLE_ROMULUS:
 			return "Curiosity of Br'er Tarrypin";
 		case ItemPool.SNAKE_CHARMING_BOOK:
 			return "Stringozzi Serpent";
+		case ItemPool.ZU_MANNKASE_DIENEN:
+			return "K&auml;seso&szlig;esturm";
+		case ItemPool.INIGO_BOOK:
+			return "Inigo's Incantation of Inspiration";
 		case ItemPool.BLACK_HYMNAL:
 			return "Canticle of Carboloading";
 		}
