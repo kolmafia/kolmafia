@@ -3841,7 +3841,7 @@
 3835	939924795	tiny costume wardrobe	tiny costume wardrobes
 3836	424231419	Elvish sunglasses	Elvish sunglassess
 3837	744630945	anniversary safety glass vest	anniversary safety glass vests
-3838
+3838	612792894	anniversary burlap belt	anniversary burlap belts
 3839
 3840
 3841
@@ -4409,7 +4409,7 @@
 4403	399631690	Staff of Queso Escusado	Staves of Queso Escusado
 4404
 4405	800942495	foreign box
-4406
+4406	949615276	The Art of Slapfighting	copies of The Art of Slapfighting
 4407	478200390	Uncle Romulus	copies of Uncle Romulus
 4408	245745289	A Beginner's Guide to Charming Snakes	copies of A Beginner's Guide to Charming Snakes
 4409	398556198	Zu Mannk&auml;se Dienen	copies of Zu Mannk&auml;se Dienen

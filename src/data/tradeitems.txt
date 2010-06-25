@@ -3844,7 +3844,7 @@
 3835	tiny costume wardrobe	familiar	all	0
 3836	Elvish sunglasses	accessory	all	0
 3837	anniversary safety glass vest	shirt	display	0
-3838
+3838	anniversary burlap belt	accessory	display	0
 3839
 3840
 3841
@@ -4412,7 +4412,7 @@
 4403	Staff of Queso Escusado	weapon, usable	all	0
 4404
 4405	foreign box	usable	gift	0
-4406
+4406	The Art of Slapfighting	usable	all	0
 4407	Uncle Romulus	usable	all	0
 4408	A Beginner's Guide to Charming Snakes	usable	all	0
 4409	Zu Mannk&auml;se Dienen	usable	all	0

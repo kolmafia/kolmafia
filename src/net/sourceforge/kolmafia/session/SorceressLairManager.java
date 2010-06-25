@@ -221,7 +221,10 @@ public abstract class SorceressLairManager
 			"Sugar Rush",
 			"Angry Farmer candy",
 			"Tasty Fun Good rice candy",
-			"marzipan skull"
+			"marzipan skull",
+			"Crimbo candied pecan",
+			"Crimbo fudge",
+			"Crimbo peppermint bark",
 		},
 		{
 			"gate of the viper",
