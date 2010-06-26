@@ -670,7 +670,7 @@ public abstract class WumpusManager
 		if ( text.indexOf( "wumpus was nowhere to be seen" ) != -1  )
 		{
 			WumpusManager.last = WumpusManager.current;
-			WumpusManager.knownSafe( room, VISIT );
+			WumpusManager.eliminateHazard( room, WARN_WUMPUS );
 			return;
 		}
 
