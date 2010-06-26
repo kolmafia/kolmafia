@@ -214,7 +214,7 @@
 205	secret blend of herbs and spices	none	all	33
 206	piercing post	none	all	32
 207	hippy herbal tea	food	all	42
-208	patchouli incense stick	multiple, combat	all	33
+208	patchouli incense stick	usable, combat	all	33
 209	wad of tofu	none	all	35
 210	Feng Shui for Big Dumb Idiots	usable	all	33
 211	decorative fountain	reusable	all	34
