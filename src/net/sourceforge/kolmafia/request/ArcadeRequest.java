@@ -154,6 +154,8 @@ public class ArcadeRequest
 		case 2:	// DemonStar
 		case 3:	// Dungeon Fist!
 		case 4:	// Fighters of Fighting
+		case 5:	// Meteoid
+		case 6:	// Jackass Plumber
 			// These games only take tokens, and you don't have any
 
 			// If we succeed in playing a game, we were redirected
@@ -216,7 +218,13 @@ public class ArcadeRequest
 					name = "Dungeon Fist!";
 					break;
 				case 4:	// Fighters of Fighting
-					name = "Fighters of Fighting";
+					name = "The Fighters of Fighting";
+					break;
+				case 5:	// Meteoid
+					name = "Meteoid";
+					break;
+				case 6:	// Jackass Plumber
+					name = "Jackass Plumber";
 					break;
 				default:
 					return false;
