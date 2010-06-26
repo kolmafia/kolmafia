@@ -250,7 +250,7 @@ Cavewomyn Hippy	HP: 260 Def: 230 Atk: 250 E: stench	handful of pine needles (20)
 Cement Cobbler Penguin		cement sandals (0)	chunk of cement (c100)	Crimbuck (0)
 Chalkdust Wraith	HP: 10 Def: 20 Atk: 20 ED: spooky	handful of hand chalk (100)
 Chatty Pirate	HP: 90 Def: 90 Atk: 100 Meat: 52-76
-Chester	HP: 8000 E: sleaze	Chester's bag of candy (0)	Chester's Aquarius medallion (0)	Chester's moustache (0)	Chester's muscle shirt (c0)	Chester's sunglasses (0)	Chester's cutoffs (0)	extra-greasy slider (0)	extra-greasy slider (0)	Chorale of Companionship (0)
+Chester	HP: 8000 Def: 500 Atk: 500 E: sleaze	Chester's bag of candy (0)	Chester's Aquarius medallion (0)	Chester's moustache (0)	Chester's muscle shirt (c0)	Chester's sunglasses (0)	Chester's cutoffs (0)	extra-greasy slider (0)	extra-greasy slider (0)	Chorale of Companionship (0)
 Chowder Golem	HP: 9 Def: 18 Atk: 18 Meat: 29-46
 Claw-foot Bathtub	HP: 100 Def: 100 Atk: 90	bottle of Monsieur Bubble (25)	fancy bath salts (35)
 Cleanly Pirate	HP: 90 Def: 100 Atk: 100 Meat: 49-72	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
@@ -370,7 +370,7 @@ Forest Spirit	HP: 3 Def: 2 Atk: 1	forest tears (30)
 Frat Warrior Drill Sergeant	HP: 200 Atk: 175 E: sleaze	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)
 French Guard turtle	HP: 140 Def: 140 Atk: 140	guard turtle shell (0)	guard turtle collar (0)
 Frog	HP: 3 Def: 3 Atk: 3 Meat: 8-12	squashed frog (100)
-Frosty	HP: 350 E: cold
+Frosty	HP: 350 Def: 500 Atk: 500 E: cold	Benetton's Medley of Diversity (0)	Frosty's frosty mug (0)	Frosty's arm (0)	Frosty's carrot (0)	Frosty's iceball (0)	Frosty's nailbat (0)	Frosty's old silk hat (0)	Frosty's snowball sack (0)
 Frozen Duck	HP: 180 Atk: 170 Meat: 125-152 E: cold	frozen feather (10)	duct tape (5)
 Fruit Golem	HP: 46 Def: 56 Atk: 56	cherry (15)	orange (15)	lime (15)
 Funk Particle	HP: 80 Def: 75 Atk: 85	fat bottom quark (0)
@@ -449,7 +449,7 @@ Hellseal guardian	HP: 210	hellseal whisker (0)	hellseal whisker (0)	hellseal cla
 Hellseal pup	HP: 88	hellseal whisker (0)	hellseal claw (0)
 High Priest of Ki'rhuss	HP: 110 Def: 100 Atk: 110
 Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
-Hodgman, The Hoboverlord	HP: 25000
+Hodgman, The Hoboverlord	HP: 25000 Def: 750 Atk: 750	Hodgman's bow tie (0)	Hodgman's porkpie hat (0)	Hodgman's lobsterskin pants (0)	Hodgman's almanac (0)	Hodgman's lucky sock (0)	Hodgman's metal detector (0)	Hodgman's varcolac paw (0)	Hodgman's harmonica (0)	Hodgman's garbage sticker (0)	Hodgman's cane (0)	Hodgman's whackin' stick (0)	Hodgman's disgusting technicolor overcoat (0)	Hodgman's imaginary hamster (0)	hobo fortress blueprints (0)	stuffed Hodgman (0)	Hodgman's blanket (0)	tin cup of mulligan stew (0)	Hodgman's journal #1: The Lean Times (0)	Hodgman's journal #2: Entrepreneurythmics (0)	Hodgman's journal #3: Pumping Tin (0)	Hodgman's journal #4: View From The Big Top (0)
 Hostile Amoeba	HP: 20 Def: 25 Atk: 20	memory of an A (20)	memory of a C (20)
 Hot Hobo	HP: 500 Def: 350 Atk: 350 E: heat	bed of coals (0)	hobo nickel (0)	flamin' bindle (0)	Tales from the Fireside (0)	Kissin' Cousins (0)
 Huge Ghuol	HP: 129 Def: 71 Atk: 79 E: spooky Meat: 258-344	ghuol ears (0)	ghuol egg (0)
@@ -589,7 +589,7 @@ Oasis Monster	HP: 139 Def: 137 Atk: 132 Meat: 80-120	displaced fish (20)	palm fr
 Obese Tourist	HP: 0 Def: 150 Atk: 140	cupcake-in-a-cup (0)	neurostim pill (0)
 Octopus Gardener	HP: 600 Def: 400 Atk: 425 Meat: 80-120	octopus's spade (2)	sea radish (c3)	soggy seed packet (30)	straw hat (2)
 Octorok	HP: 15 Def: 25 Atk: 25	red pixel (70)	red pixel (70)	red pixel (70)
-Ol' Scratch	HP: 8000 Def: 500 Atk: 500 E: heat
+Ol' Scratch	HP: 8000 Def: 500 Atk: 500 E: heat	Elron's Explosive Etude (0)	Ol' Scratch's salad fork (0)	Ol' Scratch's ash can (0)	Ol' Scratch's infernal pitchfork (0)	Ol' Scratch's manacles (0)	Ol' Scratch's ol' britches (0)	Ol' Scratch's stove door (0)	Ol' Scratch's stovepipe hat (0)
 One-Eyed Gnoll	HP: 5 Def: 11 Atk: 11 Meat: 19-28	eyepatch (5)	gnoll teeth (5)	glass gnoll eye (p5)
 One-Eyed Willie	HP: 150 Def: 150 Atk: 150 E: sleaze	line (30)	line (30)	star (30)
 Orcish Frat Boy (Music Lover)	HP: 30 Def: 39 Atk: 39 E: sleaze Meat: 24-39	Ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	roofie (25)	packet of beer nuts (p15)	empty aftershave bottle (b0)
@@ -598,7 +598,7 @@ Orcish Frat Boy (Pledge)	HP: 30 Def: 41 Atk: 41 E: sleaze Meat: 24-39	bottle of 
 Orcish Frat Boy Spy	HP: 180 Atk: 165 E: sleaze	beer helmet (30)	distressed denim pants (30)	bejeweled pledge pin (30)
 Orcish Frat Wannaboy	HP: 90 Def: 60 Atk: 40 E: sleaze	plastic cup of beer (100)
 Orcish Juvenile Delinquent	HP: 80 Def: 45 Atk: 35 E: sleaze	plastic cup of beer (100)
-Oscus	HP: 6500 Def: 500 Atk: 500 E: stench
+Oscus	HP: 6500 Def: 500 Atk: 500 E: stench	The Ballad of Richie Thingfinder (0)	jar of fermented pickle juice (0)	Oscus's dumpster waders (0)	Oscus's flypaper pants (0)	Oscus's garbage can lid (0)	Oscus's neverending soda (0)	Oscus's pelt (0)	Wand of Oscus (0)
 Overdone Flame-Broiled Meat Blob	HP: 2 Def: 2 Atk: 4 E: heat Meat: 16-24	meat paste (40)	meat paste (40)	meat paste (40)
 P Imp	HP: 42 Def: 42 Atk: 42 E: heat Meat: 24-36	Imp Ale (30)	hot wing (30)	diamond-studded cane (5)
 Panty Raider Frat Boy	HP: 250 Def: 200 Atk: 200 E: sleaze	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
@@ -645,7 +645,7 @@ Rock Scorpion	HP: 145 Def: 142 Atk: 140 Meat: 165-237	handful of sand (25)	handf
 Rock-Banging Cave Elf		rock (8)	stick (7)	stick (15)
 Roller Skate	HP: 0	brand new key (0)	brass dorsal fin (0)	skate skin (0)	skate skates (0)
 Rolling Stone	HP: 135 Def: 140 Atk: 137	palm frond (10)	handful of moss (20)	brown sugar cane (20)	mother's little helper (10)	Tuesday's ruby (5)	hot date (5)
-Rotund Duck	HP: 225 Atk: 175 Meat: 271-369	duct tape (6)
+Rotund Duck	HP: 225 Atk: 175 Meat: 240-369	duct tape (6)
 Rudolphus of Crimborg		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 Running Man	HP: -1	candy necklace (c0)	glowstick on a string (c0)	pacifier necklace (c0)
 Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30)	Mad Train wine (30)	moxie weed (15)	dented harmonica (15)	cheap cigar butt (p60)
@@ -880,7 +880,7 @@ Zobmie	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	cranberries (20)	cranberries
 Zol	HP: 15 Def: 25 Atk: 25	green pixel (70)	green pixel (70)	green pixel (70)
 Zombie Chef	HP: 4 Def: 5 Atk: 5 Meat: 6-8	bottle of cooking sherry (30)	chef's hat (5)	fricasseed brains (20)	stale baguette (30)
 Zombie Duck	HP: 191 Atk: 171 Meat: 127-174 E: spooky	duct tape (5)	frightful feather (10)
-Zombo	HP: 10000 E: spooky	Prelude of Precision (0)	voodoo snuff (0)	voodoo snuff (0)	Zombo's empty eye (0)	Zombo's skullcap (0)	Zombo's shield (0)	Zombo's shoulder blade (0)	Zombo's grievous greaves (0)	Zombo's skull ring (0)
+Zombo	HP: 10000 Def: 500 Atk: 500 E: spooky	Prelude of Precision (0)	voodoo snuff (0)	voodoo snuff (0)	Zombo's empty eye (0)	Zombo's skullcap (0)	Zombo's shield (0)	Zombo's shoulder blade (0)	Zombo's grievous greaves (0)	Zombo's skull ring (0)
 
 # Bad Trip
 Swarm of Country Bats	HP: 20 Def: 20 Atk: 20	orange-frosted astral cupcake (15)
