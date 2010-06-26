@@ -155,14 +155,8 @@ public class AccountRequest
 
 		// Your skills have been recalled if you have freed the king
 		// and don't have a "Recall Skills" button in your account menu
-		if ( KoLCharacter.kingLiberated() && responseText.indexOf( "<input class=button type=submit value=\"Recall Skills\">") == -1)
-		{
-			KoLCharacter.setSkillsRecalled(true);
-		}
-		else
-		{
-			KoLCharacter.setSkillsRecalled(false);
-		}
+		KoLCharacter.setSkillsRecalled( KoLCharacter.kingLiberated() &&
+						responseText.indexOf( "<input class=button type=submit value=\"Recall Skills\">") == -1 );
 
 		int skillId = 0;
 		Matcher selectMatcher = AccountRequest.AUTOATTACK_PATTERN.matcher( responseText );
