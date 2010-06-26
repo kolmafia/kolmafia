@@ -4402,7 +4402,7 @@
 4393	Crimbo peppermint bark	multiple, candy	all	5
 4394	Crimbo fudge	multiple, candy	all	5
 4395	Crimbo candied pecan	multiple, candy	all	5
-4396	Jack-in-the-box	grow	gift	0
+4396	Jack-in-the-box	grow	gift	500
 4397	brass crank handle	familiar	all	75
 4398	stinky cheese ball	usable	all	0
 4399	stinky cheese sword	weapon, usable	all	0
