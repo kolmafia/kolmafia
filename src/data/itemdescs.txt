@@ -4628,7 +4628,7 @@
 4622	798956435	Game Grid ticket	Game Grid tickets
 4623	297173409	chocolate-covered caviar	wads of chocolate-covered caviars
 4624	137520522	pawn cookie	pawn cookies
-4625	936288573	coffee pixie stick
+4625	936288573	coffee pixie stick	coffee pixie sticks
 4626	574320533	superduperball
 4627	761041299	finger cuffs
 4628	185244129	little parachute guy
