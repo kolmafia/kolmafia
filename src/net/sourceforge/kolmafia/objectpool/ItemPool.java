@@ -1099,6 +1099,7 @@ public class ItemPool
 	public static final int HATSEAT = 4614;
 	public static final int GG_TOKEN = 4621;
 	public static final int GG_TICKET = 4622;
+	public static final int COFFEE_PIXIE_STICK = 4625;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

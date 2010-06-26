@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -335,6 +336,28 @@ public abstract class InventoryManager
 					return true;
 				}
 			}
+		}
+
+		// coffee pixie sticks are non tradeable but can be purchased
+		// from the Game Grid Arcade for 10 Game Grid tickets.
+
+		if ( itemId == ItemPool.COFFEE_PIXIE_STICK )
+		{
+			int ticketCount = InventoryManager.getAccessibleCount( ItemPool.GG_TICKET );
+			int stickCount = Math.min( ticketCount / 10, missingCount );
+
+			// Retrieve enough tickets to buy the sticks
+			if ( stickCount <= 0 || !retrieveItem( ItemPool.GG_TICKET, stickCount * 10 ) )
+			{
+				return false;
+			}
+
+			// Cash them in for coffee pixie sticks
+			RequestThread.postRequest( new CoinMasterRequest( "ticket", "redeem", ItemPool.COFFEE_PIXIE_STICK, stickCount ) );
+
+			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+			return missingCount <= 0;
 		}
 
 		// See if the item can be retrieved from the clan stash.  If it

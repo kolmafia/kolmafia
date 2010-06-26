@@ -1191,6 +1191,15 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.setBasicItem(
 				availableIngredients, ( (AdventureResult) KoLConstants.trapperItems.get( i ) ).getItemId(), furCount );
 		}
+
+		// Coffee pixie sticks are available from the Game Grid arcade
+		// for 10 Game Grid tickets apiece.
+		int ticketCount = InventoryManager.getAccessibleCount( ItemPool.GG_TICKET );
+		if ( ticketCount > 10 )
+		{
+			ConcoctionDatabase.setBasicItem(
+				availableIngredients, ItemPool.COFFEE_PIXIE_STICK, ticketCount / 10 );
+		}
 	}
 
 	private static final void setBasicItem( final List availableIngredients, final int itemId, final int acquirable )

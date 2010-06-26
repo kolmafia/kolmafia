@@ -149,7 +149,7 @@ public class CoinMasterRequest
 		this.addFormField( "action", action );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
-		if ( master == HIPPY || master == FRATBOY )
+		if ( master == HIPPY || master == FRATBOY || master == TICKETCOUNTER )
 		{
 			this.addFormField( "quantity", String.valueOf( quantity ) );
 		}
