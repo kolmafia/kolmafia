@@ -1370,8 +1370,39 @@ public abstract class ChoiceManager
 
 		// Choice 457 is Oh, No! Five-Oh!
 		// Choice 458 is ... Grow Unspeakable Horrors
+		// Choice 459 is unknown
+
+		// Choice 460 is Space Trip (Bridge)
+		// Choice 461 is Space Trip (Navigation)
+		// Choice 462 is Space Trip (Diagnostics)
+		// Choice 463 is Space Trip (Alpha Quadrant)
+		// Choice 464 is Space Trip (Beta Quadrant)
+		// Choice 465 is Space Trip (Planet)
+		// Choice 466 is 
+		// Choice 467 is Space Trip (Combat)
+		// Choice 468 is Space Trip (Starbase Hub)
+		// Choice 469 is Space Trip (General Store)
+		// Choice 470 is Space Trip (Military Surplus Store)
+		// Choice 471 is DemonStar
+		// Choice 472 is Space Trip (Astrozorian Trade Vessel: Alpha)
+		// Choice 473 is Space Trip (Murderbot Miner: first encounter)
+		// Choice 474 is Space Trip (Slavers: Alpha)
+		// Choice 475 is Space Trip (Astrozorian Trade Vessel: Beta)
+		// Choice 476 is Space Trip (Astrozorian Trade Vessel: Gamma)
+		// Choice 477 is Space Trip (Gamma Quadrant)
+		// Choice 478 is Space Trip (The Source)
+		// Choice 479 is Space Trip (Slavers: Beta)
+		// Choice 480 is Space Trip (Scadian ship)
+		// Choice 481 is Space Trip (Hipsterian ship)
+		// Choice 482 is Space Trip (Slavers: Gamma)
+		// Choice 483 is Space Trip (Scadian Homeworld)
+		// Choice 484 is Space Trip (End)
 		// Choice 485 is Fighters of Fighting
 		// Choice 486 is Dungeon Fist!
+		// Choice 487 is unknown
+		// Choice 488 is Meteoid (Bridge)
+		// Choice 488 is Meteoid (SpaceMall)
+		// Choice 488 is Meteoid (Underground Complex)
 	};
 
 	static
@@ -2813,14 +2844,35 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.KEGGER_MAP, -1 );
 			}
 
-		// Fighters Of Fighting
+		case 460: case 461: case 462: case 463: case 464:
+		case 465:           case 467: case 468: case 469:
+		case 470:           case 472: case 473: case 474:
+		case 475: case 476: case 477: case 478: case 479:
+		case 480: case 481: case 482: case 483: case 484:
+			// Space Trip
+			ArcadeRequest.postChoiceSpaceTrip( request );
+                        break;
+
+		case 471:
+			// DemonStar
+			ArcadeRequest.postChoiceDemonStar( request );
+			break;
+
 		case 485:
+			// Fighters Of Fighting
 			ArcadeRequest.postChoiceFightersOfFighting( request );
 			break;
 
 		case 486:
 			// Dungeon Fist!
 			ArcadeRequest.postChoiceDungeonFist( request );
+			break;
+
+		case 488:
+		case 489:
+		case 490:
+			// Meteoid
+			ArcadeRequest.postChoiceMeteoid( request );
 			break;
 		}
 
@@ -3064,6 +3116,16 @@ public abstract class ChoiceManager
 			WumpusManager.visitChoice( responseText );
 			break;
 
+		// Space Trip
+		case 460:
+			ArcadeRequest.visitSpaceTripChoice( responseText );
+                        break;
+
+		// DemonStar
+		case 471:
+			ArcadeRequest.visitDemonStarChoice( responseText );
+			break;
+
 		// Fighters Of Fighting
 		case 485:
 			ArcadeRequest.visitFightersOfFightingChoice( responseText );
@@ -3072,6 +3134,13 @@ public abstract class ChoiceManager
 		// DungeonFist!
 		case 486:
 			ArcadeRequest.visitDungeonFistChoice( responseText );
+			break;
+
+		// Meteoid
+		case 488:
+		case 489:
+		case 490:
+			ArcadeRequest.visitMeteoidChoice( responseText );
 			break;
 		}
 	}
@@ -3817,6 +3886,12 @@ public abstract class ChoiceManager
 			case 443:
 				// Chess Puzzle
 				return RabbitHoleManager.registerChessboardRequest( urlString );
+			case 460: case 461: case 462: case 463: case 464:
+			case 465:	    case 467: case 468: case 469:
+			case 470:	    case 472: case 473: case 474:
+			case 475: case 476: case 477: case 478: case 479:
+			case 480: case 481: case 482: case 483: case 484:
+				// Space Trip
 			case 485:
 				// Fighters Of Fighting
 			case 486:
