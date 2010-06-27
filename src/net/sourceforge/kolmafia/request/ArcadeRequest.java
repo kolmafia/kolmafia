@@ -270,21 +270,378 @@ public class ArcadeRequest
 
 	private final static Pattern CHOICE_PATTERN = Pattern.compile( "<form name=choiceform.*?name=option value=(\\d+)>.*?class=button type=submit value=\"(.*?)\".*?></form>", Pattern.DOTALL );
 
-	// The strings tagging each available choice
+	// The strings tagging each available choice with associated index
+	private static Integer [] indices = null;
 	private static String [] choices = null;
 
 	private static void parseChoiceNames( final String responseText )
 	{
-		ArrayList tags = new ArrayList();
+		ArrayList options = new ArrayList();
+		ArrayList names = new ArrayList();
 		Matcher matcher = CHOICE_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
-			tags.add( matcher.group( 2 ) );
+			options.add( new Integer( matcher.group( 1 ) ) );
+			names.add( matcher.group( 2 ) );
 		}
-		ArcadeRequest.choices = new String [ tags.size() ];
-		tags.toArray( ArcadeRequest.choices );
+		ArcadeRequest.indices = new Integer [ options.size() ];
+		options.toArray( ArcadeRequest.indices );
+		ArcadeRequest.choices = new String [ names.size() ];
+		names.toArray( ArcadeRequest.choices );
 	}
 
+	private static String findChoiceName( final int index )
+	{
+		if ( indices != null )
+		{
+			for ( int i = 0; i < indices.length; ++i )
+			{
+				if ( indices[i].intValue() == index )
+				{
+					return choices[i];
+				}
+			}
+		}
+		return null;
+	}
+
+	/* Space Trip */
+
+	private static int week;
+	private static int crew;
+	private static int crewLost;
+	private static int money;
+	private static int gas;
+	private static int time;
+
+	public static final void visitSpaceTripChoice( final String responseText )
+	{
+		// Called when we visit Space Trip
+
+		ArcadeRequest.week = 0;
+		ArcadeRequest.crew = 30;
+		ArcadeRequest.crewLost = 0;
+		ArcadeRequest.money = 0;
+		ArcadeRequest.gas = 100;
+		ArcadeRequest.time = 52;
+
+		// Parse out the choice names
+		ArcadeRequest.parseChoiceNames( responseText );
+	}
+
+	public static final void logSpaceTripAction( final String responseText )
+	{
+		// Called when we are about to take a choice in SpaceTrip
+		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		if ( action == null )
+		{
+			return;
+		}
+
+                boolean week = false;
+                boolean log = false;
+
+		// Don't log navigation around the space ship or base
+		switch ( ChoiceManager.lastChoice )
+		{
+		case 468:	// Starbase Hub
+			if ( !action.equals( "Visit the General Store" ) &&
+			     !action.equals( "Visit the Military Surplus Store" ) &&
+			     !action.equals( "Back to Navigation Console" ) )
+			{
+				// Log any purchases
+				log = true;
+			}
+			break;
+		case 469:	// General Store
+		case 470:	// Military Surplus Store
+			if ( !action.equals( "Back to Starbase Hub" ) )
+			{
+				// Log any purchases
+				log = true;
+			}
+			break;
+		case 461:	// Navigation
+			if ( !action.equals( "Back to the Bridge" ) )
+			{
+				// Log sector selection and starbase
+				log = true;
+			}
+			break;
+		case 460:	// Bridge
+		case 462:	// Diagnostics
+                        // Game control navigation
+			break;
+
+		case 463:	// Alpha Quadrant
+		case 464:	// Beta Quadrant
+		case 477:	// Gamma Quadrant
+			// Exploring in a Quadrant advances time
+			if ( action.startsWith( "Launch an Astrozorian Commerce Grenade" ) ||
+			     action.startsWith( "Investigate the Source" ) )
+			{
+				log = true;
+			}
+			else if ( action.indexOf( "Scadian Homeworld" ) != -1  &&
+				  responseText.indexOf( "Protector of Scadia" ) != -1 )
+			{
+				log = true;
+			}
+			else if ( !action.startsWith( "Back to Navigation" ) )
+			{
+				week = true;
+			}
+			break;
+		default:
+			// Log the action the player took
+			log = true;
+			break;
+		}
+
+                if ( week )
+                {
+			ArcadeRequest.week++;
+			ArcadeRequest.logText( "Week " + ArcadeRequest.week + ": " + action );
+                }
+
+                if ( log )
+                {
+                        ArcadeRequest.logText( "Action: " + action );
+                }
+	}
+
+	private final static Pattern RESOURCE_PATTERN = Pattern.compile( "<tr><td><b>Crew:</b>&nbsp;(\\d*)<br><b>Gas:</b>&nbsp;(\\d*)&nbsp;gal.</td><td width=50></td><td><b>Money:</b>&nbsp;([0123456789,]*)&nbsp;Crabs<br><b>Time&nbsp;Left:</b>&nbsp;(\\d*)&nbsp;weeks</td></tr>", Pattern.DOTALL );
+
+	private final static Pattern CRABS_PATTERN = Pattern.compile( "have (?:transferred|recovered) <b>([0123456789,]*).*?Crabs</b>", Pattern.DOTALL );
+
+	private final static Pattern CREW1_PATTERN = Pattern.compile( "(?:We lost )?([0123456789,]+) crew members(?: were lost)?", Pattern.DOTALL );
+	private final static Pattern CREW2_PATTERN = Pattern.compile( "([0123456789,]+) (?:sentient )?beings", Pattern.DOTALL );
+
+	private final static Pattern TOTAL_SCORE_PATTERN = Pattern.compile( "Total Score:.*?<b>([0123456789,]*)</b>", Pattern.DOTALL );
+
+	public static final void postChoiceSpaceTrip( final GenericRequest request )
+	{
+		// Called when we have taken a choice in SpaceTrip
+
+		// Log what we see
+		String responseText = request.responseText;
+
+		// Log action appropriately
+		ArcadeRequest.logSpaceTripAction( responseText );
+
+		// If ten of your crew members have time to come to our big
+		// party, I'm sure it would be wonderful for everybody!
+		//
+		// The biggest parties happen here!
+
+		if ( responseText.indexOf( "come to our big party" ) != -1 ||
+		     responseText.indexOf( "The biggest parties happen here" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Slavers" );
+		}
+
+		// Biological scanners show no signs of organic life, but the
+		// ship is broadcasting an identity signal: MINE-29-DEATH-149
+		// -- how shall we approach it, sir?
+		//
+		// The Murderbots at this colony must be programmed to kill
+		// intruders on sight.
+
+		else if ( responseText.indexOf( "no signs of organic life" ) != -1 ||
+			  responseText.indexOf( "Murderbots at this colony" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Murderbot Mining Ship" );
+		}
+
+		// Captain, we've discovered something interesting -- it is
+		// definitely a Murderbot vessel, but it has no weapons, and is
+		// equipped with a much larger than usual communications array.
+
+		else if ( responseText.indexOf( "much larger than usual communications array" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Murderbot Control Ship" );
+		}
+
+		// Captain, we've been ambushed by another Murderbot
+		// vessel. Get ready for a fight!
+
+		else if ( responseText.indexOf( "ambushed by another Murderbot vessel" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Murderbot Cruiser" );
+		}
+
+		// Captain, we've neared the Scadian homeworld, and it is
+		// currently under siege by a Murderbot Dreadnought.  Which...
+		// has detected us, apparently, and is now shooting at us.
+		//
+		// Captain, as soon as we got near the Murderhive, we were
+		// immediately attacked by this Dreadnought. We're not going to
+		// be able to get inside there without getting this ID
+		// Transmitter fixed.
+
+		else if ( responseText.indexOf( "under siege by a Murderbot Dreadnought" ) != -1 || 
+			  responseText.indexOf( "attacked by this Dreadnought" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Murderbot Dreadnought" );
+		}
+
+		// Captain, I've got good news and bad news. The good news is
+		// that the ID Transmitter worked on the Dreadnoughts, and
+		// allowed us to fly into the center of the Murderhive. The bad
+		// news is that the Murderbot Mothership's computers didn't
+		// fall for the trick, and now we're in some serious, serious
+		// trouble.
+
+		else if ( responseText.indexOf( "the Murderbot Mothership's computers didn't" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Murderbot Mothership" );
+		}
+
+		// Hail to thee, noble traveler!  I come a great distance, at
+		// great peril, in search of aid for my Scadian countrymen.
+		// Will you lend me your ear, good wanderer?
+
+		else if ( responseText.indexOf( "aid for my Scadian countrymen" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Scadian Ship" );
+			ArcadeRequest.week--;
+		}
+
+		// Captain, we're being hailed by a Hipsterian vessel.
+
+		else if ( responseText.indexOf( "being hailed by a Hipsterian vessel" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Hipsterian Ship" );
+		}
+
+		// Ello, sah baldy. Mebbe mi can help yuh wid someting?
+		//
+
+		else if ( responseText.indexOf( "Ello, sah baldy" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Astrozorian Trade Vessel" );
+		}
+
+		// Captain, it's... If... If it wasn't so evil, it would
+		// be... beautiful. They would have should have sent a poet.
+
+		else if ( responseText.indexOf( "They should have sent a poet" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: The Source" );
+		}
+
+		// We lost 5 crew members in the attack...
+		// 3 crew members were lost...
+		Matcher crewMatcher = CREW1_PATTERN.matcher( responseText );
+		if ( crewMatcher.find() )
+		{
+			int crew = StringUtilities.parseInt( crewMatcher.group(1) );
+			ArcadeRequest.crewLost += crew;
+			ArcadeRequest.logText( "You lost " + KoLConstants.COMMA_FORMAT.format( crew ) + " crew members" );
+		}
+
+		// We have launched the mineral payload in the direction of the
+		// CHOAD company's nearest drop station, and they have
+		// transferred <b>405&nbsp;Crabs</b> to your account, Captain.
+		//
+		// We have uploaded the biological data into the ASPCA
+		// mainframe, and they have transferred <b>388&nbsp;Crabs</b>
+		// to your account, Captain.
+		//
+		// Our salvage teams have recovered <b>322 Crabs</b> worth of
+		// parts from the wreckage of the mining drone
+
+		Matcher crabsMatcher = CRABS_PATTERN.matcher( responseText );
+		if ( crabsMatcher.find() )
+		{
+			int crabs = StringUtilities.parseInt( crabsMatcher.group(1) );
+			ArcadeRequest.logText( "You gain " + KoLConstants.COMMA_FORMAT.format( crabs ) + " Crabs" );
+		}
+
+		// Captain, we've managed to extract an intact stasis enclosure
+		// from the wreck of the enemy ship, and it contained 15
+		// sentient beings.  We've thawed them out, and they've
+		// decided, in their gratitude, to join our crew.
+		//
+		// Captain, we've managed to rescue 24 beings from stasis pods
+		// floating in the wreckage of the enemy ship.
+
+		crewMatcher = CREW2_PATTERN.matcher( responseText );
+		if ( crewMatcher.find() )
+		{
+			int crew = StringUtilities.parseInt( crewMatcher.group(1) );
+			ArcadeRequest.logText( "You rescue " + KoLConstants.COMMA_FORMAT.format( crew ) + " crew members" );
+		}
+
+		// Look at current resources
+		Matcher resourceMatcher = RESOURCE_PATTERN.matcher( responseText );
+		if ( resourceMatcher.find() )
+		{
+			int crew = StringUtilities.parseInt( resourceMatcher.group(1) );
+			int gas = StringUtilities.parseInt( resourceMatcher.group(2) );
+			int money = StringUtilities.parseInt( resourceMatcher.group(3) );
+			int time = StringUtilities.parseInt( resourceMatcher.group(4) );
+
+			if ( crew != ArcadeRequest.crew ||
+			     money != ArcadeRequest.money ||
+			     gas != ArcadeRequest.gas ||
+			     time != ArcadeRequest.time )
+			{
+				ArcadeRequest.logText( "Crew: " + KoLConstants.COMMA_FORMAT.format( crew ) +
+						       ". Gas: " + KoLConstants.COMMA_FORMAT.format( gas ) +
+						       " gallons. Money: " + KoLConstants.COMMA_FORMAT.format( money ) +
+						       " Crabs. Time left: " + KoLConstants.COMMA_FORMAT.format( time ) +
+						       " weeks.");
+				ArcadeRequest.crew = crew;
+				ArcadeRequest.money = money;
+				ArcadeRequest.gas = gas;
+				ArcadeRequest.time = time;
+			}
+		}
+
+		// Finally, see if the game is over
+		Matcher totalMatcher = ArcadeRequest.TOTAL_SCORE_PATTERN.matcher( responseText );
+		if ( totalMatcher.find() )
+		{
+			ArcadeRequest.logText( "Total Score: " + totalMatcher.group(1) );
+
+			// The game is over. No more choices.
+			ArcadeRequest.choices = null;
+			return;
+		}
+
+		// Parse out the new choice names
+		ArcadeRequest.parseChoiceNames( responseText );
+	}
+
+	/* End Space Trip */
+	/* DemonStar */
+
+	public static final void visitDemonStarChoice( final String responseText )
+	{
+		// Called when we visit DemonStar
+		// Parse out the choice names
+		ArcadeRequest.parseChoiceNames( responseText );
+	}
+
+	public static final void postChoiceDemonStar( final GenericRequest request )
+	{
+		// Called when we have taken a choice in DemonStar
+		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		if ( action != null )
+		{
+			// Log the action the player took
+			ArcadeRequest.logText( "Action: " + action );
+		}
+
+		// Log what we see
+		String responseText = request.responseText;
+
+		// Parse out the new choice names
+		ArcadeRequest.parseChoiceNames( responseText );
+	}
+
+	/* End DemonStar */
 	/* Dungeon Fist! */
 
 	/*
@@ -331,11 +688,10 @@ public class ArcadeRequest
 	public static final void postChoiceDungeonFist( final GenericRequest request )
 	{
 		// Called when we have taken a choice in Dungeon Fist!
-		int choice = ChoiceManager.lastDecision;
-		if ( ArcadeRequest.choices != null && choice >= 1 && choice <= ArcadeRequest.choices.length )
+		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		if ( action != null )
 		{
 			// Log the action the player took
-			String action = ArcadeRequest.choices[ choice - 1 ];
 			ArcadeRequest.logText( "Action: " + action );
 		}
 
@@ -485,6 +841,18 @@ public class ArcadeRequest
 		ArcadeRequest.parseChoiceNames( responseText );
 	}
 
+	public static final void decorateDungeonFist( final StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "arcadeGameHints" ) )
+		{
+			return;
+		}
+
+		StringUtilities.singleStringReplace( buffer, "</body>",
+			"<center><p><img src='/images/otherimages/arcade/DungeonFistMap.png' width=544 height=672 alt='Snapshot of initial maze' title='Snapshot of initial maze'></center></body>" );
+	}
+
+	/* End Dungeon Fist! */
 	/* Fighters of Fighting */
 
 	// Opponents
@@ -981,15 +1349,54 @@ public class ArcadeRequest
 
 		buffer.append( text.substring( index1 ) );
 	}
-	
-	public static final void decorateDungeonFist( final StringBuffer buffer )
+
+	/* End Fighters of Fighting */
+	/* Meteoid */
+
+	public static final void visitMeteoidChoice( final String responseText )
 	{
-		if ( !Preferences.getBoolean( "arcadeGameHints" ) )
+		// Called when we visit Meteoid
+		// Parse out the choice names
+		ArcadeRequest.parseChoiceNames( responseText );
+	}
+
+	public static final void postChoiceMeteoid( final GenericRequest request )
+	{
+		// Called when we have taken a choice in Meteoid
+		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		if ( action != null )
 		{
-			return;
+			// Log the action the player took
+			ArcadeRequest.logText( "Action: " + action );
 		}
 
-		StringUtilities.singleStringReplace( buffer, "</body>",
-			"<center><p><img src='/images/otherimages/arcade/DungeonFistMap.png' width=544 height=672 alt='Snapshot of initial maze' title='Snapshot of initial maze'></center></body>" );
+		// Log what we see
+		String responseText = request.responseText;
+
+		// Parse out the new choice names
+		ArcadeRequest.parseChoiceNames( responseText );
 	}
+
+	/* End Meteoid */
+	/* Jackass Plumber */
+
+	public static final void visitJackassPlumberChoice( final String responseText )
+	{
+		// Called when we visit Jackass Plumber
+		// Parse out the choice names
+		ArcadeRequest.parseChoiceNames( responseText );
+	}
+
+	public static final void postChoiceJackassPlumber( final GenericRequest request )
+	{
+		// Called when we have taken a choice in Jackass Plumber
+
+		// Log what we see
+		String responseText = request.responseText;
+
+		// Parse out the new choice names
+		ArcadeRequest.parseChoiceNames( responseText );
+	}
+
+	/* End Jackass Plumber */
 }
