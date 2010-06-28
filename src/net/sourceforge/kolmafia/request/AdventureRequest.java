@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -569,6 +570,12 @@ public class AdventureRequest
 
 		// No "encounter" when moving on the chessboard
 		if ( choice == 443 && urlString.indexOf( "xy" ) != -1 )
+		{
+			return null;
+		}
+
+		// No "encounter" for certain arcade games
+		if ( ArcadeRequest.arcadeChoice( choice ) )
 		{
 			return null;
 		}

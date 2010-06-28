@@ -1371,14 +1371,13 @@ public abstract class ChoiceManager
 		// Choice 457 is Oh, No! Five-Oh!
 		// Choice 458 is ... Grow Unspeakable Horrors
 		// Choice 459 is unknown
-
 		// Choice 460 is Space Trip (Bridge)
 		// Choice 461 is Space Trip (Navigation)
 		// Choice 462 is Space Trip (Diagnostics)
 		// Choice 463 is Space Trip (Alpha Quadrant)
 		// Choice 464 is Space Trip (Beta Quadrant)
 		// Choice 465 is Space Trip (Planet)
-		// Choice 466 is 
+		// Choice 466 is unknown
 		// Choice 467 is Space Trip (Combat)
 		// Choice 468 is Space Trip (Starbase Hub)
 		// Choice 469 is Space Trip (General Store)
@@ -2868,9 +2867,7 @@ public abstract class ChoiceManager
 			ArcadeRequest.postChoiceDungeonFist( request );
 			break;
 
-		case 488:
-		case 489:
-		case 490:
+		case 488: case 489: case 490:
 			// Meteoid
 			ArcadeRequest.postChoiceMeteoid( request );
 			break;
@@ -3137,9 +3134,7 @@ public abstract class ChoiceManager
 			break;
 
 		// Meteoid
-		case 488:
-		case 489:
-		case 490:
+		case 488: case 489: case 490:
 			ArcadeRequest.visitMeteoidChoice( responseText );
 			break;
 		}
