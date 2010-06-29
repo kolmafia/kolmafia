@@ -317,7 +317,7 @@ public class ArcadeRequest
 
 	private static String findChoiceName( final int index )
 	{
-		if ( indices != null )
+		if ( indices != null && choices != null )
 		{
 			for ( int i = 0; i < indices.length; ++i )
 			{
@@ -631,6 +631,7 @@ public class ArcadeRequest
 			ArcadeRequest.logText( "Total Score: " + totalMatcher.group(1) );
 
 			// The game is over. No more choices.
+			ArcadeRequest.indices = null;
 			ArcadeRequest.choices = null;
 			return;
 		}
@@ -858,6 +859,7 @@ public class ArcadeRequest
 			ArcadeRequest.logText( message + matcher.group(0) );
 
 			// The game is over. No more choices.
+			ArcadeRequest.indices = null;
 			ArcadeRequest.choices = null;
 			return;
 		}
