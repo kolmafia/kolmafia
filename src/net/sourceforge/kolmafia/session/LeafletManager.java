@@ -443,10 +443,10 @@ public abstract class LeafletManager
 
 		// Check for failures
 		if ( response.indexOf( "That only works once." ) != -1 ||
-		// The player already invoked the correct word
-		response.indexOf( "send the plover over" ) != -1 ||
-		// "Red rover, red rover, send the plover over"
-		response.indexOf( "nothing happens" ) != -1 )
+		     // The player already invoked the correct word
+		     response.indexOf( "send the plover over" ) != -1 ||
+		     // "Red rover, red rover, send the plover over"
+		     response.indexOf( "nothing happens" ) != -1 )
 		{
 			// "You chant the magic word, and nothing happens. You
 			// hear thunder rumbling in the distance..."

@@ -4643,3 +4643,15 @@
 4634	googly-heart hat	hat	display	10
 4635	super-sweet boom box	weapon	display	1000
 4636	Game Grid valued membership card	usable	display	0
+4637
+4638	streetfighting champion's belt	accessory	display	0
+4639	Space Trip safety headphones	accessory	display	0
+4640
+4641	KoL Con Six Pack	offhand	display	0
+4642
+4643	rxr shield	offhand	display	0
+4644	Juju Mojo Mask	accessory	all	0
+4645
+4646	Meteoid ice beam	weapon	display	0
+4647	Dungeon Fist gauntlet	offhand	display	0
+#	sinister demon mask	hat	display	0

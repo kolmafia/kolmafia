@@ -4640,3 +4640,15 @@
 4634	554873639	googly-heart hat
 4635	179311534	super-sweet boom box
 4636	695582777	Game Grid valued membership card
+4637
+4638	238240856	streetfighting champion's belt
+4639	733978831	Space Trip safety headphones
+4640
+4641	192722630	KoL Con Six Pack
+4642
+4643	806918878	rxr shield
+4644	846591596	Juju Mojo Mask
+4645
+4646	605999944	Meteoid ice beam
+4647	352191111	Dungeon Fist gauntlet
+#	768015517	sinister demon mask
