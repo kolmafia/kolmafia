@@ -1400,8 +1400,9 @@ public abstract class ChoiceManager
 		// Choice 486 is Dungeon Fist!
 		// Choice 487 is unknown
 		// Choice 488 is Meteoid (Bridge)
-		// Choice 488 is Meteoid (SpaceMall)
-		// Choice 488 is Meteoid (Underground Complex)
+		// Choice 489 is Meteoid (SpaceMall)
+		// Choice 490 is Meteoid (Underground Complex)
+		// Choice 491 is Meteoid (End)
 	};
 
 	static
@@ -2867,7 +2868,7 @@ public abstract class ChoiceManager
 			ArcadeRequest.postChoiceDungeonFist( request );
 			break;
 
-		case 488: case 489: case 490:
+		case 488: case 489: case 490: case 491:
 			// Meteoid
 			ArcadeRequest.postChoiceMeteoid( request );
 			break;
@@ -3108,33 +3109,33 @@ public abstract class ChoiceManager
 
 			break;
 
-		// Wumpus Hunt
 		case 360:
+			// Wumpus Hunt
 			WumpusManager.visitChoice( responseText );
 			break;
 
-		// Space Trip
 		case 460:
+			// Space Trip
 			ArcadeRequest.visitSpaceTripChoice( responseText );
-                        break;
+			break;
 
-		// DemonStar
 		case 471:
+			// DemonStar
 			ArcadeRequest.visitDemonStarChoice( responseText );
 			break;
 
-		// Fighters Of Fighting
 		case 485:
+			// Fighters Of Fighting
 			ArcadeRequest.visitFightersOfFightingChoice( responseText );
 			break;
 
-		// DungeonFist!
 		case 486:
+			// DungeonFist!
 			ArcadeRequest.visitDungeonFistChoice( responseText );
 			break;
 
-		// Meteoid
-		case 488: case 489: case 490:
+		case 488:
+			// Meteoid
 			ArcadeRequest.visitMeteoidChoice( responseText );
 			break;
 		}
@@ -3891,6 +3892,8 @@ public abstract class ChoiceManager
 				// Fighters Of Fighting
 			case 486:
 				// Dungeon Fist!
+			case 488: case 489: case 490: case 491:
+				// Meteoid
 				return true;
 			}
 		}

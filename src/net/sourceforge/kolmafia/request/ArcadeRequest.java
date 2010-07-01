@@ -275,7 +275,7 @@ public class ArcadeRequest
 			// Fighters Of Fighting
 		case 486:
 			// Dungeon Fist!
-		case 488: case 489: case 490:
+		case 488: case 489: case 490: case 491:
 			// Meteoid
 			return true;
 		}
@@ -293,7 +293,7 @@ public class ArcadeRequest
 		RequestLogger.updateSessionLog( text );
 	}
 
-	private final static Pattern CHOICE_PATTERN = Pattern.compile( "<form name=choiceform.*?name=option value=(\\d+)>.*?class=button type=submit value=\"(.*?)\".*?></form>", Pattern.DOTALL );
+	private final static Pattern CHOICE_PATTERN = Pattern.compile( "<form.*?name=option value=(\\d+)>.*?class=button.*?value=['\"](.*?)['\"].*?></form>", Pattern.DOTALL );
 
 	// The strings tagging each available choice with associated index
 	private static Integer [] indices = null;
@@ -307,7 +307,7 @@ public class ArcadeRequest
 		while ( matcher.find() )
 		{
 			options.add( new Integer( matcher.group( 1 ) ) );
-			names.add( matcher.group( 2 ) );
+			names.add( StringUtilities.globalStringReplace( matcher.group( 2 ), "&nbsp;", "" ) );
 		}
 		ArcadeRequest.indices = new Integer [ options.size() ];
 		options.toArray( ArcadeRequest.indices );
@@ -435,7 +435,7 @@ public class ArcadeRequest
                 }
 	}
 
-	private final static Pattern RESOURCE_PATTERN = Pattern.compile( "<tr><td><b>Crew:</b>&nbsp;(\\d*)<br><b>Gas:</b>&nbsp;(\\d*)&nbsp;gal.</td><td width=50></td><td><b>Money:</b>&nbsp;([0123456789,]*)&nbsp;Crabs<br><b>Time&nbsp;Left:</b>&nbsp;(\\d*)&nbsp;weeks</td></tr>", Pattern.DOTALL );
+	private final static Pattern SPACE_TRIP_RESOURCE_PATTERN = Pattern.compile( "<tr><td><b>Crew:</b>&nbsp;(\\d*)<br><b>Gas:</b>&nbsp;(\\d*)&nbsp;gal.</td><td width=50></td><td><b>Money:</b>&nbsp;([0123456789,]*)&nbsp;Crabs<br><b>Time&nbsp;Left:</b>&nbsp;(\\d*)&nbsp;weeks</td></tr>", Pattern.DOTALL );
 
 	private final static Pattern CRABS_PATTERN = Pattern.compile( "have (?:transferred|recovered) <b>([0123456789,]*).*?Crabs</b>", Pattern.DOTALL );
 
@@ -599,7 +599,7 @@ public class ArcadeRequest
 		}
 
 		// Look at current resources
-		Matcher resourceMatcher = RESOURCE_PATTERN.matcher( responseText );
+		Matcher resourceMatcher = SPACE_TRIP_RESOURCE_PATTERN.matcher( responseText );
 		if ( resourceMatcher.find() )
 		{
 			int crew = StringUtilities.parseInt( resourceMatcher.group(1) );
@@ -1380,25 +1380,182 @@ public class ArcadeRequest
 	/* End Fighters of Fighting */
 	/* Meteoid */
 
+	private static int energy;
+	private static int bombs;
+	private static int missiles;
+	private static int crystals;
+
 	public static final void visitMeteoidChoice( final String responseText )
 	{
 		// Called when we visit Meteoid
+
+		ArcadeRequest.energy = 100;
+		ArcadeRequest.bombs = 1;
+		ArcadeRequest.missiles = 1;
+		ArcadeRequest.crystals = 0;
+
 		// Parse out the choice names
 		ArcadeRequest.parseChoiceNames( responseText );
 	}
 
+	public static final void logMetoidAction( final String responseText )
+	{
+		// Called when we are about to take a choice in SpaceTrip
+		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		if ( action == null )
+		{
+			return;
+		}
+
+		// Don't log navigation around the space ship or base
+		switch ( ChoiceManager.lastChoice )
+		{
+		case 488:	// Bridge
+			if ( action.equals( "Load up SpaceMall" ) )
+			{
+				return;
+			}
+			break;
+		case 489:	// SpaceMall
+			if ( action.equals( "Close SpaceMall" ) )
+			{
+				return;
+			}
+			break;
+		case 491:	// End
+			return;
+		}
+
+		ArcadeRequest.logText( "Action: " + action );
+	}
+
+        // <b>Energy:</b> 80<br><b>Bombs:</b> 1<br><b>Missiles:</b> 1<br><b>Credcrystals:</b> 0<center>
+
+	private final static Pattern METEOID_RESOURCE_PATTERN = Pattern.compile( "<b>Energy:</b> (\\d+)<br><b>Bombs:</b> (\\d+)<br><b>Missiles:</b> (\\d+)<br><b>Credcrystals:</b> (\\d+)<center>", Pattern.DOTALL );
+
+	private final static Pattern ENERGY_PATTERN = Pattern.compile( "left behind a ball of plasma worth ([0123456789,]*) energy", Pattern.DOTALL );
+
+	private final static Pattern CRYSTAL1_PATTERN = Pattern.compile( "left behind ([0123456789,]*) Credcrystal", Pattern.DOTALL );
+
+	private final static Pattern CRYSTAL2_PATTERN = Pattern.compile( "cache of Credcrystals.*?([0123456789,]*), to be exact", Pattern.DOTALL );
+
+	private final static Pattern GUARD_PATTERN = Pattern.compile( "The room was guarded by a fierce (.*?)!", Pattern.DOTALL );
+
 	public static final void postChoiceMeteoid( final GenericRequest request )
 	{
 		// Called when we have taken a choice in Meteoid
-		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
-		if ( action != null )
-		{
-			// Log the action the player took
-			ArcadeRequest.logText( "Action: " + action );
-		}
 
 		// Log what we see
 		String responseText = request.responseText;
+
+		// Log action appropriately
+		ArcadeRequest.logMetoidAction( responseText );
+
+		// The room was guarded by a fierce <monster>!
+		Matcher guardMatcher = GUARD_PATTERN.matcher( responseText );
+		if ( guardMatcher.find() )
+		{
+			ArcadeRequest.logText( "Encounter: " + guardMatcher.group(1) );
+		}
+
+		// The room contained a bizarre bird-man statue, seated and
+		// holding a spherical container.
+		else if ( responseText.indexOf( "bizarre bird-man statue") != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Statue" );
+		}
+
+		// The room contained a terminal whose screen displayed what
+		// appeared to be map data about the surrounding environment.
+		else if ( responseText.indexOf( "map data") != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Map Terminal" );
+		}
+
+		// The room contained a nano-charge station. My cybersuit's
+		// computer beeped, notifying me that I could use the station
+		// to replenish my bombs and missiles
+		else if ( responseText.indexOf( "nano-charge station") != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Charge Station" );
+		}
+
+		// The room contained a teleporter keyed to the planetoid's
+		// surface -- I could use it to get back to my ship!
+		else if ( responseText.indexOf( "planetoid's surface") != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: Teleporter" );
+		}
+
+		// The intense heat of the room leached 5 energy from my
+		// cybersuit...
+		if ( responseText.indexOf( "leached 5 energy" ) != -1 )
+		{
+			ArcadeRequest.logText( "You lose 5 energy" );
+		}
+
+		// It left behind a ball of plasma worth 20 energy.
+		Matcher energyMatcher = ENERGY_PATTERN.matcher( responseText );
+		if ( energyMatcher.find() )
+		{
+			int energy = StringUtilities.parseInt( energyMatcher.group(1) );
+			ArcadeRequest.logText( "You gain " + KoLConstants.COMMA_FORMAT.format( energy ) + " energy" );
+		}
+
+		// It left behind 9 Credcrystals!
+		//
+		// I opened the sphere and found a cache of Credcrystals.  291,
+		// to be exact.
+		Matcher crystalMatcher = CRYSTAL1_PATTERN.matcher( responseText );
+		if ( crystalMatcher.find() )
+		{
+			int crystals = StringUtilities.parseInt( crystalMatcher.group(1) );
+			ArcadeRequest.logText( "You gain " + KoLConstants.COMMA_FORMAT.format( crystals ) + " Credcrystals" );
+		}
+
+		crystalMatcher = CRYSTAL2_PATTERN.matcher( responseText );
+		if ( crystalMatcher.find() )
+		{
+			int crystals = StringUtilities.parseInt( crystalMatcher.group(1) );
+			ArcadeRequest.logText( "You gain " + KoLConstants.COMMA_FORMAT.format( crystals ) + " Credcrystals" );
+		}
+
+		// Look at current resources
+		Matcher resourceMatcher = METEOID_RESOURCE_PATTERN.matcher( responseText );
+		if ( resourceMatcher.find() )
+		{
+			int energy = StringUtilities.parseInt( resourceMatcher.group(1) );
+			int bombs = StringUtilities.parseInt( resourceMatcher.group(2) );
+			int missiles = StringUtilities.parseInt( resourceMatcher.group(3) );
+			int crystals = StringUtilities.parseInt( resourceMatcher.group(4) );
+
+			if ( energy != ArcadeRequest.energy ||
+			     bombs != ArcadeRequest.bombs ||
+			     missiles != ArcadeRequest.missiles ||
+			     crystals != ArcadeRequest.crystals )
+			{
+				ArcadeRequest.logText( "Energy: " + KoLConstants.COMMA_FORMAT.format( energy ) +
+						       ". Bombs: " + KoLConstants.COMMA_FORMAT.format( bombs ) +
+						       ". Missiles: " + KoLConstants.COMMA_FORMAT.format( missiles ) +
+						       " Credcrystals: " + KoLConstants.COMMA_FORMAT.format( crystals ) + "." );
+				ArcadeRequest.energy = energy;
+				ArcadeRequest.bombs = bombs;
+				ArcadeRequest.missiles = missiles;
+				ArcadeRequest.crystals = crystals;
+			}
+		}
+
+		// Finally, see if the game is over
+		Matcher totalMatcher = ArcadeRequest.TOTAL_SCORE_PATTERN.matcher( responseText );
+		if ( totalMatcher.find() )
+		{
+			ArcadeRequest.logText( "Total Score: " + totalMatcher.group(1) );
+
+			// The game is over. No more choices.
+			ArcadeRequest.indices = null;
+			ArcadeRequest.choices = null;
+			return;
+		}
 
 		// Parse out the new choice names
 		ArcadeRequest.parseChoiceNames( responseText );
