@@ -225,6 +225,7 @@ seal-skull helmet	Familiar Effect: "atk, cap 2"
 sealhide hood	Initiative: +20
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
+#sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 sleep mask	Intrinsic Effect: "Temporary Blindness (intrinsic)"
 slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2
@@ -489,7 +490,7 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 4-dimensional guitar	Ranged Damage: +7, Critical: 3
 5-Alarm Saucepan	Mysticality: +7, Class: "Sauceror"
 7-Foot Dwarven mattock	Weakens Monster
-# 7-inch discus: On Critical:  Music Snobbery!
+# 7-inch discus: On Critical: Music Snobbery!
 7-inch discus	Moxie Percent: +5, Weapon Damage Percent: +10
 # Ax of L'rose
 BRICKO sword	Weapon Damage: +6
@@ -544,6 +545,8 @@ Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 Mer-kin digpick	Weapon Damage: +30
 # Mer-kin hookspear: Extracts Meat on Critical Hits
 Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
+# Meteoid ice beam: On Critical: Freeze Opponent
+Meteoid ice beam	Cold Damage: +20, Critical Hit Percent: +2
 # Mjolnir Jr.
 Ol' Scratch's infernal pitchfork	Hot Damage: +40, Critical Hit Percent: +2
 PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60
@@ -988,6 +991,7 @@ Codex of Capsaicin Conjuration	Spell Damage: +10
 # Cookbook of the Damned: All Spells Cast Are Stinky
 Cookbook of the Damned	Spell Damage: +10
 Dallas Dynasty Falcon Crest shield	Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Damage Reduction: 15
+Dungeon Fist gauntlet	Weapon Damage: +25, Combat Rate: +5, Food Drop: -100
 Dyspepsi-Cola shield	Mysticality: +1, Damage Reduction: 4
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Gazpacho's Glacial Grimoire	Spell Damage: +10
@@ -1009,6 +1013,7 @@ Hodgman's varcolac paw	Weapon Damage: [0.8*H]
 Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # Kevlar balloon
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4, Hot Damage: +4
+KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
 Mer-kin roundshield	Damage Reduction: 5, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
 Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
@@ -1165,6 +1170,7 @@ red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
 rice bowl	Food Drop: +20
 rusty compass	Initiative: +30
 # rusty old lantern
+rxr shield	Damage Absorption: +10, Damage Reduction: 6
 sawblade shield	Weapon Damage: +11, Damage Reduction: 11
 sealhide buckler	Damage Reduction: 7
 sealskin drum	Weapon Damage: +20, Class: "Seal Clubber"
@@ -1317,6 +1323,8 @@ Iron Beta of Industry	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +6, 
 Jarlsberg's earring	Mysticality: +10
 Jekyllin hide belt	Muscle: [9-M], Mysticality: [9-M], Moxie: [9-M], Item Drop: [15+5*M], Softcore Only
 Jolly Roger charrrm bracelet	Moxie: +5
+# Juju Mojo Mask: Big Mojo
+Juju Mojo Mask	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +2, Single Equip, Softcore Only
 Junior Adventurer's merit badge	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 Junior LAAAAME merit badge	Muscle: +1, Mysticality: +1, Moxie: +1
 LWA ring	MP Regen Min: 2, MP Regen Max: 3
@@ -1367,6 +1375,7 @@ Scandalously Skimpy Bikini	Four Songs, Single Equip
 Senior LAAAAME merit badge	Muscle: +3, Mysticality: +3, Moxie: +3
 Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
 Sneaky Pete's breath spray	Moxie: +10
+Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
 Star of Bravery	Maximum HP: +25, Maximum MP: +25, Single Equip
 Talisman o' Nam	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 # Talisman of Baio: All Attributes Increase with Moonlight
@@ -1631,6 +1640,7 @@ stainless steel solitaire	Mana Cost: -2, Adventures: +2, Mysticality Percent: +1
 stainless steel suspenders	Damage Absorption: +60, Maximum MP: +40, Moxie Percent: +15, Single Equip
 stick-on eyebrow piercing	Muscle: +1
 stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
+streetfighting champion's belt	Maximum HP: +40, Maximum MP: +40, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Critical: 3, Single Equip
 string of blue beads	Mysticality: +1
 string of green beads	Moxie: +1
 string of red beads	Muscle: +1
