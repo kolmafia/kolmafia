@@ -804,7 +804,7 @@ shuddersword	125	Mus: 45	2-handed sword
 silver cheese-slicer	140	Mys: 55	1-handed utensil
 silver pat&eacute; knife	140	Mys: 55	1-handed utensil
 silver shrimp fork	120	Mys: 45	1-handed utensil
-#sinister demon mask	100	Mox: 35
+sinister demon mask	100	Mox: 35
 skate blade	200	Mus: 85	1-handed knife
 skate board	200	Mus: 85	2-handed club
 skeleton bone	30	Mus: 0	1-handed club

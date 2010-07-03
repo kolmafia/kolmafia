@@ -746,16 +746,21 @@ public class CoinmastersFrame
 					}
 
 					int max = balance / price;
-					int def = CoinmasterPanel.this.buyDefault( max );
+					int quantity = max;
 
-					String value = InputFieldUtilities.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
-					if ( value == null )
+					if ( max > 1 )
 					{
-						// He hit cancel
-						return null;
+						int def = CoinmasterPanel.this.buyDefault( max );
+						String value = InputFieldUtilities.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
+						if ( value == null )
+						{
+							// He hit cancel
+							return null;
+						}
+
+						StringUtilities.parseInt( value );
 					}
 
-					int quantity = StringUtilities.parseInt( value );
 					if ( quantity > max )
 					{
 						quantity = max;
