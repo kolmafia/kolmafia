@@ -225,7 +225,7 @@ seal-skull helmet	Familiar Effect: "atk, cap 2"
 sealhide hood	Initiative: +20
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
-#sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25
+sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 sleep mask	Intrinsic Effect: "Temporary Blindness (intrinsic)"
 slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2

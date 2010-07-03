@@ -766,3 +766,4 @@
 765	Clyde's Blessing	notes.gif	65e7e5329863e18944233f6b6a9a90fe	use The Legendary Beat
 766
 767	Cinco Elementos	rrainbow.gif	28bb9531a284151316db1be5e27370c1	drink 1 Cinco Mayo Lager
+768	Pwnd	chesscookie.gif	7f7d34cc8fff18ad9ee66f385d450b13	eat 1 pawn cookie
