@@ -1081,6 +1081,7 @@ public class ItemPool
 	public static final int BRICKO_CATHEDRAL = 4483;
 	public static final int BRICKO_CHICKEN = 4484;
 	public static final int BRICKO_PYRAMID = 4485;
+	public static final int DRINK_ME_POTION = 4508;
 	public static final int REFLECTION_OF_MAP = 4509;
 	public static final int WALRUS_ICE_CREAM = 4510;
 	public static final int BEAUTIFUL_SOUP = 4511;
