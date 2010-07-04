@@ -247,6 +247,7 @@ public class ValhallaManager
 		Preferences.setInteger( "mayflyExperience", 0 );
 		Preferences.setString( "trapperOre", "chrome" );
 		Preferences.setString( "louvreLayout", "" );
+		Preferences.setInteger( "pendingMapReflections", 0 );
 		Preferences.setString( "violetFogLayout", "" );
 		Preferences.setString( "dolphinItem", "" );
 		Preferences.setString( "spookyPuttyMonster", "" );
@@ -258,9 +259,8 @@ public class ValhallaManager
 		Preferences.setString( "telescope5", "" );
 		Preferences.setString( "telescope6", "" );
 		Preferences.setString( "telescope7", "" );
-		Preferences.setInteger( "discardedKarma", Math.max( 0,
-			Preferences.getInteger( "discardedKarma" ) - 3 ) );
+		Preferences.setInteger( "discardedKarma",
+			Math.max( 0, Preferences.getInteger( "discardedKarma" ) - 3 ) );
 		TurnCounter.clearCounters();
 	}
-
 }

@@ -3770,6 +3770,10 @@ public class UseItemRequest
 			Preferences.increment( "munchiesPillsUsed", count );
 			break;
 
+		case ItemPool.DRINK_ME_POTION:
+			Preferences.increment( "pendingMapReflections", count );
+			break;
+
 		case ItemPool.BLACK_MARKET_MAP:
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.BLACKBIRD )
 			{

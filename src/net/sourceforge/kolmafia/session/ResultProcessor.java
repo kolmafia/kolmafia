@@ -1315,6 +1315,15 @@ public class ResultProcessor
 				ResultProcessor.processItem( result.getItemId(), -1 );
 			}
 			break;
+
+		case ItemPool.REFLECTION_OF_MAP:
+			if ( combatResults )
+			{
+				int current = Preferences.getInteger( "pendingMapReflections" );
+				current = Math.max( 0, current - 1);
+				Preferences.setInteger( "pendingMapReflections", current );
+			}
+			break;
 		}
 	}
 
