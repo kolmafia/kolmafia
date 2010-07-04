@@ -753,7 +753,7 @@
 744	hair spray	multiple	all	12
 745	serrated proboscis extension	familiar	all	75
 746	stat script	usable	none	0
-747	Knob Goblin firecracker	none, combat	all	15
+747	Knob Goblin firecracker	usable, combat	all	15
 748	gourd potion	multiple	none	0
 749	warm mushroom	food	all	55
 750	spicy mushroom quesadilla	food	all	65
