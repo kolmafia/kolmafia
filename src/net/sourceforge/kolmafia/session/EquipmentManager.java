@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1043,7 +1044,22 @@ public class EquipmentManager
 
 	public static final boolean wieldingClub()
 	{
-		return EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() ).equals( "club" );
+		return EquipmentManager.wieldingClub( true );
+	}
+
+	/**
+	 * Here's a version which allows you to include or exclude the Iron Palm
+	 * effect for the purpose of determining whether a sword counts as a
+	 * club. Mother Hellseals require an actual club...
+	 */
+
+	public static final AdventureResult IRON_PALM = EffectPool.get( "Iron Palm" );
+
+	public static final boolean wieldingClub( final boolean includeEffect )
+	{
+		String type = EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
+		return type.equals( "club" ) ||
+			( includeEffect && KoLConstants.activeEffects.contains( EquipmentManager.IRON_PALM ) && type.equals( "sword" ) );
 	}
 
 	/**
