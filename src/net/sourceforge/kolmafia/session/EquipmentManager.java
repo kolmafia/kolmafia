@@ -439,6 +439,12 @@ public class EquipmentManager
 	
 	public static final void breakEquipment( int itemId, String msg )
 	{
+		// Breaking sugar equipment resets sugar counter
+		if ( EquipmentDatabase.isSugar( itemId ) )
+		{
+			Preferences.setInteger( "sugarCounter", 0 );
+		}
+
 		int slot = EquipmentManager.discardEquipment( itemId );
 		if ( slot == -1 )
 		{
@@ -711,6 +717,18 @@ public class EquipmentManager
 			InventoryManager.hasItem( ItemPool.STICKER_SWORD ) ||
 			InventoryManager.hasItem( ItemPool.STICKER_CROSSBOW );
 	}
+
+	public static final boolean isWearingSugar()
+	{
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		{
+			if ( EquipmentDatabase.isSugar( EquipmentManager.getEquipment( i ) ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public static final void decrementTurns()
 	{
@@ -720,6 +738,11 @@ public class EquipmentManager
 				--EquipmentManager.turnsRemaining[ 0 ],
 				--EquipmentManager.turnsRemaining[ 1 ],
 				--EquipmentManager.turnsRemaining[ 2 ] );
+		}
+
+		if ( isWearingSugar() )
+		{
+			Preferences.increment( "sugarCounter", 1 );
 		}
 	}
 	
