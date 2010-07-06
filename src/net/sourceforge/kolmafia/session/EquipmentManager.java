@@ -440,9 +440,17 @@ public class EquipmentManager
 	public static final void breakEquipment( int itemId, String msg )
 	{
 		// Breaking sugar equipment resets sugar counter
-		if ( EquipmentDatabase.isSugar( itemId ) )
+		switch ( itemId )
 		{
-			Preferences.setInteger( "sugarCounter", 0 );
+		case ItemPool.SUGAR_CHAPEAU:
+		case ItemPool.SUGAR_SHANK:
+		case ItemPool.SUGAR_SHIELD:
+		case ItemPool.SUGAR_SHILLELAGH:
+		case ItemPool.SUGAR_SHIRT:
+		case ItemPool.SUGAR_SHOTGUN:
+		case ItemPool.SUGAR_SHORTS:
+			Preferences.setInteger( "sugarCounter" + String.valueOf( itemId ), 0 );
+			break;
 		}
 
 		int slot = EquipmentManager.discardEquipment( itemId );
@@ -718,16 +726,24 @@ public class EquipmentManager
 			InventoryManager.hasItem( ItemPool.STICKER_CROSSBOW );
 	}
 
-	public static final boolean isWearingSugar()
+	public static final void incrementSugarCounters()
 	{
 		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 		{
-			if ( EquipmentDatabase.isSugar( EquipmentManager.getEquipment( i ) ) )
+			int itemId = EquipmentManager.getEquipment( i ).getItemId();
+			switch ( itemId )
 			{
-				return true;
+			case ItemPool.SUGAR_CHAPEAU:
+			case ItemPool.SUGAR_SHANK:
+			case ItemPool.SUGAR_SHIELD:
+			case ItemPool.SUGAR_SHILLELAGH:
+			case ItemPool.SUGAR_SHIRT:
+			case ItemPool.SUGAR_SHOTGUN:
+			case ItemPool.SUGAR_SHORTS:
+				Preferences.increment( "sugarCounter" + String.valueOf( itemId ), 1 );
+				break;
 			}
 		}
-		return false;
 	}
 	
 	public static final void decrementTurns()
@@ -740,10 +756,7 @@ public class EquipmentManager
 				--EquipmentManager.turnsRemaining[ 2 ] );
 		}
 
-		if ( isWearingSugar() )
-		{
-			Preferences.increment( "sugarCounter", 1 );
-		}
+		EquipmentManager.incrementSugarCounters();
 	}
 	
 	public static final void stickersExpired( int count )

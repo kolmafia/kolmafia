@@ -545,7 +545,13 @@ user	stationaryButton3
 user	stationaryButton4
 user	stationaryButton5
 user	styxPixieVisited	false
-user	sugarCounter	0
+user	sugarCounter4178	0
+user	sugarCounter4179	0
+user	sugarCounter4180	0
+user	sugarCounter4181	0
+user	sugarCounter4182	0
+user	sugarCounter4183	0
+user	sugarCounter4191	0
 user	tavernLayout	0000000000000000000000000
 user	telescope1
 user	telescope2
