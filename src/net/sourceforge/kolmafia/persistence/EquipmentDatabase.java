@@ -712,27 +712,6 @@ public class EquipmentDatabase
 		return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_SHIRT;
 	}
 
-	public static final boolean isSugar( final AdventureResult item )
-	{
-		return EquipmentDatabase.isSugar( item.getItemId() );
-	}
-
-	public static final boolean isSugar( final int itemId )
-	{
-		switch ( itemId )
-		{
-		case ItemPool.SUGAR_CHAPEAU:
-		case ItemPool.SUGAR_SHANK:
-		case ItemPool.SUGAR_SHIELD:
-		case ItemPool.SUGAR_SHILLELAGH:
-		case ItemPool.SUGAR_SHIRT:
-		case ItemPool.SUGAR_SHOTGUN:
-		case ItemPool.SUGAR_SHORTS:
-			return true;
-		}
-		return false;
-	}
-
 	public static final int getPulverization( final String itemName )
 	{
 		if ( itemName == null )

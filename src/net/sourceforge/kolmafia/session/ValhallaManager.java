@@ -243,7 +243,13 @@ public class ValhallaManager
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
 		Preferences.setInteger( "carboLoading", 0 );
-		Preferences.setInteger( "sugarCounter", 0 );
+		Preferences.setInteger( "sugarCounter4178", 0 );
+		Preferences.setInteger( "sugarCounter4179", 0 );
+		Preferences.setInteger( "sugarCounter4180", 0 );
+		Preferences.setInteger( "sugarCounter4181", 0 );
+		Preferences.setInteger( "sugarCounter4182", 0 );
+		Preferences.setInteger( "sugarCounter4183", 0 );
+		Preferences.setInteger( "sugarCounter4191", 0 );
 		Preferences.setInteger( "meansuckerPrice", 400 );
 		Preferences.setInteger( "mayflyExperience", 0 );
 		Preferences.setString( "trapperOre", "chrome" );
