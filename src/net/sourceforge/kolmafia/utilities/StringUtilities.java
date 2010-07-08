@@ -495,7 +495,7 @@ public class StringUtilities
 	{
 		// Using a regular expression, while faster, results
 		// in a lot of String allocation overhead.  So, use
-		// a static finalally-allocated StringBuffers.
+		// a static finally-allocated StringBuffers.
 
 		int lastIndex = originalString.indexOf( searchString );
 		if ( lastIndex == -1 )
@@ -582,7 +582,7 @@ public class StringUtilities
 
 		// Using a regular expression, while faster, results
 		// in a lot of String allocation overhead.  So, use
-		// a static finalally-allocated StringBuffers.
+		// a static finally-allocated StringBuffers.
 
 		int lastIndex = buffer.indexOf( tag );
 		while ( lastIndex != -1 )

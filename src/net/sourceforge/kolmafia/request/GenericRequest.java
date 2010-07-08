@@ -154,6 +154,7 @@ public class GenericRequest
 	private URL formURL;
 	private String currentHost;
 	private String formURLString;
+	private String baseURLString;
 
 	public boolean isChatRequest = false;
 
@@ -176,6 +177,7 @@ public class GenericRequest
 	public static String serverCookie = null;
 	public static String inventoryCookie = null;
 	public static String passwordHash = "";
+	public static String passwordHashValue = "";
 
 	public static void reset()
 	{
@@ -183,6 +185,13 @@ public class GenericRequest
 		GenericRequest.serverCookie = null;
 		GenericRequest.inventoryCookie = null;
 		GenericRequest.passwordHash = "";
+		GenericRequest.passwordHashValue = "";
+	}
+
+	public static void setPasswordHash( final String hash )
+	{
+		GenericRequest.passwordHash = hash;
+		GenericRequest.passwordHashValue = "=" + hash;
 	}
 
 	/**
@@ -384,14 +393,23 @@ public class GenericRequest
 		String oldURLString = this.formURLString;
 		int formSplitIndex = newURLString.indexOf( "?" );
 
-		if ( formSplitIndex == -1 || !usePostMethod )
+		if ( formSplitIndex == -1 )
 		{
+			this.baseURLString = newURLString;
 			this.formURLString = newURLString;
 		}
 		else
 		{
-			this.formURLString = newURLString.substring( 0, formSplitIndex );
-			this.addFormFields( newURLString.substring( formSplitIndex + 1 ), false );
+			this.baseURLString = newURLString.substring( 0, formSplitIndex );
+			if ( !usePostMethod )
+			{
+				this.formURLString = newURLString;
+			}
+			else
+			{
+				this.formURLString = this.baseURLString;
+				this.addFormFields( newURLString.substring( formSplitIndex + 1 ), false );
+			}
 		}
 
 		if ( !this.formURLString.equals( oldURLString ) )
@@ -436,6 +454,11 @@ public class GenericRequest
 	public String getURLString()
 	{
 		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDisplayDataString();
+	}
+
+	public String getDisplayURLString()
+	{
+		return StringUtilities.singleStringReplace( this.getURLString(), GenericRequest.passwordHashValue, "" );
 	}
 
 	public String getFullURLString()
@@ -649,28 +672,6 @@ public class GenericRequest
 		this.data.add( element );
 	}
 
-	public String getFormField( final String key )
-	{
-		if ( !this.data.isEmpty() )
-		{
-			return this.findField( this.data, key );
-		}
-
-		int index = this.formURLString.indexOf( "?" );
-		if ( index == -1 )
-		{
-			return null;
-		}
-
-		String[] tokens = this.formURLString.substring( index + 1 ).split( "&" );
-		List fields = new ArrayList();
-		for ( int i = 0; i < tokens.length; ++i )
-		{
-			fields.add( tokens[ i ] );
-		}
-		return this.findField( fields, key );
-	}
-
 	public List getFormFields()
 	{
 		if ( !this.data.isEmpty() )
@@ -691,6 +692,11 @@ public class GenericRequest
 			fields.add( tokens[ i ] );
 		}
 		return fields;
+	}
+
+	public String getFormField( final String key )
+	{
+		return this.findField( this.getFormFields(), key );
 	}
 
 	private String findField( final List data, final String key )
@@ -1177,7 +1183,7 @@ public class GenericRequest
 	{
 		if ( this.shouldUpdateDebugLog() )
 		{
-			RequestLogger.updateDebugLog( "Connecting to " + this.formURLString + "..." );
+			RequestLogger.updateDebugLog( "Connecting to " + this.baseURLString + "..." );
 		}
 
 		// Make sure that all variables are reset before you reopen
@@ -2302,7 +2308,7 @@ public class GenericRequest
 	public void printRequestProperties()
 	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Requesting: http://" + GenericRequest.KOL_HOST + "/" + this.getURLString() );
+		RequestLogger.updateDebugLog( "Requesting: http://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString() );
 
 		Map requestProperties = this.formConnection.getRequestProperties();
 		RequestLogger.updateDebugLog( requestProperties.size() + " request properties" );
@@ -2321,7 +2327,7 @@ public class GenericRequest
 	public void printHeaderFields()
 	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Retrieved: http://" + GenericRequest.KOL_HOST + "/" + this.getURLString() );
+		RequestLogger.updateDebugLog( "Retrieved: http://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString() );
 		RequestLogger.updateDebugLog();
 
 		Map headerFields = this.formConnection.getHeaderFields();

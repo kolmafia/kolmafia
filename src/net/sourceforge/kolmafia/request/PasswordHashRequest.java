@@ -62,14 +62,14 @@ public class PasswordHashRequest
 		Matcher pwdmatch = PasswordHashRequest.HASH_PATTERN_1.matcher( responseText );
 		if ( pwdmatch.find() )
 		{
-			GenericRequest.passwordHash = pwdmatch.group( 1 );
+			GenericRequest.setPasswordHash( pwdmatch.group( 1 ) );
 			return;
 		}
 
 		pwdmatch = PasswordHashRequest.HASH_PATTERN_2.matcher( responseText );
 		if ( pwdmatch.find() )
 		{
-			GenericRequest.passwordHash = pwdmatch.group( 1 );
+			GenericRequest.setPasswordHash( pwdmatch.group( 1 ) );
 			return;
 		}		
 	}
