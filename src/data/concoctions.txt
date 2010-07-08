@@ -862,7 +862,7 @@ gnauga hide chaps	ASMITH	gnauga hide	pants kit
 basic meat skirt	SMITH, FEMALE	meat stack	skirt / kilt kit
 sticky meat skirt	SMITH, FEMALE	really really sticky spider web	basic meat skirt
 
-furry skirt	ASMITH	furry fur	skirt / kilt kit
+furry skirt	ASMITH, FEMALE	furry fur	skirt / kilt kit
 gnauga hide skirt	ASMITH, FEMALE	gnauga hide	skirt / kilt kit
 hippopotamus skirt	ASMITH, FEMALE	hippopotamus skin	skirt / kilt kit
 penguinskin mini-skirt	ASMITH, FEMALE	penguin skin	skirt / kilt kit

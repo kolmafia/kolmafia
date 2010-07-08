@@ -73,6 +73,8 @@ public abstract class ChoiceManager
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
+	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "value='(\\d+)' name='whichchoice'" );
+
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 
@@ -3086,9 +3088,14 @@ public abstract class ChoiceManager
 
 		if ( !matcher.find() )
 		{
-			// choice.php did not offer us any choices.
-			// This would be a bug in KoL itself.
-			return;
+			matcher = ChoiceManager.CHOICE2_PATTERN.matcher( responseText );
+
+			if ( !matcher.find() )
+			{
+				// choice.php did not offer us any choices.
+				// This would be a bug in KoL itself.
+				return;
+			}
 		}
 
 		ChoiceManager.lastChoice = StringUtilities.parseInt( matcher.group( 1 ) );
@@ -3888,6 +3895,8 @@ public abstract class ChoiceManager
 			case 475: case 476: case 477: case 478: case 479:
 			case 480: case 481: case 482: case 483: case 484:
 				// Space Trip
+			case 471:
+				// DemonStar
 			case 485:
 				// Fighters Of Fighting
 			case 486:

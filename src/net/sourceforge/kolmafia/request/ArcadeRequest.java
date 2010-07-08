@@ -293,7 +293,7 @@ public class ArcadeRequest
 		RequestLogger.updateSessionLog( text );
 	}
 
-	private final static Pattern CHOICE_PATTERN = Pattern.compile( "<form.*?name=option value=(\\d+)>.*?class=button.*?value=['\"](.*?)['\"].*?></form>", Pattern.DOTALL );
+	private final static Pattern CHOICE_PATTERN = Pattern.compile( "<form.*?name='?option'? value='?(\\d+)'?.*?>.*?class='?button'?.*?value=['\"](.*?)['\"].*?></form>", Pattern.DOTALL );
 
 	// The strings tagging each available choice with associated index
 	private static Integer [] indices = null;
@@ -643,17 +643,79 @@ public class ArcadeRequest
 	/* End Space Trip */
 	/* DemonStar */
 
+	private static int blurstite;
+	private static int wounds;
+
 	public static final void visitDemonStarChoice( final String responseText )
 	{
 		// Called when we visit DemonStar
 		// Parse out the choice names
 		ArcadeRequest.parseChoiceNames( responseText );
+		ArcadeRequest.blurstite = 0;
+		ArcadeRequest.wounds = 0;
+	}
+
+	private final static Pattern DEMONSTAR_MOVE_PATTERN = Pattern.compile( "mv=([-01]+)(,|%2C)([-01]+)" );
+
+	private static final String parseDemonStarAction( final GenericRequest request )
+	{
+		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		// Actions like "Mine" or "Fight"
+		if ( action != null )
+		{
+			return action;
+		}
+
+		Matcher matcher = ArcadeRequest.DEMONSTAR_MOVE_PATTERN.matcher( request.getURLString() );
+		if ( matcher.find() )
+		{
+			int dx = StringUtilities.parseInt( matcher.group( 1 ) );
+			int dy = StringUtilities.parseInt( matcher.group( 3 ) );
+			switch( dx )
+			{
+			case -1:
+				switch ( dy )
+				{
+				case -1:
+					return "Move northwest";
+				case 0:
+					return "Move west";
+				case 1:
+					return "Move southwest";
+				}
+				break;
+			case 0:
+				switch ( dy )
+				{
+				case -1:
+					return "Move north";
+				case 0:
+					return "Stay put";
+				case 1:
+					return "Move south";
+				}
+				break;
+			case 1:
+				switch ( dy )
+				{
+				case -1:
+					return "Move northeast";
+				case 0:
+					return "Move east";
+				case 1:
+					return "Move southeast";
+				}
+				break;
+			}
+		}
+
+		return null;
 	}
 
 	public static final void postChoiceDemonStar( final GenericRequest request )
 	{
 		// Called when we have taken a choice in DemonStar
-		String action = ArcadeRequest.findChoiceName( ChoiceManager.lastDecision );
+		String action = ArcadeRequest.parseDemonStarAction( request );
 		if ( action != null )
 		{
 			// Log the action the player took
@@ -662,6 +724,116 @@ public class ArcadeRequest
 
 		// Log what we see
 		String responseText = request.responseText;
+
+		// Looking out the viewscreen, you see that this region of
+		// space is basically empty, except for a large gray asteroid,
+		// floating serenely in the... well, in the nothing.
+
+		if ( responseText.indexOf( "a large gray asteroid" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: an asteroid" );
+		}
+
+		// Also, there's an octagonal flying saucer with a large turret
+		// on the top that quickly swivels to face you.
+                //
+		// You are interrupted in your chosen task by the nearby
+		// tanklike flying saucer, which swoops toward you, firing red
+		// bursts of energy from its central turre
+
+		if ( responseText.indexOf( "octagonal flying saucer" ) != -1 ||
+		     responseText.indexOf( "nearby tanklike flying saucer" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: a warrior" );
+		}
+
+		// Also, there's a strange red crab-like spaceship -- or
+		// possibly robot? -- which is poking at the asteroid with its
+		// claws.
+
+		// Also, there's a strange red crab-like spaceship -- or
+		// possibly robot? -- which has a large crystal clutched in its
+		// claws and seems to be on its way somewhere.
+
+		if ( responseText.indexOf( "strange red crab-like spaceship" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: a worker" );
+		}
+
+		// Looking out the viewscreen, you see that this region of
+		// space is crowded as heck. A ton of crab-like worker drones
+		// are constructing a giant demon face, of all things, for the
+		// front of the massive battle-station they're building. Who
+		// builds a giant space demon head? This is ridiculous.
+
+		if ( responseText.indexOf( "ton of crab-like worker drones" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: a worker" );
+			ArcadeRequest.logText( "Encounter: DemonStar under construction" );
+		}
+
+		// You're fighting the DemonStar.
+
+		if ( responseText.indexOf( "You're fighting the DemonStar" ) != -1 )
+		{
+			ArcadeRequest.logText( "Encounter: the DemonStar" );
+		}
+
+                // BEWARE! I LIVE!
+		if ( responseText.indexOf( "BEWARE! I LIVE!" ) != -1 )
+		{
+			ArcadeRequest.logText( "The DemonStar awakes." );
+		}
+
+		// Blurstite crystal collected
+		if ( responseText.indexOf( "Blurstite crystal collected" ) != -1 )
+		{
+			ArcadeRequest.blurstite++;
+			ArcadeRequest.logText( "You acquire a bomb. (" + ArcadeRequest.blurstite + ")" );
+		}
+
+		// From somewhere in the distance, you hear an explosion. "A
+		// blurstium charge has been intercepted by an enemy robot,"
+		// the computer reports.
+
+		if ( responseText.indexOf( "blurstium charge has been intercepted" ) != -1 )
+		{
+			ArcadeRequest.logText( "A bomb has been intercepted." );
+		}
+
+		// From somewhere in the distance, you hear an explosion and a
+		// loud metallic roar. <i?>&quot;1 blurstium charge has located
+		// the target and successfully detonated,&quot;</i> says the
+		// shipboard computer.
+		if ( responseText.indexOf( "a loud metallic roar" ) != -1 )
+		{
+			ArcadeRequest.wounds++;
+			ArcadeRequest.logText( "A bomb wounds the DemonStar. (" + ArcadeRequest.wounds + ")" );
+		}
+
+		// Finally, see if the game is over
+		Matcher matcher = ArcadeRequest.FINAL_SCORE_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String message = "";
+			if ( responseText.indexOf( "YOU HAVE DESTROYED THE DEMONSTAR!" ) != -1 )
+			{
+				message = "YOU HAVE DESTROYED THE DEMONSTAR! ";
+
+			}
+
+			else
+			{
+				message = "YOU HAVE FAILED. ";
+			}
+
+			ArcadeRequest.logText( message + matcher.group(0) );
+
+			// The game is over. No more choices.
+			ArcadeRequest.indices = null;
+			ArcadeRequest.choices = null;
+			return;
+		}
 
 		// Parse out the new choice names
 		ArcadeRequest.parseChoiceNames( responseText );
@@ -709,7 +881,7 @@ public class ArcadeRequest
 		ArcadeRequest.parseChoiceNames( responseText );
 	}
 
-	private final static Pattern FINAL_SCORE_PATTERN = Pattern.compile( "FINAL SCORE: ([0123456789,]*)", Pattern.DOTALL );
+	private final static Pattern FINAL_SCORE_PATTERN = Pattern.compile( "FINAL SCORE:? ([0123456789,]*)", Pattern.DOTALL );
 
 	public static final void postChoiceDungeonFist( final GenericRequest request )
 	{
