@@ -1,7 +1,7 @@
 1
 # Bot	Player ID	XML File URL
 
-Testudinata	537858	http://clanotori.org/bots/testudinata.xml
+Testudinata	537858	http://www.rawbw.com/~ssjlee/kol/testudinata.xml
 Noblesse Oblige	594822	http://forums.kingdomofloathing.com/
 IocaineBot	792443	http://www.iocainepowder.org/iocainebot/iocainebot.xml
 #Niten	353078	http://www.jick-nerfed.us/NitraMo/Buffbot/Niten.xml
