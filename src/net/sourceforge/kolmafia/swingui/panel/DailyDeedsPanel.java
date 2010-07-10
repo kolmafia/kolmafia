@@ -587,14 +587,17 @@ public class DailyDeedsPanel
 		public MojoDaily()
 		{
 			this.addListener( "currentMojoFilters" );
+			this.addItem( ItemPool.MOJO_FILTER );
 			this.addButton( "use mojo filter" );
 			this.addLabel( "" );
 		}
 		
 		public void update()
 		{
+			boolean have = InventoryManager.getCount( ItemPool.MOJO_FILTER ) > 0;
 			int nf = Preferences.getInteger( "currentMojoFilters" );
-			this.setEnabled( nf < 3 );
+			this.setShown( have || nf > 0 );
+			this.setEnabled( have && nf < 3 );
 			this.setText( nf + "/3" );
 		}
 	}
@@ -811,11 +814,27 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "spookyPuttyCopiesMade" );
 			this.addListener( "spookyPuttyMonster" );
+			this.addListener( "kingLiberated" );
+			this.addItem( ItemPool.SPOOKY_PUTTY_MITRE );
+			this.addItem( ItemPool.SPOOKY_PUTTY_LEOTARD );
+			this.addItem( ItemPool.SPOOKY_PUTTY_BALL );
+			this.addItem( ItemPool.SPOOKY_PUTTY_SHEET );
+			this.addItem( ItemPool.SPOOKY_PUTTY_SNAKE );
+			this.addItem( ItemPool.SPOOKY_PUTTY_MONSTER );
 			this.addLabel( "" );
 		}
 		
 		public void update()
 		{
+			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean hc = KoLCharacter.isHardcore();
+			boolean have = InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_MITRE ) > 0
+				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_LEOTARD ) > 0
+				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_BALL ) > 0
+				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_SHEET ) > 0
+				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_SNAKE ) > 0
+				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_MONSTER ) > 0
+				|| Preferences.getInteger( "spookyPuttyCopiesMade" ) > 0;
 			String text = Preferences.getInteger( "spookyPuttyCopiesMade" ) +
 				"/5 putty uses";
 			String monster = Preferences.getString( "spookyPuttyMonster" );
@@ -823,6 +842,7 @@ public class DailyDeedsPanel
 			{
 				text = text + ", now " + monster;
 			}
+			this.setShown( ( kf || !hc ) && have );
 			this.setText( text );
 		}
 	}
