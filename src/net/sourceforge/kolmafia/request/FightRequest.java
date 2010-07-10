@@ -4073,6 +4073,11 @@ public class FightRequest
 			StringBuffer text = node.getText();
 			String str = text.toString();
 
+			if ( FightRequest.handleFuzzyDice( str, status ) )
+			{
+				return;
+			}
+
 			if ( FightRequest.processFumble( str, status ) )
 			{
 				return;
@@ -4127,12 +4132,12 @@ public class FightRequest
 
 				if ( FightRequest.handleFuzzyDice( text, status ) )
 				{
-					return;
+					continue;
 				}
 
 				if ( FightRequest.processFumble( text, status ) )
 				{
-					return;
+					continue;
 				}
 
 				if ( text.indexOf( "you feel all warm and fuzzy" ) != -1 )
@@ -4141,7 +4146,7 @@ public class FightRequest
 					{
 						FightRequest.logText( "A freed guard turtle returns.", status );
 					}
-					return;
+					continue;
 				}
 
 				boolean ghostAction = status.ghost != null && text.indexOf( status.ghost) != -1;
@@ -4293,7 +4298,8 @@ public class FightRequest
 			return false;
 		}
 
-		if ( content.equals( "&nbsp;&nbsp;&nbsp;&nbsp;" ) )
+		if ( content.equals( "&nbsp;&nbsp;&nbsp;&nbsp;" ) ||
+		     content.equals( "" ) )
 		{
 			return true;
 		}
@@ -4310,6 +4316,17 @@ public class FightRequest
 
 		// No longer accumulating fuzzy dice message
 		status.dice = false;
+
+		// Fuzzy dice can do damage. Account for it.
+		int damage = FightRequest.parseNormalDamage( content );
+		if ( damage != 0 )
+		{
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterDamage( action, damage );
+			}
+			FightRequest.healthModifier += damage;
+		}
 
 		return true;
 	}
