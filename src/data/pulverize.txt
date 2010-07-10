@@ -212,6 +212,7 @@ ice pick	nosmash
 ice skates	nosmash
 Jekyllin hide belt	nosmash
 jewel-eyed wizard hat	nosmash
+Juju Mojo Mask	nosmash
 Travoltan trousers	nosmash
 pilgrim shield	nosmash
 liar's pants	nosmash
