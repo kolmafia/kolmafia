@@ -3020,7 +3020,7 @@ Wrath	Weapon Damage: +10, Spell Damage: +10, Damage Reduction: -4
 Antique Arms and Armor	Muscle: +15
 Arboreal Raiment	Stench Resistance: +3
 # Arrrbor Day Aparrrrrel
-# BRICKOfig Outfit
+BRICKOfig Outfit	Item Drop: +10
 Black Armaments	Muscle: +6
 Bounty-Hunting Rig	Item Drop: +15
 # Bow Tux
