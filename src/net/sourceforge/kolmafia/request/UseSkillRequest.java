@@ -166,6 +166,7 @@ public class UseSkillRequest
 	public static final AdventureResult EMBLEM_AKGYXOTH = ItemPool.get( ItemPool.EMBLEM_AKGYXOTH, 1 );
 
 	public static final AdventureResult SAUCEBLOB_BELT = ItemPool.get( ItemPool.SAUCEBLOB_BELT, 1 );
+	public static final AdventureResult JUJU_MOJO_MASK = ItemPool.get( ItemPool.JUJU_MOJO_MASK, 1 );
 
 	// The following list must contain only accessories!
 	private static final AdventureResult[] AVOID_REMOVAL = new AdventureResult[]
@@ -181,13 +182,15 @@ public class UseSkillRequest
 		UseSkillRequest.EMBLEM_AKGYXOTH,	// -1
 		// Removing the following might drop an AT song
 		UseSkillRequest.PLEXI_PENDANT,
+		// Removing the following may lose a buff
+		UseSkillRequest.JUJU_MOJO_MASK,
 	};
 
 	// The number of items at the end of AVOID_REMOVAL that are simply
 	// there to avoid removal - there's no point in equipping them
 	// temporarily during casting:
 
-	private static final int AVOID_REMOVAL_ONLY = 1;
+	private static final int AVOID_REMOVAL_ONLY = 2;
 	
 	// Other known MP cost/song count items:
 	//
