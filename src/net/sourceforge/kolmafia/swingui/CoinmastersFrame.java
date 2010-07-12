@@ -397,7 +397,7 @@ public class CoinmastersFrame
 			       null,
 			       CoinmastersDatabase.ticketBuyPrices(),
 			       "availableTickets",
-			       "Game Grid ticket",
+			       "ticket",
 			       "Ticket Counter",
 				null );
 			buyAction = "redeem";
@@ -758,7 +758,7 @@ public class CoinmastersFrame
 							return null;
 						}
 
-						StringUtilities.parseInt( value );
+						quantity = StringUtilities.parseInt( value );
 					}
 
 					if ( quantity > max )
