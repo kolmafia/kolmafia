@@ -453,17 +453,23 @@ public class GenericRequest
 
 	public String getURLString()
 	{
-		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDisplayDataString();
-	}
-
-	public String getDisplayURLString()
-	{
-		return StringUtilities.singleStringReplace( this.getURLString(), GenericRequest.passwordHashValue, "" );
+		return this.data.isEmpty() ?
+			this.formURLString :
+			this.formURLString + "?" + this.getDisplayDataString();
 	}
 
 	public String getFullURLString()
 	{
-		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDataString();
+		return this.data.isEmpty() ?
+			this.formURLString :
+			this.formURLString + "?" + this.getDataString();
+	}
+
+	public String getDisplayURLString()
+	{
+		return this.data.isEmpty() ?
+			StringUtilities.singleStringReplace ( this.formURLString, GenericRequest.passwordHashValue, "" ) :
+			this.formURLString + "?" + this.getDisplayDataString();
 	}
 
 	/**

@@ -53,8 +53,6 @@ public class SugarSheetRequest
 {
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 
-	private int stars, lines;
-
 	public SugarSheetRequest( final Concoction conc )
 	{
 		super( "sugarsheets.php", conc );
@@ -64,6 +62,7 @@ public class SugarSheetRequest
 
 	public void reconstructFields()
 	{
+		this.constructURLString( this.getURLString() );
 	}
 
 	public void run()

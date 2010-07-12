@@ -61,6 +61,7 @@ public class PhineasRequest
 
 	public void reconstructFields()
 	{
+		this.constructURLString( this.getURLString() );
 	}
 
 	public void run()
