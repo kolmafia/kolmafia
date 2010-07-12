@@ -60,10 +60,6 @@ public class ArcadeRequest
 		super( "arcade.php" );
 	}
 
-	public void reconstructFields()
-	{
-	}
-
 	public static final int getTurnsUsed( GenericRequest request )
 	{
 		String action = request.getFormField( "action" );

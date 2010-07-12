@@ -60,6 +60,7 @@ public class PixelRequest
 
 	public void reconstructFields()
 	{
+		this.constructURLString( this.getURLString() );
 	}
 
 	public void run()

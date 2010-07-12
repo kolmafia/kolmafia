@@ -367,6 +367,7 @@ public class SushiRequest
 
 	public void reconstructFields()
 	{
+		this.constructURLString( this.getURLString() );
 	}
 
 	public boolean noCreation()

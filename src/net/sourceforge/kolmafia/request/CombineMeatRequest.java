@@ -75,6 +75,7 @@ public class CombineMeatRequest
 
 	public void reconstructFields()
 	{
+		this.constructURLString( this.getURLString() );
 	}
 
 	public void run()

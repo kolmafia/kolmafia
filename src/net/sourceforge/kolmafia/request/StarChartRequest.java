@@ -84,6 +84,7 @@ public class StarChartRequest
 
 	public void reconstructFields()
 	{
+		this.constructURLString( this.getURLString() );
 	}
 
 	public void run()

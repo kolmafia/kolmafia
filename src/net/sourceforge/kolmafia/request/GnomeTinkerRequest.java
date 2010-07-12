@@ -63,6 +63,7 @@ public class GnomeTinkerRequest
 
 	public void reconstructFields()
 	{
+		this.constructURLString( this.getURLString() );
 	}
 
 	public void run()
