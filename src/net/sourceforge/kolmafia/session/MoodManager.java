@@ -801,23 +801,28 @@ public abstract class MoodManager
 		// Then, we determine the displayList which are thief skills, and
 		// thereby would be cast at this time.
 
-		ArrayList thiefSkills = new ArrayList();
+		ArrayList thiefKeep = new ArrayList();
+		ArrayList thiefNeed = new ArrayList();
 		for ( int i = 0; i < MoodManager.displayList.size(); ++i )
 		{
 			current = (MoodTrigger) MoodManager.displayList.get( i );
 			if ( current.isThiefTrigger() )
 			{
-				thiefSkills.add( current.effect );
+				if ( thiefBuffs.remove( current.effect ) )
+				{	// Already have this one
+					thiefKeep.add( current.effect );
+				}
+				else
+				{	// New or completely expired buff - we may
+					// need to shrug a buff to make room for it.
+					thiefNeed.add( current.effect );
+				}
 			}
 		}
 
-		// We then remove the displayList which will be used from the pool of
-		// effects which could be removed.  Then we compute how many we
-		// need to remove and remove them.
-
-		thiefBuffs.removeAll( thiefSkills );
-
-		int buffsToRemove = thiefBuffs.size() + thiefSkills.size() - MoodManager.thiefTriggerLimit;
+		int buffsToRemove = thiefNeed.isEmpty() ? 0 :
+			thiefBuffs.size() + thiefKeep.size() + thiefNeed.size()
+			- MoodManager.thiefTriggerLimit;
 		for ( int i = 0; i < buffsToRemove && i < thiefBuffs.size(); ++i )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "uneffect " + ( (AdventureResult) thiefBuffs.get( i ) ).getName() );
