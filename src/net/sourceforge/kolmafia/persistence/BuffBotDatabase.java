@@ -225,6 +225,9 @@ public class BuffBotDatabase
 			return 0;
 		}
 
+		KoLmafia.updateDisplay( "Converted to non-philanthropic request: " +
+			bestMatch.turns[ 0 ] + " turns of " + bestMatch.buffs[ 0 ] +
+			" for " + bestMatch.getPrice() + " Meat." );
 		return bestMatch.getPrice();
 	}
 
