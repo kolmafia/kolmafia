@@ -421,9 +421,29 @@ public class MaximizerFrame
 					text = cmd + " (";
 					int count = item.getCount();
 					int price = 0;
+
+					// The "initial" quantity comes from
+					// InventoryManager.getAccessibleCount.
+					// It can include inventory, closet, and
+					// storage.
 					if ( ((count >> Evaluator.INITIAL_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
 					{	
-						// on hand;
+						if ( count <= item.getCount( KoLConstants.inventory ) )
+						{
+							// In inventory
+						}
+						else if ( item.getCount( KoLConstants.closet ) > 0 )
+						{
+							// In closet
+							text = "uncloset & " + text;
+							cmd = "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
+						}
+						else if ( KoLCharacter.canInteract() && item.getCount( KoLConstants.storage ) > 0 )
+						{
+							// In storage
+							text = "pull & " + text;
+							cmd = "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+						}
 					}
 					else if ( ((count >> Evaluator.CREATABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
 					{	
