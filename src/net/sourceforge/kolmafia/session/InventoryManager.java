@@ -135,10 +135,22 @@ public abstract class InventoryManager
 			return 0;
 		}
 
-		int count = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet ) + item.getCount( KoLConstants.freepulls );
+		int count = item.getCount( KoLConstants.inventory );
+
+		// Items in closet might be accessible, but. if the user has
+		// marked items in the closet as out-of-bounds, honor that.
+		if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
+		{
+			count += item.getCount( KoLConstants.closet );
+		}
+
+		// Free Pulls from Hagnk's are always accessible
+		count += item.getCount( KoLConstants.freepulls );
 
 		if ( KoLCharacter.canInteract() )
 		{
+			// Storage is always accessible once you are out of
+			// Ronin or have freed the king.
 			count += item.getCount( KoLConstants.storage );
 
 			if ( KoLCharacter.hasClan() && Preferences.getBoolean( "autoSatisfyWithStash" ) )
