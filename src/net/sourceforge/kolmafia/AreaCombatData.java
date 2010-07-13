@@ -511,8 +511,8 @@ public class AreaCombatData
 		}
 
 		float itemModifier = AreaCombatData.getDropRateModifier();
-		boolean stealing = KoLCharacter.isMoxieClass() ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) );
+		boolean stealing = KoLCharacter.isMoxieClass() || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) );
+		float pocketModifier = ( 100.0f + KoLCharacter.currentNumericModifier( Modifiers.PICKPOCKET_CHANCE ) ) / 100.0f;
 
 		for ( int i = 0; i < items.size(); ++i )
 		{
@@ -535,7 +535,7 @@ public class AreaCombatData
 
 			buffer.append( "<br>" );
 
-			float stealRate = ( (Float) pocketRates.get( i ) ).floatValue();
+			float stealRate = Math.min( ( (Float) pocketRates.get( i ) ).floatValue() * pocketModifier, 1.0f );
 			int rawDropRate = item.getCount() >> 16;
 			float dropRate = Math.min( rawDropRate * itemModifier, 100.0f );
 			float effectiveDropRate = stealRate * 100.0f + ( 1.0f - stealRate ) * dropRate;
@@ -570,7 +570,7 @@ public class AreaCombatData
 				if ( stealing && rawDropRate > 0 )
 				{
 					buffer.append( " " );
-					buffer.append( rawDropRate );
+					buffer.append( Math.min( rawDropRate * pocketModifier, 100.0f ) );
 					buffer.append( "% (pickpocket only)" );
 				}
 				else

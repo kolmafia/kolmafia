@@ -3054,7 +3054,7 @@ Knob Goblin Elite Guard Uniform	Muscle: +7
 Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
 Legendary Regalia of the Chelonian Overlord	Experience (familiar): +1
 # Legendary Regalia of the Groovelord
-# Legendary Regalia of the Master Squeezeboxer
+Legendary Regalia of the Master Squeezeboxer	Pickpocket Chance: +50
 # Legendary Regalia of the Pasta Master	+1 pasta guardian exp
 # Legendary Regalia of the Saucemaestro	improved HP/MP return from saucespheres
 # Legendary Regalia of the Seal Crusher
