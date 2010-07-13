@@ -2,7 +2,7 @@
 # Bot	Player ID	XML File URL
 
 Testudinata	537858	http://www.rawbw.com/~ssjlee/kol/testudinata.xml
-Noblesse Oblige	594822	http://forums.kingdomofloathing.com/
+Noblesse Oblige	594822	http://www.noblesse-oblige.org/bot/noblesse_oblige.xml
 IocaineBot	792443	http://www.iocainepowder.org/iocainebot/iocainebot.xml
 #Niten	353078	http://www.jick-nerfed.us/NitraMo/Buffbot/Niten.xml
 #The Professor	725798	http://www.jick-nerfed.us/Barkeep/theprofessor.xml
