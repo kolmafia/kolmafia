@@ -2311,33 +2311,7 @@ public class FightRequest
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves got rusted." );
 		}
 
-		// Check for familiar item drops
-		if ( responseText.indexOf( "too preoccupied" ) != -1 &&
-			responseText.indexOf( "this world" ) != -1 )
-		{
-			Preferences.increment( "_gongDrops", 1 );
-		}
-
-		if ( responseText.indexOf( "He tosses you a bottle" ) != -1 &&
-			responseText.indexOf( "absinthe" ) != -1)
-		{
-			Preferences.increment( "_absintheDrops", 1 );
-		}
-
-		if ( responseText.indexOf( "produces a rainbow-colored mushroom" ) != -1 )
-		{
-			Preferences.increment( "_astralDrops", 1 );
-		}
-
-		if ( responseText.indexOf( "belches some murky fluid back" ) != -1 )
-		{
-			Preferences.increment( "_aguaDrops", 1 );
-		}
-
-		if ( responseText.indexOf( "hands you an actual, literal token" ) != -1 )
-		{
-			Preferences.increment( "_tokenDrops", 1 );
-		}
+		// Check for familiar actions
 
 		if ( responseText.indexOf( "shimmers briefly, and you feel it getting earlier." ) != -1 )
 		{
@@ -4054,19 +4028,8 @@ public class FightRequest
 				return;
 			}
 
-			// Combat item usage
-			int damage = FightRequest.parseNormalDamage( str );
-			if ( damage != 0 )
-			{
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterDamage( action, damage );
-				}
-				FightRequest.healthModifier += damage;
-				return;
-			}
-
-			// Unknown.
+			// Combat item usage: process the children of this node
+			// to pick up damage to the monster and stat gains
 		}
 		else if ( name.equals( "p" ) )
 		{

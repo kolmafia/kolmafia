@@ -4618,7 +4618,7 @@
 4609
 4610
 4611
-4612
+4612	antique souvenir drawing	usable	all	0
 4613
 4614	Crown of Thrones	hat	all	0
 4615	Cinco Mayo Lager	drink	all	0
@@ -4646,9 +4646,9 @@
 4637	sinister demon mask	hat	display	0
 4638	streetfighting champion's belt	accessory	display	0
 4639	Space Trip safety headphones	accessory	display	0
-4640
+4640	LARP carp	offhand	display	0
 4641	KoL Con Six Pack	offhand	display	0
-4642
+4642	Gregarious Gregorian Smock	shirt	display	0
 4643	rxr shield	offhand	display	0
 4644	Juju Mojo Mask	accessory	all	0
 4645

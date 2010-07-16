@@ -1830,7 +1830,7 @@ public class Parser
 				{
 					Type expected = types[param];
 					Type given = val.getType();
-					if ( expected != given )
+					if ( !expected.equals( given ) )
 					{
 						throw this.parseException( given + " found when " + expected + " expected for field #" + ( param + 1 ) + " (" + names[param] + ")" );
 					}
