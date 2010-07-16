@@ -4609,14 +4609,14 @@
 4603	374119884	bronze handcuffs	pairs of bronze handcuffs
 4604	914658794	silver keg	silver kegs
 4605	263925450	bottle of Goldschn&ouml;ckered
-4606
-4607
-4608
-4609
-4610
-4611
+4606	320541334	sun-dried tofu	pieces of sun-dried tofu
+4607	654553241	soyburger juice	bottles of soyburger juice
+4608	201183966	respected companion biscuit	respected companion biscuits
+4609	834645252	essential tofu	blobs of essential tofu
+4610	842493845	essential soy	drops of essential soy
+4611	876002516	essential cameraderie	units of essential cameraderie
 4612	473237477	antique souvenir drawing	antique souvenir drawings
-4613
+4613	473237477	map to the Magic Commune
 4614	239178788	Crown of Thrones	Crowns of Thrones
 4615	328670887	Cinco Mayo Lager	cans of Cinco Mayo Lager
 4616	435527262	Underworld sapling	Underworld saplings

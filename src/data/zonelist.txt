@@ -60,6 +60,7 @@ Memories	Item-Driven	Memories
 Jacking	Item-Driven	Prof. Jacking's Lab
 Kegger	Item-Driven	Kegger in the Woods
 Vanya's Castle	Item-Driven	Vanya's Castle
+Magic Commune	Item-Driven	Magic Commune
 
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair

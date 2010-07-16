@@ -328,6 +328,9 @@ Empty Suit of Armor	HP: 120 Def: 115 Atk: 115 ED: spooky	antique greaves (10)	an
 Endangered Inflatable White Tiger	HP: 100000
 Enraged Cow	HP: 100000
 Erudite Gremlin	HP: 170 Def: 169 Atk: 171 Meat: 40-60	gremlin juice (3)	molybdenum crescent wrench (c0)
+Essence of Interspecies Respect	HP: 0	essential cameraderie (0)
+Essence of Soy	HP: 0	essential soy (0)
+Essence of Tofu	HP: 0	essential tofu (0)
 Evil Cultist	HP: 70 Def: 50 Atk: 60	memory of a cultist's robe (0)
 Evil Olive	HP: 140 Def: 145 Atk: 145	bottle of gin (30)	olive (40)	jumbo olive (10)
 Evil spaghetti cult assassin	HP: 115 Def: 95 Atk: 95
@@ -576,6 +579,8 @@ Mutant Gift-Wrapping Elf		elven socks (0)
 Mutant Whistle-Carving Elf		elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
 Naughty Sorority Nurse	HP: 160 Def: 185 Atk: 180 ED: sleaze	energy drink IV (27)	gauze garter (25)	gauze garter (16)	kick-ass kicks (2)	PADL Phone (3)
 Neil	HP: 355 Atk: 200 ED: stench Meat: 182-187	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	longhaired hippy wig (100)	reinforced beaded headband (0)
+Neptune, the Dog that Is a Respected Equal and Not a Pet	HP: 0	respected companion biscuit (0)
+Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	HP: 0	respected companion biscuit (0)
 Neptune Flytrap	HP: 700 Def: 400 Atk: 450 "Really Quite Poisoned"	flytrap pellet (30)	water-polo cap (c0)	wriggling flytrap pellet (c0)
 Newt	HP: 3 Def: 3 Atk: 3 Meat: 8-12	eye of newt (100)
 Next-Generation Frat Boy	HP: 200 Meat: 150-200 E: sleaze	beaten-up Chucks (100)	white class ring (100)	kick-ass kicks (0)	beer helmet (0)	distressed denim pants (0)
@@ -729,6 +734,8 @@ Striking Pencil-Pusher Elf		felt (10)	wooden block (10)	googly eye (10)	length o
 Striking Stocking-Stuffer Elf		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
 Sub-Assistant Knob Mad Scientist	HP: 1 Def: 2 Atk: 1 Meat: 5-7	Knob Goblin firecracker (100)	Knob Goblin pants (10)	strongness elixir (30)
 Surprised Mariachi	HP: 0	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
+Susie Soyburger	HP: 0	soyburger juice (0)
+Susie Soyburger Cast Member	HP: 0	soyburger juice (0)
 Swamp Duck	HP: 182 Atk: 169 Meat: 120-172 E: stench	fetid feather (10)	duct tape (5)
 Swarm of Fire Ants	HP: 135 Def: 133 Atk: 142 E: heat	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
 Swarm of Killer Bees	HP: 75 Def: 54 Atk: 59 "Somewhat Poisoned"	baby killer bee (5)	royal jelly (25)
@@ -783,6 +790,8 @@ The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	line (
 The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
 The Whole Kingdom	HP: 10000000 Def: 1 Atk: 1
 Tiger-Lily	HP: 150	eye of the Tiger-lily (0)	Tiger-lily's milk (20)	reflection of a map (c10)
+Timmy Tofurkey	HP: 0	sun-dried tofu (0)
+Timmy Tofurkey Cast Member	HP: 0	sun-dried tofu (0)
 Tipsy Pirate	HP: 70 Def: 80 Atk: 80 Meat: 36-54	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
 Toilet Papergeist	HP: 105 Def: 100 Atk: 88 ED: spooky	cardboard wakizashi (5)	roll of toilet paper (50)
 Toilet-papered Tree	HP: 0	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
