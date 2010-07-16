@@ -2179,6 +2179,7 @@ white picket fence	Bonus Resting MP: +1
 &quot;The Disease&quot;	Moxie: -5
 'Roids of the Rhinoceros	Muscle: +100
 1337p4n7Z	Muscle: +6, Moxie: -3
+2 Hearts, 1 Mind	Experience: +3, Experience (familiar): +3
 20-20 Second Sight	Maximum MP: +25
 5 Pounds Lighter	Initiative: +10, Moxie: +5
 A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
@@ -2361,6 +2362,7 @@ Dance Interpreter	Item Drop: +20
 Dances with Tweedles	Meat Drop: +40
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
+# Deadened palate: Bleah
 Deadly Flashing Blade	Weapon Damage: +10
 # Deadly Lampblade: 100% chance of poisoning opponent
 Deadly Lampblade	Spooky Damage: +75
@@ -2401,6 +2403,7 @@ Egg-stortionary Tactics	Meat Drop: +50
 Egg-stra Arm	Muscle Percent: +10
 Eggs-tra Sensory Perception	Item Drop: +10
 El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
+# Electrolyte Fantastic: 10% to all Mysticality Gains
 Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Elron's Explosive Etude	Spell Damage Percent: +50
 Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -2552,6 +2555,7 @@ Ichorous Intensity	Spell Damage Percent: +20
 Impregnably Delicious	Damage Reduction: 30
 In Tuna	MP Regen Min: 3, MP Regen Max: 5
 In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+# In Your Cups: Whoah...
 In the Saucestream	Mysticality Percent: +15
 Incredibly Hulking	Muscle Percent: +200
 # Infinite Loop
@@ -2662,6 +2666,7 @@ Optimist Primal	Familiar Weight: +5
 Orange Tongue	Experience: +3
 Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Oriental Mysticism	Mysticality Percent: +5
+# Oversaturated Palate: Blech
 Oxygenated Blood	Adventure Underwater
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 Pasta Oneness	Mysticality: +2

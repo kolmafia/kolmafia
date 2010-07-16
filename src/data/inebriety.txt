@@ -214,6 +214,7 @@ slug of rum	3	2	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	3	0	0	0	10 Brined Liver
 snifter of thoroughly aged brandy	2	1	2-6	0	8-10	0
+soyburger juice	2	3	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
 spasmi dolorosi del rene champagne	1	10	6-10	60	60	60
 spiced rum	3	2	4-8	0	0	17-30
 spooky eggnog	3	3	5-10	0	16-30	16-30

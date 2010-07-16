@@ -4612,14 +4612,14 @@
 4603	bronze handcuffs	none, combat	all	100
 4604	silver keg	usable	all	150
 4605	bottle of Goldschn&ouml;ckered	offhand	display	200
-4606
-4607
-4608
-4609
-4610
-4611
+4606	sun-dried tofu	food	all	25
+4607	soyburger juice	drink	all	20
+4608	respected companion biscuit	usable	all	30
+4609	essential tofu	usable	all	200
+4610	essential soy	multiple	all	250
+4611	essential cameraderie	multiple	all	225
 4612	antique souvenir drawing	usable	all	0
-4613
+4613	map to the Magic Commune	reusable	none	0
 4614	Crown of Thrones	hat	all	0
 4615	Cinco Mayo Lager	drink	all	0
 4616	Underworld sapling	grow	all	0

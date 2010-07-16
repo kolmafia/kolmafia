@@ -398,6 +398,7 @@ strawberry pie	3	2	3-9	0	0	8-10
 stuffed spooky mushroom	3	1	3-9	0	0	0
 stunt nuts	2	1	2-3	8-10	0	0
 # suddenly salad!	5	1	60-80	0	220-400	0
+sun-dried tofu	2	3	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
 super ka-bob	3	11	12-15	30-38	0	0
 super salad	3	11	13-16	30-50	32-40	31-40
 t8r tots	1	1	1-2	0	0	0
