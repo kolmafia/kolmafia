@@ -1014,6 +1014,7 @@ Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # Kevlar balloon
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4, Hot Damage: +4
 KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
+LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
 Mer-kin roundshield	Damage Reduction: 5, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
 Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
@@ -2475,6 +2476,9 @@ Full of Wist	Experience: [min(L,11)]
 Full-Body Tan	Experience (Moxie): [L]
 Fury of the Bells	Muscle Percent: +10
 Fustulent	Stench Damage: +15, Stench Spell Damage: +15
+Gaze of the Lightning God	Spell Damage Percent: +50, Experience (Mysticality): +3, MP Regen Min: 5, MP Regen Max: 5
+Gaze of the Trickster God	Ranged Damage: +30, Sleaze Damage: +30, Experience (Moxie): +3, Initiative: +30
+Gaze of the Volcano God	Weapon Damage: +30, Hot Damage: +25, Experience (Muscle): +3, HP Regen Min: 8, HP Regen Max: 10
 Gelded	Monster Level: +5
 # Get Me Off This Crazy Thing!: Jane!
 Ghostly Shell	Damage Absorption: +80

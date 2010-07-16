@@ -1324,6 +1324,41 @@ public class ResultProcessor
 				Preferences.setInteger( "pendingMapReflections", current );
 			}
 			break;
+
+		case ItemPool.GONG:
+			if ( combatResults )
+			{
+				Preferences.increment( "_gongDrops", 1 );
+			}
+			break;
+
+		case ItemPool.ABSINTHE:
+			if ( combatResults )
+			{
+				Preferences.increment( "_absintheDrops", 1 );
+			}
+			break;
+
+		case ItemPool.ASTRAL_MUSHROOM:
+			if ( combatResults )
+			{
+				Preferences.increment( "_astralDrops", 1 );
+			}
+			break;
+
+		case ItemPool.AGUA_DE_VIDA:
+			if ( combatResults )
+			{
+				Preferences.increment( "_aguaDrops", 1 );
+			}
+			break;
+
+		case ItemPool.GG_TOKEN:
+			if ( combatResults )
+			{
+				Preferences.increment( "_tokenDrops", 1 );
+			}
+			break;
 		}
 	}
 

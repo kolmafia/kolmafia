@@ -939,6 +939,7 @@ public class ItemPool
 	public static final int SLIME_SOAKED_BRAIN = 3992;
 	public static final int SLIME_SOAKED_SWEAT_GLAND = 3993;
 	public static final int DOLPHIN_WHISTLE = 3997;
+	public static final int AGUA_DE_VIDA = 4001;
 	public static final int MOONTAN_LOTION = 4003;
 	public static final int AMINO_ACIDS = 4006;
 	public static final int CONTACT_LENSES = 4019;

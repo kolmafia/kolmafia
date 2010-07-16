@@ -365,6 +365,7 @@ Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
 General Sage's Lonely Diamonds Club Jacket	130	Mus: 50
 Grateful Undead T-shirt	70	Mus: 20
+Gregarious Gregorian Smock	100	none
 Grimacite gown	150	Mus: 40
 Grimacite guayabera	125	Mus: 47
 Hodgman's disgusting technicolor overcoat	200	Mus: 200
