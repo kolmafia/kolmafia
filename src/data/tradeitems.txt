@@ -4631,7 +4631,7 @@
 4622	Game Grid ticket	none	all	0
 4623	chocolate-covered caviar	multiple	all	333
 4624	pawn cookie	food	all	100
-4625	coffee pixie stick	usable	display	50
+4625	coffee pixie stick	multiple	display	50
 4626	superduperball	usable	display	10
 4627	finger cuffs	usable, combat	display	10
 4628	little parachute guy	none, combat	display	10
