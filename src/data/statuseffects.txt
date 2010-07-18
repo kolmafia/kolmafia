@@ -767,7 +767,7 @@
 766	In Your Cups	dizzy.gif	e52072ec12f192559a4e63cfe38d38e1
 767	Cinco Elementos	rrainbow.gif	28bb9531a284151316db1be5e27370c1	drink 1 Cinco Mayo Lager
 768	Pwnd	chesscookie.gif	7f7d34cc8fff18ad9ee66f385d450b13	eat 1 pawn cookie
-769	Gaze of the Volcano God	gaze_v.gif	79bc05cd8f6cdf869c66a840f79ce2d3
+769	Gaze of the Volcano God	gaze_v.gif	1a2034d74bff222b085a88bec5219e3f
 770	Gaze of the Lightning God	gaze_l.gif	c84d41b52687a8893f2c4bcdfd58afb1
 771	Gaze of the Trickster God	gaze_t.gif	846b5d2c960c2a6bd19ed296425fc41e
 772	Electrolyte Fantastic	esssoy.gif	68a114c28532a8414b93689e4c03b275	use 1 essential soy
