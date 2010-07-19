@@ -10,3 +10,4 @@ kolabuff	1061817	http://www.koladdict.com/buffbot/kolabuff.xml
 #Lucky 888	1235543	http://darkshadows.dune.net/lucky_888.xml
 zonkttc	333480	http://www.warpedpenguin.org/zonkttc.xml
 NotBot	896474	http://www.knauer.org/mike/kol/notbot.xml
+Tinkerballa	1998582	http://nomads.beckencs.com/tinkerballa.xml
