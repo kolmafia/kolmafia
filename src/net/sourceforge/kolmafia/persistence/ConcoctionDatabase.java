@@ -1195,7 +1195,7 @@ public class ConcoctionDatabase
 		// Coffee pixie sticks are available from the Game Grid arcade
 		// for 10 Game Grid tickets apiece.
 		int ticketCount = InventoryManager.getAccessibleCount( ItemPool.GG_TICKET );
-		if ( ticketCount > 10 )
+		if ( ticketCount >= 10 )
 		{
 			ConcoctionDatabase.setBasicItem(
 				availableIngredients, ItemPool.COFFEE_PIXIE_STICK, ticketCount / 10 );
