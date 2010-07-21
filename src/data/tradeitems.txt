@@ -4617,7 +4617,7 @@
 4608	respected companion biscuit	usable	all	30
 4609	essential tofu	usable	all	200
 4610	essential soy	multiple	all	250
-4611	essential cameraderie	multiple	all	225
+4611	essential cameraderie	usable	all	225
 4612	antique souvenir drawing	usable	all	0
 4613	map to the Magic Commune	reusable	none	0
 4614	Crown of Thrones	hat	all	0
