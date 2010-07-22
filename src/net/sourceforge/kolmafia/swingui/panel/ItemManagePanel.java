@@ -101,7 +101,11 @@ public class ItemManagePanel
 			cancelledText,
 			elementModel,
 			true,
-			elementModel == KoLConstants.tally || elementModel == KoLConstants.inventory || elementModel == KoLConstants.closet || elementModel == ConcoctionDatabase.getCreatables() || elementModel == ConcoctionDatabase.getUsables() );
+			elementModel == KoLConstants.tally ||
+			elementModel == KoLConstants.inventory ||
+			elementModel == KoLConstants.closet ||
+			elementModel == ConcoctionDatabase.getCreatables() ||
+			elementModel == ConcoctionDatabase.getUsables() );
 	}
 
 	public ItemManagePanel( final String confirmedText, final String cancelledText,
@@ -151,7 +155,11 @@ public class ItemManagePanel
 		this(
 			elementModel,
 			true,
-			elementModel == KoLConstants.tally || elementModel == KoLConstants.inventory || elementModel == KoLConstants.closet || elementModel == ConcoctionDatabase.getCreatables() || elementModel == ConcoctionDatabase.getUsables() );
+			elementModel == KoLConstants.tally ||
+			elementModel == KoLConstants.inventory ||
+			elementModel == KoLConstants.closet ||
+			elementModel == ConcoctionDatabase.getCreatables() ||
+			elementModel == ConcoctionDatabase.getUsables() );
 	}
 
 	public ItemManagePanel( final LockableListModel elementModel, final boolean addFilterField,

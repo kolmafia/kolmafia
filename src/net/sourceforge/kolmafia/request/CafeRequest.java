@@ -219,15 +219,16 @@ public class CafeRequest
 	public static final void reset( final LockableListModel menu )
 	{
 		// Restore usable list with original concoction
+		LockableListModel usables = ConcoctionDatabase.getUsables();
 		for ( int i = 0; i < menu.size(); ++i )
 		{
 			String itemName = (String) menu.get( i );
 			Concoction junk = new Concoction( itemName, -1 );
-			ConcoctionDatabase.getUsables().remove( junk );
+			usables.remove( junk );
 			Object old = CafeRequest.existing.get( i );
 			if ( old != null )
 			{
-				ConcoctionDatabase.getUsables().add( old );
+				usables.add( old );
 			}
 		}
 		menu.clear();

@@ -1922,14 +1922,20 @@ public class ItemDatabase
 	 * @return The description Id associated with the item
 	 */
 
-	public static final String getDescriptionId( final Integer itemId )
+	public static final String getDescriptionId( final String itemName )
 	{
-		return (String) ItemDatabase.descriptionById.get( itemId );
+		int itemId = ItemDatabase.getItemId( itemName, 1, false );
+		return ItemDatabase.getDescriptionId( itemId );
 	}
 
 	public static final String getDescriptionId( final int itemId )
 	{
 		return ItemDatabase.getDescriptionId( new Integer( itemId ) );
+	}
+
+	public static final String getDescriptionId( final Integer itemId )
+	{
+		return (String) ItemDatabase.descriptionById.get( itemId );
 	}
 
 	public static final Set nameByIdKeySet()
