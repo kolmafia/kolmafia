@@ -74,12 +74,11 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ConcoctionDatabase
 {
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
-	public static final SortedListModel creatableList = new SortedListModel();
-	public static final LockableListModel usableList = new LockableListModel();
+	private static final SortedListModel creatableList = new SortedListModel();
+	private static final LockableListModel usableList = new LockableListModel();
 	
 	public static String excuse;	// reason why creation is impossible
 
-	public static boolean ignoreRefresh = false;
 	public static boolean deferRefresh = false;
 	public static boolean refreshDeferred = false;
 
@@ -772,7 +771,6 @@ public class ConcoctionDatabase
 		SpecialOutfit.restoreImplicitCheckpoint();
 		RequestThread.closeRequestSequence();
 
-		ConcoctionDatabase.ignoreRefresh = false;
 		ConcoctionDatabase.refreshConcoctions();
 	}
 
@@ -1136,11 +1134,10 @@ public class ConcoctionDatabase
 			}
 		}
 
-		if ( !ConcoctionDatabase.ignoreRefresh )
-		{
-			ConcoctionDatabase.creatableList.updateFilter( changeDetected );
-			ConcoctionDatabase.usableList.updateFilter( changeDetected );
-		}
+		ConcoctionDatabase.creatableList.updateFilter( changeDetected );
+		ConcoctionDatabase.creatableList.sort();
+		ConcoctionDatabase.usableList.updateFilter( changeDetected );
+		ConcoctionDatabase.usableList.sort();
 	}
 
 	/**
