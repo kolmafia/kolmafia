@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -56,6 +57,13 @@ public class SummonDemonCommand
 			return;
 		}
 
+		if ( Preferences.getBoolean( "demonSummoned" ) )
+		{
+			KoLmafia.updateDisplay(
+				KoLConstants.ERROR_STATE, "You've already summoned a demon today." );
+			return;
+		}
+
 		if ( !InventoryManager.retrieveItem( ItemPool.BLACK_CANDLE, 3 ) )
 		{
 			return;
@@ -75,19 +83,34 @@ public class SummonDemonCommand
 		{
 			for ( int i = 0; i < KoLAdventure.DEMON_TYPES.length; ++i )
 			{
-				if ( parameters.equalsIgnoreCase( KoLAdventure.DEMON_TYPES[ i ][ 0 ] ) )
+				String location = KoLAdventure.DEMON_TYPES[ i ][ 0 ];
+				if ( location != null && parameters.equalsIgnoreCase( location ) )
 				{
 					demon = Preferences.getString( "demonName" + ( i + 1 ) );
+					break;
 				}
-				else if ( parameters.equalsIgnoreCase( KoLAdventure.DEMON_TYPES[ i ][ 1 ] ) )
+
+				String effect = KoLAdventure.DEMON_TYPES[ i ][ 1 ];
+				if ( effect != null && parameters.equalsIgnoreCase( effect ) )
 				{
 					demon = Preferences.getString( "demonName" + ( i + 1 ) );
+					break;
 				}
-				else if ( parameters.equalsIgnoreCase( Preferences.getString( "demonName" + ( i + 1 ) ) ) )
+
+				String name = Preferences.getString( "demonName" + ( i + 1 ) );
+				if ( parameters.equalsIgnoreCase( name ) )
 				{
-					demon = Preferences.getString( "demonName" + ( i + 1 ) );
+					demon = name;
+					break;
 				}
 			}
+		}
+
+		if ( demon.equals( "" ) )
+		{
+			KoLmafia.updateDisplay(
+				KoLConstants.ERROR_STATE, "You don't know the name of that demon." );
+			return;
 		}
 
 		WineCellarRequest demonSummon = new WineCellarRequest( demon );
