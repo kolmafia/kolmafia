@@ -177,31 +177,60 @@ public class PulverizeRequest
 
 		if ( this.item.getCount( KoLConstants.inventory ) < this.item.getCount() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + this.item.getName() + "." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many " + this.item.getName() + "." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Pulverizing " + this.item.getName() + "..." );
+		KoLmafia.updateDisplay( "Pulverizing " + this.item + "..." );
 		super.run();
 	}
 
 	public void processResults()
 	{
-		// "That's too important to pulverize."
-		// "That's not something you can pulverize."
-		// "You don't know how to properly smash stuff."
-
-		if ( this.responseText.indexOf( "too important to pulverize" ) != -1 ||
-		     this.responseText.indexOf( "not something you can pulverize" ) != -1 ||
-		     this.responseText.indexOf( "don't know how to properly smash stuff" ) != -1)
+		if ( PulverizeRequest.parseResponse( this.getURLString(), this.responseText ) == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item.getName() + " could not be smashed." );
-			ResultProcessor.processResult( this.item );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item + " could not be smashed." );
 			return;
 		}
 
-		// Remove old item and notify the user of success.
 		KoLmafia.updateDisplay( this.item + " smashed." );
+	}
+
+	public static final int parseResponse( final String urlString, final String responseText )
+	{
+		// That's too important to pulverize.
+		// That's not something you can pulverize.
+		// You don't know how to properly smash stuff.
+		// You haven't got that many.
+
+		if ( responseText.indexOf( "too important to pulverize" ) != -1 ||
+		     responseText.indexOf( "not something you can pulverize" ) != -1 ||
+		     responseText.indexOf( "don't know how to properly smash stuff" ) != -1 ||
+		     responseText.indexOf( "haven't got that many" ) != -1 )
+		{
+			return 0;
+		}
+
+		Matcher itemMatcher = PulverizeRequest.ITEMID_PATTERN.matcher( urlString );
+
+		if ( !itemMatcher.find() )
+		{
+			return 0;
+		}
+
+		Matcher quantityMatcher = PulverizeRequest.QUANTITY_PATTERN.matcher( urlString );
+
+		if ( !quantityMatcher.find() )
+		{
+			return 0;
+		}
+
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+
+		ResultProcessor.processResult( new AdventureResult( itemId, 0 - quantity ) );
+
+		return quantity;
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -235,7 +264,6 @@ public class PulverizeRequest
 
 		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
-		ResultProcessor.processResult( new AdventureResult( itemId, 0 - quantity ) );
 		RequestLogger.updateSessionLog( "pulverize " + quantity + " " + name );
 
 		return true;

@@ -594,6 +594,11 @@ public class CreateItemRequest
 			return 0;
 		}
 
+		if ( location.indexOf( "action=pulverize" ) != -1 )
+		{
+			return PulverizeRequest.parseResponse( location, responseText );
+		}
+
 		Matcher m = MODE_PATTERN.matcher( location );
 		String mode = m.find() ? m.group(1) : "";
 		if ( mode.equals( "discoveries" ) )

@@ -54,7 +54,7 @@ public class GuildRequest
 {
 	private static final Pattern STILLS_PATTERN = Pattern.compile( "with (\\d+) bright" );
 	private static final Pattern PLACE_PATTERN = Pattern.compile( "place=([^&]*)" );
-	public static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d*)" );
+	public static final Pattern SKILL_PATTERN = Pattern.compile( "skillid=(\\d*)" );
 
 	public GuildRequest()
 	{
@@ -336,7 +336,7 @@ public class GuildRequest
 			return;
 		}
 
-		if ( action.equals( "train" ) )
+		if ( action.equals( "buyskill" ) )
 		{
 			if ( responseText.indexOf( "You learn a new skill" ) != -1 )
 			{
