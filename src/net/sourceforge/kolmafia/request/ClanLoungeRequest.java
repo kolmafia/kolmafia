@@ -367,6 +367,11 @@ public class ClanLoungeRequest
 			{
 				Preferences.increment( "_hotTubSoaks", 1 );
 			}
+			// You've already spent enough time in the hot tub today
+			else if ( responseText.indexOf( "You've already spent enough time in the hot tub today" ) != -1 )
+			{
+				Preferences.setInteger( "_hotTubSoaks", 5 );
+			}
 
 			return;
 		}
