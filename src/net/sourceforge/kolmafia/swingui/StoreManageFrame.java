@@ -426,7 +426,7 @@ public class StoreManageFrame
 		public void actionConfirmed()
 		{
 			Object[] items = this.getDesiredItems( "Mallsell" );
-			if ( items == null || items.length == 0 )
+			if ( items == null )
 			{
 				return;
 			}
@@ -440,6 +440,10 @@ public class StoreManageFrame
 		public void actionCancelled()
 		{
 			Object[] items = this.getDesiredItems( "Autosell" );
+			if ( items == null )
+			{
+				return;
+			}
 			RequestThread.postRequest( new AutoSellRequest( items ) );
 		}
 	}

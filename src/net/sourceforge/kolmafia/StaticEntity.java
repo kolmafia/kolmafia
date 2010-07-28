@@ -147,8 +147,16 @@ public abstract class StaticEntity
 
 	public static final String getVersion()
 	{
-		int revision = StaticEntity.getRevision();
-		return ( revision == 0 ) ? KoLConstants.VERSION_NAME : ( "KoLmafia r" + revision );
+                String version = KoLConstants.VERSION_NAME;
+                if ( !KoLConstants.RELEASED )
+                {
+                        int revision = StaticEntity.getRevision();
+                        if ( revision != 0 )
+                        {
+                                version += " r" + revision;
+                        }
+                }
+                return version;
 	}
 
 	public static final int getRevision()

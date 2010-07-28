@@ -12,6 +12,7 @@
 	<property name="dist" value="dist"/>
 	<property name="docs" value="${dist}/docs"/>
 
+	<property name="KoLConstants" value="${src}/net/sourceforge/kolmafia/KoLConstants.java"/>
 	<property name="jarfile" value="${dist}/${ant.project.name}.jar"/>
 	<property name="tarfile" value="${dist}/${ant.project.name}.tar.gz"/>
 	<property name="dmgfile" value="${dist}/${ant.project.name}.dmg"/>
@@ -180,13 +181,21 @@
 	<!--  generate the standard JAR  -->
 	<!-- =========================== -->
 
-	<target name="jar" depends="init,compile">
+	<target name="jar" depends="init,version">
 
-		<jar destfile="${jarfile}" basedir="${build}"
+		<replace file="${KoLConstants}"
+                         token="REVISION = null" value='REVISION = "${revision}"'/>
+
+		<antcall target="compile"/>
+
+		<replace file="${KoLConstants}"
+                         token='REVISION = "${revision}"' value="REVISION = null"/>
+		<jar destfile="${jarfile}"
+                     basedir="${build}"
                      update="true" index="true" compress="true">
-			<manifest>
-				<attribute name="Main-Class" value="${main}"/>
-			</manifest>
+		  <manifest>
+		    <attribute name="Main-Class" value="${main}"/>
+		  </manifest>
 		</jar>
 
 	</target>
@@ -247,7 +256,7 @@
 	<!--  create a Debian package   -->
 	<!-- ========================== -->
 
-	<target name="debian" depends="init,update,jar,version,desktop">
+	<target name="debian" depends="init,update,version,jar,desktop">
 
 		<taskdef name="deb" classname="com.googlecode.ant_deb_task.Deb" classpath="${util}/debian/ant-deb.jar" />
 
@@ -281,11 +290,13 @@
 
 	<target name="debug" depends="start,version">
 
-		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java" token="REVISION = null" value='REVISION = "${revision}"'/>
+		<replace file="${KoLConstants}"
+                         token="RELEASED = true" value='RELEASED = false'/>
 
 		<antcall target="jar"/>
 
-		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java" token='REVISION = "${revision}"' value="REVISION = null"/>
+		<replace file="${KoLConstants}"
+                         token="RELEASED = false" value='RELEASED = true'/>
 
 	</target>
 
@@ -296,19 +307,25 @@
 
 	<target name="daily" depends="clean,init,update,version">
 
-		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="REVISION = null" value='REVISION = "${revision}"'/>
+		<replace file="${KoLConstants}"
+                         token="REVISION = null" value='REVISION = "${revision}"'/>
+		<replace file="${KoLConstants}"
+                         token="RELEASED = true" value='RELEASED = false'/>
 
 		<antcall target="compile"/>
 
-		<jar destfile="${dist}/${ant.project.name}-${revision}.jar" basedir="${build}" update="true" index="true" compress="true">
-			<manifest>
-				<attribute name="Main-Class" value="${main}"/>
-			</manifest>
-		</jar>
+		<replace file="${KoLConstants}"
+                         token='REVISION = "${revision}"' value="REVISION = null"/>
+		<replace file="${KoLConstants}"
+                         token="RELEASED = false" value='RELEASED = true'/>
 
-		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token='REVISION = "${revision}"' value="REVISION = null"/>
+		<jar destfile="${dist}/${ant.project.name}-${revision}.jar"
+		     basedir="${build}"
+		     update="true" index="true" compress="true">
+		  <manifest>
+		    <attribute name="Main-Class" value="${main}"/>
+		  </manifest>
+		</jar>
 
 	</target>
 
