@@ -95,7 +95,7 @@ public class KoLDesktop
 
 	public KoLDesktop( final String title )
 	{
-		super( "Main Interface" );
+		super(KoLConstants.VERSION_NAME+" "+"Main Interface" );
 
 		if ( StaticEntity.usesSystemTray() )
 		{
