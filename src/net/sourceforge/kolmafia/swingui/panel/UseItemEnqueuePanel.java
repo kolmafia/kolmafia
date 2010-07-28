@@ -212,9 +212,9 @@ public class UseItemEnqueuePanel
 				return;
 			}
 
-			Object [] newItems = UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
+			Object [] items = UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
 
-			if ( newItems == null || newItems.length == 0 )
+			if ( items == null )
 			{
 				return;
 			}
@@ -279,9 +279,9 @@ public class UseItemEnqueuePanel
 				return;
 			}
 
-			Object [] newItems = UseItemEnqueuePanel.this.getDesiredItems( "Feed" );
+			Object [] items = UseItemEnqueuePanel.this.getDesiredItems( "Feed" );
 
-			if ( newItems == null || newItems.length == 0 )
+			if ( items == null )
 			{
 				return;
 			}

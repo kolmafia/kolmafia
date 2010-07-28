@@ -162,6 +162,12 @@ public abstract class RuntimeLibrary
 		// or allow for easy testing.
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_version", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_revision", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "batch_open", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] {};
@@ -1227,6 +1233,16 @@ public abstract class RuntimeLibrary
 			buf.append( ", " );
 			buf.append( params );
 		}
+	}
+
+	public static Value get_version()
+	{
+		return new Value( KoLConstants.VERSION_NAME );
+	}
+
+	public static Value get_revision()
+	{
+		return new Value( StaticEntity.getRevision() );
 	}
 
 	public static Value batch_open()

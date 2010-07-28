@@ -246,17 +246,17 @@ public class InventoryPanel
 
 		public void run()
 		{
-			Object [] newItems = InventoryPanel.this.getDesiredItems( "Feed" );
+			Object [] items = InventoryPanel.this.getDesiredItems( "Feed" );
 
-			if ( newItems == null || newItems.length == 0 )
+			if ( items == null )
 			{
 				return;
 			}
 
 			RequestThread.openRequestSequence();
-			for ( int i = 0; i < newItems.length; ++i )
+			for ( int i = 0; i < items.length; ++i )
 			{
-				AdventureResult item = (AdventureResult) newItems[ i ];
+				AdventureResult item = (AdventureResult) items[ i ];
 
 				RequestThread.postRequest( new UseItemRequest( KoLConstants.CONSUME_SLIME, item ) );
 			}

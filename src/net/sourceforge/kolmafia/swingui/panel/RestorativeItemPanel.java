@@ -58,7 +58,7 @@ public class RestorativeItemPanel
 	public void actionConfirmed()
 	{
 		Object[] items = this.getDesiredItems( "Consume" );
-		if ( items.length == 0 )
+		if ( items == null )
 		{
 			return;
 		}

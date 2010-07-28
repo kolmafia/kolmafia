@@ -95,7 +95,7 @@ public class KoLDesktop
 
 	public KoLDesktop( final String title )
 	{
-		super(KoLConstants.VERSION_NAME+" "+"Main Interface" );
+		super( StaticEntity.getVersion() + " Main Interface" );
 
 		if ( StaticEntity.usesSystemTray() )
 		{
@@ -237,7 +237,7 @@ public class KoLDesktop
 	{
 		if ( KoLDesktop.INSTANCE == null )
 		{
-			KoLDesktop.INSTANCE = new KoLDesktop( KoLConstants.VERSION_NAME );
+			KoLDesktop.INSTANCE = new KoLDesktop( StaticEntity.getVersion() );
 		}
 
 		return KoLDesktop.INSTANCE;

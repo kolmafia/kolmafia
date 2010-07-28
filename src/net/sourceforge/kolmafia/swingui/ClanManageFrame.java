@@ -343,7 +343,7 @@ public class ClanManageFrame
 			public void run()
 			{
 				Object[] items = StoragePanel.this.getDesiredItems( "Deposit" );
-				if ( items.length == 0 )
+				if ( items == null )
 				{
 					return;
 				}
@@ -427,7 +427,7 @@ public class ClanManageFrame
 					items = WithdrawPanel.this.getDesiredItems( "Take" );
 				}
 
-				if ( items == null || items.length == 0 )
+				if ( items == null )
 				{
 					return;
 				}

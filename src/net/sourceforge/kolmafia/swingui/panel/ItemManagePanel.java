@@ -384,7 +384,7 @@ public class ItemManagePanel
 					this.getDesiredItemAmount( items[ i ], itemName, itemCount, message, quantityType ), itemCount );
 			if ( quantity == Integer.MIN_VALUE )
 			{
-				return new Object[ 0 ];
+				return null;
 			}
 
 			// Otherwise, if it was not a manual entry, then reset
@@ -408,6 +408,11 @@ public class ItemManagePanel
 
 		// Otherwise, shrink the array which will be
 		// returned so that it removes any nulled values.
+
+		if ( neededSize == 0 )
+		{
+			return null;
+		}
 
 		Object[] desiredItems = new Object[ neededSize ];
 		neededSize = 0;
@@ -564,7 +569,7 @@ public class ItemManagePanel
 		public Object[] initialSetup()
 		{
 			Object[] items = ItemManagePanel.this.getDesiredItems( this.description );
-			if ( items == null || items.length == 0 )
+			if ( items == null )
 			{
 				return null;
 			}

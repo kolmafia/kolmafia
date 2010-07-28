@@ -1138,11 +1138,13 @@ public abstract class KoLCharacter
 		{
 			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 0 ] );
 		}
-		else if ( totalMysticality >= KoLCharacter.triggerSubpoints[ 1 ] )
+
+		if ( totalMysticality >= KoLCharacter.triggerSubpoints[ 1 ] )
 		{
 			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 1 ] );
 		}
-		else if ( totalMoxie >= KoLCharacter.triggerSubpoints[ 2 ] )
+
+		if ( totalMoxie >= KoLCharacter.triggerSubpoints[ 2 ] )
 		{
 			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 2 ] );
 		}
