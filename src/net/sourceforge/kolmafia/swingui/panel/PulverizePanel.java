@@ -90,6 +90,16 @@ public class PulverizePanel
 		this.movers[ 2 ].setSelected( true );
 	}
 
+	public void setEnabled( final boolean isEnabled )
+	{
+		super.setEnabled( isEnabled );
+
+		if ( !KoLCharacter.hasSkill( "Pulverize" ) )
+		{
+			this.buttons[ 2 ].setEnabled( false );
+		}
+	}
+
 	private static class YieldsModel
 		extends DefaultTableModel
 	{
@@ -317,6 +327,7 @@ public class PulverizePanel
 					return;
 				}
 			}
+
 			AdventureResult[] items =
 				new AdventureResult[ KoLConstants.pulverizeQueue.size() ];
 			KoLConstants.pulverizeQueue.toArray( items );
