@@ -967,7 +967,7 @@ public abstract class ChoiceManager
 		// The Furtivity of My City
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure219", "The Purple Light District",
-			new String[] { "fight sleaze hobo", "decrease sleaze hobos & increase stench", "increase sleaze hobos & get clan meat" } ),
+			new String[] { "fight sleaze hobo", "increase stench", "increase sleaze hobos & get clan meat" } ),
 			
 		// Returning to the Tomb
 		new ChoiceAdventure(
