@@ -194,6 +194,7 @@ public abstract class KoLmafia
 		{ "This Adventure Bites", STOP },
 		{ "It's Always Swordfish", STOP },
 		{ "Granny, Does Your Dogfish Bite?", STOP },
+		{ "Not a Micro Fish", STOP },
 
 		// Adventures that start the Around the World Quest
 
