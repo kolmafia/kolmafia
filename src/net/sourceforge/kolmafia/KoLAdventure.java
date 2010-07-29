@@ -1385,6 +1385,13 @@ public class KoLAdventure
 			KoLAdventure.PENDING
 		},
 
+		// You don't know where that place is.
+		{
+			"You don't know where that place is.",
+			"Use a \"DRINK ME\" potion before trying to adventure here.",
+			KoLAdventure.PENDING
+		},
+
 		// Orchard failure - You try to enter the feeding chamber, but
 		// your way is blocked by a wriggling mass of filthworm drones.
 		// Looks like they don't let anything in here if they don't
