@@ -1880,6 +1880,7 @@ hypodermic needle	Familiar Weight: +5
 iced-out bling	Familiar Weight: +5
 icicle katana	Familiar Weight: +5
 # imitation whetstone: Makes Imitation Crab claws sharper
+ironic moustache	Familiar Weight: +10
 ittah bittah hookah	Familiar Weight: +5, Generic
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
 jalape&ntilde;o slices	Meat Drop: +60.9
