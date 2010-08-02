@@ -4654,3 +4654,7 @@
 4645
 4646	Meteoid ice beam	weapon	display	0
 4647	Dungeon Fist gauntlet	offhand	display	0
+4648	Schmalz's First Prize Beer	grow	all	0
+4649
+4650
+4651	ironic moustache	familiar	all	75

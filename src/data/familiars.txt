@@ -139,3 +139,4 @@
 133
 134	Underworld Bonsai	combat	4616	miniature pruning shears	3	1	2	0
 135	Rogue Program	none	4619	portable motorcycle	3	2	2	0
+136	Mini-Hipster	none	4648	ironic moustache	0	3	2	1
