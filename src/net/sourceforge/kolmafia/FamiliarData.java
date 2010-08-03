@@ -75,6 +75,7 @@ public class FamiliarData
 	public static final AdventureResult DOPPELGANGER = ItemPool.get( ItemPool.FAMILIAR_DOPPELGANGER, 1 );
 	public static final AdventureResult FIREWORKS = ItemPool.get( ItemPool.FIREWORKS, 1 );
 	public static final AdventureResult FLOWER_BOUQUET = ItemPool.get( ItemPool.MAYFLOWER_BOUQUET, 1 );
+	public static final AdventureResult ITTAH_BITTAH_HOOKAH = ItemPool.get( ItemPool.ITTAH_BITTAH_HOOKAH, 1 );
 	public static final AdventureResult LEAD_NECKLACE = ItemPool.get( ItemPool.LEAD_NECKLACE, 1 );
 	public static final AdventureResult MOVEABLE_FEAST = ItemPool.get( ItemPool.MOVEABLE_FEAST, 1 );
 	public static final AdventureResult PUMPKIN_BUCKET = ItemPool.get( ItemPool.PUMPKIN_BUCKET, 1 );
@@ -628,6 +629,11 @@ public class FamiliarData
 		if ( item != null && FamiliarData.availableItem( item, false ) )
 		{
 			return item;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.ITTAH_BITTAH_HOOKAH, steal ) )
+		{
+			return FamiliarData.ITTAH_BITTAH_HOOKAH;
 		}
 
 		if ( FamiliarData.availableItem( FamiliarData.LEAD_NECKLACE, steal ) )

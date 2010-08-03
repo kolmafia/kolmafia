@@ -2506,6 +2506,21 @@ public class FightRequest
 				familiar.addExperience( 1 );
 			}
 			break;
+
+		case FamiliarPool.HIPSTER:
+			//  The words POWER UP appear above <name>'s head as he
+			//  instantly grows a stupid-looking moustache.
+			if ( responseText.indexOf( "instantly grows a stupid-looking moustache" ) != -1 )
+			{
+				AdventureResult item = ItemPool.get( ItemPool.IRONIC_MOUSTACHE, 1 );
+				// The Mini-Hipster will do this once a day
+				Preferences.setBoolean( "_ironicMoustache", true );
+				// Add ironic moustache to inventory
+				ResultProcessor.processItem( ItemPool.IRONIC_MOUSTACHE, 1 );
+				// Equip familiar with it
+				familiar.setItem( item );
+			}
+			break;
 		}
 		
 		// Check for weapon-specific cases
