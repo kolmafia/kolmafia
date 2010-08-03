@@ -1847,6 +1847,7 @@ cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
 candied yam pinky ring	Familiar Weight: +5
 charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Moxie", Familiar Effect: "mox stats", Equips On: "Frumious Bandersnatch"
+chiptune guitar	Item Drop: +25, Effect: "item drop", Equips On: "Mini-Hipster"
 chocolate spurs	Familiar Weight: +5
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
@@ -1864,6 +1865,7 @@ false eyelashes	Familiar Weight: +5
 fin-bit wax	Familiar Weight: +5
 # fishy wand: Lets your familiar cast fishy spells
 fishy wand	Familiar Effect: "fishy spells", Generic
+fixed-gear bicycle	Experience: +3, Effect: "stats", Equips On: "Mini-Hipster"
 flaming familiar doppelg&auml;nger	Monster Level: +5, Experience (familiar): +1.5, Softcore Only, Generic
 flaming glowsticks	Familiar Weight: +5
 funky brass fez	Familiar Weight: +5
@@ -1880,7 +1882,7 @@ hypodermic needle	Familiar Weight: +5
 iced-out bling	Familiar Weight: +5
 icicle katana	Familiar Weight: +5
 # imitation whetstone: Makes Imitation Crab claws sharper
-ironic moustache	Familiar Weight: +10
+ironic moustache	Familiar Weight: +10, Effect: "+10 lbs."
 ittah bittah hookah	Familiar Weight: +5, Generic
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
 jalape&ntilde;o slices	Meat Drop: +60.9

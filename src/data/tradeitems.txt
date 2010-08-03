@@ -4655,6 +4655,6 @@
 4646	Meteoid ice beam	weapon	display	0
 4647	Dungeon Fist gauntlet	offhand	display	0
 4648	Schmalz's First Prize Beer	grow	all	0
-4649
-4650
-4651	ironic moustache	familiar	all	75
+4649	chiptune guitar	familiar, usable	all	75
+4650	fixed-gear bicycle	familiar, usable	all	75
+4651	ironic moustache	familiar, usable	all	75

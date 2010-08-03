@@ -4651,7 +4651,7 @@
 4645
 4646	605999944	Meteoid ice beam
 4647	352191111	Dungeon Fist gauntlet
-4648	840354334	Schmalz's First Prize Beer
-4649
-4650
+4648	840354334	Schmalz's First Prize Beer	cans of Schmalz's First Prize Beer
+4649	653407886	chiptune guitar	chiptune guitars
+4650	434617095	fixed-gear bicycle	fixed-gear bicycles
 4651	350575793	ironic moustache
