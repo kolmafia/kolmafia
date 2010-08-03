@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
@@ -113,7 +114,15 @@ public abstract class KoLmafiaASH
 
 			if ( KoLmafiaASH.serverReplyBuffer.length() != 0 )
 			{
-				request.pseudoResponse( "HTTP/1.1 200 OK", KoLmafiaASH.serverReplyBuffer.toString() );
+				String response = KoLmafiaASH.serverReplyBuffer.toString();
+				request.pseudoResponse( "HTTP/1.1 200 OK", response );
+
+				String path = request.getPath();
+				if ( path.startsWith( "charpane.php" ) )
+				{
+					// Save decorated charpane for later use
+					CharPaneRequest.setLastResponse( response );
+				}
 			}
 
 			KoLmafiaASH.relayScript = null;

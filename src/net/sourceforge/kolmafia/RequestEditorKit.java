@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -484,6 +485,9 @@ public class RequestEditorKit
 			{
 				CharPaneDecorator.decorate( buffer );
 			}
+
+			// Save decorated charpane for later use
+			CharPaneRequest.setLastResponse( buffer.toString() );
 
 			return;
 		}

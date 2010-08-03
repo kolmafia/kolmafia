@@ -139,6 +139,11 @@ public class CharPaneRequest
 		return CharPaneRequest.lastResponse;
 	}
 
+	public static final void setLastResponse( final String response )
+	{
+		CharPaneRequest.lastResponse = response;
+	}
+
 	public static final synchronized void processCharacterPane( final String responseText, final String date )
 	{
 		// The timestamp only has precision to the nearest second.
