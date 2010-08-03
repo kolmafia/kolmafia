@@ -246,7 +246,12 @@ public class DataTypes
 
 	public static final Value parseItemValue( String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" ) || name.equalsIgnoreCase( "none" ) )
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.ITEM_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.ITEM_INIT;
 		}
@@ -283,6 +288,11 @@ public class DataTypes
 
 	public static final Value parseLocationValue( final String name, final boolean returnDefault )
 	{
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.LOCATION_INIT : null;
+		}
+
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.LOCATION_INIT;
@@ -329,7 +339,12 @@ public class DataTypes
 
 	public static final Value parseClassValue( final String name, final boolean returnDefault )
 	{
-		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.CLASS_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.CLASS_INIT;
 		}
@@ -357,6 +372,11 @@ public class DataTypes
 
 	public static final Value parseStatValue( final String name, final boolean returnDefault )
 	{
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.STAT_INIT : null;
+		}
+
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.STAT_INIT;
@@ -375,6 +395,11 @@ public class DataTypes
 
 	public static final Value parseSkillValue( String name, final boolean returnDefault )
 	{
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.SKILL_INIT : null;
+		}
+
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.SKILL_INIT;
@@ -394,7 +419,12 @@ public class DataTypes
 
 	public static final Value parseEffectValue( String name, final boolean returnDefault )
 	{
-		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.EFFECT_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.EFFECT_INIT;
 		}
@@ -412,6 +442,11 @@ public class DataTypes
 
 	public static final Value parseFamiliarValue( String name, final boolean returnDefault )
 	{
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.FAMILIAR_INIT : null;
+		}
+
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.FAMILIAR_INIT;
@@ -429,6 +464,11 @@ public class DataTypes
 
 	public static final Value parseSlotValue( String name, final boolean returnDefault )
 	{
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.SLOT_INIT : null;
+		}
+
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.SLOT_INIT;
@@ -446,6 +486,11 @@ public class DataTypes
 
 	public static final Value parseMonsterValue( final String name, final boolean returnDefault )
 	{
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.MONSTER_INIT : null;
+		}
+
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.MONSTER_INIT;
@@ -462,6 +507,11 @@ public class DataTypes
 
 	public static final Value parseElementValue( String name, final boolean returnDefault )
 	{
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.ELEMENT_INIT : null;
+		}
+
 		if ( name.equalsIgnoreCase( "none" ) )
 		{
 			return DataTypes.ELEMENT_INIT;
