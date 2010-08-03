@@ -651,8 +651,30 @@ public abstract class KoLCharacter
 
 	public static final int getFullnessLimit()
 	{
-		int baseFullness = KoLCharacter.hasSkill( "Stomach of Steel" ) ? 20 : KoLCharacter.canEat() ? 15 : 0;
-		return baseFullness == 0 ? 0 : KoLCharacter.isFullnessIncreased ? baseFullness + 15 : baseFullness;
+		if ( !KoLCharacter.canEat() )
+		{
+			return 0;
+		}
+
+		int baseFullness = 15;
+
+		if ( KoLCharacter.inBadMoon() )
+		{
+			if ( KoLCharacter.hasSkill( "Pride" ) )
+			{	
+				baseFullness -= 1;
+			}
+			if ( KoLCharacter.hasSkill( "Gluttony" ) )
+			{	
+				baseFullness += 2;
+			}
+		}
+		else if ( KoLCharacter.hasSkill( "Stomach of Steel" ) )
+		{	
+			baseFullness += 5;
+		}
+
+		return KoLCharacter.isFullnessIncreased ? baseFullness + 15 : baseFullness;
 	}
 
 	public static final void setInebriety( final int inebriety )
