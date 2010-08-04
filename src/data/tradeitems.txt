@@ -4658,3 +4658,8 @@
 4649	chiptune guitar	familiar, usable	all	75
 4650	fixed-gear bicycle	familiar, usable	all	75
 4651	ironic moustache	familiar, usable	all	75
+4652	ironic knit cap	hat	all	20
+4653	ironic oversized sunglasses	accessory	all	5
+4654	ironic battle spoon	weapon	all	35
+4655	ironic jogging shorts	pants	all	35
+4656	mole skin notebook	offhand	all	500
