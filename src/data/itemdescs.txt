@@ -4655,3 +4655,8 @@
 4649	653407886	chiptune guitar	chiptune guitars
 4650	434617095	fixed-gear bicycle	fixed-gear bicycles
 4651	350575793	ironic moustache
+4652	119790669	ironic knit cap
+4653	323430978	ironic oversized sunglasses
+4654	131005788	ironic battle spoon
+4655	898657424	ironic jogging shorts
+4656	311528119	mole skin notebook

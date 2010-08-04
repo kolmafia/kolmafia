@@ -170,6 +170,7 @@ indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Eff
 # insane tophat: We're All Mad Here!
 invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
 irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
+ironic knit cap	Maximum MP: +20, Mysticality: +1
 # jewel-eyed wizard hat: +5 Duration to Buffs You Cast
 # jewel-eyed wizard hat: Allows casting of Magic Missile
 jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Softcore Only, Familiar Effect: "atk, 5xVolley, 5xLep, cap 2"
@@ -356,6 +357,7 @@ hippopotamus kilt	Maximum HP: +25
 hippopotamus pants	Maximum HP: +25
 hippopotamus skirt	Maximum HP: +25
 hobo dungarees	Maximum MP: +500, Mysticality Percent: +5
+ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5
 # junk-mail pants
 leather chaps	Intrinsic Effect: "Chapped Legs"
 leotarrrd	Initiative: +15
@@ -793,6 +795,7 @@ infernal fife	Hot Damage: +7
 infernal toilet brush	Stench Damage: +20, Maximum HP: +20, Maximum MP: +20, Class: "Seal Clubber"
 inflatable baseball bat	Weapon Damage: +30
 iron pasta spoon	Spell Damage: +10
+ironic battle spoon	Spell Damage: +10
 jack flapper	Spell Damage: +5
 jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
 kneecapping stick	Critical: 3
@@ -1146,6 +1149,7 @@ meat shield	Meat Drop: +3, Damage Reduction: 3
 misfit dolly	Moxie: +5, Spooky Damage: +5
 misfit hobby horse	Muscle: +5, Stench Damage: +5
 misfit teddy bear	Mysticality: +5, Hot Damage: +5
+mole skin notebook	Moxie: +1
 moxie magnet	Moxie Controls MP
 # naughty fortune teller: + Some Stats Per Fight
 naughty fortune teller	Softcore Only
@@ -1528,6 +1532,7 @@ incredibly dense meat gem	Meat Drop: +25, Moxie: +5, Maximum MP: +10
 infernal insoles	Hot Resistance: +1, Initiative: +10
 # inflatable duck
 intergalactic pom poms	Moxie: +20, Initiative: +30
+ironic oversized sunglasses	Single Equip
 jar of anniversary jam	Muscle: +1, Mysticality: +1, Moxie: +1
 kick-ass kicks	Sleaze Damage: +10, Moxie: +3, Single Equip
 knobby kneepads	Weapon Damage: +3

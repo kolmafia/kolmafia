@@ -47,12 +47,11 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class CharPaneRequest
 	extends GenericRequest
@@ -139,9 +138,11 @@ public class CharPaneRequest
 		return CharPaneRequest.lastResponse;
 	}
 
-	public static final void setLastResponse( final String response )
+	public static final String decorateLastResponse()
 	{
-		CharPaneRequest.lastResponse = response;
+		StringBuffer buffer = new StringBuffer( CharPaneRequest.lastResponse );
+		CharPaneDecorator.decorate( buffer );
+		return buffer.toString();
 	}
 
 	public static final synchronized void processCharacterPane( final String responseText, final String date )
