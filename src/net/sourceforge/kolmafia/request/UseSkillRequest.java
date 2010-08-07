@@ -558,7 +558,7 @@ public class UseSkillRequest
 		// Never bother trying to reduce mana consumption when casting
 		// ode to booze or a libram skill
 
-		if ( skillId == 6014 || SkillDatabase.isLibramSkill( skillId ) )
+		if ( skillId == UseSkillRequest.ODE_TO_BOOZE || SkillDatabase.isLibramSkill( skillId ) )
 		{
 			return;
 		}
@@ -1184,7 +1184,7 @@ public class UseSkillRequest
 
 		switch ( skillId )
 		{
-		case 6014:	// Ode
+		case UseSkillRequest.ODE_TO_BOOZE:
 			ConcoctionDatabase.getUsables().sort();
 			break;
 			

@@ -47,16 +47,28 @@ public class NemesisDecorator
 			"Breakdancing Raver",
 			"Break It On Down",
 			"dbNemesisSkill1",
+			// Suddenly and unexpectedly, the raver drops to the
+			// ground and whirls his legs around like a windmill,
+			// catching you with a vicious kick to the knee. You
+			// stagger backwards, barely managing to keep your
+			// footing.
+			//
 			// The raver drops to the ground and starts spinning
 			// his legs wildly. He's much too far away from you to
 			// actually hit you, but it still looks pretty
 			// impressive.
+			"the raver drops to the ground and whirls his legs around like a windmill",
 			"The raver drops to the ground and starts spinning his legs wildly",
 		},
 		{
 			"Pop-and-Lock Raver",
 			"Pop and Lock It",
 			"dbNemesisSkill2",
+			// The raver's movements suddenly become spastic and
+			// jerky, like low-quality claymation. The weird
+			// rhythmic effect is puzzling, and his final quick jab
+			// to your head catches you off-guard.
+			//
 			// The raver's movements suddenly became spastic and
 			// jerky. The weird rhythmic effect is puzzling, but
 			// you make yourself feel better by calling him a spaz
@@ -67,11 +79,18 @@ public class NemesisDecorator
 			"Running Man",
 			"Run Like the Wind",
 			"dbNemesisSkill3",
+			// The raver turns around and flees. You start to give
+			// chase, but stop short when you realize that he
+			// hasn't actually gone anywhere at all, and that
+			// you've left yourself wide open to his reverse-kick
+			// to your stomach.
+			//
 			// The raver turns and runs away. You watch him go, and
 			// soon realize he isn't actually running anywhere. He
 			// glances over his shoulder, sees you watching him
 			// with an eyebrow raised, and looks embarrassed.
 			"You watch him go, and soon realize he isn't actually running anywhere",
+			"You start to give chase, but stop short when you realize that he hasn't actually gone anywhere at all",
 		},
 	};
 
@@ -165,14 +184,31 @@ public class NemesisDecorator
 	{
 		NemesisManager.ensureUpdatedNemesisStatus();
 		String moves[] = NemesisDecorator.findRaver( FightRequest.getLastMonsterName() );
-		if ( moves != null )
+		if ( moves == null )
 		{
-			String skill = moves[ 1 ];
-			if ( !KoLCharacter.hasSkill( skill ) )
-			{
-				String move = moves[3];
-				StringUtilities.singleStringReplace( buffer, move, "<font color=#DD00FF>" + move + "</font>" );
-			}
+			return;
 		}
+
+		String skill = moves[ 1 ];
+		if ( KoLCharacter.hasSkill( skill ) )
+		{
+			return;
+		}
+
+		// A raver's special move either hits or misses and may have a
+		// different message, depending
+		if ( moves.length > 3 )
+		{
+			NemesisDecorator.decorateMove( buffer, moves[3] );
+		}
+		if ( moves.length > 4 )
+		{
+			NemesisDecorator.decorateMove( buffer, moves[4] );
+		}
+	}
+
+	private static final void decorateMove( final StringBuffer buffer, final String move )
+	{
+		StringUtilities.singleStringReplace( buffer, move, "<font color=#DD00FF>" + move + "</font>" );
 	}
 }
