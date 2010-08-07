@@ -110,7 +110,7 @@ public class ItemDatabase
 	private static final Map notesByName = new HashMap();
 	private static final Map foldGroupsByName = new HashMap();
 
-	private static final Map[][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ];
+	private static final Map[][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ];
 	private static final Map unitCostByName = new HashMap();
 	private static final Map advStartByName = new HashMap();
 	private static final Map advEndByName = new HashMap();
@@ -119,25 +119,15 @@ public class ItemDatabase
 
 	static
 	{
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 0 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 0 ][ 1 ] = new HashMap();
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 1 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 1 ][ 1 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 0 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 0 ][ 1 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 1 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 0 ][ 1 ][ 1 ] = new HashMap();
 
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 0 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 0 ][ 1 ] = new HashMap();
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 1 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 1 ][ 1 ] = new HashMap();
-
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 0 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 0 ][ 1 ] = new HashMap();
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 1 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 1 ][ 1 ] = new HashMap();
-
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 0 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 0 ][ 1 ] = new HashMap();
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 1 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 0 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 0 ][ 1 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 1 ][ 0 ] = new HashMap();
+		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ] = new HashMap();
 	}
 	
 	private static Object[][] ALIASES = {
@@ -827,24 +817,17 @@ public class ItemDatabase
 		ItemDatabase.addAdventureRange( name, unitCost, true, true, gainSum3 / count - advs );
 	}
 
-	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1,
-		final boolean gainEffect2, final float result )
+	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1, final boolean gainEffect2, final float result )
 	{
-		// Adventure gains from zodiac signs based on information
-		// provided on the Iocaine Powder forums.
-		// http://www.iocainepowder.org/forums/viewtopic.php?t=2742
-
-		ItemDatabase.getAdventureMap( false, false, gainEffect1, gainEffect2 ).put( name, new Float( result ) );
-		ItemDatabase.getAdventureMap( false, true, gainEffect1, gainEffect2 ).put( name, new Float( result * 1.1f ) );
-
-		ItemDatabase.getAdventureMap( true, false, gainEffect1, gainEffect2 ).put( name, new Float( result / unitCost ) );
-		ItemDatabase.getAdventureMap( true, true, gainEffect1, gainEffect2 ).put( name, new Float( result * 1.1f / unitCost ) );
+                // Remove adventure gains from zodiac signs
+		ItemDatabase.getAdventureMap( false, gainEffect1, gainEffect2 ).put( name, new Float( result ) );
+		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2 ).put( name, new Float( result / unitCost ) );
 	}
 
-	private static final Map getAdventureMap( final boolean perUnit, final boolean gainZodiac,
+	private static final Map getAdventureMap( final boolean perUnit,
 		final boolean gainEffect1, final boolean gainEffect2 )
 	{
-		return ItemDatabase.advsByName[ perUnit ? 1 : 0 ][ gainZodiac ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ];
+		return ItemDatabase.advsByName[ perUnit ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ];
 	}
 
 	private static final String extractStatRange( String range, float statFactor )
@@ -1528,23 +1511,21 @@ public class ItemDatabase
 		if ( ItemDatabase.getFullness( name ) > 0 )
 		{
 			boolean sushi = (ConcoctionDatabase.getMixingMethod( cname ) & KoLConstants.CT_MASK) == KoLConstants.SUSHI;
-			boolean zodiacEffect = !sushi && KoLCharacter.getSign().indexOf( "Opossum" ) != -1;
 			boolean milkEffect = !sushi && KoLConstants.activeEffects.contains( ItemDatabase.MILK );
 			boolean munchiesEffect = !sushi && Preferences.getInteger( "munchiesPillsUsed" ) > 0;
 			range = (Float) ItemDatabase.getAdventureMap(
-				perUnit, zodiacEffect, milkEffect, munchiesEffect ).get( cname );
+				perUnit, milkEffect, munchiesEffect ).get( cname );
 		}
 		else if ( ItemDatabase.getInebriety( name ) > 0 )
 		{
-			boolean zodiacEffect = KoLCharacter.getSign().indexOf( "Blender" ) != -1;
 			boolean odeEffect = KoLConstants.activeEffects.contains( ItemDatabase.ODE );
 			range = (Float) ItemDatabase.getAdventureMap(
-				perUnit, zodiacEffect, odeEffect, false ).get( cname );
+				perUnit, odeEffect, false ).get( cname );
 		}
 		else if ( ItemDatabase.getSpleenHit( name ) > 0 )
 		{
 			range = (Float) ItemDatabase.getAdventureMap(
-				perUnit, false, false, false ).get( cname );
+				perUnit, false, false ).get( cname );
 		}
 
 		if ( range == null )
