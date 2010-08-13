@@ -144,8 +144,8 @@ bt	250	googly-ball hat
 bt	250	googly-heart hat
 bt	2000	Game Grid valued membership card
 bt	5000	super-sweet boom box
-bt	1000	Meteoid ice beam
 bt	1000	Space Trip safety headphones
-#bt	1000	sinister demon mask
+bt	1000	sinister demon mask
 bt	1000	Dungeon Fist gauntlet
 bt	1000	streetfighting champion's belt
+bt	1000	Meteoid ice beam
