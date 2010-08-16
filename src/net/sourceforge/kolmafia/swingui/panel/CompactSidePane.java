@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
-import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
@@ -414,6 +413,7 @@ public class CompactSidePane
 		this.hpLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
 		this.mpLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
 		this.meatLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
+                this.meatLabel.setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
 		this.advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
 		this.mlLabel.setText( KoLConstants.MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) );
