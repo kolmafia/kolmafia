@@ -1291,6 +1291,7 @@ big red clown nose	0	Mys: 10
 bitter bowtie	0	Mox: 65
 black belt	0	Mys: 60
 blackberry combat boots	0	Mus: 75
+blackberry galoshes	0	Mox: 75
 blackberry moccasins	0	Mys: 75
 blackberry slippers	0	Mys: 75
 blue glowstick	0	none

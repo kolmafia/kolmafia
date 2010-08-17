@@ -1428,6 +1428,7 @@ big red clown nose	Maximum HP: +7, Clownosity: +1
 bitter bowtie	Cold Resistance: +1, Meat Drop: +10, Synergetic
 black belt	Muscle: +7, Weapon Damage: +7, Single Equip
 blackberry combat boots	Muscle: +10, Maximum HP: +45, Weapon Damage: +5, Single Equip
+blackberry galoshes	Muscle: +7, Mysticality: +7, Moxie: +7, Single Equip
 blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Single Equip
 blackberry slippers	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +5, Single Equip
 blue glowstick	Maximum MP: +5, Moxie: -3
