@@ -800,8 +800,8 @@ public abstract class ChoiceManager
 		// The Blackberry Cobbler
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure177", "Black Forest",
-			new String[] { "blackberry slippers", "blackberry moccasins", "blackberry combat boots", "skip adventure" },
-			new String[] { "2705", "2706", "2707", null } ),
+			new String[] { "blackberry slippers", "blackberry moccasins", "blackberry combat boots", "blackberry galoshes", "skip adventure" },
+			new String[] { "2705", "2706", "2707", "4659", null } ),
 
 		// Hammering the Armory
 		new ChoiceAdventure(

@@ -4663,3 +4663,6 @@
 4654	ironic battle spoon	weapon	all	35
 4655	ironic jogging shorts	pants	all	35
 4656	mole skin notebook	offhand	all	500
+4657
+4658
+4659	blackberry galoshes	accessory	all	175
