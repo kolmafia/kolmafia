@@ -233,6 +233,7 @@ slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistanc
 snailmail coif	Muscle: +10, Damage Reduction: 8
 snorkel	Familiar Effect: "atk, cap 2"
 snow hat	Damage Reduction: 3, Familiar Effect: "unk, cap 12"
+space trooper helmet	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 spaghetti cult mask	Spell Damage Percent: +15
 spangly sombrero	Experience (Moxie): +3
 spiky turtle helmet	Weapon Damage: +8, Monster Level: +8, Familiar Effect: "atk, 1xFairy, cap 32"
@@ -947,6 +948,8 @@ tiny ninja sword	Moxie: +1
 tiny plastic sword	Moxie: +1
 titanium assault umbrella	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 toy ray gun	Hot Damage: +5, Critical: 2
+# trout fang: 25% chance of poisoning opponent
+trout fang	Weapon Damage: +15
 trusty torch	Hot Damage: +3
 # two-handed depthsword
 ultimate ultimate frisbee	Moxie: +2, Ranged Damage: +4
@@ -996,6 +999,7 @@ Cookbook of the Damned	Spell Damage: +10
 Dallas Dynasty Falcon Crest shield	Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Damage Reduction: 15
 Dungeon Fist gauntlet	Weapon Damage: +25, Combat Rate: +5, Food Drop: -100
 Dyspepsi-Cola shield	Mysticality: +1, Damage Reduction: 4
+Ellsbury's skull	Item Drop: +10, Meat Drop: +10
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Gazpacho's Glacial Grimoire	Spell Damage: +10
 Glass Balls of the Goblin King	Mysticality: +14
@@ -2397,6 +2401,7 @@ Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Drenched With Filth	Stench Damage: +75
 Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 Drunk With Power	Spell Damage Percent: +100
+Duct Out of Water	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
 # Earworm: Get them out! Get them out!
@@ -3435,6 +3440,7 @@ vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
+wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
 yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10

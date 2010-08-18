@@ -1104,6 +1104,7 @@ public class ItemPool
 	public static final int COFFEE_PIXIE_STICK = 4625;
 	public static final int JUJU_MOJO_MASK = 4644;
 	public static final int IRONIC_MOUSTACHE = 4651;
+	public static final int ELLSBURY_BOOK = 4663;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

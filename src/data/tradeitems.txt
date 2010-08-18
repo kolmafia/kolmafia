@@ -4651,7 +4651,7 @@
 4642	Gregarious Gregorian Smock	shirt	display	0
 4643	rxr shield	offhand	display	0
 4644	Juju Mojo Mask	accessory	all	0
-4645
+4645	space trooper helmet	hat	display	0
 4646	Meteoid ice beam	weapon	display	0
 4647	Dungeon Fist gauntlet	offhand	display	0
 4648	Schmalz's First Prize Beer	grow	all	0
@@ -4663,6 +4663,11 @@
 4654	ironic battle spoon	weapon	all	35
 4655	ironic jogging shorts	pants	all	35
 4656	mole skin notebook	offhand	all	500
-4657
-4658
+4657	antique pair of blue jeans	usable	all	0
+4658	map to Ellsbury's Claim	reusable	none	0
 4659	blackberry galoshes	accessory	all	175
+4660	trout fang	weapon	all	155
+4661	poisonous caviar	food	all	200
+4662	wet venom duct	usable	all	75
+4663	Ellsbury's journal	usable	display	250
+4664	Ellsbury's skull	offhand	all	40

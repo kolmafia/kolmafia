@@ -181,6 +181,7 @@ slime-covered helmet	200	Mox: 200
 snailmail coif	165	Mox: 67
 snorkel	10	none
 snow hat	50	Mox: 10
+space trooper helmet	10	none
 spaghetti cult mask	155	Mox: 62
 spangly sombrero	150	Mox: 60
 spiky turtle helmet	130	Mox: 50
@@ -864,6 +865,7 @@ tiny ninja sword	20	Mus: 0	1-handed sword
 tiny plastic sword	10	Mus: 0	1-handed sword
 titanium assault umbrella	130	Mus: 50	1-handed umbrella
 toy ray gun	175	Mox: 72	1-handed pistol
+trout fang	160	Mus: 65	1-handed knife
 trusty torch	30	Mus: 0	1-handed club
 two-handed depthsword	120	Mus: 45	2-handed sword
 ultimate ultimate frisbee	75	Mox: 22	1-handed frisbee
@@ -911,6 +913,7 @@ Cookbook of the Damned	0	none
 Dallas Dynasty Falcon Crest shield	0	Mus: 85	shield
 Dungeon Fist gauntlet	0	Mus: 35
 Dyspepsi-Cola shield	75	none	shield
+Ellsbury's skull	0	Mys: 35
 Gazpacho's Glacial Grimoire	0	none
 Glass Balls of the Goblin King	0	Mys: 20
 Hodgman's almanac	0	Mys: 200

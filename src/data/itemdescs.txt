@@ -4648,18 +4648,23 @@
 4642	431555862	Gregarious Gregorian Smock
 4643	806918878	rxr shield
 4644	846591596	Juju Mojo Mask
-4645
+4645	357731648	space trooper helmet
 4646	605999944	Meteoid ice beam
 4647	352191111	Dungeon Fist gauntlet
 4648	840354334	Schmalz's First Prize Beer	cans of Schmalz's First Prize Beer
 4649	653407886	chiptune guitar	chiptune guitars
 4650	434617095	fixed-gear bicycle	fixed-gear bicycles
-4651	350575793	ironic moustache
+4651	350575793	ironic moustache	ironic moustaches
 4652	119790669	ironic knit cap
-4653	323430978	ironic oversized sunglasses
-4654	131005788	ironic battle spoon
-4655	898657424	ironic jogging shorts
+4653	323430978	ironic oversized sunglasses	pairs of ironic oversized sunglasses
+4654	131005788	ironic battle spoon	ironic battle spoons
+4655	898657424	ironic jogging shorts	pairs of ironic jogging shorts
 4656	311528119	mole skin notebook
-4657
-4658
-4659	760299130	blackberry galoshes
+4657	306609104	antique pair of blue jeans	antique pairs of blue jeans
+4658	312613153	map to Ellsbury's Claim	maps to Ellsbury's Claim
+4659	760299130	blackberry galoshes	pairs of blackberry galoshes
+4660	671349778	trout fang	trout fangs
+4661	476246244	poisonous caviar	piles of poisonous caviar
+4662	613973021	wet venom duct	wet venom ducts
+4663	708936789	Ellsbury's journal
+4664	144974866	Ellsbury's skull

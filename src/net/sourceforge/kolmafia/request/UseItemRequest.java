@@ -2448,6 +2448,7 @@ public class UseItemRequest
 		case ItemPool.ZU_MANNKASE_DIENEN:
 		case ItemPool.INIGO_BOOK:
 		case ItemPool.BLACK_HYMNAL:
+		case ItemPool.ELLSBURY_BOOK:
 
 			String skill = UseItemRequest.itemToSkill( item.getItemId() );
 			if ( skill == null || KoLCharacter.hasSkill( skill ) )
@@ -3427,6 +3428,8 @@ public class UseItemRequest
 			return "Inigo's Incantation of Inspiration";
 		case ItemPool.BLACK_HYMNAL:
 			return "Canticle of Carboloading";
+		case ItemPool.ELLSBURY_BOOK:
+			return "Unaccompanied Miner";
 		}
 
 		return null;
