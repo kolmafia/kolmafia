@@ -299,6 +299,7 @@ piece of wedding cake	2	1	2-5	0	0	0
 plain pizza	2	1	2-4	0	0	0
 plum	1	4	3	15-20	0	0
 pointy mushroom	2	1	2-3	0	0	12-14	lose 1 HP
+poisonous caviar	3	7	8	0	0	0	50 Majorly Poisoned
 poutine	2	1	2-3	2-3	2-3	2-3
 powdered donut	1	1	1	0	5-10	0	5 Powdered (+10 Mysticality stats/fight)
 pr0n chow mein	4	7	16-23	20-26	0	20-26
