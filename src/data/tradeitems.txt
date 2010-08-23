@@ -4671,3 +4671,5 @@
 4662	wet venom duct	usable	all	75
 4663	Ellsbury's journal	usable	display	250
 4664	Ellsbury's skull	offhand	all	40
+4665	hot plate	offhand	all	85
+4666	imp unity ring	accessory	all	85

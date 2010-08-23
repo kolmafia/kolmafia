@@ -4668,3 +4668,5 @@
 4662	613973021	wet venom duct	wet venom ducts
 4663	708936789	Ellsbury's journal
 4664	144974866	Ellsbury's skull
+4665	276974436	hot plate	hot plates
+4666	727568671	imp unity ring	imp unity rings
