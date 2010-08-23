@@ -1126,6 +1126,8 @@ handmade hobby horse	Experience (Muscle): +2
 hippo skin buckler	Muscle: +5, Damage Reduction: 5
 hobo code binder	Free Pull
 hors d'oeuvre tray	Initiative: +20, Damage Reduction: 7
+# hot plate: Damages Attacking Opponent
+hot plate	Hot Damage: +3, Damage Reduction: +3
 hypnodisk	Item Drop: +25
 ice baby	Experience: +3, Softcore Only
 incredibly creepy marionette	Mysticality: +3
@@ -1533,6 +1535,7 @@ hockey stick of furious angry rage	Monster Level: +30, Muscle Percent: +5
 hopping socks	Slime Resistance: +1, Accessory Drop: +20, Maximum HP: +200, Maximum MP: +200, Single Equip
 ice skates	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
 imitation nice watch	Adventures: +3, Single Equip, Nonstackable Watch
+imp unity ring	Hot Damage: +5, Hot Spell Damage: +5
 incredibly dense meat gem	Meat Drop: +25, Moxie: +5, Maximum MP: +10
 infernal insoles	Hot Resistance: +1, Initiative: +10
 # inflatable duck

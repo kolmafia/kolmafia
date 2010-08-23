@@ -1018,6 +1018,8 @@ heart-shaped balloon	0	none
 hippo skin buckler	95	Mus: 30	shield
 hobo code binder	0	none
 hors d'oeuvre tray	115	Mus: 40	shield
+# *** hot plate is a shield of unknown power.
+hot plate	0	Mus: 15	shield
 hypnodisk	0	none
 ice baby	0	none
 incredibly creepy marionette	0	Mys: 40
@@ -1387,6 +1389,7 @@ hockey stick of furious angry rage	0	Mys: 35
 hopping socks	0	Mys: 200
 ice skates	0	none
 imitation nice watch	0	Mys: 35
+imp unity ring	0	Mys: 15
 incredibly dense meat gem	0	none
 infernal insoles	0	Mys: 15
 inflatable duck	0	none
