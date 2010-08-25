@@ -137,13 +137,16 @@ public class CommandDisplayFrame
 		{
 			RequestLogger.printLine();
 
-			if ( !CommandDisplayFrame.handler.command.equals( "" ) )
+			for ( int i = 0; i < CommandDisplayFrame.commandQueue.size(); ++i )
 			{
-				RequestLogger.printLine( " > <b>CURRENT</b>: " + StringUtilities.globalStringReplace(
-					CommandDisplayFrame.handler.command, "<", "&lt;" ) );
+				String cmd = StringUtilities.globalStringReplace( (String) CommandDisplayFrame.commandQueue.get( i ), "<", "&lt;" );
+				if (i == 0)
+					RequestLogger.printLine( " > <b>CURRENT</b>: " + cmd );
+				else
+					RequestLogger.printLine( " > <b>QUEUED " + i + "</b>: " + cmd );
 			}
-
-			RequestLogger.printLine( " > <b>QUEUED</b>: " + StringUtilities.globalStringReplace( command, "<", "&lt;" ) );
+ 
+			RequestLogger.printLine( " > <b>QUEUED " + CommandDisplayFrame.commandQueue.size() + "</b>: " + StringUtilities.globalStringReplace( command, "<", "&lt;" ) );
 			RequestLogger.printLine();
 		}
 
