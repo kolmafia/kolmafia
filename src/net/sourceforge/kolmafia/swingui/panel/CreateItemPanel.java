@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -118,7 +117,8 @@ public class CreateItemPanel
 			CreateItemRequest selection = (CreateItemRequest) items[ i ];
 			int quantityDesired =
 				InputFieldUtilities.getQuantity(
-					"Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() + selection.getQuantityPullable() );
+					"Creating multiple " + selection.getName() + ", " + (selection.getQuantityPossible() + selection.getQuantityPullable()) 
+					+ " possible", selection.getQuantityPossible() + selection.getQuantityPullable(), 1 ); 
 			if ( quantityDesired < 1 )
 			{
 				continue;
