@@ -4673,3 +4673,13 @@
 4664	Ellsbury's skull	offhand	all	40
 4665	hot plate	offhand	all	85
 4666	imp unity ring	accessory	all	85
+4667
+4668
+4669
+4670
+4671
+4672
+4673
+4674
+4675
+4676	tree-holed coin	none	none	0
