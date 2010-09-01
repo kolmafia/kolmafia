@@ -4683,7 +4683,7 @@
 4674
 4675
 4676	tree-holed coin	none	none	0
-4677	unearthed volcanic meteoroid	usable	all	0
+4677	unearthed volcanic meteoroid	reusable	all	0
 4678	unearthed potsherd	none	all	0
 4679	volcanic ash	none	all	0
 4680	smoked potsherd	multiple	all	0
