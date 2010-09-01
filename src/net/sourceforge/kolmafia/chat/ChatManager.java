@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -95,6 +96,19 @@ public abstract class ChatManager
 	 * Initializes the chat buffer with the provided chat pane. Note that the chat refresher will also be initialized by
 	 * calling this method; to stop the chat refresher, call the <code>dispose()</code> method.
 	 */
+	private static final GenericRequest VISITOR = new GenericRequest( "" );
+
+	private static final StringBuffer checkAltar()
+	{
+		StringBuffer buffer = new StringBuffer();
+		ChatManager.VISITOR.constructURLString( "chatlaunch.php", true );
+		RequestThread.postRequest( ChatManager.VISITOR );
+		if ( ChatManager.VISITOR.responseText != null )
+		{
+			buffer.append( ChatManager.VISITOR.responseText );
+		}
+		return buffer;
+	}
 
 	public static final void initialize()
 	{
@@ -102,7 +116,11 @@ public abstract class ChatManager
 		{
 			return;
 		}
-
+		if( ChatManager.checkAltar().toString().contains( "altar" ) )
+		{
+			KoLmafia.updateDisplay( "You cannot access chat until you complete the Altar of Literacy" );
+			return;
+		}
 		ChatManager.isRunning = true;
 
 		StyledChatBuffer.initializeHighlights();
@@ -249,10 +267,7 @@ public abstract class ChatManager
 
 		if ( KoLCharacter.getUserName().equals( recipient ) )
 		{
-			if ( ChatManager.processCommand( message.getSender(), message.getContent() ) )
-			{
-				return;
-			}
+			ChatManager.processCommand( message.getSender(), message.getContent() );
 		}
 
 		String destination = recipient;
@@ -267,7 +282,7 @@ public abstract class ChatManager
 		ChatManager.openWindow( bufferKey, true );
 
 		StyledChatBuffer buffer = ChatManager.getBuffer( bufferKey );
-
+		
 		String displayHTML = ChatFormatter.formatChatMessage( message );
 		buffer.append( displayHTML );
 	}
@@ -344,11 +359,11 @@ public abstract class ChatManager
 		}
 	}
 
-	public static final boolean processCommand( final String sender, final String content )
+	public static final void processCommand( final String sender, final String content )
 	{
 		if ( sender == null || content == null )
 		{
-			return false;
+			return;
 		}
 
 		// If a buffbot is running, certain commands become active, such
@@ -359,7 +374,7 @@ public abstract class ChatManager
 			if ( content.equalsIgnoreCase( "help" ) )
 			{
 				ChatSender.sendMessage( sender, "Please check my profile." );
-				return true;
+				return;
 			}
 
 			if ( content.equalsIgnoreCase( "restores" ) )
@@ -367,7 +382,7 @@ public abstract class ChatManager
 				ChatSender.sendMessage(
 					sender, "I currently have " + RecoveryManager.getRestoreCount() + " mana restores at my disposal." );
 
-				return true;
+				return;
 			}
 
 			if ( content.equalsIgnoreCase( "logoff" ) )
@@ -381,7 +396,7 @@ public abstract class ChatManager
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, sender + " added to ignore list" );
 				ChatSender.sendMessage( sender, "/baleet" );
-				return true;
+				return;
 			}
 		}
 
@@ -392,7 +407,7 @@ public abstract class ChatManager
 		{
 			if ( !ClanManager.isMember( sender ) )
 			{
-				return true;
+				return;
 			}
 
 			StringBuffer mailContent = new StringBuffer();
@@ -409,19 +424,19 @@ public abstract class ChatManager
 			}
 
 			RequestThread.postRequest( new SendMailRequest( sender, mailContent.toString() ) );
-			return true;
+			return;
 		}
 
 		String scriptName = Preferences.getString( "chatbotScript" );
 		if ( scriptName.equals( "" ) )
 		{
-			return false;
+			return;
 		}
 
 		Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 		if ( interpreter == null )
 		{
-			return false;
+			return;
 		}
 
 		String[] scriptParameters = new String[]
@@ -434,7 +449,7 @@ public abstract class ChatManager
 		interpreter.execute( "main", scriptParameters );
 		ChatManager.validChatReplyRecipients.remove( sender );
 
-		return true;
+		return;
 	}
 
 	public static final void broadcastEvent( final EventMessage message )
