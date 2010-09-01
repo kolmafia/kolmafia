@@ -4701,3 +4701,5 @@
 4692	fossilized limb	none	all	0
 4693	fossilized torso	none	all	0
 4694	fossilized spine	none	all	0
+4695	affordable teak perch	familiar	all	0
+4696	Greatest American Pants	pants	all	0
