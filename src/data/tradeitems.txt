@@ -4692,7 +4692,7 @@
 4683	pottery training pants	pants	all	0
 4684	pottery club	weapon	all	0
 4685	pottery yo-yo	weapon	all	0
-4686
+4686	pottery barn owl figurine	grow	all	0
 4687	fossilized bat skull	usable	all	0
 4688	fossilized serpent skull	usable	all	0
 4689	fossilized baboon skull	usable	all	0
