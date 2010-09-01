@@ -4682,7 +4682,7 @@
 4676	464570927	tree-holed coin
 4677	819446225	unearthed volcanic meteoroid
 4678	952903584	unearthed potsherd
-4679	633770618	volcanic ash
+4679	633770618	volcanic ash	handfuls of volcanic ash
 4680	660789287	smoked potsherd
 4681	587542984	pottery shield
 4682	728841932	pottery hat
