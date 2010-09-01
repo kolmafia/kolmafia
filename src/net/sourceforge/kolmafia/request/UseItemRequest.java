@@ -2449,6 +2449,7 @@ public class UseItemRequest
 		case ItemPool.INIGO_BOOK:
 		case ItemPool.BLACK_HYMNAL:
 		case ItemPool.ELLSBURY_BOOK:
+		case ItemPool.UNEARTHED_METEOROID:
 
 			String skill = UseItemRequest.itemToSkill( item.getItemId() );
 			if ( skill == null || KoLCharacter.hasSkill( skill ) )
@@ -3430,6 +3431,8 @@ public class UseItemRequest
 			return "Canticle of Carboloading";
 		case ItemPool.ELLSBURY_BOOK:
 			return "Unaccompanied Miner";
+		case ItemPool.UNEARTHED_METEOROID:
+			return "Volcanometeor Showeruption";
 		}
 
 		return null;
