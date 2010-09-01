@@ -4642,7 +4642,7 @@
 4633	googly-ball hat	hat	display	10
 4634	googly-heart hat	hat	display	10
 4635	super-sweet boom box	weapon	display	1000
-4636	Game Grid valued membership card	usable	display	0
+4636	Game Grid valued membership card	reusable	display	0
 4637	sinister demon mask	hat	display	0
 4638	streetfighting champion's belt	accessory	display	0
 4639	Space Trip safety headphones	accessory	display	0
@@ -4683,3 +4683,21 @@
 4674
 4675
 4676	tree-holed coin	none	none	0
+4677	unearthed volcanic meteoroid	usable	all	0
+4678	unearthed potsherd	none	all	0
+4679	volcanic ash	none	all	0
+4680	smoked potsherd	multiple	all	0
+4681	pottery shield	offhand	all	0
+4682	pottery hat	hat	all	0
+4683	pottery training pants	pants	all	0
+4684	pottery club	weapon	all	0
+4685	pottery yo-yo	weapon	all	0
+4686
+4687	fossilized bat skull	usable	all	0
+4688	fossilized serpent skull	usable	all	0
+4689	fossilized baboon skull	usable	all	0
+4690	fossilized wyrm skull	usable	all	0
+4691	fossilized wing	none	all	0
+4692	fossilized limb	none	all	0
+4693	fossilized torso	none	all	0
+4694	fossilized spine	none	all	0

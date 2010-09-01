@@ -160,6 +160,7 @@ pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10
 plexiglass pith helmet	180	Mox: 75
 pointy red hat	110	Mox: 40
+pottery hat	45	none
 powdered wig	70	Mox: 20
 propeller beanie	30	none
 pumpkinhead mask	10	none
@@ -175,6 +176,7 @@ seal-skull helmet	10	none
 sealhide hood	160	Mox: 65
 sequined fez	80	Mox: 25
 shapeless wide-brimmed hat	200	Mox: 200
+sinister demon mask	100	Mox: 35
 skeletortoise	30	none
 sleep mask	150	Mox: 60
 slime-covered helmet	200	Mox: 200
@@ -327,6 +329,7 @@ pink pinkslip slip	200	Mox: 85
 pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
+pottery training pants	50	none
 rusty metal greaves	150	Mus: 60
 sealhide leggings	160	Mox: 65
 slime-covered greaves	200	Mox: 200
@@ -771,6 +774,8 @@ poison pen	50	Mus: 10	1-handed knife
 pool cue	40	Mus: 0	2-handed staff
 portable corkscrew	30	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol
+pottery club	50	Mus: 0	1-handed club
+pottery yo-yo	50	Mox: 0	1-handed yo-yo
 poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
@@ -809,7 +814,6 @@ shuddersword	125	Mus: 45	2-handed sword
 silver cheese-slicer	140	Mys: 55	1-handed utensil
 silver pat&eacute; knife	140	Mys: 55	1-handed utensil
 silver shrimp fork	120	Mys: 45	1-handed utensil
-sinister demon mask	100	Mox: 35
 skate blade	200	Mus: 85	1-handed knife
 skate board	200	Mus: 85	2-handed club
 skeleton bone	30	Mus: 0	1-handed club
@@ -909,8 +913,7 @@ C.H.U.M. lantern	0	Mus: 150
 Cloaca-Cola shield	75	none	shield
 Codex of Capsaicin Conjuration	0	none
 Cookbook of the Damned	0	none
-# *** Dallas Dynasty Falcon Crest shield is a shield of unknown power.
-Dallas Dynasty Falcon Crest shield	0	Mus: 85	shield
+Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
 Dungeon Fist gauntlet	0	Mus: 35
 Dyspepsi-Cola shield	75	none	shield
 Ellsbury's skull	0	Mys: 35
@@ -927,6 +930,7 @@ Idol of Ak'gyxoth	0	none
 Kevlar balloon	0	none
 KoL Con IV Pole	0	Mys: 10
 KoL Con Six Pack	0	none
+LARP carp	0	none
 Mer-kin roundshield	220	Mus: 85	shield
 Mer-kin takebag	0	Mys: 85
 Mr. Balloon	0	none
@@ -1064,6 +1068,8 @@ pirate hook	0	none
 pixel shield	55	Mus: 10	shield
 pocketwatch on a chain	0	Mys: 10
 polyalloy shield	155	Mus: 55	shield
+# *** pottery shield is a shield of unknown power.
+pottery shield	0	none	shield
 rag doll	0	Mys: 40
 red China marble	0	Mys: 85
 red balloon	0	none
