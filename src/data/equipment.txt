@@ -232,6 +232,7 @@ Danglin' Chad's loincloth	200	Mox: 75
 Dyspepsi-Cola fatigues	30	none
 El Vibrato leg guards	200	Mox: 200
 Galapagosian Cuisses	125	Mus: 30
+Greatest American Pants	100	none
 Grimacite gaiters	150	Mox: 40
 Grimacite greaves	125	Mox: 47
 Hodgman's lobsterskin pants	200	Mox: 200

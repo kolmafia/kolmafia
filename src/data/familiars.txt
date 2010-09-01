@@ -140,4 +140,4 @@
 134	Underworld Bonsai	combat	4616	miniature pruning shears	3	1	2	0
 135	Rogue Program	combat	4619	portable motorcycle	3	2	2	0
 136	Mini-Hipster	combat	4648	ironic moustache	0	3	2	1
-137	Pottery Barn Owl	combat	4686		0	0	0	0
+137	Pottery Barn Owl	combat	4686	affordable teak perch	0	0	0	0
