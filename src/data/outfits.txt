@@ -71,6 +71,10 @@
 70	BRICKOfig Outfit	BRICKO hat, BRICKO sword, BRICKO pants
 71	Knight's Armor	helm of the white knight, trousers of the white knight, wristwatch of the white knight
 72	Fancy Tux	fancy tophat, fancy tuxedo pants, fancy black tie
+73
+74
+75
+76	Smoked Pottery	pottery shield, pottery hat, pottery training pants
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.

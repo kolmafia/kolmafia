@@ -1436,6 +1436,14 @@ Staff of the Teapot Tempest	STAFF	big stirring stick	menudo	sangria	hippy herbal
 Staff of the Walk-In Freezer	STAFF	ram stick	cold hi mein (3)	icy mushroom wine	cold wad (10)	frozen feather
 Staff of the Well-Tempered Cauldron	STAFF	Staff of the Black Kettle	bat wing chow mein	Supernova Champagne	bit-o-cactus	squashed frog	eye of newt	salamander spleen
 
+# Archaeology recipes
+
+smoked potsherd	COMBINE	unearthed potsherd	volcanic ash
+pottery yo-yo	MUSE	smoked potsherd (5)
+pottery hat	MUSE	smoked potsherd (7)
+pottery club	MUSE	smoked potsherd (8)
+pottery shield	MUSE	smoked potsherd (9)
+pottery training pants	MUSE	smoked potsherd (11)
 
 # Recipes that involve multi-using a quantity of an item
 

@@ -4680,3 +4680,22 @@
 4674
 4675
 4676	464570927	tree-holed coin
+4677	819446225	unearthed volcanic meteoroid
+4678	952903584	unearthed potsherd
+4679	633770618	volcanic ash
+4680	660789287	smoked potsherd
+4681	587542984	pottery shield
+4682	728841932	pottery hat
+4683	286494603	pottery training pants
+4684	410341411	pottery club
+4685	626767205	pottery yo-yo
+4686
+4687	258964184	fossilized bat skull
+4688	706253867	fossilized serpent skull
+4689	417749311	fossilized baboon skull
+4690	321665636	fossilized wyrm skull
+4691	602307624	fossilized wing
+4692	179593534	fossilized limb
+4693	169293793	fossilized torso
+4694	912405278	fossilized spine
+
