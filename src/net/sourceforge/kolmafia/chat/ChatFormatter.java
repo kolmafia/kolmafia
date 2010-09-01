@@ -62,6 +62,8 @@ public class ChatFormatter
 		Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
 	private static final Pattern NESTED_LINKS_PATTERN =
 		Pattern.compile( "<a target=mainpane href=\"([^<]*?)\"><font color=green>(.*?) <a[^>]+><font color=green>([^<]*?)</font></a>.</font></a>" );
+	private static final Pattern CHAT_LINKS_PATTERN =
+		Pattern.compile( "<a target=_blank href=\"([^<]*?)\">(.*?)</a>" );
 	private static final Pattern WHOIS_PATTERN =
 		Pattern.compile( "(<a [^>]*?>)<b><font color=green>([^>]*? \\(#\\d+\\))</b></a>([^<]*?)<br>" );
 
@@ -212,7 +214,10 @@ public class ChatFormatter
 			}
 
 			displayHTML.append( " " );
-			displayHTML.append( message.getContent() );
+			String chatLinkContent =
+				ChatFormatter.CHAT_LINKS_PATTERN.matcher( message.getContent() ).replaceAll(
+					"<a target=_blank href=\"$1\"><font color=\"blue\">$2</font></a>" );
+			displayHTML.append( chatLinkContent );
 
 			if ( message.isAction() )
 			{
