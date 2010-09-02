@@ -2189,6 +2189,34 @@ public class GenericRequest
 			consumed = true;
 			break;
 
+		case ItemPool.FOSSILIZED_BAT_SKULL:
+			itemName = "Fossilized Bat Skull";
+			consumed = true;
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_WING, -2 );
+			break;
+
+		case ItemPool.FOSSILIZED_BABOON_SKULL:
+			itemName = "Fossilized Baboon Skull";
+			consumed = true;
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_TORSO, -1 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_LIMB, -4 );
+			break;
+
+		case ItemPool.FOSSILIZED_SERPENT_SKULL:
+			itemName = "Fossilized Serpent Skull";
+			consumed = true;
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_SPINE, -3 );
+			break;
+
+		case ItemPool.FOSSILIZED_WYRM_SKULL:
+			itemName = "Fossilized Wyrm Skull";
+			consumed = true;
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_TORSO, -1 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_LIMB, -2 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_WING, -2 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_SPINE, -3 );
+			break;
+
 		default:
 			return;
 		}

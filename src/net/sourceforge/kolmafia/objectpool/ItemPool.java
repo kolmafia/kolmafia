@@ -1106,6 +1106,14 @@ public class ItemPool
 	public static final int IRONIC_MOUSTACHE = 4651;
 	public static final int ELLSBURY_BOOK = 4663;
 	public static final int UNEARTHED_METEOROID = 4677;
+	public static final int FOSSILIZED_BAT_SKULL = 4687;
+	public static final int FOSSILIZED_SERPENT_SKULL = 4688;
+	public static final int FOSSILIZED_BABOON_SKULL = 4689;
+	public static final int FOSSILIZED_WYRM_SKULL = 4690;
+	public static final int FOSSILIZED_WING = 4691;
+	public static final int FOSSILIZED_LIMB = 4692;
+	public static final int FOSSILIZED_TORSO = 4693;
+	public static final int FOSSILIZED_SPINE = 4694;
 	public static final int ARCHAEOLOGING_SHOVEL = 4702;
 
 	public static final AdventureResult get( String itemName, int count )

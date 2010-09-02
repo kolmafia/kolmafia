@@ -2729,6 +2729,19 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.FOSSILIZED_BAT_SKULL:
+		case ItemPool.FOSSILIZED_SERPENT_SKULL:
+		case ItemPool.FOSSILIZED_BABOON_SKULL:
+		case ItemPool.FOSSILIZED_WYRM_SKULL:
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
+
+			ResultProcessor.processResult( item );
+
+			return;
+
 		case ItemPool.SHAKING_CAMERA:
 
 			Preferences.setBoolean( "_cameraUsed", true );
