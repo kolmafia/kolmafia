@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.CurseRequest;
+import net.sourceforge.kolmafia.request.DigRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
@@ -547,6 +548,11 @@ public abstract class StaticEntity
 			{
 				ConsequenceManager.parseEffectDesc( m.group( 1 ), responseText );
 			}
+		}
+
+		else if ( location.startsWith( "dig.php" ) )
+		{
+			DigRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "dwarfcontraption.php" ) )

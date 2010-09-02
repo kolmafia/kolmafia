@@ -1106,6 +1106,7 @@ public class ItemPool
 	public static final int IRONIC_MOUSTACHE = 4651;
 	public static final int ELLSBURY_BOOK = 4663;
 	public static final int UNEARTHED_METEOROID = 4677;
+	public static final int ARCHAEOLOGING_SHOVEL = 4702;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

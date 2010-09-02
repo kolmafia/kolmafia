@@ -610,6 +610,7 @@ a butt tuba	Sleaze Damage: +15
 acoustic guitarrr	Meat Drop: +8
 ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 antique spear	Initiative: -30, Weakens Monster
+# archaeologing shovel
 armgun	Weapon Damage: +10, Critical: 2
 arse-shooting crossbow	Muscle: +15, Mysticality: +15, Moxie: +15
 asbestos crossbow	Moxie: +7, Muscle: +5
@@ -1602,6 +1603,7 @@ rainbow pearl necklace	Muscle: +15, Mysticality: +15, Moxie: +15, Spell Damage: 
 rainbow pearl ring	Muscle: +15, Mysticality: +15, Moxie: +15, Spooky Damage: +40, Stench Damage: +40, Hot Damage: +40, Cold Damage: +40, Sleaze Damage: +40, Single Equip
 ratskin belt	Moxie: +8, Meat Drop: +10, Single Equip
 red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
+red-hot medallion	Hot Damage: +30, Single Equip
 reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
 rickety old unicycle	Moxie Percent: +15, Initiative: +50, MP Regen Min: 10, MP Regen Max: 25, Single Equip
 # right half of a heart necklace
