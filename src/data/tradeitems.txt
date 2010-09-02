@@ -4703,3 +4703,10 @@
 4694	fossilized spine	none	all	0
 4695	affordable teak perch	familiar	all	0
 4696	Greatest American Pants	pants	all	0
+4697
+4698
+4699
+4700	fossilized spike	none	all	0
+4701
+4702	archaeologing shovel	weapon	display	50
+4703	red-hot medallion	accessory	all	0

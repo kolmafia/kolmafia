@@ -540,6 +540,7 @@ a butt tuba	145	Mox: 57	2-handed horn
 acoustic guitarrr	140	Mox: 55	2-handed guitar
 ancient stone fist	85	Mus: 27	1-handed club
 antique spear	200	Mus: 85	1-handed polearm
+archaeologing shovel	10	Mus: 0	2-handed polearm
 armgun	140	Mox: 55	2-handed machine gun
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
 asbestos crossbow	110	Mox: 40	2-handed crossbow
@@ -1448,6 +1449,7 @@ pulled porquoise pendant	0	Mys: 40
 pulled porquoise ring	0	Mys: 40
 purple glowstick	0	none
 pygmy nose-bone	0	Mys: 62
+red-hot medallion	0	none
 rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
