@@ -1366,6 +1366,7 @@ filigreed hamethyst ring	0	Mys: 40
 flashing novelty button	0	none
 floaty rock necklace	0	Mys: 35
 foam noodle	0	none
+fossilized necklace	0	none
 frayed rope belt	0	Mys: 200
 furniture dolly	0	Mys: 75
 furry green earmuffs	0	Mys: 7
