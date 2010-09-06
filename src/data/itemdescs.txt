@@ -4707,3 +4707,5 @@
 4701	643609482	waterlogged crate
 4702	557222985	archaeologing shovel
 4703	149826633	red-hot medallion
+4704	876154572	fossilized demon sku
+4705	868035085	fossilized spider skull

@@ -2217,6 +2217,24 @@ public class GenericRequest
 			ResultProcessor.processItem( ItemPool.FOSSILIZED_SPINE, -3 );
 			break;
 
+		case ItemPool.FOSSILIZED_DEMON_SKULL:
+			itemName = "Fossilized Demon Skull";
+			consumed = true;
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_TORSO, -1 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_SPIKE, -1 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_LIMB, -4 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_WING, -2 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_SPINE, -1 );
+			break;
+
+		case ItemPool.FOSSILIZED_SPIDER_SKULL:
+			itemName = "Fossilized Spider Skull";
+			consumed = true;
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_TORSO, -1 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_LIMB, -8 );
+			ResultProcessor.processItem( ItemPool.FOSSILIZED_SPIKE, -8 );
+			break;
+
 		default:
 			return;
 		}

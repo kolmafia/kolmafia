@@ -1115,6 +1115,9 @@ public class ItemPool
 	public static final int FOSSILIZED_TORSO = 4693;
 	public static final int FOSSILIZED_SPINE = 4694;
 	public static final int ARCHAEOLOGING_SHOVEL = 4702;
+	public static final int FOSSILIZED_SPIKE = 4700;
+	public static final int FOSSILIZED_DEMON_SKULL = 4704;
+	public static final int FOSSILIZED_SPIDER_SKULL = 4705;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
