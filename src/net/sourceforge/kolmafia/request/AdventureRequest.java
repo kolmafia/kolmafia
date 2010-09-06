@@ -791,7 +791,7 @@ public class AdventureRequest
 		{
 			"Sinister Ancient Tablet",
 			Pattern.compile( "<font.*?color=#cccccc>(.*?)</font>" ),
-			"Tablet Demon",
+			"flame-wreathed mouth",
 			"demonName9",
 		},
 	};
