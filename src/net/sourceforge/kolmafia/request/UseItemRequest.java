@@ -3341,6 +3341,12 @@ public class UseItemRequest
 			}
 
 			return;
+
+		case ItemPool.SINISTER_ANCIENT_TABLET:
+
+                        AdventureRequest.registerDemonName( "Sinister Ancient Tablet", responseText );
+
+			return;
 		}
 	}
 

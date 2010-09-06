@@ -775,3 +775,9 @@
 774	Deadened Palate	bigtongue.gif	feaa31a466af38c0d5c338543b5c4b26	eat 1 sun-dried tofu
 775	Oversaturated Palate	tongue.gif	ca7821189d31957497600f4e890e99f0	drink 1 soyburger juice
 776	Duct Out of Water	bladder.gif	b24aec5b5c8f290e39429be935a75afc	use 1 wet venom duct
+777
+778
+779
+780
+781
+782	Burning, Man	fire.gif	f93ba9c2aba47c4e296f20823bb8d1ac

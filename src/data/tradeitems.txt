@@ -4712,3 +4712,4 @@
 4703	red-hot medallion	accessory	all	0
 4704	fossilized demon skull	usable	all	0
 4705	fossilized spider skull	usable	all	0
+4706	sinister ancient tablet	reusable	all	0

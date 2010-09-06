@@ -2309,6 +2309,7 @@ Bureaucratized	Familiar Weight: +10
 Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
 Burning Hands	Hot Damage: +11
 Burning Heart	Hot Damage: +10, Damage Reduction: -2
+# Burning, Man: Sizzle!
 # Burning Soul: Sizzle!
 # Busker Do
 Busy Bein' Delicious	Moxie: +5

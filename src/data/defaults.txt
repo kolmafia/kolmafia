@@ -301,6 +301,7 @@ user	demonName5
 user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
 user	demonName8
+user	demonName9
 user	demonSummoned	false
 user	discardedKarma	0
 user	dolphinItem

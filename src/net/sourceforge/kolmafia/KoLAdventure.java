@@ -84,6 +84,7 @@ public class KoLAdventure
 		{ null, "pile of smoking rags" },
 		{ null, "Drinks" },
 		{ "Nemesis' Lair", "Existential Torment" },
+		{ "Sinister Ancient Tablet", "Burning, Man" },
 	};
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );

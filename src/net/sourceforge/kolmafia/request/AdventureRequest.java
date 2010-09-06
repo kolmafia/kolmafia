@@ -788,6 +788,12 @@ public class AdventureRequest
 			"Lord of Revenge",
 			"demonName8",
 		},
+		{
+			"Sinister Ancient Tablet",
+			Pattern.compile( "<font.*?color=#cccccc>(.*?)</font>" ),
+			"Tablet Demon",
+			"demonName9",
+		},
 	};
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );
