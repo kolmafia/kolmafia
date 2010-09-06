@@ -4710,3 +4710,5 @@
 4701	waterlogged crate	none	all	0
 4702	archaeologing shovel	weapon	display	50
 4703	red-hot medallion	accessory	all	0
+4704	fossilized demon skull	usable	all	0
+4705	fossilized spider skull	usable	all	0

@@ -2733,6 +2733,8 @@ public class UseItemRequest
 		case ItemPool.FOSSILIZED_SERPENT_SKULL:
 		case ItemPool.FOSSILIZED_BABOON_SKULL:
 		case ItemPool.FOSSILIZED_WYRM_SKULL:
+		case ItemPool.FOSSILIZED_DEMON_SKULL:
+		case ItemPool.FOSSILIZED_SPIDER_SKULL:
 
 			// If we are redirected to a fight, the item is
 			// consumed elsewhere. If we got here, we removed it
