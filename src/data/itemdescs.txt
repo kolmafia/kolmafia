@@ -160,7 +160,7 @@
 154	674402305	Disco 'Fro Pick	Disco 'Fro Picks
 155	156097981	El Sombrero De Lopez	El Sombrero De Lopezs
 156	382799349	guild application	guild applications
-157	300557156	E-Z Cook Oven&trade;	E-Z Cook Oven&trade;s
+157	300557156	Dramatic&trade; range	Dramatic&trade; ranges
 158	213655637	Gnollish pie tin	Gnollish pie tins
 159	288162100	wad of dough	wads of dough
 160	601030110	pie crust	pie crusts
@@ -239,7 +239,7 @@
 233	504849907	Doc Galaktik's Restorative Balm	tins of Doc Galaktik's Restorative Balm
 234	492143729	Doc Galaktik's Homeopathic Elixir	bottles of Doc Galaktik's Homeopathic Elixir
 235	198004428	Bigger Bugfinder Blade	Bigger Bugfinder Blades
-236	472946483	cocktailcrafting kit	cocktailcrafting kits
+236	472946483	Queue Du Coq cocktailcrafting kit	Queue Du Coq cocktailcrafting kits
 237	693995227	bottle of gin	bottles of gin
 238	403270950	bottle of vodka	bottles of vodka
 239	507012744	Orcish baseball cap	Orcish baseball caps
@@ -4709,4 +4709,6 @@
 4703	149826633	red-hot medallion
 4704	876154572	fossilized demon sku
 4705	868035085	fossilized spider skull
-5706	250539558	sinister ancient tablet
+4706	250539558	sinister ancient tablet
+4707	931477928	E-Z Cook Oven&trade;
+4708	937506852	My First Shaker&trade;

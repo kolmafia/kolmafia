@@ -2450,22 +2450,28 @@ public class UseItemRequest
 		case ItemPool.BLACK_HYMNAL:
 		case ItemPool.ELLSBURY_BOOK:
 		case ItemPool.UNEARTHED_METEOROID:
-
-			String skill = UseItemRequest.itemToSkill( item.getItemId() );
+		{
+			int itemId = item.getItemId();
+			String skill = UseItemRequest.itemToSkill( itemId );
 			if ( skill == null || KoLCharacter.hasSkill( skill ) )
 			{
-				ResultProcessor.processResult( item );
+				// The meteoroid is inherently reusable
+				if ( itemId != ItemPool.UNEARTHED_METEOROID )
+				{
+					ResultProcessor.processResult( item );
+				}
 				return;
 			}
 
 			StaticEntity.learnSkill( skill );
 
 			return;
+		}
 
 		case ItemPool.SLIME_SOAKED_HYPOPHYSIS:
 		case ItemPool.SLIME_SOAKED_BRAIN:
 		case ItemPool.SLIME_SOAKED_SWEAT_GLAND:
-		
+		{
 			for ( int i = 46; i <= 48; ++i )
 			{
 				GenericRequest req = new GenericRequest(
@@ -2482,10 +2488,11 @@ public class UseItemRequest
 				return;
 			}
 
-			skill = UseItemRequest.itemToSkill( item.getItemId() );
+			String skill = UseItemRequest.itemToSkill( item.getItemId() );
 			StaticEntity.learnSkill( skill );
 
 			return;
+		}
 
 		case ItemPool.TELESCOPE:
 			// We've added or upgraded our telescope
