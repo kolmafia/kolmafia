@@ -163,7 +163,7 @@
 154	Disco 'Fro Pick	hat	display	0
 155	El Sombrero De Lopez	hat	display	0
 156	guild application	none	display	0
-157	E-Z Cook Oven&trade;	none	all	250
+157	Dramatic&trade; range	usable	all	250
 158	Gnollish pie tin	none	all	15
 159	wad of dough	usable	all	25
 160	pie crust	none	all	35
@@ -242,7 +242,7 @@
 233	Doc Galaktik's Restorative Balm	hp, combat	all	60
 234	Doc Galaktik's Homeopathic Elixir	hp, combat	all	120
 235	Bigger Bugfinder Blade	weapon	display	0
-236	cocktailcrafting kit	none	all	250
+236	Queue Du Coq cocktailcrafting kit	usable	all	250
 237	bottle of gin	drink	all	35
 238	bottle of vodka	drink	all	35
 239	Orcish baseball cap	hat	all	80
@@ -4713,3 +4713,5 @@
 4704	fossilized demon skull	usable	all	0
 4705	fossilized spider skull	usable	all	0
 4706	sinister ancient tablet	reusable	all	0
+4707	E-Z Cook Oven&trade;	usable	none	0
+4708	My First Shaker&trade;	usable	none	0
