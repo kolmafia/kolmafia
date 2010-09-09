@@ -308,6 +308,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "today_to_string", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "gameday_to_string", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "moon_phase", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -1291,7 +1294,7 @@ public abstract class RuntimeLibrary
 	{
 		return DataTypes.makeBooleanValue( InputFieldUtilities.confirm( message.toString() ) );
 	}
-        
+
 	public static Value logprint( final Value string )
 	{
 		String parameters = string.toString();
@@ -1794,6 +1797,11 @@ public abstract class RuntimeLibrary
 	public static Value today_to_string()
 	{
 		return new Value( KoLConstants.DAILY_FORMAT.format( new Date() ) );
+	}
+
+	public static Value gameday_to_string()
+	{
+		return new Value( HolidayDatabase.getCalendarDayAsString( HolidayDatabase.getCalendarDay( new Date() ) ) );
 	}
 
 	public static Value moon_phase()
