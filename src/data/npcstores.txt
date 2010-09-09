@@ -63,8 +63,10 @@ Hippy Store (Fratboy)	h	bowl of rye sprouts	300
 Hippy Store (Fratboy)	h	cob of corn	300
 Hippy Store (Fratboy)	h	juniper berries	300
 
-Nervewrecker's Store	y	cocktailcrafting kit	500
-Nervewrecker's Store	y	E-Z Cook Oven&trade;	500
+Nervewrecker's Store	y	E-Z Cook Oven&trade;	50
+Nervewrecker's Store	y	My First Shaker&trade;	50
+Nervewrecker's Store	y	Queue Du Coq cocktailcrafting kit	500
+Nervewrecker's Store	y	Dramatic&trade; range	500
 Nervewrecker's Store	y	tenderizing hammer	500
 
 Market Demon	m	Ben-Gal&trade; Balm	24
@@ -93,8 +95,11 @@ Market Demon	m	inflatable duck	300
 Market Demon	m	water wings	300
 Market Demon	m	Familiar-Gro&trade; Terrarium	500
 Market Demon	m	Hatorade	500
-Market Demon	m	cocktailcrafting kit	1000
-Market Demon	m	E-Z Cook Oven&trade;	1000
+
+Market Demon	m	E-Z Cook Oven&trade;	50
+Market Demon	m	My First Shaker&trade;	50
+Market Demon	m	Dramatic&trade; range	1000
+Market Demon	m	Queue Du Coq cocktailcrafting kit	1000
 
 Meatsmith's Shop	s	meatsmithing guide	50
 Meatsmith's Shop	s	sword hilt	100

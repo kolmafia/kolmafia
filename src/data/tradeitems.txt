@@ -3587,7 +3587,7 @@
 3578	candy cornucopia	grow	all	0
 3579	tiny ballet slippers	familiar	all	70
 3580	wriggling flytrap pellet	usable	none	0
-3581	sushi-rolling mat	none	display	0
+3581	sushi-rolling mat	usable	display	0
 3582	white rice	food	all	0
 3583
 3584	irradiated candy cane	food, candy	all	0
