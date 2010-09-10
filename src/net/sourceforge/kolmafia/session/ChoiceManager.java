@@ -375,7 +375,7 @@ public abstract class ChoiceManager
 
 		// Have a Heart
 		new ChoiceAdventure(
-			"Woods", "choiceAdventure47", "Spooky Forest", new String[] { "bottle of used blood", "skip adventure" },
+			"Woods", "choiceAdventure47", "Spooky Forest", new String[] { "bottle of used blood", "skip adventure and keep vampire hearts" },
 			new String[] { "1523", "1518" } ),
 
 		// Choices 48 - 70 are violet fog adventures
@@ -1405,6 +1405,42 @@ public abstract class ChoiceManager
 		// Choice 489 is Meteoid (SpaceMall)
 		// Choice 490 is Meteoid (Underground Complex)
 		// Choice 491 is Meteoid (End)
+
+		// Arboreal Respite
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure502", "Spooky Forest",
+			new String[] { "meet the vampire hunter, trade bar skins or gain a spooky sapling", "gain mosquito larva, gain quest coin or gain a vampire heart", "gain a starter item, gain Spooky-Gro fertilizer or gain spooky temple map" } ),
+
+		// The Road Less Traveled
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure503", "Spooky Forest",
+			new String[] { "gain some meat", "gain stakes or trade vampire hearts", "gain spooky sapling or trade bar skins" },
+			new String[] { null, "1518", "70" } ),
+
+		// Tree's Last Stand
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure504", "Spooky Forest",
+			new String[] { "bar skin", "bar skins", "buy spooky sapling", "skip adventure" },
+			new String[] { "70", "70", "75", null } ),
+
+		// Consciousness of a Stream
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure505", "Spooky Forest",
+			new String[] { "gain mosquito larva then 3 spooky mushrooms", "gain 300 meat & tree-holed coin then nothing", "fight a spooky vampire" },
+			new String[] { "724", null, null } ),
+
+		// Through Thicket and Thinnet
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure506", "Spooky Forest",
+			new String[] { "gain a starter item", "gain Spooky-Gro fertilizer", "gain spooky temple map" },
+			new String[] { null, "76", "74" } ),
+
+		// O Lith, Mon
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure507", "Spooky Forest",
+			new String[] { "gain Spooky Temple map", "skip adventure", "skip adventure" },
+			new String[] { null, null, null } ),
+
 	};
 
 	static
@@ -1732,7 +1768,7 @@ public abstract class ChoiceManager
 		// This trades all vampire hearts for an equal number of
 		// bottles of used blood.
 		{ new Integer(47), new Integer(1), 
-		  new AdventureResult( "vampire heart", 1 ) },
+		  ItemPool.get( ItemPool.VAMPIRE_HEART, 1 ) },
 
 		// Lording Over The Flies
 		// This trades all Spanish flies for around the worlds,
@@ -1882,6 +1918,12 @@ public abstract class ChoiceManager
 		// From Little Acorns...
 		{ new Integer(438), new Integer(1),
 		  ItemPool.get( ItemPool.UNDERWORLD_ACORN, -1 ) },
+
+		// Tree's Last Stand
+		{ new Integer(504), new Integer(1), 
+		  ItemPool.get( ItemPool.BAR_SKIN, -1 ) },
+		{ new Integer(504), new Integer(2), 
+		  ItemPool.get( ItemPool.BAR_SKIN, 1 ) },
 	};
 
 	private static final AdventureResult getCost( final int choice, final int decision )
