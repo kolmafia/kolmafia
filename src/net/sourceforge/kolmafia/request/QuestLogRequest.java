@@ -39,6 +39,8 @@ public class QuestLogRequest
 	private static final String GALAKTIK = "What's Up, Doc?";
 	private static final String CITADEL = "White Citadel";
 
+	private static final String FRIAR = "Trial By Friar";
+
 	private static final String BLACK_MARKET_STRING_1 =
 		"now to hit the Travel Agency and get yourself on a slow boat to China";
 	private static final String BLACK_MARKET_STRING_2 =
@@ -53,6 +55,7 @@ public class QuestLogRequest
 	private static String finished = "";
 
 	private static boolean whiteCitadelAvailable = false;
+	private static boolean friarsAvailable = false;
 	private static boolean blackMarketAvailable = false;
 	private static boolean hippyStoreAvailable = false;
 
@@ -79,6 +82,11 @@ public class QuestLogRequest
 	public static final boolean isWhiteCitadelAvailable()
 	{
 		return QuestLogRequest.whiteCitadelAvailable;
+	}
+
+	public static final boolean areFriarsAvailable()
+	{
+		return QuestLogRequest.friarsAvailable;
 	}
 
 	public static final boolean isBlackMarketAvailable()
@@ -118,9 +126,13 @@ public class QuestLogRequest
 		QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
 
 		QuestLogRequest.blackMarketAvailable =
-			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_1 ) || 			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_2 ) || QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
+			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_1 ) ||
+			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_2 ) ||
+			QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
 		QuestLogRequest.hippyStoreAvailable =
-			!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING ) || QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
+			!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING ) ||
+			QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
+		QuestLogRequest.friarsAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.FRIAR );
 	}
 
 	protected boolean retryOnTimeout()
@@ -150,6 +162,8 @@ public class QuestLogRequest
 
 			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) );
 			QuestLogRequest.whiteCitadelAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL );
+			QuestLogRequest.friarsAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.FRIAR );
+
 
 			if ( isExternal )
 			{

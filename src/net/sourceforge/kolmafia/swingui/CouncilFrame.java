@@ -185,6 +185,8 @@ public class CouncilFrame
 			ResultProcessor.processItem( ItemPool.DODECAGRAM, -1 );
 			ResultProcessor.processItem( ItemPool.CANDLES, -1 );
 			ResultProcessor.processItem( ItemPool.BUTTERKNIFE, -1 );
+			int knownAscensions = Preferences.getInteger( "knownAscensions" );
+			Preferences.setInteger( "lastFriarCeremonyAscension",  knownAscensions );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Taint cleansed." );
 		}
 	}

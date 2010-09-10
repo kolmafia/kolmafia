@@ -108,6 +108,7 @@ public class FriarRequest
 		     responseText.indexOf( "smiles and rubs some ashes" ) != -1 )
 		{
 			Preferences.setBoolean( "friarsBlessingReceived", true );
+			Preferences.setInteger( "lastFriarCeremonyAscension", Preferences.getInteger( "knownAscensions" ));
 		}
 	}
 

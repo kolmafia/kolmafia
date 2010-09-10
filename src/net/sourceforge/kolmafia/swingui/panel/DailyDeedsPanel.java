@@ -546,6 +546,8 @@ public class DailyDeedsPanel
 		public FriarsDaily()
 		{
 			this.addListener( "friarsBlessingReceived" );
+			this.addListener( "lastFriarCeremonyAscension" );
+			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 			this.addButton( "friars food", "+30% food drops, 20 turns" );
 			this.addButton( "friars familiar", "+2 familiar exp per fight, 20 turns" );
@@ -554,10 +556,13 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
-			boolean level = KoLCharacter.getLevel() >= 6;
-			this.setShown( level );
-			this.setEnabled( level &&
-				!Preferences.getBoolean( "friarsBlessingReceived" ) );
+			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			int lastFriarCeremonyAscension = Preferences.getInteger( "lastFriarCeremonyAscension" );
+			// boolean level = KoLCharacter.getLevel() >= 6;
+			int knownAscensions = Preferences.getInteger( "knownAscensions" );
+			// Preferences.setInteger( "lastFriarCeremonyAscension",  knownAscensions);
+			this.setShown( kf || lastFriarCeremonyAscension==knownAscensions );
+			this.setEnabled( !Preferences.getBoolean( "friarsBlessingReceived" ) );
 		}
 	}
 
