@@ -547,7 +547,7 @@
 546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	use 1 strawberry-flavored Hob-O
 547	Less Pervious	wallshield.gif	657b63025b771054cdceeb9f427e605f	use 1 STYX deodorant body spray
 548	Haiku State of Mind	575.gif	664ce35d26fbd678641624e892feb31d	#using The 17 Cuts combat skill
-549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3	#eating fish meat or sushi
+549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3	skate lutz
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	use 1 cranberry cordial
 551	Blackberry Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	use 1 blackberry polite
 552	The Halls of Muscularity	candy.gif	6353bc586daa8659628f66fb772dd8ea	use 1 plum lozenge
@@ -669,10 +669,10 @@
 668	Slimed Stomach	stomach.gif	19a0dbd007a488433f15186b8c5784f2	use 1 Good 'n' Slimy
 669	Chilblains of the Corn	candycorn.gif	5f20c6246d9367a07dcf7a6df4349864	use 1 children of the candy corn
 670
-671	Finstrong	sharkfin.gif	b5d70211928b246813b3180d445d4d4c	#Comet, the Roller Skate
-672	Busker Do	sanddollar.gif	c240d44cd36c02e344e8a9d7bdc354ea	#The Bandshell
-673	Familial Ties	ties.gif	6b328c67b22420567accd3a9b6424ad8	#The Eclectic Eels
-674	Swimming Head	loop.gif	8626f8671845ddcf2758099d159f4cbd	#A Merry-Go Round
+671	Finstrong	sharkfin.gif	b5d70211928b246813b3180d445d4d4c	skate comet
+672	Busker Do	sanddollar.gif	c240d44cd36c02e344e8a9d7bdc354ea	skate band shell
+673	Familial Ties	ties.gif	6b328c67b22420567accd3a9b6424ad8	skate eels
+674	Swimming Head	loop.gif	8626f8671845ddcf2758099d159f4cbd	skate merry-go-round
 675	Existential Torment	confused.gif	923a6a502a859e5b7946af1228f18764	#Summoning Chamber
 676	Spangled Star	tinystars.gif	c369319642dfc3e85b43bbd33a587069	use 1 groupie spangles
 677	Inky Camouflage	blackface.gif	9d1bab97634b51545cd882c8aad3515a	use 1 vial of squid ink
@@ -710,7 +710,7 @@
 709	Iron Palm	palmtree.gif	1f53c39b96204181351b24031c0c8c62	cast 1 Iron Palm Technique
 710	Curiosity of Br'er Tarrypin	turtle.gif	ff106696b8db85dd702434fed5f54274	cast 1 Curiosity of Br'er Tarrypin
 711	Cold-Blooded Warm Fuzzies	grinturtle.gif	86cb8548c2b3619029106f8bf8717b1c	#TT Nemesis quest
-712	Having a Ball!	plasticball.gif	b806c288732675bf60db7b948d748320	#clan ball pit
+712	Having a Ball!	plasticball.gif	b806c288732675bf60db7b948d748320	ballpit
 713
 714
 715
