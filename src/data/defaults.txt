@@ -396,6 +396,7 @@ user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
 user	lastHiddenCityAscension	0
 user	lastFratboyCall	-1
+user	lastFriarCeremonyAscension	-1
 user	lastHermitReset	-1
 user	lastHippyCall	-1
 user	lastKingLiberation	-1

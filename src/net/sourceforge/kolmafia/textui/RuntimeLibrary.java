@@ -1132,6 +1132,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "white_citadel_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "friars_available", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "black_market_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -4382,6 +4385,13 @@ public abstract class RuntimeLibrary
 	public static Value white_citadel_available()
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isWhiteCitadelAvailable() );
+	}
+
+	public static Value friars_available()
+	{
+		if ( QuestLogRequest.areFriarsAvailable() )
+			Preferences.setInteger( "lastFriarCeremonyAscension", Preferences.getInteger( "knownAscensions" ));
+		return DataTypes.makeBooleanValue( QuestLogRequest.areFriarsAvailable() );
 	}
 
 	public static Value black_market_available()
