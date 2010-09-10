@@ -224,15 +224,13 @@ villainous scythe	SMITH	caustic slime nodule	slime-covered shovel
 # in some way with boxes and the things that become/go into them.
 
 bartender skull	COMBINE	brainy skull	beer goggles
-bartender-in-the-box	COMBINE	bartender-skull-in-the-box	cocktailcrafting kit
-bartender-skull-in-the-box	COMBINE	nothing-in-the-box	bartender skull
+bartender-in-the-box	COMBINE	nothing-in-the-box	bartender skull
 beer goggles	COMBINE	beer lens	beer lens
 box-in-the-box	COMBINE	box	nothing-in-the-box
 box-in-the-box-in-the-box	COMBINE	box	nothing-in-the-box-in-the-box
 brainy skull	COMBINE	disembodied brain	smart skull
 chef skull	COMBINE	brainy skull	chef's hat
-chef-in-the-box	COMBINE	chef-skull-in-the-box	E-Z Cook Oven&trade;
-chef-skull-in-the-box	COMBINE	nothing-in-the-box	chef skull
+chef-in-the-box	COMBINE	nothing-in-the-box	chef skull
 nothing-in-the-box	COMBINE	box	spring
 nothing-in-the-box-in-the-box	COMBINE	box-in-the-box	spring
 sprocket assembly	COMBINE	sprocket	spring
@@ -1628,12 +1626,10 @@ clockwork maid head	COMBINE	clockwork sphere	maiden wig
 clockwork maid	COMBINE	clockwork maid head	Meat maid body
 
 clockwork chef head	COMBINE	clockwork sphere	chef's hat
-clockwork chef-head-in-the-box	COMBINE	clockwork chef head	nothing-in-the-box
-clockwork chef-in-the-box	COMBINE	clockwork chef-head-in-the-box	E-Z Cook Oven&trade;
+clockwork chef-in-the-box	COMBINE	clockwork chef head	nothing-in-the-box
 
 clockwork bartender head	COMBINE	clockwork sphere	beer goggles
-clockwork bartender-head-in-the-box	COMBINE	clockwork bartender head	nothing-in-the-box
-clockwork bartender-in-the-box	COMBINE	clockwork bartender-head-in-the-box	cocktailcrafting kit
+clockwork bartender-in-the-box	COMBINE	clockwork bartender head	nothing-in-the-box
 
 
 # Items created via item usage.

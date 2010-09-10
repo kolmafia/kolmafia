@@ -4713,5 +4713,5 @@
 4704	fossilized demon skull	usable	all	0
 4705	fossilized spider skull	usable	all	0
 4706	sinister ancient tablet	reusable	all	0
-4707	E-Z Cook Oven&trade;	usable	none	0
+4707	E-Z Cook&trade; oven	usable	none	0
 4708	My First Shaker&trade;	usable	none	0

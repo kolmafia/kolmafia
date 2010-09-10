@@ -4655,7 +4655,7 @@
 4649	653407886	chiptune guitar	chiptune guitars
 4650	434617095	fixed-gear bicycle	fixed-gear bicycles
 4651	350575793	ironic moustache	ironic moustaches
-4652	119790669	ironic knit cap
+4652	119790669	ironic knit cap	ironic knit caps
 4653	323430978	ironic oversized sunglasses	pairs of ironic oversized sunglasses
 4654	131005788	ironic battle spoon	ironic battle spoons
 4655	898657424	ironic jogging shorts	pairs of ironic jogging shorts
@@ -4699,16 +4699,16 @@
 4693	169293793	fossilized torso
 4694	912405278	fossilized spine
 4695	804578401	affordable teak perch
-4696	428796706	Greatest American Pants
+4696	428796706	Greatest American Pants	pairs of Greatest American Pants
 4697	222160625	fossilized necklace
 4698
 4699
-4700	558351756	fossilized spike
+4700	558351756	fossilized spike	fossilized spikes
 4701	643609482	waterlogged crate
 4702	557222985	archaeologing shovel
 4703	149826633	red-hot medallion
 4704	876154572	fossilized demon sku
 4705	868035085	fossilized spider skull
 4706	250539558	sinister ancient tablet
-4707	931477928	E-Z Cook Oven&trade;
+4707	931477928	E-Z Cook&trade; oven	E-Z Cook&trade; ovens
 4708	937506852	My First Shaker&trade;
