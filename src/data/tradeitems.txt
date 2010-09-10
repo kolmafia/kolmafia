@@ -211,7 +211,7 @@
 202	carob chunks	food	all	30
 203	herbs	none	all	32
 204	carob chunk cookies	food	all	52
-205	secret blend of herbs and spices	none	all	33
+205	secret blend of herbs and spices	none, fancy	all	33
 206	piercing post	none	all	32
 207	hippy herbal tea	food	all	42
 208	patchouli incense stick	usable, combat	all	33
@@ -310,7 +310,7 @@
 301	flat dough	usable	all	25
 302	Knob sausage	food	all	17
 303	Knob mushroom	food	all	16
-304	dry noodles	none	all	1
+304	dry noodles	none, fancy	all	1
 305	Knob Goblin harem pants	pants	all	27
 306	Knob Goblin harem veil	hat	all	28
 307	Knob Goblin perfume	usable	all	27
@@ -352,7 +352,7 @@
 343	Knob Goblin sharpening spray	multiple	all	115
 344	Knob Goblin seltzer	mp, combat	all	44
 345	Knob Goblin superseltzer	mp, combat	all	49
-346	scrumptious reagent	none	all	1
+346	scrumptious reagent	none, fancy	all	1
 347	Dyspepsi-Cola	mp, combat	all	52
 348	cold ninja mask	hat	all	90
 349	icy katana hilt	none	all	64
@@ -516,9 +516,9 @@
 507	heavy metal thunderrr guitarrr	weapon	all	125
 508	heavy metal sonata	message	all	94
 509	Hey Deze nuts	none	none	0
-510	Boris's key lime	none	all	98
-511	Jarlsberg's key lime	none	all	98
-512	Sneaky Pete's key lime	none	all	98
+510	Boris's key lime	none, fancy	all	98
+511	Jarlsberg's key lime	none, fancy	all	98
+512	Sneaky Pete's key lime	none, fancy	all	98
 513	Boris's key lime pie	food	all	123
 514	Jarlsberg's key lime pie	food	all	123
 515	Sneaky Pete's key lime pie	food	all	123
@@ -531,7 +531,7 @@
 522	one-winged stab bat	none	all	140
 523	rewinged stab bat	grow	all	148
 524	papaya sling	drink	all	57
-525	grue egg	grow	display	0
+525	grue egg	grow, fancy	display	0
 526	Frobozz Real-Estate Company Instant House (TM)	usable	none	0
 527	volleyball	usable	all	100
 528	blood-faced volleyball	grow	all	101
@@ -641,7 +641,7 @@
 632	disturbing fanfic	offhand	all	132
 633	wolf mask	hat	all	165
 634	cool whip	weapon	all	15
-635	little paper umbrella	weapon	all	35
+635	little paper umbrella	weapon, fancy	all	35
 636	meat globe	usable	none	0
 637	cheap toaster	reusable	display	0
 638	asshat	hat	all	45
@@ -944,16 +944,16 @@
 935	imitation nice watch	accessory	all	0
 936	Hanukkimbo dreidl	grow	all	0
 937	menorette	familiar	all	75
-938	tiny plastic sword	weapon	all	0
+938	tiny plastic sword	weapon, fancy	all	0
 939	small Crimbo Pressie	usable	all	0
 940	bow	none	all	0
 941	Crimbo stocking	usable	all	0
 942	bowler	hat	all	0
 943	bow staff	weapon	all	0
 944	bowlegged pants	pants	all	0
-945	skewered jumbo olive	none	all	0
-946	skewered lime	none	all	0
-947	skewered cherry	none	all	0
+945	skewered jumbo olive	none, fancy	all	0
+946	skewered lime	none, fancy	all	0
+947	skewered cherry	none, fancy	all	0
 948	dirty martini	drink	all	0
 949	grogtini	drink	all	0
 950	cherry bomb	drink	all	0
@@ -1013,8 +1013,8 @@
 1004	bottle of tequila	drink	all	35
 1005	boxed wine	drink	all	35
 1006	cherry	food	all	60
-1007	coconut shell	hat	all	35
-1008	magical ice cubes	offhand	all	35
+1007	coconut shell	hat, fancy	all	35
+1008	magical ice cubes	offhand, fancy	all	35
 1009	vodka martini	drink	all	65
 1010	whiskey and soda	drink	all	65
 1011	monkey wrench	drink	all	65
@@ -1144,7 +1144,7 @@
 1135	spooky eyeliner	usable	all	50
 1136	spooky lipstick	usable	all	50
 1137	spooky bicycle chain	weapon	all	95
-1138	mushroom fermenting solution	none	all	30
+1138	mushroom fermenting solution	none, fancy	all	30
 1139	flaming mushroom wine	drink	all	30
 1140	icy mushroom wine	drink	all	30
 1141	stinky mushroom wine	drink	all	30
@@ -1557,12 +1557,12 @@
 1548	Gazpacho's Glacial Grimoire	offhand	all	2000
 1549	MSG	none	all	500
 1550	second-hand knockoff engagement ring	accessory	display	0
-1551	bottle of Domesticated Turkey	drink	all	70
-1552	bottle of Definit	drink	all	70
-1553	bottle of Calcutta Emerald	drink	all	70
-1554	bottle of Lieutenant Freeman	drink	all	70
-1555	bottle of Jorge Sinsonte	drink	all	70
-1556	boxed champagne	drink	all	70
+1551	bottle of Domesticated Turkey	drink, fancy	all	70
+1552	bottle of Definit	drink, fancy	all	70
+1553	bottle of Calcutta Emerald	drink, fancy	all	70
+1554	bottle of Lieutenant Freeman	drink, fancy	all	70
+1555	bottle of Jorge Sinsonte	drink, fancy	all	70
+1556	boxed champagne	drink, fancy	all	70
 1557	kumquat	food	all	70
 1558	tangerine	food	all	70
 1559	tonic water	mp	all	70
@@ -1641,7 +1641,7 @@
 1632	Spanish fly trap	offhand	none	0
 1633	Spanish fly	none	none	0
 1634	around the world	drink	display	0
-1635	scrumdiddlyumptious solution	none	all	0
+1635	scrumdiddlyumptious solution	none, fancy	all	0
 1636	Toddler-sized Dragon Costume	familiar	display	0
 1637	phial of hotness	multiple	all	-100
 1638	phial of coldness	multiple	all	-100
@@ -2836,8 +2836,8 @@
 2827	anniversary gift box	usable	gift	0
 2828	loaded dice	none	none	0
 2829	really dense meat stack	none	all	5000
-2830	digital key lime	none	all	98
-2831	star key lime	none	all	98
+2830	digital key lime	none, fancy	all	98
+2831	star key lime	none, fancy	all	98
 2832	digital key lime pie	food	all	123
 2833	star key lime pie	food	all	123
 2834	bottle-rocket crossbow	weapon	all	0
@@ -3176,8 +3176,8 @@
 3167	augmented El Vibrato drone	usable	display	500
 3168	seal eyeball	usable	none	53
 3169	turtle soup	food	none	53
-3170	evil noodles	none	none	53
-3171	nauseating reagent	none	none	53
+3170	evil noodles	none, fancy	none	53
+3171	nauseating reagent	none, fancy	none	53
 3172	evil paper umbrella	weapon	none	53
 3173	evil vihuela	usable	none	53
 3174	evil boring spaghetti	food	none	71
@@ -3503,7 +3503,7 @@
 3494	fish bazooka	weapon	all	250
 3495	sea salt crystal	multiple	all	100
 3496	bazookafish bubble gum	usable, candy	all	5
-3497	bottle of Pete's Sake	drink	all	70
+3497	bottle of Pete's Sake	drink, fancy	all	70
 3498	invisible bag	hat	all	5
 3499	witch hat	hat	all	5
 3500	beholed bedsheet	hat	all	5
@@ -3687,8 +3687,8 @@
 3678	salinated mint julep	drink	all	40
 3679	ink bladder	none, combat	all	30
 3680	glowing esca	offhand	all	150
-3681	bubbling tempura batter	none	all	0
-3682	globe of Deep Sauce	none	all	0
+3681	bubbling tempura batter	none, fancy	all	0
+3682	globe of Deep Sauce	none, fancy	all	0
 3683	map to the Marinara Trench	none	all	0
 3684	tempura carrot	food	all	375
 3685	tempura cucumber	food	all	375
@@ -3769,9 +3769,9 @@
 3760	breath mint	multiple, candy	all	0
 3761	vampire pearl ring	accessory	all	150
 3762	vampire pearl necklace	accessory	all	150
-3763	slug of vodka	drink	all	70
-3764	slug of rum	drink	all	70
-3765	slug of shochu	drink	all	70
+3763	slug of vodka	drink, fancy	all	70
+3764	slug of rum	drink, fancy	all	70
+3765	slug of shochu	drink, fancy	all	70
 3766	screwdiver	drink	all	130
 3767	dew yoana lei	drink	all	130
 3768	lychee chuhai	drink	all	130
@@ -3779,7 +3779,7 @@
 3770	dew yoana salacious lei	drink	all	215
 3771	salacious lychee chuhai	drink	all	215
 3772	Alewife&trade; Ale	drink	all	95
-3773	seaode	none	all	155
+3773	seaode	none, fancy	all	155
 3774	map to the Dive Bar	none	all	0
 3775	Mer-kin pinkslip	none, combat	all	85
 3776	pink pinkslip slip	pants	all	111

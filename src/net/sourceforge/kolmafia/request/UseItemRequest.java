@@ -2386,18 +2386,36 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.OVEN:
+			KoLCharacter.setOven( true );
+			return;
+
+		case ItemPool.RANGE:
+			KoLCharacter.setRange( true );
+			return;
+
 		case ItemPool.CHEF:
 		case ItemPool.CLOCKWORK_CHEF:
 			KoLCharacter.setChef( true );
 			Preferences.setInteger( "chefTurnsUsed", 0 );
-			RequestThread.postRequest( new CampgroundRequest() );
+			return;
+
+		case ItemPool.SHAKER:
+			KoLCharacter.setShaker( true );
+			return;
+
+		case ItemPool.COCKTAIL_KIT:
+			KoLCharacter.setCocktailKit( true );
 			return;
 
 		case ItemPool.BARTENDER:
 		case ItemPool.CLOCKWORK_BARTENDER:
 			KoLCharacter.setBartender( true );
 			Preferences.setInteger( "bartenderTurnsUsed", 0 );
-			RequestThread.postRequest( new CampgroundRequest() );
+			return;
+
+		case ItemPool.SUSHI_ROLLING_MAT:
+			KoLCharacter.setSushiMat( true );
 			return;
 
 		case ItemPool.SNOWCONE_BOOK:

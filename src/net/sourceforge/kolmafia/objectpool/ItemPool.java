@@ -113,7 +113,7 @@ public class ItemPool
 	public static final int COTTAGE = 143;
 	public static final int BARBED_FENCE = 145;
 	public static final int DINGHY_PLANS = 146;
-	public static final int BAKE_OVEN = 157;
+	public static final int RANGE = 157;
 	public static final int DOUGH = 159;
 	public static final int SKELETON_BONE = 163;
 	public static final int BONE_RATTLE = 168;
@@ -1121,6 +1121,8 @@ public class ItemPool
 	public static final int FOSSILIZED_DEMON_SKULL = 4704;
 	public static final int FOSSILIZED_SPIDER_SKULL = 4705;
 	public static final int SINISTER_ANCIENT_TABLET = 4706;
+	public static final int OVEN = 4707;
+	public static final int SHAKER = 4708;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

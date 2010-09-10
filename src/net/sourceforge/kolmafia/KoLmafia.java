@@ -976,7 +976,9 @@ public abstract class KoLmafia
 		// or a bookshelf
 
 		KoLmafia.updateDisplay( "Retrieving campground data..." );
-		RequestThread.postRequest( new CampgroundRequest() );
+		CampgroundRequest.reset();
+		RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+		RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
 		KoLCharacter.checkTelescope();
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )

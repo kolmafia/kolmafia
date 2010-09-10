@@ -95,12 +95,18 @@ public class CampgroundRequest
 		ItemPool.LOUDMOUTH_LARRY,
 		ItemPool.PLASMA_BALL,
 
+		// Kitchen
+		ItemPool.SHAKER,
+		ItemPool.COCKTAIL_KIT,
+		ItemPool.BARTENDER,
+		ItemPool.CLOCKWORK_BARTENDER,
+		ItemPool.OVEN,
+		ItemPool.RANGE,
+		ItemPool.CHEF,
+		ItemPool.CLOCKWORK_CHEF,
+
 		// Outside dwelling
 		ItemPool.BARBED_FENCE,
-		ItemPool.BARTENDER,
-		ItemPool.CHEF,
-		ItemPool.CLOCKWORK_BARTENDER,
-		ItemPool.CLOCKWORK_CHEF,
 		ItemPool.CLOCKWORK_MAID,
 		ItemPool.MAID,
 		ItemPool.MEAT_GOLEM,
@@ -225,13 +231,17 @@ public class CampgroundRequest
 			CampgroundRequest.parseDwelling( responseText );
 			return;
 		}
+
+		if ( action.equals( "inspectkitchen" ) )
+		{
+			CampgroundRequest.parseCampground( responseText );
+			CampgroundRequest.parseKitchen( responseText );
+			return;
+		}
 	}
 
 	private static final void parseCampground( final String responseText )
 	{
-
-		KoLCharacter.setChef( responseText.indexOf( "mode=cook" ) != -1 );
-		KoLCharacter.setBartender( responseText.indexOf( "mode=cocktail" ) != -1 );
 		KoLCharacter.setTelescope( responseText.indexOf( "action=telescope" ) != -1 );
 		KoLCharacter.setBookshelf( responseText.indexOf( "action=bookshelf" ) != -1 );
 	}
@@ -244,8 +254,6 @@ public class CampgroundRequest
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unable to parse housing!" );
 			return;
 		}
-
-		CampgroundRequest.reset();
 
 		int dwellingNumber = StringUtilities.parseInt( m.group( 1 ) );
 		int itemId = -1;
@@ -326,10 +334,6 @@ public class CampgroundRequest
 		}
 			
 		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
-		findImage( responseText, "bartender.gif", ItemPool.BARTENDER );
-		findImage( responseText, "bartender2.gif", ItemPool.CLOCKWORK_BARTENDER );
-		findImage( responseText, "chef.gif", ItemPool.CHEF );
-		findImage( responseText, "chef2.gif", ItemPool.CLOCKWORK_CHEF );
 		findImage( responseText, "maid.gif", ItemPool.MAID );
 		findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
 		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );
@@ -339,7 +343,35 @@ public class CampgroundRequest
 		findImage( responseText, "bfsection.gif", ItemPool.BARBED_FENCE );
 	}
 
-	private static void findImage( final String responseText, final String filename, final int itemId )
+	private static final void parseKitchen( final String responseText )
+	{
+		boolean hasOven = findImage( responseText, "ezcook.gif", ItemPool.OVEN );
+		KoLCharacter.setOven( hasOven );
+
+		boolean hasRange = findImage( responseText, "oven.gif", ItemPool.RANGE );
+		KoLCharacter.setRange( hasRange );
+
+		boolean hasChef =
+			findImage( responseText, "chefinbox.gif", ItemPool.CHEF ) ||
+			findImage( responseText, "cchefbox.gif", ItemPool.CLOCKWORK_CHEF );
+		KoLCharacter.setChef( hasChef );
+
+		boolean hasShaker = findImage( responseText, "shaker.gif", ItemPool.SHAKER );
+		KoLCharacter.setShaker( hasShaker );
+
+		boolean hasCocktailKit = findImage( responseText, "cocktailkit.gif", ItemPool.COCKTAIL_KIT );
+		KoLCharacter.setCocktailKit( hasCocktailKit );
+
+		boolean hasBartender =
+			findImage( responseText, "bartinbox.gif", ItemPool.BARTENDER ) ||
+			findImage( responseText, "cbartbox.gif", ItemPool.CLOCKWORK_BARTENDER );
+		KoLCharacter.setBartender( hasBartender );
+
+		boolean hasSushiMat = findImage( responseText, "sushimat.gif", ItemPool.SUSHI_ROLLING_MAT );
+		KoLCharacter.setSushiMat( hasSushiMat );
+	}
+
+	private static boolean findImage( final String responseText, final String filename, final int itemId )
 	{
 		int count = 0;
 		int i = responseText.indexOf( filename );
@@ -353,6 +385,8 @@ public class CampgroundRequest
 		{
 			KoLConstants.campground.add( ItemPool.get( itemId, count ) );
 		}
+
+		return ( count > 0 );
 	}
 
 	public static AdventureResult getCurrentDwelling()
@@ -559,7 +593,8 @@ public class CampgroundRequest
 			return true;
 		}
 
-		if ( action.equals( "inspectdwelling" ) )
+		if ( action.equals( "inspectdwelling" ) ||
+		     action.equals( "inspectkitchen" ))
 		{
 			// Nothing to log.
 			return true;
@@ -576,7 +611,7 @@ public class CampgroundRequest
 			return true;
 		}
 
-                // Unknown action.
+		// Unknown action.
 		return false;
 	}
 }

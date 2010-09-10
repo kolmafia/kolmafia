@@ -816,7 +816,7 @@ public class CreateItemRequest
 		{
 		case KoLConstants.COOK:
 			autoRepairSuccessful =
-				CreateItemRequest.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF,ItemPool.BAKE_OVEN );
+				CreateItemRequest.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF,ItemPool.RANGE );
 			break;
 
 		case KoLConstants.MIX:

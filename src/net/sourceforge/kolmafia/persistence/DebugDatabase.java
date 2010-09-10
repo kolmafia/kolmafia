@@ -538,6 +538,10 @@ public class DebugDatabase
 		{
 			attributes |= ItemDatabase.ATTR_CURSE;
 		}
+		if ( type.indexOf( "(Fancy" ) != -1 )
+		{
+			attributes |= ItemDatabase.ATTR_FANCY;
+		}
 		return attributes;
 	}
 
