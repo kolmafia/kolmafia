@@ -295,39 +295,39 @@ public class SkillDatabase
 
 	public static final int getSkillPurchaseCost( final int skillId )
 	{
-                switch ( SkillDatabase.getSkillLevel( skillId ) )
-                {
-                default:
+		switch ( SkillDatabase.getSkillLevel( skillId ) )
+		{
+		default:
 			return 0;
-                case 1:
+		case 1:
 			return 250;
-                case 2:
+		case 2:
 			return 500;
-                case 3:
+		case 3:
 			return 1000;
-                case 4:
+		case 4:
 			return 1500;
-                case 5:
+		case 5:
 			return 2500;
-                case 6:
+		case 6:
 			return 3500;
-                case 7:
+		case 7:
 			return 5000;
-                case 8:
+		case 8:
 			return 6500;
-                case 9:
+		case 9:
 			return 8000;
-                case 10:
+		case 10:
 			return 10000;
-                case 11:
+		case 11:
 			return 12500;
-                case 12:
+		case 12:
 			return 15000;
-                case 13:
+		case 13:
 			return 20000;
-                case 14:
+		case 14:
 			return 25000;
-                case 15:
+		case 15:
 			return 30000;
 		}
 	}

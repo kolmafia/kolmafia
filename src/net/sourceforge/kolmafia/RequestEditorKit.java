@@ -108,6 +108,7 @@ public class RequestEditorKit
 	private static final Pattern FORM_PATTERN = Pattern.compile( "<form name=choiceform(\\d+)" );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
 	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "name=option value=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
@@ -1719,7 +1720,7 @@ public class RequestEditorKit
 
 		for ( int i = first - 1; i < possibleDecisions[ 2 ].length; ++i )
 		{
-			int index2 =  text.indexOf( "</form>", index1 );
+			int index2 = text.indexOf( "</form>", index1 );
 
 			// If KoL says we've run out of choices, quit now
 			if ( index2 == -1 )
@@ -1727,8 +1728,15 @@ public class RequestEditorKit
 				break;
 			}
 
+			String currentSection = text.substring( index1, index2 );
+			Matcher optionMatcher = RequestEditorKit.OPTION_PATTERN.matcher( currentSection );
+			if ( optionMatcher.find() && StringUtilities.parseInt( optionMatcher.group( 1 ) ) != i + 1 )
+			{
+				continue;
+			}
+
 			// Start spoiler text
-			buffer.append( text.substring( index1, index2 ) );
+			buffer.append( currentSection );
 			buffer.append( "<br><font size=-1>(" );
 
 			// Say what the choice will give you

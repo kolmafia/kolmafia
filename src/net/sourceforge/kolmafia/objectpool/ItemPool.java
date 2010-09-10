@@ -84,6 +84,7 @@ public class ItemPool
 	public static final int FORTUNE_COOKIE = 61;
 	public static final int GOLDEN_TWIG = 66;
 	public static final int NEWBIESPORT_TENT = 69;
+	public static final int BAR_SKIN = 70;
 	public static final int WOODEN_STAKES = 71;
 	public static final int BARSKIN_TENT = 73;
 	public static final int SPOOKY_MAP = 74;
@@ -378,6 +379,7 @@ public class ItemPool
 	public static final int MINIATURE_DORMOUSE = 1489;
 	public static final int HILARIOUS_BOOK = 1498;
 	public static final int RUBBER_EMO_ROE = 1503;
+	public static final int VAMPIRE_HEART = 1518;
 	public static final int BAKULA = 1519;
 	public static final int SNOOTY_DISGUISE = 1526;
 	public static final int GIFTR = 1534;
