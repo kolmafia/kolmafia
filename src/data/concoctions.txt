@@ -316,7 +316,7 @@ chorizo taco	COOK	uncooked chorizo	taco shell
 ghuol egg quiche	COOK	ghuol egg	pie crust
 ghuol-ear kabob	COOK	ghuol ears	skewer
 goat cheese taco	COOK	goat cheese	taco shell
-grue egg omelette	COOK	grue egg	spooky mushroom
+grue egg omelette	COOK_FANCY	grue egg	spooky mushroom
 hot stuffing	COOK	heavy hot sauce	stuffing
 jumping bean taco	COOK	pile of jumping beans	taco shell
 Knob shroomkabob	COOK	Knob mushroom	skewer
@@ -1235,11 +1235,11 @@ spaghetti with Skullheads	PASTA	sauce of the ages	dry noodles
 
 secret blend of herbs and spices	COOK	herbs	spices
 
-asparagus stir-fry	COOK	stalk of asparagus	secret blend of herbs and spices
-Knob stir-fry	COOK	Knob mushroom	secret blend of herbs and spices
-Knoll stir-fry	COOK	Knoll mushroom	secret blend of herbs and spices
-olive stir-fry	COOK	olive	secret blend of herbs and spices
-spooky stir-fry	COOK	spooky mushroom	secret blend of herbs and spices
+asparagus stir-fry	COOK_FANCY	stalk of asparagus	secret blend of herbs and spices
+Knob stir-fry	COOK_FANCY	Knob mushroom	secret blend of herbs and spices
+Knoll stir-fry	COOK_FANCY	Knoll mushroom	secret blend of herbs and spices
+olive stir-fry	COOK_FANCY	olive	secret blend of herbs and spices
+spooky stir-fry	COOK_FANCY	spooky mushroom	secret blend of herbs and spices
 
 bat wing stir-fry	COOK	bat wing	Knob stir-fry
 Knob sausage stir-fry	COOK	Knob sausage	Knoll stir-fry
@@ -1579,17 +1579,17 @@ cream of pointy mushroom soup	COOK	pointy mushroom	glass of goat's milk
 # and include the lumberjack and the mushroom wines.
 
 lumbering jack	MIX	bottle of whiskey	Blatantly Canadian
-flaming mushroom wine	MIX	mushroom fermenting solution	flaming mushroom
-icy mushroom wine	MIX	mushroom fermenting solution	frozen mushroom
-stinky mushroom wine	MIX	mushroom fermenting solution	stinky mushroom
-pointy mushroom wine	MIX	mushroom fermenting solution	pointy mushroom
-flat mushroom wine	MIX	mushroom fermenting solution	warm mushroom
-cool mushroom wine	MIX	mushroom fermenting solution	cool mushroom
-knob mushroom wine	MIX	mushroom fermenting solution	Knob mushroom
-knoll mushroom wine	MIX	mushroom fermenting solution	Knoll mushroom
-spooky mushroom wine	MIX	mushroom fermenting solution	spooky mushroom
-gloomy mushroom wine	MIX	mushroom fermenting solution	gloomy black mushroom
-oily mushroom wine	MIX	mushroom fermenting solution	oily golden mushroom
+flaming mushroom wine	MIX_FANCY	mushroom fermenting solution	flaming mushroom
+icy mushroom wine	MIX_FANCY	mushroom fermenting solution	frozen mushroom
+stinky mushroom wine	MIX_FANCY	mushroom fermenting solution	stinky mushroom
+pointy mushroom wine	MIX_FANCY	mushroom fermenting solution	pointy mushroom
+flat mushroom wine	MIX_FANCY	mushroom fermenting solution	warm mushroom
+cool mushroom wine	MIX_FANCY	mushroom fermenting solution	cool mushroom
+knob mushroom wine	MIX_FANCY	mushroom fermenting solution	Knob mushroom
+knoll mushroom wine	MIX_FANCY	mushroom fermenting solution	Knoll mushroom
+spooky mushroom wine	MIX_FANCY	mushroom fermenting solution	spooky mushroom
+gloomy mushroom wine	MIX_FANCY	mushroom fermenting solution	gloomy black mushroom
+oily mushroom wine	MIX_FANCY	mushroom fermenting solution	oily golden mushroom
 
 
 # Tinker recipes.  These recipes are the recipes which are used in the

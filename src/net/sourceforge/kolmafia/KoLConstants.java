@@ -541,16 +541,16 @@ public interface KoLConstants
 	// Item creation types
 
 	public static final int CT_MASK = 0x000000FF;
-	public static final int METHOD_COUNT = 24;
+	public static final int METHOD_COUNT = 26;
 	public static final int SUBCLASS = 255;
 
 	public static final int NOCREATE = 0;
 
 	// Items anybody can create using meat paste
 	public static final int COMBINE = 1;
-	// Items created with an E-Z Cook Oven
+	// Items created with an E-Z Cook Oven or Dramatic Range
 	public static final int COOK = 2;
-	// Items created with a cocktailcrafting kit
+	// Items created with a Shaker or Cocktailcrafting Kit
 	public static final int MIX = 3;
 	// Items anybody can create with a tenderizing hammer or via Innabox
 	public static final int SMITH = 4;
@@ -595,6 +595,10 @@ public interface KoLConstants
 	public static final int SUGAR_FOLDING = 22;
 	// Items requiring access to Phineas
 	public static final int PHINEAS = 23;
+	// Items created with an Dramatic Range
+	public static final int COOK_FANCY = 24;
+	// Items created with a Cocktailcrafting Kit
+	public static final int MIX_FANCY = 25;
 
 	// Item creation requirement flags
 

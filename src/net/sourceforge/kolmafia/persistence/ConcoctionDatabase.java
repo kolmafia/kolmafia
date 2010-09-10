@@ -122,9 +122,9 @@ public class ConcoctionDatabase
 		
 		// Items anybody can create using meat paste
 		ConcoctionDatabase.mixingMethods.put( "COMBINE", new Integer( KoLConstants.COMBINE ));
-		// Items anybody can create with an E-Z Cook Oven
+		// Items anybody can create with an E-Z Cook Oven or Dramatic Range
 		ConcoctionDatabase.mixingMethods.put( "COOK", new Integer( KoLConstants.COOK ));
-		// Items anybody can create with a cocktailcrafting kit
+		// Items anybody can create with a Shaker or Cocktailcrafting Kit
 		ConcoctionDatabase.mixingMethods.put( "MIX", new Integer( KoLConstants.MIX ));
 		// Items anybody can create with a tenderizing hammer or via Innabox
 		ConcoctionDatabase.mixingMethods.put( "SMITH", new Integer( KoLConstants.SMITH ));
@@ -170,6 +170,10 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO07", new Integer( KoLConstants.CRIMBO07 ));
 		// Items requiring access to Phineas
 		ConcoctionDatabase.mixingMethods.put( "PHINEAS", new Integer( KoLConstants.PHINEAS ));
+		// Items that require a Dramatic Range
+		ConcoctionDatabase.mixingMethods.put( "COOK_FANCY", new Integer( KoLConstants.COOK_FANCY ));
+		// Items that require a Cocktailcrafting Kit
+		ConcoctionDatabase.mixingMethods.put( "MIX_FANCY", new Integer( KoLConstants.MIX_FANCY ));
 		
 		// Creation flags
 		
@@ -218,27 +222,27 @@ public class ConcoctionDatabase
 		// Combinations of creation type & flags, for convenience
 		
 		// Items requiring Pastamastery
-		ConcoctionDatabase.mixingMethods.put( "PASTA", new Integer( KoLConstants.COOK | KoLConstants.CR_PASTA ));
+		ConcoctionDatabase.mixingMethods.put( "PASTA", new Integer( KoLConstants.COOK_FANCY | KoLConstants.CR_PASTA ));
 		// Items requiring Tempuramancy
-		ConcoctionDatabase.mixingMethods.put( "TEMPURA", new Integer( KoLConstants.COOK | KoLConstants.CR_TEMPURA ));
+		ConcoctionDatabase.mixingMethods.put( "TEMPURA", new Integer( KoLConstants.COOK_FANCY | KoLConstants.CR_TEMPURA ));
 		// Items requiring Super-Advanced Meatsmithing
 		ConcoctionDatabase.mixingMethods.put( "WSMITH", new Integer( KoLConstants.SSMITH | KoLConstants.CR_WEAPON ));
 		// Items requiring Armorcraftiness
 		ConcoctionDatabase.mixingMethods.put( "ASMITH", new Integer( KoLConstants.SSMITH | KoLConstants.CR_ARMOR ));
 		// Items requiring Advanced Cocktailcrafting
-		ConcoctionDatabase.mixingMethods.put( "ACOCK", new Integer( KoLConstants.MIX | KoLConstants.CR_AC ));
+		ConcoctionDatabase.mixingMethods.put( "ACOCK", new Integer( KoLConstants.MIX_FANCY | KoLConstants.CR_AC ));
 		// Items requiring Superhuman Cocktailcrafting
-		ConcoctionDatabase.mixingMethods.put( "SCOCK", new Integer( KoLConstants.MIX | KoLConstants.CR_SHC ));
+		ConcoctionDatabase.mixingMethods.put( "SCOCK", new Integer( KoLConstants.MIX_FANCY | KoLConstants.CR_SHC ));
 		// Items requiring Salacious Cocktailcrafting
-		ConcoctionDatabase.mixingMethods.put( "SACOCK", new Integer( KoLConstants.MIX | KoLConstants.CR_SALACIOUS ));
+		ConcoctionDatabase.mixingMethods.put( "SACOCK", new Integer( KoLConstants.MIX_FANCY | KoLConstants.CR_SALACIOUS ));
 		// Items requiring pliers and Really Expensive Jewelrycrafting
 		ConcoctionDatabase.mixingMethods.put( "EJEWEL", new Integer( KoLConstants.JEWELRY | KoLConstants.CR_EXPENSIVE ));
 		// Items requiring Advanced Saucecrafting
-		ConcoctionDatabase.mixingMethods.put( "SAUCE", new Integer( KoLConstants.COOK | KoLConstants.CR_REAGENT ));
+		ConcoctionDatabase.mixingMethods.put( "SAUCE", new Integer( KoLConstants.COOK_FANCY | KoLConstants.CR_REAGENT ));
 		// Items requiring The Way of Sauce
-		ConcoctionDatabase.mixingMethods.put( "SSAUCE", new Integer( KoLConstants.COOK | KoLConstants.CR_WAY ));
+		ConcoctionDatabase.mixingMethods.put( "SSAUCE", new Integer( KoLConstants.COOK_FANCY | KoLConstants.CR_WAY ));
 		// Items requiring Deep Saucery
-		ConcoctionDatabase.mixingMethods.put( "DSAUCE", new Integer( KoLConstants.COOK | KoLConstants.CR_DEEP ));
+		ConcoctionDatabase.mixingMethods.put( "DSAUCE", new Integer( KoLConstants.COOK_FANCY | KoLConstants.CR_DEEP ));
 	}
 
 	private static final HashMap chefStaff = new HashMap();
@@ -1393,25 +1397,36 @@ public class ConcoctionDatabase
 		ConcoctionPool.get( ItemPool.BARTENDER ).calculate2();
 		ConcoctionPool.get( ItemPool.CLOCKWORK_BARTENDER ).calculate2();
 
-		// Cooking is permitted, so long as the person has a chef
-		// or they don't need a box servant and have an oven.
+		// Cooking is permitted, so long as the person has an oven or a
+		// range installed in their kitchen
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
-			willBuyServant || KoLCharacter.hasChef() || ConcoctionDatabase.isAvailable( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF );
-		ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK ] =
-			MallPriceDatabase.getPrice( ItemPool.CHEF ) / 90;
+			KoLCharacter.hasOven() || KoLCharacter.hasRange();
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = 0;
+		ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK ] = 0;
 		ConcoctionDatabase.EXCUSE[ KoLConstants.COOK ] =
-			"You have chosen not to cook without a chef-in-the-box.";
+			"You cannot cook without an oven or a range.";
 
-		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] &&
-			(Inigo > 0 || !Preferences.getBoolean( "requireBoxServants" )) )
-		{
-			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK ] =
-				InventoryManager.hasItem( ItemPool.BAKE_OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
-			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK ] = Math.max( 0, 1 - Inigo );
-			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK ] = 0;
-			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK ] = "You cannot cook without an oven.";
-		}
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] =
+			KoLCharacter.hasRange();
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 1;
+		ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] =
+			MallPriceDatabase.getPrice( ItemPool.CHEF ) / 90;
+		ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] =
+			"You cannot cook fancy foods without a range.";
+
+                // If we have a range installed, see what the chef will do to
+                // help costs. Without a range, we cannot cook fancy foods,
+                // whether or not we have a chef.
+                if ( ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] )
+                {
+                        ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] =
+                                willBuyServant || KoLCharacter.hasChef() || ConcoctionDatabase.isAvailable( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF );
+                        ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
+                        ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
+                        ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] =
+                                "You have chosen not to cook fancy food without a chef-in-the-box.";
+                }
 
 		// Cooking may require an additional skill.
 
@@ -1440,24 +1455,35 @@ public class ConcoctionDatabase
 			flags |= KoLConstants.CR_TEMPURA;
 		}
 
-		// Mixing is possible whenever the person has a bartender
-		// or they don't need a box servant and have a kit.
+		// Mixing is permitted, so long as the person has a shaker or a
+		// cocktailcrafting kit installed in their kitchen
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
-			willBuyServant || KoLCharacter.hasBartender() || ConcoctionDatabase.isAvailable( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER );
-		ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX ] =
-			MallPriceDatabase.getPrice( ItemPool.BARTENDER ) / 90;
+			KoLCharacter.hasShaker() || KoLCharacter.hasCocktailKit();
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = 0;
+		ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX ] = 0;
 		ConcoctionDatabase.EXCUSE[ KoLConstants.MIX ] =
-			"You have chosen not to mix without a bartender-in-the-box.";
+			"You cannot mix without a shaker or a cocktailcrafting kit.";
 
-		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] &&
-			(Inigo > 0 || !Preferences.getBoolean( "requireBoxServants" )) )
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] =
+			KoLCharacter.hasCocktailKit();
+		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 1;
+		ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] =
+			MallPriceDatabase.getPrice( ItemPool.BARTENDER ) / 90;
+		ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] =
+			"You cannot mix fancy drinks without a cocktailcrafting kit.";
+
+		// If we have a cocktail kit installed, see what a bartender
+		// will do to help costs. Without a cocktail kit, we cannot mix
+		// fancy drinks, whether or not we have a bartender.
+		if ( ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] )
 		{
-			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX ] =
-				InventoryManager.hasItem( ItemPool.COCKTAIL_KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
-			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX ] = Math.max( 0, 1 - Inigo );
-			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX ] = 0;
-			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX ] = "You cannot mix without a cocktailcrafting kit.";
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] =
+				willBuyServant || KoLCharacter.hasBartender() || ConcoctionDatabase.isAvailable( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER );
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] =
+				"You have chosen not to mix fancy drinks without a bartender-in-the-box.";
 		}
 
 		// Mixing may require an additional skill.
@@ -1508,9 +1534,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MALUS ] = KoLCharacter.canUseMalus();
 		ConcoctionDatabase.EXCUSE[ KoLConstants.MALUS ] = "You require Malus access to be able to pulverize.";
 
-		// You can make Sushi if you have a sushi-rolling mat
+		// You can make Sushi if you have a sushi-rolling mat installed
+		// in your kitchen.
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SUSHI ] = InventoryManager.hasItem( ItemPool.SUSHI_ROLLING_MAT );
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SUSHI ] = 
+			KoLCharacter.hasSushiMat();
 		ConcoctionDatabase.EXCUSE[ KoLConstants.SUSHI ] = "You cannot make sushi without a sushi-rolling mat.";
 		
 		// Other creatability flags

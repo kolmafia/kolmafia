@@ -112,7 +112,7 @@ public class ChatSender
 		{
 			ChatParser.parseSwitch( chatMessages, request.responseText );
 		}
-		else if ( graf.startsWith( "/who " ) || graf.equals( "/f" ) || graf.equals( "/friends" ) || graf.equals( "/romans" ) )
+		else if ( graf.startsWith( "/who " ) || graf.equals( "/f" ) || graf.equals( "/friends" ) || graf.equals( "/romans" ) || graf.equals( "/clannies" ) )
 		{
 			ChatParser.parseContacts( chatMessages, request.responseText );
 		}

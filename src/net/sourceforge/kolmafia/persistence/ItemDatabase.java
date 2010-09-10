@@ -183,6 +183,7 @@ public class ItemDatabase
 	public static final int ATTR_BOUNTY = 0x00000800;
 	public static final int ATTR_CANDY = 0x00001000;
 	public static final int ATTR_MATCHABLE = 0x00002000;
+	public static final int ATTR_FANCY = 0x00004000;
 	
 	private static final HashMap PRIMARY_USE = new HashMap();
 	private static final HashMap INVERSE_PRIMARY_USE = new HashMap();
@@ -242,6 +243,7 @@ public class ItemDatabase
 		ItemDatabase.defineSecondaryUse( "bounty", ItemDatabase.ATTR_BOUNTY );
 		ItemDatabase.defineSecondaryUse( "candy", ItemDatabase.ATTR_CANDY );
 		ItemDatabase.defineSecondaryUse( "matchable", ItemDatabase.ATTR_MATCHABLE );
+		ItemDatabase.defineSecondaryUse( "fancy", ItemDatabase.ATTR_FANCY );
 
 		secondaryUsageEntrySet = INVERSE_SECONDARY_USE.entrySet();
 	}

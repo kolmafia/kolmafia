@@ -285,8 +285,14 @@ public abstract class KoLCharacter
 
 	// Campground information
 
+	private static boolean hasOven = false;
+	private static boolean hasRange = false;
 	private static boolean hasChef = false;
+	private static boolean hasShaker = false;
+	private static boolean hasCocktailKit = false;
 	private static boolean hasBartender = false;
+	private static boolean hasSushiMat = false;
+
 	private static boolean hasBookshelf = false;
 	private static int telescopeUpgrades = 0;
 
@@ -562,8 +568,14 @@ public abstract class KoLCharacter
 		KoLCharacter.hasDisplayCase = false;
 		KoLCharacter.hasClan = false;
 
+		KoLCharacter.hasOven = false;
+		KoLCharacter.hasRange = false;
 		KoLCharacter.hasChef = false;
+		KoLCharacter.hasShaker = false;
+		KoLCharacter.hasCocktailKit = false;
 		KoLCharacter.hasBartender = false;
+		KoLCharacter.hasSushiMat = false;
+
 		KoLCharacter.hasBookshelf = false;
 		KoLCharacter.telescopeUpgrades = 0;
 
@@ -1539,7 +1551,8 @@ public abstract class KoLCharacter
 			}
 		
 			KoLCharacter.adventuresLeft = adventuresLeft;
-			if ( KoLCharacter.canEat() && !KoLCharacter.hasChef() || KoLCharacter.canDrink() && !KoLCharacter.hasBartender() )
+			if ( KoLCharacter.canEat() && !KoLCharacter.hasChef() ||
+                             KoLCharacter.canDrink() && !KoLCharacter.hasBartender() )
 			{
 				ConcoctionDatabase.refreshConcoctions();
 			}
@@ -1981,6 +1994,60 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method which indicates whether or not the character has a shaker
+	 *
+	 * @return <code>true</code> if the character has a shaker
+	 */
+
+	public static final boolean hasShaker()
+	{
+		return KoLCharacter.hasShaker;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the shaker
+	 *
+	 * @param hasShaker Whether or not the character currently has a shaker
+	 */
+
+	public static final void setShaker( final boolean hasShaker )
+	{
+		if ( KoLCharacter.hasShaker != hasShaker )
+		{
+			KoLCharacter.hasShaker = hasShaker;
+			ConcoctionDatabase.refreshConcoctions();
+			ItemDatabase.calculateAdventureRanges();
+		}
+	}
+
+	/**
+	 * Accessor method which indicates whether or not the character has a cocktail crafting kit
+	 *
+	 * @return <code>true</code> if the character has a cocktail crafting kit
+	 */
+
+	public static final boolean hasCocktailKit()
+	{
+		return KoLCharacter.hasCocktailKit;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the cocktail crafting kit
+	 *
+	 * @param hasCocktailKit Whether or not the character currently has a cocktail crafting kit
+	 */
+
+	public static final void setCocktailKit( final boolean hasCocktailKit )
+	{
+		if ( KoLCharacter.hasCocktailKit != hasCocktailKit )
+		{
+			KoLCharacter.hasCocktailKit = hasCocktailKit;
+			ConcoctionDatabase.refreshConcoctions();
+			ItemDatabase.calculateAdventureRanges();
+		}
+	}
+
+	/**
 	 * Accessor method which indicates whether or not the character has a bartender-in-the-box.
 	 *
 	 * @return <code>true</code> if the character has a bartender-in-the-box
@@ -2008,6 +2075,60 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method which indicates whether or not the character has an oven
+	 *
+	 * @return <code>true</code> if the character has an oven
+	 */
+
+	public static final boolean hasOven()
+	{
+		return KoLCharacter.hasOven;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the oven
+	 *
+	 * @param hasOven Whether or not the character currently has an oven
+	 */
+
+	public static final void setOven( final boolean hasOven )
+	{
+		if ( KoLCharacter.hasOven != hasOven )
+		{
+			KoLCharacter.hasOven = hasOven;
+			ConcoctionDatabase.refreshConcoctions();
+			ItemDatabase.calculateAdventureRanges();
+		}
+	}
+
+	/**
+	 * Accessor method which indicates whether or not the character has a range
+	 *
+	 * @return <code>true</code> if the character has a range
+	 */
+
+	public static final boolean hasRange()
+	{
+		return KoLCharacter.hasRange;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the range
+	 *
+	 * @param hasRange Whether or not the character currently has a range
+	 */
+
+	public static final void setRange( final boolean hasRange )
+	{
+		if ( KoLCharacter.hasRange != hasRange )
+		{
+			KoLCharacter.hasRange = hasRange;
+			ConcoctionDatabase.refreshConcoctions();
+			ItemDatabase.calculateAdventureRanges();
+		}
+	}
+
+	/**
 	 * Accessor method which indicates whether or not the character has a chef-in-the-box.
 	 *
 	 * @return <code>true</code> if the character has a chef-in-the-box
@@ -2029,6 +2150,33 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasChef != hasChef )
 		{
 			KoLCharacter.hasChef = hasChef;
+			ConcoctionDatabase.refreshConcoctions();
+			ItemDatabase.calculateAdventureRanges();
+		}
+	}
+
+	/**
+	 * Accessor method which indicates whether or not the character has a sushi rolling mat
+	 *
+	 * @return <code>true</code> if the character has a sushi rolling mat
+	 */
+
+	public static final boolean hasSushiMat()
+	{
+		return KoLCharacter.hasSushiMat;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the sushi rolling mat
+	 *
+	 * @param hasSushiMat Whether or not the character currently has a sushi rolling mat
+	 */
+
+	public static final void setSushiMat( final boolean hasSushiMat )
+	{
+		if ( KoLCharacter.hasSushiMat != hasSushiMat )
+		{
+			KoLCharacter.hasSushiMat = hasSushiMat;
 			ConcoctionDatabase.refreshConcoctions();
 			ItemDatabase.calculateAdventureRanges();
 		}
