@@ -1646,11 +1646,11 @@ public class IslandDecorator
 	{
 		// "Well... How about dedicating a portion of your farm to
 		// growing soybeans, to help feed the hippy army?"
-		if ( responseText.indexOf( "growing soybeans" ) != -1 )
+		if ( responseText.indexOf( "growing soybeans" ) != -1 || responseText.indexOf( "blocks of megatofu" ) != -1 )
 		{
 			Preferences.setString( "sidequestFarmCompleted", "hippy" );
 		}
-		else if ( responseText.indexOf( "growing hops" ) != -1 )
+		else if ( responseText.indexOf( "growing hops" ) != -1 || responseText.indexOf( "bottles of McMillicancuddy" ) != -1 )
 		{
 			Preferences.setString( "sidequestFarmCompleted", "fratboy" );
 		}
