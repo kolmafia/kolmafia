@@ -63,7 +63,7 @@ Hippy Store (Fratboy)	h	bowl of rye sprouts	300
 Hippy Store (Fratboy)	h	cob of corn	300
 Hippy Store (Fratboy)	h	juniper berries	300
 
-Nervewrecker's Store	y	E-Z Cook Oven&trade;	50
+Nervewrecker's Store	y	E-Z Cook&trade; oven	50
 Nervewrecker's Store	y	My First Shaker&trade;	50
 Nervewrecker's Store	y	Queue Du Coq cocktailcrafting kit	500
 Nervewrecker's Store	y	Dramatic&trade; range	500
@@ -96,7 +96,7 @@ Market Demon	m	water wings	300
 Market Demon	m	Familiar-Gro&trade; Terrarium	500
 Market Demon	m	Hatorade	500
 
-Market Demon	m	E-Z Cook Oven&trade;	50
+Market Demon	m	E-Z Cook&trade; oven	50
 Market Demon	m	My First Shaker&trade;	50
 Market Demon	m	Dramatic&trade; range	1000
 Market Demon	m	Queue Du Coq cocktailcrafting kit	1000
