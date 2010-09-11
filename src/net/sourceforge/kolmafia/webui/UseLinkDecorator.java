@@ -290,7 +290,9 @@ public abstract class UseLinkDecorator
 			{
 			case KoLConstants.COMBINE:
 			case KoLConstants.MIX:
+			case KoLConstants.MIX_FANCY:
 			case KoLConstants.COOK:
+			case KoLConstants.COOK_FANCY:
 			case KoLConstants.JEWELRY:
 				break;
 			default:
