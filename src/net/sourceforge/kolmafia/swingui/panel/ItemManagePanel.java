@@ -893,6 +893,7 @@ public class ItemManagePanel
 					switch ( ConcoctionDatabase.getMixingMethod( name ) & KoLConstants.CT_MASK )
 					{
 					case KoLConstants.COOK:
+					case KoLConstants.COOK_FANCY:
 						isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
 						break;
 
@@ -902,6 +903,7 @@ public class ItemManagePanel
 						break;
 
 					case KoLConstants.MIX:
+					case KoLConstants.MIX_FANCY:
 					case KoLConstants.STILL_BOOZE:
 						isVisibleWithFilter = FilterItemField.this.booze;
 						break;

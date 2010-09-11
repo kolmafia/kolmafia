@@ -162,10 +162,12 @@ public class CreateItemRequest
 				break;
 
 			case KoLConstants.MIX:
+			case KoLConstants.MIX_FANCY:
 				mode = "cocktail";
 				break;
 
 			case KoLConstants.COOK:
+			case KoLConstants.COOK_FANCY:
 				mode = "cook";
 				break;
 
@@ -779,7 +781,7 @@ public class CreateItemRequest
 
 		switch ( mixingMethod & KoLConstants.CT_MASK )
 		{
-		case KoLConstants.COOK:
+		case KoLConstants.COOK_FANCY:
 
 			if ( KoLCharacter.hasChef() )
 			{
@@ -787,7 +789,7 @@ public class CreateItemRequest
 			}
 			break;
 
-		case KoLConstants.MIX:
+		case KoLConstants.MIX_FANCY:
 
 			if ( KoLCharacter.hasBartender() )
 			{
@@ -814,12 +816,12 @@ public class CreateItemRequest
 
 		switch ( mixingMethod & KoLConstants.CT_MASK )
 		{
-		case KoLConstants.COOK:
+		case KoLConstants.COOK_FANCY:
 			autoRepairSuccessful =
 				CreateItemRequest.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF,ItemPool.RANGE );
 			break;
 
-		case KoLConstants.MIX:
+		case KoLConstants.MIX_FANCY:
 			autoRepairSuccessful =
 				CreateItemRequest.useBoxServant( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER, ItemPool.COCKTAIL_KIT );
 			break;
@@ -1059,10 +1061,10 @@ public class CreateItemRequest
 		case KoLConstants.JEWELRY:
 			return 3 * this.quantityNeeded;
 
-		case KoLConstants.COOK:
+		case KoLConstants.COOK_FANCY:
 			return KoLCharacter.hasChef() ? 0 : this.quantityNeeded;
 
-		case KoLConstants.MIX:
+		case KoLConstants.MIX_FANCY:
 			return KoLCharacter.hasBartender() ? 0 : this.quantityNeeded;
 
 		case KoLConstants.WOK:
