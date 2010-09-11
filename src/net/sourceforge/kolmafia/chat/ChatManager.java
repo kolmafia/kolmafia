@@ -96,18 +96,12 @@ public abstract class ChatManager
 	 * Initializes the chat buffer with the provided chat pane. Note that the chat refresher will also be initialized by
 	 * calling this method; to stop the chat refresher, call the <code>dispose()</code> method.
 	 */
-	private static final GenericRequest VISITOR = new GenericRequest( "" );
 
-	private static final StringBuffer checkAltar()
+	private static final String checkAltar()
 	{
-		StringBuffer buffer = new StringBuffer();
-		ChatManager.VISITOR.constructURLString( "chatlaunch.php", true );
-		RequestThread.postRequest( ChatManager.VISITOR );
-		if ( ChatManager.VISITOR.responseText != null )
-		{
-			buffer.append( ChatManager.VISITOR.responseText );
-		}
-		return buffer;
+		GenericRequest request = new GenericRequest( "chatlaunch.php" );
+		RequestThread.postRequest( request );
+		return request.responseText;
 	}
 
 	public static final void initialize()
@@ -116,7 +110,7 @@ public abstract class ChatManager
 		{
 			return;
 		}
-		if( ChatManager.checkAltar().toString().contains( "altar" ) )
+		if( ChatManager.checkAltar().contains( "altar" ) )
 		{
 			KoLmafia.updateDisplay( "You cannot access chat until you complete the Altar of Literacy" );
 			return;
