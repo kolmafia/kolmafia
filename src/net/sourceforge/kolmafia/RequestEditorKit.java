@@ -827,8 +827,7 @@ public class RequestEditorKit
 			StringUtilities.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
 		}
 
-		AdventureResult mat = ItemPool.get( ItemPool.SUSHI_ROLLING_MAT, 1 );
-		if ( mat.getCount( KoLConstants.inventory ) > 0 )
+		if ( KoLCharacter.hasSushiMat() )
 		{
 			StringUtilities.singleStringReplace(
 				buffer,

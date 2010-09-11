@@ -379,8 +379,9 @@ public class SushiRequest
 	{
 		// Make sure a sushi-rolling mat is available.
 
-		if ( !InventoryManager.retrieveItem( ItemPool.SUSHI_ROLLING_MAT ) )
+		if ( !KoLCharacter.hasSushiMat() )
 		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need a sushi rolling mat installed in your kitchen in order to roll sushi." );
 			return;
 		}
 
