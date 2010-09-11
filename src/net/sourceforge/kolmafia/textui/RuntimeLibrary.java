@@ -311,6 +311,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "gameday_to_string", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "gameday_to_int", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "moon_phase", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -1805,6 +1808,11 @@ public abstract class RuntimeLibrary
 	public static Value gameday_to_string()
 	{
 		return new Value( HolidayDatabase.getCalendarDayAsString( HolidayDatabase.getCalendarDay( new Date() ) ) );
+	}
+ 
+	public static Value gameday_to_int()
+	{
+		return new Value( HolidayDatabase.getCalendarDay( new Date() ) );
 	}
 
 	public static Value moon_phase()
