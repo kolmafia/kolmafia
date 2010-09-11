@@ -441,6 +441,11 @@ public class ChatFrame
 				StaticEntity.getClient().openRelayBrowser( location );
 				return;
 			}
+			else if( location.startsWith( "messages" ) )
+			{
+				GenericFrame.createDisplay( MailboxFrame.class );
+				return;
+			}
 
 			int equalsIndex = location.indexOf( "=" );
 
