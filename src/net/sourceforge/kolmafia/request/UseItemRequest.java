@@ -106,8 +106,6 @@ public class UseItemRequest
 	{
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.MILK_OF_MAGNESIUM ), ItemDatabase.MILK );
-
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
 
 		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.TURTLE_PHEROMONES ), EffectPool.get( EffectPool.EAU_DE_TORTUE ) );
@@ -414,6 +412,33 @@ public class UseItemRequest
 		case ItemPool.BURROWGRUB_HIVE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "burrowgrubHiveUsed" ) ? 0 : 1;
+
+		case ItemPool.MILK_OF_MAGNESIUM:
+		{
+			int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
+			int fullnessAvailable = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
+			// If our current dose of Got Milk is sufficient to
+			// fill us up, no milk is needed.
+			int unmilkedTurns = fullnessAvailable - milkyTurns;
+			if ( unmilkedTurns <= 0 )
+			{
+				return 0;
+			}
+
+			// Otherwise, limit to number of useful potions
+			int milkDuration = 10 +
+				( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 5 : 0 ) +
+				( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 );
+
+			int limit = 0;
+			while ( unmilkedTurns > 0 )
+			{
+				unmilkedTurns -= milkDuration;
+				limit++;
+			}
+
+			return limit;
+		}
 		}
 
 		switch ( consumptionType )
@@ -863,7 +888,7 @@ public class UseItemRequest
 			if ( this.consumptionType == KoLConstants.CONSUME_DRINK &&
 				itemId != ItemPool.STEEL_LIVER &&
 				!UseItemRequest.allowBoozeConsumption(
-					ItemDatabase.getInebriety( this.itemUsed.getName() ) * this.itemUsed.getCount() ) )
+					ItemDatabase.getInebriety( this.itemUsed.getName() ), this.itemUsed.getCount() ) )
 			{
 				return;
 			}
@@ -978,9 +1003,15 @@ public class UseItemRequest
 		return true;
 	}
 
-	public static final boolean allowBoozeConsumption( final int inebrietyBonus )
+	public static final boolean allowBoozeConsumption( final int inebriety, final int count )
 	{
-		if ( KoLCharacter.isFallingDown() || inebrietyBonus < 1 )
+		int inebrietyBonus = inebriety * count;
+		if ( inebrietyBonus < 1 )
+		{
+			return true;
+		}
+
+		if ( KoLCharacter.isFallingDown() )
 		{
 			return true;
 		}
@@ -990,30 +1021,9 @@ public class UseItemRequest
 			return true;
 		}
 
-		// Make sure the player does not drink something without
-		// having ode, if they can cast ode.
-
-		if ( !KoLConstants.activeEffects.contains( ItemDatabase.ODE ) )
+		if ( !UseItemRequest.askAboutOde( inebriety, count ) )
 		{
-			UseSkillRequest ode = UseSkillRequest.getInstance( "The Ode to Booze" );
-			boolean knowsOde = KoLConstants.availableSkills.contains( ode );
-
-			if ( knowsOde && UseSkillRequest.hasAccordion() && KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( 6014 ) )
-			{
-				ode.setBuffCount( 1 );
-				RequestThread.postRequest( ode );
-			}
-			if ( !KoLConstants.activeEffects.contains( ItemDatabase.ODE ) &&
-				knowsOde && UseItemRequest.askedAboutOde != KoLCharacter.getUserId() &&
-				UseItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
-			{
-				if ( !InputFieldUtilities.confirm( "Are you sure you want to drink without ode?" ) )
-				{
-					return false;
-				}
-
-				UseItemRequest.askedAboutOde = KoLCharacter.getUserId();
-			}
+			return false;
 		}
 
 		// Make sure the player does not overdrink if they still
@@ -1031,6 +1041,53 @@ public class UseItemRequest
 			{
 				return false;
 			}
+		}
+
+		return true;
+	}
+
+	private static final boolean askAboutOde( final int inebriety, final int count )
+	{
+		// If we've already asked about ode, don't nag
+		if ( UseItemRequest.askedAboutOde == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
+		// If user specifically said not to worry about ode, don't nag
+		// Actually, this overloads the "allowed to overdrink" flag.
+		if ( UseItemRequest.permittedOverdrink == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
+		// See if already have enough turns of Ode to Booze
+		int odeTurns = ItemDatabase.ODE.getCount( KoLConstants.activeEffects );
+		int consumptionTurns = count * inebriety;
+
+		// Ode is effective as long as it is on when you start
+		// consuming an item, no matter how much inebriety.
+		if ( consumptionTurns - odeTurns < inebriety ) 
+		{
+			return true;
+		}
+
+		// If the character doesn't know ode, there is nothing to do.
+		UseSkillRequest ode = UseSkillRequest.getInstance( "The Ode to Booze" );
+		boolean canOde = KoLConstants.availableSkills.contains( ode ) &&
+			UseSkillRequest.hasAccordion() &&
+			KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( 6014 );
+		if ( canOde )
+		{
+			String message = odeTurns > 0 ?
+				"The Ode to Booze will run out before you finish drinking that. Are you sure?" :
+				"Are you sure you want to drink without ode?";
+			if ( !InputFieldUtilities.confirm( message ) )
+			{
+				return false;
+			}
+
+			UseItemRequest.askedAboutOde = KoLCharacter.getUserId();
 		}
 
 		return true;
@@ -1080,7 +1137,7 @@ public class UseItemRequest
 		return true;
 	}
 
-	private static final boolean askAboutMilk()
+	private final boolean askAboutMilk()
 	{
 		// If we've already asked about milk, don't nag
 		if ( UseItemRequest.askedAboutMilk == KoLCharacter.getUserId() )
@@ -1094,8 +1151,16 @@ public class UseItemRequest
 			return true;
 		}
 
-		// If already have Got Milk effect
-		if ( KoLConstants.activeEffects.contains( ItemDatabase.MILK ) )
+		// See if already have enough of the Got Milk effect
+		int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
+		String name = this.itemUsed.getName();
+		int fullness = ItemDatabase.getFullness( name );
+		int count = this.itemUsed.getCount();
+		int consumptionTurns = count * fullness;
+
+		// Milk is effective as long as it is on when you start
+		// consuming an item, no matter how much fullness.
+		if ( consumptionTurns - milkyTurns < fullness ) 
 		{
 			return true;
 		}
@@ -1105,7 +1170,10 @@ public class UseItemRequest
 
 		if ( canMilk )
 		{
-			if ( !InputFieldUtilities.confirm( "Are you sure you want to eat without milk?" ) )
+			String message = milkyTurns > 0 ?
+				"Got Milk will run out before you finish eating that. Are you sure?" :
+				"Are you sure you want to eat without milk?";
+			if ( !InputFieldUtilities.confirm( message ) )
 			{
 				return false;
 			}

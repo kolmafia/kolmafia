@@ -326,10 +326,7 @@ public class UseItemEnqueuePanel
 			}
 			else if ( UseItemEnqueuePanel.this.booze )
 			{
-				if ( !KoLConstants.activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
-				{
-					RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
-				}
+				RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 			}
 			else if ( UseItemEnqueuePanel.this.spleen )
 			{
