@@ -101,6 +101,8 @@ public class DailyDeedsPanel
 			4, "+20 hot damage, +5 DR, 30 turns" ) );
 		this.add( new DemonDaily( 5, "+30 stench damage, 30 turns",
 			7, null ) );
+		this.add( new DemonDaily( 8, "torment, 20 turns",
+			9, "+80-100 hot damage, 30 turns" ) );
 		this.add( new NunsDaily() );
 		this.add( new BooleanSkillDaily( "rageGlandVented",
 				"Vent Rage Gland", "cast Vent Rage Gland" ) );
