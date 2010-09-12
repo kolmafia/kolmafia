@@ -38,12 +38,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChatSender
@@ -82,6 +85,22 @@ public class ChatSender
 	{		
 		if ( ChatSender.executeCommand( graf ) )
 		{
+			return "";
+		}
+		
+		if ( graf.startsWith( "/examine" ) )
+		{
+			String item = graf.substring( graf.indexOf( " " ) ).trim();
+			AdventureResult result = ItemFinder.getFirstMatchingItem( item, ItemFinder.ANY_MATCH, false );
+			if ( result != null )
+			{
+				ShowDescriptionList.showGameDescription( result );
+			}
+			else
+			{
+				EventMessage message = new EventMessage( "Unable to find a unique match", "green" );
+				ChatManager.broadcastEvent( message );
+			}
 			return "";
 		}
 		
@@ -218,7 +237,7 @@ public class ChatSender
 			// This is a message coming from an aggregated window, so
 			// leave it as is.
 		}
-		else if ( !contact.startsWith( "/" ) )
+		else if ( !contact.startsWith( "/" ) && !graf.startsWith( "/" ) )
 		{
 			// Implied requests for a private message should be wrapped
 			// in a /msg block.
@@ -247,11 +266,17 @@ public class ChatSender
 			}
 			else if ( ChatSender.CHANNEL_COMMANDS.contains( baseCommand ) )
 			{
-				// Direct the message to a channel.  Append the name of
-				// the channel to the beginning of the message so you
-				// ensure the message gets there.
-
-				graf = contact + " " + graf;
+				if ( contact.startsWith( "/" ) )
+				{
+					// Direct the message to a channel by appending the name
+					// of the channel to the beginning of the message.
+					graf = contact + " " + graf;
+				}
+				else
+				{
+					// And if it's a private message
+					graf = "/msg " + contact + " " + graf;
+				}
 			}
 		}
 
