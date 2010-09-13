@@ -193,6 +193,7 @@ Vanya's Castle	adventure=229	true	Foyer
 Vanya's Castle	adventure=230	true	Chapel
 Kegger	adventure=231	true	Kegger in the Woods
 Magic Commune	adventure=232	true	Electric Lemonade Acid Parade
+Ellsbury's Claim	adventure=236	true	Neckback Crick
 Holiday	trickortreat=Yep.	true	Trick-or-Treating
 Holiday	adventure=23	true	Drunken Stupor
 Holiday	adventure=84	true	St. Sneaky Pete's Day Stupor
