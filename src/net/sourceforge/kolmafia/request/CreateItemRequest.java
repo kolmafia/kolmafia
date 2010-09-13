@@ -765,13 +765,13 @@ public class CreateItemRequest
 		}
 		
 		if ( ( mixingMethod & KoLConstants.CR_HAMMER) != 0 &&
-                     !InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
+		     !InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
 		{
 			return false;
 		}
 
 		if ( ( mixingMethod & KoLConstants.CR_GRIMACITE) != 0 &&
-                     !InventoryManager.retrieveItem( ItemPool.GRIMACITE_HAMMER ) )
+		     !InventoryManager.retrieveItem( ItemPool.GRIMACITE_HAMMER ) )
 		{
 			return false;
 		}
@@ -783,6 +783,18 @@ public class CreateItemRequest
 		{
 		case KoLConstants.COOK_FANCY:
 
+			// We need range installed to cook fancy foods.
+			if ( !KoLCharacter.hasRange() )
+			{
+				// Acquire and use a range
+				if ( !InventoryManager.retrieveItem( ItemPool.RANGE ) )
+				{
+					return false;
+				}
+				new UseItemRequest( ItemPool.get( ItemPool.RANGE, 1 ) ).run();
+			}
+
+			// If we have a chef, fancy cooking is now free
 			if ( KoLCharacter.hasChef() )
 			{
 				return true;
@@ -791,6 +803,19 @@ public class CreateItemRequest
 
 		case KoLConstants.MIX_FANCY:
 
+			// We need a cocktail kit installed to mix fancy
+			// drinks.
+			if ( !KoLCharacter.hasCocktailKit() )
+			{
+				// Acquire and use cocktail kit
+				if ( !InventoryManager.retrieveItem( ItemPool.COCKTAIL_KIT ) )
+				{
+					return false;
+				}
+				new UseItemRequest( ItemPool.get( ItemPool.COCKTAIL_KIT, 1 ) ).run();
+			}
+
+			// If we have a bartender, fancy mixing is now free
 			if ( KoLCharacter.hasBartender() )
 			{
 				return true;
@@ -809,6 +834,12 @@ public class CreateItemRequest
 			return true;
 		}
 
+		if ( !Preferences.getBoolean( "autoRepairBoxServants" ) )
+		{
+			return !Preferences.getBoolean( "requireBoxServants" ) &&
+				KoLCharacter.getAdventuresLeft() > 0;
+		}
+
 		boolean autoRepairSuccessful = false;
 
 		// If they do want to auto-repair, make sure that
@@ -818,37 +849,25 @@ public class CreateItemRequest
 		{
 		case KoLConstants.COOK_FANCY:
 			autoRepairSuccessful =
-				CreateItemRequest.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF,ItemPool.RANGE );
+				CreateItemRequest.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF );
 			break;
 
 		case KoLConstants.MIX_FANCY:
 			autoRepairSuccessful =
-				CreateItemRequest.useBoxServant( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER, ItemPool.COCKTAIL_KIT );
+				CreateItemRequest.useBoxServant( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER );
 			break;
 		}
 
 		return autoRepairSuccessful && KoLmafia.permitsContinue();
 	}
 
-	private static boolean retrieveNoServantItem( final int noServantItem )
+	private static boolean useBoxServant( final int servant, final int clockworkServant )
 	{
-		return !Preferences.getBoolean( "requireBoxServants" ) &&
-			KoLCharacter.getAdventuresLeft() > 0 &&
-			InventoryManager.retrieveItem( noServantItem );
-	}
-
-	private static boolean useBoxServant( final int servant, final int clockworkServant, final int noServantItem )
-	{
-		if ( !Preferences.getBoolean( "autoRepairBoxServants" ) )
-		{
-			return CreateItemRequest.retrieveNoServantItem( noServantItem );
-		}
-
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
 		// of creation.
 
-		int usedServant = -1;
+		int usedServant;
 
 		if ( InventoryManager.hasItem( clockworkServant, false ) )
 		{
@@ -858,17 +877,13 @@ public class CreateItemRequest
 		{
 			usedServant = servant;
 		}
-
-		if ( usedServant == -1 )
+		else if ( KoLCharacter.canInteract() && ( Preferences.getBoolean( "autoSatisfyWithMall" ) || Preferences.getBoolean( "autoSatisfyWithStash" ) ) )
 		{
-			if ( KoLCharacter.canInteract() && ( Preferences.getBoolean( "autoSatisfyWithMall" ) || Preferences.getBoolean( "autoSatisfyWithStash" ) ) )
-			{
-				usedServant = servant;
-			}
-			else
-			{
-				return CreateItemRequest.retrieveNoServantItem( noServantItem );
-			}
+			usedServant = servant;
+		}
+		else
+		{
+			return false;
 		}
 
 		// Once you hit this point, you're guaranteed to

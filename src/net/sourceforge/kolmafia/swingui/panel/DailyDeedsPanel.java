@@ -805,12 +805,12 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			this.setText( "Advs: " + Preferences.getInteger( "_gibbererAdv" )
-                                + " gibberer, "  + Preferences.getInteger( "_hareAdv" )
-                                + " hare, "  + Preferences.getInteger( "_riftletAdv" )
-                                + " riftlet, "  + Preferences.getInteger( "_timeHelmetAdv" )
-                                + " time helmet, "  + Preferences.getInteger( "_vmaskAdv" )
-                                + " V mask");
+			this.setText( "Advs: "
+                                      + Preferences.getInteger( "_gibbererAdv" ) + " gibberer, "
+                                      + Preferences.getInteger( "_hareAdv" ) + " hare, "
+                                      + Preferences.getInteger( "_riftletAdv" ) + " riftlet, "
+                                      + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet, "
+                                      + Preferences.getInteger( "_vmaskAdv" ) + " V mask" );
 		}
 	}
 
