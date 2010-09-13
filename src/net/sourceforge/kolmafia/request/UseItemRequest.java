@@ -1065,9 +1065,7 @@ public class UseItemRequest
 		int odeTurns = ItemDatabase.ODE.getCount( KoLConstants.activeEffects );
 		int consumptionTurns = count * inebriety;
 
-		// Ode is effective as long as it is on when you start
-		// consuming an item, no matter how much inebriety.
-		if ( consumptionTurns - odeTurns < inebriety ) 
+		if ( consumptionTurns <= odeTurns ) 
 		{
 			return true;
 		}
@@ -1158,9 +1156,7 @@ public class UseItemRequest
 		int count = this.itemUsed.getCount();
 		int consumptionTurns = count * fullness;
 
-		// Milk is effective as long as it is on when you start
-		// consuming an item, no matter how much fullness.
-		if ( consumptionTurns - milkyTurns < fullness ) 
+		if ( consumptionTurns <= milkyTurns ) 
 		{
 			return true;
 		}
