@@ -702,64 +702,6 @@ public class ItemDatabase
 		}
 	}
 
-	private static final int getIncreasingGains( final int value )
-	{
-		// Adventure gains from Ode/Milk based on information
-		// derived by Istari Asuka on the Hardcore Oxygenation forums.
-		// http://forums.hardcoreoxygenation.com/viewtopic.php?t=2321
-
-		switch ( value )
-		{
-		case 0:
-			return 0;
-
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-			return 1;
-
-		case 5:
-		case 6:
-		case 7:
-			return 2;
-
-		case 8:
-		case 9:
-		case 10:
-			return 3;
-
-		default:
-			return 4;
-		}
-	}
-
-	private static final int getDecreasingGains( final int value )
-	{
-		// Adventure gains from Ode/Milk based on information
-		// derived by Istari Asuka on the Hardcore Oxygenation forums.
-		// http://forums.hardcoreoxygenation.com/viewtopic.php?t=2321
-
-		switch ( value )
-		{
-		case 0:
-			return 0;
-
-		case 1:
-		case 2:
-		case 3:
-			return 3;
-
-		case 4:
-		case 5:
-		case 6:
-			return 2;
-
-		default:
-			return 1;
-		}
-	}
-
 	private static final void saveAdventureRange( final String name, final int unitCost, String range )
 	{
 		range = range.trim();
@@ -799,24 +741,25 @@ public class ItemDatabase
 		int start = ( (Integer) ItemDatabase.advStartByName.get( name ) ).intValue();
 		int end = ( (Integer) ItemDatabase.advEndByName.get( name ) ).intValue();
 
-		int gainSum1 = 0;
-		int gainSum2 = 0;
-		int gainSum3 = 0;
+		// Adventure gain modifier #1 is ode or milk, which adds
+		// unitCost adventures to the result.
 
-		for ( int i = start; i <= end; ++i )
-		{
-			gainSum1 += i + ItemDatabase.getIncreasingGains( i );
-			gainSum2 += i + ItemDatabase.getDecreasingGains( i );
-			gainSum3 +=
-				i + ItemDatabase.getIncreasingGains( i + ItemDatabase.getDecreasingGains( i ) );
-		}
+		// Adventure gain modifier #2 is the munchies pill, which adds
+		// 1-3 adventures
 
-		float count = end - start + 1;
+		float average = ( start + end ) / 2.0f - advs;
 
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, ( start + end ) / 2.0f - advs );
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, gainSum1 / count - advs );
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, gainSum2 / count - advs );
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, gainSum3 / count - advs );
+		// With neither effect active, average
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, average );
+
+		// With only ode or milk, average + unitCost
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, average + unitCost );
+
+		// With only munchies pill, average + 2
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, average + 2.0f );
+
+		// With both effects, average + unitCost + 2
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, average + unitCost + 2.0f );
 	}
 
 	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1, final boolean gainEffect2, final float result )
