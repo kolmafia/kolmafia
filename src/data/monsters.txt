@@ -288,6 +288,7 @@ Daft punk	HP: 210
 Dairy Goat	HP: 50 Def: 68 Atk: 68 Meat: 40-64	glass of goat's milk (20)	goat cheese (40)	billy idol (b0)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13 Meat: 11-15
 Danglin' Chad	HP: 300 Meat: 297-342 E: sleaze	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
+Deadly Venomtrout	HP: 165 Def: 150 Atk: 150	Trout fang (0)	poisonous caviar (0)
 Deadwood Tree	HP: 0	petrified wood (5)	spooky bark (10)	spooky sap (5)
 Decal-applying Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 16-24	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
@@ -814,6 +815,7 @@ Tyrannosaurus Tex	HP: 100000
 Undead Elbow Macaroni	HP: 1 Def: 2 Atk: 1 E: spooky Meat: 4-6	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
 Undercover Penguin		cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
 Underworld Tree	HP: 0	Underworld acorn (100)	Underworld trunk (100)
+Unearthed Monstrosity	HP: 500	Ellsbury's skull (100)	Ellsbury's journal (100)
 Unholy Diver	HP: 1000 Def: 600 Atk: 700 Meat: 200-300	glowing syringe (c4)	rusty broken diving helmet (3)	rusty porthole (2)	rusty rivet (10)	rusty rivet (10)	rusty rivet (2)	rusty rivet (1)
 Upgraded Ram	HP: 95 Def: 105 Atk: 106 Meat: 83-118 ED: cold	ram horns (5)	ram stick (5)	Ram's Face Lager (30)
 Uppercase Q	HP: 81 Def: 52 Atk: 61	left parenthesis (40)	right parenthesis (10)	dollar sign (p20)
@@ -867,6 +869,7 @@ Warehouse worker	HP: 208 Def: 144 Atk: 160	crowbar (0)
 Wasp in a Wig	HP: 150	powdered donut (20)	powdered wig (0)	reflection of a map (c10)
 Warty Pirate	HP: 110 Def: 120 Atk: 120 Meat: 64-96	copper ha'penny charrrm (10)	fish-liver oil (30)	vinegar-soaked lemon slice (30)
 Warwelf	HP: 2 Def: 3 Atk: 4 Meat: 10-14
+Water Spider	HP: 160 Def: 150 Atk: 150	wet venom duct (0)
 Wealthy Pirate	HP: 110 Def: 120 Atk: 120 Meat: 160-240	booty chest charrrm (10)	solid gold pegleg (5)	fat wallet (p10)
 Weapons-assembly Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Weremoose	HP: 53 Def: 63 Atk: 63 Meat: 52-78
