@@ -1799,6 +1799,8 @@ public abstract class ChoiceManager
 		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
 		{ new Integer(177), new Integer(3), 
 		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
+		{ new Integer(177), new Integer(4), 
+		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
 
 		// Chieftain of the Flies
 		// This trades all Spanish flies for around the worlds,

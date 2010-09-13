@@ -1813,7 +1813,6 @@ public class Parser
 
 				if ( this.currentToken().equals( "," ) )
 				{
-					this.readToken(); // ,
 					val = DataTypes.VOID_VALUE;
 				}
 				else
@@ -1843,7 +1842,7 @@ public class Parser
 				{
 					if ( param == names.length )
 					{
-						throw this.parseException( "Too many field initializer for record " + name );
+						throw this.parseException( "Too many field initializers for record " + name );
 					}
 
 					this.readToken(); // ,
