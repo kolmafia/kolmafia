@@ -21,6 +21,7 @@ global	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcr
 global	browserBookmarks
 global	cacheMallSearches	false
 global	charsheetDropdown	1
+global	chatBeep	false
 global	chatFontSize
 global	chatLinksUseRelay	false
 global	chatStyle	0

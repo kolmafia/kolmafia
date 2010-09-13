@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.chat;
 
+import java.awt.Toolkit;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -317,7 +318,11 @@ public class ChatParser
 		String recipient = KoLCharacter.getUserName();
 
 		String content = line.substring( line.indexOf( ":" ) + 1 ).trim();
-
+		if( Preferences.getBoolean( "chatBeep" ) )
+		{
+			Toolkit.getDefaultToolkit().beep();
+		}
+		
 		ChatMessage message = new ChatMessage( sender, recipient, content, false );
 		chatMessages.add( message );
 	}
