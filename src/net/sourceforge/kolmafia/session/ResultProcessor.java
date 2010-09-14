@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -279,7 +278,7 @@ public class ResultProcessor
 			return ResultProcessor.processEffect( parsedResults, acquisition, data );
 		}
 
-		if ( acquisition.startsWith( "You lose an effect" ) )
+		if ( acquisition.startsWith( "You lose an effect" ) || acquisition.startsWith( "You lose some of an effect" ) )
 		{
 			return ResultProcessor.processEffect( parsedResults, acquisition, data );
 		}
