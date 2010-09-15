@@ -1926,6 +1926,10 @@ public abstract class ChoiceManager
 		  ItemPool.get( ItemPool.BAR_SKIN, -1 ) },
 		{ new Integer(504), new Integer(2), 
 		  ItemPool.get( ItemPool.BAR_SKIN, 1 ) },
+
+		// O Lith, Mon
+		{ new Integer(507), new Integer(1),
+		  ItemPool.get( ItemPool.TREE_HOLED_COIN, -1 ) },
 	};
 
 	private static final AdventureResult getCost( final int choice, final int decision )
