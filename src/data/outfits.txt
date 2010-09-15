@@ -71,9 +71,9 @@
 70	BRICKOfig Outfit	BRICKO hat, BRICKO sword, BRICKO pants
 71	Knight's Armor	helm of the white knight, trousers of the white knight, wristwatch of the white knight
 72	Fancy Tux	fancy tophat, fancy tuxedo pants, fancy black tie
-73
-74
-75
+73	Transparent Trappings	plexiglass pith helmet, plexiglass pikestaff, plexiglass pants, plexiglass pendant, plexiglass pocketwatch, plexiglass pinky ring
+74	Unblemished Uniform	stainless steel skullcap, stainless steel shillelagh, stainless steel slacks, stainless steel scarf, stainless steel solitaire, stainless steel suspenders
+75	Blasphemous Bedizenment	Brimstone Beret, Brimstone Bludgeon, Brimstone Bunker, Brimstone Boxers, Brimstone Brooch, Brimstone Bracelet
 76	Smoked Pottery	pottery shield, pottery hat, pottery training pants
 
 # Outfits for which KoL does not provide an outfit id, and thus are
