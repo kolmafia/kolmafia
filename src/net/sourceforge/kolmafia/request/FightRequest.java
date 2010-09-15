@@ -2423,7 +2423,8 @@ public class FightRequest
 		}
 
 		// Check for runaways. Only a free runaway decreases chance
-		if ( responseText.indexOf( "shimmers as you quickly float away" ) != -1 )
+		if ( responseText.indexOf( "shimmers as you quickly float away" ) != -1 ||
+		     responseText.indexOf( "your pants suddenly activate" ) != -1 )
 		{
 			Preferences.increment( "_navelRunaways", 1 );
 		}
@@ -4945,7 +4946,8 @@ public class FightRequest
 				return 100;
 			}
 		}
-		else if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.NAVEL_RING, 1 ) ) )
+		else if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.NAVEL_RING, 1 ) ) ||
+			  KoLCharacter.hasEquipped( ItemPool.get( ItemPool.GREAT_PANTS, 1 ) ) )
 		{
 			return Math.max( 20, Math.min( 100, 120 - 10 * Preferences.getInteger( "_navelRunaways" ) ) );
 		}

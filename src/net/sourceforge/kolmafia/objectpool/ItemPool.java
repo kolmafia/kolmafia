@@ -1117,6 +1117,7 @@ public class ItemPool
 	public static final int FOSSILIZED_LIMB = 4692;
 	public static final int FOSSILIZED_TORSO = 4693;
 	public static final int FOSSILIZED_SPINE = 4694;
+	public static final int GREAT_PANTS = 4696;
 	public static final int ARCHAEOLOGING_SHOVEL = 4702;
 	public static final int FOSSILIZED_SPIKE = 4700;
 	public static final int FOSSILIZED_DEMON_SKULL = 4704;
