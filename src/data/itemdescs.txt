@@ -4647,7 +4647,7 @@
 4641	192722630	KoL Con Six Pack
 4642	431555862	Gregarious Gregorian Smock
 4643	806918878	rxr shield
-4644	846591596	Juju Mojo Mask
+4644	846591596	Juju Mojo Mask	Juju Mojo Masks
 4645	357731648	space trooper helmet
 4646	605999944	Meteoid ice beam
 4647	352191111	Dungeon Fist gauntlet
@@ -4707,7 +4707,7 @@
 4701	643609482	waterlogged crate
 4702	557222985	archaeologing shovel
 4703	149826633	red-hot medallion
-4704	876154572	fossilized demon sku
+4704	876154572	fossilized demon skull
 4705	868035085	fossilized spider skull
 4706	250539558	sinister ancient tablet
 4707	931477928	E-Z Cook&trade; oven	E-Z Cook&trade; ovens
