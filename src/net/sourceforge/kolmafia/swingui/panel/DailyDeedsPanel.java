@@ -472,7 +472,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
-                        boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean kf = Preferences.getBoolean( "kingLiberated" );
 			int nu = Preferences.getInteger( "telescopeUpgrades" );
 			this.setShown( ( !bm || kf ) && ( nu > 0 ) );
 			this.setEnabled( nu > 0 && !Preferences.getBoolean( "telescopeLookedHigh" ) );
@@ -624,8 +624,8 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
-                        boolean kf = Preferences.getBoolean( "kingLiberated" );
-                        boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			int nf = Preferences.getInteger( "_hotTubSoaks" );
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
 			this.setEnabled( nf < 5 );
@@ -650,8 +650,8 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
-                        boolean kf = Preferences.getBoolean( "kingLiberated" );
-                        boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			int nf = Preferences.getInteger( "_poolGames" );
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
 			this.setEnabled( nf < 3 );
@@ -674,7 +674,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
-                        boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean kf = Preferences.getBoolean( "kingLiberated" );
 			boolean tree = Preferences.getBoolean( "_crimboTree" );
 			int ctd = Preferences.getInteger( "crimboTreeDays" );
 			this.setShown( ( !bm || kf ) && tree );
@@ -797,20 +797,20 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "_gibbererAdv" );
 			this.addListener( "_hareAdv" );
-                        this.addListener( "_riftletAdv" );
-                        this.addListener( "_timeHelmetAdv" );
-                        this.addListener( "_vmaskAdv" );
+			this.addListener( "_riftletAdv" );
+			this.addListener( "_timeHelmetAdv" );
+			this.addListener( "_vmaskAdv" );
 			this.addLabel( "" );
 		}
 
 		public void update()
 		{
 			this.setText( "Advs: "
-                                      + Preferences.getInteger( "_gibbererAdv" ) + " gibberer, "
-                                      + Preferences.getInteger( "_hareAdv" ) + " hare, "
-                                      + Preferences.getInteger( "_riftletAdv" ) + " riftlet, "
-                                      + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet, "
-                                      + Preferences.getInteger( "_vmaskAdv" ) + " V mask" );
+				      + Preferences.getInteger( "_gibbererAdv" ) + " gibberer, "
+				      + Preferences.getInteger( "_hareAdv" ) + " hare, "
+				      + Preferences.getInteger( "_riftletAdv" ) + " riftlet, "
+				      + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet, "
+				      + Preferences.getInteger( "_vmaskAdv" ) + " V mask" );
 		}
 	}
 
@@ -928,7 +928,7 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
- 			boolean dun = Preferences.getBoolean( "_ballpit" );
+			boolean dun = Preferences.getBoolean( "_ballpit" );
 			this.setShown( KoLCharacter.hasClan() &&
 				KoLCharacter.canInteract());
 			this.setEnabled( !dun );
