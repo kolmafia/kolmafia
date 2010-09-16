@@ -516,7 +516,7 @@ public abstract class MoodManager
 		String breakfast = Preferences.getBoolean( "allowSummonBurning" ) ?
 			MoodManager.considerBreakfastSkill( minimum ) : null;
 		int summonThreshold = Preferences.getInteger( "manaBurnSummonThreshold" );
-		int durationLimit = KoLCharacter.getAdventuresLeft() + 1000;
+		int durationLimit = Preferences.getInteger( "maxManaBurn" ) + KoLCharacter.getAdventuresLeft();
 		Burn chosen = null;
 		ArrayList burns = new ArrayList();
 
