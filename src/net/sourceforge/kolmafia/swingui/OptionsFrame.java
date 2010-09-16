@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -219,6 +220,7 @@ public class OptionsFrame
 		{
 			{ "relayAllowsOverrides", "Enable user-scripted relay browser overrides" },
 			{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
+			{ "relayOverridesImages", "Override certain KoL images" },
 			{},
 			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
 			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
@@ -281,6 +283,7 @@ public class OptionsFrame
 
 		public void actionConfirmed()
 		{
+			boolean overrideImages = Preferences.getBoolean( "relayOverridesImages" );
 			for ( int i = 0; i < this.options.length; ++i )
 			{
 				String[] option = this.options[ i ];
@@ -290,6 +293,11 @@ public class OptionsFrame
 				}
 				JCheckBox optionBox = this.optionBoxes[ i ];
 				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
+			}
+
+			if ( overrideImages != Preferences.getBoolean( "relayOverridesImages" ) )
+			{
+				RelayRequest.flushOverrideImages();
 			}
 		}
 

@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -511,6 +512,9 @@ public class RequestEditorKit
 		// Change El Vibrato punchcard names wherever they are found
 
 		RequestEditorKit.changePunchcardNames( buffer );
+
+		// Override images, if requested
+		RelayRequest.overrideImages( buffer );
 
 		// Now handle the changes which only impact a single
 		// page one at a time.

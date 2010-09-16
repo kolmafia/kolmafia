@@ -54,6 +54,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -482,6 +483,62 @@ public class RelayRequest
 		}
 
 		return contentBuffer;
+	}
+
+	private static final String [] IMAGES = new String[]
+	{
+		// Alternating path, original, replacement
+		"images/adventureimages/hellion.gif",
+		"http://images.kingdomofloathing.com/adventureimages/hellion.gif\" width=100 height=100",
+		"/images/adventureimages/hellion.gif\" width=60 height=100",
+	};
+
+	public static final void overrideImages( final StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "relayOverridesImages" ) )
+		{
+			return;
+		}
+
+		for ( int i = 0; i < IMAGES.length; i += 3 )
+		{
+			String find = IMAGES[ i + 1 ] ;
+			String replace = IMAGES[ i + 2 ] ;
+			StringUtilities.globalStringReplace( buffer, find, replace );
+		}
+	}
+
+	public static final void flushOverrideImages()
+	{
+		for ( int i = 0; i < IMAGES.length; i += 3 )
+		{
+			// Copy built-in override file to images
+			String filename = IMAGES[ i ];
+			File cachedFile = new File( UtilityConstants.ROOT_LOCATION, filename );
+			cachedFile.delete();
+		}
+	}
+
+	private static final String OVERRIDE_DIRECTORY = "images/overrides/";
+
+	private void sendOverrideImage( final String filename )
+	{
+		if ( Preferences.getBoolean( "relayOverridesImages" ) )
+		{
+			for ( int i = 0; i < IMAGES.length; i += 3 )
+			{
+				if ( filename.equals( IMAGES[ i ] ) )
+				{
+					// Copy built-in override file to images
+					int index = filename.lastIndexOf( "/" );
+					File cachedFile = new File( UtilityConstants.ROOT_LOCATION, filename.substring( 0, index ) );
+					String localname = filename.substring( index + 1 );
+					FileUtilities.loadLibrary( cachedFile, RelayRequest.OVERRIDE_DIRECTORY, localname );
+					break;
+				}
+			}
+		}
+		this.sendLocalImage( filename );
 	}
 
 	private void sendLocalImage( final String filename )
@@ -1406,7 +1463,8 @@ public class RelayRequest
 
 		if ( path.startsWith( "images/" ) )
 		{
-			this.sendLocalImage( path );
+			// We can override specific images.
+			this.sendOverrideImage( path );
 			return;
 		}
 
