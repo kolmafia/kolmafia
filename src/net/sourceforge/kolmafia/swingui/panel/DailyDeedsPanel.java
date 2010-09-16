@@ -797,6 +797,7 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "_gibbererAdv" );
 			this.addListener( "_hareAdv" );
+			this.addListener( "_hipsterAdv" );
 			this.addListener( "_riftletAdv" );
 			this.addListener( "_timeHelmetAdv" );
 			this.addListener( "_vmaskAdv" );
@@ -808,6 +809,7 @@ public class DailyDeedsPanel
 			this.setText( "Advs: "
 				      + Preferences.getInteger( "_gibbererAdv" ) + " gibberer, "
 				      + Preferences.getInteger( "_hareAdv" ) + " hare, "
+				      + Preferences.getInteger( "_hipsterAdv" ) + " hipster, "
 				      + Preferences.getInteger( "_riftletAdv" ) + " riftlet, "
 				      + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet, "
 				      + Preferences.getInteger( "_vmaskAdv" ) + " V mask" );

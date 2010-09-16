@@ -154,10 +154,13 @@ public class CharPaneDecorator
 		case FamiliarPool.BANDER:
 			return Preferences.getInteger( "_banderRunaways" ) + "/" +
 				fam.getModifiedWeight() / 5;
+		case FamiliarPool.GIBBERER:
 		case FamiliarPool.HARE:
 			return Preferences.getInteger( "extraRolloverAdventures" ) + " adv";
 		case FamiliarPool.SLIMELING:
 			return "~" + Preferences.getFloat( "slimelingFullness" ) + " full";
+		case FamiliarPool.HIPSTER:
+			return Preferences.getInteger( "_hipsterAdv" ) + "/7";
 		}
 		return null;
 	}

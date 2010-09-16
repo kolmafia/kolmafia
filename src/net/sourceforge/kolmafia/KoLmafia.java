@@ -2441,7 +2441,7 @@ public abstract class KoLmafia
 	}
 
 	// Used to ignore semirare monsters re-encountered via Spooky Putty
-	private static boolean ignoreSemirare = false;
+	public static boolean ignoreSemirare = false;
 
 	public static void ignoreSemirare()
 	{

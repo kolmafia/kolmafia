@@ -967,6 +967,13 @@ shadow of Black Bubbles	HP: 208 Def: 176 Atk: 174	scrap of shadow (0)	shadowy se
 watertight seal	HP: 404 Def: 350 Atk: 351	hyperinflated seal lung (100)
 wet seal	HP: 201 Def: 175 Atk: 178	mannequin leg (0)	seal lube (0)
 
+# Hipster associates
+angry bassist	HP: 0	ironic knit cap (c10)
+blue-haired girl	HP: 0	ironic oversized sunglasses (c10)
+evil ex-girlfriend	HP: 0	ironic battle spoon (c10)
+peeved roommate	HP: 0	mole skin notebook (c10)
+random scenester	HP: 0	ironic jogging shorts (c10)
+
 # Unknown new content
 Crys-Rock	HP: 0	crystallized memory (0)	control crystal (0)	floaty inverse geode (0)
 clod hopper	HP: 0	floaty sand (15)	floaty sand (15)	floaty sand (15)

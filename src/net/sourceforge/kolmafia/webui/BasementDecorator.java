@@ -176,6 +176,7 @@ public class BasementDecorator
 			case FamiliarPool.PARROT:
 			case FamiliarPool.PRESSIE:
 			case FamiliarPool.RIFTLET:
+			case FamiliarPool.GIBBERER:
 			case FamiliarPool.HARE:
 				useful = true;
 				break;
