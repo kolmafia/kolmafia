@@ -4616,7 +4616,7 @@
 4610	842493845	essential soy	drops of essential soy
 4611	876002516	essential cameraderie	units of essential cameraderie
 4612	473237477	antique souvenir drawing	antique souvenir drawings
-4613	473237477	map to the Magic Commune
+4613	961841264	map to the Magic Commune
 4614	239178788	Crown of Thrones	Crowns of Thrones
 4615	328670887	Cinco Mayo Lager	cans of Cinco Mayo Lager
 4616	435527262	Underworld sapling	Underworld saplings

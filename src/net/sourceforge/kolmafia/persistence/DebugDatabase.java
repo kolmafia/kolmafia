@@ -463,15 +463,21 @@ public class DebugDatabase
 
 	public static final int typeToPrimary( final String type )
 	{
+		// Type: <b>food <font color=#999999>(crappy)</font></b>
+		// Type: <b>food (decent)</b>
+		// Type: <b>booze <font color=green>(good)</font></b>
+		// Type: <b>food <font color=blue>(awesome)</font></b>
+		// Type: <b>food <font color=blueviolet>(EPIC)</font></b>
+
 		if ( type.equals( "" ) || type.equals( "crafting item" ) )
 		{
 			return KoLConstants.NO_CONSUME;
 		}
-		if ( type.equals( "food" ) || type.equals( "beverage" ) )
+		if ( type.startsWith( "food" ) || type.startsWith( "beverage" ) )
 		{
 			return KoLConstants.CONSUME_EAT;
 		}
-		if ( type.equals( "booze" ) )
+		if ( type.startsWith( "booze" ) )
 		{
 			return KoLConstants.CONSUME_DRINK;
 		}
