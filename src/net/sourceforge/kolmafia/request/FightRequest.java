@@ -1282,10 +1282,9 @@ public class FightRequest
 			}
 			else if ( action.equals( "steal" ) )
 			{
-				if ( FightRequest.monsterData == null ||
-			     	FightRequest.monsterData.shouldSteal() )
+				if ( FightRequest.monsterData == null || FightRequest.monsterData.shouldSteal() )
 				{
-			     	macro.append( "pickpocket\n" );
+					macro.append( "pickpocket\n" );
 				}
 			}
 			else if ( action.equals( "summon ghost" ) )
@@ -2080,6 +2079,15 @@ public class FightRequest
 					ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
 				}
 			}
+			else if ( !KoLmafia.ignoreSemirare &&
+				  ( encounter.equalsIgnoreCase( "angry bassist" ) ||
+				    encounter.equalsIgnoreCase( "blue-haired girl" ) ||
+				    encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
+				    encounter.equalsIgnoreCase( "peeved roommate" ) ||
+				    encounter.equalsIgnoreCase( "random scenester" ) ) )
+			{
+				Preferences.increment( "_hipsterAdv", 1 );
+			}
 
 			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );
 			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
@@ -2295,7 +2303,7 @@ public class FightRequest
 			}
 		}
 
-                // "[slimeling] leaps on your opponent, sliming it for XX damage.  It's inspiring!"
+		// "[slimeling] leaps on your opponent, sliming it for XX damage.  It's inspiring!"
 		if ( responseText.indexOf( "leaps on your opponent" ) != -1 )
 		{
 			float fullness = Math.max( Preferences.getFloat( "slimelingFullness" ) - 1.0F, 0.0F );

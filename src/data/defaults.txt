@@ -605,6 +605,7 @@ user	_deluxeKlawSummons	0
 user	_gibbererAdv	0
 user	_gongDrops	0
 user	_hareAdv	0
+user	_hipsterAdv	0
 user	_hotTubSoaks	0
 user	_ironicMoustache	false
 user	_klawSummons	0
