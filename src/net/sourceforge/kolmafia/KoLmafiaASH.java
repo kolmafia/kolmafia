@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
@@ -63,7 +64,12 @@ public abstract class KoLmafiaASH
 
 	public static final boolean getClientHTML( final RelayRequest request )
 	{
-		String script = request.getBasePath();
+		String script = Preferences.getString( "masterRelayOverride" );
+
+		if ( script.length() == 0 )
+		{
+			script = request.getBasePath();
+		}
 
 		if ( KoLmafiaASH.relayScriptMap.containsKey( script ) )
 		{
@@ -132,7 +138,14 @@ public abstract class KoLmafiaASH
 			KoLmafiaASH.serverReplyBuffer.setLength( 0 );
 
 			KoLmafiaASH.relayRequest.constructURLString( path );
-                        String script = KoLmafiaASH.relayRequest.getBasePath();
+
+			String script = Preferences.getString( "masterRelayOverride" );
+
+			if ( script.length() == 0 )
+			{
+				script = KoLmafiaASH.relayRequest.getBasePath();
+			}
+
 			int slashpos = script.lastIndexOf( "/" );
 			interp.execute( serverFunc, new String[] {
 				script.substring( slashpos + 1 ) }, false );

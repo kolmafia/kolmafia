@@ -168,6 +168,15 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_revision", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_path", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_path_full", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_path_variables", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "batch_open", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] {};
@@ -1252,6 +1261,26 @@ public abstract class RuntimeLibrary
 	public static Value get_revision()
 	{
 		return new Value( StaticEntity.getRevision() );
+	}
+
+	public static Value get_path()
+	{
+		String value = KoLmafiaASH.relayRequest.getBasePath();
+		return value == null ? DataTypes.STRING_INIT : new Value( value );
+	}
+
+	public static Value get_path_full()
+	{
+		String value = KoLmafiaASH.relayRequest.getPath();
+		return value == null ? DataTypes.STRING_INIT : new Value( value );
+	}
+
+	public static Value get_path_variables()
+	{
+		String value = KoLmafiaASH.relayRequest.getPath();
+		int quest = value.indexOf( "?" );
+		value = quest != -1 ? value.substring( 1, quest ) : null;
+		return value == null ? DataTypes.STRING_INIT : new Value( value );
 	}
 
 	public static Value batch_open()
