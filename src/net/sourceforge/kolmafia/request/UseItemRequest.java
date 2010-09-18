@@ -1073,20 +1073,38 @@ public class UseItemRequest
 		// If the character doesn't know ode, there is nothing to do.
 		UseSkillRequest ode = UseSkillRequest.getInstance( "The Ode to Booze" );
 		boolean canOde = KoLConstants.availableSkills.contains( ode ) &&
-			UseSkillRequest.hasAccordion() &&
-			KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( 6014 );
-		if ( canOde )
-		{
-			String message = odeTurns > 0 ?
-				"The Ode to Booze will run out before you finish drinking that. Are you sure?" :
-				"Are you sure you want to drink without ode?";
-			if ( !InputFieldUtilities.confirm( message ) )
-			{
-				return false;
-			}
+			UseSkillRequest.hasAccordion();
 
-			UseItemRequest.askedAboutOde = KoLCharacter.getUserId();
+		if ( !canOde )
+		{
+                        return true;
+                }
+
+		// Cast Ode automatically if you have enough mana.
+		int odeCost = SkillDatabase.getMPConsumptionById( 6014 );
+		while ( odeTurns < consumptionTurns &&
+			KoLCharacter.getCurrentMP() >= odeCost &&
+			KoLmafia.permitsContinue() )
+		{
+			ode.setBuffCount( 1 );
+			RequestThread.postRequest( ode );
+			odeTurns = ItemDatabase.ODE.getCount( KoLConstants.activeEffects );
 		}
+
+		if ( consumptionTurns <= odeTurns ) 
+		{
+			return true;
+		}
+
+                String message = odeTurns > 0 ?
+                        "The Ode to Booze will run out before you finish drinking that. Are you sure?" :
+                        "Are you sure you want to drink without ode?";
+                if ( !InputFieldUtilities.confirm( message ) )
+                {
+                        return false;
+                }
+
+                UseItemRequest.askedAboutOde = KoLCharacter.getUserId();
 
 		return true;
 	}
