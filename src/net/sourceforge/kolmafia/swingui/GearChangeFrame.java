@@ -309,6 +309,7 @@ public class GearChangeFrame
 			GearChangeFrame.this.isEnabled = isEnabled;
 
 			GearChangeFrame.this.outfitButton.setEnabled( isEnabled );
+			GearChangeFrame.updateFamiliarLock();
 
 			if ( isEnabled )
 			{
