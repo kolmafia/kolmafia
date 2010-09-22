@@ -606,21 +606,21 @@ prussian cathouse	ACOCK	parisian cathouse	magical ice cubes
 
 grog	MIX	bottle of rum	lime
 tequila with training wheels	MIX	bottle of tequila	lime
-skewered lime	MIX	lime	tiny plastic sword
-grogtini	MIX	grog	skewered lime
-bodyslam	MIX	tequila with training wheels	skewered lime
+skewered lime	MIX_FANCY	lime	tiny plastic sword
+grogtini	MIX_FANCY	grog	skewered lime
+bodyslam	MIX_FANCY	tequila with training wheels	skewered lime
 
 sangria	MIX	boxed wine	cherry
 old-fashioned	MIX	bottle of whiskey	cherry
-skewered cherry	MIX	cherry	tiny plastic sword
-sangria del diablo	MIX	sangria	skewered cherry
-cherry bomb	MIX	old-fashioned	skewered cherry
+skewered cherry	MIX_FANCY	cherry	tiny plastic sword
+sangria del diablo	MIX_FANCY	sangria	skewered cherry
+cherry bomb	MIX_FANCY	old-fashioned	skewered cherry
 
 dry martini	MIX	bottle of gin	jumbo olive
 dry vodka martini	MIX	bottle of vodka	jumbo olive
-skewered jumbo olive	MIX	jumbo olive	tiny plastic sword
-dirty martini	MIX	dry martini	skewered jumbo olive
-vesper	MIX	dry vodka martini	skewered jumbo olive
+skewered jumbo olive	MIX_FANCY	jumbo olive	tiny plastic sword
+dirty martini	MIX_FANCY	dry martini	skewered jumbo olive
+vesper	MIX_FANCY	dry vodka martini	skewered jumbo olive
 
 
 # Item upgrades accessible with Crosby Nash's Still: Moxie class
