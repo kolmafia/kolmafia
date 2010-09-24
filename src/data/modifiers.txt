@@ -155,9 +155,9 @@ gasmask	Stench Resistance: +3, Familiar Effect: "?xBarrr, cap 12"
 giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
 goofily-plumed helmet	Familiar Effect: "atk, cap 17"
-googly-ball hat	Mysticality: +10, Mysticality Experience: +3
-googly-heart hat	Moxie: +10, Moxie Experience: +3
-googly-star hat	Muscle: +10, Muscle Experience: +3
+googly-ball hat	Mysticality: +10, Experience (Mysticality): +3
+googly-heart hat	Moxie: +10, Experience (Moxie): +3
+googly-star hat	Muscle: +10, Experience (Muscle): +3
 grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
 green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
 grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
