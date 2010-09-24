@@ -573,15 +573,18 @@ public class Modifiers
 		},
 		{ "Muscle Experience",
 		  Pattern.compile( "([+-]\\d+) Muscle Stat.*Per Fight" ),
-		  Pattern.compile( "Experience \\(Muscle\\): " + EXPR )
+		  Pattern.compile( "Experience \\(Muscle\\): " + EXPR ),
+		  "Experience (Muscle)"
 		},
 		{ "Mysticality Experience",
 		  Pattern.compile( "([+-]\\d+) Mysticality Stat.*Per Fight" ),
-		  Pattern.compile( "Experience \\(Mysticality\\): " + EXPR )
+		  Pattern.compile( "Experience \\(Mysticality\\): " + EXPR ),
+		  "Experience (Mysticality)"
 		},
 		{ "Moxie Experience",
 		  Pattern.compile( "([+-]\\d+) Moxie Stat.*Per Fight" ),
-		  Pattern.compile( "Experience \\(Moxie\\): " + EXPR )
+		  Pattern.compile( "Experience \\(Moxie\\): " + EXPR ),
+		  "Experience (Moxie)"
 		},
 		{ "Effect Duration",
 		  null,
@@ -601,15 +604,18 @@ public class Modifiers
 		},
 		{ "Familiar Experience",
 		  Pattern.compile( "([+-]\\d+) Familiar Experience" ),
-		  Pattern.compile( "Experience \\(familiar\\): " + EXPR )
+		  Pattern.compile( "Experience \\(familiar\\): " + EXPR ),
+		  "Experience (familiar)"
 		},
 		{ "Sporadic Meat Drop",
 		  null,
-		  Pattern.compile( "Meat Drop \\(sporadic\\): " + EXPR )
+		  Pattern.compile( "Meat Drop \\(sporadic\\): " + EXPR ),
+		  "Meat Drop (sporadic)"
 		},
 		{ "Sporadic Item Drop",
 		  null,
-		  Pattern.compile( "Item Drop \\(sporadic\\): " + EXPR )
+		  Pattern.compile( "Item Drop \\(sporadic\\): " + EXPR ),
+		  "Item Drop (sporadic)"
 		},
 		{ "Meat Bonus",
 		  null,
@@ -1025,39 +1031,50 @@ public class Modifiers
 		return (Pattern) table[ index ][ 2 ];
 	};
 
-	private static final String COLD =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.COLD_RESISTANCE ) + ": ";
-	private static final String HOT =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.HOT_RESISTANCE ) + ": ";
-	private static final String SLEAZE =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.SLEAZE_RESISTANCE ) + ": ";
-	private static final String SPOOKY =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.SPOOKY_RESISTANCE ) + ": ";
-	private static final String STENCH =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.STENCH_RESISTANCE ) + ": ";
+	private static final String modifierTag( final Object[][] table, final int index )
+	{
+		if ( index < 0 || index >= table.length )
+		{
+			return null;
+		}
+		return table[ index ].length > 3 ?
+			(String) table[ index ][ 3 ] :
+			(String) table[ index ][ 0 ];
+	};
 
-	private static final String MOXIE = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MOX ) + ": ";
-	private static final String MUSCLE = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MUS ) + ": ";
-	private static final String MYSTICALITY = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MYS ) + ": ";
+	private static final String COLD =
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.COLD_RESISTANCE ) + ": ";
+	private static final String HOT =
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.HOT_RESISTANCE ) + ": ";
+	private static final String SLEAZE =
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.SLEAZE_RESISTANCE ) + ": ";
+	private static final String SPOOKY =
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.SPOOKY_RESISTANCE ) + ": ";
+	private static final String STENCH =
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.STENCH_RESISTANCE ) + ": ";
+
+	private static final String MOXIE = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MOX ) + ": ";
+	private static final String MUSCLE = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MUS ) + ": ";
+	private static final String MYSTICALITY = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MYS ) + ": ";
 
 	private static final String MOXIE_PCT =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MOX_PCT ) + ": ";
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MOX_PCT ) + ": ";
 	private static final String MUSCLE_PCT =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MUS_PCT ) + ": ";
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MUS_PCT ) + ": ";
 	private static final String MYSTICALITY_PCT =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MYS_PCT ) + ": ";
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MYS_PCT ) + ": ";
 
-	private static final String HP_TAG = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.HP ) + ": ";
-	private static final String MP_TAG = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MP ) + ": ";
+	private static final String HP_TAG = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.HP ) + ": ";
+	private static final String MP_TAG = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MP ) + ": ";
 
 	private static final String HP_REGEN_MIN_TAG =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.HP_REGEN_MIN ) + ": ";
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.HP_REGEN_MIN ) + ": ";
 	private static final String HP_REGEN_MAX_TAG =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.HP_REGEN_MAX ) + ": ";
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.HP_REGEN_MAX ) + ": ";
 	private static final String MP_REGEN_MIN_TAG =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MP_REGEN_MIN ) + ": ";
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MP_REGEN_MIN ) + ": ";
 	private static final String MP_REGEN_MAX_TAG =
-		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MP_REGEN_MAX ) + ": ";
+		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MP_REGEN_MAX ) + ": ";
 
 	public static int elementalResistance( final int element )
 	{
@@ -1967,7 +1984,7 @@ public class Modifiers
 		Matcher matcher = Modifiers.DR_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.DAMAGE_REDUCTION ) + ": " + matcher.group( 2 );
+			return Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.DAMAGE_REDUCTION ) + ": " + matcher.group( 2 );
 		}
 
 		return null;
@@ -1981,7 +1998,7 @@ public class Modifiers
 		Matcher matcher = Modifiers.SINGLE_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierName( Modifiers.booleanModifiers, Modifiers.SINGLE );
+			return Modifiers.modifierTag( Modifiers.booleanModifiers, Modifiers.SINGLE );
 		}
 
 		return null;
@@ -1995,7 +2012,7 @@ public class Modifiers
 		Matcher matcher = Modifiers.SOFTCORE_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierName( Modifiers.booleanModifiers, Modifiers.SOFTCORE );
+			return Modifiers.modifierTag( Modifiers.booleanModifiers, Modifiers.SOFTCORE );
 		}
 
 		return null;
@@ -2009,7 +2026,7 @@ public class Modifiers
 		Matcher matcher = Modifiers.FREE_PULL_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierName( Modifiers.booleanModifiers, Modifiers.FREE_PULL );
+			return Modifiers.modifierTag( Modifiers.booleanModifiers, Modifiers.FREE_PULL );
 		}
 
 		return null;
@@ -2022,7 +2039,7 @@ public class Modifiers
 		Matcher matcher = Modifiers.EFFECT_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierName( Modifiers.stringModifiers, Modifiers.EFFECT ) + ": \"" + matcher.group( 1 ) + "\"";
+			return Modifiers.modifierTag( Modifiers.stringModifiers, Modifiers.EFFECT ) + ": \"" + matcher.group( 1 ) + "\"";
 		}
 
 		return null;
@@ -2035,7 +2052,7 @@ public class Modifiers
 		Matcher matcher = Modifiers.DURATION_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.EFFECT_DURATION ) + ": " + matcher.group( 1 );
+			return Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.EFFECT_DURATION ) + ": " + matcher.group( 1 );
 		}
 
 		return null;
@@ -2122,13 +2139,13 @@ public class Modifiers
 			{
 				cls = KoLCharacter.TURTLE_TAMER;
 			}
-			return Modifiers.modifierName( Modifiers.stringModifiers, Modifiers.CLASS ) + ": \"" + cls + "\"";
+			return Modifiers.modifierTag( Modifiers.stringModifiers, Modifiers.CLASS ) + ": \"" + cls + "\"";
 		}
 
 		matcher = Modifiers.COMBAT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.COMBAT_RATE ) + ": " + ( matcher.group( 1 ).equals( "more" ) ? "+5" : "-5" );
+			return Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.COMBAT_RATE ) + ": " + ( matcher.group( 1 ).equals( "more" ) ? "+5" : "-5" );
 		}
 
 		matcher = Modifiers.HP_MP_PATTERN.matcher( enchantment );
@@ -2185,9 +2202,9 @@ public class Modifiers
 
 				if ( matcher.groupCount() == 0 )
 				{
-					return Modifiers.modifierName( table, i );
+					return Modifiers.modifierTag( table, i );
 				}
-				return Modifiers.modifierName( table, i ) + ": " + quote + matcher.group( 1 ) + quote;
+				return Modifiers.modifierTag( table, i ) + ": " + quote + matcher.group( 1 ) + quote;
 			}
 		}
 
