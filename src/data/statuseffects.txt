@@ -775,9 +775,9 @@
 774	Deadened Palate	bigtongue.gif	feaa31a466af38c0d5c338543b5c4b26	eat 1 sun-dried tofu
 775	Oversaturated Palate	tongue.gif	ca7821189d31957497600f4e890e99f0	drink 1 soyburger juice
 776	Duct Out of Water	bladder.gif	b24aec5b5c8f290e39429be935a75afc	use 1 wet venom duct
-777
-778
-779
-780
-781
+777	Super Skill	snowflakes.gif	33c96a68d990fc0ca96af4dce8f481b0
+778	Super Structure	wallshield.gif	bc2b6a58fad7df279ccb01335cb4b713
+779	Super Vision	xrayspecs.gif	1db6a8bc75e423151c6e0817932dad99
+780	Super Speed	fast.gif	593bd8b1ccbb628a02230246b4e4873d
+781	Super Accuracy	reticle.gif	8ac1abc08fb9969463ecd9a965621b46
 782	Burning, Man	fire.gif	f93ba9c2aba47c4e296f20823bb8d1ac
