@@ -286,15 +286,15 @@ Spooky Surprise Egg	COOK	spooky wad	cocoa egg
 strawberry pie	COOK	pie crust	strawberry
 
 Boris's key lime	COOK	Boris's key	lime
-Boris's key lime pie	COOK	Boris's key lime	pie crust
+Boris's key lime pie	COOK_FANCY	Boris's key lime	pie crust
 digital key lime	COOK	digital key	lime
-digital key lime pie	COOK	digital key lime	pie crust
+digital key lime pie	COOK_FANCY	digital key lime	pie crust
 Jarlsberg's key lime	COOK	Jarlsberg's key	lime
-Jarlsberg's key lime pie	COOK	Jarlsberg's key lime	pie crust
+Jarlsberg's key lime pie	COOK_FANCY	Jarlsberg's key lime	pie crust
 Sneaky Pete's key lime	COOK	Sneaky Pete's key	lime
-Sneaky Pete's key lime pie	COOK	Sneaky Pete's key lime	pie crust
+Sneaky Pete's key lime pie	COOK_FANCY	Sneaky Pete's key lime	pie crust
 star key lime	COOK	Richard's star key	lime
-star key lime pie	COOK	star key lime	pie crust
+star key lime pie	COOK_FANCY	star key lime	pie crust
 
 
 # Items which can be created by using a rolling pin.
