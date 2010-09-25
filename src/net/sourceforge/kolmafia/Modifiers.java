@@ -3017,11 +3017,19 @@ public class Modifiers
 		for ( int i = 0; i < CampgroundRequest.campgroundItems.length; ++i )
 		{
 			int itemId = CampgroundRequest.campgroundItems[i];
+			String name = ItemDatabase.getItemDataName( itemId );
+			// Sanity check: if the user has an old override file
+			// which we didn't delete for some reason, we may have
+			// an unknown item on the list of campground items.
+			if ( name == null )
+			{
+				KoLmafia.updateDisplay( "Campground item #" + itemId + " not found in data file. Do 'update clear' to remove stale override!" );
+			}
 			// Skip toilet paper, since we want that in the free
 			// pull section
-			if ( itemId != ItemPool.TOILET_PAPER )
+			else if ( itemId != ItemPool.TOILET_PAPER )
 			{
-				campground.put( ItemDatabase.getItemDataName( itemId ), null );
+				campground.put( name, null );
 			}
 		}
 

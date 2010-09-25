@@ -385,7 +385,7 @@ G Imp	HP: 46 Def: 46 Atk: 46 E: heat Meat: 24-36	hot wing (30)	Imp Ale (30)	leat
 Gang of Hobo Muggers	HP: 3000 Atk: 800
 Ganger	HP: 800 Def: 400 Atk: 375 Meat: 192-288	dull fish scale (15)	ganger bandana (3)	temporary teardrop tattoo (9)
 Gargantulihc	HP: 134 Def: 73 Atk: 77 E: spooky	lihc eye (0)	lihc eye (0)	lihc face (0)
-Gaudy Pirate	HP: 120 Def: 140 Atk: 140	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	snakehead charrrm (c30)
+Gaudy Pirate	HP: 120 Def: 140 Atk: 140	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	snakehead charrrm (c100)
 Gaunt Ghuol	HP: 50 Def: 56 Atk: 55 E: spooky Meat: 18-24	ghuol ears (20)	ghuol egg (20)
 Gelatinous Cube	HP: 6 Atk: 3 Def: 3  Meat: 20-30	Orcish meat locker (25)	rusty metal ring (25)	rusty metal shaft (25)
 Generic Duck	HP: 180 Atk: 166 Def: 166 Meat: 70-80
