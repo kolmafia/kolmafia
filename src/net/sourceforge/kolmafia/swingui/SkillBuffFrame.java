@@ -132,7 +132,7 @@ public class SkillBuffFrame
 			SkillBuffFrame.this.skillSelect = new AutoFilterComboBox( KoLConstants.usableSkills, false );
 			SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
-			SkillBuffFrame.this.contacts = (LockableListModel) ContactManager.getMailContacts();
+			SkillBuffFrame.this.contacts = (LockableListModel) ContactManager.getMailContacts().getMirrorImage();
 			SkillBuffFrame.this.targetSelect = new AutoFilterComboBox( SkillBuffFrame.this.contacts, true );
 
 			VerifiableElement[] elements = new VerifiableElement[ 4 ];

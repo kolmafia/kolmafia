@@ -61,7 +61,7 @@ public class ContactListFrame
 
 	public ContactListFrame()
 	{
-		this( (SortedListModel) ContactManager.getMailContacts().clone() );
+		this( (SortedListModel) ContactManager.getMailContacts().getMirrorImage() );
 	}
 
 	public ContactListFrame( final SortedListModel contacts )
