@@ -1243,7 +1243,7 @@ public class ConcoctionDatabase
 		boolean willBuyServant = KoLCharacter.canInteract() &&
 			Preferences.getBoolean( "autoRepairBoxServants" ) &&
 			( Preferences.getBoolean( "autoSatisfyWithMall" ) ||
-				Preferences.getBoolean( "autoSatisfyWithStash" ) );
+			  Preferences.getBoolean( "autoSatisfyWithStash" ) );
 
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
@@ -1412,8 +1412,8 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] =
 			KoLCharacter.hasRange() &&
-			( willBuyServant ||
-			  KoLCharacter.hasChef() ||
+			( KoLCharacter.hasChef() ||
+			  willBuyServant ||
 			  ConcoctionDatabase.isAvailable( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF ) );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
@@ -1478,8 +1478,8 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] =
 			KoLCharacter.hasCocktailKit() &&
-			( willBuyServant ||
-			  KoLCharacter.hasBartender() ||
+			( KoLCharacter.hasBartender() ||
+			  willBuyServant ||
 			  ConcoctionDatabase.isAvailable( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER ) );
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
@@ -1599,7 +1599,7 @@ public class ConcoctionDatabase
 
 		return Preferences.getBoolean( "autoRepairBoxServants" ) &&
 			( ConcoctionPool.get( servantId ).total > 0 ||
-				ConcoctionPool.get( clockworkId ).total > 0 );
+			  ConcoctionPool.get( clockworkId ).total > 0 );
 	}
 
 	/**

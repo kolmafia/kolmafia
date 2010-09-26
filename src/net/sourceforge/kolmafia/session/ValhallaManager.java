@@ -162,10 +162,16 @@ public class ValhallaManager
 		EquipmentManager.updateEquipmentLists();
 		ConcoctionDatabase.refreshConcoctions();
 
+		// Reset certain settings that the player almost certainly will
+		// use differently at the beginning of a run as at the end.
+
+		MoodManager.setMood( "apathetic" );
+		Preferences.setFloat( "hpAutoRecovery",	-0.05f );
+		Preferences.setFloat( "mpAutoRecovery",	-0.05f );
+
 		// Note the information in the session log
 		// for recording purposes.
 
-		MoodManager.setMood( "apathetic" );
 		PrintStream sessionStream = RequestLogger.getSessionStream();
 
 		sessionStream.println();
