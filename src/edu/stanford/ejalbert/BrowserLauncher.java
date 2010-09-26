@@ -548,7 +548,9 @@ public class BrowserLauncher
 
 	private static boolean openOverrideBrowser( final String url )
 	{
-		if ( System.getProperty( "os.browser" ) == null || System.getProperty( "os.browser" ).equals( "" ) )
+		String browserName = System.getProperty( "os.browser" );
+
+		if ( browserName == null || browserName.equals( "" ) )
 		{
 			return false;
 		}
@@ -559,7 +561,7 @@ public class BrowserLauncher
 		{
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			{
-				String browser = BrowserLauncher.getMacintoshExecutable( System.getProperty( "os.browser" ) );
+				String browser = BrowserLauncher.getMacintoshExecutable( browserName );
 				if ( browser == null )
 				{
 					return false;
@@ -574,7 +576,7 @@ public class BrowserLauncher
 					return false;
 				}
 
-				if ( BrowserLauncher.getWindowsExecutable( System.getProperty( "os.browser" ), url ) == null )
+				if ( BrowserLauncher.getWindowsExecutable( browserName, url ) == null )
 				{
 					return false;
 				}
@@ -585,7 +587,7 @@ public class BrowserLauncher
 			}
 			else
 			{
-				process = Runtime.getRuntime().exec( System.getProperty( "os.browser" ) + " " + url );
+				process = Runtime.getRuntime().exec( browserName + " " + url );
 			}
 
 			process.waitFor();
@@ -601,33 +603,24 @@ public class BrowserLauncher
 
 	private static final String getMacintoshExecutable( final String browser )
 	{
-		boolean shouldRelaunch = true;
-		String application = "/Applications/" + browser + ".app/Contents/MacOS/" + browser.toLowerCase();
-
-		Process process;
-
-		try
+		// If there's a slash at the beginning of the file name and it's not
+		// an application bundle, they are using their own test browser that
+		// starts up via a shell script.
+		
+		if ( browser.startsWith( "/" ) && browser.indexOf( ".app" ) == -1 )
 		{
-			process = Runtime.getRuntime().exec( "ps -A -o command | grep " + application );
-
-			String psResult;
-			BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-
-			while ( ( psResult = stream.readLine() ) != null )
-			{
-				shouldRelaunch = psResult.startsWith( application );
-			}
-
-			process.waitFor();
-			process.exitValue();
-		}
-		catch ( Exception e )
-		{
-			// If there's an exception, go ahead and continue
-			// on -- the correct application should be chosen.
+			return browser;
 		}
 
-		return shouldRelaunch ? application : "open -a " + browser;
+		// If the user says -b for the name of the browser, we'll use
+		// open -b.  Otherwise, we'll assume they want open -a.
+
+		if ( browser.startsWith( "-b " ) )
+		{
+			return "open " + browser;
+		}
+
+		return "open -a " + browser;
 	}
 
 	private static final String getWindowsExecutable( String browser, final String url )
