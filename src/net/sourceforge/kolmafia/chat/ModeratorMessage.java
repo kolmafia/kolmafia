@@ -9,6 +9,7 @@ public class ModeratorMessage
 	{
 		this.setRecipient( channel );
 		this.setSender( messageType );
+		this.playerId = playerId;
 		this.setContent( content );
 	}
 	
