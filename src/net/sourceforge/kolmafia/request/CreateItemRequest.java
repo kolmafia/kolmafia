@@ -834,16 +834,10 @@ public class CreateItemRequest
 			return true;
 		}
 
-		if ( !Preferences.getBoolean( "autoRepairBoxServants" ) )
-		{
-			return !Preferences.getBoolean( "requireBoxServants" ) &&
-				KoLCharacter.getAdventuresLeft() > 0;
-		}
-
 		boolean autoRepairSuccessful = false;
 
-		// If they do want to auto-repair, make sure that
-		// the appropriate item is available in their inventory
+		// If they want to auto-repair, make sure that the appropriate
+		// item is available in their inventory
 
 		switch ( mixingMethod & KoLConstants.CT_MASK )
 		{
@@ -863,6 +857,18 @@ public class CreateItemRequest
 
 	private static boolean useBoxServant( final int servant, final int clockworkServant )
 	{
+		// We have no box servant.
+
+		if ( !Preferences.getBoolean( "autoRepairBoxServants" ) )
+		{
+			// We don't want to autorepair. It's OK if we don't
+			// require one and have turns available to craft.
+			return !Preferences.getBoolean( "requireRepairBoxServants" ) &&
+				KoLCharacter.getAdventuresLeft() > 0;
+		}
+
+		// We want to autorepair.
+
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
 		// of creation.
@@ -883,7 +889,11 @@ public class CreateItemRequest
 		}
 		else
 		{
-			return false;
+			// We can't autorepair. It's still OK if we are willing
+			// to cook without a box servant and have turns
+			// available to craft.
+			return !Preferences.getBoolean( "requireRepairBoxServants" ) &&
+				KoLCharacter.getAdventuresLeft() > 0;
 		}
 
 		// Once you hit this point, you're guaranteed to
