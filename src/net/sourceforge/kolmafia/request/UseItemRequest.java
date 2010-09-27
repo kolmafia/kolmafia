@@ -1088,7 +1088,13 @@ public class UseItemRequest
 		{
 			ode.setBuffCount( 1 );
 			RequestThread.postRequest( ode );
-			odeTurns = ItemDatabase.ODE.getCount( KoLConstants.activeEffects );
+			int newTurns = ItemDatabase.ODE.getCount( KoLConstants.activeEffects );
+			if ( odeTurns == newTurns )
+			{
+				// No progress
+				break;
+			}
+			odeTurns = newTurns;
 		}
 
 		if ( consumptionTurns <= odeTurns ) 
