@@ -338,9 +338,9 @@ public class CampgroundRequest
 		findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
 		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );
 		findImage( responseText, "golem.gif", ItemPool.MEAT_GOLEM );
-		findImage( responseText, "bouquet.gif", ItemPool.PRETTY_BOUQUET );
-		findImage( responseText, "pfsection.gif", ItemPool.PICKET_FENCE );
-		findImage( responseText, "bfsection.gif", ItemPool.BARBED_FENCE );
+		findImage( responseText, "bouquet.gif", ItemPool.PRETTY_BOUQUET, true );
+		findImage( responseText, "pfsection.gif", ItemPool.PICKET_FENCE, true );
+		findImage( responseText, "bfsection.gif", ItemPool.BARBED_FENCE, true );
 	}
 
 	private static final void parseKitchen( final String responseText )
@@ -373,6 +373,11 @@ public class CampgroundRequest
 
 	private static boolean findImage( final String responseText, final String filename, final int itemId )
 	{
+                return CampgroundRequest.findImage( responseText, filename, itemId, false );
+	}
+
+	private static boolean findImage( final String responseText, final String filename, final int itemId, boolean allowMultiple )
+	{
 		int count = 0;
 		int i = responseText.indexOf( filename );
 		while ( i != -1 )
@@ -383,7 +388,7 @@ public class CampgroundRequest
 
 		if ( count > 0 )
 		{
-			KoLConstants.campground.add( ItemPool.get( itemId, count ) );
+			KoLConstants.campground.add( ItemPool.get( itemId, allowMultiple ? count : 1 ) );
 		}
 
 		return ( count > 0 );
