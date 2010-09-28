@@ -653,6 +653,10 @@ public class UseSkillRequest
 		int maximumMP = KoLCharacter.getMaximumMP();
 		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
 		int maximumCast = maximumMP / mpPerCast;
+		
+		// Save name so we can guarantee correct target later
+		
+		String originalTarget = this.target;
 
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
 		{
@@ -749,6 +753,8 @@ public class UseSkillRequest
 					return;
 				}
 
+				this.setTarget( originalTarget );
+				
 				this.addFormField( this.countFieldId, String.valueOf( currentCast ), false );
 
 				if ( this.target == null || this.target.trim().length() == 0 )
