@@ -293,7 +293,7 @@ public class UseSkillRequest
 
 			if ( target == null || target.trim().length() == 0 || target.equals( KoLCharacter.getPlayerId() ) || target.equals( KoLCharacter.getUserName() ) )
 			{
-				this.target = "yourself";
+				this.target = null;
 				this.addFormField( "specificplayer", KoLCharacter.getPlayerId() );
 			}
 			else
