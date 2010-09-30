@@ -212,8 +212,11 @@ public class EquipmentRequest
 		case EquipmentRequest.CONSUMABLES:
 			this.addFormField( "which", "1" );
 			break;
-		case EquipmentRequest.SAVE_OUTFIT:
 		case EquipmentRequest.CHANGE_OUTFIT:
+			this.addFormField( "ajax", "1" );
+			this.addFormField( "which", "2" );
+			break;
+		case EquipmentRequest.SAVE_OUTFIT:
 		case EquipmentRequest.CHANGE_ITEM:
 		case EquipmentRequest.REMOVE_ITEM:
 		case EquipmentRequest.ALL_EQUIPMENT:
@@ -383,6 +386,7 @@ public class EquipmentRequest
 		this.addFormField( "which", "2" );
 		this.addFormField( "action", "outfit" );
 		this.addFormField( "whichoutfit", String.valueOf( change.getOutfitId() ) );
+		this.addFormField( "ajax", "1" );
 
 		this.requestType = EquipmentRequest.CHANGE_OUTFIT;
 		this.outfit = change;
@@ -1486,23 +1490,94 @@ public class EquipmentRequest
 		{
 			// We changed into an outfit.
 
-			// Since we don't actually know where accessories end
-			// up, we could ask KoL for an update, but we'll apply
+			// Since KoL doesn't tell us where accessories end up,
+			// we could ask for an update, but we'll apply
 			// heuristics and hope for the best.
 
 			AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
-			AdventureResult[] newEquipment = EquipmentManager.currentEquipment();
 
-			Matcher unequipped = UNEQUIPPED_PATTERN.matcher( responseText );
-			while ( unequipped.find() )
+			// Experimentation suggests that accessories are
+			// installed in	 "Item Equipped" order like this:
+			// - fill empty accessory slots from 1 to 3
+			// - replace previous accessories from 3 to 1
+
+			// Calculate accessory fill order
+			int [] accessories = new int[] {
+				EquipmentManager.ACCESSORY1,
+				EquipmentManager.ACCESSORY2,
+				EquipmentManager.ACCESSORY3
+			};
+			int accessoryIndex = 0;
+
+			// Consume unfilled slots from 1 to 3
+			for ( int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; slot++ )
 			{
-				EquipmentRequest.unequipItem( newEquipment, unequipped.group( 1 ) );
+				if ( oldEquipment[ slot] == EquipmentRequest.UNEQUIP )
+				{
+					accessories[ accessoryIndex++ ] = slot;
+				}
+			}
+			// Consume filled slots from 3 to 1
+			for ( int slot = EquipmentManager.ACCESSORY3; accessoryIndex < 3 && slot >= EquipmentManager.ACCESSORY1; slot-- )
+			{
+				if ( oldEquipment[ slot] != EquipmentRequest.UNEQUIP )
+				{
+					accessories[ accessoryIndex++ ] = slot;
+				}
 			}
 
+			// Calculate weapon fill order
+			int [] weapons = new int[] {
+				EquipmentManager.WEAPON,
+				EquipmentManager.OFFHAND,
+			};
+			int weaponIndex = 0;
+
+			AdventureResult[] newEquipment = EquipmentManager.currentEquipment();
+
+			// Reset equip indices
+			accessoryIndex = 0;
+			weaponIndex = 0;
+
+			// Iterate over all equipped items.
 			Matcher equipped = EQUIPPED_PATTERN.matcher( responseText );
 			while ( equipped.find() )
 			{
-				EquipmentRequest.equipItem( newEquipment, equipped.group( 1 ) );
+				String name = equipped.group( 1 );
+
+				if ( !EquipmentDatabase.contains( name ) )
+				{
+					continue;
+				}
+
+				AdventureResult item = new AdventureResult( name, 1, false );
+				int slot = EquipmentManager.itemIdToEquipmentType( item.getItemId() );
+				switch ( slot )
+				{
+				case EquipmentManager.ACCESSORY1:
+					if ( accessoryIndex >= 3 )
+					{
+						// KoL error: four accessories
+						continue;
+					}
+					slot = accessories[ accessoryIndex++ ];
+					break;
+
+				case EquipmentManager.WEAPON:
+					if ( weaponIndex >= 2 )
+					{
+						// KoL error: three weapons
+						continue;
+					}
+					slot = weapons[ weaponIndex++ ];
+					break;
+				default:
+					// Everything else goes into an
+					// unambiguous slot.
+					break;
+				}
+
+				newEquipment[ slot ] = item;
 			}
 
 			if ( EquipmentRequest.switchEquipment( oldEquipment, newEquipment ) )
@@ -1554,59 +1629,6 @@ public class EquipmentRequest
 				break;
 			}
 		}
-	}
-
-	private static void unequipItem( final AdventureResult [] equipment, final String name )
-	{
-		AdventureResult item = new AdventureResult( name, 1, false );
-		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
-		{
-			AdventureResult oldItem = equipment[ i ];
-			if ( oldItem.equals( item ) )
-			{
-				equipment[ i ] = EquipmentRequest.UNEQUIP;
-				break;
-			}
-		}
-	}
-
-	private static void equipItem( final AdventureResult [] equipment, final String name )
-	{
-		if ( !EquipmentDatabase.contains( name ) )
-		{
-			return;
-		}
-
-		AdventureResult item = new AdventureResult( name, 1, false );
-		int itemId = item.getItemId();
-		int slot = EquipmentManager.itemIdToEquipmentType( itemId );
-
-		switch ( slot )
-		{
-		case EquipmentManager.ACCESSORY1:
-			if ( equipment[ EquipmentManager.ACCESSORY1 ] == EquipmentRequest.UNEQUIP )
-			{
-				slot = EquipmentManager.ACCESSORY1;
-			}
-			else if ( equipment[ EquipmentManager.ACCESSORY2 ] == EquipmentRequest.UNEQUIP )
-			{
-				slot = EquipmentManager.ACCESSORY2;
-			}
-			else if ( equipment[ EquipmentManager.ACCESSORY3 ] == EquipmentRequest.UNEQUIP )
-			{
-				slot = EquipmentManager.ACCESSORY3;
-			}
-			break;
-
-		case EquipmentManager.WEAPON:
-			if ( equipment[ EquipmentManager.WEAPON ] != EquipmentRequest.UNEQUIP )
-			{
-				slot = EquipmentManager.OFFHAND;
-			}
-			break;
-		}
-
-		equipment[ slot ] = item;
 	}
 
 	private static int parseItemId( final String location )
