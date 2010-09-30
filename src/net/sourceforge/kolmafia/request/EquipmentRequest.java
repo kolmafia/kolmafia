@@ -1495,11 +1495,66 @@ public class EquipmentRequest
 			// heuristics and hope for the best.
 
 			AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
+			AdventureResult[] newEquipment = EquipmentManager.currentEquipment();
 
 			// Experimentation suggests that accessories are
 			// installed in	 "Item Equipped" order like this:
 			// - fill empty accessory slots from 1 to 3
 			// - replace previous accessories from 3 to 1
+			//
+			// Note that if an already equipped accessory is part
+			// of the new outfit, it stays exactly where it was.
+
+			// Iterate over all unequipped items.
+			Matcher unequipped = UNEQUIPPED_PATTERN.matcher( responseText );
+			while ( unequipped.find() )
+			{
+				String name = unequipped.group( 1 );
+
+				if ( !EquipmentDatabase.contains( name ) )
+				{
+					continue;
+				}
+
+				AdventureResult item = new AdventureResult( name, 1, false );
+				int slot = EquipmentManager.itemIdToEquipmentType( item.getItemId() );
+				switch ( slot )
+				{
+				case EquipmentManager.ACCESSORY1:
+					if ( newEquipment[ EquipmentManager.ACCESSORY3 ].equals( item ) )
+					{
+						slot = EquipmentManager.ACCESSORY3;
+					}
+					else if ( newEquipment[ EquipmentManager.ACCESSORY2 ].equals( item ) )
+					{
+						slot = EquipmentManager.ACCESSORY2;
+					}
+					else if ( !newEquipment[ EquipmentManager.ACCESSORY1 ].equals( item ) )
+					{
+						// KoL error: accessory not found
+						continue;
+					}
+					break;
+
+				case EquipmentManager.WEAPON:
+					if ( newEquipment[ EquipmentManager.OFFHAND ].equals( item ) )
+					{
+						slot = EquipmentManager.OFFHAND;
+					}
+					else if ( !newEquipment[ EquipmentManager.WEAPON ].equals( item ) )
+					{
+						// KoL error: weapon not found
+						continue;
+					}
+					break;
+				default:
+					// Everything else goes into an
+					// unambiguous slot.
+					break;
+				}
+
+				newEquipment[ slot ] = EquipmentRequest.UNEQUIP;
+			}
 
 			// Calculate accessory fill order
 			int [] accessories = new int[] {
@@ -1520,7 +1575,8 @@ public class EquipmentRequest
 			// Consume filled slots from 3 to 1
 			for ( int slot = EquipmentManager.ACCESSORY3; accessoryIndex < 3 && slot >= EquipmentManager.ACCESSORY1; slot-- )
 			{
-				if ( oldEquipment[ slot] != EquipmentRequest.UNEQUIP )
+				if ( oldEquipment[ slot] != EquipmentRequest.UNEQUIP &&
+				     newEquipment[ slot ] == EquipmentRequest.UNEQUIP )
 				{
 					accessories[ accessoryIndex++ ] = slot;
 				}
@@ -1532,8 +1588,6 @@ public class EquipmentRequest
 				EquipmentManager.OFFHAND,
 			};
 			int weaponIndex = 0;
-
-			AdventureResult[] newEquipment = EquipmentManager.currentEquipment();
 
 			// Reset equip indices
 			accessoryIndex = 0;

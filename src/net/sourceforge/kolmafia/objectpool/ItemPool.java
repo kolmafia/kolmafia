@@ -1109,6 +1109,7 @@ public class ItemPool
 	public static final int ELLSBURY_BOOK = 4663;
 	public static final int TREE_HOLED_COIN = 4676;
 	public static final int UNEARTHED_METEOROID = 4677;
+	public static final int VOLCANIC_ASH = 4679;
 	public static final int FOSSILIZED_BAT_SKULL = 4687;
 	public static final int FOSSILIZED_SERPENT_SKULL = 4688;
 	public static final int FOSSILIZED_BABOON_SKULL = 4689;
