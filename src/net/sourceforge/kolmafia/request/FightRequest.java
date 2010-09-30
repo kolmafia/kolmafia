@@ -4712,6 +4712,10 @@ public class FightRequest
 			NemesisDecorator.useGothyHandwave( FightRequest.encounterLookup, responseText );
 			break;
 
+		case 55:   // Volcanometeor Showeruption
+			ResultProcessor.processItem( ItemPool.VOLCANIC_ASH, -1 );
+			break;
+
 		case 2005: // Shieldbutt
 		case 2105: // Head + Shield Combo
 		case 2106: // Knee + Shield Combo
