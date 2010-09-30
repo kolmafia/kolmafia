@@ -1038,7 +1038,7 @@ public class GenericRequest
 			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
 			AdventureResult machine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
 			if ( KoLConstants.inventory.contains( hooks ) &&
-				KoLConstants.inventory.contains( machine ) )
+			     KoLConstants.inventory.contains( machine ) )
 			{
 				SpecialOutfit.createImplicitCheckpoint();
 				( new EquipmentRequest( hooks, EquipmentManager.WEAPON ) ).run();
