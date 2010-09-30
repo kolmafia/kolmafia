@@ -1418,7 +1418,9 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
 		ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] =
-			"You have chosen not to cook fancy food without a chef-in-the-box.";
+			KoLCharacter.hasRange() ?
+			"You have chosen not to cook fancy food without a chef-in-the-box." :
+			"You cannot cook fancy foods without a range.";
 
 		// If we have no chef, see if we are allowed to cook
 		// without one, either because Inigo's is active or because
@@ -1484,7 +1486,9 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
 		ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] =
-			"You have chosen not to mix fancy drinks without a bartender-in-the-box.";
+			KoLCharacter.hasCocktailKit() ?
+			"You have chosen not to mix fancy drinks without a bartender-in-the-box." :
+			"You cannot mix fancy drinks without a cocktailcrafting kit.";
 
 		// If we have no bartender, see if we are allowed to mix
 		// without one, either because Inigo's is active or because
