@@ -142,3 +142,4 @@
 136	Mini-Hipster	combat	4648	ironic moustache	0	3	2	1
 137	Pottery Barn Owl	combat	4686	affordable teak perch	3	1	2	0
 138	Hippo Ballerina	item0,meat0	4709	immense ballet shoes	3	2	3	0
+139	Knob Goblin Organ Grinder	combat,meat0	4720	microwave stogie	0	0	0	0
