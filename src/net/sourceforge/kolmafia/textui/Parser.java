@@ -2241,20 +2241,18 @@ public class Parser
 		else if ( this.currentToken().equals( "-" ) )
 		{
 			// See if it's a negative numeric constant
-			if ( ( lhs = this.parseValue( scope ) ) != null )
-			{
-				return lhs;
-			}
-
-			// Nope. Must be unary minus.
-			String operator = this.currentToken();
-			this.readToken(); // !
 			if ( ( lhs = this.parseValue( scope ) ) == null )
 			{
-				throw this.parseException( "Value expected" );
-			}
+				// Nope. Unary minus.
+				String operator = this.currentToken();
+				this.readToken(); // -
+				if ( ( lhs = this.parseValue( scope ) ) == null )
+				{
+					throw this.parseException( "Value expected" );
+				}
 
-			lhs = new Expression( lhs, null, new Operator( operator, this ) );
+				lhs = new Expression( lhs, null, new Operator( operator, this ) );
+			}
 		}
 		else if ( this.currentToken().equals( "remove" ) )
 		{

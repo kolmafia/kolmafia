@@ -4729,3 +4729,10 @@
 4720	organ grinder	grow	all	0
 4721	microwave stogie	familiar	all	75
 4722	liver and let pie	food	all	10
+4723	badass pie	food	all	25
+4724	shoo-fish pie	food	all	20
+4725	piping organ pie	food	all	15
+4726	igloo pie	food	all	15
+4727	stomach turnover	food	all	15
+4728	dead lights pie	food	all	15
+4729	throbbing organ pie	food	all	15
