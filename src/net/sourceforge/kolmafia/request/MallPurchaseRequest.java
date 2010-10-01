@@ -384,21 +384,21 @@ public class MallPurchaseRequest
 			return;
 		}
 
-		// Check to make sure that the person is wearing the appropriate
-		// outfit for making the purchase.
+		// Make sure we have enough Meat to buy what we want.
 
 		if ( KoLCharacter.getAvailableMeat() < this.limit * this.price )
 		{
 			return;
 		}
 
+		// Make sure we are wearing the appropriate outfit, if necessary
+
 		if ( !this.ensureProperAttire() )
 		{
 			return;
 		}
 
-		// Now that everything's ensured, go ahead and execute the
-		// actual purchase request.
+		// Now that we're ready, make the purchase!
 
 		KoLmafia.updateDisplay( "Purchasing " + ItemDatabase.getItemName( this.itemId ) + " (" + KoLConstants.COMMA_FORMAT.format( this.limit ) + " @ " + KoLConstants.COMMA_FORMAT.format( this.getPrice() ) + ")..." );
 
@@ -451,7 +451,7 @@ public class MallPurchaseRequest
 		return this.shopName.compareToIgnoreCase( mpr.shopName );
 	}
 
-	public boolean ensureProperAttire()
+	private boolean ensureProperAttire()
 	{
 		if ( !this.isNPCStore )
 		{
@@ -500,9 +500,7 @@ public class MallPurchaseRequest
 			// Maybe you can put on some Travoltan Trousers to
 			// decrease the cost of the purchase.
 
-			if ( !KoLCharacter.canInteract() &&
-			     !KoLCharacter.isHardcore() &&
-			     KoLConstants.inventory.contains( MallPurchaseRequest.TROUSERS ) )
+			if ( KoLConstants.inventory.contains( MallPurchaseRequest.TROUSERS ) )
 			{
 				( new EquipmentRequest( MallPurchaseRequest.TROUSERS, EquipmentManager.PANTS ) ).run();
 			}
