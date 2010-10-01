@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -110,7 +111,13 @@ public abstract class ChatManager
 		{
 			return;
 		}
-		if( ChatManager.checkAltar().contains( "altar" ) )
+
+		if ( !LoginRequest.completedLogin() )
+		{
+			return;
+		}
+
+		if ( ChatManager.checkAltar().contains( "altar" ) )
 		{
 			KoLmafia.updateDisplay( "You cannot access chat until you complete the Altar of Literacy" );
 			return;
