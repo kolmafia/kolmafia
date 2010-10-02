@@ -683,7 +683,8 @@ public class IslandDecorator
 		// "It bites you in the fibula with its mandibles..."
 
 		// Vegetable Gremlin has molybdenum screwdriver OR
-		// "It picks a <x> off of itself and beats you with it..."
+		// "It picks a beet off of itself and beats you with it..."
+		// "It picks a radish off of itself and tosses it at you..."
 
 		String text = responseText;
 		if ( text.indexOf( "bombing run" ) != -1 )
@@ -698,7 +699,7 @@ public class IslandDecorator
 		{
 			IslandDecorator.missingGremlinTool = "molybdenum pliers";
 		}
-		else if ( text.indexOf( "beats you with it" ) != -1 )
+		else if ( text.indexOf( "off of itself" ) != -1 )
 		{
 			IslandDecorator.missingGremlinTool = "molybdenum screwdriver";
 		}
