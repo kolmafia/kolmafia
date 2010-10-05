@@ -4736,3 +4736,4 @@
 4727	stomach turnover	food	all	15
 4728	dead lights pie	food	all	15
 4729	throbbing organ pie	food	all	15
+4730	stop shield	offhand	display	0

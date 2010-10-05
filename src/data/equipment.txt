@@ -1103,6 +1103,7 @@ star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
 steely marble	0	Mys: 85
 stinky cheese wheel	100	none	shield
+stop shield	100	Mus: 35	shield
 stuffed Baron von Ratsworth	0	none
 stuffed Cheshire bitten	0	none
 stuffed MagiMechTech MicroMechaMech	0	none

@@ -1215,6 +1215,7 @@ star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 steely marble	Sleaze Spell Damage: +65
 stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,floor(pref(_stinkyCheeseCount)/2)))]
+stop shield	Damage Absorption: +10, Damage Reduction: 6
 # stuffed Baron von Ratsworth
 # stuffed Cheshire bitten
 # stuffed MagiMechTech MicroMechaMech
@@ -2715,6 +2716,7 @@ Phairly Pheromonal	Familiar Weight: +4
 Phoenix, Right?	Experience: +6
 Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
+Pie in the Sky	Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2
 Piratastic	Moxie: +100
 Pneumatic	Adventure Underwater
 Pockets of Fire	Hot Damage: +10
