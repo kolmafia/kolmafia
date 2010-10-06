@@ -250,6 +250,9 @@ wang	COMBINE	WA	NG
 # because of their popularity.  Other really popular items, like spectral
 # pickles, are also included.
 
+lemon popsicle	COOK	popsicle stick	lemon
+orange popsicle	COOK	popsicle stick	orange
+strawberry popsicle	COOK	popsicle stick	strawberry
 banana cream pie	COOK	pie crust	banana
 banana milkshake	COOK	glass of baboon milk	banana
 banana spritzer	COOK	banana	soda water

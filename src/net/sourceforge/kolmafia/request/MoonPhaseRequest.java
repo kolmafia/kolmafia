@@ -99,7 +99,7 @@ public class MoonPhaseRequest
 
 	public static final void decorate( final StringBuffer buffer )
 	{
-		if ( GenericRequest.compactMenuPane )
+		if ( GenericRequest.topMenuStyle == GenericRequest.MENU_COMPACT )
 		{
 			MoonPhaseRequest.adjustCompactMenu( buffer );
 			StringUtilities.singleStringReplace( buffer, "parent.location.href=\"logout.php", "parent.location.href=\"/KoLmafia/logout?pwd=" + GenericRequest.passwordHash );

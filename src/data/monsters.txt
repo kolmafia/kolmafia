@@ -271,6 +271,7 @@ Cookie-baking Thing from Beyond Time		evil googly eye (10)	spooky felt (10)	spoo
 Corpulent Zobmie	HP: 50 Def: 55 Atk: 54 E: spooky Meat: 60-90	cranberries (25)	cranberries (15)	loose teeth (10)	Grateful Undead T-shirt (c1)	paranormal ricotta (c0)
 Corrosive Algae	HP: 20 Def: 20 Atk: 25	memory of a C (20)	memory of a T (20)
 Count Bakula	HP: 70 Def: 80 Atk: 80 ED: spooky	Talisman of Bakula (100)
+Crate	HP: 1 Def: 1 Atk: 1
 Crazy Bastard	HP: 25 Def: 20 Atk: 20	crazy bastard sword (100)
 Creamy Pirate	HP: 90 Def: 100 Atk: 100	creamsicle (20)	cream stout (20)	Oil of Parrrlay (15)	ball polish (c30)
 Creepy Clown	HP: 16 Def: 20 Atk: 20 E: spooky Meat: 24-36	acid-squirting flower (10)	clown shoes (10)	foolscap fool's cap (10)	clown skin (10)	big bass drum (4)	polka-dot bow tie (p5)	empty greasepaint tube (b0)

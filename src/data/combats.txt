@@ -144,6 +144,7 @@ Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
 Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	velvet underground dweller	weather underground dweller
 Nemesis Cave	100	Infernal Seal Larva	Infernal Seal Spawn	Vengeful Turtle Spectre	Haunted Soup Tureen	Slithering Hollandaise Glob	Pernicious Puddle of Pesto	Evil Spaghetti Cultist	Evil Spaghetti Cult Priest	Talking Head	Psychedelic Fur	Evil Vihuela-playing Mariachi	Evil Trumpet-playing Mariachi
 Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
+Noob Cave	100	Crate
 Oasis in the Desert	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
 Old Crimbo Town Toy Factory	100	Mob Penguin Goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
 Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Rampaging Adding Machine	Spam Witch	XXX pr0n	Some Bad ASCII Art: 0
@@ -232,7 +233,6 @@ Mine Foremens' Office	0
 Moxie Vacation	0
 Muscle Vacation	0
 Mysticality Vacation	0
-Noob Cave	0
 Pirate Party	0
 Poker Room	0
 Post-Quest Bugbear Pens	0
