@@ -4724,7 +4724,7 @@
 4715	orange popsicle	food	all	2
 4716	strawberry popsicle	food	all	2
 4717
-4718
+4718	mariachi hat	hat	all	1
 4719	Hollandaise helmet	hat	all	1
 4720	organ grinder	grow	all	0
 4721	microwave stogie	familiar	all	75
@@ -4737,3 +4737,4 @@
 4728	dead lights pie	food	all	15
 4729	throbbing organ pie	food	all	15
 4730	stop shield	offhand	display	0
+4731	nest egg	usable	display	0

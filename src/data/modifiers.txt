@@ -182,6 +182,7 @@ linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stenc
 longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 maiden wig	Familiar Effect: "2xPotato, cap 8"
 makeshift turban	Intrinsic Effect: "Temporary Blindness (intrinsic)", Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
+mariachi hat	Moxie: +1
 meat cowboy hat	Muscle: +3, Familiar Effect: "1xBarrr, 3xLep, cap 10"
 meatloaf helmet	Muscle: +3, Weapon Damage: +1, Familiar Effect: "1xBarrr, 1.5xFairy, cap 13"
 meaty helmet turtle	Muscle: +3, Familiar Effect: "sleaze atk, 1xFairy, cap 17"
