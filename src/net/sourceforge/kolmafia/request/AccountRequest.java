@@ -52,6 +52,8 @@ public class AccountRequest
 		Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
 	private static final Pattern AUTOATTACK_AJAX_PATTERN =
 		Pattern.compile( "whichattack=(\\d+)");
+	private static final Pattern MENU_AJAX_PATTERN =
+		Pattern.compile( "action=menu&menu=([^&]*)");
 	private static final Pattern UNEQUIP_FAMILIAR_PATTERN =
 		Pattern.compile( "<input type=checkbox name=unfamequip value=1( checked)?>" );
 
@@ -59,6 +61,10 @@ public class AccountRequest
 		Pattern.compile( "value=\"?(\\d+)\"? selected>" );
 	private static final Pattern SELECTED2_PATTERN =
 		Pattern.compile( "selected value=\"?(\\d+)\"?>" );
+
+        private static String fancyMenuStyle = "<input type=\"radio\" value=\"fancy\" checked  name=\"menu\"/>Icons";
+        private static String compactMenuStyle = "<input type=\"radio\" value=\"compact\" checked  name=\"menu\"/>Drop-Downs";
+        private static String normalMenuStyle = "<input type=\"radio\" value=\"normal\" checked  name=\"menu\"/>Links";
 
 	public AccountRequest()
 	{
@@ -84,6 +90,24 @@ public class AccountRequest
 			Preferences.setInteger( "defaultAutoAttack",
 				StringUtilities.parseInt( matcher.group( 1 ) ) );
 		}
+
+		matcher = AccountRequest.MENU_AJAX_PATTERN.matcher( location );
+		if ( matcher.find() )
+		{
+			String style = matcher.group(1);
+			if ( style.equals( "fancy" ) )
+			{
+				GenericRequest.topMenuStyle = GenericRequest.MENU_FANCY;
+			}
+			else if ( style.equals( "compact" ) )
+			{
+				GenericRequest.topMenuStyle = GenericRequest.MENU_COMPACT;
+			}
+			else if ( style.equals( "normal" ) )
+			{
+				GenericRequest.topMenuStyle = GenericRequest.MENU_NORMAL;
+			}
+		}
 	}
 
 	public static final void parseAccountData( final String responseText )
@@ -95,9 +119,15 @@ public class AccountRequest
 
 		Preferences.setBoolean( "serverAddsCustomCombat", responseText.indexOf( ">Disable Combat Action Bars<" ) != -1 );
 
-		// Remember if the sidepane and/or top menu is in compact mode
+		// Remember if the sidepane is in compact mode
 		GenericRequest.compactCharacterPane = responseText.indexOf( ">Switch to compact character pane<" ) == -1;
-		GenericRequest.compactMenuPane = responseText.indexOf( ">Switch to compact menu pane<" ) == -1;
+
+		// Top Menu Style
+		GenericRequest.topMenuStyle =
+			responseText.indexOf( fancyMenuStyle ) != -1 ?
+			GenericRequest.MENU_FANCY :
+			responseText.indexOf( compactMenuStyle ) != -1 ?
+			GenericRequest.MENU_COMPACT : GenericRequest.MENU_NORMAL;
 
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.

@@ -4716,10 +4716,10 @@
 4710	476237174	immense ballet shoes
 4711	548910318	old sweatpants
 4712
-4713
-4714
-4715
-4716
+4713	120751680	popsicle stick
+4714	520593873	lemon popsicle
+4715	127670925	orange popsicle
+4716	874085399	strawberry popsicle
 4717
 4718
 4719	464939729	Hollandaise helmet
