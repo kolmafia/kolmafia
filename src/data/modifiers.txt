@@ -67,6 +67,7 @@ Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubbe
 Grimacite gasmask	Muscle Percent: [10*G], Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Mysticality Percent: [10*G], Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
 Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "0.5xVolley, 0.5xFairy"
+Hollandaise helmet	Spell Damage: +1
 Kentucky-style derby	Familiar Effect: "atk, cap 5"
 Knob Goblin elite helm	Muscle: +3, Familiar Effect: "2xFairy, cap 15"
 Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 2"
@@ -127,7 +128,7 @@ crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: 
 cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Effect: "1xBarrr, 1xFairy, cap 25"
-disco mask	Familiar Effect: "atk, cap 2"
+disco mask	Moxie: +1, Familiar Effect: "atk, cap 2"
 draggin' ball hat	Intrinsic Effect: "Draggin' Balls", Familiar Effect: "atk, 1xVolley, cap 25"
 duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
 # dwarvish war helmet: Heads Up!
@@ -164,7 +165,7 @@ grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolle
 guard turtle shell	Maximum HP: +50
 hardened slime hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
 helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
-helmet turtle	Familiar Effect: "atk, cap 2"
+helmet turtle	Muscle: +1, Familiar Effect: "atk, cap 2"
 ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "?xVolley, 8xLep, cap 2"
 # insane tophat: We're All Mad Here!
@@ -216,14 +217,14 @@ propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 # pumpkinhead mask
 raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
 rave visor	Maximum MP: +20, Raveosity: +2
-ravioli hat	Familiar Effect: "atk, cap 2"
+ravioli hat	Spell Damage: +1, Familiar Effect: "atk, cap 2"
 red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
 reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
 rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50
 # safarrri hat: +10 Damage vs. Lions
 safarrri hat	Maximum HP: +15, Familiar Effect: "2xVolley, cap 22"
 samurai turtle helmet	Muscle: +1, Weapon Damage: +2, Familiar Effect: "?xBarrr, cap 6"
-seal-skull helmet	Familiar Effect: "atk, cap 2"
+seal-skull helmet	Weapon Damage: +1, Familiar Effect: "atk, cap 2"
 sealhide hood	Initiative: +20
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
@@ -376,6 +377,7 @@ mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5
 ninja hot pants	Hot Damage: +4
 old patched suit-pants	Monster Level: +40, Moxie Percent: +5
 old school Mafia knickerbockers	Muscle: +25, Mysticality: +25, Moxie: +25
+# old sweatpants
 palm-frond capris	Moxie: +4, Maximum HP: +30, Maximum MP: +30
 pants of the Slug Lord	Stench Resistance: +2
 # paper-plate-mail pants

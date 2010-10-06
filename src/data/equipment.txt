@@ -21,6 +21,7 @@ Frosty's old silk hat	200	Mus: 200
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
 Hodgman's porkpie hat	200	Mox: 200
+Hollandaise helmet	10	none
 Kentucky-style derby	20	none
 Knob Goblin elite helm	60	Mox: 15
 Knob Goblin harem veil	10	none
@@ -318,6 +319,7 @@ mostly rat-hide leggings	200	Mox: 200
 ninja hot pants	70	Mox: 20
 old patched suit-pants	200	Mox: 200
 old school Mafia knickerbockers	100	Mox: 35
+old sweatpants	10	none
 palm-frond capris	140	Mox: 55
 pants of the Slug Lord	35	Mox: 2
 paper-plate-mail pants	80	Mox: 25
