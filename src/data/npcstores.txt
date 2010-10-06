@@ -72,10 +72,10 @@ Nervewrecker's Store	y	tenderizing hammer	500
 Market Demon	m	Ben-Gal&trade; Balm	24
 Market Demon	m	glittery mascara	24
 Market Demon	m	hair spray	24
-Market Demon	m	chewing gum on a string	30
 Market Demon	m	fortune cookie	40
 Market Demon	m	Newbiesport&trade; tent	40
 Market Demon	m	beer cartilage	50
+Market Demon	m	chewing gum on a string	50
 Market Demon	m	spray paint	50
 Market Demon	m	fermenting powder	70
 Market Demon	m	soda water	70
