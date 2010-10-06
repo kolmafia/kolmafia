@@ -10,7 +10,7 @@
 1	seal-clubbing club	weapon	all	1
 2	seal tooth	message, combat reusable	all	1
 3	helmet turtle	hat	all	1
-4	turtle totem	none, combat reusable	all	1
+4	turtle totem	weapon	all	1
 5	pasta spoon	weapon	all	1
 6	ravioli hat	hat	all	1
 7	saucepan	weapon	all	1

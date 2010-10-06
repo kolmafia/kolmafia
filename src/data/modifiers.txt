@@ -958,6 +958,7 @@ toy ray gun	Hot Damage: +5, Critical: 2
 # trout fang: 25% chance of poisoning opponent
 trout fang	Weapon Damage: +15
 trusty torch	Hot Damage: +3
+# turtle totem
 # two-handed depthsword
 ultimate ultimate frisbee	Moxie: +2, Ranged Damage: +4
 vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5

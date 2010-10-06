@@ -120,6 +120,7 @@ ravioli hat	useless powder
 disco mask	useless powder
 mariachi pants	useless powder
 seal-skull helmet	useless powder
+turtle totem	useless powder
 
 # Unenchanted equipment is useless.
 Wand of Nagamar	useless powder
