@@ -873,6 +873,7 @@ titanium assault umbrella	130	Mus: 50	1-handed umbrella
 toy ray gun	175	Mox: 72	1-handed pistol
 trout fang	160	Mus: 65	1-handed knife
 trusty torch	30	Mus: 0	1-handed club
+turtle totem	10	Mus: 0	1-handed totem
 two-handed depthsword	120	Mus: 45	2-handed sword
 ultimate ultimate frisbee	75	Mox: 22	1-handed frisbee
 vampire duck-on-a-string	100	Mus: 35	1-handed flail

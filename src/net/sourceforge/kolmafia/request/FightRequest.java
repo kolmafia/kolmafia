@@ -4387,7 +4387,6 @@ public class FightRequest
 	public static void addItemActionsWithNoCost()
 	{
 		KoLCharacter.battleSkillNames.add( "item seal tooth" );
-		KoLCharacter.battleSkillNames.add( "item turtle totem" );
 		KoLCharacter.battleSkillNames.add( "item spices" );
 
 		KoLCharacter.battleSkillNames.add( "item dictionary" );
