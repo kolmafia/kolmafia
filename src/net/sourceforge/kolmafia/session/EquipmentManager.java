@@ -959,6 +959,34 @@ public class EquipmentManager
 	}
 
 	/**
+	 * Accessor method to add or replace a custom outfit in the list of
+	 * custom outfits available to this character
+	 */
+
+	public static void addCustomOutfit( SpecialOutfit outfit )
+	{
+		String name = outfit.getName();
+		SortedListModel outfits = new SortedListModel();
+		Iterator i = customOutfits.iterator();
+		while ( i.hasNext() )
+		{
+			Object object = i.next();
+			if ( !( object instanceof SpecialOutfit ) )
+			{
+				continue;
+			}
+			SpecialOutfit current = (SpecialOutfit) object;
+			if ( !current.getName().equals( name ) )
+			{
+				outfits.add( current );
+			}
+		}
+		outfits.add( outfit );
+		SpecialOutfit.checkImplicitOutfit( outfit );
+		EquipmentManager.setOutfits( outfits );
+	}
+
+	/**
 	 * Accessor method to retrieve a list of the all the outfits available to this character, based on the last time the
 	 * equipment screen was requested.
 	 *
