@@ -337,32 +337,32 @@ public class SpecialOutfit
 	public static final LockableListModel parseOutfits( final String selectHTML )
 	{
 		Matcher singleOutfitMatcher = SpecialOutfit.OPTION_PATTERN.matcher( selectHTML );
-
-		int outfitId;
-		String outfitName;
-		SpecialOutfit outfit;
-
-		SpecialOutfit.implicitOutfit = null;
 		SortedListModel outfits = new SortedListModel();
+		SpecialOutfit.implicitOutfit = null;
 
 		while ( singleOutfitMatcher.find() )
 		{
-			outfitId = StringUtilities.parseInt( singleOutfitMatcher.group( 1 ) );
-			if ( outfitId < 0 )
+			int outfitId = StringUtilities.parseInt( singleOutfitMatcher.group( 1 ) );
+			if ( outfitId >= 0 )
 			{
-				outfitName = singleOutfitMatcher.group( 2 );
-				outfit = new SpecialOutfit( outfitId, singleOutfitMatcher.group( 2 ) );
-
-				if ( outfitName.equals( "Backup" ) )
-				{
-					SpecialOutfit.implicitOutfit = outfit;
-				}
-
-				outfits.add( outfit );
+				continue;
 			}
+
+			String outfitName = singleOutfitMatcher.group( 2 );
+			SpecialOutfit outfit = new SpecialOutfit( outfitId, outfitName );
+			checkImplicitOutfit( outfit );
+			outfits.add( outfit );
 		}
 
 		return outfits;
+	}
+
+	public static final void checkImplicitOutfit( final SpecialOutfit outfit )
+	{
+		if ( outfit.getName().equals( "Backup" ) )
+		{
+			SpecialOutfit.implicitOutfit = outfit;
+		}
 	}
 
 	/**

@@ -110,6 +110,9 @@ public class RequestEditorKit
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
 	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "name=option value=(\\d+)" );
+	private static final Pattern OUTFIT_FORM_PATTERN = Pattern.compile( "<form name=outfit.*?</form>", Pattern.DOTALL );
+	private static final Pattern OPTGROUP_PATTERN = Pattern.compile( "<optgroup label=['\"]([^']*)['\"]>(.*?)</optgroup>", Pattern.DOTALL );
+
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
@@ -856,34 +859,63 @@ public class RequestEditorKit
 		StringUtilities.insertAfter(
 			buffer, "<input type=text name=outfitname", " value=\"Backup\"" );
 
-		// Split the custom outfits from the normal outfits for
-		// easier browsing.
+                if ( !addComplexFeatures )
+                {
+                        return;
+                }
 
-		int selectBeginIndex = buffer.indexOf( "<option value=-" );
-		if ( selectBeginIndex != -1 && addComplexFeatures )
+		// Split out normal outfits, custom outfits, automatic outfits
+		Matcher fmatcher = OUTFIT_FORM_PATTERN.matcher( buffer );
+		if ( !fmatcher.find() )
 		{
-			int selectEndIndex = buffer.indexOf( "</select>", selectBeginIndex );
-			String outfitString = buffer.substring( selectBeginIndex, selectEndIndex );
-			buffer.delete( selectBeginIndex, selectEndIndex );
-
-			int formEndIndex = buffer.indexOf( "</form>", selectBeginIndex ) + 7;
-
-			StringBuffer customString = new StringBuffer();
-			customString.append( "<tr><td align=right><form name=outfit2 action=inv_equip.php><input type=hidden name=action value=\"outfit\"><input type=hidden name=which value=2><b>Custom:</b></td><td><select name=whichoutfit><option value=0>(select a custom outfit)</option>" );
-			customString.append( outfitString );
-			customString.append( "</select></td><td> <input class=button type=submit value=\"Dress Up!\"></form></td></tr></table>" );
-			StringUtilities.globalStringDelete( customString, "Custom: " );
-
-			buffer.insert( formEndIndex, customString.toString() );
-
-			StringUtilities.insertBefore(
-				buffer, "<form name=outfit", "<table><tr><td align=right>" );
-			StringUtilities.insertBefore( buffer, "<select", "</td><td>" );
-			StringUtilities.insertAfter( buffer, "</select>", "</td><td>" );
-			StringUtilities.insertAfter( buffer, "</form>", "</td></tr>" );
-
-			StringUtilities.globalStringReplace( buffer, "<select", "<select style=\"width: 250px\"" );
+			return;
 		}
+
+		StringBuffer obuffer = new StringBuffer();
+		obuffer.append( "<table>" );
+
+		// Find option groups in the whichoutfit drop down
+		Matcher omatcher = OPTGROUP_PATTERN.matcher( fmatcher.group() );
+		while ( omatcher.find() )
+		{
+			String group = omatcher.group( 1 );
+			String options = omatcher.group( 2 );
+			if ( group.equals( "Normal Outfits" ) )
+			{
+				addOutfitGroup( obuffer, "outfit", "Outfits", "an", options );
+			}
+			else if ( group.equals( "Custom Outfits" ) )
+			{
+				addOutfitGroup( obuffer, "outfit2", "Custom", "a custom", options );
+			}
+			else if ( group.equals( "Automatic Outfits" ) )
+			{
+				addOutfitGroup( obuffer, "outfit3", "Automatic", "an automatic", options );
+			}
+		}
+
+		obuffer.append( "</table>" );
+
+		// Replace the original form with a table of forms
+		buffer.replace( fmatcher.start(), fmatcher.end(), obuffer.toString() );
+	}
+
+	private static final void addOutfitGroup( final StringBuffer buffer, final String formName, final String label, final String type, final String options )
+	{
+		if ( options.length() == 0 )
+		{
+			return;
+		}
+
+		buffer.append( "<tr><td align=right><form name=" );
+		buffer.append( formName );
+		buffer.append( " action=inv_equip.php><input type=hidden name=action value=\"outfit\"><input type=hidden name=which value=2><b>" );
+		buffer.append( label );
+		buffer.append( ":</b> </td><td><select style=\"width: 250px\" name=whichoutfit><option value=0>(select " );
+		buffer.append( type );
+		buffer.append( " outfit)</option>" );
+		buffer.append( options );
+		buffer.append( "</select></td><td> <input class=button type=submit value=\"Dress Up!\"><br></form></td></tr>" );
 	}
 
 	public static final void addChatFeatures( final StringBuffer buffer )

@@ -108,6 +108,8 @@ public class EquipmentRequest
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern STICKERITEM_PATTERN = Pattern.compile( "sticker=(\\d+)" );
 	private static final Pattern SLOT1_PATTERN = Pattern.compile( "slot=(\\d+)" );
+	private static final Pattern OUTFITNAME_PATTERN = Pattern.compile( "outfitname=([^&]*)" );
+	private static final Pattern OUTFITID_PATTERN = Pattern.compile( "outfitid: (\\d+)" );
 
 	private static final Pattern EQUIPPED_PATTERN = Pattern.compile( "<td[^>]*>Item equipped:</td><td>.*?<b>(.*?)</b></td>" );
 	private static final Pattern UNEQUIPPED_PATTERN = Pattern.compile( "<td[^>]*>Item unequipped:</td><td>.*?<b>(.*?)</b></td>" );
@@ -212,11 +214,11 @@ public class EquipmentRequest
 		case EquipmentRequest.CONSUMABLES:
 			this.addFormField( "which", "1" );
 			break;
+		case EquipmentRequest.SAVE_OUTFIT:
 		case EquipmentRequest.CHANGE_OUTFIT:
 			this.addFormField( "ajax", "1" );
 			this.addFormField( "which", "2" );
 			break;
-		case EquipmentRequest.SAVE_OUTFIT:
 		case EquipmentRequest.CHANGE_ITEM:
 		case EquipmentRequest.REMOVE_ITEM:
 		case EquipmentRequest.ALL_EQUIPMENT:
@@ -254,6 +256,7 @@ public class EquipmentRequest
 		this( EquipmentRequest.SAVE_OUTFIT );
 		this.addFormField( "action", "customoutfit" );
 		this.addFormField( "outfitname", changeName );
+		this.addFormField( "ajax", "1" );
 		this.outfitName = changeName;
 	}
 
@@ -945,6 +948,7 @@ public class EquipmentRequest
 
 		if ( ( this.requestType == EquipmentRequest.CHANGE_ITEM ||
 		       this.requestType == EquipmentRequest.REMOVE_ITEM ||
+		       this.requestType == EquipmentRequest.SAVE_OUTFIT ||
 		       this.requestType == EquipmentRequest.CHANGE_OUTFIT ||
 		       this.requestType == EquipmentRequest.UNEQUIP_ALL ) &&
 		      this.getURLString().indexOf( "ajax=1" ) != -1 )
@@ -1481,6 +1485,33 @@ public class EquipmentRequest
 			{
 				ConcoctionDatabase.refreshConcoctions();
 			}
+
+			return;
+		}
+
+		// inv_equip.php?action=customoutfit&outfitname=Backup
+		if ( action.equals( "customoutfit" ) )
+		{
+			// We saved a custom outfit. KoL assigned a new outfit
+			// ID to it and was kind enough to tell it to us in an
+			// HTML comment: <!-- outfitid: 61 -->
+
+			matcher = OUTFITNAME_PATTERN.matcher( location );
+			if ( !matcher.find() )
+			{
+				return;
+			}
+			String name = matcher.group( 1 );
+
+			matcher = OUTFITID_PATTERN.matcher( responseText );
+			if ( !matcher.find() )
+			{
+				return;
+			}
+			int id = StringUtilities.parseInt( matcher.group( 1 ) );
+
+			SpecialOutfit outfit = new SpecialOutfit( -id, name );
+			EquipmentManager.addCustomOutfit( outfit );
 
 			return;
 		}
