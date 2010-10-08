@@ -317,6 +317,7 @@ pr0n taco	2	1	2-5	0	0	11-33
 protein paste	2	7	6-8	38-46	0	0	10 Pasty (+50% mus)
 purple pixel pie	3	1	3-6	12-18	12-18	12-18
 python roll	3	1	9-14	8-16	0	20-30	45/55 Fishy
+quantum taco	0	1	0	0	0	0	#random food
 questionable taco	3	1	4-5	0	0	0	lovecat tail
 queen cookie	1	13	4-5	20-40	20-40	20-40	30 Towering Strength, Mitre Cut, Knightlife, The Royal We
 radio button candy	1	8	2-9	30-50	33-49	30-50
