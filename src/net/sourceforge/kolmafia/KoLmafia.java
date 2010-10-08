@@ -99,7 +99,6 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
-import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
@@ -1392,28 +1391,6 @@ public abstract class KoLmafia
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, KoLmafia.abortAfter );
 			return;
-		}
-
-		if ( adventure.getRequest() instanceof SewerRequest )
-		{
-			int stopCount = 0;
-			AdventureResult currentCondition;
-			for ( int i = 0; i < KoLConstants.conditions.size(); ++i )
-			{
-				currentCondition = (AdventureResult) KoLConstants.conditions.get( i );
-				if ( currentCondition.isItem() )
-				{
-					stopCount += currentCondition.getCount();
-				}
-			}
-
-			int remainingIterations = totalIterations - currentIteration + 1;
-			int gumAmount = stopCount == 0 ? remainingIterations : Math.min( stopCount, remainingIterations );
-			if ( !InventoryManager.hasItem( ItemPool.CHEWING_GUM ) &&
-				!InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, gumAmount ) )
-			{
-				return;
-			}
 		}
 
 		// Otherwise, disable the display and update the user

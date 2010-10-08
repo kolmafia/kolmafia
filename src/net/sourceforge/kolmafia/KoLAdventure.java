@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
-import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
@@ -129,15 +128,7 @@ public class KoLAdventure
 		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
 		this.parentZoneDescription = (String) AdventureDatabase.ZONE_DESCRIPTIONS.get( this.parentZone );
 
-		if ( formSource.equals( "sewer.php" ) )
-		{
-			this.request = new SewerRequest( false );
-		}
-		else if ( formSource.equals( "luckysewer.php" ) )
-		{
-			this.request = new SewerRequest( true );
-		}
-		else if ( formSource.equals( "dwarffactory.php" ) )
+		if ( formSource.equals( "dwarffactory.php" ) )
 		{
 			this.request = new DwarfFactoryRequest( "ware" );
 		}

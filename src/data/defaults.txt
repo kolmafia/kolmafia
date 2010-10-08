@@ -462,7 +462,6 @@ user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreLayout
 user	louvreOverride
-user	luckySewerAdventure	stolen accordion
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
 user	manaBurningTrigger	-0.05

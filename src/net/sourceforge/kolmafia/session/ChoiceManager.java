@@ -221,24 +221,6 @@ public abstract class ChoiceManager
 		ChoiceManager.choicesOrderedByName = choicesOrderedByName;
 	}
 
-	// Lucky sewer options
-	public static final ChoiceAdventure LUCKY_SEWER =
-		new ChoiceAdventure( "Town", "luckySewerAdventure",
-				     "Sewer Gnomes",
-				     new String[] {
-					     "seal-clubbing club",
-					     "seal-skull helmet",
-					     "helmet turtle",
-					     "turtle totem",
-					     "pasta spoon",
-					     "ravioli hat",
-					     "saucepan",
-					     "disco mask",
-					     "disco ball",
-					     "stolen accordion",
-					     "mariachi pants"
-				     } );
-
 	public static final ChoiceAdventure[] CHOICE_ADVS =
 	{
 		// Choice 1 is unknown

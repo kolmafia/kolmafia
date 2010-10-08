@@ -1011,11 +1011,7 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( this.getClass() );
 		}
 
-		if ( location.startsWith( "sewer.php" ) )
-		{
-			InventoryManager.retrieveItem( ItemPool.CHEWING_GUM );
-		}
-		else if ( location.startsWith( "hermit.php?autopermit=on" ) )
+		if ( location.startsWith( "hermit.php?autopermit=on" ) )
 		{
 			HermitRequest.ensureUpdatedHermit();
 			if ( !Preferences.getBoolean( "hermitHax0red" ) )
@@ -1981,16 +1977,6 @@ public class GenericRequest
 		       this.responseText.indexOf( "disappears in a puff of" ) != -1 ) )
 		{
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
-		}
-
-		if ( urlString.startsWith( "sewer.php" ) &&
-		     this.responseText.indexOf( "You acquire" ) != -1 )
-		{
-			ResultProcessor.processItem( ItemPool.CHEWING_GUM, -1 );
-			if ( urlString.indexOf( "doodit=1" ) != -1 ) 
-			{
-				ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
-			}
 		}
 
 		if ( urlString.startsWith( "dungeon.php" ) && 

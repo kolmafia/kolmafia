@@ -270,7 +270,7 @@ public abstract class InventoryManager
 		}
 
 		// Retrieve worthless items either by reading scrolls or
-		// adventuring in the sewer.
+		// using chewing gum on a string
 
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
@@ -611,6 +611,29 @@ public abstract class InventoryManager
 
 		return false;
 	}
+
+	private static final AdventureResult [] GUM_ITEMS = new AdventureResult[]
+	{
+		// Three kinds of worthless items
+		ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 ),
+		ItemPool.get( ItemPool.WORTHLESS_GEWGAW, 1 ),
+		ItemPool.get( ItemPool.WORTHLESS_KNICK_KNACK, 1 ),
+		// A hat and a weapon for all six classes
+		ItemPool.get( ItemPool.SEAL_HELMET, 1 ),
+		ItemPool.get( ItemPool.SEAL_CLUB, 1 ),
+		ItemPool.get( ItemPool.HELMET_TURTLE, 1 ),
+		ItemPool.get( ItemPool.TURTLE_TOTEM, 1 ),
+		ItemPool.get( ItemPool.RAVIOLI_HAT, 1 ),
+		ItemPool.get( ItemPool.PASTA_SPOON, 1 ),
+		ItemPool.get( ItemPool.HOLLANDAISE_HELMET, 1 ),
+		ItemPool.get( ItemPool.SAUCEPAN, 1 ),
+		ItemPool.get( ItemPool.DISCO_MASK, 1 ),
+		ItemPool.get( ItemPool.DISCO_BALL, 1 ),
+		ItemPool.get( ItemPool.MARIACHI_HAT, 1 ),
+		ItemPool.get( ItemPool.STOLEN_ACCORDION, 1 ),
+		// One pair of pants
+		ItemPool.get( ItemPool.OLD_SWEATPANTS, 1 ),
+	};
 	
 	private static boolean retrieveWorthlessItems( final AdventureResult item )
 	{
@@ -636,25 +659,25 @@ public abstract class InventoryManager
 			return true;
 		}
 
-		// Handle worthless items by traveling to the sewer for as many
-		// adventures as needed.
+		// Handle worthless items by using chewing gum on a string
 
-		ArrayList temporary = new ArrayList();
-		temporary.addAll( KoLConstants.conditions );
-		KoLConstants.conditions.clear();
+		AdventureResult chewingGum = ItemPool.get( ItemPool.CHEWING_GUM, 1 );
+		UseItemRequest request = new UseItemRequest( KoLConstants.CONSUME_MULTIPLE, chewingGum );
+		while ( count < needed && KoLmafia.permitsContinue() )
+		{
+			if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM ) )
+			{
+				break;
+			}
+			RequestThread.postRequest( request );
+			count = HermitRequest.getWorthlessItemCount();
+		}
 
-		KoLConstants.conditions.add( item.getInstance( needed - count ) );
-		StaticEntity.getClient().makeRequest(
-			AdventureDatabase.getAdventureByURL( "sewer.php" ), KoLCharacter.getAdventuresLeft() );
-
-		if ( !KoLConstants.conditions.isEmpty() )
+		if ( count < needed )
 		{
 			KoLmafia.updateDisplay(
 				KoLConstants.ABORT_STATE, "Unable to acquire " + item.getCount() + " worthless items." );
 		}
-
-		KoLConstants.conditions.clear();
-		KoLConstants.conditions.addAll( temporary );
 
 		count = HermitRequest.getWorthlessItemCount();
 		return count >= needed;
