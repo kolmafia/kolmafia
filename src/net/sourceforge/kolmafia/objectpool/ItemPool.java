@@ -1126,6 +1126,9 @@ public class ItemPool
 	public static final int SINISTER_ANCIENT_TABLET = 4706;
 	public static final int OVEN = 4707;
 	public static final int SHAKER = 4708;
+	public static final int OLD_SWEATPANTS = 4711;
+	public static final int MARIACHI_HAT = 4718;
+	public static final int HOLLANDAISE_HELMET = 4719;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

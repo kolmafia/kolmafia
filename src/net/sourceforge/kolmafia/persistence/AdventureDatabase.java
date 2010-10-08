@@ -397,13 +397,6 @@ public class AdventureDatabase
 			return (KoLAdventure) AdventureDatabase.adventureLookup.get( "hiddencity.php" );
 		}
 
-		if ( adventureURL.startsWith( "sewer.php" ) )
-		{
-			return adventureURL.indexOf( "doodit" ) == -1 ?
-				(KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php" ) :
-				(KoLAdventure) AdventureDatabase.adventureLookup.get( "sewer.php?doodit=1" );
-		}
-
 		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm=on" );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "blech" );
@@ -447,7 +440,7 @@ public class AdventureDatabase
 			return null;
 		}
 
-		return AdventureDatabase.allAdventures.find( adventureName.equalsIgnoreCase( "sewer" ) ? "unlucky sewer" : adventureName );
+		return AdventureDatabase.allAdventures.find( adventureName );
 
 	}
 
@@ -519,11 +512,6 @@ public class AdventureDatabase
 
 		if ( !adventure.getFormSource().startsWith( "adventure" ) )
 		{
-			if ( adventure.getFormSource().startsWith( "sewer" ) )
-			{
-				return "2 worthless item";
-			}
-
 			return "none";
 		}
 

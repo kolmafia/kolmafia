@@ -277,16 +277,9 @@ public class RequestEditorKit
 
 		// The first of these is the familiar page, where the
 		// first "Take this one with you" link does not work.
-		// On a related note, the sewer page suffers from an
-		// odd problem as well, where you must remove cells in
-		// the table before it works.
 
 		displayHTML =
 			displayHTML.replaceFirst( "<input class=button type=submit value=\"Take this one with you\">", "" );
-
-		displayHTML =
-			displayHTML.replaceFirst(
-				"</td></tr><tr><td align=center>(<input class=button type=submit value='Take Items'>)", "$1" );
 
 		// The second of these is the betting page.  Here, the
 		// problem is an "onClick" in the input field, if the
@@ -637,7 +630,6 @@ public class RequestEditorKit
 		else if ( location.startsWith( "hermit.php" ) )
 		{
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
-			StringUtilities.singleStringReplace( buffer, "the sewer in Seaside Town", "<a href=sewer.php>the sewer in Seaside Town</a>" );
 		}
 		else if ( location.startsWith( "hiddencity.php" ) )
 		{
@@ -742,10 +734,6 @@ public class RequestEditorKit
 			{
 				StringUtilities.insertAfter( buffer, "value=2", " checked" );
 			}
-		}
-		else if ( location.startsWith( "sewer.php" ) )
-		{
-			StationaryButtonDecorator.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "tiles.php" ) )
 		{

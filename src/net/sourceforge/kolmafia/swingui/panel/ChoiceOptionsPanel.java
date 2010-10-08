@@ -82,7 +82,6 @@ public class ChoiceOptionsPanel
 
 	private final JComboBox[] optionSelects;
 
-	private final JComboBox sewerSelect;
 	private final JComboBox castleWheelSelect;
 	private final JComboBox palindomePapayaSelect;
 	private final JComboBox spookyForestSelect;
@@ -128,13 +127,6 @@ public class ChoiceOptionsPanel
 			{
 				this.optionSelects[ i ].addItem( options[ j ] );
 			}
-		}
-
-		this.sewerSelect = new JComboBox();
-		options = ChoiceManager.LUCKY_SEWER.getOptions();
-		for ( int i = 0; i < options.length; ++i )
-		{
-			this.sewerSelect.addItem( options[ i ] );
 		}
 
 		this.castleWheelSelect = new JComboBox();
@@ -292,9 +284,6 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
 		this.addChoiceSelect( "Mountain", "Barrel full of Barrels", this.barrelSelect );
 		this.addChoiceSelect( "Mountain", "Orc Chasm", this.addingSelect );
-		
-		this.addChoiceSelect(
-			ChoiceManager.LUCKY_SEWER.getZone(), ChoiceManager.LUCKY_SEWER.getName(), this.sewerSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
@@ -314,7 +303,6 @@ public class ChoiceOptionsPanel
 		Preferences.registerListener( "louvreDesiredGoal", this );
 		Preferences.registerListener( "barrelGoal", this );
 		Preferences.registerListener( "gongPath", this );
-		Preferences.registerListener( "luckySewerAdventure", this );
 		Preferences.registerListener( "oceanAction", this );
 		Preferences.registerListener( "oceanDestination", this );
 		Preferences.registerListener( "basementMallPrices", this );
@@ -700,8 +688,6 @@ public class ChoiceOptionsPanel
 			overrideIndex == 0 || override == null ? "" : (String) override );
 
 		Preferences.setInteger( "violetFogGoal", this.violetFogSelect.getSelectedIndex() );
-		Preferences.setString( "luckySewerAdventure",
-			(String) this.sewerSelect.getSelectedItem() );
 		Preferences.setString( "choiceAdventure89",
 			String.valueOf( this.maidenSelect.getSelectedIndex() ) );
 		Preferences.setString( "choiceAdventure127", 
@@ -977,25 +963,6 @@ public class ChoiceOptionsPanel
 		this.addingSelect.setSelectedIndex( adding );
 		
 		this.gongSelect.setSelectedIndex( Preferences.getInteger( "gongPath" ) );
-
-		boolean foundItem = false;
-		String sewerItem = Preferences.getString( "luckySewerAdventure" );
-
-		String[] sewerOptions = ChoiceManager.LUCKY_SEWER.getOptions();
-		for ( int i = 0; i < sewerOptions.length; ++i )
-		{
-			if ( sewerOptions[ i ].equals( sewerItem ) )
-			{
-				foundItem = true;
-				this.sewerSelect.setSelectedItem( sewerItem );
-			}
-		}
-
-		if ( !foundItem )
-		{
-			Preferences.setString( "luckySewerAdventure", "stolen accordion" );
-			this.sewerSelect.setSelectedItem( "stolen accordion" );
-		}
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
