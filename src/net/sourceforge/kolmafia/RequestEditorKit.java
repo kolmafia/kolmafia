@@ -407,13 +407,24 @@ public class RequestEditorKit
 	private static final String AUTO_HERMIT_TEXT =
 		"<a href=\"hermit.php?autopermit=on\">";
 
+	// You need a Hermit Permit, from the Market in Seaside Town, to trade
+	// with The Hermit. He's a crazy old coot, but he's a real stickler for
+	// regulations.
 	private static final String NO_PERMIT_TEXT =
 		"he's a real stickler for regulations.";
 	private static final String BUY_PERMIT_TEXT =
 		RequestEditorKit.NO_PERMIT_TEXT + "[<a href=\"hermit.php?autopermit=on\">buy a Hermit Permit</a>]";
 
+	// The Hermit sees that you're out of Permits, so he sends you packing.
+	private static final String NO_PERMIT_TEXT2 =
+		"sees that you're out of Permits, so he sends you packing.";
+	private static final String BUY_PERMIT_TEXT2 =
+		RequestEditorKit.NO_PERMIT_TEXT2 + "[<a href=\"hermit.php?autopermit=on\">buy a Hermit Permit</a>]";
+
+	// The Hermit rummages through your sack, and with a disappointed look
+	// on his face, he sends you packing.
 	private static final String NO_WORTHLESS_ITEM_TEXT =
-		"he sends you packing.";
+		"with a disappointed look on his face, he sends you packing.";
 	private static final String BUY_WORTHLESS_ITEM_TEXT =
 		RequestEditorKit.NO_WORTHLESS_ITEM_TEXT + "[<a href=\"hermit.php?autoworthless=on\">fish for a worthless item</a>]";
 
@@ -635,6 +646,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "hermit.php" ) )
 		{
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
+			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT2, RequestEditorKit.BUY_PERMIT_TEXT2 );
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_WORTHLESS_ITEM_TEXT, RequestEditorKit.BUY_WORTHLESS_ITEM_TEXT );
 		}
 		else if ( location.startsWith( "hiddencity.php" ) )
