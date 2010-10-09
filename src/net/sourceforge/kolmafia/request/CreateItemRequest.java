@@ -863,7 +863,7 @@ public class CreateItemRequest
 		{
 			// We don't want to autorepair. It's OK if we don't
 			// require one and have turns available to craft.
-			return !Preferences.getBoolean( "requireRepairBoxServants" ) &&
+			return !Preferences.getBoolean( "requireBoxServants" ) &&
 				KoLCharacter.getAdventuresLeft() > 0;
 		}
 
