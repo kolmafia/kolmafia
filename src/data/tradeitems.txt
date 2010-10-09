@@ -52,16 +52,16 @@
 43	worthless trinket	none	display	0
 44	worthless gewgaw	none	display	0
 45	worthless knick-knack	none	display	0
-46	wooden figurine	none	all	100
-47	hot buttered roll	food	all	100
+46	wooden figurine	none	all	45
+47	hot buttered roll	food	all	45
 48	heart of rock and roll	none	all	101
 49	bowl of cottage cheese	food	all	31
 50	Rock and Roll Legend	weapon	all	150
 51	Knob Goblin Uberpants	pants	all	60
-52	banjo strings	none	all	100
+52	banjo strings	none	all	45
 53	stone banjo	weapon	all	30
 54	Disco Banjo	weapon	all	150
-55	jaba&ntilde;ero pepper	none	all	100
+55	jaba&ntilde;ero pepper	none	all	45
 56	heavy hot sauce	none	all	101
 57	5-Alarm Saucepan	weapon	all	150
 58	stone turtle	none	all	3
@@ -112,8 +112,8 @@
 103	spooky staff	weapon	all	50
 104	spooky scarecrow	usable	all	55
 105	bowl of lucky charms	food	all	35
-106	ketchup	food	all	100
-107	catsup	food	all	100
+106	ketchup	food	all	45
+107	catsup	food	all	45
 108	big stick	weapon	all	50
 109	crossbow string	none	all	50
 110	basic meat staff	weapon	all	25
@@ -141,12 +141,12 @@
 132	Meat maid body	none	all	155
 133	Certificate of Participation	usable	none	0
 134	bitchin' meatcar	none	none	0
-135	sweet rims	none	all	100
+135	sweet rims	none	all	45
 136	tires	none	all	14
 137	dope wheels	none	all	110
 138	ice-cold six-pack	multiple	all	150
 139	valuable trinket	none	all	250
-140	dingy planks	none	all	100
+140	dingy planks	none	all	45
 141	dingy dinghy	none	none	0
 142	anticheese	none	all	30
 143	cottage	usable	all	50
@@ -533,7 +533,7 @@
 524	papaya sling	drink	all	57
 525	grue egg	grow, fancy	display	0
 526	Frobozz Real-Estate Company Instant House (TM)	usable	none	0
-527	volleyball	usable	all	100
+527	volleyball	usable	all	45
 528	blood-faced volleyball	grow	all	101
 529	fertilized ghuol egg	grow	all	19
 530	spray paint	none	all	25
@@ -2290,8 +2290,8 @@
 2281	Manual of Transmission	reusable	none	0
 2282	Manual of Dexterity	reusable	none	0
 2283	seal-skull helmet	hat	all	1
-2284	petrified noodles	none	all	100
-2285	chisel	weapon	all	100
+2284	petrified noodles	none	all	45
+2285	chisel	weapon	all	45
 2286	Eye of Ed	none	none	0
 2287	green glowstick	accessory	display	0
 2288	encoder ring	accessory	gift	5
@@ -3911,7 +3911,7 @@
 3902	figurine of a wretched-looking seal	usable	display	75
 3903	figurine of a cute baby seal	usable	display	125
 3904	figurine of an armored seal	usable	display	250
-3905	figurine of an ancient seal	usable	display	100
+3905	figurine of an ancient seal	usable	display	45
 3906	figurine of a sleek seal	usable	display	200
 3907	figurine of a shadowy seal	usable	display	150
 3908	figurine of a stinking seal	usable	display	150
