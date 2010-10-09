@@ -3597,15 +3597,19 @@ public class UseItemRequest
 		}
 			
 		int minCounter;
-		if ( ( KoLCharacter.canEat() || KoLCharacter.canDrink() ) &&
-		     KoLCharacter.getCurrentRun() > 120 )
+
+		// First semirare comes between 70 and 80 regardless of path
+		if ( KoLCharacter.getCurrentRun() < 80 )
+		{
+			minCounter = 70;
+		}
+		else if ( KoLCharacter.canEat() || KoLCharacter.canDrink() )
 		{
 			minCounter = 150;	// conservative, wiki claims 160 minimum
 		}
 		else
 		{
-			// Oxygenarian path, or early enough in an ascension
-			// that a player might have done an oxydrop
+			// Oxygenarian path
 			minCounter = 100;	// conservative, wiki claims 102 minimum			
 		}
 
@@ -3615,10 +3619,12 @@ public class UseItemRequest
 			int number = StringUtilities.parseInt( matcher.group( i ) );
 			int minEnd = 0;
 			if ( TurnCounter.getCounters( "Semirare window begin", 0, 500 ).equals( "" ) )
-			{	// We are possibly within the window currently.  If the
-				// actual semirare turn has already been missed, a number past
-				// the window end could be valid - but it would have to be
-				// at least 80 turns past the end.
+			{	
+                                // We are possibly within the window currently.
+				// If the actual semirare turn has already been
+				// missed, a number past the window end could
+				// be valid - but it would have to be at least
+				// 80 turns past the end.
 				minEnd = number - 79;
 			}
 			

@@ -143,7 +143,7 @@
 134	bitchin' meatcar	none	none	0
 135	sweet rims	none	all	45
 136	tires	none	all	14
-137	dope wheels	none	all	110
+137	dope wheels	none	all	63
 138	ice-cold six-pack	multiple	all	150
 139	valuable trinket	none	all	250
 140	dingy planks	none	all	45
