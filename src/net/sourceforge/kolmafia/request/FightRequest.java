@@ -3353,8 +3353,16 @@ public class FightRequest
 			// "shambles up to your opponent" following a number is
 			// most likely a familiar naming problem, so it should
 			// not count.
+			//
+			// Similarly, using a number scroll on something other
+			// than an adding machine does not do physical damage:
+			//
+			// You hand the 33398 scroll to your opponent. It
+			// unrolls it, reads it, and looks slightly confused by
+			// it. Then it tears it up and throws the bits into the
+			// wind.
 
-			if ( m.group( 4 ).equals( "shambles up " ) )
+			if ( m.group( 4 ).equals( "shambles up " ) || m.group( 4 ).equals( "scroll " ) )
 			{
 				return 0;
 			}
