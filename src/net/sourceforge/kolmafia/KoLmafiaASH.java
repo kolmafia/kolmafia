@@ -66,7 +66,7 @@ public abstract class KoLmafiaASH
 	{
 		String script = Preferences.getString( "masterRelayOverride" );
 
-		if ( script.length() == 0 )
+		if ( script.length() == 0 || request.getPath().startsWith( "relay_" ) )
 		{
 			script = request.getBasePath();
 		}
@@ -141,7 +141,7 @@ public abstract class KoLmafiaASH
 
 			String script = Preferences.getString( "masterRelayOverride" );
 
-			if ( script.length() == 0 )
+			if ( script.length() == 0 || KoLmafiaASH.relayRequest.getPath().startsWith( "relay_" ) )
 			{
 				script = KoLmafiaASH.relayRequest.getBasePath();
 			}
