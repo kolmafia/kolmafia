@@ -59,6 +59,7 @@ public class ItemPool
 	public static final int DISCO_MASK = 10;
 	public static final int STOLEN_ACCORDION = 11;
 	public static final int MARIACHI_PANTS = 12;
+	public static final int WORTHLESS_ITEM = 13;	// Pseudo item
 	public static final int ASPARAGUS_KNIFE = 19;
 	public static final int CHEWING_GUM = 23;
 	public static final int TEN_LEAF_CLOVER = 24;

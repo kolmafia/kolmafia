@@ -1016,8 +1016,12 @@ public class GenericRequest
 			HermitRequest.ensureUpdatedHermit();
 			if ( !Preferences.getBoolean( "hermitHax0red" ) )
 			{
-				InventoryManager.retrieveItem( HermitRequest.PERMIT.getInstance( 1 ) );
+				InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT );
 			}
+		}
+		else if ( location.startsWith( "hermit.php?autoworthless=on" ) )
+		{
+			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM );
 		}
 		else if ( location.startsWith( "mountains.php?orcs=1" ) )
 		{

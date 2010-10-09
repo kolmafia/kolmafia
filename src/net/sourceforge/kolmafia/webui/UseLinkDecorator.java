@@ -543,12 +543,12 @@ public abstract class UseLinkDecorator
 					return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=" );
 				}
 
-				if ( HermitRequest.getWorthlessItemCount() != 0 )
+				if ( HermitRequest.getWorthlessItemCount() > 0 )
 				{
 					return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autopermit=on&action=trade&quantity=1&whichitem=" );
 				}
 
-				return new UseLink( ItemPool.CHEWING_GUM, 1, "use gum", "inv_use.php?which=3&whichitem=" );
+                                return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autoworthless=on&action=trade&quantity=1&whichitem=" );
 
 			case ItemPool.DRUM_MACHINE:
 			case ItemPool.CARONCH_MAP:
