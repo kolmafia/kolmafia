@@ -412,6 +412,11 @@ public class RequestEditorKit
 	private static final String BUY_PERMIT_TEXT =
 		RequestEditorKit.NO_PERMIT_TEXT + "[<a href=\"hermit.php?autopermit=on\">buy a Hermit Permit</a>]";
 
+	private static final String NO_WORTHLESS_ITEM_TEXT =
+		"he sends you packing.";
+	private static final String BUY_WORTHLESS_ITEM_TEXT =
+		RequestEditorKit.NO_WORTHLESS_ITEM_TEXT + "[<a href=\"hermit.php?autoworthless=on\">fish for a worthless item</a>]";
+
 	private static final ArrayList maps = new ArrayList();
 	static
 	{
@@ -630,6 +635,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "hermit.php" ) )
 		{
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
+			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_WORTHLESS_ITEM_TEXT, RequestEditorKit.BUY_WORTHLESS_ITEM_TEXT );
 		}
 		else if ( location.startsWith( "hiddencity.php" ) )
 		{
