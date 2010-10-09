@@ -29,7 +29,7 @@
 20	Kentucky-style derby	hat	all	25
 21	sweet ninja sword	weapon	all	25
 22	studded leather boxer shorts	pants	all	25
-23	chewing gum on a string	usable	all	25
+23	chewing gum on a string	multiple	all	25
 24	ten-leaf clover	multiple	all	0
 25	meat paste	none	all	10
 26	Dolphin King's map	usable	none	0
