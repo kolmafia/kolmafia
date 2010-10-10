@@ -336,27 +336,27 @@ public class SkillDatabase
 	{
 		String name = KoLCharacter.getClassType();
 
-		if ( name.equals( KoLCharacter.SEAL_CLUBBER ) )
+		if ( name == KoLCharacter.SEAL_CLUBBER )
 		{
 			return 1000;
 		}
-		if ( name.equals( KoLCharacter.TURTLE_TAMER ) )
+		if ( name == KoLCharacter.TURTLE_TAMER )
 		{
 			return 2000;
 		}
-		if ( name.equals( KoLCharacter.PASTAMANCER ) )
+		if ( name == KoLCharacter.PASTAMANCER )
 		{
 			return 3000;
 		}
-		if ( name.equals( KoLCharacter.SAUCEROR ) )
+		if ( name == KoLCharacter.SAUCEROR )
 		{
 			return 4000;
 		}
-		if ( name.equals( KoLCharacter.DISCO_BANDIT ) )
+		if ( name == KoLCharacter.DISCO_BANDIT )
 		{
 			return 5000;
 		}
-		if ( name.equals( KoLCharacter.ACCORDION_THIEF ) )
+		if ( name == KoLCharacter.ACCORDION_THIEF )
 		{
 			return 6000;
 		}
@@ -404,17 +404,40 @@ public class SkillDatabase
 			return libramSkillMPConsumption();
 		}
 
-		// Moxious Maneuver has a special mana cost.
-		if ( skillId == 7008 )
-		{
-			return Math.max( KoLCharacter.getLevel() + KoLCharacter.getManaCostAdjustment(), 1 );
-		}
+		String classType = null;
 
-		// Magic Missile has a special mana cost.
-		if ( skillId == 7009 )
+		switch ( skillId )
 		{
+		case 1022:	// Clobber
+			classType = KoLCharacter.SEAL_CLUBBER;
+			break;
+		case 2023:	// Toss
+			classType = KoLCharacter.TURTLE_TAMER;
+			break;
+		case 3020:	// Spaghetti Spear
+			classType = KoLCharacter.PASTAMANCER;
+			break;
+		case 4020:	// Salsa Ball
+			classType = KoLCharacter.SAUCEROR;
+			break;
+		case 5021:	// Sucker Punch
+			classType = KoLCharacter.DISCO_BANDIT;
+			break;
+		case 6025:	// Sing
+			classType = KoLCharacter.ACCORDION_THIEF;
+			break;
+
+		case 7008:	// Moxious Maneuver
+			return Math.max( KoLCharacter.getLevel() + KoLCharacter.getManaCostAdjustment(), 1 );
+		case 7009:	// Magic Missile
 			return Math.max(
 				Math.min( ( KoLCharacter.getLevel() + 3 ) / 2, 6 ) + KoLCharacter.getManaCostAdjustment(), 1 );
+		}
+
+		if ( classType != null )
+		{
+			return KoLCharacter.getClassType() == classType ? 0 :
+				Math.max( 1 + KoLCharacter.getManaCostAdjustment(), 1 );
 		}
 
 		if ( SkillDatabase.getSkillType( skillId ) == SkillDatabase.PASSIVE )
