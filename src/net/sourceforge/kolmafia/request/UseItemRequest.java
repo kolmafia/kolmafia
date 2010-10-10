@@ -3599,17 +3599,30 @@ public class UseItemRequest
 		int minCounter;
 
 		// First semirare comes between 70 and 80 regardless of path
-		if ( KoLCharacter.getCurrentRun() < 80 )
+
+		// If we haven't played 70 turns, we definitely have not passed
+		// the semirare counter yet.
+		if ( KoLCharacter.getCurrentRun() < 70 )
 		{
 			minCounter = 70;
 		}
+		// If we haven't seen a semirare yet and are still within the
+		// window for the first, again, expect the first one.
+		else if ( KoLCharacter.getCurrentRun() < 80 &&
+			  KoLCharacter.lastSemirareTurn() == 0 )
+		{
+			minCounter = 70;
+		}
+		// Otherwise, we are definitely past the first semirare,
+		// whether or not we saw it. If you are not an Oxygenarian,
+		// semirares come less frequently
 		else if ( KoLCharacter.canEat() || KoLCharacter.canDrink() )
 		{
 			minCounter = 150;	// conservative, wiki claims 160 minimum
 		}
+		// ... than if you are on the Oxygenarian path
 		else
 		{
-			// Oxygenarian path
 			minCounter = 100;	// conservative, wiki claims 102 minimum			
 		}
 
@@ -3629,13 +3642,13 @@ public class UseItemRequest
 			}
 			
 			if ( number < minCounter ||
-				!TurnCounter.getCounters( "Semirare window begin", number + 1, 500 ).equals( "" ) )
+			     !TurnCounter.getCounters( "Semirare window begin", number + 1, 500 ).equals( "" ) )
 			{
 				KoLmafia.updateDisplay( "Lucky number " + number +
 							" ignored - too soon to be a semirare." );
 			}
 			else if ( number > 205 ||
-				!TurnCounter.getCounters( "Semirare window end", minEnd, number - 1 ).equals( "" ) )
+				  !TurnCounter.getCounters( "Semirare window end", minEnd, number - 1 ).equals( "" ) )
 			{	// conservative, wiki claims 200 maximum
 				KoLmafia.updateDisplay( "Lucky number " + number +
 							" ignored - too large to be a semirare." );
