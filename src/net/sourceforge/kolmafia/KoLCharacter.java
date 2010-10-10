@@ -1622,6 +1622,12 @@ public abstract class KoLCharacter
 		return KoLCharacter.currentRun - last;
 	}
 
+	public static final int lastSemirareTurn()
+	{
+		KoLCharacter.ensureUpdatedSemirareCounter();
+		return Preferences.getInteger( "semirareCounter" );
+	}
+
 	/**
 	 * Accessor method to retrieve the current value of a named modifier
 	 */
