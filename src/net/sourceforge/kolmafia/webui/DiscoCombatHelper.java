@@ -717,7 +717,6 @@ public class DiscoCombatHelper
 			int [][] data = COMBO_SKILLS[ i ];
 			for ( int j = 0; j < 3; ++j )
 			{
-				buffer.append( "<td>" );
 				if ( j < data.length )
 				{
 					int [] skills = data[ j ];
@@ -745,7 +744,10 @@ public class DiscoCombatHelper
 						DiscoCombatHelper.addDiscoButton( buffer, skill, true );
 					}
 				}
-				buffer.append( "</td>" );
+				else
+				{
+					buffer.append( "<td>&nbsp;</td>" );
+				}
 			}
 
 			buffer.append( "</tr>" );
@@ -794,11 +796,11 @@ public class DiscoCombatHelper
 		int skillId = SKILL_ID[ skill ];
 		String name = BUTTON_NAME[ skill ];
 
-		buffer.append( "<input type=\"button\" onClick=\"killforms(this); document.location.href='" );
-		buffer.append( "fight.php?action=skill&whichskill=" );
+		buffer.append( "<form method=POST action=\"fight.php\"><td>" );
+		buffer.append( "<input type=hidden name=\"action\" value=\"skill\">" );
+		buffer.append( "<input type=hidden name=\"whichskill\" value=\"" );
 		buffer.append( String.valueOf( skillId ) );
-
-		buffer.append( "';void(0);\" value=\"" );
+		buffer.append( "\"><input onclick=\"return killforms(this);\" type=\"submit\" value=\"" );
 		buffer.append( name );
 		buffer.append( "\"" );
 
@@ -819,7 +821,7 @@ public class DiscoCombatHelper
 			buffer.append( " disabled" );
 		}
 
-		buffer.append( ">&nbsp;" );
+		buffer.append( ">&nbsp;</td></form>" );
 	}
 
 	public static final void decorate( final StringBuffer buffer )
