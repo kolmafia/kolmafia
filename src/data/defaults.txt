@@ -756,6 +756,7 @@ user	choiceAdventure182	1
 user	choiceAdventure184	6
 user	choiceAdventure185	3
 user	choiceAdventure186	1
+user    choiceAdventure187      0
 user	choiceAdventure188	0
 user	choiceAdventure189	0
 user	choiceAdventure191	1
