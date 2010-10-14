@@ -54,34 +54,6 @@ public class HolidayDatabase
 
 	private static long MS_PER_DAY = 86400000L;
 
-	static
-	{
-		try
-		{
-			// Use a timezone such that the "day" begins at rollover.
-
-			Calendar myCalendar = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
-
-			myCalendar.set( 2005, 8, 17, 0, 0, 0 );
-			HolidayDatabase.NEWYEAR = myCalendar.getTimeInMillis();
-
-			// the date of White Wednesday, which throws everything off by a day
-			myCalendar.set( 2005, 9, 27, 0, 0, 0 );
-			HolidayDatabase.BOUNDARY = myCalendar.getTimeInMillis();
-
-			// the day the thing crashed into Grimace
-			myCalendar.set( 2006, 5, 3, 0, 0, 0 );
-			HolidayDatabase.COLLISION = myCalendar.getTimeInMillis();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen. Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
 	private static int RONALD_PHASE = -1;
 	private static int GRIMACE_PHASE = -1;
 	private static int HAMBURGLAR_POSITION = -1;
@@ -246,6 +218,21 @@ public class HolidayDatabase
 	{
 		try
 		{
+			// Use a timezone such that the "day" begins at rollover.
+
+			Calendar myCalendar = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
+
+			myCalendar.set( 2005, 8, 17, 0, 0, 0 );
+			HolidayDatabase.NEWYEAR = myCalendar.getTimeInMillis();
+
+			// the date of White Wednesday, which throws everything off by a day
+			myCalendar.set( 2005, 9, 27, 0, 0, 0 );
+			HolidayDatabase.BOUNDARY = myCalendar.getTimeInMillis();
+
+			// the day the thing crashed into Grimace
+			myCalendar.set( 2006, 5, 3, 0, 0, 0 );
+			HolidayDatabase.COLLISION = myCalendar.getTimeInMillis();
+
 			Date now = new Date();
 			int calendarDay = HolidayDatabase.getCalendarDay( now );
 			int phaseStep = ( calendarDay + 16 ) % 16;
