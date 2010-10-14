@@ -193,19 +193,20 @@ public class AdventureFrame
 		// Components of custom combat and choice adventuring,
 		// combined into one friendly panel.
 
+		this.tabs.addTab( "Overview", this.getAdventureSummary() );
+		AdventureFrame.choiceOptionsPanel = new ChoiceOptionsPanel();
+
+		this.tabs.addTab( "Choice Advs", AdventureFrame.choiceOptionsPanel );
+
 		AdventureFrame.restoreOptionsPanel = new RestoreOptionsPanel();
 		GenericScrollPane restoreScroller = new GenericScrollPane( AdventureFrame.restoreOptionsPanel );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
-
 		this.tabs.addTab( "HP/MP Usage", restoreScroller );
 
 		this.tabs.addTab( "Mood Setup", new MoodOptionsPanel() );
+
 		AdventureFrame.customCombatPanel = new CustomCombatPanel();
 		this.tabs.addTab( "Custom Combat", AdventureFrame.customCombatPanel );
-
-		this.tabs.insertTab( "Overview", null, this.getAdventureSummary(), null, 0 );
-		AdventureFrame.choiceOptionsPanel = new ChoiceOptionsPanel();
-		this.tabs.insertTab( "Choice Advs", null, AdventureFrame.choiceOptionsPanel, null, 1 );
 
 		AdventureFrame.adventureSelector.addSelectedLocationListener( AdventureFrame.choiceOptionsPanel.getUpdateListener() );
 		return this.tabs;
