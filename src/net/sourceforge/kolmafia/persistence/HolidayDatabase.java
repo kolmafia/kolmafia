@@ -85,26 +85,10 @@ public class HolidayDatabase
 	private static int RONALD_PHASE = -1;
 	private static int GRIMACE_PHASE = -1;
 	private static int HAMBURGLAR_POSITION = -1;
-
+	
 	static
 	{
-		try
-		{
-			Date now = new Date();
-			int calendarDay = HolidayDatabase.getCalendarDay( now );
-			int phaseStep = ( calendarDay + 16 ) % 16;
-
-			HolidayDatabase.RONALD_PHASE = phaseStep % 8;
-			HolidayDatabase.GRIMACE_PHASE = phaseStep / 2;
-			HolidayDatabase.HAMBURGLAR_POSITION = HolidayDatabase.getHamburglarPosition( now );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen. Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
+		HolidayDatabase.guessPhaseStep();
 	}
 
 	// static final array of status effect day predictions
@@ -258,6 +242,27 @@ public class HolidayDatabase
 		}
 	}
 
+	public static final void guessPhaseStep()
+	{
+		try
+		{
+			Date now = new Date();
+			int calendarDay = HolidayDatabase.getCalendarDay( now );
+			int phaseStep = ( calendarDay + 16 ) % 16;
+
+			HolidayDatabase.RONALD_PHASE = phaseStep % 8;
+			HolidayDatabase.GRIMACE_PHASE = phaseStep / 2;
+			HolidayDatabase.HAMBURGLAR_POSITION = HolidayDatabase.getHamburglarPosition( now );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen. Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}		
+	}
+	
 	public static final void logMoonStatus( final String label )
 	{
 		Date now = new Date();
@@ -283,6 +288,7 @@ public class HolidayDatabase
 
 	public static final void setMoonPhases( final int ronaldPhase, final int grimacePhase )
 	{
+		HolidayDatabase.guessPhaseStep();
 		int oldStep = HolidayDatabase.getPhaseStep();
 
 		HolidayDatabase.RONALD_PHASE = ronaldPhase;
