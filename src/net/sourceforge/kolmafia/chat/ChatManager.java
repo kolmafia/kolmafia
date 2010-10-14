@@ -418,7 +418,7 @@ public abstract class ChatManager
 			while ( clanMessageIterator.hasNext() )
 			{
 				ChatMessage message = (ChatMessage) clanMessageIterator.next();
-				String cleanMessage = KoLConstants.ANYTAG_PATTERN.matcher( message.getContent() ).replaceAll( "" );
+				String cleanMessage = KoLConstants.ANYTAG_PATTERN.matcher( ChatFormatter.formatChatMessage( message ) ).replaceAll( "" );
 
 				mailContent.append( cleanMessage );
 				mailContent.append( "\n" );
