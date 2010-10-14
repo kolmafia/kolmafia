@@ -46,12 +46,7 @@ public class PripheaCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		if ( !KoLDesktop.instanceExists() )
-		{
-			KoLmafiaGUI.checkFrameSettings();
-			KoLDesktop.getInstance().initializeTabs();
-		}
-
+		KoLmafiaGUI.checkFrameSettings();
 		KoLDesktop.displayDesktop();
 	}
 }
