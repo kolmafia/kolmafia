@@ -85,6 +85,7 @@ public abstract class GenericFrame
 	implements Runnable
 {
 	protected static int existingFrameCount = 0;
+	private boolean packedOnce = false;
 	private boolean exists = false;
 
 	protected HashMap listenerMap;
@@ -517,7 +518,7 @@ public abstract class GenericFrame
 
 	public void processWindowEvent( final WindowEvent e )
 	{
-		if ( this.isVisible() )
+		if ( this.isVisible() && e.getID() == WindowEvent.WINDOW_CLOSING )
 		{
 			this.rememberPosition();
 		}
@@ -586,14 +587,10 @@ public abstract class GenericFrame
 
 	public void pack()
 	{
-		if ( !( this instanceof ChatFrame ) )
+		if ( !( this instanceof ChatFrame ) && !packedOnce )
 		{
 			super.pack();
-		}
-
-		if ( !this.isVisible() )
-		{
-			this.restorePosition();
+			packedOnce = true;
 		}
 	}
 

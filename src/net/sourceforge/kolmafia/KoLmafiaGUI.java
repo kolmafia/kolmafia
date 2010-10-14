@@ -170,7 +170,6 @@ public class KoLmafiaGUI
 
 		if ( !desktopSetting.equals( "" ) )
 		{
-			KoLDesktop.getInstance().initializeTabs();
 			if ( !Preferences.getBoolean( "relayBrowserOnly" ) )
 			{
 				KoLDesktop.displayDesktop();

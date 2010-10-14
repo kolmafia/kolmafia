@@ -209,6 +209,7 @@ public class KoLDesktop
 			}
 		}
 
+		KoLDesktop.INSTANCE.pack();
 		KoLDesktop.isInitializing = false;
 	}
 
@@ -226,6 +227,7 @@ public class KoLDesktop
 		}
 
 		super.dispose();
+		KoLDesktop.INSTANCE = null;
 	}
 
 	public static final boolean instanceExists()
@@ -238,6 +240,7 @@ public class KoLDesktop
 		if ( KoLDesktop.INSTANCE == null )
 		{
 			KoLDesktop.INSTANCE = new KoLDesktop( StaticEntity.getVersion() );
+			KoLDesktop.INSTANCE.initializeTabs();
 		}
 
 		return KoLDesktop.INSTANCE;
@@ -474,7 +477,6 @@ public class KoLDesktop
 	{
 		public void run()
 		{
-			KoLDesktop.getInstance().pack();
 			KoLDesktop.getInstance().setVisible( true );
 			KoLDesktop.getInstance().requestFocus();
 		}

@@ -181,12 +181,7 @@ public abstract class SystemTrayFrame
 
 	public static final void showDisplay()
 	{
-		if ( !KoLDesktop.instanceExists() )
-		{
-			KoLmafiaGUI.checkFrameSettings();
-			KoLDesktop.getInstance().initializeTabs();
-		}
-
+		KoLmafiaGUI.checkFrameSettings();
 		KoLDesktop.displayDesktop();
 	}
 
