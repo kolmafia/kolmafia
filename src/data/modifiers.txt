@@ -1916,6 +1916,7 @@ ironic moustache	Familiar Weight: +10, Effect: "+10 lbs."
 ittah bittah hookah	Familiar Weight: +5, Generic
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
 jalape&ntilde;o slices	Meat Drop: +60.9
+kitty sheet music	Familiar Weight: +5
 lead necklace	Familiar Weight: +3, Generic
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
@@ -1998,6 +1999,7 @@ tiny knife and fork	Familiar Weight: +5
 tiny makeup kit	Familiar Weight: +15
 tiny maracas	Familiar Weight: +5
 # tiny nose-bone fetish: Reduces familiar's MP expenditure by 2-4.
+tiny prop sword	Familiar Weight: +5
 tiny shaker of salt	Familiar Weight: +5
 tiny sombrero	Sombrero Bonus: +10
 toy six-seater hovercraft	Familiar Weight: -5
@@ -3530,10 +3532,12 @@ perfectly ordinary frog	Free Pull
 personal raindrop	Free Pull
 personalized coffee mug	Free Pull
 pygmy bugbear shaman	Free Pull
+rehearsing dramatic hedgehog	Free Pull
 roll of toilet paper	Free Pull
 sane hatrack	Free Pull
 siesta-ing Casagnova gnome	Free Pull
 silk garter snake	Free Pull
+sleeping piano cat	Free Pull
 spooky rattling cigar box	Free Pull
 squamous polyp	Free Pull
 sweet nutcracker	Free Pull

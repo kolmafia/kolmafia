@@ -4723,7 +4723,7 @@
 4714	lemon popsicle	food	all	2
 4715	orange popsicle	food	all	2
 4716	strawberry popsicle	food	all	2
-4717
+4717	liver popsicle	food	all	2
 4718	mariachi hat	hat	all	1
 4719	Hollandaise helmet	hat	all	1
 4720	organ grinder	grow	all	0
@@ -4738,3 +4738,7 @@
 4729	throbbing organ pie	food	all	15
 4730	stop shield	offhand	display	0
 4731	nest egg	usable	display	0
+4732	sleeping piano cat	grow	all	0
+4733	kitty sheet music	familiar	all	75
+4734	rehearsing dramatic hedgehog	grow	all	0
+4735	tiny prop sword	familiar	all	75
