@@ -1359,6 +1359,16 @@ public class ResultProcessor
 			{
 				Preferences.increment( "_tokenDrops", 1 );
 			}
+			// Fall through
+		case ItemPool.GG_TICKET:
+			// If this is the first token or ticket we've gotten
+			// this ascension, visit the wrong side of the tracks
+			// to unlock the arcade.
+			if ( Preferences.getInteger( "lastArcadeAscension" ) < KoLCharacter.getAscensions() )
+			{
+				Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
+				RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
+			}
 			break;
 		}
 	}

@@ -72,7 +72,7 @@
 63	action figure body	none	none	0
 64	action figure head	none	none	0
 65	Mighty Bjorn action figure	none	none	0
-66	golden twig	none	all	100
+66	golden twig	none	all	45
 67	spaghetti with rock-balls	none	all	2
 68	Pasta of Peril	weapon	all	150
 69	Newbiesport&trade; tent	usable	all	20
@@ -534,7 +534,7 @@
 525	grue egg	grow, fancy	display	0
 526	Frobozz Real-Estate Company Instant House (TM)	usable	none	0
 527	volleyball	usable	all	45
-528	blood-faced volleyball	grow	all	101
+528	blood-faced volleyball	grow	all	45
 529	fertilized ghuol egg	grow	all	19
 530	spray paint	none	all	25
 531	special sauce glove	accessory	all	2500
@@ -1362,7 +1362,7 @@
 1353	ninja pirate zombie robot	grow	display	0
 1354	pile of shiny pebbles	none	none	0
 1355	bowl of oriole's nest soup	food	none	0
-1356	bunny liver	none	none	0
+1356	bunny liver	none	display	0
 1357	Mt. Noob Pale Ale	drink	none	0
 1358	pirate zombie head	none	all	360
 1359	ninja pirate zombie robot head	usable	all	360
