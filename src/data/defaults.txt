@@ -334,6 +334,7 @@ user	invalidBuffMessage	You sent an amount which does not correspond to a valid 
 user	kingLiberated	false
 user	knownAscensions	-1
 user	lastAdventure
+user	lastArcadeAscension	-1
 user	lastBadMoonReset	-1
 user	lastBarrelSmashed	0
 user	lastBangPotion819
