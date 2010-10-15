@@ -253,6 +253,7 @@ wang	COMBINE	WA	NG
 lemon popsicle	COOK	popsicle stick	lemon
 orange popsicle	COOK	popsicle stick	orange
 strawberry popsicle	COOK	popsicle stick	strawberry
+liver popsicle	COOK	popsicle stick	bunny liver
 banana cream pie	COOK	pie crust	banana
 banana milkshake	COOK	glass of baboon milk	banana
 banana spritzer	COOK	banana	soda water
