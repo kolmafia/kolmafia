@@ -65,7 +65,7 @@ public class LoginRequest
 	private static boolean ignoreLoadBalancer = false;
 	private static LoginRequest lastRequest = null;
 	private static long lastLoginAttempt = 0;
-	
+
 	private static boolean isLoggingIn;
 	private static boolean isTimingIn = false;
 
@@ -221,26 +221,16 @@ public class LoginRequest
 
 	private static final String getHexString( final byte[] bytes )
 	{
-		byte[] output = new byte[ bytes.length + 1 ];
-		for ( int i = 0; i < bytes.length; ++i )
-		{
-			output[ i + 1 ] = bytes[ i ];
-		}
+		byte[] nonNegativeBytes = new byte[ bytes.length + 1 ];
+		System.arraycopy( bytes, 0, nonNegativeBytes, 1, bytes.length );
 
-		StringBuffer result = new StringBuffer( ( new BigInteger( output ) ).toString( 16 ) );
-		int desiredLength = bytes.length * 2;
+		StringBuffer hexString = new StringBuffer( 64 );
 
-		while ( result.length() < desiredLength )
-		{
-			result.insert( 0, '0' );
-		}
+		hexString.append( "00000000000000000000000000000000" );
+		hexString.append( new BigInteger( nonNegativeBytes ).toString( 16 ) );
+		hexString.delete( 0, hexString.length() - 32 );
 
-		if ( result.length() > desiredLength )
-		{
-			result.delete( 0, result.length() - desiredLength );
-		}
-
-		return result.toString();
+		return hexString.toString();
 	}
 
 	public boolean shouldFollowRedirect()
@@ -267,7 +257,7 @@ public class LoginRequest
 
 		LoginRequest.lastRequest = this;
 		LoginRequest.lastLoginAttempt = System.currentTimeMillis();
-		
+
 		KoLmafia.forceContinue();
 
 		String loginName = Preferences.getBoolean( "stealthLogin" ) ? this.username + "/q" : this.username;
@@ -356,7 +346,7 @@ public class LoginRequest
 		// attempt, we could be responding to the flurry of login.php
 		// redirects KoL gives us when the Relay Browser tries to open
 		// game.php, topmenu.php, chatlaunch.php, etc.
-		
+
 		if ( System.currentTimeMillis() - 30000 < LoginRequest.lastLoginAttempt )
 		{
 			return LoginRequest.completedLogin;
