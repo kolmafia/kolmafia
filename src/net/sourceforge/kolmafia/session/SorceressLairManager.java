@@ -2335,72 +2335,86 @@ public abstract class SorceressLairManager
 			return;
 		}
 
+		// Assume we will start getting tower items from the beginning
+		// of the list
 		int startGetting = 0;
-		if ( !KoLCharacter.inBadMoon() )
+
+		// Find out how good our telescope is.
+		int upgrades = KoLCharacter.inBadMoon() ? 0 : KoLCharacter.getTelescopeUpgrades();
+		if ( upgrades >= 6 )
 		{
-			// Find out how good our telescope is.
-			int upgrades = KoLCharacter.getTelescopeUpgrades();
-			if ( upgrades >= 6 )
+			// We have either a complete telescope or we are only
+			// missing the last upgrade.
+			startGetting = SorceressLairManager.GUARDIAN_DATA.length;
+			if ( upgrades == 6 )
 			{
-				// We have either a complete telescope or we are only missing
-				// the last upgrade.  The last tower guardian is special and
-				// always needs an item from the shore which cannot be created,
-				// so just don't think about it.  Make sure we've looked through
-				// our telescope since we last ascended.
-				KoLCharacter.checkTelescope();
-				
-				startGetting = SorceressLairManager.GUARDIAN_DATA.length -
-					(upgrades == 6 ? 3 : 0);
- 				
-				for ( int i = 1; i < 7; ++i )
+				// Missing last upgrade. Look at shore items.
+				startGetting -= 3;
+			}
+
+			// Make sure we've looked through our telescope since
+			// we last ascended.
+			KoLCharacter.checkTelescope();
+
+			// The last tower guardian is special and always needs
+			// an item from the shore which cannot be created, so
+			// just don't think about it.
+			//
+			// Look at the guardians for floors 1 through 5 in turn.
+			// They will be stored in telescope2 through telescope6
+			for ( int i = 1; i <= 5; ++i )
+			{
+				String prop = Preferences.getString( "telescope" + ( i + 1 ) );
+				String[] desc = SorceressLairManager.findGuardianByDescription( prop );
+				if ( desc == null )
+
 				{
-					String prop = Preferences.getString( "telescope" + ( i + 1 ) );
-					String[] desc = SorceressLairManager.findGuardianByDescription( prop );
-					if ( desc != null )
-					{
-						String name = SorceressLairManager.guardianItem( desc );
-						AdventureResult item = ItemPool.get( name, 1 );
-						if ( !KoLConstants.inventory.contains( item ) )
-						{
-							if ( SorceressLairManager.isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
-							{
-								InventoryManager.retrieveItem( item );
-							}
-						}
-					}
-					else
-					{
-						// We couldn't identify a tower guardian, so defensively
-						// acquire every known tower item that we can.  This
-						// will probably mean that we get tower items that we
-						// don't need, but that is better than going into a
-						// fight without an item that could be easily created.
-						KoLmafia.updateDisplay( "Tower Guardian #" + i + ": " + prop + " unrecognized." );
-						startGetting = 0;
-						break;
-					}
+					// We couldn't identify the guardian.
+					KoLmafia.updateDisplay( "Tower Guardian #" + i + ": \"" + prop + "\" unrecognized." );
+
+					// Defensively acquire every known
+					// tower item that we can.  This will
+					// probably mean that we get tower
+					// items that we don't need, but that
+					// is better than going into a fight
+					// without an item that could be easily
+					// created.
+					startGetting = 0;
+					break;
 				}
+
+				// We recognize the guardian.
+				SorceressLairManager.acquireGuardianItem( desc );
 			}
 		}
 		
 		// Get everything that we can't be sure about needing or not -
-		// from the start if we don't have enough of a telescope to rule out
-		// any possibilities, 3 from the end if we only have 6 upgrades and
-		// can't tell which Shore item is required, nothing if we have all 7.
+		// from the start if we don't have enough of a telescope to
+		// rule out any possibilities, 3 from the end if we only have 6
+		// upgrades and can't tell which Shore item is required,
+		// nothing if we have all 7.
 		for ( int i = startGetting; i < SorceressLairManager.GUARDIAN_DATA.length; ++i )
 		{
-			String name = SorceressLairManager.guardianItem( SorceressLairManager.GUARDIAN_DATA[ i ] );
-			AdventureResult item = new AdventureResult( name, 1, false );
-			if ( !KoLConstants.inventory.contains( item ) )
-			{
-				if ( SorceressLairManager.isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
-				{
-					InventoryManager.retrieveItem( item );
-				}
-			}
+			String [] desc = SorceressLairManager.GUARDIAN_DATA[ i ];
+			SorceressLairManager.acquireGuardianItem( desc );
 		}
 
 		Preferences.setInteger( "lastTowerClimb", KoLCharacter.getAscensions() );
+	}
+
+	private static final void acquireGuardianItem( final String[] desc )
+	{
+		String name = SorceressLairManager.guardianItem( desc );
+		AdventureResult item = ItemPool.get( name, 1 );
+		if ( KoLConstants.inventory.contains( item ) )
+		{
+			return;
+		}
+
+		if ( SorceressLairManager.isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
+		{
+			InventoryManager.retrieveItem( item );
+		}
 	}
 
 	private static final void familiarBattle( final int n )
