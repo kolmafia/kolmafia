@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1978,7 +1979,7 @@ public class UseItemRequest
 					int adv = Preferences.getInteger( "welcomeBackAdv" );
 					if ( adv <= 0 )
 					{
-						adv = 240;	// default to Noob Cave
+						adv = AdventurePool.NOOB_CAVE;
 					}
 					KoLAdventure req = AdventureDatabase.getAdventureByURL(
 						"adventure.php?snarfblat=" + adv );
