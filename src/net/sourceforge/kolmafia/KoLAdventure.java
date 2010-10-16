@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.foxtrot.Job;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -144,7 +145,7 @@ public class KoLAdventure
 		{
 			this.request = new BasementRequest( adventureName );
 		}
-		else if ( adventureId.equals( "118" ) )
+		else if ( adventureId.equals( AdventurePool.HIDDEN_CITY_ID ) )
 		{
 			this.request = new HiddenCityRequest();
 		}
@@ -277,11 +278,11 @@ public class KoLAdventure
 		{
 			// Update the choice adventure setting
 
-			if ( this.adventureId.equals( "96" ) )
+			if ( this.adventureId.equals( AdventurePool.BAD_TRIP_ID ) )
 			{
 				Preferences.setString( "choiceAdventure71", "1" );
 			}
-			else if ( this.adventureId.equals( "98" ) )
+			else if ( this.adventureId.equals( AdventurePool.MEDIOCRE_TRIP_ID ) )
 			{
 				Preferences.setString( "choiceAdventure71", "2" );
 			}
@@ -369,7 +370,7 @@ public class KoLAdventure
 		}
 
 		// Disguise zones require outfits
-		if ( !this.adventureId.equals( "85" ) && ( this.adventureName.indexOf( "Disguise" ) != -1 || this.adventureName.indexOf( "Uniform" ) != -1 ) )
+		if ( !this.adventureId.equals( AdventurePool.COLA_BATTLEFIELD_ID ) && ( this.adventureName.indexOf( "Disguise" ) != -1 || this.adventureName.indexOf( "Uniform" ) != -1 ) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
@@ -391,7 +392,7 @@ public class KoLAdventure
 		// acquire one then try to equip it.  If the person has a two
 		// handed weapon, then report an error.
 
-		if ( this.adventureId.equals( "73" ) )
+		if ( this.adventureId.equals( AdventurePool.PIXEL_REALM_ID ) )
 		{
 			AdventureResult transfuctioner = ItemPool.get( ItemPool.TRANSFUNCTIONER, 1 );
 			if ( !InventoryManager.hasItem( transfuctioner ) )
@@ -413,7 +414,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( "119" ) )
+		if ( this.adventureId.equals( AdventurePool.PALINDOME_ID ) )
 		{
 			AdventureResult talisman = ItemPool.get( ItemPool.TALISMAN, 1 );
 			if ( !KoLCharacter.hasEquipped( talisman ) )
@@ -432,7 +433,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( "166" ) )
+		if ( this.adventureId.equals( AdventurePool.HOBOPOLIS_SEWERS_ID ) )
 		{
 			// Don't auto-adventure unprepared in Hobopolis sewers
 
@@ -458,7 +459,9 @@ public class KoLAdventure
 		}
 
 		// If we're trying to take a trip, make sure it's the right one
-		if ( this.adventureId.equals( "96" ) || this.adventureId.equals( "97" ) || this.adventureId.equals( "98" ) )
+		if ( this.adventureId.equals( AdventurePool.BAD_TRIP_ID ) ||
+		     this.adventureId.equals( AdventurePool.MEDIOCRE_TRIP_ID ) ||
+		     this.adventureId.equals( AdventurePool.GREAT_TRIP_ID ) )
 		{
 			// You must be Half-Astral to go on a trip
 
@@ -479,11 +482,11 @@ public class KoLAdventure
 			if ( astral == 5 )
 			{
 				String choice;
-				if ( this.adventureId.equals( "96" ) )
+				if ( this.adventureId.equals( AdventurePool.BAD_TRIP_ID ) )
 				{
 					choice = "1";
 				}
-				else if ( this.adventureId.equals( "98" ) )
+				else if ( this.adventureId.equals( AdventurePool.MEDIOCRE_TRIP_ID ) )
 				{
 					choice = "2";
 				}
@@ -547,7 +550,7 @@ public class KoLAdventure
 		// The Castle in the Clouds in the Sky is unlocked provided the
 		// character has either a S.O.C.K. or an intragalactic rowboat
 
-		if ( this.adventureId.equals( "82" ) )
+		if ( this.adventureId.equals( AdventurePool.GIANT_CASTLE_ID ) )
 		{
 			this.isValidAdventure =
 				InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) || InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
@@ -557,7 +560,7 @@ public class KoLAdventure
 		// The Hole in the Sky is unlocked provided the player has an
 		// intragalactic rowboat in their inventory.
 
-		if ( this.adventureId.equals( "83" ) )
+		if ( this.adventureId.equals( AdventurePool.HOLE_IN_THE_SKY_ID ) )
 		{
 			if ( !InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) && InventoryManager.hasItem( ItemPool.get( ItemPool.GIANT_CASTLE_MAP, 1 ) ) )
 			{
@@ -571,7 +574,7 @@ public class KoLAdventure
 		// The beanstalk is unlocked when the player has planted a
 		// beanstalk -- but, the zone needs to be armed first.
 
-		if ( this.adventureId.equals( "81" ) && !KoLCharacter.beanstalkArmed() )
+		if ( this.adventureId.equals( AdventurePool.AIRSHIP_ID ) && !KoLCharacter.beanstalkArmed() )
 		{
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
@@ -640,13 +643,13 @@ public class KoLAdventure
 			// unlocked. However, we can verify that the zones that
 			// require keys are accessible.
 
-			if ( this.adventureId.equals( "104" ) )
+			if ( this.adventureId.equals( AdventurePool.HAUNTED_LIBRARY_ID ) )
 			{
 				// Haunted Library
 				this.isValidAdventure = InventoryManager.hasItem( ItemPool.LIBRARY_KEY );
 			}
 
-			else if ( this.adventureId.equals( "106" ) )
+			else if ( this.adventureId.equals( AdventurePool.HAUNTED_GALLERY_ID ) )
 			{
 				// Haunted Gallery
 				this.isValidAdventure = InventoryManager.hasItem( ItemPool.GALLERY_KEY );
@@ -655,13 +658,14 @@ public class KoLAdventure
 			// It takes a special action to make the upstairs areas
 			// available. Assume they are accessible if the player
 			// can get into the library
-			else if ( this.adventureId.equals( "107" ) || this.adventureId.equals( "108" ) )
+			else if ( this.adventureId.equals( AdventurePool.HAUNTED_BATHROOM_ID ) ||
+				  this.adventureId.equals( AdventurePool.HAUNTED_BEDROOM_ID ) )
 			{
 				// Haunted Bathroom & Bedroom
 				this.isValidAdventure = InventoryManager.hasItem( ItemPool.LIBRARY_KEY );
 			}
 
-			else if ( this.adventureId.equals( "109" ) )
+			else if ( this.adventureId.equals( AdventurePool.HAUNTED_BALLROOM_ID ) )
 			{
 				// Haunted Ballroom
 				this.isValidAdventure = InventoryManager.hasItem( ItemPool.BALLROOM_KEY );
@@ -670,23 +674,25 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( "32" ) || this.adventureId.equals( "33" ) || this.adventureId.equals( "34" ) )
+		if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) ||
+		     this.adventureId.equals( AdventurePool.BEANBAT_ID ) ||
+		     this.adventureId.equals( AdventurePool.BOSSBAT_ID ) )
 		{
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "bathole.php" ) );
 
-			if ( this.adventureId.equals( "32" ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
 
-			if ( this.adventureId.equals( "33" ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( this.adventureId.equals( AdventurePool.BEANBAT_ID ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
 
-			if ( this.adventureId.equals( "34" ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( this.adventureId.equals( AdventurePool.BOSSBAT_ID ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -713,11 +719,11 @@ public class KoLAdventure
 			RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.SONAR, sonarToUse ) ) );
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
-			if ( this.adventureId.equals( "32" ) )
+			if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) )
 			{
 				this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1;
 			}
-			else if ( this.adventureId.equals( "33" ) )
+			else if ( this.adventureId.equals( AdventurePool.BEANBAT_ID ) )
 			{
 				this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1;
 			}
@@ -729,7 +735,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.adventureId.equals( "100" ) )
+		if ( this.adventureId.equals( AdventurePool.WHITEYS_GROVE_ID ) )
 		{
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "woods.php" ) );
 			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "grove.gif" ) != -1;
@@ -743,7 +749,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.zone.equals( "McLarge" ) && !this.adventureId.equals( "176" ))
+		if ( this.zone.equals( "McLarge" ) && !this.adventureId.equals( AdventurePool.MINE_OFFICE_ID ))
 		{
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mclargehuge.php" ) );
 			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( this.adventureId ) != -1 )
@@ -812,7 +818,7 @@ public class KoLAdventure
 
 		if ( !this.isValidAdventure )
 		{
-			String message = this.adventureId.equals( "166" ) ?
+			String message = this.adventureId.equals( AdventurePool.HOBOPOLIS_SEWERS_ID ) ?
 				"Do not venture unprepared into the sewer tunnels!" :
 				"That area is not available.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
@@ -827,7 +833,7 @@ public class KoLAdventure
 
 		String action = Preferences.getString( "battleAction" );
 
-		if ( this.request instanceof AdventureRequest && !this.adventureId.equals( "80" ) )
+		if ( this.request instanceof AdventureRequest && !this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) )
 		{
 			if ( !this.isNonCombatsOnly() && action.indexOf( "dictionary" ) != -1 && FightRequest.DICTIONARY1.getCount( KoLConstants.inventory ) < 1 && FightRequest.DICTIONARY2.getCount( KoLConstants.inventory ) < 1 )
 			{
@@ -862,7 +868,7 @@ public class KoLAdventure
 			// Check for dictionaries as a battle strategy, if the
 			// person is not adventuring at the chasm.
 
-			if ( !this.adventureId.equals( "80" ) && this.request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
+			if ( !this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) && this.request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
 			{
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
@@ -958,7 +964,7 @@ public class KoLAdventure
 		// If you're searching for special scrolls, do not enable
 		// your auto-attack.
 
-		if ( this.adventureId.equals( "80" ) )
+		if ( this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) )
 		{
 			CustomCombatManager.setAutoAttack( 0 );
 			return;
@@ -1112,20 +1118,21 @@ public class KoLAdventure
 	
 			switch ( id )
 			{
-			case 118:
-				// The Hidden City is weird. It redirects you to the
-				// container zone (the grid of 25 squares) if you try
-				// to adventure at this adventure ID.
+			case AdventurePool.HIDDEN_CITY:
+				// The Hidden City is weird. It redirects you
+				// to the container zone (the grid of 25
+				// squares) if you try to adventure at this
+				// adventure ID.
 	
 				// We detect adventuring in individual squares
 				// elsewhere.
 				return;
 	
-			case 123:
+			case AdventurePool.ARID_DESERT:
 				AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
 				if ( !KoLConstants.activeEffects.contains( hydrated ) )
 				{
-					( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
+					( new AdventureRequest( "Oasis in the Desert", "adventure.php", AdventurePool.OASIS_ID ) ).run();
 				}
 				if ( !KoLConstants.activeEffects.contains( hydrated ) )
 				{
@@ -1133,13 +1140,13 @@ public class KoLAdventure
 				}
 				break;
 	
-			case 158:
+			case AdventurePool.FCLE:
 				AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
 				AdventureResult polish = ItemPool.get( ItemPool.BALL_POLISH, 1 );
 				AdventureResult sham = ItemPool.get( ItemPool.RIGGING_SHAMPOO, 1 );
 				if ( InventoryManager.hasItem( mop ) &&
-					InventoryManager.hasItem( polish ) &&
-					InventoryManager.hasItem( sham ) )
+				     InventoryManager.hasItem( polish ) &&
+				     InventoryManager.hasItem( sham ) )
 				{
 					RequestThread.postRequest( new UseItemRequest( mop ) );
 					RequestThread.postRequest( new UseItemRequest( polish ) );
@@ -1157,7 +1164,7 @@ public class KoLAdventure
 
 		// Visit the untinker before adventuring at Degrassi Knoll.
 
-		if ( id == 18 )
+		if ( id == AdventurePool.DEGRASSI_KNOLL )
 		{
 			UntinkerRequest.canUntinker();
 		}
