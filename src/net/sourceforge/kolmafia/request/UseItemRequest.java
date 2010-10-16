@@ -1978,7 +1978,7 @@ public class UseItemRequest
 					int adv = Preferences.getInteger( "welcomeBackAdv" );
 					if ( adv <= 0 )
 					{
-						adv = 91;	// default to Noob Cave
+						adv = 240;	// default to Noob Cave
 					}
 					KoLAdventure req = AdventureDatabase.getAdventureByURL(
 						"adventure.php?snarfblat=" + adv );
