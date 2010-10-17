@@ -318,6 +318,18 @@ public class UseItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.TINY_HOUSE:
+		case ItemPool.TEARS:
+			// These restore HP/MP but also remove Beaten Up
+			// If you are currently Beaten Up, allow a single
+			// usage. Otherwise, let code below limit based on
+			// needed HP/MP recovery
+			if ( KoLConstants.activeEffects.contains( KoLAdventure.BEATEN_UP ) )
+			{
+				return 1;
+			}
+			break;
+
 		case ItemPool.GONG:
 		case ItemPool.KETCHUP_HOUND:
 		case ItemPool.MEDICINAL_HERBS:
@@ -603,7 +615,8 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Splitting bricks..." );
 			GenericRequest req = new GenericRequest( "inventory.php?action=breakbricko&pwd&whichitem=" + itemId );
 			RequestThread.postRequest( req );
-			StaticEntity.externalUpdate( req.getURLString(), req.responseText ); 			return;
+			StaticEntity.externalUpdate( req.getURLString(), req.responseText );
+			return;
 
 		case ItemPool.STICKER_SWORD:
 		case ItemPool.STICKER_CROSSBOW:
@@ -968,7 +981,7 @@ public class UseItemRequest
 		case ItemPool.BODYSLAM:
 		case ItemPool.SANGRIA_DEL_DIABLO:
 			// Allow player who owns a single tiny plastic sword to
-			// make and drink multiple drinks in succession.	
+			// make and drink multiple drinks in succession.
 		case ItemPool.BORIS_PIE:
 		case ItemPool.JARLSBERG_PIE:
 		case ItemPool.SNEAKY_PETE_PIE:
@@ -1078,8 +1091,8 @@ public class UseItemRequest
 
 		if ( !canOde )
 		{
-                        return true;
-                }
+			return true;
+		}
 
 		// Cast Ode automatically if you have enough mana.
 		int odeCost = SkillDatabase.getMPConsumptionById( 6014 );
@@ -1103,15 +1116,15 @@ public class UseItemRequest
 			return true;
 		}
 
-                String message = odeTurns > 0 ?
-                        "The Ode to Booze will run out before you finish drinking that. Are you sure?" :
-                        "Are you sure you want to drink without ode?";
-                if ( !InputFieldUtilities.confirm( message ) )
-                {
-                        return false;
-                }
+		String message = odeTurns > 0 ?
+			"The Ode to Booze will run out before you finish drinking that. Are you sure?" :
+			"Are you sure you want to drink without ode?";
+		if ( !InputFieldUtilities.confirm( message ) )
+		{
+			return false;
+		}
 
-                UseItemRequest.askedAboutOde = KoLCharacter.getUserId();
+		UseItemRequest.askedAboutOde = KoLCharacter.getUserId();
 
 		return true;
 	}
@@ -1446,7 +1459,7 @@ public class UseItemRequest
 			return true;
 		}
 
-		// <name> takes the <candy> and quickly consumes them.	He
+		// <name> takes the <candy> and quickly consumes them. He
 		// grows a bit.
 		if ( responseText.indexOf( "He grows a bit" ) != -1 )
 		{
@@ -1708,7 +1721,7 @@ public class UseItemRequest
 		}
 
 		// Check to make sure that it wasn't a food or drink
-		// that was consumed that resulted in nothing.  Eating
+		// that was consumed that resulted in nothing. Eating
 		// too much is flagged as a continuable state.
 		
 		// Note that there is at least one item (memory of amino acids)
@@ -2359,7 +2372,7 @@ public class UseItemRequest
 		case ItemPool.BLACK_SNOWCONE:
 
 			// "Your mouth is still cold from the last snowcone you
-			// ate.   Try again later."
+			// ate. Try again later."
 
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
@@ -2377,7 +2390,7 @@ public class UseItemRequest
 		case ItemPool.POTION_OF_PROFICIENCY:
 
 			// "You're already under the influence of a
-			// high-pressure sauce potion.  If you took this one,
+			// high-pressure sauce potion. If you took this one,
 			// you'd explode.  And not in a good way."
 
 			if ( responseText.indexOf( "you'd explode" ) != -1 )
@@ -2459,9 +2472,11 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 			else
-			{	// Various punctuation mark items are replaced by their
-				// identified versions.  The new items will be detected
-				// by result parsing, but we need to get rid of the old.
+			{
+				// Various punctuation mark items are replaced
+				// by their identified versions. The new items
+				// will be detected by result parsing, but we
+				// need to get rid of the old.
 				for ( int i = 4552; i <= 4558; ++i )
 				{
 					AdventureResult punc = ItemPool.get( i, 1 );
@@ -3290,7 +3305,7 @@ public class UseItemRequest
 			// You pick up the burrowgrub hive to look inside it,
 			// and a bunch of the grubs crawl out of it and burrow
 			// under your skin.  It's horrifying.  You can still
-			// feel them in there.  Gah.
+			// feel them in there. Gah.
 
 			if ( responseText.indexOf( "It's horrifying." ) != -1 )
 			{
@@ -3458,7 +3473,7 @@ public class UseItemRequest
 
 		case ItemPool.SINISTER_ANCIENT_TABLET:
 
-                        AdventureRequest.registerDemonName( "Sinister Ancient Tablet", responseText );
+			AdventureRequest.registerDemonName( "Sinister Ancient Tablet", responseText );
 
 			return;
 		}
@@ -3634,7 +3649,7 @@ public class UseItemRequest
 			int minEnd = 0;
 			if ( TurnCounter.getCounters( "Semirare window begin", 0, 500 ).equals( "" ) )
 			{	
-                                // We are possibly within the window currently.
+				// We are possibly within the window currently.
 				// If the actual semirare turn has already been
 				// missed, a number past the window end could
 				// be valid - but it would have to be at least
@@ -3716,7 +3731,7 @@ public class UseItemRequest
 		     !urlString.startsWith( "inv_familiar.php" ) &&
 		     !urlString.startsWith( "inv_use.php" ) &&
 		     !(urlString.startsWith( "inventory.php" ) &&
-		     	urlString.indexOf( "action=breakbricko" ) != -1) )
+		       urlString.indexOf( "action=breakbricko" ) != -1) )
 		{
 			return null;
 		}
@@ -4098,3 +4113,4 @@ public class UseItemRequest
 		Preferences.setInteger( "lastEVHelmetReset", KoLCharacter.getAscensions() );
 	}
 }
+
