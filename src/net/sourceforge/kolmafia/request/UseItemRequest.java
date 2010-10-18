@@ -326,6 +326,7 @@ public class UseItemRequest
 			// needed HP/MP recovery
 			if ( KoLConstants.activeEffects.contains( KoLAdventure.BEATEN_UP ) )
 			{
+				UseItemRequest.limiter = "needed restoration";
 				return 1;
 			}
 			break;
