@@ -2073,6 +2073,7 @@ Throne:Cuddlefish	Initiative: +20
 Throne:Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne:Dancing Frog	Meat Drop: +20
 Throne:Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:Dramatic Hedgehog	Experience (Mysticality): +2, HP Regen Min: 2, HP Regen Max: 3
 Throne:El Vibrato Megadrone	Monster Level: +10, MP Regen Min: 10, MP Regen Max: 15
 Throne:Emo Squid	Initiative: +20
 Throne:Evil Teddy Bear	Initiative: +20
@@ -2125,6 +2126,7 @@ Throne:Penguin Goodfella	Familiar Weight: +5
 Throne:Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
 Throne:Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne:Piano Cat	Meat Drop: +20
 Throne:Psychedelic Bear	Meat Drop: +20
 Throne:Purse Rat	Experience: +2
 Throne:Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
