@@ -140,7 +140,7 @@ public class ChatFormatter
 		displayHTML.append( message.getTimestamp() );
 		displayHTML.append( "</font>" );
 
-		displayHTML.append( "&nbsp;" );
+		displayHTML.append( " " );
 
 		String sender = message.getSender();
 
