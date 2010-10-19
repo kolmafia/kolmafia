@@ -34,12 +34,7 @@
 package net.sourceforge.kolmafia.chat;
 
 import java.awt.Color;
-
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -70,7 +65,6 @@ public class ChatFormatter
 	private static final Pattern MULTILINE_PATTERN = Pattern.compile( "\n+" );
 
 	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
-	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
 	private static final HashMap chatColors = new HashMap();
 
@@ -143,7 +137,7 @@ public class ChatFormatter
 		displayHTML.append( "<font color=\"" );
 		displayHTML.append( ChatFormatter.DEFAULT_TIMESTAMP_COLOR );
 		displayHTML.append( "\">" );
-		displayHTML.append( ChatFormatter.MESSAGE_TIMESTAMP.format( new Date() ) );
+		displayHTML.append( message.getTimestamp() );
 		displayHTML.append( "</font>" );
 
 		displayHTML.append( "&nbsp;" );

@@ -34,7 +34,10 @@
 package net.sourceforge.kolmafia.chat;
 
 import java.awt.Toolkit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +52,8 @@ public class ChatParser
 	private static final Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>" );
 	private static final Pattern TABLECELL_PATTERN = Pattern.compile( "</?[tc].*?>" );
 	private static final Pattern PARENTHESIS_PATTERN = Pattern.compile( " \\(.*?\\)" );
+	
+	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
 	private static final Pattern PLAYERID_PATTERN =
 		Pattern.compile( "showplayer\\.php\\?who\\=([-\\d]+)[\'\"][^>]*?>(.*?)</a>" );
@@ -305,6 +310,8 @@ public class ChatParser
 			ContactManager.registerPlayerId( playerName, playerId );
 			message = new ChatMessage( playerName, channel, content, isAction );
 		}
+		
+		message.setTimestamp( ChatParser.MESSAGE_TIMESTAMP.format( new Date() ) );
 
 		chatMessages.add( message );		
 		return true;

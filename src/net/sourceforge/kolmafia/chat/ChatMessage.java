@@ -39,6 +39,7 @@ public class ChatMessage
 	private String recipient;
 	private String content;
 	private boolean isAction;
+	private String timestamp;
 	
 	public ChatMessage()
 	{
@@ -85,5 +86,15 @@ public class ChatMessage
 	public boolean isAction()
 	{
 		return isAction;
+	}
+	
+	public void setTimestamp( String timestamp )
+	{
+		this.timestamp = timestamp;
+	}
+	
+	public String getTimestamp()
+	{
+		return timestamp;
 	}
 }
