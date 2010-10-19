@@ -680,6 +680,8 @@ public abstract class InventoryManager
 		// If the character has any of the starter items, retrieve them to improve
 		// the probability of getting worthless items.
 
+		transferChewingGumItems( InventoryManager.STARTER_ITEMS, true, false );
+
 		for ( int i = 0; i < InventoryManager.STARTER_ITEMS.length; ++i )
 		{
 			AdventureResult starterItem = InventoryManager.STARTER_ITEMS[ i ];
@@ -750,20 +752,27 @@ public abstract class InventoryManager
 		return starterItemCount;
 	}
 
-	private static int transferWorthlessItems( boolean moveToCloset )
+	private static void transferChewingGumItems( AdventureResult [] items, boolean moveOne, boolean moveToCloset )
 	{
 		List source = moveToCloset ? KoLConstants.inventory : KoLConstants.closet;
+		List destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
 
 		List attachmentList = new ArrayList();
 
-		for ( int i = 0; i < InventoryManager.WORTHLESS_ITEMS.length; ++i )
+		for ( int i = 0; i < items.length; ++i )
 		{
-			AdventureResult item = InventoryManager.WORTHLESS_ITEMS[ i ];
+			AdventureResult item = items[ i ];
+
+			if ( moveOne && item.getCount( destination ) > 0 )
+			{
+				continue;
+			}
+
 			int itemCount = item.getCount( source );
 
 			if ( itemCount > 0 )
 			{
-				attachmentList.add( ItemPool.get( item.getItemId(), itemCount ) );
+				attachmentList.add( ItemPool.get( item.getItemId(), moveOne ? 1 : itemCount ) );
 			}
 		}
 
@@ -772,6 +781,11 @@ public abstract class InventoryManager
 			int moveType = moveToCloset ? ClosetRequest.INVENTORY_TO_CLOSET : ClosetRequest.CLOSET_TO_INVENTORY;
 			RequestThread.postRequest( new ClosetRequest( moveType, attachmentList.toArray() ) );
 		}
+	}
+
+	private static int transferWorthlessItems( boolean moveToCloset )
+	{
+		transferChewingGumItems( InventoryManager.WORTHLESS_ITEMS, false, moveToCloset );
 
 		List destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
 
