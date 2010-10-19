@@ -2605,6 +2605,7 @@ Inky Camouflage	Combat Rate: -5
 Inscrutable exoskeleton	Damage Absorption: +300
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
+# Iron Palms: Swords count as clubs
 It Didn't Kill You	Muscle Percent: +50
 # It's Electric!: Damages Attacking Opponents
 Izchak's Blessing	Moxie Percent: +25
