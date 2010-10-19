@@ -77,7 +77,7 @@ public abstract class InventoryManager
 {
 	private static final int BULK_PURCHASE_AMOUNT = 30;
 	private static final GenericRequest FAMEQUIP_REMOVER = new GenericRequest( "familiar.php?pwd&action=unequip" );
-	
+
 	private static final ArrayListArray listeners = new ArrayListArray();
 
 	public static void resetInventory()
@@ -88,7 +88,7 @@ public abstract class InventoryManager
 	public static final int getCount( final int itemId )
 	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
-		
+
 		return item.getCount( KoLConstants.inventory );
 	}
 
@@ -96,7 +96,7 @@ public abstract class InventoryManager
 	{
 		return InventoryManager.hasItem( itemId, false );
 	}
-	
+
 	public static final boolean hasItem( final int itemId, boolean shouldCreate )
 	{
 		return InventoryManager.hasItem( ItemPool.get( itemId, 1 ), shouldCreate );
@@ -106,7 +106,7 @@ public abstract class InventoryManager
 	{
 		return InventoryManager.hasItem( item, false );
 	}
-	
+
 	public static final boolean hasItem( final AdventureResult item, final boolean shouldCreate )
 	{
 		int count = InventoryManager.getAccessibleCount( item );
@@ -127,7 +127,7 @@ public abstract class InventoryManager
 	{
 		return InventoryManager.getAccessibleCount( ItemPool.get( itemId, 1 ) );
 	}
-	
+
 	public static final int getAccessibleCount( final AdventureResult item )
 	{
 		if ( item == null )
@@ -158,17 +158,17 @@ public abstract class InventoryManager
 				count += item.getCount( ClanManager.getStash() );
 			}
 		}
-		
+
 		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 		{
 			AdventureResult equipment = EquipmentManager.getEquipment( i );
-			
+
 			if ( equipment != null && equipment.getItemId() == item.getItemId() )
 			{
 				++count;
 			}
 		}
-		
+
 		for ( int i = 0; i < KoLCharacter.getFamiliarList().size(); ++i )
 		{
 			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get( i );
@@ -179,10 +179,10 @@ public abstract class InventoryManager
 				++count;
 			}
 		}
-		
+
 		return count;
 	}
-		
+
 	public static final boolean retrieveItem( final int itemId )
 	{
 		return retrieveItem( ItemPool.get( itemId, 1 ) );
@@ -421,12 +421,12 @@ public abstract class InventoryManager
 					Math.min( missingCount, creator.getQuantityPossible() ) );
 				RequestThread.postRequest( creator );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-	
+
 				if ( missingCount <= 0 )
 				{
 					return true;
 				}
-	
+
 				if ( !KoLmafia.permitsContinue() )
 				{
 					return false;
@@ -472,7 +472,7 @@ public abstract class InventoryManager
 		// Try to purchase the item from the mall, if the user wishes
 		// to autosatisfy through purchases, and the item is not
 		// creatable through combines.
-		
+
 		boolean shouldUseMall = shouldUseMall( item );
 
 		if ( !scriptSaysBuy && shouldUseMall && !hasAnyIngredient( itemId ) )
@@ -506,7 +506,7 @@ public abstract class InventoryManager
 		}
 
 		// Use budgeted pulls if the item is available from storage.
-		
+
 		if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() )
 		{
 			int pullCount = Math.min( item.getCount( KoLConstants.storage ),
@@ -525,7 +525,7 @@ public abstract class InventoryManager
 				{
 					return true;
 				}
-			}		
+			}
 		}
 
 		int mixingMethod = ConcoctionDatabase.getMixingMethod( item ) & KoLConstants.CT_MASK;
@@ -553,7 +553,7 @@ public abstract class InventoryManager
 				itemId == ItemPool.JOLLY_BRACELET ||
 				creator == null;
 		}
-		
+
 		if ( creator != null && mixingMethod != KoLConstants.NOCREATE )
 		{
 			scriptSaysBuy = invokeBuyScript( item, missingCount, 1,
@@ -612,12 +612,15 @@ public abstract class InventoryManager
 		return false;
 	}
 
-	private static final AdventureResult [] GUM_ITEMS = new AdventureResult[]
+	private static final AdventureResult [] WORTHLESS_ITEMS = new AdventureResult []
 	{
-		// Three kinds of worthless items
 		ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 ),
 		ItemPool.get( ItemPool.WORTHLESS_GEWGAW, 1 ),
 		ItemPool.get( ItemPool.WORTHLESS_KNICK_KNACK, 1 ),
+	};
+
+	private static final AdventureResult [] STARTER_ITEMS = new AdventureResult []
+	{
 		// A hat and a weapon for all six classes
 		ItemPool.get( ItemPool.SEAL_HELMET, 1 ),
 		ItemPool.get( ItemPool.SEAL_CLUB, 1 ),
@@ -634,11 +637,26 @@ public abstract class InventoryManager
 		// One pair of pants
 		ItemPool.get( ItemPool.OLD_SWEATPANTS, 1 ),
 	};
-	
+
 	private static boolean retrieveWorthlessItems( final AdventureResult item )
 	{
-		int count = HermitRequest.getWorthlessItemCount();
 		int needed = item.getCount();
+		int count = HermitRequest.getWorthlessItemCount();
+
+		if ( count >= needed )
+		{
+			return true;
+		}
+
+		// Figure out if you already have enough items in the closet
+
+		InventoryManager.transferWorthlessItems( false );
+		count = HermitRequest.getWorthlessItemCount();
+
+		if ( count >= needed )
+		{
+			return true;
+		}
 
 		while ( count < needed && InventoryManager.hasItem( HermitRequest.SUMMON_SCROLL ) )
 		{
@@ -659,19 +677,53 @@ public abstract class InventoryManager
 			return true;
 		}
 
-		// Handle worthless items by using chewing gum on a string
+		// If the character has any of the starter items, retrieve them to improve
+		// the probability of getting worthless items.
 
-		AdventureResult chewingGum = ItemPool.get( ItemPool.CHEWING_GUM, 1 );
-		UseItemRequest request = new UseItemRequest( KoLConstants.CONSUME_MULTIPLE, chewingGum );
-		while ( count < needed && KoLmafia.permitsContinue() )
+		for ( int i = 0; i < InventoryManager.STARTER_ITEMS.length; ++i )
 		{
-			if ( !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM ) )
+			AdventureResult starterItem = InventoryManager.STARTER_ITEMS[ i ];
+			if ( InventoryManager.hasItem( starterItem ) )
+			{
+				InventoryManager.retrieveItem( starterItem );
+			}
+		}
+
+		int inventoryCount = count;
+		int closetCount = 0;
+
+		while ( count < needed )
+		{
+			int gumCount = 1;
+
+			// If you are missing at most one starter item, it is essentially
+			// optimal to retrieve three chewing gums instead of one.
+
+			if ( InventoryManager.getStarterItemCount() >= InventoryManager.STARTER_ITEMS.length - 1 )
+			{
+				gumCount = Math.min( needed - count, 3 );
+			}
+
+			AdventureResult gum = ItemPool.get( ItemPool.CHEWING_GUM, gumCount );
+
+			if ( !InventoryManager.retrieveItem( gum ) )
 			{
 				break;
 			}
-			RequestThread.postRequest( request );
-			count = HermitRequest.getWorthlessItemCount();
+
+			// Closet your existing worthless items (since they will reduce
+			// the probability of you getting more) and then use the gum.
+
+			closetCount = transferWorthlessItems( true );
+			RequestThread.postRequest( new UseItemRequest( gum ) );
+			inventoryCount = HermitRequest.getWorthlessItemCount();
+
+			count = inventoryCount + closetCount;
 		}
+
+		// Pull the worthless items back out of the closet.
+
+		count = transferWorthlessItems( false );
 
 		if ( count < needed )
 		{
@@ -679,10 +731,57 @@ public abstract class InventoryManager
 				KoLConstants.ABORT_STATE, "Unable to acquire " + item.getCount() + " worthless items." );
 		}
 
-		count = HermitRequest.getWorthlessItemCount();
 		return count >= needed;
 	}
-	
+
+	private static int getStarterItemCount()
+	{
+		int starterItemCount = 0;
+
+		for ( int i = 0; i < InventoryManager.STARTER_ITEMS.length; ++i )
+		{
+			AdventureResult item = InventoryManager.STARTER_ITEMS[ i ];
+			if ( item.getCount( KoLConstants.inventory ) > 0 )
+			{
+				++starterItemCount;
+			}
+		}
+
+		return starterItemCount;
+	}
+
+	private static int transferWorthlessItems( boolean moveToCloset )
+	{
+		List source = moveToCloset ? KoLConstants.inventory : KoLConstants.closet;
+
+		List attachmentList = new ArrayList();
+
+		for ( int i = 0; i < InventoryManager.WORTHLESS_ITEMS.length; ++i )
+		{
+			AdventureResult item = InventoryManager.WORTHLESS_ITEMS[ i ];
+			int itemCount = item.getCount( source );
+
+			if ( itemCount > 0 )
+			{
+				attachmentList.add( ItemPool.get( item.getItemId(), itemCount ) );
+			}
+		}
+
+		if ( !attachmentList.isEmpty() )
+		{
+			int moveType = moveToCloset ? ClosetRequest.INVENTORY_TO_CLOSET : ClosetRequest.CLOSET_TO_INVENTORY;
+			RequestThread.postRequest( new ClosetRequest( moveType, attachmentList.toArray() ) );
+		}
+
+		List destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
+
+		int trinketCount = HermitRequest.TRINKET.getCount( destination );
+		int gewgawCount = HermitRequest.GEWGAW.getCount( destination );
+		int knickKnackCount = HermitRequest.KNICK_KNACK.getCount( destination );
+
+		return trinketCount + gewgawCount + knickKnackCount;
+	}
+
 	private static boolean invokeBuyScript( AdventureResult item, int qty,
 		int ingredientLevel, boolean defaultBuy )
 	{
@@ -705,7 +804,7 @@ public abstract class InventoryManager
 		}
 		return defaultBuy;
 	}
-	
+
 	private static boolean cheaperToBuy( AdventureResult item, int qty )
 	{
 		int mallprice = StoreManager.getMallPrice( item ) * qty;
@@ -720,7 +819,7 @@ public abstract class InventoryManager
 		}
 		return mallprice < makeprice;
 	}
-	
+
 	private static int priceToAcquire( AdventureResult item, int qty, int level )
 	{
 		int price = 0;
@@ -783,7 +882,7 @@ public abstract class InventoryManager
 		}
 		return price * qty / (yield * madeqty);
 	}
-	
+
 	private static int getPurchaseCount( final int itemId, final int missingCount )
 	{
 		if ( missingCount >= InventoryManager.BULK_PURCHASE_AMOUNT ||
@@ -842,7 +941,7 @@ public abstract class InventoryManager
 				return true;
 			}
 		}
-		
+
 		Integer key = new Integer( itemId );
 		if ( seen == null )
 		{
@@ -991,7 +1090,7 @@ public abstract class InventoryManager
 				{
 					// Don't let a botched listener interfere with
 					// the code that modified the inventory.
-		
+
 					StaticEntity.printStackTrace( e );
 				}
 			}
