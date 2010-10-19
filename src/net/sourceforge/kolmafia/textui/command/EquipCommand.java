@@ -91,6 +91,12 @@ public class EquipCommand
 			return;
 		}
 
+		if ( !EquipmentManager.canEquip( match.getItemId() ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + match.getName() );
+			return;
+		}
+
 		// If he didn't specify slot name, decide where this item goes.
 		if ( slot == -1 )
 		{
