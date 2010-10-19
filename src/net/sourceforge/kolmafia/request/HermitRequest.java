@@ -306,21 +306,21 @@ public class HermitRequest
 		// Subtract the worthless items in order of their priority;
 		// as far as we know, the priority is the item Id.
 
-                int used = HermitRequest.subtractWorthlessItems( HermitRequest.TRINKET, quantity );
-                if ( used > 0 )
-                {
-                        quantity -= used;
-                }
+		int used = HermitRequest.subtractWorthlessItems( HermitRequest.TRINKET, quantity );
+		if ( used > 0 )
+		{
+				quantity -= used;
+		}
 		used = HermitRequest.subtractWorthlessItems( HermitRequest.GEWGAW, quantity );
-                if ( used > 0 )
-                {
-                        quantity -= used;
-                }
+		if ( used > 0 )
+		{
+				quantity -= used;
+		}
 		used = HermitRequest.subtractWorthlessItems( HermitRequest.KNICK_KNACK, quantity );
-                if ( used > 0 )
-                {
-                        quantity -= used;
-                }
+		if ( used > 0 )
+		{
+				quantity -= used;
+		}
 
 		return true;
 	}

@@ -87,21 +87,21 @@ public class ClosetRequest
 		switch ( moveType )
 		{
 		case MEAT_TO_CLOSET:
-                        this.addFormField( "action", "addmeat" );
+			this.addFormField( "action", "addmeat" );
 			break;
 
 		case MEAT_TO_INVENTORY:
-                        this.addFormField( "action", "takemeat" );
+			this.addFormField( "action", "takemeat" );
 			break;
 
 		case INVENTORY_TO_CLOSET:
-                        this.addFormField( "action", "put" );
+			this.addFormField( "action", "put" );
 			this.source = KoLConstants.inventory;
 			this.destination = KoLConstants.closet;
 			break;
 
 		case CLOSET_TO_INVENTORY:
-                        this.addFormField( "action", "take" );
+			this.addFormField( "action", "take" );
 			this.source = KoLConstants.closet;
 			this.destination = KoLConstants.inventory;
 			break;
@@ -192,7 +192,7 @@ public class ClosetRequest
 		{
 			if ( responseText.indexOf( "moved from closet to inventory" ) != -1 )
 			{
-				TransferItemRequest.transferItems( urlString, 
+				TransferItemRequest.transferItems( urlString,
 					KoLConstants.closet,
 					KoLConstants.inventory, 0 );
 				success = true;
@@ -202,7 +202,7 @@ public class ClosetRequest
 		{
 			if ( responseText.indexOf( "moved from inventory to closet" ) != -1 )
 			{
-				TransferItemRequest.transferItems( urlString, 
+				TransferItemRequest.transferItems( urlString,
 					KoLConstants.inventory,
 					KoLConstants.closet, 0 );
 				success = true;
