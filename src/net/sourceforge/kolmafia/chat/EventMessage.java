@@ -43,6 +43,7 @@ public class EventMessage
 	public EventMessage( String content, String color )
 	{
 		this.setContent( content );
+		this.setTimestamp();
 		
 		this.color = color;
 	}

@@ -33,6 +33,10 @@
 
 package net.sourceforge.kolmafia.chat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class ChatMessage
 {
 	private String sender;
@@ -40,6 +44,8 @@ public class ChatMessage
 	private String content;
 	private boolean isAction;
 	private String timestamp;
+	
+	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 	
 	public ChatMessage()
 	{
@@ -51,6 +57,7 @@ public class ChatMessage
 		this.recipient = recipient;
 		this.content = content.trim();
 		this.isAction = isAction;
+		this.setTimestamp();
 	}
 	
 	public String getSender()
@@ -88,9 +95,9 @@ public class ChatMessage
 		return isAction;
 	}
 	
-	public void setTimestamp( String timestamp )
+	public void setTimestamp()
 	{
-		this.timestamp = timestamp;
+		this.timestamp = this.MESSAGE_TIMESTAMP.format( new Date() );
 	}
 	
 	public String getTimestamp()

@@ -41,6 +41,7 @@ public class DisableMessage
 	public DisableMessage( String channel, boolean isTalkChannel )
 	{
 		this.setSender( channel );
+		this.setTimestamp();
 		
 		this.isTalkChannel = isTalkChannel;
 	}
