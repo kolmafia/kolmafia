@@ -41,6 +41,7 @@ public class EnableMessage
 	public EnableMessage( String channel, boolean isTalkChannel )
 	{
 		this.setSender( channel );
+		this.setTimestamp();
 		
 		this.isTalkChannel = isTalkChannel;
 	}

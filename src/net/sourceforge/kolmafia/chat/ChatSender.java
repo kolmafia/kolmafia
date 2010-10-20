@@ -103,11 +103,11 @@ public class ChatSender
 			}
 			return "";
 		}
-		
+
 		ChatRequest request = new ChatRequest( graf );
-		
+
 		RequestThread.postRequest( request );
-		
+
 		if ( request.responseText == null )
 		{
 			return "";
