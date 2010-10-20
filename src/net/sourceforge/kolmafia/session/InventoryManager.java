@@ -680,18 +680,13 @@ public abstract class InventoryManager
 		// If the character has any of the starter items, retrieve them to improve
 		// the probability of getting worthless items.
 
-		transferChewingGumItems( InventoryManager.STARTER_ITEMS, true, false );
-
-		for ( int i = 0; i < InventoryManager.STARTER_ITEMS.length; ++i )
-		{
-			AdventureResult starterItem = InventoryManager.STARTER_ITEMS[ i ];
-			if ( InventoryManager.hasItem( starterItem ) )
-			{
-				InventoryManager.retrieveItem( starterItem );
-			}
-		}
-
 		int missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
+
+		if ( missingStarterItemCount > 0 )
+		{
+			transferChewingGumItems( InventoryManager.STARTER_ITEMS, true, false );
+			missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
+		}
 
 		// If you can interact with players, use the server-friendlier version of gum
 		// retrieval that pre-computes a total amount of gum and retrieves it all
@@ -800,7 +795,7 @@ public abstract class InventoryManager
 		for ( int i = 0; i < InventoryManager.STARTER_ITEMS.length; ++i )
 		{
 			AdventureResult item = InventoryManager.STARTER_ITEMS[ i ];
-			if ( item.getCount( KoLConstants.inventory ) > 0 )
+			if ( item.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.hasEquipped( item ) )
 			{
 				++starterItemCount;
 			}
@@ -820,7 +815,7 @@ public abstract class InventoryManager
 		{
 			AdventureResult item = items[ i ];
 
-			if ( moveOne && item.getCount( destination ) > 0 )
+			if ( moveOne && !moveToCloset && ( item.getCount( destination ) > 0 || KoLCharacter.hasEquipped( item ) ) )
 			{
 				continue;
 			}
