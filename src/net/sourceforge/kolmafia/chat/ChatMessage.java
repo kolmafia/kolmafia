@@ -44,11 +44,12 @@ public class ChatMessage
 	private String content;
 	private boolean isAction;
 	private String timestamp;
-	
+
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
-	
+
 	public ChatMessage()
 	{
+		this.timestamp = ChatMessage.MESSAGE_TIMESTAMP.format( new Date() );
 	}
 
 	public ChatMessage( String sender, String recipient, String content, boolean isAction )
@@ -57,9 +58,10 @@ public class ChatMessage
 		this.recipient = recipient;
 		this.content = content.trim();
 		this.isAction = isAction;
-		this.setTimestamp();
+
+		this.timestamp = ChatMessage.MESSAGE_TIMESTAMP.format( new Date() );
 	}
-	
+
 	public String getSender()
 	{
 		return sender;
@@ -89,17 +91,12 @@ public class ChatMessage
 	{
 		this.content = content.trim();
 	}
-	
+
 	public boolean isAction()
 	{
 		return isAction;
 	}
-	
-	public void setTimestamp()
-	{
-		this.timestamp = this.MESSAGE_TIMESTAMP.format( new Date() );
-	}
-	
+
 	public String getTimestamp()
 	{
 		return timestamp;

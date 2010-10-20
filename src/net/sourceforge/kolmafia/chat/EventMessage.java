@@ -39,15 +39,14 @@ public class EventMessage
 	extends ChatMessage
 {
 	private String color;
-	
+
 	public EventMessage( String content, String color )
 	{
 		this.setContent( content );
-		this.setTimestamp();
-		
+
 		this.color = color;
 	}
-	
+
 	public String getColor()
 	{
 		return this.color;
