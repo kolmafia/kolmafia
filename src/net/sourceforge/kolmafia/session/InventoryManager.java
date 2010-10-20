@@ -702,20 +702,7 @@ public abstract class InventoryManager
 			// To save server hits, retrieve all the gum needed rather than constantly
 			// purchase small amounts of gum.
 
-			int totalGumCount;
-
-			switch ( needed - count )
-			{
-			case 1:
-				totalGumCount = Math.max( 1, missingStarterItemCount - 2 );
-				break;
-			case 2:
-				totalGumCount = Math.max( 2, missingStarterItemCount - 1 );
-				break;
-			default:
-				totalGumCount = missingStarterItemCount + ( needed - count );
-				break;
-			}
+			int totalGumCount = missingStarterItemCount + ( needed - count );
 
 			if ( InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, totalGumCount ) )
 			{
