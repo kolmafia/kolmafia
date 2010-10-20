@@ -776,7 +776,7 @@ public abstract class InventoryManager
 
 					AdventureResult gum = ItemPool.get( ItemPool.CHEWING_GUM, gumCount );
 
-					if ( InventoryManager.retrieveItem( gum ) )
+					if ( !InventoryManager.retrieveItem( gum ) )
 					{
 						break;
 					}
