@@ -37,15 +37,14 @@ public class EnableMessage
 	extends ChatMessage
 {
 	private boolean isTalkChannel;
-	
+
 	public EnableMessage( String channel, boolean isTalkChannel )
 	{
 		this.setSender( channel );
-		this.setTimestamp();
-		
+
 		this.isTalkChannel = isTalkChannel;
 	}
-	
+
 	public boolean isTalkChannel()
 	{
 		return this.isTalkChannel;
