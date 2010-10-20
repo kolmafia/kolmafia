@@ -698,10 +698,21 @@ public abstract class InventoryManager
 		{
 			int gumCount = 1;
 
-			// If you are missing at most one starter item, it is essentially
+			// If you are able to interact with other players (thus you are likely
+			// to have spare funds) or are attempting to retrieve three or more
+			// worthless items with chewing gum, exhaust the supply of starter items.
+
+			int missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
+
+			if ( KoLCharacter.canInteract() || needed - count >= 3 )
+			{
+				gumCount = missingStarterItemCount + 3;
+			}
+
+			// Otherwise, if you are missing at most one starter item, it is
 			// optimal to retrieve three chewing gums instead of one.
 
-			if ( InventoryManager.getStarterItemCount() >= InventoryManager.STARTER_ITEMS.length - 1 )
+			else if ( missingStarterItemCount <= 1 )
 			{
 				gumCount = Math.min( needed - count, 3 );
 			}
