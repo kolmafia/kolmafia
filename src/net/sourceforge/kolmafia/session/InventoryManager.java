@@ -691,52 +691,107 @@ public abstract class InventoryManager
 			}
 		}
 
-		int inventoryCount = count;
-		int closetCount = 0;
+		int missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
 
-		while ( count < needed )
+		// If you can interact with players, use the server-friendlier version of gum
+		// retrieval that pre-computes a total amount of gum and retrieves it all
+		// at once to start.
+
+		if ( KoLCharacter.canInteract() )
 		{
-			int gumCount = 1;
+			// To save server hits, retrieve all the gum needed rather than constantly
+			// purchase small amounts of gum.
 
-			// If you are able to interact with other players (thus you are likely
-			// to have spare funds) or are attempting to retrieve three or more
-			// worthless items with chewing gum, exhaust the supply of starter items.
+			int totalGumCount;
 
-			int missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
-
-			if ( KoLCharacter.canInteract() || needed - count >= 3 )
+			switch ( needed - count )
 			{
-				gumCount = missingStarterItemCount + 3;
-			}
-
-			// Otherwise, if you are missing at most one starter item, it is
-			// optimal to retrieve three chewing gums instead of one.
-
-			else if ( missingStarterItemCount <= 1 )
-			{
-				gumCount = Math.min( needed - count, 3 );
-			}
-
-			AdventureResult gum = ItemPool.get( ItemPool.CHEWING_GUM, gumCount );
-
-			if ( !InventoryManager.retrieveItem( gum ) )
-			{
+			case 1:
+				totalGumCount = Math.max( 1, missingStarterItemCount - 2 );
+				break;
+			case 2:
+				totalGumCount = Math.max( 2, missingStarterItemCount - 1 );
+				break;
+			default:
+				totalGumCount = missingStarterItemCount + ( needed - count );
 				break;
 			}
 
-			// Closet your existing worthless items (since they will reduce
-			// the probability of you getting more) and then use the gum.
+			if ( InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, totalGumCount ) )
+			{
+				if ( needed - count <= 3 )
+				{
+					transferWorthlessItems( true );
+					RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.CHEWING_GUM, totalGumCount ) ) );
+				}
+				else
+				{
+					while ( needed - count > 0 )
+					{
+						int gumCount = missingStarterItemCount == 0 ? Math.min( needed - count, 3 ) : missingStarterItemCount + 3;
 
-			closetCount = transferWorthlessItems( true );
-			RequestThread.postRequest( new UseItemRequest( gum ) );
-			inventoryCount = HermitRequest.getWorthlessItemCount();
+						// Put the worthless items into the closet and then use the chewing gum
 
-			count = inventoryCount + closetCount;
+						int closetCount = transferWorthlessItems( true );
+						RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.CHEWING_GUM, gumCount ) ) );
+
+						// Recalculate how many worthless items are still needed and how many starter
+						// items are now present in the inventory (if it's zero already, no additional
+						// computations are needed).
+
+						int inventoryCount = HermitRequest.getWorthlessItemCount();
+						count = inventoryCount + closetCount;
+
+						if ( missingStarterItemCount != 0 )
+						{
+							missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
+						}
+					}
+				}
+
+				// Pull the worthless items back out of the closet.
+
+				count = transferWorthlessItems( false );
+			}
 		}
 
-		// Pull the worthless items back out of the closet.
+		// Otherwise, go ahead and hit the server a little harder in order to retrieve
+		// the worthless items.
 
-		count = transferWorthlessItems( false );
+		else
+		{
+			if ( InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, needed - count ) )
+			{
+				while ( count < needed )
+				{
+					int gumCount = 1;
+
+					// If you are missing at most one starter item, it is optimal
+					// to retrieve three chewing gums instead of one.
+
+					if ( missingStarterItemCount <= 1 )
+					{
+						gumCount = Math.min( needed - count, 3 );
+					}
+
+					AdventureResult gum = ItemPool.get( ItemPool.CHEWING_GUM, gumCount );
+
+					if ( InventoryManager.retrieveItem( gum ) )
+					{
+						break;
+					}
+
+					// Closet your existing worthless items (since they will reduce
+					// the probability of you getting more) and then use the gum.
+
+					int closetCount = transferWorthlessItems( true );
+					RequestThread.postRequest( new UseItemRequest( gum ) );
+					int inventoryCount = HermitRequest.getWorthlessItemCount();
+
+					count = inventoryCount + closetCount;
+				}
+			}
+		}
 
 		if ( count < needed )
 		{
