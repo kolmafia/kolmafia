@@ -746,19 +746,19 @@ public abstract class InventoryManager
 			{
 				while ( count < needed )
 				{
-					int gumCount = 1;
+					int gumUseCount = 1;
 
 					// If you are missing at most one starter item, it is optimal
-					// to retrieve three chewing gums instead of one.
+					// to use three chewing gums instead of one.
 
 					if ( missingStarterItemCount <= 1 )
 					{
-						gumCount = Math.min( needed - count, 3 );
+						gumUseCount = Math.min( needed - count, 3 );
 					}
 
-					AdventureResult gum = ItemPool.get( ItemPool.CHEWING_GUM, gumCount );
+					AdventureResult gum = ItemPool.get( ItemPool.CHEWING_GUM, gumUseCount );
 
-					if ( !InventoryManager.retrieveItem( gum ) )
+					if ( gum.getCount( KoLConstants.inventory ) < gum.getCount() && !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, needed - count ) )
 					{
 						break;
 					}
