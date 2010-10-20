@@ -790,6 +790,10 @@ public abstract class InventoryManager
 
 					count = inventoryCount + closetCount;
 				}
+
+				// Pull the worthless items back out of the closet.
+
+				count = transferWorthlessItems( false );
 			}
 		}
 
