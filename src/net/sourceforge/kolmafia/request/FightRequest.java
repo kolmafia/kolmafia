@@ -170,7 +170,6 @@ public class FightRequest
 		Pattern.compile( "it blasts you with a massive loogie that sticks to your (.*?), pulls it off of you" );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
-	private static final AdventureResult TURTLE = ItemPool.get( ItemPool.TURTLE_TOTEM, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
 	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
 	private static final AdventureResult STOMPER = ItemPool.get( ItemPool.MINIBORG_STOMPER, 1);
@@ -184,7 +183,6 @@ public class FightRequest
 	private static final AdventureResult SHAKING_CAMERA = ItemPool.get( ItemPool.SHAKING_CAMERA, 1);
 
 	private static final String TOOTH_ACTION = "item" + ItemPool.SEAL_TOOTH;
-	private static final String TURTLE_ACTION = "item" + ItemPool.TURTLE_TOTEM;
 	private static final String SPICES_ACTION = "item" + ItemPool.SPICES;
 	private static final String MERCENARY_ACTION = "item" + ItemPool.TOY_MERCENARY;
 	private static final String STOMPER_ACTION = "item" + ItemPool.MINIBORG_STOMPER;
@@ -964,11 +962,6 @@ public class FightRequest
 				{
 					FightRequest.action2 = FightRequest.TOOTH_ACTION;
 					this.addFormField( "whichitem2", String.valueOf( FightRequest.TOOTH.getItemId() ) );
-				}
-				else if ( KoLConstants.inventory.contains( FightRequest.TURTLE ) )
-				{
-					FightRequest.action2 = FightRequest.TURTLE_ACTION;
-					this.addFormField( "whichitem2", String.valueOf( FightRequest.TURTLE.getItemId() ) );
 				}
 				else if ( KoLConstants.inventory.contains( FightRequest.SPICES ) )
 				{
