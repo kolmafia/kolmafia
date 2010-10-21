@@ -355,17 +355,15 @@ public abstract class InventoryManager
 
 		if ( itemId == ItemPool.COFFEE_PIXIE_STICK )
 		{
-			int ticketCount = InventoryManager.getAccessibleCount( ItemPool.GG_TICKET );
-			int stickCount = Math.min( ticketCount / 10, missingCount );
-
 			// Retrieve enough tickets to buy the sticks
-			if ( stickCount <= 0 || !retrieveItem( ItemPool.GG_TICKET, stickCount * 10 ) )
+			int neededTickets = missingCount * 10;
+			if ( !retrieveItem( ItemPool.GG_TICKET, neededTickets ) )
 			{
 				return false;
 			}
 
 			// Cash them in for coffee pixie sticks
-			RequestThread.postRequest( new CoinMasterRequest( "ticket", "redeem", ItemPool.COFFEE_PIXIE_STICK, stickCount ) );
+			RequestThread.postRequest( new CoinMasterRequest( "ticket", "redeem", ItemPool.COFFEE_PIXIE_STICK, missingCount ) );
 
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -1102,6 +1100,7 @@ public abstract class InventoryManager
 		case ItemPool.PHIAL_OF_STENCH:
 		case ItemPool.PHIAL_OF_SLEAZINESS:
 		case ItemPool.WHITE_RICE:
+		case ItemPool.GG_TICKET:
 			// Love songs
 		case ItemPool.VAGUE_AMBIGUITY:
 		case ItemPool.SMOLDERING_PASSION:
