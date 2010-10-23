@@ -1423,6 +1423,21 @@ public abstract class ChoiceManager
 			new String[] { "gain Spooky Temple map", "skip adventure", "skip adventure" },
 			new String[] { null, null, null } ),
 
+		// Choice 510 is Those Who Came Before You
+
+		// If it's Tiny, is it Still a Mansion?
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure511", "Typical Tavern",
+			new String[] { "Baron von Ratsworth", "skip adventure" } ),
+
+		// Hot and Cold Running Rats
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure512", "Typical Tavern",
+			new String[] { "fight", "skip adventure" } ),
+
+		// Choice 513 is Staring Down the Barrel
+		// Choice 514 is 1984 Had Nothing on This Cellar
+		// Choice 515 is A Rat's Home...
 	};
 
 	static

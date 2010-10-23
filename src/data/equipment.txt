@@ -563,6 +563,7 @@ bat whip	30	Mus: 0	1-handed whip
 batblade	145	Mus: 57	1-handed knife
 beer bong	190	Mox: 80	1-handed bong
 beer-a-pult	190	Mox: 80	3-handed catapult
+beer-soaked-mop	30	Mus: 0	2-handed polearm
 big bass drum	35	Mox: 2	2-handed drum
 big stick	10	Mus: 0	2-handed staff
 big stirring stick	100	Mus: 35	2-handed staff

@@ -145,3 +145,4 @@
 139	Knob Goblin Organ Grinder	combat,meat0	4720	microwave stogie	0	0	0	0
 140	Piano Cat	item0,meat0	4732	kitty sheet music 0	0	0	0
 141	Dramatic Hedgehog	stat0,meat0	4734	tiny prop sword 0	0	0	0
+142	Smiling Rat		4741	rat tooth polish	0	0	0	0

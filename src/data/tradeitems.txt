@@ -4742,3 +4742,10 @@
 4733	kitty sheet music	familiar	all	75
 4734	rehearsing dramatic hedgehog	grow	all	0
 4735	tiny prop sword	familiar	all	75
+4736	tangle of rat tails	none, combat	all	0
+4737	beer-soaked mop	weapon	all	0
+4738	day-old beer	drink	all	5
+4739	plain old beer	drink	all	10
+4740	overpriced &quot;imported&quot; beer	drink	all	25
+4741	smiling rat	grow	all	100
+4742	rat tooth polish	familiar	all	75

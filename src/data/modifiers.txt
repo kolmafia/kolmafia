@@ -633,6 +633,7 @@ bat whip	Spell Damage: +10, Monster Level: +5
 batblade	Weapon Damage: +15
 beer bong	Stench Damage: +15, Monster Level: +5
 beer-a-pult	Stench Damage: +10, Sleaze Damage: +10
+beer-soaked mop	Sleaze Damage: +3
 big bass drum	Maximum HP: +20, Damage Absorption: +8
 # big stick
 big stirring stick	Mysticality: +5, Spell Damage: +5
@@ -1966,6 +1967,7 @@ quadroculars	Familiar Weight: +5
 radioactive chew toy	Familiar Weight: +5
 rainbow tie	Familiar Weight: +5
 rat head balloon	Familiar Weight: -3, Generic
+rat tooth polish	Familiar Weight: +5
 rattlesnake enrager	Familiar Weight: +5
 rhesus monkey	Familiar Weight: +5
 security blankie	Familiar Weight: +5
