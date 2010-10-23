@@ -1387,6 +1387,19 @@ public abstract class ChoiceManager
 		// Choice 489 is Meteoid (SpaceMall)
 		// Choice 490 is Meteoid (Underground Complex)
 		// Choice 491 is Meteoid (End)
+		// Choice 492 is unknown
+		// Choice 493 is unknown
+		// Choice 494 is unknown
+		// Choice 495 is unknown
+
+		// Choice 496 is Crate Expectations
+		// -> can skip if have +20 hot damage
+
+		// Choice 497 is SHAFT!
+		// Choice 498 is unknown
+		// Choice 499 is unknown
+		// Choice 500 is unknown
+		// Choice 501 is unknown
 
 		// Arboreal Respite
 		new ChoiceAdventure(
@@ -1423,6 +1436,8 @@ public abstract class ChoiceManager
 			new String[] { "gain Spooky Temple map", "skip adventure", "skip adventure" },
 			new String[] { null, null, null } ),
 
+		// Choice 508 is Pants-Gazing
+		// Choice 509 is Of Course!
 		// Choice 510 is Those Who Came Before You
 
 		// If it's Tiny, is it Still a Mansion?
@@ -1436,8 +1451,11 @@ public abstract class ChoiceManager
 			new String[] { "fight", "skip adventure" } ),
 
 		// Choice 513 is Staring Down the Barrel
+                // -> can skip if have +20 cold damage
 		// Choice 514 is 1984 Had Nothing on This Cellar
+                // -> can skip if have +20 stench damage
 		// Choice 515 is A Rat's Home...
+                // -> can skip if have +20 spooky damage
 	};
 
 	static
