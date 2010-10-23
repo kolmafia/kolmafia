@@ -923,6 +923,7 @@ user	choiceAdventure488	0
 user	choiceAdventure489	0
 user	choiceAdventure490	0
 user	choiceAdventure491	0
+user	choiceAdventure496	1
 user	choiceAdventure497	0
 user	choiceAdventure502	0
 user	choiceAdventure503	0
@@ -930,6 +931,7 @@ user	choiceAdventure504	0
 user	choiceAdventure505	0
 user	choiceAdventure506	0
 user	choiceAdventure507	0
+user	choiceAdventure509	1
 user	choiceAdventure510	1
 user	choiceAdventure511	0
 user	choiceAdventure512	1
