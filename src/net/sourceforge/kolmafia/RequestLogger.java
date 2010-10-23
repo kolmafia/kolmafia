@@ -94,7 +94,7 @@ import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.SuspiciousGuyRequest;
+import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -858,7 +858,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof SuspiciousGuyRequest || isExternal ) && SuspiciousGuyRequest.registerRequest( urlString ) )
+		if ( ( request instanceof TavernRequest || isExternal ) && TavernRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

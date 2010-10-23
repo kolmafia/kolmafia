@@ -42,15 +42,28 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class SuspiciousGuyRequest
+public class TavernRequest
 	extends GenericRequest
 {
 	private static final Pattern GOOFBALL_PATTERN = Pattern.compile( "Buy some goofballs \\((\\d+),000 Meat\\)" );
 
-	public SuspiciousGuyRequest( final int itemId )
+	// tavern.php?place=barkeep
+	//	store.php?whichstore=v&buying=Yep.&phash&whichitem=xxx&howmany=y
+	// tavern.php?place=susguy
+	//	action=buygoofballs
+	// tavern.php?place=pooltable
+	//	action=pool&opponent=1&wager=50
+	//	action=pool&opponent=2&wager=200
+	//	action=pool&opponent=3&wager=500
+	// cellar.php
+	//	action=explore&whichspot=4
+
+	public TavernRequest( final int itemId )
 	{
-		super( "town_wrong.php" );
+		super( "tavern.php" );
+
 		switch (itemId )
 		{
 		case ItemPool.GOOFBALLS:
@@ -60,7 +73,7 @@ public class SuspiciousGuyRequest
 			this.addFormField( "sleazy", "1" );
 			break;
 		default:
-			this.addFormField( "place", "goofballs" );
+			this.addFormField( "place", "susguy" );
 
 			break;
 		}
@@ -68,17 +81,12 @@ public class SuspiciousGuyRequest
 
 	public void processResults()
 	{
-		SuspiciousGuyRequest.parseResponse( this.getURLString(), this.responseText );
+		TavernRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static final void parseResponse( final String location, final String responseText )
 	{
-		if ( !location.startsWith( "town_wrong.php" ) )
-		{
-			return;
-		}
-
-		if ( location.indexOf( "place=goofballs" ) == -1 && location.indexOf( "action=buygoofballs" ) == -1 && location.indexOf( "sleazy=1" ) == -1 )
+		if ( !location.startsWith( "tavern.php" ) )
 		{
 			return;
 		}
@@ -123,9 +131,40 @@ public class SuspiciousGuyRequest
 		}
 	}
 
+	private static final Pattern SPOT_PATTERN = Pattern.compile( "whichspot=([\\d,]+)" );
+	private static final int getSquare( final String urlString )
+	{
+		// cellar.php?action=explore&whichspot=4
+		if ( !urlString.startsWith( "cellar.php" ) || urlString.indexOf( "action=explore") == -1 )
+		{
+			return 0;
+		}
+
+		Matcher matcher = TavernRequest.SPOT_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return 0;
+		}
+
+		return StringUtilities.parseInt( matcher.group( 1 ) );
+	}
+
+	public static final String cellarLocationString( final String urlString )
+	{
+		int square = TavernRequest.getSquare( urlString );
+		if ( square == 0 )
+		{
+			return null;
+		}
+
+		int row = ( ( square - 1 ) / 5 ) + 1;
+		int col = ( ( square - 1 ) % 5 ) + 1;
+		return "Tavern Cellar (row " + row + ", col " + col + ")";
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "town_wrong.php" ) )
+		if ( !urlString.startsWith( "tavern.php" ) )
 		{
 			return false;
 		}
@@ -139,7 +178,12 @@ public class SuspiciousGuyRequest
 		{
 			message = "Trading a gloomy black mushroom for an oily golden mushroom";
 		}
-		else if ( urlString.indexOf( "place=goofballs" ) != -1 )
+		else if ( urlString.indexOf( "sleazy=2" ) != -1 )
+		{
+			// Keeping your gloomy black mushroom
+			return true;
+		}
+		else if ( urlString.indexOf( "place=susguy" ) != -1 )
 		{
 			RequestLogger.printLine( "" );
 			RequestLogger.updateSessionLog();

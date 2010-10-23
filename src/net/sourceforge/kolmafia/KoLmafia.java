@@ -1876,7 +1876,7 @@ public abstract class KoLmafia
 
 		KoLmafia.updateDisplay( "Searching for faucet..." );
 
-		KoLAdventure adventure = new KoLAdventure( "Woods", "rats.php", "", "Typical Tavern (Pre-Rat)" );
+		KoLAdventure adventure = new KoLAdventure( "Woods", "cellar.php", "", "Typical Tavern Cellar" );
 		GenericRequest request = adventure.getRequest();
 
 		RequestThread.postRequest( adventure );
