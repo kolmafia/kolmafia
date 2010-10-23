@@ -2106,6 +2106,7 @@ Throne:Jill-O-Lantern	Experience (Moxie): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne:Jitterbug	Meat Drop: +20
 Throne:Jumpsuited Hound Dog	Weapon Damage: +20, HP Regen Min: 4, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
 Throne:Killer Bee	Experience (Muscle): +2, HP Regen Min: 8, HP Regen Max: 10
+Throne:Knob Goblin Organ Grinder	Meat Drop: +25
 Throne:Leprechaun	Meat Drop: +20
 Throne:Levitating Potato	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Llama Lama	Maximum HP: +10, Maximum MP: +10, MP Regen Min: 5, MP Regen Max: 6
@@ -2140,6 +2141,7 @@ Throne:Sabre-Toothed Lime	Moxie Percent: +15
 Throne:Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne:Sleazy Gravy Fairy	Sleaze Damage: +20
 Throne:Slimeling	Weapon Drop: +15
+Throne:Smiling Rat	Experience: +3
 Throne:Snow Angel	Spell Damage Percent: +10
 Throne:Snowy Owl	Mysticality Percent: +15, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Spirit Hobo	Booze Drop: +15
