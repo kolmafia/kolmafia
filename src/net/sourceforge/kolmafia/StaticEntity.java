@@ -104,7 +104,7 @@ import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
-import net.sourceforge.kolmafia.request.SuspiciousGuyRequest;
+import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -764,6 +764,11 @@ public abstract class StaticEntity
 			SushiRequest.parseConsumption( location, responseText );
 		}
 
+		else if ( location.startsWith( "tavern.php" ) )
+		{
+			TavernRequest.parseResponse( location, responseText );
+		}
+
 		else if ( location.startsWith( "town_right.php" ) )
 		{
 			GourdRequest.parseResponse( location, responseText );
@@ -778,7 +783,6 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "town_wrong.php" ) )
 		{
 			ArtistRequest.parseResponse( location, responseText );
-			SuspiciousGuyRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "traveler.php" ) )

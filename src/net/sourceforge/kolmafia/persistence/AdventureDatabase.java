@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
+import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringArray;
@@ -701,9 +702,9 @@ public class AdventureDatabase
 				return "Moxie Vacation";
 			}
 		}
-		else if ( urlString.startsWith( "rats.php" ) )
+		else if ( urlString.startsWith( "cellar.php" ) )
 		{
-			return "Typical Tavern Quest";
+			return TavernRequest.cellarLocationString( urlString );
 		}
 		else if ( urlString.startsWith( "lair4.php" ) )
 		{
