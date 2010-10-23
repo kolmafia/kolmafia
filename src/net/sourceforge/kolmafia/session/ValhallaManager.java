@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 
 public class ValhallaManager
 
@@ -223,6 +224,10 @@ public class ValhallaManager
 		sessionStream.println();
 
 		RequestThread.closeRequestSequence();
+
+		// The semirare counter is set in Valhalla.
+		TurnCounter.startCounting( 71, "Semirare window begin loc=*", "lparen.gif" );
+		TurnCounter.startCounting( 81, "Semirare window end loc=*", "rparen.gif" );
 		
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
