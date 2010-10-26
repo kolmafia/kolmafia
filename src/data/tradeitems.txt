@@ -4749,3 +4749,4 @@
 4740	overpriced &quot;imported&quot; beer	drink	all	25
 4741	smiling rat	grow	all	100
 4742	rat tooth polish	familiar	all	75
+4743	bone chips	none	all	50
