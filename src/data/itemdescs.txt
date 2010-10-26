@@ -4744,6 +4744,6 @@
 4738	639182238	day-old beer
 4739	358862487	plain old beer
 4740	267599163	overpriced &quot;imported&quot; beer
-4741	195175539	smiling rat
-4742	315856897	rat tooth polish
+4741	195175539	smiling rat	smiling rats
+4742	315856897	rat tooth polish	tins of rat tooth polish
 4743	119583857	bone chips	handfuls of bone chips
