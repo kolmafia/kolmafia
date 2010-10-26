@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -51,15 +52,88 @@ public class ShrineRequest
 	public static final int JARLSBERG = 2;
 	public static final int PETE = 3;
 
-	private static final AdventureResult[] STATUE_KEYS =
+	public static final Object[][] SHRINE_DATA =
 	{
-		ItemPool.get( ItemPool.BORIS_KEY, 1 ),
-		ItemPool.get( ItemPool.JARLSBERG_KEY, 1 ),
-		ItemPool.get( ItemPool.SNEAKY_PETE_KEY, 1 ),
+		{
+			new Integer( ShrineRequest.BORIS ),
+			"boris",
+			"Statue of Boris",
+			"heroDonationBoris",
+			ItemPool.get( ItemPool.BORIS_KEY, 1 ),
+		},
+		{
+			new Integer( ShrineRequest.JARLSBERG ),
+			"jarlsberg",
+			"Statue of Jarlsberg",
+			"heroDonationJarlsberg",
+			ItemPool.get( ItemPool.JARLSBERG_KEY, 1 ),
+		},
+		{
+			new Integer( ShrineRequest.PETE ),
+			"sneakypete",
+			"Statue of Sneaky Pete",
+			"heroDonationSneakyPete",
+			ItemPool.get( ItemPool.SNEAKY_PETE_KEY, 1 ),
+		},
 	};
 
+	private static int dataId( final Object[] data )
+	{
+		return ( data == null ) ? 0 : ((Integer) data[0]).intValue();
+	}
+
+	private static String dataAction( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[1]);
+	}
+
+	private static String dataPlace( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[2]);
+	}
+
+	private static String dataSetting( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[3]);
+	}
+
+	private static AdventureResult dataKey( final Object[] data )
+	{
+		return ( data == null ) ? null : ((AdventureResult) data[4]);
+	}
+
+	private static Object[] idToData( final int id )
+	{
+		for ( int i = 0; i < SHRINE_DATA.length; ++i )
+		{
+			Object [] data = SHRINE_DATA[i];
+			if ( id == dataId( data ) )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
+	private static Object[] actionToData( final String action )
+	{
+		for ( int i = 0; i < SHRINE_DATA.length; ++i )
+		{
+			Object [] data = SHRINE_DATA[i];
+			if ( action.equals( dataAction( data ) ) )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
+	private static final String actionToPlace( final String action )
+	{
+		return dataPlace( actionToData( action ) );
+	}
+
 	private final int amount;
-	public String statue;
 	private boolean hasStatueKey;
 
 	/**
@@ -71,22 +145,25 @@ public class ShrineRequest
 
 	public ShrineRequest( final int heroId, final int amount )
 	{
-		super( "shrines.php" );
+		super( "da.php" );
 
-		this.addFormField(
-			"action",
-			heroId == ShrineRequest.BORIS ? "boris" : heroId == ShrineRequest.JARLSBERG ? "jarlsberg" : "sneakypete" );
+		Object [] data = idToData( heroId );
+		AdventureResult key = null;
+
+		if ( data != null )
+		{
+			this.addFormField( "action", dataAction( data ) );
+			key = dataKey( data );
+		}
+		this.hasStatueKey = key != null && KoLConstants.inventory.contains( key );
+
 		this.addFormField( "howmuch", String.valueOf( amount ) );
-
 		this.amount = amount;
-		this.statue =
-			heroId == ShrineRequest.BORIS ? "boris" : heroId == ShrineRequest.JARLSBERG ? "jarlsberg" : "pete";
-		this.hasStatueKey = KoLConstants.inventory.contains( ShrineRequest.STATUE_KEYS[ heroId - 1 ] );
 	}
 
 	/**
-	 * Runs the request. Note that this does not report an error if it fails; it merely parses the results to see if any
-	 * gains were made.
+	 * Runs the request. Note that this does not report an error if it
+	 * fails; it merely parses the results to see if any gains were made.
 	 */
 
 	public void run()
@@ -96,8 +173,6 @@ public class ShrineRequest
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the appropriate key." );
 			return;
 		}
-
-		KoLmafia.updateDisplay( "Donating " + this.amount + " to the shrine..." );
 		super.run();
 
 	}
@@ -115,7 +190,7 @@ public class ShrineRequest
 
 	public static final String parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "shrines.php" ) )
+		if ( !urlString.startsWith( "da.php" ) )
 		{
 			return null;
 		}
@@ -126,24 +201,21 @@ public class ShrineRequest
 			return null;
 		}
 
-		String preference =
-			action.equals( "boris" ) ? "heroDonationBoris" :
-			action.equals( "jarlsberg" ) ? "heroDonationJarlsberg" :
-			action.equals( "sneakypete" ) ? "heroDonationSneakyPete" :
-			null;
-
-		if ( preference == null )
-		{
-			return null;
-		}
-
 		Matcher matcher = GenericRequest.HOWMUCH_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
 			return null;
 		}
 
+		Object [] data = actionToData( action );
+		if ( data == null )
+		{
+			return null;
+		}
+
 		// If we get here, we tried donating
+
+		String preference = dataSetting( data );
 
 		if ( responseText.indexOf( "You gain" ) == -1 )
 		{
@@ -157,5 +229,48 @@ public class ShrineRequest
 		Preferences.increment( preference, qty );
 
 		return null;
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "da.php" ) )
+		{
+			return false;
+		}
+
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
+		String action = matcher.find() ? matcher.group(1) : null;
+
+		// We have nothing special to do for simple visits.
+
+		if ( action == null )
+		{
+			return true;
+		}
+
+		String place = ShrineRequest.actionToPlace( action );
+
+		if ( place == null )
+		{
+			return false;
+		}
+
+		matcher = GenericRequest.HOWMUCH_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		int qty = StringUtilities.parseInt( matcher.group(1) );
+
+		String message = "Donating " + qty + " Meat to the " + place;
+
+		RequestLogger.printLine( "" );
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
+
+		return true;
 	}
 }
