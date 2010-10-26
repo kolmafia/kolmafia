@@ -485,6 +485,11 @@ public abstract class StaticEntity
 			CurseRequest.parseResponse( location, responseText );
 		}
 
+		else if ( location.startsWith( "da.php" ) )
+		{
+			ShrineRequest.parseResponse( location, responseText );
+		}
+
 		else if ( location.startsWith( "familiar.php" ) && location.indexOf( "ajax=1" ) == -1)
 		{
 			FamiliarData.registerFamiliarData( responseText );
@@ -720,11 +725,6 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "sendmessage.php" ) )
 		{
 			SendMailRequest.parseTransfer( location, responseText );
-		}
-
-		else if ( location.startsWith( "shrines.php" ) )
-		{
-			ShrineRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "skills.php" ) )
