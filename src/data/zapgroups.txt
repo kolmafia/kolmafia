@@ -98,14 +98,14 @@ ice baby, ice pick, ice sickle, ice skates
 lucky Tam O'Shanter, lucky Tam O'Shatner
 string of blue beads, string of green beads, string of red beads
 stuffed snowy owl, stuffed yo-yo
-tiny plastic angry goat, tiny plastic baby gravy fairy, tiny plastic barrrnacle, tiny plastic blood-faced volleyball, tiny plastic Cheshire bat, tiny plastic cocoabo, tiny plastic coffee pixie, tiny plastic fuzzy dice, tiny plastic ghost pickle on a stick, tiny plastic ghuol whelp, tiny plastic grue, tiny plastic howling balloon monkey, tiny plastic killer bee, tiny plastic leprechaun, tiny plastic levitating potato, tiny plastic mosquito, tiny plastic sabre-toothed lime, tiny plastic spooky pirate skeleton, tiny plastic stab bat, tiny plastic star starfish,
+tiny plastic angry goat, tiny plastic baby gravy fairy, tiny plastic barrrnacle, tiny plastic blood-faced volleyball, tiny plastic Cheshire bat, tiny plastic cocoabo, tiny plastic coffee pixie, tiny plastic fuzzy dice, tiny plastic ghost pickle on a stick, tiny plastic ghuol whelp, tiny plastic grue, tiny plastic howling balloon monkey, tiny plastic killer bee, tiny plastic leprechaun, tiny plastic levitating potato, tiny plastic mosquito, tiny plastic sabre-toothed lime, tiny plastic spooky pirate skeleton, tiny plastic stab bat, tiny plastic star starfish
 tiny plastic accordion thief, tiny plastic bitchin' meatcar, tiny plastic disco bandit, tiny plastic hermit, tiny plastic pastamancer, tiny plastic sauceror, tiny plastic seal clubber, tiny plastic turtle tamer
 tiny plastic Boris, tiny plastic Jarlsberg, tiny plastic Sneaky Pete, tiny plastic Susie
 sleeping snowy owl, yo-yo
 Boris's key, Boris's ring, Jarlsberg's earring, Jarlsberg's key, Sneaky Pete's breath spray, Sneaky Pete's key
 decorative fountain, Feng Shui for Big Dumb Idiots, windchimes
 Knob Goblin firecracker, razor-sharp can lid, spider web
-hemp string, necklace chain, piercing post, ring setting
+necklace chain, piercing post, ring setting
 heavy D, lowercase N, metallic A, original G, ruby W
 30669 scroll, 33398 scroll, 334 scroll
 asbestos ore, chrome ore, linoleum ore
@@ -148,3 +148,5 @@ Voluminous Radio Hat, Voluminous Radio Pants, Voluminous Radio Sneakers
 hellseal brain, hellseal hide, hellseal sinew
 burst hellseal brain, shredded hellseal hide, torn hellseal sinew
 pottery barn owl figurine, pottery yo-yo
+pottery hat, pottery shield, pottery training pants
+BRICKO hat, BRICKO sword, BRICKO pants
