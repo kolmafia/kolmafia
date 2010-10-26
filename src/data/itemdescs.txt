@@ -4746,3 +4746,4 @@
 4740	267599163	overpriced &quot;imported&quot; beer
 4741	195175539	smiling rat
 4742	315856897	rat tooth polish
+4743	119583857	bone chips	handfuls of bone chips

@@ -169,6 +169,97 @@ public class StationaryButtonDecorator
 				labelIndex = buffer.indexOf( "<tbody><tr class=label><td></td><td></td><td>1</td><td>2</td>" ) + 23;
 				buffer.insert( labelIndex, "<td></td><td></td>" );
 			}
+			else
+			{
+				// We are going to craft our own CAB. Pull in
+				// the necessary Javascript.
+
+				int insertIndex = buffer.indexOf( "</head>" );
+				buffer.insert( insertIndex, "<link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.6.css'><!--[if IE]><link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.ie.4.css'><![endif]-->" );
+
+				// Build the CAB in a new StringBuffer
+
+				StringBuffer CAB = new StringBuffer();
+				boolean choice = buffer.indexOf( "<input" ) != -1;
+
+				CAB.append( "<img src='http://images.kingdomofloathing.com/itemimages/blank.gif' id='dragged'>" );
+				CAB.append( "<div id='debug'></div>" );
+				CAB.append( "<div class=contextmenu id='skillmenu'></div>" );
+				CAB.append( "<div class=contextmenu id='itemsmenu'></div>" );
+
+				// *** Start of 'topbar' div
+				CAB.append( "<div id=topbar>" );
+				CAB.append( "<center><table class=actionbar cellpadding=0 cellspacing=1><tbody>" );
+
+				// *** Row 1 of table: class=label cols=19
+				CAB.append( "<tr class=label>" );
+				//     Column 1
+				CAB.append( "<td>&nbsp;</td>" );
+				//     Column 2-19
+				for ( int i = 2; i <= 19; ++i )
+				{
+					CAB.append( "<td></td>" );
+				}
+				CAB.append( "</tr>" );
+
+				// *** Row 2 of table: class=blueback cols=19
+				CAB.append( "<tr class=blueback>" );
+				//     Column 1
+				CAB.append( "<td><a href='" );
+				CAB.append( choice ? "choice.php?action=auto" : getAdventureAgainLocation( buffer ) );
+				CAB.append( "'><img src='http://images.kingdomofloathing.com/itemimages/plexpock.gif'></td>" );
+				//     Column 2
+				CAB.append( "<td class=spacer></td>" );
+				//     Column 3
+				CAB.append( "<td><img src='http://images.kingdomofloathing.com/itemimages/blank.gif' id='skills'></td>" );
+				//     Column 4
+				CAB.append( "<td class=spacer></td>" );
+				//     Column 5-16
+				for ( int i = 5; i <= 16; ++i )
+				{
+					CAB.append( "<td><img src='http://images.kingdomofloathing.com/itemimages/blank.gif'></td>" );
+				}
+				//     Column 17
+				CAB.append( "<td class=spacer></td>" );
+				//     Column 18
+				CAB.append( "<td class=spacer></td>" );
+				//     Column 19
+				CAB.append( "<td><img src='http://images.kingdomofloathing.com/itemimages/blank.gif'></td>" );
+				CAB.append( "</tr>" );
+
+				// *** Row 3 of table: class=label cols=19
+				CAB.append( "<tr class=label>" );
+				//	Column 1
+				CAB.append( "<td>" );
+				CAB.append( choice ? "auto" : "again" );
+				CAB.append( "</td>" );
+				//	Column 2-19
+				for ( int i = 2; i < 19; ++i )
+				{
+					CAB.append( "<td></td>" );
+				}
+				CAB.append( "</tr>" );
+				CAB.append( "</tbody></table></center>" );
+
+				CAB.append( "</div>" );
+				// *** End of 'topbar' div
+
+				// *** Start of 'content' div
+				CAB.append( "<div class='content' id='content_'>" );
+				CAB.append( "<div id='effdiv' style='display: none;'></div>" );
+
+				// *** Start of 'overflow' div
+				CAB.append( "<div style='overflow: auto;'>" );
+
+				insertIndex = buffer.indexOf( "<body>" ) + 6;
+				buffer.insert( insertIndex, CAB.toString() );
+
+				
+				insertIndex = buffer.indexOf( "</body>" );
+				buffer.insert( insertIndex, "</div></div>" );
+				// *** End of 'overflow' div
+				// *** End of 'content' div
+			}
 
 			return;
 		}

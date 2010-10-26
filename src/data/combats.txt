@@ -81,6 +81,7 @@ Defiled Nook	100	Spiny Skelelton	Toothy Sklelton	Giant Skeelton: 0
 Degrassi Knoll	80	Gnollish Crossdresser: 2	Gnollish Flyslayer: 2	Gnollish Gearhead: 3	Gnollish Piebaker: 2	Gnollish Plungermaster: 2	Gnollish Tirejuggler: 2	Gnollish War Chef: 2	Guard Bugbear: 2	One-Eyed Gnoll: 2
 Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locusts	Rock Scorpion	Swarm of Fire Ants
 Dire Warren	100	Fluffy Bunny
+Dungeon Full Of Skeletons	100	Skeleton Invader
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
 El Vibrato Island	100	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
