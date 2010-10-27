@@ -816,6 +816,7 @@ Tribal Goblin	HP: 60 Def: 50 Atk: 60	goblin autoblowgun (0)	goblin hunting spear
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)	triffid bark (b0)
 Trophyfish	HP: 15000
 Turtle trapper	HP: 110 Def: 95 Atk: 95
+Two Skeleton Invaders	HP: 0	bone chips (0)	bone chips (0)
 Tyrannosaurus Tex	HP: 100000
 Undead Elbow Macaroni	HP: 1 Def: 2 Atk: 1 E: spooky Meat: 4-6	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
 Undercover Penguin		cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
