@@ -1067,7 +1067,7 @@ public class KoLAdventure
 			urlString.startsWith( "basement.php" ) ||
 			urlString.startsWith( "dungeon.php" ) ||
 			urlString.startsWith( "lair" ) ||
-			urlString.startsWith( "rats.php" );
+			urlString.startsWith( "cellar.php" );
 
 		if ( shouldReset )
 		{

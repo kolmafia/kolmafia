@@ -735,10 +735,6 @@ public class RequestEditorKit
 		{
 			RabbitHoleManager.decorateRabbitHole( buffer );
 		}
-		else if ( location.startsWith( "rats.php" ) )
-		{
-			RequestEditorKit.addTavernSpoilers( buffer );
-		}
 		else if ( location.startsWith( "searchplayer.php" ) )
 		{
 			StringUtilities.insertAfter( buffer, "name=pvponly", " checked" );
@@ -1847,55 +1843,6 @@ public class RequestEditorKit
 			RabbitHoleManager.decorateChessPuzzleResponse( buffer );
 			break;
 		}
-	}
-
-	private static final void addTavernSpoilers( final StringBuffer buffer )
-	{
-		String text = buffer.toString();
-		buffer.setLength( 0 );
-
-		String layout = Preferences.getString( "tavernLayout" );
-
-		for ( int i = 1; i <= 25; ++i )
-		{
-			int squareType = Character.digit( layout.charAt( i - 1 ), 10 );
-
-			switch ( squareType )
-			{
-			case 0:
-				break;
-
-			case 1:
-				text =
-					text.replaceFirst(
-						"(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://images.kingdomofloathing.com/adventureimages/rat.gif\" border=0></a>" );
-				break;
-
-			case 2:
-				text =
-					text.replaceFirst(
-						"(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://images.kingdomofloathing.com/otherimages/sigils/fratboy.gif\" border=0></a>" );
-				break;
-
-			case 3:
-				text =
-					text.replaceFirst(
-						"(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://images.kingdomofloathing.com/adventureimages/faucet.gif\" height=60 width=60 border=0></a>" );
-				break;
-
-			case 4:
-				text =
-					text.replaceFirst(
-						"(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://images.kingdomofloathing.com/adventureimages/ratsworth.gif\" height=60 width=60 border=0></a>" );
-				break;
-			}
-		}
-
-		buffer.append( text );
 	}
 
 	private static final void fixDucks( final StringBuffer buffer )

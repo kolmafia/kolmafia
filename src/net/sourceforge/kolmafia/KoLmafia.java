@@ -100,6 +100,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
@@ -161,8 +162,6 @@ public abstract class KoLmafia
 	public static int displayState = KoLConstants.ENABLE_STATE;
 
 	public static final int[] initialStats = new int[ 3 ];
-
-	private static final Pattern TAVERN_PATTERN = Pattern.compile( "rats.php.*where=(\\d+)" );
 
 	private static FileLock SESSION_HOLDER = null;
 	private static FileChannel SESSION_CHANNEL = null;
@@ -1732,88 +1731,6 @@ public abstract class KoLmafia
 		RequestThread.postRequest( request );
 	}
 
-	public static final void validateFaucetQuest()
-	{
-		int lastAscension = Preferences.getInteger( "lastTavernAscension" );
-		if ( lastAscension < KoLCharacter.getAscensions() )
-		{
-			Preferences.setInteger( "lastTavernSquare", 0 );
-			Preferences.setInteger( "lastTavernAscension", KoLCharacter.getAscensions() );
-			Preferences.setString( "tavernLayout", "0000000000000000000000000" );
-		}
-	}
-
-	public static final void preTavernVisit( final GenericRequest request )
-	{
-		KoLmafia.validateFaucetQuest();
-
-		String urlString = request.getURLString();
-		int square = KoLmafia.currentTavernSquare( urlString );
-		if ( square == 0 )
-		{
-			return;
-		}
-
-		Preferences.setInteger( "lastTavernSquare", square );
-	}
-
-	public static final void postTavernVisit( final GenericRequest request )
-	{
-		if ( KoLCharacter.getAdventuresLeft() == 0 ||
-			KoLCharacter.getCurrentHP() == 0 ||
-			KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() )
-		{
-			return;
-		}
-
-		String urlString = request.getURLString();
-		if ( urlString.startsWith( "fight.php" ) )
-		{
-			int square = Preferences.getInteger( "lastTavernSquare" );
-			char replacement = request.responseText.indexOf( "Baron" ) != -1 ? '4' : '1';
-			KoLmafia.addTavernLocation( square, replacement );
-			return;
-		}
-
-		int square = KoLmafia.currentTavernSquare( urlString );
-		if ( square == 0 )
-		{
-			return;
-		}
-
-		char replacement = '1';
-		if ( request.responseText.indexOf( "faucetoff" ) != -1 )
-		{
-			replacement = '3';
-		}
-		else if ( request.responseText.indexOf( "You acquire" ) != -1 )
-		{
-			replacement = '2';
-		}
-
-		KoLmafia.addTavernLocation( square, replacement );
-		Preferences.setInteger( "lastTavernSquare", square );
-	}
-
-	private static final int currentTavernSquare( final String urlString )
-	{
-		Matcher squareMatcher = KoLmafia.TAVERN_PATTERN.matcher( urlString );
-		if ( !squareMatcher.find() )
-		{
-			return 0;
-		}
-
-		return StringUtilities.parseInt( squareMatcher.group( 1 ) );
-	}
-
-	private static final void addTavernLocation( final int square, final char value )
-	{
-		KoLmafia.validateFaucetQuest();
-		StringBuffer layout = new StringBuffer( Preferences.getString( "tavernLayout" ) );
-		layout.setCharAt( square - 1, value );
-		Preferences.setString( "tavernLayout", layout.toString() );
-	}
-
 	/**
 	 * Completes the infamous tavern quest.
 	 */
@@ -1830,7 +1747,7 @@ public abstract class KoLmafia
 			searchList.add( new Integer( i ) );
 		}
 
-		KoLmafia.validateFaucetQuest();
+		TavernRequest.validateFaucetQuest();
 		String visited = Preferences.getString( "tavernLayout" );
 		for ( int i = visited.length() - 1; i >= 0; --i )
 		{

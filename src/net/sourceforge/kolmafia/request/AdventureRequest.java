@@ -134,7 +134,10 @@ public class AdventureRequest
 		{
 			this.addFormField( "place", adventureId );
 		}
-		else if ( !formSource.equals( "dungeon.php" ) && !formSource.equals( "basement.php" ) && !formSource.equals( "rats.php" ) && !formSource.equals( "barrel.php" ) )
+		else if ( !formSource.equals( "dungeon.php" ) &&
+			  !formSource.equals( "basement.php" ) &&
+			  !formSource.equals( "cellar.php" ) &&
+			  !formSource.equals( "barrel.php" ) )
 		{
 			this.addFormField( "action", adventureId );
 		}
@@ -920,7 +923,7 @@ public class AdventureRequest
 		{
 			return formSource.indexOf( "action" ) != -1;
 		}
-		else if ( formSource.startsWith( "rats.php" ) )
+		else if ( formSource.startsWith( "cellar.php" ) )
 		{
 			return true;
 		}
