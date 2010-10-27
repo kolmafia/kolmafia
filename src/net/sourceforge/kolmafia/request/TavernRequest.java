@@ -37,10 +37,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -160,6 +162,77 @@ public class TavernRequest
 		int row = ( ( square - 1 ) / 5 ) + 1;
 		int col = ( ( square - 1 ) % 5 ) + 1;
 		return "Tavern Cellar (row " + row + ", col " + col + ")";
+	}
+
+	public static final void validateFaucetQuest()
+	{
+		int lastAscension = Preferences.getInteger( "lastTavernAscension" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastTavernSquare", 0 );
+			Preferences.setInteger( "lastTavernAscension", KoLCharacter.getAscensions() );
+			Preferences.setString( "tavernLayout", "0000000000000000000000000" );
+		}
+	}
+
+	public static final void preTavernVisit( final GenericRequest request )
+	{
+		TavernRequest.validateFaucetQuest();
+
+		String urlString = request.getURLString();
+		int square = TavernRequest.getSquare( urlString );
+		if ( square == 0 )
+		{
+			return;
+		}
+
+		Preferences.setInteger( "lastTavernSquare", square );
+	}
+
+	public static final void postTavernVisit( final GenericRequest request )
+	{
+		if ( KoLCharacter.getAdventuresLeft() == 0 ||
+		     KoLCharacter.getCurrentHP() == 0 ||
+		     KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() )
+		{
+			return;
+		}
+
+		String urlString = request.getURLString();
+		if ( urlString.startsWith( "fight.php" ) )
+		{
+			int square = Preferences.getInteger( "lastTavernSquare" );
+			char replacement = request.responseText.indexOf( "Baron" ) != -1 ? '4' : '1';
+			TavernRequest.addTavernLocation( square, replacement );
+			return;
+		}
+
+		int square = TavernRequest.getSquare( urlString );
+		if ( square == 0 )
+		{
+			return;
+		}
+
+		char replacement = '1';
+		if ( request.responseText.indexOf( "faucetoff" ) != -1 )
+		{
+			replacement = '3';
+		}
+		else if ( request.responseText.indexOf( "You acquire" ) != -1 )
+		{
+			replacement = '2';
+		}
+
+		TavernRequest.addTavernLocation( square, replacement );
+		Preferences.setInteger( "lastTavernSquare", square );
+	}
+
+	private static final void addTavernLocation( final int square, final char value )
+	{
+		TavernRequest.validateFaucetQuest();
+		StringBuffer layout = new StringBuffer( Preferences.getString( "tavernLayout" ) );
+		layout.setCharAt( square - 1, value );
+		Preferences.setString( "tavernLayout", layout.toString() );
 	}
 
 	public static final boolean registerRequest( final String urlString )

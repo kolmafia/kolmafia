@@ -1106,17 +1106,17 @@ public class GenericRequest
 
 		if ( !GenericRequest.isRatQuest )
 		{
-			GenericRequest.isRatQuest = urlString.startsWith( "rats.php" );
+			GenericRequest.isRatQuest = urlString.startsWith( "cellar.php" );
 		}
 
-		if ( !this.hasNoResult && !urlString.startsWith( "rats.php" ) && GenericRequest.isRatQuest )
+		if ( GenericRequest.isRatQuest && !this.hasNoResult && !urlString.startsWith( "cellar.php" ) )
 		{
 			GenericRequest.isRatQuest = urlString.startsWith( "fight.php" );
 		}
 
 		if ( GenericRequest.isRatQuest )
 		{
-			KoLmafia.preTavernVisit( this );
+			TavernRequest.preTavernVisit( this );
 		}
 
 		if ( !this.hasNoResult && GenericRequest.isBarrelSmash )
@@ -1775,7 +1775,7 @@ public class GenericRequest
 
 		if ( GenericRequest.isRatQuest )
 		{
-			KoLmafia.postTavernVisit( this );
+			TavernRequest.postTavernVisit( this );
 		}
 
 		this.encounter = AdventureRequest.registerEncounter( this );
