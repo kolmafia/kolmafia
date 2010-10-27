@@ -1179,7 +1179,14 @@ public class GenericRequest
 
 	public static final boolean shouldIgnore( final GenericRequest request )
 	{
-		return request.formURLString == null || request.formURLString.indexOf( "mall" ) != -1 || request.formURLString.indexOf( "chat" ) != -1;
+		return request.formURLString == null ||
+			// Disallow anything to do with the mall
+			request.formURLString.indexOf( "mall" ) != -1 ||
+			// Disallow anything to do with chat. Look for specific
+			// URLs used by chat so we don't block. for example,
+			// account_chatcolors.php
+			request.formURLString.indexOf( "newchatmessages.php" ) != -1 ||
+			request.formURLString.indexOf( "submitnewchat.php" ) != -1;
 	}
 
 	/**
