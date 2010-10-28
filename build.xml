@@ -229,7 +229,7 @@
 	<!--  create an OSX disk image  -->
 	<!-- ========================== -->
 
-	<target name="dmg" depends="init,update,jar">
+	<target name="dmg" depends="init,update,jar,jarbundler">
 
 		<exec executable="rm" dir="${dist}">
 			<arg line="-rf KoLmafia" />
@@ -239,17 +239,18 @@
 
 		<symlink action="single" link="${dist}/KoLmafia/Applications" resource="/Applications" />
 
-		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/jarbundler-1.9.jar" />
-		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/macosx/limeglass.icns" vmoptions="-Xincgc" />
-
+	        <exec executable="cp" dir="${dist}">
+			<arg line="-a ${basedir}/${dist}/KoLMafia.app ${basedir}/${dist}/KoLmafia/" />
+		</exec>
+ 
+	        <delete file="${basedir}/${dmgfile}"/>
 		<exec executable="hdiutil" dir="${dist}">
-			<arg line="create ${dmgfile} -srcfolder ${dist}/KoLmafia -volname KoLmafia" />
+			<arg line="create ${basedir}/${dmgfile} -srcfolder ${basedir}/${dist}/KoLmafia -volname KoLmafia" />
 		</exec>
 
 		<exec executable="rm" dir="${dist}">
 			<arg line="-rf KoLmafia" />
 		</exec>
-
 	</target>
 
 	<!-- ========================== -->
