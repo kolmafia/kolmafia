@@ -1359,7 +1359,9 @@ public class ItemDatabase
 
 	public static final String getPluralName( final String name )
 	{
-		return getPluralName( getItemId( name ) );
+		int itemId = ItemDatabase.getItemId( name );
+		String plural = pluralById.get( itemId );
+		return plural == null || plural.equals( "" ) ? name + "s" : plural;
 	}
 
 	public static final String getPluralName( final int itemId )
