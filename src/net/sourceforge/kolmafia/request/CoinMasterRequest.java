@@ -62,7 +62,7 @@ public class CoinMasterRequest
 	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You currently have) (?:<b>)?(\\d+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket)" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You currently have) (?:<b>)?(\\d+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
@@ -399,7 +399,7 @@ public class CoinMasterRequest
 		}
 		else if ( master == ALTAROFBONES )
 		{
-			test = "You don't have enough bone chips for that";
+			test = "You have no bone chips";
 		}
 		else
 		{
@@ -663,6 +663,11 @@ public class CoinMasterRequest
 		if ( urlString.startsWith( "arcade.php" ) )
 		{
 			return registerTicketRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "bone_altar.php" ) )
+		{
+			return registerBoneChipRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "bigisland.php" ) )
@@ -932,8 +937,8 @@ public class CoinMasterRequest
 		String name = ItemDatabase.getItemName( itemId );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
-		String tokenName = ( cost > 1 ) ? ( token + "s" ) : "token";
-		String itemName = ( count > 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
+		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName );
@@ -960,8 +965,8 @@ public class CoinMasterRequest
 		}
 		else if ( master == ALTAROFBONES )
 		{
-			AdventureResult bone_chips = CoinmastersFrame.BONE_CHIPS.getInstance( -cost );
-			ResultProcessor.processResult( bone_chips );
+			AdventureResult boneChips = CoinmastersFrame.BONE_CHIPS.getInstance( -cost );
+			ResultProcessor.processResult( boneChips );
 		}
 
 		Preferences.increment( property, -cost );
@@ -1004,8 +1009,8 @@ public class CoinMasterRequest
 		int count = StringUtilities.parseInt( countMatcher.group(1) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
-		String tokenName = ( cost > 1 ) ? ( token + "s" ) : "token";
-		String itemName = ( count > 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
+		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "trading " + count + " " + itemName + " for " + cost + " " + tokenName );

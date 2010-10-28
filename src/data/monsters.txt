@@ -795,6 +795,7 @@ The Temporal Bandit	HP: 0	Counterclockwise Watch (100)
 The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	line (30)
 The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
 The Whole Kingdom	HP: 10000000 Def: 1 Atk: 1
+Three Skeleton Invaders	HP: 0	bone chips (0)	bone chips (0)	bone chips (0)
 Tiger-Lily	HP: 150	eye of the Tiger-lily (0)	Tiger-lily's milk (20)	reflection of a map (c10)
 Timmy Tofurkey	HP: 0	sun-dried tofu (0)
 Timmy Tofurkey Cast Member	HP: 0	sun-dried tofu (0)
