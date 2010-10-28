@@ -69,6 +69,8 @@ public class CoinmastersDatabase
 
 	private static final LockableListModel buyForTickets = new LockableListModel();
 	private static final Map ticketBuyPriceByName = new TreeMap();
+	private static final LockableListModel buyForBoneChips = new LockableListModel();
+	private static final Map boneChipBuyPriceByName = new TreeMap();
 
 	private static final Map lighthouseItems = new TreeMap();
 
@@ -155,6 +157,13 @@ public class CoinmastersDatabase
 					AdventureResult item = new AdventureResult( name, 0, false );
 					buyForTickets.add( item );
 					ticketBuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "bb" ) )
+				{
+					// Something we buy with bone chips
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForBoneChips.add( item );
+					boneChipBuyPriceByName.put( name, iprice );
 				}
 			}
 		}
@@ -280,6 +289,16 @@ public class CoinmastersDatabase
 	public static final Map ticketBuyPrices()
 	{
 		return ticketBuyPriceByName;
+	}
+
+	public static final LockableListModel getBoneChipItems()
+	{
+		return buyForBoneChips;
+	}
+
+	public static final Map boneChipBuyPrices()
+	{
+		return boneChipBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()

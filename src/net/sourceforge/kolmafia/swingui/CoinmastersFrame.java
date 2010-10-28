@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -80,6 +81,7 @@ public class CoinmastersFrame
 	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, -1 );
 	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, -1 );
 	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, -1 );
+	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, -1 );
 
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
 	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
@@ -98,12 +100,14 @@ public class CoinmastersFrame
 	private static int sandDollars = 0;
 	private static int crimbux = 0;
 	private static int tickets = 0;
+	private static int boneChips = 0;
 
 	private CoinmasterPanel dimePanel = null;
 	private CoinmasterPanel quarterPanel = null;
 	private CoinmasterPanel lucrePanel = null;
 	private CoinmasterPanel sandDollarPanel = null;
 	private CoinmasterPanel ticketPanel = null;
+	private CoinmasterPanel boneChipPanel = null;
 	// private CoinmasterPanel crimbuckPanel = null;
 
 	public CoinmastersFrame()
@@ -135,6 +139,11 @@ public class CoinmastersFrame
 		ticketPanel = new TicketCounterPanel();
 		panel.add( ticketPanel );
 		this.tabs.add( "Ticket Counter", panel );
+
+		panel = new JPanel( new BorderLayout() );
+		boneChipPanel = new AltarOfBonesPanel();
+		panel.add( boneChipPanel );
+		this.tabs.add( "Altar Of Bones", panel );
 
 		// panel = new JPanel( new BorderLayout() );
 		// crimbuckPanel = new CrimboCartelPanel();
@@ -181,6 +190,8 @@ public class CoinmastersFrame
 		Preferences.setInteger( "availableCrimbux", crimbux );
 		tickets = TICKET.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableTickets", tickets );
+		boneChips = BONE_CHIPS.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableBoneChips", boneChips );
 
 		INSTANCE.update();
 	}
@@ -192,6 +203,7 @@ public class CoinmastersFrame
 		lucrePanel.update();
 		sandDollarPanel.update();
 		ticketPanel.update();
+		boneChipPanel.update();
 		// crimbuckPanel.update();
 		this.currentPanel().setTitle();
 	}
@@ -427,6 +439,45 @@ public class CoinmastersFrame
 		}
 	}
 
+	private class AltarOfBonesPanel
+		extends CoinmasterPanel
+	{
+		public AltarOfBonesPanel()
+		{
+			super( CoinmastersDatabase.getBoneChipItems(),
+			       null,
+			       CoinmastersDatabase.boneChipBuyPrices(),
+			       "availableBoneChips",
+			       "bone chips",
+			       "Altar of Bones",
+				null );
+			buyAction = "buy";
+		}
+
+		public void update()
+		{
+		}
+
+		public boolean enabled()
+		{
+			return true;
+		}
+
+		public boolean accessible()
+		{
+			return true;
+		}
+
+		public void equip()
+		{
+		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
+		}
+	}
+
 	private class WarMasterPanel
 		extends CoinmasterPanel
 	{
@@ -527,7 +578,11 @@ public class CoinmastersFrame
 		public void setTitle()
 		{
 			int count =  Preferences.getInteger( CoinmasterPanel.this.property );
-			INSTANCE.setTitle( "Coin Masters (" + count + " " + CoinmasterPanel.this.token + "s)" );
+			String token = CoinmasterPanel.this.token;
+			String name = count != 1 ? 
+				ItemDatabase.getPluralName( token ) :
+				token;
+			INSTANCE.setTitle( "Coin Masters (" + count + " " + name + ")" );
 		}
 
 		public void actionConfirmed()
@@ -926,9 +981,9 @@ public class CoinmastersFrame
 			stringForm.append( " (" );
 			stringForm.append( price );
 			stringForm.append( " " );
-			stringForm.append( token );
-			if ( price > 1 )
-				stringForm.append( "s" );
+			stringForm.append( price != 1 ?
+					   ItemDatabase.getPluralName( token ) :
+					   token );
 			stringForm.append( ")" );
 			int count = ar.getCount();
 			if ( count > 0 )

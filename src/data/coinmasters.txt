@@ -149,3 +149,15 @@ bt	1000	sinister demon mask
 bt	1000	Dungeon Fist gauntlet
 bt	1000	streetfighting champion's belt
 bt	1000	Meteoid ice beam
+
+# Things you can buy with bone chips
+
+bb	50	bone meal
+bb	50	bone aperitif
+bb	100	bonerang
+bb	200	bone and arrows
+bb	100	boning knife
+bb	200	bone crusher
+bb	300	bone spurs
+bb	300	bonedanna
+bb	300	boneana hammock

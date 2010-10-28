@@ -108,6 +108,7 @@ biomechanical crimborg helmet	Hot Damage: +5, Stench Damage: +5, Familiar Effect
 black cowboy hat	Muscle: +8, Weapon Damage: +8, Familiar Effect: "1xBarrr, 1xLep, cap 41"
 black helmet	Maximum HP: +30, Familiar Effect: "1xFairy, cap 40"
 blue traffic cone	Moxie: +3, Hot Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
+bonedanna	Spooky Resistance: +3, Weapon Damage: +20
 bounty-hunting helmet	Item Drop: +20, Familiar Effect: "1.5xFairy, cap 25"
 bowler	Muscle: +5, Familiar Effect: "1.5xVolley, 1.5xLep, cap 25"
 bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1xPotato, 2xLep, cap 17"
@@ -324,6 +325,7 @@ basic meat skirt	Moxie: +1
 biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5
 black greaves	Muscle: +10, Damage Absorption: +30
 bloody clown pants	Spooky Damage: +3, Clownosity: +1
+boneana hammock	Sleaze Spell Damage: +20, Sleaze Damage: +20
 bounty-hunting pants	Item Drop: +15
 bowlegged pants	Moxie: +5
 # bugbear bungguard
@@ -640,8 +642,12 @@ big stirring stick	Mysticality: +5, Spell Damage: +5
 # bill bec-de-bardiche glaive-guisarme
 black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
 black sword	Critical: 3, Weapon Damage: +7
+# bone and arrow: +30 Damage vs. Skeletons
+# bone crusher: +30 Damage vs. Skeletons
 bone flute	Spooky Damage: +11
 bone rattle	Spooky Damage: +4
+# bonerang: +10 Damage vs. Skeletons
+# boning knife: +10 Damage vs. Skeletons
 # bottle-rocket crossbow: Shoots Bottle-Rockets!
 bottle-rocket crossbow	Moxie Percent: +15, Meat Drop: +15, Item Drop: +10, Softcore Only
 bounty-hunting rifle	Item Drop: +15
@@ -1454,6 +1460,7 @@ blackberry slippers	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +
 blue glowstick	Maximum MP: +5, Moxie: -3
 blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 blue ribbon	Maximum HP: +5
+bone spurs	Monster Level: +20
 booty chest charrrm bracelet	Meat Drop: +10, Single Equip
 # bottle opener belt buckle: Damages Attacking Opponent
 bottle opener belt buckle	Single Equip
