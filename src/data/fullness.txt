@@ -46,6 +46,7 @@ blackberry	1	2	2-3	2-4	2-4	2-4
 blob-shaped crimbo cookie	2	7	6-12	0	0	0	10/20 Amorphous Cheer (+50% all)
 blueberry-frosted king cake	3	1	3	0	0	0	blue plastic baby
 blue velvet cake	3	1	3	0	0	0
+bone meal	0	6	0	0	0	0
 boring spaghetti	3	3	4-11	6-8	6-8	6-8
 boris's key lime pie	4	6	14-16	28-33	0	0	Boris's key
 bouillabaise coucher avec moi	5	1	5-9	0	0	0

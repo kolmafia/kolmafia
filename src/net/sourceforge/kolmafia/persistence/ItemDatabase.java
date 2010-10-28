@@ -1357,6 +1357,11 @@ public class ItemDatabase
 	 * @return The plural name of the corresponding item
 	 */
 
+	public static final String getPluralName( final String name )
+	{
+		return getPluralName( getItemId( name ) );
+	}
+
 	public static final String getPluralName( final int itemId )
 	{
 		String plural = pluralById.get( itemId );

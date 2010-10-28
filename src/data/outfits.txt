@@ -75,6 +75,7 @@
 74	Unblemished Uniform	stainless steel skullcap, stainless steel shillelagh, stainless steel slacks, stainless steel scarf, stainless steel solitaire, stainless steel suspenders
 75	Blasphemous Bedizenment	Brimstone Beret, Brimstone Bludgeon, Brimstone Bunker, Brimstone Boxers, Brimstone Brooch, Brimstone Bracelet
 76	Smoked Pottery	pottery shield, pottery hat, pottery training pants
+77	1000th Birthday Suit	bone spurs, bonedanna, boneana hammock
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.

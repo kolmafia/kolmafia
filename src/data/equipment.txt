@@ -62,6 +62,7 @@ biomechanical crimborg helmet	150	Mox: 60
 black cowboy hat	165	Mox: 67
 black helmet	160	Mus: 65
 blue traffic cone	60	Mox: 15
+bonedanna	120	Mox: 45
 bounty-hunting helmet	100	Mox: 25
 bowler	100	Mox: 35
 bubblewrap bottlecap turtleban	70	Mys: 12
@@ -268,6 +269,7 @@ basic meat skirt	40	Mox: 5
 biomechanical crimborg leg armor	150	Mox: 60
 black greaves	160	Mox: 65
 bloody clown pants	50	Mox: 10
+boneana hammock	120	Mox: 45
 bounty-hunting pants	100	Mox: 25
 bowlegged pants	100	Mox: 35
 bugbear bungguard	30	none
@@ -570,8 +572,12 @@ big stirring stick	100	Mus: 35	2-handed staff
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
 black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
+bone and arrows	120	Mox: 45	2-handed bow
+bone crusher	120	Mus: 45	1-handed club
 bone flute	110	Mox: 40	2-handed flute
 bone rattle	30	Mox: 0	1-handed rattle
+bonerang	20	Mox: 0	1-handed boomerang
+boning knife	20	Mus: 0	1-handed knife
 bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
 bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
@@ -1315,6 +1321,7 @@ blackberry slippers	0	Mys: 75
 blue glowstick	0	none
 blue plastic baby	0	none
 blue ribbon	0	none
+bone spurs	0	Mys: 45
 booty chest charrrm bracelet	0	Mys: 80
 bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12

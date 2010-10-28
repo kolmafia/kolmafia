@@ -71,6 +71,7 @@ public class CoinMasterRequest
 	private static final String BIGBROTHER = "Big Brother";
 	private static final String CRIMBOCARTEL = "Crimbo Cartel";
 	private static final String TICKETCOUNTER = "Ticket Counter";
+	private static final String ALTAROFBONES = "Altar of Bones";
 
 	private final String token;
 	private final String master;
@@ -111,6 +112,10 @@ public class CoinMasterRequest
 		else if ( token.equals( "ticket" ) )
 		{
 			this.master = TICKETCOUNTER;
+		}
+		else if ( token.equals( "bone chips" ) )
+		{
+			this.master = ALTAROFBONES;
 		}
 		else
 		{
@@ -189,6 +194,11 @@ public class CoinMasterRequest
 		if ( token.equals( "ticket" ) )
 		{
 			return "arcade.php";
+		}
+
+		if ( token.equals( "bone chips" ) )
+		{
+			return "bone_altar.php";
 		}
 
 		if ( token.equals( "dime" ) || token.equals( "quarter" ) )
@@ -387,6 +397,10 @@ public class CoinMasterRequest
 		{
 			test = "You currently have no Game Grid redemption tickets";
 		}
+		else if ( master == ALTAROFBONES )
+		{
+			test = "You don't have enough bone chips for that";
+		}
 		else
 		{
 			return;
@@ -446,6 +460,18 @@ public class CoinMasterRequest
 				AdventureResult.addResultToList( KoLConstants.inventory, item );
 			}
 		}
+		else if ( master == ALTAROFBONES )
+		{
+			// Check and adjust inventory count, just in case
+			int count = StringUtilities.parseInt( balance );
+			AdventureResult item = ItemPool.get( ItemPool.BONE_CHIPS, count );
+			int icount = item.getCount( KoLConstants.inventory );
+			if ( count != icount )
+			{
+				item = item.getInstance( count - icount );
+				AdventureResult.addResultToList( KoLConstants.inventory, item );
+			}
+		}
 	}
 
 	private static final void refundPurchase( final String urlString, final String master )
@@ -487,6 +513,14 @@ public class CoinMasterRequest
 			prices = CoinmastersDatabase.ticketBuyPrices();
 			property = "availableTickets";
 			token = "tickets";
+		}
+		else if ( master == ALTAROFBONES )
+		{
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = null;
+			prices = CoinmastersDatabase.boneChipBuyPrices();
+			property = "availableBoneChips";
+			token = "bone chips";
 		}
 		else if ( master == HIPPY )
 		{
@@ -532,20 +566,34 @@ public class CoinMasterRequest
 			AdventureResult tickets = CoinmastersFrame.TICKET.getInstance( cost );
 			ResultProcessor.processResult( tickets );
 		}
+		else if ( master == ALTAROFBONES )
+		{
+			AdventureResult bone_chips = CoinmastersFrame.BONE_CHIPS.getInstance( cost );
+			ResultProcessor.processResult( bone_chips );
+		}
 
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + token + " to buy that." );
 	}
 
 	private static int getPurchaseCost( final Matcher itemMatcher, final Matcher countMatcher, final Map prices )
 	{
-		if ( !itemMatcher.find() || !countMatcher.find() )
+		if ( !itemMatcher.find() )
 		{
 			return 0;
 		}
 
+		int count = 1;
+		if ( countMatcher != null )
+		{
+			if ( !countMatcher.find() )
+			{
+				return 0;
+			}
+			count = StringUtilities.parseInt( countMatcher.group(1) );
+		}
+
 		int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
 		String name = ItemDatabase.getItemName( itemId );
-		int count = StringUtilities.parseInt( countMatcher.group(1) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		return count * price;
 	}
@@ -747,6 +795,27 @@ public class CoinMasterRequest
 		return true;
 	}
 
+	private static final boolean registerBoneChipRequest( final String urlString )
+	{
+		// We only claim bone_altar.php?action=buy
+
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
+		if ( !actionMatcher.find() )
+		{
+			return false;
+		}
+
+		String action = actionMatcher.group(1);
+
+		if ( !action.equals( "buy" ) )
+		{
+			return false;
+		}
+
+		CoinMasterRequest.buyStuff( urlString, ALTAROFBONES );
+		return true;
+	}
+
 	private static final boolean registerIslandRequest( final String urlString )
 	{
 		String master = findCampMaster( urlString );
@@ -815,6 +884,14 @@ public class CoinMasterRequest
 			token = "ticket";
 			property = "availableTickets";
 		}
+		else if ( master == ALTAROFBONES )
+		{
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = null;
+			prices = CoinmastersDatabase.boneChipBuyPrices();
+			token = "bone chips";
+			property = "availableBoneChips";
+		}
 		else if ( master == HIPPY )
 		{
 			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
@@ -836,14 +913,23 @@ public class CoinMasterRequest
 			return;
 		}
 
-		if ( !itemMatcher.find() || !countMatcher.find() )
+		if ( !itemMatcher.find() )
 		{
 			return;
 		}
 
+		int count = 1;
+		if ( countMatcher != null )
+		{
+			if ( !countMatcher.find() )
+			{
+				return;
+			}
+			count = StringUtilities.parseInt( countMatcher.group(1) );
+		}
+
 		int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
 		String name = ItemDatabase.getItemName( itemId );
-		int count = StringUtilities.parseInt( countMatcher.group(1) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 		String tokenName = ( cost > 1 ) ? ( token + "s" ) : "token";
@@ -871,6 +957,11 @@ public class CoinMasterRequest
 		{
 			AdventureResult tickets = CoinmastersFrame.TICKET.getInstance( -cost );
 			ResultProcessor.processResult( tickets );
+		}
+		else if ( master == ALTAROFBONES )
+		{
+			AdventureResult bone_chips = CoinmastersFrame.BONE_CHIPS.getInstance( -cost );
+			ResultProcessor.processResult( bone_chips );
 		}
 
 		Preferences.increment( property, -cost );

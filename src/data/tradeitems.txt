@@ -4750,3 +4750,15 @@
 4741	smiling rat	grow	all	100
 4742	rat tooth polish	familiar	all	75
 4743	bone chips	none	all	50
+4744
+4745
+4746
+4747	bone meal	food	all	0
+4748	bone aperitif	drink	all	0
+4749	bonerang	weapon	all	0
+4750	bone and arrows	weapon	all	0
+4751	boning knife	weapon	all	0
+4752	bone crusher	weapon	all	0
+4753	bone spurs	accessory	all	0
+4754	bonedanna	hat	all	0
+4755	boneana hammock	pants	all	0
