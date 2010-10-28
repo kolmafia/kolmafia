@@ -684,7 +684,7 @@ Skeletal Hamster	HP: 7 Def: 8 Atk: 8 ED: spooky	pile of dusty animal bones (100)
 Skeletal Monkey	HP: 8 Def: 9 Atk: 9 ED: spooky	pile of dusty animal bones (100)
 Skeletal Reindeer		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Skeletal Sommelier	HP: 162 Def: 158 Atk: 168 Meat: 80-120 ED: spooky	dusty bottle of Marsala (n20)	dusty bottle of Merlot (n20)	dusty bottle of Muscat (n20)	dusty bottle of Pinot Noir (n20)	dusty bottle of Port (n20)	dusty bottle of Zinfandel (n20)	wine-soaked bone chips (c0)	disintegrating cork (b0)
-Skeleton Invader	HP: 0	bone chips (0)
+Skeleton Invader	HP: 0	bone chips (30)
 Skeleton With a Mop	HP: 10	beer-soaked mop (0)	ice-cold Willer (0)	ice-cold Willer (0)
 Skelter Butleton, the Butler Skeleton	HP: 180 Atk: 164 ED: spooky	silver shrimp fork (100)
 Skleleton	HP: 10 Def: 18 Atk: 18 E: spooky	loose teeth (30)	skeleton bone (40)	skeleton bone (20)
@@ -795,7 +795,7 @@ The Temporal Bandit	HP: 0	Counterclockwise Watch (100)
 The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	line (30)
 The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
 The Whole Kingdom	HP: 10000000 Def: 1 Atk: 1
-Three Skeleton Invaders	HP: 0	bone chips (0)	bone chips (0)	bone chips (0)
+Three Skeleton Invaders	HP: 0	bone chips (30)	bone chips (20)	bone chips (10)
 Tiger-Lily	HP: 150	eye of the Tiger-lily (0)	Tiger-lily's milk (20)	reflection of a map (c10)
 Timmy Tofurkey	HP: 0	sun-dried tofu (0)
 Timmy Tofurkey Cast Member	HP: 0	sun-dried tofu (0)
@@ -817,7 +817,7 @@ Tribal Goblin	HP: 60 Def: 50 Atk: 60	goblin autoblowgun (0)	goblin hunting spear
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)	triffid bark (b0)
 Trophyfish	HP: 15000
 Turtle trapper	HP: 110 Def: 95 Atk: 95
-Two Skeleton Invaders	HP: 0	bone chips (0)	bone chips (0)
+Two Skeleton Invaders	HP: 0	bone chips (30)	bone chips (20)
 Tyrannosaurus Tex	HP: 100000
 Undead Elbow Macaroni	HP: 1 Def: 2 Atk: 1 E: spooky Meat: 4-6	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
 Undercover Penguin		cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
