@@ -61,8 +61,19 @@ public class AdventurePool
 	public static final String PALINDOME_ID = "119";
 	public static final String OASIS_ID = "122";
 	public static final int ARID_DESERT = 123;
+	public static final int THEMTHAR_HILLS = 126;
+	public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
+	public static final int HAIKU_DUNGEON = 138;
+	public static final int HIPPY_UNIFORM_BATTLEFIELD = 140;
 	public static final int FCLE = 158;
 	public static final String HOBOPOLIS_SEWERS_ID = "166";
+	public static final int HOBOPOLIS_TOWN_SQUARE = 167;
 	public static final String MINE_OFFICE_ID = "176";
+	public static final int JUNKYARD_BARREL = 182;
+	public static final int JUNKYARD_REFRIGERATOR = 183;
+	public static final int JUNKYARD_TIRES = 184;
+	public static final int JUNKYARD_CAR = 185;
+	public static final int SEASIDE_MEGALOPOLIS = 206;
+	public static final int OUTSIDE_THE_CLUB = 219;
 	public static final int NOOB_CAVE = 240;
 }
