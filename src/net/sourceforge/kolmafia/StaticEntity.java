@@ -570,6 +570,11 @@ public abstract class StaticEntity
 			DwarfFactoryRequest.parseResponse( location, responseText );
 		}
 
+		else if ( location.startsWith( "forestvillage.php" ) )
+		{
+			UntinkerRequest.parseResponse( location, responseText );
+		}
+
 		else if ( location.startsWith( "friars.php" ) )
 		{
 			FriarRequest.parseResponse( location, responseText );
@@ -772,7 +777,6 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "town_right.php" ) )
 		{
 			GourdRequest.parseResponse( location, responseText );
-			UntinkerRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "town_sendgift.php" ) )

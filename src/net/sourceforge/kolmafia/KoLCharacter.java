@@ -2261,7 +2261,7 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		if ( KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON && !Preferences.getBoolean( "kingLiberated" ) )
+		if ( KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON && !KoLCharacter.skillsRecalled )
 		{
 			return;
 		}

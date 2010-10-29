@@ -482,7 +482,7 @@ public class ClanLoungeRequest
 	public static void getBreakfast()
 	{
 		// No Clan Lounge in Bad Moon
-		if ( KoLCharacter.inBadMoon() && !Preferences.getBoolean( "kingLiberated" ))
+		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated())
 		{
 			return;
 		}

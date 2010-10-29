@@ -373,6 +373,7 @@ Flock of seagulls	HP: 0
 Flock of Stab-Bats	HP: 155 Def: 148 Atk: 155 Meat: 51-80	bat wing (30)	batblade (25)	batgut (30)
 Fluffy Bunny	HP: 1 Def: 1 Atk: 1
 Forest Spirit	HP: 3 Def: 2 Atk: 1	forest tears (30)
+Four Skeleton Invaders	HP: 0	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
 Frat Warrior Drill Sergeant	HP: 200 Atk: 175 E: sleaze	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)
 French Guard turtle	HP: 140 Def: 140 Atk: 140	guard turtle shell (0)	guard turtle collar (0)
 Frog	HP: 3 Def: 3 Atk: 3 Meat: 8-12	squashed frog (100)

@@ -60,7 +60,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class UntinkerRequest
 	extends GenericRequest
 {
-	private static final GenericRequest AVAILABLE_CHECKER = new GenericRequest( "town_right.php?place=untinker" );
+	private static final GenericRequest AVAILABLE_CHECKER = new GenericRequest( "forestvillage.php?place=untinker" );
 
 	private static boolean canUntinker;
 	private static int lastUserId = -1;
@@ -84,7 +84,7 @@ public class UntinkerRequest
 
 	public UntinkerRequest( final int itemId, final int itemCount )
 	{
-		super( "town_right.php" );
+		super( "forestvillage.php" );
 
 		this.addFormField( "action", "untinker" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
@@ -173,7 +173,7 @@ public class UntinkerRequest
 	{
 		// Either place=untinker or action=untinker
 
-		if ( !location.startsWith( "town_right.php" ) || location.indexOf( "untinker" ) == -1 )
+		if ( !location.startsWith( "forestvillage.php" ) || location.indexOf( "untinker" ) == -1 )
 		{
 			return;
 		}
@@ -349,7 +349,7 @@ public class UntinkerRequest
 	{
 		// Either place=untinker or action=untinker
 
-		if ( !urlString.startsWith( "town_right.php" ) )
+		if ( !urlString.startsWith( "forestvillage.php" ) )
 		{
 			return false;
 		}
