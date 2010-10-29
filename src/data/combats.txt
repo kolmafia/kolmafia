@@ -37,7 +37,7 @@
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A Barroom Brawl	100	Drunken 7-foot Dwarf	Plastered Frat Orc	Skeleton with a Mop	Unemployed Knob Goblin	Werecougar
 A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U. M. chieftain: 0
-A Skeleton Invasion	100	Skeleton Invader	Two Skeleton Invaders	Three Skeleton Invaders	Four Skeleton Invaders
+A Skeleton Invasion!	100	Skeleton Invader	Two Skeleton Invaders	Three Skeleton Invaders	Four Skeleton Invaders
 A Well-Groomed Lawn	100	Menacing lawn gnome	Mowing lawn gnome	Mounted lawn gnome
 An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae
 Anemone Mine	-1	Anemone Combatant	Killer Clownfish	Mer-kin Miner
