@@ -740,7 +740,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.RUSTY_SCREWDRIVER:
 
 			useType = "visit untinker";
-			useLocation = "town_right.php?place=untinker";
+			useLocation = "forestvillage.php?place=untinker";
 			break;
 
 		// Hedge maze puzzle and hedge maze key have a link to the maze
@@ -893,7 +893,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.ABRIDGED:
 
 			useType = "untinker";
-			useLocation = "town_right.php?action=untinker&whichitem=";
+			useLocation = "forestvillage.php?action=untinker&whichitem=";
 			break;
 
 		// Link to the chasm if you just untinkered a dictionary.

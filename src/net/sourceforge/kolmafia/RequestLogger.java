@@ -554,7 +554,7 @@ public class RequestLogger
 		     urlString.equals( "knoll.php?place=paster" ) ||
 		     urlString.startsWith( "lair" ) ||
 		     urlString.startsWith( "mining" ) ||
-		     urlString.equals( "town_right.php?place=untinker" ) )
+		     urlString.equals( "forestvillage.php?place=untinker" ) )
 		{
 			return;
 		}

@@ -643,6 +643,10 @@ public class RequestEditorKit
 			DiscoCombatHelper.decorate( buffer );
 			RequestEditorKit.addFightModifiers( location, buffer );
 		}
+		else if ( location.startsWith( "forestvillage.php" ) )
+		{
+			UntinkerRequest.decorate( location, buffer );
+		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
@@ -753,10 +757,6 @@ public class RequestEditorKit
 		{
 			DvorakDecorator.decorate( buffer );
 		}
-		else if ( location.startsWith( "town_right.php" ) )
-		{
-			UntinkerRequest.decorate( location, buffer );
-		}
 		else if ( location.startsWith( "valhalla.php" ) )
 		{
 			ValhallaDecorator.decorateAfterLife( location, buffer );
@@ -820,7 +820,7 @@ public class RequestEditorKit
 		String test = "<b>You gain a Level!</b>";
 		int index = buffer.indexOf( test );
 
-		if ( index == -1 || Preferences.getBoolean( "kingLiberated" ))
+		if ( index == -1 || KoLCharacter.kingLiberated() )
 		{
 			return;
 		}

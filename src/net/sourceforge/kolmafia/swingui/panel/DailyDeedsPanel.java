@@ -472,7 +472,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
-			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean kf = KoLCharacter.kingLiberated();
 			int nu = Preferences.getInteger( "telescopeUpgrades" );
 			this.setShown( ( !bm || kf ) && ( nu > 0 ) );
 			this.setEnabled( nu > 0 && !Preferences.getBoolean( "telescopeLookedHigh" ) );
@@ -558,7 +558,7 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
-			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean kf = KoLCharacter.kingLiberated();
 			int lastFriarCeremonyAscension = Preferences.getInteger( "lastFriarCeremonyAscension" );
 			// boolean level = KoLCharacter.getLevel() >= 6;
 			int knownAscensions = Preferences.getInteger( "knownAscensions" );
@@ -624,7 +624,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
-			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			int nf = Preferences.getInteger( "_hotTubSoaks" );
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
@@ -650,7 +650,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
-			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			int nf = Preferences.getInteger( "_poolGames" );
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
@@ -674,7 +674,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
-			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean kf = KoLCharacter.kingLiberated();
 			boolean tree = Preferences.getBoolean( "_crimboTree" );
 			int ctd = Preferences.getInteger( "crimboTreeDays" );
 			this.setShown( ( !bm || kf ) && tree );
@@ -835,7 +835,7 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
-			boolean kf = Preferences.getBoolean( "kingLiberated" );
+			boolean kf = KoLCharacter.kingLiberated();
 			boolean hc = KoLCharacter.isHardcore();
 			boolean have = InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_MITRE ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_LEOTARD ) > 0

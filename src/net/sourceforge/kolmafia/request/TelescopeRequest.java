@@ -81,7 +81,7 @@ public class TelescopeRequest
 			return;
 		}
 
-		if ( KoLCharacter.inBadMoon() && !Preferences.getBoolean( "kingLiberated" ) && KoLCharacter.getTelescopeUpgrades() > 0 )
+		if ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() && KoLCharacter.getTelescopeUpgrades() > 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
 			return;
