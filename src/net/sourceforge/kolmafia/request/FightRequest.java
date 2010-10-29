@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1640,7 +1641,7 @@ public class FightRequest
 		// Currently have Haiku State of Mind
 		// Acquiring Haiku State of Mind can happen in the middle of a macro
 		// combat, so is detected elsewhere.
-		return KoLAdventure.lastAdventureId() == 138 ||
+		return KoLAdventure.lastAdventureId() == AdventurePool.HAIKU_DUNGEON ||
 			KoLConstants.activeEffects.contains( FightRequest.haikuEffect );
 	}
 
@@ -2345,20 +2346,20 @@ public class FightRequest
 
 		switch ( KoLAdventure.lastAdventureId() )
 		{
-		case 182: // Barrel with Something Burning in it
-		case 183: // Near an Abandoned Refrigerator
-		case 184: // Over Where the Old Tires Are
-		case 185: // Out by that Rusted-Out Car
+		case AdventurePool.JUNKYARD_BARREL:
+		case AdventurePool.JUNKYARD_REFRIGERATOR:
+		case AdventurePool.JUNKYARD_TIRES:
+		case AdventurePool.JUNKYARD_CAR:
 			// Quest gremlins might have a tool.
 			IslandDecorator.handleGremlin( responseText );
 			break;
 
-		case 132: // Battlefield (Frat Uniform)
-		case 140: // Battlefield (Hippy Uniform)
+		case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
+		case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
 			IslandDecorator.handleBattlefield( responseText );
 			break;
 
-		case 167: // Hobopolis Town Square
+		case AdventurePool.HOBOPOLIS_TOWN_SQUARE:
 			HobopolisDecorator.handleTownSquare( responseText );
 			break;
 		}

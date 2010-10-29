@@ -13,15 +13,36 @@
 	<property name="docs" value="${dist}/docs"/>
 
 	<property name="KoLConstants" value="${src}/net/sourceforge/kolmafia/KoLConstants.java"/>
-	<property name="jarfile" value="${dist}/${ant.project.name}.jar"/>
-	<property name="tarfile" value="${dist}/${ant.project.name}.tar.gz"/>
-	<property name="dmgfile" value="${dist}/${ant.project.name}.dmg"/>
-	<property name="debfile" value="${dist}/${ant.project.name}.deb"/>
 
 	<property name="main" value="net.sourceforge.kolmafia.KoLmafia"/>
 	<property name="synopsis" value="An alternate interface to Kingdom of Loathing"/>
 
 	<property environment="env"/>
+
+
+        <!-- Setting the version string.  This breaks on platforms where
+        we don't have grep... -->
+	<exec executable="grep" outputproperty="KoLVersion">
+  	  <arg value="VERSION_NAME" />
+  	  <arg value="${KoLConstants}" />
+  	  <redirector>
+    	    <outputfilterchain>
+              <replacestring from='public static final String VERSION_NAME = ' to=""/>
+              <replacestring from='KoLmafia v' to=""/>
+  	      <deletecharacters chars=';\"\"'/>
+              <trim/>
+            </outputfilterchain>
+          </redirector>  	  
+	</exec>
+
+	<property name="KoLVersionedBaseFileName" value="${ant.project.name}-${KoLVersion}"/>
+
+	<property name="jarfile" value="${dist}/${KoLVersionedBaseFileName}.jar"/>
+	<property name="tarfile" value="${dist}/${KoLVersionedBaseFileName}.tar.gz"/>
+	<property name="appfile" value="${dist}/${KoLVersionedBaseFileName}.app"/>
+	<property name="dmgfile" value="${dist}/${KoLVersionedBaseFileName}.dmg"/>
+	<property name="debfile" value="${dist}/${KoLVersionedBaseFileName}.deb"/>
+	<property name="exefile" value="${dist}/${KoLVersionedBaseFileName}.exe"/>
 
 	<!-- classpath -->
 	<path id="classpath.compile">
@@ -39,6 +60,17 @@
 
 	</target>
 
+	<!-- ==================================== -->
+	<!--  displays the current version from ${KoLConstants}  -->
+	<!-- ==================================== -->
+
+
+	<target name="printversion">
+
+		<echo message="version: ${KoLVersion}" />
+		<echo message="version: ${KoLVersion_partial_NAME}" />
+
+	</target>
 
 	<!-- ==================================== -->
 	<!--  sets the default compiler to Jikes  -->
@@ -111,6 +143,9 @@
 			</fileset>
 		</delete>
 
+		<symlink action="delete" link="${dist}/${KoLVersionedBaseFileName}/Applications" failonerror="false" />
+                <delete dir="${appfile}" failonerror="false"/>
+
 	</target>
 
 
@@ -122,6 +157,7 @@
 
 		<delete dir="${build}/net/sourceforge/kolmafia" failonerror="false"/>
 		<delete dir="${docs}" failonerror="false"/>
+                <delete dir="${appfile}" failonerror="false"/>
 
 		<delete failonerror="false">
 			<fileset dir="${dist}">
@@ -207,8 +243,15 @@
 
 	<target name="jsmooth" depends="init,update,jar">
 
+		<move file="${util}/windows/build.jsmooth" tofile="${util}/windows/tmp.build.jsmooth" />
+		<replace file="${util}/windows/tmp.build.jsmooth" token="dist/KoLmafia.exe" value='${exefile}'/>
+	        <replace file="${util}/windows/tmp.build.jsmooth" token="dist/KoLmafia.jar" value='${jarfile}'/>
+
 		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen" classpath="${util}/windows/jsmoothgen-ant.jar" />
-		<jsmooth project="${util}/windows/build.jsmooth" skeletonroot="${util}/windows/skeletons"/>
+
+		<jsmooth project="${util}/windows/tmp.build.jsmooth" skeletonroot="${util}/windows/skeletons"/>
+
+                <delete file="${util}/windows/tmp.build.jsmooth"/>
 
 	</target>
 
@@ -220,7 +263,7 @@
 	<target name="jarbundler" depends="init,update,jar">
 
 		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/jarbundler-2.1.0.jar" />
-		<jarbundler dir="${dist}" name="KoLmafia" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/macosx/limeglass.icns" vmoptions="-Xincgc" />
+		<jarbundler dir="${dist}" name="${KoLVersionedBaseFileName}" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/macosx/limeglass.icns" vmoptions="-Xincgc" />
 
 	</target>
 
@@ -231,25 +274,20 @@
 
 	<target name="dmg" depends="init,update,jar,jarbundler">
 
-		<exec executable="rm" dir="${dist}">
-			<arg line="-rf KoLmafia" />
-		</exec>
+		<mkdir dir="${dist}/${KoLVersionedBaseFileName}"/>
 
-		<mkdir dir="${dist}/KoLmafia"/>
-
-		<symlink action="single" link="${dist}/KoLmafia/Applications" resource="/Applications" />
-
-	        <exec executable="cp" dir="${dist}">
-			<arg line="-a ${basedir}/${dist}/KoLMafia.app ${basedir}/${dist}/KoLmafia/" />
+		<symlink action="single" link="${dist}/${KoLVersionedBaseFileName}/Applications" resource="/Applications" />
+		<exec executable="cp" dir="${dist}">
+			<arg line="-a ${basedir}/${appfile} ${basedir}/${dist}/${KoLVersionedBaseFileName}/" />
 		</exec>
  
 	        <delete file="${basedir}/${dmgfile}"/>
 		<exec executable="hdiutil" dir="${dist}">
-			<arg line="create ${basedir}/${dmgfile} -srcfolder ${basedir}/${dist}/KoLmafia -volname KoLmafia" />
+			<arg line="create ${basedir}/${dmgfile} -srcfolder ${basedir}/${dist}/${KoLVersionedBaseFileName} -volname ${KoLVersionedBaseFileName}" />
 		</exec>
 
 		<exec executable="rm" dir="${dist}">
-			<arg line="-rf KoLmafia" />
+			<arg line="-rf KoLmafia*" />
 		</exec>
 	</target>
 
@@ -341,6 +379,7 @@
 		<antcall target="jar"/>
 		<antcall target="jsmooth"/>
 		<antcall target="jarbundler"/>
+		<antcall target="dmg"/>
 
 	</target>
 

@@ -57,6 +57,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
 import net.sourceforge.kolmafia.chat.ChatPoller;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1030,28 +1031,28 @@ public class RequestEditorKit
 
 		switch ( KoLAdventure.lastAdventureId() )
 		{
-		case 126: // The Themthar Hills
+		case AdventurePool.THEMTHAR_HILLS:
 			IslandDecorator.decorateThemtharFight( buffer );
 			break;
 
-		case 182: // Barrel with Something Burning in it
-		case 183: // Near an Abandoned Refrigerator
-		case 184: // Over Where the Old Tires Are
-		case 185: // Out by that Rusted-Out Car
+		case AdventurePool.JUNKYARD_BARREL:
+		case AdventurePool.JUNKYARD_REFRIGERATOR:
+		case AdventurePool.JUNKYARD_TIRES:
+		case AdventurePool.JUNKYARD_CAR:
 			// Quest gremlins might have a tool.
 			IslandDecorator.decorateGremlinFight( buffer );
 			break;
 
-		case 132: // Battlefield (Frat Uniform)
-		case 140: // Battlefield (Hippy Uniform)
+		case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
+		case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
 			IslandDecorator.decorateBattlefieldFight( buffer );
 			break;
 
-		case 206: // Seaside Megalopolis
+		case AdventurePool.SEASIDE_MEGALOPOLIS:
 			MemoriesDecorator.decorateMegalopolisFight( buffer );
 			break;
 
-		case 219: // Outside the Club
+		case AdventurePool.OUTSIDE_THE_CLUB:
 			NemesisDecorator.decorateRaverFight( buffer );
 			break;
 		}
