@@ -207,7 +207,7 @@ hot buttered roll	1	1	1	0	0	0
 hot date	2	7	4-5	0	0	20-30
 hot hi mein	5	7	21-29	71-75	15-20	30-35	5 Hot Breath (combat skill)
 hot wing	1	1	1	0	2-5	0
-humpty dumplings	3	5	13-16	0	70-77	0
+humpty dumplings	4	5	13-16	0	70-77	0
 igloo pie	2	2	7-9	15-20	15-20	5-10
 insanely spicy bean burrito	3	4	7-14	27-32	0	0
 insanely spicy enchanted bean burrito	3	5	8-15	0	28-32	0	Chronic Indigestion skill
