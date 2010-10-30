@@ -26,7 +26,7 @@ bloody beer	1	1	2	0	0	0	3-5 MP
 bloody mary	3	1	5-6	1-2	1-2	1-2
 bodyslam	6	6	22-26	16-20	0	0	tiny plastic sword
 boilermaker	4	12	11-15	25-29	10-15	10-15
-bone apertif	0	6	0	0	0	0
+bone aperitif	2	6	7-9	12-20	12-20	12-20
 bottle of calcutta emerald	3	2	4-8	0	0	0
 bottle of cooking sherry	2	1	2-4	0	0	0
 bottle of definit	3	2	4-8	0	0	0
