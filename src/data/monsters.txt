@@ -363,6 +363,7 @@ Filthy Hippy Jewelry Maker	HP: 30 Def: 39 Atk: 39 E: stench	phat turquoise bead 
 Filthy Hippy Vegan Chef	HP: 30 Def: 39 Atk: 39 E: stench	tambourine bells (10)	wad of tofu (30)	reodorant (5)	filthy corduroys (2)	filthy knitted dread sack (2)	filthy pestle (5)	patchouli incense stick (30)	double-barreled sling (0)	greasy dreadlock (b0)	Spanish fly (c25)
 Fire-Breathing Duck	HP: 190 Atk: 177 Meat: 142-200 E: heat	flaming feather (10)	duct tape (5)
 Fisherfish	HP: 650 Def: 475 Atk: 550 Meat: 240-360	glowing esca (3)	halibut (c3)	rough fish scale (3)
+Five Skeleton Invaders	HP: 0	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)	bone chips (0)
 Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat Meat: 4-7	meat paste (40)	meat paste (40)	meat paste (40)
 Flaming Samurai	HP: 100000
 Flaming Troll	HP: 73 Def: 83 Atk: 83 Meat: 32-48	flaming talons (10)	Trollhouse cookies (40)

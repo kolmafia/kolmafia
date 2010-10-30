@@ -3596,7 +3596,6 @@ public class UseItemRequest
 		RequestLogger.updateSessionLog( message );
 		RequestLogger.printLine( message );
 
-
 		if ( TurnCounter.isCounting( "Fortune Cookie" ) )
 		{
 			for ( int i = 2; i <= 4; ++i )
@@ -3663,18 +3662,32 @@ public class UseItemRequest
 			{
 				KoLmafia.updateDisplay( "Lucky number " + number +
 							" ignored - too soon to be a semirare." );
+				continue;
 			}
-			else if ( number > 205 ||
+
+			if ( number > 205 ||
 				  !TurnCounter.getCounters( "Semirare window end", minEnd, number - 1 ).equals( "" ) )
 			{	// conservative, wiki claims 200 maximum
 				KoLmafia.updateDisplay( "Lucky number " + number +
 							" ignored - too large to be a semirare." );
+				continue;
 			}
-			else
+
+			// One fortune cookie can contain two identical numbers
+			// and thereby pinpoint the semirare turn.
+			if ( TurnCounter.isCounting( "Fortune Cookie", number ) )
 			{
+				TurnCounter.stopCounting( "Fortune Cookie" );
 				TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
+				TurnCounter.stopCounting( "Semirare window begin" );
+				TurnCounter.stopCounting( "Semirare window end" );
+				return;
 			}
+
+			// Add the new lucky number
+                        TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
 		}
+
 		TurnCounter.stopCounting( "Semirare window begin" );
 		TurnCounter.stopCounting( "Semirare window end" );
 
