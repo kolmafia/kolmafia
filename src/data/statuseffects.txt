@@ -782,3 +782,8 @@
 781	Super Accuracy	reticle.gif	8ac1abc08fb9969463ecd9a965621b46
 782	Burning, Man	fire.gif	f93ba9c2aba47c4e296f20823bb8d1ac
 783	Pie in the Sky	pie.gif	d3fb9bf83be3023e45185af67c3ff185 	eat 1 badass pie
+784
+785
+786
+787
+788	Bone Homie	skullicon.gif	68f5db3381fc8c2ed57b23360bcd6331	use 1 Stabonic scroll

@@ -46,6 +46,7 @@ The Sea	adventure=195	true	The Marinara Trench	+3 bubbling tempura batter|+1 glo
 The Sea	adventure=196	true	Anemone Mine	1 Mer-kin digpick|1 midget clownfish
 The Sea	adventure=197	true	The Dive Bar	+3 seaode|1 choiceadv
 Town	adventure=244	true	A Skeleton Invasion!
+Town	adventure=245	true	The Cannon Museum
 Town	adventure=112	true	Sleazy Back Alley	1 spider web|+3 distilled fortified wine	8 hobo gristle
 Manor1	adventure=113	true	Haunted Pantry	1 razor-sharp can lid|+3 tasty tart	13 shredded can label
 Manor1	adventure=102	true	Haunted Kitchen	1 chef's hat|1 leftovers of indeterminate origin|+1 freezerburned ice cube
