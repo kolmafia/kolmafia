@@ -1103,7 +1103,8 @@ public class KoLAdventure
 	private void prepareToAdventure( final String urlString )
 	{
 		// If we are in a drunken stupor, return now.
-		if ( KoLCharacter.isFallingDown() )
+		if ( KoLCharacter.isFallingDown() &&
+		     !urlString.startsWith( "trickortreat" ) )
 		{
 			return;
 		}

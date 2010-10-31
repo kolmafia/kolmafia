@@ -1380,7 +1380,8 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( KoLCharacter.isFallingDown() && KoLCharacter.getInebriety() <= 25 )
+		if ( KoLCharacter.isFallingDown() && KoLCharacter.getInebriety() <= 25 &&
+		     !adventure.getRequest().getPath().startsWith( "trickortreat" ))
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are too drunk to continue." );
 			return;
