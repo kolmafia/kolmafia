@@ -2311,6 +2311,7 @@ Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, M
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
+# Bone Homie: Bites Your Enemies
 Bootyliciousness	Item Drop: +10
 Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
