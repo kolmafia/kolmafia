@@ -3244,7 +3244,9 @@ Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
 Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
 Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
+Pain Dip	Effect: "The HeyDezebound Heart"
 Piddles	Effect: "Belch the Rainbow&#153;", Effect Duration: 10
+PlexiPips	Effect: "Technicolor Yawn, Er, Smile"
 Polka Pop	Effect: "Polka Face", Effect Duration: 10
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
@@ -3253,6 +3255,7 @@ Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
+Wax Flask	Effect: "Highland Flung"
 Wint-O-Fresh mint	Effect: "Sugar Rush", Effect Duration: 3
 Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10

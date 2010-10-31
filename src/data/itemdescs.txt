@@ -4747,9 +4747,9 @@
 4741	195175539	smiling rat	smiling rats
 4742	315856897	rat tooth polish	tins of rat tooth polish
 4743	119583857	bone chips	handfuls of bone chips
-4744
-4745
-4746
+4744	697580688	PlexiPips
+4745	693231946	Wax Flask
+4746	729165917	Pain Dip
 4747	362576413	bone meal
 4748	828874845	bone aperitif
 4749	979622179	bonerang

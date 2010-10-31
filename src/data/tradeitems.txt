@@ -4750,9 +4750,9 @@
 4741	smiling rat	grow	all	100
 4742	rat tooth polish	familiar	all	75
 4743	bone chips	none	all	50
-4744
-4745
-4746
+4744	PlexiPips	multiple, candy	all	0
+4745	Wax Flask	multiple, candy	all	0
+4746	Pain Dip	multiple, candy	all	0
 4747	bone meal	food	all	0
 4748	bone aperitif	drink	all	0
 4749	bonerang	weapon	all	0
