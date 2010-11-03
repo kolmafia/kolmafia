@@ -1461,7 +1461,7 @@ blackberry slippers	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +
 blue glowstick	Maximum MP: +5, Moxie: -3
 blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 blue ribbon	Maximum HP: +5
-bone spurs	Monster Level: +20
+bone spurs	Monster Level: +20, Single Equip
 booty chest charrrm bracelet	Meat Drop: +10, Single Equip
 # bottle opener belt buckle: Damages Attacking Opponent
 bottle opener belt buckle	Single Equip
