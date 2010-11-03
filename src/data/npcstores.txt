@@ -95,6 +95,7 @@ Market Demon	m	inflatable duck	300
 Market Demon	m	water wings	300
 Market Demon	m	Familiar-Gro&trade; Terrarium	500
 Market Demon	m	Hatorade	500
+Market Demon	m	Desert Bus pass	5000
 
 Market Demon	m	E-Z Cook&trade; oven	50
 Market Demon	m	My First Shaker&trade;	50

@@ -115,6 +115,7 @@ public class CampgroundRequest
 		ItemPool.PRETTY_BOUQUET,
 		ItemPool.SCARECROW,
 		ItemPool.TOILET_PAPER,
+		ItemPool.PUMPKIN,
 
 		// Special item that aids resting
 		ItemPool.COMFY_BLANKET,
@@ -131,8 +132,11 @@ public class CampgroundRequest
 	private final String action;
 
 	/**
-	 * Constructs a new <code>CampgroundRequest</code> with the specified action in mind.
+	 * Constructs a new <code>CampgroundRequest</code> with the specified
+	 * action in mind.
 	 */
+
+	// campground.php?action=garden&pwd
 
 	public CampgroundRequest( final String action )
 	{
@@ -341,6 +345,10 @@ public class CampgroundRequest
 		findImage( responseText, "bouquet.gif", ItemPool.PRETTY_BOUQUET, true );
 		findImage( responseText, "pfsection.gif", ItemPool.PICKET_FENCE, true );
 		findImage( responseText, "bfsection.gif", ItemPool.BARBED_FENCE, true );
+
+		// How many images are there? How do we handle pumpkins?
+		findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
+		findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );
 	}
 
 	private static final void parseKitchen( final String responseText )
@@ -392,6 +400,19 @@ public class CampgroundRequest
 		}
 
 		return ( count > 0 );
+	}
+
+	private static boolean findImage( final String responseText, final String filename, final int itemId, int count )
+	{
+		int i = responseText.indexOf( filename );
+		while ( i == -1 )
+		{
+			return false;
+		}
+
+		KoLConstants.campground.add( ItemPool.get( itemId, count ) );
+
+		return true;
 	}
 
 	public static AdventureResult getCurrentDwelling()

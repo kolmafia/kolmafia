@@ -521,6 +521,7 @@ Staff of the Grease Trap	10	Mys: 125	1-handed chefstaff
 Staff of the Greasefire	10	Mys: 20	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
+Staff of the November Jack-O-Lantern	10	Mys: 15	1-handed chefstaff
 Staff of the Short Order Cook	10	Mys: 15	1-handed chefstaff
 Staff of the Soupbone	10	Mys: 75	1-handed chefstaff
 Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
@@ -1497,6 +1498,7 @@ sealhide moccasins	0	Mys: 65
 second-hand knockoff engagement ring	0	none
 severed rocking horse head	0	Mys: 10
 shark tooth necklace	0	Mys: 85
+shin gourds	0	none
 shiny hood ornament	0	Mys: 80
 shiny ring	0	Mys: 10
 shiny tribal beads	0	Mys: 25

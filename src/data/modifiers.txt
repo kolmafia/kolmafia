@@ -588,6 +588,7 @@ Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, M
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4
 Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
+Staff of the November Jack-O-Lantern	Spell Damage Percent: +20, Stench Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Soupbone	Spell Damage Percent: +75, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6
 Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP Regen Min: 3, MP Regen Max: 4
@@ -1649,6 +1650,7 @@ sealhide moccasins	Muscle: +5, Mysticality: +5, Moxie: +5, Single Equip
 second-hand knockoff engagement ring	Muscle: +1, Mysticality: +1, Moxie: +1, Single Equip
 severed rocking horse head	Muscle: +3, Mysticality: +3, Moxie: +3
 shark tooth necklace	Moxie Percent: +5, Initiative: +35, Single Equip
+shin gourds	Damage Reduction: 5, Weapon Damage: +10, Single Equip
 shiny hood ornament	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +30, Maximum MP: +30, Initiative: +10
 shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 shiny tribal beads	Mysticality: +6
@@ -3220,6 +3222,7 @@ Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
 Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
 Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
+# Desert Bus pass: Allows Travel to Desert Beach
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
 Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
@@ -3435,6 +3438,8 @@ pressurized potion of proficiency	Effect: "Proficient Pressure", Effect Duration
 pressurized potion of puissance	Effect: "Puissant Pressure", Effect Duration: [R]
 pressurized potion of pulchritude	Effect: "Pulchritudinous Pressure", Effect Duration: [R]
 probability potion	Effect: "Uncertain", Effect Duration: 10
+# pumpkin carriage: Allows Travel to Desert Beach
+pumpkin juice	Effect: "Juiced and Jacked", Effect Duration: 10
 purple snowcone	Effect: "Purple Tongue", Effect Duration: 20
 pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
