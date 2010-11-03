@@ -3,46 +3,9 @@
 	<!-- ========================================== -->
 	<!--  set the global properties for this build  -->
 	<!-- ========================================== -->
+	<property file="build.properties"/>
+	<property file="default.properties"/>
 
-	<property name="root" value="."/>
-	<property name="src" value="src"/>
-	<property name="lib" value="lib"/>
-	<property name="util" value="util"/>
-	<property name="build" value="build"/>
-	<property name="dist" value="dist"/>
-	<property name="docs" value="${dist}/docs"/>
-
-	<property name="KoLConstants" value="${src}/net/sourceforge/kolmafia/KoLConstants.java"/>
-
-	<property name="main" value="net.sourceforge.kolmafia.KoLmafia"/>
-	<property name="synopsis" value="An alternate interface to Kingdom of Loathing"/>
-
-	<property environment="env"/>
-
-
-        <!-- Setting the version string.  This breaks on platforms where
-        we don't have grep... -->
-	<exec executable="grep" outputproperty="KoLVersion">
-  	  <arg value="VERSION_NAME" />
-  	  <arg value="${KoLConstants}" />
-  	  <redirector>
-    	    <outputfilterchain>
-              <replacestring from='public static final String VERSION_NAME = ' to=""/>
-              <replacestring from='KoLmafia v' to=""/>
-  	      <deletecharacters chars=';\"\"'/>
-              <trim/>
-            </outputfilterchain>
-          </redirector>  	  
-	</exec>
-
-	<property name="KoLVersionedBaseFileName" value="${ant.project.name}-${KoLVersion}"/>
-
-	<property name="jarfile" value="${dist}/${KoLVersionedBaseFileName}.jar"/>
-	<property name="tarfile" value="${dist}/${KoLVersionedBaseFileName}.tar.gz"/>
-	<property name="appfile" value="${dist}/${KoLVersionedBaseFileName}.app"/>
-	<property name="dmgfile" value="${dist}/${KoLVersionedBaseFileName}.dmg"/>
-	<property name="debfile" value="${dist}/${KoLVersionedBaseFileName}.deb"/>
-	<property name="exefile" value="${dist}/${KoLVersionedBaseFileName}.exe"/>
 
 	<!-- classpath -->
 	<path id="classpath.compile">
@@ -57,18 +20,6 @@
 		<tstamp/>
 		<mkdir dir="${build}"/>
 		<mkdir dir="${dist}"/>
-
-	</target>
-
-	<!-- ==================================== -->
-	<!--  displays the current version from ${KoLConstants}  -->
-	<!-- ==================================== -->
-
-
-	<target name="printversion">
-
-		<echo message="version: ${KoLVersion}" />
-		<echo message="version: ${KoLVersion_partial_NAME}" />
 
 	</target>
 
@@ -111,9 +62,9 @@
 	</target>
 
 
-	<!-- ================================== -->
-	<!--  update files from the repository  -->
-	<!-- ================================== -->
+	<!-- ======================== -->
+	<!--  get SVN revision number -->
+	<!-- ======================== -->
 
 	<target name="version">
 
@@ -137,15 +88,16 @@
 		<delete dir="${build}" failonerror="false"/>
 		<delete dir="${docs}" failonerror="false"/>
 
-		<delete failonerror="false">
-			<fileset dir="${dist}">
-				<include name="${ant.project.name}*"/>
-			</fileset>
+	        <!-- Really important not to follow the symlink to
+	        /Applications and delete it...-->
+
+		<symlink action="delete" link="${dist}/${version-name}/Applications" failonerror="false" />
+	        <delete dir="${appfile}" failonerror="false" />
+
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" />
 		</delete>
-
-		<symlink action="delete" link="${dist}/${KoLVersionedBaseFileName}/Applications" failonerror="false" />
-                <delete dir="${appfile}" failonerror="false"/>
-
+                
 	</target>
 
 
@@ -243,15 +195,14 @@
 
 	<target name="jsmooth" depends="init,update,jar">
 
-		<move file="${util}/windows/build.jsmooth" tofile="${util}/windows/tmp.build.jsmooth" />
-		<replace file="${util}/windows/tmp.build.jsmooth" token="dist/KoLmafia.exe" value='${exefile}'/>
-	        <replace file="${util}/windows/tmp.build.jsmooth" token="dist/KoLmafia.jar" value='${jarfile}'/>
+		<move file="${win.jsmoothfile}" tofile="${win.tmp.jsmoothfile}" />
+		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.exe" value='${exefile}'/>
+		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.jar" value='${jarfile}'/>
 
 		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen" classpath="${util}/windows/jsmoothgen-ant.jar" />
 
-		<jsmooth project="${util}/windows/tmp.build.jsmooth" skeletonroot="${util}/windows/skeletons"/>
-
-                <delete file="${util}/windows/tmp.build.jsmooth"/>
+		<jsmooth project="${win.tmp.jsmoothfile}" skeletonroot="${util}/windows/skeletons"/>
+        <delete file="${win.tmp.jsmoothfile}"/>
 
 	</target>
 
@@ -262,8 +213,8 @@
 
 	<target name="jarbundler" depends="init,update,jar">
 
-		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/jarbundler-2.1.0.jar" />
-		<jarbundler dir="${dist}" name="${KoLVersionedBaseFileName}" mainclass="net.sourceforge.kolmafia.KoLmafia" jar="${jarfile}" icon="${util}/macosx/limeglass.icns" vmoptions="-Xincgc" />
+		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/${mac.jarbundlerjar}" />
+		<jarbundler dir="${dist}" name="${version-name}" mainclass="${main}" jar="${jarfile}" icon="${mac.icon}" vmoptions="${mac.vmoptions}" />
 
 	</target>
 
@@ -274,20 +225,20 @@
 
 	<target name="dmg" depends="init,update,jar,jarbundler">
 
-		<mkdir dir="${dist}/${KoLVersionedBaseFileName}"/>
+		<mkdir dir="${dist}/${version-name}"/>
 
-		<symlink action="single" link="${dist}/${KoLVersionedBaseFileName}/Applications" resource="/Applications" />
+		<symlink action="single" link="${dist}/${version-name}" resource="/Applications" failonerror="false" />
 		<exec executable="cp" dir="${dist}">
-			<arg line="-a ${basedir}/${appfile} ${basedir}/${dist}/${KoLVersionedBaseFileName}/" />
+			<arg line="-a ${basedir}/${appfile} ${basedir}/${dist}/${version-name}/" />
 		</exec>
  
 	        <delete file="${basedir}/${dmgfile}"/>
 		<exec executable="hdiutil" dir="${dist}">
-			<arg line="create ${basedir}/${dmgfile} -srcfolder ${basedir}/${dist}/${KoLVersionedBaseFileName} -volname ${KoLVersionedBaseFileName}" />
+			<arg line="create ${basedir}/${dmgfile} -srcfolder ${basedir}/${dist}/${version-name} -volname ${version-name}" />
 		</exec>
 
 		<exec executable="rm" dir="${dist}">
-			<arg line="-rf KoLmafia*" />
+			<arg line="-rf ${ant.project.name}*" />
 		</exec>
 	</target>
 
@@ -302,7 +253,7 @@
 		<deb todir="${dist}" package="kolmafia" priority="optional" section="games" depends="sun-java6-jre">
 			<version upstream="${revision}" debian="${revision}"/>
 			<maintainer name="Veracity" email="veracity@hambo.com"/>
-			<description synopsis="${synopsis}">${synopsis}</description>
+			<description synopsis="${version.synopsis}">${version.synopsis}</description>
 			<tarfileset file="${jarfile}" prefix="usr/lib" filemode="755"/>
 			<tarfileset file="${build}/kolmafia.desktop" prefix="usr/share/applications"/>
 			<tarfileset file="util/debian/kol.xpm" prefix="usr/share/pixmaps"/>
@@ -319,7 +270,7 @@
 
 		<taskdef name="desktopentry" classname="com.googlecode.ant_deb_task.DesktopEntry" classpath="${util}/debian/ant-deb.jar" />
 
-		<desktopentry toFile="build/kolmafia.desktop" name="${ant.project.name}" comment="${synopsis}" exec="/usr/bin/kol" icon="kol.xpm" terminal="false" type="Application" categories="Game;RolePlaying" />
+		<desktopentry toFile="build/kolmafia.desktop" name="${ant.project.name}" comment="${version.synopsis}" exec="/usr/bin/kol" icon="kol.xpm" terminal="false" type="Application" categories="Game;RolePlaying" />
 
 	</target>
 
@@ -370,17 +321,30 @@
 
 
 	<!-- =========================== -->
+	<!--  update KoLConstants.java   -->
+	<!-- =========================== -->
+
+	<target name="set.dist.properties">
+
+		<replaceregexp file="${KoLConstants}"
+               		match="${version.date.pattern}"
+			replace="${version.date}" />
+
+		<replaceregexp file="${KoLConstants}"
+			match="${version.name.pattern}"
+			replace="${version.name}" />
+
+	        <replaceregexp file="${KoLConstants}"
+			match="${version.rev.pattern}"
+			replace="${version.rev}" />
+
+	</target>
+
+	<!-- =========================== -->
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist" depends="clean,init,update">
-
-		<antcall target="tar"/>
-		<antcall target="jar"/>
-		<antcall target="jsmooth"/>
-		<antcall target="jarbundler"/>
-		<antcall target="dmg"/>
-
+	<target name="dist" depends="clean,init,update, tar, jar, jsmooth, dmg">
 	</target>
 
 
@@ -390,7 +354,7 @@
 
 	<target name="exec" depends="jar">
 		<java fork="true" jar="${jarfile}" dir="${dist}">
-			<jvmarg value="-Xincgc" />
+			<jvmarg value="${exec.vmoptions}" />
 		</java>
 	</target>
 
@@ -400,6 +364,16 @@
 	<!-- ==================================================== -->
 
 	<target name="notes" depends="jar">
+		<!-- Yeah, this looked easy.  I just have to get
+		${logfile} to match the ReleaseNotes code...
+                Not tonight
+		<exec executable="svn" failifexecutionfails="false" output="${logfile}">
+			<arg value="log"/>
+			<arg value="-r"/>
+			<arg value="${svn.revision.base}:HEAD"/>
+			<arg value="${root}"/>
+		</exec>
+		-->
 		<java fork="true" classname="net.sourceforge.kolmafia.utilities.ReleaseNotes" classpath="${jarfile}" dir="${dist}" />
 	</target>
 
