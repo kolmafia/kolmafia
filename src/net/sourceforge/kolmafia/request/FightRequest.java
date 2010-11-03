@@ -4805,27 +4805,6 @@ public class FightRequest
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			break;
-
-		case 7082:	// Point at your opponent
-			String type;
-			if ( responseText.indexOf( "firing a searing ray" ) != -1 )
-			{
-				type = "<font color=red>Major Red Recharge</font>";
-			}
-			else if ( responseText.indexOf( "blue light" ) != -1 )
-			{
-				type = "<font color=blue>Major Blue Recharge</font>";
-			}
-			else if ( responseText.indexOf( "yellow energy" ) != -1 )
-			{
-				type = "<font color=olive>Major Yellow Recharge</font>";
-			}
-			else break;
-			int cooldown = KoLCharacter.hasEquipped( ItemPool.get(
-				ItemPool.QUADROCULARS, 1 ) ) ? 101 : 150;
-			TurnCounter.stopCounting( type );
-			TurnCounter.startCounting( cooldown, type + " loc=*", "heboulder.gif" );
-			break;
 		
 		case 7100: // Funk Bluegrass Fusion
 			FightRequest.levelModifier -= 20;

@@ -1083,41 +1083,7 @@ public abstract class InventoryManager
 			return false;
 		}
 
-		int price = ItemDatabase.getPriceById( itemId );
-
-		if ( price > 0 )
-		{
-			return true;
-		}
-
-		switch ( itemId )
-		{
-		case ItemPool.TEN_LEAF_CLOVER:
-		case ItemPool.DISASSEMBLED_CLOVER:
-		case ItemPool.PHIAL_OF_HOTNESS:
-		case ItemPool.PHIAL_OF_COLDNESS:
-		case ItemPool.PHIAL_OF_SPOOKINESS:
-		case ItemPool.PHIAL_OF_STENCH:
-		case ItemPool.PHIAL_OF_SLEAZINESS:
-		case ItemPool.WHITE_RICE:
-		case ItemPool.GG_TICKET:
-			// Love songs
-		case ItemPool.VAGUE_AMBIGUITY:
-		case ItemPool.SMOLDERING_PASSION:
-		case ItemPool.ICY_REVENGE:
-		case ItemPool.SUGARY_CUTENESS:
-		case ItemPool.DISTURBING_OBSESSION:
-		case ItemPool.NAUGHTY_INNUENDO:
-			// Divine items
-		case ItemPool.DIVINE_NOISEMAKER:
-		case ItemPool.DIVINE_SILLY_STRING:
-		case ItemPool.DIVINE_BLOWOUT:
-		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
-		case ItemPool.DIVINE_CRACKER:
-		case ItemPool.DIVINE_FLUTE:
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	public static final void registerListener( int itemId, Preferences.ChangeListener listener )

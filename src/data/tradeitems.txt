@@ -4764,3 +4764,4 @@
 4755	boneana hammock	pants	all	0
 4756	bag of bones	usable	all	0
 4757	Stabonic scroll	reusable	all	0
+4758	candy skeleton	multiple, candy	all	0

@@ -2342,6 +2342,7 @@ Can Has Cyborger	Moxie Percent: +10
 Can't Be a Chooser	Meat Drop: +30
 Can't Smell Nothin'	Stench Resistance: +9
 # Canadianity: Makes you feel more Canadian
+Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
 Carlweather's Cantata of Confrontation	Combat Rate: +5
 Carol of the Bones	Muscle Percent: +10
 Carrion' On	Meat Drop: +60
@@ -2631,6 +2632,7 @@ Jalape&ntilde;o Saucesphere	Damage Reduction: 3
 # Jazz Hands
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 # Jingle Jangle Jingle
+Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
 # Juiced Up: Makes you a better diver
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
@@ -2920,6 +2922,7 @@ Tamarind Torment	Muscle: +5, Moxie: -5
 Tangled Up	Moxie Percent: -20
 # Tar-Struck: Continually take damage
 Tar-Struck	Stench Damage: +20
+Technicolor Yawn, Er, Smile	Item Drop: [min(300,T)]
 Techno Bliss	Item Drop: +10
 # Teleportitis: Your position seems uncertain...
 # Temporary Amnesia: Who am I?
