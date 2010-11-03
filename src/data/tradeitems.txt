@@ -4765,3 +4765,15 @@
 4756	bag of bones	usable	all	0
 4757	Stabonic scroll	reusable	all	0
 4758	candy skeleton	multiple, candy	all	0
+4759	Grumpy Bumpkin's Pumpkin Seed Catalog	usable	all	0
+4760	packet of pumpkin seeds	usable	display	0
+4761	pumpkin	usable	all	0
+4762
+4763	pumpkin pie	food	all	0
+4764	pumpkin beer	drink	all	0
+4765	pumpkin juice	multiple	all	0
+4766	pumpkin bomb	none, combat	all	10
+4767	shin gourds	accessory	all	200
+4768	Staff of the November Jack-O-Lantern	weapon	display	25
+4769	pumpkin carriage	none	none	0
+4770	Desert Bus pass	none	none	0

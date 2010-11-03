@@ -63,6 +63,7 @@ Tropical Crimbo Sword	SMITH	tropical wrapping paper	sword hilt
 abridged dictionary	COMBINE	bridge	dictionary
 badass belt	COMBINE	batskin belt	dragonbone belt buckle
 bitchin' meatcar	COMBINE	dope wheels	meat engine
+pumpkin carriage	COMBINE	dope wheels	pumpkin
 bone rattle	COMBINE	skeleton bone	broken skull
 Bonerdagon necklace	COMBINE	hemp string	vertebra of the Bonerdagon
 cog and sprocket assembly	COMBINE	cog	sprocket assembly
@@ -89,6 +90,7 @@ Staff of Ed, almost	COMBINE	ancient amulet	Staff of Fats
 rusty metal key	COMBINE	rusty metal ring	rusty metal shaft
 tambourine	COMBINE	Gnollish pie tin	tambourine bells
 charged magnet	COMBINE	floaty sand	moxie magnet
+pumpkin bomb	COMBINE	pumpkin	Knob Goblin firecracker
 
 meat stack	COMBINE, MANUAL	fairy gravy boat	meat from yesterday
 
@@ -179,6 +181,8 @@ Rock and Roll Legend	SMITH	heart of rock and roll	stolen accordion
 Squeezebox of the Ages	SMITH	Rock and Roll Legend	golden reeds
 
 dueling banjo	SMITH	dueling turtle	banjo strings
+
+shin gourds	SMITH	pumpkin	pumpkin
 
 # Familiar items and their subcomponents which do not serve any other
 # recalled purpose.
@@ -279,6 +283,7 @@ mushroom pizza	COOK	plain pizza	Knob mushroom
 pie crust	COOK	Gnollish pie tin	wad of dough
 plain pizza	COOK	wad of dough	tomato
 plain pizza	COOK	flat dough	tomato
+pumpkin pie	COOK	pie crust	pumpkin
 rocky road ice cream	COOK	glass of goat's milk	floaty gravel
 rocky road ice cream	COOK	glass of baboon milk	floaty gravel
 sausage pizza	COOK	plain pizza	Knob sausage
@@ -459,7 +464,7 @@ bottle of tequila (3)	MIX	fermenting powder	cactus fruit
 bottle of vodka (3)	MIX	fermenting powder	bowl of rye sprouts
 bottle of whiskey (3)	MIX	fermenting powder	cob of corn
 boxed wine (3)	MIX	fermenting powder	bunch of square grapes
-
+pumpkin beer (3)	MIX	fermenting powder	pumpkin
 
 # Standard, tier 1 and tier 2 beverages.  Nothing special about
 # these mixtures except everyone can make them.
@@ -784,6 +789,7 @@ pestoblade	SMITH	starchy sword	spices
 ram-battering staff	SMITH	ram horns	ram stick
 icy-hot katana	SMITH	icy katana hilt	hot katana blade
 
+Staff of the November Jack-O-Lantern	SMITH	bigger stick	pumpkin
 
 # Meat-smithing armor pieces.  These items are helmets, pants,
 # and sometimes accessories which are created in smithing.

@@ -4762,3 +4762,15 @@
 4756	805518980	bag of bones	bags of bones
 4757	918881114	Stabonic scroll
 4758	294259395	candy skeleton	candy skeletons
+4759	668864778	Grumpy Bumpkin's Pumpkin Seed Catalog
+4760	793726608	packet of pumpkin seeds	packets of pumpkin seeds
+4761	777322046	pumpkin
+4762
+4763	695446947	pumpkin pie
+4764	796510425	pumpkin beer
+4765	594521132	pumpkin juice
+4766	784207428	pumpkin bomb
+4767	148094418	shin gourds	pairs of shin gourds
+4768	416163768	Staff of the November Jack-O-Lantern
+4769	919223402	pumpkin carriage	pumpkin carriages
+4770	982919503	Desert Bus pass
