@@ -4761,3 +4761,4 @@
 4755	546607235	boneana hammock
 4756	805518980	bag of bones	bags of bones
 4757	918881114	Stabonic scroll
+4758	294259395	candy skeleton	candy skeletons

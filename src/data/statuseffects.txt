@@ -785,5 +785,9 @@
 784	Technicolor Yawn, Er, Smile	plexipips.gif	92275ab4fe615788255274e22f2aec8f	use 1 PlexiPips
 785	Highland Flung	waxbottle.gif	788941793e466a01a391e386a63fcbf3	use 1 Wax Flask
 786	The HeyDezebound Heart	heart.gif	3e53ef02b7e5b75954a909e50e36d0dc	use 1 Pain Dip
-787
+787	Candied Skeleton	familiar7.gif	318102270355bde419a6da0700a12149	use 1 candy skeleton
 788	Bone Homie	skullicon.gif	68f5db3381fc8c2ed57b23360bcd6331	use 1 Stabonic scroll
+789	Juiced and Jacked	pumpkin.gif	d36138a4b9525404d0592a676794e10b	use 1 pumpkin juice
+790	Everything Looks Yellow	eyes.gif	0bf172ccba65be4fdc4c0f908325b5c1
+791	Everything Looks Blue	eyes.gif	d726a28f52e1287c6a19a16c08f93c4b
+792	Everything Looks Red	eyes.gif	6d848baf68e1532b64bca6ab60df9144
