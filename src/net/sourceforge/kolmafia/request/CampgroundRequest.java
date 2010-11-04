@@ -349,6 +349,10 @@ public class CampgroundRequest
 		// How many images are there? How do we handle pumpkins?
 		findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
 		findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );
+		findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2 );
+		findImage( responseText, "pumpkinpatch_3.gif", ItemPool.PUMPKIN, 3 );
+		findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4 );
+		findImage( responseText, "pumpkinpatch_5.gif", ItemPool.PUMPKIN, 5 );
 	}
 
 	private static final void parseKitchen( final String responseText )
