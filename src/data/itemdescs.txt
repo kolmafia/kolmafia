@@ -4768,9 +4768,9 @@
 4762
 4763	695446947	pumpkin pie
 4764	796510425	pumpkin beer
-4765	594521132	pumpkin juice
+4765	594521132	pumpkin juice	mugs of pumpkin juice
 4766	784207428	pumpkin bomb
 4767	148094418	shin gourds	pairs of shin gourds
-4768	416163768	Staff of the November Jack-O-Lantern
+4768	416163768	Staff of the November Jack-O-Lantern	Staves of the November Jack-O-Lantern
 4769	919223402	pumpkin carriage	pumpkin carriages
 4770	982919503	Desert Bus pass

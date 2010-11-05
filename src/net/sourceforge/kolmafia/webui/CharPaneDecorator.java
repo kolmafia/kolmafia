@@ -135,7 +135,7 @@ public class CharPaneDecorator
 			CharPaneDecorator.getFamiliarAnnotation(),
 			GenericRequest.compactCharacterPane );
 
-		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Yellow","<font size=2 color=yellow>Everything Looks Yellow" );
+		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Yellow","<font size=2 color=olive>Everything Looks Yellow" );
 		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Red","<font size=2 color=red>Everything Looks Red" );
 		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Blue","<font size=2 color=blue>Everything Looks Blue" );
 	}
