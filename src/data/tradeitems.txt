@@ -4647,7 +4647,7 @@
 4638	streetfighting champion's belt	accessory	display	0
 4639	Space Trip safety headphones	accessory	display	0
 4640	LARP carp	offhand	display	0
-4641	KoL Con Six Pack	offhand	display	0
+4641	KoL Con Six Pack	offhand, reusable	display	0
 4642	Gregarious Gregorian Smock	shirt	display	0
 4643	rxr shield	offhand	display	0
 4644	Juju Mojo Mask	accessory	all	0

@@ -73,6 +73,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.IDOL_AKGYXOTH, 1 ),
 		ItemPool.get( ItemPool.BURROWGRUB_HIVE, 1 ),
 		ItemPool.get( ItemPool.GNOLL_EYE, 1 ),
+		ItemPool.get( ItemPool.KOL_CON_SIX_PACK, 1 ),
 	};
 
 	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
