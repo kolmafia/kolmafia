@@ -2186,7 +2186,7 @@ public class FightRequest
 			FightRequest.lastResponseText.length();
 
 		// Look for special effects
-		FightRequest.updateMonsterHealth( responseText, 0 );
+		FightRequest.updateMonsterHealth( responseText );
 
 		// Spend MP and consume items
 		FightRequest.payActionCost( responseText );
@@ -3156,19 +3156,14 @@ public class FightRequest
 		}
 	}
 
-	private static final void updateMonsterHealth( final String responseText, final int damageThisRound )
+	private static final void updateMonsterHealth( final String responseText )
 	{
-		FightRequest.healthModifier += damageThisRound;
-
 		if ( !Preferences.getBoolean( "logMonsterHealth" ) )
 		{
 			return;
 		}
 
-		// Done with all processing for monster damage, now handle responseText.
 		StringBuffer action = new StringBuffer();
-
-		FightRequest.logMonsterDamage( action, damageThisRound );
 
 		// Boss Bat can muck with the monster's HP, but doesn't have
 		// normal text.
