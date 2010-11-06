@@ -33,8 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class WaitCommand
@@ -47,9 +46,15 @@ public class WaitCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		int seconds = parameters.equals( "" ) ? 1 : StringUtilities.parseInt( parameters );
-		StaticEntity.executeCountdown( "Countdown: ", seconds );
-
-		KoLmafia.updateDisplay( "Waiting completed." );
+		int seconds = StringUtilities.parseInt( parameters );
+		
+		if ( seconds <= 0 ) {
+			seconds = 1;
+		}
+	
+		PauseObject pauser = new PauseObject();
+		
+		pauser.pause( seconds * 1000 );
 	}
+
 }
