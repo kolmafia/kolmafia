@@ -11,3 +11,4 @@ kolabuff	1061817	http://www.koladdict.com/buffbot/kolabuff.xml
 #zonkttc	333480	http://www.warpedpenguin.org/zonkttc.xml
 NotBot	896474	http://www.knauer.org/mike/kol/notbot.xml
 Tinkerballa	1998582	http://nomads.beckencs.com/tinkerballa.xml
+SevenLances_com	950139	http://www.sevenlances.net/sevenlances_com.xml
