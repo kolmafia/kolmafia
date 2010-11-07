@@ -352,6 +352,7 @@ public class CampgroundRequest
 		findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2 );
 		findImage( responseText, "pumpkinpatch_3.gif", ItemPool.PUMPKIN, 3 );
 		findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4 );
+		findImage( responseText, "pumpkinpatch_giant.gif", ItemPool.HUGE_PUMPKIN, 1 );
 	}
 
 	private static final void parseKitchen( final String responseText )

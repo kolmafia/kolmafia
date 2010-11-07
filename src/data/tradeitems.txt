@@ -4768,7 +4768,7 @@
 4759	Grumpy Bumpkin's Pumpkin Seed Catalog	usable	all	0
 4760	packet of pumpkin seeds	usable	display	0
 4761	pumpkin	usable	all	0
-4762
+4762	huge pumpkin	usable	all	
 4763	pumpkin pie	food	all	0
 4764	pumpkin beer	drink	all	0
 4765	pumpkin juice	multiple	all	0
