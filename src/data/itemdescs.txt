@@ -4704,72 +4704,72 @@
 4698
 4699
 4700	558351756	fossilized spike	fossilized spikes
-4701	643609482	waterlogged crate
-4702	557222985	archaeologing shovel
-4703	149826633	red-hot medallion
-4704	876154572	fossilized demon skull
-4705	868035085	fossilized spider skull
-4706	250539558	sinister ancient tablet
+4701	643609482	waterlogged crate	waterlogged crates
+4702	557222985	archaeologing shovel	archaeologing shovels
+4703	149826633	red-hot medallion	red-hot medallions
+4704	876154572	fossilized demon skull	fossilized demon skulls
+4705	868035085	fossilized spider skull	fossilized spider skulls
+4706	250539558	sinister ancient tablet	sinister ancient tablets
 4707	931477928	E-Z Cook&trade; oven	E-Z Cook&trade; ovens
-4708	937506852	My First Shaker&trade;
-4709	730957404	hippo tutu
-4710	476237174	immense ballet shoes
-4711	548910318	old sweatpants
+4708	937506852	My First Shaker&trade;	My First Shaker&trade;s
+4709	730957404	hippo tutu	hippo tutti
+4710	476237174	immense ballet shoes	pairs of immense ballet shoes
+4711	548910318	old sweatpants	pairs of old sweatpants
 4712
-4713	120751680	popsicle stick
-4714	520593873	lemon popsicle
-4715	127670925	orange popsicle
-4716	874085399	strawberry popsicle
-4717	177271243	liver popsicle
-4718	318757613	mariachi hat
-4719	464939729	Hollandaise helmet
-4720	571472339	organ grinder
-4721	712043515	microwave stogie
-4722	784720939	liver and let pie
-4723	611144195	badass pie
-4724	808401579	shoo-fish pie
-4725	523573889	piping organ pie
-4726	978302850	igloo pie
-4727	886326211	stomach turnover
-4728	844325640	dead lights pie
-4729	729258525	throbbing organ pie
+4713	120751680	popsicle stick	popsicle sticks
+4714	520593873	lemon popsicle	lemon popsicles
+4715	127670925	orange popsicle	orange popsicles
+4716	874085399	strawberry popsicle	strawberry popsicles
+4717	177271243	liver popsicle	liver popsicles
+4718	318757613	mariachi hat	mariachi hats
+4719	464939729	Hollandaise helmet	Hollandaise helmets
+4720	571472339	organ grinder	organ grinders
+4721	712043515	microwave stogie	microwave stogies
+4722	784720939	liver and let pie	liver and let pies
+4723	611144195	badass pie	badass pies
+4724	808401579	shoo-fish pie	shoo-fish pies
+4725	523573889	piping organ pie	piping organ pies
+4726	978302850	igloo pie	igloo pies
+4727	886326211	stomach turnover	stomach turnovers
+4728	844325640	dead lights pie	dead lights pies
+4729	729258525	throbbing organ pie	throbbing organ pies
 4730	797960946	stop shield
-4731	995060344	nest egg
+4731	995060344	nest egg	nest eggs
 4732	163896786	sleeping piano cat
 4733	605901915	kitty sheet music
 4734	412554920	rehearsing dramatic hedgehog
-4735	580784312	tiny prop sword
-4736	653280960	tangle of rat tails
-4737	786523749	beer-soaked mop
-4738	639182238	day-old beer
-4739	358862487	plain old beer
-4740	267599163	overpriced &quot;imported&quot; beer
+4735	580784312	tiny prop sword	tiny prop swords
+4736	653280960	tangle of rat tails	tangles of rat tails
+4737	786523749	beer-soaked mop	beer-soaked mops
+4738	639182238	day-old beer	cans of day-old beer
+4739	358862487	plain old beer	cans of plain old beer
+4740	267599163	overpriced &quot;imported&quot; beer	bottles of overpriced &quot;imported&quot; beer
 4741	195175539	smiling rat	smiling rats
 4742	315856897	rat tooth polish	tins of rat tooth polish
 4743	119583857	bone chips	handfuls of bone chips
-4744	697580688	PlexiPips
-4745	693231946	Wax Flask
-4746	729165917	Pain Dip
-4747	362576413	bone meal
-4748	828874845	bone aperitif
-4749	979622179	bonerang
-4750	647815375	bone and arrows
-4751	486747576	boning knife
-4752	976972678	bone crusher
-4753	970858470	bone spurs
-4754	385657703	bonedanna
-4755	546607235	boneana hammock
+4744	697580688	PlexiPips	handfuls of PlexiPips
+4745	693231946	Wax Flask	Wax Flasks
+4746	729165917	Pain Dip	packets of Pain Dip
+4747	362576413	bone meal	bowls of bone meal
+4748	828874845	bone aperitif	bone aperitifs
+4749	979622179	bonerang	bonerangs
+4750	647815375	bone and arrows	bones and arrows
+4751	486747576	boning knife	boning knives
+4752	976972678	bone crusher	bone crushers
+4753	970858470	bone spurs	pairs of bone spurs
+4754	385657703	bonedanna	bonedannas
+4755	546607235	boneana hammock	boneana hammocks
 4756	805518980	bag of bones	bags of bones
-4757	918881114	Stabonic scroll
+4757	918881114	Stabonic scroll	Stabonic scrolls
 4758	294259395	candy skeleton	candy skeletons
-4759	668864778	Grumpy Bumpkin's Pumpkin Seed Catalog
+4759	668864778	Grumpy Bumpkin's Pumpkin Seed Catalog	Grumpy Bumpkin's Pumpkin Seed Catalogs
 4760	793726608	packet of pumpkin seeds	packets of pumpkin seeds
-4761	777322046	pumpkin
-4762	998217176	huge pumpkin
-4763	695446947	pumpkin pie
-4764	796510425	pumpkin beer
+4761	777322046	pumpkin	pumpkins
+4762	998217176	huge pumpkin	huge pumpkins
+4763	695446947	pumpkin pie	pumpkin pies
+4764	796510425	pumpkin beer	pumpkin beers
 4765	594521132	pumpkin juice	mugs of pumpkin juice
-4766	784207428	pumpkin bomb
+4766	784207428	pumpkin bomb	pumpkin bombs
 4767	148094418	shin gourds	pairs of shin gourds
 4768	416163768	Staff of the November Jack-O-Lantern	Staves of the November Jack-O-Lantern
 4769	919223402	pumpkin carriage	pumpkin carriages
