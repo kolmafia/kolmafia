@@ -1456,6 +1456,8 @@ public abstract class ChoiceManager
                 // -> can skip if have +20 stench damage
 		// Choice 515 is A Rat's Home...
                 // -> can skip if have +20 spooky damage
+
+		// Choice 517 is Mr. Alarm, I Presarm
 	};
 
 	static
