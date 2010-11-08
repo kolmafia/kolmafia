@@ -738,6 +738,7 @@ public class KoLmafiaCLI
 		new WaitCommand().register( "wait" ).register( "pause" );
 		new WhileStatement().register( "while" );
 		new WikiLookupCommand().register( "lookup" );
+		new WikiMafiaSearchCommand().register( "ashwiki" );
 		new WikiSearchCommand().register( "wiki" );
 		new WindowOpenCommand().register( "chat" ).register( "mail" ).registerPrefix( "opt" ).register( "item" ).register(
 			"gear" ).register( "radio" );
