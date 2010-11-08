@@ -285,4 +285,3 @@ The Tweedleporium	a	wristwatch of the white knight	30000
 The Typical Tavern	v	day-old beer	25
 The Typical Tavern	v	plain old beer	50
 The Typical Tavern	v	overpriced &quot;imported&quot; beer	100
-
