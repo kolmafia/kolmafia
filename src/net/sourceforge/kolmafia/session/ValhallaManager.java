@@ -80,13 +80,6 @@ public class ValhallaManager
 
 	public static void preAscension()
 	{
-		// Untinker the Bitchin' meatcar
-
-		if ( InventoryManager.hasItem( ItemPool.BITCHIN_MEATCAR ) )
-		{
-			RequestThread.postRequest( new UntinkerRequest( ItemPool.BITCHIN_MEATCAR ) );
-		}
-
 		// Create a badass belt
 
 		CreateItemRequest belt = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
