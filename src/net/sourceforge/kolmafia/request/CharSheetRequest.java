@@ -292,7 +292,7 @@ public class CharSheetRequest
 		KoLCharacter.setStore( responseText.indexOf( "Mall of Loathing" ) != -1 );
 
 		// See if the player has a display case
-		KoLCharacter.setDisplayCase( responseText.indexOf( "Cannon Museum" ) != -1 );
+		KoLCharacter.setDisplayCase( responseText.indexOf( "in the Museum" ) != -1 );
 
 		// Determine the player's current PvP rank
 
