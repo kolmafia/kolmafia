@@ -3393,16 +3393,16 @@ public class FightRequest
 		{
 			action.append( type == HEALTH ? " takes " : " drops " );
 			action.append( damage );
-			action.append( type == 1 ? " attack power." :
-				       type == 2 ? " defense." :
+			action.append( type == ATTACK ? " attack power." :
+				       type == DEFENSE ? " defense." :
 				       " damage." );
 		}
 		else
 		{
 			action.append( type == HEALTH ? " heals " : " raises " );
 			action.append( -1 * damage );
-			action.append( type == 1 ? " attack power." :
-				       type == 2 ? " defense." :
+			action.append( type == ATTACK ? " attack power." :
+				       type == DEFENSE ? " defense." :
 				       " hit points." );
 		}
 
