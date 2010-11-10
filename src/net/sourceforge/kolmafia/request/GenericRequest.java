@@ -1011,17 +1011,25 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( this.getClass() );
 		}
 
-		if ( location.startsWith( "hermit.php?autopermit=on" ) )
+		if ( location.startsWith( "hermit.php?auto" ) )
 		{
-			HermitRequest.ensureUpdatedHermit();
-			if ( !Preferences.getBoolean( "hermitHax0red" ) )
+			// If he wants us to automatically get a worthless item
+			// in the sewer, do it.
+			if ( location.indexOf( "autoworthless=on" ) != -1 )
 			{
-				InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT );
+				InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM );
 			}
-		}
-		else if ( location.startsWith( "hermit.php?autoworthless=on" ) )
-		{
-			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM );
+
+			// If he wants us to automatically get a hermit permit,
+			// if needed, do it.
+			if ( location.indexOf( "autopermit=on" ) != -1 )
+			{
+				HermitRequest.ensureUpdatedHermit();
+				if ( !Preferences.getBoolean( "hermitHax0red" ) )
+				{
+					InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT );
+				}
+			}
 		}
 		else if ( location.startsWith( "mountains.php?orcs=1" ) )
 		{
