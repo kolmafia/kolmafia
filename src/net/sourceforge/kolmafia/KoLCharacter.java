@@ -1552,7 +1552,7 @@ public abstract class KoLCharacter
 		
 			KoLCharacter.adventuresLeft = adventuresLeft;
 			if ( KoLCharacter.canEat() && !KoLCharacter.hasChef() ||
-                             KoLCharacter.canDrink() && !KoLCharacter.hasBartender() )
+			     KoLCharacter.canDrink() && !KoLCharacter.hasBartender() )
 			{
 				ConcoctionDatabase.refreshConcoctions();
 			}
@@ -3735,7 +3735,7 @@ public abstract class KoLCharacter
 		return newModifiers;
 	}
 
-        // Per-character settings that change each ascension
+	// Per-character settings that change each ascension
 
 	public static final void ensureUpdatedDwarfFactory()
 	{

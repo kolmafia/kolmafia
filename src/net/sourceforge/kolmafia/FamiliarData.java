@@ -262,6 +262,11 @@ public class FamiliarData
 	{
 		return this.id;
 	}
+ 
+	public boolean getFeasted()
+	{
+		return this.feasted;
+	}
 
 	public void setItem( final AdventureResult item )
 	{
@@ -337,7 +342,7 @@ public class FamiliarData
 
 	public int getModifiedWeight()
 	{
-                // Start with base weight of familiar
+		// Start with base weight of familiar
 		int weight = this.weight;
 
 		// Get current fixed and percent weight modifiers
@@ -380,7 +385,7 @@ public class FamiliarData
 		// Add in fixed modifiers
 		weight += (int) fixed;
 
-                // Adjust by percent modifiers
+		// Adjust by percent modifiers
 		if ( percent != 0.0f )
 		{
 			weight = (int) Math.floor( weight + weight * (percent / 100.0f) );
