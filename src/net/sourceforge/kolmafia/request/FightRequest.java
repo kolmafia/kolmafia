@@ -184,11 +184,6 @@ public class FightRequest
 	private static final Pattern NSN_HEAL5 =
 		Pattern.compile( "She points out a little scratch on her cleavage and applies a bandage to it\\." );
 
-	private static final Pattern WEAKENS_MOD_PATTERN =
-		Pattern.compile( "Your (?:(opponent looks)|(opponents look)) weaker" );
-	private static final Pattern PSALM_HIT_PATTERN =
-		Pattern.compile( "Your (?:(opponent takes)|(opponents take)) ([\\d,]+) damage from your Psalm of Pointiness\\, and (?:(looks)|(look)) slightly worse for wear\\." );
-
 	private static final Pattern NS_ML_PATTERN =
 		Pattern.compile( "The Sorceress pauses for a moment\\, mutters some words under her breath\\, and straightens out her dress\\. Her skin seems to shimmer for a moment\\." );
 
@@ -4121,7 +4116,7 @@ public class FightRequest
 				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
 				if ( status.logMonsterHealth )
 				{
-					FightRequest.logMonsterAttribute( action, damage, 1 );
+					FightRequest.logMonsterAttribute( action, damage, ATTACK );
 				}
 				FightRequest.attackModifier -= damage;
 				return;
@@ -4134,7 +4129,7 @@ public class FightRequest
 				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
 				if ( status.logMonsterHealth )
 				{
-					FightRequest.logMonsterAttribute( action, damage, 2 );
+					FightRequest.logMonsterAttribute( action, damage, DEFENSE );
 				}
 				FightRequest.defenseModifier -= damage;
 				return;
