@@ -300,8 +300,10 @@ public class UntinkerRequest
 
 	public static final void decorate( final String urlString, final StringBuffer buffer )
 	{
-		// We only decorate simple visits to the untinker
-		if ( urlString.indexOf( "place=untinker" ) == -1 )
+		// We decorate simple visits to the untinker and also
+		// accepting his quest
+		if ( urlString.indexOf( "place=untinker" ) == -1 &&
+		     urlString.indexOf( "action=screwquest" ) == -1 )
 		{
 			return;
 		}
@@ -313,13 +315,15 @@ public class UntinkerRequest
 		// You look pretty tough, though -- do you think you could get
 		// it back for me?
 		//
-		// Have you had any luck finding my screwdriver? I lost it at
-		// Degrassi Knoll, you'll recall.
+		// *** There is now a button on the page to accept his quest.
+		// *** We need to find out what he says when you accept it.
 
-		// Initial visit
-		String test = "do you think you could get it back for me?&quot;";
+		// Initial response to accepting his quest
+		String test = "<put the correct message here>&quot;";
 		int index = buffer.indexOf( test );
 
+		// Have you had any luck finding my screwdriver? I lost it at
+		// Degrassi Knoll, you'll recall.
 		if ( index == -1 )
 		{
 			// Subsequent visits
@@ -365,6 +369,10 @@ public class UntinkerRequest
 
 			String name = ItemDatabase.getItemName( StringUtilities.parseInt( matcher.group( 1 ) ) );
 			message = "untinker " + ( urlString.indexOf( "untinkerall=on" ) != -1 ? "*" : "1" ) + " " + name;
+		}
+		else if ( urlString.indexOf( "action=screwquest" ) != -1 )
+		{
+			message = "Accepting quest to find the Untinker's screwdriver";
 		}
 		else if ( urlString.indexOf( "place=untinker" ) != -1 )
 		{
