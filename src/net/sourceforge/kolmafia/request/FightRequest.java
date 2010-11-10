@@ -148,7 +148,7 @@ public class FightRequest
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
 	private static final Pattern CLEESH_PATTERN =
-		Pattern.compile( "newpic\\(\".*?\", \"(.*?)\"\\)" );
+		Pattern.compile( "newpic\\(\".*?\", \"(.*?)\".*?\\)" );
 	private static final Pattern WORN_STICKER_PATTERN =
 		Pattern.compile( "A sticker falls off your weapon, faded and torn" );
 	private static final Pattern BALLROOM_SONG_PATTERN =
