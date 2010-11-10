@@ -115,6 +115,10 @@ public class FightRequest
 
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
 
+	private static final int HEALTH = 0;
+	private static final int ATTACK = 1;
+	private static final int DEFENSE = 2;
+
 	private static int lastUserId = 0;
 	private static String lostInitiativeMessage = "";
 	private static String wonInitiativeMessage = "";
@@ -160,9 +164,34 @@ public class FightRequest
 
 	private static final Pattern BOSSBAT_PATTERN =
 		Pattern.compile( "until he disengages, two goofy grins on his faces.*?You lose ([\\d,]+)" );
+	private static final Pattern MANADRAIN_PATTERN =
+		Pattern.compile( "You feel power drain from you.*?You lose ([\\d,]+)" );
 	private static final Pattern GHUOL_HEAL = Pattern.compile( "feasts on a nearby corpse, and looks refreshed\\." );
+	private static final Pattern DA_HEAL =
+		Pattern.compile( "Dr\\. Awkward pulls out a small first-aid kit\\, and quickly patches himself up a bit\\." );
 	private static final Pattern NS_HEAL =
 		Pattern.compile( "The Sorceress pulls a tiny red vial out of the folds of her dress and quickly drinks it" );
+	private static final Pattern NS2_HEAL =
+		Pattern.compile( "Tentacles then emerge and pick off the scab\\. The creature emits what seems to be a satisfied sigh\\." );
+	private static final Pattern NSN_HEAL1 =
+		Pattern.compile( "She winks at you while she sensually rubs ointment on the bruise you just gave her\\. I won't say where\\." );
+	private static final Pattern NSN_HEAL2 =
+		Pattern.compile( "She lifts her skirt \\(not pictured\\) a little bit south of far enough and licentiously applies a bandage to her thigh\\." );
+	private static final Pattern NSN_HEAL3 =
+		Pattern.compile( "She extends her leg\\, slowly slides her garter bandage off and applies it to her forearm\\." );
+	private static final Pattern NSN_HEAL4 =
+		Pattern.compile( "She notices a bruise on the upper slopes of her cleavage\\, and kisses it better\\." );
+	private static final Pattern NSN_HEAL5 =
+		Pattern.compile( "She points out a little scratch on her cleavage and applies a bandage to it\\." );
+
+	private static final Pattern WEAKENS_MOD_PATTERN =
+		Pattern.compile( "Your (?:(opponent looks)|(opponents look)) weaker" );
+	private static final Pattern PSALM_HIT_PATTERN =
+		Pattern.compile( "Your (?:(opponent takes)|(opponents take)) ([\\d,]+) damage from your Psalm of Pointiness\\, and (?:(looks)|(look)) slightly worse for wear\\." );
+
+	private static final Pattern NS_ML_PATTERN =
+		Pattern.compile( "The Sorceress pauses for a moment\\, mutters some words under her breath\\, and straightens out her dress\\. Her skin seems to shimmer for a moment\\." );
+
 	private static final Pattern DETECTIVE_PATTERN =
 		Pattern.compile( "I deduce that this monster has approximately (\\d+) hit points" );
 	private static final Pattern SPACE_HELMET_PATTERN =
@@ -199,11 +228,11 @@ public class FightRequest
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
 	private static boolean canOlfact = true;
-	private static int stealthMistletoe = 1;
 	private static boolean summonedGhost = false;
 	private static int currentRound = 0;
-	private static int levelModifier = 0;
 	private static int healthModifier = 0;
+	private static int attackModifier = 0;
+	private static int defenseModifier = 0;
 
 	private static String action1 = null;
 	private static String action2 = null;
@@ -539,10 +568,19 @@ public class FightRequest
 		FightRequest.action1 = null;
 		FightRequest.action2 = null;
 
+		// Added emergency break for hulking construct
+
+		if ( problemFamiliar() && 
+		     FightRequest.encounterLookup.equals( "hulking construct" ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Aborting combat automation due to Familiar that can stop automatic item usage." );
+			return;
+		}
+
 		// Adding machine should override custom combat scripts as well,
 		// since it's conditions-driven.
 
-		if ( FightRequest.encounterLookup.equals( "rampaging adding machine" )
+		else if ( FightRequest.encounterLookup.equals( "rampaging adding machine" )
 			&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
 			&& !FightRequest.waitingForSpecial )
 		{
@@ -733,7 +771,7 @@ public class FightRequest
 
 		if ( KoLConstants.activeEffects.contains( FightRequest.AMNESIA ) )
 		{
-			if ( FightRequest.monsterData == null || !FightRequest.monsterData.willUsuallyMiss( FightRequest.levelModifier ) )
+			if ( FightRequest.monsterData == null || !FightRequest.monsterData.willUsuallyMiss( FightRequest.attackModifier ) )
 			{
 				FightRequest.action1 = "attack";
 				this.addFormField( "action", FightRequest.action1 );
@@ -1496,6 +1534,14 @@ public class FightRequest
 		}
 	}
 
+	private static final boolean problemFamiliar()
+	{
+		return ( KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT ||
+			 KoLCharacter.getFamiliar().getId() == FamiliarPool.OAF ) &&
+			!KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TINY_COSTUME_WARDROBE, 1 ) );
+
+	}
+
 	private boolean singleUseCombatItem( int itemId )
 	{
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_SINGLE );
@@ -1645,14 +1691,24 @@ public class FightRequest
 			KoLConstants.activeEffects.contains( FightRequest.haikuEffect );
 	}
 
-	public static final int getMonsterLevelModifier()
+	public static final int getMonsterAttackModifier()
 	{
 		if ( FightRequest.monsterData == null )
 		{
 			return 0;
 		}
 
-		return FightRequest.levelModifier;
+		return FightRequest.attackModifier;
+	}
+
+	public static final int getMonsterDefenseModifier()
+	{
+		if ( FightRequest.monsterData == null )
+		{
+			return 0;
+		}
+
+		return FightRequest.defenseModifier;
 	}
 
 	public static final int getMonsterHealth()
@@ -1672,7 +1728,7 @@ public class FightRequest
 			return 0;
 		}
 
-		return FightRequest.monsterData.getAttack() + FightRequest.levelModifier + KoLCharacter.getMonsterLevelAdjustment();
+		return Math.max( FightRequest.monsterData.getAttack() + FightRequest.attackModifier + KoLCharacter.getMonsterLevelAdjustment(), 1 );
 	}
 
 	public static final int getMonsterDefense()
@@ -1682,7 +1738,7 @@ public class FightRequest
 			return 0;
 		}
 
-		return FightRequest.monsterData.getDefense() + FightRequest.levelModifier + KoLCharacter.getMonsterLevelAdjustment();
+		return Math.max( FightRequest.monsterData.getDefense() + FightRequest.defenseModifier + KoLCharacter.getMonsterLevelAdjustment(), 1 );
 	}
 
 	public static final int getMonsterAttackElement()
@@ -1717,7 +1773,7 @@ public class FightRequest
 			return false;
 		}
 
-		return FightRequest.monsterData.willUsuallyMiss( FightRequest.levelModifier + defenseModifier );
+		return FightRequest.monsterData.willUsuallyMiss( FightRequest.defenseModifier + defenseModifier );
 	}
 
 	public static final boolean willUsuallyDodge()
@@ -1732,7 +1788,7 @@ public class FightRequest
 			return false;
 		}
 
-		return FightRequest.monsterData.willUsuallyDodge( FightRequest.levelModifier + offenseModifier );
+		return FightRequest.monsterData.willUsuallyDodge( FightRequest.defenseModifier + offenseModifier );
 	}
 
 	private boolean isAcceptable( final int offenseModifier, final int defenseModifier )
@@ -1795,6 +1851,12 @@ public class FightRequest
 
 	private boolean createAddingScroll( final AdventureResult scroll )
 	{
+		// If the familiar can break automation, skip creation
+		if ( problemFamiliar() )
+		{
+			return false;
+		}
+
 		AdventureResult part1 = null;
 		AdventureResult part2 = null;
 
@@ -2411,7 +2473,7 @@ public class FightRequest
 			AdventureResult bountyItem = new AdventureResult( bountyItemId, 1 );
 			String bountyItemName = bountyItem.getName();
 
-			if ( monsterData.getItems().contains( bountyItem ) && responseText.indexOf( bountyItemName ) == -1 )
+			if ( monsterData.getItems().contains( bountyItem ) && responseText.indexOf( bountyItemName ) == -1 && !problemFamiliar() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Bounty item failed to drop from expected monster." );
 			}
@@ -2877,6 +2939,7 @@ public class FightRequest
 	private static final void parsePirateInsult( final String responseText )
 	{
 		Matcher insultMatcher = FightRequest.PIRATE_INSULT_PATTERN.matcher( responseText );
+
 		if ( insultMatcher.find() )
 		{
 			int insult = FightRequest.findPirateInsult( insultMatcher.group( 1 ) );
@@ -3158,39 +3221,101 @@ public class FightRequest
 
 	private static final void updateMonsterHealth( final String responseText )
 	{
-		if ( !Preferences.getBoolean( "logMonsterHealth" ) )
-		{
-			return;
-		}
-
 		StringBuffer action = new StringBuffer();
 
-		// Boss Bat can muck with the monster's HP, but doesn't have
-		// normal text.
-
-		Matcher m = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
+		Matcher m = FightRequest.NS_ML_PATTERN.matcher( responseText );
+		if ( m.find() )
+		{
+			FightRequest.attackModifier = 0;
+			FightRequest.defenseModifier = 0;
+			if ( Preferences.getBoolean( "logMonsterHealth" ) )
+			{
+				action.append( FightRequest.encounterLookup );
+				action.append( " resets her attack power and defense modifiers!" );
+			}
+		}
+ 
+		m = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
+ 		if ( m.find() )
+ 		{
+ 			int damage = -StringUtilities.parseInt( m.group( 1 ) );
+ 			FightRequest.healthModifier += damage;
+			if ( Preferences.getBoolean( "logMonsterHealth" ) )
+			{
+				action.append( FightRequest.encounterLookup );
+				action.append( " sinks his fangs into you!" );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+			}
+ 		}
+ 
+		m = FightRequest.MANADRAIN_PATTERN.matcher( responseText );
 		if ( m.find() )
 		{
 			int damage = -StringUtilities.parseInt( m.group( 1 ) );
 			FightRequest.healthModifier += damage;
-			action.append( FightRequest.encounterLookup );
-			action.append( " sinks his fangs into you!" );
-			FightRequest.logMonsterDamage( action, damage );
+			if ( Preferences.getBoolean( "logMonsterHealth" ) )
+			{
+				action.append( FightRequest.encounterLookup );
+				action.append( " drains your mana!" );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+			}
+		}
+ 
+		if ( FightRequest.GHUOL_HEAL.matcher( responseText ).find() )
+ 		{
+			int damage = -10;
+			FightRequest.healthModifier += damage;
+			if ( Preferences.getBoolean( "logMonsterHealth" ) )
+			{
+				action.append( FightRequest.encounterLookup );
+				action.append( " consumes a nearby corpse." );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+			}
+		}
+ 
+		if ( FightRequest.DA_HEAL.matcher( responseText ).find() )
+		{
+			int damage = -50;
+			FightRequest.healthModifier += damage;
+			if ( Preferences.getBoolean( "logMonsterHealth" ) )
+			{
+				action.append( FightRequest.encounterLookup );
+				action.append( " patches himself up a bit." );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+			}
+ 		}
+ 
+		if ( FightRequest.NS_HEAL.matcher( responseText ).find() || FightRequest.NS2_HEAL.matcher( responseText ).find() )
+		{
+			int damage = -125;
+			FightRequest.healthModifier += damage;
+			if ( Preferences.getBoolean( "logMonsterHealth" ) )
+			{
+				action.append( FightRequest.encounterLookup );
+				action.append( " heals herself up." );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+			}
 		}
 
-		// Even though we don't have an exact value, at least try to
-		// detect if the monster's HP has changed.  Once spaded, we can
-		// insert some minimal/maximal values here.
-
-		if ( FightRequest.GHUOL_HEAL.matcher( responseText ).find() || FightRequest.NS_HEAL.matcher( responseText ).find() )
+		if ( FightRequest.NSN_HEAL1.matcher( responseText ).find() ||
+		     FightRequest.NSN_HEAL2.matcher( responseText ).find() ||
+		     FightRequest.NSN_HEAL3.matcher( responseText ).find() ||
+		     FightRequest.NSN_HEAL4.matcher( responseText ).find() ||
+		     FightRequest.NSN_HEAL5.matcher( responseText ).find() )
 		{
-			FightRequest.getRound( action );
-			action.append( FightRequest.encounterLookup );
-			action.append( " heals an unspaded amount of hit points." );
+			int damage = FightRequest.healthModifier > 89 ? -90 : -FightRequest.healthModifier;
+			FightRequest.healthModifier += damage;
+			if ( Preferences.getBoolean( "logMonsterHealth" ) )
+			{
+				action.append( FightRequest.encounterLookup );
+				action.append( " sultrily heals herself." );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+			}
+		}
 
-			String message = action.toString();
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
+		if ( !Preferences.getBoolean( "logMonsterHealth" ) )
+		{
+			return;
 		}
 
 		Matcher detectiveMatcher = FightRequest.DETECTIVE_PATTERN.matcher( responseText );
@@ -3259,7 +3384,7 @@ public class FightRequest
 		}
 	}
 
-	private static final void logMonsterDamage( final StringBuffer action, final int damage )
+	private static final void logMonsterAttribute( final StringBuffer action, final int damage, final int type )
 	{
 		if ( damage == 0 )
 		{
@@ -3271,15 +3396,19 @@ public class FightRequest
 
 		if ( damage > 0 )
 		{
-			action.append( " takes " );
+			action.append( type == HEALTH ? " takes " : " drops " );
 			action.append( damage );
-			action.append( " damage." );
+			action.append( type == 1 ? " attack power." :
+				       type == 2 ? " defense." :
+				       " damage." );
 		}
 		else
 		{
-			action.append( " heals " );
+			action.append( type == HEALTH ? " heals " : " raises " );
 			action.append( -1 * damage );
-			action.append( " hit points." );
+			action.append( type == 1 ? " attack power." :
+				       type == 2 ? " defense." :
+				       " hit points." );
 		}
 
 		String message = action.toString();
@@ -3585,7 +3714,7 @@ public class FightRequest
 			int damage = StringUtilities.parseInt( points );
 			if ( status.logMonsterHealth )
 			{
-				FightRequest.logMonsterDamage( action, damage );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
 			FightRequest.healthModifier += damage;
 			return;
@@ -3613,7 +3742,7 @@ public class FightRequest
 		{
 			if ( logMonsterHealth )
 			{
-				FightRequest.logMonsterDamage( action, damage );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
 			FightRequest.healthModifier += damage;
 		}
@@ -3871,7 +4000,7 @@ public class FightRequest
 				{
 					if ( status.logMonsterHealth )
 					{
-						FightRequest.logMonsterDamage( action, damage );
+						FightRequest.logMonsterAttribute( action, damage, HEALTH );
 					}
 					FightRequest.healthModifier += damage;
 				}
@@ -3930,7 +4059,7 @@ public class FightRequest
 						status.haiku = true;
 						if ( status.logMonsterHealth )
 						{
-							FightRequest.logMonsterDamage( action, 17 );
+							FightRequest.logMonsterAttribute( action, 17, HEALTH );
 						}
 						FightRequest.healthModifier += 17;
 					}
@@ -3976,12 +4105,38 @@ public class FightRequest
 					int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
 					if ( status.logMonsterHealth )
 					{
-						FightRequest.logMonsterDamage( action, damage );
+						FightRequest.logMonsterAttribute( action, damage, HEALTH );
 					}
 					FightRequest.healthModifier += damage;
 				}
 
 				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
+				return;
+			}
+ 
+			if ( image.equals( "nicesword.gif" ) )
+			{
+				// You modify monster attack power
+				Matcher m = INT_PATTERN.matcher( str );
+				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, damage, 1 );
+				}
+				FightRequest.attackModifier -= damage;
+				return;
+			}
+
+			if ( image.equals( "whiteshield.gif" ) )
+			{
+				// You modify monster defense
+				Matcher m = INT_PATTERN.matcher( str );
+				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, damage, 2 );
+				}
+				FightRequest.defenseModifier -= damage;
 				return;
 			}
 
@@ -4079,7 +4234,7 @@ public class FightRequest
 			{
 				if ( status.logMonsterHealth )
 				{
-					FightRequest.logMonsterDamage( action, damage );
+					FightRequest.logMonsterAttribute( action, damage, HEALTH );
 				}
 				FightRequest.healthModifier += damage;
 				FightRequest.processComments( node, status );
@@ -4145,7 +4300,7 @@ public class FightRequest
 				{
 					if ( status.logMonsterHealth )
 					{
-						FightRequest.logMonsterDamage( action, damage );
+						FightRequest.logMonsterAttribute( action, damage, HEALTH );
 					}
 					FightRequest.healthModifier += damage;
 					continue;
@@ -4251,7 +4406,7 @@ public class FightRequest
 		{
 			if ( status.logMonsterHealth )
 			{
-				FightRequest.logMonsterDamage( action, damage );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
 			FightRequest.healthModifier += damage;
 		}
@@ -4266,7 +4421,7 @@ public class FightRequest
 
 	private static boolean handleFuzzyDice( String content, TagStatus status )
 	{
-		if ( !status.logFamiliar || status.diceMessage == null )
+		if ( status.diceMessage == null )
 		{
 			return false;
 		}
@@ -4288,7 +4443,6 @@ public class FightRequest
 			return true;
 		}
 
-
 		// We finally have the whole message.
 		StringBuffer action = status.action;
 		action.setLength( 0 );
@@ -4296,7 +4450,11 @@ public class FightRequest
 		action.append( " " );
 		action.append( " " );
 		action.append( content );
-		FightRequest.logText( action, status );
+
+		if ( status.logFamiliar )
+		{
+			FightRequest.logText( action, status );
+		}
 
 		// No longer accumulating fuzzy dice message
 		status.dice = false;
@@ -4307,7 +4465,7 @@ public class FightRequest
 		{
 			if ( status.logMonsterHealth )
 			{
-				FightRequest.logMonsterDamage( action, damage );
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
 			FightRequest.healthModifier += damage;
 		}
@@ -4354,12 +4512,12 @@ public class FightRequest
 		FightRequest.castCleesh = false;
 		FightRequest.canOlfact = true;
 		FightRequest.jiggledChefstaff = false;
-		FightRequest.stealthMistletoe = 1;
 		FightRequest.summonedGhost = false;
 		FightRequest.desiredScroll = null;
 
-		FightRequest.levelModifier = 0;
 		FightRequest.healthModifier = 0;
+		FightRequest.attackModifier = 0;
+		FightRequest.defenseModifier = 0;
 
 		FightRequest.action1 = null;
 		FightRequest.action2 = null;
@@ -4591,13 +4749,6 @@ public class FightRequest
 			return;
 		}
 
-		// If we have Cunctatitis and decide to procrastinate, we did
-		// nothing
-		if ( KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) && responseText.indexOf( "You decide to" ) != -1 )
-		{
-			return;
-		}
-
 		switch ( KoLCharacter.getFamiliar().getId() )
 		{
 		case FamiliarPool.BLACK_CAT:
@@ -4646,10 +4797,15 @@ public class FightRequest
 			break;
 		}
 
+		// If we have Cunctatitis and decide to procrastinate,
+		// we did  nothing
 		if ( FightRequest.action1.equals( "attack" ) ||
 		     FightRequest.action1.equals( "runaway" ) ||
 		     FightRequest.action1.equals( "steal" ) ||
-		     FightRequest.action1.equals( "summon ghost" )   )
+		     FightRequest.action1.equals( "summon ghost" ) ||
+		     ( KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) &&
+		       responseText.indexOf( "You decide to" ) != -1 )
+		     )
 		{
 			return;
 		}
@@ -4712,41 +4868,6 @@ public class FightRequest
 			ResultProcessor.processItem( ItemPool.VOLCANIC_ASH, -1 );
 			break;
 
-		case 2005: // Shieldbutt
-		case 2105: // Head + Shield Combo
-		case 2106: // Knee + Shield Combo
-		case 2107: // Head + Knee + Shield Combo
-			FightRequest.levelModifier -= 5;
-			break;
-
-		case 5003: // Disco Eye-Poke
-			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 3;
-			break;
-
-		case 5005: // Disco Dance of Doom
-			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 5;
-			break;
-
-		case 5008: // Disco Dance II: Electric Boogaloo
-			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 7;
-			break;
-
-		case 5012: // Disco Face Stab
-			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 10;
-			break;
-
-		case 5019: // Tango of Terror
-			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 8;
-			break;
-
-		case 5021: // Suckerpunch
-			FightRequest.levelModifier -= FightRequest.stealthMistletoe * 1;
-			break;
-
-		case 5023: // Stealth Mistletoe
-			FightRequest.stealthMistletoe = 2;
-			break;
-			
 		case 7024:	// Summon Mayfly Swarm
 			if ( responseText.indexOf( "mayfly bait and swing it" ) != -1 )
 			{
@@ -4800,11 +4921,6 @@ public class FightRequest
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			break;
-		
-		case 7100: // Funk Bluegrass Fusion
-			FightRequest.levelModifier -= 20;
-			break;
-
 		}
 	}
 
@@ -4817,6 +4933,9 @@ public class FightRequest
 
 		switch ( itemId )
 		{
+		default:
+			break;
+
 		case ItemPool.TOY_SOLDIER:
 			// A toy soldier consumes tequila.
 
@@ -4837,6 +4956,14 @@ public class FightRequest
 			if ( responseText.indexOf( "gets smaller and angrier" ) != -1 )
 			{
 				FightRequest.healthModifier += FightRequest.getMonsterHealth() / 2;
+			}
+			break;
+
+		case 819: case 820: case 821: case 822: case 823:
+		case 824: case 825: case 826: case 827:
+			if ( AdventureResult.bangPotionName( itemId ).contains("healing") )
+			{
+				FightRequest.healthModifier -= 16;
 			}
 			break;
 		}
