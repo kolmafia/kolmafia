@@ -86,7 +86,7 @@ public class EventManager
 			return false;
 		}
 
-		if ( eventText.indexOf( "logged" ) != -1 )
+		if ( eventText.indexOf( "logged" ) != -1 || eventText.indexOf( "has left the building" ) != -1 )
 		{
 			return false;
 		}
