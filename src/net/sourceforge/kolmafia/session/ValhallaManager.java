@@ -219,8 +219,8 @@ public class ValhallaManager
 		RequestThread.closeRequestSequence();
 
 		// The semirare counter is set in Valhalla.
-		TurnCounter.startCounting( 71, "Semirare window begin loc=*", "lparen.gif" );
-		TurnCounter.startCounting( 81, "Semirare window end loc=*", "rparen.gif" );
+		TurnCounter.startCounting( 70, "Semirare window begin loc=*", "lparen.gif" );
+		TurnCounter.startCounting( 80, "Semirare window end loc=*", "rparen.gif" );
 		
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );

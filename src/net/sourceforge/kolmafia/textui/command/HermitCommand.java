@@ -53,7 +53,7 @@ public class HermitCommand
 
 	public void run( final String cmd, String parameters )
 	{
-		boolean clovers = HermitRequest.isCloverDay();
+		int cloverCount = HermitRequest.cloverCount();
 
 		if ( !KoLmafia.permitsContinue() )
 		{
@@ -62,7 +62,7 @@ public class HermitCommand
 
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( "Today is " + ( clovers ? "" : "not " ) + "a clover day." );
+			KoLmafia.updateDisplay( "The Hermit has " + cloverCount + " clover" + ( cloverCount == 1 ? "" : "s" ) + " available today." );
 			return;
 		}
 
@@ -97,7 +97,7 @@ public class HermitCommand
 				itemId = ( (AdventureResult) KoLConstants.hermitItems.get( i ) ).getItemId();
 				if ( itemId == ItemPool.TEN_LEAF_CLOVER && count != 1 )
 				{
-					count = Math.min( count, ( (AdventureResult) KoLConstants.hermitItems.get( i ) ).getCount() );
+					count = Math.min( count, cloverCount );
 				}
 			}
 		}

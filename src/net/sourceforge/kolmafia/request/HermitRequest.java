@@ -352,6 +352,17 @@ public class HermitRequest
 		return KoLConstants.hermitItems.contains( CLOVER );
 	}
 
+	public static final int cloverCount()
+	{
+		if ( !HermitRequest.checkedForClovers )
+		{
+			new HermitRequest().run();
+		}
+
+		int index = KoLConstants.hermitItems.indexOf( CLOVER );
+		return index < 0 ? 0 : ( (AdventureResult) KoLConstants.hermitItems.get( index ) ).getCount();
+	}
+
 	public static final void ensureUpdatedHermit()
 	{
 		int lastAscension = Preferences.getInteger( "lastHermitReset" );
