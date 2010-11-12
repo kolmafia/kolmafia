@@ -526,42 +526,63 @@ public abstract class TransferItemRequest
 		final List source, final int defaultQuantity )
 	{
 		return TransferItemRequest.registerRequest(
+			command, urlString, source, defaultQuantity, null );
+	}
+
+	public static final boolean registerRequest( final String command, final String urlString, final List source, final int defaultQuantity, final String meatField )
+	{
+		return TransferItemRequest.registerRequest(
 			command, urlString,
 			TransferItemRequest.ITEMID_PATTERN,
 			TransferItemRequest.HOWMANY_PATTERN,
-			source, defaultQuantity );
+			source, defaultQuantity, meatField );
 	}
 
 	public static final boolean registerRequest( final String command, final String urlString,
 		final Pattern itemPattern, final Pattern quantityPattern,
-		final List source, final int defaultQuantity )
+ 		final List source, final int defaultQuantity )
 	{
-		ArrayList itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+		return TransferItemRequest.registerRequest(
+			command, urlString,
+			itemPattern, quantityPattern,
+			source, defaultQuantity, null );
+	}
 
-		if ( itemList.isEmpty() )
+	public static final boolean registerRequest( final String command, final String urlString,
+		final Pattern itemPattern, final Pattern quantityPattern,
+ 		final List source, final int defaultQuantity,
+		final String meatField )
+	{
+		Matcher recipientMatcher = TransferItemRequest.RECIPIENT_PATTERN.matcher( urlString );
+		boolean recipients = recipientMatcher.find();
+		ArrayList itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+		int meat = TransferItemRequest.transferredMeat( urlString, meatField );
+
+		if ( !recipients && itemList.isEmpty() && meat == 0 )
 		{
 			return false;
 		}
 
 		StringBuffer itemListBuffer = new StringBuffer();
-
 		itemListBuffer.append( command );
 
-		Matcher recipientMatcher = TransferItemRequest.RECIPIENT_PATTERN.matcher( urlString );
-		if ( recipientMatcher.find() )
+		if ( recipients )
 		{
 			itemListBuffer.append( " to " );
 			itemListBuffer.append( ContactManager.getPlayerName( recipientMatcher.group( 1 ) ) );
 		}
 
-		itemListBuffer.append( ": " );
+		if ( !itemList.isEmpty() || meat != 0 )
+		{
+			itemListBuffer.append( ": " );
+		}
 
 		boolean addedItem = false;
-                for ( int i = 0; i < itemList.size(); ++i )
-                {
-                        AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+		for ( int i = 0; i < itemList.size(); ++i )
+		{
+			AdventureResult item = ( (AdventureResult) itemList.get( i ) );
 			String name = item.getName();
-                        int quantity = item.getCount();
+			int quantity = item.getCount();
 
 			if ( addedItem )
 			{
@@ -575,6 +596,16 @@ public abstract class TransferItemRequest
 			itemListBuffer.append( quantity );
 			itemListBuffer.append( " " );
 			itemListBuffer.append( name );
+		}
+
+		if ( meat != 0 )
+		{
+			if ( addedItem )
+			{
+				itemListBuffer.append( ", " );
+			}
+			itemListBuffer.append( meat );
+			itemListBuffer.append( " Meat" );
 		}
 
 		RequestLogger.updateSessionLog();

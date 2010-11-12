@@ -1562,6 +1562,11 @@ public class GenericRequest
 			GenericRequest.checkItemRedirection( this.getURLString() );
 		}
 
+		if ( this.redirectLocation.startsWith( "messages.php?results=Message" ) )
+		{
+			SendMailRequest.parseTransfer( this.getURLString() );
+		}
+
 		if ( this.formURLString.startsWith( "fight.php" ) )
 		{
 			return true;

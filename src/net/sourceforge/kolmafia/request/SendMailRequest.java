@@ -161,13 +161,17 @@ public class SendMailRequest
                 return SendMailRequest.parseTransfer( this.getURLString(), this.responseText );
         }
 
-        public static boolean parseTransfer( final String urlString, final String responseText )
+	public static boolean parseTransfer( final String urlString, final String responseText )
 	{
 		if ( responseText.indexOf( "<center>Message " ) == -1 )
 		{
 			return false;
 		}
+		return SendMailRequest.parseTransfer( urlString );
+	}
 
+	public static boolean parseTransfer( final String urlString )
+	{
 		TransferItemRequest.transferItems( urlString, KoLConstants.inventory, null, 0 );
 
 		int meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );
@@ -179,16 +183,17 @@ public class SendMailRequest
 		KoLCharacter.updateStatus();
 		ConcoctionDatabase.refreshConcoctions();
 		return true;
-        }
+	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "sendmessage.php" ) )
+		if ( !urlString.startsWith( "sendmessage.php" ) ||
+		     urlString.indexOf( "action=send" ) == -1 )
 		{
 			return false;
 		}
 
 		return TransferItemRequest.registerRequest(
-			"send a kmail", urlString, KoLConstants.inventory, 0 );
+			"send a kmail", urlString, KoLConstants.inventory, 0, "sendmeat" );
 	}
 }
