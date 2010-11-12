@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
@@ -65,6 +66,10 @@ public class CampgroundRequest
 	private static int currentDwellingLevel = 0;
 	private static AdventureResult currentDwelling = null;
 	private static AdventureResult currentBed = null;
+
+	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
+	public static final AdventureResult HUGE_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
+
 
 	public static final int [] campgroundItems =
 	{
@@ -159,6 +164,39 @@ public class CampgroundRequest
 		return this.action.equals( "rest" ) ? 1 : 0;
 	}
 
+	public static AdventureResult getCrop()
+	{
+		int i = KoLConstants.campground.indexOf( PUMPKIN );
+		if ( i == -1 )
+		{
+			i = KoLConstants.campground.indexOf( HUGE_PUMPKIN );
+		}
+		return i != -1 ? (AdventureResult)KoLConstants.campground.get( i ) : null;
+	}
+
+	public static void clearCrop()
+	{
+		int i = KoLConstants.campground.indexOf( PUMPKIN );
+		if ( i == -1 )
+		{
+			i = KoLConstants.campground.indexOf( HUGE_PUMPKIN );
+		}
+		if ( i != -1 )
+		{
+			KoLConstants.campground.remove( i );
+			KoLConstants.campground.add( ItemPool.get( ItemPool.PUMPKIN,  0 ) );
+		}
+	}
+
+	public static void harvestCrop()
+	{
+		AdventureResult crop = CampgroundRequest.getCrop();
+		if ( crop != null && crop.getCount() > 0 )
+		{
+			RequestThread.postRequest( new CampgroundRequest( "garden" ) );
+		}
+	}
+
 	public void run()
 	{
 		if ( this.action.equals( "rest" ) &&
@@ -226,6 +264,12 @@ public class CampgroundRequest
 		if ( action.equals( "rest" ) )
 		{
 			Preferences.increment( "timesRested", 1 );
+			return;
+		}
+
+		if ( action.equals( "garden" ) )
+		{
+			CampgroundRequest.clearCrop();
 			return;
 		}
 
@@ -346,7 +390,7 @@ public class CampgroundRequest
 		findImage( responseText, "pfsection.gif", ItemPool.PICKET_FENCE, true );
 		findImage( responseText, "bfsection.gif", ItemPool.BARBED_FENCE, true );
 
-		// How many images are there? How do we handle pumpkins?
+		CampgroundRequest.clearCrop();
 		findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
 		findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );
 		findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2 );

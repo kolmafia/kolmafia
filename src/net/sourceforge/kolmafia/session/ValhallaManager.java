@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 
 import net.sourceforge.kolmafia.request.AutoSellRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -125,6 +126,9 @@ public class ValhallaManager
 			AutoSellRequest request = new AutoSellRequest( items.toArray() );
 			RequestThread.postRequest( request );
 		}
+
+		// Harvest your garden
+		CampgroundRequest.harvestCrop();
 
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "preAscensionScript" ) );
