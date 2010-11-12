@@ -630,9 +630,19 @@ public class CampgroundRequest
 			return true;
 		}
 
-		if ( action.equals( "rest" ) )
+		String message = null;
+
+		if ( action.equals( "garden" ) )
 		{
-			String message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
+			message = "Harvesting your garden";
+		}
+		else if ( action.equals( "rest" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
+		}
+
+		if ( message != null )
+		{
 			RequestLogger.printLine( "" );
 			RequestLogger.printLine( message );
 
