@@ -651,6 +651,7 @@ public class KoLmafiaCLI
 		new ForumCommand().registerPrefix( "forum" );
 		new FriarBlessingCommand().register( "friars" );
 		new GalaktikCommand().register( "galaktik" );
+		new GardenCommand().register( "garden" );
 		new GongCommand().register( "gong" );
 		new GrandpaCommand().register( "grandpa" );
 		new HallOfLegendsCommand().register( "donate" );
