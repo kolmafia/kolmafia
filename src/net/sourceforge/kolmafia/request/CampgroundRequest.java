@@ -70,6 +70,9 @@ public class CampgroundRequest
 	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
 	public static final AdventureResult HUGE_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
 
+	public static final AdventureResult BLACK_BLUE_LIGHT = ItemPool.get( ItemPool.BLACK_BLUE_LIGHT, 1 );
+	public static final AdventureResult LOUDMOUTH_LARRY = ItemPool.get( ItemPool.LOUDMOUTH_LARRY, 1 );
+	public static final AdventureResult PLASMA_BALL = ItemPool.get( ItemPool.PLASMA_BALL, 1 );
 
 	public static final int [] campgroundItems =
 	{
@@ -162,6 +165,15 @@ public class CampgroundRequest
 	public int getAdventuresUsed()
 	{
 		return this.action.equals( "rest" ) ? 1 : 0;
+	}
+
+	public static void removeCampgroundItem( AdventureResult item )
+	{
+		int i = KoLConstants.campground.indexOf( item );
+		if ( i != -1 )
+		{
+			KoLConstants.campground.remove( i );
+		}
 	}
 
 	public static AdventureResult getCrop()
@@ -264,6 +276,32 @@ public class CampgroundRequest
 		if ( action.equals( "rest" ) )
 		{
 			Preferences.increment( "timesRested", 1 );
+
+			// Your black-and-blue light cycles wildly between
+			// black and blue, then emits a shower of sparks as it
+			// goes permanently black.
+			if ( responseText.indexOf( "goes permanently black" ) != -1 )
+			{
+				CampgroundRequest.removeCampgroundItem( BLACK_BLUE_LIGHT );
+			}
+
+			// Your blue plasma ball crackles weakly, emits a whine
+			// that sounds like "pika...pika...pika..." and goes
+			// dark.
+			if ( responseText.indexOf( "crackles weakly" ) != -1 )
+			{
+				CampgroundRequest.removeCampgroundItem( PLASMA_BALL );
+			}
+
+			// Your Loudmouth Larry Lamprey twitches and flops
+			// wildly, singing "Daisy, Daisy, tell me your answer
+			// true," in ever-slower, distorted loops. Looks like
+			// it's ready to go to its eternal fishy reward.
+			if ( responseText.indexOf( "eternal fishy reward" ) != -1 )
+			{
+				CampgroundRequest.removeCampgroundItem( LOUDMOUTH_LARRY );
+			}
+
 			return;
 		}
 
