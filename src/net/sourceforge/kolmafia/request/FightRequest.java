@@ -2295,6 +2295,15 @@ public class FightRequest
 				"Your cheap studded belt broke." );
 		}
 
+		// "The adhesive on the fake piercing comes loose and it falls
+		// off. Looks like those things weren't meant to withstand as
+		// much sweat as your eyebrow is capable of producing."
+		if ( responseText.indexOf( "The adhesive on the fake piercing comes loose" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.STICK_ON_EYEBROW_PIERCING,
+				"Your stick-on eyebrow piercing broke." );
+		}
+
 		if ( responseText.indexOf( "Your sugar chapeau slides" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_CHAPEAU,

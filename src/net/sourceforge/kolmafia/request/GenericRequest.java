@@ -380,10 +380,15 @@ public class GenericRequest
 
 	public GenericRequest constructURLString( final String newURLString )
 	{
-		return this.constructURLString( newURLString, true );
+		return this.constructURLString( newURLString, true, false );
 	}
 
 	public GenericRequest constructURLString( String newURLString, boolean usePostMethod )
+	{
+		return this.constructURLString( newURLString, usePostMethod, false );
+	}
+
+	public GenericRequest constructURLString( String newURLString, boolean usePostMethod, boolean encoded )
 	{
 		this.responseText = null;
 		this.dataChanged = true;
@@ -412,7 +417,7 @@ public class GenericRequest
 			else
 			{
 				this.formURLString = this.baseURLString;
-				this.addFormFields( newURLString.substring( formSplitIndex + 1 ), false );
+				this.addFormFields( newURLString.substring( formSplitIndex + 1 ), encoded );
 			}
 		}
 
