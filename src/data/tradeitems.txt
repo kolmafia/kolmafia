@@ -4771,7 +4771,7 @@
 4762	huge pumpkin	usable	all	0
 4763	pumpkin pie	food	all	0
 4764	pumpkin beer	drink	all	0
-4765	pumpkin juice	usable	all	0
+4765	pumpkin juice	multiple	all	0
 4766	pumpkin bomb	none, combat	all	10
 4767	shin gourds	accessory	all	200
 4768	Staff of the November Jack-O-Lantern	weapon	display	25
