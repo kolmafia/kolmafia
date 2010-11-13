@@ -761,6 +761,7 @@ public class ItemPool
 	public static final int SCINTILLATING_POWDER = 3289;
 	public static final int PERSONAL_MASSAGER = 3279;
 	public static final int PLASMA_BALL = 3281;
+	public static final int STICK_ON_EYEBROW_PIERCING = 3282;
 	public static final int PRETTY_PINK_BOW = 3298;
 	public static final int SMILEY_FACE_STICKER = 3299;
 	public static final int FARFALLE_BOW_TIE = 3300;

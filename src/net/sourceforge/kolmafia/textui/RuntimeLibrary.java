@@ -237,6 +237,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "wait", DataTypes.VOID_TYPE, params ) );
 
@@ -1563,25 +1566,30 @@ public abstract class RuntimeLibrary
 
 	public static Value visit_url( final Value string )
 	{
-		return RuntimeLibrary.visit_url( string.toString() );
+		return RuntimeLibrary.visit_url( string.toString(), true, false );
 	}
 
 	public static Value visit_url( final Value string, final Value usePostMethod )
 	{
-		return RuntimeLibrary.visit_url( string.toString(), usePostMethod.intValue() == 1 );
+		return RuntimeLibrary.visit_url( string.toString(), usePostMethod.intValue() == 1, false );
+	}
+
+	public static Value visit_url( final Value string, final Value usePostMethod, final Value encoded )
+	{
+		return RuntimeLibrary.visit_url( string.toString(), usePostMethod.intValue() == 1, encoded.intValue() == 1 );
 	}
 
 	private static Value visit_url( final String location )
 	{
-		return RuntimeLibrary.visit_url( location, true );
+		return RuntimeLibrary.visit_url( location, true, false );
 	}
 
-	private static Value visit_url( final String location, final boolean usePostMethod )
+	private static Value visit_url( final String location, final boolean usePostMethod, final boolean encoded )
 	{
 		StringBuffer buffer = new StringBuffer();
 		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 
-		RuntimeLibrary.VISITOR.constructURLString( location, usePostMethod );
+		RuntimeLibrary.VISITOR.constructURLString( location, usePostMethod, encoded );
 		if ( GenericRequest.shouldIgnore( RuntimeLibrary.VISITOR ) )
 		{
 			return returnValue;
