@@ -1135,6 +1135,7 @@ public class ItemPool
 	public static final int BONE_CHIPS = 4743;
 	public static final int PUMPKIN = 4761;
 	public static final int HUGE_PUMPKIN = 4762;
+	public static final int GINORMOUS_PUMPKIN = 4771;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
