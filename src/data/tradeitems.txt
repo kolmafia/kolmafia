@@ -4777,3 +4777,4 @@
 4768	Staff of the November Jack-O-Lantern	weapon	display	25
 4769	pumpkin carriage	none	none	0
 4770	Desert Bus pass	none	none	0
+4771	ginormous pumpkin	usable	all	0

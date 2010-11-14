@@ -4774,3 +4774,4 @@
 4768	416163768	Staff of the November Jack-O-Lantern	Staves of the November Jack-O-Lantern
 4769	919223402	pumpkin carriage	pumpkin carriages
 4770	982919503	Desert Bus pass
+4771	797605625	ginormous pumpkin	ginormous pumpkins

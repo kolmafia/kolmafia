@@ -2215,11 +2215,16 @@ filth-encrusted futon	Stench Resistance: +2
 frigid air mattress	Cold Resistance: +2
 gauze hammock	Bonus Resting HP: +60
 gingerbread house	Base Resting HP: +69, Base Resting MP: +70
+# *** You can have a ginormous pumpkin in your garden and also one as
+# *** your dwelling. The HP & MP recovery for the dwelling is unspaded
+# ginormous pumpkin	Base Resting HP: +xx, Base Resting MP: +xx
 hobo fortress blueprints	Base Resting HP: +84, Base Resting MP: +85
 house of twigs and spit	Base Resting HP: +59, Base Resting MP: +60
+# huge pumpkin
 # meat golem
 pagoda plans	Resting HP Percent: +100, Resting MP Percent: +100, Adventures: +3
 # pretty bouquet
+# pumpkin
 sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # spooky scarecrow
 stained mattress	Sleaze Resistance: +2

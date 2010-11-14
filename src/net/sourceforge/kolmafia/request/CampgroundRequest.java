@@ -67,9 +67,6 @@ public class CampgroundRequest
 	private static AdventureResult currentDwelling = null;
 	private static AdventureResult currentBed = null;
 
-	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
-	public static final AdventureResult HUGE_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
-
 	public static final AdventureResult BLACK_BLUE_LIGHT = ItemPool.get( ItemPool.BLACK_BLUE_LIGHT, 1 );
 	public static final AdventureResult LOUDMOUTH_LARRY = ItemPool.get( ItemPool.LOUDMOUTH_LARRY, 1 );
 	public static final AdventureResult PLASMA_BALL = ItemPool.get( ItemPool.PLASMA_BALL, 1 );
@@ -113,6 +110,11 @@ public class CampgroundRequest
 		ItemPool.CHEF,
 		ItemPool.CLOCKWORK_CHEF,
 
+		// Garden
+		ItemPool.PUMPKIN,
+		ItemPool.HUGE_PUMPKIN,
+		ItemPool.GINORMOUS_PUMPKIN,
+
 		// Outside dwelling
 		ItemPool.BARBED_FENCE,
 		ItemPool.CLOCKWORK_MAID,
@@ -123,10 +125,20 @@ public class CampgroundRequest
 		ItemPool.PRETTY_BOUQUET,
 		ItemPool.SCARECROW,
 		ItemPool.TOILET_PAPER,
-		ItemPool.PUMPKIN,
 
 		// Special item that aids resting
 		ItemPool.COMFY_BLANKET,
+	};
+
+	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
+	public static final AdventureResult HUGE_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
+	public static final AdventureResult GINORMOUS_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
+
+	public static final AdventureResult [] crops =
+	{
+		CampgroundRequest.PUMPKIN,
+		CampgroundRequest.HUGE_PUMPKIN,
+		CampgroundRequest.GINORMOUS_PUMPKIN,
 	};
 
 	public static void reset()
@@ -176,23 +188,28 @@ public class CampgroundRequest
 		}
 	}
 
+	private static int getCropIndex()
+	{
+		for ( int i = 0; i < crops.length; ++i )
+		{
+			AdventureResult crop = crops[ i ] ;
+			if ( KoLConstants.campground.indexOf( crop ) != -1 )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	public static AdventureResult getCrop()
 	{
-		int i = KoLConstants.campground.indexOf( PUMPKIN );
-		if ( i == -1 )
-		{
-			i = KoLConstants.campground.indexOf( HUGE_PUMPKIN );
-		}
+		int i = CampgroundRequest.getCropIndex();
 		return i != -1 ? (AdventureResult)KoLConstants.campground.get( i ) : null;
 	}
 
 	public static void clearCrop()
 	{
-		int i = KoLConstants.campground.indexOf( PUMPKIN );
-		if ( i == -1 )
-		{
-			i = KoLConstants.campground.indexOf( HUGE_PUMPKIN );
-		}
+		int i = CampgroundRequest.getCropIndex();
 		if ( i != -1 )
 		{
 			KoLConstants.campground.remove( i );
@@ -375,6 +392,13 @@ public class CampgroundRequest
 		case 9:
 			itemId = ItemPool.BRICKO_PYRAMID;
 			break;
+		case 10:
+			// *** Is the pumpkin house really dwelling # 10?  What
+			// *** to do if you have both the dwelling and a
+			// *** ginormous pumpkin in your garden?
+			//
+			// itemId = ItemPool.GINORMOUS_PUMPKIN;
+			// break;
 		default:
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
 		}
