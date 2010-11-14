@@ -393,8 +393,7 @@ public class CampgroundRequest
 			itemId = ItemPool.BRICKO_PYRAMID;
 			break;
 		case 10:
-			// *** Is the pumpkin house really dwelling # 10?  What
-			// *** to do if you have both the dwelling and a
+			// *** What to do if you have both the dwelling and a
 			// *** ginormous pumpkin in your garden?
 			//
 			// itemId = ItemPool.GINORMOUS_PUMPKIN;
@@ -459,6 +458,7 @@ public class CampgroundRequest
 		findImage( responseText, "pumpkinpatch_3.gif", ItemPool.PUMPKIN, 3 );
 		findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4 );
 		findImage( responseText, "pumpkinpatch_giant.gif", ItemPool.HUGE_PUMPKIN, 1 );
+		findImage( responseText, "pumpkinpatch_ginormous.gif", ItemPool.GINORMOUS_PUMPKIN, 1 );
 	}
 
 	private static final void parseKitchen( final String responseText )
