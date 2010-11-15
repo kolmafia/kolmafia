@@ -235,25 +235,22 @@ public class CharSheetRequest
 
 		// There may also be a "turns this run" field which
 		// allows you to have a Ronin countdown.
+		boolean runStats = responseText.indexOf( "(this run)" ) != -1;
 
-		if ( responseText.indexOf( "(this run)" ) != -1 )
+		while ( !token.startsWith( "Turns" ) ||
+			( runStats && token.indexOf( "(this run)" ) == -1 ) )
 		{
-			while ( !token.startsWith( "Turns" ) || token.indexOf( "(this run)" ) == -1 )
-			{
-				token = cleanContent.nextToken();
-			}
-
-			KoLCharacter.setCurrentRun( GenericRequest.intToken( cleanContent ) );
+			token = cleanContent.nextToken();
 		}
-		else
+
+		KoLCharacter.setCurrentRun( GenericRequest.intToken( cleanContent ) );
+		while ( !token.startsWith( "Days" ) ||
+			( runStats && token.indexOf( "(this run)" ) == -1 ) )
 		{
-			while ( !token.startsWith( "Turns" ) )
-			{
-				token = cleanContent.nextToken();
-			}
-
-			KoLCharacter.setCurrentRun( GenericRequest.intToken( cleanContent ) );
+			token = cleanContent.nextToken();
 		}
+
+		KoLCharacter.setCurrentDays( GenericRequest.intToken( cleanContent ) );
 
 		// Determine the player's zodiac sign, if any. We
 		// could read the path in next, but it's easier to

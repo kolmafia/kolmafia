@@ -589,6 +589,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_adventures", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_daycount", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_turncount", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -2788,6 +2791,11 @@ public abstract class RuntimeLibrary
 	public static Value my_adventures()
 	{
 		return new Value( KoLCharacter.getAdventuresLeft() );
+	}
+
+	public static Value my_daycount()
+	{
+		return new Value( KoLCharacter.getCurrentDays() );
 	}
 
 	public static Value my_turncount()
