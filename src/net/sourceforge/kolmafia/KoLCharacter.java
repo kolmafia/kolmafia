@@ -268,6 +268,7 @@ public abstract class KoLCharacter
 	private static int closetMeat = 0;
 	private static int inebriety = 0;
 	private static int adventuresLeft = 0;
+	private static int daycount = 0;
 	private static int currentRun = 0;
 	private static boolean isFullnessIncreased = false;
 	private static int holidayManaCostReduction = 0;
@@ -1570,11 +1571,6 @@ public abstract class KoLCharacter
 		return KoLCharacter.adventuresLeft;
 	}
 
-	public static final void setCurrentRun( final int currentRun )
-	{
-		KoLCharacter.currentRun = currentRun;
-	}
-
 	/**
 	 * Accessor method to retrieve the total number of turns the character
 	 * has used this run.
@@ -1583,6 +1579,25 @@ public abstract class KoLCharacter
 	public static final int getCurrentRun()
 	{
 		return KoLCharacter.currentRun;
+	}
+
+	public static final void setCurrentRun( final int currentRun )
+	{
+		KoLCharacter.currentRun = currentRun;
+	}
+
+	/**
+	 * Accessor method to retrieve the current daycount for this run
+	 */
+
+	public static final int getCurrentDays()
+	{
+		return KoLCharacter.daycount;
+	}
+
+	public static final void setCurrentDays( final int daycount )
+	{
+		KoLCharacter.daycount = daycount;
 	}
 
 	/**
