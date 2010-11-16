@@ -132,9 +132,9 @@ public class CampgroundRequest
 
 	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
 	public static final AdventureResult HUGE_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
-	public static final AdventureResult GINORMOUS_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
+	public static final AdventureResult GINORMOUS_PUMPKIN = ItemPool.get( ItemPool.GINORMOUS_PUMPKIN, 1 );
 
-	public static final AdventureResult [] crops =
+	public static final AdventureResult [] CROPS =
 	{
 		CampgroundRequest.PUMPKIN,
 		CampgroundRequest.HUGE_PUMPKIN,
@@ -190,9 +190,9 @@ public class CampgroundRequest
 
 	private static int getCropIndex()
 	{
-		for ( int i = 0; i < crops.length; ++i )
+		for ( int i = 0; i < CROPS.length; ++i )
 		{
-			AdventureResult crop = crops[ i ] ;
+			AdventureResult crop = CROPS[ i ] ;
 			if ( KoLConstants.campground.indexOf( crop ) != -1 )
 			{
 				return i;
@@ -205,6 +205,12 @@ public class CampgroundRequest
 	{
 		int i = CampgroundRequest.getCropIndex();
 		return i != -1 ? (AdventureResult)KoLConstants.campground.get( i ) : null;
+	}
+
+	public static boolean hasCrop( final String crop )
+	{
+		int i = CampgroundRequest.getCropIndex();
+		return i != -1 && crop.equals( ((AdventureResult)KoLConstants.campground.get( i )).getName() );
 	}
 
 	public static void clearCrop()

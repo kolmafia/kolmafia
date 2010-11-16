@@ -180,7 +180,6 @@ public class CompositeReference
 			if ( result == null )
 			{
 				result = this.slice.initialValue( this.index );
-				this.slice.aset( this.index, result, interpreter );
 			}
 
 			interpreter.traceIndent();

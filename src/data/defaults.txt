@@ -59,6 +59,8 @@ global	greenScreenProtection	false
 global	grimoireSkillsHardcore	none
 global	grimoireSkillsSoftcore	Summon Hilarious Objects
 global	guiUsesOneWindow	false
+global	harvestGardenHardcore	none
+global	harvestGardenSoftcore	none
 global	hideServerDebugText	false
 global	highlightList
 global	http.proxyHost
