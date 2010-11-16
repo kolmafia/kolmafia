@@ -91,6 +91,7 @@ public class BreakfastManager
 			readGuildManual();
 			useCrimboToys();
 			getHermitClovers();
+			harvestGarden();
 			visitBigIsland();
 			visitVolcanoIsland();
 		}
@@ -192,6 +193,15 @@ public class BreakfastManager
 
 			KoLmafia.forceContinue();
 		}
+	}
+
+	public static void harvestGarden()
+	{
+                String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
+                if ( CampgroundRequest.hasCrop( crop ) )
+                {
+                        CampgroundRequest.harvestCrop();
+                }
 	}
 
 	public static boolean castSkills( final boolean allowRestore, final int manaRemaining )

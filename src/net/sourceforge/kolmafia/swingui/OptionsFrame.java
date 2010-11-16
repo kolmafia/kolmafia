@@ -63,11 +63,13 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
@@ -1461,6 +1463,8 @@ public class OptionsFrame
 		private final SkillMenu libramSkills;
 		private final SkillMenu grimoireSkills;
 
+		private final CropMenu	cropsMenu;
+
 		public BreakfastPanel( final String title, final String breakfastType )
 		{
 			super( new BorderLayout() );
@@ -1514,21 +1518,30 @@ public class OptionsFrame
 			JPanel centerHolder = new JPanel( new BorderLayout() );
 			centerHolder.add( centerPanel, BorderLayout.NORTH );
 
-			JPanel southPanel = new JPanel( new GridLayout( 1, 3 ) );
+			centerPanel = new JPanel( new GridLayout( 1, 3 ) );
 
 			this.tomeSkills = new SkillMenu( "Tome Skills", UseSkillRequest.TOME_SKILLS, "tomeSkills" + this.breakfastType );
 			this.tomeSkills.addActionListener( this );
-			southPanel.add( this.tomeSkills );
+			centerPanel.add( this.tomeSkills );
 
 			this.libramSkills = new SkillMenu( "Libram Skills", UseSkillRequest.LIBRAM_SKILLS, "libramSkills" + this.breakfastType );
 			this.libramSkills.addActionListener( this );
-			southPanel.add( this.libramSkills );
+			centerPanel.add( this.libramSkills );
 
 			this.grimoireSkills = new SkillMenu( "Grimoire Skills", UseSkillRequest.GRIMOIRE_SKILLS, "grimoireSkills" + this.breakfastType );
 			this.grimoireSkills.addActionListener( this );
-			southPanel.add( this.grimoireSkills );
+			centerPanel.add( this.grimoireSkills );
 
-			centerHolder.add( southPanel, BorderLayout.SOUTH );
+			centerHolder.add( centerPanel, BorderLayout.CENTER );
+
+			centerPanel = new JPanel( new GridLayout( 1, 3 ) );
+			this.cropsMenu = new CropMenu( CampgroundRequest.CROPS, "harvestGarden" + this.breakfastType );
+			this.cropsMenu.addActionListener( this );
+			centerPanel.add( new JLabel() );
+			centerPanel.add( this.cropsMenu );
+			centerPanel.add( new JLabel() );
+
+			centerHolder.add( centerPanel, BorderLayout.SOUTH );
 
 			JPanel centerContainer = new JPanel( new CardLayout( 10, 10 ) );
 			centerContainer.add( centerHolder, "" );
@@ -1581,6 +1594,7 @@ public class OptionsFrame
 			this.tomeSkills.setPreference();
 			this.libramSkills.setPreference();
 			this.grimoireSkills.setPreference();
+			this.cropsMenu.setPreference();
 		}
 
 		public void actionCancelled()
@@ -1665,6 +1679,60 @@ public class OptionsFrame
 				break;
 			}
 			Preferences.setString( this.preference, skill );
+		}
+	}
+
+	private class CropMenu
+		extends JComboBox
+	{
+		final String preference;
+
+		public CropMenu( final AdventureResult[] crops, final String preference )
+		{
+			super();
+			this.addItem( "Harvest Nothing" );
+			for ( int i = 0; i < crops.length; ++ i )
+			{
+				this.addItem( crops[i].getName() );
+			}
+
+			this.preference = preference;
+			this.getPreference();
+		}
+
+		public void getPreference()
+		{
+			String crop = Preferences.getString( this.preference );
+			if ( crop.equals( "none" ) )
+			{
+				this.setSelectedIndex( 0 );
+			}
+			else
+			{
+				this.setSelectedItem( crop );
+			}
+
+			if ( this.getSelectedIndex() < 0 )
+			{
+				this.setSelectedIndex( 0 );
+			}
+		}
+
+		public void setPreference()
+		{
+			String crop = null;
+			int index = this.getSelectedIndex();
+			switch ( index )
+			{
+			case -1:
+			case 0:
+				crop = "none";
+				break;
+			default:
+				crop = (String) this.getItemAt( index );
+				break;
+			}
+			Preferences.setString( this.preference, crop );
 		}
 	}
 }
