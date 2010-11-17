@@ -192,10 +192,10 @@ public class CampgroundRequest
 	{
 		for ( int i = 0; i < CROPS.length; ++i )
 		{
-			AdventureResult crop = CROPS[ i ] ;
-			if ( KoLConstants.campground.indexOf( crop ) != -1 )
+			int index = KoLConstants.campground.indexOf( CROPS[ i ] );
+			if ( index != -1 )
 			{
-				return i;
+				return index;
 			}
 		}
 		return -1;
