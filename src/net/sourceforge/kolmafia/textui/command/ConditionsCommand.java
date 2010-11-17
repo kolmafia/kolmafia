@@ -132,7 +132,11 @@ public class ConditionsCommand
 		if ( condition.isItem() && option.equals( "set" ) )
 		{
 			int currentAmount =
-				condition.getItemId() == HermitRequest.WORTHLESS_ITEM.getItemId() ? HermitRequest.getWorthlessItemCount() : condition.getCount( KoLConstants.inventory ) + condition.getCount( KoLConstants.closet );
+				condition.getItemId() == HermitRequest.WORTHLESS_ITEM.getItemId() ?
+				HermitRequest.getWorthlessItemCount() :
+				condition.getCount( KoLConstants.inventory ) + 
+				( Preferences.getBoolean( "autoSatisfyWithCloset" ) ?
+                                  condition.getCount( KoLConstants.closet ) : 0 );
 
 			for ( int j = 0; j < EquipmentManager.FAMILIAR; ++j )
 			{
