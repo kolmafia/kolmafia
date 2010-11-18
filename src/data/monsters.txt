@@ -194,10 +194,10 @@ Banshee Librarian	HP: 69 Def: 52 Atk: 57 ED: spooky	disintegrating quill pen (20
 Bar	HP: 5 Def: 3 Atk: 1 Meat: 12-20	bar skin (25)
 Baron Von Ratsworth	HP: 0
 Baseball Bat	HP: 9 Def: 15 Atk: 15 Meat: 17-27	baseball (30)	sonar-in-a-biscuit (10)
-Batrat	HP: 20 Def: 23 Atk: 23 Meat: 18-28	bat wing (15)	bat guano (15)	batgut (15)
+Batrat	HP: 20 Def: 23 Atk: 23 Meat: 18-28	bat wing (15)	bat guano (15)	batgut (15)	sonar-in-a-biscuit (15)
 Batwinged Gremlin	HP: 170 Def: 171 Atk: 169	gremlin juice (3)	molybdenum hammer (c0)
 Bazookafish	HP: 500 Def: 325 Atk: 375 Meat: 176-264	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (15)	fish bazooka (2)
-Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
+Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)	sonar-in-a-biscuit (10)
 Beefy Bodyguard Bat	HP: 25 Def: 25 Atk: 26 Meat: 200-300
 Beelephant	HP: 150	bucket of honey (20)	elephant stinger (0)	reflection of a map (c10)
 Beer Batter	HP: 100000
@@ -647,7 +647,7 @@ Racecar Bob	HP: 139 Def: 138 Atk: 144 Meat: 43-67	enormous belt buckle (25)	leat
 Raconteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Raging Bull	HP: 20 Def: 25 Atk: 25 Meat: 24-36	pile of jumping beans (50)	can of Red Minotaur (30)	boxing glove (0)
 Rampaging Adding Machine	HP: 70 Atk: 80 Def: 80
-Ratbat	HP: 22 Def: 25 Atk: 25 Meat: 18-28	rat appendix (15)	ratgut (15)	ratarang (p5)
+Ratbat	HP: 22 Def: 25 Atk: 25 Meat: 18-28	rat appendix (15)	ratgut (15)	ratarang (p5)	sonar-in-a-biscuit (15)
 Rattlin' Duck	HP: 203 Atk: 174 Meat: 131-162 E: stench	fetid feather (10)	duct tape (5)
 Raver Giant	HP: 150 Def: 140 Atk: 140 Meat: 120-180	Angry Farmer candy (30)	giant needle (30)	Mick's IcyVapoHotness Rub (30)	rave whistle (5)	discarded pacifier (b0)
 Regular Old Bat	HP: 8 Def: 13 Atk: 13 Meat: 18-28	bat guano (15)	batgut (15)	bat wing (15)
