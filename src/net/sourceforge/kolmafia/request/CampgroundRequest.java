@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CampgroundRequest
@@ -323,6 +324,21 @@ public class CampgroundRequest
 			if ( responseText.indexOf( "eternal fishy reward" ) != -1 )
 			{
 				CampgroundRequest.removeCampgroundItem( LOUDMOUTH_LARRY );
+			}
+
+			// You dream that your teeth fall out, and you put them
+			// in your pocket for safe keeping. Fortunately, when
+			// you wake up, you appear to have grown a new set.
+			if ( responseText.indexOf( "your teeth fall out" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.LOOSE_TEETH, 1 );
+			}
+
+			// "Hey," he says, "youse got some teeth. T'anks. Here
+			// youse goes."
+			if ( responseText.indexOf( "youse got some teeth" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.LOOSE_TEETH, -1 );
 			}
 
 			return;

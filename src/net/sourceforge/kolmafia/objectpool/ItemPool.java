@@ -121,6 +121,7 @@ public class ItemPool
 	public static final int BRIEFCASE = 184;
 	public static final int FAT_STACKS_OF_CASH = 185;
 	public static final int ENCHANTED_BEAN = 186;
+	public static final int LOOSE_TEETH = 187;
 	public static final int BAT_GUANO = 188;
 	public static final int BAT_BANDANA = 191;
 	public static final int BATSKIN_BELT = 192;
