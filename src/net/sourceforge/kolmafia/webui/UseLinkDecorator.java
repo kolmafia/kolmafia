@@ -888,7 +888,7 @@ public abstract class UseLinkDecorator
 			useLocation = "guild.php?place=ocg";
 			break;
 
-		// Link to the untinkerer if you find an abridged dictionary.
+		// Link to the untinker if you find an abridged dictionary.
 
 		case ItemPool.ABRIDGED:
 
