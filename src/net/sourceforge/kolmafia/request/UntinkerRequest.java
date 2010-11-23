@@ -317,9 +317,12 @@ public class UntinkerRequest
 		//
 		// *** There is now a button on the page to accept his quest.
 		// *** We need to find out what he says when you accept it.
+		//
+		// "Thanks!  I'll tell ya, I'm just lost without my
+		// screwdriver.	 Here, lemme mark the Knoll on your map."
 
 		// Initial response to accepting his quest
-		String test = "<put the correct message here>&quot;";
+		String test = "Here, lemme mark the Knoll on your map.&quot;";
 		int index = buffer.indexOf( test );
 
 		// Have you had any luck finding my screwdriver? I lost it at

@@ -536,6 +536,12 @@ public class RequestEditorKit
 		{
 			StringUtilities.insertAfter( buffer, "</textarea>", "<script language=JavaScript src=\"/macrohelper.js\"></script>" );
 		}
+		else if ( location.startsWith( "adminmail.php" ) )
+		{
+			// Per KoL dev team request, add extra warning to the
+			// bug report form.
+			RequestEditorKit.addBugReportWarning( buffer );
+		}
 		else if ( location.startsWith( "adventure.php" ) )
 		{
 			StationaryButtonDecorator.decorate( location, buffer );
@@ -1844,6 +1850,35 @@ public class RequestEditorKit
 			RabbitHoleManager.decorateChessPuzzleResponse( buffer );
 			break;
 		}
+	}
+
+	private static final void addBugReportWarning( final StringBuffer buffer )
+	{
+		// <div id="type_1">
+		// <table><tr><td><b>IMPORTANT:</b> If you can see this notice,
+		// the information you're about to submit may be seen by dev
+		// team volunteers in addition to the staff of Asymmetric
+		// Publications.<p>For the protection of your privacy, please
+		// do not submit any passwords, personal data, or donation
+		// information as a bug report! If you're having a donation or
+		// store issue, please select the appropriate category
+		// above.</td></tr></table>
+		// <p><b>Please describe the bug:</b></p>
+		// <textarea class="req" name=message cols=60 rows=10></textarea><br>
+		// </div>
+
+		int index = buffer.indexOf( "<p><b>Please describe the bug:</b></p>" );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		StringBuffer disclaimer = new StringBuffer();
+		disclaimer.append( "<p><span style=\"width: 95%; border: 3px solid red; color: red; padding: 5px; text-align: left; margin-bottom: 10px; background-color: rgb(254, 226, 226); display:block;\">" );
+		disclaimer.append( "You are currently running in the KoLmafia Relay Browser. It is possible that the bug you are experiencing is not in KoL itself, but is a result of KoLmafia, a Greasemonkey script, or another client-side modification. The KoL team requests that you verify that you can reproduce the bug in a vanilla browser with all add-ons and extensions disabled before submitting a bug report." );
+		disclaimer.append( "</span>" );
+
+		buffer.insert( index, disclaimer.toString() );
 	}
 
 	private static final void fixDucks( final StringBuffer buffer )
