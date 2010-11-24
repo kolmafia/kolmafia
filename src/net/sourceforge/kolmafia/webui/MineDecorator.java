@@ -46,27 +46,37 @@ public abstract class MineDecorator
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "which=(\\d+)" );
 	private static final Pattern IMG_PATTERN = Pattern.compile( "<img[^>]+>" );
 	private static final Pattern TD_PATTERN = Pattern.compile(
-		"<td.*?src=['\"](.*?)['\"].*?alt=['\"](.*?)['\"].*?</td>" );
+		"<td.*?src=['\"](.*?)['\"].*?alt=['\"](.*?) \\(([\\d+]),([\\d+])\\)['\"].*?</td>" );
 
 	public static final void decorate( final String location, final StringBuffer buffer )
 	{
+		// Replace difficult to see sparkles with more obvious images
+		StringUtilities.globalStringReplace( buffer,
+			"http://images.kingdomofloathing.com/otherimages/mine/wallsparkle",
+			"/images/otherimages/mine/wallsparkle" );
+
+		if ( buffer.indexOf( "<div id='postload'" ) == -1 )
+		{
+			return;
+		}
+
+		// Determine which mine we are in
 		Matcher m = MINE_PATTERN.matcher( location );
 		if ( !m.find() )
 		{
 			return;
 		}
+
+		// Fetch explored layout of that mine.
 		String data = Preferences.getString( "mineLayout" + m.group( 1 ) );
-		
-		StringUtilities.globalStringReplace( buffer,
-			"http://images.kingdomofloathing.com/otherimages/mine/wallsparkle",
-			"/images/otherimages/mine/wallsparkle" );
+
+		// Find the ore squares in the image.
 		m = TD_PATTERN.matcher( buffer.toString() );
-		int pos = buffer.indexOf( "<div id='postload'" );
-		if ( pos == -1 || !m.find( pos ) )
+		if ( !m.find() )
 		{
 			return;
 		}
-		pos = 0;
+
 		buffer.setLength( 0 );
 		do
 		{
@@ -74,7 +84,15 @@ public abstract class MineDecorator
 			{
 				continue;
 			}
-			Matcher n = Pattern.compile( "#" + pos + "(<.*?>)" ).matcher( data );
+
+			// KoL now lists squares as (col,row).
+			// Columns go from 0 to 7. Rows go from 0 to 6
+			int col = StringUtilities.parseInt( m.group( 3 ) );
+			int row = StringUtilities.parseInt( m.group( 4 ) );
+
+			int which = ( row * 8 ) + col;
+
+			Matcher n = Pattern.compile( "#" + which + "(<.*?>)" ).matcher( data );
 			if ( !n.find() )
 			{
 				continue;
@@ -83,7 +101,7 @@ public abstract class MineDecorator
 				"<td width=50 height=50 background='$1' align=center>" +
 				n.group( 1 ) + "</td>" );
 		}
-		while ( ++pos < 56 && m.find() );
+		while ( m.find() );
 		m.appendTail( buffer );
 	}
 	
