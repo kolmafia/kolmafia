@@ -498,8 +498,8 @@ public class EquipmentManager
 			if ( prev.equals( EquipmentRequest.UNEQUIP ) ||
 				prev.equals( item ) ||
 				!InventoryManager.hasItem( prev ) ||
-				(slot == EquipmentManager.FAMILIAR &&
-					!KoLCharacter.getFamiliar().canEquip( prev )) )
+				( slot == EquipmentManager.FAMILIAR &&
+				  !KoLCharacter.getFamiliar().canEquip( prev ) ) )
 			{
 				continue;
 			}
@@ -1369,6 +1369,11 @@ public class EquipmentManager
 		if ( itemId == -1 )
 		{
 			return false;
+		}
+
+		if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_FAMILIAR )
+		{
+			return KoLCharacter.getFamiliar().canEquip( ItemPool.get( itemId, 1 ) );
 		}
 		
 		if ( KoLCharacter.isHardcore() )
