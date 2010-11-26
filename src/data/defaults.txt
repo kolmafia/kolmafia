@@ -936,7 +936,7 @@ user	choiceAdventure506	0
 user	choiceAdventure507	0
 user	choiceAdventure509	1
 user	choiceAdventure510	1
-user	choiceAdventure511	0
+user	choiceAdventure511	2
 user	choiceAdventure512	1
 user	choiceAdventure513	1
 user	choiceAdventure514	1

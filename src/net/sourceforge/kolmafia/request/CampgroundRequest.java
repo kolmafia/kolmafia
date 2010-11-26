@@ -369,6 +369,24 @@ public class CampgroundRequest
 	{
 		KoLCharacter.setTelescope( responseText.indexOf( "action=telescope" ) != -1 );
 		KoLCharacter.setBookshelf( responseText.indexOf( "action=bookshelf" ) != -1 );
+			
+		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
+		findImage( responseText, "maid.gif", ItemPool.MAID );
+		findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
+		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );
+		findImage( responseText, "golem.gif", ItemPool.MEAT_GOLEM );
+		findImage( responseText, "bouquet.gif", ItemPool.PRETTY_BOUQUET, true );
+		findImage( responseText, "pfsection.gif", ItemPool.PICKET_FENCE, true );
+		findImage( responseText, "bfsection.gif", ItemPool.BARBED_FENCE, true );
+
+		CampgroundRequest.clearCrop();
+		findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
+		findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );
+		findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2 );
+		findImage( responseText, "pumpkinpatch_3.gif", ItemPool.PUMPKIN, 3 );
+		findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4 );
+		findImage( responseText, "pumpkinpatch_giant.gif", ItemPool.HUGE_PUMPKIN, 1 );
+		findImage( responseText, "pumpkinpatch_ginormous.gif", ItemPool.GINORMOUS_PUMPKIN, 1 );
 	}
 
 	private static final void parseDwelling( final String responseText )
@@ -463,24 +481,6 @@ public class CampgroundRequest
 				KoLConstants.campground.add( ar );
 			}
 		}
-			
-		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
-		findImage( responseText, "maid.gif", ItemPool.MAID );
-		findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
-		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );
-		findImage( responseText, "golem.gif", ItemPool.MEAT_GOLEM );
-		findImage( responseText, "bouquet.gif", ItemPool.PRETTY_BOUQUET, true );
-		findImage( responseText, "pfsection.gif", ItemPool.PICKET_FENCE, true );
-		findImage( responseText, "bfsection.gif", ItemPool.BARBED_FENCE, true );
-
-		CampgroundRequest.clearCrop();
-		findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
-		findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );
-		findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2 );
-		findImage( responseText, "pumpkinpatch_3.gif", ItemPool.PUMPKIN, 3 );
-		findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4 );
-		findImage( responseText, "pumpkinpatch_giant.gif", ItemPool.HUGE_PUMPKIN, 1 );
-		findImage( responseText, "pumpkinpatch_ginormous.gif", ItemPool.GINORMOUS_PUMPKIN, 1 );
 	}
 
 	private static final void parseKitchen( final String responseText )
