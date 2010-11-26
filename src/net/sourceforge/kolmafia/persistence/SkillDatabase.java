@@ -731,6 +731,9 @@ public class SkillDatabase
 	{
 		switch ( skillId )
 		{
+		case 3:		// The Smile of Mr. A.
+			return false;
+
 		case 1:		// Liver of Steel
 		case 5:		// Stomach of Steel
 		case 6:		// Spleen of Steel

@@ -370,9 +370,9 @@ public abstract class KoLCharacter
 			// must live."
 			Pattern.compile( "You must call me ([^.]*])\\." ),
 			// You concentrate, and summon a mass of writhing angel
-			// hair. A chill permeates the air as <name>'s spirit
+			// hair. A chill perm eates the air as <name>'s spirit
 			// enters it. "I live..."
-			Pattern.compile( "A chill permeates the air as (.*?)'s spirit enters it\\." ),
+			Pattern.compile( "A chill perm ?eates the air as (.*?)'s spirit enters it\\." ),
 			"angelwisp.gif",
 		},
 

@@ -72,7 +72,7 @@ cursed bottle of black-label rum	3	3	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	1	0	0	0
 cyder	3	5	5	0	0	0
 day-old beer	1	1	1	0	0	0
-decanter of fine scotch	4	9	0	0	0	0
+decanter of fine scotch	4	9	18-22	5-10	5-10	50-80
 dew yoana lei	3	4	5-6	0	34-80	0	20 Brined Liver
 dew yoana salacious lei	4	8	11-14	0	60-115	0	30 Brined Liver
 dirty martini	6	6	22-26	0	0	16-20	tiny plastic sword
