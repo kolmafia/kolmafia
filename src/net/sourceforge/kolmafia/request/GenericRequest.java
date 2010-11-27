@@ -378,6 +378,14 @@ public class GenericRequest
 		GenericRequest.suppressUpdate = suppressUpdate;
 	}
 
+	public GenericRequest cloneURLString( final GenericRequest req )
+	{
+		String newURLString = req.getFullURLString();
+		boolean usePostMethod = !req.data.isEmpty();
+		boolean encoded = true;
+		return this.constructURLString( newURLString, usePostMethod, encoded );
+	}
+
 	public GenericRequest constructURLString( final String newURLString )
 	{
 		return this.constructURLString( newURLString, true, false );
