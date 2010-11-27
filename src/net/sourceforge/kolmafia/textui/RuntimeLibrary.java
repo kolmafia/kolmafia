@@ -1559,7 +1559,6 @@ public abstract class RuntimeLibrary
 	public static Value visit_url()
 	{
 		StringBuffer buffer = new StringBuffer();
-		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 
 		RequestThread.postRequest( KoLmafiaASH.relayRequest );
 		if ( KoLmafiaASH.relayRequest.responseText != null )
@@ -1567,7 +1566,7 @@ public abstract class RuntimeLibrary
 			buffer.append( KoLmafiaASH.relayRequest.responseText );
 		}
 
-		return returnValue;
+		return new Value( DataTypes.BUFFER_TYPE, "", buffer );
 	}
 
 	public static Value visit_url( final Value string )
