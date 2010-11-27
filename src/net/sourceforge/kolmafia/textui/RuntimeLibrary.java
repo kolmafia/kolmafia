@@ -2402,8 +2402,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_dwelling()
 	{
-		AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
-		int itemId = dwelling == null ? ItemPool.BIG_ROCK : dwelling.getItemId();
+		int itemId = CampgroundRequest.getCurrentDwelling().getItemId();
 		return itemId == ItemPool.BIG_ROCK ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( itemId );
 	}
 
