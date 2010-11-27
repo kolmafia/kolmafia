@@ -76,7 +76,6 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -2402,8 +2401,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_dwelling()
 	{
-		int itemId = CampgroundRequest.getCurrentDwelling().getItemId();
-		return itemId == ItemPool.BIG_ROCK ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( itemId );
+		return DataTypes.makeItemValue( CampgroundRequest.getCurrentDwelling().getItemId() );
 	}
 
 	public static Value get_related( Value item, Value type )
