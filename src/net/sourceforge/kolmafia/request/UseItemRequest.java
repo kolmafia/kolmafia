@@ -237,11 +237,13 @@ public class UseItemRequest
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
 		case ItemPool.COTTAGE:
+		case ItemPool.BRICKO_PYRAMID:
 		case ItemPool.HOUSE:
 		case ItemPool.SANDCASTLE:
+		case ItemPool.GINORMOUS_PUMPKIN:
 		case ItemPool.TWIG_HOUSE:
-		case ItemPool.HOBO_FORTRESS:
 		case ItemPool.GINGERBREAD_HOUSE:
+		case ItemPool.HOBO_FORTRESS:
 			return CampgroundRequest.getCurrentDwelling() != null;
  
 		case ItemPool.HOT_BEDDING:
@@ -642,9 +644,12 @@ public class UseItemRequest
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
 		case ItemPool.COTTAGE:
+		case ItemPool.BRICKO_PYRAMID:
 		case ItemPool.HOUSE:
 		case ItemPool.SANDCASTLE:
+		case ItemPool.GINORMOUS_PUMPKIN:
 		case ItemPool.TWIG_HOUSE:
+		case ItemPool.GINGERBREAD_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
 			AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
 			int oldLevel = CampgroundRequest.getCurrentDwellingLevel();

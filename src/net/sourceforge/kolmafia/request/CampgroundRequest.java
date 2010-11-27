@@ -60,13 +60,15 @@ public class CampgroundRequest
 	private static final Pattern LIBRAM_PATTERN =
 		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs) *.[(]([\\d,]+) MP[)]" );
 	private static final Pattern HOUSING_PATTERN =
-		Pattern.compile( "/rest(\\d+)(tp)?(_free)?.gif" );
+		Pattern.compile( "/rest(\\d+|a)(tp)?(_free)?.gif" );
 	private static final Pattern FURNISHING_PATTERN =
 		Pattern.compile( "<b>(?:an? )?(.*?)</b>" );
 
 	private static int currentDwellingLevel = 0;
 	private static AdventureResult currentDwelling = null;
 	private static AdventureResult currentBed = null;
+
+	public static final AdventureResult BIG_ROCK = ItemPool.get( ItemPool.BIG_ROCK, 1 );
 
 	public static final AdventureResult BLACK_BLUE_LIGHT = ItemPool.get( ItemPool.BLACK_BLUE_LIGHT, 1 );
 	public static final AdventureResult LOUDMOUTH_LARRY = ItemPool.get( ItemPool.LOUDMOUTH_LARRY, 1 );
@@ -417,12 +419,19 @@ public class CampgroundRequest
 			return;
 		}
 
-		int dwellingNumber = StringUtilities.parseInt( m.group( 1 ) );
+		String dwelling = m.group( 1 );
+		if ( dwelling.equals( "a" ) )
+		{
+			dwelling = "10";
+		}
+
+		int dwellingNumber = StringUtilities.parseInt( dwelling );
 		int itemId = -1;
 		switch ( dwellingNumber )
 		{
 		case 0:
-			itemId = ItemPool.BIG_ROCK;	// placeholder for "the ground"
+			// placeholder for "the ground"
+			itemId = ItemPool.BIG_ROCK;
 			break;
 		case 1:
 			itemId = ItemPool.NEWBIESPORT_TENT;
@@ -452,20 +461,17 @@ public class CampgroundRequest
 			itemId = ItemPool.BRICKO_PYRAMID;
 			break;
 		case 10:
-			// *** What to do if you have both the dwelling and a
-			// *** ginormous pumpkin in your garden?
-			//
-			// itemId = ItemPool.GINORMOUS_PUMPKIN;
-			// break;
+			itemId = ItemPool.GINORMOUS_PUMPKIN;
+			break;
 		default:
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
+			break;
 		}
 
 		if ( itemId != -1 )
 		{
 			CampgroundRequest.currentDwelling = ItemPool.get( itemId, 1 );
 			CampgroundRequest.currentDwellingLevel = CampgroundRequest.dwellingLevel( itemId );
-			CampgroundRequest.setCampgroundItem( CampgroundRequest.currentDwelling );
 		}
 			
 		if ( m.group( 2 ) != null )
@@ -594,6 +600,7 @@ public class CampgroundRequest
 		case ItemPool.TWIG_HOUSE:
 		case ItemPool.GINGERBREAD_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
+		case ItemPool.GINORMOUS_PUMPKIN:
 			return true;
 		}
 		return false;
@@ -615,12 +622,14 @@ public class CampgroundRequest
 			return 5;
 		case ItemPool.SANDCASTLE:
 			return 6;
-		case ItemPool.TWIG_HOUSE:
+		case ItemPool.GINORMOUS_PUMPKIN:
 			return 7;
-		case ItemPool.GINGERBREAD_HOUSE:
+		case ItemPool.TWIG_HOUSE:
 			return 8;
-		case ItemPool.HOBO_FORTRESS:
+		case ItemPool.GINGERBREAD_HOUSE:
 			return 9;
+		case ItemPool.HOBO_FORTRESS:
+			return 10;
 		}
 		return 0;
 	}

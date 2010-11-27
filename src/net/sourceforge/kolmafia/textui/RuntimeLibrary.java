@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -88,6 +89,7 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
@@ -449,6 +451,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_campground", DataTypes.RESULT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_dwelling", DataTypes.ITEM_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "get_related", DataTypes.RESULT_TYPE, params ) );
@@ -2393,6 +2398,13 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value get_dwelling()
+	{
+		AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
+		int itemId = dwelling == null ? ItemPool.BIG_ROCK : dwelling.getItemId();
+		return itemId == ItemPool.BIG_ROCK ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( itemId );
 	}
 
 	public static Value get_related( Value item, Value type )
