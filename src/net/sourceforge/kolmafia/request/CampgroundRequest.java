@@ -180,6 +180,26 @@ public class CampgroundRequest
 		return this.action.equals( "rest" ) ? 1 : 0;
 	}
 
+	private static void setCampgroundItem( final int itemId, int count )
+	{
+		CampgroundRequest.setCampgroundItem ( ItemPool.get( itemId, count ) );
+	}
+
+	private static void setCampgroundItem( final AdventureResult item )
+	{
+		int i = KoLConstants.campground.indexOf( item );
+		if ( i != -1 )
+		{
+			AdventureResult old = (AdventureResult)KoLConstants.campground.get( i );
+			if ( old.getCount() == item.getCount() )
+			{
+				return;
+			}
+			KoLConstants.campground.remove( i );
+		}
+		KoLConstants.campground.add( item );
+	}
+
 	public static void removeCampgroundItem( AdventureResult item )
 	{
 		int i = KoLConstants.campground.indexOf( item );
@@ -220,7 +240,7 @@ public class CampgroundRequest
 		if ( i != -1 )
 		{
 			KoLConstants.campground.remove( i );
-			KoLConstants.campground.add( ItemPool.get( ItemPool.PUMPKIN,  0 ) );
+			CampgroundRequest.setCampgroundItem( ItemPool.PUMPKIN, 0 );
 		}
 	}
 
@@ -379,7 +399,6 @@ public class CampgroundRequest
 		findImage( responseText, "pfsection.gif", ItemPool.PICKET_FENCE, true );
 		findImage( responseText, "bfsection.gif", ItemPool.BARBED_FENCE, true );
 
-		CampgroundRequest.clearCrop();
 		findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
 		findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );
 		findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2 );
@@ -446,12 +465,12 @@ public class CampgroundRequest
 		{
 			CampgroundRequest.currentDwelling = ItemPool.get( itemId, 1 );
 			CampgroundRequest.currentDwellingLevel = CampgroundRequest.dwellingLevel( itemId );
-			KoLConstants.campground.add( CampgroundRequest.currentDwelling );
+			CampgroundRequest.setCampgroundItem( CampgroundRequest.currentDwelling );
 		}
 			
 		if ( m.group( 2 ) != null )
 		{
-			KoLConstants.campground.add( ItemPool.get( ItemPool.TOILET_PAPER, 1 ) );
+			CampgroundRequest.setCampgroundItem( ItemPool.TOILET_PAPER, 1 );
 		}
 			
 		// TODO: check free rest status (m.group(3)!=null)
@@ -478,7 +497,7 @@ public class CampgroundRequest
 					CampgroundRequest.currentBed = ar;
 				}
 
-				KoLConstants.campground.add( ar );
+				CampgroundRequest.setCampgroundItem( ar );
 			}
 		}
 	}
@@ -513,7 +532,7 @@ public class CampgroundRequest
 
 	private static boolean findImage( final String responseText, final String filename, final int itemId )
 	{
-                return CampgroundRequest.findImage( responseText, filename, itemId, false );
+		return CampgroundRequest.findImage( responseText, filename, itemId, false );
 	}
 
 	private static boolean findImage( final String responseText, final String filename, final int itemId, boolean allowMultiple )
@@ -528,7 +547,7 @@ public class CampgroundRequest
 
 		if ( count > 0 )
 		{
-			KoLConstants.campground.add( ItemPool.get( itemId, allowMultiple ? count : 1 ) );
+			CampgroundRequest.setCampgroundItem( itemId, allowMultiple ? count : 1 );
 		}
 
 		return ( count > 0 );
@@ -537,12 +556,12 @@ public class CampgroundRequest
 	private static boolean findImage( final String responseText, final String filename, final int itemId, int count )
 	{
 		int i = responseText.indexOf( filename );
-		while ( i == -1 )
+		if ( i == -1 )
 		{
 			return false;
 		}
 
-		KoLConstants.campground.add( ItemPool.get( itemId, count ) );
+		CampgroundRequest.setCampgroundItem( itemId, count );
 
 		return true;
 	}
