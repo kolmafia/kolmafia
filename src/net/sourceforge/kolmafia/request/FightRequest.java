@@ -4801,12 +4801,13 @@ public class FightRequest
 			break;
 		}
 
-		// If we have Cunctatitis and decide to procrastinate,
-		// we did  nothing
 		if ( FightRequest.action1.equals( "attack" ) ||
 		     FightRequest.action1.equals( "runaway" ) ||
+		     FightRequest.action1.equals( "abort" ) ||
 		     FightRequest.action1.equals( "steal" ) ||
 		     FightRequest.action1.equals( "summon ghost" ) ||
+		     // If we have Cunctatitis and decide to procrastinate,
+		     // we did nothing
 		     ( KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) &&
 		       responseText.indexOf( "You decide to" ) != -1 )
 		     )
