@@ -3642,12 +3642,21 @@ public abstract class KoLCharacter
 		for ( int i = 0; i< KoLConstants.campground.size(); ++i )
 		{
 			item = (AdventureResult) KoLConstants.campground.get( i );
+			// Skip ginormous pumpkin growing in garden
+			if ( item.getItemId() == ItemPool.GINORMOUS_PUMPKIN )
+			{
+				continue;
+			}
 			String name = item.getName();
 			for ( int count = item.getCount(); count > 0; --count )
 			{
 				newModifiers.add( Modifiers.getModifiers( name ) );
 			}
 		}
+
+		// Add modifiers from dwelling
+		item = CampgroundRequest.getCurrentDwelling();
+		newModifiers.add( Modifiers.getModifiers( item.getName() ) );
 		
 		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.COMFY_BLANKET, 1 ) ) )
 		{

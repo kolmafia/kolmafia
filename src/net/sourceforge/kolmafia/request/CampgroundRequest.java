@@ -425,13 +425,13 @@ public class CampgroundRequest
 			dwelling = "10";
 		}
 
-		int dwellingNumber = StringUtilities.parseInt( dwelling );
 		int itemId = -1;
-		switch ( dwellingNumber )
+		switch ( StringUtilities.parseInt( dwelling ) )
 		{
 		case 0:
 			// placeholder for "the ground"
-			itemId = ItemPool.BIG_ROCK;
+			CampgroundRequest.currentDwelling = BIG_ROCK;
+			CampgroundRequest.currentDwellingLevel = 0;
 			break;
 		case 1:
 			itemId = ItemPool.NEWBIESPORT_TENT;
@@ -574,7 +574,7 @@ public class CampgroundRequest
 
 	public static AdventureResult getCurrentDwelling()
 	{
-		return currentDwelling;
+		return currentDwelling == null ? BIG_ROCK : currentDwelling;
 	}
 
 	public static int getCurrentDwellingLevel()
