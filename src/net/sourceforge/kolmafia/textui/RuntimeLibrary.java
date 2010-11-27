@@ -243,6 +243,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "wait", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "waitq", DataTypes.VOID_TYPE, params ) );
+
 		// Type conversion functions which allow conversion
 		// of one data format to another.
 
@@ -1630,6 +1633,12 @@ public abstract class RuntimeLibrary
 	public static Value wait( final Value delay )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "wait", delay.toString() );
+		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value waitq( final Value delay )
+	{
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "waitq", delay.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
