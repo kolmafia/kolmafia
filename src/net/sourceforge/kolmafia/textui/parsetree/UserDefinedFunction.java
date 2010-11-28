@@ -75,6 +75,7 @@ public class UserDefinedFunction
 		}
 		
 		ArrayList values = new ArrayList();
+
 		Iterator scopes = this.scope.getScopes();
 		while ( scopes.hasNext() )
 		{
@@ -98,15 +99,16 @@ public class UserDefinedFunction
 
 		ArrayList values = (ArrayList) this.callStack.pop();
 		int i = 0;
+
 		Iterator scopes = this.scope.getScopes();
 		while ( scopes.hasNext() )
 		{
 			Iterator variables = ((BasicScope) scopes.next()).getVariables();
 	
-			for ( ; variables.hasNext(); ++i )
+			while ( variables.hasNext() )
 			{
 				Variable current = (Variable) variables.next();
-				current.forceValue( (Value) values.get( i ) );
+				current.forceValue( (Value) values.get( i++ ) );
 			}
 		}
 	}
