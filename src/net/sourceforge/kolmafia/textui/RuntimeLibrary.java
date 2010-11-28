@@ -782,6 +782,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "length", DataTypes.INT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "char_at", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "index_of", DataTypes.INT_TYPE, params ) );
 
@@ -3238,6 +3241,17 @@ public abstract class RuntimeLibrary
 	public static Value length( final Value string )
 	{
 		return new Value( string.toString().length() );
+	}
+
+	public static Value char_at( final Value source, final Value index )
+	{
+		String string = source.toString();
+		int offset = index.intValue();
+		if ( offset < 0 || offset > string.length() )
+		{
+			throw LibraryFunction.interpreter.runtimeException( "Offset " + offset + " out of bounds" );
+		}
+		return new Value( Character.toString( string.charAt( offset ) ) );
 	}
 
 	public static Value index_of( final Value source, final Value search )
