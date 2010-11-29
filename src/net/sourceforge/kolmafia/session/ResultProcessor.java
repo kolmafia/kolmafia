@@ -387,7 +387,7 @@ public class ResultProcessor
 		}
 
 		String effectName = parsedResults.nextToken();
-                String message;
+		String message;
 
 		if ( acquisition.startsWith( "You lose" ) )
 		{
@@ -487,7 +487,7 @@ public class ResultProcessor
 			int drop = ResultProcessor.parseResult( text ).getCount();
 			if ( !ResultProcessor.possibleMeatDrop( drop, 0 ) )
 			{
-				StringBuffer buf = new StringBuffer( " Alert - possible unknown meat bonus:" );
+				StringBuffer buf = new StringBuffer( "Alert - possible unknown meat bonus:" );
 				if ( KoLCharacter.currentNumericModifier( Modifiers.SPORADIC_MEATDROP ) != 0.0f )
 				{
 					buf.append( " (sporadic!)" );
@@ -605,8 +605,8 @@ public class ResultProcessor
 
 		if ( RequestLogger.isDebugging() )
 		{
-                        RequestLogger.updateDebugLog( "Parsing result: " + result );
-                }
+			RequestLogger.updateDebugLog( "Parsing result: " + result );
+		}
 
 		try
 		{
