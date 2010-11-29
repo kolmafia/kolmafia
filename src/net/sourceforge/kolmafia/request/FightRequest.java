@@ -1733,7 +1733,7 @@ public class FightRequest
 			return 0;
 		}
 
-		return Math.max( FightRequest.monsterData.getDefense() + FightRequest.defenseModifier + KoLCharacter.getMonsterLevelAdjustment(), 1 );
+		return Math.max( (int) Math.ceil( FightRequest.monsterData.getDefense() + KoLCharacter.getMonsterLevelAdjustment() * 0.9) + FightRequest.defenseModifier, 1 );
 	}
 
 	public static final int getMonsterAttackElement()

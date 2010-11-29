@@ -579,6 +579,7 @@ public class MonsterDatabase
 				{
 				case 'p':
 					return true;
+				case 's':
 				case 'n':
 				case 'c':
 				case 'b':
@@ -652,10 +653,14 @@ public class MonsterDatabase
 							probability = 0.05f;
 						}
 						break;
+					case 's':
+						probability = 0.01f;
+						break;
 					case 'n':
 					case 'c':
 					case 'b':
 						probability = 0.0f;
+						break;
 					}
 
 					if ( i == j )
