@@ -302,7 +302,7 @@ public class KoLmafiaCLI
 			this.previousLine = line;
 		}
 
-		while ( KoLmafia.permitsContinue() & line.length() > 0 )
+		while ( KoLmafia.permitsContinue() && line.length() > 0 )
 		{
 			line = line.trim();
 
