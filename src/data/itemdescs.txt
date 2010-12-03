@@ -4824,3 +4824,21 @@
 4818	239814149	CRIMBCOIDS mints	tins of CRIMBCOIDS mints
 4819	576360726	can of CRIMBCOLA	cans of CRIMBCOLA
 4820	582522870	CRIMBCOLOAF	CRIMBCOLOAVES
+4821
+4822
+4823
+4824
+4825
+4826
+4827	407192428	hibernating robot reindeer	hibernating robot reindeer
+4828	430467101	S.L.E.I.G.H.B.E.L.L.S.
+4829	366290299	robot reindeer protocol P.R.A.N.C.E.R.	P.R.A.N.C.E.R. disks
+4830	393606557	robot reindeer protocol D.A.S.H.E.R.	D.A.S.H.E.R. disks
+4831	517343233	robot reindeer protocol D.O.N.N.E.R.	D.O.N.N.E.R. disks
+4832	307373113	robot reindeer protocol V.I.X.E.N.	V.I.X.E.N. disks
+4833	810565553	robot reindeer protocol C.U.P.I.D.	C.U.P.I.D. disks
+4834	743027401	robot reindeer protocol D.A.N.C.E.R.	D.A.N.C.E.R. disks
+4835	402618860	robot reindeer protocol C.O.M.E.T.	C.O.M.E.T. disks
+4836	618954639	robot reindeer protocol B.L.I.T.Z.E.N.	B.L.I.T.Z.E.N. disks
+4837	828082046	robot reindeer protocol R.U.D.O.L.P.H.	R.U.D.O.L.P.H. disks
+4838	870887293	robot reindeer protocol O.L.I.V.E.	O.L.I.V.E. disks
