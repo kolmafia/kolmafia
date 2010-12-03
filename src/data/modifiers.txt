@@ -1852,6 +1852,7 @@ Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Meat Drop (sporadic):
 Meat detector	Familiar Weight: +5
 Panda outfit	Familiar Weight: +5, Item Drop: +5, Generic
 Pretty Predator Clawicure Kit	Familiar Weight: +5
+S.L.E.I.G.H.B.E.L.L.S.	Familiar Weight: +5
 Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Generic
 affordable teak perch	Familiar Weight: +5
 amphibious tophat	Underwater Familiar, Equips On: "Dancing Frog"
@@ -3548,6 +3549,7 @@ floaty stone sphere	Free Pull
 glowing frisbee	Free Pull
 hand turkey outline	Free Pull
 heart necklace	Free Pull
+hibernating robot reindeer	Free Pull
 homeless hobo spirit	Free Pull
 hungover chauvinist pig	Free Pull
 infant sandworm	Free Pull
