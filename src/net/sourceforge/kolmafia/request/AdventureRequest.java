@@ -544,7 +544,7 @@ public class AdventureRequest
 			break;
 		case 246:
 			// Elf Alley
-			override = "Hobo Elf";
+			override = "Elf Hobo";
 			break;
 			
 		case 203:

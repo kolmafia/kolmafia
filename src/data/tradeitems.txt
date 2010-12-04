@@ -4845,3 +4845,17 @@
 4836	robot reindeer protocol B.L.I.T.Z.E.N.	usable	all	5
 4837	robot reindeer protocol R.U.D.O.L.P.H.	usable	all	5
 4838	robot reindeer protocol O.L.I.V.E.	usable	all	0
+4839
+4840
+4841	bindlestocking	weapon	all	150
+4842	sleeping stocking	usable	all	0
+4843	Tales of a Kansas Toymaker	usable	all	0
+4844	The Joy of Wassailing	usable	all	0
+4845
+4846
+4847
+4848
+4849
+4850
+4851
+4852	gift-a-pult	weapon	gift	0
