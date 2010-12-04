@@ -96,6 +96,7 @@ public class CampgroundRequest
 		ItemPool.SLEAZE_BEDDING,
 		ItemPool.SPOOKY_BEDDING,
 		ItemPool.STENCH_BEDDING,
+		ItemPool.SLEEPING_STOCKING,
 
 		// Inside dwelling
 		ItemPool.BLACK_BLUE_LIGHT,

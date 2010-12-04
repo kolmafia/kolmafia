@@ -571,6 +571,7 @@ big bass drum	35	Mox: 2	2-handed drum
 big stick	10	Mus: 0	2-handed staff
 big stirring stick	100	Mus: 35	2-handed staff
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
+bindlestocking	200	Mus: 200	2-handed polearm
 black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
 bone and arrows	120	Mox: 45	2-handed bow
@@ -695,6 +696,7 @@ giant driftwood sculpture	190	Mus: 80	2-handed flail
 giant fishhook	200	Mox: 85	2-handed spear
 giant foam finger	170	Mus: 70	1-handed club
 giant needle	150	Mus: 60	2-handed spear
+gift-a-pult	50	Mox: 0	2-handed giftapult
 glistening staff	60	Mus: 15	2-handed staff
 glow-in-the-dark dart gun	50	Mox: 0	1-handed pistol
 gnauga hide whip	20	Mus: 0	1-handed whip

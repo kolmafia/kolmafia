@@ -4842,3 +4842,17 @@
 4836	618954639	robot reindeer protocol B.L.I.T.Z.E.N.	B.L.I.T.Z.E.N. disks
 4837	828082046	robot reindeer protocol R.U.D.O.L.P.H.	R.U.D.O.L.P.H. disks
 4838	870887293	robot reindeer protocol O.L.I.V.E.	O.L.I.V.E. disks
+4839
+4840
+4841	865087510	bindlestocking
+4842	125855635	sleeping stocking
+4843	986648298	Tales of a Kansas Toymaker	copies of Tales of a Kansas Toymaker
+4844	416869152	The Joy of Wassailing	copies of The Joy of Wassailing
+4845
+4846
+4847
+4848
+4849
+4850
+4851
+4852	804389248	gift-a-pult
