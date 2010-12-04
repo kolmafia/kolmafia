@@ -1138,6 +1138,8 @@ public class ItemPool
 	public static final int HUGE_PUMPKIN = 4762;
 	public static final int GINORMOUS_PUMPKIN = 4771;
 	public static final int SLEEPING_STOCKING = 4842;
+	public static final int KANSAS_TOYMAKER = 4843;
+	public static final int WASSAILING_BOOK = 4844;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
