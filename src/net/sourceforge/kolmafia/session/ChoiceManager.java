@@ -419,7 +419,7 @@ public abstract class ChoiceManager
 		// One NightStand (simple wooden)
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure85", "Haunted Bedroom",
-			new String[] { "moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat" } ),
+			new String[] { "moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat", "ballroom key and moxie", "ballroom key and combat" } ),
 
 		// Choice 86 is History is Fun!
 		// Choice 87 is History is Fun!
@@ -915,6 +915,9 @@ public abstract class ChoiceManager
 			
 		// Choice 212 is also Despite All Your Rage, apparently after you've already
 		// tried to wait for rescue?
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure212", "A Maze of Sewer Tunnels",
+			new String[] { "gnaw through the bars" } ),
 
 		// Piping Hot
 		new ChoiceAdventure(
@@ -1451,11 +1454,11 @@ public abstract class ChoiceManager
 			new String[] { "fight", "skip adventure" } ),
 
 		// Choice 513 is Staring Down the Barrel
-                // -> can skip if have +20 cold damage
+		// -> can skip if have +20 cold damage
 		// Choice 514 is 1984 Had Nothing on This Cellar
-                // -> can skip if have +20 stench damage
+		// -> can skip if have +20 stench damage
 		// Choice 515 is A Rat's Home...
-                // -> can skip if have +20 spooky damage
+		// -> can skip if have +20 spooky damage
 
 		// Choice 517 is Mr. Alarm, I Presarm
 
@@ -2137,6 +2140,10 @@ public abstract class ChoiceManager
 			// How Depressing
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Spooky Gravy Barrow" );
 
+		case 85:
+			// One NightStand (simple wooden)
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Haunted Bedroom" );
+
 		case 184:
 			// That Explains All The Eyepatches
 
@@ -2242,6 +2249,20 @@ public abstract class ChoiceManager
 
 			result[ 0 ] = "spooky glove " + ( glove ? "" : "NOT ") + "equipped";
 			result[ 1 ] = "skip adventure";
+
+			return result;
+
+		case 85:
+			// One NightStand (simple wooden)
+			result = new String[ 5 ];
+
+			boolean ballroom = Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions();
+
+			result[ 0 ] = "moxie" + ( ballroom ? "" : " and ballroom key step 1");
+			result[ 1 ] = (ballroom && !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "ballroom key step 2" : "nothing");
+			result[ 2 ] = "enter combat";
+			result[ 3 ] = ballroom ? (!KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "ballroom key step 2" : "moxie") : "moxie and ballroom key step 1";
+			result[ 4 ] = ballroom ? (!KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "ballroom key step 2" : "enter combat") : "moxie and ballroom key step 1";
 
 			return result;
 
@@ -2928,7 +2949,7 @@ public abstract class ChoiceManager
 		case 480: case 481: case 482: case 483: case 484:
 			// Space Trip
 			ArcadeRequest.postChoiceSpaceTrip( request );
-                        break;
+			break;
 
 		case 471:
 			// DemonStar
@@ -3012,6 +3033,14 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 99 )
 			{
 				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
+			}
+			break;
+
+		case 85:
+			// One NightStand (simple wooden)
+			if ( ChoiceManager.lastDecision == 1 && Preferences.getInteger( "lastBallroomUnlock" ) != KoLCharacter.getAscensions() )
+			{
+				Preferences.setInteger( "lastBallroomUnlock", KoLCharacter.getAscensions() );
 			}
 			break;
 
@@ -3129,8 +3158,8 @@ public abstract class ChoiceManager
 		case 441:
 			// The Mad Tea Party
 
-                        // I'm sorry, but there's a very strict dress code for
-                        // this party
+			// I'm sorry, but there's a very strict dress code for
+			// this party
 
 			if ( ChoiceManager.lastDecision == 1  &&
 			     text.indexOf( "very strict dress code" ) == -1 )
@@ -3609,9 +3638,28 @@ public abstract class ChoiceManager
 			// then update their preferences so that KoLmafia
 			// automatically switches things for them.
 
-			if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
+			if ( KoLConstants.conditions.contains( ChoiceManager.BALLROOM_KEY ) )
 			{
-				Preferences.setString( option, decision.equals( "1" ) ? "2" : "1" );
+				if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
+				{
+					return (Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" : "1");
+				}
+			}
+			else if ( decision.equals( "4" ) )
+			{
+				if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
+				{
+					return (Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" : "1");
+				}
+				return "1";
+			}
+			else if ( decision.equals( "5" ) )
+			{
+				if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
+				{
+					return (Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" : "1");
+				}
+				return "3";
 			}
 			else
 			{
@@ -3924,7 +3972,7 @@ public abstract class ChoiceManager
 
 		// Build a "Goal" button
 		StringBuffer button = new StringBuffer();
-                String url = "/KoLmafia/specialCommand?cmd=choice-goal&pwd=" + GenericRequest.passwordHash;
+		String url = "/KoLmafia/specialCommand?cmd=choice-goal&pwd=" + GenericRequest.passwordHash;
 		button.append( "<form name=goalform action='" + url + "' method=post>" );
 		button.append( "<input class=button type=submit value=\"Go To Goal\">" );
 
