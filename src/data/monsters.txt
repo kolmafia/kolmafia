@@ -457,6 +457,7 @@ Hellion	HP: 52 Def: 52 Atk: 52 E: heat	Hellion cube (30)	unstable quark (p20)
 Hellseal guardian	HP: 210	hellseal whisker (s1)	hellseal whisker (s1)	hellseal claw (s1)	hellseal claw (s1)
 Hellseal pup	HP: 88	hellseal whisker (s1)	hellseal claw (s1)
 High Priest of Ki'rhuss	HP: 110 Def: 110 Atk: 110
+Hobo Elf	HP: 500 Def: 350 Atk: 350	hobo nickel (c15)
 Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
 Hodgman, The Hoboverlord	HP: 25000 Def: 750 Atk: 750	Hodgman's bow tie (s1)	Hodgman's porkpie hat (s1)	Hodgman's lobsterskin pants (s1)	Hodgman's almanac (s1)	Hodgman's lucky sock (s1)	Hodgman's metal detector (s1)	Hodgman's varcolac paw (s1)	Hodgman's harmonica (s1)	Hodgman's garbage sticker (s1)	Hodgman's cane (s1)	Hodgman's whackin' stick (s1)	Hodgman's disgusting technicolor overcoat (s1)	Hodgman's imaginary hamster (s1)	hobo fortress blueprints (s1)	stuffed Hodgman (s1)	Hodgman's blanket (s1)	tin cup of mulligan stew (s1)	Hodgman's journal #1: The Lean Times (s1)	Hodgman's journal #2: Entrepreneurythmics (s1)	Hodgman's journal #3: Pumping Tin (s1)	Hodgman's journal #4: View From The Big Top (s1)
 Hostile Amoeba	HP: 20 Def: 25 Atk: 20	memory of an A (20)	memory of a C (20)

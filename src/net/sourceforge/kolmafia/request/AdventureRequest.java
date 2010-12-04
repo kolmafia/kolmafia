@@ -542,6 +542,10 @@ public class AdventureRequest
 			// The Purple Light District
 			override = "Sleaze Hobo";
 			break;
+		case 246:
+			// Elf Alley
+			override = "Hobo Elf";
+			break;
 			
 		case 203:
 			// The Slime Tube
