@@ -227,6 +227,7 @@ public abstract class KoLmafia
 
 		// Adventures that give semirares
 		{ "A Menacing Phantom", SEMIRARE },
+		{ "A Shark's Chum", SEMIRARE },
 		{ "A Tight Squeeze", SEMIRARE },
 		{ "All The Rave", SEMIRARE },
 		{ "Bad ASCII Art", SEMIRARE },
@@ -257,11 +258,11 @@ public abstract class KoLmafia
 		{ "The Bleary-Eyed Cyclops", SEMIRARE },
 		{ "The Latest Sorcerous Developments", SEMIRARE },
 		{ "The Pilsbury Doughjerk", SEMIRARE },
+		{ "The Time This Fire", SEMIRARE },
 		{ "Two Sizes Too Small", SEMIRARE },
+		{ "What a Tosser", SEMIRARE },
 		{ "Yo Ho Ho and a Bottle of Whatever This Is", SEMIRARE },
 		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", SEMIRARE },
-		{ "A Shark's Chum", SEMIRARE },
-		{ "The Time This Fire", SEMIRARE },
 
 		// Adventuring with the hobo code binder equipped - Glyph Adventures
 		{ "A Funny Thing Happened On the Way", GLYPH },

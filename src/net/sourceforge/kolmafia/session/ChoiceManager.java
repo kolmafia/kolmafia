@@ -1458,6 +1458,12 @@ public abstract class ChoiceManager
                 // -> can skip if have +20 spooky damage
 
 		// Choice 517 is Mr. Alarm, I Presarm
+
+		// What a Tosser
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure519", "Elf Alley",
+			new String[] { "gift-a-pult", "skip adventure" },
+			new String[] { "0", null } ),
 	};
 
 	static
@@ -1947,6 +1953,10 @@ public abstract class ChoiceManager
 		// O Lith, Mon
 		{ new Integer(507), new Integer(1),
 		  ItemPool.get( ItemPool.TREE_HOLED_COIN, -1 ) },
+
+		// What a Tosser - gift-a-pult
+		{ new Integer(519), new Integer(1), 
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -50 ) },
 	};
 
 	private static final AdventureResult getCost( final int choice, final int decision )
