@@ -2578,6 +2578,8 @@ public class UseItemRequest
 		case ItemPool.BLACK_HYMNAL:
 		case ItemPool.ELLSBURY_BOOK:
 		case ItemPool.UNEARTHED_METEOROID:
+		case ItemPool.KANSAS_TOYMAKER:
+		case ItemPool.WASSAILING_BOOK:
 		{
 			int itemId = item.getItemId();
 			String skill = UseItemRequest.itemToSkill( itemId );
@@ -3589,6 +3591,10 @@ public class UseItemRequest
 			return "Unaccompanied Miner";
 		case ItemPool.UNEARTHED_METEOROID:
 			return "Volcanometeor Showeruption";
+		case ItemPool.KANSAS_TOYMAKER:
+			return "Toynado";
+		case ItemPool.WASSAILING_BOOK:
+			return "Wassail";
 		}
 
 		return null;

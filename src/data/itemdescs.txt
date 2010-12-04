@@ -4848,11 +4848,16 @@
 4842	125855635	sleeping stocking
 4843	986648298	Tales of a Kansas Toymaker	copies of Tales of a Kansas Toymaker
 4844	416869152	The Joy of Wassailing	copies of The Joy of Wassailing
+#	762908616	Uncle Hobo's fingerless tinsel gloves
+#		Uncle Hobo's stocking cap
+#	630580260	Uncle Hobo's gift baggy pants
+#	158171507	Uncle Hobo's belt
 4845
-4846
+4846	760421472	Uncle Hobo's epic beard
 4847
 4848
-4849
+4849	697186662	Uncle Hobo's highest bough
 4850
-4851
+4851	972757071	chocolate cigar
 4852	804389248	gift-a-pult
+3422	930607234	holly-flavored Hob-O	holly-flavored Hob-Os

@@ -84,7 +84,7 @@ Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locust
 Dire Warren	100	Fluffy Bunny
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
-Elf Alley	-1	Elf Hobo
+Elf Alley	-1	Hobelf
 El Vibrato Island	100	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
 Neckback Crick	100	Deadly Venomtrout	Water Spider	Unearthed Monstrosity: 0
 Exposure Esplanade	-1	Cold Hobo	Frosty: 0
