@@ -4851,16 +4851,12 @@
 4842	sleeping stocking	usable	all	0
 4843	Tales of a Kansas Toymaker	usable	all	0
 4844	The Joy of Wassailing	usable	all	0
-# Uncle Hobo's fingerless tinsel gloves	accessory	display	0
-# Uncle Hobo's stocking cap	hat	display	0
-# Uncle Hobo's gift baggy pants	pants	display	0
-# Uncle Hobo's belt	accessory	display	0
-4845
+4845	Uncle Hobo's stocking cap	hat	display	0
 4846	Uncle Hobo's epic beard	accessory	display	0
-4847
-4848
+4847	Uncle Hobo's gift baggy pants	pants	display	0
+4848	Uncle Hobo's fingerless tinsel gloves	accessory	display	0
 4849	Uncle Hobo's highest bough	weapon	display	0
-4850
+4850	Uncle Hobo's belt	accessory	display	0
 4851	chocolate cigar	usable, candy	all	0
 4852	gift-a-pult	weapon	gift	0
 3422	holly-flavored Hob-O	multiple, candy	all	5

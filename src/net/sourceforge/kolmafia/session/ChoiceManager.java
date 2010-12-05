@@ -1461,6 +1461,11 @@ public abstract class ChoiceManager
 		// -> can skip if have +20 spooky damage
 
 		// Choice 517 is Mr. Alarm, I Presarm
+			
+		// Clear and Present Danger
+		new ChoiceAdventure(
+			"Hobopolis", "choiceAdventure518", "Elf Alley",
+			new String[] { "enter combat with Uncle Hobo", "skip adventure" } ),
 
 		// What a Tosser
 		new ChoiceAdventure(
