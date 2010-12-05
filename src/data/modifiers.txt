@@ -85,7 +85,7 @@ Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold at
 Sombrero De Vida	Four Songs
 Spooky Putty mitre	Experience: +3, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
-# Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20
+Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20
 Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
 aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50, Adventure Underwater, Familiar Effect: "?xPotato"
@@ -311,7 +311,7 @@ Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only
 # Travoltan trousers: (unless Mysticality is higher)
 Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only, Moxie May Control MP
 Tropical Crimbo Shorts	Initiative: +30
-# Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Percent: +1
+Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Percent: +1
 Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit"
 Voluminous Radio Pants	HP Regen Min: 0, HP Regen Max: 5
 Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Turtle Tamer"
@@ -1421,10 +1421,10 @@ Talisman of Baio	Muscle Percent: [+10*M], Mysticality Percent: [+10*M], Moxie Pe
 # Talisman of Bakula: Hemophilia
 Talisman of Bakula	Single Equip
 The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
-# Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25
+Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25
 # Uncle Hobo's epic beard: +6 Adventures per day when equipped (+9 in December)
-Uncle Hobo's epic beard	Mysticality Percent: +20, Adventures: +6
-# Uncle Hobo's fingerless tinsel gloves	Moxie Percent: +15, PvP Fights: +6
+Uncle Hobo's epic beard	Muscle Percent: +20, Adventures: +6
+Uncle Hobo's fingerless tinsel gloves	Moxie Percent: +15, PvP Fights: +6
 Unspeakable Earring	Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
 Uranium Omega of Temperance	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
 # V for Vivala mask: Critical Hits are extra-explosive
