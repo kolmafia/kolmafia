@@ -58,7 +58,8 @@ public class WaitCommand
 		if ( cmd.equals( "waitq" ) )
 		{
 			PauseObject pauser = new PauseObject();
-			pauser.pause( seconds * 1000 );
+			for ( int i = seconds; i > 0 && KoLmafia.permitsContinue(); --i )
+				pauser.pause( 1000 );
 		}
 		else
 		{
