@@ -111,17 +111,11 @@ villainous scythe	epic wad
 
 # Starting equipment is useless.
 seal-clubbing club	useless powder
-seal-skull helmet	useless powder
 turtle totem	useless powder
-helmet turtle	useless powder
 pasta spoon	useless powder
-ravioli hat	useless powder
 saucepan	useless powder
-Hollandaise helmet	useless powder
-stolen accordion	useless powder
-mariachi hat	useless powder
-disco mask	useless powder
 disco ball	useless powder
+stolen accordion	useless powder
 mariachi pants	useless powder
 old sweatpants	useless powder
 
@@ -137,6 +131,8 @@ spandex anniversary shorts	nosmash
 jar of anniversary jam	nosmash
 bucket of anniversary lard	nosmash
 anniversary concrete fedora	nosmash
+anniversary safety glass vest	nosmash
+anniversary burlap belt	nosmash
 
 # Miscellaneous exceptions.
 tiny plastic sword	nosmash
