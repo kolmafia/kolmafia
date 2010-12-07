@@ -2115,6 +2115,7 @@ Throne:Grue	Mysticality Percent: +15
 Throne:Hand Turkey	Meat Drop: +20
 Throne:Hanukkimbo Dreidl	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Hippo Ballerina	Meat Drop: +20
 Throne:Hobo Monkey	Meat Drop: +25
 Throne:Hovering Sombrero	Experience (Mysticality): +2
 Throne:Howling Balloon Monkey	Spell Damage Percent: +10
