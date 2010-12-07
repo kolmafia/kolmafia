@@ -85,6 +85,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class UseItemRequest
 	extends GenericRequest
 {
+	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
+
 	private static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
 
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
@@ -3418,7 +3420,14 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "too many Infernal seals" ) != -1 )
 			{
+				int maxSummons = 5;
+				if ( KoLCharacter.hasEquipped( INFERNAL_SEAL_CLAW ) ||
+					InventoryManager.getCount( ItemPool.INFERNAL_SEAL_CLAW ) > 0 )
+				{
+					maxSummons = 10;
+				}
 				UseItemRequest.lastUpdate = "Summoning limit reached.";
+				Preferences.setInteger( "_sealsSummoned", maxSummons );
 			}
 
 			// In order to perform this summoning ritual, you need
