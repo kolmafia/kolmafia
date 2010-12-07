@@ -2174,6 +2174,7 @@ public class GenericRequest
 		case ItemPool.SHAKING_CAMERA:
 			itemName = "Shaking 4-D Camera";
 			Preferences.setString( "cameraMonster", "" );
+			Preferences.setBoolean( "_cameraUsed", true );
 			consumed = true;
 			KoLmafia.ignoreSemirare();
 			break;
