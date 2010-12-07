@@ -4644,6 +4644,8 @@ public class FightRequest
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
+			if ( responseText.indexOf( "too scared to copy any more monsters today" ) != -1 )
+				Preferences.setInteger( "spookyPuttyCopiesMade", 5 );
 			return false;
 
 		case ItemPool.CAMERA:
