@@ -439,10 +439,10 @@
 438	Ham-Fisted	ham.gif	a71e21c4a39a13558719fef8980422d4	use 1 jug of hamethyst juice|use 1 flask of hamethyst juice|use 1 vial of hamethyst juice
 439	Baconstoned	bacon.gif	8a3686b9ef4909ca99587bc6489008c4	use 1 jug of baconstone juice|use 1 flask of baconstone juice|use 1 vial of baconstone juice
 440	Je Ne Sais Porquoise	confused.gif	7a1d33bd3c697d55c26eb70a1845a5d5	use 1 jug of porquoise juice|use 1 flask of porquoise juice|use 1 vial of porquoise juice
-441	Fit To Be Tide	waves.gif	938dde0221273af2e2cefeafacddf498	#Summoning Chamber
-442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8	#Summoning Chamber
-443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13	#Summoning Chamber
-444	Demonic Taint	stench.gif	2dbb492270ccad496291a6f7fdadde26	#Summoning Chamber
+441	Fit To Be Tide	waves.gif	938dde0221273af2e2cefeafacddf498	summon 3
+442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8	summon 2
+443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13	summon 4
+444	Demonic Taint	stench.gif	2dbb492270ccad496291a6f7fdadde26	summon 5
 445	Dang Near Cut In Half	axegash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa	#BM adv in Spooky Forest
 446	Hella Tough	strboost.gif	1a46f0679200550d66cf30810ab7c47e	styx muscle
 447	Hella Smart	realbrain.gif	4972f34f7622eaa1fc8fd2ab6eb43f40	styx mysticality
@@ -673,7 +673,7 @@
 672	Busker Do	sanddollar.gif	c240d44cd36c02e344e8a9d7bdc354ea	skate band shell
 673	Familial Ties	ties.gif	6b328c67b22420567accd3a9b6424ad8	skate eels
 674	Swimming Head	loop.gif	8626f8671845ddcf2758099d159f4cbd	skate merry-go-round
-675	Existential Torment	confused.gif	923a6a502a859e5b7946af1228f18764	#Summoning Chamber
+675	Existential Torment	confused.gif	923a6a502a859e5b7946af1228f18764	summon 8
 676	Spangled Star	tinystars.gif	c369319642dfc3e85b43bbd33a587069	use 1 groupie spangles
 677	Inky Camouflage	blackface.gif	9d1bab97634b51545cd882c8aad3515a	use 1 vial of squid ink
 678	Fishily Speeding	fish.gif	d5630a21f9a0eeb110616952fd5a3ce2	use 1 potion of fishy speed
@@ -780,7 +780,7 @@
 779	Super Vision	xrayspecs.gif	1db6a8bc75e423151c6e0817932dad99
 780	Super Speed	fast.gif	593bd8b1ccbb628a02230246b4e4873d
 781	Super Accuracy	reticle.gif	8ac1abc08fb9969463ecd9a965621b46
-782	Burning, Man	fire.gif	f93ba9c2aba47c4e296f20823bb8d1ac
+782	Burning, Man	fire.gif	f93ba9c2aba47c4e296f20823bb8d1ac	summon 9
 783	Pie in the Sky	pie.gif	d3fb9bf83be3023e45185af67c3ff185 	eat 1 badass pie
 784	Technicolor Yawn, Er, Smile	plexipips.gif	92275ab4fe615788255274e22f2aec8f	use 1 PlexiPips
 785	Highland Flung	waxbottle.gif	788941793e466a01a391e386a63fcbf3	use 1 Wax Flask
