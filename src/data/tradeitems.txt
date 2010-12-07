@@ -4764,7 +4764,7 @@
 4755	boneana hammock	pants	all	0
 4756	bag of bones	usable	all	0
 4757	Stabonic scroll	reusable	all	0
-4758	candy skeleton	multiple, candy	all	0
+4758	candy skeleton	multiple, candy	all	5
 4759	Grumpy Bumpkin's Pumpkin Seed Catalog	usable	all	0
 4760	packet of pumpkin seeds	usable	display	0
 4761	pumpkin	usable	all	0
@@ -4859,4 +4859,4 @@
 4850	Uncle Hobo's belt	accessory	display	0
 4851	chocolate cigar	usable, candy	all	0
 4852	gift-a-pult	weapon	gift	0
-3422	holly-flavored Hob-O	multiple, candy	all	5
+4853	holly-flavored Hob-O	multiple, candy	all	5
