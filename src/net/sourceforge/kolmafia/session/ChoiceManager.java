@@ -3187,6 +3187,17 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.REFLECTION_OF_MAP, -1 );
 			}
 			break;
+
+		case 518:
+			// Clear and Present Danger
+
+			// Stop for Hobopolis bosses
+			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
+				RequestThread.enableDisplayIfSequenceComplete();
+			}
+			break;
 		}
 	}
 
@@ -3292,7 +3303,7 @@ public abstract class ChoiceManager
 
 	private static String hobopolisBossName( final int choice )
 	{
-		switch (choice )
+		switch ( choice )
 		{
 		case 200:
 			// Enter The Hoboverlord
@@ -3312,6 +3323,9 @@ public abstract class ChoiceManager
 		case 205:
 			// Van, Damn
 			return "Chester";
+		case 518:
+			// Clear and Present Danger
+			return "Uncle Hobo";
 		}
 
 		return "nobody";
