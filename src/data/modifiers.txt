@@ -1423,7 +1423,7 @@ Talisman of Bakula	Single Equip
 The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
 Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 # Uncle Hobo's epic beard: +6 Adventures per day when equipped (+9 in December)
-Uncle Hobo's epic beard	Muscle Percent: +20, Adventures: +6, Single Equip
+Uncle Hobo's epic beard	Muscle Percent: +20, Single Equip
 Uncle Hobo's fingerless tinsel gloves	Moxie Percent: +15, PvP Fights: +6, Single Equip
 Unspeakable Earring	Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
 Uranium Omega of Temperance	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip

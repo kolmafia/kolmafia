@@ -1665,10 +1665,7 @@ public class Modifiers
 		Modifiers.modifiersByName.put( name, newMods );
 
 		return newMods;
-	};
-
-	// Items that modify based on day of week
-	private static final int TUESDAYS_RUBY = 2604;
+	}
 
 	private boolean override( final String name )
 	{
@@ -1689,18 +1686,18 @@ public class Modifiers
 
 		switch ( itemId )
 		{
-		case TUESDAYS_RUBY:
+		case ItemPool.TUESDAYS_RUBY: {
 			// Reset to defaults
 
-			this.set( Modifiers.MEATDROP, 0 );
-			this.set( Modifiers.ITEMDROP, 0 );
-			this.set( Modifiers.MOX_PCT, 0 );
-			this.set( Modifiers.MUS_PCT, 0 );
-			this.set( Modifiers.MYS_PCT, 0 );
-			this.set( Modifiers.HP_REGEN_MIN, 0 );
-			this.set( Modifiers.HP_REGEN_MAX, 0 );
-			this.set( Modifiers.MP_REGEN_MIN, 0 );
-			this.set( Modifiers.MP_REGEN_MAX, 0 );
+			this.set( Modifiers.MEATDROP, 0.0 );
+			this.set( Modifiers.ITEMDROP, 0.0 );
+			this.set( Modifiers.MOX_PCT, 0.0 );
+			this.set( Modifiers.MUS_PCT, 0.0 );
+			this.set( Modifiers.MYS_PCT, 0.0 );
+			this.set( Modifiers.HP_REGEN_MIN, 0.0 );
+			this.set( Modifiers.HP_REGEN_MAX, 0.0 );
+			this.set( Modifiers.MP_REGEN_MIN, 0.0 );
+			this.set( Modifiers.MP_REGEN_MAX, 0.0 );
 
 			// Set modifiers depending on what KoL day of the week it is
 
@@ -1709,40 +1706,48 @@ public class Modifiers
 			{
 			case Calendar.SUNDAY:
 				// +5% Meat from Monsters
-				this.set( Modifiers.MEATDROP, 5 );
+				this.set( Modifiers.MEATDROP, 5.0 );
 				break;
 			case Calendar.MONDAY:
 				// Muscle +5%
-				this.set( Modifiers.MUS_PCT, 5 );
+				this.set( Modifiers.MUS_PCT, 5.0 );
 				break;
 			case Calendar.TUESDAY:
 				// Regenerate 3-7 MP per adventure
-				this.set( Modifiers.MP_REGEN_MIN, 3 );
-				this.set( Modifiers.MP_REGEN_MAX, 7 );
+				this.set( Modifiers.MP_REGEN_MIN, 3.0 );
+				this.set( Modifiers.MP_REGEN_MAX, 7.0 );
 				break;
 			case Calendar.WEDNESDAY:
 				// +5% Mysticality
-				this.set( Modifiers.MYS_PCT, 5 );
+				this.set( Modifiers.MYS_PCT, 5.0 );
 				break;
 			case Calendar.THURSDAY:
 				// +5% Item Drops from Monsters
-				this.set( Modifiers.ITEMDROP, 5 );
+				this.set( Modifiers.ITEMDROP, 5.0 );
 				break;
 			case Calendar.FRIDAY:
 				// +5% Moxie
-				this.set( Modifiers.MOX_PCT, 5 );
+				this.set( Modifiers.MOX_PCT, 5.0 );
 				break;
 			case Calendar.SATURDAY:
 				// Regenerate 3-7 HP per adventure
-				this.set( Modifiers.HP_REGEN_MIN, 3 );
-				this.set( Modifiers.HP_REGEN_MAX, 7 );
+				this.set( Modifiers.HP_REGEN_MIN, 3.0 );
+				this.set( Modifiers.HP_REGEN_MAX, 7.0 );
 				break;
 			}
 			return true;
 		}
 
+		case ItemPool.UNCLE_HOBO_BEARD: {
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
+			double adventures = date.get( Calendar.MONTH ) == Calendar.DECEMBER ? 9.0 : 6.0;
+			this.set( Modifiers.ADVENTURES, adventures );
+			return true;
+		}
+		}
+
 		return false;
-	};
+	}
 
 	public static final float getNumericModifier( final String name, final String mod )
 	{
