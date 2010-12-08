@@ -820,11 +820,11 @@ public class EquipmentRequest
 			break;
 
 		case EquipmentRequest.SAVE_OUTFIT:
-			KoLmafia.updateDisplay( "Saving outfit " + this.outfitName + "..." );
+			KoLmafia.updateDisplay( "Saving outfit: " + this.outfitName );
 			break;
 
 		case EquipmentRequest.CHANGE_OUTFIT:
-			KoLmafia.updateDisplay( "Putting on " + this.outfit + "..." );
+			KoLmafia.updateDisplay( "Putting on outfit: " + this.outfit );
 			break;
 
 		case EquipmentRequest.CHANGE_ITEM:
