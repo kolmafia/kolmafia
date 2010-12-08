@@ -594,6 +594,7 @@ public class ItemPool
 	public static final int KNOB_PASTY = 2593;
 	public static final int KNOB_COFFEE = 2594;
 	public static final int TELESCOPE = 2599;
+	public static final int TUESDAYS_RUBY = 2604;
 	public static final int PALM_FROND = 2605;
 	public static final int MOJO_FILTER = 2614;
 	public static final int MUMMY_WRAP = 2634;
@@ -1140,6 +1141,7 @@ public class ItemPool
 	public static final int SLEEPING_STOCKING = 4842;
 	public static final int KANSAS_TOYMAKER = 4843;
 	public static final int WASSAILING_BOOK = 4844;
+	public static final int UNCLE_HOBO_BEARD = 4846;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
