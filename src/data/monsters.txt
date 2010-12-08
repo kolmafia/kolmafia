@@ -668,7 +668,7 @@ Sabre-Toothed Goat	HP: 50 Def: 68 Atk: 68 Meat: 44-66	goat beard (5)	Sabre teeth
 Sabre-Toothed Lime	HP: 8 Def: 14 Atk: 14
 Safari Jack, Small-Game Hunter	HP: 150 Def: 115 Atk: 115	secret tropical island volcano lair map (100)	Safari Jack's moustache (100)	untamable turtle (100)
 Salamander	HP: 3 Def: 3 Atk: 3 Meat: 8-12	salamander spleen (100)
-Sassy Pirate	HP: 51 Def: 61 Atk: 61 Meat: 17-24	crowbarrr (10)	sunken chest (15)	swashbuckling pants (10)
+Sassy Pirate	HP: 51 Def: 61 Atk: 61 Meat: 17-24	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
 Scary Clown	HP: 15 Def: 19 Atk: 19 E: spooky Meat: 20-32	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	big bass drum (4)	clown skin (10)	polka-dot bow tie (p5)	empty greasepaint tube (b0)
 Scary Pirate	HP: 200 Def: 150 Atk: 150 E: spooky Meat: 35-55	cursed breeches (n0)	cursed cutlass (n0)	cursed eyepatch (n0)
 School of Wizardfish	HP: 400 Def: 300 Atk: 300 Meat: 160-240	dull fish scale (15)	fishy wand (c0)	glistening fish meat (5)
@@ -706,7 +706,7 @@ Slime4	HP: 200 Def: 100 Atk: 100 EA: slime	slimy sweetbreads (5)	slimy fermented
 Slime5	HP: 200 Def: 100 Atk: 100 EA: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	big slimy cyst (n2)
 Slithering Hollandaise Glob	HP: 21 Def: 24 Atk: 24	a creased paper strip (s1)	a crinkled paper strip (s1)	a crumpled paper strip (s1)	a folded paper strip (s1)	a ragged paper strip (s1)	a ripped paper strip (s1)	a rumpled paper strip (s1)	a torn paper strip (s1)	nauseating reagent (s1)
 Slow Talkin' Elliot	HP: 200 Meat: 130-154 E: stench	bullet-proof corduroys (s1)	green clay bead (s1)	Lockenstock&trade; sandals (s1)	Slow Talkin' Elliot's dogtags (100)
-Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34	bottle of rum (50)	eyepatch (10)	Jolly Roger charrrm bracelet (20)	vial of pirate sweat (b0)
+Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34	bottle of rum (50)	eyepatch (10)	flaregun (30)	Jolly Roger charrrm bracelet (20)	vial of pirate sweat (b0)
 Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky	smart skull (50)
 Smooth Jazz Scabie	HP: 140 Def: 100 Atk: 95	can-you-dig-it? (s1)
 Snapdragon	HP: 150	dragon snaps (20)	snapdragon pistil (s1)	reflection of a map (c10)
