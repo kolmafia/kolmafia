@@ -824,6 +824,7 @@ Trophyfish	HP: 15000 Atk: 5600
 Turtle trapper	HP: 110 Def: 95 Atk: 95
 Two Skeleton Invaders	HP: 0	bone chips (30)	bone chips (20)
 Tyrannosaurus Tex	HP: 100000 Def: 100000 Atk: 100000
+Uncle Hobo	HP: 15000 Def: 500 Atk: 500	chocolate cigar (s1)	Uncle Hobo's stocking cap (s1)	Uncle Hobo's epic beard (s1)	Uncle Hobo's gift baggy pants (s1)	Uncle Hobo's fingerless tinsel gloves (s1)	Uncle Hobo's highest bough (s1)	Uncle Hobo's belt (s1)
 Undead Elbow Macaroni	HP: 1 Def: 2 Atk: 1 E: spooky Meat: 4-6	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
 Undercover Penguin		cardboard elf ear (c100)	Crimbuck (s1)	passable elf mask (s1)
 Underworld Tree	HP: 0	Underworld acorn (100)	Underworld trunk (100)
