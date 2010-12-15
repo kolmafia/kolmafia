@@ -88,6 +88,7 @@ chocolate-covered scarab beetle	2	5	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	3	0	0	0	red plastic baby
 chorizo brownies	3	2	3-9	0	0	0
 chorizo taco	1	1	1-3	3-5	0	0
+circular CRIMBCOOKIE	2	1	8-10	0	0	0	10 Mystic Circle
 cob of corn	1	2	1	0	10-15	0
 cocktail onion	1	2	1-3	0	0	0
 cocoa eggshell fragment	1	1	1	0	0	0
@@ -401,6 +402,7 @@ spooky mushroom	2	1	2-3	0	0	0
 spooky shroomkabob	2	1	2-5	0	0	6-11
 spooky stir-fry	2	3	2-10	0	0	14-18
 spooky surprise egg	1	1	1	0	0	0	series 2 tiny plastic
+square CRIMBCOOKIE	2	1	8-10	0	0	0	10 Square to be Hip
 squirmy violent party snack	1	1	2-4	2-20	2-20	2-20	10 Broken Dancing (Legendary Beat quest)
 stale baguette	3	1	3-6	0	0	0	lose 3 HP
 stalk of asparagus	1	1	1	0	1-3	0
@@ -446,6 +448,7 @@ tofurkey nugget	3	1	4-11	30-33	0	0
 tomato	1	1	1	0	0	0
 tombstone-shaped crimboween cookie	2	7	6-11	0	0	0	10/20 Crimbo Epiphany (+10% mys)
 tree-shaped crimbo cookie	2	7	6-11	0	0	0	10/20 Yuletide Sappiness (+10% mys)
+triangular CRIMBCOOKIE	2	1	8-10	0	0	0	10 Triangle, Man
 tricky dragon roll	3	1	9-14	20-30	0	8-16	45/55 Fishy
 trollhouse cookies	2	1	2-3	4-6	0	0
 tube of cranberry go-goo	3	1	8-14	0	0	31-34

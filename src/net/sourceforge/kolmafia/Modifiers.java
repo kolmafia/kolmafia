@@ -51,6 +51,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -85,7 +86,7 @@ public class Modifiers
 	public static String currentFamiliar = "";
 	public static String mainhandClass = "";
 	public static float hoboPower = 0.0f;
-	private static float currentWeight = 0.0f;
+	public static float currentWeight = 0.0f;
 
 	private static final Pattern FAMILIAR_EFFECT_PATTERN =
 		Pattern.compile( "Familiar Effect: \"(.*?)\"" );
@@ -1162,7 +1163,7 @@ public class Modifiers
 	private final float[] floats;
 	private final int[] bitmaps;
 	private final String[] strings;
-	private Expression[] expressions;
+	private ModifierExpression[] expressions;
 
 	public Modifiers()
 	{
@@ -1572,9 +1573,9 @@ public class Modifiers
 			{
 				if ( newMods.expressions == null )
 				{
-					newMods.expressions = new Expression[ Modifiers.FLOAT_MODIFIERS ];
+					newMods.expressions = new ModifierExpression[ Modifiers.FLOAT_MODIFIERS ];
 				}
-				newMods.expressions[ i ] = new Expression( matcher.group( 2 ),
+				newMods.expressions[ i ] = new ModifierExpression( matcher.group( 2 ),
 									   name );
 			}
 		}
@@ -1673,7 +1674,7 @@ public class Modifiers
 		{
 			for ( int i = 0; i < this.expressions.length; ++i )
 			{
-				Expression expr = this.expressions[ i ];
+				ModifierExpression expr = this.expressions[ i ];
 				if ( expr != null )
 				{
 					this.floats[ i ] = expr.eval();
@@ -1772,7 +1773,7 @@ public class Modifiers
 		{ // Mad Hatrack ... hats do not give their normal modifiers (should I be checking the item is a hat?)
 			tempMods.add( Modifiers.getModifiers( item.getName() ) );
 		}
-		int weight = passedWeight + (int) tempMods.get( Modifiers.FAMILIAR_WEIGHT ) + (int) tempMods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+		int weight = passedWeight + (int) tempMods.get( Modifiers.FAMILIAR_WEIGHT ) + (int) tempMods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT ) + ( fam.getFeasted() ? 10 : 0 );
 		float percent = tempMods.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
 		if ( percent != 0.0f )
 		{
@@ -1866,7 +1867,7 @@ public class Modifiers
 	public void applyFamiliarModifiers( final FamiliarData familiar, AdventureResult famItem )
 	{
 		int weight = familiar.getWeight() + (int) this.get( Modifiers.FAMILIAR_WEIGHT ) +
-			(int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+			(int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT ) + ( familiar.getFeasted() ? 10 : 0 );
 		float percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
 		if ( percent != 0.0f )
 		{
@@ -2393,476 +2394,6 @@ public class Modifiers
 				}
 				RequestLogger.printLine( "Key \"" + name + "\" has unknown modifier: \"" + mod + "\"" );
 			}
-		}
-	}
-	
-	public static class Expression
-	{
-		private float[] stack;	// also holds numeric literals
-		private int sp = 0;
-		private char[] bytecode;
-		private AdventureResult effect;
-		private String loc, zone, fam, pref, mainhand;
-		private String text;
-		private static final Pattern NUM_PATTERN = Pattern.compile( "([+-]?[\\d.]+)(.*)" );
-		
-		public Expression( String text, String name )
-		{
-			// The first check also matches "[zone(The Slime Tube)]"
-			// Hence the second check.
-			if ( text.indexOf( "T" ) != -1 && EffectDatabase.contains( name ) )
-			{
-				this.effect = new AdventureResult( name, 0, true );
-			}
-			this.stack = new float[10];
-			this.text = text;
-			this.bytecode = (expr() + "r").toCharArray();
-			if ( this.text.length() > 0 )
-			{
-				KoLmafia.updateDisplay( "Modifier syntax error for '" + name + "': expected end, found "
-					+ this.text );
-			}
-			this.text = null;
-			while ( this.stack.length < 100 )
-			{	// Find required stack size to evaluate this expression
-				try
-				{
-					this.eval();
-					break;
-				}
-				catch ( ArrayIndexOutOfBoundsException e )
-				{
-					float[] larger = new float[ this.stack.length * 2 ];
-					System.arraycopy( this.stack, 0, larger, 0, 10 );
-					this.stack = larger;
-				}
-			}
-		}
-		
-		public float eval()
-		{
-			char[] bytecode = this.bytecode;
-			float[] s = this.stack;
-			int sp = this.sp;
-			int pc = 0;
-			float v = 0.0f;
-			while ( true )
-			{
-				char inst;
-				switch ( inst = bytecode[ pc++ ] )
-				{
-				case 'r':
-					return s[ --sp ];
-				
-				case '^':
-					v = (float) Math.pow( s[ --sp ], s[ --sp ] );
-					break;
-				
-				case '*':
-					v = s[ --sp ] * s[ --sp ];
-					break;
-				case '/':
-					v = s[ --sp ] / s[ --sp ];
-					break;
-				
-				case '+':
-					v = s[ --sp ] + s[ --sp ];
-					break;
-				case '-':
-					v = s[ --sp ] - s[ --sp ];
-					break;
-				
-				case 'c':
-					v = (float) Math.ceil( s[ --sp ] );
-					break;
-				case 'f':
-					v = (float) Math.floor( s[ --sp ] );
-					break;
-				case 's':
-					v = (float) Math.sqrt( s[ --sp ] );
-					break;
-
-				case 'l':
-					v = Modifiers.currentLocation.indexOf( this.loc ) == -1 ? 0.0f : 1.0f;
-					break;
-				case 'z':
-					v = Modifiers.currentZone.indexOf( this.zone ) == -1 ? 0.0f : 1.0f;
-					break;
-				case 'w':
-					v = Modifiers.currentFamiliar.indexOf( this.fam ) == -1 ? 0.0f : 1.0f;
-					break;
-				case 'h':
-					v = Modifiers.mainhandClass.indexOf( this.mainhand ) == -1 ? 0.0f : 1.0f;
-					break;
-				case 'p':
-					v = StringUtilities.parseFloat( Preferences.getString( this.pref ) );
-					break;
-				case 'm':
-					v = Math.min( s[ --sp ], s[ --sp ] );
-					break;
-				case 'x':
-					v = Math.max( s[ --sp ], s[ --sp ] );
-					break;
-				
-				case '0':
-					v = s[ 0 ];
-					break;
-				case '1':
-					v = s[ 1 ];
-					break;
-				case '2':
-					v = s[ 2 ];
-					break;
-				case '3':
-					v = s[ 3 ];
-					break;
-				case '4':
-					v = s[ 4 ];
-					break;
-				case '5':
-					v = s[ 5 ];
-					break;
-				case '6':
-					v = s[ 6 ];
-					break;
-				case '7':
-					v = s[ 7 ];
-					break;
-				case '8':
-					v = s[ 8 ];
-					break;
-				case '9':
-					v = s[ 9 ];
-					break;
-				
-				case 'A':
-					v = KoLCharacter.getAscensions();
-					break;
-				case 'B':
-					v = HolidayDatabase.getBloodEffect();
-					break;
-				case 'C':
-					v = 0;
-					break;
-				case 'D':
-					v = KoLCharacter.getInebriety();
-					break;
-				case 'E':
-					v = 0;
-					break;
-				case 'F':
-					v = KoLCharacter.getFullness();
-					break;
-				case 'G':
-					v = HolidayDatabase.getGrimaciteEffect() / 10.0f;
-					break;
-				case 'H':
-					v = Modifiers.hoboPower;
-					break;
-				case 'I':
-					v = 0;
-					break;
-				case 'J':
-					v = HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) ?
-						1.0f : 0.0f;
-					break;
-				case 'K':
-					v = 0;
-					break;
-				case 'L':
-					v = KoLCharacter.getLevel();
-					break;
-				case 'M':
-					v = HolidayDatabase.getMoonlight();
-					break;
-				case 'N':
-					v = 0;
-					break;
-				case 'O':
-					v = 0;
-					break;
-				case 'P':
-					v = 0;
-					break;
-				case 'Q':
-					v = 0;
-					break;
-				case 'R':
-					v = KoLCharacter.getReagentPotionDuration();
-					break;
-				case 'S':
-					v = KoLCharacter.getSpleenUse();
-					break;
-				case 'T':
-					v = Math.max( 1, this.effect.getCount( KoLConstants.activeEffects ) );
-					break;
-				case 'U':
-					v = KoLCharacter.getTelescopeUpgrades();
-					break;
-				case 'V':
-					v = 0;
-					break;
-				case 'W':
-					v = Modifiers.currentWeight;
-					break;
-				case 'X':
-					v = KoLCharacter.getGender();
-					break;
-				case 'Y':
-					v = 0;
-					break;
-				case 'Z':
-					v = 0;
-					break;
-					
-				case '\u0080':
-					v = KoLCharacter.getAdjustedMuscle();
-					break;
-				case '\u0081':
-					v = KoLCharacter.getAdjustedMysticality();
-					break;
-				case '\u0082':
-					v = KoLCharacter.getAdjustedMoxie();
-					break;
-				case '\u0083':
-					v = KoLCharacter.getMonsterLevelAdjustment();
-					break;
-				case '\u0084':
-					v = KoLCharacter.getMindControlLevel();
-					break;
-					
-				default:
-					if ( inst > '\u00FF' )
-					{
-						v = inst - 0x8000;
-						break;
-					}
-					KoLmafia.updateDisplay( "Modifier bytecode invalid at " + 
-						(pc - 1) + ": " + String.valueOf( this.bytecode ) );
-					return 0.0f;
-				}
-				s[ sp++ ] = v;
-			}
-		}
-		
-		private void expect( String token )
-		{
-			if ( this.text.startsWith( token ) )
-			{
-				this.text = this.text.substring( token.length() );
-				return;
-			}
-			KoLmafia.updateDisplay( "Modifier syntax error: expected " + token +
-				", found " + this.text );
-		}
-		
-		private String until( String token )
-		{
-			int pos = this.text.indexOf( token );
-			if ( pos == -1 )
-			{
-				KoLmafia.updateDisplay( "Modifier syntax error: expected " + token +
-					", found " + this.text );
-				return "";
-			}
-			String rv = this.text.substring( 0, pos );
-			this.text = this.text.substring( pos + token.length() );
-			return rv;
-		}
-		
-		private boolean optional( String token )
-		{
-			if ( this.text.startsWith( token ) )
-			{
-				this.text = this.text.substring( token.length() );
-				return true;
-			}
-			return false;
-		}
-
-		private char optional( String token1, String token2 )
-		{
-			if ( this.text.startsWith( token1 ) )
-			{
-				this.text = this.text.substring( token1.length() );
-				return token1.charAt( 0 );
-			}
-			if ( this.text.startsWith( token2 ) )
-			{
-				this.text = this.text.substring( token2.length() );
-				return token2.charAt( 0 );
-			}
-			return '\0';
-		}
-		
-		private String expr()
-		{
-			String rv = this.term();
-			while ( true ) switch ( this.optional( "+", "-" ) )
-			{
-			case '+':
-				rv = this.term() + rv + "+";
-				break;
-			case '-':
-				rv = this.term() + rv + "-";
-				break;
-			default:
-				return rv;			
-			}
-		}
-		
-		private String term()
-		{
-			String rv = this.factor();
-			while ( true ) switch ( this.optional( "*", "/" ) )
-			{
-			case '*':
-				rv = this.factor() + rv + "*";
-				break;
-			case '/':
-				rv = this.factor() + rv + "/";
-				break;
-			default:
-				return rv;			
-			}
-		}
-		
-		private String factor()
-		{
-			String rv = this.value();
-			while ( this.optional( "^" ) )
-			{
-				rv = this.value() + rv + "^";
-			}
-			return rv;
-		}
-		
-		private String value()
-		{
-			String rv;
-			if ( this.optional( "(" ) )
-			{
-				rv = this.expr();
-				this.expect( ")" );
-				return rv;
-			}
-			if ( this.optional( "ceil(" ) )
-			{
-				rv = this.expr();
-				this.expect( ")" );
-				return rv + "c";
-			}
-			if ( this.optional( "floor(" ) )
-			{
-				rv = this.expr();
-				this.expect( ")" );
-				return rv + "f";
-			}
-			if ( this.optional( "sqrt(" ) )
-			{
-				rv = this.expr();
-				this.expect( ")" );
-				return rv + "s";
-			}
-			if ( this.optional( "min(" ) )
-			{
-				rv = this.expr();
-				this.expect( "," );
-				rv = rv + this.expr() + "m";
-				this.expect( ")" );
-				return rv;
-			}
-			if ( this.optional( "max(" ) )
-			{
-				rv = this.expr();
-				this.expect( "," );
-				rv = rv + this.expr() + "x";
-				this.expect( ")" );
-				return rv;
-			}
-			if ( this.optional( "loc(" ) )
-			{
-				this.loc = this.until( ")" ).toLowerCase();
-				return "l";
-			}
-			if ( this.optional( "zone(" ) )
-			{
-				this.zone = this.until( ")" ).toLowerCase();
-				return "z";
-			}
-			if ( this.optional( "fam(" ) )
-			{
-				this.fam = this.until( ")" ).toLowerCase();
-				return "w";
-			}
-			if ( this.optional( "pref(" ) )
-			{
-				this.pref = this.until( ")" );
-				return "p";
-			}
-			if ( this.optional( "mainhand(" ) )
-			{
-				this.mainhand = this.until( ")" ).toLowerCase();
-				return "h";
-			}
-			if ( this.optional( "MUS" ) )
-			{
-				return "\u0080";
-			}
-			if ( this.optional( "MYS" ) )
-			{
-				return "\u0081";
-			}
-			if ( this.optional( "MOX" ) )
-			{
-				return "\u0082";
-			}
-			if ( this.optional( "ML" ) )
-			{
-				return "\u0083";
-			}
-			if ( this.optional( "MCD" ) )
-			{
-				return "\u0084";
-			}
-			if ( this.text.length() == 0 )
-			{
-				KoLmafia.updateDisplay( "Modifier syntax error: unexpected end of expr" );
-				return "\u8000";	
-			}
-			rv = this.text.substring( 0, 1 );
-			if ( rv.charAt( 0 ) >= 'A' && rv.charAt( 0 ) <= 'Z' )
-			{
-				this.text = this.text.substring( 1 );
-				return rv;
-			}
-			Matcher m = NUM_PATTERN.matcher( this.text );
-			if ( m.matches() )
-			{
-				float v = Float.parseFloat( m.group( 1 ) );
-				this.text = m.group( 2 );
-				if ( v % 1.0f == 0.0f && v >= -0x7F00 && v < 0x8000 )
-				{
-					return String.valueOf( (char)((int)v + 0x8000) );
-				}
-				else
-				{
-					if ( this.sp >= 10 )
-					{
-						KoLmafia.updateDisplay( "Modifier syntax error: too many numeric literals" );
-						return "\u8000";	
-					}
-					this.stack[ this.sp++ ] = v;
-					return String.valueOf( (char)( '0' + this.sp - 1 ) );
-				}
-			}
-			if ( this.optional( "-" ) )
-			{
-				return this.value() + "\u8000-";
-			}
-			KoLmafia.updateDisplay( "Modifier syntax error: can't understand " + this.text );
-			this.text = "";
-			return "\u8000";	
 		}
 	}
 	
