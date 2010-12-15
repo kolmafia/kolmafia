@@ -16,6 +16,7 @@
 # Preferences function: pref(text)
 # There can be at most one of each text function in any single expression.
 # Upper-case letters are varying values:
+#	A - number of ascensions
 #	B - Blood of Wereseal effect
 #	D - drunkenness
 #	F - fullness

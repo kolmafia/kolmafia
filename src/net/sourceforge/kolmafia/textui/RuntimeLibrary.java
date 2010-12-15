@@ -1542,10 +1542,8 @@ public abstract class RuntimeLibrary
 			if ( pieces.length > 1 )
 			{
 				try
-				{	// Something's messed up here - form values are
-					// double-URLencoded!
+				{	
 					String decoded = URLDecoder.decode( pieces[ 1 ], "UTF-8" );
-					decoded = URLDecoder.decode( decoded, "UTF-8" );
 					keyval = new Value( decoded );
 				}
 				catch ( IOException e )
