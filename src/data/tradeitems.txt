@@ -569,7 +569,7 @@
 560	stalk of asparagus	food	all	31
 561	pregnant mushroom	grow	all	19
 562	ratgut	none	all	12
-563	sonar-in-a-biscuit	usable	all	11
+563	sonar-in-a-biscuit	usable, combat	all	11
 564	Mad Train wine	drink	all	29
 565	dirty hobo gloves	accessory	all	31
 566	bum cheek	hat	all	25
@@ -4827,7 +4827,7 @@
 4818	CRIMBCOIDS mints	food	all	0
 4819	can of CRIMBCOLA	mp	all	0
 4820	CRIMBCOLOAF	food	all	0
-4821
+4821	circular CRIMBCOOKIE	food	all	100
 4822
 4823
 4824
@@ -4845,8 +4845,8 @@
 4836	robot reindeer protocol B.L.I.T.Z.E.N.	usable	all	5
 4837	robot reindeer protocol R.U.D.O.L.P.H.	usable	all	5
 4838	robot reindeer protocol O.L.I.V.E.	usable	all	0
-4839
-4840
+4839	triangular CRIMBCOOKIE	food	all	100
+4840	square CRIMBCOOKIE	food	all	100
 4841	bindlestocking	weapon	all	150
 4842	sleeping stocking	usable	all	0
 4843	Tales of a Kansas Toymaker	usable	all	0

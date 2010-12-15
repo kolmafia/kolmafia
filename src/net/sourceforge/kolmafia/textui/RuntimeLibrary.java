@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -3680,14 +3681,14 @@ public abstract class RuntimeLibrary
 
 	public static Value modifier_eval( final Value expr )
 	{
-		Modifiers.Expression e;
-		if ( expr.rawValue() instanceof Modifiers.Expression )
+		ModifierExpression e;
+		if ( expr.rawValue() instanceof ModifierExpression )
 		{
-			e = (Modifiers.Expression) expr.rawValue();
+			e = (ModifierExpression) expr.rawValue();
 		}
 		else
 		{
-			e = new Modifiers.Expression( expr.toString(), "" );
+			e = new ModifierExpression( expr.toString(), "" );
 			if ( expr.content == null )
 			{
 				expr.content = e;

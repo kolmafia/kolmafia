@@ -4824,7 +4824,7 @@
 4818	239814149	CRIMBCOIDS mints	tins of CRIMBCOIDS mints
 4819	576360726	can of CRIMBCOLA	cans of CRIMBCOLA
 4820	582522870	CRIMBCOLOAF	CRIMBCOLOAVES
-4821
+4821	334332502	circular CRIMBCOOKIE
 4822
 4823
 4824
@@ -4842,8 +4842,8 @@
 4836	618954639	robot reindeer protocol B.L.I.T.Z.E.N.	B.L.I.T.Z.E.N. disks
 4837	828082046	robot reindeer protocol R.U.D.O.L.P.H.	R.U.D.O.L.P.H. disks
 4838	870887293	robot reindeer protocol O.L.I.V.E.	O.L.I.V.E. disks
-4839
-4840
+4839	827214129	triangular CRIMBCOOKIE
+4840	777086608	square CRIMBCOOKIE
 4841	865087510	bindlestocking
 4842	125855635	sleeping stocking
 4843	986648298	Tales of a Kansas Toymaker	copies of Tales of a Kansas Toymaker

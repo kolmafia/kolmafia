@@ -51,7 +51,7 @@ import java.util.regex.PatternSyntaxException;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -336,7 +336,7 @@ public abstract class ConsequenceManager
 				buff.setLength( 0 );
 				do
 				{
-					float val = new Modifiers.Expression( m.group( 1 ), "" ).eval();
+					float val = new ModifierExpression( m.group( 1 ), "" ).eval();
 					if ( val == (int) val )
 					{	// Avoid decimal point for integer values
 						m.appendReplacement( buff, String.valueOf( (int) val ) );

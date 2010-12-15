@@ -791,3 +791,8 @@
 790	Everything Looks Yellow	eyes.gif	0bf172ccba65be4fdc4c0f908325b5c1
 791	Everything Looks Blue	eyes.gif	d726a28f52e1287c6a19a16c08f93c4b
 792	Everything Looks Red	eyes.gif	6d848baf68e1532b64bca6ab60df9144
+794
+795
+796	Mystic Circle	crimbcookie1.gif	8e52b4076a2ab7451407c007b5a0544d	eat 1 circular CRIMBCOOKIE
+797	Triangle, Man	crimbcookie3.gif	662a1f193983ba6e809c891606148880	eat 1 triangular CRIMBCOOKIE
+798	Square to be Hip	crimbcookie2.gif	39c662ca50f95d1b2d405fb614d8cde4	eat 1 square CRIMBCOOKIE
