@@ -183,11 +183,6 @@ public class ModifierExpression
 			this.fam.add( this.until( ")" ).toLowerCase() );
 			return String.valueOf( (char)( ( this.fam.size()-1 ) + 0x8000) ) + "w";
 		}
-		if ( this.optional( "pref(" ) )
-		{
-			this.pref.add( this.until( ")" ) );
-			return String.valueOf( (char)( ( this.pref.size()-1 ) + 0x8000) ) + "p";
-		}
 		if ( this.optional( "mainhand(" ) )
 		{
 			this.mainhand.add( this.until( ")" ).toLowerCase() );

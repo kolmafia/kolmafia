@@ -84,7 +84,7 @@ public class MonsterExpression
 			v = KoLCharacter.getMindControlLevel();
 			break;
 		}
-		return 0.0f;
+		return v;
 	}
 
 	protected String function()
