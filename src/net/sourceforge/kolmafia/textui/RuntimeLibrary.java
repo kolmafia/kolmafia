@@ -61,6 +61,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.Expression;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -71,6 +72,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.ModifierExpression;
+import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -877,7 +879,13 @@ public abstract class RuntimeLibrary
 
 		// Assorted functions
 		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "expression_eval", DataTypes.FLOAT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "modifier_eval", DataTypes.FLOAT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "monster_eval", DataTypes.FLOAT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "is_online", DataTypes.BOOLEAN_TYPE, params ) );
@@ -3679,16 +3687,52 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
+	public static Value expression_eval( final Value expr )
+	{
+		Expression e;
+		if ( expr.content instanceof Expression )
+		{
+			e = (Expression) expr.content;
+		}
+		else
+		{
+			e = new Expression( expr.toString(), "" );
+			if ( expr.content == null )
+			{
+				expr.content = e;
+			}
+		}
+		return new Value( e.eval() );
+	}
+
 	public static Value modifier_eval( final Value expr )
 	{
 		ModifierExpression e;
-		if ( expr.rawValue() instanceof ModifierExpression )
+		if ( expr.content instanceof ModifierExpression )
 		{
-			e = (ModifierExpression) expr.rawValue();
+			e = (ModifierExpression) expr.content;
 		}
 		else
 		{
 			e = new ModifierExpression( expr.toString(), "" );
+			if ( expr.content == null )
+			{
+				expr.content = e;
+			}
+		}
+		return new Value( e.eval() );
+	}
+
+	public static Value monster_eval( final Value expr )
+	{
+		MonsterExpression e;
+		if ( expr.content instanceof MonsterExpression )
+		{
+			e = (MonsterExpression) expr.rawValue();
+		}
+		else
+		{
+			e = new MonsterExpression( expr.toString(), "" );
 			if ( expr.content == null )
 			{
 				expr.content = e;
