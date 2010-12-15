@@ -2536,7 +2536,7 @@ public class Modifiers
 					break;
 				
 				case 'A':
-					v = 0;
+					v = KoLCharacter.getAscensions();
 					break;
 				case 'B':
 					v = HolidayDatabase.getBloodEffect();
@@ -2614,6 +2614,23 @@ public class Modifiers
 				case 'Z':
 					v = 0;
 					break;
+					
+				case '\u0080':
+					v = KoLCharacter.getAdjustedMuscle();
+					break;
+				case '\u0081':
+					v = KoLCharacter.getAdjustedMysticality();
+					break;
+				case '\u0082':
+					v = KoLCharacter.getAdjustedMoxie();
+					break;
+				case '\u0083':
+					v = KoLCharacter.getMonsterLevelAdjustment();
+					break;
+				case '\u0084':
+					v = KoLCharacter.getMindControlLevel();
+					break;
+					
 				default:
 					if ( inst > '\u00FF' )
 					{
@@ -2788,6 +2805,26 @@ public class Modifiers
 				this.mainhand = this.until( ")" ).toLowerCase();
 				return "h";
 			}
+			if ( this.optional( "MUS" ) )
+			{
+				return "\u0080";
+			}
+			if ( this.optional( "MYS" ) )
+			{
+				return "\u0081";
+			}
+			if ( this.optional( "MOX" ) )
+			{
+				return "\u0082";
+			}
+			if ( this.optional( "ML" ) )
+			{
+				return "\u0083";
+			}
+			if ( this.optional( "MCD" ) )
+			{
+				return "\u0084";
+			}
 			if ( this.text.length() == 0 )
 			{
 				KoLmafia.updateDisplay( "Modifier syntax error: unexpected end of expr" );
@@ -2818,6 +2855,10 @@ public class Modifiers
 					this.stack[ this.sp++ ] = v;
 					return String.valueOf( (char)( '0' + this.sp - 1 ) );
 				}
+			}
+			if ( this.optional( "-" ) )
+			{
+				return this.value() + "\u8000-";
 			}
 			KoLmafia.updateDisplay( "Modifier syntax error: can't understand " + this.text );
 			this.text = "";
