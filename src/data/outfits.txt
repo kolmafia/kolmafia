@@ -77,6 +77,7 @@
 76	Smoked Pottery	pottery shield, pottery hat, pottery training pants
 77	1000th Birthday Suit	bone spurs, bonedanna, boneana hammock
 78	Uncle Hobo's Rags	Uncle Hobo's stocking cap, Uncle Hobo's gift baggy pants, Uncle Hobo's epic beard
+79	Paperclippery	paperclip-on tie, paperclip pants, paperclip turban, paperclip cape
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.

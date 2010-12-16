@@ -65,6 +65,7 @@ Ellsbury's Claim	Item-Driven	Ellsbury's Claim
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
 Holiday	Unsorted	Holiday Zones
+Crimbo10	Removed	Christmas 2010
 
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005

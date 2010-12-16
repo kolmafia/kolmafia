@@ -161,3 +161,17 @@ bb	200	bone crusher
 bb	300	bone spurs
 bb	300	bonedanna
 bb	300	boneana hammock
+
+# Things you can buy with CRIMBCO scrip
+
+bcs	5	paperclip
+bcs	10	Workytime Tea
+bcs	25	CRIMBCO lanyard
+bcs	50	bottle of Blank-Out
+bcs	200	portable photocopier
+bcs	1000	CRIMBCO Employee Handbook (chapter 1)
+bcs	1000	CRIMBCO Employee Handbook (chapter 2)
+bcs	1000	CRIMBCO Employee Handbook (chapter 3)
+bcs	1000	CRIMBCO Employee Handbook (chapter 4)
+bcs	1000	CRIMBCO Employee Handbook (chapter 5)
+bcs	10000	deluxe fax machine

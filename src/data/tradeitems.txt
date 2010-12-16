@@ -4860,3 +4860,40 @@
 4851	chocolate cigar	usable, candy	all	0
 4852	gift-a-pult	weapon	gift	0
 4853	holly-flavored Hob-O	multiple, candy	all	5
+4854	CRIMBCO scrip	none	display	0
+4855
+4856	paperclip	multiple	all	0
+4857	bottle of Blank-Out	usable	all	0
+4858	CRIMBCO lanyard	accessory	display	0
+4859	CRIMBCO Employee Handbook (chapter 1)	usable	all	0
+4860	CRIMBCO Employee Handbook (chapter 2)	usable	all	0
+4861	CRIMBCO Employee Handbook (chapter 3)	usable	all	0
+4862	CRIMBCO Employee Handbook (chapter 4)	usable	all	0
+4863	CRIMBCO Employee Handbook (chapter 5)	usable	all	0
+4864	portable photocopier	usable, combat	all	0
+4865	deluxe fax machine	usable	all	0
+4866	Workytime Tea	multiple	all	0
+4867	paperclip sproinger	none, combat	display	0
+4868	paperclip-on tie	accessory	display	0
+4869	paperclip pants	pants	display	0
+4870	paperclip turban	hat	display	0
+4871	paperclip cape	accessory	display	0
+4872
+4873
+4874
+4875	BGE merchandise order form	usable	all	0
+4876
+2877
+4878
+4879
+4880
+4881
+4882
+4883
+4884
+4885
+4886
+4887
+4888
+4889
+4890	sack lunch	usable	display	0

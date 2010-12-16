@@ -204,6 +204,7 @@ Holiday	adventure=216	true	Shivering Timbers
 Holiday	adventure=37	true	Spectral Pickle Factory
 Holiday	adventure=175	true	Spectral Salad Factory
 Holiday	adventure=173	true	Generic Summer Holiday Swimming!
+Crimbo10	adventure=247	true	CRIMBCO cubicles
 Crimbo09	adventure=222	true	Crimbo Town Toy Factory
 Crimbo09	adventure=223	true	The Don's Crimbo Compound
 Crimbo08	adventure=192	true	Atomic Crimbo Toy Factory

@@ -82,6 +82,7 @@ public class CoinmastersFrame
 	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, -1 );
 	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, -1 );
 	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, -1 );
+	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, -1 );
 
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
 	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
@@ -101,6 +102,7 @@ public class CoinmastersFrame
 	private static int crimbux = 0;
 	private static int tickets = 0;
 	private static int boneChips = 0;
+	private static int scrip = 0;
 
 	private CoinmasterPanel dimePanel = null;
 	private CoinmasterPanel quarterPanel = null;
@@ -108,7 +110,8 @@ public class CoinmastersFrame
 	private CoinmasterPanel sandDollarPanel = null;
 	private CoinmasterPanel ticketPanel = null;
 	private CoinmasterPanel boneChipPanel = null;
-	// private CoinmasterPanel crimbuckPanel = null;
+	private CoinmasterPanel crimbuckPanel = null;
+	private CoinmasterPanel scripPanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -140,15 +143,20 @@ public class CoinmastersFrame
 		panel.add( ticketPanel );
 		this.tabs.add( "Ticket Counter", panel );
 
-		panel = new JPanel( new BorderLayout() );
-		boneChipPanel = new AltarOfBonesPanel();
-		panel.add( boneChipPanel );
-		this.tabs.add( "Altar Of Bones", panel );
+		// panel = new JPanel( new BorderLayout() );
+		// boneChipPanel = new AltarOfBonesPanel();
+		// panel.add( boneChipPanel );
+		// this.tabs.add( "Altar Of Bones", panel );
 
 		// panel = new JPanel( new BorderLayout() );
 		// crimbuckPanel = new CrimboCartelPanel();
 		// panel.add( crimbuckPanel );
 		// this.tabs.add( "Crimbo Cartel", panel );
+
+		panel = new JPanel( new BorderLayout() );
+		scripPanel = new CRIMBCOGiftShopPanel();
+		panel.add( scripPanel );
+		this.tabs.add( "CRIMBCO Gift Shop", panel );
 
 		this.tabs.addChangeListener( this );
 
@@ -192,6 +200,8 @@ public class CoinmastersFrame
 		Preferences.setInteger( "availableTickets", tickets );
 		boneChips = BONE_CHIPS.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableBoneChips", boneChips );
+		scrip = CRIMBCO_SCRIP.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableCRIMBCOScrip", scrip );
 
 		INSTANCE.update();
 	}
@@ -203,8 +213,9 @@ public class CoinmastersFrame
 		lucrePanel.update();
 		sandDollarPanel.update();
 		ticketPanel.update();
-		boneChipPanel.update();
+		// boneChipPanel.update();
 		// crimbuckPanel.update();
+		scripPanel.update();
 		this.currentPanel().setTitle();
 	}
 
@@ -452,6 +463,45 @@ public class CoinmastersFrame
 			       "Altar of Bones",
 				null );
 			buyAction = "buy";
+		}
+
+		public void update()
+		{
+		}
+
+		public boolean enabled()
+		{
+			return true;
+		}
+
+		public boolean accessible()
+		{
+			return true;
+		}
+
+		public void equip()
+		{
+		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
+		}
+	}
+
+	private class CRIMBCOGiftShopPanel
+		extends CoinmasterPanel
+	{
+		public CRIMBCOGiftShopPanel()
+		{
+			super( CoinmastersDatabase.getScripItems(),
+			       null,
+			       CoinmastersDatabase.scripBuyPrices(),
+			       "availableCRIMBCOScrip",
+			       "CRIMBCO scrip",
+			       "CRIMBCO Gift Shop",
+				null );
+			buyAction = "buygift";
 		}
 
 		public void update()

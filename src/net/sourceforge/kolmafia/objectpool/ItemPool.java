@@ -1142,6 +1142,12 @@ public class ItemPool
 	public static final int KANSAS_TOYMAKER = 4843;
 	public static final int WASSAILING_BOOK = 4844;
 	public static final int UNCLE_HOBO_BEARD = 4846;
+	public static final int CRIMBCO_SCRIP = 4854;
+	public static final int CRIMBCO_MANUAL_1 = 4859;
+	public static final int CRIMBCO_MANUAL_2 = 4860;
+	public static final int CRIMBCO_MANUAL_3 = 4861;
+	public static final int CRIMBCO_MANUAL_4 = 4862;
+	public static final int CRIMBCO_MANUAL_5 = 4863;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

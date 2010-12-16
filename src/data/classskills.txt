@@ -70,6 +70,11 @@
 55	Volcanometeor Showeruption	5	0	0
 56	Wassail	5	30	0
 57	Toynado	5	120	0
+58	Fashionably Late	0	0	0
+59	Executive Narcolepsy	0	0	0
+60	Lunch Break	1	10	0
+61	Offensive Joke	5	15	0
+62	Managerial Manipulation	4	5	20
 
 # Skills available to Clubbers
 

@@ -46,7 +46,7 @@ public class CrimboCafeRequest
 {
 	public CrimboCafeRequest( final String name )
 	{
-		super( "Crimbo Cafe", "6" );
+		super( "Crimbo Cafe", "7" );
 
 		int itemId = 0;
 		int price = 0;
@@ -54,32 +54,32 @@ public class CrimboCafeRequest
 		switch ( KoLConstants.cafeItems.indexOf( name ) )
 		{
 		case 0:
-			itemId = -67;
+			itemId = -73;
 			price = 50;
 			break;
 
 		case 1:
-			itemId = -68;
+			itemId = -74;
 			price = 75;
 			break;
 
 		case 2:
-			itemId = -69;
+			itemId = -75;
 			price = 100;
 			break;
 
 		case 3:
-			itemId = -70;
+			itemId = -76;
 			price = 50;
 			break;
 
 		case 4:
-			itemId = -71;
+			itemId = -77;
 			price = 75;
 			break;
 
 		case 5:
-			itemId = -72;
+			itemId = -78;
 			price = 100;
 			break;
 		}
@@ -96,12 +96,12 @@ public class CrimboCafeRequest
 	{
 		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
 		KoLConstants.cafeItems.clear();
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Caviar Carbonara", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Halibut Alfredo", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Red Herring Velvet Cake", 100 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Gin and Herring", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Black and Tan and Red All Over", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Antarctic Ice Tea", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Reconstituted Gruel", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "New and Improved CRIMBCO Reconstituted Gruel", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Ribbon Candy Schnapps", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Egg Substitute Nog Substitute", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Extreme Braincracker Sour", 100 );
 		ConcoctionDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
@@ -131,28 +131,28 @@ public class CrimboCafeRequest
 
 		switch ( itemId )
 		{
-		case -67:
-			itemName = "Caviar Carbonara";
+		case -73:
+			itemName = "CRIMBCO Reconstituted Gruel";
 			price = 50;
 			break;
-		case -68:
-			itemName = "Halibut Alfredo";
+		case -74:
+			itemName = "New and Improved CRIMBCO Reconstituted Gruel";
 			price = 75;
 			break;
-		case -69:
-			itemName = "Red Herring Velvet Cake";
+		case -75:
+			itemName = "CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins";
 			price = 100;
 			break;
-		case -70:
-			itemName = "Gin and Herring";
+		case -76:
+			itemName = "CRIMBCO Ribbon Candy Schnapps";
 			price = 50;
 			break;
-		case -71:
-			itemName = "Black and Tan and Red All Over";
+		case -77:
+			itemName = "CRIMBCO Egg Substitute Nog Substitute";
 			price = 75;
 			break;
-		case -72:
-			itemName = "Antarctic Ice Tea";
+		case -78:
+			itemName = "CRIMBCO Extreme Braincracker Sour";
 			price = 100;
 			break;
 		default:

@@ -1479,6 +1479,12 @@ duct tape fedora	MUSE	duct tape (14)
 duct tape sword	MUSE	duct tape (17)
 duct tape shirt	MUSE, TORSO	duct tape (23)
 
+paperclip sproinger	MUSE	paperclip (1)
+paperclip-on tie	MUSE	paperclip (10)
+paperclip turban	MUSE	paperclip (15)
+paperclip cape	MUSE	paperclip (20)
+paperclip pants	MUSE	paperclip (25)
+
 clingfilm tangle	MUSE	bit of clingfilm (3)
 clingfilm slippers	MUSE	bit of clingfilm (7)
 clingfilm cap	MUSE	bit of clingfilm (9)

@@ -4857,3 +4857,40 @@
 4851	972757071	chocolate cigar
 4852	804389248	gift-a-pult
 4853	930607234	holly-flavored Hob-O	holly-flavored Hob-Os
+4854	437466969	CRIMBCO scrip	CRIMBCO scrip
+4855
+4856	860880542	paperclip	paperclips
+4857	223795819	bottle of Blank-Out
+4858	696859135	CRIMBCO lanyard
+4859	980901210	CRIMBCO Employee Handbook (chapter 1)
+4860	491846606	CRIMBCO Employee Handbook (chapter 2)
+4861	190985186	CRIMBCO Employee Handbook (chapter 3)
+4862	138106473	CRIMBCO Employee Handbook (chapter 4)
+4863	276624197	CRIMBCO Employee Handbook (chapter 5)
+4864	161569523	portable photocopier
+4865	789780842	deluxe fax machine
+4866	346045796	Workytime Tea	bags of Workytime Tea
+4867	502520163	paperclip sproinger	paperclip sproingers
+4868	252977263	paperclip-on tie
+4869	532076262	paperclip pants
+4870	915873755	paperclip turban
+4871	594970408	paperclip cape
+4872
+4873
+4874
+4875	176306118	BGE merchandise order form
+4876
+2877
+4878
+4879
+4880
+4881
+4882
+4883
+4884
+4885
+4886
+4887
+4888
+4889
+4890	208709924	sack lunch	sack lunches

@@ -155,6 +155,7 @@ oriole-feather headdress	15	none
 outrageous sombrero	100	none
 pail	30	none
 panhandle panhandling hat	150	Mus: 175
+paperclip turban	50	none
 parasitic headgnawer	30	none
 party hat	30	none
 passable elf mask	10	none
@@ -328,6 +329,7 @@ old sweatpants	10	none
 palm-frond capris	140	Mox: 55
 pants of the Slug Lord	35	Mox: 2
 paper-plate-mail pants	80	Mox: 25
+paperclip pants	50	none
 parasitic tentacles	30	none
 penguin shorts	120	Mox: 45
 penguinskin mini-kilt	120	Mox: 45
@@ -1203,6 +1205,7 @@ Choker of the Ultragoth	0	Mys: 60
 Claw of the Infernal Seal	0	Mus: 45
 Copper Alpha of Sincerity	0	Mys: 85
 Counterclockwise Watch	0	none
+CRIMBCO lanyard	0	none
 Dyspepsi-Cola-issue canteen	0	none
 Earring of Fire	0	Mys: 60
 El Vibrato translator	0	Mys: 200
@@ -1449,6 +1452,8 @@ night-vision goggles	0	Mox: 10
 old soft shoes	0	Mys: 200
 orange glowstick	0	none
 pacifier necklace	0	Mox: 60
+paperclip-on tie	0	none
+paperclip cape	0	none
 pat-a-cake pendant	0	none
 patent leather shoes	0	none
 peace-sign necklace	0	Mys: 20
