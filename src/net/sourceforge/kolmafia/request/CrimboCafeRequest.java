@@ -114,7 +114,7 @@ public class CrimboCafeRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
-		if ( !matcher.find() || !matcher.group( 1 ).equals( "6" ) )
+		if ( !matcher.find() || !matcher.group( 1 ).equals( "7" ) )
 		{
 			return false;
 		}
