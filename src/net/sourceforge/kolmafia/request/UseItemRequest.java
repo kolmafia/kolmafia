@@ -2582,6 +2582,11 @@ public class UseItemRequest
 		case ItemPool.UNEARTHED_METEOROID:
 		case ItemPool.KANSAS_TOYMAKER:
 		case ItemPool.WASSAILING_BOOK:
+		case ItemPool.CRIMBCO_MANUAL_1:
+		case ItemPool.CRIMBCO_MANUAL_2:
+		case ItemPool.CRIMBCO_MANUAL_3:
+		case ItemPool.CRIMBCO_MANUAL_4:
+		case ItemPool.CRIMBCO_MANUAL_5:
 		{
 			int itemId = item.getItemId();
 			String skill = UseItemRequest.itemToSkill( itemId );
@@ -3604,6 +3609,16 @@ public class UseItemRequest
 			return "Toynado";
 		case ItemPool.WASSAILING_BOOK:
 			return "Wassail";
+		case ItemPool.CRIMBCO_MANUAL_1:
+			return "Fashionably Late";
+		case ItemPool.CRIMBCO_MANUAL_2:
+			return "Executive Narcolepsy";
+		case ItemPool.CRIMBCO_MANUAL_3:
+			return "Lunch Break";
+		case ItemPool.CRIMBCO_MANUAL_4:
+			return "Offensive Joke";
+		case ItemPool.CRIMBCO_MANUAL_5:
+			return "Managerial Manipulation";
 		}
 
 		return null;

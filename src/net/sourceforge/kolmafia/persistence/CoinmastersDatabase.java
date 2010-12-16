@@ -72,6 +72,9 @@ public class CoinmastersDatabase
 	private static final LockableListModel buyForBoneChips = new LockableListModel();
 	private static final Map boneChipBuyPriceByName = new TreeMap();
 
+	private static final LockableListModel buyForScrip = new LockableListModel();
+	private static final Map scripBuyPriceByName = new TreeMap();
+
 	private static final Map lighthouseItems = new TreeMap();
 
 	static
@@ -164,6 +167,13 @@ public class CoinmastersDatabase
 					AdventureResult item = new AdventureResult( name, 0, false );
 					buyForBoneChips.add( item );
 					boneChipBuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "bcs" ) )
+				{
+					// Something we buy with CRIMBCO Scrip
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForScrip.add( item );
+					scripBuyPriceByName.put( name, iprice );
 				}
 			}
 		}
@@ -299,6 +309,16 @@ public class CoinmastersDatabase
 	public static final Map boneChipBuyPrices()
 	{
 		return boneChipBuyPriceByName;
+	}
+
+	public static final LockableListModel getScripItems()
+	{
+		return buyForScrip;
+	}
+
+	public static final Map scripBuyPrices()
+	{
+		return scripBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()

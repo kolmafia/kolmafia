@@ -205,6 +205,7 @@ oriole-feather headdress	Maximum HP: +1, Maximum MP: +1, Familiar Effect: "atk, 
 outrageous sombrero	Moxie: +5, Muscle: +5, Mysticality: +5, Initiative: -20, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
 panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
+paperclip turban	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +5, Maximum MP: +5, Damage Reduction: +5
 # parasitic headgnawer: Deals 30-45 damage to attackers
 # party hat: (On the Festival of Jarlsberg only)
 party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Familiar Effect: "4xLep, cap 7"
@@ -386,6 +387,7 @@ old school Mafia knickerbockers	Muscle: +25, Mysticality: +25, Moxie: +25
 # old sweatpants
 palm-frond capris	Moxie: +4, Maximum HP: +30, Maximum MP: +30
 pants of the Slug Lord	Stench Resistance: +2
+paperclip pants	Adventures: +2, Initiative: +15
 # paper-plate-mail pants
 parasitic tentacles	Initiative: +30
 penguin shorts	Initiative: +20
@@ -1326,6 +1328,8 @@ Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Dam
 # * This enchantment works even when this item is not equipped
 Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Seal Clubber", Single Equip
 Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
+# CRIMBCO lanyard: Lets you work harder!
+CRIMBCO lanyard	Single Equip
 Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
@@ -1601,6 +1605,8 @@ night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
+paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
+paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7, Single Equip
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
 pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
@@ -3155,6 +3161,7 @@ Mining Gear	Meat Drop: +5
 # Mutant Couture
 OK Lumberjack Outfit	Critical: 2
 Palmist Paraphernalia	Moxie: +7
+# Paperclippery
 Pork Elf Prizes	Item Drop: +11
 # Primitive Radio Duds
 Pyretic Panhandler Paraphernalia	MP Regen Min: 20, MP Regen Max: 30

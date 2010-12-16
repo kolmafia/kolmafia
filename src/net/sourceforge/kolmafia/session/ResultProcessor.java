@@ -1012,6 +1012,7 @@ public class ResultProcessor
 		case ItemPool.SAND_DOLLAR:
 		case ItemPool.CRIMBUCK:
 		case ItemPool.BONE_CHIPS:
+		case ItemPool.CRIMBCO_SCRIP:
 			CoinmastersFrame.externalUpdate();
 			break;
 		}
