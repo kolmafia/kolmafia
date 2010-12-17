@@ -1563,6 +1563,7 @@ beach ball marble	SUSE	steely marble (2)
 black catseye marble	SUSE	beach ball marble (2)
 big bumboozer marble	SUSE	black catseye marble (2)
 
+glob of Blank-Out	SUSE	bottle of Blank-Out
 
 # Familiars.  These are familiars which are only available after
 # ascension (not including the ones which are available through
