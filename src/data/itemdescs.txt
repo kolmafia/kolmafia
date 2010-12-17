@@ -4860,7 +4860,7 @@
 4854	437466969	CRIMBCO scrip	CRIMBCO scrip
 4855
 4856	860880542	paperclip	paperclips
-4857	223795819	bottle of Blank-Out
+4857	223795819	bottle of Blank-Out	bottles of Blank-Out
 4858	696859135	CRIMBCO lanyard
 4859	980901210	CRIMBCO Employee Handbook (chapter 1)
 4860	491846606	CRIMBCO Employee Handbook (chapter 2)
@@ -4875,22 +4875,24 @@
 4869	532076262	paperclip pants
 4870	915873755	paperclip turban
 4871	594970408	paperclip cape
-4872
-4873
-4874
+4872	440477610	glob of Blank-Out
+4873	835898159	photocopied monster
+4874	996670647	gaudy key
 4875	176306118	BGE merchandise order form
 4876
-2877
+4877
 4878
 4879
-4880
-4881
-4882
+4880	121552323	CRIMBCO mug
+4881	272559585	CRIMBCO wine
+4882	957485002	Dickory Farms Gift Basket
 4883
 4884
 4885
 4886
 4887
 4888
-4889
+4889	585927462	motivational poster
 4890	208709924	sack lunch	sack lunches
+4891	117169875	bath ball gift set
+4892	630802094	slow jam collection

@@ -2676,6 +2676,7 @@ Liquid Courage	Experience: +3
 # Literally Insane
 Livin' Large	Meat Drop: +10
 Locks Like the Raven	Moxie: +15
+Loco Motives	Weapon Damage: +10, Initiative: +10
 Low on the Hog	Meat Drop: +100
 Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Lustful Heart	Moxie: [min(T,20)]
@@ -3426,6 +3427,7 @@ mafia aria	Effect: "Macho Profundo", Effect Duration: 5
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
 milk of magnesium	Effect: "Got Milk", Effect Duration: [R]
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
+motivational poster	Effect: "Loco Motives", Effect Duration: 10
 neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
 oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
