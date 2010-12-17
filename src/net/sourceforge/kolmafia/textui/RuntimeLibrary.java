@@ -894,6 +894,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "chat_clan", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "chat_clan", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "chat_private", DataTypes.VOID_TYPE, params ) );
 
 		// Quest handling functions.
@@ -3750,14 +3753,36 @@ public abstract class RuntimeLibrary
 	public static Value chat_clan( final Value messageValue )
 	{
 		String message = messageValue.toString();
+		if ( message.equals( "" ) || message.startsWith( "/" ) )
+		{
+			return DataTypes.VOID_VALUE;
+		}
+		return RuntimeLibrary.chat_clan( "/clan", message );
+	}
+
+	public static Value chat_clan( final Value recipientValue, final Value messageValue )
+	{
+		String message = messageValue.toString();
+		String recipient = recipientValue.toString();
+
+		if ( !( recipient.equals( "clan" ) || recipient.equals( "hobopolis" ) || recipient.equals( "slimetube" ) ) )
+		{
+			return DataTypes.VOID_VALUE;
+		}
+
+		recipient = "/" + recipient;
 
 		if ( message.equals( "" ) || message.startsWith( "/" ) )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		ChatSender.sendMessage( "/clan", message );
-
+		return RuntimeLibrary.chat_clan( recipient, message );
+	}
+	
+	public static Value chat_clan( String channel, String message )
+	{
+		ChatSender.sendMessage( channel, message );
 		return DataTypes.VOID_VALUE;
 	}
 	
