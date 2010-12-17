@@ -3757,10 +3757,10 @@ public abstract class RuntimeLibrary
 		{
 			return DataTypes.VOID_VALUE;
 		}
-		return RuntimeLibrary.chat_clan( "/clan", message );
+		return RuntimeLibrary.chat_clan( message, "/clan" );
 	}
 
-	public static Value chat_clan( final Value recipientValue, final Value messageValue )
+	public static Value chat_clan( final Value messageValue, final Value recipientValue )
 	{
 		String message = messageValue.toString();
 		String recipient = recipientValue.toString();
@@ -3777,10 +3777,10 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		return RuntimeLibrary.chat_clan( recipient, message );
+		return RuntimeLibrary.chat_clan( message, recipient );
 	}
 	
-	public static Value chat_clan( String channel, String message )
+	public static Value chat_clan( String message, String channel )
 	{
 		ChatSender.sendMessage( channel, message );
 		return DataTypes.VOID_VALUE;
