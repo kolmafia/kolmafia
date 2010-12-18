@@ -4899,7 +4899,7 @@
 4893	197265843	BGE shotglass
 4894	945978968	festive sausage	links of festive sausage
 4895	533919064	holiday cheese log	logs of holiday cheese
-4896
+4896	404702334	holiday log
 4897	680763452	BGE 'ferocious fruit' shirt
 4898	707968603	BGE 'cuddly critter' shirt
 4899	771880396	BGE pocket calendar
