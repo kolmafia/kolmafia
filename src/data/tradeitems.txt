@@ -4888,7 +4888,7 @@
 4879
 4880	CRIMBCO mug	usable	display	0
 4881	CRIMBCO wine	drink	display	0
-4882	Dickory Farms Gift Basket	usable	display	0
+4882	Dickory Farms Gift Basket	multiple	display	0
 4883
 4884
 4885
@@ -4899,3 +4899,12 @@
 4890	sack lunch	usable	display	0
 4891	bath ball gift set	usable	display	0
 4892	slow jam collection	usable	display	0
+4893	BGE shotglass	usable	all	0
+4894	festive sausage	food	display	0
+4895	holiday cheese log	food	display	0
+4896
+4897	BGE 'ferocious fruit' shirt	shirt	all	0
+4898	BGE 'cuddly critter' shirt	shirt	all	0
+4899	BGE pocket calendar	accessory	all	0
+4900	BGE temporary tattoo	usable	all	0
+4901	BGE tiny plastic toy	accessory	all	0

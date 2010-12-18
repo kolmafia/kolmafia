@@ -435,6 +435,8 @@ yakskin skirt	Maximum MP: +25
 &quot;Humorous&quot; T-shirt	Muscle: +4, Mysticality: +4, Moxie: +4, Fumble: 2
 ASCII shirt	Mysticality: +7
 # Ascension Souvenir T-Shirt
+BGE 'cuddly critter' shirt	Item Drop: +7, Meat Drop: +7
+BGE 'ferocious fruit' shirt	Moxie: +10, Maximum HP: +10
 Chester's muscle shirt	Muscle Percent: +20, Damage Reduction: 10
 # Colonel Mustard's Lonely Spades Club Jacket: + ???
 Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +3
@@ -1301,6 +1303,8 @@ Aluminum Epsilon of Humility	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: 
 Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip
 Ankh of Badahnkadh	Spell Damage Percent: +25, Single Equip
 Annual Ascot	Muscle Percent: +12, Mysticality Percent: +12, Moxie Percent: +12
+BGE pocket calendar	Adventures: +3, Single Equip
+BGE tiny plastic toy	Familiar Weight: +3, Single Equip
 # Bandolier of the Spaghetti Elemental: Summon 5 Additional Pasta Guardians Per Day
 Bandolier of the Spaghetti Elemental	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Pastamancer", Single Equip
 Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
