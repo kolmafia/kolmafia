@@ -1084,13 +1084,18 @@ public class ItemDatabase
 	public static final int getItemId( final String itemName, final int count, final boolean substringMatch )
 	{
 		String name = ItemDatabase.getCanonicalName( itemName, count, substringMatch );
-		if ( name != null )
+		if ( name == null )
 		{
-			Object itemId = ItemDatabase.itemIdByName.get( name );
-			return ( (Integer) itemId ).intValue();
+			return -1;
 		}
 
-		return -1;
+		Object itemId = ItemDatabase.itemIdByName.get( name );
+		if ( itemId == null )
+		{
+			return -1;
+		}
+
+		return ( (Integer) itemId ).intValue();
 	}
 
 	public static String getCanonicalName( final int itemId )
