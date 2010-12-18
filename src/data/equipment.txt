@@ -376,6 +376,8 @@ yakskin skirt	140	Mox: 55
 &quot;Humorous&quot; T-shirt	100	Mus: 35
 ASCII shirt	90	Mus: 30
 Ascension Souvenir T-Shirt	15	none
+BGE 'cuddly critter' shirt	30	none
+BGE 'ferocious fruit' shirt	30	none
 Chester's muscle shirt	200	Mus: 200
 Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
@@ -1185,6 +1187,8 @@ Aluminum Epsilon of Humility	0	Mys: 85
 Amulet of Yendor	0	none
 Ankh of Badahnkadh	0	Mys: 67
 Annual Ascot	0	none
+BGE pocket calendar	0	none
+BGE tiny plastic toy	0	none
 Bandolier of the Spaghetti Elemental	0	Mys: 45
 Baron von Ratsworth's money clip	0	Mys: 10
 Baron von Ratsworth's monocle	0	Mys: 10

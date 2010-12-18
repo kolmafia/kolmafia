@@ -4896,3 +4896,12 @@
 4890	208709924	sack lunch	sack lunches
 4891	117169875	bath ball gift set
 4892	630802094	slow jam collection
+4893	197265843	BGE shotglass
+4894	945978968	festive sausage	links of festive sausage
+4895	533919064	holiday cheese log	logs of holiday cheese
+4896
+4897	680763452	BGE 'ferocious fruit' shirt
+4898	707968603	BGE 'cuddly critter' shirt
+4899	771880396	BGE pocket calendar
+4900	794993997	BGE temporary tattoo
+4901	201573560	BGE tiny plastic toy
