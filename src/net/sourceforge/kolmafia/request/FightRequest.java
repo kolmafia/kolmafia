@@ -3186,16 +3186,32 @@ public class FightRequest
 
 	public static final void parseCombatItems( String responseText )
 	{
+		// The current round will be zero when the fight is over.
+		// If you run with the WOWbar, the combat item dropdown will
+		// still be on the page. Don't look at it.
+		if ( FightRequest.currentRound < 1 )
+		{
+			return;
+		}
+
 		int startIndex = responseText.indexOf( "<select name=whichitem>" );
-		if ( startIndex == -1 ) return;
+		if ( startIndex == -1 )
+		{
+			return;
+		}
 		int endIndex = responseText.indexOf( "</select>", startIndex );
-		if ( endIndex == -1 ) return;
-		Matcher m = FightRequest.COMBATITEM_PATTERN.matcher(
-			responseText.substring( startIndex, endIndex ) );
+		if ( endIndex == -1 )
+		{
+			return;
+		}
+		Matcher m = FightRequest.COMBATITEM_PATTERN.matcher( responseText.substring( startIndex, endIndex ) );
 		while ( m.find() )
 		{
 			int itemId = StringUtilities.parseInt( m.group( 1 ) );
-			if ( itemId <= 0 ) continue;
+			if ( itemId <= 0 )
+			{
+				continue;
+			}
 			int actualQty = StringUtilities.parseInt( m.group( 2 ) );
 			AdventureResult ar = ItemPool.get( itemId, 1 );
 			int currentQty = ar.getCount( KoLConstants.inventory );
