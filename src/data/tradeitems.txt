@@ -4902,7 +4902,7 @@
 4893	BGE shotglass	usable	all	0
 4894	festive sausage	food	display	0
 4895	holiday cheese log	food	display	0
-4896
+4896	holiday log	grow	all	0
 4897	BGE 'ferocious fruit' shirt	shirt	all	0
 4898	BGE 'cuddly critter' shirt	shirt	all	0
 4899	BGE pocket calendar	accessory	all	0

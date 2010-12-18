@@ -1565,9 +1565,7 @@ big bumboozer marble	SUSE	black catseye marble (2)
 
 glob of Blank-Out	SUSE	bottle of Blank-Out
 
-# Familiars.  These are familiars which are only available after
-# ascension (not including the ones which are available through
-# post-ascension methods, like supertinkering).
+# Familiars.
 
 maple leaf	COMBINE	leaf	maple syrup
 unwound clockwork grapefruit	COOK	clockwork endoskeleton	grapefruit
@@ -1575,6 +1573,7 @@ deactivated MicroMechaMech	TINKER	clockwork spine	clockwork claws	clockwork key
 dusty animal skull	COMBINE	dusty animal cranium	dusty animal jawbone
 scary death orb	COMBINE	clockwork sphere	grouchy restless spirit
 reassembled blackbird	COMBINE	broken wings	sunken eyes
+holiday log	COMBINE	holiday cheese log	anticheese
 
 
 # These are item-combinations which are only available post-ascension,
