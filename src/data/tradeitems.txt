@@ -4897,8 +4897,8 @@
 4888
 4889	motivational poster	multiple	display	0
 4890	sack lunch	usable	display	0
-4891	bath ball gift set	usable	display	0
-4892	slow jam collection	usable	display	0
+4891	bath ball gift set	multiple	display	0
+4892	slow jam collection	multiple	display	0
 4893	BGE shotglass	usable	all	0
 4894	festive sausage	food	display	0
 4895	holiday cheese log	food	display	0
