@@ -67,7 +67,7 @@ Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberju
 Chapel	100
 Convention Hall Lobby	100	Booth Slime	Fan Slime	Vendor Slime
 Outside the Club	100	Breakdancing Raver	Pop-and-Lock Raver	Running Man
-CRIMBCO cubicles	-1	Disorganized Files	Hideous Slide Show	Overflowing Inbox	Tedious Spreadsheet	Unoptimized Database	Book Of Faces	Chatty Coworker	Tome Of Tropes	Totally Malicious 'Zine	Water Cooler
+CRIMBCO cubicles	-1	Best Game Ever	Disorganized Files	Hideous Slide Show	Overflowing Inbox	Tedious Spreadsheet	Unoptimized Database	Book Of Faces	Chatty Coworker	Tome Of Tropes	Totally Malicious 'Zine	Water Cooler	Best Game Ever
 # Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
 # Crimbo Town Toy Factory	100	Arc-welding Elfborg	Decal-applying Elfborg	Ribbon-cutting Elfborg	Weapons-assembly Elfborg
 Crimbo Town Toy Factory	100	Amateur Elf	Auteur Elf	Bolt-Cuttin' Elf	Monkey Wrenchin' Elf	Propaganda-Spewin' Elf	Provocateur Elf	Raconteur Elf	Saboteur Elf	Wire-Crossin' Elf
