@@ -4736,7 +4736,7 @@
 4730	797960946	stop shield
 4731	995060344	nest egg	nest eggs
 4732	163896786	sleeping piano cat
-4733	605901915	kitty sheet music	Pages of kitty sheet music
+4733	605901915	kitty sheet music	pages of kitty sheet music
 4734	412554920	rehearsing dramatic hedgehog
 4735	580784312	tiny prop sword	tiny prop swords
 4736	653280960	tangle of rat tails	tangles of rat tails
@@ -4900,7 +4900,7 @@
 4894	945978968	festive sausage	links of festive sausage
 4895	533919064	holiday cheese log	logs of holiday cheese
 4896	404702334	holiday log	holiday logs
-4897	680763452	BGE 'ferocious fruit' shirt	BGE 'ferocious fruit' shirt
+4897	680763452	BGE 'ferocious fruit' shirt	BGE 'ferocious fruit' shirts
 4898	707968603	BGE 'cuddly critter' shirt	BGE 'cuddly critter' shirts
 4899	771880396	BGE pocket calendar	BGE pocket calendars
 4900	794993997	BGE temporary tattoo	BGE temporary tattoos
