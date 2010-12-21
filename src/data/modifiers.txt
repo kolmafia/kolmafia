@@ -1724,6 +1724,7 @@ tiny plastic Black Knight	Monster Level: +1
 tiny plastic Bonerdagon	Mysticality: +3
 tiny plastic Boris	Muscle: +5, Mysticality: +3, Moxie: +3
 tiny plastic Boss Bat	Maximum HP: +5
+tiny plastic CRIMBCO HQ	Item Drop: +4
 tiny plastic Cheshire bat	Familiar Weight: +1
 tiny plastic Crimbo Casino	Meat Drop: +4
 tiny plastic Crimbo elf	Familiar Weight: +1
@@ -2826,6 +2827,7 @@ Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(T
 # Salty Mouth: You really need a beer...
 Sappy Blood	Spooky Resistance: 3
 Saucemastery	Maximum HP: +3, Mysticality: +1
+Sausage Festive	MP Regen Min: 5, MP Regen Max: 10
 Savage Beast Inside	Muscle: +20
 Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
 Scariberi	Spooky Damage: [min(100,T)]
@@ -2907,6 +2909,7 @@ Springy Fusilli	Initiative: +40
 Square to be Hip	Moxie Percent: 10
 Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 Stabilizing Oiliness	Equalize: "Muscle"
+Stands Alone	Stench Damage: +10
 Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
 # Stenchform: P. U.
 Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability

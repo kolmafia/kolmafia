@@ -1565,6 +1565,7 @@ tiny plastic Black Knight	0	none
 tiny plastic Bonerdagon	0	none
 tiny plastic Boris	0	none
 tiny plastic Boss Bat	0	none
+tiny plastic CRIMBCO HQ	0	none
 tiny plastic Cheshire bat	0	none
 tiny plastic Crimbo Casino	0	none
 tiny plastic Crimbo elf	0	none
