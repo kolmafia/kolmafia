@@ -42,13 +42,23 @@ public class OutfitCheckpointCommand
 {
 	public OutfitCheckpointCommand()
 	{
-		this.usage = " - remembers current equipment, use \"outfit checkpoint\" to restore.";
+		this.usage = " [clear] - remembers [or forgets] current equipment, use \"outfit checkpoint\" to restore.";
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void run( final String cmd, String parameters )
 	{
-		SpecialOutfit.createExplicitCheckpoint();
-		KoLmafia.updateDisplay( "Internal checkpoint created." );
-		RequestThread.enableDisplayIfSequenceComplete();
+		parameters = parameters.trim();
+		if ( !parameters.equals( "clear" ) )
+		{
+			SpecialOutfit.createExplicitCheckpoint();
+			KoLmafia.updateDisplay( "Internal checkpoint created." );
+			RequestThread.enableDisplayIfSequenceComplete();
+			return;
+		}
+		else if ( parameters.equals( "clear" ))
+		{
+			SpecialOutfit.forgetCheckpoints();
+			KoLmafia.updateDisplay( "Checkpoints cleared." );
+		}
 	}
 }
