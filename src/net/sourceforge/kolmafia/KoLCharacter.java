@@ -2973,6 +2973,9 @@ public abstract class KoLCharacter
 
 		if ( KoLCharacter.stillsAvailable == -1 )
 		{
+			// Avoid infinite recursion if this request fails, or indirectly
+			// calls getStillsAvailable();
+			KoLCharacter.stillsAvailable = 0;
 			RequestThread.postRequest( new GuildRequest( "still" ) );
 		}
 

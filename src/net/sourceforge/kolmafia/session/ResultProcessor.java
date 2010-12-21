@@ -182,7 +182,16 @@ public class ResultProcessor
 
 		ResultProcessor.registerNewItems( results );
 
-		boolean requiresRefresh = processNormalResults( combatResults, results, data );
+		boolean requiresRefresh = false;
+		try
+		{
+			ConcoctionDatabase.deferRefresh( true );
+			requiresRefresh = processNormalResults( combatResults, results, data );
+		}
+		finally
+		{
+			ConcoctionDatabase.deferRefresh( false );
+		}
 
 		if ( data == null )
 		{
