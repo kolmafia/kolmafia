@@ -796,3 +796,9 @@
 796	Mystic Circle	crimbcookie1.gif	8e52b4076a2ab7451407c007b5a0544d	eat 1 circular CRIMBCOOKIE
 797	Triangle, Man	crimbcookie3.gif	662a1f193983ba6e809c891606148880	eat 1 triangular CRIMBCOOKIE
 798	Square to be Hip	crimbcookie2.gif	39c662ca50f95d1b2d405fb614d8cde4	eat 1 square CRIMBCOOKIE
+799
+800
+801
+802
+803	Sausage Festive	festsausage.gif	fad9f1b25fabed5a6c0e45ae97bd27f3	eat 1 festive sausage
+804	Stands Alone	cheeselog.gif	8baa4c34bdc87691d5aa6bcf344c0d4f	eat 1 holiday cheese log

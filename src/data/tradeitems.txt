@@ -4828,7 +4828,7 @@
 4819	can of CRIMBCOLA	mp	all	0
 4820	CRIMBCOLOAF	food	all	0
 4821	circular CRIMBCOOKIE	food	all	100
-4822
+4822	tiny plastic CRIMBCO HQ	accessory	all	0
 4823
 4824
 4825
