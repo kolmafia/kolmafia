@@ -2659,6 +2659,19 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.WORKYTIME_TEA:
+
+			// You're not quite bored enough to drink that much tea.
+
+			if ( responseText.indexOf( "not quite bored enough" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You're not bored enough to drink that much tea.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+			}
+
+			return;
+
 		case ItemPool.ABSINTHE:
 
 			// "You drink the bottle of absinthe. It tastes like
