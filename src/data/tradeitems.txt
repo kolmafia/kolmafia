@@ -4829,7 +4829,7 @@
 4820	CRIMBCOLOAF	food	all	0
 4821	circular CRIMBCOOKIE	food	all	100
 4822	tiny plastic CRIMBCO HQ	accessory	all	0
-4823
+4823	tiny plastic fax machine	accessory	all	0
 4824
 4825
 4826
@@ -4886,7 +4886,7 @@
 4877
 4878
 4879
-4880	CRIMBCO mug	usable	display	0
+4880	CRIMBCO mug	drink helper	display	0
 4881	CRIMBCO wine	drink	display	0
 4882	Dickory Farms Gift Basket	multiple	display	0
 4883
@@ -4899,7 +4899,7 @@
 4890	sack lunch	usable	display	0
 4891	bath ball gift set	multiple	display	0
 4892	slow jam collection	multiple	display	0
-4893	BGE shotglass	usable	all	0
+4893	BGE shotglass	drink helper	all	0
 4894	festive sausage	food	display	0
 4895	holiday cheese log	food	display	0
 4896	holiday log	grow	all	0

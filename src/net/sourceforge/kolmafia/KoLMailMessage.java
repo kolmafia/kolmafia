@@ -61,23 +61,50 @@ public class KoLMailMessage
 		// Blank lines are not displayed correctly
 		this.completeHTML = StringUtilities.globalStringReplace( message, "<br><br>", "<br>&nbsp;<br>" );
 
-		this.completeHTML =
-			this.completeHTML.substring(
-				this.completeHTML.indexOf( ">" ) + 1, this.completeHTML.indexOf( "reply</a>]" ) + 10 ) + this.completeHTML.substring( this.completeHTML.indexOf( "<br>" ) );
-
+		// Extract message ID
 		this.messageId = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
+
+		// Tokenize message
 		StringTokenizer messageParser = new StringTokenizer( message, "<>" );
-
 		String lastToken = messageParser.nextToken();
-		while ( !lastToken.startsWith( "a " ) )
+
+		// Trim off message ID
+		this.completeHTML = this.completeHTML.substring( this.completeHTML.indexOf( ">" ) + 1 );
+
+
+		// Messages from pseudo-characters do not have a [reply] link
+		int replyLink = this.completeHTML.indexOf( "reply</a>]" );
+		if ( replyLink > 0 )
 		{
-			lastToken = messageParser.nextToken();
+			// Real sender. Trim message, parse and register sender
+			while ( !lastToken.startsWith( "a " ) )
+			{
+				lastToken = messageParser.nextToken();
+			}
+
+			this.senderId = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 1 );
+			this.senderName = messageParser.nextToken();
+
+			ContactManager.registerPlayerId( this.senderName, this.senderId );
 		}
+		else
+		{
+			// Pseudo player.
+			this.senderId = "";
 
-		this.senderId = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 1 );
-		this.senderName = messageParser.nextToken();
+			while ( !lastToken.startsWith( "/b" ) )
+			{
+				lastToken = messageParser.nextToken();
+			}
 
-		ContactManager.registerPlayerId( this.senderName, this.senderId );
+			String name = messageParser.nextToken();
+			int sp = name.indexOf( "&nbsp;" );
+			if ( sp > 0 )
+			{
+				name = name.substring( 0, sp );
+			}
+			this.senderName = name.trim();
+		}
 
 		while ( !messageParser.nextToken().startsWith( "Date" ) )
 		{
