@@ -1148,6 +1148,7 @@ public class ItemPool
 	public static final int CRIMBCO_MANUAL_3 = 4861;
 	public static final int CRIMBCO_MANUAL_4 = 4862;
 	public static final int CRIMBCO_MANUAL_5 = 4863;
+	public static final int WORKYTIME_TEA = 4866;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
