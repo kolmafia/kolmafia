@@ -1641,6 +1641,7 @@ tiny plastic goth giant	0	none
 tiny plastic grue	0	none
 tiny plastic handsome mariachi	0	none
 tiny plastic hermit	0	none
+tiny plastic hobo elf	0	none
 tiny plastic howling balloon monkey	0	none
 tiny plastic killer bee	0	none
 tiny plastic lemon-in-the-box	0	none

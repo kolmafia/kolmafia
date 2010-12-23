@@ -1800,6 +1800,7 @@ tiny plastic goth giant	Monster Level: +1
 tiny plastic grue	Familiar Weight: +1
 tiny plastic handsome mariachi	Monster Level: +1
 tiny plastic hermit	Meat Drop: +6
+tiny plastic hobo elf	Meat Drop: +4
 tiny plastic howling balloon monkey	Familiar Weight: +1
 tiny plastic killer bee	Familiar Weight: +1
 tiny plastic lemon-in-the-box	Monster Level: +1
@@ -2389,6 +2390,7 @@ Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
 Chihuahua Underfoot	Monster Level: +20
 Chilblains of the Corn	Spooky Damage: +5
+Chocolate Reign	Moxie: +10
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
 Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
@@ -2641,6 +2643,7 @@ In Tuna	MP Regen Min: 3, MP Regen Max: 5
 In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # In Your Cups: Whoah...
 In the Saucestream	Mysticality Percent: +15
+Incensed	Mysticality: +10
 Incredibly Hulking	Muscle Percent: +200
 # Infinite Loop
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
@@ -2781,6 +2784,7 @@ Polka of Plenty	Meat Drop: +50
 Ponderous Potency	Weapon Damage: +20
 Pop-eyed	Weapon Damage: +30
 # Popping Stomach: Tee-hee!
+Pork Power	Muscle: +10
 Powdered	Experience (Mysticality): +10
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Prelude of Precision	Critical Hit Percent: +2

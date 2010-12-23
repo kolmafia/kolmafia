@@ -4827,7 +4827,7 @@
 4821	334332502	circular CRIMBCOOKIE	circular CRIMBCOOKIEs
 4822	768584401	tiny plastic CRIMBCO HQ
 4823	539338565	tiny plastic fax machine
-4824
+4824	949100622	tiny plastic hobo elf
 4825
 4826
 4827	407192428	hibernating robot reindeer	hibernating robot reindeer
@@ -4879,19 +4879,19 @@
 4873	835898159	photocopied monster
 4874	996670647	gaudy key
 4875	176306118	BGE merchandise order form	BGE merchandise order forms
-4876
-4877
-4878
-4879
+4876	828592819	chocolate bath ball	chocolate bath balls
+4877	827603034	bacon bath ball	bacon bath balls
+4878	789815006	incense bath ball	incense bath balls
+4879	645578508	myrrh-soaked, chocolate-covered bacon bath ball	myrrh-soaked, chocolate-covered bacon bath balls
 4880	121552323	CRIMBCO mug	CRIMBCO mugs
 4881	272559585	CRIMBCO wine	bottles of CRIMBCO wine
 4882	957485002	Dickory Farms Gift Basket	Dickory Farms Gift Baskets
-4883
-4884
-4885
-4886
-4887
-4888
+4883	315264511	toe jam	jars of toe jam
+4884	506546357	toe jam toast	slices of toe jam toast
+4885	584912380	traffic jam	jars of traffic jam
+4886	183363605	traffic jam toast	slices of traffic jam toast
+4887	751663366	space jam	jars of space jam
+4888	788088308	space jam toast	slices of space jam toast
 4889	585927462	motivational poster	motivational posters
 4890	208709924	sack lunch	sack lunches
 4891	117169875	bath ball gift set	bath ball gift sets
