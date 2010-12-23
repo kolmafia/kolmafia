@@ -932,6 +932,12 @@ public class KoLAdventure
 		return StringUtilities.parseInt( location.adventureId );
 	}
 
+	public static final String lastAdventureIdString()
+	{
+		KoLAdventure location = KoLAdventure.lastVisitedLocation;
+		return location == null ? "" : location.adventureId;
+	}
+
 	public static final void resetAutoAttack()
 	{
 		// In the event that the user made some sort of change
@@ -1556,6 +1562,14 @@ public class KoLAdventure
 		// lies empty.
 		{
 			"Hobopolis Town Square lies empty",
+			"Nothing more to do here.",
+			KoLAdventure.PENDING
+		},
+
+		// The bathrooms are empty now -- looks like you've taken care
+		// of the elf hobo problem for the time being.
+		{
+			"bathrooms are empty now",
 			"Nothing more to do here.",
 			KoLAdventure.PENDING
 		},

@@ -1654,6 +1654,9 @@ dead guy's memento	SUSE	dead guy's piece of double-sided tape	dead guy's watch	p
 rusty diving helmet	SUSE	rusty broken diving helmet	rusty porthole	rusty rivet (8)
 scroll of ancient forbidden unspeakable evil	SUSE	disintegrating quill pen	inkwell	tattered scrap of paper
 toast with jam	SUSE	jamfish jam	toast
+toe jam toast	SUSE	toe jam	toast
+traffic jam toast	SUSE	traffic jam	toast
+space jam toast	SUSE	space jam	toast
 
 
 # Items created by folding sugar sheets

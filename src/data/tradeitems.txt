@@ -4830,7 +4830,7 @@
 4821	circular CRIMBCOOKIE	food	all	100
 4822	tiny plastic CRIMBCO HQ	accessory	all	0
 4823	tiny plastic fax machine	accessory	all	0
-4824
+4824	tiny plastic hobo elf	accessory	all	0
 4825
 4826
 4827	hibernating robot reindeer	grow	all	0
@@ -4882,19 +4882,19 @@
 4873	photocopied monster	usable	none	0
 4874	gaudy key	usable	none	0
 4875	BGE merchandise order form	usable	all	0
-4876
-4877
-4878
-4879
+4876	chocolate bath ball	usable	display	0
+4877	bacon bath ball	usable	display	0
+4878	incense bath ball	usable	display	0
+4879	myrrh-soaked, chocolate-covered bacon bath ball	usable	display	0
 4880	CRIMBCO mug	drink helper	display	0
 4881	CRIMBCO wine	drink	display	0
 4882	Dickory Farms Gift Basket	multiple	display	0
-4883
-4884
-4885
-4886
-4887
-4888
+4883	toe jam	usable	all	0
+4884	toe jam toast	food	all	0
+4885	traffic jam	usable	all	0
+4886	traffic jam toast	food	all	0
+4887	space jam	usable	all	0
+4888	space jam toast	food	all	0
 4889	motivational poster	multiple	display	0
 4890	sack lunch	usable	display	0
 4891	bath ball gift set	multiple	display	0

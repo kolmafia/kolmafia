@@ -246,17 +246,25 @@ public class ListCellRendererFactory
 			case ItemPool.MUNCHIES_PILL:
 				stringForm.append( "+1-3 adv from next food eaten" );
 				break;
-				
+
 			case ItemPool.SCRATCHS_FORK:
 				stringForm.append( "+30% adv/mus/mys/mox from next food, +50% from salad" );
 				break;
-			
+
 			case ItemPool.DIVINE_FLUTE:
 				stringForm.append( "+(7*adv)+(0-15) MP from next drink" );
 				break;
-			
+
 			case ItemPool.FROSTYS_MUG:
 				stringForm.append( "+30% adv/mus/mys/mox from next drink, +50% from beer" );
+				break;
+
+			case ItemPool.CRIMBCO_MUG:
+				stringForm.append( "does something to next drink" );
+				break;
+
+			case ItemPool.BGE_SHOTGLASS:
+				stringForm.append( "+3 adv from next drink" );
 				break;
 			
 			default:

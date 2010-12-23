@@ -1004,6 +1004,7 @@ rotten dolphin thief	HP: 600 Def: 400 Atk: 400
 
 # CRMIBCO cubicles
 Disorganized Files	HP: 0	CRIMBCO scrip (n100)
+Endless Conference Call	HP: 0	CRIMBCO scrip (n100)
 Hideous Slide Show	HP: 0	CRIMBCO scrip (n100)
 Your Overflowing Inbox	HP: 0	CRIMBCO scrip (n100)
 Tedious Spreadsheet	HP: 0	CRIMBCO scrip (n100)

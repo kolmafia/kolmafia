@@ -118,6 +118,10 @@ public class AdventureRequest
 			this.addFormField( "action", "slot" );
 			this.addFormField( "whichslot", adventureId );
 		}
+		else if ( formSource.equals( "crimbo10.php" ) )
+		{
+			this.addFormField( "place", adventureId );
+		}
 		else if ( formSource.equals( "knob.php" ) )
 		{
 			this.addFormField( "king", "1" );
@@ -559,6 +563,11 @@ public class AdventureRequest
 				override = "Slime Monster";	// unable to identify exact type
 			}
 			break;
+		}
+
+		if ( KoLAdventure.lastAdventureIdString().equals( "bathroom" ) )
+		{
+			override = "Hobelf";
 		}
 		
 		if ( override != null && MonsterDatabase.findMonster( encounter, false ) == null )

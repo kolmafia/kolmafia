@@ -341,16 +341,17 @@ public class ClanLoungeRequest
 		{
 			if ( responseText.indexOf( "tree5.gif" ) != -1 )
 			{
+				Preferences.setBoolean( "_crimboTree", true );
 				Preferences.setInteger( "crimboTreeDays", 0 );
 				RequestLogger.printLine( "You have a present under the Crimbo tree in your clan's VIP lounge!" );
 			}
-			else if( responseText.indexOf( "crimbotree" ) != -1 )
+			else if ( responseText.indexOf( "crimbotree" ) != -1 )
 			{
 				Preferences.setBoolean( "_crimboTree", true );
 				ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.CRIMBO_TREE );
 				request.run();
 			}
-			else if( responseText.indexOf( "crimbotree" ) == -1 )
+			else
 			{
 				Preferences.setBoolean( "_crimboTree", false );
 			}
@@ -526,7 +527,7 @@ public class ClanLoungeRequest
 		{
 			Preferences.setInteger( "_crimboTreeDays", 0 );
 		}
-}
+	}
 
 	public static boolean registerRequest( final String urlString )
 	{
