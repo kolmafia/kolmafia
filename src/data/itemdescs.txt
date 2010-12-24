@@ -4828,7 +4828,7 @@
 4822	768584401	tiny plastic CRIMBCO HQ
 4823	539338565	tiny plastic fax machine
 4824	949100622	tiny plastic hobo elf
-4825
+4825	128842258	tiny plastic Mr. Mination
 4826
 4827	407192428	hibernating robot reindeer	hibernating robot reindeer
 4828	430467101	S.L.E.I.G.H.B.E.L.L.S.

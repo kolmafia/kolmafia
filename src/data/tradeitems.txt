@@ -4831,7 +4831,7 @@
 4822	tiny plastic CRIMBCO HQ	accessory	all	0
 4823	tiny plastic fax machine	accessory	all	0
 4824	tiny plastic hobo elf	accessory	all	0
-4825
+4825	tiny plastic Mr. Mination	accessory	all	0
 4826
 4827	hibernating robot reindeer	grow	all	0
 4828	S.L.E.I.G.H.B.E.L.L.S.	familiar	all	75
