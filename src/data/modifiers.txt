@@ -1075,6 +1075,7 @@ Tuesday's ruby	none
 # Wand of Oscus: All Spells Cast Are Stinky
 Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
 Zombo's shield	Damage Absorption: +50, Spooky Damage: +30, Muscle Percent: +20, Class: "Turtle Tamer", Damage Reduction: 15
+adhesive tape dolly	Moxie: +5
 # ancient stone head: 75% Chance of Preventing Negative Status Attacks
 ancient stone head	Damage Reduction: 5
 # anniversary balloon
@@ -1235,6 +1236,7 @@ spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 speed limit shield	Damage Absorption: +10, Damage Reduction: 6
 spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
 spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
+stapler bear	Muscle: +5
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 steely marble	Sleaze Spell Damage: +65

@@ -4908,6 +4908,6 @@
 4899	BGE pocket calendar	accessory	all	0
 4900	BGE temporary tattoo	usable	all	0
 4901	BGE tiny plastic toy	accessory	all	0
-4902
-4903
+4902	stapler bear	offhand	all	0
+4903	adhesive tape dolly	offhand	all	0
 4904	scissor duck	offhand	all	0
