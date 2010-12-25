@@ -61,7 +61,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
-import net.sourceforge.kolmafia.swingui.BuffRequestFrame;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;

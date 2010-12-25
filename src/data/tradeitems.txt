@@ -4832,7 +4832,7 @@
 4823	tiny plastic fax machine	accessory	all	0
 4824	tiny plastic hobo elf	accessory	all	0
 4825	tiny plastic Mr. Mination	accessory	all	0
-4826
+4826	tiny plastic Best Game Ever	accessory	all	0
 4827	hibernating robot reindeer	grow	all	0
 4828	S.L.E.I.G.H.B.E.L.L.S.	familiar	all	75
 4829	robot reindeer protocol P.R.A.N.C.E.R.	usable	all	5
@@ -4908,3 +4908,6 @@
 4899	BGE pocket calendar	accessory	all	0
 4900	BGE temporary tattoo	usable	all	0
 4901	BGE tiny plastic toy	accessory	all	0
+4902
+4903
+4904	scissor duck	offhand	all	0

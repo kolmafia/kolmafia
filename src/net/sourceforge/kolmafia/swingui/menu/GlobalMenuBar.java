@@ -131,6 +131,9 @@ public class GlobalMenuBar
 		peopleMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", "BuffBotFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
+		peopleMenu.add( new JSeparator() );
+		peopleMenu.add( new DisplayFrameMenuItem( "Request a Fax", "FaxRequestFrame" ) );
+
 		// Add in common tasks menu
 
 		JMenu travelMenu = new JMenu( "Travel" );
