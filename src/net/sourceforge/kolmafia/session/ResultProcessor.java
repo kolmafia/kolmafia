@@ -185,12 +185,12 @@ public class ResultProcessor
 		boolean requiresRefresh = false;
 		try
 		{
-			//ConcoctionDatabase.deferRefresh( true );
+			ConcoctionDatabase.deferRefresh( true );
 			requiresRefresh = processNormalResults( combatResults, results, data );
 		}
 		finally
 		{
-			//ConcoctionDatabase.deferRefresh( false );
+			ConcoctionDatabase.deferRefresh( false );
 		}
 
 		if ( data == null )
