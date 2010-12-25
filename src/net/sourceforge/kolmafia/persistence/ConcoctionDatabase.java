@@ -79,8 +79,8 @@ public class ConcoctionDatabase
 	
 	public static String excuse;	// reason why creation is impossible
 
-	public static boolean deferRefresh = false;
 	public static boolean refreshDeferred = false;
+	public static int refreshLevel = 0;
 
 	public static int queuedAdventuresUsed = 0;
 	public static int queuedStillsUsed = 0;
@@ -959,11 +959,12 @@ public class ConcoctionDatabase
 
 	public static final void deferRefresh( boolean flag )
 	{
-		ConcoctionDatabase.deferRefresh = flag;
-		if ( !flag && ConcoctionDatabase.refreshDeferred )
+		ConcoctionDatabase.refreshLevel += flag ? 1 : -1;
+		if ( ConcoctionDatabase.refreshLevel <= 0 &&
+			ConcoctionDatabase.refreshDeferred )
 		{
-			ConcoctionDatabase.refreshConcoctions();
 			ConcoctionDatabase.refreshDeferred = false;
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 
@@ -974,7 +975,7 @@ public class ConcoctionDatabase
 
 	public static final synchronized void refreshConcoctions()
 	{
-		if ( ConcoctionDatabase.deferRefresh )
+		if ( ConcoctionDatabase.refreshLevel > 0 )
 		{
 			ConcoctionDatabase.refreshDeferred = true;
 			return;

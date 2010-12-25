@@ -432,31 +432,32 @@ public class UseItemRequest
 			return Preferences.getBoolean( "burrowgrubHiveUsed" ) ? 0 : 1;
 
 		case ItemPool.MILK_OF_MAGNESIUM:
-		{
-			int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
-			int fullnessAvailable = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
-			// If our current dose of Got Milk is sufficient to
-			// fill us up, no milk is needed.
-			int unmilkedTurns = fullnessAvailable - milkyTurns;
-			if ( unmilkedTurns <= 0 )
 			{
-				return 0;
+				UseItemRequest.limiter = "remaining fullness";
+				int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
+				int fullnessAvailable = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
+				// If our current dose of Got Milk is sufficient to
+				// fill us up, no milk is needed.
+				int unmilkedTurns = fullnessAvailable - milkyTurns;
+				if ( unmilkedTurns <= 0 )
+				{
+					return 0;
+				}
+	
+				// Otherwise, limit to number of useful potions
+				int milkDuration = 10 +
+					( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 5 : 0 ) +
+					( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 );
+	
+				int limit = 0;
+				while ( unmilkedTurns > 0 )
+				{
+					unmilkedTurns -= milkDuration;
+					limit++;
+				}
+	
+				return limit;
 			}
-
-			// Otherwise, limit to number of useful potions
-			int milkDuration = 10 +
-				( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 5 : 0 ) +
-				( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 );
-
-			int limit = 0;
-			while ( unmilkedTurns > 0 )
-			{
-				unmilkedTurns -= milkDuration;
-				limit++;
-			}
-
-			return limit;
-		}
 		}
 
 		switch ( consumptionType )
