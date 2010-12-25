@@ -970,6 +970,7 @@ Tiki lighter	0	none
 Tuesday's ruby	0	Mys: 45
 Wand of Oscus	0	Mys: 200
 Zombo's shield	240	Mus: 200	shield
+adhesive tape dolly	0	none
 ancient stone head	85	Mus: 27	shield
 anniversary balloon	0	none
 anniversary chutney sculpture	0	none
@@ -1121,6 +1122,7 @@ spaghetti-box banjo	0	Mys: 150
 speed limit shield	100	Mus: 35	shield
 spiky turtle shield	130	Mus: 50	shield
 spongy shield	200	Mus: 95	shield
+stapler bear	0	none
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
 steely marble	0	Mys: 85

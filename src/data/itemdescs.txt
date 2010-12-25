@@ -4905,6 +4905,6 @@
 4899	771880396	BGE pocket calendar	BGE pocket calendars
 4900	794993997	BGE temporary tattoo	BGE temporary tattoos
 4901	201573560	BGE tiny plastic toy	BGE tiny plastic toys
-4902
-4903
+4902	943145773	stapler bear
+4903	223657831	adhesive tape dolly
 4904	822611275	scissor duck
