@@ -313,6 +313,10 @@ public interface KoLConstants
 			"BuffRequestFrame"
 		},
 		{
+			"Request a Fax",
+			"FaxRequestFrame"
+		},
+		{
 			"Flower Hunter",
 			"FlowerHunterFrame"
 		},

@@ -1214,6 +1214,7 @@ rusty compass	Initiative: +30
 # rusty old lantern
 rxr shield	Damage Absorption: +10, Damage Reduction: 6
 sawblade shield	Weapon Damage: +11, Damage Reduction: 11
+scissor duck	Mysticality: +5
 sealhide buckler	Damage Reduction: 7
 sealskin drum	Weapon Damage: +20, Class: "Seal Clubber"
 sebaceous shield	Stench Damage: +1, Sleaze Damage: +1, Damage Reduction: 2
@@ -1720,6 +1721,7 @@ tiny plastic 7-foot dwarf	Monster Level: +1
 tiny plastic Axe Wound	Monster Level: +1
 tiny plastic Baron von Ratsworth	Meat Drop: +3
 tiny plastic Beelzebozo	Sleaze Damage: +5
+tiny plastic Best Game Ever	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 tiny plastic Black Knight	Monster Level: +1
 tiny plastic Bonerdagon	Mysticality: +3
 tiny plastic Boris	Muscle: +5, Mysticality: +3, Moxie: +3

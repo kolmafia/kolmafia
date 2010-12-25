@@ -1101,6 +1101,7 @@ rusty compass	0	Mys: 15
 rusty old lantern	0	Mys: 85
 rxr shield	100	Mus: 35	shield
 sawblade shield	180	Mus: 75	shield
+scissor duck	0	none
 sealhide buckler	160	Mus: 65	shield
 sealskin drum	0	Mus: 150
 sebaceous shield	40	Mus: 2	shield
@@ -1561,6 +1562,7 @@ tiny plastic 7-foot dwarf	0	none
 tiny plastic Axe Wound	0	none
 tiny plastic Baron von Ratsworth	0	none
 tiny plastic Beelzebozo	0	none
+tiny plastic Best Game Ever	0	none
 tiny plastic Black Knight	0	none
 tiny plastic Bonerdagon	0	none
 tiny plastic Boris	0	none
