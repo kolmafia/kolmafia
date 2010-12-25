@@ -567,7 +567,7 @@ public class AdventureRequest
 
 		if ( KoLAdventure.lastAdventureIdString().equals( "bathroom" ) )
 		{
-			override = "Hobelf";
+			override = "Elf Hobo";
 		}
 		
 		if ( override != null && MonsterDatabase.findMonster( encounter, false ) == null )
