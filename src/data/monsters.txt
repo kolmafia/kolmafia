@@ -327,6 +327,7 @@ Ed the Undying (7)	HP: 8 Atk: 180	Holy MacGuffin (n100)
 Edwing Abbidriel	HP: 0	elf resistance button (100)
 El Diablo	HP: 100000 Def: 100000 Atk: 100000
 Electron Submarine	HP: 100000 Def: 100000 Atk: 100000
+Elf Hobo	HP: 40 Def: 30 Atk: 30	bindlestocking (s1)	bottle of rum (s1)	bottle of tequila (s1)	bottle of whiskey (s1)	candy cane (s1)	Crimbo candied pecan (s1)	Crimbo fudge (s1)	Crimbo peppermint bark (s1)	eggnog (s1)	Mad Train wine (s1)	sleeping stocking (s1)	Tales of a Kansas Toymaker (s1)	The Joy of Wassailing (s1)	white lightning (s1)	Wint-O-Fresh mint (s)
 Elite Beer Bongadier	HP: 230 Def: 205 Atk: 190 E: sleaze	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
 Empty Suit of Armor	HP: 120 Def: 115 Atk: 115 ED: spooky	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
 Endangered Inflatable White Tiger	HP: 100000 Def: 100000 Atk: 100000
