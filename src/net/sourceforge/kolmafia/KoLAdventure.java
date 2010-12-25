@@ -437,13 +437,13 @@ public class KoLAdventure
 		{
 			// Don't auto-adventure unprepared in Hobopolis sewers
 
-			this.isValidAdventure =
-				 !Preferences.getBoolean( "requireSewerTestItems" ) ||
+			this.isValidAdventure = !Preferences.getBoolean( "requireSewerTestItems" ) ||
 				( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.GATORSKIN_UMBRELLA, 1 ) ) &&
-				  InventoryManager.retrieveItem( ItemPool.SEWER_WAD ) &&
-				  InventoryManager.retrieveItem( ItemPool.OOZE_O ) &&
-				  InventoryManager.retrieveItem( ItemPool.DUMPLINGS ) &&
-				  InventoryManager.retrieveItem( ItemPool.OIL_OF_OILINESS, 3 ) );
+					KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HOBO_CODE_BINDER, 1 ) ) &&
+					InventoryManager.retrieveItem( ItemPool.SEWER_WAD ) &&
+					InventoryManager.retrieveItem( ItemPool.OOZE_O ) &&
+					InventoryManager.retrieveItem( ItemPool.DUMPLINGS ) &&
+					InventoryManager.retrieveItem( ItemPool.OIL_OF_OILINESS, 3 ) );
 			return;
 		}
 
