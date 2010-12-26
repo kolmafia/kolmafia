@@ -85,7 +85,8 @@ public class MallSellCommand
 			if ( items[ i ] == null )
 			{
 				int spaceIndex = itemNames[ i ].lastIndexOf( " " );
-				if ( spaceIndex == -1 )
+				if ( spaceIndex == -1 ||
+					!StringUtilities.isNumeric( itemNames[ i ].substring( spaceIndex + 1 ) ) )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + itemNames[ i ] + "] has no matches." );
 					return;
@@ -99,7 +100,8 @@ public class MallSellCommand
 			if ( items[ i ] == null )
 			{
 				int spaceIndex = itemNames[ i ].lastIndexOf( " " );
-				if ( spaceIndex == -1 )
+				if ( spaceIndex == -1 ||
+					!StringUtilities.isNumeric( itemNames[ i ].substring( spaceIndex + 1 ) ) )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + itemNames[ i ] + "] has no matches." );
 					return;
