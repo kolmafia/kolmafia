@@ -619,7 +619,7 @@ public class ClanLoungeRequest
 				{
 					monster = "monster";
 				}
-				RequestLogger.printLine( "You receive a photocopied monster from the fax machine." );
+				RequestLogger.printLine( "You receive a photocopied " + monster + " from the fax machine." );
 			}
 			return;
 		}
