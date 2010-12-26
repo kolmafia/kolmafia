@@ -242,7 +242,7 @@ snorkel	Familiar Effect: "atk, cap 2"
 snow hat	Damage Reduction: 3, Familiar Effect: "unk, cap 12"
 space trooper helmet	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 spaghetti cult mask	Spell Damage Percent: +15
-spangly sombrero	Experience (Moxie): +3
+spangly sombrero	Experience (Moxie): +3, Familiar Effect: "2xFairy, 2xPotato, cap 37"
 spiky turtle helmet	Weapon Damage: +8, Monster Level: +8, Familiar Effect: "atk, 1xFairy, cap 32"
 sponge helmet	Mysticality Percent: +10, MP Regen Min: 15, MP Regen Max: 20, Damage Absorption: +40, Familiar Effect: "atk, 1xFairy"
 spooky hockey mask	Spooky Resistance: +2, Spooky Damage: +3, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 25"
@@ -2986,6 +2986,7 @@ The Great Tit's Blessing	Monster Level: +20, Moxie Percent: +5
 The Halls of Moxiousness	Experience (Moxie): +3
 The Halls of Muscularity	Experience (Muscle): +3
 The Halls of Mysticality	Experience (Mysticality): +3
+The HeyDezebound Heart	Item Drop: [min(300,T)], Muscle Percent: [-T], Mysticality Percent: [-T], Moxie Percent: [-T], Experience: [floor(T/5)]
 The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 The Moxious Madrigal	Moxie: +10
 The Q Is Talking To You	Mysticality Percent: +10
