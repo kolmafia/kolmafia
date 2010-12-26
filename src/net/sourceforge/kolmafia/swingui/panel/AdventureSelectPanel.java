@@ -482,7 +482,7 @@ public class AdventureSelectPanel
 			pref = text.length() > 0;
 			this.puttyLabel.setVisible( pref );
 			this.puttyItem.setSelected( pref );
-			this.puttyLabel.setToolTipText( "<html>Automatic Spooky Putty sheet or 4-d camera use: " + text + "<br>Requires 'special' action if a CCS is used.</html>" );
+			this.puttyLabel.setToolTipText( "<html>Automatic Spooky Putty sheet, 4-d camera or portable photocopier use: " + text + "<br>Requires 'special' action if a CCS is used.</html>" );
 			pref = Preferences.getBoolean( "autoSphereID" );
 			this.sphereLabel.setVisible( pref );
 			this.sphereItem.setSelected( pref );
@@ -608,7 +608,7 @@ public class AdventureSelectPanel
 					}
 					String option =
 						!state ? null : InputFieldUtilities.input(
-							"Use Spooky Putty sheet or 4-d camera when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)",
+							"Use Spooky Putty sheet, 4-d camera or portable photocopier when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)",
 							"goals abort" );
 					RequestThread.openRequestSequence();
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "putty", option == null ? "none" : option );

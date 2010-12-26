@@ -548,12 +548,13 @@ public abstract class UseLinkDecorator
 					return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autopermit=on&action=trade&quantity=1&whichitem=" );
 				}
 
-                                return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autoworthless=on&autopermit=on&action=trade&quantity=1&whichitem=" );
+				return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autoworthless=on&autopermit=on&action=trade&quantity=1&whichitem=" );
 
 			case ItemPool.DRUM_MACHINE:
 			case ItemPool.CARONCH_MAP:
 			case ItemPool.SPOOKY_PUTTY_MONSTER:
 			case ItemPool.SHAKING_CAMERA:
+			case ItemPool.PHOTOCOPIED_MONSTER:
 			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
 

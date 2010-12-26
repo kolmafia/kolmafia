@@ -4867,7 +4867,7 @@
 4861	190985186	CRIMBCO Employee Handbook (chapter 3)
 4862	138106473	CRIMBCO Employee Handbook (chapter 4)
 4863	276624197	CRIMBCO Employee Handbook (chapter 5)
-4864	161569523	portable photocopier
+4864	161569523	portable photocopier	portable photocopiers
 4865	789780842	deluxe fax machine
 4866	346045796	Workytime Tea	bags of Workytime Tea
 4867	502520163	paperclip sproinger	paperclip sproingers

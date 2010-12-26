@@ -121,6 +121,7 @@ public class DailyDeedsPanel
 		this.add( new StillsDaily() );
 		this.add( new PuttyDaily() );
 		this.add( new CameraDaily() );
+		this.add( new PhotocopyDaily() );
 		this.add( new PuddingDaily() );
 		this.add( new SpadeDaily() );
 	}
@@ -872,6 +873,30 @@ public class DailyDeedsPanel
 				"4-d camera used"
 				: "4-d camera not used yet";
 			String monster = Preferences.getString( "cameraMonster" );
+			if ( !monster.equals( "" ) )
+			{
+				text = text + ", now " + monster;
+			}
+			this.setText( text );
+		}
+	}
+
+	public static class PhotocopyDaily
+		extends Daily
+	{
+		public PhotocopyDaily()
+		{
+			this.addListener( "_photocopyUsed" );
+			this.addListener( "photocopyMonster" );
+			this.addLabel( "" );
+		}
+		
+		public void update()
+		{
+			String text = Preferences.getBoolean( "_photocopyUsed" ) ?
+				"photocopied monster used"
+				: "photocopied monster not used yet";
+			String monster = Preferences.getString( "photocopyMonster" );
 			if ( !monster.equals( "" ) )
 			{
 				text = text + ", now " + monster;

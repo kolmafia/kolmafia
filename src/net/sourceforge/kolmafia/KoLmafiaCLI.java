@@ -645,6 +645,7 @@ public class KoLmafiaCLI
 		new FakeAddItemCommand().register( "fakeitem" );
 		new FakeRemoveItemCommand().register( "removeitem" );
 		new FamiliarCommand().register( "familiar" );
+		new FaxCommand().register( "fax" );
 		new FullEchoCommand().register( "fecho" ).register( "fprint" );
 		new FlowerHuntCommand().register( "flowers" );
 		new FoldItemCommand().register( "fold" ).register( "squeeze" );

@@ -1003,7 +1003,11 @@ The Darkness (blind)	HP: 0
 # Dolphin whistle
 rotten dolphin thief	HP: 600 Def: 400 Atk: 400
 
-# CRMIBCO cubicles
+# Portable photocopier
+Somebody else's butt	HP: 0
+Your butt	HP: 0
+
+# CRIMBCO cubicles
 Disorganized Files	HP: 0	CRIMBCO scrip (n100)
 Endless Conference Call	HP: 0	CRIMBCO scrip (n100)
 Hideous Slide Show	HP: 0	CRIMBCO scrip (n100)

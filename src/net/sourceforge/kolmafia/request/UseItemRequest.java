@@ -415,6 +415,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "stuffed key";
 			return InventoryManager.getCount( ItemPool.STUFFED_KEY );
 
+		case ItemPool.PHOTOCOPIER:
+			UseItemRequest.limiter = "photocopied monster";
+			return InventoryManager.hasItem( ItemPool.PHOTOCOPIED_MONSTER ) ? 0 : 1;
+
 		case ItemPool.MOJO_FILTER:
 			UseItemRequest.limiter = "daily limit";
 			return Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
@@ -2919,6 +2923,51 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.PHOTOCOPIED_MONSTER:
+
+			Preferences.setBoolean( "_photocopyUsed", true );
+
+			// You get nauseated just thinking about the smell of
+			// copier toner.  You don't think you can handle
+			// another one of these things today.
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere. If we got here, we removed it
+			// above, but it wasn't actually consumed
+
+			ResultProcessor.processResult( item );
+
+			return;
+
+		case ItemPool.PHOTOCOPIER:
+
+			// You look around to see if anybody's watching,
+			// and when they're not, you drop your pants and
+			// giggle as you make a photocopy of your ass.
+
+			// When you go to get up, you shatter the glass of the
+			// photocopier. Dammit.
+
+			// You don't think you can handle another one of these
+			// things today.
+
+			// If you had a photocopied monster in your inventory,
+			// nothing happens:
+
+			// You don't want your desk to get all messy --
+			// you probably shouldn't copy anything else until
+			// you've dealt with this copy you've already got.
+
+			if ( responseText.indexOf( "you drop your pants and giggle" ) != -1 )
+			{
+				Preferences.setString( "photocopyMonster", "Your butt" );
+			}
+			else
+			{
+				ResultProcessor.processResult( item );
+			}
+			return;
+
 		case ItemPool.DOLPHIN_WHISTLE:
 
 			// If we are redirected to a fight, the item is
@@ -4114,6 +4163,7 @@ public class UseItemRequest
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
 		case ItemPool.SHAKING_CAMERA:
+		case ItemPool.PHOTOCOPIED_MONSTER:
 		case ItemPool.DOLPHIN_WHISTLE:
 			// Items that can redirect to a fight
 			turns = 1;

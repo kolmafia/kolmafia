@@ -1148,7 +1148,9 @@ public class ItemPool
 	public static final int CRIMBCO_MANUAL_3 = 4861;
 	public static final int CRIMBCO_MANUAL_4 = 4862;
 	public static final int CRIMBCO_MANUAL_5 = 4863;
+	public static final int PHOTOCOPIER = 4864;
 	public static final int WORKYTIME_TEA = 4866;
+	public static final int PHOTOCOPIED_MONSTER = 4873;
 	public static final int CRIMBCO_MUG = 4880;
 	public static final int BGE_SHOTGLASS = 4893;
 
