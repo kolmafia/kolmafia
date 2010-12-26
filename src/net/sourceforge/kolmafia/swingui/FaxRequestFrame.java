@@ -42,9 +42,12 @@ import javax.swing.JViewport;
 import javax.swing.JList;
 import javax.swing.ScrollPaneConstants;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
+import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
@@ -55,16 +58,18 @@ public class FaxRequestFrame
 {
 	private MonsterCategoryComboBox categorySelect;
 	private GenericScrollPane monsterSelect;
-	private static ShowDescriptionList [] monsters;
+	private int monsterIndex;
+
+	private static ShowDescriptionList [] monsterLists;
 	private static final int ROWS = 15;
 
 	static
 	{
 		FaxBotDatabase.configure();
-		FaxRequestFrame.monsters = new ShowDescriptionList[ FaxBotDatabase.monstersByCategory.length ];
-		for ( int i = 0; i < FaxRequestFrame.monsters.length; ++i )
+		FaxRequestFrame.monsterLists = new ShowDescriptionList[ FaxBotDatabase.monstersByCategory.length ];
+		for ( int i = 0; i < FaxRequestFrame.monsterLists.length; ++i )
 		{
-			FaxRequestFrame.monsters[ i ] = new ShowDescriptionList( FaxBotDatabase.monstersByCategory[ i ], ROWS );
+			FaxRequestFrame.monsterLists[ i ] = new ShowDescriptionList( FaxBotDatabase.monstersByCategory[ i ], ROWS );
 		}
 	}
 
@@ -82,13 +87,19 @@ public class FaxRequestFrame
 			super( "request", "online?" );
 
 			FaxRequestFrame.this.categorySelect = new MonsterCategoryComboBox();
-			FaxRequestFrame.this.monsterSelect = new GenericScrollPane( FaxRequestFrame.monsters[0], ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
+			FaxRequestFrame.this.monsterIndex = 0;
+			FaxRequestFrame.this.monsterSelect = new GenericScrollPane( FaxRequestFrame.monsterLists[0], ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 
 			VerifiableElement[] elements = new VerifiableElement[ 2 ];
 			elements[ 0 ] = new VerifiableElement( "Category: ", FaxRequestFrame.this.categorySelect );
 			elements[ 1 ] = new VerifiableElement( "Monster: ", FaxRequestFrame.this.monsterSelect );
 
 			this.setContent( elements );
+		}
+
+		public boolean shouldAddStatusLabel()
+		{
+			return true;
 		}
 
 		public void setEnabled( final boolean isEnabled )
@@ -106,6 +117,24 @@ public class FaxRequestFrame
 
 		public void actionConfirmed()
 		{
+			String botName = FaxBotDatabase.botName( 0 );
+			if ( botName == null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No faxbots configured." );
+				return;
+			}
+
+			int list = FaxRequestFrame.this.monsterIndex;
+			int index = FaxRequestFrame.monsterLists[ list ].getSelectedIndex();
+			if ( index < 0 )
+			{
+				return;
+			}
+			Monster monster = (Monster)FaxBotDatabase.monstersByCategory[ list ].get( index );
+			String name = monster.getName();
+			String command = monster.getCommand();
+			// KoLmafia.updateDisplay( "Asking " + botName + " to send a fax of " + name + ": " + command );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
@@ -117,18 +146,20 @@ public class FaxRequestFrame
 	private void isBotOnline()
 	{
 		String botName = FaxBotDatabase.botName( 0 );
+		String message;
 		if ( botName == null )
 		{
-			InputFieldUtilities.alert( "No faxbots configured." );
+			message = "No faxbots configured.";
 		}
 		else if ( KoLmafia.isPlayerOnline( botName ) )
 		{
-			InputFieldUtilities.alert( botName + " is online." );
+			message = botName + " is online.";
 		}
 		else
 		{
-			InputFieldUtilities.alert( botName + " is probably not online." );
+			message = botName + " is probably not online.";
 		}
+		KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, message );
 	}
 
 	private class MonsterCategoryComboBox
@@ -151,7 +182,8 @@ public class FaxRequestFrame
 			public void actionPerformed( final ActionEvent e )
 			{
 				int index = MonsterCategoryComboBox.this.getSelectedIndex();
-				FaxRequestFrame.this.monsterSelect.getViewport().setView( FaxRequestFrame.monsters[ index ] );
+				FaxRequestFrame.this.monsterIndex = index;
+				FaxRequestFrame.this.monsterSelect.getViewport().setView( FaxRequestFrame.monsterLists[ index ] );
 			}
 		}
 	}
