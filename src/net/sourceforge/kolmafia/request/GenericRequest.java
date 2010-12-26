@@ -2178,6 +2178,14 @@ public class GenericRequest
 			consumed = true;
 			KoLmafia.ignoreSemirare();
 			break;
+ 
+		case ItemPool.PHOTOCOPIED_MONSTER:
+			itemName = "photocopied monster";
+			Preferences.setString( "photocopyMonster", "" );
+			Preferences.setBoolean( "_photocopyUsed", true );
+			consumed = true;
+			KoLmafia.ignoreSemirare();
+			break;
 
 		case ItemPool.WRETCHED_SEAL:
 		case ItemPool.CUTE_BABY_SEAL:

@@ -206,6 +206,8 @@ public class FightRequest
 	private static final AdventureResult PUTTY_SHEET = ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1);
 	private static final AdventureResult CAMERA = ItemPool.get( ItemPool.CAMERA, 1);
 	private static final AdventureResult SHAKING_CAMERA = ItemPool.get( ItemPool.SHAKING_CAMERA, 1);
+	private static final AdventureResult PHOTOCOPIER = ItemPool.get( ItemPool.PHOTOCOPIER, 1);
+	private static final AdventureResult PHOTOCOPIED_MONSTER = ItemPool.get( ItemPool.PHOTOCOPIED_MONSTER, 1);
 
 	private static final String TOOTH_ACTION = "item" + ItemPool.SEAL_TOOTH;
 	private static final String SPICES_ACTION = "item" + ItemPool.SPICES;
@@ -2696,15 +2698,21 @@ public class FightRequest
 				Preferences.getInteger( "spookyPuttyCopiesMade" ) < 5;
 			boolean haveItem2 = KoLConstants.inventory.contains( FightRequest.CAMERA ) &&
 				!KoLConstants.inventory.contains( FightRequest.SHAKING_CAMERA );
-			if ( (haveItem || haveItem2) && shouldTag( pref, "autoPutty triggered" ) )
+			boolean haveItem3 = KoLConstants.inventory.contains( FightRequest.PHOTOCOPIER ) &&
+				!KoLConstants.inventory.contains( FightRequest.PHOTOCOPIED_MONSTER );
+			if ( (haveItem || haveItem2 || haveItem3) && shouldTag( pref, "autoPutty triggered" ) )
 			{
 				if (haveItem)
 				{
 					items.add( String.valueOf( ItemPool.SPOOKY_PUTTY_SHEET ) );
 				}
-				else
+				else if (haveItem2)
 				{
 					items.add( String.valueOf( ItemPool.CAMERA ) );
+				}
+				else
+				{
+					items.add( String.valueOf( ItemPool.PHOTOCOPIER ) );
 				}
 			}
 		}
@@ -4673,6 +4681,20 @@ public class FightRequest
 			{
 				Preferences.setString( "cameraMonster", FightRequest.encounterLookup );
 				Preferences.increment( "camerasUsed" );
+				Preferences.setString( "autoPutty", "" );
+				return true;
+			}
+			return false;
+
+		case ItemPool.PHOTOCOPIER:
+			// You open the lid of the photocopier, press it
+			// against your opponent, and press the COPY button. He
+			// is enraged, and smashes the copier to pieces, but
+			// not before it produces a sheet of paper.
+
+			if ( responseText.indexOf( "press the COPY button" ) != -1 )
+			{
+				Preferences.setString( "photocopyMonster", FightRequest.encounterLookup );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}

@@ -44,7 +44,11 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanLoungeRequest
@@ -57,17 +61,23 @@ public class ClanLoungeRequest
 	public static final int POOL_TABLE = 3;
 	public static final int CRIMBO_TREE = 4;
 	public static final int LOOKING_GLASS = 5;
+	public static final int FAX_MACHINE = 6;
 
 	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
 	public static final int STRATEGIC_STANCE = 2;
 	public static final int STYLISH_STANCE = 3;
 
+	// Fax options
+	public static final int SEND_FAX = 1;
+	public static final int RECEIVE_FAX = 2;
+
 	private int action;
 	private int option;
 
 	private static final Pattern STANCE_PATTERN = Pattern.compile( "stance=(\\d*)" );
 	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
+	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
 	{
@@ -88,6 +98,20 @@ public class ClanLoungeRequest
 			"moxie",
 			"hustlin'",
 			new Integer( STYLISH_STANCE )
+		},
+	};
+ 
+	public static final Object [][] FAX_OPTIONS = new Object[][]
+	{
+		{
+			"send", 
+			"put",
+			new Integer( SEND_FAX )
+		},
+		{
+			"receive",
+			"get",
+			new Integer( RECEIVE_FAX )
 		},
 	};
 
@@ -126,6 +150,28 @@ public class ClanLoungeRequest
 
 		return 0;
 	}
+ 
+	public static final int findFaxOption( String tag )
+	{
+		tag = tag.toLowerCase();
+		for ( int i = 0; i < FAX_OPTIONS.length; ++i )
+		{
+			Object [] faxOption = FAX_OPTIONS[i];
+			Integer index = (Integer) faxOption[2];
+			String faxCommand0 = (String) faxOption[0];
+			if ( faxCommand0.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String faxCommand1 = (String) faxOption[1];
+			if ( faxCommand1.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+		}
+
+		return 0;
+	}
 
 	public static final String prettyStanceName( final int stance )
 	{
@@ -139,6 +185,18 @@ public class ClanLoungeRequest
 			return "a stylish stance";
 		}
 		return "an unknown stance";
+	}
+ 
+	public static final String prettyFaxCommand( final int faxCommand )
+	{
+		switch ( faxCommand )
+		{
+		case SEND_FAX:
+			return "Sending a fax.";
+		case RECEIVE_FAX:
+			return "Receiving a fax.";
+		}
+		return "Unknown fax command.";
 	}
 
 	/**
@@ -229,6 +287,10 @@ public class ClanLoungeRequest
 		{
 			return "Looking Glass";
 		}
+		if ( urlString.indexOf( "faxmachine" ) != -1 )
+		{
+			return "Fax Machine";
+		}
 		return null;
 	}
 
@@ -284,6 +346,24 @@ public class ClanLoungeRequest
 			this.addFormField( "action", "lookingglass" );
 			break;
 
+		case ClanLoungeRequest.FAX_MACHINE:
+			RequestLogger.printLine( ClanLoungeRequest.prettyFaxCommand( option ) );
+
+			this.constructURLString( "clan_viplounge.php" );
+			if ( option == 1 )
+			{
+				this.addFormField( "preaction", "sendfax" );
+			}
+			else if ( option == 2 )
+			{
+				this.addFormField( "preaction", "receivefax" );
+			}
+			else
+			{
+				this.addFormField( "action", "faxmachine" );
+			}
+			break;
+
 		default:
 			break;
 		}
@@ -314,6 +394,37 @@ public class ClanLoungeRequest
 			else if ( responseText.indexOf( "kind of pooled out" ) != -1 )
 			{
 				RequestLogger.printLine( "You decided not to play." );
+			}
+			else
+			{
+				RequestLogger.printLine( "Huh? Unknown response." );
+			}
+			break;
+
+		case ClanLoungeRequest.FAX_MACHINE:
+			if ( responseText.indexOf( "Your photocopy slowly slides into the machine" ) != -1 )
+			{
+				String monster = Preferences.getString( "photocopyMonster" );
+				if ( monster != "" )
+				{
+					RequestLogger.printLine( "You load your photocopied " + monster + " in the fax machine." );
+				}
+				else
+				{
+					RequestLogger.printLine( "You load your photocopied monster in the fax machine." );
+				}
+			}
+			else if ( responseText.indexOf( "just be a blank sheet of paper" ) != -1 )
+			{
+				RequestLogger.printLine( "Your fax machine doesn't have any monster." );
+			}
+			else if ( responseText.indexOf( "top half of a document prints out" ) != -1 )
+			{
+				// the message is printed by parseResponse()
+			}
+			else if ( responseText.indexOf( "waiting for an important fax" ) != -1 )
+			{
+				RequestLogger.printLine( "You already had a photocopied monster in your inventory." );
 			}
 			else
 			{
@@ -478,6 +589,40 @@ public class ClanLoungeRequest
 			Preferences.setBoolean( "_lookingGlass", true );
 			return;
 		}
+
+		if ( action.equals( "faxmachine" ) )
+		{
+			return;
+		}
+
+		if ( action.equals( "sendfax" ) )
+		{
+			if ( responseText.indexOf( "Your photocopy slowly slides into the machine" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.PHOTOCOPIED_MONSTER, -1 );
+				Preferences.setString( "photocopyMonster", "" );
+				return;
+			}
+
+			return;
+		}
+
+		if ( action.equals( "receivefax" ) )
+		{
+			if ( responseText.indexOf( "top half of a document prints out" ) != -1 )
+			{
+				String description = DebugDatabase.rawItemDescriptionText( ItemPool.PHOTOCOPIED_MONSTER, true );
+				ConsequenceManager.parseItemDesc( ItemDatabase.getDescriptionId( ItemPool.PHOTOCOPIED_MONSTER ), description );
+
+				String monster = Preferences.getString( "photocopyMonster" );
+				if ( monster.equals( "" ) )
+				{
+					monster = "monster";
+				}
+				RequestLogger.printLine( "You receive a photocopied monster from the fax machine." );
+			}
+			return;
+		}
 	}
 
 	public static void getBreakfast()
@@ -541,22 +686,39 @@ public class ClanLoungeRequest
 		if ( message == null )
 		{
 			String action = GenericRequest.getAction( urlString );
-			if ( !action.equals( "poolgame" ) )
+			if ( action.equals( "poolgame" ) )
+			{
+				Matcher m = STANCE_PATTERN.matcher( urlString );
+				if ( !m.find() )
+				{
+					return false;
+				}
+				int stance = StringUtilities.parseInt( m.group(1) );
+				if ( stance < 1 || stance > POOL_GAMES.length )
+				{
+					return false;
+				}
+				message = "pool " + (String)POOL_GAMES[ stance - 1 ][0];
+			}
+			else if ( action.equals( "sendfax" ) ||
+				  action.equals( "receivefax" ) )
+			{
+				Matcher m = FAX_PATTERN.matcher( urlString );
+				if ( !m.find() )
+				{
+					return false;
+				}
+				String faxCommand = m.group(1) ;
+				if ( faxCommand != "send" && faxCommand != "receive" )
+				{
+					return false;
+				}
+				message = "fax " + faxCommand;
+			}
+			else
 			{
 				return false;
 			}
-
-			Matcher m = STANCE_PATTERN.matcher( urlString );
-			if ( !m.find() )
-			{
-				return false;
-			}
-			int stance = StringUtilities.parseInt( m.group(1) );
-			if ( stance < 1 || stance > POOL_GAMES.length )
-			{
-				return false;
-			}
-			message = "pool " + (String)POOL_GAMES[ stance - 1 ][0];
 		}
 		else
 		{

@@ -500,6 +500,7 @@ user	pastamancerOrbedExperience	0
 user	pastamancerOrbedName
 user	pastamancerOrbedType
 user	pendingMapReflections	0
+user	photocopyMonster
 user	plantingDate
 user	plantingDay	-1
 user	plantingLength
@@ -620,6 +621,7 @@ user	_legendaryBeat	false
 user	_lookingGlass	false
 user	_mayflySummons	0
 user	_navelRunaways	0
+user	_photocopyUsed	false
 user	_poolGames	0
 user	_riftletAdv	0
 user	_sealFigurineUses	0
