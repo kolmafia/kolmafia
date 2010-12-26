@@ -796,9 +796,10 @@
 796	Mystic Circle	crimbcookie1.gif	8e52b4076a2ab7451407c007b5a0544d	eat 1 circular CRIMBCOOKIE
 797	Triangle, Man	crimbcookie3.gif	662a1f193983ba6e809c891606148880	eat 1 triangular CRIMBCOOKIE
 798	Square to be Hip	crimbcookie2.gif	39c662ca50f95d1b2d405fb614d8cde4	eat 1 square CRIMBCOOKIE
-799
+799	Employee of the Month	trophy.gif	80e367f95979070de94b71f8128dda8d	# cast 1 Managerial Manipulation
 800
 801
 802
 803	Sausage Festive	festsausage.gif	fad9f1b25fabed5a6c0e45ae97bd27f3	eat 1 festive sausage
 804	Stands Alone	cheeselog.gif	8baa4c34bdc87691d5aa6bcf344c0d4f	eat 1 holiday cheese log
+805	Loco Motives	motiposter.gif	a5af4ebb8dd7db582526cb51fc7fc40e	use 1 motivational poster

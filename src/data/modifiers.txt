@@ -2501,6 +2501,7 @@ Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Embarrassed	Moxie Percent: -30
 Emotion Sickness	Item Drop: [(+25-D)*zone(The Sea)], Meat Drop: [2*(+25-D)*zone(The Sea)]
 Empathy	Familiar Weight: +5
+Employee of the Month	Muscle: +10, Mysticality: +10, Moxie: +10
 Engorged Weapon	Weapon Damage: +10
 Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 Enraged	Muscle Percent: +10
@@ -2735,7 +2736,7 @@ Muscularrr	Muscle Percent: +10
 Musk of the Moose	Combat Rate: +5
 Mutated	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Mysteriously Handsome	Moxie Percent: +5, Monster Level: [4.5+1.5*X]
-Mystic Circle	Mysticality Percent: 10
+Mystic Circle	Mysticality Percent: +10
 Mystic Pickleness	Mysticality: +5, Muscle: -5
 Mystically Oiled	Mysticality Percent: +100
 Nano-juiced	Muscle Percent: +15
@@ -2916,7 +2917,7 @@ Spooky Weapon	Spooky Damage: +3
 Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Spookypants	Spooky Resistance: +1
 Springy Fusilli	Initiative: +40
-Square to be Hip	Moxie Percent: 10
+Square to be Hip	Moxie Percent: +10
 Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 Stabilizing Oiliness	Equalize: "Muscle"
 Stands Alone	Stench Damage: +10
@@ -3014,7 +3015,7 @@ Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 # Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
-Triangle, Man	Muscle Percent: 10
+Triangle, Man	Muscle Percent: +10
 Truly Gritty	Weapon Damage: +20, Muscle: +20
 Tundra Mouth	Cold Damage: [min(100,T)]
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
