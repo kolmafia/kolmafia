@@ -46,8 +46,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
@@ -82,6 +86,9 @@ public class FaxRequestFrame
 	private class FaxRequestPanel
 		extends GenericPanel
 	{
+		String botName = FaxBotDatabase.botName( 0 );
+		private String statusMessage;
+
 		public FaxRequestPanel()
 		{
 			super( "request", "online?" );
@@ -117,49 +124,101 @@ public class FaxRequestFrame
 
 		public void actionConfirmed()
 		{
-			String botName = FaxBotDatabase.botName( 0 );
-			if ( botName == null )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No faxbots configured." );
-				return;
-			}
-
 			int list = FaxRequestFrame.this.monsterIndex;
 			int index = FaxRequestFrame.monsterLists[ list ].getSelectedIndex();
 			if ( index < 0 )
 			{
 				return;
 			}
+
+			// Validate ability to receive a fax
+			if ( !canReceiveFax() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
+				return;
+			}
+
+			// Make sure FaxBot is online
+			if ( !isBotOnline( botName ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
+				return;
+			}
+
 			Monster monster = (Monster)FaxBotDatabase.monstersByCategory[ list ].get( index );
 			String name = monster.getName();
 			String command = monster.getCommand();
+
 			// KoLmafia.updateDisplay( "Asking " + botName + " to send a fax of " + name + ": " + command );
 			KoLmafia.enableDisplay();
 		}
 
+		private boolean canReceiveFax()
+		{
+			// Do you already have a photocopied monster?
+			if ( InventoryManager.hasItem( ItemPool.PHOTOCOPIED_MONSTER ) )
+			{
+				statusMessage = "You already have a photocopied monster in your inventory.";
+				return false;
+			}
+
+			// Do you have a VIP key?
+			if ( !InventoryManager.hasItem( ClanLoungeRequest.VIP_KEY ) )
+			{
+				statusMessage = "You don't have a VIP key.";
+				return false;
+			}
+
+			// Try to visit the fax machine
+			ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE );
+			RequestThread.postRequest( request );
+
+			// Are you in a clan?
+			String redirect = request.redirectLocation;
+			if ( redirect != null && redirect.equals( "clan_signup.php" ) )
+			{
+				statusMessage = "You are not in a clan.";
+				return false;
+			}
+
+			// Does your clan have a fax machine?
+			if ( request.responseText.indexOf( "You approach the fax machine" ) == -1 )
+			{
+				statusMessage = "Your clan does not have a fax machine.";
+				return false;
+			}
+			return true;
+		}
+
 		public void actionCancelled()
 		{
-			FaxRequestFrame.this.isBotOnline();
+			if ( isBotOnline( botName ) )
+			{
+				statusMessage = botName + " is online.";
+			}
+			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
 		}
-	}
 
-	private void isBotOnline()
-	{
-		String botName = FaxBotDatabase.botName( 0 );
-		String message;
-		if ( botName == null )
+		private boolean isBotOnline( final String botName )
 		{
-			message = "No faxbots configured.";
+			// Return false and set statusMessage to an appropriate
+			// message if the bot is NOT online.
+
+			if ( botName == null )
+			{
+				statusMessage = "No faxbots configured.";
+				return false;
+			}
+
+			if ( !KoLmafia.isPlayerOnline( botName ) )
+			{
+				statusMessage = botName + " is probably not online.";
+				return false;
+			}
+
+			// Do not bother allocating a message if bot is online
+			return true;
 		}
-		else if ( KoLmafia.isPlayerOnline( botName ) )
-		{
-			message = botName + " is online.";
-		}
-		else
-		{
-			message = botName + " is probably not online.";
-		}
-		KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, message );
 	}
 
 	private class MonsterCategoryComboBox

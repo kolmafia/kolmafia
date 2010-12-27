@@ -347,20 +347,20 @@ public class ClanLoungeRequest
 			break;
 
 		case ClanLoungeRequest.FAX_MACHINE:
-			RequestLogger.printLine( ClanLoungeRequest.prettyFaxCommand( option ) );
-
 			this.constructURLString( "clan_viplounge.php" );
-			if ( option == 1 )
+			switch ( option )
 			{
+			case SEND_FAX:
+				RequestLogger.printLine( "Sending a fax." );
 				this.addFormField( "preaction", "sendfax" );
-			}
-			else if ( option == 2 )
-			{
+				break;
+			case RECEIVE_FAX:
+				RequestLogger.printLine( "Receiving a fax." );
 				this.addFormField( "preaction", "receivefax" );
-			}
-			else
-			{
+				break;
+			default:
 				this.addFormField( "action", "faxmachine" );
+				break;
 			}
 			break;
 
@@ -425,6 +425,13 @@ public class ClanLoungeRequest
 			else if ( responseText.indexOf( "waiting for an important fax" ) != -1 )
 			{
 				RequestLogger.printLine( "You already had a photocopied monster in your inventory." );
+			}
+			// You approach the fax machine.  Loathing wells up
+			// within you and fear clutches at your heart...  What
+			// do you want to do?
+			else if ( responseText.indexOf( "What do you want to do?" ) != -1 )
+			{
+				// Simple visit.
 			}
 			else
 			{
