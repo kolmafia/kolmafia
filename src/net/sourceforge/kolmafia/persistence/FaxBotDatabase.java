@@ -79,7 +79,7 @@ public class FaxBotDatabase
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Configuring available monsters..." );
+		KoLmafia.updateDisplay( "Configuring available monsters." );
 
 		( new DynamicBotFetcher( LOCATION ) ).start();
 
