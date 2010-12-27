@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 public abstract class ChatManager
 {
 	private static final LinkedList clanMessages = new RollingLinkedList( 20 );
+	private static ChatMessage faxbotMessage = null;
 	private static final Set validChatReplyRecipients = new HashSet();
 
 	private static final TreeMap instantMessageBuffers = new TreeMap();
@@ -88,6 +89,7 @@ public abstract class ChatManager
 		ChatPoller.reset();
 
 		ChatManager.clanMessages.clear();
+		ChatManager.faxbotMessage = null;
 		ChatManager.instantMessageBuffers.clear();
 		ChatManager.activeChannels.clear();
 		ChatManager.currentChannel = null;
@@ -141,6 +143,17 @@ public abstract class ChatManager
 		new ChatPoller().start();
 
 		RequestThread.postRequest( new ChannelColorsRequest() );
+	}
+
+	public static final String getLastFaxBotMessage()
+	{
+		if ( ChatManager.faxbotMessage != null )
+		{
+			String message = ChatManager.faxbotMessage.getContent();
+			ChatManager.faxbotMessage = null;
+			return message;
+		}
+		return null;
 	}
 	
 	public static final boolean isValidChatReplyRecipient( String playerName )
@@ -264,6 +277,11 @@ public abstract class ChatManager
 		if ( "/clan".equals( recipient ) )
 		{
 			ChatManager.clanMessages.add( message );
+		}
+
+		if ( "FaxBot".equals( sender ) )
+		{
+			ChatManager.faxbotMessage = message;
 		}
 
 		if ( KoLCharacter.getUserName().equals( recipient ) )

@@ -47,6 +47,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
@@ -56,6 +58,7 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class FaxRequestFrame
 	extends GenericFrame
@@ -66,6 +69,8 @@ public class FaxRequestFrame
 
 	private static ShowDescriptionList [] monsterLists;
 	private static final int ROWS = 15;
+	private static final int LIMIT = 60;
+	private static final int DELAY = 200;
 
 	static
 	{
@@ -145,18 +150,62 @@ public class FaxRequestFrame
 				return;
 			}
 
+			// Make sure we can receive chat messages, either via
+			// KoLmafia chat or in the Relay Browser.
+			if ( !( ChatManager.isRunning() || true ) )
+			{
+				statusMessage = "You must be in chat so we can receive messages from " + botName;
+				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
+				return;
+			}
+
 			Monster monster = (Monster)FaxBotDatabase.monstersByCategory[ list ].get( index );
 			String name = monster.getName();
 			String command = monster.getCommand();
 
-			// KoLmafia.updateDisplay( "Asking " + botName + " to send a fax of " + name + ": " + command );
+			KoLmafia.updateDisplay( "Asking " + botName + " to send a fax of " + name + ": " + command );
+
+			String graf = "/msg " + botName + " " + command;
+			String response = ChatSender.sendMessage( graf );
+			// Response is the blue message we sent. Can it fail?
+
+			PauseObject pauser = new PauseObject();
+			int polls = LIMIT * 1000 / DELAY;
+			for ( int i = 0; i < polls; ++i )
+			{
+				response = ChatManager.getLastFaxBotMessage();
+				if ( response != null )
+				{
+					break;
+				}
+				pauser.pause( DELAY );
+			}
+
+			if ( response == null )
+			{
+				statusMessage = "No response from " + botName + " after " + LIMIT + " seconds.";
+				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
+				return;
+			}
+
+			// parse FaxBot's response
+			if ( !faxAvailable( response ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
+				return;
+			}
+
+			// The monster is there! retrieve it.
+			ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX );
+			RequestThread.postRequest( request );
+
 			KoLmafia.enableDisplay();
 		}
 
 		private boolean canReceiveFax()
 		{
 			// Do you already have a photocopied monster?
-			if ( InventoryManager.hasItem( ItemPool.PHOTOCOPIED_MONSTER ) )
+			if ( InventoryManager.getCount( ItemPool.PHOTOCOPIED_MONSTER ) > 0 )
 			{
 				statusMessage = "You already have a photocopied monster in your inventory.";
 				return false;
@@ -188,6 +237,31 @@ public class FaxRequestFrame
 				return false;
 			}
 			return true;
+		}
+
+		private boolean faxAvailable( final String response )
+		{
+			// FaxBot has copied a Rockfish into your clan's Fax
+			// Machine.
+			if ( response.indexOf( "into your clan's Fax Machine" ) != -1 )
+			{
+				return true;
+			}
+
+			if ( response.indexOf( "I do not understand your request" ) != -1 )
+			{
+				statusMessage = "Configuration error: unknown command sent to " + botName;
+				return false;
+			}
+
+			if ( response.indexOf( "could not whitelist" ) != -1 )
+			{
+				statusMessage = botName + " is not on your clan's whitelist";
+				return false;
+			}
+
+			statusMessage = response;
+			return false;
 		}
 
 		public void actionCancelled()
