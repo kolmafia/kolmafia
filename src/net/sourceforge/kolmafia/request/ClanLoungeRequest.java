@@ -351,11 +351,11 @@ public class ClanLoungeRequest
 			switch ( option )
 			{
 			case SEND_FAX:
-				RequestLogger.printLine( "Sending a fax." );
+				KoLmafia.updateDisplay( "Sending a fax." );
 				this.addFormField( "preaction", "sendfax" );
 				break;
 			case RECEIVE_FAX:
-				RequestLogger.printLine( "Receiving a fax." );
+				KoLmafia.updateDisplay( "Receiving a fax." );
 				this.addFormField( "preaction", "receivefax" );
 				break;
 			default:
@@ -407,16 +407,16 @@ public class ClanLoungeRequest
 				String monster = Preferences.getString( "photocopyMonster" );
 				if ( monster != "" )
 				{
-					RequestLogger.printLine( "You load your photocopied " + monster + " in the fax machine." );
+					KoLmafia.updateDisplay( "You load your photocopied " + monster + " in the fax machine." );
 				}
 				else
 				{
-					RequestLogger.printLine( "You load your photocopied monster in the fax machine." );
+					KoLmafia.updateDisplay( "You load your photocopied monster in the fax machine." );
 				}
 			}
 			else if ( responseText.indexOf( "just be a blank sheet of paper" ) != -1 )
 			{
-				RequestLogger.printLine( "Your fax machine doesn't have any monster." );
+				KoLmafia.updateDisplay( "Your fax machine doesn't have any monster." );
 			}
 			else if ( responseText.indexOf( "top half of a document prints out" ) != -1 )
 			{
@@ -424,7 +424,7 @@ public class ClanLoungeRequest
 			}
 			else if ( responseText.indexOf( "waiting for an important fax" ) != -1 )
 			{
-				RequestLogger.printLine( "You already had a photocopied monster in your inventory." );
+				KoLmafia.updateDisplay( "You already had a photocopied monster in your inventory." );
 			}
 			// You approach the fax machine.  Loathing wells up
 			// within you and fear clutches at your heart...  What
@@ -435,7 +435,7 @@ public class ClanLoungeRequest
 			}
 			else
 			{
-				RequestLogger.printLine( "Huh? Unknown response." );
+				KoLmafia.updateDisplay( "Huh? Unknown response." );
 			}
 			break;
 		}
@@ -626,7 +626,7 @@ public class ClanLoungeRequest
 				{
 					monster = "monster";
 				}
-				RequestLogger.printLine( "You receive a photocopied " + monster + " from the fax machine." );
+				KoLmafia.updateDisplay( "You receive a photocopied " + monster + " from the fax machine." );
 			}
 			return;
 		}
