@@ -1544,7 +1544,7 @@ filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen
 flashing novelty button	Maximum HP: +5, Moxie: -2
 floaty rock necklace	Spell Critical Percent: +10
 # foam noodle
-# fossilized necklace
+fossilized necklace	Muscle: [2*pref(fossilB)], Mysticality: [2*pref(fossilB)], Moxie: [2*pref(fossilB)], Spell Damage: [2*pref(fossilS)], Weapon Damage: [3*pref(fossilN)], Muscle Percent: [3*pref(fossilW)], Mysticality Percent: [3*pref(fossilW)], Moxie Percent: [3*pref(fossilW)], Hot Damage: [3*pref(fossilD)], Spooky Damage: [3*pref(fossilP)]
 frayed rope belt	Moxie Percent: +10, Single Equip
 furniture dolly	Initiative: +30, Single Equip
 furry green earmuffs	Cold Resistance: +1
