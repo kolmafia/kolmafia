@@ -335,8 +335,6 @@ public class FightRequest
 	private static final HashSet INVALID_OUT_OF_WATER = new HashSet();
 	static
 	{
-		INVALID_OUT_OF_WATER.add( "1023" );
-		INVALID_OUT_OF_WATER.add( "skill harpoon!" );
 		INVALID_OUT_OF_WATER.add( "2024" );
 		INVALID_OUT_OF_WATER.add( "skill summon leviatuga" );
 	}

@@ -315,6 +315,12 @@ user	doorCode
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
 user	flyeredML	0
+user	fossilB	0
+user	fossilD	0
+user	fossilN	0
+user	fossilP	0
+user	fossilS	0
+user	fossilW	0
 user	fratboysDefeated	0
 user	friarsBlessingReceived	false
 user	gongPath	0

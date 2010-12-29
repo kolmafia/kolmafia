@@ -323,7 +323,12 @@ public abstract class ConsequenceManager
 					}
 					else
 					{
-						m.appendReplacement( buff, match.group( group ) );
+						String grout = match.group( group );
+						if ( grout == null )
+						{
+							grout = "";
+						}
+						m.appendReplacement( buff, grout );
 					}
 				} while ( m.find() );
 				m.appendTail( buff );
