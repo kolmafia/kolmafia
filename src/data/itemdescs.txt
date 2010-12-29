@@ -4908,3 +4908,5 @@
 4902	943145773	stapler bear
 4903	223657831	adhesive tape dolly
 4904	822611275	scissor duck
+4905	603768984	coal paperweight
+4906	941578696	jingle bell
