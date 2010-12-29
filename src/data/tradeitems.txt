@@ -4911,3 +4911,5 @@
 4902	stapler bear	offhand	all	0
 4903	adhesive tape dolly	offhand	all	0
 4904	scissor duck	offhand	all	0
+4905	coal paperweight	reusable	display	0
+4906	jingle bell	reusable	display	0

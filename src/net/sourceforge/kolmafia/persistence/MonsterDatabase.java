@@ -579,7 +579,6 @@ public class MonsterDatabase
 				{
 				case 'p':
 					return true;
-				case 's':
 				case 'n':
 				case 'c':
 				case 'b':
@@ -652,9 +651,6 @@ public class MonsterDatabase
 						{	// assume some probability of a pickpocket-only item
 							probability = 0.05f;
 						}
-						break;
-					case 's':
-						probability = 0.01f;
 						break;
 					case 'n':
 					case 'c':
