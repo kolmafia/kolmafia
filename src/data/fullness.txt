@@ -102,8 +102,8 @@ cream of pointy mushroom soup	2	1	2-5	0	0	35-40	lose 3 HP
 creamsicle	1	3	1-4	8-10	8-10	8-10
 crimbcoids mints	1	1	3	10-20	10-20	10-20
 crimbcoloaf	3	1	4-5	15-20	15-20	15-20
-crimbco deluxe reconstituted gruel with simulated raisins	5	1	14-19	0	0	0	lose 30% boredom
-crimbco reconstituted gruel	3	1	7-11	0	0	0	lose 10% boredom
+crimbco deluxe reconstituted gruel with simulated raisins	5	1	12-13	0	0	0	lose 30% boredom
+crimbco reconstituted gruel	3	1	4-5	0	0	0	lose 10% boredom
 crimbo pie	3	7	8-14	25-45	0	0
 cupcake-in-a-cup	2	7	4-6	6-8	16-20	6-8	10 Cake Caked (+50% mys)
 cursed black pearl onion	1	1	1	0	0	0
@@ -289,7 +289,7 @@ mushroom pizza	3	2	3-10	0	15-18	0
 nanite-infested candy cane	1	4	1-5	11-20	11-20	11-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
 nanite-infested fruitcake	3	1	3-6	15-20	15-20	15-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
 nanite-infested gingerbread bugbear	1	4	1-5	21-40	21-40	21-40	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
-new and improved crimbco reconstituted gruel	4	1	10-15	0	0	0	lose 20% boredom
+new and improved crimbco reconstituted gruel	4	1	7-8	0	0	0	lose 20% boredom
 nutty organic salad	3	11	12-15	0	31-40	0
 olive	1	1	1	0	0	0
 olive lo mein	3	6	9-16	10-14	0	10-14
