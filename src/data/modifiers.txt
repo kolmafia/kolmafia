@@ -3078,6 +3078,7 @@ Disco Fever	Ranged Damage: [L]
 # Double-Fisted Skull Smashing
 Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 # Eye of the Stoat	+0.5X critical hits, improve smacks
+Fashionably Late	Adventures: +1
 # Flavour of Magic
 Gnefarious Pickpocketing	Meat Drop: +10
 Gnomish Hardigness	Maximum HP Percent: +5
