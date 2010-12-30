@@ -964,6 +964,12 @@ public class RequestEditorKit
 				"<tr><td><textarea name=\"macrotext\" cols=25 rows=10 placeholder=\"type macro here\"></textarea><script language=JavaScript src=\"/macrohelper.js\"></script></td></tr>" );
 		}
 		
+		if ( buffer.indexOf( "but not before you grab one of its teeth" ) != -1 )
+		{
+			StringUtilities.singleStringReplace( buffer, "necklace",
+				"<a href=\"javascript:void(item('222160625'))\">necklace</a>" );
+		}
+		
 		int runaway = FightRequest.freeRunawayChance();
 		if ( runaway > 0 )
 		{
