@@ -1019,3 +1019,11 @@ The Tome Of Tropes	HP: 0	CRIMBCO scrip (n100)
 Totally Malicious 'Zine	HP: 0	CRIMBCO scrip (n100)
 The Water Cooler	HP: 0	CRIMBCO scrip (n100)
 The Best Game Ever	HP: 0	BGE merchandise order form (n100)
+
+# Bigg's Diggg
+reanimated bat skeleton	HP: 50 Def: 50 Atk: 50	fossilized necklace (c100)
+reanimated serpent skeleton	HP: 100 Def: 100 Atk: 100	fossilized necklace (c100)
+reanimated baboon skeleton	HP: 150 Def: 150 Atk: 150	fossilized necklace (c100)
+reanimated wyrm skeleton	HP: 200 Def: 200 Atk: 200	fossilized necklace (c100)
+reanimated demon skeleton	HP: 250 Def: 250 Atk: 250	fossilized necklace (c100)
+reanimated giant spider skeleton	HP: 300 Def: 300 Atk: 300	fossilized necklace (c100)
