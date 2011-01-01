@@ -558,6 +558,11 @@ Knob Goblin scimitar	Muscle: +1
 Knob Goblin spatula	Spell Damage: +4
 Knob Goblin tongs	Spell Damage: +2
 KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3, Softcore Only
+Loathing Legion chainsaw	Weapon Damage Percent: +100, Weakens Monster, Softcore Only
+Loathing Legion double prism	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Softcore Only
+Loathing Legion flamethrower	Hot Damage: +20, Softcore Only
+# Loathing Legion hammer: Gets the job done
+Loathing Legion hammer	Softcore Only
 Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 Mafia violin case	Muscle: +20, Weapon Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
@@ -1052,6 +1057,17 @@ Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4, Hot Damage: +4
 KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
 LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
+# Loathing Legion abacus: Mana Cost: -5 (combat-use only)
+Loathing Legion abacus	Softcore Only
+Loathing Legion can opener	Food Drop: +25, Softcore Only
+Loathing Legion corkscrew	Booze Drop: +25, Softcore Only
+Loathing Legion defibrillator	MP Regen Min: 5, MP Regen Max: 6, Softcore Only
+Loathing Legion electric knife	Meat Drop: +20, Softcore Only
+Loathing Legion kitchen sink	Spell Damage Percent: +25, Softcore Only
+Loathing Legion many-purpose hook	Item Drop: +10, Softcore Only
+Loathing Legion moondial	Adventures: +4, Softcore Only
+Loathing Legion pizza stone	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Damage Reduction: 6, Softcore Only
+Loathing Legion tape measure	Critical: 3, Softcore Only
 Mer-kin roundshield	Damage Reduction: 5, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
 Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
@@ -1380,6 +1396,8 @@ Junior LAAAAME merit badge	Muscle: +1, Mysticality: +1, Moxie: +1
 LWA ring	MP Regen Min: 2, MP Regen Max: 3
 La Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Additional Song, Class: "Accordion Thief", Single Equip
 Lead Zeta of Chastity	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
+Loathing Legion necktie	Experience: +4, Single Equip, Softcore Only
+Loathing Legion rollerblades	Initiative: +50, Single Equip, Softcore Only
 Lockenstock&trade; sandals	Mysticality: +7, Stench Damage: +7, Single Equip
 Lord Spookyraven's ear trumpet	Initiative: +25, Single Equip
 # Lord Spookyraven's spectacles
@@ -1877,6 +1895,8 @@ hemp backpack	Item Drop: +2
 1.21 jigawatts	Familiar Weight: +5
 100-Watt bulb	Familiar Weight: +5
 Jawmaster 2000&trade;	Familiar Weight: +5
+# Loathing Legion helicopter: Familiar will act more often
+Loathing Legion helicopter	Familiar Weight: +5, Softcore Only, Generic
 Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Meat Drop (sporadic): +5, Item Drop (sporadic): +2.5, Experience (familiar): +0.375, Softcore Only, Generic
 Meat detector	Familiar Weight: +5
 Panda outfit	Familiar Weight: +5, Item Drop: +5, Generic
@@ -3289,6 +3309,8 @@ Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 10
 Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 10
 Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
+# Loathing Legion jackhammer: Allows Meatsmithing without the Adventure cost (3 times a day)
+Loathing Legion jackhammer	Softcore Only
 M-242	Effect: "Adrenaline Rush", Effect Duration: 50
 Meleegra&trade; pills	Effect: "Engorged Weapon", Effect Duration: 5
 Mer-kin fastjuice	Effect: "Juiced Up", Effect Duration: 10

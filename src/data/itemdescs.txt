@@ -4910,3 +4910,25 @@
 4904	822611275	scissor duck
 4905	603768984	coal paperweight
 4906	941578696	jingle bell
+4907
+4908	674410769	Loathing Legion knife
+4909	773398564	Loathing Legion many-purpose hook
+4910	303662669	Loathing Legion moondial
+4911	238021924	Loathing Legion necktie
+4912	499263305	Loathing Legion electric knife
+4913	250024782	Loathing Legion corkscrew
+4914	723100463	Loathing Legion can opener
+4915	572608462	Loathing Legion chainsaw
+4916	521840872	Loathing Legion rollerblades
+4917	817854516	Loathing Legion flamethrower
+4918	376615126	Loathing Legion tattoo needle
+4919	871754159	Loathing Legion defibrillator
+4920	784455963	Loathing Legion double prism
+4921	400004481	Loathing Legion tape measure
+4922	146597841	Loathing Legion kitchen sink
+4923	160748208	Loathing Legion abacus
+4924	684732079	Loathing Legion helicopter
+4925	708831312	Loathing Legion pizza stone
+4926	837680142	Loathing Legion universal screwdriver
+4927	769193415	Loathing Legion jackhammer
+4928	361576572	Loathing Legion hammer

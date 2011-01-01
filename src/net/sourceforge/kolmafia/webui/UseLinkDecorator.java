@@ -500,6 +500,27 @@ public abstract class UseLinkDecorator
 
 			switch ( itemId )
 			{
+			case ItemPool.LOATHING_LEGION_KNIFE:
+			case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
+			case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER: {
+				ArrayList uses = new ArrayList();
+				if ( itemId == ItemPool.LOATHING_LEGION_TATTOO_NEEDLE )
+				{
+					uses.add( new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=" ) );
+				}
+				else if ( itemId == ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER )
+				{
+					uses.add( new UseLink( itemId, 1, "untinker", "inv_use.php?which=3&whichitem=" ) );
+				}
+				uses.add( new UseLink( itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem=" ) );
+			
+				if ( uses.size() == 1 )
+				{
+					return (UseLink) uses.get( 0 );
+				}
+				return new UsesLink( (UseLink[]) uses.toArray( new UseLink[ uses.size() ] ) );
+			}
+
 			case ItemPool.MACGUFFIN_DIARY:
 
 				return new UseLink( itemId, itemCount, "read", "diary.php?textversion=1" );
@@ -668,6 +689,29 @@ public abstract class UseLinkDecorator
 					getEquipmentSpeculation( "familiar", itemId, 0, EquipmentManager.FAMILIAR ),
 					"inv_equip.php?which=2&action=hatrack&whichitem=" ) );
 			}
+
+			switch ( itemId )
+			{
+			case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK:
+			case ItemPool.LOATHING_LEGION_MOONDIAL:
+			case ItemPool.LOATHING_LEGION_NECKTIE:
+			case ItemPool.LOATHING_LEGION_ELECTRIC_KNIFE:
+			case ItemPool.LOATHING_LEGION_CORKSCREW:
+			case ItemPool.LOATHING_LEGION_CAN_OPENER:
+			case ItemPool.LOATHING_LEGION_CHAINSAW:
+			case ItemPool.LOATHING_LEGION_ROLLERBLADES:
+			case ItemPool.LOATHING_LEGION_FLAMETHROWER:
+			case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
+			case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
+			case ItemPool.LOATHING_LEGION_TAPE_MEASURE:
+			case ItemPool.LOATHING_LEGION_KITCHEN_SINK:
+			case ItemPool.LOATHING_LEGION_ABACUS:
+			case ItemPool.LOATHING_LEGION_HELICOPTER:
+			case ItemPool.LOATHING_LEGION_PIZZA_STONE:
+			case ItemPool.LOATHING_LEGION_HAMMER:
+				uses.add( new UseLink( itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem=" ) );
+				break;
+			}
 			
 			if ( uses.size() == 1 )
 			{
@@ -710,6 +754,11 @@ public abstract class UseLinkDecorator
 
 		switch ( itemId )
 		{
+		case ItemPool.LOATHING_LEGION_JACKHAMMER:
+			useType = "switch";
+			useLocation = "inv_use.php?which=3&switch=1&whichitem=";
+			break;
+
 		// Game Grid tokens get a link to the arcade.
 
 		case ItemPool.GG_TOKEN:

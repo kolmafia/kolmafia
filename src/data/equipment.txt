@@ -496,6 +496,10 @@ Knob Goblin scimitar	15	Mus: 0	1-handed sword
 Knob Goblin spatula	30	Mys: 0	1-handed utensil
 Knob Goblin tongs	20	Mys: 0	1-handed utensil
 KoL Con Cinco Pi&ntilde;ata Bat	10	Mus: 0	2-handed club
+Loathing Legion chainsaw	100	Mus: 0	2-handed chainsaw
+Loathing Legion double prism	100	Mox: 0	1-handed prism
+Loathing Legion flamethrower	100	Mox: 0	2-handed flamethrower
+Loathing Legion hammer	100	Mus: 0	1-handed hammer
 Mace of the Tortoise	50	Mus: 10	1-handed mace
 Mafia violin case	100	Mus: 35	1-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
@@ -954,6 +958,17 @@ Kevlar balloon	0	none
 KoL Con IV Pole	0	Mys: 10
 KoL Con Six Pack	0	none
 LARP carp	0	none
+Loathing Legion abacus	0	none
+Loathing Legion can opener	0	none
+Loathing Legion corkscrew	0	none
+Loathing Legion defibrillator	0	none
+Loathing Legion electric knife	0	none
+Loathing Legion kitchen sink	0	none
+Loathing Legion many-purpose hook	0	none
+Loathing Legion moondial	0	none
+# *** Loathing Legion pizza stone is a shield of unknown power.
+Loathing Legion pizza stone	0	none	shield
+Loathing Legion tape measure	0	none
 Mer-kin roundshield	220	Mus: 85	shield
 Mer-kin takebag	0	Mys: 85
 Mr. Balloon	0	none
@@ -1249,6 +1264,8 @@ Junior LAAAAME merit badge	0	none
 LWA ring	0	none
 La Hebilla del Cintur&oacute;n de Lopez	0	Mox: 45
 Lead Zeta of Chastity	0	Mys: 85
+Loathing Legion necktie	0	none
+Loathing Legion rollerblades	0	none
 Lockenstock&trade; sandals	0	Mys: 65
 Lord Spookyraven's ear trumpet	0	Mys: 40
 Lord Spookyraven's spectacles	0	none

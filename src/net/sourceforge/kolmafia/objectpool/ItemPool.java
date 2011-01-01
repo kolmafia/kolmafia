@@ -1153,6 +1153,27 @@ public class ItemPool
 	public static final int PHOTOCOPIED_MONSTER = 4873;
 	public static final int CRIMBCO_MUG = 4880;
 	public static final int BGE_SHOTGLASS = 4893;
+	public static final int LOATHING_LEGION_KNIFE = 4908;
+	public static final int LOATHING_LEGION_MANY_PURPOSE_HOOK = 4909;
+	public static final int LOATHING_LEGION_MOONDIAL = 4910;
+	public static final int LOATHING_LEGION_NECKTIE = 4911;
+	public static final int LOATHING_LEGION_ELECTRIC_KNIFE = 4912;
+	public static final int LOATHING_LEGION_CORKSCREW = 4913;
+	public static final int LOATHING_LEGION_CAN_OPENER = 4914;
+	public static final int LOATHING_LEGION_CHAINSAW = 4915;
+	public static final int LOATHING_LEGION_ROLLERBLADES = 4916;
+	public static final int LOATHING_LEGION_FLAMETHROWER = 4917;
+	public static final int LOATHING_LEGION_TATTOO_NEEDLE = 4918;
+	public static final int LOATHING_LEGION_DEFIBRILLATOR = 4919;
+	public static final int LOATHING_LEGION_DOUBLE_PRISM = 4920;
+	public static final int LOATHING_LEGION_TAPE_MEASURE = 4921;
+	public static final int LOATHING_LEGION_KITCHEN_SINK = 4922;
+	public static final int LOATHING_LEGION_ABACUS = 4923;
+	public static final int LOATHING_LEGION_HELICOPTER = 4924;
+	public static final int LOATHING_LEGION_PIZZA_STONE = 4925;
+	public static final int LOATHING_LEGION_UNIVERSAL_SCREWDRIVER = 4926;
+	public static final int LOATHING_LEGION_JACKHAMMER = 4927;
+	public static final int LOATHING_LEGION_HAMMER = 4928;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
