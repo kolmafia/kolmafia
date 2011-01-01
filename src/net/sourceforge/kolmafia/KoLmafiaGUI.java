@@ -399,12 +399,14 @@ public class KoLmafiaGUI
 			}
 			else if ( this.frameClass == ItemManageFrame.class )
 			{
-				// The Crimbo Cafe is open
+				// The Crimbo Cafe is not open
 
+				/*
 				if ( KoLConstants.cafeItems.isEmpty() )
 				{
 					CrimboCafeRequest.getMenu();
 				}
+				*/
 
 				// If the person is in Bad Moon, retrieve
 				// information from Hell's Kitchen.
