@@ -1796,6 +1796,36 @@ public class UseItemRequest
 
 		switch ( item.getItemId() )
 		{
+		case ItemPool.LOATHING_LEGION_KNIFE:
+		case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK:
+		case ItemPool.LOATHING_LEGION_MOONDIAL:
+		case ItemPool.LOATHING_LEGION_NECKTIE:
+		case ItemPool.LOATHING_LEGION_ELECTRIC_KNIFE:
+		case ItemPool.LOATHING_LEGION_CORKSCREW:
+		case ItemPool.LOATHING_LEGION_CAN_OPENER:
+		case ItemPool.LOATHING_LEGION_CHAINSAW:
+		case ItemPool.LOATHING_LEGION_ROLLERBLADES:
+		case ItemPool.LOATHING_LEGION_FLAMETHROWER:
+		case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
+		case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
+		case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
+		case ItemPool.LOATHING_LEGION_TAPE_MEASURE:
+		case ItemPool.LOATHING_LEGION_KITCHEN_SINK:
+		case ItemPool.LOATHING_LEGION_ABACUS:
+		case ItemPool.LOATHING_LEGION_HELICOPTER:
+		case ItemPool.LOATHING_LEGION_PIZZA_STONE:
+		case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
+		case ItemPool.LOATHING_LEGION_JACKHAMMER:
+		case ItemPool.LOATHING_LEGION_HAMMER:
+			// You spend a little while messing with all of the
+			// latches and clasps and little bits of metal, and end
+			// up with ...
+			if ( responseText.indexOf( "latches and clasps" ) != -1 )
+			{
+				ResultProcessor.processResult( item.getNegation() );
+			}
+			break;
+
 		case ItemPool.LEGENDARY_BEAT:
 			Preferences.setBoolean( "_legendaryBeat", true );
 			return;
@@ -1808,7 +1838,7 @@ public class UseItemRequest
 			// <fruit> that was bouncing around in the machine. You
 			// wonder where it went.
 			if ( UseItemRequest.lastFruit != null &&
-				responseText.indexOf( "into the tube" ) != -1 )
+			     responseText.indexOf( "into the tube" ) != -1 )
 			{
 				ResultProcessor.processResult(
 					UseItemRequest.lastFruit.getNegation() );
@@ -3999,7 +4029,11 @@ public class UseItemRequest
 		switch ( consumptionType )
 		{
 		case KoLConstants.NO_CONSUME:
-			return false;
+			if ( itemId != ItemPool.LOATHING_LEGION_JACKHAMMER )
+			{
+				return false;
+			}
+			break;
 
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.CONSUME_MULTIPLE:
@@ -4127,6 +4161,67 @@ public class UseItemRequest
 			if ( urlString.indexOf( "checked" ) != -1 )
 			{
 				return true;
+			}
+			break;
+
+		case ItemPool.LOATHING_LEGION_KNIFE:
+		case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK:
+		case ItemPool.LOATHING_LEGION_MOONDIAL:
+		case ItemPool.LOATHING_LEGION_NECKTIE:
+		case ItemPool.LOATHING_LEGION_ELECTRIC_KNIFE:
+		case ItemPool.LOATHING_LEGION_CORKSCREW:
+		case ItemPool.LOATHING_LEGION_CAN_OPENER:
+		case ItemPool.LOATHING_LEGION_CHAINSAW:
+		case ItemPool.LOATHING_LEGION_ROLLERBLADES:
+		case ItemPool.LOATHING_LEGION_FLAMETHROWER:
+		case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
+		case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
+		case ItemPool.LOATHING_LEGION_TAPE_MEASURE:
+		case ItemPool.LOATHING_LEGION_KITCHEN_SINK:
+		case ItemPool.LOATHING_LEGION_ABACUS:
+		case ItemPool.LOATHING_LEGION_HELICOPTER:
+		case ItemPool.LOATHING_LEGION_PIZZA_STONE:
+		case ItemPool.LOATHING_LEGION_JACKHAMMER:
+		case ItemPool.LOATHING_LEGION_HAMMER:
+			// inv_use.php?whichitem=xxx&pwd&switch=1
+			// Attempting to use one of these items takes you to a
+			// page where you can select the new form.
+			// inv_use.php?whichitem=xxx&pwd&switch=1&eq=0&fold=yyy
+			// You only lose the item when you switch form.
+			if ( urlString.indexOf( "fold" ) == -1 )
+			{
+				return true;
+			}
+			useString = "fold " + UseItemRequest.lastItemUsed;
+			break;
+
+		case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
+			// You can either use the unversal screwdriver to
+			// untinker something or switch forms.
+			// inv_use.php?whichitem=4926&pwd&action=screw&dowhichitem=xxx
+
+			if ( urlString.indexOf( "action=screw" ) != -1 )
+			{
+				// *** Should log as untinker
+				break;
+			}
+			if ( urlString.indexOf( "fold" ) == -1 )
+			{
+				return true;
+			}
+			useString = "fold " + UseItemRequest.lastItemUsed;
+			break;
+
+		case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
+			// You can either "use" the reusable tattoo needle or
+			// switch forms.
+			if ( urlString.indexOf( "switch" ) != -1 )
+			{
+				if ( urlString.indexOf( "fold" ) == -1 )
+				{
+					return true;
+				}
+				useString = "fold " + UseItemRequest.lastItemUsed;
 			}
 			break;
 		}

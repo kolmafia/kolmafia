@@ -4913,3 +4913,25 @@
 4904	scissor duck	offhand	all	0
 4905	coal paperweight	reusable	display	0
 4906	jingle bell	reusable	display	0
+4907
+4908	Loathing Legion knife	reusable	all	0
+4909	Loathing Legion many-purpose hook	offhand, reusable	display	0
+4910	Loathing Legion moondial	offhand, reusable	display	0
+4911	Loathing Legion necktie	accessory, reusable	display	0
+4912	Loathing Legion electric knife	offhand, reusable	display	0
+4913	Loathing Legion corkscrew	offhand, reusable	display	0
+4914	Loathing Legion can opener	offhand, reusable	display	0
+4915	Loathing Legion chainsaw	weapon, reusable	display	0
+4916	Loathing Legion rollerblades	accessory, reusable	display	0
+4917	Loathing Legion flamethrower	weapon, reusable	display	0
+4918	Loathing Legion tattoo needle	reusable	display	0
+4919	Loathing Legion defibrillator	offhand, reusable	display	0
+4920	Loathing Legion double prism	weapon, reusable	display	0
+4921	Loathing Legion tape measure	offhand, reusable	display	0
+4922	Loathing Legion kitchen sink	offhand, reusable	display	0
+4923	Loathing Legion abacus	offhand, reusable	display	0
+4924	Loathing Legion helicopter	familiar, reusable	display	0
+4925	Loathing Legion pizza stone	offhand, reusable	display	0
+4926	Loathing Legion universal screwdriver	reusable	display	0
+4927	Loathing Legion jackhammer	none, reusable	display	0
+4928	Loathing Legion hammer	weapon, reusable	display	0
