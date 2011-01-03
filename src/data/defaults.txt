@@ -361,6 +361,8 @@ user	lastBarrelSmashed	0
 user	lastBattlefieldReset	-1
 user	lastBreakfast	-1
 user	lastCellarReset	-1
+user	lastChanceBurn
+user	lastChanceThreshold	100
 user	lastChessboard
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
@@ -546,6 +548,18 @@ user	sidequestLighthouseCompleted	none
 user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
 user	skateParkStatus	war
+user	skillBurn1019	-100
+user	skillBurn5017	-100
+user	skillBurn6014	-100
+user	skillBurn6015	-100
+user	skillBurn6016	-100
+user	skillBurn6020	-100
+user	skillBurn6021	-100
+user	skillBurn6022	-100
+user	skillBurn6023	-100
+user	skillBurn6024	-100
+user	skillBurn6026	-100
+user	skillBurn6028	-100
 user	skillLevel46	0
 user	skillLevel47	0
 user	skillLevel48	0
