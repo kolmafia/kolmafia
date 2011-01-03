@@ -537,33 +537,16 @@ public abstract class MoodManager
 			}
 
 			int skillId = SkillDatabase.getSkillId( skillName );
-
-			// Never recast ode when doing MP burning, because
-			// there's no need for it to have a long duration.
-
-			if ( skillId == 6014 )
-			{
-				continue;
-			}
-
-			// Don't recast Hobopolis buffs, since they have daily
-			// limits and the player may have other plans for the
-			// remaining casts.
-
-			if ( skillId >= 6020 && skillId <= 6024 )
-			{
-				continue;
-			}
-
-			// Encounter rate modifying buffs probably shouldn't be
-			// cast during conditional recast.
-
-			if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 )
-			{
-				continue;
-			}
+			
+			int priority = Preferences.getInteger( "skillBurn" + skillId ) + 100;
+			// skillBurnXXXX values offset by 100 so that missing prefs read
+			// as 100% by default.
+			// All skills that were previously hard-coded as unextendable are
+			// now indicated by skillBurnXXXX = -100 in defaults.txt, so they
+			// can be overridden if desired.
 
 			int currentDuration = currentEffect.getCount();
+			int currentLimit = durationLimit * Math.min( 100, priority ) / 100;
 
 			// If we already have 1000 turns more than the number
 			// of turns the player has available, that's enough.
@@ -571,7 +554,7 @@ public abstract class MoodManager
 			// more expensive buff, save up for that one instead
 			// of extending this one.
 
-			if ( currentDuration >= durationLimit )
+			if ( currentDuration >= currentLimit )
 			{
 				continue;
 			}
@@ -605,7 +588,7 @@ public abstract class MoodManager
 				continue;
 			}
 
-			Burn b = new Burn( skillId, skillName, currentDuration );
+			Burn b = new Burn( skillId, skillName, currentDuration, currentLimit );
 			if ( chosen == null )
 			{
 				chosen = b;
@@ -618,7 +601,25 @@ public abstract class MoodManager
 		if ( chosen == null )
 		{
 			// No buff found. Return possible breakfast/libram skill
-			return breakfast;
+			if ( breakfast != null ||
+				allowedMP < Preferences.getInteger( "lastChanceThreshold" ) )
+			{
+				return breakfast;
+			}
+			
+			// TODO: find the known but currently unused skill with the
+			// highest skillBurnXXXX value (>0), and cast it.
+			
+			// Last chance: let the user specify something to do with this
+			// MP that we can't find any other use for.
+			String cmd = Preferences.getString( "lastChanceBurn" );
+			if ( cmd.length() == 0 )
+			{
+				return null;
+			}
+			
+			return StringUtilities.globalStringReplace( cmd, "#",
+				String.valueOf( allowedMP ) );
 		}
 
 		// Simulate casting all of the extendable skills in a balanced
@@ -628,7 +629,7 @@ public abstract class MoodManager
 		while ( i.hasNext() )
 		{
 			Burn b = (Burn) i.next();
-			if ( b.duration >= durationLimit )
+			if ( b.duration >= b.limit )
 			{
 				i.remove();
 				continue;
@@ -656,13 +657,15 @@ public abstract class MoodManager
 		public int skillId;
 		public String skillName;
 		public int duration;
+		public int limit;
 		public int count;
 
-		public Burn( final int skillId, final String skillName, final int duration )
+		public Burn( final int skillId, final String skillName, final int duration, final int limit )
 		{
 			this.skillId = skillId;
 			this.skillName = skillName;
 			this.duration = duration;
+			this.limit = limit;
 			this.count = 0;
 		}
 
