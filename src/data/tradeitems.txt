@@ -1361,9 +1361,9 @@
 1352	redrum	drink	all	60
 1353	ninja pirate zombie robot	grow	display	0
 1354	pile of shiny pebbles	none	none	0
-1355	bowl of oriole's nest soup	food	none	0
+1355	bowl of oriole's nest soup	food	display	0
 1356	bunny liver	none	display	0
-1357	Mt. Noob Pale Ale	drink	none	0
+1357	Mt. Noob Pale Ale	drink	display	0
 1358	pirate zombie head	none	all	360
 1359	ninja pirate zombie robot head	usable	all	360
 1360	pirate zombie robot head	none	all	350
@@ -4743,7 +4743,7 @@
 4734	rehearsing dramatic hedgehog	grow	all	0
 4735	tiny prop sword	familiar	all	75
 4736	tangle of rat tails	none, combat	all	0
-4737	beer-soaked mop	weapon	all	0
+4737	beer-soaked mop	weapon	all	35
 4738	day-old beer	drink	all	5
 4739	plain old beer	drink	all	10
 4740	overpriced &quot;imported&quot; beer	drink	all	25
@@ -4763,7 +4763,7 @@
 4754	bonedanna	hat	all	0
 4755	boneana hammock	pants	all	0
 4756	bag of bones	usable	all	0
-4757	Stabonic scroll	reusable	all	0
+4757	Stabonic scroll	reusable	display	0
 4758	candy skeleton	multiple, candy	all	5
 4759	Grumpy Bumpkin's Pumpkin Seed Catalog	usable	all	0
 4760	packet of pumpkin seeds	usable	display	0
@@ -4774,7 +4774,7 @@
 4765	pumpkin juice	multiple	all	0
 4766	pumpkin bomb	none, combat	all	10
 4767	shin gourds	accessory	all	200
-4768	Staff of the November Jack-O-Lantern	weapon	display	25
+4768	Staff of the November Jack-O-Lantern	weapon	display	200
 4769	pumpkin carriage	none	none	0
 4770	Desert Bus pass	none	none	0
 4771	ginormous pumpkin	usable	all	0
