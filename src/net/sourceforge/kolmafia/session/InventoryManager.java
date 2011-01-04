@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -881,6 +882,10 @@ public abstract class InventoryManager
 		{
 			return true;
 		}
+		if ( Preferences.getBoolean( "debugBuy" ) )
+		{
+			RequestLogger.printLine( "\u262F " + item.getInstance( qty ) + " mall=" + mallprice + " make=" + makeprice );
+		}
 		return mallprice < makeprice;
 	}
 
@@ -891,7 +896,7 @@ public abstract class InventoryManager
 		if ( onhand > 0 )
 		{
 			price = MallPriceDatabase.getPrice( item.getItemId() );
-			if ( price <= 0 )
+			if ( price <= 0 || item.getItemId() == ItemPool.PLASTIC_SWORD )
 			{
 				price = Math.abs( ItemDatabase.getPriceById( item.getItemId() ) );
 			}
@@ -899,6 +904,10 @@ public abstract class InventoryManager
 			qty -= onhand;
 			if ( qty == 0 )
 			{
+				if ( Preferences.getBoolean( "debugBuy" ) )
+				{
+					RequestLogger.printLine( "\u262F " + item.getInstance( onhand ) + " onhand=" + price );
+				}
 				return price;
 			}
 		}
@@ -915,6 +924,10 @@ public abstract class InventoryManager
 		if ( makeprice != Integer.MAX_VALUE )
 		{
 			makeprice += price;
+		}
+		if ( Preferences.getBoolean( "debugBuy" ) )
+		{
+			RequestLogger.printLine( "\u262F " + item.getInstance( qty ) + " mall=" + mallprice + " make=" + makeprice );
 		}
 		return Math.min( mallprice, makeprice );
 	}

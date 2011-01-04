@@ -42,6 +42,7 @@ global	connectViaAddress	false
 global	cookies.inventory
 global	copyAsHTML	false
 global	customizedTabs	false
+global	debugBuy	false
 global	debugConsequences	false
 global	debugPathnames	true
 global	defaultBorderColor	blue
