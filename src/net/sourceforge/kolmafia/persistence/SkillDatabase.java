@@ -453,8 +453,13 @@ public class SkillDatabase
 		}
 
 		int cost = ( (Integer) mpConsumption ).intValue();
+		if ( cost == 0 )
+		{
+			return 0;
+		}
 
-		return cost == 0 ? 0 : Math.max( cost + KoLCharacter.getManaCostAdjustment(), 1 );
+		int adjustment = KoLCharacter.getManaCostAdjustment( SkillDatabase.getSkillType( skillId ) == SkillDatabase.COMBAT );
+		return Math.max( cost + adjustment, 1 );
 	}
 
 	/**

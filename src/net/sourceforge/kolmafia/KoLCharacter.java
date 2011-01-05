@@ -1728,8 +1728,14 @@ public abstract class KoLCharacter
 
 	public static final int getManaCostAdjustment()
 	{
+		return KoLCharacter.getManaCostAdjustment( false );
+	}
+
+	public static final int getManaCostAdjustment( final boolean combat )
+	{
 		return (int) KoLCharacter.currentModifiers.get( Modifiers.MANA_COST ) +
-			(int) KoLCharacter.currentModifiers.get( Modifiers.STACKABLE_MANA_COST )
+			(int) KoLCharacter.currentModifiers.get( Modifiers.STACKABLE_MANA_COST ) +
+			( combat ? (int) KoLCharacter.currentModifiers.get( Modifiers.COMBAT_MANA_COST ) : 0 )
 			- KoLCharacter.holidayManaCostReduction;
 	}
 

@@ -1025,6 +1025,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "mana_cost_modifier", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "combat_mana_cost_modifier", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "raw_damage_absorption", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -4205,6 +4208,11 @@ public abstract class RuntimeLibrary
 	public static Value mana_cost_modifier()
 	{
 		return new Value( KoLCharacter.getManaCostAdjustment() );
+	}
+
+	public static Value combat_mana_cost_modifier()
+	{
+		return new Value( KoLCharacter.getManaCostAdjustment( true ) );
 	}
 
 	public static Value raw_damage_absorption()
