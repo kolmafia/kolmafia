@@ -4699,21 +4699,25 @@ public class FightRequest
 			return false;
 
 		case ItemPool.ANTIDOTE: // Anti-Anti-Antidote
-			// You quickly quaff the anti-anti-antidote. You feel better.
+
+			// You quickly quaff the anti-anti-antidote. You feel
+			// better.
 
 			return responseText.indexOf( "You quickly quaff" ) != -1;
+		case ItemPool.GLOB_OF_BLANK_OUT:
+
+			// As you're moseying, you notice that the last of the
+			// Blank-Out is gone, and that your hand is finally
+			// clean. Yay!
+
+			return responseText.indexOf( "your hand is finally clean" ) != -1;
 
 		case ItemPool.MERKIN_PINKSLIP:
 
 			// You hand him the pinkslip. He reads it, frowns, and
 			// swims sulkily away.
 
-			if ( responseText.indexOf( "swims sulkily away" ) != -1 )
-			{
-				return true;
-			}
-
-			return false;
+			return responseText.indexOf( "swims sulkily away" ) != -1;
 
 		default:
 
