@@ -1747,18 +1747,41 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 
 			int fullness = ItemDatabase.getFullness( item.getName() );
-			int couldEat = fullness == 0 ? 0 : 
-				Math.max( 0, Math.min( item.getCount() - 1, (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness ) );
-			Preferences.increment( "currentFullness", couldEat * fullness );
-			
-			int estimatedFullness = KoLCharacter.getFullnessLimit() - fullness + 1;
+			// If we have no fullness data for this item, we can't
+			// tell what, if anything, consumption did to our
+			// fullness.
+			if ( fullness == 0 )
+			{
+				return;
+			}
 
-			if ( fullness > 0 && estimatedFullness > KoLCharacter.getFullness() )
+			// Roll back what we did to fullness in registerRequest
+			int count = item.getCount();
+			Preferences.increment( "currentFullness", -fullness * count );
+
+			int maxFullness = KoLCharacter.getFullnessLimit();
+			int currentFullness = KoLCharacter.getFullness();
+
+			// Based on what we think our current fullness is,
+			// calculate how many of this item we have room for.
+			int maxEat = (maxFullness - currentFullness) / fullness;
+
+			// We know that KoL did not let us eat as many as we
+			// requested, so adjust for how many we could eat.
+			int couldEat = Math.max( 0, Math.min( item.getCount() - 1, maxEat ) );
+			if ( couldEat > 0 )
+			{
+				Preferences.increment( "currentFullness", couldEat * fullness );
+			}
+			
+			int estimatedFullness = maxFullness - fullness + 1;
+
+			if ( estimatedFullness > KoLCharacter.getFullness() )
 			{
 				Preferences.setInteger( "currentFullness", estimatedFullness );
 			}
 
-			ResultProcessor.processResult( item.getInstance( item.getCount() - couldEat ) );
+			ResultProcessor.processResult( item.getInstance( count - couldEat ) );
 			KoLCharacter.updateStatus();
 
 			return;
