@@ -1226,7 +1226,9 @@ public class ResultProcessor
 
 		case ItemPool.BATSKIN_BELT:
 		case ItemPool.DRAGONBONE_BELT_BUCKLE:
-
+			// Make sure concoctions haven't been deferred
+			ConcoctionDatabase.deferRefresh( false );
+			ConcoctionDatabase.deferRefresh( true );
 			CreateItemRequest beltCreator = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
 			// getQuantityPossible() should take meat paste or
 			// Muscle Sign into account
@@ -1238,7 +1240,9 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.QUANTUM_EGG:
-
+			// Make sure concoctions haven't been deferred
+			ConcoctionDatabase.deferRefresh( false );
+			ConcoctionDatabase.deferRefresh( true );
 			CreateItemRequest rowboatCreator = CreateItemRequest.getInstance( ItemPool.ROWBOAT );
 			// getQuantityPossible() should take meat paste or
 			// Muscle Sign into account
