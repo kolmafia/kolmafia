@@ -106,7 +106,7 @@ bs	50	map to the Marinara Trench
 bs	50	map to Anemone Mine
 bs	50	map to the Dive Bar
 bs	100	damp old boot
-bs	300	sushi-rolling mat
+bs	100	sushi-rolling mat
 
 # Things you can buy with Crimbux
 
