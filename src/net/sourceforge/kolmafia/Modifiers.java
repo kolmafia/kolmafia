@@ -194,6 +194,7 @@ public class Modifiers
 	public static final int SPORADIC_ITEMDROP = 94;
 	public static final int MEAT_BONUS = 95;
 	public static final int PICKPOCKET_CHANCE = 96;
+	public static final int COMBAT_MANA_COST = 97;
 	
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -259,7 +260,7 @@ public class Modifiers
 		  Pattern.compile( "Stench Resistance: " + EXPR )
 		},
 		{ "Mana Cost",
-		  Pattern.compile( "([+-]\\d+) MP to use Skills" ),
+		  Pattern.compile( "([+-]\\d+) MP to use Skills$" ),
 		  Pattern.compile( "Mana Cost: " + EXPR )
 		},
 		{ "Moxie",
@@ -429,7 +430,7 @@ public class Modifiers
 		  Pattern.compile( "Ranged Damage Percent: " + EXPR )
 		},
 		{ "Stackable Mana Cost",
-		  Pattern.compile( "([+-]\\d+) MP to use Skills" ),
+		  Pattern.compile( "([+-]\\d+) MP to use Skills$" ),
 		  Pattern.compile( "Mana Cost \\(stackable\\): " + EXPR )
 		},
 		{ "Hobo Power",
@@ -625,6 +626,10 @@ public class Modifiers
 		{ "Pickpocket Chance",
 		  Pattern.compile( "([+-]\\d+)% Pickpocket Chance" ),
 		  Pattern.compile( "Pickpocket Chance: " + EXPR )
+		},
+		{ "Combat Mana Cost",
+		  Pattern.compile( "([+-]\\d+) MP to use Skills \\(in-combat only\\)" ),
+		  Pattern.compile( "Mana Cost (combat): " + EXPR )
 		},
 	};
 
