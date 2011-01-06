@@ -537,6 +537,7 @@ public class DailyDeedsPanel
 			int fr = 0;
 			if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++fr;
 			if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) fr += 2;
+                        if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++fr;
 			this.setShown( fr > 0 );
 			this.setEnabled( nr < fr );
 			this.setText( nr + " (" + fr + " free)" );
