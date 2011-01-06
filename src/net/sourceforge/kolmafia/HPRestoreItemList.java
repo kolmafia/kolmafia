@@ -295,6 +295,7 @@ public abstract class HPRestoreItemList
 				int freerests = 0;
 				if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++freerests;
 				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) freerests += 2;
+				if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++freerests;
 				if ( Preferences.getInteger( "timesRested" ) >= freerests ) return;
 				
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
