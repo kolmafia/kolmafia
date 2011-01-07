@@ -44,11 +44,13 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -189,6 +191,22 @@ public class FoldItemCommand
 		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 		{
 			RequestLogger.printLine( source + " => " + target );
+			return;
+		}
+		
+		if ( targetName.startsWith( "Loathing Legion" ) )
+		{
+			StringBuffer buf = new StringBuffer();
+			buf.append( "inv_use.php?pwd=" );
+			buf.append( GenericRequest.passwordHash );
+			buf.append( "&whichitem=" );
+			buf.append( Integer.toString( source.getItemId() ) );
+			buf.append( "&fold=" );
+			buf.append( StringUtilities.getURLEncode( targetName ) );
+
+			GenericRequest request = new GenericRequest( buf.toString(), false );
+			RequestThread.postRequest( request );
+			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
 			return;
 		}
 
