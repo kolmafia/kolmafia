@@ -92,6 +92,7 @@ public class UseItemRequest
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	public static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
+	public static final Pattern DOWHICHITEM_PATTERN = Pattern.compile( "dowhichitem=(\\d+)" );
 
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</blockquote></td></tr></table>.*?</body>" );
@@ -119,6 +120,7 @@ public class UseItemRequest
 	private static AdventureResult lastItemUsed = null;
 	private static AdventureResult lastHelperUsed = null;
 	private static AdventureResult lastFruit = null;
+	private static AdventureResult lastUntinker = null;
 	private static boolean lastLook = false;
 	private static int askedAboutOde = 0;
 	private static int askedAboutMilk = 0;
@@ -1819,6 +1821,18 @@ public class UseItemRequest
 
 		switch ( item.getItemId() )
 		{
+		case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER: {
+			// You jam your screwdriver into your xxx and pry it
+			// apart.
+			if ( UseItemRequest.lastUntinker != null &&
+			     responseText.indexOf( "You jam your screwdriver" ) != -1 )
+			{
+				ResultProcessor.processResult( UseItemRequest.lastUntinker.getNegation() );
+				UseItemRequest.lastUntinker = null;
+				break;
+			}
+		}
+			// Fall through
 		case ItemPool.LOATHING_LEGION_KNIFE:
 		case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK:
 		case ItemPool.LOATHING_LEGION_MOONDIAL:
@@ -1837,7 +1851,6 @@ public class UseItemRequest
 		case ItemPool.LOATHING_LEGION_ABACUS:
 		case ItemPool.LOATHING_LEGION_HELICOPTER:
 		case ItemPool.LOATHING_LEGION_PIZZA_STONE:
-		case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
 		case ItemPool.LOATHING_LEGION_JACKHAMMER:
 		case ItemPool.LOATHING_LEGION_HAMMER:
 			// You spend a little while messing with all of the
@@ -4225,9 +4238,28 @@ public class UseItemRequest
 
 			if ( urlString.indexOf( "action=screw" ) != -1 )
 			{
-				// *** Should log as untinker
+				Matcher matcher = UseItemRequest.DOWHICHITEM_PATTERN.matcher( urlString );
+				if ( !matcher.find() )
+				{
+					UseItemRequest.lastUntinker = null;
+					return true;
+				}
+
+				int uid = StringUtilities.parseInt( matcher.group( 1 ) );
+				AdventureResult untinker = ItemPool.get( uid, 1 );
+				String countStr = "1";
+
+				if ( urlString.indexOf( "untinkerall=on" ) != -1 )
+				{
+					untinker = ItemPool.get( uid, untinker.getCount( KoLConstants.inventory ) );
+					countStr = "*";
+				}
+
+				UseItemRequest.lastUntinker = untinker;
+				useString = "unscrew " + countStr + " " + untinker.getName();
 				break;
 			}
+
 			if ( urlString.indexOf( "fold" ) == -1 )
 			{
 				return true;
