@@ -373,7 +373,7 @@ public class UseSkillRequest
 		{
 		
 		// Vent Rage Gland can be used once per day
-		case 45:
+		case SkillDatabase.RAGE_GLAND:
 			maximumCast = Preferences.getBoolean( "rageGlandVented" ) ? 0 : 1;
 			break;
 
@@ -414,6 +414,12 @@ public class UseSkillRequest
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.SPOOKY_WAD ), maximumCast );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.STENCH_WAD ), maximumCast );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.TWINKLY_WAD ), maximumCast );
+			break;
+
+		// You can take a Lunch Break once a day
+		case SkillDatabase.LUNCH_BREAK:
+
+			maximumCast = Preferences.getBoolean( "_lunchBreak" ) ? 0 : 1;
 			break;
 
 		// Transcendental Noodlecraft affects # of summons for
@@ -1204,7 +1210,7 @@ public class UseSkillRequest
 			KoLConstants.activeEffects.clear();
 			break;
 
-		case 45:
+		case SkillDatabase.RAGE_GLAND:
 			Preferences.setBoolean( "rageGlandVented", true );
 			break;
 			
@@ -1221,6 +1227,10 @@ public class UseSkillRequest
 			ResultProcessor.processResult( ItemPool.get( ItemPool.TWINKLY_WAD, -count ) );
 
 			Preferences.increment( "prismaticSummons", count );
+			break;
+
+		case SkillDatabase.LUNCH_BREAK:
+			Preferences.setBoolean( "_lunchBreak", true );
 			break;
 
 		case 3006:
