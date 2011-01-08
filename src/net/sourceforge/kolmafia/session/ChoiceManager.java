@@ -1460,6 +1460,7 @@ public abstract class ChoiceManager
 		// Choice 515 is A Rat's Home...
 		// -> can skip if have +20 spooky damage
 
+		// Choice 516 is unknown
 		// Choice 517 is Mr. Alarm, I Presarm
 			
 		// Clear and Present Danger
@@ -1472,6 +1473,9 @@ public abstract class ChoiceManager
 			"Hobopolis", "choiceAdventure519", "Elf Alley",
 			new String[] { "gift-a-pult", "skip adventure" },
 			new String[] { "0", null } ),
+
+		// Choice 520 is A Show-ho-ho-down
+		// Choice 521 is A Wicked Buxx
 	};
 
 	static
