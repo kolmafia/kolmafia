@@ -2282,7 +2282,7 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		if ( KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON && !KoLCharacter.skillsRecalled )
+		if ( KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON && !KoLCharacter.kingLiberated() )
 		{
 			return;
 		}

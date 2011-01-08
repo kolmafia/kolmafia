@@ -2947,6 +2947,10 @@ public class UseItemRequest
 		case ItemPool.BRICKO_CATHEDRAL:
 		case ItemPool.BRICKO_CHICKEN:
 
+			if ( responseText.indexOf( "You're sick of playing with BRICKOs today" ) != -1 )
+			{
+				Preferences.setInteger( "_brickoFights", 10 );
+			}
 			// You're too drunk to mess with BRICKO right now.
 
 			// If we are redirected to a fight, the item is
@@ -3627,6 +3631,11 @@ public class UseItemRequest
 			AdventureRequest.registerDemonName( "Sinister Ancient Tablet", responseText );
 
 			return;
+
+		case ItemPool.BAG_O_TRICKS:
+			Preferences.setBoolean( "_bagOTricksUsed", true );
+			return;
+
 		}
 	}
 

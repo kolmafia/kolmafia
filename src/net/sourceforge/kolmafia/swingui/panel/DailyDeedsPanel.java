@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -61,8 +62,10 @@ import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 public class DailyDeedsPanel
 	extends Box
 {
-	private static final ArrayList allPanels = new ArrayList();	
+	private static final ArrayList allPanels = new ArrayList();
+	public static final AdventureResult GREAT_PANTS = ItemPool.get( ItemPool.GREAT_PANTS, 1 );
 	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
+	public static final AdventureResult NAVEL_RING = ItemPool.get( ItemPool.NAVEL_RING, 1 );
 
 	public DailyDeedsPanel()
 	{
@@ -70,21 +73,23 @@ public class DailyDeedsPanel
 		DailyDeedsPanel.allPanels.add( new WeakReference( this ) );
 		
 		this.add( new BooleanDaily( "breakfastCompleted", "breakfast" ) );
-		this.add( new RunawaysDaily() );
-		this.add( new DropsDaily() );
-		this.add( new AdvsDaily() );
-		this.add( new SealsDaily() );
-		this.add( new RestsDaily() );
-		this.add( new HotTubDaily() );
-		this.add( new PoolDaily() );
+		this.add( new BooleanDaily( "dailyDungeonDone", "adv * Daily Dungeon" ) );
+		this.add( new SpadeDaily() );
 		this.add( new CrimboTreeDaily() );
 		this.add( new ChipsDaily() );
-		this.add( new PitDaily() );
-		this.add( new BooleanDaily( "dailyDungeonDone", "adv * Daily Dungeon" ) );
+		this.add( new BooleanItemDaily( "libraryCardUsed",
+			ItemPool.LIBRARY_CARD, "use library card" ) );
 		this.add( new TelescopeDaily() );
+		this.add( new PitDaily() );
 		this.add( new StyxDaily() );
+		this.add( new PoolDaily() );
+		this.add( new BooleanItemDaily( "_bagOTricksUsed",
+			ItemPool.BAG_O_TRICKS, "use Bag o' Tricks" ) );
+		this.add( new BooleanItemDaily( "_legendaryBeat",
+			ItemPool.LEGENDARY_BEAT, "use Legendary Beat" ) );
+		this.add( new BooleanItemDaily( "outrageousSombreroUsed",
+			ItemPool.OUTRAGEOUS_SOMBRERO, "use outrageous sombrero" ) );
 		this.add( new FriarsDaily() );
-		this.add( new ConcertDaily() );
 		this.add( new SkateDaily( "lutz", "ice", "_skateBuff1",
 			"Fishy" ) );
 		this.add( new SkateDaily( "comet", "roller", "_skateBuff2",
@@ -95,6 +100,7 @@ public class DailyDeedsPanel
 			"+10 lbs. underwater" ) );
 		this.add( new SkateDaily( "merry-go-round", "peace", "_skateBuff5",
 			"+25% items underwater" ) );
+		this.add( new ConcertDaily() );
 		this.add( new DemonDaily( 1, "yum!",
 			2, "+100% meat, 30 turns" ) );
 		this.add( new DemonDaily( 3, "+5-16 HP/MP, 30 turns",
@@ -103,27 +109,26 @@ public class DailyDeedsPanel
 			7, null ) );
 		this.add( new DemonDaily( 8, "torment, 20 turns",
 			9, "+80-100 hot damage, 30 turns" ) );
-		this.add( new NunsDaily() );
 		this.add( new BooleanSkillDaily( "rageGlandVented",
 				"Vent Rage Gland", "cast Vent Rage Gland" ) );
-		this.add( new BooleanItemDaily( "libraryCardUsed",
-			ItemPool.LIBRARY_CARD, "use library card" ) );
-		this.add( new BooleanItemDaily( "outrageousSombreroUsed",
-			ItemPool.OUTRAGEOUS_SOMBRERO, "use outrageous sombrero" ) );
+		this.add( new RestsDaily() );
+		this.add( new HotTubDaily() );
+		this.add( new NunsDaily() );
 		this.add( new BooleanItemDaily( "oscusSodaUsed",
 			ItemPool.NEVERENDING_SODA, "use Oscus's neverending soda" ) );
 		this.add( new BooleanItemDaily( "expressCardUsed",
 			ItemPool.EXPRESS_CARD, "use Yendorian Express card" ) );
-		this.add( new BooleanItemDaily( "_legendaryBeat",
-			ItemPool.LEGENDARY_BEAT, "use Legendary Beat" ) );
 		this.add( new MojoDaily() );
+		this.add( new PuddingDaily() );
 		this.add( new MelangeDaily() );
 		this.add( new StillsDaily() );
 		this.add( new PuttyDaily() );
 		this.add( new CameraDaily() );
 		this.add( new PhotocopyDaily() );
-		this.add( new PuddingDaily() );
-		this.add( new SpadeDaily() );
+		this.add( new AdvsDaily() );
+		this.add( new DropsDaily() );
+		this.add( new FreeFightsDaily() );
+		this.add( new RunawaysDaily() );
 	}
 	
 	public void add( Daily daily )
@@ -422,6 +427,9 @@ public class DailyDeedsPanel
 			this.addListener( "demonSummoned" );
 			this.addListener( "demonName" + demon1 );
 			this.addListener( "demonName" + demon2 );
+			this.addItem( ItemPool.EYE_OF_ED );
+			this.addItem( ItemPool.HEADPIECE_OF_ED );
+			this.addItem( ItemPool.STAFF_OF_ED );
 			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon1 - 1 ][ 1 ],
 				tip1 );
 			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon2 - 1 ][ 1 ],
@@ -431,11 +439,13 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean summoned = Preferences.getBoolean( "demonSummoned" );
-			int level = KoLCharacter.getLevel();
-			this.setShown( level >= 11 );
-			this.setEnabled( 0, !summoned && level >= 11 &&
+			boolean have = InventoryManager.getCount( ItemPool.EYE_OF_ED ) > 0
+				|| InventoryManager.getCount( ItemPool.HEADPIECE_OF_ED ) > 0
+				|| InventoryManager.getCount( ItemPool.STAFF_OF_ED ) > 0;
+			this.setShown( have );
+			this.setEnabled( 0, !summoned && have &&
 				!Preferences.getString( "demonName" + this.demon1 ).equals( "" ) );
-			this.setEnabled( 1, !summoned && level >= 11 &&
+			this.setEnabled( 1, !summoned && have &&
 				!Preferences.getString( "demonName" + this.demon2 ).equals( "" ) );
 		}
 	}
@@ -537,7 +547,7 @@ public class DailyDeedsPanel
 			int fr = 0;
 			if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++fr;
 			if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) fr += 2;
-                        if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++fr;
+			if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++fr;
 			this.setShown( fr > 0 );
 			this.setEnabled( nr < fr );
 			this.setText( nr + " (" + fr + " free)" );
@@ -561,11 +571,9 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean kf = KoLCharacter.kingLiberated();
-			int lastFriarCeremonyAscension = Preferences.getInteger( "lastFriarCeremonyAscension" );
-			// boolean level = KoLCharacter.getLevel() >= 6;
-			int knownAscensions = Preferences.getInteger( "knownAscensions" );
-			// Preferences.setInteger( "lastFriarCeremonyAscension",  knownAscensions);
-			this.setShown( kf || lastFriarCeremonyAscension==knownAscensions );
+			int lfc = Preferences.getInteger( "lastFriarCeremonyAscension" );
+			int ka = Preferences.getInteger( "knownAscensions" );
+			this.setShown( kf || lfc == ka );
 			this.setEnabled( !Preferences.getBoolean( "friarsBlessingReceived" ) );
 		}
 	}
@@ -596,6 +604,7 @@ public class DailyDeedsPanel
 		public MojoDaily()
 		{
 			this.addListener( "currentMojoFilters" );
+			this.addListener( "kingLiberated" );
 			this.addItem( ItemPool.MOJO_FILTER );
 			this.addButton( "use mojo filter" );
 			this.addLabel( "" );
@@ -722,31 +731,45 @@ public class DailyDeedsPanel
 		
 		public void update()
 		{
-			this.setShown( KoLCharacter.isMoxieClass() );
-			this.setText( KoLCharacter.getStillsAvailable() +
-				"/10 stills available" );
+			this.setShown( KoLCharacter.isMoxieClass() &&
+				KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) );
+			this.setText( (10 - KoLCharacter.getStillsAvailable()) +
+				"/10 stills used" );
 		}
 	}
 
-	public static class SealsDaily
+	public static class FreeFightsDaily
 		extends Daily
 	{
-		public SealsDaily()
+		public FreeFightsDaily()
 		{
+			this.addListener( "_brickoFights" );
+			this.addListener( "_hipsterAdv" );
 			this.addListener( "_sealsSummoned" );
 			this.addLabel( "" );
 		}
 		
 		public void update()
 		{
-			this.setShown( KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER );
+			boolean bf = !KoLCharacter.isHardcore() ||
+				(KoLCharacter.isHardcore() && KoLCharacter.hasSkill( "Summon BRICKOs" ));
+			boolean hh = KoLCharacter.findFamiliar( FamiliarPool.HIPSTER ) != null ;
+			boolean sc = KoLCharacter.getClassType().equals(KoLCharacter.SEAL_CLUBBER);
+
+			this.setShown( bf || hh || sc );
 			int maxSummons = 5;
 			if ( KoLCharacter.hasEquipped( DailyDeedsPanel.INFERNAL_SEAL_CLAW ) ||
 			     DailyDeedsPanel.INFERNAL_SEAL_CLAW.getCount( KoLConstants.inventory ) > 0 )
 			{
 				maxSummons = 10;
 			}
-			this.setText( Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned" );
+			String text = "Fights: ";
+			if( bf ) text = text + Preferences.getInteger( "_brickoFights" ) + "/10 BRICKO";
+			if( bf && ( hh || sc ) ) text = text + ", ";
+			if( hh ) text = text + Preferences.getInteger( "_hipsterAdv" ) + "/7 hipster";
+			if( hh && sc ) text = text + ", ";
+			if( sc ) text = text + Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned";
+			this.setText( text );
 		}
 	}
 
@@ -755,16 +778,28 @@ public class DailyDeedsPanel
 	{
 		public RunawaysDaily()
 		{
-			this.addListener( "_navelRunaways" );
+//			this.addItem( ItemPool.NAVEL_RING );
 			this.addListener( "_banderRunaways" );
+			this.addListener( "_navelRunaways" );
 			this.addLabel( "" );
 		}
 		
 		public void update()
 		{
-			this.setText( "Runaways: " + Preferences.getInteger( "_navelRunaways" )
-				+ " navel ring, " + Preferences.getInteger( "_banderRunaways" )
-				+ " bandersnatch" );
+			boolean hb = KoLCharacter.findFamiliar( FamiliarPool.BANDER ) != null;
+			boolean gp = InventoryManager.getCount( ItemPool.GREAT_PANTS ) > 0
+				|| KoLCharacter.hasEquipped( DailyDeedsPanel.GREAT_PANTS );
+			boolean nr = Preferences.getInteger( "_navelRunaways" ) > 0
+				|| InventoryManager.getCount( ItemPool.NAVEL_RING ) > 0
+				|| KoLCharacter.hasEquipped( DailyDeedsPanel.NAVEL_RING );
+			this.setShown( hb || gp || nr );
+			String text = "Runaways: ";
+			if( hb ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch" ;
+			if( hb && ( gp || nr ) ) text = text + ", ";
+			if( nr && !gp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " navel ring";
+			if( nr && gp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap+navel";
+			if( gp && !nr ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap pants";
+			this.setText( text );
 		}
 	}
 
@@ -773,22 +808,44 @@ public class DailyDeedsPanel
 	{
 		public DropsDaily()
 		{
-			this.addListener( "_aguaDrops" );
-			this.addListener( "_gongDrops" );
 			this.addListener( "_absintheDrops" );
+			this.addListener( "_aguaDrops" );
 			this.addListener( "_astralDrops" );
+			this.addListener( "_gongDrops" );
+			this.addListener( "_pieDrops" );
+			this.addListener( "_piePartsCount" );
 			this.addListener( "_tokenDrops" );
 			this.addLabel( "" );
 		}
 
 		public void update()
 		{
-			this.setText( "Drops: " + Preferences.getInteger( "_aguaDrops" )
-				+ " agua, " + Preferences.getInteger( "_gongDrops" )
-				+ " gong, " + Preferences.getInteger( "_absintheDrops" )
-				+ " absinthe, " + Preferences.getInteger( "_astralDrops" )
-				+ " astral, " + Preferences.getInteger( "_tokenDrops" )
-				+ " token" );
+			boolean hf1 = KoLCharacter.findFamiliar( FamiliarPool.PIXIE ) != null;
+			boolean hf2 = KoLCharacter.findFamiliar( FamiliarPool.SANDWORM ) != null;
+			boolean hf3 = KoLCharacter.findFamiliar( FamiliarPool.BADGER ) != null;
+			boolean hf4 = KoLCharacter.findFamiliar( FamiliarPool.LLAMA ) != null;
+			boolean hf5 = KoLCharacter.findFamiliar( FamiliarPool.GRINDER ) != null;
+			boolean hf6 = KoLCharacter.findFamiliar( FamiliarPool.TRON ) != null;
+			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 );
+			String text = "Drops: ";
+			if( hf1 ) text = text + Preferences.getInteger( "_absintheDrops" ) + " absinthe";
+			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if( hf2 ) text = text + Preferences.getInteger( "_aguaDrops" ) + " agua";
+			if( hf2 && ( hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if( hf3 ) text = text + Preferences.getInteger( "_astralDrops" ) + " astral";
+			if( hf3 && ( hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if( hf4 ) text = text + Preferences.getInteger( "_gongDrops" ) + " gong";
+			if( hf4 && ( hf5  || hf6 ) ) text = text + ", ";
+			if( hf5 )
+			{
+				if( Preferences.getInteger( "_pieDrops" )==1 )
+					text = text + Preferences.getInteger( "_pieDrops" ) + " pie (";
+				else text = text + Preferences.getInteger( "_pieDrops" ) + " pies (";
+				text = text + Preferences.getInteger( "_piePartsCount" ) +")";
+			}
+			if( hf5 && hf6 ) text = text + ", ";
+			if( hf6 ) text = text + Preferences.getInteger( "_tokenDrops" ) + " token";
+			this.setText( text );
 		}
 	}
 
@@ -797,6 +854,8 @@ public class DailyDeedsPanel
 	{
 		public AdvsDaily()
 		{
+			// this.addItem( ItemPool.TIME_HELMET );
+			// this.addItem( ItemPool.V_MASK );
 			this.addListener( "_gibbererAdv" );
 			this.addListener( "_hareAdv" );
 			this.addListener( "_hipsterAdv" );
@@ -808,13 +867,25 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			this.setText( "Advs: "
-				      + Preferences.getInteger( "_gibbererAdv" ) + " gibberer, "
-				      + Preferences.getInteger( "_hareAdv" ) + " hare, "
-				      + Preferences.getInteger( "_hipsterAdv" ) + " hipster, "
-				      + Preferences.getInteger( "_riftletAdv" ) + " riftlet, "
-				      + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet, "
-				      + Preferences.getInteger( "_vmaskAdv" ) + " V mask" );
+			boolean hf1 = KoLCharacter.findFamiliar( FamiliarPool.GIBBERER ) != null;
+			boolean hf2 = KoLCharacter.findFamiliar( FamiliarPool.HARE ) != null;
+			boolean hf3 = KoLCharacter.findFamiliar( FamiliarPool.RIFTLET ) != null;
+			boolean hf4 = InventoryManager.getCount( ItemPool.TIME_HELMET ) > 0
+				|| Preferences.getInteger( "_timeHelmetAdv" ) > 0;
+			boolean hf5 = InventoryManager.getCount( ItemPool.V_MASK ) > 0
+				|| Preferences.getInteger( "_vmaskAdv" ) > 0;
+			String text = "Advs: ";
+			if( hf1 ) text = text + Preferences.getInteger( "_gibbererAdv" ) + " gibberer";
+			if( hf1 && (hf2 || hf3 || hf4 || hf5) ) text = text + ", ";
+			if( hf2 ) text = text + Preferences.getInteger( "_hareAdv" ) + " hare";
+			if( hf2 && (hf3 || hf4 || hf5) ) text = text + ", ";
+			if( hf3 ) text = text + Preferences.getInteger( "_riftletAdv" ) + " riftlet";
+			if( hf3 && (hf4 || hf5) ) text = text + ", ";
+			if( hf4 ) text = text + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet";
+			if( hf4 && hf5 ) text = text + ", ";
+			if( hf5 ) text = text + Preferences.getInteger( "_vmaskAdv" ) + " V mask";
+			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 );
+			this.setText( text );
 		}
 	}
 
@@ -826,12 +897,6 @@ public class DailyDeedsPanel
 			this.addListener( "spookyPuttyCopiesMade" );
 			this.addListener( "spookyPuttyMonster" );
 			this.addListener( "kingLiberated" );
-			this.addItem( ItemPool.SPOOKY_PUTTY_MITRE );
-			this.addItem( ItemPool.SPOOKY_PUTTY_LEOTARD );
-			this.addItem( ItemPool.SPOOKY_PUTTY_BALL );
-			this.addItem( ItemPool.SPOOKY_PUTTY_SHEET );
-			this.addItem( ItemPool.SPOOKY_PUTTY_SNAKE );
-			this.addItem( ItemPool.SPOOKY_PUTTY_MONSTER );
 			this.addLabel( "" );
 		}
 		
@@ -951,6 +1016,7 @@ public class DailyDeedsPanel
 		public PitDaily()
 		{
 			this.addListener( "_ballpit" );
+			this.addListener( "kingLiberated" );
 			this.addButton( "ballpit", "stat boost for 20" );
 		}
 
