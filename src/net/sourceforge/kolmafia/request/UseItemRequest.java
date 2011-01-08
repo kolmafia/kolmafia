@@ -2961,6 +2961,25 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.RECORDING_BALLAD:
+		case ItemPool.RECORDING_BENETTON:
+		case ItemPool.RECORDING_CHORALE:
+		case ItemPool.RECORDING_DONHO:
+		case ItemPool.RECORDING_ELRON:
+		case ItemPool.RECORDING_INIGO:
+		case ItemPool.RECORDING_PRELUDE:
+
+			// "You already have too many songs stuck in your head."
+
+			if ( responseText.indexOf( "too many songs stuck in your head" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You have the maximum number of AT buffs already.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+			}
+
+			return;
+
 		case ItemPool.FOSSILIZED_BAT_SKULL:
 		case ItemPool.FOSSILIZED_SERPENT_SKULL:
 		case ItemPool.FOSSILIZED_BABOON_SKULL:
