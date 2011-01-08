@@ -2502,6 +2502,19 @@ public class FightRequest
 			Preferences.increment( "_banderRunaways", 1 );
 		}
 
+		// Increment Organ Grinder combat counter
+		if ( responseText.indexOf( "picking a few choice bits to put in his grinder" ) != -1 ||
+		     responseText.indexOf( "picks some organs out of your opponent and tosses them into his grinder." ) != -1 ||
+		     responseText.indexOf( "squealing something about burning his Longers and Lingers." ) != -1 ||
+		     responseText.indexOf( "chattering about how the upper story on his Gregory is standing up." ) != -1 ||
+		     responseText.indexOf( "blushes a little as he rummages in his body for organs to grind." ) != -1 ||
+		     responseText.indexOf( "shivers as he rummages for grindable organs" ) != -1 ||
+		     responseText.indexOf( "squelches around in its body for some grinder fodder" ) != -1 ||
+		     responseText.indexOf( "and harvests a few choice bits for his grinder." ) != -1 )
+		{
+			Preferences.increment( "_piePartsCount", 1 );
+		}
+
 		// Check for worn-out stickers
 		int count = 0;
 		m = WORN_STICKER_PATTERN.matcher( responseText );
@@ -4587,6 +4600,22 @@ public class FightRequest
 
 	private static final boolean isItemConsumed( final int itemId, final String responseText )
 	{
+		if( itemId == ItemPool.EMPTY_EYE )
+		{
+			// You hold Zombo's eye out toward your opponent,
+			// whose gaze is transfixed by it. (success)
+			//   or
+			// You hold Zombo's eye out toward your opponent,
+			// but nothing happens. (failure)
+			if ( responseText.indexOf( "You hold Zombo's eye out toward your opponent, whose gaze is transfixed by it." ) != -1 )
+			{
+				Preferences.setInteger( "_lastZomboEye", KoLAdventure.getAdventureCount() );
+				// "Safe" interval between uses is 50 turns
+				TurnCounter.stopCounting( "Zombo's Empty Eye" );
+				TurnCounter.startCounting( 50, "Zombo's Empty Eye loc=*", "zomboeye.gif" );
+			}
+		}
+
 		if ( ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_COMBAT_REUSABLE ) )
 		{
 			return false;
@@ -4704,13 +4733,18 @@ public class FightRequest
 			// better.
 
 			return responseText.indexOf( "You quickly quaff" ) != -1;
+
 		case ItemPool.GLOB_OF_BLANK_OUT:
+			// As you're moseying, you notice that the last of the Blank-Out
+			// is gone, and that your hand is finally clean. Yay!
 
-			// As you're moseying, you notice that the last of the
-			// Blank-Out is gone, and that your hand is finally
-			// clean. Yay!
-
-			return responseText.indexOf( "your hand is finally clean" ) != -1;
+			if ( responseText.indexOf( "your hand is finally clean" ) != -1 )
+			{
+				Preferences.setInteger( "blankOutUsed", 0 );
+				return true;
+			}
+			Preferences.increment( "blankOutUsed" );
+			return false;
 
 		case ItemPool.MERKIN_PINKSLIP:
 

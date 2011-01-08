@@ -1070,6 +1070,12 @@ public abstract class UseLinkDecorator
 			useLocation = "adventure.php?snarfblat=231";
 			break;
 
+		case ItemPool.FORGED_ID_DOCUMENTS:
+
+			useType = "vacation";
+			useLocation = "shore.php";
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty

@@ -54,7 +54,7 @@ public class TelescopeCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		if ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() && KoLCharacter.getTelescopeUpgrades() > 0 )
+		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() && KoLCharacter.getTelescopeUpgrades() > 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your telescope is unavailable in Bad Moon." );
 			return;

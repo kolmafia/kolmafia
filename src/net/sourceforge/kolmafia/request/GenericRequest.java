@@ -2222,6 +2222,7 @@ public class GenericRequest
 		case ItemPool.BRICKO_CATHEDRAL:
 		case ItemPool.BRICKO_CHICKEN:
 			itemName = item.getName();
+			Preferences.increment( "_brickoFights", 1 );
 			consumed = true;
 			break;
 

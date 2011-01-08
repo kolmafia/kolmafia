@@ -500,7 +500,7 @@ public class MallPurchaseRequest
 			// Maybe you can put on some Travoltan Trousers to
 			// decrease the cost of the purchase.
 
-			if ( KoLConstants.inventory.contains( MallPurchaseRequest.TROUSERS ) )
+			if ( KoLConstants.inventory.contains( MallPurchaseRequest.TROUSERS ) && GAPcheck() )
 			{
 				( new EquipmentRequest( MallPurchaseRequest.TROUSERS, EquipmentManager.PANTS ) ).run();
 			}
@@ -521,6 +521,12 @@ public class MallPurchaseRequest
 			return false;
 		}
 
+		if ( !GAPcheck() )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				"You have a Greatest American Pants buff and buying this item would cause you to lose it." );
+			return false;
+		}
 		( new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) ) ).run();
 		return true;
 	}
@@ -798,7 +804,7 @@ public class MallPurchaseRequest
 		// the price string was really an int and might find another
 		// way to effectively strip leading zeros from the display
 
-		priceVal = StringUtilities.parseInt( priceString);
+		priceVal = StringUtilities.parseInt( priceString );
 		int itemId = StringUtilities.parseInt( idString );
 		String itemName = ItemDatabase.getItemName( itemId );
 
@@ -813,5 +819,20 @@ public class MallPurchaseRequest
 			RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " at market price from " + storeName);
 		}
 		return true;
+	}
+	private static final boolean GAPcheck()
+	{
+		// returns false if you have a buff from Greatest American Pants and
+		// have it set to keep the buffs, otherwise returns true
+		boolean keepPants = Preferences.getBoolean( "gapProtection" ) &&
+		(
+		KoLConstants.activeEffects.contains( new AdventureResult( "Super Skill", 1, true ) ) ||
+		KoLConstants.activeEffects.contains( new AdventureResult( "Super Structure", 1, true ) ) ||
+		KoLConstants.activeEffects.contains( new AdventureResult( "Super Vision", 1, true ) ) ||
+		KoLConstants.activeEffects.contains( new AdventureResult( "Super Speed", 1, true ) ) ||
+		KoLConstants.activeEffects.contains( new AdventureResult( "Super Accuracy", 1, true ) )
+		);
+
+		return !keepPants;
 	}
 }

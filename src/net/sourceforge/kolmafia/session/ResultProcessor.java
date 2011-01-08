@@ -1385,6 +1385,20 @@ public class ResultProcessor
 				RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
 			}
 			break;
+		case ItemPool.LIVER_PIE:
+		case ItemPool.BADASS_PIE:
+		case ItemPool.FISH_PIE:
+		case ItemPool.PIPING_PIE:
+		case ItemPool.IGLOO_PIE:
+		case ItemPool.TURNOVER:
+		case ItemPool.DEAD_PIE:
+		case ItemPool.THROBBING_PIE:
+			if ( combatResults )
+			{
+				Preferences.increment( "_pieDrops", 1 );
+				Preferences.setInteger( "_piePartsCount", -1 );
+			}
+			break;
 		}
 	}
 

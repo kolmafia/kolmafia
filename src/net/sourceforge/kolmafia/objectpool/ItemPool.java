@@ -352,6 +352,7 @@ public class ItemPool
 	public static final int MAKEUP_KIT = 1305;
 	public static final int COMFY_BLANKET = 1311;
 	public static final int FACSIMILE_DICTIONARY = 1316;
+	public static final int TIME_HELMET = 1323;
 	public static final int CLOACA_COLA = 1334;
 	public static final int TOY_SOLDIER = 1397;
 	public static final int SNOWCONE_BOOK = 1411;
@@ -500,6 +501,7 @@ public class ItemPool
 	public static final int SEAL_HELMET = 2283;
 	public static final int PETRIFIED_NOODLES = 2284;
 	public static final int CHISEL = 2285;
+	public static final int EYE_OF_ED = 2286;
 	public static final int RED_PAPER_CLIP = 2289;
 	public static final int REALLY_BIG_TINY_HOUSE = 2290;
 	public static final int NONESSENTIAL_AMULET = 2291;
@@ -521,6 +523,7 @@ public class ItemPool
 	public static final int WORM_RIDING_MANUAL_1 = 2320;
 	public static final int WORM_RIDING_MANUAL_2 = 2321;
 	public static final int WORM_RIDING_MANUAL_3_15 = 2322;
+	public static final int HEADPIECE_OF_ED = 2323;
 	public static final int STAFF_OF_ED = 2325;
 	public static final int STONE_ROSE = 2326;
 	public static final int BLACK_PAINT = 2327;
@@ -630,6 +633,7 @@ public class ItemPool
 	public static final int NAVEL_RING = 2844;
 	public static final int PLASTIC_BIB = 2846;
 	public static final int GNOME_DEMODULIZER = 2848;
+	public static final int V_MASK = 2946;
 	public static final int PIRATE_INSULT_BOOK = 2947;
 	public static final int CARONCH_MAP = 2950;
 	public static final int FRATHOUSE_BLUEPRINTS = 2951;
@@ -986,6 +990,7 @@ public class ItemPool
 	public static final int SECRET_FROM_THE_FUTURE = 4114;
 	public static final int EMPTY_AGUA_DE_VIDA_BOTTLE = 4130;
 	public static final int MOVEABLE_FEAST = 4135;
+	public static final int BAG_O_TRICKS = 4136;
 	public static final int RUMPLED_PAPER_STRIP = 4138;
 	public static final int CREASED_PAPER_STRIP = 4139;
 	public static final int FOLDED_PAPER_STRIP = 4140;
@@ -1134,6 +1139,14 @@ public class ItemPool
 	public static final int OLD_SWEATPANTS = 4711;
 	public static final int MARIACHI_HAT = 4718;
 	public static final int HOLLANDAISE_HELMET = 4719;
+	public static final int LIVER_PIE = 4722;
+	public static final int BADASS_PIE = 4723;
+	public static final int FISH_PIE = 4724;
+	public static final int PIPING_PIE = 4725;
+	public static final int IGLOO_PIE = 4726;
+	public static final int TURNOVER = 4727;
+	public static final int DEAD_PIE = 4728;
+	public static final int THROBBING_PIE = 4729;
 	public static final int BONE_CHIPS = 4743;
 	public static final int PUMPKIN = 4761;
 	public static final int HUGE_PUMPKIN = 4762;
