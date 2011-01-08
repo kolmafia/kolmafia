@@ -199,6 +199,7 @@ public class FoldItemCommand
 			StringBuffer buf = new StringBuffer();
 			buf.append( "inv_use.php?pwd=" );
 			buf.append( GenericRequest.passwordHash );
+			buf.append( "&switch=1" );
 			buf.append( "&whichitem=" );
 			buf.append( Integer.toString( source.getItemId() ) );
 			buf.append( "&fold=" );
