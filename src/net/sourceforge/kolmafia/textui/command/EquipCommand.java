@@ -95,26 +95,6 @@ public class EquipCommand
 
 		int itemId = match.getItemId();
 
-		if ( EquipmentManager.itemIdToEquipmentType( itemId ) == EquipmentManager.FAMILIAR )
-		{
-			FamiliarData familiar = KoLCharacter.getFamiliar();
-			if ( familiar == FamiliarData.NO_FAMILIAR )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You have no familiar with you." );
-				return;
-			}
-			if ( !familiar.canEquip( match ) )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your " + familiar.getRace() + " can't wear a " + match.getName() );
-				return;
-			}
-		}
-		else if ( !EquipmentManager.canEquip( itemId ) )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + match.getName() );
-			return;
-		}
-
 		// If he didn't specify slot name, decide where this item goes.
 		if ( slot == -1 )
 		{
@@ -141,6 +121,28 @@ public class EquipCommand
 		else // See if desired item is already in selected slot
 		if ( EquipmentManager.getEquipment( slot ).equals( match ) )
 		{
+			return;
+		}
+
+		// We now know which slot the equipment will go into. See if we
+		// can equip the item there.
+		if ( slot == EquipmentManager.FAMILIAR )
+		{
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			if ( familiar == FamiliarData.NO_FAMILIAR )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You have no familiar with you." );
+				return;
+			}
+			if ( !familiar.canEquip( match ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your " + familiar.getRace() + " can't wear a " + match.getName() );
+				return;
+			}
+		}
+		else if ( !EquipmentManager.canEquip( itemId ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + match.getName() );
 			return;
 		}
 
