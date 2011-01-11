@@ -179,6 +179,7 @@ user	arcadeGameHints	false
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
 user	autoBuyPriceLimit	20000
+user	autoCraft	true
 user	autoEntangle	false
 user	autoManaRestore	false
 user	autoOlfact
