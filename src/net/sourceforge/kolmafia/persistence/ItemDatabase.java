@@ -426,6 +426,14 @@ public class ItemDatabase
 				continue;
 			}
 
+			String name = ItemDatabase.getItemDataName( nextInteger );
+			// Skip bogus item ids
+			if ( itemId < 1 )
+			{
+				RequestLogger.printLine( "Bogus item: id = " + itemId + " name = " + name );
+				continue;
+			}
+
 			for ( int i = lastInteger; i < itemId; ++i )
 			{
 				writer.println( i );
@@ -433,7 +441,6 @@ public class ItemDatabase
 
 			lastInteger = itemId + 1;
 
-			String name = ItemDatabase.getItemDataName( nextInteger );
 			int type = ItemDatabase.getConsumptionType( itemId );
 			int attrs = ItemDatabase.getAttributes( itemId );
 			String access = ItemDatabase.getAccessById( nextInteger );
@@ -476,7 +483,7 @@ public class ItemDatabase
 			int itemId = nextInteger.intValue();
 
 			// Skip pseudo items
-			if ( itemId == 13 )
+			if ( itemId == 13 || itemId < 1 )
 			{
 				continue;
 			}
