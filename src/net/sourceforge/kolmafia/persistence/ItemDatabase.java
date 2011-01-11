@@ -337,6 +337,13 @@ public class ItemDatabase
 
 			int itemId = StringUtilities.parseInt( data[ 0 ] );
 			String name = new String( data[ 1 ] );
+
+			if ( itemId < 0 )
+			{
+				RequestLogger.printLine( "Bogus item: id = " + itemId + " name = " + name );
+				continue;
+			}
+
 			String[] usages = data[ 2 ].split( "\\s*,\\s*" );
 			String access = ItemDatabase.parseAccess( data[ 3 ] );
 			int price = StringUtilities.parseInt( data[ 4 ] );
