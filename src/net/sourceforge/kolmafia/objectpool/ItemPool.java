@@ -132,6 +132,7 @@ public class ItemPool
 	public static final int FOUNTAIN = 211;
 	public static final int WINDCHIMES = 212;
 	public static final int DREADSACK = 214;
+	public static final int HEMP_STRING = 218;
 	public static final int EYEPATCH = 224;
 	public static final int PUNGENT_UNGUENT = 231;
 	public static final int COCKTAIL_KIT = 236;
@@ -183,6 +184,7 @@ public class ItemPool
 	public static final int DODECAGRAM = 479;
 	public static final int CANDLES = 480;
 	public static final int BUTTERKNIFE = 481;
+	public static final int SNAKEHEAD_CHARM = 485;
 	public static final int TALISMAN = 486;
 	public static final int KETCHUP_HOUND = 493;
 	public static final int PAPAYA = 498;
@@ -338,6 +340,8 @@ public class ItemPool
 	public static final int PLEXIGLASS_POCKETWATCH = 1232;
 	public static final int PLEXIGLASS_PENDANT = 1235;
 	public static final int TOY_HOVERCRAFT = 1243;
+	public static final int BONERDAGON_VERTEBRA = 1247;
+	public static final int BONERDAGON_NECKLACE = 1248;
 	public static final int PRETENTIOUS_PAIL = 1258;
 	public static final int WAX_LIPS = 1260;
 	public static final int NOSE_BONE_FETISH = 1264;
