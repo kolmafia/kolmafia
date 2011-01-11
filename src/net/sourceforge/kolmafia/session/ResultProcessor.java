@@ -1232,7 +1232,7 @@ public class ResultProcessor
 			CreateItemRequest beltCreator = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
 			// getQuantityPossible() should take meat paste or
 			// Muscle Sign into account
-			if ( beltCreator.getQuantityPossible() > 0 )
+			if ( beltCreator.getQuantityPossible() > 0 && Preferences.getBoolean( "autoCraft" ) )
 			{
 				beltCreator.setQuantityNeeded( 1 );
 				RequestThread.postRequest( beltCreator );
@@ -1246,7 +1246,7 @@ public class ResultProcessor
 			CreateItemRequest rowboatCreator = CreateItemRequest.getInstance( ItemPool.ROWBOAT );
 			// getQuantityPossible() should take meat paste or
 			// Muscle Sign into account
-			if ( rowboatCreator.getQuantityPossible() > 0 )
+			if ( rowboatCreator.getQuantityPossible() > 0 && Preferences.getBoolean( "autoCraft" ) )
 			{
 				rowboatCreator.setQuantityNeeded( 1 );
 				RequestThread.postRequest( rowboatCreator );
