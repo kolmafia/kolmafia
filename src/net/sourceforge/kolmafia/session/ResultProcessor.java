@@ -1226,31 +1226,20 @@ public class ResultProcessor
 
 		case ItemPool.BATSKIN_BELT:
 		case ItemPool.DRAGONBONE_BELT_BUCKLE:
-			// Make sure concoctions haven't been deferred
-			ConcoctionDatabase.deferRefresh( false );
-			ConcoctionDatabase.deferRefresh( true );
-			CreateItemRequest beltCreator = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
-			// getQuantityPossible() should take meat paste or
-			// Muscle Sign into account
-			if ( beltCreator.getQuantityPossible() > 0 && Preferences.getBoolean( "autoCraft" ) )
-			{
-				beltCreator.setQuantityNeeded( 1 );
-				RequestThread.postRequest( beltCreator );
-			}
+			ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
 			break;
 
 		case ItemPool.QUANTUM_EGG:
-			// Make sure concoctions haven't been deferred
-			ConcoctionDatabase.deferRefresh( false );
-			ConcoctionDatabase.deferRefresh( true );
-			CreateItemRequest rowboatCreator = CreateItemRequest.getInstance( ItemPool.ROWBOAT );
-			// getQuantityPossible() should take meat paste or
-			// Muscle Sign into account
-			if ( rowboatCreator.getQuantityPossible() > 0 && Preferences.getBoolean( "autoCraft" ) )
-			{
-				rowboatCreator.setQuantityNeeded( 1 );
-				RequestThread.postRequest( rowboatCreator );
-			}
+			ResultProcessor.autoCreate( ItemPool.ROWBOAT );
+			break;
+
+		case ItemPool.HEMP_STRING:
+		case ItemPool.BONERDAGON_VERTEBRA:
+			ResultProcessor.autoCreate( ItemPool.BONERDAGON_NECKLACE );
+			break;
+
+		case ItemPool.SNAKEHEAD_CHARM:
+			ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			break;
 
 		case ItemPool.WORM_RIDING_HOOKS:
@@ -1399,6 +1388,29 @@ public class ResultProcessor
 				Preferences.setInteger( "_piePartsCount", -1 );
 			}
 			break;
+		}
+	}
+
+	private static void autoCreate( final int itemId )
+	{
+		if ( !Preferences.getBoolean( "autoCraft" ) )
+		{
+			return;
+		}
+
+		// Make sure concoctions haven't been deferred
+		ConcoctionDatabase.deferRefresh( false );
+		ConcoctionDatabase.deferRefresh( true );
+
+		CreateItemRequest creator = CreateItemRequest.getInstance( itemId );
+		// getQuantityPossible() should take meat paste or
+		// Muscle Sign into account
+		int possible = creator.getQuantityPossible();
+		if ( possible > 0 )
+		{
+			// Make as many as you can
+			creator.setQuantityNeeded( possible );
+			RequestThread.postRequest( creator );
 		}
 	}
 
