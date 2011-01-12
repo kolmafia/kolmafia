@@ -1179,6 +1179,7 @@ public class ItemPool
 	public static final int PHOTOCOPIED_MONSTER = 4873;
 	public static final int CRIMBCO_MUG = 4880;
 	public static final int BGE_SHOTGLASS = 4893;
+	public static final int BGE_TATTOO = 4900;
 	public static final int LOATHING_LEGION_KNIFE = 4908;
 	public static final int LOATHING_LEGION_MANY_PURPOSE_HOOK = 4909;
 	public static final int LOATHING_LEGION_MOONDIAL = 4910;

@@ -2970,7 +2970,7 @@ public class UseItemRequest
 		case ItemPool.RECORDING_INIGO:
 		case ItemPool.RECORDING_PRELUDE:
 
-			// "You already have too many songs stuck in your head."
+			// You already have too many songs stuck in your head.
 
 			if ( responseText.indexOf( "too many songs stuck in your head" ) != -1 )
 			{
@@ -3053,6 +3053,18 @@ public class UseItemRequest
 				Preferences.setString( "photocopyMonster", "Your butt" );
 			}
 			else
+			{
+				ResultProcessor.processResult( item );
+			}
+			return;
+
+		case ItemPool.BGE_TATTOO:
+
+			// You've already got one of those tattoos on.
+			// You should give this one to somebody who will
+			// appreciate it more.
+
+			if ( responseText.indexOf( "You've already got one of those tattoos on" ) != -1 )
 			{
 				ResultProcessor.processResult( item );
 			}
