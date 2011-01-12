@@ -67,15 +67,19 @@ public class Operator
 
 	private int operStrength()
 	{
+		// *** Here is where a postfix ++ and -- would go
+		// return 14;
+
 		if ( this.operator.equals( "!" ) ||
 		     this.operator.equals( "~" ) ||
 		     this.operator.equals( "contains" ) ||
 		     this.operator.equals( "remove" ) )
 		{
-			// also pre- or postfix ++ and --
+			// also prefix ++ and --
 			return 13;
 		}
 
+		// *** Boo, hiss
 		if ( this.operator.equals( "^" ) )
 		{
 			return 12;
@@ -95,7 +99,8 @@ public class Operator
 		}
 
 		if ( this.operator.equals( "<<" ) ||
-		     this.operator.equals( ">>" ) )
+		     this.operator.equals( ">>" ) ||
+		     this.operator.equals( ">>>" ) )
 		{
 			return 9;
 		}
@@ -119,7 +124,7 @@ public class Operator
 			return 6;
 		}
 
-		// Here is where a bitwise XOR would go
+		// *** Here is where a bitwise XOR would go
 		// return 5;
 
 		if ( this.operator.equals( "|" ) )
@@ -169,11 +174,13 @@ public class Operator
 			this.operator.equals( "~" ) ||
 			this.operator.equals( "<<" ) ||
 			this.operator.equals( ">>" ) ||
+			this.operator.equals( ">>>" ) ||
 			this.operator.equals( "&=" ) ||
-			this.operator.equals( "|=" )
 			// bitwise xor assignment
-			// perhaps <<=, and >>=
-			;
+			this.operator.equals( "|=" ) ||
+			this.operator.equals( "<<=" ) ||
+			this.operator.equals( ">>=" ) ||
+			this.operator.equals( ">>>=" );
 	}
 
 	public boolean isComparison()
@@ -310,9 +317,11 @@ public class Operator
 				this.operator.equals( "%" ) ? new Value( lint % rint ) :
 				this.operator.equals( "^" ) ? new Value( (int) Math.pow( lint, rint ) ) :
 				this.operator.equals( "&" ) ? new Value( lint & rint ) :
+				// *** bitwise exclusive or
 				this.operator.equals( "|" ) ? new Value( lint | rint ) :
 				this.operator.equals( "<<" ) ? new Value( lint << rint ) :
 				this.operator.equals( ">>" ) ? new Value( lint >> rint ) :
+				this.operator.equals( ">>>" ) ? new Value( lint >>> rint ) :
 				DataTypes.ZERO_VALUE;
 		}
 
