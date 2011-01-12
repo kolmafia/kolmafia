@@ -253,6 +253,7 @@ public class Parser
 		multiCharTokens.add( "/*" );
 		multiCharTokens.add( "<<" );
 		multiCharTokens.add( ">>" );
+		multiCharTokens.add( ">>>" );
 		multiCharTokens.add( "+=" );
 		multiCharTokens.add( "-=" );
 		multiCharTokens.add( "*=" );
@@ -260,6 +261,9 @@ public class Parser
 		multiCharTokens.add( "%=" );
 		multiCharTokens.add( "&=" );
 		multiCharTokens.add( "|=" );
+		multiCharTokens.add( "<<=" );
+		multiCharTokens.add( ">>=" );
+		multiCharTokens.add( ">>>=" );
 
 		// Constants
 		reservedWords.add( "true" );
@@ -2153,7 +2157,10 @@ public class Parser
 		     !this.nextToken().equals( "/=" ) &&
 		     !this.nextToken().equals( "%=" ) &&
 		     !this.nextToken().equals( "&=" ) &&
-		     !this.nextToken().equals( "|=" ) )
+		     !this.nextToken().equals( "|=" ) &&
+		     !this.nextToken().equals( "<<=" ) &&
+		     !this.nextToken().equals( ">>=" ) &&
+		     !this.nextToken().equals( ">>>=" ) )
 		{
 			return null;
 		}
@@ -2182,7 +2189,10 @@ public class Parser
 		     !operStr.equals( "/=" ) &&
 		     !operStr.equals( "%=" ) &&
 		     !operStr.equals( "&=" ) &&
-		     !operStr.equals( "|=" ) )
+		     !operStr.equals( "|=" ) &&
+		     !operStr.equals( "<<=" ) &&
+		     !operStr.equals( ">>=" ) &&
+		     !operStr.equals( ">>>=" ) )
 		{
 			return null;
 		}
@@ -2749,10 +2759,12 @@ public class Parser
 			oper.equals( "+" ) ||
 			oper.equals( "-" ) ||
 			oper.equals( "&" ) ||
+			// *** bitwise exclusive or
 			oper.equals( "|" ) ||
 			oper.equals( "~" ) ||
 			oper.equals( "<<" ) ||
 			oper.equals( ">>" ) ||
+			oper.equals( ">>>" ) ||
 			oper.equals( "<" ) ||
 			oper.equals( ">" ) ||
 			oper.equals( "<=" ) ||
@@ -3212,6 +3224,16 @@ public class Parser
 
 		for ( result = 0; result < s.length(); result++ )
 		{
+			if ( result + 3 < s.length() && this.tokenString( s.substring( result, result + 4 ) ) )
+			{
+				return result == 0 ? 4 : result;
+			}
+
+			if ( result + 2 < s.length() && this.tokenString( s.substring( result, result + 3 ) ) )
+			{
+				return result == 0 ? 3 : result;
+			}
+
 			if ( result + 1 < s.length() && this.tokenString( s.substring( result, result + 2 ) ) )
 			{
 				return result == 0 ? 2 : result;
