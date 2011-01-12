@@ -67,40 +67,78 @@ public class Operator
 
 	private int operStrength()
 	{
-		if ( this.operator.equals( "!" ) || this.operator.equals( "contains" ) || this.operator.equals( "remove" ) )
+		if ( this.operator.equals( "!" ) ||
+		     this.operator.equals( "~" ) ||
+		     this.operator.equals( "contains" ) ||
+		     this.operator.equals( "remove" ) )
 		{
-			return 7;
+			// also pre- or postfix ++ and --
+			return 13;
 		}
 
 		if ( this.operator.equals( "^" ) )
 		{
+			return 12;
+		}
+
+		if ( this.operator.equals( "*" ) ||
+		     this.operator.equals( "/" ) ||
+		     this.operator.equals( "%" ) )
+		{
+			return 11;
+		}
+
+		if ( this.operator.equals( "+" ) ||
+		     this.operator.equals( "-" ) )
+		{
+			return 10;
+		}
+
+		if ( this.operator.equals( "<<" ) ||
+		     this.operator.equals( ">>" ) )
+		{
+			return 9;
+		}
+
+		if ( this.operator.equals( "<" ) ||
+		     this.operator.equals( ">" ) ||
+		     this.operator.equals( "<=" ) ||
+		     this.operator.equals( ">=" ) )
+		{
+			return 8;
+		}
+
+		if ( this.operator.equals( "==" ) ||
+		     this.operator.equals( "!=" ) )
+		{
+			return 7;
+		}
+
+		if ( this.operator.equals( "&" ) )
+		{
 			return 6;
 		}
 
-		if ( this.operator.equals( "*" ) || this.operator.equals( "/" ) || this.operator.equals( "%" ) )
-		{
-			return 5;
-		}
+		// Here is where a bitwise XOR would go
+		// return 5;
 
-		if ( this.operator.equals( "+" ) || this.operator.equals( "-" ) )
+		if ( this.operator.equals( "|" ) )
 		{
 			return 4;
 		}
 
-		if ( this.operator.equals( "<" ) || this.operator.equals( ">" ) || this.operator.equals( "<=" ) || this.operator.equals( ">=" ) )
+		if ( this.operator.equals( "&&" ) )
 		{
 			return 3;
 		}
 
-		if ( this.operator.equals( "==" ) || this.operator.equals( "!=" ) )
+		if ( this.operator.equals( "||" ) )
 		{
 			return 2;
 		}
 
-		if ( this.operator.equals( "||" ) || this.operator.equals( "&&" ) )
-		{
-			return 1;
-		}
+		// Here is where a ternary conditional would go
+		// return 1;
 
 		return -1;
 	}
@@ -121,6 +159,21 @@ public class Operator
 			this.operator.equals( "^" ) ||
 			this.operator.equals( "/" ) ||
 			this.operator.equals( "%" );
+	}
+
+	public boolean isInteger()
+	{
+		return this.operator.equals( "&" ) ||
+			this.operator.equals( "|" ) ||	
+			// bitwise xor
+			this.operator.equals( "~" ) ||
+			this.operator.equals( "<<" ) ||
+			this.operator.equals( ">>" ) ||
+			this.operator.equals( "&=" ) ||
+			this.operator.equals( "|=" )
+			// bitwise xor assignment
+			// perhaps <<=, and >>=
+			;
 	}
 
 	public boolean isComparison()
@@ -256,6 +309,10 @@ public class Operator
 				this.operator.equals( "/" ) ? new Value( lint / rint ) :
 				this.operator.equals( "%" ) ? new Value( lint % rint ) :
 				this.operator.equals( "^" ) ? new Value( (int) Math.pow( lint, rint ) ) :
+				this.operator.equals( "&" ) ? new Value( lint & rint ) :
+				this.operator.equals( "|" ) ? new Value( lint | rint ) :
+				this.operator.equals( "<<" ) ? new Value( lint << rint ) :
+				this.operator.equals( ">>" ) ? new Value( lint >> rint ) :
 				DataTypes.ZERO_VALUE;
 		}
 
@@ -322,6 +379,17 @@ public class Operator
 		if ( this.operator.equals( "!" ) )
 		{
 			Value result = new Value( leftValue.intValue() == 0 );
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "<- " + result );
+			}
+			interpreter.traceUnindent();
+			return result;
+		}
+
+		if ( this.operator.equals( "~" ) )
+		{
+			Value result = new Value( ~leftValue.intValue()  );
 			if ( interpreter.isTracing() )
 			{
 				interpreter.trace( "<- " + result );
@@ -509,7 +577,7 @@ public class Operator
 		}
 
 		// Arithmetic operators
-		if ( this.isArithmetic() )
+		if ( this.isArithmetic() || this.isInteger() )
 		{
 			return this.performArithmetic( interpreter, leftValue, rightValue );
 		}

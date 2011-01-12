@@ -102,7 +102,7 @@ public class VariableReference
 		Value newValue = targetValue;
 		if ( oper != null )
 		{
-			Value currentValue = this.target.getValue( interpreter );;
+			Value currentValue = this.target.getValue( interpreter );
 			newValue = oper.applyTo( interpreter, currentValue, targetValue );
 		}
 		this.target.setValue( interpreter, newValue );
