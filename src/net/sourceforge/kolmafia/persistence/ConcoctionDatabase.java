@@ -112,7 +112,7 @@ public class ConcoctionDatabase
 
 	private static final AdventureResult[] NO_INGREDIENTS = new AdventureResult[ 0 ];
 	
-	private static final AdventureResult INIGO = new AdventureResult( "Inigo's Incantation of Inspiration", 0, true );
+	public static final AdventureResult INIGO = new AdventureResult( "Inigo's Incantation of Inspiration", 0, true );
 
 	private static final HashMap mixingMethods = new HashMap();
 

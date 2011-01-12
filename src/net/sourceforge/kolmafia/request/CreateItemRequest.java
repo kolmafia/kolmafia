@@ -351,7 +351,7 @@ public class CreateItemRequest
 	{
 		return this.compareTo( o ) == 0;
 	}
-                
+
 	public int compareTo( final Object o )
 	{
 		return o == null ? -1 : this.getName().compareToIgnoreCase( ( (CreateItemRequest) o ).getName() );
@@ -754,8 +754,8 @@ public class CreateItemRequest
 
 	private boolean autoRepairBoxServant()
 	{
-                return CreateItemRequest.autoRepairBoxServant( this.mixingMethod );
-        }
+		return CreateItemRequest.autoRepairBoxServant( this.mixingMethod );
+	}
 
 	public static boolean autoRepairBoxServant( final int mixingMethod )
 	{

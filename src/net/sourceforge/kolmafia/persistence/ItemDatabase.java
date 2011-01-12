@@ -778,7 +778,7 @@ public class ItemDatabase
 
 	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1, final boolean gainEffect2, final float result )
 	{
-                // Remove adventure gains from zodiac signs
+		// Remove adventure gains from zodiac signs
 		ItemDatabase.getAdventureMap( false, gainEffect1, gainEffect2 ).put( name, new Float( result ) );
 		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2 ).put( name, new Float( result / unitCost ) );
 	}

@@ -738,10 +738,10 @@ public abstract class KoLmafia
 		// Save the current user settings to disk
 		Preferences.reset( null );
 
-                // Load the JSON string first, so we can use it, if necessary.
+		// Load the JSON string first, so we can use it, if necessary.
 		ActionBarManager.loadJSONString();
 
-                // Reload the current user's preferences
+		// Reload the current user's preferences
 		Preferences.reset( name );
 
 		// The password hash changes for each session
@@ -943,8 +943,8 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( new CharSheetRequest() );
 
-                // Now that we know the character's ascension count, reset
-                // anything that depends on that.
+		// Now that we know the character's ascension count, reset
+		// anything that depends on that.
 
 		KoLCharacter.resetPerAscensionData();
 
@@ -1808,8 +1808,12 @@ public abstract class KoLmafia
 
 		while ( !foundFaucet && searchList.size() > 0 && KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
 		{
+			// The following is not correct, since you can't go to
+			// a random square anymore. You have to go to a square
+			// that is adjacent to a square you've already visited.
 			searchIndex = (Integer) searchList.remove( KoLConstants.RNG.nextInt( searchList.size() ) );
-			request.addFormField( "where", searchIndex.toString() );
+			request.addFormField( "whichspot", searchIndex.toString() );
+			request.addFormField( "action", "explore" );
 			RequestThread.postRequest( adventure );
 
 			String response = request.responseText;

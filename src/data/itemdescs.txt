@@ -4906,7 +4906,7 @@
 4900	794993997	BGE temporary tattoo	BGE temporary tattoos
 4901	201573560	BGE tiny plastic toy	BGE tiny plastic toys
 4902	943145773	stapler bear
-4903	223657831	adhesive tape dolly
+4903	223657831	adhesive tape dolly	adhesive tape dollies
 4904	822611275	scissor duck
 4905	603768984	coal paperweight
 4906	941578696	jingle bell

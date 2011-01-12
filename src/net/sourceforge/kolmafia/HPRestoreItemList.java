@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -73,6 +74,7 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 100 );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9, 60 );
 
+	public static final HPRestoreItem HOTTUB = new HPRestoreItem( "relaxing hot tub", Integer.MAX_VALUE );
 	public static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem MASSAGE_OIL = new HPRestoreItem( "scented massage oil", Integer.MAX_VALUE );
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
@@ -89,6 +91,7 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.MASSAGE_OIL,
 		HPRestoreItemList.COCOON,
 		HPRestoreItemList.NUNS,
+		HPRestoreItemList.HOTTUB,
 		new HPRestoreItem( "red pixel potion", 110 ),
 		new HPRestoreItem( "really thick bandage", 109 ),
 		new HPRestoreItem( "filthy poultice", 100 ),
@@ -320,6 +323,24 @@ public abstract class HPRestoreItemList
 				}
 				
 				NunneryCommand.visit( "hp" );
+				return;
+			}
+
+			if ( this == HPRestoreItemList.HOTTUB )
+			{
+				if ( Preferences.getInteger( "_hotTubSoaks" ) >= 5 )
+				{
+					// done for the day
+					return;
+				}
+
+				if ( KoLCharacter.getCurrentHP() > KoLCharacter.getMaximumHP() / 2 )
+				{
+					// don't waste this limited resource on small restores
+					return;
+				}
+
+				ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.HOTTUB );
 				return;
 			}
 

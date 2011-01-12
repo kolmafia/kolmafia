@@ -214,11 +214,15 @@ public class TavernRequest
 		}
 
 		char replacement = '1';
-		if ( request.responseText.indexOf( "faucetoff" ) != -1 )
+		if ( request.responseText.indexOf( "Of Course!" ) != -1 )
 		{
 			replacement = '3';
 		}
-		else if ( request.responseText.indexOf( "You acquire" ) != -1 )
+		else if ( request.responseText.indexOf( "is it Still a Mansion" ) != -1 )
+		{
+			replacement = '4';
+		}
+		else if ( request.responseText.indexOf( "whichchoice" ) != -1 )
 		{
 			replacement = '2';
 		}

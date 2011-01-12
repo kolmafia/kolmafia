@@ -1855,6 +1855,14 @@ public abstract class SorceressLairManager
 			return -1;
 		}
 
+		// Disable automation while Form of... Bird! is active,
+		// as it disables item usage.
+
+		if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		{
+			return -1;
+		}
+
 		// Make sure that auto-attack is deactivated for the
 		// shadow fight, otherwise it will fail.
 
