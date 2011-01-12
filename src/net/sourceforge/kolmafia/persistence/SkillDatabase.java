@@ -875,7 +875,7 @@ public class SkillDatabase
 		return list;
 	}
 
-	private static final String toTitleCase( final String s )
+	public static final String toTitleCase( final String s )
 	{
 		boolean found = false;
 		char[] chars = s.toLowerCase().toCharArray();

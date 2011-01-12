@@ -126,6 +126,7 @@ public class CleanupJunkRequest
 				case 533: // Gnollish toolbox
 				case 553: // 31337 scroll
 				case 604: // Penultimate fantasy chest
+				case 621: // Warm Subject gift certificate
 				case 831: // small box
 				case 832: // large box
 				case 1768: // Gnomish toolbox
@@ -137,10 +138,6 @@ public class CleanupJunkRequest
 				case 2512: // Hippy Army MPE
 				case 2536: // canopic jar
 				case 2612: // ancient vinyl coin purse
-					RequestThread.postRequest( new UseItemRequest( currentItem.getInstance( itemCount ) ) );
-					break;
-
-				case 621: // Warm Subject gift certificate
 					RequestThread.postRequest( new UseItemRequest( currentItem.getInstance( itemCount ) ) );
 					break;
 				}

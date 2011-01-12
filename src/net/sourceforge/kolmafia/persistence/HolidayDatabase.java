@@ -1094,25 +1094,25 @@ public class HolidayDatabase
 				}
 			}
 
-                        return "";
+			return "";
 		}
 
-                if ( gameHoliday == null && realHoliday == null )
-                {
-                        return "";
-                }
+		if ( gameHoliday == null && realHoliday == null )
+		{
+			return "";
+		}
 
-                if ( gameHoliday == null )
-                {
-                        return realHoliday;
-                }
+		if ( gameHoliday == null )
+		{
+			return realHoliday;
+		}
 
-                if ( realHoliday == null )
-                {
-                        return gameHoliday;
-                }
+		if ( realHoliday == null )
+		{
+			return gameHoliday;
+		}
 
-                return realHoliday + " / " + gameHoliday;
+		return realHoliday + " / " + gameHoliday;
 	}
 
 	private static String cachedYear = "";

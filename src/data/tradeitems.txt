@@ -4339,7 +4339,7 @@
 4330	candy kneecapping stick	food, combat, candy	all	0
 4331	licorice garrote	food, combat, candy	all	0
 4332	candy knuckles	weapon, candy	all	0
-4333	jawbruiser	food, candy	all	0
+4333	jawbruiser	food, candy, curse	all	0
 4334	fancy chocolate car	usable, candy	all	0
 4335	tiny plastic 11 Dealer	accessory	all	0
 4336	tiny plastic Crimbo Casino	accessory	all	0

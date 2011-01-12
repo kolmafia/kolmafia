@@ -83,6 +83,9 @@ public class MonsterExpression
 		case '\u0084':
 			v = KoLCharacter.getMindControlLevel();
 			break;
+		case '\u0085':
+			v = KoLCharacter.getMaximumHP();
+			break;
 		}
 		return v;
 	}
@@ -108,6 +111,10 @@ public class MonsterExpression
 		if ( this.optional( "MCD" ) )
 		{
 			return "\u0084";
+		}
+		if ( this.optional( "HP" ) )
+		{
+			return "\u0085";
 		}
 
 		return null;
