@@ -4416,7 +4416,7 @@
 4407	Uncle Romulus	usable	all	0
 4408	A Beginner's Guide to Charming Snakes	usable	all	0
 4409	Zu Mannk&auml;se Dienen	usable	all	0
-4410
+4410	The Autobiography Of Dynamite Superman Jones	usable	all	0
 4411	Inigo's Incantation of Inspiration	usable	all	0
 4412	quantum taco	food	all	0
 4413	Schr&ouml;dinger's thermos	drink	all	0

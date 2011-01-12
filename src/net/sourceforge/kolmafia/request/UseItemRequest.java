@@ -2658,6 +2658,7 @@ public class UseItemRequest
 		case ItemPool.CRIMBCO_MANUAL_3:
 		case ItemPool.CRIMBCO_MANUAL_4:
 		case ItemPool.CRIMBCO_MANUAL_5:
+		case ItemPool.DYNAMITE_SUPERMAN_JONES:
 		{
 			int itemId = item.getItemId();
 			String skill = UseItemRequest.itemToSkill( itemId );
@@ -3754,6 +3755,8 @@ public class UseItemRequest
 			return "Stringozzi Serpent";
 		case ItemPool.ZU_MANNKASE_DIENEN:
 			return "K&auml;seso&szlig;esturm";
+		case ItemPool.DYNAMITE_SUPERMAN_JONES:
+			return "Kung Fu Hustler";
 		case ItemPool.INIGO_BOOK:
 			return "Inigo's Incantation of Inspiration";
 		case ItemPool.BLACK_HYMNAL:
