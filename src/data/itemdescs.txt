@@ -4413,7 +4413,7 @@
 4407	478200390	Uncle Romulus	copies of Uncle Romulus
 4408	245745289	A Beginner's Guide to Charming Snakes	copies of A Beginner's Guide to Charming Snakes
 4409	398556198	Zu Mannk&auml;se Dienen	copies of Zu Mannk&auml;se Dienen
-4410	816862898	The Autobiography Of Dynamite Superman Jones	copies of The Autobiography Of Dynamite Superman J
+4410	816862898	The Autobiography Of Dynamite Superman Jones	Autobiographies Of Dynamite Superman Jones
 4411	629749615	Inigo's Incantation of Inspiration	copies of Inigo's Incantation of Inspiration
 4412	743925636	quantum taco	quantum tacos
 4413	854118120	Schr&ouml;dinger's thermos	Schr&ouml;dinger's thermoses
