@@ -251,11 +251,15 @@ public class Parser
 		multiCharTokens.add( "&&" );
 		multiCharTokens.add( "//" );
 		multiCharTokens.add( "/*" );
+		multiCharTokens.add( "<<" );
+		multiCharTokens.add( ">>" );
 		multiCharTokens.add( "+=" );
 		multiCharTokens.add( "-=" );
 		multiCharTokens.add( "*=" );
 		multiCharTokens.add( "/=" );
 		multiCharTokens.add( "%=" );
+		multiCharTokens.add( "&=" );
+		multiCharTokens.add( "|=" );
 
 		// Constants
 		reservedWords.add( "true" );
@@ -2140,9 +2144,16 @@ public class Parser
 			return null;
 		}
 
-		if ( !this.nextToken().equals( "=" ) && !this.nextToken().equals( "[" ) && !this.nextToken().equals( "." ) &&
-		     !this.nextToken().equals( "+=" ) && !this.nextToken().equals( "-=" ) && !this.nextToken().equals( "*=" ) &&
-		     !this.nextToken().equals( "/=" ) && !this.nextToken().equals( "%=" ) )
+		if ( !this.nextToken().equals( "=" ) &&
+		     !this.nextToken().equals( "[" ) &&
+		     !this.nextToken().equals( "." ) &&
+		     !this.nextToken().equals( "+=" ) &&
+		     !this.nextToken().equals( "-=" ) &&
+		     !this.nextToken().equals( "*=" ) &&
+		     !this.nextToken().equals( "/=" ) &&
+		     !this.nextToken().equals( "%=" ) &&
+		     !this.nextToken().equals( "&=" ) &&
+		     !this.nextToken().equals( "|=" ) )
 		{
 			return null;
 		}
@@ -2163,12 +2174,20 @@ public class Parser
 			throw this.parseException( "Variable reference expected" );
 		}
 
-		String oper = this.currentToken();
-		if ( !oper.equals( "=" ) && !oper.equals( "+=" ) && !oper.equals( "-=" ) && !oper.equals( "*=" ) &&
-		     !oper.equals( "/=" ) && !oper.equals( "%=" ))
+		String operStr = this.currentToken();
+		if ( !operStr.equals( "=" ) &&
+		     !operStr.equals( "+=" ) &&
+		     !operStr.equals( "-=" ) &&
+		     !operStr.equals( "*=" ) &&
+		     !operStr.equals( "/=" ) &&
+		     !operStr.equals( "%=" ) &&
+		     !operStr.equals( "&=" ) &&
+		     !operStr.equals( "|=" ) )
 		{
 			return null;
 		}
+
+		Operator oper = new Operator( operStr, this );
 
 		this.readToken(); // oper
 
@@ -2179,13 +2198,15 @@ public class Parser
 			throw this.parseException( "Internal error" );
 		}
 
-		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
+		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper ) )
 		{
-			throw this.parseException(
-				"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
+			String error = oper.isInteger() ?
+				( oper + " requires an integer expression and an integer variable reference" ) :
+				( "Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
+			throw this.parseException( error );
 		}
 
-		Operator op = oper.equals( "=" ) ? null : new Operator( oper.substring( 0, 1 ), this );
+		Operator op = operStr.equals( "=" ) ? null : new Operator( operStr.substring( 0, operStr.length() - 1 ), this );
 
 		return new Assignment( (VariableReference) lhs, rhs, op );
 	}
@@ -2236,6 +2257,21 @@ public class Parser
 			if ( lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
 				throw this.parseException( "\"!\" operator requires a boolean value" );
+			}
+		}
+		else if ( this.currentToken().equals( "~" ) )
+		{
+			String operator = this.currentToken();
+			this.readToken(); // ~
+			if ( ( lhs = this.parseValue( scope ) ) == null )
+			{
+				throw this.parseException( "Value expected" );
+			}
+
+			lhs = new Expression( lhs, null, new Operator( operator, this ) );
+			if ( lhs.getType() != DataTypes.INT_TYPE )
+			{
+				throw this.parseException( "\"~\" operator requires an integer value" );
 			}
 		}
 		else if ( this.currentToken().equals( "-" ) )
@@ -2293,7 +2329,7 @@ public class Parser
 				throw this.parseException( "Value expected" );
 			}
 
-			if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
+			if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper ) )
 			{
 				throw this.parseException(
 					"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
@@ -2705,12 +2741,18 @@ public class Parser
 	private boolean isOperator( final String oper )
 	{
 		return oper.equals( "!" ) ||
+			oper.equals( "~" ) ||
 			oper.equals( "*" ) ||
 			oper.equals( "^" ) ||
 			oper.equals( "/" ) ||
 			oper.equals( "%" ) ||
 			oper.equals( "+" ) ||
 			oper.equals( "-" ) ||
+			oper.equals( "&" ) ||
+			oper.equals( "|" ) ||
+			oper.equals( "~" ) ||
+			oper.equals( "<<" ) ||
+			oper.equals( ">>" ) ||
 			oper.equals( "<" ) ||
 			oper.equals( ">" ) ||
 			oper.equals( "<=" ) ||
@@ -2940,6 +2982,14 @@ public class Parser
 	private String parseImport()
 	{
 		return this.parseDirective( "import" );
+	}
+
+	public static final boolean validCoercion( Type lhs, Type rhs, final Operator oper )
+	{
+		return oper.isInteger() ?
+			( lhs.getType() == DataTypes.TYPE_INT &&
+			  rhs.getType() == DataTypes.TYPE_INT ) :
+			Parser.validCoercion( lhs, rhs, oper.toString() );
 	}
 
 	public static final boolean validCoercion( Type lhs, Type rhs, final String oper )
@@ -3228,6 +3278,7 @@ public class Parser
 		case ')':
 		case '$':
 		case '!':
+		case '~':
 		case '+':
 		case '-':
 		case '=':

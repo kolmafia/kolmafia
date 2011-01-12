@@ -75,6 +75,12 @@ public class Expression
 			return DataTypes.STRING_TYPE;
 		}
 
+		// If it's an integer operator, must be integers
+		if ( this.oper.isInteger() )
+		{
+			return DataTypes.INT_TYPE;
+		}
+
 		// If it's not arithmetic, it's boolean
 		if ( !this.oper.isArithmetic() )
 		{
