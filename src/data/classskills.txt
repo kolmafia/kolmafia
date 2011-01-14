@@ -227,6 +227,7 @@
 5021	Suckerpunch	5	1	0	0
 5022	Salacious Cocktailcrafting	0	0	0
 5023	Stealth Mistletoe	5	5	0
+5024	Kung Fu Hustler	0	0	0
 
 # Skills available to Thieves
 
