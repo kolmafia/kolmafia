@@ -932,6 +932,12 @@ user	choiceAdventure433	1
 user	choiceAdventure435	1
 user	choiceAdventure438	1
 user	choiceAdventure439	1
+user	choiceAdventure444	1
+user	choiceAdventure445	1
+user	choiceAdventure446	1
+user	choiceAdventure447	1
+user	choiceAdventure448	1
+user	choiceAdventure449	1
 user	choiceAdventure451	5
 user	choiceAdventure457	2
 user	choiceAdventure458	1

@@ -1312,13 +1312,47 @@ public abstract class ChoiceManager
 		// Choice 437 is Flying In Circles
 		// Choice 438 is From Little Acorns...
 		// Choice 439 is unknown
-		// Choice 440 is unknown
+		// Choice 440 is Puttin' on the Wax
 		// Choice 441 is The Mad Tea Party
 		// Choice 442 is A Moment of Reflection
 		// Choice 443 is Chess Puzzle
-		// Choice 444 is The Field of Strawberries
-		//	      is The Caucus Racetrack
-		//	      is The Croquet Grounds
+
+		// Choice 444 is The Field of Strawberries (Seal Clubber)
+		new ChoiceAdventure(
+			"RabbitHole", "choiceAdventure444", "Reflection of Map (Seal Clubber)",
+			new String[] { "walrus ice cream", "yellow matter custard" },
+			new String[] { "4510", "4517" } ),
+
+		// Choice 445 is The Field of Strawberries (Pastamancer)
+		new ChoiceAdventure(
+			"RabbitHole", "choiceAdventure445", "Reflection of Map (Pastamancer)",
+			new String[] { "eggman noodles", "yellow matter custard" },
+			new String[] { "4512", "4517" } ),
+
+		// Choice 446 is The Caucus Racetrack (Accordion Thief)
+		new ChoiceAdventure(
+			"RabbitHole", "choiceAdventure446", "Reflection of Map )Accordion Thief)",
+			new String[] { "missing wine", "delicious comfit?" },
+			new String[] { "4516", "4518" } ),
+
+		// Choice 447 is The Caucus Racetrack (Sauceror)
+		new ChoiceAdventure(
+			"RabbitHole", "choiceAdventure447", "Reflection of Map (Sauceror)",
+			new String[] { "Vial of <i>jus de larmes</i>", "delicious comfit?" },
+			new String[] { "4513", "4518" } ),
+
+		// Choice 448 is The Croquet Grounds (Turtle Tamer)
+		new ChoiceAdventure(
+			"RabbitHole", "choiceAdventure448", "Reflection of Map (Turtle Tamer)",
+			new String[] { "beautiful soup", "fight croqueteer" },
+			new String[] { "4511", null } ),
+
+		// Choice 449 is The Croquet Grounds (Disco Bandit)
+		new ChoiceAdventure(
+			"RabbitHole", "choiceAdventure449", "Reflection of Map (Disco Bandit)",
+			new String[] { "Lobster <i>qua</i> Grill", "fight croqueteer" },
+			new String[] { "4515", null } ),
+
 		// Choice 450 is The Duchess' Cottage
 
 		// Typographical Clutter
