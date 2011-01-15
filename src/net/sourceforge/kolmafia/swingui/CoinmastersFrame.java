@@ -153,10 +153,10 @@ public class CoinmastersFrame
 		// panel.add( crimbuckPanel );
 		// this.tabs.add( "Crimbo Cartel", panel );
 
-		panel = new JPanel( new BorderLayout() );
-		scripPanel = new CRIMBCOGiftShopPanel();
-		panel.add( scripPanel );
-		this.tabs.add( "CRIMBCO Gift Shop", panel );
+		// panel = new JPanel( new BorderLayout() );
+		// scripPanel = new CRIMBCOGiftShopPanel();
+		// panel.add( scripPanel );
+		// this.tabs.add( "CRIMBCO Gift Shop", panel );
 
 		this.tabs.addChangeListener( this );
 
@@ -215,7 +215,7 @@ public class CoinmastersFrame
 		ticketPanel.update();
 		// boneChipPanel.update();
 		// crimbuckPanel.update();
-		scripPanel.update();
+		// scripPanel.update();
 		this.currentPanel().setTitle();
 	}
 
