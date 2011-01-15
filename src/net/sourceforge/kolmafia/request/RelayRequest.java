@@ -1052,7 +1052,7 @@ public class RelayRequest
 		this.sendGeneralWarning( "lucre.gif", message );
 	}
 
-	private boolean sendInfernalSealWarning( final String urlString, final KoLAdventure adventure )
+	private boolean sendInfernalSealWarning( final String urlString )
 	{
 		// If user has already confirmed he wants to do it, accept it
 		if ( this.getFormField( "confirm" ) != null )
@@ -1172,10 +1172,10 @@ public class RelayRequest
 		warning.append( mcd2 );
 		warning.append( "</font></a></div></td>" );
 
-		warning.append( "</tr></table></center><blockquote>The " );
+		warning.append( "</tr></table></center><blockquote>" );
 		warning.append( name );
 
-		warning.append( " drops special rewards based on your mind-control level.  If you'd like a special reward, click on one of the items above to set your mind-control device appropriately.  Click on it again to reset the MCD back to your old setting.	 Click on the " );
+		warning.append( " drops special rewards based on your mind-control level.  If you'd like a special reward, click on one of the items above to set your mind-control device appropriately.  Click on it again to reset the MCD back to your old setting.	 Click on " );
 		warning.append( name );
 
 		warning.append( " once you've decided to proceed.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
@@ -1648,6 +1648,15 @@ public class RelayRequest
 		}
 
 		String urlString = this.getURLString();
+
+		// Do some checks fighting infernal seals
+		// - make sure player is wielding a club
+
+		if ( this.sendInfernalSealWarning( urlString ) )
+		{
+			return;
+		}
+
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
 
 		// Do some checks for the battlefield:
@@ -1659,16 +1668,9 @@ public class RelayRequest
 			return;
 		}
 
-		// Do some checks fighting infernal seals
-		// - make sure player is wielding a club
-
-		if ( this.sendInfernalSealWarning( urlString, adventure ) )
-		{
-			return;
-		}
-
-		String adventureName =
-			adventure != null ? adventure.getAdventureName() : AdventureDatabase.getUnknownName( urlString );
+		String adventureName = adventure != null ?
+			adventure.getAdventureName() :
+			AdventureDatabase.getUnknownName( urlString );
 
 		if ( adventureName != null && this.getFormField( "confirm" ) == null )
 		{
@@ -1690,9 +1692,6 @@ public class RelayRequest
 				return;
 			}
 
-			// Special handling of adventuring locations before it's
-			// registered internally with KoLmafia.
-
 			// Sometimes, people want the MCD rewards from various
 			// boss monsters.  Let's help out.
 
@@ -1705,7 +1704,7 @@ public class RelayRequest
 
 				if ( location != null && location.equals( "34" ) && KoLCharacter.mcdAvailable() )
 				{
-					this.sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
+					this.sendBossWarning( "The Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
 					return;
 				}
 			}
@@ -1717,7 +1716,7 @@ public class RelayRequest
 			{
 				if ( this.getFormField( "king" ) != null && KoLCharacter.mcdAvailable() )
 				{
-					this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
+					this.sendBossWarning( "The Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
 					return;
 				}
 			}
@@ -1729,7 +1728,7 @@ public class RelayRequest
 			{
 				if ( this.getFormField( "action" ) != null && KoLCharacter.mcdAvailable() )
 				{
-					this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
+					this.sendBossWarning( "The Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
 					return;
 				}
 			}
@@ -1794,6 +1793,7 @@ public class RelayRequest
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR ) );
 			}
 		}
+
 		else if ( path.startsWith( "arcade.php" ) &&
 			this.getFormField( "confirm" ) == null )
 		{
@@ -1808,6 +1808,26 @@ public class RelayRequest
 					EquipmentManager.getEquipment( EquipmentManager.PANTS ) == EquipmentRequest.UNEQUIP) )
 			{
 				this.sendGeneralWarning( "ggtoken.gif", "You might not be properly equipped to play this game.<br>Click the token if you'd like to continue anyway." );
+				return;
+			}
+		}
+
+		else if ( path.startsWith( "choice.php" ) &
+			  this.getFormField( "confirm" ) == null &&
+			  // *** This can't work as coded: if you are in a
+			  // choice, you must choose an option before doing
+			  // anything else - like setting MCD.
+			  false )
+		{
+			String choice = this.getFormField( "whichchoice" );
+			String option = this.getFormField( "option" );
+
+			// The Baron has different rewards depending on the MCD
+			if ( choice != null && choice.equals( "511" ) &&
+			     option != null && option.equals( "1" ) &&
+			     KoLCharacter.mcdAvailable() )
+			{
+				this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
 				return;
 			}
 		}
