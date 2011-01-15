@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.PrintStream;
@@ -89,6 +90,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -310,6 +312,8 @@ public class FamiliarTrainingFrame
 			buttonContainer.add( counterPanel, BorderLayout.SOUTH );
 
 			this.add( buttonContainer, BorderLayout.EAST );
+
+			this.add( new StatusPanel(), BorderLayout.SOUTH );
 		}
 
 		private class TotalWeightRefresher
