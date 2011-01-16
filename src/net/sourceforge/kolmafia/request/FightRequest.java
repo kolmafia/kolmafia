@@ -4406,6 +4406,7 @@ public class FightRequest
 		}
 		else if ( content.equals( "WINWINWIN" ) )
 		{
+			FightRequest.logText( KoLCharacter.getUserName() + " wins the battle!", status );
 			status.won = true;
 			FightRequest.currentRound = 0;
 		}
