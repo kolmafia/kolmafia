@@ -128,6 +128,8 @@ gnoll-tooth necklace	COMBINE	gnoll teeth	hemp string
 peace-sign necklace	COMBINE	clay peace-sign bead	hemp string
 phat turquoise bracelet	COMBINE	phat turquoise bead	hemp string
 spooky staff	COMBINE	spooky shrunken head	spooky stick
+
+snakehead charrrm	SUSE	gaudy key
 Talisman o' Nam	COMBINE	snakehead charrrm	snakehead charrrm
 
 boxing glove on a spring	COMBINE	nothing-in-the-box	boxing glove
