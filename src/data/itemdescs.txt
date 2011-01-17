@@ -4932,3 +4932,4 @@
 4926	837680142	Loathing Legion universal screwdriver
 4927	769193415	Loathing Legion jackhammer
 4928	361576572	Loathing Legion hammer
+4929	421141114	Uncle Crimbo's Sack

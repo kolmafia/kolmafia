@@ -4935,3 +4935,4 @@
 4926	Loathing Legion universal screwdriver	reusable	display	0
 4927	Loathing Legion jackhammer	none, reusable	display	0
 4928	Loathing Legion hammer	weapon, reusable	display	0
+4929	Uncle Crimbo's Sack	usable	display	0
