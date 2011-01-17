@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
@@ -255,6 +256,10 @@ public class AutoFilterTextField
 		if ( element instanceof KoLAdventure )
 		{
 			return ( (KoLAdventure) element ).toLowerCaseString();
+		}
+		if ( element instanceof Monster )
+		{
+			return ( (Monster) element ).toLowerCaseString();
 		}
 
 		return element.toString();
