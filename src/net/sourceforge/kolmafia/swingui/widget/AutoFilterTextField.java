@@ -79,10 +79,7 @@ public class AutoFilterTextField
 
 	public AutoFilterTextField( final JList list )
 	{
-		this.list = list;
-		this.model = (LockableListModel) list.getModel();
-
-		this.model.setFilter( this );
+		this.setList( list );
 		this.addKeyListener( new FilterListener() );
 		
 		// Make this look like a normal search field on OS X.
@@ -99,6 +96,14 @@ public class AutoFilterTextField
 		{
 			this.setText( initial.toString() );
 		}
+	}
+
+	public void setList( final JList list )
+	{
+		this.list = list;
+		this.model = (LockableListModel) list.getModel();
+		this.model.setFilter( this );
+		this.list.clearSelection();
 	}
 
 	public void actionPerformed( final ActionEvent e )
@@ -135,7 +140,7 @@ public class AutoFilterTextField
 
 	public void update()
 	{
-	  this.qtyChecked = false;
+		this.qtyChecked = false;
 		this.asChecked = false;
 		this.text = this.getText().toLowerCase();
 
