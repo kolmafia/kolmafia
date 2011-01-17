@@ -40,6 +40,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JViewport;
 import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -57,7 +59,9 @@ import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -66,7 +70,7 @@ public class FaxRequestFrame
 	extends GenericFrame
 {
 	private MonsterCategoryComboBox categorySelect;
-	private GenericScrollPane monsterSelect;
+	private MonsterSelectPanel monsterSelect;
 	private int monsterIndex;
 
 	private static ShowDescriptionList [] monsterLists;
@@ -102,18 +106,20 @@ public class FaxRequestFrame
 
 			FaxRequestFrame.this.categorySelect = new MonsterCategoryComboBox();
 			FaxRequestFrame.this.monsterIndex = 0;
-			FaxRequestFrame.this.monsterSelect = new GenericScrollPane( FaxRequestFrame.monsterLists[0], ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
+			FaxRequestFrame.this.monsterSelect = new MonsterSelectPanel( FaxRequestFrame.monsterLists[0] );
 
-			VerifiableElement[] elements = new VerifiableElement[ 2 ];
+			VerifiableElement[] elements = new VerifiableElement[ 1 ];
 			elements[ 0 ] = new VerifiableElement( "Category: ", FaxRequestFrame.this.categorySelect );
-			elements[ 1 ] = new VerifiableElement( "Monster: ", FaxRequestFrame.this.monsterSelect );
+			
 
 			this.setContent( elements );
+			this.add( FaxRequestFrame.this.monsterSelect, BorderLayout.CENTER );
+			this.add( new StatusPanel(), BorderLayout.SOUTH );
 		}
 
 		public boolean shouldAddStatusLabel()
 		{
-			return true;
+			return false;
 		}
 
 		public void setEnabled( final boolean isEnabled )
@@ -132,8 +138,8 @@ public class FaxRequestFrame
 		public void actionConfirmed()
 		{
 			int list = FaxRequestFrame.this.monsterIndex;
-			int index = FaxRequestFrame.monsterLists[ list ].getSelectedIndex();
-			if ( index < 0 )
+			Object value = FaxRequestFrame.monsterLists[ list ].getSelectedValue();
+			if ( value == null )
 			{
 				return;
 			}
@@ -182,7 +188,7 @@ public class FaxRequestFrame
 				RequestThread.postRequest( request );
 			}
 
-			Monster monster = (Monster)FaxBotDatabase.monstersByCategory[ list ].get( index );
+			Monster monster = (Monster)value;
 			String name = monster.getName();
 			String command = monster.getCommand();
 
@@ -362,8 +368,34 @@ public class FaxRequestFrame
 			{
 				int index = MonsterCategoryComboBox.this.getSelectedIndex();
 				FaxRequestFrame.this.monsterIndex = index;
-				FaxRequestFrame.this.monsterSelect.getViewport().setView( FaxRequestFrame.monsterLists[ index ] );
+				FaxRequestFrame.this.monsterSelect.setElementList( FaxRequestFrame.monsterLists[ index ] );
 			}
+		}
+	}
+
+	private class MonsterSelectPanel
+		extends ScrollablePanel
+	{
+		private ShowDescriptionList elementList;
+		private AutoFilterTextField filterfield;
+
+		public MonsterSelectPanel( final ShowDescriptionList list )
+		{
+			super( "", null, null, list, false );
+
+			this.elementList = list;
+			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			this.elementList.setVisibleRowCount( 8 );
+
+			this.filterfield = new AutoFilterTextField( this.elementList );
+			this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
+		}
+
+		public void setElementList( final ShowDescriptionList list )
+		{
+			this.elementList = list;
+			this.scrollPane.getViewport().setView( list );
+			this.filterfield.setList( list );
 		}
 	}
 }

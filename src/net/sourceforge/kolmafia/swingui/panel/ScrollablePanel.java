@@ -58,6 +58,7 @@ public class ScrollablePanel
 	public VerifyButtonPanel buttonPanel;
 	public JComponent scrollComponent;
 	public JLabel titleComponent;
+	public GenericScrollPane scrollPane;
 
 	public ScrollablePanel( final String title, final JComponent scrollComponent )
 	{
@@ -84,7 +85,8 @@ public class ScrollablePanel
 			this.centerPanel.add( this.titleComponent, BorderLayout.NORTH );
 		}
 
-		this.centerPanel.add( new GenericScrollPane( scrollComponent ), BorderLayout.CENTER );
+		this.scrollPane = new GenericScrollPane( scrollComponent );
+		this.centerPanel.add( scrollPane, BorderLayout.CENTER );
 		this.actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
 		this.actualPanel.add( this.centerPanel, BorderLayout.CENTER );
 
