@@ -720,7 +720,7 @@ public class ClanLoungeRequest
 					return false;
 				}
 				String faxCommand = m.group(1) ;
-				if ( faxCommand != "send" && faxCommand != "receive" )
+				if ( !faxCommand.equals( "send") && !faxCommand.equals( "receive" ) )
 				{
 					return false;
 				}
