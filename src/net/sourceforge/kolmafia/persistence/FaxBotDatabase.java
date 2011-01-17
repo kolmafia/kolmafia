@@ -192,6 +192,7 @@ public class FaxBotDatabase
 		private final String category;
 
 		private final String stringForm;
+		private final String lowerCaseStringForm;
 
 		public Monster( final String name, final String command, final String category )
 		{
@@ -199,6 +200,7 @@ public class FaxBotDatabase
 			this.command = command;
 			this.category = category;
 			this.stringForm = name + " [" + command + "]";
+			this.lowerCaseStringForm = this.stringForm.toLowerCase();
 		}
 
 		public String getName()
@@ -219,6 +221,11 @@ public class FaxBotDatabase
 		public String toString()
 		{
 			return this.stringForm;
+		}
+
+		public String toLowerCaseString()
+		{
+			return this.lowerCaseStringForm;
 		}
 
 		public boolean equals( final Object o )
