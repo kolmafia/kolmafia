@@ -254,11 +254,13 @@ public class Parser
 		multiCharTokens.add( "<<" );
 		multiCharTokens.add( ">>" );
 		multiCharTokens.add( ">>>" );
+		multiCharTokens.add( "**" );
 		multiCharTokens.add( "+=" );
 		multiCharTokens.add( "-=" );
 		multiCharTokens.add( "*=" );
 		multiCharTokens.add( "/=" );
 		multiCharTokens.add( "%=" );
+		multiCharTokens.add( "**=" );
 		multiCharTokens.add( "&=" );
 		multiCharTokens.add( "|=" );
 		multiCharTokens.add( "<<=" );
@@ -2156,6 +2158,7 @@ public class Parser
 		     !this.nextToken().equals( "*=" ) &&
 		     !this.nextToken().equals( "/=" ) &&
 		     !this.nextToken().equals( "%=" ) &&
+		     !this.nextToken().equals( "**=" ) &&
 		     !this.nextToken().equals( "&=" ) &&
 		     !this.nextToken().equals( "|=" ) &&
 		     !this.nextToken().equals( "<<=" ) &&
@@ -2188,6 +2191,7 @@ public class Parser
 		     !operStr.equals( "*=" ) &&
 		     !operStr.equals( "/=" ) &&
 		     !operStr.equals( "%=" ) &&
+		     !operStr.equals( "**=" ) &&
 		     !operStr.equals( "&=" ) &&
 		     !operStr.equals( "|=" ) &&
 		     !operStr.equals( "<<=" ) &&
@@ -2753,13 +2757,14 @@ public class Parser
 		return oper.equals( "!" ) ||
 			oper.equals( "~" ) ||
 			oper.equals( "*" ) ||
-			oper.equals( "^" ) ||
+			oper.equals( "**" ) ||
 			oper.equals( "/" ) ||
 			oper.equals( "%" ) ||
 			oper.equals( "+" ) ||
 			oper.equals( "-" ) ||
 			oper.equals( "&" ) ||
 			// *** bitwise exclusive or
+			oper.equals( "^" ) ||
 			oper.equals( "|" ) ||
 			oper.equals( "~" ) ||
 			oper.equals( "<<" ) ||

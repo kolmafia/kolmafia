@@ -79,6 +79,11 @@ public class Operator
 			return 13;
 		}
 
+		if ( this.operator.equals( "**" ) )
+		{
+			return 12;
+		}
+
 		// *** Boo, hiss
 		if ( this.operator.equals( "^" ) )
 		{
@@ -163,7 +168,8 @@ public class Operator
 			this.operator.equals( "*" ) ||
 			this.operator.equals( "^" ) ||
 			this.operator.equals( "/" ) ||
-			this.operator.equals( "%" );
+			this.operator.equals( "%" ) ||
+			this.operator.equals( "**" );
 	}
 
 	public boolean isInteger()
@@ -294,6 +300,7 @@ public class Operator
 				this.operator.equals( "*" ) ? new Value( lfloat * rfloat ) :
 				this.operator.equals( "/" ) ? new Value( lfloat / rfloat ) :
 				this.operator.equals( "%" ) ? new Value( lfloat % rfloat ) :
+				this.operator.equals( "**" ) ? new Value( (float) Math.pow( lfloat, rfloat ) ) :
 				this.operator.equals( "^" ) ? new Value( (float) Math.pow( lfloat, rfloat ) ) :
 				DataTypes.ZERO_FLOAT_VALUE;
 		}
@@ -315,6 +322,7 @@ public class Operator
 				this.operator.equals( "*" ) ? new Value( lint * rint ) :
 				this.operator.equals( "/" ) ? new Value( lint / rint ) :
 				this.operator.equals( "%" ) ? new Value( lint % rint ) :
+				this.operator.equals( "**" ) ? new Value( (int) Math.pow( lint, rint ) ) :
 				this.operator.equals( "^" ) ? new Value( (int) Math.pow( lint, rint ) ) :
 				this.operator.equals( "&" ) ? new Value( lint & rint ) :
 				// *** bitwise exclusive or
