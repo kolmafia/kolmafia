@@ -1645,6 +1645,17 @@ public class ItemDatabase
 	{
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_BOUNTY );
 	}
+ 
+	/**
+	 * Returns true if the item is a fancy ingredient, otherwise false
+	 *
+	 * @return true if item is a fancy ingredient
+	 */
+
+	public static final boolean isFancyItem( final int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_FANCY );
+	}
 
 	/**
 	 * Returns the name for an item, given its Id number.
