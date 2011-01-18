@@ -74,6 +74,7 @@ public class NemesisDecorator
 			// you make yourself feel better by calling him a spaz
 			// and a jerk.
 			"The raver's movements suddenly became spastic and jerky",
+			"The raver's movements suddenly become spastic and jerky",
 		},
 		{
 			"Running Man",
