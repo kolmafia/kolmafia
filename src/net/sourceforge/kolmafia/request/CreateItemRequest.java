@@ -668,14 +668,16 @@ public class CreateItemRequest
 				ConcoctionDatabase.refreshConcoctions();
 			}
 
-			// Account for box servant usage, if any
-			if ( mode.equals( "cook" ) && KoLCharacter.hasChef() )
+			if ( ItemDatabase.isFancyItem( item1 ) || ItemDatabase.isFancyItem( item2 ) )
 			{
-				Preferences.increment( "chefTurnsUsed", qty );
-			}
-			else if ( mode.equals( "cocktail" ) && KoLCharacter.hasBartender() )
-			{
-				Preferences.increment( "bartenderTurnsUsed", qty );
+				if ( mode.equals( "cook" ) && KoLCharacter.hasChef() )
+				{
+					Preferences.increment( "chefTurnsUsed", qty );
+				}
+				else if ( mode.equals( "cocktail" ) && KoLCharacter.hasBartender() )
+				{
+					Preferences.increment( "bartenderTurnsUsed", qty );
+				}
 			}
 
 			created = qty;
