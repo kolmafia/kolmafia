@@ -304,7 +304,7 @@ public class ClanLoungeRequest
 		return null;
 	}
 
-	public void run()
+	public Object run()
 	{
 		switch ( this.action )
 		{
@@ -373,7 +373,7 @@ public class ClanLoungeRequest
 		if ( this.redirectLocation != null && this.redirectLocation.equals( "clan_signup.php" ) )
 		{
 			RequestLogger.printLine( "You don't seem to be in a clan!" );
-			return;
+			return null;
 		}
 
 		switch ( this.action )
@@ -441,6 +441,7 @@ public class ClanLoungeRequest
 		}
 
 		ClanLoungeRequest.parseResponse( this.getURLString(), this.responseText );
+		return null;
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )

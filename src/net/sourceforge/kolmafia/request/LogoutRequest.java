@@ -64,11 +64,11 @@ public class LogoutRequest
 		return false;
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( LogoutRequest.isRunning )
 		{
-			return;
+			return null;
 		}
 
 		LogoutRequest.isRunning = true;
@@ -101,6 +101,7 @@ public class LogoutRequest
 		KoLCharacter.reset( "" );
 
 		LogoutRequest.isRunning = false;
+		return null;
 	}
 
 	public void processResults()

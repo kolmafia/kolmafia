@@ -78,7 +78,7 @@ public class CombineMeatRequest
 		this.constructURLString( this.getURLString() );
 	}
 
-	public void run()
+	public Object run()
 	{
 		String name = this.getName();
 		int count = this.getQuantityNeeded();
@@ -87,12 +87,13 @@ public class CombineMeatRequest
 		if ( cost * count > KoLCharacter.getAvailableMeat() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds to make " + count + " " + name );
-			return;
+			return null;
 		}
 
 		KoLmafia.updateDisplay( "Creating " + count + " " + name + "..." );
 		this.addFormField( "qty", String.valueOf( count ) );
 		super.run();
+		return null;
 	}
 
 	public static final boolean registerRequest( final String urlString )

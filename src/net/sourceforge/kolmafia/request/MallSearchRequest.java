@@ -171,7 +171,7 @@ public class MallSearchRequest
 	 * being stored.
 	 */
 
-	public void run()
+	public Object run()
 	{
 		if ( this.searchString == null || this.searchString.trim().length() == 0 )
 		{
@@ -214,7 +214,7 @@ public class MallSearchRequest
 			if ( npcItemCount > 0 && itemNames.size() == npcItemCount )
 			{
 				this.finalizeList( itemNames );
-				return;
+				return null;
 			}
 
 			// If there is only one applicable match, then make sure you
@@ -230,6 +230,7 @@ public class MallSearchRequest
 		}
 
 		super.run();
+		return null;
 	}
 
 	private void searchStore()

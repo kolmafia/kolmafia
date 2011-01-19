@@ -366,11 +366,11 @@ public class MallPurchaseRequest
 	 * repeating the request.
 	 */
 
-	public void run()
+	public Object run()
 	{
 		if ( this.limit < 1 || !this.canPurchase() || this.shopId == KoLCharacter.getUserId() )
 		{
-			return;
+			return null;
 		}
 
 		this.addFormField( this.isNPCStore ? "howmany" : "quantity", String.valueOf( this.limit ) );
@@ -381,21 +381,21 @@ public class MallPurchaseRequest
 		if ( this.itemId == -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Item not recognized by KoLmafia database." );
-			return;
+			return null;
 		}
 
 		// Make sure we have enough Meat to buy what we want.
 
 		if ( KoLCharacter.getAvailableMeat() < this.limit * this.price )
 		{
-			return;
+			return null;
 		}
 
 		// Make sure we are wearing the appropriate outfit, if necessary
 
 		if ( !this.ensureProperAttire() )
 		{
-			return;
+			return null;
 		}
 
 		// Now that we're ready, make the purchase!
@@ -405,6 +405,7 @@ public class MallPurchaseRequest
 		this.initialCount = this.item.getCount( KoLConstants.inventory );
 		this.itemSequenceCount = ResultProcessor.itemSequenceCount;
 		super.run();
+		return null;
 	}
 
 	public int compareTo( final Object o )

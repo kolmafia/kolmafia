@@ -152,14 +152,14 @@ public class AdventureRequest
 		return true;
 	}
 
-	public void run()
+	public Object run()
 	{
 		// Prevent the request from happening if they attempted
 		// to cancel in the delay period.
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			return;
+			return null;
 		}
 
 		if ( this.formSource.equals( "mountains.php" ) )
@@ -168,7 +168,7 @@ public class AdventureRequest
 			if ( AdventureRequest.ZONE_UNLOCK.responseText.indexOf( "value=80" ) != -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "The Orc Chasm has already been bridged." );
-				return;
+				return null;
 			}
 		}
 
@@ -177,7 +177,7 @@ public class AdventureRequest
 			if ( KoLCharacter.getAdventuresLeft() < 3 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of adventures." );
-				return;
+				return null;
 			}
 		}
 
@@ -186,7 +186,7 @@ public class AdventureRequest
 			if ( !InventoryManager.retrieveItem( ItemPool.BRIDGE ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't cross the Orc Chasm." );
-				return;
+				return null;
 			}
 		}
 
@@ -208,7 +208,7 @@ public class AdventureRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"All booze in the specified rows has been collected." );
-				return;
+				return null;
 			}
 			this.addFormField( "smash", String.valueOf( square ) );
 		}
@@ -217,7 +217,7 @@ public class AdventureRequest
 
 		if ( this.responseCode != 200 )
 		{
-			return;
+			return null;
 		}
 
 		if ( this.formSource.equals( "dungeon.php" ) )
@@ -240,6 +240,7 @@ public class AdventureRequest
 
 			super.run();
 		}
+		return null;
 	}
 
 	public void processResults()

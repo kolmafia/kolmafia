@@ -74,17 +74,18 @@ public class ChefStaffRequest
 		this.constructURLString( this.getURLString() );
 	}
 
-	public void run()
+	public Object run()
 	{
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 
 		if ( !this.makeIngredients() )
 		{
-			return;
+			return null;
 		}
 
 		super.run();
+		return null;
 	}
 
 	public void processResults()

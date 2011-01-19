@@ -59,6 +59,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.foxtrot.Job;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1146,7 +1147,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	public void makeRequest( final Runnable request )
+	public void makeRequest( final Job request )
 	{
 		this.makeRequest( request, 1 );
 	}
@@ -1160,7 +1161,7 @@ public abstract class KoLmafia
 	 * @param iterations The number of times the request should be repeated
 	 */
 
-	public void makeRequest( final Runnable request, final int iterations )
+	public void makeRequest( final Job request, final int iterations )
 	{
 		try
 		{
@@ -1286,7 +1287,7 @@ public abstract class KoLmafia
 		KoLmafia.abortAfter = msg;
 	}
 
-	private void executeRequest( final Runnable request, final int totalIterations, final boolean wasAdventuring )
+	private void executeRequest( final Job request, final int totalIterations, final boolean wasAdventuring )
 	{
 		KoLmafia.hadPendingState = false;
 
@@ -1427,7 +1428,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private void executeRequestOnce( final Runnable request, final boolean wasAdventuring, final int currentIteration,
+	private void executeRequestOnce( final Job request, final boolean wasAdventuring, final int currentIteration,
 		final int totalIterations, final AdventureResult[] items, final CreateItemRequest[] creatables )
 	{
 		if ( request instanceof KoLAdventure )

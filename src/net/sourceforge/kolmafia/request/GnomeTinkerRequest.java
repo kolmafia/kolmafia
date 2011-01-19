@@ -66,7 +66,7 @@ public class GnomeTinkerRequest
 		this.constructURLString( this.getURLString() );
 	}
 
-	public void run()
+	public Object run()
 	{
 		// If this doesn't contain a valid number of ingredients,
 		// just return from the method call to avoid hitting on
@@ -74,7 +74,7 @@ public class GnomeTinkerRequest
 
 		if ( this.ingredients == null || this.ingredients.length != 3 )
 		{
-			return;
+			return null;
 		}
 
 		// Attempting to make the ingredients will pull the
@@ -82,11 +82,12 @@ public class GnomeTinkerRequest
 
 		if ( !this.makeIngredients() )
 		{
-			return;
+			return null;
 		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "qty", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
+		return null;
 	}
 }

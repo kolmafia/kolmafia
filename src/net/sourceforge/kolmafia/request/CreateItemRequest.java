@@ -362,11 +362,11 @@ public class CreateItemRequest
 	 * method will fail.
 	 */
 
-	public void run()
+	public Object run()
 	{
 		if ( !KoLmafia.permitsContinue() || this.quantityNeeded <= 0 )
 		{
-			return;
+			return null;
 		}
 
 		// Validate the ingredients once for the item
@@ -377,7 +377,7 @@ public class CreateItemRequest
 		     method != KoLConstants.ROLLING_PIN &&
 		     !this.makeIngredients() )
 		{
-			return;
+			return null;
 		}
 
 		int createdQuantity = 0;
@@ -387,7 +387,7 @@ public class CreateItemRequest
 			if ( !this.autoRepairBoxServant() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Auto-repair was unsuccessful." );
-				return;
+				return null;
 			}
 
 			this.reconstructFields();
@@ -438,13 +438,14 @@ public class CreateItemRequest
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
 				}
 
-				return;
+				return null;
 			}
 
 			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
 			this.quantityNeeded -= createdQuantity;
 		}
 		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() );
+		return null;
 	}
 
 	public boolean noCreation()

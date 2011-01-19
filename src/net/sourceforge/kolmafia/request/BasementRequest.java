@@ -172,7 +172,7 @@ public class BasementRequest
 		super( adventureName, "basement.php", "0" );
 	}
 
-	public void run()
+	public Object run()
 	{
 		// Clear the data flags and probe the basement to see what we have.
 
@@ -189,7 +189,7 @@ public class BasementRequest
 		if ( BasementRequest.basementErrorMessage != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, BasementRequest.basementErrorMessage );
-			return;
+			return null;
 		}
 
 		// Decide which action to set. If it's a stat reward, always
@@ -208,7 +208,7 @@ public class BasementRequest
 
 			if ( FightRequest.INSTANCE.responseCode == 200 && FightRequest.lastResponseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
 			{
-				return;
+				return null;
 			}
 
 			// Otherwise ... what is this? Refetch the page and see if we passed test.
@@ -224,6 +224,7 @@ public class BasementRequest
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to pass basement test." );
 		}
+		return null;
 	}
 
 	public static final String getBasementAction( final String text )

@@ -109,7 +109,7 @@ public class QuestLogRequest
 		QuestLogRequest.hippyStoreAvailable = available;
 	}
 
-	public void run()
+	public Object run()
 	{
 		this.addFormField( "which", "1" );
 		super.run();
@@ -120,7 +120,7 @@ public class QuestLogRequest
 
 		if ( this.responseText == null )
 		{
-			return;
+			return null;
 		}
 
 		QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
@@ -133,6 +133,7 @@ public class QuestLogRequest
 			!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING ) ||
 			QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
 		QuestLogRequest.friarsAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.FRIAR );
+		return null;
 	}
 
 	protected boolean retryOnTimeout()

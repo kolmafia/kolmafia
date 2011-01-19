@@ -70,7 +70,7 @@ public class CurseRequest
 		this.addFormField( "targetplayer", target );
 	}
 	
-	public void run()
+	public Object run()
 	{
 		InventoryManager.retrieveItem( this.itemUsed );
 		
@@ -80,6 +80,7 @@ public class CurseRequest
 				" at " + this.getFormField( "targetplayer" ) + "..." );
 			super.run();
 		}
+		return null;
 	}
 
 	public void processResults()

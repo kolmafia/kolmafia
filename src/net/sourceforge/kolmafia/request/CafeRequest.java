@@ -122,52 +122,53 @@ public class CafeRequest
 		return price;
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( !this.isPurchase )
 		{
 			// Just visiting to peek at the menu
 			KoLmafia.updateDisplay( "Visiting " + this.name + "..." );
 			super.run();
-			return;
+			return null;
 		}
 
 		if ( this.fullness > 0 && !KoLCharacter.canEat() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't eat. Why are you here?" );
-			return;
+			return null;
 		}
 
 		if ( this.inebriety > 0 && !KoLCharacter.canDrink() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't drink. Why are you here?" );
-			return;
+			return null;
 		}
 
 		if ( this.price == 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.name + " doesn't sell that." );
-			return;
+			return null;
 		}
 
 		if ( this.price > KoLCharacter.getAvailableMeat() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds." );
-			return;
+			return null;
 		}
 
 		if ( this.itemName == null )
 		{
-			return;
+			return null;
 		}
 
 		if ( this.inebriety > 0 && !UseItemRequest.allowBoozeConsumption( this.inebriety, 1 ) )
 		{
-			return;
+			return null;
 		}
 
 		KoLmafia.updateDisplay( "Purchasing " + this.itemName + " at the " + this.name + "..." );
 		super.run();
+		return null;
 	}
 
 	public void processResults()

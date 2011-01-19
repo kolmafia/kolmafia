@@ -939,11 +939,11 @@ public class GenericRequest
 	 * handling will occur through these method calls.
 	 */
 
-	public void run()
+	public Object run()
 	{
 		if ( GenericRequest.serverCookie == null && !( this instanceof LoginRequest ) )
 		{
-			return;
+			return null;
 		}
 
 		this.timeoutCount = 0;
@@ -1015,7 +1015,7 @@ public class GenericRequest
 				}
 				
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-				return;
+				return null;
 			}
 		}
 
@@ -1090,13 +1090,13 @@ public class GenericRequest
 
 		if ( this.responseCode != 200 )
 		{
-			return;
+			return null;
 		}
 
 		if ( this.responseText == null || this.responseText.length() == 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Server " + KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
-			return;
+			return null;
 		}
 
 		// Call central dispatch method for locations that require
@@ -1116,6 +1116,7 @@ public class GenericRequest
 
 		this.formatResponse();
 		KoLCharacter.updateStatus();
+		return null;
 	}
 
 	public void execute()

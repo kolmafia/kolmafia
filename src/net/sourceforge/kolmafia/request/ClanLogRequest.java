@@ -93,7 +93,7 @@ public class ClanLogRequest
 		return true;
 	}
 
-	public void run()
+	public Object run()
 	{
 		KoLmafia.updateDisplay( "Retrieving clan stash log..." );
 
@@ -132,6 +132,7 @@ public class ClanLogRequest
 		this.handleAdmin( ClanLogRequest.CLAN_BOOT, "booted", "", "booted by " );
 
 		this.saveCurrentData( file );
+		return null;
 	}
 
 	private void loadPreviousData( final File file )

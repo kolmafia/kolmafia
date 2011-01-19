@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2005, Simone Bordet
+ * Copyright (c) 2002-2008, Simone Bordet
  * All rights reserved.
  *
  * This software is distributable under the BSD license.
@@ -15,74 +15,51 @@ import java.security.PrivilegedExceptionAction;
 
 /**
  * Partial implementation of the WorkerThread interface.
- * 
- * @version $Revision: 1.9 $
+ *
+ * @version $Revision: 255 $
  */
-public abstract class AbstractWorkerThread
-	implements WorkerThread
+public abstract class AbstractWorkerThread implements WorkerThread
 {
-	/**
-	 * Creates a new instance of this AbstractWorkerThread, called by subclasses.
-	 */
+    /**
+     * Creates a new instance of this AbstractWorkerThread, called by subclasses.
+     */
+    protected AbstractWorkerThread()
+    {
+    }
 
-	protected AbstractWorkerThread()
-	{
-	}
+    public void runTask(final Task task)
+    {
+        if (AbstractWorker.debug) System.out.println("[AbstractWorkerThread] Executing task " + task);
 
-	public void runTask( final Task task )
-	{
-		if ( AbstractWorker.debug )
-		{
-			System.out.println( "[AbstractWorkerThread] Executing task " + task );
-		}
+        try
+        {
+            Object obj = AccessController.doPrivileged(new PrivilegedExceptionAction()
+            {
+                public Object run() throws Exception
+                {
+                    return task.run();
+                }
+            }, task.getSecurityContext());
 
-		try
-		{
-			Object obj = AccessController.doPrivileged( new AbstractWorkerAction( task ), task.getSecurityContext() );
-			task.setResult( obj );
-		}
-		catch ( PrivilegedActionException x )
-		{
-			Exception xx = x.getException();
-			task.setThrowable( xx );
-			if ( xx instanceof InterruptedException || xx instanceof InterruptedIOException )
-			{
-				Thread.currentThread().interrupt();
-			}
-		}
-		catch ( Throwable x )
-		{
-			task.setThrowable( x );
-		}
-		finally
-		{
-			// Mark the task as completed
-			task.setCompleted( true );
+            task.setResult(obj);
+        }
+        catch (PrivilegedActionException x)
+        {
+            Exception xx = x.getException();
+            task.setThrowable(xx);
+            if (xx instanceof InterruptedException || xx instanceof InterruptedIOException) Thread.currentThread().interrupt();
+        }
+        catch (Throwable x)
+        {
+            task.setThrowable(x);
+        }
+        finally
+        {
+            // Mark the task as completed
+            task.setCompleted(true);
 
-			if ( AbstractWorker.debug )
-			{
-				System.out.println( "[AbstractWorkerThread] Completing run for task " + task );
-			}
-
-			task.postRun();
-		}
-	}
-
-	private class AbstractWorkerAction
-		implements PrivilegedExceptionAction
-	{
-		private final Task task;
-
-		public AbstractWorkerAction( final Task task )
-		{
-			this.task = task;
-		}
-
-		public Object run()
-			throws Exception
-		{
-			this.task.run();
-			return null;
-		}
-	}
+            if (AbstractWorker.debug) System.out.println("[AbstractWorkerThread] Completing run for task " + task);
+            task.postRun();
+        }
+    }
 }

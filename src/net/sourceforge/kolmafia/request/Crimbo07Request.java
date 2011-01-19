@@ -64,7 +64,7 @@ public class Crimbo07Request
 	{
 	}
 
-	public void run()
+	public Object run()
 	{
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
@@ -73,12 +73,13 @@ public class Crimbo07Request
 
 		if ( !this.makeIngredients() )
 		{
-			return;
+			return null;
 		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
+		return null;
 	}
 
 	public static final boolean registerRequest( final String urlString )
