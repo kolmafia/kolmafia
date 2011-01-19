@@ -100,14 +100,14 @@ public class SingleUseRequest
 		}
 	}
 
-	public void run()
+	public Object run()
 	{
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 
 		if ( !this.makeIngredients() )
 		{
-			return;
+			return null;
 		}
 
 		int use = this.ingredients[ 0 ].getItemId();
@@ -130,6 +130,7 @@ public class SingleUseRequest
 			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + count + ")..." );
 			super.run();
 		}
+		return null;
 	}
 
 	public void processResults()

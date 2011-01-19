@@ -90,7 +90,7 @@ public class ClanWarRequest
 		this.addFormField( "archers", String.valueOf( archers ) );
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( this.getPath().equals( "clan_attack.php" ) )
 		{
@@ -105,6 +105,7 @@ public class ClanWarRequest
 		}
 
 		super.run();
+		return null;
 	}
 
 	public static final String getNextAttack()

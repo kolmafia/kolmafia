@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
@@ -61,11 +60,9 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
@@ -791,13 +788,13 @@ public class KoLAdventure
 	 * <code>KoLAdventure</code>.
 	 */
 
-	public void run()
+	public Object run()
 	{
 		if ( RecoveryManager.isRecoveryPossible() )
 		{
 			if ( !RecoveryManager.runThresholdChecks() )
 			{
-				return;
+				return null;
 			}
 
 			KoLAdventure.lastVisitedLocation = this;
@@ -810,7 +807,7 @@ public class KoLAdventure
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				return;
+				return null;
 			}
 		}
 
@@ -822,13 +819,13 @@ public class KoLAdventure
 				"Do not venture unprepared into the sewer tunnels!" :
 				"That area is not available.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-			return;
+			return null;
 		}
 
 		if ( this.getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds for shore vacation." );
-			return;
+			return null;
 		}
 
 		String action = Preferences.getString( "battleAction" );
@@ -838,7 +835,7 @@ public class KoLAdventure
 			if ( !this.isNonCombatsOnly() && action.indexOf( "dictionary" ) != -1 && FightRequest.DICTIONARY1.getCount( KoLConstants.inventory ) < 1 && FightRequest.DICTIONARY2.getCount( KoLConstants.inventory ) < 1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sorry, you don't have a dictionary." );
-				return;
+				return null;
 			}
 		}
 		
@@ -851,7 +848,7 @@ public class KoLAdventure
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			return;
+			return null;
 		}
 
 		// Make sure there are enough adventures to run the request
@@ -860,7 +857,7 @@ public class KoLAdventure
 		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < this.request.getAdventuresUsed() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Ran out of adventures." );
-			return;
+			return null;
 		}
 
 		if ( !this.isNonCombatsOnly() && this.request instanceof AdventureRequest )
@@ -873,7 +870,7 @@ public class KoLAdventure
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "A dictionary would be useless there." );
-					return;
+					return null;
 				}
 			}
 
@@ -885,7 +882,7 @@ public class KoLAdventure
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't hit anything there." );
-					return;
+					return null;
 				}
 			}
 
@@ -893,14 +890,14 @@ public class KoLAdventure
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"Your selected attack skill is useless with ranged weapons." );
-				return;
+				return null;
 			}
 
 			if ( FightRequest.isInvalidShieldlessAttack( action ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"Your selected attack skill is useless without a shield." );
-				return;
+				return null;
 			}
 		}
 
@@ -913,6 +910,7 @@ public class KoLAdventure
 		// request (without spamming the server).
 
 		RequestThread.postRequest( this.request );
+		return null;
 	}
 
 	public static final KoLAdventure lastVisitedLocation()

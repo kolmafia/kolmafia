@@ -625,11 +625,11 @@ public class UseSkillRequest
 		return rv;
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( !KoLCharacter.hasSkill( this.skillName ) || this.buffCount == 0 )
 		{
-			return;
+			return null;
 		}
 
 		UseSkillRequest.lastUpdate = "";
@@ -637,11 +637,12 @@ public class UseSkillRequest
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			return;
+			return null;
 		}
 
 		this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
 		this.useSkillLoop();
+		return null;
 	}
 
 	private void useSkillLoop()

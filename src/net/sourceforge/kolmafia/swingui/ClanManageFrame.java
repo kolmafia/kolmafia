@@ -53,6 +53,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.foxtrot.Job;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -204,7 +205,7 @@ public class ClanManageFrame
 		public void actionConfirmed()
 		{
 			StaticEntity.getClient().makeRequest(
-				(Runnable) this.buffField.getSelectedItem(), InputFieldUtilities.getValue( this.countField ) );
+				(Job) this.buffField.getSelectedItem(), InputFieldUtilities.getValue( this.countField ) );
 		}
 
 		public void actionCancelled()

@@ -243,7 +243,7 @@ public class ClanRumpusRequest
 		return this.turnCount;
 	}
 
-	public void run()
+	public Object run()
 	{
 		switch ( this.action )
 		{
@@ -325,7 +325,7 @@ public class ClanRumpusRequest
 			if ( KoLCharacter.getAdventuresLeft() < this.turnCount )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient adventures." );
-				return;
+				return null;
 			}
 		}
 
@@ -335,6 +335,7 @@ public class ClanRumpusRequest
 		}
 
 		super.run();
+		return null;
 	}
 
 	public void processResults()

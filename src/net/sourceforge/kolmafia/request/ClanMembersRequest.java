@@ -139,13 +139,13 @@ public class ClanMembersRequest
 		return true;
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( !this.isLookup || this.isDetailLookup )
 		{
 			KoLmafia.updateDisplay( "Retrieving clan member list..." );
 			super.run();
-			return;
+			return null;
 		}
 
 		retrieveClanId();
@@ -163,6 +163,7 @@ public class ClanMembersRequest
 			super.run();
 		}
 		while ( this.responseText != null && this.responseText.indexOf( "next page &gt;&gt;" ) != -1 );
+		return null;
 	}
 
 	private void retrieveClanId()

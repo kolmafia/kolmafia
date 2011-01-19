@@ -84,10 +84,11 @@ public class CharSheetRequest
 		return null;
 	}
 
-	public void run()
+	public Object run()
 	{
 		KoLmafia.updateDisplay( "Retrieving character data..." );
 		super.run();
+		return null;
 	}
 
 	public void processResults()

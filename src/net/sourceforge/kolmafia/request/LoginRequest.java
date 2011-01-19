@@ -243,7 +243,7 @@ public class LoginRequest
 	 * updates the display or notifies the as appropriate.
 	 */
 
-	public void run()
+	public Object run()
 	{
 		LoginRequest.completedLogin = false;
 
@@ -279,7 +279,7 @@ public class LoginRequest
 
 		if ( this.responseCode != 200 )
 		{
-			return;
+			return null;
 		}
 
 		LoginRequest.lastLoginAttempt = 0;
@@ -287,14 +287,14 @@ public class LoginRequest
 		if ( this.responseText.indexOf( "Bad password" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Bad password." );
-			return;
+			return null;
 		}
 
 		if ( this.responseText.indexOf( "wait fifteen minutes" ) != -1 )
 		{
 			StaticEntity.executeCountdown( "Login reattempt in ", 15 * 60 );
 			this.run();
-			return;
+			return null;
 		}
 
 		// Too many login attempts in too short a span of time.	 Please
@@ -311,7 +311,7 @@ public class LoginRequest
 		{
 			StaticEntity.executeCountdown( "Login reattempt in ", 75 );
 			this.run();
-			return;
+			return null;
 		}
 
 		if ( this.responseText.indexOf( "Too many" ) != -1 )
@@ -320,7 +320,7 @@ public class LoginRequest
                         int pos = this.responseText.indexOf("Too many");
                         int pos2 = this.responseText.indexOf("<",pos+1);
                         KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.responseText.substring(pos,pos2));
-			return;
+			return null;
 		}
 
 		if ( GenericRequest.KOL_HOST.equals( "dev.kingdomofloathing.com" ) &&
@@ -329,10 +329,11 @@ public class LoginRequest
 			// Can't use dev server without permission. Skip it.
 			Preferences.setInteger( "defaultLoginServer", 1 );
 			this.run();
-			return;
+			return null;
 		}
 
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered error in login." );
+		return null;
 	}
 
 	public synchronized static final boolean executeTimeInRequest( final String requestLocation, final String redirectLocation )

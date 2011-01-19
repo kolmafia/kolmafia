@@ -68,16 +68,17 @@ public class FriarRequest
 		return true;
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( this.option == 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Decide which friar to visit." );
-			return;
+			return null;
 		}
 
 		KoLmafia.updateDisplay( "Visiting the Deep Fat Friars..." );
 		super.run();
+		return null;
 	}
 
 	public void processResults()

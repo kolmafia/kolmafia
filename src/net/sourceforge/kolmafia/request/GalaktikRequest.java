@@ -155,17 +155,18 @@ public class GalaktikRequest
 		return null;
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( this.restoreAmount == 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.CONTINUE_STATE, "You don't need that cure." );
-			return;
+			return null;
 		}
 
 		KoLmafia.updateDisplay( "Visiting Doc Galaktik..." );
 
 		super.run();
+		return null;
 	}
 
 	public void processResults()

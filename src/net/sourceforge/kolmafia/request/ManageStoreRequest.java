@@ -101,7 +101,7 @@ public class ManageStoreRequest
 		return true;
 	}
 
-	public void run()
+	public Object run()
 	{
 		switch ( this.requestType )
 		{
@@ -117,6 +117,7 @@ public class ManageStoreRequest
 			this.viewStoreLogs();
 			break;
 		}
+		return null;
 	}
 
 	private void viewStoreLogs()

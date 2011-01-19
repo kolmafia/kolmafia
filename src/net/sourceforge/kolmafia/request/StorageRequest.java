@@ -175,7 +175,7 @@ public class StorageRequest
 		return new StorageRequest( this.moveType, attachments );
 	}
 
-	public final void run()
+	public Object run()
 	{
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )
 		{
@@ -185,11 +185,12 @@ public class StorageRequest
 			case STORAGE_TO_INVENTORY:
 			case PULL_MEAT_FROM_STORAGE:
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
-				return;
+				return null;
 			}
 		}
 
 		super.run();
+		return null;
 	}
 
 	public boolean parseTransfer()

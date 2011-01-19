@@ -102,15 +102,16 @@ public class ChezSnooteeRequest
 		this.setItem( name, itemId, price );
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find " + this.name );
-			return;
+			return null;
 		}
 
 		super.run();
+		return null;
 	}
 
 	public void processResults()

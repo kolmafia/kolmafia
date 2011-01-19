@@ -59,11 +59,12 @@ public class RabbitHoleRequest
 		this.addFormField( "action", action );
 	}
 
-	public void run()
+	public Object run()
 	{
 		super.run();
 
 		RabbitHoleRequest.parseResponse( this.getURLString(), this.responseText );
+		return null;
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )

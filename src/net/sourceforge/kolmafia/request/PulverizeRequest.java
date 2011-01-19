@@ -113,12 +113,12 @@ public class PulverizeRequest
 		icr.run();
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( this.item ) )
 		{
 			KoLmafia.updateDisplay( "(smashing of 'Memento' item " + this.item + " disallowed)" );
-			return;
+			return null;
 		}
 
 		if ( this.item.getCount( KoLConstants.inventory ) == this.item.getCount() )
@@ -134,7 +134,7 @@ public class PulverizeRequest
 				this.item = this.item.getInstance( this.item.getCount() - 1 );
 				if ( this.item.getCount() <= 0 )
 				{
-					return;
+					return null;
 				}
 				this.addFormField( "qty", String.valueOf( this.item.getCount() ) );
 			}
@@ -161,28 +161,29 @@ public class PulverizeRequest
 				this.useMalus( name.substring( 0, space ) + upgrade, qty / 5 );
 			}
 
-			return;
+			return null;
 		}
 
 		if ( !KoLCharacter.hasSkill( "Pulverize" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't know how to pulverize objects." );
-			return;
+			return null;
 		}
 
 		if ( !InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
 		{
-			return;
+			return null;
 		}
 
 		if ( this.item.getCount( KoLConstants.inventory ) < this.item.getCount() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many " + this.item.getName() + "." );
-			return;
+			return null;
 		}
 
 		KoLmafia.updateDisplay( "Pulverizing " + this.item + "..." );
 		super.run();
+		return null;
 	}
 
 	public void processResults()

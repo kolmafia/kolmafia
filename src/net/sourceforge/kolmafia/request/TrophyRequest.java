@@ -66,7 +66,7 @@ public class TrophyRequest
 		this.trophies = trophies;
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( this.trophies == null )
 		{
@@ -79,7 +79,7 @@ public class TrophyRequest
 					StringUtilities.parseInt( m.group( 3 ) ),
 					m.group( 4 ) != null ) );
 			}
-			return;
+			return null;
 		}
 		
 		this.addFormField( "action", "Yup." );
@@ -111,6 +111,7 @@ public class TrophyRequest
 		this.constructURLString( buf.toString(), false );
 
 		super.run();
+		return null;
 	}
 
 	public ArrayList getTrophies()

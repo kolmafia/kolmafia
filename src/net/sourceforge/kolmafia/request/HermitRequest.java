@@ -140,12 +140,12 @@ public class HermitRequest
 	 * will report an error to the StaticEntity.getClient().
 	 */
 
-	public void run()
+	public Object run()
 	{
 		if ( this.itemId > 0 && this.quantity <= 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Zero is not a valid quantity." );
-			return;
+			return null;
 		}
 
 		// If we have a hermit script, read it now
@@ -168,13 +168,14 @@ public class HermitRequest
 
 		if ( HermitRequest.getWorthlessItemCount() == 0 )
 		{
-			return;
+			return null;
 		}
 
 		this.quantity = Math.min( this.quantity, HermitRequest.getWorthlessItemCount() );
 		KoLmafia.updateDisplay( "Robbing the hermit..." );
 
 		super.run();
+		return null;
 	}
 
 	public void processResults()

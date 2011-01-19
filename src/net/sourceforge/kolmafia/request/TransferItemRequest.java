@@ -296,7 +296,7 @@ public abstract class TransferItemRequest
 	 * fails; it merely parses the results to see if any gains were made.
 	 */
 
-	public void run()
+	public Object run()
 	{
 		// First, check to see how many attachments are to be
 		// transferred. If there are too many, then you'll need to
@@ -305,7 +305,7 @@ public abstract class TransferItemRequest
 		if ( !this.isSubInstance )
 		{
 			this.runSubInstances();
-			return;
+			return null;
 		}
 
 		int capacity = this.getCapacity();
@@ -334,6 +334,7 @@ public abstract class TransferItemRequest
 
 		TransferItemRequest.hadSendMessageFailure = false;
 		super.run();
+		return null;
 	}
 
 	public void processResults()

@@ -1645,7 +1645,7 @@ public class FightRequest
 		}
 	}
 
-	public void run()
+	public Object run()
 	{
 		RequestThread.openRequestSequence();
 		FightRequest.isAutomatingFight = true;
@@ -1669,6 +1669,7 @@ public class FightRequest
 
 		FightRequest.isAutomatingFight = false;
 		RequestThread.closeRequestSequence();
+		return null;
 	}
 
 	public static final boolean processResults( final String responseText )

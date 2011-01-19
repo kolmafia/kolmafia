@@ -318,7 +318,7 @@ public class KoLmafiaGUI
 			this.frameClass = frameClass;
 		}
 
-		public void run()
+		public Object run()
 		{
 			// Now, test to see if any requests need to be run before
 			// you fall into the event dispatch thread.
@@ -333,7 +333,7 @@ public class KoLmafiaGUI
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No buffs found to purchase." );
 					RequestThread.enableDisplayIfSequenceComplete();
-					return;
+					return null;
 				}
 			}
 			else if ( this.frameClass == CakeArenaFrame.class )
@@ -342,7 +342,7 @@ public class KoLmafiaGUI
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
 					RequestThread.enableDisplayIfSequenceComplete();
-					return;
+					return null;
 				}
 			}
 			else if ( this.frameClass == CalendarFrame.class )
@@ -375,7 +375,7 @@ public class KoLmafiaGUI
 			{
 				if ( GenericFrame.appearsInTab( "ContactListFrame" ) )
 				{
-					return;
+					return null;
 				}
 			}
 			else if ( this.frameClass == FamiliarTrainingFrame.class )
@@ -384,7 +384,7 @@ public class KoLmafiaGUI
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
 					RequestThread.enableDisplayIfSequenceComplete();
-					return;
+					return null;
 				}
 			}
 			else if ( this.frameClass == FlowerHunterFrame.class )
@@ -394,7 +394,7 @@ public class KoLmafiaGUI
 
 				if ( KoLmafia.refusesContinue() )
 				{
-					return;
+					return null;
 				}
 			}
 			else if ( this.frameClass == ItemManageFrame.class )
@@ -458,14 +458,14 @@ public class KoLmafiaGUI
 			else if ( this.frameClass == LocalRelayServer.class )
 			{
 				StaticEntity.getClient().openRelayBrowser();
-				return;
+				return null;
 			}
 			else if ( this.frameClass == MailboxFrame.class )
 			{
 				RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
 				if ( LoginRequest.isInstanceRunning() )
 				{
-					return;
+					return null;
 				}
 			}
 			else if ( this.frameClass == MuseumFrame.class )
@@ -473,7 +473,7 @@ public class KoLmafiaGUI
 				if ( !KoLCharacter.hasDisplayCase() )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sorry, you don't have a display case." );
-					return;
+					return null;
 				}
 
 				if ( DisplayCaseManager.getHeaders().isEmpty() )
@@ -494,7 +494,7 @@ public class KoLmafiaGUI
 				{
 					KoLmafia.updateDisplay( "You don't own a store in the Mall of Loathing." );
 					RequestThread.enableDisplayIfSequenceComplete();
-					return;
+					return null;
 				}
 
 				RequestThread.openRequestSequence();
@@ -506,6 +506,7 @@ public class KoLmafiaGUI
 			}
 
 			( new CreateFrameRunnable( this.frameClass ) ).run();
+			return null;
 		}
 	}
 

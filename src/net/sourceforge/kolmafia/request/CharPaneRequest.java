@@ -116,16 +116,17 @@ public class CharPaneRequest
 		CharPaneRequest.canInteract = interaction;
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( CharPaneRequest.isRunning )
 		{
-			return;
+			return null;
 		}
 
 		CharPaneRequest.isRunning = true;
 		super.run();
 		CharPaneRequest.isRunning = false;
+		return null;
 	}
 
 	public void processResults()

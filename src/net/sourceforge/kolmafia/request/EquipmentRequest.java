@@ -578,13 +578,13 @@ public class EquipmentRequest
 	 * equipped items and familiar item will be stored.
 	 */
 
-	public void run()
+	public Object run()
 	{
 		// If we were given bogus parameters, report the error now
 		if ( this.error != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.error );
-			return;
+			return null;
 		}
 
 		// Outfit changes are a bit quirky, so they're handled
@@ -617,7 +617,7 @@ public class EquipmentRequest
 					}
 				}
 
-				return;
+				return null;
 			}
 
 			int id = this.outfit.getOutfitId();
@@ -629,7 +629,7 @@ public class EquipmentRequest
 				// already wearing the outfit
 				if ( EquipmentManager.isWearingOutfit( id ) )
 				{
-					return;
+					return null;
 				}
 
 				// Next, ensure that you have all the pieces
@@ -640,7 +640,7 @@ public class EquipmentRequest
 				// Bail now if the conditions were not met
 				if ( !KoLmafia.permitsContinue() )
 				{
-					return;
+					return null;
 				}
 
 				if ( EquipmentRequest.shouldSavePreviousOutfit )
@@ -659,7 +659,7 @@ public class EquipmentRequest
 				// already wearing the outfit
 				if ( EquipmentManager.isWearingOutfit( this.outfit ) )
 				{
-					return;
+					return null;
 				}
 
 				AdventureResult[] pieces = this.outfit.getPieces();
@@ -711,7 +711,7 @@ public class EquipmentRequest
 					( new EquipmentRequest( pieces[ i ], desiredSlot ) ).run();
 				}
 
-				return;
+				return null;
 			}
 		}
 
@@ -722,7 +722,7 @@ public class EquipmentRequest
 
 			if ( EquipmentManager.getEquipment( this.equipmentSlot ).equals( this.changeItem ) )
 			{
-				return;
+				return null;
 			}
 
 			// If we are equipping a new weapon, a two-handed
@@ -758,7 +758,7 @@ public class EquipmentRequest
 				if ( itemType == KoLConstants.EQUIP_WEAPON && weaponItemId <= 0 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't dual wield unless you already have a main weapon." );
-					return;
+					return null;
 				}
 
 				if ( EquipmentDatabase.getHands( weaponItemId ) > 1 )
@@ -767,20 +767,20 @@ public class EquipmentRequest
 						"You can't dual wield while wielding a 2-handed weapon." :
 						"You can't equip an off-hand item while wielding a 2-handed weapon.";
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-					return;
+					return null;
 				}
 
 				if ( itemType == KoLConstants.EQUIP_WEAPON &&
 				     EquipmentDatabase.getWeaponType( itemId ) != EquipmentDatabase.getWeaponType( weaponItemId ) )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't hold a " + this.changeItem.getName() + " in your off-hand when wielding a " + weapon.getName() );
-					return;
+					return null;
 				}
 			}
 
 			if ( !InventoryManager.retrieveItem( this.changeItem ) )
 			{
-				return;
+				return null;
 			}
 
 			if ( this.equipmentSlot >= EquipmentManager.STICKER1 &&
@@ -794,7 +794,7 @@ public class EquipmentRequest
 		if ( this.requestType == EquipmentRequest.REMOVE_ITEM &&
 		     EquipmentManager.getEquipment( this.equipmentSlot ).equals( EquipmentRequest.UNEQUIP ) )
 		{
-			return;
+			return null;
 		}
 
 		switch ( this.requestType )
@@ -862,7 +862,7 @@ public class EquipmentRequest
 				{
 					// Not an error
 					KoLmafia.updateDisplay( result );
-					return;
+					return null;
 				}
 
 				if ( result.indexOf( "You put" ) == -1 &&
@@ -873,7 +873,7 @@ public class EquipmentRequest
 				     result.indexOf( "fold it into an impromptu sword" ) == -1 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, result );
-					return;
+					return null;
 				}
 			}
 
@@ -905,6 +905,7 @@ public class EquipmentRequest
 
 			break;
 		}
+		return null;
 	}
 
 	public void processResults()

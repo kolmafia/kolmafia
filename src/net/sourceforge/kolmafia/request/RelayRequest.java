@@ -1489,20 +1489,20 @@ public class RelayRequest
 		this.sendLocalFile( path );
 	}
 
-	public void run()
+	public Object run()
 	{
 		String path = this.getBasePath();
 
 		if ( path.startsWith( "http" ) )
 		{
 			super.run();
-			return;
+			return null;
 		}
 
 		if ( !path.endsWith( ".php" ) )
 		{
 			this.handleSimple();
-			return;
+			return null;
 		}
 
 		// If it's a chat request, handle it right away and return.
@@ -1511,7 +1511,7 @@ public class RelayRequest
 		if ( this.isChatRequest )
 		{
 			this.handleChat();
-			return;
+			return null;
 		}
 
 		// If it gets this far, consider firing a relay browser
@@ -1519,7 +1519,7 @@ public class RelayRequest
 
 		if ( this.allowOverride && KoLmafiaASH.getClientHTML( this ) )
 		{
-			return;
+			return null;
 		}
 
 		if ( path.startsWith( "lchat.php" ) )
@@ -1530,7 +1530,7 @@ public class RelayRequest
 			this.responseText = StringUtilities.globalStringReplace( this.responseText, "<P>", "<br><br>" );
 			this.responseText = StringUtilities.singleStringDelete( this.responseText, "</span>" );
 
-			return;
+			return null;
 		}
 
 		// Track use of "Recall ancient skills button" from the account menu
@@ -1557,7 +1557,7 @@ public class RelayRequest
 			if ( item != null && item.startsWith( "custom" ) )
 			{
 				this.pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( item.substring( 6 ) ) );
-				return;
+				return null;
 			}
 
 			if ( showWikiLink( item ) )
@@ -1566,7 +1566,7 @@ public class RelayRequest
 				if ( location != null )
 				{
 					this.pseudoResponse( "HTTP/1.1 302 Found", location );
-					return;
+					return null;
 				}
 			}
 		}
@@ -1630,7 +1630,7 @@ public class RelayRequest
 				msg.append( UseItemRequest.lastSemirareMessage() );
 			}
 			this.sendGeneralWarning( image, msg.toString() );
-			return;
+			return null;
 		}
 
 		if ( path.startsWith( "desc_effect.php" ) && Preferences.getBoolean( "relayAddsWikiLinks" ) )
@@ -1643,7 +1643,7 @@ public class RelayRequest
 			if ( location != null )
 			{
 				this.pseudoResponse( "HTTP/1.1 302 Found", location );
-				return;
+				return null;
 			}
 		}
 
@@ -1654,7 +1654,7 @@ public class RelayRequest
 
 		if ( this.sendInfernalSealWarning( urlString ) )
 		{
-			return;
+			return null;
 		}
 
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
@@ -1665,7 +1665,7 @@ public class RelayRequest
 
 		if ( this.sendBattlefieldWarning( urlString, adventure ) )
 		{
-			return;
+			return null;
 		}
 
 		String adventureName = adventure != null ?
@@ -1689,7 +1689,7 @@ public class RelayRequest
 			if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )
 			{
 				this.sendCloverWarning();
-				return;
+				return null;
 			}
 
 			// Sometimes, people want the MCD rewards from various
@@ -1705,7 +1705,7 @@ public class RelayRequest
 				if ( location != null && location.equals( "34" ) && KoLCharacter.mcdAvailable() )
 				{
 					this.sendBossWarning( "The Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
-					return;
+					return null;
 				}
 			}
 
@@ -1717,7 +1717,7 @@ public class RelayRequest
 				if ( this.getFormField( "king" ) != null && KoLCharacter.mcdAvailable() )
 				{
 					this.sendBossWarning( "The Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
-					return;
+					return null;
 				}
 			}
 
@@ -1729,7 +1729,7 @@ public class RelayRequest
 				if ( this.getFormField( "action" ) != null && KoLCharacter.mcdAvailable() )
 				{
 					this.sendBossWarning( "The Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
-					return;
+					return null;
 				}
 			}
 
@@ -1780,7 +1780,7 @@ public class RelayRequest
 						}
 					}
 					this.sendGeneralWarning( "wand.gif", warning.toString() );
-					return;
+					return null;
 				}
 			}
 		}
@@ -1808,7 +1808,7 @@ public class RelayRequest
 					EquipmentManager.getEquipment( EquipmentManager.PANTS ) == EquipmentRequest.UNEQUIP) )
 			{
 				this.sendGeneralWarning( "ggtoken.gif", "You might not be properly equipped to play this game.<br>Click the token if you'd like to continue anyway." );
-				return;
+				return null;
 			}
 		}
 
@@ -1828,7 +1828,7 @@ public class RelayRequest
 			     KoLCharacter.mcdAvailable() )
 			{
 				this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
-				return;
+				return null;
 			}
 		}
 
@@ -1851,7 +1851,7 @@ public class RelayRequest
 			this.sendNotFound();
 		}
 
-		return;
+		return null;
 	}
 
 	private static boolean showWikiLink( final String item )

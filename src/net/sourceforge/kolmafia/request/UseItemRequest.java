@@ -588,7 +588,7 @@ public class UseItemRequest
 		return Integer.MAX_VALUE;
 	}
 
-	public void run()
+	public Object run()
 	{
 		// Hide memento items from your familiars
 		if ( this.isBingeRequest() &&
@@ -596,7 +596,7 @@ public class UseItemRequest
 		     KoLConstants.mementoList.contains( this.itemUsed ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Don't feed mementos to your familiars." );
-			return;
+			return null;
 		}
 
 		// Equipment should be handled by a different kind of request.
@@ -610,7 +610,7 @@ public class UseItemRequest
 		if ( isSealFigurine && !EquipmentManager.wieldingClub() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You really should wield a club before using that." );
-			return;
+			return null;
 		}
 
 		switch ( itemId )
@@ -622,13 +622,13 @@ public class UseItemRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"You don't have one of those." );
-				return;
+				return null;
 			}
 			KoLmafia.updateDisplay( "Splitting bricks..." );
 			GenericRequest req = new GenericRequest( "inventory.php?action=breakbricko&pwd&whichitem=" + itemId );
 			RequestThread.postRequest( req );
 			StaticEntity.externalUpdate( req.getURLString(), req.responseText );
-			return;
+			return null;
 
 		case ItemPool.STICKER_SWORD:
 		case ItemPool.STICKER_CROSSBOW:
@@ -636,19 +636,19 @@ public class UseItemRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"You don't have one of those." );
-				return;
+				return null;
 			}
 			RequestThread.postRequest( new GenericRequest( "bedazzle.php?action=fold&pwd" ) );
-			return;
+			return null;
 
 		case ItemPool.MACGUFFIN_DIARY:
 			RequestThread.postRequest( new GenericRequest( "diary.php?textversion=1" ) );
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
-			return;
+			return null;
 
 		case ItemPool.PUZZLE_PIECE:
 			SorceressLairManager.completeHedgeMaze();
-			return;
+			return null;
 
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
@@ -665,7 +665,7 @@ public class UseItemRequest
 			int newLevel = CampgroundRequest.dwellingLevel( itemId );
 			if ( newLevel < oldLevel && dwelling != null && !UseItemRequest.confirmReplacement( dwelling.getName() ) )
 			{
-				return;
+				return null;
 			}
 			break;
  
@@ -679,7 +679,7 @@ public class UseItemRequest
 			AdventureResult bed = CampgroundRequest.getCurrentBed();
 			if ( bed != null && !UseItemRequest.confirmReplacement( bed.getName() ) )
 			{
-				return;
+				return null;
 			}
 			break;
 
@@ -696,7 +696,7 @@ public class UseItemRequest
 			String ghost = Preferences.getString( "pastamancerGhostType" );
 			if ( !ghost.equals( "" ) && !UseItemRequest.confirmReplacement( ghost ) )
 			{
-				return;
+				return null;
 			}
 			break;
 		}
@@ -714,18 +714,18 @@ public class UseItemRequest
 		case KoLConstants.EQUIP_ACCESSORY:
 		case KoLConstants.EQUIP_FAMILIAR:
 			RequestThread.postRequest( new EquipmentRequest( this.itemUsed ) );
-			return;
+			return null;
 
 		case KoLConstants.CONSUME_SPHERE:
 			RequestThread.postRequest( new PortalRequest( this.itemUsed ) );
-			return;
+			return null;
 			
 		case KoLConstants.CONSUME_FOOD_HELPER:
 			count = this.itemUsed.getCount();
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Helper not available." );
-				return;
+				return null;
 			}
 			if ( this.itemUsed.equals( this.queuedFoodHelper ) )
 			{
@@ -738,14 +738,14 @@ public class UseItemRequest
 			}
 			KoLmafia.updateDisplay( "Helper queued for next " + count + " food" +
 				(count == 1 ? "" : "s") + " eaten." );
-			return;
+			return null;
 			
 		case KoLConstants.CONSUME_DRINK_HELPER:
 			count = this.itemUsed.getCount();
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Helper not available." );
-				return;
+				return null;
 			}
 			if ( this.itemUsed.equals( queuedDrinkHelper ) )
 			{
@@ -758,17 +758,17 @@ public class UseItemRequest
 			}
 			KoLmafia.updateDisplay( "Helper queued for next " + count + " beverage" +
 				(count == 1 ? "" : "s") + " drunk." );
-			return;
+			return null;
 		
 		case KoLConstants.NO_CONSUME:
 			// no primary use, but a secondary use may be applicable
 			if ( ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_CURSE ) )
 			{
 				RequestThread.postRequest( new CurseRequest( this.itemUsed ) );
-				return;
+				return null;
 			}
 			KoLmafia.updateDisplay( this.itemUsed.getName() + " is unusable." );
-			return;
+			return null;
 		}
 
 		UseItemRequest.lastUpdate = "";
@@ -776,7 +776,7 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
+			return null;
 		}		
 
 		int maximumUses = UseItemRequest.maximumUses( itemId, this.consumptionType );
@@ -790,7 +790,7 @@ public class UseItemRequest
 
 		if ( this.itemUsed.getCount() < 1 )
 		{
-			return;
+			return null;
 		}
 		
 		if ( itemId == ItemPool.LUCIFER )
@@ -824,7 +824,7 @@ public class UseItemRequest
 
 					if ( !KoLmafia.permitsContinue() )
 					{
-						return;
+						return null;
 					}
 
 					break;
@@ -850,7 +850,7 @@ public class UseItemRequest
 				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 
-			return;
+			return null;
 		}
 
 		if ( itemId == ItemPool.SELTZER )
@@ -919,13 +919,13 @@ public class UseItemRequest
 				!UseItemRequest.allowBoozeConsumption(
 					ItemDatabase.getInebriety( this.itemUsed.getName() ), this.itemUsed.getCount() ) )
 			{
-				return;
+				return null;
 			}
 			
 			if ( this.consumptionType == KoLConstants.CONSUME_EAT &&
 			     !this.allowFoodConsumption() )
 			{
-				return;
+				return null;
 			}
 
 			this.useOnce( i, iterations, useTypeAsString );
@@ -951,6 +951,7 @@ public class UseItemRequest
 		{
 			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + origCount + " " + this.itemUsed.getName() + "." );
 		}
+		return null;
 	}
 
 	private static final boolean singleConsume( final int itemId, int consumptionType )

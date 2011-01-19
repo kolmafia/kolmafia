@@ -219,7 +219,7 @@ public class CoinMasterRequest
 		return "bogus.php";
 	}
 
-	public void run()
+	public Object run()
 	{
 		KoLmafia.updateDisplay( "Visiting the " + master + "..." );
 
@@ -229,6 +229,7 @@ public class CoinMasterRequest
 		{
 			KoLmafia.updateDisplay( master + " successfully looted!" );
 		}
+		return null;
 	}
 
 	public static void parseBigBrotherVisit( final String location, final String responseText )

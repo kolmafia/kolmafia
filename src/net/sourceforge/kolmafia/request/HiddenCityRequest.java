@@ -128,16 +128,17 @@ public class HiddenCityRequest
 		}
 	}
 
-	public void run()
+	public Object run()
 	{
 		this.reconstructFields();
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			return;
+			return null;
 		}
 
 		super.run();
+		return null;
 	}
 
 	public static final void validateHiddenCity()

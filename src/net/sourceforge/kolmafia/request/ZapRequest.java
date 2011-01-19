@@ -135,17 +135,17 @@ public class ZapRequest
 		return rv;
 	}
 
-	public void run()
+	public Object run()
 	{
 		if ( this.item == null )
 		{
-			return;
+			return null;
 		}
 
 		if ( KoLCharacter.getZapper() == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a wand." );
-			return;
+			return null;
 		}
 
 		if ( InventoryManager.hasItem( this.item, true ) )
@@ -156,11 +156,12 @@ public class ZapRequest
 		if ( !KoLConstants.inventory.contains( this.item ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + this.item.getName() + "." );
-			return;
+			return null;
 		}
 
 		KoLmafia.updateDisplay( "Zapping " + this.item.getName() + "..." );
 		super.run();
+		return null;
 	}
 
 	public void processResults()

@@ -213,9 +213,10 @@ public abstract class RequestThread
 			this.wrapped = wrapped;
 		}
 
-		public void run()
+		public Object run()
 		{
 			this.wrapped.run();
+			return null;
 		}
 	}
 }
