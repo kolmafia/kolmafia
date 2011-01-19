@@ -360,7 +360,8 @@ public class DiscoCombatHelper
 		// If it's a rave skill, we need to have learned it in battle.
 		if ( combo == RANDOM_RAVE )
 		{
-			data[ 0 ][ 0 ] = UNKNOWN;
+			int found = 0;
+
 		findUnknownCombo:
 			for ( int sel = 0; sel < 27; ++sel )
 			{
@@ -376,18 +377,54 @@ public class DiscoCombatHelper
 				{
 					int[][] testdata = COMBO_SKILLS[ test ];
 					if ( s1 == testdata[ 0 ][ 0 ] &&
-						s2 == testdata[ 1 ][ 0 ] &&
-						s3 == testdata[ 2 ][ 0 ] )
+					     s2 == testdata[ 1 ][ 0 ] &&
+					     s3 == testdata[ 2 ][ 0 ] )
 					{
 						continue findUnknownCombo;
 					}
 				}
-			
+
+				// We don't know this combo yet.
+				if  ( found == 1 )
+				{
+					// If we've already found an unknown
+					// combo, note that we found more than
+					// one and stop looking.
+					found = 2;
+					break;
+				}
+
+				// Save first unknown combo
 				data[ 0 ][ 0 ] = s1;
 				data[ 1 ][ 0 ] = s2;
 				data[ 2 ][ 0 ] = s3;
-				break;
-			}		
+				found = 1;
+			}
+
+			// Check how many unknown combos there are
+			switch ( found )
+			{
+			case 1:
+				// If there is only one unknown combo, we can
+				// deduce what it is
+				for ( int test = FIRST_RAVE_COMBO; test < RANDOM_RAVE; ++test )
+				{
+					if ( !knownCombo[ test ] )
+					{
+
+						DiscoCombatHelper.learnRaveCombo( test, data[ 0 ][ 0 ], data[ 1 ][ 0 ], data[ 2 ][ 0 ] );
+						break;
+					}
+				}
+				// Fall through
+			case 0:
+				// We no longer need random rave
+				knownCombo[ combo ] = false;
+				return;
+			}
+
+			// There are at least two unknown combos and the skills
+			// for the first one are set up in data
 		}
 		else if ( combo >= FIRST_RAVE_COMBO )
 		{
@@ -630,6 +667,14 @@ public class DiscoCombatHelper
 		}
 
 		// We have learned the combo!
+		DiscoCombatHelper.learnRaveCombo( combo, skill1, skill2, skill3 );
+
+		// Update the random combo
+		DiscoCombatHelper.checkCombo( RANDOM_RAVE );
+	}
+
+	private static final void learnRaveCombo( int combo, int skill1, int skill2, int skill3 )
+	{
 		knownCombo[ combo ] = true;
 
 		// Generate the setting.
@@ -642,9 +687,6 @@ public class DiscoCombatHelper
 		data[0][0] = skill1;
 		data[1][0] = skill2;
 		data[2][0] = skill3;
-
-		// Update the random combo
-		DiscoCombatHelper.checkCombo( RANDOM_RAVE );
 	}
 
 	private static final boolean checkSequence( final int[][] data, final int offset )
