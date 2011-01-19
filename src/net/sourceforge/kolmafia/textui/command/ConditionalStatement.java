@@ -121,10 +121,10 @@ public abstract class ConditionalStatement
 
 		String operator =
 			parameters.indexOf( "==" ) != -1 ? "==" :
-			parameters.indexOf( "=" ) != -1 ? "==" :
 			parameters.indexOf( "!=" ) != -1 ? "!=" :
 			parameters.indexOf( ">=" ) != -1 ? ">=" :
 			parameters.indexOf( "<=" ) != -1 ? "<=" :
+			parameters.indexOf( "=" ) != -1 ? "==" :
 			parameters.indexOf( "<>" ) != -1 ? "!=" :
 			parameters.indexOf( ">" ) != -1 ? ">" :
 			parameters.indexOf( "<" ) != -1 ? "<" :
