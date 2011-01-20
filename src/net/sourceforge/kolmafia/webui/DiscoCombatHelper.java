@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -412,6 +413,7 @@ public class DiscoCombatHelper
 					if ( !knownCombo[ test ] )
 					{
 
+						KoLmafia.updateDisplay( "All rave combos have been identified!" );
 						DiscoCombatHelper.learnRaveCombo( test, data[ 0 ][ 0 ], data[ 1 ][ 0 ], data[ 2 ][ 0 ] );
 						break;
 					}
