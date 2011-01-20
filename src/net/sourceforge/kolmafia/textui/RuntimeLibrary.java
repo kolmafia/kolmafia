@@ -3756,6 +3756,7 @@ public abstract class RuntimeLibrary
 	public static Value chat_clan( final Value messageValue )
 	{
 		String message = messageValue.toString();
+		message = message.trim();
 		if ( message.equals( "" ) || message.startsWith( "/" ) )
 		{
 			return DataTypes.VOID_VALUE;
@@ -3766,6 +3767,7 @@ public abstract class RuntimeLibrary
 	public static Value chat_clan( final Value messageValue, final Value recipientValue )
 	{
 		String message = messageValue.toString();
+		message = message.trim();
 		String recipient = recipientValue.toString();
 
 		if ( !( recipient.equals( "clan" ) || recipient.equals( "hobopolis" ) || recipient.equals( "slimetube" ) ) )
