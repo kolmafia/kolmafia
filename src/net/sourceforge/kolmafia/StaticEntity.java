@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
@@ -940,7 +941,7 @@ public abstract class StaticEntity
 		{
 			KoLCharacter.setBookshelf( true );
 		}
-		Preferences.firePreferenceChanged( "(skill)" );
+		PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
 	}
 
 	public static final boolean executeCountdown( final String message, final int seconds )

@@ -37,7 +37,6 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -55,6 +54,8 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
@@ -73,7 +74,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChoiceOptionsPanel
 	extends JTabbedPane
-	implements Preferences.ChangeListener
+	implements PreferenceListener
 {
 	private final TreeMap choiceMap;
 	private final HashMap selectMap;
@@ -233,7 +234,7 @@ public class ChoiceOptionsPanel
 		this.oceanActionSelect.addItem( "save and continue" );
 		this.oceanActionSelect.addItem( "save and show" );
 		this.oceanActionSelect.addItem( "save and stop" );
-		
+
 		this.barrelSelect = new JComboBox();
 		this.barrelSelect.addItem( "top rows (mixed drinks)" );
 		this.barrelSelect.addItem( "middle rows (basic booze)" );
@@ -242,7 +243,7 @@ public class ChoiceOptionsPanel
 		this.barrelSelect.addItem( "top & bottom rows" );
 		this.barrelSelect.addItem( "middle & bottom rows" );
 		this.barrelSelect.addItem( "all available drinks" );
-		
+
 		this.gongSelect = new JComboBox();
 		for ( int i = 0; i < GongCommand.GONG_PATHS.length; ++i )
 		{
@@ -253,20 +254,20 @@ public class ChoiceOptionsPanel
 		this.basementMallSelect.addItem( "do not show Mall prices" );
 		this.basementMallSelect.addItem( "show Mall prices for items you don't have" );
 		this.basementMallSelect.addItem( "show Mall prices for all items" );
-		
+
 		this.breakableSelect = new JComboBox();
 		this.breakableSelect.addItem( "abort on breakage" );
 		this.breakableSelect.addItem( "equip previous" );
 		this.breakableSelect.addItem( "re-equip from inventory, or abort" );
 		this.breakableSelect.addItem( "re-equip from inventory, or previous" );
 		this.breakableSelect.addItem( "acquire & re-equip" );
-		
+
 		this.addingSelect = new JComboBox();
 		this.addingSelect.addItem( "show in browser" );
 		this.addingSelect.addItem( "create goal scrolls only" );
 		this.addingSelect.addItem( "create goal & 668 scrolls" );
 		this.addingSelect.addItem( "create goal, 31337, 668 scrolls" );
-		
+
 		this.addChoiceSelect( "Item-Driven", "Llama Gong", this.gongSelect );
 		this.addChoiceSelect( "Item-Driven", "Breakable Equipment", this.breakableSelect );
 		this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
@@ -291,23 +292,23 @@ public class ChoiceOptionsPanel
 				ChoiceManager.CHOICE_ADVS[ i ].getZone(), ChoiceManager.CHOICE_ADVS[ i ].getName(),
 				this.optionSelects[ i ] );
 		}
-		
+
 		this.addChoiceSelect( "Item-Driven", "Item",
 			new CommandButton( "use 1 llama lama gong" ) );
 		this.addChoiceSelect( "Item-Driven", "Item",
 			new CommandButton( "use 1 tiny bottle of absinthe" ) );
 
-		Preferences.registerListener( "choiceAdventure*", this );
-		Preferences.registerListener( "violetFogGoal", this );
-		Preferences.registerListener( "louvreOverride", this );
-		Preferences.registerListener( "louvreDesiredGoal", this );
-		Preferences.registerListener( "barrelGoal", this );
-		Preferences.registerListener( "gongPath", this );
-		Preferences.registerListener( "oceanAction", this );
-		Preferences.registerListener( "oceanDestination", this );
-		Preferences.registerListener( "basementMallPrices", this );
-		Preferences.registerListener( "breakableHandling", this );
-		Preferences.registerListener( "addingScrolls", this );
+		PreferenceListenerRegistry.registerListener( "choiceAdventure*", this );
+		PreferenceListenerRegistry.registerListener( "violetFogGoal", this );
+		PreferenceListenerRegistry.registerListener( "louvreOverride", this );
+		PreferenceListenerRegistry.registerListener( "louvreDesiredGoal", this );
+		PreferenceListenerRegistry.registerListener( "barrelGoal", this );
+		PreferenceListenerRegistry.registerListener( "gongPath", this );
+		PreferenceListenerRegistry.registerListener( "oceanAction", this );
+		PreferenceListenerRegistry.registerListener( "oceanDestination", this );
+		PreferenceListenerRegistry.registerListener( "basementMallPrices", this );
+		PreferenceListenerRegistry.registerListener( "breakableHandling", this );
+		PreferenceListenerRegistry.registerListener( "addingScrolls", this );
 
 		this.loadSettings();
 
@@ -663,9 +664,9 @@ public class ChoiceOptionsPanel
 			KoLCharacter.updateSelectedLocation( location );
 		}
 	}
-	
+
 	private boolean isAdjusting = false;
-	
+
 	public synchronized void update()
 	{
 		if ( !this.isAdjusting )
@@ -690,7 +691,7 @@ public class ChoiceOptionsPanel
 		Preferences.setInteger( "violetFogGoal", this.violetFogSelect.getSelectedIndex() );
 		Preferences.setString( "choiceAdventure89",
 			String.valueOf( this.maidenSelect.getSelectedIndex() ) );
-		Preferences.setString( "choiceAdventure127", 
+		Preferences.setString( "choiceAdventure127",
 			String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
 		Preferences.setInteger( "barrelGoal", this.barrelSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
@@ -953,7 +954,7 @@ public class ChoiceOptionsPanel
 		this.barrelSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "barrelGoal" ) - 1 ) );
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );
-		
+
 		int adding = Preferences.getInteger( "addingScrolls" );
 		if ( adding == -1 )
 		{
@@ -961,7 +962,7 @@ public class ChoiceOptionsPanel
 			Preferences.setInteger( "addingScrolls", adding );
 		}
 		this.addingSelect.setSelectedIndex( adding );
-		
+
 		this.gongSelect.setSelectedIndex( Preferences.getInteger( "gongPath" ) );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
@@ -1160,11 +1161,11 @@ public class ChoiceOptionsPanel
 		{
 			this.oceanActionSelect.setSelectedIndex( 5 );
 		}
-		
+
 		this.isAdjusting = false;
 		ActionPanel.enableActions( true );
 	}
-	
+
 	public static class CommandButton
 		extends JButton
 		implements ActionListener
@@ -1175,7 +1176,7 @@ public class ChoiceOptionsPanel
 			this.setActionCommand( cmd );
 			this.addActionListener( this );
 		}
-		
+
 		public void actionPerformed( ActionEvent e )
 		{
 			CommandDisplayFrame.executeCommand( e.getActionCommand() );

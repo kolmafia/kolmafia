@@ -33,10 +33,9 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.KeyboardFocusManager;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,6 +53,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -71,7 +72,7 @@ public class DailyDeedsPanel
 	{
 		super( BoxLayout.Y_AXIS );
 		DailyDeedsPanel.allPanels.add( new WeakReference( this ) );
-		
+
 		this.add( new BooleanDaily( "breakfastCompleted", "breakfast" ) );
 		this.add( new BooleanDaily( "dailyDungeonDone", "adv * Daily Dungeon" ) );
 		this.add( new SpadeDaily() );
@@ -130,14 +131,14 @@ public class DailyDeedsPanel
 		this.add( new FreeFightsDaily() );
 		this.add( new RunawaysDaily() );
 	}
-	
+
 	public void add( Daily daily )
 	{
 		daily.add( Box.createHorizontalGlue() );
 		daily.initialUpdate();
 		super.add( daily );
 	}
-	
+
 	public static void addCommand( String command )
 	{
 		Iterator i = DailyDeedsPanel.allPanels.iterator();
@@ -173,26 +174,26 @@ public class DailyDeedsPanel
 
 	public abstract static class Daily
 		extends Box
-		implements ActionListener, Preferences.ChangeListener
+		implements ActionListener, PreferenceListener
 	{
 		private ArrayList buttons;
 		private JLabel label;
-		
+
 		public Daily()
 		{
 			super( BoxLayout.X_AXIS );
 		}
-		
+
 		public void addListener( String preference )
 		{
-			Preferences.registerListener( preference, this );
+			PreferenceListenerRegistry.registerListener( preference, this );
 		}
-		
+
 		public void addItem( int itemId )
 		{
 			InventoryManager.registerListener( itemId, this );
 		}
-		
+
 		public JButton addButton( String command )
 		{
 			JButton button = new JButton( command );
@@ -217,12 +218,12 @@ public class DailyDeedsPanel
 			this.add( button );
 			return button;
 		}
-		
+
 		public void addButton( String command, String tip )
 		{
 			this.addButton( command ).setToolTipText( tip );
 		}
-		
+
 		public JButton buttonText( int idx, String command )
 		{
 			JButton button = (JButton) this.buttons.get( idx );
@@ -230,23 +231,23 @@ public class DailyDeedsPanel
 			button.setActionCommand( command );
 			return button;
 		}
-		
+
 		public void buttonText( int idx, String command, String tip )
 		{
 			this.buttonText( idx, command ).setToolTipText( tip );
 		}
-		
+
 		public void addLabel( String text )
 		{
 			this.label = new JLabel( text );
 			this.add( this.label );
 		}
-		
+
 		public void setText( String text )
 		{
 			this.label.setText( text );
 		}
-		
+
 		public void setEnabled( boolean enabled )
 		{
 			Iterator i = this.buttons.iterator();
@@ -255,12 +256,12 @@ public class DailyDeedsPanel
 				((JButton) i.next()).setEnabled( enabled );
 			}
 		}
-		
+
 		public void setEnabled( int index, boolean enabled )
 		{
 			((JButton) this.buttons.get( index )).setEnabled( enabled );
 		}
-		
+
 		public void setShown( boolean shown )
 		{
 			if ( shown != this.isVisible() )
@@ -269,7 +270,7 @@ public class DailyDeedsPanel
 				this.revalidate();
 			}
 		}
-		
+
 		public void actionPerformed( ActionEvent e )
 		{
 			CommandDisplayFrame.executeCommand( e.getActionCommand() );
@@ -277,29 +278,29 @@ public class DailyDeedsPanel
 			// cost, set as the default button when this one is disabled.
 			KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
 		}
-		
+
 		public void initialUpdate()
 		{
 			this.update();
 		}
-		
+
 		public void update()
 		{
 		}
 	}
-	
+
 	public static class BooleanDaily
 		extends Daily
 	{
 		String preference;
-		
+
 		public BooleanDaily( String preference, String command )
 		{
 			this.preference = preference;
 			this.addListener( preference );
 			this.addButton( command );
 		}
-		
+
 		public void update()
 		{
 			this.setEnabled( !Preferences.getBoolean( this.preference ) );
@@ -311,7 +312,7 @@ public class DailyDeedsPanel
 	{
 		String preference;
 		int itemId;
-		
+
 		public BooleanItemDaily( String preference, int itemId, String command )
 		{
 			this.preference = preference;
@@ -320,7 +321,7 @@ public class DailyDeedsPanel
 			this.addListener( preference );
 			this.addButton( command );
 		}
-		
+
 		public void update()
 		{
 			boolean pref = Preferences.getBoolean( this.preference );
@@ -334,7 +335,7 @@ public class DailyDeedsPanel
 	{
 		String preference;
 		String skill;
-		
+
 		public BooleanSkillDaily( String preference, String skill, String command )
 		{
 			this.preference = preference;
@@ -343,7 +344,7 @@ public class DailyDeedsPanel
 			this.addListener( "(skill)" );
 			this.addButton( command );
 		}
-		
+
 		public void update()
 		{
 			boolean pref = Preferences.getBoolean( this.preference );
@@ -360,17 +361,17 @@ public class DailyDeedsPanel
 			this.addButton( command );
 			this.addListener( command );
 		}
-		
+
 		public void initialUpdate()
 		{
 		}
-		
+
 		public void update()
 		{
 			this.setEnabled( false );
 		}
 	}
-	
+
 	public static class NunsDaily
 		extends Daily
 	{
@@ -381,7 +382,7 @@ public class DailyDeedsPanel
 			this.addButton( "Nuns" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			int nv = Preferences.getInteger( "nunsVisits" );
@@ -396,7 +397,7 @@ public class DailyDeedsPanel
 		extends Daily
 	{
 		private String state, visited;
-		
+
 		public SkateDaily( String name, String state, String visited, String desc )
 		{
 			this.state = state;
@@ -406,7 +407,7 @@ public class DailyDeedsPanel
 			this.addButton( "skate " + name );
 			this.addLabel( desc );
 		}
-		
+
 		public void update()
 		{
 			this.setShown( Preferences.getString( "skateParkStatus" ).equals( this.state ) );
@@ -418,7 +419,7 @@ public class DailyDeedsPanel
 		extends Daily
 	{
 		private int demon1, demon2;
-		
+
 		public DemonDaily( int demon1, String tip1, int demon2, String tip2 )
 		{
 			this.demon1 = demon1;
@@ -435,7 +436,7 @@ public class DailyDeedsPanel
 			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon2 - 1 ][ 1 ],
 				tip2 );
 		}
-		
+
 		public void update()
 		{
 			boolean summoned = Preferences.getBoolean( "demonSummoned" );
@@ -459,7 +460,7 @@ public class DailyDeedsPanel
 			this.addButton( "spade" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			int ns = Preferences.getString( "spadingData" ).split( "\\|" ).length / 3;
@@ -479,7 +480,7 @@ public class DailyDeedsPanel
 			this.addButton( "telescope high" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -502,7 +503,7 @@ public class DailyDeedsPanel
 			this.addButton( "concert ?" );
 			this.addButton( "concert ?" );
 		}
-		
+
 		public void update()
 		{
 			boolean cv = Preferences.getBoolean( "concertVisited" );
@@ -540,7 +541,7 @@ public class DailyDeedsPanel
 			this.addButton( "rest" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			int nr = Preferences.getInteger( "timesRested" );
@@ -553,7 +554,7 @@ public class DailyDeedsPanel
 			this.setText( nr + " (" + fr + " free)" );
 		}
 	}
-	
+
 	public static class FriarsDaily
 		extends Daily
 	{
@@ -567,7 +568,7 @@ public class DailyDeedsPanel
 			this.addButton( "friars familiar", "+2 familiar exp per fight, 20 turns" );
 			this.addButton( "friars booze", "+30% booze drops, 20 turns" );
 		}
-		
+
 		public void update()
 		{
 			boolean kf = KoLCharacter.kingLiberated();
@@ -588,7 +589,7 @@ public class DailyDeedsPanel
 			this.addButton( "styx mysticality", "+25% myst, +15 spell dmg, 10-15 MP regen, 10 turns" );
 			this.addButton( "styx moxie", "+25% mox, +40% meat, +20% item, 10 turns" );
 		}
-		
+
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -609,7 +610,7 @@ public class DailyDeedsPanel
 			this.addButton( "use mojo filter" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			boolean have = InventoryManager.getCount( ItemPool.MOJO_FILTER ) > 0;
@@ -631,7 +632,7 @@ public class DailyDeedsPanel
 			this.addButton( "hottub" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -703,7 +704,7 @@ public class DailyDeedsPanel
 			this.addListener( "spiceMelangeUsed" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			int have = InventoryManager.getCount( ItemPool.SPICE_MELANGE );
@@ -728,7 +729,7 @@ public class DailyDeedsPanel
 			this.addListener( "(stills)" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			this.setShown( KoLCharacter.isMoxieClass() &&
@@ -748,7 +749,7 @@ public class DailyDeedsPanel
 			this.addListener( "_sealsSummoned" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			boolean bf = !KoLCharacter.isHardcore() ||
@@ -783,7 +784,7 @@ public class DailyDeedsPanel
 			this.addListener( "_navelRunaways" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			boolean hb = KoLCharacter.findFamiliar( FamiliarPool.BANDER ) != null;
@@ -899,7 +900,7 @@ public class DailyDeedsPanel
 			this.addListener( "kingLiberated" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			boolean kf = KoLCharacter.kingLiberated();
@@ -932,7 +933,7 @@ public class DailyDeedsPanel
 			this.addListener( "cameraMonster" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			String text = Preferences.getBoolean( "_cameraUsed" ) ?
@@ -956,7 +957,7 @@ public class DailyDeedsPanel
 			this.addListener( "photocopyMonster" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			String text = Preferences.getBoolean( "_photocopyUsed" ) ?
@@ -980,7 +981,7 @@ public class DailyDeedsPanel
 			this.addButton( "eat black pudding" );
 			this.addLabel( "" );
 		}
-		
+
 		public void update()
 		{
 			int bpd = Preferences.getInteger( "blackPuddingsDefeated" );
