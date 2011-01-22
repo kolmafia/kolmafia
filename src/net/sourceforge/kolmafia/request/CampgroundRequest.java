@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -43,8 +44,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -298,7 +299,7 @@ public class CampgroundRequest
 
 		// Using a book skill from the Mystic Bookshelf does this:
 		//   campground.php?quantity=1&preaction=summonlovesongs&pwd
-		// 
+		//
 		// Using a book skill from the skill menu redirects to the
 		// above URL with an additional field:
 		//   skilluse=1
@@ -387,7 +388,7 @@ public class CampgroundRequest
 	{
 		KoLCharacter.setTelescope( responseText.indexOf( "action=telescope" ) != -1 );
 		KoLCharacter.setBookshelf( responseText.indexOf( "action=bookshelf" ) != -1 );
-			
+
 		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
 		findImage( responseText, "maid.gif", ItemPool.MAID );
 		findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
@@ -469,21 +470,21 @@ public class CampgroundRequest
 			CampgroundRequest.currentDwelling = ItemPool.get( itemId, 1 );
 			CampgroundRequest.currentDwellingLevel = CampgroundRequest.dwellingLevel( itemId );
 		}
-			
+
 		if ( m.group( 2 ) != null )
 		{
 			CampgroundRequest.setCampgroundItem( ItemPool.TOILET_PAPER, 1 );
 		}
-			
+
 		// TODO: check free rest status (m.group(3)!=null)
 		// against timesRested, adjust it if there appear to
 		// have been rests used outside of KoLmafia.
-			
+
 		int startIndex = responseText.indexOf( "Your dwelling has the following stuff" );
 		int endIndex = responseText.indexOf( "<b>Your Campsite</b>", startIndex + 1 );
 		if ( startIndex > 0 && endIndex > 0 )
 		{
-			m = FURNISHING_PATTERN.matcher( responseText.substring( startIndex, endIndex ) ); 
+			m = FURNISHING_PATTERN.matcher( responseText.substring( startIndex, endIndex ) );
 			while ( m.find() )
 			{
 				String name = m.group(1);
@@ -544,7 +545,7 @@ public class CampgroundRequest
 		while ( i != -1 )
 		{
 			++count;
-			i = responseText.indexOf( filename, i + 1 );		
+			i = responseText.indexOf( filename, i + 1 );
 		}
 
 		if ( count > 0 )

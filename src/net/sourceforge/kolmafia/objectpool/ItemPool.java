@@ -43,7 +43,7 @@ import java.util.HashSet;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class ItemPool
 {

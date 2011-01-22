@@ -57,7 +57,7 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 import net.sourceforge.kolmafia.request.SendMailRequest;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class Interpreter
 {

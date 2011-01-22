@@ -43,7 +43,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.persistence.Aliases;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.textui.command.*;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;

@@ -72,7 +72,7 @@ import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class FlowerHunterFrame
 	extends GenericFrame

@@ -55,7 +55,7 @@ import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;

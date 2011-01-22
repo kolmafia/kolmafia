@@ -38,7 +38,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class AutoHighlightTextField
 	extends JTextField

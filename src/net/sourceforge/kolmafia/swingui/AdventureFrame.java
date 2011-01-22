@@ -52,7 +52,7 @@ import net.sourceforge.kolmafia.swingui.panel.RestoreOptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class AdventureFrame
 	extends GenericFrame

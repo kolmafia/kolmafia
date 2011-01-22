@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,7 +43,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -253,7 +252,7 @@ public class KoLAdventure
 	{
 		return this.request;
 	}
-	
+
 	public void overrideAdventuresUsed( int used )
 	{
 		if ( this.request instanceof AdventureRequest )
@@ -423,7 +422,7 @@ public class KoLAdventure
 
 				RequestThread.postRequest( new EquipmentRequest( talisman ) );
 			}
-			
+
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString(
 				"plains.php" ) );
 			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "dome.gif" ) != -1;
@@ -838,7 +837,7 @@ public class KoLAdventure
 				return null;
 			}
 		}
-		
+
 		if ( this.areaSummary != null &&
 			this.areaSummary.poison() <= Preferences.getInteger( "autoAntidote" ) &&
 			!KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BEZOAR_RING, 1 ) ) )
@@ -1003,7 +1002,7 @@ public class KoLAdventure
 			KoLAdventure.resetAutoAttack();
 			return;
 		}
-		
+
 		if ( Preferences.getBoolean( "autoEntangle" ) )
 		{
 			CustomCombatManager.setAutoAttack( "Entangling Noodles" );
@@ -1116,11 +1115,11 @@ public class KoLAdventure
 		this.updateAutoAttack();
 
 		int id = 0;
-		
+
 		if ( StringUtilities.isNumeric( this.adventureId ) )
 		{
 			id = StringUtilities.parseInt( this.adventureId );
-	
+
 			switch ( id )
 			{
 			case AdventurePool.HIDDEN_CITY:
@@ -1128,11 +1127,11 @@ public class KoLAdventure
 				// to the container zone (the grid of 25
 				// squares) if you try to adventure at this
 				// adventure ID.
-	
+
 				// We detect adventuring in individual squares
 				// elsewhere.
 				return;
-	
+
 			case AdventurePool.ARID_DESERT:
 				AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
 				if ( !KoLConstants.activeEffects.contains( hydrated ) )
@@ -1144,7 +1143,7 @@ public class KoLAdventure
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ultrahydration failed!" );
 				}
 				break;
-	
+
 			case AdventurePool.FCLE:
 				AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
 				AdventureResult polish = ItemPool.get( ItemPool.BALL_POLISH, 1 );
@@ -1600,7 +1599,7 @@ public class KoLAdventure
 	{
 		if ( index >= 0 && index < ADVENTURE_FAILURES.length && ADVENTURE_FAILURES[ index ].length > 2 )
 		{
-			
+
 			return ((Integer) ADVENTURE_FAILURES[ index ][ 2 ]).intValue();
 		}
 

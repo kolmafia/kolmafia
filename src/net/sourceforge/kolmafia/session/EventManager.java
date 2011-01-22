@@ -46,7 +46,7 @@ import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 

@@ -43,7 +43,7 @@ import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class GenericScrollPane
 	extends JScrollPane

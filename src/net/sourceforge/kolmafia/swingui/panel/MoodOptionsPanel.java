@@ -48,7 +48,7 @@ import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;

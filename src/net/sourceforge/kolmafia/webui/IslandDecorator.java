@@ -49,7 +49,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -773,7 +773,7 @@ public class IslandDecorator
 		{
 			// You see a War Frat Grill Sergeant hose down three
 			// hippies with white-hot chicken wing sauce. You love
-			// the smell of jabañero in the morning. It smells like
+			// the smell of jabaï¿½ero in the morning. It smells like
 			// victory.
 			"three hippies",
 
