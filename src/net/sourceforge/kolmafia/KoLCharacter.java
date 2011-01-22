@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.LouvreManager;
@@ -1197,7 +1198,7 @@ public abstract class KoLCharacter
 		KoLmafia.updateDisplay( "You can now equip a " + ItemDatabase.getItemName( itemId )
 			+ " (and possibly other things)." );
 		EquipmentManager.updateEquipmentLists();
-		Preferences.firePreferenceChanged( "(equippable)" );
+		PreferenceListenerRegistry.firePreferenceChanged( "(equippable)" );
 	}
 	
 	public static final int getTriggerItem( int stat )
@@ -3000,7 +3001,7 @@ public abstract class KoLCharacter
 			KoLCharacter.stillsAvailable = stillsAvailable;
 			ConcoctionDatabase.refreshConcoctions();
 			// Allow Daily Deeds to update when the number of stills changes
-			Preferences.firePreferenceChanged( "(stills)" );
+			PreferenceListenerRegistry.firePreferenceChanged( "(stills)" );
 		}
 	}
 
@@ -3418,7 +3419,7 @@ public abstract class KoLCharacter
 		}
 		
 		// Allow Daily Deeds to change state based on character status
-		Preferences.firePreferenceChanged( "(character)" );
+		PreferenceListenerRegistry.firePreferenceChanged( "(character)" );
 	}
 
 	public static final void updateSelectedLocation( KoLAdventure location )
@@ -3427,7 +3428,7 @@ public abstract class KoLCharacter
 		Modifiers.setLocation( location );
 		recalculateAdjustments();
 		KoLCharacter.updateStatus();
-		Preferences.firePreferenceChanged( "(location)" );
+		PreferenceListenerRegistry.firePreferenceChanged( "(location)" );
 	}
 	
 	public static final KoLAdventure getSelectedLocation()

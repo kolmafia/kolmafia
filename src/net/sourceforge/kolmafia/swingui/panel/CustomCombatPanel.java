@@ -52,6 +52,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
@@ -143,13 +145,13 @@ public class CustomCombatPanel
 
 	public class CombatComboBox
 		extends JComboBox
-		implements ActionListener, Preferences.ChangeListener
+		implements ActionListener, PreferenceListener
 	{
 		public CombatComboBox()
 		{
 			super( CustomCombatManager.getAvailableScripts() );
 			this.addActionListener( this );
-			Preferences.registerListener( "customCombatScript", this );
+			PreferenceListenerRegistry.registerListener( "customCombatScript", this );
 		}
 
 		public void update()
@@ -178,13 +180,13 @@ public class CustomCombatPanel
 			CustomCombatPanel.this.combatEditor = (JTextArea) this.scrollComponent;
 			CustomCombatPanel.this.combatEditor.setFont( KoLConstants.DEFAULT_FONT );
 			CustomCombatPanel.this.refreshCombatTree();
-			
+
 			this.eastPanel.add( new HelpButton(), BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
 		{
-			String script = (String) CustomCombatPanel.this.availableScripts.getSelectedItem(); 
+			String script = (String) CustomCombatPanel.this.availableScripts.getSelectedItem();
 			String saveText = CustomCombatPanel.this.combatEditor.getText();
 
 			File location = CustomCombatManager.getFile( script );
@@ -202,7 +204,7 @@ public class CustomCombatPanel
 
 			CustomCombatManager.setScript( script );
 			CustomCombatManager.saveSettings( script );
-			
+
 			CustomCombatPanel.this.refreshCombatTree();
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this, "tree" );
 		}
@@ -216,7 +218,7 @@ public class CustomCombatPanel
 		public void setEnabled( final boolean isEnabled )
 		{
 		}
-		
+
 		public class HelpButton
 			extends ThreadedButton
 		{
@@ -224,7 +226,7 @@ public class CustomCombatPanel
 			{
 				super( "help" );
 			}
-			
+
 			public void run()
 			{
 				StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );

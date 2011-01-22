@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
@@ -205,7 +206,7 @@ public class CreateItemPanel
 			this.addActionListener( this );
 
 			this.property = property;
-			Preferences.registerCheckbox( property, this );
+			PreferenceListenerRegistry.registerCheckbox( property, this );
 		}
 
 		public void actionPerformed( final ActionEvent e )

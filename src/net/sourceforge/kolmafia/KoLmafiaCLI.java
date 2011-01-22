@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.persistence.Aliases;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.textui.command.*;
@@ -407,7 +408,7 @@ public class KoLmafiaCLI
 		{
 			// Notify user-entered Daily Deeds that the command was
 			// successful.
-			Preferences.firePreferenceChanged( origLine );
+			PreferenceListenerRegistry.firePreferenceChanged( origLine );
 		}
 	}
 

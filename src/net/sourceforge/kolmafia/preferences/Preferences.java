@@ -46,7 +46,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
@@ -56,7 +55,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -71,8 +69,6 @@ public class Preferences
 	private static final byte [] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
 
 	private static final String [] characterMap = new String[ 65536 ];
-	private static final HashMap checkboxMap = new HashMap();
-	private static final HashMap listenerMap = new HashMap();
 	private static final HashMap propertyNames = new HashMap();
 
 	private static final HashMap userNames = new HashMap();
@@ -133,7 +129,7 @@ public class Preferences
 		CharPaneDecorator.updateFromPreferences();
 		CustomCombatManager.updateFromPreferences();
 		MoodManager.updateFromPreferences();
-		Preferences.fireAllPreferencesChanged();
+		PreferenceListenerRegistry.fireAllPreferencesChanged();
 	}
 
 	public static final String baseUserName( final String name )
@@ -503,131 +499,17 @@ public class Preferences
 			}
 		}
 
-		if ( object instanceof Boolean && Preferences.checkboxMap.containsKey( name ) )
-		{
-			boolean isTrue = ((Boolean) object).booleanValue();
+		PreferenceListenerRegistry.firePreferenceChanged( name );
 
-			ArrayList list = (ArrayList) Preferences.checkboxMap.get( name );
-			for ( int i = 0; i < list.size(); ++i )
-			{
-				WeakReference reference = (WeakReference) list.get( i );
-				JCheckBox item = (JCheckBox) reference.get();
-				if ( item != null )
-				{
-					item.setSelected( isTrue );
-				}
-			}
-		}
-		
-		Preferences.firePreferenceChanged( name );
 		if ( name.startsWith( "choiceAdventure" ) )
 		{
-			Preferences.firePreferenceChanged( "choiceAdventure*" );
-		}
-	}
-	
-	public static final void firePreferenceChanged( String name )
-	{
-		if ( Preferences.listenerMap.containsKey( name ) )
-		{
-			Iterator i = ((ArrayList) Preferences.listenerMap.get( name )).iterator();
-			while ( i.hasNext() )
-			{
-				WeakReference reference = (WeakReference) i.next();
-				ChangeListener listener = (ChangeListener) reference.get();
-				if ( listener == null )
-				{
-					i.remove();
-				}
-				else try
-				{
-					listener.update();
-				}
-				catch ( Exception e )
-				{
-					// Don't let a botched listener interfere with
-					// the code that modified the preference.
-		
-					StaticEntity.printStackTrace( e );
-				}
-			}
-		}
-	}
-
-	public static final void fireAllPreferencesChanged()
-	{
-		HashSet notified = new HashSet();
-		ArrayList[] lists = (ArrayList[])
-			Preferences.listenerMap.values().toArray( new ArrayList[ 0 ] );
-		for ( int i=0; i < lists.length; ++i )
-		{
-			Iterator j = lists[ i ].iterator();
-			while ( j.hasNext() )
-			{
-				WeakReference reference = (WeakReference) j.next();
-				ChangeListener listener = (ChangeListener) reference.get();
-				if ( listener == null )
-				{
-					j.remove();
-				}
-				else if ( notified.contains( listener ) )
-				{	// already notified this listener
-				}
-				else try
-				{
-					notified.add( listener );
-					listener.update();
-				}
-				catch ( Exception e )
-				{
-					StaticEntity.printStackTrace( e );
-				}
-			}
+			PreferenceListenerRegistry.firePreferenceChanged( "choiceAdventure*" );
 		}
 	}
 
 	private static final String propertyName( final String user, final String name )
 	{
 		return user == null ? name : name + "." + Preferences.baseUserName( user );
-	}
-
-	public static final void registerCheckbox( final String name, final JCheckBox checkbox )
-	{
-		ArrayList list = null;
-
-		if ( Preferences.checkboxMap.containsKey( name ) )
-		{
-			list = (ArrayList) Preferences.checkboxMap.get( name );
-		}
-		else
-		{
-			list = new ArrayList();
-			Preferences.checkboxMap.put( name, list );
-		}
-
-		list.add( new WeakReference( checkbox ) );
-	}
-	
-	public interface ChangeListener
-	{
-		public void update();
-	}
-	
-	public static final void registerListener( String name, ChangeListener listener )
-	{
-		ArrayList list = null;
-
-		if ( Preferences.listenerMap.containsKey( name ) )
-		{
-			list = (ArrayList) Preferences.listenerMap.get( name );
-		}
-		else
-		{
-			list = new ArrayList();
-			Preferences.listenerMap.put( name, list );
-		}
-
-		list.add( new WeakReference( listener ) );
 	}
 
 	private static final void saveToFile( File file, TreeMap data )
@@ -656,7 +538,7 @@ public class Preferences
 		}
 
 		OutputStream fstream = DataUtilities.getOutputStream( file );
-		
+
 		try
 		{
 			ostream.writeTo( fstream );
@@ -812,7 +694,7 @@ public class Preferences
 			}
 		}
 	}
-	
+
 	public static void resetToDefault( String name )
 	{
 		if ( Preferences.userNames.containsKey( name ) )
@@ -824,7 +706,7 @@ public class Preferences
 			Preferences.setString( name, (String) Preferences.globalNames.get( name ) );
 		}
 	}
-	
+
 	public static void resetDailies()
 	{
 		Iterator i = Preferences.userValues.keySet().iterator();

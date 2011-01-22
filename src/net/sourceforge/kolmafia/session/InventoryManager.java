@@ -51,9 +51,12 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame;
-
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
@@ -64,14 +67,8 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
-
+import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public abstract class InventoryManager
@@ -1099,7 +1096,7 @@ public abstract class InventoryManager
 		return true;
 	}
 
-	public static final void registerListener( int itemId, Preferences.ChangeListener listener )
+	public static final void registerListener( int itemId, PreferenceListener listener )
 	{
 		if ( itemId < 1 ) return;
 		ArrayList list = InventoryManager.listeners.get( itemId );
@@ -1121,7 +1118,8 @@ public abstract class InventoryManager
 			while ( i.hasNext() )
 			{
 				WeakReference reference = (WeakReference) i.next();
-				Preferences.ChangeListener listener = (Preferences.ChangeListener) reference.get();
+				PreferenceListener listener = (PreferenceListener) reference.get();
+
 				if ( listener == null )
 				{
 					i.remove();

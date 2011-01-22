@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -228,18 +230,18 @@ public class ItemManageFrame
 			ItemManageFrame.pullsRemainingLabel1.setText( pullsRemaining + " Pulls Left" );
 			ItemManageFrame.pullsRemainingLabel2.setText( pullsRemaining + " Pulls Left" );
 		}
-		
+
 		if ( pullsRemaining < pullsBudgeted )
 		{
 			ItemManageFrame.setPullsBudgeted( pullsRemaining );
 		}
 	}
-	
+
 	public static final int getPullsBudgeted()
 	{
 		return ItemManageFrame.pullsBudgeted;
 	}
-	
+
 	public static final void setPullsBudgeted( int pullsBudgeted )
 	{
 		if ( pullsBudgeted < ConcoctionDatabase.queuedPullsUsed )
@@ -385,7 +387,7 @@ public class ItemManageFrame
 			this.addFilters();
 			this.addMovers();
 			this.elementList.setCellRenderer( ListCellRendererFactory.getStorageRenderer() );
-			
+
 			Box box = Box.createVerticalBox();
 			JLabel budget = new JLabel( "Budget:" );
 			budget.setToolTipText(
@@ -552,7 +554,7 @@ public class ItemManageFrame
 			RequestThread.closeRequestSequence();
 		}
 	}
-	
+
 	private static class PullBudgetSpinner
 		extends AutoHighlightSpinner
 		implements ChangeListener
@@ -571,27 +573,27 @@ public class ItemManageFrame
 			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
-	
+
 	public static class PrefPopup
 		extends JComboBox
-		implements ActionListener, Preferences.ChangeListener
+		implements ActionListener, PreferenceListener
 	{
 		private String pref;
-		
+
 		public PrefPopup( String pref )
 		{
 			this( pref, "1|2|3|4|5" );
 		}
-		
+
 		public PrefPopup( String pref, String items )
 		{
 			super( items.split( "\\|" ) );
 			this.pref = pref;
 			this.addActionListener( this );
-			Preferences.registerListener( pref, this );
+			PreferenceListenerRegistry.registerListener( pref, this );
 			this.update();
 		}
-		
+
 		public void update()
 		{
 			this.setSelectedItem( Preferences.getString( this.pref ) );
@@ -608,34 +610,34 @@ public class ItemManageFrame
 	{
 		public ItemFilterPanel()
 		{
-			super( "Number of items retained by \"all but usable\" option", 
+			super( "Number of items retained by \"all but usable\" option",
 				"reset to defaults", new Dimension( 100, 20 ), new Dimension( 100, 20 ) );
 
 			VerifiableElement[] elements = new VerifiableElement[ 10 ];
-			elements[ 0 ] = new VerifiableElement( "Hats: ", 
+			elements[ 0 ] = new VerifiableElement( "Hats: ",
 				new PrefPopup( "usableHats" ) );
-			elements[ 1 ] = new VerifiableElement( "1H Weapons: ", 
+			elements[ 1 ] = new VerifiableElement( "1H Weapons: ",
 				new PrefPopup( "usable1HWeapons" ) );
-			elements[ 2 ] = new VerifiableElement( "2H Weapons: ", 
+			elements[ 2 ] = new VerifiableElement( "2H Weapons: ",
 				new PrefPopup( "usable2HWeapons" ) );
-			elements[ 3 ] = new VerifiableElement( "3H Weapons: ", 
+			elements[ 3 ] = new VerifiableElement( "3H Weapons: ",
 				new PrefPopup( "usable3HWeapons" ) );
-			elements[ 4 ] = new VerifiableElement( "Off-Hands: ", 
+			elements[ 4 ] = new VerifiableElement( "Off-Hands: ",
 				new PrefPopup( "usableOffhands" ) );
-			elements[ 5 ] = new VerifiableElement( "Shirts: ", 
+			elements[ 5 ] = new VerifiableElement( "Shirts: ",
 				new PrefPopup( "usableShirts" ) );
-			elements[ 6 ] = new VerifiableElement( "Pants: ", 
+			elements[ 6 ] = new VerifiableElement( "Pants: ",
 				new PrefPopup( "usablePants" ) );
-			elements[ 7 ] = new VerifiableElement( "1x-equip Accs.: ", 
+			elements[ 7 ] = new VerifiableElement( "1x-equip Accs.: ",
 				new PrefPopup( "usable1xAccs" ) );
-			elements[ 8 ] = new VerifiableElement( "Accessories: ", 
+			elements[ 8 ] = new VerifiableElement( "Accessories: ",
 				new PrefPopup( "usableAccessories" ) );
-			elements[ 9 ] = new VerifiableElement( "Other Items: ", 
+			elements[ 9 ] = new VerifiableElement( "Other Items: ",
 				new PrefPopup( "usableOther" ) );
 
 			this.setContent( elements );
 		}
-		
+
 		public void actionConfirmed()
 		{
 			Preferences.resetToDefault( "usable1HWeapons" );

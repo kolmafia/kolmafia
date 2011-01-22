@@ -87,6 +87,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
@@ -294,7 +296,7 @@ public class AdventureSelectPanel
 			return ( (KoLAdventure) element ).getParentZoneDescription().equals( this.selectedZone );
 		}
 	}
-	
+
 	public static final int[] POISON_ID = {
 		0, 436, 264, 284, 283, 282, 8
 	};
@@ -335,7 +337,7 @@ public class AdventureSelectPanel
 
 	private class ObjectivesPanel
 		extends GenericPanel
-		implements Preferences.ChangeListener
+		implements PreferenceListener
 	{
 		private final JPanel special;
 		private final JPopupMenu specialPopup;
@@ -441,15 +443,15 @@ public class AdventureSelectPanel
 
 			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, AdventureSelectPanel.this.begin );
 
-			Preferences.registerListener( "autoSteal", this );
-			Preferences.registerListener( "autoEntangle", this );
-			Preferences.registerListener( "autoOlfact", this );
-			Preferences.registerListener( "autoPutty", this );
-			Preferences.registerListener( "autoSphereID", this );
-			Preferences.registerListener( "autoPotionID", this );
-			Preferences.registerListener( "autoAntidote", this );
-			Preferences.registerListener( "autoManaRestore", this );
-			Preferences.registerListener( "(skill)", this );
+			PreferenceListenerRegistry.registerListener( "autoSteal", this );
+			PreferenceListenerRegistry.registerListener( "autoEntangle", this );
+			PreferenceListenerRegistry.registerListener( "autoOlfact", this );
+			PreferenceListenerRegistry.registerListener( "autoPutty", this );
+			PreferenceListenerRegistry.registerListener( "autoSphereID", this );
+			PreferenceListenerRegistry.registerListener( "autoPotionID", this );
+			PreferenceListenerRegistry.registerListener( "autoAntidote", this );
+			PreferenceListenerRegistry.registerListener( "autoManaRestore", this );
+			PreferenceListenerRegistry.registerListener( "(skill)", this );
 			this.update();
 		}
 

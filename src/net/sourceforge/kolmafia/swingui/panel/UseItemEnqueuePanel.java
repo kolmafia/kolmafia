@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -462,7 +463,7 @@ public class UseItemEnqueuePanel
 			this.setSelected( Preferences.getBoolean( "showGainsPerUnit" ) );
 
 			this.addActionListener( this );
-			Preferences.registerCheckbox( "showGainsPerUnit", this );
+			PreferenceListenerRegistry.registerCheckbox( "showGainsPerUnit", this );
 		}
 
 		public void actionPerformed( final ActionEvent e )
@@ -489,7 +490,7 @@ public class UseItemEnqueuePanel
 			this.setSelected( Preferences.getBoolean( "sortByRoom" ) );
 
 			this.addActionListener( this );
-			Preferences.registerCheckbox( "sortByRoom", this );
+			PreferenceListenerRegistry.registerCheckbox( "sortByRoom", this );
 		}
 
 		public void actionPerformed( final ActionEvent e )

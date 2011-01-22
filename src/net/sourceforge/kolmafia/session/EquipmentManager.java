@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -625,14 +626,14 @@ public class EquipmentManager
 		EquipmentManager.lockedFamiliarItem =
 			lock ? EquipmentManager.getFamiliarItem() : EquipmentRequest.UNEQUIP;
 		GearChangeFrame.updateFamiliarLock();
-		Preferences.firePreferenceChanged( "(familiarLock)" );
+		PreferenceListenerRegistry.firePreferenceChanged( "(familiarLock)" );
 	}
 
 	public static final void lockFamiliarItem( FamiliarData familiar )
 	{
 		EquipmentManager.lockedFamiliarItem = familiar.getItem();
 		GearChangeFrame.updateFamiliarLock();
-		Preferences.firePreferenceChanged( "(familiarLock)" );
+		PreferenceListenerRegistry.firePreferenceChanged( "(familiarLock)" );
 	}
 
 	public static final int getFakeHands()
