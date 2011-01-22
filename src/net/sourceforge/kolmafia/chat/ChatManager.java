@@ -119,7 +119,7 @@ public abstract class ChatManager
 			return;
 		}
 
-		if ( ChatManager.checkAltar().contains( "altar" ) )
+		if ( ChatManager.checkAltar().indexOf( "altar" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "You cannot access chat until you complete the Altar of Literacy" );
 			return;

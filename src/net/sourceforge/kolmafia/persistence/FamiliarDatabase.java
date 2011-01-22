@@ -112,7 +112,7 @@ public class FamiliarDatabase
 				{
 					FamiliarDatabase.maxFamiliarId = id;
 				}
-				familiarId = Integer.valueOf( id );
+				familiarId = new Integer( id );
 				familiarName = StringUtilities.getDisplayName( data[ 1 ] );
 				familiarType = new String( data[ 2 ] );
 				familiarLarva = Integer.valueOf( data[ 3 ] );
