@@ -245,7 +245,7 @@ public class FightRequest
 	private static final AdventureResult SCROLL_64067 = ItemPool.get( ItemPool.SCROLL_64067, 1);
 	public static final AdventureResult SCROLL_64735 = ItemPool.get( ItemPool.GATES_SCROLL, 1);
 	public static final AdventureResult SCROLL_31337 = ItemPool.get( ItemPool.ELITE_SCROLL, 1);
-	
+
 	private static final Object[][] NEMESIS_WEAPONS =
 	{	// class, LEW, ULEW
 		{
@@ -531,7 +531,7 @@ public class FightRequest
 			FightRequest.action1 = "abort";
 			return;
 		}
-		
+
 		if ( FightRequest.macro == null )
 		{
 			FightRequest.macrofy();
@@ -541,7 +541,7 @@ public class FightRequest
 			FightRequest.action1 = "macro";
 			this.addFormField( "action", "macro" );
 			this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( FightRequest.macro ).replaceAll( "$1" ) );
-			
+
 			// In case the player continues the script from the relay browser,
 			// insert a jump to the next restart point.
 			if ( macro.indexOf( "#mafiarestart" ) != -1 )
@@ -552,7 +552,7 @@ public class FightRequest
 				StringUtilities.singleStringReplace( macro,
 					"#mafiaheader", "#mafiaheader\ngoto " + label );
 			}
-			return;		
+			return;
 		}
 
 		this.nextRound( null );
@@ -565,7 +565,7 @@ public class FightRequest
 
 		// Added emergency break for hulking construct
 
-		if ( problemFamiliar() && 
+		if ( problemFamiliar() &&
 		     FightRequest.encounterLookup.equals( "hulking construct" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Aborting combat automation due to Familiar that can stop automatic item usage." );
@@ -841,7 +841,7 @@ public class FightRequest
 				this.nextRound();
 				return;
 			}
-			
+
 			int cost = 0;
 			StringBuffer macro = new StringBuffer();
 			for ( int i = 0; i < combo.length; ++i )
@@ -852,7 +852,7 @@ public class FightRequest
 				macro.append( skillId );
 				macro.append( ";" );
 			}
-			
+
 			// Combos use MP. Make sure the character has enough.
 			if ( KoLCharacter.getCurrentMP() < cost && !GenericRequest.passwordHash.equals( "" ) )
 			{
@@ -862,19 +862,19 @@ public class FightRequest
 					this.nextRound();
 					return;
 				}
-	
+
 				for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 				{
 					if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() && KoLConstants.inventory.contains( MPRestoreItemList.CONFIGURES[ i ].getItem() ) )
 					{
 						FightRequest.action1 = String.valueOf( MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
-	
+
 						++FightRequest.preparatoryRounds;
 						this.updateCurrentAction();
 						return;
 					}
 				}
-	
+
 				FightRequest.action1 = "abort";
 				return;
 			}
@@ -1085,7 +1085,7 @@ public class FightRequest
 				this.nextRound();
 				return;
 			}
-			
+
 			if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
 			{
 				FightRequest.action1 = "abort";
@@ -1129,7 +1129,7 @@ public class FightRequest
 		this.addFormField( "action", "skill" );
 		this.addFormField( "whichskill", FightRequest.action1.substring( 5 ) );
 	}
-	
+
 	private static void macroManaRestore( StringBuffer macro )
 	{
 		int cumulative = 0;
@@ -1140,7 +1140,7 @@ public class FightRequest
 			{
 				int count = MPRestoreItemList.CONFIGURES[ i ].getItem().getCount(
 					KoLConstants.inventory );
-				if ( count <= 0 ) continue;			
+				if ( count <= 0 ) continue;
 				String item = String.valueOf(
 					MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
 				cumulative += count;
@@ -1163,20 +1163,20 @@ public class FightRequest
 		macro.append( "abort \"No MP restoratives!\"\n" );
 		macro.append( "mark mafiampexit\n" );
 	}
-	
+
 	private static void macrofy()
 	{
 		StringBuffer macro = new StringBuffer();
 		FightRequest.macro = macro;
 		boolean funk = KoLCharacter.hasSkill( "Ambidextrous Funkslinging" );
-		
+
 		if ( FightRequest.filterInterp != null )
 		{
 			macro.setLength( 0 );
 			RequestLogger.printLine( "(unable to macrofy due to combat filter)" );
 			return;
 		}
-		
+
 		if ( FightRequest.encounterLookup.equals( "hulking construct" ) )
 		{	// use ATTACK & WALL punchcards
 			macro.append( "if hascombatitem 3146 && hascombatitem 3155\n" );
@@ -1191,7 +1191,7 @@ public class FightRequest
 			macro.append( "endif\nrunaway; repeat\n" );
 			return;
 		}
-		
+
 		float thresh = Preferences.getFloat( "autoAbortThreshold" );
 		if ( thresh > 0.0f )
 		{
@@ -1199,7 +1199,7 @@ public class FightRequest
 			macro.append( (int) (thresh * 100.0f) );
 			macro.append( '\n' );
 		}
-		
+
 		macro.append( "sub mafiaround\n" );
 		FightRequest.macroUseAntidote( macro );
 		macro.append( "endsub#mafiaround\n" );
@@ -1209,7 +1209,7 @@ public class FightRequest
 		macro.append( "endsub#mafiamp\n" );
 
 		macro.append( "#mafiaheader\n" );
-		
+
 		boolean globalPrefix = CustomCombatManager.containsKey( "global prefix" );
 		for ( int i = 0; i < 10000; ++i )
 		{
@@ -1221,7 +1221,7 @@ public class FightRequest
 				RequestLogger.printLine( "(unable to macrofy vs. RAM)" );
 				return;
 			}
-		
+
 			String action = CustomCombatManager.getShortCombatOptionName(
 				CustomCombatManager.getSetting( globalPrefix ? "global prefix"
 					: FightRequest.encounterLookup, i ) );
@@ -1231,7 +1231,7 @@ public class FightRequest
 				macro.append( "mark mafiafinal\n" );
 				finalRound = macro.length();
 			}
-			
+
 			if ( action.startsWith( "consult" ) ||
 				action.startsWith( "delevel" ) ||
 				action.startsWith( "twiddle" ) )
@@ -1337,15 +1337,15 @@ public class FightRequest
 			{
 				int skillId = StringUtilities.parseInt( action.substring( 5 ) );
 				String skillName = SkillDatabase.getSkillName( skillId );
-						
+
 				if ( skillName.equals( "Transcendent Olfaction" ) )
 				{
 					// You can't sniff if you are already on the trail.
-		
+
 					// You can't sniff in Bad Moon, even though the skill
 					// shows up on the char sheet, unless you've recalled
 					// your skills.
-		
+
 					if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 					{	// ignore
 					}
@@ -1380,8 +1380,8 @@ public class FightRequest
 			{
 				macro.append( "call mafiaround; use " + action + "\n" );
 				// TODO
-			}	
-			
+			}
+
 			if ( finalRound != 0 )
 			{
 				if ( finalRound == macro.length() )
@@ -1397,14 +1397,14 @@ public class FightRequest
 				i = -1;	// continue with actual CCS section
 			}
 		}
-	
+
 		if ( Preferences.getBoolean( "macroDebug" ) )
 		{
 			RequestLogger.printLine( "Generated macro:" );
 			FightRequest.indentify( macro.toString(), false );
 			RequestLogger.printLine( "" );
 		}
-		
+
 		HashSet allCalls = new HashSet();
 		Matcher m = FightRequest.ALLCALLS_PATTERN.matcher( macro );
 		while ( m.find() )
@@ -1428,19 +1428,19 @@ public class FightRequest
 				del.appendTail( macro );
 			}
 		}
-	
+
 		if ( Preferences.getBoolean( "macroDebug" ) )
 		{
 			RequestLogger.updateDebugLog( "Optimized macro:" );
 			FightRequest.indentify( macro.toString(), true );
 		}
 	}
-	
+
 	private static final Pattern ALLCALLS_PATTERN =
 		Pattern.compile( "call (\\w+)" );
 	private static final Pattern ALLSUBS_PATTERN =
 		Pattern.compile( "sub (\\w+)([\\s;\\n]+endsub)?" );
-		
+
 	private static void indentify( String macro, boolean debug )
 	{
 		String indent = "";
@@ -1468,7 +1468,7 @@ public class FightRequest
 			}
 		}
 	}
-		
+
 	private static void macroSkill( StringBuffer macro, int skillId )
 	{
 		int cost = SkillDatabase.getMPConsumptionById( skillId );
@@ -1476,7 +1476,7 @@ public class FightRequest
 		{
 			return;	// no point in even trying
 		}
-		
+
 		if ( cost > 0 && Preferences.getBoolean( "autoManaRestore" ) )
 		{
 			macro.append( "while mpbelow " );
@@ -1501,7 +1501,7 @@ public class FightRequest
 		{
 			return;	// no point in even trying
 		}
-		
+
 		boolean restore =  Preferences.getBoolean( "autoManaRestore" );
 		if ( restore )
 		{
@@ -2051,7 +2051,7 @@ public class FightRequest
 			RequestLogger.updateSessionLog( FightRequest.wonInitiativeMessage );
 		}
 
-		FightRequest.action1 = Preferences.getString( "defaultAutoAttack" );
+		FightRequest.action1 = KoLCharacter.getAutoAttackAction();
 
 		// If no default action is made by the player, then the round
 		// remains the same.  Simply report winning/losing initiative.
@@ -2100,7 +2100,7 @@ public class FightRequest
 		if ( FightRequest.currentRound == 0 )
 		{
 			FightRequest.haveFought = true;
-			
+
 			if ( responseText.indexOf( "There is a blinding flash of light, and a chorus of heavenly voices rises in counterpoint to the ominous organ music." ) != -1 )
 			{
 				FightRequest.transmogrifyNemesisWeapon( false );
@@ -2115,7 +2115,7 @@ public class FightRequest
 
 			// If this is the first round, then register the
 			// opponent you are fighting against.
-			
+
 			encounter = ConsequenceManager.disambiguateMonster(
 				encounter, responseText );
 
@@ -2167,7 +2167,7 @@ public class FightRequest
 
 			autoAttacked = FightRequest.checkForInitiative( responseText );
 		}
-		
+
 		Matcher macroMatcher = FightRequest.MACRO_PATTERN.matcher( responseText );
 		if ( macroMatcher.find() )
 		{
@@ -2206,13 +2206,13 @@ public class FightRequest
 
 		// Preprocess results and register new items
 		ResultProcessor.registerNewItems( responseText );
-		
+
 		// Experimental: clean HTML and process it
 		FightRequest.processNormalResults( responseText, macroMatcher );
-		
+
 		// Perform other processing for the final round
 		FightRequest.updateRoundData( macroMatcher );
-		
+
 		if ( responseText.indexOf( "Macro Abort" ) != -1 ||
 			responseText.indexOf( "Macro abort" ) != -1 ||
 			responseText.indexOf( "macro abort" ) != -1)
@@ -2605,7 +2605,7 @@ public class FightRequest
 			}
 			break;
 		}
-		
+
 		// Check for weapon-specific cases
 		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LEAFBLOWER, 1 ) ) )
 		{
@@ -2805,7 +2805,7 @@ public class FightRequest
 		}
 		return rv;
 	}
-	
+
 	private static final void transmogrifyNemesisWeapon( boolean reverse )
 	{
 		for ( int i = 0; i < FightRequest.NEMESIS_WEAPONS.length; ++i )
@@ -2813,7 +2813,7 @@ public class FightRequest
 			Object[] data = FightRequest.NEMESIS_WEAPONS[ i ];
 			if ( KoLCharacter.getClassType() == data[ 0 ] )
 			{
-				EquipmentManager.transformEquipment( 
+				EquipmentManager.transformEquipment(
 					(AdventureResult) data[ reverse ? 2 : 1 ],
 					(AdventureResult) data[ reverse ? 1 : 2 ] );
 				return;
@@ -3088,12 +3088,12 @@ public class FightRequest
 		if ( pos != -1 )
 		{
 			int uses = Preferences.getInteger( "burrowgrubSummonsRemaining" ) - 1;
-			
+
 			while ( (pos = responseText.indexOf( "refreshingly disgusting", pos + 23 )) != -1 )
 			{
 				--uses;
 			}
-	
+
 			// We have used our burrowgrub hive today
 			Preferences.setBoolean( "burrowgrubHiveUsed", true );
 
@@ -3274,7 +3274,7 @@ public class FightRequest
 				action.append( " resets her attack power and defense modifiers!" );
 			}
 		}
- 
+
 		m = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
  		if ( m.find() )
  		{
@@ -3287,7 +3287,7 @@ public class FightRequest
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
  		}
- 
+
 		m = FightRequest.MANADRAIN_PATTERN.matcher( responseText );
 		if ( m.find() )
 		{
@@ -3300,7 +3300,7 @@ public class FightRequest
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
 		}
- 
+
 		if ( FightRequest.GHUOL_HEAL.matcher( responseText ).find() )
  		{
 			int damage = -10;
@@ -3312,7 +3312,7 @@ public class FightRequest
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
 		}
- 
+
 		if ( FightRequest.DA_HEAL.matcher( responseText ).find() )
 		{
 			int damage = -50;
@@ -3324,7 +3324,7 @@ public class FightRequest
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
  		}
- 
+
 		if ( FightRequest.NS_HEAL.matcher( responseText ).find() || FightRequest.NS2_HEAL.matcher( responseText ).find() )
 		{
 			int damage = -125;
@@ -3566,7 +3566,7 @@ public class FightRequest
 		}
 		return 0;
 	}
-	
+
 	private static final boolean extractHaiku( final TagNode node, final StringBuffer buffer )
 	{
 		boolean hasBold = false;
@@ -3585,7 +3585,7 @@ public class FightRequest
 			Object child = it.next();
 
 			if ( child instanceof ContentToken )
-			{	
+			{
 				buffer.append( ((ContentToken) child).getContent().trim() );
 			}
 			else if ( child instanceof TagNode )
@@ -3593,10 +3593,10 @@ public class FightRequest
 				hasBold |= FightRequest.extractHaiku( (TagNode) child, buffer );
 			}
 		}
-		
+
 		return hasBold;
 	}
-	
+
 	private static final void processHaikuResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
 		StringBuffer action = status.action;
@@ -3983,13 +3983,13 @@ public class FightRequest
 				FightRequest.encounterLookup = CustomCombatManager.encounterKey( newMonster );
 				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
 				FightRequest.healthModifier = 0;
-				
+
 				FightRequest.logText( "your opponent becomes " + newMonster + "!", status );
 			}
-		
+
 			return;
 		}
-		
+
 		if ( name.equals( "hr" ) )
 		{
 			FightRequest.updateRoundData( status.macroMatcher );
@@ -4109,7 +4109,7 @@ public class FightRequest
 
 			String src = inode.getAttributeByName( "src" );
 			String image = src == null ? null : src.substring( src.lastIndexOf( "/" ) + 1 );
-			
+
 			if ( status.haiku )
 			{
 				FightRequest.processHaikuResult( node, inode, image, status );
@@ -4153,7 +4153,7 @@ public class FightRequest
 				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
 				return;
 			}
- 
+
 			if ( image.equals( "nicesword.gif" ) )
 			{
 				// You modify monster attack power
@@ -4799,7 +4799,7 @@ public class FightRequest
 		{
 			return;	// no poison expected that the user wants to remove
 		}
-		
+
 		macro.append( "if hascombatitem " );
 		macro.append( ItemPool.ANTIDOTE );
 		macro.append( " && (" );
@@ -5044,7 +5044,7 @@ public class FightRequest
 
 		case 819: case 820: case 821: case 822: case 823:
 		case 824: case 825: case 826: case 827:
-			if ( AdventureResult.bangPotionName( itemId ).contains("healing") )
+			if ( AdventureResult.bangPotionName( itemId ).indexOf( "healing" ) != -1 )
 			{
 				FightRequest.healthModifier -= 16;
 			}
@@ -5150,12 +5150,12 @@ public class FightRequest
 		}
 		return 0;
 	}
-	
+
 	private static final void registerMacroAction( Matcher m )
 	{	// In the interests of keeping action logging centralized, turn the
 		// macro action (indicated via a macroaction: HTML comment) into a
 		// fake fight.php URL and call registerRequest on it.
-		
+
 		String action = m.group( 1 );
 		if ( action.equals( "attack" ) )
 		{
@@ -5399,7 +5399,7 @@ public class FightRequest
 		{
 			if ( urlString.indexOf( "[AA]" ) != -1 )
 			{	// pseudo-parameter for parsing an autoattack
-				action.append( " (auto-attack)" );			
+				action.append( " (auto-attack)" );
 			}
 			String message = action.toString();
 			RequestLogger.printLine( message );

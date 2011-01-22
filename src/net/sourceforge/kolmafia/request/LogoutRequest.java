@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.BuffBotHome;
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -74,8 +73,6 @@ public class LogoutRequest
 		LogoutRequest.isRunning = true;
 		KoLmafia.updateDisplay( "Preparing for logout..." );
 
-		KoLAdventure.resetAutoAttack();
-
 		ChatManager.dispose();
 		BuffBotHome.setBuffBotActive( false );
 
@@ -84,7 +81,7 @@ public class LogoutRequest
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 		}
-		
+
 		if ( Preferences.getBoolean( "sharePriceData" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "spade prices http://kolmafia.us/scripts/updateprices.php" );

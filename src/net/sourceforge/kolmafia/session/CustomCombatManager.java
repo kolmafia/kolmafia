@@ -71,7 +71,7 @@ public abstract class CustomCombatManager
 	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack" );
 
 	public static final Pattern TRY_TO_RUN_AWAY_PATTERN = Pattern.compile( "run away if (\\d+)% chance of being free" );
-		
+
 	private static String[] keys = new String[ 0 ];
 
 	private static final LockableListModel availableScripts = new LockableListModel();
@@ -92,7 +92,7 @@ public abstract class CustomCombatManager
 			if ( list[ i ].endsWith( ".ccs" ) )
 			{
 				String name = list[ i ].substring( 0, list[ i ].length() - 4 );
-				
+
 				if ( !CustomCombatManager.availableScripts.contains( name ) )
 				{
 					CustomCombatManager.availableScripts.add( name );
@@ -147,7 +147,7 @@ public abstract class CustomCombatManager
 	{
 		return CustomCombatManager.getFile( CustomCombatManager.getScript() );
 	}
-	
+
 	public static final File getFile( String name )
 	{
 		if ( !name.endsWith( ".ccs" ) )
@@ -179,7 +179,7 @@ public abstract class CustomCombatManager
 	/**
 	 * Loads the settings located in the given file into this object. Note that all settings are overridden; if the
 	 * given file does not exist, the current global settings will also be rewritten into the appropriate file.
-	 * 
+	 *
 	 * @param source The file that contains (or will contain) the character data
 	 */
 
@@ -256,7 +256,7 @@ public abstract class CustomCombatManager
 						{
 							action = line;
 						}
-						
+
 						if ( action.startsWith( "end" ) && indent.length() > 0 )
 						{
 							indent = indent.substring( 4 );
@@ -324,6 +324,12 @@ public abstract class CustomCombatManager
 		}
 
 		return changeCase ? key : line;
+	}
+
+	public static final void removeAutoAttack()
+	{
+		CustomCombatManager.AUTO_ATTACKER.addFormField( "whichattack", "0" );
+		RequestThread.postRequest( CustomCombatManager.AUTO_ATTACKER );
 	}
 
 	public static final void setAutoAttack( String attackName )
@@ -466,7 +472,7 @@ public abstract class CustomCombatManager
 
 		writer.close();
 	}
-	
+
 	public static final boolean containsKey( final String key )
 	{
 		return CustomCombatManager.reference.containsKey( key );
@@ -527,9 +533,9 @@ public abstract class CustomCombatManager
 
 		return longestMatch == -1 ? "default" : CustomCombatManager.keys[ longestMatch ];
 	}
-	
+
 	private static boolean atEndOfCCS;
-	
+
 	public static final boolean atEndOfCCS()
 	{
 		return CustomCombatManager.atEndOfCCS;
@@ -693,7 +699,7 @@ public abstract class CustomCombatManager
 			return this.index + ": " + this.action;
 		}
 	}
-	
+
 	private static final boolean isMacroAction( String action )
 	{
 		return action.startsWith( "scrollwhendone" ) ||
@@ -708,7 +714,7 @@ public abstract class CustomCombatManager
 			action.startsWith( "call " ) ||
 			action.startsWith( "#" );
 	}
-	
+
 	public static final String getLongCombatOptionName( String action )
 	{
 		if ( action == null )
@@ -722,12 +728,12 @@ public abstract class CustomCombatManager
 		{
 			return "attack with weapon";
 		}
-		
+
 		if ( action.startsWith( "\"" ) )
 		{
 			return action;
 		}
-		
+
 		if ( isMacroAction( action ) )
 		{
 			return action;
@@ -805,14 +811,14 @@ public abstract class CustomCombatManager
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 		{
 			Matcher runAwayMatcher = CustomCombatManager.TRY_TO_RUN_AWAY_PATTERN.matcher( action );
-			
+
 			int runaway = 0;
 
 			if ( runAwayMatcher.find() )
 			{
 				runaway = StringUtilities.parseInt( runAwayMatcher.group( 1 ) );
 			}
-			
+
 			if ( runaway <= 0 )
 			{
 				return "try to run away";
@@ -820,7 +826,7 @@ public abstract class CustomCombatManager
 
 			return "run away if " + runaway + "% chance of being free";
 		}
-		
+
 		if ( action.startsWith( "combo " ) )
 		{
 			String combo = DiscoCombatHelper.disambiguateCombo( action.substring( 6 ) );
@@ -916,7 +922,7 @@ public abstract class CustomCombatManager
 		{
 			return action;
 		}
-		
+
 		if ( isMacroAction( action ) )
 		{
 			return "\"" + action + "\"";
