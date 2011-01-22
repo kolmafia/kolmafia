@@ -438,7 +438,7 @@ public class GenericRequest
 		}
 
 		this.isChatRequest =
-			this.formURLString.startsWith( "newchatmessages.php" ) || this.formURLString.startsWith( "submitnewchat.php" );
+			this.formURLString.startsWith( "chat.php" ) || this.formURLString.startsWith( "newchatmessages.php" ) || this.formURLString.startsWith( "submitnewchat.php" );
 
 		this.hasNoResult =
 			this.isChatRequest ||
@@ -1206,11 +1206,8 @@ public class GenericRequest
 		return request.formURLString == null ||
 			// Disallow anything to do with the mall
 			request.formURLString.indexOf( "mall" ) != -1 ||
-			// Disallow anything to do with chat. Look for specific
-			// URLs used by chat so we don't block. for example,
-			// account_chatcolors.php
-			request.formURLString.indexOf( "newchatmessages.php" ) != -1 ||
-			request.formURLString.indexOf( "submitnewchat.php" ) != -1;
+			// Disallow anything to do with chat
+			request.isChatRequest;
 	}
 
 	/**
