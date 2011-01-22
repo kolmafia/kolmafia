@@ -70,8 +70,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
-import net.sourceforge.kolmafia.persistence.Preferences;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class BuffRequestFrame
 	extends GenericFrame

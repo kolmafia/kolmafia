@@ -51,7 +51,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class CardLayoutSelectorPanel
 	extends JPanel

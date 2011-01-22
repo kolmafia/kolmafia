@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;

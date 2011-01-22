@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;

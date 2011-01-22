@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatManager;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 

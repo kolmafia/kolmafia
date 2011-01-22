@@ -3,7 +3,7 @@
  */
 package net.sourceforge.kolmafia;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 

@@ -50,7 +50,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.HPRestoreItemList;
 import net.sourceforge.kolmafia.MPRestoreItemList;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class RestoreOptionsPanel

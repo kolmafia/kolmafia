@@ -41,7 +41,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class ColorChooser
 	extends JLabel

@@ -50,7 +50,7 @@ import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class PvpRequest
 	extends GenericRequest

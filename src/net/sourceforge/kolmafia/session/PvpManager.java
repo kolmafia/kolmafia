@@ -50,7 +50,7 @@ import net.sourceforge.kolmafia.KoLMailMessage;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MailboxRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;

@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 import java.awt.Frame;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.persistence.Preferences;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 /**
