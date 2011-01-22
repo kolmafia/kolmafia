@@ -33,10 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.lang.Math;
 import java.util.Arrays;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,23 +53,17 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.PyramidRequest;
-import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoodManager;
@@ -78,6 +71,7 @@ import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.command.ZapCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -249,7 +243,7 @@ public class UseItemRequest
 		case ItemPool.GINGERBREAD_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
 			return CampgroundRequest.getCurrentDwelling() != CampgroundRequest.BIG_ROCK;
- 
+
 		case ItemPool.HOT_BEDDING:
 		case ItemPool.COLD_BEDDING:
 		case ItemPool.STENCH_BEDDING:
@@ -309,7 +303,7 @@ public class UseItemRequest
 	{
 		// Set reasonable default if the item fails to set a specific reason
 		UseItemRequest.limiter = "a wizard";
-		
+
 		if ( consumptionType == KoLConstants.CONSUME_HOBO ||
 		     consumptionType == KoLConstants.CONSUME_GHOST ||
 		     consumptionType == KoLConstants.CONSUME_SLIME )
@@ -361,7 +355,7 @@ public class UseItemRequest
 			// Or if another counter would end on the same turn
 			UseItemRequest.limiter = TurnCounter.getCounters( "", 3, 3 );
 			return UseItemRequest.limiter.length() > 0 ? 0 : 1;
-			
+
 		case ItemPool.GREEN_PEAWEE_MARBLE:
 		case ItemPool.BROWN_CROCK_MARBLE:
 		case ItemPool.RED_CHINA_MARBLE:
@@ -449,19 +443,19 @@ public class UseItemRequest
 				{
 					return 0;
 				}
-	
+
 				// Otherwise, limit to number of useful potions
 				int milkDuration = 10 +
 					( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 5 : 0 ) +
 					( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 );
-	
+
 				int limit = 0;
 				while ( unmilkedTurns > 0 )
 				{
 					unmilkedTurns -= milkDuration;
 					limit++;
 				}
-	
+
 				return limit;
 			}
 		}
@@ -668,7 +662,7 @@ public class UseItemRequest
 				return null;
 			}
 			break;
- 
+
 		case ItemPool.HOT_BEDDING:
 		case ItemPool.COLD_BEDDING:
 		case ItemPool.STENCH_BEDDING:
@@ -719,7 +713,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_SPHERE:
 			RequestThread.postRequest( new PortalRequest( this.itemUsed ) );
 			return null;
-			
+
 		case KoLConstants.CONSUME_FOOD_HELPER:
 			count = this.itemUsed.getCount();
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
@@ -739,7 +733,7 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Helper queued for next " + count + " food" +
 				(count == 1 ? "" : "s") + " eaten." );
 			return null;
-			
+
 		case KoLConstants.CONSUME_DRINK_HELPER:
 			count = this.itemUsed.getCount();
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
@@ -759,7 +753,7 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Helper queued for next " + count + " beverage" +
 				(count == 1 ? "" : "s") + " drunk." );
 			return null;
-		
+
 		case KoLConstants.NO_CONSUME:
 			// no primary use, but a secondary use may be applicable
 			if ( ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_CURSE ) )
@@ -777,7 +771,7 @@ public class UseItemRequest
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			return null;
-		}		
+		}
 
 		int maximumUses = UseItemRequest.maximumUses( itemId, this.consumptionType );
 		if ( maximumUses < this.itemUsed.getCount() )
@@ -792,7 +786,7 @@ public class UseItemRequest
 		{
 			return null;
 		}
-		
+
 		if ( itemId == ItemPool.LUCIFER )
 		{	// Burn any existing MP that would otherwise be wasted.
 			MoodManager.burnMana( KoLCharacter.getMaximumMP() -
@@ -884,7 +878,7 @@ public class UseItemRequest
 				// The miracle of "consume some" does not apply
 				// to TPS drinks or black puddings
 				if ( !UseItemRequest.singleConsume( itemId, this.consumptionType ) &&
-					(!UseItemRequest.sequentialConsume( itemId ) || 
+					(!UseItemRequest.sequentialConsume( itemId ) ||
 						InventoryManager.getCount( itemId ) >= origCount) )
 				{
 					break;
@@ -921,7 +915,7 @@ public class UseItemRequest
 			{
 				return null;
 			}
-			
+
 			if ( this.consumptionType == KoLConstants.CONSUME_EAT &&
 			     !this.allowFoodConsumption() )
 			{
@@ -974,7 +968,7 @@ public class UseItemRequest
 			}
 			break;
 		}
-		
+
 		switch ( itemId )
 		{
 		case ItemPool.BLACK_PUDDING:
@@ -1020,7 +1014,7 @@ public class UseItemRequest
 
 	public static final boolean confirmReplacement( final String name )
 	{
-		if ( StaticEntity.isHeadless() )
+		if ( !GenericFrame.instanceExists() )
 		{
 			return true;
 		}
@@ -1046,7 +1040,7 @@ public class UseItemRequest
 			return true;
 		}
 
-		if ( StaticEntity.isHeadless() )
+		if ( !GenericFrame.instanceExists() )
 		{
 			return true;
 		}
@@ -1095,7 +1089,7 @@ public class UseItemRequest
 		int odeTurns = ItemDatabase.ODE.getCount( KoLConstants.activeEffects );
 		int consumptionTurns = count * inebriety;
 
-		if ( consumptionTurns <= odeTurns ) 
+		if ( consumptionTurns <= odeTurns )
 		{
 			return true;
 		}
@@ -1127,7 +1121,7 @@ public class UseItemRequest
 			odeTurns = newTurns;
 		}
 
-		if ( consumptionTurns <= odeTurns ) 
+		if ( consumptionTurns <= odeTurns )
 		{
 			return true;
 		}
@@ -1147,7 +1141,7 @@ public class UseItemRequest
 
 	private final boolean allowFoodConsumption()
 	{
-		if ( StaticEntity.isHeadless() )
+		if ( !GenericFrame.instanceExists() )
 		{
 			return true;
 		}
@@ -1210,7 +1204,7 @@ public class UseItemRequest
 		int count = this.itemUsed.getCount();
 		int consumptionTurns = count * fullness;
 
-		if ( consumptionTurns <= milkyTurns ) 
+		if ( consumptionTurns <= milkyTurns )
 		{
 			return true;
 		}
@@ -1230,7 +1224,7 @@ public class UseItemRequest
 
 			UseItemRequest.askedAboutMilk = KoLCharacter.getUserId();
 		}
-		
+
 		return true;
 	}
 
@@ -1253,7 +1247,7 @@ public class UseItemRequest
 			UseItemRequest.lastUpdate = "Insufficient items to use.";
 			return;
 		}
-		
+
 		if ( this.getAdventuresUsed() > 0 )
 		{
 			RecoveryManager.runBetweenBattleChecks( true );
@@ -1283,7 +1277,7 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_HOBO:
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.HOBO )
-			{ 
+			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Spirit Hobo equipped" );
 				return;
 			}
@@ -1295,7 +1289,7 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_GHOST:
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.GHOST )
-			{ 
+			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Gluttonous Green Ghost equipped" );
 				return;
 			}
@@ -1307,7 +1301,7 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_SLIME:
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.SLIMELING )
-			{ 
+			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Slimeling equipped" );
 				return;
 			}
@@ -1341,7 +1335,7 @@ public class UseItemRequest
 				this.removeFormField( "utensil" );
 			}
 			break;
-			
+
 		case KoLConstants.CONSUME_DRINK:
 			this.addFormField( "which", "1" );
 			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
@@ -1402,7 +1396,7 @@ public class UseItemRequest
 			}
 		}
 	}
-	
+
 	private String elementalHelper( String remove, int resist, int amount )
 	{
 		AdventureResult effect = new AdventureResult( remove, 1, true );
@@ -1414,7 +1408,7 @@ public class UseItemRequest
 		{
 			return "Unable to remove " + remove + ", which makes this helper unusable.";
 		}
-		
+
 		int healthNeeded = (int) Math.ceil(amount *
 			(100.0f - KoLCharacter.getElementalResistance( resist )) / 100.0f);
 		if ( KoLCharacter.getCurrentHP() <= healthNeeded )
@@ -1498,10 +1492,10 @@ public class UseItemRequest
 
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		AdventureResult helper = UseItemRequest.lastHelperUsed;
-		
+
 		// Check for consumption helpers, which will need to be removed
 		// from inventory if they were successfully used.
-		
+
 		if ( helper != null )
 		{
 			// Check for success message, since there are multiple
@@ -1583,12 +1577,12 @@ public class UseItemRequest
 				UseItemRequest.lastUpdate = "Consumption helper failed.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				return;
-			}		
+			}
 
 			// Remove the consumption helper from inventory.
 			ResultProcessor.processResult( helper.getNegation() );
 		}
-		
+
 		if ( ConcoctionDatabase.singleUseCreation( item.getName() ) != null ||
 		     ConcoctionDatabase.multiUseCreation( item.getName() ) != null )
 		{
@@ -1739,7 +1733,7 @@ public class UseItemRequest
 		// Check to make sure that it wasn't a food or drink
 		// that was consumed that resulted in nothing. Eating
 		// too much is flagged as a continuable state.
-		
+
 		// Note that there is at least one item (memory of amino acids)
 		// that can fail with a "too full" message, even though it's
 		// not a food.
@@ -1776,7 +1770,7 @@ public class UseItemRequest
 			{
 				Preferences.increment( "currentFullness", couldEat * fullness );
 			}
-			
+
 			int estimatedFullness = maxFullness - fullness + 1;
 
 			if ( estimatedFullness > KoLCharacter.getFullness() )
@@ -1797,7 +1791,7 @@ public class UseItemRequest
 			ResultProcessor.processResult( item );
 			return;
 		}
-		
+
 		// Re-sort consumables list if needed
 		switch ( consumptionType )
 		{
@@ -1866,7 +1860,7 @@ public class UseItemRequest
 		case ItemPool.LEGENDARY_BEAT:
 			Preferences.setBoolean( "_legendaryBeat", true );
 			return;
-			
+
 		case ItemPool.JACKING_MAP:
 			// The <fruit> disappears into the tube and begins
 			// bouncing around noisily inside the machine.
@@ -1882,7 +1876,7 @@ public class UseItemRequest
 				UseItemRequest.lastFruit = null;
 			}
 			return;
-		
+
 		case ItemPool.CRYSTAL_ORB:
 			if ( UseItemRequest.lastLook )
 			{	// [look] rather than [use]
@@ -1901,7 +1895,7 @@ public class UseItemRequest
 			Preferences.setString( "pastamancerOrbedType", oldType );
 			Preferences.setString( "pastamancerOrbedName", oldName );
 			Preferences.setInteger( "pastamancerOrbedExperience", oldExp );
-			
+
 			if ( oldType.equals( "" ) ) oldType = "nothing";
 			if ( newType.equals( "" ) ) newType = "nothing";
 			KoLmafia.updateDisplay( "Exchanged " + newType + " (now in use) with " + oldType + " (now in orb)." );
@@ -1940,7 +1934,7 @@ public class UseItemRequest
 			}
 
 			return;
-			
+
 		case ItemPool.DANCE_CARD:
 			TurnCounter.stopCounting( "Dance Card" );
 			TurnCounter.startCounting( 3, "Dance Card loc=109", "guildapp.gif" );
@@ -2026,28 +2020,28 @@ public class UseItemRequest
 			}
 
 			return;
-		
+
 		case ItemPool.GONG:
 
 			// We deduct the gong when we get the intro choice
 			// adventure: The Gong Has Been Bung
 
 			ResultProcessor.processResult( item );
-				
+
 			// "You try to bang the gong, but the mallet keeps
 			// falling out of your hand. Maybe you should try it
 			// later, when you've sobered up a little."
-			
+
 			// "You don't have time to bang a gong. Nor do you have
 			// time to get it on, or to get it on."
-			if ( responseText.indexOf( "sobered up a little" ) != -1  || 
+			if ( responseText.indexOf( "sobered up a little" ) != -1  ||
 			     responseText.indexOf( "don't have time to bang" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures or sobriety to use a gong.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				return;
 			}
-			
+
 			// "You're already in the middle of a journey of
 			// reincarnation."
 
@@ -2055,7 +2049,7 @@ public class UseItemRequest
 			{
 				if ( UseItemRequest.retrying ||
 					KoLConstants.activeEffects.contains(
-						EffectPool.get( EffectPool.FORM_OF_BIRD ) ) || 
+						EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
 					KoLConstants.activeEffects.contains(
 						EffectPool.get( EffectPool.SHAPE_OF_MOLE ) ) ||
 					KoLConstants.activeEffects.contains(
@@ -3145,16 +3139,16 @@ public class UseItemRequest
 				ConcoctionDatabase.getUsables().sort();
 			}
 			return;
-		
+
 		case ItemPool.MILK_OF_MAGNESIUM:
-		
+
 			ConcoctionDatabase.getUsables().sort();
 			return;
-		
+
 		case ItemPool.FERMENTED_PICKLE_JUICE:
 		case ItemPool.EXTRA_GREASY_SLIDER:
 			Preferences.setInteger( "currentSpleenUse",
-				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) - 
+				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) -
 					5 * item.getCount() ) );
 			KoLCharacter.updateStatus();
 			return;
@@ -3174,14 +3168,14 @@ public class UseItemRequest
 			}
 			RequestThread.postRequest( new CampgroundRequest() );
 			return;
-		
+
 		case ItemPool.MAID:
 		case ItemPool.CLOCKWORK_MAID:
 		case ItemPool.SCARECROW:
 		case ItemPool.MEAT_GOLEM:
 			RequestThread.postRequest( new CampgroundRequest() );
 			return;
-			
+
 		case ItemPool.PRETTY_BOUQUET:
 		case ItemPool.PICKET_FENCE:
 		case ItemPool.BARBED_FENCE:
@@ -3550,7 +3544,7 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 			return;
-			
+
 		case ItemPool.SMALL_LAMINATED_CARD:
 		case ItemPool.LITTLE_LAMINATED_CARD:
 		case ItemPool.NOTBIG_LAMINATED_CARD:
@@ -3819,7 +3813,7 @@ public class UseItemRequest
 				}
 			}
 		}
-			
+
 		int minCounter;
 
 		// First semirare comes between 70 and 80 regardless of path
@@ -3847,7 +3841,7 @@ public class UseItemRequest
 		// ... than if you are on the Oxygenarian path
 		else
 		{
-			minCounter = 100;	// conservative, wiki claims 102 minimum			
+			minCounter = 100;	// conservative, wiki claims 102 minimum
 		}
 
 		minCounter -= KoLCharacter.turnsSinceLastSemirare();
@@ -3856,7 +3850,7 @@ public class UseItemRequest
 			int number = StringUtilities.parseInt( matcher.group( i ) );
 			int minEnd = 0;
 			if ( TurnCounter.getCounters( "Semirare window begin", 0, 500 ).equals( "" ) )
-			{	
+			{
 				// We are possibly within the window currently.
 				// If the actual semirare turn has already been
 				// missed, a number past the window end could
@@ -3864,7 +3858,7 @@ public class UseItemRequest
 				// 80 turns past the end.
 				minEnd = number - 79;
 			}
-			
+
 			if ( number < minCounter ||
 			     !TurnCounter.getCounters( "Semirare window begin", number + 1, 500 ).equals( "" ) )
 			{
@@ -4021,7 +4015,7 @@ public class UseItemRequest
 		{
 			return null;
 		}
-		
+
 		Matcher helperMatcher = UseItemRequest.HELPER_PATTERN.matcher( urlString );
 		if ( !helperMatcher.find() )
 		{
@@ -4069,7 +4063,7 @@ public class UseItemRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( useString );
-		
+
 		return true;
 	}
 
@@ -4099,12 +4093,6 @@ public class UseItemRequest
 		String name = UseItemRequest.lastItemUsed.getName();
 		int consumptionType = ItemDatabase.getConsumptionType( itemId );
 		String useString = null;
-		
-		if ( UseItemRequest.getAdventuresUsedByItem( UseItemRequest.lastItemUsed ) > 0 )
-		{
-			// Never autoattack in an item-generated fight
-			CustomCombatManager.setAutoAttack( 0 );
-		}
 
 		switch ( consumptionType )
 		{
@@ -4158,7 +4146,7 @@ public class UseItemRequest
 				useString = "insert " + UseItemRequest.lastFruit + " into pneumatic tube interface";
 			}
 			break;
-			
+
 		case ItemPool.EXPRESS_CARD:
 			Preferences.setBoolean( "expressCardUsed", true );
 			break;
@@ -4345,7 +4333,7 @@ public class UseItemRequest
 	{
 		return UseItemRequest.getAdventuresUsedByItem( this.itemUsed );
 	}
-	
+
 	public static int getAdventuresUsedByItem( AdventureResult item )
 	{
 		int turns = 0;
@@ -4367,19 +4355,19 @@ public class UseItemRequest
 			// Items that can redirect to a choice adventure
 			turns = 1;
 			break;
-		
+
 		case ItemPool.DRUM_MACHINE:
 			// Drum machine doesn't take a turn if you have worm-riding hooks equipped.
 			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
 			turns = KoLCharacter.hasEquipped( hooks ) ? 0 : 1;
 			break;
-		
+
 		case ItemPool.GONG:
 			// Roachform is three uninterruptible turns
 			turns = Preferences.getInteger( "choiceAdventure276" ) == 1 ? 3 : 0;
 			break;
 		}
-		
+
 		return turns * item.getCount();
 	}
 
@@ -4397,7 +4385,7 @@ public class UseItemRequest
 				"Unable to parse conduit levels: " + responseText );
 			return;
 		}
-				
+
 		int data = 0;
 		// We have 9 conduits, with a value from 0 to 10 each.
 		// A 9-digit base-11 number won't quite fit in an int, but not all

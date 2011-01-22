@@ -33,8 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
+import net.sourceforge.kolmafia.request.LoginRequest;
 
 public class PripheaCommand
 	extends AbstractCommand
@@ -46,7 +46,13 @@ public class PripheaCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		KoLmafiaGUI.checkFrameSettings();
-		KoLDesktop.displayDesktop();
+		if ( LoginRequest.completedLogin() )
+		{
+			KoLmafiaGUI.intializeMainInterfaces();
+		}
+		else
+		{
+			KoLmafiaGUI.initializeLoginInterface();
+		}
 	}
 }

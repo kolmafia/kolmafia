@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
@@ -48,8 +47,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanWarRequest;
-import net.sourceforge.kolmafia.request.ContactListRequest;
-import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
@@ -60,7 +57,6 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.MailManager;
@@ -74,7 +70,6 @@ import net.sourceforge.kolmafia.swingui.ClanManageFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
-import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 import net.sourceforge.kolmafia.swingui.FlowerHunterFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
@@ -101,19 +96,7 @@ public class KoLmafiaGUI
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 
-		KoLmafiaGUI.constructFrame( LoginFrame.class );
-
-		if ( Preferences.getString( "useDecoratedTabs" ).equals( "" ) )
-		{
-			Preferences.setBoolean(
-				"useDecoratedTabs", !System.getProperty( "os.name" ).startsWith( "Mac" ) );
-		}
-
-		if ( !Preferences.getBoolean( "customizedTabs" ) )
-		{
-			KoLmafiaGUI.constructFrame( OptionsFrame.class );
-			Preferences.setBoolean( "customizedTabs", true );
-		}
+		KoLmafiaGUI.initializeLoginInterface();
 
 		// All that completed, check to see if there is an auto-login
 		// which should occur.
@@ -155,6 +138,28 @@ public class KoLmafiaGUI
 	{
 		super.initialize( username );
 
+		KoLmafiaGUI.intializeMainInterfaces();
+	}
+
+	public static void initializeLoginInterface()
+	{
+		KoLmafiaGUI.constructFrame( LoginFrame.class );
+
+		if ( Preferences.getString( "useDecoratedTabs" ).equals( "" ) )
+		{
+			Preferences.setBoolean(
+				"useDecoratedTabs", !System.getProperty( "os.name" ).startsWith( "Mac" ) );
+		}
+
+		if ( !Preferences.getBoolean( "customizedTabs" ) )
+		{
+			KoLmafiaGUI.constructFrame( OptionsFrame.class );
+			Preferences.setBoolean( "customizedTabs", true );
+		}
+	}
+
+	public static void intializeMainInterfaces()
+	{
 		LoginFrame.hideInstance();
 
 		KoLmafiaGUI.checkFrameSettings();

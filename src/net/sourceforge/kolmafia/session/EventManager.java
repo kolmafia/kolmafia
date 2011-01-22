@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
@@ -182,7 +183,7 @@ public class EventManager
 		// If we're not a GUI and there are no GUI windows open
 		// (ie: the GUI loader command wasn't used), quit now.
 
-		if ( StaticEntity.isHeadless() )
+		if ( !GenericFrame.instanceExists() )
 		{
 			return responseText;
 		}

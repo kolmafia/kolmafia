@@ -145,7 +145,7 @@ public abstract class StaticEntity
 
 	public static final ArrayList existingPanels = new ArrayList();
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
-	
+
 	public static String backtraceTrigger = null;
 
 	public static final String getVersion()
@@ -224,11 +224,6 @@ public abstract class StaticEntity
 		}
 	}
 
-	public static final boolean isHeadless()
-	{
-		return StaticEntity.client instanceof KoLmafiaCLI;
-	}
-
 	public static final ActionPanel[] getExistingPanels()
 	{
 		synchronized ( StaticEntity.existingPanels )
@@ -279,14 +274,14 @@ public abstract class StaticEntity
 		try
 		{
 			String location = file.getCanonicalPath();
-			
+
 			StaticEntity.openSystemBrowser( location );
 		}
 		catch ( IOException e )
 		{
 		}
 	}
-	
+
 	public static final void openSystemBrowser( final String location )
 	{
 		( new SystemBrowserThread( location ) ).start();
@@ -308,11 +303,11 @@ public abstract class StaticEntity
 		public void run()
 		{
 			String preferredBrowser = Preferences.getString( "preferredWebBrowser" );
-			
+
 			if ( !preferredBrowser.equals( "" ) )
 			{
 				File preferredBrowserFile = new File( UtilityConstants.ROOT_LOCATION, preferredBrowser );
-				
+
 				if ( preferredBrowserFile.exists() )
 				{
 					try
@@ -321,7 +316,7 @@ public abstract class StaticEntity
 					}
 					catch ( IOException e )
 					{
-						
+
 					}
 				}
 			}
@@ -381,7 +376,7 @@ public abstract class StaticEntity
 		{
 			return;
 		}
-		
+
 		if ( location.startsWith( "account.php" ) )
 		{
 			if ( location.indexOf( "&ajax" ) != -1 )
@@ -392,16 +387,16 @@ public abstract class StaticEntity
 			{
 				boolean wasHardcore = KoLCharacter.isHardcore();
 				boolean hadRestrictions = !KoLCharacter.canEat() || !KoLCharacter.canDrink();
-	
+
 				AccountRequest.parseAccountData( responseText );
-	
+
 				if ( wasHardcore && !KoLCharacter.isHardcore() )
 				{
 					RequestLogger.updateSessionLog();
 					RequestLogger.updateSessionLog( "dropped hardcore" );
 					RequestLogger.updateSessionLog();
 				}
-	
+
 				if ( hadRestrictions && KoLCharacter.canEat() && KoLCharacter.canDrink() )
 				{
 					RequestLogger.updateSessionLog();
@@ -829,12 +824,12 @@ public abstract class StaticEntity
 
 		// You can learn a skill on many pages.
 		StaticEntity.learnSkill( location, responseText );
-		
+
 		// Currently, required recipes can only be learned via using an item, but
 		// that's probably not guaranteed to be true forever.
 		StaticEntity.learnRecipe( responseText );
 	}
-	
+
 	public static void learnRecipe( String responseText )
 	{
 		Matcher matcher = StaticEntity.RECIPE_PATTERN.matcher( responseText );
@@ -926,8 +921,8 @@ public abstract class StaticEntity
 			{
 				ResultProcessor.processItem( ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1 );
 			}
-		}			
- 
+		}
+
 		String message = "You learned a new skill: " + skillName;
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );

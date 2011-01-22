@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -84,6 +85,7 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -616,7 +618,7 @@ public class GenericRequest
 		}
 
 		// Browsers are inconsistent about what, exactly, they supply.
-		// 
+		//
 		// When you visit the crafting "Discoveries" page and select a
 		// multi-step recipe, you get the following as the path:
 		//
@@ -632,7 +634,7 @@ public class GenericRequest
 		// action=craft&steps%5B%5D=2262%2C2263&steps5B%5D=2264%2C2265&qty=1&pwd
 		//
 		// URL decoding the latter gives:
-		// 
+		//
 		// action=craft&steps[]=2262,2263&steps[]=2264,2265&qty=1&pwd
 		//
 		// We have to recognize that the following are identical:
@@ -978,7 +980,7 @@ public class GenericRequest
 					this.invokeCounterScript( expired );
 					expired = TurnCounter.getExpiredCounter( this, true );
 				}
-				
+
 				expired = TurnCounter.getExpiredCounter( this, false );
 				if ( expired == null ) break;
 				int remain = expired.getTurnsRemaining();
@@ -1008,12 +1010,12 @@ public class GenericRequest
 				{
 					message = expired.getLabel() + " counter will expire after " + remain + " more turn" + ((remain == 1) ? "." : "s.");
 				}
-				
+
 				if ( expired.getLabel().equals( "Fortune Cookie" ) )
 				{
 					message += " " + UseItemRequest.lastSemirareMessage();
 				}
-				
+
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
 				return null;
 			}
@@ -1676,7 +1678,7 @@ public class GenericRequest
 		if ( this.formURLString.startsWith( "sellstuff" ) )
 		{
 			String redirect = this.redirectLocation;
-			String newMode = 
+			String newMode =
 				redirect.startsWith( "sellstuff.php" ) ? "compact" :
 				redirect.startsWith( "sellstuff_ugly.php" ) ? "detailed" :
 				null;
@@ -2017,7 +2019,7 @@ public class GenericRequest
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
 
-		if ( urlString.startsWith( "dungeon.php" ) && 
+		if ( urlString.startsWith( "dungeon.php" ) &&
                      this.responseText.indexOf( "key breaks off in the lock" ) != -1 )
 		{
 			// Unfortunately, the key breaks off in the lock.
@@ -2088,7 +2090,7 @@ public class GenericRequest
 		// in a browser.  If you're using a command-line
 		// interface, then you should not display the request.
 
-		if ( StaticEntity.isHeadless() )
+		if ( !GenericFrame.instanceExists() )
 		{
 			return;
 		}
@@ -2179,7 +2181,7 @@ public class GenericRequest
 			consumed = true;
 			KoLmafia.ignoreSemirare();
 			break;
- 
+
 		case ItemPool.PHOTOCOPIED_MONSTER:
 			itemName = "photocopied monster";
 			Preferences.setString( "photocopyMonster", "" );
@@ -2203,7 +2205,7 @@ public class GenericRequest
 			Preferences.increment( "_sealsSummoned", 1 );
 			ResultProcessor.processResult( sealRitualCandles( itemId ) );
 			break;
-			
+
 		case ItemPool.DEPLETED_URANIUM_SEAL:
 			itemName = "Infernal Seal Ritual";
 			Preferences.increment( "_sealFigurineUses", 1 );

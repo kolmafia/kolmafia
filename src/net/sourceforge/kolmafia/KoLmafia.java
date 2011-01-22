@@ -342,7 +342,7 @@ public abstract class KoLmafia
 		// All dates are presented as if the day began at rollover.
 
 		TimeZone koltime = (TimeZone) TimeZone.getTimeZone("GMT-0330");
-		
+
 		KoLConstants.DAILY_FORMAT.setTimeZone( koltime );
 
 		// Reload your settings and determine all the different users which
@@ -768,7 +768,7 @@ public abstract class KoLmafia
 	 */
 
 	public void initialize( final String username )
-	{		
+	{
 		// Load the JSON string first, so we can use it, if necessary.
 		ActionBarManager.loadJSONString();
 
@@ -779,7 +779,7 @@ public abstract class KoLmafia
 
 		// Reset all per-player information
 
-		ChatManager.reset();		
+		ChatManager.reset();
 		MailManager.clearMailboxes();
 		StoreManager.clearCache();
 		DisplayCaseManager.clearCache();
@@ -2997,7 +2997,7 @@ public abstract class KoLmafia
 	{
 		// Create login frame to ensure that there is an active frame.
 
-		if ( !StaticEntity.isHeadless() )
+		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
 			GenericFrame.createDisplay( LoginFrame.class );
 		}
