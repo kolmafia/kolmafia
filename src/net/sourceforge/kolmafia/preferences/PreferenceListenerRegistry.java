@@ -45,10 +45,9 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 public class PreferenceListenerRegistry
 {
-	private static final HashMap checkboxMap = new HashMap();
 	private static final HashMap listenerMap = new HashMap();
 
-	public static final void registerListener( String name, PreferenceListener listener )
+	public static final void registerListener( final String name, final PreferenceListener listener )
 	{
 		ArrayList list = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
 
@@ -63,41 +62,13 @@ public class PreferenceListenerRegistry
 
 	public static final void registerCheckbox( final String name, final JCheckBox checkbox )
 	{
-		ArrayList list = (ArrayList) PreferenceListenerRegistry.checkboxMap.get( name );
+		CheckboxUpdateListener listener = new CheckboxUpdateListener( name, checkbox );
 
-		if ( list == null )
-		{
-			list = new ArrayList();
-			PreferenceListenerRegistry.checkboxMap.put( name, list );
-		}
-
-		list.add( new WeakReference( checkbox ) );
+		PreferenceListenerRegistry.registerListener( name, listener );
 	}
 
-	public static final void firePreferenceChanged( String name )
+	public static final void firePreferenceChanged( final String name )
 	{
-		if ( PreferenceListenerRegistry.checkboxMap.containsKey( name ) )
-		{
-			boolean isTrue = Preferences.getBoolean( name );
-
-			Iterator i = ((ArrayList) PreferenceListenerRegistry.listenerMap.get( name )).iterator();
-
-			while ( i.hasNext() )
-			{
-				WeakReference reference = (WeakReference) i.next();
-				JCheckBox item = (JCheckBox) reference.get();
-
-				if ( item == null )
-				{
-					i.remove();
-				}
-				else
-				{
-					item.setSelected( isTrue );
-				}
-			}
-		}
-
 		ArrayList weakReferenceList = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
 
 		fireListeners( weakReferenceList, null );
@@ -115,7 +86,7 @@ public class PreferenceListenerRegistry
 		}
 	}
 
-	private static final void fireListeners( ArrayList weakReferenceList, HashSet notified )
+	private static final void fireListeners( final ArrayList weakReferenceList, final HashSet notified )
 	{
 		if ( weakReferenceList == null )
 		{
