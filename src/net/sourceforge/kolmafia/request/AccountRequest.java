@@ -81,14 +81,13 @@ public class AccountRequest
 		super.processResults();
 		AccountRequest.parseAccountData( this.responseText );
 	}
-	
+
 	public static final void parseAjax( final String location )
 	{
 		Matcher matcher = AccountRequest.AUTOATTACK_AJAX_PATTERN.matcher( location );
 		if ( matcher.find() )
 		{
-			Preferences.setInteger( "defaultAutoAttack",
-				StringUtilities.parseInt( matcher.group( 1 ) ) );
+			KoLCharacter.setAutoAttackAction( matcher.group( 1 ) );
 		}
 
 		matcher = AccountRequest.MENU_AJAX_PATTERN.matcher( location );
@@ -188,14 +187,15 @@ public class AccountRequest
 		KoLCharacter.setSkillsRecalled( KoLCharacter.kingLiberated() &&
 						responseText.indexOf( "<input class=button type=submit value=\"Recall Skills\">") == -1 );
 
-		int skillId = 0;
+		String autoAttackAction = "";
+
 		Matcher selectMatcher = AccountRequest.AUTOATTACK_PATTERN.matcher( responseText );
 		if ( selectMatcher.find() )
 		{
 			Matcher optionMatcher = AccountRequest.SELECTED1_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 			{
-				skillId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
+				autoAttackAction = optionMatcher.group( 1 );
 			}
 			else
 			{
@@ -203,11 +203,11 @@ public class AccountRequest
 
 				if ( optionMatcher.find() )
 				{
-					skillId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
+					autoAttackAction = optionMatcher.group( 1 );
 				}
 			}
 		}
 
-		Preferences.setInteger( "defaultAutoAttack", skillId );
+		KoLCharacter.setAutoAttackAction( autoAttackAction );
 	}
 }

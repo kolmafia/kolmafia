@@ -1053,13 +1053,13 @@ public abstract class SorceressLairManager
 			requirements.add( SorceressLairManager.SKELETON );
 			return requirements;
 		}
-		
+
 		if ( !useCloverForSkeleton )
 		{	// we want any HP-increasing benefits of the player's equipment
 			SpecialOutfit.restoreImplicitCheckpoint();
 			SpecialOutfit.createImplicitCheckpoint();
 		}
-		
+
 		do
 		{
 			// The character needs to have at least 50 HP, or 25% of
@@ -1866,12 +1866,7 @@ public abstract class SorceressLairManager
 		// Make sure that auto-attack is deactivated for the
 		// shadow fight, otherwise it will fail.
 
-		String previousAutoAttack = Preferences.getString( "defaultAutoAttack" );
-
-		if ( !previousAutoAttack.equals( "0" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
-		}
+		CustomCombatManager.removeAutoAttack();
 
 		// Determine which level you actually need to start from.
 
@@ -1911,7 +1906,6 @@ public abstract class SorceressLairManager
 			requiredItemId = SorceressLairManager.fightGuardian( towerLevel );
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 				return requiredItemId;
 			}
 
@@ -1924,7 +1918,6 @@ public abstract class SorceressLairManager
 
 			if ( requiredItemId != -1 )
 			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 				return requiredItemId;
 			}
 		}
@@ -1936,7 +1929,6 @@ public abstract class SorceressLairManager
 		{
 			KoLmafia.updateDisplay(
 				KoLConstants.ERROR_STATE, "You can't enter the chamber unless all base stats are 70 or higher." );
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 			return -1;
 		}
 
@@ -1959,7 +1951,6 @@ public abstract class SorceressLairManager
 		if ( n < 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server-side change detected.  Script aborted." );
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 			return -1;
 		}
 
@@ -1982,7 +1973,6 @@ public abstract class SorceressLairManager
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 				return -1;
 			}
 		}
@@ -1990,7 +1980,6 @@ public abstract class SorceressLairManager
 		if ( !fightFamiliarGuardians )
 		{
 			KoLmafia.updateDisplay( "Path to shadow cleared." );
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 			return -1;
 		}
 
@@ -2013,13 +2002,11 @@ public abstract class SorceressLairManager
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 				return -1;
 			}
 		}
 
 		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 
 		if ( KoLmafia.permitsContinue() )
 		{
@@ -2275,13 +2262,18 @@ public abstract class SorceressLairManager
 			return;
 		}
 
+		CustomCombatManager.removeAutoAttack();
+
 		KoLmafia.updateDisplay( "Fighting your shadow..." );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
 
 		// Start the battle!
 
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=2" ) );
-		if ( !KoLmafia.permitsContinue() ) return;
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return;
+		}
+
 		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're out of adventures." );
@@ -2322,7 +2314,7 @@ public abstract class SorceressLairManager
 
 			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );
 		}
-		while ( Preferences.getBoolean( "serverAddsCustomCombat" ) 
+		while ( Preferences.getBoolean( "serverAddsCustomCombat" )
 				? SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "(show old combat form)" ) != -1
 				: SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "fight.php" ) != -1 );
 
@@ -2395,7 +2387,7 @@ public abstract class SorceressLairManager
 				SorceressLairManager.acquireGuardianItem( desc );
 			}
 		}
-		
+
 		// Get everything that we can't be sure about needing or not -
 		// from the start if we don't have enough of a telescope to
 		// rule out any possibilities, 3 from the end if we only have 6

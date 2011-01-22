@@ -299,7 +299,6 @@ user	dailyDungeonDone	false
 user	dbNemesisSkill1	0
 user	dbNemesisSkill2	0
 user	dbNemesisSkill3	0
-user	defaultAutoAttack	0
 user	defaultFlowerLossMessage
 user	defaultFlowerWinMessage
 user	demonName1
@@ -540,7 +539,6 @@ user	seaodesFound	0
 user	semirareCounter	0
 user	semirareLocation
 user	serverAddsCustomCombat	false
-user	setAutoAttack	true
 user	sexChanges	0
 user	showGainsPerUnit	false
 user	sideDefeated	neither

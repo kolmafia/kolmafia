@@ -233,7 +233,7 @@ public abstract class KoLCharacter
 		ItemPool.get( ItemPool.ALUMINUM_WAND, 1 ),
 		ItemPool.get( ItemPool.MARBLE_WAND, 1 )
 	};
-	
+
 	public static final int MALE = -1;
 	public static final int FEMALE = 1;
 
@@ -321,13 +321,14 @@ public abstract class KoLCharacter
 	private static boolean isHardcore = false;
 	private static boolean inRonin = true;
 	private static boolean skillsRecalled = false;
-	
+
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";
 	private static int ascensionSignType = KoLConstants.NONE;
 	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 	private static int mindControlLevel = 0;
 
+	private static String autoAttackAction = "";
 	private static String autosellMode = "";
 	private static boolean unequipFamiliar = false;
 
@@ -628,7 +629,7 @@ public abstract class KoLCharacter
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
-	
+
 		Modifiers.overrideModifier( "_userMods", Preferences.getString( "_userMods" ) );
 	}
 
@@ -675,16 +676,16 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.inBadMoon() )
 		{
 			if ( KoLCharacter.hasSkill( "Pride" ) )
-			{	
+			{
 				baseFullness -= 1;
 			}
 			if ( KoLCharacter.hasSkill( "Gluttony" ) )
-			{	
+			{
 				baseFullness += 2;
 			}
 		}
 		else if ( KoLCharacter.hasSkill( "Stomach of Steel" ) )
-		{	
+		{
 			baseFullness += 5;
 		}
 
@@ -800,12 +801,12 @@ public abstract class KoLCharacter
 		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + KoLCharacter.avatar );
 		return KoLCharacter.avatar;
 	}
-	
+
 	public static final void setGender( final int gender )
 	{
 		KoLCharacter.gender = gender;
 	}
-	
+
 	public static final int getGender()
 	{
 		// We can only ask for the gender if we are logged in
@@ -1169,7 +1170,7 @@ public abstract class KoLCharacter
 		KoLCharacter.totalSubpoints[ 0 ] = totalMuscle;
 		KoLCharacter.totalSubpoints[ 1 ] = totalMysticality;
 		KoLCharacter.totalSubpoints[ 2 ] = totalMoxie;
-		
+
 		if ( totalMuscle >= KoLCharacter.triggerSubpoints[ 0 ] )
 		{
 			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 0 ] );
@@ -1185,14 +1186,14 @@ public abstract class KoLCharacter
 			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 2 ] );
 		}
 	}
-	
+
 	public static final void resetTriggers()
 	{
 		KoLCharacter.triggerSubpoints[ 0 ] = Long.MAX_VALUE;
 		KoLCharacter.triggerSubpoints[ 1 ] = Long.MAX_VALUE;
 		KoLCharacter.triggerSubpoints[ 2 ] = Long.MAX_VALUE;
 	}
-	
+
 	public static final void handleTrigger( int itemId )
 	{
 		KoLmafia.updateDisplay( "You can now equip a " + ItemDatabase.getItemName( itemId )
@@ -1200,12 +1201,12 @@ public abstract class KoLCharacter
 		EquipmentManager.updateEquipmentLists();
 		PreferenceListenerRegistry.firePreferenceChanged( "(equippable)" );
 	}
-	
+
 	public static final int getTriggerItem( int stat )
 	{
 		return KoLCharacter.triggerItem[ stat ];
 	}
-	
+
 	public static final int getTriggerPoints( int stat )
 	{
 		return KoLCharacter.calculateBasePoints(
@@ -1378,7 +1379,7 @@ public abstract class KoLCharacter
 			KoLCharacter.handleTrigger( KoLCharacter.triggerItem[ 0 ] );
 		}
 	}
-	
+
 	public static final boolean muscleTrigger( int basepoints, int itemId )
 	{
 		long points = calculatePointSubpoints( basepoints );
@@ -1551,7 +1552,7 @@ public abstract class KoLCharacter
 			{
 				OSXAdapter.setDockIconBadge( String.valueOf( adventuresLeft ) );
 			}
-		
+
 			KoLCharacter.adventuresLeft = adventuresLeft;
 			if ( KoLCharacter.canEat() && !KoLCharacter.hasChef() ||
 			     KoLCharacter.canDrink() && !KoLCharacter.hasBartender() )
@@ -1838,7 +1839,7 @@ public abstract class KoLCharacter
 	{
 		return KoLCharacter.currentModifiers.getBitmap( Modifiers.CLOWNOSITY );
 	}
-	
+
 	public static final int getRestingHP()
 	{
 		int rv = (int) KoLCharacter.currentModifiers.get( Modifiers.BASE_RESTING_HP );
@@ -2370,7 +2371,7 @@ public abstract class KoLCharacter
 	{
 		return KoLCharacter.skillsRecalled;
 	}
-	
+
 	/**
 	 * Accessor method which sets whether or not the player is currently in ronin.
 	 */
@@ -2506,6 +2507,35 @@ public abstract class KoLCharacter
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			AdventureFrame.updateSafetyDetails();
+		}
+	}
+
+	/**
+	 * Accessor method for the current auto attack action
+	 *
+	 * @return String
+	 */
+
+	public static final String getAutoAttackAction()
+	{
+		return KoLCharacter.autoAttackAction;
+	}
+
+	/**
+	 * Accessor method to set the current auto attack action
+	 *
+	 * @param autoAttackAction the current auto attack action
+	 */
+
+	public static final void setAutoAttackAction( final String autoAttackAction )
+	{
+		if ( autoAttackAction == null || autoAttackAction.equals( "" ) )
+		{
+			KoLCharacter.autoAttackAction = "0";
+		}
+		else
+		{
+			KoLCharacter.autoAttackAction = autoAttackAction;
 		}
 	}
 
@@ -3009,7 +3039,7 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.setStillsAvailable( KoLCharacter.stillsAvailable - decrementAmount );
 	}
-	
+
 	public static final boolean getGuildStoreOpen()
 	{
 		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastGuildStoreOpen" ) )
@@ -3023,7 +3053,7 @@ public abstract class KoLCharacter
 		RequestThread.postRequest( new GuildRequest() );
 		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastGuildStoreOpen" );
 	}
-	
+
 	public static void setGuildStoreOpen( boolean isOpen )
 	{
 		if ( isOpen )
@@ -3339,7 +3369,7 @@ public abstract class KoLCharacter
 			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.PANTS );
 
 		case KoLConstants.EQUIP_ACCESSORY:
-			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.ACCESSORY1 ) || 
+			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.ACCESSORY1 ) ||
 				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.ACCESSORY2 ) ||
 				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.ACCESSORY3 );
 
@@ -3417,7 +3447,7 @@ public abstract class KoLCharacter
 		{
 			listenerArray[ i ].updateStatus();
 		}
-		
+
 		// Allow Daily Deeds to change state based on character status
 		PreferenceListenerRegistry.firePreferenceChanged( "(character)" );
 	}
@@ -3430,7 +3460,7 @@ public abstract class KoLCharacter
 		KoLCharacter.updateStatus();
 		PreferenceListenerRegistry.firePreferenceChanged( "(location)" );
 	}
-	
+
 	public static final KoLAdventure getSelectedLocation()
 	{
 		return KoLCharacter.selectedLocation;
@@ -3463,7 +3493,7 @@ public abstract class KoLCharacter
 		AdventureResult item = equipment[ EquipmentManager.WEAPON ];
 		Modifiers.mainhandClass = item == null ? ""
 			: EquipmentDatabase.getItemType( item.getItemId() );
-		
+
 		// Area-specific adjustments
 		newModifiers.add( Modifiers.getModifiers( "loc:" + Modifiers.currentLocation ) );
 		newModifiers.add( Modifiers.getModifiers( "zone:" + Modifiers.currentZone ) );
@@ -3522,7 +3552,7 @@ public abstract class KoLCharacter
 					case 9:
 						newModifiers.add( Modifiers.DAMAGE_REDUCTION, level * 3, "WALL" );
 						break;
-					}				
+					}
 				}
 			}
 		}
@@ -3606,7 +3636,7 @@ public abstract class KoLCharacter
 				break;
 			}
 		}
-		
+
 		// Possibly look at stickers
 		if ( EquipmentManager.usingStickerWeapon( equipment ) )
 		{
@@ -3617,7 +3647,7 @@ public abstract class KoLCharacter
 				{
 					continue;
 				}
-	
+
 				newModifiers.add( Modifiers.getModifiers( item.getName() ) );
 			}
 		}
@@ -3647,7 +3677,7 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers(
 				( (AdventureResult) effects.get( i ) ).getName() ) );
 		}
-		
+
 		// Add modifiers from campground equipment.
 		for ( int i = 0; i< KoLConstants.campground.size(); ++i )
 		{
@@ -3667,12 +3697,12 @@ public abstract class KoLCharacter
 		// Add modifiers from dwelling
 		item = CampgroundRequest.getCurrentDwelling();
 		newModifiers.add( Modifiers.getModifiers( item.getName() ) );
-		
+
 		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.COMFY_BLANKET, 1 ) ) )
 		{
 			newModifiers.add( Modifiers.getModifiers( "comfy blanket" ) );
 		}
-		
+
 		if ( HolidayDatabase.getRonaldPhase() == 5 )
 		{
 			newModifiers.add( Modifiers.RESTING_MP_PCT, 100, "Ronald full" );
@@ -3708,18 +3738,18 @@ public abstract class KoLCharacter
 				break;
 			}
 		}
-		
+
 		// Miscellaneous
-		
+
 		newModifiers.add( Modifiers.getModifiers( "_userMods" ) );
 		newModifiers.add( Modifiers.getModifiers( "fightMods" ) );
-		
+
 		if ( Modifiers.currentZone.equals( "the slime tube" ) )
 		{
 			int hatred = (int) newModifiers.get( Modifiers.SLIME_HATES_IT );
 			if ( hatred > 0 )
 			{
-				newModifiers.add( Modifiers.MONSTER_LEVEL, 
+				newModifiers.add( Modifiers.MONSTER_LEVEL,
 					Math.min( 1000, 15 * hatred * (hatred + 2) ), "slime hatred" );
 			}
 		}
@@ -3729,7 +3759,7 @@ public abstract class KoLCharacter
 
 		float monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
 		newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f, "ML/4" );
-		
+
 		float exp = newModifiers.get( Modifiers.EXPERIENCE );
 		if ( exp != 0.0f )
 		{
@@ -3738,7 +3768,7 @@ public abstract class KoLCharacter
 			if ( tuning.equals( "Muscle" ) ) prime = 0;
 			else if ( tuning.equals( "Mysticality" ) ) prime = 1;
 			else if ( tuning.equals( "Moxie" ) ) prime = 2;
-			
+
 			switch ( prime )
 			{
 			case 0:
@@ -3760,7 +3790,7 @@ public abstract class KoLCharacter
 		}
 
 		// Determine whether or not data has changed
-		
+
 		if ( debug )
 		{
 			DebugModifiers.finish();

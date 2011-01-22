@@ -101,12 +101,6 @@ public class SetPreferencesCommand
 			}
 		}
 
-		if ( name.equals( "defaultAutoAttack" ) )
-		{
-			CustomCombatManager.setAutoAttack( value );
-			return;
-		}
-
 		if ( name.equals( "customCombatScript" ) )
 		{
 			ChangeCombatScriptCommand.update( value );

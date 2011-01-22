@@ -935,27 +935,8 @@ public class KoLAdventure
 		return location == null ? "" : location.adventureId;
 	}
 
-	public static final void resetAutoAttack()
-	{
-		// In the event that the user made some sort of change
-		// to their auto-attack settings, do nothing.
-
-		if ( Preferences.getBoolean( "setAutoAttack" ) )
-		{
-			CustomCombatManager.setAutoAttack( 0 );
-		}
-	}
-
 	private void updateAutoAttack()
 	{
-		// If the user has already configured their own auto-attacks,
-		// then KoLmafia should not interfere.
-
-		if ( !Preferences.getBoolean( "setAutoAttack" ) && Preferences.getInteger( "defaultAutoAttack" ) != 0 )
-		{
-			return;
-		}
-
 		// If you're in the middle of a fight, you can't reset your
 		// auto-attack.
 
@@ -964,74 +945,21 @@ public class KoLAdventure
 			return;
 		}
 
-		// If you're searching for special scrolls, do not enable
-		// your auto-attack.
-
-		if ( this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) )
-		{
-			CustomCombatManager.setAutoAttack( 0 );
-			return;
-		}
-
-		// If this is not an automated request, make sure to turn off
-		// auto-attack if it was off before any automation started.
-		// Custom combat and deleveling do not need to have auto-attack
-		// changed, because these users probably are micro-managing.
-
-		if ( !KoLmafia.isAdventuring() || this.formSource.equals( "dungeon.php" ) )
-		{
-			KoLAdventure.resetAutoAttack();
-			return;
-		}
-
 		// If the player is pickpocketing, they probably do not want
 		// their auto-attack reset to an attack.
 
 		if ( KoLCharacter.isMoxieClass() && Preferences.getBoolean( "autoSteal" ) )
 		{
-			KoLAdventure.resetAutoAttack();
+			CustomCombatManager.removeAutoAttack();
 			return;
 		}
 
-		String attack = Preferences.getString( "battleAction" );
-
-		if ( attack.startsWith( "custom" ) ||
-			FightRequest.filterInterp != null ||
-			KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
+		if ( Preferences.getBoolean( "autoEntangle" ) && !KoLCharacter.getAutoAttackAction().equals( "3004" ) )
 		{
-			KoLAdventure.resetAutoAttack();
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", "Entangling Noodles" );
+			KoLCharacter.setAutoAttackAction( "3004" );
 			return;
 		}
-
-		if ( Preferences.getBoolean( "autoEntangle" ) )
-		{
-			CustomCombatManager.setAutoAttack( "Entangling Noodles" );
-			return;
-		}
-
-		if ( attack.startsWith( "delevel" ) || attack.startsWith( "item" ) ||
-			!Preferences.getString( "autoOlfact" ).equals( "" ) ||
-			!Preferences.getString( "autoPutty" ).equals( "" ) )
-		{
-			KoLAdventure.resetAutoAttack();
-			return;
-		}
-
-		if ( attack.startsWith( "attack" ) || attack.startsWith( "default" ) )
-		{
-			CustomCombatManager.setAutoAttack( 1 );
-			return;
-		}
-
-		// If it's not a generic class skill (its id is something
-		// non-standard), then don't update auto-attack.
-
-		if ( attack.startsWith( "skill " ) )
-		{
-			attack = attack.substring( 6 );
-		}
-
-		CustomCombatManager.setAutoAttack( attack );
 	}
 
 	public static final boolean recordToSession( final String urlString )
@@ -1063,18 +991,6 @@ public class KoLAdventure
 		if ( urlString.indexOf( "?" ) == -1 )
 		{
 			return true;
-		}
-
-		boolean shouldReset =
-			urlString.startsWith( "barrel.php" ) ||
-			urlString.startsWith( "basement.php" ) ||
-			urlString.startsWith( "dungeon.php" ) ||
-			urlString.startsWith( "lair" ) ||
-			urlString.startsWith( "cellar.php" );
-
-		if ( shouldReset )
-		{
-			KoLAdventure.resetAutoAttack();
 		}
 
 		KoLAdventure.lastVisitedLocation = null;
