@@ -51,7 +51,7 @@ public class LogStream
 	implements Runnable
 {
 	private File proxy;
-	
+
 	public static final PrintStream openStream( final String filename, final boolean forceNewFile )
 	{
 		return LogStream.openStream( new File( UtilityConstants.ROOT_LOCATION, filename ), forceNewFile );
@@ -61,7 +61,7 @@ public class LogStream
 	{
 		return LogStream.openStream( file, forceNewFile, "UTF-8" );
 	}
-	
+
 	public static final PrintStream openStream( final File file, final boolean forceNewFile, final String encoding )
 	{
 		OutputStream ostream = DataUtilities.getOutputStream( file, !forceNewFile );
@@ -79,11 +79,12 @@ public class LogStream
 
 		if ( file.getName().startsWith( "DEBUG" ) )
 		{
-			if ( !StaticEntity.isHeadless() && KoLDesktop.instanceExists() )
+			if ( KoLDesktop.instanceExists() )
 			{
 				newStream.proxy = file;
 				SwingUtilities.invokeLater( newStream );
 			}
+
 			newStream.println();
 			newStream.println();
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
@@ -117,7 +118,7 @@ public class LogStream
 
 		return newStream;
 	}
-	
+
 	public void run()
 	{
 		KoLDesktop.getInstance().getRootPane().putClientProperty(

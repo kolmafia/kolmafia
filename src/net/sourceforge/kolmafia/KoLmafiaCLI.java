@@ -63,6 +63,7 @@ public class KoLmafiaCLI
 	public String previousLine = null;
 	public String currentLine = null;
 	private BufferedReader commandStream;
+	private boolean isGUI = true;
 	private boolean elseValid = false;
 	private boolean elseRuns = false;
 
@@ -78,7 +79,7 @@ public class KoLmafiaCLI
 		System.out.println( StaticEntity.getVersion() );
 		System.out.println( KoLConstants.VERSION_DATE );
 		System.out.println();
-		
+
 		try
 		{
 			System.out.println( "Currently Running on " + System.getProperty( "os.name" ) );
@@ -88,7 +89,7 @@ public class KoLmafiaCLI
 		}
 		catch ( IOException e )
 		{
-			
+
 		}
 
 		StaticEntity.setClient( KoLmafiaCLI.DEFAULT_SHELL );
@@ -219,7 +220,9 @@ public class KoLmafiaCLI
 				RequestLogger.printLine();
 			}
 
+			this.isGUI = false;
 			this.executeLine( line );
+			this.isGUI = true;
 
 			if ( StaticEntity.getClient() == this )
 			{
@@ -465,7 +468,7 @@ public class KoLmafiaCLI
 			// We need another line to complete the command.  However, if the
 			// original command didn't come from the input stream (the gCLI
 			// entry field, perhaps), trying to read a line would just hang.
-			if ( this == KoLmafiaCLI.DEFAULT_SHELL && !StaticEntity.isHeadless() )
+			if ( this.isGUI )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Multi-line statements cannot be used from the gCLI." );
 				return "";
@@ -565,13 +568,13 @@ public class KoLmafiaCLI
 
 	public boolean elseRuns()
 	{
-		if ( !this.elseValid )	 
-		{	 
-			KoLmafia.updateDisplay(	 
-				KoLConstants.ERROR_STATE,	 
-				"'else' must follow a conditional command, and both must be at the outermost level." );	 
-			return false;	 
-		}	 
+		if ( !this.elseValid )
+		{
+			KoLmafia.updateDisplay(
+				KoLConstants.ERROR_STATE,
+				"'else' must follow a conditional command, and both must be at the outermost level." );
+			return false;
+		}
 		this.elseValid = false;
 		return this.elseRuns;
 	}
@@ -886,7 +889,7 @@ public class KoLmafiaCLI
 
 		return null;
 	}
-	
+
 	public static String buildRelayScriptMenu()
 	{
 		boolean any = false;

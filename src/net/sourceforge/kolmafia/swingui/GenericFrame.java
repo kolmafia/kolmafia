@@ -415,9 +415,14 @@ public abstract class GenericFrame
 		return this.exists;
 	}
 
+	public static boolean instanceExists()
+	{
+		return GenericFrame.existingFrameCount != 0;
+	}
+
 	protected void checkForLogout()
 	{
-		if ( !StaticEntity.isHeadless() && GenericFrame.existingFrameCount == 0 )
+		if ( StaticEntity.getClient() instanceof KoLmafiaGUI && GenericFrame.instanceExists() )
 		{
 			KoLmafia.logout();
 		}
@@ -569,7 +574,7 @@ public abstract class GenericFrame
 		else
 		{
 			super.setVisible( isVisible );
-	
+
 			if ( isVisible )
 			{
 				super.setExtendedState( Frame.NORMAL );
@@ -577,7 +582,7 @@ public abstract class GenericFrame
 			}
 		}
 	}
-	
+
 	public void run()
 	{
 		super.setVisible( true );

@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class ProfileFrame
@@ -49,7 +48,7 @@ public class ProfileFrame
 
 	public static final void showRequest( final GenericRequest request )
 	{
-		if ( StaticEntity.isHeadless() )
+		if ( !GenericFrame.instanceExists() )
 		{
 			return;
 		}

@@ -43,17 +43,14 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -248,7 +245,7 @@ public class UntinkerRequest
 			return true;
 		}
 
-		if ( !StaticEntity.isHeadless() )
+		if ( GenericFrame.instanceExists() )
 		{
 			if ( !InputFieldUtilities.confirm( "KoLmafia thinks you haven't completed the screwdriver quest.  Would you like to have KoLmafia automatically complete it now?" ) )
 			{
@@ -312,7 +309,7 @@ public class UntinkerRequest
 		// Hey, man -- is an adventurer you? I lost my screwdriver
 		// somewhere near Degrassi Knoll, but every time I try to get
 		// it back, the Gnolls punch me in the eye.
-		// 
+		//
 		// You look pretty tough, though -- do you think you could get
 		// it back for me?
 		//

@@ -103,11 +103,6 @@ public class CreateFrameRunnable
 
 	public void run()
 	{
-		if ( StaticEntity.isHeadless() )
-		{
-			return;
-		}
-
 		if ( this.creator == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.creationType.getName() + " could not be loaded" );
@@ -144,7 +139,7 @@ public class CreateFrameRunnable
 			return;
 		}
 	}
-	
+
 	public JFrame createFrame()
 	{
 		// If there is no creation creation, then return
@@ -273,7 +268,7 @@ public class CreateFrameRunnable
 
 		CreateFrameRunnable.decorate( this.creation );
 	}
-	
+
 	public static void decorate( JFrame frame )
 	{
 		// Load the KoL frame to the appropriate location
@@ -319,6 +314,6 @@ public class CreateFrameRunnable
 
 			StaticEntity.printStackTrace( e, frame.getClass().getName() + " could not be loaded" );
 		}
-		
+
 	}
 }
