@@ -422,7 +422,7 @@ public abstract class GenericFrame
 
 	protected void checkForLogout()
 	{
-		if ( StaticEntity.getClient() instanceof KoLmafiaGUI && GenericFrame.instanceExists() )
+		if ( StaticEntity.getClient() instanceof KoLmafiaGUI && !GenericFrame.instanceExists() )
 		{
 			KoLmafia.logout();
 		}
