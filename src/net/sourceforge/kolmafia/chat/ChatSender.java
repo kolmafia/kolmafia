@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.chat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,6 +60,8 @@ public class ChatSender
 	private static final Pattern PRIVATE_MESSAGE_PATTERN =
 		Pattern.compile( "/(?:msg|whisper|w|tell)\\s+(\\S+)\\s+", Pattern.CASE_INSENSITIVE );
 
+	private static boolean scriptedMessagesEnabled = true;
+
 	private static final ArrayList CHANNEL_COMMANDS = new ArrayList();
 
 	static
@@ -67,31 +70,77 @@ public class ChatSender
 		ChatSender.CHANNEL_COMMANDS.add( "/me" );
 		ChatSender.CHANNEL_COMMANDS.add( "/ann" );
 	}
-	
-	public static final void sendMessage( String contact, String message )
+
+	public static final void executeMacro( String macro )
 	{
-		String graf = getGraf( contact, message );
-		
-		if ( graf == null )
+		if ( !ChatSender.scriptedMessagesEnabled )
 		{
 			return;
 		}
-		
-		String responseText = ChatSender.sendMessage( graf );
-		ChatSender.executeAjaxCommand( responseText );
+
+		ChatRequest request = new ChatRequest( macro );
+
+		List chatMessages = sendRequest( request );
+
+		ChatSender.executeAjaxCommand( request.responseText );
+
+		for ( int i = 0; ChatSender.scriptedMessagesEnabled && i < chatMessages.size(); ++i )
+		{
+			ChatMessage message = (ChatMessage) chatMessages.get( i );
+
+			String recipient = message.getRecipient();
+
+			ChatSender.scriptedMessagesEnabled = recipient == null || recipient.equals( "" ) || recipient.equals( "/clan" ) || recipient.equals( "/hobopolis" ) || recipient.equals( "/slimetube" );
+		}
 	}
-		
+
+	public static final void sendMessage( String contact, String message )
+	{
+		ChatSender.sendMessage( contact, message, false );
+
+	}
+
+	public static final void sendMessage( String contact, String message, boolean channelRestricted )
+	{
+		List grafs = getGrafs( contact, message );
+
+		if ( grafs == null )
+		{
+			return;
+		}
+
+		for ( int i = 0; i < grafs.size(); ++i )
+		{
+			String graf = (String) grafs.get( i );
+
+			String responseText = ChatSender.sendMessage( graf, channelRestricted );
+			ChatSender.executeAjaxCommand( responseText );
+		}
+	}
+
 	public static final String sendMessage( String graf )
-	{		
+	{
+		return ChatSender.sendMessage( graf, false );
+	}
+
+	public static final String sendMessage( String graf, boolean channelRestricted )
+	{
+		if ( channelRestricted && !ChatSender.scriptedMessagesEnabled )
+		{
+			return "";
+		}
+
 		if ( ChatSender.executeCommand( graf ) )
 		{
 			return "";
 		}
-		
+
 		if ( graf.startsWith( "/examine" ) )
 		{
 			String item = graf.substring( graf.indexOf( " " ) ).trim();
+
 			AdventureResult result = ItemFinder.getFirstMatchingItem( item, ItemFinder.ANY_MATCH, false );
+
 			if ( result != null )
 			{
 				ShowDescriptionList.showGameDescription( result );
@@ -101,17 +150,39 @@ public class ChatSender
 				EventMessage message = new EventMessage( "Unable to find a unique match", "green" );
 				ChatManager.broadcastEvent( message );
 			}
+
 			return "";
 		}
 
 		ChatRequest request = new ChatRequest( graf );
 
+		List chatMessages = sendRequest( request );
+
+		if ( channelRestricted )
+		{
+			for ( int i = 0; ChatSender.scriptedMessagesEnabled && i < chatMessages.size(); ++i )
+			{
+				ChatMessage message = (ChatMessage) chatMessages.get( i );
+
+				String recipient = message.getRecipient();
+
+				ChatSender.scriptedMessagesEnabled = recipient == null || recipient.equals( "/clan" ) || recipient.equals( "/hobopolis" ) || recipient.equals( "/slimetube" );
+			}
+		}
+
+		return request.responseText;
+	}
+
+	public static final List sendRequest( ChatRequest request )
+	{
 		RequestThread.postRequest( request );
 
 		if ( request.responseText == null )
 		{
-			return "";
+			return Collections.EMPTY_LIST;
 		}
+
+		String graf = request.getGraf();
 
 		List chatMessages = new ArrayList();
 
@@ -142,16 +213,20 @@ public class ChatSender
 
 		ChatManager.processMessages( chatMessages );
 
-		return request.responseText;
+		return chatMessages;
 	}
 
-	private static final String getGraf( String contact, String message )
+	private static final List getGrafs( String contact, String message )
 	{
+		List grafs = new ArrayList();
+
 		if ( message.startsWith( "/do " ) || message.startsWith( "/run " ) || message.startsWith( "/cli " ) )
 		{
-			return message;
+			grafs.add( message );
+
+			return grafs;
 		}
-		
+
 		Matcher privateMessageMatcher = ChatSender.PRIVATE_MESSAGE_PATTERN.matcher( message );
 
 		if ( privateMessageMatcher.find() )
@@ -204,13 +279,14 @@ public class ChatSender
 					splitPos = maxPiece;
 				}
 
-				ChatSender.sendMessage( contact, command + " " + message.substring( 0, splitPos ) + suffix );
+				grafs.addAll( ChatSender.getGrafs( contact, command + " " + message.substring( 0, splitPos ) + suffix ));
 
 				message = prefix + message.substring( splitPos + splitter.length() );
 			}
 
-			ChatSender.sendMessage( contact, command + " " + message );
-			return null;
+			grafs.addAll( ChatSender.getGrafs( contact, command + " " + message ) );
+
+			return grafs;
 		}
 
 		String contactId = "[none]";
@@ -228,8 +304,9 @@ public class ChatSender
 			// Exiting chat should dispose.  KoLmafia should send the
 			// message to be server-friendly.
 
-			net.sourceforge.kolmafia.chat.ChatManager.dispose();
-			return "";
+			ChatManager.dispose();
+
+			return grafs;
 		}
 
 		if ( contactId.startsWith( "[" ) )
@@ -289,8 +366,10 @@ public class ChatSender
 				return null;
 			}
 		}
-		
-		return graf;
+
+		grafs.add( graf );
+
+		return grafs;
 	}
 
 	private static final boolean executeCommand( String graf )
@@ -304,7 +383,7 @@ public class ChatSender
 		{
 			return false;
 		}
-		
+
 		int spaceIndex = graf.indexOf( " " );
 
 		String command = graf.substring( spaceIndex ).trim();
