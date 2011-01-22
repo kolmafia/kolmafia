@@ -3,13 +3,10 @@
 	<!-- ========================================== -->
 	<!--  set the global properties for this build  -->
 	<!-- ========================================== -->
-	<property file="build.properties"/>
-	<property file="default.properties"/>
 
-
-	<!-- classpath -->
-	<path id="classpath.compile">
-	</path>
+	<property file="build.properties" />
+	<property file="default.properties" />
+	<property environment="env" />
 
 	<!-- ========================================== -->
 	<!--  create directories used by other targets  -->
@@ -17,9 +14,9 @@
 
 	<target name="init">
 
-		<tstamp/>
-		<mkdir dir="${build}"/>
-		<mkdir dir="${dist}"/>
+		<tstamp />
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist}" />
 
 	</target>
 
@@ -30,7 +27,6 @@
 	<target name="jikeshome" if="env.JIKES_HOME">
 
 		<property name="build.compiler" value="jikes" />
-		<echo message="Set compiler: ${env.JIKES_HOME}" />
 
 	</target>
 
@@ -42,11 +38,13 @@
 	<target name="javahome" if="env.JAVA_HOME">
 
 		<exec executable="java" failifexecutionfails="false">
-			<arg value="-version"/>
+			<arg value="-version" />
 		</exec>
 
-	</target>
+		<property name="build.compiler" value="modern" />
 
+		</target>
+	
 
 	<!-- ================================== -->
 	<!--  update files from the repository  -->
@@ -55,8 +53,8 @@
 	<target name="update">
 
 		<exec executable="svn" failifexecutionfails="false">
-			<arg value="update"/>
-			<arg value="${root}"/>
+			<arg value="update" />
+			<arg value="${root}" />
 		</exec>
 
 	</target>
@@ -69,12 +67,12 @@
 	<target name="version">
 
 		<exec executable="svnversion" outputproperty="revision" failifexecutionfails="false">
-			<arg value="-n"/>
-			<arg value="${root}"/>
+			<arg value="-n" />
+			<arg value="${root}" />
 		</exec>
 
-		<property name="revision" value="0"/>
-		<echo message="Current revision: ${revision}"/>
+		<property name="revision" value="0" />
+		<echo message="Current revision: ${revision}" />
 
 	</target>
 
@@ -85,19 +83,22 @@
 
 	<target name="clean">
 
-		<delete dir="${build}" failonerror="false"/>
-		<delete dir="${docs}" failonerror="false"/>
+		<delete dir="${build}" failonerror="false" />
+		<delete dir="${docs}" failonerror="false" />
 
-	        <!-- Really important not to follow the symlink to
-	        /Applications and delete it...-->
+		<!--
+		Really important not to follow the symlink to
+		/Applications and delete it...
+		-->
 
 		<symlink action="delete" link="${dist}/${version-name}/Applications" failonerror="false" />
-	        <delete dir="${appfile}" failonerror="false" />
+		
+		<delete dir="${appfile}" failonerror="false" />
 
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" />
 		</delete>
-                
+
 	</target>
 
 
@@ -107,17 +108,17 @@
 
 	<target name="start">
 
-		<delete dir="${build}/net/sourceforge/kolmafia" failonerror="false"/>
-		<delete dir="${docs}" failonerror="false"/>
-                <delete dir="${appfile}" failonerror="false"/>
+		<delete dir="${build}/net/sourceforge/kolmafia" failonerror="false" />
+		<delete dir="${docs}" failonerror="false" />
+		<delete dir="${appfile}" failonerror="false" />
 
 		<delete failonerror="false">
 			<fileset dir="${dist}">
-				<include name="${ant.project.name}*"/>
+				<include name="${ant.project.name}*" />
 			</fileset>
 		</delete>
 
-		<antcall target="init"/>
+		<antcall target="init" />
 
 	</target>
 
@@ -128,23 +129,29 @@
 
 	<target name="compile" depends="init,jikeshome,javahome">
 
-		<javac srcdir="${src}" destdir="${build}"
-                       source="1.4" 
-		       failonerror="false" debug="on"
-		       debuglevel="lines,vars,source" deprecation="off"
-		       nowarn="on" includeantruntime="false">
-			<classpath refid="classpath.compile"/>
-                </javac>
+		<echo message="Using ${build.compiler} compiler" />
+	
+		<javac
+			compiler="${build.compiler}"
+			source="1.4"
+			srcdir="${src}"
+			destdir="${build}"
+			failonerror="false"
+			debug="on"
+			debuglevel="lines,vars,source"
+			deprecation="off"
+			nowarn="on"
+			includeantruntime="false" />
 
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${src}">
-				<exclude name="**/*.java"/>
+				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
 
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${lib}">
-				<exclude name="**/*.jar"/>
+				<exclude name="**/*.jar" />
 			</fileset>
 		</copy>
 
@@ -158,8 +165,8 @@
 	<target name="tar" depends="init">
 
 		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
-			<exclude name="build/**"/>
-			<exclude name="dist/**"/>
+			<exclude name="build/**" />
+			<exclude name="dist/**" />
 		</tar>
 
 	</target>
@@ -171,19 +178,28 @@
 
 	<target name="jar" depends="init,version">
 
-		<replace file="${KoLConstants}"
-                         token="REVISION = null" value='REVISION = "${revision}"'/>
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = null"
+			value="REVISION = &quot;${revision}&quot;" />
 
-		<antcall target="compile"/>
+		<antcall target="compile" />
 
-		<replace file="${KoLConstants}"
-                         token='REVISION = "${revision}"' value="REVISION = null"/>
-		<jar destfile="${jarfile}"
-                     basedir="${build}"
-                     update="true" index="true" compress="true">
-		  <manifest>
-		    <attribute name="Main-Class" value="${main}"/>
-		  </manifest>
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = &quot;${revision}&quot;"
+			value="REVISION = null" />
+
+		<jar
+			destfile="${jarfile}"
+			basedir="${build}"
+			update="true"
+			index="true"
+			compress="true">
+
+			<manifest>
+				<attribute name="Main-Class" value="${main}" />
+			</manifest>
 		</jar>
 
 	</target>
@@ -196,13 +212,13 @@
 	<target name="jsmooth" depends="init,update,jar">
 
 		<move file="${win.jsmoothfile}" tofile="${win.tmp.jsmoothfile}" />
-		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.exe" value='${exefile}'/>
-		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.jar" value='${jarfile}'/>
+		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.exe" value="${exefile}" />
+		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.jar" value="${jarfile}" />
 
 		<taskdef name="jsmooth" classname="net.charabia.jsmoothgen.ant.JSmoothGen" classpath="${util}/windows/jsmoothgen-ant.jar" />
 
-		<jsmooth project="${win.tmp.jsmoothfile}" skeletonroot="${util}/windows/skeletons"/>
-        <delete file="${win.tmp.jsmoothfile}"/>
+		<jsmooth project="${win.tmp.jsmoothfile}" skeletonroot="${util}/windows/skeletons" />
+        <delete file="${win.tmp.jsmoothfile}" />
 
 	</target>
 
@@ -225,14 +241,14 @@
 
 	<target name="dmg" depends="init,update,jar,jarbundler">
 
-		<mkdir dir="${dist}/${version-name}"/>
+		<mkdir dir="${dist}/${version-name}" />
 
 		<symlink action="single" link="${dist}/${version-name}" resource="/Applications" failonerror="false" />
 		<exec executable="cp" dir="${dist}">
 			<arg line="-a ${basedir}/${appfile} ${basedir}/${dist}/${version-name}/" />
 		</exec>
  
-	        <delete file="${basedir}/${dmgfile}"/>
+	        <delete file="${basedir}/${dmgfile}" />
 		<exec executable="hdiutil" dir="${dist}">
 			<arg line="create ${basedir}/${dmgfile} -srcfolder ${basedir}/${dist}/${version-name} -volname ${version-name}" />
 		</exec>
@@ -251,13 +267,13 @@
 		<taskdef name="deb" classname="com.googlecode.ant_deb_task.Deb" classpath="${util}/debian/ant-deb.jar" />
 
 		<deb todir="${dist}" package="kolmafia" priority="optional" section="games" depends="sun-java6-jre">
-			<version upstream="${revision}" debian="${revision}"/>
-			<maintainer name="Veracity" email="veracity@hambo.com"/>
+			<version upstream="${revision}" debian="${revision}" />
+			<maintainer name="Veracity" email="veracity@hambo.com" />
 			<description synopsis="${version.synopsis}">${version.synopsis}</description>
-			<tarfileset file="${jarfile}" prefix="usr/lib" filemode="755"/>
-			<tarfileset file="${build}/kolmafia.desktop" prefix="usr/share/applications"/>
-			<tarfileset file="util/debian/kol.xpm" prefix="usr/share/pixmaps"/>
-			<tarfileset file="util/debian/kol" prefix="usr/bin" filemode="755"/>
+			<tarfileset file="${jarfile}" prefix="usr/lib" filemode="755" />
+			<tarfileset file="${build}/kolmafia.desktop" prefix="usr/share/applications" />
+			<tarfileset file="util/debian/kol.xpm" prefix="usr/share/pixmaps" />
+			<tarfileset file="util/debian/kol" prefix="usr/bin" filemode="755" />
 		</deb>
 
         </target>
@@ -280,13 +296,17 @@
 
 	<target name="debug" depends="start,version">
 
-		<replace file="${KoLConstants}"
-                         token="RELEASED = true" value='RELEASED = false'/>
+		<replace
+			file="${KoLConstants}"
+			token="RELEASED = true"
+			value="RELEASED = false" />
 
-		<antcall target="jar"/>
+		<antcall target="jar" />
 
-		<replace file="${KoLConstants}"
-                         token="RELEASED = false" value='RELEASED = true'/>
+		<replace
+			file="${KoLConstants}"
+			token="RELEASED = false"
+			value="RELEASED = true" />
 
 	</target>
 
@@ -297,24 +317,38 @@
 
 	<target name="daily" depends="clean,init,update,version">
 
-		<replace file="${KoLConstants}"
-                         token="REVISION = null" value='REVISION = "${revision}"'/>
-		<replace file="${KoLConstants}"
-                         token="RELEASED = true" value='RELEASED = false'/>
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = null"
+			value="REVISION = &quot;${revision}&quot;" />
 
-		<antcall target="compile"/>
+		<replace
+			file="${KoLConstants}"
+			token="RELEASED = true"
+			value="RELEASED = false" />
 
-		<replace file="${KoLConstants}"
-                         token='REVISION = "${revision}"' value="REVISION = null"/>
-		<replace file="${KoLConstants}"
-                         token="RELEASED = false" value='RELEASED = true'/>
+		<antcall target="compile" />
 
-		<jar destfile="${dist}/${ant.project.name}-${revision}.jar"
-		     basedir="${build}"
-		     update="true" index="true" compress="true">
-		  <manifest>
-		    <attribute name="Main-Class" value="${main}"/>
-		  </manifest>
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = &quot;${revision}&quot;"
+			value="REVISION = null" />
+
+		<replace
+			file="${KoLConstants}"
+			token="RELEASED = false"
+			value="RELEASED = true" />
+
+		<jar
+			destfile="${dist}/${ant.project.name}-${revision}.jar"
+			basedir="${build}"
+			update="true"
+			index="true"
+			compress="true">
+
+			<manifest>
+				<attribute name="Main-Class" value="${main}" />
+			</manifest>
 		</jar>
 
 	</target>
@@ -326,15 +360,18 @@
 
 	<target name="set.dist.properties">
 
-		<replaceregexp file="${KoLConstants}"
-               		match="${version.date.pattern}"
+		<replaceregexp
+			file="${KoLConstants}"
+			match="${version.date.pattern}"
 			replace="${version.date}" />
 
-		<replaceregexp file="${KoLConstants}"
+		<replaceregexp
+			file="${KoLConstants}"
 			match="${version.name.pattern}"
 			replace="${version.name}" />
 
-	        <replaceregexp file="${KoLConstants}"
+		<replaceregexp
+			file="${KoLConstants}"
 			match="${version.rev.pattern}"
 			replace="${version.rev}" />
 
@@ -344,7 +381,7 @@
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist" depends="clean,init,update, tar, jar, jsmooth, dmg">
+	<target name="dist" depends="clean,init,update,tar,jar,jsmooth,dmg">
 	</target>
 
 
@@ -359,19 +396,21 @@
 	</target>
 
 
-	<!-- ============================================== -->
+	<!-- ============================================= -->
 	<!--  generates the release notes for the archive  -->
-	<!-- ==================================================== -->
+	<!-- ============================================= -->
 
 	<target name="notes" depends="jar">
-		<!-- Yeah, this looked easy.  I just have to get
-		${logfile} to match the ReleaseNotes code...
-                Not tonight
+		<!--
+		Yeah, this looked easy.
+		I just have to get ${logfile} to match the ReleaseNotes code...
+		Not tonight
+
 		<exec executable="svn" failifexecutionfails="false" output="${logfile}">
-			<arg value="log"/>
-			<arg value="-r"/>
-			<arg value="${svn.revision.base}:HEAD"/>
-			<arg value="${root}"/>
+			<arg value="log" />
+			<arg value="-r" />
+			<arg value="${svn.revision.base}:HEAD" />
+			<arg value="${root}" />
 		</exec>
 		-->
 		<java fork="true" classname="net.sourceforge.kolmafia.utilities.ReleaseNotes" classpath="${jarfile}" dir="${dist}" />
@@ -384,16 +423,16 @@
 
 	<target name="javadoc" depends="init">
 
-		<mkdir dir="${docs}"/>
-		<mkdir dir="${docs}/api"/>
+		<mkdir dir="${docs}" />
+		<mkdir dir="${docs}/api" />
 
 		<javadoc sourcepath="${src}" destdir="${docs}" packagenames="*">
 
-			<link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
+			<link href="http://download.oracle.com/javase/1.4.2/docs/api/" />
 
 			<classpath>
-				<pathelement location="${lib}"/>
-				<pathelement location="${build}"/>
+				<pathelement location="${lib}" />
+				<pathelement location="${build}" />
 			</classpath>
 
 		</javadoc>
