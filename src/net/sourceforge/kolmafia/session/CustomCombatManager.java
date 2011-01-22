@@ -37,7 +37,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -47,13 +46,13 @@ import java.util.regex.Pattern;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -69,7 +68,6 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 public abstract class CustomCombatManager
 {
 	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack" );
-
 	public static final Pattern TRY_TO_RUN_AWAY_PATTERN = Pattern.compile( "run away if (\\d+)% chance of being free" );
 
 	private static String[] keys = new String[ 0 ];
@@ -332,76 +330,6 @@ public abstract class CustomCombatManager
 		RequestThread.postRequest( CustomCombatManager.AUTO_ATTACKER );
 	}
 
-	public static final void setAutoAttack( String attackName )
-	{
-		if ( attackName.equals( "" ) )
-		{
-			return;
-		}
-
-		int skillId;
-
-		if ( attackName.indexOf( "disabled" ) != -1 )
-		{
-			skillId = 0;
-		}
-		else if ( attackName.indexOf( "attack" ) != -1 || attackName.indexOf( "default" ) != -1 )
-		{
-			skillId = 1;
-		}
-		else if ( !Character.isDigit( attackName.charAt( 0 ) ) )
-		{
-			List combatSkills = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
-			String skillName = SkillDatabase.getSkillName( attackName, combatSkills );
-
-			if ( skillName == null )
-			{
-				return;
-			}
-
-			skillId = SkillDatabase.getSkillId( skillName );
-		}
-		else
-		{
-			skillId = StringUtilities.parseInt( attackName );
-		}
-
-		CustomCombatManager.setAutoAttack( skillId );
-	}
-
-	public static final void setAutoAttack( int skillId )
-	{
-		if ( skillId != 1 && ( skillId < 1000 || skillId > 7000 ) )
-		{
-			skillId = 0;
-		}
-
-		String skillName;
-		switch ( skillId )
-		{
-		case 0:
-			skillName = "disabled";
-			break;
-		case 1:
-			skillName = "attack with weapon";
-			break;
-		default:
-			skillName = SkillDatabase.getSkillName( skillId ).toLowerCase();
-			break;
-		}
-
-		if ( Preferences.getInteger( "defaultAutoAttack" ) != skillId )
-		{
-			RequestLogger.printLine( "Changing auto-attack: " + skillName );
-			Preferences.setInteger( "defaultAutoAttack", skillId );
-
-			CustomCombatManager.AUTO_ATTACKER.addFormField( "whichattack", String.valueOf( skillId ) );
-			RequestThread.postRequest( CustomCombatManager.AUTO_ATTACKER );
-
-			Preferences.setBoolean( "setAutoAttack", skillId != 0 );
-		}
-	}
-
 	public static final void setDefaultAction( final String actionList )
 	{
 		CombatSettingNode currentList = (CombatSettingNode) CustomCombatManager.reference.get( "default" );
@@ -424,26 +352,6 @@ public abstract class CustomCombatManager
 		}
 
 		return nodeList;
-	}
-
-	/**
-	 * Ensures that the given property exists, and if it does not exist, initializes it to the given value.
-	 */
-
-	private static final void ensureProperty( final String key, final String defaultValue )
-	{
-		if ( !CustomCombatManager.reference.containsKey( key ) )
-		{
-			CombatSettingNode defaultList = new CombatSettingNode( key );
-			String[] elements = defaultValue.split( "\\s*;\\s*" );
-			for ( int i = 0; i < elements.length; ++i )
-			{
-				defaultList.add( new CombatActionNode( i + 1, elements[ i ] ) );
-			}
-
-			CustomCombatManager.reference.put( key, defaultList );
-			CustomCombatManager.root.add( defaultList );
-		}
 	}
 
 	/**

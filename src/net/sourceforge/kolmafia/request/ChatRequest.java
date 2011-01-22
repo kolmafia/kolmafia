@@ -38,6 +38,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 public class ChatRequest
 	extends GenericRequest
 {
+	private String graf;
+
 	/**
 	 * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP file to indicate
 	 * where you left off. Note that this constructor is only available to the <code>ChatRequest</code>; this is done
@@ -48,12 +50,14 @@ public class ChatRequest
 	{
 		super( "newchatmessages.php" );
 
+		this.graf = "";
+
 		this.addFormField( "lasttime", String.valueOf( lastSeen ) );
 	}
 
 	/**
 	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
-	 * 
+	 *
 	 * @param message The message to be sent
 	 */
 
@@ -61,8 +65,15 @@ public class ChatRequest
 	{
 		super( "submitnewchat.php" );
 
+		this.graf = graf;
+
 		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
 		this.addFormField( "graf", graf );
+	}
+
+	public String getGraf()
+	{
+		return this.graf;
 	}
 
 	protected boolean retryOnTimeout()

@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.persistence.Aliases;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
@@ -330,6 +331,12 @@ public class KoLmafiaCLI
 			String trimmed = parameters.trim();
 			if ( trimmed.length() == 0 )
 			{
+				continue;
+			}
+
+			if ( trimmed.startsWith( "/" ) )
+			{
+				ChatSender.executeMacro( trimmed );
 				continue;
 			}
 

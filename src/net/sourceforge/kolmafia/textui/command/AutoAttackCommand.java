@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 
 public class AutoAttackCommand
@@ -43,9 +44,22 @@ public class AutoAttackCommand
 		this.usage = " <skill> - set default attack method.";
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void run( final String cmd, String parameters )
 	{
-		CustomCombatManager.setAutoAttack( parameters );
+		if ( parameters.equalsIgnoreCase( "none" ) )
+		{
+			CustomCombatManager.removeAutoAttack();
+			return;
+		}
+
+		parameters = parameters.trim();
+
+		if ( parameters.startsWith( "/" ) )
+		{
+			return;
+		}
+
+		ChatSender.executeMacro( "/aa " + parameters );
 	}
 
 }

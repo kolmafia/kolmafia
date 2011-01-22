@@ -891,6 +891,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "is_online", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "chat_macro", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "chat_clan", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
@@ -1095,7 +1098,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
 		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
-		
+
 		Type itemDropRecArray = new AggregateType( itemDropRec, 0 );
 
 		params = new Type[] {};
@@ -1103,7 +1106,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
 		functions.add( new LibraryFunction( "item_drops_array", itemDropRecArray, params ) );
-		
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "meat_drop", DataTypes.INT_TYPE, params ) );
 
@@ -1165,9 +1168,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "stat_modifier", DataTypes.STAT_TYPE, params ) );
-		
+
 		// Quest status inquiries
-		
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "galaktik_cures_discounted", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -1241,9 +1244,9 @@ public abstract class RuntimeLibrary
 	{
 		return DataTypes.makeBooleanValue( KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() );
 	}
-	
+
 	// Support for batching of server requests
-	
+
 	private static void batchCommand( String cmd, String params )
 	{
 		RuntimeLibrary.batchCommand( cmd, null, params );
@@ -1331,7 +1334,7 @@ public abstract class RuntimeLibrary
 			Iterator i = batched.entrySet().iterator();
 			while ( i.hasNext() )
 			{
-				Map.Entry e = (Map.Entry) i.next();	
+				Map.Entry e = (Map.Entry) i.next();
 				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( (String) e.getKey(),
 					((StringBuffer) e.getValue()).toString() );
 				if ( !KoLmafia.permitsContinue() ) break;
@@ -1546,7 +1549,7 @@ public abstract class RuntimeLibrary
 		{
 			return value;
 		}
-		
+
 		Iterator i = KoLmafiaASH.relayRequest.getFormFields().iterator();
 		while ( i.hasNext() )
 		{
@@ -1557,7 +1560,7 @@ public abstract class RuntimeLibrary
 			if ( pieces.length > 1 )
 			{
 				try
-				{	
+				{
 					String decoded = URLDecoder.decode( pieces[ 1 ], "UTF-8" );
 					keyval = new Value( decoded );
 				}
@@ -1854,7 +1857,7 @@ public abstract class RuntimeLibrary
 	{
 		return DataTypes.parseElementValue( value.toString(), true );
 	}
-	
+
 	public static Value to_plural( final Value item ) {
 		return new Value( ItemDatabase.getPluralName( item.intValue() ) );
 	}
@@ -1877,7 +1880,7 @@ public abstract class RuntimeLibrary
 	{
 		return new Value( HolidayDatabase.getCalendarDayAsString( HolidayDatabase.getCalendarDay( new Date() ) ) );
 	}
- 
+
 	public static Value gameday_to_int()
 	{
 		return new Value( HolidayDatabase.getCalendarDay( new Date() ) );
@@ -2005,7 +2008,7 @@ public abstract class RuntimeLibrary
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "adventure", count + " " + loc );
 		return RuntimeLibrary.continueValue();
 	}
-	
+
 	public static Value adventure( final Value countValue, final Value loc, final Value filterFunc )
 	{
 		String filter = filterFunc.toString();
@@ -2066,7 +2069,7 @@ public abstract class RuntimeLibrary
 			FightRequest.filterInterp = null;
 			FightRequest.macroOverride = null;
 			adventure.overrideAdventuresUsed( -1 );
-		}		
+		}
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2075,7 +2078,7 @@ public abstract class RuntimeLibrary
 		return new Value( CustomCombatManager.getSetting( FightRequest.getCurrentKey(),
 			index.intValue() ) );
 	}
-	
+
 	public static Value add_item_condition( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
@@ -2118,7 +2121,7 @@ public abstract class RuntimeLibrary
 
 		AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6" 
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6"
 			+ item.intValue() + "@" + limit.intValue() );
 		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
 	}
@@ -2424,7 +2427,7 @@ public abstract class RuntimeLibrary
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 		String which = type.toString();
-		
+
 		if ( which.equals( "zap" ) )
 		{
 			String[] zapgroup = ZapRequest.getZapGroup( item.intValue() );
@@ -2574,7 +2577,7 @@ public abstract class RuntimeLibrary
 		{
 			return value;	// can't make it
 		}
-		
+
 		AdventureResult[] data = ConcoctionDatabase.getIngredients( item );
 		for ( int i = 0; i < data.length; ++i )
 		{
@@ -3553,7 +3556,7 @@ public abstract class RuntimeLibrary
 		return matcher;
 	}
 
-	public static Value replace_string( final Value source, 
+	public static Value replace_string( final Value source,
 					    final Value searchValue,
 					    final Value replaceValue )
 	{
@@ -3746,56 +3749,45 @@ public abstract class RuntimeLibrary
 		}
 		return new Value( e.eval() );
 	}
-	
+
 	public static Value is_online( final Value arg )
 	{
 		String name = arg.toString();
 		return DataTypes.makeBooleanValue( KoLmafia.isPlayerOnline( name ) );
 	}
 
+	public static Value chat_macro( final Value macroValue )
+	{
+		String macro = macroValue.toString().trim();
+
+		ChatSender.executeMacro( macro );
+
+		return DataTypes.VOID_VALUE;
+	}
+
 	public static Value chat_clan( final Value messageValue )
 	{
-		String message = messageValue.toString();
-		message = message.trim();
-		if ( message.equals( "" ) || message.startsWith( "/" ) )
-		{
-			return DataTypes.VOID_VALUE;
-		}
-		return RuntimeLibrary.chat_clan( message, "/clan" );
+		String channel = "/clan";
+		String message = messageValue.toString().trim();
+
+		ChatSender.sendMessage( channel, message, true );
+		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value chat_clan( final Value messageValue, final Value recipientValue )
 	{
-		String message = messageValue.toString();
-		message = message.trim();
-		String recipient = recipientValue.toString();
+		String channel = "/" + recipientValue.toString().trim();
+		String message = messageValue.toString().trim();
 
-		if ( !( recipient.equals( "clan" ) || recipient.equals( "hobopolis" ) || recipient.equals( "slimetube" ) ) )
-		{
-			return DataTypes.VOID_VALUE;
-		}
-
-		recipient = "/" + recipient;
-
-		if ( message.equals( "" ) || message.startsWith( "/" ) )
-		{
-			return DataTypes.VOID_VALUE;
-		}
-
-		return RuntimeLibrary.chat_clan( message, recipient );
-	}
-	
-	public static Value chat_clan( String message, String channel )
-	{
-		ChatSender.sendMessage( channel, message );
+		ChatSender.sendMessage( channel, message, true );
 		return DataTypes.VOID_VALUE;
 	}
-	
+
 	public static Value chat_private( final Value recipientValue, final Value messageValue )
 	{
 		String recipient = recipientValue.toString();
 
-		if ( !ChatManager.isValidChatReplyRecipient( recipient ) && !ClanManager.isMember( recipient ) )
+		if ( !recipient.equals( KoLCharacter.getUserName() ) && !ChatManager.isValidChatReplyRecipient( recipient ) && !ClanManager.isMember( recipient ) )
 		{
 			return DataTypes.VOID_VALUE;
 		}
@@ -3952,7 +3944,7 @@ public abstract class RuntimeLibrary
 			"set", name.toString() + "=" + value.toString() );
 		return DataTypes.VOID_VALUE;
 	}
-	
+
 	// Functions for aggregates.
 
 	public static Value count( final Value arg )
@@ -4142,7 +4134,7 @@ public abstract class RuntimeLibrary
 		AggregateType type = new AggregateType( DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE );
 		MapValue value = new MapValue( type );
 		if ( data == null ) return value;
-		
+
 		float combatFactor = data.areaCombatPercent();
 		value.aset( DataTypes.MONSTER_INIT,
 			new Value( data.combats() < 0 ? -1.0F : 100.0f - combatFactor ) );
@@ -4402,7 +4394,7 @@ public abstract class RuntimeLibrary
 
 		return value;
 	}
-	
+
 	public static Value item_drops_array()
 	{
 		return item_drops_array( FightRequest.getLastMonster() );
@@ -4412,7 +4404,7 @@ public abstract class RuntimeLibrary
 	{
 		return item_drops_array( (Monster) arg.rawValue() );
 	}
-	
+
 	public static Value item_drops_array( Monster monster )
 	{
 		List data = monster == null ? new ArrayList() : monster.getItems();
@@ -4425,7 +4417,7 @@ public abstract class RuntimeLibrary
 			int count = result.getCount();
 			char dropType = (char) (count & 0xFFFF);
 			RecordValue rec = (RecordValue) value.aref( new Value( i ) );
-			
+
 			rec.aset( 0, DataTypes.parseItemValue( result.getName(), true ), null );
 			rec.aset( 1, new Value( count >> 16 ), null );
 			if ( dropType < '1' || dropType > '9' )
@@ -4433,7 +4425,7 @@ public abstract class RuntimeLibrary
 				rec.aset( 2, new Value( String.valueOf( dropType ) ), null );
 			}
 		}
-		
+
 		return value;
 	}
 
@@ -4444,10 +4436,10 @@ public abstract class RuntimeLibrary
 		{
 			return new Value( -1 );
 		}
-		
+
 		return new Value( (monster.getMinMeat() +monster.getMaxMeat()) / 2 );
 	}
-	
+
 	public static Value meat_drop( final Value arg )
 	{
 		Monster monster = (Monster) arg.rawValue();
@@ -4455,7 +4447,7 @@ public abstract class RuntimeLibrary
 		{
 			return new Value( -1 );
 		}
-		
+
 		return new Value( (monster.getMinMeat() +monster.getMaxMeat()) / 2 );
 	}
 
@@ -4488,7 +4480,7 @@ public abstract class RuntimeLibrary
 		String mod = modifier.toString();
 		int w = Math.max( 1, weight.intValue() );
 		AdventureResult it = new AdventureResult( item.intValue(), 1 );
-		
+
 		return new Value( Modifiers.getNumericModifier( fam, mod, w, it ) );
 	}
 
