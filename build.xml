@@ -35,7 +35,7 @@
 	<!--  reports the current Java version  -->
 	<!-- ================================== -->
 
-	<target name="javahome" if="env.JAVA_HOME">
+	<target name="javahome">
 
 		<exec executable="java" failifexecutionfails="false">
 			<arg value="-version" />
@@ -43,7 +43,7 @@
 
 		<property name="build.compiler" value="modern" />
 
-		</target>
+	</target>
 	
 
 	<!-- ================================== -->
