@@ -93,6 +93,7 @@ public interface KoLConstants
 
 	public static final SimpleDateFormat DAILY_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
 	public static final SimpleDateFormat WEEKLY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W", Locale.US );
+	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat( "HH:mm:ss z", Locale.US );
 
 	// Generic constants which indicate null values.  Used in
 	// order to preserve memory.
