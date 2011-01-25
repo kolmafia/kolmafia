@@ -4670,15 +4670,15 @@
 4664	144974866	Ellsbury's skull
 4665	276974436	hot plate	hot plates
 4666	727568671	imp unity ring	imp unity rings
-4667
-4668
-4669
-4670
-4671
-4672
-4673
-4674
-4675
+4667	933430014	Victor, the Insult Comic Hellhound Puppet
+4668	702710615	observational glasses
+4669	221836123	hilarious comedy prop
+4670	162713376	beer-scented teddy bear
+4671	263662454	booze-soaked cherry
+4672	612319244	comfy pillow
+4673	498535509	giant marshmallow
+4674	965454799	sponge cake
+4675	242183225	gin-soaked blotter paper
 4676	464570927	tree-holed coin
 4677	819446225	unearthed volcanic meteoroid
 4678	952903584	unearthed potsherd
@@ -4701,8 +4701,8 @@
 4695	804578401	affordable teak perch
 4696	428796706	Greatest American Pants	pairs of Greatest American Pants
 4697	222160625	fossilized necklace
-4698
-4699
+4698	559717153	imp air
+4699	176406318	bus pass
 4700	558351756	fossilized spike	fossilized spikes
 4701	643609482	waterlogged crate	waterlogged crates
 4702	557222985	archaeologing shovel	archaeologing shovels

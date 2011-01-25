@@ -220,3 +220,7 @@ WhiteWed	adventure=88	true	Future Market Square
 WhiteWed	adventure=89	true	Mall of the Future
 WhiteWed	adventure=90	true	Future Wrong Side of the Tracks
 WhiteWed	adventure=59	true	Icy Peak of the Past
+Pandamonium	adventure=248	true	Pandamonium Slums
+Pandamonium	adventure=242	true	Belilafs Comedy Club
+Pandamonium	adventure=243	true	Hey Deze Arena
+
