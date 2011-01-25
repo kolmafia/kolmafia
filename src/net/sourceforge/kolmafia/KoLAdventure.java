@@ -945,20 +945,22 @@ public class KoLAdventure
 			return;
 		}
 
-		// If the player is pickpocketing, they probably do not want
-		// their auto-attack reset to an attack.
-
-		if ( KoLCharacter.isMoxieClass() && Preferences.getBoolean( "autoSteal" ) )
+		boolean autoEntangle = Preferences.getBoolean( "autoEntangle" );
+		boolean autoEntangleActive = KoLCharacter.getAutoAttackAction().equals( "3004" );
+		
+		if ( autoEntangle != autoEntangleActive )
 		{
-			CustomCombatManager.removeAutoAttack();
-			return;
-		}
-
-		if ( Preferences.getBoolean( "autoEntangle" ) && !KoLCharacter.getAutoAttackAction().equals( "3004" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", "Entangling Noodles" );
-			KoLCharacter.setAutoAttackAction( "3004" );
-			return;
+			if ( autoEntangle )
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", "Entangling Noodles" );
+				KoLCharacter.setAutoAttackAction( "3004" );
+				return;
+			}
+			else
+			{
+				CustomCombatManager.removeAutoAttack();
+				return;
+			}
 		}
 	}
 
