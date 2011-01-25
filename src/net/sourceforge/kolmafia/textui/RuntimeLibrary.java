@@ -403,6 +403,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "overdrink", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "last_item_message", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -660,6 +663,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.SKILL_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "use_skill", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "last_skill_message", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "attack", DataTypes.BUFFER_TYPE, params ) );
@@ -2215,6 +2221,11 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
+	public static Value last_item_message()
+	{
+		return new Value( UseItemRequest.lastUpdate );
+	}
+
 	public static Value put_closet( final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
@@ -2947,7 +2958,7 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + skill.toString() );
-		return new Value( UseSkillRequest.lastUpdate.equals( "" ) );
+		return UseSkillRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
 	public static Value use_skill( final Value skill )
@@ -2986,7 +2997,12 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + skill.toString() + " on " + target );
-		return new Value( UseSkillRequest.lastUpdate.equals( "" ) );
+		return UseSkillRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
+	}
+
+	public static Value last_skill_message()
+	{
+		return new Value( UseSkillRequest.lastUpdate );
 	}
 
 	public static Value attack()
