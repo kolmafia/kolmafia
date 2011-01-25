@@ -4339,7 +4339,7 @@
 4330	candy kneecapping stick	food, combat, candy	all	0
 4331	licorice garrote	food, combat, candy	all	0
 4332	candy knuckles	weapon, candy	all	0
-4333	jawbruiser	food, candy, curse	all	0
+4333	jawbruiser	food, curse, candy	all	0
 4334	fancy chocolate car	usable, candy	all	0
 4335	tiny plastic 11 Dealer	accessory	all	0
 4336	tiny plastic Crimbo Casino	accessory	all	0
@@ -4673,15 +4673,15 @@
 4664	Ellsbury's skull	offhand	all	40
 4665	hot plate	offhand	all	85
 4666	imp unity ring	accessory	all	85
-4667
-4668
-4669
-4670
-4671
-4672
-4673
-4674
-4675
+4667	Victor, the Insult Comic Hellhound Puppet	offhand	none	0
+4668	observational glasses	accessory	none	0
+4669	hilarious comedy prop	weapon	none	0
+4670	beer-scented teddy bear	usable	display	50
+4671	booze-soaked cherry	drink	display	40
+4672	comfy pillow	usable	display	50
+4673	giant marshmallow	food	display	30
+4674	sponge cake	food	display	30
+4675	gin-soaked blotter paper	drink	display	40
 4676	tree-holed coin	none	none	0
 4677	unearthed volcanic meteoroid	reusable	all	0
 4678	unearthed potsherd	none	all	0
@@ -4704,8 +4704,8 @@
 4695	affordable teak perch	familiar	all	0
 4696	Greatest American Pants	pants	all	0
 4697	fossilized necklace	accessory	display	0
-4698
-4699
+4698	imp air	none, combat	all	40
+4699	bus pass	none, combat	all	25
 4700	fossilized spike	none	all	0
 4701	waterlogged crate	none	all	0
 4702	archaeologing shovel	weapon	display	50

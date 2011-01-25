@@ -729,6 +729,7 @@ happiness	165	Mox: 67	1-handed pistol
 heavy leather-bound tome	150	Mus: 60	1-handed club
 heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
+hilarious comedy prop	10	Mus: 0	1-handed club
 hippo whip	20	Mus: 0	1-handed whip
 hippy bongo	70	Mox: 20	1-handed drum
 homoerotic frat-paddle	70	Mus: 20	1-handed club
@@ -983,6 +984,7 @@ Spanish fly trap	0	none
 The Spirit of Crimbo	0	none
 Tiki lighter	0	none
 Tuesday's ruby	0	Mys: 45
+Victor, the Insult Comic Hellhound Puppet	0	none
 Wand of Oscus	0	Mys: 200
 Zombo's shield	240	Mus: 200	shield
 adhesive tape dolly	0	none
@@ -1217,6 +1219,7 @@ Boss Bat bling	0	Mys: 17
 Brimstone Bracelet	0	Mys: 30
 Brimstone Brooch	0	Mys: 30
 C.A.R.N.I.V.O.R.E. button	0	Mys: 10
+CRIMBCO lanyard	0	none
 Cape of the Goblin King	0	Mys: 20
 Cat-Herding Prod	0	none
 Chester's Aquarius medallion	0	Mys: 200
@@ -1226,7 +1229,6 @@ Choker of the Ultragoth	0	Mys: 60
 Claw of the Infernal Seal	0	Mus: 45
 Copper Alpha of Sincerity	0	Mys: 85
 Counterclockwise Watch	0	none
-CRIMBCO lanyard	0	none
 Dyspepsi-Cola-issue canteen	0	none
 Earring of Fire	0	Mys: 60
 El Vibrato translator	0	Mys: 200
@@ -1472,11 +1474,12 @@ musty moccasins	0	Mox: 65
 natty blue ascot	0	Mys: 10
 navel ring of navel gazing	0	none
 night-vision goggles	0	Mox: 10
+observational glasses	0	none
 old soft shoes	0	Mys: 200
 orange glowstick	0	none
 pacifier necklace	0	Mox: 60
-paperclip-on tie	0	none
 paperclip cape	0	none
+paperclip-on tie	0	none
 pat-a-cake pendant	0	none
 patent leather shoes	0	none
 peace-sign necklace	0	Mys: 20
@@ -1499,12 +1502,12 @@ pulled porquoise pendant	0	Mys: 40
 pulled porquoise ring	0	Mys: 40
 purple glowstick	0	none
 pygmy nose-bone	0	Mys: 62
-red-hot medallion	0	none
 rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	0	Mys: 75
 red plastic baby	0	none
+red-hot medallion	0	none
 reinforced furry underpants	0	none
 rickety old unicycle	0	Mox: 200
 right half of a heart necklace	0	none
@@ -1609,8 +1612,8 @@ tiny plastic Knob Goblin harem girl	0	none
 tiny plastic Knob Goblin mad scientist	0	none
 tiny plastic Knott Yeti	0	none
 tiny plastic Lord Spookyraven	0	Mys: 10
-tiny plastic Mr. Mination	0	none
 tiny plastic Mob Penguin	0	none
+tiny plastic Mr. Mination	0	none
 tiny plastic Naughty Sorceress	0	Mys: 35
 tiny plastic Orcish Frat Boy	0	none
 tiny plastic Protagonist	0	none

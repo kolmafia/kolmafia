@@ -57,6 +57,7 @@ Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored 
 Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker	Brutus, the Toga-Clad Lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-Generation Frat Boy: 0	The Man: 0
 Battlefield (No Uniform)	0	The Temporal Bandit: -1
 Beanbat Chamber	100	Beanbat	Screambat
+Belilafs Comedy Club	-1	CH Imp
 Belowdecks	100	Gaudy Pirate	Grassy Pirate	Gritty Pirate	Groovy Pirate	Grungy Pirate
 Black Forest	100	Black Adder	The Black Knight	Black Panther	Black Widow	Blackberry Bush
 Bog	100	Rattlin' Duck	Swamp Duck
@@ -99,7 +100,7 @@ Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Be
 Foyer	100	Fleaman	Ghost	Medusa
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
 Frat House (Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority Girl
-Friar's Gate	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
+Pandamonium Slums	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
 Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown	The Clownlord Beelzebozo: 0
 Giant's Castle	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
 Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
@@ -125,6 +126,7 @@ Haunted Wine Cellar (Northwest)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Northeast)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Southwest)	100	Possessed Wine Rack	Skeletal Sommelier
 Haunted Wine Cellar (Southeast)	100	Possessed Wine Rack	Skeletal Sommelier
+Hey Deze Arena	-1	Inkubus	Serialbus	Suckubus
 Hidden City	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hippy Camp (Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
