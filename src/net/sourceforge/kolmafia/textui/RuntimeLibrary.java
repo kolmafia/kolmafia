@@ -46,6 +46,7 @@ import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.Iterator;
@@ -354,6 +355,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "session_logs", new AggregateType(
 			DataTypes.STRING_TYPE, 0 ), params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_TG", DataTypes.STRING_TYPE, params ) );
 
 		// Major functions related to adventuring and
 		// item management.
@@ -1892,6 +1896,12 @@ public abstract class RuntimeLibrary
 	public static Value today_to_string()
 	{
 		return new Value( KoLConstants.DAILY_FORMAT.format( new Date() ) );
+	}
+
+	public static Value get_TG()
+	{
+		Calendar timestamp = new GregorianCalendar( );
+		return new Value( KoLConstants.TIME_FORMAT.format(timestamp.getTime()) );
 	}
 
 	public static Value gameday_to_string()
