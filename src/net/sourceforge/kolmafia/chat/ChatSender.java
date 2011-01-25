@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
@@ -73,7 +74,7 @@ public class ChatSender
 
 	public static final void executeMacro( String macro )
 	{
-		if ( !ChatSender.scriptedMessagesEnabled )
+		if ( !ChatSender.scriptedMessagesEnabled || !QuestLogRequest.isChatAvailable() )
 		{
 			return;
 		}
@@ -96,12 +97,21 @@ public class ChatSender
 
 	public static final void sendMessage( String contact, String message )
 	{
-		ChatSender.sendMessage( contact, message, false );
+		if ( !QuestLogRequest.isChatAvailable() )
+		{
+			return;
+		}
 
+		ChatSender.sendMessage( contact, message, false );
 	}
 
 	public static final void sendMessage( String contact, String message, boolean channelRestricted )
 	{
+		if ( !QuestLogRequest.isChatAvailable() )
+		{
+			return;
+		}
+
 		List grafs = getGrafs( contact, message );
 
 		if ( grafs == null )
@@ -120,11 +130,21 @@ public class ChatSender
 
 	public static final String sendMessage( String graf )
 	{
+		if ( !QuestLogRequest.isChatAvailable() )
+		{
+			return "";
+		}
+
 		return ChatSender.sendMessage( graf, false );
 	}
 
 	public static final String sendMessage( String graf, boolean channelRestricted )
 	{
+		if ( !QuestLogRequest.isChatAvailable() )
+		{
+			return "";
+		}
+
 		if ( channelRestricted && !ChatSender.scriptedMessagesEnabled )
 		{
 			return "";
@@ -175,6 +195,11 @@ public class ChatSender
 
 	public static final List sendRequest( ChatRequest request )
 	{
+		if ( !QuestLogRequest.isChatAvailable() )
+		{
+			return Collections.EMPTY_LIST;
+		}
+
 		RequestThread.postRequest( request );
 
 		if ( request.responseText == null )
@@ -393,6 +418,11 @@ public class ChatSender
 
 	private static void executeAjaxCommand( String responseText )
 	{
+		if ( responseText == null )
+		{
+			return;
+		}
+
 		Matcher dojax = ChatSender.DOJAX_PATTERN.matcher( responseText );
 
 		while ( dojax.find() )

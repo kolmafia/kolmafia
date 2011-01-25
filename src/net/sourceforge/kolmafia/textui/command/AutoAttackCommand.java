@@ -33,7 +33,9 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.chat.ChatSender;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 
 public class AutoAttackCommand
@@ -46,7 +48,7 @@ public class AutoAttackCommand
 
 	public void run( final String cmd, String parameters )
 	{
-		if ( parameters.equalsIgnoreCase( "none" ) )
+		if ( parameters.equalsIgnoreCase( "none" ) || parameters.indexOf( "disable" ) != -1 )
 		{
 			CustomCombatManager.removeAutoAttack();
 			return;
@@ -56,6 +58,12 @@ public class AutoAttackCommand
 
 		if ( parameters.startsWith( "/" ) )
 		{
+			return;
+		}
+
+		if ( !QuestLogRequest.isChatAvailable() )
+		{
+			KoLmafia.updateDisplay( "Chat commands are not available for this user." );
 			return;
 		}
 
