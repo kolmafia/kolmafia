@@ -71,6 +71,7 @@ public class ResultProcessor
 
 	private static boolean receivedClover = false;
 	private static boolean receivedDisassembledClover = false;
+	private static boolean autoCrafting = false;
 
 	// This number changes every time an item is processed, and can be used
 	// by other code to tell if an item is received, without necessarily
@@ -1393,7 +1394,7 @@ public class ResultProcessor
 
 	private static void autoCreate( final int itemId )
 	{
-		if ( !Preferences.getBoolean( "autoCraft" ) )
+		if ( ResultProcessor.autoCrafting || !Preferences.getBoolean( "autoCraft" ) )
 		{
 			return;
 		}
@@ -1409,8 +1410,10 @@ public class ResultProcessor
 		if ( possible > 0 )
 		{
 			// Make as many as you can
+			ResultProcessor.autoCrafting = true;
 			creator.setQuantityNeeded( possible );
 			RequestThread.postRequest( creator );
+			ResultProcessor.autoCrafting = false;
 		}
 	}
 
