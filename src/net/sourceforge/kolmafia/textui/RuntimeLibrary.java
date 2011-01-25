@@ -244,6 +244,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "visit_url", DataTypes.BUFFER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "make_url", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "wait", DataTypes.VOID_TYPE, params ) );
 
@@ -1648,7 +1651,7 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			RequestThread.postRequest( RuntimeLibrary.RELAYER.constructURLString( location ) );
+			RequestThread.postRequest( RuntimeLibrary.RELAYER.constructURLString( location, usePostMethod, encoded ) );
 			if ( RuntimeLibrary.RELAYER.responseText != null )
 			{
 				buffer.append( RuntimeLibrary.RELAYER.responseText );
@@ -1656,6 +1659,15 @@ public abstract class RuntimeLibrary
 		}
 
 		return returnValue;
+	}
+
+	public static Value make_url( final Value arg1, final Value arg2, final Value arg3 )
+	{
+		String location = arg1.toString();
+		boolean usePostMethod = arg2.intValue() == 1;
+		boolean encoded = arg3.intValue() == 1;
+		RuntimeLibrary.VISITOR.constructURLString( location, usePostMethod, encoded );
+		return new Value( RuntimeLibrary.VISITOR.getURLString() );
 	}
 
 	public static Value wait( final Value delay )
