@@ -326,6 +326,8 @@ public abstract class CustomCombatManager
 
 	public static final void removeAutoAttack()
 	{
+		KoLmafia.updateDisplay( "Disabling autoattack..." );
+
 		CustomCombatManager.AUTO_ATTACKER.addFormField( "whichattack", "0" );
 		RequestThread.postRequest( CustomCombatManager.AUTO_ATTACKER );
 	}

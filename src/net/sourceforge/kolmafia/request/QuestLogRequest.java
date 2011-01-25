@@ -53,7 +53,9 @@ public class QuestLogRequest
 
 	private static String started = "";
 	private static String finished = "";
+	private static String other = "";
 
+	private static boolean chatAvailable = false;
 	private static boolean whiteCitadelAvailable = false;
 	private static boolean friarsAvailable = false;
 	private static boolean blackMarketAvailable = false;
@@ -77,6 +79,11 @@ public class QuestLogRequest
 	public static final boolean galaktikCuresAvailable()
 	{
 		return GalaktikRequest.getDiscount();
+	}
+
+	public static final boolean isChatAvailable()
+	{
+		return QuestLogRequest.chatAvailable;
 	}
 
 	public static final boolean isWhiteCitadelAvailable()
@@ -113,17 +120,27 @@ public class QuestLogRequest
 	{
 		this.addFormField( "which", "1" );
 		super.run();
-		QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
+
+		if ( this.responseText != null )
+		{
+			QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
+		}
 
 		this.addFormField( "which", "2" );
 		super.run();
 
-		if ( this.responseText == null )
+		if ( this.responseText != null )
 		{
-			return null;
+			QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
 		}
 
-		QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
+		this.addFormField( "which", "3" );
+		super.run();
+
+		if ( this.responseText != null )
+		{
+			QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
+		}
 
 		QuestLogRequest.blackMarketAvailable =
 			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_1 ) ||
@@ -132,7 +149,9 @@ public class QuestLogRequest
 		QuestLogRequest.hippyStoreAvailable =
 			!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING ) ||
 			QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
+
 		QuestLogRequest.friarsAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.FRIAR );
+
 		return null;
 	}
 
@@ -172,6 +191,13 @@ public class QuestLogRequest
 					QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
 				QuestLogRequest.hippyStoreAvailable |= QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
 			}
+		}
+
+		if ( urlString.indexOf( "which=3" ) != -1 )
+		{
+			QuestLogRequest.other = responseText;
+
+			QuestLogRequest.chatAvailable = QuestLogRequest.other.indexOf( "You have proven yourself literate." ) != -1;
 		}
 	}
 }

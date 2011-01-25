@@ -76,6 +76,16 @@ public class ChatRequest
 		return this.graf;
 	}
 
+	public Object run()
+	{
+		if ( !QuestLogRequest.isChatAvailable() )
+		{
+			return null;
+		}
+
+		return super.run();
+	}
+
 	protected boolean retryOnTimeout()
 	{
 		return true;
