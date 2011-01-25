@@ -1990,8 +1990,13 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "The UB3r 31337 HaX0R stands before you." ) != -1 )
 			{
-				ResultProcessor.processResult(
-					item.getInstance( item.getCount() - 1 ) );
+				int remaining = item.getCount() - 1;
+				if ( remaining > 0 )
+				{
+					item = item.getInstance( remaining );
+					ResultProcessor.processResult( item );
+					(new UseItemRequest( item )).run();
+				}
 			}
 
 			return;
