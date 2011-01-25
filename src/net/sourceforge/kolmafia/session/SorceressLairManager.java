@@ -43,17 +43,13 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -63,12 +59,9 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 import net.sourceforge.kolmafia.webui.UseLinkDecorator.UseLink;
 
 public abstract class SorceressLairManager
@@ -1863,11 +1856,6 @@ public abstract class SorceressLairManager
 			return -1;
 		}
 
-		// Make sure that auto-attack is deactivated for the
-		// shadow fight, otherwise it will fail.
-
-		CustomCombatManager.removeAutoAttack();
-
 		// Determine which level you actually need to start from.
 
 		KoLmafia.updateDisplay( "Climbing the tower..." );
@@ -2261,8 +2249,6 @@ public abstract class SorceressLairManager
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient healing items to continue." );
 			return;
 		}
-
-		CustomCombatManager.removeAutoAttack();
 
 		KoLmafia.updateDisplay( "Fighting your shadow..." );
 
