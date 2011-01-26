@@ -44,6 +44,8 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -329,7 +331,13 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "today_to_string", DataTypes.STRING_TYPE, params ) );
+			
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "time_to_string", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "now_to_string", DataTypes.STRING_TYPE, params ) );
+		
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "gameday_to_string", DataTypes.STRING_TYPE, params ) );
 
@@ -355,9 +363,6 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "session_logs", new AggregateType(
 			DataTypes.STRING_TYPE, 0 ), params ) );
-
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_TG", DataTypes.STRING_TYPE, params ) );
 
 		// Major functions related to adventuring and
 		// item management.
@@ -1898,10 +1903,19 @@ public abstract class RuntimeLibrary
 		return new Value( KoLConstants.DAILY_FORMAT.format( new Date() ) );
 	}
 
-	public static Value get_TG()
+	public static Value time_to_string()
 	{
-		Calendar timestamp = new GregorianCalendar( );
-		return new Value( KoLConstants.TIME_FORMAT.format(timestamp.getTime()) );
+		Calendar timestamp = new GregorianCalendar();
+		return new Value( KoLConstants.TIME_FORMAT.format( timestamp.getTime() ) );
+	}
+
+	public static Value now_to_string( Value dateFormatValue )
+	{
+		Calendar timestamp = new GregorianCalendar();
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat( dateFormatValue.toString() );
+		
+		return new Value( dateFormat.format( timestamp.getTime() ) );
 	}
 
 	public static Value gameday_to_string()
