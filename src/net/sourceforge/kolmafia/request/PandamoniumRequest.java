@@ -36,11 +36,13 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PandamoniumRequest
@@ -121,7 +123,7 @@ public class PandamoniumRequest
 
 		if ( action.equals( "temp" ) )
 		{
-			return "Visiting Azazel's Temple in Pandamoneum";
+			return "Visiting Azazel's Temple in Pandamonium";
 		}
 
 		if ( action.equals( "mourn" ) )
@@ -161,18 +163,104 @@ public class PandamoniumRequest
 			return false;
 		}
 
-		// pandamonium.php?action=sven&bandmember=Flargwurm&togive=4673&preaction=try
-		// When you give an item, it removes it from inventory, whether
-		// or not it was the right item.
+		if ( action.equals( "temp" ) )
+		{
+			// We used to remove the Talismans when you acquire a
+			// steel item. It is now possible - once - to turn in
+			// the items having already done the quest and
+			// therefore not get the item again.
+			//
+			// "I sense that we've been here before, and I have
+			// nothing left to give you."
+			//
+			// Therefore, we'll remove the Talismans by detecting
+			// that you're turning them over to Azazel.
+			//
+			// "Talismans of evil power?" you say, incredulously.
+			// You pull out the purple plush unicorn, the bright,
+			// rainbow-colored lollipop, and the frilly pink tutu
+			// and lay them in front of him.
+			if ( responseText.indexOf( "and lay them in front of him" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.AZAZELS_UNICORN, -1 );
+				ResultProcessor.processItem( ItemPool.AZAZELS_LOLLYPOP, -1 );
+				ResultProcessor.processItem( ItemPool.AZAZELS_TUTU, -1 );
+			}
+			return false;
+		}
+
+		if ( action.equals( "sven" ) )
+		{
+			// pandamonium.php?action=sven&bandmember=Flargwurm&togive=4673&preaction=try
+			// When you give an item, it removes it from inventory,
+			// whether or not it was the right item.
+			if ( urlString.indexOf( "preaction=try" ) == -1 )
+			{
+				return false;
+			}
+
+			Matcher m = PandamoniumRequest.MEMBER_PATTERN.matcher( urlString );
+			if ( !m.find() )
+			{
+				return false;
+			}
+
+			m = PandamoniumRequest.ITEM_PATTERN.matcher( urlString );
+			if ( !m.find() )
+			{
+				return false;
+			}
+
+			int itemId = StringUtilities.parseInt( m.group(1) );
+
+			// Remove item from inventory
+			ResultProcessor.processResult( ItemPool.get( itemId, -1 ) );
+
+			return false;
+		}
 
 		// pandamonium.php?action=moan
+		if ( action.equals( "moan" ) )
+		{
+			// When you bring 5 bus passes and 5 imp airs, they are
+			// removed from inventory and you get Azazel's tutu
+			if ( responseText.indexOf( "Here's your talisman" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.IMP_AIR, -5 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.BUS_PASS, -5 ) );
+			}
 
-		// When you bring 5 bus passes and 5 imp airs, they are removed
-		// from inventory and you are given Azazel's tutu
+			return false;
+		}
 
-		// pandamonium.php?action=mourn&preaction=insult
-		// pandamonium.php?action=mourn&preaction=observe
-		// pandamonium.php?action=mourn&preaction=prop
+		if ( action.equals( "mourn" ) )
+		{
+			int itemId = -1;
+
+			if ( urlString.indexOf( "preaction=insult" ) != -1 &&
+			     responseText.indexOf( "Mourn chuckles appreciatively" ) != -1 )
+			{
+				itemId = ItemPool.INSULT_PUPPET;
+			}
+			else if ( urlString.indexOf( "preaction=observe" ) != -1  &&
+				  responseText.indexOf( "Mourn slaps his knee and bellows laughter" ) != -1 )
+			{
+				itemId = ItemPool.OBSERVATIONAL_GLASSES;
+			}
+			else if ( urlString.indexOf( "preaction=prop" ) != -1 &&
+				  responseText.indexOf( "Mourn giggles a little" ) != -1 )
+			{
+				itemId = ItemPool.COMEDY_PROP;
+			}
+
+			if ( itemId != -1 )
+			{
+				// You don't lose it.
+				// EquipmentManager.discardEquipment( itemId );
+			}
+
+			return false;
+		}
 
 		return false;
 	}
