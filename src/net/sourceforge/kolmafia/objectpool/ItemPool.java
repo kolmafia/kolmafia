@@ -1129,6 +1129,9 @@ public class ItemPool
 	public static final int JUJU_MOJO_MASK = 4644;
 	public static final int IRONIC_MOUSTACHE = 4651;
 	public static final int ELLSBURY_BOOK = 4663;
+	public static final int INSULT_PUPPET = 4667;
+	public static final int OBSERVATIONAL_GLASSES = 4668;
+	public static final int COMEDY_PROP = 4669;
 	public static final int TREE_HOLED_COIN = 4676;
 	public static final int UNEARTHED_METEOROID = 4677;
 	public static final int VOLCANIC_ASH = 4679;
@@ -1141,6 +1144,8 @@ public class ItemPool
 	public static final int FOSSILIZED_TORSO = 4693;
 	public static final int FOSSILIZED_SPINE = 4694;
 	public static final int GREAT_PANTS = 4696;
+	public static final int IMP_AIR = 4698;
+	public static final int BUS_PASS = 4699;
 	public static final int ARCHAEOLOGING_SHOVEL = 4702;
 	public static final int FOSSILIZED_SPIKE = 4700;
 	public static final int FOSSILIZED_DEMON_SKULL = 4704;

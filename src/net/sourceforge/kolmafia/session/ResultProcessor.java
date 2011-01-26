@@ -1090,15 +1090,6 @@ public class ResultProcessor
 			}
 			break;
 
-		case ItemPool.STEEL_STOMACH:
-		case ItemPool.STEEL_LIVER:
-		case ItemPool.STEEL_SPLEEN:
-			// When you get a steel item, you lose Azazel's items
-			ResultProcessor.processItem( ItemPool.AZAZELS_UNICORN, -1 );
-			ResultProcessor.processItem( ItemPool.AZAZELS_LOLLYPOP, -1 );
-			ResultProcessor.processItem( ItemPool.AZAZELS_TUTU, -1 );
-			break;
-
 		case ItemPool.SPOOKYRAVEN_SPECTACLES:
 			// When you get the spectacles, identify dusty bottles.
 			// If you have not ascended, you need to put them on -
