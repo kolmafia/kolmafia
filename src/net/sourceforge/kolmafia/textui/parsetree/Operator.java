@@ -148,7 +148,7 @@ public class Operator
 		}
 
 		if ( this.operator.equals( "?" ) ||
-			 this.operator.equals( ":" ) )
+		     this.operator.equals( ":" ) )
 		{
 			return 1;
 		}

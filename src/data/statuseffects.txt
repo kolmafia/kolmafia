@@ -803,3 +803,7 @@
 803	Sausage Festive	festsausage.gif	fad9f1b25fabed5a6c0e45ae97bd27f3	eat 1 festive sausage
 804	Stands Alone	cheeselog.gif	8baa4c34bdc87691d5aa6bcf344c0d4f	eat 1 holiday cheese log
 805	Loco Motives	motiposter.gif	a5af4ebb8dd7db582526cb51fc7fc40e	use 1 motivational poster
+806	Kung Fu Fighting	kungfu.gif	c3b40896d1596565f2f489b2774dd6ec
+807	Fast as Lightning	lightning.gif	e5da19b3764183b04d100fabe8978416
+808	A Little Bit Frightening	scaredeyes.gif	346ada2be15421d61362feb7efe73249
+809	Expert Timing	watch.gif	8026f881e7284dc03b962eef338210d8

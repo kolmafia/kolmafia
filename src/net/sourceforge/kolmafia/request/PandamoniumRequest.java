@@ -51,15 +51,111 @@ public class PandamoniumRequest
 	private static final Pattern MEMBER_PATTERN = Pattern.compile( "bandmember=([^&]*)" );
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "togive=(\\d*)" );
 
+	public static final int MOAN = 1;
+	public static final int COMEDY = 2;
+	public static final int ARENA = 3;
+	public static final int TEMPLE = 4;
+
+	public static final String [] COMEDY_TYPES = new String[]
+	{
+		"insult",
+		"observational",
+		"prop",
+	};
+
+	public static String getComedyType( final String type )
+	{
+		for ( int i = 0; i < COMEDY_TYPES.length; ++i )
+		{
+			String test = COMEDY_TYPES[ i ];
+			if ( type.equalsIgnoreCase( test ) )
+			{
+				return test;
+			}
+		}
+		return null;
+	}
+
+	public static final String [][] BAND_MEMBERS = new String[][]
+	{
+		{
+			"Bognort",
+			"guitarist",
+		},
+		{
+			"Stinkface",
+			"vocalist",
+		},
+		{
+			"Flargwurm",
+			"bassist",
+		},
+		{
+			"Jim",
+			"drummer",
+		},
+	};
+
+	public static String getBandMember( final String test )
+	{
+		for ( int i = 0; i < BAND_MEMBERS.length; ++i )
+		{
+			String [] member = BAND_MEMBERS[ i ];
+			String name = member[0];
+			String role = member[1];
+			if ( test.equalsIgnoreCase( name ) || test.equalsIgnoreCase( role ) )
+			{
+				return name;
+			}
+		}
+		return null;
+	}
+
 	public PandamoniumRequest()
 	{
 		super( "pandamonium.php" );
 	}
 
-	public static String actionToPlace( final String action )
+	public PandamoniumRequest( final int where )
 	{
+		super( "pandamonium.php" );
+		String action = null;
+		switch (where )
+		{
+		case MOAN:
+			action = "moan";
+			break;
+		case COMEDY:
+			action = "mourn";
+			break;
+		case ARENA:
+			action = "sven";
+			break;
+		case TEMPLE:
+			action = "temp";
+			break;
+		}
 
-		return null;
+		if ( action != null )
+		{
+			this.addFormField( "action", action );
+		}
+	}
+
+	public PandamoniumRequest( final String comedy )
+	{
+		super( "pandamonium.php" );
+		this.addFormField( "action", "mourn" );
+		this.addFormField( "preaction", comedy );
+	}
+
+	public PandamoniumRequest( final String bandMember, final int itemId )
+	{
+		super( "pandamonium.php" );
+		this.addFormField( "action", "mourn" );
+		this.addFormField( "bandmember", bandMember );
+		this.addFormField( "togive", String.valueOf( itemId ) );
+		this.addFormField( "preaction", "try" );
 	}
 
 	private static String subvisitPlace( final String action, final String urlString )
