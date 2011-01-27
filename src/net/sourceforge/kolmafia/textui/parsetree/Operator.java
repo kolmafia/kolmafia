@@ -147,13 +147,16 @@ public class Operator
 			return 2;
 		}
 
-		// Here is where a ternary conditional would go
-		// return 1;
+		if ( this.operator.equals( "?" ) ||
+			 this.operator.equals( ":" ) )
+		{
+			return 1;
+		}
 
 		return -1;
 	}
 
-	private static boolean isStringLike( Type type )
+	public static boolean isStringLike( Type type )
 	{
 		return type.equals( DataTypes.TYPE_STRING ) ||
 		       type.equals( DataTypes.TYPE_BUFFER ) ||
@@ -164,7 +167,7 @@ public class Operator
 	public boolean isArithmetic()
 	{
 		return this.operator.equals( "+" ) ||
-			this.operator.equals( "-" ) ||	
+			this.operator.equals( "-" ) ||
 			this.operator.equals( "*" ) ||
 			this.operator.equals( "^" ) ||
 			this.operator.equals( "/" ) ||
@@ -175,7 +178,7 @@ public class Operator
 	public boolean isInteger()
 	{
 		return this.operator.equals( "&" ) ||
-			this.operator.equals( "|" ) ||	
+			this.operator.equals( "|" ) ||
 			// bitwise xor
 			this.operator.equals( "~" ) ||
 			this.operator.equals( "<<" ) ||
@@ -192,7 +195,7 @@ public class Operator
 	public boolean isComparison()
 	{
 		return this.operator.equals( "==" ) ||
-			this.operator.equals( "!=" ) || 
+			this.operator.equals( "!=" ) ||
 			this.operator.equals( "<" ) ||
 			this.operator.equals( ">" ) ||
 			this.operator.equals( "<=" ) ||
@@ -211,7 +214,7 @@ public class Operator
 		boolean bool;
 
 		// If either side is non-numeric, perform string comparison
-		if ( Operator.isStringLike( ltype) || Operator.isStringLike( rtype ) )
+		if ( Operator.isStringLike( ltype ) || Operator.isStringLike( rtype ) )
 		{
 			int c = leftValue.toString().compareToIgnoreCase( rightValue.toString() );
 			bool = this.operator.equals( "==" ) ? c == 0 :
@@ -292,7 +295,7 @@ public class Operator
 			{
 				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
-			
+
 			float lfloat = leftValue.toFloatValue().floatValue();
 
 			result = this.operator.equals( "+" ) ? new Value( lfloat + rfloat ) :
@@ -315,7 +318,7 @@ public class Operator
 			{
 				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
-			
+
 			int lint = leftValue.intValue();
 			result = this.operator.equals( "+" ) ? new Value( lint + rint ) :
 				this.operator.equals( "-" ) ? new Value( lint - rint ) :
