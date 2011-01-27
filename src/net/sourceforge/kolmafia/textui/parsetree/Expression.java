@@ -37,17 +37,24 @@ import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
-import net.sourceforge.kolmafia.textui.Parser;
 
 public class Expression
 	extends Value
 {
+	Value conditional;
 	Value lhs;
 	Value rhs;
 	Operator oper;
 
 	public Expression()
 	{
+	}
+
+	public Expression( final Value conditional, final Value lhs, final Value rhs )
+	{
+		this.conditional = conditional;
+		this.lhs = lhs;
+		this.rhs = rhs;
 	}
 
 	public Expression( final Value lhs, final Value rhs, final Operator oper )
@@ -63,6 +70,12 @@ public class Expression
 
 		// Unary operators have no right hand side
 		if ( this.rhs == null )
+		{
+			return leftType;
+		}
+
+		// Ternary expressions have no real operator
+		if ( this.oper == null )
 		{
 			return leftType;
 		}
@@ -114,15 +127,44 @@ public class Expression
 
 	public Value execute( final Interpreter interpreter )
 	{
+		if ( this.conditional != null )
+		{
+			Value conditionResult = this.conditional.execute( interpreter );
+
+			Value executeResult;
+
+			if ( conditionResult.intValue() != 0 )
+			{
+				executeResult = this.lhs.execute( interpreter );
+			}
+			else
+			{
+				executeResult = this.rhs.execute( interpreter );
+			}
+
+			if ( Operator.isStringLike( this.lhs.getType() ) != Operator.isStringLike( this.rhs.getType() ) )
+			{
+				executeResult = executeResult.toStringValue();
+			}
+
+			return executeResult;
+		}
+
 		return this.oper.applyTo( interpreter, this.lhs, this.rhs );
 	}
 
 	public String toString()
 	{
+		if ( this.conditional != null )
+		{
+			return "( " + this.conditional.toQuotedString() + " ? " + this.lhs.toQuotedString() + " : " + this.rhs.toQuotedString() + " )";
+		}
+
 		if ( this.rhs == null )
 		{
 			return this.oper.toString() + " " + this.lhs.toQuotedString();
 		}
+
 		return "( " + this.lhs.toQuotedString() + " " + this.oper.toString() + " " + this.rhs.toQuotedString() + " )";
 	}
 

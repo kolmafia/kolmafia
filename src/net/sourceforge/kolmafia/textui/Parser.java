@@ -2336,20 +2336,65 @@ public class Parser
 				return lhs;
 			}
 
-			this.readToken(); //operator
-
-			if ( ( rhs = this.parseExpression( scope, oper ) ) == null )
+			if ( this.currentToken().equals( ":" ) )
 			{
-				throw this.parseException( "Value expected" );
+				return lhs;
 			}
 
-			if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper ) )
+			if ( this.currentToken().equals( "?" ) )
 			{
-				throw this.parseException(
-					"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
-			}
+				this.readToken(); // ?
 
-			lhs = new Expression( lhs, rhs, oper );
+				Value conditional = lhs;
+
+				if ( conditional.getType() != DataTypes.BOOLEAN_TYPE )
+				{
+					throw this.parseException(
+						"Non-boolean expression " + conditional + " (" + conditional.getType() + ")" );
+				}
+
+				if ( ( lhs = this.parseExpression( scope, null ) ) == null )
+				{
+					throw this.parseException( "Value expected in left hand side" );
+				}
+
+				if ( !this.currentToken().equals( ":" ) )
+				{
+					throw this.parseException( "\":\" expected" );
+				}
+
+				this.readToken(); // :
+
+				if ( ( rhs = this.parseExpression( scope, null ) ) == null )
+				{
+					throw this.parseException( "Value expected" );
+				}
+
+				if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper ) )
+				{
+					throw this.parseException(
+						"Cannot choose between " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
+				}
+
+				lhs = new Expression( conditional, lhs, rhs );
+			}
+			else
+			{
+				this.readToken(); //operator
+
+				if ( ( rhs = this.parseExpression( scope, oper ) ) == null )
+				{
+					throw this.parseException( "Value expected" );
+				}
+
+				if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper ) )
+				{
+					throw this.parseException(
+						"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
+				}
+
+				lhs = new Expression( lhs, rhs, oper );
+			}
 		}
 		while ( true );
 	}
@@ -2756,6 +2801,8 @@ public class Parser
 	{
 		return oper.equals( "!" ) ||
 			oper.equals( "~" ) ||
+			oper.equals( "?" ) ||
+			oper.equals( ":" ) ||
 			oper.equals( "*" ) ||
 			oper.equals( "**" ) ||
 			oper.equals( "/" ) ||
@@ -3015,6 +3062,11 @@ public class Parser
 
 		lhs = lhs.getBaseType();
 		rhs = rhs.getBaseType();
+
+		if ( oper == null )
+		{
+			return lhs.getType() == rhs.getType();
+		}
 
 		// "oper" is either a standard operator or is a special name:
 		//
@@ -3291,7 +3343,7 @@ public class Parser
 
 		this.nextLine = this.nextLine.trim();
 	}
-	
+
 	private boolean tokenChar( char ch )
 	{
 		switch ( ch )
