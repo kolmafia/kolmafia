@@ -2298,6 +2298,7 @@ A Little Bit Evil (Pastamancer)	Monster Level: +2
 A Little Bit Evil (Sauceror)	Monster Level: +2
 A Little Bit Evil (Seal Clubber)	Monster Level: +2
 A Little Bit Evil (Turtle Tamer)	Monster Level: +2
+A Little Bit Frightening	Spooky Damage: [3*L]
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 A Revolution in Your Mouth	Moxie Percent: -10
 # Absinthe-Minded: You are aware of The Worm Wood
@@ -2531,6 +2532,7 @@ Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
 # Existential Torment: Who are you? Who are you <i>really</i>?
 Expert Oiliness	Equalize: "Mysticality"
+Expert Timing	Item Drop: +20
 Extra Sensory Perception	Item Drop: +50
 Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
@@ -2541,6 +2543,7 @@ Familial Ties	Familiar Weight: [10*zone(The Sea)]
 Fan-Cooled	Cold Damage: +10
 Fancy Feasted	Moxie Percent: +20
 Far Out	Mysticality: +1
+Fast as Lightning	Initiative: +50
 Fastbreaker	Muscle Percent: +20
 Fat Leon's Phat Loot Lyric	Item Drop: +20
 Fearless	Monster Level: -10
@@ -2701,6 +2704,7 @@ Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
 Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
+Kung Fu Fighting	Weapon Damage: [3*L]
 La Bamba	Item Drop: +3
 Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
