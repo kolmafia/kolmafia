@@ -491,7 +491,7 @@ public abstract class BadMoonManager
 			"Noob Cave",
 			null,
 			null,
-			"Familiar-Gro&trade; Terrarium, black kitten, 5 Drunkenness",
+			"Familiar-Gro&trade; Terrarium, black kitten, 14 Drunkenness",
 			BadMoonManager.ITEMS,
 			"badMoonEncounter43",
 		},
