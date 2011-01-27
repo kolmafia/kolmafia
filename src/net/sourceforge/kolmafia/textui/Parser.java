@@ -3364,9 +3364,11 @@ public class Parser
 		case '"':
 		case '\'':
 		case '*':
-		case '^':
 		case '/':
 		case '%':
+		case '|':
+		case '^':
+		case '&':
 		case '[':
 		case ']':
 		case ';':
