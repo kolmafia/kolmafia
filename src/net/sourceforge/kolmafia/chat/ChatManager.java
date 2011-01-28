@@ -277,6 +277,7 @@ public abstract class ChatManager
 		if ( "/clan".equals( recipient ) )
 		{
 			ChatManager.clanMessages.add( message );
+			ChatManager.processCommand( message.getSender(), message.getContent(), "/clan" );
 		}
 
 		if ( "FaxBot".equals( sender ) )
@@ -284,15 +285,11 @@ public abstract class ChatManager
 			ChatManager.faxbotMessage = message;
 		}
 
-		if ( KoLCharacter.getUserName().equals( recipient ) )
-		{
-			ChatManager.processCommand( message.getSender(), message.getContent() );
-		}
-
 		String destination = recipient;
 
 		if ( KoLCharacter.getUserName().equals( recipient ) )
 		{
+			ChatManager.processCommand( message.getSender(), message.getContent(), "" );
 			destination = sender;
 		}
 
@@ -378,7 +375,7 @@ public abstract class ChatManager
 		}
 	}
 
-	public static final void processCommand( final String sender, final String content )
+	public static final void processCommand( final String sender, final String content, final String channel )
 	{
 		if ( sender == null || content == null )
 		{
@@ -388,7 +385,7 @@ public abstract class ChatManager
 		// If a buffbot is running, certain commands become active, such
 		// as help, restores, and logoff.
 
-		if ( BuffBotHome.isBuffBotActive() )
+		if ( channel.equals( "" ) && BuffBotHome.isBuffBotActive() )
 		{
 			if ( content.equalsIgnoreCase( "help" ) )
 			{
@@ -422,7 +419,7 @@ public abstract class ChatManager
 		// Otherwise, sometimes clannies want to take advantage of KoLmafia's
 		// automatic chat logging.  In that case...
 
-		if ( content.equalsIgnoreCase( "update" ) )
+		if ( channel.equals( "" ) && content.equalsIgnoreCase( "update" ) )
 		{
 			if ( !ClanManager.isMember( sender ) )
 			{
@@ -458,12 +455,32 @@ public abstract class ChatManager
 			return;
 		}
 
-		String[] scriptParameters = new String[]
-		{
-			sender,
-			content
-		};
+		int parameterCount = interpreter.getParser().getMainMethod().getVariableReferences().size();
+		
+		String[] scriptParameters;
 
+		if ( parameterCount == 3 )
+		{
+			scriptParameters = new String[]
+			{
+				sender,
+				content,
+				channel
+			};
+		}
+		else if ( !channel.equals( "" ) )
+		{
+			return;
+		}
+		else
+		{
+			scriptParameters = new String[]
+			{
+				sender,
+				content
+			};
+		}
+		
 		ChatManager.validChatReplyRecipients.add( sender );
 		interpreter.execute( "main", scriptParameters );
 		ChatManager.validChatReplyRecipients.remove( sender );
