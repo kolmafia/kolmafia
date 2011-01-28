@@ -310,7 +310,22 @@ public class MaximizerFrame
 			InputFieldUtilities.getValue( this.maxPriceField ),
 			this.mallSelect.getSelectedIndex(),
 			this.includeAll.isSelected() );
+
 		this.valueChanged( null );
+	}
+	
+	public static boolean maximize( String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly )
+	{
+		MaximizerFrame.expressionSelect.setSelectedItem( maximizerString );
+		int equipLevel = isSpeculationOnly ? 1 : -1;
+
+		// iECOC has to be turned off before actually maximizing as
+		// it would cause all item lookups during the process to just
+		// print the item name and return null.
+
+		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
+
+		return !MaximizerFrame.maximize( equipLevel, maxPrice, priceLevel, false );
 	}
 	
 	public static boolean maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll )
@@ -781,13 +796,21 @@ public class MaximizerFrame
 				orFlag = true;
 			}
 		}
+
 		if ( MaximizerFrame.boosts.size() == 0 )
 		{
 			MaximizerFrame.boosts.add( new Boost( "", "(nothing useful found)", 0, null, 0.0f ) );
 		}
+
 		MaximizerFrame.boosts.sort();
 		RequestThread.closeRequestSequence();
-		return equipLevel == -1 && failed;
+		
+		if ( equipLevel == 0 )
+		{
+			return false;
+		}
+		
+		return failed;
 	}
 	
 	public static class MaximizerInterruptedException

@@ -49,15 +49,9 @@ public class ModifierMaximizeCommand
 
 	public void run( final String command, final String parameters )
 	{
-		MaximizerFrame.expressionSelect.setSelectedItem( parameters );
-		int equipLevel = KoLmafiaCLI.isExecutingCheckOnlyCommand ? 1 : -1;
-
-		// iECOC has to be turned off before actually maximizing as
-		// it would cause all item lookups during the process to just
-		// print the item name and return null.
-		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
-
-		if ( MaximizerFrame.maximize( equipLevel, 0, 0, false ) )
+		boolean isSpeculateOnly = KoLmafiaCLI.isExecutingCheckOnlyCommand;
+	
+		if ( !MaximizerFrame.maximize( parameters, 0, 0, isSpeculateOnly ) && !isSpeculateOnly )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to meet all requirements via equipment changes." );
 			RequestLogger.printLine( "See the Modifier Maximizer for further suggestions." );
