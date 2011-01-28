@@ -927,6 +927,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "chat_private", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "who_clan", DataTypes.STRING_TYPE, params ) );
+
 		// Quest handling functions.
 
 		params = new Type[] {};
@@ -3876,6 +3879,11 @@ public abstract class RuntimeLibrary
 		ChatSender.sendMessage( recipient, message );
 
 		return DataTypes.VOID_VALUE;
+	}
+	
+	public static Value who_clan()
+	{
+		return new Value( ChatSender.sendMessage( "/who clan" ) );
 	}
 
 	// Quest completion functions.
