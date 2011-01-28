@@ -3801,7 +3801,7 @@ public abstract class RuntimeLibrary
 		String maximizerString = maximizerStringValue.toString();
 		int maxPrice = maxPriceValue.intValue();
 		int priceLevel = priceLevelValue.intValue();
-		boolean isSpeculateOnly = speculateValue.intValue() != 0;
+		boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
 
 		return new Value( MaximizerFrame.maximize( maximizerString, maxPrice, priceLevel, isSpeculateOnly ) );
 	}

@@ -325,7 +325,12 @@ public class MaximizerFrame
 
 		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-		return !MaximizerFrame.maximize( equipLevel, maxPrice, priceLevel, false );
+		boolean isSuccessful = !MaximizerFrame.maximize( equipLevel, maxPrice, priceLevel, false );
+
+		Modifiers mods = MaximizerFrame.best.calculate();
+		Modifiers.overrideModifier( "_spec", mods );
+
+		return isSuccessful;
 	}
 	
 	public static boolean maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll )
