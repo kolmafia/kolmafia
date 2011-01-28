@@ -325,23 +325,27 @@ public class MaximizerFrame
 
 		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-		boolean isSuccessful = !MaximizerFrame.maximize( equipLevel, maxPrice, priceLevel, false );
+		MaximizerFrame.maximize( equipLevel, maxPrice, priceLevel, false );
 
 		Modifiers mods = MaximizerFrame.best.calculate();
 		Modifiers.overrideModifier( "_spec", mods );
 
-		return isSuccessful;
+		return !MaximizerFrame.best.failed;
 	}
 	
-	public static boolean maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll )
+	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll )
 	{
 		KoLmafia.forceContinue();
-		MaximizerFrame.eval = new Evaluator( (String)
-			MaximizerFrame.expressionSelect.getSelectedItem() );
-		if ( !KoLmafia.permitsContinue() ) return false;	// parsing error
+		MaximizerFrame.eval = new Evaluator( (String) MaximizerFrame.expressionSelect.getSelectedItem() );
 
-		float current = MaximizerFrame.eval.getScore(
-			KoLCharacter.getCurrentModifiers() );
+		// parsing error
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return;
+		}
+
+		float current = MaximizerFrame.eval.getScore( KoLCharacter.getCurrentModifiers() );
+
 		if ( maxPrice <= 0 )
 		{
 			maxPrice = Math.min( Preferences.getInteger( "autoBuyPriceLimit" ),
@@ -809,13 +813,6 @@ public class MaximizerFrame
 
 		MaximizerFrame.boosts.sort();
 		RequestThread.closeRequestSequence();
-		
-		if ( equipLevel == 0 )
-		{
-			return false;
-		}
-		
-		return failed;
 	}
 	
 	public static class MaximizerInterruptedException
