@@ -128,6 +128,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
+import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
@@ -901,6 +902,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "modifier_eval", DataTypes.FLOAT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "maximize", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "maximize", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "monster_eval", DataTypes.FLOAT_TYPE, params ) );
@@ -3782,6 +3789,21 @@ public abstract class RuntimeLibrary
 			}
 		}
 		return new Value( e.eval() );
+	}
+
+	public static Value maximize( final Value maximizerStringValue, final Value isSpeculateOnlyValue )
+	{
+		return maximize( maximizerStringValue, DataTypes.ZERO_VALUE, DataTypes.ZERO_VALUE, isSpeculateOnlyValue );
+	}
+	
+	public static Value maximize( final Value maximizerStringValue, final Value maxPriceValue, final Value priceLevelValue, final Value isSpeculateOnlyValue )
+	{
+		String maximizerString = maximizerStringValue.toString();
+		int maxPrice = maxPriceValue.intValue();
+		int priceLevel = priceLevelValue.intValue();
+		boolean isSpeculateOnly = speculateValue.intValue() != 0;
+
+		return new Value( MaximizerFrame.maximize( maximizerString, maxPrice, priceLevel, isSpeculateOnly ) );
 	}
 
 	public static Value monster_eval( final Value expr )
