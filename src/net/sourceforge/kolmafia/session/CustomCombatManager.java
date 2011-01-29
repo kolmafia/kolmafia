@@ -67,7 +67,7 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 
 public abstract class CustomCombatManager
 {
-	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack" );
+	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack&ajax=1&pwd" );
 	public static final Pattern TRY_TO_RUN_AWAY_PATTERN = Pattern.compile( "run away if (\\d+)% chance of being free" );
 
 	private static String[] keys = new String[ 0 ];
@@ -328,8 +328,11 @@ public abstract class CustomCombatManager
 	{
 		KoLmafia.updateDisplay( "Disabling autoattack..." );
 
-		CustomCombatManager.AUTO_ATTACKER.addFormField( "whichattack", "0" );
-		RequestThread.postRequest( CustomCombatManager.AUTO_ATTACKER );
+		if ( !KoLCharacter.getAutoAttackAction().equals( "0" ) )
+		{
+			CustomCombatManager.AUTO_ATTACKER.addFormField( "whichattack", "0" );
+			RequestThread.postRequest( CustomCombatManager.AUTO_ATTACKER );
+		}
 	}
 
 	public static final void setDefaultAction( final String actionList )
