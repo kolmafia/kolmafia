@@ -91,8 +91,6 @@ public class RequestFrame
 	public RequestPane sideDisplay;
 	public RequestPane mainDisplay;
 
-	private JComboBox scriptSelect;
-	private BrowserComboBox functionSelect, gotoSelect;
 	private final AutoHighlightTextField locationField = new AutoHighlightTextField();
 
 	public RequestFrame()
@@ -174,140 +172,9 @@ public class RequestFrame
 		horizontalSplit.setOneTouchExpandable( true );
 		JComponentUtilities.setComponentSize( horizontalSplit, 600, 450 );
 
-		// Add the standard locations handled within the
-		// mini-browser, including inventory, character
-		// information, skills and account setup.
-
-		this.functionSelect = new BrowserComboBox();
-		this.functionSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
-
-		for ( int i = 0; i < KoLConstants.FUNCTION_MENU.length; ++i )
-		{
-			this.functionSelect.addItem( new BrowserComboBoxItem(
-				KoLConstants.FUNCTION_MENU[ i ][ 0 ], KoLConstants.FUNCTION_MENU[ i ][ 1 ] ) );
-		}
-
-		// Add the browser "goto" menu, because people
-		// are familiar with seeing this as well.  But,
-		// place it all inside of a "travel" menu.
-
-		this.gotoSelect = new BrowserComboBox();
-		this.gotoSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
-		for ( int i = 0; i < KoLConstants.GOTO_MENU.length; ++i )
-		{
-			this.gotoSelect.addItem( new BrowserComboBoxItem(
-				KoLConstants.GOTO_MENU[ i ][ 0 ], KoLConstants.GOTO_MENU[ i ][ 1 ] ) );
-		}
-
-		JPanel topMenu = new JPanel();
-		topMenu.setOpaque( true );
-		topMenu.setBackground( Color.white );
-
-		topMenu.add( new JLabel( "Function:" ) );
-		topMenu.add( this.functionSelect );
-		topMenu.add( new JLabel( "Go To:" ) );
-		topMenu.add( this.gotoSelect );
-		topMenu.add( Box.createHorizontalStrut( 20 ) );
-
-		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + HolidayDatabase.getRonaldPhase() + ".gif" );
-		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + HolidayDatabase.getGrimacePhase() + ".gif" );
-
-		topMenu.add( new JLabel(
-			JComponentUtilities.getImage( "itemimages/smoon" + HolidayDatabase.getRonaldPhase() + ".gif" ) ) );
-		topMenu.add( new JLabel(
-			JComponentUtilities.getImage( "itemimages/smoon" + HolidayDatabase.getGrimacePhase() + ".gif" ) ) );
-
-		topMenu.add( Box.createHorizontalStrut( 20 ) );
-
-		this.scriptSelect = new JComboBox();
-		String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
-		for ( int i = 0; i < scriptList.length; ++i )
-		{
-			this.scriptSelect.addItem( i + 1 + ": " + scriptList[ i ] );
-		}
-
-		topMenu.add( this.scriptSelect );
-		topMenu.add( new ExecuteScriptButton() );
-
-		this.functionSelect.setSelectedIndex( 0 );
-		this.gotoSelect.setSelectedIndex( 0 );
-
-		JPanel container = new JPanel( new BorderLayout() );
-		container.add( topMenu, BorderLayout.NORTH );
-		container.add( horizontalSplit, BorderLayout.CENTER );
-
 		this.framePanel.setLayout( new BorderLayout() );
-		this.framePanel.add( container, BorderLayout.CENTER );
+		this.framePanel.add( horizontalSplit, BorderLayout.CENTER );
 		RequestFrame.refreshStatus();
-	}
-
-	private class BrowserComboBox
-		extends JComboBox
-	{
-		public BrowserComboBox()
-		{
-			this.addActionListener( new BrowserComboBoxListener() );
-		}
-	}
-
-	private class BrowserComboBoxListener
-		implements ActionListener
-	{
-		public void actionPerformed( final ActionEvent e )
-		{
-			BrowserComboBox source = (BrowserComboBox) e.getSource();
-			BrowserComboBoxItem selected = (BrowserComboBoxItem) source.getSelectedItem();
-
-			if ( !selected.getLocation().equals( "" ) )
-			{
-				RequestFrame.this.refresh( new GenericRequest( selected.getLocation() ) );
-			}
-
-			source.setSelectedIndex( 0 );
-		}
-	}
-
-	private class ExecuteScriptButton
-		extends ThreadedButton
-	{
-		public ExecuteScriptButton()
-		{
-			super( "exec" );
-		}
-
-		public void run()
-		{
-			String command = (String) RequestFrame.this.scriptSelect.getSelectedItem();
-			if ( command == null )
-			{
-				return;
-			}
-
-			command = command.substring( command.indexOf( ":" ) + 1 ).trim();
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
-		}
-	}
-
-	private class BrowserComboBoxItem
-	{
-		private final String name;
-		private final String location;
-
-		public BrowserComboBoxItem( final String name, final String location )
-		{
-			this.name = name;
-			this.location = location;
-		}
-
-		public String toString()
-		{
-			return this.name;
-		}
-
-		public String getLocation()
-		{
-			return this.location;
-		}
 	}
 
 	/**
