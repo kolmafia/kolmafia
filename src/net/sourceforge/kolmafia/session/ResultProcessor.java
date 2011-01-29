@@ -1231,7 +1231,10 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.SNAKEHEAD_CHARM:
-			ResultProcessor.autoCreate( ItemPool.TALISMAN );
+			if ( result.getCount( KoLConstants.inventory ) >= 2 )
+			{
+				ResultProcessor.autoCreate( ItemPool.TALISMAN );
+			}
 			break;
 
 		case ItemPool.WORM_RIDING_HOOKS:
