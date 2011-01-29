@@ -33,34 +33,21 @@
 
 package net.sourceforge.kolmafia.chat;
 
+import java.util.Set;
 
-
-public class EventMessage
-	extends ChatMessage
+public class WhoMessage extends EventMessage
 {
-	private String color;
-	private boolean hidden;
+	private Set contacts;
 
-	public EventMessage( String content, String color )
+	public WhoMessage( Set contacts, String spacedContent )
 	{
-		this.setContent( content );
+		super( spacedContent, null );
 
-		this.color = color;
-		this.hidden = false;
+		this.contacts = contacts;
 	}
 
-	public String getColor()
+	public Set getContacts()
 	{
-		return this.color;
-	}
-
-	public boolean isHidden()
-	{
-		return this.hidden;
-	}
-
-	public void setHidden( boolean hidden )
-	{
-		this.hidden = hidden;
+		return this.contacts;
 	}
 }

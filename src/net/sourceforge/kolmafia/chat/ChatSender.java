@@ -81,13 +81,15 @@ public class ChatSender
 
 		ChatRequest request = new ChatRequest( macro );
 
-		List chatMessages = sendRequest( request );
+		List accumulatedMessages = new ArrayList();
+		
+		sendRequest( accumulatedMessages, request );
 
 		ChatSender.executeAjaxCommand( request.responseText );
 
-		for ( int i = 0; ChatSender.scriptedMessagesEnabled && i < chatMessages.size(); ++i )
+		for ( int i = 0; ChatSender.scriptedMessagesEnabled && i < accumulatedMessages.size(); ++i )
 		{
-			ChatMessage message = (ChatMessage) chatMessages.get( i );
+			ChatMessage message = (ChatMessage) accumulatedMessages.get( i );
 
 			String recipient = message.getRecipient();
 
@@ -118,27 +120,34 @@ public class ChatSender
 		{
 			return;
 		}
+		
+		List accumulatedMessages = new ArrayList();
 
 		for ( int i = 0; i < grafs.size(); ++i )
 		{
 			String graf = (String) grafs.get( i );
 
-			String responseText = ChatSender.sendMessage( graf, channelRestricted );
+			String responseText = ChatSender.sendMessage( accumulatedMessages, graf, channelRestricted );
 			ChatSender.executeAjaxCommand( responseText );
 		}
 	}
 
 	public static final String sendMessage( String graf )
 	{
+		return sendMessage( new ArrayList(), graf );
+	}
+	
+	public static final String sendMessage( List accumulatedMessages, String graf )
+	{
 		if ( !QuestLogRequest.isChatAvailable() )
 		{
 			return "";
 		}
 
-		return ChatSender.sendMessage( graf, false );
+		return ChatSender.sendMessage( accumulatedMessages, graf, false );
 	}
 
-	public static final String sendMessage( String graf, boolean channelRestricted )
+	public static final String sendMessage( List accumulatedMessages, String graf, boolean channelRestricted )
 	{
 		if ( !QuestLogRequest.isChatAvailable() )
 		{
@@ -176,13 +185,13 @@ public class ChatSender
 
 		ChatRequest request = new ChatRequest( graf );
 
-		List chatMessages = sendRequest( request );
+		sendRequest( accumulatedMessages, request );
 
 		if ( channelRestricted )
 		{
-			for ( int i = 0; ChatSender.scriptedMessagesEnabled && i < chatMessages.size(); ++i )
+			for ( int i = 0; ChatSender.scriptedMessagesEnabled && i < accumulatedMessages.size(); ++i )
 			{
-				ChatMessage message = (ChatMessage) chatMessages.get( i );
+				ChatMessage message = (ChatMessage) accumulatedMessages.get( i );
 
 				String recipient = message.getRecipient();
 
@@ -193,52 +202,48 @@ public class ChatSender
 		return request.responseText;
 	}
 
-	public static final List sendRequest( ChatRequest request )
+	public static final void sendRequest( List accumulatedMessages, ChatRequest request )
 	{
 		if ( !QuestLogRequest.isChatAvailable() )
 		{
-			return Collections.EMPTY_LIST;
+			return;
 		}
 
 		RequestThread.postRequest( request );
 
 		if ( request.responseText == null )
 		{
-			return Collections.EMPTY_LIST;
+			return;
 		}
 
 		String graf = request.getGraf();
 
-		List chatMessages = new ArrayList();
-
 		if ( graf.equals( "/listen" ) )
 		{
-			ChatParser.parseChannelList( chatMessages, request.responseText );
+			ChatParser.parseChannelList( accumulatedMessages, request.responseText );
 		}
 		else if ( graf.startsWith( "/l " ) || graf.startsWith( "/listen " ) )
 		{
-			ChatParser.parseListen( chatMessages, request.responseText );
+			ChatParser.parseListen( accumulatedMessages, request.responseText );
 		}
 		else if ( graf.startsWith( "/c " ) || graf.startsWith( "/channel " ) )
 		{
-			ChatParser.parseChannel( chatMessages, request.responseText );
+			ChatParser.parseChannel( accumulatedMessages, request.responseText );
 		}
 		else if ( graf.startsWith( "/s " ) || graf.startsWith( "/switch " ) )
 		{
-			ChatParser.parseSwitch( chatMessages, request.responseText );
+			ChatParser.parseSwitch( accumulatedMessages, request.responseText );
 		}
 		else if ( graf.startsWith( "/who " ) || graf.equals( "/f" ) || graf.equals( "/friends" ) || graf.equals( "/romans" ) || graf.equals( "/clannies" ) )
 		{
-			ChatParser.parseContacts( chatMessages, request.responseText );
+			ChatParser.parseContacts( accumulatedMessages, request.responseText );
 		}
 		else
 		{
-			ChatParser.parseLines( chatMessages, request.responseText );
+			ChatParser.parseLines( accumulatedMessages, request.responseText );
 		}
 
-		ChatManager.processMessages( chatMessages );
-
-		return chatMessages;
+		ChatManager.processMessages( accumulatedMessages );
 	}
 
 	private static final List getGrafs( String contact, String message )

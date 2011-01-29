@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.HashMap;
-import java.util.regex.Pattern;
+import java.util.Set;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.RequestThread;
@@ -78,7 +78,7 @@ public class ContactManager
 	 * Replaces the current contact list with the given contact list. This is used after every call to /friends or /who.
 	 */
 
-	public static final void updateContactList( final String[] contactList )
+	public static final void updateContactList( final String title, final Set contacts )
 	{
 		if ( !ChatManager.isRunning() )
 		{
@@ -87,10 +87,7 @@ public class ContactManager
 
 		ContactManager.chatContacts.clear();
 
-		for ( int i = 1; i < contactList.length; ++i )
-		{
-			ContactManager.chatContacts.add( contactList[ i ] );
-		}
+		ContactManager.chatContacts.addAll( contacts );
 
 		if ( Preferences.getBoolean( "useContactsFrame" ) )
 		{
@@ -99,7 +96,7 @@ public class ContactManager
 				ContactManager.contactsFrame = new ContactListFrame( ContactManager.chatContacts );
 			}
 
-			ContactManager.contactsFrame.setTitle( contactList[ 0 ] );
+			ContactManager.contactsFrame.setTitle( title );
 			ContactManager.contactsFrame.setVisible( true );
 		}
 	}
@@ -118,7 +115,7 @@ public class ContactManager
 
 	/**
 	 * Registers the given player name and player Id with KoLmafia's player name tracker.
-	 * 
+	 *
 	 * @param playerName The name of the player
 	 * @param playerId The player Id associated with this player
 	 */
@@ -143,7 +140,7 @@ public class ContactManager
 
 	/**
 	 * Returns the string form of the player Id associated with the given player name.
-	 * 
+	 *
 	 * @param playerName The name of the player
 	 * @return The player's Id if the player has been seen, or the player's name with spaces replaced with underscores
 	 *         and other elements encoded if the player's Id has not been seen.
@@ -162,7 +159,7 @@ public class ContactManager
 
 	/**
 	 * Returns the string form of the player Id associated with the given player name.
-	 * 
+	 *
 	 * @param playerId The Id of the player
 	 * @return The player's name if it has been seen, or null if it has not yet appeared in the chat (not likely, but
 	 *         possible).
