@@ -119,25 +119,12 @@ public class MoonPhaseRequest
 		if ( menuMatcher.find() )
 		{
 			StringBuffer functionMenu = new StringBuffer();
-			functionMenu.append( "<select name=\"loc\" onchange=\"goloc();\">" );
-			functionMenu.append( "<option value=\"nothing\">- Select -</option>" );
+			functionMenu.append( menuMatcher.group() );
 
-			for ( int i = 0; i < KoLConstants.FUNCTION_MENU.length; ++i )
-			{
-				functionMenu.append( "<option value=\"" );
-				functionMenu.append( KoLConstants.FUNCTION_MENU[ i ][ 1 ] );
-				functionMenu.append( "\">" );
-				functionMenu.append( KoLConstants.FUNCTION_MENU[ i ][ 0 ] );
-				functionMenu.append( "</option>" );
-			}
-
-			functionMenu.append( "<option value=\"donatepopup.php?pid=" );
-			functionMenu.append( KoLCharacter.getUserId() );
-			functionMenu.append( "\">Donate</option>" );
-
-			functionMenu.append( "<option value=\"logout.php\">Log Out</option>" );
-
-			functionMenu.append( "</select>" );
+			StringUtilities.singleStringReplace(
+				functionMenu,
+				"<option value=\"inventory.php\">Inventory</option>",
+				"<option value=\"inventory.php?which=1\">Consumables</option><option value=\"inventory.php?which=2\">Equipment</option><option value=\"inventory.php?which=3\">Misc Items</option><option value=\"autosell.php\">Sell Stuff</option>" );
 
 			StringUtilities.singleStringReplace( buffer, menuMatcher.group(), functionMenu.toString() );
 		}

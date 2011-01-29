@@ -111,62 +111,6 @@ public interface KoLConstants
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
 	// Ensures that the two menus always contain the same information.
 
-	public static final String[][] FUNCTION_MENU = new String[][]
-	{
-		{
-			"Consumables",
-			"inventory.php?which=1"
-		},
-		{
-			"Equipment",
-			"inventory.php?which=2"
-		},
-		{
-			"Misc Items",
-			"inventory.php?which=3"
-		},
-		{
-			"Auto Sell",
-			"sellstuff.php"
-		},
-		{
-			"Character",
-			"charsheet.php"
-		},
-		{
-			"Quest Log",
-			"questlog.php"
-		},
-		{
-			"Crafting",
-			"craft.php"
-		},
-		{
-			"Skills",
-			"skills.php"
-		},
-		{
-			"Read Messages",
-			"messages.php"
-		},
-		{
-			"Account Menu",
-			"account.php"
-		},
-		{
-			"Documentation",
-			"doc.php?topic=home"
-		},
-		{
-			"KoL Forums",
-			"http://forums.kingdomofloathing.com/"
-		},
-		{
-			"Store",
-			"http://store.asymmetric.net/"
-		},
-	};
-
 	public static final String[][] FRAME_NAMES =
 	{
 		{
