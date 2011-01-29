@@ -118,7 +118,7 @@ public class AutoAttackCommand
 
 		if ( !skillIdString.equals( KoLCharacter.getAutoAttackAction() ) )
 		{
-			AutoAttackCommand.AUTO_ATTACKER.addFormField( "whichattack", "0" );
+			AutoAttackCommand.AUTO_ATTACKER.addFormField( "whichattack", skillIdString );
 			RequestThread.postRequest( AutoAttackCommand.AUTO_ATTACKER );
 		}
 		
