@@ -48,8 +48,8 @@ public class MoonPhaseRequest
 	extends GenericRequest
 {
 	private static final Pattern MOONS_PATTERN = Pattern.compile( "moon(.)[ab]?\\.gif.*moon(.)[ab]?\\.gif" );
-	private static final Pattern MENU1_PATTERN = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL );
-	private static final Pattern MENU2_PATTERN = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL );
+	private static final Pattern MENU1_PATTERN = Pattern.compile( "(<select name=\"loc\".*?)</select>", Pattern.DOTALL );
+	private static final Pattern MENU2_PATTERN = Pattern.compile( "(<select name=location.*?)</select>", Pattern.DOTALL );
 
 	/**
 	 * The phases of the moons can be retrieved from the top menu, which
@@ -115,70 +115,60 @@ public class MoonPhaseRequest
 	{
 		// Mafiatize the function menu
 
-		StringBuffer functionMenu = new StringBuffer();
-		functionMenu.append( "<select name=\"loc\" onchange=\"goloc();\">" );
-		functionMenu.append( "<option value=\"nothing\">- Select -</option>" );
-
-		for ( int i = 0; i < KoLConstants.FUNCTION_MENU.length; ++i )
-		{
-			functionMenu.append( "<option value=\"" );
-			functionMenu.append( KoLConstants.FUNCTION_MENU[ i ][ 1 ] );
-			functionMenu.append( "\">" );
-			functionMenu.append( KoLConstants.FUNCTION_MENU[ i ][ 0 ] );
-			functionMenu.append( "</option>" );
-		}
-
-		functionMenu.append( "<option value=\"donatepopup.php?pid=" );
-		functionMenu.append( KoLCharacter.getUserId() );
-		functionMenu.append( "\">Donate</option>" );
-
-		functionMenu.append( "<option value=\"logout.php\">Log Out</option>" );
-
-		functionMenu.append( "</select>" );
-
 		Matcher menuMatcher = MoonPhaseRequest.MENU1_PATTERN.matcher( buffer.toString() );
 		if ( menuMatcher.find() )
 		{
+			StringBuffer functionMenu = new StringBuffer();
+			functionMenu.append( "<select name=\"loc\" onchange=\"goloc();\">" );
+			functionMenu.append( "<option value=\"nothing\">- Select -</option>" );
+
+			for ( int i = 0; i < KoLConstants.FUNCTION_MENU.length; ++i )
+			{
+				functionMenu.append( "<option value=\"" );
+				functionMenu.append( KoLConstants.FUNCTION_MENU[ i ][ 1 ] );
+				functionMenu.append( "\">" );
+				functionMenu.append( KoLConstants.FUNCTION_MENU[ i ][ 0 ] );
+				functionMenu.append( "</option>" );
+			}
+
+			functionMenu.append( "<option value=\"donatepopup.php?pid=" );
+			functionMenu.append( KoLCharacter.getUserId() );
+			functionMenu.append( "\">Donate</option>" );
+
+			functionMenu.append( "<option value=\"logout.php\">Log Out</option>" );
+
+			functionMenu.append( "</select>" );
+
 			StringUtilities.singleStringReplace( buffer, menuMatcher.group(), functionMenu.toString() );
 		}
 
 		// Mafiatize the goto menu
 
-		StringBuffer gotoMenu = new StringBuffer();
-		gotoMenu.append( "<select name=location onchange='move();'>" );
-
-		gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
-		for ( int i = 0; i < KoLConstants.GOTO_MENU.length; ++i )
-		{
-			gotoMenu.append( "<option value=\"" );
-			gotoMenu.append( KoLConstants.GOTO_MENU[ i ][ 1 ] );
-			gotoMenu.append( "\">" );
-			gotoMenu.append( KoLConstants.GOTO_MENU[ i ][ 0 ] );
-			gotoMenu.append( "</option>" );
-		}
-
-		String[] bookmarkData = Preferences.getString( "browserBookmarks" ).split( "\\|" );
-
-		if ( bookmarkData.length > 1 )
-		{
-			gotoMenu.append( "<option value=\"nothing\"> </option>" );
-			gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
-
-			for ( int i = 0; i < bookmarkData.length; i += 3 )
-			{
-				gotoMenu.append( "<option value=\"" );
-				gotoMenu.append( bookmarkData[ i + 1 ] );
-				gotoMenu.append( "\">" );
-				gotoMenu.append( bookmarkData[ i ] );
-				gotoMenu.append( "</option>" );
-			}
-		}
-
-		gotoMenu.append( "</select>" );
-
 		menuMatcher = MoonPhaseRequest.MENU2_PATTERN.matcher( buffer.toString() );
 		if ( menuMatcher.find() )
 		{
+			StringBuffer gotoMenu = new StringBuffer();
+			gotoMenu.append( menuMatcher.group( 1 ) );
+
+			String[] bookmarkData = Preferences.getString( "browserBookmarks" ).split( "\\|" );
+
+			if ( bookmarkData.length > 1 )
+			{
+				gotoMenu.append( "<option value=\"nothing\"> </option>" );
+				gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
+
+				for ( int i = 0; i < bookmarkData.length; i += 3 )
+				{
+					gotoMenu.append( "<option value=\"" );
+					gotoMenu.append( bookmarkData[ i + 1 ] );
+					gotoMenu.append( "\">" );
+					gotoMenu.append( bookmarkData[ i ] );
+					gotoMenu.append( "</option>" );
+				}
+			}
+
+			gotoMenu.append( "</select>" );
+			
 			StringUtilities.singleStringReplace( buffer, menuMatcher.group(), gotoMenu.toString() );
 		}
 
