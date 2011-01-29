@@ -35,7 +35,9 @@ package net.sourceforge.kolmafia.chat;
 
 import java.awt.Toolkit;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,10 +50,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChatParser
 {
-	private static final Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>" );
 	private static final Pattern TABLECELL_PATTERN = Pattern.compile( "</?[tc].*?>" );
 	private static final Pattern PARENTHESIS_PATTERN = Pattern.compile( " \\(.*?\\)" );
 
+	private static final Pattern TITLE_PATTERN =
+		Pattern.compile( "<center><b>([^<]+)</b></center>" );
+	
+	private static final Pattern WHO_PATTERN = 
+		Pattern.compile( "<font color=(\\w+)[^>]*>(.*?)</font></a>" );
+	
 	private static final Pattern PLAYERID_PATTERN =
 		Pattern.compile( "showplayer\\.php\\?who\\=([-\\d]+)[\'\"][^>]*?>(.*?)</a>" );
 
@@ -92,29 +99,21 @@ public class ChatParser
 	{
 		ChatParser.parsePlayerIds( content );
 
-		Matcher tableMatcher = ChatParser.TABLE_PATTERN.matcher( content );
+		Matcher titleMatcher = TITLE_PATTERN.matcher( content );
+		
+		String title = titleMatcher.find() ? titleMatcher.group( 1 ) : "Contacts Online";
 
-		String title = "Contacts";
+		Map contacts = new TreeMap();
 
-		Set contacts = new TreeSet();
+		Matcher whoMatcher = WHO_PATTERN.matcher( content );
 
-		while ( tableMatcher.find() )
+		while ( whoMatcher.find() )
 		{
-			String result = tableMatcher.group();
-			String[] contactArray =
-				KoLConstants.ANYTAG_PATTERN.matcher( result ).replaceAll( "" ).split( "(\\s*,\\s*|\\:)" );
-
-			title = contactArray[ 0 ];
-
-			for ( int i = 1; i < contactArray.length; ++i )
-			{
-				if ( contactArray[ i ].indexOf( "(" ) != -1 )
-				{
-					contactArray[ i ] = contactArray[ i ].substring( 0, contactArray[ i ].indexOf( "(" ) ).trim();
-				}
-
-				contacts.add( contactArray[ i ].toLowerCase() );
-			}
+			String playerName = whoMatcher.group( 2 );
+			String color = whoMatcher.group( 1 );
+			boolean inChat = color.equals( "black" ) || color.equals( "blue" );
+		
+			contacts.put( playerName, inChat ? Boolean.TRUE : Boolean.FALSE );
 		}
 
 		String noTableContent = ChatParser.TABLECELL_PATTERN.matcher( content ).replaceAll( "" );

@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
 public class ContactListFrame
 	extends GenericFrame
@@ -95,16 +96,23 @@ public class ContactListFrame
 		return null;
 	}
 
-	public Object[] getSelectedPlayers()
+	public String[] getSelectedPlayers()
 	{
-		Object[] selectedPlayers = this.contactsDisplay.getSelectedValues();
+		Object[] selectedValues = this.contactsDisplay.getSelectedValues();
 
 		// If no players are selected, and the player uses the
 		// option, assume they want everyone.
 
-		if ( selectedPlayers.length == 0 )
+		if ( selectedValues.length == 0 )
 		{
-			selectedPlayers = this.contacts.toArray();
+			selectedValues = this.contacts.toArray();
+		}
+		
+		String[] selectedPlayers = new String[ selectedValues.length ];
+		
+		for ( int i = 0; i < selectedPlayers.length; ++i )
+		{
+			selectedPlayers[ i ] = getContactName( selectedValues[ i ] );
 		}
 
 		return selectedPlayers;
@@ -113,7 +121,7 @@ public class ContactListFrame
 	public String convertToCDL()
 	{
 		StringBuffer listCDL = new StringBuffer();
-		Object[] selectedPlayers = this.getSelectedPlayers();
+		String[] selectedPlayers = this.getSelectedPlayers();
 
 		for ( int i = 0; i < selectedPlayers.length; ++i )
 		{
@@ -121,7 +129,8 @@ public class ContactListFrame
 			{
 				listCDL.append( ", " );
 			}
-			listCDL.append( (String) selectedPlayers[ i ] );
+
+			listCDL.append( selectedPlayers[ i ] );
 		}
 
 		return listCDL.toString();
@@ -191,12 +200,22 @@ public class ContactListFrame
 
 				if ( index >= 0 && index < ContactListFrame.this.contacts.size() )
 				{
-					String contact = (String) ContactListFrame.this.contacts.get( index );
+					String contact = getContactName( ContactListFrame.this.contacts.get( index ) );
 					String bufferKey = ChatManager.getBufferKey( contact );
 					
 					ChatManager.openWindow( bufferKey, false );
 				}
 			}
 		}
+	}
+
+	protected String getContactName( Object contact )
+	{
+		if ( contact instanceof HTMLListEntry )
+		{
+			return (String) ( (HTMLListEntry) contact ).getValue();
+		}
+		
+		return (String) contact;
 	}
 }
