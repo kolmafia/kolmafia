@@ -928,7 +928,8 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "chat_private", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "who_clan", DataTypes.STRING_TYPE, params ) );
+		functions.add( new LibraryFunction( "who_clan", new AggregateType(
+			DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ), params ) );
 
 		// Quest handling functions.
 
@@ -3883,7 +3884,24 @@ public abstract class RuntimeLibrary
 	
 	public static Value who_clan()
 	{
-		return new Value( ChatSender.sendMessage( "/who clan" ) );
+		Pattern WHO_PATTERN = 
+			Pattern.compile( "<font color=(.*?)>(.*?)</font></a>" );
+		String whoClan = ChatSender.sendMessage( "/who clan" );
+		Matcher whoMatcher = WHO_PATTERN.matcher( whoClan );
+		AggregateType type = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE );
+		MapValue value = new MapValue( type );
+		while( whoMatcher.find() )
+		{
+			String playerName = whoMatcher.group( 2 );
+			String color = whoMatcher.group( 1 );
+			boolean inChat = false;
+			if( color.equals( "black" ) || color.equals( "blue" ) )
+			{
+				inChat = true;
+			}
+			value.aset( new Value( playerName ) , new Value( inChat ) );
+		}
+		return value;
 	}
 
 	// Quest completion functions.
