@@ -31,23 +31,61 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.chat;
+package net.sourceforge.kolmafia.utilities;
 
-import java.util.Map;
-
-public class WhoMessage extends EventMessage
+public class HTMLListEntry
+	implements Comparable
 {
-	private Map contacts;
+	private Comparable value;
+	private String color;
+	private String htmlText;
 
-	public WhoMessage( Map contacts, String spacedContent )
+	public HTMLListEntry( Comparable value, String color )
 	{
-		super( spacedContent, null );
-
-		this.contacts = contacts;
+		this.value = value;
+		this.setColor( color );
 	}
 
-	public Map getContacts()
+	public int compareTo( Object o )
 	{
-		return this.contacts;
+		Object compareValue;
+		
+		if ( o instanceof HTMLListEntry )
+		{
+			compareValue = ( (HTMLListEntry) o ).value;
+		}
+		else
+		{
+			compareValue = o;
+		}
+
+		return this.value.compareTo( compareValue );
+	}
+	
+	public Comparable getValue()
+	{
+		return this.value;
+	}
+
+	public void updateColor()
+	{
+	}
+	
+	public void setColor( String color )
+	{
+		if ( this.color != null && this.color.equals( color ) )
+		{
+			return;
+		}
+	
+		this.color = color;
+		this.htmlText = "<html><font color=\"" + color + "\">" + value + "</font></html>";
+	}
+
+	public String toString()
+	{
+		this.updateColor();
+
+		return htmlText;
 	}
 }

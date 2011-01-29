@@ -60,6 +60,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -87,7 +88,9 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatSender;
+import net.sourceforge.kolmafia.chat.WhoMessage;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -3928,23 +3931,35 @@ public abstract class RuntimeLibrary
 	
 	public static Value who_clan()
 	{
-		Pattern WHO_PATTERN = 
-			Pattern.compile( "<font color=(.*?)>(.*?)</font></a>" );
-		String whoClan = ChatSender.sendMessage( "/who clan" );
-		Matcher whoMatcher = WHO_PATTERN.matcher( whoClan );
-		AggregateType type = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE );
-		MapValue value = new MapValue( type );
-		while( whoMatcher.find() )
+		List chatMessages = new ArrayList();
+		
+		WhoMessage message = null;
+		ChatSender.sendMessage( chatMessages, "/who clan" );
+	
+		for ( int i = 0; i < chatMessages.size(); ++i )
 		{
-			String playerName = whoMatcher.group( 2 );
-			String color = whoMatcher.group( 1 );
-			boolean inChat = false;
-			if( color.equals( "black" ) || color.equals( "blue" ) )
+			ChatMessage chatMessage = (ChatMessage) chatMessages.get( i );
+			
+			if ( chatMessage instanceof WhoMessage )
 			{
-				inChat = true;
+				message = (WhoMessage) chatMessage;
+				break;
 			}
-			value.aset( new Value( playerName ) , new Value( inChat ) );
 		}
+	
+		MapValue value = new MapValue( DataTypes.BOOLEAN_MAP_TYPE );
+
+		if ( message != null )
+		{			
+			Iterator entryIterator = message.getContacts().entrySet().iterator();
+			
+			while ( entryIterator.hasNext() )
+			{
+				Entry entry = (Entry) entryIterator.next();
+				value.aset( new Value( (String) entry.getKey() ) , new Value( entry.getValue() == Boolean.TRUE ) );
+			}
+		}
+
 		return value;
 	}
 

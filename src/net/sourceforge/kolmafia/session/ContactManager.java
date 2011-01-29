@@ -34,6 +34,9 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -42,6 +45,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
+import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
 public class ContactManager
 {
@@ -78,7 +82,7 @@ public class ContactManager
 	 * Replaces the current contact list with the given contact list. This is used after every call to /friends or /who.
 	 */
 
-	public static final void updateContactList( final String title, final Set contacts )
+	public static final void updateContactList( final String title, final Map contacts )
 	{
 		if ( !ChatManager.isRunning() )
 		{
@@ -86,8 +90,18 @@ public class ContactManager
 		}
 
 		ContactManager.chatContacts.clear();
+		
+		Iterator entryIterator = contacts.entrySet().iterator();
+		
+		while ( entryIterator.hasNext() )
+		{
+			Entry entry = (Entry) entryIterator.next();
 
-		ContactManager.chatContacts.addAll( contacts );
+			String playerName = ( (String) entry.getKey() ).toLowerCase();
+			String color = entry.getValue() == Boolean.TRUE ? "black" : "gray";
+			
+			ContactManager.chatContacts.add( new HTMLListEntry( playerName, color ) );
+		}
 
 		if ( Preferences.getBoolean( "useContactsFrame" ) )
 		{
