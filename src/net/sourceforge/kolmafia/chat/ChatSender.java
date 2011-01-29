@@ -408,6 +408,18 @@ public class ChatSender
 		{
 			return false;
 		}
+		
+		if ( graf.startsWith( "/trivia" ) )
+		{
+			ChatManager.startTriviaGame();
+			return true;
+		}
+		
+		if ( graf.startsWith( "/endtrivia" ) || graf.startsWith( "/stoptrivia" ) )
+		{
+			ChatManager.stopTriviaGame();
+			return true;
+		}
 
 		if ( !graf.startsWith( "/do " ) && !graf.startsWith( "/run " ) && !graf.startsWith( "/cli " ) )
 		{

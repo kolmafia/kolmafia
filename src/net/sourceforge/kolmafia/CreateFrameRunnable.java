@@ -41,6 +41,7 @@ import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
+import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.LoginFrame;
 import net.sourceforge.kolmafia.swingui.SendMessageFrame;
@@ -216,7 +217,7 @@ public class CreateFrameRunnable
 
 	private boolean loadPreviousFrame()
 	{
-		if ( this.creationType == ChatFrame.class )
+		if ( this.creationType == ChatFrame.class || this.creationType == ContactListFrame.class )
 		{
 			return false;
 		}

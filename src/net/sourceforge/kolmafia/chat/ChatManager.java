@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -62,6 +63,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
+import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
@@ -83,6 +85,12 @@ public abstract class ChatManager
 
 	private static TabbedChatFrame tabbedFrame = null;
 
+	private static boolean triviaGameActive = false;
+	private static int triviaGameIndex = 0;
+	private static String triviaGameId = "[trivia0]";
+	private static LockableListModel triviaGameContacts = new LockableListModel();
+	private static ContactListFrame triviaGameContactListFrame = new ContactListFrame( ChatManager.triviaGameContacts );
+
 	public static final void reset()
 	{
 		ChatManager.dispose();
@@ -93,6 +101,11 @@ public abstract class ChatManager
 		ChatManager.instantMessageBuffers.clear();
 		ChatManager.activeChannels.clear();
 		ChatManager.currentChannel = null;
+		
+		ChatManager.triviaGameActive = false;
+		ChatManager.triviaGameIndex = 0;
+		ChatManager.triviaGameId = "[trivia0]";
+		ChatManager.triviaGameContacts.clear();
 	}
 
 	/**
@@ -239,6 +252,21 @@ public abstract class ChatManager
 		return buffer;
 	}
 
+	public static final void startTriviaGame()
+	{
+		ChatManager.triviaGameContacts.clear();
+		ChatManager.triviaGameId = "[trivia" + (++ChatManager.triviaGameIndex) + "]";
+		ChatManager.triviaGameActive = true;
+
+		ChatManager.triviaGameContactListFrame.setTitle( "Contestants for " + triviaGameId );
+		ChatManager.triviaGameContactListFrame.setVisible( true );
+	}
+	
+	public static final void stopTriviaGame()
+	{
+		ChatManager.triviaGameActive = false;
+	}
+
 	public static void processMessages( final List messages )
 	{
 		Iterator messageIterator = messages.iterator();
@@ -289,6 +317,14 @@ public abstract class ChatManager
 
 		if ( KoLCharacter.getUserName().equals( recipient ) )
 		{
+			if ( ChatManager.triviaGameActive )
+			{
+				if ( !ChatManager.triviaGameContacts.contains( message.getSender() ) )
+				{
+					ChatManager.triviaGameContacts.add( message.getSender() );
+				}
+			}
+
 			ChatManager.processCommand( message.getSender(), message.getContent(), "" );
 			destination = sender;
 		}
@@ -313,6 +349,11 @@ public abstract class ChatManager
 			{
 				bufferKey = "/clan";
 			}
+		}
+		
+		if ( !bufferKey.startsWith( "/" ) && ChatManager.triviaGameActive )
+		{
+			bufferKey = triviaGameId;
 		}
 
 		return bufferKey;
