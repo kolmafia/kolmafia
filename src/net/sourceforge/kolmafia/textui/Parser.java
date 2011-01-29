@@ -2217,7 +2217,10 @@ public class Parser
 
 		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), oper ) )
 		{
-			String error = oper.isInteger() ?
+			String error =
+				oper.isLogical() ?
+				( oper + " requires an integer or boolean expression and an integer or boolean variable reference" ) :
+				oper.isInteger() ?
 				( oper + " requires an integer expression and an integer variable reference" ) :
 				( "Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
 			throw this.parseException( error );
@@ -2286,9 +2289,9 @@ public class Parser
 			}
 
 			lhs = new Expression( lhs, null, new Operator( operator, this ) );
-			if ( lhs.getType() != DataTypes.INT_TYPE )
+			if ( lhs.getType() != DataTypes.INT_TYPE && lhs.getType() != DataTypes.BOOLEAN_TYPE )
 			{
-				throw this.parseException( "\"~\" operator requires an integer value" );
+				throw this.parseException( "\"~\" operator requires an integer or boolean value" );
 			}
 		}
 		else if ( this.currentToken().equals( "-" ) )
@@ -2803,7 +2806,6 @@ public class Parser
 	private boolean isOperator( final String oper )
 	{
 		return oper.equals( "!" ) ||
-			oper.equals( "~" ) ||
 			oper.equals( "?" ) ||
 			oper.equals( ":" ) ||
 			oper.equals( "*" ) ||
@@ -3052,10 +3054,18 @@ public class Parser
 
 	public static final boolean validCoercion( Type lhs, Type rhs, final Operator oper )
 	{
-		return oper.isInteger() ?
-			( lhs.getType() == DataTypes.TYPE_INT &&
-			  rhs.getType() == DataTypes.TYPE_INT ) :
-			Parser.validCoercion( lhs, rhs, oper.toString() );
+		int ltype = lhs.getBaseType().getType();
+		int rtype = rhs.getBaseType().getType();
+
+		if ( oper.isInteger() )
+		{
+			return ( ltype == DataTypes.TYPE_INT && rtype == DataTypes.TYPE_INT );
+		}
+		if ( oper.isLogical() )
+		{
+			return ltype == rtype && ( ltype == DataTypes.TYPE_INT || ltype == DataTypes.TYPE_BOOLEAN );
+		}
+		return Parser.validCoercion( lhs, rhs, oper.toString() );
 	}
 
 	public static final boolean validCoercion( Type lhs, Type rhs, final String oper )
@@ -3086,8 +3096,7 @@ public class Parser
 
 		if ( oper.equals( "contains" ) )
 		{
-			return lhs.getType() == DataTypes.TYPE_AGGREGATE && ( (AggregateType) lhs ).getIndexType().equals(
-				rhs );
+			return lhs.getType() == DataTypes.TYPE_AGGREGATE && ( (AggregateType) lhs ).getIndexType().equals( rhs );
 		}
 
 		// If the types are equal, no coercion is necessary

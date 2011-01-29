@@ -540,6 +540,23 @@ public class DataTypes
 	// For data types which map to integers, also supply:
 	// public static final ScriptValue makeXValue( int num )
 
+	public static final Value makeIntValue( final boolean val )
+	{
+		return val ? ONE_VALUE : ZERO_VALUE;
+	}
+
+	public static final Value makeIntValue( final int val )
+	{
+		return val == 0 ? ZERO_VALUE :
+		       val == 1 ? ONE_VALUE :
+		       new Value( val );
+	}
+
+	public static final Value makeFloatValue( final float val )
+	{
+		return val == 0.0f ? ZERO_FLOAT_VALUE : new Value( val );
+	}
+
 	public static final Value makeBooleanValue( final int num )
 	{
 		return makeBooleanValue( num != 0 );
