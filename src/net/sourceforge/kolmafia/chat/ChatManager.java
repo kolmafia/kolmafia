@@ -82,7 +82,7 @@ public abstract class ChatManager
 	private static List activeChannels = new ArrayList();
 
 	private static TabbedChatFrame tabbedFrame = null;
-	
+
 	public static final void reset()
 	{
 		ChatManager.dispose();
@@ -133,7 +133,7 @@ public abstract class ChatManager
 		for ( int i = 0; i < bufferKeys.length; ++i )
 		{
 			String bufferKey = (String) bufferKeys[ i ];
-			
+
 			if ( bufferKey.startsWith( "/" ) )
 			{
 				ChatManager.openWindow( bufferKey, false );
@@ -155,14 +155,14 @@ public abstract class ChatManager
 		}
 		return null;
 	}
-	
+
 	public static final boolean isValidChatReplyRecipient( String playerName )
 	{
 		if ( validChatReplyRecipients.contains( playerName ) )
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -189,7 +189,7 @@ public abstract class ChatManager
 				ChatManager.closeWindow( bufferKey );
 			}
 		}
-		
+
 		ChatManager.tabbedFrame = null;
 	}
 
@@ -294,15 +294,15 @@ public abstract class ChatManager
 		}
 
 		String bufferKey = ChatManager.getBufferKey( destination );
-		
+
 		ChatManager.openWindow( bufferKey, true );
 
 		StyledChatBuffer buffer = ChatManager.getBuffer( bufferKey );
-		
+
 		String displayHTML = ChatFormatter.formatChatMessage( message );
 		buffer.append( displayHTML );
 	}
-	
+
 	public static final String getBufferKey( String destination )
 	{
 		String bufferKey = destination.toLowerCase();
@@ -320,7 +320,7 @@ public abstract class ChatManager
 
 	public static final void processEvent( final EventMessage message )
 	{
-		if ( Preferences.getBoolean( "greenScreenProtection" ) || BuffBotHome.isBuffBotActive() )
+		if ( Preferences.getBoolean( "greenScreenProtection" ) || BuffBotHome.isBuffBotActive() || message.isHidden() )
 		{
 			return;
 		}
@@ -351,7 +351,7 @@ public abstract class ChatManager
 			ChatManager.activeChannels.add( sender );
 
 			String bufferKey = ChatManager.getBufferKey( sender );
-			
+
 			ChatManager.openWindow( bufferKey, false );
 		}
 
@@ -370,7 +370,7 @@ public abstract class ChatManager
 			ChatManager.activeChannels.remove( sender );
 
 			String bufferKey = ChatManager.getBufferKey( sender );
-			
+
 			ChatManager.closeWindow( bufferKey );
 		}
 	}
@@ -456,7 +456,7 @@ public abstract class ChatManager
 		}
 
 		int parameterCount = interpreter.getParser().getMainMethod().getVariableReferences().size();
-		
+
 		String[] scriptParameters;
 
 		if ( parameterCount == 3 )
@@ -480,7 +480,7 @@ public abstract class ChatManager
 				content
 			};
 		}
-		
+
 		ChatManager.validChatReplyRecipients.add( sender );
 		interpreter.execute( "main", scriptParameters );
 		ChatManager.validChatReplyRecipients.remove( sender );
@@ -529,7 +529,7 @@ public abstract class ChatManager
 			}
 
 			ChatManager.tabbedFrame.addTab( bufferKey );
-			
+
 			if ( highlightOnOpen )
 			{
 				ChatManager.tabbedFrame.highlightTab( bufferKey );
@@ -550,7 +550,7 @@ public abstract class ChatManager
 		if ( ChatManager.isRunning() && ChatManager.activeChannels.contains( bufferKey ) )
 		{
 			ChatManager.activeChannels.remove( bufferKey );
-			
+
 			if ( bufferKey.startsWith( "/" ) )
 			{
 				ChatSender.sendMessage( "/listen " + bufferKey.substring( 1 ) );

@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.chat;
 
 import java.awt.Toolkit;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,7 +76,7 @@ public class ChatParser
 			}
 
 			channel = "/" + KoLConstants.ANYTAG_PATTERN.matcher( channel ).replaceAll( "" ).trim();
-			
+
 			if ( isCurrentChannel )
 			{
 				chatMessages.add( new EnableMessage( channel, true ) );
@@ -92,33 +94,38 @@ public class ChatParser
 
 		Matcher tableMatcher = ChatParser.TABLE_PATTERN.matcher( content );
 
+		String title = "Contacts";
+
+		Set contacts = new TreeSet();
+
 		while ( tableMatcher.find() )
 		{
 			String result = tableMatcher.group();
-			String[] contactList =
+			String[] contactArray =
 				KoLConstants.ANYTAG_PATTERN.matcher( result ).replaceAll( "" ).split( "(\\s*,\\s*|\\:)" );
 
-			for ( int i = 0; i < contactList.length; ++i )
+			title = contactArray[ 0 ];
+
+			for ( int i = 1; i < contactArray.length; ++i )
 			{
-				if ( contactList[ i ].indexOf( "(" ) != -1 )
+				if ( contactArray[ i ].indexOf( "(" ) != -1 )
 				{
-					contactList[ i ] = contactList[ i ].substring( 0, contactList[ i ].indexOf( "(" ) ).trim();
+					contactArray[ i ] = contactArray[ i ].substring( 0, contactArray[ i ].indexOf( "(" ) ).trim();
 				}
 
-				contactList[ i ] = contactList[ i ].toLowerCase();
+				contacts.add( contactArray[ i ].toLowerCase() );
 			}
-
-			ContactManager.updateContactList( contactList );
 		}
 
-		if ( !Preferences.getBoolean( "useContactsFrame" ) )
-		{
-			String noTableContent = ChatParser.TABLECELL_PATTERN.matcher( content ).replaceAll( "" );
-			String spacedContent = StringUtilities.singleStringReplace( noTableContent, "</b>", "</b>&nbsp;" );
+		String noTableContent = ChatParser.TABLECELL_PATTERN.matcher( content ).replaceAll( "" );
+		String spacedContent = StringUtilities.singleStringReplace( noTableContent, "</b>", "</b>&nbsp;" );
 
-			EventMessage message = new EventMessage( spacedContent, null );
-			ChatManager.broadcastEvent( message );
-		}
+		WhoMessage message = new WhoMessage( contacts, spacedContent );
+		message.setHidden( Preferences.getBoolean( "useContactsFrame" ) );
+
+		chatMessages.add( message );
+
+		ContactManager.updateContactList( title, contacts );
 	}
 
 	public static void parseChannel( final List chatMessages, final String content )
@@ -306,7 +313,7 @@ public class ChatParser
 			message = new ChatMessage( playerName, channel, content, isAction );
 		}
 
-		chatMessages.add( message );		
+		chatMessages.add( message );
 		return true;
 	}
 
@@ -322,7 +329,7 @@ public class ChatParser
 		{
 			Toolkit.getDefaultToolkit().beep();
 		}
-		
+
 		ChatMessage message = new ChatMessage( sender, recipient, content, false );
 		chatMessages.add( message );
 	}
