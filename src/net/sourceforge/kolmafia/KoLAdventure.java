@@ -945,9 +945,19 @@ public class KoLAdventure
 			return;
 		}
 
+		// Retain old behavior of not adjusting auto attack when the user
+		// is using custom combat scripts.
+
+		String action = Preferences.getString( "battleAction" );
+
+		if ( action != null && action.startsWith( "custom" ) )
+		{
+			return;
+		}
+
 		boolean autoEntangle = Preferences.getBoolean( "autoEntangle" );
 		boolean autoEntangleActive = KoLCharacter.getAutoAttackAction().equals( "3004" );
-		
+
 		if ( autoEntangle != autoEntangleActive )
 		{
 			if ( autoEntangle )
