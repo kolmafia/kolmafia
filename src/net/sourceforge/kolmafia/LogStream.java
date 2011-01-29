@@ -65,24 +65,25 @@ public class LogStream
 	public static final PrintStream openStream( final File file, final boolean forceNewFile, final String encoding )
 	{
 		OutputStream ostream = DataUtilities.getOutputStream( file, !forceNewFile );
-		LogStream newStream;
+		PrintStream pstream = openStream( ostream, encoding );
+		
+		if ( !( pstream instanceof LogStream ) )
+		{
+			return pstream;
+		}
 
-		try
-		{
-			newStream = new LogStream( ostream, encoding );
-		}
-		catch ( IOException e )
-		{
-			e.printStackTrace();
-			return System.out;
-		}
+		LogStream newStream = (LogStream) pstream;
 
 		if ( file.getName().startsWith( "DEBUG" ) )
 		{
 			if ( KoLDesktop.instanceExists() )
 			{
 				newStream.proxy = file;
-				SwingUtilities.invokeLater( newStream );
+				
+				if ( newStream instanceof LogStream )
+				{
+					SwingUtilities.invokeLater( (LogStream) newStream );
+				}
 			}
 
 			newStream.println();
@@ -117,6 +118,19 @@ public class LogStream
 		}
 
 		return newStream;
+	}
+	
+	public static final PrintStream openStream( final OutputStream ostream, final String encoding )
+	{
+		try
+		{
+			return new LogStream( ostream, encoding );
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+			return System.out;
+		}
 	}
 
 	public void run()
