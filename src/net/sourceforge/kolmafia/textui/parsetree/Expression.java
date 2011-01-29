@@ -94,6 +94,13 @@ public class Expression
 			return DataTypes.INT_TYPE;
 		}
 
+		// If it's a logical operator, must be both integers or both
+		// booleans
+		if ( this.oper.isLogical() )
+		{
+			return leftType;
+		}
+
 		// If it's not arithmetic, it's boolean
 		if ( !this.oper.isArithmetic() )
 		{

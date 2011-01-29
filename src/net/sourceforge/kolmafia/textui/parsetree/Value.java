@@ -111,10 +111,7 @@ public class Value
 		{
 			return this;
 		}
-		else
-		{
-			return new Value( (float) this.contentInt );
-		}
+		return DataTypes.makeFloatValue( (float) this.contentInt );
 	}
 
 	public Value toIntValue()
@@ -123,10 +120,20 @@ public class Value
 		{
 			return this;
 		}
-		else
+		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
 		{
-			return new Value( (int) this.contentFloat );
+			return DataTypes.makeIntValue( this.contentInt != 0 );
 		}
+		return DataTypes.makeIntValue( (int) this.contentFloat );
+	}
+
+	public Value toBooleanValue()
+	{
+		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
+		{
+			return this;
+		}
+		return DataTypes.makeBooleanValue( this.contentInt );
 	}
 
 	public Type getType()

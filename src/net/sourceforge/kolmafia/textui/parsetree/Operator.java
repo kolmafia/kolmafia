@@ -170,18 +170,22 @@ public class Operator
 			this.operator.equals( "**" );
 	}
 
-	public boolean isInteger()
+	public boolean isLogical()
 	{
 		return this.operator.equals( "&" ) ||
 			this.operator.equals( "|" ) ||
 			this.operator.equals( "^" ) ||
 			this.operator.equals( "~" ) ||
-			this.operator.equals( "<<" ) ||
-			this.operator.equals( ">>" ) ||
-			this.operator.equals( ">>>" ) ||
 			this.operator.equals( "&=" ) ||
 			this.operator.equals( "^=" ) ||
-			this.operator.equals( "|=" ) ||
+			this.operator.equals( "|=" );
+	}
+
+	public boolean isInteger()
+	{
+		return this.operator.equals( "<<" ) ||
+			this.operator.equals( ">>" ) ||
+			this.operator.equals( ">>>" ) ||
 			this.operator.equals( "<<=" ) ||
 			this.operator.equals( ">>=" ) ||
 			this.operator.equals( ">>>=" );
@@ -237,7 +241,6 @@ public class Operator
 		}
 
 		// Otherwise, compare integers
-
 		else
 		{
 			int lint = leftValue.intValue();
@@ -280,7 +283,7 @@ public class Operator
 			result = new Value( string );
 		}
 
-		// If either value is a float, coerce to float and compare.
+		// If either value is a float, coerce to float
 
 		else if ( ltype.equals( DataTypes.TYPE_FLOAT ) || rtype.equals( DataTypes.TYPE_FLOAT ) )
 		{
@@ -292,14 +295,30 @@ public class Operator
 			}
 
 			float lfloat = leftValue.toFloatValue().floatValue();
+			float val =
+				this.operator.equals( "+" ) ? lfloat + rfloat :
+				this.operator.equals( "-" ) ? lfloat - rfloat :
+				this.operator.equals( "*" ) ? lfloat * rfloat :
+				this.operator.equals( "/" ) ? lfloat / rfloat :
+				this.operator.equals( "%" ) ? lfloat % rfloat :
+				this.operator.equals( "**" ) ? (float) Math.pow( lfloat, rfloat ) :
+				0.0f;
+			result = DataTypes.makeFloatValue( val );
+		}
 
-			result = this.operator.equals( "+" ) ? new Value( lfloat + rfloat ) :
-				this.operator.equals( "-" ) ? new Value( lfloat - rfloat ) :
-				this.operator.equals( "*" ) ? new Value( lfloat * rfloat ) :
-				this.operator.equals( "/" ) ? new Value( lfloat / rfloat ) :
-				this.operator.equals( "%" ) ? new Value( lfloat % rfloat ) :
-				this.operator.equals( "**" ) ? new Value( (float) Math.pow( lfloat, rfloat ) ) :
-				DataTypes.ZERO_FLOAT_VALUE;
+		// If this is a logical operator, return an int or boolean
+		else if ( this.isLogical() )
+		{
+			int lint = leftValue.intValue();
+			int rint = rightValue.intValue();
+			int val =
+				this.operator.equals( "&" ) ? lint & rint :
+				this.operator.equals( "^" ) ? lint ^ rint :
+				this.operator.equals( "|" ) ? lint | rint :
+				0;
+			result = ltype.equals( DataTypes.TYPE_BOOLEAN ) ?
+				DataTypes.makeBooleanValue( val ) :
+				DataTypes.makeIntValue( val );
 		}
 
 		// Otherwise, perform arithmetic on integers
@@ -314,19 +333,18 @@ public class Operator
 			}
 
 			int lint = leftValue.intValue();
-			result = this.operator.equals( "+" ) ? new Value( lint + rint ) :
-				this.operator.equals( "-" ) ? new Value( lint - rint ) :
-				this.operator.equals( "*" ) ? new Value( lint * rint ) :
-				this.operator.equals( "/" ) ? new Value( lint / rint ) :
-				this.operator.equals( "%" ) ? new Value( lint % rint ) :
-				this.operator.equals( "**" ) ? new Value( (int) Math.pow( lint, rint ) ) :
-				this.operator.equals( "&" ) ? new Value( lint & rint ) :
-				this.operator.equals( "^" ) ? new Value( lint ^ rint ) :
-				this.operator.equals( "|" ) ? new Value( lint | rint ) :
-				this.operator.equals( "<<" ) ? new Value( lint << rint ) :
-				this.operator.equals( ">>" ) ? new Value( lint >> rint ) :
-				this.operator.equals( ">>>" ) ? new Value( lint >>> rint ) :
-				DataTypes.ZERO_VALUE;
+			int val =
+				this.operator.equals( "+" ) ? lint + rint :
+				this.operator.equals( "-" ) ? lint - rint :
+				this.operator.equals( "*" ) ? lint * rint :
+				this.operator.equals( "/" ) ? lint / rint :
+				this.operator.equals( "%" ) ? lint % rint :
+				this.operator.equals( "**" ) ? (int) Math.pow( lint, rint ) :
+				this.operator.equals( "<<" ) ? lint << rint :
+				this.operator.equals( ">>" ) ? lint >> rint :
+				this.operator.equals( ">>>" ) ? lint >>> rint :
+				0;
+			result = DataTypes.makeIntValue( val );
 		}
 
 		if ( interpreter.isTracing() )
@@ -391,7 +409,7 @@ public class Operator
 		// Unary Operators
 		if ( this.operator.equals( "!" ) )
 		{
-			Value result = new Value( leftValue.intValue() == 0 );
+			Value result = DataTypes.makeBooleanValue( leftValue.intValue() == 0 );
 			if ( interpreter.isTracing() )
 			{
 				interpreter.trace( "<- " + result );
@@ -402,7 +420,11 @@ public class Operator
 
 		if ( this.operator.equals( "~" ) )
 		{
-			Value result = new Value( ~leftValue.intValue()  );
+			int val = leftValue.intValue();
+			Value result =
+				leftValue.getType().equals( DataTypes.TYPE_BOOLEAN ) ?
+				DataTypes.makeBooleanValue( val == 0 ) :
+				DataTypes.makeIntValue( ~val );
 			if ( interpreter.isTracing() )
 			{
 				interpreter.trace( "<- " + result );
@@ -416,11 +438,11 @@ public class Operator
 			Value result = null;
 			if ( lhs.getType().equals( DataTypes.TYPE_INT ) )
 			{
-				result = new Value( 0 - leftValue.intValue() );
+				result = DataTypes.makeIntValue( 0 - leftValue.intValue() );
 			}
 			else if ( lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
 			{
-				result = new Value( 0.0f - leftValue.floatValue() );
+				result = DataTypes.makeFloatValue( 0.0f - leftValue.floatValue() );
 			}
 			else
 			{
@@ -522,7 +544,7 @@ public class Operator
 		}
 
 		// Ensure type compatibility of operands
-		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), this.operator ) )
+		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), this ) )
 		{
 			throw interpreter.runtimeException( "Internal error: left hand side and right hand side do not correspond", this.fileName, this.lineNumber );
 		}
@@ -551,7 +573,7 @@ public class Operator
 				interpreter.traceUnindent();
 				return null;
 			}
-			Value result = new Value( leftValue.contains( rightValue ) );
+			Value result = DataTypes.makeBooleanValue( leftValue.contains( rightValue ) );
 			if ( interpreter.isTracing() )
 			{
 				interpreter.trace( "<- " + result );
@@ -590,7 +612,7 @@ public class Operator
 		}
 
 		// Arithmetic operators
-		if ( this.isArithmetic() || this.isInteger() )
+		if ( this.isArithmetic() || this.isLogical() || this.isInteger() )
 		{
 			return this.performArithmetic( interpreter, leftValue, rightValue );
 		}
