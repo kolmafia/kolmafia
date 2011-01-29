@@ -935,45 +935,6 @@ public class KoLAdventure
 		return location == null ? "" : location.adventureId;
 	}
 
-	private void updateAutoAttack()
-	{
-		// If you're in the middle of a fight, you can't reset your
-		// auto-attack.
-
-		if ( FightRequest.getCurrentRound() != 0 )
-		{
-			return;
-		}
-
-		// Retain old behavior of not adjusting auto attack when the user
-		// is using custom combat scripts.
-
-		String action = Preferences.getString( "battleAction" );
-
-		if ( action != null && action.startsWith( "custom" ) )
-		{
-			return;
-		}
-
-		boolean autoEntangle = Preferences.getBoolean( "autoEntangle" );
-		boolean autoEntangleActive = KoLCharacter.getAutoAttackAction().equals( "3004" );
-
-		if ( autoEntangle != autoEntangleActive )
-		{
-			if ( autoEntangle )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", "Entangling Noodles" );
-				KoLCharacter.setAutoAttackAction( "3004" );
-				return;
-			}
-			else
-			{
-				CustomCombatManager.removeAutoAttack();
-				return;
-			}
-		}
-	}
-
 	public static final boolean recordToSession( final String urlString )
 	{
 		// This is the first half of logging an adventure location
@@ -1039,8 +1000,6 @@ public class KoLAdventure
 		{
 			return;
 		}
-
-		this.updateAutoAttack();
 
 		int id = 0;
 
