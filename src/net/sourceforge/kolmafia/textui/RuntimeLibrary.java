@@ -34,7 +34,12 @@
 package net.sourceforge.kolmafia.textui;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -48,13 +53,14 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -147,6 +153,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class RuntimeLibrary
 {
+	private static Map dataFileTimestampCache = new HashMap();
+	private static Map dataFileDataCache = new HashMap();
+	
 	private static final GenericRequest VISITOR = new GenericRequest( "" );
 	private static final RelayRequest RELAYER = new RelayRequest( false );
 
@@ -1501,9 +1510,44 @@ public abstract class RuntimeLibrary
 		}
 
 		File input = RuntimeLibrary.getFile( filename );
+		long modifiedTime = input.lastModified();
+
+		Long cacheModifiedTime = (Long) dataFileTimestampCache.get( filename );
+		
+		if ( cacheModifiedTime != null && cacheModifiedTime.longValue() == modifiedTime )
+		{
+			byte[] data = (byte[]) dataFileDataCache.get( filename );
+
+			return new BufferedReader( new InputStreamReader( new ByteArrayInputStream( data ) ) );
+		}
+		
 		if ( input.exists() )
 		{
-			return DataUtilities.getReader( input );
+			try
+			{
+				FileInputStream istream = new FileInputStream( input );
+				ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+				int length;
+				byte[] buffer = new byte[ 8192 ];
+				
+				while ( ( length = istream.read( buffer ) ) > 0 )
+				{
+					ostream.write( buffer );
+				}
+
+				istream.close();
+
+				byte[] data = ostream.toByteArray();
+				
+				RuntimeLibrary.dataFileTimestampCache.put( filename, new Long( modifiedTime ) );
+				RuntimeLibrary.dataFileDataCache.put( filename, data );
+				
+				return new BufferedReader( new InputStreamReader( new ByteArrayInputStream( data ) ) );
+			}
+			catch ( Exception e )
+			{
+			}
 		}
 
 		BufferedReader reader = DataUtilities.getReader( "data", filename );
@@ -4172,11 +4216,41 @@ public abstract class RuntimeLibrary
 		{
 			return DataTypes.FALSE_VALUE;
 		}
+		
+		if ( !output.exists() )
+		{
+			try
+			{
+				output.createNewFile();
+			}
+			catch ( Exception e )
+			{
+				return DataTypes.FALSE_VALUE;
+			}
+		}
+		
+		ByteArrayOutputStream cacheStream = new ByteArrayOutputStream();
 
-		writer = LogStream.openStream( output, true );
+		writer = LogStream.openStream( cacheStream, "UTF-8" );
 		map_variable.dump( writer, "", compact );
 		writer.close();
+		
+		byte[] data = cacheStream.toByteArray();
 
+		try
+		{
+			FileOutputStream ostream = new FileOutputStream( output, false );
+			ostream.write( data );
+			ostream.close();
+		}
+		catch ( Exception e )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		RuntimeLibrary.dataFileTimestampCache.put( filename, new Long( output.lastModified() ) );
+		RuntimeLibrary.dataFileDataCache.put( filename, data );
+		
 		return DataTypes.TRUE_VALUE;
 	}
 
