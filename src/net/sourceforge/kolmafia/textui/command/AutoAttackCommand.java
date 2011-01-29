@@ -33,14 +33,23 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatSender;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoAttackCommand
 	extends AbstractCommand
 {
+	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack&ajax=1&pwd" );
+
 	public AutoAttackCommand()
 	{
 		this.usage = " <skill> - set default attack method.";
@@ -48,13 +57,12 @@ public class AutoAttackCommand
 
 	public void run( final String cmd, String parameters )
 	{
-		if ( parameters.equalsIgnoreCase( "none" ) || parameters.indexOf( "disable" ) != -1 )
+		parameters = parameters.trim();
+
+		if ( setAutoAttackSkill( parameters.toLowerCase() ) )
 		{
-			CustomCombatManager.removeAutoAttack();
 			return;
 		}
-
-		parameters = parameters.trim();
 
 		if ( parameters.startsWith( "/" ) )
 		{
@@ -70,4 +78,50 @@ public class AutoAttackCommand
 		ChatSender.executeMacro( "/aa " + parameters );
 	}
 
+	protected boolean setAutoAttackSkill( String attackName )
+	{
+		int skillId = -1;
+		
+		// Check to see if it's a known skill / attack
+		
+		if ( attackName.equals( "none" ) || attackName.indexOf( "disable" ) != -1 )
+		{
+			skillId = 0;
+		}
+		else if ( attackName.equals( "attack" ) || attackName.startsWith( "attack " ) )
+		{
+			skillId = 1;
+		}
+		else if ( !Character.isDigit( attackName.charAt( 0 ) ) )
+		{
+			List combatSkills = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
+			String skillName = SkillDatabase.getSkillName( attackName, combatSkills );
+
+			if ( skillName != null )
+			{
+				skillId = SkillDatabase.getSkillId( skillName );
+			}
+		}
+		else
+		{
+			skillId = StringUtilities.parseInt( attackName );
+		}
+
+		// If it's not something that KoLmafia recognizes, fall through to KoL chat's implementation
+		
+		if ( skillId == -1 )
+		{
+			return false;
+		}
+
+		String skillIdString = String.valueOf( skillId );
+
+		if ( !skillIdString.equals( KoLCharacter.getAutoAttackAction() ) )
+		{
+			AutoAttackCommand.AUTO_ATTACKER.addFormField( "whichattack", "0" );
+			RequestThread.postRequest( AutoAttackCommand.AUTO_ATTACKER );
+		}
+		
+		return true;
+	}
 }
