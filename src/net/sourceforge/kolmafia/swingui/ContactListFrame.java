@@ -46,7 +46,7 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -57,15 +57,15 @@ import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 public class ContactListFrame
 	extends GenericFrame
 {
-	private SortedListModel contacts;
+	private LockableListModel contacts;
 	private JList contactsDisplay;
 
 	public ContactListFrame()
 	{
-		this( (SortedListModel) ContactManager.getMailContacts().getMirrorImage() );
+		this( (LockableListModel) ContactManager.getMailContacts().getMirrorImage() );
 	}
 
-	public ContactListFrame( final SortedListModel contacts )
+	public ContactListFrame( final LockableListModel contacts )
 	{
 		super( "Contact List" );
 
