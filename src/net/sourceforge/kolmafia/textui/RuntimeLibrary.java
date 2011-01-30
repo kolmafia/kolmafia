@@ -1527,7 +1527,7 @@ public abstract class RuntimeLibrary
 		{
 			byte[] data = (byte[]) dataFileDataCache.get( filename );
 
-			return new BufferedReader( new InputStreamReader( new ByteArrayInputStream( data ) ) );
+			return DataUtilities.getReader( new ByteArrayInputStream( data ) );
 		}
 		
 		if ( input.exists() )
