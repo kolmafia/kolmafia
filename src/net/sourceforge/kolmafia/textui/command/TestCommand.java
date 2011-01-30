@@ -39,12 +39,13 @@ import java.io.FileInputStream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class TestCommand
 	extends AbstractCommand
 {
-	private String contents = null;
+	private static String contents = null;
 
 	public TestCommand()
 	{
@@ -78,18 +79,33 @@ public class TestCommand
 				long length = file.length();
 				byte [] bytes = new byte[ (int)length ];
 				int read = stream.read( bytes );
-				contents = new String( bytes );
+				TestCommand.contents = new String( bytes );
 				stream.close();
 				KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( read ) + " bytes" );
 			}
 			catch ( Exception e )
 			{
 			}
+			return;
 		}
 
-		if ( contents != null )
+		if ( TestCommand.contents == null )
 		{
-			// EquipmentRequest.parseEquipment( "inventory.php?which=2", contents );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "no HTML loaded." );
+		}
+
+		if ( command.equals( "equipment" ) )
+		{
+			EquipmentRequest.parseEquipment( "inventory.php?which=2", TestCommand.contents );
+			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "fight" ) )
+		{
+			FightRequest.parseFightHTML( TestCommand.contents );
+			TestCommand.contents = null;
+			return;
 		}
 	}
 }
