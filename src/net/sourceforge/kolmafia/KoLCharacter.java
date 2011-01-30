@@ -328,7 +328,7 @@ public abstract class KoLCharacter
 	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 	private static int mindControlLevel = 0;
 
-	private static String autoAttackAction = "";
+	private static int autoAttackAction = 0;
 	private static String autosellMode = "";
 	private static boolean unequipFamiliar = false;
 
@@ -2516,7 +2516,7 @@ public abstract class KoLCharacter
 	 * @return String
 	 */
 
-	public static final String getAutoAttackAction()
+	public static final int getAutoAttackAction()
 	{
 		return KoLCharacter.autoAttackAction;
 	}
@@ -2527,16 +2527,9 @@ public abstract class KoLCharacter
 	 * @param autoAttackAction the current auto attack action
 	 */
 
-	public static final void setAutoAttackAction( final String autoAttackAction )
+	public static final void setAutoAttackAction( final int autoAttackAction )
 	{
-		if ( autoAttackAction == null || autoAttackAction.equals( "" ) )
-		{
-			KoLCharacter.autoAttackAction = "0";
-		}
-		else
-		{
-			KoLCharacter.autoAttackAction = autoAttackAction;
-		}
+		KoLCharacter.autoAttackAction = autoAttackAction;
 	}
 
 	/**
