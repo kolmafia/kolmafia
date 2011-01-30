@@ -60,23 +60,34 @@
 	</target>
 
 
+	<!-- -->
+	
+	<target name="version">
+
+		<available file=".svn" property="using.svn" />
+
+		<antcall target="setversion" />
+		
+		<property name="revision" value="0" />
+		<echo message="Current revision: ${revision}" />
+
+	</target>
+	
 	<!-- ======================== -->
 	<!--  get SVN revision number -->
 	<!-- ======================== -->
 
-	<target name="version">
+	<target name="setversion" if="using.svn">
 
 		<exec executable="svnversion" outputproperty="revision" failifexecutionfails="false">
 			<arg value="-n" />
 			<arg value="${root}" />
 		</exec>
 
-		<property name="revision" value="0" />
-		<echo message="Current revision: ${revision}" />
-
 	</target>
 
 
+	
 	<!-- ======================= -->
 	<!--  clean up object files  -->
 	<!-- ======================= -->
