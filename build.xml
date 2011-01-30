@@ -83,9 +83,6 @@
 
 	<target name="clean">
 
-		<delete dir="${build}" failonerror="false" />
-		<delete dir="${docs}" failonerror="false" />
-
 		<!--
 		Really important not to follow the symlink to
 		/Applications and delete it...
@@ -95,8 +92,13 @@
 		
 		<delete dir="${appfile}" failonerror="false" />
 
-		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" />
+		<delete failonerror="false">
+			<fileset dir="${build}" defaultexcludes="no" followsymlinks="false" includes="**/**" />
+			<fileset dir="${docs}" defaultexcludes="no" followsymlinks="false" includes="**/**" />
+			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" includes="**/**.jar" />
+			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" includes="**/**.tar.gz" />
+			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" includes="**/**.exe" />
+			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" includes="**/**.deb" />
 		</delete>
 
 	</target>
