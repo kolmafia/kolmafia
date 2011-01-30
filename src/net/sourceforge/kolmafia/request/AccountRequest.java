@@ -87,7 +87,9 @@ public class AccountRequest
 		Matcher matcher = AccountRequest.AUTOATTACK_AJAX_PATTERN.matcher( location );
 		if ( matcher.find() )
 		{
-			KoLCharacter.setAutoAttackAction( matcher.group( 1 ) );
+			String autoAttackActionString = matcher.group( 1 );
+		
+			KoLCharacter.setAutoAttackAction( Integer.parseInt( autoAttackActionString ) );
 		}
 
 		matcher = AccountRequest.MENU_AJAX_PATTERN.matcher( location );
@@ -187,7 +189,7 @@ public class AccountRequest
 		KoLCharacter.setSkillsRecalled( KoLCharacter.kingLiberated() &&
 						responseText.indexOf( "<input class=button type=submit value=\"Recall Skills\">") == -1 );
 
-		String autoAttackAction = "";
+		int autoAttackAction = 0;
 
 		Matcher selectMatcher = AccountRequest.AUTOATTACK_PATTERN.matcher( responseText );
 		if ( selectMatcher.find() )
@@ -195,7 +197,9 @@ public class AccountRequest
 			Matcher optionMatcher = AccountRequest.SELECTED1_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 			{
-				autoAttackAction = optionMatcher.group( 1 );
+				String autoAttackActionString = optionMatcher.group( 1 );
+				
+				autoAttackAction = Integer.parseInt( autoAttackActionString );
 			}
 			else
 			{
@@ -203,7 +207,9 @@ public class AccountRequest
 
 				if ( optionMatcher.find() )
 				{
-					autoAttackAction = optionMatcher.group( 1 );
+					String autoAttackActionString = optionMatcher.group( 1 );
+				
+					autoAttackAction = Integer.parseInt( autoAttackActionString );
 				}
 			}
 		}

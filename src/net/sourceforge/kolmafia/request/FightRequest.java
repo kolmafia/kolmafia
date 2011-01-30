@@ -2051,31 +2051,29 @@ public class FightRequest
 			RequestLogger.updateSessionLog( FightRequest.wonInitiativeMessage );
 		}
 
-		FightRequest.action1 = KoLCharacter.getAutoAttackAction();
+		int autoAttackAction = KoLCharacter.getAutoAttackAction();
 
 		// If no default action is made by the player, then the round
 		// remains the same.  Simply report winning/losing initiative.
 		// Same applies for autoattack macros, we detect their action elsewhere.
 
-		if ( FightRequest.action1.equals( "" ) ||
-			FightRequest.action1.equals( "0" ) ||
-			FightRequest.action1.startsWith( "99" ) ||
+		if ( autoAttackAction == 0 || String.valueOf( autoAttackAction ).startsWith( "99" ) ||
 			responseText.indexOf( "<!-- macroaction:" ) != -1 )
 		{
 			return false;
 		}
 
-		if ( FightRequest.action1.equals( "1" ) )
+		if ( autoAttackAction == 1 )
 		{
 			FightRequest.registerRequest( false, "fight.php?[AA]attack" );
 		}
-		else if ( FightRequest.action1.equals( "3" ) )
+		else if ( autoAttackAction == 3 )
 		{
 			FightRequest.registerRequest( false, "fight.php?[AA]steal" );
 		}
 		else
 		{
-			FightRequest.registerRequest( false, "fight.php?[AA]whichskill=" + FightRequest.action1 );
+			FightRequest.registerRequest( false, "fight.php?[AA]whichskill=" + autoAttackAction );
 		}
 
 		return true;

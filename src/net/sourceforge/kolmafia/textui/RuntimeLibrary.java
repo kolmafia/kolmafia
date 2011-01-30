@@ -693,9 +693,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "last_skill_message", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_auto_attack", DataTypes.STRING_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_auto_attack", DataTypes.INT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "set_auto_attack", DataTypes.VOID_TYPE, params ) );
 		
 		params = new Type[] {};
@@ -3112,7 +3112,7 @@ public abstract class RuntimeLibrary
 
 	public static Value set_auto_attack( Value attackValue )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", attackValue.toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", String.valueOf( attackValue.intValue() ) );
 		
 		return DataTypes.VOID_VALUE;
 	}

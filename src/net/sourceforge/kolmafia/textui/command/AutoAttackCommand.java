@@ -114,11 +114,9 @@ public class AutoAttackCommand
 			return false;
 		}
 
-		String skillIdString = String.valueOf( skillId );
-
-		if ( !skillIdString.equals( KoLCharacter.getAutoAttackAction() ) )
+		if ( skillId != KoLCharacter.getAutoAttackAction() )
 		{
-			AutoAttackCommand.AUTO_ATTACKER.addFormField( "whichattack", skillIdString );
+			AutoAttackCommand.AUTO_ATTACKER.addFormField( "whichattack", String.valueOf( skillId ) );
 			RequestThread.postRequest( AutoAttackCommand.AUTO_ATTACKER );
 		}
 		
