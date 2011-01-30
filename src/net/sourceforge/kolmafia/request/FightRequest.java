@@ -3833,64 +3833,10 @@ public class FightRequest
 
 	private static final void processNormalResults( final String text, final Matcher macroMatcher )
 	{
-		TagStatus status = new TagStatus();
-		status.macroMatcher = macroMatcher;
-		status.haiku = FightRequest.haveHaikuResults( text );
-
-		TagNode node = null;
-		try
+		TagNode fight = parseFightHTML( text, true );
+		if ( fight == null )
 		{
-			// Clean the HTML on this fight response page
-			node = cleaner.clean( text );
-		}
-		catch ( IOException e )
-		{
-			// Oops.
-			StaticEntity.printStackTrace( e );
 			return;
-		}
-
-		if ( node == null )
-		{
-			RequestLogger.printLine( "HTML cleaning failed." );
-			return;
-		}
-
-		// Look first for 'monpic' image. All haiku monsters and most
-		// normal monsters have that.
-		TagNode mon = node.findElementByAttValue( "id", "monpic", true, false );
-		// If that fails, look for 'monname' span.
-		if ( mon == null )
-		{
-			mon = node.findElementByAttValue( "id", "monname", true, false );
-		}
-
-		// If that fails, we can't figure out where to start parsing
-		if ( mon == null )
-		{
-			RequestLogger.printLine( "Cannot find monster." );
-			return;
-		}
-
-		// Walk up the tree and find <center>
-		//
-		// The parent of that node has everything interesting about the
-		// fight.
-		TagNode fight = mon;
-		while ( true )
-		{
-			fight = fight.getParent();
-			if ( fight == null )
-			{
-				RequestLogger.printLine( "Cannot find combat results." );
-				return;
-			}
-			if ( fight.getName().equals( "center" ) )
-			{
-				// One more level
-				fight = fight.getParent();
-				break;
-			}
 		}
 
 		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logCleanedHTML" ) )
@@ -3898,9 +3844,107 @@ public class FightRequest
 			FightRequest.logHTML( fight );
 		}
 
+		TagStatus status = new TagStatus();
+		status.macroMatcher = macroMatcher;
+		status.haiku = FightRequest.haveHaikuResults( text );
+
 		FightRequest.processNode( fight, status );
 
 		FightRequest.shouldRefresh = status.shouldRefresh;
+	}
+
+	public static final void parseFightHTML( final String text )
+	{
+		FightRequest.logHTML( parseFightHTML( text, false ) );
+	}
+
+	private static final TagNode parseFightHTML( String text, boolean logIt )
+	{
+		// Clean the HTML on the Fight page
+		TagNode node = cleanFightHTML( text );
+		if ( node == null )
+		{
+			if ( logIt )
+			{
+				RequestLogger.printLine( "HTML cleaning failed." );
+			}
+			return null;
+		}
+
+		// Find the monster tag
+		TagNode mon = findMonsterTag( node );
+		if ( mon == null )
+		{
+			if ( logIt )
+			{
+				RequestLogger.printLine( "Cannot find monster." );
+			}
+			return null;
+		}
+
+		// Find the top of the parse tree
+		TagNode fight = findFightNode( mon );
+		if ( fight == null )
+		{
+			if ( logIt )
+			{
+				RequestLogger.printLine( "Cannot find combat results." );
+			}
+			return null;
+		}
+		return fight;
+	}
+
+	private static final TagNode cleanFightHTML( final String text )
+	{
+		try
+		{
+			// Clean the HTML on this fight response page
+			return cleaner.clean( text );
+		}
+		catch ( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		return null;
+	}
+
+	private static final TagNode findMonsterTag( final TagNode node )
+	{
+		if ( node == null )
+		{
+			return null;
+		}
+
+		// Look first for 'monpic' image.
+		// All haiku monsters and most normal monsters have that.
+		TagNode mon = node.findElementByAttValue( "id", "monpic", true, false );
+
+		// If that fails, look for 'monname' span.
+		if ( mon == null )
+		{
+			mon = node.findElementByAttValue( "id", "monname", true, false );
+		}
+		return mon;
+	}
+
+	private static final TagNode findFightNode( final TagNode mon )
+	{
+		// Walk up the tree and find <center>
+		//
+		// The parent of that node has everything interesting about the
+		// fight.
+		TagNode fight = mon;
+		while ( fight != null )
+		{
+			fight = fight.getParent();
+			if ( fight != null && fight.getName().equals( "center" ) )
+			{
+				// One more level
+				return fight.getParent();
+			}
+		}
+		return null;
 	}
 
 	private static Pattern FUMBLE_PATTERN =
@@ -5411,8 +5455,11 @@ public class FightRequest
 
 	private static final void logHTML( final TagNode node )
 	{
-		StringBuffer buffer = new StringBuffer();
-		FightRequest.logHTML( node, buffer, 0 );
+		if ( node != null )
+		{
+			StringBuffer buffer = new StringBuffer();
+			FightRequest.logHTML( node, buffer, 0 );
+		}
 	}
 
 	private static final void logHTML( final TagNode node, final StringBuffer buffer, int level )
