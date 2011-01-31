@@ -89,6 +89,7 @@ public class GearChangeFrame
 
 	private JRadioButton[] weaponTypes;
 	private JCheckBox weapon1H;
+	private JRadioButton[] offhandTypes;
 	private final EquipmentComboBox[] equipment;
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
@@ -231,15 +232,15 @@ public class GearChangeFrame
 	{
 		public EquipPanel()
 		{
-			super( "change gear", "save as outfit", new Dimension( 120, 20 ), new Dimension( 300, 20 ) );
+			super( "change gear", "save as outfit", new Dimension( 100, 21 ), new Dimension( 385, 21 ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 20 ];
+			VerifiableElement[] elements = new VerifiableElement[ 21 ];
 
 			elements[ 0 ] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] );
 			elements[ 1 ] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] );
 
-			JPanel radioPanel = new JPanel( new GridLayout( 1, 4 ) );
-			ButtonGroup radioGroup = new ButtonGroup();
+			JPanel radioPanel1 = new JPanel( new GridLayout( 1, 4 ) );
+			ButtonGroup radioGroup1 = new ButtonGroup();
 			GearChangeFrame.this.weaponTypes = new JRadioButton[ 3 ];
 
 			GearChangeFrame.this.weaponTypes[ 0 ] = new JRadioButton( "all", true );
@@ -248,49 +249,68 @@ public class GearChangeFrame
 
 			for ( int i = 0; i < weaponTypes.length; ++i )
 			{
-				radioGroup.add( GearChangeFrame.this.weaponTypes[ i ] );
-				radioPanel.add( GearChangeFrame.this.weaponTypes[ i ] );
+				radioGroup1.add( GearChangeFrame.this.weaponTypes[ i ] );
+				radioPanel1.add( GearChangeFrame.this.weaponTypes[ i ] );
 				GearChangeFrame.this.weaponTypes[ i ].addActionListener( new RefilterListener() );
 			}
 			
 			GearChangeFrame.this.weapon1H = new JCheckBox( "1-hand" );
-			radioPanel.add( GearChangeFrame.this.weapon1H );
+			radioPanel1.add( GearChangeFrame.this.weapon1H );
 			GearChangeFrame.this.weapon1H.addActionListener( new RefilterListener() );
 
-			elements[ 2 ] = new VerifiableElement( "", radioPanel );
+			elements[ 2 ] = new VerifiableElement( "", radioPanel1 );
 
 			elements[ 3 ] = new VerifiableElement( "Off-Hand: ", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] );
-			elements[ 4 ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] );
-			elements[ 5 ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] );
 
-			elements[ 6 ] = new VerifiableElement();
+			JPanel radioPanel2 = new JPanel( new GridLayout( 1, 5 ) );
+			ButtonGroup radioGroup2 = new ButtonGroup();
+			GearChangeFrame.this.offhandTypes = new JRadioButton[ 5 ];
 
-			elements[ 7 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] );
-			elements[ 8 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] );
-			elements[ 9 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] );
+			GearChangeFrame.this.offhandTypes[ 0 ] = new JRadioButton( "all", true );
+			GearChangeFrame.this.offhandTypes[ 1 ] = new JRadioButton( "melee" );
+			GearChangeFrame.this.offhandTypes[ 2 ] = new JRadioButton( "ranged" );
+			GearChangeFrame.this.offhandTypes[ 3 ] = new JRadioButton( "shields" );
+			GearChangeFrame.this.offhandTypes[ 4 ] = new JRadioButton( "other" );
 
-			elements[ 10 ] = new VerifiableElement();
+			for ( int i = 0; i < offhandTypes.length; ++i )
+			{
+				radioGroup2.add( GearChangeFrame.this.offhandTypes[ i ] );
+				radioPanel2.add( GearChangeFrame.this.offhandTypes[ i ] );
+				GearChangeFrame.this.offhandTypes[ i ].addActionListener( new RefilterListener() );
+			}
+			elements[ 4 ] = new VerifiableElement( "", radioPanel2 );
 
-			elements[ 11 ] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
-			elements[ 12 ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] );
+			elements[ 5 ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] );
+			elements[ 6 ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] );
+
+			elements[ 7 ] = new VerifiableElement();
+
+			elements[ 8 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] );
+			elements[ 9 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] );
+			elements[ 10 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] );
+
+			elements[ 11 ] = new VerifiableElement();
+
+			elements[ 12 ] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
+			elements[ 13 ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] );
 
 			GearChangeFrame.this.famLockCheckbox = new FamLockCheckbox();
 			JPanel boxholder = new JPanel( new BorderLayout() );
 			boxholder.add( GearChangeFrame.this.famLockCheckbox );
-			elements[ 13 ] = new VerifiableElement( "", boxholder );
+			elements[ 14 ] = new VerifiableElement( "", boxholder );
 			GearChangeFrame.updateFamiliarLock();
 
-			elements[ 14 ] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
-			elements[ 15 ] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
+			elements[ 15 ] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
+			elements[ 16 ] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
 
-			elements[ 16 ] = new VerifiableElement();
+			elements[ 17 ] = new VerifiableElement();
 
-			elements[ 17 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
-			GearChangeFrame.this.sticker1Label = elements[ 17 ].getLabel();
-			elements[ 18 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
-			GearChangeFrame.this.sticker2Label = elements[ 18 ].getLabel();
-			elements[ 19 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
-			GearChangeFrame.this.sticker3Label = elements[ 19 ].getLabel();
+			elements[ 18 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
+			GearChangeFrame.this.sticker1Label = elements[ 18 ].getLabel();
+			elements[ 19 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
+			GearChangeFrame.this.sticker2Label = elements[ 19 ].getLabel();
+			elements[ 20 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
+			GearChangeFrame.this.sticker3Label = elements[ 20 ].getLabel();
 
 			this.setContent( elements );
 			GearChangeFrame.this.outfitButton = this.cancelledButton;
@@ -712,14 +732,16 @@ public class GearChangeFrame
 		}
 
 		// Add the selected off-hand item
-		if ( !items.contains( offhandItem ) )
+		if ( !items.contains( offhandItem ) &&
+		     validOffhandItem( offhandItem, weapons, type ) )
 		{
 			items.add( offhandItem );
 		}
 
 		// Possibly add the current off-hand item
 		AdventureResult currentOffhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
-		if ( !items.contains( currentOffhand ) && this.validOffhandItem( currentOffhand, weapons, type ) )
+		if ( !items.contains( currentOffhand ) &&
+		     validOffhandItem( currentOffhand, weapons, type ) )
 		{
 			items.add( currentOffhand );
 		}
@@ -752,6 +774,11 @@ public class GearChangeFrame
 			}
 			// Fall through
 		case KoLConstants.EQUIP_OFFHAND:
+			// See if user wants this type of item
+			if ( !filterOffhand( currentItem ) )
+			{
+				return false;
+			}
 			// Make sure we meet requirements
 			if ( EquipmentManager.canEquip( currentItem.getName() ) )
 			{
@@ -759,6 +786,43 @@ public class GearChangeFrame
 			}
 			break;
 		}
+		return false;
+	}
+
+	private boolean filterOffhand( final AdventureResult offhand )
+	{
+		if ( this.offhandTypes[ 0 ].isSelected() )
+		{
+			return true;
+		}
+
+		int itemId = offhand.getItemId();
+
+		if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_WEAPON )
+		{
+			switch ( EquipmentDatabase.getWeaponType( offhand.getName() ) )
+			{
+			case KoLConstants.MELEE:
+				return this.offhandTypes[ 1 ].isSelected();
+			case KoLConstants.RANGED:
+				return this.offhandTypes[ 2 ].isSelected();
+			}
+			return false;
+		}
+
+		String type = EquipmentDatabase.getItemType( itemId );
+		if ( this.offhandTypes[ 3 ].isSelected() )
+		{
+			// Shields
+			return type.equals( "shield" );
+		}
+
+		if ( this.offhandTypes[ 4 ].isSelected() )
+		{
+			// Everything Else
+			return type.equals( "offhand" );
+		}
+
 		return false;
 	}
 
