@@ -525,8 +525,18 @@ public abstract class UseLinkDecorator
 
 				return new UseLink( itemId, itemCount, "read", "diary.php?textversion=1" );
 
-			case ItemPool.SPOOKY_MAP:
 			case ItemPool.SPOOKY_SAPLING:
+				// You now get the Spooky Sapling as the result
+				// of taking a choice option - which leaves you
+				// in a choice option. Therefore, a use link is
+				// useless here.
+				//
+				// Perhaps if we ever have a "Previously seen"
+				// section for choice adventures, as we do for
+				// fights, the use link could go there.
+				return null;
+
+			case ItemPool.SPOOKY_MAP:
 			case ItemPool.SPOOKY_FERTILIZER:
 
 				if ( !InventoryManager.hasItem( ItemPool.SPOOKY_MAP ) ||
