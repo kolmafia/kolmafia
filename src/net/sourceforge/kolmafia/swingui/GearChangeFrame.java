@@ -232,7 +232,7 @@ public class GearChangeFrame
 	{
 		public EquipPanel()
 		{
-			super( "change gear", "save as outfit", new Dimension( 100, 21 ), new Dimension( 385, 21 ) );
+			super( "change gear", "save as outfit", new Dimension( 100, 21 ), new Dimension( 320, 21 ) );
 
 			VerifiableElement[] elements = new VerifiableElement[ 21 ];
 
@@ -264,13 +264,12 @@ public class GearChangeFrame
 
 			JPanel radioPanel2 = new JPanel( new GridLayout( 1, 5 ) );
 			ButtonGroup radioGroup2 = new ButtonGroup();
-			GearChangeFrame.this.offhandTypes = new JRadioButton[ 5 ];
+			GearChangeFrame.this.offhandTypes = new JRadioButton[ 4 ];
 
 			GearChangeFrame.this.offhandTypes[ 0 ] = new JRadioButton( "all", true );
-			GearChangeFrame.this.offhandTypes[ 1 ] = new JRadioButton( "melee" );
-			GearChangeFrame.this.offhandTypes[ 2 ] = new JRadioButton( "ranged" );
-			GearChangeFrame.this.offhandTypes[ 3 ] = new JRadioButton( "shields" );
-			GearChangeFrame.this.offhandTypes[ 4 ] = new JRadioButton( "other" );
+			GearChangeFrame.this.offhandTypes[ 1 ] = new JRadioButton( "weapon" );
+			GearChangeFrame.this.offhandTypes[ 2 ] = new JRadioButton( "shields" );
+			GearChangeFrame.this.offhandTypes[ 3 ] = new JRadioButton( "other" );
 
 			for ( int i = 0; i < offhandTypes.length; ++i )
 			{
@@ -800,24 +799,17 @@ public class GearChangeFrame
 
 		if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_WEAPON )
 		{
-			switch ( EquipmentDatabase.getWeaponType( offhand.getName() ) )
-			{
-			case KoLConstants.MELEE:
-				return this.offhandTypes[ 1 ].isSelected();
-			case KoLConstants.RANGED:
-				return this.offhandTypes[ 2 ].isSelected();
-			}
-			return false;
+			return this.offhandTypes[ 1 ].isSelected();
 		}
 
 		String type = EquipmentDatabase.getItemType( itemId );
-		if ( this.offhandTypes[ 3 ].isSelected() )
+		if ( this.offhandTypes[ 2 ].isSelected() )
 		{
 			// Shields
 			return type.equals( "shield" );
 		}
 
-		if ( this.offhandTypes[ 4 ].isSelected() )
+		if ( this.offhandTypes[ 3 ].isSelected() )
 		{
 			// Everything Else
 			return type.equals( "offhand" );
