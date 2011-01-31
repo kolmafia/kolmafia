@@ -133,6 +133,51 @@ public class TavernRequest
 		}
 	}
 
+	private static final Pattern MAP_PATTERN = Pattern.compile( "alt=\"([^\"]*) \\(([\\d]*),([\\d]*)\\)\"" );
+
+	private static final void parseCellarMap( final String text )
+	{
+		TavernRequest.validateFaucetQuest();
+
+		StringBuffer layout = new StringBuffer( "0000000000000000000000000" );
+		Matcher matcher = TavernRequest.MAP_PATTERN.matcher( text );
+		while ( matcher.find() )
+		{
+			String type = matcher.group(1);
+			char code;
+			if ( type.startsWith( "Darkness" ) )
+			{
+				code = '0';
+			}
+			else if ( type.startsWith( "Explored" ) )
+			{
+				code = '1';
+			}
+			else if ( type.startsWith( "A Rat Faucet" ) )
+			{
+				code = '3';
+			}
+			else if ( type.startsWith( "A Tiny Mansion" ) )
+			{
+				code = '4';
+			}
+			else if ( type.startsWith( "Stairs Up" ) )
+			{
+				code = '1';
+			}
+			else
+			{
+				code = '0';
+			}
+
+			int col = StringUtilities.parseInt( matcher.group(2) );
+			int row = StringUtilities.parseInt( matcher.group(3) );
+			int square = ( row - 1 ) * 5 + ( col - 1 ) + 1;
+			layout.setCharAt( square - 1, code );
+		}
+		Preferences.setString( "tavernLayout", layout.toString() );
+	}
+
 	private static final Pattern SPOT_PATTERN = Pattern.compile( "whichspot=([\\d,]+)" );
 	private static final int getSquare( final String urlString )
 	{
@@ -191,6 +236,14 @@ public class TavernRequest
 
 	public static final void postTavernVisit( final GenericRequest request )
 	{
+		String urlString = request.getURLString();
+
+		if ( urlString.equals( "cellar.php" ) )
+		{
+			TavernRequest.parseCellarMap( request.responseText );
+			return;
+		}
+
 		if ( KoLCharacter.getAdventuresLeft() == 0 ||
 		     KoLCharacter.getCurrentHP() == 0 ||
 		     KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit() )
@@ -198,7 +251,6 @@ public class TavernRequest
 			return;
 		}
 
-		String urlString = request.getURLString();
 		if ( urlString.startsWith( "fight.php" ) )
 		{
 			int square = Preferences.getInteger( "lastTavernSquare" );

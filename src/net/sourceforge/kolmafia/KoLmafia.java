@@ -1738,81 +1738,151 @@ public abstract class KoLmafia
 	 * Completes the infamous tavern quest.
 	 */
 
+	//  1<--2<--3<--4<--5
+	//  v
+	//  6   7-->8   9->10
+	//  v   ^   v   ^   v
+	// 11  12  13  14  15
+	//  v   ^   v   ^   v
+	// 16  17  18  19  20
+	//  v   ^   v   ^   v
+	// 21->22  23->24  25
+
+	private static Integer [] searchOrder = {
+		// new Integer(  5 ),
+		new Integer(  4 ), new Integer(  3 ), new Integer(  2 ),
+		new Integer(  1 ), new Integer(  6 ), new Integer( 11 ),
+		new Integer( 16 ), new Integer( 21 ), new Integer( 22 ),
+		new Integer( 17 ), new Integer( 12 ), new Integer(  7 ),
+		new Integer(  8 ), new Integer( 13 ), new Integer( 18 ),
+		new Integer( 23 ), new Integer( 24 ), new Integer( 19 ),
+		new Integer( 14 ), new Integer(  9 ), new Integer( 10 ),
+		new Integer( 15 ), new Integer( 20 ), new Integer( 25 ),
+	};
+
 	public int locateTavernFaucet()
 	{
-		// Determine which elements have already been checked
-		// so you don't check through them again.
-
-		ArrayList searchList = new ArrayList();
-
-		for ( int i = 1; i <= 25; ++i )
-		{
-			searchList.add( new Integer( i ) );
-		}
-
-		TavernRequest.validateFaucetQuest();
-		String visited = Preferences.getString( "tavernLayout" );
-		for ( int i = visited.length() - 1; i >= 0; --i )
-		{
-			switch ( visited.charAt( i ) )
-			{
-			case '0':
-				break;
-			case '1':
-			case '2':
-				searchList.remove( i );
-				break;
-
-			case '3':
-			{
-				int faucetRow = i / 5 + 1;
-				int faucetColumn = i % 5 + 1;
-
-				KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
-				return i + 1;
-			}
-
-			case '4':
-			{
-				int baronRow = i / 5 + 1;
-				int baronColumn = i % 5 + 1;
-
-				KoLmafia.updateDisplay( "Baron found in row " + baronRow + ", column " + baronColumn );
-				return i + 1;
-			}
-			}
-		}
-
-		// If the faucet has not yet been found, then go through
-		// the process of trying to locate it.
-
 		if ( KoLCharacter.getLevel() < 3 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to level up first." );
 			return -1;
 		}
 
-		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
+		// See if we've already found the faucet within KoLmafia
+		TavernRequest.validateFaucetQuest();
+		String visited = Preferences.getString( "tavernLayout" );
+		int faucet = visited.indexOf( "3" );
+		int baron = visited.indexOf( "4" );
 
+		if ( faucet != -1 )
+		{
+			int faucetRow = faucet / 5 + 1;
+			int faucetColumn = faucet % 5 + 1;
+
+			KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
+		}
+
+		if ( baron != -1 )
+		{
+			int baronRow = baron / 5 + 1;
+			int baronColumn = baron % 5 + 1;
+
+			KoLmafia.updateDisplay( "Baron found in row " + baronRow + ", column " + baronColumn );
+		}
+
+		if ( faucet != -1 )
+		{
+			return faucet + 1;
+		}
+
+		// No. Go look for it.
 		KoLmafia.updateDisplay( "Searching for faucet..." );
 
-		KoLAdventure adventure = new KoLAdventure( "Woods", "cellar.php", "", "Typical Tavern Cellar" );
-		GenericRequest request = adventure.getRequest();
+		// Make sure we have the quest from the council
+		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
+		// Make sure Bart Ender has given us access to the cellar
+		GenericRequest request = new GenericRequest( "tavern.php?place=barkeep" );
+		RequestThread.postRequest( request );
+		// *** Should look at response and make sure we got there
+
+		// Visit the tavern cellar to update the layout
+		KoLAdventure adventure = new KoLAdventure( "Woods", "cellar.php", "", "Typical Tavern Cellar" );
 		RequestThread.postRequest( adventure );
 
-		// Random guess instead of straightforward search
-		// for the location of the faucet.
+		// Refetch the current layout
+		visited = Preferences.getString( "tavernLayout" );
+
+		// Determine which elements have already been checked
+		// so we don't try to visit them again.
+
+		ArrayList searchList = new ArrayList();
+
+		for ( int i = 0; i < searchOrder.length; ++i )
+		{
+			searchList.add( searchOrder[ i ] );
+		}
+
+		for ( int i = visited.length() - 1; i >= 0; --i )
+		{
+			switch ( visited.charAt( i ) )
+			{
+			case '0':
+				continue;
+			case '1':
+			case '2':
+				break;
+
+			case '3':
+			{
+				int row = i / 5 + 1;
+				int column = i % 5 + 1;
+
+				KoLmafia.updateDisplay( "Faucet found in row " + row + ", column " + column );
+				faucet = i;
+				break;
+			}
+
+			case '4':
+			{
+				int row = i / 5 + 1;
+				int column = i % 5 + 1;
+
+				KoLmafia.updateDisplay( "Baron found in row " + row + ", column " + column );
+				baron = i;
+				break;
+			}
+			}
+
+			// Remove explored from searchlist
+			int index = searchList.indexOf( new Integer( i + 1 ) );
+			if ( index != -1 )
+			{
+				searchList.remove( index );
+			}
+		}
+
+		// See if we've already found the faucet outside KoLmafia
+		if ( faucet != -1 )
+		{
+			return faucet + 1;
+		}
+
+		// If the faucet has not yet been found, then go through
+		// the process of trying to locate it.
+		request = adventure.getRequest();
 
 		boolean foundFaucet = false;
 		Integer searchIndex = null;
 
-		while ( !foundFaucet && searchList.size() > 0 && KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
+		while ( !foundFaucet &&
+			searchList.size() > 0 &&
+			KoLmafia.permitsContinue() &&
+			KoLCharacter.getCurrentHP() > 0 &&
+			KoLCharacter.getAdventuresLeft() > 0 )
 		{
-			// The following is not correct, since you can't go to
-			// a random square anymore. You have to go to a square
-			// that is adjacent to a square you've already visited.
-			searchIndex = (Integer) searchList.remove( KoLConstants.RNG.nextInt( searchList.size() ) );
+			// Take the first square off of the list
+			searchIndex = (Integer) searchList.remove( 0 );
 			request.addFormField( "whichspot", searchIndex.toString() );
 			request.addFormField( "action", "explore" );
 			RequestThread.postRequest( adventure );
@@ -1830,11 +1900,12 @@ public abstract class KoLmafia
 		// Otherwise, you've found it! So notify the user
 		// that the faucet has been found.
 
-		int faucetRow = ( searchIndex.intValue() - 1 ) / 5 + 1;
-		int faucetColumn = ( searchIndex.intValue() - 1 ) % 5 + 1;
+		faucet = ( searchIndex.intValue() - 1 );
+		int row = faucet / 5 + 1;
+		int column = faucet % 5 + 1;
 
-		KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
-		return searchIndex.intValue();
+		KoLmafia.updateDisplay( "Faucet found in row " + row + ", column " + column );
+		return faucet + 1;
 	}
 
 	/**
