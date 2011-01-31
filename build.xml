@@ -7,6 +7,7 @@
 	<property file="build.properties" />
 	<property file="default.properties" />
 	<property environment="env" />
+	<available file=".svn" property="using.svn" />
 
 	<!-- ========================================== -->
 	<!--  create directories used by other targets  -->
@@ -62,12 +63,8 @@
 
 	<!-- -->
 	
-	<target name="version">
+	<target name="version" depends="setversion">
 
-		<available file=".svn" property="using.svn" />
-
-		<antcall target="setversion" />
-		
 		<property name="revision" value="0" />
 		<echo message="Current revision: ${revision}" />
 
