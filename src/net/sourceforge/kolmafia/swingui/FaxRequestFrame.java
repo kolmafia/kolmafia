@@ -102,7 +102,7 @@ public class FaxRequestFrame
 
 		public FaxRequestPanel()
 		{
-			super( "request", "online?" );
+			super( "request", "online?", new Dimension( 75, 24 ), new Dimension( 200, 24) );
 
 			FaxRequestFrame.this.categorySelect = new MonsterCategoryComboBox();
 			FaxRequestFrame.this.monsterIndex = 0;
