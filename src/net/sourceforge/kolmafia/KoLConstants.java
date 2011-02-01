@@ -111,6 +111,40 @@ public interface KoLConstants
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
 	// Ensures that the two menus always contain the same information.
 
+	// Additional navigation destinations for convenience
+
+	public static final String[][] GOTO_MENU = new String[][]
+	{
+		{
+			"Spookyraven",
+			"manor.php"
+		},
+		{
+			"Council",
+			"council.php"
+		},
+		{
+			"Guild Hall",
+			"guild.php"
+		},
+		{
+			"Mt. McLargeHuge",
+			"mclargehuge.php"
+		},
+		{
+			"Cobb's Knob",
+			"knob.php"
+		},
+		{
+			"Defiled Cyrpt",
+			"cyrpt.php"
+		},
+		{
+			"The Beanstalk",
+			"beanstalk.php"
+		},
+	};
+
 	public static final String[][] FRAME_NAMES =
 	{
 		{
