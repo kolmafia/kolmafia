@@ -143,6 +143,10 @@ public interface KoLConstants
 			"The Beanstalk",
 			"beanstalk.php"
 		},
+		{
+			"The Sea",
+			"thesea.php"
+		},
 	};
 
 	public static final String[][] FRAME_NAMES =
