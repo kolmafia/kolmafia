@@ -665,6 +665,8 @@ public class FightRequest
 						FightRequest.currentRound - initialRound - 1;
 				}
 
+				// Continue running after the consult script
+				this.responseCode = 200;
 				return;
 			}
 
@@ -1239,8 +1241,8 @@ public class FightRequest
 			}
 
 			if ( action.startsWith( "consult" ) ||
-				action.startsWith( "delevel" ) ||
-				action.startsWith( "twiddle" ) )
+			     action.startsWith( "delevel" ) ||
+			     action.startsWith( "twiddle" ) )
 			{
 				macro.setLength( 0 );
 				RequestLogger.printLine( "(unable to macrofy due to action: " +
@@ -2218,8 +2220,8 @@ public class FightRequest
 		FightRequest.updateRoundData( macroMatcher );
 
 		if ( responseText.indexOf( "Macro Abort" ) != -1 ||
-			responseText.indexOf( "Macro abort" ) != -1 ||
-			responseText.indexOf( "macro abort" ) != -1)
+		     responseText.indexOf( "Macro abort" ) != -1 ||
+		     responseText.indexOf( "macro abort" ) != -1)
 		{
 			FightRequest.action1 = "abort";
 		}
@@ -2228,11 +2230,11 @@ public class FightRequest
 	}
 
 	// This performs checks that have to be applied to a single round of
-	// combat results, and that aren't (yet) part of the processNormalResults
-	// loop.  responseText will be a fragment of the page; anything that needs
-	// to check something outside of the round (such as looking at the action
-	// menus to see if an item or skill is still available) should use
-	// FightRequest.lastResponseText instead.
+	// combat results, and that aren't (yet) part of the
+	// processNormalResults loop.  responseText will be a fragment of the
+	// page; anything that needs to check something outside of the round
+	// (such as looking at the action menus to see if an item or skill is
+	// still available) should use FightRequest.lastResponseText instead.
 	private static final void updateRoundData( final Matcher macroMatcher )
 	{
 		String responseText;
