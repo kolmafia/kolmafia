@@ -134,6 +134,7 @@ public class FightRequest
 	private static boolean foundNextRound = false;
 	private static boolean haveFought = false;
 	private static boolean shouldRefresh = false;
+	private static boolean initializeAfterFight = false;
 
 	private static boolean isAutomatingFight = false;
 	private static boolean isUsingConsultScript = false;
@@ -400,6 +401,11 @@ public class FightRequest
 	{
 		return FightRequest.canOlfact && !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
 
+	}
+	
+	public static void initializeAfterFight()
+	{
+		FightRequest.initializeAfterFight = true;
 	}
 
 	public static final boolean canStillSummon()
@@ -4609,6 +4615,12 @@ public class FightRequest
 		FightRequest.preparatoryRounds = 0;
 		FightRequest.consultScriptThatDidNothing = null;
 		FightRequest.macro = null;
+		
+		if ( FightRequest.initializeAfterFight )
+		{
+			StaticEntity.getClient().login( KoLCharacter.getUserName() );
+			FightRequest.initializeAfterFight = false;
+		}		
 	}
 
 	private static final int getActionCost()
