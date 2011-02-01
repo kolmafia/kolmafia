@@ -185,16 +185,23 @@ public class MoonPhaseRequest
 			return;
 		}
 
+		String originalMenu = menuMatcher.group( 1 );
 		StringBuffer gotoMenu = new StringBuffer();
-		gotoMenu.append( menuMatcher.group( 1 ) );
+		gotoMenu.append( originalMenu );
 
 		// Add special convenience areas not in normal menu
 		for ( int i = 0; i < KoLConstants.GOTO_MENU.length; ++i )
 		{
+			String tag = KoLConstants.GOTO_MENU[ i ][ 0 ];
+			if ( originalMenu.indexOf( tag ) != -1 )
+			{
+				continue;
+			}
+			String url = KoLConstants.GOTO_MENU[ i ][ 1 ];
 			gotoMenu.append( "<option value=\"" );
-			gotoMenu.append( KoLConstants.GOTO_MENU[ i ][ 1 ] );
+			gotoMenu.append( url );
 			gotoMenu.append( "\">" );
-			gotoMenu.append( KoLConstants.GOTO_MENU[ i ][ 0 ] );
+			gotoMenu.append( tag );
 			gotoMenu.append( "</option>" );
 		}
 
