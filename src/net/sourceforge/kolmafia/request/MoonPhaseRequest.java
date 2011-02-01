@@ -113,51 +113,8 @@ public class MoonPhaseRequest
 
 	public static final void adjustCompactMenu( final StringBuffer buffer )
 	{
-		// Mafiatize the function menu
-
-		Matcher menuMatcher = MoonPhaseRequest.MENU1_PATTERN.matcher( buffer.toString() );
-		if ( menuMatcher.find() )
-		{
-			StringBuffer functionMenu = new StringBuffer();
-			functionMenu.append( menuMatcher.group() );
-
-			StringUtilities.singleStringReplace(
-				functionMenu,
-				"<option value=\"inventory.php\">Inventory</option>",
-				"<option value=\"inventory.php?which=1\">Consumables</option><option value=\"inventory.php?which=2\">Equipment</option><option value=\"inventory.php?which=3\">Misc Items</option><option value=\"autosell.php\">Sell Stuff</option>" );
-
-			StringUtilities.singleStringReplace( buffer, menuMatcher.group(), functionMenu.toString() );
-		}
-
-		// Mafiatize the goto menu
-
-		menuMatcher = MoonPhaseRequest.MENU2_PATTERN.matcher( buffer.toString() );
-		if ( menuMatcher.find() )
-		{
-			StringBuffer gotoMenu = new StringBuffer();
-			gotoMenu.append( menuMatcher.group( 1 ) );
-
-			String[] bookmarkData = Preferences.getString( "browserBookmarks" ).split( "\\|" );
-
-			if ( bookmarkData.length > 1 )
-			{
-				gotoMenu.append( "<option value=\"nothing\"> </option>" );
-				gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
-
-				for ( int i = 0; i < bookmarkData.length; i += 3 )
-				{
-					gotoMenu.append( "<option value=\"" );
-					gotoMenu.append( bookmarkData[ i + 1 ] );
-					gotoMenu.append( "\">" );
-					gotoMenu.append( bookmarkData[ i ] );
-					gotoMenu.append( "</option>" );
-				}
-			}
-
-			gotoMenu.append( "</select>" );
-			
-			StringUtilities.singleStringReplace( buffer, menuMatcher.group(), gotoMenu.toString() );
-		}
+		MoonPhaseRequest.mafiatizeFunctionMenu( buffer );
+		MoonPhaseRequest.mafiatizeGotoMenu( buffer );
 
 		// Now kill off the weird focusing problems inherent in
 		// the Javascript.
@@ -199,5 +156,67 @@ public class MoonPhaseRequest
 				buffer.insert( lastRowIndex, selectBuffer.toString() );
 			}
 		}
+	}
+
+	private static final void mafiatizeFunctionMenu( final StringBuffer buffer )
+	{
+		Matcher menuMatcher = MoonPhaseRequest.MENU1_PATTERN.matcher( buffer.toString() );
+		if ( !menuMatcher.find() )
+		{
+			return;
+		}
+
+		StringBuffer functionMenu = new StringBuffer();
+		functionMenu.append( menuMatcher.group() );
+
+		StringUtilities.singleStringReplace(
+			functionMenu,
+			"<option value=\"inventory.php\">Inventory</option>",
+			"<option value=\"inventory.php?which=1\">Consumables</option><option value=\"inventory.php?which=2\">Equipment</option><option value=\"inventory.php?which=3\">Misc Items</option><option value=\"autosell.php\">Sell Stuff</option>" );
+
+		StringUtilities.singleStringReplace( buffer, menuMatcher.group(), functionMenu.toString() );
+	}
+
+	private static final void mafiatizeGotoMenu( final StringBuffer buffer )
+	{
+		Matcher menuMatcher = MoonPhaseRequest.MENU2_PATTERN.matcher( buffer.toString() );
+		if ( !menuMatcher.find() )
+		{
+			return;
+		}
+
+		StringBuffer gotoMenu = new StringBuffer();
+		gotoMenu.append( menuMatcher.group( 1 ) );
+
+		// Add special convenience areas not in normal menu
+		for ( int i = 0; i < KoLConstants.GOTO_MENU.length; ++i )
+		{
+			gotoMenu.append( "<option value=\"" );
+			gotoMenu.append( KoLConstants.GOTO_MENU[ i ][ 1 ] );
+			gotoMenu.append( "\">" );
+			gotoMenu.append( KoLConstants.GOTO_MENU[ i ][ 0 ] );
+			gotoMenu.append( "</option>" );
+		}
+
+		String[] bookmarkData = Preferences.getString( "browserBookmarks" ).split( "\\|" );
+
+		if ( bookmarkData.length > 1 )
+		{
+			gotoMenu.append( "<option value=\"nothing\"> </option>" );
+			gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
+
+			for ( int i = 0; i < bookmarkData.length; i += 3 )
+			{
+				gotoMenu.append( "<option value=\"" );
+				gotoMenu.append( bookmarkData[ i + 1 ] );
+				gotoMenu.append( "\">" );
+				gotoMenu.append( bookmarkData[ i ] );
+				gotoMenu.append( "</option>" );
+			}
+		}
+
+		gotoMenu.append( "</select>" );
+			
+		StringUtilities.singleStringReplace( buffer, menuMatcher.group(), gotoMenu.toString() );
 	}
 }
