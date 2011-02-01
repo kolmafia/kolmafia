@@ -1629,11 +1629,17 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
+			if ( LoginRequest.isInstanceRunning() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Redirected to a fight page." );
+				FightRequest.initializeAfterFight();
+				return true;
+			}
+
 			// You have been redirected to a fight! Here, you need
 			// to complete the fight before you can continue.
 
-			if ( LoginRequest.isInstanceRunning() ||
-			     this == ChoiceManager.CHOICE_HANDLER ||
+			if ( this == ChoiceManager.CHOICE_HANDLER ||
 			     this instanceof AdventureRequest ||
 			     this instanceof BasementRequest ||
 			     this instanceof HiddenCityRequest )
