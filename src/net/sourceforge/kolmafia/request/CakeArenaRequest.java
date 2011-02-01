@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -103,6 +105,24 @@ public class CakeArenaRequest
 		{
 			KoLmafia.updateDisplay( "Opponent list retrieved." );
 		}
+	}
+
+	public static boolean parseResults( final String responseText )
+	{
+		// The Baby Bugged Bugbear might get a free familiar item. If
+		// so, it looks like you also get 3 lead necklaces. Nope.
+		//
+		// Congratulations on your %arenawins arena win. You've earned
+		// a prize from the Arena Goodies Sack!
+
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		if ( familiar.getId() == FamiliarPool.BUGBEAR &&
+		     responseText.indexOf( "Congratulations on your %arenawins arena win" ) != -1 )
+		{
+			return ResultProcessor.processItem( ItemPool.BUGGED_BEANIE, 1 );
+		}
+
+		return ResultProcessor.processResults( false, responseText );
 	}
 
 	public static final void parseResponse( final String urlString, final String responseText )

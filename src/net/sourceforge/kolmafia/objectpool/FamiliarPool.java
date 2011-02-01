@@ -82,6 +82,7 @@ public class FamiliarPool
 	public static final int GIBBERER = 117;
 	public static final int DANCING_FROG = 118;
 	public static final int STOCKING_MIMIC = 120;
+	public static final int BUGBEAR = 124;
 	public static final int TRON = 135;
 	public static final int HIPSTER = 136;
 	public static final int GRINDER = 139;

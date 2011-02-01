@@ -2072,6 +2072,10 @@ public class GenericRequest
 		{
 			this.containsUpdate = ResultProcessor.processResults( true, this.responseText );
 		}
+		else if ( urlString.startsWith( "arena.php" ) )
+		{
+			this.containsUpdate = CakeArenaRequest.parseResults( this.responseText );
+		}
 		else
 		{
 			this.containsUpdate = ResultProcessor.processResults( false, this.responseText );
