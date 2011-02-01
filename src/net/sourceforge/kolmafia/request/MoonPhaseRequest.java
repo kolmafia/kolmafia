@@ -172,7 +172,7 @@ public class MoonPhaseRequest
 		StringUtilities.singleStringReplace(
 			functionMenu,
 			"<option value=\"inventory.php\">Inventory</option>",
-			"<option value=\"inventory.php?which=1\">Consumables</option><option value=\"inventory.php?which=2\">Equipment</option><option value=\"inventory.php?which=3\">Misc Items</option><option value=\"autosell.php\">Sell Stuff</option>" );
+			"<option value=\"inventory.php?which=1\">Consumables</option><option value=\"inventory.php?which=2\">Equipment</option><option value=\"inventory.php?which=3\">Misc Items</option><option value=\"sellstuff.php\">Sell Stuff</option>" );
 
 		StringUtilities.singleStringReplace( buffer, menuMatcher.group(), functionMenu.toString() );
 	}
