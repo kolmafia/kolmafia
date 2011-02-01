@@ -1116,6 +1116,7 @@ public class ItemPool
 	public static final int JACKING_MAP = 4560;
 	public static final int TINY_FLY_GLASSES = 4566;
 	public static final int LEGENDARY_BEAT = 4573;
+	public static final int BUGGED_BEANIE = 4575;
 	public static final int PIXEL_WHIP = 4589;
 	public static final int PIXEL_CHAIN_WHIP = 4590;
 	public static final int PIXEL_MORNING_STAR = 4591;
