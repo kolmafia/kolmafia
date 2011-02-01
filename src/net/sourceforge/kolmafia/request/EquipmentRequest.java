@@ -865,6 +865,27 @@ public class EquipmentRequest
 					return null;
 				}
 
+				if ( result.indexOf( "You put on part of" ) != -1 )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You only put on part of that outfit." );
+					if ( !this.containsUpdate )
+					{
+						CharPaneRequest.getInstance().run();
+					}
+					return null;
+				}
+
+				// It appears you're already wearing all the
+				// parts of the outfit 'outfitname' which you
+				// possess or can wear.	 ... followed by a
+				// table of missing pieces
+
+				if ( result.indexOf( "which you possess or can wear" ) != -1 )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already wearing as much of that outfit as you can." );
+					return null;
+				}
+
 				if ( result.indexOf( "You put" ) == -1 &&
 				     result.indexOf( "You equip" ) == -1 &&
 				     result.indexOf( "Item equipped" ) == -1 &&
