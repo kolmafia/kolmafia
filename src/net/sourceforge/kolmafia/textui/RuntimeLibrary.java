@@ -1552,7 +1552,7 @@ public abstract class RuntimeLibrary
 				RuntimeLibrary.dataFileTimestampCache.put( filename, new Long( modifiedTime ) );
 				RuntimeLibrary.dataFileDataCache.put( filename, data );
 				
-				return new BufferedReader( new InputStreamReader( new ByteArrayInputStream( data ) ) );
+				return DataUtilities.getReader( new ByteArrayInputStream( data ) );
 			}
 			catch ( Exception e )
 			{
