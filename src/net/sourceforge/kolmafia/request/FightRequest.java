@@ -1083,6 +1083,54 @@ public class FightRequest
 
 			FightRequest.castNoodles = true;
 		}
+		else if ( skillName.equals( "Fire a badly romantic arrow" ) )
+		{
+			// You can only shoot 1 badly romantic arrow per day
+
+			if ( Preferences.getInteger( "_badlyRomanticArrows" ) >= 1 ||
+			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Fire a boxing-glove arrow" ) )
+		{
+			// You can only shoot 5 boxing-glove arrows per day
+
+			if ( Preferences.getInteger( "_boxingGloveArrows" ) >= 5 ||
+			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Fire a poison arrow" ) )
+		{
+			// You can only shoot 10 poison arrows per day
+
+			if ( Preferences.getInteger( "_poisonArrows" ) >= 1 ||
+			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Fire a fingertrap arrow" ) )
+		{
+			// You can only shoot 10 fingertrap arrows per day
+
+			if ( Preferences.getInteger( "_fingertrapArrows" ) >= 10 ||
+			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound();
+				return;
+			}
+		}
 
 		// Skills use MP. Make sure the character has enough.
 		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && !GenericRequest.passwordHash.equals( "" ) )
@@ -5060,6 +5108,22 @@ public class FightRequest
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			break;
+
+		case 7108: // Fire a badly romantic arrow
+			Preferences.increment( "_badlyRomanticArrows", 1 );
+			break;
+
+		case 7109: // Fire a boxing-glove arrow
+			Preferences.increment( "_boxingGloveArrows", 1 );
+			break;
+
+		case 7110: // Fire a poison arrow
+			Preferences.increment( "_poisonArrows", 1 );
+			break;
+
+		case 7111: // Fire a fingertrap arrow
+			Preferences.increment( "_fingertrapArrows", 1 );
+			break;
 		}
 	}
 
@@ -5377,6 +5441,10 @@ public class FightRequest
 					else if ( skillId.equals( "3004" ) )
 					{
 						FightRequest.castNoodles = true;
+					}
+					else if ( skillId.equals( "7108" ) )
+					{
+						Preferences.setString( "romanticTarget", FightRequest.encounterLookup );
 					}
 
 					FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( "skill " + skill );

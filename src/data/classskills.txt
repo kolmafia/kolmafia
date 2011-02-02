@@ -370,6 +370,10 @@
 7105	Wrath of the Lightning God	5	0	0
 7106	Wrath of the Trickster God	5	0	0
 7107	Spew Poison	5	0	0
+7108	Fire a badly romantic arrow	5	0	0
+7109	Fire a boxing-glove arrow	5	0	0
+7110	Fire a poison arrow	5	0	0
+7111	Fire a fingertrap arrow	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
