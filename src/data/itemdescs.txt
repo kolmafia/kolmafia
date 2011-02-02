@@ -4933,3 +4933,14 @@
 4927	769193415	Loathing Legion jackhammer
 4928	361576572	Loathing Legion hammer
 4929	421141114	Uncle Crimbo's Sack
+4930
+4931
+4932
+4933
+4934
+4935
+4936
+4937	210981132	a cute angel
+4938	147329363	quake of arrows
+4939	677003938	time's arrow
+4940	748827536	arrowgram
