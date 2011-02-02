@@ -305,7 +305,7 @@ public class Expression
 	protected String factor()
 	{
 		String rv = this.value();
-		while ( this.optional( "^" ) )
+		while ( this.optional( "^", "**" ) != '\0' )
 		{
 			rv = this.value() + rv + "^";
 		}
