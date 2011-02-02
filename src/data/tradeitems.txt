@@ -4936,3 +4936,14 @@
 4927	Loathing Legion jackhammer	none, reusable	display	0
 4928	Loathing Legion hammer	weapon, reusable	display	0
 4929	Uncle Crimbo's Sack	usable	display	0
+4930
+4931
+4932
+4933
+4934
+4935
+4936
+4937	a cute angel	grow	all	0
+4938	quake of arrows	familiar	all	75
+4939	time's arrow	none, curse	all	0
+4940	arrowgram	none, curse	all	0
