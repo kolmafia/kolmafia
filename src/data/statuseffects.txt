@@ -384,7 +384,7 @@
 383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
 384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
 385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
-386
+386	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1	#BM adv in Spooky Forest
 387	Duhhh	duncecap.gif	1a193e72ad6e010246f9c2174d831fc8	#BM adv in Degrassi Knoll
 388	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe	#BM adv in Bat Hole Entryway
 389	Maid Disservice	skirt.gif	58a1a5cd7aaf097eaf8dec6f91d176b8	#BM adv in Whitey's Grove
@@ -429,7 +429,7 @@
 428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998	drink 1 cruelty-free wine
 429	Mutated	spooklines.gif	a8e35050197871d1fbe5b3afc865af7e	use 1 gremlin mutagen
 430	Seriously Mutated	spooklines.gif	dd78d480e08de5cc8e633202d699844f	use 1 extra-potent gremlin mutagen
-431	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1	#BM adv in Spooky Forest
+431
 432	Flared Nostrils	pupils.gif	a148b9106d6593dbec45dad76cedc163	#fighting War Hippy Elder Shaman
 433	Easily Embarrassed	blush.gif	4b7988bd236d2b89dc8cbe162b697fa6	#fighting War Frat Elite Wartender
 434	All Covered In Whatsit	stench.gif	37acab3aa7b7cc31532cffb27ed5037e	#fighting War Hippy Airborne Commander
@@ -782,8 +782,8 @@
 781	Super Accuracy	reticle.gif	8ac1abc08fb9969463ecd9a965621b46
 782	Burning, Man	fire.gif	f93ba9c2aba47c4e296f20823bb8d1ac	summon 9
 783	Pie in the Sky	pie.gif	d3fb9bf83be3023e45185af67c3ff185	eat 1 badass pie
-784	Technicolor Yawn, Er, Smile	plexipips.gif	92275ab4fe615788255274e22f2aec8f	use 1 PlexiPips
-785	Highland Flung	waxbottle.gif	788941793e466a01a391e386a63fcbf3	use 1 Wax Flask
+784	Sole Soul	plexipips.gif	92275ab4fe615788255274e22f2aec8f	use 1 PlexiPips
+785	Over the Ocean	waxbottle.gif	788941793e466a01a391e386a63fcbf3	use 1 Wax Flask
 786	The HeyDezebound Heart	heart.gif	3e53ef02b7e5b75954a909e50e36d0dc	use 1 Pain Dip
 787	Candied Skeleton	familiar7.gif	318102270355bde419a6da0700a12149	use 1 candy skeleton
 788	Bone Homie	skullicon.gif	68f5db3381fc8c2ed57b23360bcd6331	use 1 Stabonic scroll
@@ -791,6 +791,7 @@
 790	Everything Looks Yellow	eyes.gif	0bf172ccba65be4fdc4c0f908325b5c1
 791	Everything Looks Blue	eyes.gif	d726a28f52e1287c6a19a16c08f93c4b
 792	Everything Looks Red	eyes.gif	6d848baf68e1532b64bca6ab60df9144
+793
 794
 795
 796	Mystic Circle	crimbcookie1.gif	8e52b4076a2ab7451407c007b5a0544d	eat 1 circular CRIMBCOOKIE

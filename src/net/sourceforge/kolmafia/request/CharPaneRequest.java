@@ -544,12 +544,7 @@ public class CharPaneRequest
 
 		if ( effectId == -1 )
 		{
-			effectId = EffectDatabase.getEffectId( effectName );
-
-			if ( effectId != -1 )
-			{
-				EffectDatabase.addDescriptionId( effectId, effectName, descriptionId );
-			}
+			effectId = EffectDatabase.learnEffectId( effectName, descriptionId );
 		}
 		else
 		{

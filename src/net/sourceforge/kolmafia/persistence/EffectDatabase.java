@@ -387,28 +387,38 @@ public class EffectDatabase
 		}
 	}
 
-	public static final void addDescriptionId( final int effectId, String name, String descId )
+	public static final int learnEffectId( String name, String descId )
 	{
-		if ( effectId == -1 )
-		{
-			return;
-		}
-
-		// Detach name and descid from being substrings
-		name = new String( name );
-		descId = new String( descId );
-
-		Integer id = new Integer( effectId );
-		EffectDatabase.effectByDescription.put( descId, id );
-		EffectDatabase.descriptionById.put( id, descId );
-
-		String text = DebugDatabase.effectDescriptionText( effectId );
+		// Load the description text for this effect
+		String text = DebugDatabase.readEffectDescriptionText( descId );
 		if ( text == null )
 		{
-			return;
+			return -1;
 		}
 
-		String image = (String) EffectDatabase.imageById.get( id );
+		int effectId = DebugDatabase.parseEffectId( text );
+		if ( effectId == -1 )
+		{
+			return -1;
+		}
+
+		String image = DebugDatabase.parseEffectImage( text );
+
+		// Detach name, descid, and image from being substrings
+		name = new String( name );
+		descId = new String( descId );
+		image = new String( image );
+
+		String canonicalName = StringUtilities.getCanonicalName( name );
+		String displayName = StringUtilities.getDisplayName( name );
+		Integer id = new Integer( effectId );
+
+		EffectDatabase.nameById.put( id, displayName );
+		EffectDatabase.dataNameById.put( id, name );
+		EffectDatabase.effectByName.put( canonicalName, id );
+		EffectDatabase.imageById.put( id, image );
+		EffectDatabase.descriptionById.put( id, descId );
+		EffectDatabase.effectByDescription.put( descId, id );
 
 		RequestLogger.printLine( "--------------------" );
 		RequestLogger.printLine( EffectDatabase.effectString( effectId, name, image, descId, null ) );
@@ -420,6 +430,8 @@ public class EffectDatabase
 		RequestLogger.printLine( "--------------------" );
 
 		EffectDatabase.newEffects = true;
+
+		return effectId;
 	}
 
 	public static final void writeEffects( final File output )
