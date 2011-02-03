@@ -380,31 +380,7 @@ public abstract class StaticEntity
 
 		if ( location.startsWith( "account.php" ) )
 		{
-			if ( location.indexOf( "&ajax" ) != -1 )
-			{
-				AccountRequest.parseAjax( location );
-			}
-			else
-			{
-				boolean wasHardcore = KoLCharacter.isHardcore();
-				boolean hadRestrictions = !KoLCharacter.canEat() || !KoLCharacter.canDrink();
-
-				AccountRequest.parseAccountData( responseText );
-
-				if ( wasHardcore && !KoLCharacter.isHardcore() )
-				{
-					RequestLogger.updateSessionLog();
-					RequestLogger.updateSessionLog( "dropped hardcore" );
-					RequestLogger.updateSessionLog();
-				}
-
-				if ( hadRestrictions && KoLCharacter.canEat() && KoLCharacter.canDrink() )
-				{
-					RequestLogger.updateSessionLog();
-					RequestLogger.updateSessionLog( "dropped consumption restrictions" );
-					RequestLogger.updateSessionLog();
-				}
-			}
+			AccountRequest.parseAccountData( location, responseText );
 		}
 
 		else if ( location.startsWith( "account_contactlist.php" ) )

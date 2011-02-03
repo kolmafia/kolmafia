@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -91,7 +92,7 @@ public class AutoSellRequest
 		// Get the autosell mode the first time we need it
 		if ( KoLCharacter.getAutosellMode().equals( "" ) )
 		{
-			( new AccountRequest() ).run();
+			RequestThread.postRequest( new AccountRequest( AccountRequest.INVENTORY ) );
 		}
 
 		return KoLCharacter.getAutosellMode().equals( "detailed" ) ?

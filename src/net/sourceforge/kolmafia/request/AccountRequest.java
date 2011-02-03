@@ -38,6 +38,8 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -46,29 +48,112 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class AccountRequest
 	extends PasswordHashRequest
 {
-	private static final Pattern AUTOSELL_PATTERN =
-		Pattern.compile( "<input type=checkbox name=sellstuffugly value=1( checked)?>" );
-	private static final Pattern AUTOATTACK_PATTERN =
-		Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
-	private static final Pattern AUTOATTACK_AJAX_PATTERN =
-		Pattern.compile( "whichattack=(\\d+)");
-	private static final Pattern MENU_AJAX_PATTERN =
-		Pattern.compile( "action=menu&menu=([^&]*)");
-	private static final Pattern UNEQUIP_FAMILIAR_PATTERN =
-		Pattern.compile( "<input type=checkbox name=unfamequip value=1( checked)?>" );
+	private static final Pattern SELECTED_PATTERN =
+		Pattern.compile( "selected=\"selected\" value=\"?(\\d+)\"?>" );
 
-	private static final Pattern SELECTED1_PATTERN =
-		Pattern.compile( "value=\"?(\\d+)\"? selected>" );
-	private static final Pattern SELECTED2_PATTERN =
-		Pattern.compile( "selected value=\"?(\\d+)\"?>" );
+	public static final int ALL = 0;
+	public static final int INTERFACE = 1;
+	public static final int INVENTORY = 2;
+	public static final int CHAT = 3;
+	public static final int COMBAT = 4;
+	public static final int ACCOUNT = 5;
+	public static final int PROFILE = 6;
+	public static final int PRIVACY = 7;
 
-        private static String fancyMenuStyle = "<input type=\"radio\" value=\"fancy\" checked  name=\"menu\"/>Icons";
-        private static String compactMenuStyle = "<input type=\"radio\" value=\"compact\" checked  name=\"menu\"/>Drop-Downs";
-        private static String normalMenuStyle = "<input type=\"radio\" value=\"normal\" checked  name=\"menu\"/>Links";
+	private int tab;
 
 	public AccountRequest()
 	{
+		this( ALL );
+	}
+
+	public AccountRequest( final int tab )
+	{
 		super( "account.php" );
+		this.tab = tab;
+
+		String field = getTabField( tab );
+		if ( field != null )
+		{
+			this.addFormField( "tab", field );
+		}
+	}
+
+	private static final String getTabField( final int tab )
+	{
+		switch ( tab )
+		{
+		case INTERFACE:
+			return "interface";
+		case INVENTORY:
+			return "inventory";
+		case CHAT:
+			return "chat";
+		case COMBAT:
+			return "combat";
+		case ACCOUNT:
+			return "account";
+		case PROFILE:
+			return "profile";
+		case PRIVACY:
+			return "privacy";
+		}
+		return null;
+	}
+
+	private static final Pattern TAB_PATTERN =
+		Pattern.compile( "tab=([^&]*)" );
+	private static final Pattern LOADTAB_PATTERN =
+		Pattern.compile( "action=loadtab&value=([^&]*)" );
+
+	private static final int getTab( final String urlString )
+	{
+		if ( urlString.equals( "account.php" ) )
+		{
+			return AccountRequest.INTERFACE;
+		}
+
+		Matcher m = TAB_PATTERN.matcher( urlString );
+		if ( !m.find() )
+		{
+			m = LOADTAB_PATTERN.matcher( urlString );
+			if ( !m.find() )
+			{
+				return -1;
+			}
+		}
+
+		String tabName = m.group(1);
+		if ( tabName.equals( "interface" ) )
+		{
+			return INTERFACE;
+		}
+		if ( tabName.equals( "inventory" ) )
+		{
+			return INVENTORY;
+		}
+		if ( tabName.equals( "chat" ) )
+		{
+			return CHAT;
+		}
+		if ( tabName.equals( "combat" ) )
+		{
+			return COMBAT;
+		}
+		if ( tabName.equals( "account" ) )
+		{
+			return ACCOUNT;
+		}
+		if ( tabName.equals( "profile" ) )
+		{
+			return PROFILE;
+		}
+		if ( tabName.equals( "privacy" ) )
+		{
+			return PRIVACY;
+		}
+
+		return -1;
 	}
 
 	protected boolean retryOnTimeout()
@@ -76,79 +161,132 @@ public class AccountRequest
 		return true;
 	}
 
+	public Object run()
+	{
+		if ( this.tab == ALL )
+		{
+			RequestThread.postRequest( new AccountRequest ( INTERFACE ) );
+			RequestThread.postRequest( new AccountRequest ( INVENTORY ) );
+			// RequestThread.postRequest( new AccountRequest ( CHAT ) );
+			RequestThread.postRequest( new AccountRequest ( COMBAT ) );
+			RequestThread.postRequest( new AccountRequest ( ACCOUNT ) );
+			// RequestThread.postRequest( new AccountRequest ( PROFILE ) );
+			// RequestThread.postRequest( new AccountRequest ( PRIVACY ) );
+			return null;
+		}
+
+		super.run();
+		return null;
+	}
+
 	public void processResults()
 	{
-		super.processResults();
-		AccountRequest.parseAccountData( this.responseText );
+		AccountRequest.parseAccountData( this.getURLString(), this.responseText );
 	}
 
-	public static final void parseAjax( final String location )
+	public static final void parseAccountData( final String location, final String responseText )
 	{
-		Matcher matcher = AccountRequest.AUTOATTACK_AJAX_PATTERN.matcher( location );
-		if ( matcher.find() )
+		if ( location.indexOf( "&ajax" ) != -1 )
 		{
-			String autoAttackActionString = matcher.group( 1 );
-		
-			KoLCharacter.setAutoAttackAction( Integer.parseInt( autoAttackActionString ) );
+			AccountRequest.parseAjax( location );
+			return;
 		}
 
-		matcher = AccountRequest.MENU_AJAX_PATTERN.matcher( location );
-		if ( matcher.find() )
-		{
-			String style = matcher.group(1);
-			if ( style.equals( "fancy" ) )
-			{
-				GenericRequest.topMenuStyle = GenericRequest.MENU_FANCY;
-			}
-			else if ( style.equals( "compact" ) )
-			{
-				GenericRequest.topMenuStyle = GenericRequest.MENU_COMPACT;
-			}
-			else if ( style.equals( "normal" ) )
-			{
-				GenericRequest.topMenuStyle = GenericRequest.MENU_NORMAL;
-			}
-		}
-	}
-
-	public static final void parseAccountData( final String responseText )
-	{
 		PasswordHashRequest.updatePasswordHash( responseText );
 
-		// Disable stationary buttons to avoid conflicts when
-		// the action bar is enabled.
+		switch ( AccountRequest.getTab( location ) )
+		{
+		case INTERFACE:
+			AccountRequest.parseInterfaceOptions( responseText );
+			return;
+		case INVENTORY:
+			AccountRequest.parseInventoryOptions( responseText );
+			return;
+		case CHAT:
+			AccountRequest.parseChatOptions( responseText );
+			return;
+		case COMBAT:
+			AccountRequest.parseCombatOptions( responseText );
+			return;
+		case ACCOUNT:
+			AccountRequest.parseAccountOptions( responseText );
+			return;
+		case PROFILE:
+			AccountRequest.parseProfileOptions( responseText );
+			return;
+		case PRIVACY:
+			AccountRequest.parsePrivacyOptions( responseText );
+			return;
+		}
+	}
 
-		Preferences.setBoolean( "serverAddsCustomCombat", responseText.indexOf( ">Disable Combat Action Bars<" ) != -1 );
+	private static boolean getCheckbox( final String flag, final String responseText )
+	{
+		String test = "checked=\"checked\"  name=\"" + flag + "\"";
+		return responseText.indexOf( test ) != -1;
+	}
 
-		// Remember if the sidepane is in compact mode
-		GenericRequest.compactCharacterPane = responseText.indexOf( ">Switch to compact character pane<" ) == -1;
+	private static String fancyMenuStyle = "<input type=\"radio\" value=\"fancy\" checked=\"checked\"  name=\"menu\"/>Icons";
+	private static String compactMenuStyle = "<input type=\"radio\" value=\"compact\" checked=\"checked\"  name=\"menu\"/>Drop-Downs";
+	private static String normalMenuStyle = "<input type=\"radio\" value=\"normal\" checked=\"checked\"  name=\"menu\"/>Links";
 
+	private static final void parseInterfaceOptions( final String responseText )
+	{
 		// Top Menu Style
 		GenericRequest.topMenuStyle =
 			responseText.indexOf( fancyMenuStyle ) != -1 ?
 			GenericRequest.MENU_FANCY :
 			responseText.indexOf( compactMenuStyle ) != -1 ?
-			GenericRequest.MENU_COMPACT : GenericRequest.MENU_NORMAL;
+			GenericRequest.MENU_COMPACT :
+			GenericRequest.MENU_NORMAL;
 
-		// Parse response text -- make sure you
-		// aren't accidentally parsing profiles.
+		// Remember if the sidepane is in compact mode
+		GenericRequest.compactCharacterPane = AccountRequest.getCheckbox( "flag_compactchar", responseText );
+	}
 
-		Matcher matcher = AccountRequest.AUTOSELL_PATTERN.matcher( responseText );
+	private static final void parseInventoryOptions( final String responseText )
+	{
+		boolean checked = AccountRequest.getCheckbox( "flag_sellstuffugly", responseText );
+		KoLCharacter.setAutosellMode( checked ? "compact" : "detailed" );
+		checked = AccountRequest.getCheckbox( "flag_unfamequip", responseText );
+		KoLCharacter.setUnequipFamiliar( checked );
+	}
 
-		if ( matcher.find() )
+	private static final void parseChatOptions( final String responseText )
+	{
+	}
+
+	private static final Pattern AUTOATTACK_PATTERN =
+		Pattern.compile( "<select name=\"autoattack\">.*?</select>", Pattern.DOTALL );
+
+	private static final void parseCombatOptions( final String responseText )
+	{
+		// Disable stationary buttons to avoid conflicts when
+		// the action bar is enabled.
+
+		boolean checked = AccountRequest.getCheckbox( "flag_wowbar", responseText );
+		Preferences.setBoolean( "serverAddsCustomCombat", checked );
+
+		int autoAttackAction = 0;
+
+		Matcher selectMatcher = AccountRequest.AUTOATTACK_PATTERN.matcher( responseText );
+		if ( selectMatcher.find() )
 		{
-			boolean checked = matcher.group(1) != null && matcher.group(1).equals( " checked" );
-			String autosellMode = checked ? "compact" : "detailed";
-			KoLCharacter.setAutosellMode( autosellMode );
+			Matcher optionMatcher = AccountRequest.SELECTED_PATTERN.matcher( selectMatcher.group() );
+			if ( optionMatcher.find() )
+			{
+				String autoAttackActionString = optionMatcher.group( 1 );
+				autoAttackAction = Integer.parseInt( autoAttackActionString );
+			}
 		}
 
-		matcher = AccountRequest.UNEQUIP_FAMILIAR_PATTERN.matcher( responseText );
-		if ( matcher.find() )
-		{
-			boolean checked = matcher.group(1) != null && matcher.group(1).equals( " checked" );
-			KoLCharacter.setUnequipFamiliar( checked );
-		}
+		KoLCharacter.setAutoAttackAction( autoAttackAction );
+	}
 
+	private static final void parseAccountOptions( final String responseText )
+	{
+		boolean wasHardcore = KoLCharacter.isHardcore();
+		boolean hadRestrictions = !KoLCharacter.canEat() || !KoLCharacter.canDrink();
 		// Consumption restrictions are also found
 		// here through the presence of buttons.
 
@@ -189,31 +327,60 @@ public class AccountRequest
 		KoLCharacter.setSkillsRecalled( KoLCharacter.kingLiberated() &&
 						responseText.indexOf( "<input class=button type=submit value=\"Recall Skills\">") == -1 );
 
-		int autoAttackAction = 0;
-
-		Matcher selectMatcher = AccountRequest.AUTOATTACK_PATTERN.matcher( responseText );
-		if ( selectMatcher.find() )
+		if ( wasHardcore && !KoLCharacter.isHardcore() )
 		{
-			Matcher optionMatcher = AccountRequest.SELECTED1_PATTERN.matcher( selectMatcher.group() );
-			if ( optionMatcher.find() )
-			{
-				String autoAttackActionString = optionMatcher.group( 1 );
-				
-				autoAttackAction = Integer.parseInt( autoAttackActionString );
-			}
-			else
-			{
-				optionMatcher = AccountRequest.SELECTED2_PATTERN.matcher( selectMatcher.group() );
-
-				if ( optionMatcher.find() )
-				{
-					String autoAttackActionString = optionMatcher.group( 1 );
-				
-					autoAttackAction = Integer.parseInt( autoAttackActionString );
-				}
-			}
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "dropped hardcore" );
+			RequestLogger.updateSessionLog();
 		}
 
-		KoLCharacter.setAutoAttackAction( autoAttackAction );
+		if ( hadRestrictions && KoLCharacter.canEat() && KoLCharacter.canDrink() )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "dropped consumption restrictions" );
+			RequestLogger.updateSessionLog();
+		}
+	}
+
+	private static final void parseProfileOptions( final String responseText )
+	{
+	}
+
+	private static final void parsePrivacyOptions( final String responseText )
+	{
+	}
+
+	private static final Pattern AUTOATTACK_AJAX_PATTERN =
+		Pattern.compile( "whichattack=(\\d+)");
+	private static final Pattern MENU_AJAX_PATTERN =
+		Pattern.compile( "action=menu&menu=([^&]*)");
+
+	private static final void parseAjax( final String location )
+	{
+		Matcher matcher = AccountRequest.AUTOATTACK_AJAX_PATTERN.matcher( location );
+		if ( matcher.find() )
+		{
+			String autoAttackActionString = matcher.group( 1 );
+		
+			KoLCharacter.setAutoAttackAction( Integer.parseInt( autoAttackActionString ) );
+		}
+
+		matcher = AccountRequest.MENU_AJAX_PATTERN.matcher( location );
+		if ( matcher.find() )
+		{
+			String style = matcher.group(1);
+			if ( style.equals( "fancy" ) )
+			{
+				GenericRequest.topMenuStyle = GenericRequest.MENU_FANCY;
+			}
+			else if ( style.equals( "compact" ) )
+			{
+				GenericRequest.topMenuStyle = GenericRequest.MENU_COMPACT;
+			}
+			else if ( style.equals( "normal" ) )
+			{
+				GenericRequest.topMenuStyle = GenericRequest.MENU_NORMAL;
+			}
+		}
 	}
 }
