@@ -41,8 +41,8 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -68,10 +68,8 @@ public class CheckDataCommand
 			// inventory.
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
 
-			// EffectDatabase looks at what the soft green remedy
-			// offers to remove to get new effect ids and then
-			// looks at the charpane to get effect descids.
-			EffectDatabase.findStatusEffects();
+			// The Charpane registers new status effects
+			RequestThread.postRequest( CharPaneRequest.getInstance() );
 
 			// Enable and write override files, if necessary
 			KoLmafia.deferDataOverride( false );

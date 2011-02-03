@@ -341,52 +341,6 @@ public class EffectDatabase
 		return StringUtilities.getMatchingNames( EffectDatabase.canonicalNames, substring );
 	}
 
-	private static final Pattern STATUS_EFFECT_PATTERN =
-		Pattern.compile( "<input type=radio name=whicheffect value=(\\d+)></td><td><img src=\"http://images.kingdomofloathing.com/itemimages/(.*?)\" width=30 height=30></td><td>(.*?) \\(" );
-
-	public static final void findStatusEffects()
-	{
-		if ( !KoLConstants.inventory.contains( UneffectRequest.REMEDY ) )
-		{
-			return;
-		}
-
-		GenericRequest effectChecker = new GenericRequest( "uneffect.php" );
-		RequestLogger.printLine( "Checking for new status effects..." );
-		RequestThread.postRequest( effectChecker );
-
-		Matcher effectsMatcher = EffectDatabase.STATUS_EFFECT_PATTERN.matcher( effectChecker.responseText );
-		boolean foundChanges = false;
-
-		while ( effectsMatcher.find() )
-		{
-			Integer effectId = Integer.valueOf( effectsMatcher.group( 1 ) );
-			if ( EffectDatabase.nameById.containsKey( effectId ) )
-			{
-				continue;
-			}
-
-			String name = effectsMatcher.group( 3 );
-			String image = effectsMatcher.group( 2 );
-			String descId = null;
-			String defaultAction = null;
-			EffectDatabase.addToDatabase( effectId, name, image, descId, defaultAction );
-
-			foundChanges = true;
-		}
-
-		RequestThread.postRequest( CharPaneRequest.getInstance() );
-
-		if ( foundChanges )
-		{
-			EffectDatabase.canonicalNames = new String[ EffectDatabase.effectByName.size() ];
-			EffectDatabase.effectByName.keySet().toArray( EffectDatabase.canonicalNames );
-
-			// Force charpane request to learn new descids
-			CharPaneRequest.getInstance().run();
-		}
-	}
-
 	public static final int learnEffectId( String name, String descId )
 	{
 		// Load the description text for this effect
