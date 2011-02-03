@@ -331,7 +331,7 @@ public class FamiliarTrainingFrame
 				FamiliarTrainingPanel.this.winCount.setText( arenaWins + " arena wins" );
 
 				// Wins to next prize
-				int nextPrize = 10 - arenaWins % 10;
+				int nextPrize = 5 - arenaWins % 5;
 				FamiliarTrainingPanel.this.prizeCounter.setText( nextPrize + " wins to next prize" );
 
 				// Terrarium weight
