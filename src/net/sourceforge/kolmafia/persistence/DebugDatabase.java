@@ -409,7 +409,6 @@ public class DebugDatabase
 	}
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
-
 	private static final String parseName( final String text )
 	{
 		Matcher matcher = DebugDatabase.NAME_PATTERN.matcher( text );
@@ -1041,15 +1040,45 @@ public class DebugDatabase
 			return;
 		}
 
+		int id = DebugDatabase.parseEffectId( text );
+		if ( id != effectId )
+		{
+			report.println( "# *** " + name + " (" + effectId + ") should have effectId " + id + "." );
+		}
+
 		String descriptionName = DebugDatabase.parseName( text );
 		if ( !name.equalsIgnoreCase( StringUtilities.getCanonicalName( descriptionName ) ) )
 		{
 			report.println( "# *** " + name + " (" + effectId + ") has description of " + descriptionName + "." );
 			return;
-
 		}
 
 		DebugDatabase.effects.put( name, text );
+	}
+
+	// <!-- effectid: 806 -->
+	private static final Pattern EFFECTID_PATTERN = Pattern.compile( "<!-- effectid: ([\\d]*) -->" );
+	public static final int parseEffectId( final String text )
+	{
+		Matcher matcher = DebugDatabase.EFFECTID_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return 0;
+		}
+
+		return StringUtilities.parseInt( matcher.group( 1 ) );
+	}
+
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "itemimages/(.*?.gif)" );
+	public static final String parseEffectImage( final String text )
+	{
+		Matcher matcher = DebugDatabase.IMAGE_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return "";
+		}
+
+		return matcher.group( 1 );
 	}
 
 	private static final GenericRequest DESC_EFFECT_REQUEST = new GenericRequest( "desc_effect.php" );
@@ -1057,6 +1086,14 @@ public class DebugDatabase
 	public static final String effectDescriptionText( final int effectId )
 	{
                 return DebugDatabase.effectDescriptionText( DebugDatabase.rawEffectDescriptionText( effectId ) );
+	}
+
+	public static final String readEffectDescriptionText( final String descId )
+	{
+		DebugDatabase.DESC_EFFECT_REQUEST.clearDataFields();
+		DebugDatabase.DESC_EFFECT_REQUEST.addFormField( "whicheffect", descId );
+		RequestThread.postRequest( DebugDatabase.DESC_EFFECT_REQUEST );
+		return DebugDatabase.DESC_EFFECT_REQUEST.responseText;
 	}
 
 	private static final String rawEffectDescriptionText( final int effectId )
@@ -1073,12 +1110,10 @@ public class DebugDatabase
 			return previous;
 		}
 
-		DebugDatabase.DESC_EFFECT_REQUEST.clearDataFields();
-		DebugDatabase.DESC_EFFECT_REQUEST.addFormField( "whicheffect", descId );
-		RequestThread.postRequest( DebugDatabase.DESC_EFFECT_REQUEST );
-		DebugDatabase.rawEffects.set( effectId, DebugDatabase.DESC_EFFECT_REQUEST.responseText );
+		String text = DebugDatabase.readEffectDescriptionText( descId );
+		DebugDatabase.rawEffects.set( effectId, text );
 
-		return DebugDatabase.DESC_EFFECT_REQUEST.responseText;
+		return text;
 	}
 
 	private static final Pattern EFFECT_DATA_PATTERN = Pattern.compile( "<div id=\"description\">(.*?)</div>", Pattern.DOTALL );
