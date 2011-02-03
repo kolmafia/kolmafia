@@ -2421,11 +2421,18 @@ public abstract class KoLmafia
 		KoLmafia.ignoreSemirare = true;
 	}
 
-	public static void recognizeEncounter( final String encounterName )
+	private static void recognizeEncounter( final String encounterName, final String responseText )
 	{
 		String encounterType = KoLmafia.encounterType( encounterName );
 
-		if ( encounterType == KoLmafia.SEMIRARE && !KoLmafia.ignoreSemirare )
+		// You stop for a moment to catch your breath, and possibly a
+		// cold, and hear a wolf whistle from behind you. You spin
+		// around and see <monster> that looks suspiciously like the
+		// ones you shot with a love arrow earlier.
+
+		if ( encounterType == KoLmafia.SEMIRARE &&
+		     !KoLmafia.ignoreSemirare &&
+		     responseText.indexOf( "hear a wolf whistle" ) == -1 )
 		{
 			KoLCharacter.registerSemirare();
 			return;
@@ -2470,7 +2477,7 @@ public abstract class KoLmafia
 		encounterName = encounterName.trim();
 
 		KoLmafia.handleSpecialEncounter( encounterName, responseText );
-		KoLmafia.recognizeEncounter( encounterName );
+		KoLmafia.recognizeEncounter( encounterName, responseText );
 
 		RegisteredEncounter[] encounters = new RegisteredEncounter[ KoLConstants.encounterList.size() ];
 		KoLConstants.encounterList.toArray( encounters );
