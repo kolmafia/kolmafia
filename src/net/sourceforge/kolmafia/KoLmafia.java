@@ -865,6 +865,7 @@ public abstract class KoLmafia
 		Preferences.setInteger( "prismaticSummons", 0 );
 		Preferences.setBoolean( "rageGlandVented", false );
 		Preferences.setInteger( "reagentSummons", 0 );
+		Preferences.setString( "romanticTarget", "" );
 		Preferences.setInteger( "seaodesFound", 0 );
 		Preferences.setBoolean( "spiceMelangeUsed", false );
 		Preferences.setInteger( "spookyPuttyCopiesMade", 0 );

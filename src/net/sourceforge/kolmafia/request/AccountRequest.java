@@ -285,61 +285,47 @@ public class AccountRequest
 
 	private static final void parseAccountOptions( final String responseText )
 	{
-		boolean wasHardcore = KoLCharacter.isHardcore();
-		boolean hadRestrictions = !KoLCharacter.canEat() || !KoLCharacter.canDrink();
-		// Consumption restrictions are also found
-		// here through the presence of buttons.
+		// Consumption restrictions are also found here through the
+		// presence of buttons.
+		//
+		// <input class=button name="action" type="submit" value="Drop Oxygenarian">
 
-		if ( responseText.indexOf( "<input class=button type=submit value=\"Drop Oxygenarian\">" ) != -1 )
-		{
-			KoLCharacter.setConsumptionRestriction( AscensionSnapshot.OXYGENARIAN );
-		}
-		else if ( responseText.indexOf( "<input class=button type=submit value=\"Drop Boozetafarian\">" ) != -1 )
-		{
-			KoLCharacter.setConsumptionRestriction( AscensionSnapshot.BOOZETAFARIAN );
-		}
-		else if ( responseText.indexOf( "<input class=button type=submit value=\"Drop Teetotaler\">" ) != -1 )
-		{
-			KoLCharacter.setConsumptionRestriction( AscensionSnapshot.TEETOTALER );
-		}
-		else
-		{
-			KoLCharacter.setConsumptionRestriction( AscensionSnapshot.NOPATH );
-		}
+		int path = 
+			responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Oxygenarian\">" ) != -1 ?
+			AscensionSnapshot.OXYGENARIAN :
+			responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Boozetafarian\">" ) != -1 ?
+			AscensionSnapshot.BOOZETAFARIAN :
+			responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Teetotaler\">" ) != -1 ?
+			AscensionSnapshot.TEETOTALER :
+			AscensionSnapshot.NOPATH;
+
+		KoLCharacter.setConsumptionRestriction( path );
 
 		// Whether or not a player is currently in Bad Moon or hardcore
 		// is also found here through the presence of buttons.
 
-		if ( responseText.indexOf( "<input class=button type=submit value=\"Drop Bad Moon\">" ) != -1 )
+		// <input class=button name="action" type=submit value="Drop Hardcore">
+		boolean isHardcore = responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Hardcore\">" ) != -1;
+		KoLCharacter.setHardcore( isHardcore );
+
+		// <input class=button name="action" type=submit value="Drop Bad Moon">
+
+		if ( responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Bad Moon\">" ) != -1 )
 		{
+			KoLCharacter.setHardcore( true );
 			KoLCharacter.setSign( "Bad Moon" );
 		}
-		else
+		else if ( KoLCharacter.getSignStat() == KoLConstants.BAD_MOON )
 		{
-			if ( KoLCharacter.getSignStat() == KoLConstants.BAD_MOON )
-			{
-				KoLCharacter.setSign( "None" );
-			}
+			KoLCharacter.setSign( "None" );
 		}
 
 		// Your skills have been recalled if you have freed the king
 		// and don't have a "Recall Skills" button in your account menu
-		KoLCharacter.setSkillsRecalled( KoLCharacter.kingLiberated() &&
-						responseText.indexOf( "<input class=button type=submit value=\"Recall Skills\">") == -1 );
-
-		if ( wasHardcore && !KoLCharacter.isHardcore() )
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "dropped hardcore" );
-			RequestLogger.updateSessionLog();
-		}
-
-		if ( hadRestrictions && KoLCharacter.canEat() && KoLCharacter.canDrink() )
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "dropped consumption restrictions" );
-			RequestLogger.updateSessionLog();
-		}
+		boolean recalled =
+			KoLCharacter.kingLiberated() &&
+			responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Recall Skills\">") == -1;
+		KoLCharacter.setSkillsRecalled( recalled );
 	}
 
 	private static final void parseProfileOptions( final String responseText )
@@ -350,37 +336,137 @@ public class AccountRequest
 	{
 	}
 
-	private static final Pattern AUTOATTACK_AJAX_PATTERN =
-		Pattern.compile( "whichattack=(\\d+)");
-	private static final Pattern MENU_AJAX_PATTERN =
-		Pattern.compile( "action=menu&menu=([^&]*)");
+	private static final Pattern AJAX_ACTION_PATTERN =
+		Pattern.compile( "action=([^&]*)");
+	private static final Pattern AJAX_VALUE_PATTERN =
+		Pattern.compile( "value=([^&]*)");
 
 	private static final void parseAjax( final String location )
 	{
-		Matcher matcher = AccountRequest.AUTOATTACK_AJAX_PATTERN.matcher( location );
-		if ( matcher.find() )
+		Matcher actionMatcher = AccountRequest.AJAX_ACTION_PATTERN.matcher( location );
+		if ( !actionMatcher.find() )
 		{
-			String autoAttackActionString = matcher.group( 1 );
-		
-			KoLCharacter.setAutoAttackAction( Integer.parseInt( autoAttackActionString ) );
+			return;
 		}
 
-		matcher = AccountRequest.MENU_AJAX_PATTERN.matcher( location );
-		if ( matcher.find() )
+		Matcher valueMatcher = AccountRequest.AJAX_VALUE_PATTERN.matcher( location );
+		if ( !valueMatcher.find() )
 		{
-			String style = matcher.group(1);
-			if ( style.equals( "fancy" ) )
-			{
-				GenericRequest.topMenuStyle = GenericRequest.MENU_FANCY;
-			}
-			else if ( style.equals( "compact" ) )
-			{
-				GenericRequest.topMenuStyle = GenericRequest.MENU_COMPACT;
-			}
-			else if ( style.equals( "normal" ) )
-			{
-				GenericRequest.topMenuStyle = GenericRequest.MENU_NORMAL;
-			}
+			return;
+		}
+
+		String action = actionMatcher.group(1);
+		String valueString = valueMatcher.group(1);
+
+		// Interface options
+
+		if ( action.equals( "menu" ) )
+		{
+			// account.php?pwd&action=menu&value=fancy&ajax=1
+			// account.php?pwd&action=menu&value=compact&ajax=1
+			// account.php?pwd&action=menu&value=normal&ajax=1
+			GenericRequest.topMenuStyle =
+				valueString.equals( "fancy" ) ?
+				GenericRequest.MENU_FANCY :
+				valueString.equals( "compact" ) ?
+				GenericRequest.MENU_COMPACT :
+				GenericRequest.MENU_NORMAL;
+			return;
+		}
+
+		if ( action.equals( "flag_compactchar" ) )
+		{
+			boolean checked = valueString.equals( "1" );
+			GenericRequest.compactCharacterPane = checked;
+			return;
+		}
+
+		// Inventory options
+
+		if ( action.equals( "flag_sellstuffugly" ) )
+		{
+			boolean checked = valueString.equals( "1" );
+			KoLCharacter.setAutosellMode( checked ? "compact" : "detailed" );
+			return;
+		}
+
+		if ( action.equals( "flag_unfamequip" ) )
+		{
+			boolean checked = valueString.equals( "1" );
+			KoLCharacter.setUnequipFamiliar( checked );
+			return;
+		}
+
+		// Combat options
+
+		if ( action.equals( "flag_wowbar" ) )
+		{
+			boolean checked = valueString.equals( "1" );
+			Preferences.setBoolean( "serverAddsCustomCombat", checked );
+			return;
+		}
+
+		if ( action.equals( "autoattack" ) )
+		{
+			int value = Integer.parseInt( valueString );
+			KoLCharacter.setAutoAttackAction( value );
+			return;
+		}
+
+		// Account options
+
+		// <form method="post" action="account.php">
+
+		// <input type=hidden name="actions[]" value="unronin">
+		// <input class=button name="action" type=submit value="Forsake Ronin">
+		// <input type="checkbox" class="confirm" name="unroninconfirm" value="1">
+
+		if ( action.equals( "unronin" ) )
+		{
+			// Dropping from Softcore to Casual.
+			return;
+		}
+
+		// <input type=hidden name="actions[]" value="unpath">
+		// <input class=button name="action" type="submit" value="Drop Oxygenarian">
+		// <input type="checkbox" class="confirm" name="unpathconfirm" value="1">
+
+		if ( action.equals( "unpath" ) )
+		{
+			// Dropping consumption restrictions
+			KoLCharacter.setConsumptionRestriction( AscensionSnapshot.NOPATH );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "dropped consumption restrictions" );
+			RequestLogger.updateSessionLog();
+			return;
+		}
+
+		// <input type=hidden name="actions[]" value="unhardcore">
+		// <input class=button name="action" type=submit value="Drop Hardcore">
+		// <input type="checkbox" class="confirm" name="unhardcoreconfirm" value="1">
+
+		if ( action.equals( "unhardcore" ) )
+		{
+			// Dropping Hardcore
+			KoLCharacter.setHardcore( false );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "dropped hardcore. Wimp." );
+			RequestLogger.updateSessionLog();
+			return;
+		}
+
+		// <input type=hidden name="actions[]" value="unbadmoon">
+		// <input class=button name="action" type=submit value="Drop Bad Moon">
+		// <input type="checkbox" class="confirm" name="unbadmoonconfirm" value="1">
+
+		if ( action.equals( "unbadmoon" ) )
+		{
+			// Dropping Bad Moon
+			KoLCharacter.setSign( "None" );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "dropped Bad Moon. Fool." );
+			RequestLogger.updateSessionLog();
+			return;
 		}
 	}
 }
