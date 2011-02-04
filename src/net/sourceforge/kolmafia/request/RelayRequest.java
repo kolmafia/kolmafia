@@ -1533,22 +1533,6 @@ public class RelayRequest
 			return null;
 		}
 
-		// Track use of "Recall ancient skills button" from the account menu
-		// It doesn't set a flag in your preferences, we will figure
-		// it by checking the account menu for buttons.
-		if ( path.startsWith( "account.php" ) )
-		{
-			String action = this.getFormField( "action" );
-			if ( action != null && action.equals( "recallskills" ) )
-			{
-				String field = this.getFormField( "confirm" );
-				if ( field != null && field.equals( "on" ) )
-				{
-					KoLCharacter.setSkillsRecalled( true );
-				}
-			}
-		}
-
 		// Load custom items from OneTonTomato's script if they
 		// are currently being requested.
 		if ( path.startsWith( "desc_item.php" ) )
