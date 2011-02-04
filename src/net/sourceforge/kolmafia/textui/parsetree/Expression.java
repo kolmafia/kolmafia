@@ -136,23 +136,85 @@ public class Expression
 	{
 		if ( this.conditional != null )
 		{
-			Value conditionResult = this.conditional.execute( interpreter );
+			interpreter.traceIndent();
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Operator: ?:" );
+			}
 
-			Value executeResult;
+			interpreter.traceIndent();
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "Condition: " + conditional );
+			}
+			Value conditionResult = this.conditional.execute( interpreter );
+			interpreter.captureValue( conditionResult );
+
+			if ( conditionResult == null )
+			{
+				conditionResult = DataTypes.VOID_VALUE;
+			}
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + conditionResult.toQuotedString() );
+			}
+			interpreter.traceUnindent();
+
+			if ( interpreter.getState() == Interpreter.STATE_EXIT )
+			{
+				interpreter.traceUnindent();
+				return null;
+			}
+
+			Value expression;
+			String tag;
 
 			if ( conditionResult.intValue() != 0 )
 			{
-				executeResult = this.lhs.execute( interpreter );
+				expression = lhs;
+				tag = "True value: ";
 			}
 			else
 			{
-				executeResult = this.rhs.execute( interpreter );
+				expression = rhs;
+				tag = "False value: ";
+			}
+
+			interpreter.traceIndent();
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( tag + expression );
+			}
+
+			Value executeResult = expression.execute( interpreter );
+			interpreter.captureValue( executeResult );
+
+			if ( executeResult == null )
+			{
+				executeResult = DataTypes.VOID_VALUE;
+			}
+
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "[" + interpreter.getState() + "] <- " + executeResult.toQuotedString() );
+			}
+			interpreter.traceUnindent();
+
+			if ( interpreter.getState() == Interpreter.STATE_EXIT )
+			{
+				interpreter.traceUnindent();
+				return null;
 			}
 
 			if ( Operator.isStringLike( this.lhs.getType() ) != Operator.isStringLike( this.rhs.getType() ) )
 			{
 				executeResult = executeResult.toStringValue();
 			}
+			if ( interpreter.isTracing() )
+			{
+				interpreter.trace( "<- " + executeResult );
+			}
+			interpreter.traceUnindent();
 
 			return executeResult;
 		}
@@ -182,7 +244,16 @@ public class Expression
 
 	public void print( final PrintStream stream, final int indent )
 	{
-		this.getOperator().print( stream, indent );
+		if ( this.conditional != null )
+		{
+			Interpreter.indentLine( stream, indent );
+			stream.println( "<OPER ?:>" );
+			this.conditional.print( stream, indent + 1 );
+		}
+		else
+		{
+			this.getOperator().print( stream, indent );
+		}
 		this.lhs.print( stream, indent + 1 );
 		if ( this.rhs != null )
 		{
