@@ -468,5 +468,14 @@ public class AccountRequest
 			RequestLogger.updateSessionLog();
 			return;
 		}
+
+		if ( action.equals( "recallskills" ) )
+		{
+			if ( location.indexOf( "confirm=on" ) != -1 )
+			{
+				KoLCharacter.setSkillsRecalled( true );
+			}
+			return;
+		}
 	}
 }
