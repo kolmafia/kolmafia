@@ -41,6 +41,7 @@ public class PasswordHashRequest
 {
 	private static final Pattern HASH_PATTERN_1 = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\']([^\"\']+)[\"\']" );
 	private static final Pattern HASH_PATTERN_2 = Pattern.compile( "pwd=([^&]+)" );
+	private static final Pattern HASH_PATTERN_3 = Pattern.compile( "pwd = \"([^\"]+)\"" );
 
 	public PasswordHashRequest( final String location )
 	{
@@ -67,6 +68,13 @@ public class PasswordHashRequest
 		}
 
 		pwdmatch = PasswordHashRequest.HASH_PATTERN_2.matcher( responseText );
+		if ( pwdmatch.find() )
+		{
+			GenericRequest.setPasswordHash( pwdmatch.group( 1 ) );
+			return;
+		}		
+
+		pwdmatch = PasswordHashRequest.HASH_PATTERN_3.matcher( responseText );
 		if ( pwdmatch.find() )
 		{
 			GenericRequest.setPasswordHash( pwdmatch.group( 1 ) );

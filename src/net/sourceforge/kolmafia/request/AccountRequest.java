@@ -186,14 +186,19 @@ public class AccountRequest
 
 	public static final void parseAccountData( final String location, final String responseText )
 	{
-		if ( location.indexOf( "&ajax" ) != -1 )
+		if ( location.indexOf( "action=" ) != -1 )
 		{
-			AccountRequest.parseAjax( location );
+			AccountRequest.parseAction( location, responseText );
 			return;
 		}
 
+		// Visiting a tab on the Options page
 		PasswordHashRequest.updatePasswordHash( responseText );
+		AccountRequest.parseOptionTab( location, responseText );
+	}
 
+	private static final void parseOptionTab( final String location, final String responseText )
+	{
 		switch ( AccountRequest.getTab( location ) )
 		{
 		case INTERFACE:
@@ -324,7 +329,7 @@ public class AccountRequest
 		// and don't have a "Recall Skills" button in your account menu
 		boolean recalled =
 			KoLCharacter.kingLiberated() &&
-			responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Recall Skills\">") == -1;
+			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Recall Skills\">") == -1;
 		KoLCharacter.setSkillsRecalled( recalled );
 	}
 
@@ -336,27 +341,29 @@ public class AccountRequest
 	{
 	}
 
-	private static final Pattern AJAX_ACTION_PATTERN =
+	private static final Pattern ACTION_PATTERN =
 		Pattern.compile( "action=([^&]*)");
-	private static final Pattern AJAX_VALUE_PATTERN =
+	private static final Pattern VALUE_PATTERN =
 		Pattern.compile( "value=([^&]*)");
 
-	private static final void parseAjax( final String location )
+	private static final void parseAction( final String location, final String responseText )
 	{
-		Matcher actionMatcher = AccountRequest.AJAX_ACTION_PATTERN.matcher( location );
+		Matcher actionMatcher = AccountRequest.ACTION_PATTERN.matcher( location );
 		if ( !actionMatcher.find() )
 		{
 			return;
 		}
 
-		Matcher valueMatcher = AccountRequest.AJAX_VALUE_PATTERN.matcher( location );
-		if ( !valueMatcher.find() )
+		String action = actionMatcher.group(1);
+
+		if ( action.equals( "loadtab" ) )
 		{
+			AccountRequest.parseOptionTab( location, responseText );
 			return;
 		}
 
-		String action = actionMatcher.group(1);
-		String valueString = valueMatcher.group(1);
+		Matcher valueMatcher = AccountRequest.VALUE_PATTERN.matcher( location );
+		String valueString = valueMatcher.find() ? valueMatcher.group(1) : "";
 
 		// Interface options
 
@@ -417,13 +424,43 @@ public class AccountRequest
 
 		// <form method="post" action="account.php">
 
+		// account.php?actions[]=recallskills&action=Recall+Skills&tab=account&pwd
+		// -->
+		// You must confirm the confirmation box.
+		//
+		// account.php?actions[]=recallskills&action=Recall+Skills&recallconfirm=1&tab=account&pwd
+		//-->
+		// Your ancient memories return in a flood!  You feel more
+		// skilled!  You remember some old familiar familiars!
+
+		if ( action.equals( "Recall+Skills" ) )
+		{
+			if ( location.indexOf( "recallconfirm=1" ) != -1 )
+			{
+				// Recalling skills
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Recalled ancient memories. Yowza!" );
+				RequestLogger.updateSessionLog();
+				KoLCharacter.setSkillsRecalled( true );
+			}
+			return;
+		}
+
 		// <input type=hidden name="actions[]" value="unronin">
 		// <input class=button name="action" type=submit value="Forsake Ronin">
 		// <input type="checkbox" class="confirm" name="unroninconfirm" value="1">
 
-		if ( action.equals( "unronin" ) )
+		// account.php?actions[]=unronin&action=Forsake+Ronin&unroninconfirm=1&tab=account&pwd
+
+		if ( action.equals( "Forsake+Ronin" ) )
 		{
-			// Dropping from Softcore to Casual.
+			if ( location.indexOf( "unroninconfirm=1" ) != -1 )
+			{
+				// Dropping from Softcore to Casual.
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Dropped into Casual. Slacker." );
+				RequestLogger.updateSessionLog();
+			}
 			return;
 		}
 
@@ -431,13 +468,21 @@ public class AccountRequest
 		// <input class=button name="action" type="submit" value="Drop Oxygenarian">
 		// <input type="checkbox" class="confirm" name="unpathconfirm" value="1">
 
-		if ( action.equals( "unpath" ) )
+		// account.php?actions[]=unpath&action=Drop+Teetotaler&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Boozetafarian&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Oxygenarian&unpathconfirm=1&tab=account&pwd
+		if ( action.equals( "Drop+Teetotaler" ) ||
+		     action.equals( "Drop+Boozetafarian" ) ||
+		     action.equals( "Drop+Oxygenarian" ) )
 		{
-			// Dropping consumption restrictions
-			KoLCharacter.setConsumptionRestriction( AscensionSnapshot.NOPATH );
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "dropped consumption restrictions" );
-			RequestLogger.updateSessionLog();
+			if ( location.indexOf( "unpathconfirm=1" ) != -1 )
+			{
+				// Dropping consumption restrictions
+				KoLCharacter.setConsumptionRestriction( AscensionSnapshot.NOPATH );
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Dropped consumption restrictions." );
+				RequestLogger.updateSessionLog();
+			}
 			return;
 		}
 
@@ -445,13 +490,17 @@ public class AccountRequest
 		// <input class=button name="action" type=submit value="Drop Hardcore">
 		// <input type="checkbox" class="confirm" name="unhardcoreconfirm" value="1">
 
-		if ( action.equals( "unhardcore" ) )
+		// account.php?actions[]=unhardcore&action=Drop+Hardcore&unhardcoreconfirm=1&tab=account&pwd
+		if ( action.equals( "Drop+Hardcore" ) )
 		{
-			// Dropping Hardcore
-			KoLCharacter.setHardcore( false );
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "dropped hardcore. Wimp." );
-			RequestLogger.updateSessionLog();
+			if ( location.indexOf( "unhardcoreconfirm=1" ) != -1 )
+			{
+				// Dropping Hardcore
+				KoLCharacter.setHardcore( false );
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Dropped Hardcore. Wimp." );
+				RequestLogger.updateSessionLog();
+			}
 			return;
 		}
 
@@ -459,21 +508,16 @@ public class AccountRequest
 		// <input class=button name="action" type=submit value="Drop Bad Moon">
 		// <input type="checkbox" class="confirm" name="unbadmoonconfirm" value="1">
 
-		if ( action.equals( "unbadmoon" ) )
+		// account.php?actions[]=unbadmoon&action=Drop+Bad+Moon&unbadmoonconfirm=1&tab=account&pwd
+		if ( action.equals( "Drop+Bad+Moon" ) )
 		{
-			// Dropping Bad Moon
-			KoLCharacter.setSign( "None" );
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "dropped Bad Moon. Fool." );
-			RequestLogger.updateSessionLog();
-			return;
-		}
-
-		if ( action.equals( "recallskills" ) )
-		{
-			if ( location.indexOf( "confirm=on" ) != -1 )
+			if ( location.indexOf( "unbadmoonconfirm=1" ) != -1 )
 			{
-				KoLCharacter.setSkillsRecalled( true );
+				// Dropping Bad Moon
+				KoLCharacter.setSign( "None" );
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Dropped Bad Moon. You fool!" );
+				RequestLogger.updateSessionLog();
 			}
 			return;
 		}
