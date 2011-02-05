@@ -41,11 +41,11 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 
 public class StorageCommand
 	extends AbstractCommand
@@ -133,10 +133,10 @@ public class StorageCommand
 		}
 
 		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
-		int pulls = ItemManageFrame.getPullsRemaining();
+		int pulls = ConcoctionDatabase.getPullsRemaining();
 		if ( pulls >= 0 )
 		{
-			KoLmafia.updateDisplay( pulls + ( pulls == 1 ? " pull" : " pulls" ) + " remaining," + ItemManageFrame.getPullsBudgeted() + " budgeted for automatic use." );
+			KoLmafia.updateDisplay( pulls + ( pulls == 1 ? " pull" : " pulls" ) + " remaining," + ConcoctionDatabase.getPullsBudgeted() + " budgeted for automatic use." );
 		}
 	}
 }

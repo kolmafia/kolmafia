@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StorageRequest
@@ -290,15 +289,15 @@ public class StorageRequest
 		Matcher storageMatcher = StorageRequest.PULLS_PATTERN.matcher( responseText );
 		if ( storageMatcher.find() )
 		{
-			ItemManageFrame.setPullsRemaining( StringUtilities.parseInt( storageMatcher.group( 1 ) ) );
+			ConcoctionDatabase.setPullsRemaining( StringUtilities.parseInt( storageMatcher.group( 1 ) ) );
 		}
 		else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
 		{
-			ItemManageFrame.setPullsRemaining( 0 );
+			ConcoctionDatabase.setPullsRemaining( 0 );
 		}
 		else
 		{
-			ItemManageFrame.setPullsRemaining( -1 );
+			ConcoctionDatabase.setPullsRemaining( -1 );
 		}
 
 		// Only parse once

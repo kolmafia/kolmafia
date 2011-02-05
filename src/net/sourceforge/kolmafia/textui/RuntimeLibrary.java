@@ -136,7 +136,6 @@ import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
@@ -2767,7 +2766,7 @@ public abstract class RuntimeLibrary
 
 	public static Value pulls_remaining()
 	{
-		return new Value( ItemManageFrame.getPullsRemaining() );
+		return new Value( ConcoctionDatabase.getPullsRemaining() );
 	}
 
 	public static Value stills_available()

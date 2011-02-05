@@ -143,6 +143,7 @@ public abstract class StaticEntity
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
+	private static boolean isHeadless = System.getProperty( "java.awt.headless" ).equals( "true" );
 
 	public static final ArrayList existingPanels = new ArrayList();
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
@@ -247,6 +248,11 @@ public abstract class StaticEntity
 
 			return StaticEntity.panelArray;
 		}
+	}
+	
+	public static final boolean isHeadless()
+	{
+		return StaticEntity.isHeadless;
 	}
 
 	public static final boolean usesSystemTray()

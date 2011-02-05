@@ -77,7 +77,7 @@ public class ConcoctionDatabase
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
 	private static final SortedListModel creatableList = new SortedListModel();
 	private static final LockableListModel usableList = new LockableListModel();
-	
+
 	public static String excuse;	// reason why creation is impossible
 
 	public static boolean refreshDeferred = false;
@@ -112,7 +112,7 @@ public class ConcoctionDatabase
 	public static int creationFlags;
 
 	private static final AdventureResult[] NO_INGREDIENTS = new AdventureResult[ 0 ];
-	
+
 	public static final AdventureResult INIGO = new AdventureResult( "Inigo's Incantation of Inspiration", 0, true );
 
 	private static final HashMap mixingMethods = new HashMap();
@@ -120,7 +120,7 @@ public class ConcoctionDatabase
 	static
 	{
 		// Basic creation types:
-		
+
 		// Items anybody can create using meat paste
 		ConcoctionDatabase.mixingMethods.put( "COMBINE", new Integer( KoLConstants.COMBINE ));
 		// Items anybody can create with an E-Z Cook Oven or Dramatic Range
@@ -175,9 +175,9 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "COOK_FANCY", new Integer( KoLConstants.COOK_FANCY ));
 		// Items that require a Cocktailcrafting Kit
 		ConcoctionDatabase.mixingMethods.put( "MIX_FANCY", new Integer( KoLConstants.MIX_FANCY ));
-		
+
 		// Creation flags
-		
+
 		// Character gender (for kilt vs. skirt)
 		ConcoctionDatabase.mixingMethods.put( "MALE", new Integer( KoLConstants.CR_MALE ));
 		// Character gender (for kilt vs. skirt)
@@ -219,9 +219,9 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "NODISCOVERY", new Integer( KoLConstants.CF_NODISCOVERY ));
 		// Recipe should never be used automatically
 		ConcoctionDatabase.mixingMethods.put( "MANUAL", new Integer( KoLConstants.CF_MANUAL ));
-		
+
 		// Combinations of creation type & flags, for convenience
-		
+
 		// Items requiring Pastamastery
 		ConcoctionDatabase.mixingMethods.put( "PASTA", new Integer( KoLConstants.COOK_FANCY | KoLConstants.CR_PASTA ));
 		// Items requiring Tempuramancy
@@ -532,7 +532,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.excuse = ConcoctionDatabase.EXCUSE[ method & KoLConstants.CT_MASK ];
 			return false;
 		}
-		
+
 		method = method & KoLConstants.CR_MASK & ~ConcoctionDatabase.creationFlags;
 		if ( method != 0 )
 		{
@@ -554,7 +554,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.excuse = "You lack a skill or other prerequisite for creating that item (" + reason + ").";
 			return false;
 		}
-		
+
 		ConcoctionDatabase.excuse = null;
 		return true;
 	}
@@ -981,7 +981,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.refreshDeferred = true;
 			return;
 		}
-		
+
 		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
 
 		// First, zero out the quantities table.  Though this is not
@@ -1046,7 +1046,7 @@ public class ConcoctionDatabase
 			{
 				continue;
 			}
-			
+
 			// Switch to the better of any interchangeable ingredients
 			ConcoctionDatabase.getIngredients( item.getIngredients(), availableIngredients );
 
@@ -1084,14 +1084,14 @@ public class ConcoctionDatabase
 		boolean changeDetected = false;
 		boolean considerPulls = !KoLCharacter.canInteract() &&
 			!KoLCharacter.isHardcore() &&
-			ItemManageFrame.getPullsBudgeted() > ConcoctionDatabase.queuedPullsUsed;
+			ConcoctionDatabase.getPullsBudgeted() > ConcoctionDatabase.queuedPullsUsed;
 
 		it = ConcoctionPool.iterator();
 
 		while ( it.hasNext() )
 		{
 			Concoction item = (Concoction) it.next();
-			
+
 			AdventureResult ar = item.getItem();
 			if ( ar == null )
 			{
@@ -1103,7 +1103,7 @@ public class ConcoctionDatabase
 				item.getPrice() <= 0 &&
 				ItemDatabase.meetsLevelRequirement( item.getName() ) )
 			{
-				item.setPullable( Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls, ItemManageFrame.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed ) );
+				item.setPullable( Math.min ( ar.getCount( KoLConstants.storage ) - item.queuedPulls, ConcoctionDatabase.getPullsBudgeted() - ConcoctionDatabase.queuedPullsUsed ) );
 			}
 			else
 			{
@@ -1122,7 +1122,7 @@ public class ConcoctionDatabase
 
 			instance.setQuantityPossible( creatable );
 			instance.setQuantityPullable( pullable );
-			
+
 			if ( creatable + pullable == 0 )
 			{
 				if ( item.wasPossible() )
@@ -1270,13 +1270,13 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.meatLimit.total = KoLCharacter.getAvailableMeat();
 		ConcoctionDatabase.meatLimit.initial =
-			ConcoctionDatabase.meatLimit.total; 
+			ConcoctionDatabase.meatLimit.total;
 			// - ConcoctionDatabase.queuedMeatSpent ???
 		ConcoctionDatabase.meatLimit.creatable = 0;
 		ConcoctionDatabase.meatLimit.visibleTotal = ConcoctionDatabase.meatLimit.total;
 
 		ConcoctionDatabase.calculateBasicItems( availableIngredients );
-		
+
 		int flags = KoLCharacter.getGender() == KoLCharacter.MALE ?
 			KoLConstants.CR_MALE : KoLConstants.CR_FEMALE;
 		Arrays.fill( ConcoctionDatabase.PERMIT_METHOD, false );
@@ -1299,14 +1299,14 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.GNOME_TINKER ] = KoLCharacter.inMoxieSign();
 		ConcoctionDatabase.EXCUSE[ KoLConstants.GNOME_TINKER ] = "Only moxie signs can use the Supertinkerer.";
-		
+
 		// Smithing of items is possible whenever the person
 		// has a hammer.
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] =
 			KoLCharacter.getAvailableMeat() >= 1000;
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SMITH ] = Math.max( 0, 1 - Inigo );
-		
+
 		if ( InventoryManager.hasItem( ItemPool.TENDER_HAMMER ) )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] = true;
@@ -1383,7 +1383,7 @@ public class ConcoctionDatabase
 		// Phineas will make things for Seal Clubbers who have defeated
 		// their Nemesis, and hence have their ULEW
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.PHINEAS ] = 
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.PHINEAS ] =
 			InventoryManager.hasItem( ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR );
 		ConcoctionDatabase.EXCUSE[ KoLConstants.PHINEAS ] = "Only Seal Clubbers who have defeated Gorgolok can use Phineas.";
 
@@ -1559,12 +1559,12 @@ public class ConcoctionDatabase
 		// You can make Sushi if you have a sushi-rolling mat installed
 		// in your kitchen.
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SUSHI ] = 
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SUSHI ] =
 			KoLCharacter.hasSushiMat();
 		ConcoctionDatabase.EXCUSE[ KoLConstants.SUSHI ] = "You cannot make sushi without a sushi-rolling mat.";
-		
+
 		// Other creatability flags
-		
+
 		if ( KoLCharacter.hasSkill( "Torso Awaregness" ) )
 		{
 			flags |= KoLConstants.CR_TORSO;
@@ -1593,7 +1593,7 @@ public class ConcoctionDatabase
 				ConcoctionDatabase.CREATION_COST[ i ] += adv * value;
 			}
 		}
-		
+
 		ConcoctionDatabase.creationFlags = flags;
 	}
 
@@ -1657,12 +1657,12 @@ public class ConcoctionDatabase
 		// Ensure that you're retrieving the same ingredients that
 		// were used in the calculations.  Usually this is the case,
 		// but ice-cold beer and ketchup are tricky cases.
-		
+
 		if ( ingredients.length > 2 )
 		{	// This is not a standard crafting recipe - and in the one case
 			// where such a recipe uses one of these ingredients (Sir Schlitz
 			// for the Staff of the Short Order Cook), it's not interchangeable.
-			return ingredients;		
+			return ingredients;
 		}
 
 		for ( int i = 0; i < ingredients.length; ++i )
@@ -1674,19 +1674,19 @@ public class ConcoctionDatabase
 				ingredients[ i ] = ConcoctionDatabase.getBetterIngredient(
 					ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients );
 				break;
-				
+
 			case ItemPool.KETCHUP:
 			case ItemPool.CATSUP:
 				ingredients[ i ] = ConcoctionDatabase.getBetterIngredient(
 					ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients );
 				break;
-				
+
 			case ItemPool.DYSPEPSI_COLA:
 			case ItemPool.CLOACA_COLA:
 				ingredients[ i ] = ConcoctionDatabase.getBetterIngredient(
 					ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA, availableIngredients );
 				break;
-				
+
 			case ItemPool.TITANIUM_UMBRELLA:
 			case ItemPool.GOATSKIN_UMBRELLA:
 				ingredients[ i ] = ConcoctionDatabase.getBetterIngredient(
@@ -1731,5 +1731,52 @@ public class ConcoctionDatabase
 				MallPriceDatabase.getPrice( itemId1 );
 		}
 		return diff > 0 ? ingredient1 : ingredient2;
+	}
+
+	public static final int getPullsBudgeted()
+	{
+		return ConcoctionDatabase.pullsBudgeted;
+	}
+
+	public static int pullsBudgeted = 0;
+	public static int pullsRemaining = 0;
+	public static final int getPullsRemaining()
+	{
+		return pullsRemaining;
+	}
+
+	public static final void setPullsRemaining( final int pullsRemaining )
+	{
+		ConcoctionDatabase.pullsRemaining = pullsRemaining;
+
+		if ( !StaticEntity.isHeadless() )
+		{
+			ItemManageFrame.updatePullsRemaining( pullsRemaining );
+		}
+
+		if ( pullsRemaining < pullsBudgeted )
+		{
+			ConcoctionDatabase.setPullsBudgeted( pullsRemaining );
+		}
+	}
+
+	public static final void setPullsBudgeted( int pullsBudgeted )
+	{
+		if ( pullsBudgeted < queuedPullsUsed )
+		{
+			pullsBudgeted = queuedPullsUsed;
+		}
+
+		if ( pullsBudgeted > pullsRemaining )
+		{
+			pullsBudgeted = pullsRemaining;
+		}
+
+		ConcoctionDatabase.pullsBudgeted = pullsBudgeted;
+
+		if ( !StaticEntity.isHeadless() )
+		{
+			ItemManageFrame.updatePullsBudgeted( pullsBudgeted );
+		}
 	}
 }

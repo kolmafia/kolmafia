@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -89,7 +90,7 @@ public abstract class ChatManager
 	private static int triviaGameIndex = 0;
 	private static String triviaGameId = "[trivia0]";
 	private static LockableListModel triviaGameContacts = new LockableListModel();
-	private static ContactListFrame triviaGameContactListFrame = new ContactListFrame( ChatManager.triviaGameContacts );
+	private static ContactListFrame triviaGameContactListFrame = null;
 
 	public static final void reset()
 	{
@@ -258,6 +259,11 @@ public abstract class ChatManager
 		ChatManager.triviaGameId = "[trivia" + (++ChatManager.triviaGameIndex) + "]";
 		ChatManager.triviaGameActive = true;
 
+		if ( ChatManager.triviaGameContactListFrame == null )
+		{
+			ChatManager.triviaGameContactListFrame = new ContactListFrame( ChatManager.triviaGameContacts );
+		}
+		
 		ChatManager.triviaGameContactListFrame.setTitle( "Contestants for " + triviaGameId );
 		ChatManager.triviaGameContactListFrame.setVisible( true );
 	}
@@ -545,11 +551,11 @@ public abstract class ChatManager
 
 	public static final void openWindow( final String bufferKey, boolean highlightOnOpen )
 	{
-		if ( !ChatManager.isRunning || bufferKey == null )
+		if ( StaticEntity.isHeadless() || !ChatManager.isRunning || bufferKey == null )
 		{
 			return;
 		}
-
+		
 		if ( ChatManager.activeWindows.contains( bufferKey ) )
 		{
 			if ( ChatManager.tabbedFrame != null )
