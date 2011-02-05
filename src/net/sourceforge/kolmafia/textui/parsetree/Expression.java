@@ -187,7 +187,6 @@ public class Expression
 			}
 
 			Value executeResult = expression.execute( interpreter );
-			interpreter.captureValue( executeResult );
 
 			if ( executeResult == null )
 			{
