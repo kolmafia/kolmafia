@@ -84,9 +84,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ItemManageFrame
 	extends GenericFrame
 {
-	private static int pullsRemaining = 0;
-	private static int pullsBudgeted = 0;
-
 	private static final JLabel pullsRemainingLabel1 = new JLabel( " " );
 	private static final JLabel pullsRemainingLabel2 = new JLabel( " " );
 	private static final PullBudgetSpinner pullBudgetSpinner1 =
@@ -200,15 +197,8 @@ public class ItemManageFrame
 		this.framePanel.add( selectorPanel, BorderLayout.CENTER );
 	}
 
-	public static final int getPullsRemaining()
+	public static void updatePullsRemaining( final int pullsRemaining )
 	{
-		return ItemManageFrame.pullsRemaining;
-	}
-
-	public static final void setPullsRemaining( final int pullsRemaining )
-	{
-		ItemManageFrame.pullsRemaining = pullsRemaining;
-
 		if ( KoLCharacter.isHardcore() )
 		{
 			ItemManageFrame.pullsRemainingLabel1.setText( "In Hardcore" );
@@ -230,29 +220,10 @@ public class ItemManageFrame
 			ItemManageFrame.pullsRemainingLabel1.setText( pullsRemaining + " Pulls Left" );
 			ItemManageFrame.pullsRemainingLabel2.setText( pullsRemaining + " Pulls Left" );
 		}
-
-		if ( pullsRemaining < pullsBudgeted )
-		{
-			ItemManageFrame.setPullsBudgeted( pullsRemaining );
-		}
 	}
 
-	public static final int getPullsBudgeted()
+	public static void updatePullsBudgeted( final int pullsBudgeted )
 	{
-		return ItemManageFrame.pullsBudgeted;
-	}
-
-	public static final void setPullsBudgeted( int pullsBudgeted )
-	{
-		if ( pullsBudgeted < ConcoctionDatabase.queuedPullsUsed )
-		{
-			pullsBudgeted = ConcoctionDatabase.queuedPullsUsed;
-		}
-		if ( pullsBudgeted > pullsRemaining )
-		{
-			pullsBudgeted = pullsRemaining;
-		}
-		ItemManageFrame.pullsBudgeted = pullsBudgeted;
 		ItemManageFrame.pullBudgetSpinner1.setValue(
 			new Integer( pullsBudgeted ) );
 		ItemManageFrame.pullBudgetSpinner2.setValue(
@@ -569,7 +540,7 @@ public class ItemManageFrame
 		public void stateChanged( ChangeEvent e )
 		{
 			int desired = InputFieldUtilities.getValue( this, 0 );
-			ItemManageFrame.setPullsBudgeted( desired );
+			ConcoctionDatabase.setPullsBudgeted( desired );
 			ConcoctionDatabase.refreshConcoctions();
 		}
 	}

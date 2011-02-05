@@ -68,7 +68,6 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public abstract class InventoryManager
@@ -506,15 +505,15 @@ public abstract class InventoryManager
 		if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() )
 		{
 			int pullCount = Math.min( item.getCount( KoLConstants.storage ),
-				ItemManageFrame.getPullsBudgeted() );
+				ConcoctionDatabase.getPullsBudgeted() );
 			if ( pullCount > 0 )
 			{
 				pullCount = Math.min( pullCount, item.getCount() );
-				int newbudget = ItemManageFrame.getPullsBudgeted() - pullCount;
+				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pullCount;
 				RequestThread.postRequest( new StorageRequest(
 					StorageRequest.STORAGE_TO_INVENTORY,
 					new AdventureResult[] { item.getInstance( pullCount ) } ) );
-				ItemManageFrame.setPullsBudgeted( newbudget );
+				ConcoctionDatabase.setPullsBudgeted( newbudget );
 
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 				if ( missingCount <= 0 )

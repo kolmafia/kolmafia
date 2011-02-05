@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BudgetCommand
@@ -49,8 +49,8 @@ public class BudgetCommand
 	{
 		if ( parameters.length() > 0 )
 		{
-			ItemManageFrame.setPullsBudgeted( StringUtilities.parseInt( parameters ) );
+			ConcoctionDatabase.setPullsBudgeted( StringUtilities.parseInt( parameters ) );
 		}
-		KoLmafia.updateDisplay( ItemManageFrame.getPullsBudgeted() + " pulls budgeted for automatic use, " + ItemManageFrame.getPullsRemaining() + " pulls remaining." );
+		KoLmafia.updateDisplay( ConcoctionDatabase.getPullsBudgeted() + " pulls budgeted for automatic use, " + ConcoctionDatabase.getPullsRemaining() + " pulls remaining." );
 	}
 }

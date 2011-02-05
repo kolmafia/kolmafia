@@ -56,7 +56,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 
 /**
  * Internal class used to handle everything related to creating items; this allows creating of items, which usually
@@ -136,11 +135,11 @@ public class CreateItemPanel
 			SpecialOutfit.restoreImplicitCheckpoint();
 			if ( pulled > 0 && KoLmafia.permitsContinue() )
 			{
-				int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
+				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;
 				RequestThread.postRequest( new StorageRequest(
 					StorageRequest.STORAGE_TO_INVENTORY,
 					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
-				ItemManageFrame.setPullsBudgeted( newbudget );
+				ConcoctionDatabase.setPullsBudgeted( newbudget );
 			}		
 	
 			RequestThread.closeRequestSequence();
@@ -177,11 +176,11 @@ public class CreateItemPanel
 			SpecialOutfit.restoreImplicitCheckpoint();
 			if ( pulled > 0 && KoLmafia.permitsContinue() )
 			{
-				int newbudget = ItemManageFrame.getPullsBudgeted() - pulled;
+				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;
 				RequestThread.postRequest( new StorageRequest(
 					StorageRequest.STORAGE_TO_INVENTORY,
 					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
-				ItemManageFrame.setPullsBudgeted( newbudget );
+				ConcoctionDatabase.setPullsBudgeted( newbudget );
 			}		
 	
 			RequestThread.postRequest( new UseItemRequest( new AdventureResult(
