@@ -557,7 +557,11 @@ public class IslandDecorator
 
 		String message;
 
-		if ( IslandDecorator.currentJunkyardTool.equals( "" ) )
+		if ( !InventoryManager.hasItem( ItemPool.MOLYBDENUM_MAGNET ) )
+		{
+			message = "Visit Yossarian in uniform to get a molybdenum magnet";
+		}
+		else if ( IslandDecorator.currentJunkyardTool.equals( "" ) )
 		{
 			message = "Visit Yossarian for your next assignment";
 		}
