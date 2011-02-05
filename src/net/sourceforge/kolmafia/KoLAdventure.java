@@ -62,6 +62,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
@@ -572,10 +574,19 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.AIRSHIP_ID ) && !KoLCharacter.beanstalkArmed() )
 		{
+			// If the character is not at least level 10, they have
+			// no chance to get to the beanstalk
+			if ( KoLCharacter.getLevel() < 10 )
+			{
+				this.isValidAdventure = false;
+				return;
+			}
+
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
 
-			if ( InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) || InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) )
+			if ( InventoryManager.hasItem( ItemPool.get( ItemPool.SOCK, 1 ) ) ||
+			     InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -590,38 +601,23 @@ public class KoLAdventure
 
 			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
-				// If not, check to see if the player has an enchanted
-				// bean which can be used.  If they don't, then try to
-				// find one through adventuring.
-
-				if ( !InventoryManager.hasItem( ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 ) ) )
+				// We see no beanstalk in the Nearby Plains.
+				// Acquire an enchanted bean and plant it.
+				if ( !KoLAdventure.getEnchantedBean() )
 				{
-					ArrayList temporary = new ArrayList();
-					temporary.addAll( KoLConstants.conditions );
-					KoLConstants.conditions.clear();
-
-					KoLConstants.conditions.add( ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 ) );
-					StaticEntity.getClient().makeRequest(
-						AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=33" ),
-						KoLCharacter.getAdventuresLeft() );
-
-					if ( !KoLConstants.conditions.isEmpty() )
-					{
-						KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unable to complete enchanted bean quest." );
-					}
-
-					KoLConstants.conditions.clear();
-					KoLConstants.conditions.addAll( temporary );
+					this.isValidAdventure = false;
+					return;
 				}
 
-				// Now that you've retrieved the bean, ensure that
-				// it is in your inventory, and then use it.  Take
-				// advantage of item consumption automatically doing
-				// what's needed in grabbing the item.
-
+				// Make sure the Council has given you the quest
 				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
+				// Use the enchanted bean.
 				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 ) ) );
 			}
+
+			// Visit the beanstalk container document. In the old
+			// days, that was necessary in order for the quest NCs
+			// to appear in the airship.
 
 			KoLAdventure.ZONE_UNLOCK.constructURLString( "beanstalk.php" );
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
@@ -768,6 +764,41 @@ public class KoLAdventure
 		}
 
 		this.isValidAdventure = true;
+	}
+
+	private static boolean getEnchantedBean()
+	{
+		// Do we have an enchanted bean? Can we get one easily?
+		if ( InventoryManager.hasItem( ItemPool.ENCHANTED_BEAN ) )
+		{
+			return true;
+		}
+
+		// No. We can adventure for one. Ask the user if this is OK.
+		if ( GenericFrame.instanceExists() &&
+		     !InputFieldUtilities.confirm( "KoLmafia thinks you haven't planted an enchanted bean yet.	Would you like to have KoLmafia automatically adventure to obtain one?" ) )
+		{
+			return false;
+		}
+
+		// The user said "do it". So, do it!
+		ArrayList temporary = new ArrayList();
+		temporary.addAll( KoLConstants.conditions );
+		KoLConstants.conditions.clear();
+
+		KoLConstants.conditions.add( ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 ) );
+		StaticEntity.getClient().makeRequest(
+			AdventureDatabase.getAdventure( "Beanbat Chamber" ),
+			KoLCharacter.getAdventuresLeft() );
+
+		if ( !KoLConstants.conditions.isEmpty() )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unable to obtain an enchanted bean." );
+		}
+
+		KoLConstants.conditions.clear();
+		KoLConstants.conditions.addAll( temporary );
+		return !KoLmafia.refusesContinue();
 	}
 
 	/**
