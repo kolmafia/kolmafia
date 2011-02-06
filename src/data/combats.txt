@@ -138,7 +138,7 @@ Itznotyerzitz Mine	75	7-Foot Dwarf: 2	7-Foot Dwarf Foreman: 1
 Kegger in the Woods	-1	Actual Orcish Frat Boy	Jailbait Orquette	Juvenile Delinquent Orquette	Orcish Juvenile Delinquent	Orcish Frat Wannaboy	Totally Trashed Orquette
 King's Chamber	100	The Knob Goblin King
 Knob Goblin Harem	60	Knob Goblin Elite Guardsman: 1	Knob Goblin Harem Girl: 2
-Knob Goblin Kitchens	100	Knob Goblin Chef: 2	Knob Goblin Master Chef: 1	Knob Goblin Elite Guard Captain: 0
+Knob Goblin Kitchens	100	Knob Goblin Master Chef: 1	Knob Goblin Sous Chef: 2	Knob Goblin Elite Guard Captain: 0
 Knob Goblin Laboratory	100	Knob Goblin Mad Scientist: 3	Knob Goblin Very Mad Scientist: 1
 Knob Goblin Treasury	85	Knob Goblin Bean Counter	Knob Goblin Elite Guardsman	Knob Goblin Embezzler: 0	Infinite Meat Bug: -1
 Knob Shaft	85	Ghost Miner
