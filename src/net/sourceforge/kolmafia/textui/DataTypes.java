@@ -592,6 +592,13 @@ public class DataTypes
 		return new Value( DataTypes.ITEM_TYPE, num, name );
 	}
 
+	public static final Value makeItemValue( final AdventureResult ar )
+	{
+		int num = ar.getItemId();
+		String name = ItemDatabase.getItemName( num );
+		return new Value( DataTypes.ITEM_TYPE, num, name );
+	}
+
 	public static final Value makeClassValue( final String name )
 	{
 		return new Value( DataTypes.CLASS_TYPE, DataTypes.classToInt( name ), name );

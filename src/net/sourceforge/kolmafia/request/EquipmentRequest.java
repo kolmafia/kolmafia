@@ -1255,9 +1255,7 @@ public class EquipmentRequest
 		// Look for custom outfits
 
 		Matcher outfitsMatcher = EquipmentRequest.OUTFITLIST_PATTERN.matcher( responseText );
-		LockableListModel outfits = outfitsMatcher.find() ? SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
-
-		EquipmentManager.setOutfits( outfits );
+		SpecialOutfit.checkOutfits( outfitsMatcher.find() ? outfitsMatcher.group() : null );
 
 		// Check if familiar equipment is locked
 		FamiliarData.checkLockedItem( responseText );
@@ -1532,7 +1530,18 @@ public class EquipmentRequest
 			}
 			int id = StringUtilities.parseInt( matcher.group( 1 ) );
 
+			// Make a new custom outfit
 			SpecialOutfit outfit = new SpecialOutfit( -id, name );
+
+			AdventureResult[] equipment = EquipmentManager.currentEquipment();
+			// Add our current equipment to it
+			for ( int slot = 0; slot < EquipmentManager.FAMILIAR; ++slot )
+			{
+				AdventureResult piece = equipment[ slot ];
+				outfit.addPiece( piece );
+			}
+
+			// Add this outfit to the list of custom outfits.
 			EquipmentManager.addCustomOutfit( outfit );
 
 			return;

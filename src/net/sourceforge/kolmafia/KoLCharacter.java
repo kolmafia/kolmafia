@@ -624,6 +624,7 @@ public abstract class KoLCharacter
 		StoreManager.clearCache();
 		InventoryManager.resetInventory();
 		EquipmentManager.resetEquipment();
+		EquipmentManager.resetOutfits();
 		ConcoctionDatabase.refreshConcoctions();
 		ItemDatabase.calculateAdventureRanges();
 

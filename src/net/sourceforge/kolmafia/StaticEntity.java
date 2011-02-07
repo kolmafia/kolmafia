@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.Crimbo10Request;
 import net.sourceforge.kolmafia.request.CurseRequest;
+import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.DigRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
@@ -392,6 +393,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "account_contactlist.php" ) )
 		{
 			ContactListRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "account_manageoutfits.php" ) )
+		{
+			CustomOutfitRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "arcade.php" ) )
