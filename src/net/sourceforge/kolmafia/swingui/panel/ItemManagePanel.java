@@ -568,7 +568,16 @@ public class ItemManagePanel
 
 		public Object[] initialSetup()
 		{
-			Object[] items = ItemManagePanel.this.getDesiredItems( this.description );
+			return this.retrieveItems( ItemManagePanel.this.getDesiredItems( this.description ) );
+		}
+
+		public Object[] initialSetup( final int transferType )
+		{
+			return this.retrieveItems( ItemManagePanel.this.getDesiredItems( this.description, transferType ) );
+		}
+
+		private Object[] retrieveItems( final Object[] items )
+		{
 			if ( items == null )
 			{
 				return null;
