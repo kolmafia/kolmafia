@@ -80,6 +80,7 @@ public class PulverizePanel
 
 		this.setButtons( true, new ActionListener[] {
 				new EnqueueListener(),
+				new DequeueListener(),
 				new ClearListener(),
 				new PulverizeListener(),
 				new WadbotListener(),
@@ -95,7 +96,7 @@ public class PulverizePanel
 
 		if ( !KoLCharacter.hasSkill( "Pulverize" ) )
 		{
-			this.buttons[ 2 ].setEnabled( false );
+			this.buttons[ 3 ].setEnabled( false );
 		}
 	}
 
@@ -291,6 +292,42 @@ public class PulverizePanel
 		public String toString()
 		{
 			return "add to queue";
+		}
+	}
+	
+	public class DequeueListener
+		extends TransferListener
+	{
+		public DequeueListener()
+		{
+			super( "Keeping", false );
+		}
+
+		public void run()
+		{
+			Object[] items = this.initialSetup( ItemManagePanel.TAKE_ALL );
+			if ( items == null || items.length == 0 )
+			{
+				return;
+			}
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				AdventureResult item = (AdventureResult) items[ i ];
+				if ( item.getCount() > 0 )
+				{
+					KoLConstants.pulverizeQueue.remove( item );
+					LockableListModel inv = (LockableListModel)
+						PulverizePanel.this.elementList.getModel();
+					int index = inv.indexOf( item );
+					inv.fireContentsChanged( inv, index, index );
+				}
+			}
+		}
+
+		public String toString()
+		{
+			return "remove from queue";
 		}
 	}
 
