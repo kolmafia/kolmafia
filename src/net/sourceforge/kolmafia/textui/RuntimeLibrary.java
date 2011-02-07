@@ -741,6 +741,10 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "have_outfit", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "outfit_pieces", new AggregateType(
+			DataTypes.ITEM_TYPE, 0 ), params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
@@ -3209,6 +3213,28 @@ public abstract class RuntimeLibrary
 		}
 
 		return DataTypes.makeBooleanValue( EquipmentManager.hasOutfit( so.getOutfitId() ) );
+	}
+
+	public static Value outfit_pieces( final Value outfit )
+	{
+		SpecialOutfit so = EquipmentManager.getMatchingOutfit( outfit.toString() );
+		if ( so == null )
+		{
+			return new ArrayValue( new AggregateType( DataTypes.ITEM_TYPE, 0 ) );
+		}
+
+		AdventureResult[] pieces = so.getPieces();
+		AggregateType type = new AggregateType( DataTypes.ITEM_TYPE, pieces.length );
+		ArrayValue value = new ArrayValue( type );
+
+		for ( int i = 0; i < pieces.length; ++i )
+		{
+			AdventureResult piece = pieces[ i ];
+			value.aset( DataTypes.makeIntValue( i ),
+				    DataTypes.makeItemValue( piece ) );
+		}
+
+		return value;
 	}
 
 	public static Value weapon_hands( final Value item )

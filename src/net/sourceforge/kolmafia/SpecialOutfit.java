@@ -53,8 +53,8 @@ public class SpecialOutfit
 	private static final Stack implicitPoints = new Stack();
 	private static final Stack explicitPoints = new Stack();
 
-	private final int outfitId;
-	private final String outfitName;
+	private int outfitId;
+	private String outfitName;
 	private final ArrayList pieces;
 	private int hash;
 
@@ -170,8 +170,11 @@ public class SpecialOutfit
 
 	public void addPiece( final AdventureResult piece )
 	{
-		this.pieces.add( piece );
-		this.hash |= this.pieceHash( piece );
+		if ( piece != EquipmentRequest.UNEQUIP )
+		{
+			this.pieces.add( piece );
+			this.hash |= this.pieceHash( piece );
+		}
 	}
 
 	public String toString()
@@ -328,16 +331,13 @@ public class SpecialOutfit
 	}
 
 	/**
-	 * static final method used to determine all of the custom outfits, based on the given HTML enclosed in
-	 * <code><select></code> tags.
-	 *
-	 * @return A list of available outfits
+	 * static final method used to determine all of the custom outfits,
+	 * based on the given HTML enclosed in <code><select></code> tags.
 	 */
 
-	public static final LockableListModel parseOutfits( final String selectHTML )
+	public static final void checkOutfits( final String selectHTML )
 	{
 		Matcher singleOutfitMatcher = SpecialOutfit.OPTION_PATTERN.matcher( selectHTML );
-		SortedListModel outfits = new SortedListModel();
 		SpecialOutfit.implicitOutfit = null;
 
 		while ( singleOutfitMatcher.find() )
@@ -349,12 +349,26 @@ public class SpecialOutfit
 			}
 
 			String outfitName = singleOutfitMatcher.group( 2 );
-			SpecialOutfit outfit = new SpecialOutfit( outfitId, outfitName );
-			checkImplicitOutfit( outfit );
-			outfits.add( outfit );
-		}
+			SpecialOutfit outfit = EquipmentManager.getCustomOutfit( outfitName );
+			if ( outfit == null )
+			{
+				outfit = new SpecialOutfit( outfitId, outfitName );
+				EquipmentManager.addCustomOutfit( outfit );
+			}
 
-		return outfits;
+			if ( outfitId != outfit.outfitId )
+			{
+				// Id has changed
+				outfit.outfitId = outfitId;
+			}
+
+			checkImplicitOutfit( outfit );
+		}
+	}
+
+	public static final void clearImplicitOutfit()
+	{
+		SpecialOutfit.implicitOutfit = null;
 	}
 
 	public static final void checkImplicitOutfit( final SpecialOutfit outfit )

@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -960,6 +961,10 @@ public abstract class KoLmafia
 		// the player.
 
 		RequestThread.postRequest( new FamiliarRequest() );
+
+		// Retrieve Custom Outfit list
+
+		RequestThread.postRequest( new CustomOutfitRequest() );
 
 		// Retrieve the contents of the closet and inventory
 

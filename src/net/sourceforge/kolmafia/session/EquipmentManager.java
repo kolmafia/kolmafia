@@ -148,9 +148,13 @@ public class EquipmentManager
 
 		EquipmentManager.fakeHandCount = 0;
 		EquipmentManager.stinkyCheeseLevel = 0;
+		EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
+	}
+
+	public static void resetOutfits()
+	{
 		EquipmentManager.customOutfits.clear();
 		EquipmentManager.outfits.clear();
-		EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 	}
 
 	public static AdventureResult[] emptyEquipmentArray()
@@ -584,8 +588,6 @@ public class EquipmentManager
 			customOutfits.add( SpecialOutfit.NO_CHANGE );
 			customOutfits.addAll( newOutfits );
 		}
-
-		EquipmentManager.updateOutfits();
 	}
 
 	/**
@@ -952,6 +954,25 @@ public class EquipmentManager
 			}
 			SpecialOutfit outfit = (SpecialOutfit) object;
 			if ( outfit.getOutfitId() == id )
+			{
+				return outfit;
+			}
+		}
+		return null;
+	}
+
+	public static SpecialOutfit getCustomOutfit( String name )
+	{
+		Iterator i = customOutfits.iterator();
+		while ( i.hasNext() )
+		{
+			Object object = i.next();
+			if ( !( object instanceof SpecialOutfit ) )
+			{
+				continue;
+			}
+			SpecialOutfit outfit = (SpecialOutfit) object;
+			if ( outfit.getName().equals( name ) )
 			{
 				return outfit;
 			}
