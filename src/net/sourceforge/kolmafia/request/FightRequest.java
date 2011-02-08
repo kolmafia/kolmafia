@@ -4708,7 +4708,7 @@ public class FightRequest
 
 	private static final boolean isItemConsumed( final int itemId, final String responseText )
 	{
-		if( itemId == ItemPool.EMPTY_EYE )
+		if ( itemId == ItemPool.EMPTY_EYE )
 		{
 			// You hold Zombo's eye out toward your opponent,
 			// whose gaze is transfixed by it. (success)
@@ -4861,6 +4861,15 @@ public class FightRequest
 
 			return responseText.indexOf( "swims sulkily away" ) != -1;
 
+		case ItemPool.PUMPKIN_BOMB:
+
+			// You light the fuse and toss the pumpkin at your
+			// opponent.  After it goes off in a flash of dazzling
+			// yellow and flying pumpkin guts, there's nothing left
+			// of her but a stain on the ground.
+
+			return responseText.indexOf( "toss the pumpkin" ) != -1;
+
 		default:
 
 			return true;
@@ -5007,11 +5016,6 @@ public class FightRequest
 
 		if ( !FightRequest.action1.startsWith( "skill" ) )
 		{
-			if ( FightRequest.currentRound == 0 )
-			{
-				return;
-			}
-
 			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action1 ), responseText );
 
 			if ( FightRequest.action2 == null || FightRequest.action2.equals( "" ) )

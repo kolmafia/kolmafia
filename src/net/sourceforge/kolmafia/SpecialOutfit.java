@@ -337,6 +337,12 @@ public class SpecialOutfit
 
 	public static final void checkOutfits( final String selectHTML )
 	{
+		// Punt immediately if no outfits
+		if ( selectHTML == null )
+		{
+			return;
+		}
+
 		Matcher singleOutfitMatcher = SpecialOutfit.OPTION_PATTERN.matcher( selectHTML );
 		SpecialOutfit.implicitOutfit = null;
 

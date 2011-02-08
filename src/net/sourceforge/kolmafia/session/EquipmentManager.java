@@ -86,10 +86,11 @@ public class EquipmentManager
 	public static final int STICKER1 = 9;
 	public static final int STICKER2 = 10;
 	public static final int STICKER3 = 11;
-	public static final int FAKEHAND = 12;
 
 	// Count of all equipment slots: HAT to STICKER3
 	public static final int ALL_SLOTS = 12;
+
+	public static final int FAKEHAND = 12;
 
 	private static LockableListModel equipment = new LockableListModel();
 	private static final LockableListModel accessories = new SortedListModel();
@@ -270,6 +271,12 @@ public class EquipmentManager
 
 	public static final void setEquipment( final int slot, AdventureResult item )
 	{
+		// Variable slots do not include the fake hand
+		if ( slot >= EquipmentManager.equipmentLists.length )
+		{
+			return;
+		}
+
 		AdventureResult old = EquipmentManager.getEquipment( slot );
 
 		// Accessories are special in terms of testing for existence
