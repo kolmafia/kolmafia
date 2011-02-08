@@ -327,6 +327,9 @@ public class AccountRequest
 
 		// Your skills have been recalled if you have freed the king
 		// and don't have a "Recall Skills" button in your account menu
+
+		// <input class=button name="action" type="submit" value="Recall Skills">
+
 		boolean recalled =
 			KoLCharacter.kingLiberated() &&
 			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Recall Skills\">") == -1;

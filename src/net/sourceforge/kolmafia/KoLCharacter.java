@@ -2285,7 +2285,7 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		if ( KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON && !KoLCharacter.kingLiberated() )
+		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() )
 		{
 			return;
 		}
@@ -2323,6 +2323,13 @@ public abstract class KoLCharacter
 			CharPaneRequest.setInteraction( true );
 			KoLConstants.storage.addAll( KoLConstants.freepulls );
 			KoLConstants.freepulls.clear();
+			// If we are in bad moon, we can use the bookshelf and
+			// telescope again.
+			if ( KoLCharacter.inBadMoon() )
+			{
+				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+				KoLCharacter.checkTelescope();
+			}
 		}
 	}
 
