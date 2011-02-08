@@ -1168,6 +1168,7 @@ public class ItemPool
 	public static final int BONE_CHIPS = 4743;
 	public static final int PUMPKIN = 4761;
 	public static final int HUGE_PUMPKIN = 4762;
+	public static final int PUMPKIN_BOMB = 4766;
 	public static final int GINORMOUS_PUMPKIN = 4771;
 	public static final int SLEEPING_STOCKING = 4842;
 	public static final int KANSAS_TOYMAKER = 4843;
