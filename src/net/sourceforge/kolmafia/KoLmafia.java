@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
@@ -936,6 +937,11 @@ public abstract class KoLmafia
 		KoLCharacter.setCurrentRun( 0 );
 		TurnCounter.loadCounters();
 
+		// Start out fetching the status using the KoL API. This
+		// provides data from a lot of different standard pages
+
+		RequestThread.postRequest( new ApiRequest( "status" ) );
+
 		// Get current moon phases
 
 		RequestThread.postRequest( new MoonPhaseRequest() );
@@ -954,7 +960,7 @@ public abstract class KoLmafia
 		// Hermit items depend on character class
 		HermitRequest.reset();
 
-		RequestThread.postRequest( new AccountRequest() );
+		RequestThread.postRequest( new AccountRequest( AccountRequest.ACCOUNT ) );
 		RequestThread.postRequest( new QuestLogRequest() );
 
 		// Retrieve the list of familiars which are available to
