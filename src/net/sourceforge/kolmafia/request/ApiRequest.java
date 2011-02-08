@@ -216,6 +216,9 @@ public class ApiRequest
 			
 			// Many config options are available
 			AccountRequest.parseStatus( JSON );
+			
+			// Many things from the Char Sheet are available
+			CharSheetRequest.parseStatus( JSON );
 		}
 		catch ( JSONException e )
 		{

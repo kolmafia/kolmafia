@@ -49,6 +49,10 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class CharSheetRequest
 	extends GenericRequest
 {
@@ -435,5 +439,12 @@ public class CharSheetRequest
 	{
 		Matcher baseMatcher = CharSheetRequest.BASE_PATTERN.matcher( token );
 		return baseMatcher.find() ? StringUtilities.parseInt( baseMatcher.group( 1 ) ) : defaultBase;
+	}
+
+	public static final void parseStatus( final JSONObject JSON )
+		throws JSONException
+	{
+		int ascensions = JSON.getInt( "ascensions" );
+		KoLCharacter.setAscensions( ascensions );
 	}
 }
