@@ -319,7 +319,7 @@ public class AreaCombatData
 
 			Monster monster = this.getMonster( i );
 			float weight = (float) weighting / (float) this.weights;
-			averageExperience += weight * monster.getAdjustedExperience( experienceAdjustment );
+			averageExperience += weight * (monster.getExperience() + experienceAdjustment);
 		}
 
 		buffer.append( "<b>Hit</b>: " );
@@ -349,8 +349,8 @@ public class AreaCombatData
 	public void getMonsterData( final StringBuffer buffer, final boolean fullString )
 	{
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
-		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
-		int hitstat = EquipmentManager.getAdjustedHitStat() - ml;
+		int moxie = KoLCharacter.getAdjustedMoxie();
+		int hitstat = EquipmentManager.getAdjustedHitStat();
 		float combatFactor = this.areaCombatPercent() / 100.0f;
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
@@ -435,7 +435,7 @@ public class AreaCombatData
 	private String getMonsterString( final Monster monster, final int moxie, final int hitstat, final int ml,
 		final int weighting, final float combatFactor, final boolean fullString )
 	{
-		// moxie and hitstat already adjusted for monster level
+		// moxie and hitstat NOT adjusted for monster level, since monster stats now are
 
 		int defense = monster.getDefense();
 		float hitPercent = AreaCombatData.hitPercent( hitstat, defense );
@@ -443,7 +443,7 @@ public class AreaCombatData
 		int attack = monster.getAttack();
 		float evadePercent = AreaCombatData.hitPercent( moxie, attack );
 
-		int health = monster.getAdjustedHP( ml );
+		int health = monster.getHP();
 		float statGain = monster.getExperience();
 
 		StringBuffer buffer = new StringBuffer();

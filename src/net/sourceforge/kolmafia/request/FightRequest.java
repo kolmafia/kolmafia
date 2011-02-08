@@ -1770,7 +1770,7 @@ public class FightRequest
 			return 0;
 		}
 
-		return FightRequest.monsterData.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) - FightRequest.healthModifier;
+		return FightRequest.monsterData.getHP() - FightRequest.healthModifier;
 	}
 
 	public static final int getMonsterAttack()
@@ -1780,7 +1780,8 @@ public class FightRequest
 			return 0;
 		}
 
-		return Math.max( FightRequest.monsterData.getAttack() + FightRequest.attackModifier + KoLCharacter.getMonsterLevelAdjustment(), 1 );
+		return Math.max( FightRequest.monsterData.getAttack() +
+			FightRequest.attackModifier, 1 );
 	}
 
 	public static final int getMonsterDefense()
@@ -1790,7 +1791,8 @@ public class FightRequest
 			return 0;
 		}
 
-		return Math.max( (int) Math.ceil( FightRequest.monsterData.getDefense() + KoLCharacter.getMonsterLevelAdjustment() * 0.9) + FightRequest.defenseModifier, 1 );
+		return Math.max( FightRequest.monsterData.getDefense() + 
+			FightRequest.defenseModifier, 1 );
 	}
 
 	public static final int getMonsterAttackElement()

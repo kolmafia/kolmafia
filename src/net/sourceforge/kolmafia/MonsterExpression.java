@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 
+import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterExpression
@@ -47,17 +48,7 @@ public class MonsterExpression
 
 	protected boolean validBytecode( char inst )
 	{
-		switch ( inst )
-		{
-		case 'A':
-		case '\u0080':
-		case '\u0081':
-		case '\u0082':
-		case '\u0083':
-		case '\u0084':
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	protected float evalBytecode( char inst )
@@ -85,6 +76,9 @@ public class MonsterExpression
 			break;
 		case '\u0085':
 			v = KoLCharacter.getMaximumHP();
+			break;
+		case '\u0086':
+			v = BasementRequest.getBasementLevel();
 			break;
 		}
 		return v;
@@ -115,6 +109,10 @@ public class MonsterExpression
 		if ( this.optional( "HP" ) )
 		{
 			return "\u0085";
+		}
+		if ( this.optional( "BL" ) )
+		{
+			return "\u0086";
 		}
 
 		return null;

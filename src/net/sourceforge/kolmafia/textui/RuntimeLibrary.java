@@ -4402,7 +4402,7 @@ public abstract class RuntimeLibrary
 
 		// http://kol.coldfront.net/thekolwiki/index.php/Damage
 
-		int attack = monster.getAttack() + attackModifier + KoLCharacter.getMonsterLevelAdjustment();
+		int attack = monster.getAttack() + attackModifier;
 		int defenseStat = KoLCharacter.getAdjustedMoxie();
 
 		if ( KoLCharacter.hasSkill(SkillDatabase.getSkillId("Hero of the Half-Shell" ) ) &&
@@ -4554,7 +4554,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.ZERO_VALUE;
 		}
 
-		return new Value( monster.getAttack() + KoLCharacter.getMonsterLevelAdjustment() );
+		return new Value( monster.getAttack() );
 	}
 
 	public static Value monster_defense()
@@ -4570,7 +4570,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.ZERO_VALUE;
 		}
 
-		return new Value( monster.getDefense() + KoLCharacter.getMonsterLevelAdjustment() );
+		return new Value( monster.getDefense() );
 	}
 
 	public static Value monster_hp()
@@ -4586,7 +4586,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.ZERO_VALUE;
 		}
 
-		return new Value( monster.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) );
+		return new Value( monster.getHP() );
 	}
 
 	public static Value item_drops()
