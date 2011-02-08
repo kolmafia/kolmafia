@@ -45,6 +45,10 @@ import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class AccountRequest
 	extends PasswordHashRequest
 {
@@ -524,5 +528,65 @@ public class AccountRequest
 			}
 			return;
 		}
+	}
+
+	public static final void parseStatus( final JSONObject JSON )
+		throws JSONException
+	{
+		JSONObject flags = JSON.getJSONObject( "flag_config" );
+
+		boolean checked;
+
+		// Interface options
+
+		int topmenu = flags.getInt( "topmenu" );
+		GenericRequest.topMenuStyle =
+			(topmenu == 2 ) ?
+			GenericRequest.MENU_FANCY :
+			(topmenu == 1 ) ?
+			GenericRequest.MENU_COMPACT :
+			GenericRequest.MENU_NORMAL;
+
+		checked = flags.getInt( "compactchar" ) == 1;
+		GenericRequest.compactCharacterPane = checked;
+
+		// Inventory options
+
+		checked = flags.getInt( "sellstuffugly" ) == 1;
+		KoLCharacter.setAutosellMode( checked ? "compact" : "detailed" );
+		checked = flags.getInt( "unfamequip" ) == 1;
+		KoLCharacter.setUnequipFamiliar( checked );
+
+		// Combat options
+
+		checked = flags.getInt( "wowbar" ) == 1;
+		Preferences.setBoolean( "serverAddsCustomCombat", checked );
+
+		int autoAttackAction = flags.getInt( "autoattack" );
+		KoLCharacter.setAutoAttackAction( autoAttackAction );
+
+		// Account options
+
+		String pathString = JSON.getString( "path" );
+		int path = 
+			pathString.equals( "Oxygenarian" ) ?
+			AscensionSnapshot.OXYGENARIAN :
+			pathString.equals( "Boozetafarian" ) ?
+			AscensionSnapshot.BOOZETAFARIAN :
+			pathString.equals( "Teetotaler" ) ?
+			AscensionSnapshot.TEETOTALER :
+			AscensionSnapshot.NOPATH;
+		KoLCharacter.setConsumptionRestriction( path );
+
+		boolean hardcore = JSON.getString( "hardcore" ).equals( "1" );
+		String sign = JSON.getString( "sign" );
+		KoLCharacter.setSign( sign );
+
+		if ( sign.equals( "Bad Moon" ) )
+		{
+			hardcore = true;
+			KoLCharacter.setSign( "Bad Moon" );
+		}
+		KoLCharacter.setHardcore( hardcore );
 	}
 }

@@ -516,6 +516,7 @@ public class RequestLogger
 		if ( urlString.startsWith( "login" ) ||
 		     urlString.startsWith( "logout" ) ||
 		     urlString.startsWith( "account" ) ||
+		     urlString.startsWith( "api" ) ||
 		     urlString.startsWith( "charpane" ) )
 		{
 			return;

@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AccountRequest;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
@@ -398,6 +399,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "account_manageoutfits.php" ) )
 		{
 			CustomOutfitRequest.parseResponse( location, responseText );
+		}
+
+		if ( location.startsWith( "api.php" ) )
+		{
+			ApiRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "arcade.php" ) )
