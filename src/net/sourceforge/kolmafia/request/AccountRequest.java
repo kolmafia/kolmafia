@@ -300,11 +300,11 @@ public class AccountRequest
 		// <input class=button name="action" type="submit" value="Drop Oxygenarian">
 
 		int path = 
-			responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Oxygenarian\">" ) != -1 ?
+			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Oxygenarian\">" ) != -1 ?
 			AscensionSnapshot.OXYGENARIAN :
-			responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Boozetafarian\">" ) != -1 ?
+			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Boozetafarian\">" ) != -1 ?
 			AscensionSnapshot.BOOZETAFARIAN :
-			responseText.indexOf( "<input class=button name=\"action\" type=submit value=\"Drop Teetotaler\">" ) != -1 ?
+			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Teetotaler\">" ) != -1 ?
 			AscensionSnapshot.TEETOTALER :
 			AscensionSnapshot.NOPATH;
 
