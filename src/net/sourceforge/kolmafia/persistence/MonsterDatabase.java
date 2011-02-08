@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -251,10 +252,11 @@ public class MonsterDatabase
 		}
 
 		// parse parameters and make a new monster
-		int health = 0;
-		int attack = 0;
-		int defense = 0;
-		int initiative = 0;
+		Object health = null;
+		Object attack = null;
+		Object defense = null;
+		Object initiative = null;
+		Object experience = null;
 		int minMeat = 0;
 		int maxMeat = 0;
 		int attackElement = MonsterDatabase.NONE;
@@ -270,42 +272,56 @@ public class MonsterDatabase
 			{
 				if ( option.equals( "HP:" ) )
 				{
-					if ( tokens.hasMoreTokens() )
-					{
-						value = tokens.nextToken();
-						health = StringUtilities.parseInt( value );
-						continue;
-					}
+					health = parseNumeric( tokens );
+					continue;
 				}
 
 				else if ( option.equals( "Atk:" ) )
 				{
-					if ( tokens.hasMoreTokens() )
-					{
-						value = tokens.nextToken();
-						attack = StringUtilities.parseInt( value );
-						continue;
-					}
+					attack = parseNumeric( tokens );
+					continue;
 				}
 
 				else if ( option.equals( "Def:" ) )
 				{
-					if ( tokens.hasMoreTokens() )
-					{
-						value = tokens.nextToken();
-						defense = StringUtilities.parseInt( value );
-						continue;
-					}
+					defense = parseNumeric( tokens );
+					continue;
 				}
 
 				else if ( option.equals( "Init:" ) )
 				{
-					if ( tokens.hasMoreTokens() )
-					{
-						value = tokens.nextToken();
-						initiative = StringUtilities.parseInt( value );
-						continue;
-					}
+					initiative = parseNumeric( tokens );
+					continue;
+				}
+
+				else if ( option.equals( "Exp:" ) )
+				{
+					experience = parseNumeric( tokens );
+					continue;
+				}
+
+				else if ( option.equals( "Phys:" ) )
+				{
+					/* physical = */ parseNumeric( tokens );
+					continue;
+				}
+
+				else if ( option.equals( "Item:" ) )
+				{
+					/* itemBlock = */ parseNumeric( tokens );
+					continue;
+				}
+
+				else if ( option.equals( "Skill:" ) )
+				{
+					/* skillBlock = */ parseNumeric( tokens );
+					continue;
+				}
+
+				else if ( option.equals( "Spell:" ) )
+				{
+					/* spellBlock = */ parseNumeric( tokens );
+					continue;
 				}
 
 				else if ( option.equals( "E:" ) )
@@ -400,7 +416,31 @@ public class MonsterDatabase
 			return null;
 		}
 
-		return new Monster( name, health, attack, defense, initiative, attackElement, defenseElement, minMeat, maxMeat, poison );
+		return new Monster( name, health, attack, defense, initiative, experience,
+			attackElement, defenseElement, minMeat, maxMeat, poison );
+	}
+
+	private static final Object parseNumeric( StringTokenizer tokens )
+	{
+		if ( !tokens.hasMoreTokens() )
+		{
+			return null;
+		}
+		String value = tokens.nextToken();
+		if ( !value.startsWith( "[" ) )
+		{
+			return new Integer( StringUtilities.parseInt( value ) );
+		}
+		// Must paste the entire expression back together, since we're
+		// splitting the tokens on spaces.
+		StringBuffer temp = new StringBuffer( value );
+		while ( !value.endsWith( "]" ) && tokens.hasMoreTokens() )
+		{
+			value = tokens.nextToken();
+			temp.append( ' ' );
+			temp.append( value );
+		}
+		return temp.substring( 1, temp.length() - 1 );
 	}
 
 	private static final int parseElement( final String s )
@@ -435,11 +475,11 @@ public class MonsterDatabase
 	public static class Monster
 		extends AdventureResult
 	{
-		private final int health;
-		private final int attack;
-		private final int defense;
-		private final int initiative;
-		private float statGain;
+		private Object health;
+		private Object attack;
+		private Object defense;
+		private Object initiative;
+		private Object experience;
 		private final int attackElement;
 		private final int defenseElement;
 		private final int minMeat;
@@ -449,8 +489,11 @@ public class MonsterDatabase
 		private final ArrayList items;
 		private final ArrayList pocketRates;
 
-		public Monster( final String name, final int health, final int attack, final int defense, final int initiative,
-			final int attackElement, final int defenseElement, final int minMeat, final int maxMeat, final int poison )
+		public Monster( final String name, final Object health,
+			final Object attack, final Object defense, final Object initiative,
+			final Object experience, final int attackElement,
+			final int defenseElement, final int minMeat, final int maxMeat,
+			final int poison )
 		{
 			super( AdventureResult.MONSTER_PRIORITY, name );
 
@@ -458,7 +501,7 @@ public class MonsterDatabase
 			this.attack = attack;
 			this.defense = defense;
 			this.initiative = initiative;
-			this.statGain = attack / 8.0f;
+			this.experience = experience;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
 			this.minMeat = minMeat;
@@ -468,30 +511,86 @@ public class MonsterDatabase
 			this.items = new ArrayList();
 			this.pocketRates = new ArrayList();
 		}
+		
+		private static int ML()
+		{
+			/* For brevity, and to handle the possible future need for
+			   asking for speculative monster stats */
+			return KoLCharacter.getMonsterLevelAdjustment();
+		}
+		
+		private static MonsterExpression compile( Object expr )
+		{
+			return new MonsterExpression( (String) expr, "" );
+		}
 
 		public int getHP()
 		{
-			return this.health;
-		}
-
-		public int getAdjustedHP( final int ml )
-		{
-			return this.health + ml;
+			if ( this.health == null )
+			{
+				return 0;
+			}
+			if ( this.health instanceof Integer )
+			{
+				return Math.max( 1, ((Integer) this.health).intValue() + ML() );
+			}
+			if ( this.health instanceof String )
+			{
+				this.health = compile( this.health );
+			}
+			return Math.max( 1, (int) ((MonsterExpression) this.health).eval() );
 		}
 
 		public int getAttack()
 		{
-			return this.attack;
+			if ( this.attack == null )
+			{
+				return 0;
+			}
+			if ( this.attack instanceof Integer )
+			{
+				return Math.max( 1, ((Integer) this.attack).intValue() + ML() );
+			}
+			if ( this.attack instanceof String )
+			{
+				this.attack = compile( this.attack );
+			}
+			return Math.max( 1, (int) ((MonsterExpression) this.attack).eval() );
 		}
 
 		public int getDefense()
 		{
-			return this.defense;
+			if ( this.defense == null )
+			{
+				return 0;
+			}
+			if ( this.defense instanceof Integer )
+			{
+				return Math.max( 1, (int) Math.ceil(
+					0.9 * (((Integer) this.defense).intValue() + ML()) ) );
+			}
+			if ( this.defense instanceof String )
+			{
+				this.defense = compile( this.defense );
+			}
+			return Math.max( 1, (int) ((MonsterExpression) this.defense).eval() );
 		}
 
 		public int getInitiative()
 		{
-			return this.initiative;
+			if ( this.initiative == null )
+			{
+				return 0;
+			}
+			if ( this.initiative instanceof Integer )
+			{
+				return ((Integer) this.initiative).intValue();
+			}
+			if ( this.initiative instanceof String )
+			{
+				this.initiative = compile( this.initiative );
+			}
+			return (int) ((MonsterExpression) this.initiative).eval();
 		}
 
 		public int getAttackElement()
@@ -688,14 +787,19 @@ public class MonsterDatabase
 
 		public float getExperience()
 		{
-			return Math.max( 1.0f, this.statGain );
-		}
-
-		public float getAdjustedExperience( final float modifier )
-		{
-			this.statGain = this.attack / 8.0f + modifier;
-
-			return Math.max( 1.0f, this.statGain );
+			if ( this.experience == null )
+			{
+				return this.getAttack() / 8.0f;
+			}
+			if ( this.experience instanceof Integer )
+			{
+				return ((Integer) this.experience).intValue() / 2.0f;
+			}
+			if ( this.experience instanceof String )
+			{
+				this.experience = compile( this.experience );
+			}
+			return ((MonsterExpression) this.experience).eval() / 2.0f;
 		}
 
 		public boolean willUsuallyMiss()
@@ -705,17 +809,15 @@ public class MonsterDatabase
 
 		public boolean willUsuallyDodge( final int offenseModifier )
 		{
-			int ml = KoLCharacter.getMonsterLevelAdjustment() + offenseModifier;
-			int dodgeRate = KoLCharacter.getAdjustedMoxie() - ( this.attack + ml ) - 6;
+			int dodgeRate = KoLCharacter.getAdjustedMoxie() - ( this.getAttack() + offenseModifier ) - 6;
 			return dodgeRate > 0;
 		}
 
 		public boolean willUsuallyMiss( final int defenseModifier )
 		{
-			int ml = KoLCharacter.getMonsterLevelAdjustment() + defenseModifier;
 			int hitStat = EquipmentManager.getAdjustedHitStat();
 
-			return AreaCombatData.hitPercent( hitStat - ml, this.defense ) <= 50.0f;
+			return AreaCombatData.hitPercent( hitStat - defenseModifier, this.getDefense() ) <= 50.0f;
 		}
 	}
 }

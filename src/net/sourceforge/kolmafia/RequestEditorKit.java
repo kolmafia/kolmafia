@@ -1141,31 +1141,28 @@ public class RequestEditorKit
 			monsterData.append( "<br><br>Pretend that the line<br>below has five syllables:" );
 		}
 
-		if ( monster.getHP() > 0 )
-		{
-			monsterData.append( "<br />HP: " );
-			monsterData.append( FightRequest.getMonsterHealth() );
-			monsterData.append( ", Atk: " );
-			monsterData.append( FightRequest.getMonsterAttack() );
-			monsterData.append( ", Def: " );
-			monsterData.append( FightRequest.getMonsterDefense() );
+		monsterData.append( "<br />HP: " );
+		monsterData.append( FightRequest.getMonsterHealth() );
+		monsterData.append( ", Atk: " );
+		monsterData.append( FightRequest.getMonsterAttack() );
+		monsterData.append( ", Def: " );
+		monsterData.append( FightRequest.getMonsterDefense() );
 
-			if ( monsterName.indexOf( "pirate" ) != -1 )
-			{
-				int count = FightRequest.countPirateInsults();
-				monsterData.append( ", Insults: ");
-				monsterData.append( count );
-				monsterData.append( " (");
-				float odds = FightRequest.pirateInsultOdds( count ) * 100.0f;
-				monsterData.append( KoLConstants.FLOAT_FORMAT.format( odds ) );
-				monsterData.append( "%)");
-			}
-			else if ( monsterName.equalsIgnoreCase( "Black Pudding" ) )
-			{
-				int count = Preferences.getInteger( "blackPuddingsDefeated" );
-				monsterData.append( ", Defeated: ");
-				monsterData.append( count );
-			}
+		if ( monsterName.indexOf( "pirate" ) != -1 )
+		{
+			int count = FightRequest.countPirateInsults();
+			monsterData.append( ", Insults: ");
+			monsterData.append( count );
+			monsterData.append( " (");
+			float odds = FightRequest.pirateInsultOdds( count ) * 100.0f;
+			monsterData.append( KoLConstants.FLOAT_FORMAT.format( odds ) );
+			monsterData.append( "%)");
+		}
+		else if ( monsterName.equalsIgnoreCase( "Black Pudding" ) )
+		{
+			int count = Preferences.getInteger( "blackPuddingsDefeated" );
+			monsterData.append( ", Defeated: ");
+			monsterData.append( count );
 		}
 
 		String[] guardianData = SorceressLairManager.findGuardianByName( monsterName );
