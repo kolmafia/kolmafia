@@ -3360,6 +3360,7 @@ public class Parser
 		switch ( ch )
 		{
 		case ' ':
+		case '\t':
 		case '.':
 		case ',':
 		case '{':

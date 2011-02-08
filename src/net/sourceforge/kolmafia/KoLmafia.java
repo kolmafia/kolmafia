@@ -942,6 +942,14 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( new ApiRequest( "status" ) );
 
+		// *** Until api.php supports the last account option we need
+		RequestThread.postRequest( new AccountRequest( AccountRequest.ACCOUNT ) );
+
+		// Now that we know the character's ascension count, reset
+		// anything that depends on that.
+
+		KoLCharacter.resetPerAscensionData();
+
 		// Get current moon phases
 
 		RequestThread.postRequest( new MoonPhaseRequest() );
@@ -952,15 +960,9 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( new CharSheetRequest() );
 
-		// Now that we know the character's ascension count, reset
-		// anything that depends on that.
-
-		KoLCharacter.resetPerAscensionData();
-
 		// Hermit items depend on character class
 		HermitRequest.reset();
 
-		RequestThread.postRequest( new AccountRequest( AccountRequest.ACCOUNT ) );
 		RequestThread.postRequest( new QuestLogRequest() );
 
 		// Retrieve the list of familiars which are available to
@@ -975,14 +977,6 @@ public abstract class KoLmafia
 		// Retrieve the contents of the closet and inventory
 
 		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
-
-		// If the password hash is not available, then that means you
-		// might be mid-transition.
-
-		if ( GenericRequest.passwordHash.equals( "" ) )
-		{
-			return;
-		}
 
 		// Retrieve campground data to see if the user has box servants
 		// or a bookshelf

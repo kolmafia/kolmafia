@@ -578,15 +578,10 @@ public class AccountRequest
 			AscensionSnapshot.NOPATH;
 		KoLCharacter.setConsumptionRestriction( path );
 
-		boolean hardcore = JSON.getString( "hardcore" ).equals( "1" );
 		String sign = JSON.getString( "sign" );
 		KoLCharacter.setSign( sign );
 
-		if ( sign.equals( "Bad Moon" ) )
-		{
-			hardcore = true;
-			KoLCharacter.setSign( "Bad Moon" );
-		}
+		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
 		KoLCharacter.setHardcore( hardcore );
 	}
 }
