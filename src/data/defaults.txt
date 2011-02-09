@@ -87,7 +87,7 @@ global	logBrowserInteractions	false
 global	logChatMessages	true
 global	logCleanedHTML	false
 global	logDecoratedResponses	false
-global	logFamiliarActions	false
+global	logFamiliarActions	true
 global	logGainMessages	true
 global	logReadableHTML	false
 global	loginRecoveryHardcore	false
@@ -95,11 +95,11 @@ global	loginRecoverySoftcore	true
 global	loginScript
 global	loginServerName
 global	loginWindowLogo	lantern.jpg
-global	logMonsterHealth	false
+global	logMonsterHealth	true
 global	logoutScript
 global	logReverseOrder	false
 global	logStatGains	true
-global	logStatusEffects	false
+global	logStatusEffects	true
 global	logStatusOnLogin	false
 global	macroDebug	false
 global	macroLens	false
