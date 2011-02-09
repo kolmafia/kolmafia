@@ -1960,7 +1960,7 @@ public abstract class KoLmafia
 		RequestThread.postRequest( guildVisit.constructURLString( "guild.php?place=challenge" ) );
 
 		boolean success =
-			stopAtPaco ? guildVisit.responseText.indexOf( "paco" ) != -1 : guildVisit.responseText.indexOf( "store.php" ) != -1;
+			stopAtPaco ? guildVisit.responseText.indexOf( "paco" ) != -1 : guildVisit.responseText.indexOf( "\"store.php" ) != -1;
 
 		guildVisit.constructURLString( "guild.php?action=chal" );
 		KoLmafia.updateDisplay( "Completing guild tasks..." );
