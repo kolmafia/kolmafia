@@ -3026,7 +3026,7 @@ The Sonata of Sneakiness	Combat Rate: -5
 # The Spirit of Crimbo
 The Sweats	Stench Resistance: +5
 The Vitus Virus	Item Drop: +50, Experience: -5
-Thick-Skinned	Maximum MP: +50
+Thick-Skinned	Maximum HP: +50
 Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Three Days Slow	Experience (familiar): +3
 Ticking Clock	Initiative: +30
