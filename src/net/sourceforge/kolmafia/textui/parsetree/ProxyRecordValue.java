@@ -213,7 +213,7 @@ public class ProxyRecordValue
 			.add( "combat", DataTypes.BOOLEAN_TYPE )
 			.add( "hatchling", DataTypes.ITEM_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
-			.finish( "item proxy" );
+			.finish( "familiar proxy" );
 			
 		public FamiliarProxy( Value obj )
 		{
