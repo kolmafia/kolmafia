@@ -286,7 +286,6 @@ public class ItemFinder
 				case KoLConstants.HP_RESTORE:
 				case KoLConstants.MP_RESTORE:
 				case KoLConstants.HPMP_RESTORE:
-				case KoLConstants.CONSUME_SPECIAL:
 				case KoLConstants.CONSUME_SPHERE:
 					break;
 

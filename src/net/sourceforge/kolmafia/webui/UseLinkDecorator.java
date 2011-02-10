@@ -368,7 +368,7 @@ public abstract class UseLinkDecorator
 		{
 			link = getCreateLink( itemId, itemCount, mixingMethod );
 		}
-		else if ( consumeMethod == KoLConstants.NO_CONSUME || consumeMethod == KoLConstants.COMBAT_ITEM )
+		else if ( consumeMethod == KoLConstants.NO_CONSUME )
 		{
 			link = getNavigationLink( itemId, location );
 		}

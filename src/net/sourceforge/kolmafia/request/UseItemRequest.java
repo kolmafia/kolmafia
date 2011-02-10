@@ -1626,7 +1626,6 @@ public class UseItemRequest
 			// Consumption helpers are removed above when you
 			// successfully eat or drink.
 		case KoLConstants.NO_CONSUME:
-		case KoLConstants.COMBAT_ITEM:
 			return;
 
 		case KoLConstants.MESSAGE_DISPLAY:
