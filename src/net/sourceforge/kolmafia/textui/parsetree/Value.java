@@ -204,6 +204,29 @@ public class Value
 	{
 		return this;
 	}
+	
+	public Value asProxy()
+	{
+		if ( this.type == DataTypes.ITEM_TYPE )
+		{
+			return new ProxyRecordValue.ItemProxy( this );
+		}
+		if ( this.type == DataTypes.FAMILIAR_TYPE )
+		{
+			return new ProxyRecordValue.FamiliarProxy( this );
+		}
+		return this;
+	}
+	
+	/* null-safe version of the above */
+	public static Value asProxy( Value value )
+	{
+		if ( value == null )
+		{
+			return null;
+		}
+		return value.asProxy();
+	}
 
 	public int compareTo( final Object o )
 	{

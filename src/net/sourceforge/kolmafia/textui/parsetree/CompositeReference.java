@@ -70,7 +70,7 @@ public class CompositeReference
 
 		while ( it.hasNext() )
 		{
-			type = ( (CompositeType) type ).getDataType( it.next() ).getBaseType();
+			type = ( (CompositeType) type.asProxy() ).getDataType( it.next() ).getBaseType();
 		}
 		return type;
 	}
@@ -104,7 +104,7 @@ public class CompositeReference
 			return false;
 		}
 
-		this.slice = (CompositeValue) this.target.getValue( interpreter );
+		this.slice = (CompositeValue) Value.asProxy( this.target.getValue( interpreter ) );
 		this.index = null;
 
 		interpreter.traceIndent();
@@ -146,13 +146,15 @@ public class CompositeReference
 
 			if ( it.hasNext() )
 			{
-				CompositeValue result = (CompositeValue) this.slice.aref( this.index, interpreter );
+				CompositeValue result = (CompositeValue) Value.asProxy(
+					this.slice.aref( this.index, interpreter ) );
 
 				// Create missing intermediate slices
 				if ( result == null )
-				{
-					result = (CompositeValue) this.slice.initialValue( this.index );
-					this.slice.aset( this.index, result, interpreter );
+				{	// ...but don't actually save a proxy in the parent object
+					Value temp = this.slice.initialValue( this.index );
+					this.slice.aset( this.index, temp, interpreter );
+					result = (CompositeValue) Value.asProxy( temp );
 				}
 
 				this.slice = result;

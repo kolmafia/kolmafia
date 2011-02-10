@@ -101,6 +101,19 @@ public class Type
 	{
 		return this;
 	}
+	
+	public Type asProxy()
+	{
+		if ( this == DataTypes.ITEM_TYPE )
+		{
+			return ProxyRecordValue.ItemProxy._type;
+		}
+		if ( this == DataTypes.FAMILIAR_TYPE )
+		{
+			return ProxyRecordValue.FamiliarProxy._type;
+		}
+		return this;
+	}
 
 	public Value initialValue()
 	{

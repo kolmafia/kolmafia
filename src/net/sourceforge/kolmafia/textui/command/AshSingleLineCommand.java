@@ -68,6 +68,7 @@ public class AshSingleLineCommand
 			return;
 		}
 		KoLmafia.updateDisplay( "Returned: " + rv );
+		rv = Value.asProxy( rv );
 		if ( rv instanceof CompositeValue )
 		{
 			this.dump( (CompositeValue) rv, "" );

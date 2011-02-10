@@ -2874,7 +2874,7 @@ public class Parser
 
 			if ( this.currentToken().equals( "[" ) || this.currentToken().equals( "," ) )
 			{
-				this.readToken(); // read [ or . or ,
+				this.readToken(); // read [ or ,
 				parseAggregate = true;
 
 				if ( !( type instanceof AggregateType ) )
@@ -2906,7 +2906,7 @@ public class Parser
 			}
 			else
 			{
-				this.readToken(); // read [ or . or ,
+				this.readToken(); // read .
 
 				// Maybe it's a function call with an implied "this" parameter.
 
@@ -2916,6 +2916,7 @@ public class Parser
 						scope, indices.isEmpty() ? new VariableReference( var ) : new CompositeReference( var, indices, this ) );
 				}
 
+				type = type.asProxy();
 				if ( !( type instanceof RecordType ) )
 				{
 					throw this.parseException( "Record expected" );
