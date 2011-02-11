@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.LocalRelayAgent;
 import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -2093,15 +2094,6 @@ public class GenericRequest
 
 	public void showInBrowser( boolean exceptional )
 	{
-		// Check to see if this request should be showed
-		// in a browser.  If you're using a command-line
-		// interface, then you should not display the request.
-
-		if ( !GenericFrame.instanceExists() )
-		{
-			return;
-		}
-
 		if ( !exceptional && !Preferences.getBoolean( "showAllRequests" ) )
 		{
 			return;
@@ -2110,7 +2102,15 @@ public class GenericRequest
 		// Only show the request if the response code is
 		// 200 (not a redirect or error).
 
-		RequestSynchFrame.showRequest( this );
+		if ( Preferences.getBoolean( "showAllRequests" ) )
+		{
+			RequestSynchFrame.showRequest( this );
+		}
+		else
+		{
+			LocalRelayAgent.setErrorRequest( this );
+			StaticEntity.getClient().openRelayBrowser();
+		}
 	}
 
 	public static final void checkItemRedirection( final String location )
