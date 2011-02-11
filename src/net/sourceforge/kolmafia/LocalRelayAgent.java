@@ -62,9 +62,18 @@ public class LocalRelayAgent
 	private static final LocalRelayCombatThread COMBAT_THREAD = new LocalRelayCombatThread();
 	private static final HashMap lastModified = new HashMap();
 
+	private static GenericRequest errorRequest = null;
+	private static String errorRequestPath = null;
+	
 	public static void reset()
 	{
 		LocalRelayAgent.lastModified.clear();
+	}
+	
+	public static void setErrorRequest( GenericRequest errorRequest )
+	{
+		LocalRelayAgent.errorRequest = errorRequest;
+		LocalRelayAgent.errorRequestPath = "/" + errorRequest.getPath();
 	}
 
 	private final char[] data = new char[ 8192 ];
@@ -329,6 +338,28 @@ public class LocalRelayAgent
 			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 			this.request.responseCode = 304;
 			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
+
+			return;
+		}
+
+		if ( errorRequest != null )
+		{
+			if ( this.path.startsWith( "/main.php" ) )
+			{
+				this.request.pseudoResponse( "HTTP/1.1 302 Found", LocalRelayAgent.errorRequestPath );
+				return;
+			}
+
+			if ( this.path.equals( LocalRelayAgent.errorRequestPath ) )
+			{
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", errorRequest.responseText );
+				this.request.formatResponse();
+
+				LocalRelayAgent.errorRequest = null;
+				LocalRelayAgent.errorRequestPath = null;
+				
+				return;
+			}
 		}
 
 		if ( this.path.startsWith( "/charpane.php" ) )
@@ -431,11 +462,6 @@ public class LocalRelayAgent
 				}
 			}
 		}
-
-		if ( this.request.rawByteBuffer == null && this.request.responseText != null )
-		{
-			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
-		}
 	}
 
 	private void sendServerResponse()
@@ -443,7 +469,14 @@ public class LocalRelayAgent
 	{
 		if ( this.request.rawByteBuffer == null )
 		{
-			return;
+			if ( this.request.responseText != null )
+			{
+				this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
+			}
+			else
+			{
+				return;
+			}
 		}
 
 		this.writer = new PrintStream( this.socket.getOutputStream(), false );
