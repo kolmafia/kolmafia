@@ -2790,6 +2790,7 @@ Optimist Primal	Familiar Weight: +5
 Orange Tongue	Experience: +3
 Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Oriental Mysticism	Mysticality Percent: +5
+Over the Ocean	Experience: [min(100,T/5)]
 # Oversaturated Palate: Blech
 Oxygenated Blood	Adventure Underwater
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
@@ -2916,6 +2917,7 @@ Sneaky Serpentine Subtlety	Moxie Percent: +100
 Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Socialismydia	Item Drop: -50
 Solar Flair	Hot Damage: +20
+Sole Soul	Item Drop: [min(300,T)]
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
@@ -2995,7 +2997,6 @@ Tamarind Torment	Muscle: +5, Moxie: -5
 Tangled Up	Moxie Percent: -20
 # Tar-Struck: Continually take damage
 Tar-Struck	Stench Damage: +20
-Technicolor Yawn, Er, Smile	Item Drop: [min(300,T)]
 Techno Bliss	Item Drop: +10
 # Teleportitis: Your position seems uncertain...
 # Temporary Amnesia: Who am I?
@@ -3330,7 +3331,7 @@ Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
 Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Pain Dip	Effect: "The HeyDezebound Heart"
 Piddles	Effect: "Belch the Rainbow&#153;", Effect Duration: 10
-PlexiPips	Effect: "Technicolor Yawn, Er, Smile"
+PlexiPips	Effect: "Sole Soul"
 Polka Pop	Effect: "Polka Face", Effect Duration: 10
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
@@ -3339,7 +3340,7 @@ Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
-Wax Flask	Effect: "Highland Flung"
+Wax Flask	Effect: "Over The Ocean"
 Wint-O-Fresh mint	Effect: "Sugar Rush", Effect Duration: 3
 Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
