@@ -112,6 +112,18 @@ public class Type
 		{
 			return ProxyRecordValue.FamiliarProxy._type;
 		}
+		if ( this == DataTypes.SKILL_TYPE )
+		{
+			return ProxyRecordValue.SkillProxy._type;
+		}
+		if ( this == DataTypes.EFFECT_TYPE )
+		{
+			return ProxyRecordValue.EffectProxy._type;
+		}
+		if ( this == DataTypes.LOCATION_TYPE )
+		{
+			return ProxyRecordValue.LocationProxy._type;
+		}
 		return this;
 	}
 
