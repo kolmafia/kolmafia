@@ -215,6 +215,24 @@ public class Value
 		{
 			return new ProxyRecordValue.FamiliarProxy( this );
 		}
+		if ( this.type == DataTypes.SKILL_TYPE )
+		{
+			return new ProxyRecordValue.SkillProxy( this );
+		}
+		if ( this.type == DataTypes.EFFECT_TYPE )
+		{
+			return new ProxyRecordValue.EffectProxy( this );
+		}
+		if ( this.type == DataTypes.LOCATION_TYPE )
+		{
+			if ( this.content == null )
+			{	// All attribute lookups on $location[none] would generate NPEs,
+				// so instead of adding a null check to each attribute, just
+				// return a normal record with default values.
+				return new RecordValue( ProxyRecordValue.LocationProxy._type );
+			}
+			return new ProxyRecordValue.LocationProxy( this );
+		}
 		return this;
 	}
 	

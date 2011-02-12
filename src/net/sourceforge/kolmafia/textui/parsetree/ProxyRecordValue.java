@@ -34,10 +34,15 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -79,6 +84,10 @@ public class ProxyRecordValue
 			rv = this.getClass().getMethod(
 				"get_" + type.getFieldNames()[ index ], null ).invoke( this, null );
 		}
+		catch ( InvocationTargetException e )
+		{
+			throw interpreter.runtimeException( "Unable to invoke attribute getter: " + e.getCause() );
+		}
 		catch ( Exception e )
 		{
 			throw interpreter.runtimeException( "Unable to invoke attribute getter: " + e );
@@ -94,11 +103,11 @@ public class ProxyRecordValue
 		}
 		if ( rv instanceof Integer )
 		{
-			return new Value( ((Integer) rv).intValue() );
+			return DataTypes.makeIntValue( ((Integer) rv).intValue() );
 		}
 		if ( rv instanceof Float )
 		{
-			return new Value( ((Float) rv).floatValue() );
+			return DataTypes.makeFloatValue( ((Float) rv).floatValue() );
 		}
 		if ( rv instanceof String )
 		{
@@ -234,6 +243,152 @@ public class ProxyRecordValue
 		public String get_image()
 		{
 			return FamiliarDatabase.getFamiliarImageLocation( this.contentInt );
+		}
+	}
+
+	public static class SkillProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "level", DataTypes.INT_TYPE )
+			.add( "traincost", DataTypes.INT_TYPE )
+			.add( "class", DataTypes.STRING_TYPE )
+			.add( "libram", DataTypes.BOOLEAN_TYPE )
+			.add( "passive", DataTypes.BOOLEAN_TYPE )
+			.add( "buff", DataTypes.BOOLEAN_TYPE )
+			.add( "combat", DataTypes.BOOLEAN_TYPE )
+			.add( "permable", DataTypes.BOOLEAN_TYPE )
+			.finish( "skill proxy" );
+			
+		public SkillProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+		
+		public int get_level()
+		{
+			return SkillDatabase.getSkillLevel( this.contentInt );
+		}
+		
+		public int get_traincost()
+		{
+			return SkillDatabase.getSkillPurchaseCost( this.contentInt );
+		}
+		
+		public Value get_class()
+		{
+			return DataTypes.parseClassValue(
+				SkillDatabase.getSkillCategory( this.contentInt ), true );
+		}
+		
+		public boolean get_libram()
+		{
+			return SkillDatabase.isLibramSkill( this.contentInt );
+		}
+		
+		public boolean get_passive()
+		{
+			return SkillDatabase.isPassive( this.contentInt );
+		}
+		
+		public boolean get_buff()
+		{
+			return SkillDatabase.isBuff( this.contentInt );
+		}
+		
+		public boolean get_combat()
+		{
+			return SkillDatabase.isCombat( this.contentInt );
+		}
+		
+		public boolean get_permable()
+		{
+			return SkillDatabase.isPermable( this.contentInt );
+		}
+	}		
+
+	public static class EffectProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "default", DataTypes.STRING_TYPE )
+			.add( "note", DataTypes.STRING_TYPE )
+			.add( "all",
+				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
+			.add( "image", DataTypes.STRING_TYPE )
+			.add( "descid", DataTypes.STRING_TYPE )
+			.finish( "effect proxy" );
+			
+		public EffectProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+		
+		public String get_default()
+		{
+			return EffectDatabase.getDefaultAction( this.contentString );
+		}
+		
+		public String get_note()
+		{
+			return EffectDatabase.getActionNote( this.contentString );
+		}
+		
+		public Value get_all()
+		{
+			Iterator i = EffectDatabase.getAllActions( this.contentString );
+			ArrayList rv = new ArrayList();
+			while ( i.hasNext() )
+			{
+				rv.add( new Value( (String) i.next() ) );
+			}
+			return new PluralValue( DataTypes.STRING_TYPE, rv );
+		}
+		
+		public String get_image()
+		{
+			return EffectDatabase.getImage( this.contentInt );
+		}
+		
+		public String get_descid()
+		{
+			return EffectDatabase.getDescriptionId( this.contentInt );
+		}
+	}
+
+	public static class LocationProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "nocombats", DataTypes.BOOLEAN_TYPE )
+			.add( "zone", DataTypes.STRING_TYPE )
+			.add( "parent", DataTypes.STRING_TYPE )
+			.add( "parentdesc", DataTypes.STRING_TYPE )
+			.finish( "location proxy" );
+			
+		public LocationProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+		
+		public boolean get_nocombats()
+		{
+			return ((KoLAdventure) this.content).isNonCombatsOnly();
+		}
+		
+		public String get_zone()
+		{
+			return ((KoLAdventure) this.content).getZone();
+		}
+		
+		public String get_parent()
+		{
+			return ((KoLAdventure) this.content).getParentZone();
+		}
+		
+		public String get_parentdesc()
+		{
+			return ((KoLAdventure) this.content).getParentZoneDescription();
 		}
 	}
 }

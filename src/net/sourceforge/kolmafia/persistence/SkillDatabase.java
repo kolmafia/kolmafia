@@ -380,6 +380,12 @@ public class SkillDatabase
 		return skillType == null ? -1 : ( (Integer) skillType ).intValue();
 	}
 
+	public static final String getSkillCategory( final int skillId )
+	{
+		Object cat = SkillDatabase.skillCategoryById.get( new Integer( skillId ) );
+		return cat == null ? "" : (String) cat;
+	}
+
 	/**
 	 * Returns the Id number for an skill, given its name.
 	 *
