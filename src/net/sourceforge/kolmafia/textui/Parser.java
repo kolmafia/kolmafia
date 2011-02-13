@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.textui.parsetree.ScriptExit;
 import net.sourceforge.kolmafia.textui.parsetree.SortBy;
 import net.sourceforge.kolmafia.textui.parsetree.Switch;
 import net.sourceforge.kolmafia.textui.parsetree.SwitchScope;
+import net.sourceforge.kolmafia.textui.parsetree.Try;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
@@ -297,6 +298,8 @@ public class Parser
 		reservedWords.add( "switch" );
 		reservedWords.add( "case" );
 		reservedWords.add( "default" );
+		reservedWords.add( "try" );
+		reservedWords.add( "finally" );
 
 		// Data types
 		reservedWords.add( "void" );
@@ -900,6 +903,11 @@ public class Parser
 		else if ( ( result = this.parseConditional( functionType, scope, noElse, allowBreak, allowContinue ) ) != null )
 		{
 			// loop doesn't have a ; token
+			return result;
+		}
+		else if ( ( result = this.parseTry( functionType, scope, allowBreak, allowContinue ) ) != null )
+		{
+			// try doesn't have a ; token
 			return result;
 		}
 		else if ( ( result = this.parseSort( scope ) ) != null )
@@ -1531,6 +1539,66 @@ public class Parser
 
 		return new Switch( condition, tests, indices, defaultIndex, scope,
 				   constantLabels ? labels : null );
+	}
+
+	private Try parseTry( final Type functionType,
+		final BasicScope parentScope,
+		final boolean allowBreak, final boolean allowContinue )
+	{
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "try" ) )
+		{
+			return null;
+		}
+
+		this.readToken(); // try
+
+		Scope body;
+		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // body is a single call
+		{
+			ParseTreeNode command = this.parseCommand( functionType, parentScope, false, allowBreak, allowContinue );
+			body = new Scope( command, parentScope );
+		}
+		else
+		{
+			this.readToken(); //read {
+			body = this.parseScope( null, functionType, null, parentScope, allowBreak, allowContinue );
+
+			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
+
+			this.readToken(); //read }
+		}
+		
+		// catch clauses would be parsed here
+		
+		if ( this.currentToken() == null || !this.currentToken().equals( "finally" ) )
+		{	// this would not be an error if at least one catch was present
+			throw this.parseException( "\"try\" without \"finally\" is pointless" );
+		}
+		this.readToken(); //read finally
+
+		Scope finalClause;
+		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // finally is a single call
+		{
+			ParseTreeNode command = this.parseCommand( functionType, body, false, allowBreak, allowContinue );
+			finalClause = new Scope( command, parentScope );
+		}
+		else
+		{
+			this.readToken(); //read {
+			finalClause = this.parseScope( null, functionType, null, body, allowBreak, allowContinue );
+
+			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+			{
+				throw this.parseException( "}", this.currentToken() );
+			}
+
+			this.readToken(); //read }
+		}
+
+		return new Try( body, finalClause );
 	}
 
 	private SortBy parseSort( final BasicScope parentScope )
