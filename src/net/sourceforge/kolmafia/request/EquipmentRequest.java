@@ -1257,6 +1257,8 @@ public class EquipmentRequest
 		Matcher outfitsMatcher = EquipmentRequest.OUTFITLIST_PATTERN.matcher( responseText );
 		SpecialOutfit.checkOutfits( outfitsMatcher.find() ? outfitsMatcher.group() : null );
 
+		EquipmentManager.updateOutfits();
+
 		// Check if familiar equipment is locked
 		FamiliarData.checkLockedItem( responseText );
 
