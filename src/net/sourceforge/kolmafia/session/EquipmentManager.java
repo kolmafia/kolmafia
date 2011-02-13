@@ -150,12 +150,12 @@ public class EquipmentManager
 		EquipmentManager.fakeHandCount = 0;
 		EquipmentManager.stinkyCheeseLevel = 0;
 		EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
+		EquipmentManager.outfits.clear();
 	}
 
 	public static void resetOutfits()
 	{
 		EquipmentManager.customOutfits.clear();
-		EquipmentManager.outfits.clear();
 	}
 
 	public static AdventureResult[] emptyEquipmentArray()
