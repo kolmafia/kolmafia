@@ -253,3 +253,10 @@ sugar shillelagh	sugar shard
 sugar shirt	sugar shard
 sugar shotgun	sugar shard
 sugar shorts	sugar shard
+
+# BRICKO items break into bricks
+BRICKO hat	BRICKO brick
+BRICKO sword	BRICKO brick
+BRICKO pants	BRICKO brick
+BRICKO bulwark	BRICKO brick
+

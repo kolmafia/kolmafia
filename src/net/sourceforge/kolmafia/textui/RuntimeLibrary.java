@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.WhoMessage;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -2536,6 +2537,10 @@ public abstract class RuntimeLibrary
 	{
 		return DataTypes.makeItemValue( CampgroundRequest.getCurrentDwelling().getItemId() );
 	}
+	
+	private static int WAD2POWDER = -12;	// <elem> powder - <elem> wad
+	private static int WAD2NUGGET = -6;
+	private static int WAD2GEM = 1321;
 
 	public static Value get_related( Value item, Value type )
 	{
@@ -2565,6 +2570,126 @@ public abstract class RuntimeLibrary
 					DataTypes.parseItemValue( (String) list.get( i ), true ),
 					new Value( i ) );
 			}
+		}
+		else if ( which.equals( "pulverize" ) )
+		{	// All values scaled up by one million
+			int pulver = EquipmentDatabase.getPulverization( item.intValue() );
+			if ( pulver == -1 || (pulver & EquipmentDatabase.MALUS_UPGRADE) != 0 )
+			{
+				return value;
+			}
+			if ( pulver > 0 )
+			{
+				value.aset( DataTypes.makeItemValue( pulver ),
+					DataTypes.makeIntValue( 1000000 ) );
+				return value;
+			}
+			
+			ArrayList elems = new ArrayList();
+			if ( (pulver & EquipmentDatabase.ELEM_HOT) != 0 )
+			{
+				elems.add( new Integer( ItemPool.HOT_WAD ) );
+			}
+			if ( (pulver & EquipmentDatabase.ELEM_COLD) != 0 )
+			{
+				elems.add( new Integer( ItemPool.COLD_WAD ) );
+			}
+			if ( (pulver & EquipmentDatabase.ELEM_STENCH) != 0 )
+			{
+				elems.add( new Integer( ItemPool.STENCH_WAD ) );
+			}
+			if ( (pulver & EquipmentDatabase.ELEM_SPOOKY) != 0 )
+			{
+				elems.add( new Integer( ItemPool.SPOOKY_WAD ) );
+			}
+			if ( (pulver & EquipmentDatabase.ELEM_SLEAZE) != 0 )
+			{
+				elems.add( new Integer( ItemPool.SLEAZE_WAD ) );
+			}
+			if ( (pulver & EquipmentDatabase.ELEM_TWINKLY) != 0 )
+			{	// Important: twinkly must be last
+				elems.add( new Integer( ItemPool.TWINKLY_WAD ) );
+			}
+			int nelems = elems.size();
+			if ( nelems == 0 )
+			{
+				return value;	// shouldn't happen
+			}
+			
+			int powders = 0, nuggets = 0, wads = 0;
+			if ( (pulver & EquipmentDatabase.YIELD_3W) != 0 )
+			{
+				wads = 3000000;
+			}
+			else if ( (pulver & EquipmentDatabase.YIELD_1W3N_2W) != 0 )
+			{
+				wads = 1500000;
+				nuggets = 1500000;
+			}
+			else if ( (pulver & EquipmentDatabase.YIELD_4N_1W) != 0 )
+			{
+				wads = 500000;
+				nuggets = 2000000;
+			}
+			else if ( (pulver & EquipmentDatabase.YIELD_3N) != 0 )
+			{
+				nuggets = 3000000;
+			}
+			else if ( (pulver & EquipmentDatabase.YIELD_1N3P_2N) != 0 )
+			{
+				nuggets = 1500000;
+				powders = 1500000;
+			}
+			else if ( (pulver & EquipmentDatabase.YIELD_4P_1N) != 0 )
+			{
+				nuggets = 500000;
+				powders = 2000000;
+			}
+			else if ( (pulver & EquipmentDatabase.YIELD_3P) != 0 )
+			{
+				powders = 3000000;
+			}
+			else if ( (pulver & EquipmentDatabase.YIELD_2P) != 0 )
+			{
+				powders = 2000000;
+			}
+			else if ( (pulver & EquipmentDatabase.YIELD_1P) != 0 )
+			{
+				powders = 1000000;
+			}
+			int gems = wads / 100;
+			wads -= gems;
+			
+		 	Iterator i = elems.iterator();
+		 	while ( i.hasNext() )
+		 	{
+		 		int wad = ((Integer) i.next()).intValue();
+		 		if ( powders > 0 )
+		 		{
+					value.aset( DataTypes.makeItemValue( wad + WAD2POWDER ),
+						DataTypes.makeIntValue( powders / nelems ) );
+		 		}
+		 		if ( nuggets > 0 )
+		 		{
+					value.aset( DataTypes.makeItemValue( wad + WAD2NUGGET ),
+						DataTypes.makeIntValue( nuggets / nelems ) );
+		 		}
+		 		if ( wads > 0 )
+		 		{
+		 			if ( wad == ItemPool.TWINKLY_WAD )
+		 			{	// no twinkly gem!
+		 				wads += gems;
+		 				gems = 0;
+		 			}
+					value.aset( DataTypes.makeItemValue( wad ),
+						DataTypes.makeIntValue( wads / nelems ) );
+		 		}
+		 		if ( gems > 0 )
+		 		{
+					value.aset( DataTypes.makeItemValue( wad + WAD2GEM ),
+						DataTypes.makeIntValue( gems / nelems ) );
+		 		}
+		 	}
 		}
 		return value;
 	}
