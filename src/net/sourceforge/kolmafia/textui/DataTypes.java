@@ -124,7 +124,7 @@ public class DataTypes
 	public static final AggregateType RESULT_TYPE =
 		new AggregateType( DataTypes.INT_TYPE, DataTypes.ITEM_TYPE );
 
-		public static final AggregateType REGEX_GROUP_TYPE =
+	public static final AggregateType REGEX_GROUP_TYPE =
 		new AggregateType(
 			new AggregateType( DataTypes.STRING_TYPE, DataTypes.INT_TYPE ), DataTypes.INT_TYPE );
 
