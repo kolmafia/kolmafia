@@ -59,7 +59,7 @@ public class PandamoniumRequest
 	public static final String [] COMEDY_TYPES = new String[]
 	{
 		"insult",
-		"observational",
+		"observe",
 		"prop",
 	};
 
@@ -152,7 +152,7 @@ public class PandamoniumRequest
 	public PandamoniumRequest( final String bandMember, final int itemId )
 	{
 		super( "pandamonium.php" );
-		this.addFormField( "action", "mourn" );
+		this.addFormField( "action", "sven" );
 		this.addFormField( "bandmember", bandMember );
 		this.addFormField( "togive", String.valueOf( itemId ) );
 		this.addFormField( "preaction", "try" );
