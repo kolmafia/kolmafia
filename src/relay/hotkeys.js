@@ -11,8 +11,8 @@ function getNumericKey( keyCode )
     if ( keyCode >= 96 && keyCode <= 105 )
     	return keyCode - 96;
 
-	if ( keyCode == 192 )
-		return 11;
+    if ( keyCode == 192 )
+	return 11;
 
     return -1;
 }
@@ -69,7 +69,7 @@ function handleCombatHotkey( e, isDown )
 
 	if ( button.value == "auto" )
 	{
-		return handleChoiceHotkey( numericKey, command );
+		return false;
 	}
 
 	if ( command.length == 0 )
@@ -91,37 +91,6 @@ function handleCombatHotkey( e, isDown )
 
 	document.location.href = "fight.php?hotkey=" + numericKey;
 	return true;
-}
-
-function handleChoiceHotkey( choiceId, command )
-{
-	if ( !command || command == "" )
-	{
-		return false;
-	}
-
-	if ( choiceId == 0 || choiceId == 11 )
-	{
-		var button = document.getElementById( "defaultButton" );
-		button.onclick();
-		return true;
-	}
-
-	var forms = document.getElementsByTagName( "form" );
-	for ( var i = 0; i < forms.length; ++i )
-	{
-		var inputs = forms[i].getElementsByTagName( "input" );
-		for ( var j = 0; j < inputs.length; ++j )
-		{
-			if ( inputs[j].value == choiceId )
-			{
-				forms[i].submit();
-				return true;
-			}
-		}
-	}
-
-	return false;
 }
 
 function executeCommand( command )
