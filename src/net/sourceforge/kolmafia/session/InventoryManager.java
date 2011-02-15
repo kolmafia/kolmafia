@@ -67,8 +67,14 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public abstract class InventoryManager
 {
@@ -1172,4 +1178,35 @@ public abstract class InventoryManager
 		}
 	}
 
+	public static final void parseInventory( final JSONObject JSON )
+		throws JSONException
+	{
+		// {"1":"1","2":"1" ... }
+		Iterator keys = JSON.keys();
+		while ( keys.hasNext() )
+		{
+			String key = (String) keys.next();
+			int itemId = StringUtilities.parseInt( key );
+			int count = JSON.getInt( key );
+			String name = ItemDatabase.getItemDataName( itemId );
+			if ( name == null )
+			{
+				// Fetch descid from api.php?what=item
+				// and register new item.
+				ItemDatabase.registerItem( itemId );
+			}
+
+			AdventureResult item = new AdventureResult( itemId, count );
+			int inventoryCount = item.getCount( KoLConstants.inventory );
+
+			// Add the difference between your existing count
+			// and the original count.
+
+			if ( inventoryCount != count )
+			{
+				item = item.getInstance( count - inventoryCount );
+				ResultProcessor.tallyResult( item, true );
+			}
+		}
+	}
 }

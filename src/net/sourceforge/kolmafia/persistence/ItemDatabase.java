@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
@@ -78,6 +79,11 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -900,6 +906,66 @@ public class ItemDatabase
 	{
 		String value = ItemDatabase.relStringValue( relString, "m" );
 		return value != null && value.equals( "1" );
+	}
+
+	public static final void registerItem( final int itemId )
+	{
+		// This only works for items you own.
+		ApiRequest request = new ApiRequest( "item" );
+		request.addFormField( "id", String.valueOf( itemId ) );
+		RequestThread.postRequest( request );
+
+		String responseText = request.responseText;
+		if ( responseText == null ||
+		     responseText.indexOf( "You don't own that item." ) != -1 )
+		{
+			return;
+		}
+
+		JSONObject JSON;
+
+		// Parse the string into a JSON object
+		try
+		{
+			JSON = new JSONObject( responseText );
+		}
+		catch ( JSONException e )
+		{
+			KoLmafia.updateDisplay( "api.php?what=item returned a bad JSON string!" );
+			return;
+		}
+
+		// {
+		//   "name":"Loathing Legion pizza stone",
+		//   "descid":"708831312",
+		//   "sellvalue":"0",
+		//   "picture":"llpizzastone",
+		//   "type":"offhand",
+		//   "hands":"1",
+		//   "power":"100",
+		//   "candiscard":"0",
+		//   "cantransfer":"0",
+		//   "fancy":"0",
+		//   "quest":"0",
+		//   "combine":"0",
+		//   "smith":"0",
+		//   "jewelry":"0",
+		//   "cook":"0",
+		//   "cocktail":"0",
+		//   "unhardcore":"1"
+		// }
+
+		try
+		{
+			String name = JSON.getString( "name" );
+			String descid = JSON.getString( "descid" );
+			ItemDatabase.registerItem( itemId, name, descid, null );
+		}
+		catch ( JSONException e )
+		{
+			KoLmafia.updateDisplay( "Error parsing JSON string!" );
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	public static final void registerItem( final String itemName, final String descId, final String relString, final String items )

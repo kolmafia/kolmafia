@@ -83,7 +83,7 @@ public class EquipmentRequest
 	private static final Pattern WEAPON_PATTERN =
 		Pattern.compile( "Weapon</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=weapon" );
 	private static final Pattern OFFHAND_PATTERN =
-		Pattern.compile( "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=offhand" );
+		Pattern.compile( "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>([^<]+)</b> *(<font[^>]*>[^<]*</font>)? *<a[^>]*unequip&type=offhand" );
 	private static final Pattern SHIRT_PATTERN =
 		Pattern.compile( "Shirt</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=shirt" );
 	private static final Pattern PANTS_PATTERN =
@@ -940,18 +940,13 @@ public class EquipmentRequest
 			{
 				KoLmafia.setIsRefreshing( true );
 				InventoryManager.resetInventory();
-				EquipmentManager.resetEquipment();
 				ConcoctionDatabase.deferRefresh( true );
-
 				this.parseCloset();
-
-				(new EquipmentRequest( EquipmentRequest.CONSUMABLES )).run();
-				(new EquipmentRequest( EquipmentRequest.ALL_EQUIPMENT )).run();
-				(new EquipmentRequest( EquipmentRequest.MISCELLANEOUS )).run();
-				(new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS )).run();
+				RequestThread.postRequest( new ApiRequest( "inventory" ) );
 			}
 			finally
 			{
+				EquipmentManager.updateOutfits();
 				ConcoctionDatabase.deferRefresh( false );
 				KoLmafia.setIsRefreshing( false );
 
@@ -1777,6 +1772,11 @@ public class EquipmentRequest
 			}
 		}
 
+		return EquipmentRequest.phpSlotNumber( name );
+	}
+
+	public static final int phpSlotNumber( final String name )
+	{
 		for ( int i = 0; i < EquipmentRequest.phpSlotNames.length; ++i )
 		{
 			if ( name.equalsIgnoreCase( EquipmentRequest.phpSlotNames[ i ] ) )

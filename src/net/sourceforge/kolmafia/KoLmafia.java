@@ -952,13 +952,21 @@ public abstract class KoLmafia
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
 
-		// Retrieve the character sheet first. It's necessary to do
-		// this before concoctions have a chance to get refreshed.
+		// Retrieve the character sheet. It's necessary to do this
+		// before concoctions have a chance to get refreshed.
 
 		RequestThread.postRequest( new CharSheetRequest() );
 
 		// Hermit items depend on character class
 		HermitRequest.reset();
+
+		// Retrieve the contents of the closet and inventory
+
+		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
+
+		// Retrieve Custom Outfit list
+
+		RequestThread.postRequest( new CustomOutfitRequest() );
 
 		RequestThread.postRequest( new QuestLogRequest() );
 
@@ -966,14 +974,6 @@ public abstract class KoLmafia
 		// the player.
 
 		RequestThread.postRequest( new FamiliarRequest() );
-
-		// Retrieve Custom Outfit list
-
-		RequestThread.postRequest( new CustomOutfitRequest() );
-
-		// Retrieve the contents of the closet and inventory
-
-		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
 
 		// Retrieve campground data to see if the user has box servants
 		// or a bookshelf

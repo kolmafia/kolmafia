@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -53,9 +55,12 @@ import org.json.JSONObject;
 public class ApiRequest
 	extends GenericRequest
 {
+	String what;
+
 	public ApiRequest( final String what )
 	{
 		super( "api.php" );
+		this.what = what;
 		this.addFormField( "what", what );
 		this.addFormField( "for", "KoLmafia" );
 	}
@@ -63,6 +68,20 @@ public class ApiRequest
 	protected boolean retryOnTimeout()
 	{
 		return true;
+	}
+
+	public Object run()
+	{
+		if ( what.equals( "status" ) )
+		{
+			KoLmafia.updateDisplay( "Loading character status..." );
+		}
+		else if ( what.equals( "inventory" ) )
+		{
+			KoLmafia.updateDisplay( "Updating inventory..." );
+		}
+
+		return super.run();
 	}
 
 	public void processResults()
@@ -86,6 +105,10 @@ public class ApiRequest
 		if ( what.equals( "status" ) )
 		{
 			ApiRequest.parseStatus( responseText );
+		}
+		else if ( what.equals( "inventory" ) )
+		{
+			ApiRequest.parseInventory( responseText );
 		}
 	}
 
@@ -225,6 +248,38 @@ public class ApiRequest
 			
 			// Many things from the Char Sheet are available
 			CharSheetRequest.parseStatus( JSON );
+			
+			// Parse currently worn equipment
+			EquipmentManager.parseStatus( JSON );
+			
+			// Many things from the Char Pane are available
+			CharSheetRequest.parseStatus( JSON );
+		}
+		catch ( JSONException e )
+		{
+			KoLmafia.updateDisplay( "Error parsing JSON string!" );
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	public static final void parseInventory( final String responseText )
+	{
+		JSONObject JSON;
+
+		// Parse the string into a JSON object
+		try
+		{
+			JSON = new JSONObject( responseText );
+		}
+		catch ( JSONException e )
+		{
+			KoLmafia.updateDisplay( "api.php?what=inventory returned a bad JSON string!" );
+			return;
+		}
+
+		try
+		{
+			InventoryManager.parseInventory( JSON );
 		}
 		catch ( JSONException e )
 		{
