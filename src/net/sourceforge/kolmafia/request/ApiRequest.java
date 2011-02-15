@@ -211,6 +211,12 @@ public class ApiRequest
 
 		try
 		{
+			// Pull out the current ascension count. Do this first.
+			// Some later processing depends on this.
+			int ascensions = JSON.getInt( "ascensions" );
+			KoLCharacter.setAscensions( ascensions );
+
+			// Pull out the current password hash
 			String pwd = JSON.getString( "pwd" );
 			GenericRequest.passwordHash = pwd;
 			

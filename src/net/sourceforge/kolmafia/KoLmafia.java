@@ -942,9 +942,6 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( new ApiRequest( "status" ) );
 
-		// *** Until api.php supports the last account option we need
-		RequestThread.postRequest( new AccountRequest( AccountRequest.ACCOUNT ) );
-
 		// Now that we know the character's ascension count, reset
 		// anything that depends on that.
 

@@ -2315,6 +2315,17 @@ public abstract class KoLCharacter
 		return Preferences.getBoolean( "kingLiberated" );
 	}
 
+	// Mark whether api.php says we've liberated King Ralph. This is done
+	// very early during character initialization, so simply set the
+	// preference and let later processing use that.
+	public static final void liberateKing( boolean liberated )
+	{
+		if ( !KoLCharacter.kingLiberated() && liberated )
+		{
+			Preferences.setBoolean( "kingLiberated", true );
+		}
+	}
+
 	public static final void liberateKing()
 	{
 		if ( !KoLCharacter.kingLiberated() )
