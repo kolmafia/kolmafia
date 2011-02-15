@@ -68,7 +68,7 @@ public class ChatPoller
 		{
 			try
 			{
-				List entries = ChatPoller.getEntries( lastSeen );
+				List entries = ChatPoller.getEntries( lastSeen, false );
 				Iterator entryIterator = entries.iterator();
 
 				while ( entryIterator.hasNext() )
@@ -97,12 +97,53 @@ public class ChatPoller
 		ChatPoller.localLastSeen = 0;
 		ChatPoller.serverLastSeen = 0;
 	}
-	
-	public synchronized static List getEntries( final long lastSeen )
+
+	public synchronized static void addEntry( ChatMessage message )
+	{
+		HistoryEntry entry = new HistoryEntry( message, ++ChatPoller.localLastSeen );
+
+		ChatPoller.chatHistoryEntries.add( entry );
+		ChatManager.processMessages( entry.getChatMessages() );
+	}
+
+	public synchronized static void addSentEntry( final String responseText, final boolean isRelayRequest )
+	{
+		SentMessageEntry entry = new SentMessageEntry( responseText, ++localLastSeen, isRelayRequest );
+
+		entry.executeAjaxCommand();
+
+		ChatPoller.chatHistoryEntries.add( entry );
+	}
+
+	private static final void addValidEntry( final List newEntries, final HistoryEntry entry, final boolean isRelayRequest )
+	{
+		if ( !( entry instanceof SentMessageEntry ) )
+		{
+			newEntries.add( entry );
+			return;
+		}
+
+		if ( !isRelayRequest )
+		{
+			return;
+		}
+
+		SentMessageEntry sentEntry = (SentMessageEntry) entry;
+
+		if ( sentEntry.isRelayRequest() )
+		{
+			return;
+		}
+
+		newEntries.add( entry );
+		return;
+	}
+
+	public synchronized static List getEntries( final long lastSeen, final boolean isRelayRequest )
 	{
 		if ( ChatManager.getCurrentChannel() == null )
 		{
-			ChatSender.sendMessage( "/listen" );
+			ChatSender.sendMessage( null, "/listen", true );
 		}
 
 		List newEntries = new ArrayList();
@@ -117,13 +158,11 @@ public class ChatPoller
 
 				if ( entry.getLocalLastSeen() > lastSeen )
 				{
-					newEntries.add( entry );
+					addValidEntry( newEntries, entry, isRelayRequest );
 
 					while ( entryIterator.hasNext() )
 					{
-						entry = (HistoryEntry) entryIterator.next();
-
-						newEntries.add( entry );
+						addValidEntry( newEntries, (HistoryEntry) entryIterator.next(), isRelayRequest );
 					}
 				}
 			}

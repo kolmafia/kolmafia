@@ -43,11 +43,22 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class HistoryEntry
 {
 	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
-	private final String content;
+	private String content;
 
 	private final long localLastSeen;
 	private final long serverLastSeen;
 	private final List chatMessages;
+
+	public HistoryEntry( final ChatMessage message, final long localLastSeen )
+	{
+		this.localLastSeen = localLastSeen;
+		this.chatMessages = new ArrayList();
+
+		this.chatMessages.add( message );
+
+		this.serverLastSeen = 0;
+		this.content = ChatFormatter.formatChatMessage( message );
+	}
 
 	public HistoryEntry( final String responseText, final long localLastSeen )
 	{
@@ -76,7 +87,12 @@ public class HistoryEntry
 	{
 		return this.content;
 	}
-	
+
+	public void setContent( String content )
+	{
+		this.content = content;
+	}
+
 	public long getLocalLastSeen()
 	{
 		return this.localLastSeen;

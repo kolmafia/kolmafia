@@ -53,11 +53,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChatSender
 {
-	private static final Pattern DOJAX_PATTERN =
-		Pattern.compile( "<!--js\\(\\s*dojax\\(\\s*['\"](.*?)['\"]\\s*\\)\\s*;?\\s*\\)-->" );
-
-	private static final GenericRequest DOJAX_VISITOR = new GenericRequest( "" );
-
 	private static final Pattern PRIVATE_MESSAGE_PATTERN =
 		Pattern.compile( "/(?:msg|whisper|w|tell)\\s+(\\S+)\\s+", Pattern.CASE_INSENSITIVE );
 
@@ -82,10 +77,10 @@ public class ChatSender
 		ChatRequest request = new ChatRequest( macro );
 
 		List accumulatedMessages = new ArrayList();
-		
+
 		sendRequest( accumulatedMessages, request );
 
-		ChatSender.executeAjaxCommand( request.responseText );
+		ChatPoller.addSentEntry( request.responseText, false );
 
 		for ( int i = 0; ChatSender.scriptedMessagesEnabled && i < accumulatedMessages.size(); ++i )
 		{
@@ -97,18 +92,13 @@ public class ChatSender
 		}
 	}
 
-	public static final void sendMessage( String contact, String message )
+	public static final void sendMessage( String contact, String message, boolean channelRestricted )
 	{
 		if ( !QuestLogRequest.isChatAvailable() )
 		{
 			return;
 		}
 
-		ChatSender.sendMessage( contact, message, false );
-	}
-
-	public static final void sendMessage( String contact, String message, boolean channelRestricted )
-	{
 		if ( !QuestLogRequest.isChatAvailable() )
 		{
 			return;
@@ -120,34 +110,20 @@ public class ChatSender
 		{
 			return;
 		}
-		
+
 		List accumulatedMessages = new ArrayList();
 
 		for ( int i = 0; i < grafs.size(); ++i )
 		{
 			String graf = (String) grafs.get( i );
 
-			String responseText = ChatSender.sendMessage( accumulatedMessages, graf, channelRestricted );
-			ChatSender.executeAjaxCommand( responseText );
+			String responseText = ChatSender.sendMessage( accumulatedMessages, graf, false, channelRestricted );
+
+			ChatPoller.addSentEntry( responseText, false );
 		}
 	}
 
-	public static final String sendMessage( String graf )
-	{
-		return sendMessage( new ArrayList(), graf );
-	}
-	
-	public static final String sendMessage( List accumulatedMessages, String graf )
-	{
-		if ( !QuestLogRequest.isChatAvailable() )
-		{
-			return "";
-		}
-
-		return ChatSender.sendMessage( accumulatedMessages, graf, false );
-	}
-
-	public static final String sendMessage( List accumulatedMessages, String graf, boolean channelRestricted )
+	public static final String sendMessage( List accumulatedMessages, String graf, boolean isRelayRequest, boolean channelRestricted )
 	{
 		if ( !QuestLogRequest.isChatAvailable() )
 		{
@@ -364,12 +340,16 @@ public class ChatSender
 			int spaceIndex = graf.indexOf( " " );
 			String baseCommand = spaceIndex == -1 ? graf.toLowerCase() : graf.substring( 0, spaceIndex ).toLowerCase();
 
-			if ( graf.equals( "/w" ) || graf.equals( "/who" ) )
+			if ( graf.equals( "/w" ) || graf.equals( "/who" ) || graf.equals( "/l" ) || graf.equals( "/listen" ) )
 			{
 				// Attempts to view the /who list use the name of the channel
 				// when the user doesn't specify the channel.
 
 				graf = "/who " + contact.substring( 1 );
+			}
+			else if ( graf.equals( "/whois" ) || graf.equals( "/friend" ) || graf.equals( "/baleet" ) )
+			{
+				graf = graf + " " + contact;
 			}
 			else if ( ChatSender.CHANNEL_COMMANDS.contains( baseCommand ) )
 			{
@@ -408,13 +388,13 @@ public class ChatSender
 		{
 			return false;
 		}
-		
+
 		if ( graf.startsWith( "/trivia" ) )
 		{
 			ChatManager.startTriviaGame();
 			return true;
 		}
-		
+
 		if ( graf.startsWith( "/endtrivia" ) || graf.startsWith( "/stoptrivia" ) )
 		{
 			ChatManager.stopTriviaGame();
@@ -431,28 +411,5 @@ public class ChatSender
 		String command = graf.substring( spaceIndex ).trim();
 		CommandDisplayFrame.executeCommand( command );
 		return true;
-	}
-
-	private static void executeAjaxCommand( String responseText )
-	{
-		if ( responseText == null )
-		{
-			return;
-		}
-
-		Matcher dojax = ChatSender.DOJAX_PATTERN.matcher( responseText );
-
-		while ( dojax.find() )
-		{
-			ChatSender.DOJAX_VISITOR.constructURLString( dojax.group( 1 ) );
-			RequestThread.postRequest( ChatSender.DOJAX_VISITOR );
-
-			if ( ChatSender.DOJAX_VISITOR.responseText == null )
-			{
-				continue;
-			}
-
-			StaticEntity.externalUpdate( ChatSender.DOJAX_VISITOR.getURLString(), ChatSender.DOJAX_VISITOR.responseText );
-		}
 	}
 }

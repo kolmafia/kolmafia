@@ -110,7 +110,7 @@ public class FaxRequestFrame
 
 			VerifiableElement[] elements = new VerifiableElement[ 1 ];
 			elements[ 0 ] = new VerifiableElement( "Category: ", FaxRequestFrame.this.categorySelect );
-			
+
 
 			this.setContent( elements );
 			this.add( FaxRequestFrame.this.monsterSelect, BorderLayout.CENTER );
@@ -192,20 +192,20 @@ public class FaxRequestFrame
 			String name = monster.getName();
 			String command = monster.getCommand();
 
-			String graf = "/msg " + botName + " " + command;
-
 			// We can try several times...
 			PauseObject pauser = new PauseObject();
 
 			RequestThread.openRequestSequence();
-			while (true )
+			while ( true )
 			{
 				KoLmafia.updateDisplay( "Asking " + botName + " to send a fax of " + name + ": " + command );
 
 				// Clear last message, just in case.
 				ChatManager.getLastFaxBotMessage();
 
-				String response = ChatSender.sendMessage( graf );
+				ChatSender.sendMessage( botName, command, false );
+
+				String response = null;
 				// Response is sent blue message. Can it fail?
 
 				int polls = LIMIT * 1000 / DELAY;
