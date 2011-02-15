@@ -64,6 +64,10 @@ import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class EquipmentManager
 {
 	public static final int NONE = -1;
@@ -1057,9 +1061,9 @@ public class EquipmentManager
 			return KoLConstants.EQUIP_ACCESSORY;
 		case EquipmentManager.FAMILIAR:
 			return KoLConstants.EQUIP_FAMILIAR;
-		case STICKER1:
-		case STICKER2:
-		case STICKER3:
+		case EquipmentManager.STICKER1:
+		case EquipmentManager.STICKER2:
+		case EquipmentManager.STICKER3:
 			return KoLConstants.CONSUME_STICKER;
 		default:
 			return -1;
@@ -1085,7 +1089,7 @@ public class EquipmentManager
 		case KoLConstants.EQUIP_FAMILIAR:
 			return EquipmentManager.FAMILIAR;
 		case KoLConstants.CONSUME_STICKER:
-			return STICKER1;
+			return EquipmentManager.STICKER1;
 		default:
 			return -1;
 		}
@@ -1501,4 +1505,87 @@ public class EquipmentManager
 		return null;
 	}
 
+	public static final void parseStatus( final JSONObject JSON )
+		throws JSONException
+	{
+		// "equipment":{
+		//    "hat":"1323",
+		//    "shirt":"2586",
+		//    "pants":"1324",
+		//    "weapon":"1325",
+		//    "offhand":"1325",
+		//    "acc1":"3337",
+		//    "acc2":"1232",
+		//    "acc3":"1226",
+		//    "familiarequip":"3343",
+		//    "fake hands":0
+		// },
+		// "stickers":[0,0,0],
+
+		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray();
+		int fakeHands = 0;
+
+		JSONObject equip = JSON.getJSONObject( "equipment" );
+		Iterator keys = equip.keys();
+		while ( keys.hasNext() )
+		{
+			String slotName = (String) keys.next();
+			if ( slotName.equals( "fakehands" ) )
+			{
+				fakeHands = equip.getInt( slotName );
+				continue;
+			}
+
+			int slot = EquipmentRequest.phpSlotNumber( slotName );
+			if ( slot == -1 )
+			{
+				continue;
+			}
+
+			int itemId = equip.getInt( slotName );
+			String name = ItemDatabase.getItemDataName( itemId );
+			if ( name == null )
+			{
+				// Fetch descid from api.php?what=item
+				// and register new item.
+				ItemDatabase.registerItem( itemId );
+			}
+
+			AdventureResult item = ItemPool.get( itemId, 1 );
+			equipment[ slot ] = item;
+		}
+
+		EquipmentManager.setEquipment( equipment );
+		EquipmentManager.setFakeHands( fakeHands );
+		EquipmentManager.updateOutfits();
+
+		// Read stickers
+		JSONArray stickers = JSON.getJSONArray( "stickers" );
+		for ( int i = 0; i < 3; ++i )
+		{
+			int itemId = stickers.getInt( i );
+			AdventureResult item;
+			if ( itemId == 0 )
+			{
+				item = EquipmentRequest.UNEQUIP;
+			}
+			else
+			{
+				String name = ItemDatabase.getItemDataName( itemId );
+				if ( name == null )
+				{
+					// Fetch descid from api.php?what=item
+					// and register new item.
+					ItemDatabase.registerItem( itemId );
+				}
+
+				item = ItemPool.get( itemId, 1 );
+			}
+
+			EquipmentManager.setEquipment( EquipmentManager.STICKER1 + i, item );
+		}
+
+		// Check if familiar equipment is locked
+		// *** how?
+	}
 }

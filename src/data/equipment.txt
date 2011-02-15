@@ -967,8 +967,7 @@ Loathing Legion electric knife	0	none
 Loathing Legion kitchen sink	0	none
 Loathing Legion many-purpose hook	0	none
 Loathing Legion moondial	0	none
-# *** Loathing Legion pizza stone is a shield of unknown power.
-Loathing Legion pizza stone	0	none	shield
+Loathing Legion pizza stone	100	none	shield
 Loathing Legion tape measure	0	none
 Mer-kin roundshield	220	Mus: 85	shield
 Mer-kin takebag	0	Mys: 85

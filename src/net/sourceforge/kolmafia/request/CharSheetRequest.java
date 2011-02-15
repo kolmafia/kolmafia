@@ -444,7 +444,17 @@ public class CharSheetRequest
 	public static final void parseStatus( final JSONObject JSON )
 		throws JSONException
 	{
-		int ascensions = JSON.getInt( "ascensions" );
-		KoLCharacter.setAscensions( ascensions );
+		int muscle = JSON.getInt( "muscle" );
+		int rawmuscle = JSON.getInt( "rawmuscle" );
+
+		int mysticality = JSON.getInt( "mysticality" );
+		int rawmysticality = JSON.getInt( "rawmysticality" );
+
+		int moxie = JSON.getInt( "moxie" );
+		int rawmoxie = JSON.getInt( "rawmoxie" );
+
+		KoLCharacter.setStatPoints( muscle, rawmuscle,
+					    mysticality, rawmysticality,
+					    moxie, rawmoxie );
 	}
 }

@@ -53,6 +53,10 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class CharPaneRequest
 	extends GenericRequest
 {
@@ -646,5 +650,10 @@ public class CharPaneRequest
 			boolean feasted = responseText.indexOf( "well-fed" ) != -1;
 			KoLCharacter.getFamiliar().checkWeight( weight, feasted );
 		}
+	}
+
+	public static final void parseStatus( final JSONObject JSON )
+		throws JSONException
+	{
 	}
 }
