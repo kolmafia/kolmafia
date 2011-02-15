@@ -359,14 +359,14 @@ public class ChatFrame
 					return;
 				}
 
-				ChatSender.sendMessage( ChatPanel.this.associatedContact, message );
+				ChatSender.sendMessage( ChatPanel.this.associatedContact, message, false );
 			}
 		}
 	}
 
 	/**
 	 * Returns the name of the contact associated with this frame.
-	 * 
+	 *
 	 * @return The name of the contact associated with this frame
 	 */
 
@@ -479,7 +479,7 @@ public class ChatFrame
 			switch ( linkOption )
 			{
 			case 1:
-				String bufferKey = ChatManager.getBufferKey( playerName );				
+				String bufferKey = ChatManager.getBufferKey( playerName );
 				ChatManager.openWindow( bufferKey, false );
 				return;
 
@@ -510,15 +510,15 @@ public class ChatFrame
 				return;
 
 			case 7:
-				ChatSender.sendMessage( "/whois " + playerName );
+				ChatSender.sendMessage( playerName, "/whois", false );
 				return;
 
 			case 8:
-				ChatSender.sendMessage( "/friend " + playerName );
+				ChatSender.sendMessage( playerName, "/friend", false );
 				return;
 
 			case 9:
-				ChatSender.sendMessage( "/baleet " + playerName );
+				ChatSender.sendMessage( playerName, "/baleet", false );
 				return;
 
 			default:

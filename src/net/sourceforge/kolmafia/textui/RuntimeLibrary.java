@@ -89,7 +89,9 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatMessage;
+import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
+import net.sourceforge.kolmafia.chat.EventMessage;
 import net.sourceforge.kolmafia.chat.WhoMessage;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -158,7 +160,7 @@ public abstract class RuntimeLibrary
 {
 	private static Map dataFileTimestampCache = new HashMap();
 	private static Map dataFileDataCache = new HashMap();
-	
+
 	private static final GenericRequest VISITOR = new GenericRequest( "" );
 	private static final RelayRequest RELAYER = new RelayRequest( false );
 
@@ -344,13 +346,13 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "today_to_string", DataTypes.STRING_TYPE, params ) );
-			
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "time_to_string", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "now_to_string", DataTypes.STRING_TYPE, params ) );
-		
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "gameday_to_string", DataTypes.STRING_TYPE, params ) );
 
@@ -697,7 +699,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "set_auto_attack", DataTypes.VOID_TYPE, params ) );
-		
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "attack", DataTypes.BUFFER_TYPE, params ) );
 
@@ -948,6 +950,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "chat_private", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "chat_notify", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "who_clan", new AggregateType(
@@ -1526,14 +1531,14 @@ public abstract class RuntimeLibrary
 		long modifiedTime = input.lastModified();
 
 		Long cacheModifiedTime = (Long) dataFileTimestampCache.get( filename );
-		
+
 		if ( cacheModifiedTime != null && cacheModifiedTime.longValue() == modifiedTime )
 		{
 			byte[] data = (byte[]) dataFileDataCache.get( filename );
 
 			return DataUtilities.getReader( new ByteArrayInputStream( data ) );
 		}
-		
+
 		if ( input.exists() )
 		{
 			try
@@ -1543,7 +1548,7 @@ public abstract class RuntimeLibrary
 
 				int length;
 				byte[] buffer = new byte[ 8192 ];
-				
+
 				while ( ( length = istream.read( buffer ) ) > 0 )
 				{
 					ostream.write( buffer );
@@ -1552,10 +1557,10 @@ public abstract class RuntimeLibrary
 				istream.close();
 
 				byte[] data = ostream.toByteArray();
-				
+
 				RuntimeLibrary.dataFileTimestampCache.put( filename, new Long( modifiedTime ) );
 				RuntimeLibrary.dataFileDataCache.put( filename, data );
-				
+
 				return DataUtilities.getReader( new ByteArrayInputStream( data ) );
 			}
 			catch ( Exception e )
@@ -1982,7 +1987,7 @@ public abstract class RuntimeLibrary
 		Calendar timestamp = new GregorianCalendar();
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat( dateFormatValue.toString() );
-		
+
 		return new Value( dateFormat.format( timestamp.getTime() ) );
 	}
 
@@ -2537,7 +2542,7 @@ public abstract class RuntimeLibrary
 	{
 		return DataTypes.makeItemValue( CampgroundRequest.getCurrentDwelling().getItemId() );
 	}
-	
+
 	private static int WAD2POWDER = -12;	// <elem> powder - <elem> wad
 	private static int WAD2NUGGET = -6;
 	private static int WAD2GEM = 1321;
@@ -2584,7 +2589,7 @@ public abstract class RuntimeLibrary
 					DataTypes.makeIntValue( 1000000 ) );
 				return value;
 			}
-			
+
 			ArrayList elems = new ArrayList();
 			if ( (pulver & EquipmentDatabase.ELEM_HOT) != 0 )
 			{
@@ -2615,7 +2620,7 @@ public abstract class RuntimeLibrary
 			{
 				return value;	// shouldn't happen
 			}
-			
+
 			int powders = 0, nuggets = 0, wads = 0;
 			if ( (pulver & EquipmentDatabase.YIELD_3W) != 0 )
 			{
@@ -2659,7 +2664,7 @@ public abstract class RuntimeLibrary
 			}
 			int gems = wads / 100;
 			wads -= gems;
-			
+
 		 	Iterator i = elems.iterator();
 		 	while ( i.hasNext() )
 		 	{
@@ -3241,7 +3246,7 @@ public abstract class RuntimeLibrary
 	public static Value set_auto_attack( Value attackValue )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", String.valueOf( attackValue.intValue() ) );
-		
+
 		return DataTypes.VOID_VALUE;
 	}
 
@@ -4014,7 +4019,7 @@ public abstract class RuntimeLibrary
 	{
 		return maximize( maximizerStringValue, DataTypes.ZERO_VALUE, DataTypes.ZERO_VALUE, isSpeculateOnlyValue );
 	}
-	
+
 	public static Value maximize( final Value maximizerStringValue, final Value maxPriceValue, final Value priceLevelValue, final Value isSpeculateOnlyValue )
 	{
 		String maximizerString = maximizerStringValue.toString();
@@ -4080,11 +4085,6 @@ public abstract class RuntimeLibrary
 	{
 		String recipient = recipientValue.toString();
 
-		if ( !recipient.equals( KoLCharacter.getUserName() ) && !ChatManager.isValidChatReplyRecipient( recipient ) && !ClanManager.isMember( recipient ) )
-		{
-			return DataTypes.VOID_VALUE;
-		}
-
 		String message = messageValue.toString();
 
 		if ( message.equals( "" ) || message.startsWith( "/" ) )
@@ -4092,35 +4092,49 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		ChatSender.sendMessage( recipient, message );
+		ChatSender.sendMessage( recipient, message, false );
 
 		return DataTypes.VOID_VALUE;
 	}
-	
+
+	public static Value chat_notify( final Value messageValue, final Value colorValue )
+	{
+		String messageString = StringUtilities.globalStringReplace( messageValue.toString(), "<", "&lt;" );
+
+		String colorString = StringUtilities.globalStringDelete( colorValue.toString(), "\"" );
+		colorString = "\"" + colorString + "\"";
+
+		ChatMessage message = new EventMessage( messageString, colorString );
+
+		ChatPoller.addEntry( message );
+
+		return DataTypes.VOID_VALUE;
+	}
+
 	public static Value who_clan()
 	{
 		List chatMessages = new ArrayList();
-		
+
 		WhoMessage message = null;
-		ChatSender.sendMessage( chatMessages, "/who clan" );
-	
+		ChatSender.sendMessage( chatMessages, "/who clan", false, false );
+
 		for ( int i = 0; i < chatMessages.size(); ++i )
 		{
 			ChatMessage chatMessage = (ChatMessage) chatMessages.get( i );
-			
+
 			if ( chatMessage instanceof WhoMessage )
 			{
 				message = (WhoMessage) chatMessage;
 				break;
 			}
 		}
-	
+
 		MapValue value = new MapValue( DataTypes.BOOLEAN_MAP_TYPE );
 
 		if ( message != null )
-		{			
+		{
 			Iterator entryIterator = message.getContacts().entrySet().iterator();
-			
+
 			while ( entryIterator.hasNext() )
 			{
 				Entry entry = (Entry) entryIterator.next();
@@ -4399,7 +4413,7 @@ public abstract class RuntimeLibrary
 		{
 			return DataTypes.FALSE_VALUE;
 		}
-		
+
 		if ( !output.exists() )
 		{
 			try
@@ -4411,13 +4425,13 @@ public abstract class RuntimeLibrary
 				return DataTypes.FALSE_VALUE;
 			}
 		}
-		
+
 		ByteArrayOutputStream cacheStream = new ByteArrayOutputStream();
 
 		writer = LogStream.openStream( cacheStream, "UTF-8" );
 		map_variable.dump( writer, "", compact );
 		writer.close();
-		
+
 		byte[] data = cacheStream.toByteArray();
 
 		try
@@ -4433,7 +4447,7 @@ public abstract class RuntimeLibrary
 
 		RuntimeLibrary.dataFileTimestampCache.put( filename, new Long( output.lastModified() ) );
 		RuntimeLibrary.dataFileDataCache.put( filename, data );
-		
+
 		return DataTypes.TRUE_VALUE;
 	}
 

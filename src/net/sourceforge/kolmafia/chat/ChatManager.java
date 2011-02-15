@@ -102,7 +102,7 @@ public abstract class ChatManager
 		ChatManager.instantMessageBuffers.clear();
 		ChatManager.activeChannels.clear();
 		ChatManager.currentChannel = null;
-		
+
 		ChatManager.triviaGameActive = false;
 		ChatManager.triviaGameIndex = 0;
 		ChatManager.triviaGameId = "[trivia0]";
@@ -263,11 +263,11 @@ public abstract class ChatManager
 		{
 			ChatManager.triviaGameContactListFrame = new ContactListFrame( ChatManager.triviaGameContacts );
 		}
-		
+
 		ChatManager.triviaGameContactListFrame.setTitle( "Contestants for " + triviaGameId );
 		ChatManager.triviaGameContactListFrame.setVisible( true );
 	}
-	
+
 	public static final void stopTriviaGame()
 	{
 		ChatManager.triviaGameActive = false;
@@ -356,7 +356,7 @@ public abstract class ChatManager
 				bufferKey = "/clan";
 			}
 		}
-		
+
 		if ( !bufferKey.startsWith( "/" ) && ChatManager.triviaGameActive )
 		{
 			bufferKey = triviaGameId;
@@ -436,14 +436,14 @@ public abstract class ChatManager
 		{
 			if ( content.equalsIgnoreCase( "help" ) )
 			{
-				ChatSender.sendMessage( sender, "Please check my profile." );
+				ChatSender.sendMessage( sender, "Please check my profile.", false );
 				return;
 			}
 
 			if ( content.equalsIgnoreCase( "restores" ) )
 			{
 				ChatSender.sendMessage(
-					sender, "I currently have " + RecoveryManager.getRestoreCount() + " mana restores at my disposal." );
+					sender, "I currently have " + RecoveryManager.getRestoreCount() + " mana restores at my disposal.", false );
 
 				return;
 			}
@@ -458,7 +458,7 @@ public abstract class ChatManager
 				}
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, sender + " added to ignore list" );
-				ChatSender.sendMessage( sender, "/baleet" );
+				ChatSender.sendMessage( sender, "/baleet", false );
 				return;
 			}
 		}
@@ -555,7 +555,7 @@ public abstract class ChatManager
 		{
 			return;
 		}
-		
+
 		if ( ChatManager.activeWindows.contains( bufferKey ) )
 		{
 			if ( ChatManager.tabbedFrame != null )
@@ -600,14 +600,14 @@ public abstract class ChatManager
 
 			if ( bufferKey.startsWith( "/" ) )
 			{
-				ChatSender.sendMessage( "/listen " + bufferKey.substring( 1 ) );
+				ChatSender.sendMessage( bufferKey.substring( 1 ), "/listen", false );
 			}
 		}
 	}
 
 	public static final void checkFriends()
 	{
-		ChatSender.sendMessage( "/friends" );
+		ChatSender.sendMessage( null, "/friends", false );
 	}
 
 	public static void applyHighlights()

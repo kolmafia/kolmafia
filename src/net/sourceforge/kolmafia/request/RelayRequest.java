@@ -375,7 +375,7 @@ public class RelayRequest
 		else if ( this.formConnection != null )
 		{
 			HttpURLConnection connection = this.formConnection;
-			
+
 			String header;
 
 			for ( int i = 0; ( header = connection.getHeaderFieldKey( i ) ) != null; ++i )
@@ -638,7 +638,7 @@ public class RelayRequest
 		}
 
 		File override = (File) RelayRequest.overrideMap.get( filename );
-		
+
 		if ( override == null || !override.exists() )
 		{
 			if ( filename.equals( "main.html" ) || filename.equals( "main_c.html" ) )
@@ -670,7 +670,7 @@ public class RelayRequest
 		}
 		catch ( IOException e )
 		{
-			
+
 		}
 
 		StringBuffer replyBuffer = this.readContents( DataUtilities.getReader( override ) );
@@ -1375,48 +1375,48 @@ public class RelayRequest
 	private void handleChat()
 	{
 		String chatText;
-		
+
 		if ( this.getPath().startsWith( "newchatmessages.php" ) )
 		{
 			StringBuffer chatResponse = new StringBuffer();
-	
+
 			long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
-	
-			List chatMessages = ChatPoller.getEntries( lastSeen );
+
+			List chatMessages = ChatPoller.getEntries( lastSeen, true );
 			Iterator messageIterator = chatMessages.iterator();
 
 			boolean needsLineBreak = false;
-			
+
 			while ( messageIterator.hasNext() )
 			{
 				HistoryEntry chatMessage = (HistoryEntry) messageIterator.next();
-	
+
 				String content = chatMessage.getContent();
-				
+
 				if ( content != null && content.length() > 0 )
 				{
 					if ( needsLineBreak )
 					{
 						chatResponse.append( "<br>" );
 					}
-		
-					needsLineBreak = !content.endsWith( "<br>" ) && !content.endsWith( "<br/>" );
-					
+
+					needsLineBreak = !content.endsWith( "<br>" ) && !content.endsWith( "<br/>" ) && !content.endsWith( "</br>" );
+
 					chatResponse.append( content );
 				}
-	
+
 				lastSeen = Math.max( lastSeen, chatMessage.getLocalLastSeen() );
 			}
-	
+
 			chatResponse.append( "<!--lastseen:" );
 			chatResponse.append( KoLConstants.CHAT_LASTSEEN_FORMAT.format( lastSeen ) );
 			chatResponse.append( "-->" );
-	
+
 			chatText = chatResponse.toString();
 		}
 		else
 		{
-			chatText = ChatSender.sendMessage( this.getFormField( "graf" ) );
+			chatText = ChatSender.sendMessage( new ArrayList(), this.getFormField( "graf" ), true, false );
 		}
 
 		if ( Preferences.getBoolean( "relayFormatsChatText" ) )
@@ -1557,7 +1557,7 @@ public class RelayRequest
 
 		TurnCounter expired = TurnCounter.getExpiredCounter( this, true );
 		while ( expired != null )
-		{ // Read and discard expired informational counters		
+		{ // Read and discard expired informational counters
 			expired = TurnCounter.getExpiredCounter( this, true );
 		}
 
