@@ -2320,9 +2320,10 @@ public abstract class KoLCharacter
 	// preference and let later processing use that.
 	public static final void liberateKing( boolean liberated )
 	{
-		if ( !KoLCharacter.kingLiberated() && liberated )
+		// Call kingLiberated to deal with lastKingLiberation
+		if ( KoLCharacter.kingLiberated() != liberated )
 		{
-			Preferences.setBoolean( "kingLiberated", true );
+			Preferences.setBoolean( "kingLiberated", liberated );
 		}
 	}
 
