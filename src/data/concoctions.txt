@@ -1567,6 +1567,8 @@ big bumboozer marble	SUSE	black catseye marble (2)
 
 glob of Blank-Out	SUSE	bottle of Blank-Out
 
+pumpkin juice (3)	SUSE	pumpkin
+
 # Familiars.
 
 maple leaf	COMBINE	leaf	maple syrup
