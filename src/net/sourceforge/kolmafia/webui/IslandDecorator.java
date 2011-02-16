@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1148,7 +1149,7 @@ public class IslandDecorator
 		PrintStream sessionStream = RequestLogger.getSessionStream();
 
 		// We only count known monsters
-		MonsterDatabase.Monster monster = FightRequest.getLastMonster();
+		MonsterDatabase.Monster monster = MonsterStatusTracker.getLastMonster();
 		if ( monster == null )
 		{
 			// The monster is not in the monster database.

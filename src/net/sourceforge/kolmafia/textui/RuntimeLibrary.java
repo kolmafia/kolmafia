@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.EventMessage;
 import net.sourceforge.kolmafia.chat.WhoMessage;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -4473,7 +4474,7 @@ public abstract class RuntimeLibrary
 
 	public static Value last_monster()
 	{
-		Monster monster = FightRequest.getLastMonster();
+		Monster monster = MonsterStatusTracker.getLastMonster();
 		return DataTypes.parseMonsterValue(
 			monster != null ? monster.getName() : "none", true );
 	}
@@ -4524,7 +4525,7 @@ public abstract class RuntimeLibrary
 
 	public static Value expected_damage()
 	{
-		return expected_damage( FightRequest.getLastMonster(), FightRequest.getMonsterAttackModifier() );
+		return expected_damage( MonsterStatusTracker.getLastMonster(), MonsterStatusTracker.getMonsterAttackModifier() );
 	}
 
 	public static Value expected_damage( final Value arg )
@@ -4607,7 +4608,7 @@ public abstract class RuntimeLibrary
 
 	public static Value elemental_resistance()
 	{
-		return new Value( KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() ) );
+		return new Value( KoLCharacter.getElementalResistance( MonsterStatusTracker.getMonsterAttackElement() ) );
 	}
 
 	public static Value elemental_resistance( final Value arg )
@@ -4664,7 +4665,7 @@ public abstract class RuntimeLibrary
 
 	public static Value monster_element()
 	{
-		int element = FightRequest.getMonsterDefenseElement();
+		int element = MonsterStatusTracker.getMonsterDefenseElement();
 		return new Value( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
 	}
 
@@ -4682,7 +4683,7 @@ public abstract class RuntimeLibrary
 
 	public static Value monster_attack()
 	{
-		return new Value( FightRequest.getMonsterAttack() );
+		return new Value( MonsterStatusTracker.getMonsterAttack() );
 	}
 
 	public static Value monster_attack( final Value arg )
@@ -4698,7 +4699,7 @@ public abstract class RuntimeLibrary
 
 	public static Value monster_defense()
 	{
-		return new Value( FightRequest.getMonsterDefense() );
+		return new Value( MonsterStatusTracker.getMonsterDefense() );
 	}
 
 	public static Value monster_defense( final Value arg )
@@ -4714,7 +4715,7 @@ public abstract class RuntimeLibrary
 
 	public static Value monster_hp()
 	{
-		return new Value( FightRequest.getMonsterHealth() );
+		return new Value( MonsterStatusTracker.getMonsterHealth() );
 	}
 
 	public static Value monster_hp( final Value arg )
@@ -4730,7 +4731,7 @@ public abstract class RuntimeLibrary
 
 	public static Value item_drops()
 	{
-		Monster monster = FightRequest.getLastMonster();
+		Monster monster = MonsterStatusTracker.getLastMonster();
 		List data = monster == null ? new ArrayList() : monster.getItems();
 
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
@@ -4768,7 +4769,7 @@ public abstract class RuntimeLibrary
 
 	public static Value item_drops_array()
 	{
-		return item_drops_array( FightRequest.getLastMonster() );
+		return item_drops_array( MonsterStatusTracker.getLastMonster() );
 	}
 
 	public static Value item_drops_array( final Value arg )
@@ -4802,7 +4803,7 @@ public abstract class RuntimeLibrary
 
 	public static Value meat_drop()
 	{
-		Monster monster = FightRequest.getLastMonster();
+		Monster monster = MonsterStatusTracker.getLastMonster();
 		if ( monster == null )
 		{
 			return new Value( -1 );
@@ -4824,12 +4825,12 @@ public abstract class RuntimeLibrary
 
 	public static Value will_usually_dodge()
 	{
-		return DataTypes.makeBooleanValue( FightRequest.willUsuallyDodge() );
+		return DataTypes.makeBooleanValue( MonsterStatusTracker.willUsuallyDodge() );
 	}
 
 	public static Value will_usually_miss()
 	{
-		return DataTypes.makeBooleanValue( FightRequest.willUsuallyMiss() );
+		return DataTypes.makeBooleanValue( MonsterStatusTracker.willUsuallyMiss() );
 	}
 
 	public static Value numeric_modifier( final Value modifier )

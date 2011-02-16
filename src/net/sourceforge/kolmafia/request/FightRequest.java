@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -58,6 +57,7 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -66,9 +66,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
@@ -83,8 +81,8 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
-import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
+import net.sourceforge.kolmafia.webui.NemesisDecorator;
 
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.CommentToken;
@@ -228,14 +226,9 @@ public class FightRequest
 	private static boolean canOlfact = true;
 	private static boolean summonedGhost = false;
 	private static int currentRound = 0;
-	private static int healthModifier = 0;
-	private static int attackModifier = 0;
-	private static int defenseModifier = 0;
 
 	private static String action1 = null;
 	private static String action2 = null;
-	private static Monster monsterData = null;
-	private static String encounterLookup = "";
 
 	private static AdventureResult desiredScroll = null;
 
@@ -394,7 +387,7 @@ public class FightRequest
 	public static final boolean canCastNoodles()
 	{
 		return !FightRequest.castNoodles ||
-			FightRequest.encounterLookup.equals( "spaghetti demon" );
+			MonsterStatusTracker.getLastMonsterName().equals( "spaghetti demon" );
 	}
 
 	public static final boolean canOlfact()
@@ -402,7 +395,7 @@ public class FightRequest
 		return FightRequest.canOlfact && !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
 
 	}
-	
+
 	public static void initializeAfterFight()
 	{
 		FightRequest.initializeAfterFight = true;
@@ -520,7 +513,7 @@ public class FightRequest
 
 		for ( int i = 0; i < FightRequest.RARE_MONSTERS.length; ++i )
 		{
-			if ( FightRequest.encounterLookup.indexOf( FightRequest.RARE_MONSTERS[ i ] ) != -1 )
+			if ( MonsterStatusTracker.getLastMonsterName().indexOf( FightRequest.RARE_MONSTERS[ i ] ) != -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You have encountered the " + this.encounter );
 				FightRequest.action1 = "abort";
@@ -572,7 +565,7 @@ public class FightRequest
 		// Added emergency break for hulking construct
 
 		if ( problemFamiliar() &&
-		     FightRequest.encounterLookup.equals( "hulking construct" ) )
+		     MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Aborting combat automation due to Familiar that can stop automatic item usage." );
 			return;
@@ -581,7 +574,7 @@ public class FightRequest
 		// Adding machine should override custom combat scripts as well,
 		// since it's conditions-driven.
 
-		else if ( FightRequest.encounterLookup.equals( "rampaging adding machine" )
+		else if ( MonsterStatusTracker.getLastMonsterName().equals( "rampaging adding machine" )
 			&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
 			&& !FightRequest.waitingForSpecial )
 		{
@@ -590,7 +583,7 @@ public class FightRequest
 
 		// Hulking Constructs also require special handling
 
-		else if ( FightRequest.encounterLookup.equals( "hulking construct" ) )
+		else if ( MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
 		{
 			this.handleHulkingConstruct();
 		}
@@ -606,7 +599,7 @@ public class FightRequest
 						FightRequest.filterFunction, new String[]
 							{
 								String.valueOf( index ),
-								FightRequest.encounterLookup,
+								MonsterStatusTracker.getLastMonsterName(),
 								FightRequest.lastResponseText
 							}, false ).toString();
 					if ( KoLmafia.refusesContinue() )
@@ -618,7 +611,7 @@ public class FightRequest
 				else
 				{
 					desiredAction = CustomCombatManager.getSetting(
-						FightRequest.encounterLookup, index );
+						MonsterStatusTracker.getLastMonsterName(), index );
 				}
 			}
 			FightRequest.action1 =
@@ -640,7 +633,7 @@ public class FightRequest
 				interpreter.execute( "main", new String[]
 				{
 					String.valueOf( FightRequest.currentRound ),
-					FightRequest.encounterLookup,
+					MonsterStatusTracker.getLastMonsterName(),
 					FightRequest.lastResponseText
 				} );
 
@@ -688,7 +681,7 @@ public class FightRequest
 
 	public static final String getCurrentKey()
 	{
-		return CustomCombatManager.encounterKey( FightRequest.encounterLookup );
+		return CustomCombatManager.encounterKey( MonsterStatusTracker.getLastMonsterName() );
 	}
 
 	private void updateCurrentAction()
@@ -774,7 +767,7 @@ public class FightRequest
 
 		if ( KoLConstants.activeEffects.contains( FightRequest.AMNESIA ) )
 		{
-			if ( FightRequest.monsterData == null || !FightRequest.monsterData.willUsuallyMiss( FightRequest.attackModifier ) )
+			if ( !MonsterStatusTracker.willUsuallyMiss() )
 			{
 				FightRequest.action1 = "attack";
 				this.addFormField( "action", FightRequest.action1 );
@@ -790,9 +783,7 @@ public class FightRequest
 		if ( FightRequest.action1.indexOf( "steal" ) != -1 &&
 		     FightRequest.action1.indexOf( "stealth" ) == -1 )
 		{
-			if ( FightRequest.canStillSteal() &&
-			     (FightRequest.monsterData == null ||
-			     FightRequest.monsterData.shouldSteal()) )
+			if ( FightRequest.canStillSteal() && MonsterStatusTracker.shouldSteal() )
 			{
 				FightRequest.action1 = "steal";
 				this.addFormField( "action", "steal" );
@@ -943,7 +934,7 @@ public class FightRequest
 					return;
 				}
 
-				if ( FightRequest.encounterLookup.equals( "rampaging adding machine" ) )
+				if ( MonsterStatusTracker.getLastMonsterName().equals( "rampaging adding machine" ) )
 				{
 					FightRequest.action1 = "attack";
 					this.addFormField( "action", FightRequest.action1 );
@@ -1233,7 +1224,7 @@ public class FightRequest
 			return;
 		}
 
-		if ( FightRequest.encounterLookup.equals( "hulking construct" ) )
+		if ( MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
 		{	// use ATTACK & WALL punchcards
 			macro.append( "if hascombatitem 3146 && hascombatitem 3155\n" );
 			if ( funk )
@@ -1269,7 +1260,7 @@ public class FightRequest
 		boolean globalPrefix = CustomCombatManager.containsKey( "global prefix" );
 		for ( int i = 0; i < 10000; ++i )
 		{
-			if ( FightRequest.encounterLookup.equals( "rampaging adding machine" )
+			if ( MonsterStatusTracker.getLastMonsterName().equals( "rampaging adding machine" )
 				&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
 				&& !FightRequest.waitingForSpecial )
 			{
@@ -1280,7 +1271,7 @@ public class FightRequest
 
 			String action = CustomCombatManager.getShortCombatOptionName(
 				CustomCombatManager.getSetting( globalPrefix ? "global prefix"
-					: FightRequest.encounterLookup, i ) );
+					: MonsterStatusTracker.getLastMonsterName(), i ) );
 			int finalRound = 0;
 			if ( !globalPrefix && CustomCombatManager.atEndOfCCS() )
 			{
@@ -1365,7 +1356,7 @@ public class FightRequest
 			}
 			else if ( action.equals( "steal" ) )
 			{
-				if ( FightRequest.monsterData == null || FightRequest.monsterData.shouldSteal() )
+				if ( MonsterStatusTracker.shouldSteal() )
 				{
 					macro.append( "pickpocket\n" );
 				}
@@ -1743,117 +1734,10 @@ public class FightRequest
 			KoLConstants.activeEffects.contains( FightRequest.haikuEffect );
 	}
 
-	public static final int getMonsterAttackModifier()
-	{
-		if ( FightRequest.monsterData == null )
-		{
-			return 0;
-		}
-
-		return FightRequest.attackModifier;
-	}
-
-	public static final int getMonsterDefenseModifier()
-	{
-		if ( FightRequest.monsterData == null )
-		{
-			return 0;
-		}
-
-		return FightRequest.defenseModifier;
-	}
-
-	public static final int getMonsterHealth()
-	{
-		if ( FightRequest.monsterData == null )
-		{
-			return 0;
-		}
-
-		return FightRequest.monsterData.getHP() - FightRequest.healthModifier;
-	}
-
-	public static final int getMonsterAttack()
-	{
-		if ( FightRequest.monsterData == null )
-		{
-			return 0;
-		}
-
-		return Math.max( FightRequest.monsterData.getAttack() +
-			FightRequest.attackModifier, 1 );
-	}
-
-	public static final int getMonsterDefense()
-	{
-		if ( FightRequest.monsterData == null )
-		{
-			return 0;
-		}
-
-		return Math.max( FightRequest.monsterData.getDefense() + 
-			FightRequest.defenseModifier, 1 );
-	}
-
-	public static final int getMonsterAttackElement()
-	{
-		if ( FightRequest.monsterData == null )
-		{
-			return MonsterDatabase.NONE;
-		}
-
-		return FightRequest.monsterData.getAttackElement();
-	}
-
-	public static final int getMonsterDefenseElement()
-	{
-		if ( FightRequest.monsterData == null )
-		{
-			return MonsterDatabase.NONE;
-		}
-
-		return FightRequest.monsterData.getDefenseElement();
-	}
-
-	public static final boolean willUsuallyMiss()
-	{
-		return FightRequest.willUsuallyMiss( 0 );
-	}
-
-	public static final boolean willUsuallyMiss( final int defenseModifier )
-	{
-		if ( FightRequest.monsterData == null )
-		{
-			return false;
-		}
-
-		return FightRequest.monsterData.willUsuallyMiss( FightRequest.defenseModifier + defenseModifier );
-	}
-
-	public static final boolean willUsuallyDodge()
-	{
-		return FightRequest.willUsuallyDodge( 0 );
-	}
-
-	public static final boolean willUsuallyDodge( final int offenseModifier )
-	{
-		if ( FightRequest.monsterData == null )
-		{
-			return false;
-		}
-
-		return FightRequest.monsterData.willUsuallyDodge( FightRequest.defenseModifier + offenseModifier );
-	}
-
 	private boolean isAcceptable( final int offenseModifier, final int defenseModifier )
 	{
-		if ( FightRequest.monsterData == null )
-		{
-			return true;
-		}
-
-		if ( FightRequest.willUsuallyMiss( defenseModifier ) ||
-		     FightRequest.willUsuallyDodge( offenseModifier ) )
+		if ( MonsterStatusTracker.willUsuallyMiss( defenseModifier ) ||
+		     MonsterStatusTracker.willUsuallyDodge( offenseModifier ) )
 		{
 			return false;
 		}
@@ -2069,7 +1953,7 @@ public class FightRequest
 			if ( action.startsWith( "custom" ) )
 			{
 				String file = Preferences.getBoolean( "debugPathnames" ) ? CustomCombatManager.getFile().getAbsolutePath() : CustomCombatManager.getScript();
-				action = file + " [" + CustomCombatManager.getSettingKey( FightRequest.encounterLookup ) + "]";
+				action = file + " [" + CustomCombatManager.getSettingKey( MonsterStatusTracker.getLastMonsterName() ) + "]";
 			}
 
 			RequestLogger.printLine( "Strategy: " + action );
@@ -2197,16 +2081,7 @@ public class FightRequest
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
 
-			FightRequest.encounterLookup = CustomCombatManager.encounterKey( encounter );
-			FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
-			if ( FightRequest.monsterData == null &&
-				EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == ItemPool.SWORD_PREPOSITIONS )
-			{
-				FightRequest.encounterLookup =
-					StringUtilities.lookupPrepositions( FightRequest.encounterLookup );
-				FightRequest.monsterData = MonsterDatabase.findMonster(
-					FightRequest.encounterLookup, false );
-			}
+			MonsterStatusTracker.setNextMonsterName( CustomCombatManager.encounterKey( encounter ) );
 
 			FightRequest.isTrackingFights = false;
 			FightRequest.waitingForSpecial = false;
@@ -2214,7 +2089,7 @@ public class FightRequest
 			{
 				if ( CustomCombatManager.getShortCombatOptionName(
 					CustomCombatManager.getSetting(
-						FightRequest.encounterLookup, i ) ).equals( "special" ) )
+						MonsterStatusTracker.getLastMonsterName(), i ) ).equals( "special" ) )
 				{
 					FightRequest.waitingForSpecial = true;
 					break;
@@ -2529,12 +2404,12 @@ public class FightRequest
 		// that is known to drop the item.
 
 		int bountyItemId = Preferences.getInteger( "currentBountyItem" );
-		if ( monsterData != null && bountyItemId != 0 )
+		if ( MonsterStatusTracker.dropsItem( bountyItemId ) )
 		{
-			AdventureResult bountyItem = new AdventureResult( bountyItemId, 1 );
+			AdventureResult bountyItem = ItemPool.get( bountyItemId, 1 );
 			String bountyItemName = bountyItem.getName();
 
-			if ( monsterData.getItems().contains( bountyItem ) && responseText.indexOf( bountyItemName ) == -1 && !problemFamiliar() )
+			if ( responseText.indexOf( bountyItemName ) == -1 && !problemFamiliar() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Bounty item failed to drop from expected monster." );
 			}
@@ -2680,7 +2555,7 @@ public class FightRequest
 
 		if ( won )
 		{
-			String monster = FightRequest.encounterLookup;
+			String monster = MonsterStatusTracker.getLastMonsterName();
 
 			if ( monster.equalsIgnoreCase( "Black Pudding" ) )
 			{
@@ -2844,15 +2719,11 @@ public class FightRequest
 
 		if ( isMonster )
 		{
-			rv = FightRequest.encounterLookup.indexOf( pref ) != -1;
-		}
-		else if ( items.size() < 1 || FightRequest.monsterData == null )
-		{
-			rv = false;
+			rv = MonsterStatusTracker.getLastMonsterName().indexOf( pref ) != -1;
 		}
 		else
 		{
-			rv = FightRequest.monsterData.getItems().containsAll( items );
+			rv = MonsterStatusTracker.dropsItems( items );
 		}
 
 		if ( rv && isAbort )
@@ -3185,7 +3056,7 @@ public class FightRequest
 
 		if ( responseText.indexOf( "You slap a flyer" ) != -1 )
 		{
-			int ML = Math.max( 0, FightRequest.getMonsterAttack() );
+			int ML = Math.max( 0, MonsterStatusTracker.getMonsterAttack() );
 			Preferences.increment( "flyeredML", ML );
 			AdventureResult result = AdventureResult.tallyItem(
 				"Arena flyer ML", ML, false );
@@ -3322,11 +3193,10 @@ public class FightRequest
 		Matcher m = FightRequest.NS_ML_PATTERN.matcher( responseText );
 		if ( m.find() )
 		{
-			FightRequest.attackModifier = 0;
-			FightRequest.defenseModifier = 0;
+			MonsterStatusTracker.resetAttackAndDefense();
 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
 			{
-				action.append( FightRequest.encounterLookup );
+				action.append( MonsterStatusTracker.getLastMonsterName() );
 				action.append( " resets her attack power and defense modifiers!" );
 			}
 		}
@@ -3334,62 +3204,65 @@ public class FightRequest
 		m = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
  		if ( m.find() )
  		{
- 			int damage = -StringUtilities.parseInt( m.group( 1 ) );
- 			FightRequest.healthModifier += damage;
+ 			int healAmount = StringUtilities.parseInt( m.group( 1 ) );
+ 			MonsterStatusTracker.healMonster( healAmount );
+
 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
 			{
-				action.append( FightRequest.encounterLookup );
+				action.append( MonsterStatusTracker.getLastMonsterName() );
 				action.append( " sinks his fangs into you!" );
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
 			}
  		}
 
 		m = FightRequest.MANADRAIN_PATTERN.matcher( responseText );
 		if ( m.find() )
 		{
-			int damage = -StringUtilities.parseInt( m.group( 1 ) );
-			FightRequest.healthModifier += damage;
-			if ( Preferences.getBoolean( "logMonsterHealth" ) )
+			int healAmount = StringUtilities.parseInt( m.group( 1 ) );
+ 			MonsterStatusTracker.healMonster( healAmount );
+
+ 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
 			{
-				action.append( FightRequest.encounterLookup );
+				action.append( MonsterStatusTracker.getLastMonsterName() );
 				action.append( " drains your mana!" );
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
 			}
 		}
 
 		if ( FightRequest.GHUOL_HEAL.matcher( responseText ).find() )
  		{
-			int damage = -10;
-			FightRequest.healthModifier += damage;
-			if ( Preferences.getBoolean( "logMonsterHealth" ) )
+			int healAmount = 10;
+ 			MonsterStatusTracker.healMonster( healAmount );
+
+ 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
 			{
-				action.append( FightRequest.encounterLookup );
+				action.append( MonsterStatusTracker.getLastMonsterName() );
 				action.append( " consumes a nearby corpse." );
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
 			}
 		}
 
 		if ( FightRequest.DA_HEAL.matcher( responseText ).find() )
 		{
-			int damage = -50;
-			FightRequest.healthModifier += damage;
+			int healAmount = 50;
+ 			MonsterStatusTracker.healMonster( healAmount );
 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
 			{
-				action.append( FightRequest.encounterLookup );
+				action.append( MonsterStatusTracker.getLastMonsterName() );
 				action.append( " patches himself up a bit." );
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
 			}
  		}
 
 		if ( FightRequest.NS_HEAL.matcher( responseText ).find() || FightRequest.NS2_HEAL.matcher( responseText ).find() )
 		{
-			int damage = -125;
-			FightRequest.healthModifier += damage;
+			int healAmount = 125;
+ 			MonsterStatusTracker.healMonster( healAmount );
 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
 			{
-				action.append( FightRequest.encounterLookup );
+				action.append( MonsterStatusTracker.getLastMonsterName() );
 				action.append( " heals herself up." );
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
 			}
 		}
 
@@ -3399,13 +3272,13 @@ public class FightRequest
 		     FightRequest.NSN_HEAL4.matcher( responseText ).find() ||
 		     FightRequest.NSN_HEAL5.matcher( responseText ).find() )
 		{
-			int damage = FightRequest.healthModifier > 89 ? -90 : -FightRequest.healthModifier;
-			FightRequest.healthModifier += damage;
+			int healAmount = 90;
+			MonsterStatusTracker.healMonster( healAmount );
 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
 			{
-				action.append( FightRequest.encounterLookup );
+				action.append( MonsterStatusTracker.getLastMonsterName() );
 				action.append( " sultrily heals herself." );
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
 			}
 		}
 
@@ -3418,7 +3291,7 @@ public class FightRequest
 		if ( detectiveMatcher.find() )
 		{
 			FightRequest.getRound( action );
-			action.append( FightRequest.encounterLookup );
+			action.append( MonsterStatusTracker.getLastMonsterName() );
 			action.append( " shows detective skull health estimate of " );
 			action.append( detectiveMatcher.group( 1 ) );
 
@@ -3431,7 +3304,7 @@ public class FightRequest
 		if ( helmetMatcher.find() )
 		{
 			FightRequest.getRound( action );
-			action.append( FightRequest.encounterLookup );
+			action.append( MonsterStatusTracker.getLastMonsterName() );
 			action.append( " shows toy space helmet health estimate of " );
 			action.append( helmetMatcher.group( 1 ) );
 
@@ -3444,7 +3317,7 @@ public class FightRequest
 		if ( hp > 0  )
 		{
 			FightRequest.getRound( action );
-			action.append( FightRequest.encounterLookup );
+			action.append( MonsterStatusTracker.getLastMonsterName() );
 			action.append( " shows dwarvish war mattock health estimate of " );
 			action.append( hp );
 
@@ -3457,7 +3330,7 @@ public class FightRequest
 		if ( attack > 0 )
 		{
 			FightRequest.getRound( action );
-			action.append( FightRequest.encounterLookup );
+			action.append( MonsterStatusTracker.getLastMonsterName() );
 			action.append( " shows dwarvish war helmet attack rating of " );
 			action.append( attack );
 
@@ -3470,7 +3343,7 @@ public class FightRequest
 		if ( defense > 0 )
 		{
 			FightRequest.getRound( action );
-			action.append( FightRequest.encounterLookup );
+			action.append( MonsterStatusTracker.getLastMonsterName() );
 			action.append( " shows dwarvish war kilt defense rating of " );
 			action.append( defense );
 
@@ -3488,7 +3361,7 @@ public class FightRequest
 		}
 
 		FightRequest.getRound( action );
-		action.append( FightRequest.encounterLookup );
+		action.append( MonsterStatusTracker.getLastMonsterName() );
 
 		if ( damage > 0 )
 		{
@@ -3812,7 +3685,7 @@ public class FightRequest
 			{
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
-			FightRequest.healthModifier += damage;
+			MonsterStatusTracker.damageMonster( damage );
 			return;
 		}
 	}
@@ -3840,7 +3713,7 @@ public class FightRequest
 			{
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
-			FightRequest.healthModifier += damage;
+			MonsterStatusTracker.damageMonster( damage );
 		}
 
 		return true;
@@ -3875,7 +3748,7 @@ public class FightRequest
 			this.shouldRefresh = false;
 
 			// Note if we are fighting The Themthar Hills
-			this.nunnery = FightRequest.encounterLookup.equals( "dirty thieving brigand" );
+			this.nunnery = MonsterStatusTracker.getLastMonsterName().equals( "dirty thieving brigand" );
 
 			if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER )
 			{
@@ -4080,10 +3953,7 @@ public class FightRequest
 			if ( m.find() )
 			{
 				String newMonster = m.group( 1 );
-				FightRequest.encounterLookup = CustomCombatManager.encounterKey( newMonster );
-				FightRequest.monsterData = MonsterDatabase.findMonster( FightRequest.encounterLookup, false );
-				FightRequest.healthModifier = 0;
-
+				MonsterStatusTracker.setNextMonsterName( CustomCombatManager.encounterKey( newMonster ) );
 				FightRequest.logText( "your opponent becomes " + newMonster + "!", status );
 			}
 
@@ -4142,7 +4012,7 @@ public class FightRequest
 					{
 						FightRequest.logMonsterAttribute( action, damage, HEALTH );
 					}
-					FightRequest.healthModifier += damage;
+					MonsterStatusTracker.damageMonster( damage );
 				}
 
 				// If it's not combat damage, perhaps it's a stat gain
@@ -4201,7 +4071,7 @@ public class FightRequest
 						{
 							FightRequest.logMonsterAttribute( action, 17, HEALTH );
 						}
-						FightRequest.healthModifier += 17;
+						MonsterStatusTracker.damageMonster( 17 );
 					}
 					return;
 				}
@@ -4247,7 +4117,7 @@ public class FightRequest
 					{
 						FightRequest.logMonsterAttribute( action, damage, HEALTH );
 					}
-					FightRequest.healthModifier += damage;
+					MonsterStatusTracker.damageMonster( damage );
 				}
 
 				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
@@ -4263,7 +4133,7 @@ public class FightRequest
 				{
 					FightRequest.logMonsterAttribute( action, damage, ATTACK );
 				}
-				FightRequest.attackModifier -= damage;
+				MonsterStatusTracker.lowerMonsterAttack( damage );
 				return;
 			}
 
@@ -4276,7 +4146,7 @@ public class FightRequest
 				{
 					FightRequest.logMonsterAttribute( action, damage, DEFENSE );
 				}
-				FightRequest.defenseModifier -= damage;
+				MonsterStatusTracker.lowerMonsterDefense( damage );
 				return;
 			}
 
@@ -4376,7 +4246,7 @@ public class FightRequest
 				{
 					FightRequest.logMonsterAttribute( action, damage, HEALTH );
 				}
-				FightRequest.healthModifier += damage;
+				MonsterStatusTracker.damageMonster( damage );
 				FightRequest.processComments( node, status );
 				return;
 			}
@@ -4442,7 +4312,7 @@ public class FightRequest
 					{
 						FightRequest.logMonsterAttribute( action, damage, HEALTH );
 					}
-					FightRequest.healthModifier += damage;
+					MonsterStatusTracker.damageMonster( damage );
 					continue;
 				}
 
@@ -4549,7 +4419,7 @@ public class FightRequest
 			{
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
-			FightRequest.healthModifier += damage;
+			MonsterStatusTracker.damageMonster( damage );
 		}
 
 		// Now process additional familiar actions
@@ -4608,7 +4478,7 @@ public class FightRequest
 			{
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
-			FightRequest.healthModifier += damage;
+			MonsterStatusTracker.damageMonster( damage );
 		}
 
 		return true;
@@ -4656,9 +4526,7 @@ public class FightRequest
 		FightRequest.summonedGhost = false;
 		FightRequest.desiredScroll = null;
 
-		FightRequest.healthModifier = 0;
-		FightRequest.attackModifier = 0;
-		FightRequest.defenseModifier = 0;
+		MonsterStatusTracker.reset();
 
 		FightRequest.action1 = null;
 		FightRequest.action2 = null;
@@ -4667,7 +4535,7 @@ public class FightRequest
 		FightRequest.preparatoryRounds = 0;
 		FightRequest.consultScriptThatDidNothing = null;
 		FightRequest.macro = null;
-		
+
 		if ( FightRequest.initializeAfterFight )
 		{
 			Thread initializeThread = new Thread( "PostFightInitializer" )
@@ -4678,9 +4546,9 @@ public class FightRequest
 					FightRequest.initializeAfterFight = false;
 				}
 			};
-			
+
 			initializeThread.start();
-		}		
+		}
 	}
 
 	private static final int getActionCost()
@@ -4807,7 +4675,7 @@ public class FightRequest
 			if ( responseText.indexOf( "make a perfect copy" ) != -1 )
 			{
 				Preferences.increment( "spookyPuttyCopiesMade", 1 );
-				Preferences.setString( "spookyPuttyMonster", FightRequest.encounterLookup );
+				Preferences.setString( "spookyPuttyMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -4822,7 +4690,7 @@ public class FightRequest
 
 			if ( responseText.indexOf( "old-timey <i>-POOF-</i> noise" ) != -1 )
 			{
-				Preferences.setString( "cameraMonster", FightRequest.encounterLookup );
+				Preferences.setString( "cameraMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.increment( "camerasUsed" );
 				Preferences.setString( "autoPutty", "" );
 				return true;
@@ -4837,7 +4705,7 @@ public class FightRequest
 
 			if ( responseText.indexOf( "press the COPY button" ) != -1 )
 			{
-				Preferences.setString( "photocopyMonster", FightRequest.encounterLookup );
+				Preferences.setString( "photocopyMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
@@ -4916,8 +4784,7 @@ public class FightRequest
 			return;	// can't use items!
 		}
 		int minLevel = Preferences.getInteger( "autoAntidote" );
-		int poison = FightRequest.monsterData == null ? 0 :
-			FightRequest.monsterData.getPoison();
+		int poison = MonsterStatusTracker.getPoisonLevel();
 		if ( poison > minLevel || minLevel == 0 )
 		{
 			return;	// no poison expected that the user wants to remove
@@ -5062,7 +4929,7 @@ public class FightRequest
 		switch ( skillId )
 		{
 		case 49:   // Gothy Handwave
-			NemesisDecorator.useGothyHandwave( FightRequest.encounterLookup, responseText );
+			NemesisDecorator.useGothyHandwave( MonsterStatusTracker.getLastMonsterName(), responseText );
 			break;
 
 		case 55:   // Volcanometeor Showeruption
@@ -5172,7 +5039,7 @@ public class FightRequest
 		case ItemPool.SHRINKING_POWDER:
 			if ( responseText.indexOf( "gets smaller and angrier" ) != -1 )
 			{
-				FightRequest.healthModifier += FightRequest.getMonsterHealth() / 2;
+				MonsterStatusTracker.damageMonster( MonsterStatusTracker.getMonsterHealth() / 2 );
 			}
 			break;
 
@@ -5180,7 +5047,7 @@ public class FightRequest
 		case 824: case 825: case 826: case 827:
 			if ( AdventureResult.bangPotionName( itemId ).indexOf( "healing" ) != -1 )
 			{
-				FightRequest.healthModifier -= 16;
+				MonsterStatusTracker.healMonster( 16 );
 			}
 			break;
 		}
@@ -5256,12 +5123,7 @@ public class FightRequest
 
 	public static final String getLastMonsterName()
 	{
-		return FightRequest.encounterLookup;
-	}
-
-	public static final Monster getLastMonster()
-	{
-		return FightRequest.monsterData;
+		return MonsterStatusTracker.getLastMonsterName();
 	}
 
 	public static final int freeRunawayChance()
@@ -5447,7 +5309,7 @@ public class FightRequest
 					{
 						if ( !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 						{
-							Preferences.setString( "olfactedMonster", FightRequest.encounterLookup );
+							Preferences.setString( "olfactedMonster", MonsterStatusTracker.getLastMonsterName() );
 							Preferences.setString( "autoOlfact", "" );
 							FightRequest.canOlfact = false;
 						}
@@ -5458,7 +5320,7 @@ public class FightRequest
 					}
 					else if ( skillId.equals( "7108" ) )
 					{
-						Preferences.setString( "romanticTarget", FightRequest.encounterLookup );
+						Preferences.setString( "romanticTarget", MonsterStatusTracker.getLastMonsterName() );
 					}
 
 					FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( "skill " + skill );
@@ -5488,7 +5350,7 @@ public class FightRequest
 							!KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 						{
 							Preferences.setString( "olfactedMonster",
-								FightRequest.encounterLookup );
+								MonsterStatusTracker.getLastMonsterName() );
 							Preferences.setString( "autoOlfact", "" );
 							FightRequest.canOlfact = false;
 						}
@@ -5510,7 +5372,7 @@ public class FightRequest
 								!KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 							{
 								Preferences.setString( "olfactedMonster",
-									FightRequest.encounterLookup );
+									MonsterStatusTracker.getLastMonsterName() );
 								Preferences.setString( "autoOlfact", "" );
 							}
 							FightRequest.action2 = String.valueOf( itemId );
