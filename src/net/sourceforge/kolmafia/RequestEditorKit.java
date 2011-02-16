@@ -57,6 +57,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
 import net.sourceforge.kolmafia.chat.ChatPoller;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1093,7 +1094,7 @@ public class RequestEditorKit
 
 	private static final void annotateMonster( final StringBuffer buffer )
 	{
-		Monster monster = FightRequest.getLastMonster();
+		Monster monster = MonsterStatusTracker.getLastMonster();
 
 		if ( monster == null )
 		{
@@ -1154,11 +1155,11 @@ public class RequestEditorKit
 		}
 
 		monsterData.append( "<br />HP: " );
-		monsterData.append( FightRequest.getMonsterHealth() );
+		monsterData.append( MonsterStatusTracker.getMonsterHealth() );
 		monsterData.append( ", Atk: " );
-		monsterData.append( FightRequest.getMonsterAttack() );
+		monsterData.append( MonsterStatusTracker.getMonsterAttack() );
 		monsterData.append( ", Def: " );
-		monsterData.append( FightRequest.getMonsterDefense() );
+		monsterData.append( MonsterStatusTracker.getMonsterDefense() );
 
 		if ( monsterName.indexOf( "pirate" ) != -1 )
 		{
@@ -1201,7 +1202,7 @@ public class RequestEditorKit
 			monsterData.append( danceMoveStatus );
 		}
 
-		List items = FightRequest.getLastMonster().getItems();
+		List items = MonsterStatusTracker.getLastMonster().getItems();
 		if ( !items.isEmpty() )
 		{
 			monsterData.append( "<br />Drops: " );
