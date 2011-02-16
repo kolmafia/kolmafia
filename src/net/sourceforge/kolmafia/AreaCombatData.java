@@ -36,9 +36,9 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -111,7 +111,7 @@ public class AreaCombatData
 			}
 		}
 
-		Monster monster = MonsterDatabase.findMonster( name, false );
+		MonsterData monster = MonsterDatabase.findMonster( name, false );
 		if ( monster == null )
 		{
 			return false;
@@ -166,12 +166,12 @@ public class AreaCombatData
 		return this.monsters.size();
 	}
 
-	public Monster getMonster( final int i )
+	public MonsterData getMonster( final int i )
 	{
-		return (Monster) this.monsters.get( i );
+		return (MonsterData) this.monsters.get( i );
 	}
 
-	public boolean hasMonster( final Monster m )
+	public boolean hasMonster( final MonsterData m )
 	{
 		if ( m == null )
 		{
@@ -247,7 +247,7 @@ public class AreaCombatData
 				continue;
 			}
 
-			Monster monster = this.getMonster( i );
+			MonsterData monster = this.getMonster( i );
 			float weight = (float) weighting / (float) this.weights;
 			averageML += weight * monster.getAttack();
 		}
@@ -317,7 +317,7 @@ public class AreaCombatData
 				continue;
 			}
 
-			Monster monster = this.getMonster( i );
+			MonsterData monster = this.getMonster( i );
 			float weight = (float) weighting / (float) this.weights;
 			averageExperience += weight * (monster.getExperience() + experienceAdjustment);
 		}
@@ -432,7 +432,7 @@ public class AreaCombatData
 		return buffer.toString();
 	}
 
-	private String getMonsterString( final Monster monster, final int moxie, final int hitstat, final int ml,
+	private String getMonsterString( final MonsterData monster, final int moxie, final int hitstat, final int ml,
 		final int weighting, final float combatFactor, final boolean fullString )
 	{
 		// moxie and hitstat NOT adjusted for monster level, since monster stats now are
@@ -490,7 +490,7 @@ public class AreaCombatData
 		return buffer.toString();
 	}
 
-	private void appendMeatDrop( final StringBuffer buffer, final Monster monster )
+	private void appendMeatDrop( final StringBuffer buffer, final MonsterData monster )
 	{
 		int minMeat = monster.getMinMeat();
 		int maxMeat = monster.getMaxMeat();

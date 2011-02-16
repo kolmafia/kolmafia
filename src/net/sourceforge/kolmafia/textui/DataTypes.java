@@ -37,6 +37,7 @@ import java.util.List;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -49,7 +50,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -501,7 +501,7 @@ public class DataTypes
 			return DataTypes.MONSTER_INIT;
 		}
 
-		Monster monster = MonsterDatabase.findMonster( name, true );
+		MonsterData monster = MonsterDatabase.findMonster( name, true );
 		if ( monster == null )
 		{
 			return returnDefault ? DataTypes.MONSTER_INIT : null;

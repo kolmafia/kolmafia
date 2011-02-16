@@ -57,6 +57,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.foxtrot.Job;
+import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -76,7 +77,6 @@ import net.sourceforge.kolmafia.chat.EventMessage;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -2151,7 +2151,7 @@ public class GenericRequest
 		case ItemPool.DOLPHIN_WHISTLE:
 			itemName = "Dolphin Whistle";
 			consumed = true;
-			Monster m = MonsterDatabase.findMonster( "rotten dolphin thief", false );
+			MonsterData m = MonsterDatabase.findMonster( "rotten dolphin thief", false );
 			if ( m != null )
 			{
 				m.clearItems();

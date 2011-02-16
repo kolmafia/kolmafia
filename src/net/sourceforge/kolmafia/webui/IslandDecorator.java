@@ -37,6 +37,7 @@ import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -49,7 +50,6 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
@@ -1149,7 +1149,7 @@ public class IslandDecorator
 		PrintStream sessionStream = RequestLogger.getSessionStream();
 
 		// We only count known monsters
-		MonsterDatabase.Monster monster = MonsterStatusTracker.getLastMonster();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		if ( monster == null )
 		{
 			// The monster is not in the monster database.

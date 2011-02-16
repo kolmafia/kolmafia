@@ -69,6 +69,7 @@ import java.util.regex.PatternSyntaxException;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.Expression;
@@ -105,7 +106,6 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -4474,7 +4474,7 @@ public abstract class RuntimeLibrary
 
 	public static Value last_monster()
 	{
-		Monster monster = MonsterStatusTracker.getLastMonster();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		return DataTypes.parseMonsterValue(
 			monster != null ? monster.getName() : "none", true );
 	}
@@ -4530,10 +4530,10 @@ public abstract class RuntimeLibrary
 
 	public static Value expected_damage( final Value arg )
 	{
-		return expected_damage( (Monster) arg.rawValue(), 0 );
+		return expected_damage( (MonsterData) arg.rawValue(), 0 );
 	}
 
-	private static Value expected_damage( Monster monster, int attackModifier )
+	private static Value expected_damage( MonsterData monster, int attackModifier )
 	{
 		if ( monster == null )
 		{
@@ -4618,7 +4618,7 @@ public abstract class RuntimeLibrary
 			return new Value( KoLCharacter.getElementalResistance( arg.intValue() ) );
 		}
 
-		Monster monster = (Monster) arg.rawValue();
+		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -4671,7 +4671,7 @@ public abstract class RuntimeLibrary
 
 	public static Value monster_element( final Value arg )
 	{
-		Monster monster = (Monster) arg.rawValue();
+		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ELEMENT_INIT;
@@ -4688,7 +4688,7 @@ public abstract class RuntimeLibrary
 
 	public static Value monster_attack( final Value arg )
 	{
-		Monster monster = (Monster) arg.rawValue();
+		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -4704,7 +4704,7 @@ public abstract class RuntimeLibrary
 
 	public static Value monster_defense( final Value arg )
 	{
-		Monster monster = (Monster) arg.rawValue();
+		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -4720,7 +4720,7 @@ public abstract class RuntimeLibrary
 
 	public static Value monster_hp( final Value arg )
 	{
-		Monster monster = (Monster) arg.rawValue();
+		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
 		{
 			return DataTypes.ZERO_VALUE;
@@ -4731,7 +4731,7 @@ public abstract class RuntimeLibrary
 
 	public static Value item_drops()
 	{
-		Monster monster = MonsterStatusTracker.getLastMonster();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		List data = monster == null ? new ArrayList() : monster.getItems();
 
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
@@ -4750,7 +4750,7 @@ public abstract class RuntimeLibrary
 
 	public static Value item_drops( final Value arg )
 	{
-		Monster monster = (Monster) arg.rawValue();
+		MonsterData monster = (MonsterData) arg.rawValue();
 		List data = monster == null ? new ArrayList() : monster.getItems();
 
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
@@ -4774,10 +4774,10 @@ public abstract class RuntimeLibrary
 
 	public static Value item_drops_array( final Value arg )
 	{
-		return item_drops_array( (Monster) arg.rawValue() );
+		return item_drops_array( (MonsterData) arg.rawValue() );
 	}
 
-	public static Value item_drops_array( Monster monster )
+	public static Value item_drops_array( MonsterData monster )
 	{
 		List data = monster == null ? new ArrayList() : monster.getItems();
 		int dropCount = data.size();
@@ -4803,7 +4803,7 @@ public abstract class RuntimeLibrary
 
 	public static Value meat_drop()
 	{
-		Monster monster = MonsterStatusTracker.getLastMonster();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		if ( monster == null )
 		{
 			return new Value( -1 );
@@ -4814,7 +4814,7 @@ public abstract class RuntimeLibrary
 
 	public static Value meat_drop( final Value arg )
 	{
-		Monster monster = (Monster) arg.rawValue();
+		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
 		{
 			return new Value( -1 );

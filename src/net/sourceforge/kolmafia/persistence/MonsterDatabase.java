@@ -34,24 +34,20 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
+import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.FamiliarData;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -116,7 +112,7 @@ public class MonsterDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			Monster monster = null;
+			MonsterData monster = null;
 
 			if ( data.length >= 2 )
 			{
@@ -204,10 +200,10 @@ public class MonsterDatabase
 		return new AdventureResult( name, (count << 16) | prefix );
 	}
 
-	public static final Monster findMonster( final String name, boolean trySubstrings )
+	public static final MonsterData findMonster( final String name, boolean trySubstrings )
 	{
 		String keyName = CustomCombatManager.encounterKey( name, true );
-		Monster match = (Monster) MonsterDatabase.MONSTER_DATA.get( keyName );
+		MonsterData match = (MonsterData) MonsterDatabase.MONSTER_DATA.get( keyName );
 
 		// If no monster with that name exists, maybe it's
 		// one of those monsters with an alternate name.
@@ -235,7 +231,7 @@ public class MonsterDatabase
 			return null;
 		}
 
-		return (Monster) MonsterDatabase.MONSTER_DATA.get( matchingNames.get( 0 ) );
+		return (MonsterData) MonsterDatabase.MONSTER_DATA.get( matchingNames.get( 0 ) );
 	}
 
 	public static final Set entrySet()
@@ -243,9 +239,9 @@ public class MonsterDatabase
 		return MonsterDatabase.MONSTER_DATA.entrySet();
 	}
 
-	public static final Monster registerMonster( final String name, final String s )
+	public static final MonsterData registerMonster( final String name, final String s )
 	{
-		Monster monster = MonsterDatabase.findMonster( name, false );
+		MonsterData monster = MonsterDatabase.findMonster( name, false );
 		if ( monster != null )
 		{
 			return monster;
@@ -416,7 +412,7 @@ public class MonsterDatabase
 			return null;
 		}
 
-		return new Monster( name, health, attack, defense, initiative, experience,
+		return new MonsterData( name, health, attack, defense, initiative, experience,
 			attackElement, defenseElement, minMeat, maxMeat, poison );
 	}
 
@@ -470,354 +466,5 @@ public class MonsterDatabase
 			return MonsterDatabase.SLIME;
 		}
 		return MonsterDatabase.NONE;
-	}
-
-	public static class Monster
-		extends AdventureResult
-	{
-		private Object health;
-		private Object attack;
-		private Object defense;
-		private Object initiative;
-		private Object experience;
-		private final int attackElement;
-		private final int defenseElement;
-		private final int minMeat;
-		private final int maxMeat;
-		private final int poison;
-
-		private final ArrayList items;
-		private final ArrayList pocketRates;
-
-		public Monster( final String name, final Object health,
-			final Object attack, final Object defense, final Object initiative,
-			final Object experience, final int attackElement,
-			final int defenseElement, final int minMeat, final int maxMeat,
-			final int poison )
-		{
-			super( AdventureResult.MONSTER_PRIORITY, name );
-
-			this.health = health;
-			this.attack = attack;
-			this.defense = defense;
-			this.initiative = initiative;
-			this.experience = experience;
-			this.attackElement = attackElement;
-			this.defenseElement = defenseElement;
-			this.minMeat = minMeat;
-			this.maxMeat = maxMeat;
-			this.poison = poison;
-
-			this.items = new ArrayList();
-			this.pocketRates = new ArrayList();
-		}
-		
-		private static int ML()
-		{
-			/* For brevity, and to handle the possible future need for
-			   asking for speculative monster stats */
-			return KoLCharacter.getMonsterLevelAdjustment();
-		}
-		
-		private static MonsterExpression compile( Object expr )
-		{
-			return new MonsterExpression( (String) expr, "" );
-		}
-
-		public int getHP()
-		{
-			if ( this.health == null )
-			{
-				return 0;
-			}
-			if ( this.health instanceof Integer )
-			{
-				return Math.max( 1, ((Integer) this.health).intValue() + ML() );
-			}
-			if ( this.health instanceof String )
-			{
-				this.health = compile( this.health );
-			}
-			return Math.max( 1, (int) ((MonsterExpression) this.health).eval() );
-		}
-
-		public int getAttack()
-		{
-			if ( this.attack == null )
-			{
-				return 0;
-			}
-			if ( this.attack instanceof Integer )
-			{
-				return Math.max( 1, ((Integer) this.attack).intValue() + ML() );
-			}
-			if ( this.attack instanceof String )
-			{
-				this.attack = compile( this.attack );
-			}
-			return Math.max( 1, (int) ((MonsterExpression) this.attack).eval() );
-		}
-
-		public int getDefense()
-		{
-			if ( this.defense == null )
-			{
-				return 0;
-			}
-			if ( this.defense instanceof Integer )
-			{
-				return Math.max( 1, (int) Math.ceil(
-					0.9 * (((Integer) this.defense).intValue() + ML()) ) );
-			}
-			if ( this.defense instanceof String )
-			{
-				this.defense = compile( this.defense );
-			}
-			return Math.max( 1, (int) ((MonsterExpression) this.defense).eval() );
-		}
-
-		public int getInitiative()
-		{
-			if ( this.initiative == null )
-			{
-				return 0;
-			}
-			if ( this.initiative instanceof Integer )
-			{
-				return ((Integer) this.initiative).intValue();
-			}
-			if ( this.initiative instanceof String )
-			{
-				this.initiative = compile( this.initiative );
-			}
-			return (int) ((MonsterExpression) this.initiative).eval();
-		}
-
-		public int getAttackElement()
-		{
-			return this.attackElement;
-		}
-
-		public int getDefenseElement()
-		{
-			return this.defenseElement;
-		}
-
-		public int getMinMeat()
-		{
-			return this.minMeat;
-		}
-
-		public int getMaxMeat()
-		{
-			return this.maxMeat;
-		}
-
-		public int getPoison()
-		{
-			return this.poison;
-		}
-
-		public List getItems()
-		{
-			return this.items;
-		}
-
-		public List getPocketRates()
-		{
-			return this.pocketRates;
-		}
-
-		public boolean shouldSteal()
-		{
-			// If the player has an acceptable dodge rate or
-			// then steal anything.
-
-			if ( this.willUsuallyDodge( 0 ) )
-			{
-				return this.shouldSteal( this.items );
-			}
-
-			// Otherwise, only steal from monsters that drop
-			// something on your conditions list.
-
-			return this.shouldSteal( KoLConstants.conditions );
-		}
-
-		private boolean shouldSteal( final List checklist )
-		{
-			float dropModifier = AreaCombatData.getDropRateModifier();
-
-			for ( int i = 0; i < checklist.size(); ++i )
-			{
-				if ( this.shouldStealItem( (AdventureResult) checklist.get( i ), dropModifier ) )
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		private boolean shouldStealItem( AdventureResult item, final float dropModifier )
-		{
-			if ( !item.isItem() )
-			{
-				return false;
-			}
-
-			int itemIndex = this.items.indexOf( item );
-
-			// If the monster drops this item, then return true
-			// when the drop rate is less than 100%.
-
-			if ( itemIndex != -1 )
-			{
-				item = (AdventureResult) this.items.get( itemIndex );
-				switch ( (char) item.getCount() & 0xFFFF )
-				{
-				case 'p':
-					return true;
-				case 'n':
-				case 'c':
-				case 'b':
-					return false;
-				default:
-					return (item.getCount() >> 16) * dropModifier < 100.0f;
-				}
-			}
-
-			// If the item does not drop, check to see if maybe
-			// the monster drops one of its ingredients.
-
-			AdventureResult[] subitems = ConcoctionDatabase.getStandardIngredients( item.getItemId() );
-			if ( subitems.length < 2 )
-			{
-				return false;
-			}
-
-			for ( int i = 0; i < subitems.length; ++i )
-			{
-				if ( this.shouldStealItem( subitems[ i ], dropModifier ) )
-				{
-					return true;
-				}
-			}
-
-			// The monster doesn't drop the item or any of its
-			// ingredients.
-
-			return false;
-		}
-
-		public void clearItems()
-		{
-			this.items.clear();
-		}
-
-		public void addItem( final AdventureResult item )
-		{
-			this.items.add( item );
-		}
-
-		public void doneWithItems()
-		{
-			this.items.trimToSize();
-
-			// Calculate the probability that an item will be yoinked
-			// based on the integral provided by Buttons on the HCO forums.
-			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
-
-			float probability = 0.0f;
-			float[] coefficients = new float[ this.items.size() ];
-
-			for ( int i = 0; i < this.items.size(); ++i )
-			{
-				coefficients[ 0 ] = 1.0f;
-				for ( int j = 1; j < coefficients.length; ++j )
-				{
-					coefficients[ j ] = 0.0f;
-				}
-
-				for ( int j = 0; j < this.items.size(); ++j )
-				{
-					AdventureResult item = (AdventureResult) this.items.get( j );
-					probability = (item.getCount() >> 16) / 100.0f;
-					switch ( (char) item.getCount() & 0xFFFF )
-					{
-					case 'p':
-						if ( probability == 0.0f )
-						{	// assume some probability of a pickpocket-only item
-							probability = 0.05f;
-						}
-						break;
-					case 'n':
-					case 'c':
-					case 'b':
-						probability = 0.0f;
-						break;
-					}
-
-					if ( i == j )
-					{
-						for ( int k = 0; k < coefficients.length; ++k )
-						{
-							coefficients[ k ] = coefficients[ k ] * probability;
-						}
-					}
-					else
-					{
-						for ( int k = coefficients.length - 1; k >= 1; --k )
-						{
-							coefficients[ k ] = coefficients[ k ] - probability * coefficients[ k - 1 ];
-						}
-					}
-				}
-
-				probability = 0.0f;
-
-				for ( int j = 0; j < coefficients.length; ++j )
-				{
-					probability += coefficients[ j ] / ( j + 1 );
-				}
-
-				this.pocketRates.add( new Float( probability ) );
-			}
-		}
-
-		public float getExperience()
-		{
-			if ( this.experience == null )
-			{
-				return this.getAttack() / 8.0f;
-			}
-			if ( this.experience instanceof Integer )
-			{
-				return ((Integer) this.experience).intValue() / 2.0f;
-			}
-			if ( this.experience instanceof String )
-			{
-				this.experience = compile( this.experience );
-			}
-			return ((MonsterExpression) this.experience).eval() / 2.0f;
-		}
-
-		public boolean willUsuallyMiss()
-		{
-			return this.willUsuallyMiss( 0 );
-		}
-
-		public boolean willUsuallyDodge( final int offenseModifier )
-		{
-			int dodgeRate = KoLCharacter.getAdjustedMoxie() - ( this.getAttack() + offenseModifier ) - 6;
-			return dodgeRate > 0;
-		}
-
-		public boolean willUsuallyMiss( final int defenseModifier )
-		{
-			int hitStat = EquipmentManager.getAdjustedHitStat();
-
-			return AreaCombatData.hitPercent( hitStat - defenseModifier, this.getDefense() ) <= 50.0f;
-		}
 	}
 }
