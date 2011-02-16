@@ -35,8 +35,8 @@ package net.sourceforge.kolmafia.combat;
 
 import java.util.List;
 
-import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.request.FightRequest;

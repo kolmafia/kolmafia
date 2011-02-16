@@ -31,16 +31,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.foxtrot.workers;
+package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.AreaCombatData;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
