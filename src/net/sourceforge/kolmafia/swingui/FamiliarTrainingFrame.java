@@ -110,7 +110,7 @@ public class FamiliarTrainingFrame
 	private static final Pattern HIdELOST_PATTERN =
 		Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>.*?\\1.*?[.!]<p>\\1 manages to stay hidden" );
 
-	private static final StyledChatBuffer results = new StyledChatBuffer( "", false );
+	private static final StyledChatBuffer results = new StyledChatBuffer( "", "blue", false );
 
 	private static int losses = 0;
 	private static boolean stop = false;

@@ -75,24 +75,29 @@ public class EventManager
 		return EventManager.eventHistory;
 	}
 
-	public static void addChatEvent( final String eventText )
+	public static void addChatEvent( final String eventHTML )
 	{
-		EventManager.addNormalEvent( EventManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + eventText );
+		EventManager.addNormalEvent( eventHTML, true );
 	}
 
-	public static boolean addNormalEvent( String eventText )
+	public static boolean addNormalEvent( String eventHTML )
 	{
-		if ( eventText == null )
+		return EventManager.addNormalEvent( eventHTML, false );
+	}
+	
+	public static boolean addNormalEvent( String eventHTML, boolean addTimestamp )
+	{
+		if ( eventHTML == null )
 		{
 			return false;
 		}
 
-		if ( eventText.indexOf( "logged" ) != -1 || eventText.indexOf( "has left the building" ) != -1 )
+		if ( eventHTML.indexOf( "logged" ) != -1 || eventHTML.indexOf( "has left the building" ) != -1 )
 		{
 			return false;
 		}
 
-		boolean moneyMakingGameEvent = eventText.indexOf( "href='bet.php'" ) != -1;
+		boolean moneyMakingGameEvent = eventHTML.indexOf( "href='bet.php'" ) != -1;
 
 		// The event may be marked up with color and links to
 		// user profiles. For example:
@@ -102,32 +107,35 @@ public class EventManager
 
 		// Remove tags that are not hyperlinks
 
-		eventText = eventText.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", "" );
-
-		// Munge links to player profiles
-
-		eventText = eventText.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
-
-		// Remove all remaining tags.
-
-		eventText = eventText.replaceAll( "<.*?>", "" ).replaceAll( "\\s+", " " );
+		eventHTML = eventHTML.replaceAll( "</?[^a].*?>", "" );
 
 		if ( moneyMakingGameEvent )
 		{
-			MoneyMakingGameManager.processEvent( eventText );
+			MoneyMakingGameManager.processEvent( eventHTML );
 		}
 
-		if ( eventText.indexOf( "/" ) == -1 )
+		if ( eventHTML.indexOf( "/" ) == -1 )
 		{
 			return false;
 		}
 
-		EventManager.eventHistory.add( eventText );
+		String eventText = eventHTML.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
+
+		eventText = eventText.replaceAll( "<.*?>", "" );
+
+		if ( addTimestamp )
+		{
+			EventManager.eventHistory.add( EventManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + eventText );
+		}
+		else
+		{
+			EventManager.eventHistory.add( eventText );
+		}
 
 		// Print everything to the default shell; this way, the
 		// graphical CLI is also notified of events.
 
-		RequestLogger.printLine( eventText );
+		RequestLogger.printLine( eventHTML );
 
 		// Balloon messages for whenever the person does not have
 		// focus on KoLmafia.

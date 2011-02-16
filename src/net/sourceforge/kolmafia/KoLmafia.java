@@ -678,9 +678,15 @@ public abstract class KoLmafia
 
 	public static final void enableDisplay()
 	{
-		KoLmafia.updateDisplayState(
-			KoLmafia.continuationState == KoLConstants.ABORT_STATE || KoLmafia.continuationState == KoLConstants.ERROR_STATE ? KoLConstants.ERROR_STATE : KoLConstants.ENABLE_STATE,
-			"" );
+		if ( KoLmafia.continuationState == KoLConstants.ABORT_STATE || KoLmafia.continuationState == KoLConstants.ERROR_STATE )
+		{
+			KoLmafia.updateDisplayState( KoLConstants.ERROR_STATE, "" );
+		}
+		else
+		{
+			KoLmafia.updateDisplayState( KoLConstants.ENABLE_STATE,	"" );
+		}
+	
 		KoLmafia.continuationState = KoLConstants.CONTINUE_STATE;
 	}
 
@@ -2802,27 +2808,12 @@ public abstract class KoLmafia
 
 	public void openRelayBrowser()
 	{
-		this.openRelayBrowser( "game.php", false );
+		this.openRelayBrowser( "game.php" );
 	}
 
 	public void openRelayBrowser( final String location )
 	{
-		this.openRelayBrowser( location, false );
-	}
-
-	public void openRelayBrowser( final String location, boolean forceMain )
-	{
-		this.startRelayServer();
-
-		if ( !forceMain )
-		{
-			StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );
-		}
-		else
-		{
-			RelayRequest.setNextMain( location );
-			this.openRelayBrowser();
-		}
+		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );
 	}
 
 	public void launchRadioKoL()

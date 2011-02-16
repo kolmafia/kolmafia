@@ -226,7 +226,7 @@ public abstract class ChatManager
 			return buffer;
 		}
 
-		buffer = new StyledChatBuffer( bufferKey, !bufferKey.equals( "[high]" ) );
+		buffer = new StyledChatBuffer( bufferKey, "black", !bufferKey.equals( "[high]" ) );
 
 		if ( Preferences.getBoolean( "logChatMessages" ) )
 		{

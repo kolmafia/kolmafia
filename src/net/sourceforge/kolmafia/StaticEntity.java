@@ -306,7 +306,15 @@ public abstract class StaticEntity
 		public SystemBrowserThread( final String location )
 		{
 			super( "SystemBrowserThread@" + location );
-			this.location = location;
+
+			if ( location.endsWith( "/main.php" ) )
+			{
+				this.location = StringUtilities.singleStringReplace( location, "/main.php", "/game.php" );
+			}
+			else
+			{
+				this.location = location;
+			}
 		}
 
 		public void run()
@@ -334,6 +342,11 @@ public abstract class StaticEntity
 			{
 				System.setProperty( "os.browser", preferredBrowser );
 				currentBrowser = preferredBrowser;
+			}
+			
+			if ( this.location.startsWith( "http://127.0.0.1:" ) )
+			{
+				StaticEntity.getClient().startRelayServer();
 			}
 
 			BrowserLauncher.openURL( this.location );

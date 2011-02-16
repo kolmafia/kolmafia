@@ -70,6 +70,9 @@ import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.chat.ChatMessage;
+import net.sourceforge.kolmafia.chat.ChatPoller;
+import net.sourceforge.kolmafia.chat.EventMessage;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -2109,7 +2112,9 @@ public class GenericRequest
 		else
 		{
 			LocalRelayAgent.setErrorRequest( this );
-			StaticEntity.getClient().openRelayBrowser();
+			
+			ChatMessage message = new EventMessage( "<a style=\"color: red; text-decoration: underline;\" href=\"http://127.0.0.1:" + LocalRelayServer.getPort() + "/main.php\" target=\"mainpane\">An unexpected error has occurred.</a>", "red" );
+			ChatPoller.addEntry( message );
 		}
 	}
 
