@@ -4670,8 +4670,16 @@ public class FightRequest
 		
 		if ( FightRequest.initializeAfterFight )
 		{
-			StaticEntity.getClient().login( KoLCharacter.getUserName() );
-			FightRequest.initializeAfterFight = false;
+			Thread initializeThread = new Thread( "PostFightInitializer" )
+			{
+				public void run()
+				{
+					StaticEntity.getClient().login( KoLCharacter.getUserName() );
+					FightRequest.initializeAfterFight = false;
+				}
+			};
+			
+			initializeThread.start();
 		}		
 	}
 
