@@ -528,7 +528,7 @@ public class ChatFrame
 
 			if ( Preferences.getBoolean( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
 			{
-				StaticEntity.getClient().openRelayBrowser( urlString, false );
+				StaticEntity.getClient().openRelayBrowser( urlString );
 			}
 			else
 			{

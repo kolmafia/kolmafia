@@ -668,5 +668,5 @@ public interface KoLConstants
 	// Locations where session information is displayed for the user.
 	// Include just the event history buffer and the command line buffer.
 
-	public static final StyledChatBuffer commandBuffer = new StyledChatBuffer( "", false );
+	public static final StyledChatBuffer commandBuffer = new StyledChatBuffer( "", "blue", false );
 }

@@ -601,35 +601,6 @@ public class RelayRequest
 		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
-	public static final void setNextMain( final String mainpane )
-	{
-		RelayRequest.mainpane = mainpane;
-	}
-
-	private void handleMain()
-	{
-		if ( this.responseText == null )
-		{
-			super.run();
-		}
-
-		if ( RelayRequest.mainpane.equals( "" ) )
-		{
-			return;
-		}
-
-		// If it's a relay browser request based on a
-		// menu item, then change the middle panel.
-
-		this.responseText =
-			RelayRequest.MAINPANE_PATTERN.matcher( this.responseText ).replaceFirst(
-				"name=mainpane src=\"" + RelayRequest.mainpane + "\"" );
-
-		RelayRequest.mainpane = "";
-	}
-
-	private static final Pattern MAINPANE_PATTERN = Pattern.compile( "name=mainpane src=\"(.*?)\"", Pattern.DOTALL );
-
 	private void sendLocalFile( final String filename )
 	{
 		if ( !RelayRequest.overrideMap.containsKey( filename ) )
@@ -641,12 +612,6 @@ public class RelayRequest
 
 		if ( override == null || !override.exists() )
 		{
-			if ( filename.equals( "main.html" ) || filename.equals( "main_c.html" ) )
-			{
-				this.handleMain();
-				return;
-			}
-
 			if ( !filename.startsWith( "simulator/" ) )
 			{
 				this.sendNotFound();
@@ -706,12 +671,6 @@ public class RelayRequest
 		}
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
-
-		if ( filename.equals( "main.html" ) || filename.equals( "main_c.html" ) )
-		{
-			this.handleMain();
-			return;
-		}
 	}
 
 	private static final String getSimulatorEffectName( final String effectName )

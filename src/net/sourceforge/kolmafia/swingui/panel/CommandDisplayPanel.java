@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
@@ -30,6 +31,8 @@ public class CommandDisplayPanel
 	public CommandDisplayPanel()
 	{
 		RequestPane outputDisplay = new RequestPane();
+		outputDisplay.addHyperlinkListener( new HyperlinkAdapter() );
+		
 		JScrollPane scrollPane = KoLConstants.commandBuffer.addDisplay( outputDisplay );
 		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 

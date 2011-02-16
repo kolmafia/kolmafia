@@ -50,9 +50,13 @@ public class StyledChatBuffer
 	public static final List searchStrings = new ArrayList();
 	public static final List colorStrings = new ArrayList();
 
-	public StyledChatBuffer( final String title, final boolean affectsHighlightBuffer )
+	private final String linkColor;
+	
+	public StyledChatBuffer( final String title, final String linkColor, final boolean affectsHighlightBuffer )
 	{
 		super( title );
+		
+		this.linkColor = linkColor;
 	}
 
 	public static final boolean initializeHighlights()
@@ -127,7 +131,7 @@ public class StyledChatBuffer
 
 	public String getStyle()
 	{
-		return "body { font-family: sans-serif; font-size: " + Preferences.getString( "chatFontSize" ) + "; } a { color: black; text-decoration: none; }";
+		return "body { font-family: sans-serif; font-size: " + Preferences.getString( "chatFontSize" ) + "; } a { color: " + linkColor + "; text-decoration: none; }";
 	}
 
 	public void applyHighlights()

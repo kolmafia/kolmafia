@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public abstract class HyperlinkAdapter
+public class HyperlinkAdapter
 	implements HyperlinkListener
 {
 	private static final Pattern[] ACTION_PATTERNS = new Pattern[ 3 ];
@@ -168,5 +168,7 @@ public abstract class HyperlinkAdapter
 		}
 	}
 
-	public abstract void handleInternalLink( String location );
+	public void handleInternalLink( String location )
+	{
+	}
 }
