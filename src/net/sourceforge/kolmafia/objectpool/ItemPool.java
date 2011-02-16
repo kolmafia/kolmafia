@@ -1208,6 +1208,7 @@ public class ItemPool
 	public static final int LOATHING_LEGION_UNIVERSAL_SCREWDRIVER = 4926;
 	public static final int LOATHING_LEGION_JACKHAMMER = 4927;
 	public static final int LOATHING_LEGION_HAMMER = 4928;
+	public static final int KNOB_CAKE = 4942;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

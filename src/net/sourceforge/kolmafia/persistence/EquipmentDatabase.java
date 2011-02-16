@@ -913,14 +913,14 @@ public class EquipmentDatabase
 	{
 		String adventureId = adventure.getAdventureId();
 
-		// Knob goblin treasury has the elite guard outfit
-		if ( adventureId.equals( "41" ) )
+		// Knob goblin barracks has the elite guard outfit
+		if ( adventureId.equals( "257" ) )
 		{
 			return 5;
 		}
 
 		// Knob goblin harem has the harem girl disguise
-		if ( adventureId.equals( "42" ) || adventure.getFormSource().equals( "knob.php" ) )
+		if ( adventureId.equals( "259" ) )
 		{
 			return 4;
 		}

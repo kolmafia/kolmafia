@@ -200,15 +200,15 @@ Degrassi Knoll General Store	5	frilly skirt	80
 Degrassi Knoll General Store	5	maiden wig	80
 Degrassi Knoll General Store	5	detuned radio	300
 
-Knob Goblin Laboratory	g	Knob Goblin seltzer	80
-Knob Goblin Laboratory	g	Knob Goblin stink bomb	130
-Knob Goblin Laboratory	g	Knob Goblin nasal spray	150
-Knob Goblin Laboratory	g	Knob Goblin love potion	170
-Knob Goblin Laboratory	g	Knob Goblin eyedrops	200
-Knob Goblin Laboratory	g	Knob Goblin sharpening spray	230
-Knob Goblin Laboratory	g	Knob Goblin steroids	250
-Knob Goblin Laboratory	g	Knob Goblin pet-buffing spray	250
-Knob Goblin Laboratory	g	Knob Goblin learning pill	300
+The Knob Dispensary	k	Knob Goblin seltzer	80
+The Knob Dispensary	k	Knob Goblin stink bomb	130
+The Knob Dispensary	k	Knob Goblin nasal spray	150
+The Knob Dispensary	k	Knob Goblin love potion	170
+The Knob Dispensary	k	Knob Goblin eyedrops	200
+The Knob Dispensary	k	Knob Goblin sharpening spray	230
+The Knob Dispensary	k	Knob Goblin steroids	250
+The Knob Dispensary	k	Knob Goblin pet-buffing spray	250
+The Knob Dispensary	k	Knob Goblin learning pill	300
 
 Armory and Leggery	z	cool whip	30
 Armory and Leggery	z	sweet ninja sword	50

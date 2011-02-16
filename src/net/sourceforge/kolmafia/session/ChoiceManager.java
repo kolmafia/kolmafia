@@ -250,7 +250,7 @@ public abstract class ChoiceManager
 
 		// A Bard Day's Night
 		new ChoiceAdventure(
-			"Knob", "choiceAdventure14", "Knob Goblin Harem",
+			"Knob", "choiceAdventure14", "Cobb's Knob Harem",
 			new String[] { "Knob goblin harem veil", "Knob goblin harem pants", "small meat boost", "complete the outfit" },
 			new String[] { "306", "305", null } ),
 
@@ -468,7 +468,7 @@ public abstract class ChoiceManager
 
 		// Malice in Chains
 		new ChoiceAdventure(
-			"Knob", "choiceAdventure111", "Knob Outskirts",
+			"Knob", "choiceAdventure111", "Outskirts of The Knob",
 			new String[] { "muscle substats", "muscle substats", "enter combat" } ),
 
 		// Please, Hammer
@@ -478,7 +478,7 @@ public abstract class ChoiceManager
 
 		// Knob Goblin BBQ
 		new ChoiceAdventure(
-			"Knob", "choiceAdventure113", "Knob Outskirts",
+			"Knob", "choiceAdventure113", "Outskirts of The Knob",
 			new String[] { "complete cake quest", "enter combat", "get a random item" } ),
 
 		// The Baker's Dilemma
@@ -503,7 +503,7 @@ public abstract class ChoiceManager
 
 		// When Rocks Attack
 		new ChoiceAdventure(
-			"Knob", "choiceAdventure118", "Knob Outskirts",
+			"Knob", "choiceAdventure118", "Outskirts of The Knob",
 			new String[] { "accept unguent quest", "skip adventure" } ),
 
 		// Choice 118 is When Rocks Attack
@@ -511,7 +511,7 @@ public abstract class ChoiceManager
 
 		// Ennui is Wasted on the Young
 		new ChoiceAdventure(
-			"Knob", "choiceAdventure120", "Knob Outskirts",
+			"Knob", "choiceAdventure120", "Outskirts of The Knob",
 			new String[] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
 			new String[] { null, "41", "332", null } ),
 
@@ -1506,10 +1506,16 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure519", "Elf Alley",
 			new String[] { "gift-a-pult", "skip adventure" },
-			new String[] { "0", null } ),
+			new String[] { "4852", null } ),
 
 		// Choice 520 is A Show-ho-ho-down
 		// Choice 521 is A Wicked Buxx
+
+		// Welcome to the Footlocker
+		new ChoiceAdventure(
+			"Knob", "choiceAdventure522", "Cobb's Knob Barracks",
+			new String[] { "Knob jelly donut", "skip adventure" },
+			new String[] { "4941", null } ),
 	};
 
 	static

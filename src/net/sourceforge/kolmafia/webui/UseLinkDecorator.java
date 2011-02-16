@@ -335,7 +335,7 @@ public abstract class UseLinkDecorator
 		}
 		else if ( effect.equals( "Knob Goblin Perfume" ) )
 		{
-			link = new UseLink(0, "king's chamber", "knob.php?king=1" );
+			link = new UseLink(0, "throne room", "cobbsknob.php?action=throneroom" );
 		}
 		else if ( effect.equals( "Down the Rabbit Hole" ) )
 		{

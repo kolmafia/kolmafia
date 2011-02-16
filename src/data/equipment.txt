@@ -490,6 +490,7 @@ Hodgman's whackin' stick	200	Mus: 200	1-handed club
 Kentucky-fried meat crossbow	70	Mox: 20	2-handed crossbow
 Kentucky-fried meat staff	70	Mus: 20	2-handed staff
 Kentucky-fried meat sword	70	Mus: 20	2-handed sword
+Knob Goblin deluxe scimitar	50	Mus: 10	1-handed sword
 Knob Goblin elite polearm	60	Mus: 15	2-handed polearm
 Knob Goblin melon baller	80	Mys: 25	1-handed utensil
 Knob Goblin scimitar	15	Mus: 0	1-handed sword
@@ -1041,6 +1042,7 @@ eye of the Tiger-lily	0	Mys: 20
 fake hand	0	none
 fancy opera glasses	0	Mys: 10
 flaming talons	0	Mys: 30
+flimsy clipboard	50	Mus: 10	shield
 foon	0	none
 foon of fearfulness	0	Mys: 10
 foon of fleshiness	0	Mys: 10
@@ -1476,6 +1478,7 @@ night-vision goggles	0	Mox: 10
 observational glasses	0	none
 old soft shoes	0	Mys: 200
 orange glowstick	0	none
+oven mitts	0	Mys: 7
 pacifier necklace	0	Mox: 60
 paperclip cape	0	none
 paperclip-on tie	0	none
@@ -1713,6 +1716,7 @@ vinyl boots	0	Mox: 85
 walrus-tusk earring	0	Mys: 10
 water wings	0	none
 water-polo mitt	0	Mys: 85
+whalebone corset	0	Mys: 12
 wheel	0	none
 white belt	0	Mys: 5
 white collar	0	none

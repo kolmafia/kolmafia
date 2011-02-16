@@ -552,6 +552,7 @@ Hodgman's whackin' stick	Muscle Percent: +20, Mysticality Percent: +20, Moxie Pe
 Kentucky-fried meat crossbow	Moxie: +5
 Kentucky-fried meat staff	Mysticality: +5
 Kentucky-fried meat sword	Muscle: +5
+Knob Goblin deluxe scimitar	Muscle: +5
 Knob Goblin elite polearm	Weapon Damage: +3
 Knob Goblin melon baller	Spell Damage: +8
 Knob Goblin scimitar	Muscle: +1
@@ -1631,6 +1632,7 @@ observational glasses	Item Drop: +5
 # old soft shoes: +30% Item Drops from Hobos
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
+oven mitts	Hot Resistance: +2, Single Equip
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
 paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7, Single Equip
@@ -2915,6 +2917,7 @@ Smugness	Moxie: +5
 Snarl of the Timberwolf	Spooky Damage: +10
 Sneaky Serpentine Subtlety	Moxie Percent: +100
 Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+So You Can Work More...	Meat Drop: +10
 Socialismydia	Item Drop: -50
 Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
@@ -3350,6 +3353,7 @@ arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
 astral mushroom	Effect: "Half-Astral", Effect Duration: 5
 bag of Cheat-Os	Effect: "Sticky Fingers", Effect Duration: 10
 bag of lard	Effect: "Cuts Like a Buttered Knife", Effect Duration: 10
+baggie of powdered sugar	Effect: "So You Can Work More...", Effect Duration: 10
 ballast turtle	Effect: "Oxygenated Blood", Effect Duration: 20
 banana smoothie	Effect: "Bananas!", Effect Duration: [R]
 bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
