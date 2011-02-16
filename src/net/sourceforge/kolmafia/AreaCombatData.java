@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
