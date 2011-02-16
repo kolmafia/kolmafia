@@ -35,17 +35,17 @@ package net.sourceforge.kolmafia.combat;
 
 import java.util.List;
 
+import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterStatusTracker
 {
-	private static Monster monsterData = null;
+	private static MonsterData monsterData = null;
 	private static String lastMonsterName = "";
 
 	private static int healthModifier = 0;
@@ -59,7 +59,7 @@ public class MonsterStatusTracker
 		MonsterStatusTracker.defenseModifier = 0;
 	}
 
-	public static final Monster getLastMonster()
+	public static final MonsterData getLastMonster()
 	{
 		return MonsterStatusTracker.monsterData;
 	}

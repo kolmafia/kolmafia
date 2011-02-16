@@ -56,6 +56,7 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
+import net.sourceforge.foxtrot.workers.MonsterData;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -64,7 +65,6 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -1094,7 +1094,7 @@ public class RequestEditorKit
 
 	private static final void annotateMonster( final StringBuffer buffer )
 	{
-		Monster monster = MonsterStatusTracker.getLastMonster();
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
 
 		if ( monster == null )
 		{
