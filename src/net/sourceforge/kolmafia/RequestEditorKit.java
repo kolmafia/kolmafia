@@ -436,7 +436,7 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "plains2.php" );
 		RequestEditorKit.maps.add( "bathole.php" );
 		RequestEditorKit.maps.add( "fernruin.php" );
-		RequestEditorKit.maps.add( "knob.php" );
+		RequestEditorKit.maps.add( "cobbsknob.php" );
 		RequestEditorKit.maps.add( "knob2.php" );
 		RequestEditorKit.maps.add( "cyrpt.php" );
 		RequestEditorKit.maps.add( "beanstalk.php" );

@@ -1696,9 +1696,10 @@ public class RelayRequest
 			// More MCD rewards.  This one is for the Knob Goblin
 			// King, who has special items at 3 and 7.
 
-			else if ( path.startsWith( "knob.php" ) )
+			else if ( path.startsWith( "cobbsknob.php" ) )
 			{
-				if ( this.getFormField( "king" ) != null && KoLCharacter.mcdAvailable() )
+				String action = this.getFormField( "action" );
+				if ( action != null && action.equals( "throneroom" ) && KoLCharacter.mcdAvailable() )
 				{
 					this.sendBossWarning( "The Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
 					return null;

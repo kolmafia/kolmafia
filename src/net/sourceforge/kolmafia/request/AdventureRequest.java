@@ -122,9 +122,9 @@ public class AdventureRequest
 		{
 			this.addFormField( "place", adventureId );
 		}
-		else if ( formSource.equals( "knob.php" ) )
+		else if ( formSource.equals( "cobbsknob.php" ) )
 		{
-			this.addFormField( "king", "1" );
+			this.addFormField( "action", "throneroom" );
 		}
 		else if ( formSource.equals( "mountains.php" ) )
 		{
@@ -929,9 +929,9 @@ public class AdventureRequest
 		{
 			return formSource.indexOf( "whichtrip" ) != -1;
 		}
-		else if ( formSource.startsWith( "knob.php" ) )
+		else if ( formSource.startsWith( "cobbsknob.php" ) )
 		{
-			return formSource.indexOf( "king" ) != -1;
+			return formSource.indexOf( "throneroom" ) != -1;
 		}
 		else if ( formSource.startsWith( "cyrpt.php" ) )
 		{

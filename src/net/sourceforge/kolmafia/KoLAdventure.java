@@ -87,6 +87,7 @@ public class KoLAdventure
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );
+	public static final AdventureResult PERFUME = EffectPool.get( EffectPool.PERFUME );
 
 	private static KoLAdventure lastVisitedLocation = null;
 	public static boolean locationLogged = false;
@@ -309,25 +310,43 @@ public class KoLAdventure
 
 		// Fighting the Goblin King requires effects
 
-		if ( this.formSource.equals( "knob.php" ) )
+		if ( this.formSource.equals( "cobbsknob.php" ) )
 		{
-			int outfitId = EquipmentDatabase.getOutfitId( this );
-			AdventureResult perfumeEffect = EffectPool.get( EffectPool.PERFUME );
+			// You have two choices:
 
-			if ( !KoLConstants.activeEffects.contains( perfumeEffect ) &&
-			     !InventoryManager.retrieveItem( ItemPool.KNOB_GOBLIN_PERFUME ) )
+			// - Wear harem girl outfit and have Perfume effect
+			// - Wear elite guard uniform and have cake
+
+			int outfitId = 0;
+
+			if ( EquipmentManager.hasOutfit( 4 ) &&
+			     ( KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) ||
+			       InventoryManager.retrieveItem( ItemPool.KNOB_GOBLIN_PERFUME ) ) )
+			{
+				outfitId = 4;
+			}
+			else if ( EquipmentManager.hasOutfit( 5 ) &&
+				  InventoryManager.retrieveItem( ItemPool.KNOB_CAKE ) )
+
+			{
+				outfitId = 5;
+			}
+			else
 			{
 				return;
 			}
 
-			if ( !EquipmentManager.isWearingOutfit( outfitId ) &&
-			     !EquipmentManager.retrieveOutfit( outfitId ) )
+			if ( !EquipmentManager.isWearingOutfit( outfitId ) )
 			{
-				return;
+				if ( !EquipmentManager.retrieveOutfit( outfitId ) )
+				{
+					return;
+				}
+
+				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
 			}
 
-			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
-			if ( !KoLConstants.activeEffects.contains( perfumeEffect ) )
+			if ( outfitId == 4 && !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) )
 			{
 				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.KNOB_GOBLIN_PERFUME, 1 ) ) );
 			}
@@ -1096,7 +1115,7 @@ public class KoLAdventure
 		// Make sure you're wearing the appropriate equipment
 		// for the King's chamber in Cobb's knob.
 
-		if ( this.formSource.equals( "knob.php" ) )
+		if ( this.formSource.equals( "cobbsknob.php" ) )
 		{
 			this.validate( true );
 		}

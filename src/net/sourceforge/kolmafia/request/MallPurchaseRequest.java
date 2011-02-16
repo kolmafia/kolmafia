@@ -465,10 +465,6 @@ public class MallPurchaseRequest
 		{
 			neededOutfit = 1;
 		}
-		else if ( this.npcStoreId.equals( "g" ) )
-		{
-			neededOutfit = 5;
-		}
 		else if ( this.npcStoreId.equals( "r" ) )
 		{
 			if ( !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 ) ) )

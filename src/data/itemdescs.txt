@@ -4944,3 +4944,23 @@
 4938	147329363	quake of arrows
 4939	677003938	time's arrow
 4940	748827536	arrowgram
+4941	328150524	Knob jelly donut
+4942	558071478	Knob cake
+4943	463960866	Knob cake pan
+4944	877296893	Knob batter
+4945	182960338	Knob frosting
+4946	807457433	unfrosted Knob cake
+4947	903767129	Cobb's Knob Menagerie key
+4948
+4949
+4950
+4951	225397508	flimsy clipboard
+4952	421468846	baggie of powdered sugar
+4953	569079959	whalebone corset
+4954	197489398	oven mitts
+4955	812575069	overcookie
+4956	688352193	philosopher's scone
+4957	954191945	half-baked potion
+4958	647795603	Knob Goblin deluxe scimitar
+4959	373563238	Knob nuts
+4960	460647230	Cobb's Knob Wurstbrau

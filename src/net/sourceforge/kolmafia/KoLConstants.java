@@ -133,7 +133,7 @@ public interface KoLConstants
 		},
 		{
 			"Cobb's Knob",
-			"knob.php"
+			"cobbsknob.php"
 		},
 		{
 			"Defiled Cyrpt",

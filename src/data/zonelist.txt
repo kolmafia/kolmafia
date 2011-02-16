@@ -22,7 +22,8 @@ Landscaper	Plains	The Landscaper's Lair
 BatHole	BatHole	Bat Hole
 
 Knob	Knob	Cobb's Knob
-Lab	Knob	Knob Cobb's Knob Lab
+Lab	Knob	Cobb's Knob Lab
+Menagerie	Knob	Cobb's Knob Menagerie
 
 Cyrpt	Cyrpt	Defiled Cyrpt
 
