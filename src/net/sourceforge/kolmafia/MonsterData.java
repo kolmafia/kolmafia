@@ -86,9 +86,9 @@ public class MonsterData
 		return KoLCharacter.getMonsterLevelAdjustment();
 	}
 
-	private static MonsterExpression compile( Object expr )
+	private MonsterExpression compile( Object expr )
 	{
-		return new MonsterExpression( (String) expr, "" );
+		return new MonsterExpression( (String) expr, this.getName() );
 	}
 
 	public int getHP()

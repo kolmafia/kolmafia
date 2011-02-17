@@ -3989,7 +3989,7 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			e = new Expression( expr.toString(), "" );
+			e = new Expression( expr.toString(), "expression_eval()" );
 			if ( expr.content == null )
 			{
 				expr.content = e;
@@ -4007,7 +4007,7 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			e = new ModifierExpression( expr.toString(), "" );
+			e = new ModifierExpression( expr.toString(), "modifier_eval()" );
 			if ( expr.content == null )
 			{
 				expr.content = e;
@@ -4040,7 +4040,7 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			e = new MonsterExpression( expr.toString(), "" );
+			e = new MonsterExpression( expr.toString(), "monster_eval()" );
 			if ( expr.content == null )
 			{
 				expr.content = e;
