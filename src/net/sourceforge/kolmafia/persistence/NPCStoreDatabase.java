@@ -197,9 +197,9 @@ public class NPCStoreDatabase
 		{
 			return KoLCharacter.inMysticalitySign();
 		}
-		else if ( storeId.equals( "g" ) )
+		else if ( storeId.equals( "k" ) )
 		{
-			return InventoryManager.hasItem( NPCStoreDatabase.LAB_KEY ) && EquipmentManager.hasOutfit( 5 );
+			return KoLCharacter.getDispensaryOpen();
 		}
 		else if ( storeId.equals( "h" ) )
 		{

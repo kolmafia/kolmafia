@@ -2039,6 +2039,12 @@ public class GenericRequest
 			ResultProcessor.processItem( ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE, -1 );
 		}
 
+		if ( this.responseText.indexOf( "FARQUAR" ) != -1 )
+		{
+                        // The password to the Dispensary is known!
+			Preferences.setInteger( "lastDispensaryOpen", KoLCharacter.getAscensions() );
+		}
+
 		if ( urlString.startsWith( "mall.php" ) ||
 		     urlString.startsWith( "searchmall.php" ) ||
 		     urlString.startsWith( "account.php" ) ||

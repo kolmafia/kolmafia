@@ -1244,6 +1244,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "hippy_store_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "dispensary_available", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "guild_store_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// MMG support
@@ -4928,6 +4931,11 @@ public abstract class RuntimeLibrary
 	public static Value hippy_store_available()
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isHippyStoreAvailable() );
+	}
+ 
+	public static Value dispensary_available()
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.getDispensaryOpen() );
 	}
 
 	public static Value guild_store_available()

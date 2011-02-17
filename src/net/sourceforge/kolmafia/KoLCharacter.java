@@ -3053,6 +3053,11 @@ public abstract class KoLCharacter
 		KoLCharacter.setStillsAvailable( KoLCharacter.stillsAvailable - decrementAmount );
 	}
 
+	public static final boolean getDispensaryOpen()
+	{
+		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastDispensaryOpen" );
+	}
+
 	public static final boolean getGuildStoreOpen()
 	{
 		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastGuildStoreOpen" ) )

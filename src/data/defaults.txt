@@ -368,6 +368,7 @@ user	lastChanceThreshold	100
 user	lastChessboard
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
+user	lastDispensaryOpen	-1
 user	lastDoorCodeReset	-1
 user	lastDustyBottle2271
 user	lastDustyBottle2272
