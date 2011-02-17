@@ -92,7 +92,6 @@ public class Expression
 			}
 			catch ( ArrayIndexOutOfBoundsException e )
 			{
-				System.out.println( e.toString() );
 				float[] larger = new float[ this.stack.length * 2 ];
 				System.arraycopy( this.stack, 0, larger, 0, this.stack.length );
 				this.stack = larger;
