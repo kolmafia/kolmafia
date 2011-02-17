@@ -1131,9 +1131,9 @@ public abstract class SorceressLairManager
 
 		// See which ones he can use
 
-		boolean canUseSword = EquipmentManager.canEquip( SorceressLairManager.STAR_SWORD.getName() );
-		boolean canUseStaff = EquipmentManager.canEquip( SorceressLairManager.STAR_STAFF.getName() );
-		boolean canUseCrossbow = EquipmentManager.canEquip( SorceressLairManager.STAR_CROSSBOW.getName() );
+		boolean canUseSword = EquipmentManager.canEquip( SorceressLairManager.STAR_SWORD );
+		boolean canUseStaff = EquipmentManager.canEquip( SorceressLairManager.STAR_STAFF );
+		boolean canUseCrossbow = EquipmentManager.canEquip( SorceressLairManager.STAR_CROSSBOW );
 
 		// Pick one that he has and can use
 
@@ -1153,11 +1153,11 @@ public abstract class SorceressLairManager
 		{
 			starWeapon = SorceressLairManager.STAR_SWORD;
 		}
-		else if ( canUseStaff && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_SWORD ) )
+		else if ( canUseStaff && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_STAFF ) )
 		{
 			starWeapon = SorceressLairManager.STAR_STAFF;
 		}
-		else if ( canUseCrossbow && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_SWORD ) )
+		else if ( canUseCrossbow && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_CROSSBOW ) )
 		{
 			starWeapon = SorceressLairManager.STAR_CROSSBOW;
 		}

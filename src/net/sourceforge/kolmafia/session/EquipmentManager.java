@@ -1392,6 +1392,11 @@ public class EquipmentManager
 		return null;
 	}
 
+	public static final boolean canEquip( final AdventureResult item )
+	{
+		return EquipmentManager.canEquip( item.getItemId() );
+	}
+
 	public static final boolean canEquip( final String itemName )
 	{
 		return EquipmentManager.canEquip( ItemDatabase.getItemId( itemName ) );
