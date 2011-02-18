@@ -33,11 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
-import edu.stanford.ejalbert.BrowserLauncher;
 import java.awt.Frame;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
@@ -276,81 +274,6 @@ public abstract class StaticEntity
 		}
 
 		return StaticEntity.usesRelayWindows == 1;
-	}
-
-	public static final void openSystemBrowser( final File file )
-	{
-		try
-		{
-			String location = file.getCanonicalPath();
-
-			StaticEntity.openSystemBrowser( location );
-		}
-		catch ( IOException e )
-		{
-		}
-	}
-
-	public static final void openSystemBrowser( final String location )
-	{
-		( new SystemBrowserThread( location ) ).start();
-	}
-
-	private static String currentBrowser = null;
-
-	private static class SystemBrowserThread
-		extends Thread
-	{
-		private final String location;
-
-		public SystemBrowserThread( final String location )
-		{
-			super( "SystemBrowserThread@" + location );
-
-			if ( location.endsWith( "/main.php" ) )
-			{
-				this.location = StringUtilities.singleStringReplace( location, "/main.php", "/game.php" );
-			}
-			else
-			{
-				this.location = location;
-			}
-		}
-
-		public void run()
-		{
-			String preferredBrowser = Preferences.getString( "preferredWebBrowser" );
-
-			if ( !preferredBrowser.equals( "" ) )
-			{
-				File preferredBrowserFile = new File( UtilityConstants.ROOT_LOCATION, preferredBrowser );
-
-				if ( preferredBrowserFile.exists() )
-				{
-					try
-					{
-						preferredBrowser = preferredBrowserFile.getCanonicalPath();
-					}
-					catch ( IOException e )
-					{
-
-					}
-				}
-			}
-
-			if ( currentBrowser == null || !currentBrowser.equals( preferredBrowser ) )
-			{
-				System.setProperty( "os.browser", preferredBrowser );
-				currentBrowser = preferredBrowser;
-			}
-			
-			if ( this.location.startsWith( "http://127.0.0.1:" ) )
-			{
-				StaticEntity.getClient().startRelayServer();
-			}
-
-			BrowserLauncher.openURL( this.location );
-		}
 	}
 
 	/**

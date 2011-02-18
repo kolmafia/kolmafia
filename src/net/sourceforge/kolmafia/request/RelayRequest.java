@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.NullStream;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -98,6 +97,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
+import net.sourceforge.kolmafia.webui.LocalRelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class RelayRequest

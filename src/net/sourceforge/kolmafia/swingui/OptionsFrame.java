@@ -66,7 +66,6 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.LocalRelayServer;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -79,6 +78,7 @@ import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.webui.LocalRelayServer;
 import tab.CloseTabPaneEnhancedUI;
 
 public class OptionsFrame

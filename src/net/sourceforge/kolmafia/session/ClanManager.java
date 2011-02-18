@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public abstract class ClanManager
 {
@@ -544,9 +545,9 @@ public abstract class ClanManager
 		// To make things less confusing, load the summary
 		// file inside of the default browser after completion.
 
-		StaticEntity.openSystemBrowser( standardFile );
-		StaticEntity.openSystemBrowser( softcoreFile );
-		StaticEntity.openSystemBrowser( hardcoreFile );
+		RelayLoader.openSystemBrowser( standardFile );
+		RelayLoader.openSystemBrowser( softcoreFile );
+		RelayLoader.openSystemBrowser( hardcoreFile );
 	}
 
 	/**

@@ -34,19 +34,12 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.Box;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
@@ -54,14 +47,11 @@ import javax.swing.ScrollPaneConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -71,6 +61,7 @@ import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class RequestFrame
 	extends GenericFrame
@@ -308,7 +299,7 @@ public class RequestFrame
 				{
 					// This should not happen. Therefore, print
 					// a stack trace for debug purposes.
-		
+
 					StaticEntity.printStackTrace( e );
 				}
 			}
@@ -452,7 +443,7 @@ public class RequestFrame
 			}
 			else if ( location.startsWith( "makeoffer.php" ) || location.startsWith( "counteroffer.php" ) )
 			{
-				StaticEntity.getClient().openRelayBrowser( location );
+				RelayLoader.openSystemBrowser( "/" + location );
 			}
 			else if ( location.startsWith( "sendmessage.php" ) || location.startsWith( "town_sendgift.php" ) )
 			{

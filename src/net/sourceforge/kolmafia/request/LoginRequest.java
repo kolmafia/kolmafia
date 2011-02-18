@@ -43,13 +43,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.LocalRelayAgent;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayAgent;
 
 public class LoginRequest
 	extends GenericRequest
@@ -248,7 +248,7 @@ public class LoginRequest
 		LoginRequest.completedLogin = false;
 
 		GenericRequest.reset();
-		LocalRelayAgent.reset();
+		RelayAgent.reset();
 
 		if ( Preferences.getBoolean( "saveStateActive" ) )
 		{

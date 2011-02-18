@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.swingui.MushroomFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public abstract class MushroomManager
 {
@@ -1072,6 +1073,6 @@ public abstract class MushroomManager
 		// Now that everything has been generated, open the HTML
 		// inside of a browser.
 
-		StaticEntity.openSystemBrowser( preview );
+		RelayLoader.openSystemBrowser( preview );
 	}
 }

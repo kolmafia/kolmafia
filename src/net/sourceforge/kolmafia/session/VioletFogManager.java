@@ -39,9 +39,9 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -790,7 +790,7 @@ public abstract class VioletFogManager
 
 	public static final void showGemelliMap()
 	{
-		StaticEntity.openSystemBrowser( "http://fog.bewarethefgc.com/index.php?mapstring=" + VioletFogManager.gemelliCode() );
+		RelayLoader.openSystemBrowser( "http://fog.bewarethefgc.com/index.php?mapstring=" + VioletFogManager.gemelliCode() );
 	}
 
 	public static final void addGoalButton( final StringBuffer buffer )
