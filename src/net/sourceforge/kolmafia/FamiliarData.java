@@ -245,6 +245,20 @@ public class FamiliarData
 		}
 	}
 
+	public static final FamiliarData registerFamiliar( final int id, final int experience )
+	{
+		FamiliarData familiar = KoLCharacter.findFamiliar( id );
+		if ( familiar == null )
+		{
+			// Add new familiar to list
+			familiar = new FamiliarData( id );
+			familiar.experience = experience;
+			familiar.setWeight();
+			KoLCharacter.addFamiliar( familiar );
+		}
+		return familiar;
+	}
+
 	public static final void checkLockedItem( final String responseText )
 	{
 		Matcher lockMatcher = FamiliarData.LOCK_PATTERN.matcher( responseText );

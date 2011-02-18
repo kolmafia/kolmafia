@@ -998,6 +998,8 @@ public abstract class KoLmafia
 			CafeRequest.pullLARPCard();
 		}
 
+		// *** We can remove this when api.php?what=status gets
+		// *** "feastedfamiliar" and "intrinsics"
 		RequestThread.postRequest( CharPaneRequest.getInstance() );
 
 		KoLmafia.updateDisplay( "Session data refreshed." );

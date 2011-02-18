@@ -149,6 +149,7 @@ public class ItemPool
 	public static final int KNOB_GOBLIN_PERFUME = 307;
 	public static final int GOAT_CHEESE = 322;
 	public static final int TENDER_HAMMER = 338;
+	public static final int LAB_KEY = 339;
 	public static final int SELTZER = 344;
 	public static final int REAGENT = 346;
 	public static final int DYSPEPSI_COLA = 347;
@@ -1209,6 +1210,7 @@ public class ItemPool
 	public static final int LOATHING_LEGION_JACKHAMMER = 4927;
 	public static final int LOATHING_LEGION_HAMMER = 4928;
 	public static final int KNOB_CAKE = 4942;
+	public static final int MENAGERIE_KEY = 4947;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
