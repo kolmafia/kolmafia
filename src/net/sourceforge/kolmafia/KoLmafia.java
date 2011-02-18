@@ -133,7 +133,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.LocalRelayServer;
+import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public abstract class KoLmafia
@@ -3004,7 +3004,7 @@ public abstract class KoLmafia
 			RequestLogger.closeMirror();
 
 			SystemTrayFrame.removeTrayIcon();
-			LocalRelayServer.stop();
+			RelayServer.stop();
 
 			try
 			{

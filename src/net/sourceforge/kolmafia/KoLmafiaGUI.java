@@ -81,7 +81,7 @@ import net.sourceforge.kolmafia.swingui.OptionsFrame;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.webui.LocalRelayServer;
+import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 import tab.CloseTabbedPane;
 
@@ -462,7 +462,7 @@ public class KoLmafiaGUI
 				}
 
 			}
-			else if ( this.frameClass == LocalRelayServer.class )
+			else if ( this.frameClass == RelayServer.class )
 			{
 				RelayLoader.openRelayBrowser();
 				return null;

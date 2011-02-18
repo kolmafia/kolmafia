@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
-public class LocalRelayServer
+public class RelayServer
 	implements Runnable
 {
 	public static final ArrayList agentThreads = new ArrayList();
@@ -57,10 +57,10 @@ public class LocalRelayServer
 	private static boolean listening = false;
 	private static boolean updateStatus = false;
 
-	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
+	private static final RelayServer INSTANCE = new RelayServer();
 	private static final StringBuffer statusMessages = new StringBuffer();
 
-	private LocalRelayServer()
+	private RelayServer()
 	{
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "basics.css" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "basement.js" );
@@ -78,44 +78,44 @@ public class LocalRelayServer
 
 	public static final void updateStatus()
 	{
-		LocalRelayServer.updateStatus = true;
+		RelayServer.updateStatus = true;
 	}
 
 	public static final void startThread()
 	{
-		if ( LocalRelayServer.relayThread != null )
+		if ( RelayServer.relayThread != null )
 		{
 			return;
 		}
 
-		LocalRelayServer.relayThread = new Thread( LocalRelayServer.INSTANCE,
+		RelayServer.relayThread = new Thread( RelayServer.INSTANCE,
 			"LocalRelayServer" );
-		LocalRelayServer.relayThread.start();
+		RelayServer.relayThread.start();
 	}
 
 	public static final int getPort()
 	{
-		return LocalRelayServer.port;
+		return RelayServer.port;
 	}
 
 	public static final boolean isRunning()
 	{
-		return LocalRelayServer.listening;
+		return RelayServer.listening;
 	}
 
 	public static final void stop()
 	{
-		LocalRelayServer.listening = false;
+		RelayServer.listening = false;
 	}
 
 	public void run()
 	{
-		LocalRelayServer.port = 60080;
+		RelayServer.port = 60080;
 		while ( !this.openServerSocket() )
 		{
-			if ( LocalRelayServer.port <= 60089 )
+			if ( RelayServer.port <= 60089 )
 			{
-				++LocalRelayServer.port;
+				++RelayServer.port;
 			}
 			else
 			{
@@ -123,9 +123,9 @@ public class LocalRelayServer
 			}
 		}
 
-		LocalRelayServer.listening = true;
+		RelayServer.listening = true;
 
-		while ( LocalRelayServer.listening )
+		while ( RelayServer.listening )
 		{
 			try
 			{
@@ -137,7 +137,7 @@ public class LocalRelayServer
 				// someone closed the thread; just reset
 				// the listening state and fall through.
 
-				LocalRelayServer.listening = false;
+				RelayServer.listening = false;
 			}
 		}
 
@@ -158,14 +158,14 @@ public class LocalRelayServer
 		}
 
 		this.serverSocket = null;
-		LocalRelayServer.relayThread = null;
+		RelayServer.relayThread = null;
 	}
 
 	private synchronized boolean openServerSocket()
 	{
 		try
 		{
-			this.serverSocket = new ServerSocket( LocalRelayServer.port, 25, InetAddress.getByName( "127.0.0.1" ) );
+			this.serverSocket = new ServerSocket( RelayServer.port, 25, InetAddress.getByName( "127.0.0.1" ) );
 			return true;
 		}
 		catch ( Exception e )
@@ -176,9 +176,9 @@ public class LocalRelayServer
 
 	private synchronized void closeAgents()
 	{
-		while ( !LocalRelayServer.agentThreads.isEmpty() )
+		while ( !RelayServer.agentThreads.isEmpty() )
 		{
-			RelayAgent agent = (RelayAgent) LocalRelayServer.agentThreads.remove( 0 );
+			RelayAgent agent = (RelayAgent) RelayServer.agentThreads.remove( 0 );
 			agent.setSocket( null );
 		}
 	}
@@ -187,9 +187,9 @@ public class LocalRelayServer
 	{
 		RelayAgent agent = null;
 
-		for ( int i = 0; i < LocalRelayServer.agentThreads.size(); ++i )
+		for ( int i = 0; i < RelayServer.agentThreads.size(); ++i )
 		{
-			agent = (RelayAgent) LocalRelayServer.agentThreads.get( i );
+			agent = (RelayAgent) RelayServer.agentThreads.get( i );
 
 			if ( agent.isWaiting() )
 			{
@@ -203,33 +203,33 @@ public class LocalRelayServer
 
 	private synchronized void createAgent( final Socket socket )
 	{
-		RelayAgent agent = new RelayAgent( LocalRelayServer.agentThreads.size() );
+		RelayAgent agent = new RelayAgent( RelayServer.agentThreads.size() );
 		agent.setSocket( socket );
 
-		LocalRelayServer.agentThreads.add( agent );
+		RelayServer.agentThreads.add( agent );
 		agent.start();
 	}
 
 	public static final void addStatusMessage( final String message )
 	{
-		if ( System.currentTimeMillis() - LocalRelayServer.lastStatusMessage < 4000 )
+		if ( System.currentTimeMillis() - RelayServer.lastStatusMessage < 4000 )
 		{
-			LocalRelayServer.statusMessages.append( message );
+			RelayServer.statusMessages.append( message );
 		}
 	}
 
 	public static final String getNewStatusMessages()
 	{
-		if ( LocalRelayServer.updateStatus )
+		if ( RelayServer.updateStatus )
 		{
-			LocalRelayServer.updateStatus = false;
-			LocalRelayServer.statusMessages.append( "<!-- REFRESH -->" );
+			RelayServer.updateStatus = false;
+			RelayServer.statusMessages.append( "<!-- REFRESH -->" );
 		}
 
-		String newMessages = LocalRelayServer.statusMessages.toString();
-		LocalRelayServer.statusMessages.setLength( 0 );
+		String newMessages = RelayServer.statusMessages.toString();
+		RelayServer.statusMessages.setLength( 0 );
 
-		LocalRelayServer.lastStatusMessage = System.currentTimeMillis();
+		RelayServer.lastStatusMessage = System.currentTimeMillis();
 		return newMessages;
 	}
 }
