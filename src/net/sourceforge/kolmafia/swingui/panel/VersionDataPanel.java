@@ -46,6 +46,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 /**
  * An internal class which displays KoLmafia's current version information. This is passed to the constructor for
@@ -56,7 +57,7 @@ public class VersionDataPanel
 	extends JPanel
 {
 	private final String[] versionData =
-		{ StaticEntity.getVersion(), KoLConstants.VERSION_DATE, " ", "Copyright © 2005-2011 KoLmafia development team", "Berkeley Software Development (BSD) License", "http://kolmafia.sourceforge.net/", " ", "Current Running on " + System.getProperty( "os.name" ), "Local Directory is " + System.getProperty( "user.dir" ), "Using Java v" + System.getProperty( "java.runtime.version" ) };
+		{ StaticEntity.getVersion(), KoLConstants.VERSION_DATE, " ", "Copyright ï¿½ 2005-2011 KoLmafia development team", "Berkeley Software Development (BSD) License", "http://kolmafia.sourceforge.net/", " ", "Current Running on " + System.getProperty( "os.name" ), "Local Directory is " + System.getProperty( "user.dir" ), "Using Java v" + System.getProperty( "java.runtime.version" ) };
 
 	public VersionDataPanel()
 	{
@@ -92,7 +93,7 @@ public class VersionDataPanel
 	{
 		public void run()
 		{
-			StaticEntity.openSystemBrowser( "http://sourceforge.net/project/project_donations.php?group_id=126572" );
+			RelayLoader.openSystemBrowser( "http://sourceforge.net/project/project_donations.php?group_id=126572" );
 		}
 	}
 }

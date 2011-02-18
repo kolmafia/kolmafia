@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class CustomCombatPanel
 	extends JPanel
@@ -229,7 +230,7 @@ public class CustomCombatPanel
 
 			public void run()
 			{
-				StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
+				RelayLoader.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
 			}
 		}
 	}
@@ -263,7 +264,7 @@ public class CustomCombatPanel
 
 		public void actionCancelled()
 		{
-			StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
+			RelayLoader.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
 		}
 
 		public void setEnabled( final boolean isEnabled )

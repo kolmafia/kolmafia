@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class ShowDescriptionList
 	extends JList
@@ -363,7 +364,7 @@ public class ShowDescriptionList
 
 		if ( location != null )
 		{
-			StaticEntity.openSystemBrowser( location );
+			RelayLoader.openSystemBrowser( location );
 		}
 	}
 

@@ -81,6 +81,8 @@ import net.sourceforge.kolmafia.swingui.OptionsFrame;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.webui.LocalRelayServer;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 import tab.CloseTabbedPane;
 
 public class KoLmafiaGUI
@@ -263,7 +265,7 @@ public class KoLmafiaGUI
 
 		if ( frameName.equals( "LocalRelayServer" ) )
 		{
-			StaticEntity.getClient().openRelayBrowser();
+			RelayLoader.openRelayBrowser();
 			return;
 		}
 
@@ -462,7 +464,7 @@ public class KoLmafiaGUI
 			}
 			else if ( this.frameClass == LocalRelayServer.class )
 			{
-				StaticEntity.getClient().openRelayBrowser();
+				RelayLoader.openRelayBrowser();
 				return null;
 			}
 			else if ( this.frameClass == MailboxFrame.class )

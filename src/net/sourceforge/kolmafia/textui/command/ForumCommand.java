@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class ForumCommand
 	extends AbstractCommand
@@ -45,6 +45,6 @@ public class ForumCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		StaticEntity.openSystemBrowser( "http://forums.kingdomofloathing.com/" );
+		RelayLoader.openSystemBrowser( "http://forums.kingdomofloathing.com/" );
 	}
 }

@@ -24,27 +24,59 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.textui.command;
+package net.sourceforge.kolmafia.webui;
 
-import net.sourceforge.kolmafia.webui.RelayLoader;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 
-public class RelayBrowserCommand
-	extends AbstractCommand
+public class RelayAutoCombatThread
+	extends Thread
 {
-	public RelayBrowserCommand()
+	private String desiredAction;
+	private final PauseObject pauser = new PauseObject();
+
+	public RelayAutoCombatThread()
 	{
-		this.usage = " - open the relay browser.";
+		super( "LocalRelayCombatThread" );
+		this.setDaemon( true );
+		this.start();
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void wake( final String desiredAction )
 	{
-		RelayLoader.openRelayBrowser();
+		this.desiredAction = desiredAction;
+
+		if ( !FightRequest.isTrackingFights() )
+		{
+			FightRequest.beginTrackingFights();
+		}
+
+		this.pauser.unpause();
+	}
+
+	public void run()
+	{
+		while ( true )
+		{
+			this.pauser.pause();
+
+			if ( this.desiredAction == null )
+			{
+				FightRequest.INSTANCE.run();
+			}
+			else
+			{
+				FightRequest.INSTANCE.runOnce( this.desiredAction );
+			}
+
+			FightRequest.stopTrackingFights();
+		}
 	}
 }

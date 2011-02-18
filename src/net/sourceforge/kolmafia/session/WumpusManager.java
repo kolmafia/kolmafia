@@ -41,8 +41,8 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public abstract class WumpusManager
 {
@@ -769,7 +769,7 @@ public abstract class WumpusManager
 	{
 		String code = WumpusManager.getWumpinatorCode();
 		String current = WumpusManager.getCurrentField();
-		StaticEntity.openSystemBrowser( "http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current );
+		RelayLoader.openSystemBrowser( "http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current );
 	}
 
 	private static final Room currentRoom()

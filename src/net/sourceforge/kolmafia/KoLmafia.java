@@ -133,6 +133,8 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.LocalRelayServer;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public abstract class KoLmafia
 {
@@ -686,7 +688,7 @@ public abstract class KoLmafia
 		{
 			KoLmafia.updateDisplayState( KoLConstants.ENABLE_STATE,	"" );
 		}
-	
+
 		KoLmafia.continuationState = KoLConstants.CONTINUE_STATE;
 	}
 
@@ -2781,58 +2783,12 @@ public abstract class KoLmafia
 		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
-	public void startRelayServer()
-	{
-		if ( LocalRelayServer.isRunning() )
-		{
-			return;
-		}
-
-		LocalRelayServer.startThread();
-
-		// Wait for 5 seconds before giving up
-		// on the relay server.
-
-		PauseObject pauser = new PauseObject();
-
-		for ( int i = 0; i < 50 && !LocalRelayServer.isRunning(); ++i )
-		{
-			pauser.pause( 200 );
-		}
-
-		if ( !LocalRelayServer.isRunning() )
-		{
-			return;
-		}
-	}
-
-	public void openRelayBrowser()
-	{
-		this.openRelayBrowser( "game.php" );
-	}
-
-	public void openRelayBrowser( final String location )
-	{
-		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );
-	}
-
-	public void launchRadioKoL()
-	{
-		StaticEntity.openSystemBrowser( "http://209.9.238.5:8794/listen.pls" );
-	}
-
 	public void gc()
 	{
 		int mem1 = (int) ( Runtime.getRuntime().freeMemory() >> 10 );
 		System.gc();
 		int mem2 = (int) ( Runtime.getRuntime().freeMemory() >> 10 );
 		RequestLogger.printLine( "Reclaimed " + ( mem2 - mem1 ) + " KB of memory" );
-	}
-
-	public void launchSimulator()
-	{
-		this.startRelayServer();
-		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/simulator/index.html" );
 	}
 
 	public static final boolean isAdventuring()
@@ -3020,7 +2976,7 @@ public abstract class KoLmafia
 
 				if ( InputFieldUtilities.confirm( "A new version of KoLmafia is now available.  Would you like to download it now?" ) )
 				{
-					StaticEntity.openSystemBrowser( "http://sourceforge.net/projects/kolmafia/files/" );
+					RelayLoader.openSystemBrowser( "http://sourceforge.net/projects/kolmafia/files/" );
 				}
 			}
 			catch ( Exception e )

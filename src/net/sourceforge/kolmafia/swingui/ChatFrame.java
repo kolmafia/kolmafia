@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class ChatFrame
 	extends GenericFrame
@@ -355,7 +356,7 @@ public class ChatFrame
 
 				if ( message.startsWith( "/?" ) || message.startsWith( "/help" ) )
 				{
-					StaticEntity.openSystemBrowser( "http://www.kingdomofloathing.com/doc.php?topic=chat_commands" );
+					RelayLoader.openSystemBrowser( "http://www.kingdomofloathing.com/doc.php?topic=chat_commands" );
 					return;
 				}
 
@@ -438,7 +439,7 @@ public class ChatFrame
 		{
 			if ( location.startsWith( "makeoffer" ) || location.startsWith( "counteroffer" ) || location.startsWith( "bet" ) )
 			{
-				StaticEntity.getClient().openRelayBrowser( location );
+				RelayLoader.openSystemBrowser( "/" + location, true );
 				return;
 			}
 			else if( location.startsWith( "messages" ) )
@@ -528,7 +529,7 @@ public class ChatFrame
 
 			if ( Preferences.getBoolean( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
 			{
-				StaticEntity.getClient().openRelayBrowser( urlString );
+				RelayLoader.openSystemBrowser( "/" + urlString );
 			}
 			else
 			{

@@ -36,8 +36,8 @@ package net.sourceforge.kolmafia.swingui.panel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -80,7 +80,7 @@ public class UseItemPanel
 			name = ( (AdventureResult) values[ i ] ).getName();
 			if ( name != null )
 			{
-				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+				RelayLoader.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
 			}
 		}
 	}

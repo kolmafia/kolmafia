@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 /**
  * Internal class which displays the given request inside of the current frame.
@@ -59,11 +60,11 @@ public class RelayBrowserMenuItem
 	{
 		if ( this.location == null )
 		{
-			StaticEntity.getClient().openRelayBrowser();
+			RelayLoader.openRelayBrowser();
 		}
 		else if ( this.location.startsWith( "http" ) )
 		{
-			StaticEntity.openSystemBrowser( this.location );
+			RelayLoader.openSystemBrowser( this.location );
 		}
 		else
 		{

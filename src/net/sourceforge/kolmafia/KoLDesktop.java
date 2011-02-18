@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import com.sun.java.forums.CloseableTabbedPane;
 
-import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ComponentAdapter;
@@ -43,7 +42,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -63,11 +61,11 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.MailboxFrame;
 import net.sourceforge.kolmafia.swingui.SendMessageFrame;
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
-import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 import net.sourceforge.kolmafia.utilities.PauseObject;
-
+import net.sourceforge.kolmafia.webui.RelayLoader;
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
 import tab.CloseTabbedPane;
@@ -200,7 +198,7 @@ public class KoLDesktop
 				{
 					if ( interfaceArray[ i ].equals( "LocalRelayServer" ) )
 					{
-						StaticEntity.getClient().startRelayServer();
+						RelayLoader.startRelayServer();
 						continue;
 					}
 
@@ -397,7 +395,7 @@ public class KoLDesktop
 
 		toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
 		toolbarPanel.add( new InvocationButton(
-			"Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
+			"Load in Web Browser", "browser.gif", RelayLoader.class, "openRelayBrowser" ) );
 
 		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
 
@@ -424,7 +422,7 @@ public class KoLDesktop
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new InvocationButton( "Radio KoL", "radsword.gif", StaticEntity.getClient(), "launchRadioKoL" ) );
+		toolbarPanel.add( new InvocationButton( "Radio KoL", "radsword.gif", RelayLoader.class, "launchRadioKoL" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Farmer's Almanac", "calendar.gif", "CalendarFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
 

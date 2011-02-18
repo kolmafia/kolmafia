@@ -36,11 +36,11 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class WikiLookupCommand
 	extends AbstractCommand
@@ -70,6 +70,6 @@ public class WikiLookupCommand
 			}
 		}
 
-		StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + StringUtilities.getURLEncode( parameters ) + "&go=Go" );
+		RelayLoader.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + StringUtilities.getURLEncode( parameters ) + "&go=Go" );
 	}
 }

@@ -72,7 +72,7 @@ public class GlobalMenuBar
 
 		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", "RequestFrame" ) );
 		statusMenu.add( new RelayBrowserMenuItem() );
-		statusMenu.add( new InvocationMenuItem( "KoL Simulator", StaticEntity.getClient(), "launchSimulator" ) );
+		statusMenu.add( new RelayBrowserMenuItem( "KoLmafia Forums", "/simulator/index.html" ) );
 
 		statusMenu.add( new JSeparator() );
 

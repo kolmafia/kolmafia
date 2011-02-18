@@ -39,10 +39,10 @@ import java.util.regex.Pattern;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class HyperlinkAdapter
 	implements HyperlinkListener
@@ -78,7 +78,7 @@ public class HyperlinkAdapter
 			}
 			else if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
 			{
-				StaticEntity.openSystemBrowser( location );
+				RelayLoader.openSystemBrowser( location );
 			}
 			else if ( location.startsWith( "javascript:" ) && ( location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1 ) )
 			{
@@ -170,5 +170,6 @@ public class HyperlinkAdapter
 
 	public void handleInternalLink( String location )
 	{
+		RelayLoader.openSystemBrowser( location );
 	}
 }

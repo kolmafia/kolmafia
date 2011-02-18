@@ -33,8 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class WikiMafiaSearchCommand
 	extends AbstractCommand
@@ -46,6 +46,6 @@ public class WikiMafiaSearchCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		StaticEntity.openSystemBrowser( "http://wiki.kolmafia.us/index.php?search=" + StringUtilities.getURLEncode( parameters ) );
+		RelayLoader.openSystemBrowser( "http://wiki.kolmafia.us/index.php?search=" + StringUtilities.getURLEncode( parameters ) );
 	}
 }
