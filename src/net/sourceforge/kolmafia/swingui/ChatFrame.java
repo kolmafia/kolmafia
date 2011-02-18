@@ -442,7 +442,7 @@ public class ChatFrame
 				RelayLoader.openSystemBrowser( "/" + location, true );
 				return;
 			}
-			else if( location.startsWith( "messages" ) )
+			else if ( location.startsWith( "messages" ) )
 			{
 				GenericFrame.createDisplay( MailboxFrame.class );
 				return;
@@ -450,19 +450,15 @@ public class ChatFrame
 
 			int equalsIndex = location.indexOf( "=" );
 
-			String[] locationSplit;
-
 			if ( equalsIndex == -1 )
 			{
-				locationSplit = new String[ 1 ];
-				locationSplit[ 0 ] = location;
+				RelayLoader.openSystemBrowser( "/" + location, true );
+				return;
 			}
-			else
-			{
-				locationSplit = new String[ 2 ];
-				locationSplit[ 0 ] = location.substring( 0, equalsIndex );
-				locationSplit[ 1 ] = location.substring( equalsIndex + 1 );
-			}
+
+			String[] locationSplit = new String[ 2 ];
+			locationSplit[ 0 ] = location.substring( 0, equalsIndex );
+			locationSplit[ 1 ] = location.substring( equalsIndex + 1 );
 
 			// First, determine the parameters inside of the
 			// location which will be passed to frame classes.
