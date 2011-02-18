@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import com.sun.java.forums.CloseableTabbedPane;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -218,6 +219,13 @@ public class KoLDesktop
 
 	public void dispose()
 	{
+		if ((KoLDesktop.INSTANCE != null) &&
+				  (Preferences.getBoolean( "rememberDesktopSize" )))
+		{
+			Dimension tempDim = KoLDesktop.INSTANCE.getSize();
+			Preferences.setInteger( "desktopHeight" ,(int) tempDim.getHeight() );
+			Preferences.setInteger( "desktopWidth" , (int) tempDim.getWidth() );
+		}
 		while ( !this.tabListing.isEmpty() )
 		{
 			this.tabs.removeTabAt( 0 );
@@ -239,6 +247,11 @@ public class KoLDesktop
 		{
 			KoLDesktop.INSTANCE = new KoLDesktop( StaticEntity.getVersion() );
 			KoLDesktop.INSTANCE.initializeTabs();
+			if (Preferences.getBoolean( "rememberDesktopSize" ))
+			{
+				KoLDesktop.INSTANCE.setSize( Preferences.getInteger( "desktopWidth" ),
+						                       Preferences.getInteger( "desktopHeight" ));
+			}
 		}
 
 		return KoLDesktop.INSTANCE;
