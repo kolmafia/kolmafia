@@ -37,11 +37,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -536,39 +538,53 @@ public class CharPaneRequest
 		searchIndex = responseText.indexOf( "onClick='eff", searchIndex );
 		searchIndex = responseText.indexOf( "(", searchIndex ) + 1;
 
-		String descriptionId = responseText.substring( searchIndex + 1, responseText.indexOf( ")", searchIndex ) - 1 );
-		int effectId = EffectDatabase.getEffect( descriptionId );
+		String descId = responseText.substring( searchIndex + 1, responseText.indexOf( ")", searchIndex ) - 1 );
+		String durationString = responseText.substring( durationIndex, responseText.indexOf( ")", durationIndex ) );
 
-		String duration = responseText.substring( durationIndex, responseText.indexOf( ")", durationIndex ) );
+		int duration;
+		if ( durationString.equals( "&infin;" ) )
+		{
+			duration = Integer.MAX_VALUE;
+		}
+		else if ( durationString.indexOf( "&" ) != -1 || durationString.indexOf( "<" ) != -1 )
+		{
+			return null;
+		}
+		else
+		{
+			duration = StringUtilities.parseInt( durationString );
+		}
+
+		return CharPaneRequest.extractEffect( descId, effectName, duration );
+	}
+
+	private static final AdventureResult extractEffect( final String descId, String effectName, int duration )
+	{
+		int effectId = EffectDatabase.getEffect( descId );
+
+		if ( effectId == -1 )
+		{
+			effectId = EffectDatabase.learnEffectId( effectName, descId );
+		}
+		else
+		{
+			effectName = EffectDatabase.getEffectName( effectId );
+		}
 		
 		if ( effectName.equals( "A Little Bit Evil" ) )
 		{
 			effectName = effectName + " (" + KoLCharacter.getClassType() + ")";
 		}
 
-		if ( effectId == -1 )
+		if ( duration == Integer.MAX_VALUE )
 		{
-			effectId = EffectDatabase.learnEffectId( effectName, descriptionId );
-		}
-		else
-		{
-			effectName = EffectDatabase.getEffectName( effectId );
-		}
-
-		if ( duration.equals( "&infin;" ) )
-		{
-			duration = String.valueOf( Integer.MAX_VALUE );
 			if ( effectName.equalsIgnoreCase( "Temporary Blindness" ) )
 			{
 				effectName = "Temporary Blindness (intrinsic)";
 			}
 		}
-		if ( duration.indexOf( "&" ) != -1 || duration.indexOf( "<" ) != -1 )
-		{
-			return null;
-		}
 
-		return new AdventureResult( effectName, StringUtilities.parseInt( duration ), true );
+		return new AdventureResult( effectName, duration, true );
 	}
 
 	private static final void refreshEffects( final String responseText )
@@ -617,6 +633,11 @@ public class CharPaneRequest
 			return;
 		}
 
+		CharPaneRequest.startCounters();
+	}
+
+	private static final void startCounters()
+	{
 		int absintheCount = CharPaneRequest.ABSINTHE.getCount( KoLConstants.activeEffects );
 
 		if ( absintheCount > 8 )
@@ -655,5 +676,89 @@ public class CharPaneRequest
 	public static final void parseStatus( final JSONObject JSON )
 		throws JSONException
 	{
+		int turnsthisrun = JSON.getInt( "turnsthisrun" );
+		CharPaneRequest.turnsthisrun = turnsthisrun;
+		KoLCharacter.setCurrentRun( turnsthisrun );
+
+		int hp = JSON.getInt( "hp" );
+		int maxhp = JSON.getInt( "maxhp" );
+		KoLCharacter.setHP( hp, maxhp, maxhp );
+
+		int mp = JSON.getInt( "mp" );
+		int maxmp = JSON.getInt( "maxmp" );
+		KoLCharacter.setMP( mp, maxmp, maxmp );
+
+		int meat = JSON.getInt( "meat" );
+		KoLCharacter.setAvailableMeat( meat );
+
+		int adventures = JSON.getInt( "adventures" );
+		KoLCharacter.setAdventuresLeft( adventures );
+
+		int mcd = JSON.getInt( "mcd" );
+		KoLCharacter.setMindControlLevel( mcd );
+
+		KoLConstants.recentEffects.clear();
+		ArrayList visibleEffects = new ArrayList();
+
+		int classType = JSON.getInt( "class" );
+		KoLCharacter.setClassType( classType );
+
+		JSONObject effects = JSON.getJSONObject( "effects" );
+		Iterator keys = effects.keys();
+		while ( keys.hasNext() )
+		{
+			String descId = (String) keys.next();
+			JSONArray data = effects.getJSONArray( descId );
+			String effectName = data.getString( 0 );
+			int count = data.getInt( 1 );
+
+			AdventureResult effect = CharPaneRequest.extractEffect( descId, effectName, count );
+			if ( effect == null )
+			{
+				continue;
+			}
+
+			int activeCount = effect.getCount( KoLConstants.activeEffects );
+
+			if ( count != activeCount )
+			{
+				ResultProcessor.processResult( effect.getInstance( count - activeCount ) );
+			}
+
+			visibleEffects.add( effect );
+		}
+
+		KoLmafia.applyEffects();
+		KoLConstants.activeEffects.retainAll( visibleEffects );
+
+		// If new effects have been detected, write override files
+		KoLmafia.saveDataOverride();
+
+		// If we are Absinthe Minded, start absinthe counters
+		CharPaneRequest.startCounters();
+		KoLCharacter.recalculateAdjustments();
+
+		int famId = JSON.getInt( "familiar" );
+		int famExp = JSON.getInt( "familiarexp" );
+		int weight = JSON.getInt( "famlevel" );
+		FamiliarData familiar = FamiliarData.registerFamiliar( famId, famExp );
+		KoLCharacter.setFamiliar( familiar );
+
+		// *** No current way to check feasted!
+		boolean feasted = false;
+		familiar.checkWeight( weight, feasted );
+
+		KoLCharacter.updateStatus();
+
+		boolean hardcore = JSON.getInt( "hardcore" ) == 1;
+		KoLCharacter.setHardcore( hardcore );
+
+		boolean casual = JSON.getInt( "casual" ) == 1;
+		int roninLeft = JSON.getInt( "roninleft" );
+
+		// *** Assume that roninleft always equals 0 if casual
+		KoLCharacter.setRonin( roninLeft > 0 );
+
+		CharPaneRequest.setInteraction();
 	}
 }

@@ -888,6 +888,19 @@ public abstract class KoLCharacter
 	 * @param classname The name of the character's class
 	 */
 
+	public static final void setClassType( final int classtype )
+	{
+		String classname =
+			classtype == 1 ? "Seal Clubber" :
+			classtype == 2 ? "Turtle Tamer" :
+			classtype == 3 ? "Pastamancer" :
+			classtype == 4 ? "Sauceror" :
+			classtype == 5 ? "Disco Bandit" :
+			classtype == 6 ? "Accordion Thief" :
+			classtype == 7 ? "Astral Spirit" :
+			"Unknown";
+	}
+
 	public static final void setClassName( final String classname )
 	{
 		KoLCharacter.classname = classname;

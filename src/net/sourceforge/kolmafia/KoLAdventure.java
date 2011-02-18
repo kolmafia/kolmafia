@@ -355,6 +355,18 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.zone.equals( "Lab" ) )
+		{
+			this.isValidAdventure = InventoryManager.hasItem( ItemPool.get( ItemPool.LAB_KEY, 1 ) );
+			return;
+		}
+
+		if ( this.zone.equals( "Menagerie" ) )
+		{
+			this.isValidAdventure = InventoryManager.hasItem( ItemPool.get( ItemPool.MENAGERIE_KEY, 1 ) );
+			return;
+		}
+
 		// Adventuring in the mine warehouse or office requires either
 		// Mining Gear or the Dwarvish War Uniform
 
@@ -476,9 +488,7 @@ public class KoLAdventure
 		}
 
 		// If we're trying to take a trip, make sure it's the right one
-		if ( this.adventureId.equals( AdventurePool.BAD_TRIP_ID ) ||
-		     this.adventureId.equals( AdventurePool.MEDIOCRE_TRIP_ID ) ||
-		     this.adventureId.equals( AdventurePool.GREAT_TRIP_ID ) )
+		if ( this.zone.equals( "Astral" ) )
 		{
 			// You must be Half-Astral to go on a trip
 
