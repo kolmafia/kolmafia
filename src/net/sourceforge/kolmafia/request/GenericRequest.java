@@ -2119,7 +2119,7 @@ public class GenericRequest
 		{
 			LocalRelayAgent.setErrorRequest( this );
 			
-			ChatMessage message = new EventMessage( "<a style=\"color: red; text-decoration: underline;\" href=\"http://127.0.0.1:" + LocalRelayServer.getPort() + "/main.php\" target=\"mainpane\">Click here to continue in the relay browser.</a>", "red" );
+			ChatMessage message = new EventMessage( "<a href=\"http://127.0.0.1:" + LocalRelayServer.getPort() + "/main.php\" target=\"mainpane\">Click here to continue in the relay browser.</a>", null );
 			ChatPoller.addEntry( message );
 		}
 	}
