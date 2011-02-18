@@ -301,7 +301,6 @@ public class ApiRequest
 	private static final void reportParseError( final String what, final String responseText, final JSONException e )
 	{
 		KoLmafia.updateDisplay( "api.php?what=" + what + " parse error: " + e.getMessage() );
-		StaticEntity.printStackTrace( e );
-		System.err.println( responseText );
+		StaticEntity.printStackTrace( e, responseText );
 	}
 }

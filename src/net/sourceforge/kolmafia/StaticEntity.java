@@ -1033,6 +1033,7 @@ public abstract class StaticEntity
 	{
 		ostream.println( t.getClass() + ": " + t.getMessage() );
 		t.printStackTrace( ostream );
+		ostream.println( message );
 	}
 
 	public static final void printRequestData( final GenericRequest request )
