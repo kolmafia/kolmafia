@@ -220,11 +220,11 @@ public class ApiRequest
 		// Parse the string into a JSON object
 		try
 		{
-			JSON = new JSONObject( responseText );
+			JSON = new JSONObject( ApiRequest.getJSONString( responseText ) );
 		}
 		catch ( JSONException e )
 		{
-			KoLmafia.updateDisplay( "api.php?what=status returned a bad JSON string!" );
+			ApiRequest.reportParseError( "status", responseText, e );
 			return;
 		}
 
@@ -257,8 +257,7 @@ public class ApiRequest
 		}
 		catch ( JSONException e )
 		{
-			KoLmafia.updateDisplay( "Error parsing JSON string!" );
-			StaticEntity.printStackTrace( e );
+			ApiRequest.reportParseError( "status", responseText, e );
 		}
 	}
 
@@ -269,11 +268,11 @@ public class ApiRequest
 		// Parse the string into a JSON object
 		try
 		{
-			JSON = new JSONObject( responseText );
+			JSON = new JSONObject( ApiRequest.getJSONString( responseText ) );
 		}
 		catch ( JSONException e )
 		{
-			KoLmafia.updateDisplay( "api.php?what=inventory returned a bad JSON string!" );
+			ApiRequest.reportParseError( "inventory", responseText, e );
 			return;
 		}
 
@@ -283,8 +282,26 @@ public class ApiRequest
 		}
 		catch ( JSONException e )
 		{
-			KoLmafia.updateDisplay( "Error parsing JSON string!" );
-			StaticEntity.printStackTrace( e );
+			ApiRequest.reportParseError( "inventory", responseText, e );
 		}
+	}
+	
+	private static final String getJSONString( String responseText )
+	{
+		int pos = responseText.indexOf( "{" );
+		
+		if ( pos == 0 )
+		{
+			return responseText;
+		}
+		
+		return responseText.substring( pos );
+	}
+	
+	private static final void reportParseError( final String what, final String responseText, final JSONException e )
+	{
+		KoLmafia.updateDisplay( "api.php?what=" + what + " parse error: " + e.getMessage() );
+		StaticEntity.printStackTrace( e );
+		System.err.println( responseText );
 	}
 }
