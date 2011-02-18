@@ -2269,7 +2269,7 @@
 2263	697550097	lion oil	vials of lion oil
 2264	809178685	stunt nuts	bags of stunt nuts
 2265	478803907	wet stew	bowls of wet stew
-2266	602051173	wet stunt nut stew
+2266	602051173	wet stunt nut stew	bowls of wet stunt nut stew
 2267	984316382	Mega Gem
 2268	654006777	Staff of Fats
 2269	904562513	sausage wonton	sausage wontons
