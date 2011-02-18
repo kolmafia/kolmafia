@@ -389,13 +389,13 @@ public class ChatSender
 			return false;
 		}
 
-		if ( graf.startsWith( "/trivia" ) )
+		if ( graf.equalsIgnoreCase( "/trivia" ) )
 		{
 			ChatManager.startTriviaGame();
 			return true;
 		}
 
-		if ( graf.startsWith( "/endtrivia" ) || graf.startsWith( "/stoptrivia" ) )
+		if ( graf.equalsIgnoreCase( "/endtrivia" ) || graf.equalsIgnoreCase( "/stoptrivia" ) )
 		{
 			ChatManager.stopTriviaGame();
 			return true;
