@@ -3068,7 +3068,8 @@ public abstract class KoLCharacter
 
 	public static final boolean getDispensaryOpen()
 	{
-		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastDispensaryOpen" );
+		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastDispensaryOpen" ) &&
+		       InventoryManager.hasItem( ItemPool.LAB_KEY );
 	}
 
 	public static final boolean getGuildStoreOpen()
