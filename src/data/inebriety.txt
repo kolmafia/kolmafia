@@ -60,6 +60,7 @@ canteen of wine	3	5	6-15	22-40	22-40	22-40	20 In Vino Vires (+50% all)
 cherry bomb	6	6	22-26	0	16-20	0	tiny plastic sword
 cinco mayo lager	3	1	14-16	5	5	5	5 Cinco Elementos
 citrus-infused sake	4	7	14-17	75-120	0	0	1 Warm Belly (+hot damage, +10 Fishy)
+cobb's knob wurstbrau	1	4	2-3	4-6	0	0	5-10 MP
 cool mushroom wine	3	6	10-14	0	8-10	0
 corpse island iced tea	6	5	19-25	25-30	25-30	25-30
 corpse on the beach	6	5	19-25	0	71-75	0
