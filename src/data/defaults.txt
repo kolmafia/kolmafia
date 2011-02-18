@@ -311,6 +311,8 @@ user	demonName7	Ak'gyxoth
 user	demonName8
 user	demonName9
 user	demonSummoned	false
+user	desktopHeight	600
+user	desktopWidth	800
 user	discardedKarma	0
 user	dolphinItem
 user	doorCode
@@ -534,6 +536,7 @@ user	reagentSummons	0
 user	recentLocations	5
 user	recoveryScript
 user	relayCounters
+user	rememberDesktopSize	false
 user	requireBoxServants	false
 user	requireSewerTestItems	false
 user	romanticTarget
