@@ -385,7 +385,7 @@ public abstract class ChatManager
 			}
 		}
 
-		EventManager.addChatEvent( content );
+		EventManager.addChatEvent( ChatFormatter.formatChatMessage( message, false ) );		
 		ChatManager.broadcastEvent( message );
 	}
 

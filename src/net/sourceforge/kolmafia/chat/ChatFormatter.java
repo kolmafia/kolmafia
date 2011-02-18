@@ -132,15 +132,23 @@ public class ChatFormatter
 
 	public static final String formatChatMessage( final ChatMessage message )
 	{
+		return ChatFormatter.formatChatMessage( message, true );
+	}
+	
+	public static final String formatChatMessage( final ChatMessage message, boolean includeTimestamp )
+	{
 		StringBuffer displayHTML = new StringBuffer();
 
-		displayHTML.append( "<font color=\"" );
-		displayHTML.append( ChatFormatter.DEFAULT_TIMESTAMP_COLOR );
-		displayHTML.append( "\">" );
-		displayHTML.append( message.getTimestamp() );
-		displayHTML.append( "</font>" );
+		if ( includeTimestamp )
+		{
+			displayHTML.append( "<font color=\"" );
+			displayHTML.append( ChatFormatter.DEFAULT_TIMESTAMP_COLOR );
+			displayHTML.append( "\">" );
+			displayHTML.append( message.getTimestamp() );
+			displayHTML.append( "</font>" );
 
-		displayHTML.append( " " );
+			displayHTML.append( " " );
+		}
 
 		String sender = message.getSender();
 
