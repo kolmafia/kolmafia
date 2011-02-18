@@ -115,7 +115,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.LocalRelayServer;
+import net.sourceforge.kolmafia.webui.RelayServer;
 
 public class RequestLogger
 	extends NullStream
@@ -303,7 +303,7 @@ public class RequestLogger
 
 		colorBuffer.append( KoLConstants.LINE_BREAK );
 		KoLConstants.commandBuffer.append( colorBuffer.toString() );
-		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
+		RelayServer.addStatusMessage( colorBuffer.toString() );
 	}
 
 	public static final PrintStream openStream( final String filename, final PrintStream originalStream,

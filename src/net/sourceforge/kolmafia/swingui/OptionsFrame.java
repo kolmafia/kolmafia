@@ -78,7 +78,7 @@ import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.webui.LocalRelayServer;
+import net.sourceforge.kolmafia.webui.RelayServer;
 import tab.CloseTabPaneEnhancedUI;
 
 public class OptionsFrame
@@ -127,7 +127,7 @@ public class OptionsFrame
 		{
 			this.tabs.setSelectedIndex( 2 );
 		}
-		else if ( LocalRelayServer.isRunning() )
+		else if ( RelayServer.isRunning() )
 		{
 			this.tabs.setSelectedIndex( 1 );
 		}

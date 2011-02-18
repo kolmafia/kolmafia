@@ -96,7 +96,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.RelayAgent;
-import net.sourceforge.kolmafia.webui.LocalRelayServer;
+import net.sourceforge.kolmafia.webui.RelayServer;
 
 import com.velocityreviews.forums.HttpTimeoutClient;
 import com.velocityreviews.forums.HttpTimeoutHandler;
@@ -1117,7 +1117,7 @@ public class GenericRequest
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 			RequestFrame.refreshStatus();
-			LocalRelayServer.updateStatus();
+			RelayServer.updateStatus();
 		}
 
 		this.formatResponse();
@@ -2118,8 +2118,8 @@ public class GenericRequest
 		else
 		{
 			RelayAgent.setErrorRequest( this );
-			
-			ChatMessage message = new EventMessage( "<a href=\"http://127.0.0.1:" + LocalRelayServer.getPort() + "/main.php\" target=\"mainpane\">Click here to continue in the relay browser.</a>", null );
+
+			ChatMessage message = new EventMessage( "<a href=\"/main.php\" target=\"mainpane\">Click here to continue in the relay browser.</a>", null );
 			ChatPoller.addEntry( message );
 		}
 	}

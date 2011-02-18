@@ -59,7 +59,7 @@ public class RelayLoader
 		{
 			RelayLoader.startRelayServer();
 
-			String prefix = "http://127.0.0.1:" + LocalRelayServer.getPort();
+			String prefix = "http://127.0.0.1:" + RelayServer.getPort();
 			
 			if ( location.endsWith( "/main.php" ) )
 			{
@@ -108,24 +108,24 @@ public class RelayLoader
 
 	public static final synchronized void startRelayServer()
 	{
-		if ( LocalRelayServer.isRunning() )
+		if ( RelayServer.isRunning() )
 		{
 			return;
 		}
 
-		LocalRelayServer.startThread();
+		RelayServer.startThread();
 
 		// Wait for 5 seconds before giving up
 		// on the relay server.
 
 		PauseObject pauser = new PauseObject();
 
-		for ( int i = 0; i < 50 && !LocalRelayServer.isRunning(); ++i )
+		for ( int i = 0; i < 50 && !RelayServer.isRunning(); ++i )
 		{
 			pauser.pause( 200 );
 		}
 
-		if ( !LocalRelayServer.isRunning() )
+		if ( !RelayServer.isRunning() )
 		{
 			return;
 		}

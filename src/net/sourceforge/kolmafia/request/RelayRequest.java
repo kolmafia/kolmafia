@@ -97,7 +97,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
-import net.sourceforge.kolmafia.webui.LocalRelayServer;
+import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class RelayRequest
@@ -1288,7 +1288,7 @@ public class RelayRequest
 		}
 		else if ( path.endsWith( "messageUpdate" ) )
 		{
-			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+			this.pseudoResponse( "HTTP/1.1 200 OK", RelayServer.getNewStatusMessages() );
 		}
 		else if ( path.endsWith( "lookupLocation" ) )
 		{
