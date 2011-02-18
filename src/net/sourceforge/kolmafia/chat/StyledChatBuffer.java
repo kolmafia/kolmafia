@@ -131,7 +131,7 @@ public class StyledChatBuffer
 
 	public String getStyle()
 	{
-		return "body { font-family: sans-serif; font-size: " + Preferences.getString( "chatFontSize" ) + "; } a { color: " + linkColor + "; text-decoration: none; }";
+		return "body { font-family: sans-serif; font-size: " + Preferences.getString( "chatFontSize" ) + "; } a { color: " + linkColor + "; text-decoration: none; } a.error { color: red; text-decoration: underline }";
 	}
 
 	public void applyHighlights()

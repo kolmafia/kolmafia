@@ -2119,7 +2119,7 @@ public class GenericRequest
 		{
 			RelayAgent.setErrorRequest( this );
 
-			ChatMessage message = new EventMessage( "<a href=\"/main.php\" target=\"mainpane\">Click here to continue in the relay browser.</a>", null );
+			ChatMessage message = new EventMessage( "<a href=/main.php target=mainpane class=error>Click here to continue in the relay browser.</a>", null );
 			ChatPoller.addEntry( message );
 		}
 	}

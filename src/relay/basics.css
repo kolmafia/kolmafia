@@ -2,6 +2,11 @@
 	font-weight: bold;
 }
 
+a.error {
+	color: #ff0000;
+	text-decoration: underline;
+}
+
 .element0 {
 	color: #000000;
 }
