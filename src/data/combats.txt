@@ -141,7 +141,7 @@ Throne Room	100	The Knob Goblin King
 Cobb's Knob Barracks	-1	Knob Goblin Elite Guard	Off-Duty Knob Goblin Elite Guard	Swarm of Knob Lice
 Cobb's Knob Harem	100	Knob Goblin Harem Guard	Knob Goblin Harem Girl	Knob Goblin Madam
 Cobb's Knob Kitchens	100	Cobb's Knob Oven	Knob Goblin Master Chef	Knob Goblin Sous Chef	Knob Goblin Elite Guard Captain: 0
-Cobb's Knob Laboratory	100	Knob Goblin Alchemist	Knob Goblin Mad Scientist	Knob Goblin Very Mad Scientist
+Cobb's Knob Laboratory	100	Knob Goblin Alchemist: 1	Knob Goblin Mad Scientist: 2	Knob Goblin Very Mad Scientist: 1
 Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	Infinite Meat Bug: -1
 Knob Shaft	85	Ghost Miner
 Madness Reef	100	Jamfish	Magic Dragonfish	Pufferfish

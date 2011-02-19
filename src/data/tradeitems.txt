@@ -4963,7 +4963,7 @@
 4954	oven mitts	accessory	all	48
 4955	overcookie	food	all	38
 4956	philosopher's scone	food	all	57
-4957	half-baked potion	multiple	all	42
+4957	half-baked potion	usable	all	42
 4958	Knob Goblin deluxe scimitar	weapon	all	55
 4959	Knob nuts	food	all	35
 4960	Cobb's Knob Wurstbrau	drink	all	58
