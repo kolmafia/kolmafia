@@ -59,16 +59,25 @@ public class RelayLoader
 		{
 			RelayLoader.startRelayServer();
 
-			String prefix = "http://127.0.0.1:" + RelayServer.getPort();
+			StringBuffer locationBuffer = new StringBuffer();
+			locationBuffer.append( "http://127.0.0.1:" );
+			locationBuffer.append( RelayServer.getPort() );
 			
-			if ( location.endsWith( "/main.php" ) )
+			if ( !location.startsWith( "/" ) )
 			{
-				this.location = prefix + StringUtilities.singleStringReplace( location, "/main.php", "/game.php" );
+				locationBuffer.append( "/" );
+			}
+			
+			if ( location.endsWith( "main.php" ) )
+			{
+				locationBuffer.append( "game.php" );
 			}
 			else
 			{
-				this.location = prefix + location;
+				locationBuffer.append( location );
 			}
+			
+			this.location = locationBuffer.toString();
 		}
 		else
 		{
@@ -138,7 +147,7 @@ public class RelayLoader
 
 	public static final void openRelayBrowser()
 	{
-		openSystemBrowser( "/game.php", true );
+		openSystemBrowser( "game.php", true );
 	}
 
 	public static final void openSystemBrowser( final File file )

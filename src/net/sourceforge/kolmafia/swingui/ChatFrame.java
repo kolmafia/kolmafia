@@ -439,7 +439,7 @@ public class ChatFrame
 		{
 			if ( location.startsWith( "makeoffer" ) || location.startsWith( "counteroffer" ) || location.startsWith( "bet" ) )
 			{
-				RelayLoader.openSystemBrowser( "/" + location, true );
+				RelayLoader.openSystemBrowser( location, true );
 				return;
 			}
 			else if ( location.startsWith( "messages" ) )
@@ -452,7 +452,7 @@ public class ChatFrame
 
 			if ( equalsIndex == -1 )
 			{
-				RelayLoader.openSystemBrowser( "/" + location, true );
+				RelayLoader.openSystemBrowser( location, true );
 				return;
 			}
 
@@ -525,7 +525,7 @@ public class ChatFrame
 
 			if ( Preferences.getBoolean( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
 			{
-				RelayLoader.openSystemBrowser( "/" + urlString );
+				RelayLoader.openSystemBrowser( urlString );
 			}
 			else
 			{
