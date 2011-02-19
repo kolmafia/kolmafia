@@ -443,7 +443,7 @@ public class RequestFrame
 			}
 			else if ( location.startsWith( "makeoffer.php" ) || location.startsWith( "counteroffer.php" ) )
 			{
-				RelayLoader.openSystemBrowser( "/" + location );
+				RelayLoader.openSystemBrowser( location );
 			}
 			else if ( location.startsWith( "sendmessage.php" ) || location.startsWith( "town_sendgift.php" ) )
 			{
