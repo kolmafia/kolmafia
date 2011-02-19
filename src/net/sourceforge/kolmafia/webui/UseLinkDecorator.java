@@ -993,9 +993,11 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 			
+			// Not inline, since the redirection to a choice
+			// doesn't work ajaxified.
 			useType = "use";
 			useLocation = "inv_use.php?which=3&whichitem=";
-			break;
+			return new UseLink( itemId, 1, useType, useLocation, false );
 
 		// Link to use the Black Market Map if you get blackbird parts
 
