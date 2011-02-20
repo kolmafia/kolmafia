@@ -673,6 +673,7 @@ public class KoLmafiaCLI
 		new HiddenCityCommand().register( "hiddencity" );
 		new HotTubCommand().register( "hottub" ).register( "soak" );
 		new IfStatement().register( "if" );
+		new ItemTraceCommand().register( "itrace" );
 		new KitchenCommand().registerSubstring( "kitchen" );
 		new LeafletCommand().register( "leaflet" );
 		new LogEchoCommand().register( "logecho" ).register( "logprint" );
@@ -704,6 +705,7 @@ public class KoLmafiaCLI
 		new PirateInsultsCommand().register( "insults" );
 		new PlayerSnapshotCommand().register( "log" );
 		new PoolCommand().register( "pool" );
+		new PrefTraceCommand().register( "ptrace" );
 		new PripheaCommand().register( "priphea" );
 		new PulverizeCommand().register( "smash" ).register( "pulverize" );
 		new PvpAttackCommand().register( "pvp" ).register( "attack" );

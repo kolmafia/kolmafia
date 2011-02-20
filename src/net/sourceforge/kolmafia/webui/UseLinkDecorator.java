@@ -183,20 +183,20 @@ public abstract class UseLinkDecorator
 			}
 			text = buffer.substring( pos );
 			buffer.setLength( pos );
-			buffer.append( "</table><table><tr><td>[" );
+			buffer.append( "</table><table><tr><td>" );
 			String macro = FightRequest.lastMacroUsed;
-			if ( false )	//macro != null && !macro.equals( "" ) && !macro.equals( "0" ) )
-			{	// Unfortunately, selecting a macro for editing only works
-				// as a POST request.
-				buffer.append( "<a href=\"/account_combatmacros.php?action=edit&macroid=" );
+			if ( macro != null && !macro.equals( "" ) && !macro.equals( "0" ) )
+			{
+				buffer.append( "<form method=POST action=\"account_combatmacros.php\"><input type=HIDDEN name=action value=edit><input type=HIDDEN name=macroid value=\"" );
 				buffer.append( macro );
-				buffer.append( "\">edit last macro</a>" );
+				buffer.append( "\"><input type=SUBMIT value=\"Edit last macro\"></form>" );
+				FightRequest.lastMacroUsed = null;
 			}
 			else
 			{
-				buffer.append( "<a href=\"/account_combatmacros.php\">edit macros</a>" );
+				buffer.append( "[<a href=\"/account_combatmacros.php\">edit macros</a>]" );
 			}
-			buffer.append( "]</td></tr>" );
+			buffer.append( "</td></tr>" );
 			
 			if ( UseLinkDecorator.deferred.length() > 0 )
 			{
