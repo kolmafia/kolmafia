@@ -3071,6 +3071,11 @@ public abstract class KoLCharacter
 		       InventoryManager.hasItem( ItemPool.LAB_KEY );
 	}
 
+	public static final boolean getTempleUnlocked()
+	{
+		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastTempleUnlock" );
+	}
+
 	public static final boolean getGuildStoreOpen()
 	{
 		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastGuildStoreOpen" ) )

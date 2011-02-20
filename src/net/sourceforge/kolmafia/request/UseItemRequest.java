@@ -2359,6 +2359,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.processItem( ItemPool.SPOOKY_SAPLING, -1 );
 				ResultProcessor.processItem( ItemPool.SPOOKY_FERTILIZER, -1 );
+				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 			}
 			else
 			{

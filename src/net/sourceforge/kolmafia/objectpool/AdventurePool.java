@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.objectpool;
 
 public class AdventurePool
 {
+	public static final String HIDDEN_TEMPLE_ID = "17";
 	public static final int DEGRASSI_KNOLL = 18;
 	public static final String BATRAT_ID = "32";
 	public static final String BEANBAT_ID = "33";

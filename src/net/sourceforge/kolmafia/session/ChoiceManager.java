@@ -3949,16 +3949,25 @@ public abstract class ChoiceManager
 				// a Spooky Temple Map or have already read it,
 				// we can't get another one.
 				//
-				// If we could detect those cases, we COULD
-				// redirect to something useful instead.
+				// InventoryManager.getCount( ItemPool.SPOOKY_MAP ) > 0
+				// KoLCharacter.getTempleUnlocked()
 			}
 			return decision;
 
 		// Tree's Last Stand
-		case 504:
+		case 504: {
 
 			// If we don't have a Spooky Sapling, buy one
-			if ( InventoryManager.getCount( ItemPool.SPOOKY_SAPLING ) == 0 )
+			// unless we've already unlocked the Hidden Temple
+			//
+			// We should buy one if it is on our conditions - i.e.,
+			// the player is intentionally collecting them - but we
+			// have to make sure that each purchased sapling
+			// decrements the condition so we don't loop and buy
+			// too many.
+
+			if ( InventoryManager.getCount( ItemPool.SPOOKY_SAPLING ) == 0 &&
+			     !KoLCharacter.getTempleUnlocked() )
 			{
 				return "3";
 			}
@@ -3971,6 +3980,7 @@ public abstract class ChoiceManager
 
 			// Otherwise, exit this choice
 			return "4";
+		}
 		}
 
 		return decision;

@@ -476,6 +476,21 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.HIDDEN_TEMPLE_ID ) )
+		{
+			boolean unlocked = KoLCharacter.getTempleUnlocked();
+			if ( !unlocked )
+			{
+				// Visit the distant woods and take a look.
+
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "woods.php" ) );
+				unlocked = KoLCharacter.getTempleUnlocked();
+			}
+
+			this.isValidAdventure = unlocked;
+			return;
+		}
+
 		if ( this.formSource.indexOf( "adventure.php" ) == -1 )
 		{
 			this.isValidAdventure = true;
