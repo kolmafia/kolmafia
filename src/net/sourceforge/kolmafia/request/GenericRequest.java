@@ -273,7 +273,7 @@ public class GenericRequest
 		}
 		else
 		{
-			System.setProperty( "http.proxyUser", Preferences.getString( "http.proxyUser" ) );
+			System.setProperty( "http.proxyUser", proxyUser );
 			System.setProperty( "http.proxyPassword", Preferences.getString( "http.proxyPassword" ) );
 		}
 	}
