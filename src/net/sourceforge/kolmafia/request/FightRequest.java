@@ -3314,7 +3314,7 @@ public class FightRequest
 		}
 
 		int hp = DwarfFactoryRequest.deduceHP( responseText );
-		if ( hp > 0  )
+		if ( hp > 0 )
 		{
 			FightRequest.getRound( action );
 			action.append( MonsterStatusTracker.getLastMonsterName() );

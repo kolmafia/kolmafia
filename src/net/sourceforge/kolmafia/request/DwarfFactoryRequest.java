@@ -732,10 +732,9 @@ public class DwarfFactoryRequest
 	}
 
 	// Module to parse special messages from Dwarvish War Uniform items
-
+	// There is currently an extra space after the last 'really'
 	private static final Pattern DWARF_MATTOCK_PATTERN =
-		Pattern.compile( "<p>Your mattock glows.*bright blue\\.</p>");
-	private static final Pattern REALLY_PATTERN = Pattern.compile( "really" );
+		Pattern.compile( "<p>Your mattock glows ((really )*) ?bright blue\\.</p>");
 
 	public static Matcher hpMessage( final CharSequence responseText )
 	{
@@ -755,14 +754,7 @@ public class DwarfFactoryRequest
 
 	public static int deduceHP( final Matcher mattockMatcher )
 	{
-		Matcher reallyMatcher = REALLY_PATTERN.matcher( mattockMatcher.group( 0 ) );
-		int count = 0;
-		while ( reallyMatcher.find() )
-		{
-			++count;
-		}
-
-		return 7 * count;
+		return mattockMatcher.end( 1 ) - mattockMatcher.start( 1 );
 	}
 
 	private static final Pattern DWARF_HELMET_PATTERN =
