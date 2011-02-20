@@ -75,14 +75,18 @@ public abstract class UseLinkDecorator
 	public static final void decorate( final String location, final StringBuffer buffer )
 	{
 		boolean inCombat = location.startsWith( "fight.php" );
-		if ( !inCombat && buffer.indexOf( "You acquire" ) == -1 &&
+		boolean inChoice = location.startsWith( "choice.php" );
+		if ( !inCombat && !inChoice && buffer.indexOf( "You acquire" ) == -1 &&
 		     buffer.indexOf( "O hai, I made dis" ) == -1)
 		{
 			return;
 		}
 
-		// Defer use links until later if this isn't the final combat round
+		// Defer use links until later if this isn't the final combat/choice page
 		boolean duringCombat = inCombat && FightRequest.getCurrentRound() != 0;
+		boolean duringChoice = inChoice && buffer.indexOf( "action=choice.php" ) != -1;
+		boolean deferrable = inCombat || inChoice;
+		boolean deferring = duringCombat || duringChoice;
 
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -134,7 +138,7 @@ public abstract class UseLinkDecorator
 			}
 
 			int pos = buffer.length();
-			if ( UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer ) && duringCombat )
+			if ( UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer ) && deferring )
 			{	// Find where the replacement was appended
 				pos = buffer.indexOf( useLinkMatcher.group( 1 ) + useLinkMatcher.group( 2 )
 					+ "<b>" + useLinkMatcher.group( 3 ), pos );
@@ -155,7 +159,7 @@ public abstract class UseLinkDecorator
 
 		useLinkMatcher.appendTail( buffer );
 
-		if ( !duringCombat && specialLinkText != null )
+		if ( !deferring && specialLinkText != null )
 		{
 			StringUtilities.singleStringReplace(
 				buffer,
@@ -163,18 +167,21 @@ public abstract class UseLinkDecorator
 				"<p><center><a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=2&whichitem=" + specialLinkId + "\">[" + specialLinkText + " it again]</a></center></blockquote>" );
 		}
 		
-		if ( duringCombat )
+		if ( deferring )
 		{	// discard all changes, the links aren't usable yet
 			buffer.setLength( 0 );
 			buffer.append( text );
 		}
 		
-		StringUtilities.singleStringReplace( buffer,
-			"A sticker falls off your weapon, faded and torn.",
-			"A sticker falls off your weapon, faded and torn. <font size=1>" +
-			"[<a href=\"bedazzle.php\">bedazzle</a>]</font>" );
+		if ( inCombat )
+		{
+			StringUtilities.singleStringReplace( buffer,
+				"A sticker falls off your weapon, faded and torn.",
+				"A sticker falls off your weapon, faded and torn. <font size=1>" +
+				"[<a href=\"bedazzle.php\">bedazzle</a>]</font>" );
+		}
 		
-		if ( inCombat && !duringCombat )
+		if ( deferrable && !deferring )
 		{
 			int pos = buffer.lastIndexOf( "</table>" );
 			if ( pos == -1 )
@@ -183,20 +190,23 @@ public abstract class UseLinkDecorator
 			}
 			text = buffer.substring( pos );
 			buffer.setLength( pos );
-			buffer.append( "</table><table><tr><td>" );
-			String macro = FightRequest.lastMacroUsed;
-			if ( macro != null && !macro.equals( "" ) && !macro.equals( "0" ) )
+			if ( inCombat )
 			{
-				buffer.append( "<form method=POST action=\"account_combatmacros.php\"><input type=HIDDEN name=action value=edit><input type=HIDDEN name=macroid value=\"" );
-				buffer.append( macro );
-				buffer.append( "\"><input type=SUBMIT value=\"Edit last macro\"></form>" );
-				FightRequest.lastMacroUsed = null;
+				buffer.append( "</table><table><tr><td>" );
+				String macro = FightRequest.lastMacroUsed;
+				if ( macro != null && !macro.equals( "" ) && !macro.equals( "0" ) )
+				{
+					buffer.append( "<form method=POST action=\"account_combatmacros.php\"><input type=HIDDEN name=action value=edit><input type=HIDDEN name=macroid value=\"" );
+					buffer.append( macro );
+					buffer.append( "\"><input type=SUBMIT value=\"Edit last macro\"></form>" );
+					FightRequest.lastMacroUsed = null;
+				}
+				else
+				{
+					buffer.append( "[<a href=\"/account_combatmacros.php\">edit macros</a>]" );
+				}
+				buffer.append( "</td></tr>" );
 			}
-			else
-			{
-				buffer.append( "[<a href=\"/account_combatmacros.php\">edit macros</a>]" );
-			}
-			buffer.append( "</td></tr>" );
 			
 			if ( UseLinkDecorator.deferred.length() > 0 )
 			{
@@ -526,16 +536,6 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, itemCount, "read", "diary.php?textversion=1" );
 
 			case ItemPool.SPOOKY_SAPLING:
-				// You now get the Spooky Sapling as the result
-				// of taking a choice option - which leaves you
-				// in a choice option. Therefore, a use link is
-				// useless here.
-				//
-				// Perhaps if we ever have a "Previously seen"
-				// section for choice adventures, as we do for
-				// fights, the use link could go there.
-				return null;
-
 			case ItemPool.SPOOKY_MAP:
 			case ItemPool.SPOOKY_FERTILIZER:
 
