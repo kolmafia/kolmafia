@@ -821,7 +821,7 @@ public class ChoiceOptionsPanel
 			// If we have bear skins:
 			// Preferences.setString( "choiceAdventure504", "2" );
 			// Exit choice
-			Preferences.setString( "choiceAdventure504", "5" );
+			Preferences.setString( "choiceAdventure504", "4" );
 			break;
 		case 5:		// Meet Vampire Hunter
 			Preferences.setString( "choiceAdventure502", "1" );

@@ -420,8 +420,7 @@ public abstract class UseLinkDecorator
 
 	private static final UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod )
 	{
-		if ( !ItemDatabase.meetsLevelRequirement(
-			ItemDatabase.getItemName( itemId ) ) )
+		if ( !ItemDatabase.meetsLevelRequirement( ItemDatabase.getItemName( itemId ) ) )
 		{
 			return null;
 		}
@@ -547,6 +546,12 @@ public abstract class UseLinkDecorator
 				}
 
 				return new UseLink( ItemPool.SPOOKY_MAP, 1, "map", "inv_use.php?which=3&whichitem=" );
+
+			case ItemPool.FRATHOUSE_BLUEPRINTS:
+			
+				// Not inline, since the redirection to a choice
+				// doesn't work ajaxified.
+				return new UseLink( ItemPool.FRATHOUSE_BLUEPRINTS, 1, "use", "inv_use.php?which=3&whichitem=", false );
 
 			case ItemPool.BLACK_MARKET_MAP:
 
@@ -988,16 +993,6 @@ public abstract class UseLinkDecorator
 			useType = "old man";
 			useLocation = "oldman.php?action=talk";
 			break;
-
-		// Link to use the Orcish Frat House Blueprints
-
-		case ItemPool.FRATHOUSE_BLUEPRINTS:
-			
-			// Not inline, since the redirection to a choice
-			// doesn't work ajaxified.
-			useType = "use";
-			useLocation = "inv_use.php?which=3&whichitem=";
-			return new UseLink( itemId, 1, useType, useLocation, false );
 
 		// Link to use the Black Market Map if you get blackbird parts
 
