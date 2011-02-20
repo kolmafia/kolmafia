@@ -140,6 +140,14 @@ public class CouncilFrame
 		{
 			CouncilFrame.handleTrickOrTreatingChange( responseText );
 		}
+		else if ( location.startsWith( "woods" ) )
+		{
+			// If we see the Hidden Temple, mark it as unlocked
+			if ( responseText.indexOf( "otherimages/woods/temple.gif" ) != -1 )
+			{
+				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
+			}
+		}
 	}
 
 	private static final void handleSneakyPeteChange( final String responseText )

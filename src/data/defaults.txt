@@ -471,6 +471,7 @@ user	lastStoneSphereReset	-1
 user	lastTavernAscension	0
 user	lastTavernSquare	0
 user	lastTelescopeReset	-1
+user	lastTempleUnlock	-1
 user	lastTowerClimb	-1
 user	lastVioletFogMap	0
 user	lastZapperWand	0

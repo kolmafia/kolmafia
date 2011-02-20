@@ -1249,6 +1249,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "guild_store_available", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "hidden_temple_unlocked", DataTypes.BOOLEAN_TYPE, params ) );
+
 		// MMG support
 
 		params = new Type[] {};
@@ -4941,6 +4944,11 @@ public abstract class RuntimeLibrary
 	public static Value guild_store_available()
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getGuildStoreOpen() );
+	}
+ 
+	public static Value hidden_temple_unlocked()
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.getTempleUnlocked() );
 	}
 
 	public static Value mmg_visit()
