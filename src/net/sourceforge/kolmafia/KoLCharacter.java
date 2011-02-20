@@ -897,7 +897,6 @@ public abstract class KoLCharacter
 			classtype == 4 ? "Sauceror" :
 			classtype == 5 ? "Disco Bandit" :
 			classtype == 6 ? "Accordion Thief" :
-			classtype == 7 ? "Astral Spirit" :
 			"Unknown";
 	}
 

@@ -148,12 +148,20 @@ public class ChoiceOptionsPanel
 		this.palindomePapayaSelect.addItem( "Stats until out of papayas then fewer stats" );
 
 		this.spookyForestSelect = new JComboBox();
-		this.spookyForestSelect.addItem( "Loot Seal Clubber corpse" );
-		this.spookyForestSelect.addItem( "Loot Turtle Tamer corpse" );
-		this.spookyForestSelect.addItem( "Loot Pastamancer corpse" );
-		this.spookyForestSelect.addItem( "Loot Sauceror corpse" );
-		this.spookyForestSelect.addItem( "Loot Disco Bandit corpse" );
-		this.spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
+		this.spookyForestSelect.addItem( "show in browser" );
+		this.spookyForestSelect.addItem( "mosquito larva or spooky mushrooms" );
+		this.spookyForestSelect.addItem( "Spooky-Gro fertilizer" );
+		this.spookyForestSelect.addItem( "Spooky Temple map" );
+		this.spookyForestSelect.addItem( "spooky sapling & sell bar skins" );
+		this.spookyForestSelect.addItem( "meet vampire hunter" );
+		this.spookyForestSelect.addItem( "meet vampire" );
+		this.spookyForestSelect.addItem( "gain meat" );
+		this.spookyForestSelect.addItem( "loot Seal Clubber corpse" );
+		this.spookyForestSelect.addItem( "loot Turtle Tamer corpse" );
+		this.spookyForestSelect.addItem( "loot Pastamancer corpse" );
+		this.spookyForestSelect.addItem( "loot Sauceror corpse" );
+		this.spookyForestSelect.addItem( "loot Disco Bandit corpse" );
+		this.spookyForestSelect.addItem( "loot Accordion Thief corpse" );
 
 		this.violetFogSelect = new JComboBox();
 		for ( int i = 0; i < VioletFogManager.FogGoals.length; ++i )
@@ -273,7 +281,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
 		this.addChoiceSelect( "Plains", "Papaya War", this.palindomePapayaSelect );
 		this.addChoiceSelect( "Plains", "Ferny's Basement", this.basementMallSelect );
-		this.addChoiceSelect( "Woods", "Forest Corpses", this.spookyForestSelect );
+		this.addChoiceSelect( "Woods", "Spooky Forest", this.spookyForestSelect );
 		this.addChoiceSelect( "Item-Driven", "Violet Fog", this.violetFogSelect );
 		this.addChoiceSelect( "Manor1", "Billiard Room", this.billiardRoomSelect );
 		this.addChoiceSelect( "Manor1", "Rise of Spookyraven", this.riseSelect );
@@ -785,32 +793,81 @@ public class ChoiceOptionsPanel
 
 		switch ( this.spookyForestSelect.getSelectedIndex() )
 		{
-		case 0: // Seal clubber corpse
+		case 0:		// Manual Control
+			Preferences.setString( "choiceAdventure502", "0" );
+			break;
+		case 1:		// Mosquito Larva or Spooky Mushrooms
+			Preferences.setString( "choiceAdventure502", "2" );
+			Preferences.setString( "choiceAdventure505", "1" );
+			break;
+		case 2:		// Spooky-Gro Fertilizer
+			Preferences.setString( "choiceAdventure502", "3" );
+			Preferences.setString( "choiceAdventure506", "2" );
+			break;
+		case 3:		// Spooky Temple Map
+			// Without tree-holed coin
+			Preferences.setString( "choiceAdventure502", "2" );
+			Preferences.setString( "choiceAdventure505", "2" );
+			// With tree-holed coin
+			// Preferences.setString( "choiceAdventure502", "3" );
+			Preferences.setString( "choiceAdventure506", "3" );
+			Preferences.setString( "choiceAdventure507", "1" );
+			break;
+		case 4:		// Spooky Sapling & Sell Bar Skins
+			Preferences.setString( "choiceAdventure502", "1" );
+			Preferences.setString( "choiceAdventure503", "3" );
+			// If we have no Spooky Sapling
+			// Preferences.setString( "choiceAdventure504", "3" );
+			// If we have bear skins:
+			// Preferences.setString( "choiceAdventure504", "2" );
+			// Exit choice
+			Preferences.setString( "choiceAdventure504", "5" );
+			break;
+		case 5:		// Meet Vampire Hunter
+			Preferences.setString( "choiceAdventure502", "1" );
+			Preferences.setString( "choiceAdventure503", "2" );
+			break;
+		case 6:		// Meet Vampire
+			Preferences.setString( "choiceAdventure502", "2" );
+			Preferences.setString( "choiceAdventure505", "3" );
+			break;
+		case 7:		// Gain Meat
+			Preferences.setString( "choiceAdventure502", "1" );
+			Preferences.setString( "choiceAdventure503", "1" );
+			break;
+		case 8:	 // Seal clubber corpse
+			Preferences.setString( "choiceAdventure502", "3" );
+			Preferences.setString( "choiceAdventure506", "1" );
 			Preferences.setString( "choiceAdventure26", "1" );
 			Preferences.setString( "choiceAdventure27", "1" );
 			break;
-
-		case 1: // Turtle tamer corpse
+		case 9:	// Loot Turtle Tamer corpse
+			Preferences.setString( "choiceAdventure502", "3" );
+			Preferences.setString( "choiceAdventure506", "1" );
 			Preferences.setString( "choiceAdventure26", "1" );
 			Preferences.setString( "choiceAdventure27", "2" );
 			break;
-
-		case 2: // Pastamancer corpse
+		case 10:	// Loot Pastamancer corpse
+			Preferences.setString( "choiceAdventure502", "3" );
+			Preferences.setString( "choiceAdventure506", "1" );
 			Preferences.setString( "choiceAdventure26", "2" );
 			Preferences.setString( "choiceAdventure28", "1" );
 			break;
-
-		case 3: // Sauceror corpse
+		case 11:	// Loot Sauceror corpse
+			Preferences.setString( "choiceAdventure502", "3" );
+			Preferences.setString( "choiceAdventure506", "1" );
 			Preferences.setString( "choiceAdventure26", "2" );
 			Preferences.setString( "choiceAdventure28", "2" );
 			break;
-
-		case 4: // Disco bandit corpse
+		case 12:	// Loot Disco Bandit corpse
+			Preferences.setString( "choiceAdventure502", "3" );
+			Preferences.setString( "choiceAdventure506", "1" );
 			Preferences.setString( "choiceAdventure26", "3" );
 			Preferences.setString( "choiceAdventure29", "1" );
 			break;
-
-		case 5: // Accordion thief corpse
+		case 13:	// Loot Accordion Thief corpse
+			Preferences.setString( "choiceAdventure502", "3" );
+			Preferences.setString( "choiceAdventure506", "1" );
 			Preferences.setString( "choiceAdventure26", "3" );
 			Preferences.setString( "choiceAdventure29", "2" );
 			break;
@@ -1049,13 +1106,60 @@ public class ChoiceOptionsPanel
 			this.castleWheelSelect.setSelectedIndex( index );
 		}
 
-		// Now, determine what is located in choice adventure #26,
-		// which shows you which slot (in general) to use.
+		// Figure out what to do in the spooky forest
+		switch ( Preferences.getInteger( "choiceAdventure502" ) )
+		{
+		default:
+		case 0:
+			// Manual Control
+			index = 0;
+			break;
 
-		index = Preferences.getInteger( "choiceAdventure26" );
-		index = index * 2 + Preferences.getInteger( "choiceAdventure" + ( 26 + index ) ) - 3;
+		case 1:
+			switch ( Preferences.getInteger( "choiceAdventure503" ) )
+			{
+			case 1:	// Get Meat
+				index = 7;
+				break;
+			case 2:	// Meet Vampire Hunter
+				index = 5;
+				break;
+			case 3:	// Spooky Sapling & Sell Bar Skins
+				index = 4;
+				break;
+			}
+		case 2:
+			switch ( Preferences.getInteger( "choiceAdventure505" ) )
+			{
+			case 1:	// Mosquito Larva or Spooky Mushrooms
+				index = 1;
+				break;
+			case 2:	// Tree-holed coin -> Spooky Temple Map
+				index = 3;
+				break;
+			case 3:	// Meet Vampire
+				index = 6;
+				break;
+			}
+			break;
+		case 3:
+			switch ( Preferences.getInteger( "choiceAdventure506" ) )
+			{
+			case 1:	// Forest Corpses
+				index = Preferences.getInteger( "choiceAdventure26" );
+				index = index * 2 + Preferences.getInteger( "choiceAdventure" + ( 26 + index ) ) - 3;
+				index += 8;
+				break;
+			case 2:	// Spooky-Gro Fertilizer
+				index = 2;
+				break;
+			case 3:	// Spooky Temple Map
+				index = 3;
+				break;
+			}
+		}
 
-		this.spookyForestSelect.setSelectedIndex( index < 0 ? 5 : index );
+		this.spookyForestSelect.setSelectedIndex( index < 0 || index > 13 ? 0 : index );
 
 		// Figure out what to do in the billiard room
 

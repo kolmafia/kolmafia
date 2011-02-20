@@ -351,13 +351,14 @@ public abstract class ChoiceManager
 
 		// An Interesting Choice
 		new ChoiceAdventure(
-			"Woods", "choiceAdventure46", "Spooky Forest",
+			"Woods", "choiceAdventure46", "Spooky Forest Vampire",
 			new String[] { "moxie substats", "muscle substats", "vampire heart" },
 			new String[] { null, null, "1518" } ),
 
 		// Have a Heart
 		new ChoiceAdventure(
-			"Woods", "choiceAdventure47", "Spooky Forest", new String[] { "bottle of used blood", "skip adventure and keep vampire hearts" },
+			"Woods", "choiceAdventure47", "Spooky Forest Vampire Hunter",
+			 new String[] { "bottle of used blood", "skip adventure and keep vampire hearts" },
 			new String[] { "1523", "1518" } ),
 
 		// Choices 48 - 70 are violet fog adventures
@@ -1438,40 +1439,12 @@ public abstract class ChoiceManager
 		// Choice 500 is unknown
 		// Choice 501 is unknown
 
-		// Arboreal Respite
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure502", "Spooky Forest",
-			new String[] { "meet the vampire hunter, trade bar skins or gain a spooky sapling", "gain mosquito larva, gain quest coin or gain a vampire heart", "gain a starter item, gain Spooky-Gro fertilizer or gain spooky temple map" } ),
-
-		// The Road Less Traveled
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure503", "Spooky Forest",
-			new String[] { "gain some meat", "gain stakes or trade vampire hearts", "gain spooky sapling or trade bar skins" },
-			new String[] { null, "1518", "70" } ),
-
-		// Tree's Last Stand
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure504", "Spooky Forest",
-			new String[] { "bar skin", "bar skins", "buy spooky sapling", "skip adventure" },
-			new String[] { "70", "70", "75", null } ),
-
-		// Consciousness of a Stream
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure505", "Spooky Forest",
-			new String[] { "gain mosquito larva then 3 spooky mushrooms", "gain 300 meat & tree-holed coin then nothing", "fight a spooky vampire" },
-			new String[] { "724", null, null } ),
-
-		// Through Thicket and Thinnet
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure506", "Spooky Forest",
-			new String[] { "gain a starter item", "gain Spooky-Gro fertilizer", "gain spooky temple map" },
-			new String[] { null, "76", "74" } ),
-
-		// O Lith, Mon
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure507", "Spooky Forest",
-			new String[] { "gain Spooky Temple map", "skip adventure", "skip adventure" },
-			new String[] { null, null, null } ),
+		// Choice 502 is Arboreal Respite
+		// Choice 503 is The Road Less Traveled
+		// Choice 504 is Tree's Last Stand
+		// Choice 505 is Consciousness of a Stream
+		// Choice 506 is Through Thicket and Thinnet
+		// Choice 507 is O Lith, Mon
 
 		// Choice 508 is Pants-Gazing
 		// Choice 509 is Of Course!
@@ -1813,6 +1786,41 @@ public abstract class ChoiceManager
 			"choiceAdventure290", "Gong",
 			new String[] { "+30% moxie", "+10% all stats", "+50% item drops" } ),
 			
+		// Arboreal Respite
+		new ChoiceAdventure(
+			"choiceAdventure502", "Spooky Forest",
+			new String[] { "meet the vampire hunter, trade bar skins or gain a spooky sapling", "gain mosquito larva, gain quest coin or gain a vampire heart", "gain a starter item, gain Spooky-Gro fertilizer or gain spooky temple map" } ),
+
+		// The Road Less Traveled
+		new ChoiceAdventure(
+			"choiceAdventure503", "Spooky Forest",
+			new String[] { "gain some meat", "gain stakes or trade vampire hearts", "gain spooky sapling or trade bar skins" },
+			new String[] { null, "1518", "70" } ),
+
+		// Tree's Last Stand
+		new ChoiceAdventure(
+			"choiceAdventure504", "Spooky Forest",
+			new String[] { "bar skin", "bar skins", "buy spooky sapling", "skip adventure" },
+			new String[] { "70", "70", "75", null } ),
+
+		// Consciousness of a Stream
+		new ChoiceAdventure(
+			"choiceAdventure505", "Spooky Forest",
+			new String[] { "gain mosquito larva then 3 spooky mushrooms", "gain 300 meat & tree-holed coin then nothing", "fight a spooky vampire" },
+			new String[] { "724", null, null } ),
+
+		// Through Thicket and Thinnet
+		new ChoiceAdventure(
+			"choiceAdventure506", "Spooky Forest",
+			new String[] { "gain a starter item", "gain Spooky-Gro fertilizer", "gain spooky temple map" },
+			new String[] { null, "76", "74" } ),
+
+		// O Lith, Mon
+		new ChoiceAdventure(
+			"choiceAdventure507", "Spooky Forest",
+			new String[] { "gain Spooky Temple map", "skip adventure", "skip adventure" },
+			new String[] { null, null, null } ),
+
 	};
 
 	// Some choice adventures have options that cost meat or items
@@ -2001,6 +2009,8 @@ public abstract class ChoiceManager
 		  ItemPool.get( ItemPool.BAR_SKIN, -1 ) },
 		{ new Integer(504), new Integer(2), 
 		  ItemPool.get( ItemPool.BAR_SKIN, 1 ) },
+		{ new Integer(504), new Integer(3), 
+		  new AdventureResult( AdventureResult.MEAT, -100 ) },
 
 		// O Lith, Mon
 		{ new Integer(507), new Integer(1),
@@ -3917,6 +3927,50 @@ public abstract class ChoiceManager
 				return "2";
 			}
 			return decision;
+
+		// Arboreal Respite
+		case 502:
+			if ( decision.equals( "2" ) )
+			{
+				// mosquito larva, tree-holed coin, vampire
+				if ( !Preferences.getString( "choiceAdventure505" ).equals( "2" ) )
+				{
+					return decision;
+				}
+
+				// We want a tree-holed coin. If we already
+				// have one, get Spooky Temple Map instead
+				if ( InventoryManager.getCount( ItemPool.TREE_HOLED_COIN ) > 0 )
+				{
+					return "3";
+				}
+
+				// We don't have a tree-holed coin. If we have
+				// a Spooky Temple Map or have already read it,
+				// we can't get another one.
+				//
+				// If we could detect those cases, we COULD
+				// redirect to something useful instead.
+			}
+			return decision;
+
+		// Tree's Last Stand
+		case 504:
+
+			// If we don't have a Spooky Sapling, buy one
+			if ( InventoryManager.getCount( ItemPool.SPOOKY_SAPLING ) == 0 )
+			{
+				return "3";
+			}
+
+			// If we have Bar Skins, sell them all
+			if ( InventoryManager.getCount( ItemPool.BAR_SKIN ) > 0 )
+			{
+				return "2";
+			}
+
+			// Otherwise, exit this choice
+			return "4";
 		}
 
 		return decision;
