@@ -55,14 +55,29 @@ import org.json.JSONObject;
 public class ApiRequest
 	extends GenericRequest
 {
-	String what;
+	private String what;
+	private String id;
+	public JSONObject JSON;
 
 	public ApiRequest( final String what )
 	{
 		super( "api.php" );
 		this.what = what;
+		this.id = "";
 		this.addFormField( "what", what );
 		this.addFormField( "for", "KoLmafia" );
+	}
+
+	public ApiRequest( final String what, final String id )
+	{
+		this( what );
+		this.addFormField( "id", id );
+		this.id = id;
+	}
+
+	public ApiRequest( final String what, final int id )
+	{
+		this( what, String.valueOf( id ) );
 	}
 
 	protected boolean retryOnTimeout()
@@ -72,21 +87,36 @@ public class ApiRequest
 
 	public Object run()
 	{
-		if ( what.equals( "status" ) )
+		if ( this.what.equals( "status" ) )
 		{
 			KoLmafia.updateDisplay( "Loading character status..." );
 		}
-		else if ( what.equals( "inventory" ) )
+		else if ( this.what.equals( "inventory" ) )
 		{
 			KoLmafia.updateDisplay( "Updating inventory..." );
 		}
+		else if ( this.what.equals( "item" ) )
+		{
+			KoLmafia.updateDisplay( "Looking at item #" + this.id + "..." );
+		}
 
+		this.JSON = null;
 		return super.run();
 	}
 
 	public void processResults()
 	{
-		ApiRequest.parseResponse( this.getURLString(), this.responseText );
+		// Save the JSON object so caller can look further at it
+
+		this.JSON = ApiRequest.getJSON( this.responseText );
+		if ( this.what.equals( "status" ) )
+		{
+			ApiRequest.parseStatus( this.JSON );
+		}
+		else if ( this.what.equals( "inventory" ) )
+		{
+			ApiRequest.parseInventory( this.JSON );
+		}
 	}
 
 	private static final Pattern WHAT_PATTERN =
@@ -210,21 +240,18 @@ public class ApiRequest
 	    "a32acc4a5de83386ae3417140d09bf43":["Jingle Jangle Jingle","28","jinglebells"],
 	    "37f9f99df81ca3d29abe85139a302f67":["Hip to Be Square Dancin'",10,"dance2"]
 	  }
-        }
+	}
 	*/
 
 	public static final void parseStatus( final String responseText )
 	{
-		JSONObject JSON;
+		ApiRequest.parseStatus( ApiRequest.getJSON( responseText ) );
+	}
 
-		// Parse the string into a JSON object
-		try
+	public static final void parseStatus( final JSONObject JSON )
+	{
+		if ( JSON == null )
 		{
-			JSON = new JSONObject( ApiRequest.getJSONString( responseText ) );
-		}
-		catch ( JSONException e )
-		{
-			ApiRequest.reportParseError( "status", responseText, e );
 			return;
 		}
 
@@ -257,22 +284,19 @@ public class ApiRequest
 		}
 		catch ( JSONException e )
 		{
-			ApiRequest.reportParseError( "status", responseText, e );
+			ApiRequest.reportParseError( "status", JSON.toString(), e );
 		}
 	}
 
 	public static final void parseInventory( final String responseText )
 	{
-		JSONObject JSON;
+		ApiRequest.parseInventory( ApiRequest.getJSON( responseText ) );
+	}
 
-		// Parse the string into a JSON object
-		try
+	private static final void parseInventory( final JSONObject JSON )
+	{
+		if ( JSON == null )
 		{
-			JSON = new JSONObject( ApiRequest.getJSONString( responseText ) );
-		}
-		catch ( JSONException e )
-		{
-			ApiRequest.reportParseError( "inventory", responseText, e );
 			return;
 		}
 
@@ -282,10 +306,25 @@ public class ApiRequest
 		}
 		catch ( JSONException e )
 		{
-			ApiRequest.reportParseError( "inventory", responseText, e );
+			ApiRequest.reportParseError( "inventory", JSON.toString(), e );
 		}
 	}
-	
+
+	public static final JSONObject getJSON( final String text )
+	{
+		// Parse the string into a JSON object
+		try
+		{
+			return new JSONObject( ApiRequest.getJSONString( text ) );
+		}
+		catch ( JSONException e )
+		{
+			ApiRequest.reportParseError( "status", text, e );
+		}
+
+		return null;
+	}
+
 	private static final String getJSONString( String responseText )
 	{
 		int pos = responseText.indexOf( "{" );

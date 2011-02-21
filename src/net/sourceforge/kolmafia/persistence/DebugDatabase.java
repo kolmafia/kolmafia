@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -53,8 +54,10 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -1330,6 +1333,44 @@ public class DebugDatabase
 			report.println( itemId + "\t" + descId + "\t" + name + "\t" + plural );
 		}
 	}
+
+	// **********************************************************
+
+	public static final void checkPowers()
+	{
+		// We can check the power of any items in inventory or closet.
+		// We'll assume that any item with a non-zero power is correct.
+		// Off-hand items and accessories don't have visible power and
+		// might be 0 in the database. Look them up and fix them.
+
+		KoLmafia.deferDataOverride( true);
+		DebugDatabase.checkPowers( KoLConstants.inventory );
+		DebugDatabase.checkPowers( KoLConstants.closet );
+		KoLmafia.deferDataOverride( false);
+	}
+
+	public static final void checkPowers( final Collection items )
+	{
+		Iterator it = items.iterator();
+		while ( it.hasNext() )
+		{
+			AdventureResult item = (AdventureResult)it.next();
+			int itemId = item.getItemId();
+			int type = ItemDatabase.getConsumptionType( itemId );
+			if ( type != KoLConstants.EQUIP_OFFHAND && type != KoLConstants.EQUIP_ACCESSORY )
+			{
+				continue;
+			}
+			int power = EquipmentDatabase.getPower( itemId );
+			if ( power == 0 )
+			{
+				// Look it up and register it anew
+				ItemDatabase.registerItem( itemId );
+			}
+		}
+	}
+
+	// **********************************************************
 
 	public static final void checkConsumptionData()
 	{

@@ -911,27 +911,12 @@ public class ItemDatabase
 	public static final void registerItem( final int itemId )
 	{
 		// This only works for items you own.
-		ApiRequest request = new ApiRequest( "item" );
-		request.addFormField( "id", String.valueOf( itemId ) );
+		ApiRequest request = new ApiRequest( "item", itemId );
 		RequestThread.postRequest( request );
 
-		String responseText = request.responseText;
-		if ( responseText == null ||
-		     responseText.indexOf( "You don't own that item." ) != -1 )
+		JSONObject JSON = request.JSON;
+		if ( JSON == null )
 		{
-			return;
-		}
-
-		JSONObject JSON;
-
-		// Parse the string into a JSON object
-		try
-		{
-			JSON = new JSONObject( responseText );
-		}
-		catch ( JSONException e )
-		{
-			KoLmafia.updateDisplay( "api.php?what=item returned a bad JSON string!" );
 			return;
 		}
 
@@ -959,7 +944,8 @@ public class ItemDatabase
 		{
 			String name = JSON.getString( "name" );
 			String descid = JSON.getString( "descid" );
-			ItemDatabase.registerItem( itemId, name, descid, null );
+			int power = JSON.getInt( "power" );
+			ItemDatabase.registerItem( itemId, name, descid, null, power );
 		}
 		catch ( JSONException e )
 		{
@@ -1030,6 +1016,11 @@ public class ItemDatabase
 
 	public static final void registerItem( final int itemId, String itemName, String descId, final String plural )
 	{
+		ItemDatabase.registerItem( itemId, itemName, descId, plural, 0 );
+	}
+
+	public static final void registerItem( final int itemId, String itemName, String descId, final String plural, final int power )
+	{
 		if ( itemName == null )
 		{
 			return;
@@ -1056,10 +1047,10 @@ public class ItemDatabase
 			ItemDatabase.pluralById.set( itemId, plural );
 			ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
 		}
-		ItemDatabase.parseItemDescription( id, itemName );
+		ItemDatabase.parseItemDescription( id, itemName, power );
 	}
 
-	private static void parseItemDescription( final Integer id, final String itemName )
+	private static void parseItemDescription( final Integer id, final String itemName, final int power )
 	{
 		String descId = ItemDatabase.getDescriptionId( id );
 		int itemId = id.intValue();
@@ -1104,7 +1095,7 @@ public class ItemDatabase
 			EquipmentDatabase.newEquipment = true;
 
 			// Let equipment database do what it wishes with this item
-			EquipmentDatabase.registerItem( itemId, itemName, text );
+			EquipmentDatabase.registerItem( itemId, itemName, text, power );
 		}
 
 		// Let modifiers database do what it wishes with this item

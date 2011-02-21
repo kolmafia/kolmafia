@@ -1058,7 +1058,8 @@ public class EquipmentRequest
 
 			if ( itemName == null || !canonicalName.equals( itemName ) )
 			{
-				ItemDatabase.registerItem( itemId, realName, descId );
+				// Lookup item with api.php for additional info
+				ItemDatabase.registerItem( itemId );
 			}
 
 			AdventureResult result = new AdventureResult( itemId, StringUtilities.parseInt( optionMatcher.group( 4 ) ) );
@@ -1104,7 +1105,8 @@ public class EquipmentRequest
 
 			if ( itemName == null || !canonicalName.equals( itemName ) )
 			{
-				ItemDatabase.registerItem( itemId, realName, descId );
+				// Lookup item with api.php for additional info
+				ItemDatabase.registerItem( itemId );
 			}
 
 			// The inventory never has the plural name.

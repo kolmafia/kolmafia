@@ -613,9 +613,16 @@ public class KoLmafiaCLI
 			"run" ).registerPrefix( "exec" ).register( "load" ).register( "start" ).register( "profile" );
 		new CampgroundCommand().registerPrefix( "camp" );
 		new ChangeCombatScriptCommand().register( "ccs" );
-		new CheckDataCommand().register( "newdata" ).register( "checkitems" ).register( "checkeffects" ).register(
-			"checkplurals" ).register( "checkmodifiers" ).register( "checkconsumption" ).register( "checkprofile" ).register(
-			"checkpulverization" ).register( "checkzapgroups" );
+		new CheckDataCommand().register( "newdata" ).
+			register( "checkitems" ).
+			register( "checkeffects" ).
+			register( "checkplurals" ).
+			register( "checkmodifiers" ).
+			register( "checkconsumption" ).
+			register( "checkpowers" ).
+			register( "checkprofile" ).
+			register( "checkpulverization" ).
+			register( "checkzapgroups" );
 		new ChessCommand().register( "chess" );
 		new ChipsCommand().register( "chips" );
 		new ClanCommand().register( "clan" );
