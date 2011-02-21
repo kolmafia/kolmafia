@@ -428,9 +428,14 @@ public class EquipmentDatabase
 
 	public static final void registerItem( final int itemId, final String itemName, final String text )
 	{
+		int power = DebugDatabase.parsePower( text );
+		EquipmentDatabase.registerItem( itemId, itemName, text, power );
+	}
+
+	public static final void registerItem( final int itemId, final String itemName, final String text, final int power )
+	{
 		// A new item has been detected. Examine the item description
 		// and decide what it is.
-		int power = DebugDatabase.parsePower( text );
 		String type = DebugDatabase.parseType( text );
 		String req = DebugDatabase.parseReq( text, type );
 
@@ -515,6 +520,11 @@ public class EquipmentDatabase
 	public static final int getPower( final int itemId )
 	{
 		return EquipmentDatabase.power.get( itemId );
+	}
+
+	public static final void setPower( final int itemId, final int power )
+	{
+		EquipmentDatabase.power.set( itemId, power );
 	}
 
 	public static final int getPower( final String itemName )

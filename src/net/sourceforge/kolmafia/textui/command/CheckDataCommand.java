@@ -115,6 +115,13 @@ public class CheckDataCommand
 			return;
 		}
 
+		if ( command.equals( "checkpowers" ) )
+		{
+			DebugDatabase.checkPowers();
+			RequestLogger.printLine( "Equipment power checked." );
+			return;
+		}
+
 		if ( command.equals( "checkpulverization" ) )
 		{
 			DebugDatabase.checkPulverizationData();
