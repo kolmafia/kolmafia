@@ -58,9 +58,11 @@ public class FaxBotDatabase
 	extends KoLDatabase
 {
 	final static String LOCATION = "http://www.hogsofdestiny.com/faxbot/faxbot.xml";
+	final static String LOCATION2 = "http://67.23.43.49/faxbot/faxbot.xml";
 
 	private static boolean isInitialized = false;
 	private static boolean faxBotConfigured = false;
+	private static boolean faxBotError = false;
 
 	public static final LockableListModel faxbots = new LockableListModel();
 	public static final SortedListModel monsters = new SortedListModel();
@@ -72,6 +74,12 @@ public class FaxBotDatabase
 		FaxBotDatabase.configureFaxBot();
 	}
 
+	public static final void reconfigure()
+	{
+		FaxBotDatabase.isInitialized = false;
+		FaxBotDatabase.configure();
+	}
+
 	private static final void configureFaxBot()
 	{
 		if ( FaxBotDatabase.isInitialized )
@@ -81,13 +89,10 @@ public class FaxBotDatabase
 
 		KoLmafia.updateDisplay( "Configuring available monsters." );
 
-		( new DynamicBotFetcher( LOCATION ) ).start();
-
-		PauseObject pauser = new PauseObject();
-
-		while ( !FaxBotDatabase.faxBotConfigured )
+		if ( !FaxBotDatabase.configureFaxBot( LOCATION ) &&
+		     !FaxBotDatabase.configureFaxBot( LOCATION2 ) )
 		{
-			pauser.pause( 200 );
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Could not load Faxbot configuration" );
 		}
 
 		// Iterate over all monsters and make a list of categories
@@ -123,6 +128,24 @@ public class FaxBotDatabase
 
 		KoLmafia.updateDisplay( "Fax list fetched." );
 		FaxBotDatabase.isInitialized = true;
+	}
+
+	private static final boolean configureFaxBot( final String URL )
+	{
+		FaxBotDatabase.faxBotConfigured = false;
+		FaxBotDatabase.faxBotError = false;
+
+		( new DynamicBotFetcher( URL ) ).start();
+
+		PauseObject pauser = new PauseObject();
+
+		while ( !FaxBotDatabase.faxBotError &&
+			!FaxBotDatabase.faxBotConfigured )
+		{
+			pauser.pause( 200 );
+		}
+
+		return !FaxBotDatabase.faxBotError;
 	}
 
 	public static final String botName( final int i )
@@ -264,6 +287,13 @@ public class FaxBotDatabase
 
 		public void run()
 		{
+			// Start with a clean slate
+			FaxBotDatabase.faxBotConfigured = false;
+			FaxBotDatabase.faxBotError = false;
+			FaxBotDatabase.faxbots.clear();
+			FaxBotDatabase.monsters.clear();
+			KoLmafia.forceContinue();
+
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			Document dom = null;
 
@@ -288,8 +318,8 @@ public class FaxBotDatabase
 
 			if ( dom == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "faxbot configuration malformed" );
-				FaxBotDatabase.faxBotConfigured = true;
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Could not load faxbot configuration from " + this.location );
+				FaxBotDatabase.faxBotError = true;
 				return;
 			}
 
