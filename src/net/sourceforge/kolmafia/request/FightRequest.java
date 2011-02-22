@@ -577,7 +577,7 @@ public class FightRequest
 		else
 		{
 			FightRequest.nextAction = CustomCombatManager.getSetting(
-				MonsterStatusTracker.getLastMonsterName(), index );
+				MonsterStatusTracker.getLastMonsterName(), FightRequest.getRoundIndex() );
 		}
 
 		// If the person wants to use their own script,
