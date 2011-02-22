@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -124,7 +125,7 @@ public class FightRequest
 
 	private static int preparatoryRounds = 0;
 	private static String consultScriptThatDidNothing = null;
-	private static boolean waitingForSpecial;
+	public static boolean waitingForSpecial;
 	public static String ireallymeanit = null;
 
 	public static String lastResponseText = "";
@@ -136,10 +137,6 @@ public class FightRequest
 
 	private static boolean isAutomatingFight = false;
 	private static boolean isUsingConsultScript = false;
-	public static Interpreter filterInterp;
-	public static String filterFunction;
-	public static String macroOverride;
-	private static StringBuffer macro;
 
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
 
@@ -227,18 +224,17 @@ public class FightRequest
 	private static boolean summonedGhost = false;
 	private static int currentRound = 0;
 
-	private static String action1 = null;
-	private static String action2 = null;
+	private static String nextAction = null;
 
 	private static AdventureResult desiredScroll = null;
 
 	private static final AdventureResult SCROLL_334 = ItemPool.get( ItemPool.SCROLL_334, 1);
-	public static final AdventureResult SCROLL_668 = ItemPool.get( ItemPool.SCROLL_668, 1);
+	private static final AdventureResult SCROLL_668 = ItemPool.get( ItemPool.SCROLL_668, 1);
 	private static final AdventureResult SCROLL_30669 = ItemPool.get( ItemPool.SCROLL_30669, 1);
 	private static final AdventureResult SCROLL_33398 = ItemPool.get( ItemPool.SCROLL_33398, 1);
 	private static final AdventureResult SCROLL_64067 = ItemPool.get( ItemPool.SCROLL_64067, 1);
-	public static final AdventureResult SCROLL_64735 = ItemPool.get( ItemPool.GATES_SCROLL, 1);
-	public static final AdventureResult SCROLL_31337 = ItemPool.get( ItemPool.ELITE_SCROLL, 1);
+	private static final AdventureResult SCROLL_64735 = ItemPool.get( ItemPool.GATES_SCROLL, 1);
+	private static final AdventureResult SCROLL_31337 = ItemPool.get( ItemPool.ELITE_SCROLL, 1);
 
 	private static final Object[][] NEMESIS_WEAPONS =
 	{	// class, LEW, ULEW
@@ -468,21 +464,11 @@ public class FightRequest
 		return false;
 	}
 
-	public void nextRound()
+	public void nextRound( String desiredAction )
 	{
-		// When logging in and encountering a fight, always use the
-		// attack command to avoid abort problems.
-
-		if ( LoginRequest.isInstanceRunning() )
-		{
-			FightRequest.action1 = "attack";
-			this.addFormField( "action", "attack" );
-			return;
-		}
-
 		if ( KoLmafia.refusesContinue() )
 		{
-			FightRequest.action1 = "abort";
+			FightRequest.nextAction = "abort";
 			return;
 		}
 
@@ -491,21 +477,24 @@ public class FightRequest
 
 		if ( FightRequest.currentRound == 0 )
 		{
-			FightRequest.action1 = null;
+			String macro = Macrofier.macrofy();
+
+			FightRequest.nextAction = null;
+
 			if ( FightRequest.ireallymeanit != null )
 			{
 				this.addFormField( "ireallymeanit", FightRequest.ireallymeanit );
 				FightRequest.ireallymeanit = null;
-				if ( FightRequest.macroOverride != null )
-				{
-					this.addFormField( "action", "macro" );
-					this.addFormField( "macrotext", FightRequest.macroOverride );
-				}
-				else if ( FightRequest.isAutomatingFight )
-				{
-					// an empty macro doesn't suppress autoattack, alas
-				}
 			}
+
+			if ( macro != null && macro.length() > 0 )
+			{
+				FightRequest.nextAction = "macro";
+
+				this.addFormField( "action", "macro" );
+				this.addFormField( "macrotext", macro );
+			}
+
 			return;
 		}
 
@@ -516,7 +505,7 @@ public class FightRequest
 			if ( MonsterStatusTracker.getLastMonsterName().indexOf( FightRequest.RARE_MONSTERS[ i ] ) != -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You have encountered the " + this.encounter );
-				FightRequest.action1 = "abort";
+				FightRequest.nextAction = "abort";
 				return;
 			}
 		}
@@ -527,40 +516,33 @@ public class FightRequest
 
 		if ( !RecoveryManager.runThresholdChecks() )
 		{
-			FightRequest.action1 = "abort";
+			FightRequest.nextAction = "abort";
 			return;
 		}
 
-		if ( FightRequest.macro == null )
+		String macro = Macrofier.macrofy();
+
+		if ( macro != null && macro.length() > 0 )
 		{
-			FightRequest.macrofy();
-		}
-		if ( FightRequest.macro != null && FightRequest.macro.length() > 0 )
-		{
-			FightRequest.action1 = "macro";
+			FightRequest.nextAction = "macro";
+
 			this.addFormField( "action", "macro" );
-			this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( FightRequest.macro ).replaceAll( "$1" ) );
 
 			// In case the player continues the script from the relay browser,
 			// insert a jump to the next restart point.
+
 			if ( macro.indexOf( "#mafiarestart" ) != -1 )
 			{
 				String label = "mafiaskip" + macro.length();
-				StringUtilities.singleStringReplace( macro,
-					"#mafiarestart", "mark " + label );
-				StringUtilities.singleStringReplace( macro,
-					"#mafiaheader", "#mafiaheader\ngoto " + label );
+
+				StringUtilities.singleStringReplace( macro, "#mafiarestart", "mark " + label );
+				StringUtilities.singleStringReplace( macro, "#mafiaheader", "#mafiaheader\ngoto " + label );
 			}
+
+			this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( macro ).replaceAll( "$1" ) );
+
 			return;
 		}
-
-		this.nextRound( null );
-	}
-
-	public void nextRound( String desiredAction )
-	{
-		FightRequest.action1 = null;
-		FightRequest.action2 = null;
 
 		// Added emergency break for hulking construct
 
@@ -588,72 +570,46 @@ public class FightRequest
 			this.handleHulkingConstruct();
 		}
 
-		if ( FightRequest.action1 == null )
-		{
-			if ( desiredAction == null )
-			{
-				int index = FightRequest.currentRound - 1 - FightRequest.preparatoryRounds;
-				if ( FightRequest.filterInterp != null )
-				{
-					desiredAction = FightRequest.filterInterp.execute(
-						FightRequest.filterFunction, new String[]
-							{
-								String.valueOf( index ),
-								MonsterStatusTracker.getLastMonsterName(),
-								FightRequest.lastResponseText
-							}, false ).toString();
-					if ( KoLmafia.refusesContinue() )
-					{
-						FightRequest.action1 = "abort";
-						return;
-					}
-				}
-				else
-				{
-					desiredAction = CustomCombatManager.getSetting(
-						MonsterStatusTracker.getLastMonsterName(), index );
-				}
-			}
-			FightRequest.action1 =
-				CustomCombatManager.getShortCombatOptionName( desiredAction );
-		}
+		FightRequest.nextAction = desiredAction;
 
 		// If the person wants to use their own script,
 		// then this is where it happens.
 
-		if ( FightRequest.action1.startsWith( "consult" ) )
+		if ( FightRequest.nextAction.startsWith( "consult" ) )
 		{
 			FightRequest.isUsingConsultScript = true;
-			String scriptName = FightRequest.action1.substring( "consult".length() ).trim();
+			String scriptName = FightRequest.nextAction.substring( "consult".length() ).trim();
 
-			Interpreter interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
-			if ( interpreter != null )
+			Interpreter consultInterpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+			if ( consultInterpreter != null )
 			{
 				int initialRound = FightRequest.currentRound;
-				interpreter.execute( "main", new String[]
-				{
-					String.valueOf( FightRequest.currentRound ),
-					MonsterStatusTracker.getLastMonsterName(),
-					FightRequest.lastResponseText
-				} );
+
+				String[] parameters = new String[3];
+				parameters[0] = String.valueOf( FightRequest.currentRound );
+				parameters[1] = MonsterStatusTracker.getLastMonsterName();
+				parameters[2] = FightRequest.lastResponseText;
+
+				consultInterpreter.execute( "main", parameters );
 
 				if ( KoLmafia.refusesContinue() )
 				{
-					FightRequest.action1 = "abort";
+					FightRequest.nextAction = "abort";
 				}
 				else if ( initialRound == FightRequest.currentRound )
 				{
-					if ( FightRequest.action1.equals( FightRequest.consultScriptThatDidNothing ) )
+					if ( FightRequest.nextAction.equals( FightRequest.consultScriptThatDidNothing ) )
 					{
-						FightRequest.action1 = "abort";
+						FightRequest.nextAction = "abort";
 					}
 					else
 					{
-						FightRequest.consultScriptThatDidNothing = FightRequest.action1;
+						FightRequest.consultScriptThatDidNothing = FightRequest.nextAction;
 					}
 				}
 				if ( FightRequest.currentRound != 0 )
-				{	// don't adjust round # if fight is over!
+				{
+					// don't adjust round # if fight is over!
 					FightRequest.preparatoryRounds +=
 						FightRequest.currentRound - initialRound - 1;
 				}
@@ -664,16 +620,16 @@ public class FightRequest
 			}
 
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Consult script '" + scriptName + "' not found." );
-			FightRequest.action1 = "abort";
+			FightRequest.nextAction = "abort";
 			return;
 		}
 
 		// Let the de-level action figure out what
 		// should be done, and then re-process.
 
-		if ( FightRequest.action1.startsWith( "delevel" ) )
+		if ( FightRequest.nextAction.startsWith( "delevel" ) )
 		{
-			FightRequest.action1 = this.getMonsterWeakenAction();
+			FightRequest.nextAction = this.getMonsterWeakenAction();
 		}
 
 		this.updateCurrentAction();
@@ -688,48 +644,52 @@ public class FightRequest
 	{
 		if ( FightRequest.shouldUseAntidote() )
 		{
-			FightRequest.action1 = String.valueOf( ItemPool.ANTIDOTE );
+			FightRequest.nextAction = String.valueOf( ItemPool.ANTIDOTE );
 			++FightRequest.preparatoryRounds;
 		}
 
-		if ( FightRequest.action1.equals( "special" ) )
+		if ( FightRequest.nextAction.equals( "special" ) )
 		{
 			FightRequest.waitingForSpecial = false;
-			if ( GenericRequest.passwordHash.equals( "" ) || !FightRequest.getSpecialAction() )
+			String specialAction = FightRequest.getSpecialAction();
+
+			if ( GenericRequest.passwordHash.equals( "" ) || specialAction == null )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
+
+			FightRequest.nextAction = specialAction;
 		}
 
-		if ( FightRequest.action1.equals( "abort" ) )
+		if ( FightRequest.nextAction.equals( "abort" ) )
 		{
 			// If the user has chosen to abort combat, flag it.
 			--FightRequest.preparatoryRounds;
 			return;
 		}
 
-		if ( FightRequest.action1.equals( "abort after" ) )
+		if ( FightRequest.nextAction.equals( "abort after" ) )
 		{
 			KoLmafia.abortAfter( "Aborted by CCS request" );
 			--FightRequest.preparatoryRounds;
-			this.nextRound();
+			this.nextRound( null );
 			return;
 		}
 
-		if ( FightRequest.action1.equals( "skip" ) ||
-			FightRequest.action1.startsWith( "\"" ))
+		if ( FightRequest.nextAction.equals( "skip" ) ||
+			FightRequest.nextAction.startsWith( "\"" ))
 		{
 			--FightRequest.preparatoryRounds;
-			this.nextRound();
+			this.nextRound( null );
 			return;
 		}
 
 		// User wants to run away
-		if ( FightRequest.action1.indexOf( "run" ) != -1 && FightRequest.action1.indexOf( "away" ) != -1 )
+		if ( FightRequest.nextAction.indexOf( "run" ) != -1 && FightRequest.nextAction.indexOf( "away" ) != -1 )
 		{
-			Matcher runAwayMatcher = CustomCombatManager.TRY_TO_RUN_AWAY_PATTERN.matcher( FightRequest.action1 );
+			Matcher runAwayMatcher = CustomCombatManager.TRY_TO_RUN_AWAY_PATTERN.matcher( FightRequest.nextAction );
 
 			int runaway = 0;
 
@@ -738,28 +698,28 @@ public class FightRequest
 				runaway = StringUtilities.parseInt( runAwayMatcher.group( 1 ) );
 			}
 
-			FightRequest.action1 = "runaway";
+			FightRequest.nextAction = "runaway";
 
 			if ( runaway > FightRequest.freeRunawayChance() )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 
-			this.addFormField( "action", FightRequest.action1 );
+			this.addFormField( "action", FightRequest.nextAction );
 			return;
 		}
 
 		// User wants a regular attack
-		if ( FightRequest.action1.startsWith( "attack" ) )
+		if ( FightRequest.nextAction.startsWith( "attack" ) )
 		{
-			FightRequest.action1 = "attack";
-			this.addFormField( "action", FightRequest.action1 );
+			FightRequest.nextAction = "attack";
+			this.addFormField( "action", FightRequest.nextAction );
 			return;
 		}
 
-		if ( FightRequest.action1.startsWith( "twiddle" ) )
+		if ( FightRequest.nextAction.startsWith( "twiddle" ) )
 		{
 			--FightRequest.preparatoryRounds;
 			return;
@@ -769,35 +729,35 @@ public class FightRequest
 		{
 			if ( !MonsterStatusTracker.willUsuallyMiss() )
 			{
-				FightRequest.action1 = "attack";
-				this.addFormField( "action", FightRequest.action1 );
+				FightRequest.nextAction = "attack";
+				this.addFormField( "action", FightRequest.nextAction );
 				return;
 			}
 
-			FightRequest.action1 = "abort";
+			FightRequest.nextAction = "abort";
 			return;
 		}
 
 		// Actually steal if the action says to steal
 
-		if ( FightRequest.action1.indexOf( "steal" ) != -1 &&
-		     FightRequest.action1.indexOf( "stealth" ) == -1 )
+		if ( FightRequest.nextAction.indexOf( "steal" ) != -1 &&
+		     FightRequest.nextAction.indexOf( "stealth" ) == -1 )
 		{
 			if ( FightRequest.canStillSteal() && MonsterStatusTracker.shouldSteal() )
 			{
-				FightRequest.action1 = "steal";
+				FightRequest.nextAction = "steal";
 				this.addFormField( "action", "steal" );
 				return;
 			}
 
 			--FightRequest.preparatoryRounds;
-			this.nextRound();
+			this.nextRound( null );
 			return;
 		}
 
 		// Summon a ghost if requested.
 
-		if ( FightRequest.action1.equals( "summon ghost" ) )
+		if ( FightRequest.nextAction.equals( "summon ghost" ) )
 		{
 			if ( FightRequest.canStillSummon() )
 			{
@@ -806,14 +766,14 @@ public class FightRequest
 			}
 
 			--FightRequest.preparatoryRounds;
-			this.nextRound();
+			this.nextRound( null );
 			return;
 		}
 
 		// Jiggle chefstaff if the action says to jiggle and we're
 		// wielding a chefstaff. Otherwise, skip this action.
 
-		if ( FightRequest.action1.startsWith( "jiggle" ) )
+		if ( FightRequest.nextAction.startsWith( "jiggle" ) )
 		{
 			if ( !FightRequest.jiggledChefstaff &&
 			     EquipmentManager.usingChefstaff() )
@@ -824,92 +784,61 @@ public class FightRequest
 
 			// You can only jiggle once per round.
 			--FightRequest.preparatoryRounds;
-			this.nextRound();
+			this.nextRound( null );
 			return;
 		}
 
 		// Handle DB combos.
 
-		if ( FightRequest.action1.startsWith( "combo " ) )
+		if ( FightRequest.nextAction.startsWith( "combo " ) )
 		{
-			int[] combo = DiscoCombatHelper.getCombo(
-				FightRequest.action1.substring( 6 ) );
+			int[] combo = DiscoCombatHelper.getCombo( FightRequest.nextAction.substring( 6 ) );
 			if ( combo == null )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 
-			int cost = 0;
 			StringBuffer macro = new StringBuffer();
-			for ( int i = 0; i < combo.length; ++i )
-			{
-				int skillId = combo[ i ];
-				cost += SkillDatabase.getMPConsumptionById( skillId );
-				macro.append( "skill " );
-				macro.append( skillId );
-				macro.append( ";" );
-			}
 
-			// Combos use MP. Make sure the character has enough.
-			if ( KoLCharacter.getCurrentMP() < cost && !GenericRequest.passwordHash.equals( "" ) )
-			{
-				if ( !Preferences.getBoolean( "autoManaRestore" ) )
-				{
-					--FightRequest.preparatoryRounds;
-					this.nextRound();
-					return;
-				}
-
-				for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-				{
-					if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() && KoLConstants.inventory.contains( MPRestoreItemList.CONFIGURES[ i ].getItem() ) )
-					{
-						FightRequest.action1 = String.valueOf( MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
-
-						++FightRequest.preparatoryRounds;
-						this.updateCurrentAction();
-						return;
-					}
-				}
-
-				FightRequest.action1 = "abort";
-				return;
-			}
+			Macrofier.macroCommon( macro );
+			Macrofier.macroCombo( macro, combo );
 
 			this.addFormField( "action", "macro" );
 			this.addFormField( "macrotext", macro.toString() );
+
 			FightRequest.preparatoryRounds += combo.length - 1;
+
 			return;
 		}
 
 		// If the player wants to use an item, make sure he has one
-		if ( !FightRequest.action1.startsWith( "skill" ) )
+		if ( !FightRequest.nextAction.startsWith( "skill" ) )
 		{
 			if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
 			{	// Can't use items in Birdform
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 			int item1, item2;
 
-			int commaIndex = FightRequest.action1.indexOf( "," );
+			int commaIndex = FightRequest.nextAction.indexOf( "," );
 			if ( commaIndex != -1 )
 			{
-				item1 = StringUtilities.parseInt( FightRequest.action1.substring( 0, commaIndex ) );
-				item2 = StringUtilities.parseInt( FightRequest.action1.substring( commaIndex + 1 ) );
+				item1 = StringUtilities.parseInt( FightRequest.nextAction.substring( 0, commaIndex ) );
+				item2 = StringUtilities.parseInt( FightRequest.nextAction.substring( commaIndex + 1 ) );
 			}
 			else
 			{
-				item1 = StringUtilities.parseInt( FightRequest.action1 );
+				item1 = StringUtilities.parseInt( FightRequest.nextAction );
 				item2 = -1;
 			}
 
 			int itemCount = ( new AdventureResult( item1, 1 ) ).getCount( KoLConstants.inventory );
 
-			if ( itemCount == 0 && item2 != -1)
+			if ( itemCount == 0 && item2 != -1 )
 			{
 				item1 = item2;
 				item2 = -1;
@@ -921,7 +850,7 @@ public class FightRequest
 			{
 				KoLmafia.updateDisplay(
 					KoLConstants.ABORT_STATE, "You don't have enough " + ItemDatabase.getItemName( item1 ) );
-				FightRequest.action1 = "abort";
+				FightRequest.nextAction = "abort";
 				return;
 			}
 
@@ -930,14 +859,14 @@ public class FightRequest
 				if ( itemCount < 1 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You don't have a dictionary." );
-					FightRequest.action1 = "abort";
+					FightRequest.nextAction = "abort";
 					return;
 				}
 
 				if ( MonsterStatusTracker.getLastMonsterName().equals( "rampaging adding machine" ) )
 				{
-					FightRequest.action1 = "attack";
-					this.addFormField( "action", FightRequest.action1 );
+					FightRequest.nextAction = "attack";
+					this.addFormField( "action", FightRequest.nextAction );
 					return;
 				}
 			}
@@ -956,14 +885,14 @@ public class FightRequest
 
 				if ( itemCount > 1 || item1 != item2 && itemCount > 0 )
 				{
-					FightRequest.action2 = String.valueOf( item2 );
+					FightRequest.nextAction += "," + String.valueOf( item2 );
 					this.addFormField( "whichitem2", String.valueOf( item2 ) );
 				}
 				else
 				{
 					KoLmafia.updateDisplay(
 						KoLConstants.ABORT_STATE, "You don't have enough " + ItemDatabase.getItemName( item2 ) );
-					FightRequest.action1 = "abort";
+					FightRequest.nextAction = "abort";
 				}
 
 				return;
@@ -973,38 +902,38 @@ public class FightRequest
 			{
 				if ( KoLConstants.inventory.contains( FightRequest.MERCENARY ) )
 				{
-					FightRequest.action2 = FightRequest.MERCENARY_ACTION;
+					FightRequest.nextAction += "," + FightRequest.MERCENARY_ACTION;
 					this.addFormField( "whichitem2", String.valueOf( FightRequest.MERCENARY.getItemId() ) );
 				}
 				else if ( KoLConstants.inventory.contains( FightRequest.DESTROYER ) )
 				{
-					FightRequest.action2 = FightRequest.DESTROYER_ACTION;
+					FightRequest.nextAction += "," + FightRequest.DESTROYER_ACTION;
 					this.addFormField( "whichitem2", String.valueOf( FightRequest.DESTROYER.getItemId() ) );
 				}
 				else if ( KoLConstants.inventory.contains( FightRequest.LASER ) )
 				{
-					FightRequest.action2 = FightRequest.LASER_ACTION;
+					FightRequest.nextAction += "," + FightRequest.LASER_ACTION;
 					this.addFormField( "whichitem2", String.valueOf( FightRequest.LASER.getItemId() ) );
 				}
 				else if ( KoLConstants.inventory.contains( FightRequest.STOMPER ) )
 				{
-					FightRequest.action2 = FightRequest.STOMPER_ACTION;
+					FightRequest.nextAction += "," + FightRequest.STOMPER_ACTION;
 					this.addFormField( "whichitem2", String.valueOf( FightRequest.STOMPER.getItemId() ) );
 				}
 				else if ( KoLConstants.inventory.contains( FightRequest.TOOTH ) )
 				{
-					FightRequest.action2 = FightRequest.TOOTH_ACTION;
+					FightRequest.nextAction += "," + FightRequest.TOOTH_ACTION;
 					this.addFormField( "whichitem2", String.valueOf( FightRequest.TOOTH.getItemId() ) );
 				}
 				else if ( KoLConstants.inventory.contains( FightRequest.SPICES ) )
 				{
-					FightRequest.action2 = FightRequest.SPICES_ACTION;
+					FightRequest.nextAction += "," + FightRequest.SPICES_ACTION;
 					this.addFormField( "whichitem2", String.valueOf( FightRequest.SPICES.getItemId() ) );
 				}
 			}
 			else if ( itemCount >= 2 && !soloUseCombatItem( item1 ))
 			{
-				FightRequest.action2 = FightRequest.action1;
+				FightRequest.nextAction += "," + FightRequest.nextAction;
 				this.addFormField( "whichitem2", String.valueOf( item1 ) );
 			}
 
@@ -1020,18 +949,18 @@ public class FightRequest
 		// We do ensure that it is a combat skill.
 
 		String skillName =
-			SkillDatabase.getSkillName( StringUtilities.parseInt( FightRequest.action1.substring( 5 ) ) );
+			SkillDatabase.getSkillName( StringUtilities.parseInt( FightRequest.nextAction.substring( 5 ) ) );
 
 		if ( SkillDatabase.getCombatSkillName( skillName ) == null )
 		{
 			if ( this.isAcceptable( 0, 0 ) )
 			{
-				FightRequest.action1 = "attack";
-				this.addFormField( "action", FightRequest.action1 );
+				FightRequest.nextAction = "attack";
+				this.addFormField( "action", FightRequest.nextAction );
 				return;
 			}
 
-			FightRequest.action1 = "abort";
+			FightRequest.nextAction = "abort";
 			return;
 		}
 
@@ -1046,7 +975,7 @@ public class FightRequest
 			if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 		}
@@ -1057,7 +986,7 @@ public class FightRequest
 			if ( Preferences.getInteger( "burrowgrubSummonsRemaining" ) <= 0 )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 		}
@@ -1068,7 +997,7 @@ public class FightRequest
 			if ( FightRequest.castNoodles )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 
@@ -1082,7 +1011,7 @@ public class FightRequest
 			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 		}
@@ -1094,7 +1023,7 @@ public class FightRequest
 			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 		}
@@ -1106,7 +1035,7 @@ public class FightRequest
 			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 		}
@@ -1118,7 +1047,7 @@ public class FightRequest
 			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 		}
@@ -1129,13 +1058,13 @@ public class FightRequest
 			if ( !Preferences.getBoolean( "autoManaRestore" ) )
 			{
 				--FightRequest.preparatoryRounds;
-				this.nextRound();
+				this.nextRound( null );
 				return;
 			}
 
 			if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
 			{
-				FightRequest.action1 = "abort";
+				FightRequest.nextAction = "abort";
 				return;
 			}
 
@@ -1143,7 +1072,7 @@ public class FightRequest
 			{
 				if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() && KoLConstants.inventory.contains( MPRestoreItemList.CONFIGURES[ i ].getItem() ) )
 				{
-					FightRequest.action1 = String.valueOf( MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
+					FightRequest.nextAction = String.valueOf( MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
 
 					++FightRequest.preparatoryRounds;
 					this.updateCurrentAction();
@@ -1151,7 +1080,7 @@ public class FightRequest
 				}
 			}
 
-			FightRequest.action1 = "abort";
+			FightRequest.nextAction = "abort";
 			return;
 		}
 
@@ -1159,421 +1088,22 @@ public class FightRequest
 		{
 			if ( FightRequest.castCleesh )
 			{
-				FightRequest.action1 = "attack";
-				this.addFormField( "action", FightRequest.action1 );
+				FightRequest.nextAction = "attack";
+				this.addFormField( "action", FightRequest.nextAction );
 				return;
 			}
 
 			FightRequest.castCleesh = true;
 		}
 
-		if ( FightRequest.isInvalidAttack( FightRequest.action1 ) )
+		if ( FightRequest.isInvalidAttack( FightRequest.nextAction ) )
 		{
-			FightRequest.action1 = "abort";
+			FightRequest.nextAction = "abort";
 			return;
 		}
 
 		this.addFormField( "action", "skill" );
-		this.addFormField( "whichskill", FightRequest.action1.substring( 5 ) );
-	}
-
-	private static void macroManaRestore( StringBuffer macro )
-	{
-		int cumulative = 0;
-		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-		{
-			if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() &&
-				!KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
-			{
-				int count = MPRestoreItemList.CONFIGURES[ i ].getItem().getCount(
-					KoLConstants.inventory );
-				if ( count <= 0 ) continue;
-				String item = String.valueOf(
-					MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
-				cumulative += count;
-				if ( cumulative >= 30 )
-				{	// Assume this item will be sufficient for all requests
-					macro.append( "call mafiaround; use " );
-					macro.append( item );
-					macro.append( "\nmark mafiampexit\n" );
-					return;
-				}
-
-				macro.append( "if hascombatitem " );
-				macro.append( item );
-				macro.append( "\ncall mafiaround; use " );
-				macro.append( item );
-				macro.append( "\ngoto mafiampexit\n endif\n" );
-			}
-		}
-
-		macro.append( "abort \"No MP restoratives!\"\n" );
-		macro.append( "mark mafiampexit\n" );
-	}
-
-	private static void macrofy()
-	{
-		StringBuffer macro = new StringBuffer();
-		FightRequest.macro = macro;
-		boolean funk = KoLCharacter.hasSkill( "Ambidextrous Funkslinging" );
-
-		if ( FightRequest.filterInterp != null )
-		{
-			macro.setLength( 0 );
-			RequestLogger.printLine( "(unable to macrofy due to combat filter)" );
-			return;
-		}
-
-		if ( MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
-		{	// use ATTACK & WALL punchcards
-			macro.append( "if hascombatitem 3146 && hascombatitem 3155\n" );
-			if ( funk )
-			{
-				macro.append( "  use 3146,3155\n" );
-			}
-			else
-			{
-				macro.append( "  use 3146; use 3155\n" );
-			}
-			macro.append( "endif\nrunaway; repeat\n" );
-			return;
-		}
-
-		float thresh = Preferences.getFloat( "autoAbortThreshold" );
-		if ( thresh > 0.0f )
-		{
-			macro.append( "abort hppercentbelow " );
-			macro.append( (int) (thresh * 100.0f) );
-			macro.append( '\n' );
-		}
-
-		macro.append( "sub mafiaround\n" );
-		FightRequest.macroUseAntidote( macro );
-		macro.append( "endsub#mafiaround\n" );
-
-		macro.append( "sub mafiamp\n" );
-		FightRequest.macroManaRestore( macro );
-		macro.append( "endsub#mafiamp\n" );
-
-		macro.append( "#mafiaheader\n" );
-
-		boolean globalPrefix = CustomCombatManager.containsKey( "global prefix" );
-		for ( int i = 0; i < 10000; ++i )
-		{
-			if ( MonsterStatusTracker.getLastMonsterName().equals( "rampaging adding machine" )
-				&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
-				&& !FightRequest.waitingForSpecial )
-			{
-				macro.setLength( 0 );
-				RequestLogger.printLine( "(unable to macrofy vs. RAM)" );
-				return;
-			}
-
-			String action = CustomCombatManager.getShortCombatOptionName(
-				CustomCombatManager.getSetting( globalPrefix ? "global prefix"
-					: MonsterStatusTracker.getLastMonsterName(), i ) );
-			int finalRound = 0;
-			if ( !globalPrefix && CustomCombatManager.atEndOfCCS() )
-			{
-				macro.append( "mark mafiafinal\n" );
-				finalRound = macro.length();
-			}
-
-			if ( action.startsWith( "consult" ) ||
-			     action.startsWith( "delevel" ) ||
-			     action.startsWith( "twiddle" ) )
-			{
-				macro.setLength( 0 );
-				RequestLogger.printLine( "(unable to macrofy due to action: " +
-					action + ")" );
-				return;
-			}
-			else if ( action.startsWith( "\"" ) )
-			{
-				macro.append( action.substring( 1 ) );
-				int pos = macro.length() - 1;
-				if ( macro.charAt( pos ) == '"' )
-				{
-					macro.deleteCharAt( pos );
-				}
-				macro.append( "\n" );
-			}
-			else if ( action.equals( "special" ) )
-			{
-				if ( FightRequest.waitingForSpecial )
-				{	// only allow once per combat
-					FightRequest.waitingForSpecial = false;
-					if ( FightRequest.getSpecialAction() )
-					{
-						if ( FightRequest.action1.startsWith( "skill" ) )
-						{
-							FightRequest.macroSkill( macro,
-								StringUtilities.parseInt(
-									FightRequest.action1.substring( 5 ) ) );
-						}
-						else
-						{
-							macro.append( "call mafiaround; use " + FightRequest.action1 + "\n" );
-							// TODO
-						}
-					}
-				}
-			}
-			else if ( action.equals( "abort" ) )
-			{
-				if ( finalRound != 0 )
-				{
-					macro.append( "abort \"KoLmafia CCS abort\"\n" );
-				}
-				else
-				{
-					macro.append( "abort \"Click Script button again to continue\"\n" );
-					macro.append( "#mafiarestart\n" );
-				}
-			}
-			else if ( action.equals( "abort after" ) )
-			{
-				KoLmafia.abortAfter( "Aborted by CCS request" );
-			}
-			else if ( action.equals( "skip" ) )
-			{	// nothing to do
-			}
-			else if ( action.equals( "runaway" ) )
-			{
-				macro.append( "runaway\n" );
-			}
-			else if ( action.startsWith( "runaway" ) )
-			{
-				int runaway = StringUtilities.parseInt( action.substring( 7 ) );
-				if ( FightRequest.freeRunawayChance() >= runaway )
-				{
-					macro.append( "runaway\n" );
-				}
-			}
-			else if ( action.startsWith( "attack" ) )
-			{
-				macro.append( "call mafiaround; attack\n" );
-			}
-			else if ( action.equals( "steal" ) )
-			{
-				if ( MonsterStatusTracker.shouldSteal() )
-				{
-					macro.append( "pickpocket\n" );
-				}
-			}
-			else if ( action.equals( "summon ghost" ) )
-			{
-				macro.append( "summonspirit\n" );
-			}
-			else if ( action.equals( "jiggle" ) )
-			{
-				if ( EquipmentManager.usingChefstaff() )
-				{
-					macro.append( "call mafiaround; jiggle\n" );
-				}
-			}
-			else if ( action.startsWith( "combo " ) )
-			{
-				int[] combo = DiscoCombatHelper.getCombo( action.substring( 6 ) );
-				if ( combo != null )
-				{
-					FightRequest.macroCombo( macro, combo );
-				}
-			}
-			else if ( action.startsWith( "skill" ) )
-			{
-				int skillId = StringUtilities.parseInt( action.substring( 5 ) );
-				String skillName = SkillDatabase.getSkillName( skillId );
-
-				if ( skillName.equals( "Transcendent Olfaction" ) )
-				{
-					// You can't sniff if you are already on the trail.
-
-					// You can't sniff in Bad Moon, even though the skill
-					// shows up on the char sheet, unless you've recalled
-					// your skills.
-
-					if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
-					{	// ignore
-					}
-					else
-					{	// must insert On The Trail check in generated macro
-						// too, in case more than one olfact is attempted.
-						macro.append( "if !haseffect 331\n" );
-						FightRequest.macroSkill( macro, skillId );
-						macro.append( "endif\n" );
-					}
-				}
-				else if ( skillName.equals( "CLEESH" ) )
-				{	// Macrofied combat will continue with the same CCS after
-					// a CLEESH, unlike round-by-round combat which switches
-					// sections.  Make sure there's something to finish off
-					// the amphibian.
-					FightRequest.macroSkill( macro, skillId );
-					if ( finalRound != 0 )
-					{
-						macro.append( "attack; repeat\n" );
-					}
-				}
-				else
-				{
-					FightRequest.macroSkill( macro, skillId );
-				}
-			}
-			else if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
-			{	// can't use items in Birdform
-			}
-			else	// must be an item use
-			{
-				macro.append( "call mafiaround; use " + action + "\n" );
-				// TODO
-			}
-
-			if ( finalRound != 0 )
-			{
-				if ( finalRound == macro.length() )
-				{	// last line of CCS generated no action!
-					macro.append( "call mafiaround; attack\n" );
-				}
-				macro.append( "goto mafiafinal" );
-				break;
-			}
-			else if ( globalPrefix && CustomCombatManager.atEndOfCCS() )
-			{
-				globalPrefix = false;
-				i = -1;	// continue with actual CCS section
-			}
-		}
-
-		if ( Preferences.getBoolean( "macroDebug" ) )
-		{
-			RequestLogger.printLine( "Generated macro:" );
-			FightRequest.indentify( macro.toString(), false );
-			RequestLogger.printLine( "" );
-		}
-
-		HashSet allCalls = new HashSet();
-		Matcher m = FightRequest.ALLCALLS_PATTERN.matcher( macro );
-		while ( m.find() )
-		{
-			allCalls.add( m.group( 1 ) );
-		}
-		m = FightRequest.ALLSUBS_PATTERN.matcher( macro.toString() );
-		while ( m.find() )
-		{
-			String label = m.group( 1 );
-			if ( m.group( 2 ) != null || !allCalls.contains( label ) )
-			{	// this sub is useless!
-				Matcher del = Pattern.compile( "call " + label + "\\b|sub " +
-					label + "\\b.*?endsub", Pattern.DOTALL ).matcher(
-						macro.toString() );
-				macro.setLength( 0 );
-				while ( del.find() )
-				{
-					del.appendReplacement( macro, "" );
-				}
-				del.appendTail( macro );
-			}
-		}
-
-		if ( Preferences.getBoolean( "macroDebug" ) )
-		{
-			RequestLogger.updateDebugLog( "Optimized macro:" );
-			FightRequest.indentify( macro.toString(), true );
-		}
-	}
-
-	private static final Pattern ALLCALLS_PATTERN =
-		Pattern.compile( "call (\\w+)" );
-	private static final Pattern ALLSUBS_PATTERN =
-		Pattern.compile( "sub (\\w+)([\\s;\\n]+endsub)?" );
-
-	private static void indentify( String macro, boolean debug )
-	{
-		String indent = "";
-		String element = debug ? "\t" : "\u00A0\u00A0\u00A0\u00A0";
-		String[] pieces = macro.split( "\n" );
-		for ( int i = 0; i < pieces.length; ++i )
-		{
-			String line = pieces[ i ].trim();
-			if ( line.startsWith( "end" ) && indent.length() > 0 )
-			{
-				indent = indent.substring( element.length() );
-			}
-			if ( debug )
-			{
-				RequestLogger.updateDebugLog( indent + line );
-			}
-			else
-			{
-				RequestLogger.printLine( indent + line );
-			}
-			if ( line.startsWith( "if " ) || line.startsWith( "while " ) ||
-				line.startsWith( "sub " ) )
-			{
-				indent = indent + element;
-			}
-		}
-	}
-
-	private static void macroSkill( StringBuffer macro, int skillId )
-	{
-		int cost = SkillDatabase.getMPConsumptionById( skillId );
-		if ( cost > KoLCharacter.getMaximumMP() )
-		{
-			return;	// no point in even trying
-		}
-
-		if ( cost > 0 && Preferences.getBoolean( "autoManaRestore" ) )
-		{
-			macro.append( "while mpbelow " );
-			macro.append( cost );
-			macro.append( "\ncall mafiamp\nendwhile\n" );
-		}
-		macro.append( "if hasskill " );
-		macro.append( skillId );
-		macro.append( "\ncall mafiaround; skill " );
-		macro.append( skillId );
-		macro.append( "\nendif\n" );
-	}
-
-	private static void macroCombo( StringBuffer macro, int[] combo )
-	{
-		int cost = 0;
-		for ( int i = 0; i < combo.length; ++i )
-		{
-			cost += SkillDatabase.getMPConsumptionById( combo[ i ] );
-		}
-		if ( cost > KoLCharacter.getMaximumMP() )
-		{
-			return;	// no point in even trying
-		}
-
-		boolean restore =  Preferences.getBoolean( "autoManaRestore" );
-		if ( restore )
-		{
-			macro.append( "while mpbelow " );
-			macro.append( cost );
-			macro.append( "\ncall mafiamp\nendwhile\n" );
-		}
-		else
-		{
-			macro.append( "if !mpbelow " );
-			macro.append( cost );
-			macro.append( "\n" );
-		}
-		macro.append( "call mafiaround; " );
-		for ( int i = 0; i < combo.length; ++i )
-		{
-			macro.append( "skill " );
-			macro.append( combo[ i ] );
-			macro.append( "; " );
-		}
-		macro.append( "\n" );
-		if ( !restore )
-		{
-			macro.append( "endif\n" );
-		}
+		this.addFormField( "whichskill", FightRequest.nextAction.substring( 5 ) );
 	}
 
 	private static final boolean problemFamiliar()
@@ -1658,35 +1188,23 @@ public class FightRequest
 	{
 		this.clearDataFields();
 
-		FightRequest.action1 = null;
-		FightRequest.action2 = null;
+		FightRequest.nextAction = null;
 		FightRequest.isUsingConsultScript = false;
 
 		if ( !KoLmafia.refusesContinue() )
 		{
-			if ( desiredAction == null )
-			{
-				this.nextRound();
-			}
-			else
-			{
-				this.nextRound( desiredAction );
-			}
+			this.nextRound( desiredAction );
 		}
 
 		if ( !FightRequest.isUsingConsultScript )
 		{
-			if ( FightRequest.currentRound == 0 )
-			{
-				super.run();
-			}
-			else if ( FightRequest.action1 != null && !FightRequest.action1.equals( "abort" ) )
+			if ( FightRequest.currentRound == 0 || ( FightRequest.nextAction != null && !FightRequest.nextAction.equals( "abort" ) ) )
 			{
 				super.run();
 			}
 		}
 
-		if ( FightRequest.action1 != null && FightRequest.action1.equals( "abort" ) )
+		if ( FightRequest.nextAction != null && FightRequest.nextAction.equals( "abort" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You're on your own, partner." );
 		}
@@ -1754,7 +1272,7 @@ public class FightRequest
 		// 3: create goal, 31337, 668
 		if ( action == 0 )
 		{
-			FightRequest.action1 = "abort";
+			FightRequest.nextAction = "abort";
 			return;
 		}
 		else if ( FightRequest.desiredScroll != null )
@@ -1831,7 +1349,7 @@ public class FightRequest
 		if ( FightRequest.desiredScroll != null )
 		{
 			++FightRequest.preparatoryRounds;
-			FightRequest.action1 = String.valueOf( part2.getItemId() );
+			FightRequest.nextAction = String.valueOf( part2.getItemId() );
 
 			FightRequest.desiredScroll = null;
 			return true;
@@ -1855,14 +1373,14 @@ public class FightRequest
 		if ( !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
 			++FightRequest.preparatoryRounds;
-			FightRequest.action1 = String.valueOf( part1.getItemId() );
+			FightRequest.nextAction = String.valueOf( part1.getItemId() );
 
 			FightRequest.desiredScroll = scroll;
 			return true;
 		}
 
 		++FightRequest.preparatoryRounds;
-		FightRequest.action1 = part1.getItemId() + "," + part2.getItemId();
+		FightRequest.nextAction = part1.getItemId() + "," + part2.getItemId();
 		return true;
 	}
 
@@ -1871,7 +1389,7 @@ public class FightRequest
 		if ( FightRequest.currentRound > 1 )
 		{
 			++FightRequest.preparatoryRounds;
-			FightRequest.action1 = "3155";
+			FightRequest.nextAction = "3155";
 			return;
 		}
 
@@ -1881,18 +1399,18 @@ public class FightRequest
 		if ( !KoLConstants.inventory.contains( card1 ) ||
 		     !KoLConstants.inventory.contains( card2 ) )
 		{
-			FightRequest.action1 = "runaway";
+			FightRequest.nextAction = "runaway";
 			return;
 		}
 
 		++FightRequest.preparatoryRounds;
 		if ( !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
-			FightRequest.action1 = "3146";
+			FightRequest.nextAction = "3146";
 		}
 		else
 		{
-			FightRequest.action1 = "3146,3155";
+			FightRequest.nextAction = "3146,3155";
 		}
 	}
 
@@ -2148,7 +1666,7 @@ public class FightRequest
 		     responseText.indexOf( "Macro abort" ) != -1 ||
 		     responseText.indexOf( "macro abort" ) != -1)
 		{
-			FightRequest.action1 = "abort";
+			FightRequest.nextAction = "abort";
 		}
 
 		FightRequest.foundNextRound = true;
@@ -2181,7 +1699,7 @@ public class FightRequest
 		FightRequest.payActionCost( responseText );
 
 		// Track disco skill sequences
-		DiscoCombatHelper.parseFightRound( FightRequest.action1, responseText );
+		DiscoCombatHelper.parseFightRound( FightRequest.nextAction, responseText );
 
 		// Check for equipment breakage.
 
@@ -2611,7 +2129,7 @@ public class FightRequest
 		FightRequest.clearInstanceData();
 	}
 
-	private static final boolean getSpecialAction()
+	public static final String getSpecialAction()
 	{
 		ArrayList items = new ArrayList();
 
@@ -2627,9 +2145,9 @@ public class FightRequest
 			{
 				if ( haveSkill )
 				{
-					FightRequest.action1 = OLFACTION_ACTION;
-					return true;
+					return OLFACTION_ACTION;
 				}
+
 				items.add( String.valueOf( ItemPool.ODOR_EXTRACTOR ) );
 			}
 		}
@@ -2672,14 +2190,11 @@ public class FightRequest
 		switch ( items.size() )
 		{
 		case 0:
-			return false;
+			return null;
 		case 1:
-			FightRequest.action1 = (String) items.get( 0 );
-			return true;
+			return (String) items.get( 0 );
 		default:
-			FightRequest.action1 = (String) items.get( 0 ) + "," +
-				(String) items.get( 1 );
-			return true;
+			return (String) items.get( 0 ) + "," + (String) items.get( 1 );
 		}
 	}
 
@@ -4528,13 +4043,11 @@ public class FightRequest
 
 		MonsterStatusTracker.reset();
 
-		FightRequest.action1 = null;
-		FightRequest.action2 = null;
+		FightRequest.nextAction = null;
 
 		FightRequest.currentRound = 0;
 		FightRequest.preparatoryRounds = 0;
 		FightRequest.consultScriptThatDidNothing = null;
-		FightRequest.macro = null;
 
 		if ( FightRequest.initializeAfterFight )
 		{
@@ -4553,9 +4066,9 @@ public class FightRequest
 
 	private static final int getActionCost()
 	{
-		if ( FightRequest.action1.startsWith( "skill" ) )
+		if ( FightRequest.nextAction.startsWith( "skill" ) )
 		{
-			String skillId = FightRequest.action1.substring( 5 );
+			String skillId = FightRequest.nextAction.substring( 5 );
 			return SkillDatabase.getMPConsumptionById( StringUtilities.parseInt( skillId ) );
 		}
 
@@ -4773,7 +4286,7 @@ public class FightRequest
 		return false;
 	}
 
-	private static final void macroUseAntidote( StringBuffer macro )
+	public static final void macroUseAntidote( StringBuffer macro )
 	{
 		if ( !KoLConstants.inventory.contains( FightRequest.ANTIDOTE ) )
 		{
@@ -4816,7 +4329,7 @@ public class FightRequest
 	private static final void payActionCost( final String responseText )
 	{
 		// If we don't know what we tried, punt now.
-		if ( FightRequest.action1 == null || FightRequest.action1.equals( "" ) )
+		if ( FightRequest.nextAction == null || FightRequest.nextAction.equals( "" ) )
 		{
 			return;
 		}
@@ -4833,7 +4346,7 @@ public class FightRequest
 
 			if ( responseText.indexOf( "jumps onto the keyboard" ) != -1 )
 			{
-				FightRequest.action1 = "attack";
+				FightRequest.nextAction = "attack";
 				return;
 			}
 
@@ -4862,18 +4375,18 @@ public class FightRequest
 
 			if ( responseText.indexOf( "calculated to be sub-optimal" ) != -1 )
 			{
-				FightRequest.action1 = "attack";
+				FightRequest.nextAction = "attack";
 				return;
 			}
 
 			break;
 		}
 
-		if ( FightRequest.action1.equals( "attack" ) ||
-		     FightRequest.action1.equals( "runaway" ) ||
-		     FightRequest.action1.equals( "abort" ) ||
-		     FightRequest.action1.equals( "steal" ) ||
-		     FightRequest.action1.equals( "summon ghost" ) ||
+		if ( FightRequest.nextAction.equals( "attack" ) ||
+		     FightRequest.nextAction.equals( "runaway" ) ||
+		     FightRequest.nextAction.equals( "abort" ) ||
+		     FightRequest.nextAction.equals( "steal" ) ||
+		     FightRequest.nextAction.equals( "summon ghost" ) ||
 		     // If we have Cunctatitis and decide to procrastinate,
 		     // we did nothing
 		     ( KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) &&
@@ -4883,22 +4396,31 @@ public class FightRequest
 			return;
 		}
 
-		if ( FightRequest.action1.equals( "jiggle" ) )
+		if ( FightRequest.nextAction.equals( "jiggle" ) )
 		{
 			FightRequest.jiggledChefstaff = true;
 			return;
 		}
 
-		if ( !FightRequest.action1.startsWith( "skill" ) )
+		if ( !FightRequest.nextAction.startsWith( "skill" ) )
 		{
-			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action1 ), responseText );
+			String item1 = FightRequest.nextAction;
+			String item2 = null;
 
-			if ( FightRequest.action2 == null || FightRequest.action2.equals( "" ) )
+			int commaIndex = item1.indexOf( "," );
+
+			if ( commaIndex != -1 )
 			{
-				return;
+				item1 = FightRequest.nextAction.substring( 0, commaIndex );
+				item2 = FightRequest.nextAction.substring( commaIndex + 1 );
 			}
 
-			FightRequest.payItemCost( StringUtilities.parseInt( FightRequest.action2 ), responseText );
+			FightRequest.payItemCost( StringUtilities.parseInt( item1 ), responseText );
+
+			if ( item2 != null )
+			{
+				FightRequest.payItemCost( StringUtilities.parseInt( item2 ), responseText );
+			}
 
 			return;
 		}
@@ -4908,7 +4430,7 @@ public class FightRequest
 			return;
 		}
 
-		int skillId = StringUtilities.parseInt( FightRequest.action1.substring( 5 ) );
+		int skillId = StringUtilities.parseInt( FightRequest.nextAction.substring( 5 ) );
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId );
 
 		if ( mpCost > 0 )
@@ -5092,6 +4614,11 @@ public class FightRequest
 		return FightRequest.currentRound;
 	}
 
+	public static final int getRoundIndex()
+	{
+		return FightRequest.currentRound - 1 - FightRequest.preparatoryRounds;
+	}
+
 	public static final boolean alreadyJiggled()
 	{
 		return FightRequest.jiggledChefstaff;
@@ -5203,8 +4730,7 @@ public class FightRequest
 			return false;
 		}
 
-		FightRequest.action1 = null;
-		FightRequest.action2 = null;
+		FightRequest.nextAction = null;
 
 		if ( urlString.equals( "fight.php" ) || urlString.indexOf( "ireallymeanit=" ) != -1 )
 		{
@@ -5233,7 +4759,7 @@ public class FightRequest
 			{
 				FightRequest.lastMacroUsed = m.group( 1 );
 			}
-			FightRequest.action1 = "";
+			FightRequest.nextAction = "";
 			if ( shouldLogAction )
 			{
 				action.append( "executes a macro!" );
@@ -5241,7 +4767,7 @@ public class FightRequest
 		}
 		else if ( urlString.indexOf( "runaway" ) != -1 )
 		{
-			FightRequest.action1 = "runaway";
+			FightRequest.nextAction = "runaway";
 			if ( shouldLogAction )
 			{
 				action.append( "casts RETURN!" );
@@ -5249,7 +4775,7 @@ public class FightRequest
 		}
 		else if ( urlString.indexOf( "steal" ) != -1 )
 		{
-			FightRequest.action1 = "steal";
+			FightRequest.nextAction = "steal";
 			if ( shouldLogAction )
 			{
 				action.append( "tries to steal an item!" );
@@ -5257,7 +4783,7 @@ public class FightRequest
 		}
 		else if ( urlString.indexOf( "attack" ) != -1 )
 		{
-			FightRequest.action1 = "attack";
+			FightRequest.nextAction = "attack";
 			if ( shouldLogAction )
 			{
 				action.append( "attacks!" );
@@ -5265,7 +4791,7 @@ public class FightRequest
 		}
 		else if ( urlString.indexOf( "summon" ) != -1 )
 		{
-			FightRequest.action1 = "summon ghost";
+			FightRequest.nextAction = "summon ghost";
 			if ( shouldLogAction )
 			{
 				action.append( "summons " );
@@ -5277,7 +4803,7 @@ public class FightRequest
 		}
 		else if ( urlString.indexOf( "chefstaff" ) != -1 )
 		{
-			FightRequest.action1 = "jiggle";
+			FightRequest.nextAction = "jiggle";
 			if ( shouldLogAction )
 			{
 				action.append( "jiggles the " );
@@ -5323,7 +4849,7 @@ public class FightRequest
 						Preferences.setString( "romanticTarget", MonsterStatusTracker.getLastMonsterName() );
 					}
 
-					FightRequest.action1 = CustomCombatManager.getShortCombatOptionName( "skill " + skill );
+					FightRequest.nextAction = CustomCombatManager.getShortCombatOptionName( "skill " + skill );
 					if ( shouldLogAction )
 					{
 						action.append( "casts " + skill.toUpperCase() + "!" );
@@ -5354,7 +4880,7 @@ public class FightRequest
 							Preferences.setString( "autoOlfact", "" );
 							FightRequest.canOlfact = false;
 						}
-						FightRequest.action1 = String.valueOf( itemId );
+						FightRequest.nextAction = String.valueOf( itemId );
 						if ( shouldLogAction )
 						{
 							action.append( "uses the " + item );
@@ -5375,7 +4901,8 @@ public class FightRequest
 									MonsterStatusTracker.getLastMonsterName() );
 								Preferences.setString( "autoOlfact", "" );
 							}
-							FightRequest.action2 = String.valueOf( itemId );
+
+							FightRequest.nextAction += "," + String.valueOf( itemId );
 							if ( shouldLogAction )
 							{
 								action.append( " and uses the " + item );
