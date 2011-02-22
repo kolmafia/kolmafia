@@ -629,7 +629,7 @@ public class Modifiers
 		},
 		{ "Combat Mana Cost",
 		  Pattern.compile( "([+-]\\d+) MP to use Skills \\(in-combat only\\)" ),
-		  Pattern.compile( "Mana Cost (combat): " + EXPR )
+		  Pattern.compile( "Mana Cost \\(combat\\): " + EXPR )
 		},
 	};
 
