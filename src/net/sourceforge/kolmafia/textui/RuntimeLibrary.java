@@ -39,18 +39,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-
 import java.lang.reflect.Method;
-
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -80,20 +75,20 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.ModifierExpression;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.EventMessage;
 import net.sourceforge.kolmafia.chat.WhoMessage;
+import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -137,8 +132,8 @@ import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
@@ -2119,7 +2114,7 @@ public abstract class RuntimeLibrary
 	// Major functions related to adventuring and
 	// item management.
 
-	public static Value adventure( final Value countValue, final Value loc )
+	public static Value adventure( final Value countValue, final Value locationValue )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2127,43 +2122,29 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "adventure", count + " " + loc );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "adventure", count + " " + locationValue );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value adventure( final Value countValue, final Value loc, final Value filterFunc )
+	public static Value adventure( final Value countValue, final Value locationValue, final Value filterFunction )
 	{
-		String filter = filterFunc.toString();
-		if ( filter.indexOf( ';' ) != -1 )
+		try
 		{
-			try
-			{
-				FightRequest.macroOverride = filter;
-				return RuntimeLibrary.adventure( countValue, loc );
-			}
-			finally
-			{
-				FightRequest.macroOverride = null;
-			}
+			String filter = filterFunction.toString();
+			Macrofier.setMacroOverride( filter );
+
+			return RuntimeLibrary.adventure( countValue, locationValue );
 		}
-		else
+		finally
 		{
-			try
-			{
-				FightRequest.filterFunction = filter;
-				FightRequest.filterInterp = LibraryFunction.interpreter;
-				return RuntimeLibrary.adventure( countValue, loc );
-			}
-			finally
-			{
-				FightRequest.filterInterp = null;
-			}
+			Macrofier.setMacroOverride( null );
 		}
 	}
 
-	public static Value adv1( final Value loc, final Value advValue, final Value filterFunc )
+	public static Value adv1( final Value locationValue, final Value adventuresUsedValue, final Value filterFunction )
 	{
-		KoLAdventure adventure = (KoLAdventure) loc.rawValue();
+		KoLAdventure adventure = (KoLAdventure) locationValue.rawValue();
+
 		if ( adventure == null )
 		{
 			return RuntimeLibrary.continueValue();
@@ -2171,27 +2152,23 @@ public abstract class RuntimeLibrary
 
 		try
 		{
-			adventure.overrideAdventuresUsed( advValue.intValue() );
-			String filter = filterFunc.toString();
-			if ( filter.indexOf( ';' ) != -1 )
-			{
-				FightRequest.macroOverride = filter;
-			}
-			else if ( filter.length() > 0 )
-			{
-				FightRequest.filterFunction = filter;
-				FightRequest.filterInterp = LibraryFunction.interpreter;
-			}
+			adventure.overrideAdventuresUsed( adventuresUsedValue.intValue() );
+
+			String filter = filterFunction.toString();
+			Macrofier.setMacroOverride( filter );
+
 			KoLmafia.redoSkippedAdventures = false;
+
 			StaticEntity.getClient().makeRequest( adventure, 1 );
 		}
 		finally
 		{
 			KoLmafia.redoSkippedAdventures = true;
-			FightRequest.filterInterp = null;
-			FightRequest.macroOverride = null;
+			Macrofier.setMacroOverride( null );
+
 			adventure.overrideAdventuresUsed( -1 );
 		}
+
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -4935,7 +4912,7 @@ public abstract class RuntimeLibrary
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isHippyStoreAvailable() );
 	}
- 
+
 	public static Value dispensary_available()
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getDispensaryOpen() );
@@ -4945,7 +4922,7 @@ public abstract class RuntimeLibrary
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getGuildStoreOpen() );
 	}
- 
+
 	public static Value hidden_temple_unlocked()
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getTempleUnlocked() );
