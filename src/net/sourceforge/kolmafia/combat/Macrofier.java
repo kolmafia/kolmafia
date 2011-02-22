@@ -110,6 +110,13 @@ public class Macrofier
 
 	public static String macrofy()
 	{
+		// If there's an override, always use it
+
+		if ( Macrofier.macroInterpreter == null && Macrofier.macroOverride != null && Macrofier.macroOverride.length() > 0 )
+		{
+			return Macrofier.macroOverride;
+		}
+
 		if ( FightRequest.getCurrentRound() == 0 )
 		{
 			// Shouldn't macrofy during first round if there's an auto-attack set, in case it somehow interrupts the auto-attack.
@@ -157,10 +164,6 @@ public class Macrofier
 			{
 				return macro.toString();
 			}
-		}
-		else if ( Macrofier.macroOverride != null && Macrofier.macroOverride.length() > 0 )
-		{
-			return Macrofier.macroOverride;
 		}
 
 		if ( monsterName.equals( "hulking construct" ) )
