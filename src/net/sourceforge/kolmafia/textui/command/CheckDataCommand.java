@@ -122,6 +122,13 @@ public class CheckDataCommand
 			return;
 		}
 
+		if ( command.equals( "checkshields" ) )
+		{
+			DebugDatabase.checkShields();
+			RequestLogger.printLine( "Shield power checked." );
+			return;
+		}
+
 		if ( command.equals( "checkpulverization" ) )
 		{
 			DebugDatabase.checkPulverizationData();

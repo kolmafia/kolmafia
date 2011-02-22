@@ -62,7 +62,9 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
@@ -71,6 +73,11 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -1361,11 +1368,65 @@ public class DebugDatabase
 			{
 				continue;
 			}
-			int power = EquipmentDatabase.getPower( itemId );
-			if ( power == 0 )
+
+			if ( EquipmentDatabase.getPower( itemId ) != 0 )
 			{
-				// Look it up and register it anew
-				ItemDatabase.registerItem( itemId );
+				continue;
+			}
+
+			// Look it up and register it anew
+			ItemDatabase.registerItem( itemId );
+		}
+	}
+
+	// **********************************************************
+
+	public static final void checkShields()
+	{
+		KoLmafia.deferDataOverride( true);
+		DebugDatabase.checkShields( KoLConstants.inventory );
+		DebugDatabase.checkShields( KoLConstants.closet );
+		KoLmafia.deferDataOverride( false);
+	}
+
+	public static final void checkShields( final Collection items )
+	{
+		Iterator it = items.iterator();
+		while ( it.hasNext() )
+		{
+			AdventureResult item = (AdventureResult)it.next();
+			int itemId = item.getItemId();
+			if ( !EquipmentDatabase.getItemType( itemId ).equals( "shield" ) )
+			{
+				continue;
+			}
+
+			ApiRequest request = new ApiRequest( "item", itemId );
+			RequestThread.postRequest( request );
+
+			JSONObject JSON = request.JSON;
+			if ( JSON == null )
+			{
+				continue;
+			}
+
+			try
+			{
+				int oldPower = EquipmentDatabase.getPower( itemId );
+				String name = JSON.getString( "name" );
+				String descid = JSON.getString( "descid" );
+				int correctPower = JSON.getInt( "power" );
+
+				if ( oldPower != correctPower )
+				{
+					RequestLogger.printLine( "Shield \"" + name +"\" power incorrect: " + oldPower + " should be " + correctPower );
+					ItemDatabase.registerItem( itemId, name, descid, null, correctPower );
+				}
+			}
+			catch ( JSONException e )
+			{
+				KoLmafia.updateDisplay( "Error parsing JSON string!" );
+				StaticEntity.printStackTrace( e );
 			}
 		}
 	}
