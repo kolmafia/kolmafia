@@ -938,12 +938,12 @@ BRICKO bulwark	60	none	shield
 Bag o' Tricks	0	none
 Brimstone Bunker	240	Mus: 30	shield
 C.H.U.M. lantern	100	Mus: 150
-Cloaca-Cola shield	75	none	shield
+Cloaca-Cola shield	70	none	shield
 Codex of Capsaicin Conjuration	30	none
 Cookbook of the Damned	30	none
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
 Dungeon Fist gauntlet	100	Mus: 35
-Dyspepsi-Cola shield	75	none	shield
+Dyspepsi-Cola shield	70	none	shield
 Ellsbury's skull	100	Mys: 35
 Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
@@ -969,7 +969,7 @@ Loathing Legion many-purpose hook	0	none
 Loathing Legion moondial	0	none
 Loathing Legion pizza stone	100	none	shield
 Loathing Legion tape measure	0	none
-Mer-kin roundshield	220	Mus: 85	shield
+Mer-kin roundshield	215	Mus: 85	shield
 Mer-kin takebag	200	Mys: 85
 Mr. Balloon	10	none
 Mylar balloon	10	none
@@ -996,8 +996,8 @@ bag of Crotchety Pine saplings	10	none
 bag of Laughing Willow saplings	10	none
 bag of Saccharine Maple saplings	10	none
 ball-in-a-cup	20	none
-balloon shield	55	Mus: 10	shield
-barskin buckler	27	none	shield
+balloon shield	50	Mus: 10	shield
+barskin buckler	25	none	shield
 basic meat foon	50	Mys: 10
 battered hubcap	220	Mus: 65	shield
 beach ball marble	209	Mys: 85
@@ -1016,7 +1016,7 @@ brass dorsal fin	200	Mus: 85	shield
 brown crock marble	202	Mys: 85
 bumblebee marble	205	Mys: 85
 cardboard box turtle	70	Mus: 20	shield
-catskin buckler	177	Mus: 75	shield
+catskin buckler	180	Mus: 75	shield
 charged magnet	30	none
 clockwork detective skull	80	Mox: 25
 clownskin buckler	60	Mus: 15	shield
@@ -1028,7 +1028,7 @@ cyborg doll	110	Mys: 40
 deck of lewd playing cards	75	Mys: 22
 deck of tropical cards	20	none
 defective skull	60	none
-demon buckler	77	Mus: 25	shield
+demon buckler	80	Mus: 25	shield
 depleted Grimacite gravy boat	100	Mus: 35
 detective skull	60	none
 detour shield	100	Mus: 35	shield
@@ -1053,16 +1053,16 @@ glass gnoll eye	35	Mys: 2
 glow-in-the-dark stuffed burrowgrub	0	none
 glowing esca	200	Mys: 85
 glowstick on a string	0	Mox: 60
-gnauga hide buckler	95	Mus: 30	shield
+gnauga hide buckler	90	Mus: 30	shield
 golden sausage	0	none
 green balloon	10	none
 green peawee marble	201	Mys: 85
 grisly shield	200	Mus: 150	shield
 handmade hobby horse	20	none
 heart-shaped balloon	10	none
-hippo skin buckler	95	Mus: 30	shield
+hippo skin buckler	90	Mus: 30	shield
 hobo code binder	10	none
-hors d'oeuvre tray	115	Mus: 40	shield
+hors d'oeuvre tray	110	Mus: 40	shield
 hot plate	60	Mus: 15	shield
 hypnodisk	200	none
 ice baby	0	none
@@ -1070,7 +1070,7 @@ incredibly creepy marionette	110	Mys: 40
 ivory cue ball	30	none
 jet bennie marble	206	Mys: 85
 joybuzzer	20	none
-keg shield	175	Mus: 70	shield
+keg shield	170	Mus: 70	shield
 kickback cookbook	40	Mys: 5
 killer rag doll	110	Mys: 40
 left-handed melodica	160	Mox: 150
@@ -1100,8 +1100,8 @@ oyster egg balloon	100	Mys: 35
 padded tortoise	100	Mus: 35	shield
 painted shield	120	Mus: 45	shield
 parasitic strangleworm	30	none
-peanut brittle shield	55	Mus: 10	shield
-penguin skin buckler	95	Mus: 30	shield
+peanut brittle shield	50	Mus: 10	shield
+penguin skin buckler	90	Mus: 30	shield
 penguin thesaurus	30	none
 pilgrim shield	240	none	shield
 pirate hook	0	none
@@ -1121,23 +1121,23 @@ sawblade shield	180	Mus: 75	shield
 scissor duck	0	none
 sealhide buckler	160	Mus: 65	shield
 sealskin drum	160	Mus: 150
-sebaceous shield	40	Mus: 2	shield
+sebaceous shield	35	Mus: 2	shield
 set of jacks	20	none
 sewer turtle	20	none	shield
 shadowy seal eye	100	Mus: 35
 silver sausage	0	none
-six-rainbow shield	195	Mus: 70	shield
+six-rainbow shield	190	Mus: 70	shield
 slime-covered compass	200	Mys: 200
 slime-covered lantern	200	Mys: 200
 slippery when wet shield	100	Mus: 35	shield
-snake shield	117	Mus: 42	shield
+snake shield	115	Mus: 42	shield
 snapdragon pistil	70	Mys: 20
-snarling wolf shield	117	Mus: 42	shield
+snarling wolf shield	115	Mus: 42	shield
 sock monkey	110	Mys: 40
 spaghetti-box banjo	160	Mys: 150
 speed limit shield	100	Mus: 35	shield
 spiky turtle shield	130	Mus: 50	shield
-spongy shield	200	Mus: 95	shield
+spongy shield	220	Mus: 95	shield
 stapler bear	0	none
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
@@ -1195,9 +1195,9 @@ wad of Crovacite	0	none
 washboard shield	160	Mus: 150	shield
 white balloon	10	none
 white satin shield	80	Mus: 25	shield
-wicker shield	175	Mus: 70	shield
+wicker shield	170	Mus: 70	shield
 wonderwall shield	190	Mus: 70	shield
-yakskin buckler	95	Mus: 30	shield
+yakskin buckler	90	Mus: 30	shield
 yield shield	100	Mus: 35	shield
 
 # Accessories section of equipment.txt

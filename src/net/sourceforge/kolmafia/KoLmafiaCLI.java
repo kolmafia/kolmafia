@@ -620,6 +620,7 @@ public class KoLmafiaCLI
 			register( "checkmodifiers" ).
 			register( "checkconsumption" ).
 			register( "checkpowers" ).
+			register( "checkshields" ).
 			register( "checkprofile" ).
 			register( "checkpulverization" ).
 			register( "checkzapgroups" );
