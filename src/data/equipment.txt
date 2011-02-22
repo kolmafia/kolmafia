@@ -1228,7 +1228,7 @@ Chester's sunglasses	200	Mox: 200
 Choker of the Ultragoth	150	Mys: 60
 Claw of the Infernal Seal	150	Mus: 45
 Copper Alpha of Sincerity	200	Mys: 85
-Counterclockwise Watch	0	none
+Counterclockwise Watch	200	none
 Dyspepsi-Cola-issue canteen	30	none
 Earring of Fire	150	Mys: 60
 El Vibrato translator	200	Mys: 200
@@ -1553,7 +1553,7 @@ solid baconstone necklace	110	Mys: 40
 solid baconstone ring	110	Mys: 40
 solid gold pegleg	150	Mys: 60
 spade necklace	10	none
-spaghetti cult robe	0	none
+spaghetti cult robe	10	none
 spaghetti cult rosary	140	Mys: 55
 spark plug earring	180	Mys: 75
 sparkly engagement ring	0	none
