@@ -1995,21 +1995,36 @@ public class Parser
 				params.add( val );
 			}
 
+			if ( this.currentToken() == null )
+			{
+				throw this.parseException( ")", "end of file" );
+			}
+
 			if ( !this.currentToken().equals( "," ) )
 			{
 				if ( !this.currentToken().equals( ")" ) )
 				{
 					throw this.parseException( ")", this.currentToken() );
 				}
+				continue;
 			}
-			else
+
+			this.readToken(); // ,
+
+			if ( this.currentToken() == null )
 			{
-				this.readToken();
-				if ( this.currentToken().equals( ")" ) )
-				{
-					throw this.parseException( "parameter", this.currentToken() );
-				}
+				throw this.parseException( ")", "end of file" );
 			}
+
+			if ( this.currentToken().equals( ")" ) )
+			{
+				throw this.parseException( "parameter", this.currentToken() );
+			}
+		}
+
+		if ( this.currentToken() == null )
+		{
+			throw this.parseException( ")", "end of file" );
 		}
 
 		if ( !this.currentToken().equals( ")" ) )
