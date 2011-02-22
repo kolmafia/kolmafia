@@ -1363,6 +1363,7 @@ public class DebugDatabase
 		{
 			AdventureResult item = (AdventureResult)it.next();
 			int itemId = item.getItemId();
+
 			int type = ItemDatabase.getConsumptionType( itemId );
 			if ( type != KoLConstants.EQUIP_OFFHAND && type != KoLConstants.EQUIP_ACCESSORY )
 			{
@@ -1375,7 +1376,35 @@ public class DebugDatabase
 			}
 
 			// Look it up and register it anew
-			ItemDatabase.registerItem( itemId );
+			ApiRequest request = new ApiRequest( "item", itemId );
+			RequestThread.postRequest( request );
+
+			JSONObject JSON = request.JSON;
+			if ( JSON == null )
+			{
+				continue;
+			}
+
+			try
+			{
+				int power = JSON.getInt( "power" );
+
+				// Yes, some items really are power 0
+				if ( power == 0 )
+				{
+					continue;
+				}
+
+				String name = JSON.getString( "name" );
+				String descid = JSON.getString( "descid" );
+				RequestLogger.printLine( "Item \"" + name +"\" power incorrect: 0 should be " + power );
+				ItemDatabase.registerItem( itemId, name, descid, null, power );
+			}
+			catch ( JSONException e )
+			{
+				KoLmafia.updateDisplay( "Error parsing JSON string!" );
+				StaticEntity.printStackTrace( e );
+			}
 		}
 	}
 

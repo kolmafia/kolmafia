@@ -1020,7 +1020,7 @@ catskin buckler	180	Mus: 75	shield
 charged magnet	30	none
 clockwork detective skull	80	Mox: 25
 clownskin buckler	60	Mus: 15	shield
-coffin lid	55	Mus: 10	shield
+coffin lid	50	Mus: 10	shield
 collapsible baton	200	Mys: 85
 continuum transfunctioner	10	none
 cup of infinite pencils	150	Mus: 175
@@ -1033,7 +1033,7 @@ depleted Grimacite gravy boat	100	Mus: 35
 detective skull	60	none
 detour shield	100	Mus: 35	shield
 disturbing fanfic	45	Mys: 15
-duct tape buckler	200	Mus: 82	shield
+duct tape buckler	195	Mus: 82	shield
 easter egg balloon	100	Mys: 35
 eelskin shield	200	Mus: 85	shield
 enchanted brass knuckles	50	Mys: 10
@@ -1105,10 +1105,10 @@ penguin skin buckler	90	Mus: 30	shield
 penguin thesaurus	30	none
 pilgrim shield	240	none	shield
 pirate hook	0	none
-pixel shield	55	Mus: 10	shield
+pixel shield	50	Mus: 10	shield
 pocketwatch on a chain	50	Mys: 10
-polyalloy shield	155	Mus: 55	shield
-pottery shield	55	none	shield
+polyalloy shield	140	Mus: 55	shield
+pottery shield	50	none	shield
 rag doll	110	Mys: 40
 red China marble	203	Mys: 85
 red balloon	10	none
