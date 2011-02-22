@@ -570,7 +570,15 @@ public class FightRequest
 			this.handleHulkingConstruct();
 		}
 
-		FightRequest.nextAction = desiredAction;
+		if ( desiredAction != null && desiredAction.length() > 0 )
+		{
+			FightRequest.nextAction = desiredAction;
+		}
+		else
+		{
+			FightRequest.nextAction = CustomCombatManager.getSetting(
+				MonsterStatusTracker.getLastMonsterName(), index );
+		}
 
 		// If the person wants to use their own script,
 		// then this is where it happens.
