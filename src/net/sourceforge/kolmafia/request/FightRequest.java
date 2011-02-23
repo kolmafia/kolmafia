@@ -487,7 +487,7 @@ public class FightRequest
 				FightRequest.ireallymeanit = null;
 			}
 
-			if ( macro != null && macro.length() > 0 && macro.indexOf( "\n" ) != -1 )
+			if ( macro != null && macro.length() > 0 && ( macro.indexOf( "\n" ) != -1 || macro.indexOf( ";" ) != -1 ) )
 			{
 				FightRequest.nextAction = "macro";
 
@@ -533,7 +533,7 @@ public class FightRequest
 
 			if ( macro != null && macro.length() > 0 )
 			{
-				if ( macro.indexOf( "\n" ) != -1 )
+				if ( macro.indexOf( "\n" ) != -1 || macro.indexOf( ";" ) != -1 )
 				{
 					FightRequest.nextAction = "macro";
 
