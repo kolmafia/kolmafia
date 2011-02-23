@@ -170,6 +170,24 @@ public class HiddenCityRequest
 		return square >= 1 && square <= 25;
 	}
 
+	public static final int lastHiddenCitySquare()
+	{
+		return HiddenCityRequest.lastSquare;
+	}
+
+	public static final int firstUnexploredRuins()
+	{
+		String layout = HiddenCityRequest.hiddenCityLayout();
+		for ( int i = 0; i < 25; ++i )
+		{
+			if ( layout.charAt( i ) == '0' )
+			{
+				return i + 1;
+			}
+		}
+		return 0;
+	}
+
 	public void processResults()
 	{
 		if ( !this.getURLString().startsWith( "hiddencity.php" ) )
