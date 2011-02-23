@@ -396,6 +396,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "add_item_condition", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "remove_item_condition", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_goal", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -2190,6 +2193,18 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
+	public static Value remove_item_condition( final Value countValue, final Value item )
+	{
+		int count = countValue.intValue();
+		if ( count <= 0 )
+		{
+			return DataTypes.VOID_VALUE;
+		}
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "conditions", "remove " + count + " \u00B6" + item.intValue() );
+		return DataTypes.VOID_VALUE;
+	}
+	
 	public static Value is_goal( final Value item )
 	{
 		return new Value( KoLConstants.conditions.contains(
