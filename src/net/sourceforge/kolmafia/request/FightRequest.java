@@ -510,74 +510,82 @@ public class FightRequest
 			}
 		}
 
-		// Fight automation is still considered automation.
-		// If the player drops below the threshold, then go
-		// ahead and halt the battle.
-
-		if ( !RecoveryManager.runThresholdChecks() )
-		{
-			FightRequest.nextAction = "abort";
-			return;
-		}
-
-		String macro = Macrofier.macrofy();
-
-		if ( macro != null && macro.length() > 0 )
-		{
-			FightRequest.nextAction = "macro";
-
-			this.addFormField( "action", "macro" );
-
-			// In case the player continues the script from the relay browser,
-			// insert a jump to the next restart point.
-
-			if ( macro.indexOf( "#mafiarestart" ) != -1 )
-			{
-				String label = "mafiaskip" + macro.length();
-
-				StringUtilities.singleStringReplace( macro, "#mafiarestart", "mark " + label );
-				StringUtilities.singleStringReplace( macro, "#mafiaheader", "#mafiaheader\ngoto " + label );
-			}
-
-			this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( macro ).replaceAll( "$1" ) );
-
-			return;
-		}
-
-		// Added emergency break for hulking construct
-
-		if ( problemFamiliar() &&
-		     MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Aborting combat automation due to Familiar that can stop automatic item usage." );
-			return;
-		}
-
-		// Adding machine should override custom combat scripts as well,
-		// since it's conditions-driven.
-
-		else if ( MonsterStatusTracker.getLastMonsterName().equals( "rampaging adding machine" )
-			&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
-			&& !FightRequest.waitingForSpecial )
-		{
-			this.handleAddingMachine();
-		}
-
-		// Hulking Constructs also require special handling
-
-		else if ( MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
-		{
-			this.handleHulkingConstruct();
-		}
-
+		// Desired action overrides any internal logic not related to macros
+		
 		if ( desiredAction != null && desiredAction.length() > 0 )
 		{
-			FightRequest.nextAction = desiredAction;
+			FightRequest.nextAction =
+				CustomCombatManager.getShortCombatOptionName( desiredAction );
 		}
 		else
 		{
-			FightRequest.nextAction = CustomCombatManager.getSetting(
-				MonsterStatusTracker.getLastMonsterName(), FightRequest.getRoundIndex() );
+			// Fight automation is still considered automation.
+			// If the player drops below the threshold, then go
+			// ahead and halt the battle.
+
+			if ( !RecoveryManager.runThresholdChecks() )
+			{
+				FightRequest.nextAction = "abort";
+				return;
+			}
+
+			String macro = Macrofier.macrofy();
+
+			if ( macro != null && macro.length() > 0 )
+			{
+				FightRequest.nextAction = "macro";
+
+				this.addFormField( "action", "macro" );
+
+				// In case the player continues the script from the relay browser,
+				// insert a jump to the next restart point.
+
+				if ( macro.indexOf( "#mafiarestart" ) != -1 )
+				{
+					String label = "mafiaskip" + macro.length();
+
+					StringUtilities.singleStringReplace( macro, "#mafiarestart", "mark " + label );
+					StringUtilities.singleStringReplace( macro, "#mafiaheader", "#mafiaheader\ngoto " + label );
+				}
+
+				this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( macro ).replaceAll( "$1" ) );
+
+				return;
+			}
+		
+			// Added emergency break for hulking construct
+
+			else if ( problemFamiliar() &&
+				 MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Aborting combat automation due to Familiar that can stop automatic item usage." );
+				return;
+			}
+
+			// Adding machine should override custom combat scripts as well,
+			// since it's conditions-driven.
+
+			else if ( MonsterStatusTracker.getLastMonsterName().equals( "rampaging adding machine" )
+				&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
+				&& !FightRequest.waitingForSpecial )
+			{
+				this.handleAddingMachine();
+			}
+
+			// Hulking Constructs also require special handling
+
+			else if ( MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
+			{
+				this.handleHulkingConstruct();
+			}
+			else
+			{
+				FightRequest.nextAction = CustomCombatManager.getSetting(
+					MonsterStatusTracker.getLastMonsterName(), FightRequest.getRoundIndex() );
+
+				FightRequest.nextAction =
+					CustomCombatManager.getShortCombatOptionName( FightRequest.nextAction );
+			}
 		}
 
 		// If the person wants to use their own script,
@@ -631,7 +639,7 @@ public class FightRequest
 			FightRequest.nextAction = "abort";
 			return;
 		}
-
+		
 		// Let the de-level action figure out what
 		// should be done, and then re-process.
 
