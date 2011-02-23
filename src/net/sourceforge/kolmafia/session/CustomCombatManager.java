@@ -812,6 +812,11 @@ public abstract class CustomCombatManager
 			return "attack";
 		}
 
+		if ( action.startsWith( "consult" ) )
+		{
+			return action;
+		}
+		
 		if ( action.equals( "default" ) )
 		{
 			return "default";
