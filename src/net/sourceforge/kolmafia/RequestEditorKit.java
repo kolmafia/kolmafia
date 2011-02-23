@@ -545,8 +545,9 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "adventure.php" ) )
 		{
-			StationaryButtonDecorator.decorate( location, buffer );
+			// Hidden City must come before Stationary Buttons
 			RequestEditorKit.fixHiddenCity( buffer );
+			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.fixDucks( buffer );
 			RequestEditorKit.fixRottingMatilda( buffer );
 		}
@@ -648,10 +649,11 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
+			// Hidden City must come before Stationary Buttons
+			RequestEditorKit.fixHiddenCity( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			DiscoCombatHelper.decorate( buffer );
 			RequestEditorKit.addFightModifiers( location, buffer );
-			RequestEditorKit.fixHiddenCity( buffer );
 		}
 		else if ( location.startsWith( "forestvillage.php" ) )
 		{
