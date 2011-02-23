@@ -197,6 +197,7 @@ public class Macrofier
 		boolean debug = Preferences.getBoolean( "macroDebug" );
 
 		boolean globalPrefix = CustomCombatManager.containsKey( "global prefix" );
+
 		for ( int i = 0; i < 10000; ++i )
 		{
 			if ( monsterName.equals( "rampaging adding machine" ) && !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) && !FightRequest.waitingForSpecial )
@@ -209,17 +210,17 @@ public class Macrofier
 				return null;
 			}
 
-			String action =
-				CustomCombatManager.getShortCombatOptionName( CustomCombatManager.getSetting(
-					globalPrefix ? "global prefix" : monsterName, i ) );
+			String action;
 
-			int finalRound = 0;
-			if ( !globalPrefix && CustomCombatManager.atEndOfCCS() )
+			if ( globalPrefix )
 			{
-				macro.append( "mark mafiafinal\n" );
-				finalRound = macro.length();
+				action = CustomCombatManager.getSetting( "global prefix", i );
 			}
-
+			else
+			{
+				action = CustomCombatManager.getSetting( monsterName, i );
+			}
+			
 			if ( !Macrofier.isSimpleAction( action ) )
 			{
 				if ( debug )
@@ -229,148 +230,16 @@ public class Macrofier
 
 				return null;
 			}
-			else if ( action.startsWith( "\"" ) )
-			{
-				macro.append( action.substring( 1 ) );
-				int pos = macro.length() - 1;
-				if ( macro.charAt( pos ) == '"' )
-				{
-					macro.deleteCharAt( pos );
-				}
-				macro.append( "\n" );
-			}
-			else if ( action.equals( "special" ) )
-			{
-				if ( FightRequest.waitingForSpecial )
-				{
-					// only allow once per combat
-					FightRequest.waitingForSpecial = false;
-					String specialAction = FightRequest.getSpecialAction();
 
-					if ( specialAction != null )
-					{
-						if ( specialAction.startsWith( "skill" ) )
-						{
-							Macrofier.macroSkill( macro, StringUtilities.parseInt( specialAction.substring( 5 ) ) );
-						}
-						else
-						{
-							macro.append( "call mafiaround; use " + specialAction + "\n" );
-							// TODO
-						}
-					}
-				}
-			}
-			else if ( action.equals( "abort" ) )
-			{
-				if ( finalRound != 0 )
-				{
-					macro.append( "abort \"KoLmafia CCS abort\"\n" );
-				}
-				else
-				{
-					macro.append( "abort \"Click Script button again to continue\"\n" );
-					macro.append( "#mafiarestart\n" );
-				}
-			}
-			else if ( action.equals( "abort after" ) )
-			{
-				KoLmafia.abortAfter( "Aborted by CCS request" );
-			}
-			else if ( action.equals( "skip" ) )
-			{ // nothing to do
-			}
-			else if ( action.equals( "runaway" ) )
-			{
-				macro.append( "runaway\n" );
-			}
-			else if ( action.startsWith( "runaway" ) )
-			{
-				int runaway = StringUtilities.parseInt( action.substring( 7 ) );
-				if ( FightRequest.freeRunawayChance() >= runaway )
-				{
-					macro.append( "runaway\n" );
-				}
-			}
-			else if ( action.startsWith( "attack" ) )
-			{
-				macro.append( "call mafiaround; attack\n" );
-			}
-			else if ( action.equals( "steal" ) )
-			{
-				if ( MonsterStatusTracker.shouldSteal() )
-				{
-					macro.append( "pickpocket\n" );
-				}
-			}
-			else if ( action.equals( "summon ghost" ) )
-			{
-				macro.append( "summonspirit\n" );
-			}
-			else if ( action.equals( "jiggle" ) )
-			{
-				if ( EquipmentManager.usingChefstaff() )
-				{
-					macro.append( "call mafiaround; jiggle\n" );
-				}
-			}
-			else if ( action.startsWith( "combo " ) )
-			{
-				int[] combo = DiscoCombatHelper.getCombo( action.substring( 6 ) );
-				if ( combo != null )
-				{
-					Macrofier.macroCombo( macro, combo );
-				}
-			}
-			else if ( action.startsWith( "skill" ) )
-			{
-				int skillId = StringUtilities.parseInt( action.substring( 5 ) );
-				String skillName = SkillDatabase.getSkillName( skillId );
+			int finalRound = 0;
 
-				if ( skillName.equals( "Transcendent Olfaction" ) )
-				{
-					// You can't sniff if you are already on the trail.
-
-					// You can't sniff in Bad Moon, even though the skill
-					// shows up on the char sheet, unless you've recalled
-					// your skills.
-
-					if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
-					{ // ignore
-					}
-					else
-					{ // must insert On The Trail check in generated macro
-						// too, in case more than one olfact is attempted.
-						macro.append( "if !haseffect 331\n" );
-						Macrofier.macroSkill( macro, skillId );
-						macro.append( "endif\n" );
-					}
-				}
-				else if ( skillName.equals( "CLEESH" ) )
-				{ // Macrofied combat will continue with the same CCS after
-					// a CLEESH, unlike round-by-round combat which switches
-					// sections.  Make sure there's something to finish off
-					// the amphibian.
-					Macrofier.macroSkill( macro, skillId );
-					if ( finalRound != 0 )
-					{
-						macro.append( "attack; repeat\n" );
-					}
-				}
-				else
-				{
-					Macrofier.macroSkill( macro, skillId );
-				}
-			}
-			else if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
-			{ // can't use items in Birdform
-			}
-			else
-			// must be an item use
+			if ( !globalPrefix && CustomCombatManager.atEndOfCCS() )
 			{
-				macro.append( "call mafiaround; use " + action + "\n" );
-				// TODO
+				macro.append( "mark mafiafinal\n" );
+				finalRound = macro.length();
 			}
+			
+			Macrofier.macroAction( macro, action, finalRound );
 
 			if ( finalRound != 0 )
 			{
@@ -433,6 +302,154 @@ public class Macrofier
 		}
 
 		return macro.toString();
+	}
+	
+	protected static void macroAction( StringBuffer macro, String action, final int finalRound )
+	{
+		action = CustomCombatManager.getShortCombatOptionName( action );
+
+		if ( action.startsWith( "\"" ) )
+		{
+			macro.append( action.substring( 1 ) );
+			int pos = macro.length() - 1;
+			if ( macro.charAt( pos ) == '"' )
+			{
+				macro.deleteCharAt( pos );
+			}
+			macro.append( "\n" );
+		}
+		else if ( action.equals( "special" ) )
+		{
+			if ( FightRequest.waitingForSpecial )
+			{
+				// only allow once per combat
+				FightRequest.waitingForSpecial = false;
+				String specialAction = FightRequest.getSpecialAction();
+
+				if ( specialAction != null )
+				{
+					if ( specialAction.startsWith( "skill" ) )
+					{
+						Macrofier.macroSkill( macro, StringUtilities.parseInt( specialAction.substring( 5 ) ) );
+					}
+					else
+					{
+						macro.append( "call mafiaround; use " + specialAction + "\n" );
+						// TODO
+					}
+				}
+			}
+		}
+		else if ( action.equals( "abort" ) )
+		{
+			if ( finalRound != 0 )
+			{
+				macro.append( "abort \"KoLmafia CCS abort\"\n" );
+			}
+			else
+			{
+				macro.append( "abort \"Click Script button again to continue\"\n" );
+				macro.append( "#mafiarestart\n" );
+			}
+		}
+		else if ( action.equals( "abort after" ) )
+		{
+			KoLmafia.abortAfter( "Aborted by CCS request" );
+		}
+		else if ( action.equals( "skip" ) )
+		{ // nothing to do
+		}
+		else if ( action.equals( "runaway" ) )
+		{
+			macro.append( "runaway\n" );
+		}
+		else if ( action.startsWith( "runaway" ) )
+		{
+			int runaway = StringUtilities.parseInt( action.substring( 7 ) );
+			if ( FightRequest.freeRunawayChance() >= runaway )
+			{
+				macro.append( "runaway\n" );
+			}
+		}
+		else if ( action.startsWith( "attack" ) )
+		{
+			macro.append( "call mafiaround; attack\n" );
+		}
+		else if ( action.equals( "steal" ) )
+		{
+			if ( MonsterStatusTracker.shouldSteal() )
+			{
+				macro.append( "pickpocket\n" );
+			}
+		}
+		else if ( action.equals( "summon ghost" ) )
+		{
+			macro.append( "summonspirit\n" );
+		}
+		else if ( action.equals( "jiggle" ) )
+		{
+			if ( EquipmentManager.usingChefstaff() )
+			{
+				macro.append( "call mafiaround; jiggle\n" );
+			}
+		}
+		else if ( action.startsWith( "combo " ) )
+		{
+			int[] combo = DiscoCombatHelper.getCombo( action.substring( 6 ) );
+			if ( combo != null )
+			{
+				Macrofier.macroCombo( macro, combo );
+			}
+		}
+		else if ( action.startsWith( "skill" ) )
+		{
+			int skillId = StringUtilities.parseInt( action.substring( 5 ) );
+			String skillName = SkillDatabase.getSkillName( skillId );
+
+			if ( skillName.equals( "Transcendent Olfaction" ) )
+			{
+				// You can't sniff if you are already on the trail.
+
+				// You can't sniff in Bad Moon, even though the skill
+				// shows up on the char sheet, unless you've recalled
+				// your skills.
+
+				if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+				{ // ignore
+				}
+				else
+				{ // must insert On The Trail check in generated macro
+					// too, in case more than one olfact is attempted.
+					macro.append( "if !haseffect 331\n" );
+					Macrofier.macroSkill( macro, skillId );
+					macro.append( "endif\n" );
+				}
+			}
+			else if ( skillName.equals( "CLEESH" ) )
+			{ // Macrofied combat will continue with the same CCS after
+				// a CLEESH, unlike round-by-round combat which switches
+				// sections.  Make sure there's something to finish off
+				// the amphibian.
+				Macrofier.macroSkill( macro, skillId );
+				if ( finalRound != 0 )
+				{
+					macro.append( "attack; repeat\n" );
+				}
+			}
+			else
+			{
+				Macrofier.macroSkill( macro, skillId );
+			}
+		}
+		else if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		{ // can't use items in Birdform
+		}
+		else
+		// must be an item use
+		{
+			macro.append( "call mafiaround; use " + action + "\n" );
+			// TODO
+		}
 	}
 
 	public static void indentify( String macro, boolean debug )

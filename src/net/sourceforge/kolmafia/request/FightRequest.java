@@ -487,7 +487,7 @@ public class FightRequest
 				FightRequest.ireallymeanit = null;
 			}
 
-			if ( macro != null && macro.length() > 0 )
+			if ( macro != null && macro.length() > 0 && macro.indexOf( "\n" ) != -1 )
 			{
 				FightRequest.nextAction = "macro";
 
@@ -533,24 +533,31 @@ public class FightRequest
 
 			if ( macro != null && macro.length() > 0 )
 			{
-				FightRequest.nextAction = "macro";
-
-				this.addFormField( "action", "macro" );
-
-				// In case the player continues the script from the relay browser,
-				// insert a jump to the next restart point.
-
-				if ( macro.indexOf( "#mafiarestart" ) != -1 )
+				if ( macro.indexOf( "\n" ) != -1 )
 				{
-					String label = "mafiaskip" + macro.length();
+					FightRequest.nextAction = "macro";
 
-					StringUtilities.singleStringReplace( macro, "#mafiarestart", "mark " + label );
-					StringUtilities.singleStringReplace( macro, "#mafiaheader", "#mafiaheader\ngoto " + label );
+					this.addFormField( "action", "macro" );
+
+					// In case the player continues the script from the relay browser,
+					// insert a jump to the next restart point.
+
+					if ( macro.indexOf( "#mafiarestart" ) != -1 )
+					{
+						String label = "mafiaskip" + macro.length();
+
+						StringUtilities.singleStringReplace( macro, "#mafiarestart", "mark " + label );
+						StringUtilities.singleStringReplace( macro, "#mafiaheader", "#mafiaheader\ngoto " + label );
+					}
+
+					this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( macro ).replaceAll( "$1" ) );
+
+					return;
 				}
-
-				this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( macro ).replaceAll( "$1" ) );
-
-				return;
+				else
+				{
+					FightRequest.nextAction = CustomCombatManager.getShortCombatOptionName( macro );
+				}
 			}
 		
 			// Added emergency break for hulking construct
