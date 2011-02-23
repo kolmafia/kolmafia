@@ -57,7 +57,7 @@ public class ConditionsCommand
 
 	public ConditionsCommand()
 	{
-		this.usage = " clear | check | add <condition> | set <condition> - modify your adventuring goals.";
+		this.usage = " clear | check | add <condition> | remove <condition> | set <condition> - modify your adventuring goals.";
 	}
 
 	public void run( final String cmd, final String parameters )
@@ -76,7 +76,7 @@ public class ConditionsCommand
 			return;
 		}
 
-		if ( option.equals( "add" ) || option.equals( "set" ) )
+		if ( option.equals( "add" ) || option.equals( "remove" ) || option.equals( "set" ) )
 		{
 			String conditionString = parameters.substring( option.length() ).toLowerCase().trim();
 			ConditionsCommand.update( option, conditionString );
@@ -160,6 +160,11 @@ public class ConditionsCommand
 					KoLConstants.conditions, condition.getInstance( condition.getCount() - currentAmount ) );
 				RequestLogger.printLine( "Condition set: " + condition );
 			}
+		}
+		else if ( condition.isItem() && option.equals( "remove" ) )
+		{
+			AdventureResult.addResultToList( KoLConstants.conditions, condition.getNegation() );
+			RequestLogger.printLine( "Condition removed: " + condition );
 		}
 		else if ( condition.getCount() > 0 )
 		{
