@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -545,6 +546,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "adventure.php" ) )
 		{
 			StationaryButtonDecorator.decorate( location, buffer );
+			RequestEditorKit.fixHiddenCity( buffer );
 			RequestEditorKit.fixDucks( buffer );
 			RequestEditorKit.fixRottingMatilda( buffer );
 		}
@@ -649,6 +651,7 @@ public class RequestEditorKit
 			StationaryButtonDecorator.decorate( location, buffer );
 			DiscoCombatHelper.decorate( buffer );
 			RequestEditorKit.addFightModifiers( location, buffer );
+			RequestEditorKit.fixHiddenCity( buffer );
 		}
 		else if ( location.startsWith( "forestvillage.php" ) )
 		{
@@ -1589,6 +1592,44 @@ public class RequestEditorKit
 		}
 
 		StringUtilities.globalStringReplace( buffer, name, name + " of " + effect );
+	}
+
+	private static final void fixHiddenCity( final StringBuffer buffer )
+	{
+		// When you adventure in the Hidden City, the Adventure Again
+		// link takes you to the map. Fix that link as follows:
+		//
+		// (new) Adventure Again in These Ruins
+		// (new) Explore Some Unexplored Ruins
+		// Return to Hidden City Map
+
+		int index = buffer.indexOf( "<p><a href=\"hiddencity.php\">" );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		StringBuffer link = new StringBuffer();
+
+		int current = HiddenCityRequest.lastHiddenCitySquare();
+		if ( current > 0 )
+		{
+			link.setLength( 0 );
+			link.append( "<p><a href=\"hiddencity.php?which=" );
+			link.append( String.valueOf( current - 1 ) );
+			link.append( "\">Adventure Again in These Ruins</a>" );
+			buffer.insert( index, link.toString() );
+		}
+
+		int unexplored = HiddenCityRequest.firstUnexploredRuins();
+		if ( unexplored > 0 )
+		{
+			link.setLength( 0 );
+			link.append( "<p><a href=\"hiddencity.php?which=" );
+			link.append( String.valueOf( unexplored - 1 ) );
+			link.append( "\">Explore Some Unexplored Ruins</a>" );
+			buffer.insert( index, link.toString() );
+		}
 	}
 
 	private static final void addHiddenCityModifiers( final StringBuffer buffer )
