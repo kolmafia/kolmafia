@@ -37,8 +37,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 public class SetPreferencesCommand
@@ -84,12 +84,12 @@ public class SetPreferencesCommand
 		{
 			if ( value.indexOf( ";" ) != -1 || value.startsWith( "consult" ) )
 			{
-				CustomCombatManager.setDefaultAction( value );
+				CombatActionManager.setDefaultAction( value );
 				value = "custom combat script";
 			}
 			else
 			{
-				value = CustomCombatManager.getLongCombatOptionName( value );
+				value = CombatActionManager.getLongCombatOptionName( value );
 			}
 
 			// Special handling of the battle action property,
@@ -109,7 +109,7 @@ public class SetPreferencesCommand
 
 		if ( name.startsWith( "combatHotkey" ) )
 		{
-			String desiredValue = CustomCombatManager.getLongCombatOptionName( value );
+			String desiredValue = CombatActionManager.getLongCombatOptionName( value );
 
 			if ( !desiredValue.startsWith( "attack" ) || value.startsWith( "attack" ) )
 			{

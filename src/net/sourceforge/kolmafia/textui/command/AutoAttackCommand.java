@@ -39,10 +39,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatSender;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoAttackCommand

@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -70,7 +71,6 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -489,10 +489,7 @@ public class FightRequest
 
 			if ( macro != null && macro.length() > 0 && ( macro.indexOf( "\n" ) != -1 || macro.indexOf( ";" ) != -1 ) )
 			{
-				FightRequest.nextAction = "macro";
-
-				this.addFormField( "action", "macro" );
-				this.addFormField( "macrotext", macro );
+				this.handleMacroAction( macro );
 			}
 
 			return;
@@ -514,8 +511,14 @@ public class FightRequest
 
 		if ( desiredAction != null && desiredAction.length() > 0 )
 		{
+			if ( CombatActionManager.isMacroAction( desiredAction ) )
+			{
+				this.handleMacroAction( desiredAction );
+				return;
+			}
+
 			FightRequest.nextAction =
-				CustomCombatManager.getShortCombatOptionName( desiredAction );
+				CombatActionManager.getShortCombatOptionName( desiredAction );
 		}
 		else
 		{
@@ -537,28 +540,12 @@ public class FightRequest
 			{
 				if ( macro.indexOf( "\n" ) != -1 || macro.indexOf( ";" ) != -1 )
 				{
-					FightRequest.nextAction = "macro";
-
-					this.addFormField( "action", "macro" );
-
-					// In case the player continues the script from the relay browser,
-					// insert a jump to the next restart point.
-
-					if ( macro.indexOf( "#mafiarestart" ) != -1 )
-					{
-						String label = "mafiaskip" + macro.length();
-
-						StringUtilities.singleStringReplace( macro, "#mafiarestart", "mark " + label );
-						StringUtilities.singleStringReplace( macro, "#mafiaheader", "#mafiaheader\ngoto " + label );
-					}
-
-					this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( macro ).replaceAll( "$1" ) );
-
+					this.handleMacroAction( macro );
 					return;
 				}
 				else
 				{
-					FightRequest.nextAction = CustomCombatManager.getShortCombatOptionName( macro );
+					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( macro );
 				}
 			}
 
@@ -590,11 +577,17 @@ public class FightRequest
 
 			if ( FightRequest.nextAction == null )
 			{
-				FightRequest.nextAction = CustomCombatManager.getSetting(
+				String combatAction = CombatActionManager.getCombatAction(
 					MonsterStatusTracker.getLastMonsterName(), FightRequest.getRoundIndex() );
 
+				if ( CombatActionManager.isMacroAction( combatAction ) )
+				{
+					this.handleMacroAction( combatAction );
+					return;
+				}
+
 				FightRequest.nextAction =
-					CustomCombatManager.getShortCombatOptionName( FightRequest.nextAction );
+					CombatActionManager.getShortCombatOptionName( combatAction );
 			}
 		}
 
@@ -661,9 +654,29 @@ public class FightRequest
 		this.updateCurrentAction();
 	}
 
+	private void handleMacroAction( String macro )
+	{
+		FightRequest.nextAction = "macro";
+
+		this.addFormField( "action", "macro" );
+
+		// In case the player continues the script from the relay browser,
+		// insert a jump to the next restart point.
+
+		if ( macro.indexOf( "#mafiarestart" ) != -1 )
+		{
+			String label = "mafiaskip" + macro.length();
+
+			StringUtilities.singleStringReplace( macro, "#mafiarestart", "mark " + label );
+			StringUtilities.singleStringReplace( macro, "#mafiaheader", "#mafiaheader\ngoto " + label );
+		}
+
+		this.addFormField( "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher( macro ).replaceAll( "$1" ) );
+	}
+
 	public static final String getCurrentKey()
 	{
-		return CustomCombatManager.encounterKey( MonsterStatusTracker.getLastMonsterName() );
+		return CombatActionManager.encounterKey( MonsterStatusTracker.getLastMonsterName() );
 	}
 
 	private void updateCurrentAction()
@@ -715,7 +728,7 @@ public class FightRequest
 		// User wants to run away
 		if ( FightRequest.nextAction.indexOf( "run" ) != -1 && FightRequest.nextAction.indexOf( "away" ) != -1 )
 		{
-			Matcher runAwayMatcher = CustomCombatManager.TRY_TO_RUN_AWAY_PATTERN.matcher( FightRequest.nextAction );
+			Matcher runAwayMatcher = CombatActionManager.TRY_TO_RUN_AWAY_PATTERN.matcher( FightRequest.nextAction );
 
 			int runaway = 0;
 
@@ -1496,8 +1509,8 @@ public class FightRequest
 
 			if ( action.startsWith( "custom" ) )
 			{
-				String file = Preferences.getBoolean( "debugPathnames" ) ? CustomCombatManager.getFile().getAbsolutePath() : CustomCombatManager.getScript();
-				action = file + " [" + CustomCombatManager.getSettingKey( MonsterStatusTracker.getLastMonsterName() ) + "]";
+				String file = Preferences.getBoolean( "debugPathnames" ) ? CombatActionManager.getStrategyLookupFile().getAbsolutePath() : CombatActionManager.getStrategyLookupName();
+				action = file + " [" + CombatActionManager.getEncounterKey( MonsterStatusTracker.getLastMonsterName() ) + "]";
 			}
 
 			RequestLogger.printLine( "Strategy: " + action );
@@ -1625,14 +1638,14 @@ public class FightRequest
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
 
-			MonsterStatusTracker.setNextMonsterName( CustomCombatManager.encounterKey( encounter ) );
+			MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
 
 			FightRequest.isTrackingFights = false;
 			FightRequest.waitingForSpecial = false;
 			for ( int i = 0; i < 10; ++i )
 			{
-				if ( CustomCombatManager.getShortCombatOptionName(
-					CustomCombatManager.getSetting(
+				if ( CombatActionManager.getShortCombatOptionName(
+					CombatActionManager.getCombatAction(
 						MonsterStatusTracker.getLastMonsterName(), i ) ).equals( "special" ) )
 				{
 					FightRequest.waitingForSpecial = true;
@@ -3494,7 +3507,7 @@ public class FightRequest
 			if ( m.find() )
 			{
 				String newMonster = m.group( 1 );
-				MonsterStatusTracker.setNextMonsterName( CustomCombatManager.encounterKey( newMonster ) );
+				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( newMonster ) );
 				FightRequest.logText( "your opponent becomes " + newMonster + "!", status );
 			}
 
@@ -4875,7 +4888,7 @@ public class FightRequest
 						Preferences.setString( "romanticTarget", MonsterStatusTracker.getLastMonsterName() );
 					}
 
-					FightRequest.nextAction = CustomCombatManager.getShortCombatOptionName( "skill " + skill );
+					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( "skill " + skill );
 					if ( shouldLogAction )
 					{
 						action.append( "casts " + skill.toUpperCase() + "!" );

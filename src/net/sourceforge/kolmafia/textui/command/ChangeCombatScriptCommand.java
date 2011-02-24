@@ -37,8 +37,8 @@ import java.util.Iterator;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 
 public class ChangeCombatScriptCommand
 	extends AbstractCommand
@@ -65,7 +65,7 @@ public class ChangeCombatScriptCommand
 			}
 
 			boolean foundScript = false;
-			Iterator iterator = CustomCombatManager.getAvailableScripts().iterator();
+			Iterator iterator = CombatActionManager.getAvailableLookups().iterator();
 
 			while ( iterator.hasNext() && !foundScript )
 			{
@@ -74,8 +74,8 @@ public class ChangeCombatScriptCommand
 				if ( script.toLowerCase().indexOf( parameters ) != -1 )
 				{
 					foundScript = true;
-					CustomCombatManager.setScript( script );
-					KoLmafia.updateDisplay( "CCS set to " + CustomCombatManager.getScript() );
+					CombatActionManager.loadStrategyLookup( script );
+					KoLmafia.updateDisplay( "CCS set to " + CombatActionManager.getStrategyLookupName() );
 				}
 			}
 
@@ -87,7 +87,7 @@ public class ChangeCombatScriptCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( "CCS is " + CustomCombatManager.getScript() );
+			KoLmafia.updateDisplay( "CCS is " + CombatActionManager.getStrategyLookupName() );
 		}
 
 		String battleAction = Preferences.getString( "battleAction" );

@@ -43,13 +43,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
@@ -507,10 +507,10 @@ public class AdventureRequest
 		{
 			name = matcher.group(2);
 		}
-		name = CustomCombatManager.encounterKey( name, false );
+		name = CombatActionManager.encounterKey( name, false );
 		if ( name.equalsIgnoreCase( fromName ) )
 		{
-			name = CustomCombatManager.encounterKey( toName, false );
+			name = CombatActionManager.encounterKey( toName, false );
 		}
 		fromName = null;
 		

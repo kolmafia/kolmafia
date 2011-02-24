@@ -46,8 +46,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -142,7 +142,7 @@ public class MonsterDatabase
 			if ( !bogus )
 			{
 				monster.doneWithItems();
-				String keyName = CustomCombatManager.encounterKey( data[ 0 ], true );
+				String keyName = CombatActionManager.encounterKey( data[ 0 ], true );
 				StringUtilities.registerPrepositions( keyName );
 				MonsterDatabase.MONSTER_DATA.put( keyName, monster );
 			}
@@ -202,7 +202,7 @@ public class MonsterDatabase
 
 	public static final MonsterData findMonster( final String name, boolean trySubstrings )
 	{
-		String keyName = CustomCombatManager.encounterKey( name, true );
+		String keyName = CombatActionManager.encounterKey( name, true );
 		MonsterData match = (MonsterData) MonsterDatabase.MONSTER_DATA.get( keyName );
 
 		// If no monster with that name exists, maybe it's

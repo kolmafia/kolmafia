@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.EventMessage;
 import net.sourceforge.kolmafia.chat.WhoMessage;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -122,7 +123,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -2177,7 +2177,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_ccs_action( final Value index )
 	{
-		return new Value( CustomCombatManager.getSetting( FightRequest.getCurrentKey(),
+		return new Value( CombatActionManager.getCombatAction( FightRequest.getCurrentKey(),
 			index.intValue() ) );
 	}
 
