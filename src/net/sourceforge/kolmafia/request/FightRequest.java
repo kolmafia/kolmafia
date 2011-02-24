@@ -511,7 +511,7 @@ public class FightRequest
 		}
 
 		// Desired action overrides any internal logic not related to macros
-		
+
 		if ( desiredAction != null && desiredAction.length() > 0 )
 		{
 			FightRequest.nextAction =
@@ -528,6 +528,8 @@ public class FightRequest
 				FightRequest.nextAction = "abort";
 				return;
 			}
+
+			FightRequest.nextAction = null;
 
 			String macro = Macrofier.macrofy();
 
@@ -559,7 +561,7 @@ public class FightRequest
 					FightRequest.nextAction = CustomCombatManager.getShortCombatOptionName( macro );
 				}
 			}
-		
+
 			// Added emergency break for hulking construct
 
 			else if ( problemFamiliar() &&
@@ -585,7 +587,8 @@ public class FightRequest
 			{
 				this.handleHulkingConstruct();
 			}
-			else
+
+			if ( FightRequest.nextAction == null )
 			{
 				FightRequest.nextAction = CustomCombatManager.getSetting(
 					MonsterStatusTracker.getLastMonsterName(), FightRequest.getRoundIndex() );
@@ -646,7 +649,7 @@ public class FightRequest
 			FightRequest.nextAction = "abort";
 			return;
 		}
-		
+
 		// Let the de-level action figure out what
 		// should be done, and then re-process.
 
