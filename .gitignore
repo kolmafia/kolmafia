@@ -1,3 +1,5 @@
+/.settings
+/.settings/*
 /build
 /build/*
 /dist
