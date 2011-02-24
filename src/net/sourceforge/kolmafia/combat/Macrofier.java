@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
@@ -196,7 +195,7 @@ public class Macrofier
 
 		boolean debug = Preferences.getBoolean( "macroDebug" );
 
-		boolean globalPrefix = CustomCombatManager.containsKey( "global prefix" );
+		boolean useGlobalPrefix = CombatActionManager.hasGlobalPrefix();
 
 		for ( int i = 0; i < 10000; ++i )
 		{
@@ -212,15 +211,15 @@ public class Macrofier
 
 			String action;
 
-			if ( globalPrefix )
+			if ( useGlobalPrefix )
 			{
-				action = CustomCombatManager.getSetting( "global prefix", i );
+				action = CombatActionManager.getCombatAction( "global prefix", i );
 			}
 			else
 			{
-				action = CustomCombatManager.getSetting( monsterName, i );
+				action = CombatActionManager.getCombatAction( monsterName, i );
 			}
-			
+
 			if ( !Macrofier.isSimpleAction( action ) )
 			{
 				if ( debug )
@@ -233,12 +232,12 @@ public class Macrofier
 
 			int finalRound = 0;
 
-			if ( !globalPrefix && CustomCombatManager.atEndOfCCS() )
+			if ( !useGlobalPrefix && CombatActionManager.atEndOfStrategy() )
 			{
 				macro.append( "mark mafiafinal\n" );
 				finalRound = macro.length();
 			}
-			
+
 			Macrofier.macroAction( macro, action, finalRound );
 
 			if ( finalRound != 0 )
@@ -250,9 +249,9 @@ public class Macrofier
 				macro.append( "goto mafiafinal" );
 				break;
 			}
-			else if ( globalPrefix && CustomCombatManager.atEndOfCCS() )
+			else if ( useGlobalPrefix && CombatActionManager.atEndOfStrategy() )
 			{
-				globalPrefix = false;
+				useGlobalPrefix = false;
 				i = -1; // continue with actual CCS section
 			}
 		}
@@ -303,22 +302,18 @@ public class Macrofier
 
 		return macro.toString();
 	}
-	
+
 	protected static void macroAction( StringBuffer macro, String action, final int finalRound )
 	{
-		action = CustomCombatManager.getShortCombatOptionName( action );
-
-		if ( action.startsWith( "\"" ) )
+		if ( CombatActionManager.isMacroAction( action ) )
 		{
-			macro.append( action.substring( 1 ) );
-			int pos = macro.length() - 1;
-			if ( macro.charAt( pos ) == '"' )
-			{
-				macro.deleteCharAt( pos );
-			}
-			macro.append( "\n" );
+			macro.append( action );
+			return;
 		}
-		else if ( action.equals( "special" ) )
+
+		action = CombatActionManager.getShortCombatOptionName( action );
+
+		if ( action.equals( "special" ) )
 		{
 			if ( FightRequest.waitingForSpecial )
 			{

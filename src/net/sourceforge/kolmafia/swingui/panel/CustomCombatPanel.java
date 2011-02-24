@@ -52,10 +52,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -88,7 +88,7 @@ public class CustomCombatPanel
 
 	public void updateFromPreferences()
 	{
-		CustomCombatManager.updateFromPreferences();
+		CombatActionManager.updateFromPreferences();
 		this.refreshCombatEditor();
 	}
 
@@ -97,7 +97,7 @@ public class CustomCombatPanel
 		try
 		{
 			String script = (String) this.availableScripts.getSelectedItem();
-			BufferedReader reader = FileUtilities.getReader( CustomCombatManager.getFile( script ) );
+			BufferedReader reader = FileUtilities.getReader( CombatActionManager.getStrategyLookupFile( script ) );
 
 			if ( reader == null )
 			{
@@ -135,7 +135,7 @@ public class CustomCombatPanel
 
 	public void refreshCombatTree()
 	{
-		this.combatModel.setRoot( CustomCombatManager.getRoot() );
+		this.combatModel.setRoot( CombatActionManager.getStrategyLookup() );
 		this.combatTree.setRootVisible( false );
 
 		for ( int i = 0; i < this.combatTree.getRowCount(); ++i )
@@ -150,7 +150,7 @@ public class CustomCombatPanel
 	{
 		public CombatComboBox()
 		{
-			super( CustomCombatManager.getAvailableScripts() );
+			super( CombatActionManager.getAvailableLookups() );
 			this.addActionListener( this );
 			PreferenceListenerRegistry.registerListener( "customCombatScript", this );
 		}
@@ -166,7 +166,7 @@ public class CustomCombatPanel
 			String script = (String) this.getSelectedItem();
 			if ( script != null )
 			{
-				CustomCombatManager.setScript( script );
+				CombatActionManager.loadStrategyLookup( script );
 				CustomCombatPanel.this.refreshCombatTree();
 			}
 		}
@@ -190,7 +190,7 @@ public class CustomCombatPanel
 			String script = (String) CustomCombatPanel.this.availableScripts.getSelectedItem();
 			String saveText = CustomCombatPanel.this.combatEditor.getText();
 
-			File location = CustomCombatManager.getFile( script );
+			File location = CombatActionManager.getStrategyLookupFile( script );
 			PrintStream writer = LogStream.openStream( location, true );
 
 			writer.print( saveText );
@@ -203,8 +203,8 @@ public class CustomCombatPanel
 			// After storing all the data on disk, go ahead
 			// and reload the data inside of the tree.
 
-			CustomCombatManager.setScript( script );
-			CustomCombatManager.saveSettings( script );
+			CombatActionManager.loadStrategyLookup( script );
+			CombatActionManager.saveStrategyLookup( script );
 
 			CustomCombatPanel.this.refreshCombatTree();
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this, "tree" );
@@ -287,7 +287,7 @@ public class CustomCombatPanel
 					return;
 				}
 
-				CustomCombatManager.setScript( name );
+				CombatActionManager.loadStrategyLookup( name );
 				CustomCombatPanel.this.refreshCombatTree();
 			}
 		}
@@ -308,8 +308,8 @@ public class CustomCombatPanel
 					return;
 				}
 
-				CustomCombatManager.copySettings( name );
-				CustomCombatManager.setScript( name );
+				CombatActionManager.copyStrategyLookup( name );
+				CombatActionManager.loadStrategyLookup( name );
 				CustomCombatPanel.this.refreshCombatTree();
 			}
 		}

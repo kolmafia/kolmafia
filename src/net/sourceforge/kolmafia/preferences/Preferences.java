@@ -51,8 +51,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -123,7 +123,7 @@ public class Preferences
 
 		AdventureFrame.updateFromPreferences();
 		CharPaneDecorator.updateFromPreferences();
-		CustomCombatManager.updateFromPreferences();
+		CombatActionManager.updateFromPreferences();
 		MoodManager.updateFromPreferences();
 		PreferenceListenerRegistry.fireAllPreferencesChanged();
 	}
