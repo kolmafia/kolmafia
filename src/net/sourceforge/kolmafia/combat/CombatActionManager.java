@@ -314,7 +314,7 @@ public abstract class CombatActionManager
 		{
 			String action = strategy.getAction( index );
 
-			if ( index == strategy.getChildCount() - 1 )
+			if ( index >= strategy.getChildCount() - 1 )
 			{
 				CombatActionManager.atEndOfStrategy = true;
 			}

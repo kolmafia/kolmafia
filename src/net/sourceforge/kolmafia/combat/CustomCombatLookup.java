@@ -229,8 +229,16 @@ public class CustomCombatLookup
 
 			if ( macro.length() > 0 )
 			{
-				updateMacro( macro, indent, line );
-				continue;
+				if ( line.equals( "\"" ) )
+				{
+					addEncounterAction( encounterKey, -1, macro.toString(), true );
+					macro.setLength( 0 );
+				}
+				else
+				{
+					updateMacro( macro, indent, line );
+					continue;
+				}
 			}
 
 			int roundIndex = -1;

@@ -94,22 +94,9 @@ public class CustomCombatAction
 	{
 		if ( this.isMacro )
 		{
-			// Add a single line containing a quote if KoLmafia can't figure out that this is a macro from the first line.
-
-			String testLine = this.action;
-			int pos = this.action.indexOf( KoLConstants.LINE_BREAK );
-
-			if ( pos != -1 )
-			{
-				testLine = this.action.substring( 0, pos );
-			}
-
-			if ( !CombatActionManager.isMacroAction( testLine ) )
-			{
-				writer.println( "\"" );
-			}
-
+			writer.println( "\"" );
 			writer.println( this.action );
+			writer.println( "\"" );
 		}
 		else
 		{
