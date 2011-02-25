@@ -268,7 +268,7 @@ public abstract class CombatActionManager
 		return CombatActionManager.atEndOfStrategy;
 	}
 
-	public static final String getCombatAction( final String encounter, final int roundIndex )
+	public static final String getCombatAction( final String encounter, final int roundIndex, boolean allowMacro )
 	{
 		CombatActionManager.atEndOfStrategy = false;
 
@@ -316,8 +316,8 @@ public abstract class CombatActionManager
 		{
 			CombatActionManager.atEndOfStrategy = true;
 		}
-		
-		return strategy.getAction( CombatActionManager.strategyLookup, roundIndex );
+
+		return strategy.getAction( CombatActionManager.strategyLookup, roundIndex, allowMacro );
 	}
 
 	public static final boolean isMacroAction( String action )

@@ -2177,8 +2177,9 @@ public abstract class RuntimeLibrary
 
 	public static Value get_ccs_action( final Value index )
 	{
-		return new Value( CombatActionManager.getCombatAction( FightRequest.getCurrentKey(),
-			index.intValue() ) );
+		return new Value(
+			CombatActionManager.getCombatAction(
+				FightRequest.getCurrentKey(), index.intValue(), true ) );
 	}
 
 	public static Value add_item_condition( final Value countValue, final Value item )

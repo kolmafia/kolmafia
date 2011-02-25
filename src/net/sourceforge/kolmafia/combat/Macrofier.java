@@ -209,11 +209,11 @@ public class Macrofier
 
 			if ( useGlobalPrefix )
 			{
-				action = CombatActionManager.getCombatAction( "global prefix", i );
+				action = CombatActionManager.getCombatAction( "global prefix", i, true );
 			}
 			else
 			{
-				action = CombatActionManager.getCombatAction( monsterName, i );
+				action = CombatActionManager.getCombatAction( monsterName, i, true );
 			}
 			
 			if ( !Macrofier.isSimpleAction( action ) )

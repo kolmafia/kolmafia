@@ -111,7 +111,7 @@ public class CustomCombatStrategy
 		return this.actionCount;
 	}
 	
-	public String getAction( final CustomCombatLookup lookup, final int roundIndex )
+	public String getAction( final CustomCombatLookup lookup, final int roundIndex, boolean allowMacro )
 	{
 		int childCount = getChildCount();
 
@@ -133,9 +133,14 @@ public class CustomCombatStrategy
 				{
 					int offset = ( i > 0 ) ? this.actionOffsets[ i - 1 ] : 0;
 					CustomCombatStrategy strategy = lookup.getStrategy( sectionReference );
-					return strategy.getAction( lookup, roundIndex - offset );
+					return strategy.getAction( lookup, roundIndex - offset, allowMacro );
 				}
-				
+
+				if ( !allowMacro && actionNode.isMacro() )
+				{
+					return "skip";
+				}
+
 				return actionNode.getAction();
 			}
 		}
@@ -146,9 +151,14 @@ public class CustomCombatStrategy
 		if ( sectionReference != null )
 		{
 			CustomCombatStrategy strategy = lookup.getStrategy( sectionReference );
-			return strategy.getAction( lookup, roundIndex - this.actionOffsets[ childCount - 1 ] );
+			return strategy.getAction( lookup, roundIndex - this.actionOffsets[ childCount - 1 ], allowMacro );
 		}
-		
+
+		if ( !allowMacro && actionNode.isMacro() )
+		{
+			return "skip";
+		}
+
 		return actionNode.getAction();
 	}
 
