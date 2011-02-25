@@ -70,9 +70,11 @@ package net.java.dev.spellcast.utilities;
 import java.io.File;
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -355,7 +357,8 @@ public class ChatBuffer
 		{
 			// Check for imbalanced HTML here
 			
-			Stack tags = new Stack();
+			Stack openTags = new Stack();
+			List skippedTags = new ArrayList();
 			StringBuffer buffer = new StringBuffer();
 			
 			String noCommentsContent = COMMENT_PATTERN.matcher( newContent ).replaceAll( "" );
@@ -370,17 +373,33 @@ public class ChatBuffer
 				if ( tagName.startsWith( "/" ) )
 				{
 					String closeTag = tagName.substring( 1 );
-				
-					while ( !tags.isEmpty() )
+
+					if ( skippedTags.contains( closeTag ) )
 					{
-						String openTag = (String) tags.pop();
-						replacement.append( "</" );
-						replacement.append( openTag );
-						replacement.append( ">" );
-						
-						if ( openTag.equalsIgnoreCase( closeTag ) )
+						skippedTags.remove( closeTag );
+					}
+					else
+					{
+						while ( !openTags.isEmpty() )
 						{
-							break;
+							String openTag = (String) openTags.pop();
+							replacement.append( "</" );
+							replacement.append( openTag );
+							replacement.append( ">" );
+							
+							if ( openTag.equalsIgnoreCase( closeTag ) )
+							{
+								break;
+							}
+							else if ( skippedTags.contains( closeTag ) )
+							{
+								skippedTags.remove( closeTag );
+								break;
+							}
+							else
+							{
+								skippedTags.add( closeTag );
+							}
 						}
 					}
 				}
@@ -388,7 +407,7 @@ public class ChatBuffer
 				{
 					if ( !tagName.equalsIgnoreCase( "br" ) )
 					{
-						tags.push( tagName );
+						openTags.push( tagName );
 					}
 
 					replacement.append( "<$1$2>" );
@@ -399,9 +418,9 @@ public class ChatBuffer
 
 			tagMatcher.appendTail( buffer );
 
-			while ( !tags.isEmpty() )
+			while ( !openTags.isEmpty() )
 			{
-				String openTag = (String) tags.pop();
+				String openTag = (String) openTags.pop();
 				buffer.append( "</" );
 				buffer.append( openTag );
 				buffer.append( ">" );
