@@ -114,11 +114,6 @@ public class EventManager
 			MoneyMakingGameManager.processEvent( eventHTML );
 		}
 
-		if ( eventHTML.indexOf( "/" ) == -1 )
-		{
-			return false;
-		}
-
 		String eventText = eventHTML.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
 
 		eventText = eventText.replaceAll( "<.*?>", "" );

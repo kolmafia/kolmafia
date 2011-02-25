@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.combat;
 
 import java.io.PrintStream;
+import java.util.HashSet;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -41,15 +42,76 @@ public class CustomCombatStrategy
 	extends DefaultMutableTreeNode
 {
 	private final String name;
+	
+	private int actionCount;
+	private int[] actionOffsets;
 
 	public CustomCombatStrategy( final String name )
 	{
 		super( name, true );
 
 		this.name = name;
+		
+		this.actionCount = 0;
+		this.actionOffsets = null;
 	}
 
-	public String getAction( final int roundIndex )
+	public int getActionCount( CustomCombatLookup lookup, HashSet seen )
+	{
+		// Ignore any call to a section that results in a loop
+	
+		if ( seen.contains( name ) )
+		{
+			return 0;
+		}
+		
+		seen.add( name );
+		
+		// If we've already computed the length, return the length
+	
+		if ( actionOffsets != null )
+		{
+			return this.actionCount;
+		}
+
+		int childCount = getChildCount();
+
+		this.actionCount = 0;
+		this.actionOffsets = new int[ childCount ];
+		
+		for ( int i = 0; i < childCount; ++i )
+		{
+			this.actionOffsets[ i ] = this.actionCount;
+
+			CustomCombatAction actionNode = (CustomCombatAction) getChildAt( i );
+
+			String action = actionNode.getAction();
+			String sectionReference = actionNode.getSectionReference();
+			
+			CustomCombatStrategy strategy = null;
+
+			if ( sectionReference != null )
+			{
+				strategy = lookup.getStrategy( sectionReference );
+			}
+				
+			if ( strategy != null )
+			{
+				this.actionCount += strategy.getActionCount( lookup, seen );
+			}
+			else if ( sectionReference != null )
+			{
+			}
+			else
+			{
+				++this.actionCount;
+			}
+		}
+		
+		return this.actionCount;
+	}
+	
+	public String getAction( final CustomCombatLookup lookup, final int roundIndex )
 	{
 		int childCount = getChildCount();
 
@@ -57,23 +119,36 @@ public class CustomCombatStrategy
 		{
 			return "attack";
 		}
+		
+		getActionCount( lookup, new HashSet() );
 
-		CustomCombatAction actionNode;
-
-		if ( roundIndex >= childCount )
+		for ( int i = 0; i < childCount; ++i )
 		{
-			actionNode = (CustomCombatAction) getLastChild();
+			if ( this.actionOffsets[ i ] > roundIndex )
+			{
+				CustomCombatAction actionNode = (CustomCombatAction) getChildAt( i - 1 );
+				String sectionReference = actionNode.getSectionReference();
+				
+				if ( sectionReference != null )
+				{
+					int offset = ( i > 0 ) ? this.actionOffsets[ i - 1 ] : 0;
+					CustomCombatStrategy strategy = lookup.getStrategy( sectionReference );
+					return strategy.getAction( lookup, roundIndex - offset );
+				}
+				
+				return actionNode.getAction();
+			}
 		}
-		else
+		
+		CustomCombatAction actionNode = (CustomCombatAction) getLastChild();
+		String sectionReference = actionNode.getSectionReference();
+		
+		if ( sectionReference != null )
 		{
-			actionNode = (CustomCombatAction) getChildAt( roundIndex );
+			CustomCombatStrategy strategy = lookup.getStrategy( sectionReference );
+			return strategy.getAction( lookup, roundIndex - this.actionOffsets[ childCount - 1 ] );
 		}
-
-		if ( actionNode == null )
-		{
-			return "attack";
-		}
-
+		
 		return actionNode.getAction();
 	}
 

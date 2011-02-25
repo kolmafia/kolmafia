@@ -46,7 +46,9 @@ public class CustomCombatAction
 	private final String action;
 	private final String indent;
 	private final String actionString;
+
 	private final boolean isMacro;
+	private final String sectionReference;
 
 	public CustomCombatAction( final int index, final String indent, final String action, boolean isMacro )
 	{
@@ -82,6 +84,19 @@ public class CustomCombatAction
 		{
 			this.actionString = actionString;
 		}
+		
+		if ( this.action.equals( "default" ) )
+		{
+			this.sectionReference = "default";
+		}
+		else if ( this.action.startsWith( "section" ) )
+		{
+			this.sectionReference = CombatActionManager.encounterKey( this.action.substring( 8 ).trim().toLowerCase() );
+		}
+		else
+		{
+			this.sectionReference = null;
+		}
 	}
 
 	public String getAction()
@@ -92,6 +107,11 @@ public class CustomCombatAction
 	public boolean isMacro()
 	{
 		return this.isMacro;
+	}
+	
+	public String getSectionReference()
+	{
+		return this.sectionReference;
 	}
 
 	public String toString()

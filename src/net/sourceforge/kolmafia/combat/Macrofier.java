@@ -83,12 +83,6 @@ public class Macrofier
 
 	private static boolean isSimpleAction( String action )
 	{
-		if ( action.startsWith( "custom" ) )
-		{
-			return false;
-
-		}
-
 		if ( action.startsWith( "consult" ) )
 		{
 			return false;
@@ -136,7 +130,9 @@ public class Macrofier
 
 			// Can't macrofy if it's not going to be the same action throughout the fight.
 
-			if ( !Macrofier.isSimpleAction( Preferences.getString( "battleAction" ) ) )
+			String battleAction = Preferences.getString( "battleAction" );
+			
+			if ( battleAction.startsWith( "custom" ) || !Macrofier.isSimpleAction( battleAction ) )
 			{
 				return null;
 			}
@@ -219,7 +215,7 @@ public class Macrofier
 			{
 				action = CombatActionManager.getCombatAction( monsterName, i );
 			}
-
+			
 			if ( !Macrofier.isSimpleAction( action ) )
 			{
 				if ( debug )
@@ -231,7 +227,7 @@ public class Macrofier
 			}
 
 			int finalRound = 0;
-
+			
 			if ( !useGlobalPrefix && CombatActionManager.atEndOfStrategy() )
 			{
 				macro.append( "mark mafiafinal\n" );
@@ -243,16 +239,18 @@ public class Macrofier
 			if ( finalRound != 0 )
 			{
 				if ( finalRound == macro.length() )
-				{ // last line of CCS generated no action!
+				{
+					// last line of CCS generated no action!
 					macro.append( "call mafiaround; attack\n" );
 				}
 				macro.append( "goto mafiafinal" );
 				break;
 			}
-			else if ( useGlobalPrefix && CombatActionManager.atEndOfStrategy() )
+
+			if ( useGlobalPrefix && CombatActionManager.atEndOfStrategy() )
 			{
 				useGlobalPrefix = false;
-				i = -1; // continue with actual CCS section
+				i = 0; // continue with actual CCS section
 			}
 		}
 
@@ -305,6 +303,11 @@ public class Macrofier
 
 	protected static void macroAction( StringBuffer macro, String action, final int finalRound )
 	{
+		if ( action.length() == 0 || action.equals( "skip" ) )
+		{
+			return;
+		}
+	
 		if ( CombatActionManager.isMacroAction( action ) )
 		{
 			if ( action.startsWith( "\"" ) )
@@ -318,6 +321,8 @@ public class Macrofier
 			}
 		
 			macro.append( action );
+			macro.append( '\n' );
+
 			return;
 		}
 
@@ -360,9 +365,6 @@ public class Macrofier
 		else if ( action.equals( "abort after" ) )
 		{
 			KoLmafia.abortAfter( "Aborted by CCS request" );
-		}
-		else if ( action.equals( "skip" ) )
-		{ // nothing to do
 		}
 		else if ( action.equals( "runaway" ) )
 		{

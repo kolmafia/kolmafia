@@ -65,6 +65,11 @@ public abstract class CombatActionManager
 	private static final LockableListModel availableLookups = new LockableListModel();
 	private static final CustomCombatLookup strategyLookup = new CustomCombatLookup();
 
+	static
+	{
+		loadStrategyLookup( null );
+	}
+	
 	public static final void updateFromPreferences()
 	{
 		CombatActionManager.loadStrategyLookup( CombatActionManager.getStrategyLookupName() );
@@ -303,56 +308,16 @@ public abstract class CombatActionManager
 		}
 
 		String encounterKey = CombatActionManager.getEncounterKey( encounter );
+		
 		CustomCombatStrategy strategy = CombatActionManager.strategyLookup.getStrategy( encounterKey );
-
-		HashSet seen = new HashSet();
-		seen.add( encounterKey );
-
-		int index = roundIndex;
-
-		while ( strategy != null && strategy.getChildCount() > 0 )
+		int actionCount = strategy.getActionCount( strategyLookup, new HashSet() );
+		
+		if ( roundIndex + 1 >= actionCount )
 		{
-			String action = strategy.getAction( index );
-
-			if ( index >= strategy.getChildCount() - 1 )
-			{
-				CombatActionManager.atEndOfStrategy = true;
-			}
-
-			// Check for section redirects
-
-			if ( action.equals( "default" ) )
-			{
-				encounterKey = action;
-			}
-			else if ( action.startsWith( "section " ) )
-			{
-				encounterKey = CombatActionManager.getEncounterKey( action.substring( 8 ).trim().toLowerCase() );
-			}
-			else
-			{
-				encounterKey = null;
-			}
-
-			if ( encounterKey == null )
-			{
-				return action;
-			}
-
-			if ( seen.contains( encounterKey ) )
-			{
-				KoLmafia.abortAfter( "CCS aborted due to recursive section reference." );
-				CombatActionManager.atEndOfStrategy = true;
-				return "abort";
-			}
-
-			seen.add( encounterKey );
-			strategy = CombatActionManager.strategyLookup.getStrategy( encounterKey );
-			index = roundIndex - index;
+			CombatActionManager.atEndOfStrategy = true;
 		}
-
-		CombatActionManager.atEndOfStrategy = true;
-		return "attack";
+		
+		return strategy.getAction( CombatActionManager.strategyLookup, roundIndex );
 	}
 
 	public static final boolean isMacroAction( String action )

@@ -2115,11 +2115,13 @@ public class GenericRequest
 		{
 			RequestSynchFrame.showRequest( this );
 		}
-		else
+
+		if ( exceptional )
 		{
 			RelayAgent.setErrorRequest( this );
 
-			ChatMessage message = new EventMessage( "<a href=\"main.php\" target=\"mainpane\" class=\"error\">Click here to continue in the relay browser.</a>", null );
+			String linkHTML = "<a href=main.php target=mainpane class=error>Click here to continue in the relay browser.</a>";
+			ChatMessage message = new EventMessage( linkHTML, null );
 			ChatPoller.addEntry( message );
 		}
 	}

@@ -209,7 +209,7 @@ public class CustomCombatLookup
 					strategy.addCombatAction( 1, "attack", indent.toString(), false );
 				}
 
-				encounterKey = CombatActionManager.encounterKey( line.substring( 1, line.length() - 1 ) );
+				encounterKey = CombatActionManager.encounterKey( line.substring( 1, line.length() - 1 ) );				
 				addEncounterKey( encounterKey );
 
 				indent.setLength( 0 );
