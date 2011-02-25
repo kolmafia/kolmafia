@@ -77,7 +77,7 @@ public class CustomCombatStrategy
 		return actionNode.getAction();
 	}
 
-	public void addCombatAction( final int roundIndex, final String combatAction, boolean isMacro )
+	public void addCombatAction( final int roundIndex, final String indent, final String combatAction, boolean isMacro )
 	{
 		int currentIndex = getChildCount();
 
@@ -86,14 +86,14 @@ public class CustomCombatStrategy
 			return;
 		}
 
-		addRepeatActions( roundIndex );
+		addRepeatActions( roundIndex, indent );
 
-		CustomCombatAction node = new CustomCombatAction( roundIndex, combatAction, isMacro );
+		CustomCombatAction node = new CustomCombatAction( roundIndex, indent, combatAction, isMacro );
 
 		super.add( node );
 	}
 
-	private void addRepeatActions( final int roundIndex )
+	private void addRepeatActions( final int roundIndex, final String indent )
 	{
 		int currentIndex = getChildCount();
 
@@ -115,7 +115,7 @@ public class CustomCombatStrategy
 
 		for ( int i = currentIndex + 1; i < roundIndex; ++i )
 		{
-			CustomCombatAction node = new CustomCombatAction( i, repeatAction, isMacro );
+			CustomCombatAction node = new CustomCombatAction( i, indent, repeatAction, isMacro );
 
 			super.add( node );
 		}

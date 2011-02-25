@@ -151,18 +151,18 @@ public class CustomCombatLookup
 		}
 	}
 
-	public void addEncounterAction( final String encounterKey, final int roundIndex, final String combatAction,
-		boolean isMacro )
+	public void addEncounterAction( final String encounterKey, final int roundIndex, final String indent,
+		final String combatAction, boolean isMacro )
 	{
 		CustomCombatStrategy strategy = (CustomCombatStrategy) childLookup.get( encounterKey );
 
 		if ( roundIndex < 0 )
 		{
-			strategy.addCombatAction( strategy.getChildCount() + 1, combatAction, isMacro );
+			strategy.addCombatAction( strategy.getChildCount() + 1, indent, combatAction, isMacro );
 		}
 		else
 		{
-			strategy.addCombatAction( roundIndex, combatAction, isMacro );
+			strategy.addCombatAction( roundIndex, indent, combatAction, isMacro );
 		}
 	}
 
@@ -186,7 +186,6 @@ public class CustomCombatLookup
 		String line = null;
 
 		String encounterKey = "default";
-		StringBuffer macro = new StringBuffer();
 
 		while ( ( line = reader.readLine() ) != null )
 		{
@@ -203,19 +202,11 @@ public class CustomCombatLookup
 
 			if ( line.startsWith( "[" ) )
 			{
-				if ( macro.length() > 0 )
-				{
-					addEncounterAction( encounterKey, -1, macro.toString(), true );
-					macro.setLength( 0 );
-				}
-				else
-				{
-					CustomCombatStrategy strategy = getStrategy( encounterKey );
+				CustomCombatStrategy strategy = getStrategy( encounterKey );
 
-					if ( strategy.getChildCount() == 0 )
-					{
-						strategy.addCombatAction( 1, "attack", false );
-					}
+				if ( strategy.getChildCount() == 0 )
+				{
+					strategy.addCombatAction( 1, "attack", indent.toString(), false );
 				}
 
 				encounterKey = CombatActionManager.encounterKey( line.substring( 1, line.length() - 1 ) );
@@ -225,26 +216,52 @@ public class CustomCombatLookup
 				continue;
 			}
 
-			// If we're currently building a macro, just append the current data to that macro.
+			// Check to see if it's a macro action, and create a different kind of node if it is.
 
-			if ( macro.length() > 0 )
+			if ( CombatActionManager.isMacroAction( line ) )
 			{
-				if ( line.equals( "\"" ) )
+				// Strip out leading and trailing quotes.
+			
+				if ( line.charAt( 0 ) == '"' )
 				{
-					addEncounterAction( encounterKey, -1, macro.toString(), true );
-					macro.setLength( 0 );
+					line = line.substring( 1 ).trim();
+
+					if ( line.length() == 0 )
+					{
+						continue;
+					}
+
+					if ( line.charAt( line.length() - 1 ) == '"' )
+					{
+						line = line.substring( 0, line.length() - 1 );
+					}
 				}
-				else
+
+				// Update indentation.
+
+				if ( line.startsWith( "end" ) && indent.length() > 0 )
 				{
-					updateMacro( macro, indent, line );
-					continue;
+					indent.delete( 0, 4 );
 				}
+				
+				addEncounterAction( encounterKey, -1, indent.toString(), line, true );
+				
+				// Update indentation again.
+
+				if ( line.startsWith( "if" ) || line.startsWith( "while" ) || line.startsWith( "sub" ) )
+				{
+					indent.append( "\u0020\u0020\u0020\u0020" );
+				}
+				
+				continue;
 			}
+			
+			// If we're currently building a macro, just append the current data to that macro.
 
 			int roundIndex = -1;
 
 			// If it looks like this is a KoLmafia-created settings file,
-			// then parse it accordingly.
+			// then strip out the round index information.
 
 			if ( Character.isDigit( line.charAt( 0 ) ) )
 			{
@@ -256,75 +273,16 @@ public class CustomCombatLookup
 				}
 			}
 
-			// If it's a macro action, just build the macro until we're done.
-
-			if ( CombatActionManager.isMacroAction( line ) )
-			{
-				updateMacro( macro, indent, line );
-				continue;
-			}
-
-			// Otherwise, it's a normal CCS action, treat it accordingly.
-
-			addEncounterAction( encounterKey, roundIndex, line, false );
+			addEncounterAction( encounterKey, roundIndex, indent.toString(), line, false );
 		}
 
 		// Make sure that the action is properly closed out.
 
-		if ( macro.length() > 0 )
+		CustomCombatStrategy strategy = getStrategy( encounterKey );
+
+		if ( strategy.getChildCount() == 0 )
 		{
-			addEncounterAction( encounterKey, -1, macro.toString(), true );
-			macro.setLength( 0 );
-		}
-		else
-		{
-			CustomCombatStrategy strategy = getStrategy( encounterKey );
-
-			if ( strategy.getChildCount() == 0 )
-			{
-				strategy.addCombatAction( 1, "attack", false );
-			}
-		}
-	}
-
-	protected void updateMacro( StringBuffer macro, StringBuffer indent, String line )
-	{
-		if ( macro.length() > 0 )
-		{
-			macro.append( KoLConstants.LINE_BREAK );
-		}
-
-		// Remove quotes from the start of a line in a multi-line macro parser, since
-		// they aren't really needed.
-
-		if ( line.charAt( 0 ) == '"' )
-		{
-			line = line.substring( 1 ).trim();
-
-			if ( line.length() == 0 )
-			{
-				return;
-			}
-
-			if ( line.charAt( line.length() - 1 ) == '"' )
-			{
-				line = line.substring( 0, line.length() - 1 );
-			}
-		}
-
-		// Update indentation.
-
-		if ( line.startsWith( "end" ) && indent.length() > 0 )
-		{
-			indent.delete( 0, 4 );
-		}
-
-		macro.append( indent );
-		macro.append( line );
-
-		if ( line.startsWith( "if" ) || line.startsWith( "while" ) || line.startsWith( "sub" ) )
-		{
-			indent.append( "\u0020\u0020\u0020\u0020" );
+			strategy.addCombatAction( 1, "attack", indent.toString(), false );
 		}
 	}
 
