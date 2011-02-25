@@ -44,7 +44,7 @@ public class CustomCombatStrategy
 	extends DefaultMutableTreeNode
 {
 	private final String name;
-	
+
 	private int actionCount;
 	private int[] actionOffsets;
 
@@ -53,15 +53,24 @@ public class CustomCombatStrategy
 		super( name, true );
 
 		this.name = name;
-		
-		this.actionCount = 0;
-		this.actionOffsets = null;
+
+		this.resetActionCount();
 	}
-	
+
+	public String getName()
+	{
+		return this.name;
+	}
+
 	public void removeAllChildren()
 	{
-		super.removeAllChildren();
+		this.resetActionCount();
 
+		super.removeAllChildren();
+	}
+
+	public void resetActionCount()
+	{
 		this.actionCount = 0;
 		this.actionOffsets = null;
 	}
@@ -69,17 +78,17 @@ public class CustomCombatStrategy
 	public int getActionCount( CustomCombatLookup lookup, HashSet seen )
 	{
 		// Ignore any call to a section that results in a loop
-	
+
 		if ( seen.contains( this.name ) )
 		{
 			KoLmafia.abortAfter( "CCS aborted due to recursive section reference: " + this.name );
 			return 0;
 		}
-		
+
 		seen.add( this.name );
-		
+
 		// If we've already computed the length, return the length
-	
+
 		if ( actionOffsets != null )
 		{
 			return this.actionCount;
@@ -89,23 +98,21 @@ public class CustomCombatStrategy
 
 		this.actionCount = 0;
 		this.actionOffsets = new int[ childCount ];
-		
+
 		for ( int i = 0; i < childCount; ++i )
 		{
 			this.actionOffsets[ i ] = this.actionCount;
 
 			CustomCombatAction actionNode = (CustomCombatAction) getChildAt( i );
-
-			String action = actionNode.getAction();
 			String sectionReference = actionNode.getSectionReference();
-			
+
 			CustomCombatStrategy strategy = null;
 
 			if ( sectionReference != null )
 			{
 				strategy = lookup.getStrategy( sectionReference );
 			}
-				
+
 			if ( strategy != null )
 			{
 				this.actionCount += strategy.getActionCount( lookup, seen );
@@ -119,10 +126,10 @@ public class CustomCombatStrategy
 				++this.actionCount;
 			}
 		}
-		
+
 		return this.actionCount;
 	}
-	
+
 	public String getAction( final CustomCombatLookup lookup, final int roundIndex, boolean allowMacro )
 	{
 		int childCount = getChildCount();
@@ -131,7 +138,7 @@ public class CustomCombatStrategy
 		{
 			return "attack";
 		}
-		
+
 		getActionCount( lookup, new HashSet() );
 
 		for ( int i = 0; i < childCount; ++i )
@@ -140,12 +147,12 @@ public class CustomCombatStrategy
 			{
 				CustomCombatAction actionNode = (CustomCombatAction) getChildAt( i - 1 );
 				String sectionReference = actionNode.getSectionReference();
-				
+
 				if ( sectionReference != null )
 				{
 					int offset = ( i > 0 ) ? this.actionOffsets[ i - 1 ] : 0;
 					CustomCombatStrategy strategy = lookup.getStrategy( sectionReference );
-					
+
 					if ( strategy != null )
 					{
 						return strategy.getAction( lookup, roundIndex - offset, allowMacro );
@@ -163,14 +170,14 @@ public class CustomCombatStrategy
 				return actionNode.getAction();
 			}
 		}
-		
+
 		CustomCombatAction actionNode = (CustomCombatAction) getLastChild();
 		String sectionReference = actionNode.getSectionReference();
-		
+
 		if ( sectionReference != null )
 		{
 			CustomCombatStrategy strategy = lookup.getStrategy( sectionReference );
-			
+
 			if ( strategy != null )
 			{
 				return strategy.getAction( lookup, roundIndex - this.actionOffsets[ childCount - 1 ], allowMacro );
@@ -197,12 +204,11 @@ public class CustomCombatStrategy
 			return;
 		}
 
-		this.actionCount = 0;
-		this.actionOffsets = null;
-
 		addRepeatActions( roundIndex, indent );
 
 		CustomCombatAction node = new CustomCombatAction( roundIndex, indent, combatAction, isMacro );
+
+		this.resetActionCount();
 
 		super.add( node );
 	}
