@@ -307,6 +307,16 @@ public class Macrofier
 	{
 		if ( CombatActionManager.isMacroAction( action ) )
 		{
+			if ( action.startsWith( "\"" ) )
+			{
+				action = action.substring( 1 );
+			}
+			
+			if ( action.charAt( action.length() - 1 ) == '\"' )
+			{
+				action = action.substring( 0, action.length() - 1 );
+			}
+		
 			macro.append( action );
 			return;
 		}
