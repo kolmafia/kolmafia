@@ -242,7 +242,7 @@ public abstract class CombatActionManager
 
 		for ( int i = 0; i < rounds.length; ++i )
 		{
-			CombatActionManager.strategyLookup.addEncounterAction( "default", i + 1, rounds[ i ], false );
+			CombatActionManager.strategyLookup.addEncounterAction( "default", i + 1, "", rounds[ i ], false );
 		}
 	}
 
