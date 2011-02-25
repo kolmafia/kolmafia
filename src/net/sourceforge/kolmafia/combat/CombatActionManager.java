@@ -65,11 +65,6 @@ public abstract class CombatActionManager
 	private static final LockableListModel availableLookups = new LockableListModel();
 	private static final CustomCombatLookup strategyLookup = new CustomCombatLookup();
 
-	static
-	{
-		loadStrategyLookup( null );
-	}
-	
 	public static final void updateFromPreferences()
 	{
 		CombatActionManager.loadStrategyLookup( CombatActionManager.getStrategyLookupName() );
