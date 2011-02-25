@@ -73,6 +73,9 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Stack;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -89,6 +92,9 @@ import javax.swing.text.html.HTMLDocument;
 
 public class ChatBuffer
 {
+	private static final Pattern TAG_PATTERN = Pattern.compile( "<\\s*([^\\s>]+)(.*?)>" );
+	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--(.*?)-->" );
+	
 	private final String title;
 
 	private final StringBuffer content = new StringBuffer();
@@ -347,7 +353,62 @@ public class ChatBuffer
 
 		public AppendHandler( final String newContent )
 		{
-			this.newContent = newContent;
+			// Check for imbalanced HTML here
+			
+			Stack tags = new Stack();
+			StringBuffer buffer = new StringBuffer();
+			
+			String noCommentsContent = COMMENT_PATTERN.matcher( newContent ).replaceAll( "" );
+
+			Matcher tagMatcher = TAG_PATTERN.matcher( noCommentsContent );
+			
+			while ( tagMatcher.find() )
+			{
+				String tagName = tagMatcher.group( 1 );
+				StringBuffer replacement = new StringBuffer();
+
+				if ( tagName.startsWith( "/" ) )
+				{
+					String closeTag = tagName.substring( 1 );
+				
+					while ( !tags.isEmpty() )
+					{
+						String openTag = (String) tags.pop();
+						replacement.append( "</" );
+						replacement.append( openTag );
+						replacement.append( ">" );
+						
+						if ( openTag.equalsIgnoreCase( closeTag ) )
+						{
+							break;
+						}
+					}
+				}
+				else
+				{
+					if ( !tagName.equalsIgnoreCase( "br" ) )
+					{
+						tags.push( tagName );
+					}
+
+					replacement.append( "<$1$2>" );
+				}
+				
+				tagMatcher.appendReplacement( buffer, replacement.toString() );
+			}
+
+			tagMatcher.appendTail( buffer );
+
+			while ( !tags.isEmpty() )
+			{
+				String openTag = (String) tags.pop();
+				buffer.append( "</" );
+				buffer.append( openTag );
+				buffer.append( ">" );
+			}
+			
+			this.newContent = buffer.toString();
+			
 			this.resetSequence = ChatBuffer.this.resetSequence;
 		}
 
