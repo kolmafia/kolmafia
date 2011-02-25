@@ -578,13 +578,7 @@ public class FightRequest
 			if ( FightRequest.nextAction == null )
 			{
 				String combatAction = CombatActionManager.getCombatAction(
-					MonsterStatusTracker.getLastMonsterName(), FightRequest.getRoundIndex() );
-
-				if ( CombatActionManager.isMacroAction( combatAction ) )
-				{
-					this.handleMacroAction( combatAction );
-					return;
-				}
+					MonsterStatusTracker.getLastMonsterName(), FightRequest.getRoundIndex(), false );
 
 				FightRequest.nextAction =
 					CombatActionManager.getShortCombatOptionName( combatAction );
@@ -717,8 +711,7 @@ public class FightRequest
 			return;
 		}
 
-		if ( FightRequest.nextAction.equals( "skip" ) ||
-			FightRequest.nextAction.startsWith( "\"" ))
+		if ( FightRequest.nextAction.equals( "skip" ) )
 		{
 			--FightRequest.preparatoryRounds;
 			this.nextRound( null );
@@ -1646,7 +1639,7 @@ public class FightRequest
 			{
 				if ( CombatActionManager.getShortCombatOptionName(
 					CombatActionManager.getCombatAction(
-						MonsterStatusTracker.getLastMonsterName(), i ) ).equals( "special" ) )
+						MonsterStatusTracker.getLastMonsterName(), i, false ) ).equals( "special" ) )
 				{
 					FightRequest.waitingForSpecial = true;
 					break;
