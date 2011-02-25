@@ -1080,6 +1080,7 @@ public class ItemPool
 	public static final int GLOWSTICK_ON_A_STRING = 4428;
 	public static final int CANDY_NECKLACE = 4429;
 	public static final int TEDDYBEAR_BACKPACK = 4430;
+	public static final int STRANGE_CUBE = 4436;
 	public static final int INSTANT_KARMA = 4448;
 	public static final int LEAFBLOWER = 4455;
 	public static final int SNAILMAIL_BITS = 4457;
