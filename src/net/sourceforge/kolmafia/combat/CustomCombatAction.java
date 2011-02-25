@@ -44,23 +44,32 @@ public class CustomCombatAction
 {
 	private final int index;
 	private final String action;
+	private final String indent;
 	private final String actionString;
 	private final boolean isMacro;
 
-	public CustomCombatAction( final int index, final String action, boolean isMacro )
+	public CustomCombatAction( final int index, final String indent, final String action, boolean isMacro )
 	{
 		super( action, false );
 
 		this.index = index;
+		this.indent = indent;
 		this.isMacro = isMacro;
 
 		if ( isMacro )
 		{
-			this.action = CombatActionManager.getLongCombatOptionName( action );
+			if ( CombatActionManager.isMacroAction( action ) )
+			{
+				this.action = action;
+			}
+			else
+			{
+				this.action = "\"" + action + "\"";
+			}
 		}
 		else
 		{
-			this.action = action;
+			this.action = CombatActionManager.getLongCombatOptionName( action );
 		}
 
 		String actionString = this.index + ": " + this.action.replaceAll( "\\s+", " " );
@@ -92,15 +101,9 @@ public class CustomCombatAction
 
 	public void store( PrintStream writer )
 	{
-		if ( this.isMacro )
-		{
-			writer.println( "\"" );
-			writer.println( this.action );
-			writer.println( "\"" );
-		}
-		else
-		{
-			writer.println( this.index + ": " + this.action );
-		}
+		writer.print( this.indent );
+		writer.print( this.action );
+
+		writer.println();
 	}
 }
