@@ -1757,20 +1757,20 @@ public abstract class KoLmafia
 	//  v   ^   v   ^   v
 	// 11  12  13  14  15
 	//  v   ^   v   ^   v
-	// 16  17  18  19  20
-	//  v   ^   v   ^   v
-	// 21->22  23->24  25
+	// 16  17  18->19  20
+	//  v               
+	// 21->22->23->24->25
 
 	private static Integer [] searchOrder = {
 		// new Integer(  5 ),
 		new Integer(  4 ), new Integer(  3 ), new Integer(  2 ),
 		new Integer(  1 ), new Integer(  6 ), new Integer( 11 ),
 		new Integer( 16 ), new Integer( 21 ), new Integer( 22 ),
+		new Integer( 23 ), new Integer( 24 ), new Integer( 25 ),
 		new Integer( 17 ), new Integer( 12 ), new Integer(  7 ),
 		new Integer(  8 ), new Integer( 13 ), new Integer( 18 ),
-		new Integer( 23 ), new Integer( 24 ), new Integer( 19 ),
-		new Integer( 14 ), new Integer(  9 ), new Integer( 10 ),
-		new Integer( 15 ), new Integer( 20 ), new Integer( 25 ),
+		new Integer( 19 ), new Integer( 14 ), new Integer(  9 ),
+		new Integer( 10 ), new Integer( 15 ), new Integer( 20 ),
 	};
 
 	public int locateTavernFaucet()
