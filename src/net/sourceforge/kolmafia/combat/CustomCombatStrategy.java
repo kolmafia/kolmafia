@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.combat;
 import java.io.PrintStream;
 import java.util.HashSet;
 
+import net.sourceforge.kolmafia.KoLmafia;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class CustomCombatStrategy
@@ -60,12 +62,13 @@ public class CustomCombatStrategy
 	{
 		// Ignore any call to a section that results in a loop
 	
-		if ( seen.contains( name ) )
+		if ( seen.contains( this.name ) )
 		{
+			KoLmafia.abortAfter( "CCS aborted due to recursive section reference: " + this.name );
 			return 0;
 		}
 		
-		seen.add( name );
+		seen.add( this.name );
 		
 		// If we've already computed the length, return the length
 	
@@ -101,6 +104,7 @@ public class CustomCombatStrategy
 			}
 			else if ( sectionReference != null )
 			{
+				KoLmafia.abortAfter( "CCS aborted due to invalid section reference: " + sectionReference );
 			}
 			else
 			{
@@ -133,7 +137,14 @@ public class CustomCombatStrategy
 				{
 					int offset = ( i > 0 ) ? this.actionOffsets[ i - 1 ] : 0;
 					CustomCombatStrategy strategy = lookup.getStrategy( sectionReference );
-					return strategy.getAction( lookup, roundIndex - offset, allowMacro );
+					
+					if ( strategy != null )
+					{
+						return strategy.getAction( lookup, roundIndex - offset, allowMacro );
+					}
+
+					KoLmafia.abortAfter( "CCS aborted due to invalid section reference: " + sectionReference );
+					return "abort";
 				}
 
 				if ( !allowMacro && actionNode.isMacro() )
@@ -151,7 +162,14 @@ public class CustomCombatStrategy
 		if ( sectionReference != null )
 		{
 			CustomCombatStrategy strategy = lookup.getStrategy( sectionReference );
-			return strategy.getAction( lookup, roundIndex - this.actionOffsets[ childCount - 1 ], allowMacro );
+			
+			if ( strategy != null )
+			{
+				return strategy.getAction( lookup, roundIndex - this.actionOffsets[ childCount - 1 ], allowMacro );
+			}
+
+			KoLmafia.abortAfter( "CCS aborted due to invalid section reference: " + sectionReference );
+			return "abort";
 		}
 
 		if ( !allowMacro && actionNode.isMacro() )
