@@ -148,6 +148,16 @@ public class CouncilFrame
 				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 			}
 		}
+		else if ( location.startsWith( "generate15" ) )
+		{
+			// You slide the last tile into place ...
+
+			if ( AdventureRequest.registerDemonName( "Strange Cube", responseText ) ||
+			     responseText.indexOf( "slide the last tile" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
+			}
+		}
 	}
 
 	private static final void handleSneakyPeteChange( final String responseText )

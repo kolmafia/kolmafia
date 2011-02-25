@@ -811,11 +811,17 @@ public class AdventureRequest
 			"flame-wreathed mouth",
 			"demonName9",
 		},
+		{
+			"Strange Cube",
+			Pattern.compile( "Come to me! Come to (.*?)!" ),
+			"writhing and twisting snake",
+			"demonName10",
+		},
 	};
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );
 
-	public static final void registerDemonName( final String encounter, final String responseText )
+	public static final boolean registerDemonName( final String encounter, final String responseText )
 	{
 		String demon = null;
 		String setting = null;
@@ -845,7 +851,7 @@ public class AdventureRequest
 			// deduce the name, give up.
 			if ( i != 0 )
 			{
-				return;
+				return false;
 			}
 
 			// It is the Summoning Chamber. If he used a valid
@@ -855,7 +861,7 @@ public class AdventureRequest
 			matcher = AdventureRequest.NAME_PATTERN.matcher( responseText );
 			if ( !matcher.find() )
 			{
-				return;
+				return false;
 			}
 
 			// Save the name he used.
@@ -880,13 +886,14 @@ public class AdventureRequest
 		// Couldn't figure out which demon he called.
 		if ( setting == null )
 		{
-			return;
+			return false;
 		}
 
 		String previousName = Preferences.getString( setting );
 		if ( previousName.equals( demon ) )
 		{
-			return;
+			// Valid demon name
+			return true;
 		}
 
 		RequestLogger.printLine( "Demon name: " + demon );
@@ -897,6 +904,9 @@ public class AdventureRequest
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, place );
 		}
+
+		// Valid demon name
+		return true;
 	}
 
 	private static final boolean containsEncounter( final String formSource, final String responseText )

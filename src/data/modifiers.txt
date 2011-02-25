@@ -3021,6 +3021,7 @@ The Halls of Mysticality	Experience (Mysticality): +3
 The HeyDezebound Heart	Item Drop: [min(300,T)], Muscle Percent: [-T], Mysticality Percent: [-T], Moxie Percent: [-T], Experience: [floor(T/5)]
 The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 The Moxious Madrigal	Moxie: +10
+The Pleasures of the Flesh	Muscle Percent: [T], Mysticality Percent: [T], Moxie Percent: [T], 
 The Q Is Talking To You	Mysticality Percent: +10
 The Rage	Muscle Percent: +50, Mysticality Percent: -50
 The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20

@@ -310,6 +310,7 @@ user	demonName6	Tatter
 user	demonName7	Ak'gyxoth
 user	demonName8
 user	demonName9
+user	demonName10
 user	demonSummoned	false
 user	desktopHeight	600
 user	desktopWidth	800
