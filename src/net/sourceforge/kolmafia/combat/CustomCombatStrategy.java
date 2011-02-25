@@ -57,6 +57,14 @@ public class CustomCombatStrategy
 		this.actionCount = 0;
 		this.actionOffsets = null;
 	}
+	
+	public void removeAllChildren()
+	{
+		super.removeAllChildren();
+
+		this.actionCount = 0;
+		this.actionOffsets = null;
+	}
 
 	public int getActionCount( CustomCombatLookup lookup, HashSet seen )
 	{
@@ -188,6 +196,9 @@ public class CustomCombatStrategy
 		{
 			return;
 		}
+
+		this.actionCount = 0;
+		this.actionOffsets = null;
 
 		addRepeatActions( roundIndex, indent );
 
