@@ -124,11 +124,20 @@ public class CustomCombatLookup
 
 	public void clearEncounterKey( final String encounterKey )
 	{
-		CustomCombatStrategy strategy = (CustomCombatStrategy) childLookup.get( encounterKey );
+		Iterator strategyIterator = childLookup.values().iterator();
 
-		if ( strategy != null )
+		while ( strategyIterator.hasNext() )
 		{
-			strategy.removeAllChildren();
+			CustomCombatStrategy strategy = (CustomCombatStrategy) strategyIterator.next();
+
+			if ( strategy.getName().equals( encounterKey ) )
+			{
+				strategy.removeAllChildren();
+			}
+			else
+			{
+				strategy.resetActionCount();
+			}
 		}
 	}
 
@@ -209,7 +218,7 @@ public class CustomCombatLookup
 					strategy.addCombatAction( 1, "attack", indent.toString(), false );
 				}
 
-				encounterKey = CombatActionManager.encounterKey( line.substring( 1, line.length() - 1 ) );				
+				encounterKey = CombatActionManager.encounterKey( line.substring( 1, line.length() - 1 ) );
 				addEncounterKey( encounterKey );
 
 				indent.setLength( 0 );
@@ -221,7 +230,7 @@ public class CustomCombatLookup
 			if ( CombatActionManager.isMacroAction( line ) )
 			{
 				// Strip out leading and trailing quotes.
-			
+
 				if ( line.charAt( 0 ) == '"' )
 				{
 					line = line.substring( 1 ).trim();
@@ -243,19 +252,19 @@ public class CustomCombatLookup
 				{
 					indent.delete( 0, 4 );
 				}
-				
+
 				addEncounterAction( encounterKey, -1, indent.toString(), line, true );
-				
+
 				// Update indentation again.
 
 				if ( line.startsWith( "if" ) || line.startsWith( "while" ) || line.startsWith( "sub" ) )
 				{
 					indent.append( "\u0020\u0020\u0020\u0020" );
 				}
-				
+
 				continue;
 			}
-			
+
 			// If we're currently building a macro, just append the current data to that macro.
 
 			int roundIndex = -1;
