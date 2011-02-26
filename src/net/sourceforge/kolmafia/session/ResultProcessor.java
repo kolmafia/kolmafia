@@ -1066,6 +1066,8 @@ public class ResultProcessor
 			// If you get your father's MacGuffin diary, you lose
 			// your forged identification documents
 			ResultProcessor.processItem( ItemPool.FORGED_ID_DOCUMENTS, -1 );
+			// Automatically use the diary to open zones
+			RequestThread.postRequest( new UseItemRequest( result ) );
 			break;
 
 		case ItemPool.PALINDROME_BOOK:
