@@ -197,7 +197,7 @@ public class FightRequest
 	private static final AdventureResult LASER = ItemPool.get( ItemPool.MINIBORG_LASER, 1);
 	private static final AdventureResult DESTROYER = ItemPool.get( ItemPool.MINIBORG_DESTROYOBOT, 1);
 	private static final AdventureResult SHURIKEN = ItemPool.get( ItemPool.PAPER_SHURIKEN, 1);
-	private static final AdventureResult ANTIDOTE = ItemPool.get( ItemPool.ANTIDOTE, 1);
+	public static final AdventureResult ANTIDOTE = ItemPool.get( ItemPool.ANTIDOTE, 1);
 	private static final AdventureResult EXTRACTOR = ItemPool.get( ItemPool.ODOR_EXTRACTOR, 1);
 	private static final AdventureResult PUTTY_SHEET = ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1);
 	private static final AdventureResult CAMERA = ItemPool.get( ItemPool.CAMERA, 1);
@@ -980,10 +980,11 @@ public class FightRequest
 
 		// We do ensure that it is a combat skill.
 
-		String skillName =
-			SkillDatabase.getSkillName( StringUtilities.parseInt( FightRequest.nextAction.substring( 5 ) ) );
+		String skillIdString = FightRequest.nextAction.substring( 5 );
+		int skillId = StringUtilities.parseInt( skillIdString );
+		String skillName = SkillDatabase.getSkillName( skillId );
 
-		if ( SkillDatabase.getCombatSkillName( skillName ) == null )
+		if ( skillName == null || !SkillDatabase.isCombat( skillId ) )
 		{
 			if ( this.isAcceptable( 0, 0 ) )
 			{
@@ -1004,7 +1005,8 @@ public class FightRequest
 			// shows up on the char sheet, unless you've recalled
 			// your skills.
 
-			if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+			if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) ||
+			     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -1135,7 +1137,7 @@ public class FightRequest
 		}
 
 		this.addFormField( "action", "skill" );
-		this.addFormField( "whichskill", FightRequest.nextAction.substring( 5 ) );
+		this.addFormField( "whichskill", skillIdString );
 	}
 
 	private static final boolean problemFamiliar()
@@ -4316,46 +4318,6 @@ public class FightRequest
 			}
 		}
 		return false;
-	}
-
-	public static final void macroUseAntidote( StringBuffer macro )
-	{
-		if ( !KoLConstants.inventory.contains( FightRequest.ANTIDOTE ) )
-		{
-			return;
-		}
-		if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
-		{
-			return;	// can't use items!
-		}
-		int minLevel = Preferences.getInteger( "autoAntidote" );
-		int poison = MonsterStatusTracker.getPoisonLevel();
-		if ( poison > minLevel || minLevel == 0 )
-		{
-			return;	// no poison expected that the user wants to remove
-		}
-
-		macro.append( "if hascombatitem " );
-		macro.append( ItemPool.ANTIDOTE );
-		macro.append( " && (" );
-		boolean first = true;
-		for ( int i = minLevel; i > 0; --i )
-		{
-			if ( poison != 0 && i != poison )
-			{	// only check for the monster's known poison attack
-				continue;
-			}
-			if ( !first )
-			{
-				macro.append( " || " );
-			}
-			first = false;
-			macro.append( "haseffect " );
-			macro.append( AdventureSelectPanel.POISON_ID[ i ] );
-		}
-		macro.append( ")\n  use " );
-		macro.append( ItemPool.ANTIDOTE );
-		macro.append( "\nendif\n" );
 	}
 
 	private static final void payActionCost( final String responseText )
