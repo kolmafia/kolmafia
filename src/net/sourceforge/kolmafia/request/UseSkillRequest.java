@@ -78,6 +78,7 @@ public class UseSkillRequest
 		"Advanced Saucecrafting",
 		"Pastamastery",
 		"Summon Crimbo Candy",
+		"Lunch Break",
 	};
 
 	public static final String[] TOME_SKILLS =
