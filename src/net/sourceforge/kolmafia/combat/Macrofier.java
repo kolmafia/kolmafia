@@ -44,10 +44,12 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MPRestoreItemList;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -421,7 +423,8 @@ public class Macrofier
 				// shows up on the char sheet, unless you've recalled
 				// your skills.
 
-				if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+				if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) ||
+				     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 				{ // ignore
 				}
 				else
@@ -489,7 +492,7 @@ public class Macrofier
 	public static void macroCommon( StringBuffer macro )
 	{
 		macro.append( "sub mafiaround\n" );
-		FightRequest.macroUseAntidote( macro );
+		Macrofier.macroUseAntidote( macro );
 		macro.append( "endsub#mafiaround\n" );
 
 		macro.append( "sub mafiamp\n" );
@@ -557,6 +560,46 @@ public class Macrofier
 		{
 			macro.append( "endif\n" );
 		}
+	}
+
+	public static final void macroUseAntidote( StringBuffer macro )
+	{
+		if ( !KoLConstants.inventory.contains( FightRequest.ANTIDOTE ) )
+		{
+			return;
+		}
+		if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		{
+			return;	// can't use items!
+		}
+		int minLevel = Preferences.getInteger( "autoAntidote" );
+		int poison = MonsterStatusTracker.getPoisonLevel();
+		if ( poison > minLevel || minLevel == 0 )
+		{
+			return;	// no poison expected that the user wants to remove
+		}
+
+		macro.append( "if hascombatitem " );
+		macro.append( ItemPool.ANTIDOTE );
+		macro.append( " && (" );
+		boolean first = true;
+		for ( int i = minLevel; i > 0; --i )
+		{
+			if ( poison != 0 && i != poison )
+			{	// only check for the monster's known poison attack
+				continue;
+			}
+			if ( !first )
+			{
+				macro.append( " || " );
+			}
+			first = false;
+			macro.append( "haseffect " );
+			macro.append( AdventureSelectPanel.POISON_ID[ i ] );
+		}
+		macro.append( ")\n  use " );
+		macro.append( ItemPool.ANTIDOTE );
+		macro.append( "\nendif\n" );
 	}
 
 	public static void macroManaRestore( StringBuffer macro )
