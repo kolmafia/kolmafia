@@ -290,10 +290,20 @@ public class StationaryButtonDecorator
 				urlString, buffer, actionBuffer, "steal", FightRequest.canStillSteal() );
 		}
 
+		if ( KoLCharacter.getClassName().equals( "Pastamancer" ) &&
+		     !Preferences.getString( "pastamancerGhostType" ).equals( "" ))
+		{
+			boolean enabled = FightRequest.getCurrentRound() > 0 &&
+				FightRequest.canStillSummon();
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "summon", enabled );
+		}
+
 		if ( EquipmentManager.usingChefstaff() )
 		{
+			boolean enabled = FightRequest.getCurrentRound() > 0;
 			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, "jiggle", FightRequest.getCurrentRound() > 0 );
+				urlString, buffer, actionBuffer, "jiggle", enabled );
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Entangling Noodles" ) )
@@ -444,6 +454,11 @@ public class StationaryButtonDecorator
 				buffer.append( "action=chefstaff" );
 				isEnabled &= !FightRequest.alreadyJiggled();
 			}
+			else if ( action.equals( "summon" ) )
+			{
+				buffer.append( "action=summon" );
+				isEnabled &= FightRequest.canStillSummon();
+			}
 			else
 			{
 				buffer.append( "action=skill&whichskill=" );
@@ -512,7 +527,7 @@ public class StationaryButtonDecorator
 			return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
 		}
 
-		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "script" ) )
+		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "summon" ) || action.equals( "script" ) )
 		{
 			return action;
 		}
