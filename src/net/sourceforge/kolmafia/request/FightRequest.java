@@ -410,11 +410,6 @@ public class FightRequest
 		// Look for active buttons that allow you to summon
 		// ***
 
-		if ( !FightRequest.wonInitiative() )
-		{
-			return false;
-		}
-
 		// Check daily summon limit
 		int summons = Preferences.getInteger( "pastamancerGhostSummons" );
 		int limit = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPAGHETTI_BANDOLIER, 1 ) ) ? 15 : 10;
