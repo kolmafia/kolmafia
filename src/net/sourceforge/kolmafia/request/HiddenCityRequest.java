@@ -208,6 +208,12 @@ public class HiddenCityRequest
 
 	public static final boolean parseResponse( final String location, final String responseText )
 	{
+		if ( location.equals( "hiddencity.php" ) )
+		{
+			HiddenCityRequest.parseCityMap( responseText );
+			return true;
+		}
+
 		// You carefully socket the four triangular stones into their
 		// places in the carving, and step back as the door slowly
 		// slides to one side with a loud grinding noise.
@@ -250,6 +256,62 @@ public class HiddenCityRequest
 		}
 
 		return false;
+	}
+
+	private static final Pattern MAP_PATTERN = Pattern.compile( "<a href='hiddencity.php\\?which=(\\d+)'[^>]*><img.*?hiddencity/map_([^.]+).gif[^>]*></a>" );
+
+	private static final void parseCityMap( final String text )
+	{
+		HiddenCityRequest.validateHiddenCity();
+
+		String oldLayout =  Preferences.getString( "hiddenCityLayout" );
+		StringBuffer layout = new StringBuffer( oldLayout );
+
+		Matcher matcher = HiddenCityRequest.MAP_PATTERN.matcher( text );
+		while ( matcher.find() )
+		{
+			int square = StringUtilities.parseInt( matcher.group(1) );
+
+			if ( square < 0 || square >= 25 || layout.charAt( square ) != '0')
+			{
+				continue;
+			}
+
+			String type = matcher.group(2);
+			char code;
+
+			if ( type.startsWith( "ruins" ) )
+			{
+				code = 'E';
+			}
+			else if ( type.equals( "altar" ) )
+			{
+				code = 'L';
+			}
+			else if ( type.equals( "temple" ) )
+			{
+				code = 'T';
+			}
+			else if ( type.startsWith( "unruins" ) )
+			{
+				code = '0';
+			}
+			else
+			{
+				// Unknown?
+				code = '0';
+			}
+
+			System.out.println( "square = " + square + " code = " + code );
+			layout.setCharAt( square, code );
+		}
+
+		String newLayout = layout.toString();
+
+		if ( !oldLayout.equals( newLayout ) )
+		{
+			Preferences.setString( "hiddenCityLayout", newLayout );
+		}
 	}
 
 	private static final void identifySquare( final String location, final String responseText )
