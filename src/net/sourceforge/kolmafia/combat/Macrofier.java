@@ -112,32 +112,12 @@ public class Macrofier
 			return Macrofier.macroOverride;
 		}
 
+		// Don't try to macrofy the first round, since we don't know what monster it is, and "special action"
+		// could include olfaction.
+		
 		if ( FightRequest.getCurrentRound() == 0 )
 		{
-			// Shouldn't macrofy during first round if there's an auto-attack set, in case it somehow interrupts the auto-attack.
-
-			if ( KoLCharacter.getAutoAttackAction() != 0 )
-			{
-				return null;
-			}
-
-			// Can't macrofy vibrato island or orc chasm during the first round, as they have monsters that could potentially cause macrofication problems.
-
-			int adventureId = KoLAdventure.lastAdventureId();
-
-			if ( adventureId == 80 || adventureId == 164 )
-			{
-				return null;
-			}
-
-			// Can't macrofy if it's not going to be the same action throughout the fight.
-
-			String battleAction = Preferences.getString( "battleAction" );
-			
-			if ( battleAction.startsWith( "custom" ) || !Macrofier.isSimpleAction( battleAction ) )
-			{
-				return null;
-			}
+			return null;
 		}
 
 		// Begin monster-specific macrofication.
