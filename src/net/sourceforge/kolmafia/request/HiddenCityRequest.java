@@ -286,7 +286,7 @@ public class HiddenCityRequest
 			}
 			else if ( type.equals( "altar" ) )
 			{
-				code = 'L';
+				code = 'R';
 			}
 			else if ( type.equals( "temple" ) )
 			{
@@ -400,10 +400,11 @@ public class HiddenCityRequest
 			return;
 		}
 
-		// N (nature) - Altar of Bulbazinalli
-		// L (lightning) - Altar of Pikachutlotal
-		// W (water) - Altar of Squirtlcthulli
-		// F (fire) - Altar of Charcoatl
+		// N (nature) - altar of Bulbazinalli
+		// L (lightning) - altar of Pikachutlotal
+		// W (water) - altar of Squirtlcthulli
+		// F (fire) - altar of Charcoatl
+		// R - unspecified altaR 
 		// P - protector spirit
 		// D - defeated protector spirit
 		// T - temple
