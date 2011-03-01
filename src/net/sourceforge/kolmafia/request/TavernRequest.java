@@ -139,43 +139,39 @@ public class TavernRequest
 	{
 		TavernRequest.validateFaucetQuest();
 
-		StringBuffer layout = new StringBuffer( "0000000000000000000000000" );
+		String oldLayout = Preferences.getString( "tavernLayout" );
+		StringBuffer layout = new StringBuffer( oldLayout );
+
 		Matcher matcher = TavernRequest.MAP_PATTERN.matcher( text );
 		while ( matcher.find() )
 		{
-			String type = matcher.group(1);
-			char code;
-			if ( type.startsWith( "Darkness" ) )
-			{
-				code = '0';
-			}
-			else if ( type.startsWith( "Explored" ) )
-			{
-				code = '1';
-			}
-			else if ( type.startsWith( "A Rat Faucet" ) )
-			{
-				code = '3';
-			}
-			else if ( type.startsWith( "A Tiny Mansion" ) )
-			{
-				code = '4';
-			}
-			else if ( type.startsWith( "Stairs Up" ) )
-			{
-				code = '1';
-			}
-			else
-			{
-				code = '0';
-			}
-
 			int col = StringUtilities.parseInt( matcher.group(2) );
 			int row = StringUtilities.parseInt( matcher.group(3) );
-			int square = ( row - 1 ) * 5 + ( col - 1 ) + 1;
-			layout.setCharAt( square - 1, code );
+			int square = ( row - 1 ) * 5 + ( col - 1 );
+
+			if ( square < 0 || square >= 25 || layout.charAt( square ) != '0' )
+			{
+				continue;
+			}
+
+			String type = matcher.group(1);
+			char code =
+				type.startsWith( "Darkness" ) ? '0' :
+				type.startsWith( "Explored" ) ? '1' :
+				type.startsWith( "A Rat Faucet" ) ? '3' :
+				type.startsWith( "A Tiny Mansion" ) ? '4' :
+				type.startsWith( "Stairs Up" ) ? '1' :
+				'0';
+
+			layout.setCharAt( square, code );
 		}
-		Preferences.setString( "tavernLayout", layout.toString() );
+
+		String newLayout = layout.toString();
+
+		if ( !oldLayout.equals( newLayout ) )
+		{
+			Preferences.setString( "tavernLayout", newLayout );
+		}
 	}
 
 	private static final Pattern SPOT_PATTERN = Pattern.compile( "whichspot=([\\d,]+)" );
