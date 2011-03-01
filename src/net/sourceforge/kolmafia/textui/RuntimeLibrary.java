@@ -34,11 +34,8 @@
 package net.sourceforge.kolmafia.textui;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -50,7 +47,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -61,9 +57,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.Expression;
@@ -154,9 +148,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class RuntimeLibrary
 {
-	private static Map dataFileTimestampCache = new HashMap();
-	private static Map dataFileDataCache = new HashMap();
-
 	private static final GenericRequest VISITOR = new GenericRequest( "" );
 	private static final RelayRequest RELAYER = new RelayRequest( false );
 
@@ -1489,94 +1480,6 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	private static File getFile( String filename )
-	{
-		if ( filename.startsWith( "http" ) )
-		{
-			return null;
-		}
-
-		filename = filename.substring( filename.lastIndexOf( "/" ) + 1 );
-		filename = filename.substring( filename.lastIndexOf( "\\" ) + 1 );
-
-		File f = new File( KoLConstants.SCRIPT_LOCATION, filename );
-		if ( f.exists() )
-		{
-			return f;
-		}
-
-		f = new File( UtilityConstants.DATA_LOCATION, filename );
-		if ( f.exists() )
-		{
-			return f;
-		}
-
-		f = new File( UtilityConstants.ROOT_LOCATION, filename );
-		if ( f.exists() )
-		{
-			return f;
-		}
-
-		if ( filename.endsWith( ".dat" ) )
-		{
-			return RuntimeLibrary.getFile( filename.substring( 0, filename.length() - 4 ) + ".txt" );
-		}
-
-		return new File( KoLConstants.DATA_LOCATION, filename );
-	}
-
-	private static BufferedReader getReader( final String filename )
-	{
-		if ( filename.startsWith( "http" ) )
-		{
-			return DataUtilities.getReader( "", filename );
-		}
-
-		File input = RuntimeLibrary.getFile( filename );
-		long modifiedTime = input.lastModified();
-
-		Long cacheModifiedTime = (Long) dataFileTimestampCache.get( filename );
-
-		if ( cacheModifiedTime != null && cacheModifiedTime.longValue() == modifiedTime )
-		{
-			byte[] data = (byte[]) dataFileDataCache.get( filename );
-
-			return DataUtilities.getReader( new ByteArrayInputStream( data ) );
-		}
-
-		if ( input.exists() )
-		{
-			try
-			{
-				FileInputStream istream = new FileInputStream( input );
-				ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-
-				int length;
-				byte[] buffer = new byte[ 8192 ];
-
-				while ( ( length = istream.read( buffer ) ) > 0 )
-				{
-					ostream.write( buffer );
-				}
-
-				istream.close();
-
-				byte[] data = ostream.toByteArray();
-
-				RuntimeLibrary.dataFileTimestampCache.put( filename, new Long( modifiedTime ) );
-				RuntimeLibrary.dataFileDataCache.put( filename, data );
-
-				return DataUtilities.getReader( new ByteArrayInputStream( data ) );
-			}
-			catch ( Exception e )
-			{
-			}
-		}
-
-		BufferedReader reader = DataUtilities.getReader( "data", filename );
-		return reader != null ? reader : DataUtilities.getReader( "", filename );
-	}
-
 	public static Value load_html( final Value string )
 	{
 		StringBuffer buffer = new StringBuffer();
@@ -1588,18 +1491,8 @@ public abstract class RuntimeLibrary
 			return returnValue;
 		}
 
-		File input = RuntimeLibrary.getFile( location );
-		if ( input == null || !input.exists() )
-		{
-			return returnValue;
-		}
-
-		RuntimeLibrary.VISITOR.loadResponseFromFile( input );
-		if ( RuntimeLibrary.VISITOR.responseText != null )
-		{
-			buffer.append( RuntimeLibrary.VISITOR.responseText );
-		}
-
+		byte[] bytes = DataFileCache.getBytes( location );
+		buffer.append( new String( bytes ) );
 		return returnValue;
 	}
 
@@ -2205,7 +2098,7 @@ public abstract class RuntimeLibrary
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "conditions", "remove " + count + " \u00B6" + item.intValue() );
 		return DataTypes.VOID_VALUE;
 	}
-	
+
 	public static Value is_goal( final Value item )
 	{
 		return new Value( KoLConstants.conditions.contains(
@@ -4301,22 +4194,16 @@ public abstract class RuntimeLibrary
 
 	public static Value file_to_map( final Value var1, final Value var2 )
 	{
-		String filename = var1.toString();
-		CompositeValue map_variable = (CompositeValue) var2;
-		return RuntimeLibrary.readMap( filename, map_variable, true );
+		return file_to_map( var1, var2, DataTypes.TRUE_VALUE );
 	}
 
 	public static Value file_to_map( final Value var1, final Value var2, final Value var3 )
 	{
 		String filename = var1.toString();
-		CompositeValue map_variable = (CompositeValue) var2;
+		CompositeValue result = (CompositeValue) var2;
 		boolean compact = var3.intValue() == 1;
-		return RuntimeLibrary.readMap( filename, map_variable, compact );
-	}
 
-	private static Value readMap( final String filename, final CompositeValue result, final boolean compact )
-	{
-		BufferedReader reader = RuntimeLibrary.getReader( filename );
+		BufferedReader reader = DataFileCache.getReader( filename );
 		if ( reader == null )
 		{
 			return DataTypes.FALSE_VALUE;
@@ -4385,9 +4272,7 @@ public abstract class RuntimeLibrary
 
 	public static Value map_to_file( final Value var1, final Value var2 )
 	{
-		CompositeValue map_variable = (CompositeValue) var1;
-		String filename = var2.toString();
-		return RuntimeLibrary.printMap( map_variable, filename, true );
+		return map_to_file( var1, var2, DataTypes.TRUE_VALUE );
 	}
 
 	public static Value map_to_file( final Value var1, final Value var2, final Value var3 )
@@ -4395,60 +4280,15 @@ public abstract class RuntimeLibrary
 		CompositeValue map_variable = (CompositeValue) var1;
 		String filename = var2.toString();
 		boolean compact = var3.intValue() == 1;
-		return RuntimeLibrary.printMap( map_variable, filename, compact );
-	}
-
-	private static Value printMap( final CompositeValue map_variable, final String filename,
-		final boolean compact )
-	{
-		if ( filename.startsWith( "http" ) )
-		{
-			return DataTypes.FALSE_VALUE;
-		}
-
-		PrintStream writer = null;
-		File output = RuntimeLibrary.getFile( filename );
-
-		if ( output == null )
-		{
-			return DataTypes.FALSE_VALUE;
-		}
-
-		if ( !output.exists() )
-		{
-			try
-			{
-				output.createNewFile();
-			}
-			catch ( Exception e )
-			{
-				return DataTypes.FALSE_VALUE;
-			}
-		}
 
 		ByteArrayOutputStream cacheStream = new ByteArrayOutputStream();
 
-		writer = LogStream.openStream( cacheStream, "UTF-8" );
+		PrintStream writer = LogStream.openStream( cacheStream, "UTF-8" );
 		map_variable.dump( writer, "", compact );
 		writer.close();
 
 		byte[] data = cacheStream.toByteArray();
-
-		try
-		{
-			FileOutputStream ostream = new FileOutputStream( output, false );
-			ostream.write( data );
-			ostream.close();
-		}
-		catch ( Exception e )
-		{
-			return DataTypes.FALSE_VALUE;
-		}
-
-		RuntimeLibrary.dataFileTimestampCache.put( filename, new Long( output.lastModified() ) );
-		RuntimeLibrary.dataFileDataCache.put( filename, data );
-
-		return DataTypes.TRUE_VALUE;
+		return DataFileCache.printBytes( filename, data );
 	}
 
 	// Custom combat helper functions.
