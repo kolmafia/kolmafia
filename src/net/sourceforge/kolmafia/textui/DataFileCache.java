@@ -61,63 +61,82 @@ public class DataFileCache
 			return null;
 		}
 
-		File f = new File( KoLConstants.SCRIPT_LOCATION, filename );
-		if ( checkFile( f ) )
+		File[] parents = new File[]
 		{
-			return f;
-		}
+			KoLConstants.SCRIPT_LOCATION,
+			KoLConstants.RELAY_LOCATION,
+			UtilityConstants.DATA_LOCATION,
+			UtilityConstants.ROOT_LOCATION
+		};
 
-		f = new File( UtilityConstants.DATA_LOCATION, filename );
-		if ( checkFile( f ) )
+		for ( int i = 0; i < parents.length; ++i )
 		{
-			return f;
+			try
+			{
+				parents[ i ] = parents[ i ].getCanonicalFile();
+			}
+			catch ( Exception e )
+			{
+			}
 		}
-
-		f = new File( UtilityConstants.ROOT_LOCATION, filename );
-		if ( checkFile( f ) )
+		
+		for ( int i = 0; i < parents.length; ++i )
 		{
-			return f;
+			File file = new File( parents[ i ], filename );
+			if ( checkFile( parents, file, true ) )
+			{
+				return file;
+			}
 		}
-
-		if ( filename.endsWith( ".dat" ) )
+		
+		File file = new File( KoLConstants.DATA_LOCATION, filename );
+		if ( checkFile( parents, file, false ) )
 		{
-			return DataFileCache.getFile( filename.substring( 0, filename.length() - 4 ) + ".txt" );
+			return file;
 		}
-
+		
+		filename = filename.substring( filename.lastIndexOf( "\\" ) + 1 );
+		filename = filename.substring( filename.lastIndexOf( "/" ) + 1 );
+		
 		return new File( KoLConstants.DATA_LOCATION, filename );
 	}
 
-	private static boolean checkFile( File f )
+	private static boolean checkFile( File[] parents, File file, boolean checkExists )
 	{
-		if ( !f.exists() )
+		if ( checkExists && !file.exists() )
 		{
 			return false;
 		}
-
-		boolean validFile = false;
-		f = f.getParentFile();
-
-		while ( f != null )
+		
+		try
 		{
-			if ( f.getName().equals( ".." ) )
+			File settings = KoLConstants.SETTINGS_LOCATION.getCanonicalFile();
+			
+			if ( settings.equals( file.getCanonicalFile().getParent() ) )
 			{
 				return false;
 			}
-
-			if ( f.equals( KoLConstants.SETTINGS_LOCATION ) )
+			
+			while ( file != null )
 			{
-				return false;
-			}
+				File canonical = file.getCanonicalFile();
 
-			if ( f.equals( KoLConstants.ROOT_LOCATION ) )
-			{
-				validFile = true;
+				for ( int i = 0; i < parents.length; ++i )
+				{
+					if ( canonical.equals( parents[ i ] ) )
+					{
+						return true;
+					}
+				}
+				
+				file = file.getParentFile();
 			}
-
-			f = f.getParentFile();
+		}
+		catch ( Exception e )
+		{
 		}
 
-		return validFile;
+		return false;
 	}
 
 	public static BufferedReader getReader( final String filename )
