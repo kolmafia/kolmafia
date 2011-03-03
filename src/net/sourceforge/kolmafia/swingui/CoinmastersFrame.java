@@ -103,6 +103,7 @@ public class CoinmastersFrame
 	private static int tickets = 0;
 	private static int boneChips = 0;
 	private static int scrip = 0;
+	private static int storeCredits = 0;
 
 	private CoinmasterPanel dimePanel = null;
 	private CoinmasterPanel quarterPanel = null;
@@ -112,6 +113,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel boneChipPanel = null;
 	private CoinmasterPanel crimbuckPanel = null;
 	private CoinmasterPanel scripPanel = null;
+	private CoinmasterPanel storeCreditPanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -142,6 +144,11 @@ public class CoinmastersFrame
 		ticketPanel = new TicketCounterPanel();
 		panel.add( ticketPanel );
 		this.tabs.add( "Ticket Counter", panel );
+
+		panel = new JPanel( new BorderLayout() );
+		storeCreditPanel = new GameShoppePanel();
+		panel.add( storeCreditPanel );
+		this.tabs.add( "Game Shoppe", panel );
 
 		// panel = new JPanel( new BorderLayout() );
 		// boneChipPanel = new AltarOfBonesPanel();
@@ -202,6 +209,7 @@ public class CoinmastersFrame
 		Preferences.setInteger( "availableBoneChips", boneChips );
 		scrip = CRIMBCO_SCRIP.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableCRIMBCOScrip", scrip );
+		storeCredits = Preferences.getInteger( "availableStoreCredits" );
 
 		INSTANCE.update();
 	}
@@ -213,6 +221,7 @@ public class CoinmastersFrame
 		lucrePanel.update();
 		sandDollarPanel.update();
 		ticketPanel.update();
+		storeCreditPanel.update();
 		// boneChipPanel.update();
 		// crimbuckPanel.update();
 		// scripPanel.update();
@@ -424,6 +433,46 @@ public class CoinmastersFrame
 			       "Ticket Counter",
 				null );
 			buyAction = "redeem";
+		}
+
+		public void update()
+		{
+		}
+
+		public boolean enabled()
+		{
+			return true;
+		}
+
+		public boolean accessible()
+		{
+			return true;
+		}
+
+		public void equip()
+		{
+		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
+		}
+	}
+
+	private class GameShoppePanel
+		extends CoinmasterPanel
+	{
+		public GameShoppePanel()
+		{
+			super( CoinmastersDatabase.getStoreCreditItems(),
+			       CoinmastersDatabase.storeCreditSellPrices(),
+			       CoinmastersDatabase.storeCreditBuyPrices(),
+			       "availableStoreCredits",
+			       "store credit",
+			       "Game Shoppe",
+				null );
+			buyAction = "redeem";
+			sellAction = "tradein";
 		}
 
 		public void update()

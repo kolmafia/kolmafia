@@ -197,6 +197,7 @@ user	availableLucre	0
 user	availableQuarters	0
 user	availableSandDollars	0
 user	availableTickets	0
+user	availableStoreCredits	0
 user	badMoonEncounter01	false
 user	badMoonEncounter02	false
 user	badMoonEncounter03	false
@@ -332,6 +333,7 @@ user	gongPath	0
 user	gourdItemCount	5
 user	grimoire1Summons	0
 user	grimoire2Summons	0
+user	grimoire3Summons	0
 user	guardTurtlesFreed	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false

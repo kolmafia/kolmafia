@@ -864,6 +864,7 @@ public abstract class KoLmafia
 		Preferences.setBoolean( "friarsBlessingReceived", false );
 		Preferences.setInteger( "grimoire1Summons", 0 );
 		Preferences.setInteger( "grimoire2Summons", 0 );
+		Preferences.setInteger( "grimoire3Summons", 0 );
 		Preferences.setInteger( "lastBarrelSmashed", 0 );
 		Preferences.setInteger( "libramSummons", 0 );
 		Preferences.setBoolean( "libraryCardUsed", false );

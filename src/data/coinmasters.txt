@@ -175,3 +175,33 @@ bcs	1000	CRIMBCO Employee Handbook (chapter 3)
 bcs	1000	CRIMBCO Employee Handbook (chapter 4)
 bcs	1000	CRIMBCO Employee Handbook (chapter 5)
 bcs	10000	deluxe fax machine
+
+# Things you can sell to get store credit
+
+ssc	1	Alice's Army Swordsman
+ssc	1	Alice's Army Spearsman
+ssc	1	Alice's Army Halberder
+ssc	1	Alice's Army Guard
+ssc	1	Alice's Army Wallman
+ssc	1	Alice's Army Ninja
+ssc	1	Alice's Army Alchemist
+ssc	1	Alice's Army Page
+ssc	1	Alice's Army Shieldmaiden
+ssc	1	Alice's Army Mad Bomber
+ssc	1	Alice's Army Nurse
+ssc	5	Alice's Army Hammerman
+ssc	5	Alice's Army Bowman
+ssc	5	Alice's Army Lanceman
+ssc	5	Alice's Army Horseman
+ssc	5	Alice's Army Coward
+ssc	5	Alice's Army Cleric
+ssc	50	Alice's Army Sniper
+ssc	50	Alice's Army Dervish
+ssc	50	Alice's Army Martyr
+
+# Things you can buy with store credit
+
+bsc	100	Single Alice's Army Foil
+bsc	750	Pack of Alice's Army Foil Cards
+bsc	2500	card sleeve
+bsc	10000	Alice's Army Foil tattoo

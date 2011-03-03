@@ -1212,6 +1212,7 @@ public class ItemPool
 	public static final int LOATHING_LEGION_HAMMER = 4928;
 	public static final int KNOB_CAKE = 4942;
 	public static final int MENAGERIE_KEY = 4947;
+	public static final int CARD_GAME_BOOK = 4965;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
