@@ -669,18 +669,20 @@ public class CampgroundRequest
 			// The item is currently named:
 			// "McPhee's Grimoire of Hilarious Object Summoning"
 			// and gives access to "Summon Hilarious Objects".
-			//
-			// One or the other will eventually change, I predict.
 			"McPhee's Grimoire",
-			"Summon Hilarious Objects"
+			"Summon Hilarious Objects",
 		},
 		{
 			"Sp'n-Zor's Grimoire",
-			"Summon Tasteful Items"
+			"Summon Tasteful Items",
+		},
+		{
+			"Sorcerers of the Shore Grimoire",
+			"Summon Alice's Army Cards",
 		},
 		{
 			"Libram of Candy Heart Summoning",
-			"Summon Candy Hearts"
+			"Summon Candy Hearts",
 		},
 		{
 			"Libram of Divine Favors",

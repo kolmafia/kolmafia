@@ -69,11 +69,16 @@ public class CoinmastersDatabase
 
 	private static final LockableListModel buyForTickets = new LockableListModel();
 	private static final Map ticketBuyPriceByName = new TreeMap();
+
 	private static final LockableListModel buyForBoneChips = new LockableListModel();
 	private static final Map boneChipBuyPriceByName = new TreeMap();
 
 	private static final LockableListModel buyForScrip = new LockableListModel();
 	private static final Map scripBuyPriceByName = new TreeMap();
+
+	private static final LockableListModel buyForStoreCredit = new LockableListModel();
+	private static final Map storeCreditSellPriceByName = new TreeMap();
+	private static final Map storeCreditBuyPriceByName = new TreeMap();
 
 	private static final Map lighthouseItems = new TreeMap();
 
@@ -174,6 +179,18 @@ public class CoinmastersDatabase
 					AdventureResult item = new AdventureResult( name, 0, false );
 					buyForScrip.add( item );
 					scripBuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "ssc" ) )
+				{
+					// Something we sell for store credit
+					storeCreditSellPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "bsc" ) )
+				{
+					// Something we buy with store credit
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForStoreCredit.add( item );
+					storeCreditBuyPriceByName.put( name, iprice );
 				}
 			}
 		}
@@ -319,6 +336,21 @@ public class CoinmastersDatabase
 	public static final Map scripBuyPrices()
 	{
 		return scripBuyPriceByName;
+	}
+
+	public static final LockableListModel getStoreCreditItems()
+	{
+		return buyForStoreCredit;
+	}
+
+	public static final Map storeCreditSellPrices()
+	{
+		return storeCreditSellPriceByName;
+	}
+
+	public static final Map storeCreditBuyPrices()
+	{
+		return storeCreditBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()

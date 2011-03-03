@@ -2601,18 +2601,20 @@ public class UseItemRequest
 			KoLCharacter.setSushiMat( true );
 			return;
 
+			// Tomes
 		case ItemPool.SNOWCONE_BOOK:
 		case ItemPool.STICKER_BOOK:
 		case ItemPool.SUGAR_BOOK:
-			// Tomes
+			// Grimoires
 		case ItemPool.HILARIOUS_BOOK:
 		case ItemPool.TASTEFUL_BOOK:
-			// Grimoires
+		case ItemPool.CARD_GAME_BOOK:
+			// Librams
 		case ItemPool.CANDY_BOOK:
 		case ItemPool.DIVINE_BOOK:
 		case ItemPool.LOVE_BOOK:
 		case ItemPool.BRICKO_BOOK:
-			// Librams
+			// Others
 		case ItemPool.JEWELRY_BOOK:
 		case ItemPool.OLFACTION_BOOK:
 		case ItemPool.RAINBOWS_GRAVITY:
@@ -3685,6 +3687,8 @@ public class UseItemRequest
 			return "Summon Hilarious Objects";
 		case ItemPool.TASTEFUL_BOOK:
 			return "Summon Tasteful Items";
+		case ItemPool.CARD_GAME_BOOK:
+			return "Summon Alice's Army Cards";
 		case ItemPool.CANDY_BOOK:
 			return "Summon Candy Hearts";
 		case ItemPool.DIVINE_BOOK:

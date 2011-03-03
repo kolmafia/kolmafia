@@ -72,6 +72,7 @@ public class CoinMasterRequest
 	private static final String CRIMBOCARTEL = "Crimbo Cartel";
 	private static final String CRIMBCOGIFTSHOP = "CRIMBCO Gift Shop";
 	private static final String TICKETCOUNTER = "Ticket Counter";
+	private static final String GAMESHOPPE = "Game Shoppe";
 	private static final String ALTAROFBONES = "Altar of Bones";
 
 	private final String token;
@@ -118,6 +119,10 @@ public class CoinMasterRequest
 		{
 			this.master = TICKETCOUNTER;
 		}
+		else if ( token.equals( "store credit" ) )
+		{
+			this.master = GAMESHOPPE;
+		}
 		else if ( token.equals( "bone chips" ) )
 		{
 			this.master = ALTAROFBONES;
@@ -159,7 +164,7 @@ public class CoinMasterRequest
 		this.addFormField( "action", action );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
-		if ( master == HIPPY || master == FRATBOY || master == TICKETCOUNTER )
+		if ( master == HIPPY || master == FRATBOY || master == TICKETCOUNTER || master == GAMESHOPPE )
 		{
 			this.addFormField( "quantity", String.valueOf( quantity ) );
 		}
@@ -204,6 +209,11 @@ public class CoinMasterRequest
 		if ( token.equals( "ticket" ) )
 		{
 			return "arcade.php";
+		}
+
+		if ( token.equals( "store credit" ) )
+		{
+			return "gamestore.php";
 		}
 
 		if ( token.equals( "bone chips" ) )
@@ -442,6 +452,10 @@ public class CoinMasterRequest
 		{
 			test = "You currently have no Game Grid redemption tickets";
 		}
+		else if ( master == GAMESHOPPE )
+		{
+			test = "You currently have no store credit";
+		}
 		else if ( master == ALTAROFBONES )
 		{
 			test = "You have no bone chips";
@@ -517,6 +531,10 @@ public class CoinMasterRequest
 				AdventureResult.addResultToList( KoLConstants.inventory, item );
 			}
 		}
+		else if ( master == GAMESHOPPE )
+		{
+			Preferences.setString( "availableStoreCredit", balance );
+		}
 		else if ( master == ALTAROFBONES )
 		{
 			// Check and adjust inventory count, just in case
@@ -578,6 +596,14 @@ public class CoinMasterRequest
 			prices = CoinmastersDatabase.ticketBuyPrices();
 			property = "availableTickets";
 			token = "tickets";
+		}
+		else if ( master == GAMESHOPPE )
+		{
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.storeCreditBuyPrices();
+			property = "availableStoreCredit";
+			token = "store credit";
 		}
 		else if ( master == ALTAROFBONES )
 		{
@@ -740,6 +766,11 @@ public class CoinMasterRequest
 			return registerTicketRequest( urlString );
 		}
 
+		if ( urlString.startsWith( "gamestore.php" ) )
+		{
+			return registerStoreCreditRequest( urlString );
+		}
+
 		if ( urlString.startsWith( "bone_altar.php" ) )
 		{
 			return registerBoneChipRequest( urlString );
@@ -875,6 +906,33 @@ public class CoinMasterRequest
 		return true;
 	}
 
+	private static final boolean registerStoreCreditRequest( final String urlString )
+	{
+		// We only claim gamestore.php?action=redeem and gamestore.php?action=tradein
+
+		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
+		if ( !actionMatcher.find() )
+		{
+			return false;
+		}
+
+		String action = actionMatcher.group(1);
+
+		if ( action.equals( "redeem" ) )
+		{
+			CoinMasterRequest.buyStuff( urlString, TICKETCOUNTER );
+			return true;
+		}
+
+		if ( action.equals( "tradein" ) )
+		{
+			CoinMasterRequest.sellStuff( urlString, TICKETCOUNTER );
+			return true;
+		}
+
+		return false;
+	}
+
 	private static final boolean registerBoneChipRequest( final String urlString )
 	{
 		// We only claim bone_altar.php?action=buy
@@ -992,6 +1050,14 @@ public class CoinMasterRequest
 			prices = CoinmastersDatabase.ticketBuyPrices();
 			token = "ticket";
 			property = "availableTickets";
+		}
+		else if ( master == GAMESHOPPE )
+		{
+			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.storeCreditBuyPrices();
+			token = "store credit";
+			property = "availableStoreCredit";
 		}
 		else if ( master == ALTAROFBONES )
 		{

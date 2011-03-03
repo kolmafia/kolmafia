@@ -89,6 +89,7 @@ public class SkillDatabase
 	public static final int BRICKOS = 8103;
 	public static final int HILARIOUS = 8200;
 	public static final int TASTEFUL = 8201;
+	public static final int CARDS = 8202;
 
 	public static final int OLFACTION = 19;
 	public static final int RAINBOW = 44;
@@ -188,6 +189,7 @@ public class SkillDatabase
 		case SUGAR:		// Summon Sugar Sheets
 		case HILARIOUS:		// Summon Hilarious Objects
 		case TASTEFUL:		// Summon Tasteful Items
+		case CARDS:		// Summon Alice's Army Cards
 		case CANDY_HEART:	// Summon Candy Hearts
 		case PARTY_FAVOR:	// Summon Party Favor
 		case LOVE_SONG:		// Summon Love Song
@@ -796,6 +798,7 @@ public class SkillDatabase
 		case 8103:	// Summon BRICKOs
 		case 8200:	// Summon Hilarious Objects
 		case 8201:	// Summon Tasteful Items
+		case 8202:	// Summon Alice's Army Cards
 			// Bookshelf skills
 			return false;
 		}
@@ -821,6 +824,7 @@ public class SkillDatabase
 		case 8102:	// Summon Love Song
 		case 8200:	// Summon Hilarious Objects
 		case 8201:	// Summon Tasteful Items
+		case 8202:	// Summon Alice's Army Cards
 			return true;
 		}
 

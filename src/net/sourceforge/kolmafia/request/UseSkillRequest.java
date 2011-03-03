@@ -100,6 +100,7 @@ public class UseSkillRequest
 	{
 		"Summon Hilarious Objects",
 		"Summon Tasteful Items",
+		"Summon Alice's Army Cards",
 	};
 
 	private static final int OTTER_TONGUE = 1007;
@@ -229,6 +230,7 @@ public class UseSkillRequest
 		case SkillDatabase.SUGAR:
 		case SkillDatabase.HILARIOUS:
 		case SkillDatabase.TASTEFUL:
+		case SkillDatabase.CARDS:
 		case SkillDatabase.CANDY_HEART:
 		case SkillDatabase.PARTY_FAVOR:
 		case SkillDatabase.LOVE_SONG:
@@ -261,6 +263,10 @@ public class UseSkillRequest
 
 		case SkillDatabase.TASTEFUL:
 			this.addFormField( "preaction", "summonspencersitems" );
+			break;
+
+		case SkillDatabase.CARDS:
+			this.addFormField( "preaction", "summonaa" );
 			break;
 
 		case SkillDatabase.CANDY_HEART:
@@ -396,6 +402,11 @@ public class UseSkillRequest
 		case SkillDatabase.TASTEFUL:
 
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire2Summons" ), 0 );
+			break;
+
+		case SkillDatabase.CARDS:
+
+			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire3Summons" ), 0 );
 			break;
 
 		// You can summon Crimbo candy once a day
@@ -1265,6 +1276,10 @@ public class UseSkillRequest
 			Preferences.increment( "grimoire2Summons", 1 );
 			break;
 
+		case SkillDatabase.CARDS:
+			Preferences.increment( "grimoire3Summons", 1 );
+			break;
+
 		case SkillDatabase.CRIMBO_CANDY:
 			Preferences.increment( "_candySummons", 1 );
 			break;
@@ -1325,6 +1340,11 @@ public class UseSkillRequest
 		if ( action.equals( "spencersitems" ) )
 		{
 			return	SkillDatabase.TASTEFUL;
+		}
+
+		if ( action.equals( "aa" ) )
+		{
+			return	SkillDatabase.CARDS;
 		}
 
 		if ( action.equals( "candyheart" ) )
