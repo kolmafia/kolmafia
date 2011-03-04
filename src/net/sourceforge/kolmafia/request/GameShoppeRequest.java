@@ -86,6 +86,7 @@ public class GameShoppeRequest
 			}
 
 			KoLmafia.saveDataOverride();
+			CoinMasterRequest.parseGameShoppeVisit( urlString, responseText );
 			return;
 		}
 
@@ -106,17 +107,17 @@ public class GameShoppeRequest
 		String action = GenericRequest.getAction( urlString );
 		String message = null;
 
-		if ( action != null )
+		if ( action == null )
 		{
-			if ( action.equals( "redeem" ) || action.equals( "tradein" ) )
-			{
-				// Let CoinmasterRequest claim this
-				return false;
-			}
-			if ( action.equals( "cashier" ) )
+			if ( urlString.indexOf( "place=cashier" ) != -1 )
 			{
 				message = "Visiting Game Shoppe Cashier";
 			}
+		}
+		else if ( action.equals( "redeem" ) || action.equals( "tradein" ) )
+		{
+			// Let CoinmasterRequest claim this
+			return false;
 		}
 
 		if ( message == null )

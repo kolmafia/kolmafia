@@ -121,6 +121,10 @@ public class CouncilFrame
 		{
 			CoinMasterRequest.parseBountyVisit( location, responseText );
 		}
+		else if ( location.startsWith( "gamestore" ) )
+		{
+			CoinMasterRequest.parseGameShoppeVisit( location, responseText );
+		}
 		else if ( location.startsWith( "monkeycastle" ) )
 		{
 			CoinMasterRequest.parseBigBrotherVisit( location, responseText );
