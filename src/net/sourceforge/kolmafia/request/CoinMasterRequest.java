@@ -62,7 +62,7 @@ public class CoinMasterRequest
 	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips|CRIMBCO scrip)" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips|CRIMBCO scrip|store credit)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
@@ -244,8 +244,8 @@ public class CoinMasterRequest
 
 	public static void parseBigBrotherVisit( final String location, final String responseText )
 	{
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( location );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
 		{
 			if ( location.indexOf( "who=2" ) != -1 )
 			{
@@ -257,7 +257,6 @@ public class CoinMasterRequest
 			return;
 		}
 
-		String action = actionMatcher.group(1);
 		if ( !action.equals( "buyitem" ) )
 		{
 			return;
@@ -274,8 +273,8 @@ public class CoinMasterRequest
 
 	public static void parseCrimboCartelVisit( final String location, final String responseText )
 	{
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( location );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
 		{
 			if ( location.indexOf( "place=store" ) != -1 )
 			{
@@ -287,7 +286,6 @@ public class CoinMasterRequest
 			return;
 		}
 
-		String action = actionMatcher.group(1);
 		if ( !action.equals( "buygift" ) )
 		{
 			return;
@@ -304,8 +302,8 @@ public class CoinMasterRequest
 
 	public static void parseCRIMBCOGiftShopVisit( final String location, final String responseText )
 	{
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( location );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
 		{
 			if ( location.indexOf( "place=giftshop" ) != -1 )
 			{
@@ -317,7 +315,6 @@ public class CoinMasterRequest
 			return;
 		}
 
-		String action = actionMatcher.group(1);
 		if ( !action.equals( "buygift" ) )
 		{
 			return;
@@ -334,8 +331,8 @@ public class CoinMasterRequest
 
 	public static void parseBountyVisit( final String location, final String responseText )
 	{
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( location );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
 		{
 			// I'm still waiting for you to bring me 5 discarded
 			// pacifiers, Bounty Hunter!
@@ -378,8 +375,8 @@ public class CoinMasterRequest
 			return;
 		}
 
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( location );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
 		{
 			// Parse current coin balances
 			CoinMasterRequest.parseBalance( master, responseText );
@@ -398,6 +395,42 @@ public class CoinMasterRequest
 		}
 
 		CoinMasterRequest.parseBalance( master, responseText );
+		CoinmastersFrame.externalUpdate();
+	}
+
+	public static void parseGameShoppeVisit( final String location, final String responseText )
+	{
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
+		{
+			if ( location.indexOf( "place=cashier" ) == -1 )
+			{
+				return;
+			}
+		}
+		else if ( action.equals( "redeem" ) )
+		{
+			if ( responseText.indexOf( "You don't have enough" ) != -1 )
+			{
+				CoinMasterRequest.refundPurchase( location, GAMESHOPPE );
+			}
+		}
+		else if ( action.equals( "tradein" ) )
+		{
+			// The teenager scowls. "You can't trade in cards you don't have."
+			if ( responseText.indexOf( "You can't trade in cards you don't have" ) != -1 )
+			{
+				CoinMasterRequest.refundSale( location, GAMESHOPPE );
+			}
+		}
+		else
+		{
+			// Some other action not associated with the cashier
+			return;
+		}
+
+		// Parse current store credit balance
+		CoinMasterRequest.parseBalance( GAMESHOPPE, responseText );
 		CoinmastersFrame.externalUpdate();
 	}
 
@@ -469,10 +502,11 @@ public class CoinMasterRequest
 		if ( responseText.indexOf( test ) == -1 )
 		{
 			Matcher matcher = CoinMasterRequest.TOKEN_PATTERN.matcher( responseText );
-			if ( matcher.find() )
+			if ( !matcher.find() )
 			{
-				balance = matcher.group(1);
+				return;
 			}
+			balance = matcher.group(1);
 		}
 
 		if ( master == HIPPY )
@@ -533,7 +567,7 @@ public class CoinMasterRequest
 		}
 		else if ( master == GAMESHOPPE )
 		{
-			Preferences.setString( "availableStoreCredit", balance );
+			Preferences.setString( "availableStoreCredits", balance );
 		}
 		else if ( master == ALTAROFBONES )
 		{
@@ -602,7 +636,7 @@ public class CoinMasterRequest
 			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
 			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.storeCreditBuyPrices();
-			property = "availableStoreCredit";
+			property = "availableStoreCredits";
 			token = "store credit";
 		}
 		else if ( master == ALTAROFBONES )
@@ -786,15 +820,13 @@ public class CoinMasterRequest
 
 	private static final boolean registerHunterRequest( final String urlString )
 	{
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "visit Bounty Hunter Hunter" );
 			return true;
 		}
-
-		String action = actionMatcher.group(1);
 
 		if ( action.equals( "takebounty" ) )
 		{
@@ -846,14 +878,11 @@ public class CoinMasterRequest
 	private static final boolean registerSeaRequest( final String urlString )
 	{
 		// We only claim monkeycastle.php?action=buyitem
-
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			return false;
 		}
-
-		String action = actionMatcher.group(1);
 
 		if ( !action.equals( "buyitem" ) )
 		{
@@ -868,13 +897,11 @@ public class CoinMasterRequest
 	{
 		// We only claim crimbo09.php?action=buygift
 
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			return false;
 		}
-
-		String action = actionMatcher.group(1);
 
 		if ( !action.equals( "buygift" ) )
 		{
@@ -889,13 +916,11 @@ public class CoinMasterRequest
 	{
 		// We only claim arcade.php?action=redeem
 
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			return false;
 		}
-
-		String action = actionMatcher.group(1);
 
 		if ( !action.equals( "redeem" ) )
 		{
@@ -910,23 +935,21 @@ public class CoinMasterRequest
 	{
 		// We only claim gamestore.php?action=redeem and gamestore.php?action=tradein
 
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			return false;
 		}
 
-		String action = actionMatcher.group(1);
-
 		if ( action.equals( "redeem" ) )
 		{
-			CoinMasterRequest.buyStuff( urlString, TICKETCOUNTER );
+			CoinMasterRequest.buyStuff( urlString, GAMESHOPPE );
 			return true;
 		}
 
 		if ( action.equals( "tradein" ) )
 		{
-			CoinMasterRequest.sellStuff( urlString, TICKETCOUNTER );
+			CoinMasterRequest.sellStuff( urlString, GAMESHOPPE );
 			return true;
 		}
 
@@ -937,13 +960,11 @@ public class CoinMasterRequest
 	{
 		// We only claim bone_altar.php?action=buy
 
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			return false;
 		}
-
-		String action = actionMatcher.group(1);
 
 		if ( !action.equals( "buy" ) )
 		{
@@ -958,13 +979,11 @@ public class CoinMasterRequest
 	{
 		// We only claim crimbo10.php?action=buygift
 
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			return false;
 		}
-
-		String action = actionMatcher.group(1);
 
 		if ( !action.equals( "buygift" ) )
 		{
@@ -983,13 +1002,11 @@ public class CoinMasterRequest
 			return false;
 		}
 
-		Matcher actionMatcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !actionMatcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			return true;
 		}
-
-		String action = actionMatcher.group(1);
 
 		if ( action.equals( "getgear" ) )
 		{
@@ -1057,7 +1074,7 @@ public class CoinMasterRequest
 			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.storeCreditBuyPrices();
 			token = "store credit";
-			property = "availableStoreCredit";
+			property = "availableStoreCredits";
 		}
 		else if ( master == ALTAROFBONES )
 		{
@@ -1173,6 +1190,12 @@ public class CoinMasterRequest
 			prices = CoinmastersDatabase.quarterSellPrices();
 			token = "quarter";
 			property = "availableQuarters";
+		}
+		else if ( master == GAMESHOPPE )
+		{
+			prices = CoinmastersDatabase.storeCreditSellPrices();
+			token = "store credit";
+			property = "availableStoreCredits";
 		}
 		else
 		{
