@@ -198,6 +198,26 @@ ssc	5	Alice's Army Cleric
 ssc	50	Alice's Army Sniper
 ssc	50	Alice's Army Dervish
 ssc	50	Alice's Army Martyr
+ssc	50	Alice's Army Foil Swordsman
+ssc	50	Alice's Army Foil Spearsman
+ssc	50	Alice's Army Foil Halberder
+ssc	50	Alice's Army Foil Guard
+ssc	50	Alice's Army Foil Wallman
+ssc	50	Alice's Army Foil Ninja
+ssc	50	Alice's Army Foil Alchemist
+ssc	50	Alice's Army Foil Page
+ssc	50	Alice's Army Foil Shieldmaiden
+ssc	50	Alice's Army Foil Mad Bomber
+ssc	50	Alice's Army Foil Nurse
+ssc	250	Alice's Army Foil Hammerman
+ssc	250	Alice's Army Foil Bowman
+ssc	250	Alice's Army Foil Lanceman
+ssc	250	Alice's Army Foil Horseman
+ssc	250	Alice's Army Foil Coward
+ssc	250	Alice's Army Foil Cleric
+ssc	2500	Alice's Army Foil Sniper
+ssc	2500	Alice's Army Foil Dervish
+ssc	2500	Alice's Army Foil Martyr
 
 # Things you can buy with store credit
 
