@@ -2774,6 +2774,7 @@ Neuromancy	Mysticality Percent: +10
 New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Newt Gets In Your Eyes	Moxie: +25
 Night Vision	Meat Drop: +30
+Ninja, Please	Critical: 3
 No Vertigo	Initiative: +20
 No Worries	Experience: +3
 # O Hai!
@@ -2813,6 +2814,7 @@ Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
 Pie in the Sky	Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2
 Piratastic	Moxie: +100
+Pisces in the Skyces	Spell Damage Percent: +150
 Pneumatic	Adventure Underwater
 Pockets of Fire	Hot Damage: +10
 Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
@@ -3068,6 +3070,7 @@ Vitamin-Maxed	Muscle Percent: +10
 # Warm Belly: Makes sushi taste better
 Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
+Wasabi With You	Weapon Damage Percent: +150
 Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
@@ -3483,6 +3486,7 @@ marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
 milk of magnesium	Effect: "Got Milk", Effect Duration: [R]
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 motivational poster	Effect: "Loco Motives", Effect Duration: 10
+natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
 neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
 oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
@@ -3569,6 +3573,7 @@ tempura air	Effect: "Pumped Stomach", Effect Duration: 20
 thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 tin magnolia	Effect: "Tin, Man", Effect Duration: 10
 tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
+tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
 tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
 true grit	Effect: "Truly Gritty", Effect Duration: 10
 tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
@@ -3582,6 +3587,7 @@ vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
+wasabi marble soda	Effect: "Ninja, PleaseWasabi With You", Effect Duration: 15
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10

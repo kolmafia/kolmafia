@@ -823,3 +823,8 @@
 822
 823
 824	So You Can Work More...	baggie.gif	d3d104d1eba82fa3f564c2967461f122
+825
+826
+827	Wasabi With You	bigeyes.gif	b1c625c28633cef38566bca4aee55a0b	use 1 wasabi marble soda
+828	Pisces in the Skyces	fish.gif	137b12bcd6da7cec342f6001b4b98958	use 1 tobiko marble soda
+829	Ninja, Please	ninjamask.gif	6a3f128310cc25ded8ccf2f6408c01ee	use 1 natto marble soda

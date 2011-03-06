@@ -225,3 +225,15 @@ bsc	100	Single Alice's Army Foil
 bsc	750	Pack of Alice's Army Foil Cards
 bsc	2500	card sleeve
 bsc	10000	Alice's Army Foil tattoo
+
+# Things you can buy with snack vouchers
+bsv	1	wasabi pocky
+bsv	1	tobiko pocky
+bsv	1	natto pocky
+bsv	1	wasabi-infused sake
+bsv	1	tobiko-infused sake
+bsv	1	natto-infused sake
+bsv	1	wasabi marble soda
+bsv	1	tobiko marble soda
+bsv	1	natto marble soda
+

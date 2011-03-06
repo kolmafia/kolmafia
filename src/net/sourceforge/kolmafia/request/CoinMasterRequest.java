@@ -59,110 +59,331 @@ public class CoinMasterRequest
 	extends GenericRequest
 {
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern SNACK_PATTERN = Pattern.compile( "whichsnack=(\\d+)" );
 	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips|CRIMBCO scrip|store credit)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
 	public static final String HIPPY = "Dimemaster";
 	public static final String FRATBOY = "Quartersmaster";
 	private static final String BIGBROTHER = "Big Brother";
-	private static final String CRIMBOCARTEL = "Crimbo Cartel";
-	private static final String CRIMBCOGIFTSHOP = "CRIMBCO Gift Shop";
 	private static final String TICKETCOUNTER = "Ticket Counter";
 	private static final String GAMESHOPPE = "Game Shoppe";
+	private static final String FREESNACKS = "Game Shoppe Snacks";
+	private static final String CRIMBOCARTEL = "Crimbo Cartel";
+	private static final String CRIMBCOGIFTSHOP = "CRIMBCO Gift Shop";
 	private static final String ALTAROFBONES = "Altar of Bones";
+
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips|CRIMBCO scrip|store credit|free snack voucher)" );
+
+	private static final Object [][] MASTERS = new Object[][]
+	{
+		{
+			BHH,
+			"lucre",
+			null,
+			"bhh.php",
+			null,
+			CoinmastersFrame.LUCRE,
+			"availableLucre",
+			CoinMasterRequest.ITEMID_PATTERN,
+			CoinMasterRequest.HOWMANY_PATTERN,
+			CoinmastersDatabase.lucreBuyPrices(),
+			null,
+		},
+		{
+			HIPPY,
+			"dime",
+			"dime",
+			"bigisland.php",
+			"You don't have any dimes",
+			null,
+			"availableDimes",
+			CoinMasterRequest.ITEMID_PATTERN,
+			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.dimeBuyPrices(),
+			CoinmastersDatabase.dimeSellPrices(),
+		},
+		{
+			FRATBOY,
+			"quarter",
+			"quarter",
+			"bigisland.php",
+			"You don't have any quarters",
+			null,
+			"availableQuarters",
+			CoinMasterRequest.ITEMID_PATTERN,
+			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.quarterBuyPrices(),
+			CoinmastersDatabase.quarterSellPrices(),
+		},
+		{
+			BIGBROTHER,
+			"sand dollar",
+			"sand dollar",
+			"monkeycastle.php",
+			"You haven't got any sand dollars",
+			CoinmastersFrame.SAND_DOLLAR,
+			"availableSandDollars",
+			CoinMasterRequest.ITEMID_PATTERN,
+			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.sandDollarBuyPrices(),
+			null,
+		},
+		{
+			TICKETCOUNTER,
+			"ticket",
+			"Game Grid redemption ticket",
+			"arcade.php",
+			"You currently have no Game Grid redemption tickets",
+			CoinmastersFrame.TICKET,
+			"availableTickets",
+			CoinMasterRequest.ITEMID_PATTERN,
+			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.ticketBuyPrices(),
+			null,
+		},
+		{
+			GAMESHOPPE,
+			"store credit",
+			"store credit",
+			"gamestore.php",
+			"You currently have no store credit",
+			null,
+			"availableStoreCredits",
+			CoinMasterRequest.ITEMID_PATTERN,
+			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.storeCreditBuyPrices(),
+			CoinmastersDatabase.storeCreditSellPrices(),
+		},
+		{
+			FREESNACKS,
+			"snack voucher",
+			"free snack voucher",
+			"gamestore.php",
+			"The teen glances at your snack voucher",
+			CoinmastersFrame.VOUCHER,
+			"availableSnackVouchers",
+			CoinMasterRequest.SNACK_PATTERN,
+			null,
+			CoinmastersDatabase.snackVoucherBuyPrices(),
+			null,
+		},
+		{
+			CRIMBOCARTEL,
+			"Crimbuck",
+			"Crimbux",
+			"crimbo09.php",
+			"You do not currently have any Crimbux",
+			CoinmastersFrame.CRIMBUCK,
+			"availableCrimbux",
+			CoinMasterRequest.ITEMID_PATTERN,
+			CoinMasterRequest.HOWMANY_PATTERN,
+			CoinmastersDatabase.crimbuckBuyPrices(),
+			null,
+		},
+		{
+			CRIMBCOGIFTSHOP,
+			"CRIMBCO scrip",
+			"CRIMBCO scrip",
+			"crimbo10.php",
+			"You don't have any CRIMBCO scrip",
+			CoinmastersFrame.CRIMBCO_SCRIP,
+			"availableCRIMBCOScrip",
+			CoinMasterRequest.ITEMID_PATTERN,
+			CoinMasterRequest.HOWMANY_PATTERN,
+			CoinmastersDatabase.scripBuyPrices(),
+			null,
+		},
+		{
+			ALTAROFBONES,
+			"bone chips",
+			"bone chips",
+			"bone_altar.php",
+			"You have no bone chips",
+			CoinmastersFrame.BONE_CHIPS,
+			"availableBoneChips",
+			CoinMasterRequest.ITEMID_PATTERN,
+			null,
+			CoinmastersDatabase.boneChipBuyPrices(),
+			null,
+		},
+	};
+
+	private static Object [] masterToRecord( final String master )
+	{
+		for ( int i = 0; i < MASTERS.length; ++i )
+		{
+			Object [] record = MASTERS[i];
+			if ( master.equals( record[0] ) )
+			{
+				return record;
+			}
+		}
+		return null;
+	}
+
+	private static Object [] tokenToRecord( final String token )
+	{
+		for ( int i = 0; i < MASTERS.length; ++i )
+		{
+			Object [] record = MASTERS[i];
+			if ( token.equals( record[1] ) )
+			{
+				return record;
+			}
+		}
+		return null;
+	}
+
+	private static String recordMaster( final Object [] record )
+	{
+		return record == null ? null : (String)record[0];
+	}
+
+	private static String recordToken( final Object [] record )
+	{
+		return record == null ? null : (String)record[1];
+	}
+
+	private static String recordTokenString( final Object [] record )
+	{
+		return record == null ? null : (String)record[2];
+	}
+
+	private static String recordURL( final Object [] record )
+	{
+		return record == null ? null : (String)record[3];
+	}
+
+	private static String recordTest( final Object [] record )
+	{
+		return record == null ? null : (String)record[4];
+	}
+
+	private static AdventureResult recordItem( final Object [] record )
+	{
+		return record == null ? null : (AdventureResult)record[5];
+	}
+
+	private static String recordProperty( final Object [] record )
+	{
+		return record == null ? null : (String)record[6];
+	}
+
+	private static Pattern recordItemPattern( final Object [] record )
+	{
+		return record == null ? null : (Pattern)record[7];
+	}
+
+	private static Matcher recordItemMatcher( final Object [] record, final String string )
+	{
+		Pattern pattern = CoinMasterRequest.recordItemPattern( record );
+		return pattern == null ? null : pattern.matcher( string );
+	}
+
+	private static Pattern recordCountPattern( final Object [] record )
+	{
+		return record == null ? null : (Pattern)record[8];
+	}
+
+	private static Matcher recordCountMatcher( final Object [] record, final String string )
+	{
+		Pattern pattern = CoinMasterRequest.recordCountPattern( record );
+		return pattern == null ? null : pattern.matcher( string );
+	}
+
+	private static Map recordBuyPrices( final Object [] record )
+	{
+		return record == null ? null : (Map)record[9];
+	}
+
+	private static Map recordSellPrices( final Object [] record )
+	{
+		return record == null ? null : (Map)record[10];
+	}
+
+	private static String tokenToMaster( final String token )
+	{
+		return CoinMasterRequest.recordMaster( CoinMasterRequest.tokenToRecord( token ) );
+	}
+
+	private static String masterToToken( final String master )
+	{
+		return CoinMasterRequest.recordToken( CoinMasterRequest.masterToRecord( master ) );
+	}
+
+	private static String masterToTokenString( final String master )
+	{
+		return CoinMasterRequest.recordTokenString( CoinMasterRequest.masterToRecord( master ) );
+	}
+
+	private static String tokenToURL( final String token )
+	{
+		return CoinMasterRequest.recordURL( CoinMasterRequest.tokenToRecord( token ) );
+	}
+
+	private static String masterToTest( final String master )
+	{
+		return CoinMasterRequest.recordTest( CoinMasterRequest.masterToRecord( master ) );
+	}
+
+	private static AdventureResult masterToItem( final String master )
+	{
+		return CoinMasterRequest.recordItem( CoinMasterRequest.masterToRecord( master ) );
+	}
 
 	private final String token;
 	private final String master;
+
 	private String action = null;
 	private int itemId = -1;
 	private int quantity = 0;
+	private String itemField = null;
+	private boolean single = false;
 
 	public CoinMasterRequest( final String token )
 	{
-		super( CoinMasterRequest.chooseURL( token ) );
+		super( CoinMasterRequest.tokenToURL( token ) );
 
 		this.token = token;
+		this.master = CoinMasterRequest.tokenToMaster( token );
 
-		if ( token.equals( "dime" ) )
+		if ( master == HIPPY )
 		{
 			this.addFormField( "place", "camp" );
 			this.addFormField( "whichcamp", "1" );
-			this.master = HIPPY;
 		}
-		else if ( token.equals( "quarter" ) )
+		else if ( master == FRATBOY )
 		{
 			this.addFormField( "place", "camp" );
 			this.addFormField( "whichcamp", "2" );
-			this.master = FRATBOY;
 		}
-		else if ( token.equals( "lucre" ) )
-		{
-			this.master = BHH;
-		}
-		else if ( token.equals( "sand dollar" ) )
-		{
-			this.master = BIGBROTHER;
-		}
-		else if ( token.equals( "Crimbuck" ) )
-		{
-			this.master = CRIMBOCARTEL;
-		}
-		else if ( token.equals( "CRIMBCO scrip" ) )
-		{
-			this.master = CRIMBCOGIFTSHOP;
-		}
-		else if ( token.equals( "ticket" ) )
-		{
-			this.master = TICKETCOUNTER;
-		}
-		else if ( token.equals( "store credit" ) )
-		{
-			this.master = GAMESHOPPE;
-		}
-		else if ( token.equals( "bone chips" ) )
-		{
-			this.master = ALTAROFBONES;
-		}
-		else
-		{
-			this.master = "Coinmaster";
-		}
+
+		this.itemField = ( this.master == FREESNACKS ) ? "whichsnack" : "whichitem";
+		this.single = ( this.master == FREESNACKS );
 	}
 
 	public CoinMasterRequest( final String token, final String action )
 	{
 		this( token );
-
 		this.action = action;
-
 		this.addFormField( "action", action );
 	}
 
 	public CoinMasterRequest( final String token, final String action, final int itemId )
 	{
-		this( token );
-
-		this.action = action;
+		this( token, action );
 		this.itemId = itemId;
-
-		this.addFormField( "action", action );
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( this.itemField, String.valueOf( itemId ) );
 	}
 
 	public CoinMasterRequest( final String token, final String action, final int itemId, final int quantity )
 	{
-		this( token );
-
-		this.action = action;
-		this.itemId = itemId;
+		this( token, action, itemId );
 		this.quantity = quantity;
-
-		this.addFormField( "action", action );
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
 		if ( master == HIPPY || master == FRATBOY || master == TICKETCOUNTER || master == GAMESHOPPE )
 		{
@@ -184,56 +405,22 @@ public class CoinMasterRequest
 		this( token, action, ar.getItemId(), ar.getCount() );
 	}
 
-	private static String chooseURL( final String token )
-	{
-		if ( token.equals( "lucre" ) )
-		{
-			return "bhh.php";
-		}
-
-		if ( token.equals( "sand dollar" ) )
-		{
-			return "monkeycastle.php";
-		}
-
-		if ( token.equals( "Crimbuck" ) )
-		{
-			return "crimbo09.php";
-		}
-
-		if ( token.equals( "CRIMBCO scrip" ) )
-		{
-			return "crimbo10.php";
-		}
-
-		if ( token.equals( "ticket" ) )
-		{
-			return "arcade.php";
-		}
-
-		if ( token.equals( "store credit" ) )
-		{
-			return "gamestore.php";
-		}
-
-		if ( token.equals( "bone chips" ) )
-		{
-			return "bone_altar.php";
-		}
-
-		if ( token.equals( "dime" ) || token.equals( "quarter" ) )
-		{
-			return "bigisland.php";
-		}
-
-		return "bogus.php";
-	}
-
 	public Object run()
 	{
-		KoLmafia.updateDisplay( "Visiting the " + master + "..." );
+		int visits = this.single ? this.quantity : 1;
+		for ( int i = 1; KoLmafia.permitsContinue() && i <= visits; ++i )
+		{
+			if ( visits > 1 )
+			{
+				KoLmafia.updateDisplay( "Visiting the " + master + " (" + i + " of " + visits + ")..." );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( "Visiting the " + master + "..." );
+			}
 
-		super.run();
+			super.run();
+		}
 
 		if ( KoLmafia.permitsContinue() )
 		{
@@ -423,13 +610,20 @@ public class CoinMasterRequest
 				CoinMasterRequest.refundSale( location, GAMESHOPPE );
 			}
 		}
+		else if ( action.equals( "buysnack" ) )
+		{
+			if ( responseText.indexOf( "You can't" ) != -1 )
+			{
+				CoinMasterRequest.refundSale( location, FREESNACKS );
+			}
+		}
 		else
 		{
 			// Some other action not associated with the cashier
 			return;
 		}
 
-		// Parse current store credit balance
+		// Parse current store credit and free snack balance
 		CoinMasterRequest.parseBalance( GAMESHOPPE, responseText );
 		CoinmastersFrame.externalUpdate();
 	}
@@ -459,47 +653,20 @@ public class CoinMasterRequest
 
 	public static void parseBalance( final String master, final String responseText )
 	{
-		String test;
-
-		if ( master == HIPPY )
-		{
-			test = "You don't have any dimes";
-		}
-		else if ( master == FRATBOY )
-		{
-			test = "You don't have any quarters";
-		}
-		else if ( master == BIGBROTHER )
-		{
-			test = "You haven't got any sand dollars";
-		}
-		else if ( master == CRIMBOCARTEL )
-		{
-			test = "You do not currently have any Crimbux";
-		}
-		else if ( master == CRIMBCOGIFTSHOP )
-		{
-			test = "You don't have any CRIMBCO scrip";
-		}
-		else if ( master == TICKETCOUNTER )
-		{
-			test = "You currently have no Game Grid redemption tickets";
-		}
-		else if ( master == GAMESHOPPE )
-		{
-			test = "You currently have no store credit";
-		}
-		else if ( master == ALTAROFBONES )
-		{
-			test = "You have no bone chips";
-		}
-		else
+		Object [] record = CoinMasterRequest.masterToRecord( master );
+		String test = CoinMasterRequest.recordTest( record );
+		if ( test == null )
 		{
 			return;
 		}
 
+		AdventureResult item = recordItem( record );
+		String property = recordProperty( record );
+
+		boolean positive = ( master == FREESNACKS );
+		boolean found = responseText.indexOf( test ) != -1;
 		String balance = "0";
-		if ( responseText.indexOf( test ) == -1 )
+		if ( positive == found )
 		{
 			Matcher matcher = CoinMasterRequest.TOKEN_PATTERN.matcher( responseText );
 			if ( !matcher.find() )
@@ -509,71 +676,16 @@ public class CoinMasterRequest
 			balance = matcher.group(1);
 		}
 
-		if ( master == HIPPY )
+		if ( property != null )
 		{
-			Preferences.setString( "availableDimes", balance );
+			Preferences.setString( property, balance );
 		}
-		else if ( master == FRATBOY )
-		{
-			Preferences.setString( "availableQuarters", balance );
-		}
-		else if ( master == BIGBROTHER )
+
+		if ( item != null )
 		{
 			// Check and adjust inventory count, just in case
 			int count = StringUtilities.parseInt( balance );
-			AdventureResult item = ItemPool.get( ItemPool.SAND_DOLLAR, count );
-			int icount = item.getCount( KoLConstants.inventory );
-			if ( count != icount )
-			{
-				item = item.getInstance( count - icount );
-				AdventureResult.addResultToList( KoLConstants.inventory, item );
-			}
-		}
-		else if ( master == CRIMBOCARTEL )
-		{
-			// Check and adjust inventory count, just in case
-			int count = StringUtilities.parseInt( balance );
-			AdventureResult item = ItemPool.get( ItemPool.CRIMBUCK, count );
-			int icount = item.getCount( KoLConstants.inventory );
-			if ( count != icount )
-			{
-				item = item.getInstance( count - icount );
-				AdventureResult.addResultToList( KoLConstants.inventory, item );
-			}
-		}
-		else if ( master == CRIMBCOGIFTSHOP )
-		{
-			// Check and adjust inventory count, just in case
-			int count = StringUtilities.parseInt( balance );
-			AdventureResult item = ItemPool.get( ItemPool.CRIMBCO_SCRIP, count );
-			int icount = item.getCount( KoLConstants.inventory );
-			if ( count != icount )
-			{
-				item = item.getInstance( count - icount );
-				AdventureResult.addResultToList( KoLConstants.inventory, item );
-			}
-		}
-		else if ( master == TICKETCOUNTER )
-		{
-			// Check and adjust inventory count, just in case
-			int count = StringUtilities.parseInt( balance );
-			AdventureResult item = ItemPool.get( ItemPool.GG_TICKET, count );
-			int icount = item.getCount( KoLConstants.inventory );
-			if ( count != icount )
-			{
-				item = item.getInstance( count - icount );
-				AdventureResult.addResultToList( KoLConstants.inventory, item );
-			}
-		}
-		else if ( master == GAMESHOPPE )
-		{
-			Preferences.setString( "availableStoreCredits", balance );
-		}
-		else if ( master == ALTAROFBONES )
-		{
-			// Check and adjust inventory count, just in case
-			int count = StringUtilities.parseInt( balance );
-			AdventureResult item = ItemPool.get( ItemPool.BONE_CHIPS, count );
+			AdventureResult current = item.getInstance( count );
 			int icount = item.getCount( KoLConstants.inventory );
 			if ( count != icount )
 			{
@@ -585,123 +697,33 @@ public class CoinMasterRequest
 
 	private static final void refundPurchase( final String urlString, final String master )
 	{
-		Matcher itemMatcher;
-		Matcher countMatcher;
-		Map prices;
-		String property;
-		String token;
+		Object [] record = CoinMasterRequest.masterToRecord( master );
 
-		if ( master == BHH )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.lucreBuyPrices();
-			property = "availableLucre";
-			token = "lucre";
-		}
-		else if ( master == BIGBROTHER )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.sandDollarBuyPrices();
-			property = "availableSandDollars";
-			token = "sand dollars";
-		}
-		else if ( master == CRIMBOCARTEL )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.crimbuckBuyPrices();
-			property = "availableCrimbux";
-			token = "Crimbuck";
-		}
-		else if ( master == CRIMBCOGIFTSHOP )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.scripBuyPrices();
-			property = "availableCRIMBCOScrip";
-			token = "CRIMBCO scrip";
-		}
-		else if ( master == TICKETCOUNTER )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.ticketBuyPrices();
-			property = "availableTickets";
-			token = "tickets";
-		}
-		else if ( master == GAMESHOPPE )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.storeCreditBuyPrices();
-			property = "availableStoreCredits";
-			token = "store credit";
-		}
-		else if ( master == ALTAROFBONES )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = null;
-			prices = CoinmastersDatabase.boneChipBuyPrices();
-			property = "availableBoneChips";
-			token = "bone chips";
-		}
-		else if ( master == HIPPY )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.dimeBuyPrices();
-			property = "availableDimes";
-			token = "dimes";
-		}
-		else if ( master == FRATBOY )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.quarterBuyPrices();
-			property = "availableQuarters";
-			token = "quarters";
-		}
-		else
+		if ( record == null )
 		{
 			return;
 		}
 
+		Matcher itemMatcher = CoinMasterRequest.recordItemMatcher( record, urlString );
+		Matcher countMatcher = CoinMasterRequest.recordCountMatcher( record, urlString );
+		Map prices = CoinMasterRequest.recordBuyPrices( record );
+
 		int cost = getPurchaseCost( itemMatcher, countMatcher, prices );
-		Preferences.increment( property, cost );
 
-		if ( master == BHH )
+		String property = CoinMasterRequest.recordProperty( record );
+		if ( property != null )
 		{
-			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( cost );
-			ResultProcessor.processResult( lucres );
-		}
-		else if ( master == BIGBROTHER )
-		{
-			AdventureResult sandDollars = CoinmastersFrame.SAND_DOLLAR.getInstance( cost );
-			ResultProcessor.processResult( sandDollars );
-		}
-		else if ( master == CRIMBOCARTEL )
-		{
-			AdventureResult crimbux = CoinmastersFrame.CRIMBUCK.getInstance( cost );
-			ResultProcessor.processResult( crimbux );
-		}
-		else if ( master == CRIMBCOGIFTSHOP )
-		{
-			AdventureResult scrip = CoinmastersFrame.CRIMBCO_SCRIP.getInstance( cost );
-			ResultProcessor.processResult( scrip );
-		}
-		else if ( master == TICKETCOUNTER )
-		{
-			AdventureResult tickets = CoinmastersFrame.TICKET.getInstance( cost );
-			ResultProcessor.processResult( tickets );
-		}
-		else if ( master == ALTAROFBONES )
-		{
-			AdventureResult bone_chips = CoinmastersFrame.BONE_CHIPS.getInstance( cost );
-			ResultProcessor.processResult( bone_chips );
+			Preferences.increment( property, cost );
 		}
 
+		AdventureResult item = CoinMasterRequest.recordItem( record );
+		if ( item != null )
+		{
+			AdventureResult current = item.getInstance( cost );
+			ResultProcessor.processResult( current );
+		}
+
+		String token = CoinMasterRequest.recordToken( record );
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + token + " to buy that." );
 	}
 
@@ -730,27 +752,17 @@ public class CoinMasterRequest
 
 	public static final void refundSale( final String urlString, final String master )
 	{
-		Map prices;
-		String property;
+		Object [] record = CoinMasterRequest.masterToRecord( master );
 
-		if ( master == HIPPY )
-		{
-			prices = CoinmastersDatabase.dimeSellPrices();
-			property = "availableDimes";
-		}
-		else if ( master == FRATBOY )
-		{
-			prices = CoinmastersDatabase.quarterSellPrices();
-			property = "availableQuarters";
-		}
-		else
+		if ( record == null )
 		{
 			return;
 		}
 
-		Matcher itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-		Matcher countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() || !countMatcher.find() )
+		Matcher itemMatcher = CoinMasterRequest.recordItemMatcher( record, urlString );
+		Matcher countMatcher = CoinMasterRequest.recordCountMatcher( record, urlString );
+
+		if ( itemMatcher == null || !itemMatcher.find() || countMatcher == null || !countMatcher.find() )
 		{
 			return;
 		}
@@ -764,10 +776,15 @@ public class CoinMasterRequest
 
 		// Remove the tokens we failed to receive
 		String name = ItemDatabase.getItemName( itemId );
+		Map prices = CoinMasterRequest.recordSellPrices( record );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 
-		Preferences.increment( property, -cost );
+		String property = CoinMasterRequest.recordProperty( record );
+		if ( property != null )
+		{
+			Preferences.increment( property, -cost );
+		}
 
 		String plural = ItemDatabase.getPluralName( itemId );
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many " + plural );
@@ -802,7 +819,7 @@ public class CoinMasterRequest
 
 		if ( urlString.startsWith( "gamestore.php" ) )
 		{
-			return registerStoreCreditRequest( urlString );
+			return registerGameStoreRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "bone_altar.php" ) )
@@ -931,9 +948,9 @@ public class CoinMasterRequest
 		return true;
 	}
 
-	private static final boolean registerStoreCreditRequest( final String urlString )
+	private static final boolean registerGameStoreRequest( final String urlString )
 	{
-		// We only claim gamestore.php?action=redeem and gamestore.php?action=tradein
+		// We only claim action=redeem, action=tradein, action=buysnack
 
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
@@ -950,6 +967,12 @@ public class CoinMasterRequest
 		if ( action.equals( "tradein" ) )
 		{
 			CoinMasterRequest.sellStuff( urlString, GAMESHOPPE );
+			return true;
+		}
+
+		if ( action.equals( "buysnack" ) )
+		{
+			CoinMasterRequest.buyStuff( urlString, FREESNACKS );
 			return true;
 		}
 
@@ -1022,88 +1045,16 @@ public class CoinMasterRequest
 
 	private static final void buyStuff( final String urlString, final String master )
 	{
-		Matcher itemMatcher;
-		Matcher countMatcher;
-		Map prices;
-		String token;
-		String property;
+		Object [] record = CoinMasterRequest.masterToRecord( master );
 
-		if ( master == BHH )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.lucreBuyPrices();
-			token = "filthy lucre";
-			property = "availableLucre";
-		}
-		else if ( master == BIGBROTHER )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.sandDollarBuyPrices();
-			token = "sand dollar";
-			property = "availableSandDollars";
-		}
-		else if ( master == CRIMBOCARTEL )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.crimbuckBuyPrices();
-			token = "Crimbuck";
-			property = "availableCrimbux";
-		}
-		else if ( master == CRIMBCOGIFTSHOP )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.HOWMANY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.scripBuyPrices();
-			token = "CRIMBCO scrip";
-			property = "availableCRIMBCOScrip";
-		}
-		else if ( master == TICKETCOUNTER )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.ticketBuyPrices();
-			token = "ticket";
-			property = "availableTickets";
-		}
-		else if ( master == GAMESHOPPE )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.storeCreditBuyPrices();
-			token = "store credit";
-			property = "availableStoreCredits";
-		}
-		else if ( master == ALTAROFBONES )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = null;
-			prices = CoinmastersDatabase.boneChipBuyPrices();
-			token = "bone chips";
-			property = "availableBoneChips";
-		}
-		else if ( master == HIPPY )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.dimeBuyPrices();
-			token = "dime";
-			property = "availableDimes";
-		}
-		else if ( master == FRATBOY )
-		{
-			itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
-			prices = CoinmastersDatabase.quarterBuyPrices();
-			token = "quarter";
-			property = "availableQuarters";
-		}
-		else
+		if ( record == null )
 		{
 			return;
 		}
+
+		Matcher itemMatcher = CoinMasterRequest.recordItemMatcher( record, urlString );
+		Matcher countMatcher = CoinMasterRequest.recordCountMatcher( record, urlString );
+		Map prices = CoinMasterRequest.recordBuyPrices( record );
 
 		if ( !itemMatcher.find() )
 		{
@@ -1124,89 +1075,55 @@ public class CoinMasterRequest
 		String name = ItemDatabase.getItemName( itemId );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
+
+		String token = CoinMasterRequest.recordToken( record );
 		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName );
 
-		if ( master == BHH )
+		AdventureResult item = CoinMasterRequest.recordItem( record );
+		if ( item != null )
 		{
-			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( -cost );
-			ResultProcessor.processResult( lucres );
-		}
-		else if ( master == BIGBROTHER )
-		{
-			AdventureResult sandDollars = CoinmastersFrame.SAND_DOLLAR.getInstance( -cost );
-			ResultProcessor.processResult( sandDollars );
-		}
-		else if ( master == CRIMBOCARTEL )
-		{
-			AdventureResult crimbux = CoinmastersFrame.CRIMBUCK.getInstance( -cost );
-			ResultProcessor.processResult( crimbux );
-		}
-		else if ( master == CRIMBCOGIFTSHOP )
-		{
-			AdventureResult scrip = CoinmastersFrame.CRIMBCO_SCRIP.getInstance( -cost );
-			ResultProcessor.processResult( scrip );
-		}
-		else if ( master == TICKETCOUNTER )
-		{
-			AdventureResult tickets = CoinmastersFrame.TICKET.getInstance( -cost );
-			ResultProcessor.processResult( tickets );
-		}
-		else if ( master == ALTAROFBONES )
-		{
-			AdventureResult boneChips = CoinmastersFrame.BONE_CHIPS.getInstance( -cost );
-			ResultProcessor.processResult( boneChips );
+			AdventureResult current = item.getInstance( -cost );
+			ResultProcessor.processResult( current );
 		}
 
-		Preferences.increment( property, -cost );
+		String property = CoinMasterRequest.recordProperty( record );
+		if ( property != null )
+		{
+			Preferences.increment( property, -cost );
+		}
+
 		CoinmastersFrame.externalUpdate();
 	}
 
 	private static final void sellStuff( final String urlString, final String master )
 	{
-		Matcher itemMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-		Matcher countMatcher = CoinMasterRequest.QUANTITY_PATTERN.matcher( urlString );
+		Object [] record = CoinMasterRequest.masterToRecord( master );
 
-		if ( !itemMatcher.find() || !countMatcher.find() )
+		if ( record == null )
 		{
 			return;
 		}
 
-		Map prices;
-		String token;
-		String property;
+		Matcher itemMatcher = CoinMasterRequest.recordItemMatcher( record, urlString );
+		Matcher countMatcher = CoinMasterRequest.recordCountMatcher( record, urlString );
 
-		if ( master == HIPPY )
-		{
-			prices = CoinmastersDatabase.dimeSellPrices();
-			token = "dime";
-			property = "availableDimes";
-		}
-		else if ( master == FRATBOY )
-		{
-			prices = CoinmastersDatabase.quarterSellPrices();
-			token = "quarter";
-			property = "availableQuarters";
-		}
-		else if ( master == GAMESHOPPE )
-		{
-			prices = CoinmastersDatabase.storeCreditSellPrices();
-			token = "store credit";
-			property = "availableStoreCredits";
-		}
-		else
+		if ( itemMatcher == null || !itemMatcher.find() || countMatcher == null || !countMatcher.find() )
 		{
 			return;
 		}
 
+		Map prices = CoinMasterRequest.recordSellPrices( record );
 		int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
 		String name = ItemDatabase.getItemName( itemId );
 		int count = StringUtilities.parseInt( countMatcher.group(1) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
+
+		String token = CoinMasterRequest.recordToken( record );
 		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
@@ -1216,7 +1133,12 @@ public class CoinMasterRequest
 		AdventureResult item = new AdventureResult( itemId, -count );
 		ResultProcessor.processResult( item );
 
-		Preferences.increment( property, cost );
+		String property = CoinMasterRequest.recordProperty( record );
+		if ( property != null )
+		{
+			Preferences.increment( property, cost );
+		}
+
 		CoinmastersFrame.externalUpdate();
 	}
 }
