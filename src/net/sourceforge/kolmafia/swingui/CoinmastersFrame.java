@@ -79,9 +79,11 @@ public class CoinmastersFrame
 {
 	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, -1 );
 	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, -1 );
-	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, -1 );
 	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, -1 );
+	public static final AdventureResult VOUCHER = ItemPool.get( ItemPool.SNACK_VOUCHER, -1 );
+
 	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, -1 );
+	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, -1 );
 	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, -1 );
 
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
@@ -99,21 +101,25 @@ public class CoinmastersFrame
 	private static int quarters = 0;
 	private static int lucre = 0;
 	private static int sandDollars = 0;
-	private static int crimbux = 0;
 	private static int tickets = 0;
-	private static int boneChips = 0;
-	private static int scrip = 0;
 	private static int storeCredits = 0;
+	private static int snackVouchers = 0;
+
+	private static int boneChips = 0;
+	private static int crimbux = 0;
+	private static int scrip = 0;
 
 	private CoinmasterPanel dimePanel = null;
 	private CoinmasterPanel quarterPanel = null;
 	private CoinmasterPanel lucrePanel = null;
 	private CoinmasterPanel sandDollarPanel = null;
 	private CoinmasterPanel ticketPanel = null;
+	private CoinmasterPanel storeCreditPanel = null;
+	private CoinmasterPanel snackVoucherPanel = null;
+
 	private CoinmasterPanel boneChipPanel = null;
 	private CoinmasterPanel crimbuckPanel = null;
 	private CoinmasterPanel scripPanel = null;
-	private CoinmasterPanel storeCreditPanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -149,6 +155,11 @@ public class CoinmastersFrame
 		storeCreditPanel = new GameShoppePanel();
 		panel.add( storeCreditPanel );
 		this.tabs.add( "Game Shoppe", panel );
+
+		panel = new JPanel( new BorderLayout() );
+		snackVoucherPanel = new SnackVoucherPanel();
+		panel.add( snackVoucherPanel );
+		this.tabs.add( "Game Shoppe Snacks", panel );
 
 		// panel = new JPanel( new BorderLayout() );
 		// boneChipPanel = new AltarOfBonesPanel();
@@ -201,15 +212,18 @@ public class CoinmastersFrame
 		Preferences.setInteger( "availableLucre", lucre );
 		sandDollars = SAND_DOLLAR.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableSandDollars", sandDollars );
-		crimbux = CRIMBUCK.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableCrimbux", crimbux );
 		tickets = TICKET.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableTickets", tickets );
+		storeCredits = Preferences.getInteger( "availableStoreCredits" );
+		snackVouchers = VOUCHER.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableSnackVouchers", snackVouchers );
+
+		crimbux = CRIMBUCK.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableCrimbux", crimbux );
 		boneChips = BONE_CHIPS.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableBoneChips", boneChips );
 		scrip = CRIMBCO_SCRIP.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableCRIMBCOScrip", scrip );
-		storeCredits = Preferences.getInteger( "availableStoreCredits" );
 
 		INSTANCE.update();
 	}
@@ -222,6 +236,7 @@ public class CoinmastersFrame
 		sandDollarPanel.update();
 		ticketPanel.update();
 		storeCreditPanel.update();
+		snackVoucherPanel.update();
 		// boneChipPanel.update();
 		// crimbuckPanel.update();
 		// scripPanel.update();
@@ -473,6 +488,45 @@ public class CoinmastersFrame
 				null );
 			buyAction = "redeem";
 			sellAction = "tradein";
+		}
+
+		public void update()
+		{
+		}
+
+		public boolean enabled()
+		{
+			return true;
+		}
+
+		public boolean accessible()
+		{
+			return true;
+		}
+
+		public void equip()
+		{
+		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
+		}
+	}
+
+	private class SnackVoucherPanel
+		extends CoinmasterPanel
+	{
+		public SnackVoucherPanel()
+		{
+			super( CoinmastersDatabase.getSnackVoucherItems(),
+			       null,
+			       CoinmastersDatabase.snackVoucherBuyPrices(),
+			       "availableSnackVouchers",
+			       "snack voucher",
+			       "Snacks",
+				null );
+			buyAction = "buysnack";
 		}
 
 		public void update()

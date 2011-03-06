@@ -80,6 +80,9 @@ public class CoinmastersDatabase
 	private static final Map storeCreditSellPriceByName = new TreeMap();
 	private static final Map storeCreditBuyPriceByName = new TreeMap();
 
+	private static final LockableListModel buyForSnackVouchers = new LockableListModel();
+	private static final Map snackVoucherBuyPriceByName = new TreeMap();
+
 	private static final Map lighthouseItems = new TreeMap();
 
 	static
@@ -191,6 +194,13 @@ public class CoinmastersDatabase
 					AdventureResult item = new AdventureResult( name, 0, false );
 					buyForStoreCredit.add( item );
 					storeCreditBuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "bsv" ) )
+				{
+					// Something we buy with snack vouchers
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForSnackVouchers.add( item );
+					snackVoucherBuyPriceByName.put( name, iprice );
 				}
 			}
 		}
@@ -351,6 +361,16 @@ public class CoinmastersDatabase
 	public static final Map storeCreditBuyPrices()
 	{
 		return storeCreditBuyPriceByName;
+	}
+
+	public static final LockableListModel getSnackVoucherItems()
+	{
+		return buyForSnackVouchers;
+	}
+
+	public static final Map snackVoucherBuyPrices()
+	{
+		return snackVoucherBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()
