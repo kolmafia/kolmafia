@@ -727,6 +727,7 @@ public class DailyDeedsPanel
 		public StillsDaily()
 		{
 			this.addListener( "(stills)" );
+			this.addListener( "kingLiberated" );
 			this.addLabel( "" );
 		}
 
@@ -953,13 +954,18 @@ public class DailyDeedsPanel
 	{
 		public PhotocopyDaily()
 		{
+			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_photocopyUsed" );
 			this.addListener( "photocopyMonster" );
+			this.addListener( "kingLiberated" );
 			this.addLabel( "" );
 		}
 
 		public void update()
 		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			String text = Preferences.getBoolean( "_photocopyUsed" ) ?
 				"photocopied monster used"
 				: "photocopied monster not used yet";
@@ -969,6 +975,7 @@ public class DailyDeedsPanel
 				text = text + ", now " + monster;
 			}
 			this.setText( text );
+			this.setShown( (!bm || kf) && have );
 		}
 	}
 
