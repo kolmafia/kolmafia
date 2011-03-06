@@ -2466,9 +2466,15 @@ public abstract class KoLmafia
 		{
 			RequestLogger.printLine();
 
-			if ( KoLConstants.conditions.isEmpty() || KoLConstants.conditions.contains( ItemPool.get( ItemPool.STEAMING_EVIL, 1 ) ) )
+			AdventureResult autoStop = ItemPool.get( ItemPool.STEAMING_EVIL, -1 );
+			
+			if ( KoLConstants.conditions.contains( autoStop ) )
 			{
-				KoLConstants.conditions.clear();
+				AdventureResult.addResultToList( KoLConstants.conditions, autoStop );
+			}
+			
+			if ( KoLConstants.conditions.isEmpty() )
+			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, encounterName );
 				RequestLogger.printLine();
 			}
