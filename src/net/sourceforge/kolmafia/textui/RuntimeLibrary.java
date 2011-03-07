@@ -119,6 +119,7 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
@@ -2101,8 +2102,7 @@ public abstract class RuntimeLibrary
 
 	public static Value is_goal( final Value item )
 	{
-		return new Value( KoLConstants.conditions.contains(
-			new AdventureResult( item.intValue(), 0 ) ) );
+		return new Value( GoalManager.hasItemGoal( item.intValue() ) );
 	}
 
 	public static Value buy( final Value countValue, final Value item )

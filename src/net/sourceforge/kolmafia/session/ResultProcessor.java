@@ -251,9 +251,9 @@ public class ResultProcessor
 	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List data )
 	{
 		String lastToken = parsedResults.nextToken();
-		
+
 		// Skip bogus lead necklace drops from the Baby Bugged Bugbear
-		
+
 		if ( lastToken.equals( " Parse error (function not found) in arena.php line 2225" ) )
 		{
 			parsedResults.nextToken();
@@ -484,7 +484,7 @@ public class ResultProcessor
 
 		return ResultProcessor.processStatGain( lastToken, data );
 	}
-	
+
 	private static boolean possibleMeatDrop( int drop, int bonus )
 	{
 		float rate = (KoLCharacter.getMeatDropPercentAdjustment() + 100 + bonus) / 100.0f;
@@ -526,7 +526,7 @@ public class ResultProcessor
 				RequestLogger.printLine( buf.toString() );
 			}
 		}
-		
+
 		if ( won && nunnery )
 		{
 			AdventureResult result = ResultProcessor.parseResult( text );
@@ -769,14 +769,7 @@ public class ResultProcessor
 			}
 		}
 
-		int conditionIndex = KoLConstants.conditions.indexOf( result );
-		if ( conditionIndex != -1 )
-		{
-			// Process the adventure result through the conditions
-			// list, removing it if the condition is satisfied.
-
-			ResultProcessor.processCondition( result, resultName, conditionIndex );
-		}
+		GoalManager.updateProgress( result );
 
 		return shouldRefresh;
 	}
@@ -813,50 +806,6 @@ public class ResultProcessor
 		if ( amount != 0 )
 		{
 			ResultProcessor.processResult( new AdventureResult( AdventureResult.ADV, -amount ) );
-		}
-	}
-
-	private static void processCondition( AdventureResult result, String resultName, int conditionIndex )
-	{
-		if ( resultName.equals( AdventureResult.SUBSTATS ) )
-		{
-			// If the condition is a substat condition, then zero out the
-			// appropriate count and remove if all counts dropped to zero.
-
-			for ( int i = 0; i < 3; ++i )
-			{
-				if ( AdventureResult.CONDITION_SUBSTATS[ i ] == 0 )
-				{
-					continue;
-				}
-
-				AdventureResult.CONDITION_SUBSTATS[ i ] =
-					Math.max( 0, AdventureResult.CONDITION_SUBSTATS[ i ] - result.getCount( i ) );
-			}
-
-			if ( AdventureResult.CONDITION_SUBSTATS_RESULT.getCount() == 0 )
-			{
-				KoLConstants.conditions.remove( conditionIndex );
-			}
-			else
-			{
-				KoLConstants.conditions.fireContentsChanged(
-					KoLConstants.conditions, conditionIndex, conditionIndex );
-			}
-		}
-		else
-		{
-			AdventureResult condition = (AdventureResult) KoLConstants.conditions.get( conditionIndex );
-			condition = condition.getInstance( condition.getCount() - result.getCount() );
-
-			if ( condition.getCount() <= 0 )
-			{
-				KoLConstants.conditions.remove( conditionIndex );
-			}
-			else
-			{
-				KoLConstants.conditions.set( conditionIndex, condition );
-			}
 		}
 	}
 

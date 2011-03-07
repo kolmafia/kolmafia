@@ -74,7 +74,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
-import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
@@ -100,7 +99,6 @@ import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
@@ -113,15 +111,16 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MailManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
-import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -131,10 +130,9 @@ import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.RelayLoader;
+import net.sourceforge.kolmafia.webui.RelayServer;
 
 public abstract class KoLmafia
 {
@@ -1254,7 +1252,7 @@ public abstract class KoLmafia
 			return false;
 		}
 
-		if ( KoLConstants.conditions.isEmpty() )
+		if ( !GoalManager.hasGoals() )
 		{
 			return true;
 		}
@@ -1293,7 +1291,7 @@ public abstract class KoLmafia
 		// If the conditions existed and have been satisfied,
 		// then you should stop.
 
-		return KoLConstants.conditions.isEmpty();
+		return !GoalManager.hasGoals();
 	}
 
 	public static void abortAfter( String msg )
@@ -1309,12 +1307,15 @@ public abstract class KoLmafia
 		// process (whichever is applicable).
 
 		boolean isAdventure = request instanceof KoLAdventure;
-		AdventureResult[] items = new AdventureResult[ KoLConstants.conditions.size() ];
-		CreateItemRequest[] creatables = new CreateItemRequest[ KoLConstants.conditions.size() ];
 
-		for ( int i = 0; i < KoLConstants.conditions.size(); ++i )
+		List goals = new ArrayList( GoalManager.getGoals() );
+
+		AdventureResult[] items = new AdventureResult[ goals.size() ];
+		CreateItemRequest[] creatables = new CreateItemRequest[ goals.size() ];
+
+		for ( int i = 0; i < goals.size(); ++i )
 		{
-			items[ i ] = (AdventureResult) KoLConstants.conditions.get( i );
+			items[ i ] = (AdventureResult) goals.get( i );
 			creatables[ i ] = CreateItemRequest.getInstance( items[ i ] );
 		}
 
@@ -1365,7 +1366,7 @@ public abstract class KoLmafia
 
 		if ( KoLmafia.permitsContinue() && RecoveryManager.isRecoveryPossible() )
 		{
-			if ( isAdventure && !KoLConstants.conditions.isEmpty() )
+			if ( isAdventure && GoalManager.hasGoals() )
 			{
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE,
@@ -1759,7 +1760,7 @@ public abstract class KoLmafia
 	// 11  12  13  14  15
 	//  v   ^   v   ^   v
 	// 16  17  18->19  20
-	//  v               
+	//  v
 	// 21->22->23->24->25
 
 	private static Integer [] searchOrder = {
@@ -2464,26 +2465,7 @@ public abstract class KoLmafia
 
 		if ( encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH || encounterType == KoLmafia.BADMOON )
 		{
-			RequestLogger.printLine();
-
-			AdventureResult autoStop = ItemPool.get( ItemPool.STEAMING_EVIL, -1 );
-			
-			if ( KoLConstants.conditions.contains( autoStop ) )
-			{
-				AdventureResult.addResultToList( KoLConstants.conditions, autoStop );
-			}
-			
-			if ( KoLConstants.conditions.isEmpty() )
-			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, encounterName );
-				RequestLogger.printLine();
-			}
-			else
-			{
-				KoLmafia.updateDisplay( encounterName );
-				KoLmafia.updateDisplay( "There are still unsatisfied conditions." );
-			}
-
+			GoalManager.checkAutoStop( encounterName );
 			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}

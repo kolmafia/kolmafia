@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -481,7 +482,7 @@ public class RequestEditorKit
 
 			StringUtilities.insertBefore(
 				buffer, "</head>", "<link rel=\"stylesheet\" href=\"/basics.css\" />" );
-			
+
 			if ( location.indexOf( "?" ) == -1 && RequestEditorKit.maps.contains( location ) )
 			{
 				buffer.insert(
@@ -570,7 +571,7 @@ public class RequestEditorKit
 				note.append( 's' );
 			}
 			note.append( ")</b>" );
-			
+
 			StringUtilities.singleStringReplace( buffer,
 				"Arcade</b>", note.toString() );
 		}
@@ -960,7 +961,7 @@ public class RequestEditorKit
 
 		// Change stone sphere names in item dropdown
 		RequestEditorKit.changeSphereNames( buffer );
-		
+
 		// Hilight He-Boulder eye color messages
 		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HE_BOULDER )
 		{
@@ -973,20 +974,20 @@ public class RequestEditorKit
 		}
 
 		RequestEditorKit.insertRoundNumbers( buffer );
-		
+
 		if ( Preferences.getBoolean( "macroLens" ) )
 		{
 			StringUtilities.singleStringReplace( buffer,
 				"<input type=\"hidden\" name=\"macrotext\" value=\"\">",
 				"<tr><td><textarea name=\"macrotext\" cols=25 rows=10 placeholder=\"type macro here\"></textarea><script language=JavaScript src=\"/macrohelper.js\"></script></td></tr>" );
 		}
-		
+
 		if ( buffer.indexOf( "but not before you grab one of its teeth" ) != -1 )
 		{
 			StringUtilities.singleStringReplace( buffer, "necklace",
 				"<a href=\"javascript:void(item('222160625'))\">necklace</a>" );
 		}
-		
+
 		int runaway = FightRequest.freeRunawayChance();
 		if ( runaway > 0 )
 		{
@@ -1254,9 +1255,9 @@ public class RequestEditorKit
 		buffer.insert( insertionPointForData, monsterData.toString() );
 
 		// Insert color for monster element
-		
+
 		int monsterElement = monster.getDefenseElement();
-		
+
 		if ( !haiku && monsterElement != MonsterDatabase.NONE )
 		{
 			int insertionPointForElement = nameIndex + 6;
@@ -1532,7 +1533,9 @@ public class RequestEditorKit
 
 		AdventureFrame.updateSelectedAdventure(
 			AdventureDatabase.getAdventure( "Haunted Wine Cellar (automatic)" ) );
-		KoLConstants.conditions.clear();
+
+		GoalManager.clearGoals();
+
 		int wines[] = new int[ 3 ];
 
 		for ( int i = 2271; i <= 2276; ++i )
@@ -1546,8 +1549,9 @@ public class RequestEditorKit
 					AdventureResult wine = ItemPool.get( i, 1 );
 					if ( !KoLConstants.inventory.contains( wine ) )
 					{
-						AdventureResult.addResultToList( KoLConstants.conditions, wine );
+						GoalManager.addGoal( wine );
 					}
+
 					break;
 				}
 			}
@@ -1561,7 +1565,7 @@ public class RequestEditorKit
 			}
 
 			String name = ItemDatabase.getItemName( wines[ i ] );
-			StringUtilities.globalStringReplace( buffer, name, 
+			StringUtilities.globalStringReplace( buffer, name,
 				RequestEditorKit.ORDINALS[ i ] + name );
 		}
 	}
@@ -1753,7 +1757,7 @@ public class RequestEditorKit
 			}
 		}
 	}
-	
+
 	private static final void insertRoundNumbers( final StringBuffer buffer )
 	{
 		Matcher m = FightRequest.ONTURN_PATTERN.matcher( buffer );
@@ -1860,7 +1864,7 @@ public class RequestEditorKit
 					buffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
 					buffer.append( ItemDatabase.getDescriptionId( result.getItemId() ) );
 					buffer.append( "');\">" );
-					
+
 					int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
 					available += result.getCount( KoLConstants.inventory );
 
@@ -2186,7 +2190,7 @@ public class RequestEditorKit
 			// of the frame gets reparented into the main tabs.
 			// Try 2: enumerate containers to find the RequestPane, enumerate
 			// Frames to find the RequestFrame that owns it.
-			
+
 			Container c = this.getContainer();
 			while ( c != null && !(c instanceof RequestPane) )
 			{
@@ -2254,7 +2258,7 @@ public class RequestEditorKit
 			{
 				break;
 			}
-			buffer.delete( index, index + 9 );  
+			buffer.delete( index, index + 9 );
 		}
 
 		// Select desired item

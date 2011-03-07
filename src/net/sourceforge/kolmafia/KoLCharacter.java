@@ -41,19 +41,16 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.EventManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
-import net.sourceforge.kolmafia.session.VolcanoMazeManager;
-import net.sourceforge.kolmafia.session.WumpusManager;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
-
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
@@ -67,23 +64,21 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
-import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
-import net.sourceforge.kolmafia.preferences.Preferences;
-
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EventManager;
+import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VioletFogManager;
-
+import net.sourceforge.kolmafia.session.VolcanoMazeManager;
+import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 
 /**
@@ -605,7 +600,7 @@ public abstract class KoLCharacter
 		// Clear some of the standard lists so they don't
 		// carry over from player to player.
 
-		KoLConstants.conditions.clear();
+		GoalManager.clearGoals();
 		EventManager.clearEventHistory();
 		KoLConstants.recentEffects.clear();
 		KoLConstants.activeEffects.clear();

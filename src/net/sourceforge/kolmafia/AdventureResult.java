@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -55,8 +56,6 @@ public class AdventureResult
 {
 	public static final int[] SESSION_SUBSTATS = new int[ 3 ];
 	public static final int[] SESSION_FULLSTATS = new int[ 3 ];
-	public static final int[] CONDITION_SUBSTATS = new int[ 3 ];
-
 	public static final String[] STAT_NAMES = { "muscle", "mysticality", "moxie" };
 
 	private int itemId;
@@ -78,6 +77,7 @@ public class AdventureResult
 	public static final String MP = "MP";
 	public static final String ADV = "Adv";
 	public static final String CHOICE = "Choice";
+	public static final String AUTOSTOP = "Autostop";
 	public static final String DRUNK = "Drunk";
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Substats";
@@ -118,8 +118,6 @@ public class AdventureResult
 		new AdventureResult( AdventureResult.SUBSTATS, AdventureResult.SESSION_SUBSTATS );
 	public static final AdventureResult SESSION_FULLSTATS_RESULT =
 		new AdventureResult( AdventureResult.FULLSTATS, AdventureResult.SESSION_FULLSTATS );
-	public static final AdventureResult CONDITION_SUBSTATS_RESULT =
-		new AdventureResult( AdventureResult.SUBSTATS, AdventureResult.CONDITION_SUBSTATS );
 
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name. The amount of gain will default to zero.
@@ -181,7 +179,8 @@ public class AdventureResult
 	{
 		if ( name.equals( AdventureResult.ADV ) ||
 			name.equals( AdventureResult.CHOICE ) ||
-			name.equals( AdventureResult.PULL ))
+			name.equals( AdventureResult.AUTOSTOP ) ||
+			name.equals( AdventureResult.PULL ) )
 		{
 			return AdventureResult.ADV_PRIORITY;
 		}
@@ -306,7 +305,7 @@ public class AdventureResult
 		item.itemId = setItemId ? ItemDatabase.getItemId( name, 1, false ) : -1;
 		return item;
 	}
-	
+
 	public static final AdventureResult tallyItem( final String name, final int count, final boolean setItemId )
 	{
 		AdventureResult item = AdventureResult.tallyItem( name, setItemId );
@@ -612,6 +611,11 @@ public class AdventureResult
 			return " Choices Left: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
 		}
 
+		if ( this.name.equals( AdventureResult.AUTOSTOP ) )
+		{
+			return " Autostops Left: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+		}
+
 		if ( this.name.equals( AdventureResult.PULL ) )
 		{
 			return " Budgeted Pulls: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
@@ -644,7 +648,7 @@ public class AdventureResult
 					name = name + " [" + monster + "]";
 				}
 			}
-			else 
+			else
 			{
 				String skillName = UneffectRequest.effectToSkill( name );
 				if ( SkillDatabase.contains( skillName ) )
@@ -660,7 +664,7 @@ public class AdventureResult
 
 		int count = this.count[ 0 ];
 
-		return count == 1 ? name : 
+		return count == 1 ? name :
 			count > Integer.MAX_VALUE/2 ? name + " (\u221E)" :
 			name + " (" + KoLConstants.COMMA_FORMAT.format( count ) + ")";
 	}
@@ -675,6 +679,11 @@ public class AdventureResult
 		if ( this.name.equals( AdventureResult.ADV ) || this.name.equals( AdventureResult.CHOICE ) )
 		{
 			return this.count[ 0 ] + " choiceadv";
+		}
+
+		if ( this.name.equals( AdventureResult.AUTOSTOP ) )
+		{
+			return this.count[ 0 ] + " autostop";
 		}
 
 		if ( this.name.equals( AdventureResult.MEAT ) )
@@ -770,7 +779,7 @@ public class AdventureResult
 		}
 
 		AdventureResult ar = (AdventureResult) o;
-		
+
 		int priorityDifference = this.priority - ar.priority;
 		if ( priorityDifference != 0 )
 		{
@@ -843,7 +852,7 @@ public class AdventureResult
 		// These don't involve any addition -- ignore this entirely
 		// for now.
 
-		if ( result == AdventureResult.SESSION_SUBSTATS_RESULT || result == AdventureResult.SESSION_FULLSTATS_RESULT || result == AdventureResult.CONDITION_SUBSTATS_RESULT )
+		if ( result == AdventureResult.SESSION_SUBSTATS_RESULT || result == AdventureResult.SESSION_FULLSTATS_RESULT || result == GoalManager.GOAL_SUBSTATS )
 		{
 			return;
 		}
@@ -899,7 +908,7 @@ public class AdventureResult
 			return;
 		}
 		else if ( sumResult.getCount() == 0 && ( sumResult.isStatusEffect() || sumResult.getName().equals(
-			AdventureResult.CHOICE ) ) )
+			AdventureResult.CHOICE ) || sumResult.getName().equals( AdventureResult.AUTOSTOP ) ) )
 		{
 			sourceList.remove( index );
 			return;
@@ -1030,7 +1039,7 @@ public class AdventureResult
 			{
 				return this.name;
 			}
-	
+
 			return "potion of " + effect;
 		}
 		if ( this.itemId >= ItemPool.VIAL_OF_RED_SLIME && this.itemId <= ItemPool.VIAL_OF_PURPLE_SLIME )
@@ -1040,10 +1049,10 @@ public class AdventureResult
 			{
 				return this.name;
 			}
-	
+
 			return "vial of slime: " + effect;
 		}
-		
+
 		return this.name;
 	}
 
@@ -1073,7 +1082,7 @@ public class AdventureResult
 
 		return ItemDatabase.getItemName( itemId );
 	}
-	
+
 	public static class WildcardResult
 	extends AdventureResult
 	{
@@ -1081,14 +1090,14 @@ public class AdventureResult
 		// are not meaningfully comparable other than via equals().
 		private String match;
 		private boolean negated;
-		
+
 		public WildcardResult( String name, int count, String match, boolean negated )
 		{
 			super( AdventureResult.ITEM_PRIORITY, name, count );
 			this.match = match.toLowerCase();
 			this.negated = negated;
 		}
-		
+
 		public AdventureResult getInstance( int count )
 		{
 			return new WildcardResult( this.getName(), count, this.match, this.negated );
@@ -1100,11 +1109,11 @@ public class AdventureResult
 			{
 				return false;
 			}
-	
+
 			AdventureResult ar = (AdventureResult) o;
 			return (ar.getName().toLowerCase().indexOf( this.match ) != -1) ^ this.negated;
 		}
-		
+
 		public int getCount( final List list )
 		{
 			int count = 0;
@@ -1119,18 +1128,18 @@ public class AdventureResult
 			}
 			return count;
 		}
-		
+
 		public void normalizeItemName()
 		{	// Overridden to avoid "unknown item found" messages.
 		}
-		
+
 		public static WildcardResult getInstance( String text )
 		{
 			if ( text.indexOf( "any" ) == -1 )
 			{
 				return null;
 			}
-			
+
 			String[] pieces = text.split( " ", 2 );
 			int count = StringUtilities.isNumeric( pieces[ 0 ] ) ?
 				StringUtilities.parseInt( pieces[ 0 ] ) : 0;
@@ -1142,7 +1151,7 @@ public class AdventureResult
 			{
 				count = 1;
 			}
-			
+
 			if ( text.startsWith( "any " ) )
 			{
 				return new WildcardResult( text, count, text.substring( 4 ), false );

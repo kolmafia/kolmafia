@@ -46,7 +46,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
@@ -91,6 +93,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -221,7 +224,7 @@ public class AdventureSelectPanel
 			KoLCharacter.getBattleSkillNames().setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 		}
 
-		KoLConstants.conditions.clear();
+		GoalManager.clearGoals();
 
 		String pref = Preferences.getString( "lastAdventure" );
 		KoLAdventure location = AdventureDatabase.getAdventure( pref );
@@ -244,7 +247,7 @@ public class AdventureSelectPanel
 			return;
 		}
 
-		if ( !KoLConstants.conditions.isEmpty() )
+		if ( GoalManager.hasGoals() )
 		{
 			return;
 		}
@@ -639,7 +642,7 @@ public class AdventureSelectPanel
 
 	private boolean isUpdating()
 	{
-		return KoLmafia.isAdventuring() && KoLConstants.conditions.isEmpty() || this.isUpdating;
+		return KoLmafia.isAdventuring() && !GoalManager.hasGoals() || this.isUpdating;
 	}
 
 	private class ConditionChangeListener
@@ -647,7 +650,7 @@ public class AdventureSelectPanel
 	{
 		public ConditionChangeListener()
 		{
-			KoLConstants.conditions.addListDataListener( this );
+			GoalManager.getGoals().addListDataListener( this );
 		}
 
 		public void valueChanged( final ListSelectionEvent e )
@@ -657,7 +660,7 @@ public class AdventureSelectPanel
 				return;
 			}
 
-			KoLConstants.conditions.clear();
+			GoalManager.clearGoals();
 			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
@@ -739,22 +742,25 @@ public class AdventureSelectPanel
 			String text = ( (String) AdventureSelectPanel.this.conditionField.getText() );
 			String conditionList = text == null ? "" : text.trim().toLowerCase();
 
-			Object stats = null;
-			int substatIndex = KoLConstants.conditions.indexOf( KoLConstants.tally.get( 2 ) );
+			AdventureResult stats = null;
 
-			if ( substatIndex != 0 )
-			{
-				stats = KoLConstants.conditions.get( substatIndex );
-			}
+			List previousGoals = new ArrayList( GoalManager.getGoals() );
+			GoalManager.clearGoals();
 
-			if ( conditionsActive )
+			for ( int i = 0; i < previousGoals.size(); ++i )
 			{
-				KoLConstants.conditions.clear();
+				AdventureResult previousGoal = (AdventureResult) previousGoals.get( i );
+
+				if ( previousGoal.getName().equals( AdventureResult.SUBSTATS ) )
+				{
+					stats = previousGoal;
+					break;
+				}
 			}
 
 			if ( stats != null )
 			{
-				KoLConstants.conditions.add( stats );
+				GoalManager.addGoal( stats );
 			}
 
 			boolean shouldAdventure = true;
@@ -795,7 +801,7 @@ public class AdventureSelectPanel
 				return false;
 			}
 
-			KoLConstants.conditions.clear();
+			GoalManager.clearGoals();
 
 			String[] splitConditions = conditionList.split( "\\s*,\\s*" );
 
@@ -840,7 +846,7 @@ public class AdventureSelectPanel
 				}
 			}
 
-			if ( KoLConstants.conditions.isEmpty() )
+			if ( !GoalManager.hasGoals() )
 			{
 				KoLmafia.updateDisplay( "All conditions already satisfied." );
 				return false;
@@ -857,25 +863,9 @@ public class AdventureSelectPanel
 
 	public void fillCurrentConditions()
 	{
-		StringBuffer conditionString = new StringBuffer();
+		String text = GoalManager.getGoalString();
 
-		for ( int i = 0; i < KoLConstants.conditions.getSize(); ++i )
-		{
-			if ( i > 0 )
-			{
-				conditionString.append( ", " );
-			}
-
-			conditionString.append( ( (AdventureResult) KoLConstants.conditions.getElementAt( i ) ).toConditionString() );
-		}
-
-		String text;
-
-		if ( conditionString.length() > 0 )
-		{
-			text = conditionString.toString();
-		}
-		else
+		if ( text.length() == 0 )
 		{
 			KoLAdventure location = (KoLAdventure) this.locationSelect.getSelectedValue();
 			AdventureDatabase.getDefaultConditionsList( location, this.locationConditions );
@@ -902,7 +892,7 @@ public class AdventureSelectPanel
 		resultPanel.add( new SafetyField(), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Conditions Left" );
-		resultPanel.add( new GenericScrollPane( KoLConstants.conditions, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( GoalManager.getGoals(), 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Available Skills" );
 		resultPanel.add( new GenericScrollPane( KoLConstants.availableSkills, 4 ), String.valueOf( cardCount++ ) );

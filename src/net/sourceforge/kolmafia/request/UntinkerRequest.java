@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -48,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -256,14 +258,8 @@ public class UntinkerRequest
 		// Okay, so they don't have one yet. Complete the
 		// untinkerer's quest automatically.
 
-		ArrayList temporary = new ArrayList();
-		temporary.addAll( KoLConstants.conditions );
-
-		KoLConstants.conditions.clear();
-		KoLConstants.conditions.add( UntinkerRequest.SCREWDRIVER.getNegation() );
-
-		// Make sure that paco has been visited, or else
-		// the knoll won't be available.
+		KoLAdventure sideTripLocation = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=18" );
+		AdventureResult sideTripItem = UntinkerRequest.SCREWDRIVER.getNegation();
 
 		String action = Preferences.getString( "battleAction" );
 		if ( action.indexOf( "dictionary" ) != -1 )
@@ -271,22 +267,15 @@ public class UntinkerRequest
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=attack" );
 		}
 
-		StaticEntity.getClient().makeRequest(
-			AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=18" ), KoLCharacter.getAdventuresLeft() );
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=" + action );
-
-		if ( !KoLConstants.conditions.isEmpty() )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unable to complete untinkerer's quest." );
-		}
-
-		KoLConstants.conditions.clear();
-		KoLConstants.conditions.addAll( temporary );
+		GoalManager.makeSideTrip( sideTripLocation, sideTripItem );
 
 		if ( KoLmafia.refusesContinue() )
 		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=" + action );
 			return false;
 		}
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=" + action );
 
 		// You should now have a screwdriver in your inventory.
 		// Go ahead and rerun the untinker request and you will

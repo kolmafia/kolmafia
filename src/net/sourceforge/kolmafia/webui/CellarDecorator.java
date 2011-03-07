@@ -38,13 +38,9 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.SendMailRequest;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.session.GoalManager;
 
 public abstract class CellarDecorator
 {
@@ -66,7 +62,7 @@ public abstract class CellarDecorator
 	private static final int B = PINOT | ZINF | MARS;
 	private static final int C = MARS | MUSC | MERL;
 	private static final int D = PORT | ZINF | MUSC;
-	
+
 	private static final int PAT( final int a, final int b, final int c, final int d )
 	{
 		return a | (b << 1) | (c << 2) | (d << 3);
@@ -89,7 +85,7 @@ public abstract class CellarDecorator
 		PAT( D, B, A, C ) /* 20 */, PAT( D, B, C, A ) /* 21 */,
 		PAT( D, C, A, B ) /* 22 */, PAT( D, C, B, A ) /* 23 */,
 	};
-	
+
 	private static final Pattern TABLEROW = Pattern.compile(
 		"<tr.*?(</tr>|<tr|<table|</table>)" );
 	private static final Pattern THREECELLS = Pattern.compile(
@@ -101,10 +97,10 @@ public abstract class CellarDecorator
 		"average", "vinegar", "spooky", "great", "glassy", "bad"
 	};
 	private static final AdventureResult[] DUSTYWINES = new AdventureResult[] {
-		ItemPool.get( 2271, 1 ), ItemPool.get( 2272, 1 ), ItemPool.get( 2273, 1 ), 
+		ItemPool.get( 2271, 1 ), ItemPool.get( 2272, 1 ), ItemPool.get( 2273, 1 ),
 		ItemPool.get( 2274, 1 ), ItemPool.get( 2275, 1 ), ItemPool.get( 2276, 1 )
 	};
-	
+
 	private static final int[] compute()
 	{
 		int layout = Preferences.getInteger( "cellarLayout" );
@@ -137,13 +133,13 @@ public abstract class CellarDecorator
 			Preferences.setInteger( "cellarLayout", layout );
 		}
 		wines[4] = nMatches;
-		return wines;	
+		return wines;
 	}
-		
+
 	public static final void decorate( final StringBuffer buffer )
 	{
 		int[] wines = compute();
-		
+
 		String[] names = (String[]) SHORTNAMES.clone();
 		for ( int i = 0; i < 6; ++i )
 		{
@@ -184,11 +180,11 @@ public abstract class CellarDecorator
 			row.appendReplacement( buffer, "<tr><td width=100 height=100 " +
 				"align=right valign=center>" + lContent + "</td>" + cell.group( 0 )
 				+ "<td width=100 height=100 align=left valign=center>" +
-				rContent + "</td></tr>" );		
+				rContent + "</td></tr>" );
 		}
 		row.appendTail( buffer );
 	}
-	
+
 	private static final String getCornerData( int data, int total, String[] names )
 	{
 		// data contains the number of matching patterns that include each wine,
@@ -199,7 +195,7 @@ public abstract class CellarDecorator
 			counts[ i ] = data & CORNERMASK;
 			data >>= DUSTYSHIFT;
 		}
-		
+
 		StringBuffer buffer = new StringBuffer( "<small>" );
 		boolean first = true;
 		for ( int i = 0; i < 6; ++i )
@@ -214,8 +210,7 @@ public abstract class CellarDecorator
 				buffer.append( ", " );
 			}
 			first = false;
-			boolean wanted = KoLConstants.conditions.contains(
-				DUSTYWINES[ i ] );
+			boolean wanted = GoalManager.hasGoal( DUSTYWINES[ i ] );
 			if ( wanted )
 			{
 				buffer.append( "<b>" );
@@ -233,7 +228,7 @@ public abstract class CellarDecorator
 		buffer.append( "</small>" );
 		return buffer.toString();
 	}
-	
+
 	// Recommend one of the corners, based on the current conditions.
 	// Return a random corner if there are no relevant conditions.
 	public static final int recommendCorner()
@@ -243,7 +238,7 @@ public abstract class CellarDecorator
 		int max = 0;
 		for ( int i = 0; i < 6; ++i )
 		{
-			if ( !KoLConstants.conditions.contains( DUSTYWINES[ i ] ) )
+			if ( !GoalManager.hasGoal( DUSTYWINES[ i ] ) )
 			{
 				continue;
 			}
