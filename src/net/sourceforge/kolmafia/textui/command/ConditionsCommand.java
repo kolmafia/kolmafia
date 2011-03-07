@@ -46,8 +46,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConditionsCommand
@@ -78,103 +78,65 @@ public class ConditionsCommand
 
 		if ( option.equals( "add" ) || option.equals( "remove" ) || option.equals( "set" ) )
 		{
-			String conditionString = parameters.substring( option.length() ).toLowerCase().trim();
-			ConditionsCommand.update( option, conditionString );
+			String conditionListString = parameters.substring( option.length() ).toLowerCase().trim();
+			ConditionsCommand.update( option, conditionListString );
 		}
 	}
 
 	public static void clear()
 	{
-		KoLConstants.conditions.clear();
+		GoalManager.clearGoals();
 		RequestLogger.printLine( "Conditions list cleared." );
 	}
 
 	public static void check()
 	{
-		KoLmafia.checkRequirements( KoLConstants.conditions );
+		KoLmafia.checkRequirements( GoalManager.getGoals() );
 		RequestLogger.printLine( "Conditions list validated against available items." );
 	}
 
-	public static boolean update( final String option, final String conditionString )
+	public static boolean update( final String option, final String conditionListString )
 	{
-		boolean hasUpdate = false;
+		String[] conditionList = conditionListString.split( "\\s*,\\s*" );
 
-		String[] conditionList = conditionString.split( "\\s*,\\s*" );
+		boolean hasUpdate = false;
 
 		for ( int i = 0; i < conditionList.length; ++i )
 		{
-			String condition = conditionList[ i ];
+			String conditionString = conditionList[ i ];
 
-			if ( condition.equalsIgnoreCase( "castle map items" ) )
+			if ( conditionString.equalsIgnoreCase( "castle map items" ) )
 			{
-				ConditionsCommand.addItemCondition( "set", ItemPool.get( ItemPool.FURRY_FUR, 1 ) );
-				ConditionsCommand.addItemCondition( "set", ItemPool.get( ItemPool.GIANT_NEEDLE, 1 ) );
-				ConditionsCommand.addItemCondition( "set", ItemPool.get( ItemPool.AWFUL_POETRY_JOURNAL, 1 ) );
+				GoalManager.setGoal( ItemPool.get( ItemPool.FURRY_FUR, 1 ) );
+				GoalManager.setGoal( ItemPool.get( ItemPool.GIANT_NEEDLE, 1 ) );
+				GoalManager.setGoal( ItemPool.get( ItemPool.AWFUL_POETRY_JOURNAL, 1 ) );
 				hasUpdate = true;
 				continue;
 			}
 
-			AdventureResult ar = ConditionsCommand.extractCondition( condition );
+			AdventureResult condition = ConditionsCommand.extractCondition( conditionString );
 
-			if ( ar != null )
+			if ( condition != null )
 			{
-				ConditionsCommand.addItemCondition( option, ar );
+				if ( option.equals( "set" ) )
+				{
+					GoalManager.setGoal( condition );
+				}
+				else if ( option.equals( "remove" ) )
+				{
+					GoalManager.addGoal( condition.getNegation() );
+				}
+				else if ( condition.getCount() > 0 )
+				{
+					GoalManager.addGoal( condition );
+				}
+
 				hasUpdate = true;
 			}
 		}
 
-		RequestLogger.printList( KoLConstants.conditions );
+		RequestLogger.printList( GoalManager.getGoals() );
 		return hasUpdate;
-	}
-
-	private static void addItemCondition( final String option, final AdventureResult condition )
-	{
-		if ( condition.isItem() && option.equals( "set" ) )
-		{
-			int currentAmount =
-				condition.getItemId() == HermitRequest.WORTHLESS_ITEM.getItemId() ?
-				HermitRequest.getWorthlessItemCount() :
-				condition.getCount( KoLConstants.inventory ) + 
-				( Preferences.getBoolean( "autoSatisfyWithCloset" ) ?
-                                  condition.getCount( KoLConstants.closet ) : 0 );
-
-			for ( int j = 0; j < EquipmentManager.FAMILIAR; ++j )
-			{
-				if ( EquipmentManager.getEquipment( j ).equals( condition ) )
-				{
-					++currentAmount;
-				}
-			}
-
-			if ( condition.getCount( KoLConstants.conditions ) >= condition.getCount() )
-			{
-				RequestLogger.printLine( "Condition already exists: " + condition );
-			}
-			else if ( currentAmount >= condition.getCount() )
-			{
-				RequestLogger.printLine( "Condition already met: " + condition );
-			}
-			else
-			{
-				AdventureResult.addResultToList(
-					KoLConstants.conditions, condition.getInstance( condition.getCount() - currentAmount ) );
-				RequestLogger.printLine( "Condition set: " + condition );
-			}
-		}
-		else if ( condition.isItem() && option.equals( "remove" ) )
-		{
-			AdventureResult.addResultToList( KoLConstants.conditions, condition.getNegation() );
-			RequestLogger.printLine( "Condition removed: " + condition );
-		}
-		else if ( condition.getCount() > 0 )
-		{
-			AdventureResult.addResultToList( KoLConstants.conditions, condition );
-			RequestLogger.printLine( "Condition added: " + condition );
-		}
-		else
-		{
-			RequestLogger.printLine( "Condition already met: " + condition );
-		}
 	}
 
 	private static AdventureResult extractCondition( String conditionString )
@@ -203,7 +165,14 @@ public class ConditionsCommand
 
 			String[] splitCondition = conditionString.split( "\\s+" );
 			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
-			return new AdventureResult( AdventureResult.CHOICE, count );
+			return GoalManager.GOAL_CHOICE.getInstance( count );
+		}
+
+		if ( conditionString.endsWith( "autostop" ) )
+		{
+			String[] splitCondition = conditionString.split( "\\s+" );
+			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
+			return GoalManager.GOAL_AUTOSTOP.getInstance( count );
 		}
 
 		if ( conditionString.startsWith( "level" ) )
@@ -217,10 +186,10 @@ public class ConditionsCommand
 
 			int primeIndex = KoLCharacter.getPrimeIndex();
 
-			AdventureResult.CONDITION_SUBSTATS[ primeIndex ] =
+			GoalManager.GOAL_SUBSTATS_COUNTS[ primeIndex ] =
 				(int) ( KoLCharacter.calculateSubpoints( ( level - 1 ) * ( level - 1 ) + 4, 0 ) - KoLCharacter.getTotalPrime() );
 
-			return AdventureResult.CONDITION_SUBSTATS_RESULT;
+			return GoalManager.GOAL_SUBSTATS;
 		}
 
 		if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) || conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mox" ) || conditionString.endsWith( "mysticality" ) )
@@ -230,13 +199,13 @@ public class ConditionsCommand
 			int points = StringUtilities.parseInt( splitCondition[ 0 ] );
 			int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
 
-			AdventureResult.CONDITION_SUBSTATS[ statIndex ] = (int) KoLCharacter.calculateSubpoints( points, 0 );
-			AdventureResult.CONDITION_SUBSTATS[ statIndex ] =
+			GoalManager.GOAL_SUBSTATS_COUNTS[ statIndex ] = (int) KoLCharacter.calculateSubpoints( points, 0 );
+			GoalManager.GOAL_SUBSTATS_COUNTS[ statIndex ] =
 				Math.max(
 					0,
-					AdventureResult.CONDITION_SUBSTATS[ statIndex ] - (int) ( conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() : conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() : KoLCharacter.getTotalMoxie() ) );
+					GoalManager.GOAL_SUBSTATS_COUNTS[ statIndex ] - (int) ( conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() : conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() : KoLCharacter.getTotalMoxie() ) );
 
-			return AdventureResult.CONDITION_SUBSTATS_RESULT;
+			return GoalManager.GOAL_SUBSTATS;
 		}
 
 		if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )
@@ -274,12 +243,7 @@ public class ConditionsCommand
 
 			AdventureResult condition = new AdventureResult( type, points );
 
-			int previousIndex = KoLConstants.conditions.indexOf( condition );
-			if ( previousIndex != -1 )
-			{
-				AdventureResult previousCondition = (AdventureResult) KoLConstants.conditions.get( previousIndex );
-				condition = condition.getInstance( condition.getCount() - previousCondition.getCount() );
-			}
+			condition = condition.getInstance( condition.getCount() - GoalManager.getGoalCount( condition ));
 
 			return condition;
 		}

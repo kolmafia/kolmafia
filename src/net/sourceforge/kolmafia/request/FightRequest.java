@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -1314,19 +1315,19 @@ public class FightRequest
 		{
 			this.createAddingScroll( FightRequest.desiredScroll );
 		}
-		else if ( KoLConstants.conditions.contains( FightRequest.SCROLL_64735 ) )
+		else if ( GoalManager.hasGoal( FightRequest.SCROLL_64735 ) )
 		{
 			this.createAddingScroll( FightRequest.SCROLL_64735 );
 		}
-		else if ( KoLConstants.conditions.contains( FightRequest.SCROLL_64067 ) )
+		else if ( GoalManager.hasGoal( FightRequest.SCROLL_64067 ) )
 		{
 			this.createAddingScroll( FightRequest.SCROLL_64067 );
 		}
-		else if ( KoLConstants.conditions.contains( FightRequest.SCROLL_31337 ) )
+		else if ( GoalManager.hasGoal( FightRequest.SCROLL_31337 ) )
 		{
 			this.createAddingScroll( FightRequest.SCROLL_31337 );
 		}
-		else if ( KoLConstants.conditions.contains( FightRequest.SCROLL_668 ) )
+		else if ( GoalManager.hasGoal( FightRequest.SCROLL_668 ) )
 		{
 			this.createAddingScroll( FightRequest.SCROLL_668 );
 		}
@@ -1358,7 +1359,7 @@ public class FightRequest
 		}
 		else if ( scroll == FightRequest.SCROLL_64067 )
 		{
-			if ( !KoLConstants.conditions.contains( FightRequest.SCROLL_64067 ) && KoLConstants.inventory.contains( FightRequest.SCROLL_64067 ) )
+			if ( !GoalManager.hasGoal( FightRequest.SCROLL_64067 ) && KoLConstants.inventory.contains( FightRequest.SCROLL_64067 ) )
 			{
 				return false;
 			}
@@ -2246,7 +2247,7 @@ public class FightRequest
 
 		if ( pref.equals( "goals" ) )
 		{
-			items = KoLConstants.conditions;
+			items = GoalManager.getGoals();
 		}
 		else if ( pref.startsWith( "monster " ) )
 		{

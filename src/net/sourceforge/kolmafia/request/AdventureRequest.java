@@ -49,8 +49,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -80,7 +80,7 @@ public class AdventureRequest
 	private final String adventureName;
 	private final String formSource;
 	private final String adventureId;
-	
+
 	private int override = -1;
 
 	private static final AdventureResult SKELETON_KEY = ItemPool.get( ItemPool.SKELETON_KEY, 1 );
@@ -483,7 +483,7 @@ public class AdventureRequest
 
 	private static String fromName = null;
 	private static String toName = null;
-	
+
 	public static final void setNameOverride( final String from, final String to )
 	{
 		fromName = from;
@@ -513,7 +513,7 @@ public class AdventureRequest
 			name = CombatActionManager.encounterKey( toName, false );
 		}
 		fromName = null;
-		
+
 		EquipmentManager.decrementTurns();
 		return name;
 	}
@@ -551,7 +551,7 @@ public class AdventureRequest
 			// Elf Alley
 			override = "Hobelf";
 			break;
-			
+
 		case 203:
 			// The Slime Tube
 			Matcher m = AdventureRequest.SLIME_MONSTER_IMG.matcher( responseText );
@@ -570,7 +570,7 @@ public class AdventureRequest
 		{
 			override = "Elf Hobo";
 		}
-		
+
 		if ( override != null && MonsterDatabase.findMonster( encounter, false ) == null )
 		{
 			return override;
@@ -668,10 +668,10 @@ public class AdventureRequest
 					}
 				}
 				return "Unrecognized Limerick";
-			
+
 			case 114:	// Outskirts of The Knob
 				// Unstubbed
-				// You go back to the tree where the wounded Knob Goblin guard was resting, 
+				// You go back to the tree where the wounded Knob Goblin guard was resting,
 				// and find him just where you left him, continuing to whine about his stubbed toe.
 				//
 				// "Here you go, tough guy" you say, and hand him the unguent.
@@ -779,7 +779,7 @@ public class AdventureRequest
 			// backwards.<p>"<Demon Name>!" he screams as he
 			// tumbles backwards. "LORD OF REVENGE! GIVE ME
 			// STRENGTH!"
-			// 
+			//
 			// TT: With a scrape, her sickle slips from the
 			// rock.<p>"<Demon Name>" she shrieks as she plummets
 			// toward the lava. "Lord of Revenge! I accept your
@@ -900,10 +900,7 @@ public class AdventureRequest
 		RequestLogger.updateSessionLog( "Demon name: " + demon );
 		Preferences.setString( setting, demon );
 
-		if ( KoLConstants.conditions.isEmpty() )
-		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, place );
-		}
+		GoalManager.checkAutoStop( place );
 
 		// Valid demon name
 		return true;
@@ -991,7 +988,7 @@ public class AdventureRequest
 		}
 		return this.formSource.startsWith( "shore" ) ? 3 : 1;
 	}
-	
+
 	public void overrideAdventuresUsed( int used )
 	{
 		this.override = used;

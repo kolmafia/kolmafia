@@ -38,6 +38,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 
 public class MonsterData
 	extends AdventureResult
@@ -208,7 +209,7 @@ public class MonsterData
 		// Otherwise, only steal from monsters that drop
 		// something on your conditions list.
 
-		return this.shouldSteal( KoLConstants.conditions );
+		return this.shouldSteal( GoalManager.getGoals() );
 	}
 
 	private boolean shouldSteal( final List checklist )

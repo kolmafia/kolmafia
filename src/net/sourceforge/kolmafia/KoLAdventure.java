@@ -33,12 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.foxtrot.Job;
-import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -58,6 +57,7 @@ import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -827,22 +827,12 @@ public class KoLAdventure
 		}
 
 		// The user said "do it". So, do it!
-		ArrayList temporary = new ArrayList();
-		temporary.addAll( KoLConstants.conditions );
-		KoLConstants.conditions.clear();
 
-		KoLConstants.conditions.add( ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 ) );
-		StaticEntity.getClient().makeRequest(
-			AdventureDatabase.getAdventure( "Beanbat Chamber" ),
-			KoLCharacter.getAdventuresLeft() );
+		KoLAdventure sideTripLocation = AdventureDatabase.getAdventure( "Beanbat Chamber" );
+		AdventureResult sideTripItem = ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 );
 
-		if ( !KoLConstants.conditions.isEmpty() )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unable to obtain an enchanted bean." );
-		}
+		GoalManager.makeSideTrip( sideTripLocation, sideTripItem );
 
-		KoLConstants.conditions.clear();
-		KoLConstants.conditions.addAll( temporary );
 		return !KoLmafia.refusesContinue();
 	}
 
