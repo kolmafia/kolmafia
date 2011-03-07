@@ -1203,6 +1203,19 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.setBasicItem(
 				availableIngredients, ItemPool.COFFEE_PIXIE_STICK, ticketCount / 10 );
 		}
+
+		// Game Shoppe food, drink, and potions are available from the
+		// cashier for one snack voucher each
+		int voucherCount = InventoryManager.getAccessibleCount( ItemPool.SNACK_VOUCHER );
+		if ( voucherCount > 0 )
+		{
+			for ( int i = 0; i < KoLConstants.snackItems.size(); ++i )
+			{
+				AdventureResult snack = (AdventureResult) KoLConstants.snackItems.get( i );
+				ConcoctionDatabase.setBasicItem(
+					availableIngredients, snack.getItemId(), voucherCount );
+			}
+		}
 	}
 
 	private static final void setBasicItem( final List availableIngredients, final int itemId, final int acquirable )

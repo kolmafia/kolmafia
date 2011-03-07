@@ -167,6 +167,7 @@ mt. noob pale ale	2	1	4-9	0	0	0
 mulled cider	3	5	7-10	25-40	25-40	25-40
 mutagin 'n' tonic	5	5	10-15	0	0	0
 nanite-infested eggnog	3	3	5-10	0	16-30	16-30	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
+natto-infused sake	3	1	6-8	6-8	8-8	6-8	30 Ninja, Please
 neuromancer	4	6	14-18	25-27	0	16-20
 ocean motion	4	4	10-14	25-27	8-10	0
 oil nog	4	5	7-9	0	0	0
@@ -244,6 +245,7 @@ tequila sunset	3	3	5-10	0	16-20	0
 tequila with training wheels	3	3	5-10	8-9	0	0
 thermos full of knob coffee	1	1	6-7	5-6	5-6	5-6	lose 1-2 HP
 thistle wine	1	10	2-4	0	0	30-60	lose 50-75 HP
+tobiko-infused sake	3	1	6-8	6-8	8-8	6-8	30 Pisces in the Skyces
 tomato daiquiri	3	2	4-8	10-12	0	10-12
 tropical swill	4	4	10-14	26-30	2-3	2-3
 typical tavern swill	3	1	5	1-2	1-2	1-2
@@ -254,6 +256,7 @@ vodka and tonic	3	3	5-10	0	16-20	0
 vodka gibson	3	3	5-10	0	0	16-20
 vodka martini	3	1	5-6	0	0	8-10
 vodka stratocaster	4	6	14-18	25-27	0	16-20
+wasabi-infused sake	3	1	6-8	6-8	8-8	6-8	30 Wasabi With You
 whiskey and cola	3	1	5-6	0	4-6	4-6	14-16 MP
 whiskey and soda	3	1	5-6	0	8-10	0	3-5 MP
 whiskey bittersweet	3	3	5-10	16-20	0	0

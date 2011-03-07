@@ -159,6 +159,9 @@ public class ItemPool
 	public static final int LINOLEUM_ORE = 363;
 	public static final int ASBESTOS_ORE = 364;
 	public static final int CHROME_ORE = 365;
+	public static final int PENGUIN_SKIN = 393;
+	public static final int YAK_SKIN = 394;
+	public static final int HIPPOPOTAMUS_SKIN = 395;
 	public static final int ACOUSTIC_GUITAR = 404;
 	public static final int PIRATE_CHEST = 405;
 	public static final int PIRATE_PELVIS = 406;
@@ -1214,6 +1217,15 @@ public class ItemPool
 	public static final int MENAGERIE_KEY = 4947;
 	public static final int CARD_GAME_BOOK = 4965;
 	public static final int SNACK_VOUCHER = 5012;
+	public static final int WASABI_FOOD = 5013;
+	public static final int TOBIKO_FOOD = 5014;
+	public static final int NATTO_FOOD = 5015;
+	public static final int WASABI_BOOZE = 5016;
+	public static final int TOBIKO_BOOZE = 5017;
+	public static final int NATTO_BOOZE = 5018;
+	public static final int WASABI_POTION = 5019;
+	public static final int TOBIKO_POTION = 5020;
+	public static final int NATTO_POTION = 5021;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

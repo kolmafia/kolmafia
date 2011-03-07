@@ -655,6 +655,7 @@ public interface KoLConstants
 
 	public static final SortedListModel hermitItems = new SortedListModel();
 	public static final SortedListModel trapperItems = new SortedListModel();
+	public static final SortedListModel snackItems = new SortedListModel();
 	public static final LockableListModel restaurantItems = new LockableListModel();
 	public static final LockableListModel microbreweryItems = new LockableListModel();
 	public static final LockableListModel kitchenItems = new LockableListModel();
