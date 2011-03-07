@@ -5011,9 +5011,9 @@
 5002	Alice's Army Foil Horseman	none	all	5000
 5003	Alice's Army Foil Coward	none	all	5000
 5004	Alice's Army Foil Cleric	none	all	5000
-5005	Alice's Army Foil Sniper	none	all	0
-5006	Alice's Army Foil Dervish	none	all	0
-5007	Alice's Army Foil Martyr	none	all	0
+5005	Alice's Army Foil Sniper	none	all	20000
+5006	Alice's Army Foil Dervish	none	all	20000
+5007	Alice's Army Foil Martyr	none	all	20000
 5008	Single Alice's Army Foil	usable	all	0
 5009	card sleeve	offhand	all	0
 5010
