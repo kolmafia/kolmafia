@@ -737,10 +737,10 @@ public class DebugDatabase
 		{
 			power = DebugDatabase.parsePower( text );
 		}
-		else if ( isShield )
+		else
 		{
-			// Until KoL puts shield power into the description,
-			// use hand-entered "secret" value.
+			// Until KoL puts off-hand and accessory power into the
+			// description, use hand-entered "secret" value.
 			power = EquipmentDatabase.getPower( name );
 		}
 

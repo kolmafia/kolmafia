@@ -5002,15 +5002,15 @@
 4996	427972743	Alice's Army Foil Shieldmaiden
 4997	671525476	Alice's Army Foil Mad Bomber
 4998	566571306	Alice's Army Foil Nurse
-4999		Alice's Army Foil Hammerman
-5000		Alice's Army Foil Bowman
+4999	565082335	Alice's Army Foil Hammerman
+5000	137647172	Alice's Army Foil Bowman
 5001	367206615	Alice's Army Foil Lanceman
-5002		Alice's Army Foil Horseman
+5002	873505389	Alice's Army Foil Horseman
 5003	287329084	Alice's Army Foil Coward
-5004		Alice's Army Foil Cleric
-5005		Alice's Army Foil Sniper
-5006		Alice's Army Foil Dervish
-5007		Alice's Army Foil Martyr
+5004	581085126	Alice's Army Foil Cleric
+5005	927064834	Alice's Army Foil Sniper
+5006	745741623	Alice's Army Foil Dervish
+5007	267211165	Alice's Army Foil Martyr
 5008	358154228	Single Alice's Army Foil
 5009	251309076	card sleeve
 5010
