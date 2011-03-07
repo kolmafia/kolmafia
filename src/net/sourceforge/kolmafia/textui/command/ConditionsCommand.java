@@ -62,7 +62,19 @@ public class ConditionsCommand
 
 	public void run( final String cmd, final String parameters )
 	{
+		if ( parameters.equals( "" ) )
+		{
+			RequestLogger.printList( GoalManager.getGoals() );
+			return;
+		}
+	
 		String option = parameters.split( " " )[ 0 ];
+
+		if ( option.equals( "list" ) )
+		{
+			RequestLogger.printList( GoalManager.getGoals() );
+			return;
+		}
 
 		if ( option.equals( "clear" ) )
 		{
@@ -80,6 +92,7 @@ public class ConditionsCommand
 		{
 			String conditionListString = parameters.substring( option.length() ).toLowerCase().trim();
 			ConditionsCommand.update( option, conditionListString );
+			return;
 		}
 	}
 

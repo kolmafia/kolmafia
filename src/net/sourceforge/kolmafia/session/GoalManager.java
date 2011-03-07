@@ -82,7 +82,19 @@ public class GoalManager
 
 	public static final void addGoal( AdventureResult goal )
 	{
-		AdventureResult.addResultToList( GoalManager.goals, goal );
+		String goalName = goal.getName();
+		
+		if ( goalName.equals( AdventureResult.SUBSTATS ) )
+		{
+			if ( !GoalManager.goals.contains( goal ) )
+			{
+				GoalManager.goals.add( goal );
+			}
+		}
+		else
+		{
+			AdventureResult.addResultToList( GoalManager.goals, goal );
+		}
 
 		if ( goal.getCount() > 0 )
 		{
@@ -101,6 +113,22 @@ public class GoalManager
 
 	public static final void setGoal( AdventureResult goal )
 	{
+		String goalName = goal.getName();
+
+		if ( goalName.equals( AdventureResult.SUBSTATS ) )
+		{
+			if ( goal.getCount() == 0 )
+			{
+				GoalManager.goals.remove( goal );
+			}
+			else if ( !GoalManager.goals.contains( goal ) )
+			{
+				GoalManager.addGoal( goal );
+			}
+
+			return;
+		}
+			
 		int currentGoalCount = goal.getCount( GoalManager.goals );
 		int desiredGoalCount = goal.getCount();
 
@@ -169,16 +197,7 @@ public class GoalManager
 	{
 		boolean hasOtherGoals = false;
 		
-		for ( int i = 0; i < GoalManager.goals.size() && !hasOtherGoals; ++i )
-		{
-			AdventureResult goal = (AdventureResult) GoalManager.goals.get( i );			
-			hasOtherGoals = goal.isItem();
-		}
-
-		if ( !hasOtherGoals )
-		{
-			GoalManager.updateProgress( GoalManager.GOAL_AUTOSTOP );
-		}
+		GoalManager.updateProgress( GoalManager.GOAL_AUTOSTOP );
 
 		if ( GoalManager.goals.isEmpty() )
 		{
