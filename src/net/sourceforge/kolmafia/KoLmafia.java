@@ -337,9 +337,19 @@ public abstract class KoLmafia
 			}
 		}
 
-		KoLConstants.trapperItems.add( new AdventureResult( 394, 1 ) );
-		KoLConstants.trapperItems.add( new AdventureResult( 393, 1 ) );
-		KoLConstants.trapperItems.add( new AdventureResult( 395, 1 ) );
+		KoLConstants.trapperItems.add( ItemPool.get( ItemPool.PENGUIN_SKIN, 1 ) );
+		KoLConstants.trapperItems.add( ItemPool.get( ItemPool.YAK_SKIN, 1 ) );
+		KoLConstants.trapperItems.add( ItemPool.get( ItemPool.HIPPOPOTAMUS_SKIN, 1 ) );
+
+		KoLConstants.snackItems.add( ItemPool.get( ItemPool.WASABI_FOOD, 1 ) );
+		KoLConstants.snackItems.add( ItemPool.get( ItemPool.TOBIKO_FOOD, 1 ) );
+		KoLConstants.snackItems.add( ItemPool.get( ItemPool.NATTO_FOOD, 1 ) );
+		KoLConstants.snackItems.add( ItemPool.get( ItemPool.WASABI_BOOZE, 1 ) );
+		KoLConstants.snackItems.add( ItemPool.get( ItemPool.TOBIKO_BOOZE, 1 ) );
+		KoLConstants.snackItems.add( ItemPool.get( ItemPool.NATTO_BOOZE, 1 ) );
+		KoLConstants.snackItems.add( ItemPool.get( ItemPool.WASABI_POTION, 1 ) );
+		KoLConstants.snackItems.add( ItemPool.get( ItemPool.TOBIKO_POTION, 1 ) );
+		KoLConstants.snackItems.add( ItemPool.get( ItemPool.NATTO_POTION, 1 ) );
 
 		// All dates are presented as if the day began at rollover.
 

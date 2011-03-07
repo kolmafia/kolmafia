@@ -294,6 +294,7 @@ mushroom pizza	3	2	3-10	0	15-18	0
 nanite-infested candy cane	1	4	1-5	11-20	11-20	11-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
 nanite-infested fruitcake	3	1	3-6	15-20	15-20	15-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
 nanite-infested gingerbread bugbear	1	4	1-5	21-40	21-40	21-40	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
+natto pocky	3	1	6-8	6-8	8-8	6-8	30 Ninja, Please
 new and improved crimbco reconstituted gruel	4	1	7-8	0	0	0	lose 20% boredom
 nutty organic salad	3	11	12-15	0	31-40	0
 olive	1	1	1	0	0	0
@@ -449,6 +450,7 @@ tin rations	3	1	8-10	3-5	3-5	3-5
 tiny frozen prehistoric meteorite jawbreaker	1	1	2	0	0	0
 toast	1	1	1	0	0	0
 toast with jam	1	3	2-3	1-2	1-2	1-2	5 Jammin'
+tobiko pocky	3	1	6-8	6-8	8-8	6-8	30 Pisces in the Skyces
 toe jam toast	1	1	1-3	0	0	50
 tofu casserole	3	1	3-8	0	0	0
 tofu chow mein	3	7	11-19	18-22	20-25	0
@@ -478,6 +480,7 @@ vanilla-frosted king cake	3	1	3	0	0	0	pink plastic baby
 vinegar-soaked lemon slice	1	2	1-3	15-20	15-20	15-20
 walrus ice cream	2	5	6-7	37-38	0	0
 warm mushroom	2	1	2-3	12-14	0	0
+wasabi pocky	3	1	6-8	6-8	8-8	6-8	30 Wasabi With You
 wedge of gray cheese	2	9	7-13	50-69	50-69	50-69
 wet stew	6	1	12-15	16-19	0	0
 white chocolate and tomato pizza	3	2	3-9	0	0	0

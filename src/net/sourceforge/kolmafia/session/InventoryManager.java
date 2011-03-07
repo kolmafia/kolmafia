@@ -470,6 +470,27 @@ public abstract class InventoryManager
 			}
 		}
 
+		if ( KoLConstants.snackItems.contains( item ) )
+		{
+			int voucherCount = InventoryManager.getAccessibleCount( ItemPool.SNACK_VOUCHER );
+			if ( voucherCount > 0 )
+			{
+				// Retrieve enough vouchers to buy the snacks
+				int neededVouchers = missingCount;
+				if ( !retrieveItem( ItemPool.SNACK_VOUCHER, neededVouchers ) )
+				{
+					return false;
+				}
+
+				// Cash them in for snacks
+				RequestThread.postRequest( new CoinMasterRequest( "snack voucher", "buysnack", item.getItemId(), missingCount ) );
+
+				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+				return missingCount <= 0;
+			}
+		}
+
 		// Try to purchase the item from the mall, if the user wishes
 		// to autosatisfy through purchases, and the item is not
 		// creatable through combines.
