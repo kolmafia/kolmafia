@@ -4954,9 +4954,9 @@
 4945	Knob frosting	none	none	0
 4946	unfrosted Knob cake	none	none	0
 4947	Cobb's Knob Menagerie key	none	none	0
-4948
-4949
-4950
+4948	GOTO	none, combat	display	50
+4949	weremoose spit	usable	all	50
+4950	abominable blubber	usable	all	50
 4951	flimsy clipboard	offhand	all	35
 4952	baggie of powdered sugar	multiple	all	30
 4953	whalebone corset	accessory	all	50
@@ -4967,7 +4967,7 @@
 4958	Knob Goblin deluxe scimitar	weapon	all	55
 4959	Knob nuts	food	all	35
 4960	Cobb's Knob Wurstbrau	drink	all	58
-4961
+4961	Subject 37 file	none	none	0
 4962
 4963
 4964

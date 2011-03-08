@@ -1015,6 +1015,7 @@ box-in-the-box-in-the-box	30	none
 brass dorsal fin	200	Mus: 85	shield
 brown crock marble	202	Mys: 85
 bumblebee marble	205	Mys: 85
+card sleeve	0	none
 cardboard box turtle	70	Mus: 20	shield
 catskin buckler	180	Mus: 75	shield
 charged magnet	30	none

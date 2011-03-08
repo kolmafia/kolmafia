@@ -301,7 +301,7 @@
 300	Infinite Loop	nopic.gif
 301	Cunctatitis	disease.gif	9a12b9329e0701252387afe75dee34ee	#fighting Procrastination Giant
 302	Mild Lycanthropy	moon2.gif	30ef4348fb5125c55c5be56867b795dd	#fighting warwelf
-303	Lycanthropy, Eh?	moon2.gif	f0d184c3e271a091974dc74fa36640f3	#fighting Weremoose
+303	Lycanthropy, Eh?	moon2.gif	f0d184c3e271a091974dc74fa36640f3	use 1 weremoose spit
 304	'Roids of the Rhinoceros	strboost.gif	7162d29ed4d4ab9247e32a65fdc0508a	use 1 bottle of rhinoceros hormones
 305	Happy Trails	farout.gif	0d08ec701054748c0ff754e1eb8993fa	use 1 teeny-tiny magic scroll
 306	Piratastic	poison.gif	326cfa0c7a97220cda6575f7d887c38f	use 1 bottle of pirate juice
@@ -823,7 +823,7 @@
 822
 823
 824	So You Can Work More...	baggie.gif	d3d104d1eba82fa3f564c2967461f122
-825
+825	Abominably Slippery	abomblubber.gif	11dee4b0b21e7ddeb9e427fa734fe4d6	use 1 abominable blubber
 826
 827	Wasabi With You	bigeyes.gif	b1c625c28633cef38566bca4aee55a0b	use 1 wasabi marble soda
 828	Pisces in the Skyces	fish.gif	137b12bcd6da7cec342f6001b4b98958	use 1 tobiko marble soda

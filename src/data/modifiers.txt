@@ -1154,6 +1154,7 @@ eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
 fake hand	Weapon Damage: -1
 fancy opera glasses	Meat Drop: +5, Item Drop: +5
 flaming talons	Weapon Damage: +5, Hot Damage: +5
+flimsy clipboard	Meat Drop: +5, Damage Reduction: 3
 foon	Mysticality: +2
 foon of fearfulness	Mysticality: +3, Spooky Spell Damage: +8
 foon of fleshiness	Mysticality: +3, Sleaze Spell Damage: +8
@@ -2304,6 +2305,7 @@ A Little Bit Evil (Turtle Tamer)	Monster Level: +2
 A Little Bit Frightening	Spooky Damage: [3*L]
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 A Revolution in Your Mouth	Moxie Percent: -10
+Abominably Slippery	Initiative: +2
 # Absinthe-Minded: You are aware of The Worm Wood
 Ack! Barred!	Muscle Percent: +30
 Adrenaline Rush	Muscle Percent: +100
