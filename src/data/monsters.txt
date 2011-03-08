@@ -163,7 +163,7 @@ Argarggagarg the Dire Hellseal	HP: 150 Def: 115 Atk: 115	secret tropical island 
 Auteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Axe Handle	HP: 3 Def: 3 Atk: 3	pine tar (20)
 B&eacute;arnaise zombie	HP: 118 Def: 95 Atk: 95
-BASIC Elemental	HP: 40 Def: 50 Atk: 50
+BASIC Elemental	HP: 40 Def: 50 Atk: 50	GOTO (0)
 BRICKO Airship	HP: 10000 Def: 500 Atk: 600	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)
 BRICKO Bat	HP: 100 Def: 70 Atk: 70	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)
 BRICKO Cathedral	HP: 100000 Def: 725 Atk: 725	gilded BRICKO brick (100)
@@ -501,7 +501,7 @@ Knob Goblin Master Chef	HP: 20 Def: 22 Atk: 22 Meat: 24-36	dry noodles (15)	Knob
 Knob Goblin Mutant	HP: 43 Def: 53 Atk: 53 Meat: 46-50
 Knob Goblin Poseur	HP: 5 Atk: 4 Def: 4 Meat: 16-24	dope gangsta bling-bling (10)	out-of-tune biwa (10)	terrible poem (20)
 Knob Goblin Sous Chef	HP: 15 Def: 20 Atk: 20 Meat: 16-24	Knob Goblin spatula (7)	Knob sausage (15)	tomato (15)	wad of dough (15)
-Knob Goblin Very Mad Scientist	HP: 30 Def: 45 Atk: 45 Meat: 36-57	Knob Goblin melon baller (5)	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	bunch of square grapes (c19)	smudged alchemical recipe (p5)	Cobb's Knob Menagerie key (c0)	broken petri dish (b0)
+Knob Goblin Very Mad Scientist	HP: 30 Def: 45 Atk: 45 Meat: 36-57	Knob Goblin melon baller (5)	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	bunch of square grapes (c19)	smudged alchemical recipe (p5)	Cobb's Knob Menagerie key (c0)	Subject 37 file (c0)	broken petri dish (b0)
 Knott Slanding	HP: 0 E: cold Meat: 970-1335	Dallas Dynasty Falcon Crest shield (100)
 Knott Yeti	HP: 90 Def: 103 Atk: 105 E: cold Meat: 168-234	yeti fur (30)
 Koopa Troopa	HP: 15 Def: 20 Atk: 20	black pixel (50)	green pixel (80)	white pixel (50)
@@ -625,7 +625,7 @@ Plaque of Locusts	HP: 140 Def: 138 Atk: 134	bronzed locust (20)	honey-dipped loc
 Plastered Frat Orc	HP: 7 Def: 8 Atk: 10	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)
 Pooltergeist	HP: 25 Def: 20 Atk: 20	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
 Pop-and-Lock Raver	HP: 150 Def: 126 Atk: 140	baggy rave pants (c0)	glowstick on a string (c0)	teddybear backpack (c0)
-Portly Abomination	HP: 63 Def: 73 Atk: 73 Meat: 61-91
+Portly Abomination	HP: 63 Def: 73 Atk: 73 Meat: 61-91	abominable blubber (0)
 Possessed Can of Tomatoes	HP: 1 Def: 1 Atk: 1 Meat: 2-4	razor-sharp can lid (45)	tomato (60)	possessed tomato (p15)	shredded can label (b0)
 Possessed Pipe-Organ	HP: 100000 Def: 100000 Atk: 100000
 Possessed Silverware Drawer	HP: 6 Def: 4 Atk: 5	antique packet of ketchup (0)	corn holder (15)	eggbeater (4)
@@ -895,7 +895,7 @@ Water Spider	HP: 160 Def: 150 Atk: 150	wet venom duct (0)
 Wealthy Pirate	HP: 110 Def: 120 Atk: 120 Meat: 160-240	booty chest charrrm (10)	solid gold pegleg (5)	fat wallet (p10)
 Weapons-assembly Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Werecougar	HP: 6 Def: 8 Atk: 8	margarita (10)	sangria (10)	strawberry daiquiri (10)	tequila with training wheels (10)
-Weremoose	HP: 53 Def: 63 Atk: 63 Meat: 52-78
+Weremoose	HP: 53 Def: 63 Atk: 63 Meat: 52-78	weremoose spit (0)
 Weretaco	HP: 8 Def: 16 Atk: 16 Meat: 26-41	taco shell (30)	uncooked chorizo (30)	wilted lettuce (b0)
 Whiny Pirate	HP: 110 Def: 120 Atk: 120 Meat: 64-96	bilge wine (30)
 White Chocolate Golem	HP: 21 Def: 36 Atk: 37	white chocolate chips (50)	mother's secret recipe (p3)

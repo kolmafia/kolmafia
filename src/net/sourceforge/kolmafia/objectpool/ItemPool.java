@@ -1215,6 +1215,10 @@ public class ItemPool
 	public static final int LOATHING_LEGION_HAMMER = 4928;
 	public static final int KNOB_CAKE = 4942;
 	public static final int MENAGERIE_KEY = 4947;
+	public static final int GOTO = 4948;
+	public static final int WEREMOOSE_SPIT = 4949;
+	public static final int ABOMINABLE_BLUBBER = 4950;
+	public static final int SUBJECT_37_FILE = 4961;
 	public static final int CARD_GAME_BOOK = 4965;
 	public static final int SNACK_VOUCHER = 5012;
 	public static final int WASABI_FOOD = 5013;

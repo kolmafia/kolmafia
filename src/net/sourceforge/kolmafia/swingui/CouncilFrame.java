@@ -162,6 +162,13 @@ public class CouncilFrame
 				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
 			}
 		}
+		else if ( location.startsWith( "cobbsknob.php" ) )
+		{
+			if ( location.indexOf( "action=cell37" ) != -1 )
+			{
+				CouncilFrame.handleCell37( responseText );
+			}
+		}
 	}
 
 	private static final void handleSneakyPeteChange( final String responseText )
@@ -195,6 +202,30 @@ public class CouncilFrame
 		{
 			EquipmentManager.discardEquipment( ItemPool.WOLFMAN_MASK );
 			return;
+		}
+	}
+
+	private static final void handleCell37( final String responseText )
+	{
+		// You pass the folder through the little barred window, and hear Subject 37 flipping through the pages
+		if ( responseText.indexOf( "pass the folder through" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.SUBJECT_37_FILE, -1 );
+		}
+		// You pass the GOTO through the window, and Subject 37 thanks you.
+		if ( responseText.indexOf( "pass the GOTO through" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.GOTO, -1 );
+		}
+		// You pass the little vial of of weremoose spit through the window.
+		if ( responseText.indexOf( "pass the little vial" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.WEREMOOSE_SPIT, -1 );
+		}
+		// You hand Subject 37 the glob of abominable blubber.
+		if ( responseText.indexOf( "hand Subject 37 the glob" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.ABOMINABLE_BLUBBER, -1 );
 		}
 	}
 
