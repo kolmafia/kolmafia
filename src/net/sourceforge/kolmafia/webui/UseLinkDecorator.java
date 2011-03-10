@@ -769,6 +769,15 @@ public abstract class UseLinkDecorator
 
 		switch ( itemId )
 		{
+
+		// Subject 37 File goes to Cell #37
+
+		case ItemPool.SUBJECT_37_FILE:
+
+			useType = "cell #37";
+			useLocation = "cobbsknob.php?level=3&action=cell37";
+			break;
+
 		case ItemPool.LOATHING_LEGION_JACKHAMMER:
 			useType = "switch";
 			useLocation = "inv_use.php?which=3&switch=1&whichitem=";
