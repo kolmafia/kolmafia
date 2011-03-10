@@ -4968,7 +4968,7 @@
 4959	Knob nuts	food	all	35
 4960	Cobb's Knob Wurstbrau	drink	all	58
 4961	Subject 37 file	none	none	0
-4962
+4962	mysterious silver lapel pin	accessory	display	555
 4963
 4964
 4965	Sorcerers of the Shore Grimoire	usable	all	0
