@@ -44,7 +44,7 @@ public class RollingLinkedList
 	{
 		this.limit = limit;
 	}
-
+	
 	public boolean add( Object o )
 	{
 		if ( size() == this.limit )
@@ -54,5 +54,20 @@ public class RollingLinkedList
 
 		super.addLast( o );
 		return true;
+	}
+
+	public Object update( Object o )
+	{
+		this.remove( o );
+	
+		Object rv = null;
+
+		if ( size() == this.limit )
+		{
+			rv = this.removeFirst();
+		}
+		
+		super.addLast( o );
+		return rv;
 	}
 }

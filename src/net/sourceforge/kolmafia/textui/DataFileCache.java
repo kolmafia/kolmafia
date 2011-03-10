@@ -48,9 +48,11 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public class DataFileCache
 {
+	private static RollingLinkedList recentlyUsedList = new RollingLinkedList( 500 ); 
 	private static Map dataFileTimestampCache = new HashMap();
 	private static Map dataFileDataCache = new HashMap();
 
@@ -202,9 +204,7 @@ public class DataFileCache
 
 			byte[] data = ostream.toByteArray();
 
-			DataFileCache.dataFileTimestampCache.put( filename, new Long( modifiedTime ) );
-			DataFileCache.dataFileDataCache.put( filename, data );
-
+			DataFileCache.updateCache( filename, modifiedTime, data );
 			return data;
 		}
 		catch ( Exception e )
@@ -256,9 +256,21 @@ public class DataFileCache
 			return DataTypes.FALSE_VALUE;
 		}
 
-		DataFileCache.dataFileTimestampCache.put( filename, new Long( output.lastModified() ) );
-		DataFileCache.dataFileDataCache.put( filename, data );
+		DataFileCache.updateCache( filename, output.lastModified(), data );
 		return DataTypes.TRUE_VALUE;
 	}
 
+	private static void updateCache( String filename, long modifiedTime, byte[] data )
+	{
+		Object recentlyUsedCheck = DataFileCache.recentlyUsedList.update( filename );
+		
+		if ( recentlyUsedCheck != null )
+		{
+			DataFileCache.dataFileTimestampCache.remove( filename );
+			DataFileCache.dataFileDataCache.remove( filename );
+		}
+	
+		DataFileCache.dataFileTimestampCache.put( filename, new Long( modifiedTime ) );
+		DataFileCache.dataFileDataCache.put( filename, data );
+	}
 }
