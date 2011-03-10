@@ -1472,6 +1472,7 @@ monster bait	10	none
 monstrous monocle	160	Mus: 65
 mood ring	10	none
 musty moccasins	160	Mox: 65
+mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
 navel ring of navel gazing	0	none
 night-vision goggles	50	Mox: 10
