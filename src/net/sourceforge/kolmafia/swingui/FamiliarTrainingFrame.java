@@ -898,6 +898,12 @@ public class FamiliarTrainingFrame
 				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: out of meat.", true );
 				return false;
 			}
+ 
+			// Switch to the required familiar
+			if ( KoLCharacter.getFamiliar() != familiar )
+			{
+				RequestThread.postRequest( new FamiliarRequest( familiar ) );
+			}
 
 			// Choose possible weights
 			int[] weights = status.getWeights();
