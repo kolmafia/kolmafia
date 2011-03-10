@@ -336,6 +336,10 @@ public class OptionsFrame
 		private final String[][] options =
 		{
 			{ "showAllRequests", "Show all requests in a mini-browser window" },
+			{ "showExceptionalRequests", "Automatically load 'click here to load in relay browser' in mini-browser" },
+			
+			{},
+			
 			{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
 			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
 			{ "saveSettingsOnSet", "Save options to disk whenever they change" },

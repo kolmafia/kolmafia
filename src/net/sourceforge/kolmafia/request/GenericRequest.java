@@ -2111,7 +2111,11 @@ public class GenericRequest
 		// Only show the request if the response code is
 		// 200 (not a redirect or error).
 
-		if ( Preferences.getBoolean( "showAllRequests" ) )
+		boolean showRequestSync = 
+			Preferences.getBoolean( "showAllRequests" ) ||
+				( exceptional && Preferences.getBoolean( "showExceptionalRequests" ) );
+
+		if ( showRequestSync )
 		{
 			RequestSynchFrame.showRequest( this );
 		}
