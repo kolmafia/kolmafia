@@ -232,7 +232,7 @@ public class Macrofier
 			if ( useGlobalPrefix && CombatActionManager.atEndOfStrategy() )
 			{
 				useGlobalPrefix = false;
-				i = 0; // continue with actual CCS section
+				i = -1; // continue with actual CCS section
 			}
 		}
 
