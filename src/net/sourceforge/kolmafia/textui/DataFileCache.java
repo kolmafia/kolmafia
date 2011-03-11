@@ -56,6 +56,13 @@ public class DataFileCache
 	private static Map dataFileTimestampCache = new HashMap();
 	private static Map dataFileDataCache = new HashMap();
 
+	public static void clearCache()
+	{
+		DataFileCache.recentlyUsedList.clear();
+		DataFileCache.dataFileTimestampCache.clear();
+		DataFileCache.dataFileDataCache.clear();
+	}
+	
 	public static File getFile( String filename )
 	{
 		if ( filename.startsWith( "http" ) )

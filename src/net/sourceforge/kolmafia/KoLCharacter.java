@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.textui.DataFileCache;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 
@@ -600,6 +601,7 @@ public abstract class KoLCharacter
 		// Clear some of the standard lists so they don't
 		// carry over from player to player.
 
+		DataFileCache.clearCache();
 		GoalManager.clearGoals();
 		EventManager.clearEventHistory();
 		KoLConstants.recentEffects.clear();
