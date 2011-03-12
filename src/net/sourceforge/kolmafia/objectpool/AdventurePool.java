@@ -40,6 +40,7 @@ public class AdventurePool
 	public static final String BATRAT_ID = "32";
 	public static final String BEANBAT_ID = "33";
 	public static final String BOSSBAT_ID = "34";
+	public static final String DUNGEON_OF_DOOM_ID = "39";
 	public static final String PIXEL_REALM_ID = "73";
 	public static final String ORC_CHASM_ID = "80";
 	public static final String AIRSHIP_ID = "81";
