@@ -51,11 +51,18 @@ public class QuestLogRequest
 	private static final String ISLAND_WAR_STRING =
 		"You've managed to get the war between the hippies and frat boys started, and now the Council wants you to finish it.";
 
+	private static final String ALTAR_OF_LITERACY =
+		"You have proven yourself literate.";
+	private static final String DUNGEONS_OF_DOOM =
+		"You have discovered the secret of the Dungeons of Doom.";
+		
 	private static String started = "";
 	private static String finished = "";
 	private static String other = "";
 
 	private static boolean chatAvailable = false;
+	private static boolean dungeonOfDoomAvailable = false;
+	
 	private static boolean whiteCitadelAvailable = false;
 	private static boolean friarsAvailable = false;
 	private static boolean blackMarketAvailable = false;
@@ -84,6 +91,16 @@ public class QuestLogRequest
 	public static final boolean isChatAvailable()
 	{
 		return QuestLogRequest.chatAvailable;
+	}
+	
+	public static final boolean isDungeonOfDoomAvailable()
+	{
+		return QuestLogRequest.dungeonOfDoomAvailable;
+	}
+	
+	public static final void setDungeonOfDoomAvailable()
+	{
+		QuestLogRequest.dungeonOfDoomAvailable = true;
 	}
 
 	public static final boolean isWhiteCitadelAvailable()
@@ -197,7 +214,8 @@ public class QuestLogRequest
 		{
 			QuestLogRequest.other = responseText;
 
-			QuestLogRequest.chatAvailable = QuestLogRequest.other.indexOf( "You have proven yourself literate." ) != -1;
+			QuestLogRequest.chatAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.ALTAR_OF_LITERACY ) != -1;
+			QuestLogRequest.dungeonOfDoomAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.DUNGEONS_OF_DOOM ) != -1;
 		}
 	}
 }

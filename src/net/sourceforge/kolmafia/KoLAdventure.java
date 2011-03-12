@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -590,6 +591,14 @@ public class KoLAdventure
 			return;
 		}
 
+		// The dungeons of doom are only available if you've finished the quest
+		
+		if ( this.adventureId.equals( AdventurePool.DUNGEON_OF_DOOM_ID ) )
+		{
+			this.isValidAdventure = QuestLogRequest.isDungeonOfDoomAvailable();
+			return;
+		}
+		
 		// The Castle in the Clouds in the Sky is unlocked provided the
 		// character has either a S.O.C.K. or an intragalactic rowboat
 

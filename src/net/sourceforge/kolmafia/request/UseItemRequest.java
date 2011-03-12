@@ -2552,10 +2552,13 @@ public class UseItemRequest
 			}
 			else
 			{
+				QuestLogRequest.setDungeonOfDoomAvailable();
+			
 				// Various punctuation mark items are replaced
 				// by their identified versions. The new items
 				// will be detected by result parsing, but we
 				// need to get rid of the old.
+
 				for ( int i = 4552; i <= 4558; ++i )
 				{
 					AdventureResult punc = ItemPool.get( i, 1 );
