@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
 
 public class DisplayCaseCommand
 	extends AbstractCommand
@@ -51,7 +52,7 @@ public class DisplayCaseCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		if ( KoLConstants.collection.isEmpty() )
+		if ( !DisplayCaseManager.collectionRetrieved )
 		{
 			RequestThread.postRequest( new DisplayCaseRequest() );
 		}
