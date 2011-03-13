@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -88,6 +90,6 @@ public class DisplayCaseCommand
 			return;
 		}
 
-		RequestThread.postRequest( new DisplayCaseRequest( items, !isTake ) );
+		RequestThread.postRequest( new DisplayCaseRequest( items, ( sourceList == KoLConstants.inventory ) ) );
 	}
 }
