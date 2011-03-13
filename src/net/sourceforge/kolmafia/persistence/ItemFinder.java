@@ -358,6 +358,15 @@ public class ItemFinder
 
 	public static final AdventureResult getFirstMatchingItem( List sourceList, String parameters, int filterType, boolean errorOnFailure )
 	{
+		// Ignore spaces and tabs in front of the parameter string
+		
+		while ( parameters.length() > 0 && ( parameters.charAt( 0 ) == ' ' || parameters.charAt( 0 ) == '\t' ) )
+		{
+			parameters = parameters.substring( 1 );
+		}
+		
+		// Find the item id
+	
 		int itemId = -1;
 		int itemCount = 1;
 
