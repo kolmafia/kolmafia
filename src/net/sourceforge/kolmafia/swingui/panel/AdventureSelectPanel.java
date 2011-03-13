@@ -113,8 +113,6 @@ public class AdventureSelectPanel
 	private ExecuteButton begin;
 	private JComboBox actionSelect;
 
-	private boolean isUpdating = false;
-
 	private final TreeMap zoneMap;
 	private AdventureCountSpinner countField;
 	private final LockableListModel matchingAdventures;
@@ -640,57 +638,37 @@ public class AdventureSelectPanel
 		}
 	}
 
-	private boolean isUpdating()
-	{
-		return KoLmafia.isAdventuring() && !GoalManager.hasGoals() || this.isUpdating;
-	}
-
 	private class ConditionChangeListener
 		implements ListSelectionListener, ListDataListener
 	{
 		public ConditionChangeListener()
 		{
 			GoalManager.getGoals().addListDataListener( this );
+			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
 		public void valueChanged( final ListSelectionEvent e )
 		{
-			if ( AdventureSelectPanel.this.isUpdating() )
+			if ( GoalManager.hasGoals() )
 			{
 				return;
 			}
-
-			GoalManager.clearGoals();
+		
 			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
 		public void intervalAdded( final ListDataEvent e )
 		{
-			if ( AdventureSelectPanel.this.isUpdating() )
-			{
-				return;
-			}
-
 			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
 		public void intervalRemoved( final ListDataEvent e )
 		{
-			if ( AdventureSelectPanel.this.isUpdating() )
-			{
-				return;
-			}
-
 			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
 		public void contentsChanged( final ListDataEvent e )
 		{
-			if ( AdventureSelectPanel.this.isUpdating() )
-			{
-				return;
-			}
-
 			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 	}
@@ -733,7 +711,6 @@ public class AdventureSelectPanel
 			}
 
 			RequestThread.openRequestSequence();
-			AdventureSelectPanel.this.isUpdating = true;
 
 			// If there are conditions in the condition field, be
 			// sure to process them.
@@ -770,7 +747,6 @@ public class AdventureSelectPanel
 				shouldAdventure = this.handleConditions( conditionList, request );
 			}
 
-			AdventureSelectPanel.this.isUpdating = false;
 			RequestThread.closeRequestSequence();
 
 			if ( !shouldAdventure )
@@ -864,7 +840,7 @@ public class AdventureSelectPanel
 	public void fillCurrentConditions()
 	{
 		String text = GoalManager.getGoalString();
-
+		
 		if ( text.length() == 0 )
 		{
 			KoLAdventure location = (KoLAdventure) this.locationSelect.getSelectedValue();
