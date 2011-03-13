@@ -358,37 +358,36 @@ public class ItemFinder
 
 	public static final AdventureResult getFirstMatchingItem( List sourceList, String parameters, int filterType, boolean errorOnFailure )
 	{
+		parameters = parameters.trim();
+	
 		int itemId = -1;
 		int itemCount = 1;
 
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
 
-		if ( parameters.indexOf( " " ) != -1 )
+		if ( parameters.charAt( 0 ) == '*' )
 		{
-			if ( parameters.charAt( 0 ) == '*' )
+			itemCount = 0;
+			parameters = parameters.substring( 1 ).trim();
+		}
+		else if ( parameters.indexOf( "\u00B6" ) == -1 &&
+			ItemDatabase.getItemId( parameters, 1 ) != -1 )
+		{
+			itemCount = 1;
+		}
+		else
+		{
+			int spaceIndex = parameters.indexOf( ' ' );
+			
+			if ( spaceIndex != -1 )
 			{
-				itemCount = 0;
-				parameters = parameters.substring( 1 ).trim();
-			}
-			else if ( parameters.indexOf( "\u00B6" ) == -1 &&
-				ItemDatabase.getItemId( parameters, 1 ) != -1 )
-			{
-				itemCount = 1;
-			}
-			else
-			{
-				int spaceIndex = parameters.indexOf( " " );
+				String itemCountString = parameters.substring( 0, spaceIndex );
 				
-				if ( spaceIndex != -1 )
-				{
-					String itemCountString = parameters.substring( 0, spaceIndex );
-					
-					if ( StringUtilities.isNumeric( itemCountString ) )
-					{					
-						itemCount = StringUtilities.parseInt( itemCountString );
-						parameters = parameters.substring( spaceIndex + 1 ).trim();
-					}
+				if ( StringUtilities.isNumeric( itemCountString ) )
+				{					
+					itemCount = StringUtilities.parseInt( itemCountString );
+					parameters = parameters.substring( spaceIndex + 1 ).trim();
 				}
 			}
 		}
