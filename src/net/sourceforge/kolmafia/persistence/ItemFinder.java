@@ -358,8 +358,6 @@ public class ItemFinder
 
 	public static final AdventureResult getFirstMatchingItem( List sourceList, String parameters, int filterType, boolean errorOnFailure )
 	{
-		parameters = parameters.trim();
-	
 		int itemId = -1;
 		int itemCount = 1;
 

@@ -67,7 +67,7 @@ public class MallSellCommand
 			if ( separatorIndex != -1 )
 			{
 				description = itemNames[ i ].substring( separatorIndex + 1 ).trim();
-				itemNames[ i ] = itemNames[ i ].substring( 0, separatorIndex ).trim();
+				itemNames[ i ] = itemNames[ i ].substring( 0, separatorIndex );
 
 				separatorIndex = description.indexOf( "limit" );
 
