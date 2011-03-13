@@ -62,12 +62,12 @@ public class MallSellCommand
 
 		for ( int i = 0; i < itemNames.length; ++i )
 		{
-			separatorIndex = itemNames[ i ].indexOf( "@" );
+			separatorIndex = itemNames[ i ].indexOf( '@' );
 
 			if ( separatorIndex != -1 )
 			{
 				description = itemNames[ i ].substring( separatorIndex + 1 ).trim();
-				itemNames[ i ] = itemNames[ i ].substring( 0, separatorIndex );
+				itemNames[ i ] = itemNames[ i ].substring( 0, separatorIndex ).trim();
 
 				separatorIndex = description.indexOf( "limit" );
 
@@ -80,39 +80,7 @@ public class MallSellCommand
 				prices[ i ] = StringUtilities.parseInt( description );
 			}
 
-			items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
-
-			if ( items[ i ] == null )
-			{
-				int spaceIndex = itemNames[ i ].lastIndexOf( " " );
-				if ( spaceIndex == -1 ||
-					!StringUtilities.isNumeric( itemNames[ i ].substring( spaceIndex + 1 ) ) )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + itemNames[ i ] + "] has no matches." );
-					return;
-				}
-
-				prices[ i ] = StringUtilities.parseInt( itemNames[ i ].substring( spaceIndex + 1 ) );
-				itemNames[ i ] = itemNames[ i ].substring( 0, spaceIndex ).trim();
-				items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
-			}
-
-			if ( items[ i ] == null )
-			{
-				int spaceIndex = itemNames[ i ].lastIndexOf( " " );
-				if ( spaceIndex == -1 ||
-					!StringUtilities.isNumeric( itemNames[ i ].substring( spaceIndex + 1 ) ) )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + itemNames[ i ] + "] has no matches." );
-					return;
-				}
-
-				limits[ i ] = prices[ i ];
-				prices[ i ] = StringUtilities.parseInt( itemNames[ i ].substring( spaceIndex + 1 ) );
-				itemNames[ i ] = itemNames[ i ].substring( 0, spaceIndex ).trim();
-
-				items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], false );
-			}
+			items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
 
 			if ( items[ i ] == null )
 			{
