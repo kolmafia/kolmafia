@@ -53,6 +53,11 @@ public class GoalManager
 	public static final void clearGoals()
 	{
 		GoalManager.goals.clear();
+		
+		for ( int i = 0; i < 3; ++i )
+		{
+			GoalManager.GOAL_SUBSTATS_COUNTS[ i ] = 0;
+		}
 	}
 
 	public static final boolean hasGoals()
