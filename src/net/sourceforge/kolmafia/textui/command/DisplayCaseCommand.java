@@ -60,17 +60,28 @@ public class DisplayCaseCommand
 			return;
 		}
 
-		if ( !parameters.startsWith( "put" ) && !parameters.startsWith( "take" ) )
+		String itemName = parameters;
+		List sourceList = null;
+
+		if ( parameters.startsWith( "put " ) )
+		{
+			itemName = parameters.substring( 4 );
+			sourceList = KoLConstants.inventory;
+		}
+		
+		if ( parameters.startsWith( "take " ) )
+		{
+			itemName = parameters.substring( 5 );
+			sourceList = KoLConstants.collection;
+		}
+		
+		if ( sourceList == null )
 		{
 			ShowDataCommand.show( "display " + parameters );
 			return;
 		}
 
-		boolean isTake = parameters.startsWith( "take" );
-
-		Object[] items =
-			ItemFinder.getMatchingItemList(
-				isTake ? KoLConstants.collection : KoLConstants.inventory, parameters.substring( 4 ).trim() );
+		Object[] items = ItemFinder.getMatchingItemList( sourceList, itemName );
 
 		if ( items.length == 0 )
 		{
