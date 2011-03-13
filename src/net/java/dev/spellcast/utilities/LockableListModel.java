@@ -573,8 +573,8 @@ public class LockableListModel
 		}
 
 		Object returnValue = this.actualElements.get( index );
-		this.removeVisibleElement( index, returnValue );
 		this.actualElements.remove( index );
+		this.removeVisibleElement( index, returnValue );
 
 		return returnValue;
 	}
