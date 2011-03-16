@@ -408,7 +408,10 @@ public class CoinMasterRequest
 	public Object run()
 	{
 		int visits = this.single ? this.quantity : 1;
-		for ( int i = 1; KoLmafia.permitsContinue() && i <= visits; ++i )
+
+		int i = 1;
+
+		do
 		{
 			if ( visits > 1 )
 			{
@@ -421,6 +424,7 @@ public class CoinMasterRequest
 
 			super.run();
 		}
+		while ( KoLmafia.permitsContinue() && ++i <= visits );
 
 		if ( KoLmafia.permitsContinue() )
 		{
