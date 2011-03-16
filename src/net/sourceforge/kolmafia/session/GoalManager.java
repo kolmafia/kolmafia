@@ -294,7 +294,7 @@ public class GoalManager
 		}
 		else
 		{
-			goal = goal.getInstance( previousGoal.getCount() - goal.getCount() );
+			goal = previousGoal.getInstance( previousGoal.getCount() - goal.getCount() );
 			GoalManager.goals.set( goalIndex, goal );
 		}
 	}
