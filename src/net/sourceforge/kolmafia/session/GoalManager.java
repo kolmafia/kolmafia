@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -58,7 +57,7 @@ public class GoalManager
 	public static final AdventureResult GOAL_SUBSTATS =
 		new AdventureResult( AdventureResult.SUBSTATS, GOAL_SUBSTATS_COUNTS );
 
-	private static final LockableListModel goals = new SortedListModel();
+	private static final LockableListModel goals = new LockableListModel();
 
 	public static final LockableListModel getGoals()
 	{
