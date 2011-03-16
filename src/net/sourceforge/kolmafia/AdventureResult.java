@@ -1089,12 +1089,21 @@ public class AdventureResult
 		// Note that these objects must not be placed in a sorted list, since they
 		// are not meaningfully comparable other than via equals().
 		private String match;
+		private String[] matches;
 		private boolean negated;
 
 		public WildcardResult( String name, int count, String match, boolean negated )
 		{
 			super( AdventureResult.ITEM_PRIORITY, name, count );
-			this.match = match.toLowerCase();
+
+			this.match = match;
+			this.matches = match.split( "\\s*[|/]\\s*" );
+
+			for ( int i = 0; i < matches.length; ++i )
+			{
+				this.matches[ i ] = this.matches[ i ].toLowerCase();
+			}
+
 			this.negated = negated;
 		}
 
@@ -1110,8 +1119,17 @@ public class AdventureResult
 				return false;
 			}
 
+			boolean hasMatch = false;
 			AdventureResult ar = (AdventureResult) o;
-			return (ar.getName().toLowerCase().indexOf( this.match ) != -1) ^ this.negated;
+			String arName = ar.getName().toLowerCase();
+
+			for ( int i = 0; i < this.matches.length && !hasMatch; ++i )
+			{
+				String match = this.matches[ i ];
+				hasMatch = arName.indexOf( this.matches[ i ] ) != -1;
+			}
+
+			return hasMatch ^ this.negated;
 		}
 
 		public int getCount( final List list )
