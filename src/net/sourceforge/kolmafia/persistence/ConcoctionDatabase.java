@@ -1583,7 +1583,8 @@ public class ConcoctionDatabase
 			flags |= KoLConstants.CR_TORSO;
 		}
 
-		if ( HolidayDatabase.getHoliday().equals( "St. Sneaky Pete's Day" ) )
+		if ( HolidayDatabase.getHoliday().equals( "St. Sneaky Pete's Day" ) ||
+		     HolidayDatabase.getHoliday().equals( "Drunksgiving" ))
 		{
 			flags |= KoLConstants.CR_SSPD;
 		}
