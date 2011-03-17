@@ -4954,7 +4954,7 @@
 4945	Knob frosting	none	none	0
 4946	unfrosted Knob cake	none	none	0
 4947	Cobb's Knob Menagerie key	none	none	0
-4948	GOTO	none, combat	display	50
+4948	GOTO	none, combat	all	50
 4949	weremoose spit	usable	all	50
 4950	abominable blubber	usable	all	50
 4951	flimsy clipboard	offhand	all	35
@@ -5030,3 +5030,7 @@
 5021	natto marble soda	usable	all	5
 5022	Alice's Army booster box	usable	all	0
 5023	elderly jawbreaker	multiple	all	30
+5024	marshmallow flamb&eacute;	drink	all	200
+5025	cranberry schnapps	drink	all	250
+5026	breaded beer	drink	all	300
+5027	soy cordial	drink	all	350
