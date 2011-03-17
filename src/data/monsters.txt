@@ -973,6 +973,12 @@ Malevolent Tofurkey	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	tofurkey nugget (c10
 Possessed Can of Cranberry Sauce	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	tube of cranberry Go-Goo (c100)	can-shaped gelatinous cranberry sauce (c100)	shredded can label (b100)
 Stuffing Golem	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	single-serving herbal stuffing (c100)	herbal stuffing (c100)
 
+# Drunksgiving
+Hammered Yam Golem	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	marshmallow flamb&eacute; (c100)
+Inebriated Tofurkey	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	tofurkey nugget (c100)	soy cordial (c100)
+Plastered Can of Cranberry Sauce	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	cranberry schnapps (c100)	shredded can label (b100)
+Soused Stuffing Golem	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	breaded beer (c100)
+
 # El Dia De Los Muertos Borrachos
 El Novio Cad&aacute;ver	HP: [HP] Def: [MUS-3] Atk: [MOX-3]	kamicorpse-ee (c100)	corpsedriver (c100)
 El Padre Cad&aacute;ver	HP: [HP] Def: [MUS-3] Atk: [MOX-3]	purple corpsel (c100)	corpsetini (c100)
