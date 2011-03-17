@@ -1112,7 +1112,14 @@ public class HolidayDatabase
 			return gameHoliday;
 		}
 
-		return realHoliday + " / " + gameHoliday;
+		String holiday = realHoliday + " / " + gameHoliday;
+		if ( holiday.equals( "St. Sneaky Pete's Day / Feast of Boris" ) ||
+		     holiday.equals( "Feast of Boris / St. Sneaky Pete's Day" ) )
+		{
+			holiday = "Drunksgiving";
+		}
+
+		return holiday;
 	}
 
 	private static String cachedYear = "";
