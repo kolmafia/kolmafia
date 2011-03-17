@@ -653,7 +653,7 @@ public abstract class KoLCharacter
 
 	public static final void setHoliday( final String holiday )
 	{
-		KoLCharacter.isFullnessIncreased = holiday.equals( "Feast of Boris" );
+		KoLCharacter.isFullnessIncreased = holiday.equals( "Feast of Boris" ) || holiday.equals( "Drunksgiving" );
 		KoLCharacter.holidayManaCostReduction = holiday.equals( "Festival of Jarlsberg" ) ? 3 : 0;
 	}
 
