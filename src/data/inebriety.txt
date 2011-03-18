@@ -155,7 +155,7 @@ mae west	4	6	14-18	0	0	40-47
 maiali sifilitici pinot noir	1	10	6-10	60	60	60
 mandarina colada	4	6	14-18	0	16-20	25-27
 margarita	3	1	5-6	8-10	0	0
-marshmallow flamb&eacute	2	3	11-13	46-79	0	0	10 Sugar Rush
+marshmallow flamb&eacute;	2	3	11-13	46-79	0	0	10 Sugar Rush
 martini	3	1	5-6	0	0	8-10
 mcmillicancuddy's special lager	1	10	2-4	10-15	10-15	10-15	10-20 MP
 melon-infused sake	4	7	14-17	0	75-120	0	1 Warm Belly (+hot damage, +10 Fishy)
