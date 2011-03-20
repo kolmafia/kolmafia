@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
+import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -122,8 +123,6 @@ public class Macrofier
 
 		// Begin monster-specific macrofication.
 
-		StringBuffer macro = new StringBuffer();
-
 		String monsterName = FightRequest.getLastMonsterName();
 
 		if ( Macrofier.macroInterpreter != null )
@@ -133,15 +132,27 @@ public class Macrofier
 			parameters[ 1 ] = monsterName;
 			parameters[ 2 ] = FightRequest.lastResponseText;
 
-			Value returnValue = Macrofier.macroInterpreter.execute( macroOverride, parameters );
+			// Execute a single function in the scope of the currently executing file.
+			// Do not re-execute top-level code in that file.
+			Value returnValue = Macrofier.macroInterpreter.execute( macroOverride, parameters, false );
 
-			macro.append( returnValue.toString() );
-
-			if ( macro.length() > 0 )
+			if ( returnValue.getType().equals( DataTypes.TYPE_VOID ) )
 			{
-				return macro.toString();
+				String message = "Macro override \"" + macroOverride + "\" returned void.";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			else
+			{
+				String result = returnValue.toString();
+				if ( result.length() > 0 )
+				{
+					return result;
+				}
 			}
 		}
+
+		StringBuffer macro = new StringBuffer();
 
 		if ( monsterName.equals( "hulking construct" ) )
 		{

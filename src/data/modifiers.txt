@@ -1124,6 +1124,7 @@ box-in-the-box-in-the-box	Meat Drop: +3
 brass dorsal fin	Weapon Damage Percent: +20, Damage Reduction: 13
 brown crock marble	Stench Spell Damage: +35
 bumblebee marble	Spell Damage: +50
+# card sleeve: If you like it, you should put a card in it!
 cardboard box turtle	Muscle: +3, Damage Reduction: 4
 catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
 # charged magnet: Radiates a Strange Energy
