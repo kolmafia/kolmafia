@@ -195,8 +195,7 @@ public class Interpreter
 	{
 		try
 		{
-			return this.executeScope(
-				this.scope, functionName, parameters, executeTopLevel );
+			return this.executeScope( this.scope, functionName, parameters, executeTopLevel );
 		}
 		catch ( ScriptException e )
 		{
