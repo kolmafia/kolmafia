@@ -37,12 +37,12 @@ import java.util.HashMap;
 
 import javax.swing.JCheckBox;
 
+import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;

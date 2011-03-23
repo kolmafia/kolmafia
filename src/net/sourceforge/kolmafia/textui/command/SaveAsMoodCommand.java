@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.moods.MoodManager;
 
 public class SaveAsMoodCommand
 	extends AbstractCommand
