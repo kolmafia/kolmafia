@@ -48,18 +48,26 @@ public class Mood
 	public Mood( String name )
 	{
 		this.name = name;
+		this.parentNames = new ArrayList();
 		
 		int extendsIndex = this.name.indexOf( " extends " );
 		
 		if ( extendsIndex != -1 )
 		{
-			this.parentName = this.getName( this.name.substring( extendsIndex + 9 ) );
+			String parentString = this.name.substring( extendsIndex + 9 );
+			
+			String[] parentNameArray = parentString.split( "\\s*,\\s*" );
+			
+			for ( int i = 0; i < parentNameArray.length; ++i )
+			{
+				this.parentNames.add( this.getName( parentNameArray[ i ] ) );
+			}
+			
 			this.name = this.getName( this.name.substring( 0, extendsIndex ) );
 		}
 		else
 		{
 			this.name = this.getName( this.name );
-			this.parentName = null;
 		}
 
 		this.localTriggers = new SortedListModel();
@@ -67,18 +75,22 @@ public class Mood
 
 	public void copyFrom( Mood copyFromMood )
 	{
-		this.parentName = copyFromMood.parentName;
+		this.parentNames.clear();
+		this.parentNames.addAll( copyFromMood.parentNames );
+
 		this.localTriggers.addAll( copyFromMood.localTriggers );
 	}
 	
-	public String getParentName()
+	public List getParentNames()
 	{
-		return this.parentName;
+		return this.parentNames;
 	}
 	
-	public void setParentName( String parentName )
+	public void setParentNames( List parentNames )
 	{
-		this.parentName = parentName;
+		this.parentNames.clear();
+		this.parentNames.addAll( parentNames );
+
 	}
 
 	public boolean isExecutable()
@@ -90,9 +102,19 @@ public class Mood
 	{
 		ArrayList triggers = new ArrayList();
 		
-		if ( this.parentName != null )
+		if ( !this.parentNames.isEmpty() )
 		{
-			triggers.addAll( MoodManager.getTriggers( this.parentName ) );
+			Iterator parentNameIterator = this.parentNames.iterator();
+			
+			while ( parentNameIterator.hasNext() )
+			{
+				String parentName = (String) parentNameIterator.next();
+				
+				List parentTriggers = MoodManager.getTriggers( parentName );
+				
+				triggers.removeAll( parentTriggers );
+				triggers.addAll( parentTriggers );
+			}
 		}
 		
 		triggers.removeAll( this.localTriggers );
@@ -146,14 +168,7 @@ public class Mood
 	{
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "[ " );
-		buffer.append( this.name );
-		
-		if ( this.parentName != null )
-		{
-			buffer.append( " extends " );
-			buffer.append( this.parentName );
-		}
-
+		buffer.append( this.toString() );
 		buffer.append( " ]" );
 		buffer.append( KoLConstants.LINE_BREAK );
 		
@@ -171,12 +186,30 @@ public class Mood
 
 	public String toString()
 	{
-		if ( this.parentName == null )
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( this.name );
+		
+		if ( !this.parentNames.isEmpty() )
 		{
-			return this.name;
+			buffer.append( " extends " );
+			
+			Iterator parentNameIterator = this.parentNames.iterator();
+			
+			while ( parentNameIterator.hasNext() )
+			{
+				String parentName = (String) parentNameIterator.next();
+				
+				buffer.append( parentName );
+
+				if ( parentNameIterator.hasNext() )
+				{
+					buffer.append( ", " );
+				}
+			}
 		}
 		
-		return this.name + " extends " + this.parentName;
+		return buffer.toString();
 	}
 	
 	public int hashCode()
@@ -215,10 +248,10 @@ public class Mood
 			return "default";
 		}
 
-		return Pattern.compile( "\\s+" ).matcher( moodName ).replaceAll( "" );
+		return Pattern.compile( "[\\s,]+" ).matcher( moodName ).replaceAll( "" ).toLowerCase();
 	}
 	
 	private String name;
-	private String parentName;
+	private List parentNames;
 	private SortedListModel localTriggers;
 }
