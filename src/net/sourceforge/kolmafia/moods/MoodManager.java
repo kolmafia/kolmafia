@@ -148,7 +148,7 @@ public abstract class MoodManager
 			if ( mood.equals( newMood ) )
 			{
 				MoodManager.currentMood = mood;
-				MoodManager.currentMood.setParentName( newMood.getParentName() );
+				MoodManager.currentMood.setParentNames( newMood.getParentNames() );
 				
 				break;
 			}

@@ -83,6 +83,7 @@ public class MoodCommand
 
 			int multiplicity = 0;
 			int spaceIndex = parameters.lastIndexOf( " " );
+
 			if ( spaceIndex != -1 )
 			{
 				multiplicity = StringUtilities.parseInt( parameters.substring( spaceIndex + 1 ) );
@@ -97,10 +98,16 @@ public class MoodCommand
 		{
 			int multiplicity = 0;
 			int spaceIndex = parameters.lastIndexOf( " " );
+
 			if ( spaceIndex != -1 )
 			{
-				multiplicity = StringUtilities.parseInt( parameters.substring( spaceIndex + 1 ) );
-				parameters = parameters.substring( 0, spaceIndex );
+				String possibleMultiplicityString = parameters.substring( spaceIndex + 1 );
+				
+				if ( StringUtilities.isNumeric( possibleMultiplicityString ) )
+				{
+					multiplicity = StringUtilities.parseInt( possibleMultiplicityString );
+					parameters = parameters.substring( 0, spaceIndex );
+				}
 			}
 
 			String previousMood = Preferences.getString( "currentMood" );
