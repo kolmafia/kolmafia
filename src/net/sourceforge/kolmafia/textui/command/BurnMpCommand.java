@@ -37,7 +37,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
