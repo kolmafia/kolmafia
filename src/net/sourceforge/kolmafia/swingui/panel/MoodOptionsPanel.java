@@ -47,6 +47,7 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -117,8 +118,9 @@ public class MoodOptionsPanel
 			public MoodComboBox()
 			{
 				super( MoodManager.getAvailableMoods() );
-				String mood = Preferences.getString( "currentMood" );
-				this.setSelectedItem( mood );
+				
+				MoodManager.updateFromPreferences();
+				
 				this.addActionListener( new MoodComboBoxListener() );
 			}
 
@@ -127,10 +129,10 @@ public class MoodOptionsPanel
 			{
 				public void actionPerformed( final ActionEvent e )
 				{
-					String mood = (String) MoodComboBox.this.getSelectedItem();
+					Mood mood = (Mood) MoodComboBox.this.getSelectedItem();
 					if ( mood != null )
 					{
-						MoodManager.setMood( mood );
+						MoodManager.setMood( mood.toString() );
 					}
 				}
 			}

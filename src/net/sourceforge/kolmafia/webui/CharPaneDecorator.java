@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,9 +53,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
-import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CharPaneDecorator
@@ -604,7 +603,7 @@ public class CharPaneDecorator
 		// Insert any effects which are in your maintenance list which
 		// have already run out.
 
-		ArrayList missingEffects = MoodManager.getMissingEffects();
+		List missingEffects = MoodManager.getMissingEffects();
 
 		// If the player has at least one effect, then go ahead and add
 		// all of their missing effects.
