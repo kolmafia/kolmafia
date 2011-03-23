@@ -72,10 +72,9 @@ public class ContactManager
 		return ContactManager.mailContacts;
 	}
 
-	public static final void updateMailContacts()
+	public static final void clearMailContacts()
 	{
 		ContactManager.mailContacts.clear();
-		ContactManager.getMailContacts();
 	}
 
 	/**
