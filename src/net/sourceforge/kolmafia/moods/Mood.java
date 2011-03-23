@@ -95,7 +95,7 @@ public class Mood
 
 	public boolean isExecutable()
 	{
-		return !this.name.equals( "apathetic" ) && getTriggers().isEmpty();
+		return !this.name.equals( "apathetic" ) && !getTriggers().isEmpty();
 	}
 	
 	public List getTriggers()
