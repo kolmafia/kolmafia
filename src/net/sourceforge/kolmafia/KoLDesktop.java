@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import com.sun.java.forums.CloseableTabbedPane;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -70,6 +68,8 @@ import net.sourceforge.kolmafia.webui.RelayLoader;
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
 import tab.CloseTabbedPane;
+
+import com.sun.java.forums.CloseableTabbedPane;
 
 public class KoLDesktop
 	extends GenericFrame
@@ -445,7 +445,7 @@ public class KoLDesktop
 		JProgressBar memoryLabel = new JProgressBar( JProgressBar.HORIZONTAL );
 		memoryLabel.setStringPainted( true );
 
-		new MemoryUsageMonitor( memoryLabel ).start();
+		memoryMonitor.setLabel( memoryLabel );
 
 		toolbarPanel.add( memoryLabel );
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
@@ -508,19 +508,19 @@ public class KoLDesktop
 			this.frame.requestFocusInWindow();
 		}
 	}
-
+	
 	private static class MemoryUsageMonitor
 		extends Thread
 	{
+		private boolean isRunning;
 		private JProgressBar label;
 		private PauseObject pauser;
 
-		public MemoryUsageMonitor( final JProgressBar label )
+		public MemoryUsageMonitor()
 		{
-			this.label = label;
 			this.pauser = new PauseObject();
 
-			this.setDaemon( false );
+			this.setDaemon( true );
 		}
 
 		public void run()
@@ -528,6 +528,11 @@ public class KoLDesktop
 			while ( true )
 			{
 				this.pauser.pause( 2000 );
+
+				if ( this.label == null )
+				{
+					continue;
+				}
 
 				Runtime runtime = Runtime.getRuntime();
 
@@ -541,5 +546,18 @@ public class KoLDesktop
 				this.label.setString( usedMemory + " KB / " + maxMemory + " KB" );
 			}
 		}
+		
+		public void setLabel( JProgressBar label )
+		{
+			this.label = label;
+			
+			if ( !this.isRunning )
+			{
+				this.start();
+				this.isRunning = true;
+			}
+		}
 	}
+
+	private static final MemoryUsageMonitor memoryMonitor = new MemoryUsageMonitor();
 }
