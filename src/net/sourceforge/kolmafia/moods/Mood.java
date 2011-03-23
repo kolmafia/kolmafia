@@ -65,6 +65,17 @@ public class Mood
 			
 			this.name = this.getName( this.name.substring( 0, extendsIndex ) );
 		}
+		else if ( this.name.indexOf( "," ) != -1 )
+		{
+			this.name = "";
+			
+			String[] parentNameArray = name.split( "\\s*,\\s*" );
+			
+			for ( int i = 0; i < parentNameArray.length; ++i )
+			{
+				this.parentNames.add( this.getName( parentNameArray[ i ] ) );
+			}
+		}
 		else
 		{
 			this.name = this.getName( this.name );
@@ -166,6 +177,11 @@ public class Mood
 	
 	public String toSettingString()
 	{
+		if ( this.name.equals( "" ) )
+		{
+			return "";
+		}
+		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "[ " );
 		buffer.append( this.toString() );
@@ -192,7 +208,10 @@ public class Mood
 		
 		if ( !this.parentNames.isEmpty() )
 		{
-			buffer.append( " extends " );
+			if ( !this.name.equals( "" ) )
+			{
+				buffer.append( " extends " );
+			}
 			
 			Iterator parentNameIterator = this.parentNames.iterator();
 			
