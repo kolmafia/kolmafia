@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.MPRestoreItemList;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
