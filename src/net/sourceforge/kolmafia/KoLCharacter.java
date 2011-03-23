@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -603,6 +604,7 @@ public abstract class KoLCharacter
 		// Clear some of the standard lists so they don't
 		// carry over from player to player.
 
+		ContactManager.clearMailContacts();
 		DataFileCache.clearCache();
 		GoalManager.clearGoals();
 		EventManager.clearEventHistory();

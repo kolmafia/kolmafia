@@ -840,10 +840,6 @@ public abstract class KoLmafia
 
 		ContactManager.registerPlayerId( username, String.valueOf( KoLCharacter.getUserId() ) );
 
-		// The mail contact list is used for the "target" list on the
-		// SkillBuffFrame.
-		ContactManager.updateMailContacts();
-
 		if ( Preferences.getString( "spadingData" ).length() > 10 )
 		{
 			KoLmafia.updateDisplay( "Some data has been collected that may be of interest " +
