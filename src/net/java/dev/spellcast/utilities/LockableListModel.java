@@ -60,6 +60,8 @@ public class LockableListModel
 {
 	private static final ListElementFilter NO_FILTER = new ShowEverythingFilter();
 
+	private boolean actionListenerFired = false;
+	
 	private ArrayList mirrorList;
 	private ArrayList actualElements;
 	private ArrayList visibleElements;
@@ -190,32 +192,38 @@ public class LockableListModel
 
 	public void fireContentsChanged( final Object source, final int index0, final int index1 )
 	{
-		if ( this.listenerList.getListenerCount() == 0 )
+		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
 		{
 			return;
 		}
 
+		this.actionListenerFired = true;
 		super.fireContentsChanged( source, index0, index1 );
+		this.actionListenerFired = false;
 	}
 
 	public void fireIntervalAdded( final Object source, final int index0, final int index1 )
 	{
-		if ( this.listenerList.getListenerCount() == 0 )
+		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
 		{
 			return;
 		}
 
+		this.actionListenerFired = true;
 		super.fireIntervalAdded( source, index0, index1 );
+		this.actionListenerFired = false;
 	}
 
 	public void fireIntervalRemoved( final Object source, final int index0, final int index1 )
 	{
-		if ( this.listenerList.getListenerCount() == 0 )
+		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
 		{
 			return;
 		}
 
+		this.actionListenerFired = true;
 		super.fireIntervalRemoved( source, index0, index1 );
+		this.actionListenerFired = false;
 	}
 
 	/**
