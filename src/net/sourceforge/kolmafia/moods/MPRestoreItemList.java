@@ -31,13 +31,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.moods;
 
 import java.util.HashMap;
 
 import javax.swing.JCheckBox;
 
-import net.sourceforge.kolmafia.moods.MoodManager;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
