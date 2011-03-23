@@ -37,7 +37,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.moods.MoodManager;
+import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.session.RecoveryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -63,7 +63,7 @@ public class BurnMpCommand
 		{
 			SpecialOutfit.createImplicitCheckpoint();
 			RecoveryManager.recoverHP();
-			MoodManager.burnExtraMana( true );
+			ManaBurnManager.burnExtraMana( true );
 			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
 		}
@@ -89,7 +89,7 @@ public class BurnMpCommand
 
 		SpecialOutfit.createImplicitCheckpoint();
 		RecoveryManager.recoverHP();
-		MoodManager.burnMana( -amount );
+		ManaBurnManager.burnMana( -amount );
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 }
