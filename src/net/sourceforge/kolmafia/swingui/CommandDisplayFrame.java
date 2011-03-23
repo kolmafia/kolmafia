@@ -34,10 +34,11 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
-
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.swing.JTabbedPane;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -51,7 +52,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CommandDisplayFrame
 	extends GenericFrame
 {
-	private static final ArrayList commandQueue = new ArrayList();
+	private static final LinkedList commandQueue = new LinkedList();
 	private static final PauseObject pauser = new PauseObject();
 	private static final CommandQueueHandler handler = new CommandQueueHandler();
 
@@ -137,13 +138,20 @@ public class CommandDisplayFrame
 		{
 			RequestLogger.printLine();
 
-			for ( int i = 0; i < CommandDisplayFrame.commandQueue.size(); ++i )
+			Iterator commandIterator = CommandDisplayFrame.commandQueue.iterator();
+			
+			for ( int i = 0; commandIterator.hasNext(); ++i )
 			{
-				String cmd = StringUtilities.globalStringReplace( (String) CommandDisplayFrame.commandQueue.get( i ), "<", "&lt;" );
+				String cmd = StringUtilities.globalStringReplace( (String) commandIterator.next(), "<", "&lt;" );
+
 				if (i == 0)
+				{
 					RequestLogger.printLine( " > <b>CURRENT</b>: " + cmd );
+				}
 				else
+				{
 					RequestLogger.printLine( " > <b>QUEUED " + i + "</b>: " + cmd );
+				}
 			}
  
 			RequestLogger.printLine( " > <b>QUEUED " + CommandDisplayFrame.commandQueue.size() + "</b>: " + StringUtilities.globalStringReplace( command, "<", "&lt;" ) );
@@ -204,7 +212,7 @@ public class CommandDisplayFrame
 				}
 				else
 				{
-					CommandDisplayFrame.commandQueue.remove( 0 );
+					CommandDisplayFrame.commandQueue.removeFirst();
 				}
 			}
 
