@@ -56,7 +56,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.moods.MoodManager;
-import net.sourceforge.kolmafia.moods.MoodManager.MoodTrigger;
+import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
