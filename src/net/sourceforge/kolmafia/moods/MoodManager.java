@@ -516,7 +516,7 @@ public abstract class MoodManager
 			MoodManager.considerBreakfastSkill( minimum ) : null;
 		int summonThreshold = Preferences.getInteger( "manaBurnSummonThreshold" );
 		int durationLimit = Preferences.getInteger( "maxManaBurn" ) + KoLCharacter.getAdventuresLeft();
-		Burn chosen = null;
+		ManaBurn chosen = null;
 		ArrayList burns = new ArrayList();
 
 		// Rather than maintain mood-related buffs only, maintain any
@@ -587,7 +587,7 @@ public abstract class MoodManager
 				continue;
 			}
 
-			Burn b = new Burn( skillId, skillName, currentDuration, currentLimit );
+			ManaBurn b = new ManaBurn( skillId, skillName, currentDuration, currentLimit );
 			if ( chosen == null )
 			{
 				chosen = b;
@@ -627,51 +627,20 @@ public abstract class MoodManager
 		Iterator i = burns.iterator();
 		while ( i.hasNext() )
 		{
-			Burn b = (Burn) i.next();
-			if ( b.duration >= b.limit )
+			ManaBurn b = (ManaBurn) i.next();
+			
+			if ( !b.isCastable( allowedMP ) )
 			{
 				i.remove();
 				continue;
 			}
-			// The max(1,...) guarantees that this loop will terminate.
-			int cost = Math.max( 1, SkillDatabase.getMPConsumptionById( b.skillId ) );
-			if ( cost > allowedMP )
-			{
-				i.remove();
-				continue;
-			}
-			++b.count;
-			b.duration += SkillDatabase.getEffectDuration( b.skillId );
-			allowedMP -= cost;
+			
+			allowedMP -= b.simulateCast();
 			Collections.sort( burns );
 			i = burns.iterator();
 		}
 
-		return "cast " + chosen.count + " " + chosen.skillName;
-	}
-
-	private static class Burn
-		implements Comparable
-	{
-		public int skillId;
-		public String skillName;
-		public int duration;
-		public int limit;
-		public int count;
-
-		public Burn( final int skillId, final String skillName, final int duration, final int limit )
-		{
-			this.skillId = skillId;
-			this.skillName = skillName;
-			this.duration = duration;
-			this.limit = limit;
-			this.count = 0;
-		}
-
-		public int compareTo( final Object o )
-		{
-			return this.duration - ( (Burn) o ).duration;
-		}
+		return chosen.toString();
 	}
 
 	private static final boolean effectInMood( final AdventureResult effect )
