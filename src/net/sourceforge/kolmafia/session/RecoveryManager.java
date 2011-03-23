@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
+import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -112,7 +113,7 @@ public class RecoveryManager
 
 		if ( isMoodCheck )
 		{
-			MoodManager.burnExtraMana( false );
+			ManaBurnManager.burnExtraMana( false );
 		}
 
 		if ( isManaCheck )

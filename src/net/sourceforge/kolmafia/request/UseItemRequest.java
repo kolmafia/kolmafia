@@ -52,7 +52,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.moods.MoodManager;
+import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -789,7 +789,7 @@ public class UseItemRequest
 
 		if ( itemId == ItemPool.LUCIFER )
 		{	// Burn any existing MP that would otherwise be wasted.
-			MoodManager.burnMana( KoLCharacter.getMaximumMP() -
+			ManaBurnManager.burnMana( KoLCharacter.getMaximumMP() -
 				9 * (KoLCharacter.getCurrentHP() - 1) );
 		}
 

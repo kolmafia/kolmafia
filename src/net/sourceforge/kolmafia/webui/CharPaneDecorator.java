@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -471,7 +472,7 @@ public class CharPaneDecorator
 			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
 			moodText = "mood " + Preferences.getString( "currentMood" );
 		}
-		else if ( MoodManager.getNextBurnCast() != null )
+		else if ( ManaBurnManager.getNextBurnCast() != null )
 		{
 			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
 			moodText = "burn extra mp";

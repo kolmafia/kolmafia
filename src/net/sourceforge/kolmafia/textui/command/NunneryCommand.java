@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.moods.MoodManager;
+import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
@@ -49,7 +49,7 @@ public class NunneryCommand
 		}
 		else if ( side.equals( "fratboy" ) )
 		{
-			MoodManager.burnMana( KoLCharacter.getMaximumMP() - 1000 );
+			ManaBurnManager.burnMana( KoLCharacter.getMaximumMP() - 1000 );
 		}
 		String url =
 			Preferences.getString( "warProgress" ).equals( "finished" ) ? "postwarisland.php" : "bigisland.php";
