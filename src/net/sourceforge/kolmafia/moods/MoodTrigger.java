@@ -141,6 +141,16 @@ public class MoodTrigger
 	
 	public boolean matches( AdventureResult effect )
 	{
+		if ( this.effect == null )
+		{
+			return effect == null;
+		}
+		
+		if ( effect == null )
+		{
+			return false;
+		}
+		
 		return this.effect.equals( effect );
 	}
 
