@@ -4665,8 +4665,14 @@ public class FightRequest
 		else if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.NAVEL_RING, 1 ) ) ||
 			  KoLCharacter.hasEquipped( ItemPool.get( ItemPool.GREAT_PANTS, 1 ) ) )
 		{
-			return Math.max( 20, Math.min( 100, 120 - 10 * Preferences.getInteger( "_navelRunaways" ) ) );
+			int navelRunaways = Preferences.getInteger( "_navelRunaways" );
+			
+			return
+				navelRunaways < 3  ? 100 :
+					navelRunaways < 6 ? 80 :
+						navelRunaways < 9 ? 50 : 20;
 		}
+
 		return 0;
 	}
 
