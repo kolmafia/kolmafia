@@ -35,16 +35,16 @@ package net.sourceforge.kolmafia.chat;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.ChatRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -76,15 +76,17 @@ public class ChatSender
 
 		ChatRequest request = new ChatRequest( macro );
 
-		List accumulatedMessages = new ArrayList();
+		List accumulatedMessages = new LinkedList();
 
-		sendRequest( accumulatedMessages, request );
+		accumulatedMessages.addAll( sendRequest( request ) );
 
 		ChatPoller.addSentEntry( request.responseText, false );
 
-		for ( int i = 0; ChatSender.scriptedMessagesEnabled && i < accumulatedMessages.size(); ++i )
+		Iterator messageIterator = accumulatedMessages.iterator();
+		
+		while ( messageIterator.hasNext() && ChatSender.scriptedMessagesEnabled )
 		{
-			ChatMessage message = (ChatMessage) accumulatedMessages.get( i );
+			ChatMessage message = (ChatMessage) messageIterator.next();
 
 			String recipient = message.getRecipient();
 
@@ -111,11 +113,13 @@ public class ChatSender
 			return;
 		}
 
-		List accumulatedMessages = new ArrayList();
+		Iterator grafIterator = grafs.iterator();
+		
+		List accumulatedMessages = new LinkedList();
 
-		for ( int i = 0; i < grafs.size(); ++i )
+		while ( grafIterator.hasNext() )
 		{
-			String graf = (String) grafs.get( i );
+			String graf = (String) grafIterator.next();
 
 			String responseText = ChatSender.sendMessage( accumulatedMessages, graf, false, channelRestricted );
 
@@ -161,13 +165,15 @@ public class ChatSender
 
 		ChatRequest request = new ChatRequest( graf );
 
-		sendRequest( accumulatedMessages, request );
+		accumulatedMessages.addAll( sendRequest( request ) );
 
 		if ( channelRestricted )
 		{
-			for ( int i = 0; ChatSender.scriptedMessagesEnabled && i < accumulatedMessages.size(); ++i )
+			Iterator messageIterator = accumulatedMessages.iterator();
+			
+			while ( messageIterator.hasNext() && ChatSender.scriptedMessagesEnabled )
 			{
-				ChatMessage message = (ChatMessage) accumulatedMessages.get( i );
+				ChatMessage message = (ChatMessage) messageIterator.next();
 
 				String recipient = message.getRecipient();
 
@@ -178,54 +184,58 @@ public class ChatSender
 		return request.responseText;
 	}
 
-	public static final void sendRequest( List accumulatedMessages, ChatRequest request )
+	public static final List sendRequest( ChatRequest request )
 	{
 		if ( !QuestLogRequest.isChatAvailable() )
 		{
-			return;
+			return Collections.EMPTY_LIST;
 		}
 
 		RequestThread.postRequest( request );
 
 		if ( request.responseText == null )
 		{
-			return;
+			return Collections.EMPTY_LIST;
 		}
+		
+		List newMessages = new LinkedList();
 
 		String graf = request.getGraf();
 
 		if ( graf.equals( "/listen" ) )
 		{
-			ChatParser.parseChannelList( accumulatedMessages, request.responseText );
+			ChatParser.parseChannelList( newMessages, request.responseText );
 		}
 		else if ( graf.startsWith( "/l " ) || graf.startsWith( "/listen " ) )
 		{
-			ChatParser.parseListen( accumulatedMessages, request.responseText );
+			ChatParser.parseListen( newMessages, request.responseText );
 		}
 		else if ( graf.startsWith( "/c " ) || graf.startsWith( "/channel " ) )
 		{
-			ChatParser.parseChannel( accumulatedMessages, request.responseText );
+			ChatParser.parseChannel( newMessages, request.responseText );
 		}
 		else if ( graf.startsWith( "/s " ) || graf.startsWith( "/switch " ) )
 		{
-			ChatParser.parseSwitch( accumulatedMessages, request.responseText );
+			ChatParser.parseSwitch( newMessages, request.responseText );
 		}
 		else if ( graf.startsWith( "/who " ) || graf.equals( "/f" ) || graf.equals( "/friends" ) || graf.equals( "/romans" ) || graf.equals( "/clannies" ) )
 		{
-			ChatParser.parseContacts( accumulatedMessages, request.responseText );
+			ChatParser.parseContacts( newMessages, request.responseText );
 		}
 		else
 		{
-			ChatParser.parseLines( accumulatedMessages, request.responseText );
+			ChatParser.parseLines( newMessages, request.responseText );
 		}
 
-		ChatManager.processMessages( accumulatedMessages );
+		ChatManager.processMessages( newMessages );
+		
+		return newMessages;
 	}
 
 	private static final List getGrafs( String contact, String message )
 	{
-		List grafs = new ArrayList();
-
+		List grafs = new LinkedList();
+		
 		if ( message.startsWith( "/do " ) || message.startsWith( "/run " ) || message.startsWith( "/cli " ) )
 		{
 			grafs.add( message );
@@ -241,60 +251,76 @@ public class ChatSender
 			message = message.substring( privateMessageMatcher.end() ).trim();
 		}
 
-		if ( message.length() > 256 && contact != null && !contact.equals( "/clan" ) )
+		if ( message.length() <= 256 || contact == null || contact.equals( "/clan" ) || message.indexOf( " && " ) != -1 )
 		{
-			// If the message is too long for one message, then
-			// divide it into its component pieces.
-
-			String command = "";
-			String splitter = " ";
-			String prefix = "... ";
-			String suffix = " ...";
-
-			if ( message.indexOf( " && " ) != -1 )
+			String graf = ChatSender.getGraf( contact, message );
+			
+			if ( graf != null )
 			{
-				// Assume chained commands, must handle differently
-
-				splitter = " && ";
-				prefix = "";
-				suffix = "";
+				grafs.add( graf );
 			}
-			else if ( message.startsWith( "/" ) )
-			{
-				int spaceIndex = message.indexOf( " " );
-
-				if ( spaceIndex != -1 )
-				{
-					command = message.substring( 0, spaceIndex ).trim();
-					message = message.substring( spaceIndex ).trim();
-				}
-				else
-				{
-					command = message.trim();
-					message = "";
-				}
-			}
-
-			int maxPiece = 255 - command.length() - suffix.length();
-
-			while ( message.length() > maxPiece )
-			{
-				int splitPos = message.lastIndexOf( splitter, maxPiece );
-				if ( splitPos <= prefix.length() )
-				{
-					splitPos = maxPiece;
-				}
-
-				grafs.addAll( ChatSender.getGrafs( contact, command + " " + message.substring( 0, splitPos ) + suffix ));
-
-				message = prefix + message.substring( splitPos + splitter.length() );
-			}
-
-			grafs.addAll( ChatSender.getGrafs( contact, command + " " + message ) );
-
+			
 			return grafs;
 		}
+		
+		// If the message is too long for one message, then
+		// divide it into its component pieces.
 
+		String command = "";
+		String splitter = " ";
+		String prefix = "... ";
+		String suffix = " ...";
+
+		if ( message.startsWith( "/" ) )
+		{
+			int spaceIndex = message.indexOf( " " );
+
+			if ( spaceIndex != -1 )
+			{
+				command = message.substring( 0, spaceIndex ).trim();
+				message = message.substring( spaceIndex ).trim();
+			}
+			else
+			{
+				command = message.trim();
+				message = "";
+			}
+		}
+
+		String graf;
+		
+		int maxPiece = 255 - command.length() - suffix.length();
+
+		while ( message.length() > maxPiece )
+		{
+			int splitPos = message.lastIndexOf( splitter, maxPiece );
+			if ( splitPos <= prefix.length() )
+			{
+				splitPos = maxPiece;
+			}
+
+			graf = ChatSender.getGraf( contact, command + " " + message.substring( 0, splitPos ) + suffix );
+
+			if ( graf != null )
+			{
+				grafs.add( graf );
+			}
+
+			message = prefix + message.substring( splitPos + splitter.length() );
+		}
+
+		graf = ChatSender.getGraf( contact, command + " " + message );
+
+		if ( graf != null )
+		{
+			grafs.add( graf );
+		}
+		
+		return grafs;
+	}
+
+	private static final String getGraf( String contact, String message )
+	{		
 		String contactId = "[none]";
 
 		if ( contact != null )
@@ -312,7 +338,7 @@ public class ChatSender
 
 			ChatManager.dispose();
 
-			return grafs;
+			return null;
 		}
 
 		if ( contactId.startsWith( "[" ) )
@@ -377,9 +403,7 @@ public class ChatSender
 			}
 		}
 
-		grafs.add( graf );
-
-		return grafs;
+		return graf;
 	}
 
 	private static final boolean executeCommand( String graf )

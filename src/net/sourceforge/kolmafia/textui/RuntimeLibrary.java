@@ -49,6 +49,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -4006,14 +4007,16 @@ public abstract class RuntimeLibrary
 
 	public static Value who_clan()
 	{
-		List chatMessages = new ArrayList();
+		List chatMessages = new LinkedList();
 
 		WhoMessage message = null;
 		ChatSender.sendMessage( chatMessages, "/who clan", false, false );
 
-		for ( int i = 0; i < chatMessages.size(); ++i )
+		Iterator messageIterator = chatMessages.iterator();
+		
+		while ( messageIterator.hasNext() )
 		{
-			ChatMessage chatMessage = (ChatMessage) chatMessages.get( i );
+			ChatMessage chatMessage = (ChatMessage) messageIterator.next();
 
 			if ( chatMessage instanceof WhoMessage )
 			{

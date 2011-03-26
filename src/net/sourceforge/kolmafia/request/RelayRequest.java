@@ -40,15 +40,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1375,7 +1374,7 @@ public class RelayRequest
 		}
 		else
 		{
-			chatText = ChatSender.sendMessage( new ArrayList(), this.getFormField( "graf" ), true, false );
+			chatText = ChatSender.sendMessage( new LinkedList(), this.getFormField( "graf" ), true, false );
 		}
 
 		if ( Preferences.getBoolean( "relayFormatsChatText" ) )
