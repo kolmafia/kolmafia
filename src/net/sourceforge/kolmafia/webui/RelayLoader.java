@@ -39,10 +39,8 @@ import java.io.File;
 import java.io.IOException;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.PauseObject;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RelayLoader
 	extends Thread
