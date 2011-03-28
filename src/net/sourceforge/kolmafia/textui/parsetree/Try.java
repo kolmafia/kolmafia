@@ -35,9 +35,6 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
