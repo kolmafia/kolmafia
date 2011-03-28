@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;

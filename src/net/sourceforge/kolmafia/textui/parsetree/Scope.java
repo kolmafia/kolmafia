@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.Iterator;
 
-import net.sourceforge.kolmafia.textui.Interpreter;
-
 public class Scope
 	extends BasicScope
 {
