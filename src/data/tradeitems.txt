@@ -4495,7 +4495,7 @@
 4486	BRICKO pearl	none	all	500
 4487	BRICKO bulwark	offhand	all	5
 4488	BRICKO trunk	usable	all	0
-4489	gilded BRICKO brick	none, combat	all	5000
+4489	gilded BRICKO brick	none	all	5000
 4490	gilded BRICKO chalice	none	all	21337
 4491	black BRICKO brick	none, combat	all	50
 4492	green BRICKO brick	none, combat	all	100
