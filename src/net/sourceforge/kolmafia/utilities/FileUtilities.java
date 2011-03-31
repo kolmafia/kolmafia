@@ -199,28 +199,14 @@ public class FileUtilities
 			}
 		}
 
-		InputStream input = DataUtilities.getInputStream( directory, filename );
-
+		InputStream istream = DataUtilities.getInputStream( directory, filename );
+		
+		byte[] data = ByteBufferUtilities.read( istream );
 		OutputStream output = DataUtilities.getOutputStream( library );
 
-		byte[] buffer = new byte[ 1024 ];
-		int bufferLength;
-
 		try
 		{
-			while ( ( bufferLength = input.read( buffer ) ) != -1 )
-			{
-				output.write( buffer, 0, bufferLength );
-			}
-		}
-		catch ( IOException e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-
-		try
-		{
-			input.close();
+			output.write( data );
 		}
 		catch ( IOException e )
 		{
@@ -267,65 +253,35 @@ public class FileUtilities
 			}
 		}
 
-		BufferedInputStream in;
-
-		try
-		{
-			in = new BufferedInputStream( connection.getInputStream() );
-		}
-		catch ( IOException e )
-		{
-			return;
-		}
-
-		ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
-
-		byte[] buffer = new byte[ 4096 ];
-
-		int offset;
-
-		try
-		{
-			while ( ( offset = in.read( buffer ) ) > 0 )
-			{
-				outbytes.write( buffer, 0, offset );
-			}
-		}
-		catch ( IOException e )
-		{
-		}
-
-		try
-		{
-			in.close();
-		}
-		catch ( IOException e )
-		{
-		}
-
 		// If it's textual data, then go ahead and modify it so
 		// that all the variables point to KoLmafia.
-
+		
+		InputStream istream = null;
+		
 		try
 		{
-			if ( remote.endsWith( ".js" ) )
-			{
-				String text = outbytes.toString();
-				outbytes.reset();
-
-				text = StringUtilities.globalStringReplace( text, "location.hostname", "location.host" );
-				outbytes.write( text.getBytes() );
-			}
+			istream = connection.getInputStream();
 		}
 		catch ( IOException e )
 		{
 		}
 
 		OutputStream ostream = DataUtilities.getOutputStream( local );
+		
+		if ( !remote.endsWith( ".js" ) )
+		{
+			ByteBufferUtilities.read( istream, ostream );
+			return;
+		}
 
 		try
 		{
-			outbytes.writeTo( ostream );
+			byte[] bytes = ByteBufferUtilities.read( istream ); 
+			
+			String text = new String( bytes );
+			text = StringUtilities.globalStringReplace( text, "location.hostname", "location.host" );
+
+			ostream.write( text.getBytes() );
 		}
 		catch ( IOException e )
 		{
@@ -344,7 +300,7 @@ public class FileUtilities
 	 * Downloads the given file from the KoL images server and stores it locally.
 	 */
 
-	public static final URL downloadImage( final String filename )
+	public static final File downloadImage( final String filename )
 	{
 		if ( filename == null || filename.equals( "" ) )
 		{
@@ -381,7 +337,7 @@ public class FileUtilities
 				return null;
 			}
 		
-			return localfile.toURI().toURL();
+			return localfile;
 		}
 		catch ( Exception e )
 		{

@@ -33,15 +33,14 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,6 +91,7 @@ import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -542,61 +542,15 @@ public class RelayRequest
 
 	private void sendLocalImage( final String filename )
 	{
-		URL imageURL = FileUtilities.downloadImage( "http://images.kingdomofloathing.com" + filename.substring( 6 ) );
+		File imageFile = FileUtilities.downloadImage( "http://images.kingdomofloathing.com" + filename.substring( 6 ) );
 
-		if ( imageURL == null )
+		if ( imageFile == null )
 		{
 			this.sendNotFound();
 			return;
 		}
 
-		InputStream istream;
-
-		try
-		{
-			istream = imageURL.openConnection().getInputStream();
-		}
-		catch ( IOException e )
-		{
-			this.sendNotFound();
-			return;
-		}
-
-		ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 4096 );
-
-		BufferedInputStream bufferedIstream = new BufferedInputStream( istream );
-
-		try
-		{
-			byte[] buffer = new byte[ 4096 ];
-
-			int offset;
-			while ( ( offset = bufferedIstream.read( buffer ) ) > 0 )
-			{
-				outbytes.write( buffer, 0, offset );
-			}
-		}
-		catch ( IOException e )
-		{
-		}
-
-		try
-		{
-			bufferedIstream.close();
-		}
-		catch ( IOException e )
-		{
-		}
-
-		try
-		{
-			outbytes.flush();
-		}
-		catch ( IOException e )
-		{
-		}
-
-		this.rawByteBuffer = outbytes.toByteArray();
+		this.rawByteBuffer = ByteBufferUtilities.read( imageFile );
 		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 

@@ -48,6 +48,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public class DataFileCache
@@ -172,52 +173,9 @@ public class DataFileCache
 			return (byte[]) dataFileDataCache.get( filename );
 		}
 
-		InputStream istream = null;
-
-		if ( input.exists() )
-		{
-			try
-			{
-				istream = new FileInputStream( input );
-			}
-			catch ( IOException e )
-			{
-				return new byte[0];
-			}
-		}
-		else
-		{
-			istream = DataUtilities.getInputStream( "data", filename );
-
-			if ( istream instanceof ByteArrayInputStream )
-			{
-				istream = DataUtilities.getInputStream( "", filename );
-			}
-		}
-
-		try
-		{
-			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-
-			int length;
-			byte[] buffer = new byte[ 8192 ];
-
-			while ( ( length = istream.read( buffer ) ) > 0 )
-			{
-				ostream.write( buffer, 0, length );
-			}
-
-			istream.close();
-
-			byte[] data = ostream.toByteArray();
-
-			DataFileCache.updateCache( filename, modifiedTime, data );
-			return data;
-		}
-		catch ( Exception e )
-		{
-			return new byte[0];
-		}
+		byte[] data = ByteBufferUtilities.read( input );
+		DataFileCache.updateCache( filename, modifiedTime, data );
+		return data;
 	}
 
 	public static Value printBytes( final String filename, final byte[] data )

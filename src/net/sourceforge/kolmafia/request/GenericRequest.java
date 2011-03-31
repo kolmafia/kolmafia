@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,8 +50,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.Map.Entry;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,7 +60,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -87,11 +85,11 @@ import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -110,20 +108,6 @@ public class GenericRequest
 
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
-
-	private static final int INITIAL_CACHE_COUNT = 3;
-
-	private static final ArrayList BYTEFLAGS = new ArrayList();
-	private static final ArrayList BYTEARRAYS = new ArrayList();
-	private static final ArrayList BYTESTREAMS = new ArrayList();
-
-	static
-	{
-		for ( int i = 0; i < GenericRequest.INITIAL_CACHE_COUNT; ++i )
-		{
-			GenericRequest.addAdditionalCache();
-		}
-	}
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/(login\\.php.*)", Pattern.DOTALL );
 	public static final Pattern JS_REDIRECT_PATTERN = Pattern.compile( ">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";" );
@@ -1719,66 +1703,10 @@ public class GenericRequest
 		return this != ChoiceManager.CHOICE_HANDLER && this.getClass() == GenericRequest.class;
 	}
 
-	private static final void addAdditionalCache()
-	{
-		synchronized ( GenericRequest.BYTEFLAGS )
-		{
-			GenericRequest.BYTEFLAGS.add( Boolean.TRUE );
-			GenericRequest.BYTEARRAYS.add( new byte[ 8096 ] );
-			GenericRequest.BYTESTREAMS.add( new ByteArrayOutputStream( 8096 ) );
-		}
-	}
-
 	private boolean retrieveServerReply( final InputStream istream )
 		throws IOException
 	{
-		// Find an available byte array in order to buffer the data.
-		// Allow this to scale based on the number of incoming requests
-		// in order to reduce the probability that the program hangs.
-
-		int desiredIndex = -1;
-
-		synchronized ( GenericRequest.BYTEFLAGS )
-		{
-			for ( int i = 0; desiredIndex == -1 && i < GenericRequest.BYTEFLAGS.size(); ++i )
-			{
-				if ( GenericRequest.BYTEFLAGS.get( i ) == Boolean.FALSE )
-				{
-					desiredIndex = i;
-				}
-			}
-		}
-
-		if ( desiredIndex == -1 )
-		{
-			desiredIndex = GenericRequest.BYTEFLAGS.size();
-			GenericRequest.addAdditionalCache();
-		}
-		else
-		{
-			GenericRequest.BYTEFLAGS.set( desiredIndex, Boolean.TRUE );
-		}
-
-		// Read all the data into the static byte array output stream
-		// and then convert that string to UTF-8.
-
-		byte[] array = (byte[]) GenericRequest.BYTEARRAYS.get( desiredIndex );
-		ByteArrayOutputStream stream = (ByteArrayOutputStream) GenericRequest.BYTESTREAMS.get( desiredIndex );
-
-		int availableBytes = 0;
-		while ( ( availableBytes = istream.read( array ) ) != -1 )
-		{
-			stream.write( array, 0, availableBytes );
-		}
-
-		this.responseText = stream.toString( "UTF-8" );
-		stream.reset();
-
-		// You are now done with the array.  Go ahead and reset the
-		// value to false to let the program know the objects are
-		// available to be reused.
-
-		GenericRequest.BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
+		this.responseText = new String( ByteBufferUtilities.read( istream ), "UTF-8" );
 
 		if ( this.responseText != null )
 		{
