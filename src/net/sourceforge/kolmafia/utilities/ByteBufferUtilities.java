@@ -140,7 +140,7 @@ public class ByteBufferUtilities
 		return ostream;
 	}
 	
-	private synchronized static void returnOutputStream( ByteArrayOutputStream outputStream )
+	private static void returnOutputStream( ByteArrayOutputStream outputStream )
 	{
 		outputStream.reset();
 		
