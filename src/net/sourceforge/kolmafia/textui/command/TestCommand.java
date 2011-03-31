@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class TestCommand
@@ -67,26 +68,17 @@ public class TestCommand
 
 			String fileName = split[ 1 ];
 			File file = new File( UtilityConstants.DATA_LOCATION, fileName );
+
 			if ( !file.exists() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "File " + file + " does not exist" );
 				return;
 			}
+			
+			byte[] bytes = ByteBufferUtilities.read( file );
+			TestCommand.contents = new String( bytes );
 
-			try
-			{
-				FileInputStream stream = new FileInputStream( file );
-				long length = file.length();
-				byte [] bytes = new byte[ (int)length ];
-				int read = stream.read( bytes );
-				TestCommand.contents = new String( bytes );
-				stream.close();
-				KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( read ) + " bytes" );
-			}
-			catch ( Exception e )
-			{
-			}
-			return;
+			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) + " bytes" );
 		}
 
 		if ( TestCommand.contents == null )

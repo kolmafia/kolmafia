@@ -37,6 +37,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Frame;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -59,8 +61,8 @@ import javax.swing.text.html.ImageView;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -174,7 +176,16 @@ public class RequestEditorKit
 				return null;
 			}
 
-			return FileUtilities.downloadImage( src );
+			File imageFile = FileUtilities.downloadImage( src );
+			
+			try
+			{
+				return imageFile.toURI().toURL();
+			}
+			catch ( IOException e )
+			{
+				return null;
+			}
 		}
 	}
 

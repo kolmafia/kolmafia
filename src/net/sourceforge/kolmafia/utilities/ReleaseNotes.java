@@ -90,11 +90,7 @@ public class ReleaseNotes
 			return revisionHistory;
 		}
 
-		FileInputStream istream = new FileInputStream( input );
-
-		byte [] available = new byte[ istream.available() ];
-		istream.read( available );
-		istream.close();
+		byte [] available = ByteBufferUtilities.read( input ); 
 
 		Matcher matcher = ReleaseNotes.REVISION_PATTERN.matcher( new String( available ) );
 		String string = matcher.replaceAll( "Revision $1" );
