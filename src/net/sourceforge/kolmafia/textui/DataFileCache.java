@@ -173,7 +173,30 @@ public class DataFileCache
 			return (byte[]) dataFileDataCache.get( filename );
 		}
 
-		byte[] data = ByteBufferUtilities.read( input );
+		InputStream istream = null;
+
+		if ( input.exists() )
+		{
+			try
+			{
+				istream = new FileInputStream( input );
+			}
+			catch ( IOException e )
+			{
+			}
+		}
+		
+		if ( istream == null )
+		{
+			istream = DataUtilities.getInputStream( "data", filename );
+
+			if ( istream instanceof ByteArrayInputStream )
+			{
+				istream = DataUtilities.getInputStream( "", filename );
+			}
+		}
+
+		byte[] data = ByteBufferUtilities.read( istream );
 		DataFileCache.updateCache( filename, modifiedTime, data );
 		return data;
 	}
