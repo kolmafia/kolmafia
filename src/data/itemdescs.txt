@@ -4951,7 +4951,7 @@
 4945	182960338	Knob frosting
 4946	807457433	unfrosted Knob cake
 4947	903767129	Cobb's Knob Menagerie key
-4948	183062668	GOTO
+4948	183062668	GOTO	GOTO statements
 4949	290991293	weremoose spit
 4950	765241883	abominable blubber
 4951	225397508	flimsy clipboard
@@ -5031,3 +5031,35 @@
 5025	332608358	cranberry schnapps	shots of cranberry schnapps
 5026	710352481	breaded beer	glasses of breaded beer
 5027	550290007	soy cordial	glasses of soy cordial
+5028
+5029
+5030
+5031
+5032
+5033
+5034
+5035
+5036
+5037
+5038
+5039
+5040
+5041
+5042
+5043
+5044
+5045
+5046
+5047
+5048
+5049
+5050
+5051
+5052	707677244	handful of numbers
+5053	577012386	Lars the Cyberian
+5054	730537805	intriguing puzzle box
+5055	528846909	obnoxious riddle
+5056
+5057	290365150	Atomic Comic
+5058	700689696	Red Pill
+5059	211071564	Skullhead's Screw
