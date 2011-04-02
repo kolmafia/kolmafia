@@ -232,6 +232,8 @@ public class FileUtilities
 			return;
 		}
 
+		OutputStream ostream = DataUtilities.getOutputStream( local );
+
 		URLConnection connection;
 
 		try
@@ -266,8 +268,6 @@ public class FileUtilities
 		{
 		}
 
-		OutputStream ostream = DataUtilities.getOutputStream( local );
-		
 		if ( !remote.endsWith( ".js" ) )
 		{
 			ByteBufferUtilities.read( istream, ostream );
