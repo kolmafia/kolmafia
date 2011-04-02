@@ -132,11 +132,12 @@ public class Macrofier
 			parameters[ 1 ] = monsterName;
 			parameters[ 2 ] = FightRequest.lastResponseText;
 
-			// Execute a single function in the scope of the currently executing file.
-			// Do not re-execute top-level code in that file.
+			// Execute a single function in the scope of the
+			// currently executing file.  Do not re-execute
+			// top-level code in that file.
 			Value returnValue = Macrofier.macroInterpreter.execute( macroOverride, parameters, false );
 
-			if ( returnValue.getType().equals( DataTypes.TYPE_VOID ) )
+			if ( returnValue == null || returnValue.getType().equals( DataTypes.TYPE_VOID ) )
 			{
 				String message = "Macro override \"" + macroOverride + "\" returned void.";
 				RequestLogger.printLine( message );

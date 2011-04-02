@@ -545,10 +545,8 @@ public class FightRequest
 					this.handleMacroAction( macro );
 					return;
 				}
-				else
-				{
-					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( macro );
-				}
+
+				FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( macro );
 			}
 
 			// Added emergency break for hulking construct
@@ -826,9 +824,11 @@ public class FightRequest
 
 		if ( FightRequest.nextAction.startsWith( "combo " ) )
 		{
-			int[] combo = DiscoCombatHelper.getCombo( FightRequest.nextAction.substring( 6 ) );
+			String name = FightRequest.nextAction.substring( 6 );
+			int[] combo = DiscoCombatHelper.getCombo( name );
 			if ( combo == null )
 			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Invalid combo '" + name + "' requested" );
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
 				return;
