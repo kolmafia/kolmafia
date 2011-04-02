@@ -1482,13 +1482,16 @@ public abstract class ChoiceManager
 			new String[] { "4852", null } ),
 
 		// Choice 520 is A Show-ho-ho-down
-		// Choice 521 is A Wicked Buxx
+		// Choice 521 is A Wicked Buzz
 
 		// Welcome to the Footlocker
 		new ChoiceAdventure(
 			"Knob", "choiceAdventure522", "Cobb's Knob Barracks",
 			new String[] { "Knob jelly donut", "skip adventure" },
 			new String[] { "4941", null } ),
+
+		// Choice 524 is The Adventures of Lars the Cyberian
+		// Choice 525 is Fiddling with a Puzzle
 	};
 
 	static
@@ -3250,6 +3253,17 @@ public abstract class ChoiceManager
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
 				RequestThread.enableDisplayIfSequenceComplete();
+			}
+			break;
+
+		case 524:
+			// The Adventures of Lars the Cyberian
+			if ( text.indexOf( "Skullhead's Screw" ) != -1 )
+			{
+				// You lose the book if you receive the reward.
+				// I don't know if that's always the result of
+				// the same choice option
+				ResultProcessor.processItem( ItemPool.LARS_THE_CYBERIAN, -1 );
 			}
 			break;
 		}
