@@ -619,9 +619,12 @@ public abstract class CombatActionManager
 
 		if ( action.startsWith( "combo " ) )
 		{
-			String combo = DiscoCombatHelper.disambiguateCombo( action.substring( 6 ) );
+			String name = action.substring( 6 );
+			String combo = DiscoCombatHelper.disambiguateCombo( name );
 			if ( combo == null )
 			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Invalid combo '" + name + "' requested" );
+				Macrofier.setMacroOverride( null );
 				return "skip";
 			}
 			return "combo " + combo;
