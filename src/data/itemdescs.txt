@@ -5055,11 +5055,11 @@
 5049
 5050
 5051
-5052	707677244	handful of numbers
-5053	577012386	Lars the Cyberian
-5054	730537805	intriguing puzzle box
-5055	528846909	obnoxious riddle
+5052	707677244	handful of numbers	handfuls of numbers
+5053	577012386	Lars the Cyberian	copies of Lars the Cyberian
+5054	730537805	intriguing puzzle box	intriguing puzzle boxes
+5055	528846909	obnoxious riddle	obnoxious riddles
 5056
-5057	290365150	Atomic Comic
-5058	700689696	Red Pill
-5059	211071564	Skullhead's Screw
+5057	290365150	Atomic Comic	copies of Atomic Comic
+5058	700689696	Red Pill	Red Pills
+5059	211071564	Skullhead's Screw	Skullhead's Screws
