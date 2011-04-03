@@ -1092,6 +1092,12 @@ public abstract class UseLinkDecorator
 			useLocation = "shore.php";
 			break;
 
+		case ItemPool.BUS_PASS:
+		case ItemPool.IMP_AIR:
+			useType = String.valueOf( InventoryManager.getCount( itemId ) );
+			useLocation = "pandamonium.php?action=moan";
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty
