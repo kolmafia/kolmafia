@@ -696,7 +696,64 @@ public class ResultProcessor
 		}
 		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
 		{
-			AdventureResult.addResultToList( KoLConstants.tally, result );
+			// Update substat delta and fullstat delta, if necessary
+			int [] counts = result.getCounts();
+
+			// Update AdventureResult.SESSION_SUBSTATS in place
+			// Update AdventureResult.SESSION_FULLSTATS in place
+			boolean substatChanged = false;
+			boolean fullstatChanged = false;
+
+			int count = counts[ 0 ];
+			if ( count != 0 )
+			{
+				long stat = KoLCharacter.getTotalMuscle();
+				long diff = KoLCharacter.calculateBasePoints( stat + count ) -
+					    KoLCharacter.calculateBasePoints( stat );
+				AdventureResult.SESSION_SUBSTATS[ 0 ] += count;
+				AdventureResult.SESSION_FULLSTATS[ 0 ] += diff;
+				substatChanged = true;
+				fullstatChanged |= ( diff != 0 );
+			}
+
+			count = counts[ 1 ];
+			if ( count != 0 )
+			{
+				long stat = KoLCharacter.getTotalMysticality();
+				long diff = KoLCharacter.calculateBasePoints( stat + count ) -
+					    KoLCharacter.calculateBasePoints( stat );
+				AdventureResult.SESSION_SUBSTATS[ 1 ] += count;
+				AdventureResult.SESSION_FULLSTATS[ 1 ] += diff;
+				substatChanged = true;
+				fullstatChanged |= ( diff != 0 );
+			}
+
+			count = counts[ 2 ];
+			if ( count != 0 )
+			{
+				long stat = KoLCharacter.getTotalMoxie();
+				long diff = KoLCharacter.calculateBasePoints( stat + count ) -
+					   KoLCharacter.calculateBasePoints( stat );
+				AdventureResult.SESSION_SUBSTATS[ 2 ] += count;
+				AdventureResult.SESSION_FULLSTATS[ 2 ] += diff;
+				substatChanged = true;
+				fullstatChanged |= ( diff != 0 );
+			}
+
+			int size = KoLConstants.tally.size();
+			if ( substatChanged && size > 2 )
+			{
+				KoLConstants.tally.fireContentsChanged( KoLConstants.tally, 2, 2 );
+			}
+
+			if ( fullstatChanged)
+			{
+				shouldRefresh = true;
+				if ( size > 3 )
+				{
+					KoLConstants.tally.fireContentsChanged( KoLConstants.tally, 3, 3 );
+				}
+			}
 		}
 		else if ( resultName.equals( AdventureResult.MEAT ) )
 		{
@@ -741,31 +798,6 @@ public class ResultProcessor
 			if ( HermitRequest.isWorthlessItem( result.getItemId() ) )
 			{
 				result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
-			}
-		}
-
-		// Now, if it's an actual stat gain, be sure to update the
-		// list to reflect the current value of stats so far.
-
-		if ( resultName.equals( AdventureResult.SUBSTATS ) )
-		{
-			int currentTest =
-				KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - KoLmafia.initialStats[ 0 ];
-			shouldRefresh |= AdventureResult.SESSION_FULLSTATS[ 0 ] != currentTest;
-			AdventureResult.SESSION_FULLSTATS[ 0 ] = currentTest;
-
-			currentTest =
-				KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() ) - KoLmafia.initialStats[ 1 ];
-			shouldRefresh |= AdventureResult.SESSION_FULLSTATS[ 1 ] != currentTest;
-			AdventureResult.SESSION_FULLSTATS[ 1 ] = currentTest;
-
-			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() ) - KoLmafia.initialStats[ 2 ];
-			shouldRefresh |= AdventureResult.SESSION_FULLSTATS[ 2 ] != currentTest;
-			AdventureResult.SESSION_FULLSTATS[ 2 ] = currentTest;
-
-			if ( KoLConstants.tally.size() > 3 )
-			{
-				KoLConstants.tally.fireContentsChanged( KoLConstants.tally, 3, 3 );
 			}
 		}
 
