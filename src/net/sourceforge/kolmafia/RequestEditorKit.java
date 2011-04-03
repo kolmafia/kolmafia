@@ -863,26 +863,23 @@ public class RequestEditorKit
 		StringBuffer links = new StringBuffer();
 		if ( KoLCharacter.hasSushiMat() )
 		{
-			links.append( "&nbsp;&nbsp;<a href=\"sushi.php\">[roll sushi]</a>" );
+			links.append( "&nbsp;&nbsp;[<a href=\"sushi.php\">roll sushi</a>]" );
 		}
 
 		AdventureResult wand = KoLCharacter.getZapper();
 		if ( wand != null )
 		{
-			links.append( "&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a>" );
+			links.append( "&nbsp;&nbsp;[<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">zap items</a>]" );
 		}
 
 
 		if ( links.length() > 0 )
 		{
-			// <table width="100%"><tr><td width="25%"></td><td width="50%"><font size=2><a href="craft.php">[craft stuff]</a>&nbsp;&nbsp;<a href="sellstuff.php">[sell stuff]</a>&nbsp;&nbsp;</font></td><td width="25%"></td></tr></table></td></tr></table>
+			// <table width=100%><tr><td width=30></td><td class=small align=center><font size=2>[<a href="craft.php">craft stuff</a>]&nbsp;&nbsp;[<a href="sellstuff.php">sell stuff</a>]&nbsp;&nbsp;</font></td><td width=30></td></tr></table>
+
 			StringUtilities.globalStringDelete(
 				buffer,
-				"<td width=\"25%\"></td>" );
-			StringUtilities.singleStringReplace(
-				buffer,
-				"<td width=\"50%\">",
-				"<td align=center>" );
+				"<td width=30></td>" );
 			StringUtilities.singleStringReplace(
 				buffer,
 				"&nbsp;&nbsp;</font></td></tr>",
