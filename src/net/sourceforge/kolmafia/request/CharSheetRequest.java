@@ -345,7 +345,11 @@ public class CharSheetRequest
 				case SkillDatabase.PARTY_FAVOR:
 				case SkillDatabase.LOVE_SONG:
 				case SkillDatabase.BRICKOS:
-					shouldAddSkill = !KoLCharacter.inBadMoon();
+					shouldAddSkill = !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated();
+					break;
+				case SkillDatabase.OLFACTION:
+					shouldAddSkill = !KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled();
+					break;
 				}
 
 				if ( shouldAddSkill )
