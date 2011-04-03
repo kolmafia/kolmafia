@@ -1043,6 +1043,10 @@ public abstract class KoLmafia
 		AdventureResult.SESSION_FULLSTATS[ 1 ] = 0;
 		AdventureResult.SESSION_FULLSTATS[ 2 ] = 0;
 
+		AdventureResult.SESSION_SUBSTATS[ 0 ] = 0;
+		AdventureResult.SESSION_SUBSTATS[ 1 ] = 0;
+		AdventureResult.SESSION_SUBSTATS[ 2 ] = 0;
+
 		KoLConstants.tally.clear();
 		KoLConstants.tally.add( new AdventureResult( AdventureResult.ADV ) );
 		KoLConstants.tally.add( new AdventureResult( AdventureResult.MEAT ) );

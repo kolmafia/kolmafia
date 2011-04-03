@@ -54,8 +54,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class AdventureResult
 	implements Comparable
 {
-	public static final int[] SESSION_SUBSTATS = new int[ 3 ];
-	public static final int[] SESSION_FULLSTATS = new int[ 3 ];
 	public static final String[] STAT_NAMES = { "muscle", "mysticality", "moxie" };
 
 	private int itemId;
@@ -114,8 +112,11 @@ public class AdventureResult
 		AdventureResult.MOX_SUBSTAT.add( "mawksees" );
 	}
 
+	public static final int[] SESSION_SUBSTATS = new int[ 3 ];
 	public static final AdventureResult SESSION_SUBSTATS_RESULT =
 		new AdventureResult( AdventureResult.SUBSTATS, AdventureResult.SESSION_SUBSTATS );
+
+	public static final int[] SESSION_FULLSTATS = new int[ 3 ];
 	public static final AdventureResult SESSION_FULLSTATS_RESULT =
 		new AdventureResult( AdventureResult.FULLSTATS, AdventureResult.SESSION_FULLSTATS );
 
@@ -469,6 +470,11 @@ public class AdventureResult
 			totalCount += this.count[ i ];
 		}
 		return totalCount;
+	}
+
+	public int[] getCounts()
+	{
+		return this.count;
 	}
 
 	/**
@@ -852,7 +858,7 @@ public class AdventureResult
 		// These don't involve any addition -- ignore this entirely
 		// for now.
 
-		if ( result == AdventureResult.SESSION_SUBSTATS_RESULT || result == AdventureResult.SESSION_FULLSTATS_RESULT || result == GoalManager.GOAL_SUBSTATS )
+		if ( result == GoalManager.GOAL_SUBSTATS )
 		{
 			return;
 		}
@@ -861,20 +867,18 @@ public class AdventureResult
 		// current adventure result, and construct the sum.
 
 		AdventureResult current = (AdventureResult) sourceList.get( index );
-		AdventureResult sumResult;
 
-		if ( current.count.length == 1 )
+		// Modify substats and fullstats in place
+		if ( current.count.length > 1 )
 		{
-			sumResult = current.getInstance( current.count[ 0 ] + result.count[ 0 ] );
-		}
-		else
-		{
-			sumResult = current.getInstance( new int[ current.count.length ] );
 			for ( int i = 0; i < current.count.length; ++i )
 			{
-				sumResult.count[ i ] = current.count[ i ] + result.count[ i ];
+				current.count[ i ] += result.count[ i ];
 			}
+			return;
 		}
+
+		AdventureResult sumResult = current.getInstance( current.count[ 0 ] + result.count[ 0 ] );
 
 		// Check to make sure that the result didn't transform the value
 		// to zero - if it did, then remove the item from the list if
