@@ -1029,15 +1029,12 @@ public class FightRequest
 		else if ( skillName.equals( "Entangling Noodles" ) )
 		{
 			// You can only use this skill once per combat
-
 			if ( FightRequest.castNoodles )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
 				return;
 			}
-
-			FightRequest.castNoodles = true;
 		}
 		else if ( skillName.equals( "Fire a badly romantic arrow" ) )
 		{
@@ -4454,6 +4451,10 @@ public class FightRequest
 			ResultProcessor.processItem( ItemPool.VOLCANIC_ASH, -1 );
 			break;
 
+		case 3004:
+			FightRequest.castNoodles = true;
+			return;
+
 		case 7024:	// Summon Mayfly Swarm
 			if ( responseText.indexOf( "mayfly bait and swing it" ) != -1 )
 			{
@@ -4841,10 +4842,6 @@ public class FightRequest
 							Preferences.setString( "autoOlfact", "" );
 							FightRequest.canOlfact = false;
 						}
-					}
-					else if ( skillId.equals( "3004" ) )
-					{
-						FightRequest.castNoodles = true;
 					}
 					else if ( skillId.equals( "7108" ) )
 					{
