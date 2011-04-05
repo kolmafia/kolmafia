@@ -62,6 +62,10 @@ public class MallSearchRequest
 	private static final Pattern LISTDETAIL_PATTERN =
 		Pattern.compile( "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\"><b>(.*?)</b>" );
 
+	// <a href='/xxx'>next</a>
+	private static final Pattern NEXT_PATTERN = Pattern.compile( "<a href='/([^']*&start=(\\d*)[^']*)'>next</a>" );
+
+
 	private List results;
 	private final boolean retainAll;
 	private String searchString;
@@ -229,7 +233,22 @@ public class MallSearchRequest
 			KoLmafia.updateDisplay( "Searching for " + this.searchString + "..." );
 		}
 
-		super.run();
+		// We may need to iterate over multiple pages of search results
+		this.removeFormField( "start" );
+		while ( true )
+		{
+			super.run();
+
+			Matcher nextMatcher = MallSearchRequest.NEXT_PATTERN.matcher( this.responseText );
+			if ( !nextMatcher.find() )
+			{
+				break;
+			}
+
+			this.addFormField( "start", nextMatcher.group(2) );
+		}
+
+		KoLmafia.updateDisplay( "Search complete." );
 		return null;
 	}
 
@@ -290,8 +309,6 @@ public class MallSearchRequest
 
 				this.results.addAll( individualStore.results );
 			}
-
-			KoLmafia.updateDisplay( "Search complete." );
 		}
 	}
 
@@ -411,10 +428,9 @@ public class MallSearchRequest
 		if ( this.searchString == null || this.searchString.trim().length() == 0 )
 		{
 			this.searchStore();
+			return;
 		}
-		else
-		{
-			this.searchMall();
-		}
+
+		this.searchMall();
 	}
 }
