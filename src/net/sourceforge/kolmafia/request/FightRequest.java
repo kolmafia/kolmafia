@@ -1697,7 +1697,8 @@ public class FightRequest
 
 		if ( responseText.indexOf( "Macro Abort" ) != -1 ||
 		     responseText.indexOf( "Macro abort" ) != -1 ||
-		     responseText.indexOf( "macro abort" ) != -1)
+		     responseText.indexOf( "macro abort" ) != -1 || 
+		     responseText.indexOf( "Could not match item(s) for use" ) != -1 )
 		{
 			FightRequest.nextAction = "abort";
 		}
