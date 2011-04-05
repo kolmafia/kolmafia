@@ -36,12 +36,6 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.FamiliarData;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;

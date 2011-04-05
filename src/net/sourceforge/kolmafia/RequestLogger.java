@@ -38,7 +38,6 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.util.List;
 
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
@@ -113,8 +112,6 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 

@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
-import java.io.FileInputStream;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;

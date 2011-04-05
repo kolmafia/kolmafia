@@ -33,10 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterExpression
 	extends Expression

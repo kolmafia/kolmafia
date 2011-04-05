@@ -40,7 +40,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
