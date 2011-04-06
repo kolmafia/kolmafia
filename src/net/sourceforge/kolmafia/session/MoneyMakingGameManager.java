@@ -61,7 +61,7 @@ public class MoneyMakingGameManager
 	// Babycakes (#311877) took your 1,000 Meat bet, and you lost. Better luck next time.
 	// Babycakes (#311877) took your 1,000 Meat bet, and you won, earning you 1,998 Meat.
 
-	private static final Pattern EVENT_PATTERN = Pattern.compile( "- (.*) \\(#(\\d+)\\) took your ([1234567890,]*) Meat bet, and you (won|lost)(, earning you ([0123456789,]*) Meat)?" );
+	private static final Pattern EVENT_PATTERN = Pattern.compile( "(?:.*- )?(.*) \\(#(\\d+)\\) took your ([1234567890,]*) Meat bet, and you (won|lost)(, earning you ([0123456789,]*) Meat)?" );
 
 	private static final Pattern TAKE_BET_PATTERN = Pattern.compile( "You take the ([0123456789,]*) bet" );
 	private static final Pattern WON_BET_PATTERN = Pattern.compile( "(You gain|have him deliver) ([0123456789,]*) Meat" );

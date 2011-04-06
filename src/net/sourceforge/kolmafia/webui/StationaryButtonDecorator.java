@@ -289,7 +289,8 @@ public class StationaryButtonDecorator
 				urlString, buffer, actionBuffer, "steal", FightRequest.canStillSteal() );
 		}
 
-		if ( KoLCharacter.getClassName().equals( "Pastamancer" ) &&
+		if ( !inBirdForm && 
+		     KoLCharacter.getClassName().equals( "Pastamancer" ) &&
 		     !Preferences.getString( "pastamancerGhostType" ).equals( "" ))
 		{
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
