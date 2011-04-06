@@ -1991,7 +1991,7 @@ public class FightRequest
 		     responseText.indexOf( "picks some organs out of your opponent and tosses them into his grinder." ) != -1 ||
 		     responseText.indexOf( "squealing something about burning his Longers and Lingers." ) != -1 ||
 		     responseText.indexOf( "chattering about how the upper story on his Gregory is standing up." ) != -1 ||
-		     responseText.indexOf( "blushes a little as he rummages in his body for organs to grind." ) != -1 ||
+		     responseText.indexOf( "My Hampton has a funny feeling about this one, mate" ) != -1 ||
 		     responseText.indexOf( "shivers as he rummages for grindable organs" ) != -1 ||
 		     responseText.indexOf( "squelches around in its body for some grinder fodder" ) != -1 ||
 		     responseText.indexOf( "and harvests a few choice bits for his grinder." ) != -1 )
