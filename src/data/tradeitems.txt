@@ -5054,10 +5054,10 @@
 5045
 5046
 5047	Clan shower	usable	all	0
-5048
-5049
-5050
-5051
+5048	shard of double-ice	multiple	all	0
+5049	double-ice cap	hat	display	75
+5050	double-ice box	offhand	display	75
+5051	double-ice britches	pants	display	75
 5052	handful of numbers	usable	all	55
 5053	Lars the Cyberian	reusable	all	55
 5054	intriguing puzzle box	reusable	all	23

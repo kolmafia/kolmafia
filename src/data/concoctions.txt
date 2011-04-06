@@ -1490,6 +1490,10 @@ paperclip turban	MUSE	paperclip (15)
 paperclip cape	MUSE	paperclip (20)
 paperclip pants	MUSE	paperclip (25)
 
+double-ice cap	MUSE	shard of double-ice (5)
+double-ice box	MUSE	shard of double-ice (7)
+double-ice britches	MUSE	shard of double-ice (9)
+
 clingfilm tangle	MUSE	bit of clingfilm (3)
 clingfilm slippers	MUSE	bit of clingfilm (7)
 clingfilm cap	MUSE	bit of clingfilm (9)
