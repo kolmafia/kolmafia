@@ -59,7 +59,7 @@ public class VariableReference
 
 	public Type getType()
 	{
-		return this.target.getType();
+		return this.target.getBaseType();
 	}
 
 	public String getName()
