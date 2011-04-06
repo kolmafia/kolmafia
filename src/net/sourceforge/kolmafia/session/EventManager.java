@@ -110,14 +110,14 @@ public class EventManager
 		eventHTML = eventHTML.replaceAll( "</[^aA][^>]*>", "" );
 		eventHTML = eventHTML.replaceAll( "<[^aA/][^>]*>", "" );
 
-		if ( moneyMakingGameEvent )
-		{
-			MoneyMakingGameManager.processEvent( eventHTML );
-		}
-
 		String eventText = eventHTML.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)</a>", "$2 (#$1)" );
 
 		eventText = eventText.replaceAll( "<.*?>", "" );
+
+		if ( moneyMakingGameEvent )
+		{
+			MoneyMakingGameManager.processEvent( eventText );
+		}
 
 		if ( addTimestamp )
 		{
