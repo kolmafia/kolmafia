@@ -132,7 +132,7 @@ spooky staff	COMBINE	spooky shrunken head	spooky stick
 snakehead charrrm	SUSE	gaudy key
 Talisman o' Nam	COMBINE	snakehead charrrm	snakehead charrrm
 
-boxing glove on a spring	COMBINE	nothing-in-the-box	boxing glove
+boxing glove on a spring	COMBINE	spring	boxing glove
 grass whistle	COMBINE	leaf of grass	leaf of grass
 office-supply crossbow	COMBINE	stolen office supplies	stolen office supplies
 club of corruption	COMBINE	seal-clubbing club	tainted seal's blood
