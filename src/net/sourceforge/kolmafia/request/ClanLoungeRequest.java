@@ -557,9 +557,10 @@ public class ClanLoungeRequest
 			{
 				RequestLogger.printLine( "You took a cold shower." );
 			}
-			else if ( responseText.indexOf( "already had a shower today" ) != -1 )
+			else if ( responseText.indexOf( "already had a shower today" ) != -1 ||
+				  responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
 			{
-				RequestLogger.printLine( "You've already had a shower today." );
+				RequestLogger.printLine( "You already took a shower today." );
 			}
 			else if ( responseText.indexOf( "Shower!" ) != -1 )
 			{
@@ -784,7 +785,8 @@ public class ClanLoungeRequest
 			     responseText.indexOf( "mind expands" ) != -1 ||
 			     responseText.indexOf( "your goosebumps absorb" ) != -1 ||
 			     responseText.indexOf( "shards of frosty double-ice" ) != -1 ||
-			     responseText.indexOf( "already had a shower today" ) != -1 )
+			     responseText.indexOf( "already had a shower today" ) != -1 ||
+			     responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
 			{
 				Preferences.setBoolean( "_aprilShower", true );
 			}
