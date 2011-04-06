@@ -62,6 +62,7 @@ public class ClanLoungeRequest
 	public static final int CRIMBO_TREE = 4;
 	public static final int LOOKING_GLASS = 5;
 	public static final int FAX_MACHINE = 6;
+	public static final int APRIL_SHOWER = 7;
 
 	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
@@ -72,12 +73,20 @@ public class ClanLoungeRequest
 	public static final int SEND_FAX = 1;
 	public static final int RECEIVE_FAX = 2;
 
+	// Shower options
+	public static final int COLD_SHOWER = 1;
+	public static final int COOL_SHOWER = 2;
+	public static final int LUKEWARM_SHOWER = 3;
+	public static final int WARM_SHOWER = 4;
+	public static final int HOT_SHOWER = 5;
+
 	private int action;
 	private int option;
 
 	private static final Pattern STANCE_PATTERN = Pattern.compile( "stance=(\\d*)" );
 	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
 	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
+	private static final Pattern TEMPERATURE_PATTERN = Pattern.compile( "temperature=(\\d*)" );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
 	{
@@ -112,6 +121,35 @@ public class ClanLoungeRequest
 			"receive",
 			"get",
 			new Integer( RECEIVE_FAX )
+		},
+	};
+
+	public static final Object [][] SHOWER_OPTIONS = new Object[][]
+	{
+		{
+			"cold",
+			"ice",
+			new Integer( COLD_SHOWER )
+		},
+		{
+			"cool",
+			"moxie",
+			new Integer( COOL_SHOWER )
+		},
+		{
+			"lukewarm",
+			"mysticality",
+			new Integer( LUKEWARM_SHOWER )
+		},
+		{
+			"warm",
+			"muscle",
+			new Integer( WARM_SHOWER )
+		},
+		{
+			"hot", 
+			"mp",
+			new Integer( HOT_SHOWER )
 		},
 	};
 
@@ -173,6 +211,28 @@ public class ClanLoungeRequest
 		return 0;
 	}
 
+	public static final int findShowerOption( String tag )
+	{
+		tag = tag.toLowerCase();
+		for ( int i = 0; i < SHOWER_OPTIONS.length; ++i )
+		{
+			Object [] showerOption = SHOWER_OPTIONS[i];
+			Integer index = (Integer) showerOption[2];
+			String temp = (String) showerOption[0];
+			if ( temp.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String effect = (String) showerOption[1];
+			if ( effect.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+		}
+
+		return 0;
+	}
+
 	public static final String prettyStanceName( final int stance )
 	{
 		switch ( stance )
@@ -197,6 +257,24 @@ public class ClanLoungeRequest
 			return "Receiving a fax.";
 		}
 		return "Unknown fax command.";
+	}
+
+	public static final String prettyTemperatureName( final int temp )
+	{
+		switch ( temp )
+		{
+		case COLD_SHOWER:
+			return "a cold";
+		case COOL_SHOWER:
+			return "a cool";
+		case LUKEWARM_SHOWER:
+			return "a lukewarm";
+		case WARM_SHOWER:
+			return "a warm";
+		case HOT_SHOWER:
+			return "a hot";
+		}
+		return "an unknown";
 	}
 
 	/**
@@ -291,6 +369,10 @@ public class ClanLoungeRequest
 		{
 			return "Fax Machine";
 		}
+		if ( urlString.indexOf( "action=shower" ) != -1 )
+		{
+			return "April Shower";
+		}
 		return null;
 	}
 
@@ -361,6 +443,21 @@ public class ClanLoungeRequest
 			default:
 				this.addFormField( "action", "faxmachine" );
 				break;
+			}
+			break;
+
+		case ClanLoungeRequest.APRIL_SHOWER:
+			RequestLogger.printLine( "Let's take " + ClanLoungeRequest.prettyTemperatureName( option ) + " shower." );
+
+			this.constructURLString( "clan_viplounge.php" );
+			if ( option != 0 )
+			{
+				this.addFormField( "preaction", "takeshower" );
+				this.addFormField( "temperature", String.valueOf( option ) );
+			}
+			else
+			{
+				this.addFormField( "action", "shower" );
 			}
 			break;
 
@@ -436,6 +533,41 @@ public class ClanLoungeRequest
 			else
 			{
 				KoLmafia.updateDisplay( "Huh? Unknown response." );
+			}
+			break;
+
+		case ClanLoungeRequest.APRIL_SHOWER:
+			if ( responseText.indexOf( "this is way too hot" ) != -1 )
+			{
+				RequestLogger.printLine( "You took a hot shower." );
+			}
+			else if ( responseText.indexOf( "relaxes your muscles" ) != -1 )
+			{
+				RequestLogger.printLine( "You took a warm shower." );
+			}
+			else if ( responseText.indexOf( "mind expands" ) != -1 )
+			{
+				RequestLogger.printLine( "You took a lukewarm shower." );
+			}
+			else if ( responseText.indexOf( "your goosebumps absorb" ) != -1 )
+			{
+				RequestLogger.printLine( "You took a cool shower." );
+			}
+			else if ( responseText.indexOf( "shards of frosty double-ice" ) != -1 )
+			{
+				RequestLogger.printLine( "You took a cold shower." );
+			}
+			else if ( responseText.indexOf( "already had a shower today" ) != -1 )
+			{
+				RequestLogger.printLine( "You've already had a shower today." );
+			}
+			else if ( responseText.indexOf( "Shower!" ) != -1 )
+			{
+				// Simple visit.
+			}
+			else
+			{
+				RequestLogger.printLine( "Huh? Unknown response." );
 			}
 			break;
 		}
@@ -635,6 +767,29 @@ public class ClanLoungeRequest
 			}
 			return;
 		}
+
+		if ( action.equals( "shower" ) )
+		{
+			if ( responseText.indexOf( "already had a shower today" ) != -1 )
+			{
+				Preferences.setBoolean( "_aprilShower", true );
+			}
+			return;
+		}
+
+		if ( action.equals( "takeshower" ) )
+		{
+			if ( responseText.indexOf( "this is way too hot" ) != -1 ||
+			     responseText.indexOf( "relaxes your muscles" ) != -1 ||
+			     responseText.indexOf( "mind expands" ) != -1 ||
+			     responseText.indexOf( "your goosebumps absorb" ) != -1 ||
+			     responseText.indexOf( "shards of frosty double-ice" ) != -1 ||
+			     responseText.indexOf( "already had a shower today" ) != -1 )
+			{
+				Preferences.setBoolean( "_aprilShower", true );
+			}
+			return;
+		}
 	}
 
 	public static void getBreakfast()
@@ -726,6 +881,20 @@ public class ClanLoungeRequest
 					return false;
 				}
 				message = "fax " + faxCommand;
+			}
+			else if ( action.equals( "takeshower" ) )
+			{
+				Matcher m = TEMPERATURE_PATTERN.matcher( urlString );
+				if ( !m.find() )
+				{
+					return false;
+				}
+				int temp = StringUtilities.parseInt( m.group(1) );
+				if ( temp < 1 || temp > SHOWER_OPTIONS.length )
+				{
+					return false;
+				}
+				message = "shower " + (String)SHOWER_OPTIONS[ temp - 1 ][0];
 			}
 			else
 			{

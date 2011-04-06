@@ -736,6 +736,7 @@ public class KoLmafiaCLI
 		new ShowDataCommand().registerPrefix( "inv" ).register( "storage" ).register( "session" ).register( "summary" ).register(
 			"effects" ).register( "status" ).register( "skills" ).register( "locations" ).register( "encounters" ).registerPrefix(
 			"moon" );
+		new ShowerCommand().register( "shower" );
 		new SkateParkCommand().register( "skate" );
 		new SorceressEntrywayCommand().register( "entryway" );
 		new SpeculateCommand().register( "speculate" ).register( "whatif" );
