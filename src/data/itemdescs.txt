@@ -5051,10 +5051,10 @@
 5045
 5046
 5047	924016792	Clan shower
-5048
-5049
-5050
-5051
+5048	347683517	shard of double-ice	shards of double-ice
+5049	688353359	double-ice cap	double-ice caps
+5050	302108723	double-ice box	double-ice boxes
+5051	464751936	double-ice britches	pairs of double-ice britches
 5052	707677244	handful of numbers	handfuls of numbers
 5053	577012386	Lars the Cyberian	copies of Lars the Cyberian
 5054	730537805	intriguing puzzle box	intriguing puzzle boxes

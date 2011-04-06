@@ -132,6 +132,7 @@ cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Effect: "1xBarrr, 1xFairy, cap 25"
 disco mask	Moxie: +1, Familiar Effect: "atk, cap 2"
+double-ice cap	MP Regen Min: 5, MP Regen Max: 9, Cold Damage: +10
 draggin' ball hat	Intrinsic Effect: "Draggin' Balls", Familiar Effect: "atk, 1xVolley, cap 25"
 duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
 # dwarvish war helmet: Heads Up!
@@ -344,6 +345,7 @@ cursed breeches	Moxie: +15
 demonskin trousers	Hot Resistance: +2
 depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G]
 distressed denim pants	Stench Resistance: +1, Damage Reduction: 2
+double-ice britches	Hot Resistance: +4, Damage Reduction: 4, Maximum HP: +40, Maximum MP: +40
 duct tape dockers	Muscle: +6, Mysticality: +6, Moxie: +6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 # dwarvish war kilt: Blinky Lights
@@ -1145,6 +1147,8 @@ depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
 # detective skull
 detour shield	Damage Absorption: +10, Damage Reduction: 6
 disturbing fanfic	Sleaze Spell Damage: +30
+# double-ice box: All Spells Cast Are Cold
+double-ice box	Spell Damage Percent: +10
 duct tape buckler	Maximum HP: +65, Maximum MP: +65, Damage Reduction: 12
 easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 # eelskin shield: Damages Attacking Opponent (Underwater Only)
