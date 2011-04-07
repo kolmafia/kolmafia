@@ -84,6 +84,8 @@ public class DailyDeedsPanel
 		this.add( new PitDaily() );
 		this.add( new StyxDaily() );
 		this.add( new PoolDaily() );
+		this.add( new ShowerStatsDaily() );
+		this.add( new ShowerOtherDaily() );
 		this.add( new BooleanItemDaily( "_bagOTricksUsed",
 			ItemPool.BAG_O_TRICKS, "use Bag o' Tricks" ) );
 		this.add( new BooleanItemDaily( "_legendaryBeat",
@@ -123,6 +125,7 @@ public class DailyDeedsPanel
 		this.add( new PuddingDaily() );
 		this.add( new MelangeDaily() );
 		this.add( new StillsDaily() );
+		this.add( new TeaPartyDaily() );
 		this.add( new PuttyDaily() );
 		this.add( new CameraDaily() );
 		this.add( new PhotocopyDaily() );
@@ -671,6 +674,55 @@ public class DailyDeedsPanel
 		}
 	}
 
+	public static class ShowerStatsDaily
+		extends Daily
+	{
+		public ShowerStatsDaily()
+		{
+			this.addItem( ItemPool.VIP_LOUNGE_KEY );
+			this.addListener( "_aprilShower" );
+			this.addListener( "kingLiberated" );
+			this.addButton( "shower muscle", "+5% to all Muscle Gains, 50 turns" );
+			this.addButton( "shower mysticality", "+5% to all Mysticality Gains, 50 turns" );
+			this.addButton( "shower moxie", "+5% to all Moxie Gains, 50 turns" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean as = Preferences.getBoolean( "_aprilShower" );
+			this.setShown( ( !bm || kf ) && ( have || as ) );
+			this.setEnabled( !as );
+		}
+	}
+
+	public static class ShowerOtherDaily
+		extends Daily
+	{
+		public ShowerOtherDaily()
+		{
+			this.addItem( ItemPool.VIP_LOUNGE_KEY );
+			this.addListener( "_aprilShower" );
+			this.addListener( "kingLiberated" );
+			this.addButton( "shower ice", "shards of double-ice" );
+			this.addButton( "shower mp", "mp or amazing idea" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean as = Preferences.getBoolean( "_aprilShower" );
+			this.setShown( ( !bm || kf ) && ( have || as ) );
+			this.setEnabled( !as );
+		}
+	}
+
 	public static class CrimboTreeDaily
 		extends Daily
 	{
@@ -737,6 +789,49 @@ public class DailyDeedsPanel
 				KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) );
 			this.setText( (10 - KoLCharacter.getStillsAvailable()) +
 				"/10 stills used" );
+		}
+	}
+
+	public static class TeaPartyDaily
+		extends Daily
+	{
+		public TeaPartyDaily()
+		{
+			this.addItem( ItemPool.DRINK_ME_POTION );
+			this.addListener( "_madTeaParty" );
+			this.addListener( "kingLiberated" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			int have = InventoryManager.getCount( ItemPool.DRINK_ME_POTION );
+			if ( Preferences.getBoolean( "_madTeaParty" ) )
+			{
+				this.setShown( !bm || kf );
+				if ( have == 1 )
+				{
+					this.setText( "Mad Tea Party used, have " + have + " potion");
+				}
+				else
+				{
+					this.setText( "Mad Tea Party used, have " + have + " potions");
+				}
+			}
+			else
+			{
+				this.setShown( have > 0 );
+				if ( have == 1 )
+				{
+					this.setText( "Mad Tea Party not used, have " + have + " potion" );
+				}
+				else
+				{
+					this.setText( "Mad Tea Party not used, have " + have + " potions" );
+				}
+			}
 		}
 	}
 
