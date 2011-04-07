@@ -151,6 +151,8 @@ ice skate decoy	COMBINE	ice skate doll	collapsible baton
 roller skate doll	COMBINE	skate skin	skate skates
 roller skate decoy	COMBINE	roller skate doll	brass dorsal fin
 
+mysterious present	COMBINE	box	probability potion
+boxing-glove-in-a-box	COMBINE	nothing-in-the-box	boxing glove
 
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing
@@ -494,6 +496,8 @@ green beer	MIX, MANUAL	ten-leaf clover	ice-cold Sir Schlitz
 green beer	MIX, MANUAL	ten-leaf clover	ice-cold Willer
 
 flask of peppermint schnapps	MIX	fermenting powder	flask of peppermint oil
+
+Russian Ice	MIX	bottle of vodka	magical ice cubes
 
 # Tier 3 and tier 4 beverages which can be made by anyone.  These are
 # believed to be the best creatable drinks without buying a DB's skills or
@@ -1391,6 +1395,7 @@ vampire pearl necklace	JEWEL	vampire pearl	necklace chain
 vampire pearl ring	JEWEL	vampire pearl	ring setting
 
 torquoise ring	JEWEL	torquoise	ring setting
+giant diamond ring	JEWEL	lump of diamond	ring setting
 
 # Expensive Jewelry making recipes.  These require jewelry-making pliers
 # and the Really Expensive Jewelrycrafting skill

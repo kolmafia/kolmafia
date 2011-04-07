@@ -1012,3 +1012,7 @@ user	unknownRecipe3751	true
 user	unknownRecipe4172	true
 user	unknownRecipe4173	true
 user	unknownRecipe4174	true
+user	unknownRecipe5060	true
+user	unknownRecipe5061	true
+user	unknownRecipe5072	true
+user	unknownRecipe5073	true
