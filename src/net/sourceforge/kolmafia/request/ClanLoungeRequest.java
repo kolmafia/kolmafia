@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -789,6 +790,7 @@ public class ClanLoungeRequest
 			     responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
 			{
 				Preferences.setBoolean( "_aprilShower", true );
+				StaticEntity.learnRecipe( responseText );
 			}
 			return;
 		}

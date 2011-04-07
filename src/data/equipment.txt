@@ -1424,6 +1424,7 @@ fuzzy bracelets	0	none
 garish pinky ring	50	Mys: 10
 gearbox necklace	180	Mys: 75
 giant designer sunglasses	10	none
+giant diamond ring	0	none
 giant pinky ring	100	Mys: 35
 glow-in-the-dark wristwatch	0	none
 glowing red eye	150	Mys: 60

@@ -138,6 +138,7 @@ public abstract class StaticEntity
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
 	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
+	private static final Pattern RECIPE2_PATTERN = Pattern.compile( "You have discovered a new recipe: <b>(.*?)</b>" );
 	private static final Pattern DESCITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern DESCEFFECT_PATTERN = Pattern.compile( "whicheffect=([0-9a-zA-Z]+)" );
 
@@ -767,8 +768,9 @@ public abstract class StaticEntity
 		// You can learn a skill on many pages.
 		StaticEntity.learnSkill( location, responseText );
 
-		// Currently, required recipes can only be learned via using an item, but
-		// that's probably not guaranteed to be true forever.
+		// Currently, required recipes can only be learned via using an
+		// item, but that's probably not guaranteed to be true forever.
+		// Update: you can now learn them from the April Shower
 		StaticEntity.learnRecipe( responseText );
 	}
 
@@ -777,16 +779,26 @@ public abstract class StaticEntity
 		Matcher matcher = StaticEntity.RECIPE_PATTERN.matcher( responseText );
 		if ( !matcher.find() )
 		{
+			matcher = StaticEntity.RECIPE2_PATTERN.matcher( responseText );
+			if ( !matcher.find() )
+			{
+				return;
+			}
+		}
+
+		int id = ItemDatabase.getItemId( matcher.group( 1 ), 1, false );
+
+		String message = "Learned recipe: " + matcher.group( 1 ) + " (" + id + ")";
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+
+		if ( id <= 0 )
+		{
 			return;
 		}
-		int id = ItemDatabase.getItemId( matcher.group( 1 ), 1, false );
-		if ( id > 0 )
-		{
-			Preferences.setBoolean( "unknownRecipe" + id, false );
-			RequestLogger.printLine( "Learned recipe: " + matcher.group( 1 ) );
-			RequestLogger.updateSessionLog( "learned recipe: " + matcher.group( 1 ) );
-			ConcoctionDatabase.refreshConcoctions();
-		}
+
+		Preferences.setBoolean( "unknownRecipe" + id, false );
+		ConcoctionDatabase.refreshConcoctions();
 	}
 
 	public static void learnSkill( final String location, final String responseText )
