@@ -196,10 +196,17 @@ public class ClanStashRequest
 		return ClanStashRequest.parseTransfer( this.getURLString(), this.responseText );
 	}
 
+	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "You add (.*?) to the Goodies Hoard" );
+
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
 		if ( urlString.indexOf( "takegoodies" ) != -1 )
 		{
+			// If you ask for too many of an item:
+			//     There aren't that many of that item in the stash.
+			// 
+			// If you ask for (and are allowed to take) items:
+			//     You acquire 5 xxx
 			if ( responseText.indexOf( "You acquire" ) == -1 )
 			{
 				return false;
@@ -215,15 +222,23 @@ public class ClanStashRequest
 		}
 		else if ( urlString.indexOf( "addgoodies" ) != -1 )
 		{
+			// If you didn't have the items you wanted to drop into
+			// the stash:
+			//     You didn't actually have any of the items you
+			//     selected. Tsk, tsk.
+			// Otherwise:
+			//     You add 5 xxx to the Goodies Hoard.
 			if ( responseText.indexOf( "to the Goodies Hoard" ) == -1 )
 			{
 				return false;
 			}
-			TransferItemRequest.transferItems( urlString, 
-					TransferItemRequest.ITEMID_PATTERN,
-					TransferItemRequest.QTY_PATTERN,
+
+			// Parse the actual number of items moved from the
+			// responseText, rather than believing the URL
+			TransferItemRequest.transferItems( responseText, 
+					ClanStashRequest.ITEM_PATTERN1,
 					KoLConstants.inventory,
-					ClanManager.getStash(), 0 );
+					ClanManager.getStash() );
 		}
 		else if ( urlString.indexOf( "action=contribute" ) != -1 )
 		{

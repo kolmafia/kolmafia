@@ -33,11 +33,13 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -153,26 +155,56 @@ public class DisplayCaseRequest
 		return false;
 	}
 
+	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "<b>([^<]*)</b> moved from inventory to case" );
+	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "<b>([^<]*)</b> moved from case to inventory" );
+
 	public static final boolean parseDisplayTransfer( final String urlString, final String responseText )
 	{
 		if ( urlString.indexOf( "put" ) != -1 )
 		{
-			TransferItemRequest.transferItems( urlString,
-				TransferItemRequest.ITEMID_PATTERN,
-				TransferItemRequest.HOWMANY_PATTERN,
+			// You haven't got any of that item in your inventory.
+			// <b>club necklace (5)</b> moved from inventory to case.
+			if ( responseText.indexOf( "moved from inventory to case" ) == -1 )
+			{
+				return false;
+			}
+
+			TransferItemRequest.transferItems( responseText,
+				DisplayCaseRequest.ITEM_PATTERN1,
 				KoLConstants.inventory,
-				KoLConstants.collection, 0 );
+				KoLConstants.collection );
+
 			ConcoctionDatabase.refreshConcoctions();
 			return true;
 		}
 
 		if ( urlString.indexOf( "take" ) != -1 )
 		{
-			TransferItemRequest.transferItems( urlString,
-				TransferItemRequest.ITEMID_PATTERN,
-				TransferItemRequest.HOWMANY_PATTERN,
+			// You haven't got any of that item in your case.
+			// <b>club necklace (5)</b> moved from case to inventory.
+			if ( responseText.indexOf( "moved from case to inventory" ) == -1 )
+			{
+				return false;
+			}
+
+			ArrayList itemList = TransferItemRequest.getItemList( responseText,
+				DisplayCaseRequest.ITEM_PATTERN2 );
+
+			if ( itemList.isEmpty() )
+			{
+				return false;
+			}
+
+			TransferItemRequest.transferItems( itemList,
 				KoLConstants.collection,
-				KoLConstants.inventory, 0 );
+				KoLConstants.inventory );
+
+			for ( int i = 0; i < itemList.size(); ++i )
+			{
+				AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+				KoLmafia.updateDisplay( "You acquire " + item );
+			}
+
 			ConcoctionDatabase.refreshConcoctions();
 			return true;
 		}

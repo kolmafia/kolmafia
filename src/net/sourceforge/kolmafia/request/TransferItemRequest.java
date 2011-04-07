@@ -415,7 +415,7 @@ public abstract class TransferItemRequest
 	public static final void transferItems( final String urlString,
 		final Pattern itemPattern, final Pattern quantityPattern,
 		final List source, final List destination,
- 		final int defaultQuantity )
+		final int defaultQuantity )
 	{
 		ArrayList itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
 
@@ -424,6 +424,12 @@ public abstract class TransferItemRequest
 			return;
 		}
 
+		TransferItemRequest.transferItems( itemList, source, destination );
+	}
+
+	public static final void transferItems( ArrayList itemList,
+		final List source, final List destination )
+	{
                 for ( int i = 0; i < itemList.size(); ++i )
                 {
                         AdventureResult item = ( (AdventureResult) itemList.get( i ) );
@@ -505,6 +511,56 @@ public abstract class TransferItemRequest
 
 		return itemList;
         }
+
+	public static final void transferItems( final String responseText,
+		final Pattern itemPattern,
+		final List source, final List destination )
+	{
+		ArrayList itemList = TransferItemRequest.getItemList( responseText, itemPattern );
+
+		if ( itemList.isEmpty() )
+		{
+			return;
+		}
+
+		TransferItemRequest.transferItems( itemList, source, destination );
+	}
+
+	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "(.*?) \\((\\d+)\\)" );
+	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "(\\d+) ([^,]*)" );
+
+	public static final ArrayList getItemList( final String responseText, final Pattern itemPattern )
+	{
+		ArrayList itemList = new ArrayList();
+		Matcher itemMatcher = itemPattern.matcher( responseText );
+
+		while ( itemMatcher.find() )
+		{
+			String match = itemMatcher.group( 1 );
+
+			Matcher m1 = ITEM_PATTERN1.matcher( match );
+			while ( m1.find() )
+			{
+				String name = m1.group( 1 );
+				int count = StringUtilities.parseInt( m1.group( 2 ) );
+				int itemId = ItemDatabase.getItemId( name, count,  true );
+				AdventureResult item = new AdventureResult( itemId, count );
+				itemList.add( item );
+			}
+
+			Matcher m2 = ITEM_PATTERN2.matcher( match );
+			while ( m2.find() )
+			{
+				String name = m2.group( 2 );
+				int count = StringUtilities.parseInt( m2.group( 1 ) );
+				int itemId = ItemDatabase.getItemId( name, count,  true );
+				AdventureResult item = new AdventureResult( itemId, count );
+				itemList.add( item );
+			}
+		}
+
+		return itemList;
+	}
 
 	public static final int transferredMeat( final String urlString, final String field )
 	{
