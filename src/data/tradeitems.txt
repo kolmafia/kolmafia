@@ -5079,4 +5079,4 @@
 5070
 5071
 5072	giant diamond ring	accessory	gift	0
-5073	Russian Ice	booze, combat	all	15
+5073	Russian Ice	drink, combat	all	15

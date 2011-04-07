@@ -246,7 +246,8 @@ nothing-in-the-box	COMBINE	box	spring
 nothing-in-the-box-in-the-box	COMBINE	box-in-the-box	spring
 sprocket assembly	COMBINE	sprocket	spring
 4-d camera	COMBINE	nothing-in-the-box	beer lens
-
+boxing-glove-in-a-box	COMBINE	nothing-in-the-box	boxing glove
+mysterious present	COMBINE	box	probability potion
 
 # Items created by combining letters.
 
@@ -497,7 +498,7 @@ green beer	MIX, MANUAL	ten-leaf clover	ice-cold Willer
 
 flask of peppermint schnapps	MIX	fermenting powder	flask of peppermint oil
 
-Russian Ice	MIX	bottle of vodka	magical ice cubes
+Russian Ice	MIX_FANCY	bottle of vodka	magical ice cubes
 
 # Tier 3 and tier 4 beverages which can be made by anyone.  These are
 # believed to be the best creatable drinks without buying a DB's skills or
@@ -1394,6 +1395,7 @@ vampire pearl earring	JEWEL	vampire pearl	piercing post
 vampire pearl necklace	JEWEL	vampire pearl	necklace chain
 vampire pearl ring	JEWEL	vampire pearl	ring setting
 
+giant diamond ring	JEWEL	lump of diamond	ring setting
 torquoise ring	JEWEL	torquoise	ring setting
 giant diamond ring	JEWEL	lump of diamond	ring setting
 

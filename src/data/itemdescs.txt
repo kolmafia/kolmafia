@@ -5050,7 +5050,7 @@
 5044
 5045
 5046
-5047	924016792	Clan shower
+5047	924016792	Clan shower	Clan showers
 5048	347683517	shard of double-ice	shards of double-ice
 5049	688353359	double-ice cap	double-ice caps
 5050	302108723	double-ice box	double-ice boxes
@@ -5075,5 +5075,5 @@
 5069
 5070
 5071
-5072	904046645	giant diamond ring
+5072	904046645	giant diamond ring	giant diamond rings
 5073	362569786	Russian Ice	bottles of Russian Ice
