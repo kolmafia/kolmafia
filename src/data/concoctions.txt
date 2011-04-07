@@ -151,9 +151,6 @@ ice skate decoy	COMBINE	ice skate doll	collapsible baton
 roller skate doll	COMBINE	skate skin	skate skates
 roller skate decoy	COMBINE	roller skate doll	brass dorsal fin
 
-mysterious present	COMBINE	box	probability potion
-boxing-glove-in-a-box	COMBINE	nothing-in-the-box	boxing glove
-
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing
 
@@ -1395,7 +1392,6 @@ vampire pearl earring	JEWEL	vampire pearl	piercing post
 vampire pearl necklace	JEWEL	vampire pearl	necklace chain
 vampire pearl ring	JEWEL	vampire pearl	ring setting
 
-giant diamond ring	JEWEL	lump of diamond	ring setting
 torquoise ring	JEWEL	torquoise	ring setting
 giant diamond ring	JEWEL	lump of diamond	ring setting
 
