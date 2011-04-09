@@ -828,3 +828,10 @@
 827	Wasabi With You	bigeyes.gif	b1c625c28633cef38566bca4aee55a0b	use 1 wasabi marble soda
 828	Pisces in the Skyces	fish.gif	137b12bcd6da7cec342f6001b4b98958	use 1 tobiko marble soda
 829	Ninja, Please	ninjamask.gif	6a3f128310cc25ded8ccf2f6408c01ee	use 1 natto marble soda
+830	Muscle Unbound	strboost.gif	418d28185c7eadb867768a9d9baa02cf	shower warm
+831	Thaumodynamic	raindrop.gif	df5ed605feb8ac254669bbb54b9c22f1	shower lukewarm
+832	So Fresh and So Clean	ropesoap.gif	fb17f0744ede3f6e3233fa01ef0db77c	shower cool
+833	Single-Eyed Vision	monocle.gif	99bb0ca0617dd99c60c0831c256f73c6	use 1 Atomic Comic
+834
+835	Eso Sí Que Es	bangup.gif	f44faf22cf17c8874bde20b23d9d1c52	eat 1 spaghetti con calaveras
+836	On Pins and Needles		df3e73633630d0b3f3e96a910beff6ba

@@ -5070,13 +5070,13 @@
 5061	boxing-glove-in-a-box	none	gift	0
 5062
 5063
-5064
-5065
+5064	Salsa de las Epocas	none	all	25
+5065	spaghetti con calaveras	food	all	61
 5066
 5067
 5068
 5069
-5070
+5070	innuendo	none	gift	69
 5071
 5072	giant diamond ring	accessory	gift	0
 5073	Russian Ice	drink, combat	all	15
