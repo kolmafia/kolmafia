@@ -627,6 +627,21 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) MP to use Skills \\(in-combat only\\)" ),
 		  Pattern.compile( "Mana Cost \\(combat\\): " + EXPR )
 		},
+		{ "Muscle Experience Percent",
+		  Pattern.compile( "([+-]\\d+)% to all Muscle Gains" ),
+		  Pattern.compile( "Experience Percent \\(Muscle\\): " + EXPR ),
+		  "Experience Percent (Muscle)"
+		},
+		{ "Mysticality Experience Percent",
+		  Pattern.compile( "([+-]\\d+)% to all Mysticality Gains" ),
+		  Pattern.compile( "Experience Percent \\(Mysticality\\): " + EXPR ),
+		  "Experience Percent (Mysticality)"
+		},
+		{ "Moxie Experience Percent",
+		  Pattern.compile( "([+-]\\d+)% to all Moxie Gains" ),
+		  Pattern.compile( "Experience Percent \\(Moxie\\): " + EXPR ),
+		  "Experience Percent (Moxie)"
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;

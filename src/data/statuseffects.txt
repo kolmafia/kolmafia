@@ -833,5 +833,5 @@
 832	So Fresh and So Clean	ropesoap.gif	fb17f0744ede3f6e3233fa01ef0db77c	shower cool
 833	Single-Eyed Vision	monocle.gif	99bb0ca0617dd99c60c0831c256f73c6	use 1 Atomic Comic
 834
-835	Eso Sí Que Es	bangup.gif	f44faf22cf17c8874bde20b23d9d1c52	eat 1 spaghetti con calaveras
+835	Eso S&iacute; Que Es	bangup.gif	f44faf22cf17c8874bde20b23d9d1c52	eat 1 spaghetti con calaveras
 836	On Pins and Needles		df3e73633630d0b3f3e96a910beff6ba

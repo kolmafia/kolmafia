@@ -2529,7 +2529,7 @@ Egg-stortionary Tactics	Meat Drop: +50
 Egg-stra Arm	Muscle Percent: +10
 Eggs-tra Sensory Perception	Item Drop: +10
 El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
-# Electrolyte Fantastic: 10% to all Mysticality Gains
+Electrolyte Fantastic	Experience Percent (Mysticality): +10
 Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Elron's Explosive Etude	Spell Damage Percent: +50
 Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -2770,7 +2770,7 @@ Moon'd	Experience: +5
 Mucilaginous Mentalism	Mysticality Percent: +200
 Mucilaginous Moxiousness	Moxie Percent: +200
 Mucilaginous Muscle	Muscle Percent: +200
-# Muscle Unbound: +5% to all Muscle Gains
+Muscle Unbound	Experience Percent (Muscle): +5
 Muscularrr	Muscle Percent: +10
 Musk of the Moose	Combat Rate: +5
 Mutated	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
@@ -2930,7 +2930,7 @@ Smugness	Moxie: +5
 Snarl of the Timberwolf	Spooky Damage: +10
 Sneaky Serpentine Subtlety	Moxie Percent: +100
 Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
-# So Fresh and So Clean: +5% to all Moxie Gains
+So Fresh and So Clean	Experience Percent (Moxie): +5
 So You Can Work More...	Meat Drop: +10
 Socialismydia	Item Drop: -50
 Solar Flair	Hot Damage: +20
@@ -3024,7 +3024,7 @@ Temporary Lycanthropy	Muscle Percent: [B]
 Tenacity of the Snapper	Weapon Damage: +8
 Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
-$ Thaumodynamic: +5% to all Mysticality Gains
+Thaumodynamic	Experience Percent (Mysticality): +5
 # The 'Tussin: Wait, What?
 The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
 The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
