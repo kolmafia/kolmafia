@@ -151,6 +151,8 @@ ice skate decoy	COMBINE	ice skate doll	collapsible baton
 roller skate doll	COMBINE	skate skin	skate skates
 roller skate decoy	COMBINE	roller skate doll	brass dorsal fin
 
+innuendo	COMBINE	skeleton key	skate skates
+
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing
 
@@ -1246,6 +1248,8 @@ gnocchetti di Nietzsche	PASTA	Himalayan Hidalgo sauce	dry noodles
 sauce of the ages	SAUCE	scrumptious reagent	Knob sausage
 spaghetti with Skullheads	PASTA	sauce of the ages	dry noodles
 
+Salsa de las Epocas	SAUCE	scrumptious reagent	marzipan skull
+spaghetti con calaveras	PASTA	Salsa de las Epocas	dry noodles
 
 # Stir-fry items.  These are the main ingredients or are sub-ingredients
 # of chow mein items.
