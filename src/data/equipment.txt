@@ -85,6 +85,7 @@ cursed eyepatch	200	Mus: 85
 demon-horned hat	70	Mox: 20
 depleted Grimacite ninja mask	100	Mox: 35
 disco mask	10	none
+double-ice cap	70	Mox: 20
 draggin' ball hat	100	Mox: 35
 duct tape fedora	195	Mox: 82
 dwarvish war helmet	165	Mox: 67
@@ -287,6 +288,7 @@ cursed breeches	200	Mox: 85
 demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
 distressed denim pants	170	Mox: 70
+double-ice britches	70	Mox: 20
 duct tape dockers	195	Mox: 82
 dungeoneer's dungarees	30	none
 dwarvish war kilt	165	Mox: 67
@@ -1034,6 +1036,7 @@ depleted Grimacite gravy boat	100	Mus: 35
 detective skull	60	none
 detour shield	100	Mus: 35	shield
 disturbing fanfic	45	Mys: 15
+double-ice box	70	Mys: 20
 duct tape buckler	195	Mus: 82	shield
 easter egg balloon	100	Mys: 35
 eelskin shield	200	Mus: 85	shield
