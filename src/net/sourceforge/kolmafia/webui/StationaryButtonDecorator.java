@@ -334,26 +334,40 @@ public class StationaryButtonDecorator
 				continue;
 			}
 
-			String name = SkillDatabase.getSkillName( Integer.parseInt( action ) );
-			boolean hasSkill = KoLCharacter.hasSkill( name );
-
-			// If we are in bird form, we can only use birdform
-			// skills. Such skills do not appear on our list of
-			// known skills.
-
-			// Display only unknown skills in birdform but keep
-			// known skills in the preferences
-			if ( inBirdForm )
+			// We use Skill IDs for button actions, but users can screw them up.
+			if ( !StringUtilities.isNumeric( action ) )
 			{
+				action = String.valueOf( SkillDatabase.getSkillId( action ) );
+			}
+
+			String name = SkillDatabase.getSkillName( Integer.parseInt( action ) );
+			boolean hasSkill = name != null && KoLCharacter.hasSkill( name );
+
+			boolean remove = false;
+
+			// If it's a completely bogus skill id, flush it
+			if ( name == null )
+			{
+				remove = true;
+			}
+			// If we are in bird form, we can only use birdform skills.
+			else if ( inBirdForm )
+			{
+				// Birdform skills do not appear on our list of
+				// known skills. Display only unknown skills
+				// but keep known skills in the preferences
 				if ( hasSkill )
 				{
 					continue;
 				}
 			}
-
-			// If we are not in birdform, remove unknown skills
-			// from preferences
+			// Otherwise, remove unknown skills from preferences
 			else if ( !hasSkill )
+			{
+				remove = true;
+			}
+
+			if ( remove )
 			{
 				for ( int j = i; j < buttons; ++j )
 				{
@@ -366,8 +380,13 @@ public class StationaryButtonDecorator
 				continue;
 			}
 
+			// Show this skill.
 			StationaryButtonDecorator.addFightButton(
-				urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
+				urlString,
+				buffer,
+				actionBuffer,
+				action,
+				FightRequest.getCurrentRound() > 0 );
 		}
 
 		if ( StationaryButtonDecorator.combatHotkeys.isEmpty() )
