@@ -1148,6 +1148,7 @@ depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
 detour shield	Damage Absorption: +10, Damage Reduction: 6
 disturbing fanfic	Sleaze Spell Damage: +30
 # double-ice box: All Spells Cast Are Cold
+# double-ice box: Deals 10-20 cold damage every round
 double-ice box	Spell Damage Percent: +10
 duct tape buckler	Maximum HP: +65, Maximum MP: +65, Damage Reduction: 12
 easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
