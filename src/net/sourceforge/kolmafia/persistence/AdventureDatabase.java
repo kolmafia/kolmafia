@@ -483,7 +483,12 @@ public class AdventureDatabase
 
 	public static final AdventureResult getBounty( final KoLAdventure adventure )
 	{
-		int adventureId = StringUtilities.parseInt( adventure.getAdventureId() );
+		String idString = adventure.getAdventureId();
+		if ( !StringUtilities.isNumeric( idString ) )
+		{
+			return null;
+		}
+		int adventureId = StringUtilities.parseInt( idString );
 		String bounty = AdventureDatabase.bountiesById.get( adventureId );
 		if ( bounty == null || bounty.equals( "" ) )
 		{
