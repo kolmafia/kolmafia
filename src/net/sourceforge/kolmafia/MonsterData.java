@@ -100,7 +100,8 @@ public class MonsterData
 		}
 		if ( this.health instanceof Integer )
 		{
-			return Math.max( 1, ((Integer) this.health).intValue() + ML() );
+			int hp = ((Integer) this.health).intValue();
+			return hp == 0 ? 0 : Math.max( 1, hp + ML() );
 		}
 		if ( this.health instanceof String )
 		{
@@ -117,7 +118,8 @@ public class MonsterData
 		}
 		if ( this.attack instanceof Integer )
 		{
-			return Math.max( 1, ((Integer) this.attack).intValue() + ML() );
+			int attack = ((Integer) this.attack).intValue();
+			return attack == 0 ? 0 : Math.max( 1, attack + ML() );
 		}
 		if ( this.attack instanceof String )
 		{
@@ -134,8 +136,9 @@ public class MonsterData
 		}
 		if ( this.defense instanceof Integer )
 		{
-			return Math.max( 1, (int) Math.ceil(
-				0.9 * (((Integer) this.defense).intValue() + ML()) ) );
+			int defense = ((Integer) this.defense).intValue();
+			return defense == 0 ? 0 :
+				Math.max( 1, (int) Math.ceil( 0.9 * ( defense + ML() ) ) );
 		}
 		if ( this.defense instanceof String )
 		{
