@@ -177,6 +177,7 @@ public class CreateFrameRunnable
 		if ( this.creationType == SendMessageFrame.class )
 		{
 			( (SendMessageFrame) this.creation ).setRecipient( this.parameters.length == 0 ? "" : (String) this.parameters[ 0 ] );
+			( (SendMessageFrame) this.creation ).setMessageText( this.parameters.length < 2 ? "" : (String) this.parameters[ 1 ] );
 		}
 
 		if ( !appearsInTab )

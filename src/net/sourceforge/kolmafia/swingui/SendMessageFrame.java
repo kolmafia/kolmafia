@@ -84,6 +84,13 @@ public class SendMessageFrame
 		this.setRecipient( recipient );
 	}
 
+	public SendMessageFrame( final String recipient , final String text )
+	{
+		this();
+		this.setRecipient( recipient );
+		this.setMessageText( text );
+	}
+
 	public SendMessageFrame()
 	{
 		super( "Send a Message" );
@@ -192,6 +199,11 @@ public class SendMessageFrame
 		this.attachments.clear();
 		this.attachedMeat.setText( "" );
 		this.messageEntry.setText( "" );
+	}
+
+	public void setMessageText( String text )
+	{
+		this.messageEntry.setText( text );
 	}
 
 	public boolean shouldAddStatusBar()
