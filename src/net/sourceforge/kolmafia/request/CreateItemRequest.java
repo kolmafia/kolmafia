@@ -867,7 +867,8 @@ public class CreateItemRequest
 			// We don't want to autorepair. It's OK if we don't
 			// require one and have turns available to craft.
 			return !Preferences.getBoolean( "requireBoxServants" ) &&
-				KoLCharacter.getAdventuresLeft() > 0;
+				( KoLCharacter.getAdventuresLeft() > 0 ||
+				ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) > 4 );
 		}
 
 		// We want to autorepair.
@@ -1081,19 +1082,19 @@ public class CreateItemRequest
 		switch ( this.mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.SMITH:
-			return KoLCharacter.inMuscleSign() ? 0 : this.quantityNeeded;
+			return KoLCharacter.inMuscleSign() ? 0 : Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
 
 		case KoLConstants.SSMITH:
-			return this.quantityNeeded;
+			return Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
 
 		case KoLConstants.JEWELRY:
-			return 3 * this.quantityNeeded;
+			return Math.max( 0, ( ( 3 * this.quantityNeeded ) - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
 
 		case KoLConstants.COOK_FANCY:
-			return KoLCharacter.hasChef() ? 0 : this.quantityNeeded;
+			return KoLCharacter.hasChef() ? 0 : Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
 
 		case KoLConstants.MIX_FANCY:
-			return KoLCharacter.hasBartender() ? 0 : this.quantityNeeded;
+			return KoLCharacter.hasBartender() ? 0 : Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
 
 		case KoLConstants.WOK:
 			return this.quantityNeeded;
