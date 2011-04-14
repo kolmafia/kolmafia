@@ -444,9 +444,7 @@ public class MailboxFrame
 
 			if ( parameters.length == 2 )
 			{
-				String rawText = MailboxFrame.this.displayed.getCompleteHTML();
-				int start = rawText.indexOf( "<br><br>" ) + 8;
-				String text = rawText.substring( start );
+				String text = MailboxFrame.this.displayed.getMessageHTML();
 
 				// Replace <br> tags with a line break and
 				// quote the following line
