@@ -1124,7 +1124,7 @@ public class MaximizerFrame
 					this.hands = (int) weight;
 					if ( this.hands >= 2 )
 					{
-						this.slots[ EquipmentManager.OFFHAND ] = -1;
+						//this.slots[ EquipmentManager.OFFHAND ] = -1;
 					}
 					continue;
 				}
