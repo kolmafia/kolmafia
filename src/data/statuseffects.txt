@@ -822,7 +822,7 @@
 821
 822
 823
-824	So You Can Work More...	baggie.gif	d3d104d1eba82fa3f564c2967461f122
+824	So You Can Work More...	baggie.gif	d3d104d1eba82fa3f564c2967461f122	use 1 baggie of powdered sugar
 825	Abominably Slippery	abomblubber.gif	11dee4b0b21e7ddeb9e427fa734fe4d6	use 1 abominable blubber
 826
 827	Wasabi With You	bigeyes.gif	b1c625c28633cef38566bca4aee55a0b	use 1 wasabi marble soda
