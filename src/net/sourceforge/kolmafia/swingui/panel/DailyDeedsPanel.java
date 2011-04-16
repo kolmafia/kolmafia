@@ -126,9 +126,9 @@ public class DailyDeedsPanel
 		this.add( new MelangeDaily() );
 		this.add( new StillsDaily() );
 		this.add( new TeaPartyDaily() );
+		this.add( new PhotocopyDaily() );
 		this.add( new PuttyDaily() );
 		this.add( new CameraDaily() );
-		this.add( new PhotocopyDaily() );
 		this.add( new AdvsDaily() );
 		this.add( new DropsDaily() );
 		this.add( new FreeFightsDaily() );
