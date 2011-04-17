@@ -62,9 +62,8 @@ public class MallSearchRequest
 	private static final Pattern LISTDETAIL_PATTERN =
 		Pattern.compile( "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\"><b>(.*?)</b>" );
 
-	// <a href='/xxx'>next</a>
-	private static final Pattern NEXT_PATTERN = Pattern.compile( "<a href='/([^']*&start=(\\d*)[^']*)'>next</a>" );
-
+	// (Items 1-10 of 45)
+	private static final Pattern ITERATION_PATTERN = Pattern.compile( "\\(Items (\\d+)-(\\d+) of (\\d+)\\)" );
 
 	private List results;
 	private final boolean retainAll;
@@ -177,79 +176,121 @@ public class MallSearchRequest
 
 	public Object run()
 	{
+		boolean items;
 		if ( this.searchString == null || this.searchString.trim().length() == 0 )
 		{
 			KoLmafia.updateDisplay( this.retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
-		}
-		else if ( this.searchString.startsWith( "\"" ) &&
-			this.searchString.endsWith( "\"" ) )
-		{
-			KoLmafia.updateDisplay( "Searching for " + this.searchString + "..." );
+			items = false;
 		}
 		else
 		{
-			this.results.clear();
-			List itemNames = ItemDatabase.getMatchingNames( this.searchString );
-
-			// Check for any items which are not available in NPC stores and
-			// known not to be tradeable to see if there's an exact match.
-
-			Iterator itemIterator = itemNames.iterator();
-			int npcItemCount = 0;
-
-			while ( itemIterator.hasNext() )
+			// If only NPC items, no mall search needed
+			if ( !this.updateSearchString() )
 			{
-				String itemName = (String) itemIterator.next();
-				int itemId = ItemDatabase.getItemId( itemName );
-
-				if ( NPCStoreDatabase.contains( itemName ) )
-				{
-					++npcItemCount;
-				}
-				else if ( !ItemDatabase.isTradeable( itemId ) )
-				{
-					itemIterator.remove();
-				}
-			}
-
-			// If the results contain only NPC items, then you don't need
-			// to run a mall search.
-
-			if ( npcItemCount > 0 && itemNames.size() == npcItemCount )
-			{
-				this.finalizeList( itemNames );
 				return null;
 			}
 
-			// If there is only one applicable match, then make sure you
-			// search for the exact item (may be a fuzzy matched item).
-
-			if ( itemNames.size() == 1 )
-			{
-				this.searchString = MallSearchRequest.getSearchString( (String) itemNames.get( 0 ) );
-				this.addFormField( "pudnuggler", this.searchString );
-			}
-
 			KoLmafia.updateDisplay( "Searching for " + this.searchString + "..." );
+			items = true;
 		}
 
 		// We may need to iterate over multiple pages of search results
 		this.removeFormField( "start" );
+		int next = 0;
+		int page = 1;
+		int limit = 0;
+
 		while ( true )
 		{
+			if ( page > 1 )
+			{
+				KoLmafia.updateDisplay( "Searching for " + this.searchString + " (" + page + " of " + limit + ")..." );
+			}
+
 			super.run();
 
-			Matcher nextMatcher = MallSearchRequest.NEXT_PATTERN.matcher( this.responseText );
-			if ( !nextMatcher.find() )
+			if ( !items )
 			{
 				break;
 			}
 
-			this.addFormField( "start", nextMatcher.group(2) );
+			Matcher matcher = MallSearchRequest.ITERATION_PATTERN.matcher( this.responseText );
+			if ( !matcher.find() )
+			{
+				break;
+			}
+
+			if ( limit == 0 )
+			{
+				int total = StringUtilities.parseInt( matcher.group(3) );
+				limit = ( total + 9 ) / 10;
+			}
+
+			if ( ++page > limit )
+			{
+				break;
+			}
+
+			int end = StringUtilities.parseInt( matcher.group(2) );
+			next = end + 1;
+			this.addFormField( "start", String.valueOf( next ) );
 		}
 
 		KoLmafia.updateDisplay( "Search complete." );
 		return null;
+	}
+
+	private boolean updateSearchString()
+	{
+		this.results.clear();
+
+		if ( this.searchString.startsWith( "\"" ) && this.searchString.endsWith( "\"" ) )
+		{
+			return true;
+		}
+
+		List itemNames = ItemDatabase.getMatchingNames( this.searchString );
+
+		// Check for any items which are not available in NPC stores and
+		// known not to be tradeable to see if there's an exact match.
+
+		Iterator itemIterator = itemNames.iterator();
+		int npcItemCount = 0;
+
+		while ( itemIterator.hasNext() )
+		{
+			String itemName = (String) itemIterator.next();
+			int itemId = ItemDatabase.getItemId( itemName );
+
+			if ( NPCStoreDatabase.contains( itemName ) )
+			{
+				++npcItemCount;
+			}
+			else if ( !ItemDatabase.isTradeable( itemId ) )
+			{
+				itemIterator.remove();
+			}
+		}
+
+		// If the results contain only NPC items, then you don't need
+		// to run a mall search.
+
+		if ( npcItemCount > 0 && itemNames.size() == npcItemCount )
+		{
+			this.finalizeList( itemNames );
+			return false;
+		}
+
+		// If there is only one applicable match, then make sure you
+		// search for the exact item (may be a fuzzy matched item).
+
+		if ( itemNames.size() == 1 )
+		{
+			this.searchString = MallSearchRequest.getSearchString( (String) itemNames.get( 0 ) );
+			this.addFormField( "pudnuggler", this.searchString );
+		}
+
+		return true;
 	}
 
 	private void searchStore()
