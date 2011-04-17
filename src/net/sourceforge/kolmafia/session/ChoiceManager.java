@@ -671,11 +671,7 @@ public abstract class ChoiceManager
 			"Cyrpt", "choiceAdventure158", "Defiled Niche",
 			new String[] { "fight gargantulihc", "skip adventure" } ),
 
-		// Go Slow Past the Drawers
-		new ChoiceAdventure(
-			"Cyrpt", "choiceAdventure159", "Defiled Cranny",
-			new String[] { "small meat boost", "stats & HP & MP", "can of Ghuol-B-Gone&trade;", "skip adventure" },
-			new String[] { null, null, "2565", null } ),
+		// Choice 159 used to be Go Slow Past the Drawers
 
 		// Lunchtime
 		new ChoiceAdventure(
@@ -1490,8 +1486,20 @@ public abstract class ChoiceManager
 			new String[] { "Knob jelly donut", "skip adventure" },
 			new String[] { "4941", null } ),
 
+		// Death Rattlin'
+		new ChoiceAdventure(
+			"Cyrpt", "choiceAdventure523", "Defiled Cranny",
+			new String[] { "small meat boost", "stats & HP & MP", "can of Ghuol-B-Gone&trade;", "fight swarm of ghuol whelps", "skip adventure" },
+			new String[] { null, null, "2565", null, null } ),
+
 		// Choice 524 is The Adventures of Lars the Cyberian
 		// Choice 525 is Fiddling with a Puzzle
+		// Choice 526 is unknown
+
+		// Choice 527 is The Haert of Darkness
+		new ChoiceAdventure(
+			"Cyrpt", "choiceAdventure527", "Haert of Darkness",
+			new String[] { "fight the Bonerdagon", "skip adventure" } ),
 	};
 
 	static

@@ -4963,11 +4963,11 @@
 4957	954191945	half-baked potion
 4958	647795603	Knob Goblin deluxe scimitar
 4959	373563238	Knob nuts
-4960	460647230	Cobb's Knob Wurstbrau
+4960	460647230	Cobb's Knob Wurstbrau	bottles of Cobb's Knob Wurstbrau
 4961	928843217	Subject 37 file
 4962	560050214	mysterious silver lapel pin
 4963
-4964
+4964	402664251	Evilometer
 4965	991520082	Sorcerers of the Shore Grimoire
 4966	814202201	Pack of Alice's Army Cards
 4967	842989556	Alice's Army Swordsman	Alice's Army Swordsmen
@@ -5013,7 +5013,7 @@
 5007	267211165	Alice's Army Foil Martyr
 5008	358154228	Single Alice's Army Foil
 5009	251309076	card sleeve
-5010
+5010	272996974	evil eye
 5011	231901229	Alice's Army Foil tattoo
 5012	801715967	Ye Wizard's Shack snack voucher
 5013	499607486	wasabi pocky

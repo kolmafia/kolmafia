@@ -78,9 +78,9 @@ Daily Dungeon	-1	Apathetic Lizardman	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayo
 Dark Elbow of the Woods	95	Demoninja	G Imp	L Imp
 Dark Heart of the Woods	95	Fallen Archfiend	G Imp	P Imp
 Dark Neck of the Woods	95	Hellion	P Imp	W Imp
-Defiled Alcove	100	Corpulent Zobmie	Grave Rober Zmobie	Conjoined Zmombie
-Defiled Cranny	100	Gluttonous Ghuol	Gaunt Ghuol	Huge Ghuol: 0
-Defiled Niche	100	Senile Lihc	Slick Lihc	Gargantulihc: 0
+Defiled Alcove	100	Corpulent Zobmie	Grave Rober Zmobie	Modern Zmobie	Conjoined Zmombie
+Defiled Cranny	100	Swarm of Ghuol Whelps	Gluttonous Ghuol	Gaunt Ghuol	Huge Ghuol: 0
+Defiled Niche	100	Dirty Old Lihc	Senile Lihc	Slick Lihc	Gargantulihc: 0
 Defiled Nook	100	Spiny Skelelton	Toothy Sklelton	Giant Skeelton: 0
 Degrassi Knoll	80	Gnollish Crossdresser: 2	Gnollish Flyslayer: 2	Gnollish Gearhead: 3	Gnollish Piebaker: 2	Gnollish Plungermaster: 2	Gnollish Tirejuggler: 2	Gnollish War Chef: 2	Guard Bugbear: 2	One-Eyed Gnoll: 2
 Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locusts	Rock Scorpion	Swarm of Fire Ants
