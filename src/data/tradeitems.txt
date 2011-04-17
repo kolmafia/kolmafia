@@ -4970,7 +4970,7 @@
 4961	Subject 37 file	none	none	0
 4962	mysterious silver lapel pin	accessory	display	555
 4963
-4964
+4964	Evilometer	usable	none	0
 4965	Sorcerers of the Shore Grimoire	usable	all	0
 4966	Pack of Alice's Army Cards	usable	all	0
 4967	Alice's Army Swordsman	none	all	5
@@ -5016,7 +5016,7 @@
 5007	Alice's Army Foil Martyr	none	all	20000
 5008	Single Alice's Army Foil	usable	all	0
 5009	card sleeve	offhand	all	0
-5010
+5010	evil eye	usable	none	0
 5011	Alice's Army Foil tattoo	usable	all	0
 5012	Ye Wizard's Shack snack voucher	none	all	5
 5013	wasabi pocky	food	all	5

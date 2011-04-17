@@ -292,6 +292,7 @@ Demoninja	HP: 48 Def: 30 Atk: 48 E: heat Meat: 40-60	fraudwort (c0)	hot katana b
 Dirty Hippy	HP: 30 Def: 40 Atk: 40 E: stench	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (2)	hippy bongo (0)	Spanish fly (c25)
 Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench	beach glass bead (10)	clay peace-sign bead (10)	filthy corduroys (5)	filthy knitted dread sack (2)	hemp string (30)	hippy bongo (0)	phat turquoise bead (10)	reodorant (5)	Spanish fly (c25)
 Dirty Hippy Vegan Chef	HP: 30 Def: 40 Atk: 40 E: stench	carob chunks (30)	double-barreled sling (0)	filthy knitted dread sack (5)	Uncle Jick's Brownie Mix (30)	reodorant (5)	filthy corduroys (2)	filthy pestle (5)	Spanish fly (c25)
+Dirty Old Lihc	E: spooky
 Dirty Thieving Brigand	HP: 185 Def: 171 Atk: 169 Meat: 800-1200
 Disease-In-The-Box	HP: 14 Def: 18 Atk: 18	box (30)	disease (40)
 Diving Belle	HP: 750 Def: 500 Atk: 400 E: spooky	diving muff (n3)	salinated mint julep (32)	water-polo mitt (c0)
@@ -574,6 +575,7 @@ Mob Penguin Smasher		chunk of depleted Grimacite (0)	kneecapping stick (0)	pengu
 Mob Penguin Smith		chunk of depleted Grimacite (0)	iron pasta spoon (0)	scroll of pasta summoning (0)
 Mob Penguin Supervisor		chunk of depleted Grimacite (0)	mafia aria (0)	Mob Penguin cellular phone (0)	support cummerbund (0)
 Mobile Armored Sweat Lodge	HP: 300 Atk: 180 E: stench	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
+Modern Zmobie	E: spooky
 Monkey Wrenchin' Elf		elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
 Monty Basingstoke-Pratt, IV	HP: 240 Meat: 174-215 E: sleaze	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 Mother hellseal	HP: 157	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
@@ -754,6 +756,7 @@ Susie Soyburger	HP: 90 Def: 35 Atk: 50	soyburger juice (0)
 Susie Soyburger Cast Member	HP: 110 Def: 60 Atk: 70	soyburger juice (0)
 Swamp Duck	HP: 182 Def: 177 Atk: 169 Meat: 120-172 E: stench	fetid feather (10)	duct tape (5)
 Swarm of Fire Ants	HP: 135 Def: 133 Atk: 142 E: heat	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
+Swarm of Ghuol Whelps	E: spooky
 Swarm of Killer Bees	HP: 75 Def: 54 Atk: 59 "Somewhat Poisoned"	baby killer bee (5)	royal jelly (25)
 Swarm of Knob Lice	HP: 30 Def: 25 Atk: 25
 swarm of lowercase As	HP: 75 Def: 54 Atk: 59	lowercase A (5)	percent sign (25)
