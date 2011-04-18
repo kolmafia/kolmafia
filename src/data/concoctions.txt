@@ -946,6 +946,7 @@ spiky turtle helmet	ASMITH	basic meat helmet	hedgeturtle
 spiky turtle shoulderpads	ASMITH	hedgeturtle	hedgeturtle
 
 eXtreme nose ring	COMBINE	stone of eXtreme power	piercing post
+creepy voodoo doll	wooden figurine	gob of wet hair
 spooky glove	COOK	spooky fairy gravy	small leather glove
 
 # Things made of ores from the Anemone Mine

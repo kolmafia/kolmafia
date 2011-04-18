@@ -5068,7 +5068,7 @@
 5059	Skullhead's Screw	none, combat	all	0
 5060	mysterious present	usable	gift	0
 5061	boxing-glove-in-a-box	none	gift	0
-5062
+5062	creepy voodoo doll	reusable	all	10
 5063
 5064	Salsa de las Epocas	none	all	25
 5065	spaghetti con calaveras	food	all	61
