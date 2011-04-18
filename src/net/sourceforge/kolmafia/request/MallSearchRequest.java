@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -212,6 +213,12 @@ public class MallSearchRequest
 			if ( !items )
 			{
 				break;
+			}
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Search aborted." );
+				return null;
 			}
 
 			Matcher matcher = MallSearchRequest.ITERATION_PATTERN.matcher( this.responseText );
