@@ -217,7 +217,6 @@ public class MallSearchRequest
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Search aborted." );
 				return null;
 			}
 

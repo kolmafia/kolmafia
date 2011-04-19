@@ -73,6 +73,7 @@ public class MallSearchFrame
 	private static MallSearchFrame INSTANCE = null;
 	private static final SortedListModel pastSearches = new SortedListModel();
 
+	private boolean currentlySearching;
 	private boolean currentlyBuying;
 	private SortedListModel results;
 	private ShowDescriptionList resultsList;
@@ -141,6 +142,7 @@ public class MallSearchFrame
 			this.setContent( elements );
 
 			this.add( new SearchResultsPanel(), BorderLayout.CENTER );
+			MallSearchFrame.this.currentlySearching = false;
 			MallSearchFrame.this.currentlyBuying = false;
 		}
 
@@ -166,12 +168,22 @@ public class MallSearchFrame
 				searchText = (String) ( (AutoFilterComboBox) this.searchField ).getSelectedItem();
 			}
 
+			MallSearchFrame.this.currentlySearching = true;
+
 			MallSearchFrame.searchMall( new MallSearchRequest(
 				searchText, searchCount, MallSearchFrame.this.results, false ) );
+
+			MallSearchFrame.this.currentlySearching = false;
 		}
 
 		public void actionCancelled()
 		{
+			if ( MallSearchFrame.this.currentlySearching )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Search stopped." );
+				return;
+			}
+
 			if ( MallSearchFrame.this.currentlyBuying )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Purchases stopped." );

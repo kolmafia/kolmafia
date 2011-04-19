@@ -689,6 +689,15 @@ public class Preferences
 				Preferences.userValues.put( key, value );
 			}
 		}
+
+		// *** Temporary. Remove some erroneous defaults.
+		Preferences.userValues.remove( "unknownRecipe5063" );
+		Preferences.userValues.remove( "unknownRecipe5065" );
+		Preferences.userValues.remove( "unknownRecipe5066" );
+		Preferences.userValues.remove( "unknownRecipe5067" );
+		Preferences.userValues.remove( "unknownRecipe5068" );
+		Preferences.userValues.remove( "unknownRecipe5069" );
+		Preferences.userValues.remove( "unknownRecipe5071" );
 	}
 
 	public static void resetToDefault( String name )
