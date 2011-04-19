@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -43,7 +42,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -238,6 +236,10 @@ public class UntinkerRequest
 
 		if ( KoLCharacter.inMuscleSign() )
 		{
+			GenericRequest tinkVisit = new GenericRequest( "forestvillage.php" );
+			tinkVisit.run();
+			tinkVisit.addFormField( "action=screwquest" );
+			tinkVisit.run();
 			GenericRequest knollVisit = new GenericRequest( "knoll.php" );
 			knollVisit.run();
 
@@ -257,6 +259,11 @@ public class UntinkerRequest
 
 		// Okay, so they don't have one yet. Complete the
 		// untinkerer's quest automatically.
+
+		GenericRequest tinkVisit = new GenericRequest( "forestvillage.php" );
+		tinkVisit.run();
+		tinkVisit.addFormField( "action=screwquest" );
+		tinkVisit.run();
 
 		KoLAdventure sideTripLocation = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=18" );
 		AdventureResult sideTripItem = UntinkerRequest.SCREWDRIVER.getNegation();
