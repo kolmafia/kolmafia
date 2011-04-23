@@ -267,7 +267,6 @@ public abstract class TransferItemRequest
 		{
 			// Attach all the Meat to the first request
 			TransferItemRequest first = (TransferItemRequest) subinstances.get(0);
-			
 			first.addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
 
 		}
@@ -315,9 +314,10 @@ public abstract class TransferItemRequest
 
 		for ( int i = 1; i <= this.attachments.length; ++i )
 		{
-			if ( this.attachments[ i - 1 ] != null )
+			AdventureResult it = (AdventureResult) this.attachments[ i - 1 ];
+			if ( it != null && it.isItem() )
 			{
-				this.attachItem( (AdventureResult) this.attachments[ i - 1 ], i );
+				this.attachItem( it, i );
 			}
 		}
 
