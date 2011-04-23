@@ -4091,6 +4091,13 @@ public class UseItemRequest
 			// the URL to determine exactly what was used.
 			return true;
 		}
+
+		if ( urlString.indexOf( "action=closetpull" ) != -1 ||
+		     urlString.indexOf( "action=closetpull" ) != -1 )
+		{
+			return ClosetRequest.registerRequest( urlString );
+		}
+
 		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );
 		if ( UseItemRequest.lastItemUsed == null )
 		{
