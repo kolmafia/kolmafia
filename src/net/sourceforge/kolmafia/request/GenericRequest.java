@@ -433,6 +433,7 @@ public class GenericRequest
 			this.formURLString.startsWith( "http://" ) ||
 			this.formURLString.endsWith( "menu.php" ) ||
 			this.formURLString.startsWith( "actionbar" ) ||
+			this.formURLString.startsWith( "api.php" ) ||
 			this.formURLString.startsWith( "charpane" ) ||
 			this.formURLString.startsWith( "desc" ) ||
 			this.formURLString.startsWith( "display" ) ||
