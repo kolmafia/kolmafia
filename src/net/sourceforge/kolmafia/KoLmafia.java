@@ -969,18 +969,20 @@ public abstract class KoLmafia
 		// Hermit items depend on character class
 		HermitRequest.reset();
 
-		// Retrieve the contents of the closet and inventory
-
-		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
+		// Retrieve the contents of the closet and inventory.  We can
+		// detect new items in either location, so let the Inventory
+		// Manager control refreshing.
+		InventoryManager.refresh();
 
 		// Retrieve Custom Outfit list
 
 		RequestThread.postRequest( new CustomOutfitRequest() );
 
+		// Look at the Quest Log
+
 		RequestThread.postRequest( new QuestLogRequest() );
 
-		// Retrieve the list of familiars which are available to
-		// the player.
+		// Retrieve the Terrarium
 
 		RequestThread.postRequest( new FamiliarRequest() );
 

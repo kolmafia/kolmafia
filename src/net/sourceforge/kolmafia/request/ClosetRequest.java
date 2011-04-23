@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -54,16 +55,26 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ClosetRequest
 	extends TransferItemRequest
 {
-	private static final Pattern CLOSETMEAT_PATTERN = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" );
-	private static final Pattern OPTION_PATTERN =
-		Pattern.compile( "<option[^>]*? value='?([\\d]+)'?>(.*?)( \\(([\\d,]+)\\))?</option>" );
-
 	private int moveType;
 
-	public static final int INVENTORY_TO_CLOSET = 1;
-	public static final int CLOSET_TO_INVENTORY = 2;
-	public static final int MEAT_TO_CLOSET = 3;
-	public static final int MEAT_TO_INVENTORY = 4;
+	public static final int REFRESH = 0;
+	public static final int CONSUMABLES = 1;
+	public static final int EQUIPMENT = 2;
+	public static final int MISCELLANEOUS = 3;
+
+	public static final int INVENTORY_TO_CLOSET = 4;
+	public static final int CLOSET_TO_INVENTORY = 5;
+	public static final int MEAT_TO_CLOSET = 6;
+	public static final int MEAT_TO_INVENTORY = 7;
+
+	// Your closet contains <b>170,000,000</b> meat.
+	private static final Pattern CLOSETMEAT_PATTERN = Pattern.compile( "Your closet contains <b>([\\d,]+)</b> meat\\." );
+
+	public ClosetRequest()
+	{
+		super( "closet.php" );
+		this.moveType = REFRESH;
+	}
 
 	public ClosetRequest( final int moveType )
 	{
@@ -78,7 +89,7 @@ public class ClosetRequest
 
 	public ClosetRequest( final int moveType, final Object[] attachments )
 	{
-		super( "closet.php", attachments );
+		super( ClosetRequest.pickURL( moveType ), attachments );
 		this.moveType = moveType;
 
 		// Figure out the actual URL information based on the
@@ -86,25 +97,56 @@ public class ClosetRequest
 
 		switch ( moveType )
 		{
+		case CONSUMABLES:
+			this.addFormField( "which", "1" );
+			break;
+		case EQUIPMENT:
+			this.addFormField( "which", "2" );
+			break;
+		case MISCELLANEOUS:
+			this.addFormField( "which", "3" );
+			break;
 		case MEAT_TO_CLOSET:
-			this.addFormField( "action", "addmeat" );
+			// closet.php?action=addtakeclosetmeat&addtake=add&pwd&quantity=x
+			this.addFormField( "action", "addtakeclosetmeat" );
+			this.addFormField( "addtake", "add" );
 			break;
 
 		case MEAT_TO_INVENTORY:
-			this.addFormField( "action", "takemeat" );
+			// closet.php?action=addtakeclosetmeat&addtake=take&pwd&quantity=x
+			this.addFormField( "action", "addtakeclosetmeat" );
+			this.addFormField( "addtake", "take" );
 			break;
 
 		case INVENTORY_TO_CLOSET:
-			this.addFormField( "action", "put" );
+			// fillcloset.php?action=closetpush&whichitem=4511&qty=xxx&pwd&ajax=1
+			// fillcloset.php?action=closetpush&whichitem=4511&qty=all&pwd&ajax=1
+			this.addFormField( "action", "closetpush" );
+			this.addFormField( "ajax", "1" );
 			this.source = KoLConstants.inventory;
 			this.destination = KoLConstants.closet;
 			break;
 
 		case CLOSET_TO_INVENTORY:
-			this.addFormField( "action", "take" );
+			// closet.php?action=closetpull&whichitem=4511&qty=xxx&pwd&ajax=1
+			// closet.php?action=closetpull&whichitem=4511&qty=all&pwd&ajax=1
+			this.addFormField( "action", "closetpull" );
+			this.addFormField( "ajax", "1" );
 			this.source = KoLConstants.closet;
 			this.destination = KoLConstants.inventory;
 			break;
+		}
+	}
+
+	private static String pickURL( final int moveType )
+	{
+		switch ( moveType )
+		{
+		case INVENTORY_TO_CLOSET:
+		case CLOSET_TO_INVENTORY:
+			return "inventory.php";
+		default:
+			return "closet.php";
 		}
 	}
 
@@ -125,12 +167,12 @@ public class ClosetRequest
 
 	public String getQuantityField()
 	{
-		return "howmany";
+		return "qty";
 	}
 
 	public String getMeatField()
 	{
-		return "amt";
+		return "quantity";
 	}
 
 	public List getItems()
@@ -152,7 +194,12 @@ public class ClosetRequest
 
 	public int getCapacity()
 	{
-		return 11;
+		return 1;
+	}
+
+	public boolean forceGETMethod()
+	{
+		return true;
 	}
 
 	public TransferItemRequest getSubInstance( final Object[] attachments )
@@ -165,42 +212,139 @@ public class ClosetRequest
 		return ClosetRequest.parseTransfer( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseTransfer( final String urlString, final String responseText )
+	public Object run()
 	{
-		boolean success = false;
-
-		// Determine how much meat is left in your closet by locating
-		// "Your closet contains x meat" and update the display with
-		// that information.
-
-		Matcher matcher = ClosetRequest.CLOSETMEAT_PATTERN.matcher( responseText );
-		int before = KoLCharacter.getClosetMeat();
-		int after = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
-
-		KoLCharacter.setClosetMeat( after );
-		ResultProcessor.processMeat( before - after );
-
-		if ( urlString.indexOf( "action=takemeat" ) != -1 )
+		if ( this.moveType == REFRESH )
 		{
-			success = before != after;
+			// If we are refreshing the closet, we need to do all three pages.
+			KoLmafia.updateDisplay( "Refreshing closet..." );
+
+			// Get the three pages of the closet in succession
+			KoLConstants.closet.clear();
+			RequestThread.postRequest( new ClosetRequest( CONSUMABLES ) );
+			RequestThread.postRequest( new ClosetRequest( EQUIPMENT ) );
+			RequestThread.postRequest( new ClosetRequest( MISCELLANEOUS ) );
+			return null;
 		}
-		else if ( urlString.indexOf( "action=addmeat" ) != -1 )
+
+		// If it's a transfer, let TransferItemRequest handle it
+		return super.run();
+	}
+
+	public void processResults()
+	{
+		switch ( this.moveType )
 		{
-			success = before != after;
+		case ClosetRequest.REFRESH:
+			return;
+		case ClosetRequest.CONSUMABLES:
+		case ClosetRequest.EQUIPMENT:
+		case ClosetRequest.MISCELLANEOUS:
+			ClosetRequest.parseCloset( this.getURLString(), this.responseText );
+			return;
+		default:
+			super.processResults();
 		}
-		else if ( urlString.indexOf( "action=take" ) != -1 )
+	}
+
+	// <table class='item' id="ic4448" rel="id=4448&s=0&q=0&d=1&g=0&t=0&n=38&m=1&p=0&u=u"><td class="img"><img src="http://images.kingdomofloathing.com/itemimages/karma.gif" class="hand ircm" onClick='descitem(820448502,0, event);'></td><td id='i4448' valign=top><b class="ircm">Instant Karma</b>&nbsp;<span>(38)</span><font size=1><br><a href="inventory.php?which=1&action=discard&pwd=71aa09983736d050dc8fd4aedf08c5d2&whichitem=4448" onclick='return discardconf("Instant Karma");'>[discard]</a>&nbsp;take <a href="closet.php?action=closetpull&whichitem=4448&qty=1&pwd=71aa09983736d050dc8fd4aedf08c5d2" class="takelink">[one]</a> <a href="closet.php?action=closetpull&whichitem=4448&pwd=71aa09983736d050dc8fd4aedf08c5d2&qty=" onclick="return closetsome(this)" class="takelink some">[some]</a> <a href="closet.php?action=closetpull&whichitem=4448&qty=all&pwd=71aa09983736d050dc8fd4aedf08c5d2" class="takelink">[all]</a> </font></td></table>
+	private static final Pattern ITEM_PATTERN =
+		Pattern.compile( "<table class='item'.*?rel=\"([^\"]*)\">.*?<b class=\"ircm\">(.*?)</b>(?:&nbsp;<span>\\(([\\d]+)\\)</span)?.*?whichitem=([\\d]+).*?</table>" );
+
+	public static void parseCloset( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "closet.php" ) )
 		{
-			if ( responseText.indexOf( "moved from closet to inventory" ) != -1 )
+			return;
+		}
+
+		// Try to find how much meat is in your character's closet -
+		// this way, the program's meat manager frame auto-updates
+
+		Matcher meatInClosetMatcher = ClosetRequest.CLOSETMEAT_PATTERN.matcher( responseText );
+
+		if ( meatInClosetMatcher.find() )
+		{
+			String meatInCloset = meatInClosetMatcher.group( 1 );
+			KoLCharacter.setClosetMeat( StringUtilities.parseInt( meatInCloset ) );
+		}
+
+		Matcher matcher = ClosetRequest.ITEM_PATTERN.matcher( responseText );
+		int lastFindIndex = 0;
+
+		while ( matcher.find( lastFindIndex ) )
+		{
+			lastFindIndex = matcher.end();
+			String relString = matcher.group( 1 );
+			String countString = matcher.group(3);
+			int count = ( countString == null ) ? 1 : StringUtilities.parseInt( countString );
+			int itemId = StringUtilities.parseInt( matcher.group( 4 ) );
+			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) );
+			String realName = matcher.group( 2 );
+			String canonicalName = StringUtilities.getCanonicalName( realName );
+
+			if ( itemName == null || !canonicalName.equals( itemName ) )
 			{
-				TransferItemRequest.transferItems( urlString,
-					KoLConstants.closet,
-					KoLConstants.inventory, 0 );
-				success = true;
+				// Lookup item with api.php for additional info
+				ItemDatabase.registerItem( itemId );
+			}
+
+			AdventureResult item = new AdventureResult( itemId, StringUtilities.parseInt( matcher.group( 4 ) ) );
+			int closetCount = item.getCount( KoLConstants.closet );
+
+			// Add the difference between your existing count
+			// and the original count.
+
+			if ( closetCount != count )
+			{
+				item = item.getInstance( count - closetCount );
+				AdventureResult.addResultToList( KoLConstants.closet, item );
 			}
 		}
-		else if ( urlString.indexOf( "action=put" ) != -1 )
+	}
+
+	public static final boolean parseTransfer( final String urlString, final String responseText )
+	{
+		if ( urlString.indexOf( "action" ) == -1 )
 		{
-			if ( responseText.indexOf( "moved from inventory to closet" ) != -1 )
+			ClosetRequest.parseCloset( urlString, responseText );
+			return true;
+
+		}
+
+		boolean success = false;
+
+		if ( urlString.indexOf( "action=addtakeclosetmeat" ) != -1 )
+		{
+			// Determine how much meat is left in your closet by locating
+			// "Your closet contains x meat" and update the display with
+			// that information.
+
+			Matcher matcher = ClosetRequest.CLOSETMEAT_PATTERN.matcher( responseText );
+			int before = KoLCharacter.getClosetMeat();
+			int after = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+
+			KoLCharacter.setClosetMeat( after );
+			success = before != after;
+		}
+		else if ( urlString.indexOf( "action=closetpull" ) != -1 )
+		{
+			if ( responseText.indexOf( "You acquire" ) == -1 )
+			{
+				return false;
+			}
+
+			// Since "you acquire" items, they have already been
+			// added to inventory
+
+			TransferItemRequest.transferItems( urlString,
+					KoLConstants.closet,
+					null, 0 );
+			success = true;
+		}
+		else if ( urlString.indexOf( "action=closetpush" ) != -1 )
+		{
+			if ( responseText.indexOf( "in your closet" ) != -1 )
 			{
 				TransferItemRequest.transferItems( urlString,
 					KoLConstants.inventory,
@@ -220,34 +364,38 @@ public class ClosetRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "closet.php" ) )
+		if ( !urlString.startsWith( "closet.php" ) &&
+		     !urlString.startsWith( "fillcloset.php" ) &&
+		     !urlString.startsWith( "inventory.php" ) )
 		{
 			return false;
 		}
 
-		if ( urlString.indexOf( "action=take&" ) != -1 )
+		if ( urlString.indexOf( "action=closetpull" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
 				"take from closet", urlString, KoLConstants.closet, 0 );
 		}
 
-		if ( urlString.indexOf( "action=put" ) != -1 )
+		if ( urlString.indexOf( "action=closetpush" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
 				"add to closet", urlString, KoLConstants.inventory, 0 );
 		}
 
-		int meat = TransferItemRequest.transferredMeat( urlString, "amt" );
+		int meat = TransferItemRequest.transferredMeat( urlString, "quantity" );
 		String message = null;
 
-		if ( urlString.indexOf( "action=addmeat" ) != -1 )
+		if ( urlString.indexOf( "action=addtakeclosetmeat" ) != -1 )
 		{
-			message = "add to closet: " + meat + " Meat";
-		}
-
-		if ( urlString.indexOf( "action=takemeat" ) != -1 )
-		{
-			message = "take from closet " + meat + " Meat";
+			if ( urlString.indexOf( "addtake=add" ) != -1 )
+			{
+				message = "add to closet: " + meat + " Meat";
+			}
+			else if ( urlString.indexOf( "addtake=take" ) != -1 )
+			{
+				message = "take from closet " + meat + " Meat";
+			}
 		}
 
 		if ( meat > 0 && message != null )
@@ -289,6 +437,15 @@ public class ClosetRequest
 
 		case MEAT_TO_INVENTORY:
 			return "Removing meat from closet";
+
+		case CONSUMABLES:
+			return "Examining consumables in closet";
+
+		case EQUIPMENT:
+			return "Examining equipment in closet";
+
+		case MISCELLANEOUS:
+			return "Examining miscellaneous items in closet";
 
 		default:
 			return "Unknown request type";

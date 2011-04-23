@@ -395,7 +395,8 @@ public abstract class StaticEntity
 			ClanLoungeRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "closet.php" ) )
+		else if ( location.startsWith( "closet.php" ) || 
+			  location.startsWith( "fillcloset.php" ) )
 		{
 			ClosetRequest.parseTransfer( location, responseText );
 		}
@@ -532,20 +533,26 @@ public abstract class StaticEntity
 			}
 
 			// If there is a consumption message, parse it
-			if ( location.indexOf( "action=message" ) != -1 ||
+			else if ( location.indexOf( "action=message" ) != -1 ||
 			     location.indexOf( "action=breakbricko" ) != -1 )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
 			}
 
 			// If there is a binge message, parse it
-			if ( location.indexOf( "action=ghost" ) != -1 ||
+			else if ( location.indexOf( "action=ghost" ) != -1 ||
 			     location.indexOf( "action=hobo" ) != -1 ||
 			     location.indexOf( "action=slime" ) != -1 ||
 			     location.indexOf( "action=candy" ) != -1 )
 			{
 				UseItemRequest.parseBinge( location, responseText );
 			}
+			else if ( location.indexOf( "action=closetpush" ) != -1 ||
+				  location.indexOf( "action=closetpull" ) != -1 )
+			{
+				ClosetRequest.parseTransfer( location, responseText );
+			}
+
 		}
 
 		else if ( location.startsWith( "inv_equip.php" ) &&

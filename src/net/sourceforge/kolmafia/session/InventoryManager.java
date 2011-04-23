@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
@@ -86,6 +87,27 @@ public abstract class InventoryManager
 	public static void resetInventory()
 	{
 		KoLConstants.inventory.clear();
+	}
+
+	public static void refresh()
+	{
+		// Retrieve the contents of the closet and inventory
+		// We can detect new items in either location
+		try
+		{
+			KoLmafia.setIsRefreshing( true );
+			InventoryManager.resetInventory();
+			ConcoctionDatabase.deferRefresh( true );
+			RequestThread.postRequest( new ClosetRequest() );
+			RequestThread.postRequest( new ApiRequest( "inventory" ) );
+		}
+		finally
+		{
+			EquipmentManager.updateOutfits();
+			ConcoctionDatabase.deferRefresh( false );
+			KoLmafia.setIsRefreshing( false );
+			KoLmafia.saveDataOverride();
+		}
 	}
 
 	public static final int getCount( final int itemId )

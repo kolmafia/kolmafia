@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class RefreshStatusCommand
 	extends AbstractCommand
@@ -64,8 +65,8 @@ public class RefreshStatusCommand
 		}
 		else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 		{
-			parameters = "equip";
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
+			parameters = "equip";
 		}
 		else if ( parameters.startsWith( "stick" ) )
 		{
@@ -74,7 +75,7 @@ public class RefreshStatusCommand
 		}
 		else if ( parameters.startsWith( "inv" ) )
 		{
-			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
+			InventoryManager.refresh();
 			return;
 		}
 		else if ( parameters.startsWith( "camp" ) )

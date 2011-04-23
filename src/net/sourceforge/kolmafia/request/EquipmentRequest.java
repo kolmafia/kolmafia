@@ -61,11 +61,6 @@ public class EquipmentRequest
 	extends PasswordHashRequest
 {
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
-	private static final Pattern MEAT_PATTERN = Pattern.compile( "([\\d,]+) meat\\.</b>" );
-	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
-	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
-	private static final Pattern INVENTORYITEM_PATTERN =
-		Pattern.compile( "<option value='?([\\d]+)'? descid='?([\\d]+)'?>(.*?) \\(([\\d,]+)\\)</option>" );
 
 	// With images:
 	//
@@ -119,21 +114,17 @@ public class EquipmentRequest
 
 	private static final int FAKE_HAND = 1511;
 
-	public static final int REFRESH = 1;
+	public static final int REFRESH = 0;
+	public static final int EQUIPMENT = 1;
 
-	public static final int CONSUMABLES = 2;
-	public static final int EQUIPMENT = 3;	// loads current equipment only
-	public static final int MISCELLANEOUS = 4;
+	public static final int SAVE_OUTFIT = 2;
+	public static final int CHANGE_OUTFIT = 3;
 
-	public static final int SAVE_OUTFIT = 5;
-	public static final int CHANGE_OUTFIT = 6;
+	public static final int CHANGE_ITEM = 4;
+	public static final int REMOVE_ITEM = 5;
+	public static final int UNEQUIP_ALL = 6;
 
-	public static final int CHANGE_ITEM = 7;
-	public static final int REMOVE_ITEM = 8;
-	public static final int UNEQUIP_ALL = 9;
-
-	public static final int BEDAZZLEMENTS = 10;
-	public static final int ALL_EQUIPMENT = 11;	// loads entire equipment page
+	public static final int BEDAZZLEMENTS = 7;
 
 	// Array indexed by equipment "slot" from KoLCharacter
 	//
@@ -202,7 +193,6 @@ public class EquipmentRequest
 
 		switch ( requestType )
 		{
-		case EquipmentRequest.REFRESH:
 		case EquipmentRequest.BEDAZZLEMENTS:
 			// no fields necessary
 			break;
@@ -211,9 +201,6 @@ public class EquipmentRequest
 			this.addFormField( "ajax", "1" );
 			this.addFormField( "curequip", "1" );
 			break;
-		case EquipmentRequest.CONSUMABLES:
-			this.addFormField( "which", "1" );
-			break;
 		case EquipmentRequest.SAVE_OUTFIT:
 		case EquipmentRequest.CHANGE_OUTFIT:
 			this.addFormField( "ajax", "1" );
@@ -221,11 +208,7 @@ public class EquipmentRequest
 			break;
 		case EquipmentRequest.CHANGE_ITEM:
 		case EquipmentRequest.REMOVE_ITEM:
-		case EquipmentRequest.ALL_EQUIPMENT:
 			this.addFormField( "which", "2" );
-			break;
-		case EquipmentRequest.MISCELLANEOUS:
-			this.addFormField( "which", "3" );
 			break;
 		case EquipmentRequest.UNEQUIP_ALL:
 			this.addFormField( "ajax", "1" );
@@ -239,8 +222,6 @@ public class EquipmentRequest
 	{
 		switch ( requestType )
 		{
-		case EquipmentRequest.REFRESH:
-			return "closet.php";
 		case EquipmentRequest.BEDAZZLEMENTS:
 			return "bedazzle.php";
 		case EquipmentRequest.SAVE_OUTFIT:
@@ -580,6 +561,12 @@ public class EquipmentRequest
 
 	public Object run()
 	{
+		if ( this.requestType == EquipmentRequest.REFRESH )
+		{
+			InventoryManager.refresh();
+			return null;
+		}
+
 		// If we were given bogus parameters, report the error now
 		if ( this.error != null )
 		{
@@ -799,20 +786,8 @@ public class EquipmentRequest
 
 		switch ( this.requestType )
 		{
-		case EquipmentRequest.REFRESH:
-			KoLmafia.updateDisplay( "Refreshing closet..." );
-			break;
-
-		case EquipmentRequest.CONSUMABLES:
-			KoLmafia.updateDisplay( "Updating consumable items..." );
-			break;
-
 		case EquipmentRequest.EQUIPMENT:
 			KoLmafia.updateDisplay( "Retrieving equipment..." );
-			break;
-
-		case EquipmentRequest.MISCELLANEOUS:
-			KoLmafia.updateDisplay( "Updating miscellaneous items..." );
 			break;
 
 		case EquipmentRequest.BEDAZZLEMENTS:
@@ -933,59 +908,32 @@ public class EquipmentRequest
 	{
 		super.processResults();
 
-		// Fetch updated equipment
-		if ( this.requestType == EquipmentRequest.REFRESH )
+		String urlString = this.getURLString();
+		String responseText = this.responseText;
+		switch ( this.requestType )
 		{
-			try
-			{
-				KoLmafia.setIsRefreshing( true );
-				InventoryManager.resetInventory();
-				ConcoctionDatabase.deferRefresh( true );
-				this.parseCloset();
-				RequestThread.postRequest( new ApiRequest( "inventory" ) );
-			}
-			finally
-			{
-				EquipmentManager.updateOutfits();
-				ConcoctionDatabase.deferRefresh( false );
-				KoLmafia.setIsRefreshing( false );
-
-				// If new items have been detected, write override files
-				KoLmafia.saveDataOverride();
-			}
-
+		case EquipmentRequest.REFRESH:
 			return;
-		}
 
-		if ( this.getURLString().startsWith( "bedazzle.php" ) )
-		{
+		case EquipmentRequest.EQUIPMENT:
+			EquipmentRequest.parseEquipment( urlString, responseText );
+			return;
+
+		case EquipmentRequest.BEDAZZLEMENTS:
 			EquipmentRequest.parseBedazzlements( this.responseText );
 			return;
-		}
 
-		if ( ( this.requestType == EquipmentRequest.CHANGE_ITEM ||
-		       this.requestType == EquipmentRequest.REMOVE_ITEM ||
-		       this.requestType == EquipmentRequest.SAVE_OUTFIT ||
-		       this.requestType == EquipmentRequest.CHANGE_OUTFIT ||
-		       this.requestType == EquipmentRequest.UNEQUIP_ALL ) &&
-		      this.getURLString().indexOf( "ajax=1" ) != -1 )
-		{
-			EquipmentRequest.parseEquipmentChange( this.getURLString(), this.responseText );
+		case EquipmentRequest.CHANGE_ITEM:
+		case EquipmentRequest.REMOVE_ITEM:
+		case EquipmentRequest.SAVE_OUTFIT:
+		case EquipmentRequest.CHANGE_OUTFIT:
+		case EquipmentRequest.UNEQUIP_ALL:
+			if ( this.getURLString().indexOf( "ajax=1" ) != -1 )
+			{
+				EquipmentRequest.parseEquipmentChange( urlString, responseText );
+			}
 			return;
 		}
-
-		String text = this.responseText;
-		if ( this.requestType != EquipmentRequest.MISCELLANEOUS && this.requestType != EquipmentRequest.CONSUMABLES )
-		{
-			EquipmentRequest.parseEquipment( this.getURLString(), text );
-			int outfitDivider = text.indexOf( "Save as Custom Outfit" );
-			if ( outfitDivider != -1 )
-			{
-				text = text.substring( outfitDivider );
-			}
-		}
-
-		EquipmentRequest.parseQuestItems( text );
 	}
 
 	private static final boolean switchItem( final AdventureResult oldItem, final AdventureResult newItem )
@@ -1012,73 +960,6 @@ public class EquipmentRequest
 		}
 
 		return !ConcoctionDatabase.getKnownUses( oldItem ).isEmpty() || !ConcoctionDatabase.getKnownUses( newItem ).isEmpty();
-	}
-
-	private void parseCloset()
-	{
-		// Try to find how much meat is in your character's closet -
-		// this way, the program's meat manager frame auto-updates
-
-		Matcher meatInClosetMatcher = EquipmentRequest.MEAT_PATTERN.matcher( this.responseText );
-
-		if ( meatInClosetMatcher.find() )
-		{
-			String meatInCloset = meatInClosetMatcher.group( 1 );
-			KoLCharacter.setClosetMeat( StringUtilities.parseInt( meatInCloset ) );
-		}
-
-		Matcher inventoryMatcher = EquipmentRequest.OUTSIDECLOSET_PATTERN.matcher( this.responseText );
-		if ( inventoryMatcher.find() )
-		{
-			this.parseCloset( inventoryMatcher.group(), KoLConstants.inventory );
-		}
-
-		Matcher closetMatcher = EquipmentRequest.INSIDECLOSET_PATTERN.matcher( this.responseText );
-		if ( closetMatcher.find() )
-		{
-			this.parseCloset( closetMatcher.group(), KoLConstants.closet );
-		}
-	}
-
-	private void parseCloset( final String content, final List resultList )
-	{
-		int lastFindIndex = 0;
-		Matcher optionMatcher = EquipmentRequest.INVENTORYITEM_PATTERN.matcher( content );
-
-		resultList.clear();
-
-		while ( optionMatcher.find( lastFindIndex ) )
-		{
-			lastFindIndex = optionMatcher.end();
-			int itemId = StringUtilities.parseInt( optionMatcher.group( 1 ) );
-			String descId = optionMatcher.group( 2 );
-			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) );
-			String realName = optionMatcher.group( 3 );
-			String canonicalName = StringUtilities.getCanonicalName( realName );
-
-			if ( itemName == null || !canonicalName.equals( itemName ) )
-			{
-				// Lookup item with api.php for additional info
-				ItemDatabase.registerItem( itemId );
-			}
-
-			AdventureResult result = new AdventureResult( itemId, StringUtilities.parseInt( optionMatcher.group( 4 ) ) );
-			if ( resultList == KoLConstants.inventory )
-			{
-				ResultProcessor.tallyResult( result, false );
-			}
-			else
-			{
-				AdventureResult.addResultToList( resultList, result );
-			}
-		}
-
-		if ( resultList == KoLConstants.inventory )
-		{
-			EquipmentManager.updateEquipmentLists();
-			ConcoctionDatabase.refreshConcoctions();
-			ItemDatabase.calculateAdventureRanges();
-		}
 	}
 
 	private static final void parseQuestItems( final String text )

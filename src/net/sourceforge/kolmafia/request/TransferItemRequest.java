@@ -121,6 +121,11 @@ public abstract class TransferItemRequest
 		return false;
 	}
 
+	public boolean forceGETMethod()
+	{
+		return false;
+	}
+
 	public abstract String getItemField();
 
 	public abstract String getQuantityField();
@@ -308,23 +313,11 @@ public abstract class TransferItemRequest
 			return null;
 		}
 
-		int capacity = this.getCapacity();
-
-		if ( capacity > 1 )
+		for ( int i = 1; i <= this.attachments.length; ++i )
 		{
-			for ( int i = 1; i <= this.attachments.length; ++i )
+			if ( this.attachments[ i - 1 ] != null )
 			{
-				if ( this.attachments[ i - 1 ] != null )
-				{
-					this.attachItem( (AdventureResult) this.attachments[ i - 1 ], i );
-				}
-			}
-		}
-		else if ( capacity == 1 )
-		{
-			if ( this.attachments[ 0 ] != null )
-			{
-				this.attachItem( (AdventureResult) this.attachments[ 0 ], 0 );
+				this.attachItem( (AdventureResult) this.attachments[ i - 1 ], i );
 			}
 		}
 
@@ -333,6 +326,10 @@ public abstract class TransferItemRequest
 		// to execute the request.
 
 		TransferItemRequest.hadSendMessageFailure = false;
+		if ( this.forceGETMethod() )
+		{
+			this.constructURLString( this.getFullURLString(), false );
+		}
 		super.run();
 		return null;
 	}
