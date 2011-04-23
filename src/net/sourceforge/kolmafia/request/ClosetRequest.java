@@ -199,7 +199,7 @@ public class ClosetRequest
 
 	public boolean forceGETMethod()
 	{
-		return true;
+		return this.moveType == INVENTORY_TO_CLOSET || this.moveType == CLOSET_TO_INVENTORY;
 	}
 
 	public TransferItemRequest getSubInstance( final Object[] attachments )
