@@ -5072,11 +5072,11 @@
 5063
 5064	Salsa de las Epocas	none	all	25
 5065	spaghetti con calaveras	food	all	61
-5066
+5066	s'more gun	none, curse	all	40
 5067
 5068
 5069
 5070	innuendo	none	gift	69
-5071
+5071	s'more	food	display	0
 5072	giant diamond ring	accessory	gift	0
 5073	Russian Ice	drink, combat	all	15

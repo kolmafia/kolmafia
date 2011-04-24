@@ -1019,6 +1019,7 @@ user	unknownRecipe5060	true
 user	unknownRecipe5061	true
 user	unknownRecipe5062	true
 user	unknownRecipe5064	true
+user	unknownRecipe5066	true
 user	unknownRecipe5070	true
 user	unknownRecipe5072	true
 user	unknownRecipe5073	true
