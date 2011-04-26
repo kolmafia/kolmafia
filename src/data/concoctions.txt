@@ -151,7 +151,10 @@ ice skate decoy	COMBINE	ice skate doll	collapsible baton
 roller skate doll	COMBINE	skate skin	skate skates
 roller skate decoy	COMBINE	roller skate doll	brass dorsal fin
 
+the finger	COMBINE	asparagus knife	fake hand
 innuendo	COMBINE	skeleton key	skate skates
+popcorn	COMBINE	Knob Goblin firecracker	cob of corn
+chaos popcorn	COMBINE	popcorn	chaos butterfly
 
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing

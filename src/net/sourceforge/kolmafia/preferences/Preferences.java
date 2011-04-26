@@ -691,9 +691,7 @@ public class Preferences
 		}
 
 		// *** Temporary. Remove some erroneous defaults.
-		Preferences.userValues.remove( "unknownRecipe5063" );
 		Preferences.userValues.remove( "unknownRecipe5065" );
-		Preferences.userValues.remove( "unknownRecipe5067" );
 		Preferences.userValues.remove( "unknownRecipe5068" );
 		Preferences.userValues.remove( "unknownRecipe5069" );
 		Preferences.userValues.remove( "unknownRecipe5071" );

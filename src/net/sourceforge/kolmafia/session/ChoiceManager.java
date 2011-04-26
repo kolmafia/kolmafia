@@ -1498,7 +1498,7 @@ public abstract class ChoiceManager
 
 		// Choice 527 is The Haert of Darkness
 		new ChoiceAdventure(
-			"Cyrpt", "choiceAdventure527", "Haert of Darkness",
+			"Cyrpt", "choiceAdventure527", "Haert of the Cyrpt",
 			new String[] { "fight the Bonerdagon", "skip adventure" } ),
 	};
 
