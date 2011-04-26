@@ -5069,12 +5069,12 @@
 5060	mysterious present	usable	gift	0
 5061	boxing-glove-in-a-box	none	gift	0
 5062	creepy voodoo doll	reusable	all	10
-5063
+5063	the finger	none	gift	0
 5064	Salsa de las Epocas	none	all	25
 5065	spaghetti con calaveras	food	all	61
 5066	s'more gun	none, curse	all	40
-5067
-5068
+5067	popcorn	food	all	0
+5068	chaos popcorn	food	all	0
 5069
 5070	innuendo	none	gift	69
 5071	s'more	food	display	0
