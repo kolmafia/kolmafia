@@ -249,7 +249,7 @@ public class ClosetRequest
 
 	// <table class='item' id="ic4448" rel="id=4448&s=0&q=0&d=1&g=0&t=0&n=38&m=1&p=0&u=u"><td class="img"><img src="http://images.kingdomofloathing.com/itemimages/karma.gif" class="hand ircm" onClick='descitem(820448502,0, event);'></td><td id='i4448' valign=top><b class="ircm">Instant Karma</b>&nbsp;<span>(38)</span><font size=1><br><a href="inventory.php?which=1&action=discard&pwd=71aa09983736d050dc8fd4aedf08c5d2&whichitem=4448" onclick='return discardconf("Instant Karma");'>[discard]</a>&nbsp;take <a href="closet.php?action=closetpull&whichitem=4448&qty=1&pwd=71aa09983736d050dc8fd4aedf08c5d2" class="takelink">[one]</a> <a href="closet.php?action=closetpull&whichitem=4448&pwd=71aa09983736d050dc8fd4aedf08c5d2&qty=" onclick="return closetsome(this)" class="takelink some">[some]</a> <a href="closet.php?action=closetpull&whichitem=4448&qty=all&pwd=71aa09983736d050dc8fd4aedf08c5d2" class="takelink">[all]</a> </font></td></table>
 	private static final Pattern ITEM_PATTERN =
-		Pattern.compile( "<table class='item'.*?rel=\"([^\"]*)\">.*?<b class=\"ircm\">(.*?)</b>(?:&nbsp;<span>\\(([\\d]+)\\)</span)?.*?whichitem=([\\d]+).*?</table>" );
+		Pattern.compile( "<table class='item' id=\"ic([\\d]+)\".*?rel=\"([^\"]*)\">.*?<b class=\"ircm\">(.*?)</b>(?:&nbsp;<span>\\(([\\d]+)\\)</span)?.*?</table>" );
 
 	public static void parseCloset( final String urlString, final String responseText )
 	{
@@ -275,12 +275,12 @@ public class ClosetRequest
 		while ( matcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = matcher.end();
-			String relString = matcher.group( 1 );
-			String countString = matcher.group(3);
+			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
+			String relString = matcher.group( 2 );
+			String countString = matcher.group( 4 );
 			int count = ( countString == null ) ? 1 : StringUtilities.parseInt( countString );
-			int itemId = StringUtilities.parseInt( matcher.group( 4 ) );
 			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) );
-			String realName = matcher.group( 2 );
+			String realName = matcher.group( 3 );
 			String canonicalName = StringUtilities.getCanonicalName( realName );
 
 			if ( itemName == null || !canonicalName.equals( itemName ) )

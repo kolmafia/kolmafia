@@ -42,7 +42,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -54,27 +56,22 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class StorageRequest
 	extends TransferItemRequest
 {
-	private static final Pattern STORAGEMEAT_PATTERN =
-		Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
-
-	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
-	private static final Pattern STORAGE_PATTERN = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL );
-	private static final Pattern FREEPULLS_PATTERN = Pattern.compile( "<select name=whichitem>.*?</select>", Pattern.DOTALL );
-	private static final Pattern OPTION_PATTERN =
-		Pattern.compile( "<option( descid='?([\\d]+)'?)? value='?([\\d]+)'?>(.*?)( \\(([\\d,]+)\\))?</option>" );
-
 	private int moveType;
 
-	public static final int EMPTY_STORAGE = -1;
-	public static final int RETRIEVE_STORAGE = 0;
-	public static final int STORAGE_TO_INVENTORY = 1;
-	public static final int FREEPULL_TO_INVENTORY = 2;
-	public static final int PULL_MEAT_FROM_STORAGE = 3;
+	public static final int REFRESH = 0;
+	public static final int MEAT = 1;
+	public static final int CONSUMABLES = 2;
+	public static final int EQUIPMENT = 3;
+	public static final int MISCELLANEOUS = 4;
+
+	public static final int EMPTY_STORAGE = 5;
+	public static final int STORAGE_TO_INVENTORY = 6;
+	public static final int PULL_MEAT_FROM_STORAGE = 7;
 
 	public StorageRequest()
 	{
 		super( "storage.php" );
-		this.moveType = StorageRequest.RETRIEVE_STORAGE;
+		this.moveType = StorageRequest.REFRESH;
 	}
 
 	public StorageRequest( final int moveType )
@@ -98,33 +95,45 @@ public class StorageRequest
 
 		switch ( moveType )
 		{
+		case MEAT:
+			this.addFormField( "which", "5" );
+			break;
+		case CONSUMABLES:
+			this.addFormField( "which", "1" );
+			break;
+		case EQUIPMENT:
+			this.addFormField( "which", "2" );
+			break;
+		case MISCELLANEOUS:
+			this.addFormField( "which", "3" );
+			break;
+
 		case EMPTY_STORAGE:
-                        this.addFormField( "action", "takeall" );
+			this.addFormField( "action", "takeall" );
 			this.source = KoLConstants.storage;
 			this.destination = KoLConstants.inventory;
 			break;
 
 		case STORAGE_TO_INVENTORY:
-                        this.addFormField( "action", "take" );
+			// storage.php?action=pull&whichitem1=1649&howmany1=1&pwd
+			this.addFormField( "action", "pull" );
+			this.addFormField( "ajax", "1" );
 			this.source = KoLConstants.storage;
 			this.destination = KoLConstants.inventory;
 			break;
 
-		case FREEPULL_TO_INVENTORY:
-                        this.addFormField( "action", "freepull" );
-			this.source = KoLConstants.freepulls;
-			this.destination = KoLConstants.inventory;
-			break;
-
 		case PULL_MEAT_FROM_STORAGE:
-                        this.addFormField( "action", "takemeat" );
+			this.addFormField( "action", "takemeat" );
 			break;
 		}
 	}
 
 	protected boolean retryOnTimeout()
 	{
-		return this.moveType == StorageRequest.RETRIEVE_STORAGE;
+		return this.moveType == StorageRequest.MEAT ||
+		       this.moveType == StorageRequest.CONSUMABLES ||
+		       this.moveType == StorageRequest.EQUIPMENT ||
+		       this.moveType == StorageRequest.MISCELLANEOUS;
 	}
 
 	public int getMoveType()
@@ -139,7 +148,7 @@ public class StorageRequest
 
 	public String getQuantityField()
 	{
-		return this.moveType == FREEPULL_TO_INVENTORY ? "quantity" : "howmany";
+		return "howmany";
 	}
 
 	public String getMeatField()
@@ -166,7 +175,12 @@ public class StorageRequest
 
 	public int getCapacity()
 	{
-		return this.moveType == FREEPULL_TO_INVENTORY ? 1 : 11;
+		return 11;
+	}
+
+	public boolean forceGETMethod()
+	{
+		return this.moveType == STORAGE_TO_INVENTORY;
 	}
 
 	public TransferItemRequest getSubInstance( final Object[] attachments )
@@ -188,8 +202,125 @@ public class StorageRequest
 			}
 		}
 
-		super.run();
-		return null;
+		if ( this.moveType == REFRESH )
+		{
+			// If we are refreshing storage, we need to do all four pages.
+			KoLmafia.updateDisplay( "Refreshing storage..." );
+
+			// Get the four pages of storage in succession
+			KoLConstants.storage.clear();
+			KoLConstants.freepulls.clear();
+			RequestThread.postRequest( new StorageRequest( MEAT ) );
+			RequestThread.postRequest( new StorageRequest( CONSUMABLES ) );
+			RequestThread.postRequest( new StorageRequest( EQUIPMENT ) );
+			RequestThread.postRequest( new StorageRequest( MISCELLANEOUS ) );
+
+			// If new items have been detected, write override files
+			KoLmafia.saveDataOverride();
+			return null;
+		}
+
+		// If it's a transfer, let TransferItemRequest handle it
+		return super.run();
+	}
+
+	public void processResults()
+	{
+		switch ( this.moveType )
+		{
+		case StorageRequest.REFRESH:
+			return;
+		case StorageRequest.MEAT:
+		case StorageRequest.CONSUMABLES:
+		case StorageRequest.EQUIPMENT:
+		case StorageRequest.MISCELLANEOUS:
+			StorageRequest.parseStorage( this.getURLString(), this.responseText );
+			return;
+		default:
+			super.processResults();
+		}
+	}
+
+	// <b>You have 178,634,761 meat in long-term storage.</b>
+	private static final Pattern STORAGEMEAT_PATTERN =
+		Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
+
+	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
+
+	// <table class='item' id="ic4511" rel="id=4511&s=0&q=0&d=0&g=1&t=1&n=10&m=0&p=0&u=e"><td class="img"><img src="http://images.kingdomofloathing.com/itemimages/soupbowl.gif" class="hand ircm" onClick='descitem(569697802,0, event);'></td><td id='i4511' valign=top><b class="ircm">beautiful soup</b>&nbsp;<span>(10)</span><font size=1><br></font></td></table>
+	private static final Pattern ITEM_PATTERN =
+		Pattern.compile( "<table class='item' id=\"ic([\\d]+)\".*?rel=\"([^\"]*)\">.*?<b class=\"ircm\">(.*?)</b>(?:&nbsp;<span>\\(([\\d]+)\\)</span)?.*?</table>" );
+
+	private static void parseStorage( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "storage.php" ) )
+		{
+			return;
+		}
+
+		// Find how much meat is in Hagnk's storage so that the
+		// Meat Manager frame auto-updates
+
+		Matcher meatInStorageMatcher = StorageRequest.STORAGEMEAT_PATTERN.matcher( responseText );
+		if ( meatInStorageMatcher.find() )
+		{
+			int meat = StringUtilities.parseInt( meatInStorageMatcher.group( 1 ) );
+			KoLCharacter.setStorageMeat( meat );
+		}
+
+		// Compute number of pulls remaining based on response text.
+
+		Matcher pullsMatcher = StorageRequest.PULLS_PATTERN.matcher( responseText );
+		if ( pullsMatcher.find() )
+		{
+			ConcoctionDatabase.setPullsRemaining( StringUtilities.parseInt( pullsMatcher.group( 1 ) ) );
+		}
+		else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
+		{
+			ConcoctionDatabase.setPullsRemaining( 0 );
+		}
+		else
+		{
+			ConcoctionDatabase.setPullsRemaining( -1 );
+		}
+
+		Matcher matcher = StorageRequest.ITEM_PATTERN.matcher( responseText );
+		int lastFindIndex = 0;
+
+		while ( matcher.find( lastFindIndex ) )
+		{
+			lastFindIndex = matcher.end();
+			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
+			String relString = matcher.group( 2 );
+			String countString = matcher.group( 4 );
+			int count = ( countString == null ) ? 1 : StringUtilities.parseInt( countString );
+			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) );
+			String realName = matcher.group( 3 );
+			String canonicalName = StringUtilities.getCanonicalName( realName );
+
+			if ( itemName == null || !canonicalName.equals( itemName ) )
+			{
+				// Lookup item with api.php for additional info
+				ItemDatabase.registerItem( itemId );
+			}
+
+			AdventureResult item = new AdventureResult( itemId, StringUtilities.parseInt( matcher.group( 4 ) ) );
+
+			// Separate free pulls into a separate list
+			boolean isFreePull = Modifiers.getBooleanModifier( item.getName(), "Free Pull" );
+			List list = isFreePull ? KoLConstants.freepulls : KoLConstants.storage;
+
+			int storageCount = item.getCount( list );
+
+			// Add the difference between your existing count
+			// and the original count.
+
+			if ( storageCount != count )
+			{
+				item = item.getInstance( count - storageCount );
+				AdventureResult.addResultToList( list, item );
+			}
+		}
 	}
 
 	public boolean parseTransfer()
@@ -199,29 +330,17 @@ public class StorageRequest
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
+		if ( urlString.indexOf( "action" ) == -1 )
+		{
+			StorageRequest.parseStorage( urlString, responseText );
+			return true;
+
+		}
+
 		boolean success = true;
 		boolean transfer = false;
 
-		if ( urlString.indexOf( "freepull" ) != -1 )
-		{
-			if ( responseText.indexOf( "You acquire" ) != -1 )
-			{
-				// Since "you acquire" items, they have already
-				// been added to inventory
-				TransferItemRequest.transferItems( urlString, 
-					TransferItemRequest.ITEMID_PATTERN,
-					TransferItemRequest.QUANTITY_PATTERN,
-					KoLConstants.freepulls,
-					null, 0 );
-				transfer = true;
-			}
-			else
-			{
-				success = false;
-			}
-		}
-
-		else if ( urlString.indexOf( "action=takeall" ) != -1 )
+		if ( urlString.indexOf( "action=takeall" ) != -1 )
 		{
 			// Hagnk leans back and yells something
 			// ugnigntelligible to a group of Knob Goblin teegnage
@@ -233,6 +352,9 @@ public class StorageRequest
 				Object[] items = KoLConstants.storage.toArray();
 				ResultProcessor.processBulkItems( items );
 				KoLConstants.storage.clear();	 
+				items = KoLConstants.freepulls.toArray();
+				ResultProcessor.processBulkItems( items );
+				KoLConstants.freepulls.clear();	 
 				transfer = true;
 			}
 			else
@@ -246,13 +368,12 @@ public class StorageRequest
 			transfer = true;
 		}
 
-		else if ( urlString.indexOf( "take" ) != -1 )
+		else if ( urlString.indexOf( "action=pull" ) != -1 )
 		{
 			if ( responseText.indexOf( "moved from storage to inventory" ) != -1 )
 			{
-				TransferItemRequest.transferItems( urlString, 
-					KoLConstants.storage,
-					KoLConstants.inventory, 0 );
+				// Pull items from storage and/or freepulls
+				StorageRequest.transferItems( urlString );
 				transfer = true;
 			}
 			else
@@ -261,13 +382,12 @@ public class StorageRequest
 			}
 		}
 
-		StorageRequest.parseStorage( responseText );
+		if ( urlString.indexOf( "ajax=1" ) == -1 )
+		{
+			StorageRequest.parseStorage( urlString, responseText );
+		}
 
-		Matcher matcher = StorageRequest.STORAGEMEAT_PATTERN.matcher( responseText );
-		int meat = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
-		KoLCharacter.setStorageMeat( meat );
-
-		if ( KoLConstants.storage.isEmpty() && meat == 0 )
+		if ( KoLConstants.storage.isEmpty() && KoLConstants.freepulls.isEmpty() && KoLCharacter.getStorageMeat() == 0 )
 		{
 			Preferences.setInteger( "lastEmptiedStorage", KoLCharacter.getAscensions() );
 		}
@@ -281,65 +401,28 @@ public class StorageRequest
 		return true;
 	}
 
-	private static void parseStorage( final String responseText )
+	private static final void transferItems( final String urlString )
 	{
-		// Compute the number of pulls remaining based
-		// on the response text.
+		Pattern itemPattern = TransferItemRequest.ITEMID_PATTERN;
+		Pattern quantityPattern = TransferItemRequest.HOWMANY_PATTERN;
+		List source;
+		List destination = KoLConstants.inventory;
+		ArrayList itemList;
 
-		Matcher storageMatcher = StorageRequest.PULLS_PATTERN.matcher( responseText );
-		if ( storageMatcher.find() )
+		// Transfer items from storage
+		source = KoLConstants.storage;
+		itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source );
+		if ( !itemList.isEmpty() )
 		{
-			ConcoctionDatabase.setPullsRemaining( StringUtilities.parseInt( storageMatcher.group( 1 ) ) );
-		}
-		else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
-		{
-			ConcoctionDatabase.setPullsRemaining( 0 );
-		}
-		else
-		{
-			ConcoctionDatabase.setPullsRemaining( -1 );
+			TransferItemRequest.transferItems( itemList, source, destination );
 		}
 
-		// Only parse once
-		if ( !KoLConstants.storage.isEmpty() )
+		// Transfer items from freepulls
+		source = KoLConstants.freepulls;
+		itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source );
+		if ( !itemList.isEmpty() )
 		{
-			return;
-		}
-
-		parseStorageSection( StorageRequest.STORAGE_PATTERN, responseText, KoLConstants.storage );
-		parseStorageSection( StorageRequest.FREEPULLS_PATTERN, responseText, KoLConstants.freepulls );
-
-		// If new items have been detected, write override files
-		KoLmafia.saveDataOverride();
-	}
-
-	private static void parseStorageSection( final Pattern pattern, final String responseText, final List list )
-	{
-		Matcher storageMatcher = pattern.matcher( responseText );
-		if ( !storageMatcher.find() )
-		{
-			return;
-		}
-
-		Matcher optionMatcher = StorageRequest.OPTION_PATTERN.matcher( storageMatcher.group() );
-		while ( optionMatcher.find() )
-		{
-			int itemId = StringUtilities.parseInt( optionMatcher.group( 3 ) );
-			if ( itemId == 0 )
-			{
-				continue;
-			}
-
-			if ( ItemDatabase.getItemName( itemId ) == null )
-			{
-				String descId = optionMatcher.group(1) != null ? optionMatcher.group( 2 ) : "";
-				String name = optionMatcher.group( 4 );
-				ItemDatabase.registerItem( itemId, name, descId );
-			}
-
-			int count = optionMatcher.group(5) == null ? 1 : StringUtilities.parseInt( optionMatcher.group( 6 ) );
-			AdventureResult result = new AdventureResult( itemId, count );
-			AdventureResult.addResultToList( list, result );
+			TransferItemRequest.transferItems( itemList, source, destination );
 		}
 	}
 
@@ -348,15 +431,6 @@ public class StorageRequest
 		if ( !urlString.startsWith( "storage.php" ) )
 		{
 			return false;
-		}
-
-		if ( urlString.indexOf( "freepull" ) != -1 )
-		{
-			return TransferItemRequest.registerRequest(
-				"pull", urlString,
-				TransferItemRequest.ITEMID_PATTERN,
-				TransferItemRequest.QUANTITY_PATTERN,
-				KoLConstants.freepulls, 0 );
 		}
 
 		if ( urlString.indexOf( "action=takeall" ) != -1 )
@@ -381,7 +455,7 @@ public class StorageRequest
 			return true;
 		}
 
-		if ( urlString.indexOf( "take" ) != -1 )
+		if ( urlString.indexOf( "pull" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
 				"pull", urlString, KoLConstants.storage, 0 );
@@ -409,15 +483,26 @@ public class StorageRequest
 	{
 		switch ( this.moveType )
 		{
+		case REFRESH:
+			return "Retrieving storage list";
+
+		case MEAT:
+			return "Examining meat in storage";
+
+		case CONSUMABLES:
+			return "Examining consumables in storage";
+
+		case EQUIPMENT:
+			return "Examining equipment in storage";
+
+		case MISCELLANEOUS:
+			return "Examining miscellaneous items in storage";
+
 		case EMPTY_STORAGE:
 			return "Emptying storage";
 
 		case STORAGE_TO_INVENTORY:
-		case FREEPULL_TO_INVENTORY:
 			return "Pulling items from storage";
-
-		case RETRIEVE_STORAGE:
-			return "Retrieving storage list";
 
 		case PULL_MEAT_FROM_STORAGE:
 			return "Pulling meat from storage";
