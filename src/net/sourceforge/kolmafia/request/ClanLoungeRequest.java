@@ -304,7 +304,7 @@ public class ClanLoungeRequest
 
 	public static final AdventureResult VIP_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
 	private static final GenericRequest VIP_KEY_REQUEST =
-		new StorageRequest( StorageRequest.FREEPULL_TO_INVENTORY, new AdventureResult[] { ClanLoungeRequest.VIP_KEY } );
+		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { ClanLoungeRequest.VIP_KEY } );
 	private static final GenericRequest VISIT_REQUEST = new ClanLoungeRequest();
 
 	private static void pullVIPKey()

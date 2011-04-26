@@ -345,7 +345,7 @@ public abstract class InventoryManager
 		if ( itemCount > 0 )
 		{
 			RequestThread.postRequest( new StorageRequest(
-				StorageRequest.FREEPULL_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
+				StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
 					itemCount, missingCount ) ) } ) );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 

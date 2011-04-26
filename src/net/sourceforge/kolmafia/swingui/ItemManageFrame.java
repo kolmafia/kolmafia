@@ -502,7 +502,7 @@ public class ItemManageFrame
 			}
 
 			RequestThread.openRequestSequence();
-			RequestThread.postRequest( new StorageRequest( StorageRequest.FREEPULL_TO_INVENTORY, items ) );
+			RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
 			return items;
 		}
 

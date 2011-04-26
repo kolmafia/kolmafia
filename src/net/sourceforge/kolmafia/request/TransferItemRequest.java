@@ -509,6 +509,54 @@ public abstract class TransferItemRequest
 		return itemList;
         }
 
+	public static final ArrayList getItemList( final String urlString,
+		final Pattern itemPattern, final Pattern quantityPattern,
+		final List source )
+	{
+		// Return only items that are on the source list - no default
+
+		ArrayList itemList = new ArrayList();
+
+		Matcher itemMatcher = itemPattern.matcher( urlString );
+		Matcher quantityMatcher = quantityPattern == null ? null : quantityPattern.matcher( urlString );
+
+		while ( itemMatcher.find() )
+		{
+			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+			String name = ItemDatabase.getItemName( itemId );
+
+			// One of the "select" options is a zero value for the
+			// item id field.  Trying to parse it generates an
+			// exception, so skip it for now.
+
+			if ( name == null )
+			{
+				continue;
+			}
+
+			int quantity = 0;
+			if ( quantityMatcher != null && quantityMatcher.find() )
+			{
+				quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+			}
+
+			if ( quantity == 0 )
+			{
+				continue;
+			}
+
+			AdventureResult item = new AdventureResult( itemId, quantity );
+			if ( item.getCount( source ) == 0 )
+			{
+				continue;
+			}
+
+			itemList.add( item );
+		}
+
+		return itemList;
+	}
+
 	public static final void transferItems( final String responseText,
 		final Pattern itemPattern,
 		final List source, final List destination )
