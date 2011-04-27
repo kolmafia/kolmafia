@@ -193,8 +193,9 @@ Beer Bongadier	HP: 210 Def: 195 Atk: 180 E: sleaze	beer bong (20)	beer helmet (1
 Best-Selling Novelist	HP: 100000 Def: 100000 Atk: 100000
 Big Creepy Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-6 "Hardly Poisoned at All"	spider web (30)	spider web (20)
 Big Meat Golem	HP: 100000 Def: 100000 Atk: 100000
+Big Swarm of Ghuol Whelps	E: spooky
 Bizarre Construct	HP: 300 Def: 300 Atk: 300	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
-BL Imp	HP: 65 Def: 65 Atk: 65 Init: 45 Meat: 36-44	imp air (0)
+BL Imp	HP: 65 Def: 65 Atk: 65 E: heat Init: 45 Meat: 36-44	imp air (0)
 Black Adder	HP: 124 Def: 127 Atk: 129 Meat: 80-120 "Really Quite Poisoned"	adder bladder (30)	black snake skin (15)	sunken eyes (c50)
 Black-and-White-Ops Penguin		Crimbuck (0)	grappling hook (c100)	night-vision goggles (0)
 Black Panther	HP: 128 Def: 125 Atk: 133 Meat: 120-180	Black No. 2 (20)	broken wings (c50)
@@ -242,7 +243,7 @@ Cement Cobbler Penguin		cement sandals (0)	chunk of cement (c100)	Crimbuck (0)
 Chalkdust Wraith	HP: 10 Def: 20 Atk: 20 ED: spooky	handful of hand chalk (100)
 Chatty Pirate	HP: 90 Def: 100 Atk: 100 Meat: 52-76
 Chester	HP: 8000 Def: 500 Atk: 500 E: sleaze	Chester's bag of candy (0)	Chester's Aquarius medallion (0)	Chester's moustache (0)	Chester's muscle shirt (c0)	Chester's sunglasses (0)	Chester's cutoffs (0)	extra-greasy slider (0)	extra-greasy slider (0)	Chorale of Companionship (0)
-CH Imp	HP: 61 Def: 62 Atk: 62 Init: 45 Meat: 26-36	imp air (0)
+CH Imp	HP: 61 Def: 62 Atk: 62 E: heat Init: 45 Meat: 26-36	imp air (0)
 Chowder Golem	HP: 9 Def: 18 Atk: 18 Meat: 29-46
 Claw-foot Bathtub	HP: 100 Def: 100 Atk: 90	bottle of Monsieur Bubble (25)	fancy bath salts (35)
 Cleanly Pirate	HP: 90 Def: 100 Atk: 100 Meat: 49-72	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
@@ -407,6 +408,7 @@ Giant Sandworm	HP: 200 Def: 185 Atk: 175 Meat: 200-300	spices (10)	spices (10)	s
 Giant Skeelton	HP: 130 Def: 73 Atk: 77 E: spooky	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
 Giant Spider	HP: 90 Def: 90 Atk: 90
 Giant Squid	HP: 800 Def: 450 Atk: 500 Meat: 240-360	ink bladder (n30)
+Giant Swarm of Ghuol Whelps	E: spooky
 Giant Zombie Goldfish	HP: 260 Def: 250 Atk: 255	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
 Gift-wrapping Vampire		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Glass of Orange Juice	HP: 330 Atk: 220 Meat: 327-500 E: stench	green clay bead (100)	orange peel hat (100)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)	round purple sunglasses (0)
@@ -634,7 +636,7 @@ Possessed Silverware Drawer	HP: 6 Def: 4 Atk: 5	antique packet of ketchup (0)	co
 Possessed Wine Rack	HP: 165 Def: 163 Atk: 158 E: spooky	dusty bottle of Marsala (n20)	dusty bottle of Merlot (n20)	dusty bottle of Muscat (n20)	dusty bottle of Pinot Noir (n20)	dusty bottle of Port (n20)	dusty bottle of Zinfandel (n20)
 Possibility Giant	HP: 150 Def: 130 Atk: 130 Meat: 120-180	chaos butterfly (20)	plot hole (20)	probability potion (30)
 Poutine Ooze	HP: 3 Def: 3 Atk: 3	poutine (40)
-PR Imp	HP: 60 Def: 60 Atk: 60  Init: 45 Meat: 48-58	imp air (0)
+PR Imp	HP: 60 Def: 60 Atk: 60 E: heat Init: 45 Meat: 48-58	imp air (0)
 Pretty Fly	HP: 100000 Def: 100000 Atk: 100000
 Procrastination Giant	HP: 150 Def: 125 Atk: 125 Meat: 120-180	procrastination potion (30)
 Propaganda-Spewin' Elf		bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
