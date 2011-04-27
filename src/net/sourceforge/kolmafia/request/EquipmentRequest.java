@@ -910,6 +910,13 @@ public class EquipmentRequest
 
 		String urlString = this.getURLString();
 		String responseText = this.responseText;
+
+		if ( urlString.startsWith( "bedazzle.php" ) )
+		{
+			EquipmentRequest.parseBedazzlements( responseText );
+			return;
+		}
+
 		switch ( this.requestType )
 		{
 		case EquipmentRequest.REFRESH:
@@ -917,10 +924,6 @@ public class EquipmentRequest
 
 		case EquipmentRequest.EQUIPMENT:
 			EquipmentRequest.parseEquipment( urlString, responseText );
-			return;
-
-		case EquipmentRequest.BEDAZZLEMENTS:
-			EquipmentRequest.parseBedazzlements( this.responseText );
 			return;
 
 		case EquipmentRequest.CHANGE_ITEM:
