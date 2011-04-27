@@ -338,6 +338,8 @@ public class ClosetRequest
 			// added to inventory
 
 			TransferItemRequest.transferItems( urlString,
+					TransferItemRequest.ITEMID_PATTERN,
+					TransferItemRequest.QTY_PATTERN,
 					KoLConstants.closet,
 					null, 0 );
 			success = true;
@@ -347,6 +349,8 @@ public class ClosetRequest
 			if ( responseText.indexOf( "in your closet" ) != -1 )
 			{
 				TransferItemRequest.transferItems( urlString,
+					TransferItemRequest.ITEMID_PATTERN,
+					TransferItemRequest.QTY_PATTERN,
 					KoLConstants.inventory,
 					KoLConstants.closet, 0 );
 				success = true;
@@ -374,13 +378,19 @@ public class ClosetRequest
 		if ( urlString.indexOf( "action=closetpull" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
-				"take from closet", urlString, KoLConstants.closet, 0 );
+				"take from closet", urlString,
+				TransferItemRequest.ITEMID_PATTERN,
+				TransferItemRequest.QTY_PATTERN,
+				KoLConstants.closet, 0 );
 		}
 
 		if ( urlString.indexOf( "action=closetpush" ) != -1 )
 		{
 			return TransferItemRequest.registerRequest(
-				"add to closet", urlString, KoLConstants.inventory, 0 );
+				"add to closet", urlString,
+				TransferItemRequest.ITEMID_PATTERN,
+				TransferItemRequest.QTY_PATTERN,
+				KoLConstants.inventory, 0 );
 		}
 
 		int meat = TransferItemRequest.transferredMeat( urlString, "quantity" );
