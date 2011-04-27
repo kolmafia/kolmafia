@@ -59,7 +59,7 @@ public abstract class TransferItemRequest
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=&]*\\d*=([-\\d]+)" );
 
 	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d+)" );
-	public static final Pattern QTY_PATTERN = Pattern.compile( "qty\\d+=([\\d]+)" );
+	public static final Pattern QTY_PATTERN = Pattern.compile( "qty\\d*=([\\d]+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity\\d*=([\\d,]+)" );
 
 	public static final Pattern RECIPIENT_PATTERN = Pattern.compile( "towho=([^=&]+)" );
