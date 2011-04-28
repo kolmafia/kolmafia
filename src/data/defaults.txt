@@ -298,6 +298,11 @@ user	currentPvpVictories
 user	currentSpleenUse	0
 user	currentWheelPosition	muscle
 user	customCombatScript	default
+user	cyrptAlcoveEvilness	0
+user	cyrptCrannyEvilness	0
+user	cyrptNicheEvilness	0
+user	cyrptNookEvilness	0
+user	cyrptTotalEvilness	0
 user	dailyDungeonDone	false
 user	dbNemesisSkill1	0
 user	dbNemesisSkill2	0

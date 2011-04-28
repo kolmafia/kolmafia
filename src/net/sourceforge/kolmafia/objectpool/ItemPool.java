@@ -1219,7 +1219,9 @@ public class ItemPool
 	public static final int WEREMOOSE_SPIT = 4949;
 	public static final int ABOMINABLE_BLUBBER = 4950;
 	public static final int SUBJECT_37_FILE = 4961;
+	public static final int EVILOMETER = 4964;
 	public static final int CARD_GAME_BOOK = 4965;
+	public static final int EVIL_EYE = 5010;
 	public static final int SNACK_VOUCHER = 5012;
 	public static final int WASABI_FOOD = 5013;
 	public static final int TOBIKO_FOOD = 5014;

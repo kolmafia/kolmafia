@@ -1368,6 +1368,14 @@ public class ResultProcessor
 				Preferences.setInteger( "_piePartsCount", -1 );
 			}
 			break;
+
+		case ItemPool.EVILOMETER:
+			Preferences.setInteger( "cyrptTotalEvilness", 200 );
+			Preferences.setInteger( "cyrptAlcoveEvilness", 50 );
+			Preferences.setInteger( "cyrptCrannyEvilness", 50 );
+			Preferences.setInteger( "cyrptNicheEvilness", 50 );
+			Preferences.setInteger( "cyrptNookEvilness", 50 );
+			break;
 		}
 	}
 
