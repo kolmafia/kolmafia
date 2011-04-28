@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
@@ -1646,6 +1647,11 @@ public class IslandDecorator
 
 		String side = EquipmentManager.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
 		Preferences.setString( "sidequestOrchardCompleted", side );
+
+		// The hippy store is available again.
+		Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
+		Preferences.setString( "currentHippyStore", side );
+		ConcoctionDatabase.refreshConcoctions();
 	}
 
 	private static final void parseFarm( final String responseText )
