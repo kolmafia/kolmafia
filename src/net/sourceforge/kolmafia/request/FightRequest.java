@@ -148,6 +148,8 @@ public class FightRequest
 		Pattern.compile( "newpic\\(\".*?\", \"(.*?)\".*?\\)" );
 	private static final Pattern WORN_STICKER_PATTERN =
 		Pattern.compile( "A sticker falls off your weapon, faded and torn" );
+	private static final Pattern BEEP_PATTERN =
+		Pattern.compile( "Your Evilometer beeps (\\d+) times" );
 	private static final Pattern BALLROOM_SONG_PATTERN =
 		Pattern.compile( "You hear strains of (?:(lively)|(mellow)|(lovely)) music in the distance" );
 	private static final Pattern WHICHMACRO_PATTERN =
@@ -3780,6 +3782,11 @@ public class FightRequest
 				return;
 			}
 
+			if ( FightRequest.handleEvilometer( str, status ) )
+			{
+				return;
+			}
+
 			boolean ghostAction = status.ghost != null && str.indexOf( status.ghost) != -1;
 			if ( ghostAction && status.logFamiliar )
 			{
@@ -4044,6 +4051,57 @@ public class FightRequest
 		}
 
 		return false;
+	}
+
+	private static boolean handleEvilometer( String text, TagStatus status )
+	{
+		if ( text.indexOf( "Evilometer" ) == -1 )
+		{
+			return false;
+		}
+
+		FightRequest.logText( text, status );
+
+		String setting = null;
+		switch ( KoLAdventure.lastAdventureId() )
+		{
+		case AdventurePool.DEFILED_ALCOVE:
+			setting = "cyrptAlcoveEvilness";
+			break;
+		case AdventurePool.DEFILED_CRANNY:
+			setting = "cyrptCrannyEvilness";
+			break;
+		case AdventurePool.DEFILED_NICHE:
+			setting = "cyrptNicheEvilness";
+			break;
+		case AdventurePool.DEFILED_NOOK:
+			setting = "cyrptNookEvilness";
+			break;
+		default:
+			return false;
+		}
+
+		int evilness =
+			text.indexOf( "a single beep" ) != -1 ? 1 :
+			text.indexOf( "beeps three times" ) != -1 ? 3 :
+			text.indexOf( "three quick beeps" ) != -1 ? 3 :
+			text.indexOf( "five quick beeps" ) != -1 ? 5 :
+			text.indexOf( "loud" ) != -1 ? Preferences.getInteger( setting ) :
+			0;
+
+		if ( evilness == 0 )
+		{
+			Matcher m = BEEP_PATTERN.matcher( text );
+			if ( !m.find() )
+			{
+				return false;
+			}
+			evilness = StringUtilities.parseInt( m.group(1) );
+		}
+
+		Preferences.increment( setting, -evilness );
+		Preferences.increment( "cyrptTotalEvilness", -evilness );
+		return true;
 	}
 
 	private static final void logText( StringBuffer buffer, final TagStatus status )

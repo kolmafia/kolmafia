@@ -78,4 +78,8 @@ public class AdventurePool
 	public static final int SEASIDE_MEGALOPOLIS = 206;
 	public static final int OUTSIDE_THE_CLUB = 219;
 	public static final int NOOB_CAVE = 240;
+	public static final int DEFILED_ALCOVE = 261;
+	public static final int DEFILED_CRANNY = 262;
+	public static final int DEFILED_NICHE = 263;
+	public static final int DEFILED_NOOK = 264;
 }

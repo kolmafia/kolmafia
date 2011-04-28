@@ -98,6 +98,10 @@ public class UseItemRequest
 	private static final Pattern FRUIT_TUBING_PATTERN =
 		Pattern.compile( "(?=.*?action=addfruit).*whichfruit=(\\d+)" );
 
+	// <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche: <b>50</b><br>Nook: <b>50</b></center>
+	private static final Pattern EVILOMETER_PATTERN =
+		Pattern.compile( "<center>Total evil: <b>(\\d+)</b><p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b></center>" );
+
 	private static final HashMap LIMITED_USES = new HashMap();
 
 	static
@@ -3673,6 +3677,17 @@ public class UseItemRequest
 			Preferences.setBoolean( "_bagOTricksUsed", true );
 			return;
 
+		case ItemPool.EVILOMETER:
+			// Parse the result and save current state
+			UseItemRequest.getEvilLevels( responseText );
+			return;
+
+		case ItemPool.EVIL_EYE:
+			if ( responseText.indexOf( "Evilometer emits three quick beeps" ) != -1 )
+			{
+				Preferences.increment( "cyrptNookEvilness", -3 );
+			}
+			return;
 		}
 	}
 
@@ -3801,6 +3816,31 @@ public class UseItemRequest
 		}
 
 		return null;
+	}
+
+	private static final void getEvilLevels( final String responseText )
+	{
+		int total = 0;
+		int alcove = 0;
+		int cranny = 0;
+		int niche = 0;
+		int nook = 0;
+
+		Matcher matcher = EVILOMETER_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			total = StringUtilities.parseInt( matcher.group( 1 ) );
+			alcove = StringUtilities.parseInt( matcher.group( 2 ) );
+			cranny = StringUtilities.parseInt( matcher.group( 3 ) );
+			niche = StringUtilities.parseInt( matcher.group( 4 ) );
+			nook = StringUtilities.parseInt( matcher.group( 5 ) );
+		}
+
+		Preferences.setInteger( "cyrptTotalEvilness", total );
+		Preferences.setInteger( "cyrptAlcoveEvilness", alcove );
+		Preferences.setInteger( "cyrptCrannyEvilness", cranny );
+		Preferences.setInteger( "cyrptNicheEvilness", niche );
+		Preferences.setInteger( "cyrptNookEvilness", nook );
 	}
 
 	private static final void handleFortuneCookie( final Matcher matcher )
