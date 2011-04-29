@@ -3686,6 +3686,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "Evilometer emits three quick beeps" ) != -1 )
 			{
 				Preferences.increment( "cyrptNookEvilness", -3 );
+				Preferences.increment( "cyrptTotalEvilness", -3 );
 			}
 			return;
 		}
