@@ -3685,8 +3685,9 @@ public class UseItemRequest
 		case ItemPool.EVIL_EYE:
 			if ( responseText.indexOf( "Evilometer emits three quick beeps" ) != -1 )
 			{
-				Preferences.increment( "cyrptNookEvilness", -3 );
-				Preferences.increment( "cyrptTotalEvilness", -3 );
+				int evilness = Math.min( Preferences.getInteger( "cyrptNookEvilness" ), 3 );
+				Preferences.increment( "cyrptNookEvilness", -evilness );
+				Preferences.increment( "cyrptTotalEvilness", -evilness );
 			}
 			return;
 		}
