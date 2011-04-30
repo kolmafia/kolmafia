@@ -1306,6 +1306,8 @@ stop shield	Damage Absorption: +10, Damage Reduction: 6
 # stuffed zmobie
 teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
+# tiny black hole: Allows Pickpocketing
+tiny black hole	Pickpocket Chance: +25, Initiative: -200
 tip jar	Meat Drop: +5
 tortoboggan shield	Initiative: +30, Cold Resistance: +2, Damage Reduction: 6
 tropical paperweight	Experience: +1, Stat Tuning: "Muscle"

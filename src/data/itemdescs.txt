@@ -5072,7 +5072,7 @@
 5066	745397831	s'more gun	s'more guns
 5067	483958844	popcorn	handfuls of popcorn
 5068	766511044	chaos popcorn	handfuls of chaos popcorn
-5069
+5069	161737265	tiny black hole
 5070	940699514	innuendo	innuendos
 5071	750608809	s'more	s'mores
 5072	904046645	giant diamond ring	giant diamond rings

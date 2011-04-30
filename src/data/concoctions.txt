@@ -155,6 +155,7 @@ the finger	COMBINE	asparagus knife	fake hand
 innuendo	COMBINE	skeleton key	skate skates
 popcorn	COMBINE	Knob Goblin firecracker	cob of corn
 chaos popcorn	COMBINE	popcorn	chaos butterfly
+tiny black hole	COMBINE	lime	coconut shell
 
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing

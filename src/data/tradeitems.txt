@@ -5075,7 +5075,7 @@
 5066	s'more gun	none, curse	all	40
 5067	popcorn	food	all	0
 5068	chaos popcorn	food	all	0
-5069
+5069	tiny black hole	offhand	display	0
 5070	innuendo	none	gift	69
 5071	s'more	food	display	0
 5072	giant diamond ring	accessory	gift	0

@@ -372,7 +372,10 @@ public class FightRequest
 		// Return true if you can still steal during this battle.
 
 		// Must be a Moxie class character or any character in Birdform
-		if ( !( FightRequest.canSteal || KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) ) )
+		// or have a tiny black hole equipped.in the offhand slot
+		if ( !( FightRequest.canSteal ||
+			KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) ||
+			KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND ) ) )
 		{
 			return false;
 		}
