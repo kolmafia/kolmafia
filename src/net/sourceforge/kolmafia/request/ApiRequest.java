@@ -108,7 +108,7 @@ public class ApiRequest
 	{
 		// Save the JSON object so caller can look further at it
 
-		this.JSON = ApiRequest.getJSON( this.responseText );
+		this.JSON = ApiRequest.getJSON( this.responseText, this.what );
 		if ( this.what.equals( "status" ) )
 		{
 			ApiRequest.parseStatus( this.JSON );
@@ -245,7 +245,7 @@ public class ApiRequest
 
 	public static final void parseStatus( final String responseText )
 	{
-		ApiRequest.parseStatus( ApiRequest.getJSON( responseText ) );
+		ApiRequest.parseStatus( ApiRequest.getJSON( responseText, "status" ) );
 	}
 
 	public static final void parseStatus( final JSONObject JSON )
@@ -290,7 +290,7 @@ public class ApiRequest
 
 	public static final void parseInventory( final String responseText )
 	{
-		ApiRequest.parseInventory( ApiRequest.getJSON( responseText ) );
+		ApiRequest.parseInventory( ApiRequest.getJSON( responseText, "inventory" ) );
 	}
 
 	private static final void parseInventory( final JSONObject JSON )
@@ -310,16 +310,17 @@ public class ApiRequest
 		}
 	}
 
-	public static final JSONObject getJSON( final String text )
+	public static final JSONObject getJSON( final String text, final String what )
 	{
 		// Parse the string into a JSON object
 		try
 		{
-			return new JSONObject( ApiRequest.getJSONString( text ) );
+			String str = ApiRequest.getJSONString( text );
+			return str == null ? null : new JSONObject( str );
 		}
 		catch ( JSONException e )
 		{
-			ApiRequest.reportParseError( "status", text, e );
+			ApiRequest.reportParseError( what, text, e );
 		}
 
 		return null;
@@ -327,14 +328,15 @@ public class ApiRequest
 
 	private static final String getJSONString( String responseText )
 	{
-		int pos = responseText.indexOf( "{" );
-		
-		if ( pos == 0 )
+		if ( responseText == null )
 		{
-			return responseText;
+			return null;
 		}
-		
-		return responseText.substring( pos );
+
+		int pos = responseText.indexOf( "{" );
+		return	pos == -1 ? null :
+			pos == 0 ? responseText :
+			responseText.substring( pos );
 	}
 	
 	private static final void reportParseError( final String what, final String responseText, final JSONException e )
