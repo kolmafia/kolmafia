@@ -247,9 +247,16 @@ public class StorageRequest
 
 	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
 
+	// With inventory images:
+	//
 	// <table class='item' id="ic4511" rel="id=4511&s=0&q=0&d=0&g=1&t=1&n=10&m=0&p=0&u=e"><td class="img"><img src="http://images.kingdomofloathing.com/itemimages/soupbowl.gif" class="hand ircm" onClick='descitem(569697802,0, event);'></td><td id='i4511' valign=top><b class="ircm">beautiful soup</b>&nbsp;<span>(10)</span><font size=1><br></font></td></table>
+	//
+	// Without inventory images:
+	//
+	// <table class='item' id="ic4511" rel="id=4511&s=0&q=0&d=0&g=1&t=1&n=10&m=0&p=0&u=e"><td id='i4511' valign=top><b class="ircm"><a onClick='javascript:descitem(569697802,0, event);'>beautiful soup</a></b>&nbsp;<span>(10)</span><font size=1><br></font></td></table>
+
 	private static final Pattern ITEM_PATTERN =
-		Pattern.compile( "<table class='item' id=\"ic([\\d]+)\".*?rel=\"([^\"]*)\">.*?<b class=\"ircm\">(.*?)</b>(?:&nbsp;<span>\\(([\\d]+)\\)</span)?.*?</table>" );
+		Pattern.compile( "<table class='item' id=\"ic([\\d]+)\".*?rel=\"([^\"]*)\">.*?<b class=\"ircm\">(?:<a[^>]*>)?(.*?)(?:</a>)?</b>(?:&nbsp;<span>\\(([\\d]+)\\)</span)?.*?</table>" );
 
 	private static void parseStorage( final String urlString, final String responseText )
 	{
