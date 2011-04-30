@@ -3375,6 +3375,11 @@ public abstract class KoLCharacter
 		return EquipmentManager.getEquipment( equipmentSlot ).getItemId() == item.getItemId();
 	}
 
+	public static final boolean hasEquipped( final int itemId, final int equipmentSlot )
+	{
+		return EquipmentManager.getEquipment( equipmentSlot ).getItemId() == itemId;
+	}
+
 	public static final boolean hasEquipped( final AdventureResult item )
 	{
 		return KoLCharacter.equipmentSlot( item ) != EquipmentManager.NONE;
