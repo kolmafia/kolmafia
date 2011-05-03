@@ -45,6 +45,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 public class Mood
 	implements Comparable
 {
+	private String name;
+	private List parentNames;
+	private SortedListModel localTriggers;
+
 	public Mood( String name )
 	{
 		this.name = name;
@@ -82,6 +86,11 @@ public class Mood
 		}
 
 		this.localTriggers = new SortedListModel();
+	}
+
+	public String getName()
+	{
+		return this.name;
 	}
 
 	public void copyFrom( Mood copyFromMood )
@@ -269,8 +278,4 @@ public class Mood
 
 		return Pattern.compile( "[\\s,]+" ).matcher( moodName ).replaceAll( "" ).toLowerCase();
 	}
-	
-	private String name;
-	private List parentNames;
-	private SortedListModel localTriggers;
 }

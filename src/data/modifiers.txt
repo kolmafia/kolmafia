@@ -87,6 +87,7 @@ Sombrero De Vida	Four Songs
 Spooky Putty mitre	Experience: +3, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20
+Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3
 Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
 aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50, Adventure Underwater, Familiar Effect: "?xPotato"
@@ -382,6 +383,7 @@ makeshift skirt	Initiative: +15
 manly bloomers	Muscle: +6, Moxie: -3
 # mariachi pants
 miner's pants	Damage Absorption: +20
+monster pants	Critical: 3
 mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5
 ninja hot pants	Hot Damage: +4
 old patched suit-pants	Monster Level: +40, Moxie Percent: +5
