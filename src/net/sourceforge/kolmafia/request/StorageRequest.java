@@ -245,7 +245,7 @@ public class StorageRequest
 	private static final Pattern STORAGEMEAT_PATTERN =
 		Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
 
-	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more item" );
+	private static final Pattern PULLS_PATTERN = Pattern.compile( "<span class=\"pullsleft\">(\\d+)</span>" );
 
 	// With inventory images:
 	//
