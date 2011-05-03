@@ -5081,7 +5081,7 @@
 5072	giant diamond ring	accessory	gift	0
 5073	Russian Ice	drink, combat	all	15
 5074
-5075
+5075	orange leather lanyard	accessory	all	300
 5076
 5077
 5078
@@ -5089,24 +5089,24 @@
 5080	electric crutch	weapon	all	300
 5081	shock belt	accessory	all	400
 5082
-5083
-5084
+5083	rubber band gun	weapon	all	200
+5084	pin-stripe slacks	pants	all	300
 5085	sticky gloves	accessory	all	400
 5086
-5087
+5087	Pok&euml;mann figurine: Porkachu	accessory	all	0
 5088	Pok&euml;mann figurine: Magikrap	accessory	all	0
 5089	Pok&euml;mann figurine: Vegemite	accessory	all	0
-5090
+5090	Pok&euml;mann figurine: Vermouth	accessory	all	0
 5091	Pok&euml;mann figurine: Smugleaf	accessory	all	0
 5092	Pok&euml;mann figurine: Twitter	accessory	all	0
 5093	Pok&euml;mann figurine: Bloodkip	accessory	all	0
 5094	Pok&euml;mann figurine: Hoboking	accessory	all	0
 5095	Pok&euml;mann figurine: Duck	accessory	all	0
-5096
+5096	Pok&euml;mann figurine: Nothing	accessory	all	0
 5097	Pok&euml;mann figurine: Kagosan	accessory	all	0
 5098	Pok&euml;mann figurine: Galumpagump	accessory	all	0
 5099	Pok&euml;mann figurine: Shoggoth	accessory	all	0
-5100
+5100	Pok&euml;mann figurine: Frank	accessory	all	0
 5101	Pok&euml;mann figurine: Moog	accessory	all	0
 5102	willyweed	multiple	all	30
 5103	Nuclear Blastball	multiple	all	25

@@ -396,6 +396,7 @@ penguin shorts	Initiative: +20
 penguinskin mini-kilt	Initiative: +20
 penguinskin mini-skirt	Initiative: +20
 pig-iron shinguards	Moxie: +6, Initiative: +10
+pin-stripe slacks	Initiative: +15
 pink pinkslip slip	Initiative: +35, Damage Reduction: 4
 pixel pants	Maximum HP: +10, Maximum MP: +10
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30
@@ -910,6 +911,7 @@ ridiculously huge sword	Weapon Damage: +12, Muscle: +4
 ridiculously overelaborate ninja weapon	Critical: 3, Fumble: 3
 roboduck-on-a-string	Weapon Damage: +5, Item Drop: +5
 rubber axe	Sleaze Damage: +2
+rubber band gun	Moxie: +5
 rusty grave robbing shovel	Spooky Damage: +5, Initiative: -10
 rusty piece of rebar	Weapon Damage: +25, Critical: 3
 # rusty speargun: On Critical:  Deals 50-60 additional damage
@@ -1443,15 +1445,19 @@ Pine-Fresh air freshener	Stench Resistance: +1
 Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
 Pok&euml;mann figurine: Bloodkip	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Duck	Cold Resistance: +2, Single Equip
+Pok&euml;mann figurine: Frank	Muscle Percent: +10, Single Equip
 Pok&euml;mann figurine: Galumpagump	Hot Resistance: +2, Single Equip
 Pok&euml;mann figurine: Hoboking	Stench Resistance: +2, Single Equip
 Pok&euml;mann figurine: Kagosan	Sleaze Resistance: +2, Single Equip
 Pok&euml;mann figurine: Magikrap	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Moog	Moxie Percent: +10, Single Equip
+Pok&euml;mann figurine: Nothing	Spooky Resistance: +2, Single Equip
+Pok&euml;mann figurine: Porkachu	Familiar Weight: +3, Single Equip<
 Pok&euml;mann figurine: Shoggoth	Mysticality Percent: +10, Single Equip
 Pok&euml;mann figurine: Smugleaf	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Twitter	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Vegemite	Familiar Weight: +3, Single Equip
+Pok&euml;mann figurine: Vermouth	Familiar Weight: +3, Single Equip
 Purple Horseshoe of Honor	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 Putrid Pendant	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Spell Damage: +40, Single Equip
 Radio KoL Antenna Ball	Experience: +1
@@ -1657,6 +1663,7 @@ observational glasses	Item Drop: +5
 # old soft shoes: +30% Item Drops from Hobos
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
+orange leather lanyard	Weapon Damage: +15, Single Equip
 oven mitts	Hot Resistance: +2, Single Equip
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
 paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip

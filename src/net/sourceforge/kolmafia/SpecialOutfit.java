@@ -424,5 +424,6 @@ public class SpecialOutfit
 	{
 		SpecialOutfit.implicitPoints.clear();
 		SpecialOutfit.explicitPoints.clear();
+		SpecialOutfit.markedCheckpoint = -1;
 	}
 }

@@ -5078,7 +5078,7 @@
 5072	904046645	giant diamond ring	giant diamond rings
 5073	362569786	Russian Ice	bottles of Russian Ice
 5074
-5075
+5075	839488415	orange leather lanyard
 5076
 5077
 5078
@@ -5086,24 +5086,24 @@
 5080	750637143	electric crutch
 5081	295596373	shock belt
 5082
-5083
-5084
+5083	991049972	rubber band gun
+5084	399048530	pin-stripe slacks
 5085	565252392	sticky gloves
 5086
-5087
+5087	230467927	Pok&euml;mann figurine: Porkachu
 5088	574877700	Pok&euml;mann figurine: Magikrap
 5089	722707939	Pok&euml;mann figurine: Vegemite
-5090
+5090	625158361	Pok&euml;mann figurine: Vermouth
 5091	572890215	Pok&euml;mann figurine: Smugleaf
 5092	505920222	Pok&euml;mann figurine: Twitter
 5093	826372772	Pok&euml;mann figurine: Bloodkip
 5094	456668152	Pok&euml;mann figurine: Hoboking
 5095	889919853	Pok&euml;mann figurine: Duck
-5096
+5096	765484833	Pok&euml;mann figurine: Nothing
 5097	409612245	Pok&euml;mann figurine: Kagosan
 5098	533700799	Pok&euml;mann figurine: Galumpagump
 5099	664709669	Pok&euml;mann figurine: Shoggoth
-5100
+5100	299836862	Pok&euml;mann figurine: Frank
 5101	749993133	Pok&euml;mann figurine: Moog
 5102	393343803	willyweed
 5103	246849616	Nuclear Blastball
