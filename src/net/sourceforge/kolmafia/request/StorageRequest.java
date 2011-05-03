@@ -245,7 +245,7 @@ public class StorageRequest
 	private static final Pattern STORAGEMEAT_PATTERN =
 		Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
 
-	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
+	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more item" );
 
 	// With inventory images:
 	//
@@ -265,30 +265,35 @@ public class StorageRequest
 			return;
 		}
 
-		// Find how much meat is in Hagnk's storage so that the
-		// Meat Manager frame auto-updates
+		// On the main page - which=5 - Hagnk tells you how much meat
+		// you have in storage and how many pulls you have remaining.
+		//
+		// These data do not appear on the three item pages, and items
+		// do not appear on page 5.
 
-		Matcher meatInStorageMatcher = StorageRequest.STORAGEMEAT_PATTERN.matcher( responseText );
-		if ( meatInStorageMatcher.find() )
+		if ( urlString.indexOf( "which=5" ) != -1 )
 		{
-			int meat = StringUtilities.parseInt( meatInStorageMatcher.group( 1 ) );
-			KoLCharacter.setStorageMeat( meat );
-		}
+			Matcher meatInStorageMatcher = StorageRequest.STORAGEMEAT_PATTERN.matcher( responseText );
+			if ( meatInStorageMatcher.find() )
+			{
+				int meat = StringUtilities.parseInt( meatInStorageMatcher.group( 1 ) );
+				KoLCharacter.setStorageMeat( meat );
+			}
 
-		// Compute number of pulls remaining based on response text.
-
-		Matcher pullsMatcher = StorageRequest.PULLS_PATTERN.matcher( responseText );
-		if ( pullsMatcher.find() )
-		{
-			ConcoctionDatabase.setPullsRemaining( StringUtilities.parseInt( pullsMatcher.group( 1 ) ) );
-		}
-		else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
-		{
-			ConcoctionDatabase.setPullsRemaining( 0 );
-		}
-		else
-		{
-			ConcoctionDatabase.setPullsRemaining( -1 );
+			Matcher pullsMatcher = StorageRequest.PULLS_PATTERN.matcher( responseText );
+			if ( pullsMatcher.find() )
+			{
+				ConcoctionDatabase.setPullsRemaining( StringUtilities.parseInt( pullsMatcher.group( 1 ) ) );
+			}
+			else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
+			{
+				ConcoctionDatabase.setPullsRemaining( 0 );
+			}
+			else
+			{
+				ConcoctionDatabase.setPullsRemaining( -1 );
+			}
+			return;
 		}
 
 		Matcher matcher = StorageRequest.ITEM_PATTERN.matcher( responseText );
