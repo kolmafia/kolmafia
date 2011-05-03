@@ -5080,3 +5080,42 @@
 5071	s'more	food	display	0
 5072	giant diamond ring	accessory	gift	0
 5073	Russian Ice	drink, combat	all	15
+5074
+5075
+5076
+5077
+5078
+5079
+5080	electric crutch	weapon	all	300
+5081	shock belt	accessory	all	400
+5082
+5083
+5084
+5085	sticky gloves	accessory	all	400
+5086
+5087
+5088	Pok&euml;mann figurine: Magikrap	accessory	all	0
+5089	Pok&euml;mann figurine: Vegemite	accessory	all	0
+5090
+5091	Pok&euml;mann figurine: Smugleaf	accessory	all	0
+5092	Pok&euml;mann figurine: Twitter	accessory	all	0
+5093	Pok&euml;mann figurine: Bloodkip	accessory	all	0
+5094	Pok&euml;mann figurine: Hoboking	accessory	all	0
+5095	Pok&euml;mann figurine: Duck	accessory	all	0
+5096
+5097	Pok&euml;mann figurine: Kagosan	accessory	all	0
+5098	Pok&euml;mann figurine: Galumpagump	accessory	all	0
+5099	Pok&euml;mann figurine: Shoggoth	accessory	all	0
+5100
+5101	Pok&euml;mann figurine: Moog	accessory	all	0
+5102	willyweed	multiple	all	30
+5103	Nuclear Blastball	multiple	all	25
+5104	fish juice box	multiple	all	45
+5105	paint bomb	none, combat	all	35
+5106
+5107
+5108
+5109	stress ball	offhand	all	40
+5110	Li'l Businessman Kit	familiar	all	75
+5111	Ultracolor&trade; shirt	shirt	all	80
+5112	My Own Pen Pal kit	usable	all	0
