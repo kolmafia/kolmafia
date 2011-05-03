@@ -5080,7 +5080,7 @@
 5071	s'more	food	display	0
 5072	giant diamond ring	accessory	gift	0
 5073	Russian Ice	drink, combat	all	15
-5074
+5074	giant clay ashtray	offhand	all	200
 5075	orange leather lanyard	accessory	all	300
 5076	monster pants	pants	all	400
 5077
@@ -5114,7 +5114,7 @@
 5105	paint bomb	none, combat	all	35
 5106
 5107
-5108
+5108	fistfull of ashes	none	display	0
 5109	stress ball	offhand	all	40
 5110	Li'l Businessman Kit	familiar	all	75
 5111	Ultracolor&trade; shirt	shirt	all	80

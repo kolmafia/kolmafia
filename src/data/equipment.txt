@@ -40,7 +40,7 @@ Sombrero De Vida	50	Mox: 10
 Spooky Putty mitre	100	none
 Tropical Crimbo Hat	100	Mox: 35
 Uncle Hobo's stocking cap	200	Mox: 200
-Van der Graaf helmet	0	none
+Van der Graaf helmet	30	none
 Voluminous Radio Hat	150	Mox: 60
 Zombo's skullcap	200	Mus: 200
 aerated diving helmet	200	Mox: 85
@@ -324,7 +324,7 @@ makeshift skirt	100	Mox: 35
 manly bloomers	55	Mox: 12
 mariachi pants	10	none
 miner's pants	80	Mox: 25
-monster pants	0	none
+monster pants	70	none
 mostly rat-hide leggings	200	Mox: 200
 ninja hot pants	70	Mox: 20
 old patched suit-pants	200	Mox: 200
@@ -339,7 +339,7 @@ penguin shorts	120	Mox: 45
 penguinskin mini-kilt	120	Mox: 45
 penguinskin mini-skirt	120	Mox: 45
 pig-iron shinguards	90	Mox: 30
-pin-stripe slacks	0	none
+pin-stripe slacks	30	none
 pink pinkslip slip	200	Mox: 85
 pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
@@ -398,7 +398,7 @@ Mer-kin breastplate	200	Mus: 85
 Mr. Shirt	30	none
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
-Ultracolor&trade; shirt	0	Mus: 35
+Ultracolor&trade; shirt	100	Mus: 35
 Ye Olde Navy Fleece	100	Mus: 35
 anniversary safety glass vest	10	none
 asbestos apron	170	Mus: 70
@@ -681,7 +681,7 @@ eXtreme meat crossbow	60	Mox: 15	2-handed crossbow
 eXtreme meat staff	60	Mus: 15	2-handed staff
 eXtreme meat sword	60	Mus: 15	2-handed sword
 eggbeater	25	Mys: 0	1-handed utensil
-electric crutch	0	Mus: 0	1-handed staff
+electric crutch	30	Mus: 0	1-handed staff
 elephant stinger	75	Mus: 22	2-handed spear
 elven whittling knife	100	Mus: 35	1-handed knife
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
@@ -827,7 +827,7 @@ ridiculously huge sword	140	Mus: 55	3-handed sword
 ridiculously overelaborate ninja weapon	100	Mus: 35	3-handed ...weapon
 roboduck-on-a-string	100	Mus: 35	1-handed flail
 rubber axe	40	Mus: 5	2-handed axe
-rubber band gun	0	Mox: 0	1-handed pistol
+rubber band gun	30	Mox: 0	1-handed pistol
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
 rusty piece of rebar	200	Mus: 85	1-handed club
 rusty speargun	200	Mox: 85	1-handed pistol
@@ -1023,7 +1023,7 @@ box-in-the-box-in-the-box	30	none
 brass dorsal fin	200	Mus: 85	shield
 brown crock marble	202	Mys: 85
 bumblebee marble	205	Mys: 85
-card sleeve	0	none
+card sleeve	10	none
 cardboard box turtle	70	Mus: 20	shield
 catskin buckler	180	Mus: 75	shield
 charged magnet	30	none
@@ -1058,6 +1058,7 @@ foon of fleshiness	50	Mys: 10
 foon of foulness	50	Mys: 10
 foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
+giant clay ashtray	30	none	shield
 giant stuffed bugbear	10	none
 glass gnoll eye	35	Mys: 2
 glow-in-the-dark stuffed burrowgrub	0	none
@@ -1154,7 +1155,7 @@ steaming evil	0	Mys: 75
 steely marble	208	Mys: 85
 stinky cheese wheel	100	none	shield
 stop shield	100	Mus: 35	shield
-stress ball	0	Mys: 35
+stress ball	100	Mys: 35
 stuffed Baron von Ratsworth	10	none
 stuffed Cheshire bitten	10	none
 stuffed MagiMechTech MicroMechaMech	10	none
@@ -1506,7 +1507,7 @@ night-vision goggles	50	Mox: 10
 observational glasses	10	none
 old soft shoes	200	Mys: 200
 orange glowstick	20	none
-orange leather lanyard	0	none
+orange leather lanyard	30	none
 oven mitts	45	Mys: 7
 pacifier necklace	0	Mox: 60
 paperclip cape	50	none
@@ -1572,7 +1573,7 @@ shin gourds	100	none
 shiny hood ornament	190	Mys: 80
 shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
-shock belt	0	none
+shock belt	70	none
 silver tongue charrrm bracelet	190	Mys: 80
 sk8board	70	Mys: 20
 slime convention pin	10	none
@@ -1595,7 +1596,7 @@ stainless steel scarf	90	Mys: 30
 stainless steel solitaire	90	Mys: 30
 stainless steel suspenders	90	Mys: 30
 stick-on eyebrow piercing	10	none
-sticky gloves	0	none
+sticky gloves	70	none
 stinky cheese eye	0	none
 streetfighting champion's belt	100	Mus: 35
 string of blue beads	10	none
