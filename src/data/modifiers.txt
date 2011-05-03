@@ -1173,6 +1173,7 @@ foon of fleshiness	Mysticality: +3, Sleaze Spell Damage: +8
 foon of foulness	Mysticality: +3, Stench Spell Damage: +8
 foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
+giant clay ashtray	Muscle: +5, Damage Reduction: 3
 # giant stuffed bugbear
 glass gnoll eye	Mysticality: +3
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
@@ -1734,6 +1735,7 @@ shin gourds	Damage Reduction: 5, Weapon Damage: +10, Single Equip
 shiny hood ornament	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +30, Maximum MP: +30, Initiative: +10
 shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 shiny tribal beads	Mysticality: +6
+# shock belt: Shocks enemies that hit you
 shock belt	Single Equip
 silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 sk8board	Initiative: +15

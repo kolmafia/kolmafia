@@ -5077,7 +5077,7 @@
 5071	750608809	s'more	s'mores
 5072	904046645	giant diamond ring	giant diamond rings
 5073	362569786	Russian Ice	bottles of Russian Ice
-5074
+5074	713395816	giant clay ashtray
 5075	839488415	orange leather lanyard
 5076	574475047	monster pants	pairs of monster pants
 5077
@@ -5105,13 +5105,13 @@
 5099	664709669	Pok&euml;mann figurine: Shoggoth	Pok&euml;mann figurines: Shoggoth
 5100	299836862	Pok&euml;mann figurine: Frank	Pok&euml;mann figurines: Frank
 5101	749993133	Pok&euml;mann figurine: Moog	Pok&euml;mann figurines: Moog
-5102	393343803	willyweed
+5102	393343803	willyweed	fronds of willyweed
 5103	246849616	Nuclear Blastball
 5104	568920711	fish juice box	fish juice boxes
 5105	870472784	paint bomb
 5106
 5107
-5108
+5108	499891496	fistfull of ashes
 5109	217719453	stress ball
 5110	557750320	Li'l Businessman Kit
 5111	707506403	Ultracolor&trade; shirt
