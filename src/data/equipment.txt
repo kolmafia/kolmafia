@@ -395,6 +395,7 @@ Mer-kin breastplate	200	Mus: 85
 Mr. Shirt	30	none
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
+Ultracolor&trade; shirt	0	Mus: 35
 Ye Olde Navy Fleece	100	Mus: 35
 anniversary safety glass vest	10	none
 asbestos apron	170	Mus: 70
@@ -677,6 +678,7 @@ eXtreme meat crossbow	60	Mox: 15	2-handed crossbow
 eXtreme meat staff	60	Mus: 15	2-handed staff
 eXtreme meat sword	60	Mus: 15	2-handed sword
 eggbeater	25	Mys: 0	1-handed utensil
+electric crutch	0	Mus: 0	1-handed staff
 elephant stinger	75	Mus: 22	2-handed spear
 elven whittling knife	100	Mus: 35	1-handed knife
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
@@ -1148,6 +1150,7 @@ steaming evil	0	Mys: 75
 steely marble	208	Mys: 85
 stinky cheese wheel	100	none	shield
 stop shield	100	Mus: 35	shield
+stress ball	0	Mys: 35
 stuffed Baron von Ratsworth	10	none
 stuffed Cheshire bitten	10	none
 stuffed MagiMechTech MicroMechaMech	10	none
@@ -1298,6 +1301,17 @@ Oscus's pelt	200	Mys: 200
 Pendant of Fire	150	Mys: 60
 Pine-Fresh air freshener	50	Mys: 10
 Pink Heart of Spirit	200	Mys: 85
+Pok&euml;mann figurine: Bloodkip	0	none
+Pok&euml;mann figurine: Duck	0	none
+Pok&euml;mann figurine: Galumpagump	0	none
+Pok&euml;mann figurine: Hoboking	0	none
+Pok&euml;mann figurine: Kagosan	0	none
+Pok&euml;mann figurine: Magikrap	0	none
+Pok&euml;mann figurine: Moog	50	none
+Pok&euml;mann figurine: Shoggoth	0	none
+Pok&euml;mann figurine: Smugleaf	0	none
+Pok&euml;mann figurine: Twitter	0	none
+Pok&euml;mann figurine: Vegemite	0	none
 Purple Horseshoe of Honor	200	Mys: 85
 Putrid Pendant	150	Mys: 60
 Radio KoL Antenna Ball	0	none
@@ -1549,6 +1563,7 @@ shin gourds	100	none
 shiny hood ornament	190	Mys: 80
 shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
+shock belt	0	none
 silver tongue charrrm bracelet	190	Mys: 80
 sk8board	70	Mys: 20
 slime convention pin	10	none
@@ -1571,6 +1586,7 @@ stainless steel scarf	90	Mys: 30
 stainless steel solitaire	90	Mys: 30
 stainless steel suspenders	90	Mys: 30
 stick-on eyebrow piercing	10	none
+sticky gloves	0	none
 stinky cheese eye	0	none
 streetfighting champion's belt	100	Mus: 35
 string of blue beads	10	none
