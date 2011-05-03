@@ -40,6 +40,7 @@ Sombrero De Vida	50	Mox: 10
 Spooky Putty mitre	100	none
 Tropical Crimbo Hat	100	Mox: 35
 Uncle Hobo's stocking cap	200	Mox: 200
+Van der Graaf helmet	0	none
 Voluminous Radio Hat	150	Mox: 60
 Zombo's skullcap	200	Mus: 200
 aerated diving helmet	200	Mox: 85
@@ -323,6 +324,7 @@ makeshift skirt	100	Mox: 35
 manly bloomers	55	Mox: 12
 mariachi pants	10	none
 miner's pants	80	Mox: 25
+monster pants	0	none
 mostly rat-hide leggings	200	Mox: 200
 ninja hot pants	70	Mox: 20
 old patched suit-pants	200	Mox: 200

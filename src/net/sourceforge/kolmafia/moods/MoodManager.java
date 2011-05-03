@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -279,6 +280,19 @@ public abstract class MoodManager
 		}
 	}
 
+	public static final void removeTriggers( final Collection triggers )
+	{
+		Iterator it = triggers.iterator();
+		while ( it.hasNext() )
+		{
+			MoodTrigger trigger = (MoodTrigger) it.next();
+			if ( MoodManager.currentMood.removeTrigger( trigger ) )
+			{
+				MoodManager.displayList.remove( trigger );
+			}
+		}
+	}
+
 	public static final void minimalSet()
 	{
 		String currentMood = Preferences.getString( "currentMood" );
@@ -422,15 +436,14 @@ public abstract class MoodManager
 	{
 		MoodManager.displayList.clear();
 
-		String moodName = Preferences.getString( "currentMood" );
-
-		if ( moodName.equals( "default" ) )
+		Mood current = MoodManager.currentMood;
+		if ( current.getName().equals( "default" ) )
 		{
-			MoodManager.currentMood.getTriggers().clear();
+			MoodManager.removeTriggers( current.getTriggers() );
 			return;
 		}
 
-		MoodManager.availableMoods.remove( MoodManager.currentMood );
+		MoodManager.availableMoods.remove( current );
 		MoodManager.setMood( "apathetic" );
 	}
 
