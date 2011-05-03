@@ -807,6 +807,7 @@ public abstract class KoLmafia
 		CampgroundRequest.reset();
 		MushroomManager.reset();
 		HermitRequest.initialize();
+		SpecialOutfit.forgetCheckpoints();
 
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
 		Preferences.setString( "lastUsername", username );

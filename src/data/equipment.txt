@@ -337,6 +337,7 @@ penguin shorts	120	Mox: 45
 penguinskin mini-kilt	120	Mox: 45
 penguinskin mini-skirt	120	Mox: 45
 pig-iron shinguards	90	Mox: 30
+pin-stripe slacks	0	none
 pink pinkslip slip	200	Mox: 85
 pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
@@ -824,6 +825,7 @@ ridiculously huge sword	140	Mus: 55	3-handed sword
 ridiculously overelaborate ninja weapon	100	Mus: 35	3-handed ...weapon
 roboduck-on-a-string	100	Mus: 35	1-handed flail
 rubber axe	40	Mus: 5	2-handed axe
+rubber band gun	0	Mox: 0	1-handed pistol
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
 rusty piece of rebar	200	Mus: 85	1-handed club
 rusty speargun	200	Mox: 85	1-handed pistol
@@ -1301,17 +1303,21 @@ Oscus's pelt	200	Mys: 200
 Pendant of Fire	150	Mys: 60
 Pine-Fresh air freshener	50	Mys: 10
 Pink Heart of Spirit	200	Mys: 85
-Pok&euml;mann figurine: Bloodkip	0	none
-Pok&euml;mann figurine: Duck	0	none
-Pok&euml;mann figurine: Galumpagump	0	none
-Pok&euml;mann figurine: Hoboking	0	none
-Pok&euml;mann figurine: Kagosan	0	none
-Pok&euml;mann figurine: Magikrap	0	none
+Pok&euml;mann figurine: Bloodkip	50	none
+Pok&euml;mann figurine: Duck	50	none
+Pok&euml;mann figurine: Frank	50	none
+Pok&euml;mann figurine: Galumpagump	50	none
+Pok&euml;mann figurine: Hoboking	50	none
+Pok&euml;mann figurine: Kagosan	50	none
+Pok&euml;mann figurine: Magikrap	50	none
 Pok&euml;mann figurine: Moog	50	none
-Pok&euml;mann figurine: Shoggoth	0	none
-Pok&euml;mann figurine: Smugleaf	0	none
-Pok&euml;mann figurine: Twitter	0	none
-Pok&euml;mann figurine: Vegemite	0	none
+Pok&euml;mann figurine: Nothing	50	none
+Pok&euml;mann figurine: Porkachu	50	
+Pok&euml;mann figurine: Shoggoth	50	none
+Pok&euml;mann figurine: Smugleaf	50	none
+Pok&euml;mann figurine: Twitter	50	none
+Pok&euml;mann figurine: Vegemite	50	none
+Pok&euml;mann figurine: Vermouth	50	none
 Purple Horseshoe of Honor	200	Mys: 85
 Putrid Pendant	150	Mys: 60
 Radio KoL Antenna Ball	0	none
@@ -1498,6 +1504,7 @@ night-vision goggles	50	Mox: 10
 observational glasses	10	none
 old soft shoes	200	Mys: 200
 orange glowstick	20	none
+orange leather lanyard	0	none
 oven mitts	45	Mys: 7
 pacifier necklace	0	Mox: 60
 paperclip cape	50	none
