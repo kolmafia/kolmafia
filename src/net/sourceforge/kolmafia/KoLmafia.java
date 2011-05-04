@@ -795,6 +795,9 @@ public abstract class KoLmafia
 
 		KoLCharacter.reset( username );
 
+		// Get rid of cached password hashes in KoLAdventures
+		AdventureDatabase.refreshAdventureList();
+
 		// Reset all per-player information
 
 		ChatManager.reset();
@@ -1186,13 +1189,7 @@ public abstract class KoLmafia
 	{
 		try
 		{
-			// Before anything happens, make sure that you are in
-			// in a valid continuation state.
-
 			boolean wasAdventuring = KoLmafia.isAdventuring;
-
-			// Handle the gym, which is the only adventure type
-			// which needs to be specially handled.
 
 			if ( request instanceof KoLAdventure )
 			{
@@ -1225,11 +1222,6 @@ public abstract class KoLmafia
 					SpecialOutfit.createImplicitCheckpoint();
 				}
 			}
-
-			// Execute the request as initially intended by calling
-			// a subroutine. In doing so, make sure your HP/MP
-			// restore settings are scaled back down to current
-			// levels, if they've been manipulated internally by
 
 			RequestThread.openRequestSequence();
 			this.executeRequest( request, iterations, wasAdventuring );
@@ -1327,9 +1319,6 @@ public abstract class KoLmafia
 			items[ i ] = (AdventureResult) goals.get( i );
 			creatables[ i ] = CreateItemRequest.getInstance( items[ i ] );
 		}
-
-		// Turn on auto-attack in order to save server hits if the
-		// player isn't using custom combat.
 
 		KoLmafia.forceContinue();
 		KoLmafia.abortAfter = null;
