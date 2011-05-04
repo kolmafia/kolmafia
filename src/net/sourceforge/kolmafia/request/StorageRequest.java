@@ -434,7 +434,7 @@ public class StorageRequest
 			// you try to pull too many items.
 			if ( remaining >= count )
 			{
-				ConcoctionDatabase.setPullsRemaining( remaining = count );
+				ConcoctionDatabase.setPullsRemaining( remaining - count );
 			}
 		}
 
