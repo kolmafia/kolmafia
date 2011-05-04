@@ -46,8 +46,8 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -57,7 +57,7 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 public class CouncilFrame
 	extends RequestFrame
 {
-	public static final GenericRequest COUNCIL_VISIT = new GenericRequest( "council.php" );
+	public static final CouncilRequest COUNCIL_VISIT = new CouncilRequest();
 
 	public static final AdventureResult YETI_FUR = new AdventureResult( 388, 1 );
 
