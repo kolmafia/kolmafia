@@ -426,7 +426,16 @@ public class StorageRequest
 		itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source );
 		if ( !itemList.isEmpty() )
 		{
-			TransferItemRequest.transferItems( itemList, source, destination );
+			int count = TransferItemRequest.transferItems( itemList, source, destination );
+			int remaining = ConcoctionDatabase.getPullsRemaining();
+
+			// If remaining is -1, pulls are unlimited.  Otherwise,
+			// they are limited and KoL will fail the transfer if
+			// you try to pull too many items.
+			if ( remaining >= count )
+			{
+				ConcoctionDatabase.setPullsRemaining( remaining = count );
+			}
 		}
 
 		// Transfer items from freepulls
