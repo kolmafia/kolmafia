@@ -424,30 +424,32 @@ public abstract class TransferItemRequest
 		TransferItemRequest.transferItems( itemList, source, destination );
 	}
 
-	public static final void transferItems( ArrayList itemList,
+	public static final int transferItems( ArrayList itemList,
 		final List source, final List destination )
 	{
-                for ( int i = 0; i < itemList.size(); ++i )
-                {
-                        AdventureResult item = ( (AdventureResult) itemList.get( i ) );
-                        if ( source != null )
-                        {
-                                AdventureResult remove = item.getNegation();
-                                if ( source == KoLConstants.inventory )
-                                {
-                                        ResultProcessor.processResult( remove );
-                                }
-                                else
-                                {
-                                        AdventureResult.addResultToList( source, remove );
-                                }
-                        }
+		int count = 0;
+		for ( int i = 0; i < itemList.size(); ++i )
+		{
+			AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+			count += item.getCount();
+			if ( source != null )
+			{
+				AdventureResult remove = item.getNegation();
+				if ( source == KoLConstants.inventory )
+				{
+					ResultProcessor.processResult( remove );
+				}
+				else
+				{
+					AdventureResult.addResultToList( source, remove );
+				}
+			}
 
-                        if ( destination == KoLConstants.collection )
-                        {
+			if ( destination == KoLConstants.collection )
+			{
 				if ( !KoLConstants.collection.contains( item ) )
 				{
-                                        List shelf = (List) DisplayCaseManager.getShelves().get( 0 );
+					List shelf = (List) DisplayCaseManager.getShelves().get( 0 );
 					if ( shelf != null )
 					{
 						shelf.add( item );
@@ -456,15 +458,17 @@ public abstract class TransferItemRequest
 
 				AdventureResult.addResultToList( KoLConstants.collection, item );
 			}
-                        else if ( destination == KoLConstants.inventory )
-                        {
-                                ResultProcessor.processResult( item );
-                        }
-                        else if ( destination != null )
-                        {
-                                AdventureResult.addResultToList( destination, item );
-                        }
+			else if ( destination == KoLConstants.inventory )
+			{
+				ResultProcessor.processResult( item );
+			}
+			else if ( destination != null )
+			{
+				AdventureResult.addResultToList( destination, item );
+			}
 		}
+
+		return count;
 	}
 
 	public static final ArrayList getItemList( final String urlString,
@@ -507,7 +511,7 @@ public abstract class TransferItemRequest
 		}
 
 		return itemList;
-        }
+	}
 
 	public static final ArrayList getItemList( final String urlString,
 		final Pattern itemPattern, final Pattern quantityPattern,
@@ -642,7 +646,7 @@ public abstract class TransferItemRequest
 
 	public static final boolean registerRequest( final String command, final String urlString,
 		final Pattern itemPattern, final Pattern quantityPattern,
- 		final List source, final int defaultQuantity )
+		final List source, final int defaultQuantity )
 	{
 		return TransferItemRequest.registerRequest(
 			command, urlString,
@@ -652,7 +656,7 @@ public abstract class TransferItemRequest
 
 	public static final boolean registerRequest( final String command, final String urlString,
 		final Pattern itemPattern, final Pattern quantityPattern,
- 		final List source, final int defaultQuantity,
+		final List source, final int defaultQuantity,
 		final String meatField )
 	{
 		Matcher recipientMatcher = TransferItemRequest.RECIPIENT_PATTERN.matcher( urlString );
