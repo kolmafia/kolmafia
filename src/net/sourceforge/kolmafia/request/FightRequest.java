@@ -107,6 +107,7 @@ public class FightRequest
 	public static final AdventureResult ONTHETRAIL = new AdventureResult( "On the Trail", 1, true );
 	public static final AdventureResult BIRDFORM = new AdventureResult( "Form of...Bird!", 1, true );
 	public static final AdventureResult MOLEFORM = new AdventureResult( "Shape of...Mole!", 1, true );
+	public static final AdventureResult INFERNO = new AdventureResult( "Taste the Inferno", 1, true );
 
 	public static final AdventureResult DICTIONARY1 = ItemPool.get( ItemPool.DICTIONARY, 1 );
 	public static final AdventureResult DICTIONARY2 = ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 );
@@ -1083,6 +1084,17 @@ public class FightRequest
 
 			if ( Preferences.getInteger( "_fingertrapArrows" ) >= 10 ||
 			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Nuclear Breath" ) )
+		{
+			// You can only use this skill if you have the Taste the Inferno effect
+
+			if ( !KoLConstants.activeEffects.contains( FightRequest.INFERNO ) )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );

@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
@@ -331,12 +332,13 @@ public class AdventureDatabase
 		AdventureDatabase.adventures.add( location );
 		AdventureDatabase.allAdventures.add( location );
 
-		String url = location.getRequest().getURLString();
-		int index = url.indexOf( "&pwd" );
-		if ( index != -1 )
-		{
-			url = url.substring( 0, index ) + url.substring( index + 4 );
-		}
+		GenericRequest request = location.getRequest();
+
+		// This will force the URLstring to be reconstructed and the
+		// correct password hash inserted when the request is run
+		request.removeFormField( "pwd" );
+
+		String url = request.getURLString();
 
 		AdventureDatabase.adventureLookup.put( url, location );
 

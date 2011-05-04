@@ -626,6 +626,7 @@ public abstract class KoLCharacter
 		InventoryManager.resetInventory();
 		EquipmentManager.resetEquipment();
 		EquipmentManager.resetOutfits();
+		SpecialOutfit.forgetCheckpoints();
 		ConcoctionDatabase.refreshConcoctions();
 		ItemDatabase.calculateAdventureRanges();
 
