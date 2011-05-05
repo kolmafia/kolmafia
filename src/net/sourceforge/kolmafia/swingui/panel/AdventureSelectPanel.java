@@ -649,11 +649,11 @@ public class AdventureSelectPanel
 
 		public void valueChanged( final ListSelectionEvent e )
 		{
-			if ( GoalManager.hasGoals() )
+			if ( KoLmafia.isAdventuring() )
 			{
 				return;
 			}
-		
+
 			AdventureSelectPanel.this.fillCurrentConditions();
 		}
 
@@ -839,14 +839,9 @@ public class AdventureSelectPanel
 
 	public void fillCurrentConditions()
 	{
-		String text = GoalManager.getGoalString();
-		
-		if ( text.length() == 0 )
-		{
-			KoLAdventure location = (KoLAdventure) this.locationSelect.getSelectedValue();
-			AdventureDatabase.getDefaultConditionsList( location, this.locationConditions );
-			text = (String) this.locationConditions.get( 0 );
-		}
+		KoLAdventure location = (KoLAdventure) this.locationSelect.getSelectedValue();
+		AdventureDatabase.getDefaultConditionsList( location, this.locationConditions );
+		String text = (String) this.locationConditions.get( 0 );
 
 		this.conditionField.setText( text );
 	}
