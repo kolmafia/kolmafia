@@ -5080,16 +5080,16 @@
 5074	713395816	giant clay ashtray
 5075	839488415	orange leather lanyard
 5076	574475047	monster pants	pairs of monster pants
-5077
-5078
+5077	788627405	box of Pok&euml;mann band-aids	boxes of Pok&euml;mann band-aids
+5078	761535802	Pok&euml;mann band-aid
 5079	558169780	Van der Graaf helmet
 5080	750637143	electric crutch	electric crutches
 5081	295596373	shock belt
-5082
+5082	711711224	Okee-Dokee soda	cans of Okee-Dokee soda
 5083	991049972	rubber band gun
 5084	399048530	pin-stripe slacks	pairs of pin-stripe slacks
 5085	565252392	sticky gloves	pairs of sticky gloves
-5086
+5086	691043852	correction fluid	bottles of correction fluid
 5087	230467927	Pok&euml;mann figurine: Porkachu	Pok&euml;mann figurines: Porkachu
 5088	574877700	Pok&euml;mann figurine: Magikrap	Pok&euml;mann figurines: Magikrap
 5089	722707939	Pok&euml;mann figurine: Vegemite	Pok&euml;mann figurines: Vegemite
