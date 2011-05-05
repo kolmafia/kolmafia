@@ -837,13 +837,28 @@ public class AdventureSelectPanel
 		}
 	}
 
-	public void fillCurrentConditions()
+	private String getDefaultConditions()
 	{
 		KoLAdventure location = (KoLAdventure) this.locationSelect.getSelectedValue();
 		AdventureDatabase.getDefaultConditionsList( location, this.locationConditions );
-		String text = (String) this.locationConditions.get( 0 );
+		return (String) this.locationConditions.get( 0 );
+	}
+
+	public void fillCurrentConditions()
+	{
+		String text = GoalManager.getGoalString();
+		
+		if ( text.length() == 0 )
+		{
+			text = this.getDefaultConditions();
+		}
 
 		this.conditionField.setText( text );
+	}
+
+	public void fillDefaultConditions()
+	{
+		this.conditionField.setText( this.getDefaultConditions() );
 	}
 
 	public static JPanel getAdventureSummary( final String property )

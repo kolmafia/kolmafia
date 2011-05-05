@@ -835,6 +835,10 @@
 834
 835	Eso S&iacute; Que Es	bangup.gif	f44faf22cf17c8874bde20b23d9d1c52	eat 1 spaghetti con calaveras
 836	On Pins and Needles		df3e73633630d0b3f3e96a910beff6ba
-837
+837	Aided and Abetted	bandaid.gif	231d6fb1e18a7852eb8160af1d0d1376	use 1 Pok&euml;mann band-aid
 838	Wet Willied	willyweed.gif	fa0a9c3fd76b6740612e080fa638a512	use 1 willyweed
 839	Taste the Inferno	fire.gif	62309480939aa3667e3c37ea6bb7dab5	use 1 Nuclear Blastball
+# 840	Okee-Dokee Go!
+# 841	Okee-Dokee Computer
+# 842	Okee-Dokee, Smokee
+843	The Solution	corfluid.gif	659db3a4ad749222f61730992eeb5e6e	use 1 correction fluid
