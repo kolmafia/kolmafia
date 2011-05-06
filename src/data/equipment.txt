@@ -1315,7 +1315,7 @@ Pok&euml;mann figurine: Kagosan	50	none
 Pok&euml;mann figurine: Magikrap	50	none
 Pok&euml;mann figurine: Moog	50	none
 Pok&euml;mann figurine: Nothing	50	none
-Pok&euml;mann figurine: Porkachu	50	
+Pok&euml;mann figurine: Porkachu	50	none
 Pok&euml;mann figurine: Shoggoth	50	none
 Pok&euml;mann figurine: Smugleaf	50	none
 Pok&euml;mann figurine: Twitter	50	none
