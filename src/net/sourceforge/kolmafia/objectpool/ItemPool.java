@@ -1234,6 +1234,7 @@ public class ItemPool
 	public static final int NATTO_POTION = 5021;
 	public static final int LARS_THE_CYBERIAN = 5053;
 	public static final int TINY_BLACK_HOLE = 5069;
+	public static final int PEN_PAL_KIT = 5112;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

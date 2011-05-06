@@ -2343,7 +2343,7 @@ A Little Bit Evil (Turtle Tamer)	Monster Level: +2
 A Little Bit Frightening	Spooky Damage: [3*L]
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 A Revolution in Your Mouth	Moxie Percent: -10
-Abominably Slippery	Initiative: +2
+Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
 Ack! Barred!	Muscle Percent: +30
 Adrenaline Rush	Muscle Percent: +100

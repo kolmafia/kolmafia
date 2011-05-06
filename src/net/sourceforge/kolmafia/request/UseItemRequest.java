@@ -3690,6 +3690,16 @@ public class UseItemRequest
 				Preferences.increment( "cyrptTotalEvilness", -evilness );
 			}
 			return;
+
+		case ItemPool.PEN_PAL_KIT:
+			// You've already got a pen pal. There's no way you
+			// could handle the pressure of contantly forgetting to
+			// reply to two kids from Distant Lands...
+			if ( responseText.indexOf( "already got a pen pal" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+			}
+			return;
 		}
 	}
 
