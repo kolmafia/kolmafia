@@ -81,6 +81,13 @@ public class MonsterStatusTracker
 			MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName, false );
 		}
 
+		if ( MonsterStatusTracker.monsterData == null )
+		{
+			// Temporarily register the unknown monster so that
+			// consult scripts can see it as such	
+			MonsterStatusTracker.monsterData = MonsterDatabase.registerMonster( monsterName );
+		}
+
 		MonsterStatusTracker.lastMonsterName = monsterName;
 	}
 

@@ -234,6 +234,14 @@ public class MonsterDatabase
 		return (MonsterData) MonsterDatabase.MONSTER_DATA.get( matchingNames.get( 0 ) );
 	}
 
+	// Register an unknown monster
+	public static final MonsterData registerMonster( final String name )
+	{
+		MonsterData monster = MonsterDatabase.registerMonster( name, "" );
+		MonsterDatabase.MONSTER_DATA.put( name, monster );
+		return monster;
+	}
+
 	public static final Set entrySet()
 	{
 		return MonsterDatabase.MONSTER_DATA.entrySet();
