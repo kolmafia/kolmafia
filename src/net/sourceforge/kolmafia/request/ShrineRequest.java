@@ -202,8 +202,8 @@ public class ShrineRequest
 			return null;
 		}
 
-		Matcher matcher = GenericRequest.HOWMUCH_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
+		int qty = GenericRequest.getHowMuch( urlString );
+		if ( qty < 0 )
 		{
 			return null;
 		}
@@ -225,7 +225,6 @@ public class ShrineRequest
 				"Donation must be larger.";
 		}
 
-		int qty = StringUtilities.parseInt( matcher.group(1) );
 		ResultProcessor.processMeat( 0 - qty );
 		Preferences.increment( preference, qty );
 
@@ -256,13 +255,11 @@ public class ShrineRequest
 			return false;
 		}
 
-		matcher = GenericRequest.HOWMUCH_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
+		int qty = GenericRequest.getHowMuch( urlString );
+		if ( qty < 0 )
 		{
 			return false;
 		}
-
-		int qty = StringUtilities.parseInt( matcher.group(1) );
 
 		String message = "Donating " + qty + " Meat to the " + place;
 

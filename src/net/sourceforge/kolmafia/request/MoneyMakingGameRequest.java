@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.webui.MoneyMakingGameDecorator;
 public class MoneyMakingGameRequest
 	extends GenericRequest
 {
-	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=([^&]*)" );
 	public static final Pattern FROM_PATTERN = Pattern.compile( "from=(\\d*)" );
 	public static final Pattern WHICHBET_PATTERN = Pattern.compile( "whichbet=(\\d*)" );
 	public static final Pattern BETID_PATTERN = Pattern.compile( "betid=(\\d*)" );
@@ -81,26 +80,6 @@ public class MoneyMakingGameRequest
 	{
 		int from = getFrom( urlString );
 		return from == 0 ? "inventory" : from == 1 ? "storage" : null;
-	}
-
-	public static final int getHowMuch( final String urlString )
-	{
-		Matcher matcher = HOWMUCH_PATTERN.matcher( urlString );
-		if ( matcher.find() )
-		{
-			// KoL allows any old crap in the input field. It
-			// strips out non-numeric characters and treats the
-			// rest as an integer.
-			String field = GenericRequest.decodeURL( matcher.group(1) );
-			try
-			{
-				return StringUtilities.parseIntInternal2( field );
-			}
-			catch ( NumberFormatException e )
-			{
-			}
-		}
-		return -1;
 	}
 
 	public static final int getWhichBet( final String urlString )
@@ -366,7 +345,7 @@ public class MoneyMakingGameRequest
 		if ( action.equals( "makebet" ) )
 		{
 			String from = getFromString( urlString );
-			int howmuch = getHowMuch( urlString );
+			int howmuch = GenericRequest.getHowMuch( urlString );
 			if ( from == null || howmuch < 0 )
 			{
 				return true;
