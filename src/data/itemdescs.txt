@@ -5109,7 +5109,7 @@
 5103	246849616	Nuclear Blastball
 5104	568920711	fish juice box	fish juice boxes
 5105	870472784	paint bomb
-5106
+5106	738192395	hideous egg	hideous eggs
 5107
 5108	499891496	fistfull of ashes
 5109	217719453	stress ball

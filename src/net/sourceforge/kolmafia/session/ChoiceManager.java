@@ -1500,6 +1500,16 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Cyrpt", "choiceAdventure527", "Haert of the Cyrpt",
 			new String[] { "fight the Bonerdagon", "skip adventure" } ),
+
+		// Choice 528 is It Was Then That a Hideous Monster Carried You
+		// Choice 529 is unknown
+
+		// Choice 530 is It Was Then That...  Aaaaaaaah!
+		new ChoiceAdventure(
+			"Mountain", "choiceAdventure530", "Icy Slope",
+			new String[] { "hideous egg", "skip the adventure" },
+			new String[] { "5106", null } ),
+
 	};
 
 	static
