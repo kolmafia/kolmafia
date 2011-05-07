@@ -104,7 +104,6 @@ public class GenericRequest
 {
 	// Used in many requests. Here for convenience and non-duplication
 	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
-	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=(\\d*)" );
 
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
@@ -922,6 +921,27 @@ public class GenericRequest
 	{
 		Matcher matcher = ACTION_PATTERN.matcher( urlString );
 		return matcher.find() ? matcher.group(1) : null;
+	}
+
+	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=([^&]*)" );
+	public static final int getHowMuch( final String urlString )
+	{
+		Matcher matcher = HOWMUCH_PATTERN.matcher( urlString );
+		if ( matcher.find() )
+		{
+			// KoL allows any old crap in the input field. It
+			// strips out non-numeric characters and treats the
+			// rest as an integer.
+			String field = GenericRequest.decodeURL( matcher.group(1) );
+			try
+			{
+				return StringUtilities.parseIntInternal2( field );
+			}
+			catch ( NumberFormatException e )
+			{
+			}
+		}
+		return -1;
 	}
 
 	/**
