@@ -5112,7 +5112,7 @@
 5103	Nuclear Blastball	multiple	all	25
 5104	fish juice box	multiple	all	45
 5105	paint bomb	none, combat	all	35
-5106
+5106	hideous egg	none	all	0
 5107
 5108	fistfull of ashes	none	display	0
 5109	stress ball	offhand	all	40

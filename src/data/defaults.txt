@@ -1007,6 +1007,8 @@ user	choiceAdventure521	1
 user	choiceAdventure522	2
 user	choiceAdventure523	5
 user	choiceAdventure527	1
+user	choiceAdventure528	1
+user	choiceAdventure530	1
 
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true
