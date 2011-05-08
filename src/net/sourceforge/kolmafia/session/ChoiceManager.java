@@ -1506,7 +1506,7 @@ public abstract class ChoiceManager
 
 		// Choice 530 is It Was Then That...  Aaaaaaaah!
 		new ChoiceAdventure(
-			"Mountain", "choiceAdventure530", "Icy Slope",
+			"Mountain", "choiceAdventure530", "Icy Peak",
 			new String[] { "hideous egg", "skip the adventure" },
 			new String[] { "5106", null } ),
 
