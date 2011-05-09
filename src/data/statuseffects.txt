@@ -838,7 +838,7 @@
 837	Aided and Abetted	bandaid.gif	231d6fb1e18a7852eb8160af1d0d1376	use 1 Pok&euml;mann band-aid
 838	Wet Willied	willyweed.gif	fa0a9c3fd76b6740612e080fa638a512	use 1 willyweed
 839	Taste the Inferno	fire.gif	62309480939aa3667e3c37ea6bb7dab5	use 1 Nuclear Blastball
-# 840	Okee-Dokee Go!
-# 841	Okee-Dokee Computer
-# 842	Okee-Dokee, Smokee
+840	Okee-Dokee Go!	soda.gif	55158aa5200c29f81f8667cc333995f6	use 1 Okee-Dokee soda
+841	Okee-Dokee Computer	soda.gif	5b5e0c8a7ab2a1b457fb88d469485af9	use 1 Okee-Dokee soda
+842	Okee-Dokee, Smokee	soda.gif	d1347fc8406edf37f59029955aed0447	use 1 Okee-Dokee soda
 843	The Solution	corfluid.gif	659db3a4ad749222f61730992eeb5e6e	use 1 correction fluid
