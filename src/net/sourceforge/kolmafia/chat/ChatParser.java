@@ -245,7 +245,7 @@ public class ChatParser
 			return;
 		}
 
-		if ( line.indexOf( "(private)<" ) != -1 )
+		if ( line.indexOf( "(private):<" ) != -1 )
 		{
 			ChatParser.parsePrivateReceiveMessage( chatMessages, line );
 			return;
@@ -323,7 +323,7 @@ public class ChatParser
 
 		String recipient = KoLCharacter.getUserName();
 
-		String content = line.substring( line.indexOf( ":" ) + 1 ).trim();
+		String content = line.substring( line.indexOf( ":" ) + 9 ).trim();
 		if( Preferences.getBoolean( "chatBeep" ) )
 		{
 			Toolkit.getDefaultToolkit().beep();
