@@ -682,6 +682,7 @@ user	_skateBuff3	false
 user	_skateBuff4	false
 user	_skateBuff5	false
 user	_stinkyCheeseCount	0
+user	_stressBallSqueezes	0
 user	_madTeaParty	false
 user	_timeHelmetAdv	0
 user	_toastSummons	0

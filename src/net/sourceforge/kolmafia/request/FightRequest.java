@@ -224,6 +224,7 @@ public class FightRequest
 	private static boolean castNoodles = false;
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
+	private static boolean squeezedStressBall = false;
 	private static boolean canOlfact = true;
 	private static boolean summonedGhost = false;
 	private static int currentRound = 0;
@@ -1036,6 +1037,16 @@ public class FightRequest
 		{
 			// You can only use this skill once per combat
 			if ( FightRequest.castNoodles )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Squeeze Stress Ball" ) )
+		{
+			// You can only use this skill once per combat
+			if ( FightRequest.squeezedStressBall )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -4144,6 +4155,7 @@ public class FightRequest
 		FightRequest.castCleesh = false;
 		FightRequest.canOlfact = true;
 		FightRequest.jiggledChefstaff = false;
+		FightRequest.squeezedStressBall = false;
 		FightRequest.summonedGhost = false;
 		FightRequest.desiredScroll = null;
 
@@ -4597,6 +4609,11 @@ public class FightRequest
 		case 7111: // Fire a fingertrap arrow
 			Preferences.increment( "_fingertrapArrows", 1 );
 			break;
+
+		case 7113: // Squeeze Stress Ball
+			FightRequest.squeezedStressBall = true;
+			Preferences.increment( "_stressBallSqueezes", 1 );
+			return;
 		}
 	}
 
