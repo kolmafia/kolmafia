@@ -236,12 +236,6 @@ public class FamiliarData
 		EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, first.getItem() );
 		FamiliarData.checkLockedItem( responseText );
 		KoLCharacter.setEnthroned( hatseat );
-
-		// If we discovered new familiars, write an override file
-		if ( FamiliarDatabase.newFamiliars )
-		{
-			FamiliarDatabase.saveDataOverride();
-		}
 	}
 
 	public static final FamiliarData registerFamiliar( final int id, final int experience )

@@ -59,10 +59,6 @@ public class CheckDataCommand
 	{
 		if ( command.equals( "newdata" ) )
 		{
-			// Defer writing of override files until we've
-			// completed our requests.
-			KoLmafia.deferDataOverride( true );
-
 			// EquipmentRequest registers new items with
 			// ItemDatabase when it looks at the closet or at
 			// inventory.
@@ -71,8 +67,8 @@ public class CheckDataCommand
 			// The Charpane registers new status effects
 			RequestThread.postRequest( CharPaneRequest.getInstance() );
 
-			// Enable and write override files, if necessary
-			KoLmafia.deferDataOverride( false );
+			// Write override files, if necessary
+			KoLmafia.saveDataOverride();
 
 			RequestLogger.printLine( "Data tables updated." );
 			return;

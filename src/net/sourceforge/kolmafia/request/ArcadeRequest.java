@@ -114,8 +114,6 @@ public class ArcadeRequest
 					ItemDatabase.registerItem( id, name, desc );
 				}
 			}
-
-			KoLmafia.saveDataOverride();
 			return;
 		}
 

@@ -544,7 +544,8 @@ public abstract class KoLmafia
 		int lastRevision = Preferences.getInteger( "previousUpdateRevision" );
 		String currentVersion = StaticEntity.getVersion();
 		int currentRevision = StaticEntity.getRevision();
-		String message;
+
+		String message = null;
 
 		if ( lastVersion == null || lastVersion.equals( "" ) )
 		{
@@ -554,23 +555,19 @@ public abstract class KoLmafia
 		{
 			message = "Clearing data overrides: upgrade from " + lastVersion + " to " + currentVersion;
 		}
-		else if ( lastRevision == 0 && currentRevision > 0 )
-		{
-			message = "Clearing data overrides: upgrade from " + lastVersion + " to r" + currentRevision;
-		}
-		else if ( lastRevision < currentRevision )
-		{
-			message = "Clearing data overrides: upgrade from r" + lastRevision + " to r" + currentRevision;
-		}
-		else
+
+		// Save revision, just for fun, but do not clear override files
+		// for minor version upgrades.
+
+		Preferences.setString( "previousUpdateVersion", KoLConstants.VERSION_NAME );
+		Preferences.setInteger( "previousUpdateRevision", currentRevision );
+
+		if ( message == null )
 		{
 			return;
 		}
 
 		System.out.println( message );
-
-		Preferences.setString( "previousUpdateVersion", KoLConstants.VERSION_NAME );
-		Preferences.setInteger( "previousUpdateRevision", currentRevision );
 
 		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
 		{
@@ -1056,26 +1053,8 @@ public abstract class KoLmafia
 		KoLConstants.tally.add( AdventureResult.SESSION_FULLSTATS_RESULT );
 	}
 
-	private static boolean deferDataOverride = false;
-
-	public static final void deferDataOverride( final boolean defer )
-	{
-		KoLmafia.deferDataOverride = defer;
-
-		// If writing override files was deferred but is no longer, write them now.
-		if ( !defer )
-		{
-			KoLmafia.saveDataOverride();
-		}
-	}
-
 	public static final void saveDataOverride()
 	{
-		if ( KoLmafia.deferDataOverride )
-		{
-			return;
-		}
-
 		if ( ItemDatabase.newItems )
 		{
 			ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
@@ -1095,15 +1074,11 @@ public abstract class KoLmafia
 		if ( ItemDatabase.newItems || EquipmentDatabase.newEquipment || EffectDatabase.newEffects)
 		{
 			Modifiers.writeModifiers( new File( UtilityConstants.DATA_LOCATION, "modifiers.txt" ) );
-			ItemDatabase.newItems = false;
-			EquipmentDatabase.newEquipment = false;
-			EffectDatabase.newEffects = false;
 		}
 
 		if ( FamiliarDatabase.newFamiliars )
 		{
 			FamiliarDatabase.writeFamiliars( new File( UtilityConstants.DATA_LOCATION, "familiars.txt" ) );
-			FamiliarDatabase.newFamiliars = false;
 		}
 	}
 

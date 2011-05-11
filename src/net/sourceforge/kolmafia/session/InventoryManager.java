@@ -106,7 +106,6 @@ public abstract class InventoryManager
 			EquipmentManager.updateOutfits();
 			ConcoctionDatabase.deferRefresh( false );
 			KoLmafia.setIsRefreshing( false );
-			KoLmafia.saveDataOverride();
 		}
 	}
 

@@ -103,8 +103,6 @@ public class PixelRequest
 				ItemDatabase.registerItem( id, name.toLowerCase(), desc );
 			}
 		}
-
-		KoLmafia.saveDataOverride();
 	}
 
 	public static final boolean registerRequest( final String urlString )

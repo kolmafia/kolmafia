@@ -214,9 +214,6 @@ public class StorageRequest
 			RequestThread.postRequest( new StorageRequest( CONSUMABLES ) );
 			RequestThread.postRequest( new StorageRequest( EQUIPMENT ) );
 			RequestThread.postRequest( new StorageRequest( MISCELLANEOUS ) );
-
-			// If new items have been detected, write override files
-			KoLmafia.saveDataOverride();
 			return null;
 		}
 

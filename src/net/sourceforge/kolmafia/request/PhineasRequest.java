@@ -105,8 +105,6 @@ public class PhineasRequest
 				ItemDatabase.registerItem( id, name, desc );
 			}
 		}
-
-		KoLmafia.saveDataOverride();
 	}
 
 	public static final boolean registerRequest( final String urlString )

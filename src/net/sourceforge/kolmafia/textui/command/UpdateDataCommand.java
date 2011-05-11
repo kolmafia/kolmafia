@@ -43,7 +43,7 @@ public class UpdateDataCommand
 	public UpdateDataCommand()
 	{
 		this.usage =
-			" data | clear | prices <URL or filename> - download most recent data files, or revert to built-in data.";
+			" data | clear | save | prices <URL or filename> - download most recent data files, revert to built-in data, or save override files for new objects.";
 	}
 
 	public void run( final String cmd, final String parameters )
@@ -55,6 +55,10 @@ public class UpdateDataCommand
 		else if ( parameters.equalsIgnoreCase( "data" ) )
 		{
 			this.CLI.downloadAdventureOverride();
+		}
+		else if ( parameters.equalsIgnoreCase( "save" ) )
+		{
+			this.CLI.saveDataOverride();
 		}
 		else if ( parameters.startsWith( "prices" ) )
 		{

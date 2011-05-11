@@ -157,8 +157,6 @@ public class TravelingTraderRequest
 				ItemDatabase.registerItem( id, name, desc );
 			}
 		}
-
-		KoLmafia.saveDataOverride();
 	}
 
 	public static boolean registerRequest( final String urlString )

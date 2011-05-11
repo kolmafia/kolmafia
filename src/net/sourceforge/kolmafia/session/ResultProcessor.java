@@ -200,9 +200,6 @@ public class ResultProcessor
 			KoLmafia.applyEffects();
 		}
 
-		// Save override data for new items and effects
-		KoLmafia.saveDataOverride();
-
 		return requiresRefresh;
 	}
 

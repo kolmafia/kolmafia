@@ -99,8 +99,6 @@ public class MrStoreRequest
 				ItemDatabase.registerItem( itemId, itemName, descId );
 			}
 		}
-
-		KoLmafia.saveDataOverride();
 	}
 
 	public static boolean registerRequest( final String urlString )
