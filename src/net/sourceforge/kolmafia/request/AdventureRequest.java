@@ -138,6 +138,10 @@ public class AdventureRequest
 		{
 			this.addFormField( "place", adventureId );
 		}
+		else if ( formSource.equals( "invasion.php" ) )
+		{
+			this.addFormField( "action", "1" );
+		}
 		else if ( !formSource.equals( "dungeon.php" ) &&
 			  !formSource.equals( "basement.php" ) &&
 			  !formSource.equals( "cellar.php" ) &&
