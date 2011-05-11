@@ -1350,10 +1350,9 @@ public class DebugDatabase
 		// Off-hand items and accessories don't have visible power and
 		// might be 0 in the database. Look them up and fix them.
 
-		KoLmafia.deferDataOverride( true);
 		DebugDatabase.checkPowers( KoLConstants.inventory );
 		DebugDatabase.checkPowers( KoLConstants.closet );
-		KoLmafia.deferDataOverride( false);
+		DebugDatabase.checkPowers( KoLConstants.storage );
 	}
 
 	public static final void checkPowers( final Collection items )
@@ -1412,10 +1411,9 @@ public class DebugDatabase
 
 	public static final void checkShields()
 	{
-		KoLmafia.deferDataOverride( true);
 		DebugDatabase.checkShields( KoLConstants.inventory );
 		DebugDatabase.checkShields( KoLConstants.closet );
-		KoLmafia.deferDataOverride( false);
+		DebugDatabase.checkShields( KoLConstants.storage );
 	}
 
 	public static final void checkShields( final Collection items )

@@ -85,7 +85,6 @@ public class GameShoppeRequest
 				}
 			}
 
-			KoLmafia.saveDataOverride();
 			CoinMasterRequest.parseGameShoppeVisit( urlString, responseText );
 			return;
 		}

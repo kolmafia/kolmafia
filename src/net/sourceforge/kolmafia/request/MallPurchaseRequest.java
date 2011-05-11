@@ -666,8 +666,6 @@ public class MallPurchaseRequest
 			}
 		}
 
-		KoLmafia.saveDataOverride();
-
 		Matcher m = MallPurchaseRequest.NPCSTOREID_PATTERN.matcher(urlString);
 		if ( !m.find() )
 		{
