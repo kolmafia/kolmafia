@@ -5119,3 +5119,7 @@
 5110	Li'l Businessman Kit	familiar	all	75
 5111	Ultracolor&trade; shirt	shirt	all	80
 5112	My Own Pen Pal kit	usable	all	0
+5113
+5114
+5115
+5116	A. W. O. L. commendation	usable	display	0

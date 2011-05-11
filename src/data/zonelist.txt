@@ -68,6 +68,8 @@ Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
 Holiday	Unsorted	Holiday Zones
 
+Events	Unsorted	Events
+
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005
 Crimbo06	Removed	Christmas 2006

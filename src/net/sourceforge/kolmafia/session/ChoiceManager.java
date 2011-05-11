@@ -1502,9 +1502,13 @@ public abstract class ChoiceManager
 			new String[] { "fight the Bonerdagon", "skip adventure" } ),
 
 		// Choice 528 is It Was Then That a Hideous Monster Carried You
-		// Choice 529 is unknown
 
-		// Choice 530 is It Was Then That...  Aaaaaaaah!
+		// A Swarm of Yeti-Mounted Skeletons
+		new ChoiceAdventure(
+			"Events", "choiceAdventure529", "Skies Above Valhalla",
+			new String[] { "Use Melee Weapons", "Use Spells", "Use Ranged Weapons" } ),
+
+		// It Was Then That...  Aaaaaaaah!
 		new ChoiceAdventure(
 			"Mountain", "choiceAdventure530", "Icy Peak",
 			new String[] { "hideous egg", "skip the adventure" },
@@ -2750,6 +2754,7 @@ public abstract class ChoiceManager
 		}
 	}
 
+	private static final Pattern SKELETON_PATTERN = Pattern.compile( "You defeated <b>(\\d+)</b> skeletons" );
 	public static void postChoice1( final GenericRequest request )
 	{
 		// Things that can or need to be done BEFORE processing results.
@@ -3049,6 +3054,16 @@ public abstract class ChoiceManager
 		case 488: case 489: case 490: case 491:
 			// Meteoid
 			ArcadeRequest.postChoiceMeteoid( request );
+			break;
+
+		case 529:
+			Matcher skeletonMatcher = SKELETON_PATTERN.matcher( text );
+			if ( skeletonMatcher.find() )
+			{
+				String message = "You defeated " + skeletonMatcher.group(1) + " skeletons";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
 			break;
 		}
 
