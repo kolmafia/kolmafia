@@ -1531,6 +1531,56 @@ public class KoLAdventure
 			"Nothing more to do here.",
 			KoLAdventure.PENDING
 		},
+
+		// The Skies over Valhalls
+
+		// You poke your head through the slash, and find yourself
+		// looking at Valhalla from a dizzying height. Come down now,
+		// they'll say, but there's no way you're going all the way
+		// through that slash without some sort of transportation.
+		{
+			"there's no way you're going all the way through that slash",
+			"You don't have a flying mount.",
+			KoLAdventure.PENDING
+		},
+
+		// You can't do anything without some way of flying.  And
+		// before you go pointing at all of the stuff in your inventory
+		// that says it lets you fly or float or levitate or whatever,
+		// that stuff won't work.  You're gonna need a hideous winged
+		// yeti mount, because that's the only thing that can handle
+		// this particular kind of flying.  Because of science.
+		{
+			"You can't do anything without some way of flying",
+			"You don't have a flying mount.",
+			KoLAdventure.PENDING
+		},
+
+		// There are at least two of everything up there, and you're
+		// also worried that you might fall off your yeti. You should
+		// maybe come back when you're at least slightly less drunk.
+		{
+			"You should  maybe come back when you're at least slightly less drunk",
+			"You are too drunk.",
+			KoLAdventure.PENDING
+		},
+
+		// You don't have the energy to attack a problem this size. Go
+		// drink some soda or something.
+		{
+			"You don't have the energy to attack a problem this size",
+			"You need at least 20% buffed max MP.",
+			KoLAdventure.PENDING
+		},
+
+		// You're not in good enough shape to deal with a threat this
+		// large. Go get some rest, or put on some band-aids or
+		// something.
+		{
+			"You're not in good enough shape to deal with a threat this large",
+			"You need at least 20% buffed max HP.",
+			KoLAdventure.PENDING
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
