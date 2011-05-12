@@ -446,12 +446,12 @@ public interface KoLConstants
 	// Item creation types
 
 	public static final int CT_MASK = 0x000000FF;
-	public static final int METHOD_COUNT = 26;
+	public static final int METHOD_COUNT = 27;
 	public static final int SUBCLASS = 255;
 
 	public static final int NOCREATE = 0;
 
-	// Items anybody can create using meat paste
+	// Items anybody can create using meat paste or The Plunger
 	public static final int COMBINE = 1;
 	// Items created with an E-Z Cook Oven or Dramatic Range
 	public static final int COOK = 2;
@@ -504,6 +504,8 @@ public interface KoLConstants
 	public static final int COOK_FANCY = 24;
 	// Items created with a Cocktailcrafting Kit
 	public static final int MIX_FANCY = 25;
+	// Un-untinkerable Amazing Ideas
+	public static final int ACOMBINE = 26;
 
 	// Item creation requirement flags
 

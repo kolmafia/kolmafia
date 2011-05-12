@@ -158,6 +158,7 @@ public class CreateItemRequest
 			switch ( method )
 			{
 			case KoLConstants.COMBINE:
+			case KoLConstants.ACOMBINE:
 				mode = "combine";
 				break;
 
@@ -916,8 +917,7 @@ public class CreateItemRequest
 		boolean foundAllIngredients = true;
 
 		// If this is a combining request, you need meat paste as well.
-
-		if ( (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
+		if ( (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
 		{
 			int pasteNeeded = this.concoction.getMeatPasteNeeded(
 				this.quantityNeeded + this.concoction.initial );

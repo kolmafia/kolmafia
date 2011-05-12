@@ -121,7 +121,7 @@ public class ConcoctionDatabase
 	{
 		// Basic creation types:
 
-		// Items anybody can create using meat paste
+		// Items anybody can create using meat paste or The Plunger
 		ConcoctionDatabase.mixingMethods.put( "COMBINE", new Integer( KoLConstants.COMBINE ));
 		// Items anybody can create with an E-Z Cook Oven or Dramatic Range
 		ConcoctionDatabase.mixingMethods.put( "COOK", new Integer( KoLConstants.COOK ));
@@ -175,6 +175,8 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "COOK_FANCY", new Integer( KoLConstants.COOK_FANCY ));
 		// Items that require a Cocktailcrafting Kit
 		ConcoctionDatabase.mixingMethods.put( "MIX_FANCY", new Integer( KoLConstants.MIX_FANCY ));
+		// Un-untinkerable Amazing Ideas
+		ConcoctionDatabase.mixingMethods.put( "ACOMBINE", new Integer( KoLConstants.ACOMBINE ));
 
 		// Creation flags
 
@@ -1306,6 +1308,10 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COMBINE ] = true;
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.COMBINE ] = 10;
+
+		// Un-untinkerable Amazing Ideas
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.ACOMBINE ] = true;
+		ConcoctionDatabase.CREATION_COST[ KoLConstants.ACOMBINE ] = 0;
 
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
