@@ -1505,7 +1505,7 @@ public abstract class ChoiceManager
 
 		// A Swarm of Yeti-Mounted Skeletons
 		new ChoiceAdventure(
-			"Events", "choiceAdventure529", "Skies Above Valhalla",
+			"Events", "choiceAdventure529", "Yeti Swarm",
 			new String[] { "Use Melee Weapons", "Use Spells", "Use Ranged Weapons" } ),
 
 		// It Was Then That...  Aaaaaaaah!
@@ -1513,6 +1513,11 @@ public abstract class ChoiceManager
 			"Mountain", "choiceAdventure530", "Icy Peak",
 			new String[] { "hideous egg", "skip the adventure" },
 			new String[] { "5106", null } ),
+
+		// A Bone Wall
+		new ChoiceAdventure(
+			"Events", "choiceAdventure531", "Bonewall",
+			new String[] { "Pull Key Bones", "Ram Wall" } ),
 
 	};
 
@@ -3057,6 +3062,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 529:
+		case 531:
 			Matcher skeletonMatcher = SKELETON_PATTERN.matcher( text );
 			if ( skeletonMatcher.find() )
 			{
