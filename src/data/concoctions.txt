@@ -151,11 +151,22 @@ ice skate decoy	COMBINE	ice skate doll	collapsible baton
 roller skate doll	COMBINE	skate skin	skate skates
 roller skate decoy	COMBINE	roller skate doll	brass dorsal fin
 
-the finger	COMBINE	asparagus knife	fake hand
-innuendo	COMBINE	skeleton key	skate skates
-popcorn	COMBINE	Knob Goblin firecracker	cob of corn
-chaos popcorn	COMBINE	popcorn	chaos butterfly
-tiny black hole	COMBINE	lime	coconut shell
+# Amazing Ideas
+
+giant diamond ring	JEWEL	lump of diamond	ring setting
+mysterious present	ACOMBINE	box	probability potion
+Russian Ice	MIX_FANCY	bottle of vodka	magical ice cubes
+boxing-glove-in-a-box	ACOMBINE	nothing-in-the-box	boxing glove
+innuendo	ACOMBINE	skeleton key	skate skates
+Salsa de las Epocas	SAUCE	scrumptious reagent	marzipan skull
+creepy voodoo doll	ACOMBINE	wooden figurine	gob of wet hair
+s'more gun	ACOMBINE	fire flower	armgun
+popcorn	ACOMBINE	Knob Goblin firecracker	cob of corn
+the finger	ACOMBINE	asparagus knife	fake hand
+tiny black hole	ACOMBINE	lime	coconut shell
+
+spaghetti con calaveras	PASTA	Salsa de las Epocas	dry noodles
+chaos popcorn	ACOMBINE	popcorn	chaos butterfly
 
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing
@@ -249,8 +260,6 @@ nothing-in-the-box	COMBINE	box	spring
 nothing-in-the-box-in-the-box	COMBINE	box-in-the-box	spring
 sprocket assembly	COMBINE	sprocket	spring
 4-d camera	COMBINE	nothing-in-the-box	beer lens
-boxing-glove-in-a-box	COMBINE	nothing-in-the-box	boxing glove
-mysterious present	COMBINE	box	probability potion
 
 # Items created by combining letters.
 
@@ -500,8 +509,6 @@ green beer	MIX, MANUAL	ten-leaf clover	ice-cold Sir Schlitz
 green beer	MIX, MANUAL	ten-leaf clover	ice-cold Willer
 
 flask of peppermint schnapps	MIX	fermenting powder	flask of peppermint oil
-
-Russian Ice	MIX_FANCY	bottle of vodka	magical ice cubes
 
 # Tier 3 and tier 4 beverages which can be made by anyone.  These are
 # believed to be the best creatable drinks without buying a DB's skills or
@@ -950,8 +957,6 @@ spiky turtle helmet	ASMITH	basic meat helmet	hedgeturtle
 spiky turtle shoulderpads	ASMITH	hedgeturtle	hedgeturtle
 
 eXtreme nose ring	COMBINE	stone of eXtreme power	piercing post
-creepy voodoo doll	COMBINE	wooden figurine	gob of wet hair
-s'more gun	COMBINE	fire flower	armgun
 spooky glove	COOK	spooky fairy gravy	small leather glove
 
 # Things made of ores from the Anemone Mine
@@ -1254,9 +1259,6 @@ gnocchetti di Nietzsche	PASTA	Himalayan Hidalgo sauce	dry noodles
 sauce of the ages	SAUCE	scrumptious reagent	Knob sausage
 spaghetti with Skullheads	PASTA	sauce of the ages	dry noodles
 
-Salsa de las Epocas	SAUCE	scrumptious reagent	marzipan skull
-spaghetti con calaveras	PASTA	Salsa de las Epocas	dry noodles
-
 # Stir-fry items.  These are the main ingredients or are sub-ingredients
 # of chow mein items.
 
@@ -1403,7 +1405,6 @@ vampire pearl necklace	JEWEL	vampire pearl	necklace chain
 vampire pearl ring	JEWEL	vampire pearl	ring setting
 
 torquoise ring	JEWEL	torquoise	ring setting
-giant diamond ring	JEWEL	lump of diamond	ring setting
 
 # Expensive Jewelry making recipes.  These require jewelry-making pliers
 # and the Really Expensive Jewelrycrafting skill
