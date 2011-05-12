@@ -166,7 +166,7 @@ the finger	ACOMBINE	asparagus knife	fake hand
 tiny black hole	ACOMBINE	lime	coconut shell
 
 spaghetti con calaveras	PASTA	Salsa de las Epocas	dry noodles
-chaos popcorn	ACOMBINE	popcorn	chaos butterfly
+chaos popcorn	COMBINE	popcorn	chaos butterfly
 
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing
