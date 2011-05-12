@@ -223,4 +223,5 @@ WhiteWed	adventure=59	true	Icy Peak of the Past
 Pandamonium	adventure=248	true	Pandamonium Slums	1 wussiness potion, 1 ruby W|3 fraudwort|+1 SPF 451 lip balm|+5 figurine of a charred seal
 Pandamonium	adventure=242	true	Belilafs Comedy Club	5 imp air
 Pandamonium	adventure=243	true	Hey Deze Arena	5 bus pass
-Events	invasion=1	true	The Skies Over Valhalla
+Events	invasion=1	true	A Swarm of Yeti-Mounted Skeletons
+Events	invasion=2	true	The Bonewall
