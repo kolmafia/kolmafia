@@ -1,6 +1,7 @@
 2
 # Hats section of equipment.txt
 
+Admiral's hat	0	Mox: 85
 Ancient Saucehelm	100	Mys: 15
 BRICKO hat	30	none
 Baron von Ratsworth's tophat	75	Mox: 22

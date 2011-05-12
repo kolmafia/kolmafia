@@ -356,7 +356,7 @@ public class EffectDatabase
 			return -1;
 		}
 
-		String image = DebugDatabase.parseEffectImage( text );
+		String image = DebugDatabase.parseImage( text );
 
 		// Detach name, descid, and image from being substrings
 		name = new String( name );

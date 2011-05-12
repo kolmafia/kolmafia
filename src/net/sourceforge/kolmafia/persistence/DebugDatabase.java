@@ -402,7 +402,7 @@ public class DebugDatabase
 
 	private static final Pattern ITEM_DATA_PATTERN = Pattern.compile( "<img.*?><(br|blockquote)>(.*?)<script", Pattern.DOTALL );
 
-	private static final String itemDescriptionText( final String rawText )
+	public static final String itemDescriptionText( final String rawText )
 	{
 		if ( rawText == null )
 		{
@@ -1080,7 +1080,7 @@ public class DebugDatabase
 	}
 
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "itemimages/(.*?.gif)" );
-	public static final String parseEffectImage( final String text )
+	public static final String parseImage( final String text )
 	{
 		Matcher matcher = DebugDatabase.IMAGE_PATTERN.matcher( text );
 		if ( !matcher.find() )

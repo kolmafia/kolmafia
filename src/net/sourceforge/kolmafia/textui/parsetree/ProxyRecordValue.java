@@ -173,6 +173,7 @@ public class ProxyRecordValue
 		public static RecordType _type = new RecordBuilder()
 			.add( "plural", DataTypes.STRING_TYPE )
 			.add( "descid", DataTypes.STRING_TYPE )
+			.add( "image", DataTypes.STRING_TYPE )
 			.add( "levelreq", DataTypes.INT_TYPE )
 			.add( "fullness", DataTypes.INT_TYPE )
 			.add( "inebriety", DataTypes.INT_TYPE )
@@ -197,6 +198,12 @@ public class ProxyRecordValue
 		public String get_descid()
 		{
 			return ItemDatabase.getDescriptionId( this.contentString );
+		}
+
+		public String get_image()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.getImage( id );
 		}
 
 		public Integer get_levelreq()

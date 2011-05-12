@@ -101,6 +101,7 @@ public class ItemDatabase
 	private static final IntegerArray attributesById = new IntegerArray();
 	private static final IntegerArray priceById = new IntegerArray();
 	private static final StringArray pluralById = new StringArray();
+	private static final StringArray imageById = new StringArray();
 
 	private static final Map nameById = new TreeMap();
 	private static final Map dataNameById = new HashMap();
@@ -504,16 +505,17 @@ public class ItemDatabase
 
 			String descId = (String) entry.getValue();
 			String name = ItemDatabase.getItemDataName( nextInteger );
+			String image = ItemDatabase.getImage( itemId );
 			String plural = ItemDatabase.getPluralById( itemId );
-			writer.println( ItemDatabase.itemdescString( itemId, descId, name, plural ) );
+			writer.println( ItemDatabase.itemdescString( itemId, descId, image, name, plural ) );
 		}
 
 		writer.close();
 	}
 
-	public static String itemdescString( final int itemId, final String descId, final String name, final String plural)
+	public static String itemdescString( final int itemId, final String descId, final String image, final String name, final String plural)
 	{
-		return itemId + "\t" + descId + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural );
+		return itemId + "\t" + descId + "\t" + image + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural );
 	}
 
 	private static void readItemDescriptions()
@@ -523,7 +525,7 @@ public class ItemDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length < 2 )
+			if ( data.length < 3 )
 			{
 				continue;
 			}
@@ -539,9 +541,12 @@ public class ItemDatabase
 				ItemDatabase.itemIdByDescription.put( descId, id );
 			}
 
-			if ( data.length > 3 )
+			String image = data[2];
+			ItemDatabase.imageById.set( itemId, image );
+
+			if ( data.length > 4 )
 			{
-				String plural = new String( data[ 3 ] );
+				String plural = new String( data[ 4 ] );
 				ItemDatabase.pluralById.set( itemId, plural );
 				ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
 			}
@@ -1055,7 +1060,8 @@ public class ItemDatabase
 		String descId = ItemDatabase.getDescriptionId( id );
 		int itemId = id.intValue();
 
-		String text = DebugDatabase.itemDescriptionText( itemId );
+		String rawText = DebugDatabase.rawItemDescriptionText( itemId );
+		String text = DebugDatabase.itemDescriptionText( rawText );
 		if ( text == null )
 		{
 			// Assume defaults
@@ -1065,6 +1071,9 @@ public class ItemDatabase
 			ItemDatabase.priceById.set( itemId, 0 );
 			return;
 		}
+
+		String image = DebugDatabase.parseImage( rawText );
+		ItemDatabase.imageById.set( itemId, image );
 
 		// Parse use type, access, and price from description
 		String type = DebugDatabase.parseType( text );
@@ -1088,7 +1097,8 @@ public class ItemDatabase
 		RequestLogger.printLine( ItemDatabase.tradeitemString( itemId, itemName, usage, attrs, access, price ) );
 
 		String plural = ItemDatabase.getPluralById( itemId );
-		RequestLogger.printLine( ItemDatabase.itemdescString( itemId, descId, itemName, plural ) );
+
+		RequestLogger.printLine( ItemDatabase.itemdescString( itemId, descId, image, itemName, plural ) );
 
 		if ( EquipmentDatabase.isEquipment( usage ) )
 		{
@@ -1450,6 +1460,16 @@ public class ItemDatabase
 	public static final String getPluralById( final int itemId )
 	{
 		return pluralById.get( itemId );
+	}
+
+	public static final String getImage( final int itemId )
+	{
+		return imageById.get( itemId );
+	}
+
+	public static final void setImage( final int itemId, final String image )
+	{
+		imageById.set( itemId, image );
 	}
 
 	public static final Integer getLevelReqByName( final String name )

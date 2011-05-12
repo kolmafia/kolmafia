@@ -5123,3 +5123,8 @@
 5114
 5115
 5116	A. W. O. L. commendation	usable	display	0
+5117
+5118
+5119
+5120
+5121	Admiral's hat	hat	all	0
