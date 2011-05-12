@@ -350,7 +350,7 @@ public interface KoLConstants
 	public static final int FOLDGROUPS_VERSION = 1;
 	public static final int FULLNESS_VERSION = 1;
 	public static final int INEBRIETY_VERSION = 1;
-	public static final int ITEMDESCS_VERSION = 1;
+	public static final int ITEMDESCS_VERSION = 2;
 	public static final int MODIFIERS_VERSION = 2;
 	public static final int MONSTERS_VERSION = 4;
 	public static final int NONFILLING_VERSION = 1;
