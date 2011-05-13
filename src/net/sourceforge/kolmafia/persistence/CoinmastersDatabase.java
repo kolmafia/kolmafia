@@ -88,6 +88,8 @@ public class CoinmastersDatabase
 
 	private static final Map lighthouseItems = new TreeMap();
 
+	public static int AWOLtattoo = 0;
+
 	static
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "coinmasters.txt", KoLConstants.COINMASTERS_VERSION );
@@ -96,12 +98,13 @@ public class CoinmastersDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length == 3 )
+			if ( data.length >= 3 )
 			{
 				String code = data[0];
 				int price = StringUtilities.parseInt( data[ 1 ] );
 				Integer iprice = new Integer( price );
-				String name = StringUtilities.getCanonicalName( data[2] );
+				String rname = data[2];
+				String name = StringUtilities.getCanonicalName( rname );
 				if ( code.equals( "sd" ) )
 				{
 					// Something we sell for dimes
@@ -208,7 +211,10 @@ public class CoinmastersDatabase
 				else if ( code.equals( "bac" ) )
 				{
 					// Something we buy with A. W. O. L. commendations
-					AdventureResult item = new AdventureResult( name, 0, false );
+					int itemId = ( data.length > 3 ) ?
+						StringUtilities.parseInt( data[ 3 ] ) :
+						ItemDatabase.getItemId( name, 1 );
+					AdventureResult item = AdventureResult.tallyItem( rname, itemId );
 					buyForCommendations.add( item );
 					commendationBuyPriceByName.put( name, iprice );
 				}
@@ -263,6 +269,26 @@ public class CoinmastersDatabase
 		if ( name.equals( "a crimbo carol, ch. 6" ) )
 		{
 			return KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF );
+		}
+		if ( name.equals( "a. w. o. l. tattoo #1" ) )
+		{
+			return CoinmastersDatabase.AWOLtattoo == 1;
+		}
+		if ( name.equals( "a. w. o. l. tattoo #2" ) )
+		{
+			return CoinmastersDatabase.AWOLtattoo == 2;
+		}
+		if ( name.equals( "a. w. o. l. tattoo #3" ) )
+		{
+			return CoinmastersDatabase.AWOLtattoo == 3;
+		}
+		if ( name.equals( "a. w. o. l. tattoo #4" ) )
+		{
+			return CoinmastersDatabase.AWOLtattoo == 4;
+		}
+		if ( name.equals( "a. w. o. l. tattoo #5" ) )
+		{
+			return CoinmastersDatabase.AWOLtattoo == 5;
 		}
 
 		return true;

@@ -244,3 +244,8 @@ bac	1	Ultrasoldier Serum
 bac	5	Field Guide to Skeletal Anatomy
 bac	20	mirrored aviator shades
 bac	50	leather aviator's cap
+bac	1	A. W. O. L. Tattoo #1	1
+bac	10	A. W. O. L. Tattoo #2	2
+bac	25	A. W. O. L. Tattoo #3	3
+bac	50	A. W. O. L. Tattoo #4	4
+bac	100	A. W. O. L. Tattoo #5	5

@@ -33,9 +33,12 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -94,6 +97,7 @@ public class CoinMasterRequest
 			"availableLucre",
 			CoinMasterRequest.ITEMID_PATTERN,
 			CoinMasterRequest.HOWMANY_PATTERN,
+			CoinmastersDatabase.getLucreItems(),
 			CoinmastersDatabase.lucreBuyPrices(),
 			null,
 		},
@@ -107,6 +111,7 @@ public class CoinMasterRequest
 			"availableDimes",
 			CoinMasterRequest.ITEMID_PATTERN,
 			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.getDimeItems(),
 			CoinmastersDatabase.dimeBuyPrices(),
 			CoinmastersDatabase.dimeSellPrices(),
 		},
@@ -120,6 +125,7 @@ public class CoinMasterRequest
 			"availableQuarters",
 			CoinMasterRequest.ITEMID_PATTERN,
 			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.getQuarterItems(),
 			CoinmastersDatabase.quarterBuyPrices(),
 			CoinmastersDatabase.quarterSellPrices(),
 		},
@@ -133,6 +139,7 @@ public class CoinMasterRequest
 			"availableSandDollars",
 			CoinMasterRequest.ITEMID_PATTERN,
 			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.getSandDollarItems(),
 			CoinmastersDatabase.sandDollarBuyPrices(),
 			null,
 		},
@@ -146,6 +153,7 @@ public class CoinMasterRequest
 			"availableTickets",
 			CoinMasterRequest.ITEMID_PATTERN,
 			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.getTicketItems(),
 			CoinmastersDatabase.ticketBuyPrices(),
 			null,
 		},
@@ -159,6 +167,7 @@ public class CoinMasterRequest
 			"availableStoreCredits",
 			CoinMasterRequest.ITEMID_PATTERN,
 			CoinMasterRequest.QUANTITY_PATTERN,
+			CoinmastersDatabase.getStoreCreditItems(),
 			CoinmastersDatabase.storeCreditBuyPrices(),
 			CoinmastersDatabase.storeCreditSellPrices(),
 		},
@@ -172,6 +181,7 @@ public class CoinMasterRequest
 			"availableSnackVouchers",
 			CoinMasterRequest.SNACK_PATTERN,
 			null,
+			CoinmastersDatabase.getSnackVoucherItems(),
 			CoinmastersDatabase.snackVoucherBuyPrices(),
 			null,
 		},
@@ -185,6 +195,7 @@ public class CoinMasterRequest
 			"availableCrimbux",
 			CoinMasterRequest.ITEMID_PATTERN,
 			CoinMasterRequest.HOWMANY_PATTERN,
+			CoinmastersDatabase.getCrimbuckItems(),
 			CoinmastersDatabase.crimbuckBuyPrices(),
 			null,
 		},
@@ -198,6 +209,7 @@ public class CoinMasterRequest
 			"availableCRIMBCOScrip",
 			CoinMasterRequest.ITEMID_PATTERN,
 			CoinMasterRequest.HOWMANY_PATTERN,
+			CoinmastersDatabase.getScripItems(),
 			CoinmastersDatabase.scripBuyPrices(),
 			null,
 		},
@@ -211,6 +223,7 @@ public class CoinMasterRequest
 			"availableBoneChips",
 			CoinMasterRequest.ITEMID_PATTERN,
 			null,
+			CoinmastersDatabase.getBoneChipItems(),
 			CoinmastersDatabase.boneChipBuyPrices(),
 			null,
 		},
@@ -224,6 +237,7 @@ public class CoinMasterRequest
 			"availableCommendations",
 			CoinMasterRequest.TOBUY_PATTERN,
 			CoinMasterRequest.HOWMANY_PATTERN,
+			CoinmastersDatabase.getCommendationItems(),
 			CoinmastersDatabase.commendationBuyPrices(),
 			null,
 		},
@@ -312,14 +326,19 @@ public class CoinMasterRequest
 		return pattern == null ? null : pattern.matcher( string );
 	}
 
+	private static LockableListModel recordBuyItems( final Object [] record )
+	{
+		return record == null ? null : (LockableListModel)record[9];
+	}
+
 	private static Map recordBuyPrices( final Object [] record )
 	{
-		return record == null ? null : (Map)record[9];
+		return record == null ? null : (Map)record[10];
 	}
 
 	private static Map recordSellPrices( final Object [] record )
 	{
-		return record == null ? null : (Map)record[10];
+		return record == null ? null : (Map)record[11];
 	}
 
 	private static String tokenToMaster( final String token )
@@ -350,6 +369,20 @@ public class CoinMasterRequest
 	private static AdventureResult masterToItem( final String master )
 	{
 		return CoinMasterRequest.recordItem( CoinMasterRequest.masterToRecord( master ) );
+	}
+
+	private static AdventureResult findItem( final int itemId, final LockableListModel items )
+	{
+		Iterator it = items.iterator();
+		while ( it.hasNext() )
+		{
+			AdventureResult item = (AdventureResult)it.next();
+			if ( item.getItemId() == itemId )
+			{
+				return item;
+			}
+		}
+		return null;
 	}
 
 	private final String token;
@@ -670,6 +703,7 @@ public class CoinMasterRequest
 		CoinmastersFrame.externalUpdate();
 	}
 
+	private static final Pattern TATTOO_PATTERN = Pattern.compile( "sigils/aol(\\d+).gif" );
 	public static void parseAWOLVisit( final String location, final String responseText )
 	{
 		// If you don't have enough commendations, you are redirected to inventory.php
@@ -688,6 +722,11 @@ public class CoinMasterRequest
 		// You have 50 A. W. O. L. commendations.
 
 		CoinMasterRequest.parseBalance( AWOL, responseText );
+
+		// Check which tattoo - if any - is for sale: sigils/aol3.gif
+		Matcher m = TATTOO_PATTERN.matcher( responseText );
+		CoinmastersDatabase.AWOLtattoo = m.find() ? StringUtilities.parseInt( m.group( 1 ) ) : 0;
+
 		CoinmastersFrame.externalUpdate();
 	}
 
@@ -1160,7 +1199,9 @@ public class CoinMasterRequest
 		}
 
 		int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
-		String name = ItemDatabase.getItemName( itemId );
+		LockableListModel items = CoinMasterRequest.recordBuyItems( record );
+		AdventureResult item = CoinMasterRequest.findItem( itemId, items );
+		String name = item.getName();
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 
@@ -1171,10 +1212,10 @@ public class CoinMasterRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName );
 
-		AdventureResult item = CoinMasterRequest.recordItem( record );
-		if ( item != null )
+		AdventureResult tokenItem = CoinMasterRequest.recordItem( record );
+		if ( tokenItem != null )
 		{
-			AdventureResult current = item.getInstance( -cost );
+			AdventureResult current = tokenItem.getInstance( -cost );
 			ResultProcessor.processResult( current );
 		}
 
