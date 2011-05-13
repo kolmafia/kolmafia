@@ -305,6 +305,14 @@ public class AdventureResult
 		return item;
 	}
 
+	public static final AdventureResult tallyItem( final String name, final int itemId )
+	{
+		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
+		item.priority = AdventureResult.ITEM_PRIORITY;
+		item.itemId = itemId;
+		return item;
+	}
+
 	public static final AdventureResult tallyItem( final String name, final int count, final boolean setItemId )
 	{
 		AdventureResult item = AdventureResult.tallyItem( name, setItemId );
