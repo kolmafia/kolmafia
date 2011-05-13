@@ -1970,17 +1970,15 @@ public abstract class RuntimeLibrary
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, files.length );
 		ArrayValue value = new ArrayValue( type );
 
-		String filename;
-		BufferedReader reader;
 		StringBuffer contents = new StringBuffer();
 
 		for ( int i = 0; i < files.length; ++i )
 		{
-			contents.setLength( 0 );
-			filename =
+			String filename =
 				StringUtilities.globalStringReplace( name, " ", "_" ) + "_" + KoLConstants.DAILY_FORMAT.format( timestamp.getTime() ) + ".txt";
 
-			reader = FileUtilities.getReader( new File( KoLConstants.SESSIONS_DIRECTORY, filename ) );
+			File path = new File( KoLConstants.SESSIONS_LOCATION, filename );
+			BufferedReader reader = FileUtilities.getReader( path );
 			timestamp.add( Calendar.DATE, -1 );
 
 			if ( reader == null )
@@ -1990,6 +1988,7 @@ public abstract class RuntimeLibrary
 
 			try
 			{
+				contents.setLength( 0 );
 				String line;
 
 				while ( ( line = reader.readLine() ) != null )
