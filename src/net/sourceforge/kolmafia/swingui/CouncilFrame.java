@@ -129,6 +129,13 @@ public class CouncilFrame
 		{
 			CoinMasterRequest.parseBigBrotherVisit( location, responseText );
 		}
+		else if ( location.startsWith( "inv_use" ) )
+		{
+			if ( location.indexOf( "whichitem=5116" ) != -1 )
+			{
+				CoinMasterRequest.parseAWOLVisit( location, responseText );
+			}
+		}
 		else if ( location.startsWith( "adventure" ) )
 		{
 			if ( location.indexOf( "216" ) != -1 )

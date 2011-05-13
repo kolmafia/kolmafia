@@ -60,6 +60,7 @@ public class CoinMasterRequest
 {
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern SNACK_PATTERN = Pattern.compile( "whichsnack=(\\d+)" );
+	private static final Pattern TOBUY_PATTERN = Pattern.compile( "tobuy=(\\d+)" );
 	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
@@ -75,8 +76,11 @@ public class CoinMasterRequest
 	private static final String CRIMBOCARTEL = "Crimbo Cartel";
 	private static final String CRIMBCOGIFTSHOP = "CRIMBCO Gift Shop";
 	private static final String ALTAROFBONES = "Altar of Bones";
+	private static final String AWOL = "A. W. O. L. Quartermaster";
 
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips|CRIMBCO scrip|store credit|free snack voucher)" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips|CRIMBCO scrip|store credit|free snack voucher|A. W. O. L. commendation)" );
+
+	private static String lastURL = null;
 
 	private static final Object [][] MASTERS = new Object[][]
 	{
@@ -208,6 +212,19 @@ public class CoinMasterRequest
 			CoinMasterRequest.ITEMID_PATTERN,
 			null,
 			CoinmastersDatabase.boneChipBuyPrices(),
+			null,
+		},
+		{
+			AWOL,
+			"commendation",
+			"A. W. O. L. commendation",
+			"inv_use.php",
+			null,
+			CoinmastersFrame.AWOL,
+			"availableCommendations",
+			CoinMasterRequest.TOBUY_PATTERN,
+			CoinMasterRequest.HOWMANY_PATTERN,
+			CoinmastersDatabase.commendationBuyPrices(),
 			null,
 		},
 	};
@@ -350,6 +367,8 @@ public class CoinMasterRequest
 
 		this.token = token;
 		this.master = CoinMasterRequest.tokenToMaster( token );
+		this.itemField = "whichitem";
+		this.single = false;
 
 		if ( master == HIPPY )
 		{
@@ -361,28 +380,36 @@ public class CoinMasterRequest
 			this.addFormField( "place", "camp" );
 			this.addFormField( "whichcamp", "2" );
 		}
-
-		this.itemField = ( this.master == FREESNACKS ) ? "whichsnack" : "whichitem";
-		this.single = ( this.master == FREESNACKS );
+		else if ( master == FREESNACKS )
+		{
+			this.itemField = "whichsnack";
+			this.single = true;
+		}
+		else if ( master == AWOL )
+		{
+			this.addFormField( "whichitem", "5116" );
+			this.addFormField( "which", "3" );
+			this.addFormField( "ajax", "1" );
+			this.itemField = "tobuy";
+		}
 	}
 
 	public CoinMasterRequest( final String token, final String action )
 	{
 		this( token );
-		this.action = action;
-		this.addFormField( "action", action );
-	}
-
-	public CoinMasterRequest( final String token, final String action, final int itemId )
-	{
-		this( token, action );
-		this.itemId = itemId;
-		this.addFormField( this.itemField, String.valueOf( itemId ) );
+		if ( action != null )
+		{
+			this.action = action;
+			this.addFormField( "action", action );
+		}
 	}
 
 	public CoinMasterRequest( final String token, final String action, final int itemId, final int quantity )
 	{
-		this( token, action, itemId );
+		this( token, action );
+
+		this.itemId = itemId;
+		this.addFormField( this.itemField, String.valueOf( itemId ) );
 		this.quantity = quantity;
 
 		if ( master == HIPPY || master == FRATBOY || master == TICKETCOUNTER || master == GAMESHOPPE )
@@ -398,6 +425,17 @@ public class CoinMasterRequest
 		{
 			this.addFormField( "howmany", String.valueOf( quantity ) );
 		}
+		else if ( master == AWOL )
+		{
+			this.removeFormField( "which" );
+			this.addFormField( "howmany", String.valueOf( quantity ) );
+			this.addFormField( "doit", "69" );
+		}
+	}
+
+	public CoinMasterRequest( final String token, final String action, final int itemId )
+	{
+		this( token, action, itemId, 1 );
 	}
 
 	public CoinMasterRequest( final String token, final String action, final AdventureResult ar )
@@ -632,6 +670,27 @@ public class CoinMasterRequest
 		CoinmastersFrame.externalUpdate();
 	}
 
+	public static void parseAWOLVisit( final String location, final String responseText )
+	{
+		// If you don't have enough commendations, you are redirected to inventory.php
+		if ( location.startsWith( "inventory.php" ) )
+		{
+			if ( responseText.indexOf( "You don't have enough commendations" ) != -1 )
+			{
+				CoinMasterRequest.refundPurchase( CoinMasterRequest.lastURL, AWOL );
+				CoinMasterRequest.parseBalance( AWOL, responseText );
+				CoinmastersFrame.externalUpdate();
+			}
+			return;
+		}
+
+		// inv_use.php?whichitem=5116&pwd&doit=69&tobuy=xxx&howmany=yyy
+		// You have 50 A. W. O. L. commendations.
+
+		CoinMasterRequest.parseBalance( AWOL, responseText );
+		CoinmastersFrame.externalUpdate();
+	}
+
 	public static String findCampMaster( final String urlString )
 	{
 		Matcher campMatcher = CoinMasterRequest.CAMP_PATTERN.matcher( urlString );
@@ -834,6 +893,11 @@ public class CoinMasterRequest
 		if ( urlString.startsWith( "bigisland.php" ) )
 		{
 			return registerIslandRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "inv_use.php" ) )
+		{
+			return registerAWOLRequest( urlString );
 		}
 
 		return false;
@@ -1042,6 +1106,26 @@ public class CoinMasterRequest
 		else if ( action.equals( "turnin" ) )
 		{
 			CoinMasterRequest.sellStuff( urlString, master );
+		}
+
+		return true;
+	}
+
+	private static final boolean registerAWOLRequest( final String urlString )
+	{
+		// inv_use.php?whichitem=5116&pwd&doit=69&tobuy=xxx&howmany=yyy
+		if ( urlString.indexOf( "whichitem=5116" ) == -1 )
+		{
+			return false;
+		}
+
+		// Save URL. If request fails, we are redirected to inventory.php
+		CoinMasterRequest.lastURL = urlString;
+
+		if ( urlString.indexOf( "doit=69" ) != -1 && urlString.indexOf( "tobuy" ) != -1	 )
+		{
+			CoinMasterRequest.buyStuff( urlString, AWOL );
+			return true;
 		}
 
 		return true;

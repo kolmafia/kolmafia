@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
@@ -537,6 +538,7 @@ public abstract class StaticEntity
 			     location.indexOf( "action=breakbricko" ) != -1 )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
+				CoinMasterRequest.parseAWOLVisit( location, responseText );
 			}
 
 			// If there is a binge message, parse it
