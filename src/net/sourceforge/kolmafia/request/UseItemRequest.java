@@ -4153,6 +4153,13 @@ public class UseItemRequest
 			return ClosetRequest.registerRequest( urlString );
 		}
 
+		// A. W. O. L. commendation
+		if ( urlString.indexOf( "whichitem=5116" ) != -1 )
+		{
+			UseItemRequest.lastItemUsed = null;
+			return CoinMasterRequest.registerRequest( urlString );
+		}
+
 		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );
 		if ( UseItemRequest.lastItemUsed == null )
 		{

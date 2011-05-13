@@ -83,6 +83,9 @@ public class CoinmastersDatabase
 	private static final LockableListModel buyForSnackVouchers = new LockableListModel();
 	private static final Map snackVoucherBuyPriceByName = new TreeMap();
 
+	private static final LockableListModel buyForCommendations = new LockableListModel();
+	private static final Map commendationBuyPriceByName = new TreeMap();
+
 	private static final Map lighthouseItems = new TreeMap();
 
 	static
@@ -201,6 +204,13 @@ public class CoinmastersDatabase
 					AdventureResult item = new AdventureResult( name, 0, false );
 					buyForSnackVouchers.add( item );
 					snackVoucherBuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "bac" ) )
+				{
+					// Something we buy with A. W. O. L. commendations
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForCommendations.add( item );
+					commendationBuyPriceByName.put( name, iprice );
 				}
 			}
 		}
@@ -371,6 +381,16 @@ public class CoinmastersDatabase
 	public static final Map snackVoucherBuyPrices()
 	{
 		return snackVoucherBuyPriceByName;
+	}
+
+	public static final LockableListModel getCommendationItems()
+	{
+		return buyForCommendations;
+	}
+
+	public static final Map commendationBuyPrices()
+	{
+		return commendationBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()

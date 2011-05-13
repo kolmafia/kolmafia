@@ -85,6 +85,7 @@ public class CoinmastersFrame
 	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, -1 );
 	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, -1 );
 	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, -1 );
+	public static final AdventureResult AWOL = ItemPool.get( ItemPool.AWOL_COMMENDATION, -1 );
 
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
 	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
@@ -104,6 +105,7 @@ public class CoinmastersFrame
 	private static int tickets = 0;
 	private static int storeCredits = 0;
 	private static int snackVouchers = 0;
+	private static int commendations = 0;
 
 	private static int boneChips = 0;
 	private static int crimbux = 0;
@@ -116,6 +118,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel ticketPanel = null;
 	private CoinmasterPanel storeCreditPanel = null;
 	private CoinmasterPanel snackVoucherPanel = null;
+	private CoinmasterPanel commendationPanel = null;
 
 	private CoinmasterPanel boneChipPanel = null;
 	private CoinmasterPanel crimbuckPanel = null;
@@ -160,6 +163,11 @@ public class CoinmastersFrame
 		snackVoucherPanel = new SnackVoucherPanel();
 		panel.add( snackVoucherPanel );
 		this.tabs.add( "Game Shoppe Snacks", panel );
+
+		panel = new JPanel( new BorderLayout() );
+		commendationPanel = new CommendationPanel();
+		panel.add( commendationPanel );
+		this.tabs.add( "A. W. O. L. Quartermaster", panel );
 
 		// panel = new JPanel( new BorderLayout() );
 		// boneChipPanel = new AltarOfBonesPanel();
@@ -217,6 +225,8 @@ public class CoinmastersFrame
 		storeCredits = Preferences.getInteger( "availableStoreCredits" );
 		snackVouchers = VOUCHER.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableSnackVouchers", snackVouchers );
+		commendations = AWOL.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableCommendations", commendations );
 
 		crimbux = CRIMBUCK.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableCrimbux", crimbux );
@@ -237,6 +247,7 @@ public class CoinmastersFrame
 		ticketPanel.update();
 		storeCreditPanel.update();
 		snackVoucherPanel.update();
+		commendationPanel.update();
 		// boneChipPanel.update();
 		// crimbuckPanel.update();
 		// scripPanel.update();
@@ -618,6 +629,53 @@ public class CoinmastersFrame
 
 		public boolean accessible()
 		{
+			return true;
+		}
+
+		public void equip()
+		{
+		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
+		}
+	}
+
+	private class CommendationPanel
+		extends CoinmasterPanel
+	{
+		public CommendationPanel()
+		{
+			super( CoinmastersDatabase.getCommendationItems(),
+			       null,
+			       CoinmastersDatabase.commendationBuyPrices(),
+			       "availableCommendations",
+			       "commendation",
+			       "A. W. O. L. Quartermaster",
+				null );
+			buyAction = null;
+		}
+
+		public void update()
+		{
+		}
+
+		public boolean enabled()
+		{
+			// You access the Quartermaster by "using" an
+			// A. W. O. L. commendation
+			return commendations > 0;
+		}
+
+		public boolean accessible()
+		{
+			if ( commendations <= 0 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't any A. W. O. L. commendations" );
+				return false;
+			}
+
 			return true;
 		}
 
