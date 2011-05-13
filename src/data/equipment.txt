@@ -132,6 +132,7 @@ irate sombrero	45	Mox: 7
 ironic knit cap	40	Mox: 5
 jewel-eyed wizard hat	10	none
 knobby helmet turtle	20	none
+leather aviator's cap	0	Mox: 10
 leather mask	60	Mox: 15
 lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
@@ -1496,6 +1497,7 @@ makeshift cape	100	Mys: 35
 malevolent medallion	200	Mys: 150
 mayfly bait necklace	0	none
 memory of a cultist's robe	10	none
+mirrored aviator shades	0	none
 molten medallion	160	Mys: 65
 monster bait	10	none
 monstrous monocle	160	Mus: 65
