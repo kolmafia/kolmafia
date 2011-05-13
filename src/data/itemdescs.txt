@@ -5120,3 +5120,13 @@
 5119
 5120
 5121	423441910	admiralhat.gif	Admiral's hat
+5122	558813843	aviatorcap.gif	leather aviator's cap
+5123	492344434	chestershades.gif	mirrored aviator shades
+5124	118009884	book.gif	Field Guide to Skeletal Anatomy
+5125
+5126
+5127
+5128
+5129
+5130
+5131	198733102	potion1.gif	Ultrasoldier Serum

@@ -75,6 +75,7 @@
 60	Lunch Break	1	10	0
 61	Offensive Joke	5	15	0
 62	Managerial Manipulation	4	5	20
+63	Natural Born Skeleton Killer	0	0	0
 
 # Skills available to Clubbers
 
