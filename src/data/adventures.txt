@@ -226,3 +226,4 @@ Pandamonium	adventure=243	true	Hey Deze Arena	5 bus pass
 Events	invasion=1	true	A Swarm of Yeti-Mounted Skeletons
 Events	invasion=2	true	The Bonewall
 Events	invasion=3	true	A Massive Flying Battleship
+Events	invasion=4	true	A Supply Train
