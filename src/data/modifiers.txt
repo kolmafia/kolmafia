@@ -2376,6 +2376,7 @@ Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Apoplectic with Rage	Mysticality Percent: -10
 Arabian Knighthood	Muscle Percent: +5
 Arcane in the Brain	Mana Cost (stackable): -3
+Army of One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Arse-a'fire	Muscle Percent: +10, Initiative: +25
 Artificially Sweet	Moxie Percent: +100
 Aspect of the GravyPlum Fairy	Item Drop: +10
@@ -3410,6 +3411,7 @@ Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
+Ultrasoldier Serum	Effect: "Army of One", Effect Duration: 50
 Wax Flask	Effect: "Over The Ocean"
 Wint-O-Fresh mint	Effect: "Sugar Rush", Effect Duration: 3
 Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
