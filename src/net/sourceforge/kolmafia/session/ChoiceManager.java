@@ -1506,7 +1506,7 @@ public abstract class ChoiceManager
 		// A Swarm of Yeti-Mounted Skeletons
 		new ChoiceAdventure(
 			"Events", "choiceAdventure529", "Skeleton Swarm",
-			new String[] { "Use Melee Weapons", "Use Spells", "Use Ranged Weapons" } ),
+			new String[] { "Weapon Damage", "Spell Damage", "Ranged Damage" } ),
 
 		// It Was Then That...  Aaaaaaaah!
 		new ChoiceAdventure(
@@ -1514,17 +1514,17 @@ public abstract class ChoiceManager
 			new String[] { "hideous egg", "skip the adventure" },
 			new String[] { "5106", null } ),
 
-		// A Bone Wall
+		// The Bonewall Is In
 		new ChoiceAdventure(
 			"Events", "choiceAdventure531", "Bonewall",
-			new String[] { "Pull Key Bones", "Ram Wall" } ),
+			new String[] { "Item Drop", "HP Bonus" } ),
 
-		// xxx
+		// You'll Sink His Battleship
 		new ChoiceAdventure(
 			"Events", "choiceAdventure532", "Battleship",
-			new String[] { "Use Skills", "Play Your Accordion" } ),
+			new String[] { "Class Skills", "Accordion Thief Songs" } ),
 		
-		// A Supply Train
+		// Train, Train, Choo-Choo Train
 		new ChoiceAdventure(
 			"Events", "choiceAdventure533", "Supply Train",
 			new String[] { "Meat Drop", "Pressure Penalty Modifiers" } ),
