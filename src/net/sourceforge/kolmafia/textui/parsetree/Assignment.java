@@ -126,6 +126,10 @@ public class Assignment
 		{
 			newValue = this.lhs.setValue( interpreter, value.toFloatValue(), oper );
 		}
+		else if ( this.lhs.getType().equals( DataTypes.TYPE_BOOLEAN ) )
+		{
+			newValue = this.lhs.setValue( interpreter, value.toBooleanValue(), oper );
+		}
 		else
 		{
 			newValue = this.lhs.setValue( interpreter, value );
