@@ -1528,6 +1528,12 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Events", "choiceAdventure533", "Supply Train",
 			new String[] { "Meat Drop", "Pressure Penalty Modifiers" } ),
+		
+		// That's No Bone Moon...
+		new ChoiceAdventure(
+			"Events", "choiceAdventure534", "Bone Star",
+			new String[] { "Torpedos", "Initiative", "Monster Level" },
+			new String[] { "630", null, null } ),
 
 	};
 
@@ -3075,6 +3081,7 @@ public abstract class ChoiceManager
 		case 531:
 		case 532:
 		case 533:
+		case 534:
 			Matcher skeletonMatcher = SKELETON_PATTERN.matcher( text );
 			if ( skeletonMatcher.find() )
 			{
