@@ -227,3 +227,4 @@ Events	invasion=1	true	A Swarm of Yeti-Mounted Skeletons
 Events	invasion=2	true	The Bonewall
 Events	invasion=3	true	A Massive Flying Battleship
 Events	invasion=4	true	A Supply Train
+Events	invasion=5	true	The Bone Star
