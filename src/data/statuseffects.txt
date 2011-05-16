@@ -486,7 +486,7 @@
 485	El Tango de la Maldita Suegra	notes.gif	106410abe0c898c4b0f194b04eaada12	use 1 evil vihuela
 486	Innuendo Shopping	wink.gif	84f618526c7db5789fc68c3ecb940010	#wearing origami riding crop
 487	Well-preserved	drone3.gif	ba7b40665f789b6ffa055e2ad316263c	use 1 warm El Vibrato drone
-488
+488	El Vibrations	drone4.gif	89b4db9c4b1cde9cb5c10c6c1b2ca251	use 1 humming El Vibrato drone
 489	Inscrutable exoskeleton	drone5.gif	c281cb24d6830c8c01ecf4b8d28adff6	use 1 glowing El Vibrato drone
 490	Heavily Breathing	poolduck.gif	6871f3ff1a73bac71198e69ff813a4fe	#swimming with inflatable duck
 491	Marco Polarity	poolwings.gif	41324219854e4f2f933dcab7b4ec9f33	#swimming with water wings
