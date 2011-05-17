@@ -267,6 +267,16 @@ public abstract class MPRestoreItemList
 			return Math.min( this.manaPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
 		}
 
+		public boolean usableInCurrentPath()
+		{
+			if ( !KoLCharacter.getPath().equals( "Bees Hate You" ) )
+			{
+				return true;
+			}
+			String name = this.itemUsed.getName();
+			return name.indexOf( "b" ) == -1 && name.indexOf( "B" ) == -1 ;
+		}
+
 		public void recoverMP( final int needed, final boolean purchase )
 		{
 			if ( !KoLmafia.permitsContinue() )

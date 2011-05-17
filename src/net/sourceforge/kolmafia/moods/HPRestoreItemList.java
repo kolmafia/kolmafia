@@ -238,6 +238,16 @@ public abstract class HPRestoreItemList
 			return Math.min( this.healthPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
 		}
 
+		public boolean usableInCurrentPath()
+		{
+			if ( !KoLCharacter.getPath().equals( "Bees Hate You" ) )
+			{
+				return true;
+			}
+			String name = this.itemUsed.getName();
+			return name.indexOf( "b" ) == -1 && name.indexOf( "B" ) == -1 ;
+		}
+
 		public int compareTo( final Object o )
 		{
 			// Health restores are special because skills are preferred
