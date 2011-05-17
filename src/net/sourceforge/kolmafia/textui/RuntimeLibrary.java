@@ -1249,6 +1249,15 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "hidden_temple_unlocked", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "knoll_available", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "canadia_available", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "gnomads_available", DataTypes.BOOLEAN_TYPE, params ) );
+
 		// MMG support
 
 		params = new Type[] {};
@@ -4800,6 +4809,21 @@ public abstract class RuntimeLibrary
 	public static Value hidden_temple_unlocked()
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getTempleUnlocked() );
+	}
+
+	public static Value knoll_available()
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.knollAvailable() );
+	}
+
+	public static Value canadia_available()
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.canadiaAvailable() );
+	}
+
+	public static Value gnomads_available()
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.gnomadsAvailable() );
 	}
 
 	public static Value mmg_visit()

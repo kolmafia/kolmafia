@@ -3673,6 +3673,7 @@ public abstract class KoLCharacter
 
 		// Look at sign-specific adjustments
 		newModifiers.add( Modifiers.MONSTER_LEVEL, MCD, "MCD" );
+		newModifiers.add( Modifiers.getModifiers( "sign:" + KoLCharacter.ascensionSign ) );
 
 		// Certain outfits give benefits to the character
 		// Need to do this before the individual items, so that Hobo Power
