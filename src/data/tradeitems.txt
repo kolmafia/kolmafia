@@ -2973,7 +2973,7 @@
 2964	ball polish	usable	none	0
 2965	mizzenmast mop	usable	none	0
 2966	Tom's of the Spanish Main Toothpaste	none, combat	all	55
-2967	Swabbie&trade; swab	usable	all	35
+2967	Swabbie&trade; swab	multiple	all	35
 2968	Oil of Parrrlay	usable	all	55
 2969	creamsicle	food	all	55
 2970	cream stout	drink	all	55
@@ -3601,7 +3601,7 @@
 3592	Mer-kin takebag	offhand	all	400
 3593	Mer-kin thingpouch	multiple	all	250
 3594	Mer-kin killscroll	none, combat	all	100
-3595	Mer-kin fastjuice	usable	all	150
+3595	Mer-kin fastjuice	multiple	all	150
 3596	imitation crab crate	multiple	all	330
 3597	imitation crab meat	none, combat	all	50
 3598	imitation crab zoea	grow	all	0
