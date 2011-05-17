@@ -403,7 +403,7 @@ public abstract class UseLinkDecorator
 		switch ( mixingMethod )
 		{
 		case KoLConstants.COMBINE:
-			return new UseLink( itemId, itemCount, "combine", KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "craft.php?mode=combine&a=" );
+			return new UseLink( itemId, itemCount, "combine", KoLCharacter.knollAvailable() ? "knoll.php?place=paster" : "craft.php?mode=combine&a=" );
 
 		case KoLConstants.MIX:
 			return new UseLink( itemId, itemCount, "mix", "craft.php?mode=cocktail&a=" );

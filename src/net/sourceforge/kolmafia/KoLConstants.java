@@ -388,6 +388,10 @@ public interface KoLConstants
 	public static final int MOXIE = 3;
 	public static final int BAD_MOON = 4;
 
+	public static final int KNOLL = 1;
+	public static final int CANADIA = 2;
+	public static final int GNOMADS = 3;
+
 	// Weapon Types
 
 	public static final int MELEE = 1;

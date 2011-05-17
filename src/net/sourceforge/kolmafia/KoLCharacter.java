@@ -324,6 +324,8 @@ public abstract class KoLCharacter
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";
 	private static int ascensionSignType = KoLConstants.NONE;
+	private static int ascensionSignZone = KoLConstants.NONE;
+	private static String ascensionPath = "None";
 	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 	private static int mindControlLevel = 0;
 
@@ -595,6 +597,9 @@ public abstract class KoLCharacter
 		KoLCharacter.ascensions = 0;
 		KoLCharacter.ascensionSign = "None";
 		KoLCharacter.ascensionSignType = KoLConstants.NONE;
+		KoLCharacter.ascensionSignZone = KoLConstants.NONE;
+		KoLCharacter.ascensionPath = "None";
+		KoLCharacter.consumptionRestriction = AscensionSnapshot.NOPATH;
 
 		KoLCharacter.mindControlLevel = 0;
 
@@ -2449,6 +2454,17 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method for the character's zodiac sign zone
+	 *
+	 * @return int
+	 */
+
+	public static final int getSignZone()
+	{
+		return KoLCharacter.ascensionSignZone;
+	}
+
+	/**
 	 * Accessor method to set a character's ascension count
 	 *
 	 * @param ascensions the new ascension count
@@ -2474,27 +2490,96 @@ public abstract class KoLCharacter
 
 		KoLCharacter.ascensionSign = ascensionSign;
 
-		if ( ascensionSign.equals( "Wallaby" ) || ascensionSign.equals( "Mongoose" ) || ascensionSign.equals( "Vole" ) )
+		// Determine the sign "type" --> the stat that gets +10% XP bonus
+		// Determine the sign "zone" --> the NPC area available for shopping
+
+		if ( ascensionSign.equals( "Mongoose" ) )
 		{
 			KoLCharacter.ascensionSignType = KoLConstants.MUSCLE;
+			KoLCharacter.ascensionSignZone = KoLConstants.KNOLL;
 		}
-		else if ( ascensionSign.equals( "Platypus" ) || ascensionSign.equals( "Opossum" ) || ascensionSign.equals( "Marmot" ) )
+		if ( ascensionSign.equals( "Platypus" ) )
+		{
+			KoLCharacter.ascensionSignType = KoLConstants.MUSCLE;
+			KoLCharacter.ascensionSignZone = KoLConstants.CANADIA;
+		}
+		if ( ascensionSign.equals( "Wombat" ) )
+		{
+			KoLCharacter.ascensionSignType = KoLConstants.MUSCLE;
+			KoLCharacter.ascensionSignZone = KoLConstants.GNOMADS;
+		}
+		else if ( ascensionSign.equals( "Wallaby" ) )
 		{
 			KoLCharacter.ascensionSignType = KoLConstants.MYSTICALITY;
+			KoLCharacter.ascensionSignZone = KoLConstants.KNOLL;
 		}
-		else if ( ascensionSign.equals( "Wombat" ) || ascensionSign.equals( "Blender" ) || ascensionSign.equals( "Packrat" ) )
+		else if ( ascensionSign.equals( "Opossum" ) )
+		{
+			KoLCharacter.ascensionSignType = KoLConstants.MYSTICALITY;
+			KoLCharacter.ascensionSignZone = KoLConstants.CANADIA;
+		}
+		else if ( ascensionSign.equals( "Blender" ) )
+		{
+			KoLCharacter.ascensionSignType = KoLConstants.MYSTICALITY;
+			KoLCharacter.ascensionSignZone = KoLConstants.GNOMADS;
+		}
+		else if ( ascensionSign.equals( "Vole" ) )
 		{
 			KoLCharacter.ascensionSignType = KoLConstants.MOXIE;
+			KoLCharacter.ascensionSignZone = KoLConstants.KNOLL;
+		}
+		else if ( ascensionSign.equals( "Marmot" ) )
+		{
+			KoLCharacter.ascensionSignType = KoLConstants.MOXIE;
+			KoLCharacter.ascensionSignZone = KoLConstants.CANADIA;
+		}
+		else if ( ascensionSign.equals( "Packrat" ) )
+		{
+			KoLCharacter.ascensionSignType = KoLConstants.MOXIE;
+			KoLCharacter.ascensionSignZone = KoLConstants.GNOMADS;
 		}
 		else if ( ascensionSign.equals( "Bad Moon" ) )
 		{
 			KoLCharacter.ascensionSignType = KoLConstants.BAD_MOON;
+			KoLCharacter.ascensionSignZone = KoLConstants.NONE;
 		}
 		else
 		{
 			KoLCharacter.ascensionSignType = KoLConstants.NONE;
+			KoLCharacter.ascensionSignZone = KoLConstants.NONE;
 		}
 	}
+
+	/**
+	 * Accessor method for the character's path
+	 *
+	 * @return String
+	 */
+
+	public static final String getPath()
+	{
+		return KoLCharacter.ascensionPath;
+	}
+
+	public static final void setPath( final String path )
+	{
+		KoLCharacter.ascensionPath = path;
+		int restriction = 
+			path.equals( "Oxygenarian" ) ?
+			AscensionSnapshot.OXYGENARIAN :
+			path.equals( "Boozetafarian" ) ?
+			AscensionSnapshot.BOOZETAFARIAN :
+			path.equals( "Teetotaler" ) ?
+			AscensionSnapshot.TEETOTALER :
+			AscensionSnapshot.NOPATH;
+		KoLCharacter.consumptionRestriction = restriction;
+	}
+
+	/**
+	 * Accessor method for the character's consumption restrictions
+	 *
+	 * @return String
+	 */
 
 	public static final int getConsumptionRestriction()
 	{
@@ -2659,6 +2744,51 @@ public abstract class KoLCharacter
 	public static final boolean inBadMoon()
 	{
 		return KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON;
+	}
+
+	/**
+	 * Accessor method which indicates whether the character can go inside Degrassi Knoll.
+	 *
+	 * KoLmafia could/should use this to: -
+	 * Allow adventuring in The Bugbear Pens - Provide access to npcstore #4: The Degrassi Knoll Bakery - Provide access
+	 * to npcstore #5: The Degrassi Knoll General Store - Train Muscle in The Gym - Smith non-advanced things using
+	 * Innabox (no hammer/adventure) - Combine anything using The Plunger (no meat paste)
+	 *
+	 * @return <code>true</code> if the character Can go inside Degrassi Knoll
+	 */
+
+	public static final boolean knollAvailable()
+	{
+		return KoLCharacter.ascensionSignZone == KoLConstants.KNOLL;
+	}
+
+	/**
+	 * Accessor method which indicates whether the character can go to Little Canadia
+	 *
+	 * KoLmafia could/should use this to: -
+	 * Allow adventuring in Outskirts of Camp Logging Camp - Allow adventuring in Camp Logging Camp - Provide access to
+	 * npcstore #j: Little Canadia Jewelers - Train Mysticality in The Institute for Canadian Studies
+	 *
+	 * @return <code>true</code> if the character can go to Little Canadia
+	 */
+
+	public static final boolean canadiaAvailable()
+	{
+		return KoLCharacter.ascensionSignZone == KoLConstants.CANADIA;
+	}
+
+	/**
+	 * Accessor method which indicates whether the character can go to the Gnomish Gnomads Camp
+	 *
+	 * KoLmafia could/should use this to: -
+	 * Allow adventuring in Thugnderdome - Provide access to TINKER recipes - Train Moxie with Gnirf
+	 *
+	 * @return <code>true</code> if the character can go to the Gnomish Gnomads Camp
+	 */
+
+	public static final boolean gnomadsAvailable()
+	{
+		return KoLCharacter.ascensionSignZone == KoLConstants.GNOMADS;
 	}
 
 	/**

@@ -104,7 +104,7 @@ public class MicroBreweryRequest
 
 	public Object run()
 	{
-		if ( !KoLCharacter.inMoxieSign() )
+		if ( !KoLCharacter.gnomadsAvailable() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find " + this.name );
 			return null;
@@ -138,7 +138,7 @@ public class MicroBreweryRequest
 
 	public static final void getMenu()
 	{
-		if ( !KoLCharacter.inMoxieSign() )
+		if ( !KoLCharacter.gnomadsAvailable() )
 		{
 			return;
 		}

@@ -139,7 +139,7 @@ public class CreateItemRequest
 		String mode = null;
 		int method = this.mixingMethod & KoLConstants.CT_MASK;
 
-		if ( KoLCharacter.inMuscleSign() )
+		if ( KoLCharacter.knollAvailable() )
 		{
 			if ( method == KoLConstants.COMBINE )
 			{
@@ -624,7 +624,7 @@ public class CreateItemRequest
 			return 0;
 		}
 		
-		boolean paste = mode.equals( "combine" ) && !KoLCharacter.inMuscleSign();
+		boolean paste = mode.equals( "combine" ) && !KoLCharacter.knollAvailable();
 		int created = 0;
 
 		m = CRAFT_COMMENT_PATTERN.matcher( responseText );
@@ -828,7 +828,7 @@ public class CreateItemRequest
 
 		case KoLConstants.SMITH:
 
-			return KoLCharacter.inMuscleSign() || InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER );
+			return KoLCharacter.knollAvailable() || InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER );
 
 		case KoLConstants.SSMITH:
 
@@ -917,7 +917,7 @@ public class CreateItemRequest
 		boolean foundAllIngredients = true;
 
 		// If this is a combining request, you need meat paste as well.
-		if ( (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.COMBINE && !KoLCharacter.inMuscleSign() )
+		if ( (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.COMBINE && !KoLCharacter.knollAvailable() )
 		{
 			int pasteNeeded = this.concoction.getMeatPasteNeeded(
 				this.quantityNeeded + this.concoction.initial );
@@ -1082,7 +1082,7 @@ public class CreateItemRequest
 		switch ( this.mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.SMITH:
-			return KoLCharacter.inMuscleSign() ? 0 : Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
+			return KoLCharacter.knollAvailable() ? 0 : Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
 
 		case KoLConstants.SSMITH:
 			return Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );

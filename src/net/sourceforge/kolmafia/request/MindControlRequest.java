@@ -58,9 +58,9 @@ public class MindControlRequest
 	public MindControlRequest( final int level )
 	{
 		super(
-			KoLCharacter.inMysticalitySign() ? "canadia.php" : KoLCharacter.inMoxieSign() ? "gnomes.php" : "inv_use.php" );
+			KoLCharacter.canadiaAvailable() ? "canadia.php" : KoLCharacter.gnomadsAvailable() ? "gnomes.php" : "inv_use.php" );
 
-		if ( KoLCharacter.inMuscleSign() )
+		if ( KoLCharacter.knollAvailable() )
 		{
 			this.addFormField( "whichitem", String.valueOf( MindControlRequest.RADIO.getItemId() ) );
 			this.addFormField( "tuneradio", String.valueOf( level ) );
@@ -72,7 +72,7 @@ public class MindControlRequest
 		}
 
 		this.level = level;
-		this.maxLevel = KoLCharacter.inMysticalitySign() ? 11 : 10;
+		this.maxLevel = KoLCharacter.canadiaAvailable() ? 11 : 10;
 	}
 
 	protected boolean retryOnTimeout()
@@ -97,7 +97,7 @@ public class MindControlRequest
 			return null;
 		}
 
-		if ( KoLCharacter.inMuscleSign() && !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
+		if ( KoLCharacter.knollAvailable() && !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
 		{
 			return null;
 		}
@@ -121,7 +121,7 @@ public class MindControlRequest
 		}
 
 		Matcher levelMatcher =
-			KoLCharacter.inMuscleSign() ? MindControlRequest.MCD2_PATTERN.matcher( urlString ) : MindControlRequest.MCD1_PATTERN.matcher( urlString );
+			KoLCharacter.knollAvailable() ? MindControlRequest.MCD2_PATTERN.matcher( urlString ) : MindControlRequest.MCD1_PATTERN.matcher( urlString );
 
 		if ( !levelMatcher.find() )
 		{

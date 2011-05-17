@@ -299,16 +299,18 @@ public class AccountRequest
 		//
 		// <input class=button name="action" type="submit" value="Drop Oxygenarian">
 
-		int path = 
+		String path = 
 			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Oxygenarian\">" ) != -1 ?
-			AscensionSnapshot.OXYGENARIAN :
+			"Oxygenarian" :
 			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Boozetafarian\">" ) != -1 ?
-			AscensionSnapshot.BOOZETAFARIAN :
+			"Boozetafarian" :
 			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Teetotaler\">" ) != -1 ?
-			AscensionSnapshot.TEETOTALER :
-			AscensionSnapshot.NOPATH;
+			"Teetotaler" :
+			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Bees Hate You\">" ) != -1 ?
+			"Bees Hate You" :
+			"None";
 
-		KoLCharacter.setConsumptionRestriction( path );
+		KoLCharacter.setPath( path );
 
 		// Whether or not a player is currently in Bad Moon or hardcore
 		// is also found here through the presence of buttons.
@@ -567,19 +569,15 @@ public class AccountRequest
 
 		// Account options
 
-		String pathString = JSON.getString( "path" );
-		int path = 
-			pathString.equals( "Oxygenarian" ) ?
-			AscensionSnapshot.OXYGENARIAN :
-			pathString.equals( "Boozetafarian" ) ?
-			AscensionSnapshot.BOOZETAFARIAN :
-			pathString.equals( "Teetotaler" ) ?
-			AscensionSnapshot.TEETOTALER :
-			AscensionSnapshot.NOPATH;
-		KoLCharacter.setConsumptionRestriction( path );
-
 		String sign = JSON.getString( "sign" );
 		KoLCharacter.setSign( sign );
+
+		String path = JSON.getString( "path" );
+		if ( path.equals( "4" ) )
+		{
+			path = "Bees Hate You";
+		}
+		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
 		KoLCharacter.setHardcore( hardcore );

@@ -573,6 +573,12 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_hash", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_sign", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_path", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "in_muscle_sign", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -2636,7 +2642,7 @@ public abstract class RuntimeLibrary
 	public static Value daily_special()
 	{
 		AdventureResult special =
-			KoLCharacter.inMoxieSign() ? MicroBreweryRequest.getDailySpecial() : KoLCharacter.inMysticalitySign() ? ChezSnooteeRequest.getDailySpecial() : null;
+			KoLCharacter.gnomadsAvailable() ? MicroBreweryRequest.getDailySpecial() : KoLCharacter.canadiaAvailable() ? ChezSnooteeRequest.getDailySpecial() : null;
 
 		return special == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( special.getName(), true );
 	}
@@ -2840,6 +2846,16 @@ public abstract class RuntimeLibrary
 	public static Value my_hash()
 	{
 		return new Value( GenericRequest.passwordHash );
+	}
+
+	public static Value my_sign()
+	{
+		return new Value( KoLCharacter.getSign() );
+	}
+
+	public static Value my_path()
+	{
+		return new Value( KoLCharacter.getPath() );
 	}
 
 	public static Value in_muscle_sign()
