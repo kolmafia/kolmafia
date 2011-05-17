@@ -291,25 +291,27 @@ public class RecoveryManager
 
 			if ( techniques[ i ] instanceof HPRestoreItem )
 			{
-				if ( ( (HPRestoreItem) techniques[ i ] ).isSkill() )
+				HPRestoreItem item = (HPRestoreItem) techniques[ i ];
+				if ( item.isSkill() )
 				{
-					possibleSkills.add( techniques[ i ] );
+					possibleSkills.add( item );
 				}
-				else
+				else if ( item.usableInCurrentPath() )
 				{
-					possibleItems.add( techniques[ i ] );
+					possibleItems.add( item );
 				}
 			}
 
 			if ( techniques[ i ] instanceof MPRestoreItem )
 			{
-				if ( ( (MPRestoreItem) techniques[ i ] ).isSkill() )
+				MPRestoreItem item = (MPRestoreItem) techniques[ i ];
+				if ( item.isSkill() )
 				{
-					possibleSkills.add( techniques[ i ] );
+					possibleSkills.add( item );
 				}
-				else
+				else if ( item.usableInCurrentPath() )
 				{
-					possibleItems.add( techniques[ i ] );
+					possibleItems.add( item );
 				}
 			}
 		}
