@@ -191,11 +191,11 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "4" ) || storeId.equals( "5" ) )
 		{
-			return KoLCharacter.inMuscleSign();
+			return KoLCharacter.knollAvailable();
 		}
 		else if ( storeId.equals( "j" ) )
 		{
-			return KoLCharacter.inMysticalitySign();
+			return KoLCharacter.canadiaAvailable();
 		}
 		else if ( storeId.equals( "k" ) )
 		{
@@ -273,7 +273,7 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "n" ) )
 		{
-			return KoLCharacter.inMoxieSign();
+			return KoLCharacter.gnomadsAvailable();
 		}
 		else if ( storeId.equals( "w" ) )
 		{

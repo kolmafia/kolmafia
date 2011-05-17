@@ -234,7 +234,7 @@ public class UntinkerRequest
 		// If the are in a muscle sign, this is a trivial task;
 		// just have them visit Innabox.
 
-		if ( KoLCharacter.inMuscleSign() )
+		if ( KoLCharacter.knollAvailable() )
 		{
 			GenericRequest tinkVisit = new GenericRequest( "forestvillage.php" );
 			tinkVisit.run();
@@ -334,7 +334,7 @@ public class UntinkerRequest
 		}
 
 		String link;
-		if ( KoLCharacter.inMuscleSign() )
+		if ( KoLCharacter.knollAvailable() )
 		{
 			link = "<font size=1>[<a href=\"knoll.php?place=smith\">visit Innabox</a>]</font>";
 		}

@@ -66,7 +66,7 @@ public class RestaurantCommand
 
 	public static boolean makeChezSnooteeRequest( final String parameters )
 	{
-		if ( !KoLCharacter.inMysticalitySign() )
+		if ( !KoLCharacter.canadiaAvailable() )
 		{
 			KoLmafia.updateDisplay( "Since you are not in a Mysticality sign, you may not visit the restaurant." );
 			return false;
@@ -131,7 +131,7 @@ public class RestaurantCommand
 
 	public static boolean makeMicroBreweryRequest( final String parameters )
 	{
-		if ( !KoLCharacter.inMoxieSign() )
+		if ( !KoLCharacter.gnomadsAvailable() )
 		{
 			KoLmafia.updateDisplay( "Since you are not in a Moxie sign, you may not visit the brewery." );
 			return false;

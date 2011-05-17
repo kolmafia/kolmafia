@@ -251,8 +251,8 @@ public class ClanRumpusRequest
 			break;
 
 		case MUSCLE:
-			// If we are in a Muscle sign, Degrassi Knoll has a gym.
-			if ( KoLCharacter.inMuscleSign() )
+			// If we can do inside Degrassi Knollm use the gym.
+			if ( KoLCharacter.knollAvailable() )
 			{
 				this.constructURLString( "knoll.php" );
 				this.addFormField( "action", "gym" );
@@ -267,8 +267,8 @@ public class ClanRumpusRequest
 			break;
 
 		case MYSTICALITY:
-			// If we are in a Mysticality sign, Canadia has a gym.
-			if ( KoLCharacter.inMysticalitySign() )
+			// If we can go to Little Canadia, use the gym.
+			if ( KoLCharacter.canadiaAvailable() )
 			{
 				this.constructURLString( "canadia.php" );
 				this.addFormField( "action", "institute" );
@@ -283,8 +283,8 @@ public class ClanRumpusRequest
 			break;
 
 		case MOXIE:
-			// If we are in a Moxie sign, the Gnomish Gnomads have a gym.
-			if ( KoLCharacter.inMoxieSign() )
+			// If we can go to the Gnomish Gnomads Camp, use the gym
+			if ( KoLCharacter.gnomadsAvailable() )
 			{
 				this.constructURLString( "gnomes.php" );
 				this.addFormField( "action", "train" );

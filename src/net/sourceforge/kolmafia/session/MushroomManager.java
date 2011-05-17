@@ -615,9 +615,9 @@ public abstract class MushroomManager
 
 	public static final boolean ownsPlot()
 	{
-		// If you're not in a Muscle sign, no go.
+		// If you can't go inside Degrassi Knoll, no go
 
-		if ( !KoLCharacter.inMuscleSign() )
+		if ( !KoLCharacter.knollAvailable() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the mushroom fields." );
 			return false;

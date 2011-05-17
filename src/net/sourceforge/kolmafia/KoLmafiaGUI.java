@@ -430,7 +430,7 @@ public class KoLmafiaGUI
 				// sure you retrieve information from the
 				// restaurant.
 
-				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
+				if ( KoLCharacter.canEat() && KoLCharacter.canadiaAvailable() )
 				{
 					if ( KoLConstants.restaurantItems.isEmpty() )
 					{
@@ -442,7 +442,7 @@ public class KoLmafiaGUI
 				// have completed the beach quest, then
 				// retrieve information from the microbrewery.
 
-				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLConstants.microbreweryItems.isEmpty() )
+				if ( KoLCharacter.canDrink() && KoLCharacter.gnomadsAvailable() && KoLConstants.microbreweryItems.isEmpty() )
 				{
 					GenericRequest beachCheck = new GenericRequest( "main.php" );
 					RequestThread.postRequest( beachCheck );

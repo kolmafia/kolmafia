@@ -104,7 +104,7 @@ public class ChezSnooteeRequest
 
 	public Object run()
 	{
-		if ( !KoLCharacter.inMysticalitySign() )
+		if ( !KoLCharacter.canadiaAvailable() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find " + this.name );
 			return null;
@@ -138,7 +138,7 @@ public class ChezSnooteeRequest
 
 	public static final void getMenu()
 	{
-		if ( !KoLCharacter.inMysticalitySign() )
+		if ( !KoLCharacter.canadiaAvailable() )
 		{
 			return;
 		}

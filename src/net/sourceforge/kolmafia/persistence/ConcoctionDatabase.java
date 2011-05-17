@@ -1316,7 +1316,7 @@ public class ConcoctionDatabase
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.GNOME_TINKER ] = KoLCharacter.inMoxieSign();
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.GNOME_TINKER ] = KoLCharacter.gnomadsAvailable();
 		ConcoctionDatabase.EXCUSE[ KoLConstants.GNOME_TINKER ] = "Only moxie signs can use the Supertinkerer.";
 
 		// Smithing of items is possible whenever the person
@@ -1347,7 +1347,7 @@ public class ConcoctionDatabase
 		// Standard smithing is also possible if the person is in
 		// a muscle sign.
 
-		if ( KoLCharacter.inMuscleSign() )
+		if ( KoLCharacter.knollAvailable() )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] = true;
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SMITH ] = 0;

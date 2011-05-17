@@ -734,7 +734,7 @@ public abstract class KoLmafia
 		if ( Preferences.getBoolean( "autoPlant" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			String currentLayout = Preferences.getString( "plantingScript" );
-			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomManager.ownsPlot() )
+			if ( !currentLayout.equals( "" ) && KoLCharacter.knollAvailable() && MushroomManager.ownsPlot() )
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + KoLConstants.PLOTS_DIRECTORY + currentLayout + ".ash" );
 			}
@@ -1660,15 +1660,15 @@ public abstract class KoLmafia
 	{
 		int maxLevel = 0;
 
-		if ( KoLCharacter.inMysticalitySign() )
+		if ( KoLCharacter.canadiaAvailable() )
 		{
 			maxLevel = 11;
 		}
-		else if ( KoLCharacter.inMuscleSign() )
+		else if ( KoLCharacter.knollAvailable() )
 		{
 			maxLevel = 10;
 		}
-		else if ( KoLCharacter.inMoxieSign() )
+		else if ( KoLCharacter.gnomadsAvailable() )
 		{
 			maxLevel = 10;
 		}

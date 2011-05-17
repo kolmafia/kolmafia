@@ -270,6 +270,23 @@ public class CharSheetRequest
 			KoLCharacter.setSign( cleanContent.nextToken() );
 		}
 
+		// Is this where Path: optionally appears for Bees Hate You?
+
+		// Consumption restrictions have special messages.
+		//
+		// "You may not eat or drink anything."
+		// "You may not eat any food or drink any non-alcoholic beverages."
+		// "You may not consume any alcohol."
+
+		KoLCharacter.setConsumptionRestriction( 
+			responseText.indexOf( "You may not eat or drink anything." ) != -1 ?
+			AscensionSnapshot.OXYGENARIAN :
+			responseText.indexOf( "You may not eat any food or drink any non-alcoholic beverages." ) != -1 ?
+			AscensionSnapshot.BOOZETAFARIAN :
+			responseText.indexOf( "You may not consume any alcohol." ) != -1 ?
+			AscensionSnapshot.TEETOTALER :
+			AscensionSnapshot.NOPATH );
+
 		// You are in Hardcore mode, and may not receive items or buffs
 		// from other players.
 
@@ -284,11 +301,6 @@ public class CharSheetRequest
 		// Deduce interaction from above settings
 
 		CharPaneRequest.setInteraction();
-
-		// Determine the current consumption restrictions
-		// the player possesses.
-
-		KoLCharacter.setConsumptionRestriction( responseText.indexOf( "You may not eat or drink anything." ) != -1 ? AscensionSnapshot.OXYGENARIAN : responseText.indexOf( "You may not eat any food or drink any non-alcoholic beverages." ) != -1 ? AscensionSnapshot.BOOZETAFARIAN : responseText.indexOf( "You may not consume any alcohol." ) != -1 ? AscensionSnapshot.TEETOTALER : AscensionSnapshot.NOPATH );
 
 		// See if the player has a store
 		KoLCharacter.setStore( responseText.indexOf( "Mall of Loathing" ) != -1 );
