@@ -1492,6 +1492,16 @@ public class UseItemRequest
 			return;
 		}
 
+		// If you are in BeeCore, certain items can't B used
+		// "You are too scared of Bs to xxx that item."
+		if ( KoLCharacter.inBeeCore() &&
+		     responseText.indexOf( "You are too scared of Bs" ) != -1 )
+		{
+			UseItemRequest.lastUpdate = "You are too scared of Bs";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		UseItemRequest.lastUpdate = "";
 
 		AdventureResult item = UseItemRequest.lastItemUsed;

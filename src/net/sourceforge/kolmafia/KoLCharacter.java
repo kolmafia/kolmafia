@@ -2561,6 +2561,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath;
 	}
 
+	public static final boolean inBeeCore()
+	{
+		return KoLCharacter.ascensionPath.equals( "Bees Hate You" );
+	}
+
 	public static final void setPath( final String path )
 	{
 		KoLCharacter.ascensionPath = path;

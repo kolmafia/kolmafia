@@ -269,7 +269,7 @@ public abstract class MPRestoreItemList
 
 		public boolean usableInCurrentPath()
 		{
-			if ( !KoLCharacter.getPath().equals( "Bees Hate You" ) )
+			if ( !KoLCharacter.inBeeCore() )
 			{
 				return true;
 			}
