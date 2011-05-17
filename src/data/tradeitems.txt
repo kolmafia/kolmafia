@@ -4524,7 +4524,7 @@
 4515	Lobster <i>qua</i> Grill	food	gift	0
 4516	missing wine	drink	gift	0
 4517	yellow matter custard	food	all	55
-4518	delicious comfit?	multiple	all	88
+4518	delicious comfit?	usable	all	88
 4519	ittah bittah hookah	familiar	display	0
 4520	flamingo mallet	weapon	all	72
 4521	croquet hedgehog	none, combat	all	45
