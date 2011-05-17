@@ -5138,3 +5138,14 @@
 5129
 5130
 5131	Ultrasoldier Serum	multiple	all	0
+5132
+5133
+5134
+5135
+5136
+5137
+5138
+5139
+5140
+5141
+5141	moon unit	usable	none	0
