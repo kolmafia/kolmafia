@@ -1581,6 +1581,14 @@ public class KoLAdventure
 			"You need at least 20% buffed max HP.",
 			KoLAdventure.PENDING
 		},
+
+		// Your El Vibrato portal has run out of power. You should go
+		// back to your campsite and charge it back up.
+		{
+			"Your El Vibrato portal has run out of power",
+			"Your El Vibrato portal has run out of power",
+			KoLAdventure.PENDING
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
