@@ -189,9 +189,11 @@ public abstract class KoLmafia
 		{ "A Grave Situation", STOP },
 		{ "Take a Dusty Look!", STOP },
 		{ "Drawn Onward", STOP },
-		{ "Mr. Alarm", STOP },
+		// The following is unnecessary, since you can use "1 choice" as a goal
+		{ "Mr. Alarm, I Presarm", STOP },
 		{ "We'll All Be Flat", STOP },
 		{ "You and the Cap'm Make it Hap'm", STOP },
+		// The following is unnecessary, since you can use "blueprints" as a goal
 		{ "This Adventure Bites", STOP },
 		{ "It's Always Swordfish", STOP },
 		{ "Granny, Does Your Dogfish Bite?", STOP },
@@ -226,6 +228,7 @@ public abstract class KoLmafia
 		// Adventure in Arid, Extra-Dry Desert until you have
 		// worm-riding hooks.
 
+		// The following is unnecessary, since you can use "worm-riding hooks" as a goal
 		{ "The Sleeper Has Awakened", STOP },
 
 		// Adventures that give semirares

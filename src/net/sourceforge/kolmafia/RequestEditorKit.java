@@ -783,7 +783,8 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "valhalla.php" ) )
 		{
-			ValhallaDecorator.decorateAfterLife( location, buffer );
+			// *** Until we have a chance to look at the NEW Valhalla
+			// ValhallaDecorator.decorateAfterLife( location, buffer );
 		}
 		else if ( location.startsWith( "volcanomaze.php" ) )
 		{
