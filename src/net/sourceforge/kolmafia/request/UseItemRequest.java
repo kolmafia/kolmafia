@@ -1492,6 +1492,11 @@ public class UseItemRequest
 			return;
 		}
 
+		UseItemRequest.lastUpdate = "";
+
+		AdventureResult item = UseItemRequest.lastItemUsed;
+		AdventureResult helper = UseItemRequest.lastHelperUsed;
+
 		// If you are in BeeCore, certain items can't B used
 		// "You are too scared of Bs to xxx that item."
 		if ( KoLCharacter.inBeeCore() &&
@@ -1499,13 +1504,24 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "You are too scared of Bs";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			String name = item.getName();
+			int count = item.getCount();
+
+			int fullness = ItemDatabase.getFullness( name ) * count;
+			if ( fullness > 0 )
+			{
+				Preferences.increment( "currentFullness", -fullness );
+			}
+
+			int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
+			if ( spleenHit > 0 )
+			{
+				Preferences.increment( "currentSpleenUse", -spleenHit );
+			}
+
+			KoLCharacter.updateStatus();
 			return;
 		}
-
-		UseItemRequest.lastUpdate = "";
-
-		AdventureResult item = UseItemRequest.lastItemUsed;
-		AdventureResult helper = UseItemRequest.lastHelperUsed;
 
 		// Check for consumption helpers, which will need to be removed
 		// from inventory if they were successfully used.
