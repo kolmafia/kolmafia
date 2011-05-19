@@ -2511,12 +2511,12 @@ public abstract class KoLCharacter
 			KoLCharacter.ascensionSignType = KoLConstants.MUSCLE;
 			KoLCharacter.ascensionSignZone = KoLConstants.KNOLL;
 		}
-		if ( ascensionSign.equals( "Platypus" ) )
+		else if ( ascensionSign.equals( "Platypus" ) )
 		{
 			KoLCharacter.ascensionSignType = KoLConstants.MUSCLE;
 			KoLCharacter.ascensionSignZone = KoLConstants.CANADIA;
 		}
-		if ( ascensionSign.equals( "Wombat" ) )
+		else if ( ascensionSign.equals( "Wombat" ) )
 		{
 			KoLCharacter.ascensionSignType = KoLConstants.MUSCLE;
 			KoLCharacter.ascensionSignZone = KoLConstants.GNOMADS;

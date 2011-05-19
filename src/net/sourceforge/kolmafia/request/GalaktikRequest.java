@@ -96,7 +96,10 @@ public class GalaktikRequest
 			this.restoreAmount = 0;
 		}
 
-		this.addFormField( "quantity", String.valueOf( this.restoreAmount ) );
+		if ( this.restoreAmount > 0 )
+		{
+			this.addFormField( "quantity", String.valueOf( this.restoreAmount ) );
+		}
 	}
 
 	public static void setDiscount( final boolean discount )
