@@ -50,6 +50,7 @@ anniversary concrete fedora	10	none
 antique helmet	200	Mus: 85
 asbestos helmet turtle	80	Mox: 25
 asshat	30	none
+astral chapeau	0	none
 balaclava	50	Mox: 10
 balloon helmet	50	Mox: 10
 bark beret	40	Mox: 5
@@ -266,6 +267,8 @@ Voluminous Radio Pants	150	Mox: 60
 Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
 antique greaves	200	Mus: 85
+astral shorts	0	none
+astral trousers	0	none
 astronaut pants	175	Mox: 72
 baggy rave pants	150	Mox: 60
 bark boxers	40	Mox: 5
@@ -404,6 +407,7 @@ Ultracolor&trade; shirt	100	Mus: 35
 Ye Olde Navy Fleece	100	Mus: 35
 anniversary safety glass vest	10	none
 asbestos apron	170	Mus: 70
+astral shirt	0	none
 barskin cloak	25	none
 bat-ass leather jacket	180	Mus: 77
 bronze breastplate	105	Mus: 37
@@ -573,6 +577,10 @@ asbestos crossbow	110	Mox: 40	2-handed crossbow
 asbestos staff	100	Mus: 35	2-handed staff
 asbestos sword	120	Mus: 45	2-handed sword
 asparagus knife	15	Mus: 0	1-handed knife
+astral bludgeon	0	Mus: 0	2-handed club
+astral longbow	0	Mox: 0	2-handed bow
+astral mace	0	Mus: 0	1-handed club
+astral pistol	0	Mox: 0	1-handed pistol
 automatic catapult	150	Mox: 60	2-handed autopult
 bad-ass club	130	Mus: 50	2-handed club
 balloon sword	50	Mus: 10	1-handed sword
@@ -1002,6 +1010,9 @@ anniversary balloon	10	none
 anniversary chutney sculpture	10	none
 antique shield	230	Mus: 85	shield
 arrow'd heart balloon	10	none
+# *** astral shield is a shield of unknown power.
+astral shield	0	none	shield
+astral statuette	0	none
 bag of Crotchety Pine saplings	10	none
 bag of Laughing Willow saplings	10	none
 bag of Saccharine Maple saplings	10	none
@@ -1363,6 +1374,10 @@ amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
 anniversary burlap belt	10	none
 arrrgyle socks	70	Mys: 20
+astral belt	0	none
+astral bracer	0	none
+astral mask	0	none
+astral ring	0	none
 baconstone bracelet	50	Mys: 10
 baconstone earring	50	Mys: 10
 baconstone pendant	50	Mys: 10

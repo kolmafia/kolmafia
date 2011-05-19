@@ -5026,25 +5026,25 @@
 5025	332608358	shot.gif	cranberry schnapps	shots of cranberry schnapps
 5026	710352481	juice.gif	breaded beer	glasses of breaded beer
 5027	550290007	daquiri.gif	soy cordial	glasses of soy cordial
-5028
-5029
-5030
-5031
-5032
-5033
-5034
-5035
-5036
-5037
-5038
-5039
-5040
-5041
-5042
-5043
-5044
-5045
-5046
+5028	864672857	ast_bludgeon.gif	astral bludgeon
+5029	265415871	ast_shield.gif	astral shield
+5030	710747829	ast_hat.gif	astral chapeau
+5031	875463310	ast_bracer.gif	astral bracer
+5032	891521039	ast_bow.gif	astral longbow
+5033	860241983	ast_shorts.gif	astral shorts
+5034	205048183	ast_mace.gif	astral mace
+5035	527521039	ast_pants.gif	astral trousers
+5036	735732453	ast_ring.gif	astral ring
+5037	970005793	ast_statue.gif	astral statuette
+5038	815988266	ast_pistol.gif	astral pistol
+5039	142248341	ast_mask.gif	astral mask
+5040	648386354	ast_sweater.gif	astral pet sweater
+5041	218949177	ast_shirt.gif	astral shirt
+5042	645097274	ast_belt.gif	astral belt
+5043	338874774	ast_hotdog.gif	astral hot dog
+5044	762120339	ast_beer.gif	astral pilsner
+5045	725022566	ast_dinner.gif	astral hot dog dinner
+5046	507110915	ast_6pack.gif	astral six-pack
 5047	924016792	crate.gif	Clan shower	Clan showers
 5048	347683517	doubleice.gif	shard of double-ice	shards of double-ice
 5049	688353359	icecap.gif	double-ice cap	double-ice caps
@@ -5137,7 +5137,12 @@
 5136
 5137
 5138
-5139
-5140
+5139	503957611	ast_carton.gif	carton of astral energy drinks
+5140	227596183	ast_energy.gif	astral energy drink
 5141
 5142	215132687	device1.gif	moon unit
+5143
+5144	159319161	honeyglob.gif	handful of honey	handfuls of honey
+5145	721302772	honeypot.gif	honeypot
+5146	486244546	honeypie.gif	wild honey pie
+5147	198539153	honeymead.gif	honey mead

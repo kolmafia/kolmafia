@@ -233,6 +233,19 @@ public abstract class KoLCharacter
 		ItemPool.get( ItemPool.MARBLE_WAND, 1 )
 	};
 
+	public static final String[] ZODIACS = new String[]
+	{
+		"Mongoose",
+		"Platypus", 
+		"Wombat",
+		"Wallaby",
+		"Opossum",
+		"Blender", 
+		"Vole", 
+		"Marmot",
+		"Packrat"
+	};
+
 	public static final int MALE = -1;
 	public static final int FEMALE = 1;
 

@@ -843,3 +843,4 @@
 842	Okee-Dokee, Smokee	soda.gif	d1347fc8406edf37f59029955aed0447	use 1 Okee-Dokee soda
 843	The Solution	corfluid.gif	659db3a4ad749222f61730992eeb5e6e	use 1 correction fluid
 844	Army of One	aolcom.gif	a2f0e39e34884d0f3b910c9e8818772c	use 1 Ultrasoldier Serum
+845	Float Like a Butterfly, Smell Like a Bee	beeicon.gif	f5abc8e8bdf72c01025050b42d657d75	use 1 honeypot

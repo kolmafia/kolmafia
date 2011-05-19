@@ -98,6 +98,7 @@ anniversary concrete fedora	Moxie: +1, Muscle: +1, Mysticality: +1, Familiar Eff
 antique helmet	Initiative: -10, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 0.5xFairy"
 asbestos helmet turtle	Hot Resistance: +1, Familiar Effect: "hot atk, 1xFairy, cap 20"
 asshat	Stench Resistance: +1, Sleaze Damage: +1, Familiar Effect: "stench atk, 1xVolley, cap 7"
+astral chapeau	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 3, MP Regen Max: 5
 balaclava	Cold Resistance: +1, Familiar Effect: "cold atk, 1.5xLep, cap 12"
 balloon helmet	Damage Absorption: +20, Clownosity: +1, Familiar Effect: "3xFairy, cap 12"
 bark beret	Damage Reduction: 4
@@ -325,6 +326,8 @@ Voluminous Radio Pants	HP Regen Min: 0, HP Regen Max: 5
 Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Turtle Tamer"
 # alpha-mail pants
 antique greaves	Initiative: -10
+astral shorts	Moxie Percent: +25, Initiative: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
+astral trousers	Muscle Percent: +25, Weapon Damage Percent: +50, Meat Drop: +20
 astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5
 baggy rave pants	Damage Absorption: +20, Raveosity: +2
 bark boxers	Damage Reduction: 5
@@ -464,6 +467,7 @@ Ultracolor&trade; shirt	Spooky Damage: +8, Stench Damage: +8, Hot Damage: +8, Co
 Ye Olde Navy Fleece	Meat Drop: +10
 anniversary safety glass vest	Muscle: +1, Mysticality: +1, Moxie: +1
 asbestos apron	Hot Resistance: +3
+astral shirt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 barskin cloak	Muscle: +2
 bat-ass leather jacket	Mysticality: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
@@ -647,6 +651,10 @@ asbestos crossbow	Moxie: +7, Muscle: +5
 asbestos staff	Mysticality: +7, Moxie: +5
 asbestos sword	Muscle: +7, Mysticality: +5
 asparagus knife	Stench Damage: +1
+astral bludgeon	Muscle Percent: +25, Weapon Damage: +20, Critical: 3
+astral longbow	Moxie Percent: +25, Ranged Damage: +20, Meat Drop: +30
+astral mace	Muscle Percent: +25, Weapon Damage: +20, PvP Fights: +5
+astral pistol	Moxie Percent: +25, Ranged Damage: +20, PvP Fights: +5
 # automatic catapult
 bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
 balloon sword	Never Fumble, Weapon Damage: -2, Clownosity: +2
@@ -1112,6 +1120,8 @@ ancient stone head	Damage Reduction: 5
 anniversary chutney sculpture	Muscle: +1, Mysticality: +1, Moxie: +1
 antique shield	Initiative: -10, Damage Reduction: 15
 # arrow'd heart balloon
+astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damage Reduction: 15
+astral statuette	Mysticality Percent: +25, Spell Damage Percent: +50, Adventures: +4
 # bag of Crotchety Pine saplings
 # bag of Laughing Willow saplings
 # bag of Saccharine Maple saplings
@@ -1513,6 +1523,10 @@ amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: 
 amulet of extreme plot significance	Maximum MP: +30
 anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 arrrgyle socks	Mysticality: +6
+astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Monster Level: +20
+astral bracer	Mysticality Percent: +25, Combat Mana Cost: -3, Adventures: +3
+astral mask	Moxie Percent: +25, Item Drop: +20
+astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, MP Regen Max: 6
 baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip
 baconstone earring	Mysticality: +2, Mana Cost: -1, Single Equip
 baconstone pendant	Mysticality: +4, Spell Damage: +10
@@ -1967,6 +1981,7 @@ ant rake	Familiar Effect: "hot damage, meat", Meat Bonus: +12.5, Generic
 # ant sickle: Your familiar will sow pain and reap Meat.
 ant sickle	Familiar Effect: "spooky damage, meat", Meat Bonus: +12.5, Generic
 aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Mysticality", Familiar Effect: "mys stats"
+astral pet sweater	Familiar Weight: +10
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
 # bag of many confections: Full of Candy!
@@ -3321,7 +3336,7 @@ Sign:Platypus	Experience Percent (Muscle): +10, Familiar Weight: +5
 # Vole: Unlocks Degrassi Knoll
 Sign:Vole	Experience Percent (Moxie): +10, Initiative: +20, Maximum HP Nonmultiplied: +20, Maximum MP Nonmultiplied: +20
 # Wallaby: Unlocks Degrassi Knoll
-Wallaby	Experience Percent (Mysticality): +10, Spell Damage Percent: +20
+Sign:Wallaby	Experience Percent (Mysticality): +10, Spell Damage Percent: +20
 # Wombat: Unlocks the Gnomish Gnomad Camp
 Sign:Wombat	Experience Percent (Muscle): +10, Meat Drop: +20
 
@@ -3553,6 +3568,7 @@ handful of pine needles	Effect: "Hippy Stench", Effect Duration: 10
 handsomeness potion	Effect: "Mysteriously Handsome", Effect Duration: 5
 henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
+honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 100
 hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20

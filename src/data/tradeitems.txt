@@ -5034,25 +5034,25 @@
 5025	cranberry schnapps	drink	all	250
 5026	breaded beer	drink	all	300
 5027	soy cordial	drink	all	350
-5028
-5029
-5030
-5031
-5032
-5033
-5034
-5035
-5036
-5037
-5038
-5039
-5040
-5041
-5042
-5043
-5044
-5045
-5046
+5028	astral bludgeon	weapon	none	0
+5029	astral shield	offhand	none	0
+5030	astral chapeau	hat	none	0
+5031	astral bracer	accessory	none	0
+5032	astral longbow	weapon	none	0
+5033	astral shorts	pants	none	0
+5034	astral mace	weapon	none	0
+5035	astral trousers	pants	none	0
+5036	astral ring	accessory	none	0
+5037	astral statuette	offhand	none	0
+5038	astral pistol	weapon	none	0
+5039	astral mask	accessory	none	0
+5040	astral pet sweater	familiar	none	0
+5041	astral shirt	shirt	none	0
+5042	astral belt	accessory	none	0
+5043	astral hot dog	food	none	0
+5044	astral pilsner	drink	none	0
+5045	astral hot dog dinner	usable	none	0
+5046	astral six-pack	usable	none	0
 5047	Clan shower	usable	all	0
 5048	shard of double-ice	multiple	all	0
 5049	double-ice cap	hat	display	75
@@ -5145,7 +5145,12 @@
 5136
 5137
 5138
-5139
-5140
+5139	carton of astral energy drinks	usable	none	0
+5140	astral energy drink	usable	none	0
 5141
 5142	moon unit	usable	none	0
+5143
+5144	handful of honey	multiple	all	0
+5145	honeypot	usable	display	30
+5146	wild honey pie	food	display	50
+5147	honey mead	drink	display	40
