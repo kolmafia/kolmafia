@@ -156,13 +156,14 @@ public class ValhallaManager
 	public static void postAscension()
 	{
 		RequestThread.openRequestSequence();
-
 		StaticEntity.getClient().refreshSession();
+		RequestThread.closeRequestSequence();
+
 		EquipmentManager.updateEquipmentLists();
 		ConcoctionDatabase.refreshConcoctions();
 
 		// Reset certain settings that the player almost certainly will
-		// use differently at the beginning of a run as at the end.
+		// use differently at the beginning of a run vs. at the end.
 
 		MoodManager.setMood( "apathetic" );
 		Preferences.setFloat( "hpAutoRecovery",	-0.05f );
@@ -171,6 +172,26 @@ public class ValhallaManager
 		// Note the information in the session log
 		// for recording purposes.
 
+		ValhallaManager.logNewAscension();
+
+		// The semirare counter is set in Valhalla.
+		TurnCounter.startCounting( 70, "Semirare window begin loc=*", "lparen.gif" );
+		TurnCounter.startCounting( 80, "Semirare window end loc=*", "rparen.gif" );
+		
+		// User-defined actions:
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
+		
+		if ( Preferences.getBoolean( "autostartGalaktikQuest" ) )
+		{
+			RequestThread.postRequest( new GalaktikRequest( "startquest" ) );
+		}
+
+		// Pull a VIP key and report on whether a present is available
+		ClanLoungeRequest.visitLounge();
+	}
+
+	private static final void logNewAscension()
+	{
 		PrintStream sessionStream = RequestLogger.getSessionStream();
 
 		sessionStream.println();
@@ -191,7 +212,11 @@ public class ValhallaManager
 			sessionStream.print( "Softcore " );
 		}
 
-		if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
+		if ( KoLCharacter.inBeeCore() )
+		{
+			sessionStream.print( "Bees Hate You " );
+		}
+		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );
 		}
@@ -220,24 +245,6 @@ public class ValhallaManager
 
 		sessionStream.println();
 		sessionStream.println();
-
-		RequestThread.closeRequestSequence();
-
-		// The semirare counter is set in Valhalla.
-		TurnCounter.startCounting( 70, "Semirare window begin loc=*", "lparen.gif" );
-		TurnCounter.startCounting( 80, "Semirare window end loc=*", "rparen.gif" );
-		
-		// User-defined actions:
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
-		
-		if ( Preferences.getBoolean( "autostartGalaktikQuest" ) )
-		{
-			RequestThread.postRequest(
-				new GenericRequest( "galaktik.php?action=startquest&pwd" ) );
-		}
-
-		// Pull a VIP key and report on whether a present is available
-		ClanLoungeRequest.visitLounge();
 	}
 
 	public static final void resetPerAscensionCounters()
