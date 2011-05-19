@@ -38,6 +38,7 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.util.List;
 
+import net.sourceforge.kolmafia.request.AfterLifeRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
@@ -603,6 +604,12 @@ public class RequestLogger
 
 		// The following lists all the remaining requests in
 		// alphabetical order.
+
+		if ( ( request instanceof AfterLifeRequest || isExternal ) && AfterLifeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
 
 		if ( ( request instanceof ArcadeRequest || isExternal ) && ArcadeRequest.registerRequest( urlString ) )
 		{

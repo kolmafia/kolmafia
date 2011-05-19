@@ -79,6 +79,7 @@
 78	Uncle Hobo's Rags	Uncle Hobo's stocking cap, Uncle Hobo's gift baggy pants, Uncle Hobo's epic beard
 79	Paperclippery	paperclip-on tie, paperclip pants, paperclip turban, paperclip cape
 80	Cold Comforts	double-ice cap, double-ice box, double-ice britches
+81	Bits o' Honey	honeycap, honey dipper, honey britches
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.

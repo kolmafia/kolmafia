@@ -563,6 +563,10 @@ public class RequestEditorKit
 			RequestEditorKit.fixDucks( buffer );
 			RequestEditorKit.fixRottingMatilda( buffer );
 		}
+		else if ( location.startsWith( "afterlife.php" ) )
+		{
+			ValhallaDecorator.decorateAfterLife( location, buffer );
+		}
 		else if ( location.startsWith( "arcade.php" ) )
 		{
 			StringBuffer note = new StringBuffer( "Arcade (" );
@@ -780,11 +784,6 @@ public class RequestEditorKit
 		else if ( location.startsWith( "tiles.php" ) )
 		{
 			DvorakDecorator.decorate( buffer );
-		}
-		else if ( location.startsWith( "valhalla.php" ) )
-		{
-			// *** Until we have a chance to look at the NEW Valhalla
-			// ValhallaDecorator.decorateAfterLife( location, buffer );
 		}
 		else if ( location.startsWith( "volcanomaze.php" ) )
 		{

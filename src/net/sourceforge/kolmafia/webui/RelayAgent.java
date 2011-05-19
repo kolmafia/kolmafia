@@ -452,7 +452,7 @@ public class RelayAgent
 		{
 			this.request.run();
 
-			if ( this.path.startsWith( "/valhalla.php" ) && this.request.responseCode == 302 )
+			if ( this.path.startsWith( "/afterlife.php" ) && this.request.responseCode == 302 )
 			{
 				if ( this.path.indexOf( "asctype=1" ) != -1 )
 				{
