@@ -5146,3 +5146,6 @@
 5145	721302772	honeypot.gif	honeypot
 5146	486244546	honeypie.gif	wild honey pie
 5147	198539153	honeymead.gif	honey mead
+5148	300832347	honeydipper.gif	honey dipper
+5149	829259450	honeypants.gif	honeybritches
+5150	932105497	honeyhat.gif	honeycap

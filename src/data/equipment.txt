@@ -125,6 +125,7 @@ guard turtle shell	160	Mox: 65
 hardened slime hat	200	Mox: 200
 helm of the white knight	60	Mox: 15
 helmet turtle	10	none
+honeycap	0	Mox: 72
 ice pick	100	none
 indie comic hipster glasses	10	none
 insane tophat	30	none
@@ -319,6 +320,7 @@ hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
 hippopotamus skirt	130	Mox: 50
 hobo dungarees	200	Mox: 200
+honeybritches	0	Mox: 72
 ironic jogging shorts	40	Mox: 5
 junk-mail pants	50	Mox: 10
 leather chaps	160	Mox: 65
@@ -751,6 +753,7 @@ hilarious comedy prop	10	Mus: 0	1-handed club
 hippo whip	20	Mus: 0	1-handed whip
 hippy bongo	70	Mox: 20	1-handed drum
 homoerotic frat-paddle	70	Mus: 20	1-handed club
+honey dipper	0	Mys: 72	1-handed utensil
 hot cross bow	130	Mox: 45	2-handed crossbow
 hot-ass club	160	Mus: 65	2-handed club
 huge mirror shard	30	Mus: 0	1-handed knife

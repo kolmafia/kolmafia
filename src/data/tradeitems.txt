@@ -5154,3 +5154,6 @@
 5145	honeypot	usable	display	30
 5146	wild honey pie	food	display	50
 5147	honey mead	drink	display	40
+5148	honey dipper	weapon	display	690
+5149	honeybritches	pants	display	420
+5150	honeycap	hat	display	370

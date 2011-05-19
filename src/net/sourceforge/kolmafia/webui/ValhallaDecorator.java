@@ -147,11 +147,15 @@ public class ValhallaDecorator
 
 	public static final void decorateAfterLife( final String location, final StringBuffer buffer )
 	{
-		if ( buffer.indexOf( "<form" ) == -1 )
+		if ( !location.startsWith( "afterlife.php" ) )
 		{
 			return;
 		}
+	}
 
+	// The following is obsolete
+	private static final void decorateOldAfterlife( final String location, final StringBuffer buffer )
+	{
 		// What we're going to do is kill the standard form and replace
 		// it with one that requires a lot less scrolling while still
 		// retaining all of the form fields.  But first, extract needed

@@ -1562,6 +1562,9 @@ gilded BRICKO chalice	MUSE	gilded BRICKO brick (11)
 honeypot	MUSE	handful of honey (3)
 honey mead	MUSE	handful of honey (4)
 wild honey pie	MUSE	handful of honey (5)
+honeycap	MUSE	handful of honey (37)
+honeybritches	MUSE	handful of honey (42)
+honey dipper	MUSE	handful of honey (69)
 
 # Recipes that involve single-using one of the ingredients
 

@@ -174,6 +174,7 @@ guard turtle shell	Maximum HP: +50
 hardened slime hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
 helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 helmet turtle	Muscle: +1, Familiar Effect: "atk, cap 2"
+honeycap	Moxie Percent: +5, Item Drop: +10, Ranged Damage: +15
 ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "?xVolley, 8xLep, cap 2"
 # insane tophat: We're All Mad Here!
@@ -379,6 +380,7 @@ hippopotamus kilt	Maximum HP: +25
 hippopotamus pants	Maximum HP: +25
 hippopotamus skirt	Maximum HP: +25
 hobo dungarees	Maximum MP: +500, Mysticality Percent: +5
+honeybritches	Muscle Percent: +5, Critical: 3, Weapon Damage: +15
 ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5
 # junk-mail pants
 leather chaps	Intrinsic Effect: "Chapped Legs"
@@ -838,6 +840,7 @@ hilarious comedy prop	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Rege
 hippo whip	Monster Level: +10
 hippy bongo	Stench Damage: +5
 homoerotic frat-paddle	Sleaze Damage: +4
+honey dipper	Mysticality Percent: +5, MP Regen Min: 3, MP Regen Max: 7, Spell Damage: +15
 hot cross bow	Moxie: +7, Muscle: +5, Hot Damage: +5
 hot-ass club	Weapon Damage: +25, Monster Level: +15, Hot Damage: 15, Class: "Seal Clubber"
 huge mirror shard	Weapon Damage: +5
