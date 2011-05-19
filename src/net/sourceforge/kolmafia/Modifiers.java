@@ -2670,6 +2670,17 @@ public class Modifiers
 			}
 		}
 
+		// Make a map of zodiac signs
+		Map zodiacs = new TreeMap();
+		int signCount = KoLCharacter.ZODIACS.length;
+
+		for ( int i = 0; i < signCount; ++i )
+		{
+			String key = KoLCharacter.ZODIACS[ i ];
+			String name = "Sign:" + key;
+			zodiacs.put( name, null );
+		}
+
 		// Make a map of zones
 		Map zones = new TreeMap();
 
@@ -2750,6 +2761,8 @@ public class Modifiers
 		Modifiers.writeModifierCategory( writer, passives, "Passive Skills" );
 		writer.println();
 		Modifiers.writeModifierCategory( writer, outfits, "Outfits" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, zodiacs, "Zodiac Sign" );
 		writer.println();
 		Modifiers.writeModifierCategory( writer, zones, "Zone-specific" );
 		writer.println();

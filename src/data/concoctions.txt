@@ -1559,6 +1559,10 @@ BRICKO gargantuchicken	MUSE	BRICKO brick (6900)	BRICKO eye brick (1)
 
 gilded BRICKO chalice	MUSE	gilded BRICKO brick (11)
 
+honeypot	MUSE	handful of honey (3)
+honey mead	MUSE	handful of honey (4)
+wild honey pie	MUSE	handful of honey (5)
+
 # Recipes that involve single-using one of the ingredients
 
 booty chest charrrm bracelet	SUSE	booty chest charrrm	charrrm bracelet
