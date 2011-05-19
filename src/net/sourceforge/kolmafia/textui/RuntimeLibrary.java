@@ -501,6 +501,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "mall_price", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "npc_price", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "historical_price", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -2636,6 +2639,11 @@ public abstract class RuntimeLibrary
 	{
 		return new Value( StoreManager.getMallPrice(
 			new AdventureResult( item.intValue(), 0 ) ) );
+	}
+
+	public static Value npc_price( final Value item )
+	{
+		return new Value( NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), true ) ? NPCStoreDatabase.price( ItemDatabase.getItemName( item.intValue() ) ) : 0 );
 	}
 
 	public static Value historical_price( final Value item )
