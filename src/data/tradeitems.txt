@@ -5119,14 +5119,14 @@
 5110	Li'l Businessman Kit	familiar	all	75
 5111	Ultracolor&trade; shirt	shirt	all	80
 5112	My Own Pen Pal kit	usable	all	0
-5113
+5113	packet of orchid seeds	usable	display	0
 5114
 5115
 5116	A. W. O. L. commendation	reusable	display	0
-5117
-5118
-5119
-5120
+5117	reconstituted crow	grow	none	0
+5118	bird brain	none	none	0
+5119	busted wings	none	none	0
+5120	Massive Manual of Marauder Mockery	none, combat reusable	all	250
 5121	Admiral's hat	hat	all	0
 5122	leather aviator's cap	hat	all	0
 5123	mirrored aviator shades	accessory	all	0
