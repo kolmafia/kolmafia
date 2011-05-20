@@ -1605,6 +1605,7 @@ deactivated MicroMechaMech	TINKER	clockwork spine	clockwork claws	clockwork key
 dusty animal skull	COMBINE	dusty animal cranium	dusty animal jawbone
 scary death orb	COMBINE	clockwork sphere	grouchy restless spirit
 reassembled blackbird	COMBINE	broken wings	sunken eyes
+reconstituted crow	COMBINE	busted wings	bird brain
 holiday log	COMBINE	holiday cheese log	anticheese
 
 

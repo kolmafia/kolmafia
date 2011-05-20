@@ -77,6 +77,7 @@ public class FamiliarData
 	public static final AdventureResult ITTAH_BITTAH_HOOKAH = ItemPool.get( ItemPool.ITTAH_BITTAH_HOOKAH, 1 );
 	public static final AdventureResult LEAD_NECKLACE = ItemPool.get( ItemPool.LEAD_NECKLACE, 1 );
 	public static final AdventureResult MOVEABLE_FEAST = ItemPool.get( ItemPool.MOVEABLE_FEAST, 1 );
+	public static final AdventureResult PET_SWEATER = ItemPool.get( ItemPool.PET_SWEATER, 1 );
 	public static final AdventureResult PUMPKIN_BUCKET = ItemPool.get( ItemPool.PUMPKIN_BUCKET, 1 );
 	public static final AdventureResult RAT_HEAD_BALLOON = ItemPool.get( ItemPool.RAT_BALLOON, 1 );
 	public static final AdventureResult SUGAR_SHIELD = ItemPool.get( ItemPool.SUGAR_SHIELD, 1 );
@@ -615,6 +616,11 @@ public class FamiliarData
 
 	public final AdventureResult findGoodItem( boolean steal )
 	{
+		if ( FamiliarData.availableItem( FamiliarData.PET_SWEATER, steal ) )
+		{
+			return FamiliarData.PET_SWEATER;
+		}
+
 		if ( FamiliarData.availableItem( FamiliarData.PUMPKIN_BUCKET, steal ) )
 		{
 			return FamiliarData.PUMPKIN_BUCKET;
