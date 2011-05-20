@@ -5111,14 +5111,14 @@
 5110	557750320	businesskit.gif	Li'l Businessman Kit
 5111	707506403	ultracolor.gif	Ultracolor&trade; shirt
 5112	544609748	ppkit.gif	My Own Pen Pal kit
-5113
+5113	382164254	seeds.gif	packet of orchid seeds	packets of orchid seeds
 5114
 5115
 5116	542484240	aolcom.gif	A. W. O. L. commendation
-5117
-5118
-5119
-5120
+5117	529331441	blackbird2.gif	reconstituted crow
+5118	576544533	birdbrain.gif	bird brain
+5119	621350237	brokenwings.gif	busted wings
+5120	151842381	book4.gif	Massive Manual of Marauder Mockery	Massive Manuals of Marauder Mockery
 5121	423441910	admiralhat.gif	Admiral's hat
 5122	558813843	aviatorcap.gif	leather aviator's cap
 5123	492344434	chestershades.gif	mirrored aviator shades
