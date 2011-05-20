@@ -400,6 +400,11 @@ public class StorageRequest
 		{
 			Preferences.setInteger( "lastEmptiedStorage", KoLCharacter.getAscensions() );
 		}
+		else if ( Preferences.getInteger( "lastEmptiedStorage" ) == KoLCharacter.getAscensions() )
+		{
+			// Storage is not empty, but we erroneously thought it was
+			Preferences.setInteger( "lastEmptiedStorage", -1 );
+		}
 
 		if ( transfer )
 		{
