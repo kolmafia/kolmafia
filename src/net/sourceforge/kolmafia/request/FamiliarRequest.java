@@ -265,6 +265,7 @@ public class FamiliarRequest
 		{
 		case FamiliarPool.CHAMELEON:	// Comma Chameleon
 		case FamiliarPool.BLACKBIRD:	// Reassembled Blackbird
+		case FamiliarPool.CROW:		// Reconstituted Crow
 		case FamiliarPool.HATRACK:	// Mad Hatrack
 		case FamiliarPool.HAND:		// Disembodied Hand
 		case FamiliarPool.STOCKING_MIMIC:
@@ -441,7 +442,7 @@ public class FamiliarRequest
 		// equipped, then cache your earlier familiar so that as soon
 		// as you use the map, KoLmafia knows to change it back.
 
-		if ( id == FamiliarPool.BLACKBIRD )
+		if ( id == FamiliarPool.BLACKBIRD || id == FamiliarPool.CROW )
 		{
 			Preferences.setString( "preBlackbirdFamiliar", familiar.getRace() );
 		}

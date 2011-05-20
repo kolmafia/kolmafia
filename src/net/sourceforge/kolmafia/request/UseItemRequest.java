@@ -2356,7 +2356,8 @@ public class UseItemRequest
 			}
 
 			// This only works if you had a Reassembled Blackbird
-			// familiar. When it works, the familiar disappears.
+			// or Reconstituted Crow familiar. When it works, the
+			// familiar disappears.
 
 			FamiliarData blackbird = KoLCharacter.getFamiliar();
 			KoLCharacter.removeFamiliar( blackbird );
@@ -4270,22 +4271,26 @@ public class UseItemRequest
 			Preferences.increment( "pendingMapReflections", count );
 			break;
 
-		case ItemPool.BLACK_MARKET_MAP:
-			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.BLACKBIRD )
+		case ItemPool.BLACK_MARKET_MAP: {
+			int needed = KoLCharacter.inBeeCore() ?
+				FamiliarPool.CROW : FamiliarPool.BLACKBIRD;
+			int hatchling = needed == FamiliarPool.CROW ?
+				ItemPool.RECONSTITUTED_CROW : ItemPool.REASSEMBLED_BLACKBIRD;
+			if ( KoLCharacter.getFamiliar().getId() != needed )
 			{
 				AdventureResult map = UseItemRequest.lastItemUsed;
 
 				// Get the player's current blackbird, complete
 				// with whatever name it's been given.
-				FamiliarData blackbird = KoLCharacter.findFamiliar( FamiliarPool.BLACKBIRD );
+				FamiliarData blackbird = KoLCharacter.findFamiliar( needed );
 
 				// If there is no blackbird in the terrarium,
 				// grow one from the hatchling.
 				if ( blackbird == null )
 				{
-					( new UseItemRequest( ItemPool.get( ItemPool.REASSEMBLED_BLACKBIRD, 1 ) ) ).run();
+					( new UseItemRequest( ItemPool.get( hatchling, 1 ) ) ).run();
 					UseItemRequest.lastItemUsed = map;
-					blackbird = KoLCharacter.findFamiliar( FamiliarPool.BLACKBIRD );
+					blackbird = KoLCharacter.findFamiliar( needed );
 				}
 
 				// If still couldn't find it, bail
@@ -4298,6 +4303,7 @@ public class UseItemRequest
 				( new FamiliarRequest( blackbird ) ).run();
 			}
 			break;
+		}
 
 		case ItemPool.EL_VIBRATO_HELMET:
 		case ItemPool.DRONE:

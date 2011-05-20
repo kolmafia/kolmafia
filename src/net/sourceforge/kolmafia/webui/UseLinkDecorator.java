@@ -261,9 +261,11 @@ public abstract class UseLinkDecorator
 		case ItemPool.BRIDGE:
 			return KoLConstants.NOCREATE;
 
-		// Blackbird components link to the black market map
+		// Blackbird and crow components link to the black market map
 		case ItemPool.BROKEN_WINGS:
 		case ItemPool.SUNKEN_EYES:
+		case ItemPool.BUSTED_WINGS:
+		case ItemPool.BIRD_BRAIN:
 			return KoLConstants.NOCREATE;
 
 		// The eyepatch can be combined, but is usually an outfit piece
@@ -553,15 +555,19 @@ public abstract class UseLinkDecorator
 				// doesn't work ajaxified.
 				return new UseLink( ItemPool.FRATHOUSE_BLUEPRINTS, 1, "use", "inv_use.php?which=3&whichitem=", false );
 
-			case ItemPool.BLACK_MARKET_MAP:
-
-				if ( !InventoryManager.hasItem( ItemPool.BROKEN_WINGS ) ||
-				     !InventoryManager.hasItem( ItemPool.SUNKEN_EYES ) )
+			case ItemPool.BLACK_MARKET_MAP: {
+				int item1 = KoLCharacter.inBeeCore() ?
+					ItemPool.BUSTED_WINGS : ItemPool.BROKEN_WINGS;
+				int item2 = KoLCharacter.inBeeCore() ?
+					ItemPool.BIRD_BRAIN : ItemPool.SUNKEN_EYES;
+				if ( !InventoryManager.hasItem( item1 ) ||
+				     !InventoryManager.hasItem( item2 ) )
 				{
 					return null;
 				}
 
 				return new UseLink( ItemPool.BLACK_MARKET_MAP, 1, "map", "inv_use.php?which=3&whichitem=" );
+			}
 
 			case ItemPool.COBBS_KNOB_MAP:
 
@@ -1010,6 +1016,23 @@ public abstract class UseLinkDecorator
 
 			if ( !InventoryManager.hasItem( ItemPool.BROKEN_WINGS ) ||
 			     !InventoryManager.hasItem( ItemPool.SUNKEN_EYES ) ||
+			     !InventoryManager.hasItem( ItemPool.BLACK_MARKET_MAP ) )
+			{
+				return null;
+			}
+
+			useType = "use map";
+			useLocation = "inv_use.php?which=3&whichitem=";
+			itemId = ItemPool.BLACK_MARKET_MAP;
+			break;
+
+		// Link to use the Black Market Map if you get crow parts
+
+		case ItemPool.BUSTED_WINGS:
+		case ItemPool.BIRD_BRAIN:
+
+			if ( !InventoryManager.hasItem( ItemPool.BUSTED_WINGS ) ||
+			     !InventoryManager.hasItem( ItemPool.BIRD_BRAIN ) ||
 			     !InventoryManager.hasItem( ItemPool.BLACK_MARKET_MAP ) )
 			{
 				return null;

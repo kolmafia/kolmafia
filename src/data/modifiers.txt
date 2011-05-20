@@ -1984,7 +1984,7 @@ ant rake	Familiar Effect: "hot damage, meat", Meat Bonus: +12.5, Generic
 # ant sickle: Your familiar will sow pain and reap Meat.
 ant sickle	Familiar Effect: "spooky damage, meat", Meat Bonus: +12.5, Generic
 aquaviolet jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Mysticality", Familiar Effect: "mys stats"
-astral pet sweater	Familiar Weight: +10
+astral pet sweater	Familiar Weight: +10, Generic
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
 # bag of many confections: Full of Candy!
