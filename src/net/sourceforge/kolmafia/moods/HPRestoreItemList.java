@@ -240,7 +240,7 @@ public abstract class HPRestoreItemList
 
 		public boolean usableInCurrentPath()
 		{
-			if ( !KoLCharacter.inBeeCore() )
+			if ( this.itemUsed == null || !KoLCharacter.inBeeCore() )
 			{
 				return true;
 			}
