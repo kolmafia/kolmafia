@@ -269,7 +269,7 @@ public abstract class MPRestoreItemList
 
 		public boolean usableInCurrentPath()
 		{
-			if ( !KoLCharacter.inBeeCore() )
+			if ( this.itemUsed == null || !KoLCharacter.inBeeCore() )
 			{
 				return true;
 			}
