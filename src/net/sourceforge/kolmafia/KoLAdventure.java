@@ -664,8 +664,10 @@ public class KoLAdventure
 
 				// Make sure the Council has given you the quest
 				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-				// Use the enchanted bean.
-				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.ENCHANTED_BEAN, 1 ) ) );
+
+				// Use the enchanted bean buy clicking on the coffee grounds.
+				KoLAdventure.ZONE_UNLOCK.constructURLString( "plains.php?place=grounds" );
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 			}
 
 			// Visit the beanstalk container document. In the old
