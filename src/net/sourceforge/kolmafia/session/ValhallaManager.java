@@ -182,8 +182,11 @@ public class ValhallaManager
 		// If you are in BeeCore, watch out for wandering bees!
 		if ( KoLCharacter.inBeeCore() )
 		{
-			TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
-			TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
+			// Until the interval to the first bee is spaded, don't
+			// bother setting a counter.
+			//
+			// TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
+			// TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
 		}
 		
 		// User-defined actions:
