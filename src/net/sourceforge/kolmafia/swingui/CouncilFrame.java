@@ -93,50 +93,7 @@ public class CouncilFrame
 
 	public static final void handleQuestChange( final String location, final String responseText )
 	{
-		if ( location.startsWith( "council" ) )
-		{
-			CouncilFrame.handleCouncilChange( responseText );
-		}
-		else if ( location.startsWith( "bigisland" ) )
-		{
-			IslandDecorator.parseBigIsland( location, responseText );
-		}
-		else if ( location.startsWith( "postwarisland" ) )
-		{
-			IslandDecorator.parsePostwarIsland( location, responseText );
-		}
-		else if ( location.startsWith( "friars" ) )
-		{
-			CouncilFrame.handleFriarsChange( responseText );
-		}
-		else if ( location.startsWith( "mountains" ) )
-		{
-			CouncilFrame.handleMountainsChange( responseText );
-		}
-		else if ( location.startsWith( "trapper" ) )
-		{
-			CouncilFrame.handleTrapperChange( location, responseText );
-		}
-		else if ( location.startsWith( "bhh" ) )
-		{
-			CoinMasterRequest.parseBountyVisit( location, responseText );
-		}
-		else if ( location.startsWith( "gamestore" ) )
-		{
-			CoinMasterRequest.parseGameShoppeVisit( location, responseText );
-		}
-		else if ( location.startsWith( "monkeycastle" ) )
-		{
-			CoinMasterRequest.parseBigBrotherVisit( location, responseText );
-		}
-		else if ( location.startsWith( "inv_use" ) )
-		{
-			if ( location.indexOf( "whichitem=5116" ) != -1 )
-			{
-				CoinMasterRequest.parseAWOLVisit( location, responseText );
-			}
-		}
-		else if ( location.startsWith( "adventure" ) )
+		if ( location.startsWith( "adventure" ) )
 		{
 			if ( location.indexOf( "216" ) != -1 )
 			{
@@ -146,6 +103,60 @@ public class CouncilFrame
 			{
 				CouncilFrame.handleSneakyPeteChange( responseText );
 			}
+		}
+		else if ( location.startsWith( "bhh" ) )
+		{
+			CoinMasterRequest.parseBountyVisit( location, responseText );
+		}
+		else if ( location.startsWith( "bigisland" ) )
+		{
+			IslandDecorator.parseBigIsland( location, responseText );
+		}
+		else if ( location.startsWith( "cobbsknob.php" ) )
+		{
+			if ( location.indexOf( "action=cell37" ) != -1 )
+			{
+				CouncilFrame.handleCell37( responseText );
+			}
+		}
+		else if ( location.startsWith( "council" ) )
+		{
+			CouncilFrame.handleCouncilChange( responseText );
+		}
+		else if ( location.startsWith( "friars" ) )
+		{
+			CouncilFrame.handleFriarsChange( responseText );
+		}
+		else if ( location.startsWith( "gamestore" ) )
+		{
+			CoinMasterRequest.parseGameShoppeVisit( location, responseText );
+		}
+		else if ( location.startsWith( "inv_use" ) )
+		{
+			if ( location.indexOf( "whichitem=5116" ) != -1 )
+			{
+				CoinMasterRequest.parseAWOLVisit( location, responseText );
+			}
+		}
+		else if ( location.startsWith( "monkeycastle" ) )
+		{
+			CoinMasterRequest.parseBigBrotherVisit( location, responseText );
+		}
+		else if ( location.startsWith( "mountains" ) )
+		{
+			CouncilFrame.handleMountainsChange( responseText );
+		}
+		else if ( location.startsWith( "plains" ) )
+		{
+			CouncilFrame.handlePlainsChange( responseText );
+		}
+		else if ( location.startsWith( "postwarisland" ) )
+		{
+			IslandDecorator.parsePostwarIsland( location, responseText );
+		}
+		else if ( location.startsWith( "trapper" ) )
+		{
+			CouncilFrame.handleTrapperChange( location, responseText );
 		}
 		else if ( location.startsWith( "trickortreat" ) )
 		{
@@ -159,6 +170,7 @@ public class CouncilFrame
 				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 			}
 		}
+		// Obsolete. Sigh.
 		else if ( location.startsWith( "generate15" ) )
 		{
 			// You slide the last tile into place ...
@@ -167,13 +179,6 @@ public class CouncilFrame
 			     responseText.indexOf( "slide the last tile" ) != -1 )
 			{
 				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
-			}
-		}
-		else if ( location.startsWith( "cobbsknob.php" ) )
-		{
-			if ( location.indexOf( "action=cell37" ) != -1 )
-			{
-				CouncilFrame.handleCell37( responseText );
 			}
 		}
 	}
@@ -261,6 +266,21 @@ public class CouncilFrame
 		{
 			ResultProcessor.processItem( ItemPool.BRIDGE, -1 );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have bridged the Orc Chasm." );
+		}
+	}
+
+	private static final void handlePlainsChange( final String responseText )
+	{
+		// You stare at the pile of coffee grounds for a minute and it
+		// occurs to you that maybe your grandma wasn't so crazy after
+		// all. You pull out an enchanted bean and plop it into the
+		// pile of grounds. It immediately grows into an enormous
+		// beanstalk.
+
+		if ( responseText.indexOf( "immediately grows into an enormous beanstalk" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.ENCHANTED_BEAN, -1 );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have planted a beanstalk." );
 		}
 	}
 
