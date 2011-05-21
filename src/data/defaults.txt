@@ -255,6 +255,7 @@ user	barrelLayout	?????????
 user	bartenderTurnsUsed	0
 user	basementMallPrices	1
 user	battleAction	attack with weapon
+user	beeCounter	0
 user	betweenBattleScript
 user	birdformCold	0
 user	birdformHot	0

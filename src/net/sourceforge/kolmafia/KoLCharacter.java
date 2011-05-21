@@ -664,11 +664,11 @@ public abstract class KoLCharacter
 		VioletFogManager.reset();
 		LouvreManager.reset();
 		ItemDatabase.getDustyBottles();
+		KoLCharacter.ensureUpdatedAscensionCounters();
 		KoLCharacter.ensureUpdatedDwarfFactory();
 		KoLCharacter.ensureUpdatedGuyMadeOfBees();
 		KoLCharacter.ensureUpdatedPirateInsults();
 		KoLCharacter.ensureUpdatedPotionEffects();
-		KoLCharacter.ensureUpdatedSemirareCounter();
 		KoLCharacter.ensureUpdatedSkatePark();
 		KoLCharacter.ensureUpdatedSphereEffects();
 		KoLCharacter.ensureUpdatedCellar();
@@ -1641,7 +1641,7 @@ public abstract class KoLCharacter
 
 	public static final void registerSemirare()
 	{
-		KoLCharacter.ensureUpdatedSemirareCounter();
+		KoLCharacter.ensureUpdatedAscensionCounters();
 		Preferences.setInteger( "semirareCounter", KoLCharacter.currentRun + 1 );
 		KoLAdventure location = KoLAdventure.lastVisitedLocation();
 		String loc = ( location == null ) ? "" : location.getAdventureName();
@@ -1667,14 +1667,14 @@ public abstract class KoLCharacter
 
 	public static final int turnsSinceLastSemirare()
 	{
-		KoLCharacter.ensureUpdatedSemirareCounter();
+		KoLCharacter.ensureUpdatedAscensionCounters();
 		int last = Preferences.getInteger( "semirareCounter" );
 		return KoLCharacter.currentRun - last;
 	}
 
 	public static final int lastSemirareTurn()
 	{
-		KoLCharacter.ensureUpdatedSemirareCounter();
+		KoLCharacter.ensureUpdatedAscensionCounters();
 		return Preferences.getInteger( "semirareCounter" );
 	}
 
@@ -4040,13 +4040,14 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final void ensureUpdatedSemirareCounter()
+	public static final void ensureUpdatedAscensionCounters()
 	{
 		int lastAscension = Preferences.getInteger( "lastSemirareReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			Preferences.setInteger( "lastSemirareReset", KoLCharacter.getAscensions() );
 			Preferences.setInteger( "semirareCounter", 0 );
+			Preferences.setInteger( "beeCounter", 0 );
 		}
 	}
 

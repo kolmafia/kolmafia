@@ -1635,8 +1635,7 @@ public class FightRequest
 			// If this is the first round, then register the
 			// opponent you are fighting against.
 
-			encounter = ConsequenceManager.disambiguateMonster(
-				encounter, responseText );
+			encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 
 			if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
 			{
@@ -1658,6 +1657,20 @@ public class FightRequest
 				    encounter.equalsIgnoreCase( "random scenester" ) ) )
 			{
 				Preferences.increment( "_hipsterAdv", 1 );
+			}
+			else if ( !KoLmafia.ignoreSemirare &&
+				  KoLCharacter.inBeeCore() &&
+				  ( encounter.equalsIgnoreCase( "beebee gunners" ) ||
+				    encounter.equalsIgnoreCase( "moneybee" ) ||
+				    encounter.equalsIgnoreCase( "mumblebee" ) ||
+				    encounter.equalsIgnoreCase( "beebee queue" ) ||
+				    encounter.equalsIgnoreCase( "bee swarm" ) ||
+				    encounter.equalsIgnoreCase( "buzzerker" ) ||
+				    encounter.equalsIgnoreCase( "beebee king" ) ||
+				    encounter.equalsIgnoreCase( "bee thoven" ) ||
+				    encounter.equalsIgnoreCase( "Queen Bee" ) ) )
+			{
+				Preferences.setInteger( "beeCounter", KoLCharacter.getCurrentRun() + 1 );
 			}
 
 			MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
