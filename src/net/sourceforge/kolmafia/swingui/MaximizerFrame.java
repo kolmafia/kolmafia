@@ -327,6 +327,11 @@ public class MaximizerFrame
 
 		MaximizerFrame.maximize( equipLevel, maxPrice, priceLevel, false );
 
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return false;
+		}
+
 		Modifiers mods = MaximizerFrame.best.calculate();
 		Modifiers.overrideModifier( "_spec", mods );
 
