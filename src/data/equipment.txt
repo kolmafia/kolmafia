@@ -1,7 +1,7 @@
 2
 # Hats section of equipment.txt
 
-Admiral's hat	0	Mox: 85
+Admiral's hat	200	Mox: 85
 Ancient Saucehelm	100	Mys: 15
 BRICKO hat	30	none
 Baron von Ratsworth's tophat	75	Mox: 22
@@ -50,7 +50,7 @@ anniversary concrete fedora	10	none
 antique helmet	200	Mus: 85
 asbestos helmet turtle	80	Mox: 25
 asshat	30	none
-astral chapeau	0	none
+astral chapeau	50	none
 balaclava	50	Mox: 10
 balloon helmet	50	Mox: 10
 bark beret	40	Mox: 5
@@ -125,7 +125,7 @@ guard turtle shell	160	Mox: 65
 hardened slime hat	200	Mox: 200
 helm of the white knight	60	Mox: 15
 helmet turtle	10	none
-honeycap	0	Mox: 72
+honeycap	175	Mox: 72
 ice pick	100	none
 indie comic hipster glasses	10	none
 insane tophat	30	none
@@ -134,7 +134,7 @@ irate sombrero	45	Mox: 7
 ironic knit cap	40	Mox: 5
 jewel-eyed wizard hat	10	none
 knobby helmet turtle	20	none
-leather aviator's cap	0	Mox: 10
+leather aviator's cap	50	Mox: 10
 leather mask	60	Mox: 15
 lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
@@ -268,8 +268,8 @@ Voluminous Radio Pants	150	Mox: 60
 Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
 antique greaves	200	Mus: 85
-astral shorts	0	none
-astral trousers	0	none
+astral shorts	50	none
+astral trousers	50	none
 astronaut pants	175	Mox: 72
 baggy rave pants	150	Mox: 60
 bark boxers	40	Mox: 5
@@ -320,7 +320,7 @@ hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
 hippopotamus skirt	130	Mox: 50
 hobo dungarees	200	Mox: 200
-honeybritches	0	Mox: 72
+honeybritches	175	Mox: 72
 ironic jogging shorts	40	Mox: 5
 junk-mail pants	50	Mox: 10
 leather chaps	160	Mox: 65
@@ -409,7 +409,7 @@ Ultracolor&trade; shirt	100	Mus: 35
 Ye Olde Navy Fleece	100	Mus: 35
 anniversary safety glass vest	10	none
 asbestos apron	170	Mus: 70
-astral shirt	0	none
+astral shirt	50	none
 barskin cloak	25	none
 bat-ass leather jacket	180	Mus: 77
 bronze breastplate	105	Mus: 37
@@ -579,10 +579,10 @@ asbestos crossbow	110	Mox: 40	2-handed crossbow
 asbestos staff	100	Mus: 35	2-handed staff
 asbestos sword	120	Mus: 45	2-handed sword
 asparagus knife	15	Mus: 0	1-handed knife
-astral bludgeon	0	Mus: 0	2-handed club
-astral longbow	0	Mox: 0	2-handed bow
-astral mace	0	Mus: 0	1-handed club
-astral pistol	0	Mox: 0	1-handed pistol
+astral bludgeon	50	Mus: 0	2-handed club
+astral longbow	50	Mox: 0	2-handed bow
+astral mace	50	Mus: 0	1-handed club
+astral pistol	50	Mox: 0	1-handed pistol
 automatic catapult	150	Mox: 60	2-handed autopult
 bad-ass club	130	Mus: 50	2-handed club
 balloon sword	50	Mus: 10	1-handed sword
@@ -753,7 +753,7 @@ hilarious comedy prop	10	Mus: 0	1-handed club
 hippo whip	20	Mus: 0	1-handed whip
 hippy bongo	70	Mox: 20	1-handed drum
 homoerotic frat-paddle	70	Mus: 20	1-handed club
-honey dipper	0	Mys: 72	1-handed utensil
+honey dipper	175	Mys: 72	1-handed utensil
 hot cross bow	130	Mox: 45	2-handed crossbow
 hot-ass club	160	Mus: 65	2-handed club
 huge mirror shard	30	Mus: 0	1-handed knife
@@ -1013,9 +1013,8 @@ anniversary balloon	10	none
 anniversary chutney sculpture	10	none
 antique shield	230	Mus: 85	shield
 arrow'd heart balloon	10	none
-# *** astral shield is a shield of unknown power.
-astral shield	0	none	shield
-astral statuette	0	none
+astral shield	50	none	shield
+astral statuette	50	none
 bag of Crotchety Pine saplings	10	none
 bag of Laughing Willow saplings	10	none
 bag of Saccharine Maple saplings	10	none
@@ -1377,10 +1376,10 @@ amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
 anniversary burlap belt	10	none
 arrrgyle socks	70	Mys: 20
-astral belt	0	none
-astral bracer	0	none
-astral mask	0	none
-astral ring	0	none
+astral belt	50	none
+astral bracer	50	none
+astral mask	50	none
+astral ring	50	none
 baconstone bracelet	50	Mys: 10
 baconstone earring	50	Mys: 10
 baconstone pendant	50	Mys: 10
