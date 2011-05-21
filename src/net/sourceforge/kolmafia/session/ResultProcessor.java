@@ -434,11 +434,11 @@ public class ResultProcessor
 			if ( m.find() )
 			{
 				int duration = StringUtilities.parseInt( m.group(1) );
-				return parseEffect( effectName + " (" + duration + ")" );
+				return ResultProcessor.parseEffect( effectName + " (" + duration + ")" );
 			}
 		}
 
-		parseEffect( effectName );
+		ResultProcessor.parseEffect( effectName );
 		return false;
 	}
 

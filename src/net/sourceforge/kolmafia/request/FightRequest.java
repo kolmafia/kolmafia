@@ -1671,6 +1671,10 @@ public class FightRequest
 				    encounter.equalsIgnoreCase( "Queen Bee" ) ) )
 			{
 				Preferences.setInteger( "beeCounter", KoLCharacter.getCurrentRun() + 1 );
+				TurnCounter.stopCounting( "Bee window begin" );
+				TurnCounter.stopCounting( "Bee window end" );
+				TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
 			}
 
 			MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );

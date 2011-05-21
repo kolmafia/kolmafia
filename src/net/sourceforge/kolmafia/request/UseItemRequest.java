@@ -3728,6 +3728,16 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 			return;
+
+		case ItemPool.HONEYPOT:
+			// You gain the "Float Like a Butterfly, Smell Like a
+			// Bee" effect.	 This prevents bees from appearing
+			// while it is active.	As soon as it wears off, a bee
+			// will appear.	 Stop the bee counters, since turns
+			// remaining of the effect give the same info.
+			TurnCounter.stopCounting( "Bee window begin" );
+			TurnCounter.stopCounting( "Bee window end" );
+			return;
 		}
 	}
 

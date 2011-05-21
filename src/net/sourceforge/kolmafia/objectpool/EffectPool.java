@@ -77,6 +77,7 @@ public class EffectPool
 	public static final String PINK_CUPCAKE = "Your Cupcake Senses Are Tingling";
 
 	public static final String FISHY = "Fishy";
+	public static final String BEE_SMELL = "Float Like a Butterfly, Smell Like a Bee";
 
 	public static final String WUSSINESS = "Wussiness";
 	public static final String HARDLY_POISONED = "Hardly Poisoned at All";
