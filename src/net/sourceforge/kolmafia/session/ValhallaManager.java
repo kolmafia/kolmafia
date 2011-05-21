@@ -178,6 +178,13 @@ public class ValhallaManager
 		// The semirare counter is set in Valhalla.
 		TurnCounter.startCounting( 70, "Semirare window begin loc=*", "lparen.gif" );
 		TurnCounter.startCounting( 80, "Semirare window end loc=*", "rparen.gif" );
+
+		// If you are in BeeCore, watch out for wandering bees!
+		if ( KoLCharacter.inBeeCore() )
+		{
+			TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
+			TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
+		}
 		
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
