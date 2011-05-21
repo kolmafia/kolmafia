@@ -3991,7 +3991,7 @@ public class UseItemRequest
 
 	public static final String lastSemirareMessage()
 	{
-		KoLCharacter.ensureUpdatedSemirareCounter();
+		KoLCharacter.ensureUpdatedAscensionCounters();
 
 		int turns = Preferences.getInteger( "semirareCounter" );
 		if ( turns == 0 )
