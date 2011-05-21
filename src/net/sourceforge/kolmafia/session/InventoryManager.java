@@ -209,12 +209,22 @@ public abstract class InventoryManager
 
 	public static final boolean retrieveItem( final int itemId )
 	{
-		return retrieveItem( ItemPool.get( itemId, 1 ) );
+		return retrieveItem( ItemPool.get( itemId, 1 ), true );
+	}
+
+	public static final boolean retrieveItem( final int itemId, final boolean isAutomated )
+	{
+		return retrieveItem( ItemPool.get( itemId, 1 ), isAutomated );
 	}
 
 	public static final boolean retrieveItem( final int itemId, int count )
 	{
-		return retrieveItem( ItemPool.get( itemId, count ) );
+		return retrieveItem( ItemPool.get( itemId, count ), true );
+	}
+
+	public static final boolean retrieveItem( final int itemId, int count, final boolean isAutomated )
+	{
+		return retrieveItem( ItemPool.get( itemId, count ), isAutomated );
 	}
 
 	public static final boolean retrieveItem( final String itemName )
@@ -222,9 +232,19 @@ public abstract class InventoryManager
 		return retrieveItem( ItemPool.get( itemName, 1 ), true );
 	}
 
+	public static final boolean retrieveItem( final String itemName, final boolean isAutomated )
+	{
+		return retrieveItem( ItemPool.get( itemName, 1 ), isAutomated );
+	}
+
 	public static final boolean retrieveItem( final String itemName, int count )
 	{
 		return retrieveItem( ItemPool.get( itemName, count ), true );
+	}
+
+	public static final boolean retrieveItem( final String itemName, int count, final boolean isAutomated )
+	{
+		return retrieveItem( ItemPool.get( itemName, count ), isAutomated );
 	}
 
 	public static final boolean retrieveItem( final AdventureResult item )
