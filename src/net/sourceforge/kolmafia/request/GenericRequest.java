@@ -1041,7 +1041,7 @@ public class GenericRequest
 			// in the sewer, do it.
 			if ( location.indexOf( "autoworthless=on" ) != -1 )
 			{
-				InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM );
+				InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM, false );
 			}
 
 			// If he wants us to automatically get a hermit permit,
@@ -1051,7 +1051,7 @@ public class GenericRequest
 				HermitRequest.ensureUpdatedHermit();
 				if ( !Preferences.getBoolean( "hermitHax0red" ) )
 				{
-					InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT );
+					InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT, false );
 				}
 			}
 		}
