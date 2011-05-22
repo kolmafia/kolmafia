@@ -261,6 +261,7 @@ public class ItemPool
 	public static final int BONERDAGON_SKULL = 675;
 	public static final int DRAGONBONE_BELT_BUCKLE = 676;
 	public static final int BADASS_BELT = 677;
+	public static final int BONERDAGON_CHEST = 678;
 	public static final int DIGITAL_KEY = 691;
 	public static final int JEWELRY_PLIERS = 709;
 	public static final int BACONSTONE_EARRING = 715;
