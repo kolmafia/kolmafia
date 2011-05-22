@@ -1497,9 +1497,9 @@ public class UseItemRequest
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		AdventureResult helper = UseItemRequest.lastHelperUsed;
 
-		// If you are in BeeCore, certain items can't B used
+		// If you are in Beecore, certain items can't B used
 		// "You are too scared of Bs to xxx that item."
-		if ( KoLCharacter.inBeeCore() &&
+		if ( KoLCharacter.inBeecore() &&
 		     responseText.indexOf( "You are too scared of Bs" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "You are too scared of Bs";
@@ -4282,7 +4282,7 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.BLACK_MARKET_MAP: {
-			int needed = KoLCharacter.inBeeCore() ?
+			int needed = KoLCharacter.inBeecore() ?
 				FamiliarPool.CROW : FamiliarPool.BLACKBIRD;
 			int hatchling = needed == FamiliarPool.CROW ?
 				ItemPool.RECONSTITUTED_CROW : ItemPool.REASSEMBLED_BLACKBIRD;

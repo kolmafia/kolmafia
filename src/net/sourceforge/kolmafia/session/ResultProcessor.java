@@ -865,11 +865,13 @@ public class ResultProcessor
 
 				boolean shouldRefresh = false;
 				List uses = ConcoctionDatabase.getKnownUses( result );
+				int itemId = result.getItemId();
 
 				for ( int i = 0; i < uses.size() && !shouldRefresh; ++i )
 				{
-					shouldRefresh =
-						ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( ( (AdventureResult) uses.get( i ) ).getItemId() ) );
+					AdventureResult use = (AdventureResult) uses.get( i );
+					int method = ConcoctionDatabase.getMixingMethod( use.getItemId() );
+					shouldRefresh |= ConcoctionDatabase.isPermittedMethod( method, itemId );
 				}
 
 				if ( !shouldRefresh )

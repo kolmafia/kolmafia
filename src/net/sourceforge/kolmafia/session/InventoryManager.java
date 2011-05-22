@@ -1001,8 +1001,7 @@ public abstract class InventoryManager
 		int id = item.getItemId();
 		int method = ConcoctionDatabase.getMixingMethod( item );
 		int price = ConcoctionDatabase.CREATION_COST[ method & KoLConstants.CT_MASK ];
-		if ( level > 10 || !ConcoctionDatabase.isPermittedMethod(
-			method ) )
+		if ( level > 10 || !ConcoctionDatabase.isPermittedMethod( method, id ) )
 		{
 			return Integer.MAX_VALUE;
 		}

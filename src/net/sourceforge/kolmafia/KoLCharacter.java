@@ -2574,7 +2574,7 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath;
 	}
 
-	public static final boolean inBeeCore()
+	public static final boolean inBeecore()
 	{
 		return KoLCharacter.ascensionPath.equals( "Bees Hate You" );
 	}

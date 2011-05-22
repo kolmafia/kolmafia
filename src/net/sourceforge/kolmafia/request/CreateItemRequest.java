@@ -273,7 +273,11 @@ public class CreateItemRequest
 				ConcoctionDatabase.excuse = "That item requires a recipe.  If you've already learned it, visit the crafting discoveries page in the relay browser to let KoLmafia know about it.";
 				return null;
 			}
-			if ( !ConcoctionDatabase.checkPermittedMethod( instance.concoction.getMixingMethod() ) )
+
+			Concoction concoction = instance.concoction;
+			int method = concoction.getMixingMethod();
+			int itemId = concoction.getItem().getItemId();
+			if ( !ConcoctionDatabase.checkPermittedMethod( method, itemId ) )
 			{	// checkPermittedMethod set the excuse
 				return null;
 			}

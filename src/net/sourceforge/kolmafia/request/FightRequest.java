@@ -1659,7 +1659,7 @@ public class FightRequest
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
 			else if ( !KoLmafia.ignoreSemirare &&
-				  KoLCharacter.inBeeCore() &&
+				  KoLCharacter.inBeecore() &&
 				  ( encounter.equalsIgnoreCase( "beebee gunners" ) ||
 				    encounter.equalsIgnoreCase( "moneybee" ) ||
 				    encounter.equalsIgnoreCase( "mumblebee" ) ||

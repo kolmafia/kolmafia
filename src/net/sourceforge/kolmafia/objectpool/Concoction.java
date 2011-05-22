@@ -497,7 +497,7 @@ public class Concoction
 		}
 		
 		if ( this.price > 0 ||
-			!ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
+		     !ConcoctionDatabase.isPermittedMethod( this.mixingMethod, this.getItemId() ) )
 		{
 			return;
 		}
@@ -716,8 +716,8 @@ public class Concoction
 			return alreadyHave;
 		}
 		
-		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) ||
-			Preferences.getBoolean( "unknownRecipe" + this.getItemId() ) )
+		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod, this.getItemId() ) ||
+		     Preferences.getBoolean( "unknownRecipe" + this.getItemId() ) )
 		{	// Impossible to create any more of this item.
 			return alreadyHave;
 		}
@@ -841,7 +841,7 @@ public class Concoction
 	{
 		// If we can't make this item, it costs no adventures to use
 		// the quantity on hand.
-		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
+		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod, this.getItemId() ) )
 		{
 			return 0;
 		}
