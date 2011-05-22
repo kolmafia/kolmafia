@@ -45,6 +45,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -418,6 +419,15 @@ public class UseItemEnqueuePanel
 				
 			default:
 				return false;
+			}
+
+			if ( KoLCharacter.inBeecore() )
+			{
+				AdventureResult item = creation.getItem();
+				if ( item != null && item.getName().toLowerCase().indexOf( "b" ) != -1 )
+				{
+					return false;
+				}
 			}
 
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
