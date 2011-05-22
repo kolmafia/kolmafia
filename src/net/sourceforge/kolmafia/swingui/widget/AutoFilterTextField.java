@@ -71,12 +71,16 @@ public class AutoFilterTextField
 	protected boolean qtyEQ, qtyLT, qtyGT;
 	protected boolean asChecked;
 	protected boolean asEQ, asLT, asGT;
+	protected boolean notChecked;
 
 	private static final Pattern QTYSEARCH_PATTERN = Pattern.compile(
 		"\\s*#\\s*([<=>]+)\\s*([\\d,]+)\\s*" );
 
 	private static final Pattern ASSEARCH_PATTERN = Pattern.compile(
 		"\\s*\\p{Sc}\\s*([<=>]+)\\s*([\\d,]+)\\s*" );
+
+	private static final Pattern NOTSEARCH_PATTERN = Pattern.compile(
+		"\\s*!\\s*=\\s*(.+)\\s*" );
 
 	public AutoFilterTextField( final JList list )
 	{
@@ -143,6 +147,7 @@ public class AutoFilterTextField
 	{
 		this.qtyChecked = false;
 		this.asChecked = false;
+		this.notChecked = false;
 		this.text = this.getText().toLowerCase();
 
 		Matcher mqty = AutoFilterTextField.QTYSEARCH_PATTERN.matcher( this.text );
@@ -167,6 +172,13 @@ public class AutoFilterTextField
 			this.asLT = op.indexOf( "<" ) != -1;
 			this.asGT = op.indexOf( ">" ) != -1;
 			this.text = mas.replaceFirst( "" );
+		}
+
+		Matcher mnot = AutoFilterTextField.NOTSEARCH_PATTERN.matcher( this.text );
+		if ( mnot.find() )
+		{
+			this.notChecked = true;
+			this.text = mnot.group( 1 );
 		}
 
 		this.strict = true;
@@ -194,8 +206,8 @@ public class AutoFilterTextField
 		{
 			int qty = AutoFilterTextField.getResultQuantity( element );
 			if ( ( qty == this.quantity && !this.qtyEQ ) ||
-				 ( qty < this.quantity && !this.qtyLT ) ||
-				 ( qty > this.quantity && !this.qtyGT ) )
+			     ( qty < this.quantity && !this.qtyLT ) ||
+			     ( qty > this.quantity && !this.qtyGT ) )
 			{
 				return false;
 			}
@@ -205,8 +217,8 @@ public class AutoFilterTextField
 		{
 			int as = AutoFilterTextField.getResultPrice( element );
 			if ( ( as == this.price && !this.asEQ ) ||
-				 ( as < this.price && !this.asLT ) ||
-				 ( as > this.price && !this.asGT ) )
+			     ( as < this.price && !this.asLT ) ||
+			     ( as > this.price && !this.asGT ) )
 			{
 				return false;
 			}
@@ -221,6 +233,12 @@ public class AutoFilterTextField
 		// filter based on its string form.
 
 		String elementName = AutoFilterTextField.getResultName( element );
+
+		if ( this.notChecked )
+		{
+			boolean visible = elementName.indexOf( this.text ) == -1;
+			return elementName.indexOf( this.text ) == -1;
+		}
 
 		return this.strict ? elementName.indexOf( this.text ) != -1 :
 			StringUtilities.fuzzyMatches( elementName, this.text );
