@@ -1828,7 +1828,7 @@ public class GenericRequest
 
 		if ( ResultProcessor.shouldDisassembleClovers( this.getURLString() ) )
 		{
-			if ( KoLCharacter.inBeeCore() )
+			if ( KoLCharacter.inBeecore() )
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put * ten-leaf clover" );
 			}

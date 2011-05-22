@@ -294,6 +294,10 @@ public abstract class UseLinkDecorator
 		{
 			AdventureResult creation = (AdventureResult) creations.get( i );
 			int mixingMethod = ConcoctionDatabase.getMixingMethod( creation );
+			if ( !ConcoctionDatabase.isPermittedMethod( mixingMethod, creation.getItemId() ) )
+			{
+				continue;
+			}
 
 			// Only accept if it's a creation method that the
 			// editor kit currently understands and links.
@@ -312,8 +316,7 @@ public abstract class UseLinkDecorator
 			}
 
 			CreateItemRequest irequest = CreateItemRequest.getInstance( creation );
-
-			if ( ConcoctionDatabase.isPermittedMethod( mixingMethod ) && irequest != null && irequest.getQuantityPossible() > 0 )
+			if ( irequest != null && irequest.getQuantityPossible() > 0 )
 			{
 				return mixingMethod & KoLConstants.CT_MASK;
 			}
@@ -559,9 +562,9 @@ public abstract class UseLinkDecorator
 				return new UseLink( ItemPool.FRATHOUSE_BLUEPRINTS, 1, "use", "inv_use.php?which=3&whichitem=", false );
 
 			case ItemPool.BLACK_MARKET_MAP: {
-				int item1 = KoLCharacter.inBeeCore() ?
+				int item1 = KoLCharacter.inBeecore() ?
 					ItemPool.BUSTED_WINGS : ItemPool.BROKEN_WINGS;
-				int item2 = KoLCharacter.inBeeCore() ?
+				int item2 = KoLCharacter.inBeecore() ?
 					ItemPool.BIRD_BRAIN : ItemPool.SUNKEN_EYES;
 				if ( !InventoryManager.hasItem( item1 ) ||
 				     !InventoryManager.hasItem( item2 ) )

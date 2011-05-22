@@ -2730,15 +2730,16 @@ public abstract class RuntimeLibrary
 
 	public static Value get_ingredients( final Value arg )
 	{
-		int item = arg.intValue();
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
-		if ( !ConcoctionDatabase.isPermittedMethod(
-			ConcoctionDatabase.getMixingMethod( item ) ) )
+
+		int itemId = arg.intValue();
+		int method = ConcoctionDatabase.getMixingMethod( itemId );
+		if ( !ConcoctionDatabase.isPermittedMethod( method, itemId ) )
 		{
 			return value;	// can't make it
 		}
 
-		AdventureResult[] data = ConcoctionDatabase.getIngredients( item );
+		AdventureResult[] data = ConcoctionDatabase.getIngredients( itemId );
 		for ( int i = 0; i < data.length; ++i )
 		{
 			int count = data[ i ].getCount();

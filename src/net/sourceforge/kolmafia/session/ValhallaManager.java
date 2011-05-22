@@ -180,8 +180,8 @@ public class ValhallaManager
 		TurnCounter.startCounting( 70, "Semirare window begin loc=*", "lparen.gif" );
 		TurnCounter.startCounting( 80, "Semirare window end loc=*", "rparen.gif" );
 
-		// If you are in BeeCore, watch out for wandering bees!
-		if ( KoLCharacter.inBeeCore() )
+		// If you are in Beecore, watch out for wandering bees!
+		if ( KoLCharacter.inBeecore() )
 		{
 			// Until the interval to the first bee is spaded, don't
 			// bother setting a counter.
@@ -224,7 +224,7 @@ public class ValhallaManager
 			sessionStream.print( "Softcore " );
 		}
 
-		if ( KoLCharacter.inBeeCore() )
+		if ( KoLCharacter.inBeecore() )
 		{
 			sessionStream.print( "Bees Hate You " );
 		}
