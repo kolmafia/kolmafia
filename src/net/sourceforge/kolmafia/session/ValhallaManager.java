@@ -37,6 +37,7 @@ public class ValhallaManager
 	{
 		ItemPool.get( ItemPool.ELITE_SCROLL, 1 ),
 		ItemPool.get( ItemPool.FISHERMANS_SACK, 1 ),
+		ItemPool.get( ItemPool.BONERDAGON_CHEST, 1 ),
 	};
 
 	private static final AdventureResult [] AUTOSELLABLE = new AdventureResult []

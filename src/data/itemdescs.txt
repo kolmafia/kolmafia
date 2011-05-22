@@ -5117,7 +5117,7 @@
 5116	542484240	aolcom.gif	A. W. O. L. commendation
 5117	529331441	blackbird2.gif	reconstituted crow
 5118	576544533	birdbrain.gif	bird brain
-5119	621350237	brokenwings.gif	busted wings
+5119	980813799	brokenwings.gif	busted wings
 5120	151842381	book4.gif	Massive Manual of Marauder Mockery	Massive Manuals of Marauder Mockery
 5121	423441910	admiralhat.gif	Admiral's hat
 5122	558813843	aviatorcap.gif	leather aviator's cap
