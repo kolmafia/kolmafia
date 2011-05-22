@@ -236,7 +236,6 @@ public class AutoFilterTextField
 
 		if ( this.notChecked )
 		{
-			boolean visible = elementName.indexOf( this.text ) == -1;
 			return elementName.indexOf( this.text ) == -1;
 		}
 

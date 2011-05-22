@@ -1123,6 +1123,7 @@ public class RelayRequest
 	public void sendCloverWarning()
 	{
 		StringBuffer warning = new StringBuffer();
+		boolean beeCore = KoLCharacter.inBeecore();
 
 		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
 
@@ -1133,6 +1134,7 @@ public class RelayRequest
 
 		String url = this.getURLString();
 
+		// Proceed with clover
 		warning.append( "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
 		warning.append( url );
 		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
@@ -1141,14 +1143,41 @@ public class RelayRequest
 
 		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 
-		warning.append( "<td align=center valign=center><div id=\"unlucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"#\" onClick=\"multiUse('multiuse.php', " );
-		warning.append( ItemPool.TEN_LEAF_CLOVER );
-		warning.append( ", " );
-		warning.append( InventoryManager.getCount( ItemPool.TEN_LEAF_CLOVER ) );
-		warning.append( "); void(0);\"><img src=\"http://images.kingdomofloathing.com/itemimages/disclover.gif\" width=30 height=30 border=0>" );
+		// Protect clover
+		warning.append( "<td align=center valign=center><div id=\"unlucky\" style=\"padding: 4px 4px 4px 4px\">" );
+		if ( beeCore )
+		{
+			// fillcloset.php?action=closetpush&whichitem=24&qty=all&pwd&ajax=1
+			warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"inlineLoad('fillcloset.php', 'action=closetpush&whichitem=" );
+			warning.append( ItemPool.TEN_LEAF_CLOVER );
+			warning.append( "&qty=all&pwd=" );
+			warning.append( GenericRequest.passwordHash );
+			warning.append( "&ajax=1', " );
+			warning.append( ItemPool.TEN_LEAF_CLOVER );
+			warning.append( "); void(0);\">" );
+			warning.append( "<img src=\"/images/closet.gif\" width=30 height=30 border=0>" );
+		}
+		else
+		{
+			warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"multiUse('multiuse.php', " );
+			warning.append( ItemPool.TEN_LEAF_CLOVER );
+			warning.append( ", " );
+			warning.append( InventoryManager.getCount( ItemPool.TEN_LEAF_CLOVER ) );
+			warning.append( "); void(0);\">" );
+			warning.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/disclover.gif\" width=30 height=30 border=0>" );
+		}
 		warning.append( "</a></div></td>" );
 
-		warning.append( "</tr></table></center><blockquote>KoLmafia has detected a ten-leaf clover in your inventory.  If you are sure you wish to use it, click on the assembled clover on the left.  If this was an accident, please click on the disassembled clover on the right to disassemble your clovers first.	 To disable this warning, please check your preferences and disable clover protection.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+		warning.append( "</tr></table></center><blockquote>KoLmafia has detected a ten-leaf clover in your inventory.  If you are sure you wish to use it, click on the assembled clover on the left.  If this was an accident, please click on the " );
+		if ( beeCore )
+		{
+			warning.append( "closet on the right to closet" );
+		}
+		else
+		{
+			warning.append( "disassembled clover on the right to disassemble" );
+		}
+		warning.append( " your clovers first.  To disable this warning, please check your preferences and disable clover protection.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
