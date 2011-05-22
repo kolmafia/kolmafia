@@ -19,6 +19,7 @@
 # EXPENSIVE (jewelrymaking skill)
 # REAGENT, WAY, DEEP, PASTAMASTERY, TEMPURAMANCY (cooking)
 # AC, SHC, SALACIOUS (cocktailcrafting skills)
+# NOBEE (cannot be make in Beecore)
 #
 # Informational flags:
 # SX3 (Saucerors make 3 at a time)
@@ -171,7 +172,7 @@ chaos popcorn	COMBINE	popcorn	chaos butterfly
 # Clover weapons and their subcomponents.  These can be made by all
 # classes by meatsmithing
 
-ten-leaf clover	SUSE	disassembled clover
+ten-leaf clover	SUSE, NOBEE	disassembled clover
 disassembled clover	SUSE	ten-leaf clover
 
 seal-toothed rock	SMITH	seal tooth	big rock
@@ -226,7 +227,7 @@ pirate zombie head	COMBINE	clockwork pirate skull	zombie pineal gland
 pirate zombie robot head	COMBINE	pirate zombie head	glowing red eye
 ninja pirate zombie robot head	COMBINE	pirate zombie robot head	cold ninja mask
 
-rock lobster	SUSE	wok lobster	floaty rock
+rock lobster	SUSE, NOBEE	wok lobster	floaty rock
 
 wet stew	COOK	bird rib	lion oil
 wet stunt nut stew	COOK	wet stew	stunt nuts
@@ -289,7 +290,7 @@ enchanted bean burrito	COOK	flat dough	enchanted bean
 flower petal pie	COOK	pretty flower	pie crust
 ghostly pickling solution	COOK	briny vinegar	dill
 goat cheese pizza	COOK	plain pizza	goat cheese
-guano coffee cup	SUSE	bat guano
+guano coffee cup	SUSE, NOBEE	bat guano
 herb brownies	COOK	herbs	Uncle Jick's Brownie Mix
 hippy herbal tea	COOK	guano coffee cup	herbs
 Humpty Dumplings	COOK	eggman noodles	Vial of <i>jus de larmes</i>
@@ -1191,7 +1192,7 @@ concoction of clumsiness	SAUCE	scrumptious reagent	lion oil
 
 # Advanced Sauces
 
-scrumdiddlyumptious solution	SUSE	delectable catalyst	scrumptious reagent
+scrumdiddlyumptious solution	SUSE, NOBEE	delectable catalyst	scrumptious reagent
 
 # Reagent potions.
 
@@ -1474,10 +1475,10 @@ pottery training pants	MUSE	smoked potsherd (11)
 
 # Recipes that involve multi-using a quantity of an item
 
-balloon helmet	MUSE	long skinny balloon (2)
-balloon monkey	MUSE	long skinny balloon (7)
-balloon shield	MUSE	long skinny balloon (4)
-balloon sword	MUSE	long skinny balloon (3)
+balloon helmet	MUSE, NOBEE	long skinny balloon (2)
+balloon monkey	MUSE, NOBEE	long skinny balloon (7)
+balloon shield	MUSE, NOBEE	long skinny balloon (4)
+balloon sword	MUSE, NOBEE	long skinny balloon (3)
 
 palm-frond fan	MUSE	palm frond (2)
 palm-frond net	MUSE	palm frond (3)
@@ -1504,35 +1505,35 @@ paperclip turban	MUSE	paperclip (15)
 paperclip cape	MUSE	paperclip (20)
 paperclip pants	MUSE	paperclip (25)
 
-double-ice cap	MUSE	shard of double-ice (5)
-double-ice box	MUSE	shard of double-ice (7)
-double-ice britches	MUSE	shard of double-ice (9)
+double-ice cap	MUSE, NOBEE	shard of double-ice (5)
+double-ice box	MUSE, NOBEE	shard of double-ice (7)
+double-ice britches	MUSE, NOBEE	shard of double-ice (9)
 
-clingfilm tangle	MUSE	bit of clingfilm (3)
-clingfilm slippers	MUSE	bit of clingfilm (7)
-clingfilm cap	MUSE	bit of clingfilm (9)
-clingfilm trousers	MUSE	bit of clingfilm (11)
+clingfilm tangle	MUSE, NOBEE	bit of clingfilm (3)
+clingfilm slippers	MUSE, NOBEE	bit of clingfilm (7)
+clingfilm cap	MUSE, NOBEE	bit of clingfilm (9)
+clingfilm trousers	MUSE, NOBEE	bit of clingfilm (11)
 
 brick of sand	MUSE	handful of sand (5)
-sandcastle	MUSE	brick of sand (20)
+sandcastle	MUSE, NOBEE	brick of sand (20)
 
 house of twigs and spit	MUSE	interesting-looking twig (100)
 
 deck of lewd playing cards	MUSE	lewd playing card (52)
 
-propeller beanie	MUSE	Bash-&#332;s boxtop (20)
+propeller beanie	MUSE, NOBEE	Bash-&#332;s boxtop (20)
 
-bark bracelet	MUSE	spooky bark (5)
-bark beret	MUSE	spooky bark (7)
-bark boxers	MUSE	spooky bark (9)
+bark bracelet	MUSE, NOBEE	spooky bark (5)
+bark beret	MUSE, NOBEE	spooky bark (7)
+bark boxers	MUSE, NOBEE	spooky bark (9)
 
-snailmail coif	MUSE	snailmail bits (3)
-snailmail breeches	MUSE	snailmail bits (5)
-snailmail hauberk	MUSE, TORSO	snailmail bits (8)
+snailmail coif	MUSE, NOBEE	snailmail bits (3)
+snailmail breeches	MUSE, NOBEE	snailmail bits (5)
+snailmail hauberk	MUSE, NOBEE, TORSO	snailmail bits (8)
 
-turtlemail coif	MUSE	turtlemail bits (3)
-turtlemail breeches	MUSE	turtlemail bits (5)
-turtlemail hauberk	MUSE, TORSO	turtlemail bits (8)
+turtlemail coif	MUSE, NOBEE	turtlemail bits (3)
+turtlemail breeches	MUSE, NOBEE	turtlemail bits (5)
+turtlemail hauberk	MUSE, NOBEE, TORSO	turtlemail bits (8)
 
 wumpus-hair bolo	MUSE	wumpus hair (2)
 wumpus-hair net	MUSE	wumpus hair (5)
@@ -1541,23 +1542,23 @@ wumpus-hair wig	MUSE	wumpus hair (16)
 wumpus-hair loincloth	MUSE	wumpus hair (23)
 wumpus-hair sweater	MUSE, TORSO	wumpus hair (30)
 
-BRICKO ooze	MUSE	BRICKO brick (2)	BRICKO eye brick (1)
-BRICKO hat	MUSE	BRICKO brick (3)
-BRICKO bat	MUSE	BRICKO brick (5)	BRICKO eye brick (1)
-BRICKO sword	MUSE	BRICKO brick (6)
-BRICKO oyster	MUSE	BRICKO brick (8)	BRICKO eye brick (1)
-BRICKO pants	MUSE	BRICKO brick (9)
-BRICKO turtle	MUSE	BRICKO brick (11)	BRICKO eye brick (1)
-BRICKO elephant	MUSE	BRICKO brick (23)	BRICKO eye brick (1)
-BRICKO octopus	MUSE	BRICKO brick (37)	BRICKO eye brick (1)
-BRICKO python	MUSE	BRICKO brick (69)	BRICKO eye brick (1)
-BRICKO pyramid	MUSE	BRICKO brick (420)
-BRICKO vacuum cleaner	MUSE	BRICKO brick (1100)	BRICKO eye brick (1)
-BRICKO airship	MUSE	BRICKO brick (2300)	BRICKO eye brick (1)
-BRICKO cathedral	MUSE	BRICKO brick (3700)	BRICKO eye brick (1)
-BRICKO gargantuchicken	MUSE	BRICKO brick (6900)	BRICKO eye brick (1)
+BRICKO ooze	MUSE, NOBEE	BRICKO brick (2)	BRICKO eye brick (1)
+BRICKO hat	MUSE, NOBEE	BRICKO brick (3)
+BRICKO bat	MUSE, NOBEE	BRICKO brick (5)	BRICKO eye brick (1)
+BRICKO sword	MUSE, NOBEE	BRICKO brick (6)
+BRICKO oyster	MUSE, NOBEE	BRICKO brick (8)	BRICKO eye brick (1)
+BRICKO pants	MUSE, NOBEE	BRICKO brick (9)
+BRICKO turtle	MUSE, NOBEE	BRICKO brick (11)	BRICKO eye brick (1)
+BRICKO elephant	MUSE, NOBEE	BRICKO brick (23)	BRICKO eye brick (1)
+BRICKO octopus	MUSE, NOBEE	BRICKO brick (37)	BRICKO eye brick (1)
+BRICKO python	MUSE, NOBEE	BRICKO brick (69)	BRICKO eye brick (1)
+BRICKO pyramid	MUSE, NOBEE	BRICKO brick (420)
+BRICKO vacuum cleaner	MUSE, NOBEE	BRICKO brick (1100)	BRICKO eye brick (1)
+BRICKO airship	MUSE, NOBEE	BRICKO brick (2300)	BRICKO eye brick (1)
+BRICKO cathedral	MUSE, NOBEE	BRICKO brick (3700)	BRICKO eye brick (1)
+BRICKO gargantuchicken	MUSE, NOBEE	BRICKO brick (6900)	BRICKO eye brick (1)
 
-gilded BRICKO chalice	MUSE	gilded BRICKO brick (11)
+gilded BRICKO chalice	MUSE, NOBEE	gilded BRICKO brick (11)
 
 honeypot	MUSE	handful of honey (3)
 honey mead	MUSE	handful of honey (4)
@@ -1568,32 +1569,32 @@ honey dipper	MUSE	handful of honey (69)
 
 # Recipes that involve single-using one of the ingredients
 
-booty chest charrrm bracelet	SUSE	booty chest charrrm	charrrm bracelet
-cannonball charrrm bracelet	SUSE	cannonball charrrm	charrrm bracelet
+booty chest charrrm bracelet	SUSE, NOBEE	booty chest charrrm	charrrm bracelet
+cannonball charrrm bracelet	SUSE, NOBEE	cannonball charrrm	charrrm bracelet
 copper ha'penny charrrm bracelet	SUSE	copper ha'penny charrrm	charrrm bracelet
 grumpy old man charrrm bracelet	SUSE	grumpy old man charrrm	charrrm bracelet
 Jolly Roger charrrm bracelet	SUSE	Jolly Roger charrrm	charrrm bracelet
-rum barrel charrrm bracelet	SUSE	rum barrel charrrm	charrrm bracelet
+rum barrel charrrm bracelet	SUSE, NOBEE	rum barrel charrrm	charrrm bracelet
 silver tongue charrrm bracelet	SUSE	silver tongue charrrm	charrrm bracelet
 tarrrnished charrrm bracelet	SUSE	tarrrnish charrrm	charrrm bracelet
 
-charrrm bracelet	SUSE	Jolly Roger charrrm bracelet
+charrrm bracelet	SUSE, NOBEE	Jolly Roger charrrm bracelet
 
 turtle wax shield	SUSE	turtle wax
 ancient turtle shell powder	SUSE	ancient turtle shell
 
 brown crock marble	SUSE	green peawee marble (2)
-red China marble	SUSE	brown crock marble (2)
+red China marble	SUSE, NOBEE	brown crock marble (2)
 lemonade marble	SUSE	red China marble (2)
 bumblebee marble	SUSE	lemonade marble (2)
-jet bennie marble	SUSE	bumblebee marble (2)
-beige clambroth marble	SUSE	jet bennie marble (2)
-steely marble	SUSE	beige clambroth marble (2)
+jet bennie marble	SUSE, NOBEE	bumblebee marble (2)
+beige clambroth marble	SUSE, NOBEE	jet bennie marble (2)
+steely marble	SUSE, NOBEE	beige clambroth marble (2)
 beach ball marble	SUSE	steely marble (2)
-black catseye marble	SUSE	beach ball marble (2)
-big bumboozer marble	SUSE	black catseye marble (2)
+black catseye marble	SUSE, NOBEE	beach ball marble (2)
+big bumboozer marble	SUSE, NOBEE	black catseye marble (2)
 
-glob of Blank-Out	SUSE	bottle of Blank-Out
+glob of Blank-Out	SUSE, NOBEE	bottle of Blank-Out
 
 pumpkin juice (3)	SUSE	pumpkin
 
@@ -1683,8 +1684,8 @@ clockwork bartender-in-the-box	COMBINE	clockwork bartender head	nothing-in-the-b
 
 # Items created via item usage.
 
-dead guy's memento	SUSE	dead guy's piece of double-sided tape	dead guy's watch	picture of a dead guy's girlfriend
-rusty diving helmet	SUSE	rusty broken diving helmet	rusty porthole	rusty rivet (8)
+dead guy's memento	SUSE, NOBEE	dead guy's piece of double-sided tape	dead guy's watch	picture of a dead guy's girlfriend
+rusty diving helmet	SUSE, NOBEE	rusty broken diving helmet	rusty porthole	rusty rivet (8)
 scroll of ancient forbidden unspeakable evil	SUSE	disintegrating quill pen	inkwell	tattered scrap of paper
 toast with jam	SUSE	jamfish jam	toast
 toe jam toast	SUSE	toe jam	toast

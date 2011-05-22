@@ -871,12 +871,12 @@ public class ResultProcessor
 				{
 					AdventureResult use = (AdventureResult) uses.get( i );
 					int method = ConcoctionDatabase.getMixingMethod( use.getItemId() );
-					shouldRefresh |= ConcoctionDatabase.isPermittedMethod( method, itemId );
+					shouldRefresh |= ConcoctionDatabase.isPermittedMethod( method );
 				}
 
 				if ( !shouldRefresh )
 				{
-					switch ( ItemDatabase.getConsumptionType( result.getItemId() ) )
+					switch ( ItemDatabase.getConsumptionType( itemId ) )
 					{
 					case KoLConstants.CONSUME_EAT:
 					case KoLConstants.CONSUME_DRINK:
