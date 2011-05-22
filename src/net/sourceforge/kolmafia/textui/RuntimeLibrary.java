@@ -2734,7 +2734,7 @@ public abstract class RuntimeLibrary
 
 		int itemId = arg.intValue();
 		int method = ConcoctionDatabase.getMixingMethod( itemId );
-		if ( !ConcoctionDatabase.isPermittedMethod( method, itemId ) )
+		if ( !ConcoctionDatabase.isPermittedMethod( method ) )
 		{
 			return value;	// can't make it
 		}

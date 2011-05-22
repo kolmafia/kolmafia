@@ -276,8 +276,7 @@ public class CreateItemRequest
 
 			Concoction concoction = instance.concoction;
 			int method = concoction.getMixingMethod();
-			int itemId = concoction.getItem().getItemId();
-			if ( !ConcoctionDatabase.checkPermittedMethod( method, itemId ) )
+			if ( !ConcoctionDatabase.checkPermittedMethod( method ) )
 			{	// checkPermittedMethod set the excuse
 				return null;
 			}

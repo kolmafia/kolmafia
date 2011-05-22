@@ -294,7 +294,7 @@ public abstract class UseLinkDecorator
 		{
 			AdventureResult creation = (AdventureResult) creations.get( i );
 			int mixingMethod = ConcoctionDatabase.getMixingMethod( creation );
-			if ( !ConcoctionDatabase.isPermittedMethod( mixingMethod, creation.getItemId() ) )
+			if ( !ConcoctionDatabase.isPermittedMethod( mixingMethod ) )
 			{
 				continue;
 			}

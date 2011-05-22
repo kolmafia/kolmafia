@@ -1001,11 +1001,11 @@ public abstract class InventoryManager
 		int id = item.getItemId();
 		int method = ConcoctionDatabase.getMixingMethod( item );
 		int price = ConcoctionDatabase.CREATION_COST[ method & KoLConstants.CT_MASK ];
-		if ( level > 10 || !ConcoctionDatabase.isPermittedMethod( method, id ) )
+		if ( level > 10 || !ConcoctionDatabase.isPermittedMethod( method ) )
 		{
 			return Integer.MAX_VALUE;
 		}
-		int yield = ConcoctionDatabase.getYield( item.getItemId() );
+		int yield = ConcoctionDatabase.getYield( id );
 		int madeqty = (qty + yield - 1) / yield;
 		AdventureResult ingrs[] = ConcoctionDatabase.getIngredients( id );
 		if ( ingrs.length == 0 )

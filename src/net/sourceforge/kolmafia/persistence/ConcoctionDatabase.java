@@ -214,6 +214,10 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "SHC", new Integer( KoLConstants.CR_SHC ));
 		// Requires Salacious Cocktailcrafting
 		ConcoctionDatabase.mixingMethods.put( "SALACIOUS", new Integer( KoLConstants.CR_SALACIOUS ));
+
+		// Items creatable only if not on Bees Hate You path
+		ConcoctionDatabase.mixingMethods.put( "NOBEE", new Integer( KoLConstants.CR_NOBEE ));
+
 		// Saucerors make 3 of this item at a time
 		ConcoctionDatabase.mixingMethods.put( "SX3", new Integer( KoLConstants.CF_SX3 ));
 		// Recipe unexpectedly does not appear in Discoveries, even though
@@ -521,7 +525,7 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.getKnownUses( item.getItemId() );
 	}
 
-	public static final boolean isPermittedMethod( final int method, final int itemId )
+	public static final boolean isPermittedMethod( final int method )
 	{
 		int base = method & KoLConstants.CT_MASK;
 
@@ -537,31 +541,11 @@ public class ConcoctionDatabase
 			return false;
 		}
 
-		// In Beecore, you cannot create "b" items via use or multiuse
-		if ( !KoLCharacter.inBeecore() ||
-		     ( base != KoLConstants.SINGLE_USE && base != KoLConstants.MULTI_USE ) )
-		{
-			return true;
-		}
-
-		// Find the ingredient we use or multi-use to get this item
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId );
-		if ( ingredients == null || ingredients.length < 1 )
-		{
-			return true;
-		}
-
-		AdventureResult ingredient = ingredients[0];
-		if ( ingredient.getName().toLowerCase().indexOf( "b" ) != -1 )
-		{
-			return false;
-		}
-
 		// Otherwise, go for it!
 		return true;
 	}
 
-	public static final boolean checkPermittedMethod( int method, final int itemId )
+	public static final boolean checkPermittedMethod( int method )
 	{
 		// Same as isPermittedMethod(), but sets excuse.
 		ConcoctionDatabase.excuse = null;
@@ -593,27 +577,6 @@ public class ConcoctionDatabase
 				}
 			}
 			ConcoctionDatabase.excuse = "You lack a skill or other prerequisite for creating that item (" + reason + ").";
-			return false;
-		}
-
-		// In Beecore, you cannot create "b" items via use or multiuse
-		if ( !KoLCharacter.inBeecore() ||
-		     ( base != KoLConstants.SINGLE_USE && base != KoLConstants.MULTI_USE ) )
-		{
-			return true;
-		}
-
-		// Find the ingredient we use or multi-use to get this item
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId );
-		if ( ingredients == null || ingredients.length < 1 )
-		{
-			return true;
-		}
-
-		AdventureResult ingredient = ingredients[0];
-		if ( ingredient.getName().toLowerCase().indexOf( "b" ) != -1 )
-		{
-			ConcoctionDatabase.excuse = "You are too scared of Bs to create that item.";
 			return false;
 		}
 
@@ -1671,6 +1634,11 @@ public class ConcoctionDatabase
 				}
 				ConcoctionDatabase.CREATION_COST[ i ] += adv * value;
 			}
+		}
+
+		if ( !KoLCharacter.inBeecore() )
+		{
+			flags |= KoLConstants.CR_NOBEE;
 		}
 
 		ConcoctionDatabase.creationFlags = flags;

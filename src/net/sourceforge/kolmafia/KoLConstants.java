@@ -549,7 +549,8 @@ public interface KoLConstants
 	public static final int CR_SHC = 0x00800000;
 	// Requires Salacious Cocktailcrafting
 	public static final int CR_SALACIOUS = 0x01000000;
-	//	public static final int CR_ = 0x02000000;
+	// Not on Bees Hate You path
+	public static final int CR_NOBEE = 0x02000000;
 	//	public static final int CR_ = 0x04000000;
 	//	public static final int CR_ = 0x08000000;
 
