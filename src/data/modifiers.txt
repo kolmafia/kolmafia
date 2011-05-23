@@ -1527,7 +1527,7 @@ amulet of extreme plot significance	Maximum MP: +30
 anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 arrrgyle socks	Mysticality: +6
 astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Monster Level: +20
-astral bracer	Mysticality Percent: +25, Combat Mana Cost: -3, Adventures: +3
+astral bracer	Mysticality Percent: +25, Mana Cost (combat): -3, Adventures: +3
 astral mask	Moxie Percent: +25, Item Drop: +20
 astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, MP Regen Max: 6
 baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip

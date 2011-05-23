@@ -144,7 +144,11 @@ public class TelescopeRequest
 
 		for ( int i = 0; i < TelescopeRequest.PATTERNS.length; ++i )
 		{
-			Matcher matcher = TelescopeRequest.PATTERNS[ i ].matcher( responseText );
+			Pattern pattern = ( i == 0 && KoLCharacter.inBeecore() ) ?
+				TelescopeRequest.BEECORE_PATTERN :
+				TelescopeRequest.PATTERNS[ i ];
+
+			Matcher matcher = pattern.matcher( responseText );
 			if ( !matcher.find() )
 			{
 				break;
@@ -157,6 +161,11 @@ public class TelescopeRequest
 		KoLCharacter.setTelescopeUpgrades( upgrades );
 		Preferences.setInteger( "telescopeUpgrades", upgrades );
 	}
+
+	// You focus the telescope on the entrance of the cave, and see a mass
+	// of bees surrounding it.
+	private static final Pattern BEECORE_PATTERN =
+		Pattern.compile( "see (.*?) surrounding it." );
 
 	private static final Pattern[] PATTERNS =
 	{
