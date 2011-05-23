@@ -3343,6 +3343,11 @@ Sign:Wallaby	Experience Percent (Mysticality): +10, Spell Damage Percent: +20
 # Wombat: Unlocks the Gnomish Gnomad Camp
 Sign:Wombat	Experience Percent (Muscle): +10, Meat Drop: +20
 
+# Stat Day section of modifiers.txt
+
+Moxie Day	Experience Percent (Moxie): +25
+Muscle Day	Experience Percent (Muscle): +25
+Mysticality Day	Experience Percent (Mysticality): +25
 
 # Zone-specific section of modifiers.txt
 # -100% is the most common penalty in The Sea; use it as the default

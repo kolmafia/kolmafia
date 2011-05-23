@@ -171,6 +171,7 @@ public abstract class KoLmafia
 	private static File SESSION_FILE = null;
 
 	public static KoLAdventure currentAdventure;
+	public static String statDay;
 
 	// Types of special encounters
 	public static final String NONE = "0";

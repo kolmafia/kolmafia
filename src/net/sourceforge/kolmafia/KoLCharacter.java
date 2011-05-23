@@ -678,6 +678,7 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.isFullnessIncreased = holiday.equals( "Feast of Boris" ) || holiday.equals( "Drunksgiving" );
 		KoLCharacter.holidayManaCostReduction = holiday.equals( "Festival of Jarlsberg" ) ? 3 : 0;
+		KoLmafia.statDay = HolidayDatabase.currentStatDay();
 	}
 
 	public static final int getFullness()
@@ -3647,7 +3648,7 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.selectedLocation = location;
 		Modifiers.setLocation( location );
-		recalculateAdjustments();
+		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 		PreferenceListenerRegistry.firePreferenceChanged( "(location)" );
 	}
@@ -3692,6 +3693,12 @@ public abstract class KoLCharacter
 		// Look at sign-specific adjustments
 		newModifiers.add( Modifiers.MONSTER_LEVEL, MCD, "MCD" );
 		newModifiers.add( Modifiers.getModifiers( "sign:" + KoLCharacter.ascensionSign ) );
+
+		// If we are out of ronin/hardcore, look at stat day adjustments
+		if ( KoLCharacter.canInteract() && !KoLmafia.statDay.equals( "None" ) )
+		{
+			newModifiers.add( Modifiers.getModifiers( KoLmafia.statDay ) );
+		}
 
 		// Certain outfits give benefits to the character
 		// Need to do this before the individual items, so that Hobo Power
