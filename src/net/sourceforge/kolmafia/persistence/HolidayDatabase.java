@@ -927,6 +927,15 @@ public class HolidayDatabase
 		return KoLConstants.NONE;
 	}
 
+	public static final String currentStatDay()
+	{
+		int stat = HolidayDatabase.statDay( new Date() );
+		return	stat == KoLConstants.MUSCLE ? "Muscle Day" :
+			stat == KoLConstants.MYSTICALITY ? "Mysyicality Day" :
+			stat == KoLConstants.MOXIE ? "Moxie Day" :
+			"None";
+	}
+
 	/**
 	 * Returns a complete list of all holiday predictions for the given day, as an array.
 	 */
