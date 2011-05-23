@@ -171,6 +171,14 @@ public abstract class SorceressLairManager
 
 	public static final String[][] GATE_DATA =
 	{
+		// Beecore gate
+		{
+			"gate of bees",
+			"a mass of bees",
+			"Float Like a Butterfly, Smell Like a Bee",
+			"honeypot"
+		},
+
 		// The first gate: Miscellaneous effects
 		{
 			"gate of hilarity",
