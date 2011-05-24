@@ -2029,6 +2029,11 @@ public abstract class KoLmafia
 		return KoLmafia.hadPendingState;
 	}
 
+	public static final void forgetPendingState()
+	{
+		KoLmafia.hadPendingState = false;
+	}
+
 	/**
 	 * Retrieves whether or not continuation of an adventure or request is permitted by the or by current circumstances
 	 * in-game.

@@ -193,6 +193,8 @@ public class Interpreter
 
 	public Value execute( final String functionName, final String[] parameters, final boolean executeTopLevel )
 	{
+		KoLmafia.forgetPendingState();
+
 		try
 		{
 			return this.executeScope( this.scope, functionName, parameters, executeTopLevel );

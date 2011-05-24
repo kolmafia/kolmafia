@@ -1314,7 +1314,14 @@ public abstract class RuntimeLibrary
 
 	private static Value continueValue()
 	{
-		return DataTypes.makeBooleanValue( KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() );
+		boolean hadPendingState = KoLmafia.hadPendingState();
+
+		if ( hadPendingState )
+		{
+			KoLmafia.forgetPendingState();
+		}
+
+		return DataTypes.makeBooleanValue( KoLmafia.permitsContinue() && !hadPendingState );
 	}
 
 	// Support for batching of server requests
