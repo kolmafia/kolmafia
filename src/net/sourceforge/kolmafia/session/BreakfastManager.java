@@ -143,18 +143,27 @@ public class BreakfastManager
 
 	public static void readGuildManual()
 	{
-		if ( Preferences.getBoolean( "readManual" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		if ( !Preferences.getBoolean( "readManual" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
-			int manualId = KoLCharacter.isMuscleClass() ? ItemPool.MUS_MANUAL :
-				KoLCharacter.isMysticalityClass() ? ItemPool.MYS_MANUAL : ItemPool.MOX_MANUAL;
+			return;
+		}
 
-			AdventureResult manual = ItemPool.get( manualId, 1 );
+		if ( KoLCharacter.isMuscleClass() && KoLCharacter.inBeecore () )
+		{
+			// Can't use "Manual of Labor" in Beecore.
+			return;
+		}
 
-			if ( InventoryManager.hasItem( manual ) )
-			{
-				RequestThread.postRequest( new UseItemRequest( manual ) );
-			}
+		int manualId =
+			KoLCharacter.isMuscleClass() ? ItemPool.MUS_MANUAL :
+			KoLCharacter.isMysticalityClass() ? ItemPool.MYS_MANUAL :
+			ItemPool.MOX_MANUAL;
 
+		AdventureResult manual = ItemPool.get( manualId, 1 );
+
+		if ( InventoryManager.hasItem( manual ) )
+		{
+			RequestThread.postRequest( new UseItemRequest( manual ) );
 			KoLmafia.forceContinue();
 		}
 	}
