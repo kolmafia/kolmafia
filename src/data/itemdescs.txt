@@ -5137,8 +5137,8 @@
 5136
 5137
 5138
-5139	503957611	ast_carton.gif	carton of astral energy drinks
-5140	227596183	ast_energy.gif	astral energy drink
+5139	503957611	ast_carton.gif	carton of astral energy drinks	cartons of astral energy drinks
+5140	227596183	ast_energy.gif	astral energy drink	astral energy drinks
 5141	807026781	thwaitbee.gif	Thwaitgold bee statuette
 5142	215132687	device1.gif	moon unit
 5143
