@@ -2577,7 +2577,9 @@ public abstract class KoLCharacter
 
 	public static final boolean inBeecore()
 	{
-		return KoLCharacter.ascensionPath.equals( "Bees Hate You" );
+		// All Beecore restrictions are lifted once you free the King
+		return !KoLCharacter.kingLiberated() &&
+			KoLCharacter.ascensionPath.equals( "Bees Hate You" );
 	}
 
 	public static final void setPath( final String path )

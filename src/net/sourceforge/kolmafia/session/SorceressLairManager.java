@@ -896,7 +896,8 @@ public abstract class SorceressLairManager
 	private static final boolean passThreeGatePuzzle()
 	{
 		// Visiting the gates with the correct effects opens them.
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "gatesdone.gif" ) != -1 )
+		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "gatesdone.gif" ) != -1 ||
+		     SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "cave1beesdone.gif" ) != -1 )
 		{
 			return true;
 		}
@@ -904,12 +905,19 @@ public abstract class SorceressLairManager
 		// Get a list of items we need to consume to get effects
 		// we don't already have
 
-		Matcher gateMatcher = SorceressLairManager.GATE_PATTERN.matcher( SorceressLairManager.QUEST_HANDLER.responseText );
 		List requirements = new ArrayList();
+		if ( KoLCharacter.inBeecore() )
+		{
+			SorceressLairManager.addGateItem( "gate of bees", requirements );
+		}
+		else
+		{
+			Matcher gateMatcher = SorceressLairManager.GATE_PATTERN.matcher( SorceressLairManager.QUEST_HANDLER.responseText );
 
-		SorceressLairManager.addGateItem( 1, gateMatcher, requirements );
-		SorceressLairManager.addGateItem( 2, gateMatcher, requirements );
-		SorceressLairManager.addGateItem( 3, gateMatcher, requirements );
+			SorceressLairManager.addGateItem( 1, gateMatcher, requirements );
+			SorceressLairManager.addGateItem( 2, gateMatcher, requirements );
+			SorceressLairManager.addGateItem( 3, gateMatcher, requirements );
+		}
 
 		// Punt now if we couldn't parse a gate
 		if ( !KoLmafia.permitsContinue() )
@@ -1001,6 +1009,11 @@ public abstract class SorceressLairManager
 			return;
 		}
 
+		SorceressLairManager.addGateItem( gateName, requirements );
+	}
+
+	private static final void addGateItem( final String gateName, final List requirements )
+	{
 		// Find the gate in our data
 
 		String[] gateData = SorceressLairManager.findGateByName( gateName );
