@@ -79,9 +79,10 @@ public class CompactSidePane
 	private JLabel mlLabel, encLabel, initLabel;
 	private JLabel expLabel, meatDropLabel, itemDropLabel;
 	private JLabel hoboLabel, hoboPowerLabel;
+	private JLabel beeLabel, beeosityLabel;
 	private JPopupMenu modPopup;
 	private JLabel modPopLabel;
-	
+
 	private static final AdventureResult CLUMSY = new AdventureResult( "Clumsy", 1, true );
 	private static final AdventureResult SLIMED = new AdventureResult( "Coated in Slime", 1, true );
 
@@ -177,9 +178,9 @@ public class CompactSidePane
 
 		panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
 		panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
-		panels[ panelCount ].addMouseListener( new FamPopListener() );	
+		panels[ panelCount ].addMouseListener( new FamPopListener() );
 
-		panels[ ++panelCount ] = new JPanel( new GridLayout( 7, 2 ) );
+		panels[ ++panelCount ] = new JPanel( new GridLayout( 8, 2 ) );
 		panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
 		panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[ panelCount ].add( new JLabel( "Enc: ", JLabel.RIGHT ) );
@@ -194,10 +195,12 @@ public class CompactSidePane
 		panels[ panelCount ].add( this.itemDropLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[ panelCount ].add( this.hoboLabel = new JLabel( " ", JLabel.RIGHT ) );
 		panels[ panelCount ].add( this.hoboPowerLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[ panelCount ].add( this.beeLabel = new JLabel( " ", JLabel.RIGHT ) );
+		panels[ panelCount ].add( this.beeosityLabel = new JLabel( " ", JLabel.LEFT ) );
 		this.modPopLabel = new JLabel();
 		this.modPopup = new JPopupMenu();
 		this.modPopup.insert( this.modPopLabel, 0 );
-		panels[ panelCount ].addMouseListener( new ModPopListener() );	
+		panels[ panelCount ].addMouseListener( new ModPopListener() );
 
 		JPanel compactContainer = new JPanel();
 		compactContainer.setOpaque( false );
@@ -242,8 +245,9 @@ public class CompactSidePane
 		this.meatDropLabel.setForeground( Color.BLACK );
 		this.itemDropLabel.setForeground( Color.BLACK );
 		this.hoboPowerLabel.setForeground( Color.BLACK );
+		this.beeosityLabel.setForeground( Color.BLACK );
 	}
-	
+
 	private class ModPopListener
 		extends MouseAdapter
 	{
@@ -276,7 +280,7 @@ public class CompactSidePane
 					customMenu[ i ] = new JMenu( pref.split( "\\|", 2 )[ 0 ] );
 				}
 			}
-			
+
 			Iterator it = KoLCharacter.getFamiliarList().iterator();
 			while ( it.hasNext() )
 			{
@@ -297,7 +301,7 @@ public class CompactSidePane
 					famPopup.add( new FamiliarMenuItem( fam ) );
 					continue;
 				}
-				
+
 				int id = fam.getId();
 				Modifiers mods = Modifiers.getModifiers( "Fam:" + fam.getRace() );
 				boolean added = false;
@@ -323,7 +327,7 @@ public class CompactSidePane
 					combat.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
-				
+
 				String key = "|" + fam.getRace().toLowerCase();
 				for ( int i = 0; i < 9; ++i )
 				{
@@ -333,13 +337,13 @@ public class CompactSidePane
 						added = true;
 					}
 				}
-				
+
 				if ( !added )
 				{
 					other.add( new FamiliarMenuItem( fam ) );
 				}
 			}
-			
+
 			famPopup.add( stat );
 			famPopup.add( item );
 			famPopup.add( meat );
@@ -373,7 +377,7 @@ public class CompactSidePane
 				this.setIcon( FamiliarDatabase.getFamiliarImage( fam.getId() ) );
 			}
 		}
-	
+
 		public void run()
 		{
 			CommandDisplayFrame.executeCommand( "familiar " + this.fam.getRace() );
@@ -452,7 +456,19 @@ public class CompactSidePane
 			this.hoboLabel.setText( "" );
 			this.hoboPowerLabel.setText( "" );
 		}
-		
+
+		if ( KoLCharacter.inBeecore() )
+		{
+			int bee = KoLCharacter.getBeeosity();
+			this.beeLabel.setText( "Bees: " );
+			this.beeosityLabel.setText( bee + "" );
+		}
+		else
+		{
+			this.beeLabel.setText( "" );
+			this.beeosityLabel.setText( "" );
+		}
+
 		StringBuffer buf = new StringBuffer( "<html><table border=1>" );
 		int[] predicted = KoLCharacter.getCurrentModifiers().predict();
 		int mus = Math.max( 1, predicted[ Modifiers.BUFFED_MUS ] );
@@ -493,7 +509,7 @@ public class CompactSidePane
 			buf.append( KoLConstants.MODIFIER_FORMAT.format( dmp ) );
 			buf.append( ")</td></tr>" );
 		}
-	
+
 		buf.append( "<tr><td></td><td>Damage</td><td>Spell dmg</td><td>Resistance</td></tr>" );
 		this.addElement( buf, "Hot", Modifiers.HOT_DAMAGE );
 		this.addElement( buf, "Cold", Modifiers.COLD_DAMAGE );
@@ -688,13 +704,13 @@ public class CompactSidePane
 		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 	}
-	
+
 	private int predictStat( int base, int stat_pct, int stat )
 	{
 		int rv = (int) (Math.ceil( base * (100.0 + KoLCharacter.currentNumericModifier( stat_pct )) / 100.0 ) + KoLCharacter.currentNumericModifier( stat ));
 		return Math.max( 1, rv );
 	}
-	
+
 	private void addElement( StringBuffer buf, String name, int dmgModifier )
 	{
 		float wdmg = KoLCharacter.currentNumericModifier( dmgModifier );

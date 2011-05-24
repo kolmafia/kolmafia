@@ -38,6 +38,7 @@ import apple.dts.samplecode.osxadapter.OSXAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -96,6 +97,8 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 public abstract class KoLCharacter
 	extends StaticEntity
 {
+	private static final Pattern B_PATTERN = Pattern.compile( "[Bb]" );
+
 	public static final String ASTRAL_SPIRIT = "Astral Spirit";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
@@ -1872,6 +1875,30 @@ public abstract class KoLCharacter
 	public static final int getClownosity()
 	{
 		return KoLCharacter.currentModifiers.getBitmap( Modifiers.CLOWNOSITY );
+	}
+
+	/**
+	 * Accessor method to retrieve the player's Bee-osity
+	 *
+	 * @return Bee-osity
+	 */
+
+	public static final int getBeeosity()
+	{
+		int bees = 0;
+		AdventureResult[] equipment = EquipmentManager.currentEquipment();
+
+		for ( int slot = 0; slot < EquipmentManager.SLOTS; ++slot )
+		{
+			String name = equipment[ slot ].getName();
+			Matcher bMatcher = KoLCharacter.B_PATTERN.matcher( name );
+			while ( bMatcher.find() )
+			{
+				bees++;
+			}
+		}
+
+		return bees;
 	}
 
 	public static final int getRestingHP()
