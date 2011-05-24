@@ -281,6 +281,13 @@ public class CompactSidePane
 			while ( it.hasNext() )
 			{
 				FamiliarData fam = (FamiliarData) it.next();
+
+				// If we cannot equip this familiar for some reason, skip it.
+				if ( !fam.canEquip() )
+				{
+					continue;
+				}
+
 				if ( fam.equals( KoLCharacter.getFamiliar() ) )
 				{
 					continue;	// no menu item for this one
