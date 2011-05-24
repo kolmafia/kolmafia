@@ -5147,7 +5147,7 @@
 5138
 5139	carton of astral energy drinks	usable	none	0
 5140	astral energy drink	usable	none	0
-5141
+5141	Thwaitgold bee statuette	none	display	0
 5142	moon unit	usable	none	0
 5143
 5144	handful of honey	multiple	all	0
