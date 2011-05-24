@@ -84,6 +84,7 @@ public class FamiliarData
 
 	private final int id;
 	private final String race;
+	private boolean beeware;
 	private String name;
 	private int experience;
 	private int weight;
@@ -101,6 +102,7 @@ public class FamiliarData
 		this.id = id;
 		this.name = name;
 		this.race = id == -1 ? "(none)" : FamiliarDatabase.getFamiliarName( id );
+		this.beeware = this.race.indexOf( "b" ) != -1 || this.race.indexOf( "B" ) != -1;
 
 		this.weight = weight;
 		this.item = item;
@@ -111,6 +113,7 @@ public class FamiliarData
 	{
 		this.id = StringUtilities.parseInt( dataMatcher.group( 2 ) );
 		this.race = dataMatcher.group( 4 );
+		this.beeware = this.race.indexOf( "b" ) != -1 || this.race.indexOf( "B" ) != -1;
 
 		FamiliarDatabase.registerFamiliar( this.id, this.race );
 		FamiliarDatabase.setFamiliarImageLocation( this.id, dataMatcher.group( 1 ) );
@@ -126,6 +129,13 @@ public class FamiliarData
 		String itemData = dataMatcher.group( 6 );
 		this.item = FamiliarData.parseFamiliarItem( this.id, itemData );
 		this.favorite = itemData.indexOf( "[unfavorite]" ) != -1;
+	}
+
+	public final boolean canEquip()
+	{
+		// For now, the only unequippable familiars are those with a
+		// "B" in their race when we are in Beecore.
+		return !this.beeware || !KoLCharacter.inBeecore();
 	}
 
 	public final void addExperience( final int exp )
