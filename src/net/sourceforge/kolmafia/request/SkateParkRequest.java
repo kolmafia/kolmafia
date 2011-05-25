@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -223,6 +224,15 @@ public class SkateParkRequest
 		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 		Object [] data = actionToData( action );
+
+		int index = KoLAdventure.findAdventureFailure( responseText );
+		if ( index >= 0 )
+		{
+			String failure = KoLAdventure.adventureFailureMessage( index );
+			int severity = KoLAdventure.adventureFailureSeverity( index );
+			KoLmafia.updateDisplay( severity, failure );
+			return;
+		}
 
 		if ( SkateParkRequest.parseResponse( urlString, responseText ) )
 		{
