@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -423,8 +424,15 @@ public class UseItemEnqueuePanel
 
 			if ( KoLCharacter.inBeecore() )
 			{
+				// If you have a GGG or Spirit Hobo equipped,
+				// disable B filtering, since you may want to
+				// binge your familiar with B consumables.
+				int fam = KoLCharacter.getFamiliar().getId();
+				boolean override =
+					( UseItemEnqueuePanel.this.food && fam == FamiliarPool.GHOST ) ||
+					( UseItemEnqueuePanel.this.booze && fam == FamiliarPool.HOBO );
 				AdventureResult item = creation.getItem();
-				if ( item != null && item.getName().toLowerCase().indexOf( "b" ) != -1 )
+				if ( !override && item != null && item.getName().toLowerCase().indexOf( "b" ) != -1 )
 				{
 					return false;
 				}
