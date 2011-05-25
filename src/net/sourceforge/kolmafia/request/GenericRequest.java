@@ -1037,6 +1037,15 @@ public class GenericRequest
 
 		if ( location.startsWith( "hermit.php?auto" ) )
 		{
+			// auto-buying chewing gum or permits overrides the
+			// setting that disables NPC purchases, since the user
+			// explicitly requested the purchase.
+			boolean old = Preferences.getBoolean( "autoSatisfyWithNPCs" );
+			if ( !old )
+			{
+				Preferences.setBoolean( "autoSatisfyWithNPCs", true );
+			}
+
 			// If he wants us to automatically get a worthless item
 			// in the sewer, do it.
 			if ( location.indexOf( "autoworthless=on" ) != -1 )
@@ -1053,6 +1062,11 @@ public class GenericRequest
 				{
 					InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT, false );
 				}
+			}
+
+			if ( !old )
+			{
+				Preferences.setBoolean( "autoSatisfyWithNPCs", false );
 			}
 		}
 		else if ( location.startsWith( "mountains.php?orcs=1" ) )
