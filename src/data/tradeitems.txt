@@ -5092,7 +5092,7 @@
 5083	rubber band gun	weapon	all	200
 5084	pin-stripe slacks	pants	all	300
 5085	sticky gloves	accessory	all	400
-5086	correction fluid	multiple	all	100
+5086	correction fluid	usable	all	100
 5087	Pok&euml;mann figurine: Porkachu	accessory	all	0
 5088	Pok&euml;mann figurine: Magikrap	accessory	all	0
 5089	Pok&euml;mann figurine: Vegemite	accessory	all	0
