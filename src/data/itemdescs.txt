@@ -5129,7 +5129,7 @@
 5128
 5129
 5130
-5131	198733102	potion1.gif	Ultrasoldier Serum
+5131	198733102	potion1.gif	Ultrasoldier Serum	vials of Ultrasoldier Serum
 5132
 5133
 5134

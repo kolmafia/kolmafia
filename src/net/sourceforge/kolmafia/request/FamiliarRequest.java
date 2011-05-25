@@ -230,7 +230,7 @@ public class FamiliarRequest
 		// leave equipment alone.
 
 		if ( this.enthrone || familiar == FamiliarData.NO_FAMILIAR ||
-			this.changeTo == FamiliarData.NO_FAMILIAR )
+		     this.changeTo == FamiliarData.NO_FAMILIAR )
 		{
 			return null;
 		}

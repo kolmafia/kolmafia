@@ -59,6 +59,7 @@ public class GalaktikRequest
 
 	private static boolean discount = false;
 
+	private String action = "";
 	private int restoreAmount;
 
 	public GalaktikRequest()
@@ -76,6 +77,7 @@ public class GalaktikRequest
 		super( "galaktik.php" );
 
 		this.addFormField( "action", type );
+		this.action = type;
 
 		if ( restoreAmount > 0 )
 		{
@@ -160,7 +162,7 @@ public class GalaktikRequest
 
 	public Object run()
 	{
-		if ( this.restoreAmount == 0 )
+		if ( GalaktikRequest.cureType( this.action ) != null && this.restoreAmount == 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.CONTINUE_STATE, "You don't need that cure." );
 			return null;
@@ -182,7 +184,12 @@ public class GalaktikRequest
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Cure purchased." );
+		if ( this.action != null )
+		{
+			String message =  this.action.equals( "startquest" ) ?
+				"Quest accepted." : "Cure purchased.";
+			KoLmafia.updateDisplay( message );
+		}
 	}
 
 	public static final void parseResponse( final String location, final String responseText )

@@ -1210,7 +1210,7 @@ stuffed yo-yo	10	none
 stuffed zmobie	10	none
 teflon shield	220	Mus: 85	shield
 thought balloon	10	none
-tiny black hole	0	none
+tiny black hole	10	none
 tip jar	135	Mys: 52
 tortoboggan shield	100	Mus: 35	shield
 tropical paperweight	20	none
