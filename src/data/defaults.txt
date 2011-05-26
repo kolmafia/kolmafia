@@ -250,6 +250,7 @@ user	badMoonEncounter46	false
 user	badMoonEncounter47	false
 user	badMoonEncounter48	false
 user	ballpitBonus	1
+user	bankedKarma	0
 user	barrelGoal	1
 user	barrelLayout	?????????
 user	bartenderTurnsUsed	0
@@ -324,7 +325,6 @@ user	demonName10
 user	demonSummoned	false
 user	desktopHeight	600
 user	desktopWidth	800
-user	discardedKarma	0
 user	dolphinItem
 user	doorCode
 user	expressCardUsed	false

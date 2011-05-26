@@ -601,7 +601,7 @@ public class ResultProcessor
 			switch ( item.getItemId() )
 			{
 			case ItemPool.INSTANT_KARMA:
-				Preferences.increment( "discardedKarma" );
+				// Preferences.increment( "bankedKarma", 11 );
 				break;
 			}
 		}

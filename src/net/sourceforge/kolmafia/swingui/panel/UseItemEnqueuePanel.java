@@ -429,8 +429,9 @@ public class UseItemEnqueuePanel
 				// binge your familiar with B consumables.
 				int fam = KoLCharacter.getFamiliar().getId();
 				boolean override =
-					( UseItemEnqueuePanel.this.food && fam == FamiliarPool.GHOST ) ||
-					( UseItemEnqueuePanel.this.booze && fam == FamiliarPool.HOBO );
+					// You cannot equip a Spirit Hobo in Beecore.
+					// ( UseItemEnqueuePanel.this.booze && fam == FamiliarPool.HOBO ) ||
+					( UseItemEnqueuePanel.this.food && fam == FamiliarPool.GHOST );
 				AdventureResult item = creation.getItem();
 				if ( !override && item != null && item.getName().toLowerCase().indexOf( "b" ) != -1 )
 				{

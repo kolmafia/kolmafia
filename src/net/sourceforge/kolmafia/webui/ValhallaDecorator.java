@@ -433,16 +433,16 @@ public class ValhallaDecorator
 
 	private static final void listCommonTasks( final StringBuffer buffer )
 	{
-		int disc = Preferences.getInteger( "discardedKarma" );
 		int count = InventoryManager.getCount( ItemPool.INSTANT_KARMA );
-		if ( disc < 3 && count > 0 )
+		if ( count > 0 )
 		{
+			int banked = Preferences.getInteger( "bankedKarma" );
 			buffer.append( "<nobr><a href=\"javascript:if(confirm('Are you sure you want to discard your Instant Karma?')) singleUse('inventory.php?which=1&action=discard&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "&whichitem=4448&ajax=1');void(0);\">discard karma</a> (~" );
-			buffer.append( disc );
-			buffer.append( " discarded, have " );
+			buffer.append( "&whichitem=4448&ajax=1');void(0);\">discard karma</a> (have " );
 			buffer.append( count );
+			// buffer.append( ", banked = " );
+			// buffer.append( banked );
 			buffer.append( ")</nobr><br>" );
 		}
 
