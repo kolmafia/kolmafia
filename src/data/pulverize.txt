@@ -7,6 +7,7 @@
 #	an item name - for items that don't smash into powders/nuggets wads as usual.
 #	nosmash - for items that can't be smashed at all.
 #	upgrade - for powders and nuggets that can be upgraded at the Malus.
+#	<number> - a bitmask of pulverization results
 # 	TBD: a way of specifying nonstandard yields and elements, if that is needed.
 
 # Powders upgrade to nuggets or wads.
@@ -260,3 +261,5 @@ BRICKO sword	BRICKO brick
 BRICKO pants	BRICKO brick
 BRICKO bulwark	BRICKO brick
 
+# Special cases. We need a better way to specify these.
+bejeweled cufflinks	258112
