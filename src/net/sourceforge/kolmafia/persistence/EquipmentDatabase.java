@@ -250,20 +250,14 @@ public class EquipmentDatabase
 				continue;
 			}
 
-			if ( data[ 1 ].equals( "nosmash" ) )
-			{
-				EquipmentDatabase.pulverize.set( itemId, -1 );
-			}
-			else if ( data[ 1 ].equals( "upgrade" ) )
-			{
-				EquipmentDatabase.pulverize.set( itemId,
-					EquipmentDatabase.deriveUpgrade( data[ 0 ] ) );
-			}
-			else
-			{
-				int resultId = ItemDatabase.getItemId( data[ 1 ] );
-				EquipmentDatabase.pulverize.set( itemId, resultId );
-			}
+			String spec = data[ 1 ];
+			int result = 
+				spec.equals( "nosmash" )  ? -1 :
+				spec.equals( "upgrade" ) ? EquipmentDatabase.deriveUpgrade( data[ 0 ] ) :
+				StringUtilities.isNumeric( spec ) ? ( PULVERIZE_BITS | StringUtilities.parseInt( spec ) ) :
+				ItemDatabase.getItemId( spec );
+
+			EquipmentDatabase.pulverize.set( itemId, result );
 		}
 
 		try
