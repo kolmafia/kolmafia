@@ -1117,7 +1117,10 @@ public class RequestEditorKit
 		}
 
 		// Don't show monster unless we know combat stats or items
-		if ( monster.getHP() == 0 && monster.getItems().isEmpty() )
+		// or monster element
+		if ( monster.getHP() == 0 &&
+		     monster.getItems().isEmpty() &&
+		     monster.getDefenseElement() == MonsterDatabase.NONE )
 		{
 			return;
 		}
@@ -1263,9 +1266,7 @@ public class RequestEditorKit
 		buffer.insert( insertionPointForData, monsterData.toString() );
 
 		// Insert color for monster element
-
 		int monsterElement = monster.getDefenseElement();
-
 		if ( !haiku && monsterElement != MonsterDatabase.NONE )
 		{
 			int insertionPointForElement = nameIndex + 6;
