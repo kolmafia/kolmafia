@@ -533,18 +533,24 @@ public abstract class StaticEntity
 
 		else if ( location.startsWith( "inventory.php" ) )
 		{
+			// If KoL is showing us our current equipment, parse it.
+			if  ( location.indexOf( "which=2" ) != -1 ||
+			      location.indexOf( "curequip=1" ) != -1 )
+			{
+				EquipmentRequest.parseEquipment( location, responseText );
+
+				// Certain requests, like inserting cards into
+				// an El Vibrato helmet, have a usage message,
+				// not an equipment page. Check for that, too.
+				UseItemRequest.parseConsumption( responseText, false );
+			}
+
 			// If there is a consumption message, parse it
-			if ( location.indexOf( "action=message" ) != -1 ||
-			     location.indexOf( "action=breakbricko" ) != -1 )
+			else if ( location.indexOf( "action=message" ) != -1 ||
+				  location.indexOf( "action=breakbricko" ) != -1 )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
 				CoinMasterRequest.parseAWOLVisit( location, responseText );
-			}
-
-			// If KoL is showing us our current equipment, parse it.
-			else if  ( location.indexOf( "which=2" ) != -1 || location.indexOf( "curequip=1" ) != -1 )
-			{
-				EquipmentRequest.parseEquipment( location, responseText );
 			}
 
 			// If there is a binge message, parse it
