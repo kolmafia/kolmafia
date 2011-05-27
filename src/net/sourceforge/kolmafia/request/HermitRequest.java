@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -54,7 +55,6 @@ public class HermitRequest
 	extends GenericRequest
 {
 	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(\\d+) left in stock for today" );
-	private static final Pattern TRADE_PATTERN = Pattern.compile( "whichitem=([\\d,]+).*quantity=(\\d+)" );
 
 	private static boolean checkedForClovers = false;
 
@@ -282,15 +282,22 @@ public class HermitRequest
 			return true;
 		}
 
-		Matcher matcher = HermitRequest.TRADE_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
+		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
 		{
 			// We simply visited the hermit
 			return true;
 		}
 
-		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
-		int quantity = StringUtilities.parseInt( matcher.group( 2 ) );
+		Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		if ( !quantityMatcher.find() )
+		{
+			// We simply visited the hermit
+			return true;
+		}
+
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
 		// If he is confused, you've used a hermit script
 		if ( responseText.indexOf( "looks confused for a moment" ) != -1 )
@@ -384,15 +391,22 @@ public class HermitRequest
 
 		RequestLogger.updateSessionLog();
 
-		Matcher matcher = HermitRequest.TRADE_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
+		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
 		{
 			RequestLogger.updateSessionLog( "hermit" );
 			return true;
 		}
 
-		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
-		int quantity = StringUtilities.parseInt( matcher.group( 2 ) );
+		Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		if ( !quantityMatcher.find() )
+		{
+			RequestLogger.updateSessionLog( "hermit" );
+			return true;
+		}
+
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
 		if ( quantity > HermitRequest.getWorthlessItemCount() )
 		{
