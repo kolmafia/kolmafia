@@ -441,8 +441,8 @@ public class ValhallaDecorator
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "&whichitem=4448&ajax=1');void(0);\">discard karma</a> (have " );
 			buffer.append( count );
-			// buffer.append( ", banked = " );
-			// buffer.append( banked );
+			buffer.append( ", banked = " );
+			buffer.append( banked );
 			buffer.append( ")</nobr><br>" );
 		}
 
