@@ -241,7 +241,7 @@ knob ka-bobs	1	10	2-4	0	20-30	0
 knob lo mein	4	6	14-20	0	31-34	0
 knob mushroom	2	1	2-3	0	0	0
 knob nuts	1	4	3	1-4	1-4	1-4
-knob pasty	1	1	6-7	5-6	5-6	5-6
+knob pasty	1	1	5-6	5-6	5-6	5-6
 knob sausage	2	1	2-3	0	0	0
 knob sausage chow mein	5	7	21-29	72-76	0	0
 knob sausage stir-fry	3	4	7-14	25-28	0	0

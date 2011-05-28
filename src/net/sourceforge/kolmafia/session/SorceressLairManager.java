@@ -991,7 +991,8 @@ public abstract class SorceressLairManager
 
 		// The gates should be passable. Visit them again.
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ) );
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "gatesdone.gif" ) != -1 )
+		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "gatesdone.gif" ) != -1 ||
+		     SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "cave1beesdone.gif" ) != -1 )
 		{
 			return true;
 		}
