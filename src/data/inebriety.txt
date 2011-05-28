@@ -250,7 +250,7 @@ teqiwila slammer	4	6	14-18	40-47	0	0
 tequila sunrise	3	1	5-6	8-10	0	0
 tequila sunset	3	3	5-10	0	16-20	0
 tequila with training wheels	3	3	5-10	8-9	0	0
-thermos full of knob coffee	1	1	6-7	5-6	5-6	5-6	lose 1-2 HP
+thermos full of knob coffee	1	1	5-6	5-6	5-6	5-6	lose 1-2 HP
 thistle wine	1	10	2-4	0	0	30-60	lose 50-75 HP
 tobiko-infused sake	3	1	6-8	6-8	8-8	6-8	30 Pisces in the Skyces
 tomato daiquiri	3	2	4-8	10-12	0	10-12
