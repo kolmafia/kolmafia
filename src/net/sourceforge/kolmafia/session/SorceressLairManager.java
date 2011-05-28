@@ -838,10 +838,17 @@ public abstract class SorceressLairManager
 
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair1.php" ) );
 
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "gatesdone" ) == -1 )
+		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "gatesdone" ) == -1 &&
+		     SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "cave1beesdone" ) == -1)
 		{
 			KoLmafia.updateDisplay( "Crossing three door puzzle..." );
-			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ) );
+			// Do not attempt to cross the gate of bees without the
+			// correct effect active.
+			if ( !KoLCharacter.inBeecore() )
+			{
+				RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ) );
+			}
+
 			if ( !SorceressLairManager.passThreeGatePuzzle() )
 			{
 				return false;
