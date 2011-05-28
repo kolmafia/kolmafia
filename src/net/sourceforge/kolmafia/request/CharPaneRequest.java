@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -178,6 +179,13 @@ public class CharPaneRequest
 			return;
 		}
 
+		// If we are in Valhalla, do special processing
+		if ( responseText.indexOf( "otherimages/spirit.gif" ) != -1 )
+		{
+			processValhallaCharacterPane( responseText );
+			return;
+		}
+
 		// KoL now includes Javascript variables in each charpane
 		//
 		// var turnsplayed = 232576;
@@ -194,20 +202,18 @@ public class CharPaneRequest
 		int turnsthisrun = parseTurnsThisRun( responseText );
 		int mafiaturnsthisrun = KoLCharacter.getCurrentRun();
 
-		// In Valhalla, turnsthisrun equals 0. Always accept that.
-		if ( turnsthisrun > 0 &&
-		     ( turnsthisrun < CharPaneRequest.turnsthisrun ||
-		       turnsthisrun < mafiaturnsthisrun ) )
+		if ( turnsthisrun < CharPaneRequest.turnsthisrun ||
+		     turnsthisrun < mafiaturnsthisrun )
 		{
 			return;
 		}
 
-		// Since we believe this update, synchronize with it
-		ResultProcessor.processAdventuresUsed( turnsthisrun - mafiaturnsthisrun );
-
 		CharPaneRequest.timestamp = timestamp;
 		CharPaneRequest.turnsthisrun = turnsthisrun;
 		CharPaneRequest.lastResponse = responseText;
+
+		// Since we believe this update, synchronize with it
+		ResultProcessor.processAdventuresUsed( turnsthisrun - mafiaturnsthisrun );
 
 		// We can deduce whether we are in compact charpane mode
 
@@ -218,25 +224,13 @@ public class CharPaneRequest
 		// synchronization is the modified stat values, health and
 		// mana.
 
-		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
+		if ( GenericRequest.compactCharacterPane )
 		{
-			if ( GenericRequest.compactCharacterPane )
-			{
-				CharPaneRequest.handleCompactMode( responseText );
-			}
-			else
-			{
-				CharPaneRequest.handleExpandedMode( responseText );
-			}
+			CharPaneRequest.handleCompactMode( responseText );
 		}
 		else
 		{
-			KoLCharacter.setStatPoints( 1, 0L, 1, 0L, 1, 0L );
-			KoLCharacter.setHP( 1, 1, 1 );
-			KoLCharacter.setMP( 1, 1, 1 );
-			KoLCharacter.setAvailableMeat( 0 );
-			KoLCharacter.setAdventuresLeft( 0 );
-			KoLCharacter.setMindControlLevel( 0 );
+			CharPaneRequest.handleExpandedMode( responseText );
 		}
 
 		CharPaneRequest.refreshEffects( responseText );
@@ -245,7 +239,36 @@ public class CharPaneRequest
 		KoLCharacter.updateStatus();
 
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
+	}
 
+	// <td align=center><img src="http://images.kingdomofloathing.com/itemimages/karma.gif" width=30 height=30 alt="Karma" title="Karma"><br>0</td>
+	public static final Pattern KARMA_PATTERN = Pattern.compile( "karma.gif.*?<br>([^<]*)</td>" );
+
+	private static final void processValhallaCharacterPane( final String responseText )
+	{
+		// We have no stats as an Astral Spirit
+		KoLCharacter.setStatPoints( 1, 0L, 1, 0L, 1, 0L );
+		KoLCharacter.setHP( 1, 1, 1 );
+		KoLCharacter.setMP( 1, 1, 1 );
+		KoLCharacter.setAvailableMeat( 0 );
+		KoLCharacter.setAdventuresLeft( 0 );
+		KoLCharacter.setMindControlLevel( 0 );
+
+		// No active status effects
+		KoLConstants.recentEffects.clear();
+		KoLConstants.activeEffects.clear();
+
+		// No modifiers
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
+
+		// You certainly can't interact with the "real world"
+		CharPaneRequest.setInteraction( false );
+
+		// You do, however, have Karma available to spend in Valhalla.
+		Matcher matcher = CharPaneRequest.KARMA_PATTERN.matcher( responseText );
+		int karma = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		Preferences.setInteger( "bankedKarma", karma );
 	}
 
 	private static final long parseTimestamp( final String date )
