@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.textui.DataFileCache;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
@@ -637,17 +638,19 @@ public abstract class KoLCharacter
 		MicroBreweryRequest.reset();
 		HellKitchenRequest.reset();
 
-		DwarfFactoryRequest.reset();
-		MoneyMakingGameManager.reset();
-		VolcanoMazeManager.reset();
-		WumpusManager.reset();
 		ClanManager.clearCache();
 		DisplayCaseManager.clearCache();
-		StoreManager.clearCache();
-		InventoryManager.resetInventory();
+		DwarfFactoryRequest.reset();
 		EquipmentManager.resetEquipment();
 		EquipmentManager.resetOutfits();
+		GearChangeFrame.clearFamiliarList();
+		InventoryManager.resetInventory();
+		MoneyMakingGameManager.reset();
 		SpecialOutfit.forgetCheckpoints();
+		StoreManager.clearCache();
+		VolcanoMazeManager.reset();
+		WumpusManager.reset();
+
 		ConcoctionDatabase.refreshConcoctions();
 		ItemDatabase.calculateAdventureRanges();
 
@@ -2395,6 +2398,8 @@ public abstract class KoLCharacter
 			CharPaneRequest.setInteraction( true );
 			KoLConstants.storage.addAll( KoLConstants.freepulls );
 			KoLConstants.freepulls.clear();
+			// If we are in Beecore, we can use all familiars again
+			GearChangeFrame.updateFamiliars();
 			// If we are in bad moon, we can use the bookshelf and
 			// telescope again.
 			if ( KoLCharacter.inBadMoon() )
@@ -3365,6 +3370,7 @@ public abstract class KoLCharacter
 		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
+		GearChangeFrame.updateFamiliars();
 	}
 
 	public static final void setEnthroned( final FamiliarData familiar )
@@ -3411,6 +3417,8 @@ public abstract class KoLCharacter
 			EquipmentManager.processResult( familiar.getItem() );
 		}
 
+		GearChangeFrame.updateFamiliars();
+
 		return familiar;
 	}
 
@@ -3440,6 +3448,7 @@ public abstract class KoLCharacter
 		}
 
 		KoLCharacter.familiars.remove( familiar );
+		GearChangeFrame.updateFamiliars();
 	}
 
 	/**
