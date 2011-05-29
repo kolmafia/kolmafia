@@ -53,6 +53,7 @@ global	defaultLimit	5
 global	defaultLoginServer	1
 global	displayName
 global	externalEditor
+global	gapProtection	false
 global	getBreakfast
 global	grabCloversHardcore	false
 global	grabCloversSoftcore	true

@@ -191,7 +191,10 @@ public class Modifiers
 	public static final int MEAT_BONUS = 95;
 	public static final int PICKPOCKET_CHANCE = 96;
 	public static final int COMBAT_MANA_COST = 97;
-	
+	public static final int MUS_EXPERIENCE_PCT = 98;
+	public static final int MYS_EXPERIENCE_PCT = 99;
+	public static final int MOX_EXPERIENCE_PCT = 100;
+
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
 	private static final Object[][] floatModifiers =
