@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
@@ -393,7 +394,11 @@ public class CompactSidePane
 	{
 		this.levelLabel.setText( "Level " + KoLCharacter.getLevel() );
 
-		if ( KoLCharacter.inBadMoon() )
+		if ( CharPaneRequest.inValhalla() )
+		{
+			this.roninLabel.setText( "(Valhalla)" );
+		}
+		else if ( KoLCharacter.inBadMoon() )
 		{
 			this.roninLabel.setText( "(Bad Moon)" );
 		}

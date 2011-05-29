@@ -2053,6 +2053,10 @@ public class GenericRequest
 		{
 			this.containsUpdate = CakeArenaRequest.parseResults( this.responseText );
 		}
+		else if ( urlString.startsWith( "afterlife.php" ) )
+		{
+			this.containsUpdate = AfterLifeRequest.parseResponse( urlString, this.responseText );
+		}
 		else
 		{
 			this.containsUpdate = ResultProcessor.processResults( false, this.responseText );

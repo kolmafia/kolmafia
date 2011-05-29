@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
@@ -64,7 +65,7 @@ public class ContactManager
 
 	public static final SortedListModel getMailContacts()
 	{
-		if ( ContactManager.mailContacts.isEmpty() )
+		if ( ContactManager.mailContacts.isEmpty() && !CharPaneRequest.inValhalla() )
 		{
 			RequestThread.postRequest( new ContactListRequest() );
 		}

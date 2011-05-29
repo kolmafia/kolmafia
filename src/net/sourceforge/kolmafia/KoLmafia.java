@@ -720,6 +720,13 @@ public abstract class KoLmafia
 
 		LoginRequest.isLoggingIn( false );
 
+		// Abort further processing in Valhalla.
+		if ( CharPaneRequest.inValhalla() )
+		{
+			RequestThread.closeRequestSequence();
+			return;
+		}
+
 		if ( Preferences.getBoolean( name, "getBreakfast" ) )
 		{
 			int today = HolidayDatabase.getPhaseStep();
@@ -954,7 +961,16 @@ public abstract class KoLmafia
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
 
-		RequestThread.postRequest( new ApiRequest( "status" ) );
+		// We are in Valhalla if this redirects to valhalla.php?realworld=1
+		GenericRequest request = new ApiRequest( "status" );
+		RequestThread.postRequest( request );
+		if ( request.redirectLocation != null && request.redirectLocation.startsWith( "valhalla.php" ) )
+		{
+			// In Valhalla, parse the CharPane and abort further processing
+			KoLmafia.updateDisplay( "Welcome to Valhalla!" );
+			RequestThread.postRequest( CharPaneRequest.getInstance() );
+			return;
+		}
 
 		// Now that we know the character's ascension count, reset
 		// anything that depends on that.

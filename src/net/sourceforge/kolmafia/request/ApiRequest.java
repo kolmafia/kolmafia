@@ -106,8 +106,12 @@ public class ApiRequest
 
 	public void processResults()
 	{
-		// Save the JSON object so caller can look further at it
+		if ( this.redirectLocation != null )
+		{
+			return;
+		}
 
+		// Save the JSON object so caller can look further at it
 		this.JSON = ApiRequest.getJSON( this.responseText, this.what );
 		if ( this.what.equals( "status" ) )
 		{
