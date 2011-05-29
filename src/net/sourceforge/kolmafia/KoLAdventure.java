@@ -978,7 +978,14 @@ public class KoLAdventure
 
 		if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
+			if ( KoLCharacter.inBeecore() )
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put * ten-leaf clover" );
+			}
+			else
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
+			}
 		}
 
 		// If the test is successful, then it is safe to run the
