@@ -178,6 +178,26 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "r" ) )
 		{
+			boolean available;
+			if ( shopName.equals( "Barrrtleby's Barrrgain Books" ) )
+			{
+				available = !KoLCharacter.getPath().equals( "Bees Hate You" );
+			}
+			else if ( shopName.equals( "Barrrtleby's Barrrgain Books (Bees Hate You)" ) )
+			{
+				available = KoLCharacter.getPath().equals( "Bees Hate You" );
+			}
+			else
+			{
+				// What is this?
+				return false;
+			}
+
+			if ( !available )
+			{
+				return false;
+			}
+
 			if ( Preferences.getInteger( "lastPirateEphemeraReset" ) == KoLCharacter.getAscensions()
 				&& !Preferences.getString( "lastPirateEphemera" ).equalsIgnoreCase( itemName ) )
 			{

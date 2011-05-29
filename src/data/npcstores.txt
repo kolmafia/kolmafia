@@ -267,8 +267,13 @@ Barrrtleby's Barrrgain Books	r	pirate brochure	300
 Barrrtleby's Barrrgain Books	r	pirate pamphlet	300
 Barrrtleby's Barrrgain Books	r	pirate tract	300
 Barrrtleby's Barrrgain Books	r	The Big Book of Pirate Insults	500
-Barrrtleby's Barrrgain Books	r	Massive Manual of Marauder Mockery	500
 Barrrtleby's Barrrgain Books	r	abridged dictionary	1000
+
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate brochure	300
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate pamphlet	300
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate tract	300
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	Massive Manual of Marauder Mockery	500
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	abridged dictionary	1000
 
 The Tweedleporium	a	puff of smoke	100
 The Tweedleporium	a	stuffed porpoise	10000
