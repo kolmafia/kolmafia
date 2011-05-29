@@ -109,7 +109,7 @@ public class StorageRequest
 			break;
 
 		case EMPTY_STORAGE:
-			this.addFormField( "action", "takeall" );
+			this.addFormField( "action", "pullall" );
 			this.source = KoLConstants.storage;
 			this.destination = KoLConstants.inventory;
 			break;
@@ -349,7 +349,7 @@ public class StorageRequest
 		boolean success = true;
 		boolean transfer = false;
 
-		if ( urlString.indexOf( "action=takeall" ) != -1 )
+		if ( urlString.indexOf( "action=pullall" ) != -1 )
 		{
 			// Hagnk leans back and yells something
 			// ugnigntelligible to a group of Knob Goblin teegnage
@@ -456,7 +456,7 @@ public class StorageRequest
 			return false;
 		}
 
-		if ( urlString.indexOf( "action=takeall" ) != -1 )
+		if ( urlString.indexOf( "action=pullall" ) != -1 )
 		{
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "Emptying storage" );
