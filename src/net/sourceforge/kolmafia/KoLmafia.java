@@ -1519,6 +1519,18 @@ public abstract class KoLmafia
 		RequestThread.postRequest( new HermitRequest( selected, tradeCount ) );
 	}
 
+	public static void protectClovers()
+	{
+		if ( KoLCharacter.inBeecore() )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put * ten-leaf clover" );
+		}
+		else
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "use", "* ten-leaf clover" );
+		}
+	}
+
 	/**
 	 * Makes a request to the hermit, looking for the given number of items. This method should prompt the user to
 	 * determine which item to retrieve the hermit.
@@ -2246,7 +2258,9 @@ public abstract class KoLmafia
 
 		int itemId = currentRequest.getItemId();
 
-		if ( itemId == ItemPool.TEN_LEAF_CLOVER && Preferences.getBoolean( "cloverProtectActive" ) )
+		if ( itemId == ItemPool.TEN_LEAF_CLOVER &&
+		     Preferences.getBoolean( "cloverProtectActive" ) &&
+		     !KoLCharacter.inBeecore() )
 		{
 			// Our clovers will miraculously turn into disassembled
 			// clovers as soon as they are bought.
