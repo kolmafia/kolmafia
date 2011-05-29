@@ -1314,11 +1314,17 @@ public abstract class RuntimeLibrary
 
 	private static Value continueValue()
 	{
-		boolean hadPendingState = KoLmafia.hadPendingState();
+		Interpreter interpreter = KoLmafia.getCurrentInterpreter();
+		if ( interpreter == null )
+		{
+			return DataTypes.makeBooleanValue( KoLmafia.permitsContinue() );
+		}
+
+		boolean hadPendingState = interpreter.hadPendingState();
 
 		if ( hadPendingState )
 		{
-			KoLmafia.forgetPendingState();
+			interpreter.setHadPendingState( false );
 		}
 
 		return DataTypes.makeBooleanValue( KoLmafia.permitsContinue() && !hadPendingState );

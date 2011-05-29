@@ -128,6 +128,7 @@ import net.sourceforge.kolmafia.swingui.LoginFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -154,7 +155,7 @@ public abstract class KoLmafia
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 	}
 
-	private static boolean hadPendingState = false;
+	private static Interpreter currentInterpreter = null;
 
 	public static String currentIterationString = "";
 	public static boolean tookChoice = false;
@@ -612,6 +613,16 @@ public abstract class KoLmafia
 	public static final String getLastMessage()
 	{
 		return KoLmafia.lastMessage;
+	}
+
+	public static final Interpreter getCurrentInterpreter()
+	{
+		return KoLmafia.currentInterpreter;
+	}
+
+	public static final void setCurrentInterpreter( Interpreter interpreter )
+	{
+		KoLmafia.currentInterpreter = interpreter;
 	}
 
 	/**
@@ -1297,7 +1308,10 @@ public abstract class KoLmafia
 
 	private void executeRequest( final Job request, final int totalIterations, final boolean wasAdventuring )
 	{
-		KoLmafia.hadPendingState = false;
+		if ( KoLmafia.currentInterpreter != null )
+		{
+			KoLmafia.currentInterpreter.setHadPendingState( false );
+		}
 
 		// Begin the adventuring process, or the request execution
 		// process (whichever is applicable).
@@ -1368,7 +1382,10 @@ public abstract class KoLmafia
 		}
 		else if ( KoLmafia.continuationState == KoLConstants.PENDING_STATE )
 		{
-			KoLmafia.hadPendingState = true;
+			if ( KoLmafia.currentInterpreter != null )
+			{
+				KoLmafia.currentInterpreter.setHadPendingState( true );
+			}
 			KoLmafia.forceContinue();
 		}
 	}
@@ -2051,16 +2068,6 @@ public abstract class KoLmafia
 	 */
 
 	public abstract void showHTML( String location, String text );
-
-	public static final boolean hadPendingState()
-	{
-		return KoLmafia.hadPendingState;
-	}
-
-	public static final void forgetPendingState()
-	{
-		KoLmafia.hadPendingState = false;
-	}
 
 	/**
 	 * Retrieves whether or not continuation of an adventure or request is permitted by the or by current circumstances

@@ -84,6 +84,9 @@ public class Interpreter
 	private String fileName;
 	private int lineNumber;
 
+	// For use in LibraryFunction return values
+	private boolean hadPendingState;
+
 	// For use by RuntimeLibrary's CLI command batching feature
 	LinkedHashMap batched;
 
@@ -91,12 +94,14 @@ public class Interpreter
 	{
 		this.parser = new Parser();
 		this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
+		this.hadPendingState = false;
 	}
 
 	private Interpreter( final Interpreter source, final File scriptFile )
 	{
 		this.parser = new Parser( scriptFile, null, source.getImports() );
 		this.scope = source.scope;
+		this.hadPendingState = false;
 	}
 
 	public Parser getParser()
@@ -127,6 +132,16 @@ public class Interpreter
 	public void setState( final String state )
 	{
 		this.currentState = state;
+	}
+
+	public boolean hadPendingState()
+	{
+		return this.hadPendingState;
+	}
+
+	public void setHadPendingState( final boolean hadPendingState )
+	{
+		this.hadPendingState = hadPendingState;
 	}
 
 	public void setLineAndFile( final String fileName, final int lineNumber )
@@ -193,8 +208,6 @@ public class Interpreter
 
 	public Value execute( final String functionName, final String[] parameters, final boolean executeTopLevel )
 	{
-		KoLmafia.forgetPendingState();
-
 		try
 		{
 			return this.executeScope( this.scope, functionName, parameters, executeTopLevel );
@@ -215,6 +228,9 @@ public class Interpreter
 	{
 		Function main;
 		Value result = null;
+
+		Interpreter oldInterpreter = KoLmafia.getCurrentInterpreter();
+		KoLmafia.setCurrentInterpreter( this );
 
 		this.currentState = Interpreter.STATE_NORMAL;
 		this.resetTracing();
@@ -265,6 +281,8 @@ public class Interpreter
 
 			result = main.execute( this );
 		}
+
+		KoLmafia.setCurrentInterpreter( oldInterpreter );
 
 		return result;
 	}
