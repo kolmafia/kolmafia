@@ -893,18 +893,7 @@ public class GearChangeFrame
 
 	private boolean filterFamiliar( final FamiliarData familiar )
 	{
-		if ( !KoLCharacter.inBeecore() )
-		{
-			return true;
-		}
-
-		String race = familiar.getRace();
-		if ( race.indexOf( "b" ) != -1 || race.indexOf( "B" ) != -1 )
-		{
-			return false;
-		}
-
-		return true;
+		return familiar.canEquip();
 	}
 
 	private void updateEquipmentList( final LockableListModel currentItems, final List newItems,
