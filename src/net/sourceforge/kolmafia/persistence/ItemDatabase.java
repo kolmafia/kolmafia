@@ -793,6 +793,11 @@ public class ItemDatabase
 
 	private static final String extractStatRange( String range, float statFactor )
 	{
+		if ( range == null )
+		{
+			return null;
+		}
+
 		range = range.trim();
 
 		boolean isNegative = range.startsWith( "-" );
