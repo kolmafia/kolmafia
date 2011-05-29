@@ -33,14 +33,16 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListCellRenderer;
@@ -93,6 +95,7 @@ public class GearChangeFrame
 	private final EquipmentComboBox[] equipment;
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
+	private final SortedListModel familiars = new SortedListModel();
 	private final OutfitComboBox outfitSelect, customSelect;
 	private final FamiliarComboBox familiarSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
@@ -128,7 +131,7 @@ public class GearChangeFrame
 			this.equipment[ i ] = new EquipmentComboBox( list, i == EquipmentManager.FAMILIAR );
 		}
 
-		this.familiarSelect = new FamiliarComboBox( KoLCharacter.getFamiliarList() );
+		this.familiarSelect = new FamiliarComboBox( this.familiars );
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
@@ -530,6 +533,27 @@ public class GearChangeFrame
 		}
 	}
 
+	public static final void updateFamiliars()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+
+		GearChangeFrame.INSTANCE.familiars.setSelectedItem( KoLCharacter.getFamiliar() );
+		GearChangeFrame.INSTANCE.ensureValidSelections();
+	}
+
+	public static final void clearFamiliarList()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+
+		GearChangeFrame.INSTANCE.familiars.clear();
+	}
+
 	private class FamiliarComboBox
 		extends JComboBox
 	{
@@ -624,6 +648,15 @@ public class GearChangeFrame
 			this.updateEquipmentList( this.offhands, offhandItems, offhandItem );
 			this.equipment[ EquipmentManager.OFFHAND ].setEnabled( this.isEnabled );
 		}
+
+		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
+		FamiliarData selectedFamiliar = (FamiliarData) this.familiars.getSelectedItem();
+		if ( selectedFamiliar == null )
+		{
+			selectedFamiliar = currentFamiliar;
+		}
+		List familiars = this.validFamiliars( currentFamiliar );
+		this.updateEquipmentList( this.familiars, familiars, selectedFamiliar );
 	}
 
 	private List validWeaponItems( final AdventureResult currentWeapon )
@@ -818,8 +851,64 @@ public class GearChangeFrame
 		return false;
 	}
 
+	private List validFamiliars( final FamiliarData currentFamiliar )
+	{
+		List familiars = new ArrayList();
+
+		// Look at terrarium
+
+		Iterator it = KoLCharacter.getFamiliarList().iterator();
+		while ( it.hasNext() )
+		{
+			FamiliarData fam = (FamiliarData) it.next();
+
+			// Only add it once
+			if ( familiars.contains( fam ) )
+			{
+				continue;
+			}
+
+			if ( filterFamiliar( fam ) )
+			{
+				familiars.add( fam );
+			}
+		}
+
+		// Add the current familiar
+
+		if ( !familiars.contains( currentFamiliar ) &&
+		     filterFamiliar( currentFamiliar ) )
+		{
+			familiars.add( currentFamiliar );
+		}
+
+		// Add "(none)"
+		if ( !familiars.contains( FamiliarData.NO_FAMILIAR ) )
+		{
+			familiars.add( FamiliarData.NO_FAMILIAR );
+		}
+
+		return familiars;
+	}
+
+	private boolean filterFamiliar( final FamiliarData familiar )
+	{
+		if ( !KoLCharacter.inBeecore() )
+		{
+			return true;
+		}
+
+		String race = familiar.getRace();
+		if ( race.indexOf( "b" ) != -1 || race.indexOf( "B" ) != -1 )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	private void updateEquipmentList( final LockableListModel currentItems, final List newItems,
-		final AdventureResult equippedItem )
+		final Object equippedItem )
 	{
 		currentItems.retainAll( newItems );
 		newItems.removeAll( currentItems );
