@@ -172,10 +172,6 @@ public class ItemDatabase
 	private static final Map moxieByName = new HashMap();
 
 	private static final Map accessById = new HashMap();
-
-	private static float muscleFactor = 1.0f;
-	private static float mysticalityFactor = 1.0f;
-	private static float moxieFactor = 1.0f;
 	
 	public static final int ATTR_TRADEABLE = 0x00000001;
 	public static final int ATTR_GIFTABLE = 0x00000002;
@@ -274,12 +270,6 @@ public class ItemDatabase
 		}
 
 		ItemDatabase.itemIdByName.clear();
-
-		// For efficiency, figure out just once if today is a stat day
-		int statDay = HolidayDatabase.statDay( new Date() );
-		ItemDatabase.muscleFactor = statDay == KoLConstants.MUSCLE ? 1.25f : 1.0f;
-		ItemDatabase.mysticalityFactor = statDay == KoLConstants.MYSTICALITY ? 1.25f : 1.0f;
-		ItemDatabase.moxieFactor = statDay == KoLConstants.MOXIE ? 1.25f : 1.0f;
 
 		ItemDatabase.readTradeItems();
 		ItemDatabase.readItemDescriptions();
@@ -714,9 +704,9 @@ public class ItemDatabase
 
 		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
 		ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 3 ] );
-		ItemDatabase.muscleByName.put( name, ItemDatabase.extractStatRange( data[ 4 ], ItemDatabase.muscleFactor ) );
-		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractStatRange( data[ 5 ], ItemDatabase.mysticalityFactor ) );
-		ItemDatabase.moxieByName.put( name, ItemDatabase.extractStatRange( data[ 6 ], ItemDatabase.moxieFactor ) );
+		ItemDatabase.muscleByName.put( name, data[ 4 ] );
+		ItemDatabase.mysticalityByName.put( name, data[ 5 ] );
+		ItemDatabase.moxieByName.put( name, data[ 6 ] );
 
 		if ( data.length < 8 )
 			return;
@@ -1592,7 +1582,9 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String range = (String) ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
+		String muscle = (String) ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
+		float muscleFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MUS_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
+		String range = (String) ItemDatabase.extractStatRange( muscle, muscleFactor );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -1603,7 +1595,9 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String range = (String) ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
+		String mysticality = (String) ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
+		float mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
+		String range = (String) ItemDatabase.extractStatRange( mysticality, mysticalityFactor );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -1614,7 +1608,9 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String range = (String) ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
+		String moxie = (String) ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
+		float moxieFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MOX_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
+		String range = (String) ItemDatabase.extractStatRange( moxie, moxieFactor );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -2158,9 +2154,9 @@ public class ItemDatabase
 		ItemDatabase.inebrietyByName.put( name, new Integer( inebriety ) );
 		ItemDatabase.saveAdventureRange( name, inebriety, adventures );
 		ItemDatabase.calculateAdventureRange( name );
-		ItemDatabase.muscleByName.put( name, ItemDatabase.extractStatRange( muscle, ItemDatabase.muscleFactor ) );
-		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractStatRange( mysticality, ItemDatabase.mysticalityFactor ) );
-		ItemDatabase.moxieByName.put( name, ItemDatabase.extractStatRange( moxie, ItemDatabase.moxieFactor ) );
+		ItemDatabase.muscleByName.put( name, muscle );
+		ItemDatabase.mysticalityByName.put( name, mysticality );
+		ItemDatabase.moxieByName.put( name, moxie );
 		ItemDatabase.notesByName.put( name, note );
 	}
 
