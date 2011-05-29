@@ -4696,7 +4696,7 @@
 4695	804578401	teakperch.gif	affordable teak perch
 4696	428796706	gapants.gif	Greatest American Pants	pairs of Greatest American Pants
 4697	222160625	foss_necklace.gif	fossilized necklace
-4698	559717153	cannedair.gif	imp air
+4698	559717153	cannedair.gif	imp air	cans of imp air
 4699	176406318	librarycard.gif	bus pass
 4700	558351756	foss_spike.gif	fossilized spike	fossilized spikes
 4701	643609482	biggscrate.gif	waterlogged crate	waterlogged crates
