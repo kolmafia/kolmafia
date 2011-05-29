@@ -194,7 +194,7 @@ public class BreakfastManager
 	{
 		if ( Preferences.getBoolean( "grabClovers" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
-			int count = KoLCharacter.canInteract() ? HermitRequest.cloverCount() : HermitRequest.getWorthlessItemCount();
+			int count = HermitRequest.cloverCount();
 			if ( count > 0 )
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hermit " + count + " ten-leaf clover" );
