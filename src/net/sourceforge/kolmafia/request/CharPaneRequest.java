@@ -66,6 +66,7 @@ public class CharPaneRequest
 	private static final AdventureResult ABSINTHE = new AdventureResult( "Absinthe-Minded", 1, true );
 
 	private static boolean canInteract = false;
+	private static boolean inValhalla = false;
 	private static boolean isRunning = false;
 	private static String lastResponse = "";
 
@@ -111,6 +112,11 @@ public class CharPaneRequest
 	public static final boolean canInteract()
 	{
 		return CharPaneRequest.canInteract;
+	}
+
+	public static final boolean inValhalla()
+	{
+		return CharPaneRequest.inValhalla;
 	}
 
 	public static final void setInteraction()
@@ -186,6 +192,8 @@ public class CharPaneRequest
 			return;
 		}
 
+		CharPaneRequest.inValhalla = false;
+
 		// KoL now includes Javascript variables in each charpane
 		//
 		// var turnsplayed = 232576;
@@ -246,6 +254,9 @@ public class CharPaneRequest
 
 	private static final void processValhallaCharacterPane( final String responseText )
 	{
+		// We are in Valhalla
+		CharPaneRequest.inValhalla = true;
+
 		// We have no stats as an Astral Spirit
 		KoLCharacter.setStatPoints( 1, 0L, 1, 0L, 1, 0L );
 		KoLCharacter.setHP( 1, 1, 1 );
