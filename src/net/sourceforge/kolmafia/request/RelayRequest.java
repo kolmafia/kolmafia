@@ -1671,42 +1671,57 @@ public class RelayRequest
 				// inventory.
 
 				String place = this.getFormField( "place" );
-				if ( place != null && place.equals( "5" ) && !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
+
+				if ( place != null && place.equals( "5" ) )
 				{
 					StringBuffer warning =
 						new StringBuffer(
 							"It's possible there is something very important you're forgetting to do.<br>You lack:" );
-					if ( !InventoryManager.hasItem( ItemPool.WA ) )
+
+					// You need the Antique hand mirror in Beecore
+					if ( KoLCharacter.inBeecore() )
 					{
-						if ( !InventoryManager.hasItem( ItemPool.RUBY_W ) )
+						if ( !InventoryManager.retrieveItem( ItemPool.ANTIQUE_HAND_MIRROR ) )
 						{
-							warning.append( " <span title=\"Friar's Gate\">W</span>" );
-						}
-						if ( !InventoryManager.hasItem( ItemPool.METALLIC_A ) )
-						{
-							warning.append( " <span title=\"Airship\">A</span>" );
+							warning.append( " <span title=\"Bedroom\">Antique hand mirror</span>" );
+							this.sendGeneralWarning( "handmirror.gif", warning.toString() );
+							return null;
 						}
 					}
-					if ( !InventoryManager.hasItem( ItemPool.ND ) )
+					else if ( !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
 					{
-						if ( !InventoryManager.hasItem( ItemPool.LOWERCASE_N ) )
+						if ( !InventoryManager.hasItem( ItemPool.WA ) )
 						{
-							if ( !InventoryManager.hasItem( ItemPool.NG ) )
+							if ( !InventoryManager.hasItem( ItemPool.RUBY_W ) )
 							{
-								warning.append( " <span title=\"Orc Chasm\">N</span>" );
+								warning.append( " <span title=\"Friar's Gate\">W</span>" );
 							}
-							else
+							if ( !InventoryManager.hasItem( ItemPool.METALLIC_A ) )
 							{
-								warning.append( " N (untinker your NG)" );
+								warning.append( " <span title=\"Airship\">A</span>" );
 							}
 						}
-						if ( !InventoryManager.hasItem( ItemPool.HEAVY_D ) )
+						if ( !InventoryManager.hasItem( ItemPool.ND ) )
 						{
-							warning.append( " <span title=\"Castle\">D</span>" );
+							if ( !InventoryManager.hasItem( ItemPool.LOWERCASE_N ) )
+							{
+								if ( !InventoryManager.hasItem( ItemPool.NG ) )
+								{
+									warning.append( " <span title=\"Orc Chasm\">N</span>" );
+								}
+								else
+								{
+									warning.append( " N (untinker your NG)" );
+								}
+							}
+							if ( !InventoryManager.hasItem( ItemPool.HEAVY_D ) )
+							{
+								warning.append( " <span title=\"Castle\">D</span>" );
+							}
 						}
+						this.sendGeneralWarning( "wand.gif", warning.toString() );
+						return null;
 					}
-					this.sendGeneralWarning( "wand.gif", warning.toString() );
-					return null;
 				}
 			}
 		}
