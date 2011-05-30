@@ -254,7 +254,7 @@ Cloaca-Cola Soldier	HP: 30 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Clo
 Cloud of Disembodied Whiskers	HP: 3 Def: 2 Atk: 2	shaving cream (20)
 Clubfish	HP: 600 Def: 400 Atk: 350 Meat: 176-264	dull fish scale (n15)	fish stick (n2)
 Cluster of Angry Bacteria	HP: 25 Def: 20 Atk: 20	memory of an A (20)	memory of a G (20)
-Cobb's Knob Oven	HP: 20 Def: 20 Atk: 20	oven mitts (5)	overcookie (20)
+Cobb's Knob Oven	HP: 20 Def: 20 Atk: 20 E: heat	oven mitts (5)	overcookie (20)
 Cold Hobo	HP: 500 Def: 350 Atk: 350 E: cold	hobo nickel (c15)	freezin' bindle (0)	Maxing, Relaxing (0)	Blizzards I Have Died In (0)	frigid air mattress (0)
 Collapsed Mineshaft Golem	HP: 100000 Def: 100000 Atk: 100000
 Completely Different Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-6 "Hardly Poisoned at All"	spider web (25)	spider web (25)
