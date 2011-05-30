@@ -181,11 +181,11 @@ public class NPCStoreDatabase
 			boolean available;
 			if ( shopName.equals( "Barrrtleby's Barrrgain Books" ) )
 			{
-				available = !KoLCharacter.getPath().equals( "Bees Hate You" );
+				available = !KoLCharacter.inBeecore();
 			}
 			else if ( shopName.equals( "Barrrtleby's Barrrgain Books (Bees Hate You)" ) )
 			{
-				available = KoLCharacter.getPath().equals( "Bees Hate You" );
+				available = KoLCharacter.inBeecore();
 			}
 			else
 			{
