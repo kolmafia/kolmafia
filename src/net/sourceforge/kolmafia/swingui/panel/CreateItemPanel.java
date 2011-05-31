@@ -34,10 +34,7 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -53,9 +50,8 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
-import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
 
 /**
  * Internal class used to handle everything related to creating items; this allows creating of items, which usually
@@ -188,36 +184,4 @@ public class CreateItemPanel
 			RequestThread.closeRequestSequence();
 		}
 	}
-
-	private class CreationSettingCheckBox
-		extends JCheckBox
-		implements ActionListener
-	{
-		private final String property;
-
-		public CreationSettingCheckBox( final String label, final String property, final String tooltip )
-		{
-			super( label );
-
-			this.setToolTipText( tooltip );
-			this.setSelected( Preferences.getBoolean( property ) );
-
-			this.addActionListener( this );
-
-			this.property = property;
-			PreferenceListenerRegistry.registerCheckbox( property, this );
-		}
-
-		public void actionPerformed( final ActionEvent e )
-		{
-			if ( Preferences.getBoolean( this.property ) == this.isSelected() )
-			{
-				return;
-			}
-
-			Preferences.setBoolean( this.property, this.isSelected() );
-			ConcoctionDatabase.refreshConcoctions();
-		}
-	}
-
 }
