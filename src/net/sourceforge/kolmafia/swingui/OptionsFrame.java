@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
+import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import tab.CloseTabPaneEnhancedUI;
@@ -362,6 +363,7 @@ public class OptionsFrame
 			{ "allowNegativeTally", "Allow item counts in session results to go negative" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
+			{ "autoSatisfyWithCloset", "Take items from the closet whenever needed", "yes" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },
 			{ "mmgAutoConfirmBets", "Auto-confirm bets in the MMG" },
 			
@@ -392,7 +394,10 @@ public class OptionsFrame
 			for ( int i = 0; i < this.options.length; ++i )
 			{
 				String[] option = this.options[ i ];
-				JCheckBox optionBox = new JCheckBox();
+				JCheckBox optionBox = 
+					( option.length < 3 ) ?
+					new JCheckBox() :
+					new CreationSettingCheckBox( option[ 0 ] );
 				this.optionBoxes[ i ] = optionBox;
 				elements[ i ] =
 					option.length == 0 ?

@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.preferences;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,21 +56,19 @@ public class PreferenceListenerRegistry
 			PreferenceListenerRegistry.listenerMap.put( name, list );
 		}
 
-		list.add( new WeakReference( listener ) );
+		list.add( listener );
 	}
 
 	public static final void registerCheckbox( final String name, final JCheckBox checkbox )
 	{
 		CheckboxUpdateListener listener = new CheckboxUpdateListener( name, checkbox );
-
 		PreferenceListenerRegistry.registerListener( name, listener );
 	}
 
 	public static final void firePreferenceChanged( final String name )
 	{
-		ArrayList weakReferenceList = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
-
-		fireListeners( weakReferenceList, null );
+		ArrayList listenerList = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
+		fireListeners( listenerList, null );
 	}
 
 	public static final void fireAllPreferencesChanged()
@@ -86,25 +83,18 @@ public class PreferenceListenerRegistry
 		}
 	}
 
-	private static final void fireListeners( final ArrayList weakReferenceList, final HashSet notified )
+	private static final void fireListeners( final ArrayList listenerList, final HashSet notified )
 	{
-		if ( weakReferenceList == null )
+		if ( listenerList == null )
 		{
 			return;
 		}
 
-		Iterator i = weakReferenceList.iterator();
+		Iterator i = listenerList.iterator();
 
 		while ( i.hasNext() )
 		{
-			WeakReference reference = (WeakReference) i.next();
-			PreferenceListener listener = (PreferenceListener) reference.get();
-
-			if ( listener == null )
-			{
-				i.remove();
-				continue;
-			}
+			PreferenceListener listener = (PreferenceListener) i.next();
 
 			if ( notified != null )
 			{
