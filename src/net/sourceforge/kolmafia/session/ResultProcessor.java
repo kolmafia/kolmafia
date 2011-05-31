@@ -93,6 +93,7 @@ public class ResultProcessor
 	public static boolean shouldDisassembleClovers( String formURLString )
 	{
 		return ResultProcessor.receivedClover &&
+		       !GenericRequest.ascending &&
 		       FightRequest.getCurrentRound() == 0 &&
 		       Preferences.getBoolean( "cloverProtectActive" ) &&
 		       isCloverURL( formURLString );
