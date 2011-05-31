@@ -1077,7 +1077,16 @@ public abstract class SorceressLairManager
 			return requirements;
 		}
 
-		if ( !useCloverForSkeleton )
+		if ( useCloverForSkeleton )
+		{
+			if ( !SorceressLairManager.isItemAvailable( SorceressLairManager.CLOVER ) )
+			{
+				requirements.add( SorceressLairManager.CLOVER );
+				return requirements;
+			}
+			InventoryManager.retrieveItem( SorceressLairManager.CLOVER );
+		}
+		else
 		{	// we want any HP-increasing benefits of the player's equipment
 			SpecialOutfit.restoreImplicitCheckpoint();
 			SpecialOutfit.createImplicitCheckpoint();
@@ -1100,11 +1109,6 @@ public abstract class SorceressLairManager
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
 				return requirements;
-			}
-
-			if ( useCloverForSkeleton && SorceressLairManager.isItemAvailable( SorceressLairManager.CLOVER ) )
-			{
-				InventoryManager.retrieveItem( SorceressLairManager.CLOVER );
 			}
 
 			// Next, handle the form for the skeleton key to
