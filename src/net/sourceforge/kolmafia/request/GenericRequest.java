@@ -114,6 +114,7 @@ public class GenericRequest
 	public static boolean isRatQuest = false;
 	public static boolean isBarrelSmash = false;
 	public static boolean handlingChoices = false;
+	public static boolean ascending = false;
 	public static String itemMonster = null;
 	private static boolean choiceHandled = true;
 	private static boolean suppressUpdate = false;
@@ -1210,7 +1211,9 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "ascend.php" ) && urlString.indexOf( "action=ascend" ) != -1 )
 		{
+			GenericRequest.ascending = true;
 			ValhallaManager.preAscension();
+			GenericRequest.ascending = false;
 		}
 
 		if ( urlString.startsWith( "valhalla.php" ) && Preferences.getInteger( "lastBreakfast" ) != -1 )
