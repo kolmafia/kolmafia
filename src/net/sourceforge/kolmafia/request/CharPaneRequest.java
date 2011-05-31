@@ -185,8 +185,13 @@ public class CharPaneRequest
 			return;
 		}
 
+		// We can deduce whether we are in compact charpane mode
+
+		GenericRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
+
 		// If we are in Valhalla, do special processing
-		if ( responseText.indexOf( "otherimages/spirit.gif" ) != -1 )
+		if ( responseText.indexOf( "otherimages/spirit.gif" ) != -1 ||
+			 responseText.indexOf( "<br>Lvl. <img" ) != -1 )
 		{
 			processValhallaCharacterPane( responseText );
 			return;
@@ -223,10 +228,6 @@ public class CharPaneRequest
 		// Since we believe this update, synchronize with it
 		ResultProcessor.processAdventuresUsed( turnsthisrun - mafiaturnsthisrun );
 
-		// We can deduce whether we are in compact charpane mode
-
-		GenericRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
-
 		// The easiest way to retrieve the character pane data is to
 		// use regular expressions. But, the only data that requires
 		// synchronization is the modified stat values, health and
@@ -251,6 +252,8 @@ public class CharPaneRequest
 
 	// <td align=center><img src="http://images.kingdomofloathing.com/itemimages/karma.gif" width=30 height=30 alt="Karma" title="Karma"><br>0</td>
 	public static final Pattern KARMA_PATTERN = Pattern.compile( "karma.gif.*?<br>([^<]*)</td>" );
+	// <td align=right>Karma:</td><td align=left><b>122</b></td>
+	public static final Pattern KARMA_PATTERN_COMPACT = Pattern.compile( "Karma:.*?<b>([^<]*)</b>" );
 
 	private static final void processValhallaCharacterPane( final String responseText )
 	{
@@ -277,7 +280,10 @@ public class CharPaneRequest
 		CharPaneRequest.setInteraction( false );
 
 		// You do, however, have Karma available to spend in Valhalla.
-		Matcher matcher = CharPaneRequest.KARMA_PATTERN.matcher( responseText );
+		Pattern pattern = GenericRequest.compactCharacterPane ?
+			CharPaneRequest.KARMA_PATTERN_COMPACT :
+			CharPaneRequest.KARMA_PATTERN ;
+		Matcher matcher = pattern.matcher( responseText );
 		int karma = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 		Preferences.setInteger( "bankedKarma", karma );
 	}
