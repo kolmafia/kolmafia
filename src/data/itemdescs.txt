@@ -5106,7 +5106,7 @@
 5105	870472784	paintbomb.gif	paint bomb
 5106	738192395	hideousegg.gif	hideous egg	hideous eggs
 5107
-5108	499891496	disease.gif	fistfull of ashes
+5108	499891496	disease.gif	fistful of ashes	fistsful of ashes
 5109	217719453	stressball.gif	stress ball
 5110	557750320	businesskit.gif	Li'l Businessman Kit
 5111	707506403	ultracolor.gif	Ultracolor&trade; shirt

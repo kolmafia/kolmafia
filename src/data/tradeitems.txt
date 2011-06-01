@@ -5114,7 +5114,7 @@
 5105	paint bomb	none, combat	all	35
 5106	hideous egg	none	all	0
 5107
-5108	fistfull of ashes	none	display	0
+5108	fistful of ashes	none	display	0
 5109	stress ball	offhand	all	40
 5110	Li'l Businessman Kit	familiar	all	75
 5111	Ultracolor&trade; shirt	shirt	all	80
