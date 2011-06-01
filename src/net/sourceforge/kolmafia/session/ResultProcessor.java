@@ -114,6 +114,8 @@ public class ResultProcessor
 			formURLString.startsWith( "mallstore.php" ) ||
 			formURLString.startsWith( "barrel.php" ) ||
 			formURLString.startsWith( "shore.php" ) ||
+			// Marmot sign can give you a clover after a fight
+			formURLString.startsWith( "fight.php" ) ||
 			formURLString.indexOf( "whichitem=553" ) != -1;
 	}
 
