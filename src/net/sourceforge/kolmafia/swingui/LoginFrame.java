@@ -198,7 +198,7 @@ public class LoginFrame
 
 		public LoginPanel()
 		{
-			super( "login", "relay" );
+			super( "login" );
 
 			boolean useTextField = KoLConstants.saveStateNames.isEmpty();
 			LoginFrame.this.usernameField =
