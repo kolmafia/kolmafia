@@ -1650,9 +1650,10 @@ public class RelayRequest
 			// More MCD rewards.  This one is for the Bonerdagon,
 			// who has special items at 5 and 10.
 
-			else if ( path.startsWith( "cyrpt.php" ) )
+			else if ( path.startsWith( "crypt.php" ) )
 			{
-				if ( this.getFormField( "action" ) != null && KoLCharacter.mcdAvailable() )
+				String action = this.getFormField( "action" );
+				if ( action != null && action.equals( "heart" ) && KoLCharacter.mcdAvailable() )
 				{
 					this.sendBossWarning( "The Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
 					return null;
