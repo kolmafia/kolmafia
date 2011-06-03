@@ -38,7 +38,7 @@ guy made of bee pollen	3	8	6-10	18-60	18-60	18-60
 handful of moss	1	1	0	0	0	12-14
 Hatorade	5	1	0	0	0	0	+1 PvP fight
 hot wad	1	6	1	24-30	8-10	16-20	10 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
-Instant Karma	5	9	20-25	60-70	60-70	60-70
+Instant Karma	5	13	20-25	60-70	60-70	60-70
 jug-o-magicalness	1	3	0	0	8-10	0
 lavender paisley oyster egg	1	1	0	0	11-15	11-15
 lavender polka-dot oyster egg	1	1	0	0	0	22-30
