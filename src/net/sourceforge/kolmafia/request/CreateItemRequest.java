@@ -872,7 +872,7 @@ public class CreateItemRequest
 			// require one and have turns available to craft.
 			return !Preferences.getBoolean( "requireBoxServants" ) &&
 				( KoLCharacter.getAdventuresLeft() > 0 ||
-				ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) > 4 );
+				  ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) > 4 );
 		}
 
 		// We want to autorepair.
@@ -900,8 +900,9 @@ public class CreateItemRequest
 			// We can't autorepair. It's still OK if we are willing
 			// to cook without a box servant and have turns
 			// available to craft.
-			return !Preferences.getBoolean( "requireRepairBoxServants" ) &&
-				KoLCharacter.getAdventuresLeft() > 0;
+			return !Preferences.getBoolean( "requireBoxServants" ) &&
+				( KoLCharacter.getAdventuresLeft() > 0 ||
+				  ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) > 4 );
 		}
 
 		// Once you hit this point, you're guaranteed to
