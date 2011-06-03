@@ -1675,7 +1675,7 @@ malevolent medallion	Slime Hates It: +1, Spooky Damage: +10, Stench Damage: +10,
 mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only
 memory of a cultist's robe	Single Equip
 # mirrored aviator shades: Kill 10% More Skeletons
-mirrored aviator shades	Moxie: +1, Single Equip
+mirrored aviator shades	Moxie: +15, Single Equip
 molten medallion	Hot Resistance: +1, Item Drop: +5, Synergetic
 monster bait	Combat Rate: +5, Single Equip
 monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
