@@ -345,27 +345,36 @@ public class CompactSidePane
 				}
 			}
 
-			if (stat.getMenuComponentCount() == 0) stat.setEnabled(false);
-			famPopup.add( stat );
-			if (item.getMenuComponentCount() == 0) item.setEnabled(false);
-			famPopup.add( item );
-			if (meat.getMenuComponentCount() == 0) meat.setEnabled(false);
-			famPopup.add( meat );
-			if (combat.getMenuComponentCount() == 0) combat.setEnabled(false);
-			famPopup.add( combat );
+			if ( stat.getMenuComponentCount() > 0 )
+			{
+				famPopup.add( stat );
+			}
+			if ( item.getMenuComponentCount() > 0 )
+			{
+				famPopup.add( item );
+			}
+			if ( meat.getMenuComponentCount() > 0 )
+			{
+				famPopup.add( meat );
+			}
+			if ( combat.getMenuComponentCount() > 0 )
+			{
+				famPopup.add( combat );
+			}
 
 			for ( int i = 0; i < 9; ++i )
 			{
-				if ( customMenu[ i ] != null &&
-					customMenu[ i ].getMenuComponentCount() > 0 )
+				JMenu menu = customMenu[ i ];
+
+				if ( menu != null && menu.getMenuComponentCount() > 0 )
 				{
-					famPopup.add( customMenu[ i ] );
+					famPopup.add( menu );
 				}
 			}
+
 			famPopup.add( other );
 
-			famPopup.show( e.getComponent(),
-				e.getX(), e.getY() );
+			famPopup.show( e.getComponent(), e.getX(), e.getY() );
 		}
 	}
 
