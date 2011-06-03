@@ -2106,12 +2106,9 @@ public class GenericRequest
 
 	public static final void checkItemRedirection( final String location )
 	{
-		GenericRequest.checkItemRedirection( UseItemRequest.extractItem( location ) );
-	}
-
-	public static final void checkItemRedirection( final AdventureResult item )
-	{
+		AdventureResult item = UseItemRequest.extractItem( location );
 		GenericRequest.itemMonster = null;
+
 		if ( item == null )
 		{
 			return;
@@ -2281,6 +2278,11 @@ public class GenericRequest
 		{
 			ResultProcessor.processResult( item.getInstance( -1 ) );
 		}
+
+		KoLAdventure.lastVisitedLocation = null;
+		KoLAdventure.lastLocationName = itemName;
+		KoLAdventure.lastLocationURL = location;
+		Preferences.setString( "lastAdventure", "None" );
 
 		int adventure = KoLAdventure.getAdventureCount();
 		RequestLogger.printLine();
