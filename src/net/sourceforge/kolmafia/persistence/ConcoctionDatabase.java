@@ -1279,6 +1279,10 @@ public class ConcoctionDatabase
 
 	private static final void cachePermitted( final List availableIngredients )
 	{
+		int toolCost = KoLCharacter.inBadMoon() ? 500 : 1000;
+		boolean willBuyTool =
+			KoLCharacter.getAvailableMeat() >= toolCost && 
+			Preferences.getBoolean( "autoSatisfyWithNPCs" );
 		boolean willBuyServant = KoLCharacter.canInteract() &&
 			Preferences.getBoolean( "autoRepairBoxServants" ) &&
 			( Preferences.getBoolean( "autoSatisfyWithMall" ) ||
@@ -1344,11 +1348,10 @@ public class ConcoctionDatabase
 		// Smithing of items is possible whenever the person
 		// has a hammer.
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] =
-			KoLCharacter.getAvailableMeat() >= 1000;
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] = willBuyTool;
 		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SMITH ] = Math.max( 0, 1 - Inigo );
 
-		if ( InventoryManager.hasItem( ItemPool.TENDER_HAMMER ) )
+		if ( InventoryManager.hasItem( ItemPool.TENDER_HAMMER ) || willBuyTool )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] = true;
 			flags |= KoLConstants.CR_HAMMER;
@@ -1450,35 +1453,56 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.EXCUSE[ KoLConstants.COOK ] =
 			"You cannot cook without an oven or a range.";
 
-		// If we have a range and a chef installed, mixing fancy foods
-		// costs no adventure.
+		// If we have a range and a chef installed, cooking fancy foods
+		// costs no adventure. If we have no chef, cooking takes
+		// adventures unless we have Inigo's active.
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] =
-			KoLCharacter.hasRange() &&
-			( KoLCharacter.hasChef() ||
-			  willBuyServant ||
-			  ConcoctionDatabase.isAvailable( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF ) );
-		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
-		ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
-		ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] =
-			KoLCharacter.hasRange() ?
-			"You have chosen not to cook fancy food without a chef-in-the-box." :
-			"You cannot cook fancy foods without a range.";
-
-		// If we have no chef, see if we are allowed to cook
-		// without one, either because Inigo's is active or because
-		// we've opted in via preference.
-
-		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] &&
-		     (Inigo > 0 || !Preferences.getBoolean( "requireBoxServants" ) ) )
+		// If you don't have a range, you can't cook fancy food
+		// We could auto buy & install a range if the character
+		// has at least 1,000 Meat and autoSatisfyWithNPCs = true
+		if ( !KoLCharacter.hasRange() && !willBuyTool )
 		{
-			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] =
-				KoLCharacter.hasRange();
-			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = Math.max( 0, 1 - Inigo );
-			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] =
-				MallPriceDatabase.getPrice( ItemPool.CHEF ) / 90;
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = false;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
 			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] =
 				"You cannot cook fancy foods without a range.";
+		}
+		// If you have (or will have) a chef, fancy cooking is free
+		else if ( KoLCharacter.hasChef() || willBuyServant ||
+			  ConcoctionDatabase.isAvailable( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = true;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] =
+				MallPriceDatabase.getPrice( ItemPool.CHEF ) / 90;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] = null;
+		}
+		// If we don't have a chef, Inigo's makes cooking free
+		else if ( Inigo > 0 )
+		{
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = true;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] = null;
+		}
+		// We might not care if cooking takes adventures
+		else if ( Preferences.getBoolean( "requireBoxServants" ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = false;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] =
+				"You have chosen not to cook fancy food without a chef-in-the-box.";
+		}
+		// Otherwise, spend those adventures!
+		else
+		{
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = KoLCharacter.getAdventuresLeft() > 0;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 1;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] =
+				"You cannot cook fancy foods without adventures.";
 		}
 
 		// Cooking may require an additional skill.
@@ -1518,35 +1542,56 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.EXCUSE[ KoLConstants.MIX ] =
 			"You cannot mix without a shaker or a cocktailcrafting kit.";
 
-		// If we have a cocktail kit and a bartender installed,
-		// mixing fancy cocktails costs no adventure.
+		// If we have a kit and a bartender installed, mixing fancy drinks
+		// costs no adventure. If we have no bartender, mixing takes
+		// adventures unless we have Inigo's active.
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] =
-			KoLCharacter.hasCocktailKit() &&
-			( KoLCharacter.hasBartender() ||
-			  willBuyServant ||
-			  ConcoctionDatabase.isAvailable( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER ) );
-		ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
-		ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
-		ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] =
-			KoLCharacter.hasCocktailKit() ?
-			"You have chosen not to mix fancy drinks without a bartender-in-the-box." :
-			"You cannot mix fancy drinks without a cocktailcrafting kit.";
-
-		// If we have no bartender, see if we are allowed to mix
-		// without one, either because Inigo's is active or because
-		// we've opted in via preference.
-
-		if ( !ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] &&
-		     (Inigo > 0 || !Preferences.getBoolean( "requireBoxServants" ) ) )
+		// If you don't have a cocktailcrafting kit, you can't mix fancy drinks
+		// We will auto buy & install a cocktailcrafting kit if the character
+		// has at least 1,000 Meat and autoSatisfyWithNPCs = true
+		if ( !KoLCharacter.hasCocktailKit() && !willBuyTool )
 		{
-			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] =
-				KoLCharacter.hasCocktailKit();
-			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = Math.max( 0, 1 - Inigo );
-			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] =
-				MallPriceDatabase.getPrice( ItemPool.BARTENDER ) / 90;
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = false;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
 			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] =
 				"You cannot mix fancy drinks without a cocktailcrafting kit.";
+		}
+		// If you have (or will have) a bartender, fancy mixing is free
+		else if ( KoLCharacter.hasBartender() || willBuyServant ||
+			  ConcoctionDatabase.isAvailable( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = true;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] =
+				MallPriceDatabase.getPrice( ItemPool.BARTENDER ) / 90;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] = null;
+		}
+		// If we don't have a bartender, Inigo's makes mixing free
+		else if ( Inigo > 0 )
+		{
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = true;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] = null;
+		}
+		// We might not care if mixing takes adventures
+		else if ( Preferences.getBoolean( "requireBoxServants" ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = false;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] =
+				"You have chosen not to mix fancy drinks without a bartender-in-the-box.";
+		}
+		// Otherwise, spend those adventures!
+		else
+		{
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = KoLCharacter.getAdventuresLeft() > 0;
+			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 1;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
+			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] =
+				"You cannot mix fancy drinks without adventures.";
 		}
 
 		// Mixing may require an additional skill.
