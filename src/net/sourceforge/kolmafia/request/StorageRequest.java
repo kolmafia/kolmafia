@@ -361,6 +361,7 @@ public class StorageRequest
 				Object[] items = KoLConstants.storage.toArray();
 				ResultProcessor.processBulkItems( items );
 				KoLConstants.storage.clear();	 
+				KoLCharacter.setStorageMeat( 0 );
 				items = KoLConstants.freepulls.toArray();
 				ResultProcessor.processBulkItems( items );
 				KoLConstants.freepulls.clear();	 
@@ -382,7 +383,7 @@ public class StorageRequest
 			if ( responseText.indexOf( "moved from storage to inventory" ) != -1 )
 			{
 				// Pull items from storage and/or freepulls
-				StorageRequest.transferItems( urlString );
+				StorageRequest.transferItems( responseText );
 				transfer = true;
 			}
 			else
@@ -415,37 +416,47 @@ public class StorageRequest
 		return true;
 	}
 
-	private static final void transferItems( final String urlString )
+	// <b>star hat (1)</b> moved from storage to inventory.
+	private static final Pattern PULL_ITEM_PATTERN = Pattern.compile( "<b>([^<]*) \\((\\d+)\\)</b> moved from storage to inventory" );
+
+	private static final void transferItems( final String responseText )
 	{
-		Pattern itemPattern = TransferItemRequest.ITEMID_PATTERN;
-		Pattern quantityPattern = TransferItemRequest.HOWMANY_PATTERN;
-		List source;
-		List destination = KoLConstants.inventory;
-		ArrayList itemList;
+		// Transfer items from storage and/or freepulls
 
-		// Transfer items from storage
-		source = KoLConstants.storage;
-		itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source );
-		if ( !itemList.isEmpty() )
+		Matcher matcher = StorageRequest.PULL_ITEM_PATTERN.matcher( responseText );
+		int pulls = 0;
+
+		while ( matcher.find() )
 		{
-			int count = TransferItemRequest.transferItems( itemList, source, destination );
-			int remaining = ConcoctionDatabase.getPullsRemaining();
+			String name = matcher.group( 1 );
+			int count = StringUtilities.parseInt( matcher.group( 2 ) );
 
-			// If remaining is -1, pulls are unlimited.  Otherwise,
-			// they are limited and KoL will fail the transfer if
-			// you try to pull too many items.
-			if ( remaining >= count )
+			AdventureResult item = new AdventureResult( name, count, false );
+
+			List source;
+
+			if ( KoLConstants.freepulls.contains( item ) )
 			{
-				ConcoctionDatabase.setPullsRemaining( remaining - count );
+				source = KoLConstants.freepulls;
 			}
+			else
+			{
+				source = KoLConstants.storage;
+				pulls += count;
+			}
+
+			// Remove from storage
+			AdventureResult.addResultToList( source, item.getNegation() );
+
+			// Add to inventory
+			ResultProcessor.processResult( item );
 		}
 
-		// Transfer items from freepulls
-		source = KoLConstants.freepulls;
-		itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source );
-		if ( !itemList.isEmpty() )
+		// If remaining is -1, pulls are unlimited.
+		int remaining = ConcoctionDatabase.getPullsRemaining();
+		if ( pulls > 0 && remaining >= pulls )
 		{
-			TransferItemRequest.transferItems( itemList, source, destination );
+			ConcoctionDatabase.setPullsRemaining( remaining - pulls );
 		}
 	}
 
