@@ -90,10 +90,10 @@ public class KoLAdventure
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );
 	public static final AdventureResult PERFUME = EffectPool.get( EffectPool.PERFUME );
 
-	private static KoLAdventure lastVisitedLocation = null;
+	public static KoLAdventure lastVisitedLocation = null;
 	public static boolean locationLogged = false;
-	private static String lastLocationName = null;
-	private static String lastLocationURL = null;
+	public static String lastLocationName = null;
+	public static String lastLocationURL = null;
 
 	private boolean isValidAdventure = false;
 	private final String zone, parentZone, adventureId, formSource, adventureName;

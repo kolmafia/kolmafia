@@ -5064,7 +5064,7 @@
 5055	obnoxious riddle	none	all	22
 5056
 5057	Atomic Comic	multiple	all	6
-5058	Red Pill	multiple	all	42
+5058	Red Pill	usable	all	42
 5059	Skullhead's Screw	none, combat	all	0
 5060	mysterious present	usable	gift	0
 5061	boxing-glove-in-a-box	none	gift	0
