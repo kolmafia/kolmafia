@@ -276,6 +276,10 @@ public class StorageRequest
 				int meat = StringUtilities.parseInt( meatInStorageMatcher.group( 1 ) );
 				KoLCharacter.setStorageMeat( meat );
 			}
+			else if ( responseText.indexOf( "Hagnk doesn't have any of your meat" ) != -1 )
+			{
+				KoLCharacter.setStorageMeat( 0 );
+			}
 
 			Matcher pullsMatcher = StorageRequest.PULLS_PATTERN.matcher( responseText );
 			if ( pullsMatcher.find() )
