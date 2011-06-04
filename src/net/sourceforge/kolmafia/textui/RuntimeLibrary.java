@@ -2656,7 +2656,7 @@ public abstract class RuntimeLibrary
 
 	public static Value npc_price( final Value item )
 	{
-		return new Value( NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), true ) ? NPCStoreDatabase.price( ItemDatabase.getItemName( item.intValue() ) ) : 0 );
+		return new Value( NPCStoreDatabase.price( ItemDatabase.getItemName( item.intValue() ) ) );
 	}
 
 	public static Value historical_price( final Value item )
