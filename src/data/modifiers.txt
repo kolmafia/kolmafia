@@ -1285,6 +1285,7 @@ spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 speed limit shield	Damage Absorption: +10, Damage Reduction: 6
 spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
 spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
+spooky little girl	Item Drop: +3
 stapler bear	Muscle: +5
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
@@ -2131,6 +2132,8 @@ tiny maracas	Familiar Weight: +5
 tiny prop sword	Familiar Weight: +5
 tiny shaker of salt	Familiar Weight: +5
 tiny sombrero	Sombrero Bonus: +10
+# tiny top hat and cane: Lets your Li'l Xenomorph dance!
+# tiny top hat and cane: (adds item0 to familiar abilities)
 toy six-seater hovercraft	Familiar Weight: -5
 # tuning fork: Familiar Will Attack You Less Often
 # undissolvable contact lenses: Helps your Slimeling See Better
@@ -2701,6 +2704,7 @@ Happy Trails	Mysticality: +100
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Having a Ball!	Muscle Percent: [pref(ballpitBonus)], Mysticality Percent: [pref(ballpitBonus)], Moxie Percent: [pref(ballpitBonus)]
 Head on Fire, Ass Catching	Initiative: +10
+Heal Thy Nanoself	HP Regen Min: 10, HP Regen Max: 20
 Healthy Bronze Glow	Moxie Percent: +50
 Healthy Green Glow	Familiar Weight: +10
 # Heart of Black: Damn, Gina
@@ -2867,6 +2871,7 @@ Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Oriental Mysticism	Mysticality Percent: +5
 Over the Ocean	Experience: [min(100,T/5)]
 # Oversaturated Palate: Blech
+Overstimulated	Experience (Muscle): +5
 Oxygenated Blood	Adventure Underwater
 Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 Pasta Oneness	Mysticality: +2
@@ -2964,6 +2969,7 @@ Shiny Happy Weapon	Muscle: +20
 Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
+Simulation Stimulation	Experience (Moxie): +5
 Sinuses For Miles	Meat Drop: +200
 Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Sleaze-Resistant Trousers	Sleaze Resistance: +1
@@ -3160,7 +3166,6 @@ White-boy Angst	Initiative: +50
 Whitened Teeth	Moxie Percent: +10
 # Wings: You believe you can fly!
 Winklered	Meat Drop: +40
-willyweed	Effect: "Wet Willied", Effect Duration: 30
 Wintergreen Warmongery	Muscle: +30
 Wistfully Nostalgic	Experience: +3
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
@@ -3693,6 +3698,7 @@ tin magnolia	Effect: "Tin, Man", Effect Duration: 10
 tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
 tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
 tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
+transporter transponder	Effect: "Transpondent", Effect Duration: 30
 true grit	Effect: "Truly Gritty", Effect Duration: 10
 tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
@@ -3708,6 +3714,7 @@ wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 wasabi marble soda	Effect: "Ninja, PleaseWasabi With You", Effect Duration: 15
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 white candy heart	Effect: "Heart of White", Effect Duration: 10
+willyweed	Effect: "Wet Willied", Effect Duration: 30
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
 yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
 yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
@@ -3765,6 +3772,7 @@ infant sandworm	Free Pull
 jitterbug larva	Free Pull
 llama lama cria	Free Pull
 miniscule temporal rip	Free Pull
+mysterious chest	Free Pull
 organ grinder	Free Pull
 orphan baby yeti	Free Pull
 panicked kernel	Free Pull

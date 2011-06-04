@@ -1164,6 +1164,7 @@ spaghetti-box banjo	160	Mys: 150
 speed limit shield	100	Mus: 35	shield
 spiky turtle shield	130	Mus: 50	shield
 spongy shield	220	Mus: 95	shield
+spooky little girl	0	none
 stapler bear	0	none
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
@@ -1258,6 +1259,7 @@ Claw of the Infernal Seal	150	Mus: 45
 Copper Alpha of Sincerity	200	Mys: 85
 Counterclockwise Watch	200	none
 Dyspepsi-Cola-issue canteen	30	none
+E.M.U. Unit	0	none
 Earring of Fire	150	Mys: 60
 El Vibrato translator	200	Mys: 200
 Elmley shades	180	Mys: 75
@@ -1514,7 +1516,7 @@ makeshift cape	100	Mys: 35
 malevolent medallion	200	Mys: 150
 mayfly bait necklace	0	none
 memory of a cultist's robe	10	none
-mirrored aviator shades	0	none
+mirrored aviator shades	50	none
 molten medallion	160	Mys: 65
 monster bait	10	none
 monstrous monocle	160	Mus: 65

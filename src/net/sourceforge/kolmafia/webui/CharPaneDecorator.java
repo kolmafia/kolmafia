@@ -174,6 +174,8 @@ public class CharPaneDecorator
 				text = text + Preferences.getString( "_piePartsCount" ) + " part";
 			else text = text + Preferences.getString( "_piePartsCount" ) + " parts";
 			return text;
+		case FamiliarPool.ALIEN:
+			return Preferences.getInteger( "_transponderDrops" ) + "/5";
 		}
 		return null;
 	}

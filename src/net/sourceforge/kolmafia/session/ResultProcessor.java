@@ -1357,6 +1357,14 @@ public class ResultProcessor
 				RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
 			}
 			break;
+
+		case ItemPool.TRANSPORTER_TRANSPONDER:
+			if ( combatResults )
+			{
+				Preferences.increment( "_transponderDrops", 1 );
+			}
+			break;
+
 		case ItemPool.LIVER_PIE:
 		case ItemPool.BADASS_PIE:
 		case ItemPool.FISH_PIE:

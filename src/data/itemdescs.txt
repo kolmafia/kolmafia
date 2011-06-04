@@ -5123,25 +5123,25 @@
 5122	558813843	aviatorcap.gif	leather aviator's cap
 5123	492344434	chestershades.gif	mirrored aviator shades
 5124	118009884	book.gif	Field Guide to Skeletal Anatomy
-5125
-5126
-5127
-5128
-5129
-5130
+5125	319307916	book4.gif	Notes from the Elfpocalypse, Chapter I
+5126	388548664	book4.gif	Notes from the Elfpocalypse, Chapter II
+5127	281112199	book4.gif	Notes from the Elfpocalypse, Chapter III
+5128	696088108	book4.gif	Notes from the Elfpocalypse, Chapter IV
+5129	730116799	book4.gif	Notes from the Elfpocalypse, Chapter V
+5130	988558928	book4.gif	Notes from the Elfpocalypse, Chapter VI
 5131	198733102	potion1.gif	Ultrasoldier Serum	vials of Ultrasoldier Serum
-5132
-5133
-5134
-5135
-5136
-5137
-5138
+5132	578892185	limboswafer.gif	elven hardtack
+5133	367571624	moonshine.gif	elven squeeze
+5134	342689784	isotope.gif	lunar isotope
+5135	617322181	emujoystick.gif	E.M.U. joystick
+5136	517091627	emurockets.gif	E.M.U. rocket thrusters
+5137	658599132	emuhelmet.gif	E.M.U. helmet
+5138	881503561	emuharness.gif	E.M.U. harness
 5139	503957611	ast_carton.gif	carton of astral energy drinks	cartons of astral energy drinks
 5140	227596183	ast_energy.gif	astral energy drink	astral energy drinks
 5141	807026781	thwaitbee.gif	Thwaitgold bee statuette
 5142	215132687	device1.gif	moon unit
-5143
+5143	181706266	emu.gif	E.M.U. Unit
 5144	159319161	honeyglob.gif	handful of honey	handfuls of honey
 5145	721302772	honeypot.gif	honeypot
 5146	486244546	honeypie.gif	wild honey pie
@@ -5149,3 +5149,26 @@
 5148	300832347	honeydipper.gif	honey dipper
 5149	829259450	honeypants.gif	honeybritches
 5150	932105497	honeyhat.gif	honeycap
+5151
+5152
+5153
+5154
+5155
+5156
+5157
+5158
+5159
+5160
+5161
+5162
+5163
+5164	382900325	spacechest.gif	mysterious chest
+5165	616700263	creepygirl.gif	spooky little girl
+5166	175238907	hatcane.gif	tiny top hat and cane
+5167	272489196	pill.gif	synthetic dog hair pill
+5168	500099339	pill.gif	distention pill
+5169	989436501	medipack.gif	elven medi-pack
+5170	971091385	transponder.gif	transporter transponder
+5171	287051155	map.gif	Map to Safety Shelter Ronald Prime
+5172	590025247	map.gif	Map to Safety Shelter Grimace Prime
+5173	909099220	magipack.gif	elven magi-pack

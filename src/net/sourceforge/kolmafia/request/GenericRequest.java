@@ -2270,6 +2270,16 @@ public class GenericRequest
 			ResultProcessor.processItem( ItemPool.FOSSILIZED_SPIKE, -8 );
 			break;
 
+		case ItemPool.RONALD_SHELTER_MAP:
+			itemName = "Map to Safety Shelter Ronald Prime";
+			consumed = true;
+			break;
+
+		case ItemPool.GRIMACE_SHELTER_MAP:
+			itemName = "Map to Safety Shelter Grimace Prime";
+			consumed = true;
+			break;
+
 		default:
 			return;
 		}
