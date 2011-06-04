@@ -105,6 +105,7 @@ import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
@@ -702,6 +703,11 @@ public abstract class StaticEntity
 			{
 				UseSkillRequest.parseResponse( location, responseText );
 			}
+		}
+
+		else if ( location.startsWith( "spaaace.php" ) )
+		{
+			SpaaaceRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "starchart.php" ) )

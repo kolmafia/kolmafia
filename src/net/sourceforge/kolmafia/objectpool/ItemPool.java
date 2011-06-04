@@ -1242,6 +1242,7 @@ public class ItemPool
 	public static final int RECONSTITUTED_CROW = 5117;
 	public static final int BIRD_BRAIN = 5118;
 	public static final int BUSTED_WINGS = 5119;
+	public static final int LUNAR_ISOTOPE = 5134;
 	public static final int HONEYPOT = 5145;
 	public static final int SPOOKY_LITTLE_GIRL = 5165;
 	public static final int TRANSPORTER_TRANSPONDER = 5170;

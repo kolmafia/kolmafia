@@ -249,3 +249,29 @@ bac	10	A. W. O. L. Tattoo #2	2
 bac	25	A. W. O. L. Tattoo #3	3
 bac	50	A. W. O. L. Tattoo #4	4
 bac	100	A. W. O. L. Tattoo #5	5
+
+# Things you can buy with lunar isotopes
+
+bli1	1000	Mint-in-box Moonthril Circlet
+bli1	1250	Mint-in-box Moonthril Flamberge
+bli1	1500	Mint-in-box Moonthril Longbow
+bli1	1750	Mint-in-box Moonthril Greaves
+bli1	2000	Mint-in-box Moonthril Cuirass
+
+bli2	100	plush alielf
+bli2	150	plush dogcat
+bli2	200	plush hamsterpus
+bli2	300	plush ferrelf
+bli2	400	plush mutated alielf
+bli2	500	plush alien hamsterpus
+bli2	1000	plush mutated alielephant
+
+bli3	10	Saison du Lune
+bli3	50	Moonthril Schnapps
+bli3	100	Wrecked Generator
+bli3	10	Spaghetti with Moonballs
+bli3	50	Crepes a la Lune
+bli3	100	Moon Pie
+bli3	1	Comet Pop
+bli3	5	Flan in the Moon
+bli3	10	1/6th Pound Cake

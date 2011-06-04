@@ -5162,14 +5162,14 @@
 5153
 5154
 5155
-5156
+5156	plush alielf	offhand	gift	0
 5157
-5158
-5159
-5160
-5161
-5162
-5163
+5158	plush dogcat	offhand	gift	0
+5159	plush hamsterpus	offhand	gift	0
+5160	plush ferrelf	offhand	gift	0
+5161	plush alien hamsterpus	offhand	gift	0
+5162	plush mutated alielf	offhand	gift	0
+5163	plush mutated alielephant	offhand	gift	0
 5164	mysterious chest	grow	all	0
 5165	spooky little girl	offhand	none	0
 5166	tiny top hat and cane	familiar	all	75
@@ -5180,3 +5180,17 @@
 5171	Map to Safety Shelter Ronald Prime	usable	none	0
 5172	Map to Safety Shelter Grimace Prime	usable	none	0
 5173	elven magi-pack	usable	all	150
+5174	Saison du Lune	drink	display	100
+5175	Moonthril Schnapps	drink	display	200
+5176	Wrecked Generator	drink	display	500
+5177	Spaghetti with Moonballs	food	display	100
+5178	Crepes a la Lune	food	display	200
+5179	Moon Pie	food	display	500
+5180	Comet Pop	multiple	display	10
+5181	Flan in the Moon	multiple	display	50
+5182	1/6th Pound Cake	multiple	display	100
+5183	Mint-in-box Moonthril Circlet	usable	display	0
+5184	Mint-in-box Moonthril Greaves	usable	display	0
+5185	Mint-in-box Moonthril Cuirass	usable	display	0
+5186	Mint-in-box Moonthril Flamberge	usable	display	0
+5187	Mint-in-box Moonthril Longbow	usable	display	0
