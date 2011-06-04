@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -74,6 +75,8 @@ public abstract class ChoiceManager
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
 	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "value='(\\d+)' name='whichchoice'" );
+	// <a href="choice.php?whichchoice=537&pwd=&option=1">
+	private static final Pattern CHOICE3_PATTERN = Pattern.compile( "choice.php\\?whichchoice=(\\d+)" );
 
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
@@ -1537,6 +1540,7 @@ public abstract class ChoiceManager
 
 		// Choice 535 is Deep Inside Ronald, Baby
 		// Choice 536 is Deep Inside Grimace, Bow Chick-a Bow Bow
+		// Choice 537 is Play Porko!
 		// Choice 538 is Big-Time Generator
 		// Choice 539 is An E.M.U. for Y.O.U.
 	};
@@ -3345,17 +3349,25 @@ public abstract class ChoiceManager
 	{
 		String responseText = request.responseText;
 		Matcher matcher = ChoiceManager.CHOICE_PATTERN.matcher( responseText );
+		boolean found = matcher.find();
 
-		if ( !matcher.find() )
+		if ( !found )
 		{
 			matcher = ChoiceManager.CHOICE2_PATTERN.matcher( responseText );
+			found = matcher.find();
+		}
 
-			if ( !matcher.find() )
-			{
-				// choice.php did not offer us any choices.
-				// This would be a bug in KoL itself.
-				return;
-			}
+		if ( !found )
+		{
+			matcher = ChoiceManager.CHOICE3_PATTERN.matcher( responseText );
+			found = matcher.find();
+		}
+
+		if ( !found )
+		{
+			// choice.php did not offer us any choices.
+			// This would be a bug in KoL itself.
+			return;
 		}
 
 		ChoiceManager.lastChoice = StringUtilities.parseInt( matcher.group( 1 ) );
@@ -3404,6 +3416,11 @@ public abstract class ChoiceManager
 		case 488:
 			// Meteoid
 			ArcadeRequest.visitMeteoidChoice( responseText );
+			break;
+
+		case 537:
+			// Play Porko!
+			SpaaaceRequest.visitPorkoChoice( responseText );
 			break;
 		}
 	}

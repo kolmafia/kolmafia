@@ -356,6 +356,10 @@ public abstract class UseLinkDecorator
 		{
 			link = new UseLink(0, "rabbit hole", "rabbithole.php" );
 		}
+		else if ( effect.equals( "Transpondent" ) )
+		{
+			link = new UseLink(0, "spaaace", "spaaace.php?arrive=1" );
+		}
 		else
 		{
 			// There are several effect names which are also items.
