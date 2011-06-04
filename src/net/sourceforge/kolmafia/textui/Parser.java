@@ -743,11 +743,12 @@ public class Parser
 			throw this.parseException( "Reserved word '" + variableName + "' cannot be a variable name" );
 		}
 
-		Variable result = new Variable( variableName, t );
-		if ( scope != null && !scope.addVariable( result ) )
+		if ( scope != null && scope.findVariable( variableName ) != null )
 		{
-			throw this.parseException( "Variable " + result.getName() + " is already defined" );
+			throw this.parseException( "Variable " + variableName + " is already defined" );
 		}
+
+		Variable result = new Variable( variableName, t );
 
 		this.readToken(); // If parsing of Identifier succeeded, go to next token.
 		// If we are parsing a parameter declaration, we are done
@@ -755,14 +756,14 @@ public class Parser
 		{
 			if ( this.currentToken().equals( "=" ) )
 			{
-				throw this.parseException( "Cannot initialize parameter " + result.getName() );
+				throw this.parseException( "Cannot initialize parameter " + variableName );
 			}
 			return result;
 		}
 
 		// Otherwise, we must initialize the variable.
 
-		VariableReference lhs = new VariableReference( result.getName(), scope );
+		Type ltype = t.getBaseType();
 		Value rhs;
 
 		if ( this.currentToken().equals( "=" ) )
@@ -775,10 +776,10 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 
-			if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
+			if ( !Parser.validCoercion( ltype, rhs.getType(), "assign" ) )
 			{
 				throw this.parseException(
-					"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
+					"Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
 			}
 		}
 		else
@@ -786,6 +787,8 @@ public class Parser
 			rhs = null;
 		}
 
+		scope.addVariable( result );
+		VariableReference lhs = new VariableReference( variableName, scope );
 		scope.addCommand( new Assignment( lhs, rhs ) );
 		return result;
 	}
