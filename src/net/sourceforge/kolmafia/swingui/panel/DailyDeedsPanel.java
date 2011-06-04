@@ -912,6 +912,7 @@ public class DailyDeedsPanel
 			this.addListener( "_pieDrops" );
 			this.addListener( "_piePartsCount" );
 			this.addListener( "_tokenDrops" );
+			this.addListener( "_transponderDrops" );
 			this.addLabel( "" );
 		}
 
@@ -923,16 +924,17 @@ public class DailyDeedsPanel
 			boolean hf4 = KoLCharacter.findFamiliar( FamiliarPool.LLAMA ) != null;
 			boolean hf5 = KoLCharacter.findFamiliar( FamiliarPool.GRINDER ) != null;
 			boolean hf6 = KoLCharacter.findFamiliar( FamiliarPool.TRON ) != null;
-			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 );
+			boolean hf7 = KoLCharacter.findFamiliar( FamiliarPool.ALIEN ) != null;
+			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7 );
 			String text = "Drops: ";
 			if( hf1 ) text = text + Preferences.getInteger( "_absintheDrops" ) + " absinthe";
-			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
 			if( hf2 ) text = text + Preferences.getInteger( "_aguaDrops" ) + " agua";
-			if( hf2 && ( hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if( hf2 && ( hf3 || hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
 			if( hf3 ) text = text + Preferences.getInteger( "_astralDrops" ) + " astral";
-			if( hf3 && ( hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if( hf3 && ( hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
 			if( hf4 ) text = text + Preferences.getInteger( "_gongDrops" ) + " gong";
-			if( hf4 && ( hf5  || hf6 ) ) text = text + ", ";
+			if( hf4 && ( hf5  || hf6 || hf7 ) ) text = text + ", ";
 			if( hf5 )
 			{
 				if( Preferences.getInteger( "_pieDrops" )==1 )
@@ -940,8 +942,10 @@ public class DailyDeedsPanel
 				else text = text + Preferences.getInteger( "_pieDrops" ) + " pies (";
 				text = text + Preferences.getInteger( "_piePartsCount" ) +")";
 			}
-			if( hf5 && hf6 ) text = text + ", ";
+			if( hf5 && ( hf6 || hf7 ) ) text = text + ", ";
 			if( hf6 ) text = text + Preferences.getInteger( "_tokenDrops" ) + " token";
+			if( hf6 && hf7 ) text = text + ", ";
+			if( hf7 ) text = text + Preferences.getInteger( "_transponderDrops" ) + " transponder";
 			this.setText( text );
 		}
 	}

@@ -151,3 +151,4 @@
 145
 146	Obtuse Angel	item0	4937	quake of arrows	2	0	3	1
 147	Reconstituted Crow	none	5117		0	0	0	0
+148	Li'l Xenomorph	stat0	5164	tiny top hat and cane	3	2	1	3

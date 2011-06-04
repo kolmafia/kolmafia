@@ -59,6 +59,7 @@ Astral	Item-Driven	Astral Plane
 Portal	Item-Driven	El Vibrato Island
 Wormwood	Item-Driven	Worm Wood
 Memories	Item-Driven	Memories
+Spaaace	Item-Driven	Outer Space
 Jacking	Item-Driven	Prof. Jacking's Lab
 Kegger	Item-Driven	Kegger in the Woods
 Vanya's Castle	Item-Driven	Vanya's Castle

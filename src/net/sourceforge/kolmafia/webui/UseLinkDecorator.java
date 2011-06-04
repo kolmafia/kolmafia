@@ -556,10 +556,12 @@ public abstract class UseLinkDecorator
 				return new UseLink( ItemPool.SPOOKY_MAP, 1, "map", "inv_use.php?which=3&whichitem=" );
 
 			case ItemPool.FRATHOUSE_BLUEPRINTS:
+			case ItemPool.RONALD_SHELTER_MAP:
+			case ItemPool.GRIMACE_SHELTER_MAP:
 			
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
-				return new UseLink( ItemPool.FRATHOUSE_BLUEPRINTS, 1, "use", "inv_use.php?which=3&whichitem=", false );
+				return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
 
 			case ItemPool.BLACK_MARKET_MAP: {
 				int item1 = KoLCharacter.inBeecore() ?

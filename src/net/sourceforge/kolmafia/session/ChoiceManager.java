@@ -1535,6 +1535,10 @@ public abstract class ChoiceManager
 			new String[] { "Torpedos", "Initiative", "Monster Level" },
 			new String[] { "630", null, null } ),
 
+		// Choice 535 is Deep Inside Ronald, Baby
+		// Choice 536 is Deep Inside Grimace, Bow Chick-a Bow Bow
+		// Choice 538 is Big-Time Generator
+		// Choice 539 is An E.M.U. for Y.O.U.
 	};
 
 	static
@@ -2772,6 +2776,11 @@ public abstract class ChoiceManager
 			Preferences.setInteger( "birdformSpooky", 0 );
 			Preferences.setInteger( "birdformStench", 0 );
 			break;
+
+		// An E.M.U. for Y.O.U.
+		case 539:
+			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
+			break;
 		}
 	}
 
@@ -3089,6 +3098,11 @@ public abstract class ChoiceManager
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
 			}
+			break;
+
+		case 539:
+			// Choice 539 is An E.M.U. for Y.O.U.
+			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
 			break;
 		}
 

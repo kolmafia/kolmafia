@@ -88,4 +88,5 @@ public class FamiliarPool
 	public static final int GRINDER = 139;
 	public static final int OBTUSE_ANGEL = 146;
 	public static final int CROW = 147;
+	public static final int ALIEN = 148;
 }

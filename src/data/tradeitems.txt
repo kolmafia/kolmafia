@@ -5131,25 +5131,25 @@
 5122	leather aviator's cap	hat	all	0
 5123	mirrored aviator shades	accessory	all	0
 5124	Field Guide to Skeletal Anatomy	usable	all	0
-5125
-5126
-5127
-5128
-5129
-5130
+5125	Notes from the Elfpocalypse, Chapter I	usable	all	100
+5126	Notes from the Elfpocalypse, Chapter II	usable	all	100
+5127	Notes from the Elfpocalypse, Chapter III	usable	all	100
+5128	Notes from the Elfpocalypse, Chapter IV	usable	all	100
+5129	Notes from the Elfpocalypse, Chapter V	usable	all	100
+5130	Notes from the Elfpocalypse, Chapter VI	usable	all	100
 5131	Ultrasoldier Serum	multiple	all	0
-5132
-5133
-5134
-5135
-5136
-5137
-5138
+5132	elven hardtack	food	all	30
+5133	elven squeeze	drink	all	30
+5134	lunar isotope	none	all	0
+5135	E.M.U. joystick	none	none	0
+5136	E.M.U. rocket thrusters	none	none	0
+5137	E.M.U. helmet	none	none	0
+5138	E.M.U. harness	none	none	0
 5139	carton of astral energy drinks	usable	none	0
 5140	astral energy drink	usable	none	0
 5141	Thwaitgold bee statuette	none	display	0
 5142	moon unit	usable	none	0
-5143
+5143	E.M.U. Unit	accessory	none	0
 5144	handful of honey	multiple	all	0
 5145	honeypot	usable	display	30
 5146	wild honey pie	food	display	50
@@ -5157,3 +5157,26 @@
 5148	honey dipper	weapon	display	690
 5149	honeybritches	pants	display	420
 5150	honeycap	hat	display	370
+5151
+5152
+5153
+5154
+5155
+5156
+5157
+5158
+5159
+5160
+5161
+5162
+5163
+5164	mysterious chest	grow	all	0
+5165	spooky little girl	offhand	none	0
+5166	tiny top hat and cane	familiar	all	75
+5167	synthetic dog hair pill	usable	display	250
+5168	distention pill	usable	display	250
+5169	elven medi-pack	usable	all	150
+5170	transporter transponder	usable	all	50
+5171	Map to Safety Shelter Ronald Prime	usable	none	0
+5172	Map to Safety Shelter Grimace Prime	usable	none	0
+5173	elven magi-pack	usable	all	150

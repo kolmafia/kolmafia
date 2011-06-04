@@ -1243,6 +1243,10 @@ public class ItemPool
 	public static final int BIRD_BRAIN = 5118;
 	public static final int BUSTED_WINGS = 5119;
 	public static final int HONEYPOT = 5145;
+	public static final int SPOOKY_LITTLE_GIRL = 5165;
+	public static final int TRANSPORTER_TRANSPONDER = 5170;
+	public static final int RONALD_SHELTER_MAP = 5171;
+	public static final int GRIMACE_SHELTER_MAP = 5172;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
