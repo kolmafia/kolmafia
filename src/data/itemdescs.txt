@@ -5154,14 +5154,14 @@
 5153
 5154
 5155
-5156
+5156	655683821	pl_alielf.gif	plush alielf
 5157
-5158
-5159
-5160
-5161
-5162
-5163
+5158	147896938	pl_dogcat.gif	plush dogcat
+5159	457793100	pl_hamsterpus.gif	plush hamsterpus
+5160	837332673	pl_ferelf.gif	plush ferrelf
+5161	499991088	pl_alihamster.gif	plush alien hamsterpus
+5162	583987777	pl_mutalien.gif	plush mutated alielf
+5163	978407544	pl_elephant.gif	plush mutated alielephant
 5164	382900325	spacechest.gif	mysterious chest
 5165	616700263	creepygirl.gif	spooky little girl
 5166	175238907	hatcane.gif	tiny top hat and cane
@@ -5172,3 +5172,17 @@
 5171	287051155	map.gif	Map to Safety Shelter Ronald Prime
 5172	590025247	map.gif	Map to Safety Shelter Grimace Prime
 5173	909099220	magipack.gif	elven magi-pack
+5174	652057677	beerbottle.gif	Saison du Lune
+5175	458903748	shot.gif	Moonthril Schnapps
+5176	682537618	fruitym.gif	Wrecked Generator
+5177	461512582	bowl.gif	Spaghetti with Moonballs
+5178	515980567	crepes.gif	Crepes a la Lune
+5179	290960495	klpie.gif	Moon Pie
+5180	666206226	cometpop.gif	Comet Pop
+5181	270613216	flan.gif	Flan in the Moon
+5182	756938252	cake3.gif	1/6th Pound Cake
+5183	705026970	moonbox.gif	Mint-in-box Moonthril Circlet
+5184	367369719	moonbox.gif	Mint-in-box Moonthril Greaves
+5185	684833758	moonbox.gif	Mint-in-box Moonthril Cuirass
+5186	658513107	moonbox.gif	Mint-in-box Moonthril Flamberge
+5187	591358121	moonbox.gif	Mint-in-box Moonthril Longbow

@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
@@ -876,6 +877,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof SkateParkRequest || isExternal ) && SkateParkRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof SpaaaceRequest || isExternal ) && SpaaaceRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

@@ -1132,6 +1132,13 @@ penguin thesaurus	30	none
 pilgrim shield	240	none	shield
 pirate hook	0	none
 pixel shield	50	Mus: 10	shield
+plush alielf	0	none
+plush alien hamsterpus	0	none
+plush dogcat	0	none
+plush ferrelf	0	none
+plush hamsterpus	0	none
+plush mutated alielephant	0	none
+plush mutated alielf	0	none
 pocketwatch on a chain	50	Mys: 10
 polyalloy shield	140	Mus: 55	shield
 pottery shield	50	none	shield

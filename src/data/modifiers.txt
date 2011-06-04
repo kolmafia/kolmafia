@@ -1252,6 +1252,13 @@ penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
 pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only
 pirate hook	Weapon Damage: +3
 pixel shield	Muscle: +5, Damage Reduction: 3
+plush alielf	Maximum HP: +30
+plush alien hamsterpus	Muscle Percent: +6, Mysticality Percent: +6, Moxie Percent: +6
+plush dogcat	Maximum MP: +30
+plush ferrelf	Muscle: +5, Mysticality: +5, Moxie: +5
+plush hamsterpus	Maximum HP: +50, Maximum MP: +50
+plush mutated alielephant	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percent: +9, Critical: 2
+plush mutated alielf	Muscle Percent: +3, Mysticality Percent: +3, Moxie Percent: +3
 pocketwatch on a chain	Monster Level: -10, Experience (Mysticality): +1
 polyalloy shield	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Muscle: +10, Damage Reduction: 9
 pottery shield	Hot Damage: +5, Damage Reduction: 3
@@ -3406,6 +3413,7 @@ _stickers	Item Drop: +25, Experience: +2, Meat Drop: +25, Muscle Percent: +10, M
 # Everything Else section of modifiers.txt
 
 &quot;DRINK ME&quot; potion	Effect: "Down the Rabbit Hole", Effect Duration: 20
+1/6th Pound Cake	Effect: "Heal Thy Nanoself", Effect Duration: 100
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
@@ -3415,6 +3423,7 @@ Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 
 Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
 Climate Colada	Effect: "Weather, Man", Effect Duration: 20
 Cold Hots candy	Effect: "Sugar Rush"
+Comet Pop	Effect: "Heal Thy Nanoself", Effect Duration: 10
 Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [R]
 Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
 Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
@@ -3426,6 +3435,7 @@ Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10
 Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
+Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 Frogade	Effect: "Frog In Your Throat", Effect Duration: [R]
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
 Gummi-DNA	Effect: "Sugar Rush", Effect Duration: 3
