@@ -24,7 +24,7 @@
 23	Pasta Oneness	happy.gif	583619abc0e4380d80629babe3677aed	cast 1 Manicotti Meditation
 24	Saucemastery	happy.gif	2817b71ed041fdffb5b4b514c8be662d	cast 1 Sauce Contemplation
 25	Disco State of Mind	discoball.gif	869b501ce3b0e8ba139e7f3807db0c1f	cast 1 Disco Aerobics
-26	Mariachi Mood	happy.gif	c0a491f833b3490be4763e48a0a4c317	cast 1 Moxie of the Mariachi
+26	Mariachi Mood	accordion.gif	c0a491f833b3490be4763e48a0a4c317	cast 1 Moxie of the Mariachi
 27	Temporary Lycanthropy	lycanth.gif	79bc05cd8f6cdf869c66a840f79ce2d3	use 1 blood of the Wereseal
 28	Butt-Rock Hair	buttrock.gif	04bc18fe47f495a894774fa1bbb9713d	use 5 hair spray
 29	Contemptible Emanations	stench.gif	20f081726fb8cfa9a64736d6fb8333a4	use 1 cologne of contempt
