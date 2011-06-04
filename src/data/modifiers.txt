@@ -3016,6 +3016,7 @@ Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
 Spangled Star	Monster Level: +10
 Sparkling Consciousness	Mysticality Percent: +100
 # Spectral: You take and deal almost no damage
+Spell Transfer Complete	Experience (Mysticality): +5
 Spicy Limeness	Muscle: -5, Moxie: +5
 Spicy Mouth	Mysticality: +5, Moxie: -5
 Spiky Hair	Muscle: +6, Moxie: +6

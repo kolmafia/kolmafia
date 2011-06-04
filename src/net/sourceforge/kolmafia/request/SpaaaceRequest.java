@@ -52,7 +52,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SpaaaceRequest
 	extends GenericRequest
 {
-	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
+	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, -1 );
 
 	public SpaaaceRequest()
 	{
@@ -98,6 +98,21 @@ public class SpaaaceRequest
 		}
 	}
 
+	public static final void visitPorkoChoice( final String responseText )
+	{
+		// Called when we play Porko
+
+		// You hand Juliedriel your isotope. She takes it with
+		// a pair of tongs, and hands you three Porko chips
+		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.LUNAR_ISOTOPE, -1 );
+		}
+
+		// We could parse the game board here and, presumably, figure
+		// out a strategy
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "spaaace.php" ) )
@@ -126,6 +141,22 @@ public class SpaaaceRequest
 			{
 				message = "Visiting The Porko Palace";
 			}
+			else if ( urlString.indexOf( "place=grimace" ) != -1 )
+			{
+				return true;
+			}
+			else if ( urlString.indexOf( "arrive=1" ) != -1 )
+			{
+				return true;
+			}
+		}
+		else if ( action.equals( "playporko" ) )
+		{
+			if ( ISOTOPE.getCount( KoLConstants.inventory ) <= 0 )
+			{
+				return true;
+			}
+			message = "[" + KoLAdventure.getAdventureCount() + "] Porko Game";
 		}
 		else if ( action.equals( "buy" ) )
 		{

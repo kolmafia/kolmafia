@@ -845,7 +845,7 @@
 844	Army of One	aolcom.gif	a2f0e39e34884d0f3b910c9e8818772c	use 1 Ultrasoldier Serum
 845	Float Like a Butterfly, Smell Like a Bee	beeicon.gif	f5abc8e8bdf72c01025050b42d657d75	use 1 honeypot
 846	Transpondent	transponder.gif	8c2bea30385534f48965b0574a6bc51b	use 1 transporter transponder
-847
+847	Spell Transfer Complete	binary.gif	3ecbb961508070a76a3955ca0222c4a1
 848	Overstimulated	binary.gif	7c1fa255561ae51a58bc8c9b4f1f8e33
 849	Simulation Stimulation	binary.gif	6ecbc4cf4291903b3320e7927a1be304
 850	Heal Thy Nanoself	nanites.gif	e53b59808fef190b0275a0e49b054a44
