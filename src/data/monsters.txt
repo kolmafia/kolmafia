@@ -932,7 +932,7 @@ Unlikely Survivor	HP: 0	elven hardtack (0)	elven squeeze (0)	Map to Safety Shelt
 Whiny Survivor	HP: 0	elven hardtack (0)	elven squeeze (0)	Map to Safety Shelter Grimace Prime (0)	Notes from the Elfpocalypse, Chapter III (0)
 
 Alien Hamsterpus	HP: 0	elven magi-pack (0)	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
-Mutated Alielephant	HP: 0	elven magi-pack (0)	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
+Mutated Alielephant	HP: 0	elven magi-pack (0)	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
 Mutated Alielf	HP: 0	elven magi-pack (0)	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
 
 # Bad Trip

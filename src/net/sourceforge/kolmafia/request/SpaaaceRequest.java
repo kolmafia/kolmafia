@@ -98,19 +98,38 @@ public class SpaaaceRequest
 		}
 	}
 
+	// title="peg style 3"
+	private static final Pattern PEG_PATTERN = Pattern.compile( "title=\"peg style ([123])\"" );
+
 	public static final void visitPorkoChoice( final String responseText )
 	{
 		// Called when we play Porko
 
 		// You hand Juliedriel your isotope. She takes it with
 		// a pair of tongs, and hands you three Porko chips
-		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) != -1 )
+		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) == -1 )
 		{
-			ResultProcessor.processItem( ItemPool.LUNAR_ISOTOPE, -1 );
+			Preferences.setString( "lastPorkoBoard", "" );
+			return;
 		}
 
-		// We could parse the game board here and, presumably, figure
-		// out a strategy
+		ResultProcessor.processItem( ItemPool.LUNAR_ISOTOPE, -1 );
+
+		// Parse the game board.
+		StringBuffer buffer = new StringBuffer();
+		Matcher matcher = PEG_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			buffer.append( matcher.group(1) );
+		}
+
+		String board = buffer.toString();
+		Preferences.setString( "lastPorkoBoard", board );
+
+		// We could presumably figure out the expected value for each
+		// starting position. According to Greycat on the Wiki: "Peg
+		// style 1 goes right, peg style 2 goes left, and peg style 3
+		// is random"
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -168,6 +187,9 @@ public class SpaaaceRequest
 		{
 			return false;
 		}
+
+		RequestLogger.printLine( "" );
+		RequestLogger.printLine( message );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );
