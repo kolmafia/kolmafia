@@ -615,16 +615,6 @@ public abstract class KoLmafia
 		return KoLmafia.lastMessage;
 	}
 
-	public static final Interpreter getCurrentInterpreter()
-	{
-		return KoLmafia.currentInterpreter;
-	}
-
-	public static final void setCurrentInterpreter( Interpreter interpreter )
-	{
-		KoLmafia.currentInterpreter = interpreter;
-	}
-
 	/**
 	 * Updates the currently active display in the <code>KoLmafia</code> session.
 	 */
@@ -1308,10 +1298,7 @@ public abstract class KoLmafia
 
 	private void executeRequest( final Job request, final int totalIterations, final boolean wasAdventuring )
 	{
-		if ( KoLmafia.currentInterpreter != null )
-		{
-			KoLmafia.currentInterpreter.setHadPendingState( false );
-		}
+		Interpreter.forgetPendingState();
 
 		// Begin the adventuring process, or the request execution
 		// process (whichever is applicable).
@@ -1382,10 +1369,7 @@ public abstract class KoLmafia
 		}
 		else if ( KoLmafia.continuationState == KoLConstants.PENDING_STATE )
 		{
-			if ( KoLmafia.currentInterpreter != null )
-			{
-				KoLmafia.currentInterpreter.setHadPendingState( true );
-			}
+			Interpreter.rememberPendingState();
 			KoLmafia.forceContinue();
 		}
 	}

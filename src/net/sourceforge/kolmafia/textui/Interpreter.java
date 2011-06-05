@@ -39,6 +39,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Stack;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLConstants;
@@ -47,6 +48,8 @@ import net.sourceforge.kolmafia.NullStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -54,10 +57,6 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.ValueList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
-
-import net.sourceforge.kolmafia.request.SendMailRequest;
-
-import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class Interpreter
 {
@@ -72,11 +71,13 @@ public class Interpreter
 	public static final String STATE_CONTINUE = "CONTINUE";
 	public static final String STATE_EXIT = "EXIT";
 
+	private static Stack interpreterStack = new Stack();
+
 	private String currentState = Interpreter.STATE_NORMAL;
 	private PrintStream traceStream = NullStream.INSTANCE;
 	private int traceIndentation = 0;
 	public Profiler profiler;
-	
+
 	// key, then aggregate, then iterator for every active foreach loop
 	public ArrayList iterators = new ArrayList();
 
@@ -134,14 +135,45 @@ public class Interpreter
 		this.currentState = state;
 	}
 
-	public boolean hadPendingState()
+	public static void rememberPendingState()
 	{
-		return this.hadPendingState;
+		if ( Interpreter.interpreterStack.isEmpty() )
+		{
+			return;
+		}
+
+		Interpreter current = (Interpreter) Interpreter.interpreterStack.peek();
+
+		current.hadPendingState = true;
 	}
 
-	public void setHadPendingState( final boolean hadPendingState )
+	public static void forgetPendingState()
 	{
-		this.hadPendingState = hadPendingState;
+		if ( Interpreter.interpreterStack.isEmpty() )
+		{
+			return;
+		}
+
+		Interpreter current = (Interpreter) Interpreter.interpreterStack.peek();
+
+		current.hadPendingState = false;
+	}
+
+	public static boolean getContinueValue()
+	{
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return false;
+		}
+
+		if ( Interpreter.interpreterStack.isEmpty() )
+		{
+			return true;
+		}
+
+		Interpreter current = (Interpreter) Interpreter.interpreterStack.peek();
+
+		return !current.hadPendingState;
 	}
 
 	public void setLineAndFile( final String fileName, final int lineNumber )
@@ -229,8 +261,7 @@ public class Interpreter
 		Function main;
 		Value result = null;
 
-		Interpreter oldInterpreter = KoLmafia.getCurrentInterpreter();
-		KoLmafia.setCurrentInterpreter( this );
+		Interpreter.interpreterStack.push( this );
 
 		this.currentState = Interpreter.STATE_NORMAL;
 		this.resetTracing();
@@ -282,7 +313,7 @@ public class Interpreter
 			result = main.execute( this );
 		}
 
-		KoLmafia.setCurrentInterpreter( oldInterpreter );
+		Interpreter.interpreterStack.pop();
 
 		return result;
 	}
