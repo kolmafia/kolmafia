@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -1798,8 +1799,24 @@ public class RequestEditorKit
 	private static final void addChoiceSpoilers( final String location, final StringBuffer buffer )
 	{
 		// Make sure that it's an actual choice adventure
-		Matcher choiceMatcher = RequestEditorKit.CHOICE_PATTERN.matcher( buffer.toString() );
-		if ( !choiceMatcher.find() )
+		String text = buffer.toString();
+
+		Matcher matcher = ChoiceManager.CHOICE_PATTERN.matcher( text );
+		boolean found = matcher.find();
+
+		if ( !found )
+		{
+			matcher = ChoiceManager.CHOICE2_PATTERN.matcher( text );
+			found = matcher.find();
+		}
+
+		if ( !found )
+		{
+			matcher = ChoiceManager.CHOICE3_PATTERN.matcher( text );
+			found = matcher.find();
+		}
+
+		if ( !found )
 		{
 			// It's a response to taking a choice.
 			RequestEditorKit.decorateChoiceResponse( location, buffer );
@@ -1807,7 +1824,7 @@ public class RequestEditorKit
 		}
 
 		// Find the options for the choice we've encountered
-		int choice = StringUtilities.parseInt( choiceMatcher.group( 1 ) );
+		int choice = StringUtilities.parseInt( matcher.group( 1 ) );
 
 		// Do any choice-specific decorations
 		ChoiceManager.decorateChoice( choice, buffer );
@@ -1819,8 +1836,8 @@ public class RequestEditorKit
 			return;
 		}
 
-		String text = buffer.toString();
-		Matcher matcher = FORM_PATTERN.matcher( text );
+		text = buffer.toString();
+		matcher = FORM_PATTERN.matcher( text );
 		if ( !matcher.find() )
 		{
 			return;
