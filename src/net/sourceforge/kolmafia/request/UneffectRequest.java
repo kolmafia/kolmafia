@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -299,6 +300,9 @@ public class UneffectRequest
 		// Assume it worked.
 
 		KoLConstants.activeEffects.remove( this.effect );
+
+		// If you lose Inigo's, what you can craft changes
+		ConcoctionDatabase.refreshConcoctions();
 
 		KoLmafia.updateDisplay( this.effect.getName() + " removed." );
 		RequestFrame.refreshStatus();

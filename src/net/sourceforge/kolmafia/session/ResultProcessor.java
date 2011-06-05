@@ -195,12 +195,11 @@ public class ResultProcessor
 		}
 		finally
 		{
+			if ( data == null )
+			{
+				KoLmafia.applyEffects();
+			}
 			ConcoctionDatabase.deferRefresh( false );
-		}
-
-		if ( data == null )
-		{
-			KoLmafia.applyEffects();
 		}
 
 		return requiresRefresh;
@@ -427,6 +426,8 @@ public class ResultProcessor
 			AdventureResult result = EffectPool.get( effectName );
 			AdventureResult.removeResultFromList( KoLConstants.recentEffects, result );
 			AdventureResult.removeResultFromList( KoLConstants.activeEffects, result );
+			// If you lose Inigo's, what you can craft changes
+			ConcoctionDatabase.refreshConcoctions();
 
 			return true;
 		}
@@ -949,6 +950,7 @@ public class ResultProcessor
 			{
 				AdventureResult[] effectsArray = new AdventureResult[ KoLConstants.activeEffects.size() ];
 				KoLConstants.activeEffects.toArray( effectsArray );
+				boolean lose = false;
 
 				for ( int i = effectsArray.length - 1; i >= 0; --i )
 				{
@@ -961,6 +963,7 @@ public class ResultProcessor
 					else if ( duration + result.getCount() <= 0 )
 					{
 						KoLConstants.activeEffects.remove( i );
+						lose = true;
 					}
 					else
 					{
@@ -969,6 +972,12 @@ public class ResultProcessor
 				}
 
 				KoLCharacter.setCurrentRun( KoLCharacter.getCurrentRun() - result.getCount() );
+
+				if ( lose )
+				{
+					// If you lose Inigo's, what you can craft changes
+					ConcoctionDatabase.refreshConcoctions();
+				}
 			}
 		}
 		else if ( resultName.equals( AdventureResult.DRUNK ) )
