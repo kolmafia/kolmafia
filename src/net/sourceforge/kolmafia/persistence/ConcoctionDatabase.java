@@ -986,7 +986,7 @@ public class ConcoctionDatabase
 	{
 		ConcoctionDatabase.refreshLevel += flag ? 1 : -1;
 		if ( ConcoctionDatabase.refreshLevel <= 0 &&
-			ConcoctionDatabase.refreshDeferred )
+		     ConcoctionDatabase.refreshDeferred )
 		{
 			ConcoctionDatabase.refreshDeferred = false;
 			ConcoctionDatabase.refreshConcoctions();

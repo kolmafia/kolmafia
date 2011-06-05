@@ -1163,6 +1163,8 @@ public abstract class KoLmafia
 
 		if ( oldCount != KoLConstants.activeEffects.size() )
 		{
+			// If you gain or lose Inigo's, what you can craft changes
+			ConcoctionDatabase.refreshConcoctions();
 			KoLCharacter.updateStatus();
 		}
 	}
