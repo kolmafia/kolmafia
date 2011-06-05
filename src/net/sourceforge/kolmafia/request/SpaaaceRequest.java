@@ -103,16 +103,24 @@ public class SpaaaceRequest
 	// <div class="blank">x1</div>
 	private static final Pattern PAYOUT_PATTERN = Pattern.compile( "<div class=\"blank\">x(\\d)</div>" );
 
+	private static float [][] matrix = null;
+	private static float [] expected = null;
+
 	public static final void visitPorkoChoice( final String responseText )
 	{
 		// Called when we play Porko
+
+		// Initialize to defaults
+		Preferences.setString( "lastPorkoBoard", "" );
+		Preferences.setString( "lastPorkoPayouts", "" );
+		Preferences.setString( "lastPorkoExpected", "" );
 
 		// You hand Juliedriel your isotope. She takes it with
 		// a pair of tongs, and hands you three Porko chips
 		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) == -1 )
 		{
-			Preferences.setString( "lastPorkoBoard", "" );
-			Preferences.setString( "lastPorkoPayouts", "" );
+			SpaaaceRequest.matrix = null;
+			SpaaaceRequest.expected = null;
 			return;
 		}
 
@@ -127,7 +135,6 @@ public class SpaaaceRequest
 		}
 
 		String board = buffer.toString();
-		Preferences.setString( "lastPorkoBoard", board );
 
 		buffer.setLength( 0 );
 		matcher = PAYOUT_PATTERN.matcher( responseText );
@@ -137,12 +144,147 @@ public class SpaaaceRequest
 		}
 
 		String payouts = buffer.toString();
-		Preferences.setString( "lastPorkoPayouts", payouts );
 
 		// We could presumably figure out the expected value for each
 		// starting position. According to Greycat on the Wiki: "Peg
 		// style 1 goes right, peg style 2 goes left, and peg style 3
 		// is random"
+
+		// Store the 16 rows of pegs in the matrix.
+		// Even numbered rows have 9 pegs in columns 0, 2, ... 16
+		// Odd numbered rows have 8 pegs in columns 1, 3, ... 15
+		// There must be 8 * ( 9 + 8 ) = 136 pegs total
+		// There must be 9 payouts total
+		if ( board.length() != ( 8 * (9 + 8 ) ) || payouts.length() != 9 )
+		{
+			SpaaaceRequest.matrix = null;
+			SpaaaceRequest.expected = null;
+			return;
+		}
+
+		Preferences.setString( "lastPorkoBoard", board );
+		Preferences.setString( "lastPorkoPayouts", payouts );
+
+		// Make a matrix if we don't already have one
+		if ( SpaaaceRequest.matrix == null )
+		{
+			SpaaaceRequest.matrix = new float[17][17];
+		}
+
+		if ( SpaaaceRequest.expected == null )
+		{
+			SpaaaceRequest.expected = new float[9];
+		}
+
+		// Store the pegs
+		int index = 0;
+		for ( int row = 0; row < 16; ++row )
+		{
+			int count = ( row % 2 ) == 0 ? 9 : 8;
+			int off =  ( row % 2 ) == 0 ? 0 : 1;
+			for ( int i = 0; i < count; ++i )
+			{
+				int peg = Character.getNumericValue( board.charAt( index++ ) );
+				SpaaaceRequest.matrix[ row][ i * 2 + off ] = (float) peg;
+			}
+		}
+
+		// Store the payouts
+		for ( int i = 0; i < 9; ++i )
+		{
+			int payout = Character.getNumericValue( payouts.charAt( i ) );
+			SpaaaceRequest.matrix[ 16 ][ i * 2 ] = (float) payout;
+		}
+
+		// Iterate up from the bottom of the board calculating payout
+		for ( int row = 15; row >= 0; --row )
+		{
+			int count = ( row % 2 ) == 0 ? 9 : 8;
+			int off =  ( row % 2 ) == 0 ? 0 : 1;
+			for ( int i = 0; i < count; ++i )
+			{
+				int col = i * 2 + off;
+
+				// If we are at the left edge, we must go down and right
+				if ( col == 0 )
+				{
+					SpaaaceRequest.matrix[ row][ col ] = SpaaaceRequest.matrix[ row + 1 ][ 1 ];
+					continue;
+				}
+
+				// If we are at the right edge, we must go down and left
+				if ( col == 16 )
+				{
+					SpaaaceRequest.matrix[ row][ col ] = SpaaaceRequest.matrix[ row + 1 ][ 15 ];
+					continue;
+				}
+
+				// Otherwise, what we do depends on peg type
+				float peg = SpaaaceRequest.matrix[ row ][ col ];
+				float value = 0;
+
+				// Style 1 pegs go right
+				if ( peg == 1.0f )
+				{
+					value = SpaaaceRequest.matrix[ row + 1 ][ col + 1 ];
+				}
+				// Style 2 pegs go left
+				else if ( peg == 2.0f )
+				{
+					value = SpaaaceRequest.matrix[ row + 1 ][ col - 1 ];
+				}
+				// Style 3 pegs randomly go right or left
+				else if ( peg == 3.0f )
+				{
+					value = ( SpaaaceRequest.matrix[ row + 1 ][ col + 1 ] + SpaaaceRequest.matrix[ row + 1 ][ col - 1 ] ) / 2.0f;
+				}
+
+				// Replace this peg type with the expected value of hitting this peg
+				SpaaaceRequest.matrix[ row ][ col ] = value;
+			}
+		}
+
+		// Save and print the payouts
+		buffer.setLength( 0 );
+		for ( int i = 0; i < 9; ++i )
+		{
+			float val = SpaaaceRequest.matrix[ 0 ][ i * 2 ];
+			if ( i > 0 )
+			{
+				buffer.append( ":" );
+			}
+			buffer.append( KoLConstants.FLOAT_FORMAT.format( val ) );
+			SpaaaceRequest.expected[ i ] = val;
+		}
+
+		Preferences.setString( "lastPorkoExpected", buffer.toString() );
+	}
+
+	public static final void decoratePorko( final StringBuffer buffer )
+	{
+		// Make sure we know the expected payouts
+		if ( SpaaaceRequest.expected == null )
+		{
+			return;
+		}
+
+		// Make sure the player wants game hints
+		if ( !Preferences.getBoolean( "arcadeGameHints" ) )
+		{
+			return;
+		}
+
+		// Make the expected payouts be the hover text
+		String search = "\"Start Here\"";
+		for ( int i = 0; i < 9; ++i )
+		{
+			float val = SpaaaceRequest.expected[ i ];
+			String replace = "\"" + KoLConstants.FLOAT_FORMAT.format( val ) + "\"";
+
+			// Get both alt and title
+			StringUtilities.singleStringReplace( buffer, search, replace );
+			StringUtilities.singleStringReplace( buffer, search, replace );
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
