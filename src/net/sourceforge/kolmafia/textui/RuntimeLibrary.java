@@ -1314,20 +1314,11 @@ public abstract class RuntimeLibrary
 
 	private static Value continueValue()
 	{
-		Interpreter interpreter = KoLmafia.getCurrentInterpreter();
-		if ( interpreter == null )
-		{
-			return DataTypes.makeBooleanValue( KoLmafia.permitsContinue() );
-		}
+		boolean continueValue = Interpreter.getContinueValue();
 
-		boolean hadPendingState = interpreter.hadPendingState();
+		Interpreter.forgetPendingState();
 
-		if ( hadPendingState )
-		{
-			interpreter.setHadPendingState( false );
-		}
-
-		return DataTypes.makeBooleanValue( KoLmafia.permitsContinue() && !hadPendingState );
+		return DataTypes.makeBooleanValue( continueValue );
 	}
 
 	// Support for batching of server requests
@@ -4059,7 +4050,7 @@ public abstract class RuntimeLibrary
 		ChatSender.sendMessage( chatMessages, "/who clan", false, false );
 
 		Iterator messageIterator = chatMessages.iterator();
-		
+
 		while ( messageIterator.hasNext() )
 		{
 			ChatMessage chatMessage = (ChatMessage) messageIterator.next();
