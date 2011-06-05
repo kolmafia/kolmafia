@@ -100,6 +100,8 @@ public class SpaaaceRequest
 
 	// title="peg style 3"
 	private static final Pattern PEG_PATTERN = Pattern.compile( "title=\"peg style ([123])\"" );
+	// <div class="blank">x1</div>
+	private static final Pattern PAYOUT_PATTERN = Pattern.compile( "<div class=\"blank\">x(\\d)</div>" );
 
 	public static final void visitPorkoChoice( final String responseText )
 	{
@@ -110,6 +112,7 @@ public class SpaaaceRequest
 		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) == -1 )
 		{
 			Preferences.setString( "lastPorkoBoard", "" );
+			Preferences.setString( "lastPorkoPayouts", "" );
 			return;
 		}
 
@@ -125,6 +128,16 @@ public class SpaaaceRequest
 
 		String board = buffer.toString();
 		Preferences.setString( "lastPorkoBoard", board );
+
+		buffer.setLength( 0 );
+		matcher = PAYOUT_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			buffer.append( matcher.group(1) );
+		}
+
+		String payouts = buffer.toString();
+		Preferences.setString( "lastPorkoPayouts", payouts );
 
 		// We could presumably figure out the expected value for each
 		// starting position. According to Greycat on the Wiki: "Peg
