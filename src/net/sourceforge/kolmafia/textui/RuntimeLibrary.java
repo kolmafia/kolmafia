@@ -2647,7 +2647,10 @@ public abstract class RuntimeLibrary
 
 	public static Value npc_price( final Value item )
 	{
-		return new Value( NPCStoreDatabase.price( ItemDatabase.getItemName( item.intValue() ) ) );
+		String it = ItemDatabase.getItemName( item.intValue() );
+		boolean a = NPCStoreDatabase.contains( it , true );
+		int p = NPCStoreDatabase.price( it ) ;
+		return new Value( a ?  p : 0 );
 	}
 
 	public static Value historical_price( final Value item )
