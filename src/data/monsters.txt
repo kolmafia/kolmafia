@@ -923,13 +923,13 @@ Zombie Chef	HP: 4 Def: 5 Atk: 5 Meat: 6-8	bottle of cooking sherry (30)	chef's h
 Zombie Duck	HP: 191 Def: 176 Atk: 171 Meat: 127-174 E: spooky	duct tape (5)	frightful feather (10)
 Zombo	HP: 10000 Def: 500 Atk: 500 E: spooky	Prelude of Precision (0)	voodoo snuff (0)	voodoo snuff (0)	Zombo's empty eye (0)	Zombo's skullcap (0)	Zombo's shield (0)	Zombo's shoulder blade (0)	Zombo's grievous greaves (0)	Zombo's skull ring (0)
 
-# Space
-Grizzled Survivor	HP: 0	elven hardtack (0)	elven squeeze (0)	Map to Safety Shelter Grimace Prime (0)	Notes from the Elfpocalypse, Chapter II (0)
-Overarmed Survivor	HP: 0	elven hardtack (0)	elven squeeze (0)	Map to Safety Shelter Ronald Prime (0)	Notes from the Elfpocalypse, Chapter V (0)
-Primitive Survivor	HP: 0	elven hardtack (0)	elven squeeze (0)	Map to Safety Shelter Ronald Prime (0)	Notes from the Elfpocalypse, Chapter VI (0)
-Unhinged Survivor	HP: 0	elven hardtack (0)	elven squeeze (0)	Map to Safety Shelter Grimace Prime (0)	Notes from the Elfpocalypse, Chapter I (0)
-Unlikely Survivor	HP: 0	elven hardtack (0)	elven squeeze (0)	Map to Safety Shelter Ronald Prime (0)	Notes from the Elfpocalypse, Chapter IV (0)
-Whiny Survivor	HP: 0	elven hardtack (0)	elven squeeze (0)	Map to Safety Shelter Grimace Prime (0)	Notes from the Elfpocalypse, Chapter III (0)
+# Spaaace
+Grizzled Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter II (15)
+Overarmed Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter V (15)
+Primitive Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter VI (15)
+Unhinged Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter I (15)
+Unlikely Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter IV (15)
+Whiny Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter III (15)
 
 Alien Hamsterpus	HP: 0	elven magi-pack (0)	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
 Mutated Alielephant	HP: 0	elven magi-pack (0)	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)

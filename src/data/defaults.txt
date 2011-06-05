@@ -459,6 +459,7 @@ user	lastPirateInsult7	false
 user	lastPirateInsult8	false
 user	lastPirateInsultReset	-1
 user	lastPorkoBoard
+user	lastPorkoPayouts
 user	lastPyramidReset	-1
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
