@@ -155,6 +155,7 @@ public class ConcoctionPool
 	private static class ConcoctionArray
 	{
 		private final ArrayList internalList = new ArrayList( ItemDatabase.maxItemId() );
+		private int max = 0;
 
 		public ConcoctionArray()
 		{
@@ -163,11 +164,12 @@ public class ConcoctionPool
 			{
 				this.internalList.add( null );
 			}
+			this.max = max;
 		}
 
 		public Concoction get( final int index )
 		{
-			if ( index < 0 )
+			if ( index < 0 || index > this.max )
 			{
 				return null;
 			}
@@ -178,6 +180,10 @@ public class ConcoctionPool
 		public void set( final int index, final Concoction value )
 		{
 			this.internalList.set( index, value );
+			if ( index > this.max )
+			{
+				this.max = index;
+			}
 		}
 
 		public int size()
