@@ -3116,6 +3116,27 @@ public abstract class ChoiceManager
 			// Choice 539 is An E.M.U. for Y.O.U.
 			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
 			break;
+
+		case 540:
+			// Choice 540 is Big-Time Generator - game board
+			//
+			// The generator starts to hum and the well above you
+			// begins to spin, slowly at first, then faster and
+			// faster. The humming becomes a deep, sternum-rattling
+			// thrum, a sub-audio *WHOOMP WHOOMP WHOOMPWHOOMPWHOOMP.*
+			// Brilliant blue light begins to fill the well, and
+			// you feel like your bones are turning to either
+			// powder, jelly, or jelly with powder in it.<p>Then
+			// you fall through one of those glowy-circle
+			// transporter things and end up back on Grimace, and
+			// boy, are they glad to see you! You're not sure where
+			// one gets ticker-tape after an alien invasion, but
+			// they seem to have found some.
+			if ( text.indexOf( "WHOOMP" ) != -1 )
+			{
+				EquipmentManager.discardEquipment( ItemPool.EMU_UNIT );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
