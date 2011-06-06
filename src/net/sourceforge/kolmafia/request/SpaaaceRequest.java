@@ -100,33 +100,9 @@ public class SpaaaceRequest
 
 	// title="peg style 3"
 	private static final Pattern PEG_PATTERN = Pattern.compile( "title=\"peg style ([123])\"" );
-	// <div class="blank">x1</div>
-	private static final Pattern PAYOUT_PATTERN = Pattern.compile( "<div class=\"blank\">x(\\d)</div>" );
 
-	private static float [][] matrix = null;
-	private static float [] expected = null;
-
-	public static final void visitPorkoChoice( final String responseText )
+	public static final String parseGameBoard( final String responseText )
 	{
-		// Called when we play Porko
-
-		// Initialize to defaults
-		Preferences.setString( "lastPorkoBoard", "" );
-		Preferences.setString( "lastPorkoPayouts", "" );
-		Preferences.setString( "lastPorkoExpected", "" );
-
-		// You hand Juliedriel your isotope. She takes it with
-		// a pair of tongs, and hands you three Porko chips
-		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) == -1 )
-		{
-			SpaaaceRequest.matrix = null;
-			SpaaaceRequest.expected = null;
-			return;
-		}
-
-		ResultProcessor.processItem( ItemPool.LUNAR_ISOTOPE, -1 );
-
-		// Parse the game board.
 		StringBuffer buffer = new StringBuffer();
 		Matcher matcher = PEG_PATTERN.matcher( responseText );
 		while ( matcher.find() )
@@ -134,33 +110,48 @@ public class SpaaaceRequest
 			buffer.append( matcher.group(1) );
 		}
 
-		String board = buffer.toString();
+		return buffer.toString();
+	}
 
-		buffer.setLength( 0 );
-		matcher = PAYOUT_PATTERN.matcher( responseText );
+	// <div class="blank">x1</div>
+	private static final Pattern PAYOUT_PATTERN = Pattern.compile( "<div class=\"blank\">x(\\d)</div>" );
+
+	public static final String parseGamePayouts( final String responseText )
+	{
+		StringBuffer buffer = new StringBuffer();
+		Matcher matcher = PAYOUT_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
 			buffer.append( matcher.group(1) );
 		}
 
-		String payouts = buffer.toString();
+		return buffer.toString();
+	}
 
-		// We could presumably figure out the expected value for each
-		// starting position. According to Greycat on the Wiki: "Peg
-		// style 1 goes right, peg style 2 goes left, and peg style 3
-		// is random"
+	public static final boolean validBoard( final String board, final String payouts )
+	{
+		// There must be 8 * ( 9 + 8 ) = 136 pegs
+		// There must be 9 payouts
+		return ( board.length() == ( 8 * (9 + 8 ) ) ) && ( payouts.length() == 9 );
+	}
 
+	private static float [][] matrix = null;
+	private static float [] expected = null;
+
+	public static final void initializeGameBoard()
+	{
+		Preferences.setString( "lastPorkoBoard", "" );
+		Preferences.setString( "lastPorkoPayouts", "" );
+		Preferences.setString( "lastPorkoExpected", "" );
+		SpaaaceRequest.matrix = null;
+		SpaaaceRequest.expected = null;
+	}
+
+	public static final void loadGameBoard( final String board, final String payouts)
+	{
 		// Store the 16 rows of pegs in the matrix.
 		// Even numbered rows have 9 pegs in columns 0, 2, ... 16
 		// Odd numbered rows have 8 pegs in columns 1, 3, ... 15
-		// There must be 8 * ( 9 + 8 ) = 136 pegs total
-		// There must be 9 payouts total
-		if ( board.length() != ( 8 * (9 + 8 ) ) || payouts.length() != 9 )
-		{
-			SpaaaceRequest.matrix = null;
-			SpaaaceRequest.expected = null;
-			return;
-		}
 
 		Preferences.setString( "lastPorkoBoard", board );
 		Preferences.setString( "lastPorkoPayouts", payouts );
@@ -171,6 +162,7 @@ public class SpaaaceRequest
 			SpaaaceRequest.matrix = new float[17][17];
 		}
 
+		// Make expected value array if we don't already have one
 		if ( SpaaaceRequest.expected == null )
 		{
 			SpaaaceRequest.expected = new float[9];
@@ -195,6 +187,28 @@ public class SpaaaceRequest
 			int payout = Character.getNumericValue( payouts.charAt( i ) );
 			SpaaaceRequest.matrix[ 16 ][ i * 2 ] = (float) payout;
 		}
+	}
+
+	public static final void solveGameBoard()
+	{
+		// According to Greycat on the Wiki: "Peg style 1 goes right,
+		// peg style 2 goes left, and peg style 3 is random"
+
+		// We can figure out the expected value for each starting
+		// position by calculating expected value for each peg by
+		// working up from the bottom row to the top row.
+		//
+		// The payouts are known for exit slots.
+		// For each row from bottom to top
+		//   For each peg in row
+		//     if the peg is on the left wall or always goes right
+		//	 value is right slot of row below
+		//     else if the peg is on the right wall or always goes left
+		//	 value is left slot of row below
+		//     else if the peg goes randomly left or right
+		//	 value is average of left and right slots
+		//
+		// The values of the pegs in the top row is what we need.
 
 		// Iterate up from the bottom of the board calculating payout
 		for ( int row = 15; row >= 0; --row )
@@ -244,8 +258,8 @@ public class SpaaaceRequest
 			}
 		}
 
-		// Save and print the payouts
-		buffer.setLength( 0 );
+		// Save the expected value for each slot in the top row
+		StringBuffer buffer = new StringBuffer();
 		for ( int i = 0; i < 9; ++i )
 		{
 			float val = SpaaaceRequest.matrix[ 0 ][ i * 2 ];
@@ -258,6 +272,38 @@ public class SpaaaceRequest
 		}
 
 		Preferences.setString( "lastPorkoExpected", buffer.toString() );
+	}
+
+	public static final void visitPorkoChoice( final String responseText )
+	{
+		// Called when we play Porko
+
+		// Initialize to defaults
+		SpaaaceRequest.initializeGameBoard();
+
+		// You hand Juliedriel your isotope. She takes it with
+		// a pair of tongs, and hands you three Porko chips
+		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) == -1 )
+		{
+			return;
+		}
+
+		ResultProcessor.processItem( ItemPool.LUNAR_ISOTOPE, -1 );
+
+		// Parse the game board.
+		String board = SpaaaceRequest.parseGameBoard( responseText );
+		String payouts = SpaaaceRequest.parseGamePayouts( responseText );
+
+		if ( !SpaaaceRequest.validBoard( board, payouts ) )
+		{
+			return;
+		}
+
+		// Load the board into internal data structures
+		SpaaaceRequest.loadGameBoard( board, payouts );
+
+		// Solve the Game Board
+		SpaaaceRequest.solveGameBoard();
 	}
 
 	public static final void decoratePorko( final StringBuffer buffer )
@@ -285,6 +331,29 @@ public class SpaaaceRequest
 			StringUtilities.singleStringReplace( buffer, search, replace );
 			StringUtilities.singleStringReplace( buffer, search, replace );
 		}
+	}
+
+	public static final void visitGeneratorChoice( final String responseText )
+	{
+		// Called when we visit the Big-Time Generator
+
+		// Initialize to defaults
+		SpaaaceRequest.initializeGameBoard();
+
+		// Parse the game board.
+		String board = SpaaaceRequest.parseGameBoard( responseText );
+		String payouts = "000010000";
+
+		if ( !SpaaaceRequest.validBoard( board, payouts ) )
+		{
+			return;
+		}
+
+		// Load the board into internal data structures
+		SpaaaceRequest.loadGameBoard( board, payouts );
+
+		// Solve the Game Board
+		SpaaaceRequest.solveGameBoard();
 	}
 
 	public static final boolean registerRequest( final String urlString )
