@@ -269,7 +269,7 @@ public class DataTypes
 		if ( StringUtilities.isNumeric( name ) )
 		{
 			itemId = StringUtilities.parseInt( name );
-			name = ItemDatabase.getItemName( itemId );
+			name = ItemDatabase.getItemDataName( itemId );
 
 			if ( name == null  )
 			{
@@ -287,7 +287,7 @@ public class DataTypes
 		}
 
 		itemId = item.getItemId();
-		name = ItemDatabase.getItemName( itemId );
+		name = ItemDatabase.getItemDataName( itemId );
 		return new Value( DataTypes.ITEM_TYPE, itemId, name );
 	}
 
@@ -569,7 +569,7 @@ public class DataTypes
 
 	public static final Value makeItemValue( final int num )
 	{
-		String name = ItemDatabase.getItemName( num );
+		String name = ItemDatabase.getItemDataName( num );
 
 		if ( name == null )
 		{
@@ -588,14 +588,14 @@ public class DataTypes
 			return DataTypes.ITEM_INIT;
 		}
 
-		name = ItemDatabase.getItemName( num );
+		name = ItemDatabase.getItemDataName( num );
 		return new Value( DataTypes.ITEM_TYPE, num, name );
 	}
 
 	public static final Value makeItemValue( final AdventureResult ar )
 	{
 		int num = ar.getItemId();
-		String name = ItemDatabase.getItemName( num );
+		String name = ItemDatabase.getItemDataName( num );
 		return new Value( DataTypes.ITEM_TYPE, num, name );
 	}
 
