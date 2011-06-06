@@ -5169,8 +5169,8 @@
 5168	500099339	pill.gif	distention pill
 5169	989436501	medipack.gif	elven medi-pack
 5170	971091385	transponder.gif	transporter transponder
-5171	287051155	map.gif	Map to Safety Shelter Ronald Prime
-5172	590025247	map.gif	Map to Safety Shelter Grimace Prime
+5171	287051155	map.gif	Map to Safety Shelter Ronald Prime	Maps to Safety Shelter Ronald Prime
+5172	590025247	map.gif	Map to Safety Shelter Grimace Prime	Maps to Safety Shelter Grimace Prime
 5173	909099220	magipack.gif	elven magi-pack
 5174	652057677	beerbottle.gif	Saison du Lune
 5175	458903748	shot.gif	Moonthril Schnapps

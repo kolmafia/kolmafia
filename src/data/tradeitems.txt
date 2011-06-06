@@ -5177,8 +5177,8 @@
 5168	distention pill	usable	display	250
 5169	elven medi-pack	usable	all	150
 5170	transporter transponder	usable	all	50
-5171	Map to Safety Shelter Ronald Prime	usable	none	0
-5172	Map to Safety Shelter Grimace Prime	usable	none	0
+5171	Map to Safety Shelter Ronald Prime	reusable	none	0
+5172	Map to Safety Shelter Grimace Prime	reusable	none	0
 5173	elven magi-pack	usable	all	150
 5174	Saison du Lune	drink	display	100
 5175	Moonthril Schnapps	drink	display	200

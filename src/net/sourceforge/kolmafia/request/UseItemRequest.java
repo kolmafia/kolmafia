@@ -3738,6 +3738,12 @@ public class UseItemRequest
 			TurnCounter.stopCounting( "Bee window begin" );
 			TurnCounter.stopCounting( "Bee window end" );
 			return;
+
+		case ItemPool.RONALD_SHELTER_MAP:
+		case ItemPool.GRIMACE_SHELTER_MAP:
+			// If we are redirected to a choice, the item is
+			// consumed elsewhere.
+			return;
 		}
 	}
 
