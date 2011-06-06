@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
@@ -95,6 +96,13 @@ public class TestCommand
 		if ( command.equals( "fight" ) )
 		{
 			FightRequest.parseFightHTML( TestCommand.contents );
+			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "generator" ) )
+		{
+			SpaaaceRequest.visitGeneratorChoice( TestCommand.contents );
 			TestCommand.contents = null;
 			return;
 		}

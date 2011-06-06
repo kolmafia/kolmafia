@@ -1543,6 +1543,7 @@ public abstract class ChoiceManager
 		// Choice 537 is Play Porko!
 		// Choice 538 is Big-Time Generator
 		// Choice 539 is An E.M.U. for Y.O.U.
+		// Choice 540 is Big-Time Generator - game board
 	};
 
 	static
@@ -2188,8 +2189,11 @@ public abstract class ChoiceManager
 			// Dungeon Fist
 			ArcadeRequest.decorateDungeonFist( buffer );
 			break;
+
 		case 537:
 			// Play Porko!
+		case 540:
+			// Big-Time Generator
 			SpaaaceRequest.decoratePorko( buffer );
 			break;
 		}
@@ -3425,6 +3429,11 @@ public abstract class ChoiceManager
 		case 537:
 			// Play Porko!
 			SpaaaceRequest.visitPorkoChoice( responseText );
+			break;
+
+		case 540:
+			// Big-Time Generator
+			SpaaaceRequest.visitGeneratorChoice( responseText );
 			break;
 		}
 	}
