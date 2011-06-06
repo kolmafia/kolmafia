@@ -441,7 +441,7 @@ public class DataTypes
 		}
 
 		int num = EffectDatabase.getEffectId( effect.getName() );
-		name = EffectDatabase.getEffectName( num );
+		name = EffectDatabase.getEffectDataName( num );
 		return new Value( DataTypes.EFFECT_TYPE, num, name );
 	}
 
@@ -617,7 +617,7 @@ public class DataTypes
 
 	public static final Value makeEffectValue( final int num )
 	{
-		String name = EffectDatabase.getEffectName( num );
+		String name = EffectDatabase.getEffectDataName( num );
 		if ( name == null )
 		{
 			return DataTypes.EFFECT_INIT;
