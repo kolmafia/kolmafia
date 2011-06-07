@@ -2140,6 +2140,7 @@ tiny prop sword	Familiar Weight: +5
 tiny shaker of salt	Familiar Weight: +5
 tiny sombrero	Sombrero Bonus: +10
 # tiny top hat and cane: Lets your Li'l Xenomorph dance!
+tiny top hat and cane	Fairy: 1.0
 # tiny top hat and cane: (adds item0 to familiar abilities)
 toy six-seater hovercraft	Familiar Weight: -5
 # tuning fork: Familiar Will Attack You Less Often
