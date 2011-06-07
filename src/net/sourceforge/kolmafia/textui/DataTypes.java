@@ -418,7 +418,7 @@ public class DataTypes
 		}
 
 		int num = SkillDatabase.getSkillId( (String) skills.get( 0 ) );
-		name = SkillDatabase.getSkillName( num );
+		name = SkillDatabase.getSkillDataName( num );
 		return new Value( DataTypes.SKILL_TYPE, num, name );
 	}
 
@@ -606,7 +606,7 @@ public class DataTypes
 
 	public static final Value makeSkillValue( final int num )
 	{
-		String name = SkillDatabase.getSkillName( num );
+		String name = SkillDatabase.getSkillDataName( num );
 		if ( name == null )
 		{
 			return DataTypes.SKILL_INIT;

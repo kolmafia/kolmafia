@@ -108,9 +108,7 @@ public class EffectDatabase
 				String defaultAction = data.length > 4 ? data[ 4 ] : null;
 
 				EffectDatabase.addToDatabase(
-					effectId,
-					name,
-					image, descId, defaultAction );
+					effectId, name, image, descId, defaultAction );
 
 				if ( name.equalsIgnoreCase( "Temporary Blindness" ) )
 				{
