@@ -289,13 +289,19 @@ public class KoLmafiaCLI
 		{
 			return;
 		}
+
 		String origLine = line;
-		line = CharacterEntities.unescape( line );
 
 		line = line.replaceAll( "[ \t]+", " " ).trim();
 		if ( line.length() == 0 )
 		{
 			return;
+		}
+
+		// Pass through escaped character entities to ASH
+		if ( !line.startsWith( "ash" ) )
+		{
+			line = CharacterEntities.unescape( line );
 		}
 
 		// First, handle all the aliasing that may be
