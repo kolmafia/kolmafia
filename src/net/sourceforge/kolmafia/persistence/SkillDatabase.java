@@ -61,6 +61,7 @@ public class SkillDatabase
 {
 	private static String [] canonicalNames = new String[0];
 	private static final Map skillById = new TreeMap();
+	private static final Map dataNameById = new TreeMap();
 	private static final Map skillByName = new TreeMap();
 	private static final Map mpConsumptionById = new HashMap();
 	private static final Map skillTypeById = new TreeMap();
@@ -140,7 +141,7 @@ public class SkillDatabase
 			}
 
 			Integer id = Integer.valueOf( data[ 0 ] );
-			String name = StringUtilities.getDisplayName( data[ 1 ] );
+			String name = data[ 1 ];
 			Integer type = Integer.valueOf( data[ 2 ] );
 			Integer mp = Integer.valueOf( data[ 3 ] );
 			Integer duration = Integer.valueOf( data[ 4 ] );
@@ -164,10 +165,13 @@ public class SkillDatabase
 		SkillDatabase.skillByName.keySet().toArray( SkillDatabase.canonicalNames );
 	}
 
-	private static final void addSkill( final Integer skillId, final String skillName, final Integer skillType, final Integer mpConsumption, final Integer duration, final Integer level )
+	private static final void addSkill( final Integer skillId, final String name, final Integer skillType, final Integer mpConsumption, final Integer duration, final Integer level )
 	{
-		SkillDatabase.skillById.put( skillId, skillName );
-		SkillDatabase.skillByName.put( StringUtilities.getCanonicalName( skillName ), skillId );
+		String canonicalName = StringUtilities.getCanonicalName( name );
+		String displayName = StringUtilities.getDisplayName( name );
+		SkillDatabase.skillById.put( skillId, displayName );
+		SkillDatabase.dataNameById.put( skillId, name );
+		SkillDatabase.skillByName.put( canonicalName, skillId );
 
 		SkillDatabase.skillTypeById.put( skillId, skillType );
 
@@ -234,7 +238,7 @@ public class SkillDatabase
 		}
 
 		SkillDatabase.skillCategoryById.put( skillId, category );
-		( (ArrayList) SkillDatabase.skillsByCategory.get( category ) ).add( skillName );
+		( (ArrayList) SkillDatabase.skillsByCategory.get( category ) ).add( displayName );
 	}
 
 	public static final List getSkillsByCategory( String category )
@@ -283,6 +287,13 @@ public class SkillDatabase
 	public static final String getSkillName( final int skillId )
 	{
 		return (String) SkillDatabase.skillById.get( new Integer( skillId ) );
+	}
+
+	public static final String getSkillDataName( final int skillId )
+	{
+		return skillId == -1 ?
+			null:
+			(String) SkillDatabase.dataNameById.get( new Integer( skillId ) );
 	}
 
 	/**
