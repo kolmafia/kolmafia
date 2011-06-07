@@ -5131,12 +5131,12 @@
 5122	leather aviator's cap	hat	all	0
 5123	mirrored aviator shades	accessory	all	0
 5124	Field Guide to Skeletal Anatomy	usable	all	0
-5125	Notes from the Elfpocalypse, Chapter I	usable	all	100
-5126	Notes from the Elfpocalypse, Chapter II	usable	all	100
-5127	Notes from the Elfpocalypse, Chapter III	usable	all	100
-5128	Notes from the Elfpocalypse, Chapter IV	usable	all	100
-5129	Notes from the Elfpocalypse, Chapter V	usable	all	100
-5130	Notes from the Elfpocalypse, Chapter VI	usable	all	100
+5125	Notes from the Elfpocalypse, Chapter I	hpmp	all	100
+5126	Notes from the Elfpocalypse, Chapter II	hpmp	all	100
+5127	Notes from the Elfpocalypse, Chapter III	hpmp	all	100
+5128	Notes from the Elfpocalypse, Chapter IV	hpmp	all	100
+5129	Notes from the Elfpocalypse, Chapter V	hpmp	all	100
+5130	Notes from the Elfpocalypse, Chapter VI	hpmp	all	100
 5131	Ultrasoldier Serum	multiple	all	0
 5132	elven hardtack	food	all	30
 5133	elven squeeze	drink	all	30
@@ -5175,11 +5175,11 @@
 5166	tiny top hat and cane	familiar	all	75
 5167	synthetic dog hair pill	usable	display	250
 5168	distention pill	usable	display	250
-5169	elven medi-pack	usable	all	150
+5169	elven medi-pack	hp	all	150
 5170	transporter transponder	usable	all	50
 5171	Map to Safety Shelter Ronald Prime	reusable	none	0
 5172	Map to Safety Shelter Grimace Prime	reusable	none	0
-5173	elven magi-pack	usable	all	150
+5173	elven magi-pack	mp	all	150
 5174	Saison du Lune	drink	display	100
 5175	Moonthril Schnapps	drink	display	200
 5176	Wrecked Generator	drink	display	500
