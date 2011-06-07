@@ -430,38 +430,46 @@ public class UseItemRequest
 		case ItemPool.SPICE_MELANGE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "spiceMelangeUsed" ) ? 0 : 1;
+		
+		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
+			if ( KoLCharacter.getInebriety() == 0 )
+			{
+				UseItemRequest.limiter = "need inebriety";
+				return 0;
+			}
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_syntheticDogHairPillUsed" ) ? 0 : 1;
 
 		case ItemPool.BURROWGRUB_HIVE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "burrowgrubHiveUsed" ) ? 0 : 1;
 
-		case ItemPool.MILK_OF_MAGNESIUM:
+		case ItemPool.MILK_OF_MAGNESIUM: {
+			UseItemRequest.limiter = "remaining fullness";
+			int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
+			int fullnessAvailable = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
+			// If our current dose of Got Milk is sufficient to
+			// fill us up, no milk is needed.
+			int unmilkedTurns = fullnessAvailable - milkyTurns;
+			if ( unmilkedTurns <= 0 )
 			{
-				UseItemRequest.limiter = "remaining fullness";
-				int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
-				int fullnessAvailable = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
-				// If our current dose of Got Milk is sufficient to
-				// fill us up, no milk is needed.
-				int unmilkedTurns = fullnessAvailable - milkyTurns;
-				if ( unmilkedTurns <= 0 )
-				{
-					return 0;
-				}
-
-				// Otherwise, limit to number of useful potions
-				int milkDuration = 10 +
-					( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 5 : 0 ) +
-					( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 );
-
-				int limit = 0;
-				while ( unmilkedTurns > 0 )
-				{
-					unmilkedTurns -= milkDuration;
-					limit++;
-				}
-
-				return limit;
+				return 0;
 			}
+
+			// Otherwise, limit to number of useful potions
+			int milkDuration = 10 +
+				( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 5 : 0 ) +
+				( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 );
+
+			int limit = 0;
+			while ( unmilkedTurns > 0 )
+			{
+				unmilkedTurns -= milkDuration;
+				limit++;
+			}
+
+			return limit;
+		}
 		}
 
 		switch ( consumptionType )
@@ -3177,6 +3185,23 @@ public class UseItemRequest
 				Preferences.setInteger( "currentFullness", Math.max( 0, Preferences.getInteger( "currentFullness" ) - 3 ) );
 				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
 				Preferences.setBoolean( "spiceMelangeUsed", true );
+				KoLCharacter.updateStatus();
+				ConcoctionDatabase.getUsables().sort();
+			}
+			return;
+
+		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
+
+			//Your liver feels better! And quivers a bit.
+			if ( responseText.indexOf( "liver can't take any more abuse" ) != -1 )
+			{
+				Preferences.setBoolean( "_syntheticDogHairPillUsed", true );
+				ResultProcessor.processResult( item );
+			}
+			else if ( responseText.indexOf( "quivers" ) != -1 )
+			{
+				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 1 ) );
+				Preferences.setBoolean( "_syntheticDogHairPillUsed", true );
 				KoLCharacter.updateStatus();
 				ConcoctionDatabase.getUsables().sort();
 			}

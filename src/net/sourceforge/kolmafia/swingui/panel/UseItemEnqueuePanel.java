@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -90,9 +91,13 @@ public class UseItemEnqueuePanel
 		if ( this.food || this.booze )
 		{
 			listeners.add( new FamiliarFeedListener() );
+			listeners.add( new BuffUpListener() );
 		}
 
-		listeners.add( new BuffUpListener() );
+		if ( this.booze || this.spleen )
+		{	
+			listeners.add( new FlushListener() );
+		}
 
 		ActionListener [] listenerArray = new ActionListener[ listeners.size() ];
 		listeners.toArray( listenerArray );
@@ -135,9 +140,27 @@ public class UseItemEnqueuePanel
 		}
 
 		this.setEnabled( true );
+
 		this.northPanel.add( filterPanel, BorderLayout.NORTH );
 
 		this.filterItems();
+	}
+
+	public void setEnabled( final boolean isEnabled )
+	{
+		super.setEnabled( isEnabled );
+
+		boolean havepill = InventoryManager.getCount( ItemPool.SYNTHETIC_DOG_HAIR_PILL ) > 0;
+		boolean usedpill = Preferences.getBoolean( "_syntheticDogHairPillUsed" );
+		boolean havedrunk = KoLCharacter.getInebriety() > 0;
+		
+		//we gray out the dog hair button unless 
+		//we have drunkenness, have a pill, and
+		//haven't used one today.
+		if ( this.booze )
+		{
+			this.buttons[ 4 ].setEnabled( havedrunk && ( havepill && !usedpill ) );
+		}
 	}
 
 	public AutoFilterTextField getWordFilter()
@@ -331,6 +354,23 @@ public class UseItemEnqueuePanel
 			{
 				RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 			}
+		}
+
+		public String toString()
+		{
+			return UseItemEnqueuePanel.this.food ? "use milk" : UseItemEnqueuePanel.this.booze ? "cast ode" : "" ;
+		}
+	}
+
+	private class FlushListener
+		extends ThreadedListener
+	{
+		public void run()
+		{
+			if ( UseItemEnqueuePanel.this.booze )
+			{
+				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.SYNTHETIC_DOG_HAIR_PILL, 1 ) ) );
+			}
 			else if ( UseItemEnqueuePanel.this.spleen )
 			{
 				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
@@ -339,9 +379,10 @@ public class UseItemEnqueuePanel
 
 		public String toString()
 		{
-			return UseItemEnqueuePanel.this.food ? "use milk" : UseItemEnqueuePanel.this.booze ? "cast ode" : "flush mojo";
+			return UseItemEnqueuePanel.this.food ? "" : UseItemEnqueuePanel.this.booze ? "dog hair" : "flush mojo";
 		}
-	}
+	}	
+	
 
 	private class ConsumableFilterField
 		extends FilterItemField
