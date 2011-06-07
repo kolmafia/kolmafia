@@ -2865,6 +2865,14 @@ public class Parser
 				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
 				this.currentToken = null;
 				String input = resultString.toString().trim();
+
+				// Make sure that only ASCII characters appear
+				// in the string
+				if ( !input.matches( "^\\p{ASCII}*$" ) )
+				{
+					throw this.parseException( "Typed constant $" + type.toString() + "[" + input + "] contains non-ASCII characters" );
+				}
+
 				Value value = DataTypes.parseValue( type, input, false );
 				if ( value == null )
 				{
