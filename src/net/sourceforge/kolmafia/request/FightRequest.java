@@ -1892,6 +1892,12 @@ public class FightRequest
 			}
 		}
 
+		if ( responseText.indexOf( "Axel screams, and lets go of your hand" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your Spooky little girl ran off." );
+		}
+
 		// "[slimeling] leaps on your opponent, sliming it for XX damage.  It's inspiring!"
 		if ( responseText.indexOf( "leaps on your opponent" ) != -1 )
 		{
