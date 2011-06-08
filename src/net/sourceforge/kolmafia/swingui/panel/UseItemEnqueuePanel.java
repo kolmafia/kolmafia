@@ -95,7 +95,7 @@ public class UseItemEnqueuePanel
 		}
 
 		if ( this.booze || this.spleen )
-		{	
+		{
 			listeners.add( new FlushListener() );
 		}
 
@@ -150,16 +150,17 @@ public class UseItemEnqueuePanel
 	{
 		super.setEnabled( isEnabled );
 
-		boolean havepill = InventoryManager.getCount( ItemPool.SYNTHETIC_DOG_HAIR_PILL ) > 0;
-		boolean usedpill = Preferences.getBoolean( "_syntheticDogHairPillUsed" );
-		boolean havedrunk = KoLCharacter.getInebriety() > 0;
-		
 		//we gray out the dog hair button unless 
 		//we have drunkenness, have a pill, and
 		//haven't used one today.
 		if ( this.booze )
 		{
-			this.buttons[ 4 ].setEnabled( havedrunk && ( havepill && !usedpill ) );
+			boolean havepill = InventoryManager.getCount( ItemPool.SYNTHETIC_DOG_HAIR_PILL ) > 0;
+			boolean usedpill = Preferences.getBoolean( "_syntheticDogHairPillUsed" );
+			boolean havedrunk = KoLCharacter.getInebriety() > 0;
+			int b = Preferences.getBoolean( "addCreationQueue" ) ? 4 : 3;
+
+			this.buttons[ b ].setEnabled( havedrunk && ( havepill && !usedpill ) );
 		}
 	}
 
@@ -381,8 +382,7 @@ public class UseItemEnqueuePanel
 		{
 			return UseItemEnqueuePanel.this.food ? "" : UseItemEnqueuePanel.this.booze ? "dog hair" : "flush mojo";
 		}
-	}	
-	
+	}
 
 	private class ConsumableFilterField
 		extends FilterItemField
