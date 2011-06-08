@@ -38,6 +38,7 @@ import java.lang.reflect.Method;
 
 import java.util.Iterator;
 
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
@@ -92,6 +93,12 @@ public class LibraryFunction
 
 	public Value execute( final Interpreter interpreter )
 	{
+		if ( !KoLmafia.permitsContinue() )
+		{
+			interpreter.setState( Interpreter.STATE_EXIT );
+			return null;
+		}
+
 		if ( StaticEntity.isDisabled( this.getName() ) )
 		{
 			this.printDisabledMessage( interpreter );

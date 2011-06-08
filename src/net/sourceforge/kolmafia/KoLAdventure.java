@@ -1310,6 +1310,18 @@ public class KoLAdventure
 			"You aren't wearing an appropriate uniform.",
 		},
 
+		// There are no Frat soldiers left
+		{
+			"There are no Frat soldiers left",
+			"There are no Frat soldiers left.",
+		},
+
+		// There are no Hippy soldiers left
+		{
+			"There are no Hippy soldiers left",
+			"There are no Hippy soldiers left.",
+		},
+
 		// "You can't take it any more. The confusion, the nostalgia,
 		// the inconsistent grammar. You break the bottle on the
 		// ground, and stomp it to powder."

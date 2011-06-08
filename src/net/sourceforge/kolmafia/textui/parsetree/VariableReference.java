@@ -105,7 +105,10 @@ public class VariableReference
 			Value currentValue = this.target.getValue( interpreter );
 			newValue = oper.applyTo( interpreter, currentValue, targetValue );
 		}
-		this.target.setValue( interpreter, newValue );
+		if ( newValue != null )
+		{
+			this.target.setValue( interpreter, newValue );
+		}
 		return newValue;
 	}
 

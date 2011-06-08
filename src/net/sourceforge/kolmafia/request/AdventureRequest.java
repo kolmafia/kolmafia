@@ -217,6 +217,7 @@ public class AdventureRequest
 			this.addFormField( "smash", String.valueOf( square ) );
 		}
 
+		this.override = -1;
 		super.run();
 
 		if ( this.responseCode != 200 )
@@ -312,6 +313,7 @@ public class AdventureRequest
 			String failure = KoLAdventure.adventureFailureMessage( index );
 			int severity = KoLAdventure.adventureFailureSeverity( index );
 			KoLmafia.updateDisplay( severity, failure );
+			this.override = 0;
 			return;
 		}
 
@@ -326,7 +328,9 @@ public class AdventureRequest
 
 		// Nothing more to do in this area
 
-		if ( this.formSource.equals( "adventure.php" ) && this.responseText.indexOf( "adventure.php" ) == -1 && this.responseText.indexOf( "You acquire" ) == -1 )
+		if ( this.formSource.equals( "adventure.php" ) &&
+		     this.responseText.indexOf( "adventure.php" ) == -1 &&
+		     this.responseText.indexOf( "You acquire" ) == -1 )
 		{
 			if ( !KoLmafia.isAutoStop( this.encounter ) )
 			{
