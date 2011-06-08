@@ -2401,7 +2401,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "hermit", count + " " + item );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "hermit", count + " " + ItemDatabase.getItemName( item.intValue() ) );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -3124,7 +3124,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.TRUE_VALUE;
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + skill.toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + SkillDatabase.getSkillName( skill.intValue() ) );
 		return UseSkillRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
@@ -3138,7 +3138,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.visit_url( "fight.php?action=skill&whichskill=" + skill.intValue() );
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", "1 " + skill.toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", "1 " + SkillDatabase.getSkillName( skill.intValue() ) );
 		return new Value( UseSkillRequest.lastUpdate );
 	}
 
@@ -3163,7 +3163,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.TRUE_VALUE;
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + skill.toString() + " on " + target );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + SkillDatabase.getSkillName( skill.intValue() ) + " on " + target );
 		return UseSkillRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
