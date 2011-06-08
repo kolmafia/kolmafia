@@ -105,6 +105,7 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "gauze garter", 100 ),
 		new HPRestoreItem( "bottle of Vangoghbitussin", 100 ),
 		HPRestoreItemList.GRUB,
+		new HPRestoreItem( "elven medi-pack", 90 ),
 		new HPRestoreItem( "cotton candy bale", 61 ),
 		new HPRestoreItem( "ancient Magi-Wipes", 55 ),
 		new HPRestoreItem( "cotton candy pillow", 51 ),
