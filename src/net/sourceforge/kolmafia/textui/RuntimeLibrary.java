@@ -2680,25 +2680,7 @@ public abstract class RuntimeLibrary
 	public static Value available_amount( final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-
-		int runningTotal = item.getCount( KoLConstants.inventory ) +
-			item.getCount( KoLConstants.closet ) +
-			item.getCount( KoLConstants.freepulls );
-
-		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
-		{
-			if ( EquipmentManager.getEquipment( i ).equals( item ) )
-			{
-				++runningTotal;
-			}
-		}
-
-		if ( KoLCharacter.canInteract() )
-		{
-			runningTotal += item.getCount( KoLConstants.storage );
-		}
-
-		return new Value( runningTotal );
+		return DataTypes.makeIntValue( InventoryManager.getAccessibleCount( item ) );
 	}
 
 	public static Value item_amount( final Value arg )
