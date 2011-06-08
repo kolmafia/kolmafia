@@ -53,6 +53,7 @@ public class MonsterData
 	private final int minMeat;
 	private final int maxMeat;
 	private final int poison;
+	private final int beeCount;
 
 	private final ArrayList items;
 	private final ArrayList pocketRates;
@@ -76,6 +77,17 @@ public class MonsterData
 		this.maxMeat = maxMeat;
 		this.poison = poison;
 
+		int beeCount = 0;
+		for ( int i = 0; i < name.length(); ++i )
+		{
+			char c = name.charAt( i );
+			if ( c	== 'b' || c == 'B' )
+			{
+				beeCount++;
+			}
+		}
+		this.beeCount = beeCount;
+
 		this.items = new ArrayList();
 		this.pocketRates = new ArrayList();
 	}
@@ -91,6 +103,11 @@ public class MonsterData
 	{
 		return new MonsterExpression( (String) expr, this.getName() );
 	}
+ 
+	private float getBeeosity()
+	{
+		return 1.0f + ( KoLCharacter.inBeecore() ? ( this.beeCount * 0.20f ) : 0.0f );
+	}
 
 	public int getHP()
 	{
@@ -101,7 +118,7 @@ public class MonsterData
 		if ( this.health instanceof Integer )
 		{
 			int hp = ((Integer) this.health).intValue();
-			return hp == 0 ? 0 : Math.max( 1, hp + ML() );
+			return hp == 0 ? 0 : (int) Math.floor( Math.max( 1, hp + ML() ) * getBeeosity() );
 		}
 		if ( this.health instanceof String )
 		{
@@ -119,7 +136,7 @@ public class MonsterData
 		if ( this.attack instanceof Integer )
 		{
 			int attack = ((Integer) this.attack).intValue();
-			return attack == 0 ? 0 : Math.max( 1, attack + ML() );
+			return attack == 0 ? 0 : (int) Math.floor( Math.max( 1, attack + ML() ) * getBeeosity() );
 		}
 		if ( this.attack instanceof String )
 		{
@@ -138,7 +155,7 @@ public class MonsterData
 		{
 			int defense = ((Integer) this.defense).intValue();
 			return defense == 0 ? 0 :
-				Math.max( 1, (int) Math.ceil( 0.9 * ( defense + ML() ) ) );
+				(int) Math.floor( Math.max( 1, (int) Math.ceil( 0.9 * ( defense + ML() ) ) ) * getBeeosity() );
 		}
 		if ( this.defense instanceof String )
 		{
@@ -360,7 +377,7 @@ public class MonsterData
 	{
 		if ( this.experience == null )
 		{
-			return this.getAttack() / 8.0f;
+			return ( this.getAttack() / ( this.attack instanceof Integer ? this.getBeeosity() : 1 ) ) / 8.0f;
 		}
 		if ( this.experience instanceof Integer )
 		{
