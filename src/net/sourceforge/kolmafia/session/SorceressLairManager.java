@@ -1823,7 +1823,11 @@ public abstract class SorceressLairManager
 
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ) );
 
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
+		if ( SorceressLairManager.QUEST_HANDLER.responseText == null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Empty response." );
+		}
+		else if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of adventures." );
 		}

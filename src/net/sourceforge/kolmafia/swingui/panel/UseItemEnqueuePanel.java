@@ -149,18 +149,18 @@ public class UseItemEnqueuePanel
 	public void setEnabled( final boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-
-		//we gray out the dog hair button unless 
-		//we have drunkenness, have a pill, and
-		//haven't used one today.
-		if ( this.booze )
+		
+		// We gray out the dog hair button unless we have drunkenness,
+		// have a pill, and haven't used one today.
+		if ( isEnabled && this.booze )
 		{
+			// The "flush" listener is the last button
+			int flushIndex = this.buttons.length - 1;
+			boolean havedrunk = KoLCharacter.getInebriety() > 0;
 			boolean havepill = InventoryManager.getCount( ItemPool.SYNTHETIC_DOG_HAIR_PILL ) > 0;
 			boolean usedpill = Preferences.getBoolean( "_syntheticDogHairPillUsed" );
-			boolean havedrunk = KoLCharacter.getInebriety() > 0;
-			int b = Preferences.getBoolean( "addCreationQueue" ) ? 4 : 3;
-
-			this.buttons[ b ].setEnabled( havedrunk && ( havepill && !usedpill ) );
+			boolean canFlush = havedrunk && ( havepill && !usedpill );
+			this.buttons[ flushIndex ].setEnabled( canFlush );
 		}
 	}
 
