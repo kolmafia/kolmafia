@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -79,11 +80,11 @@ public class UseItemCommand
 
 		if ( command.equals( "eat" ) )
 		{
-			if ( KitchenCommand.visit( parameters ) )
+			if ( KoLCharacter.inBadMoon() && KitchenCommand.visit( parameters ) )
 			{
 				return;
 			}
-			if ( RestaurantCommand.makeChezSnooteeRequest( parameters ) )
+			if ( KoLCharacter.canadiaAvailable() && RestaurantCommand.makeChezSnooteeRequest( parameters ) )
 			{
 				return;
 			}
@@ -91,11 +92,11 @@ public class UseItemCommand
 
 		if ( command.equals( "drink" ) )
 		{
-			if ( KitchenCommand.visit( parameters ) )
+			if ( KoLCharacter.inBadMoon() && KitchenCommand.visit( parameters ) )
 			{
 				return;
 			}
-			if ( RestaurantCommand.makeMicroBreweryRequest( parameters ) )
+			if ( KoLCharacter.gnomadsAvailable() && RestaurantCommand.makeMicroBreweryRequest( parameters ) )
 			{
 				return;
 			}
