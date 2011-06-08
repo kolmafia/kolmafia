@@ -68,7 +68,7 @@ public class RestaurantCommand
 	{
 		if ( !KoLCharacter.canadiaAvailable() )
 		{
-			KoLmafia.updateDisplay( "Since you are not in a Mysticality sign, you may not visit the restaurant." );
+			KoLmafia.updateDisplay( "Since you have no access to Little Canadia, you may not visit the restaurant." );
 			return false;
 		}
 
@@ -133,7 +133,7 @@ public class RestaurantCommand
 	{
 		if ( !KoLCharacter.gnomadsAvailable() )
 		{
-			KoLmafia.updateDisplay( "Since you are not in a Moxie sign, you may not visit the brewery." );
+			KoLmafia.updateDisplay( "Since you have no access to the Gnomish Gnomad Camp, you may not visit the micromicrobrewery." );
 			return false;
 		}
 
