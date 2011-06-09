@@ -67,7 +67,8 @@ public class StorageCommand
 		Object[] items;
 		if ( parameters.startsWith( "outfit " ) )
 		{
-			SpecialOutfit outfit = EquipmentManager.getMatchingOutfit( parameters.substring( 7 ).trim() );
+			String name = parameters.substring( 7 ).trim();
+			SpecialOutfit outfit = EquipmentManager.getMatchingOutfit( name );
 			if ( outfit == null )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No such outfit." );
@@ -81,6 +82,11 @@ public class StorageCommand
 				{
 					needed.add( pieces[ i ] );
 				}
+			}
+			if ( needed.size() == 0 )
+			{
+				KoLmafia.updateDisplay( "You have all of the pieces of outfit '" + name + "' in inventory already." );
+				return;
 			}
 			items = needed.toArray();
 		}
@@ -116,13 +122,10 @@ public class StorageCommand
 		// Double check to make sure you have all items on hand
 		// since a failure to get something from Hagnk's is bad.
 
-		int storageCount;
-		AdventureResult item;
-
 		for ( int i = 0; i < items.length; ++i )
 		{
-			item = (AdventureResult) items[ i ];
-			storageCount = item.getCount( KoLConstants.storage );
+			AdventureResult item = (AdventureResult) items[ i ];
+			int storageCount = item.getCount( KoLConstants.storage );
 
 			if ( items[ i ] != null && storageCount < item.getCount() )
 			{
@@ -131,6 +134,8 @@ public class StorageCommand
 					"You only have " + storageCount + " " + item.getName() + " in storage (you wanted " + item.getCount() + ")" );
 			}
 		}
+
+		// *** Should we abort in !KoLmafia.permitsContinue()?
 
 		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
 		int pulls = ConcoctionDatabase.getPullsRemaining();
