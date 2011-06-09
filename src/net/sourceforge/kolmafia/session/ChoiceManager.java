@@ -3115,10 +3115,6 @@ public abstract class ChoiceManager
 		case 539:
 			// Choice 539 is An E.M.U. for Y.O.U.
 			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
-			ResultProcessor.processResult( ItemPool.get( ItemPool.EMU_JOYSTICK, -1 ) );
-			ResultProcessor.processResult( ItemPool.get( ItemPool.EMU_ROCKET, -1 ) );
-			ResultProcessor.processResult( ItemPool.get( ItemPool.EMU_HELMET, -1 ) );
-			ResultProcessor.processResult( ItemPool.get( ItemPool.EMU_HARNESS, -1 ) );
 			break;
 
 		case 540:

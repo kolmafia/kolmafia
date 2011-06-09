@@ -1116,6 +1116,14 @@ public class ResultProcessor
 			IslandDecorator.resetGremlinTool();
 			break;
 
+		case ItemPool.EMU_UNIT:
+			// If you get an E.M.U. Unit, you lose all the E.M.U. parts
+			ResultProcessor.processItem( ItemPool.EMU_JOYSTICK, -1 );
+			ResultProcessor.processItem( ItemPool.EMU_ROCKET, -1 );
+			ResultProcessor.processItem( ItemPool.EMU_HELMET, -1 );
+			ResultProcessor.processItem( ItemPool.EMU_HARNESS, -1 );
+			break;
+
 		case ItemPool.OVERCHARGED_POWER_SPHERE:
 		case ItemPool.EL_VIBRATO_HELMET:
 		case ItemPool.EL_VIBRATO_SPEAR:
