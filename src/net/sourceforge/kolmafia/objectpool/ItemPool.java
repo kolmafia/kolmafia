@@ -1243,6 +1243,10 @@ public class ItemPool
 	public static final int BIRD_BRAIN = 5118;
 	public static final int BUSTED_WINGS = 5119;
 	public static final int LUNAR_ISOTOPE = 5134;
+	public static final int EMU_JOYSTICK = 5135;
+	public static final int EMU_ROCKET = 5136;
+	public static final int EMU_HELMET = 5137;
+	public static final int EMU_HARNESS = 5138;
 	public static final int EMU_UNIT = 5143;
 	public static final int HONEYPOT = 5145;
 	public static final int SPOOKY_LITTLE_GIRL = 5165;
