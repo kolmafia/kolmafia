@@ -197,6 +197,7 @@ public class ClanStashRequest
 	}
 
 	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "You add (.*?) to the Goodies Hoard" );
+	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "(\\d+) (.+?)(?:, (?=\\d)|, and| and (?=\\d)|$)" );
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
@@ -235,8 +236,9 @@ public class ClanStashRequest
 
 			// Parse the actual number of items moved from the
 			// responseText, rather than believing the URL
-			TransferItemRequest.transferItems( responseText, 
-					ClanStashRequest.ITEM_PATTERN1,
+			ArrayList items = TransferItemRequest.getItemList( responseText,
+						ITEM_PATTERN1, (Pattern) null, ITEM_PATTERN2 );
+			TransferItemRequest.transferItems( items,
 					KoLConstants.inventory,
 					ClanManager.getStash() );
 		}
