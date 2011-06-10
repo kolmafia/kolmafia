@@ -188,7 +188,7 @@ public class DisplayCaseRequest
 			}
 
 			ArrayList itemList = TransferItemRequest.getItemList( responseText,
-				DisplayCaseRequest.ITEM_PATTERN2 );
+						ITEM_PATTERN2, TransferItemRequest.ITEM_PATTERN1, (Pattern) null );
 
 			if ( itemList.isEmpty() )
 			{
