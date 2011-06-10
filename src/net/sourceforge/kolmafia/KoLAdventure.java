@@ -318,18 +318,64 @@ public class KoLAdventure
 			// - Wear harem girl outfit and have Perfume effect
 			// - Wear elite guard uniform and have cake
 
+			// Assume that if you are currently wearing an outfit,
+			// you want to use that method.
+			if ( EquipmentManager.isWearingOutfit( 4 ) )
+			{
+				// Harem girl
+				if ( KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) )
+				{
+					// We are wearing the outfit and have the effect. Good to go!
+					this.isValidAdventure = true;
+					return;
+				}
+
+				if ( !KoLCharacter.inBeecore() &&
+				     InventoryManager.retrieveItem( ItemPool.KNOB_GOBLIN_PERFUME ) )
+				{
+					// If we are in Beecore, we have to adventure to get
+					// the effect. Otherwise, we can use the item
+					RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.KNOB_GOBLIN_PERFUME, 1 ) ) );
+					this.isValidAdventure = true;
+					return;
+				}
+			}
+			else if ( EquipmentManager.isWearingOutfit( 5 ) )
+			{
+				// Elite Guard
+				if ( InventoryManager.retrieveItem( ItemPool.KNOB_CAKE ) )
+				{
+					// We are wearing the outfit and have the cake. Good to go!
+					this.isValidAdventure = true;
+					return;
+				}
+			}
+
+			// If we get here, we are not currently wearing an
+			// appropriate outfit or, if we are, we can't use it.
+			// See what we have.
+
 			int outfitId = 0;
+
+			// Using the harem girl outfit requires only two pieces and a perfume.
+			// Using the elite guard outfit requires three pieces and Fancy cooking.
+			// Check for the harem girl first.
 
 			if ( EquipmentManager.hasOutfit( 4 ) &&
 			     ( KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) ||
-			       InventoryManager.retrieveItem( ItemPool.KNOB_GOBLIN_PERFUME ) ) )
+			       ( !KoLCharacter.inBeecore() &&
+				 InventoryManager.retrieveItem( ItemPool.KNOB_GOBLIN_PERFUME ) ) ) )
 			{
+				// We have the harem girl outfit and either
+				// have the effect or, if we are not in
+				// Beecore, have a perfume.
 				outfitId = 4;
 			}
 			else if ( EquipmentManager.hasOutfit( 5 ) &&
 				  InventoryManager.retrieveItem( ItemPool.KNOB_CAKE ) )
-
 			{
+				// We have the elite guard uniform and have
+				// made a cake.
 				outfitId = 5;
 			}
 			else
@@ -337,16 +383,17 @@ public class KoLAdventure
 				return;
 			}
 
-			if ( !EquipmentManager.isWearingOutfit( outfitId ) )
+			if ( !EquipmentManager.retrieveOutfit( outfitId ) )
 			{
-				if ( !EquipmentManager.retrieveOutfit( outfitId ) )
-				{
-					return;
-				}
-
-				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
+				// This should not happen, since hasOutfit()
+				// returned true.
+				return;
 			}
 
+			// Wear the selected outfit.
+			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
+
+			// If we selected the harem girl outfit, use a perfume
 			if ( outfitId == 4 && !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) )
 			{
 				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.KNOB_GOBLIN_PERFUME, 1 ) ) );
