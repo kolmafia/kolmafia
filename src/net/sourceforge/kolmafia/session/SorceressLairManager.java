@@ -1084,7 +1084,11 @@ public abstract class SorceressLairManager
 				requirements.add( SorceressLairManager.CLOVER );
 				return requirements;
 			}
+			// Temporarily disables clover protection in case we
+			// "retrieve" the clover by buying it in the mall.
+			GenericRequest.ascending = true;
 			InventoryManager.retrieveItem( SorceressLairManager.CLOVER );
+			GenericRequest.ascending = false;
 		}
 		else
 		{	// we want any HP-increasing benefits of the player's equipment

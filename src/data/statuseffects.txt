@@ -718,10 +718,10 @@
 717	Red Misty-Eyed	eyeball.gif	820b089cdb98e5f389fb24448c4d6a37	use 1 sealhide seal doll
 718	B-b-brr!	sphererough.gif	c7cfec0c1b99f8ab69bdd4dd24dd6735	# snowball
 719	Sealed Brain	realbrain.gif	12fa21a06cde21c7a65f2244cd02dacb	use 1 seal-brain elixir
-720
+720	Pyramid Power	brickopyramid.gif	4f998d046f27da24e5ca9aa9a924f321	#resting in a Pyramid in your campground
 721	Earworm	larva.gif	9ed86341d30a9cc55db66ee59b33fd5b
 722	Very Clean Guns	happiness.gif	6ab901c4e598d8c59f6d4539d4e07ae0	use 1 gun cleaning kit
-723
+723	Gleaming White Teeth	goldfronts.gif	107f5321e020b856965a53d5bff93b08	use 1 mariachi toothpaste
 724	Pemmican't	cruft.gif	63f212fdef4d2731cf9944afd3a9cb22	eat 1 Northern pemmican
 725	Down the Rabbit Hole	hare.gif	907cb5ad2ab24111f4cc83b0609ad087	use 1 DRINK ME potion
 726	Assaulted with Pepper	blpepper.gif	3ea2b2308ef23f53d670c9d27f380c7d	#tea party with 4-char hat
