@@ -1393,6 +1393,14 @@ public class MaximizerFrame
 			this.weight[ Modifiers.MUS_EXPERIENCE ] += fudge;
 			this.weight[ Modifiers.MYS_EXPERIENCE ] += fudge;
 			this.weight[ Modifiers.MOX_EXPERIENCE ] += fudge;
+			this.weight[ Modifiers.MUS_EXPERIENCE_PCT ] += fudge;
+			this.weight[ Modifiers.MYS_EXPERIENCE_PCT ] += fudge;
+			this.weight[ Modifiers.MOX_EXPERIENCE_PCT ] += fudge;
+			this.weight[ Modifiers.VOLLEYBALL_WEIGHT ] += fudge;
+			this.weight[ Modifiers.SOMBRERO_WEIGHT ] += fudge;
+			this.weight[ Modifiers.VOLLEYBALL_EFFECTIVENESS ] += fudge;
+			this.weight[ Modifiers.SOMBRERO_EFFECTIVENESS ] += fudge;
+			this.weight[ Modifiers.SOMBRERO_BONUS ] += fudge;
 
 			fudge = this.weight[ Modifiers.ITEMDROP ] * 0.0001f;
 			this.weight[ Modifiers.FOODDROP ] += fudge;
@@ -1403,6 +1411,17 @@ public class MaximizerFrame
 			this.weight[ Modifiers.SHIRTDROP ] += fudge;
 			this.weight[ Modifiers.PANTSDROP ] += fudge;
 			this.weight[ Modifiers.ACCESSORYDROP ] += fudge;
+			this.weight[ Modifiers.CANDYDROP ] += fudge;
+			this.weight[ Modifiers.FAIRY_WEIGHT ] += fudge;
+			this.weight[ Modifiers.FAIRY_EFFECTIVENESS ] += fudge;
+			this.weight[ Modifiers.SPORADIC_ITEMDROP ] += fudge;
+			this.weight[ Modifiers.PICKPOCKET_CHANCE ] += fudge;
+
+			fudge = this.weight[ Modifiers.MEATDROP ] * 0.0001f;
+			this.weight[ Modifiers.LEPRECHAUN_WEIGHT ] += fudge;
+			this.weight[ Modifiers.LEPRECHAUN_EFFECTIVENESS ] += fudge;
+			this.weight[ Modifiers.SPORADIC_MEATDROP ] += fudge;
+			this.weight[ Modifiers.MEAT_BONUS ] += fudge;
 		}
 		
 		public float getScore( Modifiers mods )
