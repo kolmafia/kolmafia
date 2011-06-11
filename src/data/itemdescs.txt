@@ -5085,21 +5085,21 @@
 5084	399048530	pinstripepants.gif	pin-stripe slacks	pairs of pin-stripe slacks
 5085	565252392	stickygloves.gif	sticky gloves	pairs of sticky gloves
 5086	691043852	corfluid.gif	correction fluid	bottles of correction fluid
-5087	230467927	pokepork.gif	Pok&euml;mann figurine: Porkachu	Pok&euml;mann figurines: Porkachu
-5088	574877700	pokecarp.gif	Pok&euml;mann figurine: Magikrap	Pok&euml;mann figurines: Magikrap
-5089	722707939	pokeveg.gif	Pok&euml;mann figurine: Vegemite	Pok&euml;mann figurines: Vegemite
-5090	625158361	pokevermouth.gif	Pok&euml;mann figurine: Vermouth	Pok&euml;mann figurines: Vermouth
-5091	572890215	pokeleaf.gif	Pok&euml;mann figurine: Smugleaf	Pok&euml;mann figurines: Smugleaf
-5092	505920222	poketwitter.gif	Pok&euml;mann figurine: Twitter	Pok&euml;mann figurines: Twitter
-5093	826372772	pokelamprey.gif	Pok&euml;mann figurine: Bloodkip	Pok&euml;mann figurines: Bloodkip
-5094	456668152	pokehobo.gif	Pok&euml;mann figurine: Hoboking	Pok&euml;mann figurines: Hoboking
-5095	889919853	pokeduck.gif	Pok&euml;mann figurine: Duck	Pok&euml;mann figurines: Duck
-5096	765484833	pokeinvis.gif	Pok&euml;mann figurine: Nothing	Pok&euml;mann figurines: Nothing
-5097	409612245	pokemonster.gif	Pok&euml;mann figurine: Kagosan	Pok&euml;mann figurines: Kagosan
-5098	533700799	pokecherry.gif	Pok&euml;mann figurine: Galumpagump	Pok&euml;mann figurines: Galumpagump
-5099	664709669	pokeshog.gif	Pok&euml;mann figurine: Shoggoth	Pok&euml;mann figurines: Shoggoth
-5100	299836862	pokefrank.gif	Pok&euml;mann figurine: Frank	Pok&euml;mann figurines: Frank
-5101	749993133	pokemoog.gif	Pok&euml;mann figurine: Moog	Pok&euml;mann figurines: Moog
+5087	230467927	pokepork.gif	Pok&euml;mann figurine: Porkachu	Porkachu figurines
+5088	574877700	pokecarp.gif	Pok&euml;mann figurine: Magikrap	Magikrap figurines
+5089	722707939	pokeveg.gif	Pok&euml;mann figurine: Vegemite	Vegemite figurines
+5090	625158361	pokevermouth.gif	Pok&euml;mann figurine: Vermouth	Vermouth figurines
+5091	572890215	pokeleaf.gif	Pok&euml;mann figurine: Smugleaf	Smugleaf figurines
+5092	505920222	poketwitter.gif	Pok&euml;mann figurine: Twitter	Twitter figurines
+5093	826372772	pokelamprey.gif	Pok&euml;mann figurine: Bloodkip	Bloodkip figurines
+5094	456668152	pokehobo.gif	Pok&euml;mann figurine: Hoboking	Hoboking figurines
+5095	889919853	pokeduck.gif	Pok&euml;mann figurine: Duck	Duck figurines
+5096	765484833	pokeinvis.gif	Pok&euml;mann figurine: Nothing	Nothing figurines
+5097	409612245	pokemonster.gif	Pok&euml;mann figurine: Kagosan	Kagosan figurines
+5098	533700799	pokecherry.gif	Pok&euml;mann figurine: Galumpagump	Galumpagump figurines
+5099	664709669	pokeshog.gif	Pok&euml;mann figurine: Shoggoth	Shoggoth figurines
+5100	299836862	pokefrank.gif	Pok&euml;mann figurine: Frank	Frank figurines
+5101	749993133	pokemoog.gif	Pok&euml;mann figurine: Moog	Moog figurines
 5102	393343803	willyweed.gif	willyweed	fronds of willyweed
 5103	246849616	blastball.gif	Nuclear Blastball
 5104	568920711	fishjuice.gif	fish juice box	fish juice boxes
