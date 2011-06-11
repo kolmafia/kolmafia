@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
+import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -754,6 +755,10 @@ public class RequestEditorKit
 		{
 			StringUtilities.insertBefore(
 				buffer, "</html>", "<script language=\"Javascript\" src=\"/palinshelves.js\" />" );
+		}
+		else if ( location.startsWith( "pandamonium.php" ) )
+		{
+			PandamoniumRequest.decoratePandamonium( location, buffer );
 		}
 		else if ( location.startsWith( "postwarisland.php" ) )
 		{

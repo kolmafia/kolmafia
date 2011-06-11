@@ -1139,6 +1139,12 @@ public class ItemPool
 	public static final int INSULT_PUPPET = 4667;
 	public static final int OBSERVATIONAL_GLASSES = 4668;
 	public static final int COMEDY_PROP = 4669;
+	public static final int BEER_SCENTED_TEDDY_BEAR = 4670;
+	public static final int BOOZE_SOAKED_CHERRY = 4671;
+	public static final int COMFY_PILLOW = 4672;
+	public static final int GIANT_MARSHMALLOW = 4673;
+	public static final int SPONGE_CAKE = 4674;
+	public static final int GIN_SOAKED_BLOTTER_PAPER = 4675;
 	public static final int TREE_HOLED_COIN = 4676;
 	public static final int UNEARTHED_METEOROID = 4677;
 	public static final int VOLCANIC_ASH = 4679;

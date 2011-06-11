@@ -36,9 +36,12 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -359,6 +362,165 @@ public class PandamoniumRequest
 		}
 
 		return false;
+	}
+
+	private static final String svenFormStart= "<form name=\"bandcamp\" method=\"post\" action=\"pandamonium.php\">";
+	private static final String svenFormEnd = "</form>";
+
+	public static final void decoratePandamonium( final String url, final StringBuffer buffer )
+	{
+		if ( !url.startsWith( "pandamonium.php" ) )
+		{
+			return;
+		}
+
+		if ( url.indexOf( "action=sven" ) != -1 &&
+		     buffer.indexOf( svenFormStart ) != -1 )
+		{
+			PandamoniumRequest.decorateSven( buffer );
+			PandamoniumRequest.saveSvenResponse( buffer.toString() );
+		}
+	}
+
+	private static final void decorateSven( final StringBuffer buffer )
+	{
+		int startIndex = buffer.indexOf( svenFormStart );
+		int endIndex = buffer.indexOf( svenFormEnd, startIndex );
+		if ( startIndex == -1 || endIndex == -1 )
+		{
+			return;
+		}
+
+		// Completely replace the existing form
+		StringBuffer form = new StringBuffer();
+
+		form.append( "<form name=bandcamp action='" );
+		form.append( "/KoLmafia/parameterizedCommand?cmd=sven&pwd=" );
+		form.append( GenericRequest.passwordHash );
+		form.append( "' method=post>" );
+
+		form.append( "<table>" );
+		if ( buffer.indexOf( "Bognort" ) != -1 )
+		{
+			PandamoniumRequest.addBandmember( form, "Bognort", ItemPool.GIANT_MARSHMALLOW, ItemPool.GIN_SOAKED_BLOTTER_PAPER );
+		}
+		if ( buffer.indexOf( "Stinkface" ) != -1 )
+		{
+			PandamoniumRequest.addBandmember( form, "Stinkface", ItemPool.BEER_SCENTED_TEDDY_BEAR, ItemPool.GIN_SOAKED_BLOTTER_PAPER );
+		}
+		if ( buffer.indexOf( "Flargwurm" ) != -1 )
+		{
+			PandamoniumRequest.addBandmember( form, "Flargwurm", ItemPool.BOOZE_SOAKED_CHERRY, ItemPool.SPONGE_CAKE );
+		}
+		if ( buffer.indexOf( "Jim" ) != -1 )
+		{
+			PandamoniumRequest.addBandmember( form, "Jim", ItemPool.SPONGE_CAKE, ItemPool.COMFY_PILLOW );
+		}
+		form.append( "</table>" );
+
+		form.append( "<input class=button type=submit value=\"Give Items\">" );
+
+		// Insert it into the page
+		buffer.delete( startIndex, endIndex );
+		buffer.insert( startIndex, form );
+	}
+
+	private static final void addBandmember( final StringBuffer form, final String name, final int item1, final int item2 )
+	{
+		form.append( "<tr><td> Give " );
+		form.append( name );
+		form.append( " the </td><td>" );
+		form.append( "<select name=" );
+		form.append( name );
+		form.append( "><option value=0>-- select an item --</option>" );
+		PandamoniumRequest.addItem( form, item1 );
+		PandamoniumRequest.addItem( form, item2 );
+		form.append( "</select>" );
+		form.append( "<img src='http://images.kingdomofloathing.com/itemimages/magnify.gif' style='vertical-align: middle; cursor: pointer' onClick='describe(document.bandcamp." );
+		form.append( name );
+		form.append( ");' title='View Item Description' alt='View Item Description'>" );
+		form.append( "</td></tr>" );
+	}
+
+	private static final void addItem( final StringBuffer form, final int itemId )
+	{
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		if ( item.getCount( KoLConstants.inventory ) > 0 )
+		{
+			form.append( "<option value=\"" );
+			form.append( String.valueOf( itemId ) );
+			form.append( "\" descid=\"" );
+			form.append( ItemDatabase.getDescriptionId( itemId ) );
+			form.append( "\">" );
+			form.append( item.getName() );
+			form.append( "</option>" );
+		}
+	}
+
+	private static String lastResponse = null;
+
+	public static final void saveSvenResponse( final String responseText )
+	{
+		PandamoniumRequest.lastResponse = responseText;
+	}
+
+	private static final Pattern GIVE_PATTERN = Pattern.compile( "([^&=]*)=([^&]*)" );
+	public static final void solveSven( final String parameters )
+	{
+		String response = PandamoniumRequest.lastResponse;
+
+		if ( response == null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't appear to be talking to Sven" );
+			return;
+		}
+
+		PandamoniumRequest request = null;
+
+		Matcher matcher = GIVE_PATTERN.matcher( parameters );
+		while ( matcher.find() )
+		{
+			String member = matcher.group( 1 );
+			String item = matcher.group( 2 );
+
+			int itemId = -1;
+			String itemName = null;
+			String value = "";
+
+			if ( StringUtilities.isNumeric( item ) )
+			{
+				itemId = StringUtilities.parseInt( item );
+				itemName = ItemDatabase.getItemName( itemId );
+			}
+			else
+			{
+				itemId = ItemDatabase.getItemId( item, 1 );
+				itemName = item;
+			}
+
+			if ( itemName == null || itemId < 1 )
+			{
+				continue;
+			}
+
+			request = new PandamoniumRequest( member, itemId );
+			RequestThread.postRequest( request );
+		}
+
+		KoLmafia.updateDisplay( "Items given to bandmembers." );
+
+		if ( request != null && request.responseText != null )
+		{
+			StringBuffer buffer = new StringBuffer( request.responseText );
+			RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
+			response = buffer.toString();
+		}
+
+		RelayRequest.specialCommandResponse = response;
+		if ( response.indexOf( "<form" ) == -1 )
+		{
+			PandamoniumRequest.lastResponse = null;
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
