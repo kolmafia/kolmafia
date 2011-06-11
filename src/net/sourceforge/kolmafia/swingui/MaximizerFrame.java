@@ -701,6 +701,12 @@ public class MaximizerFrame
 				{
 					String iname = item.getName();
 					
+					if ( KoLCharacter.inBeecore() &&
+						KoLCharacter.getBeeosity( iname ) > 0 )
+					{
+						continue;
+					}
+					
 					int full = ItemDatabase.getFullness( iname );
 					if ( full > 0 &&
 						KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )

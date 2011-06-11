@@ -1888,19 +1888,32 @@ public abstract class KoLCharacter
 
 	public static final int getBeeosity()
 	{
+		return KoLCharacter.getBeeosity( EquipmentManager.currentEquipment() );
+	}
+
+	public static final int getBeeosity( AdventureResult[] equipment )
+	{
 		int bees = 0;
-		AdventureResult[] equipment = EquipmentManager.currentEquipment();
 
 		for ( int slot = 0; slot < EquipmentManager.SLOTS; ++slot )
 		{
 			String name = equipment[ slot ].getName();
-			Matcher bMatcher = KoLCharacter.B_PATTERN.matcher( name );
-			while ( bMatcher.find() )
-			{
-				bees++;
-			}
+			bees += KoLCharacter.getBeeosity( name );
 		}
 
+		return bees;
+	}
+
+	public static final int getBeeosity( String name )
+	{
+		int bees = 0;
+
+		Matcher bMatcher = KoLCharacter.B_PATTERN.matcher( name );
+		while ( bMatcher.find() )
+		{
+			bees++;
+		}
+		
 		return bees;
 	}
 
