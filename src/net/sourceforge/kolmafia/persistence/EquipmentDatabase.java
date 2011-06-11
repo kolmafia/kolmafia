@@ -472,9 +472,11 @@ public class EquipmentDatabase
 
 	public static final int nextEquipmentItemId( int prevId )
 	{
-		while ( ++prevId < EquipmentDatabase.statRequirements.size() )
+		int limit = ItemDatabase.maxItemId();
+		while ( ++prevId <= limit )
 		{
-			if ( EquipmentDatabase.statRequirements.get( prevId ).length() > 0 ||
+			String req = EquipmentDatabase.statRequirements.get( prevId );
+			if ( (req != null && req.length() > 0) ||
 				ItemDatabase.getConsumptionType( prevId ) == KoLConstants.EQUIP_FAMILIAR )
 			{
 				return prevId;
