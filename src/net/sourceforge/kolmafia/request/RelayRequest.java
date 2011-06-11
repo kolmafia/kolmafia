@@ -1253,6 +1253,18 @@ public class RelayRequest
 			this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
 			RelayRequest.specialCommandResponse = "";
 		}
+		else if ( path.endsWith( "parameterizedCommand" ) )
+		{
+			String command = this.getFormField( "cmd" );
+			String URL =  this.getURLString();
+			int pwdStart = URL.indexOf( "pwd" );
+			int pwdEnd = URL.indexOf( "&", pwdStart );
+			String parameters = pwdEnd == -1 ? "" : URL.substring( pwdEnd + 1 );
+			submitCommand( command + " " +  parameters );
+			this.contentType = "text/html";
+			this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
+			RelayRequest.specialCommandResponse = "";
+		}
 		else if ( path.endsWith( "redirectedCommand" ) )
 		{
 			submitCommand( this.getFormField( "cmd" ) );
@@ -1303,6 +1315,7 @@ public class RelayRequest
 		catch ( Exception e )
 		{
 		}
+
 		GenericRequest.suppressUpdate( suppressUpdate );
 		CommandDisplayFrame.executeCommand( command );
 
