@@ -400,19 +400,19 @@ public class PandamoniumRequest
 		form.append( "' method=post>" );
 
 		form.append( "<table>" );
-		if ( buffer.indexOf( "Bognort" ) != -1 )
+		if ( buffer.indexOf( "<option>Bognort</option>" ) != -1 )
 		{
 			PandamoniumRequest.addBandmember( form, "Bognort", ItemPool.GIANT_MARSHMALLOW, ItemPool.GIN_SOAKED_BLOTTER_PAPER );
 		}
-		if ( buffer.indexOf( "Stinkface" ) != -1 )
+		if ( buffer.indexOf( "<option>Stinkface</option>" ) != -1 )
 		{
 			PandamoniumRequest.addBandmember( form, "Stinkface", ItemPool.BEER_SCENTED_TEDDY_BEAR, ItemPool.GIN_SOAKED_BLOTTER_PAPER );
 		}
-		if ( buffer.indexOf( "Flargwurm" ) != -1 )
+		if ( buffer.indexOf( "<option>Flargwurm</option>" ) != -1 )
 		{
 			PandamoniumRequest.addBandmember( form, "Flargwurm", ItemPool.BOOZE_SOAKED_CHERRY, ItemPool.SPONGE_CAKE );
 		}
-		if ( buffer.indexOf( "Jim" ) != -1 )
+		if ( buffer.indexOf( "<option>Jim</option>" ) != -1 )
 		{
 			PandamoniumRequest.addBandmember( form, "Jim", ItemPool.SPONGE_CAKE, ItemPool.COMFY_PILLOW );
 		}
