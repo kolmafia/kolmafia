@@ -159,7 +159,7 @@ public class SpaaaceRequest
 		// Make a matrix if we don't already have one
 		if ( SpaaaceRequest.matrix == null )
 		{
-			SpaaaceRequest.matrix = new float[17][17];
+			SpaaaceRequest.matrix = new float[18][17];
 		}
 
 		// Make expected value array if we don't already have one
@@ -186,6 +186,7 @@ public class SpaaaceRequest
 		{
 			int payout = Character.getNumericValue( payouts.charAt( i ) );
 			SpaaaceRequest.matrix[ 16 ][ i * 2 ] = (float) payout;
+			SpaaaceRequest.matrix[ 17 ][ i * 2 ] = (float) payout;
 		}
 	}
 
@@ -306,6 +307,8 @@ public class SpaaaceRequest
 		SpaaaceRequest.solveGameBoard();
 	}
 
+	private static final Pattern PORKO_BOARD_PATTERN = Pattern.compile( "<div id=\"porko\">(.*?</div>)</div>", Pattern.DOTALL );
+
 	public static final void decoratePorko( final StringBuffer buffer )
 	{
 		// Make sure we know the expected payouts
@@ -320,17 +323,113 @@ public class SpaaaceRequest
 			return;
 		}
 
+		// clump's Greasemonkey Porko Solver script is at:
+		// 
+		//	http://userscripts.org/scripts/source/104593.user.js
+		// 
+		// Veracity to clump on June 12, 2011
+		//
+		// "Would you be willing to let me incorporate your script's
+		// look and feel into KoLmafia? Not your code - I have my own,
+		// which is Java, rather than Java Script - but the way you
+		// decorate the game board. I like it."
+		//
+		// clump to Veracity on June 12, 2011
+		//
+		// "Yes, by all means, take any or all of it for whatever
+		// purpose you want! I'm glad you like it and am delighted to
+		// see anything I make propagate :)"
+
+		// Make the best starting slot be a green arrow
 		// Make the expected payouts be the hover text
-		String search = "\"Start Here\"";
+
+		Matcher matcher = PORKO_BOARD_PATTERN.matcher( buffer );
+		if ( matcher.find() )
+		{
+			String board = matcher.group( 1 );
+			int start = matcher.start( 1 );
+			int end = matcher.end( 1 );
+			String newBoard = SpaaaceRequest.decoratePorkoBoard( board );
+
+			buffer.replace( start, end, newBoard );
+		}
+	}
+
+	private static final String IMAGE_ROOT = "http://images.kingdomofloathing.com/itemimages/";
+	private static final String LOCAL_ROOT = "/images/itemimages/";
+
+	private static final String ARROW = IMAGE_ROOT + "porko_arrowa.gif";
+	private static final String GREEN_ARROW = LOCAL_ROOT + "porko_green_arrowa.gif";
+
+	private static final Pattern DIV_PATTERN = Pattern.compile( "<div.*?class=\"(.*?)\".*?</div>", Pattern.DOTALL );
+
+	private static final String decoratePorkoBoard( final String board )
+	{
+		StringBuffer buffer = new StringBuffer();
+
+		// Calculate the best expected yield
+		float best = 0.0f;
 		for ( int i = 0; i < 9; ++i )
 		{
-			float val = SpaaaceRequest.expected[ i ];
-			String replace = "\"" + KoLConstants.FLOAT_FORMAT.format( val ) + "\"";
-
-			// Get both alt and title
-			StringUtilities.singleStringReplace( buffer, search, replace );
-			StringUtilities.singleStringReplace( buffer, search, replace );
+			best = Math.max( best, SpaaaceRequest.expected[ i ] );
 		}
+			
+		// Iterate over all the divs in the board.
+		// Copy into buffer, decorating to taste
+
+		Matcher matcher = DIV_PATTERN.matcher( board );
+		int col = 0;
+		int row = 0;
+		while ( matcher.find() )
+		{
+			String div = matcher.group( 0 );
+			String type = matcher.group( 1 );
+
+			if ( type.equals( "chip" ) )
+			{
+				buffer.append( div );
+				continue;
+			}
+
+			// Get the expected payout for this cell
+			float newVal = 0.0f;
+
+			if ( col > 0 && col < 18 )
+			{
+				newVal = SpaaaceRequest.matrix[ row ][ col - 1 ];
+			}
+
+			if ( ++col == 19 )
+			{
+				col = 0;
+				row += 1;
+			}
+
+			if ( type.equals( "start" ) )
+			{
+				// Use green arrow for "best" starting slots 
+				if ( newVal == best )
+				{
+					div = StringUtilities.singleStringReplace( div, ARROW, GREEN_ARROW );
+				}
+
+				String search = "Start Here";
+				String replace = KoLConstants.FLOAT_FORMAT.format( newVal );
+				div = StringUtilities.globalStringReplace( div, search, replace );
+			}
+
+			if ( type.equals( "blank" ) )
+			{
+				// Cells also get annotated
+				String search = "class=\"blank\"";
+				String replace = search + " title=\"" + KoLConstants.FLOAT_FORMAT.format( newVal ) + "\"";
+				div = StringUtilities.globalStringReplace( div, search, replace );
+			}
+
+			buffer.append( div );
+		}
+
+		return buffer.toString();
 	}
 
 	public static final void visitGeneratorChoice( final String responseText )
