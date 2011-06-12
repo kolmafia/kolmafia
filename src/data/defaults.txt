@@ -553,6 +553,7 @@ user	reagentSummons	0
 user	recentLocations	5
 user	recoveryScript
 user	relayCounters
+user	relayShowSpoilers	false
 user	rememberDesktopSize	false
 user	requireBoxServants	false
 user	requireSewerTestItems	false

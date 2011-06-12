@@ -231,8 +231,8 @@ public class OptionsFrame
 			{},
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
-			{ "relayAddsDiscoHelper", "Add Disco Bandit helper to fights" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
+			{ "relayAddsDiscoHelper", "Add Disco Bandit helper to fights" },
 			{},
 			{ "relayMaintainsEffects", "Run moods during manual adventuring" },
 			{ "relayMaintainsHealth", "Maintain health during manual adventuring" },
@@ -250,6 +250,7 @@ public class OptionsFrame
 			{},
 			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
 			{ "arcadeGameHints", "Provide hints for games in the Game Grid Arcade" },
+			{ "relayShowSpoilers", "Show blatant spoilers for choices and puzzles" },
 		};
 
 		/**

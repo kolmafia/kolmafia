@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -364,9 +365,6 @@ public class PandamoniumRequest
 		return false;
 	}
 
-	private static final String svenFormStart= "<form name=\"bandcamp\" method=\"post\" action=\"pandamonium.php\">";
-	private static final String svenFormEnd = "</form>";
-
 	public static final void decoratePandamonium( final String url, final StringBuffer buffer )
 	{
 		if ( !url.startsWith( "pandamonium.php" ) )
@@ -374,19 +372,30 @@ public class PandamoniumRequest
 			return;
 		}
 
-		if ( url.indexOf( "action=sven" ) != -1 &&
-		     buffer.indexOf( svenFormStart ) != -1 )
+		if ( url.indexOf( "action=sven" ) != -1 )
 		{
 			PandamoniumRequest.decorateSven( buffer );
-			PandamoniumRequest.saveSvenResponse( buffer.toString() );
 		}
 	}
 
+	private static final String svenFormStart= "<form name=\"bandcamp\" method=\"post\" action=\"pandamonium.php\">";
+	private static final String svenFormEnd = "</form>";
+
 	private static final void decorateSven( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
+
 		int startIndex = buffer.indexOf( svenFormStart );
+		if ( startIndex == -1 )
+		{
+			return;
+		}
+
 		int endIndex = buffer.indexOf( svenFormEnd, startIndex );
-		if ( startIndex == -1 || endIndex == -1 )
+		if ( endIndex == -1 )
 		{
 			return;
 		}
@@ -423,6 +432,8 @@ public class PandamoniumRequest
 		// Insert it into the page
 		buffer.delete( startIndex, endIndex );
 		buffer.insert( startIndex, form );
+
+		PandamoniumRequest.saveSvenResponse( buffer.toString() );
 	}
 
 	private static final void addBandmember( final StringBuffer form, final String name, final int item1, final int item2 )
