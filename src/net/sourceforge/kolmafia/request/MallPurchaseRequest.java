@@ -691,11 +691,6 @@ public class MallPurchaseRequest
 			// Check to see if any of the items offered in the
 			// hippy store are special.
 
-			if ( Preferences.getInteger( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
-			{
-				return;
-			}
-
 			String side = "none";
 
 			if ( responseText.indexOf( "peach" ) != -1 &&
