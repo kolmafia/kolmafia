@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -170,23 +171,97 @@ public class SpaaaceRequest
 
 		// Store the pegs
 		int index = 0;
-		for ( int row = 0; row < 16; ++row )
+		for ( int row = 0, off = 0; row < 16; ++row, off = 1 - off )
 		{
-			int count = ( row % 2 ) == 0 ? 9 : 8;
-			int off =  ( row % 2 ) == 0 ? 0 : 1;
-			for ( int i = 0; i < count; ++i )
+			for ( int col = off; col < 17; col += 2 )
 			{
 				int peg = Character.getNumericValue( board.charAt( index++ ) );
-				SpaaaceRequest.matrix[ row][ i * 2 + off ] = (float) peg;
+				SpaaaceRequest.matrix[ row][ col ] = (float) peg;
 			}
 		}
 
+		// Mark unreachable cells
+		SpaaaceRequest.calculateUnreachableSquares();
+
 		// Store the payouts
-		for ( int i = 0; i < 9; ++i )
+		for ( int col = 0; col < 17; col += 2 )
 		{
-			int payout = Character.getNumericValue( payouts.charAt( i ) );
-			SpaaaceRequest.matrix[ 16 ][ i * 2 ] = (float) payout;
-			SpaaaceRequest.matrix[ 17 ][ i * 2 ] = (float) payout;
+			// Some payouts are unreachable.
+			float payout = SpaaaceRequest.matrix[ 15 ][ col ] == -1 ? -1  :
+				(float) Character.getNumericValue( payouts.charAt( col / 2 ) );
+			SpaaaceRequest.matrix[ 16 ][ col ] = payout;
+			SpaaaceRequest.matrix[ 17 ][ col ] = payout;
+		}
+	}
+
+	public static final void calculateUnreachableSquares()
+	{
+		// Algorithm courtesy of clump
+
+		boolean [] reach = new boolean[ 17 ];
+		Arrays.fill( reach, true );
+
+		// Work your way down from the top
+		for ( int row = 0, off = 0; row < 16; ++row )
+		{
+			boolean [] reach2 = new boolean[ 17 ];
+			Arrays.fill( reach2, false );
+
+			// Examine each peg in the row
+			for ( int col = off; col < 17; col += 2 )
+			{
+				// If we can't get to this peg, skip it
+				if ( !reach[ col ] )
+				{
+					continue;
+				}
+
+				float peg = SpaaaceRequest.matrix[ row ][ col ];
+				if ( peg == 1.0f )
+				{
+					if ( col < 16 )
+					{
+						reach2[ col + 1 ] = true;
+					}
+					else
+					{
+						reach2[ col - 1 ] = true;
+					}
+				}
+				else if ( peg == 2.0f )
+				{
+					if ( col > 0 )
+					{
+						reach2[ col - 1 ] = true;
+					}
+					else
+					{
+						reach2[ col + 1 ] = true;
+					}
+				}
+				else if ( peg == 3.0f )
+				{
+					if ( col > 0 )
+					{
+						reach2[ col - 1 ] = true;
+					}
+					if ( col < 16 )
+					{
+						reach2[ col + 1 ] = true;
+					}
+				}
+			}
+
+			off = 1 - off;
+			reach = reach2;
+
+			for ( int col = off; col < 17; col += 2 )
+			{
+				if ( !reach[ col ] )
+				{
+					SpaaaceRequest.matrix[ row ][ col ] = -1.0f;
+				}
+			}
 		}
 	}
 
@@ -212,13 +287,16 @@ public class SpaaaceRequest
 		// The values of the pegs in the top row is what we need.
 
 		// Iterate up from the bottom of the board calculating payout
-		for ( int row = 15; row >= 0; --row )
+		for ( int row = 15, off = 1; row >= 0; --row, off = 1 - off )
 		{
-			int count = ( row % 2 ) == 0 ? 9 : 8;
-			int off =  ( row % 2 ) == 0 ? 0 : 1;
-			for ( int i = 0; i < count; ++i )
+			for ( int col = off; col < 17; col += 2 )
 			{
-				int col = i * 2 + off;
+				// If this cell is unreachable, skip it
+				if ( row > 0 && SpaaaceRequest.matrix[ row - 1 ][ col ] == -1.0 )
+				{
+					SpaaaceRequest.matrix[ row ][ col ] = -1.0f;
+					continue;
+				}
 
 				// If we are at the left edge, we must go down and right
 				if ( col == 0 )
@@ -236,7 +314,7 @@ public class SpaaaceRequest
 
 				// Otherwise, what we do depends on peg type
 				float peg = SpaaaceRequest.matrix[ row ][ col ];
-				float value = 0;
+				float value = -1.0f;
 
 				// Style 1 pegs go right
 				if ( peg == 1.0f )
@@ -422,7 +500,18 @@ public class SpaaaceRequest
 			{
 				// Cells also get annotated
 				String search = "class=\"blank\"";
-				String replace = search + " title=\"" + KoLConstants.FLOAT_FORMAT.format( newVal ) + "\"";
+				String color = "";
+				String title = "";
+				if ( newVal < 0 )
+				{
+					color = " style=\"background: #EEEEEE\"";
+					title = " title=\"Unreachable\"";
+				}
+				else
+				{
+					title = " title=\"" + KoLConstants.FLOAT_FORMAT.format( newVal ) + "\"";
+				}
+				String replace = search + color + title;
 				div = StringUtilities.globalStringReplace( div, search, replace );
 			}
 
