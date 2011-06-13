@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -111,6 +112,8 @@ public class CoinmastersFrame
 	private static int crimbux = 0;
 	private static int scrip = 0;
 
+	private CardLayoutSelectorPanel selectorPanel = null;
+
 	private CoinmasterPanel dimePanel = null;
 	private CoinmasterPanel quarterPanel = null;
 	private CoinmasterPanel lucrePanel = null;
@@ -129,64 +132,94 @@ public class CoinmastersFrame
 		super( "Coin Masters" );
 		CoinmastersFrame.INSTANCE = this;
 
-		JPanel panel = new JPanel( new BorderLayout() );
-		dimePanel = new DimemasterPanel();
-		panel.add( dimePanel );
-		this.tabs.add( "Dimemaster", panel );
+		this.selectorPanel = new CardLayoutSelectorPanel( "coinMasterIndex", "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+		JPanel panel;
 
-		panel = new JPanel( new BorderLayout() );
-		quarterPanel = new QuartersmasterPanel();
-		panel.add( quarterPanel );
-		this.tabs.add( "Quartersmaster", panel );
+		// Always available coinmasters
+		this.selectorPanel.addCategory( "Always Available" );
 
 		panel = new JPanel( new BorderLayout() );
 		lucrePanel = new BountyHunterHunterPanel();
 		panel.add( lucrePanel );
-		this.tabs.add( "Bounty Hunter Hunter", panel );
+		this.selectorPanel.addPanel( "- Bounty Hunter Hunter", panel );
+
+		// *** Mr. Store goes here
+
+		// Ascension coinmasters
+		this.selectorPanel.addSeparator();
+		this.selectorPanel.addCategory( "Ascension" );
+
+		panel = new JPanel( new BorderLayout() );
+		dimePanel = new DimemasterPanel();
+		panel.add( dimePanel );
+		this.selectorPanel.addPanel( "- Dimemaster", panel );
+
+		panel = new JPanel( new BorderLayout() );
+		quarterPanel = new QuartersmasterPanel();
+		panel.add( quarterPanel );
+		this.selectorPanel.addPanel( "- Quartersmaster", panel );
+
+		// Aftercore coinmasters
+		this.selectorPanel.addSeparator();
+		this.selectorPanel.addCategory( "Aftercore" );
 
 		panel = new JPanel( new BorderLayout() );
 		sandDollarPanel = new BigBrotherPanel();
 		panel.add( sandDollarPanel );
-		this.tabs.add( "Big Brother", panel );
+		this.selectorPanel.addPanel( "- Big Brother", panel );
+
+		// IOTM coinmasters
+		this.selectorPanel.addSeparator();
+		this.selectorPanel.addCategory( "Item of the Month" );
 
 		panel = new JPanel( new BorderLayout() );
 		ticketPanel = new TicketCounterPanel();
 		panel.add( ticketPanel );
-		this.tabs.add( "Ticket Counter", panel );
+		this.selectorPanel.addPanel( "- Arcade Ticket Counter", panel );
 
 		panel = new JPanel( new BorderLayout() );
 		storeCreditPanel = new GameShoppePanel();
 		panel.add( storeCreditPanel );
-		this.tabs.add( "Game Shoppe", panel );
+		this.selectorPanel.addPanel( "- Game Shoppe", panel );
 
 		panel = new JPanel( new BorderLayout() );
 		snackVoucherPanel = new SnackVoucherPanel();
 		panel.add( snackVoucherPanel );
-		this.tabs.add( "Game Shoppe Snacks", panel );
+		this.selectorPanel.addPanel( "- Game Shoppe Snacks", panel );
+
+		// Events coinmasters
+		this.selectorPanel.addSeparator();
+		this.selectorPanel.addCategory( "Special Events" );
 
 		panel = new JPanel( new BorderLayout() );
 		commendationPanel = new CommendationPanel();
 		panel.add( commendationPanel );
-		this.tabs.add( "A. W. O. L. Quartermaster", panel );
+		this.selectorPanel.addPanel( "- A. W. O. L. Quartermaster", panel );
 
-		// panel = new JPanel( new BorderLayout() );
-		// boneChipPanel = new AltarOfBonesPanel();
-		// panel.add( boneChipPanel );
-		// this.tabs.add( "Altar Of Bones", panel );
+		// Removed coinmasters
+		this.selectorPanel.addSeparator();
+		this.selectorPanel.addCategory( "Removed" );
 
-		// panel = new JPanel( new BorderLayout() );
-		// crimbuckPanel = new CrimboCartelPanel();
-		// panel.add( crimbuckPanel );
-		// this.tabs.add( "Crimbo Cartel", panel );
+		panel = new JPanel( new BorderLayout() );
+		boneChipPanel = new AltarOfBonesPanel();
+		panel.add( boneChipPanel );
+		this.selectorPanel.addPanel( "- Altar Of Bones", panel );
 
-		// panel = new JPanel( new BorderLayout() );
-		// scripPanel = new CRIMBCOGiftShopPanel();
-		// panel.add( scripPanel );
-		// this.tabs.add( "CRIMBCO Gift Shop", panel );
+		panel = new JPanel( new BorderLayout() );
+		crimbuckPanel = new CrimboCartelPanel();
+		panel.add( crimbuckPanel );
+		this.selectorPanel.addPanel( "- Crimbo Cartel", panel );
 
-		this.tabs.addChangeListener( this );
+		panel = new JPanel( new BorderLayout() );
+		scripPanel = new CRIMBCOGiftShopPanel();
+		panel.add( scripPanel );
+		this.selectorPanel.addPanel( "- CRIMBCO Gift Shop", panel );
 
-		this.framePanel.add( this.tabs, BorderLayout.CENTER );
+		this.selectorPanel.setSelectedIndex( Preferences.getInteger( "coinMasterIndex" ) );
+		this.selectorPanel.addChangeListener( this );
+
+		this.framePanel.add( this.selectorPanel, BorderLayout.CENTER );
+
 		CoinmastersFrame.externalUpdate();
 	}
 
@@ -195,14 +228,18 @@ public class CoinmastersFrame
 	 * count the coins of the new tab
 	 */
 
-	private CoinmasterPanel currentPanel()
-	{
-		return (CoinmasterPanel)( ((Container)(this.tabs.getSelectedComponent())).getComponent( 0 ) );
-	}
-
 	public void stateChanged( final ChangeEvent e )
 	{
-		this.currentPanel().setTitle();
+		this.setTitle();
+	}
+
+	private void setTitle()
+	{
+		JPanel panel = (JPanel) this.selectorPanel.currentPanel();
+		if ( panel != null )
+		{
+			((CoinmasterPanel)( panel.getComponent( 0 ) )).setTitle();
+		}
 	}
 
 	public static void externalUpdate()
@@ -251,7 +288,7 @@ public class CoinmastersFrame
 		// boneChipPanel.update();
 		// crimbuckPanel.update();
 		// scripPanel.update();
-		this.currentPanel().setTitle();
+		this.setTitle();
 	}
 
 	private class DimemasterPanel
