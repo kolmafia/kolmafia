@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.util.ArrayList;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -41,9 +43,12 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -60,17 +65,24 @@ public class CardLayoutSelectorPanel
 
 	private final LockableListModel panelNames = new LockableListModel();
 	private final JList panelList = new JList( this.panelNames );
+	private final ArrayList panels = new ArrayList();
 	private final CardLayout panelCards = new CardLayout();
 	private final JPanel mainPanel = new JPanel( this.panelCards );
+	protected ChangeListener changeListener = null;
 
 	public CardLayoutSelectorPanel( String indexPreference )
+	{
+		this( indexPreference, "ABCDEFGHIJKLM" );
+	}
+
+	public CardLayoutSelectorPanel( String indexPreference, String prototype )
 	{
 		super( new BorderLayout() );
 
 		this.indexPreference = indexPreference;
 
 		this.panelList.addListSelectionListener( new CardSwitchListener() );
-		this.panelList.setPrototypeCellValue( "ABCDEFGHIJKLM" );
+		this.panelList.setPrototypeCellValue( prototype );
 		this.panelList.setCellRenderer( new OptionRenderer() );
 
 		JPanel listHolder = new JPanel( new CardLayout( 10, 10 ) );
@@ -78,6 +90,11 @@ public class CardLayoutSelectorPanel
 
 		this.add( listHolder, BorderLayout.WEST );
 		this.add( this.mainPanel, BorderLayout.CENTER );
+	}
+
+	public void addChangeListener( ChangeListener changeListener )
+	{
+		this.changeListener = changeListener;
 	}
 
 	public void setSelectedIndex( int selectedIndex )
@@ -88,6 +105,7 @@ public class CardLayoutSelectorPanel
 	public void addPanel( final String name, final JComponent panel )
 	{
 		this.panelNames.add( name );
+		this.panels.add( panel );
 		this.mainPanel.add( panel, String.valueOf( this.panelNames.size() ) );
 	}
 
@@ -100,6 +118,23 @@ public class CardLayoutSelectorPanel
 		separator.add( Box.createVerticalGlue() );
 		separator.add( new JSeparator() );
 		this.panelNames.add( separator );
+		this.panels.add( separator );
+	}
+
+	public void addCategory( final String name )
+	{
+		JPanel category = new JPanel();
+		category.setOpaque( false );
+		category.setLayout( new BoxLayout( category, BoxLayout.Y_AXIS ) );
+		category.add( new JLabel( name ) );
+		this.panelNames.add( category );
+		this.panels.add( category );
+	}
+
+	public JComponent currentPanel()
+	{
+		int cardIndex = CardLayoutSelectorPanel.this.panelList.getSelectedIndex();
+		return (JComponent)( this.panels.get( cardIndex ) );
 	}
 
 	private class CardSwitchListener
@@ -120,6 +155,11 @@ public class CardLayoutSelectorPanel
 			}
 
 			CardLayoutSelectorPanel.this.panelCards.show( CardLayoutSelectorPanel.this.mainPanel, String.valueOf( cardIndex + 1 ) );
+
+			if ( CardLayoutSelectorPanel.this.changeListener != null )
+			{
+				CardLayoutSelectorPanel.this.changeListener.stateChanged( new ChangeEvent( CardLayoutSelectorPanel.this ) );
+			}
 		}
 	}
 

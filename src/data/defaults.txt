@@ -26,6 +26,7 @@ global	chatFontSize
 global	chatLinksUseRelay	false
 global	chatStyle	0
 global	cloverProtectActive	true
+global	coinMasterIndex	0
 global	combatHotkey0
 global	combatHotkey1
 global	combatHotkey2
