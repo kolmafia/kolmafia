@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -407,7 +408,7 @@ public abstract class InventoryManager
 			}
 
 			// Cash them in for coffee pixie sticks
-			RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.TICKETCOUNTER, "redeem", ItemPool.COFFEE_PIXIE_STICK, missingCount ) );
+			RequestThread.postRequest( new CoinMasterRequest( CoinmastersDatabase.TICKETCOUNTER, "redeem", ItemPool.COFFEE_PIXIE_STICK, missingCount ) );
 
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -524,7 +525,7 @@ public abstract class InventoryManager
 				}
 
 				// Cash them in for snacks
-				RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.FREESNACKS, "buysnack", item.getItemId(), missingCount ) );
+				RequestThread.postRequest( new CoinMasterRequest( CoinmastersDatabase.FREESNACKS, "buysnack", item.getItemId(), missingCount ) );
 
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 

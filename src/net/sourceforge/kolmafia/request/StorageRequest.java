@@ -475,6 +475,7 @@ public class StorageRequest
 	private static final void transferMeat( final String urlString )
 	{
 		int meat = TransferItemRequest.transferredMeat( urlString, "amt" ); 
+		KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - meat );
 		ResultProcessor.processMeat( meat );
 	}
 

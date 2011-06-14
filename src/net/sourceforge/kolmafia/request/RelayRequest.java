@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.chat.HistoryEntry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -882,7 +883,7 @@ public class RelayRequest
 		{
 		case 32:
 			// War Hippy Fatigues
-			if ( master == CoinMasterRequest.HIPPY )
+			if ( master == CoinmastersDatabase.HIPPY )
 			{
 				return false;
 			}
@@ -890,7 +891,7 @@ public class RelayRequest
 
 		case 33:
 			// Frat Warrior Fatigues
-			if ( master == CoinMasterRequest.FRATBOY )
+			if ( master == CoinmastersDatabase.FRATBOY )
 			{
 				return false;
 			}
@@ -925,7 +926,7 @@ public class RelayRequest
 			int factor = IslandDecorator.hippiesDefeatedPerBattle();
 			if ( hippiesDefeated < 999 && ( 999 - hippiesDefeated ) % factor == 0 )
 			{
-				this.sendWossnameWarning( CoinMasterRequest.FRATBOY );
+				this.sendWossnameWarning( CoinmastersDatabase.FRATBOY );
 				return true;
 			}
 		}
@@ -936,7 +937,7 @@ public class RelayRequest
 			int factor = IslandDecorator.fratboysDefeatedPerBattle();
 			if ( fratboysDefeated < 999 && ( 999 - fratboysDefeated ) % factor == 0 )
 			{
-				this.sendWossnameWarning( CoinMasterRequest.HIPPY );
+				this.sendWossnameWarning( CoinmastersDatabase.HIPPY );
 				return true;
 			}
 		}
@@ -955,7 +956,7 @@ public class RelayRequest
 		else
 		{
 			message =
-				"You are about to enter the " + ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" ) + " camp and confront the boss.";
+				"You are about to enter the " + ( camp == CoinmastersDatabase.HIPPY ? "hippy" : "fratboy" ) + " camp and confront the boss.";
 		}
 
 		message =
@@ -1011,7 +1012,7 @@ public class RelayRequest
 		String message;
 
 		message =
-			"You are about to defeat the last " + ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" ) + " and open the way to their camp. However, you have not yet finished with the " + ( camp == CoinMasterRequest.HIPPY ? "fratboys" : "hippies" ) + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
+			"You are about to defeat the last " + ( camp == CoinmastersDatabase.HIPPY ? "hippy" : "fratboy" ) + " and open the way to their camp. However, you have not yet finished with the " + ( camp == CoinmastersDatabase.HIPPY ? "fratboys" : "hippies" ) + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
 
 		this.sendGeneralWarning( "wossname.gif", message );
 	}

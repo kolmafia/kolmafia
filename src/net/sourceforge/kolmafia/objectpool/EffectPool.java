@@ -83,6 +83,7 @@ public class EffectPool
 	public static final String HARDLY_POISONED = "Hardly Poisoned at All";
 	public static final String TELEPORTITIS = "Teleportitis";
 	public static final String INIGO = "Inigo's Incantation of Inspiration";
+	public static final String TRANSPONDENT = "Transpondent";
 
 	public static final int GOOFBALL_WITHDRAWAL_ID = 111;
 	public static final int CURSED_BY_RNG_ID = 217;

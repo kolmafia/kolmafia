@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -63,6 +64,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
@@ -87,12 +89,16 @@ public class CoinmastersFrame
 	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, -1 );
 	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, -1 );
 	public static final AdventureResult AWOL = ItemPool.get( ItemPool.AWOL_COMMENDATION, -1 );
+	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, -1 );
 
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
 	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
 	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
 	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
+	public static final AdventureResult TRANSPONDER = ItemPool.get( ItemPool.TRANSPORTER_TRANSPONDER, 1 );
 	public static final AdventureResult BUBBLIN_STONE = ItemPool.get( ItemPool.BUBBLIN_STONE, 1 );
+
+	public static final AdventureResult TRANSPONDENT = new AdventureResult( EffectPool.TRANSPONDENT, 1, true );
 
 	public static final int WAR_HIPPY_OUTFIT = 32;
 	public static final int WAR_FRAT_OUTFIT = 33;
@@ -107,6 +113,7 @@ public class CoinmastersFrame
 	private static int storeCredits = 0;
 	private static int snackVouchers = 0;
 	private static int commendations = 0;
+	private static int isotopes = 0;
 
 	private static int boneChips = 0;
 	private static int crimbux = 0;
@@ -121,6 +128,9 @@ public class CoinmastersFrame
 	private CoinmasterPanel arcadePanel = null;
 	private CoinmasterPanel gameShoppePanel = null;
 	private CoinmasterPanel freeSnackPanel = null;
+	private CoinmasterPanel isotopeSmitheryPanel = null;
+	private CoinmasterPanel dollhawkerPanel = null;
+	private CoinmasterPanel lunarLunchPanel = null;
 	private CoinmasterPanel awolPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
@@ -186,6 +196,21 @@ public class CoinmastersFrame
 		freeSnackPanel = new SnackVoucherPanel();
 		panel.add( freeSnackPanel );
 		this.selectorPanel.addPanel( freeSnackPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		isotopeSmitheryPanel = new IsotopeSmitheryPanel();
+		panel.add( isotopeSmitheryPanel );
+		this.selectorPanel.addPanel( isotopeSmitheryPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		dollhawkerPanel = new DollHawkerPanel();
+		panel.add( dollhawkerPanel );
+		this.selectorPanel.addPanel( dollhawkerPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		lunarLunchPanel = new LunarLunchPanel();
+		panel.add( lunarLunchPanel );
+		this.selectorPanel.addPanel( lunarLunchPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -265,6 +290,8 @@ public class CoinmastersFrame
 		Preferences.setInteger( "availableSnackVouchers", snackVouchers );
 		commendations = AWOL.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableCommendations", commendations );
+		isotopes = ISOTOPE.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableIsotopes", isotopes );
 
 		crimbux = CRIMBUCK.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableCrimbux", crimbux );
@@ -303,7 +330,7 @@ public class CoinmastersFrame
 			       WAR_HIPPY_OUTFIT,
 			       "availableDimes",
 			       "dime",
-			       CoinMasterRequest.HIPPY,
+			       CoinmastersDatabase.HIPPY,
 			       "hippy");
 		}
 	}
@@ -319,7 +346,7 @@ public class CoinmastersFrame
 			       WAR_FRAT_OUTFIT,
 			       "availableQuarters",
 			       "quarter",
-			       CoinMasterRequest.FRATBOY,
+			       CoinmastersDatabase.FRATBOY,
 			       "fratboy" );
 		}
 	}
@@ -334,8 +361,8 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.lucreBuyPrices(),
 			       "availableLucre",
 			       "lucre",
-			       CoinMasterRequest.BHH,
-				null );
+			       CoinmastersDatabase.BHH,
+			       null );
 			buyAction = "buy";
 		}
 
@@ -359,7 +386,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.sandDollarBuyPrices(),
 			       "availableSandDollars",
 			       "sand dollar",
-			       CoinMasterRequest.BIGBROTHER,
+			       CoinmastersDatabase.BIGBROTHER,
 				null );
 			buyAction = "buyitem";
 		}
@@ -455,7 +482,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.crimbuckBuyPrices(),
 			       "availableCrimbux",
 			       "Crimbuck",
-			       CoinMasterRequest.CRIMBOCARTEL,
+			       CoinmastersDatabase.CRIMBOCARTEL,
 				null );
 			buyAction = "buygift";
 		}
@@ -494,7 +521,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.ticketBuyPrices(),
 			       "availableTickets",
 			       "ticket",
-			       CoinMasterRequest.TICKETCOUNTER,
+			       CoinmastersDatabase.TICKETCOUNTER,
 				null );
 			buyAction = "redeem";
 		}
@@ -533,7 +560,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.storeCreditBuyPrices(),
 			       "availableStoreCredits",
 			       "store credit",
-			       CoinMasterRequest.GAMESHOPPE,
+			       CoinmastersDatabase.GAMESHOPPE,
 				null );
 			buyAction = "redeem";
 			sellAction = "tradein";
@@ -573,7 +600,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.snackVoucherBuyPrices(),
 			       "availableSnackVouchers",
 			       "snack voucher",
-			       CoinMasterRequest.FREESNACKS,
+			       CoinmastersDatabase.FREESNACKS,
 				null );
 			buyAction = "buysnack";
 		}
@@ -612,7 +639,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.boneChipBuyPrices(),
 			       "availableBoneChips",
 			       "bone chips",
-			       CoinMasterRequest.ALTAROFBONES,
+			       CoinmastersDatabase.ALTAROFBONES,
 				null );
 			buyAction = "buy";
 		}
@@ -651,8 +678,8 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.scripBuyPrices(),
 			       "availableCRIMBCOScrip",
 			       "CRIMBCO scrip",
-			       CoinMasterRequest.CRIMBCOGIFTSHOP,
-				null );
+			       CoinmastersDatabase.CRIMBCOGIFTSHOP,
+			       null );
 			buyAction = "buygift";
 		}
 
@@ -690,7 +717,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.commendationBuyPrices(),
 			       "availableCommendations",
 			       "commendation",
-			       CoinMasterRequest.AWOL,
+			       CoinmastersDatabase.AWOL,
 				null );
 			buyAction = null;
 		}
@@ -779,6 +806,91 @@ public class CoinmastersFrame
 				EquipmentRequest request = new EquipmentRequest( outfit );
 				RequestThread.postRequest( request );
 			}
+		}
+	}
+
+	private class IsotopeSmitheryPanel
+		extends IsotopeMasterPanel
+	{
+		public IsotopeSmitheryPanel()
+		{
+			super( CoinmastersDatabase.getIsotope1Items(),
+			       CoinmastersDatabase.isotope1BuyPrices(),
+			       CoinmastersDatabase.ISOTOPE_SMITHERY );
+		}
+	}
+
+	private class DollHawkerPanel
+		extends IsotopeMasterPanel
+	{
+		public DollHawkerPanel()
+		{
+			super( CoinmastersDatabase.getIsotope2Items(),
+			       CoinmastersDatabase.isotope2BuyPrices(),
+			       CoinmastersDatabase.DOLLHAWKER );
+		}
+	}
+
+	private class LunarLunchPanel
+		extends IsotopeMasterPanel
+	{
+		public LunarLunchPanel()
+		{
+			super( CoinmastersDatabase.getIsotope3Items(),
+			       CoinmastersDatabase.isotope3BuyPrices(),
+			       CoinmastersDatabase.LUNAR_LUNCH );
+		}
+	}
+
+	private class IsotopeMasterPanel
+		extends CoinmasterPanel
+	{
+		private boolean hasEffect = false;
+		private boolean hasItem = false;
+
+		public IsotopeMasterPanel( LockableListModel purchases, Map buyPrices, String master )
+		{
+			super( purchases,
+			       null,
+			       buyPrices,
+			       "availableIsotopes",
+			       "lunar isotope",
+			       master,
+			       null);
+			buyAction = "buy";
+		}
+
+		public void update()
+		{
+			this.hasEffect = KoLConstants.activeEffects.contains( CoinmastersFrame.TRANSPONDENT );
+			this.hasItem = TRANSPONDER.getCount( KoLConstants.inventory ) > 0;
+		}
+
+		public boolean enabled()
+		{
+			this.update();
+			return this.hasEffect;
+		}
+
+		public boolean accessible()
+		{
+			this.update();
+			return this.hasEffect || this.hasItem;
+		}
+
+		public void equip()
+		{
+			this.update();
+			if ( !hasEffect && this.hasItem )
+			{
+				UseItemRequest request = new UseItemRequest( TRANSPONDER );
+				RequestThread.postRequest( request );
+			}
+		}
+
+		public int buyDefault( final int max )
+		{
+			return 1;
 		}
 	}
 
