@@ -1944,6 +1944,12 @@ public class RequestEditorKit
 			// Chess Puzzle
 			RabbitHoleManager.decorateChessPuzzleResponse( buffer );
 			break;
+		case 537:
+			// Play Porko!
+		case 540:
+			// Big-Time Generator
+			SpaaaceRequest.decoratePorko( buffer );
+			break;
 		}
 	}
 

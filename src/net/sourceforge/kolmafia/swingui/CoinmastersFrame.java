@@ -239,7 +239,7 @@ public class CoinmastersFrame
 		Component cm = ( panel instanceof JPanel ) ? panel.getComponent( 0 ) : null;
 		if (cm instanceof CoinmasterPanel )
 		{
-			((CoinmasterPanel)( cm	)).setTitle();
+			((CoinmasterPanel) cm).setTitle();
 		}
 	}
 
