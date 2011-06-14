@@ -379,7 +379,15 @@ public class StorageRequest
 
 		else if ( urlString.indexOf( "action=takemeat" ) != -1 )
 		{
-			transfer = true;
+			if ( responseText.indexOf( "Meat out of storage" ) != -1 )
+			{
+				StorageRequest.transferMeat( urlString );
+				transfer = true;
+			}
+			else
+			{
+				success = false;
+			}
 		}
 
 		else if ( urlString.indexOf( "action=pull" ) != -1 )
@@ -464,6 +472,12 @@ public class StorageRequest
 		}
 	}
 
+	private static final void transferMeat( final String urlString )
+	{
+		int meat = TransferItemRequest.transferredMeat( urlString, "amt" ); 
+		ResultProcessor.processMeat( meat );
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "storage.php" ) )
@@ -487,7 +501,6 @@ public class StorageRequest
 			{
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( message );
-				ConcoctionDatabase.refreshConcoctions();
 			}
 
 			return true;
