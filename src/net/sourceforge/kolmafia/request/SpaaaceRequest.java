@@ -88,7 +88,7 @@ public class SpaaaceRequest
 				}
 			}
 
-			// CoinMasterRequest.parseSpaaaceVisit( urlString, responseText );
+			CoinMasterRequest.parseSpaaaceVisit( urlString, responseText );
 			return;
 		}
 

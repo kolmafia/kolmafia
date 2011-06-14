@@ -50,6 +50,21 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinmastersDatabase
 	extends KoLDatabase
 {
+	public static final String BHH = "Bounty Hunter Hunter";
+	public static final String HIPPY = "Dimemaster";
+	public static final String FRATBOY = "Quartersmaster";
+	public static final String BIGBROTHER = "Big Brother";
+	public static final String TICKETCOUNTER = "Arcade Ticket Counter";
+	public static final String GAMESHOPPE = "Game Shoppe";
+	public static final String FREESNACKS = "Game Shoppe Snacks";
+	public static final String DOLLHAWKER = "Dollhawker's Emporium";
+	public static final String LUNAR_LUNCH = "Lunar Lunch-o-Mat";
+	public static final String ISOTOPE_SMITHERY = "Isotope Smithery";
+	public static final String AWOL = "A. W. O. L. Quartermaster";
+	public static final String ALTAROFBONES = "Altar of Bones";
+	public static final String CRIMBOCARTEL = "Crimbo Cartel";
+	public static final String CRIMBCOGIFTSHOP = "CRIMBCO Gift Shop";
+
 	private static final LockableListModel buyForDimes = new LockableListModel();
 	private static final Map dimeSellPriceByName = new TreeMap();
 	private static final Map dimeBuyPriceByName = new TreeMap();
@@ -85,6 +100,15 @@ public class CoinmastersDatabase
 
 	private static final LockableListModel buyForCommendations = new LockableListModel();
 	private static final Map commendationBuyPriceByName = new TreeMap();
+
+	private static final LockableListModel buyForIsotopes1 = new LockableListModel();
+	private static final Map isotope1BuyPriceByName = new TreeMap();
+
+	private static final LockableListModel buyForIsotopes2 = new LockableListModel();
+	private static final Map isotope2BuyPriceByName = new TreeMap();
+
+	private static final LockableListModel buyForIsotopes3 = new LockableListModel();
+	private static final Map isotope3BuyPriceByName = new TreeMap();
 
 	private static final Map lighthouseItems = new TreeMap();
 
@@ -217,6 +241,27 @@ public class CoinmastersDatabase
 					AdventureResult item = AdventureResult.tallyItem( rname, itemId );
 					buyForCommendations.add( item );
 					commendationBuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "bli1" ) )
+				{
+					// Something we buy with lunar isotopes
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForIsotopes1.add( item );
+					isotope1BuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "bli2" ) )
+				{
+					// Something we buy with lunar isotopes
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForIsotopes2.add( item );
+					isotope2BuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "bli3" ) )
+				{
+					// Something we buy with lunar isotopes
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForIsotopes3.add( item );
+					isotope3BuyPriceByName.put( name, iprice );
 				}
 			}
 		}
@@ -417,6 +462,36 @@ public class CoinmastersDatabase
 	public static final Map commendationBuyPrices()
 	{
 		return commendationBuyPriceByName;
+	}
+
+	public static final LockableListModel getIsotope1Items()
+	{
+		return buyForIsotopes1;
+	}
+
+	public static final Map isotope1BuyPrices()
+	{
+		return isotope1BuyPriceByName;
+	}
+
+	public static final LockableListModel getIsotope2Items()
+	{
+		return buyForIsotopes2;
+	}
+
+	public static final Map isotope2BuyPrices()
+	{
+		return isotope2BuyPriceByName;
+	}
+
+	public static final LockableListModel getIsotope3Items()
+	{
+		return buyForIsotopes3;
+	}
+
+	public static final Map isotope3BuyPrices()
+	{
+		return isotope3BuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()
