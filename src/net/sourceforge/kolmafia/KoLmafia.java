@@ -1347,7 +1347,7 @@ public abstract class KoLmafia
 
 			if ( checkBounty && bounty.getCount( KoLConstants.inventory ) == bounty.getCount() )
 			{
-				RequestThread.postRequest( new CoinMasterRequest( "lucre" ) );
+				RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.BHH ) );
 				checkBounty = false;
 			}
 		}
@@ -1591,7 +1591,7 @@ public abstract class KoLmafia
 
 	public void makeHunterRequest()
 	{
-		GenericRequest hunterRequest = new CoinMasterRequest( "lucre" );
+		GenericRequest hunterRequest = new CoinMasterRequest( CoinMasterRequest.BHH );
 		RequestThread.postRequest( hunterRequest );
 
 		Matcher bountyMatcher = Pattern.compile( "name=whichitem value=(\\d+)" ).matcher( hunterRequest.responseText );
@@ -1641,7 +1641,7 @@ public abstract class KoLmafia
 
 		String selection = selectedValue.substring( 0, selectedValue.indexOf( "(" ) - 1 );
 		int itemId = ItemDatabase.getItemId( selection );
-		RequestThread.postRequest( new CoinMasterRequest( "lucre", "takebounty", itemId ) );
+		RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.BHH, "takebounty", itemId ) );
 	}
 
 	/**

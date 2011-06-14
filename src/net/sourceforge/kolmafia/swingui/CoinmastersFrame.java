@@ -114,18 +114,18 @@ public class CoinmastersFrame
 
 	private CardLayoutSelectorPanel selectorPanel = null;
 
-	private CoinmasterPanel dimePanel = null;
-	private CoinmasterPanel quarterPanel = null;
-	private CoinmasterPanel lucrePanel = null;
-	private CoinmasterPanel sandDollarPanel = null;
-	private CoinmasterPanel ticketPanel = null;
-	private CoinmasterPanel storeCreditPanel = null;
-	private CoinmasterPanel snackVoucherPanel = null;
-	private CoinmasterPanel commendationPanel = null;
+	private CoinmasterPanel dimemasterPanel = null;
+	private CoinmasterPanel quartersmasterPanel = null;
+	private CoinmasterPanel bhhPanel = null;
+	private CoinmasterPanel bigBrotherPanel = null;
+	private CoinmasterPanel arcadePanel = null;
+	private CoinmasterPanel gameShoppePanel = null;
+	private CoinmasterPanel freeSnackPanel = null;
+	private CoinmasterPanel awolPanel = null;
 
-	private CoinmasterPanel boneChipPanel = null;
-	private CoinmasterPanel crimbuckPanel = null;
-	private CoinmasterPanel scripPanel = null;
+	private CoinmasterPanel altarOfBonesPanel = null;
+	private CoinmasterPanel crimboCartelPanel = null;
+	private CoinmasterPanel CRIMBCOGiftShopPanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -139,9 +139,9 @@ public class CoinmastersFrame
 		this.selectorPanel.addCategory( "Always Available" );
 
 		panel = new JPanel( new BorderLayout() );
-		lucrePanel = new BountyHunterHunterPanel();
-		panel.add( lucrePanel );
-		this.selectorPanel.addPanel( "- Bounty Hunter Hunter", panel );
+		bhhPanel = new BountyHunterHunterPanel();
+		panel.add( bhhPanel );
+		this.selectorPanel.addPanel( bhhPanel.getPanelSelector(), panel );
 
 		// *** Mr. Store goes here
 
@@ -150,70 +150,70 @@ public class CoinmastersFrame
 		this.selectorPanel.addCategory( "Ascension" );
 
 		panel = new JPanel( new BorderLayout() );
-		dimePanel = new DimemasterPanel();
-		panel.add( dimePanel );
-		this.selectorPanel.addPanel( "- Dimemaster", panel );
+		dimemasterPanel = new DimemasterPanel();
+		panel.add( dimemasterPanel );
+		this.selectorPanel.addPanel( dimemasterPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		quarterPanel = new QuartersmasterPanel();
-		panel.add( quarterPanel );
-		this.selectorPanel.addPanel( "- Quartersmaster", panel );
+		quartersmasterPanel = new QuartersmasterPanel();
+		panel.add( quartersmasterPanel );
+		this.selectorPanel.addPanel( quartersmasterPanel.getPanelSelector(), panel );
 
 		// Aftercore coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Aftercore" );
 
 		panel = new JPanel( new BorderLayout() );
-		sandDollarPanel = new BigBrotherPanel();
-		panel.add( sandDollarPanel );
-		this.selectorPanel.addPanel( "- Big Brother", panel );
+		bigBrotherPanel = new BigBrotherPanel();
+		panel.add( bigBrotherPanel );
+		this.selectorPanel.addPanel( bigBrotherPanel.getPanelSelector(), panel );
 
 		// IOTM coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Item of the Month" );
 
 		panel = new JPanel( new BorderLayout() );
-		ticketPanel = new TicketCounterPanel();
-		panel.add( ticketPanel );
-		this.selectorPanel.addPanel( "- Arcade Ticket Counter", panel );
+		arcadePanel = new TicketCounterPanel();
+		panel.add( arcadePanel );
+		this.selectorPanel.addPanel( arcadePanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		storeCreditPanel = new GameShoppePanel();
-		panel.add( storeCreditPanel );
-		this.selectorPanel.addPanel( "- Game Shoppe", panel );
+		gameShoppePanel = new GameShoppePanel();
+		panel.add( gameShoppePanel );
+		this.selectorPanel.addPanel( gameShoppePanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		snackVoucherPanel = new SnackVoucherPanel();
-		panel.add( snackVoucherPanel );
-		this.selectorPanel.addPanel( "- Game Shoppe Snacks", panel );
+		freeSnackPanel = new SnackVoucherPanel();
+		panel.add( freeSnackPanel );
+		this.selectorPanel.addPanel( freeSnackPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Special Events" );
 
 		panel = new JPanel( new BorderLayout() );
-		commendationPanel = new CommendationPanel();
-		panel.add( commendationPanel );
-		this.selectorPanel.addPanel( "- A. W. O. L. Quartermaster", panel );
+		awolPanel = new CommendationPanel();
+		panel.add( awolPanel );
+		this.selectorPanel.addPanel( awolPanel.getPanelSelector(), panel );
 
 		// Removed coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Removed" );
 
 		panel = new JPanel( new BorderLayout() );
-		boneChipPanel = new AltarOfBonesPanel();
-		panel.add( boneChipPanel );
-		this.selectorPanel.addPanel( "- Altar Of Bones", panel );
+		altarOfBonesPanel = new AltarOfBonesPanel();
+		panel.add( altarOfBonesPanel );
+		this.selectorPanel.addPanel( altarOfBonesPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		crimbuckPanel = new CrimboCartelPanel();
-		panel.add( crimbuckPanel );
-		this.selectorPanel.addPanel( "- Crimbo Cartel", panel );
+		crimboCartelPanel = new CrimboCartelPanel();
+		panel.add( crimboCartelPanel );
+		this.selectorPanel.addPanel( crimboCartelPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		scripPanel = new CRIMBCOGiftShopPanel();
-		panel.add( scripPanel );
-		this.selectorPanel.addPanel( "- CRIMBCO Gift Shop", panel );
+		CRIMBCOGiftShopPanel = new CRIMBCOGiftShopPanel();
+		panel.add( CRIMBCOGiftShopPanel );
+		this.selectorPanel.addPanel( CRIMBCOGiftShopPanel.getPanelSelector(), panel );
 
 		this.selectorPanel.addChangeListener( this );
 		this.selectorPanel.setSelectedIndex( Preferences.getInteger( "coinMasterIndex" ) );
@@ -278,17 +278,17 @@ public class CoinmastersFrame
 
 	private void update()
 	{
-		dimePanel.update();
-		quarterPanel.update();
-		lucrePanel.update();
-		sandDollarPanel.update();
-		ticketPanel.update();
-		storeCreditPanel.update();
-		snackVoucherPanel.update();
-		commendationPanel.update();
-		// boneChipPanel.update();
-		// crimbuckPanel.update();
-		// scripPanel.update();
+		dimemasterPanel.update();
+		quartersmasterPanel.update();
+		bhhPanel.update();
+		bigBrotherPanel.update();
+		arcadePanel.update();
+		gameShoppePanel.update();
+		freeSnackPanel.update();
+		awolPanel.update();
+		altarOfBonesPanel.update();
+		crimboCartelPanel.update();
+		CRIMBCOGiftShopPanel.update();
 		this.setTitle();
 	}
 
@@ -303,7 +303,7 @@ public class CoinmastersFrame
 			       WAR_HIPPY_OUTFIT,
 			       "availableDimes",
 			       "dime",
-			       "dimemaster",
+			       CoinMasterRequest.HIPPY,
 			       "hippy");
 		}
 	}
@@ -319,7 +319,7 @@ public class CoinmastersFrame
 			       WAR_FRAT_OUTFIT,
 			       "availableQuarters",
 			       "quarter",
-			       "quartersmaster",
+			       CoinMasterRequest.FRATBOY,
 			       "fratboy" );
 		}
 	}
@@ -334,7 +334,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.lucreBuyPrices(),
 			       "availableLucre",
 			       "lucre",
-			       "bounty hunter hunter",
+			       CoinMasterRequest.BHH,
 				null );
 			buyAction = "buy";
 		}
@@ -359,7 +359,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.sandDollarBuyPrices(),
 			       "availableSandDollars",
 			       "sand dollar",
-			       "big brother",
+			       CoinMasterRequest.BIGBROTHER,
 				null );
 			buyAction = "buyitem";
 		}
@@ -455,7 +455,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.crimbuckBuyPrices(),
 			       "availableCrimbux",
 			       "Crimbuck",
-			       "Crimbo Cartel",
+			       CoinMasterRequest.CRIMBOCARTEL,
 				null );
 			buyAction = "buygift";
 		}
@@ -494,7 +494,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.ticketBuyPrices(),
 			       "availableTickets",
 			       "ticket",
-			       "Ticket Counter",
+			       CoinMasterRequest.TICKETCOUNTER,
 				null );
 			buyAction = "redeem";
 		}
@@ -533,7 +533,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.storeCreditBuyPrices(),
 			       "availableStoreCredits",
 			       "store credit",
-			       "Game Shoppe",
+			       CoinMasterRequest.GAMESHOPPE,
 				null );
 			buyAction = "redeem";
 			sellAction = "tradein";
@@ -573,7 +573,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.snackVoucherBuyPrices(),
 			       "availableSnackVouchers",
 			       "snack voucher",
-			       "Snacks",
+			       CoinMasterRequest.FREESNACKS,
 				null );
 			buyAction = "buysnack";
 		}
@@ -612,7 +612,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.boneChipBuyPrices(),
 			       "availableBoneChips",
 			       "bone chips",
-			       "Altar of Bones",
+			       CoinMasterRequest.ALTAROFBONES,
 				null );
 			buyAction = "buy";
 		}
@@ -651,7 +651,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.scripBuyPrices(),
 			       "availableCRIMBCOScrip",
 			       "CRIMBCO scrip",
-			       "CRIMBCO Gift Shop",
+			       CoinMasterRequest.CRIMBCOGIFTSHOP,
 				null );
 			buyAction = "buygift";
 		}
@@ -690,7 +690,7 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.commendationBuyPrices(),
 			       "availableCommendations",
 			       "commendation",
-			       "A. W. O. L. Quartermaster",
+			       CoinMasterRequest.AWOL,
 				null );
 			buyAction = null;
 		}
@@ -842,6 +842,16 @@ public class CoinmastersFrame
 		{
 		}
 
+		public String getMaster()
+		{
+			return this.master;
+		}
+
+		public String getPanelSelector()
+		{
+			return "- " + this.master;
+		}
+
 		public boolean enabled()
 		{
 			return true;
@@ -879,7 +889,7 @@ public class CoinmastersFrame
 
 			RequestThread.openRequestSequence();
 			this.equip();
-			RequestThread.postRequest( new CoinMasterRequest( this.token ) );
+			RequestThread.postRequest( new CoinMasterRequest( this.master ) );
 			RequestThread.closeRequestSequence();
 		}
 
@@ -902,7 +912,7 @@ public class CoinmastersFrame
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult it = (AdventureResult)items[i];
-				GenericRequest request = new CoinMasterRequest( token, action, it );
+				GenericRequest request = new CoinMasterRequest( master, action, it );
 				RequestThread.postRequest( request );
 			}
 
