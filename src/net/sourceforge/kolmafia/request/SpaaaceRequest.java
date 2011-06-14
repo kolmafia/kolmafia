@@ -197,17 +197,8 @@ public class SpaaaceRequest
 		"<div class=\"blank\" style=\"background: Tomato\" title=\"3\">.</div>",
 	};
 
-	private static final String makeDiv( final int col, int peg, final int min, final int max, final float expected )
+	private static final String makeDiv( int peg, final int min, final int max, final float expected )
 	{
-		if ( col == 0 )
-		{
-			peg = RIGHT;
-		}
-		else if ( col == 16 )
-		{
-			peg = LEFT;
-		}
-
 		if ( min == max )
 		{
 			switch ( peg )
@@ -457,55 +448,38 @@ public class SpaaaceRequest
 					continue;
 				}
 
-				int peg = SpaaaceRequest.pegs[ row + 1 ][ col ];
+				int peg =
+					( col == 0 ) ? RIGHT :
+					( col == 16 ) ? LEFT :
+					SpaaaceRequest.pegs[ row + 1 ][ col ];
 				int minVal;
 				int maxVal;
 				float eVal;
 
-				// If we are at the left edge, we must go down and right
-				if ( col == 0 )
+				// Look at the peg below this cell
+				switch ( peg )
 				{
-					minVal = min[ 1 ];
-					maxVal = max[ 1 ];
-					eVal = expected[ 1 ];
-				}
-
-				// If we are at the right edge, we must go down and left
-				else if ( col == 16 )
-				{
-					minVal = min[ 15 ];
-					maxVal = max[ 15 ];
-					eVal = expected[ 15 ];
-				}
-
-				// Otherwise, what we do depends on peg type
-				else
-				{
-					// Look at the peg below this cell
-					switch ( peg )
-					{
-					case RIGHT:
-						minVal = min[ col + 1 ];
-						maxVal = max[ col + 1 ];
-						eVal = expected[ col + 1 ];
-						break;
-					case LEFT:
-						minVal = min[ col - 1 ];
-						maxVal = max[ col - 1 ];
-						eVal = expected[ col - 1 ];
-						break;
-					case RANDOM:
-						minVal = Math.min( min[ col - 1 ], min[ col + 1 ] );
-						maxVal = Math.max( max[ col - 1 ], max[ col + 1 ] );
-						eVal = ( expected[ col - 1 ] + expected[ col + 1 ] ) / 2.0f;
-						break;
-					default:
-						// Huh?
-						minVal = 0;
-						maxVal = 0;
-						eVal = 0.0f;
-						break;
-					}
+				case RIGHT:
+					minVal = min[ col + 1 ];
+					maxVal = max[ col + 1 ];
+					eVal = expected[ col + 1 ];
+					break;
+				case LEFT:
+					minVal = min[ col - 1 ];
+					maxVal = max[ col - 1 ];
+					eVal = expected[ col - 1 ];
+					break;
+				case RANDOM:
+					minVal = Math.min( min[ col - 1 ], min[ col + 1 ] );
+					maxVal = Math.max( max[ col - 1 ], max[ col + 1 ] );
+					eVal = ( expected[ col - 1 ] + expected[ col + 1 ] ) / 2.0f;
+					break;
+				default:
+					// Huh?
+					minVal = 0;
+					maxVal = 0;
+					eVal = 0.0f;
+					break;
 				}
 
 				// Store values of this cell for use by next row
@@ -516,7 +490,7 @@ public class SpaaaceRequest
 				if ( row >= 0 )
 				{
 					// Calculate the div for this cell
-					SpaaaceRequest.divs[ row ][ col ] = SpaaaceRequest.makeDiv( col, peg, minVal, maxVal, eVal );
+					SpaaaceRequest.divs[ row ][ col ] = SpaaaceRequest.makeDiv( peg, minVal, maxVal, eVal );
 				}
 			}
 		}
