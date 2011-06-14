@@ -136,17 +136,153 @@ public class SpaaaceRequest
 		return ( board.length() == ( 8 * (9 + 8 ) ) ) && ( payouts.length() == 9 );
 	}
 
-	private static float [][] matrix = null;
+	private static int [][] pegs = null;
+	private static String [][] divs = null;
 	private static float [] expected = null;
+	private static String [] slots = null;
 
 	public static final void initializeGameBoard()
 	{
 		Preferences.setString( "lastPorkoBoard", "" );
 		Preferences.setString( "lastPorkoPayouts", "" );
 		Preferences.setString( "lastPorkoExpected", "" );
-		SpaaaceRequest.matrix = null;
 		SpaaaceRequest.expected = null;
+		SpaaaceRequest.pegs = null;
+		SpaaaceRequest.divs = null;
+		SpaaaceRequest.slots = null;
 	}
+
+	static final String UNREACHABLE_CELL =
+		"<div class=\"blank\" style=\"background: #EEEEEE\" title=\"Unreachable\"> </div>";
+
+	static final String [] UNREACHABLE_PAYOUTS = {
+		"<div class=\"blank\" style=\"background: #EEEEEE\" title=\"Unreachable\">x0</div>",
+		"<div class=\"blank\" style=\"background: #EEEEEE\" title=\"Unreachable\">x1</div>",
+		"<div class=\"blank\" style=\"background: #EEEEEE\" title=\"Unreachable\">x2</div>",
+		"<div class=\"blank\" style=\"background: #EEEEEE\" title=\"Unreachable\">x3</div>",
+	};
+
+	static final String [] PAYOUTS = {
+		"<div class=\"blank\" style=\"background: LightYellow\" title=\"0\">x0</div>",
+		"<div class=\"blank\" style=\"background: PeachPuff\" title=\"1\">x1</div>",
+		"<div class=\"blank\" style=\"background: LightSalmon\" title=\"2\">x2</div>",
+		"<div class=\"blank\" style=\"background: Tomato\" title=\"3\">x3</div>",
+	};
+
+	static final String [] DETERMINISTIC_DOWN = {
+		"<div class=\"blank\" style=\"background: LightYellow\" title=\"0\">&darr;</div>",
+		"<div class=\"blank\" style=\"background: PeachPuff\" title=\"1\">&darr;</div>",
+		"<div class=\"blank\" style=\"background: LightSalmon\" title=\"2\">&darr;</div>",
+		"<div class=\"blank\" style=\"background: Tomato\" title=\"3\">&darr;</div>",
+	};
+
+	static final String [] DETERMINISTIC_LEFT = {
+		"<div class=\"blank\" style=\"background: LightYellow\" title=\"0\">&#8601;</div>",
+		"<div class=\"blank\" style=\"background: PeachPuff\" title=\"1\">&#8601;</div>",
+		"<div class=\"blank\" style=\"background: LightSalmon\" title=\"2\">&#8601;</div>",
+		"<div class=\"blank\" style=\"background: Tomato\" title=\"3\">&#8601;</div>",
+	};
+
+	static final String [] DETERMINISTIC_RIGHT = {
+		"<div class=\"blank\" style=\"background: LightYellow\" title=\"0\">&#8600;</div>",
+		"<div class=\"blank\" style=\"background: PeachPuff\" title=\"1\">&#8600;</div>",
+		"<div class=\"blank\" style=\"background: LightSalmon\" title=\"2\">&#8600;</div>",
+		"<div class=\"blank\" style=\"background: Tomato\" title=\"3\">&#8600;</div>",
+	};
+
+	static final String [] DETERMINISTIC_RANDOM = {
+		"<div class=\"blank\" style=\"background: LightYellow\" title=\"0\">.</div>",
+		"<div class=\"blank\" style=\"background: PeachPuff\" title=\"1\">.</div>",
+		"<div class=\"blank\" style=\"background: LightSalmon\" title=\"2\">.</div>",
+		"<div class=\"blank\" style=\"background: Tomato\" title=\"3\">.</div>",
+	};
+
+	private static final String makeDiv( final int col, int peg, final int min, final int max, final float expected )
+	{
+		if ( col == 0 )
+		{
+			peg = RIGHT;
+		}
+		else if ( col == 16 )
+		{
+			peg = LEFT;
+		}
+
+		if ( min == max )
+		{
+			switch ( peg )
+			{
+			case LEFT:
+				return DETERMINISTIC_LEFT[ min ];
+			case RIGHT:
+				return DETERMINISTIC_RIGHT[ min ];
+			case RANDOM:
+				return DETERMINISTIC_RANDOM[ min ];
+			default:
+				// Should not come here
+				break;
+			}
+		}
+
+		StringBuffer buffer = new StringBuffer();
+		buffer.append( "<div class=\"blank\" title=\"" );
+		if ( min == max )
+		{
+			buffer.append( String.valueOf( min ) );
+		}
+		else
+		{
+			buffer.append( KoLConstants.FLOAT_FORMAT.format( expected ) );
+			buffer.append( " (" );
+			buffer.append( String.valueOf( min ) );
+			buffer.append( "-" );
+			buffer.append( String.valueOf( max ) );
+			buffer.append( ")" );
+		}
+		buffer.append( "\">" );
+		switch ( peg )
+		{
+		case LEFT:
+			buffer.append( "&#8601;" );
+			break;
+		case RIGHT:
+			buffer.append( "&#8600;" );
+			break;
+		case RANDOM:
+			buffer.append( "." );
+			break;
+		default:
+			// Should not come here
+			buffer.append( " " );
+			break;
+		}
+		buffer.append( "</div>" );
+		return buffer.toString();
+	}
+
+	private static final String makeSlot( final int min, final int max, final float expected )
+	{
+		if ( min == max )
+		{
+			return String.valueOf( min );
+		}
+
+		StringBuffer buffer = new StringBuffer();
+		buffer.append( KoLConstants.FLOAT_FORMAT.format( expected ) );
+		buffer.append( " (" );
+		buffer.append( String.valueOf( min ) );
+		buffer.append( "-" );
+		buffer.append( String.valueOf( max ) );
+		buffer.append( ")" );
+		return buffer.toString();
+	}
+
+	// According to Greycat on the Wiki: "Peg style 1 goes right, peg style
+	// 2 goes left, and peg style 3 is random"
+
+	static final int RIGHT = 1;
+	static final int LEFT = 2;
+	static final int RANDOM = 3;
 
 	public static final void loadGameBoard( final String board, final String payouts)
 	{
@@ -157,17 +293,17 @@ public class SpaaaceRequest
 		Preferences.setString( "lastPorkoBoard", board );
 		Preferences.setString( "lastPorkoPayouts", payouts );
 
-		// Make a matrix if we don't already have one
-		if ( SpaaaceRequest.matrix == null )
-		{
-			SpaaaceRequest.matrix = new float[18][17];
-		}
+		// Make peg matrix
+		SpaaaceRequest.pegs = new int[17][17];
 
-		// Make expected value array if we don't already have one
-		if ( SpaaaceRequest.expected == null )
-		{
-			SpaaaceRequest.expected = new float[9];
-		}
+		// Make div matrix
+		SpaaaceRequest.divs = new String[17][17];
+
+		// Make expected value array
+		SpaaaceRequest.expected = new float[9];
+
+		// Make slot title array
+		SpaaaceRequest.slots = new String[9];
 
 		// Store the pegs
 		int index = 0;
@@ -176,25 +312,37 @@ public class SpaaaceRequest
 			for ( int col = off; col < 17; col += 2 )
 			{
 				int peg = Character.getNumericValue( board.charAt( index++ ) );
-				SpaaaceRequest.matrix[ row][ col ] = (float) peg;
+				SpaaaceRequest.pegs[ row][ col ] = peg;
 			}
 		}
 
-		// Mark unreachable cells
-		SpaaaceRequest.calculateUnreachableSquares();
-
-		// Store the payouts
+		// Store the payouts in the last row of the peg array
 		for ( int col = 0; col < 17; col += 2 )
 		{
-			// Some payouts are unreachable.
-			float payout = SpaaaceRequest.matrix[ 15 ][ col ] == -1 ? -1  :
-				(float) Character.getNumericValue( payouts.charAt( col / 2 ) );
-			SpaaaceRequest.matrix[ 16 ][ col ] = payout;
-			SpaaaceRequest.matrix[ 17 ][ col ] = payout;
+			int payout = Character.getNumericValue( payouts.charAt( col / 2 ) );
+			SpaaaceRequest.pegs[ 16 ][ col ] = payout;
+		}
+
+		// Mark unreachable cells
+		SpaaaceRequest.calculateUnreachableCells();
+
+		// Store the payout divs into the bottom row
+		for ( int col = 0; col < 17; col += 2 )
+		{
+			int payout = SpaaaceRequest.pegs[ 16 ][ col ];
+			if ( SpaaaceRequest.divs[ 15 ][ col ] == UNREACHABLE_CELL )
+			{
+				SpaaaceRequest.divs[ 16 ][ col ] = UNREACHABLE_PAYOUTS[ payout ];
+			}
+			else
+			{
+				SpaaaceRequest.divs[ 15 ][ col ] = DETERMINISTIC_DOWN[ payout ];
+				SpaaaceRequest.divs[ 16 ][ col ] = PAYOUTS[ payout ];
+			}
 		}
 	}
 
-	public static final void calculateUnreachableSquares()
+	public static final void calculateUnreachableCells()
 	{
 		// Algorithm courtesy of clump
 
@@ -216,9 +364,9 @@ public class SpaaaceRequest
 					continue;
 				}
 
-				float peg = SpaaaceRequest.matrix[ row ][ col ];
-				if ( peg == 1.0f )
+				switch ( SpaaaceRequest.pegs[ row ][ col ] )
 				{
+				case RIGHT:
 					if ( col < 16 )
 					{
 						reach2[ col + 1 ] = true;
@@ -227,9 +375,8 @@ public class SpaaaceRequest
 					{
 						reach2[ col - 1 ] = true;
 					}
-				}
-				else if ( peg == 2.0f )
-				{
+					break;
+				case LEFT:
 					if ( col > 0 )
 					{
 						reach2[ col - 1 ] = true;
@@ -238,9 +385,8 @@ public class SpaaaceRequest
 					{
 						reach2[ col + 1 ] = true;
 					}
-				}
-				else if ( peg == 3.0f )
-				{
+					break;
+				case RANDOM:
 					if ( col > 0 )
 					{
 						reach2[ col - 1 ] = true;
@@ -249,6 +395,7 @@ public class SpaaaceRequest
 					{
 						reach2[ col + 1 ] = true;
 					}
+					break;
 				}
 			}
 
@@ -259,7 +406,7 @@ public class SpaaaceRequest
 			{
 				if ( !reach[ col ] )
 				{
-					SpaaaceRequest.matrix[ row ][ col ] = -1.0f;
+					SpaaaceRequest.divs[ row ][ col ] = UNREACHABLE_CELL;
 				}
 			}
 		}
@@ -267,9 +414,6 @@ public class SpaaaceRequest
 
 	public static final void solveGameBoard()
 	{
-		// According to Greycat on the Wiki: "Peg style 1 goes right,
-		// peg style 2 goes left, and peg style 3 is random"
-
 		// We can figure out the expected value for each starting
 		// position by calculating expected value for each peg by
 		// working up from the bottom row to the top row.
@@ -286,68 +430,111 @@ public class SpaaaceRequest
 		//
 		// The values of the pegs in the top row is what we need.
 
+		// Arrays of min, max, and expected values for cells in a row
+		int [] min = new int[ 17 ];
+		int [] max = new int[ 17 ];
+		float [] expected = new float[ 17 ];
+
+		// Initialize the arrays from the payouts at the bottom
+		for ( int col = 0; col < 17; col +=2 )
+		{
+			int val = ( SpaaaceRequest.divs[ 15 ][ col ] == UNREACHABLE_CELL ) ?
+				-1 : SpaaaceRequest.pegs[ 16 ][ col ];
+			min[ col ] = val;
+			max[ col ] = val;
+			expected[ col ] = (float) val;
+		}
+
 		// Iterate up from the bottom of the board calculating payout
-		for ( int row = 15, off = 1; row >= 0; --row, off = 1 - off )
+		// Do one extra iteration to end up with the expected values for the entry slots
+		for ( int row = 14, off = 1; row >= -1; --row, off = 1 - off )
 		{
 			for ( int col = off; col < 17; col += 2 )
 			{
 				// If this cell is unreachable, skip it
-				if ( row > 0 && SpaaaceRequest.matrix[ row - 1 ][ col ] == -1.0 )
+				if ( row >= 0 && SpaaaceRequest.divs[ row ][ col ] == UNREACHABLE_CELL )
 				{
-					SpaaaceRequest.matrix[ row ][ col ] = -1.0f;
 					continue;
 				}
+
+				int peg = SpaaaceRequest.pegs[ row + 1 ][ col ];
+				int minVal;
+				int maxVal;
+				float eVal;
 
 				// If we are at the left edge, we must go down and right
 				if ( col == 0 )
 				{
-					SpaaaceRequest.matrix[ row][ col ] = SpaaaceRequest.matrix[ row + 1 ][ 1 ];
-					continue;
+					minVal = min[ 1 ];
+					maxVal = max[ 1 ];
+					eVal = expected[ 1 ];
 				}
 
 				// If we are at the right edge, we must go down and left
-				if ( col == 16 )
+				else if ( col == 16 )
 				{
-					SpaaaceRequest.matrix[ row][ col ] = SpaaaceRequest.matrix[ row + 1 ][ 15 ];
-					continue;
+					minVal = min[ 15 ];
+					maxVal = max[ 15 ];
+					eVal = expected[ 15 ];
 				}
 
 				// Otherwise, what we do depends on peg type
-				float peg = SpaaaceRequest.matrix[ row ][ col ];
-				float value = -1.0f;
+				else
+				{
+					// Look at the peg below this cell
+					switch ( peg )
+					{
+					case RIGHT:
+						minVal = min[ col + 1 ];
+						maxVal = max[ col + 1 ];
+						eVal = expected[ col + 1 ];
+						break;
+					case LEFT:
+						minVal = min[ col - 1 ];
+						maxVal = max[ col - 1 ];
+						eVal = expected[ col - 1 ];
+						break;
+					case RANDOM:
+						minVal = Math.min( min[ col - 1 ], min[ col + 1 ] );
+						maxVal = Math.max( max[ col - 1 ], max[ col + 1 ] );
+						eVal = ( expected[ col - 1 ] + expected[ col + 1 ] ) / 2.0f;
+						break;
+					default:
+						// Huh?
+						minVal = 0;
+						maxVal = 0;
+						eVal = 0.0f;
+						break;
+					}
+				}
 
-				// Style 1 pegs go right
-				if ( peg == 1.0f )
-				{
-					value = SpaaaceRequest.matrix[ row + 1 ][ col + 1 ];
-				}
-				// Style 2 pegs go left
-				else if ( peg == 2.0f )
-				{
-					value = SpaaaceRequest.matrix[ row + 1 ][ col - 1 ];
-				}
-				// Style 3 pegs randomly go right or left
-				else if ( peg == 3.0f )
-				{
-					value = ( SpaaaceRequest.matrix[ row + 1 ][ col + 1 ] + SpaaaceRequest.matrix[ row + 1 ][ col - 1 ] ) / 2.0f;
-				}
+				// Store values of this cell for use by next row
+				min[ col ] = minVal;
+				max[ col ] = maxVal;
+				expected[ col ] = eVal;
 
-				// Replace this peg type with the expected value of hitting this peg
-				SpaaaceRequest.matrix[ row ][ col ] = value;
+				if ( row >= 0 )
+				{
+					// Calculate the div for this cell
+					SpaaaceRequest.divs[ row ][ col ] = SpaaaceRequest.makeDiv( col, peg, minVal, maxVal, eVal );
+				}
 			}
 		}
 
 		// Save the expected value for each slot in the top row
 		StringBuffer buffer = new StringBuffer();
-		for ( int i = 0; i < 9; ++i )
+		for ( int col = 0; col < 17; col += 2 )
 		{
-			float val = SpaaaceRequest.matrix[ 0 ][ i * 2 ];
-			if ( i > 0 )
+			int minVal = min[ col ];
+			int maxVal = max[ col ];
+			float eVal = expected[ col ];
+			if ( col > 0 )
 			{
 				buffer.append( ":" );
 			}
-			buffer.append( KoLConstants.FLOAT_FORMAT.format( val ) );
-			SpaaaceRequest.expected[ i ] = val;
+			buffer.append( KoLConstants.FLOAT_FORMAT.format( eVal ) );
+			SpaaaceRequest.expected[ col / 2 ] = eVal;
+			SpaaaceRequest.slots[ col / 2 ] = SpaaaceRequest.makeSlot( minVal, maxVal, eVal );
 		}
 
 		Preferences.setString( "lastPorkoExpected", buffer.toString() );
@@ -467,53 +654,32 @@ public class SpaaaceRequest
 				continue;
 			}
 
-			// Get the expected payout for this cell
-			float newVal = 0.0f;
-
-			if ( col > 0 && col < 18 )
+			if ( type.equals( "start" ) )
 			{
-				newVal = SpaaaceRequest.matrix[ row ][ col - 1 ];
+				// Use green arrow for "best" starting slots 
+				if ( SpaaaceRequest.expected[ col / 2 ] == best )
+				{
+					div = StringUtilities.singleStringReplace( div, ARROW, GREEN_ARROW );
+				}
+
+				String search = "Start Here";
+				String replace = SpaaaceRequest.slots[ col / 2 ];
+				div = StringUtilities.globalStringReplace( div, search, replace );
 			}
+
+			if ( type.equals( "blank" ) && row > 0 && col > 0 )
+			{
+				// Cells also get annotated
+				div = SpaaaceRequest.divs[ row - 1 ][ col - 1 ];
+			}
+
+			buffer.append( div );
 
 			if ( ++col == 19 )
 			{
 				col = 0;
 				row += 1;
 			}
-
-			if ( type.equals( "start" ) )
-			{
-				// Use green arrow for "best" starting slots 
-				if ( newVal == best )
-				{
-					div = StringUtilities.singleStringReplace( div, ARROW, GREEN_ARROW );
-				}
-
-				String search = "Start Here";
-				String replace = KoLConstants.FLOAT_FORMAT.format( newVal );
-				div = StringUtilities.globalStringReplace( div, search, replace );
-			}
-
-			if ( type.equals( "blank" ) )
-			{
-				// Cells also get annotated
-				String search = "class=\"blank\"";
-				String color = "";
-				String title = "";
-				if ( newVal < 0 )
-				{
-					color = " style=\"background: #EEEEEE\"";
-					title = " title=\"Unreachable\"";
-				}
-				else
-				{
-					title = " title=\"" + KoLConstants.FLOAT_FORMAT.format( newVal ) + "\"";
-				}
-				String replace = search + color + title;
-				div = StringUtilities.globalStringReplace( div, search, replace );
-			}
-
-			buffer.append( div );
 		}
 
 		return buffer.toString();
