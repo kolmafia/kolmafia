@@ -215,8 +215,8 @@ public class CoinmastersFrame
 		panel.add( scripPanel );
 		this.selectorPanel.addPanel( "- CRIMBCO Gift Shop", panel );
 
-		this.selectorPanel.setSelectedIndex( Preferences.getInteger( "coinMasterIndex" ) );
 		this.selectorPanel.addChangeListener( this );
+		this.selectorPanel.setSelectedIndex( Preferences.getInteger( "coinMasterIndex" ) );
 
 		this.framePanel.add( this.selectorPanel, BorderLayout.CENTER );
 
@@ -236,9 +236,10 @@ public class CoinmastersFrame
 	private void setTitle()
 	{
 		JPanel panel = (JPanel) this.selectorPanel.currentPanel();
-		if ( panel != null )
+		Component cm = ( panel instanceof JPanel ) ? panel.getComponent( 0 ) : null;
+		if (cm instanceof CoinmasterPanel )
 		{
-			((CoinmasterPanel)( panel.getComponent( 0 ) )).setTitle();
+			((CoinmasterPanel)( cm	)).setTitle();
 		}
 	}
 
