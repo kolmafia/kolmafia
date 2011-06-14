@@ -3059,6 +3059,7 @@ Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
 Strength of Ten Ettins	Muscle Percent: +25
 # Stuck-Up Hair: Damages Attacking Opponents
+Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5
 Sugar High	Mysticality Percent: +30
 Sugar Rush	Initiative: +20, Muscle Percent: +5, Moxie Percent: +5, Mysticality Percent: -10
 Sugar Smacks	Muscle Percent: +30
@@ -3176,6 +3177,7 @@ Whitened Teeth	Moxie Percent: +10
 # Wings: You believe you can fly!
 Winklered	Meat Drop: +40
 Wintergreen Warmongery	Muscle: +30
+Wintry Breath	Cold Damage: +20
 Wistfully Nostalgic	Experience: +3
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Woad Warrior	Muscle: +25
@@ -3425,6 +3427,7 @@ Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 
 Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
 Climate Colada	Effect: "Weather, Man", Effect Duration: 20
 Cold Hots candy	Effect: "Sugar Rush"
+Comet Drop	Effect: "Heal Thy Nanoself", Effect Duration: 1
 Comet Pop	Effect: "Heal Thy Nanoself", Effect Duration: 10
 Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [R]
 Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
@@ -3539,6 +3542,7 @@ deodorant	Effect: "Fresh Scent", Effect Duration: 10
 digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
 disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10
 donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10
+double-ice gum	Effect: "Wintry Breath" Effect Duration: 10
 dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
 eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
@@ -3593,6 +3597,7 @@ handful of pine needles	Effect: "Hippy Stench", Effect Duration: 10
 handsomeness potion	Effect: "Mysteriously Handsome", Effect Duration: 5
 henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
+honey stick	Effect: "Stuck That Way" Effect Duration: 10
 honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 100
 hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
