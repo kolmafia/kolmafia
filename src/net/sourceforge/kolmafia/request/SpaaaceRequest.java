@@ -357,17 +357,15 @@ public class SpaaaceRequest
 	{
 		// Called when we play Porko
 
-		// Initialize to defaults
-		SpaaaceRequest.initializeGameBoard();
-
 		// You hand Juliedriel your isotope. She takes it with
 		// a pair of tongs, and hands you three Porko chips
-		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) == -1 )
+		if ( responseText.indexOf( "You hand Juliedriel your isotope" ) != -1 )
 		{
-			return;
+			ResultProcessor.processItem( ItemPool.LUNAR_ISOTOPE, -1 );
 		}
 
-		ResultProcessor.processItem( ItemPool.LUNAR_ISOTOPE, -1 );
+		// Initialize to defaults
+		SpaaaceRequest.initializeGameBoard();
 
 		// Parse the game board.
 		String board = SpaaaceRequest.parseGameBoard( responseText );
