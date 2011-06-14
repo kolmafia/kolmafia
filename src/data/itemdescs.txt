@@ -5155,7 +5155,7 @@
 5154
 5155
 5156	655683821	pl_alielf.gif	plush alielf
-5157
+5157	949974304	cometdrop.gif	Comet Drop	Comet Drops
 5158	147896938	pl_dogcat.gif	plush dogcat
 5159	457793100	pl_hamsterpus.gif	plush hamsterpus
 5160	837332673	pl_ferelf.gif	plush ferrelf
@@ -5186,3 +5186,5 @@
 5185	684833758	moonbox.gif	Mint-in-box Moonthril Cuirass
 5186	658513107	moonbox.gif	Mint-in-box Moonthril Flamberge
 5187	591358121	moonbox.gif	Mint-in-box Moonthril Longbow
+5188	922110263	honeystick.gif	honey stick	honey sticks
+5189	849316884	cube.gif	double-ice gum	cubes of double-ice gum
