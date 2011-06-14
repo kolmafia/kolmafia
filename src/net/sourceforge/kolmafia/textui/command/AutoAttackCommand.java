@@ -38,6 +38,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -108,8 +109,11 @@ public class AutoAttackCommand
 		}
 
 		// If it's not something that KoLmafia recognizes, fall through to KoL chat's implementation
-		
-		if ( skillId == -1 )
+
+		if (   skillId == -1 || 
+			   ( skillId > 1 && 
+			     skillId < 7000 && 
+			     !KoLCharacter.hasSkill( skillId ) ) )
 		{
 			return false;
 		}
@@ -118,6 +122,7 @@ public class AutoAttackCommand
 		{
 			AutoAttackCommand.AUTO_ATTACKER.addFormField( "value", String.valueOf( skillId ) );
 			RequestThread.postRequest( AutoAttackCommand.AUTO_ATTACKER );
+			StaticEntity.externalUpdate( AutoAttackCommand.AUTO_ATTACKER.getURLString(), AutoAttackCommand.AUTO_ATTACKER.responseText );
 		}
 		
 		return true;
