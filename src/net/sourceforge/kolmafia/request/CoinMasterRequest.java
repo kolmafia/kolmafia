@@ -69,17 +69,17 @@ public class CoinMasterRequest
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
-	private static final String BHH = "Bounty Hunter Hunter";
+	public static final String BHH = "Bounty Hunter Hunter";
 	public static final String HIPPY = "Dimemaster";
 	public static final String FRATBOY = "Quartersmaster";
-	private static final String BIGBROTHER = "Big Brother";
-	private static final String TICKETCOUNTER = "Ticket Counter";
-	private static final String GAMESHOPPE = "Game Shoppe";
-	private static final String FREESNACKS = "Game Shoppe Snacks";
-	private static final String CRIMBOCARTEL = "Crimbo Cartel";
-	private static final String CRIMBCOGIFTSHOP = "CRIMBCO Gift Shop";
-	private static final String ALTAROFBONES = "Altar of Bones";
-	private static final String AWOL = "A. W. O. L. Quartermaster";
+	public static final String BIGBROTHER = "Big Brother";
+	public static final String TICKETCOUNTER = "Arcade Ticket Counter";
+	public static final String GAMESHOPPE = "Game Shoppe";
+	public static final String FREESNACKS = "Game Shoppe Snacks";
+	public static final String AWOL = "A. W. O. L. Quartermaster";
+	public static final String ALTAROFBONES = "Altar of Bones";
+	public static final String CRIMBOCARTEL = "Crimbo Cartel";
+	public static final String CRIMBCOGIFTSHOP = "CRIMBCO Gift Shop";
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips|CRIMBCO scrip|store credit|free snack voucher|A. W. O. L. commendation)" );
 
@@ -256,19 +256,6 @@ public class CoinMasterRequest
 		return null;
 	}
 
-	private static Object [] tokenToRecord( final String token )
-	{
-		for ( int i = 0; i < MASTERS.length; ++i )
-		{
-			Object [] record = MASTERS[i];
-			if ( token.equals( record[1] ) )
-			{
-				return record;
-			}
-		}
-		return null;
-	}
-
 	private static String recordMaster( final Object [] record )
 	{
 		return record == null ? null : (String)record[0];
@@ -341,11 +328,6 @@ public class CoinMasterRequest
 		return record == null ? null : (Map)record[11];
 	}
 
-	private static String tokenToMaster( final String token )
-	{
-		return CoinMasterRequest.recordMaster( CoinMasterRequest.tokenToRecord( token ) );
-	}
-
 	private static String masterToToken( final String master )
 	{
 		return CoinMasterRequest.recordToken( CoinMasterRequest.masterToRecord( master ) );
@@ -356,9 +338,9 @@ public class CoinMasterRequest
 		return CoinMasterRequest.recordTokenString( CoinMasterRequest.masterToRecord( master ) );
 	}
 
-	private static String tokenToURL( final String token )
+	private static String masterToURL( final String master )
 	{
-		return CoinMasterRequest.recordURL( CoinMasterRequest.tokenToRecord( token ) );
+		return CoinMasterRequest.recordURL( CoinMasterRequest.masterToRecord( master ) );
 	}
 
 	private static String masterToTest( final String master )
@@ -385,8 +367,8 @@ public class CoinMasterRequest
 		return null;
 	}
 
-	private final String token;
 	private final String master;
+	private final String token;
 
 	private String action = null;
 	private int itemId = -1;
@@ -394,12 +376,12 @@ public class CoinMasterRequest
 	private String itemField = null;
 	private boolean single = false;
 
-	public CoinMasterRequest( final String token )
+	public CoinMasterRequest( final String master )
 	{
-		super( CoinMasterRequest.tokenToURL( token ) );
+		super( CoinMasterRequest.masterToURL( master ) );
 
-		this.token = token;
-		this.master = CoinMasterRequest.tokenToMaster( token );
+		this.master = master;
+		this.token = CoinMasterRequest.masterToToken( master );
 		this.itemField = "whichitem";
 		this.single = false;
 
@@ -427,9 +409,9 @@ public class CoinMasterRequest
 		}
 	}
 
-	public CoinMasterRequest( final String token, final String action )
+	public CoinMasterRequest( final String master, final String action )
 	{
-		this( token );
+		this( master );
 		if ( action != null )
 		{
 			this.action = action;
@@ -437,9 +419,9 @@ public class CoinMasterRequest
 		}
 	}
 
-	public CoinMasterRequest( final String token, final String action, final int itemId, final int quantity )
+	public CoinMasterRequest( final String master, final String action, final int itemId, final int quantity )
 	{
-		this( token, action );
+		this( master, action );
 
 		this.itemId = itemId;
 		this.addFormField( this.itemField, String.valueOf( itemId ) );
@@ -466,14 +448,14 @@ public class CoinMasterRequest
 		}
 	}
 
-	public CoinMasterRequest( final String token, final String action, final int itemId )
+	public CoinMasterRequest( final String master, final String action, final int itemId )
 	{
-		this( token, action, itemId, 1 );
+		this( master, action, itemId, 1 );
 	}
 
-	public CoinMasterRequest( final String token, final String action, final AdventureResult ar )
+	public CoinMasterRequest( final String master, final String action, final AdventureResult ar )
 	{
-		this( token, action, ar.getItemId(), ar.getCount() );
+		this( master, action, ar.getItemId(), ar.getCount() );
 	}
 
 	public Object run()

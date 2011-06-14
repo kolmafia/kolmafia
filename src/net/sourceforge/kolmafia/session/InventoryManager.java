@@ -407,7 +407,7 @@ public abstract class InventoryManager
 			}
 
 			// Cash them in for coffee pixie sticks
-			RequestThread.postRequest( new CoinMasterRequest( "ticket", "redeem", ItemPool.COFFEE_PIXIE_STICK, missingCount ) );
+			RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.TICKETCOUNTER, "redeem", ItemPool.COFFEE_PIXIE_STICK, missingCount ) );
 
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -524,7 +524,7 @@ public abstract class InventoryManager
 				}
 
 				// Cash them in for snacks
-				RequestThread.postRequest( new CoinMasterRequest( "snack voucher", "buysnack", item.getItemId(), missingCount ) );
+				RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.FREESNACKS, "buysnack", item.getItemId(), missingCount ) );
 
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
