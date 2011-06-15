@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -1348,7 +1347,7 @@ public abstract class KoLmafia
 
 			if ( checkBounty && bounty.getCount( KoLConstants.inventory ) == bounty.getCount() )
 			{
-				RequestThread.postRequest( new CoinMasterRequest( CoinmastersDatabase.BHH ) );
+				RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.BHH ) );
 				checkBounty = false;
 			}
 		}
@@ -1592,7 +1591,7 @@ public abstract class KoLmafia
 
 	public void makeHunterRequest()
 	{
-		GenericRequest hunterRequest = new CoinMasterRequest( CoinmastersDatabase.BHH );
+		GenericRequest hunterRequest = new CoinMasterRequest( CoinMasterRequest.BHH );
 		RequestThread.postRequest( hunterRequest );
 
 		Matcher bountyMatcher = Pattern.compile( "name=whichitem value=(\\d+)" ).matcher( hunterRequest.responseText );
@@ -1642,12 +1641,13 @@ public abstract class KoLmafia
 
 		String selection = selectedValue.substring( 0, selectedValue.indexOf( "(" ) - 1 );
 		int itemId = ItemDatabase.getItemId( selection );
-		RequestThread.postRequest( new CoinMasterRequest( CoinmastersDatabase.BHH, "takebounty", itemId ) );
+		RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.BHH, "takebounty", itemId ) );
 	}
 
 	/**
-	 * Makes a request to the hunter, looking for the given number of items. This method should prompt the user to
-	 * determine which item to retrieve the hunter.
+	 * Makes a request to the hunter, looking for the given number of items.
+	 * This method should prompt the user to determine which item to
+	 * retrieve from the hunter.
 	 */
 
 	public void makeUntinkerRequest()

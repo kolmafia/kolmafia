@@ -50,6 +50,7 @@ import javax.swing.JPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -293,6 +294,7 @@ public class CoinmastersFrame
 		isotopes = ISOTOPE.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableIsotopes", isotopes );
 
+		// Inaccessible
 		crimbux = CRIMBUCK.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableCrimbux", crimbux );
 		boneChips = BONE_CHIPS.getCount( KoLConstants.inventory );
@@ -324,14 +326,7 @@ public class CoinmastersFrame
 	{
 		public DimemasterPanel()
 		{
-			super( CoinmastersDatabase.getDimeItems(),
-			       CoinmastersDatabase.dimeSellPrices(),
-			       CoinmastersDatabase.dimeBuyPrices(),
-			       WAR_HIPPY_OUTFIT,
-			       "availableDimes",
-			       "dime",
-			       CoinmastersDatabase.HIPPY,
-			       "hippy");
+			super( CoinMasterRequest.HIPPY, WAR_HIPPY_OUTFIT, "hippy");
 		}
 	}
 
@@ -340,14 +335,7 @@ public class CoinmastersFrame
 	{
 		public QuartersmasterPanel()
 		{
-			super( CoinmastersDatabase.getQuarterItems(),
-			       CoinmastersDatabase.quarterSellPrices(),
-			       CoinmastersDatabase.quarterBuyPrices(),
-			       WAR_FRAT_OUTFIT,
-			       "availableQuarters",
-			       "quarter",
-			       CoinmastersDatabase.FRATBOY,
-			       "fratboy" );
+			super( CoinMasterRequest.FRATBOY, WAR_FRAT_OUTFIT, "fratboy" );
 		}
 	}
 
@@ -356,14 +344,7 @@ public class CoinmastersFrame
 	{
 		public BountyHunterHunterPanel()
 		{
-			super( CoinmastersDatabase.getLucreItems(),
-			       null,
-			       CoinmastersDatabase.lucreBuyPrices(),
-			       "availableLucre",
-			       "lucre",
-			       CoinmastersDatabase.BHH,
-			       null );
-			buyAction = "buy";
+			super( CoinMasterRequest.BHH );
 		}
 
 		public int buyDefault( final int max )
@@ -381,14 +362,7 @@ public class CoinmastersFrame
 
 		public BigBrotherPanel()
 		{
-			super( CoinmastersDatabase.getSandDollarItems(),
-			       null,
-			       CoinmastersDatabase.sandDollarBuyPrices(),
-			       "availableSandDollars",
-			       "sand dollar",
-			       CoinmastersDatabase.BIGBROTHER,
-				null );
-			buyAction = "buyitem";
+			super( CoinMasterRequest.BIGBROTHER );
 		}
 
 		public void update()
@@ -477,32 +451,13 @@ public class CoinmastersFrame
 	{
 		public CrimboCartelPanel()
 		{
-			super( CoinmastersDatabase.getCrimbuckItems(),
-			       null,
-			       CoinmastersDatabase.crimbuckBuyPrices(),
-			       "availableCrimbux",
-			       "Crimbuck",
-			       CoinmastersDatabase.CRIMBOCARTEL,
-				null );
-			buyAction = "buygift";
-		}
-
-		public void update()
-		{
-		}
-
-		public boolean enabled()
-		{
-			return true;
+			super( CoinMasterRequest.CRIMBOCARTEL );
 		}
 
 		public boolean accessible()
 		{
-			return true;
-		}
-
-		public void equip()
-		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
+			return false;
 		}
 
 		public int buyDefault( final int max )
@@ -516,32 +471,7 @@ public class CoinmastersFrame
 	{
 		public TicketCounterPanel()
 		{
-			super( CoinmastersDatabase.getTicketItems(),
-			       null,
-			       CoinmastersDatabase.ticketBuyPrices(),
-			       "availableTickets",
-			       "ticket",
-			       CoinmastersDatabase.TICKETCOUNTER,
-				null );
-			buyAction = "redeem";
-		}
-
-		public void update()
-		{
-		}
-
-		public boolean enabled()
-		{
-			return true;
-		}
-
-		public boolean accessible()
-		{
-			return true;
-		}
-
-		public void equip()
-		{
+			super( CoinMasterRequest.TICKETCOUNTER );
 		}
 
 		public int buyDefault( final int max )
@@ -555,33 +485,7 @@ public class CoinmastersFrame
 	{
 		public GameShoppePanel()
 		{
-			super( CoinmastersDatabase.getStoreCreditItems(),
-			       CoinmastersDatabase.storeCreditSellPrices(),
-			       CoinmastersDatabase.storeCreditBuyPrices(),
-			       "availableStoreCredits",
-			       "store credit",
-			       CoinmastersDatabase.GAMESHOPPE,
-				null );
-			buyAction = "redeem";
-			sellAction = "tradein";
-		}
-
-		public void update()
-		{
-		}
-
-		public boolean enabled()
-		{
-			return true;
-		}
-
-		public boolean accessible()
-		{
-			return true;
-		}
-
-		public void equip()
-		{
+			super( CoinMasterRequest.GAMESHOPPE );
 		}
 
 		public int buyDefault( final int max )
@@ -595,32 +499,7 @@ public class CoinmastersFrame
 	{
 		public SnackVoucherPanel()
 		{
-			super( CoinmastersDatabase.getSnackVoucherItems(),
-			       null,
-			       CoinmastersDatabase.snackVoucherBuyPrices(),
-			       "availableSnackVouchers",
-			       "snack voucher",
-			       CoinmastersDatabase.FREESNACKS,
-				null );
-			buyAction = "buysnack";
-		}
-
-		public void update()
-		{
-		}
-
-		public boolean enabled()
-		{
-			return true;
-		}
-
-		public boolean accessible()
-		{
-			return true;
-		}
-
-		public void equip()
-		{
+			super( CoinMasterRequest.FREESNACKS );
 		}
 
 		public int buyDefault( final int max )
@@ -634,32 +513,13 @@ public class CoinmastersFrame
 	{
 		public AltarOfBonesPanel()
 		{
-			super( CoinmastersDatabase.getBoneChipItems(),
-			       null,
-			       CoinmastersDatabase.boneChipBuyPrices(),
-			       "availableBoneChips",
-			       "bone chips",
-			       CoinmastersDatabase.ALTAROFBONES,
-				null );
-			buyAction = "buy";
-		}
-
-		public void update()
-		{
-		}
-
-		public boolean enabled()
-		{
-			return true;
+			super( CoinMasterRequest.ALTAROFBONES );
 		}
 
 		public boolean accessible()
 		{
-			return true;
-		}
-
-		public void equip()
-		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
+			return false;
 		}
 
 		public int buyDefault( final int max )
@@ -673,32 +533,13 @@ public class CoinmastersFrame
 	{
 		public CRIMBCOGiftShopPanel()
 		{
-			super( CoinmastersDatabase.getScripItems(),
-			       null,
-			       CoinmastersDatabase.scripBuyPrices(),
-			       "availableCRIMBCOScrip",
-			       "CRIMBCO scrip",
-			       CoinmastersDatabase.CRIMBCOGIFTSHOP,
-			       null );
-			buyAction = "buygift";
-		}
-
-		public void update()
-		{
-		}
-
-		public boolean enabled()
-		{
-			return true;
+			super( CoinMasterRequest.CRIMBCOGIFTSHOP );
 		}
 
 		public boolean accessible()
 		{
-			return true;
-		}
-
-		public void equip()
-		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
+			return false;
 		}
 
 		public int buyDefault( final int max )
@@ -712,18 +553,7 @@ public class CoinmastersFrame
 	{
 		public CommendationPanel()
 		{
-			super( CoinmastersDatabase.getCommendationItems(),
-			       null,
-			       CoinmastersDatabase.commendationBuyPrices(),
-			       "availableCommendations",
-			       "commendation",
-			       CoinmastersDatabase.AWOL,
-				null );
-			buyAction = null;
-		}
-
-		public void update()
-		{
+			super( CoinMasterRequest.AWOL );
 		}
 
 		public boolean enabled()
@@ -744,10 +574,6 @@ public class CoinmastersFrame
 			return true;
 		}
 
-		public void equip()
-		{
-		}
-
 		public int buyDefault( final int max )
 		{
 			return 1;
@@ -758,15 +584,15 @@ public class CoinmastersFrame
 		extends CoinmasterPanel
 	{
 		private final int outfit;
+		private final String side;
 
 		private boolean hasOutfit = false;
 
-		public WarMasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, int outfit, String property, String token, String master, String side )
+		public WarMasterPanel( CoinmasterData data, int outfit, String side )
 		{
-			super( purchases, sellPrices, buyPrices, property, token, master, side);
+			super( data );
 			this.outfit = outfit;
-			buyAction = "getgear";
-			sellAction = "turnin";
+			this.side = side;
 		}
 
 		public void update()
@@ -807,6 +633,11 @@ public class CoinmastersFrame
 				RequestThread.postRequest( request );
 			}
 		}
+
+		public String lighthouseSide()
+		{
+			return this.side;
+		}
 	}
 
 	private class IsotopeSmitheryPanel
@@ -814,9 +645,7 @@ public class CoinmastersFrame
 	{
 		public IsotopeSmitheryPanel()
 		{
-			super( CoinmastersDatabase.getIsotope1Items(),
-			       CoinmastersDatabase.isotope1BuyPrices(),
-			       CoinmastersDatabase.ISOTOPE_SMITHERY );
+			super( CoinMasterRequest.ISOTOPE_SMITHERY );
 		}
 	}
 
@@ -825,9 +654,7 @@ public class CoinmastersFrame
 	{
 		public DollHawkerPanel()
 		{
-			super( CoinmastersDatabase.getIsotope2Items(),
-			       CoinmastersDatabase.isotope2BuyPrices(),
-			       CoinmastersDatabase.DOLLHAWKER );
+			super( CoinMasterRequest.DOLLHAWKER );
 		}
 	}
 
@@ -836,9 +663,7 @@ public class CoinmastersFrame
 	{
 		public LunarLunchPanel()
 		{
-			super( CoinmastersDatabase.getIsotope3Items(),
-			       CoinmastersDatabase.isotope3BuyPrices(),
-			       CoinmastersDatabase.LUNAR_LUNCH );
+			super( CoinMasterRequest.LUNAR_LUNCH );
 		}
 	}
 
@@ -848,16 +673,9 @@ public class CoinmastersFrame
 		private boolean hasEffect = false;
 		private boolean hasItem = false;
 
-		public IsotopeMasterPanel( LockableListModel purchases, Map buyPrices, String master )
+		public IsotopeMasterPanel( CoinmasterData data )
 		{
-			super( purchases,
-			       null,
-			       buyPrices,
-			       "availableIsotopes",
-			       "lunar isotope",
-			       master,
-			       null);
-			buyAction = "buy";
+			super( data );
 		}
 
 		public void update()
@@ -868,19 +686,27 @@ public class CoinmastersFrame
 
 		public boolean enabled()
 		{
-			this.update();
 			return this.hasEffect;
 		}
 
 		public boolean accessible()
 		{
-			this.update();
-			return this.hasEffect || this.hasItem;
+			if ( this.hasEffect )
+			{
+				return true;
+			}
+
+			if ( !this.hasItem )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need a transporter transponder to go there." );
+				return false;
+			}
+
+			return true;
 		}
 
 		public void equip()
 		{
-			this.update();
 			if ( !hasEffect && this.hasItem )
 			{
 				UseItemRequest request = new UseItemRequest( TRANSPONDER );
@@ -897,39 +723,24 @@ public class CoinmastersFrame
 	public class CoinmasterPanel
 		extends JPanel
 	{
-		private final LockableListModel purchases;
-		private final Map sellPrices;
-		private final Map buyPrices;
-		private final String property;
-		private final String token;
-		private final String master;
-		private final String side;
-
-		protected String buyAction;
-		protected String sellAction;
+		protected final CoinmasterData data;
 
 		private SellPanel sellPanel = null;
 		private BuyPanel buyPanel = null;
 
-		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, String property, String token, String master, String side )
+		public CoinmasterPanel( final CoinmasterData data )
 		{
 			super( new BorderLayout() );
 
-			this.purchases = purchases;
-			this.sellPrices = sellPrices;
-			this.buyPrices = buyPrices;
-			this.property = property;
-			this.token = token;
-			this.master = master;
-			this.side = side;
+			this.data = data;
 
-			if ( sellPrices != null )
+			if ( data.getSellPrices() != null )
 			{
 				sellPanel = new SellPanel();
 				this.add( sellPanel, BorderLayout.NORTH );
 			}
 
-			if ( buyPrices != null )
+			if ( data.getBuyPrices() != null )
 			{
 				buyPanel = new BuyPanel();
 				this.add( buyPanel, BorderLayout.CENTER );
@@ -938,8 +749,9 @@ public class CoinmastersFrame
 
 		public void setTitle()
 		{
-			int count =  Preferences.getInteger( CoinmasterPanel.this.property );
-			String token = CoinmasterPanel.this.token;
+			String property = this.data.getProperty();
+			int count =  Preferences.getInteger( property );
+			String token = this.data.getToken();
 			String name = count != 1 ? 
 				ItemDatabase.getPluralName( token ) :
 				token;
@@ -956,12 +768,12 @@ public class CoinmastersFrame
 
 		public String getMaster()
 		{
-			return this.master;
+			return this.data.getMaster();
 		}
 
 		public String getPanelSelector()
 		{
-			return "- " + this.master;
+			return "- " + this.data.getMaster();
 		}
 
 		public boolean enabled()
@@ -980,7 +792,7 @@ public class CoinmastersFrame
 
 		public String lighthouseSide()
 		{
-			return this.side;
+			return null;
 		}
 
 		public void update()
@@ -994,6 +806,8 @@ public class CoinmastersFrame
 
 		public void check()
 		{
+			this.update();
+
 			if ( !this.accessible() )
 			{
 				return;
@@ -1001,7 +815,7 @@ public class CoinmastersFrame
 
 			RequestThread.openRequestSequence();
 			this.equip();
-			RequestThread.postRequest( new CoinMasterRequest( this.master ) );
+			RequestThread.postRequest( new CoinMasterRequest( this.data ) );
 			RequestThread.closeRequestSequence();
 		}
 
@@ -1011,6 +825,8 @@ public class CoinmastersFrame
 			{
 				return;
 			}
+
+			this.update();
 
 			if ( !this.accessible() )
 			{
@@ -1024,14 +840,14 @@ public class CoinmastersFrame
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult it = (AdventureResult)items[i];
-				GenericRequest request = new CoinMasterRequest( master, action, it );
+				GenericRequest request = new CoinMasterRequest( this.data, action, it );
 				RequestThread.postRequest( request );
 			}
 
 			RequestThread.closeRequestSequence();
 
 			// Update our token count in the title
-			CoinmasterPanel.this.setTitle();
+			this.setTitle();
 		}
 
 		private class SellPanel
@@ -1044,6 +860,8 @@ public class CoinmastersFrame
 						new SellListener(),
 					} );
 
+				Map sellPrices = CoinmasterPanel.this.data.getSellPrices();
+				String token = CoinmasterPanel.this.data.getToken();
 				this.elementList.setCellRenderer( getCoinmasterRenderer( sellPrices, token ) );
 				this.setEnabled( true );
 				this.filterItems();
@@ -1088,7 +906,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					execute( sellAction, items );
+					execute( CoinmasterPanel.this.data.getSellAction(), items );
 				}
 
 				public String toString()
@@ -1107,7 +925,7 @@ public class CoinmastersFrame
 						return false;
 					}
 					AdventureResult ar = (AdventureResult)element;
-					int price = CoinmastersDatabase.getPrice( ar.getName(), CoinmasterPanel.this.sellPrices );
+					int price = CoinmastersDatabase.getPrice( ar.getName(), CoinmasterPanel.this.data.getSellPrices() );
 					return ( price > 0 ) && super.isVisible( element );
 				}
 			}
@@ -1118,7 +936,7 @@ public class CoinmastersFrame
 		{
 			public BuyPanel()
 			{
-				super( purchases );
+				super( CoinmasterPanel.this.data.getBuyItems() );
 
 				this.setButtons( true, new ActionListener[] {
 						new BuyListener(),
@@ -1126,7 +944,11 @@ public class CoinmastersFrame
 
 				this.eastPanel.add( new InvocationButton( "check", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
-				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, CoinmasterPanel.this.lighthouseSide() ) );
+				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
+				String token = CoinmasterPanel.this.data.getToken();
+				String property = CoinmasterPanel.this.data.getProperty();
+				String side = CoinmasterPanel.this.lighthouseSide();
+				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, side ) );
 				this.elementList.setVisibleRowCount( 6 );
 				this.setEnabled( true );
 			}
@@ -1154,14 +976,16 @@ public class CoinmastersFrame
 				}
 
 				int neededSize = items.length;
-				int originalBalance = Preferences.getInteger( CoinmasterPanel.this.property );
+				String property = CoinmasterPanel.this.data.getProperty();
+				int originalBalance = Preferences.getInteger( property );
 				int balance = originalBalance;
+				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
 
 				for ( int i = 0; i < items.length; ++i )
 				{
 					AdventureResult item = (AdventureResult) items[ i ];
 					String itemName = item.getName();
-					int price = CoinmastersDatabase.getPrice( itemName, CoinmasterPanel.this.buyPrices );
+					int price = CoinmastersDatabase.getPrice( itemName, buyPrices );
 
 					if ( price > originalBalance )
 					{
@@ -1236,7 +1060,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					execute( buyAction, items );
+					execute( CoinmasterPanel.this.data.getBuyAction(), items );
 				}
 
 				public String toString()
@@ -1267,11 +1091,7 @@ public class CoinmastersFrame
 
 		public CoinmasterRenderer( final Map prices, final String token )
 		{
-			this.setOpaque( true );
-			this.prices = prices;
-			this.token = token;
-			this.property = null;
-			this.side = null;
+			this( prices, token, null, null );
 		}
 
 		public CoinmasterRenderer( final Map prices, final String token, String property, String side )

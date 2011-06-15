@@ -56,8 +56,10 @@ public class CoinmasterData
 	private final String property;
 	private final Pattern itemPattern;
 	private final Pattern countPattern;
+	private final String buyAction;
 	private final LockableListModel buyItems;
 	private final Map buyPrices;
+	private final String sellAction;
 	private final Map sellPrices;
 
 	public CoinmasterData( 
@@ -70,8 +72,10 @@ public class CoinmasterData
 		final String property,
 		final Pattern itemPattern,
 		final Pattern countPattern,
+		final String buyAction,
 		final LockableListModel buyItems,
 		final Map buyPrices,
+		final String sellAction,
 		final Map sellPrices )
 	{
 		this.master = master;
@@ -83,8 +87,10 @@ public class CoinmasterData
 		this.property = property;
 		this.itemPattern = itemPattern;
 		this.countPattern = countPattern;
+		this.buyAction = buyAction;
 		this.buyItems = buyItems;
 		this.buyPrices = buyPrices;
+		this.sellAction = sellAction;
 		this.sellPrices = sellPrices;
 	}
 
@@ -143,6 +149,11 @@ public class CoinmasterData
 		return this.countPattern == null ? null : this.countPattern.matcher( string );
 	}
 
+	public final String getBuyAction()
+	{
+		return this.buyAction;
+	}
+
 	public final LockableListModel getBuyItems()
 	{
 		return this.buyItems;
@@ -151,6 +162,11 @@ public class CoinmasterData
 	public final Map getBuyPrices()
 	{
 		return this.buyPrices;
+	}
+
+	public final String getSellAction()
+	{
+		return this.sellAction;
 	}
 
 	public final Map getSellPrices()
