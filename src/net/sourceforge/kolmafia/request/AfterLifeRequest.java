@@ -47,10 +47,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class AfterLifeRequest
 	extends GenericRequest
 {
-	// <tr><td><img style='vertical-align: middle' class=hand src='http://images.kingdomofloathing.com/itemimages/ast_bludgeon.gif' onclick='descitem(864672857)'></td><td valign=center><b><span onclick='descitem(864672857)'>astral bludgeon<span>&nbsp;&nbsp;&nbsp;&nbsp;</b></td><form action=afterlife.php method=post><input type=hidden name=action value=buyarmory><input type=hidden name=whichitem value=5028><td><input class=button type=submit value="Purchase (10 Karma)"></td></form></tr>
-
-	// <tr><td><img style='vertical-align: middle' class=hand src='http://images.kingdomofloathing.com/itemimages/ast_dinner.gif' onclick='descitem(725022566)'></td><td valign=center><b><span onclick='descitem(725022566)'>astral hot dog dinner<span>&nbsp;&nbsp;&nbsp;&nbsp;</b></td><form action=afterlife.php method=post><input type=hidden name=action value=buydeli><input type=hidden name=whichitem value=5045><td><input class=button type=submit value="Purchase (1 Karma)"></td></form></tr>
-
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "<span onclick='descitem\\(([\\d]+)\\)'>([^<]*)<.*?name=whichitem value=([\\d]+)>", Pattern.DOTALL );
 	private static final Pattern KARMA_PATTERN = Pattern.compile( "You gain ([0123456789,]+) Karma", Pattern.DOTALL );
 
@@ -109,16 +105,18 @@ public class AfterLifeRequest
 
 		if ( action.equals( "pearlygates" ) )
 		{
+			int karma = Preferences.getInteger( "bankedKarma" );
+			RequestLogger.updateSessionLog( "You have " + karma + " banked Karma." );
 			// <td valign=center>You gain 311 Karma</td>
-			// <td valign=center>You gain 33 Karma</td>
 			matcher = KARMA_PATTERN.matcher( responseText );
-			int karma = 0;
 			while ( matcher.find() )
 			{
-				karma += StringUtilities.parseInt( matcher.group( 1 ) );
+				int delta = StringUtilities.parseInt( matcher.group( 1 ) );
+				RequestLogger.updateSessionLog( "You gain " + delta + " Karma" );
+				karma += delta;
 			}
+			RequestLogger.updateSessionLog( "Your new Karma balance is " + karma );
 			Preferences.setInteger( "bankedKarma", karma ); 
-			RequestLogger.updateSessionLog( "Your Karma balance is " + karma );
 			return true;
 		}
 
@@ -472,7 +470,7 @@ public class AfterLifeRequest
 
 			buffer.append( " path." );
 
-			buffer.append( "Banking " );
+			buffer.append( " Banking " );
 			buffer.append( String.valueOf( karma ) );
 			buffer.append( " Karma." );
 
