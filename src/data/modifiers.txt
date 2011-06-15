@@ -79,6 +79,7 @@ KoL Con 3-D Glasses	Familiar Effect: "8xLep, ?xFairy, cap 2"
 MAHI fez	Moxie: +30
 Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate: [-5*zone(The Sea)], Familiar Effect: "1xBarrr, ?xFairy"
 Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
+Moonthril Circlet	Mysticality Percent: [15*G]
 Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
 Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley, 1xBarrr, cap 15"
 Radio Free Baseball Cap	Intrinsic Effect: "Radio Head", Familiar Effect: "1xLep, 1xFairy, cap 37"
@@ -309,6 +310,7 @@ Knob Goblin harem pants	Moxie: +1
 Knob Goblin pants	Muscle: +1
 Krakrox's Loincloth	Muscle: +11, Initiative: +15, Class: "Seal Clubber"
 Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief"
+Moonthril Greaves	Muscle Percent: [10*G], Mysticality Percent: [10*G], Moxie Percent: [10*G]
 Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror"
 Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "Sauceror"
 Orcish cargo shorts	Muscle: +3, Mysticality: -3
@@ -462,6 +464,7 @@ Hodgman's disgusting technicolor overcoat	Spooky Damage: +15, Stench Damage: +15
 Kiss the Knob apron	Maximum MP: +5
 Knob Goblin elite shirt	Muscle: +3
 Mer-kin breastplate	Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
+Moonthril Cuirass	Monster Level: [10*G]
 Mr. Shirt	Muscle: +1, Mysticality: +1, Moxie: +1
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
 Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Single Equip
@@ -589,6 +592,8 @@ Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
 # Meteoid ice beam: On Critical: Freeze Opponent
 Meteoid ice beam	Cold Damage: +20, Critical Hit Percent: +2
 # Mjolnir Jr.
+Moonthril Flamberge	Muscle Percent: [15*G]
+Moonthril Longbow	Moxie Percent: [15*G]
 Ol' Scratch's infernal pitchfork	Hot Damage: +40, Critical Hit Percent: +2
 PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60
 Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
