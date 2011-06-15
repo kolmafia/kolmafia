@@ -55,6 +55,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -863,10 +864,10 @@ public class RelayRequest
 
 	private boolean checkCampVisit( final String urlString )
 	{
-		String master = CoinMasterRequest.findCampMaster( urlString );
+		CoinmasterData data = CoinMasterRequest.findCampMaster( urlString );
 
 		// If he's not attempting to enter a camp, no problem.
-		if ( master == null )
+		if ( data == null )
 		{
 			return false;
 		}
@@ -879,6 +880,7 @@ public class RelayRequest
 			return false;
 		}
 
+		String master = data.getMaster();
 		switch ( outfit.getOutfitId() )
 		{
 		case 32:
