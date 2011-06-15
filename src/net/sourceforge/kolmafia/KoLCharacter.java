@@ -240,13 +240,13 @@ public abstract class KoLCharacter
 	public static final String[] ZODIACS = new String[]
 	{
 		"Mongoose",
-		"Platypus", 
-		"Wombat",
 		"Wallaby",
-		"Opossum",
-		"Blender", 
 		"Vole", 
+		"Platypus", 
+		"Opossum",
 		"Marmot",
+		"Wombat",
+		"Blender", 
 		"Packrat"
 	};
 
