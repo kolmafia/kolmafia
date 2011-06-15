@@ -31,6 +31,7 @@ KoL Con 3-D Glasses	10	none
 MAHI fez	200	Mox: 85
 Mer-kin sneakmask	200	Mox: 85
 Mohawk wig	140	Mox: 55
+Moonthril Circlet	100	Mox: 40
 Ol' Scratch's stovepipe hat	200	Mys: 200
 Orcish baseball cap	60	Mox: 15
 Radio Free Baseball Cap	150	Mox: 60
@@ -254,6 +255,7 @@ Knob Goblin pants	25	none
 Krakrox's Loincloth	125	Mus: 30
 Lederhosen of the Night	125	Mox: 30
 Newman's Own Trousers	125	Mys: 30
+Moonthril Greaves	100	Mox: 40
 Ol' Scratch's ol' britches	200	Mys: 200
 Orcish cargo shorts	60	Mox: 15
 Oscus's dumpster waders	200	Mys: 200
@@ -402,6 +404,7 @@ Hodgman's disgusting technicolor overcoat	200	Mus: 200
 Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
 Mer-kin breastplate	200	Mus: 85
+Moonthril Cuirass	100	Mus: 40
 Mr. Shirt	30	none
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
@@ -522,6 +525,8 @@ Mer-kin digpick	200	Mus: 85	2-handed axe
 Mer-kin hookspear	200	Mus: 85	1-handed spear
 Meteoid ice beam	80	Mox: 25	1-handed gun
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
+Moonthril Flamberge	100	Mus: 40	2-handed sword
+Moonthril Longbow	100	Mox: 40	2-handed bow
 Ol' Scratch's infernal pitchfork	200	Mus: 200	2-handed polearm
 PVC staff	200	Mus: 85	2-handed staff
 Pasta of Peril	50	Mys: 10	1-handed utensil

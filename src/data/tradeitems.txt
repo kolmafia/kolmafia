@@ -5157,11 +5157,11 @@
 5148	honey dipper	weapon	display	690
 5149	honeybritches	pants	display	420
 5150	honeycap	hat	display	370
-5151
-5152
-5153
-5154
-5155
+5151	Moonthril Circlet	hat	none	0
+5152	Moonthril Greaves	pants	none	0
+5153	Moonthril Flamberge	weapon	none	0
+5154	Moonthril Longbow	weapon	none	0
+5155	Moonthril Cuirass	shirt	none	0
 5156	plush alielf	offhand	gift	0
 5157	Comet Drop	multiple, candy	all	5
 5158	plush dogcat	offhand	gift	0

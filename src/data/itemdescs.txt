@@ -5130,8 +5130,8 @@
 5129	730116799	book4.gif	Notes from the Elfpocalypse, Chapter V
 5130	988558928	book4.gif	Notes from the Elfpocalypse, Chapter VI
 5131	198733102	potion1.gif	Ultrasoldier Serum	vials of Ultrasoldier Serum
-5132	578892185	limboswafer.gif	elven hardtack
-5133	367571624	moonshine.gif	elven squeeze
+5132	578892185	limboswafer.gif	elven hardtack	biscuits of elven hardtack
+5133	367571624	moonshine.gif	elven squeeze	bottles of elven squeeze
 5134	342689784	isotope.gif	lunar isotope
 5135	617322181	emujoystick.gif	E.M.U. joystick
 5136	517091627	emurockets.gif	E.M.U. rocket thrusters
@@ -5145,15 +5145,15 @@
 5144	159319161	honeyglob.gif	handful of honey	handfuls of honey
 5145	721302772	honeypot.gif	honeypot
 5146	486244546	honeypie.gif	wild honey pie
-5147	198539153	honeymead.gif	honey mead
+5147	198539153	honeymead.gif	honey mead	cups of honey mead
 5148	300832347	honeydipper.gif	honey dipper
-5149	829259450	honeypants.gif	honeybritches
+5149	829259450	honeypants.gif	honeybritches	pairs of honeybritches
 5150	932105497	honeyhat.gif	honeycap
-5151
-5152
-5153
-5154
-5155
+5151	522467561	moonthcirclet.gif	Moonthril Circlet
+5152	710629769	moonthgreaves.gif	Moonthril Greaves	pairs of Moonthril Greaves
+5153	774878520	moonthsword.gif	Moonthril Flamberge
+5154		moonthbow.gif	Moonthril Longbow
+5155	534033050	moonthcuirass.gif	Moonthril Cuirass	Moonthril Cuirasses
 5156	655683821	pl_alielf.gif	plush alielf
 5157	949974304	cometdrop.gif	Comet Drop	Comet Drops
 5158	147896938	pl_dogcat.gif	plush dogcat
@@ -5164,7 +5164,7 @@
 5163	978407544	pl_elephant.gif	plush mutated alielephant
 5164	382900325	spacechest.gif	mysterious chest
 5165	616700263	creepygirl.gif	spooky little girl
-5166	175238907	hatcane.gif	tiny top hat and cane
+5166	175238907	hatcane.gif	tiny top hat and cane	tiny top hats and canes
 5167	272489196	pill.gif	synthetic dog hair pill
 5168	500099339	pill.gif	distention pill
 5169	989436501	medipack.gif	elven medi-pack
@@ -5172,18 +5172,18 @@
 5171	287051155	map.gif	Map to Safety Shelter Ronald Prime	Maps to Safety Shelter Ronald Prime
 5172	590025247	map.gif	Map to Safety Shelter Grimace Prime	Maps to Safety Shelter Grimace Prime
 5173	909099220	magipack.gif	elven magi-pack
-5174	652057677	beerbottle.gif	Saison du Lune
-5175	458903748	shot.gif	Moonthril Schnapps
+5174	652057677	beerbottle.gif	Saison du Lune	bottles of Saison du Lune
+5175	458903748	shot.gif	Moonthril Schnapps	shots of Moonthril Schnapps
 5176	682537618	fruitym.gif	Wrecked Generator
-5177	461512582	bowl.gif	Spaghetti with Moonballs
-5178	515980567	crepes.gif	Crepes a la Lune
+5177	461512582	bowl.gif	Spaghetti with Moonballs	plates of Spaghetti with Moonballs
+5178	515980567	crepes.gif	Crepes a la Lune	Crepeses a la Lune
 5179	290960495	klpie.gif	Moon Pie
 5180	666206226	cometpop.gif	Comet Pop
-5181	270613216	flan.gif	Flan in the Moon
+5181	270613216	flan.gif	Flan in the Moon	Flans in the Moon
 5182	756938252	cake3.gif	1/6th Pound Cake
 5183	705026970	moonbox.gif	Mint-in-box Moonthril Circlet
-5184	367369719	moonbox.gif	Mint-in-box Moonthril Greaves
-5185	684833758	moonbox.gif	Mint-in-box Moonthril Cuirass
+5184	367369719	moonbox.gif	Mint-in-box Moonthril Greaves	Mint-in-boxes Moonthril Greaves
+5185	684833758	moonbox.gif	Mint-in-box Moonthril Cuirass	Mint-in-box Moonthril Cuirasses
 5186	658513107	moonbox.gif	Mint-in-box Moonthril Flamberge
 5187	591358121	moonbox.gif	Mint-in-box Moonthril Longbow
 5188	922110263	honeystick.gif	honey stick	honey sticks

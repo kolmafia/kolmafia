@@ -101,6 +101,7 @@ eggnog	3	3	5-10	0	17-30	18-30
 eggnogtini	3	3	3-5	0	0	0	10 Sugar Rush
 elven cellocello	1	1	1-5	5-7	5-7	5-7	20 Sugar Rush
 elven moonshine	3	5	7-10	20-40	20-40	20-40	20 Drunk With Power (+100% spell damage)
+elven squeeze	3	4	5-8	20-30	20-30	20-30
 especially salty dog	4	4	9-13	32-50	32-50	32-50
 evil ducha de oro	4	4	10-14	8-10	0	50-75	10 A Little Bit Evil (+2 ML)
 evil horizontal tango	4	4	10-14	0	0	50-75	10 A Little Bit Evil (+2 ML)
