@@ -682,26 +682,32 @@ public class MallPurchaseRequest
 				Preferences.setInteger( "lastPirateEphemeraReset", KoLCharacter.getAscensions() );
 				Preferences.setString( "lastPirateEphemera", m.group( 0 ) );
 			}
-
-                        return;
+			return;
 		}
 
 		if ( storeId.equals( "h" ) )
 		{
+			// If we were buying, we can't see what is on offer
+
+			if ( responseText.indexOf( "You acquire an item" ) != -1 )
+			{
+				return;
+			}
+			
 			// Check to see if any of the items offered in the
 			// hippy store are special.
 
 			String side = "none";
 
-			if ( responseText.indexOf( "peach" ) != -1 &&
-			     responseText.indexOf( "pear" ) != -1 &&
+			if ( responseText.indexOf( "peach" ) != -1 ||
+			     responseText.indexOf( "pear" ) != -1 ||
 			     responseText.indexOf( "plum" ) != -1 )
 			{
 				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
 				side = "hippy";
 			}
-			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 &&
-				  responseText.indexOf( "cob of corn" ) != -1 &&
+			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 ||
+				  responseText.indexOf( "cob of corn" ) != -1 ||
 				  responseText.indexOf( "juniper berries" ) != -1 )
 			{
 				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
