@@ -534,10 +534,18 @@ public abstract class StaticEntity
 			{
 				EquipmentRequest.parseEquipment( location, responseText );
 
+				// Slimeling binge requests come here, too
+				if ( location.indexOf( "action=slime" ) != -1 )
+				{
+					UseItemRequest.parseBinge( location, responseText );
+				}
 				// Certain requests, like inserting cards into
 				// an El Vibrato helmet, have a usage message,
 				// not an equipment page. Check for that, too.
-				UseItemRequest.parseConsumption( responseText, false );
+				else
+				{
+					UseItemRequest.parseConsumption( responseText, false );
+				}
 			}
 
 			// If there is a consumption message, parse it
