@@ -672,6 +672,13 @@ public class MallPurchaseRequest
 			return;
 		}
 
+		// When we purchase items from NPC stores using ajax, the
+		// response tells us nothing about the contents of the store.
+		if ( urlString.indexOf( "ajax=1" ) != -1 )
+		{
+			return;
+		}
+
 		String storeId = m.group(1);
 
 		if ( storeId.equals( "r" ) )
@@ -687,13 +694,6 @@ public class MallPurchaseRequest
 
 		if ( storeId.equals( "h" ) )
 		{
-			// If we were buying, we can't see what is on offer
-
-			if ( responseText.indexOf( "You acquire an item" ) != -1 )
-			{
-				return;
-			}
-			
 			// Check to see if any of the items offered in the
 			// hippy store are special.
 

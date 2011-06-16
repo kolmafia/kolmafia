@@ -647,10 +647,7 @@ public abstract class ChoiceManager
 			new String[] { "muscle substats", "small meat boost", "half-rotten brain", "skip adventure" },
 			new String[] { null, null, "2562", null } ),
 
-		// Doublewide
-		new ChoiceAdventure(
-			"Cyrpt", "choiceAdventure154", "Defiled Alcove",
-			new String[] { "fight conjoined zmombie", "skip adventure" } ),
+		// Choice 154 used to be Doublewide
 
 		// Skull, Skull, Skull
 		new ChoiceAdventure(
@@ -658,10 +655,7 @@ public abstract class ChoiceManager
 			new String[] { "moxie substats", "small meat boost", "rusty bonesaw", "skip adventure" },
 			new String[] { null, null, "2563", null } ),
 
-		// Pileup
-		new ChoiceAdventure(
-			"Cyrpt", "choiceAdventure156", "Defiled Nook",
-			new String[] { "fight giant skeelton", "skip adventure" } ),
+		// Choice 156 used to be Pileup
 
 		// Urning Your Keep
 		new ChoiceAdventure(
@@ -669,17 +663,9 @@ public abstract class ChoiceManager
 			new String[] { "mysticality substats", "plus-sized phylactery", "small meat gain", "skip adventure" },
 			new String[] { null, "2564", null, null } ),
 
-		// Lich in the Niche
-		new ChoiceAdventure(
-			"Cyrpt", "choiceAdventure158", "Defiled Niche",
-			new String[] { "fight gargantulihc", "skip adventure" } ),
-
+		// Choice 158 used to be Lich in the Niche
 		// Choice 159 used to be Go Slow Past the Drawers
-
-		// Lunchtime
-		new ChoiceAdventure(
-			"Cyrpt", "choiceAdventure160", "Defiled Cranny",
-			new String[] { "fight huge ghuol", "skip adventure" } ),
+		// Choice 160 used to be Lunchtime
 
 		// Choice 161 is Bureaucracy of the Damned
 		// Choice 162 is Between a Rock and Some Other Rocks
