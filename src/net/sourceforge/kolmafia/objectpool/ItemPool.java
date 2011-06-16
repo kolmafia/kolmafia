@@ -1260,6 +1260,15 @@ public class ItemPool
 	public static final int TRANSPORTER_TRANSPONDER = 5170;
 	public static final int RONALD_SHELTER_MAP = 5171;
 	public static final int GRIMACE_SHELTER_MAP = 5172;
+	public static final int MOON_BOOZE_1 = 5174;
+	public static final int MOON_BOOZE_2 = 5175;
+	public static final int MOON_BOOZE_3 = 5176;
+	public static final int MOON_FOOD_1 = 5177;
+	public static final int MOON_FOOD_2 = 5178;
+	public static final int MOON_FOOD_3 = 5179;
+	public static final int MOON_POTION_1 = 5180;
+	public static final int MOON_POTION_2 = 5181;
+	public static final int MOON_POTION_3 = 5182;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

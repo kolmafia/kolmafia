@@ -1009,6 +1009,8 @@ public class ResultProcessor
 		switch ( result.getItemId() )
 		{
 		case ItemPool.GG_TICKET:
+		case ItemPool.SNACK_VOUCHER:
+		case ItemPool.LUNAR_ISOTOPE:
 			ConcoctionDatabase.refreshConcoctions();
 			// Fall through
 		case ItemPool.LUCRE:
@@ -1016,7 +1018,6 @@ public class ResultProcessor
 		case ItemPool.CRIMBUCK:
 		case ItemPool.BONE_CHIPS:
 		case ItemPool.CRIMBCO_SCRIP:
-		case ItemPool.SNACK_VOUCHER:
 		case ItemPool.AWOL_COMMENDATION:
 			CoinmastersFrame.externalUpdate();
 			break;
