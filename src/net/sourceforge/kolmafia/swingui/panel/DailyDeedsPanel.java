@@ -33,11 +33,14 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.ref.WeakReference;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import javax.swing.Box;
@@ -58,6 +61,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.widget.DisabledItemsComboBox;
 import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 
 public class DailyDeedsPanel
@@ -84,8 +88,7 @@ public class DailyDeedsPanel
 		this.add( new PitDaily() );
 		this.add( new StyxDaily() );
 		this.add( new PoolDaily() );
-		this.add( new ShowerStatsDaily() );
-		this.add( new ShowerOtherDaily() );
+		this.add( new ShowerCombo() );
 		this.add( new BooleanItemDaily( "_bagOTricksUsed",
 			ItemPool.BAG_O_TRICKS, "use Bag o' Tricks" ) );
 		this.add( new BooleanItemDaily( "_legendaryBeat",
@@ -104,14 +107,7 @@ public class DailyDeedsPanel
 		this.add( new SkateDaily( "merry-go-round", "peace", "_skateBuff5",
 			"+25% items underwater" ) );
 		this.add( new ConcertDaily() );
-		this.add( new DemonDaily( 1, "yum!",
-			2, "+100% meat, 30 turns" ) );
-		this.add( new DemonDaily( 3, "+5-16 HP/MP, 30 turns",
-			4, "+20 hot damage, +5 DR, 30 turns" ) );
-		this.add( new DemonDaily( 5, "+30 stench damage, 30 turns",
-			7, null ) );
-		this.add( new DemonDaily( 9, "+80-100 hot damage, 30 turns",
-			10, "stat boost, 30 turns" ) );
+		this.add( new DemonCombo() );
 		this.add( new BooleanSkillDaily( "rageGlandVented",
 				"Vent Rage Gland", "cast Vent Rage Gland" ) );
 		this.add( new RestsDaily() );
@@ -227,6 +223,61 @@ public class DailyDeedsPanel
 			this.addButton( command ).setToolTipText( tip );
 		}
 
+		public JButton addComboButton( String command, String displaytext )
+		{
+			JButton button = new JButton( command );
+			button.setActionCommand( command );
+			button.setText(displaytext);
+			button.addActionListener( this );
+			button.setBackground( this.getBackground() );
+			button.setDefaultCapable( false );
+			button.putClientProperty( "JButton.buttonType", "segmented" );
+			if ( this.buttons == null )
+			{
+				this.buttons = new ArrayList();
+				button.putClientProperty( "JButton.segmentPosition", "only" );
+			}
+			else
+			{
+				button.putClientProperty( "JButton.segmentPosition", "last" );
+				int last = this.buttons.size() - 1;
+				((JButton) this.buttons.get( last )).putClientProperty(
+					"JButton.segmentPosition", last == 0 ? "first" : "middle" );
+			}
+			this.buttons.add( button );
+			this.add( button );
+			return button;
+		}		
+		
+		public DisabledItemsComboBox addComboBox( Object choice[], ArrayList tooltips, String lengthString )
+		{
+			DisabledItemsComboBox comboBox = new DisabledItemsComboBox();
+			int ht = comboBox.getFontMetrics(comboBox.getFont()).getHeight() ;
+			int len = comboBox.getFontMetrics(comboBox.getFont()).stringWidth( lengthString );
+			
+			// pseudo magic numbers here, but maximumsize will likely never
+			// be looked at by the layout manager. If  maxsize is not set,
+			// the layout manager isn't happy.
+			// The combobox is ultimately sized by setPrototypeDisplayValue().
+
+			comboBox.setMaximumSize( new Dimension( (int)Math.round( len + 100 ), (int)Math.round( ht * 1.5 ) ) );
+			comboBox.setPrototypeDisplayValue( (Object)lengthString );
+			
+			for ( int i = 0; i < choice.length ; ++i )
+			{
+			    comboBox.addItem( choice[i]);
+			}
+			
+			comboBox.setTooltips( tooltips );
+			this.add( comboBox );
+			return comboBox;
+		}
+		
+		public void setComboTarget( JButton b, String act )
+		{
+			    b.setActionCommand(act);			
+		}
+
 		public JButton buttonText( int idx, String command )
 		{
 			JButton button = (JButton) this.buttons.get( idx );
@@ -290,6 +341,177 @@ public class DailyDeedsPanel
 		public void update()
 		{
 		}
+	}
+
+	public static class ShowerCombo
+		extends Daily
+	{
+		// We don't really need the ability to disable items within
+		// the shower combo box, but it's implemented here for consistency
+
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn;
+			
+		public ShowerCombo()
+		{
+			ArrayList ttips = new ArrayList();
+			Object[] choices = {
+				"April Shower",
+				"Muscle",
+				"Mysticality",
+				"Moxie",
+				"Ice",
+				"MP"
+			};
+			Object[] tips = {
+				"Take a shower",
+				"+5% to all Muscle Gains, 50 turns",
+				"+5% to all Mysticality Gains, 50 turns",
+				"+5% to all Moxie Gains, 50 turns",
+				"shards of double-ice",
+				"mp or amazing idea"
+			};
+
+			ttips.addAll(Arrays.asList(tips));
+
+			this.addItem( ItemPool.VIP_LOUNGE_KEY );
+			this.addListener( "_aprilShower" );
+			this.addListener( "kingLiberated" );
+
+			//the string is used to set the combobox width. pick the largest, add a space
+			box = this.addComboBox( choices, ttips, "April Shower " );
+			box.addActionListener(new ShowerComboListener() );
+			this.add( Box.createRigidArea(new Dimension(5,1) ) );//small 5px spacer
+
+			btn = this.addComboButton( "" , "Go!"); //initialize GO button to do nothing
+		}
+		
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean as = Preferences.getBoolean( "_aprilShower" );
+			this.setShown( ( !bm || kf ) && ( have || as ) );
+			this.setEnabled( !as );
+			box.setEnabled( !as );
+		}
+		
+		//can probably generalize these combo listeners and put them somewhere else.
+		//for now they're individual to each combo.
+		private class ShowerComboListener
+			implements ActionListener
+			//the combo listeners exist solely to update the GO button with
+			//the combo box target
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox)e.getSource();
+				if ( cb.getSelectedIndex() == 0)
+				{
+					setComboTarget( btn, "" );
+				}
+				else
+				{
+					String Choice = cb.getSelectedItem().toString();
+				
+					if ( Choice != null )
+					{
+						setComboTarget(btn, "shower " + Choice );
+					}
+				}
+			}
+		}	
+	}
+
+	public static class DemonCombo
+		extends Daily
+	{
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn = null;
+		
+		public DemonCombo()
+		{
+			int len = KoLAdventure.DEMON_TYPES.length;
+			ArrayList ttips = new ArrayList();
+			Object[] choices = new String[ len + 1 ];
+			choices[0] = "Summoning Chamber";
+			Object[] tips = {
+				"Summon a demon",
+				"Yum!",
+				"+100% meat, 30 turns",
+				"+5-16 HP/MP, 30 turns",
+				"+20 hot damage, +5 DR, 30 turns",
+				"+30 stench damage, 30 turns",
+				null,
+				"Booze!",
+				"why ARE you here?",
+				"+80-100 hot damage, 30 turns",
+				"stat boost, 30 turns"
+			};
+			
+			for ( int i=1; i <= len ; ++i )
+			{
+				this.addListener( "demonName" + i );
+				choices[i] =  (String)KoLAdventure.DEMON_TYPES[ i - 1 ][ 1 ] ;
+			}
+
+			ttips.addAll(Arrays.asList(tips));
+		
+			this.addListener( "(character)" );
+			this.addListener( "demonSummoned" );
+
+			this.addItem( ItemPool.EYE_OF_ED );
+			this.addItem( ItemPool.HEADPIECE_OF_ED );
+			this.addItem( ItemPool.STAFF_OF_ED );
+		
+			box = this.addComboBox( choices, ttips, "Summoning Chamber " );
+			box.addActionListener(new DemonComboListener() );
+			this.add( Box.createRigidArea(new Dimension(5,1) ) );
+			
+			// Initialize the GO button to do nothing.
+			btn = this.addComboButton( "", "Go!");
+		}
+		
+		public void update()
+		{
+			boolean summoned = Preferences.getBoolean( "demonSummoned" );
+			boolean have = InventoryManager.getCount( ItemPool.EYE_OF_ED ) > 0
+				|| InventoryManager.getCount( ItemPool.HEADPIECE_OF_ED ) > 0
+				|| InventoryManager.getCount( ItemPool.STAFF_OF_ED ) > 0;
+			this.setShown( have );
+			this.setEnabled( !summoned );
+			box.setEnabled( !summoned ); // this.setEnabled will not disable the combo box, for whatever reason
+			
+			// Disable individual choices if we don't have the demon names
+			// Don't touch the first list element
+			for ( int i = 1; i <= KoLAdventure.DEMON_TYPES.length ; ++i )
+			{
+				box.setDisabledIndex( i, Preferences.getString( "demonName" + i ).equals( "" ) );
+			}
+		}
+		
+		private class DemonComboListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox)e.getSource();
+				if ( cb.getSelectedIndex() == 0 )
+				{
+					setComboTarget(btn, "");
+				}
+				else
+				{
+					String Choice = (String)cb.getSelectedItem().toString();
+				
+					if ( Choice != null )
+					{
+						setComboTarget(btn, "summon " + Choice);
+					}
+				}
+			}
+		}	
 	}
 
 	public static class BooleanDaily
@@ -418,42 +640,6 @@ public class DailyDeedsPanel
 		}
 	}
 
-	public static class DemonDaily
-		extends Daily
-	{
-		private int demon1, demon2;
-
-		public DemonDaily( int demon1, String tip1, int demon2, String tip2 )
-		{
-			this.demon1 = demon1;
-			this.demon2 = demon2;
-			this.addListener( "(character)" );
-			this.addListener( "demonSummoned" );
-			this.addListener( "demonName" + demon1 );
-			this.addListener( "demonName" + demon2 );
-			this.addItem( ItemPool.EYE_OF_ED );
-			this.addItem( ItemPool.HEADPIECE_OF_ED );
-			this.addItem( ItemPool.STAFF_OF_ED );
-			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon1 - 1 ][ 1 ],
-				tip1 );
-			this.addButton( "summon " + KoLAdventure.DEMON_TYPES[ demon2 - 1 ][ 1 ],
-				tip2 );
-		}
-
-		public void update()
-		{
-			boolean summoned = Preferences.getBoolean( "demonSummoned" );
-			boolean have = InventoryManager.getCount( ItemPool.EYE_OF_ED ) > 0
-				|| InventoryManager.getCount( ItemPool.HEADPIECE_OF_ED ) > 0
-				|| InventoryManager.getCount( ItemPool.STAFF_OF_ED ) > 0;
-			this.setShown( have );
-			this.setEnabled( 0, !summoned && have &&
-				!Preferences.getString( "demonName" + this.demon1 ).equals( "" ) );
-			this.setEnabled( 1, !summoned && have &&
-				!Preferences.getString( "demonName" + this.demon2 ).equals( "" ) );
-		}
-	}
-
 	public static class SpadeDaily
 		extends Daily
 	{
@@ -467,7 +653,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			int ns = Preferences.getString( "spadingData" ).split( "\\|" ).length / 3;
-			this.setEnabled( ns > 0 );
+			this.setShown( ns > 0 );
 			this.setText( ns == 1 ? "one item to submit" : (ns + " items to submit") );
 		}
 	}
@@ -671,55 +857,6 @@ public class DailyDeedsPanel
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
 			this.setEnabled( nf < 3 );
 			this.setText( nf + "/3" );
-		}
-	}
-
-	public static class ShowerStatsDaily
-		extends Daily
-	{
-		public ShowerStatsDaily()
-		{
-			this.addItem( ItemPool.VIP_LOUNGE_KEY );
-			this.addListener( "_aprilShower" );
-			this.addListener( "kingLiberated" );
-			this.addButton( "shower muscle", "+5% to all Muscle Gains, 50 turns" );
-			this.addButton( "shower mysticality", "+5% to all Mysticality Gains, 50 turns" );
-			this.addButton( "shower moxie", "+5% to all Moxie Gains, 50 turns" );
-			this.addLabel( "" );
-		}
-
-		public void update()
-		{
-			boolean bm = KoLCharacter.inBadMoon();
-			boolean kf = KoLCharacter.kingLiberated();
-			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
-			boolean as = Preferences.getBoolean( "_aprilShower" );
-			this.setShown( ( !bm || kf ) && ( have || as ) );
-			this.setEnabled( !as );
-		}
-	}
-
-	public static class ShowerOtherDaily
-		extends Daily
-	{
-		public ShowerOtherDaily()
-		{
-			this.addItem( ItemPool.VIP_LOUNGE_KEY );
-			this.addListener( "_aprilShower" );
-			this.addListener( "kingLiberated" );
-			this.addButton( "shower ice", "shards of double-ice" );
-			this.addButton( "shower mp", "mp or amazing idea" );
-			this.addLabel( "" );
-		}
-
-		public void update()
-		{
-			boolean bm = KoLCharacter.inBadMoon();
-			boolean kf = KoLCharacter.kingLiberated();
-			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
-			boolean as = Preferences.getBoolean( "_aprilShower" );
-			this.setShown( ( !bm || kf ) && ( have || as ) );
-			this.setEnabled( !as );
 		}
 	}
 
