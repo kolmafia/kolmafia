@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -530,6 +531,46 @@ public abstract class InventoryManager
 
 				return missingCount <= 0;
 			}
+		}
+
+		int lunchIndex = KoLConstants.lunchItems.indexOf( item );
+		if ( lunchIndex >= 0 )
+		{
+			int isotopeCount = InventoryManager.getAccessibleCount( ItemPool.LUNAR_ISOTOPE );
+			if ( isotopeCount == 0 )
+			{
+				return false;
+			}
+
+			// Make sure we are Transpondent
+			if ( !KoLConstants.activeEffects.contains( CoinmastersFrame.TRANSPONDENT ) )
+			{
+				// We are not currently Transpondent.
+				// Do we have a transponder?
+				if ( CoinmastersFrame.TRANSPONDER.getCount( KoLConstants.inventory ) == 0 )
+				{
+					// Nope
+					return false;
+				}
+
+				// *** Should we use a transponder?
+				return false;
+			}
+
+			// Retrieve enough isotopes to buy the items
+			int cost = ((Integer) KoLConstants.lunchPrices.get( lunchIndex ) ).intValue();
+			int neededIsotopes = missingCount * cost;
+			if ( !retrieveItem( ItemPool.LUNAR_ISOTOPE, neededIsotopes ) )
+			{
+				return false;
+			}
+
+			// Cash them in for items
+			RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.LUNAR_LUNCH, "buy", item.getItemId(), missingCount ) );
+
+			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+			return missingCount <= 0;
 		}
 
 		// Try to purchase the item from the mall, if the user wishes

@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -1238,6 +1239,22 @@ public class ConcoctionDatabase
 				AdventureResult snack = (AdventureResult) KoLConstants.snackItems.get( i );
 				ConcoctionDatabase.setBasicItem(
 					availableIngredients, snack.getItemId(), voucherCount );
+			}
+		}
+
+		// Lunar Lunch-o-Mat items are available if you have lunar
+		// isotopes and the Transpondent effect or the way to get it.
+		int isotopeCount = InventoryManager.getAccessibleCount( ItemPool.LUNAR_ISOTOPE );
+		int transponderCount = CoinmastersFrame.TRANSPONDER.getCount( KoLConstants.inventory );
+		boolean transpondent = KoLConstants.activeEffects.contains( CoinmastersFrame.TRANSPONDENT );
+		if ( isotopeCount > 0 && ( transpondent || transponderCount > 0 ) )
+		{
+			for ( int i = 0; i < KoLConstants.lunchItems.size(); ++i )
+			{
+				AdventureResult lunch = (AdventureResult) KoLConstants.lunchItems.get( i );
+				Integer cost = (Integer) KoLConstants.lunchPrices.get( i );
+				ConcoctionDatabase.setBasicItem(
+					availableIngredients, lunch.getItemId(), isotopeCount / cost.intValue() );
 			}
 		}
 	}
