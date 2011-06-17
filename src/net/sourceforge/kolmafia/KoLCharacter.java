@@ -263,6 +263,7 @@ public abstract class KoLCharacter
 	private static long decrementPrime = 0;
 	private static long incrementPrime = 25;
 	private static int gender = 0;
+	public static int AWOLtattoo = 0;
 
 	private static int currentHP, maximumHP, baseMaxHP;
 	private static int currentMP, maximumMP, baseMaxMP;
@@ -610,6 +611,7 @@ public abstract class KoLCharacter
 		KoLCharacter.tripleReagent = false;
 		KoLCharacter.guildStoreStateKnown = false;
 		KoLCharacter.beanstalkArmed = false;
+		KoLCharacter.AWOLtattoo = 0;
 
 		KoLCharacter.ascensions = 0;
 		KoLCharacter.ascensionSign = "None";

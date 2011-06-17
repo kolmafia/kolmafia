@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
+import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -553,7 +554,7 @@ public abstract class StaticEntity
 				  location.indexOf( "action=breakbricko" ) != -1 )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
-				CoinMasterRequest.parseAWOLVisit( location, responseText );
+				AWOLQuartermasterRequest.parseAWOLVisit( location, responseText );
 			}
 
 			// If there is a binge message, parse it
