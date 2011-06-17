@@ -51,7 +51,6 @@ public class DollHawkerRequest
 			"Dollhawker's Emporium",
 			"spaaace.php?place=shop2",
 			"isotope",
-			"lunar isotope",
 			"You have 0 lunar isotopes",
 			false,
 			DollHawkerRequest.TOKEN_PATTERN,

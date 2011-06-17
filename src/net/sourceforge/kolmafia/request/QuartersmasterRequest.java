@@ -51,7 +51,6 @@ public class QuartersmasterRequest
 			"Quartersmaster",
 			"bigisland.php?place=camp&whichcamp=2",
 			"quarter",
-			"quarter",
 			"You don't have any quarters",
 			false,
 			QuartersmasterRequest.TOKEN_PATTERN,

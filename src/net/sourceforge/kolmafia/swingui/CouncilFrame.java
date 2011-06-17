@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -107,7 +108,7 @@ public class CouncilFrame
 		}
 		else if ( location.startsWith( "bhh" ) )
 		{
-			CoinMasterRequest.parseBountyVisit( location, responseText );
+			BountyHunterHunterRequest.parseBountyVisit( location, responseText );
 		}
 		else if ( location.startsWith( "bigisland" ) )
 		{

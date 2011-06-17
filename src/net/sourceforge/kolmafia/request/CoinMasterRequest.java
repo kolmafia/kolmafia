@@ -42,20 +42,17 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
@@ -67,38 +64,15 @@ public class CoinMasterRequest
 	private static final Pattern TOBUY_PATTERN = Pattern.compile( "tobuy=(\\d+)" );
 	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
-	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (sand dollar|Game Grid redemption ticket|A. W. O. L. commendation)" );
 
 	private static String lastURL = null;
 
-	public static final CoinmasterData BHH =
-		new CoinmasterData(
-			"Bounty Hunter Hunter",
-			"bhh.php",
-			"lucre",
-			null,
-			null,
-			false,
-			null,
-			CoinmastersFrame.LUCRE,
-			"availableLucre",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"howmany",
-			CoinMasterRequest.HOWMANY_PATTERN,
-			"buy",
-			CoinmastersDatabase.getLucreItems(),
-			CoinmastersDatabase.lucreBuyPrices(),
-			null,
-			null
-			);
 	public static final CoinmasterData BIGBROTHER =
 		new CoinmasterData(
 			"Big Brother",
 			"monkeycastle.php",
-			"sand dollar",
 			"sand dollar",
 			"You haven't got any sand dollars",
 			false,
@@ -120,7 +94,6 @@ public class CoinMasterRequest
 			"Arcade Ticket Counter",
 			"arcade.php",
 			"ticket",
-			"Game Grid redemption ticket",
 			"You currently have no Game Grid redemption tickets",
 			false,
 			CoinMasterRequest.TOKEN_PATTERN,
@@ -141,7 +114,6 @@ public class CoinMasterRequest
 			"A. W. O. L. Quartermaster",
 			"inv_use.php",
 			"commendation",
-			"A. W. O. L. commendation",
 			null,
 			false,
 			CoinMasterRequest.TOKEN_PATTERN,
@@ -180,11 +152,8 @@ public class CoinMasterRequest
 	public CoinMasterRequest( final CoinmasterData data, final String action )
 	{
 		this( data );
-		if ( action != null )
-		{
-			this.action = action;
-			this.addFormField( "action", action );
-		}
+		this.action = action;
+		this.addFormField( "action", action );
 	}
 
 	public CoinMasterRequest( final CoinmasterData data, final String action, final int itemId, final int quantity )
@@ -282,40 +251,6 @@ public class CoinMasterRequest
 
 		CoinMasterRequest.parseBalance( data, responseText );
 		CoinmastersFrame.externalUpdate();
-	}
-
-	public static void parseBountyVisit( final String location, final String responseText )
-	{
-		CoinmasterData data = CoinMasterRequest.BHH;
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
-		{
-			// I'm still waiting for you to bring me 5 discarded
-			// pacifiers, Bounty Hunter!
-
-			Matcher matcher = CoinMasterRequest.BOUNTY_PATTERN.matcher( responseText );
-			if ( matcher.find() )
-			{
-				int count = StringUtilities.parseInt( matcher.group(1) );
-				String name = matcher.group(2);
-				AdventureResult ar = new AdventureResult( name, count, false );
-				Preferences.setInteger( "currentBountyItem", ar.getItemId() );
-			}
-
-			if ( responseText.indexOf( "You acquire" ) != -1 )
-			{
-				// He turned in a bounty for a lucre
-				CoinMasterRequest.abandonBounty();
-				CoinmastersFrame.externalUpdate();
-			}
-			return;
-		}
-
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-			CoinmastersFrame.externalUpdate();
-		}
 	}
 
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "sigils/aol(\\d+).gif" );
@@ -510,7 +445,7 @@ public class CoinMasterRequest
 	{
 		if ( urlString.startsWith( "bhh.php" ) )
 		{
-			return registerHunterRequest( urlString );
+			return BountyHunterHunterRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "monkeycastle.php" ) )
@@ -559,64 +494,6 @@ public class CoinMasterRequest
 		}
 
 		return false;
-	}
-
-	private static final boolean registerHunterRequest( final String urlString )
-	{
-		CoinmasterData data = CoinMasterRequest.BHH;
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "visit Bounty Hunter Hunter" );
-			return true;
-		}
-
-		if ( action.equals( "takebounty" ) )
-		{
-			Matcher idMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
-			if ( !idMatcher.find() )
-			{
-				return true;
-			}
-
-			int itemId = StringUtilities.parseInt( idMatcher.group( 1 ) );
-			Preferences.setInteger( "currentBountyItem", itemId );
-
-
-			KoLAdventure adventure = AdventureDatabase.getBountyLocation( itemId );
-			AdventureFrame.updateSelectedAdventure( adventure );
-			AdventureResult bounty = AdventureDatabase.getBounty( adventure );
-			String plural = ItemDatabase.getPluralName( itemId );
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "accept bounty assignment to collect " + bounty.getCount() + " " + plural );
-		}
-		else if ( action.equals( "abandonbounty" ) )
-		{
-			CoinMasterRequest.abandonBounty();
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "abandon bounty assignment" );
-		}
-		else if ( action.equals( "buy" ) )
-		{
-			CoinMasterRequest.buyStuff( data, urlString );
-		}
-
-		return true;
-	}
-
-	private static final void abandonBounty()
-	{
-		int itemId = Preferences.getInteger( "currentBountyItem" );
-		if ( itemId == 0 )
-		{
-			return;
-		}
-
-		AdventureResult item = new AdventureResult( itemId, 1 );
-		ResultProcessor.processResult( item.getInstance( 0 - item.getCount( KoLConstants.inventory ) ) );
-		Preferences.setInteger( "currentBountyItem", 0 );
 	}
 
 	private static final boolean registerSeaRequest( final String urlString )

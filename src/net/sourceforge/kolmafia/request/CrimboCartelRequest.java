@@ -51,7 +51,6 @@ public class CrimboCartelRequest
 			"Crimbo Cartel",
 			"crimbo09.php",
 			"Crimbuck",
-			"Crimbux",
 			"You do not currently have any Crimbux",
 			false,
 			CrimboCartelRequest.TOKEN_PATTERN,

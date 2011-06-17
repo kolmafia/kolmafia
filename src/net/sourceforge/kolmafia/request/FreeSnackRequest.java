@@ -53,7 +53,6 @@ public class FreeSnackRequest
 			"Game Shoppe Snacks",
 			"gamestore.php",
 			"snack voucher",
-			"free snack voucher",
 			"The teen glances at your snack voucher",
 			true,
 			FreeSnackRequest.TOKEN_PATTERN,

@@ -51,7 +51,6 @@ public class DimemasterRequest
 			"Dimemaster",
 			"bigisland.php?place=camp&whichcamp=1",
 			"dime",
-			"dime",
 			"You don't have any dimes",
 			false,
 			DimemasterRequest.TOKEN_PATTERN,

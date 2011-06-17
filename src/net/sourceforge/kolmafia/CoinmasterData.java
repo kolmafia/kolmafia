@@ -50,7 +50,6 @@ public class CoinmasterData
 	private final String master;
 	private final String URL;
 	private final String token;
-	private final String tokenString;
 	private final String tokenTest;
 	private final boolean positiveTest;
 	private final Pattern tokenPattern;
@@ -70,7 +69,6 @@ public class CoinmasterData
 		final String master,
 		final String URL,
 		final String token,
-		final String tokenString,
 		final String tokenTest,
 		final boolean positiveTest,
 		final Pattern tokenPattern,
@@ -89,7 +87,6 @@ public class CoinmasterData
 		this.master = master;
 		this.URL = URL;
 		this.token = token;
-		this.tokenString = tokenString;
 		this.tokenTest = tokenTest;
 		this.positiveTest = positiveTest;
 		this.tokenPattern = tokenPattern;
@@ -119,11 +116,6 @@ public class CoinmasterData
 	public final String getToken()
 	{
 		return this.token;
-	}
-
-	public final String getTokenString()
-	{
-		return this.tokenString;
 	}
 
 	public final String getTokenTest()
