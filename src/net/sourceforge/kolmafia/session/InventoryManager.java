@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -396,10 +397,12 @@ public abstract class InventoryManager
 			}
 		}
 
+		boolean shouldUseCoinmaster = Preferences.getBoolean( "autoSatisfyWithNPCs" );
+
 		// coffee pixie sticks are non tradeable but can be purchased
 		// from the Game Grid Arcade for 10 Game Grid tickets.
 
-		if ( itemId == ItemPool.COFFEE_PIXIE_STICK )
+		if ( itemId == ItemPool.COFFEE_PIXIE_STICK && shouldUseCoinmaster )
 		{
 			// Retrieve enough tickets to buy the sticks
 			int neededTickets = missingCount * 10;
@@ -414,6 +417,50 @@ public abstract class InventoryManager
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			return missingCount <= 0;
+		}
+
+		// Moon food and drink is non tradeable but can be purchased
+		// from the Lunar Lunch-o-Mat for lunar isotopes
+
+		int lunchIndex = KoLConstants.lunchItems.indexOf( item );
+		if ( lunchIndex >= 0 && shouldUseCoinmaster )
+		{
+			int isotopeCount = InventoryManager.getAccessibleCount( ItemPool.LUNAR_ISOTOPE );
+			if ( isotopeCount > 0 )
+			{
+				// Make sure we are Transpondent
+				if ( !KoLConstants.activeEffects.contains( CoinmastersFrame.TRANSPONDENT ) )
+				{
+					// We are not currently Transpondent.
+					// Do we have a transponder?
+					if ( CoinmastersFrame.TRANSPONDER.getCount( KoLConstants.inventory ) == 0 )
+					{
+						// Nope
+						return false;
+					}
+
+					// *** Should we use a transponder?
+					return false;
+				}
+
+				// Retrieve enough isotopes to buy the items
+				int cost = ((Integer) KoLConstants.lunchPrices.get( lunchIndex ) ).intValue();
+				int neededIsotopes = missingCount * cost;
+				if ( !retrieveItem( ItemPool.LUNAR_ISOTOPE, neededIsotopes ) )
+				{
+					return false;
+				}
+
+				// Cash them in for items
+				LunarLunchRequest.buy( item.getItemId(), missingCount );
+
+				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+				if ( missingCount <= 0 )
+				{
+					return true;
+				}
+			}
 		}
 
 		// See if the item can be retrieved from the clan stash.  If it
@@ -526,52 +573,15 @@ public abstract class InventoryManager
 				}
 
 				// Cash them in for snacks
-				RequestThread.postRequest( new FreeSnackRequest( "buysnack", item.getItemId(), missingCount ) );
+				FreeSnackRequest.buy( item.getItemId(), missingCount );
 
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
-				return missingCount <= 0;
-			}
-		}
-
-		int lunchIndex = KoLConstants.lunchItems.indexOf( item );
-		if ( lunchIndex >= 0 )
-		{
-			int isotopeCount = InventoryManager.getAccessibleCount( ItemPool.LUNAR_ISOTOPE );
-			if ( isotopeCount == 0 )
-			{
-				return false;
-			}
-
-			// Make sure we are Transpondent
-			if ( !KoLConstants.activeEffects.contains( CoinmastersFrame.TRANSPONDENT ) )
-			{
-				// We are not currently Transpondent.
-				// Do we have a transponder?
-				if ( CoinmastersFrame.TRANSPONDER.getCount( KoLConstants.inventory ) == 0 )
+				if ( missingCount <= 0 )
 				{
-					// Nope
-					return false;
+					return true;
 				}
-
-				// *** Should we use a transponder?
-				return false;
 			}
-
-			// Retrieve enough isotopes to buy the items
-			int cost = ((Integer) KoLConstants.lunchPrices.get( lunchIndex ) ).intValue();
-			int neededIsotopes = missingCount * cost;
-			if ( !retrieveItem( ItemPool.LUNAR_ISOTOPE, neededIsotopes ) )
-			{
-				return false;
-			}
-
-			// Cash them in for items
-			RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.LUNAR_LUNCH, "buy", item.getItemId(), missingCount ) );
-
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-			return missingCount <= 0;
 		}
 
 		// Try to purchase the item from the mall, if the user wishes

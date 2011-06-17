@@ -243,63 +243,6 @@ public class CoinMasterRequest
 			null,
 			null
 			);
-	public static final CoinmasterData ISOTOPE_SMITHERY =
-		new CoinmasterData(
-			CoinmastersDatabase.ISOTOPE_SMITHERY,
-			"isotope",
-			"lunar isotope",
-			"spaaace.php?place=shop1",
-			null,
-			CoinmastersFrame.ISOTOPE,
-			"availableIsotopes",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"quantity",
-			CoinMasterRequest.QUANTITY_PATTERN,
-			"buy",
-			CoinmastersDatabase.getIsotope1Items(),
-			CoinmastersDatabase.isotope1BuyPrices(),
-			null,
-			null
-			);
-	public static final CoinmasterData DOLLHAWKER =
-		new CoinmasterData(
-			CoinmastersDatabase.DOLLHAWKER,
-			"isotope",
-			"lunar isotope",
-			"spaaace.php?place=shop2",
-			null,
-			CoinmastersFrame.ISOTOPE,
-			"availableIsotopes",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"quantity",
-			CoinMasterRequest.QUANTITY_PATTERN,
-			"buy",
-			CoinmastersDatabase.getIsotope2Items(),
-			CoinmastersDatabase.isotope2BuyPrices(),
-			null,
-			null
-			);
-	public static final CoinmasterData LUNAR_LUNCH =
-		new CoinmasterData(
-			CoinmastersDatabase.LUNAR_LUNCH,
-			"isotope",
-			"lunar isotope",
-			"spaaace.php?place=shop3",
-			null,
-			CoinmastersFrame.ISOTOPE,
-			"availableIsotopes",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"quantity",
-			CoinMasterRequest.QUANTITY_PATTERN,
-			"buy",
-			CoinmastersDatabase.getIsotope3Items(),
-			CoinmastersDatabase.isotope3BuyPrices(),
-			null,
-			null
-			);
 
 	private final CoinmasterData data;
 
@@ -622,66 +565,6 @@ public class CoinMasterRequest
 		return null;
 	}
 
-	public static void parseSpaaaceVisit( final String location, final String responseText )
-	{
-		if ( location.indexOf( "place=shop" ) == -1 )
-		{
-			return;
-		}
-
-		CoinmasterData data = findIsotopeMaster( location );
-		if ( data == null )
-		{
-			return;
-		}
-
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
-		{
-			// Parse current coin balances
-			CoinMasterRequest.parseBalance( data, responseText );
-			CoinmastersFrame.externalUpdate();
-
-			return;
-		}
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-		}
-
-		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
-	}
-
-	private static final Pattern SHOP_PATTERN = Pattern.compile( "place=shop(\\d+)" );
-	public static CoinmasterData findIsotopeMaster( final String urlString )
-	{
-		Matcher shopMatcher = CoinMasterRequest.SHOP_PATTERN.matcher( urlString );
-		if ( !shopMatcher.find() )
-		{
-			return null;
-		}
-
-		String shop = shopMatcher.group(1);
-
-		if ( shop.equals( "1" ) )
-		{
-			return CoinMasterRequest.ISOTOPE_SMITHERY;
-		}
-
-		if ( shop.equals( "2" ) )
-		{
-			return CoinMasterRequest.DOLLHAWKER;
-		}
-
-		if ( shop.equals( "3" ) )
-		{
-			return CoinMasterRequest.LUNAR_LUNCH;
-		}
-
-		return null;
-	}
-
 	public static void parseBalance( final CoinmasterData data, final String responseText )
 	{
 		if ( data == null )
@@ -878,7 +761,7 @@ public class CoinMasterRequest
 
 		if ( urlString.startsWith( "spaaace.php" ) )
 		{
-			return registerSpaaaceRequest( urlString );
+			return SpaaaceRequest.registerRequest( urlString );
 		}
 
 		return false;
@@ -1083,28 +966,6 @@ public class CoinMasterRequest
 			CoinmasterData data = CoinMasterRequest.AWOL;
 			CoinMasterRequest.buyStuff( data, urlString );
 			return true;
-		}
-
-		return true;
-	}
-
-	private static final boolean registerSpaaaceRequest( final String urlString )
-	{
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return true;
-		}
-
-		CoinmasterData data = findIsotopeMaster( urlString );
-		if ( data == null )
-		{
-			return false;
-		}
-
-		if ( action.equals( "buy" ) )
-		{
-			CoinMasterRequest.buyStuff( data, urlString );
 		}
 
 		return true;
