@@ -990,6 +990,7 @@ public class MaximizerFrame
 		private int dump = 0;
 		private int clownosity = 0;
 		private int raveosity = 0;
+		private int beeosity = 2;
 		private int booleanMask, booleanValue;
 		private ArrayList familiars;
 		
@@ -1087,6 +1088,10 @@ public class MaximizerFrame
 			boolean hadFamiliar = false;
 			int pos = 0;
 			int index = -1;
+			
+			int equipBeeosity = 0;
+			int outfitBeeosity = 0;
+			
 			while ( pos < expr.length() )
 			{
 				if ( !m.find() )
@@ -1179,6 +1184,11 @@ public class MaximizerFrame
 					this.raveosity = (int) weight;
 					continue;
 				}
+				else if ( keyword.equals( "beeosity" ) )
+				{
+					this.beeosity = (int) weight;
+					continue;
+				}
 				else if ( keyword.equals( "sea" ) )
 				{
 					this.booleanMask |= (1 << Modifiers.ADVENTURE_UNDERWATER) |
@@ -1199,6 +1209,8 @@ public class MaximizerFrame
 					if ( weight > 0.0f )
 					{
 						this.posEquip.add( match );
+						equipBeeosity += KoLCharacter.getBeeosity(
+							match.getName() );
 					}
 					else
 					{
@@ -1223,6 +1235,13 @@ public class MaximizerFrame
 					if ( weight > 0.0f )
 					{
 						this.posOutfits.add( outfit.getName() );
+						int bees = 0;
+						AdventureResult[] pieces = outfit.getPieces();
+						for ( int i = 0; i < pieces.length; ++i )
+						{
+							bees += KoLCharacter.getBeeosity( pieces[ i ].getName() );						
+						}
+						outfitBeeosity = Math.max( outfitBeeosity, bees );
 					}
 					else
 					{
@@ -1363,6 +1382,7 @@ public class MaximizerFrame
 				else if ( keyword.startsWith( "adv" ) )
 				{
 					this.noTiebreaker = true;
+					this.beeosity = 999;
 					index = Modifiers.ADVENTURES;
 				}
 				else if ( keyword.startsWith( "exp" ) )
@@ -1392,6 +1412,9 @@ public class MaximizerFrame
 					"Unrecognized keyword: " + keyword );
 				return;
 			}
+			
+			this.beeosity = Math.max( Math.max( this.beeosity,
+				equipBeeosity ), outfitBeeosity );
 			
 			// Make sure indirect sources have at least a little weight;
 			float fudge = this.weight[ Modifiers.EXPERIENCE ] * 0.0001f;
@@ -1654,7 +1677,7 @@ public class MaximizerFrame
 			throws MaximizerInterruptedException
 		{
 			// Items automatically considered regardless of their score -
-			// outfit pieces, synergies, hobo power, brimstone, etc.
+			// synergies, hobo power, brimstone, etc.
 			ArrayList[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 			// Items to be considered based on their score
 			ArrayList[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
@@ -1751,8 +1774,14 @@ public class MaximizerFrame
 				int slot = EquipmentManager.itemIdToEquipmentType( id );
 				if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
 				AdventureResult preItem = ItemPool.get( id, 1 );
+				String name = preItem.getName();
 				AdventureResult item = null;
 				if ( this.negEquip.contains( preItem ) ) continue;
+				if ( KoLCharacter.inBeecore() &&
+					KoLCharacter.getBeeosity( name ) > this.beeosity )
+				{	// too beechin' all by itself!
+					continue;
+				}
 				boolean famCanEquip = KoLCharacter.getFamiliar().canEquip( preItem );
 				if ( famCanEquip && slot != EquipmentManager.FAMILIAR )
 				{
@@ -1783,7 +1812,6 @@ public class MaximizerFrame
 				}
 				int count = item.getCount();
 				if ( count == 0 ) continue;
-				String name = item.getName();
 				
 				int auxSlot = -1;
 			gotItem:
@@ -1870,12 +1898,6 @@ public class MaximizerFrame
 						outfitPieces.put( item, item );
 					}
 					
-					if ( this.posEquip.contains( item ) )
-					{
-						item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
-						break gotItem;
-					}
-	
 					if ( KoLCharacter.hasEquipped( item ) )
 					{	// Make sure the current item in each slot is considered
 						// for keeping, unless it's actively harmful.
@@ -1895,6 +1917,12 @@ public class MaximizerFrame
 						item = item.getInstance( count );
 					}
 					
+					if ( this.posEquip.contains( item ) )
+					{
+						item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+						break gotItem;
+					}
+	
 					switch ( this.checkConstraints( mods ) )
 					{
 					case -1:
@@ -1993,20 +2021,45 @@ public class MaximizerFrame
 				}
 				i = list.listIterator( list.size() );
 				int total = 0;
+				int beeotches = 0;
+				int beeosity = 0;
+				int b;
+				int useful = Evaluator.maxUseful( slot );
 				while ( i.hasPrevious() )
 				{	
 					AdventureResult item = ((Spec) i.previous()).attachment;
 					item = this.validateItem( item, maxPrice, priceLevel );
 					int count = item.getCount();
-					if ( (count & Evaluator.TOTAL_MASK) == 0 )
+					boolean auto = (count & Evaluator.AUTOMATIC_FLAG) != 0;
+					count &= TOTAL_MASK;
+					if ( count == 0 )
 					{
 						continue;
 					}
-					if ( (count & Evaluator.AUTOMATIC_FLAG) != 0 ||
-						total < Evaluator.maxUseful( slot ) )
+					if ( auto )
 					{
 						automatic[ slot ].add( item );
-						total += count & Evaluator.TOTAL_MASK;
+						total += count;
+					}
+					else if ( KoLCharacter.inBeecore() &&
+						(b = KoLCharacter.getBeeosity( item.getName() )) > 0 )
+					{	// This item is a beeotch!
+						// Don't count it towards the number of items desired
+						// in this slot's shortlist, since it may turn out to be
+						// advantageous to use up all our allowed beeosity on
+						// other slots.
+						if ( total < useful && beeotches < useful &&
+							beeosity < this.beeosity )
+						{
+							automatic[ slot ].add( item );
+							beeotches += count;
+							beeosity += b * count;
+						}					
+					}
+					else if ( total < useful )
+					{
+						automatic[ slot ].add( item );
+						total += count;
 					}
 				}
 				if ( this.dump > 0 )
@@ -2144,10 +2197,16 @@ public class MaximizerFrame
 			if ( rv != 0 ) return rv;
 			if ( this.attachment != null && other.attachment != null )
 			{	// prefer items that you don't have to buy
-				return (other.attachment.getCount() & Evaluator.BUYABLE_FLAG) -
+				rv = (other.attachment.getCount() & Evaluator.BUYABLE_FLAG) -
 					 (this.attachment.getCount() & Evaluator.BUYABLE_FLAG);
+				if ( rv != 0 ) return rv;
+				if ( KoLCharacter.inBeecore() )
+				{	// prefer fewer Bs
+					rv = KoLCharacter.getBeeosity( other.attachment.getName() ) -
+						KoLCharacter.getBeeosity( this.attachment.getName() );
+				}
 			}
-			return 0;
+			return rv;
 		}
 		
 		// Remember which equipment slots were null, so that this
