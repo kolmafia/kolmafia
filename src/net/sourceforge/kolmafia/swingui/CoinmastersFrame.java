@@ -62,7 +62,10 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
+import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -455,13 +458,23 @@ public class CoinmastersFrame
 	{
 		public CrimboCartelPanel()
 		{
-			super( CoinMasterRequest.CRIMBOCARTEL );
+			super( CrimboCartelRequest.CRIMBO_CARTEL );
 		}
 
 		public boolean accessible()
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
 			return false;
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new CrimboCartelRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new CrimboCartelRequest( action, it );
 		}
 
 		public int buyDefault( final int max )
@@ -537,13 +550,23 @@ public class CoinmastersFrame
 	{
 		public AltarOfBonesPanel()
 		{
-			super( CoinMasterRequest.ALTAROFBONES );
+			super( AltarOfBonesRequest.ALTAR_OF_BONES );
 		}
 
 		public boolean accessible()
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
 			return false;
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new AltarOfBonesRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new AltarOfBonesRequest( action, it );
 		}
 
 		public int buyDefault( final int max )
@@ -557,13 +580,23 @@ public class CoinmastersFrame
 	{
 		public CRIMBCOGiftShopPanel()
 		{
-			super( CoinMasterRequest.CRIMBCOGIFTSHOP );
+			super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP );
 		}
 
 		public boolean accessible()
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
 			return false;
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new CRIMBCOGiftShopRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new CRIMBCOGiftShopRequest( action, it );
 		}
 
 		public int buyDefault( final int max )
