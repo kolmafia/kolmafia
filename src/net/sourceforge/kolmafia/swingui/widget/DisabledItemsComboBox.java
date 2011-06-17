@@ -190,7 +190,11 @@ public class DisabledItemsComboBox
 
 			if ( -1 < index && null != value && null != getTooltips() ) 
 			{
-				list.setToolTipText( (String)getTooltips().get( index ) );
+				String text = index < this.getTooltips().size() ?
+					(String) getTooltips().get( index ) :
+					null;
+
+				list.setToolTipText( text );
 			}
 			setFont( list.getFont() );
 			setText( ( value == null ) ? "" : value.toString() );

@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
@@ -525,7 +526,7 @@ public abstract class InventoryManager
 				}
 
 				// Cash them in for snacks
-				RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.FREESNACKS, "buysnack", item.getItemId(), missingCount ) );
+				RequestThread.postRequest( new FreeSnackRequest( "buysnack", item.getItemId(), missingCount ) );
 
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 

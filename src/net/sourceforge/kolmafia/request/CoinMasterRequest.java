@@ -62,11 +62,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinMasterRequest
 	extends GenericRequest
 {
-	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-	private static final Pattern SNACK_PATTERN = Pattern.compile( "whichsnack=(\\d+)" );
+	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern TOBUY_PATTERN = Pattern.compile( "tobuy=(\\d+)" );
-	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
-	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
+	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips|CRIMBCO scrip|store credit|free snack voucher|A. W. O. L. commendation|lunar isotope)" );
@@ -82,7 +81,9 @@ public class CoinMasterRequest
 			null,
 			CoinmastersFrame.LUCRE,
 			"availableLucre",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"howmany",
 			CoinMasterRequest.HOWMANY_PATTERN,
 			"buy",
 			CoinmastersDatabase.getLucreItems(),
@@ -99,7 +100,9 @@ public class CoinMasterRequest
 			"You don't have any dimes",
 			null,
 			"availableDimes",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"getgear",
 			CoinmastersDatabase.getDimeItems(),
@@ -116,7 +119,9 @@ public class CoinMasterRequest
 			"You don't have any quarters",
 			null,
 			"availableQuarters",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"getgear",
 			CoinmastersDatabase.getQuarterItems(),
@@ -133,7 +138,9 @@ public class CoinMasterRequest
 			"You haven't got any sand dollars",
 			CoinmastersFrame.SAND_DOLLAR,
 			"availableSandDollars",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"buyitem",
 			CoinmastersDatabase.getSandDollarItems(),
@@ -150,45 +157,13 @@ public class CoinMasterRequest
 			"You currently have no Game Grid redemption tickets",
 			CoinmastersFrame.TICKET,
 			"availableTickets",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"redeem",
 			CoinmastersDatabase.getTicketItems(),
 			CoinmastersDatabase.ticketBuyPrices(),
-			null,
-			null
-			);
-	public static final CoinmasterData GAMESHOPPE =
-		new CoinmasterData(
-			CoinmastersDatabase.GAMESHOPPE,
-			"store credit",
-			"store credit",
-			"gamestore.php",
-			"You currently have no store credit",
-			null,
-			"availableStoreCredits",
-			CoinMasterRequest.ITEMID_PATTERN,
-			CoinMasterRequest.QUANTITY_PATTERN,
-			"redeem",
-			CoinmastersDatabase.getStoreCreditItems(),
-			CoinmastersDatabase.storeCreditBuyPrices(),
-			"tradein",
-			CoinmastersDatabase.storeCreditSellPrices()
-			);
-	public static final CoinmasterData FREESNACKS =
-		new CoinmasterData(
-			CoinmastersDatabase.FREESNACKS,
-			"snack voucher",
-			"free snack voucher",
-			"gamestore.php",
-			"The teen glances at your snack voucher",
-			CoinmastersFrame.VOUCHER,
-			"availableSnackVouchers",
-			CoinMasterRequest.SNACK_PATTERN,
-			null,
-			"buysnack",
-			CoinmastersDatabase.getSnackVoucherItems(),
-			CoinmastersDatabase.snackVoucherBuyPrices(),
 			null,
 			null
 			);
@@ -201,7 +176,9 @@ public class CoinMasterRequest
 			"You do not currently have any Crimbux",
 			CoinmastersFrame.CRIMBUCK,
 			"availableCrimbux",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"howmany",
 			CoinMasterRequest.HOWMANY_PATTERN,
 			"buygift",
 			CoinmastersDatabase.getCrimbuckItems(),
@@ -218,7 +195,9 @@ public class CoinMasterRequest
 			"You don't have any CRIMBCO scrip",
 			CoinmastersFrame.CRIMBCO_SCRIP,
 			"availableCRIMBCOScrip",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"howmany",
 			CoinMasterRequest.HOWMANY_PATTERN,
 			"buygift",
 			CoinmastersDatabase.getScripItems(),
@@ -235,7 +214,9 @@ public class CoinMasterRequest
 			"You have no bone chips",
 			CoinmastersFrame.BONE_CHIPS,
 			"availableBoneChips",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			null,
 			null,
 			"buy",
 			CoinmastersDatabase.getBoneChipItems(),
@@ -252,7 +233,9 @@ public class CoinMasterRequest
 			null,
 			CoinmastersFrame.AWOL,
 			"availableCommendations",
+			"tobuy",
 			CoinMasterRequest.TOBUY_PATTERN,
+			"howmany",
 			CoinMasterRequest.HOWMANY_PATTERN,
 			null,
 			CoinmastersDatabase.getCommendationItems(),
@@ -269,7 +252,9 @@ public class CoinMasterRequest
 			null,
 			CoinmastersFrame.ISOTOPE,
 			"availableIsotopes",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"buy",
 			CoinmastersDatabase.getIsotope1Items(),
@@ -286,7 +271,9 @@ public class CoinMasterRequest
 			null,
 			CoinmastersFrame.ISOTOPE,
 			"availableIsotopes",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"buy",
 			CoinmastersDatabase.getIsotope2Items(),
@@ -303,7 +290,9 @@ public class CoinMasterRequest
 			null,
 			CoinmastersFrame.ISOTOPE,
 			"availableIsotopes",
+			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"buy",
 			CoinmastersDatabase.getIsotope3Items(),
@@ -312,43 +301,34 @@ public class CoinMasterRequest
 			null
 			);
 
-	private final String master;
+	private final CoinmasterData data;
 
 	private String action = null;
 	private int itemId = -1;
 	private int quantity = 0;
-	private String itemField = null;
-	private boolean single = false;
 
 	public CoinMasterRequest( final CoinmasterData data )
 	{
 		super( data.getURL() );
 
-		this.master = data.getMaster();
-		this.itemField = "whichitem";
-		this.single = false;
+		this.data = data;
+		String master = data.getMaster();
 
-		if ( this.master == CoinmastersDatabase.HIPPY )
+		if ( master == CoinmastersDatabase.HIPPY )
 		{
 			this.addFormField( "place", "camp" );
 			this.addFormField( "whichcamp", "1" );
 		}
-		else if ( this.master == CoinmastersDatabase.FRATBOY )
+		else if ( master == CoinmastersDatabase.FRATBOY )
 		{
 			this.addFormField( "place", "camp" );
 			this.addFormField( "whichcamp", "2" );
 		}
-		else if ( this.master == CoinmastersDatabase.FREESNACKS )
-		{
-			this.itemField = "whichsnack";
-			this.single = true;
-		}
-		else if ( this.master == CoinmastersDatabase.AWOL )
+		else if ( master == CoinmastersDatabase.AWOL )
 		{
 			this.addFormField( "whichitem", "5116" );
 			this.addFormField( "which", "3" );
 			this.addFormField( "ajax", "1" );
-			this.itemField = "tobuy";
 		}
 	}
 
@@ -367,34 +347,24 @@ public class CoinMasterRequest
 		this( data, action );
 
 		this.itemId = itemId;
-		this.addFormField( this.itemField, String.valueOf( itemId ) );
-		this.quantity = quantity;
+		String itemField = this.data.getItemField();
+		this.addFormField( itemField, String.valueOf( itemId ) );
 
-		if ( this.master == CoinmastersDatabase.HIPPY ||
-		     this.master == CoinmastersDatabase.FRATBOY ||
-		     this.master == CoinmastersDatabase.TICKETCOUNTER ||
-		     this.master == CoinmastersDatabase.GAMESHOPPE ||
-		     this.master == CoinmastersDatabase.ISOTOPE_SMITHERY ||
-		     this.master == CoinmastersDatabase.DOLLHAWKER ||
-		     this.master == CoinmastersDatabase.LUNAR_LUNCH )
+		this.quantity = quantity;
+		String countField = this.data.getCountField();
+		if ( countField != null )
 		{
-			this.addFormField( "quantity", String.valueOf( quantity ) );
+			this.addFormField( countField, String.valueOf( quantity ) );
 		}
-		else if ( this.master == CoinmastersDatabase.BIGBROTHER )
+
+		String master = this.data.getMaster();
+		if ( master == CoinmastersDatabase.BIGBROTHER )
 		{
-			this.addFormField( "quantity", String.valueOf( quantity ) );
 			this.addFormField( "who", "2" );
 		}
-		else if ( this.master == CoinmastersDatabase.BHH ||
-			  this.master == CoinmastersDatabase.CRIMBOCARTEL ||
-			  this.master == CoinmastersDatabase.CRIMBCOGIFTSHOP )
-		{
-			this.addFormField( "howmany", String.valueOf( quantity ) );
-		}
-		else if ( this.master == CoinmastersDatabase.AWOL )
+		else if ( master == CoinmastersDatabase.AWOL )
 		{
 			this.removeFormField( "which" );
-			this.addFormField( "howmany", String.valueOf( quantity ) );
 			this.addFormField( "doit", "69" );
 		}
 	}
@@ -411,7 +381,10 @@ public class CoinMasterRequest
 
 	public Object run()
 	{
-		int visits = this.single ? this.quantity : 1;
+		// If we cannot specify the count, we must get 1 at a time.
+		int visits = this.data.getCountField() == null ?
+			this.quantity : 1;
+		String master = this.data.getMaster();
 
 		int i = 1;
 
@@ -597,53 +570,6 @@ public class CoinMasterRequest
 		CoinmastersFrame.externalUpdate();
 	}
 
-	public static void parseGameShoppeVisit( final String location, final String responseText )
-	{
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
-		{
-			if ( location.indexOf( "place=cashier" ) == -1 )
-			{
-				return;
-			}
-		}
-		else if ( action.equals( "redeem" ) )
-		{
-			CoinmasterData data = CoinMasterRequest.GAMESHOPPE;
-			if ( responseText.indexOf( "You don't have enough" ) != -1 )
-			{
-				CoinMasterRequest.refundPurchase( data, location );
-			}
-		}
-		else if ( action.equals( "tradein" ) )
-		{
-			CoinmasterData data = CoinMasterRequest.GAMESHOPPE;
-			// The teenager scowls. "You can't trade in cards you don't have."
-			if ( responseText.indexOf( "You can't trade in cards you don't have" ) != -1 )
-			{
-				CoinMasterRequest.refundSale( data, location );
-			}
-		}
-		else if ( action.equals( "buysnack" ) )
-		{
-			CoinmasterData data = CoinMasterRequest.FREESNACKS;
-			if ( responseText.indexOf( "You can't" ) != -1 )
-			{
-				CoinMasterRequest.refundSale( data, location );
-			}
-		}
-		else
-		{
-			// Some other action not associated with the cashier
-			return;
-		}
-
-		// Parse current store credit and free snack balance
-		CoinmasterData data = CoinMasterRequest.GAMESHOPPE;
-		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
-	}
-
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "sigils/aol(\\d+).gif" );
 	public static void parseAWOLVisit( final String location, final String responseText )
 	{
@@ -769,7 +695,7 @@ public class CoinMasterRequest
 			return;
 		}
 
-		boolean positive = ( data.getMaster() == CoinmastersDatabase.FREESNACKS );
+		boolean positive = ( data == FreeSnackRequest.FREESNACKS );
 		boolean found = responseText.indexOf( test ) != -1;
 		String balance = "0";
 		if ( positive == found )
@@ -803,7 +729,7 @@ public class CoinMasterRequest
 		}
 	}
 
-	private static final void refundPurchase( final CoinmasterData data, final String urlString )
+	protected static final void refundPurchase( final CoinmasterData data, final String urlString )
 	{
 		if ( data == null )
 		{
@@ -833,7 +759,7 @@ public class CoinMasterRequest
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + token + " to buy that." );
 	}
 
-	private static int getPurchaseCost( final Matcher itemMatcher, final Matcher countMatcher, final Map prices )
+	protected static int getPurchaseCost( final Matcher itemMatcher, final Matcher countMatcher, final Map prices )
 	{
 		if ( !itemMatcher.find() )
 		{
@@ -903,7 +829,7 @@ public class CoinMasterRequest
 		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many " + plural );
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static boolean registerRequest( final String urlString )
 	{
 		if ( urlString.startsWith( "bhh.php" ) )
 		{
@@ -932,7 +858,7 @@ public class CoinMasterRequest
 
 		if ( urlString.startsWith( "gamestore.php" ) )
 		{
-			return registerGameStoreRequest( urlString );
+			return GameShoppeRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "bone_altar.php" ) )
@@ -1075,40 +1001,6 @@ public class CoinMasterRequest
 		return true;
 	}
 
-	private static final boolean registerGameStoreRequest( final String urlString )
-	{
-		// We only claim action=redeem, action=tradein, action=buysnack
-
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( action.equals( "redeem" ) )
-		{
-			CoinmasterData data = CoinMasterRequest.GAMESHOPPE;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		if ( action.equals( "tradein" ) )
-		{
-			CoinmasterData data = CoinMasterRequest.GAMESHOPPE;
-			CoinMasterRequest.sellStuff( data, urlString );
-			return true;
-		}
-
-		if ( action.equals( "buysnack" ) )
-		{
-			CoinmasterData data = CoinMasterRequest.FREESNACKS;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		return false;
-	}
-
 	private static final boolean registerBoneChipRequest( final String urlString )
 	{
 		// We only claim bone_altar.php?action=buy
@@ -1218,7 +1110,7 @@ public class CoinMasterRequest
 		return true;
 	}
 
-	private static final void buyStuff( final CoinmasterData data, final String urlString )
+	protected static final void buyStuff( final CoinmasterData data, final String urlString )
 	{
 		if ( data == null )
 		{
@@ -1287,7 +1179,7 @@ public class CoinMasterRequest
 		return null;
 	}
 
-	private static final void sellStuff( final CoinmasterData data, final String urlString )
+	protected static final void sellStuff( final CoinmasterData data, final String urlString )
 	{
 		if ( data == null )
 		{

@@ -54,7 +54,9 @@ public class CoinmasterData
 	private final String test;
 	private final AdventureResult item;
 	private final String property;
+	private final String itemField;
 	private final Pattern itemPattern;
+	private final String countField;
 	private final Pattern countPattern;
 	private final String buyAction;
 	private final LockableListModel buyItems;
@@ -70,7 +72,9 @@ public class CoinmasterData
 		final String test,
 		final AdventureResult item,
 		final String property,
+		final String itemField,
 		final Pattern itemPattern,
+		final String countField,
 		final Pattern countPattern,
 		final String buyAction,
 		final LockableListModel buyItems,
@@ -85,7 +89,9 @@ public class CoinmasterData
 		this.test = test;
 		this.item = item;
 		this.property = property;
+		this.itemField = itemField;
 		this.itemPattern = itemPattern;
+		this.countField = countField;
 		this.countPattern = countPattern;
 		this.buyAction = buyAction;
 		this.buyItems = buyItems;
@@ -129,6 +135,11 @@ public class CoinmasterData
 		return this.property;
 	}
 
+	public final String getItemField()
+	{
+		return this.itemField;
+	}
+
 	public final Pattern getItemPattern()
 	{
 		return this.itemPattern;
@@ -137,6 +148,11 @@ public class CoinmasterData
 	public final Matcher getItemMatcher( final String string )
 	{
 		return this.itemPattern == null ? null : this.itemPattern.matcher( string );
+	}
+
+	public final String getCountField()
+	{
+		return this.countField;
 	}
 
 	public final Pattern getCountPattern()

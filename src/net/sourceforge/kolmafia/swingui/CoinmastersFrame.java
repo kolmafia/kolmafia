@@ -63,7 +63,9 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -485,7 +487,17 @@ public class CoinmastersFrame
 	{
 		public GameShoppePanel()
 		{
-			super( CoinMasterRequest.GAMESHOPPE );
+			super( GameShoppeRequest.GAMESHOPPE );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new GameShoppeRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new GameShoppeRequest( action, it );
 		}
 
 		public int buyDefault( final int max )
@@ -499,7 +511,17 @@ public class CoinmastersFrame
 	{
 		public SnackVoucherPanel()
 		{
-			super( CoinMasterRequest.FREESNACKS );
+			super( FreeSnackRequest.FREESNACKS );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new FreeSnackRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new FreeSnackRequest( action, it );
 		}
 
 		public int buyDefault( final int max )
@@ -747,6 +769,16 @@ public class CoinmastersFrame
 			}
 		}
 
+		public CoinMasterRequest getRequest()
+		{
+			return new CoinMasterRequest( this.data );
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new CoinMasterRequest( this.data, action, it );
+		}
+
 		public void setTitle()
 		{
 			String property = this.data.getProperty();
@@ -815,7 +847,7 @@ public class CoinmastersFrame
 
 			RequestThread.openRequestSequence();
 			this.equip();
-			RequestThread.postRequest( new CoinMasterRequest( this.data ) );
+			RequestThread.postRequest( this.getRequest() );
 			RequestThread.closeRequestSequence();
 		}
 
@@ -840,7 +872,7 @@ public class CoinmastersFrame
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult it = (AdventureResult)items[i];
-				GenericRequest request = new CoinMasterRequest( this.data, action, it );
+				GenericRequest request = this.getRequest( action, it );
 				RequestThread.postRequest( request );
 			}
 

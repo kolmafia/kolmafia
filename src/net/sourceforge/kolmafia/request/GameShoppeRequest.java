@@ -33,30 +33,64 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GameShoppeRequest
-	extends GenericRequest
+	extends CoinMasterRequest
 {
-	public static final AdventureResult TOKEN = ItemPool.get( ItemPool.GG_TOKEN, 1 );
+	public static final CoinmasterData GAMESHOPPE =
+		new CoinmasterData(
+			CoinmastersDatabase.GAMESHOPPE,
+			"store credit",
+			"store credit",
+			"gamestore.php",
+			"You currently have no store credit",
+			null,
+			"availableStoreCredits",
+			"whichitem",
+			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
+			CoinMasterRequest.QUANTITY_PATTERN,
+			"redeem",
+			CoinmastersDatabase.getStoreCreditItems(),
+			CoinmastersDatabase.storeCreditBuyPrices(),
+			"tradein",
+			CoinmastersDatabase.storeCreditSellPrices()
+			);
+
 
 	public GameShoppeRequest()
 	{
-		super( "gamestore.php" );
+		super( GameShoppeRequest.GAMESHOPPE );
+	}
+
+	public GameShoppeRequest( final String action )
+	{
+		super( GameShoppeRequest.GAMESHOPPE, action );
+	}
+
+	public GameShoppeRequest( final String action, final int itemId, final int quantity )
+	{
+		super( GameShoppeRequest.GAMESHOPPE, action, itemId, quantity );
+	}
+
+	public GameShoppeRequest( final String action, final int itemId )
+	{
+		this( action, itemId, 1 );
+	}
+
+	public GameShoppeRequest( final String action, final AdventureResult ar )
+	{
+		this( action, ar.getItemId(), ar.getCount() );
 	}
 
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?descitem.([\\d]+).*?<b>([^<&]*)(?:&nbsp;)*</td>.*?<b>([\\d,]+) credit</b>", Pattern.DOTALL );
@@ -85,15 +119,73 @@ public class GameShoppeRequest
 				}
 			}
 
-			CoinMasterRequest.parseGameShoppeVisit( urlString, responseText );
+			GameShoppeRequest.parseGameShoppeVisit( urlString, responseText );
+			return;
+		}
+	}
+
+	public static void parseGameShoppeVisit( final String location, final String responseText )
+	{
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
+		{
+			if ( location.indexOf( "place=cashier" ) == -1 )
+			{
+				return;
+			}
+		}
+		else if ( action.equals( "redeem" ) )
+		{
+			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+			if ( responseText.indexOf( "You don't have enough" ) != -1 )
+			{
+				CoinMasterRequest.refundPurchase( data, location );
+			}
+		}
+		else if ( action.equals( "tradein" ) )
+		{
+			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+			// The teenager scowls. "You can't trade in cards you don't have."
+			if ( responseText.indexOf( "You can't trade in cards you don't have" ) != -1 )
+			{
+				CoinMasterRequest.refundSale( data, location );
+			}
+		}
+		else if ( action.equals( "buysnack" ) )
+		{
+			FreeSnackRequest.parseFreeSnackVisit( location, responseText );
+		}
+		else
+		{
+			// Some other action not associated with the cashier
 			return;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
+		// Parse current store credit and free snack balance
+		CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+		CoinMasterRequest.parseBalance( data, responseText );
+		CoinmastersFrame.externalUpdate();
+	}
+
+	private static final boolean registerRequest( final String urlString, final String action )
+	{
+		// We only claim action=redeem, action=tradein
+
+		if ( action.equals( "redeem" ) )
 		{
-			return;
+			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+			CoinMasterRequest.buyStuff( data, urlString );
+			return true;
 		}
+
+		if ( action.equals( "tradein" ) )
+		{
+			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+			CoinMasterRequest.sellStuff( data, urlString );
+			return true;
+		}
+
+		return FreeSnackRequest.registerRequest( urlString, action );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -113,10 +205,9 @@ public class GameShoppeRequest
 				message = "Visiting Game Shoppe Cashier";
 			}
 		}
-		else if ( action.equals( "redeem" ) || action.equals( "tradein" ) )
+		else
 		{
-			// Let CoinmasterRequest claim this
-			return false;
+			return GameShoppeRequest.registerRequest( urlString, action );
 		}
 
 		if ( message == null )

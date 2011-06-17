@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -129,7 +130,7 @@ public class CouncilFrame
 		}
 		else if ( location.startsWith( "gamestore" ) )
 		{
-			CoinMasterRequest.parseGameShoppeVisit( location, responseText );
+			GameShoppeRequest.parseResponse( location, responseText );
 		}
 		else if ( location.startsWith( "inv_use" ) )
 		{
