@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
@@ -137,7 +138,7 @@ public class CouncilFrame
 		{
 			if ( location.indexOf( "whichitem=5116" ) != -1 )
 			{
-				CoinMasterRequest.parseAWOLVisit( location, responseText );
+				AWOLQuartermasterRequest.parseAWOLVisit( location, responseText );
 			}
 		}
 		else if ( location.startsWith( "monkeycastle" ) )

@@ -61,13 +61,10 @@ public class CoinMasterRequest
 	extends GenericRequest
 {
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-	private static final Pattern TOBUY_PATTERN = Pattern.compile( "tobuy=(\\d+)" );
 	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (sand dollar|Game Grid redemption ticket|A. W. O. L. commendation)" );
-
-	private static String lastURL = null;
 
 	public static final CoinmasterData BIGBROTHER =
 		new CoinmasterData(
@@ -109,26 +106,6 @@ public class CoinMasterRequest
 			null,
 			null
 			);
-	public static final CoinmasterData AWOL =
-		new CoinmasterData(
-			"A. W. O. L. Quartermaster",
-			"inv_use.php",
-			"commendation",
-			null,
-			false,
-			CoinMasterRequest.TOKEN_PATTERN,
-			CoinmastersFrame.AWOL,
-			"availableCommendations",
-			"tobuy",
-			CoinMasterRequest.TOBUY_PATTERN,
-			"howmany",
-			CoinMasterRequest.HOWMANY_PATTERN,
-			null,
-			CoinmastersDatabase.getCommendationItems(),
-			CoinmastersDatabase.commendationBuyPrices(),
-			null,
-			null
-			);
 
 	private final CoinmasterData data;
 
@@ -140,20 +117,16 @@ public class CoinMasterRequest
 	{
 		super( data.getURL() );
 		this.data = data;
-
-		if ( data == CoinMasterRequest.AWOL )
-		{
-			this.addFormField( "whichitem", "5116" );
-			this.addFormField( "which", "3" );
-			this.addFormField( "ajax", "1" );
-		}
 	}
 
 	public CoinMasterRequest( final CoinmasterData data, final String action )
 	{
 		this( data );
-		this.action = action;
-		this.addFormField( "action", action );
+		if ( action != null )
+		{
+			this.action = action;
+			this.addFormField( "action", action );
+		}
 	}
 
 	public CoinMasterRequest( final CoinmasterData data, final String action, final int itemId, final int quantity )
@@ -174,11 +147,6 @@ public class CoinMasterRequest
 		if ( data == CoinMasterRequest.BIGBROTHER )
 		{
 			this.addFormField( "who", "2" );
-		}
-		else if ( data == CoinMasterRequest.AWOL )
-		{
-			this.removeFormField( "which" );
-			this.addFormField( "doit", "69" );
 		}
 	}
 
@@ -250,34 +218,6 @@ public class CoinMasterRequest
 		}
 
 		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
-	}
-
-	private static final Pattern TATTOO_PATTERN = Pattern.compile( "sigils/aol(\\d+).gif" );
-	public static void parseAWOLVisit( final String location, final String responseText )
-	{
-		CoinmasterData data = CoinMasterRequest.AWOL;
-		// If you don't have enough commendations, you are redirected to inventory.php
-		if ( location.startsWith( "inventory.php" ) )
-		{
-			if ( responseText.indexOf( "You don't have enough commendations" ) != -1 )
-			{
-				CoinMasterRequest.refundPurchase( data, CoinMasterRequest.lastURL );
-				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
-			}
-			return;
-		}
-
-		// inv_use.php?whichitem=5116&pwd&doit=69&tobuy=xxx&howmany=yyy
-		// You have 50 A. W. O. L. commendations.
-
-		CoinMasterRequest.parseBalance( data, responseText );
-
-		// Check which tattoo - if any - is for sale: sigils/aol3.gif
-		Matcher m = TATTOO_PATTERN.matcher( responseText );
-		CoinmastersDatabase.AWOLtattoo = m.find() ? StringUtilities.parseInt( m.group( 1 ) ) : 0;
-
 		CoinmastersFrame.externalUpdate();
 	}
 
@@ -485,7 +425,7 @@ public class CoinMasterRequest
 
 		if ( urlString.startsWith( "inv_use.php" ) )
 		{
-			return registerAWOLRequest( urlString );
+			return AWOLQuartermasterRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "spaaace.php" ) )
@@ -535,27 +475,6 @@ public class CoinMasterRequest
 		return true;
 	}
 
-	private static final boolean registerAWOLRequest( final String urlString )
-	{
-		// inv_use.php?whichitem=5116&pwd&doit=69&tobuy=xxx&howmany=yyy
-		if ( urlString.indexOf( "whichitem=5116" ) == -1 )
-		{
-			return false;
-		}
-
-		// Save URL. If request fails, we are redirected to inventory.php
-		CoinMasterRequest.lastURL = urlString;
-
-		if ( urlString.indexOf( "doit=69" ) != -1 && urlString.indexOf( "tobuy" ) != -1	 )
-		{
-			CoinmasterData data = CoinMasterRequest.AWOL;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		return true;
-	}
-
 	public static final void buyStuff( final CoinmasterData data, final String urlString )
 	{
 		if ( data == null )
@@ -588,14 +507,14 @@ public class CoinMasterRequest
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 
-		String token = data.getToken();
+		AdventureResult tokenItem = data.getItem();
+		String token = tokenItem == null ? data.getToken() : tokenItem.getName();
 		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName );
 
-		AdventureResult tokenItem = data.getItem();
 		if ( tokenItem != null )
 		{
 			AdventureResult current = tokenItem.getInstance( -cost );
@@ -657,7 +576,8 @@ public class CoinMasterRequest
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 
-		String token = data.getToken();
+		AdventureResult tokenItem = data.getItem();
+		String token = tokenItem == null ? data.getToken() : tokenItem.getName();
 		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 

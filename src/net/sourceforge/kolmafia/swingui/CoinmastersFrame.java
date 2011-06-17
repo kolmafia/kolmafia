@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
@@ -643,7 +644,7 @@ public class CoinmastersFrame
 	{
 		public CommendationPanel()
 		{
-			super( CoinMasterRequest.AWOL );
+			super( AWOLQuartermasterRequest.AWOL );
 		}
 
 		public boolean enabled()
@@ -667,6 +668,16 @@ public class CoinmastersFrame
 		public int buyDefault( final int max )
 		{
 			return 1;
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new AWOLQuartermasterRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new AWOLQuartermasterRequest( action, it );
 		}
 	}
 

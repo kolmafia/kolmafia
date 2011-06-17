@@ -97,8 +97,6 @@ public class CoinmastersDatabase
 
 	private static final Map lighthouseItems = new TreeMap();
 
-	public static int AWOLtattoo = 0;
-
 	static
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "coinmasters.txt", KoLConstants.COINMASTERS_VERSION );
@@ -302,23 +300,23 @@ public class CoinmastersDatabase
 		}
 		if ( name.equals( "a. w. o. l. tattoo #1" ) )
 		{
-			return CoinmastersDatabase.AWOLtattoo == 1;
+			return KoLCharacter.AWOLtattoo == 1;
 		}
 		if ( name.equals( "a. w. o. l. tattoo #2" ) )
 		{
-			return CoinmastersDatabase.AWOLtattoo == 2;
+			return KoLCharacter.AWOLtattoo == 2;
 		}
 		if ( name.equals( "a. w. o. l. tattoo #3" ) )
 		{
-			return CoinmastersDatabase.AWOLtattoo == 3;
+			return KoLCharacter.AWOLtattoo == 3;
 		}
 		if ( name.equals( "a. w. o. l. tattoo #4" ) )
 		{
-			return CoinmastersDatabase.AWOLtattoo == 4;
+			return KoLCharacter.AWOLtattoo == 4;
 		}
 		if ( name.equals( "a. w. o. l. tattoo #5" ) )
 		{
-			return CoinmastersDatabase.AWOLtattoo == 5;
+			return KoLCharacter.AWOLtattoo == 5;
 		}
 
 		return true;

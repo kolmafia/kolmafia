@@ -131,7 +131,7 @@ grimacider	3	5	3-6	0	0	0
 grimacite bock	1	8	4-10	65	64	62
 grog	3	3	5-10	8-10	0	0
 grogtini	6	6	22-26	16-20	0	0	tiny plastic sword
-herringcello	1	1	3-4	5-7	5-7	5-7	20 Sugar Rush
+herringcello	1	1	1-5	5-7	5-7	5-7	20 Sugar Rush
 hi-octane peppermint oil	5	5	10-15	0	0	0
 hodgman's blanket	2	15	14-16	300-800	300-800	300-800
 honey mead	2	1	4-6	2-4	2-4	2-4	5 Sugar Rush
