@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
@@ -54,8 +55,11 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
+import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1367,7 +1371,7 @@ public class IslandDecorator
 			IslandDecorator.parseLighthouse( responseText );
 			break;
 		case CAMP:
-			CoinMasterRequest.parseIslandVisit( location, responseText );
+			IslandDecorator.parseCamp( location, responseText );
 			break;
 		}
 	}
@@ -1711,6 +1715,66 @@ public class IslandDecorator
 		ResultProcessor.processItem( ItemPool.GUNPOWDER, -5 );
 	}
 
+	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
+	public static CoinmasterData findCampMaster( final String urlString )
+	{
+		Matcher campMatcher = IslandDecorator.CAMP_PATTERN.matcher( urlString );
+		if ( !campMatcher.find() )
+		{
+			return null;
+		}
+
+		String camp = campMatcher.group(1);
+
+		if ( camp.equals( "1" ) )
+		{
+			return DimemasterRequest.HIPPY;
+		}
+
+		if ( camp.equals( "2" ) )
+		{
+			return QuartersmasterRequest.FRATBOY;
+		}
+
+		return null;
+	}
+
+	public static void parseCamp( final String location, final String responseText )
+	{
+		if ( location.indexOf( "whichcamp" ) == -1 )
+		{
+			return;
+		}
+
+		CoinmasterData data = IslandDecorator.findCampMaster( location );
+		if ( data == null )
+		{
+			return;
+		}
+
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
+		{
+			// Parse current coin balances
+			CoinMasterRequest.parseBalance( data, responseText );
+			CoinmastersFrame.externalUpdate();
+
+			return;
+		}
+
+		if ( responseText.indexOf( "You don't have enough" ) != -1 )
+		{
+			CoinMasterRequest.refundPurchase( data, location );
+		}
+		else if ( responseText.indexOf( "You don't have that many" ) != -1 )
+		{
+			CoinMasterRequest.refundSale( data, location );
+		}
+
+		CoinMasterRequest.parseBalance( data, responseText );
+		CoinmastersFrame.externalUpdate();
+	}
+
 	public static final void ensureUpdatedBigIsland()
 	{
 		int lastAscension = Preferences.getInteger( "lastBattlefieldReset" );
@@ -1894,5 +1958,31 @@ public class IslandDecorator
 			return "bigisland.php";
 		}
 		return "bogus.php";
+	}
+
+	public static final boolean registerIslandRequest( final String urlString )
+	{
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
+		{
+			return true;
+		}
+
+		CoinmasterData data = IslandDecorator.findCampMaster( urlString );
+		if ( data == null )
+		{
+			return false;
+		}
+
+		if ( action.equals( "getgear" ) )
+		{
+			CoinMasterRequest.buyStuff( data, urlString );
+		}
+		else if ( action.equals( "turnin" ) )
+		{
+			CoinMasterRequest.sellStuff( data, urlString );
+		}
+
+		return true;
 	}
 }

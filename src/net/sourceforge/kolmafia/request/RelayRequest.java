@@ -75,7 +75,6 @@ import net.sourceforge.kolmafia.chat.HistoryEntry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -864,7 +863,7 @@ public class RelayRequest
 
 	private boolean checkCampVisit( final String urlString )
 	{
-		CoinmasterData data = CoinMasterRequest.findCampMaster( urlString );
+		CoinmasterData data = IslandDecorator.findCampMaster( urlString );
 
 		// If he's not attempting to enter a camp, no problem.
 		if ( data == null )
@@ -884,7 +883,7 @@ public class RelayRequest
 		{
 		case 32:
 			// War Hippy Fatigues
-			if ( data == CoinMasterRequest.HIPPY )
+			if ( data == DimemasterRequest.HIPPY )
 			{
 				return false;
 			}
@@ -892,7 +891,7 @@ public class RelayRequest
 
 		case 33:
 			// Frat Warrior Fatigues
-			if ( data == CoinMasterRequest.FRATBOY )
+			if ( data == QuartersmasterRequest.FRATBOY )
 			{
 				return false;
 			}
@@ -927,7 +926,7 @@ public class RelayRequest
 			int factor = IslandDecorator.hippiesDefeatedPerBattle();
 			if ( hippiesDefeated < 999 && ( 999 - hippiesDefeated ) % factor == 0 )
 			{
-				this.sendWossnameWarning( CoinMasterRequest.FRATBOY );
+				this.sendWossnameWarning( QuartersmasterRequest.FRATBOY );
 				return true;
 			}
 		}
@@ -938,7 +937,7 @@ public class RelayRequest
 			int factor = IslandDecorator.fratboysDefeatedPerBattle();
 			if ( fratboysDefeated < 999 && ( 999 - fratboysDefeated ) % factor == 0 )
 			{
-				this.sendWossnameWarning( CoinMasterRequest.HIPPY );
+				this.sendWossnameWarning( DimemasterRequest.HIPPY );
 				return true;
 			}
 		}
@@ -956,7 +955,7 @@ public class RelayRequest
 		}
 		else
 		{
-			String master = ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" );
+			String master = ( camp == DimemasterRequest.HIPPY ? "hippy" : "fratboy" );
 			message = "You are about to enter the " + master + " camp and confront the boss.";
 		}
 
@@ -1011,8 +1010,8 @@ public class RelayRequest
 	private void sendWossnameWarning( final CoinmasterData camp )
 	{
 		String message;
-		String side1 = ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" );
-		String side2 = ( camp == CoinMasterRequest.HIPPY ? "fratboys" : "hippies" );
+		String side1 = ( camp == DimemasterRequest.HIPPY ? "hippy" : "fratboy" );
+		String side2 = ( camp == DimemasterRequest.HIPPY ? "fratboys" : "hippies" );
 
 		message =
 			"You are about to defeat the last " + side1 + " and open the way to their camp. However, you have not yet finished with the " + side2 + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
