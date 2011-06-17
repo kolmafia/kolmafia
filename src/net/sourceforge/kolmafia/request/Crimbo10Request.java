@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 
 public class Crimbo10Request
 	extends GenericRequest
@@ -59,7 +59,7 @@ public class Crimbo10Request
 		String action = GenericRequest.getAction( location );
 		if ( action == null )
 		{
-			CoinMasterRequest.parseCRIMBCOGiftShopVisit( location, responseText );
+			CRIMBCOGiftShopRequest.parseCRIMBCOGiftShopVisit( location, responseText );
 			return;
 		}
 	}
@@ -106,8 +106,8 @@ public class Crimbo10Request
 		// Buy stuff in the CRIMBCO Gift Shop
 		else if ( action.equals( "buygift" ) )
 		{
-			// Let CoinmasterRequest claim this
-			return false;
+			// Let CRIMBCOGiftShopRequest claim this
+			return CRIMBCOGiftShopRequest.registerRequest( urlString );
 		}
 
 		// Unknown action

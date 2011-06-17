@@ -167,63 +167,6 @@ public class CoinMasterRequest
 			null,
 			null
 			);
-	public static final CoinmasterData CRIMBOCARTEL =
-		new CoinmasterData(
-			CoinmastersDatabase.CRIMBOCARTEL,
-			"Crimbuck",
-			"Crimbux",
-			"crimbo09.php",
-			"You do not currently have any Crimbux",
-			CoinmastersFrame.CRIMBUCK,
-			"availableCrimbux",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"howmany",
-			CoinMasterRequest.HOWMANY_PATTERN,
-			"buygift",
-			CoinmastersDatabase.getCrimbuckItems(),
-			CoinmastersDatabase.crimbuckBuyPrices(),
-			null,
-			null
-			);
-	public static final CoinmasterData CRIMBCOGIFTSHOP =
-		new CoinmasterData(
-			CoinmastersDatabase.CRIMBCOGIFTSHOP,
-			"CRIMBCO scrip",
-			"CRIMBCO scrip",
-			"crimbo10.php",
-			"You don't have any CRIMBCO scrip",
-			CoinmastersFrame.CRIMBCO_SCRIP,
-			"availableCRIMBCOScrip",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"howmany",
-			CoinMasterRequest.HOWMANY_PATTERN,
-			"buygift",
-			CoinmastersDatabase.getScripItems(),
-			CoinmastersDatabase.scripBuyPrices(),
-			null,
-			null
-			);
-	public static final CoinmasterData ALTAROFBONES =
-		new CoinmasterData(
-			CoinmastersDatabase.ALTAROFBONES,
-			"bone chips",
-			"bone chips",
-			"bone_altar.php",
-			"You have no bone chips",
-			CoinmastersFrame.BONE_CHIPS,
-			"availableBoneChips",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			null,
-			null,
-			"buy",
-			CoinmastersDatabase.getBoneChipItems(),
-			CoinmastersDatabase.boneChipBuyPrices(),
-			null,
-			null
-			);
 	public static final CoinmasterData AWOL =
 		new CoinmasterData(
 			CoinmastersDatabase.AWOL,
@@ -370,66 +313,6 @@ public class CoinMasterRequest
 		}
 
 		if ( !action.equals( "buyitem" ) )
-		{
-			return;
-		}
-
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-		}
-
-		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
-	}
-
-	public static void parseCrimboCartelVisit( final String location, final String responseText )
-	{
-		CoinmasterData data = CoinMasterRequest.CRIMBOCARTEL;
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
-		{
-			if ( location.indexOf( "place=store" ) != -1 )
-			{
-				// Parse current coin balances
-				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
-			}
-
-			return;
-		}
-
-		if ( !action.equals( "buygift" ) )
-		{
-			return;
-		}
-
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-		}
-
-		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
-	}
-
-	public static void parseCRIMBCOGiftShopVisit( final String location, final String responseText )
-	{
-		CoinmasterData data = CoinMasterRequest.CRIMBCOGIFTSHOP;
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
-		{
-			if ( location.indexOf( "place=giftshop" ) != -1 )
-			{
-				// Parse current coin balances
-				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
-			}
-
-			return;
-		}
-
-		if ( !action.equals( "buygift" ) )
 		{
 			return;
 		}
@@ -726,12 +609,12 @@ public class CoinMasterRequest
 
 		if ( urlString.startsWith( "crimbo09.php" ) )
 		{
-			return registerCartelRequest( urlString );
+			return CrimboCartelRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "crimbo10.php" ) )
 		{
-			return registerGiftShopRequest( urlString );
+			return CRIMBCOGiftShopRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "arcade.php" ) )
@@ -746,7 +629,7 @@ public class CoinMasterRequest
 
 		if ( urlString.startsWith( "bone_altar.php" ) )
 		{
-			return registerBoneChipRequest( urlString );
+			return AltarOfBonesRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "bigisland.php" ) )
@@ -844,26 +727,6 @@ public class CoinMasterRequest
 		return true;
 	}
 
-	private static final boolean registerCartelRequest( final String urlString )
-	{
-		// We only claim crimbo09.php?action=buygift
-
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( !action.equals( "buygift" ) )
-		{
-			return false;
-		}
-
-		CoinmasterData data = CoinMasterRequest.CRIMBOCARTEL;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
-	}
-
 	private static final boolean registerTicketRequest( final String urlString )
 	{
 		// We only claim arcade.php?action=redeem
@@ -880,46 +743,6 @@ public class CoinMasterRequest
 		}
 
 		CoinmasterData data = CoinMasterRequest.TICKETCOUNTER;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
-	}
-
-	private static final boolean registerBoneChipRequest( final String urlString )
-	{
-		// We only claim bone_altar.php?action=buy
-
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( !action.equals( "buy" ) )
-		{
-			return false;
-		}
-
-		CoinmasterData data = CoinMasterRequest.ALTAROFBONES;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
-	}
-
-	private static final boolean registerGiftShopRequest( final String urlString )
-	{
-		// We only claim crimbo10.php?action=buygift
-
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( !action.equals( "buygift" ) )
-		{
-			return false;
-		}
-
-		CoinmasterData data = CoinMasterRequest.CRIMBCOGIFTSHOP;
 		CoinMasterRequest.buyStuff( data, urlString );
 		return true;
 	}
