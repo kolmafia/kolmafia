@@ -66,12 +66,14 @@ import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
+import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
+import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -333,7 +335,17 @@ public class CoinmastersFrame
 	{
 		public DimemasterPanel()
 		{
-			super( CoinMasterRequest.HIPPY, WAR_HIPPY_OUTFIT, "hippy");
+			super( DimemasterRequest.HIPPY, WAR_HIPPY_OUTFIT, "hippy");
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new DimemasterRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new DimemasterRequest( action, it );
 		}
 	}
 
@@ -342,7 +354,17 @@ public class CoinmastersFrame
 	{
 		public QuartersmasterPanel()
 		{
-			super( CoinMasterRequest.FRATBOY, WAR_FRAT_OUTFIT, "fratboy" );
+			super( QuartersmasterRequest.FRATBOY, WAR_FRAT_OUTFIT, "fratboy" );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new QuartersmasterRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new QuartersmasterRequest( action, it );
 		}
 	}
 

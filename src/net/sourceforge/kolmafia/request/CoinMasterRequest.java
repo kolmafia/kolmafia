@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class CoinMasterRequest
 	extends GenericRequest
@@ -68,7 +69,7 @@ public class CoinMasterRequest
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Game Grid redemption ticket|A. W. O. L. commendation)" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (sand dollar|Game Grid redemption ticket|A. W. O. L. commendation)" );
 
 	private static String lastURL = null;
 
@@ -92,48 +93,6 @@ public class CoinMasterRequest
 			CoinmastersDatabase.lucreBuyPrices(),
 			null,
 			null
-			);
-	public static final CoinmasterData HIPPY =
-		new CoinmasterData(
-			"Dimemaster",
-			"bigisland.php",
-			"dime",
-			"dime",
-			"You don't have any dimes",
-			false,
-			CoinMasterRequest.TOKEN_PATTERN,
-			null,
-			"availableDimes",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"quantity",
-			CoinMasterRequest.QUANTITY_PATTERN,
-			"getgear",
-			CoinmastersDatabase.getDimeItems(),
-			CoinmastersDatabase.dimeBuyPrices(),
-			"turnin",
-			CoinmastersDatabase.dimeSellPrices()
-			);
-	public static final CoinmasterData FRATBOY =
-		new CoinmasterData(
-			"Quartersmaster",
-			"bigisland.php",
-			"quarter",
-			"quarter",
-			"You don't have any quarters",
-			false,
-			CoinMasterRequest.TOKEN_PATTERN,
-			null,
-			"availableQuarters",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"quantity",
-			CoinMasterRequest.QUANTITY_PATTERN,
-			"getgear",
-			CoinmastersDatabase.getQuarterItems(),
-			CoinmastersDatabase.quarterBuyPrices(),
-			"turnin",
-			CoinmastersDatabase.quarterSellPrices()
 			);
 	public static final CoinmasterData BIGBROTHER =
 		new CoinmasterData(
@@ -208,20 +167,9 @@ public class CoinMasterRequest
 	public CoinMasterRequest( final CoinmasterData data )
 	{
 		super( data.getURL() );
-
 		this.data = data;
 
-		if ( data == CoinMasterRequest.HIPPY )
-		{
-			this.addFormField( "place", "camp" );
-			this.addFormField( "whichcamp", "1" );
-		}
-		else if ( data == CoinMasterRequest.FRATBOY )
-		{
-			this.addFormField( "place", "camp" );
-			this.addFormField( "whichcamp", "2" );
-		}
-		else if ( data == CoinMasterRequest.AWOL )
+		if ( data == CoinMasterRequest.AWOL )
 		{
 			this.addFormField( "whichitem", "5116" );
 			this.addFormField( "which", "3" );
@@ -370,42 +318,6 @@ public class CoinMasterRequest
 		}
 	}
 
-	public static void parseIslandVisit( final String location, final String responseText )
-	{
-		if ( location.indexOf( "whichcamp" ) == -1 )
-		{
-			return;
-		}
-
-		CoinmasterData data = findCampMaster( location );
-		if ( data == null )
-		{
-			return;
-		}
-
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
-		{
-			// Parse current coin balances
-			CoinMasterRequest.parseBalance( data, responseText );
-			CoinmastersFrame.externalUpdate();
-
-			return;
-		}
-
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-		}
-		else if ( responseText.indexOf( "You don't have that many" ) != -1 )
-		{
-			CoinMasterRequest.refundSale( data, location );
-		}
-
-		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
-	}
-
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "sigils/aol(\\d+).gif" );
 	public static void parseAWOLVisit( final String location, final String responseText )
 	{
@@ -432,30 +344,6 @@ public class CoinMasterRequest
 		CoinmastersDatabase.AWOLtattoo = m.find() ? StringUtilities.parseInt( m.group( 1 ) ) : 0;
 
 		CoinmastersFrame.externalUpdate();
-	}
-
-	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
-	public static CoinmasterData findCampMaster( final String urlString )
-	{
-		Matcher campMatcher = CoinMasterRequest.CAMP_PATTERN.matcher( urlString );
-		if ( !campMatcher.find() )
-		{
-			return null;
-		}
-
-		String camp = campMatcher.group(1);
-
-		if ( camp.equals( "1" ) )
-		{
-			return CoinMasterRequest.HIPPY;
-		}
-
-		if ( camp.equals( "2" ) )
-		{
-			return CoinMasterRequest.FRATBOY;
-		}
-
-		return null;
 	}
 
 	public static void parseBalance( final CoinmasterData data, final String responseText )
@@ -518,7 +406,7 @@ public class CoinMasterRequest
 		}
 	}
 
-	protected static final void refundPurchase( final CoinmasterData data, final String urlString )
+	public static final void refundPurchase( final CoinmasterData data, final String urlString )
 	{
 		if ( data == null )
 		{
@@ -657,7 +545,7 @@ public class CoinMasterRequest
 
 		if ( urlString.startsWith( "bigisland.php" ) )
 		{
-			return registerIslandRequest( urlString );
+			return IslandDecorator.registerIslandRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "inv_use.php" ) )
@@ -770,32 +658,6 @@ public class CoinMasterRequest
 		return true;
 	}
 
-	private static final boolean registerIslandRequest( final String urlString )
-	{
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return true;
-		}
-
-		CoinmasterData data = findCampMaster( urlString );
-		if ( data == null )
-		{
-			return false;
-		}
-
-		if ( action.equals( "getgear" ) )
-		{
-			CoinMasterRequest.buyStuff( data, urlString );
-		}
-		else if ( action.equals( "turnin" ) )
-		{
-			CoinMasterRequest.sellStuff( data, urlString );
-		}
-
-		return true;
-	}
-
 	private static final boolean registerAWOLRequest( final String urlString )
 	{
 		// inv_use.php?whichitem=5116&pwd&doit=69&tobuy=xxx&howmany=yyy
@@ -817,7 +679,7 @@ public class CoinMasterRequest
 		return true;
 	}
 
-	protected static final void buyStuff( final CoinmasterData data, final String urlString )
+	public static final void buyStuff( final CoinmasterData data, final String urlString )
 	{
 		if ( data == null )
 		{
@@ -886,7 +748,7 @@ public class CoinMasterRequest
 		return null;
 	}
 
-	protected static final void sellStuff( final CoinmasterData data, final String urlString )
+	public static final void sellStuff( final CoinmasterData data, final String urlString )
 	{
 		if ( data == null )
 		{
