@@ -38,85 +38,55 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
-public class FreeSnackRequest
+public class IsotopeSmitheryRequest
 	extends CoinMasterRequest
 {
-	private static final Pattern SNACK_PATTERN = Pattern.compile( "whichsnack=(\\d+)" );
-
-	public static final CoinmasterData FREESNACKS =
+	public static final CoinmasterData ISOTOPE_SMITHERY =
 		new CoinmasterData(
-			CoinmastersDatabase.FREESNACKS,
-			"snack voucher",
-			"free snack voucher",
-			"gamestore.php",
-			"The teen glances at your snack voucher",
-			CoinmastersFrame.VOUCHER,
-			"availableSnackVouchers",
-			"whichsnack",
-			FreeSnackRequest.SNACK_PATTERN,
+			CoinmastersDatabase.ISOTOPE_SMITHERY,
+			"isotope",
+			"lunar isotope",
+			"spaaace.php?place=shop1",
 			null,
-			null,
-			"buysnack",
-			CoinmastersDatabase.getSnackVoucherItems(),
-			CoinmastersDatabase.snackVoucherBuyPrices(),
+			CoinmastersFrame.ISOTOPE,
+			"availableIsotopes",
+			"whichitem",
+			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
+			CoinMasterRequest.QUANTITY_PATTERN,
+			"buy",
+			CoinmastersDatabase.getIsotope1Items(),
+			CoinmastersDatabase.isotope1BuyPrices(),
 			null,
 			null
 			);
 
-	public FreeSnackRequest()
+	public IsotopeSmitheryRequest()
 	{
-		super( FreeSnackRequest.FREESNACKS );
+		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY );
 	}
 
-	public FreeSnackRequest( final String action )
+	public IsotopeSmitheryRequest( final String action )
 	{
-		super( FreeSnackRequest.FREESNACKS, action );
+		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action );
 	}
 
-	public FreeSnackRequest( final String action, final int itemId, final int quantity )
+	public IsotopeSmitheryRequest( final String action, final int itemId, final int quantity )
 	{
-		super( FreeSnackRequest.FREESNACKS, action, itemId, quantity );
+		super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY, action, itemId, quantity );
 	}
 
-	public FreeSnackRequest( final String action, final int itemId )
+	public IsotopeSmitheryRequest( final String action, final int itemId )
 	{
 		this( action, itemId, 1 );
 	}
 
-	public FreeSnackRequest( final String action, final AdventureResult ar )
+	public IsotopeSmitheryRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
-	}
-
-	public static void parseFreeSnackVisit( final String location, final String responseText )
-	{
-		CoinmasterData data = FreeSnackRequest.FREESNACKS;
-		if ( responseText.indexOf( "You can't" ) != -1 )
-		{
-			CoinMasterRequest.refundSale( data, location );
-		}
-	}
-
-	public static final boolean registerRequest( final String urlString, final String action )
-	{
-		// We only claim action=buysnack
-
-		if ( action.equals( "buysnack" ) )
-		{
-			CoinmasterData data = FreeSnackRequest.FREESNACKS;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		return false;
-	}
-
-	public static final void  buy( final int itemId, final int count )
-	{
-		RequestThread.postRequest( new FreeSnackRequest( "buysnack", itemId, count ) );
 	}
 }

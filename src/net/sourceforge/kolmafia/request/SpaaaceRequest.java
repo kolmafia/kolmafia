@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -47,7 +48,12 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.DollHawkerRequest;
+import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpaaaceRequest
@@ -88,7 +94,7 @@ public class SpaaaceRequest
 				}
 			}
 
-			CoinMasterRequest.parseSpaaaceVisit( urlString, responseText );
+			SpaaaceRequest.parseShopVisit( urlString, responseText );
 			return;
 		}
 
@@ -97,6 +103,61 @@ public class SpaaaceRequest
 		{
 			return;
 		}
+	}
+
+	private static void parseShopVisit( final String location, final String responseText )
+	{
+		CoinmasterData data = SpaaaceRequest.findIsotopeMaster( location );
+		if ( data == null )
+		{
+			return;
+		}
+
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
+		{
+			// Parse current coin balances
+			CoinMasterRequest.parseBalance( data, responseText );
+			CoinmastersFrame.externalUpdate();
+
+			return;
+		}
+		if ( responseText.indexOf( "You don't have enough" ) != -1 )
+		{
+			CoinMasterRequest.refundPurchase( data, location );
+		}
+
+		CoinMasterRequest.parseBalance( data, responseText );
+		CoinmastersFrame.externalUpdate();
+	}
+
+	private static final Pattern SHOP_PATTERN = Pattern.compile( "place=shop(\\d+)" );
+	private static CoinmasterData findIsotopeMaster( final String urlString )
+	{
+		Matcher shopMatcher = SpaaaceRequest.SHOP_PATTERN.matcher( urlString );
+		if ( !shopMatcher.find() )
+		{
+			return null;
+		}
+
+		String shop = shopMatcher.group(1);
+
+		if ( shop.equals( "1" ) )
+		{
+			return IsotopeSmitheryRequest.ISOTOPE_SMITHERY;
+		}
+
+		if ( shop.equals( "2" ) )
+		{
+			return DollHawkerRequest.DOLLHAWKER;
+		}
+
+		if ( shop.equals( "3" ) )
+		{
+			return LunarLunchRequest.LUNAR_LUNCH;
+		}
+
+		return null;
 	}
 
 	// title="peg style 3"
@@ -682,6 +743,22 @@ public class SpaaaceRequest
 		SpaaaceRequest.solveGameBoard();
 	}
 
+	private static final boolean registerShopRequest( final String urlString, final String action )
+	{
+		CoinmasterData data = findIsotopeMaster( urlString );
+		if ( data == null )
+		{
+			return false;
+		}
+
+		if ( action.equals( "buy" ) )
+		{
+			CoinMasterRequest.buyStuff( data, urlString );
+		}
+
+		return true;
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "spaaace.php" ) )
@@ -729,8 +806,7 @@ public class SpaaaceRequest
 		}
 		else if ( action.equals( "buy" ) )
 		{
-			// Let CoinmasterRequest claim this
-			return false;
+			return SpaaaceRequest.registerShopRequest( urlString, action );
 		}
 
 		if ( message == null )

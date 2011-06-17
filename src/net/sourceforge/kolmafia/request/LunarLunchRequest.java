@@ -40,83 +40,59 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
-public class FreeSnackRequest
+public class LunarLunchRequest
 	extends CoinMasterRequest
 {
-	private static final Pattern SNACK_PATTERN = Pattern.compile( "whichsnack=(\\d+)" );
-
-	public static final CoinmasterData FREESNACKS =
+	public static final CoinmasterData LUNAR_LUNCH =
 		new CoinmasterData(
-			CoinmastersDatabase.FREESNACKS,
-			"snack voucher",
-			"free snack voucher",
-			"gamestore.php",
-			"The teen glances at your snack voucher",
-			CoinmastersFrame.VOUCHER,
-			"availableSnackVouchers",
-			"whichsnack",
-			FreeSnackRequest.SNACK_PATTERN,
+			CoinmastersDatabase.LUNAR_LUNCH,
+			"isotope",
+			"lunar isotope",
+			"spaaace.php?place=shop3",
 			null,
-			null,
-			"buysnack",
-			CoinmastersDatabase.getSnackVoucherItems(),
-			CoinmastersDatabase.snackVoucherBuyPrices(),
+			CoinmastersFrame.ISOTOPE,
+			"availableIsotopes",
+			"whichitem",
+			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
+			CoinMasterRequest.QUANTITY_PATTERN,
+			"buy",
+			CoinmastersDatabase.getIsotope3Items(),
+			CoinmastersDatabase.isotope3BuyPrices(),
 			null,
 			null
 			);
 
-	public FreeSnackRequest()
+	public LunarLunchRequest()
 	{
-		super( FreeSnackRequest.FREESNACKS );
+		super( LunarLunchRequest.LUNAR_LUNCH );
 	}
 
-	public FreeSnackRequest( final String action )
+	public LunarLunchRequest( final String action )
 	{
-		super( FreeSnackRequest.FREESNACKS, action );
+		super( LunarLunchRequest.LUNAR_LUNCH, action );
 	}
 
-	public FreeSnackRequest( final String action, final int itemId, final int quantity )
+	public LunarLunchRequest( final String action, final int itemId, final int quantity )
 	{
-		super( FreeSnackRequest.FREESNACKS, action, itemId, quantity );
+		super( LunarLunchRequest.LUNAR_LUNCH, action, itemId, quantity );
 	}
 
-	public FreeSnackRequest( final String action, final int itemId )
+	public LunarLunchRequest( final String action, final int itemId )
 	{
 		this( action, itemId, 1 );
 	}
 
-	public FreeSnackRequest( final String action, final AdventureResult ar )
+	public LunarLunchRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
-	public static void parseFreeSnackVisit( final String location, final String responseText )
+	public static final void buy( final int itemId, final int count )
 	{
-		CoinmasterData data = FreeSnackRequest.FREESNACKS;
-		if ( responseText.indexOf( "You can't" ) != -1 )
-		{
-			CoinMasterRequest.refundSale( data, location );
-		}
-	}
-
-	public static final boolean registerRequest( final String urlString, final String action )
-	{
-		// We only claim action=buysnack
-
-		if ( action.equals( "buysnack" ) )
-		{
-			CoinmasterData data = FreeSnackRequest.FREESNACKS;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		return false;
-	}
-
-	public static final void  buy( final int itemId, final int count )
-	{
-		RequestThread.postRequest( new FreeSnackRequest( "buysnack", itemId, count ) );
+		RequestThread.postRequest( new LunarLunchRequest( "buy", itemId, count ) );
 	}
 }

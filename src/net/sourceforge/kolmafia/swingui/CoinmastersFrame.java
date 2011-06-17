@@ -63,10 +63,12 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -667,7 +669,17 @@ public class CoinmastersFrame
 	{
 		public IsotopeSmitheryPanel()
 		{
-			super( CoinMasterRequest.ISOTOPE_SMITHERY );
+			super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new IsotopeSmitheryRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new IsotopeSmitheryRequest( action, it );
 		}
 	}
 
@@ -676,7 +688,17 @@ public class CoinmastersFrame
 	{
 		public DollHawkerPanel()
 		{
-			super( CoinMasterRequest.DOLLHAWKER );
+			super( DollHawkerRequest.DOLLHAWKER );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new DollHawkerRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new DollHawkerRequest( action, it );
 		}
 	}
 
@@ -685,7 +707,17 @@ public class CoinmastersFrame
 	{
 		public LunarLunchPanel()
 		{
-			super( CoinMasterRequest.LUNAR_LUNCH );
+			super( LunarLunchRequest.LUNAR_LUNCH );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new LunarLunchRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new LunarLunchRequest( action, it );
 		}
 	}
 
@@ -872,7 +904,7 @@ public class CoinmastersFrame
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult it = (AdventureResult)items[i];
-				GenericRequest request = this.getRequest( action, it );
+				CoinMasterRequest request = this.getRequest( action, it );
 				RequestThread.postRequest( request );
 			}
 
