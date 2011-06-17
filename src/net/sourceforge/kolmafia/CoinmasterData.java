@@ -48,10 +48,12 @@ public class CoinmasterData
 	implements Comparable
 {
 	private final String master;
+	private final String URL;
 	private final String token;
 	private final String tokenString;
-	private final String URL;
-	private final String test;
+	private final String tokenTest;
+	private final boolean positiveTest;
+	private final Pattern tokenPattern;
 	private final AdventureResult item;
 	private final String property;
 	private final String itemField;
@@ -66,10 +68,12 @@ public class CoinmasterData
 
 	public CoinmasterData( 
 		final String master,
+		final String URL,
 		final String token,
 		final String tokenString,
-		final String URL,
-		final String test,
+		final String tokenTest,
+		final boolean positiveTest,
+		final Pattern tokenPattern,
 		final AdventureResult item,
 		final String property,
 		final String itemField,
@@ -83,10 +87,12 @@ public class CoinmasterData
 		final Map sellPrices )
 	{
 		this.master = master;
+		this.URL = URL;
 		this.token = token;
 		this.tokenString = tokenString;
-		this.URL = URL;
-		this.test = test;
+		this.tokenTest = tokenTest;
+		this.positiveTest = positiveTest;
+		this.tokenPattern = tokenPattern;
 		this.item = item;
 		this.property = property;
 		this.itemField = itemField;
@@ -105,6 +111,11 @@ public class CoinmasterData
 		return this.master;
 	}
 
+	public final String getURL()
+	{
+		return this.URL;
+	}
+
 	public final String getToken()
 	{
 		return this.token;
@@ -115,14 +126,19 @@ public class CoinmasterData
 		return this.tokenString;
 	}
 
-	public final String getURL()
+	public final String getTokenTest()
 	{
-		return this.URL;
+		return this.tokenTest;
 	}
 
-	public final String getTest()
+	public final boolean getPositiveTest()
 	{
-		return this.test;
+		return this.positiveTest;
+	}
+
+	public final Pattern getTokenPattern()
+	{
+		return this.tokenPattern;
 	}
 
 	public final AdventureResult getItem()

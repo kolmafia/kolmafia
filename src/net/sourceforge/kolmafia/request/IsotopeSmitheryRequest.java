@@ -45,13 +45,16 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class IsotopeSmitheryRequest
 	extends CoinMasterRequest
 {
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) lunar isotope" );
 	public static final CoinmasterData ISOTOPE_SMITHERY =
 		new CoinmasterData(
-			CoinmastersDatabase.ISOTOPE_SMITHERY,
+			"Isotope Smithery",
+			"spaaace.php?place=shop1",
 			"isotope",
 			"lunar isotope",
-			"spaaace.php?place=shop1",
-			null,
+			"You have 0 lunar isotopes",
+			false,
+			IsotopeSmitheryRequest.TOKEN_PATTERN,
 			CoinmastersFrame.ISOTOPE,
 			"availableIsotopes",
 			"whichitem",

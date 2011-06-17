@@ -45,13 +45,16 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class CrimboCartelRequest
 	extends CoinMasterRequest
 {
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have <b>([\\d,]+)</b> Crimbux" );
 	public static final CoinmasterData CRIMBO_CARTEL =
 		new CoinmasterData(
-			CoinmastersDatabase.CRIMBOCARTEL,
+			"Crimbo Cartel",
+			"crimbo09.php",
 			"Crimbuck",
 			"Crimbux",
-			"crimbo09.php",
 			"You do not currently have any Crimbux",
+			false,
+			CrimboCartelRequest.TOKEN_PATTERN,
 			CoinmastersFrame.CRIMBUCK,
 			"availableCrimbux",
 			"whichitem",

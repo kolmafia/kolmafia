@@ -68,16 +68,18 @@ public class CoinMasterRequest
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Crimbux|Game Grid redemption ticket|bone chips|CRIMBCO scrip|store credit|free snack voucher|A. W. O. L. commendation|lunar isotope)" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (dime|quarter|sand dollar|Game Grid redemption ticket|A. W. O. L. commendation)" );
 
 	private static String lastURL = null;
 
 	public static final CoinmasterData BHH =
 		new CoinmasterData(
-			CoinmastersDatabase.BHH,
+			"Bounty Hunter Hunter",
+			"bhh.php",
 			"lucre",
 			null,
-			"bhh.php",
+			null,
+			false,
 			null,
 			CoinmastersFrame.LUCRE,
 			"availableLucre",
@@ -93,11 +95,13 @@ public class CoinMasterRequest
 			);
 	public static final CoinmasterData HIPPY =
 		new CoinmasterData(
-			CoinmastersDatabase.HIPPY,
-			"dime",
-			"dime",
+			"Dimemaster",
 			"bigisland.php",
+			"dime",
+			"dime",
 			"You don't have any dimes",
+			false,
+			CoinMasterRequest.TOKEN_PATTERN,
 			null,
 			"availableDimes",
 			"whichitem",
@@ -112,11 +116,13 @@ public class CoinMasterRequest
 			);
 	public static final CoinmasterData FRATBOY =
 		new CoinmasterData(
-			CoinmastersDatabase.FRATBOY,
-			"quarter",
-			"quarter",
+			"Quartersmaster",
 			"bigisland.php",
+			"quarter",
+			"quarter",
 			"You don't have any quarters",
+			false,
+			CoinMasterRequest.TOKEN_PATTERN,
 			null,
 			"availableQuarters",
 			"whichitem",
@@ -131,11 +137,13 @@ public class CoinMasterRequest
 			);
 	public static final CoinmasterData BIGBROTHER =
 		new CoinmasterData(
-			CoinmastersDatabase.BIGBROTHER,
-			"sand dollar",
-			"sand dollar",
+			"Big Brother",
 			"monkeycastle.php",
+			"sand dollar",
+			"sand dollar",
 			"You haven't got any sand dollars",
+			false,
+			CoinMasterRequest.TOKEN_PATTERN,
 			CoinmastersFrame.SAND_DOLLAR,
 			"availableSandDollars",
 			"whichitem",
@@ -150,11 +158,13 @@ public class CoinMasterRequest
 			);
 	public static final CoinmasterData TICKETCOUNTER =
 		new CoinmasterData(
-			CoinmastersDatabase.TICKETCOUNTER,
+			"Arcade Ticket Counter",
+			"arcade.php",
 			"ticket",
 			"Game Grid redemption ticket",
-			"arcade.php",
 			"You currently have no Game Grid redemption tickets",
+			false,
+			CoinMasterRequest.TOKEN_PATTERN,
 			CoinmastersFrame.TICKET,
 			"availableTickets",
 			"whichitem",
@@ -169,11 +179,13 @@ public class CoinMasterRequest
 			);
 	public static final CoinmasterData AWOL =
 		new CoinmasterData(
-			CoinmastersDatabase.AWOL,
+			"A. W. O. L. Quartermaster",
+			"inv_use.php",
 			"commendation",
 			"A. W. O. L. commendation",
-			"inv_use.php",
 			null,
+			false,
+			CoinMasterRequest.TOKEN_PATTERN,
 			CoinmastersFrame.AWOL,
 			"availableCommendations",
 			"tobuy",
@@ -198,19 +210,18 @@ public class CoinMasterRequest
 		super( data.getURL() );
 
 		this.data = data;
-		String master = data.getMaster();
 
-		if ( master == CoinmastersDatabase.HIPPY )
+		if ( data == CoinMasterRequest.HIPPY )
 		{
 			this.addFormField( "place", "camp" );
 			this.addFormField( "whichcamp", "1" );
 		}
-		else if ( master == CoinmastersDatabase.FRATBOY )
+		else if ( data == CoinMasterRequest.FRATBOY )
 		{
 			this.addFormField( "place", "camp" );
 			this.addFormField( "whichcamp", "2" );
 		}
-		else if ( master == CoinmastersDatabase.AWOL )
+		else if ( data == CoinMasterRequest.AWOL )
 		{
 			this.addFormField( "whichitem", "5116" );
 			this.addFormField( "which", "3" );
@@ -243,12 +254,11 @@ public class CoinMasterRequest
 			this.addFormField( countField, String.valueOf( quantity ) );
 		}
 
-		String master = this.data.getMaster();
-		if ( master == CoinmastersDatabase.BIGBROTHER )
+		if ( data == CoinMasterRequest.BIGBROTHER )
 		{
 			this.addFormField( "who", "2" );
 		}
-		else if ( master == CoinmastersDatabase.AWOL )
+		else if ( data == CoinMasterRequest.AWOL )
 		{
 			this.removeFormField( "which" );
 			this.addFormField( "doit", "69" );
@@ -268,9 +278,9 @@ public class CoinMasterRequest
 	public Object run()
 	{
 		// If we cannot specify the count, we must get 1 at a time.
-		int visits = this.data.getCountField() == null ?
-			this.quantity : 1;
-		String master = this.data.getMaster();
+		CoinmasterData data = this.data;
+		int visits = data.getCountField() == null ? this.quantity : 1;
+		String master = data.getMaster();
 
 		int i = 1;
 
@@ -455,18 +465,31 @@ public class CoinMasterRequest
 			return;
 		}
 
-		String test = data.getTest();
-		if ( test == null )
+		// See if this Coin Master will tell us how many tokens we have
+		Pattern tokenPattern = data.getTokenPattern();
+		if ( tokenPattern == null )
 		{
+			// If not, we have to depend on inventory tracking
 			return;
 		}
 
-		boolean positive = ( data == FreeSnackRequest.FREESNACKS );
-		boolean found = responseText.indexOf( test ) != -1;
-		String balance = "0";
-		if ( positive == found )
+		// See if there is a special string for having no tokens
+		String tokenTest = data.getTokenTest();
+		boolean check = true;
+		if ( tokenTest != null )
 		{
-			Matcher matcher = CoinMasterRequest.TOKEN_PATTERN.matcher( responseText );
+			boolean positive = data.getPositiveTest();
+			boolean found = responseText.indexOf( tokenTest ) != -1;
+			// If there is a positive check for tokens and we found it
+			// or a negative check for tokens and we didn't find it,
+			// we can parse the token count on this page
+			check = ( positive == found );
+		}
+
+		String balance = "0";
+		if ( check )
+		{
+			Matcher matcher = tokenPattern.matcher( responseText );
 			if ( !matcher.find() )
 			{
 				return;

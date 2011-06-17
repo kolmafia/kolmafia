@@ -50,21 +50,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinmastersDatabase
 	extends KoLDatabase
 {
-	public static final String BHH = "Bounty Hunter Hunter";
-	public static final String HIPPY = "Dimemaster";
-	public static final String FRATBOY = "Quartersmaster";
-	public static final String BIGBROTHER = "Big Brother";
-	public static final String TICKETCOUNTER = "Arcade Ticket Counter";
-	public static final String GAMESHOPPE = "Game Shoppe";
-	public static final String FREESNACKS = "Game Shoppe Snacks";
-	public static final String DOLLHAWKER = "Dollhawker's Emporium";
-	public static final String LUNAR_LUNCH = "Lunar Lunch-o-Mat";
-	public static final String ISOTOPE_SMITHERY = "Isotope Smithery";
-	public static final String AWOL = "A. W. O. L. Quartermaster";
-	public static final String ALTAROFBONES = "Altar of Bones";
-	public static final String CRIMBOCARTEL = "Crimbo Cartel";
-	public static final String CRIMBCOGIFTSHOP = "CRIMBCO Gift Shop";
-
 	private static final LockableListModel buyForDimes = new LockableListModel();
 	private static final Map dimeSellPriceByName = new TreeMap();
 	private static final Map dimeBuyPriceByName = new TreeMap();

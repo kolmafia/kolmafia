@@ -45,15 +45,18 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class FreeSnackRequest
 	extends CoinMasterRequest
 {
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) free snack voucher" );
 	private static final Pattern SNACK_PATTERN = Pattern.compile( "whichsnack=(\\d+)" );
 
 	public static final CoinmasterData FREESNACKS =
 		new CoinmasterData(
-			CoinmastersDatabase.FREESNACKS,
+			"Game Shoppe Snacks",
+			"gamestore.php",
 			"snack voucher",
 			"free snack voucher",
-			"gamestore.php",
 			"The teen glances at your snack voucher",
+			true,
+			FreeSnackRequest.TOKEN_PATTERN,
 			CoinmastersFrame.VOUCHER,
 			"availableSnackVouchers",
 			"whichsnack",
