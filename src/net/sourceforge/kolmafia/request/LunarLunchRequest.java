@@ -52,7 +52,6 @@ public class LunarLunchRequest
 			"Lunar Lunch-o-Mat",
 			"spaaace.php?place=shop3",
 			"isotope",
-			"lunar isotope",
 			"You have 0 lunar isotopes",
 			false,
 			LunarLunchRequest.TOKEN_PATTERN,

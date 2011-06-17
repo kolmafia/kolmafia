@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
@@ -373,12 +374,22 @@ public class CoinmastersFrame
 	{
 		public BountyHunterHunterPanel()
 		{
-			super( CoinMasterRequest.BHH );
+			super( BountyHunterHunterRequest.BHH );
 		}
 
 		public int buyDefault( final int max )
 		{
 			return 1;
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new BountyHunterHunterRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new BountyHunterHunterRequest( action, it );
 		}
 	}
 

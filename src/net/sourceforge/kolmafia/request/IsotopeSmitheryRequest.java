@@ -51,7 +51,6 @@ public class IsotopeSmitheryRequest
 			"Isotope Smithery",
 			"spaaace.php?place=shop1",
 			"isotope",
-			"lunar isotope",
 			"You have 0 lunar isotopes",
 			false,
 			IsotopeSmitheryRequest.TOKEN_PATTERN,

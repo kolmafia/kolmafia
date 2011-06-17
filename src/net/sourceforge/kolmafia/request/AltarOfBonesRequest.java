@@ -51,7 +51,6 @@ public class AltarOfBonesRequest
 			"Altar of Bones",
 			"bone_altar.php",
 			"bone chips",
-			"bone chips",
 			"You have no bone chips",
 			false,
 			AltarOfBonesRequest.TOKEN_PATTERN,

@@ -53,7 +53,6 @@ public class GameShoppeRequest
 			"Game Shoppe",
 			"gamestore.php",
 			"store credit",
-			"store credit",
 			"You currently have no store credit",
 			false,
 			GameShoppeRequest.TOKEN_PATTERN,

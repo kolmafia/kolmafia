@@ -77,13 +77,13 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
+import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -1367,7 +1367,7 @@ public abstract class KoLmafia
 
 			if ( checkBounty && bounty.getCount( KoLConstants.inventory ) == bounty.getCount() )
 			{
-				RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.BHH ) );
+				RequestThread.postRequest( new BountyHunterHunterRequest() );
 				checkBounty = false;
 			}
 		}
@@ -1611,7 +1611,7 @@ public abstract class KoLmafia
 
 	public void makeHunterRequest()
 	{
-		GenericRequest hunterRequest = new CoinMasterRequest( CoinMasterRequest.BHH );
+		GenericRequest hunterRequest = new BountyHunterHunterRequest();
 		RequestThread.postRequest( hunterRequest );
 
 		Matcher bountyMatcher = Pattern.compile( "name=whichitem value=(\\d+)" ).matcher( hunterRequest.responseText );
@@ -1661,7 +1661,7 @@ public abstract class KoLmafia
 
 		String selection = selectedValue.substring( 0, selectedValue.indexOf( "(" ) - 1 );
 		int itemId = ItemDatabase.getItemId( selection );
-		RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.BHH, "takebounty", itemId ) );
+		RequestThread.postRequest( new BountyHunterHunterRequest( "takebounty", itemId ) );
 	}
 
 	/**

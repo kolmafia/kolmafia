@@ -51,7 +51,6 @@ public class CRIMBCOGiftShopRequest
 			"CRIMBCO Gift Shop",
 			"crimbo10.php",
 			"CRIMBCO scrip",
-			"CRIMBCO scrip",
 			"You don't have any CRIMBCO scrip",
 			false,
 			CRIMBCOGiftShopRequest.TOKEN_PATTERN,
