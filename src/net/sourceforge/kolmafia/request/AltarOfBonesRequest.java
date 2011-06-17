@@ -45,13 +45,16 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class AltarOfBonesRequest
 	extends CoinMasterRequest
 {
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+).*?bone chips" );
 	public static final CoinmasterData ALTAR_OF_BONES =
 		new CoinmasterData(
-			CoinmastersDatabase.ALTAROFBONES,
-			"bone chips",
-			"bone chips",
+			"Altar of Bones",
 			"bone_altar.php",
+			"bone chips",
+			"bone chips",
 			"You have no bone chips",
+			false,
+			AltarOfBonesRequest.TOKEN_PATTERN,
 			CoinmastersFrame.BONE_CHIPS,
 			"availableBoneChips",
 			"whichitem",

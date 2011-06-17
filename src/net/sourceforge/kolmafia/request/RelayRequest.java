@@ -880,12 +880,11 @@ public class RelayRequest
 			return false;
 		}
 
-		String master = data.getMaster();
 		switch ( outfit.getOutfitId() )
 		{
 		case 32:
 			// War Hippy Fatigues
-			if ( master == CoinmastersDatabase.HIPPY )
+			if ( data == CoinMasterRequest.HIPPY )
 			{
 				return false;
 			}
@@ -893,7 +892,7 @@ public class RelayRequest
 
 		case 33:
 			// Frat Warrior Fatigues
-			if ( master == CoinmastersDatabase.FRATBOY )
+			if ( data == CoinMasterRequest.FRATBOY )
 			{
 				return false;
 			}
@@ -907,7 +906,7 @@ public class RelayRequest
 		// This will prompt the final confrontation.
 		// Offer a chance to cash in dimes and quarters.
 
-		this.sendCoinMasterWarning( master );
+		this.sendCoinMasterWarning( data );
 		return true;
 	}
 
@@ -928,7 +927,7 @@ public class RelayRequest
 			int factor = IslandDecorator.hippiesDefeatedPerBattle();
 			if ( hippiesDefeated < 999 && ( 999 - hippiesDefeated ) % factor == 0 )
 			{
-				this.sendWossnameWarning( CoinmastersDatabase.FRATBOY );
+				this.sendWossnameWarning( CoinMasterRequest.FRATBOY );
 				return true;
 			}
 		}
@@ -939,7 +938,7 @@ public class RelayRequest
 			int factor = IslandDecorator.fratboysDefeatedPerBattle();
 			if ( fratboysDefeated < 999 && ( 999 - fratboysDefeated ) % factor == 0 )
 			{
-				this.sendWossnameWarning( CoinmastersDatabase.HIPPY );
+				this.sendWossnameWarning( CoinMasterRequest.HIPPY );
 				return true;
 			}
 		}
@@ -947,7 +946,7 @@ public class RelayRequest
 		return false;
 	}
 
-	private void sendCoinMasterWarning( final String camp )
+	private void sendCoinMasterWarning( final CoinmasterData camp )
 	{
 		String message;
 
@@ -957,8 +956,8 @@ public class RelayRequest
 		}
 		else
 		{
-			message =
-				"You are about to enter the " + ( camp == CoinmastersDatabase.HIPPY ? "hippy" : "fratboy" ) + " camp and confront the boss.";
+			String master = ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" );
+			message = "You are about to enter the " + master + " camp and confront the boss.";
 		}
 
 		message =
@@ -1009,12 +1008,14 @@ public class RelayRequest
 		return true;
 	}
 
-	private void sendWossnameWarning( final String camp )
+	private void sendWossnameWarning( final CoinmasterData camp )
 	{
 		String message;
+		String side1 = ( camp == CoinMasterRequest.HIPPY ? "hippy" : "fratboy" );
+		String side2 = ( camp == CoinMasterRequest.HIPPY ? "fratboys" : "hippies" );
 
 		message =
-			"You are about to defeat the last " + ( camp == CoinmastersDatabase.HIPPY ? "hippy" : "fratboy" ) + " and open the way to their camp. However, you have not yet finished with the " + ( camp == CoinmastersDatabase.HIPPY ? "fratboys" : "hippies" ) + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
+			"You are about to defeat the last " + side1 + " and open the way to their camp. However, you have not yet finished with the " + side2 + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
 
 		this.sendGeneralWarning( "wossname.gif", message );
 	}

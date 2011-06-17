@@ -46,13 +46,16 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class LunarLunchRequest
 	extends CoinMasterRequest
 {
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) lunar isotope" );
 	public static final CoinmasterData LUNAR_LUNCH =
 		new CoinmasterData(
-			CoinmastersDatabase.LUNAR_LUNCH,
+			"Lunar Lunch-o-Mat",
+			"spaaace.php?place=shop3",
 			"isotope",
 			"lunar isotope",
-			"spaaace.php?place=shop3",
-			null,
+			"You have 0 lunar isotopes",
+			false,
+			LunarLunchRequest.TOKEN_PATTERN,
 			CoinmastersFrame.ISOTOPE,
 			"availableIsotopes",
 			"whichitem",

@@ -45,13 +45,16 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class DollHawkerRequest
 	extends CoinMasterRequest
 {
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) lunar isotope" );
 	public static final CoinmasterData DOLLHAWKER =
 		new CoinmasterData(
-			CoinmastersDatabase.DOLLHAWKER,
+			"Dollhawker's Emporium",
+			"spaaace.php?place=shop2",
 			"isotope",
 			"lunar isotope",
-			"spaaace.php?place=shop2",
-			null,
+			"You have 0 lunar isotopes",
+			false,
+			DollHawkerRequest.TOKEN_PATTERN,
 			CoinmastersFrame.ISOTOPE,
 			"availableIsotopes",
 			"whichitem",

@@ -47,13 +47,16 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class GameShoppeRequest
 	extends CoinMasterRequest
 {
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have ([\\d,]+) store credit" );
 	public static final CoinmasterData GAMESHOPPE =
 		new CoinmasterData(
-			CoinmastersDatabase.GAMESHOPPE,
-			"store credit",
-			"store credit",
+			"Game Shoppe",
 			"gamestore.php",
+			"store credit",
+			"store credit",
 			"You currently have no store credit",
+			false,
+			GameShoppeRequest.TOKEN_PATTERN,
 			null,
 			"availableStoreCredits",
 			"whichitem",
