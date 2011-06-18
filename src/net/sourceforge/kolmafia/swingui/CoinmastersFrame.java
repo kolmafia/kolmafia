@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
@@ -85,6 +86,7 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -258,6 +260,8 @@ public class CoinmastersFrame
 		this.selectorPanel.setSelectedIndex( Preferences.getInteger( "coinMasterIndex" ) );
 
 		this.framePanel.add( this.selectorPanel, BorderLayout.CENTER );
+
+		this.add( new StatusPanel(), BorderLayout.SOUTH );
 
 		CoinmastersFrame.externalUpdate();
 	}
@@ -514,12 +518,18 @@ public class CoinmastersFrame
 		}
 	}
 
-	private class TicketCounterPanel
+	public class TicketCounterPanel
 		extends CoinmasterPanel
 	{
 		public TicketCounterPanel()
 		{
 			super( TicketCounterRequest.TICKET_COUNTER );
+			this.buyPanel.addButton( new InvocationButton( "skeeball", this, "skeeball" ) );
+		}
+
+		public void skeeball()
+		{
+			RequestThread.postRequest( new ArcadeRequest( "skeeball" ) );
 		}
 
 		public CoinMasterRequest getRequest()
@@ -833,8 +843,8 @@ public class CoinmastersFrame
 	{
 		protected final CoinmasterData data;
 
-		private SellPanel sellPanel = null;
-		private BuyPanel buyPanel = null;
+		protected SellPanel sellPanel = null;
+		protected BuyPanel buyPanel = null;
 
 		public CoinmasterPanel( final CoinmasterData data )
 		{
@@ -1060,7 +1070,7 @@ public class CoinmastersFrame
 						new BuyListener(),
 					} );
 
-				this.eastPanel.add( new InvocationButton( "check", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
+				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
 				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
 				String token = CoinmasterPanel.this.data.getToken();
@@ -1069,6 +1079,18 @@ public class CoinmastersFrame
 				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, side ) );
 				this.elementList.setVisibleRowCount( 6 );
 				this.setEnabled( true );
+			}
+
+			public void addButton( final InvocationButton button )
+			{
+				InvocationButton[] buttons = new InvocationButton[1 ];
+				buttons[ 0 ] = button;
+				this.addButtons( buttons );
+			}
+
+			public void addButtons( final InvocationButton[] buttons )
+			{
+				super.addButtons( buttons );
 			}
 
 			public void setEnabled( final boolean isEnabled )

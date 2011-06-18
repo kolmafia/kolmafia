@@ -55,9 +55,18 @@ public class ArcadeRequest
 {
 	public static final AdventureResult TOKEN = ItemPool.get( ItemPool.GG_TOKEN, 1 );
 
+	private String action = null;
+
 	public ArcadeRequest()
 	{
 		super( "arcade.php" );
+	}
+
+	public ArcadeRequest( final String action )
+	{
+		super( "arcade.php" );
+		this.action = action;
+		this.addFormField( "action", action );
 	}
 
 	public static final int getTurnsUsed( GenericRequest request )
@@ -73,9 +82,10 @@ public class ArcadeRequest
 		     ( game.equals( "1" ) ||
 		       game.equals( "2" ) ||
 		       game.equals( "3" ) ||
-		       game.equals( "4" ) ) )
+		       game.equals( "4" ) ||
+		       game.equals( "5" ) ) )
 		{
-			return 1;
+			return 5;
 		}
 
 		return 0;
@@ -87,6 +97,28 @@ public class ArcadeRequest
 	{
 		Matcher matcher = ArcadeRequest.GAME_PATTERN.matcher( urlString );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : 0;
+	}
+
+	public void processResults()
+	{
+		ArcadeRequest.parseResponse( this.getURLString(), this.responseText );
+
+		if ( this.action == null )
+		{
+			return;
+		}
+
+		if ( this.action.equals( "skeeball" ) )
+		{
+			// You don't have any Game Grid tokens, so you can't
+			// play Skee-Ball. But don't feel bad. The Skee-Ball
+			// machine is broken, so you wouldn't have been able to
+			// play Skee-Ball anyway.
+			if ( this.responseText.indexOf( "You don't have any Game Grid tokens" ) != -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have any Game Grid tokens." );
+			}
+		}
 	}
 
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?descitem.([\\d]+).*?<b>([^<&]*)(?:&nbsp;)*</td>.*?<b>([\\d,]+)</b>", Pattern.DOTALL );

@@ -935,7 +935,10 @@ Bee Thoven	HP: [floor((MUS+40+ML)*.75)] Def: [MUS+40+ML] Atk: [MOX+40+ML]	handfu
 Queen Bee	HP: [floor((MUS+40+ML)*.75)] Def: [MUS+40+ML] Atk: [MOX+40+ML]	handful of honey (0)	handful of honey (0)	handful of honey (0)
 
 # Spaaace
+Dogcat	HP: 0	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
+Ferrelf	HP: 0	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
 Grizzled Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter II (15)
+Hamsterpus	HP: 0	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
 Overarmed Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter V (15)
 Primitive Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter VI (15)
 Unhinged Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter I (15)
