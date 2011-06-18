@@ -201,6 +201,8 @@ public class MaximizerFrame
 		"The only bitmap modifiers that currently appear useful for maximization are Clownosity and Raveosity, so they are allowed as a special case.  The weight specifies the required minimum value; only one value is actually meaningful for each keyword, so <b>4 clownosity</b> and <b>7 raveosity</b> are the only useful forms." +
 		"<p>" +
 		"String modifiers are not currently meaningful for maximization." +
+		"<p>" +
+		"The 'Bees Hate You' challenge path adds a <b>beeosity</b> keyword, which specifies the maximum number of 'B's allowed in the names of your equipment items (each of which causes 10% of your maximum HP in damage at the start of every combat).  The default is 2 at the moment.  The value you specify will automatically be increased if you use a <b>+equip</b> or <b>+outfit</b> keyword (described below) that requires more 'B's to satisfy." +
 		"<h3>Equipment</h3>" +
 		"Slot names can be used as keywords:" +
 		"<br><b>hat</b>, <b>weapon</b>, <b>offhand</b>, <b>shirt</b>, <b>pants</b>, <b>acc1</b>, <b>acc2</b>, <b>acc3</b>, <b>familiar</b> (stickers and fake hands are not currently planned.)" +
@@ -1556,7 +1558,8 @@ public class MaximizerFrame
 			return score;
 		}
 		
-		public void checkEquipment( Modifiers mods, AdventureResult[] equipment )
+		public void checkEquipment( Modifiers mods, AdventureResult[] equipment,
+			int beeosity )
 		{
 			boolean outfitSatisfied = false;
 			boolean equipSatisfied = this.posOutfits.isEmpty();
@@ -1589,6 +1592,10 @@ public class MaximizerFrame
 			// negEquip is not checked, since enumerateEquipment should make it
 			// impossible for such items to be chosen.
 			if ( !outfitSatisfied && !equipSatisfied )
+			{
+				this.failed = true;
+			}
+			if ( beeosity > this.beeosity )
 			{
 				this.failed = true;
 			}
@@ -2122,6 +2129,7 @@ public class MaximizerFrame
 		private boolean exceeded;
 		private float score, tiebreaker;
 		private int simplicity;
+		private int beeosity;
 		
 		public boolean failed = false;
 		public AdventureResult attachment;
@@ -2154,7 +2162,12 @@ public class MaximizerFrame
 			if ( this.scored ) return this.score;
 			if ( !this.calculated ) this.calculate();
 			this.score = MaximizerFrame.eval.getScore( this.mods );
-			MaximizerFrame.eval.checkEquipment( this.mods, this.equipment );
+			if ( KoLCharacter.inBeecore() )
+			{
+				this.beeosity = KoLCharacter.getBeeosity( this.equipment );
+			}
+			MaximizerFrame.eval.checkEquipment( this.mods, this.equipment,
+				this.beeosity );
 			this.failed = MaximizerFrame.eval.failed;
 			this.exceeded = MaximizerFrame.eval.exceeded;
 			this.scored = true;
@@ -2190,6 +2203,8 @@ public class MaximizerFrame
 			Spec other = (Spec) o;
 			int rv = Float.compare( this.getScore(), other.getScore() );
 			if ( this.failed != other.failed ) return this.failed ? -1 : 1;
+			if ( rv != 0 ) return rv;
+			rv = other.beeosity - this.beeosity;
 			if ( rv != 0 ) return rv;
 			rv = Float.compare( this.getTiebreaker(), other.getTiebreaker() );
 			if ( rv != 0 ) return rv;
