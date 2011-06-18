@@ -124,7 +124,7 @@ public class MonsterData
 		{
 			this.health = compile( this.health );
 		}
-		return Math.max( 1, (int) ((MonsterExpression) this.health).eval() );
+		return Math.max( 1, (int) (((MonsterExpression) this.health).eval() * getBeeosity() ) );
 	}
 
 	public int getAttack()
@@ -142,7 +142,7 @@ public class MonsterData
 		{
 			this.attack = compile( this.attack );
 		}
-		return Math.max( 1, (int) ((MonsterExpression) this.attack).eval() );
+		return Math.max( 1, (int) (((MonsterExpression) this.attack).eval() * getBeeosity() ) );
 	}
 
 	public int getDefense()
@@ -161,7 +161,7 @@ public class MonsterData
 		{
 			this.defense = compile( this.defense );
 		}
-		return Math.max( 1, (int) ((MonsterExpression) this.defense).eval() );
+		return Math.max( 1, (int) (((MonsterExpression) this.defense).eval() * getBeeosity() ) );
 	}
 
 	public int getInitiative()
@@ -377,7 +377,7 @@ public class MonsterData
 	{
 		if ( this.experience == null )
 		{
-			return ( this.getAttack() / ( this.attack instanceof Integer ? this.getBeeosity() : 1 ) ) / 8.0f;
+			return ( this.getAttack() / this.getBeeosity() ) / 8.0f;
 		}
 		if ( this.experience instanceof Integer )
 		{

@@ -644,7 +644,6 @@ public abstract class UseLinkDecorator
 			switch ( itemId )
 			{
 			case ItemPool.WORM_RIDING_HOOKS:
-
 				return new UseLink( itemId, itemCount, "wormride", "beach.php?action=woodencity" );
 
 			case ItemPool.PIXEL_CHAIN_WHIP:
@@ -743,6 +742,18 @@ public abstract class UseLinkDecorator
 			case ItemPool.LOATHING_LEGION_PIZZA_STONE:
 			case ItemPool.LOATHING_LEGION_HAMMER:
 				uses.add( new UseLink( itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem=" ) );
+				break;
+
+			case ItemPool.INSULT_PUPPET:
+				uses.add( new UseLink( itemId, itemCount, "insult mourn", "pandamonium.php?action=mourn&preaction=insult" ) );
+				break;
+
+			case ItemPool.OBSERVATIONAL_GLASSES:
+				uses.add( new UseLink( itemId, itemCount, "observe mourn", "pandamonium.php?action=mourn&preaction=observe" ) );
+				break;
+
+			case ItemPool.COMEDY_PROP:
+				uses.add( new UseLink( itemId, itemCount, "prop mourn", "pandamonium.php?action=mourn&preaction=prop" ) );
 				break;
 			}
 			
