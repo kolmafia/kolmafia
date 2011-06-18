@@ -1240,6 +1240,8 @@ public class ItemPool
 	public static final int TOBIKO_POTION = 5020;
 	public static final int NATTO_POTION = 5021;
 	public static final int PET_SWEATER = 5040;
+	public static final int ASTRAL_HOT_DOG = 5043;
+	public static final int ASTRAL_PILSNER = 5044;
 	public static final int LARS_THE_CYBERIAN = 5053;
 	public static final int TINY_BLACK_HOLE = 5069;
 	public static final int PEN_PAL_KIT = 5112;
@@ -1253,6 +1255,7 @@ public class ItemPool
 	public static final int EMU_ROCKET = 5136;
 	public static final int EMU_HELMET = 5137;
 	public static final int EMU_HARNESS = 5138;
+	public static final int ASTRAL_ENERGY_DRINK = 5140;
 	public static final int EMU_UNIT = 5143;
 	public static final int HONEYPOT = 5145;
 	public static final int SPOOKY_LITTLE_GIRL = 5165;

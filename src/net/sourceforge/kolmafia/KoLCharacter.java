@@ -654,6 +654,7 @@ public abstract class KoLCharacter
 		WumpusManager.reset();
 
 		ConcoctionDatabase.refreshConcoctions();
+		ItemDatabase.setAstralConsumables();
 		ItemDatabase.calculateAdventureRanges();
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
@@ -886,6 +887,7 @@ public abstract class KoLCharacter
 
 			HPRestoreItemList.updateHealthRestored();
 			MPRestoreItemList.updateManaRestored();
+			ItemDatabase.setAstralConsumables();
 		}
 
 		return KoLCharacter.currentLevel;
