@@ -1944,6 +1944,14 @@ public class RequestEditorKit
 			// Chess Puzzle
 			RabbitHoleManager.decorateChessPuzzleResponse( buffer );
 			break;
+		// Of Course!
+		case 509:
+			// You should probably go tell Bart you've fixed his
+			// rat problem.
+			StringUtilities.singleStringReplace(
+				buffer, "you've fixed his rat problem.",
+				"you've fixed his rat problem. <font size=1>[<a href=\"tavern.php?place=barkeep\">Visit Bart</a>]</font>" );
+			break;
 		case 537:
 			// Play Porko!
 		case 540:

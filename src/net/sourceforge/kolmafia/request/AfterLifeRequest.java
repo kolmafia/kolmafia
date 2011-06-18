@@ -433,7 +433,7 @@ public class AfterLifeRequest
 				buffer.append( ")" );
 			}
 
-			buffer.append( " sign " );
+			buffer.append( " sign" );
 
 			m = PATH_PATTERN.matcher( urlString );
 			if ( !m.find() )
@@ -468,9 +468,9 @@ public class AfterLifeRequest
 				break;
 			}
 
-			buffer.append( " path." );
+			buffer.append( " path," );
 
-			buffer.append( " Banking " );
+			buffer.append( " banking " );
 			buffer.append( String.valueOf( karma ) );
 			buffer.append( " Karma." );
 

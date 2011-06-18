@@ -574,6 +574,17 @@ public class ItemDatabase
 		}
 	}
 
+	private static final void setConsumptionData( final String name, final int size, final String adventures,
+		final String muscle, final String mysticality, final String moxie, final String note )
+	{
+		ItemDatabase.saveAdventureRange( name, size, adventures );
+		ItemDatabase.calculateAdventureRange( name );
+		ItemDatabase.muscleByName.put( name, muscle );
+		ItemDatabase.mysticalityByName.put( name, mysticality );
+		ItemDatabase.moxieByName.put( name, moxie );
+		ItemDatabase.notesByName.put( name, note );
+	}
+
 	private static void readNonfillingData()
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "nonfilling.txt", KoLConstants.NONFILLING_VERSION );
@@ -2017,6 +2028,80 @@ public class ItemDatabase
 		return ItemDatabase.maxItemId;
 	}
 
+	// Support for astral consumables
+
+	public static final void setAstralConsumables()
+	{
+		int level = Math.min( 11, Math.max( 3, KoLCharacter.getLevel() ) );
+
+		// astral pilsner:
+		//
+		// You gain X Adventures.
+		// You gain 0-2X Strongness.
+		// You gain 0-2X Enchantedness.
+		// You gain 0-2X Chutzpah.
+		// You gain 1 Drunkenness.
+		// 
+		// X is equal to your level with a minimum of 3 and a maximum of 11
+
+		String name = "astral pilsner";
+		int size = 1;
+		String adventures = String.valueOf( level );
+		String statGain = "0-" + String.valueOf( 2 * level );
+		String muscle = statGain;
+		String mysticality = statGain;
+		String moxie = statGain;
+		String note = "";
+
+		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
+
+		// astral hot dog
+		//
+		// You gain X Adventures.
+		// You gain Y Beefiness.
+		// You gain Y Enchantedness.
+		// You gain Y Cheek.
+		// (You gain 3 Fullness.)
+
+		// X and Y are based off of your current level.
+		// Levels 1 and 2 use Level 3 stats. The level is capped at level 11.
+		// X ranges between 1.8 times your level (rounded up) and 2.2
+		//   times your level (rounded down).
+		// Y will be between 16 and 20 times your level.
+
+		name = "astral hot dog";
+		size = 3;
+		int a1 = (int) Math.ceil( 1.8 * level );
+		int a2 = (int) Math.floor( 2.2 * level );
+		adventures = String.valueOf( a1 ) + "-" + String.valueOf( a2 );
+		statGain = String.valueOf( 16 * level ) + "-" + String.valueOf( 20 * level );
+		muscle = statGain;
+		mysticality = statGain;
+		moxie = statGain;
+		note = "";
+
+		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
+
+		// astral energy drink
+		// 
+		// You gain X Adventures.
+		// (You gain 8 Spleen.)
+		//
+		// Adventure gains appear to be 10 + (your level * 2) +/- 3. Gains are
+		// (probably) capped at level 11 giving 29-35 adventures, and levels 1-3
+		// are (probably) lumped together giving 13-19 adventures.
+
+		name = "astral energy drink";
+		size = 8;
+		int a = 10 + level * 2;
+		adventures = String.valueOf( a - 3 ) + "-" + String.valueOf( a + 3 );
+		muscle = "0";
+		mysticality = "0";
+		moxie = "0";
+		note = "";
+		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
+	}
+
 	// Support for dusty bottles of wine
 
 	public static final void identifyDustyBottles()
@@ -2153,16 +2238,9 @@ public class ItemDatabase
 	private static final void setDustyBottle( final int itemId, final int inebriety, final String adventures,
 		final String muscle, final String mysticality, final String moxie, final String note )
 	{
-		String name =
-			StringUtilities.getCanonicalName( (String) ItemDatabase.dataNameById.get( new Integer( itemId ) ) );
-
+		String name = StringUtilities.getCanonicalName( (String) ItemDatabase.dataNameById.get( new Integer( itemId ) ) );
 		ItemDatabase.inebrietyByName.put( name, new Integer( inebriety ) );
-		ItemDatabase.saveAdventureRange( name, inebriety, adventures );
-		ItemDatabase.calculateAdventureRange( name );
-		ItemDatabase.muscleByName.put( name, muscle );
-		ItemDatabase.mysticalityByName.put( name, mysticality );
-		ItemDatabase.moxieByName.put( name, moxie );
-		ItemDatabase.notesByName.put( name, note );
+		ItemDatabase.setConsumptionData( name, inebriety, adventures, muscle, mysticality, moxie, note );
 	}
 
 	public static final String dustyBottleType( final int itemId )

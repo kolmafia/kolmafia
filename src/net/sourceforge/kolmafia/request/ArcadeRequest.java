@@ -118,6 +118,10 @@ public class ArcadeRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have any Game Grid tokens." );
 			}
+			else
+			{
+				KoLmafia.updateDisplay( "Token transformed into tickets." );
+			}
 		}
 	}
 
