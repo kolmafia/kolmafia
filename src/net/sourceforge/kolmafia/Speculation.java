@@ -61,18 +61,19 @@ public class Speculation
 		this.equipment = EquipmentManager.allEquipment();			
 		this.effects = new ArrayList();
 		this.effects.addAll( KoLConstants.activeEffects );
-		while ( this.effects.size() > 0 )
-		{	// Strip out intrinsic effects - those granted by equipment
-			// will be added from Intrinsic Effect modifiers.
-			// This assumes that no intrinsic that is granted by anything
-			// other than equipment has any real effect.
-			int pos = this.effects.size() - 1;
-			if ( ((AdventureResult) this.effects.get( pos )).getCount() >
-				Integer.MAX_VALUE / 2 )
-			{
-				this.effects.remove( pos );
-			}
-			else break;
+		// Strip out intrinsic effects granted by equipment - they will
+		// be readded if appropriate via Intrinsic Effect modifiers.
+		// We used to just strip out all intrinsics, back when non-equipment
+		// intrinsics were all just flavor rather than possibly significant.
+		for ( int i = this.equipment.length - 1; i >= 0; --i )
+		{
+			if ( this.equipment[ i ] == null ) continue;
+			String name = this.equipment[ i ].getName();
+			Modifiers mods = Modifiers.getModifiers( name );
+			if ( mods == null ) continue;
+			name = mods.getString( Modifiers.INTRINSIC_EFFECT );
+			if ( name.length() == 0 ) continue;
+			this.effects.remove( new AdventureResult( name, 1, true ) );
 		}
 		this.familiar = KoLCharacter.currentFamiliar;
 		this.enthroned = KoLCharacter.currentEnthroned;
