@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
@@ -76,6 +77,7 @@ import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -378,11 +380,6 @@ public class CoinmastersFrame
 			super( BountyHunterHunterRequest.BHH );
 		}
 
-		public int buyDefault( final int max )
-		{
-			return 1;
-		}
-
 		public CoinMasterRequest getRequest()
 		{
 			return new BountyHunterHunterRequest();
@@ -403,7 +400,17 @@ public class CoinmastersFrame
 
 		public BigBrotherPanel()
 		{
-			super( CoinMasterRequest.BIGBROTHER );
+			super( BigBrotherRequest.BIG_BROTHER );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new BigBrotherRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new BigBrotherRequest( action, it );
 		}
 
 		public void update()
@@ -480,11 +487,6 @@ public class CoinmastersFrame
 		{
 			return KoLCharacter.getFamiliar().waterBreathing();
 		}
-
-		public int buyDefault( final int max )
-		{
-			return 1;
-		}
 	}
 
 	private class CrimboCartelPanel
@@ -493,12 +495,6 @@ public class CoinmastersFrame
 		public CrimboCartelPanel()
 		{
 			super( CrimboCartelRequest.CRIMBO_CARTEL );
-		}
-
-		public boolean accessible()
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
-			return false;
 		}
 
 		public CoinMasterRequest getRequest()
@@ -511,9 +507,10 @@ public class CoinmastersFrame
 			return new CrimboCartelRequest( action, it );
 		}
 
-		public int buyDefault( final int max )
+		public boolean accessible()
 		{
-			return 1;
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
+			return false;
 		}
 	}
 
@@ -522,12 +519,17 @@ public class CoinmastersFrame
 	{
 		public TicketCounterPanel()
 		{
-			super( CoinMasterRequest.TICKETCOUNTER );
+			super( TicketCounterRequest.TICKET_COUNTER );
 		}
 
-		public int buyDefault( final int max )
+		public CoinMasterRequest getRequest()
 		{
-			return 1;
+			return new TicketCounterRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new TicketCounterRequest( action, it );
 		}
 	}
 
@@ -548,11 +550,6 @@ public class CoinmastersFrame
 		{
 			return new GameShoppeRequest( action, it );
 		}
-
-		public int buyDefault( final int max )
-		{
-			return 1;
-		}
 	}
 
 	private class SnackVoucherPanel
@@ -571,11 +568,6 @@ public class CoinmastersFrame
 		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
 		{
 			return new FreeSnackRequest( action, it );
-		}
-
-		public int buyDefault( final int max )
-		{
-			return 1;
 		}
 	}
 
@@ -602,11 +594,6 @@ public class CoinmastersFrame
 		{
 			return new AltarOfBonesRequest( action, it );
 		}
-
-		public int buyDefault( final int max )
-		{
-			return 1;
-		}
 	}
 
 	private class CRIMBCOGiftShopPanel
@@ -632,11 +619,6 @@ public class CoinmastersFrame
 		{
 			return new CRIMBCOGiftShopRequest( action, it );
 		}
-
-		public int buyDefault( final int max )
-		{
-			return 1;
-		}
 	}
 
 	private class CommendationPanel
@@ -645,6 +627,16 @@ public class CoinmastersFrame
 		public CommendationPanel()
 		{
 			super( AWOLQuartermasterRequest.AWOL );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new AWOLQuartermasterRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new AWOLQuartermasterRequest( action, it );
 		}
 
 		public boolean enabled()
@@ -664,24 +656,9 @@ public class CoinmastersFrame
 
 			return true;
 		}
-
-		public int buyDefault( final int max )
-		{
-			return 1;
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new AWOLQuartermasterRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new AWOLQuartermasterRequest( action, it );
-		}
 	}
 
-	private class WarMasterPanel
+	private abstract class WarMasterPanel
 		extends CoinmasterPanel
 	{
 		private final int outfit;
@@ -704,6 +681,11 @@ public class CoinmastersFrame
 		public boolean enabled()
 		{
 			return CoinmastersFrame.atWar && this.hasOutfit;
+		}
+
+		public int buyDefault( final int max )
+		{
+			return max;
 		}
 
 		public boolean accessible()
@@ -798,7 +780,7 @@ public class CoinmastersFrame
 		}
 	}
 
-	private class IsotopeMasterPanel
+	private abstract class IsotopeMasterPanel
 		extends CoinmasterPanel
 	{
 		private boolean hasEffect = false;
@@ -844,14 +826,9 @@ public class CoinmastersFrame
 				RequestThread.postRequest( request );
 			}
 		}
-
-		public int buyDefault( final int max )
-		{
-			return 1;
-		}
 	}
 
-	public class CoinmasterPanel
+	public abstract class CoinmasterPanel
 		extends JPanel
 	{
 		protected final CoinmasterData data;
@@ -942,7 +919,7 @@ public class CoinmastersFrame
 
 		public int buyDefault( final int max )
 		{
-			return max;
+			return 1;
 		}
 
 		public void check()

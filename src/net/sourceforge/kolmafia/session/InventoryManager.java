@@ -60,7 +60,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
@@ -68,6 +67,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -412,7 +412,7 @@ public abstract class InventoryManager
 			}
 
 			// Cash them in for coffee pixie sticks
-			RequestThread.postRequest( new CoinMasterRequest( CoinMasterRequest.TICKETCOUNTER, "redeem", ItemPool.COFFEE_PIXIE_STICK, missingCount ) );
+			TicketCounterRequest.buy( ItemPool.COFFEE_PIXIE_STICK, missingCount );
 
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 

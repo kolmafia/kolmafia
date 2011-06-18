@@ -64,49 +64,6 @@ public class CoinMasterRequest
 	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? (sand dollar|Game Grid redemption ticket|A. W. O. L. commendation)" );
-
-	public static final CoinmasterData BIGBROTHER =
-		new CoinmasterData(
-			"Big Brother",
-			"monkeycastle.php",
-			"sand dollar",
-			"You haven't got any sand dollars",
-			false,
-			CoinMasterRequest.TOKEN_PATTERN,
-			CoinmastersFrame.SAND_DOLLAR,
-			"availableSandDollars",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"quantity",
-			CoinMasterRequest.QUANTITY_PATTERN,
-			"buyitem",
-			CoinmastersDatabase.getSandDollarItems(),
-			CoinmastersDatabase.sandDollarBuyPrices(),
-			null,
-			null
-			);
-	public static final CoinmasterData TICKETCOUNTER =
-		new CoinmasterData(
-			"Arcade Ticket Counter",
-			"arcade.php",
-			"ticket",
-			"You currently have no Game Grid redemption tickets",
-			false,
-			CoinMasterRequest.TOKEN_PATTERN,
-			CoinmastersFrame.TICKET,
-			"availableTickets",
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
-			"quantity",
-			CoinMasterRequest.QUANTITY_PATTERN,
-			"redeem",
-			CoinmastersDatabase.getTicketItems(),
-			CoinmastersDatabase.ticketBuyPrices(),
-			null,
-			null
-			);
-
 	private final CoinmasterData data;
 
 	private String action = null;
@@ -142,11 +99,6 @@ public class CoinMasterRequest
 		if ( countField != null )
 		{
 			this.addFormField( countField, String.valueOf( quantity ) );
-		}
-
-		if ( data == CoinMasterRequest.BIGBROTHER )
-		{
-			this.addFormField( "who", "2" );
 		}
 	}
 
@@ -189,36 +141,6 @@ public class CoinMasterRequest
 			KoLmafia.updateDisplay( master + " successfully looted!" );
 		}
 		return null;
-	}
-
-	public static void parseBigBrotherVisit( final String location, final String responseText )
-	{
-		CoinmasterData data = CoinMasterRequest.BIGBROTHER;
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
-		{
-			if ( location.indexOf( "who=2" ) != -1 )
-			{
-				// Parse current coin balances
-				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
-			}
-
-			return;
-		}
-
-		if ( !action.equals( "buyitem" ) )
-		{
-			return;
-		}
-
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-		}
-
-		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
 	}
 
 	public static void parseBalance( final CoinmasterData data, final String responseText )
@@ -390,7 +312,7 @@ public class CoinMasterRequest
 
 		if ( urlString.startsWith( "monkeycastle.php" ) )
 		{
-			return registerSeaRequest( urlString );
+			return BigBrotherRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "crimbo09.php" ) )
@@ -405,7 +327,7 @@ public class CoinMasterRequest
 
 		if ( urlString.startsWith( "arcade.php" ) )
 		{
-			return registerTicketRequest( urlString );
+			return TicketCounterRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "gamestore.php" ) )
@@ -434,45 +356,6 @@ public class CoinMasterRequest
 		}
 
 		return false;
-	}
-
-	private static final boolean registerSeaRequest( final String urlString )
-	{
-		// We only claim monkeycastle.php?action=buyitem
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( !action.equals( "buyitem" ) )
-		{
-			return false;
-		}
-
-		CoinmasterData data = CoinMasterRequest.BIGBROTHER;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
-	}
-
-	private static final boolean registerTicketRequest( final String urlString )
-	{
-		// We only claim arcade.php?action=redeem
-
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( !action.equals( "redeem" ) )
-		{
-			return false;
-		}
-
-		CoinmasterData data = CoinMasterRequest.TICKETCOUNTER;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
 	}
 
 	public static final void buyStuff( final CoinmasterData data, final String urlString )

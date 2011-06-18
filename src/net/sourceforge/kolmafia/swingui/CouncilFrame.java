@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
@@ -143,7 +144,7 @@ public class CouncilFrame
 		}
 		else if ( location.startsWith( "monkeycastle" ) )
 		{
-			CoinMasterRequest.parseBigBrotherVisit( location, responseText );
+			BigBrotherRequest.parseVisit( location, responseText );
 		}
 		else if ( location.startsWith( "mountains" ) )
 		{

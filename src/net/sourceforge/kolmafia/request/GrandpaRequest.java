@@ -107,13 +107,11 @@ public class GrandpaRequest
 			return true;
 		}
 
-		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		if ( !matcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
 		{
 			return false;
 		}
-
-		String action = matcher.group(1);
 
 		if ( !action.equals( "grandpastory" ) )
 		{
