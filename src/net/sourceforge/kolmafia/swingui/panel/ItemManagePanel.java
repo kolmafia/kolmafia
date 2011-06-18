@@ -93,6 +93,7 @@ public class ItemManagePanel
 	public JRadioButton[] movers;
 
 	protected final AutoFilterTextField filterfield;
+	private JPanel buttonPanel;
 
 	public ItemManagePanel( final String confirmedText, final String cancelledText, final LockableListModel elementModel )
 	{
@@ -249,7 +250,7 @@ public class ItemManagePanel
 
 		if ( buttonListeners != null )
 		{
-			JPanel eastGridPanel = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
+			this.buttonPanel = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
 			this.buttons = new JButton[ buttonListeners.length ];
 
 			for ( int i = 0; i < buttonListeners.length; ++i )
@@ -264,10 +265,10 @@ public class ItemManagePanel
 					this.buttons[ i ].addActionListener( buttonListeners[ i ] );
 				}
 
-				eastGridPanel.add( this.buttons[ i ] );
+				this.buttonPanel.add( this.buttons[ i ] );
 			}
 
-			this.eastPanel.add( eastGridPanel, BorderLayout.NORTH );
+			this.eastPanel.add( this.buttonPanel, BorderLayout.NORTH );
 		}
 
 		// Handle filters along the top always, whenever buttons
@@ -294,6 +295,31 @@ public class ItemManagePanel
 		{
 			this.actualPanel.add( this.eastPanel, BorderLayout.EAST );
 		}
+	}
+
+	public void addButtons( final JButton[] buttons )
+	{
+		JButton[] oldButtons = this.buttons;
+		int oldSize = oldButtons.length;
+		int newSize = oldSize + buttons.length;
+		JButton[] newButtons = new JButton[ newSize ];
+
+		// Copy in the old buttons
+		for ( int i = 0; i < oldSize; ++i )
+		{
+			newButtons[ i ] = oldButtons[ i ];
+		}
+
+		// Copy in the new buttons
+		for ( int i = oldSize; i < newSize; ++i )
+		{
+			JButton newButton = buttons[ i - oldSize ];
+			newButtons[ i ] = newButton;
+			this.buttonPanel.add( newButton );
+		}
+
+		// Save the button list
+		this.buttons = newButtons;
 	}
 
 	public void addMovers()
