@@ -1703,7 +1703,7 @@ public abstract class RuntimeLibrary
 
 	public static Value to_boolean( final Value value )
 	{
-		return DataTypes.makeBooleanValue( ( value.intValue() != 0 || value.toString().equals( "true" ) ) );
+		return DataTypes.makeBooleanValue( ( value.intValue() != 0 || value.toString().equalsIgnoreCase( "true" ) ) );
 	}
 
 	public static Value to_int( final Value value )
