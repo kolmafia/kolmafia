@@ -560,6 +560,13 @@ public class MaximizerFrame
 			{
 				spec.addEffect( effect );
 				delta = spec.getScore() - current;
+				if ( (spec.getModifiers().getRawBitmap( Modifiers.MUTEX_VIOLATIONS )
+					& ~KoLCharacter.currentRawBitmapModifier( Modifiers.MUTEX_VIOLATIONS )) != 0 )
+				{	// This effect creates a mutex problem that the player
+					// didn't already have.  In the future, perhaps suggest
+					// uneffecting the conflicting effect, but for now just skip.
+					continue;
+				}
 				switch ( MaximizerFrame.eval.checkConstraints(
 					Modifiers.getModifiers( name ) ) )
 				{
@@ -2169,6 +2176,12 @@ public class MaximizerFrame
 			MaximizerFrame.eval.checkEquipment( this.mods, this.equipment,
 				this.beeosity );
 			this.failed = MaximizerFrame.eval.failed;
+			if ( (this.mods.getRawBitmap( Modifiers.MUTEX_VIOLATIONS )
+				& ~KoLCharacter.currentRawBitmapModifier( Modifiers.MUTEX_VIOLATIONS )) != 0 )
+			{	// We're speculating about something that would create a
+				// mutex problem that the player didn't already have.
+				this.failed = true;
+			}
 			this.exceeded = MaximizerFrame.eval.exceeded;
 			this.scored = true;
 			return this.score;
