@@ -76,6 +76,7 @@ public class Modifiers
 	private static final HashMap familiarEffectByName = new HashMap();
 	private static final ArrayList passiveSkills = new ArrayList();
 	private static final ArrayList synergies = new ArrayList();
+	private static final ArrayList mutexes = new ArrayList();
 	public static String currentLocation = "";
 	public static String currentZone = "";
 	public static float currentML = 4.0f;
@@ -654,6 +655,8 @@ public class Modifiers
 	public static final int BRIMSTONE = 2;
 	public static final int SYNERGETIC = 3;
 	public static final int RAVEOSITY = 4;
+	public static final int MUTEX = 5;
+	public static final int MUTEX_VIOLATIONS = 6;
 
 	private static final Object[][] bitmapModifiers =
 	{
@@ -676,6 +679,14 @@ public class Modifiers
 		{ "Raveosity",
 		  null,
 		  Pattern.compile( "Raveosity: (\\+?\\d+)" )
+		},
+		{ "Mutually Exclusive",
+		  null,
+		  null
+		},
+		{ "Mutex Violations",
+		  null,
+		  null
 		},
 	};
 
@@ -1526,6 +1537,8 @@ public class Modifiers
 		}
 
 		// OR in the bitmap modifiers (including all the boolean modifiers)
+		this.bitmaps[ Modifiers.MUTEX_VIOLATIONS ] |=
+			this.bitmaps[ Modifiers.MUTEX ] & mods.bitmaps[ Modifiers.MUTEX ];
 		for ( int i = 0; i < this.bitmaps.length; ++i )
 		{
 			this.bitmaps[ i ] |= mods.bitmaps[ i ];
@@ -2498,6 +2511,27 @@ public class Modifiers
 				Modifiers.synergies.add( name );
 				Modifiers.synergies.add( new Integer( mask ) );
 			}
+			else if ( name.startsWith( "mutex" ) )
+			{
+				String[] pieces = name.split( "\\Q" + name.substring( 5, 6 ) );
+				if ( pieces.length < 3 )
+				{
+					KoLmafia.updateDisplay( name + " contain less than 2 elements." );
+					continue loop;
+				}
+				int bit = 1 << Modifiers.mutexes.size();
+				for ( int i = 1; i < pieces.length; ++i )
+				{
+					Modifiers mods = Modifiers.getModifiers( pieces[ i ] );
+					if ( mods == null )
+					{
+						KoLmafia.updateDisplay( name + " contains element " + pieces[ i ] + " with no modifiers." );
+						continue loop;
+					}
+					mods.bitmaps[ Modifiers.MUTEX ] |= bit;
+				}
+				Modifiers.mutexes.add( name );
+			}
 		}
 
 		try
@@ -2729,6 +2763,16 @@ public class Modifiers
 			synergies.put( name, null );
 		}
 
+		// Make a map of mutexes
+		Map mutexes = new TreeMap();
+
+		it = Modifiers.mutexes.iterator();
+		while ( it.hasNext() )
+		{
+			String name = (String) it.next();
+			mutexes.put( name, null );
+		}
+
 		// Make a map of maximization categories
 		Map maximization = new TreeMap();
 		int maximizationCount = MaximizerFrame.maximizationCategories.length;
@@ -2780,6 +2824,8 @@ public class Modifiers
 		Modifiers.writeModifierCategory( writer, locations, "Location-specific" );
 		writer.println();
 		Modifiers.writeModifierCategory( writer, synergies, "Synergies" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, mutexes, "Mutual exclusions" );
 		writer.println();
 		Modifiers.writeModifierCategory( writer, maximization, "Maximization categories" );
 		writer.println();

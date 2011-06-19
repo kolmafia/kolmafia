@@ -323,7 +323,7 @@ Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only
 # Travoltan trousers: (unless Mysticality is higher)
 Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only, Moxie May Control MP
 Tropical Crimbo Shorts	Initiative: +30
-Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Percent: +1
+Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +1
 Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit"
 Voluminous Radio Pants	HP Regen Min: 0, HP Regen Max: 5
 Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Turtle Tamer"
@@ -3407,6 +3407,15 @@ synergy/musty moccasins/molten medallion	Item Drop: +10, Stench Resistance: +1, 
 synergy/serpentine sword/snake shield	Monster Level: +10
 synergy/stuffed carpenter/stuffed walrus	HP Regen Min: 5, HP Regen Max: 5, MP Regen Min: 5, MP Regen Max: 5
 
+# Mutual exclusions section of modifiers.txt
+# These work much like synergies, but indicate that no two of the listed
+# equipment items or effects can coexist.  Each element must appear earlier
+# in this file, even if their modifiers are just "none"; the mutex itself
+# should also specify "none" since its modifiers aren't actually used.
+
+mutex/V for Vivala mask/Juju Mojo Mask	none
+mutex/Perceptive Pressure/Perspicacious Pressure/Pneumatic/Proficient Pressure/Puissant Pressure/Pulchritudinous Pressure	none
+
 # Maximization categories section of modifiers.txt
 # These pseudo-items list the indirect benefits of certain classes of
 # equipment.  If the Modifier Maximizer finds that any of these classes
@@ -3733,7 +3742,7 @@ vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
-wasabi marble soda	Effect: "Ninja, PleaseWasabi With You", Effect Duration: 15
+wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 willyweed	Effect: "Wet Willied", Effect Duration: 30
