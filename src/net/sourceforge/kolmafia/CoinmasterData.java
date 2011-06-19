@@ -49,11 +49,11 @@ public class CoinmasterData
 {
 	private final String master;
 	private final String URL;
-	private final String token;
+	private String token;
 	private final String tokenTest;
 	private final boolean positiveTest;
 	private final Pattern tokenPattern;
-	private final AdventureResult item;
+	private AdventureResult item;
 	private final String property;
 	private final String itemField;
 	private final Pattern itemPattern;
@@ -64,6 +64,50 @@ public class CoinmasterData
 	private final Map buyPrices;
 	private final String sellAction;
 	private final Map sellPrices;
+	private final String storageAction;
+	private final String tradeAllAction;
+
+	public CoinmasterData( 
+		final String master,
+		final String URL,
+		final String token,
+		final String tokenTest,
+		final boolean positiveTest,
+		final Pattern tokenPattern,
+		final AdventureResult item,
+		final String property,
+		final String itemField,
+		final Pattern itemPattern,
+		final String countField,
+		final Pattern countPattern,
+		final String buyAction,
+		final LockableListModel buyItems,
+		final Map buyPrices,
+		final String sellAction,
+		final Map sellPrices,
+		final String storageAction,
+		final String tradeAllAction )
+	{
+		this.master = master;
+		this.URL = URL;
+		this.token = token;
+		this.tokenTest = tokenTest;
+		this.positiveTest = positiveTest;
+		this.tokenPattern = tokenPattern;
+		this.item = item;
+		this.property = property;
+		this.itemField = itemField;
+		this.itemPattern = itemPattern;
+		this.countField = countField;
+		this.countPattern = countPattern;
+		this.buyAction = buyAction;
+		this.buyItems = buyItems;
+		this.buyPrices = buyPrices;
+		this.sellAction = sellAction;
+		this.sellPrices = sellPrices;
+		this.storageAction = storageAction;
+		this.tradeAllAction = tradeAllAction;
+	}
 
 	public CoinmasterData( 
 		final String master,
@@ -84,23 +128,13 @@ public class CoinmasterData
 		final String sellAction,
 		final Map sellPrices )
 	{
-		this.master = master;
-		this.URL = URL;
-		this.token = token;
-		this.tokenTest = tokenTest;
-		this.positiveTest = positiveTest;
-		this.tokenPattern = tokenPattern;
-		this.item = item;
-		this.property = property;
-		this.itemField = itemField;
-		this.itemPattern = itemPattern;
-		this.countField = countField;
-		this.countPattern = countPattern;
-		this.buyAction = buyAction;
-		this.buyItems = buyItems;
-		this.buyPrices = buyPrices;
-		this.sellAction = sellAction;
-		this.sellPrices = sellPrices;
+		this( master, URL,
+		      token, tokenTest, positiveTest, tokenPattern,
+		      item, property,
+		      itemField, itemPattern, countField, countPattern,
+		      buyAction, buyItems, buyPrices,
+		      sellAction, sellPrices,
+		      null, null );
 	}
 
 	public final String getMaster()
@@ -116,6 +150,11 @@ public class CoinmasterData
 	public final String getToken()
 	{
 		return this.token;
+	}
+
+	public final void setToken( final String token )
+	{
+		this.token = token;
 	}
 
 	public final String getTokenTest()
@@ -136,6 +175,11 @@ public class CoinmasterData
 	public final AdventureResult getItem()
 	{
 		return this.item;
+	}
+
+	public final void setItem( final AdventureResult item )
+	{
+		this.item = item;
 	}
 
 	public final String getProperty()
@@ -196,6 +240,16 @@ public class CoinmasterData
 	public final Map getSellPrices()
 	{
 		return this.sellPrices;
+	}
+
+	public final String getStorageAction()
+	{
+		return this.storageAction;
+	}
+
+	public final String getTradeAllAction()
+	{
+		return this.tradeAllAction;
 	}
 
 	public String toString()

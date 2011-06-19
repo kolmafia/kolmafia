@@ -1123,7 +1123,7 @@ public class GenericRequest
 			return null;
 		}
 
-		if ( this.responseText == null || this.responseText.length() == 0 )
+		if ( this.responseText == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Server " + KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
 			return null;

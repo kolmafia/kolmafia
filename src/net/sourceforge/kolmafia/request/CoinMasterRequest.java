@@ -257,8 +257,11 @@ public class CoinMasterRequest
 
 		int cost = getPurchaseCost( itemMatcher, countMatcher, prices );
 
+		String storageAction = data.getStorageAction();
+		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
+
 		String property = data.getProperty();
-		if ( property != null )
+		if ( property != null && !storage )
 		{
 			Preferences.increment( property, cost );
 		}
@@ -267,11 +270,19 @@ public class CoinMasterRequest
 		if ( item != null )
 		{
 			AdventureResult current = item.getInstance( cost );
-			ResultProcessor.processResult( current );
+			if ( storage )
+			{
+				AdventureResult.addResultToList( KoLConstants.storage, current );
+			}
+			else
+			{
+				ResultProcessor.processResult( current );
+			}
 		}
 
 		String token = data.getToken();
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + token + " to buy that." );
+		String pluralToken = ItemDatabase.getPluralName( token );
+		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + pluralToken + (storage ? " in storage" : "" ) +" to buy that." );
 	}
 
 	protected static int getPurchaseCost( final Matcher itemMatcher, final Matcher countMatcher, final Map prices )
@@ -441,17 +452,27 @@ public class CoinMasterRequest
 		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
+		String storageAction = data.getStorageAction();
+		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
+
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName );
+		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName + ( storage ? " from storage" : "" ) );
 
 		if ( tokenItem != null )
 		{
 			AdventureResult current = tokenItem.getInstance( -cost );
-			ResultProcessor.processResult( current );
+			if ( storage )
+			{
+				AdventureResult.addResultToList( KoLConstants.storage, current );
+			}
+			else
+			{
+				ResultProcessor.processResult( current );
+			}
 		}
 
 		String property = data.getProperty();
-		if ( property != null )
+		if ( property != null && !storage )
 		{
 			Preferences.increment( property, -cost );
 		}

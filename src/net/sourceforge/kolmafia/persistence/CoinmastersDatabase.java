@@ -98,6 +98,9 @@ public class CoinmastersDatabase
 	private static final LockableListModel buyForMrAccessory = new LockableListModel();
 	private static final Map MrAccessoryBuyPriceByName = new TreeMap();
 
+	private static final LockableListModel buyFromTraveler = new LockableListModel();
+	private static final Map TravelerBuyPriceByName = new TreeMap();
+
 	private static final Map lighthouseItems = new TreeMap();
 
 	static
@@ -488,6 +491,16 @@ public class CoinmastersDatabase
 	public static final Map MrABuyPrices()
 	{
 		return MrAccessoryBuyPriceByName;
+	}
+
+	public static final LockableListModel getTravelerItems()
+	{
+		return buyFromTraveler;
+	}
+
+	public static final Map TravelerBuyPrices()
+	{
+		return TravelerBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()
