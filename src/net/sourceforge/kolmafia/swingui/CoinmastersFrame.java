@@ -415,7 +415,7 @@ public class CoinmastersFrame
 		}
 	}
 
-	private class MrStorePanel
+	public class MrStorePanel
 		extends CoinmasterPanel
 	{
 		private JButton pull = new InvocationButton( "pull Mr. A", this, "pull" );
