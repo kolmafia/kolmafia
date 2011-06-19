@@ -35,26 +35,67 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Map;
 
-import net.sourceforge.kolmafia.KoLmafia;
+import net.java.dev.spellcast.utilities.LockableListModel;
+
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MrStoreRequest
-	extends GenericRequest
+	extends CoinMasterRequest
 {
-	private static final Pattern MR_A_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(?:y|ies) to trade." );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(?:y|ies) to trade." );
+	public static final CoinmasterData MR_STORE =
+		new CoinmasterData(
+			"Mr. Store",
+			"mrstore.php",
+			"Mr. A",
+			"You have no Mr. Accessories to trade",
+			false,
+			MrStoreRequest.TOKEN_PATTERN,
+			CoinmastersFrame.MR_A,
+			"availableMrAccessories",
+			"whichitem",
+			CoinMasterRequest.ITEMID_PATTERN,
+			null,
+			null,
+			"buy",
+			CoinmastersDatabase.getMrAItems(),
+			CoinmastersDatabase.MrABuyPrices(),
+			null,
+			null
+			);
 
-        private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?desc_?item.*?([\\d]+).*?<b>([^<]*)</b>.*?([\\d]+)&nbsp;Mr\\.", Pattern.DOTALL );
-
-	private MrStoreRequest()
+	public MrStoreRequest()
 	{
-		super( "mrstore.php" );
+		super( MrStoreRequest.MR_STORE );
+	}
+
+	public MrStoreRequest( final String action )
+	{
+		super( MrStoreRequest.MR_STORE, action );
+	}
+
+	public MrStoreRequest( final String action, final int itemId, final int quantity )
+	{
+		super( MrStoreRequest.MR_STORE, action, itemId, quantity );
+	}
+
+	public MrStoreRequest( final String action, final int itemId )
+	{
+		this( action, itemId, 1 );
+	}
+
+	public MrStoreRequest( final String action, final AdventureResult ar )
+	{
+		this( action, ar.getItemId(), ar.getCount() );
 	}
 
 	public void processResults()
@@ -62,6 +103,7 @@ public class MrStoreRequest
 		MrStoreRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+        private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?desc_?item.*?([\\d]+).*?<b>([^<]*)</b>.*?([\\d]+)&nbsp;Mr\\.", Pattern.DOTALL );
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "mrstore.php" ) )
@@ -69,45 +111,66 @@ public class MrStoreRequest
 			return;
 		}
 
-		// Sanity check number of Mr. Accessories in inventory
-		Matcher matcher = MR_A_PATTERN.matcher( responseText );
-		if ( matcher.find() )
-		{
-			String num = matcher.group( 1 );
-			int delta = ( num.equals( "no" ) ? 0 :
-				      num.equals( "one" ) ? 1 :
-				      StringUtilities.parseInt( num ) ) -
-				InventoryManager.getCount( ItemPool.MR_ACCESSORY );
-			if ( delta != 0 )
-			{
-				ResultProcessor.processItem( ItemPool.MR_ACCESSORY, delta );
-			}
-		}
-
 		// Learn new Mr. Items by simply visiting Mr. Store
-		matcher = ITEM_PATTERN.matcher( responseText );
+		// Refresh the coinmaster lists every time we visit.
+		CoinmasterData data = MrStoreRequest.MR_STORE;
+		LockableListModel items = data.getBuyItems();
+		Map prices = data.getBuyPrices();
+		items.clear();
+		prices.clear();
+
+		Matcher matcher = ITEM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
 			int itemId = StringUtilities.parseInt( matcher.group(1) );
 			String descId = matcher.group(2);
 			String itemName = matcher.group(3);
-			int cost = StringUtilities.parseInt( matcher.group(4) );
+			int price = StringUtilities.parseInt( matcher.group(4) );
 
-			String data = ItemDatabase.getItemDataName( itemId );
-			if ( data == null || !data.equals( itemName ) )
+			String match = ItemDatabase.getItemDataName( itemId );
+			if ( match == null || !match.equals( itemName ) )
 			{
 				ItemDatabase.registerItem( itemId, itemName, descId );
 			}
+
+			// Add it to the Mr. Store inventory
+			AdventureResult item = ItemPool.get( itemId, 0 );
+			String name = StringUtilities.getCanonicalName( itemName );
+			Integer iprice = new Integer( price );
+			items.add( item );
+			prices.put( name, iprice );
 		}
+
+		CoinMasterRequest.parseResponse( data, urlString, responseText );
 	}
 
 	public static boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "mrstore.php" ) )
+		String action = GenericRequest.getAction( urlString );
+		String message = null;
+
+		if ( action == null )
+		{
+			message = "Visiting Mr Store";
+		}
+		else if ( action.equals( "buy" ) )
+		{
+			CoinmasterData data = MrStoreRequest.MR_STORE;
+			CoinMasterRequest.buyStuff( data, urlString );
+			return true;
+		}
+
+		if ( message == null )
 		{
 			return false;
 		}
 
-		return false;
+		RequestLogger.printLine( "" );
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
+
+		return true;
 	}
 }

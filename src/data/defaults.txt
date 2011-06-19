@@ -197,7 +197,9 @@ user	availableCRIMBCOScrip	0
 user	availableCommendations	0
 user	availableCrimbux	0
 user	availableDimes	0
+user	availableIsotopes	0
 user	availableLucre	0
+user	availableMrAccessories	0
 user	availableQuarters	0
 user	availableSandDollars	0
 user	availableTickets	0

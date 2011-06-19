@@ -95,6 +95,9 @@ public class CoinmastersDatabase
 	private static final LockableListModel buyForIsotopes3 = new LockableListModel();
 	private static final Map isotope3BuyPriceByName = new TreeMap();
 
+	private static final LockableListModel buyForMrAccessory = new LockableListModel();
+	private static final Map MrAccessoryBuyPriceByName = new TreeMap();
+
 	private static final Map lighthouseItems = new TreeMap();
 
 	static
@@ -475,6 +478,16 @@ public class CoinmastersDatabase
 	public static final Map isotope3BuyPrices()
 	{
 		return isotope3BuyPriceByName;
+	}
+
+	public static final LockableListModel getMrAItems()
+	{
+		return buyForMrAccessory;
+	}
+
+	public static final Map MrABuyPrices()
+	{
+		return MrAccessoryBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()

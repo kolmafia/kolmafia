@@ -78,7 +78,9 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
+import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -97,16 +99,17 @@ public class CoinmastersFrame
 	extends GenericFrame
 	implements ChangeListener
 {
-	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, -1 );
-	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, -1 );
-	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, -1 );
-	public static final AdventureResult VOUCHER = ItemPool.get( ItemPool.SNACK_VOUCHER, -1 );
+	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, 1 );
+	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, 1 );
+	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, 1 );
+	public static final AdventureResult VOUCHER = ItemPool.get( ItemPool.SNACK_VOUCHER, 1 );
 
-	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, -1 );
-	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, -1 );
-	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, -1 );
-	public static final AdventureResult AWOL = ItemPool.get( ItemPool.AWOL_COMMENDATION, -1 );
-	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, -1 );
+	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, 1 );
+	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, 1 );
+	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, 1 );
+	public static final AdventureResult AWOL = ItemPool.get( ItemPool.AWOL_COMMENDATION, 1 );
+	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
+	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );
 
 	public static final AdventureResult GG_TOKEN = ItemPool.get( ItemPool.GG_TOKEN, 1 );
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
@@ -133,19 +136,20 @@ public class CoinmastersFrame
 	private static int snackVouchers = 0;
 	private static int commendations = 0;
 	private static int isotopes = 0;
+	private static int MrAccessories = 0;
 	private static int boneChips = 0;
 	private static int crimbux = 0;
 	private static int scrip = 0;
 
 	// Other external state
 	private static boolean atWar = false;
-	private static int gameGridTokens = 0;
 
 	private CardLayoutSelectorPanel selectorPanel = null;
 
 	private CoinmasterPanel dimemasterPanel = null;
 	private CoinmasterPanel quartersmasterPanel = null;
 	private CoinmasterPanel bhhPanel = null;
+	private CoinmasterPanel mrStorePanel = null;
 	private CoinmasterPanel bigBrotherPanel = null;
 	private CoinmasterPanel arcadePanel = null;
 	private CoinmasterPanel gameShoppePanel = null;
@@ -175,7 +179,10 @@ public class CoinmastersFrame
 		panel.add( bhhPanel );
 		this.selectorPanel.addPanel( bhhPanel.getPanelSelector(), panel );
 
-		// *** Mr. Store goes here
+		panel = new JPanel( new BorderLayout() );
+		mrStorePanel = new MrStorePanel();
+		panel.add( mrStorePanel );
+		this.selectorPanel.addPanel( mrStorePanel.getPanelSelector(), panel );
 
 		// Ascension coinmasters
 		this.selectorPanel.addSeparator();
@@ -301,7 +308,6 @@ public class CoinmastersFrame
 
 		IslandDecorator.ensureUpdatedBigIsland();
 		atWar = Preferences.getString( "warProgress" ).equals( "started" );
-		gameGridTokens = GG_TOKEN.getCount( KoLConstants.inventory );
 
 		dimes = Preferences.getInteger( "availableDimes" );
 		quarters = Preferences.getInteger( "availableQuarters" );
@@ -318,6 +324,8 @@ public class CoinmastersFrame
 		Preferences.setInteger( "availableCommendations", commendations );
 		isotopes = ISOTOPE.getCount( KoLConstants.inventory );
 		Preferences.setInteger( "availableIsotopes", isotopes );
+		MrAccessories = MR_A.getCount( KoLConstants.inventory );
+		Preferences.setInteger( "availableMrAccessories", MrAccessories );
 
 		// Inaccessible
 		crimbux = CRIMBUCK.getCount( KoLConstants.inventory );
@@ -335,6 +343,7 @@ public class CoinmastersFrame
 		dimemasterPanel.update();
 		quartersmasterPanel.update();
 		bhhPanel.update();
+		mrStorePanel.update();
 		bigBrotherPanel.update();
 		arcadePanel.update();
 		gameShoppePanel.update();
@@ -403,6 +412,50 @@ public class CoinmastersFrame
 		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
 		{
 			return new BountyHunterHunterRequest( action, it );
+		}
+	}
+
+	private class MrStorePanel
+		extends CoinmasterPanel
+	{
+		private JButton pull = new InvocationButton( "pull Mr. A", this, "pull" );
+		private int storageCount = 0;
+
+		public MrStorePanel()
+		{
+			super( MrStoreRequest.MR_STORE );
+			this.buyPanel.addButton( pull, false );
+			this.update();
+		}
+
+		public void setEnabled( final boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			this.pull.setEnabled( isEnabled && this.storageCount > 0 );
+		}
+
+		public void update()
+		{
+			this.storageCount = MR_A.getCount( KoLConstants.storage );
+			this.pull.setEnabled( this.storageCount > 0 );
+		}
+
+		public void pull()
+		{
+			StorageRequest request =
+				new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY,
+						    new AdventureResult[] { CoinmastersFrame.MR_A } );
+			RequestThread.postRequest( request );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new MrStoreRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new MrStoreRequest( action, it );
 		}
 	}
 
@@ -533,6 +586,8 @@ public class CoinmastersFrame
 		extends CoinmasterPanel
 	{
 		private JButton skeeball = new InvocationButton( "skeeball", this, "skeeball" );
+		private int gameGridTokens = 0;
+
 		public TicketCounterPanel()
 		{
 			super( TicketCounterRequest.TICKET_COUNTER );
@@ -543,12 +598,13 @@ public class CoinmastersFrame
 		public void setEnabled( final boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			this.skeeball.setEnabled( isEnabled && CoinmastersFrame.gameGridTokens > 0 );
+			this.skeeball.setEnabled( isEnabled && this.gameGridTokens > 0 );
 		}
 
 		public void update()
 		{
-			this.skeeball.setEnabled( CoinmastersFrame.gameGridTokens > 0 );
+			this.gameGridTokens = GG_TOKEN.getCount( KoLConstants.inventory );
+			this.skeeball.setEnabled( this.gameGridTokens > 0 );
 		}
 
 		public void skeeball()
