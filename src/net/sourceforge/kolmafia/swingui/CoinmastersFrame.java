@@ -442,9 +442,7 @@ public class CoinmastersFrame
 
 		public void pull()
 		{
-			StorageRequest request =
-				new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY,
-						    new AdventureResult[] { CoinmastersFrame.MR_A } );
+			MrStoreRequest request = new MrStoreRequest( "pullmras" );
 			RequestThread.postRequest( request );
 		}
 

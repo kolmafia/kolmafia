@@ -41,6 +41,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -139,6 +140,18 @@ public class MrStoreRequest
 			Integer iprice = new Integer( price );
 			items.add( item );
 			prices.put( name, iprice );
+		}
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action != null && action.equals( "pullmras" ) &&
+		     responseText.indexOf( "You acquire" ) != -1 )
+		{
+			// We pulled a Mr. A from storage.
+			AdventureResult remove = CoinmastersFrame.MR_A.getInstance( -1 );
+			AdventureResult.addResultToList( KoLConstants.storage, remove );
+			CoinMasterRequest.parseBalance( data, responseText );
+			CoinmastersFrame.externalUpdate();
+			return;
 		}
 
 		CoinMasterRequest.parseResponse( data, urlString, responseText );
