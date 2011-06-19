@@ -113,7 +113,8 @@ public class MrStoreRequest
 		}
 
 		// Learn new Mr. Items by simply visiting Mr. Store
-		// Refresh the coinmaster lists every time we visit.
+		// Refresh the Coin Master inventory every time we visit.
+
 		CoinmasterData data = MrStoreRequest.MR_STORE;
 		LockableListModel items = data.getBuyItems();
 		Map prices = data.getBuyPrices();
@@ -164,7 +165,11 @@ public class MrStoreRequest
 
 		if ( action == null )
 		{
-			message = "Visiting Mr Store";
+			message = "Visiting Mr. Store";
+		}
+		else if ( action.equals( "pullmras" ) )
+		{
+			message = "Pulling a Mr. Accessory from storage";
 		}
 		else if ( action.equals( "buy" ) )
 		{

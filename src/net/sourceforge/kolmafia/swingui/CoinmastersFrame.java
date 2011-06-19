@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
+import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -158,6 +159,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel dollhawkerPanel = null;
 	private CoinmasterPanel lunarLunchPanel = null;
 	private CoinmasterPanel awolPanel = null;
+	private CoinmasterPanel travelerPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -249,6 +251,11 @@ public class CoinmastersFrame
 		awolPanel = new CommendationPanel();
 		panel.add( awolPanel );
 		this.selectorPanel.addPanel( awolPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		travelerPanel = new TravelingTraderPanel();
+		panel.add( travelerPanel );
+		this.selectorPanel.addPanel( travelerPanel.getPanelSelector(), panel );
 
 		// Removed coinmasters
 		this.selectorPanel.addSeparator();
@@ -352,6 +359,7 @@ public class CoinmastersFrame
 		dollhawkerPanel.update();
 		lunarLunchPanel.update();
 		awolPanel.update();
+		travelerPanel.update();
 		altarOfBonesPanel.update();
 		crimboCartelPanel.update();
 		CRIMBCOGiftShopPanel.update();
@@ -746,6 +754,25 @@ public class CoinmastersFrame
 		}
 	}
 
+	private class TravelingTraderPanel
+		extends CoinmasterPanel
+	{
+		public TravelingTraderPanel()
+		{
+			super( TravelingTraderRequest.TRAVELER );
+		}
+
+		public CoinMasterRequest getRequest()
+		{
+			return new TravelingTraderRequest();
+		}
+
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return new TravelingTraderRequest( action, it );
+		}
+	}
+
 	private abstract class WarMasterPanel
 		extends CoinmasterPanel
 	{
@@ -950,15 +977,9 @@ public class CoinmastersFrame
 			}
 		}
 
-		public CoinMasterRequest getRequest()
-		{
-			return new CoinMasterRequest( this.data );
-		}
+		public abstract CoinMasterRequest getRequest();
 
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new CoinMasterRequest( this.data, action, it );
-		}
+		public abstract CoinMasterRequest getRequest( final String action, final AdventureResult it );
 
 		public void setTitle()
 		{
@@ -968,7 +989,24 @@ public class CoinmastersFrame
 			String name = count != 1 ? 
 				ItemDatabase.getPluralName( token ) :
 				token;
-			INSTANCE.setTitle( "Coin Masters (" + count + " " + name + ")" );
+			StringBuffer buffer = new StringBuffer();
+			buffer.append( "Coin Masters (" );
+			buffer.append( String.valueOf( count ) );
+			buffer.append( " " );
+			buffer.append( name );
+			if ( this.data.getStorageAction() != null )
+			{
+				AdventureResult item = data.getItem();
+				if ( item != null )
+				{
+					int count1 = item.getCount( KoLConstants.storage );
+					buffer.append( ", " );
+					buffer.append( String.valueOf( count1 ) );
+					buffer.append( " in storage" );
+				}
+			}
+			buffer.append( ")" );
+			INSTANCE.setTitle( buffer.toString() );
 		}
 
 		public void actionConfirmed()
@@ -1039,6 +1077,11 @@ public class CoinmastersFrame
 
 		private void execute( final String action, final Object [] items )
 		{
+			this.execute( action, items, null );
+		}
+
+		private void execute( final String action, final Object [] items, final String extraAction )
+		{
 			if ( items.length == 0 )
 			{
 				return;
@@ -1059,6 +1102,10 @@ public class CoinmastersFrame
 			{
 				AdventureResult it = (AdventureResult)items[i];
 				CoinMasterRequest request = this.getRequest( action, it );
+				if ( extraAction != null )
+				{
+					request.addFormField( extraAction );
+				}
 				RequestThread.postRequest( request );
 			}
 
@@ -1164,9 +1211,16 @@ public class CoinmastersFrame
 			{
 				super( CoinmasterPanel.this.data.getBuyItems() );
 
-				this.setButtons( true, new ActionListener[] {
-						new BuyListener(),
-					} );
+				boolean storage = CoinmasterPanel.this.data.getStorageAction() != null;
+				int count = storage ? 2 : 1;
+				ActionListener[] listeners = new ActionListener[ count ];
+				listeners[ 0 ] = new BuyListener();
+				if ( storage )
+				{
+					listeners[ 1 ] = new BuyUsingStorageListener();
+				}
+
+				this.setButtons( true, listeners );
 
 				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
@@ -1194,7 +1248,10 @@ public class CoinmastersFrame
 			public void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
-				this.buttons[ 0 ].setEnabled( CoinmasterPanel.this.enabled() );
+				for ( int i = 0; i < this.buttons.length; ++i )
+				{
+					this.buttons[ i ].setEnabled( CoinmasterPanel.this.enabled() );
+				}
 			}
 
 			public void addFilters()
@@ -1304,6 +1361,28 @@ public class CoinmastersFrame
 				public String toString()
 				{
 					return "buy";
+				}
+			}
+
+			public class BuyUsingStorageListener
+				extends ThreadedListener
+			{
+				public void run()
+				{
+					Object[] items = BuyPanel.this.getDesiredItems();
+					if ( items == null )
+					{
+						return;
+					}
+
+					execute( CoinmasterPanel.this.data.getBuyAction(),
+						 items,
+						 CoinmasterPanel.this.data.getStorageAction() );
+				}
+
+				public String toString()
+				{
+					return "from storage";
 				}
 			}
 		}

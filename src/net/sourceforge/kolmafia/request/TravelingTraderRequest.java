@@ -35,25 +35,99 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Map;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TravelingTraderRequest
-	extends GenericRequest
+	extends CoinMasterRequest
 {
+	// traveler.php?action=For Gnomeregan!&whichitem=xxxx&quantity=1&tradeall=1&usehagnk=1&pwd
+	private static AdventureResult item = ItemPool.get( ItemPool.TWINKLY_WAD, 1 );
+
+	public static final CoinmasterData TRAVELER =
+		new CoinmasterData(
+			"Traveling Trader",
+			"traveler.php",
+			"twinkly wad",
+			null,
+			false,
+			null,
+			TravelingTraderRequest.item,
+			"availableMrAccessories",
+			"whichitem",
+			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
+			CoinMasterRequest.QUANTITY_PATTERN,
+			"For Gnomeregan!",
+			CoinmastersDatabase.getTravelerItems(),
+			CoinmastersDatabase.TravelerBuyPrices(),
+			null,
+			null,
+			"usehagnk=1",
+			"tradeall=1"
+			);
+
+	public TravelingTraderRequest()
+	{
+		super( TravelingTraderRequest.TRAVELER );
+	}
+
+	public TravelingTraderRequest( final String action )
+	{
+		super( TravelingTraderRequest.TRAVELER, action );
+	}
+
+	public TravelingTraderRequest( final String action, final int itemId, final int quantity )
+	{
+		super( TravelingTraderRequest.TRAVELER, action, itemId, quantity );
+	}
+
+	public TravelingTraderRequest( final String action, final int itemId )
+	{
+		this( action, itemId, 1 );
+	}
+
+	public TravelingTraderRequest( final String action, final AdventureResult ar )
+	{
+		this( action, ar.getItemId(), ar.getCount() );
+	}
+
+	public void processResults()
+	{
+		if ( this.responseText.length() == 0 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The Traveling Trader is not in the Market Square." );
+			return;
+		}
+		TravelingTraderRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	// The traveling trader is looking to acquire:<br><img class='hand
 	// item' onclick='descitem(503220568);'
 	// src='http://images.kingdomofloathing.com/itemimages/scwad.gif'>
-	// <b>twinkly wads</b><br>(You have <b>3,348</b> on you.)
+	// <b>twinkly wads</b><br>
 
-	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "The traveling trader is looking to acquire.*descitem\\(([\\d]+)\\).*<b>([^<]*)</b><br>\\(You have <b>([\\d,]*|none)</b> on you.\\)" );
+	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "The traveling trader is looking to acquire.*descitem\\(([\\d]+)\\).*<b>([^<]*)</b>" );
+
+	// (You have <b>3,348</b> on you.)
+
+	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "\\(You have <b>([\\d,]*|none)</b> on you.\\)" );
+
+        // You currently have <b>1,022</b> twinkly wads in Hagnk's Ancestral Storage
+
+	private static final Pattern STORAGE_PATTERN = Pattern.compile( "You currently have <b>([\\d,]+)</b> (.*?) in Hagnk's Ancestral Storage", Pattern.DOTALL );
 
 	// <tr><td><input type=radio name=whichitem value=4411
 	// checked="checked"></td><td><a class=nounder
@@ -64,21 +138,6 @@ public class TravelingTraderRequest
 
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+).*?>.*?descitem.*?([\\d]+).*?<b>([^<]*)</b></a></td><td>([\\d]+)", Pattern.DOTALL );
 
-        // You currently have <b>1,022</b> twinkly wads in Hagnk's Ancestral
-        // Storage
-
-	private static final Pattern STORAGE_PATTERN = Pattern.compile( "You currently have <b>([\\d,]+)</b> (.*?) in Hagnk's Ancestral Storage", Pattern.DOTALL );
-
-	private TravelingTraderRequest()
-	{
-		super( "traveler.php" );
-	}
-
-	public void processResults()
-	{
-		TravelingTraderRequest.parseResponse( this.getURLString(), this.responseText );
-	}
-
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "traveler.php" ) )
@@ -86,44 +145,44 @@ public class TravelingTraderRequest
 			return;
 		}
 
-		// Learn what item he is trading for and sanity check number of
-		// <items> in inventory and in storage
-
+		// First, see what item he's trading for
 		String descId = "";
 		String plural1 = null;
-		int num1 = 0;
 
 		Matcher matcher = ACQUIRE_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
 			descId = matcher.group( 1 );
 			plural1 = matcher.group( 2 );
-			String num = matcher.group( 3 );
-			num1 = num == null ? 0 :
-				num.equals( "none" ) ? 0 :
-				num.equals( "one" ) ? 1 :
-				StringUtilities.parseInt( num );
-		}
-
-		// The plural and number in storage
-		String plural2 = null;
-		int num2 = 0;
-
-		matcher = STORAGE_PATTERN.matcher( responseText );
-		if ( matcher.find() )
-		{
-			String num = matcher.group( 1 );
-			num2 = num == null ? 0 :
-				num.equals( "none" ) ? 0 :
-				num.equals( "one" ) ? 1 :
-				StringUtilities.parseInt( num );
-			plural2 = matcher.group( 2 );
 		}
 
 		int itemId = ItemDatabase.getItemIdFromDescription( descId );
-		if ( itemId != -1 )
+		if ( itemId == -1 )
 		{
-			AdventureResult item = ItemPool.get( itemId, 1 );
+			// He wants something we don't know about?!  We have no
+			// way to register an item from just the descid, since
+			// the item number is not in the description text.
+			// ItemDatabase.registerItem( descId );
+			return;
+		}
+
+		// We know the item. Set the item and token in the CoinmasterData
+
+		CoinmasterData data = TravelingTraderRequest.TRAVELER;
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		data.setItem( item );
+		data.setToken( item.getName() );
+
+		// Sanity check number of that item we have in inventory
+		matcher = INVENTORY_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String num = matcher.group( 3 );
+			int num1 = num == null ? 0 :
+				num.equals( "none" ) ? 0 :
+				num.equals( "one" ) ? 1 :
+				StringUtilities.parseInt( num );
+
 			int icount = item.getCount( KoLConstants.inventory );
 			int idelta = num1 - icount;
 			if ( idelta != 0 )
@@ -132,6 +191,21 @@ public class TravelingTraderRequest
 				AdventureResult.addResultToList( KoLConstants.inventory, result );
 				AdventureResult.addResultToList( KoLConstants.tally, result );
 			}
+
+		}
+
+		// Sanity check number of that item we have in inventory
+		String plural2 = null;
+
+		matcher = STORAGE_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String num = matcher.group( 1 );
+			int num2 = num == null ? 0 :
+				num.equals( "none" ) ? 0 :
+				num.equals( "one" ) ? 1 :
+				StringUtilities.parseInt( num );
+			plural2 = matcher.group( 2 );
 
 			int scount = item.getCount( KoLConstants.storage );
 			int sdelta = num2 - scount;
@@ -142,21 +216,37 @@ public class TravelingTraderRequest
 			}
 		}
 
+		// Refresh the coinmaster lists every time we visit.
 		// Learn new trade items by simply visiting the Traveling Trader
+
+		LockableListModel items = data.getBuyItems();
+		Map prices = data.getBuyPrices();
+		items.clear();
+		prices.clear();
+
 		matcher = ITEM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
 			int id = StringUtilities.parseInt( matcher.group(1) );
 			String desc = matcher.group(2);
 			String name = matcher.group(3);
-			int cost = StringUtilities.parseInt( matcher.group(4) );
+			int price = StringUtilities.parseInt( matcher.group(4) );
 
-			String data = ItemDatabase.getItemDataName( id );
-			if ( data == null || !data.equals( name ) )
+			String match = ItemDatabase.getItemDataName( itemId );
+			if ( match == null || !match.equals( name ) )
 			{
 				ItemDatabase.registerItem( id, name, desc );
 			}
+
+			// Add it to the Traveling Trader inventory
+			AdventureResult offering = ItemPool.get( itemId, 0 );
+			String cname = StringUtilities.getCanonicalName( name );
+			Integer iprice = new Integer( price );
+			items.add( offering );
+			prices.put( cname, iprice );
 		}
+
+		CoinMasterRequest.parseResponse( data, urlString, responseText );
 	}
 
 	public static boolean registerRequest( final String urlString )
@@ -166,8 +256,31 @@ public class TravelingTraderRequest
 			return false;
 		}
 
-		// traveler.php?action=For Gnomeregan!&whichitem=xxxx&quantity=1&tradeall=1&usehagnk=1&pwd
+		CoinmasterData data = TravelingTraderRequest.TRAVELER;
+		String action = GenericRequest.getAction( urlString );
+		String message = null;
 
-		return false;
+		if ( action == null )
+		{
+			message = "Visiting Traveling Trader";
+		}
+		else if ( action.equals( data.getBuyAction() ) )
+		{
+			CoinMasterRequest.buyStuff( data, urlString );
+			return true;
+		}
+
+		if ( message == null )
+		{
+			return false;
+		}
+
+		RequestLogger.printLine( "" );
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
+
+		return true;
 	}
 }
