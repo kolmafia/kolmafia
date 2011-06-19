@@ -1901,6 +1901,7 @@ public abstract class KoLCharacter
 
 		for ( int slot = 0; slot < EquipmentManager.SLOTS; ++slot )
 		{
+			if ( equipment[ slot ] == null ) continue;
 			String name = equipment[ slot ].getName();
 			bees += KoLCharacter.getBeeosity( name );
 		}
