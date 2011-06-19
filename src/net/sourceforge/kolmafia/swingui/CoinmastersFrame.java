@@ -43,6 +43,7 @@ import java.util.Map;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -107,6 +108,7 @@ public class CoinmastersFrame
 	public static final AdventureResult AWOL = ItemPool.get( ItemPool.AWOL_COMMENDATION, -1 );
 	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, -1 );
 
+	public static final AdventureResult GG_TOKEN = ItemPool.get( ItemPool.GG_TOKEN, 1 );
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
 	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
 	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
@@ -120,7 +122,8 @@ public class CoinmastersFrame
 	public static final int WAR_FRAT_OUTFIT = 33;
 
 	private static CoinmastersFrame INSTANCE = null;
-	private static boolean atWar = false;
+
+	// Token counts
 	private static int dimes = 0;
 	private static int quarters = 0;
 	private static int lucre = 0;
@@ -130,10 +133,13 @@ public class CoinmastersFrame
 	private static int snackVouchers = 0;
 	private static int commendations = 0;
 	private static int isotopes = 0;
-
 	private static int boneChips = 0;
 	private static int crimbux = 0;
 	private static int scrip = 0;
+
+	// Other external state
+	private static boolean atWar = false;
+	private static int gameGridTokens = 0;
 
 	private CardLayoutSelectorPanel selectorPanel = null;
 
@@ -295,6 +301,8 @@ public class CoinmastersFrame
 
 		IslandDecorator.ensureUpdatedBigIsland();
 		atWar = Preferences.getString( "warProgress" ).equals( "started" );
+		gameGridTokens = GG_TOKEN.getCount( KoLConstants.inventory );
+
 		dimes = Preferences.getInteger( "availableDimes" );
 		quarters = Preferences.getInteger( "availableQuarters" );
 		lucre = LUCRE.getCount( KoLConstants.inventory );
@@ -331,6 +339,9 @@ public class CoinmastersFrame
 		arcadePanel.update();
 		gameShoppePanel.update();
 		freeSnackPanel.update();
+		isotopeSmitheryPanel.update();
+		dollhawkerPanel.update();
+		lunarLunchPanel.update();
 		awolPanel.update();
 		altarOfBonesPanel.update();
 		crimboCartelPanel.update();
@@ -521,10 +532,23 @@ public class CoinmastersFrame
 	public class TicketCounterPanel
 		extends CoinmasterPanel
 	{
+		private JButton skeeball = new InvocationButton( "skeeball", this, "skeeball" );
 		public TicketCounterPanel()
 		{
 			super( TicketCounterRequest.TICKET_COUNTER );
-			this.buyPanel.addButton( new InvocationButton( "skeeball", this, "skeeball" ) );
+			this.buyPanel.addButton( skeeball, false );
+			this.update();
+		}
+
+		public void setEnabled( final boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			this.skeeball.setEnabled( isEnabled && CoinmastersFrame.gameGridTokens > 0 );
+		}
+
+		public void update()
+		{
+			this.skeeball.setEnabled( CoinmastersFrame.gameGridTokens > 0 );
 		}
 
 		public void skeeball()
@@ -681,6 +705,12 @@ public class CoinmastersFrame
 			super( data );
 			this.outfit = outfit;
 			this.side = side;
+			this.update();
+		}
+
+		public boolean addSellMovers()
+		{
+			return true;
 		}
 
 		public void update()
@@ -799,6 +829,7 @@ public class CoinmastersFrame
 		public IsotopeMasterPanel( CoinmasterData data )
 		{
 			super( data );
+			this.update();
 		}
 
 		public void update()
@@ -892,6 +923,11 @@ public class CoinmastersFrame
 
 		public void actionCancelled()
 		{
+		}
+
+		public boolean addSellMovers()
+		{
+			return false;
 		}
 
 		public String getMaster()
@@ -1005,6 +1041,14 @@ public class CoinmastersFrame
 			{
 			}
 
+			public void addMovers()
+			{
+				if ( CoinmasterPanel.this.addSellMovers() )
+				{
+					super.addMovers();
+				}
+			}
+
 			public AutoFilterTextField getWordFilter()
 			{
 				return new SellableFilterField();
@@ -1081,16 +1125,16 @@ public class CoinmastersFrame
 				this.setEnabled( true );
 			}
 
-			public void addButton( final InvocationButton button )
+			public void addButton( final JButton button, final boolean save )
 			{
-				InvocationButton[] buttons = new InvocationButton[1 ];
+				JButton[] buttons = new JButton[1 ];
 				buttons[ 0 ] = button;
-				this.addButtons( buttons );
+				this.addButtons( buttons, save );
 			}
 
-			public void addButtons( final InvocationButton[] buttons )
+			public void addButtons( final JButton[] buttons, final boolean save )
 			{
-				super.addButtons( buttons );
+				super.addButtons( buttons, save );
 			}
 
 			public void setEnabled( final boolean isEnabled )
