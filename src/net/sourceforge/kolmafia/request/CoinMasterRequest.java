@@ -143,6 +143,37 @@ public class CoinMasterRequest
 		return null;
 	}
 
+	/*
+	 * A generic response parser for CoinMasterRequests.
+	 */
+
+	public static void parseResponse( final CoinmasterData data, final String urlString, final String responseText )
+	{
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
+		{
+			CoinMasterRequest.parseBalance( data, responseText );
+			CoinmastersFrame.externalUpdate();
+			return;
+		}
+
+		String buy = data.getBuyAction();
+		String sell = data.getSellAction();
+		if ( buy != null && action.equals( buy ) &&
+		     responseText.indexOf( "You don't have enough" ) != -1 )
+		{
+			CoinMasterRequest.refundPurchase( data, urlString );
+		}
+		else if ( sell != null && action.equals( sell ) &&
+			  responseText.indexOf( "You don't have that many" ) != -1 )
+		{
+			CoinMasterRequest.refundSale( data, urlString );
+		}
+
+		CoinMasterRequest.parseBalance( data, responseText );
+		CoinmastersFrame.externalUpdate();
+	}
+
 	public static void parseBalance( final CoinmasterData data, final String responseText )
 	{
 		if ( data == null )
@@ -180,6 +211,16 @@ public class CoinMasterRequest
 				return;
 			}
 			balance = matcher.group(1);
+		}
+
+		// Mr. Store, at least, like to spell out some numbers
+		if ( balance.equals( "no" ) )
+		{
+			balance = "0";
+		}
+		else if ( balance.equals( "one" ) )
+		{
+			balance = "1";
 		}
 
 		String property = data.getProperty();
@@ -353,6 +394,11 @@ public class CoinMasterRequest
 		if ( urlString.startsWith( "spaaace.php" ) )
 		{
 			return SpaaaceRequest.registerRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "mrstore.php" ) )
+		{
+			return MrStoreRequest.registerRequest( urlString );
 		}
 
 		return false;

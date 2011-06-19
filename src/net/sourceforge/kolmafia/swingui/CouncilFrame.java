@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
