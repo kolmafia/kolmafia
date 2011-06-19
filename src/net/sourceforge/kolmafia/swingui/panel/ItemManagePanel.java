@@ -271,24 +271,16 @@ public class ItemManagePanel
 			this.eastPanel.add( this.buttonPanel, BorderLayout.NORTH );
 		}
 
-		// Handle filters along the top always, whenever buttons
-		// are added.
-
-		if ( !addFilters )
-		{
-			this.filters = null;
-		}
-		else
-		{
-			this.addFilters();
-		}
-
-		// If there are buttons, they likely need movers.  Therefore, add
-		// some movers to everything.
+		// Handle filters and movers along the top
 
 		if ( addFilters )
 		{
+			this.addFilters();
 			this.addMovers();
+		}
+		else
+		{
+			this.filters = null;
 		}
 
 		if ( buttonListeners != null )
@@ -299,6 +291,21 @@ public class ItemManagePanel
 
 	public void addButtons( final JButton[] buttons )
 	{
+		this.addButtons( buttons, true );
+	}
+
+	public void addButtons( final JButton[] buttons, final boolean save )
+	{
+		for ( int i = 0; i < buttons.length; ++i )
+		{
+			this.buttonPanel.add( buttons[i] );
+		}
+
+		if ( !save )
+		{
+			return;
+		}
+
 		JButton[] oldButtons = this.buttons;
 		int oldSize = oldButtons.length;
 		int newSize = oldSize + buttons.length;
@@ -315,7 +322,6 @@ public class ItemManagePanel
 		{
 			JButton newButton = buttons[ i - oldSize ];
 			newButtons[ i ] = newButton;
-			this.buttonPanel.add( newButton );
 		}
 
 		// Save the button list

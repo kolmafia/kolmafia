@@ -1019,6 +1019,7 @@ public class ResultProcessor
 		case ItemPool.BONE_CHIPS:
 		case ItemPool.CRIMBCO_SCRIP:
 		case ItemPool.AWOL_COMMENDATION:
+		case ItemPool.GG_TOKEN:
 			CoinmastersFrame.externalUpdate();
 			break;
 		}
