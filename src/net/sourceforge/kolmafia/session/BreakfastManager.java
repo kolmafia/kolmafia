@@ -207,7 +207,7 @@ public class BreakfastManager
 	public static void harvestGarden()
 	{
                 String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-                if ( CampgroundRequest.hasCrop( crop ) )
+                if ( CampgroundRequest.hasCropOrBetter( crop ) )
                 {
                         CampgroundRequest.harvestCrop();
                 }

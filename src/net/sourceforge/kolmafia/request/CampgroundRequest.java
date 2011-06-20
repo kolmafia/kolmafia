@@ -232,6 +232,45 @@ public class CampgroundRequest
 		return i != -1 && crop.equals( ((AdventureResult)KoLConstants.campground.get( i )).getName() );
 	}
 
+	public static boolean hasCropOrBetter( final String crop )
+	{
+		// Get current crop, if any
+		AdventureResult current = CampgroundRequest.getCrop();
+		if ( current == null || current.getCount() == 0 )
+		{
+			// Nothing in your garden or no garden.
+			return false;
+		}
+
+		// If it equals the desired crop, peachy. Or is it pumpkiny?
+		String currentName = current.getName();
+		if ( crop.equals( currentName )  )
+		{
+			return true;
+		}
+
+		// Iterate through CROPS.
+		for ( int i = 0; i < CROPS.length; ++i )
+		{
+			String cropName = CROPS[ i ].getName();
+			// We found the current crop before we found the
+			// desired crop. Not good enough.
+			if ( cropName.equals( currentName ) )
+			{
+				return false;
+			}
+			// We found the desired crop before we found the
+			// current crop - which must be better. Cool.
+			if ( cropName.equals( crop ) )
+			{
+				return true;
+			}
+		}
+
+		// Shouldn't get here - didn't find either the current or the desired crop
+		return false;
+	}
+
 	public static void clearCrop()
 	{
 		int i = CampgroundRequest.getCropIndex();
