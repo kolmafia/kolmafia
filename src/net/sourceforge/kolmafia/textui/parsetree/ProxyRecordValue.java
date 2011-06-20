@@ -296,7 +296,7 @@ public class ProxyRecordValue
 		public static RecordType _type = new RecordBuilder()
 			.add( "level", DataTypes.INT_TYPE )
 			.add( "traincost", DataTypes.INT_TYPE )
-			.add( "class", DataTypes.STRING_TYPE )
+			.add( "class", DataTypes.CLASS_TYPE )
 			.add( "libram", DataTypes.BOOLEAN_TYPE )
 			.add( "passive", DataTypes.BOOLEAN_TYPE )
 			.add( "buff", DataTypes.BOOLEAN_TYPE )

@@ -66,12 +66,10 @@ public class UpdateDataCommand
 			return;
 		}
 
-		/* 
 		if ( parameters.equalsIgnoreCase( "data" ) )
 		{
-			this.CLI.downloadAdventureOverride();
+			// this.CLI.downloadAdventureOverride();
 		}
-		*/
 
 		KoLmafia.updateDisplay(
 			KoLConstants.ABORT_STATE,
