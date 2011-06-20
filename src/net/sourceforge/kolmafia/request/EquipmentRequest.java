@@ -98,7 +98,7 @@ public class EquipmentRequest
 	private static final Pattern OUTFIT_ACTION_PATTERN = Pattern.compile(
 		"([a-zA-Z])=([^=]+)(?!=)" );
 
-	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(-?\\d+)" );
+	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(-?\\d+|last)" );
 	private static final Pattern SLOT_PATTERN = Pattern.compile( "type=([a-z123]+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern STICKERITEM_PATTERN = Pattern.compile( "sticker=(\\d+)" );
@@ -369,7 +369,9 @@ public class EquipmentRequest
 
 		this.addFormField( "which", "2" );
 		this.addFormField( "action", "outfit" );
-		this.addFormField( "whichoutfit", String.valueOf( change.getOutfitId() ) );
+		this.addFormField( "whichoutfit", 
+				   change == SpecialOutfit.PREVIOUS_OUTFIT?
+				   "last" : String.valueOf( change.getOutfitId() ) );
 		this.addFormField( "ajax", "1" );
 
 		this.requestType = EquipmentRequest.CHANGE_OUTFIT;
@@ -1717,7 +1719,14 @@ public class EquipmentRequest
 		Matcher outfitMatcher = EquipmentRequest.OUTFIT_PATTERN.matcher( urlString );
 		if ( outfitMatcher.find() )
 		{
-			int outfitId = StringUtilities.parseInt( outfitMatcher.group( 1 ) );
+			String outfitString = outfitMatcher.group( 1 );
+			if ( outfitString.equals( "last" ) )
+			{
+				RequestLogger.updateSessionLog( "outfit last" );
+				return true;
+			}
+
+			int outfitId = StringUtilities.parseInt( outfitString );
 			if ( outfitId > 0 )
 			{
 				RequestLogger.updateSessionLog( "outfit " + EquipmentDatabase.getOutfit( outfitId ) );

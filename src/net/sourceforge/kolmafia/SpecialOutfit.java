@@ -57,18 +57,11 @@ public class SpecialOutfit
 	private int hash;
 
 	public static final String NO_CHANGE = " - No Change - ";
-	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
+	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit( Integer.MAX_VALUE, "Birthday Suit" );
+	public static final SpecialOutfit PREVIOUS_OUTFIT = new SpecialOutfit( Integer.MAX_VALUE, "Your Previous Outfit" );
 
 	private static SpecialOutfit implicitOutfit = null;
 	private static int markedCheckpoint = -1;
-
-	private SpecialOutfit()
-	{
-		this.outfitId = Integer.MAX_VALUE;
-		this.outfitName = "Birthday Suit";
-		this.pieces = new ArrayList();
-		this.hash = 0;
-	}
 
 	public SpecialOutfit( final int outfitId, final String outfitName )
 	{

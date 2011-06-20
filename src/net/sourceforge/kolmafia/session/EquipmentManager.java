@@ -1255,9 +1255,12 @@ public class EquipmentManager
 		
 		outfits.clear();
 
-		// Start with the two constant outfits
+		// Start with the three constant outfits
 		outfits.add( SpecialOutfit.NO_CHANGE );
 		outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
+		// *** KoL bug: outfitid=last gets confused sometimes.
+		// *** If/when this is fixed, uncomment this
+		// outfits.add( SpecialOutfit.PREVIOUS_OUTFIT );
 
 		// Finally any standard outfits
 		outfits.addAll( available );
@@ -1457,6 +1460,11 @@ public class EquipmentManager
 		if ( lowercaseName.equals( "birthday suit" ) || lowercaseName.equals( "nothing" ) )
 		{
 			return SpecialOutfit.BIRTHDAY_SUIT;
+		}
+	
+		if ( lowercaseName.equals( "last" ) )
+		{
+			return SpecialOutfit.PREVIOUS_OUTFIT;
 		}
 	
 		List customOutfitList = getCustomOutfits();
