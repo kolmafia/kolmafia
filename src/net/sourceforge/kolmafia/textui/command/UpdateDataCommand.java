@@ -43,7 +43,7 @@ public class UpdateDataCommand
 	public UpdateDataCommand()
 	{
 		this.usage =
-			" data | clear | save | prices <URL or filename> - download most recent data files, revert to built-in data, or save override files for new objects.";
+			" clear | save | prices <URL or filename> - revert to built-in data or save override files for new objects.";
 	}
 
 	public void run( final String cmd, final String parameters )
@@ -51,24 +51,30 @@ public class UpdateDataCommand
 		if ( parameters.equalsIgnoreCase( "clear" ) )
 		{
 			this.CLI.deleteAdventureOverride();
+			return;
 		}
-		else if ( parameters.equalsIgnoreCase( "data" ) )
+
+		if ( parameters.equalsIgnoreCase( "save" ) )
+		{
+			this.CLI.saveDataOverride();
+			return;
+		}
+
+		if ( parameters.startsWith( "prices" ) )
+		{
+			MallPriceDatabase.updatePrices( parameters.substring( 6 ).trim() );
+			return;
+		}
+
+		/* 
+		if ( parameters.equalsIgnoreCase( "data" ) )
 		{
 			this.CLI.downloadAdventureOverride();
 		}
-		else if ( parameters.equalsIgnoreCase( "save" ) )
-		{
-			this.CLI.saveDataOverride();
-		}
-		else if ( parameters.startsWith( "prices" ) )
-		{
-			MallPriceDatabase.updatePrices( parameters.substring( 6 ).trim() );
-		}
-		else
-		{
-			KoLmafia.updateDisplay(
-				KoLConstants.ABORT_STATE,
-				"\"update\" doesn't do what you think it does.  Please visit kolmafia.us and download a daily build if you'd like to keep KoLmafia up-to-date between major releases." );
-		}
+		*/
+
+		KoLmafia.updateDisplay(
+			KoLConstants.ABORT_STATE,
+			"\"update\" doesn't do what you think it does.	Please visit kolmafia.us and download a daily build if you'd like to keep KoLmafia up-to-date between major releases." );
 	}
 }
