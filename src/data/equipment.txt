@@ -1078,7 +1078,7 @@ foon of fleshiness	50	Mys: 10
 foon of foulness	50	Mys: 10
 foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
-giant clay ashtray	30	none	shield
+giant clay ashtray	60	none	shield
 giant stuffed bugbear	10	none
 glass gnoll eye	35	Mys: 2
 glow-in-the-dark stuffed burrowgrub	0	none
@@ -1607,7 +1607,7 @@ shin gourds	100	none
 shiny hood ornament	190	Mys: 80
 shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
-shock belt	70	none
+shock belt	80	none
 silver tongue charrrm bracelet	190	Mys: 80
 sk8board	70	Mys: 20
 slime convention pin	10	none
