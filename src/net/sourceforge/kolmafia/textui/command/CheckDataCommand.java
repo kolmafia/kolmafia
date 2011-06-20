@@ -113,7 +113,7 @@ public class CheckDataCommand
 
 		if ( command.equals( "checkpowers" ) )
 		{
-			DebugDatabase.checkPowers();
+			DebugDatabase.checkPowers( parameters.trim() );
 			RequestLogger.printLine( "Equipment power checked." );
 			return;
 		}

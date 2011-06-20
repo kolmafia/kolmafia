@@ -1343,67 +1343,78 @@ public class DebugDatabase
 
 	// **********************************************************
 
-	public static final void checkPowers()
+	public static final void checkPowers( final String option )
 	{
 		// We can check the power of any items in inventory or closet.
 		// We'll assume that any item with a non-zero power is correct.
 		// Off-hand items and accessories don't have visible power and
 		// might be 0 in the database. Look them up and fix them.
 
-		DebugDatabase.checkPowers( KoLConstants.inventory );
-		DebugDatabase.checkPowers( KoLConstants.closet );
-		DebugDatabase.checkPowers( KoLConstants.storage );
+		if ( StringUtilities.isNumeric( option ) )
+		{
+			DebugDatabase.checkPower( StringUtilities.parseInt( option ), true );
+			return;
+		}
+
+		boolean force = option.equals( "all" );
+		DebugDatabase.checkPowers( KoLConstants.inventory, force );
+		DebugDatabase.checkPowers( KoLConstants.closet, force );
+		// DebugDatabase.checkPowers( KoLConstants.storage, force );
 	}
 
-	public static final void checkPowers( final Collection items )
+	private static final void checkPowers( final Collection items, final boolean force  )
 	{
 		Iterator it = items.iterator();
 		while ( it.hasNext() )
 		{
 			AdventureResult item = (AdventureResult)it.next();
 			int itemId = item.getItemId();
-
 			int type = ItemDatabase.getConsumptionType( itemId );
-			if ( type != KoLConstants.EQUIP_OFFHAND && type != KoLConstants.EQUIP_ACCESSORY )
+			if ( type == KoLConstants.EQUIP_OFFHAND || type == KoLConstants.EQUIP_ACCESSORY )
 			{
-				continue;
+				DebugDatabase.checkPower( itemId, force );
+			}
+		}
+	}
+
+	private static final void checkPower( final int itemId, final boolean force  )
+	{
+		int current = EquipmentDatabase.getPower( itemId );
+		if ( !force && current != 0 )
+		{
+			return;
+		}
+
+		// Look it up and register it anew
+		ApiRequest request = new ApiRequest( "item", itemId );
+		RequestThread.postRequest( request );
+
+		JSONObject JSON = request.JSON;
+		if ( JSON == null )
+		{
+			KoLmafia.updateDisplay( "Could not look up item #" + itemId );
+			return;
+		}
+
+		try
+		{
+			int power = JSON.getInt( "power" );
+
+			// Yes, some items really are power 0
+			if ( power == 0 || power == current )
+			{
+				return;
 			}
 
-			if ( EquipmentDatabase.getPower( itemId ) != 0 )
-			{
-				continue;
-			}
-
-			// Look it up and register it anew
-			ApiRequest request = new ApiRequest( "item", itemId );
-			RequestThread.postRequest( request );
-
-			JSONObject JSON = request.JSON;
-			if ( JSON == null )
-			{
-				continue;
-			}
-
-			try
-			{
-				int power = JSON.getInt( "power" );
-
-				// Yes, some items really are power 0
-				if ( power == 0 )
-				{
-					continue;
-				}
-
-				String name = JSON.getString( "name" );
-				String descid = JSON.getString( "descid" );
-				RequestLogger.printLine( "Item \"" + name +"\" power incorrect: 0 should be " + power );
-				ItemDatabase.registerItem( itemId, name, descid, null, power );
-			}
-			catch ( JSONException e )
-			{
-				KoLmafia.updateDisplay( "Error parsing JSON string!" );
-				StaticEntity.printStackTrace( e );
-			}
+			String name = JSON.getString( "name" );
+			String descid = JSON.getString( "descid" );
+			RequestLogger.printLine( "Item \"" + name +"\" power incorrect: " + current + " should be " + power );
+			ItemDatabase.registerItem( itemId, name, descid, null, power );
+		}
+		catch ( JSONException e )
+		{
+			KoLmafia.updateDisplay( "Error parsing JSON string!" );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -1440,15 +1451,17 @@ public class DebugDatabase
 			try
 			{
 				int oldPower = EquipmentDatabase.getPower( itemId );
+				int correctPower = JSON.getInt( "power" );
+				if ( oldPower == correctPower )
+				{
+					continue;
+				}
+
 				String name = JSON.getString( "name" );
 				String descid = JSON.getString( "descid" );
-				int correctPower = JSON.getInt( "power" );
 
-				if ( oldPower != correctPower )
-				{
-					RequestLogger.printLine( "Shield \"" + name +"\" power incorrect: " + oldPower + " should be " + correctPower );
-					ItemDatabase.registerItem( itemId, name, descid, null, correctPower );
-				}
+				RequestLogger.printLine( "Shield \"" + name +"\" power incorrect: " + oldPower + " should be " + correctPower );
+				ItemDatabase.registerItem( itemId, name, descid, null, correctPower );
 			}
 			catch ( JSONException e )
 			{
