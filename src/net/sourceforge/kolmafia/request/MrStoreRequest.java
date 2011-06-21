@@ -41,10 +41,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -53,6 +55,7 @@ public class MrStoreRequest
 	extends CoinMasterRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(?:y|ies) to trade." );
+	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );
 	public static final CoinmasterData MR_STORE =
 		new CoinmasterData(
 			"Mr. Store",
@@ -61,7 +64,7 @@ public class MrStoreRequest
 			"You have no Mr. Accessories to trade",
 			false,
 			MrStoreRequest.TOKEN_PATTERN,
-			CoinmastersFrame.MR_A,
+			MrStoreRequest.MR_A,
 			"availableMrAccessories",
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
@@ -148,10 +151,15 @@ public class MrStoreRequest
 		     responseText.indexOf( "You acquire" ) != -1 )
 		{
 			// We pulled a Mr. A from storage.
-			AdventureResult remove = CoinmastersFrame.MR_A.getInstance( -1 );
+			AdventureResult remove = MrStoreRequest.MR_A.getInstance( -1 );
 			AdventureResult.addResultToList( KoLConstants.storage, remove );
 			CoinMasterRequest.parseBalance( data, responseText );
 			CoinmastersFrame.externalUpdate();
+			if ( !KoLCharacter.isHardcore() && !KoLCharacter.canInteract() )
+			{
+				int pulls = ConcoctionDatabase.getPullsRemaining();
+				ConcoctionDatabase.setPullsRemaining( pulls - 1 );
+			}
 			return;
 		}
 

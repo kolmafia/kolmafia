@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -48,6 +49,7 @@ public class AWOLQuartermasterRequest
 	extends CoinMasterRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? A. W. O. L. commendation" );
+	public static final AdventureResult COMMENDATION = ItemPool.get( ItemPool.AWOL_COMMENDATION, 1 );
 	private static final Pattern TOBUY_PATTERN = Pattern.compile( "tobuy=(\\d+)" );
 	public static final CoinmasterData AWOL =
 		new CoinmasterData(
@@ -57,7 +59,7 @@ public class AWOLQuartermasterRequest
 			null,
 			false,
 			AWOLQuartermasterRequest.TOKEN_PATTERN,
-			CoinmastersFrame.AWOL,
+			AWOLQuartermasterRequest.COMMENDATION,
 			"availableCommendations",
 			"tobuy",
 			AWOLQuartermasterRequest.TOBUY_PATTERN,

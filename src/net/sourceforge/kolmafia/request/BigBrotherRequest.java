@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -47,7 +48,7 @@ public class BigBrotherRequest
 	extends CoinMasterRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? sand dollar" );
-
+	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, 1 );
 	public static final CoinmasterData BIG_BROTHER =
 		new CoinmasterData(
 			"Big Brother",
@@ -56,7 +57,7 @@ public class BigBrotherRequest
 			"You haven't got any sand dollars",
 			false,
 			BigBrotherRequest.TOKEN_PATTERN,
-			CoinmastersFrame.SAND_DOLLAR,
+			BigBrotherRequest.SAND_DOLLAR,
 			"availableSandDollars",
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,

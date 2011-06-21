@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -46,6 +47,7 @@ public class DollHawkerRequest
 	extends CoinMasterRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) lunar isotope" );
+	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
 	public static final CoinmasterData DOLLHAWKER =
 		new CoinmasterData(
 			"Dollhawker's Emporium",
@@ -54,7 +56,7 @@ public class DollHawkerRequest
 			"You have 0 lunar isotopes",
 			false,
 			DollHawkerRequest.TOKEN_PATTERN,
-			CoinmastersFrame.ISOTOPE,
+			DollHawkerRequest.ISOTOPE,
 			"availableIsotopes",
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,

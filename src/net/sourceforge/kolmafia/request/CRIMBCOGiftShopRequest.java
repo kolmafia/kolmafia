@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -46,6 +47,7 @@ public class CRIMBCOGiftShopRequest
 	extends CoinMasterRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have <b>([\\d,]+)</b> CRIMBCO scrip" );
+	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, 1 );
 	public static final CoinmasterData CRIMBCO_GIFT_SHOP =
 		new CoinmasterData(
 			"CRIMBCO Gift Shop",
@@ -54,7 +56,7 @@ public class CRIMBCOGiftShopRequest
 			"You don't have any CRIMBCO scrip",
 			false,
 			CRIMBCOGiftShopRequest.TOKEN_PATTERN,
-			CoinmastersFrame.CRIMBCO_SCRIP,
+			CRIMBCOGiftShopRequest.CRIMBCO_SCRIP,
 			"availableCRIMBCOScrip",
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
