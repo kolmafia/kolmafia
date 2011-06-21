@@ -954,7 +954,8 @@ public class AdventureRequest
 		}
 		else if ( formSource.startsWith( "cellar.php" ) )
 		{
-			return true;
+			// Simply visiting the map is not an encounter.
+			return !formSource.equals( "cellar.php" );
 		}
 		else if ( formSource.startsWith( "palinshelves.php" ) )
 		{

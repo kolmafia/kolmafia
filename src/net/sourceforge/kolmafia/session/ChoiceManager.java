@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
@@ -3431,6 +3432,25 @@ public abstract class ChoiceManager
 		case 488:
 			// Meteoid
 			ArcadeRequest.visitMeteoidChoice( responseText );
+			break;
+
+		case 496:
+			// Crate Expectations
+		case 509:
+			// Of Course!
+		case 510:
+			// Those Who Came Before You
+		case 511:
+			// If it's Tiny, is it Still a Mansion?
+		case 512:
+			// Hot and Cold Running Rats
+		case 513:
+			//  Staring Down the Barrel
+		case 514:
+			// 1984 Had Nothing on This Cellar
+		case 515:
+			// A Rat's Home...
+			TavernRequest.postTavernVisit( request );
 			break;
 
 		case 537:

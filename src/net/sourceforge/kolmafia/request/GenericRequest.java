@@ -1153,9 +1153,6 @@ public class GenericRequest
 	{
 		String urlString = this.getURLString();
 
-		// If this is the rat quest, then go ahead and pre-set the data
-		// to reflect a fight sequence (mini-browser compatibility).
-
 		if ( !GenericRequest.isRatQuest )
 		{
 			GenericRequest.isRatQuest = urlString.startsWith( "cellar.php" );
@@ -1789,6 +1786,7 @@ public class GenericRequest
 		if ( GenericRequest.isRatQuest )
 		{
 			TavernRequest.postTavernVisit( this );
+			GenericRequest.isRatQuest = false;
 		}
 
 		this.encounter = AdventureRequest.registerEncounter( this );
