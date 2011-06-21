@@ -389,6 +389,7 @@ public class CoinmastersFrame
 		{
 			super( MrStoreRequest.MR_STORE );
 			this.buyPanel.addButton( pull, false );
+			this.storageInTitle = true;
 			this.update();
 		}
 
@@ -917,6 +918,7 @@ public class CoinmastersFrame
 		extends JPanel
 	{
 		protected final CoinmasterData data;
+		protected boolean storageInTitle = false;
 
 		protected SellPanel sellPanel = null;
 		protected BuyPanel buyPanel = null;
@@ -938,6 +940,8 @@ public class CoinmastersFrame
 				buyPanel = new BuyPanel();
 				this.add( buyPanel, BorderLayout.CENTER );
 			}
+
+			this.storageInTitle = this.data.getStorageAction() != null;
 		}
 
 		public abstract CoinMasterRequest getRequest();
@@ -959,7 +963,7 @@ public class CoinmastersFrame
 			buffer.append( String.valueOf( count ) );
 			buffer.append( " " );
 			buffer.append( name );
-			if ( this.data.getStorageAction() != null )
+			if ( storageInTitle )
 			{
 				if ( item != null )
 				{

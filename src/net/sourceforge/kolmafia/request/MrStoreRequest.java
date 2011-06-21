@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -104,10 +105,20 @@ public class MrStoreRequest
 
 	public void processResults()
 	{
-		MrStoreRequest.parseResponse( this.getURLString(), this.responseText );
+		String responseText = this.responseText;
+		if ( this.action.equals( "pullmras" ) )
+		{
+			// You can't pull any more items out of storage today.
+			if ( responseText.indexOf( "You can't pull any more items out of storage today" ) != -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't pull any more items out of storage today." );
+			}
+		}
+
+		MrStoreRequest.parseResponse( this.getURLString(), responseText );
 	}
 
-        private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?desc_?item.*?([\\d]+).*?<b>([^<]*)</b>.*?([\\d]+)&nbsp;Mr\\.", Pattern.DOTALL );
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?desc_?item.*?([\\d]+).*?<b>([^<]*)</b>.*?([\\d]+)&nbsp;Mr\\.", Pattern.DOTALL );
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "mrstore.php" ) )
@@ -147,18 +158,20 @@ public class MrStoreRequest
 		}
 
 		String action = GenericRequest.getAction( urlString );
-		if ( action != null && action.equals( "pullmras" ) &&
-		     responseText.indexOf( "You acquire" ) != -1 )
+		if ( action != null && action.equals( "pullmras" ) )
 		{
-			// We pulled a Mr. A from storage.
-			AdventureResult remove = MrStoreRequest.MR_A.getInstance( -1 );
-			AdventureResult.addResultToList( KoLConstants.storage, remove );
-			CoinMasterRequest.parseBalance( data, responseText );
-			CoinmastersFrame.externalUpdate();
-			if ( !KoLCharacter.isHardcore() && !KoLCharacter.canInteract() )
+			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
-				int pulls = ConcoctionDatabase.getPullsRemaining();
-				ConcoctionDatabase.setPullsRemaining( pulls - 1 );
+				// We pulled a Mr. A from storage.
+				AdventureResult remove = MrStoreRequest.MR_A.getInstance( -1 );
+				AdventureResult.addResultToList( KoLConstants.storage, remove );
+				CoinMasterRequest.parseBalance( data, responseText );
+				CoinmastersFrame.externalUpdate();
+				if ( !KoLCharacter.isHardcore() && !KoLCharacter.canInteract() )
+				{
+					int pulls = ConcoctionDatabase.getPullsRemaining();
+					ConcoctionDatabase.setPullsRemaining( pulls - 1 );
+				}
 			}
 			return;
 		}
