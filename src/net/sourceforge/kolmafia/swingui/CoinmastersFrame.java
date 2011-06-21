@@ -983,12 +983,14 @@ public class CoinmastersFrame
 
 		public void setTitle()
 		{
+			AdventureResult item = this.data.getItem();
 			String property = this.data.getProperty();
-			int count =  Preferences.getInteger( property );
+			int count =
+				property != null ? Preferences.getInteger( property ) :
+				item != null ? item.getCount( KoLConstants.inventory ) :
+				0;
 			String token = this.data.getToken();
-			String name = count != 1 ? 
-				ItemDatabase.getPluralName( token ) :
-				token;
+			String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 			StringBuffer buffer = new StringBuffer();
 			buffer.append( "Coin Masters (" );
 			buffer.append( String.valueOf( count ) );
@@ -996,7 +998,6 @@ public class CoinmastersFrame
 			buffer.append( name );
 			if ( this.data.getStorageAction() != null )
 			{
-				AdventureResult item = data.getItem();
 				if ( item != null )
 				{
 					int count1 = item.getCount( KoLConstants.storage );

@@ -65,7 +65,7 @@ public class TravelingTraderRequest
 			false,
 			null,
 			TravelingTraderRequest.item,
-			"availableMrAccessories",
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			"quantity",
