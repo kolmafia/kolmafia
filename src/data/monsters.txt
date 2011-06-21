@@ -935,6 +935,9 @@ Bee Thoven	HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/7)] Atk: [ceil(
 Queen Bee	HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)]	handful of honey (0)	handful of honey (0)	handful of honey (0)
 
 # Spaaace
+Alielef	HP: 0	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
+Cat-Alien	HP: 0	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)
+Dog-Alien	HP: 0	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
 Dogcat	HP: 0	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
 Ferrelf	HP: 0	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
 Grizzled Survivor	HP: 0	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter II (15)

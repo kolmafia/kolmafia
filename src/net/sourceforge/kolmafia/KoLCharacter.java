@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -700,6 +701,10 @@ public abstract class KoLCharacter
 		if ( !KoLCharacter.canEat() )
 		{
 			return 0;
+		}
+		else if ( KoLCharacter.inBeecore() )
+		{
+			return 15;
 		}
 
 		int baseFullness = 15;
@@ -2412,6 +2417,7 @@ public abstract class KoLCharacter
 	{
 		if ( !KoLCharacter.kingLiberated() )
 		{
+			boolean wasInHardcore = KoLCharacter.isHardcore();
 			Preferences.setBoolean( "kingLiberated", true );
 			CharPaneRequest.setInteraction( true );
 			KoLConstants.storage.addAll( KoLConstants.freepulls );
@@ -2424,6 +2430,12 @@ public abstract class KoLCharacter
 			{
 				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 				KoLCharacter.checkTelescope();
+			}
+			// If we were in Hardcore, automatically recall
+			else if ( wasInHardcore )
+			{
+				// Normal permed skills
+				RequestThread.postRequest( new CharSheetRequest() );
 			}
 		}
 	}
