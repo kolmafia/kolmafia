@@ -2373,6 +2373,7 @@ public abstract class SorceressLairManager
 				InventoryManager.retrieveItem( orchids );
 			}
 
+			Preferences.setInteger( "lastTowerClimb", KoLCharacter.getAscensions() );
 			return;
 		}
 
