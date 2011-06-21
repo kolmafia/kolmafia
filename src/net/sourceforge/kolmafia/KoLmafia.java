@@ -1930,9 +1930,7 @@ public abstract class KoLmafia
 			request.addFormField( "whichspot", searchIndex.toString() );
 			request.addFormField( "action", "explore" );
 			RequestThread.postRequest( adventure );
-
-			String response = request.responseText;
-			foundFaucet = response != null && response.indexOf( "faucetoff" ) != -1;
+			foundFaucet = Preferences.getString( "tavernLayout" ).indexOf( "3" ) != -1;
 		}
 
 		if ( !foundFaucet )
