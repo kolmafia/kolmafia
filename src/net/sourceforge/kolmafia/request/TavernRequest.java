@@ -255,24 +255,35 @@ public class TavernRequest
 			return;
 		}
 
-		int square = TavernRequest.getSquare( urlString );
+		int square = urlString.startsWith( "choice.php" ) ?
+			Preferences.getInteger( "lastTavernSquare" ) :
+			TavernRequest.getSquare( urlString );
 		if ( square == 0 )
 		{
 			return;
 		}
 
 		char replacement = '1';
-		if ( request.responseText.indexOf( "Of Course!" ) != -1 )
+		if ( request.responseText.indexOf( "Those Who Came Before You" ) != -1 )
 		{
+			// Dead adventurer
+			replacement = '2';
+		}
+		else if ( request.responseText.indexOf( "Of Course!" ) != -1 ||
+			  request.responseText.indexOf( "Hot and Cold Running Rats" ) != -1 )
+		{
+			// Rat faucet, before and after turning off
 			replacement = '3';
 		}
 		else if ( request.responseText.indexOf( "is it Still a Mansion" ) != -1 )
 		{
+			// Baron von Ratsworth
 			replacement = '4';
 		}
 		else if ( request.responseText.indexOf( "whichchoice" ) != -1 )
 		{
-			replacement = '2';
+			// Various Barrels
+			replacement = '5';
 		}
 
 		TavernRequest.addTavernLocation( square, replacement );
