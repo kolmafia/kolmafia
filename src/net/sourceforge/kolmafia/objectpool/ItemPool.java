@@ -575,6 +575,7 @@ public class ItemPool
 	public static final int ODOR_EXTRACTOR = 2462;
 	public static final int OLFACTION_BOOK = 2463;
 	public static final int SHIRT_KIT = 2491;
+	public static final int TROPICAL_ORCHID = 2492;
 	public static final int MOLYBDENUM_MAGNET = 2497;
 	public static final int MOLYBDENUM_HAMMER = 2498;
 	public static final int MOLYBDENUM_SCREWDRIVER = 2499;
