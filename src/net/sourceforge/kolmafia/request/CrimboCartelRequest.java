@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -46,6 +47,7 @@ public class CrimboCartelRequest
 	extends CoinMasterRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have <b>([\\d,]+)</b> Crimbux" );
+	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, 1 );
 	public static final CoinmasterData CRIMBO_CARTEL =
 		new CoinmasterData(
 			"Crimbo Cartel",
@@ -54,7 +56,7 @@ public class CrimboCartelRequest
 			"You do not currently have any Crimbux",
 			false,
 			CrimboCartelRequest.TOKEN_PATTERN,
-			CoinmastersFrame.CRIMBUCK,
+			CrimboCartelRequest.CRIMBUCK,
 			"availableCrimbux",
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,

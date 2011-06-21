@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -55,6 +56,7 @@ public class BountyHunterHunterRequest
 	extends CoinMasterRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have.*?<b>([\\d,]+)</b> filthy lucre" );
+	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, 1 );
 	public static final CoinmasterData BHH =
 		new CoinmasterData(
 			"Bounty Hunter Hunter",
@@ -63,7 +65,7 @@ public class BountyHunterHunterRequest
 			"You don't have any filthy lucre",
 			false,
 			BountyHunterHunterRequest.TOKEN_PATTERN,
-			CoinmastersFrame.LUCRE,
+			BountyHunterHunterRequest.LUCRE,
 			"availableLucre",
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,

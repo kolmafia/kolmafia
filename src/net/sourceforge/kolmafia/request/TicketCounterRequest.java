@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -47,6 +48,7 @@ public class TicketCounterRequest
 	extends CoinMasterRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have ([\\d,]+) Game Grid redemption ticket" );
+	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, 1 );
 	public static final CoinmasterData TICKET_COUNTER =
 		new CoinmasterData(
 			"Arcade Ticket Counter",
@@ -55,7 +57,7 @@ public class TicketCounterRequest
 			"You currently have no Game Grid redemption tickets",
 			false,
 			TicketCounterRequest.TOKEN_PATTERN,
-			CoinmastersFrame.TICKET,
+			TicketCounterRequest.TICKET,
 			"availableTickets",
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,

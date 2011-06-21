@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
@@ -47,6 +48,7 @@ public class FreeSnackRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) free snack voucher" );
 	private static final Pattern SNACK_PATTERN = Pattern.compile( "whichsnack=(\\d+)" );
+	public static final AdventureResult VOUCHER = ItemPool.get( ItemPool.SNACK_VOUCHER, 1 );
 
 	public static final CoinmasterData FREESNACKS =
 		new CoinmasterData(
@@ -56,7 +58,7 @@ public class FreeSnackRequest
 			"The teen glances at your snack voucher",
 			true,
 			FreeSnackRequest.TOKEN_PATTERN,
-			CoinmastersFrame.VOUCHER,
+			FreeSnackRequest.VOUCHER,
 			"availableSnackVouchers",
 			"whichsnack",
 			FreeSnackRequest.SNACK_PATTERN,

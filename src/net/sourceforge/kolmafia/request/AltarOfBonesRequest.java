@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
@@ -46,6 +47,7 @@ public class AltarOfBonesRequest
 	extends CoinMasterRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+).*?bone chips" );
+	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, 1 );
 	public static final CoinmasterData ALTAR_OF_BONES =
 		new CoinmasterData(
 			"Altar of Bones",
@@ -54,7 +56,7 @@ public class AltarOfBonesRequest
 			"You have no bone chips",
 			false,
 			AltarOfBonesRequest.TOKEN_PATTERN,
-			CoinmastersFrame.BONE_CHIPS,
+			AltarOfBonesRequest.BONE_CHIPS,
 			"availableBoneChips",
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,

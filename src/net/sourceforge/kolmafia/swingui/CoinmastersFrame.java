@@ -100,18 +100,6 @@ public class CoinmastersFrame
 	extends GenericFrame
 	implements ChangeListener
 {
-	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, 1 );
-	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, 1 );
-	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, 1 );
-	public static final AdventureResult VOUCHER = ItemPool.get( ItemPool.SNACK_VOUCHER, 1 );
-
-	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, 1 );
-	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, 1 );
-	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, 1 );
-	public static final AdventureResult AWOL = ItemPool.get( ItemPool.AWOL_COMMENDATION, 1 );
-	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
-	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );
-
 	public static final AdventureResult GG_TOKEN = ItemPool.get( ItemPool.GG_TOKEN, 1 );
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
 	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
@@ -130,17 +118,7 @@ public class CoinmastersFrame
 	// Token counts
 	private static int dimes = 0;
 	private static int quarters = 0;
-	private static int lucre = 0;
-	private static int sandDollars = 0;
-	private static int tickets = 0;
 	private static int storeCredits = 0;
-	private static int snackVouchers = 0;
-	private static int commendations = 0;
-	private static int isotopes = 0;
-	private static int MrAccessories = 0;
-	private static int boneChips = 0;
-	private static int crimbux = 0;
-	private static int scrip = 0;
 
 	// Other external state
 	private static boolean atWar = false;
@@ -318,29 +296,7 @@ public class CoinmastersFrame
 
 		dimes = Preferences.getInteger( "availableDimes" );
 		quarters = Preferences.getInteger( "availableQuarters" );
-		lucre = LUCRE.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableLucre", lucre );
-		sandDollars = SAND_DOLLAR.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableSandDollars", sandDollars );
-		tickets = TICKET.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableTickets", tickets );
 		storeCredits = Preferences.getInteger( "availableStoreCredits" );
-		snackVouchers = VOUCHER.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableSnackVouchers", snackVouchers );
-		commendations = AWOL.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableCommendations", commendations );
-		isotopes = ISOTOPE.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableIsotopes", isotopes );
-		MrAccessories = MR_A.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableMrAccessories", MrAccessories );
-
-		// Inaccessible
-		crimbux = CRIMBUCK.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableCrimbux", crimbux );
-		boneChips = BONE_CHIPS.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableBoneChips", boneChips );
-		scrip = CRIMBCO_SCRIP.getCount( KoLConstants.inventory );
-		Preferences.setInteger( "availableCRIMBCOScrip", scrip );
 
 		INSTANCE.update();
 	}
@@ -444,7 +400,7 @@ public class CoinmastersFrame
 
 		public void update()
 		{
-			this.storageCount = MR_A.getCount( KoLConstants.storage );
+			this.storageCount = MrStoreRequest.MR_A.getCount( KoLConstants.storage );
 			this.pull.setEnabled( this.storageCount > 0 );
 		}
 
@@ -720,6 +676,8 @@ public class CoinmastersFrame
 	private class CommendationPanel
 		extends CoinmasterPanel
 	{
+		private int commendations = 0;
+
 		public CommendationPanel()
 		{
 			super( AWOLQuartermasterRequest.AWOL );
@@ -735,18 +693,23 @@ public class CoinmastersFrame
 			return new AWOLQuartermasterRequest( action, it );
 		}
 
+		public void update()
+		{
+			this.commendations = AWOLQuartermasterRequest.COMMENDATION.getCount( KoLConstants.inventory );
+		}
+
 		public boolean enabled()
 		{
 			// You access the Quartermaster by "using" an
 			// A. W. O. L. commendation
-			return commendations > 0;
+			return this.commendations > 0;
 		}
 
 		public boolean accessible()
 		{
-			if ( commendations <= 0 )
+			if ( this.commendations == 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't any A. W. O. L. commendations" );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have any A. W. O. L. commendations" );
 				return false;
 			}
 
@@ -989,7 +952,7 @@ public class CoinmastersFrame
 				item != null ? item.getCount( KoLConstants.inventory ) :
 				property != null ? Preferences.getInteger( property ) :
 				0;
-			String token = item != null? item.getName() : this.data.getToken();
+			String token = item != null ? item.getName() : this.data.getToken();
 			String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 			StringBuffer buffer = new StringBuffer();
 			buffer.append( "Coin Masters (" );
@@ -1226,10 +1189,12 @@ public class CoinmastersFrame
 				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
 				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
+
 				String token = CoinmasterPanel.this.data.getToken();
+				AdventureResult item = CoinmasterPanel.this.data.getItem();
 				String property = CoinmasterPanel.this.data.getProperty();
 				String side = CoinmasterPanel.this.lighthouseSide();
-				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, side ) );
+				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, item, property, side ) );
 				this.elementList.setVisibleRowCount( 6 );
 				this.setEnabled( true );
 			}
@@ -1271,9 +1236,14 @@ public class CoinmastersFrame
 					return null;
 				}
 
-				int neededSize = items.length;
+				AdventureResult token = CoinmasterPanel.this.data.getItem();
 				String property = CoinmasterPanel.this.data.getProperty();
-				int originalBalance = Preferences.getInteger( property );
+				int originalBalance =
+					token != null ? token.getCount( KoLConstants.inventory ) :
+					property != null ? Preferences.getInteger( property ) :
+					0;
+
+				int neededSize = items.length;
 				int balance = originalBalance;
 				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
 
@@ -1394,9 +1364,9 @@ public class CoinmastersFrame
 		return new CoinmasterRenderer( prices, token );
 	}
 
-	public static final DefaultListCellRenderer getCoinmasterRenderer( Map prices, String token, String property, String side )
+	public static final DefaultListCellRenderer getCoinmasterRenderer( Map prices, String token, AdventureResult item, String property, String side )
 	{
-		return new CoinmasterRenderer( prices, token, property, side );
+		return new CoinmasterRenderer( prices, token, item, property, side );
 	}
 
 	private static class CoinmasterRenderer
@@ -1404,19 +1374,21 @@ public class CoinmastersFrame
 	{
 		private Map prices;
 		private String token;
+		private AdventureResult item;
 		private String property;
 		private String side;
 
 		public CoinmasterRenderer( final Map prices, final String token )
 		{
-			this( prices, token, null, null );
+			this( prices, token, null, null, null );
 		}
 
-		public CoinmasterRenderer( final Map prices, final String token, String property, String side )
+		public CoinmasterRenderer( final Map prices, final String token, final AdventureResult item, String property, String side )
 		{
 			this.setOpaque( true );
 			this.prices = prices;
 			this.token = token;
+			this.item = item;
 			this.property = property;
 			this.side = side;
 		}
@@ -1471,9 +1443,12 @@ public class CoinmastersFrame
 			int price = iprice.intValue();
 			boolean show = CoinmastersDatabase.availableItem( canonicalName);
 
-			if ( show && property != null )
+			if ( show )
 			{
-				int balance = Preferences.getInteger( property );
+				int balance =
+					item != null ? item.getCount( KoLConstants.inventory ) :
+					property != null ? Preferences.getInteger( property ) :
+					0;
 				if ( price > balance )
 				{
 					show = false;
