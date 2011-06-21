@@ -66,7 +66,7 @@ public class CoinMasterRequest
 
 	private final CoinmasterData data;
 
-	private String action = null;
+	protected String action = null;
 	private int itemId = -1;
 	private int quantity = 0;
 
@@ -127,7 +127,7 @@ public class CoinMasterRequest
 			{
 				KoLmafia.updateDisplay( "Visiting the " + master + " (" + i + " of " + visits + ")..." );
 			}
-			else
+			else if ( visits == 1 )
 			{
 				KoLmafia.updateDisplay( "Visiting the " + master + "..." );
 			}
@@ -140,6 +140,7 @@ public class CoinMasterRequest
 		{
 			KoLmafia.updateDisplay( master + " successfully looted!" );
 		}
+
 		return null;
 	}
 
