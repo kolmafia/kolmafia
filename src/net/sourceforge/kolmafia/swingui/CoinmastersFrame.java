@@ -986,10 +986,10 @@ public class CoinmastersFrame
 			AdventureResult item = this.data.getItem();
 			String property = this.data.getProperty();
 			int count =
-				property != null ? Preferences.getInteger( property ) :
 				item != null ? item.getCount( KoLConstants.inventory ) :
+				property != null ? Preferences.getInteger( property ) :
 				0;
-			String token = this.data.getToken();
+			String token = item != null? item.getName() : this.data.getToken();
 			String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 			StringBuffer buffer = new StringBuffer();
 			buffer.append( "Coin Masters (" );
