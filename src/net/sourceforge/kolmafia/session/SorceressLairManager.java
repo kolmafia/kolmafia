@@ -2363,6 +2363,19 @@ public abstract class SorceressLairManager
 			return;
 		}
 
+		if ( KoLCharacter.inBeecore() )
+		{
+			AdventureResult orchids = ItemPool.get( ItemPool.TROPICAL_ORCHID, 6 );
+
+			// This will create 6 orchids out of orchid seeds, if necessary
+			if ( InventoryManager.hasItem( orchids, true ) )
+			{
+				InventoryManager.retrieveItem( orchids );
+			}
+
+			return;
+		}
+
 		// Assume we will start getting tower items from the beginning
 		// of the list
 		int startGetting = 0;
