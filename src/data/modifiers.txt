@@ -1163,7 +1163,6 @@ charged magnet	Maximum MP: +5, MP Regen Min: 1, MP Regen Max: 2
 clownskin buckler	Spooky Damage: +3, Damage Reduction: 3, Clownosity: +2
 coffin lid	Spooky Resistance: +1, Damage Reduction: 3
 collapsible baton	Mysticality Percent: +10, Spell Critical Percent: +5
-# continuum transfunctioner
 # cup of infinite pencils: Never runs out of pencils!
 cup of infinite pencils	Meat Drop: +15
 cyborg doll	Muscle: +3
@@ -1596,6 +1595,7 @@ clownskin belt	Maximum MP: +15, Clownosity: +2
 # club necklace
 colored-light &quot;necklace&quot;	Maximum MP: +15
 consolation ribbon	Muscle: +1, Mysticality: +1, Moxie: +1
+# continuum transfunctioner
 copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
 corncob pipe	Muscle Percent: +10, Single Equip
 # crusty hula hoop: 75% Chance of Preventing Negative Status Attacks
