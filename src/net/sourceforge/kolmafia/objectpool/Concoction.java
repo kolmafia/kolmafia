@@ -702,6 +702,7 @@ public class Concoction
 			// ingredients, because there aren't any.
 			return alreadyHave;		
 		}
+
 		if ( needToMake <= 0 )
 		{	// Have enough on hand already.
 			// Don't bother with calculating the number creatable:
