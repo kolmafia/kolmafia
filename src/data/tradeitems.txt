@@ -464,7 +464,7 @@
 455	jumbo olive	food	all	60
 456	dry martini	drink	all	90
 457	ye olde golde frontes	accessory	all	750
-458	continuum transfunctioner	offhand	none	0
+458	continuum transfunctioner	accessory	none	0
 459	white pixel	none	all	25
 460	black pixel	none	all	25
 461	red pixel	none	all	25
