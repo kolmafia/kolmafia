@@ -106,7 +106,7 @@ public class MrStoreRequest
 	public void processResults()
 	{
 		String responseText = this.responseText;
-		if ( this.action.equals( "pullmras" ) )
+		if ( action != null && this.action.equals( "pullmras" ) )
 		{
 			// You can't pull any more items out of storage today.
 			if ( responseText.indexOf( "You can't pull any more items out of storage today" ) != -1 )
