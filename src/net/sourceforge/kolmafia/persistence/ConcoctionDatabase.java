@@ -763,6 +763,13 @@ public class ConcoctionDatabase
 			toProcess.push( currentItem );
 		}
 
+		// If we happen to have refreshed concoctions while there were
+		// items queued, the creatable amounts will assume that queued
+		// ingredients are already spoken for. Refresh again now that
+		// the queue is empty.
+
+		ConcoctionDatabase.refreshConcoctions();
+
 		Concoction c;
 		int quantity = 0;
 
@@ -780,7 +787,7 @@ public class ConcoctionDatabase
 			{
 				int consumpt = ItemDatabase.getConsumptionType( c.getItemId() );
 				if ( consumpt == KoLConstants.CONSUME_FOOD_HELPER ||
-					consumpt == KoLConstants.CONSUME_DRINK_HELPER )
+				     consumpt == KoLConstants.CONSUME_DRINK_HELPER )
 				{
 					continue;
 				}
