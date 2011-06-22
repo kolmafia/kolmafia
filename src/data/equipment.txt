@@ -1051,7 +1051,6 @@ clockwork detective skull	80	Mox: 25
 clownskin buckler	60	Mus: 15	shield
 coffin lid	50	Mus: 10	shield
 collapsible baton	200	Mys: 85
-continuum transfunctioner	10	none
 cup of infinite pencils	150	Mus: 175
 cyborg doll	110	Mys: 40
 deck of lewd playing cards	75	Mys: 22
@@ -1444,6 +1443,7 @@ clownskin belt	50	Mys: 10
 club necklace	10	none
 colored-light &quot;necklace&quot;	100	Mys: 35
 consolation ribbon	0	none
+continuum transfunctioner	10	none
 copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 crusty hula hoop	200	Mys: 200
