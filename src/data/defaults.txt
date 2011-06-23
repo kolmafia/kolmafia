@@ -140,7 +140,7 @@ global	relaySkillButtonCount	5
 global	relayTextualizesEffects	false
 global	relayTrimsZapList	false
 global	relayUsesCachedImages	false
-global	relayUsesInlineLinks	false
+global	relayUsesInlineLinks	true
 global	relayUsesIntegratedChat	false
 global	relayViewsCustomItems	false
 global	removeMalignantEffects	false

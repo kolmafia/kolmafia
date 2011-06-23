@@ -116,7 +116,11 @@ public class ResultProcessor
 			formURLString.startsWith( "shore.php" ) ||
 			// Marmot sign can give you a clover after a fight
 			formURLString.startsWith( "fight.php" ) ||
-			formURLString.indexOf( "whichitem=553" ) != -1;
+			// Using a 31337 scroll
+			formURLString.indexOf( "whichitem=553" ) != -1 ||
+			// ...without in-line loading can redirect to inventory
+			( formURLString.startsWith( "inventory.php" ) &&
+			  formURLString.indexOf( "action=message" ) != -1 );
 	}
 
 	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?</table>" );
