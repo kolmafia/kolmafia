@@ -433,31 +433,30 @@ public class UseItemEnqueuePanel
 				{
 					return false;
 				}
-				else
-				{
-					return super.isVisible( element );
-				}
+				return super.isVisible( element );
 				
 			case KoLConstants.CONSUME_DRINK_HELPER:
 				if ( !UseItemEnqueuePanel.this.booze )
 				{
 					return false;
 				}
-				else
-				{
-					return super.isVisible( element );
-				}
+				return super.isVisible( element );
 			
 			case KoLConstants.CONSUME_MULTIPLE:
 				if ( !UseItemEnqueuePanel.this.food ||
-					creation.getItemId() != ItemPool.MUNCHIES_PILL )
+				     creation.getItemId() != ItemPool.MUNCHIES_PILL )
 				{
 					return false;
 				}
-				else
+				return super.isVisible( element );
+				
+			case KoLConstants.CONSUME_USE:
+				if ( !UseItemEnqueuePanel.this.food || 
+				     creation.getItemId() != ItemPool.DISTENTION_PILL )
 				{
-					return super.isVisible( element );
+					return false;
 				}
+				return super.isVisible( element );
 				
 			default:
 				return false;

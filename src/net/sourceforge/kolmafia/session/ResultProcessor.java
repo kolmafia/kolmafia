@@ -1022,6 +1022,8 @@ public class ResultProcessor
 		case ItemPool.MR_ACCESSORY:
 			// You can trade tokens for tickets
 		case ItemPool.GG_TOKEN:
+			// You can go to spaaace with a transponder
+		case ItemPool.TRANSPORTER_TRANSPONDER:
 			// The Traveling Trader usually wants twinkly wads
 		case ItemPool.TWINKLY_WAD:
 			CoinmastersFrame.externalUpdate();

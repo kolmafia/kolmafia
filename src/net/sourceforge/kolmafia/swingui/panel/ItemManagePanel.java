@@ -961,7 +961,9 @@ public class ItemManagePanel
 					// are marked as expected.
 
 					isVisibleWithFilter = FilterItemField.this.other;
-					if ( name.equalsIgnoreCase( "milk of magnesium" ) || name.equalsIgnoreCase( "munchies pills" ) )
+					if ( name.equalsIgnoreCase( "milk of magnesium" ) ||
+					     name.equalsIgnoreCase( "munchies pills" ) ||
+					     name.equalsIgnoreCase( "distention pill" ))
 					{
 						isVisibleWithFilter |= FilterItemField.this.food;
 					}

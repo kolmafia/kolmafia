@@ -246,11 +246,19 @@ public class UseItemDequeuePanel
 			
 			case KoLConstants.CONSUME_MULTIPLE:
 				if ( UseItemDequeuePanel.this.food &&
-					creation.getItemId() == ItemPool.MUNCHIES_PILL )
+				     creation.getItemId() == ItemPool.MUNCHIES_PILL )
 				{
 					return true;
 				}
 				break;
+				
+			case KoLConstants.CONSUME_USE:
+				if ( UseItemDequeuePanel.this.food &&
+				     creation.getItemId() == ItemPool.DISTENTION_PILL )
+				{
+					return true;
+				}
+				break;	
 			}
 
 			return false;
