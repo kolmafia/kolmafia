@@ -1644,6 +1644,10 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
+				// If the user navigates to the equipment page,
+				// we will be called again with inventory page
+				// and will generate an error below.
+				UseItemRequest.lastItemUsed = null;
 				return;
 			}
 
