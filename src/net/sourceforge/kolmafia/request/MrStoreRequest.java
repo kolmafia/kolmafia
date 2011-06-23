@@ -167,11 +167,6 @@ public class MrStoreRequest
 				AdventureResult.addResultToList( KoLConstants.storage, remove );
 				CoinMasterRequest.parseBalance( data, responseText );
 				CoinmastersFrame.externalUpdate();
-				if ( !KoLCharacter.isHardcore() && !KoLCharacter.canInteract() )
-				{
-					int pulls = ConcoctionDatabase.getPullsRemaining();
-					ConcoctionDatabase.setPullsRemaining( pulls - 1 );
-				}
 			}
 			return;
 		}

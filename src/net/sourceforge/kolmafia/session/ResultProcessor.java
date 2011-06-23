@@ -1019,7 +1019,11 @@ public class ResultProcessor
 		case ItemPool.BONE_CHIPS:
 		case ItemPool.CRIMBCO_SCRIP:
 		case ItemPool.AWOL_COMMENDATION:
+		case ItemPool.MR_ACCESSORY:
+			// You can trade tokens for tickets
 		case ItemPool.GG_TOKEN:
+			// The Traveling Trader usually wants twinkly wads
+		case ItemPool.TWINKLY_WAD:
 			CoinmastersFrame.externalUpdate();
 			break;
 		}

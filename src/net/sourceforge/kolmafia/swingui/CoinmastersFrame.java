@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -76,6 +77,7 @@ import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
@@ -112,6 +114,10 @@ public class CoinmastersFrame
 
 	public static final int WAR_HIPPY_OUTFIT = 32;
 	public static final int WAR_FRAT_OUTFIT = 33;
+
+	private static final StorageRequest PULL_MR_A_REQUEST =
+		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY,
+				    new AdventureResult[] { MrStoreRequest.MR_A } );
 
 	private static CoinmastersFrame INSTANCE = null;
 
@@ -390,6 +396,7 @@ public class CoinmastersFrame
 			super( MrStoreRequest.MR_STORE );
 			this.buyPanel.addButton( pull, false );
 			this.storageInTitle = true;
+			this.pullsInTitle = true;
 			this.update();
 		}
 
@@ -402,12 +409,17 @@ public class CoinmastersFrame
 		public void update()
 		{
 			this.storageCount = MrStoreRequest.MR_A.getCount( KoLConstants.storage );
-			this.pull.setEnabled( this.storageCount > 0 );
+			boolean canPull =
+				KoLCharacter.isHardcore() ||
+				ConcoctionDatabase.getPullsRemaining() != 0;
+			this.pull.setEnabled( canPull && this.storageCount > 0 );
 		}
 
 		public void pull()
 		{
-			MrStoreRequest request = new MrStoreRequest( "pullmras" );
+			GenericRequest request = KoLCharacter.isHardcore() ?
+				(GenericRequest) new MrStoreRequest( "pullmras" ) :
+				(GenericRequest) CoinmastersFrame.PULL_MR_A_REQUEST;
 			RequestThread.postRequest( request );
 		}
 
@@ -919,6 +931,7 @@ public class CoinmastersFrame
 	{
 		protected final CoinmasterData data;
 		protected boolean storageInTitle = false;
+		protected boolean pullsInTitle = false;
 
 		protected SellPanel sellPanel = null;
 		protected BuyPanel buyPanel = null;
@@ -950,6 +963,7 @@ public class CoinmastersFrame
 
 		public void setTitle()
 		{
+			StringBuffer buffer = new StringBuffer();
 			AdventureResult item = this.data.getItem();
 			String property = this.data.getProperty();
 			int count =
@@ -958,11 +972,11 @@ public class CoinmastersFrame
 				0;
 			String token = item != null ? item.getName() : this.data.getToken();
 			String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
-			StringBuffer buffer = new StringBuffer();
 			buffer.append( "Coin Masters (" );
 			buffer.append( String.valueOf( count ) );
 			buffer.append( " " );
 			buffer.append( name );
+
 			if ( storageInTitle )
 			{
 				if ( item != null )
@@ -973,6 +987,17 @@ public class CoinmastersFrame
 					buffer.append( " in storage" );
 				}
 			}
+
+			if ( pullsInTitle && !KoLCharacter.isHardcore() )
+			{
+				int pulls = ConcoctionDatabase.getPullsRemaining();
+				buffer.append( ", " );
+				buffer.append( pulls < 0 ? "unlimited" : String.valueOf( pulls ) );
+				buffer.append( " pull" );
+				buffer.append( pulls != 1 ? "s" : "" );
+				buffer.append( " available" );
+			}
+
 			buffer.append( ")" );
 			INSTANCE.setTitle( buffer.toString() );
 		}
