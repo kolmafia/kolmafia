@@ -46,12 +46,10 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
-import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -130,20 +128,12 @@ public class CouncilFrame
 		{
 			CouncilFrame.handleFriarsChange( responseText );
 		}
-		else if ( location.startsWith( "gamestore" ) )
-		{
-			GameShoppeRequest.parseResponse( location, responseText );
-		}
 		else if ( location.startsWith( "inv_use" ) )
 		{
 			if ( location.indexOf( "whichitem=5116" ) != -1 )
 			{
 				AWOLQuartermasterRequest.parseAWOLVisit( location, responseText );
 			}
-		}
-		else if ( location.startsWith( "monkeycastle" ) )
-		{
-			BigBrotherRequest.parseVisit( location, responseText );
 		}
 		else if ( location.startsWith( "mountains" ) )
 		{

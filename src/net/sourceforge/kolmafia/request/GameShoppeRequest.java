@@ -95,6 +95,11 @@ public class GameShoppeRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	public void processResults()
+	{
+		GameShoppeRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?descitem.([\\d]+).*?<b>([^<&]*)(?:&nbsp;)*</td>.*?<b>([\\d,]+) credit</b>", Pattern.DOTALL );
 
 	public static void parseResponse( final String urlString, final String responseText )

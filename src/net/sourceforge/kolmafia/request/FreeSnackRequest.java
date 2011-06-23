@@ -96,6 +96,11 @@ public class FreeSnackRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	public void processResults()
+	{
+		GameShoppeRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	public static void parseFreeSnackVisit( final String location, final String responseText )
 	{
 		CoinmasterData data = FreeSnackRequest.FREESNACKS;

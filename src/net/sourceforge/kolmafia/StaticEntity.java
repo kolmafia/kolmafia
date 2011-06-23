@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -524,6 +525,11 @@ public abstract class StaticEntity
 			FriarRequest.parseResponse( location, responseText );
 		}
 
+		else if ( location.startsWith( "gamestore" ) )
+		{
+			GameShoppeRequest.parseResponse( location, responseText );
+		}
+
 		// Keep your current equipment and familiars updated, if you
 		// visit the appropriate pages.
 
@@ -632,6 +638,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "mining.php" ) )
 		{
 			MineDecorator.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "monkeycastle" ) )
+		{
+			BigBrotherRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "mrstore.php" ) )
