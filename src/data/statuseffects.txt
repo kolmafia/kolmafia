@@ -849,5 +849,5 @@
 848	Overstimulated	binary.gif	7c1fa255561ae51a58bc8c9b4f1f8e33
 849	Simulation Stimulation	binary.gif	6ecbc4cf4291903b3320e7927a1be304
 850	Heal Thy Nanoself	nanites.gif	e53b59808fef190b0275a0e49b054a44	use 1 Comet Drop
-851	Stuck That Way	waxlips.gif	a8eebbab7464b806138c25cba82823f7	use 1 honey stick
-852	Wintry Breath	breath.gif	d0e4a01c6f37929a35ffa91e3d2e31a1	use 1 double-ice gum
+851	Wintry Breath	breath.gif	d0e4a01c6f37929a35ffa91e3d2e31a1	use 1 double-ice gum
+852	Stuck That Way	waxlips.gif	a8eebbab7464b806138c25cba82823f7	use 1 honey stick
