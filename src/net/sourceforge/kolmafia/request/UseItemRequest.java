@@ -3191,9 +3191,7 @@ public class UseItemRequest
 				return;
 			}
 
-			Preferences.setInteger(
-				"currentMojoFilters",
-				Preferences.getInteger( "currentMojoFilters" ) + item.getCount() );
+			Preferences.increment( "currentMojoFilters", item.getCount() );
 
 			Preferences.setInteger(
 				"currentSpleenUse",
@@ -3240,13 +3238,13 @@ public class UseItemRequest
 			
 		case ItemPool.DISTENTION_PILL:
 			
-			//Your stomach feels rather stretched out
-			if ( responseText.indexOf( "stomach feels rather stretched" ) != -1 )
+			// Your stomach feels rather stretched out
+			if ( responseText.indexOf( "stomach can't take any more abuse" ) != -1 )
 			{
 				Preferences.setBoolean( "_distentionPillUsed", true );
-				ConcoctionDatabase.getUsables().sort();
+				ResultProcessor.processResult( item );
 			}
-			else if ( responseText.indexOf( "stomach can't take any more abuse" ) != -1 )
+			else if ( responseText.indexOf( "stomach feels rather stretched" ) != -1 )
 			{
 				Preferences.setBoolean( "_distentionPillUsed", true );
 				KoLCharacter.updateStatus();

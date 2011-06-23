@@ -95,7 +95,12 @@ public class BigBrotherRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
-	public static void parseVisit( final String location, final String responseText )
+	public void processResults()
+	{
+		BigBrotherRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = BigBrotherRequest.BIG_BROTHER;
 		String action = GenericRequest.getAction( location );
