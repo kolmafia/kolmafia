@@ -1868,6 +1868,7 @@ public class ConcoctionDatabase
 		if ( !StaticEntity.isHeadless() )
 		{
 			ItemManageFrame.updatePullsRemaining( pullsRemaining );
+			CoinmastersFrame.externalUpdate();
 		}
 
 		if ( pullsRemaining < pullsBudgeted )

@@ -4505,6 +4505,16 @@ public class FightRequest
 
 		if ( !FightRequest.nextAction.startsWith( "skill" ) )
 		{
+			// In Beecore, using a B-item in combat fails. Even if
+			// funkslinging with a non-B item, neither item is
+			// consumed.
+
+			if ( KoLCharacter.inBeecore() &&
+			     responseText.indexOf( "You are too scared of Bs" ) != -1 )
+			{
+				return;
+			}
+
 			String item1 = FightRequest.nextAction;
 			String item2 = null;
 

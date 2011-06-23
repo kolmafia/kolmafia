@@ -411,6 +411,12 @@ public class FamiliarRequest
 				return true;
 			}
 
+			// If we cannot equip this familiar, we cannot enthrone it
+			if ( !fam.canEquip() )
+			{
+				return true;
+			}
+
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "enthrone " + fam.toString() );
 			if ( urlString.indexOf( "ajax=" ) != -1 )
@@ -432,6 +438,12 @@ public class FamiliarRequest
 		// If we don't actually have the new familiar, nothing to do.
 
 		if ( changeTo == null )
+		{
+			return true;
+		}
+
+		// If we can't equip this familiar, the attempt will fail
+		if ( !changeTo.canEquip() )
 		{
 			return true;
 		}
