@@ -439,6 +439,19 @@ public class UseItemRequest
 			}
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_syntheticDogHairPillUsed" ) ? 0 : 1;
+			
+		case ItemPool.DISTENTION_PILL:
+			boolean stomachAvailable = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) > 0;
+			
+			// The distention pill is not usable when you're full.
+			// Even if you plan on eating a 1-full food.
+			if ( !stomachAvailable )
+			{
+				UseItemRequest.limiter = "remaining fullness";
+				return 0;
+			}
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_distentionPillUsed" ) ? 0 : 1;
 
 		case ItemPool.BURROWGRUB_HIVE:
 			UseItemRequest.limiter = "daily limit";
@@ -1765,6 +1778,24 @@ public class UseItemRequest
 			KoLCharacter.updateStatus();
 
 			return;
+		}
+
+		// If we ate a distention pill, the next thing we eat should
+		// detect the extra message and decrement fullness by 1.
+		if ( responseText.indexOf( "feel your stomach shrink" ) != -1 )
+		{
+			int fullness = ItemDatabase.getFullness( item.getName() );
+			int count = item.getCount();
+
+			// If we got this message, we definitely used a pill today.
+			Preferences.setBoolean( "_distentionPillUsed", true );
+			Preferences.increment( "currentFullness", -1 );
+			String message = "Incrementing fullness by " + ( fullness * count - 1 )
+					+ " instead of " + ( fullness * count )
+					+ " because your stomach was distended.";
+			RequestLogger.updateSessionLog( message );
+			RequestLogger.printLine( message );
+			KoLCharacter.updateStatus();
 		}
 
 		// Check to make sure that it wasn't a food or drink
@@ -3202,6 +3233,22 @@ public class UseItemRequest
 			{
 				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 1 ) );
 				Preferences.setBoolean( "_syntheticDogHairPillUsed", true );
+				KoLCharacter.updateStatus();
+				ConcoctionDatabase.getUsables().sort();
+			}
+			return;
+			
+		case ItemPool.DISTENTION_PILL:
+			
+			//Your stomach feels rather stretched out
+			if ( responseText.indexOf( "stomach feels rather stretched" ) != -1 )
+			{
+				Preferences.setBoolean( "_distentionPillUsed", true );
+				ConcoctionDatabase.getUsables().sort();
+			}
+			else if ( responseText.indexOf( "stomach can't take any more abuse" ) != -1 )
+			{
+				Preferences.setBoolean( "_distentionPillUsed", true );
 				KoLCharacter.updateStatus();
 				ConcoctionDatabase.getUsables().sort();
 			}

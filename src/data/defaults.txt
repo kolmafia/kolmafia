@@ -651,6 +651,7 @@ user	_candySummons	0
 user	_chipBags	0
 user	_crimboTree	false
 user	_deluxeKlawSummons	0
+user	_distentionPillUsed	false
 user	_fingertrapArrows	0
 user	_gapBuffs	0
 user	_gibbererAdv	0

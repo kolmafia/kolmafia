@@ -243,6 +243,10 @@ public class ListCellRendererFactory
 			
 			switch ( item.getItemId() )
 			{
+			case ItemPool.DISTENTION_PILL:
+				stringForm.append( "-1 full from next food eaten" );
+				break;
+
 			case ItemPool.MUNCHIES_PILL:
 				stringForm.append( "+1-3 adv from next food eaten" );
 				break;
