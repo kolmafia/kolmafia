@@ -644,7 +644,7 @@ public class AdventureSelectPanel
 		public ConditionChangeListener()
 		{
 			GoalManager.getGoals().addListDataListener( this );
-			AdventureSelectPanel.this.fillCurrentConditions();
+			AdventureSelectPanel.this.fillDefaultConditions();
 		}
 
 		public void valueChanged( final ListSelectionEvent e )
@@ -654,7 +654,7 @@ public class AdventureSelectPanel
 				return;
 			}
 
-			AdventureSelectPanel.this.fillCurrentConditions();
+			AdventureSelectPanel.this.fillDefaultConditions();
 		}
 
 		public void intervalAdded( final ListDataEvent e )
@@ -719,25 +719,19 @@ public class AdventureSelectPanel
 			String text = ( (String) AdventureSelectPanel.this.conditionField.getText() );
 			String conditionList = text == null ? "" : text.trim().toLowerCase();
 
-			AdventureResult stats = null;
-
 			List previousGoals = new ArrayList( GoalManager.getGoals() );
 			GoalManager.clearGoals();
 
+			// Retain any stat goal
 			for ( int i = 0; i < previousGoals.size(); ++i )
 			{
 				AdventureResult previousGoal = (AdventureResult) previousGoals.get( i );
 
 				if ( previousGoal.getName().equals( AdventureResult.SUBSTATS ) )
 				{
-					stats = previousGoal;
+					GoalManager.addGoal( previousGoal );
 					break;
 				}
-			}
-
-			if ( stats != null )
-			{
-				GoalManager.addGoal( stats );
 			}
 
 			boolean shouldAdventure = true;
