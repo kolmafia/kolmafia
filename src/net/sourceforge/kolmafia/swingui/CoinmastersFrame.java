@@ -977,25 +977,24 @@ public class CoinmastersFrame
 			buffer.append( " " );
 			buffer.append( name );
 
-			if ( storageInTitle )
+			// Makes no sense to show storage except for real items
+			if ( storageInTitle && item != null )
 			{
-				if ( item != null )
-				{
-					int count1 = item.getCount( KoLConstants.storage );
-					buffer.append( ", " );
-					buffer.append( String.valueOf( count1 ) );
-					buffer.append( " in storage" );
-				}
-			}
-
-			if ( pullsInTitle && !KoLCharacter.isHardcore() )
-			{
-				int pulls = ConcoctionDatabase.getPullsRemaining();
+				int count1 = item.getCount( KoLConstants.storage );
 				buffer.append( ", " );
-				buffer.append( pulls < 0 ? "unlimited" : String.valueOf( pulls ) );
-				buffer.append( " pull" );
-				buffer.append( pulls != 1 ? "s" : "" );
-				buffer.append( " available" );
+				buffer.append( String.valueOf( count1 ) );
+				buffer.append( " in storage" );
+
+				// Only show pulls if we actually have the item in storage
+				if ( pullsInTitle && count1 > 0 && !KoLCharacter.isHardcore() )
+				{
+					int pulls = ConcoctionDatabase.getPullsRemaining();
+					buffer.append( ", " );
+					buffer.append( KoLCharacter.inRonin() ? String.valueOf( pulls ) : "unlimited" );
+					buffer.append( " pull" );
+					buffer.append( pulls != 1 ? "s" : "" );
+					buffer.append( " available" );
+				}
 			}
 
 			buffer.append( ")" );
