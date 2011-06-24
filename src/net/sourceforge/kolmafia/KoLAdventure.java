@@ -466,8 +466,7 @@ public class KoLAdventure
 
 		// If the person has a continuum transfunctioner, then find
 		// some way of equipping it.  If they do not have one, then
-		// acquire one then try to equip it.  If the person has a two
-		// handed weapon, then report an error.
+		// acquire one then try to equip it.
 
 		if ( this.adventureId.equals( AdventurePool.PIXEL_REALM_ID ) )
 		{
@@ -478,12 +477,6 @@ public class KoLAdventure
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes2" ) );
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes3" ) );
-			}
-
-			if ( EquipmentDatabase.getHands( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() ) > 1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to free up a hand." );
-				return;
 			}
 
 			RequestThread.postRequest( new EquipmentRequest( transfuctioner ) );

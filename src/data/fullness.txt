@@ -382,7 +382,7 @@ sea avocado	1	2	1-3	0	0	27
 sea blueberry	1	2	1-2	2-4	2-4	2-4
 sea broccoli	1	2	1-2	3-7	3-6	3-7
 sea carrot	1	2	1-3	0	26	0
-sea cauliflower	1	2	2	3-7	3-7	3-7
+sea cauliflower	1	2	1-2	3-7	3-7	3-7
 sea cucumber	1	2	1-3	29	0	0
 sea honeydew	1	2	1-3	0	28	0
 sea lychee	1	2	1-3	0	0	37

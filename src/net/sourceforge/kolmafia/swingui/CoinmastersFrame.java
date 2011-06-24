@@ -765,11 +765,6 @@ public class CoinmastersFrame
 			this.update();
 		}
 
-		public boolean addSellMovers()
-		{
-			return true;
-		}
-
 		public void update()
 		{
 			this.hasOutfit = EquipmentManager.hasOutfit( this.outfit );
@@ -1011,7 +1006,7 @@ public class CoinmastersFrame
 
 		public boolean addSellMovers()
 		{
-			return false;
+			return true;
 		}
 
 		public String getMaster()
