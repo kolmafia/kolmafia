@@ -175,6 +175,10 @@ public class BreakfastManager
 			for ( int i = 0; i < toys.length; ++i )
 			{
 				AdventureResult toy = toys[ i ];
+				if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( toy.getName() ) )
+				{
+					continue;
+				}
 				if ( InventoryManager.hasItem( toy ) )
 				{
 					int slot = KoLCharacter.equipmentSlot( toy );

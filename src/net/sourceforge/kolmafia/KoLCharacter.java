@@ -1927,6 +1927,12 @@ public abstract class KoLCharacter
 		return bees;
 	}
 
+	public static final boolean hasBeeosity( String name )
+	{
+		// Less resource intensive than a matcher for short-enough names
+		return name.indexOf( "b" ) != -1 || name.indexOf( "B" ) != -1 ;
+	}
+
 	public static final int getRestingHP()
 	{
 		int rv = (int) KoLCharacter.currentModifiers.get( Modifiers.BASE_RESTING_HP );
