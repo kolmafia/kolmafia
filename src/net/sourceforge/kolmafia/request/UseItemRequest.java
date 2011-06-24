@@ -320,6 +320,39 @@ public class UseItemRequest
 			return Integer.MAX_VALUE;
 		}
 
+		// Initial Beeosity check
+		String itemName = ItemDatabase.getItemName( itemId );
+
+		switch ( itemId )
+		{
+		case ItemPool.BLACK_MARKET_MAP:
+		case ItemPool.BALL_POLISH:
+		case ItemPool.FRATHOUSE_BLUEPRINTS:
+			// These "B" items ARE usable in Beecore.
+		case ItemPool.ICE_BABY:
+		case ItemPool.JUGGLERS_BALLS:
+		case ItemPool.EYEBALL_PENDANT:
+		case ItemPool.SPOOKY_PUTTY_BALL:
+		case ItemPool.LOATHING_LEGION_ABACUS:
+		case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
+		case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
+		case ItemPool.LOATHING_LEGION_ROLLERBLADES:
+			// And so are these IOTM foldables
+			return Integer.MAX_VALUE;
+
+		case ItemPool.COBBS_KNOB_MAP:
+			UseItemRequest.limiter = "encryption key";
+			return InventoryManager.getCount( ItemPool.ENCRYPTION_KEY );
+
+		default:
+			if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( itemName ) )
+			{
+				UseItemRequest.limiter = "bees";
+				return 0;
+			}
+			break;
+		}
+
 		switch ( itemId )
 		{
 		case ItemPool.TINY_HOUSE:
@@ -513,8 +546,6 @@ public class UseItemRequest
 			UseItemRequest.limiter = "unstackable effect";
 			return KoLConstants.activeEffects.contains( UseItemRequest.LIMITED_USES.get( key ) ) ? 0 : 1;
 		}
-
-		String itemName = ItemDatabase.getItemName( itemId );
 
 		int fullness = ItemDatabase.getFullness( itemName );
 		if ( fullness > 0 )

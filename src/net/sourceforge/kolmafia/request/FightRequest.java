@@ -4512,6 +4512,7 @@ public class FightRequest
 			if ( KoLCharacter.inBeecore() &&
 			     responseText.indexOf( "You are too scared of Bs" ) != -1 )
 			{
+				FightRequest.nextAction = "abort";
 				return;
 			}
 
