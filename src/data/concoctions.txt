@@ -65,8 +65,8 @@ Tropical Crimbo Sword	SMITH	tropical wrapping paper	sword hilt
 
 abridged dictionary	COMBINE	bridge	dictionary
 badass belt	COMBINE	batskin belt	dragonbone belt buckle
-bitchin' meatcar	COMBINE	dope wheels	meat engine
-pumpkin carriage	COMBINE	dope wheels	pumpkin
+bitchin' meatcar	ACOMBINE	dope wheels	meat engine
+pumpkin carriage	ACOMBINE	dope wheels	pumpkin
 bone rattle	COMBINE	skeleton bone	broken skull
 Bonerdagon necklace	COMBINE	hemp string	vertebra of the Bonerdagon
 cog and sprocket assembly	COMBINE	cog	sprocket assembly
