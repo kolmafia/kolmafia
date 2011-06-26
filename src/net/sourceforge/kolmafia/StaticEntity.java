@@ -90,11 +90,11 @@ import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
+import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PhineasRequest;
 import net.sourceforge.kolmafia.request.PixelRequest;
@@ -742,7 +742,7 @@ public abstract class StaticEntity
 
 		else if ( location.startsWith( "store.php" ) )
 		{
-			MallPurchaseRequest.parseResponse( location, responseText );
+			NPCPurchaseRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "sugarsheets.php" ) )

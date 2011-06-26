@@ -94,7 +94,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
@@ -2279,7 +2279,7 @@ public abstract class KoLmafia
 
 		for ( int i = 0; i < purchases.length; ++i )
 		{
-			if ( !( purchases[ i ] instanceof MallPurchaseRequest ) )
+			if ( !( purchases[ i ] instanceof PurchaseRequest ) )
 			{
 				return;
 			}
@@ -2287,7 +2287,7 @@ public abstract class KoLmafia
 
 		RequestThread.openRequestSequence();
 
-		MallPurchaseRequest currentRequest = (MallPurchaseRequest) purchases[ 0 ];
+		PurchaseRequest currentRequest = (PurchaseRequest) purchases[ 0 ];
 		int currentPrice = currentRequest.getPrice();
 
 		int itemId = currentRequest.getItemId();
@@ -2317,10 +2317,10 @@ public abstract class KoLmafia
 
 		for ( int i = 0; i < purchases.length && currentCount < desiredCount && KoLmafia.permitsContinue(); ++i )
 		{
-			currentRequest = (MallPurchaseRequest) purchases[ i ];
+			currentRequest = (PurchaseRequest) purchases[ i ];
 			currentPrice = currentRequest.getPrice();
 
-			if ( currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
+			if ( currentRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY )
 			{
 				if ( !KoLCharacter.canInteract() || isAutomated && !Preferences.getBoolean( "autoSatisfyWithMall" ) )
 				{
@@ -2356,9 +2356,9 @@ public abstract class KoLmafia
 				{
 					results.remove( currentRequest );
 				}
-				else if ( currentRequest.getQuantity() == MallPurchaseRequest.MAX_QUANTITY )
+				else if ( currentRequest.getQuantity() == PurchaseRequest.MAX_QUANTITY )
 				{
-					currentRequest.setLimit( MallPurchaseRequest.MAX_QUANTITY );
+					currentRequest.setLimit( PurchaseRequest.MAX_QUANTITY );
 				}
 				else
 				{

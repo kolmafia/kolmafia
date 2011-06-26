@@ -52,8 +52,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -384,7 +384,7 @@ public abstract class StoreManager
 				i.remove();
 				continue;
 			}
-			long t = ((MallPurchaseRequest) search.get( 0 )).getTimestamp();
+			long t = ((PurchaseRequest) search.get( 0 )).getTimestamp();
 			if ( t < t0 || t > t1 )
 			{
 				i.remove();
@@ -430,7 +430,7 @@ public abstract class StoreManager
 		Iterator i = results.iterator();
 		while ( i.hasNext() )
 		{
-			MallPurchaseRequest req = (MallPurchaseRequest) i.next();
+			PurchaseRequest req = (PurchaseRequest) i.next();
 			if ( !req.canPurchaseIgnoringMeat() ) continue;
 			price = req.getPrice();
 			qty -= req.getLimit();
@@ -491,7 +491,7 @@ public abstract class StoreManager
 			return;
 		}
 
-		MallPurchaseRequest[] resultsArray = new MallPurchaseRequest[ results.size() ];
+		PurchaseRequest[] resultsArray = new PurchaseRequest[ results.size() ];
 		results.toArray( resultsArray );
 
 		TreeMap prices = new TreeMap();

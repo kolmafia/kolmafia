@@ -470,8 +470,8 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.PIXEL_REALM_ID ) )
 		{
-			AdventureResult transfuctioner = ItemPool.get( ItemPool.TRANSFUNCTIONER, 1 );
-			if ( !InventoryManager.hasItem( transfuctioner ) )
+			AdventureResult transfunctioner = ItemPool.get( ItemPool.TRANSFUNCTIONER, 1 );
+			if ( !InventoryManager.hasItem( transfunctioner ) )
 			{
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php" ) );
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
@@ -479,7 +479,10 @@ public class KoLAdventure
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes3" ) );
 			}
 
-			RequestThread.postRequest( new EquipmentRequest( transfuctioner ) );
+			if ( !KoLCharacter.hasEquipped( transfunctioner) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( transfunctioner ) );
+			}
 			this.isValidAdventure = true;
 			return;
 		}
