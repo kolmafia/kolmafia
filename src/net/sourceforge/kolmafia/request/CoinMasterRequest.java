@@ -93,13 +93,7 @@ public class CoinMasterRequest
 		this.itemId = itemId;
 		String itemField = this.data.getItemField();
 		this.addFormField( itemField, String.valueOf( itemId ) );
-
-		this.quantity = quantity;
-		String countField = this.data.getCountField();
-		if ( countField != null )
-		{
-			this.addFormField( countField, String.valueOf( quantity ) );
-		}
+		this.setQuantity( quantity );
 	}
 
 	public CoinMasterRequest( final CoinmasterData data, final String action, final int itemId )
@@ -110,6 +104,16 @@ public class CoinMasterRequest
 	public CoinMasterRequest( final CoinmasterData data, final String action, final AdventureResult ar )
 	{
 		this( data, action, ar.getItemId(), ar.getCount() );
+	}
+
+	public void setQuantity( final int quantity )
+	{
+		this.quantity = quantity;
+		String countField = this.data.getCountField();
+		if ( countField != null )
+		{
+			this.addFormField( countField, String.valueOf( quantity ) );
+		}
 	}
 
 	public Object run()

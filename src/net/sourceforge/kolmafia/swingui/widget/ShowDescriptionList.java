@@ -64,8 +64,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -241,9 +241,9 @@ public class ShowDescriptionList
 		{
 			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (CreateItemRequest) item ).getItemId() ) );
 		}
-		else if ( item instanceof MallPurchaseRequest )
+		else if ( item instanceof PurchaseRequest )
 		{
-			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (MallPurchaseRequest) item ).getItemId() ) );
+			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (PurchaseRequest) item ).getItemId() ) );
 		}
 		else if ( item instanceof UseSkillRequest )
 		{
@@ -301,9 +301,9 @@ public class ShowDescriptionList
 			name = ( (CreateItemRequest) item ).getName();
 			isItem = true;
 		}
-		else if ( item instanceof MallPurchaseRequest )
+		else if ( item instanceof PurchaseRequest )
 		{
-			name = ( (MallPurchaseRequest) item ).getItemName();
+			name = ( (PurchaseRequest) item ).getItemName();
 			isItem = true;
 		}
 		else if ( item instanceof SoldItem )

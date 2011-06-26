@@ -434,6 +434,7 @@ public class ItemPool
 	public static final int GALLERY_KEY = 1765;
 	public static final int BALLROOM_KEY = 1766;
 	public static final int PACK_OF_CHEWING_GUM = 1767;
+	public static final int TRAVOLTAN_TROUSERS = 1792;
 	public static final int DUSTY_ANIMAL_SKULL = 1799;
 	public static final int SPOOKYRAVEN_SPECTACLES = 1916;
 	public static final int ENGLISH_TO_A_F_U_E_DICTIONARY = 1919;

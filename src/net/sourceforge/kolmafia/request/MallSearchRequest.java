@@ -339,7 +339,7 @@ public class MallSearchRequest
 
 				int price = StringUtilities.parseInt( priceId.substring( priceId.length() - 9 ) );
 				this.results.add( new MallPurchaseRequest(
-					itemName, itemId, quantity, shopId, shopName, price, limit, true ) );
+					itemId, quantity, shopId, shopName, price, limit, true ) );
 			}
 		}
 		else
@@ -432,7 +432,7 @@ public class MallSearchRequest
 				int price = StringUtilities.parseInt( detailsMatcher.group( 3 ) );
 				String shopName = detailsMatcher.group( 4 ).replaceAll( "<br>", " " );
 
-				this.results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
+				this.results.add( new MallPurchaseRequest( itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
 			}
 		}
 
@@ -446,7 +446,7 @@ public class MallSearchRequest
 	{
 		if ( NPCStoreDatabase.contains( itemName, false ) )
 		{
-			MallPurchaseRequest npcitem = NPCStoreDatabase.getPurchaseRequest( itemName );
+			PurchaseRequest npcitem = NPCStoreDatabase.getPurchaseRequest( itemName );
 			if ( !this.results.contains( npcitem ) )
 			{
 				this.results.add( npcitem );

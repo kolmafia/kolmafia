@@ -52,7 +52,8 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 
 public class NPCStoreDatabase
@@ -82,7 +83,7 @@ public class NPCStoreDatabase
 			int itemId = ItemDatabase.getItemId( itemName );
 			int price = StringUtilities.parseInt( data[ 3 ] );
 			NPCStoreDatabase.storeNameById.put( storeId, storeName );
-			NPCStoreDatabase.NPC_ITEMS.put( itemId, new MallPurchaseRequest( storeName, storeId, itemId, price ) );
+			NPCStoreDatabase.NPC_ITEMS.put( itemId, new NPCPurchaseRequest( storeName, storeId, itemId, price ) );
 		}
 
 		try
@@ -103,11 +104,11 @@ public class NPCStoreDatabase
 		return (String) NPCStoreDatabase.storeNameById.get( storeId );
 	}
 
-	public static final MallPurchaseRequest getPurchaseRequest( final String itemName )
+	public static final PurchaseRequest getPurchaseRequest( final String itemName )
 	{
 		int itemId = ItemDatabase.getItemId( itemName, 1, false );
 
-		MallPurchaseRequest foundItem = null;
+		PurchaseRequest foundItem = null;
 
 		ArrayList items = NPCStoreDatabase.NPC_ITEMS.get( itemId );
 		if ( items == null )
@@ -116,7 +117,7 @@ public class NPCStoreDatabase
 		}
 		for ( Iterator i = items.iterator(); i.hasNext(); )
 		{
-			foundItem = (MallPurchaseRequest) i.next();
+			foundItem = (PurchaseRequest) i.next();
 
 			if ( !NPCStoreDatabase.canPurchase( foundItem.getStoreId(), foundItem.getShopName(),
 				itemName ) )
@@ -201,7 +202,7 @@ public class NPCStoreDatabase
 			if ( Preferences.getInteger( "lastPirateEphemeraReset" ) == KoLCharacter.getAscensions()
 				&& !Preferences.getString( "lastPirateEphemera" ).equalsIgnoreCase( itemName ) )
 			{
-				if ( MallPurchaseRequest.PIRATE_EPHEMERA_PATTERN.matcher( itemName ).matches() )
+				if ( NPCPurchaseRequest.PIRATE_EPHEMERA_PATTERN.matcher( itemName ).matches() )
 				{
 					return false;
 				}
@@ -321,13 +322,13 @@ public class NPCStoreDatabase
 
 	public static final int price( final String itemName )
 	{
-		MallPurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemName );
+		PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemName );
 		return request == null ? 0 : request.getPrice();
 	}
 
 	public static final boolean contains( final String itemName, boolean validate )
 	{
-		MallPurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
+		PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
 		return item != null && ( !validate || item.canPurchase() );
 	}
 }

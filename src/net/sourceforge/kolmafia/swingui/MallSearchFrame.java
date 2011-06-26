@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
@@ -154,7 +154,7 @@ public class MallSearchFrame
 				Preferences.setInteger( "defaultLimit", searchCount );
 			}
 
-			MallPurchaseRequest.setUsePriceComparison( this.forceSortingCheckBox.isSelected() );
+			PurchaseRequest.setUsePriceComparison( this.forceSortingCheckBox.isSelected() );
 
 			String searchText = null;
 
@@ -201,7 +201,7 @@ public class MallSearchFrame
 			for ( int i = 0; i < purchases.length; ++i )
 			{
 				defaultPurchases +=
-					( (MallPurchaseRequest) purchases[ i ] ).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ? MallPurchaseRequest.MAX_QUANTITY : ( (MallPurchaseRequest) purchases[ i ] ).getLimit();
+					( (PurchaseRequest) purchases[ i ] ).getQuantity() == PurchaseRequest.MAX_QUANTITY ? PurchaseRequest.MAX_QUANTITY : ( (PurchaseRequest) purchases[ i ] ).getLimit();
 			}
 
 			int count =
@@ -269,11 +269,11 @@ public class MallSearchFrame
 
 		long totalPrice = 0;
 		int totalPurchases = 0;
-		MallPurchaseRequest currentPurchase = null;
+		PurchaseRequest currentPurchase = null;
 
 		for ( int i = 0; i < purchases.length; ++i )
 		{
-			currentPurchase = (MallPurchaseRequest) purchases[ i ];
+			currentPurchase = (PurchaseRequest) purchases[ i ];
 			totalPurchases += currentPurchase.getLimit();
 			totalPrice += (long) currentPurchase.getLimit() * (long) currentPurchase.getPrice();
 		}

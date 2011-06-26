@@ -44,100 +44,20 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPurchaseRequest
-	extends GenericRequest
-	implements Comparable
+	extends PurchaseRequest
 {
-	private static final AdventureResult TROUSERS = new AdventureResult( 1792, 1 );
 	private static final Pattern YIELD_PATTERN =
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
-	public static final Pattern PIRATE_EPHEMERA_PATTERN =
-		Pattern.compile( "pirate (?:brochure|pamphlet|tract)" );
-
 	private static Pattern MALLSTOREID_PATTERN = Pattern.compile( "whichstore\\d?=(\\d+)" );
-	private static Pattern NPCSTOREID_PATTERN = Pattern.compile( "whichstore=([^&]*)" );
 
-	private static boolean usePriceComparison;
+	private final int shopId;
 
-	// In order to prevent overflows from happening, make
-	// it so that the maximum quantity is 10 million
-
-	private String itemName;
-	final String shopName;
-	private final int itemId, shopId;
-	private int quantity;
-	final int price;
-	private int limit;
-
-	private final AdventureResult item;
-	private int initialCount;
-
-	private String hashField;
-	private boolean isNPCStore;
-	private String npcStoreId;
-
-	private boolean canPurchase;
-	public static final int MAX_QUANTITY = 16777215;
 	private int itemSequenceCount = 0;	// for detecting renamed items
-	private long timestamp;
-
-	/**
-	 * Constructs a new <code>MallPurchaseRequest</code> which retrieves things from NPC stores.
-	 */
-
-	public MallPurchaseRequest( final String storeName, final String storeId, final int itemId, final int price )
-	{
-		super( storeId.indexOf( "." ) == -1 ? "store.php" : storeId );
-
-		this.hashField = "pwd";
-
-		if ( storeId.indexOf( "." ) == -1 )
-		{
-			this.addFormField( "whichstore", storeId );
-			this.addFormField( "buying", "1" );
-			this.addFormField( "ajax", "1" );
-			this.hashField = "phash";
-		}
-		else if ( storeId.equals( "galaktik.php" ) )
-		{
-			// Annoying special case.
-			this.addFormField( "action", "buyitem" );
-		}
-		else
-		{
-			this.addFormField( "action", "buy" );
-		}
-
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
-
-		this.itemName = ItemDatabase.getItemName( itemId );
-		this.shopName = storeName;
-		this.itemId = itemId;
-		this.shopId = 0;
-		this.quantity = MallPurchaseRequest.MAX_QUANTITY;
-		this.limit = this.quantity;
-		this.price = price;
-
-		this.item = new AdventureResult( this.itemId, 1 );
-
-		this.isNPCStore = true;
-		this.npcStoreId = storeId;
-		this.canPurchase = true;
-		this.timestamp = 0L;
-	}
-
-	public String getHashField()
-	{
-		return this.hashField;
-	}
 
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> with the given
@@ -155,48 +75,55 @@ public class MallPurchaseRequest
 	 * @param canPurchase Whether or not this purchase request is possible
 	 */
 
-	public MallPurchaseRequest( final String itemName, final int itemId, final int quantity, final int shopId,
+	public MallPurchaseRequest( final int itemId, final int quantity, final int shopId,
+				    final String shopName, final int price, final int limit,
+				    final boolean canPurchase )
+	{
+		this( new AdventureResult( itemId, 1 ), quantity, shopId, shopName, price, limit, canPurchase );
+	}
+
+	public MallPurchaseRequest( final int itemId, final int quantity, final int shopId,
+		final String shopName, final int price, final int limit )
+	{
+		this( new AdventureResult( itemId, 1 ), quantity, shopId, shopName, price, limit, true );
+	}
+
+	public MallPurchaseRequest( final AdventureResult item, final int quantity, final int shopId,
 		final String shopName, final int price, final int limit, final boolean canPurchase )
 	{
 		super( "mallstore.php" );
 
-		this.itemId = itemId;
+		this.isMallStore = true;
+		this.hashField = "pwd";
+		this.item = item;
 
-		this.itemName = ItemDatabase.getItemName( this.itemId );
-		if ( this.itemName == null )
-		{
-			this.itemName = "(unknown)";
-		}
-
-		this.shopId = shopId;
 		this.shopName = shopName;
+		this.shopId = shopId;
+
 		this.quantity = quantity;
 		this.price = price;
 		this.limit = Math.min( quantity, limit );
-		this.isNPCStore = false;
 		this.canPurchase = canPurchase;
 
-		this.hashField = "pwd";
 		this.addFormField( "whichstore", String.valueOf( shopId ) );
 		this.addFormField( "buying", "1" );
 		this.addFormField( "ajax", "1" );
-		this.addFormField( "whichitem", MallPurchaseRequest.getStoreString( itemId, price ) );
+		this.addFormField( "whichitem", MallPurchaseRequest.getStoreString( item.getItemId(), price ) );
 
-		this.item = new AdventureResult( this.itemId, 1 );
 		this.timestamp = System.currentTimeMillis();
+	}
+
+	public String getStoreId()
+	{
+		return String.valueOf( this.shopId );
 	}
 
 	public static final String getStoreString( final int itemId, final int price )
 	{
-		// With the basic fields out of the way, you need to construct
-		// the string representing the item you want to buy at the price
-		// you wish to buy at.
+		// whichitem=2272000000246
 
 		StringBuffer whichItem = new StringBuffer();
 		whichItem.append( itemId );
-
-		// First append the item Id.  Until the item database is done,
-		// there's no way to look up the item.
 
 		int originalLength = whichItem.length();
 		whichItem.append( price );
@@ -209,341 +136,27 @@ public class MallPurchaseRequest
 		return whichItem.toString();
 	}
 
-	public int getItemId()
-	{
-		return this.itemId;
-	}
-
-	public String getStoreId()
-	{
-		return this.isNPCStore ? this.npcStoreId : String.valueOf( this.shopId );
-	}
-
-	public String getShopName()
-	{
-		return this.shopName;
-	}
-
-	public long getTimestamp()
-	{
-		return this.timestamp;
-	}
-
-	/**
-	 * Retrieves the name of the item being purchased.
-	 *
-	 * @return The name of the item being purchased
-	 */
-
-	public String getItemName()
-	{
-		return this.itemName;
-	}
-
-	/**
-	 * Retrieves the price of the item being purchased.
-	 *
-	 * @return The price of the item being purchased
-	 */
-
-	public int getPrice()
-	{
-		return !this.isNPCStore || !EquipmentManager.getEquipment( EquipmentManager.PANTS ).equals(
-			MallPurchaseRequest.TROUSERS ) ? this.price : (int) ( this.price * 0.95f );
-	}
-
-	/**
-	 * Retrieves the quantity of the item available in the store.
-	 *
-	 * @return The quantity of the item in the store
-	 */
-
-	public int getQuantity()
-	{
-		return this.quantity;
-	}
-
-	/**
-	 * Sets the quantity of the item available in the store.
-	 *
-	 * @param quantity The quantity of the item available in the store.
-	 */
-
-	public void setQuantity( final int quantity )
-	{
-		this.quantity = quantity;
-	}
-
-	/**
-	 * Retrieves the quantity of the item being purchased.
-	 *
-	 * @return The quantity of the item being purchased
-	 */
-
-	public int getLimit()
-	{
-		return this.limit;
-	}
-
-	/**
-	 * Sets the maximum number of items that can be purchased through this request.
-	 *
-	 * @param limit The maximum number of items to be purchased with this request
-	 */
-
-	public void setLimit( final int limit )
-	{
-		this.limit = Math.min( this.quantity, limit );
-	}
-
-	/**
-	 * Converts this request into a readable string. This is useful for debugging and as a temporary substitute for a
-	 * list panel, in the event that a suitable list cell renderer has not been created.
-	 */
-
-	public String toString()
-	{
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( "<html><nobr>" );
-		if ( !this.canPurchase() )
-		{
-			buffer.append( "<font color=gray>" );
-		}
-
-		buffer.append( this.itemName );
-		buffer.append( " (" );
-
-		if ( this.quantity == MallPurchaseRequest.MAX_QUANTITY )
-		{
-			buffer.append( "unlimited" );
-		}
-		else
-		{
-			buffer.append( KoLConstants.COMMA_FORMAT.format( this.quantity ) );
-
-			if ( this.limit < this.quantity || !this.canPurchase() )
-			{
-				buffer.append( " limit " );
-				buffer.append( KoLConstants.COMMA_FORMAT.format( this.limit ) );
-			}
-		}
-
-		buffer.append( " @ " );
-		buffer.append( KoLConstants.COMMA_FORMAT.format( this.price ) );
-		buffer.append( "): " );
-		buffer.append( this.shopName );
-
-		if ( !this.canPurchase() )
-		{
-			buffer.append( "</font>" );
-		}
-
-		buffer.append( "</nobr></html>" );
-
-		return buffer.toString();
-	}
-
-	public void setCanPurchase( final boolean canPurchase )
-	{
-		this.canPurchase = canPurchase;
-	}
-
-	public boolean canPurchase()
-	{
-		return this.canPurchase && KoLCharacter.getAvailableMeat() >= this.price;
-	}
-
-	public boolean canPurchaseIgnoringMeat()
-	{
-		return this.canPurchase;
-	}
-
-	/**
-	 * Executes the purchase request. This calculates the number of items
-	 * which will be purchased and adds it to the list. Note that it marks
-	 * whether or not it's already been run to avoid problems with
-	 * repeating the request.
-	 */
-
 	public Object run()
 	{
-		if ( this.limit < 1 || !this.canPurchase() || this.shopId == KoLCharacter.getUserId() )
+		if ( this.shopId == KoLCharacter.getUserId() )
 		{
 			return null;
 		}
 
-		this.addFormField( this.isNPCStore ? "howmany" : "quantity", String.valueOf( this.limit ) );
-
-		// If the item is not currently recognized, the user should
-		// be notified that the purchases cannot be made because of that
-
-		if ( this.itemId == -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Item not recognized by KoLmafia database." );
-			return null;
-		}
-
-		// Make sure we have enough Meat to buy what we want.
-
-		if ( KoLCharacter.getAvailableMeat() < this.limit * this.price )
-		{
-			return null;
-		}
-
-		// Make sure we are wearing the appropriate outfit, if necessary
-
-		if ( !this.ensureProperAttire() )
-		{
-			return null;
-		}
-
-		// Now that we're ready, make the purchase!
-
-		KoLmafia.updateDisplay( "Purchasing " + ItemDatabase.getItemName( this.itemId ) + " (" + KoLConstants.COMMA_FORMAT.format( this.limit ) + " @ " + KoLConstants.COMMA_FORMAT.format( this.getPrice() ) + ")..." );
-
-		this.initialCount = this.item.getCount( KoLConstants.inventory );
 		this.itemSequenceCount = ResultProcessor.itemSequenceCount;
-		super.run();
-		return null;
-	}
+		this.addFormField( "quantity", String.valueOf( this.limit ) );
 
-	public int compareTo( final Object o )
-	{
-		return o == null || !( o instanceof MallPurchaseRequest ) ? 1 : this.compareTo( (MallPurchaseRequest) o );
-	}
-
-	public static final void setUsePriceComparison( final boolean usePriceComparison )
-	{
-		MallPurchaseRequest.usePriceComparison = usePriceComparison;
-	}
-
-	public int compareTo( final MallPurchaseRequest mpr )
-	{
-		if ( !MallPurchaseRequest.usePriceComparison )
-		{
-			int nameComparison = this.itemName.compareToIgnoreCase( mpr.itemName );
-			if ( nameComparison != 0 )
-			{
-				return nameComparison;
-			}
-		}
-
-		if ( this.price != mpr.price )
-		{
-			return this.price - mpr.price;
-		}
-
-		if ( this.isNPCStore && !mpr.isNPCStore )
-		{
-			return KoLCharacter.isHardcore() ? -1 : 1;
-		}
-
-		if ( !this.isNPCStore && mpr.isNPCStore )
-		{
-			return KoLCharacter.isHardcore() ? 1 : -1;
-		}
-
-		if ( this.quantity != mpr.quantity )
-		{
-			return mpr.quantity - this.quantity;
-		}
-
-		return this.shopName.compareToIgnoreCase( mpr.shopName );
-	}
-
-	private boolean ensureProperAttire()
-	{
-		if ( !this.isNPCStore )
-		{
-			return true;
-		}
-
-		int neededOutfit = 0;
-
-		if ( this.npcStoreId.equals( "b" ) )
-		{
-			neededOutfit = 1;
-		}
-		else if ( this.npcStoreId.equals( "r" ) )
-		{
-			if ( !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 ) ) )
-			{
-				neededOutfit = 9;
-			}
-		}
-		else if ( this.npcStoreId.equals( "h" ) )
-		{
-			if ( this.shopName.equals( "Hippy Store (Pre-War)" ) )
-			{
-				neededOutfit = 2;
-			}
-			else if ( QuestLogRequest.isHippyStoreAvailable() )
-			{
-				neededOutfit = 0;
-			}
-			else if ( this.shopName.equals( "Hippy Store (Hippy)" ) )
-			{
-				neededOutfit = 32;
-			}
-			else if ( this.shopName.equals( "Hippy Store (Fratboy)" ) )
-			{
-				neededOutfit = 33;
-			}
-		}
-
-		if ( neededOutfit == 0 )
-		{
-			// Maybe you can put on some Travoltan Trousers to
-			// decrease the cost of the purchase.
-
-			if ( KoLConstants.inventory.contains( MallPurchaseRequest.TROUSERS ) && GAPcheck() )
-			{
-				( new EquipmentRequest( MallPurchaseRequest.TROUSERS, EquipmentManager.PANTS ) ).run();
-			}
-
-			return true;
-		}
-
-		// Only switch outfits if the person is not
-		// currently wearing the outfit.
-
-		if ( EquipmentManager.isWearingOutfit( neededOutfit ) )
-		{
-			return true;
-		}
-
-		if ( !EquipmentManager.hasOutfit( neededOutfit ) )
-		{
-			return false;
-		}
-
-		if ( !GAPcheck() )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
-				"You have a Greatest American Pants buff and buying this item would cause you to lose it." );
-			return false;
-		}
-		( new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) ) ).run();
-		return true;
+		return super.run();
 	}
 
 	public void processResults()
 	{
-		String urlString = this.getURLString();
-		MallPurchaseRequest.parseResponse( urlString, this.responseText );
-
 		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
 		
 		if ( quantityAcquired > 0 )
 		{
-			// NPC stores say "You spent xxx Meat" and we have
-			// already parsed that.
-			if ( !urlString.startsWith( "store.php" ) )
-			{
-				ResultProcessor.processMeat( -1 * this.getPrice() * quantityAcquired );
-				KoLCharacter.updateStatus();
-			}
+			ResultProcessor.processMeat( -1 * this.getPrice() * quantityAcquired );
+			KoLCharacter.updateStatus();
 
 			return;
 		}
@@ -586,7 +199,7 @@ public class MallPurchaseRequest
 		{
 			Matcher itemChangedMatcher =
 				Pattern.compile(
-					"<td valign=center><b>" + this.itemName + "</b> \\(([\\d,]+)\\) </td><td>([\\d,]+) Meat" ).matcher(
+					"<td valign=center><b>" + this.item.getName() + "</b> \\(([\\d,]+)\\) </td><td>([\\d,]+) Meat" ).matcher(
 					result );
 
 			if ( itemChangedMatcher.find() )
@@ -602,8 +215,11 @@ public class MallPurchaseRequest
 				{
 					KoLmafia.updateDisplay( "Failed to yield.  Attempting repurchase..." );
 					( new MallPurchaseRequest(
-						this.itemName, this.itemId, Math.min( limit, this.quantity ), this.shopId, this.shopName,
-						newPrice, Math.min( limit, this.quantity ), true ) ).run();
+						this.item,
+						Math.min( limit, this.quantity ),
+						this.shopId, this.shopName,
+						newPrice, Math.min( limit, this.quantity ),
+						true ) ).run();
 				}
 				else
 				{
@@ -634,8 +250,10 @@ public class MallPurchaseRequest
 			if ( limit != alreadyPurchased )
 			{
 				( new MallPurchaseRequest(
-					this.itemName, this.itemId, limit - alreadyPurchased, this.shopId, this.shopName, this.price,
-					limit, true ) ).run();
+					this.item,
+					limit - alreadyPurchased,
+					this.shopId, this.shopName,
+					this.price, limit, true ) ).run();
 			}
 
 			this.canPurchase = false;
@@ -643,127 +261,13 @@ public class MallPurchaseRequest
 		}
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*>.*?<b>(.*?)</b>", Pattern.DOTALL );
-
-	public static final void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "store.php" ) )
-		{
-			return;
-		}
-
-		// Learn new items by simply visiting a store
-		Matcher matcher = ITEM_PATTERN.matcher( responseText );
-		while ( matcher.find() )
-		{
-			int id = StringUtilities.parseInt( matcher.group(1) );
-			String desc = matcher.group(2);
-			String name = matcher.group(3);
-			String data = ItemDatabase.getItemDataName( id );
-			if ( data == null || !data.equals( name ) )
-			{
-				ItemDatabase.registerItem( id, name, desc );
-			}
-		}
-
-		Matcher m = MallPurchaseRequest.NPCSTOREID_PATTERN.matcher(urlString);
-		if ( !m.find() )
-		{
-			return;
-		}
-
-		// When we purchase items from NPC stores using ajax, the
-		// response tells us nothing about the contents of the store.
-		if ( urlString.indexOf( "ajax=1" ) != -1 )
-		{
-			return;
-		}
-
-		String storeId = m.group(1);
-
-		if ( storeId.equals( "r" ) )
-		{
-			m = PIRATE_EPHEMERA_PATTERN.matcher( responseText );
-			if ( m.find() )
-			{
-				Preferences.setInteger( "lastPirateEphemeraReset", KoLCharacter.getAscensions() );
-				Preferences.setString( "lastPirateEphemera", m.group( 0 ) );
-			}
-			return;
-		}
-
-		if ( storeId.equals( "h" ) )
-		{
-			// Check to see if any of the items offered in the
-			// hippy store are special.
-
-			String side = "none";
-
-			if ( responseText.indexOf( "peach" ) != -1 &&
-			     responseText.indexOf( "pear" ) != -1 &&
-			     responseText.indexOf( "plum" ) != -1 )
-			{
-				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
-				side = "hippy";
-			}
-			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 &&
-				  responseText.indexOf( "cob of corn" ) != -1 &&
-				  responseText.indexOf( "juniper berries" ) != -1 )
-			{
-				Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
-				side = "fratboy";
-			}
-
-			Preferences.setString( "currentHippyStore", side );
-			Preferences.setString( "sidequestOrchardCompleted", side );
-			return;
-		}
-	}
-
-	public boolean equals( final Object o )
-	{
-		return o == null || !( o instanceof MallPurchaseRequest ) ? false : this.shopName.equals( ( (MallPurchaseRequest) o ).shopName ) && this.itemId == ( (MallPurchaseRequest) o ).itemId;
-	}
-
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "mallstore.php" ) && !urlString.startsWith( "store.php" ) && !urlString.startsWith( "galaktik.php" ) && !urlString.startsWith( "town_giftshop.php" ) )
+		// mallstore.php?whichstore=294980&buying=1&ajax=1&whichitem=2272000000246&quantity=9
+
+		if ( !urlString.startsWith( "mallstore.php" ) )
 		{
 			return false;
-		}
-
-		String priceString = null;
-		int priceVal = 0;
-		boolean isMall = false;
-		Matcher quantityMatcher = null;
-
-		if ( urlString.startsWith( "mall" ) )
-		{
-			isMall = true;
-			quantityMatcher = TransferItemRequest.QUANTITY_PATTERN.matcher( urlString );
-		}
-		else
-		{
-			quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher( urlString );
-		}
-
-		if ( !quantityMatcher.find() )
-		{
-			return true;
-		}
-
-		String quantityString = quantityMatcher.group( 1 );
-
-		int quantity = 0;
-
-		if ( quantityString.length() < 8 )
-		{
-			quantity = Math.min( MallPurchaseRequest.MAX_QUANTITY, StringUtilities.parseInt( quantityString ) );
-		}
-
-		if ( quantity == 0 )
-		{
-			quantity = 1;
 		}
 
 		Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
@@ -772,63 +276,40 @@ public class MallPurchaseRequest
 			return true;
 		}
 
+		Matcher quantityMatcher = TransferItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		if ( !quantityMatcher.find() )
+		{
+			return true;
+		}
+
+		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+
+		// whichitem=2272000000246
+		// the last 9 characters of idString are the price, with leading zeros
 		String idString = itemMatcher.group( 1 );
-		String storeName;
-
-		if ( isMall )
-		{
-			// the last 9 characters of idString are the price,
-			// with leading zeros
-			int idStringLength = idString.length();
-			priceString = idString.substring(idStringLength - 9, idStringLength);
-			idString = idString.substring( 0, idStringLength - 9 );
-
-			// store ID is embedded in the URL.  Extract it and get
-			// the store name for logging
-
-			Matcher m = MallPurchaseRequest.MALLSTOREID_PATTERN.matcher(urlString);
-			storeName = m.find() ? m.group(1) : "a PC store";
-		}
-		else
-		{
-			Matcher m = MallPurchaseRequest.NPCSTOREID_PATTERN.matcher(urlString);
-			String storeId = m.find() ? NPCStoreDatabase.getStoreName( m.group(1) ) : null;
-			storeName = storeId != null ? storeId : "an NPC Store";
-		}
+		int idStringLength = idString.length();
+		String priceString = null;
+		priceString = idString.substring(idStringLength - 9, idStringLength);
+		idString = idString.substring( 0, idStringLength - 9 );
 
 		// In a perfect world where I was not so lazy, I'd verify that
 		// the price string was really an int and might find another
 		// way to effectively strip leading zeros from the display
 
-		priceVal = StringUtilities.parseInt( priceString );
+		int priceVal = StringUtilities.parseInt( priceString );
 		int itemId = StringUtilities.parseInt( idString );
 		String itemName = ItemDatabase.getItemName( itemId );
 
-		RequestLogger.updateSessionLog();
-		if (isMall)
-		{
-			RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal +
-			" each from " + storeName + " on " + KoLConstants.DAILY_FORMAT.format( new Date() ) );
-		}
-		else
-		{
-			RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " at market price from " + storeName);
-		}
-		return true;
-	}
-	private static final boolean GAPcheck()
-	{
-		// returns false if you have a buff from Greatest American Pants and
-		// have it set to keep the buffs, otherwise returns true
-		boolean keepPants = Preferences.getBoolean( "gapProtection" ) &&
-		(
-		KoLConstants.activeEffects.contains( new AdventureResult( "Super Skill", 1, true ) ) ||
-		KoLConstants.activeEffects.contains( new AdventureResult( "Super Structure", 1, true ) ) ||
-		KoLConstants.activeEffects.contains( new AdventureResult( "Super Vision", 1, true ) ) ||
-		KoLConstants.activeEffects.contains( new AdventureResult( "Super Speed", 1, true ) ) ||
-		KoLConstants.activeEffects.contains( new AdventureResult( "Super Accuracy", 1, true ) )
-		);
+		// store ID is embedded in the URL.  Extract it and get
+		// the store name for logging
 
-		return !keepPants;
+		Matcher m = MallPurchaseRequest.MALLSTOREID_PATTERN.matcher(urlString);
+		String storeName = m.find() ? m.group(1) : "a PC store";
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal +
+			" each from " + storeName + " on " + KoLConstants.DAILY_FORMAT.format( new Date() ) );
+
+		return true;
 	}
 }
