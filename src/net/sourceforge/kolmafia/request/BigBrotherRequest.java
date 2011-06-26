@@ -38,10 +38,14 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 public class BigBrotherRequest
@@ -49,16 +53,29 @@ public class BigBrotherRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? sand dollar" );
 	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, 1 );
+
+	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
+	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
+	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
+	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
+	public static final AdventureResult BUBBLIN_STONE = ItemPool.get( ItemPool.BUBBLIN_STONE, 1 );
+
+	private static AdventureResult self = null;
+	private static AdventureResult familiar = null;
+	private static boolean rescuedBigBrother = false;
+	private static boolean waterBreathingFamiliar = false;
+
 	public static final CoinmasterData BIG_BROTHER =
 		new CoinmasterData(
 			"Big Brother",
+			BigBrotherRequest.class,
 			"monkeycastle.php?who=2",
 			"sand dollar",
 			"You haven't got any sand dollars",
 			false,
 			BigBrotherRequest.TOKEN_PATTERN,
 			BigBrotherRequest.SAND_DOLLAR,
-			"availableSandDollars",
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			"quantity",
@@ -98,6 +115,74 @@ public class BigBrotherRequest
 	public void processResults()
 	{
 		BigBrotherRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	private static void update()
+	{
+		if ( InventoryManager.hasItem( BigBrotherRequest.AERATED_DIVING_HELMET ) )
+		{
+			BigBrotherRequest.self = BigBrotherRequest.AERATED_DIVING_HELMET;
+			BigBrotherRequest.rescuedBigBrother = true;
+		}
+		else if ( InventoryManager.hasItem( BigBrotherRequest.SCUBA_GEAR ) )
+		{
+			BigBrotherRequest.self = BigBrotherRequest.SCUBA_GEAR;
+			BigBrotherRequest.rescuedBigBrother = InventoryManager.hasItem( BigBrotherRequest.BUBBLIN_STONE );
+		}
+		else
+		{
+			BigBrotherRequest.rescuedBigBrother = false;
+		}
+
+		if ( InventoryManager.hasItem( BigBrotherRequest.DAS_BOOT ) )
+		{
+			BigBrotherRequest.familiar = BigBrotherRequest.DAS_BOOT;
+		}
+		else if ( InventoryManager.hasItem( BigBrotherRequest.BATHYSPHERE ) )
+		{
+			BigBrotherRequest.familiar = BigBrotherRequest.BATHYSPHERE;
+		}
+
+		BigBrotherRequest.waterBreathingFamiliar = KoLCharacter.getFamiliar().waterBreathing();
+	}
+
+	public static String accessible()
+	{
+		BigBrotherRequest.update();
+
+		if ( !BigBrotherRequest.rescuedBigBrother )
+		{
+			return "You haven't rescued Big Brother yet.";
+		}
+
+		if ( BigBrotherRequest.self == null )
+		{
+			return "You don't have the right equipment to adventure underwater.";
+		}
+
+		if ( !BigBrotherRequest.waterBreathingFamiliar && BigBrotherRequest.familiar == null )
+		{
+			return "Your familiar doesn't have the right equipment to adventure underwater.";
+		}
+
+		return null;
+	}
+
+	public static void equip()
+	{
+		BigBrotherRequest.update();
+
+		if ( !KoLCharacter.hasEquipped( BigBrotherRequest.self ) )
+		{
+			EquipmentRequest request = new EquipmentRequest( BigBrotherRequest.self );
+			RequestThread.postRequest( request );
+		}
+
+		if ( !BigBrotherRequest.waterBreathingFamiliar && !KoLCharacter.hasEquipped( BigBrotherRequest.familiar ) )
+		{
+			EquipmentRequest request = new EquipmentRequest( familiar );
+			RequestThread.postRequest( request );
+		}
 	}
 
 	public static void parseResponse( final String location, final String responseText )

@@ -42,23 +42,23 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 public class LunarLunchRequest
 	extends CoinMasterRequest
 {
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) lunar isotope" );
-	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
 	public static final CoinmasterData LUNAR_LUNCH =
 		new CoinmasterData(
 			"Lunar Lunch-o-Mat",
+			LunarLunchRequest.class,
 			"spaaace.php?place=shop3",
 			"isotope",
 			"You have 0 lunar isotopes",
 			false,
-			LunarLunchRequest.TOKEN_PATTERN,
-			LunarLunchRequest.ISOTOPE,
-			"availableIsotopes",
+			SpaaaceRequest.TOKEN_PATTERN,
+			SpaaaceRequest.ISOTOPE,
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			"quantity",
@@ -98,5 +98,15 @@ public class LunarLunchRequest
 	public static final void buy( final int itemId, final int count )
 	{
 		RequestThread.postRequest( new LunarLunchRequest( "buy", itemId, count ) );
+	}
+
+	public static String accessible()
+	{
+		return SpaaaceRequest.accessible();
+	}
+
+	public static void equip()
+	{
+		SpaaaceRequest.equip();
 	}
 }

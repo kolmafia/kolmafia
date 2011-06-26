@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.lang.Class;
+
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -41,13 +43,16 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmasterData
 	implements Comparable
 {
 	private final String master;
+	private final Class requestClass;
 	private final String URL;
 	private String token;
 	private final String tokenTest;
@@ -69,6 +74,7 @@ public class CoinmasterData
 
 	public CoinmasterData( 
 		final String master,
+		final Class requestClass,
 		final String URL,
 		final String token,
 		final String tokenTest,
@@ -89,6 +95,7 @@ public class CoinmasterData
 		final String tradeAllAction )
 	{
 		this.master = master;
+		this.requestClass = requestClass;
 		this.URL = URL;
 		this.token = token;
 		this.tokenTest = tokenTest;
@@ -111,6 +118,7 @@ public class CoinmasterData
 
 	public CoinmasterData( 
 		final String master,
+		final Class requestClass,
 		final String URL,
 		final String token,
 		final String tokenTest,
@@ -128,7 +136,7 @@ public class CoinmasterData
 		final String sellAction,
 		final Map sellPrices )
 	{
-		this( master, URL,
+		this( master, requestClass, URL,
 		      token, tokenTest, positiveTest, tokenPattern,
 		      item, property,
 		      itemField, itemPattern, countField, countPattern,
@@ -140,6 +148,11 @@ public class CoinmasterData
 	public final String getMaster()
 	{
 		return this.master;
+	}
+
+	public final Class getRequestClass()
+	{
+		return this.requestClass;
 	}
 
 	public final String getURL()
@@ -155,6 +168,17 @@ public class CoinmasterData
 	public final void setToken( final String token )
 	{
 		this.token = token;
+	}
+
+	public final int availableTokens()
+	{
+		AdventureResult item = this.item;
+		String property = this.property;
+		int count =
+			item != null ? item.getCount( KoLConstants.inventory ) :
+			property != null ? Preferences.getInteger( property ) :
+			0;
+		return count;
 	}
 
 	public final String getTokenTest()

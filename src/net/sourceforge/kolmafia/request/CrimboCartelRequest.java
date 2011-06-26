@@ -51,13 +51,14 @@ public class CrimboCartelRequest
 	public static final CoinmasterData CRIMBO_CARTEL =
 		new CoinmasterData(
 			"Crimbo Cartel",
+			CrimboCartelRequest.class,
 			"crimbo09.php",
 			"Crimbuck",
 			"You do not currently have any Crimbux",
 			false,
 			CrimboCartelRequest.TOKEN_PATTERN,
 			CrimboCartelRequest.CRIMBUCK,
-			"availableCrimbux",
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			"howmany",
@@ -146,5 +147,10 @@ public class CrimboCartelRequest
 		CoinmasterData data = CrimboCartelRequest.CRIMBO_CARTEL;
 		CoinMasterRequest.buyStuff( data, urlString );
 		return true;
+	}
+
+	public static String accessible()
+	{
+		return "The Crimbo Cartel is not available";
 	}
 }

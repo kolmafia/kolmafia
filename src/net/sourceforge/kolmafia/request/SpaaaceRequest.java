@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -59,7 +61,45 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class SpaaaceRequest
 	extends GenericRequest
 {
-	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, -1 );
+	public static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) lunar isotope" );
+	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
+	public static final AdventureResult TRANSPONDER = ItemPool.get( ItemPool.TRANSPORTER_TRANSPONDER, 1 );
+	public static final AdventureResult TRANSPONDENT = EffectPool.get( EffectPool.TRANSPONDENT, 1 );
+
+	public static boolean isTranspondent = false;
+	public static boolean hasTransponders = false;
+
+	public static void update()
+	{
+		SpaaaceRequest.isTranspondent = KoLConstants.activeEffects.contains( SpaaaceRequest.TRANSPONDENT );
+		SpaaaceRequest.hasTransponders = SpaaaceRequest.TRANSPONDER.getCount( KoLConstants.inventory ) > 0;
+	}
+
+	public static boolean immediatelyAccessible()
+	{
+		SpaaaceRequest.update();
+		return SpaaaceRequest.isTranspondent;
+	}
+
+	public static String accessible()
+	{
+		SpaaaceRequest.update();
+		if ( SpaaaceRequest.isTranspondent || SpaaaceRequest.hasTransponders )
+		{
+			return null;
+		}
+		return "You need a transporter transponder to go there.";
+	}
+
+	public static void equip()
+	{
+		SpaaaceRequest.update();
+		if ( !SpaaaceRequest.isTranspondent && SpaaaceRequest.hasTransponders )
+		{
+			UseItemRequest request = new UseItemRequest( SpaaaceRequest.TRANSPONDER );
+			RequestThread.postRequest( request );
+		}
+	}
 
 	public SpaaaceRequest()
 	{

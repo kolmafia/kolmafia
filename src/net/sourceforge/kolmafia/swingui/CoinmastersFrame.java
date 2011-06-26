@@ -56,12 +56,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
@@ -75,19 +73,17 @@ import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
@@ -96,24 +92,12 @@ import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class CoinmastersFrame
 	extends GenericFrame
 	implements ChangeListener
 {
 	public static final AdventureResult GG_TOKEN = ItemPool.get( ItemPool.GG_TOKEN, 1 );
-	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
-	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
-	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
-	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
-	public static final AdventureResult TRANSPONDER = ItemPool.get( ItemPool.TRANSPORTER_TRANSPONDER, 1 );
-	public static final AdventureResult BUBBLIN_STONE = ItemPool.get( ItemPool.BUBBLIN_STONE, 1 );
-
-	public static final AdventureResult TRANSPONDENT = new AdventureResult( EffectPool.TRANSPONDENT, 1, true );
-
-	public static final int WAR_HIPPY_OUTFIT = 32;
-	public static final int WAR_FRAT_OUTFIT = 33;
 
 	private static final StorageRequest PULL_MR_A_REQUEST =
 		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY,
@@ -125,9 +109,6 @@ public class CoinmastersFrame
 	private static int dimes = 0;
 	private static int quarters = 0;
 	private static int storeCredits = 0;
-
-	// Other external state
-	private static boolean atWar = false;
 
 	private CardLayoutSelectorPanel selectorPanel = null;
 
@@ -297,9 +278,6 @@ public class CoinmastersFrame
 			return;
 		}
 
-		IslandDecorator.ensureUpdatedBigIsland();
-		atWar = Preferences.getString( "warProgress" ).equals( "started" );
-
 		dimes = Preferences.getInteger( "availableDimes" );
 		quarters = Preferences.getInteger( "availableQuarters" );
 		storeCredits = Preferences.getInteger( "availableStoreCredits" );
@@ -333,17 +311,7 @@ public class CoinmastersFrame
 	{
 		public DimemasterPanel()
 		{
-			super( DimemasterRequest.HIPPY, WAR_HIPPY_OUTFIT, "hippy");
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new DimemasterRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new DimemasterRequest( action, it );
+			super( DimemasterRequest.HIPPY, "hippy");
 		}
 	}
 
@@ -352,17 +320,7 @@ public class CoinmastersFrame
 	{
 		public QuartersmasterPanel()
 		{
-			super( QuartersmasterRequest.FRATBOY, WAR_FRAT_OUTFIT, "fratboy" );
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new QuartersmasterRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new QuartersmasterRequest( action, it );
+			super( QuartersmasterRequest.FRATBOY, "fratboy" );
 		}
 	}
 
@@ -372,16 +330,6 @@ public class CoinmastersFrame
 		public BountyHunterHunterPanel()
 		{
 			super( BountyHunterHunterRequest.BHH );
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new BountyHunterHunterRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new BountyHunterHunterRequest( action, it );
 		}
 	}
 
@@ -422,113 +370,14 @@ public class CoinmastersFrame
 				(GenericRequest) CoinmastersFrame.PULL_MR_A_REQUEST;
 			RequestThread.postRequest( request );
 		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new MrStoreRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new MrStoreRequest( action, it );
-		}
 	}
 
 	private class BigBrotherPanel
 		extends CoinmasterPanel
 	{
-		private AdventureResult self = null;
-		private AdventureResult familiar = null;
-		private boolean rescuedBigBrother = false;
-
 		public BigBrotherPanel()
 		{
 			super( BigBrotherRequest.BIG_BROTHER );
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new BigBrotherRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new BigBrotherRequest( action, it );
-		}
-
-		public void update()
-		{
-			if ( InventoryManager.hasItem( CoinmastersFrame.AERATED_DIVING_HELMET ) )
-			{
-				this.self = CoinmastersFrame.AERATED_DIVING_HELMET;
-				this.rescuedBigBrother = true;
-			}
-			else if ( InventoryManager.hasItem( CoinmastersFrame.SCUBA_GEAR ) )
-			{
-				this.self = CoinmastersFrame.SCUBA_GEAR;
-				this.rescuedBigBrother = InventoryManager.hasItem( CoinmastersFrame.BUBBLIN_STONE );
-			}
-			else
-			{
-				this.rescuedBigBrother = false;
-			}
-
-			if ( InventoryManager.hasItem( CoinmastersFrame.DAS_BOOT ) )
-			{
-				this.familiar = CoinmastersFrame.DAS_BOOT;
-			}
-			else if ( InventoryManager.hasItem( CoinmastersFrame.BATHYSPHERE ) )
-			{
-				this.familiar = CoinmastersFrame.BATHYSPHERE;
-			}
-		}
-
-		public boolean enabled()
-		{
-			return this.rescuedBigBrother;
-		}
-
-		public boolean accessible()
-		{
-			if ( !this.rescuedBigBrother )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You haven't rescued Big Brother yet." );
-				return false;
-			}
-
-			if ( this.self == null )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the right equipment to adventure underwater." );
-				return false;
-			}
-
-			if ( !this.waterBreathingFamiliar() && this.familiar == null )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your familiar doesn't have the right equipment to adventure underwater." );
-				return false;
-			}
-
-			return true;
-		}
-
-		public void equip()
-		{
-			if ( !KoLCharacter.hasEquipped( self ) )
-			{
-				EquipmentRequest request = new EquipmentRequest( self );
-				RequestThread.postRequest( request );
-			}
-
-			if ( !this.waterBreathingFamiliar() && !KoLCharacter.hasEquipped( familiar ) )
-			{
-				EquipmentRequest request = new EquipmentRequest( familiar );
-				RequestThread.postRequest( request );
-			}
-		}
-
-		public boolean waterBreathingFamiliar()
-		{
-			return KoLCharacter.getFamiliar().waterBreathing();
 		}
 	}
 
@@ -538,22 +387,6 @@ public class CoinmastersFrame
 		public CrimboCartelPanel()
 		{
 			super( CrimboCartelRequest.CRIMBO_CARTEL );
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new CrimboCartelRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new CrimboCartelRequest( action, it );
-		}
-
-		public boolean accessible()
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
-			return false;
 		}
 	}
 
@@ -586,16 +419,6 @@ public class CoinmastersFrame
 		{
 			RequestThread.postRequest( new ArcadeRequest( "skeeball" ) );
 		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new TicketCounterRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new TicketCounterRequest( action, it );
-		}
 	}
 
 	private class GameShoppePanel
@@ -604,16 +427,6 @@ public class CoinmastersFrame
 		public GameShoppePanel()
 		{
 			super( GameShoppeRequest.GAMESHOPPE );
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new GameShoppeRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new GameShoppeRequest( action, it );
 		}
 	}
 
@@ -624,16 +437,6 @@ public class CoinmastersFrame
 		{
 			super( FreeSnackRequest.FREESNACKS );
 		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new FreeSnackRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new FreeSnackRequest( action, it );
-		}
 	}
 
 	private class AltarOfBonesPanel
@@ -642,22 +445,6 @@ public class CoinmastersFrame
 		public AltarOfBonesPanel()
 		{
 			super( AltarOfBonesRequest.ALTAR_OF_BONES );
-		}
-
-		public boolean accessible()
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
-			return false;
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new AltarOfBonesRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new AltarOfBonesRequest( action, it );
 		}
 	}
 
@@ -668,65 +455,14 @@ public class CoinmastersFrame
 		{
 			super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP );
 		}
-
-		public boolean accessible()
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.data.getMaster() + " is not available" );
-			return false;
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new CRIMBCOGiftShopRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new CRIMBCOGiftShopRequest( action, it );
-		}
 	}
 
 	private class CommendationPanel
 		extends CoinmasterPanel
 	{
-		private int commendations = 0;
-
 		public CommendationPanel()
 		{
 			super( AWOLQuartermasterRequest.AWOL );
-		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new AWOLQuartermasterRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new AWOLQuartermasterRequest( action, it );
-		}
-
-		public void update()
-		{
-			this.commendations = AWOLQuartermasterRequest.COMMENDATION.getCount( KoLConstants.inventory );
-		}
-
-		public boolean enabled()
-		{
-			// You access the Quartermaster by "using" an
-			// A. W. O. L. commendation
-			return this.commendations > 0;
-		}
-
-		public boolean accessible()
-		{
-			if ( this.commendations == 0 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have any A. W. O. L. commendations" );
-				return false;
-			}
-
-			return true;
 		}
 	}
 
@@ -737,76 +473,22 @@ public class CoinmastersFrame
 		{
 			super( TravelingTraderRequest.TRAVELER );
 		}
-
-		public CoinMasterRequest getRequest()
-		{
-			return new TravelingTraderRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new TravelingTraderRequest( action, it );
-		}
 	}
 
 	private abstract class WarMasterPanel
 		extends CoinmasterPanel
 	{
-		private final int outfit;
 		private final String side;
 
-		private boolean hasOutfit = false;
-
-		public WarMasterPanel( CoinmasterData data, int outfit, String side )
+		public WarMasterPanel( CoinmasterData data, String side )
 		{
 			super( data );
-			this.outfit = outfit;
 			this.side = side;
-			this.update();
-		}
-
-		public void update()
-		{
-			this.hasOutfit = EquipmentManager.hasOutfit( this.outfit );
-		}
-
-		public boolean enabled()
-		{
-			return CoinmastersFrame.atWar && this.hasOutfit;
 		}
 
 		public int buyDefault( final int max )
 		{
 			return max;
-		}
-
-		public boolean accessible()
-		{
-			if ( !CoinmastersFrame.atWar )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're not at war." );
-				return false;
-			}
-
-			if ( !this.hasOutfit )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the right outfit" );
-				return false;
-			}
-
-			return true;
-		}
-
-		public void equip()
-		{
-			if ( !EquipmentManager.isWearingOutfit( this.outfit ) )
-			{
-
-				EquipmentManager.retrieveOutfit( this.outfit );
-				SpecialOutfit outfit = EquipmentDatabase.getOutfit( this.outfit );
-				EquipmentRequest request = new EquipmentRequest( outfit );
-				RequestThread.postRequest( request );
-			}
 		}
 
 		public String lighthouseSide()
@@ -816,108 +498,44 @@ public class CoinmastersFrame
 	}
 
 	private class IsotopeSmitheryPanel
-		extends IsotopeMasterPanel
+		extends CoinmasterPanel
 	{
 		public IsotopeSmitheryPanel()
 		{
 			super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY );
 		}
 
-		public CoinMasterRequest getRequest()
+		public boolean enabled()
 		{
-			return new IsotopeSmitheryRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new IsotopeSmitheryRequest( action, it );
+			return SpaaaceRequest.immediatelyAccessible();
 		}
 	}
 
 	private class DollHawkerPanel
-		extends IsotopeMasterPanel
+		extends CoinmasterPanel
 	{
 		public DollHawkerPanel()
 		{
 			super( DollHawkerRequest.DOLLHAWKER );
 		}
 
-		public CoinMasterRequest getRequest()
+		public boolean enabled()
 		{
-			return new DollHawkerRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new DollHawkerRequest( action, it );
+			return SpaaaceRequest.immediatelyAccessible();
 		}
 	}
 
 	private class LunarLunchPanel
-		extends IsotopeMasterPanel
+		extends CoinmasterPanel
 	{
 		public LunarLunchPanel()
 		{
 			super( LunarLunchRequest.LUNAR_LUNCH );
 		}
 
-		public CoinMasterRequest getRequest()
-		{
-			return new LunarLunchRequest();
-		}
-
-		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
-		{
-			return new LunarLunchRequest( action, it );
-		}
-	}
-
-	private abstract class IsotopeMasterPanel
-		extends CoinmasterPanel
-	{
-		private boolean hasEffect = false;
-		private boolean hasItem = false;
-
-		public IsotopeMasterPanel( CoinmasterData data )
-		{
-			super( data );
-			this.update();
-		}
-
-		public void update()
-		{
-			this.hasEffect = KoLConstants.activeEffects.contains( CoinmastersFrame.TRANSPONDENT );
-			this.hasItem = TRANSPONDER.getCount( KoLConstants.inventory ) > 0;
-		}
-
 		public boolean enabled()
 		{
-			return this.hasEffect;
-		}
-
-		public boolean accessible()
-		{
-			if ( this.hasEffect )
-			{
-				return true;
-			}
-
-			if ( !this.hasItem )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need a transporter transponder to go there." );
-				return false;
-			}
-
-			return true;
-		}
-
-		public void equip()
-		{
-			if ( !hasEffect && this.hasItem )
-			{
-				UseItemRequest request = new UseItemRequest( TRANSPONDER );
-				RequestThread.postRequest( request );
-			}
+			return SpaaaceRequest.immediatelyAccessible();
 		}
 	}
 
@@ -952,9 +570,15 @@ public class CoinmastersFrame
 			this.storageInTitle = this.data.getStorageAction() != null;
 		}
 
-		public abstract CoinMasterRequest getRequest();
+		public CoinMasterRequest getRequest()
+		{
+			return CoinMasterRequest.getRequest( this.data );
+		}
 
-		public abstract CoinMasterRequest getRequest( final String action, final AdventureResult it );
+		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+		{
+			return CoinMasterRequest.getRequest( this.data, action, it );
+		}
 
 		public void setTitle()
 		{
@@ -1021,16 +645,23 @@ public class CoinmastersFrame
 
 		public boolean enabled()
 		{
-			return true;
+			String message = CoinMasterRequest.accessible( this.data );
+			return message == null;
 		}
 
 		public boolean accessible()
 		{
-			return true;
+			String message = CoinMasterRequest.accessible( this.data );
+			if ( message != null )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+			}
+			return message == null;
 		}
 
 		public void equip()
 		{
+			CoinMasterRequest.equip( this.data );
 		}
 
 		public String lighthouseSide()

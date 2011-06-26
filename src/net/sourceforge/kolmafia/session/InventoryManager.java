@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -429,11 +430,11 @@ public abstract class InventoryManager
 			if ( isotopeCount > 0 )
 			{
 				// Make sure we are Transpondent
-				if ( !KoLConstants.activeEffects.contains( CoinmastersFrame.TRANSPONDENT ) )
+				if ( !KoLConstants.activeEffects.contains( SpaaaceRequest.TRANSPONDENT ) )
 				{
 					// We are not currently Transpondent.
 					// Do we have a transponder?
-					if ( CoinmastersFrame.TRANSPONDER.getCount( KoLConstants.inventory ) == 0 )
+					if ( SpaaaceRequest.TRANSPONDER.getCount( KoLConstants.inventory ) == 0 )
 					{
 						// Nope
 						return false;

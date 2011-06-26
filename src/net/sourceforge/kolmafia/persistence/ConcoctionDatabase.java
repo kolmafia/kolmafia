@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -1252,8 +1253,8 @@ public class ConcoctionDatabase
 		// Lunar Lunch-o-Mat items are available if you have lunar
 		// isotopes and the Transpondent effect or the way to get it.
 		int isotopeCount = InventoryManager.getAccessibleCount( ItemPool.LUNAR_ISOTOPE );
-		int transponderCount = CoinmastersFrame.TRANSPONDER.getCount( KoLConstants.inventory );
-		boolean transpondent = KoLConstants.activeEffects.contains( CoinmastersFrame.TRANSPONDENT );
+		int transponderCount = SpaaaceRequest.TRANSPONDER.getCount( KoLConstants.inventory );
+		boolean transpondent = KoLConstants.activeEffects.contains( SpaaaceRequest.TRANSPONDENT );
 		if ( isotopeCount > 0 && ( transpondent || transponderCount > 0 ) )
 		{
 			for ( int i = 0; i < KoLConstants.lunchItems.size(); ++i )

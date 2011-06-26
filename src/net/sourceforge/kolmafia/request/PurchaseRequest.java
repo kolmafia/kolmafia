@@ -84,8 +84,6 @@ public abstract class PurchaseRequest
 		return this.hashField;
 	}
 
-	public abstract String getStoreId();
-
 	public AdventureResult getItem()
 	{
 		return this.item;
@@ -273,7 +271,7 @@ public abstract class PurchaseRequest
 
 		// Now that we're ready, make the purchase!
 
-		KoLmafia.updateDisplay( "Purchasing " + this.item.getName() + " (" + KoLConstants.COMMA_FORMAT.format( this.limit ) + " @ " + KoLConstants.COMMA_FORMAT.format( this.getPrice() ) + ")..." );
+		KoLmafia.updateDisplay( "Purchasing " + this.item.getName() + " (" + KoLConstants.COMMA_FORMAT.format( this.limit ) + " @ " + this.getPriceString() + ")..." );
 
 		this.initialCount = this.item.getCount( KoLConstants.inventory );
 

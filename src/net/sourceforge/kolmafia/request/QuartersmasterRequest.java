@@ -38,9 +38,16 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class QuartersmasterRequest
 	extends CoinMasterRequest
@@ -49,6 +56,7 @@ public class QuartersmasterRequest
 	public static final CoinmasterData FRATBOY =
 		new CoinmasterData(
 			"Quartersmaster",
+			QuartersmasterRequest.class,
 			"bigisland.php?place=camp&whichcamp=2",
 			"quarter",
 			"You don't have any quarters",
@@ -66,6 +74,8 @@ public class QuartersmasterRequest
 			"turnin",
 			CoinmastersDatabase.quarterSellPrices()
 			);
+
+	public static final int WAR_FRAT_OUTFIT = 33;
 
 	public QuartersmasterRequest()
 	{
@@ -90,5 +100,33 @@ public class QuartersmasterRequest
 	public QuartersmasterRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
+	}
+
+	public static String accessible()
+	{
+		IslandDecorator.ensureUpdatedBigIsland();
+		String message = null;
+
+		if ( !Preferences.getString( "warProgress" ).equals( "started" ) )
+		{
+			message = "You're not at war.";
+		}
+		else if ( !EquipmentManager.hasOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT ) )
+		{
+			message = "You don't have the Frat Warrior Fatigues";
+		}
+
+		return message;
+	}
+
+	public static void equip()
+	{
+		if ( !EquipmentManager.isWearingOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT ) )
+		{
+			EquipmentManager.retrieveOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT );
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT );
+			EquipmentRequest request = new EquipmentRequest( outfit );
+			RequestThread.postRequest( request );
+		}
 	}
 }

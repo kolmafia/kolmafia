@@ -113,11 +113,6 @@ public class MallPurchaseRequest
 		this.timestamp = System.currentTimeMillis();
 	}
 
-	public String getStoreId()
-	{
-		return String.valueOf( this.shopId );
-	}
-
 	public static final String getStoreString( final int itemId, final int price )
 	{
 		// whichitem=2272000000246

@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -113,6 +116,81 @@ public class CoinMasterRequest
 		if ( countField != null )
 		{
 			this.addFormField( countField, String.valueOf( quantity ) );
+		}
+	}
+
+	public static CoinMasterRequest getRequest( final CoinmasterData data )
+	{
+		Class requestClass = data.getRequestClass();
+		Class [] parameters = new Class[ 0 ] ;
+
+		try
+		{
+			Constructor constructor = requestClass.getConstructor( parameters );
+			Object [] initargs = new Object[ 0 ];
+			return (CoinMasterRequest) constructor.newInstance( initargs );
+		}
+		catch ( Exception e )
+		{
+		}
+
+		return null;
+	}
+
+	public static CoinMasterRequest getRequest( final CoinmasterData data, final String action, final AdventureResult it )
+	{
+		Class requestClass = data.getRequestClass();
+		Class [] parameters = new Class[ 2 ] ;
+		parameters[ 0 ] = String.class;
+		parameters[ 1 ] = AdventureResult.class;
+
+		try
+		{
+			Constructor constructor = requestClass.getConstructor( parameters );
+			Object [] initargs = new Object[ 2 ];
+			initargs[ 0 ] = action;
+			initargs[ 1 ] = it;
+			return (CoinMasterRequest) constructor.newInstance( initargs );
+		}
+		catch ( Exception e )
+		{
+		}
+
+		return null;
+	}
+
+	public static String accessible( final CoinmasterData data )
+	{
+		// Returns an error reason or null
+
+		Class requestClass = data.getRequestClass();
+		Class [] parameters = new Class[ 0 ] ;
+
+		try
+		{
+			Method method = requestClass.getMethod( "accessible", parameters );
+			Object [] args = new Object[ 0 ];
+			return (String) method.invoke( null, args );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+	}
+
+	public static void equip( final CoinmasterData data )
+	{
+		Class requestClass = data.getRequestClass();
+		Class [] parameters = new Class[ 0 ] ;
+
+		try
+		{
+			Method method = requestClass.getMethod( "equip", parameters );
+			Object [] args = new Object[ 0 ];
+			method.invoke( null, args );
+		}
+		catch ( Exception e )
+		{
 		}
 	}
 
