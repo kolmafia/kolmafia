@@ -53,13 +53,14 @@ public class FreeSnackRequest
 	public static final CoinmasterData FREESNACKS =
 		new CoinmasterData(
 			"Game Shoppe Snacks",
+			FreeSnackRequest.class,
 			"gamestore.php",
 			"snack voucher",
 			"The teen glances at your snack voucher",
 			true,
 			FreeSnackRequest.TOKEN_PATTERN,
 			FreeSnackRequest.VOUCHER,
-			"availableSnackVouchers",
+			null,
 			"whichsnack",
 			FreeSnackRequest.SNACK_PATTERN,
 			null,

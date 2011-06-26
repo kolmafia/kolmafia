@@ -44,15 +44,16 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
+import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
@@ -477,8 +478,8 @@ public class BreakfastManager
 			return;
 		}
 
-		SpecialOutfit hippy = EquipmentDatabase.getAvailableOutfit( CoinmastersFrame.WAR_HIPPY_OUTFIT );
-		SpecialOutfit fratboy = EquipmentDatabase.getAvailableOutfit( CoinmastersFrame.WAR_FRAT_OUTFIT );
+		SpecialOutfit hippy = EquipmentDatabase.getAvailableOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT );
+		SpecialOutfit fratboy = EquipmentDatabase.getAvailableOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT );
 
 		String lighthouse = Preferences.getString( "sidequestLighthouseCompleted" );
 		SpecialOutfit lighthouseOutfit = sidequestOutfit( lighthouse, hippy, fratboy );

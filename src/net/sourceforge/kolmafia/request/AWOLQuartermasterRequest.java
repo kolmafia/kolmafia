@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
@@ -54,13 +55,14 @@ public class AWOLQuartermasterRequest
 	public static final CoinmasterData AWOL =
 		new CoinmasterData(
 			"A. W. O. L. Quartermaster",
+			AWOLQuartermasterRequest.class,
 			"inv_use.php?whichitem=5116&ajax=1",
 			"commendation",
 			null,
 			false,
 			AWOLQuartermasterRequest.TOKEN_PATTERN,
 			AWOLQuartermasterRequest.COMMENDATION,
-			"availableCommendations",
+			null,
 			"tobuy",
 			AWOLQuartermasterRequest.TOBUY_PATTERN,
 			"howmany",
@@ -147,5 +149,15 @@ public class AWOLQuartermasterRequest
 		}
 
 		return true;
+	}
+
+	public static String accessible()
+	{
+		int commendations = AWOLQuartermasterRequest.COMMENDATION.getCount( KoLConstants.inventory );
+		if ( commendations == 0 )
+		{
+			return "You don't have any A. W. O. L. commendations";
+		}
+		return null;
 	}
 }

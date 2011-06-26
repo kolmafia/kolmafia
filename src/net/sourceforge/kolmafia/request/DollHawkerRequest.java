@@ -41,23 +41,23 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 public class DollHawkerRequest
 	extends CoinMasterRequest
 {
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) lunar isotope" );
-	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
 	public static final CoinmasterData DOLLHAWKER =
 		new CoinmasterData(
 			"Dollhawker's Emporium",
+			DollHawkerRequest.class,
 			"spaaace.php?place=shop2",
 			"isotope",
 			"You have 0 lunar isotopes",
 			false,
-			DollHawkerRequest.TOKEN_PATTERN,
-			DollHawkerRequest.ISOTOPE,
-			"availableIsotopes",
+			SpaaaceRequest.TOKEN_PATTERN,
+			SpaaaceRequest.ISOTOPE,
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			"quantity",
@@ -92,5 +92,15 @@ public class DollHawkerRequest
 	public DollHawkerRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
+	}
+
+	public static String accessible()
+	{
+		return SpaaaceRequest.accessible();
+	}
+
+	public static void equip()
+	{
+		SpaaaceRequest.equip();
 	}
 }

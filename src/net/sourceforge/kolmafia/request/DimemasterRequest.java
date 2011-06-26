@@ -38,9 +38,16 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class DimemasterRequest
 	extends CoinMasterRequest
@@ -49,6 +56,7 @@ public class DimemasterRequest
 	public static final CoinmasterData HIPPY =
 		new CoinmasterData(
 			"Dimemaster",
+			DimemasterRequest.class,
 			"bigisland.php?place=camp&whichcamp=1",
 			"dime",
 			"You don't have any dimes",
@@ -66,6 +74,8 @@ public class DimemasterRequest
 			"turnin",
 			CoinmastersDatabase.dimeSellPrices()
 			);
+
+	public static final int WAR_HIPPY_OUTFIT = 32;
 
 	public DimemasterRequest()
 	{
@@ -90,5 +100,33 @@ public class DimemasterRequest
 	public DimemasterRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
+	}
+
+	public static String accessible()
+	{
+		IslandDecorator.ensureUpdatedBigIsland();
+		String message = null;
+
+		if ( !Preferences.getString( "warProgress" ).equals( "started" ) )
+		{
+			message = "You're not at war.";
+		}
+		else if ( !EquipmentManager.hasOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT ) )
+		{
+			message = "You don't have the War Hippy Fatigues";
+		}
+
+		return message;
+	}
+
+	public static void equip()
+	{
+		if ( !EquipmentManager.isWearingOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT ) )
+		{
+			EquipmentManager.retrieveOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT );
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT );
+			EquipmentRequest request = new EquipmentRequest( outfit );
+			RequestThread.postRequest( request );
+		}
 	}
 }

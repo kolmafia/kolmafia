@@ -52,13 +52,14 @@ public class TicketCounterRequest
 	public static final CoinmasterData TICKET_COUNTER =
 		new CoinmasterData(
 			"Arcade Ticket Counter",
+			TicketCounterRequest.class,
 			"arcade.php",
 			"ticket",
 			"You currently have no Game Grid redemption tickets",
 			false,
 			TicketCounterRequest.TOKEN_PATTERN,
 			TicketCounterRequest.TICKET,
-			"availableTickets",
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			"quantity",

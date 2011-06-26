@@ -59,6 +59,7 @@ public class TravelingTraderRequest
 	public static final CoinmasterData TRAVELER =
 		new CoinmasterData(
 			"Traveling Trader",
+			TravelingTraderRequest.class,
 			"traveler.php",
 			"twinkly wad",
 			null,

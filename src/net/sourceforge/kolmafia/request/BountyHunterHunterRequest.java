@@ -60,13 +60,14 @@ public class BountyHunterHunterRequest
 	public static final CoinmasterData BHH =
 		new CoinmasterData(
 			"Bounty Hunter Hunter",
+			BountyHunterHunterRequest.class,
 			"bhh.php",
 			"lucre",
 			"You don't have any filthy lucre",
 			false,
 			BountyHunterHunterRequest.TOKEN_PATTERN,
 			BountyHunterHunterRequest.LUCRE,
-			"availableLucre",
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			"howmany",

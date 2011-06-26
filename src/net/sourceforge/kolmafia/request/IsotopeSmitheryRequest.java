@@ -38,26 +38,29 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 public class IsotopeSmitheryRequest
 	extends CoinMasterRequest
 {
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) lunar isotope" );
 	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
+
 	public static final CoinmasterData ISOTOPE_SMITHERY =
 		new CoinmasterData(
 			"Isotope Smithery",
+			IsotopeSmitheryRequest.class,
 			"spaaace.php?place=shop1",
 			"isotope",
 			"You have 0 lunar isotopes",
 			false,
-			IsotopeSmitheryRequest.TOKEN_PATTERN,
-			IsotopeSmitheryRequest.ISOTOPE,
-			"availableIsotopes",
+			SpaaaceRequest.TOKEN_PATTERN,
+			SpaaaceRequest.ISOTOPE,
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			"quantity",
@@ -92,5 +95,15 @@ public class IsotopeSmitheryRequest
 	public IsotopeSmitheryRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
+	}
+
+	public static String accessible()
+	{
+		return SpaaaceRequest.accessible();
+	}
+
+	public static void equip()
+	{
+		SpaaaceRequest.equip();
 	}
 }

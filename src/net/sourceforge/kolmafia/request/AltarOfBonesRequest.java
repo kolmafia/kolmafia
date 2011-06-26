@@ -51,13 +51,14 @@ public class AltarOfBonesRequest
 	public static final CoinmasterData ALTAR_OF_BONES =
 		new CoinmasterData(
 			"Altar of Bones",
+			AltarOfBonesRequest.class,
 			"bone_altar.php",
 			"bone chips",
 			"You have no bone chips",
 			false,
 			AltarOfBonesRequest.TOKEN_PATTERN,
 			AltarOfBonesRequest.BONE_CHIPS,
-			"availableBoneChips",
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			null,
@@ -116,5 +117,10 @@ public class AltarOfBonesRequest
 		CoinmasterData data = AltarOfBonesRequest.ALTAR_OF_BONES;
 		CoinMasterRequest.buyStuff( data, urlString );
 		return true;
+	}
+
+	public static String accessible()
+	{
+		return "The Altar of Bones is not available";
 	}
 }

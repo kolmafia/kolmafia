@@ -51,6 +51,7 @@ public class GameShoppeRequest
 	public static final CoinmasterData GAMESHOPPE =
 		new CoinmasterData(
 			"Game Shoppe",
+			GameShoppeRequest.class,
 			"gamestore.php",
 			"store credit",
 			"You currently have no store credit",

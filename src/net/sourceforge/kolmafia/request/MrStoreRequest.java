@@ -60,13 +60,14 @@ public class MrStoreRequest
 	public static final CoinmasterData MR_STORE =
 		new CoinmasterData(
 			"Mr. Store",
+			MrStoreRequest.class,
 			"mrstore.php",
 			"Mr. A",
 			"You have no Mr. Accessories to trade",
 			false,
 			MrStoreRequest.TOKEN_PATTERN,
 			MrStoreRequest.MR_A,
-			"availableMrAccessories",
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			null,

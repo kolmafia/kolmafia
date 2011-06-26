@@ -51,13 +51,14 @@ public class CRIMBCOGiftShopRequest
 	public static final CoinmasterData CRIMBCO_GIFT_SHOP =
 		new CoinmasterData(
 			"CRIMBCO Gift Shop",
+			CRIMBCOGiftShopRequest.class,
 			"crimbo10.php",
 			"CRIMBCO scrip",
 			"You don't have any CRIMBCO scrip",
 			false,
 			CRIMBCOGiftShopRequest.TOKEN_PATTERN,
 			CRIMBCOGiftShopRequest.CRIMBCO_SCRIP,
-			"availableCRIMBCOScrip",
+			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
 			"howmany",
@@ -151,5 +152,10 @@ public class CRIMBCOGiftShopRequest
 		CoinmasterData data = CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP;
 		CoinMasterRequest.buyStuff( data, urlString );
 		return true;
+	}
+
+	public static String accessible()
+	{
+		return "The CRIMBCO Gift Shop is not available";
 	}
 }

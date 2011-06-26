@@ -108,7 +108,7 @@ public class NPCStoreDatabase
 	{
 		int itemId = ItemDatabase.getItemId( itemName, 1, false );
 
-		PurchaseRequest foundItem = null;
+		NPCPurchaseRequest foundItem = null;
 
 		ArrayList items = NPCStoreDatabase.NPC_ITEMS.get( itemId );
 		if ( items == null )
@@ -117,7 +117,7 @@ public class NPCStoreDatabase
 		}
 		for ( Iterator i = items.iterator(); i.hasNext(); )
 		{
-			foundItem = (PurchaseRequest) i.next();
+			foundItem = (NPCPurchaseRequest) i.next();
 
 			if ( !NPCStoreDatabase.canPurchase( foundItem.getStoreId(), foundItem.getShopName(),
 				itemName ) )
