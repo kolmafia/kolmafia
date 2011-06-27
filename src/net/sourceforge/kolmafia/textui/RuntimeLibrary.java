@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -484,6 +485,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_npc_item", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "is_coinmaster_item", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_tradeable", DataTypes.BOOLEAN_TYPE, params ) );
@@ -2632,6 +2636,11 @@ public abstract class RuntimeLibrary
 	public static Value is_npc_item( final Value item )
 	{
 		return DataTypes.makeBooleanValue( NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) );
+	}
+
+	public static Value is_coinmaster_item( final Value item )
+	{
+		return DataTypes.makeBooleanValue( CoinmastersDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) );
 	}
 
 	public static Value autosell_price( final Value item )

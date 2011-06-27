@@ -90,6 +90,11 @@ public class CoinMasterPurchaseRequest
 		this.request = CoinMasterRequest.getRequest( data, data.getBuyAction(), this.item );
 	}
 
+	public CoinmasterData getData()
+	{
+		return this.data;
+	}
+
 	public String getPriceString()
 	{
 		return this.priceString;

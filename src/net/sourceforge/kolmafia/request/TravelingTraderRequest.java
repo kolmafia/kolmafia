@@ -247,6 +247,9 @@ public class TravelingTraderRequest
 			prices.put( cname, iprice );
 		}
 
+		// Register the purchase requests, now that we know what is available
+		data.registerPurchaseRequests();
+
 		CoinMasterRequest.parseResponse( data, urlString, responseText );
 	}
 

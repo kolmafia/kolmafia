@@ -158,6 +158,9 @@ public class MrStoreRequest
 			prices.put( name, iprice );
 		}
 
+		// Register the purchase requests, now that we know what is available
+		data.registerPurchaseRequests();
+
 		String action = GenericRequest.getAction( urlString );
 		if ( action != null && action.equals( "pullmras" ) )
 		{

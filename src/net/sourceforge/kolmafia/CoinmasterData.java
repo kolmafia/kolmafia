@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.lang.Class;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -46,6 +47,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmasterData
@@ -274,6 +277,23 @@ public class CoinmasterData
 	public final String getTradeAllAction()
 	{
 		return this.tradeAllAction;
+	}
+
+	public final void registerPurchaseRequests()
+	{
+		// Clear existing purchase requests
+		CoinmastersDatabase.clearPurchaseRequests( this );
+
+		// For each item you can buy from this Coin Master, create a purchase request
+		Iterator it = this.buyItems.iterator();
+		while ( it.hasNext() )
+		{
+			AdventureResult item = (AdventureResult) it.next();
+			int itemId = item.getItemId();
+			String itemName = item.getName();
+			int price = CoinmastersDatabase.getPrice( itemName, this.buyPrices );
+			CoinmastersDatabase.registerPurchaseRequest( this, itemId, price );
+		}
 	}
 
 	public String toString()

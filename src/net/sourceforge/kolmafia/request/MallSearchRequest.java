@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -422,6 +423,7 @@ public class MallSearchRequest
 				{
 					previousItemId = itemId;
 					this.addNPCStoreItem( itemName );
+					this.addCoinMasterItem( itemName );
 					itemNames.remove( itemName );
 				}
 
@@ -454,6 +456,18 @@ public class MallSearchRequest
 		}
 	}
 
+	private void addCoinMasterItem( final String itemName )
+	{
+		PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest( itemName );
+		if ( item != null )
+		{
+			if ( !this.results.contains( item ) )
+			{
+				this.results.add( item );
+			}
+		}
+	}
+
 	private void finalizeList( final List itemNames )
 	{
 		// Now, for the items which matched, check to see if there are
@@ -463,7 +477,9 @@ public class MallSearchRequest
 
 		for ( int i = 0; i < itemNames.size(); ++i )
 		{
-			this.addNPCStoreItem( (String) itemNames.get( i ) );
+			String itemName = (String) itemNames.get( i );
+			this.addNPCStoreItem( itemName );
+			this.addCoinMasterItem( itemName );
 		}
 	}
 
