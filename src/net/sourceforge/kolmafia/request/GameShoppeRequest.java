@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -94,6 +95,21 @@ public class GameShoppeRequest
 	public GameShoppeRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
+	}
+
+	public static String accessible()
+	{
+		if ( KoLCharacter.isHardcore() )
+		{
+			return "You are in Hardcore and the credit reader is broken..";
+		}
+
+		if ( KoLCharacter.inRonin() )
+		{
+			return "You are in Ronin and the credit reader is broken..";
+		}
+
+		return null;
 	}
 
 	public void processResults()
