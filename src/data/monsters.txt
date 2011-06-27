@@ -931,7 +931,7 @@ Beebee Queue	HP: [ceil((MUS+20+ML)*15/28)] Def: [ceil((MUS+20+ML)*5/7)] Atk: [ce
 Bee Swarm	HP: [ceil((MUS+20+ML)*.625)] Def: [ceil((MUS+20+ML)*5/6)] Atk: [ceil((MOX+20+ML)*5/6)]	handful of honey (0)	handful of honey (0)
 Buzzerker	HP: [ceil((MUS+20+ML)*.625)] Def: [ceil((MUS+20+ML)*5/6)] Atk: [ceil((MOX+20+ML)*5/6)]	handful of honey (0)	handful of honey (0)
 Beebee King	HP: [ceil((MUS+40+ML)*15/28)] Def: [ceil((MUS+40+ML)*5/7)] Atk: [ceil((MOX+40+ML)*5/7)]	handful of honey (0)	handful of honey (0)	handful of honey (0)
-Bee Thoven	HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/7)] Atk: [ceil((MOX+40+ML)*5/7)]	handful of honey (0)	handful of honey (0)	handful of honey (0)
+Bee Thoven	HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)]	handful of honey (0)	handful of honey (0)	handful of honey (0)
 Queen Bee	HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)]	handful of honey (0)	handful of honey (0)	handful of honey (0)
 
 # Spaaace
