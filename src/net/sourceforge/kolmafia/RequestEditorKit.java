@@ -812,6 +812,7 @@ public class RequestEditorKit
 
 			RequestEditorKit.changePotionImages( buffer );
 			RequestEditorKit.decorateLevelGain( buffer );
+			RequestEditorKit.addTronsponderLink( buffer );
 
 			if ( Preferences.getBoolean( "relayAddsUseLinks" ) )
 			{
@@ -857,6 +858,35 @@ public class RequestEditorKit
 
 		String link = " <font size=1>[<a href=\"council.php\">council</a>]</font>";
 		buffer.insert( index + test.length(), link );
+	}
+
+	private static final void addTronsponderLink( final StringBuffer buffer )
+	{
+		// You can't get there anymore, because you don't know the
+		// transporter frequency. You consider beating up Kenneth to
+		// see if <i>he</i> remembers it, but you think better of it.
+
+		String test = "You consider beating up Kenneth to see if <i>he</i> remembers it, but you think better of it.";
+		int index = buffer.indexOf( test );
+
+		if ( index == -1 )
+		{
+			test = "You can't get here without the proper transporter frequency.";
+			index = buffer.indexOf( test );
+		}
+
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		if ( SpaaaceRequest.TRANSPONDER.getCount( KoLConstants.inventory ) == 0 )
+		{
+			return;
+		}
+
+		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.TRANSPORTER_TRANSPONDER, 1, "use transponder", "inv_use.php?which=3&whichitem=" );
+		buffer.insert( index + test.length(), link.getItemHTML() );
 	}
 
 	private static final void decorateInventory( final StringBuffer buffer, final boolean addComplexFeatures )
