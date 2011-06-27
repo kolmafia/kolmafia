@@ -34,22 +34,32 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmastersDatabase
 	extends KoLDatabase
 {
+	public static final HashMap COINMASTER_ITEMS = new HashMap();
+
 	private static final LockableListModel buyForDimes = new LockableListModel();
 	private static final Map dimeSellPriceByName = new TreeMap();
 	private static final Map dimeBuyPriceByName = new TreeMap();
@@ -506,5 +516,79 @@ public class CoinmastersDatabase
 	public static final Map lighthouseItems()
 	{
 		return lighthouseItems;
+	}
+
+	public static final void clearPurchaseRequests( CoinmasterData data )
+	{
+		// Clear all purchase requests for a particular Coin Master
+		Iterator it = CoinmastersDatabase.COINMASTER_ITEMS.values().iterator();
+		while ( it.hasNext() )
+		{
+			CoinMasterPurchaseRequest request = (CoinMasterPurchaseRequest) it.next();
+			if ( request.getData() == data )
+			{
+				it.remove();
+			}
+		}
+	}
+
+	public static final void registerPurchaseRequest( CoinmasterData data, int itemId, int price )
+	{
+		// Register a purchase request
+		CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest( data, itemId, price );
+		CoinmastersDatabase.COINMASTER_ITEMS.put( new Integer( itemId ), request );
+	}
+
+	public static final PurchaseRequest getPurchaseRequest( final String itemName )
+	{
+		if ( CoinmastersDatabase.COINMASTER_ITEMS.isEmpty() )
+		{
+			CoinmastersFrame.initializePurchaseRequests();
+		}
+
+		Integer id = new Integer( ItemDatabase.getItemId( itemName, 1, false ) );
+		CoinMasterPurchaseRequest request =  (CoinMasterPurchaseRequest) CoinmastersDatabase.COINMASTER_ITEMS.get(  id );
+
+		if ( request == null )
+		{
+			return null;
+		}
+
+		request.setCanPurchase( CoinmastersDatabase.canPurchase( request ) );
+
+		return request;
+	}
+
+	private static final boolean canPurchase( final CoinMasterPurchaseRequest request )
+	{
+		// If the Coin Master is "accessible" - which is up to the Coin
+		// Master to determine - we can purchase from it.
+		if ( CoinMasterRequest.accessible( request.getData() ) != null )
+		{
+			return false;
+		}
+
+		// See if we can afford the item
+		CoinmasterData data = request.getData();
+		int tokens = data.availableTokens();
+		int price = request.getPrice();
+		return price <= tokens;
+	}
+
+	public static final boolean contains( final String itemName )
+	{
+		return CoinmastersDatabase.contains( itemName, true );
+	}
+
+	public static final int price( final String itemName )
+	{
+		PurchaseRequest request = CoinmastersDatabase.getPurchaseRequest( itemName );
+		return request == null ? 0 : request.getPrice();
+	}
+
+	public static final boolean contains( final String itemName, boolean validate )
+	{
+		PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest( itemName );
+		return item != null && ( !validate || item.canPurchase() );
 	}
 }

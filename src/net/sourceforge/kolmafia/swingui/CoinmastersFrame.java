@@ -251,6 +251,26 @@ public class CoinmastersFrame
 		CoinmastersFrame.externalUpdate();
 	}
 
+	public static void initializePurchaseRequests()
+	{
+		AltarOfBonesRequest.ALTAR_OF_BONES.registerPurchaseRequests();
+		AWOLQuartermasterRequest.AWOL.registerPurchaseRequests();
+		BigBrotherRequest.BIG_BROTHER.registerPurchaseRequests();
+		BountyHunterHunterRequest.BHH.registerPurchaseRequests();
+		CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP.registerPurchaseRequests();
+		CrimboCartelRequest.CRIMBO_CARTEL.registerPurchaseRequests();
+		DimemasterRequest.HIPPY.registerPurchaseRequests();
+		DollHawkerRequest.DOLLHAWKER.registerPurchaseRequests();
+		FreeSnackRequest.FREESNACKS.registerPurchaseRequests();
+		GameShoppeRequest.GAMESHOPPE.registerPurchaseRequests();
+		IsotopeSmitheryRequest.ISOTOPE_SMITHERY.registerPurchaseRequests();
+		LunarLunchRequest.LUNAR_LUNCH.registerPurchaseRequests();
+		MrStoreRequest.MR_STORE.registerPurchaseRequests();
+		QuartersmasterRequest.FRATBOY.registerPurchaseRequests();
+		TicketCounterRequest.TICKET_COUNTER.registerPurchaseRequests();
+		TravelingTraderRequest.TRAVELER.registerPurchaseRequests();
+	}
+
 	/**
 	 * Whenever the tab changes, this method is used to change the title to
 	 * count the coins of the new tab
