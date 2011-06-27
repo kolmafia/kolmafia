@@ -1646,6 +1646,18 @@ public class KoLAdventure
 			"Your El Vibrato portal has run out of power",
 			KoLAdventure.PENDING
 		},
+
+		// No longer Transpondent
+		{
+			"you don't know the transporter frequency",
+			"You are no longer Transpondent.",
+		},
+
+		// No longer Transpondent
+		{
+			"without the proper transporter frequency",
+			"You are no longer Transpondent.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )

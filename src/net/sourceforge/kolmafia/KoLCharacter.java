@@ -2425,19 +2425,28 @@ public abstract class KoLCharacter
 		{
 			boolean wasInHardcore = KoLCharacter.isHardcore();
 			Preferences.setBoolean( "kingLiberated", true );
+
+			// Ronin is lifted and we can interact freely with the Kingdom
 			CharPaneRequest.setInteraction( true );
+			KoLCharacter.setRonin( false );
+
+			// Storage is freely available
 			KoLConstants.storage.addAll( KoLConstants.freepulls );
 			KoLConstants.freepulls.clear();
+			ConcoctionDatabase.setPullsRemaining( -1 );
+
 			// If we are in Beecore, we can use all familiars again
 			GearChangeFrame.updateFamiliars();
-			// If we are in bad moon, we can use the bookshelf and
+
+			// If we are in Bad Moon, we can use the bookshelf and
 			// telescope again.
 			if ( KoLCharacter.inBadMoon() )
 			{
 				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 				KoLCharacter.checkTelescope();
 			}
-			// If we were in Hardcore, automatically recall
+
+			// If we were in Hardcore, automatically recall skills
 			else if ( wasInHardcore )
 			{
 				// Normal permed skills
