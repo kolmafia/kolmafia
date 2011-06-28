@@ -1752,27 +1752,7 @@ public class IslandDecorator
 			return;
 		}
 
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
-		{
-			// Parse current coin balances
-			CoinMasterRequest.parseBalance( data, responseText );
-			CoinmastersFrame.externalUpdate();
-
-			return;
-		}
-
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-		}
-		else if ( responseText.indexOf( "You don't have that many" ) != -1 )
-		{
-			CoinMasterRequest.refundSale( data, location );
-		}
-
-		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
+		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
 	public static final void ensureUpdatedBigIsland()

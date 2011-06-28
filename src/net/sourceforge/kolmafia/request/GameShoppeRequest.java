@@ -142,10 +142,9 @@ public class GameShoppeRequest
 					ItemDatabase.registerItem( id, name, desc );
 				}
 			}
-
-			GameShoppeRequest.parseGameShoppeVisit( urlString, responseText );
-			return;
 		}
+
+		GameShoppeRequest.parseGameShoppeVisit( urlString, responseText );
 	}
 
 	public static void parseGameShoppeVisit( final String location, final String responseText )
@@ -161,18 +160,18 @@ public class GameShoppeRequest
 		else if ( action.equals( "redeem" ) )
 		{
 			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
-			if ( responseText.indexOf( "You don't have enough" ) != -1 )
+			if ( responseText.indexOf( "You don't have enough" ) == -1 )
 			{
-				CoinMasterRequest.refundPurchase( data, location );
+				CoinMasterRequest.completePurchase( data, location );
 			}
 		}
 		else if ( action.equals( "tradein" ) )
 		{
 			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
 			// The teenager scowls. "You can't trade in cards you don't have."
-			if ( responseText.indexOf( "You can't trade in cards you don't have" ) != -1 )
+			if ( responseText.indexOf( "You can't trade in cards you don't have" ) == -1 )
 			{
-				CoinMasterRequest.refundSale( data, location );
+				CoinMasterRequest.completeSale( data, location );
 			}
 		}
 		else if ( action.equals( "buysnack" ) )

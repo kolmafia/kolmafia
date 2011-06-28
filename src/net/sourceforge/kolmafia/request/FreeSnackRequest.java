@@ -104,10 +104,10 @@ public class FreeSnackRequest
 
 	public static void parseFreeSnackVisit( final String location, final String responseText )
 	{
-		CoinmasterData data = FreeSnackRequest.FREESNACKS;
-		if ( responseText.indexOf( "You can't" ) != -1 )
+		if ( responseText.indexOf( "You acquire" ) != -1 )
 		{
-			CoinMasterRequest.refundSale( data, location );
+			CoinmasterData data = FreeSnackRequest.FREESNACKS;
+			CoinMasterRequest.completePurchase( data, location );
 		}
 	}
 

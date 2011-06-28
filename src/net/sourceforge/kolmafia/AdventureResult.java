@@ -1014,6 +1014,20 @@ public class AdventureResult
 		return index == -1 ? 0 : ( (AdventureResult) list.get( index ) ).getCount();
 	}
 
+	public static AdventureResult findItem( final int itemId, final List list )
+	{
+		Iterator it = list.iterator();
+		while ( it.hasNext() )
+		{
+			AdventureResult item = (AdventureResult)it.next();
+			if ( item.getItemId() == itemId )
+			{
+				return item;
+			}
+		}
+		return null;
+	}
+
 	public static final String bangPotionName( final int itemId )
 	{
 		String itemName = ItemDatabase.getItemName( itemId );

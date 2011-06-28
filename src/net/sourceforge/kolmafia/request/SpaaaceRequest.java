@@ -162,13 +162,8 @@ public class SpaaaceRequest
 
 			return;
 		}
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-		}
 
-		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
+		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
 	private static final Pattern SHOP_PATTERN = Pattern.compile( "place=shop(\\d+)" );
