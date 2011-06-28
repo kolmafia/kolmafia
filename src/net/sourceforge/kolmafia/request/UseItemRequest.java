@@ -467,7 +467,7 @@ public class UseItemRequest
 		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
 			if ( KoLCharacter.getInebriety() == 0 )
 			{
-				UseItemRequest.limiter = "need inebriety";
+				UseItemRequest.limiter = "sobriety";
 				return 0;
 			}
 			UseItemRequest.limiter = "daily limit";
@@ -1802,6 +1802,10 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 
 			int spleenHit = ItemDatabase.getSpleenHit( item.getName() ) * item.getCount();
+
+			// Roll back what we did to spleen in registerRequest
+			Preferences.increment( "currentSpleenUse", -spleenHit );
+
 			int estimatedSpleen = KoLCharacter.getSpleenLimit() - spleenHit + 1;
 
 			if ( estimatedSpleen > KoLCharacter.getSpleenUse() )
