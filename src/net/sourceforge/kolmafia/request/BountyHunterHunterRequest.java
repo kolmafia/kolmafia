@@ -132,11 +132,7 @@ public class BountyHunterHunterRequest
 			return;
 		}
 
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-			CoinmastersFrame.externalUpdate();
-		}
+		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
 	private static final void abandonBounty()

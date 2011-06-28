@@ -201,18 +201,7 @@ public class BigBrotherRequest
 			return;
 		}
 
-		if ( !action.equals( "buyitem" ) )
-		{
-			return;
-		}
-
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			CoinMasterRequest.refundPurchase( data, location );
-		}
-
-		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
+		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString )

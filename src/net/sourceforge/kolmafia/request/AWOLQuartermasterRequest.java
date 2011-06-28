@@ -106,27 +106,19 @@ public class AWOLQuartermasterRequest
 	public static void parseAWOLVisit( final String location, final String responseText )
 	{
 		CoinmasterData data = AWOLQuartermasterRequest.AWOL;
+
 		// If you don't have enough commendations, you are redirected to inventory.php
-		if ( location.startsWith( "inventory.php" ) )
+		if ( responseText.indexOf( "You don't have enough commendations" ) == -1 )
 		{
-			if ( responseText.indexOf( "You don't have enough commendations" ) != -1 )
-			{
-				CoinMasterRequest.refundPurchase( data, AWOLQuartermasterRequest.lastURL );
-				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
-			}
-			return;
+			// inv_use.php?whichitem=5116&pwd&doit=69&tobuy=xxx&howmany=yyy
+			CoinMasterRequest.completePurchase( data, location );
 		}
-
-		// inv_use.php?whichitem=5116&pwd&doit=69&tobuy=xxx&howmany=yyy
-		// You have 50 A. W. O. L. commendations.
-
-		CoinMasterRequest.parseBalance( data, responseText );
 
 		// Check which tattoo - if any - is for sale: sigils/aol3.gif
 		Matcher m = TATTOO_PATTERN.matcher( responseText );
 		KoLCharacter.AWOLtattoo = m.find() ? StringUtilities.parseInt( m.group( 1 ) ) : 0;
 
+		CoinMasterRequest.parseBalance( data, responseText );
 		CoinmastersFrame.externalUpdate();
 	}
 
