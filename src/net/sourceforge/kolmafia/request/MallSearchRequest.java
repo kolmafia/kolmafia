@@ -269,20 +269,24 @@ public class MallSearchRequest
 			String itemName = (String) itemIterator.next();
 			int itemId = ItemDatabase.getItemId( itemName );
 
-			if ( NPCStoreDatabase.contains( itemName ) )
+			if ( !ItemDatabase.isTradeable( itemId ) )
 			{
-				++npcItemCount;
-			}
-			else if ( !ItemDatabase.isTradeable( itemId ) )
-			{
-				itemIterator.remove();
+				if ( NPCStoreDatabase.contains( itemName ) ||
+				     CoinmastersDatabase.contains( itemName ) )
+				{
+					npcItemCount++;
+				}
+				else
+				{
+					itemIterator.remove();
+				}
 			}
 		}
 
-		// If the results contain only NPC items, then you don't need
-		// to run a mall search.
+		// If the results contain only untradeable NPC items, then you
+		// don't need to run a mall search.
 
-		if ( npcItemCount > 0 && itemNames.size() == npcItemCount )
+		if ( npcItemCount > 0 && npcItemCount == itemNames.size() )
 		{
 			this.finalizeList( itemNames );
 			return false;
