@@ -122,7 +122,7 @@ public abstract class PurchaseRequest
 
 	public String getPriceString()
 	{
-		return KoLConstants.COMMA_FORMAT.format( this.price );
+		return KoLConstants.COMMA_FORMAT.format( this.getPrice() );
 	}
 
 	/**
@@ -329,7 +329,7 @@ public abstract class PurchaseRequest
 		return this.shopName.compareToIgnoreCase( pr.shopName );
 	}
 
-	private boolean ensureProperAttire()
+	public boolean ensureProperAttire()
 	{
 		return true;
 	}

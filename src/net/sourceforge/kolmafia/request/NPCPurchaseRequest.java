@@ -221,8 +221,9 @@ public class NPCPurchaseRequest
 
 	private static final boolean GAPcheck()
 	{
-		// returns false if you have a buff from Greatest American Pants and
-		// have it set to keep the buffs, otherwise returns true
+		// returns false if you have a buff from Greatest American
+		// Pants and have it set to keep the buffs, otherwise returns
+		// true
 		boolean keepPants = Preferences.getBoolean( "gapProtection" ) &&
 			(
 			KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_SKILL ) ||
@@ -355,7 +356,7 @@ public class NPCPurchaseRequest
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		String itemName = ItemDatabase.getItemName( itemId );
 		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
-		int priceVal = NPCPurchaseRequest.currentPrice( NPCStoreDatabase.price( itemName ) );
+		int priceVal = NPCStoreDatabase.price( itemName );
 
 		Matcher m = NPCPurchaseRequest.NPCSTOREID_PATTERN.matcher(urlString);
 		String storeId = m.find() ? NPCStoreDatabase.getStoreName( m.group(1) ) : null;
