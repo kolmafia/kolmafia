@@ -389,6 +389,14 @@ public class CharPaneRequest
 		{
 			StaticEntity.printStackTrace( e );
 		}
+		try
+		{
+			CharPaneRequest.handleInebriety( responseText, CharPaneRequest.compactInebrietyPatterns );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	private static final void handleExpandedMode( final String responseText )
@@ -412,6 +420,14 @@ public class CharPaneRequest
 		try
 		{
 			CharPaneRequest.handleMindControl( responseText, CharPaneRequest.expandedMCPatterns );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		try
+		{
+			CharPaneRequest.handleInebriety( responseText, CharPaneRequest.expandedInebrietyPatterns );
 		}
 		catch ( Exception e )
 		{
@@ -551,6 +567,45 @@ public class CharPaneRequest
         };
 
 	private static final int handleMindControl( final String responseText, final Pattern pattern )
+	{
+		Matcher matcher = pattern.matcher( responseText );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	private static final void handleInebriety( final String text, final Pattern [] patterns )
+	{
+		for ( int i = 0; i < patterns.length; ++i )
+		{
+			int level = CharPaneRequest.handleInebriety( text, patterns[i] );
+			if ( level > 0 )
+			{
+				KoLCharacter.setInebriety( level );
+				return;
+			}
+		}
+
+		KoLCharacter.setInebriety( 0 );
+	}
+
+	private static final Pattern makeInebrietyPattern( final String inebrietyString )
+	{
+		return Pattern.compile( inebrietyString + ": ?</td><td(?: align=left)?><b>(\\d+)</b>" );
+	}
+
+        private static Pattern [] compactInebrietyPatterns =
+        {
+                CharPaneRequest.makeInebrietyPattern( "Drunk" ),
+        };
+
+        private static Pattern [] expandedInebrietyPatterns =
+        {
+                CharPaneRequest.makeInebrietyPattern( "Drunkenness" ),
+                CharPaneRequest.makeInebrietyPattern( "Inebriety" ),
+                CharPaneRequest.makeInebrietyPattern( "Temulency" ),
+                CharPaneRequest.makeInebrietyPattern( "Tipsiness" ),
+        };
+
+	private static final int handleInebriety( final String responseText, final Pattern pattern )
 	{
 		Matcher matcher = pattern.matcher( responseText );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
