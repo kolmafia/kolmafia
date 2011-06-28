@@ -539,7 +539,7 @@ public class CoinmastersDatabase
 		CoinmastersDatabase.COINMASTER_ITEMS.put( new Integer( itemId ), request );
 	}
 
-	public static final PurchaseRequest getPurchaseRequest( final String itemName )
+	public static final CoinMasterPurchaseRequest getPurchaseRequest( final String itemName )
 	{
 		if ( CoinmastersDatabase.COINMASTER_ITEMS.isEmpty() )
 		{

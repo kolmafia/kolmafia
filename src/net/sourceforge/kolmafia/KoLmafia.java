@@ -346,36 +346,6 @@ public abstract class KoLmafia
 		KoLConstants.trapperItems.add( ItemPool.get( ItemPool.YAK_SKIN, 1 ) );
 		KoLConstants.trapperItems.add( ItemPool.get( ItemPool.HIPPOPOTAMUS_SKIN, 1 ) );
 
-		KoLConstants.snackItems.add( ItemPool.get( ItemPool.WASABI_FOOD, 1 ) );
-		KoLConstants.snackItems.add( ItemPool.get( ItemPool.TOBIKO_FOOD, 1 ) );
-		KoLConstants.snackItems.add( ItemPool.get( ItemPool.NATTO_FOOD, 1 ) );
-		KoLConstants.snackItems.add( ItemPool.get( ItemPool.WASABI_BOOZE, 1 ) );
-		KoLConstants.snackItems.add( ItemPool.get( ItemPool.TOBIKO_BOOZE, 1 ) );
-		KoLConstants.snackItems.add( ItemPool.get( ItemPool.NATTO_BOOZE, 1 ) );
-		KoLConstants.snackItems.add( ItemPool.get( ItemPool.WASABI_POTION, 1 ) );
-		KoLConstants.snackItems.add( ItemPool.get( ItemPool.TOBIKO_POTION, 1 ) );
-		KoLConstants.snackItems.add( ItemPool.get( ItemPool.NATTO_POTION, 1 ) );
-
-		// Parallel ordered lists
-		KoLConstants.lunchItems.add( ItemPool.get( ItemPool.MOON_FOOD_1, 1 ) );
-		KoLConstants.lunchPrices.add( new Integer( 10 ) );
-		KoLConstants.lunchItems.add( ItemPool.get( ItemPool.MOON_FOOD_2, 1 ) );
-		KoLConstants.lunchPrices.add( new Integer( 50 ) );
-		KoLConstants.lunchItems.add( ItemPool.get( ItemPool.MOON_FOOD_3, 1 ) );
-		KoLConstants.lunchPrices.add( new Integer( 100 ) );
-		KoLConstants.lunchItems.add( ItemPool.get( ItemPool.MOON_BOOZE_1, 1 ) );
-		KoLConstants.lunchPrices.add( new Integer( 10 ) );
-		KoLConstants.lunchItems.add( ItemPool.get( ItemPool.MOON_BOOZE_2, 1 ) );
-		KoLConstants.lunchPrices.add( new Integer( 50 ) );
-		KoLConstants.lunchItems.add( ItemPool.get( ItemPool.MOON_BOOZE_3, 1 ) );
-		KoLConstants.lunchPrices.add( new Integer( 100 ) );
-		KoLConstants.lunchItems.add( ItemPool.get( ItemPool.MOON_POTION_1, 1 ) );
-		KoLConstants.lunchPrices.add( new Integer( 1 ) );
-		KoLConstants.lunchItems.add( ItemPool.get( ItemPool.MOON_POTION_2, 1 ) );
-		KoLConstants.lunchPrices.add( new Integer( 5 ) );
-		KoLConstants.lunchItems.add( ItemPool.get( ItemPool.MOON_POTION_3, 1 ) );
-		KoLConstants.lunchPrices.add( new Integer( 10 ) );
-
 		// All dates are presented as if the day began at rollover.
 
 		TimeZone koltime = (TimeZone) TimeZone.getTimeZone("GMT-0330");

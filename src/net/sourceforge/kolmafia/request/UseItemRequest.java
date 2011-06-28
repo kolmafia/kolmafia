@@ -4296,7 +4296,7 @@ public class UseItemRequest
 		}
 
 		if ( urlString.indexOf( "action=closetpull" ) != -1 ||
-		     urlString.indexOf( "action=closetpull" ) != -1 )
+		     urlString.indexOf( "action=closetpush" ) != -1 )
 		{
 			return ClosetRequest.registerRequest( urlString );
 		}

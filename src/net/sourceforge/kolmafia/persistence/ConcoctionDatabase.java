@@ -57,13 +57,13 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
-import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -1055,9 +1055,43 @@ public class ConcoctionDatabase
 				}
 
 				item.price = NPCStoreDatabase.price( concoction.getName() );
+				item.cost = null;
 				item.initial = concoction.getCount( availableIngredients );
 				item.creatable = 0;
 				item.total = item.initial;
+				item.visibleTotal = item.total;
+			}
+		}
+
+		if ( Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) )
+		{
+			it = ConcoctionPool.iterator();
+
+			while ( it.hasNext() )
+			{
+				Concoction item = (Concoction) it.next();
+
+				AdventureResult concoction = item.concoction;
+				if ( concoction == null )
+				{
+					continue;
+				}
+
+				String name = concoction.getName();
+				if ( !CoinmastersDatabase.contains( name, true ) )
+				{
+					continue;
+				}
+
+				CoinMasterPurchaseRequest request = CoinmastersDatabase.getPurchaseRequest( name );
+				int acquirable = request.affordableCount();
+
+				item.price = 0;
+				item.cost = request.getCost();
+				item.initial = concoction.getCount( availableIngredients );
+				item.acquirable = acquirable;
+				item.creatable = acquirable;
+				item.total = item.initial + acquirable;
 				item.visibleTotal = item.total;
 			}
 		}
@@ -1085,6 +1119,7 @@ public class ConcoctionDatabase
 
 			item.initial = concoction.getCount( availableIngredients );
 			item.price = 0;
+			item.cost = null;
 			item.creatable = 0;
 			item.total = item.initial;
 			item.visibleTotal = item.total;
@@ -1226,44 +1261,6 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.setBasicItem(
 				availableIngredients, ( (AdventureResult) KoLConstants.trapperItems.get( i ) ).getItemId(), furCount );
-		}
-
-		// Coffee pixie sticks are available from the Game Grid arcade
-		// for 10 Game Grid tickets apiece.
-		int ticketCount = InventoryManager.getAccessibleCount( ItemPool.GG_TICKET );
-		if ( ticketCount >= 10 )
-		{
-			ConcoctionDatabase.setBasicItem(
-				availableIngredients, ItemPool.COFFEE_PIXIE_STICK, ticketCount / 10 );
-		}
-
-		// Game Shoppe food, drink, and potions are available from the
-		// cashier for one snack voucher each
-		int voucherCount = InventoryManager.getAccessibleCount( ItemPool.SNACK_VOUCHER );
-		if ( voucherCount > 0 )
-		{
-			for ( int i = 0; i < KoLConstants.snackItems.size(); ++i )
-			{
-				AdventureResult snack = (AdventureResult) KoLConstants.snackItems.get( i );
-				ConcoctionDatabase.setBasicItem(
-					availableIngredients, snack.getItemId(), voucherCount );
-			}
-		}
-
-		// Lunar Lunch-o-Mat items are available if you have lunar
-		// isotopes and the Transpondent effect or the way to get it.
-		int isotopeCount = InventoryManager.getAccessibleCount( ItemPool.LUNAR_ISOTOPE );
-		int transponderCount = SpaaaceRequest.TRANSPONDER.getCount( KoLConstants.inventory );
-		boolean transpondent = KoLConstants.activeEffects.contains( SpaaaceRequest.TRANSPONDENT );
-		if ( isotopeCount > 0 && ( transpondent || transponderCount > 0 ) )
-		{
-			for ( int i = 0; i < KoLConstants.lunchItems.size(); ++i )
-			{
-				AdventureResult lunch = (AdventureResult) KoLConstants.lunchItems.get( i );
-				Integer cost = (Integer) KoLConstants.lunchPrices.get( i );
-				ConcoctionDatabase.setBasicItem(
-					availableIngredients, lunch.getItemId(), isotopeCount / cost.intValue() );
-			}
 		}
 	}
 

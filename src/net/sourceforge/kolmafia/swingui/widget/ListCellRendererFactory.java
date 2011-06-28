@@ -364,6 +364,22 @@ public class ListCellRendererFactory
 					return false;
 				}
 
+				if ( item.cost != null )
+				{
+					int count = item.cost.getCount();
+					String token = item.cost.getName();
+					String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+					stringForm.append( count );
+					stringForm.append( " " );
+					stringForm.append( name );
+					stringForm.append( ", " );
+					stringForm.append( modified );
+					stringForm.append( " possible, " );
+					stringForm.append( initial );
+					stringForm.append( " current" );
+					return false;
+				}
+
 				stringForm.append( modified );
 				stringForm.append( " possible, " );
 				stringForm.append( initial );

@@ -418,8 +418,7 @@ public abstract class StoreManager
 		return results;
 	}
 	
-	public static final void updateMallPrice( final AdventureResult item,
-		final ArrayList results )
+	public static final void updateMallPrice( final AdventureResult item, final ArrayList results )
 	{
 		if ( item.getItemId() < 1 )
 		{
