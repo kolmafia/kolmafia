@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -62,17 +63,13 @@ import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.LunarLunchRequest;
-import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -398,69 +395,25 @@ public abstract class InventoryManager
 			}
 		}
 
-		boolean shouldUseCoinmaster = Preferences.getBoolean( "autoSatisfyWithNPCs" );
+		boolean shouldUseCoinmasters =
+			Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) &&
+			CoinmastersDatabase.contains( item.getName() );
 
-		// coffee pixie sticks are non tradeable but can be purchased
-		// from the Game Grid Arcade for 10 Game Grid tickets.
-
-		if ( itemId == ItemPool.COFFEE_PIXIE_STICK && shouldUseCoinmaster )
+		if ( shouldUseCoinmasters )
 		{
-			// Retrieve enough tickets to buy the sticks
-			int neededTickets = missingCount * 10;
-			if ( !retrieveItem( ItemPool.GG_TICKET, neededTickets ) )
+			PurchaseRequest request = CoinmastersDatabase.getPurchaseRequest( item.getName() );
+			int available = request.affordableCount();
+			int count = Math.min( missingCount, available );
+			if ( count > 0 )
 			{
-				return false;
+				request.setLimit( count );
+				RequestThread.postRequest( request );
 			}
 
-			// Cash them in for coffee pixie sticks
-			TicketCounterRequest.buy( ItemPool.COFFEE_PIXIE_STICK, missingCount );
-
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-			return missingCount <= 0;
-		}
-
-		// Moon food and drink is non tradeable but can be purchased
-		// from the Lunar Lunch-o-Mat for lunar isotopes
-
-		int lunchIndex = KoLConstants.lunchItems.indexOf( item );
-		if ( lunchIndex >= 0 && shouldUseCoinmaster )
-		{
-			int isotopeCount = InventoryManager.getAccessibleCount( ItemPool.LUNAR_ISOTOPE );
-			if ( isotopeCount > 0 )
+			if ( missingCount <= 0 )
 			{
-				// Make sure we are Transpondent
-				if ( !KoLConstants.activeEffects.contains( SpaaaceRequest.TRANSPONDENT ) )
-				{
-					// We are not currently Transpondent.
-					// Do we have a transponder?
-					if ( SpaaaceRequest.TRANSPONDER.getCount( KoLConstants.inventory ) == 0 )
-					{
-						// Nope
-						return false;
-					}
-
-					// *** Should we use a transponder?
-					return false;
-				}
-
-				// Retrieve enough isotopes to buy the items
-				int cost = ((Integer) KoLConstants.lunchPrices.get( lunchIndex ) ).intValue();
-				int neededIsotopes = missingCount * cost;
-				if ( !retrieveItem( ItemPool.LUNAR_ISOTOPE, neededIsotopes ) )
-				{
-					return false;
-				}
-
-				// Cash them in for items
-				LunarLunchRequest.buy( item.getItemId(), missingCount );
-
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 
@@ -561,30 +514,6 @@ public abstract class InventoryManager
 			}
 		}
 
-		if ( KoLConstants.snackItems.contains( item ) )
-		{
-			int voucherCount = InventoryManager.getAccessibleCount( ItemPool.SNACK_VOUCHER );
-			if ( voucherCount > 0 )
-			{
-				// Retrieve enough vouchers to buy the snacks
-				int neededVouchers = missingCount;
-				if ( !retrieveItem( ItemPool.SNACK_VOUCHER, neededVouchers ) )
-				{
-					return false;
-				}
-
-				// Cash them in for snacks
-				FreeSnackRequest.buy( item.getItemId(), missingCount );
-
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-			}
-		}
-
 		// Try to purchase the item from the mall, if the user wishes
 		// to autosatisfy through purchases, and the item is not
 		// creatable through combines.
@@ -604,7 +533,8 @@ public abstract class InventoryManager
 		}
 
 		boolean shouldUseNPCStore =
-			NPCStoreDatabase.contains( item.getName() ) && Preferences.getBoolean( "autoSatisfyWithNPCs" );
+			Preferences.getBoolean( "autoSatisfyWithNPCs" ) &&
+			NPCStoreDatabase.contains( item.getName() );
 
 		if ( shouldUseNPCStore || scriptSaysBuy )
 		{

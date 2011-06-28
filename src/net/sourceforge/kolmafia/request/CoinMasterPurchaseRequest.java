@@ -58,9 +58,10 @@ public class CoinMasterPurchaseRequest
 	private CoinmasterData data;
 	private CoinMasterRequest request;
 	private String priceString;
+	private AdventureResult cost;
 
 	/**
-	 * Constructs a new <code>CoinMasterPurchaseRequest</code> which retrieves things from NPC stores.
+	 * Constructs a new <code>CoinMasterPurchaseRequest</code> which retrieves things from Coin Masters.
 	 */
 
 	public CoinMasterPurchaseRequest( final CoinmasterData data, final int itemId, final int price )
@@ -81,6 +82,7 @@ public class CoinMasterPurchaseRequest
 		String token = item != null ? item.getName() : data.getToken();
 		String name = ( price != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 		this.priceString = KoLConstants.COMMA_FORMAT.format( this.price ) + " " + name;
+		this.cost = AdventureResult.tallyItem( data.getToken(), price, false );
 
 		this.limit = this.quantity;
 		this.canPurchase = true;
@@ -98,6 +100,26 @@ public class CoinMasterPurchaseRequest
 	public String getPriceString()
 	{
 		return this.priceString;
+	}
+
+	public AdventureResult getCost()
+	{
+		return this.cost;
+	}
+
+	public int affordableCount()
+	{
+		int tokens = this.data.availableTokens();
+		int price = this.price;
+		return tokens / price;
+	}
+
+	public boolean canPurchase()
+	{
+		CoinmasterData data = this.data;
+		int tokens = data.availableTokens();
+		int price = this.price;
+		return this.canPurchase && price <= tokens;
 	}
 
 	public Object run()

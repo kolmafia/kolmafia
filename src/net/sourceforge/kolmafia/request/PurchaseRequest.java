@@ -231,6 +231,11 @@ public abstract class PurchaseRequest
 		return this.canPurchase;
 	}
 
+	public int affordableCount()
+	{
+		return KoLCharacter.getAvailableMeat() / this.price;
+	}
+
 	/**
 	 * Executes the purchase request. This calculates the number of items
 	 * which will be purchased and adds it to the list. Note that it marks

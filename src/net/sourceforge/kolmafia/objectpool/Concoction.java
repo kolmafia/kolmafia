@@ -85,6 +85,7 @@ public class Concoction
 	public static boolean debug = false;
 
 	public int price;
+	public AdventureResult cost;
 	public int creatable;
 	public int queued;
 	public int queuedPulls;
@@ -134,6 +135,7 @@ public class Concoction
 		this.ingredientArray = new AdventureResult[ 0 ];
 
 		this.price = -1;
+		this.cost = null;
 
 		this.resetCalculations();
 	}
@@ -144,6 +146,7 @@ public class Concoction
 
 		this.name = name;
 		this.price = price;
+		this.cost = null;
 
 		this.resetCalculations();
 		this.setConsumptionData();

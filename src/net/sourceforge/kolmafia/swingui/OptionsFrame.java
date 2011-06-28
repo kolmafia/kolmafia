@@ -363,6 +363,7 @@ public class OptionsFrame
 
 			{ "allowNegativeTally", "Allow item counts in session results to go negative" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
+			{ "autoSatisfyWithCoinmasters", "Buy items with tokens at coin masters whenever needed" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithCloset", "Take items from the closet whenever needed", "yes" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },

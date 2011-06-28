@@ -13,6 +13,7 @@ global	autoHighlightOnFocus	true
 global	autoPlantHardcore	false
 global	autoPlantSoftcore	false
 global	autoSatisfyWithCloset	false
+global	autoSatisfyWithCoinmasters	false
 global	autoSatisfyWithMall	false
 global	autoSatisfyWithNPCs	false
 global	autoSatisfyWithStash	false
