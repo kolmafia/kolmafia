@@ -3107,6 +3107,8 @@ public abstract class ChoiceManager
 		case 540:
 			// Choice 540 is Big-Time Generator - game board
 			//
+			// Win:
+			// 
 			// The generator starts to hum and the well above you
 			// begins to spin, slowly at first, then faster and
 			// faster. The humming becomes a deep, sternum-rattling
@@ -3119,7 +3121,19 @@ public abstract class ChoiceManager
 			// boy, are they glad to see you! You're not sure where
 			// one gets ticker-tape after an alien invasion, but
 			// they seem to have found some.
-			if ( text.indexOf( "WHOOMP" ) != -1 )
+			//
+			// Lose 3 times:
+			// 
+			// Your E.M.U.'s getting pretty beaten up from all the
+			// pinballing between obstacles, and you don't like
+			// your chances of getting back to the surface if you
+			// try again. You manage to blast out of the generator
+			// well and land safely on the surface. After that,
+			// though, the E.M.U. gives an all-over shudder, a sad
+			// little servo whine, and falls apart.
+
+			if ( text.indexOf( "WHOOMP" ) != -1 ||
+			     text.indexOf( "a sad little servo whine" ) != -1 )
 			{
 				EquipmentManager.discardEquipment( ItemPool.EMU_UNIT );
 			}
