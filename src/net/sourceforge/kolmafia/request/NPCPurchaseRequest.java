@@ -142,7 +142,7 @@ public class NPCPurchaseRequest
 		return super.run();
 	}
 
-	private boolean ensureProperAttire()
+	public boolean ensureProperAttire()
 	{
 		int neededOutfit = 0;
 
