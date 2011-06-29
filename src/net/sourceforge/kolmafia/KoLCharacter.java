@@ -3306,6 +3306,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastTempleUnlock" );
 	}
 
+	public static final boolean getTr4pz0rQuestCompleted()
+	{
+		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastTr4pz0rQuest" );
+	}
+
 	public static final boolean getGuildStoreOpen()
 	{
 		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastGuildStoreOpen" ) )

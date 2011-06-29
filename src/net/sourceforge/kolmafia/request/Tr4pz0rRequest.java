@@ -53,7 +53,7 @@ public class Tr4pz0rRequest
 	public static final AdventureResult YETI_FUR = ItemPool.get( ItemPool.YETI_FUR, 1 );
 	public static final CoinmasterData ELITE_TR4PZ0R =
 		new CoinmasterData(
-			"Elite Tr4pz0r",
+			"L33t Tr4pz0r",
 			Tr4pz0rRequest.class,
 			"trapper.php",
 			"yeti fur",
@@ -138,9 +138,12 @@ public class Tr4pz0rRequest
 	{
 		if ( KoLCharacter.getLevel() < 8 )
 		{
-			return "You haven't even met the Elite Tr4pz0r yet";
+			return "You haven't even met the L33t Tr4pz0r yet";
 		}
-		// *** How can we tell if you've completed the quest?
+		if ( !KoLCharacter.getTr4pz0rQuestCompleted() )
+		{
+			return "You have unfinished business with the L33t Tr4pz0r";
+		}
 		return null;
 	}
 }
