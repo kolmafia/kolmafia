@@ -95,7 +95,12 @@ public class CrimboCartelRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
-	public static void parseCrimboCartelVisit( final String location, final String responseText )
+	public void processResults()
+	{
+		CrimboCartelRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = CrimboCartelRequest.CRIMBO_CARTEL;
 		String action = GenericRequest.getAction( location );

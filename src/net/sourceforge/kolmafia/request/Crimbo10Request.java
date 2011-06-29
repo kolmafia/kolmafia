@@ -57,9 +57,9 @@ public class Crimbo10Request
 		}
 
 		String action = GenericRequest.getAction( location );
-		if ( action == null )
+		if ( action == null || action.equals( "buygift" ) )
 		{
-			CRIMBCOGiftShopRequest.parseCRIMBCOGiftShopVisit( location, responseText );
+			CRIMBCOGiftShopRequest.parseResponse( location, responseText );
 			return;
 		}
 	}

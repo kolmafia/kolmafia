@@ -96,6 +96,11 @@ public class TicketCounterRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		CoinMasterRequest.parseResponse( TicketCounterRequest.TICKET_COUNTER, urlString, responseText );
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		// We only claim arcade.php?action=redeem

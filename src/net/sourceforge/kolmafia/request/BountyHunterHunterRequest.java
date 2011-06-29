@@ -105,7 +105,7 @@ public class BountyHunterHunterRequest
 	}
 
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
-	public static void parseBountyVisit( final String location, final String responseText )
+	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = BountyHunterHunterRequest.BHH;
 		String action = GenericRequest.getAction( location );
