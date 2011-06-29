@@ -112,9 +112,23 @@ public class BigBrotherRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
-	public void processResults()
+	public static void parseResponse( final String location, final String responseText )
 	{
-		BigBrotherRequest.parseResponse( this.getURLString(), this.responseText );
+		CoinmasterData data = BigBrotherRequest.BIG_BROTHER;
+		String action = GenericRequest.getAction( location );
+		if ( action == null )
+		{
+			if ( location.indexOf( "who=2" ) != -1 )
+			{
+				// Parse current coin balances
+				CoinMasterRequest.parseBalance( data, responseText );
+				CoinmastersFrame.externalUpdate();
+			}
+
+			return;
+		}
+
+		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
 	private static void update()
@@ -183,25 +197,6 @@ public class BigBrotherRequest
 			EquipmentRequest request = new EquipmentRequest( familiar );
 			RequestThread.postRequest( request );
 		}
-	}
-
-	public static void parseResponse( final String location, final String responseText )
-	{
-		CoinmasterData data = BigBrotherRequest.BIG_BROTHER;
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
-		{
-			if ( location.indexOf( "who=2" ) != -1 )
-			{
-				// Parse current coin balances
-				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
-			}
-
-			return;
-		}
-
-		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString )

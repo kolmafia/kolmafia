@@ -172,6 +172,12 @@ public class ArcadeRequest
 			return;
 		}
 
+		if ( action.equals( "redeem" ) )
+		{
+			TicketCounterRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( !action.equals( "game" ) )
 		{
 			return;

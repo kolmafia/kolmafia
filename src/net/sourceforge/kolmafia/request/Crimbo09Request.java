@@ -100,8 +100,9 @@ public class Crimbo09Request
 		}
 
 		String action = GenericRequest.getAction( location );
-		if ( action == null )
+		if ( action == null || action.equals( "buygift" ) )
 		{
+			CrimboCartelRequest.parseResponse( location, responseText );
 			return;
 		}
 

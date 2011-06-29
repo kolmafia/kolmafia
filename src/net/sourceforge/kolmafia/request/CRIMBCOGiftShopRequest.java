@@ -95,7 +95,7 @@ public class CRIMBCOGiftShopRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
-	public static void parseCRIMBCOGiftShopVisit( final String location, final String responseText )
+	public static void parseResponse( final String location, final String responseText )
 	{
 		if ( !location.startsWith( "crimbo10.php" ) )
 		{

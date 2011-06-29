@@ -137,12 +137,6 @@ public class SpaaaceRequest
 			SpaaaceRequest.parseShopVisit( urlString, responseText );
 			return;
 		}
-
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return;
-		}
 	}
 
 	private static void parseShopVisit( final String location, final String responseText )
