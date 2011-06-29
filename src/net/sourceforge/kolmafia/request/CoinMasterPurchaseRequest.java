@@ -82,7 +82,7 @@ public class CoinMasterPurchaseRequest
 		String token = item != null ? item.getName() : data.getToken();
 		String name = ( price != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 		this.priceString = KoLConstants.COMMA_FORMAT.format( this.price ) + " " + name;
-		this.cost = AdventureResult.tallyItem( data.getToken(), price, false );
+		this.cost = AdventureResult.tallyItem( data.getToken(), price, true );
 
 		this.limit = this.quantity;
 		this.canPurchase = true;
@@ -107,6 +107,12 @@ public class CoinMasterPurchaseRequest
 		return this.cost;
 	}
 
+	public int getTokenItemId()
+	{
+		AdventureResult item = data.getItem();
+		return item != null ? item.getItemId() : -1;
+	}
+
 	public int affordableCount()
 	{
 		int tokens = this.data.availableTokens();
@@ -120,6 +126,24 @@ public class CoinMasterPurchaseRequest
 		int tokens = data.availableTokens();
 		int price = this.price;
 		return this.canPurchase && price <= tokens;
+	}
+
+	public void setCanPurchase()
+	{
+		CoinmasterData data = this.data;
+
+		// If the Coin Master is "accessible" - which is up to the Coin
+		// Master to determine - we can purchase from it.
+		if ( CoinMasterRequest.accessible( data ) != null )
+		{
+			this.setCanPurchase( false );
+			return;
+		}
+
+		// See if we can afford the items
+		int tokens = data.availableTokens();
+		int price = this.price * this.limit;
+		this.setCanPurchase( price <= tokens );
 	}
 
 	public Object run()
