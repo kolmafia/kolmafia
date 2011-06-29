@@ -159,6 +159,7 @@ public class ItemPool
 	public static final int LINOLEUM_ORE = 363;
 	public static final int ASBESTOS_ORE = 364;
 	public static final int CHROME_ORE = 365;
+	public static final int YETI_FUR = 388;
 	public static final int PENGUIN_SKIN = 393;
 	public static final int YAK_SKIN = 394;
 	public static final int HIPPOPOTAMUS_SKIN = 395;

@@ -275,3 +275,9 @@ bli3	100	Moon Pie
 bli3	1	Comet Pop
 bli3	5	Flan in the Moon
 bli3	10	1/6th Pound Cake
+
+# Things you can buy with yeti furs
+
+byf	1	yak skin
+byf	1	penguin skin
+byf	1	hippopotamus skin

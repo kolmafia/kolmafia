@@ -114,6 +114,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -784,6 +785,11 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "town_wrong.php" ) )
 		{
 			ArtistRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "trapper.php" ) )
+		{
+			Tr4pz0rRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "traveler.php" ) )

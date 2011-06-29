@@ -1242,15 +1242,6 @@ public class ConcoctionDatabase
 			availableIngredients, ItemPool.MEAT_STACK, 100 );
 		ConcoctionDatabase.setBuyableItem(
 			availableIngredients, ItemPool.DENSE_STACK, 1000 );
-
-		AdventureResult item;
-
-		int furCount = CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory );
-		for ( int i = 0; i < KoLConstants.trapperItems.size(); ++i )
-		{
-			ConcoctionDatabase.setBasicItem(
-				availableIngredients, ( (AdventureResult) KoLConstants.trapperItems.get( i ) ).getItemId(), furCount );
-		}
 	}
 
 	private static final void setBasicItem( final List availableIngredients, final int itemId, final int acquirable )

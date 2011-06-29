@@ -66,6 +66,7 @@ public class CoinMasterRequest
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+	public static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
 
 	private final CoinmasterData data;
 
@@ -308,6 +309,11 @@ public class CoinMasterRequest
 		{
 			balance = "1";
 		}
+		// The Tr4pz0r doesn't give a number if you have 1
+		else if ( balance.equals( "" ) )
+		{
+			balance = "1";
+		}
 
 		String property = data.getProperty();
 		if ( property != null )
@@ -388,14 +394,29 @@ public class CoinMasterRequest
 		}
 
 		Matcher countMatcher = data.getCountMatcher( urlString );
+		AdventureResult tokenItem = data.getItem();
+		String tradeAll = data.getTradeAllAction();
+		String property = data.getProperty();
+		String storageAction = data.getStorageAction();
+		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
+
 		int count = 1;
 		if ( countMatcher != null )
 		{
-			if ( !countMatcher.find() )
+			if ( countMatcher.find() )
+			{
+				count = StringUtilities.parseInt( countMatcher.group(1) );
+			}
+			else if ( tradeAll != null && urlString.indexOf( tradeAll ) != -1 )
+			{
+				count = storage ? tokenItem.getCount( KoLConstants.storage ) :
+					property != null ? Preferences.getInteger( property ) :
+					tokenItem.getCount( KoLConstants.inventory );
+			}
+			else
 			{
 				return;
 			}
-			count = StringUtilities.parseInt( countMatcher.group(1) );
 		}
 
 		int itemId = StringUtilities.parseInt( itemMatcher.group(1) );
@@ -406,16 +427,11 @@ public class CoinMasterRequest
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 
-		String storageAction = data.getStorageAction();
-		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
-
-		String property = data.getProperty();
 		if ( property != null && !storage )
 		{
 			Preferences.increment( property, -cost );
 		}
 
-		AdventureResult tokenItem = data.getItem();
 		if ( tokenItem != null )
 		{
 			AdventureResult current = tokenItem.getInstance( -cost );
@@ -521,14 +537,24 @@ public class CoinMasterRequest
 
 	public static boolean registerRequest( final String urlString )
 	{
+		if ( urlString.startsWith( "arcade.php" ) )
+		{
+			return TicketCounterRequest.registerRequest( urlString );
+		}
+
 		if ( urlString.startsWith( "bhh.php" ) )
 		{
 			return BountyHunterHunterRequest.registerRequest( urlString );
 		}
 
-		if ( urlString.startsWith( "monkeycastle.php" ) )
+		if ( urlString.startsWith( "bigisland.php" ) )
 		{
-			return BigBrotherRequest.registerRequest( urlString );
+			return IslandDecorator.registerIslandRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "bone_altar.php" ) )
+		{
+			return AltarOfBonesRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "crimbo09.php" ) )
@@ -541,24 +567,9 @@ public class CoinMasterRequest
 			return CRIMBCOGiftShopRequest.registerRequest( urlString );
 		}
 
-		if ( urlString.startsWith( "arcade.php" ) )
-		{
-			return TicketCounterRequest.registerRequest( urlString );
-		}
-
 		if ( urlString.startsWith( "gamestore.php" ) )
 		{
 			return GameShoppeRequest.registerRequest( urlString );
-		}
-
-		if ( urlString.startsWith( "bone_altar.php" ) )
-		{
-			return AltarOfBonesRequest.registerRequest( urlString );
-		}
-
-		if ( urlString.startsWith( "bigisland.php" ) )
-		{
-			return IslandDecorator.registerIslandRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "inv_use.php" ) )
@@ -566,14 +577,24 @@ public class CoinMasterRequest
 			return AWOLQuartermasterRequest.registerRequest( urlString );
 		}
 
-		if ( urlString.startsWith( "spaaace.php" ) )
+		if ( urlString.startsWith( "monkeycastle.php" ) )
 		{
-			return SpaaaceRequest.registerRequest( urlString );
+			return BigBrotherRequest.registerRequest( urlString );
 		}
 
 		if ( urlString.startsWith( "mrstore.php" ) )
 		{
 			return MrStoreRequest.registerRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "spaaace.php" ) )
+		{
+			return SpaaaceRequest.registerRequest( urlString );
+		}
+
+		if ( urlString.startsWith( "trapper.php" ) )
+		{
+			return Tr4pz0rRequest.registerRequest( urlString );
 		}
 
 		return false;

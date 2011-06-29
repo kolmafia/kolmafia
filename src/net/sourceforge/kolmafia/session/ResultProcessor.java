@@ -1018,6 +1018,7 @@ public class ResultProcessor
 		case ItemPool.WORTHLESS_TRINKET:
 		case ItemPool.WORTHLESS_GEWGAW:
 		case ItemPool.WORTHLESS_KNICK_KNACK:
+		case ItemPool.YETI_FUR:
 			ConcoctionDatabase.refreshConcoctions();
 			// Fall through
 		case ItemPool.LUCRE:
