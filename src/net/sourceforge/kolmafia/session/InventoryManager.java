@@ -495,23 +495,6 @@ public abstract class InventoryManager
 			}
 		}
 
-		if ( KoLConstants.trapperItems.contains( item ) )
-		{
-			int furCount = CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory );
-			if ( furCount > 0 )
-			{
-				KoLmafia.updateDisplay( "Visiting the trapper..." );
-				RequestThread.postRequest( new GenericRequest(
-					"trapper.php?pwd&action=Yep.&whichitem=" + itemId + "&qty=" + Math.min( missingCount, furCount ) ) );
-
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-			}
-		}
-
 		// Try to purchase the item from the mall, if the user wishes
 		// to autosatisfy through purchases, and the item is not
 		// creatable through combines.

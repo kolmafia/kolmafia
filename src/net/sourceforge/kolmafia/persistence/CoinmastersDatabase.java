@@ -108,6 +108,9 @@ public class CoinmastersDatabase
 	private static final LockableListModel buyForMrAccessory = new LockableListModel();
 	private static final Map MrAccessoryBuyPriceByName = new TreeMap();
 
+	private static final LockableListModel buyForYetiFurs = new LockableListModel();
+	private static final Map yetiFurBuyPriceByName = new TreeMap();
+
 	private static final LockableListModel buyFromTraveler = new LockableListModel();
 	private static final Map TravelerBuyPriceByName = new TreeMap();
 
@@ -261,6 +264,13 @@ public class CoinmastersDatabase
 					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForIsotopes3.add( item );
 					isotope3BuyPriceByName.put( name, iprice );
+				}
+				else if ( code.equals( "byf" ) )
+				{
+					// Something we buy with yeti fur
+					AdventureResult item = new AdventureResult( name, 1, false );
+					buyForYetiFurs.add( item );
+					yetiFurBuyPriceByName.put( name, iprice );
 				}
 			}
 		}
@@ -493,6 +503,16 @@ public class CoinmastersDatabase
 		return isotope3BuyPriceByName;
 	}
 
+	public static final LockableListModel getYetiFurItems()
+	{
+		return buyForYetiFurs;
+	}
+
+	public static final Map yetiFurBuyPrices()
+	{
+		return yetiFurBuyPriceByName;
+	}
+
 	public static final LockableListModel getMrAItems()
 	{
 		return buyForMrAccessory;
@@ -554,6 +574,7 @@ public class CoinmastersDatabase
 			return null;
 		}
 
+		request.setLimit( request.affordableCount() );
 		request.setCanPurchase();
 
 		return request;

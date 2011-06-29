@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
+import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -128,6 +129,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel lunarLunchPanel = null;
 	private CoinmasterPanel awolPanel = null;
 	private CoinmasterPanel travelerPanel = null;
+	private CoinmasterPanel tr4pz0rPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -158,6 +160,11 @@ public class CoinmastersFrame
 		hermitPanel = new HermitPanel();
 		panel.add( hermitPanel );
 		this.selectorPanel.addPanel( hermitPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		tr4pz0rPanel = new Tr4pz0rPanel();
+		panel.add( tr4pz0rPanel );
+		this.selectorPanel.addPanel( tr4pz0rPanel.getPanelSelector(), panel );
 
 		// Ascension coinmasters
 		this.selectorPanel.addSeparator();
@@ -277,6 +284,7 @@ public class CoinmastersFrame
 		MrStoreRequest.MR_STORE.registerPurchaseRequests();
 		QuartersmasterRequest.FRATBOY.registerPurchaseRequests();
 		TicketCounterRequest.TICKET_COUNTER.registerPurchaseRequests();
+		Tr4pz0rRequest.ELITE_TR4PZ0R.registerPurchaseRequests();
 		TravelingTraderRequest.TRAVELER.registerPurchaseRequests();
 	}
 
@@ -321,6 +329,7 @@ public class CoinmastersFrame
 		bhhPanel.update();
 		mrStorePanel.update();
 		hermitPanel.update();
+		tr4pz0rPanel.update();
 		bigBrotherPanel.update();
 		arcadePanel.update();
 		gameShoppePanel.update();
@@ -418,6 +427,15 @@ public class CoinmastersFrame
 			int available = HermitRequest.getWorthlessItemCount();
 			AdventureResult item = HermitRequest.WORTHLESS_ITEM.getInstance( available + 1 );
 			InventoryManager.retrieveItem( item, false );
+		}
+	}
+
+	public class Tr4pz0rPanel
+		extends CoinmasterPanel
+	{
+		public Tr4pz0rPanel()
+		{
+			super( Tr4pz0rRequest.ELITE_TR4PZ0R );
 		}
 	}
 

@@ -59,9 +59,6 @@ public class CouncilFrame
 {
 	public static final CouncilRequest COUNCIL_VISIT = new CouncilRequest();
 
-	public static final AdventureResult YETI_FUR = new AdventureResult( 388, 1 );
-
-	private static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 
 	public CouncilFrame()
@@ -274,28 +271,6 @@ public class CouncilFrame
 
 	private static final void handleTrapperChange( final String location, final String responseText )
 	{
-		if ( location.indexOf( "max=on" ) != -1 )
-		{
-			int furCount = CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory );
-			ResultProcessor.processResult( CouncilFrame.YETI_FUR.getInstance( 0 - furCount ) );
-			return;
-		}
-
-		if ( location.indexOf( "qty" ) != -1 )
-		{
-			Matcher qtyMatcher = CouncilFrame.QTY_PATTERN.matcher( location );
-			if ( qtyMatcher.find() )
-			{
-				int furCount =
-					Math.min(
-						CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory ),
-						StringUtilities.parseInt( qtyMatcher.group( 1 ) ) );
-				ResultProcessor.processResult( CouncilFrame.YETI_FUR.getInstance( 0 - furCount ) );
-			}
-
-			return;
-		}
-
 		Matcher oreMatcher = CouncilFrame.ORE_PATTERN.matcher( responseText );
 		if ( oreMatcher.find() )
 		{

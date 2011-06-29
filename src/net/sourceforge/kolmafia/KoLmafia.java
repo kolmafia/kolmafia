@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -103,6 +104,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
@@ -341,10 +343,6 @@ public abstract class KoLmafia
 				useGUI = true;
 			}
 		}
-
-		KoLConstants.trapperItems.add( ItemPool.get( ItemPool.PENGUIN_SKIN, 1 ) );
-		KoLConstants.trapperItems.add( ItemPool.get( ItemPool.YAK_SKIN, 1 ) );
-		KoLConstants.trapperItems.add( ItemPool.get( ItemPool.HIPPOPOTAMUS_SKIN, 1 ) );
 
 		// All dates are presented as if the day began at rollover.
 
@@ -1548,14 +1546,14 @@ public abstract class KoLmafia
 	public void makeTrapperRequest()
 	{
 		AdventureResult selectedValue =
-			(AdventureResult) KoLmafia.getSelectedValue( "I want skins!", KoLConstants.trapperItems );
+			(AdventureResult) KoLmafia.getSelectedValue( "I want skins!", CoinmastersDatabase.getYetiFurItems() );
 		if ( selectedValue == null )
 		{
 			return;
 		}
 
 		int selected = selectedValue.getItemId();
-		int maximumValue = CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory );
+		int maximumValue = Tr4pz0rRequest.YETI_FUR.getCount( KoLConstants.inventory );
 
 		String message = "(You have " + maximumValue + " furs available)";
 		int tradeCount =
@@ -1569,8 +1567,7 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.updateDisplay( "Visiting the trapper..." );
-		RequestThread.postRequest( new GenericRequest(
-			"trapper.php?pwd&action=Yep.&whichitem=" + selected + "&qty=" + tradeCount ) );
+		RequestThread.postRequest( new Tr4pz0rRequest( selected, tradeCount ) );
 	}
 
 	/**
