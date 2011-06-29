@@ -201,7 +201,10 @@ public class HermitRequest
 			return null;
 		}
 
-		this.setQuantity( Math.min( this.quantity, HermitRequest.getWorthlessItemCount() ) );
+		if ( this.quantity > 0 )
+		{
+			this.setQuantity( Math.min( this.quantity, HermitRequest.getWorthlessItemCount() ) );
+		}
 
 		super.run();
 
@@ -280,69 +283,13 @@ public class HermitRequest
 			return true;
 		}
 
-		if ( responseText.indexOf( "he sends you packing" ) != -1 )
-		{
-			// No worthless items in inventory, so we can't tell if
-			// clovers remain in stock
-			HermitRequest.checkedForClovers = false;
-			return true;
-		}
-
-		// Refresh the Coin Master inventory every time we visit.
-
-		KoLConstants.hermitItems.clear();
-		HermitRequest.buyPrices.clear();
-
-		Matcher matcher = ITEM_PATTERN.matcher( responseText );
-		while ( matcher.find() )
-		{
-			int itemId = StringUtilities.parseInt( matcher.group(1) );
-			String descId = matcher.group(2);
-			String itemName = matcher.group(3);
-			String match = ItemDatabase.getItemDataName( itemId );
-			if ( match == null || !match.equals( itemName ) )
-			{
-				ItemDatabase.registerItem( itemId, itemName, descId );
-			}
-
-			// Add it to the Hermit's inventory
-			HermitRequest.registerHermitItem( itemId, 1 );
-		}
-
-		int count = 0;
-		Matcher cloverMatcher = CLOVER_PATTERN.matcher( responseText );
-		if ( cloverMatcher.find() )
-		{
-			count = Integer.parseInt( cloverMatcher.group( 1 ) );
-		}
-
-		int index = KoLConstants.hermitItems.indexOf( CLOVER );
-		if ( index < 0 )
-		{
-			HermitRequest.registerHermitItem( ItemPool.TEN_LEAF_CLOVER, count );
-		}
-		else
-		{
-			AdventureResult old = (AdventureResult) KoLConstants.hermitItems.get( index );
-			int oldCount = old.getCount();
-			if ( oldCount != count )
-			{
-				KoLConstants.hermitItems.set( index, CLOVER.getInstance( count ) );
-			}
-		}
-
-		HermitRequest.checkedForClovers = true;
-
-		// Register the purchase requests, now that we know what is available
-		CoinmasterData data = HermitRequest.HERMIT;
-		data.registerPurchaseRequests();
-
 		// If the item is unavailable, assume he was asking for clover
 		// If asked for too many, you get no items
 
 		if ( responseText.indexOf( "doesn't have that item." ) != -1 ||
 		     responseText.indexOf( "You acquire" ) == -1 )
 		{
+			HermitRequest.parseHermitStock( responseText );
 			return true;
 		}
 
@@ -350,6 +297,7 @@ public class HermitRequest
 		if ( !quantityMatcher.find() )
 		{
 			// We simply visited the hermit
+			HermitRequest.parseHermitStock( responseText );
 			return true;
 		}
 
@@ -386,19 +334,89 @@ public class HermitRequest
 			quantity -= used;
 		}
 
-		return true;
-	}
+		if ( responseText.indexOf( "he sends you packing" ) != -1 )
+		{
+			// No worthless items in inventory, so we can't tell if
+			// clovers remain in stock
+			HermitRequest.checkedForClovers = false;
+			return true;
+		}
 
-	public static final boolean isWorthlessItem( final int itemId )
-	{
-		return itemId == ItemPool.WORTHLESS_TRINKET || itemId == ItemPool.WORTHLESS_GEWGAW || itemId == ItemPool.WORTHLESS_KNICK_KNACK;
+		HermitRequest.parseHermitStock( responseText );
+
+		return true;
 	}
 
 	private static final int subtractWorthlessItems( final AdventureResult item, final int total )
 	{
 		int count = 0 - Math.min( total, item.getCount( KoLConstants.inventory ) );
-		ResultProcessor.processResult( item.getInstance( count ) );
+		if ( count != 0 )
+		{
+			ResultProcessor.processResult( item.getInstance( count ) );
+		}
 		return 0 - count;
+	}
+
+	private static final void parseHermitStock( final String responseText )
+	{
+		// Refresh the Coin Master inventory every time we visit.
+		Matcher matcher = ITEM_PATTERN.matcher( responseText );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		KoLConstants.hermitItems.clear();
+		HermitRequest.buyPrices.clear();
+
+		do
+		{
+			int itemId = StringUtilities.parseInt( matcher.group(1) );
+			String descId = matcher.group(2);
+			String itemName = matcher.group(3);
+			String match = ItemDatabase.getItemDataName( itemId );
+			if ( match == null || !match.equals( itemName ) )
+			{
+				ItemDatabase.registerItem( itemId, itemName, descId );
+			}
+
+			// Add it to the Hermit's inventory
+			HermitRequest.registerHermitItem( itemId, 1 );
+		}
+		while ( matcher.find() );
+
+		int count = 0;
+		Matcher cloverMatcher = CLOVER_PATTERN.matcher( responseText );
+		if ( cloverMatcher.find() )
+		{
+			count = Integer.parseInt( cloverMatcher.group( 1 ) );
+		}
+
+		int index = KoLConstants.hermitItems.indexOf( CLOVER );
+		if ( index < 0 )
+		{
+			HermitRequest.registerHermitItem( ItemPool.TEN_LEAF_CLOVER, count );
+		}
+		else
+		{
+			AdventureResult old = (AdventureResult) KoLConstants.hermitItems.get( index );
+			int oldCount = old.getCount();
+			if ( oldCount != count )
+			{
+				KoLConstants.hermitItems.set( index, CLOVER.getInstance( count ) );
+			}
+		}
+
+		HermitRequest.checkedForClovers = true;
+
+		// Register the purchase requests, now that we know what is available
+		CoinmasterData data = HermitRequest.HERMIT;
+		data.registerPurchaseRequests();
+	}
+
+	public static final boolean isWorthlessItem( final int itemId )
+	{
+		return itemId == ItemPool.WORTHLESS_TRINKET || itemId == ItemPool.WORTHLESS_GEWGAW || itemId == ItemPool.WORTHLESS_KNICK_KNACK;
 	}
 
 	public static final int getWorthlessItemCount()
