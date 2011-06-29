@@ -61,11 +61,11 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -397,16 +397,32 @@ public abstract class InventoryManager
 
 		boolean shouldUseCoinmasters =
 			Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) &&
-			CoinmastersDatabase.contains( item.getName() );
+			CoinmastersDatabase.contains( item.getName(), false );
 
 		if ( shouldUseCoinmasters )
 		{
-			PurchaseRequest request = CoinmastersDatabase.getPurchaseRequest( item.getName() );
+			CoinMasterPurchaseRequest request = CoinmastersDatabase.getPurchaseRequest( item.getName() );
+			int token = request.getTokenItemId();
+			if ( token != -1 )
+			{
+				// It's a real item. Get enough tokens
+				if ( !retrieveItem( token, missingCount * request.getPrice() ) )
+				{
+					return false;
+				}
+			}
+
 			int available = request.affordableCount();
+			if ( available < missingCount )
+			{
+				return false;
+			}
+
 			int count = Math.min( missingCount, available );
 			if ( count > 0 )
 			{
 				request.setLimit( count );
+				request.setCanPurchase();
 				RequestThread.postRequest( request );
 			}
 

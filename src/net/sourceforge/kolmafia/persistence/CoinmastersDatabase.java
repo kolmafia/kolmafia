@@ -554,25 +554,9 @@ public class CoinmastersDatabase
 			return null;
 		}
 
-		request.setCanPurchase( CoinmastersDatabase.canPurchase( request ) );
+		request.setCanPurchase();
 
 		return request;
-	}
-
-	private static final boolean canPurchase( final CoinMasterPurchaseRequest request )
-	{
-		// If the Coin Master is "accessible" - which is up to the Coin
-		// Master to determine - we can purchase from it.
-		if ( CoinMasterRequest.accessible( request.getData() ) != null )
-		{
-			return false;
-		}
-
-		// See if we can afford the item
-		CoinmasterData data = request.getData();
-		int tokens = data.availableTokens();
-		int price = request.getPrice();
-		return price <= tokens;
 	}
 
 	public static final boolean contains( final String itemName )
