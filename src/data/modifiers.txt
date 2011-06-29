@@ -2534,6 +2534,7 @@ Confused	Mysticality Percent: -30
 Contagious Bad Luck	Mysticality Percent: -20
 Contemptible Emanations	Monster Level: +20
 Corroded Weapon	Weapon Damage: -5
+# Corrupted: All Attributes +/- ???
 Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
 # Cotton Mouthed: So dry! It's from yesterday!
 # Coy to the Hurled: variable DR
@@ -3548,6 +3549,7 @@ concentrated garbage juice	Effect: "Drenched With Filth", Effect Duration: 20
 concoction of clumsiness	Effect: "Clumsy", Effect Duration: [R]
 cordial of concentration	Effect: "Concentration", Effect Duration: [R]
 correction fluid	Effect: "The Solution", Effect Duration: 30
+corrupted data	Effect: "Corrupted", Effect Duration: 30
 cosmic lemonade	Effect: "Lemon Enlightenment", Effect Duration: 10
 cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10

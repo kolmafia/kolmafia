@@ -157,6 +157,7 @@ Angry Raccoon Puppet	HP: 20 Def: 35 Atk: 35 Meat: 16-24	felt (2)	stuffing (2)	go
 Animated Nightstand (Mahogany)	HP: 170 Def: 162 Atk: 162	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
 Animated Nightstand (White)	HP: 180 Def: 171 Atk: 159	grouchy restless spirit (80)
 Anime Smiley	HP: 67 Def: 77 Atk: 77	334 scroll (30)	Tasty Fun Good rice candy (40)	caret (p5)
+Antique Database Server	HP: 0	corrupted data (0)	squirming egg sac (0)
 Apathetic Lizardman	HP: 12 Def: 20 Atk: 20 Meat: 17-24
 Arc-welding Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Argarggagarg the Dire Hellseal	HP: 150 Def: 115 Atk: 115	secret tropical island volcano lair map (100)	Argarggagarg's fang (100)	adorable seal larva (100)
