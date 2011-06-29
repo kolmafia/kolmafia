@@ -800,10 +800,6 @@ public class RequestEditorKit
 		{
 			ZapRequest.decorate( buffer );
 		}
-		else if ( location.startsWith( "woods.php" ) )
-		{
-			StringUtilities.singleStringReplace( buffer, "<a href=\"adventure.php?snarfblat=25\">", "<a href=\"adventure.php?snarfblat=25\" onclick=\"return confirm('Are you sure you wanted to go Drinking?');\">" );
-		}
 
 		if ( addComplexFeatures )
 		{
