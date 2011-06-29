@@ -45,10 +45,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmasterData
@@ -178,7 +180,10 @@ public class CoinmasterData
 		AdventureResult item = this.item;
 		String property = this.property;
 		int count =
-			item != null ? item.getCount( KoLConstants.inventory ) :
+			item != null ? (
+				item.getItemId() == ItemPool.WORTHLESS_ITEM ?
+				HermitRequest.getWorthlessItemCount() :
+				item.getCount( KoLConstants.inventory ) ) :
 			property != null ? Preferences.getInteger( property ) :
 			0;
 		return count;

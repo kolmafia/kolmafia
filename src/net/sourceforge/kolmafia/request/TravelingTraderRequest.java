@@ -240,7 +240,7 @@ public class TravelingTraderRequest
 			}
 
 			// Add it to the Traveling Trader inventory
-			AdventureResult offering = ItemPool.get( itemId, 0 );
+			AdventureResult offering = ItemPool.get( itemId, 1 );
 			String cname = StringUtilities.getCanonicalName( name );
 			Integer iprice = new Integer( price );
 			items.add( offering );

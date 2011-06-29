@@ -479,24 +479,6 @@ public abstract class InventoryManager
 			}
 		}
 
-		// Next, hermit item retrieval is possible when
-		// you have worthless items.  Use this method next.
-
-		if ( KoLConstants.hermitItems.contains( item ) )
-		{
-			int worthlessItemCount = HermitRequest.getWorthlessItemCount();
-			if ( worthlessItemCount > 0 )
-			{
-				RequestThread.postRequest( new HermitRequest( itemId, Math.min( worthlessItemCount, missingCount ) ) );
-				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-				if ( missingCount <= 0 )
-				{
-					return true;
-				}
-			}
-		}
-
 		if ( KoLConstants.trapperItems.contains( item ) )
 		{
 			int furCount = CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory );

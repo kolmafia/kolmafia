@@ -151,7 +151,7 @@ public class MrStoreRequest
 			}
 
 			// Add it to the Mr. Store inventory
-			AdventureResult item = ItemPool.get( itemId, 0 );
+			AdventureResult item = ItemPool.get( itemId, 1 );
 			String name = StringUtilities.getCanonicalName( itemName );
 			Integer iprice = new Integer( price );
 			items.add( item );
