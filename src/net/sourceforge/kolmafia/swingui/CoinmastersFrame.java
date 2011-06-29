@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
@@ -84,6 +85,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
@@ -116,6 +118,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel quartersmasterPanel = null;
 	private CoinmasterPanel bhhPanel = null;
 	private CoinmasterPanel mrStorePanel = null;
+	private CoinmasterPanel hermitPanel = null;
 	private CoinmasterPanel bigBrotherPanel = null;
 	private CoinmasterPanel arcadePanel = null;
 	private CoinmasterPanel gameShoppePanel = null;
@@ -150,6 +153,11 @@ public class CoinmastersFrame
 		mrStorePanel = new MrStorePanel();
 		panel.add( mrStorePanel );
 		this.selectorPanel.addPanel( mrStorePanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		hermitPanel = new HermitPanel();
+		panel.add( hermitPanel );
+		this.selectorPanel.addPanel( hermitPanel.getPanelSelector(), panel );
 
 		// Ascension coinmasters
 		this.selectorPanel.addSeparator();
@@ -263,6 +271,7 @@ public class CoinmastersFrame
 		DollHawkerRequest.DOLLHAWKER.registerPurchaseRequests();
 		FreeSnackRequest.FREESNACKS.registerPurchaseRequests();
 		GameShoppeRequest.GAMESHOPPE.registerPurchaseRequests();
+		HermitRequest.HERMIT.registerPurchaseRequests();
 		IsotopeSmitheryRequest.ISOTOPE_SMITHERY.registerPurchaseRequests();
 		LunarLunchRequest.LUNAR_LUNCH.registerPurchaseRequests();
 		MrStoreRequest.MR_STORE.registerPurchaseRequests();
@@ -311,6 +320,7 @@ public class CoinmastersFrame
 		quartersmasterPanel.update();
 		bhhPanel.update();
 		mrStorePanel.update();
+		hermitPanel.update();
 		bigBrotherPanel.update();
 		arcadePanel.update();
 		gameShoppePanel.update();
@@ -389,6 +399,25 @@ public class CoinmastersFrame
 				(GenericRequest) new MrStoreRequest( "pullmras" ) :
 				(GenericRequest) CoinmastersFrame.PULL_MR_A_REQUEST;
 			RequestThread.postRequest( request );
+		}
+	}
+
+	public class HermitPanel
+		extends CoinmasterPanel
+	{
+		private JButton fish = new InvocationButton( "go fish", this, "fish" );
+
+		public HermitPanel()
+		{
+			super( HermitRequest.HERMIT );
+			this.buyPanel.addButton( fish, true );
+		}
+
+		public void fish()
+		{
+			int available = HermitRequest.getWorthlessItemCount();
+			AdventureResult item = HermitRequest.WORTHLESS_ITEM.getInstance( available + 1 );
+			InventoryManager.retrieveItem( item, false );
 		}
 	}
 
@@ -604,11 +633,7 @@ public class CoinmastersFrame
 		{
 			StringBuffer buffer = new StringBuffer();
 			AdventureResult item = this.data.getItem();
-			String property = this.data.getProperty();
-			int count =
-				item != null ? item.getCount( KoLConstants.inventory ) :
-				property != null ? Preferences.getInteger( property ) :
-				0;
+			int count = this.data.availableTokens();
 			String token = item != null ? item.getName() : this.data.getToken();
 			String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 			buffer.append( "Coin Masters (" );
@@ -764,8 +789,7 @@ public class CoinmastersFrame
 					} );
 
 				Map sellPrices = CoinmasterPanel.this.data.getSellPrices();
-				String token = CoinmasterPanel.this.data.getToken();
-				this.elementList.setCellRenderer( getCoinmasterRenderer( sellPrices, token ) );
+				this.elementList.setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, sellPrices ) );
 				this.setEnabled( true );
 				this.filterItems();
 			}
@@ -863,12 +887,8 @@ public class CoinmastersFrame
 				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
 				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
-
-				String token = CoinmasterPanel.this.data.getToken();
-				AdventureResult item = CoinmasterPanel.this.data.getItem();
-				String property = CoinmasterPanel.this.data.getProperty();
 				String side = CoinmasterPanel.this.lighthouseSide();
-				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, item, property, side ) );
+				this.elementList.setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, side ) );
 				this.elementList.setVisibleRowCount( 6 );
 				this.setEnabled( true );
 			}
@@ -912,10 +932,7 @@ public class CoinmastersFrame
 
 				AdventureResult token = CoinmasterPanel.this.data.getItem();
 				String property = CoinmasterPanel.this.data.getProperty();
-				int originalBalance =
-					token != null ? token.getCount( KoLConstants.inventory ) :
-					property != null ? Preferences.getInteger( property ) :
-					0;
+				int originalBalance = CoinmasterPanel.this.data.availableTokens();
 
 				int neededSize = items.length;
 				int balance = originalBalance;
@@ -1033,37 +1050,33 @@ public class CoinmastersFrame
 		}
 	}
 
-	public static final DefaultListCellRenderer getCoinmasterRenderer( Map prices, String token )
+	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices )
 	{
-		return new CoinmasterRenderer( prices, token );
+		return new CoinmasterRenderer( data, prices );
 	}
 
-	public static final DefaultListCellRenderer getCoinmasterRenderer( Map prices, String token, AdventureResult item, String property, String side )
+	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices, String side )
 	{
-		return new CoinmasterRenderer( prices, token, item, property, side );
+		return new CoinmasterRenderer( data, prices, side );
 	}
 
 	private static class CoinmasterRenderer
 		extends DefaultListCellRenderer
 	{
+		private CoinmasterData data;
 		private Map prices;
-		private String token;
-		private AdventureResult item;
-		private String property;
 		private String side;
 
-		public CoinmasterRenderer( final Map prices, final String token )
+		public CoinmasterRenderer( CoinmasterData data, final Map prices )
 		{
-			this( prices, token, null, null, null );
+			this( data, prices, null );
 		}
 
-		public CoinmasterRenderer( final Map prices, final String token, final AdventureResult item, String property, String side )
+		public CoinmasterRenderer( CoinmasterData data, final Map prices, String side )
 		{
 			this.setOpaque( true );
+			this.data = data;
 			this.prices = prices;
-			this.token = token;
-			this.item = item;
-			this.property = property;
 			this.side = side;
 		}
 
@@ -1119,10 +1132,7 @@ public class CoinmastersFrame
 
 			if ( show )
 			{
-				int balance =
-					item != null ? item.getCount( KoLConstants.inventory ) :
-					property != null ? Preferences.getInteger( property ) :
-					0;
+				int balance = this.data.availableTokens();
 				if ( price > balance )
 				{
 					show = false;
@@ -1139,12 +1149,13 @@ public class CoinmastersFrame
 			stringForm.append( " (" );
 			stringForm.append( price );
 			stringForm.append( " " );
+			String token = this.data.getToken();
 			stringForm.append( price != 1 ?
 					   ItemDatabase.getPluralName( token ) :
 					   token );
 			stringForm.append( ")" );
 			int count = ar.getCount();
-			if ( count > 0 )
+			if ( count != 1 )
 			{
 				stringForm.append( " (" );
 				stringForm.append( KoLConstants.COMMA_FORMAT.format( count ) );

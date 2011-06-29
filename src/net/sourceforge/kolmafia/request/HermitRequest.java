@@ -33,16 +33,20 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -52,14 +56,37 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class HermitRequest
-	extends GenericRequest
+	extends CoinMasterRequest
 {
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) tradable items" );
+	public static final AdventureResult WORTHLESS_ITEM = ItemPool.get( ItemPool.WORTHLESS_ITEM, 1 );
+	private static final Map buyPrices = new TreeMap();
+
+	public static final CoinmasterData HERMIT =
+		new CoinmasterData(
+			"Hermit",
+			HermitRequest.class,
+			"hermit.php",
+			"worthless item",
+			null,
+			false,
+			HermitRequest.TOKEN_PATTERN,
+			HermitRequest.WORTHLESS_ITEM,
+			null,
+			"whichitem",
+			CoinMasterRequest.ITEMID_PATTERN,
+			"quantity",
+			CoinMasterRequest.QUANTITY_PATTERN,
+			"trade",
+			KoLConstants.hermitItems,
+			HermitRequest.buyPrices,
+			null,
+			null
+			);
+
 	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(\\d+) left in stock for today" );
 
-	private static boolean checkedForClovers = false;
-
 	public static final AdventureResult CLOVER = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
-	public static final AdventureResult WORTHLESS_ITEM = new AdventureResult( 13, 1 );
 	public static final AdventureResult PERMIT = ItemPool.get( ItemPool.HERMIT_PERMIT, 1 );
 
 	public static final AdventureResult TRINKET = ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 );
@@ -67,11 +94,10 @@ public class HermitRequest
 	public static final AdventureResult KNICK_KNACK = ItemPool.get( ItemPool.WORTHLESS_KNICK_KNACK, 1 );
 
 	public static final AdventureResult HACK_SCROLL = ItemPool.get( ItemPool.HERMIT_SCRIPT, 1 );
-	public static final AdventureResult SUMMON_SCROLL = ItemPool.get( 553, 1 );
-	public static final AdventureResult ANCIENT_SEAL = ItemPool.get( ItemPool.ANCIENT_SEAL, 1 );
+	public static final AdventureResult SUMMON_SCROLL = ItemPool.get( ItemPool.ELITE_SCROLL, 1 );
 
-	private final int itemId;
-	private int quantity;
+	private static boolean checkedForClovers = false;
+	private static final Integer ONE = new Integer( 1 );
 
 	/**
 	 * Constructs a new <code>HermitRequest</code> that simply checks what items the hermit has available.
@@ -79,59 +105,69 @@ public class HermitRequest
 
 	public HermitRequest()
 	{
-		super( "hermit.php" );
-
-		this.itemId = -1;
-		this.quantity = 0;
+		super( HermitRequest.HERMIT );
 	}
 
-	/**
-	 * Constructs a new <code>HermitRequest</code>. Note that in order for the hermit request to successfully run,
-	 * there must be <code>KoLSettings</code> specifying the trade that takes place.
-	 */
+	public HermitRequest( final String action )
+	{
+		super( HermitRequest.HERMIT, action );
+	}
+
+	public HermitRequest( final String action, final int itemId, final int quantity )
+	{
+		super( HermitRequest.HERMIT, action, itemId, quantity );
+	}
+
+	public HermitRequest( final String action, final int itemId )
+	{
+		this( action, itemId, 1 );
+	}
+
+	public HermitRequest( final String action, final AdventureResult ar )
+	{
+		this( action, ar.getItemId(), ar.getCount() );
+	}
 
 	public HermitRequest( final int itemId, final int quantity )
 	{
-		super( "hermit.php" );
+		this( "trade", itemId, quantity );
+	}
 
-		this.itemId = itemId;
-		this.quantity = quantity;
-
-		this.addFormField( "action", "trade" );
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
-		this.addFormField( "quantity", String.valueOf( quantity ) );
+	private static final void registerHermitItem( final int itemId, final int count )
+	{
+		AdventureResult item = ItemPool.get( itemId, count );
+		String name = StringUtilities.getCanonicalName( item.getName() );
+		KoLConstants.hermitItems.add( item );
+		HermitRequest.buyPrices.put( name, HermitRequest.ONE );
 	}
 
 	public static final void initialize()
 	{
 		KoLConstants.hermitItems.clear();
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.BANJO_STRINGS, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.CATSUP, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.CHISEL, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.DINGY_PLANKS, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.GOLDEN_TWIG, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.BUTTERED_ROLL, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.JABANERO_PEPPER, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.KETCHUP, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.PETRIFIED_NOODLES, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.SEAL_TOOTH, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.SWEET_RIMS, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.VOLLEYBALL, 1 ) );
-		KoLConstants.hermitItems.add( ItemPool.get( ItemPool.WOODEN_FIGURINE, 1 ) );
+		HermitRequest.buyPrices.clear();
 
+		HermitRequest.registerHermitItem( ItemPool.SEAL_TOOTH, 1 );
+		HermitRequest.registerHermitItem( ItemPool.CHISEL, 1 );
+		HermitRequest.registerHermitItem( ItemPool.PETRIFIED_NOODLES, 1 );
+		HermitRequest.registerHermitItem( ItemPool.JABANERO_PEPPER, 1 );
+		HermitRequest.registerHermitItem( ItemPool.BANJO_STRINGS, 1 );
+		HermitRequest.registerHermitItem( ItemPool.BUTTERED_ROLL, 1 );
+		HermitRequest.registerHermitItem( ItemPool.WOODEN_FIGURINE, 1 );
+		HermitRequest.registerHermitItem( ItemPool.KETCHUP, 1 );
+		HermitRequest.registerHermitItem( ItemPool.CATSUP, 1 );
+		HermitRequest.registerHermitItem( ItemPool.SWEET_RIMS, 1 );
+		HermitRequest.registerHermitItem( ItemPool.DINGY_PLANKS, 1 );
+		HermitRequest.registerHermitItem( ItemPool.VOLLEYBALL, 1 );
+		if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
+		{
+			HermitRequest.registerHermitItem( ItemPool.ANCIENT_SEAL, 1 );
+		}
 	}
 
 	public static final void reset()
 	{
 		HermitRequest.checkedForClovers = false;
-		if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
-		{
-			KoLConstants.hermitItems.add( ANCIENT_SEAL );
-		}
-		else
-		{
-			KoLConstants.hermitItems.remove( ANCIENT_SEAL );
-		}
+		HermitRequest.initialize();
 	}
 
 	/**
@@ -142,12 +178,6 @@ public class HermitRequest
 
 	public Object run()
 	{
-		if ( this.itemId > 0 && this.quantity <= 0 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Zero is not a valid quantity." );
-			return null;
-		}
-
 		// If we have a hermit script, read it now
 		if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 		{
@@ -171,10 +201,10 @@ public class HermitRequest
 			return null;
 		}
 
-		this.quantity = Math.min( this.quantity, HermitRequest.getWorthlessItemCount() );
-		KoLmafia.updateDisplay( "Robbing the hermit..." );
+		this.setQuantity( Math.min( this.quantity, HermitRequest.getWorthlessItemCount() ) );
 
 		super.run();
+
 		return null;
 	}
 
@@ -184,8 +214,7 @@ public class HermitRequest
 		{
 			// If we got here, the hermit wouldn't talk to us.
 			HermitRequest.ensureUpdatedHermit();
-			if ( !Preferences.getBoolean( "hermitHax0red" ) &&
-			     InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
+			if ( !Preferences.getBoolean( "hermitHax0red" ) && InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
 			{
 				this.run();
 				return;
@@ -228,9 +257,10 @@ public class HermitRequest
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The hermit kept his stuff." );
 			return;
 		}
-
-		KoLmafia.updateDisplay( "Hermit successfully looted!" );
 	}
+
+	// <tr><td valign=center><input type=radio name=whichitem value=2></td><td valign=center><img src="http://images.kingdomofloathing.com/itemimages/tooth.gif" class=hand onClick='javascript:item(617818041)'></td><td valign=center><b>seal tooth</b></td></tr>
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?item\\(([\\d]+)\\).*?<b>([^<]*)</b>", Pattern.DOTALL );
 
 	public static final boolean parseHermitTrade( final String urlString, final String responseText )
 	{
@@ -250,28 +280,62 @@ public class HermitRequest
 			return true;
 		}
 
-		// Only check for clovers.  All other items at the hermit
-		// are assumed to be static final.
-
-		KoLConstants.hermitItems.remove( CLOVER );
-
 		if ( responseText.indexOf( "he sends you packing" ) != -1 )
 		{
 			// No worthless items in inventory, so we can't tell if
 			// clovers remain in stock
 			HermitRequest.checkedForClovers = false;
+			return true;
+		}
+
+		// Refresh the Coin Master inventory every time we visit.
+
+		KoLConstants.hermitItems.clear();
+		HermitRequest.buyPrices.clear();
+
+		Matcher matcher = ITEM_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			int itemId = StringUtilities.parseInt( matcher.group(1) );
+			String descId = matcher.group(2);
+			String itemName = matcher.group(3);
+			String match = ItemDatabase.getItemDataName( itemId );
+			if ( match == null || !match.equals( itemName ) )
+			{
+				ItemDatabase.registerItem( itemId, itemName, descId );
+			}
+
+			// Add it to the Hermit's inventory
+			HermitRequest.registerHermitItem( itemId, 1 );
+		}
+
+		int count = 0;
+		Matcher cloverMatcher = CLOVER_PATTERN.matcher( responseText );
+		if ( cloverMatcher.find() )
+		{
+			count = Integer.parseInt( cloverMatcher.group( 1 ) );
+		}
+
+		int index = KoLConstants.hermitItems.indexOf( CLOVER );
+		if ( index < 0 )
+		{
+			HermitRequest.registerHermitItem( ItemPool.TEN_LEAF_CLOVER, count );
 		}
 		else
 		{
-			Matcher cloverMatcher = CLOVER_PATTERN.matcher( responseText );
-			if ( cloverMatcher.find() )
+			AdventureResult old = (AdventureResult) KoLConstants.hermitItems.get( index );
+			int oldCount = old.getCount();
+			if ( oldCount != count )
 			{
-				int count = Integer.parseInt( cloverMatcher.group( 1 ) );
-				KoLConstants.hermitItems.add( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, count ) );
+				KoLConstants.hermitItems.set( index, CLOVER.getInstance( count ) );
 			}
-
-			HermitRequest.checkedForClovers = true;
 		}
+
+		HermitRequest.checkedForClovers = true;
+
+		// Register the purchase requests, now that we know what is available
+		CoinmasterData data = HermitRequest.HERMIT;
+		data.registerPurchaseRequests();
 
 		// If the item is unavailable, assume he was asking for clover
 		// If asked for too many, you get no items
@@ -282,13 +346,6 @@ public class HermitRequest
 			return true;
 		}
 
-		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() )
-		{
-			// We simply visited the hermit
-			return true;
-		}
-
 		Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
 		if ( !quantityMatcher.find() )
 		{
@@ -296,7 +353,6 @@ public class HermitRequest
 			return true;
 		}
 
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
 		// If he is confused, you've used a hermit script
@@ -308,7 +364,7 @@ public class HermitRequest
 		// If he is NOT confused, he took Hermit permits
 		else
 		{
-                        ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
+			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
 		}
 
 		// Subtract the worthless items in order of their priority;
@@ -317,17 +373,17 @@ public class HermitRequest
 		int used = HermitRequest.subtractWorthlessItems( HermitRequest.TRINKET, quantity );
 		if ( used > 0 )
 		{
-				quantity -= used;
+			quantity -= used;
 		}
 		used = HermitRequest.subtractWorthlessItems( HermitRequest.GEWGAW, quantity );
 		if ( used > 0 )
 		{
-				quantity -= used;
+			quantity -= used;
 		}
 		used = HermitRequest.subtractWorthlessItems( HermitRequest.KNICK_KNACK, quantity );
 		if ( used > 0 )
 		{
-				quantity -= used;
+			quantity -= used;
 		}
 
 		return true;
@@ -347,17 +403,9 @@ public class HermitRequest
 
 	public static final int getWorthlessItemCount()
 	{
-		return HermitRequest.TRINKET.getCount( KoLConstants.inventory ) + HermitRequest.GEWGAW.getCount( KoLConstants.inventory ) + HermitRequest.KNICK_KNACK.getCount( KoLConstants.inventory );
-	}
-
-	public static final boolean isCloverDay()
-	{
-		if ( !HermitRequest.checkedForClovers )
-		{
-			new HermitRequest().run();
-		}
-
-		return KoLConstants.hermitItems.contains( CLOVER );
+		return HermitRequest.TRINKET.getCount( KoLConstants.inventory ) +
+		       HermitRequest.GEWGAW.getCount( KoLConstants.inventory ) +
+		       HermitRequest.KNICK_KNACK.getCount( KoLConstants.inventory );
 	}
 
 	public static final int cloverCount()
@@ -369,6 +417,11 @@ public class HermitRequest
 
 		int index = KoLConstants.hermitItems.indexOf( CLOVER );
 		return index < 0 ? 0 : ( (AdventureResult) KoLConstants.hermitItems.get( index ) ).getCount();
+	}
+
+	public static final boolean isCloverDay()
+	{
+		return HermitRequest.cloverCount() > 0;
 	}
 
 	public static final void ensureUpdatedHermit()

@@ -136,7 +136,7 @@ public class CoinmastersDatabase
 				else if ( code.equals( "bd" ) )
 				{
 					// Something we buy with dimes
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForDimes.add( item );
 					dimeBuyPriceByName.put( name, iprice );
 				}
@@ -144,7 +144,7 @@ public class CoinmastersDatabase
 				{
 					// Something we buy with dimes if the
 					// lighthouse quest is complete
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForDimes.add( item );
 					dimeBuyPriceByName.put( name, iprice );
 					lighthouseItems.put( name, "" );
@@ -157,7 +157,7 @@ public class CoinmastersDatabase
 				else if ( code.equals( "bq" ) )
 				{
 					// Something we buy with quarters
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForQuarters.add( item );
 					quarterBuyPriceByName.put( name, iprice );
 				}
@@ -165,7 +165,7 @@ public class CoinmastersDatabase
 				{
 					// Something we buy with quarters if
 					// the lighthouse quest is complete
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForQuarters.add( item );
 					quarterBuyPriceByName.put( name, iprice );
 					lighthouseItems.put( name, "" );
@@ -173,42 +173,42 @@ public class CoinmastersDatabase
 				else if ( code.equals( "bl" ) )
 				{
 					// Something we buy with lucre
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForLucre.add( item );
 					lucreBuyPriceByName.put( name, iprice );
 				}
 				else if ( code.equals( "bs" ) )
 				{
 					// Something we buy with sand dollars
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForSandDollars.add( item );
 					sandDollarBuyPriceByName.put( name, iprice );
 				}
 				else if ( code.equals( "bc" ) )
 				{
 					// Something we buy with Crimbux
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForCrimbux.add( item );
 					crimbuckBuyPriceByName.put( name, iprice );
 				}
 				else if ( code.equals( "bt" ) )
 				{
 					// Something we buy with Game Grid tickets
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForTickets.add( item );
 					ticketBuyPriceByName.put( name, iprice );
 				}
 				else if ( code.equals( "bb" ) )
 				{
 					// Something we buy with bone chips
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForBoneChips.add( item );
 					boneChipBuyPriceByName.put( name, iprice );
 				}
 				else if ( code.equals( "bcs" ) )
 				{
 					// Something we buy with CRIMBCO Scrip
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForScrip.add( item );
 					scripBuyPriceByName.put( name, iprice );
 				}
@@ -220,14 +220,14 @@ public class CoinmastersDatabase
 				else if ( code.equals( "bsc" ) )
 				{
 					// Something we buy with store credit
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForStoreCredit.add( item );
 					storeCreditBuyPriceByName.put( name, iprice );
 				}
 				else if ( code.equals( "bsv" ) )
 				{
 					// Something we buy with snack vouchers
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForSnackVouchers.add( item );
 					snackVoucherBuyPriceByName.put( name, iprice );
 				}
@@ -244,21 +244,21 @@ public class CoinmastersDatabase
 				else if ( code.equals( "bli1" ) )
 				{
 					// Something we buy with lunar isotopes
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForIsotopes1.add( item );
 					isotope1BuyPriceByName.put( name, iprice );
 				}
 				else if ( code.equals( "bli2" ) )
 				{
 					// Something we buy with lunar isotopes
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForIsotopes2.add( item );
 					isotope2BuyPriceByName.put( name, iprice );
 				}
 				else if ( code.equals( "bli3" ) )
 				{
 					// Something we buy with lunar isotopes
-					AdventureResult item = new AdventureResult( name, 0, false );
+					AdventureResult item = new AdventureResult( name, 1, false );
 					buyForIsotopes3.add( item );
 					isotope3BuyPriceByName.put( name, iprice );
 				}

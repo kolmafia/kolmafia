@@ -1245,16 +1245,6 @@ public class ConcoctionDatabase
 			availableIngredients, ItemPool.DENSE_STACK, 1000 );
 
 		AdventureResult item;
-		int worthlessItems = Math.min( HermitRequest.getWorthlessItemCount(), KoLCharacter.getAvailableMeat() / 100 );
-
-		for ( int i = 0; i < KoLConstants.hermitItems.size(); ++i )
-		{
-			item = (AdventureResult) KoLConstants.hermitItems.get( i );
-			if ( item.getItemId() != ItemPool.TEN_LEAF_CLOVER )
-			{
-				ConcoctionDatabase.setBasicItem( availableIngredients, item.getItemId(), worthlessItems );
-			}
-		}
 
 		int furCount = CouncilFrame.YETI_FUR.getCount( KoLConstants.inventory );
 		for ( int i = 0; i < KoLConstants.trapperItems.size(); ++i )

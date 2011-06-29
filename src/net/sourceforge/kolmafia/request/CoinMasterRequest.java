@@ -70,8 +70,8 @@ public class CoinMasterRequest
 	private final CoinmasterData data;
 
 	protected String action = null;
-	private int itemId = -1;
-	private int quantity = 0;
+	protected int itemId = -1;
+	protected int quantity = 0;
 
 	public CoinMasterRequest( final CoinmasterData data )
 	{

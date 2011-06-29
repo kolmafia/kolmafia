@@ -1015,6 +1015,9 @@ public class ResultProcessor
 		case ItemPool.GG_TICKET:
 		case ItemPool.SNACK_VOUCHER:
 		case ItemPool.LUNAR_ISOTOPE:
+		case ItemPool.WORTHLESS_TRINKET:
+		case ItemPool.WORTHLESS_GEWGAW:
+		case ItemPool.WORTHLESS_KNICK_KNACK:
 			ConcoctionDatabase.refreshConcoctions();
 			// Fall through
 		case ItemPool.LUCRE:

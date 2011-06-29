@@ -662,7 +662,7 @@ public interface KoLConstants
 	public static final LockableListModel activeEffects = new LockableListModel();
 	public static final ArrayList recentEffects = new ArrayList();
 
-	public static final SortedListModel hermitItems = new SortedListModel();
+	public static final LockableListModel hermitItems = new LockableListModel();
 	public static final SortedListModel trapperItems = new SortedListModel();
 	public static final LockableListModel restaurantItems = new LockableListModel();
 	public static final LockableListModel microbreweryItems = new LockableListModel();
