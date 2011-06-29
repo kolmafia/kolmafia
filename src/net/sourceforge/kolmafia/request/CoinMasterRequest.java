@@ -224,6 +224,11 @@ public class CoinMasterRequest
 		return null;
 	}
 
+	public void processResults()
+	{
+		CoinMasterRequest.parseResponse( this.data, this.getURLString(), this.responseText );
+	}
+
 	/*
 	 * A generic response parser for CoinMasterRequests.
 	 */
