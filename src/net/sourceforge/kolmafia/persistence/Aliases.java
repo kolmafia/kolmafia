@@ -146,7 +146,7 @@ public class Aliases
 		save();
 	}
 
-	public static void print()
+	public static void print( final String filter )
 	{
 		StringBuffer buffer = new StringBuffer();
 		Iterator it = Aliases.aliasSet.iterator();
@@ -156,6 +156,20 @@ public class Aliases
 			Entry current = (Entry) it.next();
 			String aliasString = (String) current.getKey();
 			String aliasCommand = (String) current.getValue();
+
+			boolean matches = filter.equals( "" );
+
+			if ( !matches )
+			{
+				matches = ( aliasString.toLowerCase().indexOf( filter ) != -1 ||
+				            aliasCommand.toLowerCase().indexOf( filter ) != -1   );
+			}
+
+			if ( !matches )
+			{
+				continue;
+			}
+
 			if ( first )
 			{
 				first = false;

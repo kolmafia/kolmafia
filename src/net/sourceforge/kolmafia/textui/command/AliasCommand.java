@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.Aliases;
@@ -44,22 +42,17 @@ public class AliasCommand
 	extends AbstractCommand
 {
 	{
-		this.usage = " [ <word> => <expansion> ] - list or create CLI abbreviations.";
+		this.usage = " [ <filter> ] | [ <word> => <expansion> ] - list aliases [matching <filter>] or create CLI abbreviations.";
 		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}
 
 	public void run( final String cmd, final String parameters )
 	{
-		if ( parameters.length() == 0 )
-		{
-			Aliases.print();
-			return;
-		}
-
 		int spaceIndex = parameters.indexOf( " => " );
-		if ( spaceIndex == -1 )
+
+		if ( parameters.length() == 0 || spaceIndex == -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That was not a valid aliasing." );
+			Aliases.print( parameters );
 			return;
 		}
 
