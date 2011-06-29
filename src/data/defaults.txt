@@ -483,6 +483,7 @@ user	lastTavernSquare	0
 user	lastTelescopeReset	-1
 user	lastTempleUnlock	-1
 user	lastTowerClimb	-1
+user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
 user	lastZapperWand	0
 user	libramSummons	0

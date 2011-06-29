@@ -277,6 +277,13 @@ public class CouncilFrame
 			Preferences.setString( "trapperOre", oreMatcher.group( 1 ) + " ore" );
 		}
 
+		if ( responseText.indexOf( "Thanks for yer help, Adventurer" ) != -1 ||
+		     responseText.indexOf( "You ain't got no furs" ) != -1 ||
+		     responseText.indexOf( "Yeti furs, eh?" ) != -1 )
+		{
+			Preferences.setInteger( "lastTr4pz0rQuest", KoLCharacter.getAscensions() );
+		}
+
 		// If you receive items from the trapper, then you
 		// lose some items already in your inventory.
 
