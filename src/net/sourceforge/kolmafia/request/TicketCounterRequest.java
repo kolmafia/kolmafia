@@ -115,20 +115,8 @@ public class TicketCounterRequest
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( !action.equals( "redeem" ) )
-		{
-			return false;
-		}
-
 		CoinmasterData data = TicketCounterRequest.TICKET_COUNTER;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
+		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 
 	public static final void buy( final int itemId, final int count )

@@ -197,41 +197,16 @@ public class GameShoppeRequest
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
 		String message = null;
 
-		if ( action == null )
+		if ( urlString.indexOf( "action" ) == -1 && urlString.indexOf( "place=cashier" ) != -1 )
 		{
-			if ( urlString.indexOf( "place=cashier" ) != -1 )
-			{
-				message = "Visiting Game Shoppe Cashier";
-			}
-		}
-		else if ( action.equals( "redeem" ) )
-		{
-			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-		else if ( action.equals( "tradein" ) )
-		{
-			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
-			CoinMasterRequest.sellStuff( data, urlString );
-			return true;
-		}
-		else
-		{
-			return false;
+			message = "Visiting Game Shoppe Cashier";
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
 		}
 
-		if ( message == null )
-		{
-			return false;
-		}
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( message );
-
-		return true;
+		CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 }

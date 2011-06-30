@@ -460,33 +460,7 @@ public class HermitRequest
 			return false;
 		}
 
-		RequestLogger.updateSessionLog();
-
-		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() )
-		{
-			RequestLogger.updateSessionLog( "hermit" );
-			return true;
-		}
-
-		Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
-		if ( !quantityMatcher.find() )
-		{
-			RequestLogger.updateSessionLog( "hermit" );
-			return true;
-		}
-
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
-
-		if ( quantity > HermitRequest.getWorthlessItemCount() )
-		{
-			// Asking for too many. Request will fail.
-			return true;
-		}
-
-		RequestLogger.updateSessionLog( "hermit " + quantity + " " + ItemDatabase.getItemName( itemId ) );
-
-		return true;
+		CoinmasterData data = HermitRequest.HERMIT;
+		return CoinMasterRequest.registerRequest( data, urlString, true );
 	}
 }

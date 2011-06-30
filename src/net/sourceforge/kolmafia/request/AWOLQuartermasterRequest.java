@@ -133,11 +133,10 @@ public class AWOLQuartermasterRequest
 		// Save URL. If request fails, we are redirected to inventory.php
 		AWOLQuartermasterRequest.lastURL = urlString;
 
-		if ( urlString.indexOf( "doit=69" ) != -1 && urlString.indexOf( "tobuy" ) != -1	 )
+		if ( urlString.indexOf( "doit=69" ) != -1 )
 		{
 			CoinmasterData data = AWOLQuartermasterRequest.AWOL;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
+			CoinMasterRequest.registerRequest( data, urlString );
 		}
 
 		return true;

@@ -105,23 +105,8 @@ public class IsotopeSmitheryRequest
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-
-		if ( action == null )
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "Visiting The Isotope Smithery" );
-			return true;
-		}
-
-		if ( action.equals( "buy" ) )
-		{
-			CoinmasterData data = IsotopeSmitheryRequest.ISOTOPE_SMITHERY;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		return false;
+		CoinmasterData data = IsotopeSmitheryRequest.ISOTOPE_SMITHERY;
+		return CoinMasterRequest.registerRequest( data, urlString, true );
 	}
 
 	public static String accessible()

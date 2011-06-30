@@ -155,7 +155,6 @@ public class BountyHunterHunterRequest
 			return false;
 		}
 
-		CoinmasterData data = BountyHunterHunterRequest.BHH;
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
@@ -183,18 +182,18 @@ public class BountyHunterHunterRequest
 
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "accept bounty assignment to collect " + bounty.getCount() + " " + plural );
+			return true;
 		}
-		else if ( action.equals( "abandonbounty" ) )
+
+		if ( action.equals( "abandonbounty" ) )
 		{
 			BountyHunterHunterRequest.abandonBounty();
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "abandon bounty assignment" );
-		}
-		else if ( action.equals( "buy" ) )
-		{
-			CoinMasterRequest.buyStuff( data, urlString );
+			return true;
 		}
 
-		return true;
+		CoinmasterData data = BountyHunterHunterRequest.BHH;
+		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 }

@@ -109,23 +109,8 @@ public class QuartersmasterRequest
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return true;
-		}
-
 		CoinmasterData data = QuartersmasterRequest.FRATBOY;
-		if ( action.equals( "getgear" ) )
-		{
-			CoinMasterRequest.buyStuff( data, urlString );
-		}
-		else if ( action.equals( "turnin" ) )
-		{
-			CoinMasterRequest.sellStuff( data, urlString );
-		}
-
-		return true;
+		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 
 	public static String accessible()

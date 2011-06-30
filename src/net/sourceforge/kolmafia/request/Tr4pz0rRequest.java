@@ -118,20 +118,8 @@ public class Tr4pz0rRequest
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( !action.equals( "Yep." ) )
-		{
-			return false;
-		}
-
 		CoinmasterData data = Tr4pz0rRequest.ELITE_TR4PZ0R;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
+		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 
 	public static String accessible()
