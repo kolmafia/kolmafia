@@ -108,9 +108,19 @@ public class QuestLogRequest
 		return QuestLogRequest.whiteCitadelAvailable;
 	}
 
+	public static final void setWhiteCitadelAvailable()
+	{
+		QuestLogRequest.whiteCitadelAvailable = true;
+	}
+
 	public static final boolean areFriarsAvailable()
 	{
 		return QuestLogRequest.friarsAvailable;
+	}
+
+	public static final void setFriarsAvailable()
+	{
+		QuestLogRequest.friarsAvailable = true;
 	}
 
 	public static final boolean isBlackMarketAvailable()

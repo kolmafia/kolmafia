@@ -4309,7 +4309,7 @@ public class UseItemRequest
 		if ( urlString.indexOf( "whichitem=5116" ) != -1 )
 		{
 			UseItemRequest.lastItemUsed = null;
-			return CoinMasterRequest.registerRequest( urlString );
+			return AWOLQuartermasterRequest.registerRequest( urlString );
 		}
 
 		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );

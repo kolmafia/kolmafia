@@ -111,9 +111,15 @@ public class FreeSnackRequest
 		}
 	}
 
-	public static final boolean registerRequest( final String urlString, final String action )
+	public static final boolean registerRequest( final String urlString )
 	{
-		// We only claim action=buysnack
+		// We only claim gamestore.php?action=buysnack
+		if ( !urlString.startsWith( "gamestore.php" ) )
+		{
+			return false;
+		}
+
+		String action = GenericRequest.getAction( urlString );
 
 		if ( action.equals( "buysnack" ) )
 		{

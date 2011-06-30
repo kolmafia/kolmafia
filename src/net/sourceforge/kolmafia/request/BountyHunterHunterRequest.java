@@ -150,12 +150,17 @@ public class BountyHunterHunterRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
+		if ( !urlString.startsWith( "bhh.php" ) )
+		{
+			return false;
+		}
+
 		CoinmasterData data = BountyHunterHunterRequest.BHH;
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "visit Bounty Hunter Hunter" );
+			RequestLogger.updateSessionLog( "Visiting the Bounty Hunter Hunter" );
 			return true;
 		}
 

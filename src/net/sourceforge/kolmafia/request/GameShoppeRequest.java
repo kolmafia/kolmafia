@@ -190,27 +190,6 @@ public class GameShoppeRequest
 		CoinmastersFrame.externalUpdate();
 	}
 
-	private static final boolean registerRequest( final String urlString, final String action )
-	{
-		// We only claim action=redeem, action=tradein
-
-		if ( action.equals( "redeem" ) )
-		{
-			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		if ( action.equals( "tradein" ) )
-		{
-			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
-			CoinMasterRequest.sellStuff( data, urlString );
-			return true;
-		}
-
-		return FreeSnackRequest.registerRequest( urlString, action );
-	}
-
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "gamestore.php" ) )
@@ -228,9 +207,21 @@ public class GameShoppeRequest
 				message = "Visiting Game Shoppe Cashier";
 			}
 		}
+		else if ( action.equals( "redeem" ) )
+		{
+			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+			CoinMasterRequest.buyStuff( data, urlString );
+			return true;
+		}
+		else if ( action.equals( "tradein" ) )
+		{
+			CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+			CoinMasterRequest.sellStuff( data, urlString );
+			return true;
+		}
 		else
 		{
-			return GameShoppeRequest.registerRequest( urlString, action );
+			return false;
 		}
 
 		if ( message == null )

@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
@@ -92,6 +93,32 @@ public class DollHawkerRequest
 	public DollHawkerRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "spaaace.php" ) || urlString.indexOf( "place=shop2" ) == -1 )
+		{
+			return false;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+
+		if ( action == null )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Visiting Dollhawker's Emporium" );
+			return true;
+		}
+
+		if ( action.equals( "buy" ) )
+		{
+			CoinmasterData data = DollHawkerRequest.DOLLHAWKER;
+			CoinMasterRequest.buyStuff( data, urlString );
+			return true;
+		}
+
+		return false;
 	}
 
 	public static String accessible()
