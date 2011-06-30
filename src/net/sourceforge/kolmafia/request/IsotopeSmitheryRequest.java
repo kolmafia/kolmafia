@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -95,6 +96,32 @@ public class IsotopeSmitheryRequest
 	public IsotopeSmitheryRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "spaaace.php" ) || urlString.indexOf( "place=shop1" ) == -1 )
+		{
+			return false;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+
+		if ( action == null )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Visiting The Isotope Smithery" );
+			return true;
+		}
+
+		if ( action.equals( "buy" ) )
+		{
+			CoinmasterData data = IsotopeSmitheryRequest.ISOTOPE_SMITHERY;
+			CoinMasterRequest.buyStuff( data, urlString );
+			return true;
+		}
+
+		return false;
 	}
 
 	public static String accessible()

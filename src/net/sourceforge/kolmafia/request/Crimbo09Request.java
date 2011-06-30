@@ -181,8 +181,7 @@ public class Crimbo09Request
 		// Buy stuff in the Crimbo Cartel
 		else if ( action.equals( "buygift" ) )
 		{
-			// Let CoinmasterRequest claim this
-			return false;
+			return CrimboCartelRequest.registerRequest( urlString );
 		}
 
 		// Trade elf resistance buttons for Crimbux

@@ -99,15 +99,15 @@ public class GrandpaRequest
 		}
 
 		Matcher matcher = WHO_PATTERN.matcher( urlString );
-		if ( matcher.find() )
+		String action = GenericRequest.getAction( urlString );
+		if ( matcher.find() && action == null )
 		{
-			// Simple visit
+			// Simple visit with no action
 			String NPC = GrandpaRequest.findNPC( Integer.parseInt( matcher.group(1) ) );
 			RequestLogger.updateSessionLog( "Visiting " + NPC );
 			return true;
 		}
 
-		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
 			return false;

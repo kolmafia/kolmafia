@@ -772,26 +772,16 @@ public class SpaaaceRequest
 		SpaaaceRequest.solveGameBoard();
 	}
 
-	private static final boolean registerShopRequest( final String urlString, final String action )
-	{
-		CoinmasterData data = findIsotopeMaster( urlString );
-		if ( data == null )
-		{
-			return false;
-		}
-
-		if ( action.equals( "buy" ) )
-		{
-			CoinMasterRequest.buyStuff( data, urlString );
-		}
-
-		return true;
-	}
-
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "spaaace.php" ) )
 		{
+			return false;
+		}
+
+		if ( urlString.indexOf( "place=shop" ) != -1 )
+		{
+			// Let appropriate Coin Master claim this
 			return false;
 		}
 
@@ -800,19 +790,7 @@ public class SpaaaceRequest
 
 		if ( action == null )
 		{
-			if ( urlString.indexOf( "place=shop1" ) != -1 )
-			{
-				message = "Visiting The Isotope Smithery";
-			}
-			else if ( urlString.indexOf( "place=shop2" ) != -1 )
-			{
-				message = "Visiting Dollhawker's Emporium";
-			}
-			else if ( urlString.indexOf( "place=shop3" ) != -1 )
-			{
-				message = "Visiting The Lunar Lunch-o-Mat";
-			}
-			else if ( urlString.indexOf( "place=porko" ) != -1 )
+			if ( urlString.indexOf( "place=porko" ) != -1 )
 			{
 				message = "Visiting The Porko Palace";
 			}
@@ -832,10 +810,6 @@ public class SpaaaceRequest
 				return true;
 			}
 			message = "[" + KoLAdventure.getAdventureCount() + "] Porko Game";
-		}
-		else if ( action.equals( "buy" ) )
-		{
-			return SpaaaceRequest.registerShopRequest( urlString, action );
 		}
 
 		if ( message == null )

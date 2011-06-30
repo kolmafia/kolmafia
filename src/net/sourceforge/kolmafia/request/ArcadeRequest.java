@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -172,9 +173,8 @@ public class ArcadeRequest
 			return;
 		}
 
-		if ( action.equals( "redeem" ) )
+		if ( TicketCounterRequest.parseResponse( urlString, responseText ) )
 		{
-			TicketCounterRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
@@ -218,11 +218,9 @@ public class ArcadeRequest
 
 		if ( action != null )
 		{
-			if ( action.equals( "redeem" ) )
+			if ( TicketCounterRequest.registerRequest( urlString ) )
 			{
-				// Buy stuff at the ticket counter
-				// Let CoinmasterRequest claim this
-				return false;
+				return true;
 			}
 
 			// Other actions of interest require tokens. Do we have

@@ -1942,6 +1942,11 @@ public class IslandDecorator
 
 	public static final boolean registerIslandRequest( final String urlString )
 	{
+		if ( !urlString.startsWith( "bigisland.php" ) )
+		{
+			return false;
+		}
+
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{

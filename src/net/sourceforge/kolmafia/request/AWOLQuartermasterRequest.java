@@ -125,7 +125,7 @@ public class AWOLQuartermasterRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		// inv_use.php?whichitem=5116&pwd&doit=69&tobuy=xxx&howmany=yyy
-		if ( urlString.indexOf( "whichitem=5116" ) == -1 )
+		if ( !urlString.startsWith( "inv_use.php" ) || urlString.indexOf( "whichitem=5116" ) == -1 )
 		{
 			return false;
 		}

@@ -180,6 +180,11 @@ public class MrStoreRequest
 
 	public static boolean registerRequest( final String urlString )
 	{
+		if ( !urlString.startsWith( "mrstore.php" ) )
+		{
+			return false;
+		}
+
 		String action = GenericRequest.getAction( urlString );
 		String message = null;
 

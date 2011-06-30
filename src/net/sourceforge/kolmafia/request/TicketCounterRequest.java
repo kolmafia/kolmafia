@@ -96,14 +96,24 @@ public class TicketCounterRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
-	public static void parseResponse( final String urlString, final String responseText )
+	public static boolean parseResponse( final String urlString, final String responseText )
 	{
-		CoinMasterRequest.parseResponse( TicketCounterRequest.TICKET_COUNTER, urlString, responseText );
+		if ( urlString.indexOf( "action=redeem" ) != -1 )
+		{
+			CoinMasterRequest.parseResponse( TicketCounterRequest.TICKET_COUNTER, urlString, responseText );
+			return true;
+		}
+
+		return false;
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
 		// We only claim arcade.php?action=redeem
+		if ( !urlString.startsWith( "arcade.php" ) )
+		{
+			return false;
+		}
 
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )

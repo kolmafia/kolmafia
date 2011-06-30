@@ -102,6 +102,32 @@ public class DimemasterRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "bigisland.php" ) || urlString.indexOf( "whichcamp=1" ) == -1 )
+		{
+			return false;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
+		{
+			return true;
+		}
+
+		CoinmasterData data = DimemasterRequest.HIPPY;
+		if ( action.equals( "getgear" ) )
+		{
+			CoinMasterRequest.buyStuff( data, urlString );
+		}
+		else if ( action.equals( "turnin" ) )
+		{
+			CoinMasterRequest.sellStuff( data, urlString );
+		}
+
+		return true;
+	}
+
 	public static String accessible()
 	{
 		IslandDecorator.ensureUpdatedBigIsland();

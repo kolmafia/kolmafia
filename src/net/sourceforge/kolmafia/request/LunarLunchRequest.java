@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -98,6 +99,32 @@ public class LunarLunchRequest
 	public static final void buy( final int itemId, final int count )
 	{
 		RequestThread.postRequest( new LunarLunchRequest( "buy", itemId, count ) );
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "spaaace.php" ) || urlString.indexOf( "place=shop3" ) == -1 )
+		{
+			return false;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+
+		if ( action == null )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Visiting The Lunar Lunch-o-Mat" );
+			return true;
+		}
+
+		if ( action.equals( "buy" ) )
+		{
+			CoinmasterData data = LunarLunchRequest.LUNAR_LUNCH;
+			CoinMasterRequest.buyStuff( data, urlString );
+			return true;
+		}
+
+		return false;
 	}
 
 	public static String accessible()
