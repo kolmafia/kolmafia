@@ -108,20 +108,8 @@ public class AltarOfBonesRequest
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( !action.equals( "buy" ) )
-		{
-			return false;
-		}
-
 		CoinmasterData data = AltarOfBonesRequest.ALTAR_OF_BONES;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
+		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 
 	public static String accessible()

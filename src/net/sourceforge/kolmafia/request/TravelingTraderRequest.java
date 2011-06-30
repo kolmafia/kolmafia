@@ -261,30 +261,6 @@ public class TravelingTraderRequest
 		}
 
 		CoinmasterData data = TravelingTraderRequest.TRAVELER;
-		String action = GenericRequest.getAction( urlString );
-		String message = null;
-
-		if ( action == null )
-		{
-			message = "Visiting Traveling Trader";
-		}
-		else if ( action.equals( data.getBuyAction() ) )
-		{
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		if ( message == null )
-		{
-			return false;
-		}
-
-		RequestLogger.printLine( "" );
-		RequestLogger.printLine( message );
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( message );
-
-		return true;
+		return CoinMasterRequest.registerRequest( data, urlString, true );
 	}
 }

@@ -102,23 +102,8 @@ public class DollHawkerRequest
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-
-		if ( action == null )
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "Visiting Dollhawker's Emporium" );
-			return true;
-		}
-
-		if ( action.equals( "buy" ) )
-		{
-			CoinmasterData data = DollHawkerRequest.DOLLHAWKER;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		return false;
+		CoinmasterData data = DollHawkerRequest.DOLLHAWKER;
+		return CoinMasterRequest.registerRequest( data, urlString, true );
 	}
 
 	public static String accessible()

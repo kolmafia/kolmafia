@@ -186,34 +186,14 @@ public class MrStoreRequest
 		}
 
 		String action = GenericRequest.getAction( urlString );
-		String message = null;
-
-		if ( action == null )
+		if ( action != null && action.equals( "pullmras" ) )
 		{
-			message = "Visiting Mr. Store";
-		}
-		else if ( action.equals( "pullmras" ) )
-		{
-			message = "Pulling a Mr. Accessory from storage";
-		}
-		else if ( action.equals( "buy" ) )
-		{
-			CoinmasterData data = MrStoreRequest.MR_STORE;
-			CoinMasterRequest.buyStuff( data, urlString );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Pulling a Mr. Accessory from storage" );
 			return true;
 		}
 
-		if ( message == null )
-		{
-			return false;
-		}
-
-		RequestLogger.printLine( "" );
-		RequestLogger.printLine( message );
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( message );
-
-		return true;
+		CoinmasterData data = MrStoreRequest.MR_STORE;
+		return CoinMasterRequest.registerRequest( data, urlString, true );
 	}
 }

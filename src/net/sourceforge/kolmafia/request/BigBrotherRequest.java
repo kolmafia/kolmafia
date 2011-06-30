@@ -201,32 +201,19 @@ public class BigBrotherRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		// We only claim monkeycastle.php?action=buyitem
+		// We only claim monkeycastle.php?action=buyitem or
+		// monkeycastle.php?who=2
 		if ( !urlString.startsWith( "monkeycastle.php" ) )
 		{
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			if ( urlString.indexOf( "who=2" ) != -1 )
-			{
-				// Simple visit
-				RequestLogger.updateSessionLog( "Visiting Big Brother" );
-				return true;
-			}
-
-			return false;
-		}
-
-		if ( !action.equals( "buyitem" ) )
+		if ( urlString.indexOf( "action" ) == -1 && urlString.indexOf( "who=2" ) == -1 )
 		{
 			return false;
 		}
 
 		CoinmasterData data = BigBrotherRequest.BIG_BROTHER;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
+		return CoinMasterRequest.registerRequest( data, urlString, true );
 	}
 }

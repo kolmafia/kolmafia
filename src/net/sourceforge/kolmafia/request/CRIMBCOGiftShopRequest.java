@@ -127,20 +127,8 @@ public class CRIMBCOGiftShopRequest
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-		if ( action == null )
-		{
-			return false;
-		}
-
-		if ( !action.equals( "buygift" ) )
-		{
-			return false;
-		}
-
 		CoinmasterData data = CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP;
-		CoinMasterRequest.buyStuff( data, urlString );
-		return true;
+		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 
 	public static String accessible()

@@ -537,4 +537,40 @@ public class CoinMasterRequest
 			ResultProcessor.processResult( current );
 		}
 	}
+
+	public static final boolean registerRequest( final CoinmasterData data, final String urlString )
+	{
+		return registerRequest( data, urlString, false );
+	}
+
+	public static final boolean registerRequest( final CoinmasterData data, final String urlString, final boolean logVisits )
+	{
+		String action = GenericRequest.getAction( urlString );
+
+		if ( action == null )
+		{
+			if ( logVisits )
+			{
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Visiting " + data.getMaster() );
+			}
+			return true;
+		}
+
+		String buyAction = data.getBuyAction();
+		if ( buyAction != null && action.equals( buyAction ) )
+		{
+			CoinMasterRequest.buyStuff( data, urlString );
+			return true;
+		}
+
+		String sellAction = data.getSellAction();
+		if ( sellAction != null && action.equals( sellAction ) )
+		{
+			CoinMasterRequest.sellStuff( data, urlString );
+			return true;
+		}
+
+		return false;
+	}
 }

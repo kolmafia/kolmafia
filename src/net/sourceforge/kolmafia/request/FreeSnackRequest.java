@@ -119,16 +119,8 @@ public class FreeSnackRequest
 			return false;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-
-		if ( action.equals( "buysnack" ) )
-		{
-			CoinmasterData data = FreeSnackRequest.FREESNACKS;
-			CoinMasterRequest.buyStuff( data, urlString );
-			return true;
-		}
-
-		return false;
+		CoinmasterData data = FreeSnackRequest.FREESNACKS;
+		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 
 	public static final void  buy( final int itemId, final int count )
