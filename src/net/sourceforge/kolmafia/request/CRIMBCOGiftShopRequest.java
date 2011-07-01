@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -46,11 +49,15 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class CRIMBCOGiftShopRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "CRIMBCO Gift Shop"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( CRIMBCOGiftShopRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( CRIMBCOGiftShopRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have <b>([\\d,]+)</b> CRIMBCO scrip" );
 	public static final AdventureResult CRIMBCO_SCRIP = ItemPool.get( ItemPool.CRIMBCO_SCRIP, 1 );
 	public static final CoinmasterData CRIMBCO_GIFT_SHOP =
 		new CoinmasterData(
-			"CRIMBCO Gift Shop",
+			CRIMBCOGiftShopRequest.master,
 			CRIMBCOGiftShopRequest.class,
 			"crimbo10.php",
 			"CRIMBCO scrip",
@@ -64,8 +71,8 @@ public class CRIMBCOGiftShopRequest
 			"howmany",
 			CoinMasterRequest.HOWMANY_PATTERN,
 			"buygift",
-			CoinmastersDatabase.getScripItems(),
-			CoinmastersDatabase.scripBuyPrices(),
+			CRIMBCOGiftShopRequest.buyItems,
+			CRIMBCOGiftShopRequest.buyPrices,
 			null,
 			null
 			);

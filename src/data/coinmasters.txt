@@ -1,283 +1,288 @@
-1
+2
 # Things you can sell to get dimes
 
-sd	3	beer bong
-sd	1	beer helmet
-sd	1	bejeweled pledge pin
-sd	3	blue class ring
-sd	1	bottle opener belt buckle
-sd	1	distressed denim pants
-sd	3	Elmley shades
-sd	3	energy drink IV
-sd	1	giant foam finger
-sd	1	keg shield
-sd	2	kick-ass kicks
-sd	2	PADL Phone
-sd	1	perforated battle paddle
-sd	1	red class ring
-sd	2	war tongs
-sd	5	white class ring
+Dimemaster	sell	3	beer bong
+Dimemaster	sell	1	beer helmet
+Dimemaster	sell	1	bejeweled pledge pin
+Dimemaster	sell	3	blue class ring
+Dimemaster	sell	1	bottle opener belt buckle
+Dimemaster	sell	1	distressed denim pants
+Dimemaster	sell	3	Elmley shades
+Dimemaster	sell	3	energy drink IV
+Dimemaster	sell	1	giant foam finger
+Dimemaster	sell	1	keg shield
+Dimemaster	sell	2	kick-ass kicks
+Dimemaster	sell	2	PADL Phone
+Dimemaster	sell	1	perforated battle paddle
+Dimemaster	sell	1	red class ring
+Dimemaster	sell	2	war tongs
+Dimemaster	sell	5	white class ring
 
 # Things you can buy with dimes
 
-bd	1	water pipe bomb
-bd	1	ferret bait
-bd	2	filthy poultice
-bd	3	carbonated soy milk
-bd	4	macrame net
-bd	5	fancy seashell necklace
-bd	10	Hippy Army MPE
-bd	15	Gaia beads
-bd	15	Lockenstock&trade; sandals
-bd	20	lead pipe
-bd	25	hippy medical kit
-bd	30	wicker shield
-bd	35	didgeridooka
-bd	40	fire poi
-bd	50	giant driftwood sculpture
-bd	50	massive sitar
-bdl	2	patchouli oil bomb
-bdl	2	exploding hacky-sack
+Dimemaster	buy	1	water pipe bomb
+Dimemaster	buy	1	ferret bait
+Dimemaster	buy	2	filthy poultice
+Dimemaster	buy	3	carbonated soy milk
+Dimemaster	buy	4	macrame net
+Dimemaster	buy	5	fancy seashell necklace
+Dimemaster	buy	10	Hippy Army MPE
+Dimemaster	buy	15	Gaia beads
+Dimemaster	buy	15	Lockenstock&trade; sandals
+Dimemaster	buy	20	lead pipe
+Dimemaster	buy	25	hippy medical kit
+Dimemaster	buy	30	wicker shield
+Dimemaster	buy	35	didgeridooka
+Dimemaster	buy	40	fire poi
+Dimemaster	buy	50	giant driftwood sculpture
+Dimemaster	buy	50	massive sitar
+Dimemaster	buy	2	patchouli oil bomb
+Dimemaster	buy	2	exploding hacky-sack
+
+Lighthouse	patchouli oil bomb
+Lighthouse	exploding hacky-sack
 
 # Things you can sell to get quarters
 
-sq	1	bullet-proof corduroys
-sq	2	communications windchimes
-sq	2	didgeridooka
-sq	3	fire poi
-sq	2	flowing hippy skirt
-sq	2	Gaia beads
-sq	5	green clay bead
-sq	3	hippy medical kit
-sq	1	hippy protest button
-sq	1	lead pipe
-sq	2	Lockenstock&trade; sandals
-sq	1	pink clay bead
-sq	3	purple clay bead
-sq	1	reinforced beaded headband
-sq	3	round green sunglasses
-sq	1	round purple sunglasses
-sq	2	wicker shield
+Quartersmaster	sell	1	bullet-proof corduroys
+Quartersmaster	sell	2	communications windchimes
+Quartersmaster	sell	2	didgeridooka
+Quartersmaster	sell	3	fire poi
+Quartersmaster	sell	2	flowing hippy skirt
+Quartersmaster	sell	2	Gaia beads
+Quartersmaster	sell	5	green clay bead
+Quartersmaster	sell	3	hippy medical kit
+Quartersmaster	sell	1	hippy protest button
+Quartersmaster	sell	1	lead pipe
+Quartersmaster	sell	2	Lockenstock&trade; sandals
+Quartersmaster	sell	1	pink clay bead
+Quartersmaster	sell	3	purple clay bead
+Quartersmaster	sell	1	reinforced beaded headband
+Quartersmaster	sell	3	round green sunglasses
+Quartersmaster	sell	1	round purple sunglasses
+Quartersmaster	sell	2	wicker shield
 
-# Things you can buy with dimes
+# Things you can buy with quarters
 
-bq	1	beer bomb
-bq	1	sake bomb
-bq	2	gauze garter
-bq	3	Monstar energy beverage
-bq	4	superamplified boom box
-bq	5	commemorative war stein
-bq	10	Frat Army FGF
-bq	15	giant foam finger
-bq	15	kick-ass kicks
-bq	20	war tongs
-bq	25	energy drink IV
-bq	30	keg shield
-bq	35	perforated battle paddle
-bq	40	beer bong
-bq	50	cast-iron legacy paddle
-bq	50	beer-a-pult
-bql	2	tequila grenade
-bql	2	molotov cocktail cocktail
+Quartersmaster	buy	1	beer bomb
+Quartersmaster	buy	1	sake bomb
+Quartersmaster	buy	2	gauze garter
+Quartersmaster	buy	3	Monstar energy beverage
+Quartersmaster	buy	4	superamplified boom box
+Quartersmaster	buy	5	commemorative war stein
+Quartersmaster	buy	10	Frat Army FGF
+Quartersmaster	buy	15	giant foam finger
+Quartersmaster	buy	15	kick-ass kicks
+Quartersmaster	buy	20	war tongs
+Quartersmaster	buy	25	energy drink IV
+Quartersmaster	buy	30	keg shield
+Quartersmaster	buy	35	perforated battle paddle
+Quartersmaster	buy	40	beer bong
+Quartersmaster	buy	50	cast-iron legacy paddle
+Quartersmaster	buy	50	beer-a-pult
+Quartersmaster	buy	2	tequila grenade
+Quartersmaster	buy	2	molotov cocktail cocktail
+
+Lighthouse	tequila grenade
+Lighthouse	molotov cocktail cocktail
 
 # Things you can buy with lucre
 
-bl	1	bowl of Bounty-Os
-bl	1	Oreille Divis&eacute;e brandy
-bl	1	odor extractor
-bl	15	bounty-hunting helmet
-bl	15	bounty-hunting rifle
-bl	15	bounty-hunting pants
-bl	100	pompadour'd puppy
-bl	200	Manual of Transcendent Olfaction
+Bounty Hunter Hunter	buy	1	bowl of Bounty-Os
+Bounty Hunter Hunter	buy	1	Oreille Divis&eacute;e brandy
+Bounty Hunter Hunter	buy	1	odor extractor
+Bounty Hunter Hunter	buy	15	bounty-hunting helmet
+Bounty Hunter Hunter	buy	15	bounty-hunting rifle
+Bounty Hunter Hunter	buy	15	bounty-hunting pants
+Bounty Hunter Hunter	buy	100	pompadour'd puppy
+Bounty Hunter Hunter	buy	200	Manual of Transcendent Olfaction
 
 # Things you can buy with sand dollars
 
-bs	1	dolphin whistle
-bs	5	sea grease
-bs	10	rusty valve wheel
-bs	10	waterlogged bootstraps
-bs	20	decaying wooden oar
-bs	20	giant fishhook
-bs	20	rusty old lantern
-bs	25	map to the Skate Park
-bs	50	map to Madness Reef
-bs	50	map to the Marinara Trench
-bs	50	map to Anemone Mine
-bs	50	map to the Dive Bar
-bs	100	damp old boot
-bs	100	sushi-rolling mat
+Big Brother	buy	1	dolphin whistle
+Big Brother	buy	5	sea grease
+Big Brother	buy	10	rusty valve wheel
+Big Brother	buy	10	waterlogged bootstraps
+Big Brother	buy	20	decaying wooden oar
+Big Brother	buy	20	giant fishhook
+Big Brother	buy	20	rusty old lantern
+Big Brother	buy	25	map to the Skate Park
+Big Brother	buy	50	map to Madness Reef
+Big Brother	buy	50	map to the Marinara Trench
+Big Brother	buy	50	map to Anemone Mine
+Big Brother	buy	50	map to the Dive Bar
+Big Brother	buy	100	damp old boot
+Big Brother	buy	100	sushi-rolling mat
 
 # Things you can buy with Crimbux
 
-bc	1	battered Crimbo Crate
-bc	5	dusty Crimbo crate
-bc	10	sturdy Crimbo crate
-bc	100	Crimbo wreath
-bc	100	string of Crimbo lights
-bc	100	plastic Crimbo reindeer
-bc	500	gingerbread house
-bc	1000	leftover Crimbo rations
-bc	1000	A Crimbo Carol, Ch. 1
-bc	1000	A Crimbo Carol, Ch. 2
-bc	1000	A Crimbo Carol, Ch. 3
-bc	1000	A Crimbo Carol, Ch. 4
-bc	1000	A Crimbo Carol, Ch. 5
-bc	1000	A Crimbo Carol, Ch. 6
-bc	2000	snow hat
-bc	2000	snow belt
-bc	2000	snow pants
-bc	5000	pile of loose snow
-bc	10000	Crimbough
+Crimbo Cartel	buy	1	battered Crimbo Crate
+Crimbo Cartel	buy	5	dusty Crimbo crate
+Crimbo Cartel	buy	10	sturdy Crimbo crate
+Crimbo Cartel	buy	100	Crimbo wreath
+Crimbo Cartel	buy	100	string of Crimbo lights
+Crimbo Cartel	buy	100	plastic Crimbo reindeer
+Crimbo Cartel	buy	500	gingerbread house
+Crimbo Cartel	buy	1000	leftover Crimbo rations
+Crimbo Cartel	buy	1000	A Crimbo Carol, Ch. 1
+Crimbo Cartel	buy	1000	A Crimbo Carol, Ch. 2
+Crimbo Cartel	buy	1000	A Crimbo Carol, Ch. 3
+Crimbo Cartel	buy	1000	A Crimbo Carol, Ch. 4
+Crimbo Cartel	buy	1000	A Crimbo Carol, Ch. 5
+Crimbo Cartel	buy	1000	A Crimbo Carol, Ch. 6
+Crimbo Cartel	buy	2000	snow hat
+Crimbo Cartel	buy	2000	snow belt
+Crimbo Cartel	buy	2000	snow pants
+Crimbo Cartel	buy	5000	pile of loose snow
+Crimbo Cartel	buy	10000	Crimbough
 
 # Things you can buy with Game Grid tickets
 
-bt	1	finger cuffs
-bt	2	little parachute guy
-bt	5	superduperball
-bt	10	coffee pixie stick
-bt	25	plastic spider ring
-bt	100	cheap plastic kazoo
-bt	100	inflatable baseball bat
-bt	250	googly-star hat
-bt	250	googly-ball hat
-bt	250	googly-heart hat
-bt	2000	Game Grid valued membership card
-bt	5000	super-sweet boom box
-bt	1000	Space Trip safety headphones
-bt	1000	sinister demon mask
-bt	1000	Dungeon Fist gauntlet
-bt	1000	streetfighting champion's belt
-bt	1000	Meteoid ice beam
+Arcade Ticket Counter	buy	1	finger cuffs
+Arcade Ticket Counter	buy	2	little parachute guy
+Arcade Ticket Counter	buy	5	superduperball
+Arcade Ticket Counter	buy	10	coffee pixie stick
+Arcade Ticket Counter	buy	25	plastic spider ring
+Arcade Ticket Counter	buy	100	cheap plastic kazoo
+Arcade Ticket Counter	buy	100	inflatable baseball bat
+Arcade Ticket Counter	buy	250	googly-star hat
+Arcade Ticket Counter	buy	250	googly-ball hat
+Arcade Ticket Counter	buy	250	googly-heart hat
+Arcade Ticket Counter	buy	2000	Game Grid valued membership card
+Arcade Ticket Counter	buy	5000	super-sweet boom box
+Arcade Ticket Counter	buy	1000	Space Trip safety headphones
+Arcade Ticket Counter	buy	1000	sinister demon mask
+Arcade Ticket Counter	buy	1000	Dungeon Fist gauntlet
+Arcade Ticket Counter	buy	1000	streetfighting champion's belt
+Arcade Ticket Counter	buy	1000	Meteoid ice beam
 
 # Things you can buy with bone chips
-
-bb	50	bone meal
-bb	50	bone aperitif
-bb	100	bonerang
-bb	200	bone and arrows
-bb	100	boning knife
-bb	200	bone crusher
-bb	300	bone spurs
-bb	300	bonedanna
-bb	300	boneana hammock
+Altar of Bones	buy	50	bone meal
+Altar of Bones	buy	50	bone aperitif
+Altar of Bones	buy	100	bonerang
+Altar of Bones	buy	200	bone and arrows
+Altar of Bones	buy	100	boning knife
+Altar of Bones	buy	200	bone crusher
+Altar of Bones	buy	300	bone spurs
+Altar of Bones	buy	300	bonedanna
+Altar of Bones	buy	300	boneana hammock
 
 # Things you can buy with CRIMBCO scrip
 
-bcs	5	paperclip
-bcs	10	Workytime Tea
-bcs	25	CRIMBCO lanyard
-bcs	50	bottle of Blank-Out
-bcs	200	portable photocopier
-bcs	1000	CRIMBCO Employee Handbook (chapter 1)
-bcs	1000	CRIMBCO Employee Handbook (chapter 2)
-bcs	1000	CRIMBCO Employee Handbook (chapter 3)
-bcs	1000	CRIMBCO Employee Handbook (chapter 4)
-bcs	1000	CRIMBCO Employee Handbook (chapter 5)
-bcs	10000	deluxe fax machine
+CRIMBCO Gift Shop	buy	5	paperclip
+CRIMBCO Gift Shop	buy	10	Workytime Tea
+CRIMBCO Gift Shop	buy	25	CRIMBCO lanyard
+CRIMBCO Gift Shop	buy	50	bottle of Blank-Out
+CRIMBCO Gift Shop	buy	200	portable photocopier
+CRIMBCO Gift Shop	buy	1000	CRIMBCO Employee Handbook (chapter 1)
+CRIMBCO Gift Shop	buy	1000	CRIMBCO Employee Handbook (chapter 2)
+CRIMBCO Gift Shop	buy	1000	CRIMBCO Employee Handbook (chapter 3)
+CRIMBCO Gift Shop	buy	1000	CRIMBCO Employee Handbook (chapter 4)
+CRIMBCO Gift Shop	buy	1000	CRIMBCO Employee Handbook (chapter 5)
+CRIMBCO Gift Shop	buy	10000	deluxe fax machine
 
 # Things you can sell to get store credit
 
-ssc	1	Alice's Army Swordsman
-ssc	1	Alice's Army Spearsman
-ssc	1	Alice's Army Halberder
-ssc	1	Alice's Army Guard
-ssc	1	Alice's Army Wallman
-ssc	1	Alice's Army Ninja
-ssc	1	Alice's Army Alchemist
-ssc	1	Alice's Army Page
-ssc	1	Alice's Army Shieldmaiden
-ssc	1	Alice's Army Mad Bomber
-ssc	1	Alice's Army Nurse
-ssc	5	Alice's Army Hammerman
-ssc	5	Alice's Army Bowman
-ssc	5	Alice's Army Lanceman
-ssc	5	Alice's Army Horseman
-ssc	5	Alice's Army Coward
-ssc	5	Alice's Army Cleric
-ssc	50	Alice's Army Sniper
-ssc	50	Alice's Army Dervish
-ssc	50	Alice's Army Martyr
-ssc	50	Alice's Army Foil Swordsman
-ssc	50	Alice's Army Foil Spearsman
-ssc	50	Alice's Army Foil Halberder
-ssc	50	Alice's Army Foil Guard
-ssc	50	Alice's Army Foil Wallman
-ssc	50	Alice's Army Foil Ninja
-ssc	50	Alice's Army Foil Alchemist
-ssc	50	Alice's Army Foil Page
-ssc	50	Alice's Army Foil Shieldmaiden
-ssc	50	Alice's Army Foil Mad Bomber
-ssc	50	Alice's Army Foil Nurse
-ssc	250	Alice's Army Foil Hammerman
-ssc	250	Alice's Army Foil Bowman
-ssc	250	Alice's Army Foil Lanceman
-ssc	250	Alice's Army Foil Horseman
-ssc	250	Alice's Army Foil Coward
-ssc	250	Alice's Army Foil Cleric
-ssc	2500	Alice's Army Foil Sniper
-ssc	2500	Alice's Army Foil Dervish
-ssc	2500	Alice's Army Foil Martyr
+Game Shoppe	sell	1	Alice's Army Swordsman
+Game Shoppe	sell	1	Alice's Army Spearsman
+Game Shoppe	sell	1	Alice's Army Halberder
+Game Shoppe	sell	1	Alice's Army Guard
+Game Shoppe	sell	1	Alice's Army Wallman
+Game Shoppe	sell	1	Alice's Army Ninja
+Game Shoppe	sell	1	Alice's Army Alchemist
+Game Shoppe	sell	1	Alice's Army Page
+Game Shoppe	sell	1	Alice's Army Shieldmaiden
+Game Shoppe	sell	1	Alice's Army Mad Bomber
+Game Shoppe	sell	1	Alice's Army Nurse
+Game Shoppe	sell	5	Alice's Army Hammerman
+Game Shoppe	sell	5	Alice's Army Bowman
+Game Shoppe	sell	5	Alice's Army Lanceman
+Game Shoppe	sell	5	Alice's Army Horseman
+Game Shoppe	sell	5	Alice's Army Coward
+Game Shoppe	sell	5	Alice's Army Cleric
+Game Shoppe	sell	50	Alice's Army Sniper
+Game Shoppe	sell	50	Alice's Army Dervish
+Game Shoppe	sell	50	Alice's Army Martyr
+Game Shoppe	sell	50	Alice's Army Foil Swordsman
+Game Shoppe	sell	50	Alice's Army Foil Spearsman
+Game Shoppe	sell	50	Alice's Army Foil Halberder
+Game Shoppe	sell	50	Alice's Army Foil Guard
+Game Shoppe	sell	50	Alice's Army Foil Wallman
+Game Shoppe	sell	50	Alice's Army Foil Ninja
+Game Shoppe	sell	50	Alice's Army Foil Alchemist
+Game Shoppe	sell	50	Alice's Army Foil Page
+Game Shoppe	sell	50	Alice's Army Foil Shieldmaiden
+Game Shoppe	sell	50	Alice's Army Foil Mad Bomber
+Game Shoppe	sell	50	Alice's Army Foil Nurse
+Game Shoppe	sell	250	Alice's Army Foil Hammerman
+Game Shoppe	sell	250	Alice's Army Foil Bowman
+Game Shoppe	sell	250	Alice's Army Foil Lanceman
+Game Shoppe	sell	250	Alice's Army Foil Horseman
+Game Shoppe	sell	250	Alice's Army Foil Coward
+Game Shoppe	sell	250	Alice's Army Foil Cleric
+Game Shoppe	sell	2500	Alice's Army Foil Sniper
+Game Shoppe	sell	2500	Alice's Army Foil Dervish
+Game Shoppe	sell	2500	Alice's Army Foil Martyr
 
 # Things you can buy with store credit
 
-bsc	100	Single Alice's Army Foil
-bsc	750	Pack of Alice's Army Foil Cards
-bsc	2500	card sleeve
-bsc	10000	Alice's Army Foil tattoo
+Game Shoppe	buy	100	Single Alice's Army Foil
+Game Shoppe	buy	750	Pack of Alice's Army Foil Cards
+Game Shoppe	buy	2500	card sleeve
+Game Shoppe	buy	10000	Alice's Army Foil tattoo
 
 # Things you can buy with snack vouchers
 
-bsv	1	wasabi pocky
-bsv	1	tobiko pocky
-bsv	1	natto pocky
-bsv	1	wasabi-infused sake
-bsv	1	tobiko-infused sake
-bsv	1	natto-infused sake
-bsv	1	wasabi marble soda
-bsv	1	tobiko marble soda
-bsv	1	natto marble soda
+Game Shoppe Snacks	buy	1	wasabi pocky
+Game Shoppe Snacks	buy	1	tobiko pocky
+Game Shoppe Snacks	buy	1	natto pocky
+Game Shoppe Snacks	buy	1	wasabi-infused sake
+Game Shoppe Snacks	buy	1	tobiko-infused sake
+Game Shoppe Snacks	buy	1	natto-infused sake
+Game Shoppe Snacks	buy	1	wasabi marble soda
+Game Shoppe Snacks	buy	1	tobiko marble soda
+Game Shoppe Snacks	buy	1	natto marble soda
 
 # Things you can buy with A. W. O. L. commendations
 
-bac	1	Ultrasoldier Serum
-bac	5	Field Guide to Skeletal Anatomy
-bac	20	mirrored aviator shades
-bac	50	leather aviator's cap
-bac	1	A. W. O. L. Tattoo #1	1
-bac	10	A. W. O. L. Tattoo #2	2
-bac	25	A. W. O. L. Tattoo #3	3
-bac	50	A. W. O. L. Tattoo #4	4
-bac	100	A. W. O. L. Tattoo #5	5
+A. W. O. L. Quartermaster	buy	1	Ultrasoldier Serum
+A. W. O. L. Quartermaster	buy	5	Field Guide to Skeletal Anatomy
+A. W. O. L. Quartermaster	buy	20	mirrored aviator shades
+A. W. O. L. Quartermaster	buy	50	leather aviator's cap
+A. W. O. L. Quartermaster	buy	1	A. W. O. L. Tattoo #1	1
+A. W. O. L. Quartermaster	buy	10	A. W. O. L. Tattoo #2	2
+A. W. O. L. Quartermaster	buy	25	A. W. O. L. Tattoo #3	3
+A. W. O. L. Quartermaster	buy	50	A. W. O. L. Tattoo #4	4
+A. W. O. L. Quartermaster	buy	100	A. W. O. L. Tattoo #5	5
 
 # Things you can buy with lunar isotopes
 
-bli1	1000	Mint-in-box Moonthril Circlet
-bli1	1250	Mint-in-box Moonthril Flamberge
-bli1	1500	Mint-in-box Moonthril Longbow
-bli1	1750	Mint-in-box Moonthril Greaves
-bli1	2000	Mint-in-box Moonthril Cuirass
+Isotope Smithery	buy	1000	Mint-in-box Moonthril Circlet
+Isotope Smithery	buy	1250	Mint-in-box Moonthril Flamberge
+Isotope Smithery	buy	1500	Mint-in-box Moonthril Longbow
+Isotope Smithery	buy	1750	Mint-in-box Moonthril Greaves
+Isotope Smithery	buy	2000	Mint-in-box Moonthril Cuirass
 
-bli2	100	plush alielf
-bli2	150	plush dogcat
-bli2	200	plush hamsterpus
-bli2	300	plush ferrelf
-bli2	400	plush mutated alielf
-bli2	500	plush alien hamsterpus
-bli2	1000	plush mutated alielephant
+Dollhawker's Emporium	buy	100	plush alielf
+Dollhawker's Emporium	buy	150	plush dogcat
+Dollhawker's Emporium	buy	200	plush hamsterpus
+Dollhawker's Emporium	buy	300	plush ferrelf
+Dollhawker's Emporium	buy	400	plush mutated alielf
+Dollhawker's Emporium	buy	500	plush alien hamsterpus
+Dollhawker's Emporium	buy	1000	plush mutated alielephant
 
-bli3	10	Saison du Lune
-bli3	50	Moonthril Schnapps
-bli3	100	Wrecked Generator
-bli3	10	Spaghetti with Moonballs
-bli3	50	Crepes a la Lune
-bli3	100	Moon Pie
-bli3	1	Comet Pop
-bli3	5	Flan in the Moon
-bli3	10	1/6th Pound Cake
+Lunar Lunch-o-Mat	buy	10	Saison du Lune
+Lunar Lunch-o-Mat	buy	50	Moonthril Schnapps
+Lunar Lunch-o-Mat	buy	100	Wrecked Generator
+Lunar Lunch-o-Mat	buy	10	Spaghetti with Moonballs
+Lunar Lunch-o-Mat	buy	50	Crepes a la Lune
+Lunar Lunch-o-Mat	buy	100	Moon Pie
+Lunar Lunch-o-Mat	buy	1	Comet Pop
+Lunar Lunch-o-Mat	buy	5	Flan in the Moon
+Lunar Lunch-o-Mat	buy	10	1/6th Pound Cake
 
 # Things you can buy with yeti furs
 
-byf	1	yak skin
-byf	1	penguin skin
-byf	1	hippopotamus skin
+L33t Tr4pz0r	buy	1	yak skin
+L33t Tr4pz0r	buy	1	penguin skin
+L33t Tr4pz0r	buy	1	hippopotamus skin

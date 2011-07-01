@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -46,11 +49,15 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class CrimboCartelRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Crimbo Cartel"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( CrimboCartelRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( CrimboCartelRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have <b>([\\d,]+)</b> Crimbux" );
 	public static final AdventureResult CRIMBUCK = ItemPool.get( ItemPool.CRIMBUCK, 1 );
 	public static final CoinmasterData CRIMBO_CARTEL =
 		new CoinmasterData(
-			"Crimbo Cartel",
+			CrimboCartelRequest.master,
 			CrimboCartelRequest.class,
 			"crimbo09.php",
 			"Crimbuck",
@@ -64,8 +71,8 @@ public class CrimboCartelRequest
 			"howmany",
 			CoinMasterRequest.HOWMANY_PATTERN,
 			"buygift",
-			CoinmastersDatabase.getCrimbuckItems(),
-			CoinmastersDatabase.crimbuckBuyPrices(),
+			CrimboCartelRequest.buyItems,
+			CrimboCartelRequest.buyPrices,
 			null,
 			null
 			);

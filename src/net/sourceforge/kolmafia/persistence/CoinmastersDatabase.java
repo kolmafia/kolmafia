@@ -58,63 +58,72 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinmastersDatabase
 	extends KoLDatabase
 {
+	// Map from String -> LockableListModel
+	public static final TreeMap items = new TreeMap();
+
+	// Map from String -> LockableListModel
+	public static final TreeMap buyItems = new TreeMap();
+
+	// Map from String -> Map from String -> Integer
+	public static final TreeMap buyPrices = new TreeMap();
+
+	// Map from String -> Map from String -> Integer
+	public static final TreeMap sellPrices = new TreeMap();
+
+	// Map from Integer( itemId ) -> CoinMasterPurchaseRequest
 	public static final HashMap COINMASTER_ITEMS = new HashMap();
 
-	private static final LockableListModel buyForDimes = new LockableListModel();
-	private static final Map dimeSellPriceByName = new TreeMap();
-	private static final Map dimeBuyPriceByName = new TreeMap();
+	public static final LockableListModel getItems( final String key )
+	{
+		return (LockableListModel)CoinmastersDatabase.items.get( key );
+	}
 
-	private static final LockableListModel buyForQuarters = new LockableListModel();
-	private static final Map quarterSellPriceByName = new TreeMap();
-	private static final Map quarterBuyPriceByName = new TreeMap();
+	public static final LockableListModel getBuyItems( final String key )
+	{
+		return (LockableListModel)CoinmastersDatabase.buyItems.get( key );
+	}
 
-	private static final LockableListModel buyForLucre = new LockableListModel();
-	private static final Map lucreBuyPriceByName = new TreeMap();
+	public static final Map getBuyPrices( final String key )
+	{
+		return (Map)CoinmastersDatabase.buyPrices.get( key );
+	}
 
-	private static final LockableListModel buyForSandDollars = new LockableListModel();
-	private static final Map sandDollarBuyPriceByName = new TreeMap();
+	public static final Map getSellPrices( final String key )
+	{
+		return (Map)CoinmastersDatabase.sellPrices.get( key );
+	}
 
-	private static final LockableListModel buyForCrimbux = new LockableListModel();
-	private static final Map crimbuckBuyPriceByName = new TreeMap();
+	public static final LockableListModel getNewList()
+	{
+		return new LockableListModel();
+	}
 
-	private static final LockableListModel buyForTickets = new LockableListModel();
-	private static final Map ticketBuyPriceByName = new TreeMap();
+	public static final Map getNewMap()
+	{
+		return new TreeMap();
+	}
 
-	private static final LockableListModel buyForBoneChips = new LockableListModel();
-	private static final Map boneChipBuyPriceByName = new TreeMap();
+	private static final LockableListModel getOrMakeList( final String key, final Map map )
+	{
+		LockableListModel retval = (LockableListModel) map.get( key );
+		if ( retval == null )
+		{
+			retval = CoinmastersDatabase.getNewList();
+			map.put( key, retval );
+		}
+		return retval;
+	}
 
-	private static final LockableListModel buyForScrip = new LockableListModel();
-	private static final Map scripBuyPriceByName = new TreeMap();
-
-	private static final LockableListModel buyForStoreCredit = new LockableListModel();
-	private static final Map storeCreditSellPriceByName = new TreeMap();
-	private static final Map storeCreditBuyPriceByName = new TreeMap();
-
-	private static final LockableListModel buyForSnackVouchers = new LockableListModel();
-	private static final Map snackVoucherBuyPriceByName = new TreeMap();
-
-	private static final LockableListModel buyForCommendations = new LockableListModel();
-	private static final Map commendationBuyPriceByName = new TreeMap();
-
-	private static final LockableListModel buyForIsotopes1 = new LockableListModel();
-	private static final Map isotope1BuyPriceByName = new TreeMap();
-
-	private static final LockableListModel buyForIsotopes2 = new LockableListModel();
-	private static final Map isotope2BuyPriceByName = new TreeMap();
-
-	private static final LockableListModel buyForIsotopes3 = new LockableListModel();
-	private static final Map isotope3BuyPriceByName = new TreeMap();
-
-	private static final LockableListModel buyForMrAccessory = new LockableListModel();
-	private static final Map MrAccessoryBuyPriceByName = new TreeMap();
-
-	private static final LockableListModel buyForYetiFurs = new LockableListModel();
-	private static final Map yetiFurBuyPriceByName = new TreeMap();
-
-	private static final LockableListModel buyFromTraveler = new LockableListModel();
-	private static final Map TravelerBuyPriceByName = new TreeMap();
-
-	private static final Map lighthouseItems = new TreeMap();
+	private static final Map getOrMakeMap( final String key, final Map map )
+	{
+		Map retval = (Map) map.get( key );
+		if ( retval == null )
+		{
+			retval = CoinmastersDatabase.getNewMap();
+			map.put( key, retval );
+		}
+		return retval;
+	}
 
 	static
 	{
@@ -124,153 +133,35 @@ public class CoinmastersDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length >= 3 )
+			if ( data.length == 2 )
 			{
-				String code = data[0];
-				int price = StringUtilities.parseInt( data[ 1 ] );
-				Integer iprice = new Integer( price );
-				String rname = data[2];
+				String master = data[ 0 ];
+				String rname = data[ 1 ];
 				String name = StringUtilities.getCanonicalName( rname );
-				if ( code.equals( "sd" ) )
+				LockableListModel list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.items );
+				list.add( name );
+			}
+			else if ( data.length == 4 )
+			{
+				String master = data[ 0 ];
+				String type = data[ 1 ];
+				int price = StringUtilities.parseInt( data[ 2 ] );
+				Integer iprice = new Integer( price );
+				String rname = data[ 3 ];
+				String name = StringUtilities.getCanonicalName( rname );
+				AdventureResult item = new AdventureResult( name, 1, false );
+
+				if ( type.equals( "buy" ) )
 				{
-					// Something we sell for dimes
-					dimeSellPriceByName.put( name, iprice );
+					LockableListModel list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
+					Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
+					list.add( item );
+					map.put( name, iprice );
 				}
-				else if ( code.equals( "bd" ) )
+				else if ( type.equals( "sell" ) )
 				{
-					// Something we buy with dimes
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForDimes.add( item );
-					dimeBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bdl" ) )
-				{
-					// Something we buy with dimes if the
-					// lighthouse quest is complete
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForDimes.add( item );
-					dimeBuyPriceByName.put( name, iprice );
-					lighthouseItems.put( name, "" );
-				}
-				else if ( code.equals( "sq" ) )
-				{
-					// Something we sell for quarters
-					quarterSellPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bq" ) )
-				{
-					// Something we buy with quarters
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForQuarters.add( item );
-					quarterBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bql" ) )
-				{
-					// Something we buy with quarters if
-					// the lighthouse quest is complete
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForQuarters.add( item );
-					quarterBuyPriceByName.put( name, iprice );
-					lighthouseItems.put( name, "" );
-				}
-				else if ( code.equals( "bl" ) )
-				{
-					// Something we buy with lucre
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForLucre.add( item );
-					lucreBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bs" ) )
-				{
-					// Something we buy with sand dollars
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForSandDollars.add( item );
-					sandDollarBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bc" ) )
-				{
-					// Something we buy with Crimbux
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForCrimbux.add( item );
-					crimbuckBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bt" ) )
-				{
-					// Something we buy with Game Grid tickets
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForTickets.add( item );
-					ticketBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bb" ) )
-				{
-					// Something we buy with bone chips
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForBoneChips.add( item );
-					boneChipBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bcs" ) )
-				{
-					// Something we buy with CRIMBCO Scrip
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForScrip.add( item );
-					scripBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "ssc" ) )
-				{
-					// Something we sell for store credit
-					storeCreditSellPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bsc" ) )
-				{
-					// Something we buy with store credit
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForStoreCredit.add( item );
-					storeCreditBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bsv" ) )
-				{
-					// Something we buy with snack vouchers
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForSnackVouchers.add( item );
-					snackVoucherBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bac" ) )
-				{
-					// Something we buy with A. W. O. L. commendations
-					int itemId = ( data.length > 3 ) ?
-						StringUtilities.parseInt( data[ 3 ] ) :
-						ItemDatabase.getItemId( name, 1 );
-					AdventureResult item = AdventureResult.tallyItem( rname, itemId );
-					buyForCommendations.add( item );
-					commendationBuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bli1" ) )
-				{
-					// Something we buy with lunar isotopes
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForIsotopes1.add( item );
-					isotope1BuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bli2" ) )
-				{
-					// Something we buy with lunar isotopes
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForIsotopes2.add( item );
-					isotope2BuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "bli3" ) )
-				{
-					// Something we buy with lunar isotopes
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForIsotopes3.add( item );
-					isotope3BuyPriceByName.put( name, iprice );
-				}
-				else if ( code.equals( "byf" ) )
-				{
-					// Something we buy with yeti fur
-					AdventureResult item = new AdventureResult( name, 1, false );
-					buyForYetiFurs.add( item );
-					yetiFurBuyPriceByName.put( name, iprice );
+					Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.sellPrices );
+					map.put( name, iprice );
 				}
 			}
 		}
@@ -346,196 +237,6 @@ public class CoinmastersDatabase
 		}
 
 		return true;
-	}
-
-	public static final LockableListModel getDimeItems()
-	{
-		return buyForDimes;
-	}
-
-	public static final Map dimeSellPrices()
-	{
-		return dimeSellPriceByName;
-	}
-
-	public static final Map dimeBuyPrices()
-	{
-		return dimeBuyPriceByName;
-	}
-
-	public static final LockableListModel getQuarterItems()
-	{
-		return buyForQuarters;
-	}
-
-	public static final Map quarterSellPrices()
-	{
-		return quarterSellPriceByName;
-	}
-
-	public static final Map quarterBuyPrices()
-	{
-		return quarterBuyPriceByName;
-	}
-
-	public static final LockableListModel getLucreItems()
-	{
-		return buyForLucre;
-	}
-
-	public static final Map lucreBuyPrices()
-	{
-		return lucreBuyPriceByName;
-	}
-
-	public static final LockableListModel getSandDollarItems()
-	{
-		return buyForSandDollars;
-	}
-
-	public static final Map sandDollarBuyPrices()
-	{
-		return sandDollarBuyPriceByName;
-	}
-
-	public static final LockableListModel getCrimbuckItems()
-	{
-		return buyForCrimbux;
-	}
-
-	public static final Map crimbuckBuyPrices()
-	{
-		return crimbuckBuyPriceByName;
-	}
-
-	public static final LockableListModel getTicketItems()
-	{
-		return buyForTickets;
-	}
-
-	public static final Map ticketBuyPrices()
-	{
-		return ticketBuyPriceByName;
-	}
-
-	public static final LockableListModel getBoneChipItems()
-	{
-		return buyForBoneChips;
-	}
-
-	public static final Map boneChipBuyPrices()
-	{
-		return boneChipBuyPriceByName;
-	}
-
-	public static final LockableListModel getScripItems()
-	{
-		return buyForScrip;
-	}
-
-	public static final Map scripBuyPrices()
-	{
-		return scripBuyPriceByName;
-	}
-
-	public static final LockableListModel getStoreCreditItems()
-	{
-		return buyForStoreCredit;
-	}
-
-	public static final Map storeCreditSellPrices()
-	{
-		return storeCreditSellPriceByName;
-	}
-
-	public static final Map storeCreditBuyPrices()
-	{
-		return storeCreditBuyPriceByName;
-	}
-
-	public static final LockableListModel getSnackVoucherItems()
-	{
-		return buyForSnackVouchers;
-	}
-
-	public static final Map snackVoucherBuyPrices()
-	{
-		return snackVoucherBuyPriceByName;
-	}
-
-	public static final LockableListModel getCommendationItems()
-	{
-		return buyForCommendations;
-	}
-
-	public static final Map commendationBuyPrices()
-	{
-		return commendationBuyPriceByName;
-	}
-
-	public static final LockableListModel getIsotope1Items()
-	{
-		return buyForIsotopes1;
-	}
-
-	public static final Map isotope1BuyPrices()
-	{
-		return isotope1BuyPriceByName;
-	}
-
-	public static final LockableListModel getIsotope2Items()
-	{
-		return buyForIsotopes2;
-	}
-
-	public static final Map isotope2BuyPrices()
-	{
-		return isotope2BuyPriceByName;
-	}
-
-	public static final LockableListModel getIsotope3Items()
-	{
-		return buyForIsotopes3;
-	}
-
-	public static final Map isotope3BuyPrices()
-	{
-		return isotope3BuyPriceByName;
-	}
-
-	public static final LockableListModel getYetiFurItems()
-	{
-		return buyForYetiFurs;
-	}
-
-	public static final Map yetiFurBuyPrices()
-	{
-		return yetiFurBuyPriceByName;
-	}
-
-	public static final LockableListModel getMrAItems()
-	{
-		return buyForMrAccessory;
-	}
-
-	public static final Map MrABuyPrices()
-	{
-		return MrAccessoryBuyPriceByName;
-	}
-
-	public static final LockableListModel getTravelerItems()
-	{
-		return buyFromTraveler;
-	}
-
-	public static final Map TravelerBuyPrices()
-	{
-		return TravelerBuyPriceByName;
-	}
-
-	public static final Map lighthouseItems()
-	{
-		return lighthouseItems;
 	}
 
 	public static final void clearPurchaseRequests( CoinmasterData data )

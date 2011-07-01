@@ -33,9 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Map;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -53,12 +53,16 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class TravelingTraderRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Traveling Trader"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getNewList();
+	private static final Map buyPrices = CoinmastersDatabase.getNewMap();
+
 	// traveler.php?action=For Gnomeregan!&whichitem=xxxx&quantity=1&tradeall=1&usehagnk=1&pwd
 	private static AdventureResult item = ItemPool.get( ItemPool.TWINKLY_WAD, 1 );
 
 	public static final CoinmasterData TRAVELER =
 		new CoinmasterData(
-			"Traveling Trader",
+			TravelingTraderRequest.master,
 			TravelingTraderRequest.class,
 			"traveler.php",
 			"twinkly wad",
@@ -72,8 +76,8 @@ public class TravelingTraderRequest
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"For Gnomeregan!",
-			CoinmastersDatabase.getTravelerItems(),
-			CoinmastersDatabase.TravelerBuyPrices(),
+			TravelingTraderRequest.buyItems,
+			TravelingTraderRequest.buyPrices,
 			null,
 			null,
 			"usehagnk=1",
@@ -220,8 +224,8 @@ public class TravelingTraderRequest
 		// Refresh the coinmaster lists every time we visit.
 		// Learn new trade items by simply visiting the Traveling Trader
 
-		LockableListModel items = data.getBuyItems();
-		Map prices = data.getBuyPrices();
+		LockableListModel items = TravelingTraderRequest.buyItems;
+		Map prices = TravelingTraderRequest.buyPrices;
 		items.clear();
 		prices.clear();
 

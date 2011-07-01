@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -47,13 +50,18 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class Tr4pz0rRequest
 	extends CoinMasterRequest
 {
+	public static String master = "L33t Tr4pz0r"; 
+	public static LockableListModel buyItems = CoinmastersDatabase.getBuyItems( Tr4pz0rRequest.master );
+	private static Map buyPrices = CoinmastersDatabase.getBuyPrices( Tr4pz0rRequest.master );
+
 	// As you enter the Tr4pz0r's cabin, he leaps up from his table at the
 	// sight of the 78 yeti furs draped across your back.
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "the sight of the ([\\d,]+|) ?yeti fur" );
 	public static final AdventureResult YETI_FUR = ItemPool.get( ItemPool.YETI_FUR, 1 );
 	public static final CoinmasterData ELITE_TR4PZ0R =
 		new CoinmasterData(
-			"L33t Tr4pz0r",
+			Tr4pz0rRequest.master,
 			Tr4pz0rRequest.class,
 			"trapper.php",
 			"yeti fur",
@@ -67,8 +75,8 @@ public class Tr4pz0rRequest
 			"qty",
 			CoinMasterRequest.QTY_PATTERN,
 			"Yep.",
-			CoinmastersDatabase.getYetiFurItems(),
-			CoinmastersDatabase.yetiFurBuyPrices(),
+			Tr4pz0rRequest.buyItems,
+			Tr4pz0rRequest.buyPrices,
 			null,
 			null,
 			null,

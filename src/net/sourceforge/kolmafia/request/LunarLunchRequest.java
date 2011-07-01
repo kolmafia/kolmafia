@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -49,9 +52,13 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class LunarLunchRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Lunar Lunch-o-Mat"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( LunarLunchRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( LunarLunchRequest.master );
+
 	public static final CoinmasterData LUNAR_LUNCH =
 		new CoinmasterData(
-			"Lunar Lunch-o-Mat",
+			LunarLunchRequest.master,
 			LunarLunchRequest.class,
 			"spaaace.php?place=shop3",
 			"isotope",
@@ -65,8 +72,8 @@ public class LunarLunchRequest
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"buy",
-			CoinmastersDatabase.getIsotope3Items(),
-			CoinmastersDatabase.isotope3BuyPrices(),
+			LunarLunchRequest.buyItems,
+			LunarLunchRequest.buyPrices,
 			null,
 			null
 			);

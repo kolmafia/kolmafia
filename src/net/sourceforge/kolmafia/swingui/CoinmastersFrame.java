@@ -38,6 +38,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionListener;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.event.ChangeEvent;
@@ -105,6 +106,8 @@ public class CoinmastersFrame
 	private static final StorageRequest PULL_MR_A_REQUEST =
 		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY,
 				    new AdventureResult[] { MrStoreRequest.MR_A } );
+
+	private static final List lighthouseItems = CoinmastersDatabase.getItems( "Lighthouse" );
 
 	private static CoinmastersFrame INSTANCE = null;
 
@@ -1132,7 +1135,7 @@ public class CoinmastersFrame
 			String canonicalName = StringUtilities.getCanonicalName( name );
 
 			if ( this.side != null &&
-			     CoinmastersDatabase.lighthouseItems().get( canonicalName ) != null &&
+			     CoinmastersFrame.lighthouseItems.contains( canonicalName ) &&
 			     !Preferences.getString( "sidequestLighthouseCompleted" ).equals( this.side ) )
 			{
 				return null;

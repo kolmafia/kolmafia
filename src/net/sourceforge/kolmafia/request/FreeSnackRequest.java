@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -46,13 +49,17 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class FreeSnackRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Game Shoppe Snacks"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( FreeSnackRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( FreeSnackRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) free snack voucher" );
 	private static final Pattern SNACK_PATTERN = Pattern.compile( "whichsnack=(\\d+)" );
 	public static final AdventureResult VOUCHER = ItemPool.get( ItemPool.SNACK_VOUCHER, 1 );
 
 	public static final CoinmasterData FREESNACKS =
 		new CoinmasterData(
-			"Game Shoppe Snacks",
+			FreeSnackRequest.master,
 			FreeSnackRequest.class,
 			"gamestore.php",
 			"snack voucher",
@@ -66,8 +73,8 @@ public class FreeSnackRequest
 			null,
 			null,
 			"buysnack",
-			CoinmastersDatabase.getSnackVoucherItems(),
-			CoinmastersDatabase.snackVoucherBuyPrices(),
+			FreeSnackRequest.buyItems,
+			FreeSnackRequest.buyPrices,
 			null,
 			null
 			);
