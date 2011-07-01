@@ -1689,8 +1689,7 @@ public class Modifiers
 		newStrings[ Modifiers.MODIFIERS ] = string;
 
 		newMods.variable = newMods.override( name );
-		if ( newMods.variable || name.startsWith( "loc:" ) ||
-			name.startsWith( "zone:" ) )
+		if ( newMods.variable || name.startsWith( "loc:" ) || name.startsWith( "zone:" ) )
 		{
 			newBitmaps[ 0 ] |= 1 << Modifiers.VARIABLE;
 		}
@@ -1719,7 +1718,8 @@ public class Modifiers
 
 		switch ( itemId )
 		{
-		case ItemPool.TUESDAYS_RUBY: {
+		case ItemPool.TUESDAYS_RUBY:
+		{
 			// Reset to defaults
 
 			this.set( Modifiers.MEATDROP, 0.0 );
@@ -1771,10 +1771,71 @@ public class Modifiers
 			return true;
 		}
 
-		case ItemPool.UNCLE_HOBO_BEARD: {
+		case ItemPool.UNCLE_HOBO_BEARD:
+		{
 			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
 			double adventures = date.get( Calendar.MONTH ) == Calendar.DECEMBER ? 9.0 : 6.0;
 			this.set( Modifiers.ADVENTURES, adventures );
+			return true;
+		}
+
+		case ItemPool.PATRIOT_SHIELD:
+		{
+			// Muscle classes
+			this.set( Modifiers.HP_REGEN_MIN, 0.0 );
+			this.set( Modifiers.HP_REGEN_MAX, 0.0 );
+			// Seal clubber
+			this.set( Modifiers.WEAPON_DAMAGE, 0.0 );
+			this.set( Modifiers.DAMAGE_REDUCTION, 0.0 );
+			// Turtle Tamer
+			this.set( Modifiers.FAMILIAR_WEIGHT, 0.0 );
+			// Disco Bandit
+			this.set( Modifiers.RANGED_DAMAGE, 0.0 );
+			// Accordion Thief
+			this.set( Modifiers.FOUR_SONGS, false );
+			// Mysticality classes
+			this.set( Modifiers.MP_REGEN_MIN, 0.0 );
+			this.set( Modifiers.MP_REGEN_MAX, 0.0 );
+			// Pastamancer
+			this.set( Modifiers.COMBAT_MANA_COST, 0.0 );
+			// Sauceror
+			this.set( Modifiers.SPELL_DAMAGE, 0.0 );
+
+			// Set modifiers depending on Character class
+			String classType = KoLCharacter.getClassType();
+			if ( classType == KoLCharacter.SEAL_CLUBBER )
+			{
+				this.set( Modifiers.HP_REGEN_MIN, 10.0 );
+				this.set( Modifiers.HP_REGEN_MAX, 12.0 );
+				this.set( Modifiers.WEAPON_DAMAGE, 15.0 );
+				this.set( Modifiers.DAMAGE_REDUCTION, 1.0 );
+			}
+			else if ( classType == KoLCharacter.TURTLE_TAMER )
+			{
+				this.set( Modifiers.HP_REGEN_MIN, 10.0 );
+				this.set( Modifiers.HP_REGEN_MAX, 12.0 );
+				this.set( Modifiers.FAMILIAR_WEIGHT, 5.0 );
+			}
+			else if ( classType == KoLCharacter.DISCO_BANDIT )
+			{
+				this.set( Modifiers.RANGED_DAMAGE, 20.0 );
+			}
+			else if ( classType == KoLCharacter.ACCORDION_THIEF )
+			{
+				this.set( Modifiers.FOUR_SONGS, true );
+			}
+			else if ( classType == KoLCharacter.PASTAMANCER )
+			{
+				this.set( Modifiers.MP_REGEN_MIN, 5.0 );
+				this.set( Modifiers.MP_REGEN_MAX, 6.0 );
+				this.set( Modifiers.COMBAT_MANA_COST, -3.0 );
+			}
+			else if ( classType == KoLCharacter.SAUCEROR )
+			{
+				this.set( Modifiers.MP_REGEN_MIN, 5.0 );
+				this.set( Modifiers.MP_REGEN_MAX, 6.0 );
+				this.set( Modifiers.SPELL_DAMAGE, 20.0 );
+			}
 			return true;
 		}
 		}

@@ -1002,6 +1002,7 @@ Mylar balloon	10	none
 Necrotelicomnicon	30	none
 Ol' Scratch's ash can	200	Mys: 200
 Ol' Scratch's stove door	240	Mus: 200	shield
+Operation Patriot Shield	0	none	shield
 Oscus's garbage can lid	240	Mus: 200	shield
 Raggedy Hippy doll	10	none
 Sinful Desires	30	none

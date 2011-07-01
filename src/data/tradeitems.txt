@@ -5196,6 +5196,6 @@
 5187	Mint-in-box Moonthril Longbow	usable	display	0
 5188	honey stick	multiple, candy	all	0
 5189	double-ice gum	multiple, candy	all	5
-5190
+5190	Operation Patriot Shield	offhand	all	0
 5191	squirming egg sac	usable	all	0
 5192	corrupted data	usable	all	0
