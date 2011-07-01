@@ -3225,7 +3225,7 @@ Cold-Blooded Fearlessness	Spooky Resistance: +2
 Cosmic Ugnderstanding	Maximum MP Percent: +5
 # Deep Saucery
 Diminished Gag Reflex	Stench Resistance: +2
-Disco Fever	Ranged Damage: [L]
+Disco Fever	Ranged Damage: [min(L,15)]
 # Double-Fisted Skull Smashing
 Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 # Eye of the Stoat	+0.5X critical hits, improve smacks
