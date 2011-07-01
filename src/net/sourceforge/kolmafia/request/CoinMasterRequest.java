@@ -240,7 +240,6 @@ public class CoinMasterRequest
 		if ( action == null )
 		{
 			CoinMasterRequest.parseBalance( data, responseText );
-			CoinmastersFrame.externalUpdate();
 			return;
 		}
 
@@ -258,7 +257,6 @@ public class CoinMasterRequest
 		}
 
 		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
 	}
 
 	public static void parseBalance( final CoinmasterData data, final String responseText )
@@ -334,6 +332,8 @@ public class CoinMasterRequest
 				AdventureResult.addResultToList( KoLConstants.inventory, item );
 			}
 		}
+
+		CoinmastersFrame.externalUpdate();
 	}
 
 	public static final void buyStuff( final CoinmasterData data, final String urlString )

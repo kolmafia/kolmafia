@@ -572,7 +572,7 @@ public abstract class StaticEntity
 				  location.indexOf( "action=breakbricko" ) != -1 )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
-				AWOLQuartermasterRequest.parseAWOLVisit( location, responseText );
+				AWOLQuartermasterRequest.parseResponse( location, responseText );
 			}
 
 			// If there is a binge message, parse it

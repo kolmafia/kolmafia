@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 public class BigBrotherRequest
 	extends CoinMasterRequest
@@ -122,6 +121,11 @@ public class BigBrotherRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	public void processResults()
+	{
+		BigBrotherRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = BigBrotherRequest.BIG_BROTHER;
@@ -132,7 +136,6 @@ public class BigBrotherRequest
 			{
 				// Parse current coin balances
 				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
 			}
 
 			return;

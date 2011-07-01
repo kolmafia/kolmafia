@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 public class CrimboCartelRequest
 	extends CoinMasterRequest
@@ -117,7 +116,6 @@ public class CrimboCartelRequest
 			{
 				// Parse current coin balances
 				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
 			}
 
 			return;

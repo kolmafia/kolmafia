@@ -115,6 +115,7 @@ public class FreeSnackRequest
 		{
 			CoinmasterData data = FreeSnackRequest.FREESNACKS;
 			CoinMasterRequest.completePurchase( data, location );
+			CoinmastersFrame.externalUpdate();
 		}
 	}
 
