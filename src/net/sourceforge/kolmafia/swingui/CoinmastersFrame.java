@@ -111,11 +111,6 @@ public class CoinmastersFrame
 
 	private static CoinmastersFrame INSTANCE = null;
 
-	// Token counts
-	private static int dimes = 0;
-	private static int quarters = 0;
-	private static int storeCredits = 0;
-
 	private CardLayoutSelectorPanel selectorPanel = null;
 
 	private CoinmasterPanel dimemasterPanel = null;
@@ -269,28 +264,6 @@ public class CoinmastersFrame
 		CoinmastersFrame.externalUpdate();
 	}
 
-	public static void initializePurchaseRequests()
-	{
-		AltarOfBonesRequest.ALTAR_OF_BONES.registerPurchaseRequests();
-		AWOLQuartermasterRequest.AWOL.registerPurchaseRequests();
-		BigBrotherRequest.BIG_BROTHER.registerPurchaseRequests();
-		BountyHunterHunterRequest.BHH.registerPurchaseRequests();
-		CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP.registerPurchaseRequests();
-		CrimboCartelRequest.CRIMBO_CARTEL.registerPurchaseRequests();
-		DimemasterRequest.HIPPY.registerPurchaseRequests();
-		DollHawkerRequest.DOLLHAWKER.registerPurchaseRequests();
-		FreeSnackRequest.FREESNACKS.registerPurchaseRequests();
-		GameShoppeRequest.GAMESHOPPE.registerPurchaseRequests();
-		HermitRequest.HERMIT.registerPurchaseRequests();
-		IsotopeSmitheryRequest.ISOTOPE_SMITHERY.registerPurchaseRequests();
-		LunarLunchRequest.LUNAR_LUNCH.registerPurchaseRequests();
-		MrStoreRequest.MR_STORE.registerPurchaseRequests();
-		QuartersmasterRequest.FRATBOY.registerPurchaseRequests();
-		TicketCounterRequest.TICKET_COUNTER.registerPurchaseRequests();
-		Tr4pz0rRequest.ELITE_TR4PZ0R.registerPurchaseRequests();
-		TravelingTraderRequest.TRAVELER.registerPurchaseRequests();
-	}
-
 	/**
 	 * Whenever the tab changes, this method is used to change the title to
 	 * count the coins of the new tab
@@ -317,10 +290,6 @@ public class CoinmastersFrame
 		{
 			return;
 		}
-
-		dimes = Preferences.getInteger( "availableDimes" );
-		quarters = Preferences.getInteger( "availableQuarters" );
-		storeCredits = Preferences.getInteger( "availableStoreCredits" );
 
 		INSTANCE.update();
 	}
@@ -438,7 +407,7 @@ public class CoinmastersFrame
 	{
 		public Tr4pz0rPanel()
 		{
-			super( Tr4pz0rRequest.ELITE_TR4PZ0R );
+			super( Tr4pz0rRequest.L33T_TR4PZ0R );
 		}
 	}
 
@@ -545,28 +514,6 @@ public class CoinmastersFrame
 		}
 	}
 
-	private abstract class WarMasterPanel
-		extends CoinmasterPanel
-	{
-		private final String side;
-
-		public WarMasterPanel( CoinmasterData data, String side )
-		{
-			super( data );
-			this.side = side;
-		}
-
-		public int buyDefault( final int max )
-		{
-			return max;
-		}
-
-		public String lighthouseSide()
-		{
-			return this.side;
-		}
-	}
-
 	private class IsotopeSmitheryPanel
 		extends CoinmasterPanel
 	{
@@ -606,6 +553,28 @@ public class CoinmastersFrame
 		public boolean enabled()
 		{
 			return SpaaaceRequest.immediatelyAccessible();
+		}
+	}
+
+	private abstract class WarMasterPanel
+		extends CoinmasterPanel
+	{
+		private final String side;
+
+		public WarMasterPanel( CoinmasterData data, String side )
+		{
+			super( data );
+			this.side = side;
+		}
+
+		public int buyDefault( final int max )
+		{
+			return max;
+		}
+
+		public String lighthouseSide()
+		{
+			return this.side;
 		}
 	}
 
