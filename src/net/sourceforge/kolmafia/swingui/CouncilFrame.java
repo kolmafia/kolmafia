@@ -124,7 +124,7 @@ public class CouncilFrame
 		{
 			if ( location.indexOf( "whichitem=5116" ) != -1 )
 			{
-				AWOLQuartermasterRequest.parseAWOLVisit( location, responseText );
+				AWOLQuartermasterRequest.parseResponse( location, responseText );
 			}
 		}
 		else if ( location.startsWith( "mountains" ) )

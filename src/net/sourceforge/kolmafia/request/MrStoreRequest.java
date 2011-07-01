@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MrStoreRequest
@@ -174,7 +173,6 @@ public class MrStoreRequest
 				AdventureResult remove = MrStoreRequest.MR_A.getInstance( -1 );
 				AdventureResult.addResultToList( KoLConstants.storage, remove );
 				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
 			}
 			return;
 		}

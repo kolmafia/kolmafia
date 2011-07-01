@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpaaaceRequest
@@ -152,8 +151,6 @@ public class SpaaaceRequest
 		{
 			// Parse current coin balances
 			CoinMasterRequest.parseBalance( data, responseText );
-			CoinmastersFrame.externalUpdate();
-
 			return;
 		}
 

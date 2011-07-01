@@ -171,6 +171,7 @@ public class GameShoppeRequest
 			if ( responseText.indexOf( "You don't have enough" ) == -1 )
 			{
 				CoinMasterRequest.completePurchase( data, location );
+				CoinmastersFrame.externalUpdate();
 			}
 		}
 		else if ( action.equals( "tradein" ) )
@@ -195,7 +196,6 @@ public class GameShoppeRequest
 		// Parse current store credit and free snack balance
 		CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
 		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
 	}
 
 	public static final boolean registerRequest( final String urlString )

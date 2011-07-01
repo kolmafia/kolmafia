@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BountyHunterHunterRequest
@@ -111,6 +110,11 @@ public class BountyHunterHunterRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	public void processResults()
+	{
+		BountyHunterHunterRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
 	public static void parseResponse( final String location, final String responseText )
 	{
@@ -134,7 +138,6 @@ public class BountyHunterHunterRequest
 			{
 				// He turned in a bounty for a lucre
 				BountyHunterHunterRequest.abandonBounty();
-				CoinmastersFrame.externalUpdate();
 			}
 			return;
 		}

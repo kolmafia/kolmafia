@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 public class TicketCounterRequest
 	extends CoinMasterRequest

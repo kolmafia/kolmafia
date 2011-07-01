@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AWOLQuartermasterRequest
@@ -109,8 +108,13 @@ public class AWOLQuartermasterRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	public void processResults()
+	{
+		AWOLQuartermasterRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "sigils/aol(\\d+).gif" );
-	public static void parseAWOLVisit( final String location, final String responseText )
+	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = AWOLQuartermasterRequest.AWOL;
 
@@ -126,7 +130,6 @@ public class AWOLQuartermasterRequest
 		KoLCharacter.AWOLtattoo = m.find() ? StringUtilities.parseInt( m.group( 1 ) ) : 0;
 
 		CoinMasterRequest.parseBalance( data, responseText );
-		CoinmastersFrame.externalUpdate();
 	}
 
 	public static final boolean registerRequest( final String urlString )

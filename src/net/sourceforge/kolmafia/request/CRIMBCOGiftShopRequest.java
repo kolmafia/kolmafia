@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 public class CRIMBCOGiftShopRequest
 	extends CoinMasterRequest
@@ -102,6 +101,11 @@ public class CRIMBCOGiftShopRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	public void processResults()
+	{
+		CRIMBCOGiftShopRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
 	public static void parseResponse( final String location, final String responseText )
 	{
 		if ( !location.startsWith( "crimbo10.php" ) )
@@ -117,7 +121,6 @@ public class CRIMBCOGiftShopRequest
 			{
 				// Parse current coin balances
 				CoinMasterRequest.parseBalance( data, responseText );
-				CoinmastersFrame.externalUpdate();
 			}
 
 			return;
