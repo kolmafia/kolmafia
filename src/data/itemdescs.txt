@@ -5188,6 +5188,6 @@
 5187	591358121	moonbox.gif	Mint-in-box Moonthril Longbow
 5188	922110263	honeystick.gif	honey stick	honey sticks
 5189	849316884	cube.gif	double-ice gum	cubes of double-ice gum
-5190
+5190	563222775	opshield.gif	Operation Patriot Shield
 5191	534512179	eggsac.gif	squirming egg sac
 5192	245822900	corrdata.gif	corrupted data	bytes of corrupted data
