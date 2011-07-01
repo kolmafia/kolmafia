@@ -754,7 +754,8 @@ public class RequestEditorKit
 		else if ( location.startsWith( "palinshelves.php" ) )
 		{
 			StringUtilities.insertBefore(
-				buffer, "</html>", "<script language=\"Javascript\" src=\"/palinshelves.js\" />" );
+				buffer, "</head>", "<script language=\"Javascript\" src=\"/palinshelves.js\"></script>" );
+			StringUtilities.singleStringReplace( buffer, "<body>", "<body onload='palinshelve();'>" );
 		}
 		else if ( location.startsWith( "pandamonium.php" ) )
 		{
