@@ -283,11 +283,20 @@ public class FamiliarRequest
 
 		// The new familiar has no item. Find a good one to steal.
 		AdventureResult use = this.changeTo.findGoodItem( true );
-		if ( use != null )
+		if ( use == null )
 		{
-			KoLmafia.updateDisplay( use.getName() + " is better than (none).  Switching items..." );
-			RequestThread.postRequest( new EquipmentRequest( use, EquipmentManager.FAMILIAR ) );
+			return null;
 		}
+
+		// If you are in Beecore and the item has Beeosity, don't select it.
+		if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( use.getName() ) )
+		{
+			return null;
+		}
+
+		KoLmafia.updateDisplay( use.getName() + " is better than (none).  Switching items..." );
+		RequestThread.postRequest( new EquipmentRequest( use, EquipmentManager.FAMILIAR ) );
+
 		return null;
 	}
 
