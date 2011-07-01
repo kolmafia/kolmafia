@@ -41,9 +41,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
@@ -60,17 +62,6 @@ public class BigBrotherRequest
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? sand dollar" );
 	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, 1 );
-
-	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
-	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
-	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
-	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
-	public static final AdventureResult BUBBLIN_STONE = ItemPool.get( ItemPool.BUBBLIN_STONE, 1 );
-
-	private static AdventureResult self = null;
-	private static AdventureResult familiar = null;
-	private static boolean rescuedBigBrother = false;
-	private static boolean waterBreathingFamiliar = false;
 
 	public static final CoinmasterData BIG_BROTHER =
 		new CoinmasterData(
@@ -93,6 +84,18 @@ public class BigBrotherRequest
 			null,
 			null
 			);
+
+	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
+	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
+	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
+	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
+	public static final AdventureResult AMPHIBIOUS_TOPHAT = ItemPool.get( ItemPool.AMPHIBIOUS_TOPHAT, 1 );
+	public static final AdventureResult BUBBLIN_STONE = ItemPool.get( ItemPool.BUBBLIN_STONE, 1 );
+
+	private static AdventureResult self = null;
+	private static AdventureResult familiar = null;
+	private static boolean rescuedBigBrother = false;
+	private static boolean waterBreathingFamiliar = false;
 
 	public BigBrotherRequest()
 	{
@@ -155,7 +158,18 @@ public class BigBrotherRequest
 			BigBrotherRequest.rescuedBigBrother = false;
 		}
 
-		if ( InventoryManager.hasItem( BigBrotherRequest.DAS_BOOT ) )
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+
+		// Check if the familiar is inherently water breathing
+		BigBrotherRequest.waterBreathingFamiliar = familiar.waterBreathing();
+
+		// For the dancing frog, the amphibious tophat is the best familiar equipment
+		if ( familiar.getId() == FamiliarPool.DANCING_FROG &&
+		     InventoryManager.hasItem( BigBrotherRequest.AMPHIBIOUS_TOPHAT ) )
+		{
+			BigBrotherRequest.familiar = BigBrotherRequest.AMPHIBIOUS_TOPHAT;
+		}
+		else if ( InventoryManager.hasItem( BigBrotherRequest.DAS_BOOT ) )
 		{
 			BigBrotherRequest.familiar = BigBrotherRequest.DAS_BOOT;
 		}
@@ -163,8 +177,6 @@ public class BigBrotherRequest
 		{
 			BigBrotherRequest.familiar = BigBrotherRequest.BATHYSPHERE;
 		}
-
-		BigBrotherRequest.waterBreathingFamiliar = KoLCharacter.getFamiliar().waterBreathing();
 	}
 
 	public static String accessible()
