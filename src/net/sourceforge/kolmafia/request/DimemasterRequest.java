@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -52,10 +55,15 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 public class DimemasterRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Dimemaster"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( DimemasterRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( DimemasterRequest.master );
+	private static final Map sellPrices = CoinmastersDatabase.getSellPrices( DimemasterRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got ([\\d,]+) dime" );
 	public static final CoinmasterData HIPPY =
 		new CoinmasterData(
-			"Dimemaster",
+			DimemasterRequest.master,
 			DimemasterRequest.class,
 			"bigisland.php?place=camp&whichcamp=1",
 			"dime",
@@ -69,10 +77,10 @@ public class DimemasterRequest
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"getgear",
-			CoinmastersDatabase.getDimeItems(),
-			CoinmastersDatabase.dimeBuyPrices(),
+			DimemasterRequest.buyItems,
+			DimemasterRequest.buyPrices,
 			"turnin",
-			CoinmastersDatabase.dimeSellPrices()
+			DimemasterRequest.sellPrices
 			);
 
 	public static final int WAR_HIPPY_OUTFIT = 32;

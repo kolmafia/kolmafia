@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -51,6 +54,10 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class BigBrotherRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Big Brother"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( BigBrotherRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( BigBrotherRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? sand dollar" );
 	public static final AdventureResult SAND_DOLLAR = ItemPool.get( ItemPool.SAND_DOLLAR, 1 );
 
@@ -67,7 +74,7 @@ public class BigBrotherRequest
 
 	public static final CoinmasterData BIG_BROTHER =
 		new CoinmasterData(
-			"Big Brother",
+			BigBrotherRequest.master,
 			BigBrotherRequest.class,
 			"monkeycastle.php?who=2",
 			"sand dollar",
@@ -81,8 +88,8 @@ public class BigBrotherRequest
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"buyitem",
-			CoinmastersDatabase.getSandDollarItems(),
-			CoinmastersDatabase.sandDollarBuyPrices(),
+			BigBrotherRequest.buyItems,
+			BigBrotherRequest.buyPrices,
 			null,
 			null
 			);

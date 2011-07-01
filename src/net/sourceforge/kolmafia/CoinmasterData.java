@@ -286,6 +286,12 @@ public class CoinmasterData
 
 	public final void registerPurchaseRequests()
 	{
+		// If this Coin Master doesn't sell anything, nothing to register
+		if ( this.buyItems == null )
+		{
+			return;
+		}
+
 		// Clear existing purchase requests
 		CoinmastersDatabase.clearPurchaseRequests( this );
 

@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -47,11 +50,15 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class TicketCounterRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Arcade Ticket Counter"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( TicketCounterRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( TicketCounterRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have ([\\d,]+) Game Grid redemption ticket" );
 	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, 1 );
 	public static final CoinmasterData TICKET_COUNTER =
 		new CoinmasterData(
-			"Arcade Ticket Counter",
+			TicketCounterRequest.master,
 			TicketCounterRequest.class,
 			"arcade.php",
 			"ticket",
@@ -65,8 +72,8 @@ public class TicketCounterRequest
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"redeem",
-			CoinmastersDatabase.getTicketItems(),
-			CoinmastersDatabase.ticketBuyPrices(),
+			TicketCounterRequest.buyItems,
+			TicketCounterRequest.buyPrices,
 			null,
 			null
 			);

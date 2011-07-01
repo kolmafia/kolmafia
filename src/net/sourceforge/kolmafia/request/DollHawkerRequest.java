@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -48,9 +51,13 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class DollHawkerRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Dollhawker's Emporium";
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( DollHawkerRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( DollHawkerRequest.master );
+
 	public static final CoinmasterData DOLLHAWKER =
 		new CoinmasterData(
-			"Dollhawker's Emporium",
+			DollHawkerRequest.master,
 			DollHawkerRequest.class,
 			"spaaace.php?place=shop2",
 			"isotope",
@@ -64,8 +71,8 @@ public class DollHawkerRequest
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"buy",
-			CoinmastersDatabase.getIsotope2Items(),
-			CoinmastersDatabase.isotope2BuyPrices(),
+			DollHawkerRequest.buyItems,
+			DollHawkerRequest.buyPrices,
 			null,
 			null
 			);

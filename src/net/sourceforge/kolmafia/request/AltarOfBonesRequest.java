@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -46,11 +49,15 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class AltarOfBonesRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Altar of Bones"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( AltarOfBonesRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( AltarOfBonesRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+).*?bone chips" );
 	public static final AdventureResult BONE_CHIPS = ItemPool.get( ItemPool.BONE_CHIPS, 1 );
 	public static final CoinmasterData ALTAR_OF_BONES =
 		new CoinmasterData(
-			"Altar of Bones",
+			AltarOfBonesRequest.master,
 			AltarOfBonesRequest.class,
 			"bone_altar.php",
 			"bone chips",
@@ -64,8 +71,8 @@ public class AltarOfBonesRequest
 			null,
 			null,
 			"buy",
-			CoinmastersDatabase.getBoneChipItems(),
-			CoinmastersDatabase.boneChipBuyPrices(),
+			AltarOfBonesRequest.buyItems,
+			AltarOfBonesRequest.buyPrices,
 			null,
 			null
 			);

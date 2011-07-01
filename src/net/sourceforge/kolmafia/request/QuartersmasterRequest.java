@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -52,6 +55,11 @@ import net.sourceforge.kolmafia.webui.IslandDecorator;
 public class QuartersmasterRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Quartersmaster"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( QuartersmasterRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( QuartersmasterRequest.master );
+	private static final Map sellPrices = CoinmastersDatabase.getSellPrices( QuartersmasterRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got ([\\d,]+) quarter" );
 	public static final CoinmasterData FRATBOY =
 		new CoinmasterData(
@@ -69,10 +77,10 @@ public class QuartersmasterRequest
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"getgear",
-			CoinmastersDatabase.getQuarterItems(),
-			CoinmastersDatabase.quarterBuyPrices(),
+			QuartersmasterRequest.buyItems,
+			QuartersmasterRequest.buyPrices,
 			"turnin",
-			CoinmastersDatabase.quarterSellPrices()
+			QuartersmasterRequest.sellPrices
 			);
 
 	public static final int WAR_FRAT_OUTFIT = 33;

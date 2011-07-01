@@ -1546,7 +1546,7 @@ public abstract class KoLmafia
 	public void makeTrapperRequest()
 	{
 		AdventureResult selectedValue =
-			(AdventureResult) KoLmafia.getSelectedValue( "I want skins!", CoinmastersDatabase.getYetiFurItems() );
+			(AdventureResult) KoLmafia.getSelectedValue( "I want skins!", Tr4pz0rRequest.buyItems );
 		if ( selectedValue == null )
 		{
 			return;

@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -49,11 +52,13 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 public class IsotopeSmitheryRequest
 	extends CoinMasterRequest
 {
-	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
+	public static final String master = "Isotope Smithery";
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( IsotopeSmitheryRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( IsotopeSmitheryRequest.master );
 
 	public static final CoinmasterData ISOTOPE_SMITHERY =
 		new CoinmasterData(
-			"Isotope Smithery",
+			IsotopeSmitheryRequest.master,
 			IsotopeSmitheryRequest.class,
 			"spaaace.php?place=shop1",
 			"isotope",
@@ -67,8 +72,8 @@ public class IsotopeSmitheryRequest
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"buy",
-			CoinmastersDatabase.getIsotope1Items(),
-			CoinmastersDatabase.isotope1BuyPrices(),
+			IsotopeSmitheryRequest.buyItems,
+			IsotopeSmitheryRequest.buyPrices,
 			null,
 			null
 			);

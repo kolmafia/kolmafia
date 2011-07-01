@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -48,10 +51,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class GameShoppeRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Game Shoppe"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( GameShoppeRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( GameShoppeRequest.master );
+	private static final Map sellPrices = CoinmastersDatabase.getSellPrices( GameShoppeRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You currently have ([\\d,]+) store credit" );
 	public static final CoinmasterData GAMESHOPPE =
 		new CoinmasterData(
-			"Game Shoppe",
+			GameShoppeRequest.master,
 			GameShoppeRequest.class,
 			"gamestore.php",
 			"store credit",
@@ -65,10 +73,10 @@ public class GameShoppeRequest
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"redeem",
-			CoinmastersDatabase.getStoreCreditItems(),
-			CoinmastersDatabase.storeCreditBuyPrices(),
+			GameShoppeRequest.buyItems,
+			GameShoppeRequest.buyPrices,
 			"tradein",
-			CoinmastersDatabase.storeCreditSellPrices()
+			GameShoppeRequest.sellPrices
 			);
 
 

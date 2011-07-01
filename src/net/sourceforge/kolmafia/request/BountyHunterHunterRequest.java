@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -55,11 +58,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class BountyHunterHunterRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "Bounty Hunter Hunter"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( BountyHunterHunterRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( BountyHunterHunterRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have.*?<b>([\\d,]+)</b> filthy lucre" );
 	public static final AdventureResult LUCRE = ItemPool.get( ItemPool.LUCRE, 1 );
 	public static final CoinmasterData BHH =
 		new CoinmasterData(
-			"Bounty Hunter Hunter",
+			BountyHunterHunterRequest.master,
 			BountyHunterHunterRequest.class,
 			"bhh.php",
 			"lucre",
@@ -73,8 +80,8 @@ public class BountyHunterHunterRequest
 			"howmany",
 			CoinMasterRequest.HOWMANY_PATTERN,
 			"buy",
-			CoinmastersDatabase.getLucreItems(),
-			CoinmastersDatabase.lucreBuyPrices(),
+			BountyHunterHunterRequest.buyItems,
+			BountyHunterHunterRequest.buyPrices,
 			null,
 			null
 			);

@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -49,12 +52,16 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class AWOLQuartermasterRequest
 	extends CoinMasterRequest
 {
+	public static final String master = "A. W. O. L. Quartermaster"; 
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( AWOLQuartermasterRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( AWOLQuartermasterRequest.master );
+
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(?:You've.*?got|You.*? have) (?:<b>)?([\\d,]+)(?:</b>)? A. W. O. L. commendation" );
 	public static final AdventureResult COMMENDATION = ItemPool.get( ItemPool.AWOL_COMMENDATION, 1 );
 	private static final Pattern TOBUY_PATTERN = Pattern.compile( "tobuy=(\\d+)" );
 	public static final CoinmasterData AWOL =
 		new CoinmasterData(
-			"A. W. O. L. Quartermaster",
+			AWOLQuartermasterRequest.master,
 			AWOLQuartermasterRequest.class,
 			"inv_use.php?whichitem=5116&ajax=1",
 			"commendation",
@@ -68,8 +75,8 @@ public class AWOLQuartermasterRequest
 			"howmany",
 			CoinMasterRequest.HOWMANY_PATTERN,
 			null,
-			CoinmastersDatabase.getCommendationItems(),
-			CoinmastersDatabase.commendationBuyPrices(),
+			AWOLQuartermasterRequest.buyItems,
+			AWOLQuartermasterRequest.buyPrices,
 			null,
 			null
 			);
