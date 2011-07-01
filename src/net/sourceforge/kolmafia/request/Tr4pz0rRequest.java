@@ -59,7 +59,7 @@ public class Tr4pz0rRequest
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "the sight of the ([\\d,]+|) ?yeti fur" );
 	public static final AdventureResult YETI_FUR = ItemPool.get( ItemPool.YETI_FUR, 1 );
-	public static final CoinmasterData ELITE_TR4PZ0R =
+	public static final CoinmasterData L33T_TR4PZ0R =
 		new CoinmasterData(
 			Tr4pz0rRequest.master,
 			Tr4pz0rRequest.class,
@@ -85,17 +85,17 @@ public class Tr4pz0rRequest
 
 	public Tr4pz0rRequest()
 	{
-		super( Tr4pz0rRequest.ELITE_TR4PZ0R );
+		super( Tr4pz0rRequest.L33T_TR4PZ0R );
 	}
 
 	public Tr4pz0rRequest( final String action )
 	{
-		super( Tr4pz0rRequest.ELITE_TR4PZ0R, action );
+		super( Tr4pz0rRequest.L33T_TR4PZ0R, action );
 	}
 
 	public Tr4pz0rRequest( final String action, final int itemId, final int quantity )
 	{
-		super( Tr4pz0rRequest.ELITE_TR4PZ0R, action, itemId, quantity );
+		super( Tr4pz0rRequest.L33T_TR4PZ0R, action, itemId, quantity );
 	}
 
 	public Tr4pz0rRequest( final String action, final int itemId )
@@ -115,7 +115,7 @@ public class Tr4pz0rRequest
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		CoinMasterRequest.parseResponse( Tr4pz0rRequest.ELITE_TR4PZ0R, urlString, responseText );
+		CoinMasterRequest.parseResponse( Tr4pz0rRequest.L33T_TR4PZ0R, urlString, responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -126,7 +126,7 @@ public class Tr4pz0rRequest
 			return false;
 		}
 
-		CoinmasterData data = Tr4pz0rRequest.ELITE_TR4PZ0R;
+		CoinmasterData data = Tr4pz0rRequest.L33T_TR4PZ0R;
 		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 

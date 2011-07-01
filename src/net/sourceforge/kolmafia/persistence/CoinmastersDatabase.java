@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
@@ -50,7 +51,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -264,7 +264,7 @@ public class CoinmastersDatabase
 	{
 		if ( CoinmastersDatabase.COINMASTER_ITEMS.isEmpty() )
 		{
-			CoinmastersFrame.initializePurchaseRequests();
+			CoinmasterRegistry.initializePurchaseRequests();
 		}
 
 		Integer id = new Integer( ItemDatabase.getItemId( itemName, 1, false ) );
