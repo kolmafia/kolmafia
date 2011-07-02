@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -193,6 +194,73 @@ public class CoinMasterRequest
 		}
 	}
 
+	public static void visit( final CoinmasterData data )
+	{
+		if ( data == null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Visit whom?" );
+			return;
+		}
+
+		CoinMasterRequest request = CoinMasterRequest.getRequest( data );
+		CoinMasterRequest.transact( data, request );
+	}
+
+	public static void buy( final CoinmasterData data, final AdventureResult it )
+	{
+		if ( data == null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Buy from whom?" );
+			return;
+		}
+
+		String action = data.getBuyAction();
+		String itemName = it.getName();
+		if ( action == null || !data.canBuyItem( itemName ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't buy " + itemName + " from " + data.getMaster() );
+			return;
+		}
+
+		CoinMasterRequest request = CoinMasterRequest.getRequest( data, action, it );
+		CoinMasterRequest.transact( data, request );
+	}
+
+	public static void sell( final CoinmasterData data, final AdventureResult it )
+	{
+		if ( data == null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sell to whom?" );
+			return;
+		}
+
+		String action = data.getSellAction();
+		String itemName = it.getName();
+		if ( action == null || !data.canSellItem( itemName ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't sell " + itemName + " to " + data.getMaster() );
+			return;
+		}
+
+		CoinMasterRequest request = CoinMasterRequest.getRequest( data, action, it );
+		CoinMasterRequest.transact( data, request );
+	}
+
+	private static void transact( final CoinmasterData data, CoinMasterRequest request )
+	{
+		String reason = CoinMasterRequest.accessible( data );
+		if ( reason != null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+			return;
+		}
+
+		RequestThread.openRequestSequence();
+		CoinMasterRequest.equip( data );
+		RequestThread.postRequest( request );
+		RequestThread.closeRequestSequence();
+	}
+
 	public Object run()
 	{
 		// If we cannot specify the count, we must get 1 at a time.
@@ -214,6 +282,18 @@ public class CoinMasterRequest
 			}
 
 			super.run();
+
+			if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that item.." );
+				return null;
+			}
+
+			if ( this.responseText.indexOf( "You don't have that many of that item" ) != -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many of that item to turn in." );
+				return null;
+			}
 		}
 		while ( KoLmafia.permitsContinue() && ++i <= visits );
 

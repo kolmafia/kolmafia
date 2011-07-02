@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CraftRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
@@ -406,6 +407,21 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.COINMASTER_TYPE };
+		functions.add( new LibraryFunction( "coinmaster_accessible", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.COINMASTER_TYPE };
+		functions.add( new LibraryFunction( "coinmaster_inaccessible_reason", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.COINMASTER_TYPE };
+		functions.add( new LibraryFunction( "coinmaster_visit", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.COINMASTER_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "coinmaster_buy", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.COINMASTER_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "coinmaster_sell", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "craft", DataTypes.INT_TYPE, params ) );
@@ -2186,6 +2202,52 @@ public abstract class RuntimeLibrary
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6"
 			+ item.intValue() + "@" + limit.intValue() );
 		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
+	}
+
+	public static Value coinmaster_accessible( final Value master )
+	{
+		CoinmasterData data = (CoinmasterData) master.rawValue();
+		return DataTypes.makeBooleanValue( data != null && CoinMasterRequest.accessible( data ) == null );
+	}
+
+	public static Value coinmaster_inaccessible_reason( final Value master )
+	{
+		CoinmasterData data = (CoinmasterData) master.rawValue();
+		String reason = data != null ? CoinMasterRequest.accessible( data ) : null;
+		return new Value( reason != null ? reason : "" );
+	}
+
+	public static Value coinmaster_visit( final Value master )
+	{
+		CoinmasterData data = (CoinmasterData) master.rawValue();
+		CoinMasterRequest.visit( data );
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value coinmaster_buy( final Value master, final Value countValue, final Value itemValue )
+	{
+		CoinmasterData data = (CoinmasterData) master.rawValue();
+		int count = countValue.intValue();
+		if ( count <= 0 )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+		AdventureResult item = new AdventureResult( itemValue.intValue(), count );
+		CoinMasterRequest.buy( data, item );
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value coinmaster_sell( final Value master, final Value countValue, final Value itemValue )
+	{
+		CoinmasterData data = (CoinmasterData) master.rawValue();
+		int count = countValue.intValue();
+		if ( count <= 0 )
+		{
+			return RuntimeLibrary.continueValue();
+		}
+		AdventureResult item = new AdventureResult( itemValue.intValue(), count );
+		CoinMasterRequest.sell( data, item );
+		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value craft( final Value modeValue, final Value countValue, final Value item1, final Value item2 )
