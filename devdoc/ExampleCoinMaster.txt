@@ -1,0 +1,187 @@
+To add a new Coin Master:
+
+- As with all requests, study the HTML page. Figure out what URLs are
+  used to buy or sell items. Understand ExampleRequest.txt!
+
+If the token is an item:
+
+- Add it to objectpool/ItemPool.java
+	public static final int TOKEN = 9999;
+
+- Add it to session/ResultProcessor.gainItem(). If anything purchased
+  with the token is either a food or drink that should show up on that
+  panel of the Item Manager or is an ingredient for a concoction, add it
+  to the switch statement above ConcoctionDatabase.refreshConcoctions())
+  so that the Item Manager will update when you gain or spend tokens.
+  Otherwise, you can add it below that call.
+
+If the token is not a real item:
+
+- Add a user preference to defaults.txt
+
+user	availableTokens	0
+
+Decide on the "master" name of this Coin Master
+
+- Add entries to data/coinmasters.txt listing everything you can buy
+  from or sell to this coin master, using your "master" name.
+
+Example	buy	10	item 1
+Example	sell	5	item 2
+
+Create your request class
+
+- ExampleCoinMasterRequest extends CoinMasterRequest
+
+- define a public static String with your chosen name
+	public static final String master = "Example"; 
+
+- if your token is an item, define a public static AdventureResult
+	public static final AdventureResult TOKEN = ItemPool.get( ItemPool.TOKEN, 1 );
+
+- define a public static CoinMasterData for your Coin Master:
+	public static final CoinmasterData EXAMPLE =
+
+  data.master is your public variable
+  data.item is your public variable
+  data.buyitems, data.buyPrices, data.sellPrices look up the appropriate
+    lists from CoinmastersDatabase using your "master" name
+  Patterns, field names, etc. as appropriate for the requests you will
+    make and the result pages you will examine.
+
+  This structure will be explained in detail in a later version of this document.
+
+- Define constructors. The only two you absolutely have to have are
+
+	public ExampleCoinMasterRequest()
+	public ExampleCoinMasterRequest( final String action, final AdventureResult ar )
+
+  CoinMasterRequest will invoke those constructors, as directed by the
+  CoinmasterFrame and CoinMasterPurchaseRequest, to make requests to
+  visit or perform transactions, respectively.
+
+- define the static response parser for this Coin Master. It could be as
+  simple as this:
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		CoinMasterRequest.parseResponse( ExampleCoinMasterRequest.EXAMPLE, urlString, responseText );
+	}
+
+- edit StaticEntity.externalUpdate to call your parseResponse method
+  when your URL is seen.
+
+- If you have a more complicated response parser, you need to override
+  processResults to call it to parse the results of internally generated
+  requests.
+
+	public void processResults()
+	{
+		ExampleCoinMasterRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+  Since the CoinMasterRequest superclass will simply call
+
+		CoinMasterRequest.parseResponse( data, urlString, responseText );
+
+  with your CoinmasterData if you don't override this method, if that is
+  all that YOUR parseResponse method does, you do not need to override
+  processResults. 
+
+- define a static registerRequest method to decide if a request about to
+  be submitted belongs to you and do appropriate session logging. It can
+  be as simple as this:
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "example.php" ) )
+		{
+			return false;
+		}
+
+		CoinmasterData data = ExampleCoinMasterRequest.EXAMPLE;
+		return CoinMasterRequest.registerRequest( data, urlString );
+	}
+
+- edit RequestLogger.doRegister do invoke your registration function.
+
+		if ( ( request instanceof ExampleCoinmasterRequest || isExternal ) && ExampleCoinmasterRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+   Place it in the correct spot, depending on whether you want to log
+   simple visits or only transactions. I.e., either before or after the
+   if/return commented with "Anything else that doesn't submit an
+   actual form should not be registered." Typically, you'll just add it
+   in the big Alphabetical section at the end. ExampleRequest explains
+   this.
+
+Having done all the above, your Coin Master is now callable internally
+by KoLmafia or externally via the Relay Browser or visit_url() and will
+make nice entries in the session log and keep track of inventory and
+tokens correctly for both internal and external requests.
+
+Edit CoinmasterRegistry:
+
+- import your request class:
+
+import net.sourceforge.kolmafia.request.ExampleCoinMasterRequest;
+
+Add your CoinmasterData to the static array in CoinmasterRegistry.
+
+		ExampleCoinMasterRequest.EXAMPLE,
+
+Having added those two lines, your Coin Master is now hooked into the
+"acquire" system. Food and drink available from it will show up in the
+Item Manager. Ingredients purchasable from your Coin Master will be
+available for making other concoctions. Your Coin Master's inventory
+will be available on the Purchase frame.
+
+Add your Coin Master to the CoinmastersFrame
+
+- import your request class:
+
+import net.sourceforge.kolmafia.request.ExampleCoinMasterRequest;
+
+- define the panel:
+
+	private CoinmasterPanel examplePanel = null;
+
+- create the panel in the appropriate section:
+
+		panel = new JPanel( new BorderLayout() );
+		examplePanel = new ExamplePanel();
+		panel.add( examplePanel );
+		this.selectorPanel.addPanel( examplePanel.getPanelSelector(), panel );
+
+- add it to CoinmastersFrame.update:
+
+		examplePanel.update();
+
+- define your panel:
+
+	public class ExamplePanel
+		extends CoinmasterPanel
+	{
+		public ExamplePanel()
+		{
+			super( ExampleCoinMasterRequest.EXAMPLE );
+		}
+	}
+
+And that's it! Your Coin Master is now fully integrated with the Coin
+Master GUI.
+
+Obviously, more complicated Coin Masters will need additional features:
+custom CLI commands and/or menu bar options (like the Hermit), special
+buttons on the CoinmastersFrame (like Mr Store or the Arcade Ticket
+Counter), and so on. You may need additional code in your Request Class
+to support such.
+
+And, as with any KoL page, you may want to have multiple classes
+supporting different aspects of it (as in the Game Shoppe and the Free
+Snacks) or even have a class support your Coin Master and also other
+things (like the A.W.O.L Quartermaster, who uses a URL otherwise handled
+by UseItemRequest.) Issues like those are discussed in ExampleRequest.txt
