@@ -377,6 +377,7 @@
 7111	Fire a fingertrap arrow	5	0	0
 7112	Nuclear Breath	5	10	0
 7113	Squeeze Stress Ball	5	0	0
+7114	Throw Shield	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
