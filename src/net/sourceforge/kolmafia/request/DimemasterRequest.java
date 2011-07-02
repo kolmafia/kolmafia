@@ -123,18 +123,18 @@ public class DimemasterRequest
 	public static String accessible()
 	{
 		IslandDecorator.ensureUpdatedBigIsland();
-		String message = null;
 
 		if ( !Preferences.getString( "warProgress" ).equals( "started" ) )
 		{
-			message = "You're not at war.";
-		}
-		else if ( !EquipmentManager.hasOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT ) )
-		{
-			message = "You don't have the War Hippy Fatigues";
+			return "You're not at war.";
 		}
 
-		return message;
+		if ( !EquipmentManager.hasOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT ) )
+		{
+			return "You don't have the War Hippy Fatigues";
+		}
+
+		return null;
 	}
 
 	public static void equip()
