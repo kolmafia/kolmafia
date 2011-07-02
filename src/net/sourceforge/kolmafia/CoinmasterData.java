@@ -264,6 +264,27 @@ public class CoinmasterData
 		return this.buyPrices;
 	}
 
+	public final boolean canBuyItem( final String itemName )
+	{
+		if ( this.buyPrices != null )
+		{
+			String name = StringUtilities.getCanonicalName( itemName );
+			return this.buyPrices.containsKey( name );
+		}
+		return false;
+	}
+
+	public final int getBuyPrice( final String itemName )
+	{
+		if ( this.buyPrices != null )
+		{
+			String name = StringUtilities.getCanonicalName( itemName );
+			Integer price = (Integer) this.buyPrices.get( name );
+			return price != null ? price.intValue() : 0;
+		}
+		return 0;
+	}
+
 	public final String getSellAction()
 	{
 		return this.sellAction;
@@ -272,6 +293,27 @@ public class CoinmasterData
 	public final Map getSellPrices()
 	{
 		return this.sellPrices;
+	}
+
+	public final boolean canSellItem( final String itemName )
+	{
+		if ( this.sellPrices != null )
+		{
+			String name = StringUtilities.getCanonicalName( itemName );
+			return this.sellPrices.containsKey( name );
+		}
+		return false;
+	}
+
+	public final int getSellPrice( final String itemName )
+	{
+		if ( this.sellPrices != null )
+		{
+			String name = StringUtilities.getCanonicalName( itemName );
+			Integer price = (Integer) this.sellPrices.get( name );
+			return price != null ? price.intValue() : 0;
+		}
+		return 0;
 	}
 
 	public final String getStorageAction()

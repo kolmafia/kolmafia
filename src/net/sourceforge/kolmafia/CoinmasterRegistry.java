@@ -94,12 +94,17 @@ public abstract class CoinmasterRegistry
 	{
 		List matchingNames = StringUtilities.getMatchingNames( MASTERS, master );
 
-		if ( matchingNames.size() != 1 )
+		int size = matchingNames.size();
+
+		if ( size == 0 )
 		{
 			return null;
 		}
 
-		String match = (String) matchingNames.get( 0 );
+		String match = ( size == 1 ) ?
+			(String) matchingNames.get( 0 ) :
+			StringUtilities.getCanonicalName( master ).trim();
+		
 		for ( int i = 0; i < MASTERS.length; ++i )
 		{
 			if ( match.equals( MASTERS[ i ] ) )
@@ -108,7 +113,32 @@ public abstract class CoinmasterRegistry
 			}
 		}
 
-		// Huh?
+		return null;
+	}
+
+	public static CoinmasterData findBuyer( final String itemName )
+	{
+		for ( int i = 0; i < COINMASTERS.length; ++i )
+		{
+			CoinmasterData data = COINMASTERS[ i ];
+			if ( data.canSellItem( itemName ) )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
+	public static CoinmasterData findSeller( final String itemName )
+	{
+		for ( int i = 0; i < COINMASTERS.length; ++i )
+		{
+			CoinmasterData data = COINMASTERS[ i ];
+			if ( data.canBuyItem( itemName ) )
+			{
+				return data;
+			}
+		}
 		return null;
 	}
 
