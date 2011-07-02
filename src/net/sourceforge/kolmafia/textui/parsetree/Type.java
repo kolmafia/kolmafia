@@ -123,6 +123,10 @@ public class Type
 		{
 			return ProxyRecordValue.LocationProxy._type;
 		}
+		if ( this == DataTypes.COINMASTER_TYPE )
+		{
+			return ProxyRecordValue.CoinmasterProxy._type;
+		}
 		return this;
 	}
 
