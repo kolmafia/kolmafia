@@ -123,18 +123,18 @@ public class QuartersmasterRequest
 	public static String accessible()
 	{
 		IslandDecorator.ensureUpdatedBigIsland();
-		String message = null;
 
 		if ( !Preferences.getString( "warProgress" ).equals( "started" ) )
 		{
-			message = "You're not at war.";
-		}
-		else if ( !EquipmentManager.hasOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT ) )
-		{
-			message = "You don't have the Frat Warrior Fatigues";
+			return "You're not at war.";
 		}
 
-		return message;
+		if ( !EquipmentManager.hasOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT ) )
+		{
+			return "You don't have the Frat Warrior Fatigues";
+		}
+
+		return null;
 	}
 
 	public static void equip()

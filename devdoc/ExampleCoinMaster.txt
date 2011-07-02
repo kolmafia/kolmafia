@@ -6,6 +6,7 @@ To add a new Coin Master:
 If the token is an item:
 
 - Add it to objectpool/ItemPool.java
+
 	public static final int TOKEN = 9999;
 
 - Add it to session/ResultProcessor.gainItem(). If anything purchased
@@ -34,12 +35,15 @@ Create your request class
 - ExampleCoinMasterRequest extends CoinMasterRequest
 
 - define a public static String with your chosen name
+
 	public static final String master = "Example"; 
 
 - if your token is an item, define a public static AdventureResult
+
 	public static final AdventureResult TOKEN = ItemPool.get( ItemPool.TOKEN, 1 );
 
 - define a public static CoinMasterData for your Coin Master:
+
 	public static final CoinmasterData EXAMPLE =
 
   data.master is your public variable
@@ -56,9 +60,9 @@ Create your request class
 	public ExampleCoinMasterRequest()
 	public ExampleCoinMasterRequest( final String action, final AdventureResult ar )
 
-  CoinMasterRequest will invoke those constructors, as directed by the
-  CoinmasterFrame and CoinMasterPurchaseRequest, to make requests to
-  visit or perform transactions, respectively.
+  CoinMasterRequest will invoke those constructors to make requests to
+  visit or perform transactions, respectively, as directed by the
+  CoinmasterFrame and CoinMasterPurchaseRequest,
 
 - define the static response parser for this Coin Master. It could be as
   simple as this:
@@ -117,6 +121,53 @@ Create your request class
    actual form should not be registered." Typically, you'll just add it
    in the big Alphabetical section at the end. ExampleRequest explains
    this.
+
+- If your Coin Master has special conditions that you must meet before
+  you can visit - a specific outfit, like the Hippy Camp during the war,
+  special Gear, like Big Brother, an effect like Transpondent - you will
+  need to provide two more methods:
+
+	public static String accessible()
+	{
+		if ( !Preferences.getBoolean( "exampleAvailable" ) )
+		{
+			return "You can't get to Example.";
+		}
+
+		if ( !EquipmentManager.hasOutfit( ExampleCoinMasterRequest.EXAMPLE_OUTFIT ) )
+		{
+			return "You don't have the Example Outfit.";
+		}
+
+                if ( !KoLConstants.activeEffects.contains( ExampleCoinMasterEffect.EFFECT ) &&
+                     ExampleCoinMaster.EFFECT_ITEM.getCount( KoLConstants.inventory ) == 0 )
+		{
+			return "You don't have and can't get the Example effect.";
+		}
+
+		return null;
+	}
+
+   This will check if you have what you need to get to your Coin Master.
+
+	public static void equip()
+	{
+		if ( !EquipmentManager.isWearingOutfit( ExampleCoinMasterRequest.EXAMPLE_OUTFIT ) )
+		{
+			EquipmentManager.retrieveOutfit( ExampleCoinMasterRequest.EXAMPLE_OUTFIT );
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( ExampleCoinMasterRequest.EXAMPLE_OUTFIT );
+			EquipmentRequest request = new EquipmentRequest( outfit );
+			RequestThread.postRequest( request );
+		}
+
+		if ( !KoLConstants.activeEffects.contains( ExampleCoinMasterEffect.EFFECT )  )
+		{
+			UseItemRequest request = new UseItemRequest( ExampleCoinMaster.EFFECT_ITEM );
+			RequestThread.postRequest( request );
+		}
+	}
+
+   This will do what is necessary to suit up to get to the Coin Master.
 
 Having done all the above, your Coin Master is now callable internally
 by KoLmafia or externally via the Relay Browser or visit_url() and will
