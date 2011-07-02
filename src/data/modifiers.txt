@@ -1966,6 +1966,7 @@ vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Da
 walrus-tusk earring	Maximum HP: +10
 # water wings
 water-polo mitt	Weapon Damage: +30, Single Equip
+whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
 wheel	Initiative: +10
 white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 white collar	Meat Drop: +3, Moxie: +1

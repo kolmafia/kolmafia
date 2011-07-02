@@ -779,7 +779,7 @@ public class CoinmastersFrame
 					} );
 
 				Map sellPrices = CoinmasterPanel.this.data.getSellPrices();
-				this.elementList.setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, sellPrices ) );
+				this.elementList.setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, sellPrices, false, null ) );
 				this.setEnabled( true );
 				this.filterItems();
 			}
@@ -878,7 +878,7 @@ public class CoinmastersFrame
 
 				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
 				String side = CoinmasterPanel.this.lighthouseSide();
-				this.elementList.setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, side ) );
+				this.elementList.setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, true, side ) );
 				this.elementList.setVisibleRowCount( 6 );
 				this.setEnabled( true );
 			}
@@ -1040,14 +1040,9 @@ public class CoinmastersFrame
 		}
 	}
 
-	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices )
+	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices, final boolean usesTokens, String side )
 	{
-		return new CoinmasterRenderer( data, prices );
-	}
-
-	public static final DefaultListCellRenderer getCoinmasterRenderer( CoinmasterData data, Map prices, String side )
-	{
-		return new CoinmasterRenderer( data, prices, side );
+		return new CoinmasterRenderer( data, prices, usesTokens, side );
 	}
 
 	private static class CoinmasterRenderer
@@ -1055,18 +1050,15 @@ public class CoinmastersFrame
 	{
 		private CoinmasterData data;
 		private Map prices;
+		private boolean usesTokens;
 		private String side;
 
-		public CoinmasterRenderer( CoinmasterData data, final Map prices )
-		{
-			this( data, prices, null );
-		}
-
-		public CoinmasterRenderer( CoinmasterData data, final Map prices, String side )
+		public CoinmasterRenderer( CoinmasterData data, final Map prices, final boolean usesTokens, String side )
 		{
 			this.setOpaque( true );
 			this.data = data;
 			this.prices = prices;
+			this.usesTokens = usesTokens;
 			this.side = side;
 		}
 
@@ -1118,9 +1110,9 @@ public class CoinmastersFrame
 			}
 
 			int price = iprice.intValue();
-			boolean show = CoinmastersDatabase.availableItem( canonicalName);
+			boolean show = CoinmastersDatabase.availableItem( canonicalName );
 
-			if ( show )
+			if ( show && this.usesTokens )
 			{
 				int balance = this.data.availableTokens();
 				if ( price > balance )
