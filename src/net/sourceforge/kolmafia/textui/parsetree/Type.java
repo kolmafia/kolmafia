@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -168,6 +169,8 @@ public class Type
 			return DataTypes.MONSTER_INIT;
 		case DataTypes.TYPE_ELEMENT:
 			return DataTypes.ELEMENT_INIT;
+		case DataTypes.TYPE_COINMASTER:
+			return DataTypes.COINMASTER_INIT;
 		}
 		return null;
 	}
@@ -204,6 +207,8 @@ public class Type
 			return DataTypes.parseMonsterValue( name, returnDefault );
 		case DataTypes.TYPE_ELEMENT:
 			return DataTypes.parseElementValue( name, returnDefault );
+		case DataTypes.TYPE_COINMASTER:
+			return DataTypes.parseCoinmasterValue( name, returnDefault );
 		}
 		return null;
 	}
@@ -254,6 +259,9 @@ public class Type
 			break;
 		case DataTypes.TYPE_ELEMENT:
 			this.addValues( list, MonsterDatabase.elementNames, 1, -1 );
+			break;
+		case DataTypes.TYPE_COINMASTER:
+			this.addValues( list, CoinmasterRegistry.MASTERS );
 			break;
 		default:
 			return null;

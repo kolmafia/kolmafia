@@ -559,6 +559,16 @@ public class DataTypes
 		return new Value( DataTypes.COINMASTER_TYPE, content.getMaster(), (Object) content );
 	}
 
+	public static final Value makeCoinmasterValue( final CoinmasterData data )
+	{
+		if ( data == null )
+		{
+			return DataTypes.COINMASTER_INIT;
+		}
+
+		return new Value( DataTypes.COINMASTER_TYPE, data.getMaster(), (Object) data );
+	}
+
 	public static final Value parseValue( final Type type, final String name, final boolean returnDefault )
 	{
 		return type.parseValue( name, returnDefault );

@@ -445,6 +445,9 @@ public class ProxyRecordValue
 			.add( "token", DataTypes.STRING_TYPE )
 			.add( "item", DataTypes.ITEM_TYPE )
 			.add( "property", DataTypes.STRING_TYPE )
+			.add( "available_tokens", DataTypes.INT_TYPE )
+			.add( "buys", DataTypes.BOOLEAN_TYPE )
+			.add( "sells", DataTypes.BOOLEAN_TYPE )
 			.finish( "coinmaster proxy" );
 
 		public CoinmasterProxy( Value obj )
@@ -469,6 +472,21 @@ public class ProxyRecordValue
 		public String get_property()
 		{
 			return ((CoinmasterData) this.content).getProperty();
+		}
+
+		public int get_available_tokens()
+		{
+			return ((CoinmasterData) this.content).availableTokens();
+		}
+
+		public boolean get_buys()
+		{
+			return ((CoinmasterData) this.content).getSellAction() != null;
+		}
+
+		public boolean get_sells()
+		{
+			return ((CoinmasterData) this.content).getBuyAction() != null;
 		}
 	}
 }
