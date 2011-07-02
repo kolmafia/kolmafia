@@ -119,6 +119,7 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "tonic water", 40, false ),
 		new MPRestoreItem( "cotton candy cone", 39, false ),
 		new MPRestoreItem( "palm-frond fan", 37, false ),
+		new MPRestoreItem( "Okee-Dokee soda", 37, false ),
 		new MPRestoreItem( "honey-dipped locust", 36, false ),
 		new MPRestoreItem( "Marquis de Poivre soda", 35, false ),
 		MPRestoreItemList.MOTH,

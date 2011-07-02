@@ -5088,7 +5088,7 @@
 5079	Van der Graaf helmet	hat	all	200
 5080	electric crutch	weapon	all	300
 5081	shock belt	accessory	all	400
-5082	Okee-Dokee soda	multiple	all	100
+5082	Okee-Dokee soda	mp	all	100
 5083	rubber band gun	weapon	all	200
 5084	pin-stripe slacks	pants	all	300
 5085	sticky gloves	accessory	all	400
