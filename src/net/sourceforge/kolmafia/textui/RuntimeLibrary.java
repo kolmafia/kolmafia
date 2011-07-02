@@ -409,19 +409,19 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "buy", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.COINMASTER_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_accessible", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "is_accessible", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.COINMASTER_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_inaccessible_reason", DataTypes.STRING_TYPE, params ) );
+		functions.add( new LibraryFunction( "inaccessible_reason", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.COINMASTER_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_visit", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "visit", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.COINMASTER_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_buy", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.COINMASTER_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_sell", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "sell", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "craft", DataTypes.INT_TYPE, params ) );
@@ -535,16 +535,16 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "npc_price", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.COINMASTER_TYPE, DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_buys_item", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "buys_item", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.COINMASTER_TYPE, DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_buy_price", DataTypes.INT_TYPE, params ) );
+		functions.add( new LibraryFunction( "buy_price", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.COINMASTER_TYPE, DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_sells_item", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "sells_item", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.COINMASTER_TYPE, DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_sell_price", DataTypes.INT_TYPE, params ) );
+		functions.add( new LibraryFunction( "sell_price", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "historical_price", DataTypes.INT_TYPE, params ) );
@@ -2189,42 +2189,50 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
 	}
 
-	public static Value buy( final Value countValue, final Value item, final Value limit )
+	public static Value buy( final Value arg1, final Value arg2, final Value arg3 )
 	{
-		int count = countValue.intValue();
+		if ( arg1.getType().equals( DataTypes.TYPE_COINMASTER ) )
+		{
+			return coinmaster_buy( arg1, arg2, arg3 );
+		}
+
+		int count = arg1.intValue();
 		if ( count <= 0 )
 		{
 			return DataTypes.ZERO_VALUE;
 		}
 
-		AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
+		int itemId = arg2.intValue();
+		AdventureResult itemToBuy = new AdventureResult( itemId, 1 );
 		int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "buy", count + " \u00B6"
-			+ item.intValue() + "@" + limit.intValue() );
+			+ itemId + "@" + arg3.intValue() );
 		return new Value( itemToBuy.getCount( KoLConstants.inventory ) - initialAmount );
 	}
 
-	public static Value coinmaster_accessible( final Value master )
+	// Coinmaster functions
+
+	public static Value is_accessible( final Value master )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		return DataTypes.makeBooleanValue( data != null && CoinMasterRequest.accessible( data ) == null );
 	}
 
-	public static Value coinmaster_inaccessible_reason( final Value master )
+	public static Value inaccessible_reason( final Value master )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String reason = data != null ? CoinMasterRequest.accessible( data ) : null;
 		return new Value( reason != null ? reason : "" );
 	}
 
-	public static Value coinmaster_visit( final Value master )
+	public static Value visit( final Value master )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		CoinMasterRequest.visit( data );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value coinmaster_buy( final Value master, final Value countValue, final Value itemValue )
+	private static Value coinmaster_buy( final Value master, final Value countValue, final Value itemValue )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		int count = countValue.intValue();
@@ -2237,7 +2245,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value coinmaster_sell( final Value master, final Value countValue, final Value itemValue )
+	public static Value sell( final Value master, final Value countValue, final Value itemValue )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		int count = countValue.intValue();
@@ -2764,28 +2772,30 @@ public abstract class RuntimeLibrary
 			NPCStoreDatabase.price( it ) : 0 );
 	}
 
-	public static Value coinmaster_buys_item( final Value master, final Value item )
+	// Coinmaster functions
+
+	public static Value buys_item( final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String itemName = ItemDatabase.getItemName( item.intValue() );
 		return DataTypes.makeBooleanValue( data != null && data.canSellItem( itemName ) );
 	}
 
-	public static Value coinmaster_buy_price( final Value master, final Value item )
+	public static Value buy_price( final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String itemName = ItemDatabase.getItemName( item.intValue() );
 		return DataTypes.makeIntValue( data != null ? data.getSellPrice( itemName ) : 0 );
 	}
 
-	public static Value coinmaster_sells_item( final Value master, final Value item )
+	public static Value sells_item( final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String itemName = ItemDatabase.getItemName( item.intValue() );
 		return DataTypes.makeBooleanValue( data != null && data.canBuyItem( itemName ) );
 	}
 
-	public static Value coinmaster_sell_price( final Value master, final Value item )
+	public static Value sell_price( final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String itemName = ItemDatabase.getItemName( item.intValue() );
