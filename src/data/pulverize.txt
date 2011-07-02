@@ -237,6 +237,7 @@ Spooky Putty snake	nosmash
 Elvish sunglasses	nosmash
 Bag o' Tricks	nosmash
 Greatest American Pants	nosmash
+Operation Patriot Shield	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
