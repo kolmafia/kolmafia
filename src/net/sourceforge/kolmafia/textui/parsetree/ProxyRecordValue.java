@@ -37,6 +37,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -433,6 +435,40 @@ public class ProxyRecordValue
 		public String get_parentdesc()
 		{
 			return ((KoLAdventure) this.content).getParentZoneDescription();
+		}
+	}
+
+	public static class CoinmasterProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "token", DataTypes.STRING_TYPE )
+			.add( "item", DataTypes.ITEM_TYPE )
+			.add( "property", DataTypes.STRING_TYPE )
+			.finish( "coinmaster proxy" );
+
+		public CoinmasterProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+
+		public String get_token()
+		{
+			return ((CoinmasterData) this.content).getToken();
+		}
+
+		public Value get_item()
+		{
+			CoinmasterData data = ((CoinmasterData) this.content);
+			AdventureResult item = data.getItem();
+			return item == null ?
+			       DataTypes.ITEM_INIT :
+			       DataTypes.parseItemValue( item.getName(), true );
+		}
+
+		public String get_property()
+		{
+			return ((CoinmasterData) this.content).getProperty();
 		}
 	}
 }

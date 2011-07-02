@@ -38,6 +38,8 @@ import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -81,6 +83,7 @@ public class DataTypes
 	public static final int TYPE_SLOT = 107;
 	public static final int TYPE_MONSTER = 108;
 	public static final int TYPE_ELEMENT = 109;
+	public static final int TYPE_COINMASTER = 110;
 
 	public static final int TYPE_AGGREGATE = 1000;
 	public static final int TYPE_RECORD = 1001;
@@ -115,6 +118,7 @@ public class DataTypes
 	public static final Type SLOT_TYPE = new Type( "slot", DataTypes.TYPE_SLOT );
 	public static final Type MONSTER_TYPE = new Type( "monster", DataTypes.TYPE_MONSTER );
 	public static final Type ELEMENT_TYPE = new Type( "element", DataTypes.TYPE_ELEMENT );
+	public static final Type COINMASTER_TYPE = new Type( "coinmaster", DataTypes.TYPE_COINMASTER );
 
 	public static final Type AGGREGATE_TYPE = new Type( "aggregate", DataTypes.TYPE_AGGREGATE );
 	
@@ -172,6 +176,7 @@ public class DataTypes
 	public static final Value SLOT_INIT = new Value( DataTypes.SLOT_TYPE, -1, "none" );
 	public static final Value MONSTER_INIT = new Value( DataTypes.MONSTER_TYPE, "none", (Object) null );
 	public static final Value ELEMENT_INIT = new Value( DataTypes.ELEMENT_TYPE, "none", (Object) null );
+	public static final Value COINMASTER_INIT = new Value( DataTypes.COINMASTER_TYPE, "none", (Object) null );
 
 	public static final TypeList simpleTypes = new TypeList();
 
@@ -196,6 +201,7 @@ public class DataTypes
 		simpleTypes.add( DataTypes.SLOT_TYPE );
 		simpleTypes.add( DataTypes.MONSTER_TYPE );
 		simpleTypes.add( DataTypes.ELEMENT_TYPE );
+		simpleTypes.add( DataTypes.COINMASTER_TYPE );
 	}
 
 	// For each simple data type X, we supply:
@@ -532,6 +538,27 @@ public class DataTypes
 		return new Value( DataTypes.ELEMENT_TYPE, num, name );
 	}
 
+	public static final Value parseCoinmasterValue( String name, final boolean returnDefault )
+	{
+		if ( name == null || name.equals( "" )	)
+		{
+			return returnDefault ? DataTypes.COINMASTER_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
+		{
+			return DataTypes.COINMASTER_INIT;
+		}
+
+		CoinmasterData content = CoinmasterRegistry.findCoinmaster( name.toString() );
+		if ( content == null )
+		{
+			return returnDefault ? DataTypes.COINMASTER_INIT : null;
+		}
+
+		return new Value( DataTypes.COINMASTER_TYPE, content.getMaster(), (Object) content );
+	}
+
 	public static final Value parseValue( final Type type, final String name, final boolean returnDefault )
 	{
 		return type.parseValue( name, returnDefault );
@@ -675,6 +702,9 @@ public class DataTypes
 
 		case TYPE_ELEMENT:
 			return (String) InputFieldUtilities.input( message, MonsterDatabase.elementNames );
+
+		case TYPE_COINMASTER:
+			return (String) InputFieldUtilities.input( message, CoinmasterRegistry.MASTERS );
 
 		case TYPE_CLASS:
 			return (String) InputFieldUtilities.input( message, DataTypes.CLASSES );

@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia;
 
 import net.sourceforge.kolmafia.CoinmasterData;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
@@ -53,6 +55,7 @@ import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class CoinmasterRegistry
 {
@@ -78,6 +81,36 @@ public abstract class CoinmasterRegistry
 		TravelingTraderRequest.TRAVELER,
 	};
 
+	public static final String [] MASTERS = new String[ COINMASTERS.length ];
+	static
+	{
+		for ( int i = 0; i < COINMASTERS.length; ++i )
+		{
+			MASTERS[ i ] = StringUtilities.getCanonicalName( COINMASTERS[ i ].getMaster() );
+		}
+	};
+
+	public static CoinmasterData findCoinmaster( final String master )
+	{
+		List matchingNames = StringUtilities.getMatchingNames( MASTERS, master );
+
+		if ( matchingNames.size() != 1 )
+		{
+			return null;
+		}
+
+		String match = (String) matchingNames.get( 0 );
+		for ( int i = 0; i < MASTERS.length; ++i )
+		{
+			if ( match.equals( MASTERS[ i ] ) )
+			{
+				return COINMASTERS[ i ];
+			}
+		}
+
+		// Huh?
+		return null;
+	}
 
 	public static void initializePurchaseRequests()
 	{

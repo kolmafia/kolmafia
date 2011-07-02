@@ -61,6 +61,8 @@ import java.util.regex.PatternSyntaxException;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.Expression;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -324,6 +326,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_element", DataTypes.ELEMENT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_coinmaster", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_plural", DataTypes.STRING_TYPE, params ) );
@@ -1882,6 +1887,11 @@ public abstract class RuntimeLibrary
 	public static Value to_element( final Value value )
 	{
 		return DataTypes.parseElementValue( value.toString(), true );
+	}
+
+	public static Value to_coinmaster( final Value value )
+	{
+		return DataTypes.parseCoinmasterValue( value.toString(), true );
 	}
 
 	public static Value to_plural( final Value item ) {

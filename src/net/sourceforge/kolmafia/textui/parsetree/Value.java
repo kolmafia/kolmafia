@@ -233,6 +233,15 @@ public class Value
 			}
 			return new ProxyRecordValue.LocationProxy( this );
 		}
+		if ( this.type == DataTypes.COINMASTER_TYPE )
+		{
+			if ( this.content == null )
+			{
+				// Ditto
+				return new RecordValue( ProxyRecordValue.CoinmasterProxy._type );
+			}
+			return new ProxyRecordValue.CoinmasterProxy( this );
+		}
 		return this;
 	}
 	

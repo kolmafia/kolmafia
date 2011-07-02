@@ -321,6 +321,7 @@ public class Parser
 		reservedWords.add( "slot" );
 		reservedWords.add( "monster" );
 		reservedWords.add( "element" );
+		reservedWords.add( "coinmaster" );
 
 		reservedWords.add( "record" );
 		reservedWords.add( "typedef" );
@@ -2120,6 +2121,8 @@ public class Parser
                 "to_familiar",
                 "to_monster",
                 "to_slot",
+                "to_element",
+                "to_coinmaster",
                 "to_url",
         };
 
