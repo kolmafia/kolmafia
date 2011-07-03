@@ -117,7 +117,7 @@ public class DollHawkerRequest
 		return SpaaaceRequest.accessible();
 	}
 
-	public static void equip()
+	public void equip()
 	{
 		SpaaaceRequest.equip();
 	}

@@ -172,13 +172,6 @@ public class CoinMasterPurchaseRequest
 			return null;
 		}
 
-		// Do what we need to get to the Coin Master
-		CoinMasterRequest.equip( this.data );
-		if ( !KoLmafia.permitsContinue() )
-		{
-			return null;
-		}
-
 		// Now that we're ready, make the purchase!
 
 		KoLmafia.updateDisplay( "Purchasing " + this.item.getName() + " (" + KoLConstants.COMMA_FORMAT.format( this.limit ) + " @ " + this.getPriceString() + ")..." );

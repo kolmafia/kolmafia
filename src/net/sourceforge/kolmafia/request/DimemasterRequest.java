@@ -145,7 +145,7 @@ public class DimemasterRequest
 		return null;
 	}
 
-	public static void equip()
+	public void equip()
 	{
 		if ( !EquipmentManager.isWearingOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT ) )
 		{

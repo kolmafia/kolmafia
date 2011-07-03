@@ -145,7 +145,7 @@ public class QuartersmasterRequest
 		return null;
 	}
 
-	public static void equip()
+	public void equip()
 	{
 		if ( !EquipmentManager.isWearingOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT ) )
 		{
