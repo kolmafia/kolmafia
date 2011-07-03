@@ -79,17 +79,21 @@ public class SentMessageEntry
 
 		Matcher dojax = SentMessageEntry.DOJAX_PATTERN.matcher( content );
 
+		GenericRequest request = SentMessageEntry.DOJAX_VISITOR;
 		while ( dojax.find() )
 		{
-			SentMessageEntry.DOJAX_VISITOR.constructURLString( dojax.group( 1 ) );
+			// Force a GET, just like the Browser
+			request.constructURLString( dojax.group( 1 ) );
+			request.constructURLString( request.getFullURLString(), false );
+
 			RequestThread.postRequest( SentMessageEntry.DOJAX_VISITOR );
 
-			if ( SentMessageEntry.DOJAX_VISITOR.responseText == null )
+			if ( request.responseText == null )
 			{
 				continue;
 			}
 
-			StaticEntity.externalUpdate( SentMessageEntry.DOJAX_VISITOR.getURLString(), SentMessageEntry.DOJAX_VISITOR.responseText );
+			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
 		}
 
 		dojax.reset();

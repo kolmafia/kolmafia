@@ -2234,15 +2234,16 @@ public abstract class RuntimeLibrary
 
 	private static Value coinmaster_buy( final Value master, final Value countValue, final Value itemValue )
 	{
-		CoinmasterData data = (CoinmasterData) master.rawValue();
 		int count = countValue.intValue();
 		if ( count <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
 		}
+		CoinmasterData data = (CoinmasterData) master.rawValue();
 		AdventureResult item = new AdventureResult( itemValue.intValue(), count );
+		int initialAmount = item.getCount( KoLConstants.inventory );
 		CoinMasterRequest.buy( data, item );
-		return RuntimeLibrary.continueValue();
+		return DataTypes.makeBooleanValue( initialAmount + count == item.getCount( KoLConstants.inventory ) );
 	}
 
 	public static Value sell( final Value master, final Value countValue, final Value itemValue )

@@ -101,11 +101,6 @@ public class ChatSender
 			return;
 		}
 
-		if ( !QuestLogRequest.isChatAvailable() )
-		{
-			return;
-		}
-
 		List grafs = getGrafs( contact, message );
 
 		if ( grafs == null )
