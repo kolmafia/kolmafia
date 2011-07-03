@@ -49,8 +49,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class GourdRequest
 	extends GenericRequest
 {
-	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d*)", Pattern.DOTALL );
-
 	public GourdRequest()
 	{
 		this(false);
@@ -67,11 +65,31 @@ public class GourdRequest
 		GourdRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	private static final Pattern GOURD1_PATTERN = Pattern.compile( "Bring back (\\d*)", Pattern.DOTALL );
+	private static final Pattern GOURD2_PATTERN = Pattern.compile( "The (\\d*) <i>urp</i>", Pattern.DOTALL );
+	private static final Pattern GOURD3_PATTERN = Pattern.compile( "value=\"Give him (\\d*)", Pattern.DOTALL );
+
 	public static final void parseResponse( final String location, final String responseText )
 	{
-		// Either place=gourd or action=gourd
+		// Either place=gourd or action=gourd.
+		// Only the former has current expected gourd count
 
-		if ( !location.startsWith( "town_right.php" ) || location.indexOf( "gourd" ) == -1 )
+		if ( !location.startsWith( "town_right.php" ) )
+		{
+			return;
+		}
+
+		if ( location.indexOf( "action=gourd" ) != -1 )
+		{
+			if ( responseText.indexOf( "You acquire" ) != -1 )
+			{
+				Preferences.increment( "gourdItemCount", 1 );
+			}
+
+			return;
+		}
+
+		if ( location.indexOf( "place=gourd" ) == -1 )
 		{
 			return;
 		}
@@ -79,8 +97,27 @@ public class GourdRequest
 		// Bring back 5 of their... erp... lids, and you'll
 		// be... be... gurk... rewarded
 
-		Matcher matcher = GourdRequest.GOURD_PATTERN.matcher( responseText );
-		int count =  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 26;
+		Matcher m1 = GourdRequest.GOURD1_PATTERN.matcher( responseText );
+		Matcher m2 = GourdRequest.GOURD2_PATTERN.matcher( responseText );
+		Matcher m3 = GourdRequest.GOURD3_PATTERN.matcher( responseText );
+		int count;
+
+		if ( m1.find() )
+		{
+			count = StringUtilities.parseInt( m1.group( 1 ) );
+		}
+		else if ( m2.find() )
+		{
+			count = StringUtilities.parseInt( m2.group( 1 ) );
+		}
+		else if ( m3.find() )
+		{
+			count = StringUtilities.parseInt( m3.group( 1 ) );
+		}
+		else
+		{
+			count = 26;
+		}
 
 		Preferences.setInteger( "gourdItemCount", count );
 	}
