@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -97,6 +98,10 @@ public class RestorativeItemPanel
 			case KoLConstants.MP_RESTORE:
 			case KoLConstants.HP_RESTORE:
 			case KoLConstants.HPMP_RESTORE:
+				if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( item.getName() ) )
+				{
+					return false;
+				}
 				return super.isVisible( element );
 
 			default:

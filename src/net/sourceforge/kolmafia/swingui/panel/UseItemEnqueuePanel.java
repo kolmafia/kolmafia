@@ -473,7 +473,7 @@ public class UseItemEnqueuePanel
 					// ( UseItemEnqueuePanel.this.booze && fam == FamiliarPool.HOBO ) ||
 					( UseItemEnqueuePanel.this.food && fam == FamiliarPool.GHOST );
 				AdventureResult item = creation.getItem();
-				if ( !override && item != null && item.getName().toLowerCase().indexOf( "b" ) != -1 )
+				if ( !override && item != null && KoLCharacter.hasBeeosity( item.getName() ) )
 				{
 					return false;
 				}
