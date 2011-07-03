@@ -39,6 +39,7 @@ import java.util.Iterator;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -99,26 +100,37 @@ public class ProxyRecordValue
 		{
 			return type.getFieldTypes()[ index ].initialValue();
 		}
+
 		if ( rv instanceof Value )
 		{
 			return (Value) rv;
 		}
+
 		if ( rv instanceof Integer )
 		{
 			return DataTypes.makeIntValue( ((Integer) rv).intValue() );
 		}
+
 		if ( rv instanceof Float )
 		{
 			return DataTypes.makeFloatValue( ((Float) rv).floatValue() );
 		}
+
 		if ( rv instanceof String )
 		{
 			return new Value( rv.toString() );
 		}
+
 		if ( rv instanceof Boolean )
 		{
 			return DataTypes.makeBooleanValue( ((Boolean) rv).booleanValue() );
 		}
+
+		if ( rv instanceof CoinmasterData )
+		{
+			return DataTypes.makeCoinmasterValue( (CoinmasterData) rv );
+		}
+
 		throw interpreter.runtimeException( "Unable to convert attribute value of type: " + rv.getClass() );
 	}
 
@@ -185,6 +197,8 @@ public class ProxyRecordValue
 			.add( "reusable", DataTypes.BOOLEAN_TYPE )
 			.add( "usable", DataTypes.BOOLEAN_TYPE )
 			.add( "multi", DataTypes.BOOLEAN_TYPE )
+			.add( "seller", DataTypes.COINMASTER_TYPE )
+			.add( "buyer", DataTypes.COINMASTER_TYPE )
 			.finish( "item proxy" );
 
 		public ItemProxy( Value obj )
@@ -258,6 +272,20 @@ public class ProxyRecordValue
 			int id = ItemDatabase.getItemId( this.contentString );
 			return ItemDatabase.getConsumptionType( id) == KoLConstants.CONSUME_MULTIPLE ||
 				ItemDatabase.getAttribute( id, ItemDatabase.ATTR_MULTIPLE );
+		}
+
+		public CoinmasterData get_seller()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			String itemName = ItemDatabase.getItemName( id );
+			return CoinmasterRegistry.findSeller( itemName );
+		}
+
+		public CoinmasterData get_buyer()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			String itemName = ItemDatabase.getItemName( id );
+			return CoinmasterRegistry.findBuyer( itemName );
 		}
 	}
 

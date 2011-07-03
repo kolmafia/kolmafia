@@ -511,12 +511,6 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "is_coinmaster_item", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_buying_item", DataTypes.COINMASTER_TYPE, params ) );
-
-		params = new Type[] { DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "coinmaster_selling_item", DataTypes.COINMASTER_TYPE, params ) );
-
-		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_tradeable", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -2740,18 +2734,6 @@ public abstract class RuntimeLibrary
 	public static Value is_coinmaster_item( final Value item )
 	{
 		return DataTypes.makeBooleanValue( CoinmastersDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) );
-	}
-
-	public static Value coinmaster_buying_item( final Value item )
-	{
-		String itemName = ItemDatabase.getItemName( item.intValue() );
-		return DataTypes.makeCoinmasterValue( CoinmasterRegistry.findBuyer( itemName ) );
-	}
-
-	public static Value coinmaster_selling_item( final Value item )
-	{
-		String itemName = ItemDatabase.getItemName( item.intValue() );
-		return DataTypes.makeCoinmasterValue( CoinmasterRegistry.findSeller( itemName ) );
 	}
 
 	public static Value autosell_price( final Value item )
