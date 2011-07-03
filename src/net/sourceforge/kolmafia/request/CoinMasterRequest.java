@@ -178,22 +178,6 @@ public class CoinMasterRequest
 		}
 	}
 
-	public static void equip( final CoinmasterData data )
-	{
-		Class requestClass = data.getRequestClass();
-		Class [] parameters = new Class[ 0 ] ;
-
-		try
-		{
-			Method method = requestClass.getMethod( "equip", parameters );
-			Object [] args = new Object[ 0 ];
-			method.invoke( null, args );
-		}
-		catch ( Exception e )
-		{
-		}
-	}
-
 	public static void visit( final CoinmasterData data )
 	{
 		if ( data == null )
@@ -256,15 +240,26 @@ public class CoinMasterRequest
 		}
 
 		RequestThread.openRequestSequence();
-		CoinMasterRequest.equip( data );
 		RequestThread.postRequest( request );
 		RequestThread.closeRequestSequence();
 	}
 
 	public Object run()
 	{
-		// If we cannot specify the count, we must get 1 at a time.
 		CoinmasterData data = this.data;
+
+		// See if the Coin Master is accessible
+		String message = CoinMasterRequest.accessible( data);
+		if ( message != null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+			return null;
+		}
+
+		// Suit up for a visit
+		this.equip();
+
+		// If we cannot specify the count, we must get 1 at a time.
 		int visits = data.getCountField() == null ? this.quantity : 1;
 		String master = data.getMaster();
 
@@ -303,6 +298,10 @@ public class CoinMasterRequest
 		}
 
 		return null;
+	}
+
+	public void equip()
+	{
 	}
 
 	public void processResults()

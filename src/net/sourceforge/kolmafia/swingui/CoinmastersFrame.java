@@ -668,11 +668,6 @@ public class CoinmastersFrame
 			return true;
 		}
 
-		public String getMaster()
-		{
-			return this.data.getMaster();
-		}
-
 		public String getPanelSelector()
 		{
 			return "- " + this.data.getMaster();
@@ -682,21 +677,6 @@ public class CoinmastersFrame
 		{
 			String message = CoinMasterRequest.accessible( this.data );
 			return message == null;
-		}
-
-		public boolean accessible()
-		{
-			String message = CoinMasterRequest.accessible( this.data );
-			if ( message != null )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-			}
-			return message == null;
-		}
-
-		public void equip()
-		{
-			CoinMasterRequest.equip( this.data );
 		}
 
 		public String lighthouseSide()
@@ -715,15 +695,7 @@ public class CoinmastersFrame
 
 		public void check()
 		{
-			this.update();
-
-			if ( !this.accessible() )
-			{
-				return;
-			}
-
 			RequestThread.openRequestSequence();
-			this.equip();
 			RequestThread.postRequest( this.getRequest() );
 			RequestThread.closeRequestSequence();
 		}
@@ -740,16 +712,7 @@ public class CoinmastersFrame
 				return;
 			}
 
-			this.update();
-
-			if ( !this.accessible() )
-			{
-				return;
-			}
-
 			RequestThread.openRequestSequence();
-
-			this.equip();
 
 			for ( int i = 0; i < items.length; ++i )
 			{

@@ -204,7 +204,7 @@ public class BigBrotherRequest
 		return null;
 	}
 
-	public static void equip()
+	public void equip()
 	{
 		BigBrotherRequest.update();
 
