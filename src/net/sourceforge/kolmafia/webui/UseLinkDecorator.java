@@ -74,6 +74,12 @@ public abstract class UseLinkDecorator
 
 	public static final void decorate( final String location, final StringBuffer buffer )
 	{
+		// You ain't doin' nothin' in Valhalla
+		if ( location.startsWith( "afterlife.php" ) )
+		{
+			return;
+		}
+
 		boolean inCombat = location.startsWith( "fight.php" );
 		boolean inChoice = location.startsWith( "choice.php" );
 		if ( !inCombat && !inChoice && buffer.indexOf( "You acquire" ) == -1 &&
