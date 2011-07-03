@@ -83,6 +83,9 @@ public class ChatRequest
 			return null;
 		}
 
+		// Force GET method, just like the browser
+		this.constructURLString( this.getFullURLString(), false );
+
 		return super.run();
 	}
 
