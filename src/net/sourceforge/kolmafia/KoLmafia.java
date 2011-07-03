@@ -761,6 +761,7 @@ public abstract class KoLmafia
 		Preferences.reset( name );
 
 		// The password hash changes for each session
+		GenericRequest.passwordHash = "";
 		PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
 		RequestThread.postRequest(  request );
 

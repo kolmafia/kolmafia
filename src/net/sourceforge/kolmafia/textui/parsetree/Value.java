@@ -68,7 +68,7 @@ public class Value
 	public Value( final String value )
 	{
 		this.type = DataTypes.STRING_TYPE;
-		this.contentString = value;
+		this.contentString = value == null ? "" : value;
 	}
 
 	public Value( final float value )
