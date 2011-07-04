@@ -896,7 +896,7 @@ public class UseSkillRequest
 			if ( InventoryManager.hasItem( options[ 1 ], false ) )
 			{
 				if ( !KoLCharacter.hasEquipped( options[ 1 ] ) )
-				{				
+				{
 					InventoryManager.retrieveItem( options[ 1 ] );
 				}
 
@@ -914,19 +914,14 @@ public class UseSkillRequest
 
 				return;
 			}
-			
-			// Allow ode to continue through to use a weaker weapon
-			
-			if ( skillId != UseSkillRequest.ODE_TO_BOOZE )
-			{
-				// Otherwise, obtain the Epic Weapon
-				InventoryManager.retrieveItem( options[ 2 ] );
-				return;
-			}
+
+			// Otherwise, obtain the Epic Weapon
+			InventoryManager.retrieveItem( options[ 2 ] );
+			return;
 		}
 
 		// Check for the weakest equipped item
-		
+
 		AdventureResult equippedItem = null;
 
 		for ( int i = options.length - 1; i >= 0; --i )
@@ -939,7 +934,7 @@ public class UseSkillRequest
 		}
 		
 		// Check for the strongest available item
-		
+
 		for ( int i = 0; i < options.length; ++i )
 		{
 			if ( !InventoryManager.hasItem( options[ i ], false ) )
@@ -960,9 +955,9 @@ public class UseSkillRequest
 
 			return;
 		}
-		
+
 		// Nothing available, try to retrieve the weakest item
-		
+
 		InventoryManager.retrieveItem( options[ options.length - 1 ] );
 	}
 
