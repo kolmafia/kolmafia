@@ -742,6 +742,16 @@ public class Concoction
 			return alreadyHave;
 		}
 
+		if ( this.mixingMethod == KoLConstants.COINMASTER )
+		{
+			// Check if Coin Master is available
+			PurchaseRequest purchaseRequest = this.purchaseRequest;
+			if ( purchaseRequest == null || !purchaseRequest.canPurchase() )
+			{
+				return alreadyHave;
+			}
+		}
+
 		if ( needToMake <= 0 )
 		{	// Have enough on hand already.
 			// Don't bother with calculating the number creatable:

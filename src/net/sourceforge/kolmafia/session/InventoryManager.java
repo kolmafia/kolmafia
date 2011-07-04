@@ -50,8 +50,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -61,7 +62,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
-import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -256,6 +256,31 @@ public abstract class InventoryManager
 	public static final boolean retrieveItem( final AdventureResult item, final boolean isAutomated )
 	{
 		int itemId = item.getItemId();
+
+		if ( itemId < 0 )
+		{
+			// See if it is a Coin Master token.
+			Concoction concoction = ConcoctionPool.get( item.getName() );
+			String property = concoction != null ? concoction.property : null;
+			if ( property == null )
+			{
+				KoLmafia.updateDisplay(
+					KoLConstants.ERROR_STATE, "Don't know hot to retrieve a " + item.getName() );
+				return false;
+			}
+
+			int have = Preferences.getInteger( property );
+			int need = item.getCount() - have;
+			if ( need > 0 )
+			{
+				KoLmafia.updateDisplay(
+					KoLConstants.ERROR_STATE, "You need " + need + " more " + item.getName() + " to continue." );
+				return false;
+			}
+
+			return true;
+		}
+
 		int availableCount = 0;
 
 		if ( itemId == 0 )

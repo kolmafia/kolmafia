@@ -149,8 +149,8 @@ public class CoinMasterPurchaseRequest
 
 		// See if we can afford the items
 		int tokens = data.availableTokens();
-		int price = this.price * this.limit;
-		this.setCanPurchase( price <= tokens );
+		int price = this.price;
+		this.setCanPurchase( tokens >= price );
 	}
 
 	public Object run()
@@ -160,7 +160,7 @@ public class CoinMasterPurchaseRequest
 			return null;
 		}
 
-		if ( this.limit < 1 || !this.canPurchase() )
+		if ( this.limit < 1 )
 		{
 			return null;
 		}
@@ -168,6 +168,7 @@ public class CoinMasterPurchaseRequest
 		// Make sure we have enough tokens to buy what we want.
 		if ( this.data.availableTokens() < this.limit * this.price )
 		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that." );
 			return null;
 		}
 
