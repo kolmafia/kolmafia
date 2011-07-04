@@ -160,16 +160,21 @@ public abstract class StaticEntity
 
 	public static final String getVersion()
 	{
-                String version = KoLConstants.VERSION_NAME;
-                if ( !KoLConstants.RELEASED )
-                {
-                        int revision = StaticEntity.getRevision();
-                        if ( revision != 0 )
-                        {
-                                version += " r" + revision;
-                        }
-                }
-                return version;
+		return StaticEntity.getVersion( false );
+	}
+
+	public static final String getVersion( final boolean forceRevision )
+	{
+		String version = KoLConstants.VERSION_NAME;
+		if ( !KoLConstants.RELEASED || forceRevision )
+		{
+			int revision = StaticEntity.getRevision();
+			if ( revision != 0 )
+			{
+				version += " r" + revision;
+			}
+		}
+		return version;
 	}
 
 	public static final int getRevision()

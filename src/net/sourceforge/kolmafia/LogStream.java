@@ -91,7 +91,7 @@ public class LogStream
 			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 
 			StringBuffer versionData = new StringBuffer();
-			versionData.append( StaticEntity.getVersion() );
+			versionData.append( StaticEntity.getVersion( true ) );
 			versionData.append( ", " );
 			versionData.append( System.getProperty( "os.name" ) );
 			versionData.append( ", Java " );
