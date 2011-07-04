@@ -1016,72 +1016,49 @@ public class ConcoctionDatabase
 
 		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
 
-		// First, zero out the quantities table.  Though this is not
-		// actually necessary, it's a good safety and doesn't use up
-		// that much CPU time.
+		// Iterate through the concoction table, Initialize each one
+		// appropriately depending on whether it is an NPC item, a Coin
+		// Master item, or anything else.
+
+		boolean useNPCStores = Preferences.getBoolean( "autoSatisfyWithNPCs" );
+		boolean useCoinMasters = Preferences.getBoolean( "autoSatisfyWithCoinmasters" );
 
 		Iterator it = ConcoctionPool.iterator();
 
 		while ( it.hasNext() )
 		{
 			Concoction item = (Concoction) it.next();
+
+			// Initialize all the variables
 			item.resetCalculations();
-		}
 
-		if ( Preferences.getBoolean( "autoSatisfyWithNPCs" ) )
-		{
-			it = ConcoctionPool.iterator();
-
-			while ( it.hasNext() )
+			AdventureResult concoction = item.concoction;
+			if ( concoction == null )
 			{
-				Concoction item = (Concoction) it.next();
-
-				AdventureResult concoction = item.concoction;
-				if ( concoction == null )
-				{
-					continue;
-				}
-
-				if ( !NPCStoreDatabase.contains( concoction.getName(), true ) )
-				{
-					continue;
-				}
-
-				if ( concoction.getItemId() == ItemPool.FLAT_DOUGH )
-				{	// Don't buy flat dough from Degrassi Knoll Bakery -
-					// buy wads of dough for 20 meat less, instead.
-					continue;
-				}
-
-				item.price = NPCStoreDatabase.price( concoction.getName() );
-				item.cost = null;
-				item.initial = concoction.getCount( availableIngredients );
-				item.creatable = 0;
-				item.total = item.initial;
-				item.visibleTotal = item.total;
+				continue;
 			}
-		}
 
-		if ( Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) )
-		{
-			it = ConcoctionPool.iterator();
+			String name = concoction.getName();
 
-			while ( it.hasNext() )
+			if ( useNPCStores && NPCStoreDatabase.contains( name, true ) )
 			{
-				Concoction item = (Concoction) it.next();
-
-				AdventureResult concoction = item.concoction;
-				if ( concoction == null )
+				if ( concoction.getItemId() != ItemPool.FLAT_DOUGH )
 				{
+					// Don't buy flat dough from Degrassi Knoll Bakery -
+					// buy wads of dough for 20 meat less, instead.
+
+					item.price = NPCStoreDatabase.price( name );
+					item.cost = null;
+					item.initial = concoction.getCount( availableIngredients );
+					item.creatable = 0;
+					item.total = item.initial;
+					item.visibleTotal = item.total;
 					continue;
 				}
+			}
 
-				String name = concoction.getName();
-				if ( !CoinmastersDatabase.contains( name, true ) )
-				{
-					continue;
-				}
-
+			if ( useCoinMasters && CoinmastersDatabase.contains( name, true ) )
+			{
 				CoinMasterPurchaseRequest request = CoinmastersDatabase.getPurchaseRequest( name );
 				int acquirable = request.affordableCount();
 
@@ -1092,26 +1069,10 @@ public class ConcoctionDatabase
 				item.creatable = acquirable;
 				item.total = item.initial + acquirable;
 				item.visibleTotal = item.total;
-			}
-		}
-
-		// Set initial quantity of all remaining items.
-
-		it = ConcoctionPool.iterator();
-
-		while ( it.hasNext() )
-		{
-			Concoction item = (Concoction) it.next();
-			if ( item.initial != -1 )
-			{
 				continue;
 			}
 
-			AdventureResult concoction = item.concoction;
-			if ( concoction == null )
-			{
-				continue;
-			}
+			// Set initial quantity of all remaining items.
 
 			// Switch to the better of any interchangeable ingredients
 			ConcoctionDatabase.getIngredients( item.getIngredients(), availableIngredients );
