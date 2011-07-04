@@ -654,6 +654,7 @@ public abstract class KoLCharacter
 		VolcanoMazeManager.reset();
 		WumpusManager.reset();
 
+		CoinmasterRegistry.reset();
 		ConcoctionDatabase.refreshConcoctions();
 		ItemDatabase.setAstralConsumables();
 		ItemDatabase.calculateAdventureRanges();

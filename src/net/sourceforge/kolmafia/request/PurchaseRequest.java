@@ -125,6 +125,16 @@ public abstract class PurchaseRequest
 		return KoLConstants.COMMA_FORMAT.format( this.getPrice() );
 	}
 
+	public AdventureResult getCost()
+	{
+		return new AdventureResult( AdventureResult.MEAT, this.price );
+	}
+
+	public String getCurrency( final int count )
+	{
+		return "Meat";
+	}
+
 	/**
 	 * Retrieves the quantity of the item available in the store.
 	 *
@@ -219,6 +229,11 @@ public abstract class PurchaseRequest
 	public void setCanPurchase( final boolean canPurchase )
 	{
 		this.canPurchase = canPurchase;
+	}
+
+	public void setCanPurchase()
+	{
+		this.setCanPurchase( KoLCharacter.getAvailableMeat() >= this.price );
 	}
 
 	public boolean canPurchase()

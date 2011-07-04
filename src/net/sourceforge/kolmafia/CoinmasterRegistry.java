@@ -87,8 +87,15 @@ public abstract class CoinmasterRegistry
 		for ( int i = 0; i < COINMASTERS.length; ++i )
 		{
 			MASTERS[ i ] = StringUtilities.getCanonicalName( COINMASTERS[ i ].getMaster() );
+			COINMASTERS[ i ].registerPurchaseRequests();
 		}
 	};
+
+	public static void reset()
+	{
+		// Nothing to do, but calling this will run the static
+		// initialization the first time this class is accessed.
+	}
 
 	public static CoinmasterData findCoinmaster( final String master )
 	{
@@ -140,13 +147,5 @@ public abstract class CoinmasterRegistry
 			}
 		}
 		return null;
-	}
-
-	public static void initializePurchaseRequests()
-	{
-		for ( int i = 0; i < COINMASTERS.length; ++i )
-		{
-			COINMASTERS[ i ].registerPurchaseRequests();
-		}
 	}
 }

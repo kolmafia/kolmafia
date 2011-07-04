@@ -293,6 +293,7 @@ public class CreateItemRequest
 		{
 			return null;
 		}
+
 		int itemId = conc.getItemId();
 
 		if ( CombineMeatRequest.getCost( itemId ) > 0 )
@@ -302,8 +303,8 @@ public class CreateItemRequest
 
 		int mixingMethod = conc.getMixingMethod();
 
-		// Otherwise, return the appropriate subclass of
-		// item which will be created.
+		// Return the appropriate subclass of item which will be
+		// created.
 
 		switch ( mixingMethod & KoLConstants.CT_MASK )
 		{
@@ -400,7 +401,6 @@ public class CreateItemRequest
 			switch ( method )
 			{
 			case KoLConstants.SUBCLASS:
-
 				super.run();
 				if ( this.responseCode == 302 && this.redirectLocation.startsWith( "inventory" ) )
 				{
@@ -409,12 +409,14 @@ public class CreateItemRequest
 				break;
 
 			case KoLConstants.ROLLING_PIN:
-
 				this.makeDough();
 				break;
 
-			default:
+			case KoLConstants.COINMASTER:
+				this.makeCoinmasterPurchase();
+				break;
 
+			default:
 				this.combineItems();
 				break;
 			}
@@ -529,6 +531,18 @@ public class CreateItemRequest
 		}
 	}
 
+	public void makeCoinmasterPurchase()
+	{
+		PurchaseRequest request = this.concoction.getPurchaseRequest();
+		if ( request == null )
+		{
+			return;
+		}
+		request.setLimit( this.quantityNeeded );
+		request.setCanPurchase();
+		request.run();
+	}
+
 	/**
 	 * Helper routine which actually does the item combination.
 	 */
@@ -539,8 +553,8 @@ public class CreateItemRequest
 		String quantityField = "quantity";
 
 		this.calculateYield();
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( 
-			this.concoction.getIngredients() );
+		AdventureResult[] ingredients =
+			ConcoctionDatabase.getIngredients( this.concoction.getIngredients() );
 
 		if ( ingredients.length == 1 || (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.WOK )
 		{

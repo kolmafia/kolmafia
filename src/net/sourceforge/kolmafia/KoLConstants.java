@@ -452,7 +452,7 @@ public interface KoLConstants
 	// Item creation types
 
 	public static final int CT_MASK = 0x000000FF;
-	public static final int METHOD_COUNT = 27;
+	public static final int METHOD_COUNT = 28;
 	public static final int SUBCLASS = 255;
 
 	public static final int NOCREATE = 0;
@@ -512,6 +512,8 @@ public interface KoLConstants
 	public static final int MIX_FANCY = 25;
 	// Un-untinkerable Amazing Ideas
 	public static final int ACOMBINE = 26;
+	// Coinmaster purchase
+	public static final int COINMASTER = 27;
 
 	// Item creation requirement flags
 
