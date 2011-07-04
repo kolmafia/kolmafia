@@ -2050,6 +2050,7 @@ public class UseItemRequest
 			// If it's a fortune cookie, get the fortune
 
 		case ItemPool.FORTUNE_COOKIE:
+		case ItemPool.QUANTUM_TACO:
 
 			matcher = UseItemRequest.FORTUNE_PATTERN.matcher( responseText );
 			while ( matcher.find() )
