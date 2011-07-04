@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -1074,7 +1075,9 @@ public class ConcoctionDatabase
 			// Switch to the better of any interchangeable ingredients
 			ConcoctionDatabase.getIngredients( item.getIngredients(), availableIngredients );
 
-			item.initial = concoction.getCount( availableIngredients );
+			item.initial = concoction.getItemId() == ItemPool.WORTHLESS_ITEM ?
+				HermitRequest.getWorthlessItemCount() :
+				concoction.getCount( availableIngredients );
 			item.price = 0;
 			item.creatable = 0;
 			item.total = item.initial;
@@ -1199,22 +1202,6 @@ public class ConcoctionDatabase
 			availableIngredients, ItemPool.MEAT_STACK, 100 );
 		ConcoctionDatabase.setBuyableItem(
 			availableIngredients, ItemPool.DENSE_STACK, 1000 );
-	}
-
-	private static final void setBasicItem( final List availableIngredients, final int itemId, final int acquirable )
-	{
-		Concoction creation = ConcoctionPool.get( itemId );
-		if ( creation == null )
-		{
-			return;
-		}
-
-		creation.initial = ItemPool.get( itemId, 1 ).getCount( availableIngredients );
-		creation.price = 0;
-		creation.acquirable = acquirable;
-		creation.creatable = acquirable;
-		creation.total = creation.initial + acquirable;
-		creation.visibleTotal = creation.total;
 	}
 
 	private static final void setBuyableItem( final List availableIngredients, final int itemId, final int price )
