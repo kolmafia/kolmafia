@@ -233,6 +233,7 @@ public class OptionsFrame
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
 			{ "relayAddsDiscoHelper", "Add Disco Bandit helper to fights" },
+			{ "macroLens", "Show Combat Macro helper during fights" },
 			{},
 			{ "relayMaintainsEffects", "Run moods during manual adventuring" },
 			{ "relayMaintainsHealth", "Maintain health during manual adventuring" },
