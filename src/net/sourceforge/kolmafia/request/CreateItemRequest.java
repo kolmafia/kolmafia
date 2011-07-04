@@ -539,7 +539,6 @@ public class CreateItemRequest
 			return;
 		}
 		request.setLimit( this.quantityNeeded );
-		request.setCanPurchase();
 		request.run();
 	}
 

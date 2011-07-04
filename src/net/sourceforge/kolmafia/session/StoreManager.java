@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
@@ -80,7 +81,7 @@ public abstract class StoreManager
 	private static final LockableListModel storeLog = new LockableListModel();
 	private static final LockableListModel soldItemList = new LockableListModel();
 	private static final LockableListModel sortedSoldItemList = new LockableListModel();
-	
+
 	private static final IntegerArray mallPrices = new IntegerArray();
 	private static final LinkedHashMap mallSearches = new LinkedHashMap();
 	private static int searchCount = 0;
@@ -368,13 +369,13 @@ public abstract class StoreManager
 			}
 		}
 	}
-	
+
 	public static final void flushCache()
 	{
 		long t0, t1;
 		t1 = System.currentTimeMillis();
 		t0 = t1 - 15 * 1000;
-	
+
 		Iterator i = StoreManager.mallSearches.values().iterator();
 		while ( i.hasNext() )
 		{
@@ -393,15 +394,14 @@ public abstract class StoreManager
 			break;
 		}
 	}
-	
+
 	public static final ArrayList searchMall( final AdventureResult item )
 	{
 		StoreManager.flushCache();
 		ArrayList results;
 		if ( item.getItemId() > 0 )
 		{
-			results = (ArrayList) StoreManager.mallSearches.get(
-				new Integer( item.getItemId() ) );
+			results = (ArrayList) StoreManager.mallSearches.get( new Integer( item.getItemId() ) );
 			if ( results != null && results.size() > 0 )
 			{
 				KoLmafia.updateDisplay( "Using cached search results for " +
@@ -410,14 +410,26 @@ public abstract class StoreManager
 			}
 		}
 		results = new ArrayList();
+
 		StoreManager.searchMall( item.getName(), results, 10, false );
+
+		// Flush CoinMasterPurchaseRequests
+		Iterator it = results.iterator();
+		while ( it.hasNext() )
+		{
+			if ( it.next() instanceof CoinMasterPurchaseRequest )
+			{
+				it.remove();
+			}
+		}
+
 		if ( KoLmafia.permitsContinue() )
 		{
 			StoreManager.mallSearches.put( new Integer( item.getItemId() ), results );
 		}
 		return results;
 	}
-	
+
 	public static final void updateMallPrice( final AdventureResult item, final ArrayList results )
 	{
 		if ( item.getItemId() < 1 )
@@ -444,7 +456,7 @@ public abstract class StoreManager
 			MallPriceDatabase.recordPrice( item.getItemId(), price );
 		}
 	}
-	
+
 	public static final synchronized int getMallPrice( final AdventureResult item )
 	{
 		StoreManager.flushCache();
@@ -454,8 +466,6 @@ public abstract class StoreManager
 		}
 		if ( StoreManager.mallPrices.get( item.getItemId() ) == 0 )
 		{
-			// Is this still necessary?
-			// StoreManager.pauser.pause( ++StoreManager.searchCount * 10 );
 			ArrayList results = StoreManager.searchMall( item );
 			StoreManager.updateMallPrice( item, results );
 		}
@@ -466,8 +476,7 @@ public abstract class StoreManager
 	 * Utility method used to search the mall for the given item.
 	 */
 
-	public static final void searchMall( final String itemName, final List resultSummary, final int maximumResults,
-		boolean toString )
+	public static final void searchMall( final String itemName, final List resultSummary, final int maximumResults, boolean toString )
 	{
 		resultSummary.clear();
 		if ( itemName == null )

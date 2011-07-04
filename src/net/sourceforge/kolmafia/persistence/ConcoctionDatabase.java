@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
-import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -1059,7 +1058,9 @@ public class ConcoctionDatabase
 			PurchaseRequest purchaseRequest = item.getPurchaseRequest();
 			if (  purchaseRequest != null )
 			{
-				int acquirable = purchaseRequest.affordableCount();
+				purchaseRequest.setCanPurchase();
+				int acquirable = purchaseRequest.canPurchase() ?
+					purchaseRequest.affordableCount() : 0;
 				item.price = 0;
 				item.initial = concoction.getCount( availableIngredients );
 				item.creatable = acquirable;
