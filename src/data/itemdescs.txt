@@ -4961,7 +4961,7 @@
 4960	460647230	beerbottle.gif	Cobb's Knob Wurstbrau	bottles of Cobb's Knob Wurstbrau
 4961	928843217	folder.gif	Subject 37 file
 4962	560050214	37lapelpin.gif	mysterious silver lapel pin
-4963
+4963	816829820	interocitor.gif	solid state loom
 4964	402664251	evilometer.gif	Evilometer
 4965	991520082	book3.gif	Sorcerers of the Shore Grimoire
 4966	814202201	aapack.gif	Pack of Alice's Army Cards

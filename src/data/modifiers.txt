@@ -2136,6 +2136,7 @@ smile-sharpening stone	Familiar Weight: +5
 # smiley-face sticker: +10 lbs. of Volleyball
 smiley-face sticker	Experience: +3.16
 snow halo	Familiar Weight: +5
+solid state loom	Familiar Weight: +10
 spoon!	Familiar Weight: +5
 # stick-on mini solar panels: +10 lbs. of Starfish
 string of dingle balls	Familiar Weight: +5
