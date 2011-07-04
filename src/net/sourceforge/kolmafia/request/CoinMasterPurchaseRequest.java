@@ -82,7 +82,7 @@ public class CoinMasterPurchaseRequest
 		String token = item != null ? item.getName() : data.getToken();
 		String name = ( price != 1 ) ? ItemDatabase.getPluralName( token ) : token;
 		this.priceString = KoLConstants.COMMA_FORMAT.format( this.price ) + " " + name;
-		this.cost = AdventureResult.tallyItem( data.getToken(), price, true );
+		this.cost = AdventureResult.tallyItem( token, price, true );
 
 		this.limit = this.quantity;
 		this.canPurchase = true;
@@ -105,6 +105,13 @@ public class CoinMasterPurchaseRequest
 	public AdventureResult getCost()
 	{
 		return this.cost;
+	}
+
+	public String getCurrency( final int count )
+	{
+		String token = data.getToken();
+		String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+		return name;
 	}
 
 	public int getTokenItemId()

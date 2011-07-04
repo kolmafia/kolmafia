@@ -395,44 +395,6 @@ public abstract class InventoryManager
 			}
 		}
 
-		boolean shouldUseCoinmasters =
-			Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) &&
-			CoinmastersDatabase.contains( item.getName(), false );
-
-		if ( shouldUseCoinmasters )
-		{
-			CoinMasterPurchaseRequest request = CoinmastersDatabase.getPurchaseRequest( item.getName() );
-			int token = request.getTokenItemId();
-			if ( token != -1 )
-			{
-				// It's a real item. Get enough tokens
-				if ( !retrieveItem( token, missingCount * request.getPrice() ) )
-				{
-					return false;
-				}
-			}
-
-			int available = request.affordableCount();
-			if ( available < missingCount )
-			{
-				return false;
-			}
-
-			int count = Math.min( missingCount, available );
-			if ( count > 0 )
-			{
-				request.setLimit( count );
-				request.setCanPurchase();
-				RequestThread.postRequest( request );
-			}
-
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-			if ( missingCount <= 0 )
-			{
-				return true;
-			}
-		}
-
 		// See if the item can be retrieved from the clan stash.  If it
 		// can, go ahead and pull as many items as possible from there.
 

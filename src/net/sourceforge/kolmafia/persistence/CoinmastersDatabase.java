@@ -43,11 +43,13 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -58,6 +60,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinmastersDatabase
 	extends KoLDatabase
 {
+	// Map from Integer( itemId ) -> CoinMasterPurchaseRequest
+	public static final HashMap COINMASTER_ITEMS = new HashMap();
+
 	// Map from String -> LockableListModel
 	public static final TreeMap items = new TreeMap();
 
@@ -69,9 +74,6 @@ public class CoinmastersDatabase
 
 	// Map from String -> Map from String -> Integer
 	public static final TreeMap sellPrices = new TreeMap();
-
-	// Map from Integer( itemId ) -> CoinMasterPurchaseRequest
-	public static final HashMap COINMASTER_ITEMS = new HashMap();
 
 	public static final LockableListModel getItems( final String key )
 	{
@@ -258,15 +260,33 @@ public class CoinmastersDatabase
 		// Register a purchase request
 		CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest( data, itemId, price );
 		CoinmastersDatabase.COINMASTER_ITEMS.put( new Integer( itemId ), request );
+
+		// Register this in the Concoction for the item
+
+		// Special case: ten-leaf-clovers are limited
+		if ( itemId == ItemPool.TEN_LEAF_CLOVER )
+		{
+			return;
+		}
+
+		Concoction concoction = ConcoctionPool.get( itemId );
+
+		// If we can create it any other way, prefer that method
+		if ( concoction.getMixingMethod() == KoLConstants.NOCREATE )
+		{
+			concoction.setMixingMethod( KoLConstants.COINMASTER );
+			concoction.addIngredient( request.getCost() );
+		}
+
+		// If we can create this only via a coin master trade, save request
+		if ( concoction.getMixingMethod() == KoLConstants.COINMASTER )
+		{
+			concoction.setPurchaseRequest( request );
+		}
 	}
 
 	public static final CoinMasterPurchaseRequest getPurchaseRequest( final String itemName )
 	{
-		if ( CoinmastersDatabase.COINMASTER_ITEMS.isEmpty() )
-		{
-			CoinmasterRegistry.initializePurchaseRequests();
-		}
-
 		Integer id = new Integer( ItemDatabase.getItemId( itemName, 1, false ) );
 		CoinMasterPurchaseRequest request =  (CoinMasterPurchaseRequest) CoinmastersDatabase.COINMASTER_ITEMS.get(  id );
 

@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -364,14 +365,15 @@ public class ListCellRendererFactory
 					return false;
 				}
 
-				if ( item.cost != null )
+				PurchaseRequest purchaseRequest = item.getPurchaseRequest();
+				if ( purchaseRequest != null )
 				{
-					int count = item.cost.getCount();
-					String token = item.cost.getName();
-					String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+					AdventureResult cost = purchaseRequest.getCost();
+					int count = cost.getCount();
+					String currency = purchaseRequest.getCurrency( count );
 					stringForm.append( count );
 					stringForm.append( " " );
-					stringForm.append( name );
+					stringForm.append( currency );
 					stringForm.append( ", " );
 					stringForm.append( modified );
 					stringForm.append( " possible, " );

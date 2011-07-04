@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -83,6 +85,11 @@ public class QuartersmasterRequest
 			);
 
 	public static final int WAR_FRAT_OUTFIT = 33;
+
+	static
+	{
+		ConcoctionPool.set( new Concoction( "quarter", "availableQuarters" ) );
+	};
 
 	public QuartersmasterRequest()
 	{

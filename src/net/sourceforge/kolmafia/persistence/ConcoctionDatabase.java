@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -1021,7 +1022,6 @@ public class ConcoctionDatabase
 		// Master item, or anything else.
 
 		boolean useNPCStores = Preferences.getBoolean( "autoSatisfyWithNPCs" );
-		boolean useCoinMasters = Preferences.getBoolean( "autoSatisfyWithCoinmasters" );
 
 		Iterator it = ConcoctionPool.iterator();
 
@@ -1048,7 +1048,6 @@ public class ConcoctionDatabase
 					// buy wads of dough for 20 meat less, instead.
 
 					item.price = NPCStoreDatabase.price( name );
-					item.cost = null;
 					item.initial = concoction.getCount( availableIngredients );
 					item.creatable = 0;
 					item.total = item.initial;
@@ -1057,15 +1056,12 @@ public class ConcoctionDatabase
 				}
 			}
 
-			if ( useCoinMasters && CoinmastersDatabase.contains( name, true ) )
+			PurchaseRequest purchaseRequest = item.getPurchaseRequest();
+			if (  purchaseRequest != null )
 			{
-				CoinMasterPurchaseRequest request = CoinmastersDatabase.getPurchaseRequest( name );
-				int acquirable = request.affordableCount();
-
+				int acquirable = purchaseRequest.affordableCount();
 				item.price = 0;
-				item.cost = request.getCost();
 				item.initial = concoction.getCount( availableIngredients );
-				item.acquirable = acquirable;
 				item.creatable = acquirable;
 				item.total = item.initial + acquirable;
 				item.visibleTotal = item.total;
@@ -1079,7 +1075,6 @@ public class ConcoctionDatabase
 
 			item.initial = concoction.getCount( availableIngredients );
 			item.price = 0;
-			item.cost = null;
 			item.creatable = 0;
 			item.total = item.initial;
 			item.visibleTotal = item.total;
@@ -1608,9 +1603,14 @@ public class ConcoctionDatabase
 		// You can make Sushi if you have a sushi-rolling mat installed
 		// in your kitchen.
 
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SUSHI ] =
-			KoLCharacter.hasSushiMat();
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SUSHI ] = KoLCharacter.hasSushiMat();
 		ConcoctionDatabase.EXCUSE[ KoLConstants.SUSHI ] = "You cannot make sushi without a sushi-rolling mat.";
+
+		// You trade tokens to Coin Masters if you have opted in to do so,
+
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COINMASTER ] =
+			Preferences.getBoolean( "autoSatisfyWithCoinmasters" );
+		ConcoctionDatabase.EXCUSE[ KoLConstants.COINMASTER ] = "You have not selected the option to trade with coin masters.";
 
 		// Other creatability flags
 
@@ -1623,6 +1623,11 @@ public class ConcoctionDatabase
 		     HolidayDatabase.getHoliday().equals( "Drunksgiving" ))
 		{
 			flags |= KoLConstants.CR_SSPD;
+		}
+
+		if ( !KoLCharacter.inBeecore() )
+		{
+			flags |= KoLConstants.CR_NOBEE;
 		}
 
 		// Now, go through all the cached adventure usage values and if
@@ -1642,11 +1647,6 @@ public class ConcoctionDatabase
 				}
 				ConcoctionDatabase.CREATION_COST[ i ] += adv * value;
 			}
-		}
-
-		if ( !KoLCharacter.inBeecore() )
-		{
-			flags |= KoLConstants.CR_NOBEE;
 		}
 
 		ConcoctionDatabase.creationFlags = flags;
