@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -83,6 +85,11 @@ public class HermitRequest
 			null,
 			null
 			);
+
+	static
+	{
+		ConcoctionPool.set( new Concoction( WORTHLESS_ITEM, KoLConstants.NOCREATE ) );
+	};
 
 	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(\\d+) left in stock for today" );
 
@@ -162,6 +169,8 @@ public class HermitRequest
 		{
 			HermitRequest.registerHermitItem( ItemPool.ANCIENT_SEAL, 1 );
 		}
+
+		HermitRequest.HERMIT.registerPurchaseRequests();
 	}
 
 	public static final void reset()
@@ -410,8 +419,7 @@ public class HermitRequest
 		HermitRequest.checkedForClovers = true;
 
 		// Register the purchase requests, now that we know what is available
-		CoinmasterData data = HermitRequest.HERMIT;
-		data.registerPurchaseRequests();
+		HermitRequest.HERMIT.registerPurchaseRequests();
 	}
 
 	public static final boolean isWorthlessItem( final int itemId )

@@ -93,7 +93,6 @@ public class Concoction
 	public int queuedPulls;
 	public int initial;
 	public int pullable;
-	public int acquirable;	// via non-standard means, such as Hermit trading
 	public int mallable;
 	public int total;
 	public int visibleTotal;
@@ -554,7 +553,6 @@ public class Concoction
 		this.initial = -1;
 		this.creatable = 0;
 		this.pullable = 0;
-		this.acquirable = 0;
 		this.mallable = 0;
 		this.total = 0;
 		this.visibleTotal = 0;
@@ -712,7 +710,7 @@ public class Concoction
 			this.visited = true;
 		}
 
-		int alreadyHave = this.initial + this.acquirable - this.allocated;
+		int alreadyHave = this.initial - this.allocated;
 		if ( alreadyHave < 0 || requested <= 0 )
 		{	// Already overspent this ingredient - either due to it being
 			// present multiple times in the recipe, or being part of a
@@ -794,8 +792,7 @@ public class Concoction
 				len = 1;
 			}
 
-			minMake = Math.min( minMake,
-				c.canMake( needToMake * count, visited ) / count );
+			minMake = Math.min( minMake, c.canMake( needToMake * count, visited ) / count );
 			if ( Concoction.debug )
 			{
 				RequestLogger.printLine( "- " + this.name +
