@@ -2197,7 +2197,7 @@ public class ItemDatabase
 		case 1: // "Prince"
 			// "You drink the wine. You've had better, but you've
 			// had worse."
-			ItemDatabase.setDustyBottle( itemId, 2, "4-5", "6-8", "5-7", "5-9", null );
+			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "5-10", "5-10", "5-10", null );
 			break;
 		case 2:
 			// "You guzzle the entire bottle of wine before you
@@ -2209,7 +2209,7 @@ public class ItemDatabase
 			// "You drink the bottle of wine, then belch up a cloud
 			// of foul-smelling green smoke. Looks like this wine
 			// was infused with wormwood. Spoooooooky."
-			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "3-6", "15-18", "3-6",
+			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "3-6", "15-20", "3-6",
 				"10 Kiss of the Black Fairy (+spooky damage)" );
 			break;
 		case 4: // "Snake"
@@ -2221,7 +2221,7 @@ public class ItemDatabase
 			// "You drink the wine. It tastes pretty good, but when
 			// you get to the bottom, it's full of sediment, which
 			// turns out to be powdered glass. Ow."
-			ItemDatabase.setDustyBottle( itemId, 2, "4-5", "7-10", "5-7", "8-10",
+			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "5-10", "5-10", "5-10",
 				"lose 60-70% HP" );
 			break;
 		case 6:
@@ -2229,7 +2229,7 @@ public class ItemDatabase
 			// bad. Not in the "turned to vinegar" sense, but the
 			// "turned to crime" sense. It perpetrates some
 			// violence against you on the inside."
-			ItemDatabase.setDustyBottle( itemId, 2, "0-1", "0", "0", "0",
+			ItemDatabase.setDustyBottle( itemId, 2, "0", "0", "0", "0",
 				"lose 80-90% HP" );
 			break;
 		}
