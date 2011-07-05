@@ -2050,25 +2050,31 @@ public class MaximizerFrame
 					{
 						continue;
 					}
-					if ( auto )
-					{
-						automatic[ slot ].add( item );
-						total += count;
-					}
-					else if ( KoLCharacter.inBeecore() &&
+					if ( KoLCharacter.inBeecore() &&
 						(b = KoLCharacter.getBeeosity( item.getName() )) > 0 )
 					{	// This item is a beeotch!
 						// Don't count it towards the number of items desired
 						// in this slot's shortlist, since it may turn out to be
 						// advantageous to use up all our allowed beeosity on
 						// other slots.
-						if ( total < useful && beeotches < useful &&
+						if ( auto )
+						{
+							automatic[ slot ].add( item );
+							beeotches += count;
+							beeosity += b * count;
+						}
+						else if ( total < useful && beeotches < useful &&
 							beeosity < this.beeosity )
 						{
 							automatic[ slot ].add( item );
 							beeotches += count;
 							beeosity += b * count;
 						}					
+					}
+					else if ( auto )
+					{
+						automatic[ slot ].add( item );
+						total += count;
 					}
 					else if ( total < useful )
 					{
