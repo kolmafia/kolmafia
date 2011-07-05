@@ -77,7 +77,8 @@ public abstract class ConsequenceManager
 	private static final Pattern GROUP_PATTERN = Pattern.compile( "\\$(\\d)" );
 	private static final Pattern EXPR_PATTERN = Pattern.compile( "\\[(.+?)\\]" );
 
-	static {
+	static
+	{
 		String[] data;
 		BufferedReader reader = FileUtilities.getVersionedReader(
 			"consequences.txt", KoLConstants.CONSEQUENCES_VERSION );
@@ -219,12 +220,6 @@ public abstract class ConsequenceManager
 
 	public static String disambiguateMonster( String monster, String responseText )
 	{
-		// If we have a Dataspider active, the monster is completely random.
-		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.DATASPIDER )
-		{
-			return monster;
-		}
-
 		Consequence cons = (Consequence) ConsequenceManager.monsters.get( monster.toLowerCase() );
 		if ( cons != null )
 		{
