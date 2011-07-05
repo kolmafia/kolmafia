@@ -1005,6 +1005,7 @@ Ol' Scratch's stove door	240	Mus: 200	shield
 Operation Patriot Shield	0	none	shield
 Oscus's garbage can lid	240	Mus: 200	shield
 Raggedy Hippy doll	10	none
+Seven Loco	0	none
 Sinful Desires	30	none
 Spanish fly trap	10	none
 The Spirit of Crimbo	0	none

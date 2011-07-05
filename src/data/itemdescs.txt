@@ -4905,7 +4905,7 @@
 4904	822611275	scissorduck.gif	scissor duck
 4905	603768984	coalweight.gif	coal paperweight
 4906	941578696	crimbobell.gif	jingle bell
-4907
+4907	637903449	7loco.gif	Seven Loco	cans of Seven Loco
 4908	674410769	llknife.gif	Loathing Legion knife
 4909	773398564	llhook.gif	Loathing Legion many-purpose hook
 4910	303662669	llsundial.gif	Loathing Legion moondial
