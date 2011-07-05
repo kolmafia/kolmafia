@@ -1173,17 +1173,17 @@
 1164	poultrygeist	none	all	50
 1165	hovering sombrero	grow	all	100
 1166	tiny maracas	familiar	all	75
-1167	plain brown wrapper	usable	gift	0
-1168	less-than-three-shaped box	usable	gift	0
-1169	exactly-three-shaped box	usable	gift	0
-1170	chocolate box	usable	gift	0
-1171	miniature coffin	usable	gift	0
-1172	solid asbestos box	usable	gift	0
-1173	solid linoleum box	usable	gift	0
-1174	solid chrome box	usable	gift	0
-1175	cryptic puzzle box	usable	gift	0
-1176	refrigerated biohazard container	usable	gift	0
-1177	magnetic field	usable	gift	0
+1167	plain brown wrapper	usable	display	0
+1168	less-than-three-shaped box	usable	display	0
+1169	exactly-three-shaped box	usable	display	0
+1170	chocolate box	usable	display	0
+1171	miniature coffin	usable	display	0
+1172	solid asbestos box	usable	display	0
+1173	solid linoleum box	usable	display	0
+1174	solid chrome box	usable	display	0
+1175	cryptic puzzle box	usable	display	0
+1176	refrigerated biohazard container	usable	display	0
+1177	magnetic field	usable	display	0
 1178	potted cactus	none	gift	1
 1179	daisy	none	gift	5
 1180	potted fern	none	gift	10
@@ -1466,7 +1466,7 @@
 1457	miniature stuffed Goth Giant	offhand	gift	10000
 1458	Valentine's Day cake	food	gift	10000
 1459	arrow'd heart balloon	offhand	gift	10000
-1460	black velvet box	usable	gift	0
+1460	black velvet box	usable	display	0
 1461	squashed frog	none	all	5
 1462	eye of newt	none	all	5
 1463	salamander spleen	none	all	5
@@ -1540,7 +1540,7 @@
 1531	grass skirt	pants	all	0
 1532	grass hat	hat	all	0
 1533	grass blade	weapon	all	0
-1534	raffle prize box	usable	gift	0
+1534	raffle prize box	usable	display	0
 1535
 1536	homeless hobo spirit	grow	all	0
 1537	weegee sqouija	familiar	all	75
@@ -2689,7 +2689,7 @@
 2680	snake	usable	all	150
 2681	M-242	usable	all	150
 2682	detuned radio	message	none	0
-2683	Warehouse 23 crate	usable	gift	0
+2683	Warehouse 23 crate	usable	display	0
 2684	armgun	weapon	all	75
 2685	fancy seashell necklace	none	all	1000
 2686	commemorative war stein	none	all	1000
@@ -2833,7 +2833,7 @@
 2824	Grimacite girdle	accessory	all	0
 2825	Grimacite gown	shirt	all	0
 2826	Staff of the Kitchen Floor	weapon	display	25
-2827	anniversary gift box	usable	gift	0
+2827	anniversary gift box	usable	display	0
 2828	loaded dice	none	none	0
 2829	really dense meat stack	none	all	5000
 2830	digital key lime	none, fancy	all	98
@@ -3436,7 +3436,7 @@
 3427	roll of Hob-Os	multiple	all	25
 3428	Everlasting Deckswabber	multiple, candy	all	50
 3429
-3430	bindle of joy	usable	gift	0
+3430	bindle of joy	usable	display	0
 3431	cotton candy cocoon	grow	all	0
 3432	cotton candy cordial	familiar	all	75
 3433	spice melange	usable	all	0
