@@ -49,12 +49,14 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -217,8 +219,13 @@ public abstract class ConsequenceManager
 
 	public static String disambiguateMonster( String monster, String responseText )
 	{
-		Consequence cons = (Consequence) ConsequenceManager.monsters.get(
-			monster.toLowerCase() );
+		// If we have a Dataspider active, the monster is completely random.
+		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.DATASPIDER )
+		{
+			return monster;
+		}
+
+		Consequence cons = (Consequence) ConsequenceManager.monsters.get( monster.toLowerCase() );
 		if ( cons != null )
 		{
 			String rv = cons.test( responseText, false );
