@@ -196,16 +196,12 @@ public class EquipmentRequest
 		case EquipmentRequest.BEDAZZLEMENTS:
 			// no fields necessary
 			break;
-		case EquipmentRequest.EQUIPMENT:
-			// Current equipment only
-			this.addFormField( "ajax", "1" );
-			this.addFormField( "curequip", "1" );
-			break;
 		case EquipmentRequest.SAVE_OUTFIT:
 		case EquipmentRequest.CHANGE_OUTFIT:
 			this.addFormField( "ajax", "1" );
 			this.addFormField( "which", "2" );
 			break;
+		case EquipmentRequest.EQUIPMENT:
 		case EquipmentRequest.CHANGE_ITEM:
 		case EquipmentRequest.REMOVE_ITEM:
 			this.addFormField( "which", "2" );
