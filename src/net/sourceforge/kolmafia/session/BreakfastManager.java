@@ -225,17 +225,15 @@ public class BreakfastManager
 			return true;
 		}
 
-		String skillSetting =
-			Preferences.getString( "breakfast" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
+		String suffix = ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" );
 
-		if ( skillSetting == null )
+		String skillSetting = Preferences.getString( "breakfast" + suffix );
+		if ( skillSetting.equals( "" ) )
 		{
 			return true;
 		}
 
-		boolean pathedSummons =
-			Preferences.getBoolean( "pathedSummons" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-
+		boolean pathedSummons = Preferences.getBoolean( "pathedSummons" + suffix );
 		boolean limitExceeded = true;
 
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
@@ -258,45 +256,46 @@ public class BreakfastManager
 				{
 					continue;
 				}
+
 				if ( skill.equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
 				{
 					continue;
 				}
 			}
 
-			limitExceeded &= BreakfastManager.castSkill( skill, allowRestore, manaRemaining );
+			limitExceeded &= BreakfastManager.castSkill( skill, Integer.MAX_VALUE, allowRestore, manaRemaining );
 		}
 
 		return limitExceeded;
 	}
 
-	public static boolean castSkill( final String skillName, final boolean allowRestore, final int manaRemaining )
+	public static boolean castSkill( final String name, final int casts, final boolean allowRestore, final int manaRemaining )
 	{
-		UseSkillRequest summon = UseSkillRequest.getInstance( skillName );
-		// For all other skills, if you don't need to cast them, then
-		// skip this step.
+		UseSkillRequest skill = UseSkillRequest.getInstance( name );
 
-		int maximumCast = summon.getMaximumCast();
-
+		int maximumCast = skill.getMaximumCast();
 		if ( maximumCast <= 0 )
 		{
 			return true;
 		}
 
-		int castCount =
-			allowRestore ? maximumCast :
-			Math.min( maximumCast,
-				  ( KoLCharacter.getCurrentMP() - manaRemaining ) / SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( skillName ) ) );
+		int castCount = Math.min( casts, maximumCast );
+		if ( castCount > 0 && !allowRestore )
+		{
+			int available = KoLCharacter.getCurrentMP() - manaRemaining;
+			int perCast = SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( name ) );
+			castCount = Math.min( castCount, available / perCast );
+		}
 
 		if ( castCount == 0 )
 		{
 			return false;
 		}
 
-		summon.setBuffCount( castCount );
-		RequestThread.postRequest( summon );
+		skill.setBuffCount( castCount );
+		RequestThread.postRequest( skill );
 
-		return castCount == maximumCast;
+		return castCount == maximumCast && UseSkillRequest.lastUpdate.equals( "" );
 	}
 
 	public static boolean castBookSkills( final boolean allowRestore, final int manaRemaining )
@@ -305,8 +304,6 @@ public class BreakfastManager
 		{
 			return true;
 		}
-
-		String suffix = KoLCharacter.canInteract() ? "Softcore" : "Hardcore";
 
 		boolean done = true;
 
@@ -338,7 +335,7 @@ public class BreakfastManager
 		String name = Preferences.getString( setting + suffix );
 		ArrayList list = new ArrayList();
 
-		if ( name.equals( "none" ) )
+		if ( name.equals( "none" ) || name.equals( "" ) )
 		{
 			return list;
 		}
@@ -405,7 +402,7 @@ public class BreakfastManager
 		{
 			// We are casting exactly one skill from this list.
 			String skillName = (String) castable.get(0);
-			return BreakfastManager.castBookSkill( skillName, totalCasts, allowRestore, manaRemaining );
+			return BreakfastManager.castSkill( skillName, totalCasts, allowRestore, manaRemaining );
 		}
 
 		// Determine number of times we will cast each skill. Divide
@@ -423,42 +420,11 @@ public class BreakfastManager
 		{
 			String skillName = (String) castable.get(i);
 
-			done &= BreakfastManager.castBookSkill( skillName, cast, allowRestore, manaRemaining );
+			done &= BreakfastManager.castSkill( skillName, cast, allowRestore, manaRemaining );
 			cast = nextCast;
 		}
 
-		return true;
-	}
-
-	public static boolean castBookSkill( final String name, final int casts, final boolean allowRestore, final int manaRemaining )
-	{
-		UseSkillRequest skill = UseSkillRequest.getInstance( name );
-
-		int maximumCast = skill.getMaximumCast();
-
-		if ( maximumCast <= 0 )
-		{
-			return true;
-		}
-
-		int castCount = Math.min( casts, maximumCast );
-
-		if ( castCount > 0 && !allowRestore )
-		{
-			int available = KoLCharacter.getCurrentMP() - manaRemaining;
-			int perCast = SkillDatabase.getMPConsumptionById( SkillDatabase.getSkillId( name ) );
-			castCount = Math.min( castCount, available / perCast );
-		}
-
-		if ( castCount == 0 )
-		{
-			return false;
-		}
-
-		skill.setBuffCount( castCount );
-		RequestThread.postRequest( skill );
-
-		return castCount == maximumCast;
+		return done;
 	}
 
 	public static void visitVolcanoIsland()
