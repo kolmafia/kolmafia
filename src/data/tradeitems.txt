@@ -4913,7 +4913,7 @@
 4904	scissor duck	offhand	all	0
 4905	coal paperweight	reusable	display	0
 4906	jingle bell	reusable	display	0
-4907
+4907	Seven Loco	offhand	display	0
 4908	Loathing Legion knife	reusable	all	0
 4909	Loathing Legion many-purpose hook	offhand, reusable	display	0
 4910	Loathing Legion moondial	offhand, reusable	display	0
