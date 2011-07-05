@@ -1018,8 +1018,19 @@ public class RequestEditorKit
 
 		if ( Preferences.getBoolean( "macroLens" ) )
 		{
+			String test = "<input type=\"hidden\" name=\"macrotext\" value=\"\">";
+			if ( buffer.indexOf( test ) == -1 )
+			{
+				String test2 = "<form name=runaway action=fight.php method=post>";
+				int index = buffer.indexOf( test2 );
+				if ( index != -1 )
+				{
+					buffer.insert( index,
+						       "<form name=macro action=fight.php method=post><input type=hidden name=action value=\"macro\"><input type=\"hidden\" name=\"macrotext\" value=\"\"><tr><td align=center><select name=whichmacro><option value='0'>(select a macro)</option></select> <input class=button type=submit onclick=\"return killforms(this);\" value=\"Execute Macro\"></td></tr></form>" );
+				}
+			}
 			StringUtilities.singleStringReplace( buffer,
-				"<input type=\"hidden\" name=\"macrotext\" value=\"\">",
+				test,
 				"<tr><td><textarea name=\"macrotext\" cols=25 rows=10 placeholder=\"type macro here\"></textarea><script language=JavaScript src=\"/macrohelper.js\"></script></td></tr>" );
 		}
 
