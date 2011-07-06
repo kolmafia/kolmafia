@@ -101,8 +101,6 @@ public class CoinmastersFrame
 	extends GenericFrame
 	implements ChangeListener
 {
-	public static final AdventureResult GG_TOKEN = ItemPool.get( ItemPool.GG_TOKEN, 1 );
-
 	private static final StorageRequest PULL_MR_A_REQUEST =
 		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY,
 				    new AdventureResult[] { MrStoreRequest.MR_A } );
@@ -450,8 +448,16 @@ public class CoinmastersFrame
 
 		public void update()
 		{
-			this.gameGridTokens = GG_TOKEN.getCount( KoLConstants.inventory );
+			this.gameGridTokens = ArcadeRequest.TOKEN.getCount( KoLConstants.inventory );
 			this.skeeball.setEnabled( this.gameGridTokens > 0 );
+		}
+
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+			buffer.append( " (" );
+			buffer.append( String.valueOf( this.gameGridTokens ) );
+			buffer.append( " Game Grid tokens)" );
 		}
 
 		public void skeeball()
@@ -619,9 +625,20 @@ public class CoinmastersFrame
 			return CoinMasterRequest.getRequest( this.data, action, it );
 		}
 
-		public void setTitle()
+		public final void setTitle()
 		{
 			StringBuffer buffer = new StringBuffer();
+			this.setTitle( buffer );
+			INSTANCE.setTitle( buffer.toString() );
+		}
+
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+		}
+
+		public final void standardTitle( final StringBuffer buffer )
+		{
 			AdventureResult item = this.data.getItem();
 			int count = this.data.availableTokens();
 			String token = item != null ? item.getName() : this.data.getToken();
@@ -652,7 +669,6 @@ public class CoinmastersFrame
 			}
 
 			buffer.append( ")" );
-			INSTANCE.setTitle( buffer.toString() );
 		}
 
 		public void actionConfirmed()
