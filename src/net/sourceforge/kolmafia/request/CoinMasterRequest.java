@@ -615,6 +615,14 @@ public class CoinMasterRequest
 			AdventureResult current = tokenItem.getInstance( cost );
 			ResultProcessor.processResult( current );
 		}
+		else
+		{
+			// Real items get a "You acquire" message logged.
+			// Do so here for pseudo-items.
+			String message = "You acquire " + cost + " " + data.getToken() + ( cost == 1 ? "" : "s" );
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message	 );
+		}
 	}
 
 	public static final boolean registerRequest( final CoinmasterData data, final String urlString )
