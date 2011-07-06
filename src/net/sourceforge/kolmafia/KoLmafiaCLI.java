@@ -728,6 +728,7 @@ public class KoLmafiaCLI
 		new PvpSummaryCommand().registerPrefix( "pvplog" );
 		new QuarkCommand().register( "quark" );
 		new RaffleCommand().register( "raffle" );
+		new RecipeCommand().register( "recipe" ).register( "ingredients" );
 		new RecoverCommand().registerPrefix( "restore" ).registerPrefix( "recover" ).registerPrefix( "check" );
 		new RefreshStatusCommand().register( "refresh" );
 		new RegisterAdventureCommand().register( "location" );
