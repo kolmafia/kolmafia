@@ -482,6 +482,34 @@ public abstract class InventoryManager
 			}
 		}
 
+		// The ten-leaf clover can be created (buy using a disassembled
+		// clover) or purchased from the Hermit (if he has any in
+		// stock. We tried the former above. Now try the latter.
+
+		boolean shouldUseCoinmasters = Preferences.getBoolean( "autoSatisfyWithCoinmasters" );
+		if ( itemId == ItemPool.TEN_LEAF_CLOVER && shouldUseCoinmasters )
+		{
+			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+			if ( missingCount <= 0 )
+			{
+				return true;
+			}
+
+			itemCount = HermitRequest.cloverCount();
+
+			if ( itemCount > 0 )
+			{
+				int needed = Math.min( itemCount, missingCount );
+				RequestThread.postRequest( new HermitRequest( itemId, needed ) );
+			}
+
+			if ( missingCount <= 0 )
+			{
+				return true;
+			}
+		}
+
 		// Try to purchase the item from the mall, if the user wishes
 		// to autosatisfy through purchases, and the item is not
 		// creatable through combines.
