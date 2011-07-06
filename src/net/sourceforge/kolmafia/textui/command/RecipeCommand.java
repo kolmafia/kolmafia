@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -16,7 +16,7 @@ public class RecipeCommand
 {
 	public RecipeCommand()
 	{
-		this.usage = "[<item>] - get ingredients of recipe for item.";
+		this.usage = "<item> [, <item>]... - get ingredients or recipe for items.";
 	}
 
 	public void run( final String cmd, final String params )
@@ -37,7 +37,7 @@ public class RecipeCommand
 
 			if ( itemId == -1 )
 			{
-				KoLmafia.updateDisplay( "Skipping unknown or ambiguous item: <b>" + c + "</b>" );
+				RequestLogger.printLine( "Skipping unknown or ambiguous item: <b>" + c + "</b>" );
 				continue;
 			}
 
@@ -47,7 +47,7 @@ public class RecipeCommand
 			int mixingMethod = ConcoctionDatabase.getMixingMethod( itemId );
 			if ( mixingMethod == KoLConstants.NOCREATE )
 			{
-				KoLmafia.updateDisplay( "This item cannot be created: <b>" + name + "</b>" );
+				RequestLogger.printLine( "This item cannot be created: <b>" + name + "</b>" );
 				continue;
 			}
 
@@ -67,26 +67,26 @@ public class RecipeCommand
 				RecipeCommand.getRecipe( item, buffer, 0 );
 			}
 
-			KoLmafia.updateDisplay( buffer.toString() );
+			RequestLogger.printLine( buffer.toString() );
 		}
 	}
 	
-	private static void getIngredients( final AdventureResult item, final StringBuffer sb )
+	private static void getIngredients( final AdventureResult ar, final StringBuffer sb )
 	{
-		List ingredients = RecipeCommand.getFlattenedIngredients( item, new ArrayList() );
-		Collections.sort( ingredients );
-
 		sb.append( "<b>" );
-		sb.append( item.getName() );
+		sb.append( ar.getName() );
 		sb.append( "</b>: " );
+
+		List ingredients = RecipeCommand.getFlattenedIngredients( ar, new ArrayList() );
+		Collections.sort( ingredients );
 
 		Iterator it = ingredients.iterator();
 		boolean first = true;
 		while ( it.hasNext() )
 		{
-			AdventureResult ar = (AdventureResult) it.next();
-			int need = ar.getCount();
-			int have = InventoryManager.getAccessibleCount( ar );
+			AdventureResult ingredient = (AdventureResult) it.next();
+			int need = ingredient.getCount();
+			int have = InventoryManager.getAccessibleCount( ingredient );
 			int missing = need - have;
 
 			if ( !first )
@@ -98,12 +98,12 @@ public class RecipeCommand
 
 			if ( missing < 1 )
 			{
-				sb.append( ar.toString() );
+				sb.append( ingredient.toString() );
 				continue;
 			}
 		
 			sb.append( "<i>" );
-			sb.append( ar.getName() );
+			sb.append( ingredient.getName() );
 			sb.append( " (" );
 			sb.append( String.valueOf( have ) );
 			sb.append( "/" );
@@ -112,35 +112,55 @@ public class RecipeCommand
 		}
 	}
 
-	private static List getFlattenedIngredients( AdventureResult item, List list )
+	private static List getFlattenedIngredients( AdventureResult ar, List list )
 	{
-		AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( item.getItemId() );
+		AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( ar.getItemId() );
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			AdventureResult ar = ingredients[ i ];
-			if ( RecipeCommand.isRecursing( item, ar ) )
-			{
-				continue;
-			}
-
-			int mixingMethod = ConcoctionDatabase.getMixingMethod( ar.getItemId() );
+			AdventureResult ingredient = ingredients[ i ];
+			int mixingMethod = ConcoctionDatabase.getMixingMethod( ingredient.getItemId() );
 			if ( mixingMethod != KoLConstants.NOCREATE)
 			{
-				RecipeCommand.getFlattenedIngredients( ar, list );
+				if ( !RecipeCommand.isRecursing( ar, ingredient ) )
+				{
+					RecipeCommand.getFlattenedIngredients( ingredient, list );
+					continue;
+				}
 			}
-			else
-			{
-				AdventureResult.addResultToList( list, ar );
-			}
+			AdventureResult.addResultToList( list, ingredient );
 		}
 
 		return list;
 	}
+
+	private static boolean isRecursing( final AdventureResult parent, final AdventureResult child )
+	{
+		if ( parent.equals( child ) )
+		{
+			// should never actually happen, but eh
+			return true;
+		}
+
+		int pm = ConcoctionDatabase.getMixingMethod( parent.getItemId() ) & KoLConstants.CT_MASK;
+		if ( pm == KoLConstants.ROLLING_PIN )
+		{
+			return true;
+		}
+		
+		AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( child.getItemId() );
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			if ( ingredients[ i ].equals( parent ) )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 	private static void getRecipe( final AdventureResult ar, final StringBuffer sb, final int depth )
 	{
-		String name = ar.getName();
-		
 		if ( depth > 0 )
 		{
 			sb.append( "<br>" );
@@ -149,6 +169,8 @@ public class RecipeCommand
 				sb.append( "\u00a0\u00a0\u00a0" );
 			}
 		}
+		
+		String name = ar.getName();
 		
 		sb.append( "<b>" );
 		sb.append( name );
@@ -182,33 +204,5 @@ public class RecipeCommand
 				RecipeCommand.getRecipe( ingredient, sb, depth + 1 );
 			}
 		}
-	}
-
-	private static boolean isRecursing( final AdventureResult parent, final AdventureResult child )
-	{
-		if ( parent.equals( child ) )
-		{
-			// should never actually happen, but eh
-			return true;
-		}
-
-		int pm = ConcoctionDatabase.getMixingMethod( parent.getItemId() ) & KoLConstants.CT_MASK;
-		int cm = ConcoctionDatabase.getMixingMethod( child.getItemId() ) & KoLConstants.CT_MASK;
-
-		if ( pm == KoLConstants.ROLLING_PIN && cm == KoLConstants.ROLLING_PIN )
-		{
-			return true;
-		}
-		
-		AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( child.getItemId() );
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			if ( ingredients[ i ].equals( parent ) )
-			{
-				return true;
-			}
-		}
-		
-		return false;
 	}
 }
