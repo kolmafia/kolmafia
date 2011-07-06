@@ -744,6 +744,7 @@ public class KoLmafiaCLI
 			"moon" );
 		new ShowerCommand().register( "shower" );
 		new SkateParkCommand().register( "skate" );
+		new SkeeballCommand().register( "skeeball" );
 		new SorceressEntrywayCommand().register( "entryway" );
 		new SpeculateCommand().register( "speculate" ).register( "whatif" );
 		new StickersCommand().registerPrefix( "sticker" );
