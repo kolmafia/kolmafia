@@ -583,6 +583,8 @@ user	skillLevel46	0
 user	skillLevel47	0
 user	skillLevel48	0
 user	slimelingFullness	0.0
+user	slimelingStacksDropped	0
+user	slimelingStacksDue	0
 user	sortByRoom	true
 user	spadingData
 user	spiceMelangeUsed	false

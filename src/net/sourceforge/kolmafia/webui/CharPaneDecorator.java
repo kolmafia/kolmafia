@@ -162,7 +162,7 @@ public class CharPaneDecorator
 		case FamiliarPool.HARE:
 			return Preferences.getInteger( "extraRolloverAdventures" ) + " adv";
 		case FamiliarPool.SLIMELING:
-			return "~" + Preferences.getFloat( "slimelingFullness" ) + " full";
+			return "~" + Preferences.getFloat( "slimelingFullness" ) + " full" + getSlimelingStacksAnnotation();
 		case FamiliarPool.HIPSTER:
 			return Preferences.getInteger( "_hipsterAdv" ) + "/7";
 		case FamiliarPool.GRINDER:
@@ -178,6 +178,26 @@ public class CharPaneDecorator
 			return Preferences.getInteger( "_transponderDrops" ) + "/5";
 		}
 		return null;
+	}
+
+	private static String getSlimelingStacksAnnotation()
+	{
+		int due = Preferences.getInteger( "slimelingStacksDue" );
+		int got = Preferences.getInteger( "slimelingStacksDropped" );
+		
+		if ( due > got )
+		{
+			// N stacks drop in N * (N + 1)/2 combats according to
+			// <http://ben.bloomroad.com/kol/tower_monsters.html>
+			// free runaways do not count
+			// each stack drops on the turn it's expected to with
+			// no variance
+			// int expectedTurns = ( got + 1 ) * ( got // + 2 ) / 2;
+			
+			return "; " + got + "/" + due + " stacks";
+		}
+		
+		return "";
 	}
 	
 	private static final void addFamiliarAnnotation( StringBuffer buffer, String text, boolean compact )

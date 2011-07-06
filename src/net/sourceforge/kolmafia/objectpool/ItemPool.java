@@ -105,6 +105,7 @@ public class ItemPool
 	public static final int SPRING = 118;
 	public static final int SPROCKET = 119;
 	public static final int COG = 120;
+	public static final int GNOLLISH_AUTOPLUNGER = 127;
 	public static final int FRILLY_SKIRT = 131;
 	public static final int BITCHIN_MEATCAR = 134;
 	public static final int SWEET_RIMS = 135;
@@ -1002,6 +1003,7 @@ public class ItemPool
 	public static final int SECRET_FROM_THE_FUTURE = 4114;
 	public static final int EMPTY_AGUA_DE_VIDA_BOTTLE = 4130;
 	public static final int MOVEABLE_FEAST = 4135;
+	public static final int SLIME_STACK = 4137;
 	public static final int BAG_O_TRICKS = 4136;
 	public static final int RUMPLED_PAPER_STRIP = 4138;
 	public static final int CREASED_PAPER_STRIP = 4139;

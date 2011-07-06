@@ -118,6 +118,7 @@ public class ConcoctionDatabase
 	public static final AdventureResult INIGO = new AdventureResult( "Inigo's Incantation of Inspiration", 0, true );
 
 	private static final HashMap mixingMethods = new HashMap();
+	private static final String[] METHOD_DESCRIPTION = new String[ KoLConstants.METHOD_COUNT ];
 
 	static
 	{
@@ -125,60 +126,89 @@ public class ConcoctionDatabase
 
 		// Items anybody can create using meat paste or The Plunger
 		ConcoctionDatabase.mixingMethods.put( "COMBINE", new Integer( KoLConstants.COMBINE ));
+		METHOD_DESCRIPTION[ KoLConstants.COMBINE ] = "Meatpasting"; 
 		// Items anybody can create with an E-Z Cook Oven or Dramatic Range
 		ConcoctionDatabase.mixingMethods.put( "COOK", new Integer( KoLConstants.COOK ));
+		METHOD_DESCRIPTION[ KoLConstants.COOK ] = "Cooking"; 
 		// Items anybody can create with a Shaker or Cocktailcrafting Kit
 		ConcoctionDatabase.mixingMethods.put( "MIX", new Integer( KoLConstants.MIX ));
+		METHOD_DESCRIPTION[ KoLConstants.MIX ] = "Mixing"; 
 		// Items anybody can create with a tenderizing hammer or via Innabox
 		ConcoctionDatabase.mixingMethods.put( "SMITH", new Integer( KoLConstants.SMITH ));
+		METHOD_DESCRIPTION[ KoLConstants.SMITH ] = "Meatsmithing"; 
 		// Items that can only be created with a tenderizing hammer, not via Innabox
 		ConcoctionDatabase.mixingMethods.put( "SSMITH", new Integer( KoLConstants.SSMITH ));
+		METHOD_DESCRIPTION[ KoLConstants.SSMITH ] = "Meatsmithing (not Innabox)"; 
 		// Items requiring access to Nash Crosby's Still -- booze
 		ConcoctionDatabase.mixingMethods.put( "BSTILL", new Integer( KoLConstants.STILL_BOOZE ));
+		METHOD_DESCRIPTION[ KoLConstants.STILL_BOOZE ] = "Nash Crosby's Still"; 
 		// Items requiring Superhuman Cocktailcrafting -- mixer
 		ConcoctionDatabase.mixingMethods.put( "MSTILL", new Integer( KoLConstants.STILL_MIXER ));
+		METHOD_DESCRIPTION[ KoLConstants.STILL_MIXER ] = "Nash Crosby's Still"; 
 		// Items requiring access to the Wok of Ages
 		ConcoctionDatabase.mixingMethods.put( "WOK", new Integer( KoLConstants.WOK ));
+		METHOD_DESCRIPTION[ KoLConstants.WOK ] = "Wok of Ages"; 
 		// Items requiring access to the Malus of Forethought
 		ConcoctionDatabase.mixingMethods.put( "MALUS", new Integer( KoLConstants.MALUS ));
+		METHOD_DESCRIPTION[ KoLConstants.MALUS ] = "Malus of Forethought"; 
 		// Items anybody can create with jewelry-making pliers
 		ConcoctionDatabase.mixingMethods.put( "JEWEL", new Integer( KoLConstants.JEWELRY ));
+		METHOD_DESCRIPTION[ KoLConstants.JEWELRY ] = "Jewelry-making pliers"; 
 		// Items anybody can create with starcharts, stars, and lines
 		ConcoctionDatabase.mixingMethods.put( "STAR", new Integer( KoLConstants.STARCHART ));
+		METHOD_DESCRIPTION[ KoLConstants.STARCHART ] = "star chart"; 
 		// Items anybody can create by folding sugar sheets
 		ConcoctionDatabase.mixingMethods.put( "SUGAR", new Integer( KoLConstants.SUGAR_FOLDING ));
+		METHOD_DESCRIPTION[ KoLConstants.SUGAR_FOLDING ] = "sugar sheet"; 
 		// Items anybody can create with pixels
 		ConcoctionDatabase.mixingMethods.put( "PIXEL", new Integer( KoLConstants.PIXEL ));
+		METHOD_DESCRIPTION[ KoLConstants.PIXEL ] = "Crackpot Mystic"; 
 		// Items created with a rolling pin or and an unrolling pin
 		ConcoctionDatabase.mixingMethods.put( "ROLL", new Integer( KoLConstants.ROLLING_PIN ));
+		METHOD_DESCRIPTION[ KoLConstants.ROLLING_PIN ] = "rolling pin/unrolling pin"; 
 		// Items requiring access to the Gnome supertinker
 		ConcoctionDatabase.mixingMethods.put( "TINKER", new Integer( KoLConstants.GNOME_TINKER ));
+		METHOD_DESCRIPTION[ KoLConstants.GNOME_TINKER ] = "Supertinkering"; 
 		// Items requiring access to Roderick the Staffmaker
 		ConcoctionDatabase.mixingMethods.put( "STAFF", new Integer( KoLConstants.STAFF ));
+		METHOD_DESCRIPTION[ KoLConstants.STAFF ] = "Rodoric, the Staffcrafter"; 
 		// Items anybody can create with a sushi-rolling mat
 		ConcoctionDatabase.mixingMethods.put( "SUSHI", new Integer( KoLConstants.SUSHI ));
+		METHOD_DESCRIPTION[ KoLConstants.SUSHI ] = "sushi-rolling mat"; 
 		// Items created by single (or multi) using a single item.
 		// Extra ingredients might also be consumed.
 		// Multi-using multiple of the item creates multiple results.
 		ConcoctionDatabase.mixingMethods.put( "SUSE", new Integer( KoLConstants.SINGLE_USE ));
+		METHOD_DESCRIPTION[ KoLConstants.SINGLE_USE ] = "single-use"; 
 		// Items created by multi-using specific # of a single item.
 		// Extra ingredients might also be consumed.
 		// You must create multiple result items one at a time.
 		ConcoctionDatabase.mixingMethods.put( "MUSE", new Integer( KoLConstants.MULTI_USE ));
+		METHOD_DESCRIPTION[ KoLConstants.MULTI_USE ] = "multi-use"; 
 		// Items formerly creatable in Crimbo Town during Crimbo 2005
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO05", new Integer( KoLConstants.CRIMBO05 ));
+		METHOD_DESCRIPTION[ KoLConstants.CRIMBO05 ] = "Crimbo Town Toy Factory (Crimbo 2005)"; 
 		// Items formerly creatable in Crimbo Town during Crimbo 2006
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO06", new Integer( KoLConstants.CRIMBO06 ));
+		METHOD_DESCRIPTION[ KoLConstants.CRIMBO06 ] = "Uncle Crimbo's Mobile Home (Crimboween 2006)"; 
 		// Items formerly creatable in Crimbo Town during Crimbo 2007
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO07", new Integer( KoLConstants.CRIMBO07 ));
+		METHOD_DESCRIPTION[ KoLConstants.CRIMBO07 ] = "Uncle Crimbo's Mobile Home (Crimbo 2007)"; 
 		// Items requiring access to Phineas
 		ConcoctionDatabase.mixingMethods.put( "PHINEAS", new Integer( KoLConstants.PHINEAS ));
+		METHOD_DESCRIPTION[ KoLConstants.PHINEAS ] = "Phineas"; 
 		// Items that require a Dramatic Range
 		ConcoctionDatabase.mixingMethods.put( "COOK_FANCY", new Integer( KoLConstants.COOK_FANCY ));
+		METHOD_DESCRIPTION[ KoLConstants.COOK_FANCY ] = "Cooking (fancy)"; 
 		// Items that require a Cocktailcrafting Kit
 		ConcoctionDatabase.mixingMethods.put( "MIX_FANCY", new Integer( KoLConstants.MIX_FANCY ));
+		METHOD_DESCRIPTION[ KoLConstants.MIX_FANCY ] = "Mixing (fancy)"; 
 		// Un-untinkerable Amazing Ideas
 		ConcoctionDatabase.mixingMethods.put( "ACOMBINE", new Integer( KoLConstants.ACOMBINE ));
+		METHOD_DESCRIPTION[ KoLConstants.ACOMBINE ] = "Meatpasting (not untinkerable)";
+
+		// Coinmaster purchase
+		METHOD_DESCRIPTION[ KoLConstants.COINMASTER ] = "Coin Master purchase";
 
 		// Creation flags
 
@@ -258,6 +288,7 @@ public class ConcoctionDatabase
 	private static final HashMap singleUse = new HashMap();
 	private static final HashMap multiUse = new HashMap();
 	private static final HashMap noodles = new HashMap();
+	private static final HashMap meatStack = new HashMap();
 
 	static
 	{
@@ -367,17 +398,23 @@ public class ConcoctionDatabase
 		{
 			Concoction concoction = new Concoction( item, mixingMethod );
 
-			for ( int i = 0; i < ingredients.length; ++i )
-			{
-				concoction.addIngredient( ingredients[ i ] );
-			}
-
 			Concoction existing = ConcoctionPool.get( item );
 			if ( (concoction.getMixingMethod() & KoLConstants.CF_MANUAL) != 0 ||
-				(existing != null && existing.getMixingMethod() != 0) )
+			     (existing != null && existing.getMixingMethod() != 0) )
 			{	// Until multiple recipes are supported...
 				return;
 			}
+
+			for ( int i = 0; i < ingredients.length; ++i )
+			{
+				AdventureResult ingredient = ingredients[ i ];
+				concoction.addIngredient( ingredient );
+				if ( ingredient.getItemId() == ItemPool.MEAT_STACK )
+				{
+					ConcoctionDatabase.meatStack.put( concoction.getName(), concoction );
+				}
+			}
+
 			ConcoctionPool.set( concoction );
 
 			switch ( mixingMethod & KoLConstants.CT_MASK )
@@ -421,6 +458,11 @@ public class ConcoctionDatabase
 	public static Concoction noodleCreation( final String name )
 	{
 		return name == null ? null : (Concoction) ConcoctionDatabase.noodles.get( name );
+	}
+
+	public static Concoction meatStackCreation( final String name )
+	{
+		return name == null ? null : (Concoction) ConcoctionDatabase.meatStack.get( name );
 	}
 
 	private static boolean pseudoItemMixingMethod( final int mixingMethod )
@@ -1227,7 +1269,7 @@ public class ConcoctionDatabase
 	{
 		int toolCost = KoLCharacter.inBadMoon() ? 500 : 1000;
 		boolean willBuyTool =
-			KoLCharacter.getAvailableMeat() >= toolCost && 
+			KoLCharacter.getAvailableMeat() >= toolCost &&
 			Preferences.getBoolean( "autoSatisfyWithNPCs" );
 		boolean willBuyServant = KoLCharacter.canInteract() &&
 			Preferences.getBoolean( "autoRepairBoxServants" ) &&
@@ -1671,6 +1713,94 @@ public class ConcoctionDatabase
 	{
 		Concoction item = ConcoctionPool.get( ar );
 		return item == null ? KoLConstants.NOCREATE : item.getMixingMethod();
+	}
+
+	/**
+	 * Describes a method of creation in terms of the means of creation and the
+	 * restrictions, if any.
+	 * @param mixingMethod the method to describe
+	 * @return the description
+	 */
+	public static String mixingMethodDescription( final int mixingMethod )
+	{
+		int base = mixingMethod & KoLConstants.CT_MASK;
+		if ( base == KoLConstants.NOCREATE )
+		{
+			return "[cannot be created]";
+		}
+
+		StringBuffer result = new StringBuffer();
+
+		String description = METHOD_DESCRIPTION[ base ];
+		if ( description == null )
+		{
+			result.append( "[unknown method of creation]" );
+		}
+		else
+		{
+			result.append( description );
+		}
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_MALE ) )
+			result.append( " (males only)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_FEMALE ) )
+			result.append( " (females only)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_SSPD ) )
+			result.append( " (St. Sneaky Pete's Day only)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_HAMMER ) )
+			result.append( " (tenderizing hammer)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_GRIMACITE ) )
+			result.append( " (depleted Grimacite hammer)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_TORSO ) )
+			result.append( " (Torso Awaregness)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_WEAPON ) )
+			result.append( " (Super-Advanced Meatsmithing)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_ARMOR ) )
+			result.append( " (Armorcraftiness)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_EXPENSIVE ) )
+			result.append( " (Really Expensive Jewelrycrafting)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_REAGENT ) )
+			result.append( " (Advanced Saucecrafting)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_WAY ) )
+			result.append( " (The Way of Sauce)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_DEEP ) )
+			result.append( " (Deep Saucery)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_PASTA ) )
+			result.append( " (Pastamastery)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_TEMPURA ) )
+			result.append( " (Tempuramancy)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_AC ) )
+			result.append( " (Advanced Cocktailcrafting)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_SHC ) )
+			result.append( " (Superhuman Cocktailcrafting)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_SALACIOUS ) )
+			result.append( " (Salacious Cocktailcrafting)" );
+
+		if ( hasCRFlag( mixingMethod, KoLConstants.CR_NOBEE ) )
+			result.append( " (Unavailable in Beecore)" );
+
+		return result.toString();
+	}
+
+	private static boolean hasCRFlag( final int mixingMethod, final int flag )
+	{
+		return ( mixingMethod & KoLConstants.CR_MASK ) == flag;
 	}
 
 	/**
