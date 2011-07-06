@@ -702,6 +702,17 @@ public class FamiliarData
 		return false;
 	}
 
+	/**
+	 * Calculates the number of combats with a Slimeling required for the 
+	 * nth slime stack in an ascension to drop.
+	 * @param n the number of the slime stack (reset to zero on ascension)
+	 * @return the number of combats
+	 */
+	public static int getSlimeStackTurns( final int n )
+	{
+		return n * ( n + 1 ) / 2;
+	}
+
 	public static final DefaultListCellRenderer getRenderer()
 	{
 		return new FamiliarRenderer();

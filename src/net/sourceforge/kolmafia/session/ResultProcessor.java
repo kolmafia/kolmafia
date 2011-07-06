@@ -1353,6 +1353,17 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.SLIME_STACK:
+			{
+				int dropped = Preferences.increment( "slimelingStacksDropped", 1 );
+				if ( dropped > Preferences.getInteger( "slimelingStacksDue" ) )
+				{
+					// in case it's out of sync, nod and smile
+					Preferences.setInteger( "slimelingStacksDue", dropped );
+				}
+			}
+			break;
+
 		case ItemPool.ABSINTHE:
 			if ( combatResults )
 			{

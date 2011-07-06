@@ -4268,17 +4268,27 @@ public class UseItemRequest
 		}
 
 		int count = item.getCount();
+		int itemId = item.getItemId();
 		String name = item.getName();
 		String useString = "feed " + count + " " + name + " to " + familiar.getRace();
 
 		// Estimate Slimeling charges
 		if ( id == FamiliarPool.SLIMELING )
 		{
-			// round down for now, since we don't know how this
-			// really works
-			float charges = item.getCount() * EquipmentDatabase.getPower( item.getItemId() ) / 10.0F;
-			Preferences.setFloat( "slimelingFullness", Preferences.getFloat( "slimelingFullness" ) + charges );
-			useString += " (estimated " + charges + " charges)";
+			if ( itemId == ItemPool.GNOLLISH_AUTOPLUNGER ||
+			     ConcoctionDatabase.meatStackCreation( name ) != null )
+			{
+				Preferences.increment( "slimelingStacksDue", count );
+				useString += " (" + count + " more slime stack(s) due)";
+			}
+			else
+			{
+				// round down for now, since we don't know how
+				// this really works
+				float charges = item.getCount() * EquipmentDatabase.getPower( itemId ) / 10.0F;
+				Preferences.setFloat( "slimelingFullness", Preferences.getFloat( "slimelingFullness" ) + charges );
+				useString += " (estimated " + charges + " charges)";
+			}
 		}
 
 		RequestLogger.updateSessionLog();
