@@ -220,11 +220,6 @@ public class BreakfastManager
 
 	public static boolean castSkills( final boolean allowRestore, final int manaRemaining )
 	{
-		if ( Preferences.getBoolean( "breakfastCompleted" ) )
-		{
-			return true;
-		}
-
 		String suffix = ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" );
 
 		String skillSetting = Preferences.getString( "breakfast" + suffix );
@@ -300,11 +295,6 @@ public class BreakfastManager
 
 	public static boolean castBookSkills( final boolean allowRestore, final int manaRemaining )
 	{
-		if ( Preferences.getBoolean( "breakfastCompleted" ) )
-		{
-			return true;
-		}
-
 		boolean done = true;
 
 		done &= castBookSkills( getBreakfastTomeSkills(), KoLConstants.TOME, allowRestore, manaRemaining );
