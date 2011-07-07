@@ -328,7 +328,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_element", DataTypes.ELEMENT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "to_coinmaster", DataTypes.STRING_TYPE, params ) );
+		functions.add( new LibraryFunction( "to_coinmaster", DataTypes.COINMASTER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_plural", DataTypes.STRING_TYPE, params ) );
