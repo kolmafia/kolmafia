@@ -1169,6 +1169,14 @@ public class UseSkillRequest
 			return true;
 		}
 
+		// You can't cast that many turns of that skill today. (You've used 5 casts today,
+		// and the limit of casts per day you have is 5.)
+		if ( responseText.indexOf( "You can't cast that many turns of that skill today" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "You've reached your daily casting limit for that skill.";
+			return true;
+		}
+
 		// You think your stomach has had enough for one day.
 		if ( responseText.indexOf( "enough for one day" ) != -1 )
 		{
