@@ -5152,7 +5152,7 @@
 5151	522467561	moonthcirclet.gif	Moonthril Circlet
 5152	710629769	moonthgreaves.gif	Moonthril Greaves	pairs of Moonthril Greaves
 5153	774878520	moonthsword.gif	Moonthril Flamberge
-5154		moonthbow.gif	Moonthril Longbow
+5154	614880163	moonthbow.gif	Moonthril Longbow
 5155	534033050	moonthcuirass.gif	Moonthril Cuirass	Moonthril Cuirasses
 5156	655683821	pl_alielf.gif	plush alielf
 5157	949974304	cometdrop.gif	Comet Drop	Comet Drops
