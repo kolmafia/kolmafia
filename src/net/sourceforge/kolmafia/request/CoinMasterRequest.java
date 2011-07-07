@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -336,6 +337,14 @@ public class CoinMasterRequest
 		}
 
 		CoinMasterRequest.parseBalance( data, responseText );
+
+		// Coinmaster transactions are now concoctions. If the token is
+		// a real item, the Concoction database got refreshed, but not
+		// if the token is a pseudo-item
+		if ( data.getItem() == null )
+		{
+			ConcoctionDatabase.refreshConcoctions();
+		}
 	}
 
 	public static void parseBalance( final CoinmasterData data, final String responseText )
