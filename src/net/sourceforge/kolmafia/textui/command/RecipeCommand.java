@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class RecipeCommand
@@ -32,16 +33,13 @@ public class RecipeCommand
 
 		for ( int i = 0; i < concoctions.length; ++i )
 		{
-			String c = concoctions[ i ];
-			int itemId = ItemDatabase.getItemId( c );
-
-			if ( itemId == -1 )
+			AdventureResult item = ItemFinder.getFirstMatchingItem( concoctions[ i ] );
+			if ( item == null )
 			{
-				RequestLogger.printLine( "Skipping unknown or ambiguous item: <b>" + c + "</b>" );
 				continue;
 			}
 
-			AdventureResult item = new AdventureResult( itemId, 1 );
+			int itemId = item.getItemId();
 			String name = item.getName();
 
 			int mixingMethod = ConcoctionDatabase.getMixingMethod( itemId );
@@ -77,7 +75,7 @@ public class RecipeCommand
 		sb.append( ar.getName() );
 		sb.append( "</b>: " );
 
-		List ingredients = RecipeCommand.getFlattenedIngredients( ar, new ArrayList() );
+		List ingredients = RecipeCommand.getFlattenedIngredients( ar, new ArrayList(), false );
 		Collections.sort( ingredients );
 
 		Iterator it = ingredients.iterator();
@@ -112,7 +110,7 @@ public class RecipeCommand
 		}
 	}
 
-	private static List getFlattenedIngredients( AdventureResult ar, List list )
+	private static List getFlattenedIngredients( AdventureResult ar, List list, boolean deep )
 	{
 		AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( ar.getItemId() );
 		for ( int i = 0; i < ingredients.length; ++i )
@@ -121,9 +119,11 @@ public class RecipeCommand
 			int mixingMethod = ConcoctionDatabase.getMixingMethod( ingredient.getItemId() );
 			if ( mixingMethod != KoLConstants.NOCREATE)
 			{
-				if ( !RecipeCommand.isRecursing( ar, ingredient ) )
+				int have = InventoryManager.getAccessibleCount( ingredient );
+				if ( !RecipeCommand.isRecursing( ar, ingredient ) &&
+				     ( deep || have == 0 ) )
 				{
-					RecipeCommand.getFlattenedIngredients( ingredient, list );
+					RecipeCommand.getFlattenedIngredients( ingredient, list, deep );
 					continue;
 				}
 			}
