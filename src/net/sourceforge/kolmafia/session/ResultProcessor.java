@@ -1019,8 +1019,6 @@ public class ResultProcessor
 		case ItemPool.WORTHLESS_GEWGAW:
 		case ItemPool.WORTHLESS_KNICK_KNACK:
 		case ItemPool.YETI_FUR:
-			ConcoctionDatabase.refreshConcoctions();
-			// Fall through
 		case ItemPool.LUCRE:
 		case ItemPool.SAND_DOLLAR:
 		case ItemPool.CRIMBUCK:
@@ -1028,12 +1026,24 @@ public class ResultProcessor
 		case ItemPool.CRIMBCO_SCRIP:
 		case ItemPool.AWOL_COMMENDATION:
 		case ItemPool.MR_ACCESSORY:
-			// You can trade tokens for tickets
-		case ItemPool.GG_TOKEN:
-			// You can go to spaaace with a transponder
-		case ItemPool.TRANSPORTER_TRANSPONDER:
-			// The Traveling Trader usually wants twinkly wads
 		case ItemPool.TWINKLY_WAD:
+			// The Traveling Trader usually wants twinkly wads
+
+			// Coinmaster transactions are now Concoctions. Any
+			// change in token count changes the creatable quantity
+			// of every Concoction using that token.
+
+			ConcoctionDatabase.refreshConcoctions();
+
+			// Fall through. The following items are not Coin
+			// Master currency, but are of interest to one or
+			// another Coin Master panels.
+
+		case ItemPool.GG_TOKEN:
+			// You can trade tokens for tickets
+		case ItemPool.TRANSPORTER_TRANSPONDER:
+			// You can go to spaaace with a transponder
+
 			CoinmastersFrame.externalUpdate();
 			break;
 		}
