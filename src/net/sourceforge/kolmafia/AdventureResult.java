@@ -777,31 +777,6 @@ public class AdventureResult
 		return this.count.length == ar.count.length && ( !ar.isItem() || this.itemId == ar.itemId ) && this.name.equalsIgnoreCase( ar.name );
 	}
 
-	public int hashCode()
-	{
-		// objects equal according to equals() need to generate the same hash code
-		char SEP = ' ';
-		
-		StringBuffer sb = new StringBuffer();
-		
-		// equal count sizes
-		sb.append( count.length );
-		
-		// equal item IDs
-		sb.append( SEP );
-		if ( isItem() )
-			sb.append( itemId );
-		else
-			sb.append( -1 );
-		
-		// equal names
-		// put this last since it's the only thing which can contain a space
-		sb.append( SEP );
-		sb.append( name.toLowerCase() );
-		
-		return sb.hashCode();
-	}
-
 	/**
 	 * Compares the <code>AdventureResult</code> with the given object for name equality and priority differences.
 	 * Return values are consistent with the rules laid out in {@link java.lang.Comparable#compareTo(Object)}.
