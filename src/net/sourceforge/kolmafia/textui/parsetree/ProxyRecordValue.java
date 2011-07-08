@@ -190,6 +190,10 @@ public class ProxyRecordValue
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "levelreq", DataTypes.INT_TYPE )
 			.add( "quality", DataTypes.STRING_TYPE )
+			.add( "adventures", DataTypes.STRING_TYPE )
+			.add( "muscle", DataTypes.STRING_TYPE )
+			.add( "mysticality", DataTypes.STRING_TYPE )
+			.add( "moxie", DataTypes.STRING_TYPE )
 			.add( "fullness", DataTypes.INT_TYPE )
 			.add( "inebriety", DataTypes.INT_TYPE )
 			.add( "spleen", DataTypes.INT_TYPE )
@@ -231,6 +235,26 @@ public class ProxyRecordValue
 		public String get_quality()
 		{
 			return ItemDatabase.getQuality( this.contentString );
+		}
+
+		public String get_adventures()
+		{
+			return ItemDatabase.getAdvRangeByName( this.contentString );
+		}
+
+		public String get_muscle()
+		{
+			return ItemDatabase.getMuscleByName( this.contentString );
+		}
+
+		public String get_mysticality()
+		{
+			return ItemDatabase.getMysticalityByName( this.contentString );
+		}
+
+		public String get_moxie()
+		{
+			return ItemDatabase.getMoxieByName( this.contentString );
 		}
 
 		public int get_fullness()
