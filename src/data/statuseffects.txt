@@ -870,3 +870,14 @@
 869
 870
 871	Corrupted	corrdata.gif	9f8bf572bd7019928138526df75708ad	use 1 corrupted data
+872
+873	Timer 1	clock.gif	66e8d911f8ca794bffc73c13905aaff8	# /timer
+874	Timer 2	watch.gif	55343cf5eba4b1de0cce85bd859789a2	# /timer
+875	Timer 3	nicewatch.gif	0dd72e6554242a71e0cef9983e5abaed	# /timer
+876	Timer 4	hourglass.gif	e740ba31a0b39922636586368e42e0a5	# /timer
+877	Timer 5	watchchain.gif	f89e57a785893f0add8c3567088847d0	# /timer
+878	Timer 6	arrow_time.gif	c51acc558b20ae13ce5ff112c34133f8	# /timer
+879	Timer 7	timejuice.gif	4b280e29c80c46a6a459fda8af3b9472	# /timer
+880	Timer 8	glowwatch.gif	09738ca64561790af54bd6d799e15ef0	# /timer
+881	Timer 9	pixwatch.gif	fa165b04cc36ebb00457003bd5bef2a1	# /timer
+882	Timer 10	angry.gif	84916cbb2e5b698f2062c46463b15438	# /timer

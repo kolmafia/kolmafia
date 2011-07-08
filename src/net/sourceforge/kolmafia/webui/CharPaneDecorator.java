@@ -756,8 +756,8 @@ public class CharPaneDecorator
 				upkeepAction = "wormwood.php";
 			}
 
-			String skillName = UneffectRequest.effectToSkill( effectName );
-			int skillType = SkillDatabase.getSkillType( SkillDatabase.getSkillId( skillName ) );
+			boolean isShruggable = UneffectRequest.isShruggable( effectName );
+			boolean isTimer = effectName.startsWith( "Timer " );
 
 			// Add a removal link to the duration for buffs which
 			// can be removed.  This is either when the buff can be
@@ -790,6 +790,7 @@ public class CharPaneDecorator
 					}
 				}
 			}
+
 			if ( !removeAction.equals( "" ) )
 			{
 				buffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=" );
@@ -798,7 +799,11 @@ public class CharPaneDecorator
 				buffer.append( GenericRequest.passwordHash );
 				buffer.append( "\" title=\"" );
 
-				if ( skillType == SkillDatabase.BUFF )
+				if ( isTimer )
+				{
+					buffer.append( "Cancel " );
+				}
+				else if ( isShruggable )
 				{
 					buffer.append( "Shrug off the " );
 				}
@@ -814,7 +819,13 @@ public class CharPaneDecorator
 				}
 
 				buffer.append( escapedEffectName );
-				buffer.append( " effect\"" );
+
+				if ( !isTimer )
+				{
+					buffer.append( " effect" );
+				}
+
+				buffer.append( "\"" );
 
 				if ( effectName.indexOf( "Poisoned" ) != -1 || effectName.equals( "Beaten Up" ) )
 				{
@@ -828,7 +839,7 @@ public class CharPaneDecorator
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 			lastAppendIndex = nextAppendIndex;
 
-			if ( skillType == SkillDatabase.BUFF || !removeAction.equals( "" ) )
+			if ( isShruggable || !removeAction.equals( "" ) )
 			{
 				buffer.append( "</a>" );
 			}

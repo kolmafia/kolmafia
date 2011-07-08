@@ -63,6 +63,7 @@ public class UneffectRequest
 	private final int effectId;
 	private boolean force;
 	private boolean isShruggable;
+	private boolean isTimer;
 	private final AdventureResult effect;
 
 	public static final AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", 1 );
@@ -84,8 +85,10 @@ public class UneffectRequest
 		this.force = force;
 
 		this.effect = effect;
-		this.effectId = EffectDatabase.getEffectId( effect.getName() );
-		this.isShruggable = UneffectRequest.isShruggable( effect.getName() );
+		String name = effect.getName();
+		this.effectId = EffectDatabase.getEffectId( name );
+		this.isShruggable = UneffectRequest.isShruggable( name );
+		this.isTimer = name.startsWith( "Timer " );
 
 		if ( this.isShruggable )
 		{
@@ -107,6 +110,11 @@ public class UneffectRequest
 
 	public static final boolean isShruggable( final String effectName )
 	{
+		if ( effectName.startsWith( "Timer " ) )
+		{
+			return true;
+		}
+
 		int id = SkillDatabase.getSkillId( UneffectRequest.effectToSkill( effectName ) );
 		return id != -1 && SkillDatabase.isBuff( id );
 	}
@@ -272,7 +280,10 @@ public class UneffectRequest
 			}
 		}
 
-		KoLmafia.updateDisplay( this.isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
+		KoLmafia.updateDisplay( this.isTimer ? "Canceling your timer..." :
+					this.isShruggable ? "Shrugging off your buff..." :
+					"Using soft green whatever..." );
+
 		super.run();
 		return null;
 	}
