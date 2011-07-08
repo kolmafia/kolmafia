@@ -1,507 +1,507 @@
-1
+2
 # Data provided courtesy of the Garden of Earthly Delights
 # The Well-Tempered Epicure: http://www.feesher.com/epicure/export_data.php
 
-# Food	Fullness	Level Req	Adv	Musc	Myst	Moxie
+# Food	Fullness	Level Req	quality	Adv	Musc	Myst	Moxie
 
-a dance upon the palate	1	1	2-4	2-20	2-20	2-20
-abominable snowcone	2	1	2-5	5-15	5-15	5-15
-ancient frozen dinner	4	1	4-8	0	8-10	0
-ancient serpent roll	3	1	9-14	0	8-16	20-30	45/55 Fishy
-ancient unspeakable fruitcake	3	1	3-6	15-20	15-20	15-20
-angel-food cake	3	1	3	0	0	0
-antique packet of ketchup	1	1	1	1-2	0	1-3	lose 3 HP
-as jus gezund heit	4	1	4-6	0	0	0
-asparagus lo mein	3	6	9-16	11-14	14-16	0
-asparagus stir-fry	1	3	1-5	3-5	2-5	0
-astral hot dog	3	1	6	48-60	48-60	48-60
-babycakes	2	1	2	0	0	0
-badass pie	2	4	8-10	10-20	10-20	10-20	20 Pie in the Sky
-balaclava baklava	2	1	2-3	4-6	4-6	4-6
-ballroom blintz	3	1	3-8	0	0	10-12
-banana	1	1	1	1	1	1	banana peel
-banana cream pie	3	7	6-12	1-100	1-100	1-100
-banana-frosted king cake	3	1	3	0	0	0	brown plastic baby
-banana milkshake	2	8	4-10	30-90	40-135	10-100
-bash-&#332;s cereal	3	1	3	0	3-5	0	Bash-&#332;s boxtop
-bat haggis	2	2	2-7	0	10-12	0
-bat wing chow mein	5	7	21-29	0	70-75	0
-bat wing kabob	2	1	2-5	0	7-8	0
-bat wing stir-fry	3	4	6-14	0	27-45	0
-bat-shaped crimboween cookie	2	7	6-12	0	0	0	10/20 Bells in the Batfry (+10% mox)
-beautiful soup	2	5	4-8	34-49	0	0
-bean burrito	3	1	3-8	10-14	0	0
-beefy fish meat	1	1	2-3	4-8	0	0	5/15 Fishy
-beefy maki	3	1	7-12	8-16	0	0	45/55 Fishy
-beefy nigiri	2	1	4-8	8-16	0	0	20/30 Fishy
-beer basted brat	3	11	13-16	31-40	31-40	31-40
-bell-shaped crimbo cookie	2	7	6-12	0	0	0	10/20 Fury of the Bells (+10% mus)
-better than cuddling cake	3	1	4	0	0	0
-# big merv's protein shakes	5	1	60-80	220-400	0	0
-birthday party jellybean cheesecake	3	1	3	20	20	20
-bishop cookie	1	13	4-6	0	45-50	0	30 Mitre Cut
-black forest cake	3	7	6-8	0	25-50	0	5 Sugar Rush
-black forest ham	3	7	8-9	25-45	0	0
-black pudding	3	7	5-7	10-12	10-12	9-12
-blackberry	1	2	2-3	2-4	2-4	2-4
-blob-shaped crimbo cookie	2	7	6-12	0	0	0	10/20 Amorphous Cheer (+50% all)
-blueberry-frosted king cake	3	1	3	0	0	0	blue plastic baby
-blue velvet cake	3	1	3	0	0	0
-bone meal	2	6	7-9	12-20	12-20	12-20
-boring spaghetti	3	3	6-9	6-8	6-8	6-8
-boris's key lime pie	4	6	14-16	28-33	0	0	Boris's key
-bouillabaise coucher avec moi	5	1	5-9	0	0	0
-bowl of bounty-os	3	4	12-15	16-24	16-24	16-24	20 Broken Fast (+30% item drop)
-bowl of cottage cheese	2	1	2	0	0	0
-bowl of fishysoisse	6	8	27-29	48-74	67-70	52-70
-bowl of lucky charms	1	1	1	0	6-9	0	50% chance of leprechaun hatchling
-bowl of oriole's nest soup	3	1	3-9	0	0	0
-bowl of rye sprouts	1	2	1	10-15	0	0
-bowl of unidentifiable goo	5	1	9-16	9-10	9-10	9-10
-brain-meltingly-hot chicken wings	1	10	2-4	15-30	15-30	0	lose 5-8 HP
-brains casserole	5	1	6-14	0	8-10	0
-brimstone chicken sandwich	3	1	4-6	-15-20	0	15-20
-brown sugar cane	2	7	6-7	1-5	1-5	5-20	3 Sugar Rush
-bucket of honey	1	4	3	0	0	0	50 Sugar Rush
-bunch of square grapes	2	7	6-7	1-5	5-20	1-5
-c.h.u.m. chum	3	1	1	0	0	0	20 Majorly Poisoned
-cactus fruit	2	7	6-7	6-20	1-5	1-5	lose 8-10 HP
-can-shaped gelatinous cranberry sauce	3	6	9-17	0	0	71-74
-can of franks 'n' beans	3	1	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
-candied yams	3	5	7-14	0	72-75	0
-candy cane	1	4	1-5	10-20	10-20	10-20
-candy cane pizza	4	1	6-11	0	0	0	10 Sugar Rush
-candy cane surprise	3	5	3-6	0	0	0
-candy kneecapping stick	1	4	1-5	10-20	10-20	10-20	5 Sugar Rush
-candy stake	1	4	1-5	10-20	10-20	10-20
-carob brownies	2	1	2-5	0	17-19	0
-carob chunk cookies	2	1	2-5	0	6-9	0
-carob chunk noodles	3	2	3-9	0	0	0
-carob chunks	1	1	1	0	0	0
-catgut taco	2	1	2-5	11-33	0	0
-catsup	1	1	1	0	0	0
-caviar carbonara	3	1	7-11	0	0	0
-centipede eggs	2	7	6-7	8-10	8-10	6-10	10 Somewhat Poisoned
-chaos popcorn	1	1	2	0	0	0
-cherry	1	2	2	0	0	0
-cherry pie	3	4	6-12	0	8-10	0
-children's meal of the damned	0	1	0	0	0	0
-chocolate-covered scarab beetle	2	5	7-10	25-40	25-40	25-40
-chocolate-frosted king cake	3	1	3	0	0	0	red plastic baby
-chorizo brownies	3	2	3-9	0	0	0
-chorizo taco	1	1	2	3-5	0	0
-circular CRIMBCOOKIE	2	1	8-10	0	0	0	10 Mystic Circle
-cob of corn	1	2	1	0	10-15	0
-cocktail onion	1	2	2	0	0	0
-cocoa eggshell fragment	1	1	1	0	0	0
-cold hi mein	5	7	21-29	71-75	30-35	15-20	5 Cold Breath (combat skill)
-congratulatory cake	3	1	3	0	0	0
-cool mushroom	2	1	2-3	0	12-15	0
-cool mushroom casserole	4	1	4-12	0	35-40	0
-cranberries	1	1	1	0	0	0
-crazy little turkish delight	1	2	1-3	0	30-40	0
-cream of pointy mushroom soup	2	1	2-5	0	0	35-40	lose 3 HP
-creamsicle	1	3	1-4	8-10	8-10	8-10
-crepes a la lune	2	3	9-10	10-20	10-20	15-20
-crimbcoids mints	1	1	3	10-20	10-20	10-20
-crimbcoloaf	3	1	4-5	15-20	15-20	15-20
-crimbco deluxe reconstituted gruel with simulated raisins	5	1	12-13	0	0	0	lose 30% boredom
-crimbco reconstituted gruel	3	1	4-5	0	0	0	lose 10% boredom
-crimbo pie	3	7	8-14	25-45	0	0
-cupcake-in-a-cup	2	7	4-6	6-8	16-20	6-8	10 Cake Caked (+50% mys)
-cursed black pearl onion	1	1	1	0	0	0
-cursed sea biscuit	3	3	6-11	0	0	0	10 Curse Magnet
-dead lights pie	2	2	7-9	5-10	20-40	5-10
-dehydrated caviar	1	2	2	0	0	15
-delicious noodles	3	3	6-9	0	0	9-25
-delicious salad	3	1	3-5	0	0	0	25% chance of tattoo
-delicious spicy noodles	3	5	7-15	0	29-33	0
-desiccated apricot	1	2	2	15-17	0	0
-devil's-food cake	3	1	3	0	0	0
-digital key lime pie	4	6	14-16	10-22	10-22	10-22	8-10 white pixels
-dire fudgesicle	2	1	2-4	0	8-10	0	lose 2 HP
-disc-shaped nutrition unit	4	5	6-9	0	0	0
-double bacon beelzeburger	3	1	4-6	15-20	-15-20	0
-dragon snaps	1	1	1	0	0	5-10	5 Oh Snap (+10 Moxie stats/fight)
-dwarf bread	3	1	3-4	0	0	0	lose 10-13 HP
-electric ancient serpent roll	3	1	12-17	0	8-16	20-30	45/55 Fishy
-electric beefy maki	3	1	10-15	8-16	0	0	45/55 Fishy
-electric giant dragon roll	3	1	12-17	28-46	0	0	45/55 Fishy
-electric glistening maki	3	1	10-15	0	8-16	0	45/55 Fishy
-electric musclebound rabbit roll	3	1	12-17	8-16	20-30	0	45/55 Fishy
-electric eleven oceans roll	3	1	12-17	20-30	20-30	28-46	45/55 Fishy
-electric jack lalanne roll	3	1	12-17	28-46	20-30	20-30	45/55 Fishy
-electric python roll	3	1	12-17	8-16	0	20-30	45/55 Fishy
-electric slick maki	3	1	10-15	0	0	8-16	45/55 Fishy
-electric slippery snake roll	3	1	12-17	0	0	28-46	45/55 Fishy
-electric sneaky rabbit roll	3	1	12-17	0	20-30	8-16	45/55 Fishy
-electric tricky dragon roll	3	1	12-17	20-30	0	8-16	45/55 Fishy
-electric white rabbit roll	3	1	12-17	0	28-46	0	45/55 Fishy
-electric wise dragon roll	3	1	12-17	20-30	8-16	0	45/55 Fishy
-electric wizened master roll	3	1	12-17	20-30	28-46	20-30	45/55 Fishy
-elfin shortbread	3	2	3-9	4-6	4-6	4-6
-eleven oceans roll	3	1	9-14	20-30	20-30	28-46	45/55 Fishy
-elven hardtack	3	4	5-8	20-30	20-30	20-30
-elven <i>limbos</i> gingerbread	3	5	5-15	22-40	22-40	22-40	20 Yuletide Industry (+50% all)
-enchanted bean burrito	3	2	3-9	0	14-16	0
-ent cider	2	1	2-5	0	0	30-45	70-80 MP
-escargotsicle	2	2	4-7	0	0	12-18	10 Extremely Poor Taste (+10 ML)
-evil boring spaghetti	3	3	4-11	1-15	1-15	1-15	10 A Little Bit Evil (+2 ML)
-evil delicious noodles	3	3	4-12	0	0	1-45	10 A Little Bit Evil (+2 ML)
-evil delicious spicy noodles	3	5	7-15	0	1-66	0	10 A Little Bit Evil (+2 ML)
-evil painful penne pasta	3	3	5-12	0	0	0	10 A Little Bit Evil (+2 ML)
-3vi1 pr0n m4nic0tti	4	3	8-14	0	0	1-63	10 A Little Bit Evil (+2 ML)
-evil ravioli della hippy	3	3	4-12	0	0	0	10 A Little Bit Evil (+2 ML)
-evil spicy noodles	3	4	6-12	1-8	1-8	1-8	10 A Little Bit Evil (+2 ML)
-expired can of franks 'n' beans	3	1	7-10	20-40	20-40	20-40	30 Crimbo Nostalgia (+5 exp)
-extra-greasy slider	5	13	31-34	80-100	80-100	80-100	-5 spleen
-fancy beef jerky	4	9	19-22	0	48-58	0
-fancy canap&eacute;s	2	5	7-10	25-40	25-40	25-40	French slippers (1 time)
-fettucini inconnu	6	6	21-29	0	0	47-52
-festive sausage	3	1	8-10	10-20	10-20	10-20	Sausage Festive (5-10 mp/adv)
-fishy fish	2	8	3-9	0	0	26-33
-fishy fish casserole	3	9	8-15	0	0	38-44
-fishy fish lasagna	3	10	11-18	0	0	46-55
-flaming mushroom	3	2	3-9	3-5	0	0	lose 3 HP
-flower petal pie	3	2	3-9	0	0	0	3 Flower Power (+20% all)
-foie gras	1	2	1-3	0	0	0	1 Beaten Up
-fortune cookie	1	1	1	0	0	0	semi-rare numbers
-frat brats	1	10	2-4	0	0	22-30
-fricasseed brains	3	1	3-5	0	4-5	0
-frozen banquet	6	15	42-48	100-289	100-289	100-289
-frozen mushroom	3	2	3-9	0	0	0	lose 3 HP
-fruitcake	3	1	3-6	17-23	17-23	17-23
-genalen&trade; bottle	1	10	2-4	15-30	15-30	0	useless powder
-ghost cucumber	2	2	2-6	5-15	5-15	5-15
-ghuol egg	1	1	1	-3	0	0
-ghuol egg quiche	3	2	3-9	0	0	0
-ghuol guolash	3	1	3-6	-11-19	-11-19	-11-19
-ghuol-ear kabob	2	1	2-5	0	0	0
-giant dragon roll	3	1	9-14	28-46	0	0	45/55 Fishy
-giant marshmallow	4	3	7-9	10-20	0	0
-gingerborg hive	5	5	10-15	0	0	0
-gingerbread bugbear	1	4	1-5	10-20	10-20	10-20
-gingerbread horror	1	4	1-5	10-20	10-20	10-20
-gingerbread massacre	3	1	3-6	5-6	5-6	5-6	10 Sugar Rush
-gingerbread mutant bugbear	1	1	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all)
-gingerbread stir-fry	3	1	3-7	0	0	0	10 Sugar Rush
-glass of baboon milk	1	2	2	3-5	0	0
-glass of goat's milk	1	1	1	0	0	0
-glistening fish meat	1	1	2-3	0	4-8	0	5/15 Fishy
-glistening maki	3	1	7-12	0	8-16	0	45/55 Fishy
-glistening nigiri	2	1	4-8	0	8-16	0	20/30 Fishy
-gnat lasagna	3	10	11-18	45-54	0	0
-gnatloaf	2	8	3-9	25-50	0	0
-gnatloaf casserole	3	9	8-15	23-37	0	0
-gnocchetti di nietzsche	6	6	21-29	0	47-52	0
-goat cheese	2	1	2-3	0	0	0
-goat cheese pizza	3	2	3-10	0	0	15-18
-goat cheese taco	2	1	2-5	0	11-33	0
-gr8ps	1	1	1	0	0	0
-grapefruit	1	1	1	0	0	0
-grapes	1	1	1	0	0	0
-grimdrop chow mein	4	5	6-11	0	0	0
-grimgerbread house	5	5	10-15	0	0	0
-grue egg omelette	4	9	21-27	35-45	35-45	35-45
-gumdrop chow mein	5	1	9-17	0	0	0	10 Sugar Rush
-halibut alfredo	4	1	10-15	0	0	0
-handful of nuts and berries	1	12	3-4	0	50-60	0
-handful of walnuts	1	10	2-4	0	0	20-30
-happy birthday, claude! cake	3	1	3	0	0	0
-hell broth	4	3	7-15	-5-9	0	-5-9
-hell ramen	6	6	22-29	23-28	23-28	23-28	20-29 meat
-herb brownies	2	1	2-5	0	0	8-9	5 Confused (-30% mys)
-herbal stuffing	4	7	15-21	0	0	70-75
-hippy herbal tea	1	1	2	0	4-7	0	5 Sleepy (-30% mus)
-holiday cheese log	3	1	8-10	10-20	10-20	10-20	Stands Alone (+10 Stench Damage)
-honey-dew	2	2	4-7	13-15	0	0	10 Mmmmmelon (+30% item drop)
-hot buttered roll	1	1	1	0	0	0
-hot date	2	7	4-5	0	0	20-30
-hot hi mein	5	7	21-29	71-75	15-20	30-35	5 Hot Breath (combat skill)
-hot wing	1	1	1	0	2-5	0
-humpty dumplings	4	5	13-16	0	70-77	0
-igloo pie	2	2	7-9	15-20	15-20	5-10
-insanely spicy bean burrito	3	4	7-14	27-32	0	0
-insanely spicy enchanted bean burrito	3	5	8-15	0	28-32	0	Chronic Indigestion skill
-insanely spicy jumping bean burrito	3	4	7-14	0	0	33
-irradiated candy cane	1	1	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all)
-it came from beyond dessert	4	1	6-12	7-8	7-8	7-8	10 Sugar Rush
-jack lalanne roll	3	1	9-14	28-46	20-30	20-30	45/55 Fishy
-jarlsberg's key lime pie	4	6	14-16	0	28-33	0	Jarlsberg's key
-jawbruiser	1	4	1-5	10-20	10-20	10-20	5 Sugar Rush, lose 35-45 HP
-jumbo dr. lucifer	1	1	2-3	0	0	0	converts all HP to 9-10x MP
-jumbo olive	1	2	2	0	0	2-5
-jumping bean burrito	3	1	3-8	0	0	11-14
-jumping bean taco	1	1	2	0	0	4-20
-juniper berries	1	2	1	0	0	10-15
-ketchup	1	1	1	0	0	0
-king cookie	1	13	4-6	15-30	15-30	15-30	30 The Royal We
-kiwi	1	2	2	0	0	0
-knight cookie	1	13	4-6	0	0	45-50	30 Knightlife
-knob jelly donut	1	1	3	3-5	3-5	3-5
-knob ka-bobs	1	10	2-4	0	20-30	0
-knob lo mein	4	6	14-20	0	31-34	0
-knob mushroom	2	1	2-3	0	0	0
-knob nuts	1	4	3	1-4	1-4	1-4
-knob pasty	1	1	5-6	5-6	5-6	5-6
-knob sausage	2	1	2-3	0	0	0
-knob sausage chow mein	5	7	21-29	72-76	0	0
-knob sausage stir-fry	3	4	7-14	25-28	0	0
-knob shroomkabob	2	1	2-5	0	6-11	0
-knob stir-fry	2	3	2-10	0	12-18	0
-knoll lo mein	4	6	14-21	30-34	0	0
-knoll mushroom	2	1	1-3	0	0	0
-knoll shroomkabob	2	1	2-5	6-11	0	0
-knoll stir-fry	2	3	2-10	14-18	0	0
-knuckle sandwich	3	5	5-15	22-40	22-40	22-40	20 Cruisin' for a Bruisin' (+100% phys damage)
-kumquat	1	2	2	0	0	0
-large cocoa eggshell fragment	1	1	2	0	0	0
-laser-broiled pear	1	1	3-4	8-10	8-10	8-10
-lemon	1	1	1	0	0	0
-lemon meringue pie	3	2	3-9	8-10	0	0
-lemon popsicle	1	1	2	0	0	0
-licorice garrote	1	4	1-5	10-20	10-20	10-20	5 Sugar Rush
-lihc eye pie	4	2	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
-lime	1	2	2	0	0	0
-liver and let pie	2	1	5-7	5-10	5-10	5-10
-liver popsicle	1	1	2	0	0	0
-lobster <i>qua</i> grill	2	5	4-8	0	0	46-49
-long pork casserole	3	9	8-15	0	37-51	0
-long pork chop sandwiches	2	8	3-9	0	25-35	0
-long pork lasagna	3	10	11-18	0	46-55	0
-lord of the flies-sized fries	3	1	4-6	0	15-20	-15-20
-lucky surprise egg	1	1	1	0	0	0	series 1 tiny plastic
-magical ancient serpent roll	3	1	9-14	0	8-16	20-30	50/60 Fishy
-magical beefy maki	3	1	7-12	8-16	0	0	50/60 Fishy
-magical eleven oceans roll	3	1	9-14	20-30	20-30	28-46	50/60 Fishy
-magical giant dragon roll	3	1	9-14	28-46	0	0	50/60 Fishy
-magical glistening maki	3	1	7-12	0	8-16	0	50/60 Fishy
-magical jack lalanne roll	3	1	9-14	28-46	20-30	20-30	50/60 Fishy
-magical musclebound rabbit roll	3	1	9-14	8-16	20-30	0	50/60 Fishy
-magical python roll	3	1	9-14	8-16	0	20-30	50/60 Fishy
-magical slick maki	3	1	7-12	0	0	8-16	50/60 Fishy
-magical slippery snake roll	3	1	9-14	0	0	28-46	50/60 Fishy
-magical sneaky rabbit roll	3	1	9-14	0	20-30	8-16	50/60 Fishy
-magical tricky dragon roll	3	1	9-14	20-30	0	8-16	50/60 Fishy
-magical white rabbit roll	3	1	9-14	0	28-46	0	50/60 Fishy
-magical wise dragon roll	3	1	9-14	20-30	8-16	0	50/60 Fishy
-magical wizened master roll	3	1	9-14	20-30	28-46	20-30	50/60 Fishy
-manetwich	2	4	3-9	14-30	0	5-18
-maple syrup	1	1	1	0	0	0	20-30 HP
-menudo	2	2	2-7	14-18	0	0
-mind flayer corpse	5	1	5	0	21-25	0
-mixed wildflower greens	1	10	2-4	25-30	0	0
-mole mol&eacute;	3	4	7-8	10-14	10-14	10-14
-moon pie	5	5	28-32	20-30	20-30	20-30
-mugcake	1	1	1	0	0	0
-musclebound rabbit roll	3	1	9-14	8-16	20-30	0	45/55 Fishy
-mushroom pizza	3	2	3-10	0	15-18	0
-nanite-infested candy cane	1	4	1-5	11-20	11-20	11-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
-nanite-infested fruitcake	3	1	3-6	15-20	15-20	15-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
-nanite-infested gingerbread bugbear	1	4	1-5	21-40	21-40	21-40	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
-natto pocky	3	1	6-8	6-8	8-8	6-8	30 Ninja, Please
-new and improved crimbco reconstituted gruel	4	1	7-8	0	0	0	lose 20% boredom
-nutty organic salad	3	11	12-15	0	31-40	0
-olive	1	1	1	0	0	0
-olive lo mein	3	6	9-16	10-14	0	10-14
-olive stir-fry	1	3	1-5	3-5	0	2-4
-orange	1	1	1	0	0	0
-orange popsicle	1	1	2	0	0	0
-overcookie	1	3	2	3-5	3-5	3-5
-packet of beer nuts	1	2	1	0	0	0	1 Salty Mouth
-packet of tofurkey gravy	2	1	2-8	31-34	0	0
-painful penne pasta	3	3	7-9	17-20	0	0	lose 20-23 HP
-papaya	1	1	1	0	0	0
-papaya taco	1	1	2	8-12	0	8-12
-pawn cookie	1	1	1-3	0	0	0	30 Pwnd (+1..10 all stats)
-peach	1	4	3	0	0	15-20
-peach pie	3	7	8-14	0	0	25-45
-pear	1	4	3	0	15-20	0
-pear tart	3	7	8-14	0	25-45	0
-peche a la frog	3	1	3-4	0	0	0
-penguin focaccia bread	7	1	18-24	21-38	21-38	21-38
-personalized birthday cake	3	1	3	0	0	0
-philosopher's scone	2	4	4-5	8-10	8-10	8-10
-piece of wedding cake	2	1	2-5	0	0	0
-piping organ pie	2	2	7-9	20-40	5-10	5-10
-plain pizza	2	1	2-4	0	0	0
-plum	1	4	3	15-20	0	0
-pointy mushroom	2	1	2-3	0	0	12-14	lose 1 HP
-poisonous caviar	3	5	8	0	0	0	50 Majorly Poisoned
-popcorn	1	1	2	0	0	0
-poutine	2	1	2-3	2-3	2-3	2-3
-powdered donut	1	1	1	0	5-10	0	5 Powdered (+10 Mysticality stats/fight)
-pr0n chow mein	4	7	16-23	20-26	0	20-26
-pr0n cocktail	2	1	2-5	8-12	8-12	8-12
-pr0n m4nic0tti	4	3	8-14	0	0	28-30
-pr0n stir-fry	2	4	3-11	7-12	0	8-12
-pr0n taco	2	1	2-5	0	0	11-33
-protein paste	2	7	6-8	38-46	0	0	10 Pasty (+50% mus)
-pumpkin pie	3	2	16-18	12-24	12-24	12-24
-purple pixel pie	3	1	3-6	12-18	12-18	12-18
-python roll	3	1	9-14	8-16	0	20-30	45/55 Fishy
-quantum taco	0	1	0	0	0	0	#random food
-questionable taco	3	1	4-5	0	0	0	lovecat tail
-queen cookie	1	13	4-6	20-40	20-40	20-40	30 Towering Strength, Mitre Cut, Knightlife, The Royal We
-radio button candy	1	8	2-9	30-50	33-49	30-50
-raisin	1	1	1	0	0	0
-raspberry	1	2	2	0	0	0
-rat appendix chow mein	5	7	21-29	0	0	70-75
-rat appendix kabob	2	1	2-5	0	0	6-9
-rat appendix stir-fry	3	4	7-14	0	0	27-45
-rat scrapple	2	2	2-7	0	0	10-12
-ravioli della hippy	3	3	4-12	0	19-23	0
-red herring velvet cake	5	1	14-19	0	0	0
-retenez l'herbe pat&eacute;	3	13	13-20	40-50	40-50	40-50
-roasted marshmallow	1	1	1	0	0	0	3 Mallowed Out (+all)
-rocky road ice cream	2	7	7-10	12-14	12-14	12-14	40 A Contender (+200% all)
-rook cookie	1	13	4-6	45-50	0	0	30 Towering Strength
-royal jelly	1	1	1	10-15	0	0
-royal jelly taco	1	1	2	4-20	0	0
-s.t.l.t.	4	4	10-15	10-30	10-30	13-27
-salty ancient serpent roll	3	1	9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
-salty beefy maki	3	1	7-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
-salty giant dragon roll	3	1	9-14	28-46	0	0	45/55 Fishy, 10 Salty Dogs
-salty glistening maki	3	1	7-12	0	8-16	0	45/55 Fishy, 10 Salty Dogs
-salty musclebound rabbit roll	3	1	9-14	8-16	20-30	0	45/55 Fishy, 10 Salty Dogs
-salty eleven oceans roll	3	1	9-14	20-30	20-30	28-46	45/55 Fishy, 10 Salty Dogs
-salty jack lalanne roll	3	1	9-14	28-46	20-30	20-30	45/55 Fishy, 10 Salty Dogs
-salty python roll	3	1	9-14	8-16	0	20-30	45/55 Fishy, 10 Salty Dogs
-salty slick maki	3	1	7-12	0	0	8-16	45/55 Fishy, 10 Salty Dogs
-salty slippery snake roll	3	1	9-14	0	0	28-46	45/55 Fishy, 10 Salty Dogs
-salty sneaky rabbit roll	3	1	9-14	0	20-30	8-16	45/55 Fishy, 10 Salty Dogs
-salty tricky dragon roll	3	1	9-14	20-30	0	8-16	45/55 Fishy, 10 Salty Dogs
-salty white rabbit roll	3	1	9-14	0	28-46	0	45/55 Fishy, 10 Salty Dogs
-salty wise dragon roll	3	1	9-14	20-30	8-16	0	45/55 Fishy, 10 Salty Dogs
-salty wizened master roll	3	1	9-14	20-30	28-46	20-30	45/55 Fishy, 10 Salty Dogs
-sandwich of the gods	5	13	32-38	50-100	50-100	50-100
-sausage pizza	3	2	3-10	15-18	0	0
-sausage wonton	3	12	12-18	50-80	20-30	20-30
-savoy truffle	2	9	6-7	15-20	15-20	15-20	lose 10-20 HP
-sea avocado	1	2	1-3	0	0	27
-sea blueberry	1	2	1-2	2-4	2-4	2-4
-sea broccoli	1	2	1-2	3-7	3-6	3-7
-sea carrot	1	2	1-3	0	26	0
-sea cauliflower	1	2	1-2	3-7	3-7	3-7
-sea cucumber	1	2	1-3	29	0	0
-sea honeydew	1	2	1-3	0	28	0
-sea lychee	1	2	1-3	0	0	37
-sea persimmon	1	3	1-2	5-10	5-10	5-10
-sea radish	1	3	1-3	20-30	20-30	20-30
-sea tangelo	1	2	1-3	16	0	0
-shoo-fish pie	2	3	8-10	10-30	10-30	10-30	20 Fishy
-shoots and leaves	4	1	6-10	7-8	7-8	7-8
-single-serving herbal stuffing	4	1	12-16	0	0	32-35
-# sizzling weasel on a stick	5	1	60-80	0	0	220-400
-six tiny wedges of goat cheese	2	1	3	0	0	0
-skewered cat appendix	2	1	2-5	7-17	0	0
-skull-shaped crimboween cookie	2	7	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
-sleazy hi mein	5	7	21-29	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
-slick fish meat	1	1	2-3	0	0	4-8	5/15 Fishy
-slick maki	3	1	7-12	0	0	8-16	45/55 Fishy
-slick nigiri	2	1	4-8	0	0	8-16	20/30 Fishy
-slimy sweetbreads	1	6	2-3	0	0	0	20 Grimace (+25 ML, slime res)
-slippery snake roll	3	1	9-14	0	0	28-46	45/55 Fishy
-sneaky pete's key lime pie	4	6	14-16	0	0	28-33	Sneaky Pete's key
-sneaky rabbit roll	3	1	9-14	0	20-30	8-16	45/55 Fishy
-soylent red and green	3	5	4-5	0	0	0
-space jam toast	1	1	1-3	0	50	0
-spaghetti con calaveras	6	6	21-29	47-52	0	0	10 Eso Sí Que Es
-spaghetti with moonballs	3	2	8-10	10-20	0	20-30
-spaghetti with skullheads	6	6	21-29	47-52	0	0
-spam witch sammich	2	1	2-3	0	4-6	0
-spectral pickle	4	8	20-26	25-34	25-34	25-34
-spicy bean burrito	3	3	5-12	20-24	0	0
-spicy enchanted bean burrito	3	4	6-12	0	22-28	0
-spicy jumping bean burrito	3	3	5-12	0	0	22-28
-spicy mushroom quesadilla	3	1	3-8	35-40	0	0
-spicy noodles	3	4	6-12	0	0	0
-sponge cake	2	3	3-5	0	0	5-10
-spooky hi mein	5	7	21-29	15-20	71-75	30-35	5 Spooky Breath (combat skill)
-spooky lo mein	4	6	14-22	0	0	33-34
-spooky mushroom	2	1	2-3	0	0	0
-spooky shroomkabob	2	1	2-5	0	0	6-11
-spooky stir-fry	2	3	2-10	0	0	14-18
-spooky surprise egg	1	1	1	0	0	0	series 2 tiny plastic
-square CRIMBCOOKIE	2	1	8-10	0	0	0	10 Square to be Hip
-squirmy violent party snack	1	1	2-4	2-20	2-20	2-20	10 Broken Dancing (Legendary Beat quest)
-stale baguette	3	1	3-6	0	0	0	lose 3 HP
-stalk of asparagus	1	1	1	0	1-3	0
-star key lime pie	4	6	14-16	20-24	20-24	20-24	2-4 lines, 2-4 stars
-steel lasagna	5	5	00	0	0	0	Stomach of Steel skill
-stinky hi mein	5	7	21-29	30-35	71-75	15-20	5 Stinky Breath (combat skill)
-stinky mushroom	3	2	3-9	0	0	3-5	lose 3 HP
-stomach turnover	2	2	7-9	5-10	15-20	15-20
-strawberry	1	1	1	0	0	0
-strawberry pie	3	2	3-9	0	0	8-10
-strawberry popsicle	1	1	2	0	0	0
-stuffed spooky mushroom	3	1	3-9	0	0	0
-stunt nuts	2	1	2-3	8-10	0	0
-# suddenly salad!	5	1	60-80	0	220-400	0
-sun-dried tofu	2	3	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
-super ka-bob	3	11	12-15	30-38	0	0
-super salad	3	11	13-16	30-50	32-40	31-40
-t8r tots	1	1	1-2	0	0	0
-tangerine	1	2	2	0	0	0
-tasty tart	1	1	5-6	5-6	5-6	5-6
-tempura avocado	1	5	5-7	0	0	50
-tempura broccoli	1	6	3-6	5	5	5	20 Down with Chow (+10 lbs)
-tempura carrot	1	5	5-7	0	50	0
-tempura cauliflower	1	6	2-5	5	5	5	20 Low on the Hog (+100% meat)
-tempura cucumber	1	5	5-7	50	0	0
-tempura radish	1	7	5-7	63	66	63
-three-tiered wedding cake	35	1	34-39	0	0	0
-throbbing organ pie	2	2	7-9	5-10	5-10	20-40
-tiger-lily's milk	1	1	1	5-10	0	0	5 Grrrrrrreat! (+10 Muscle stats/fight)
-tin cup of mulligan stew	2	15	14-20	308-760	308-760	308-760
-tin rations	3	1	8-10	3-5	3-5	3-5
-tiny frozen prehistoric meteorite jawbreaker	1	1	2	0	0	0
-toast	1	1	1	0	0	0
-toast with jam	1	3	1-3	1-2	1-2	1-2	5 Jammin'
-tobiko pocky	3	1	6-8	6-8	8-8	6-8	30 Pisces in the Skyces
-toe jam toast	1	1	1-3	0	0	50
-tofu casserole	3	1	3-8	0	0	0
-tofu chow mein	3	7	11-19	18-22	20-25	0
-tofu stir-fry	1	4	1-5	4-5	4-6	0
-tofu taco	1	1	2	0	4-20	0
-tofu wonton	3	12	11-18	20-30	50-80	20-30
-tofurkey gravy	2	5	3-10	72-75	0	0
-tofurkey leg	3	5	7-14	70-74	0	0
-tofurkey nugget	3	1	4-11	30-33	0	0
-tomato	1	1	1	0	0	0
-tombstone-shaped crimboween cookie	2	7	6-12	0	0	0	10/20 Crimbo Epiphany (+10% mys)
-traffic jam toast	1	1	1-3	50	0	0
-tree-shaped crimbo cookie	2	7	6-12	0	0	0	10/20 Yuletide Sappiness (+10% mys)
-triangular CRIMBCOOKIE	2	1	8-10	0	0	0	10 Triangle, Man
-tricky dragon roll	3	1	9-14	20-30	0	8-16	45/55 Fishy
-trollhouse cookies	2	1	2-3	4-6	0	0
-tube of cranberry go-goo	3	1	8-14	0	0	31-34
-turtle soup	1	2	2-3	9-15	0	0	10 A Little Bit Evil (+2 ML), 10 Souper Vengeful (+3 lbs)
-twigs and gravel	3	1	3-6	5-6	5-6	5-6
-uncooked chorizo	1	1	1	-5	0	0
-unfortunate dumplings	3	1	0	0	0	0	20 Really Quite Poisoned
-unidentified jerky	2	9	4-8	10-15	10-15	10-15
-urinal cake	2	1	2	0	0	0
-valentine's day cake	3	1	3	0	0	0
-vampire cake	5	1	9-16	9-10	9-10	9-10	10 Sugar Rush
-vanilla-frosted king cake	3	1	3	0	0	0	pink plastic baby
-vinegar-soaked lemon slice	1	2	2	15-20	15-20	15-20
-walrus ice cream	2	5	4-8	37-38	0	0
-warm mushroom	2	1	2-3	12-14	0	0
-wasabi pocky	3	1	6-8	6-8	8-8	6-8	30 Wasabi With You
-wedge of gray cheese	2	9	7-13	50-69	50-69	50-69
-wet stew	6	1	12-15	16-19	0	0
-white chocolate and tomato pizza	3	2	3-9	0	0	0
-white chocolate chip brownies	2	5	5-8	0	41-58	0
-white chocolate chip cookies	2	1	2-5	0	11-13	0
-white chocolate chips	1	1	1	0	0	0
-white citadel burger	2	1	2-8	0	0	0
-white citadel fries	2	1	2-5	0	0	0
-white rabbit roll	3	1	9-14	0	28-46	0	45/55 Fishy
-white rice	1	1	1	1	1-2	1-2
-wild honey pie	2	1	6	5-6	5-6	5-6	10 Sugar Rush
-wise dragon roll	3	1	9-14	20-30	8-16	0	45/55 Fishy
-wizened master roll	3	1	9-14	20-30	28-46	20-30	45/55 Fishy
-wreath-shaped crimbo cookie	2	7	6-12	0	0	0	10/20 Wreathed in Merriment (+10% mox)
-yam candy	3	1	5-10	0	31-34	0
-yellow matter custard	3	6	4-8	10-15	10-15	10-15
+3vi1 pr0n m4nic0tti	4	3	awesome	8-14	0	0	1-63	10 A Little Bit Evil (+2 ML)
+a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
+abominable snowcone	2	1	decent	2-5	5-15	5-15	5-15
+ancient frozen dinner	4	1	decent	4-8	0	8-10	0
+ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy
+ancient unspeakable fruitcake	3	1	decent	3-6	15-20	15-20	15-20
+angel-food cake	3	1	crappy	3	0	0	0
+antique packet of ketchup	1	1	crappy	1	1-2	0	1-3	lose 3 HP
+as jus gezund heit	4	1		4-6	0	0	0
+asparagus lo mein	3	6	awesome	9-16	11-14	14-16	0
+asparagus stir-fry	1	3	good	1-5	3-5	2-5	0
+astral hot dog	3	1		6	48-60	48-60	48-60
+babycakes	2	1	crappy	2	0	0	0
+badass pie	2	4	awesome	8-10	10-20	10-20	10-20	20 Pie in the Sky
+balaclava baklava	2	1	decent	2-3	4-6	4-6	4-6
+ballroom blintz	3	1	decent	3-8	0	0	10-12
+banana	1	1	crappy	1	1	1	1	banana peel
+banana cream pie	3	7	good	6-12	1-100	1-100	1-100
+banana milkshake	2	8	awesome	4-10	30-90	40-135	10-100
+banana-frosted king cake	3	1	crappy	3	0	0	0	brown plastic baby
+bash-&#332;s cereal	3	1	crappy	3	0	3-5	0	Bash-&#332;s boxtop
+bat haggis	2	2	decent	2-7	0	10-12	0
+bat wing chow mein	5	7	awesome	21-29	0	70-75	0
+bat wing kabob	2	1	decent	2-5	0	7-8	0
+bat wing stir-fry	3	4	awesome	6-14	0	27-45	0
+bat-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Bells in the Batfry (+10% mox)
+bean burrito	3	1	decent	3-8	10-14	0	0
+beautiful soup	2	5	good	4-8	34-49	0	0
+beefy fish meat	1	1	good	2-3	4-8	0	0	5/15 Fishy
+beefy maki	3	1		7-12	8-16	0	0	45/55 Fishy
+beefy nigiri	2	1		4-8	8-16	0	0	20/30 Fishy
+beer basted brat	3	11	awesome	13-16	31-40	31-40	31-40
+bell-shaped crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Fury of the Bells (+10% mus)
+better than cuddling cake	3	1	decent	4	0	0	0
+big merv's protein shakes	5	1	EPIC	60-80	220-400	0	0
+birthday party jellybean cheesecake	3	1	crappy	3	20	20	20
+bishop cookie	1	13	EPIC	4-6	0	45-50	0	30 Mitre Cut
+black forest cake	3	7	good	6-8	0	25-50	0	5 Sugar Rush
+black forest ham	3	7	good	8-9	25-45	0	0
+black pudding	3	7	decent	5-7	10-12	10-12	9-12
+blackberry	1	2	good	2-3	2-4	2-4	2-4
+blob-shaped crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Amorphous Cheer (+50% all)
+blue velvet cake	3	1	crappy	3	0	0	0
+blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
+bone meal	2	6	awesome	7-9	12-20	12-20	12-20
+boring spaghetti	3	3	good	6-9	6-8	6-8	6-8
+boris's key lime pie	4	6	awesome	14-16	28-33	0	0	Boris's key
+bouillabaise coucher avec moi	5	1		5-9	0	0	0
+bowl of bounty-os	3	4	awesome	12-15	16-24	16-24	16-24	20 Broken Fast (+30% item drop)
+bowl of cottage cheese	2	1	crappy	2	0	0	0
+bowl of fishysoisse	6	8	awesome	27-29	48-74	67-70	52-70
+bowl of lucky charms	1	1	crappy	1	0	6-9	0	50% chance of leprechaun hatchling
+bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
+bowl of rye sprouts	1	2	crappy	1	10-15	0	0
+bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
+brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
+brains casserole	5	1	decent	6-14	0	8-10	0
+brimstone chicken sandwich	3	1	decent	4-6	-15-20	0	15-20
+brown sugar cane	2	7	awesome	6-7	1-5	1-5	5-20	3 Sugar Rush
+bucket of honey	1	4	good	3	0	0	0	50 Sugar Rush
+bunch of square grapes	2	7	awesome	6-7	1-5	5-20	1-5
+c.h.u.m. chum	3	1	crappy	1	0	0	0	20 Majorly Poisoned
+cactus fruit	2	7	awesome	6-7	6-20	1-5	1-5	lose 8-10 HP
+can of franks 'n' beans	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
+can-shaped gelatinous cranberry sauce	3	6	awesome	9-17	0	0	71-74
+candied yams	3	5	awesome	7-14	0	72-75	0
+candy cane	1	4	good	1-5	10-20	10-20	10-20
+candy cane pizza	4	1		6-11	0	0	0	10 Sugar Rush
+candy cane surprise	3	5		3-6	0	0	0
+candy kneecapping stick	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
+candy stake	1	4	good	1-5	10-20	10-20	10-20
+carob brownies	2	1	decent	2-5	0	17-19	0
+carob chunk cookies	2	1	decent	2-5	0	6-9	0
+carob chunk noodles	3	2	decent	3-9	0	0	0
+carob chunks	1	1	crappy	1	0	0	0
+catgut taco	2	1	decent	2-5	11-33	0	0
+catsup	1	1	crappy	1	0	0	0
+caviar carbonara	3	1		7-11	0	0	0
+centipede eggs	2	7	awesome	6-7	8-10	8-10	6-10	10 Somewhat Poisoned
+chaos popcorn	1	1	decent	2	0	0	0
+cherry	1	2	decent	2	0	0	0
+cherry pie	3	4	good	6-12	0	8-10	0
+children's meal of the damned	0	1	crappy	0	0	0	0
+chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
+chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
+chorizo brownies	3	2	decent	3-9	0	0	0
+chorizo taco	1	1	decent	2	3-5	0	0
+circular crimbcookie	2	1	awesome	8-10	0	0	0	10 Mystic Circle
+cob of corn	1	2	crappy	1	0	10-15	0
+cocktail onion	1	2	decent	2	0	0	0
+cocoa eggshell fragment	1	1	crappy	1	0	0	0
+cold hi mein	5	7	awesome	21-29	71-75	30-35	15-20	5 Cold Breath (combat skill)
+congratulatory cake	3	1	crappy	3	0	0	0
+cool mushroom	2	1	decent	2-3	0	12-15	0
+cool mushroom casserole	4	1	decent	4-12	0	35-40	0
+cranberries	1	1	crappy	1	0	0	0
+crazy little turkish delight	1	2	decent	1-3	0	30-40	0
+cream of pointy mushroom soup	2	1	decent	2-5	0	0	35-40	lose 3 HP
+creamsicle	1	3	good	1-4	8-10	8-10	8-10
+crepes a la lune	2	3	awesome	9-10	10-20	10-20	15-20
+crimbco deluxe reconstituted gruel with simulated raisins	5	1		12-13	0	0	0	lose 30% boredom
+crimbco reconstituted gruel	3	1		4-5	0	0	0	lose 10% boredom
+crimbcoids mints	1	1	good	3	10-20	10-20	10-20
+crimbcoloaf	3	1	decent	4-5	15-20	15-20	15-20
+crimbo pie	3	7	awesome	8-14	25-45	0	0
+cupcake-in-a-cup	2	7	awesome	4-6	6-8	16-20	6-8	10 Cake Caked (+50% mys)
+cursed black pearl onion	1	1	crappy	1	0	0	0
+cursed sea biscuit	3	3	good	6-11	0	0	0	10 Curse Magnet
+dead lights pie	2	2	awesome	7-9	5-10	20-40	5-10
+dehydrated caviar	1	2	decent	2	0	0	15
+delicious noodles	3	3	good	6-9	0	0	9-25
+delicious salad	3	1	decent	3-5	0	0	0	25% chance of tattoo
+delicious spicy noodles	3	5	awesome	7-15	0	29-33	0
+desiccated apricot	1	2	decent	2	15-17	0	0
+devil's-food cake	3	1	crappy	3	0	0	0
+digital key lime pie	4	6	awesome	14-16	10-22	10-22	10-22	8-10 white pixels
+dire fudgesicle	2	1	decent	2-4	0	8-10	0	lose 2 HP
+disc-shaped nutrition unit	4	5		6-9	0	0	0
+double bacon beelzeburger	3	1	decent	4-6	15-20	-15-20	0
+dragon snaps	1	1	crappy	1	0	0	5-10	5 Oh Snap (+10 Moxie stats/fight)
+dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
+electric ancient serpent roll	3	1		12-17	0	8-16	20-30	45/55 Fishy
+electric beefy maki	3	1		10-15	8-16	0	0	45/55 Fishy
+electric eleven oceans roll	3	1		12-17	20-30	20-30	28-46	45/55 Fishy
+electric giant dragon roll	3	1		12-17	28-46	0	0	45/55 Fishy
+electric glistening maki	3	1		10-15	0	8-16	0	45/55 Fishy
+electric jack lalanne roll	3	1		12-17	28-46	20-30	20-30	45/55 Fishy
+electric musclebound rabbit roll	3	1		12-17	8-16	20-30	0	45/55 Fishy
+electric python roll	3	1		12-17	8-16	0	20-30	45/55 Fishy
+electric slick maki	3	1		10-15	0	0	8-16	45/55 Fishy
+electric slippery snake roll	3	1		12-17	0	0	28-46	45/55 Fishy
+electric sneaky rabbit roll	3	1		12-17	0	20-30	8-16	45/55 Fishy
+electric tricky dragon roll	3	1		12-17	20-30	0	8-16	45/55 Fishy
+electric white rabbit roll	3	1		12-17	0	28-46	0	45/55 Fishy
+electric wise dragon roll	3	1		12-17	20-30	8-16	0	45/55 Fishy
+electric wizened master roll	3	1		12-17	20-30	28-46	20-30	45/55 Fishy
+eleven oceans roll	3	1		9-14	20-30	20-30	28-46	45/55 Fishy
+elfin shortbread	3	2	decent	3-9	4-6	4-6	4-6
+elven <i>limbos</i> gingerbread	3	5	good	5-15	22-40	22-40	22-40	20 Yuletide Industry (+50% all)
+elven hardtack	3	4	good	5-8	20-30	20-30	20-30
+enchanted bean burrito	3	2	decent	3-9	0	14-16	0
+ent cider	2	1	decent	2-5	0	0	30-45	70-80 MP
+escargotsicle	2	2	good	4-7	0	0	12-18	10 Extremely Poor Taste (+10 ML)
+evil boring spaghetti	3	3	good	4-11	1-15	1-15	1-15	10 A Little Bit Evil (+2 ML)
+evil delicious noodles	3	3	good	4-12	0	0	1-45	10 A Little Bit Evil (+2 ML)
+evil delicious spicy noodles	3	5	awesome	7-15	0	1-66	0	10 A Little Bit Evil (+2 ML)
+evil painful penne pasta	3	3	awesome	5-12	0	0	0	10 A Little Bit Evil (+2 ML)
+evil ravioli della hippy	3	3	good	4-12	0	0	0	10 A Little Bit Evil (+2 ML)
+evil spicy noodles	3	4	awesome	6-12	1-8	1-8	1-8	10 A Little Bit Evil (+2 ML)
+expired can of franks 'n' beans	3	1	awesome	7-10	20-40	20-40	20-40	30 Crimbo Nostalgia (+5 exp)
+extra-greasy slider	5	13	EPIC	31-34	80-100	80-100	80-100	-5 spleen
+fancy beef jerky	4	9	EPIC	19-22	0	48-58	0
+fancy canap&eacute;s	2	5	awesome	7-10	25-40	25-40	25-40	French slippers (1 time)
+festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 mp/adv)
+fettucini inconnu	6	6	awesome	21-29	0	0	47-52
+fishy fish	2	8	good	3-9	0	0	26-33
+fishy fish casserole	3	9	awesome	8-15	0	0	38-44
+fishy fish lasagna	3	10	awesome	11-18	0	0	46-55
+flaming mushroom	3	2	decent	3-9	3-5	0	0	lose 3 HP
+flower petal pie	3	2	decent	3-9	0	0	0	3 Flower Power (+20% all)
+foie gras	1	2	decent	1-3	0	0	0	1 Beaten Up
+fortune cookie	1	1	crappy	1	0	0	0	semi-rare numbers
+frat brats	1	10	good	2-4	0	0	22-30
+fricasseed brains	3	1	decent	3-5	0	4-5	0
+frozen banquet	6	15	EPIC	42-48	100-289	100-289	100-289
+frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
+fruitcake	3	1	decent	3-6	17-23	17-23	17-23
+genalen&trade; bottle	1	10	good	2-4	15-30	15-30	0	useless powder
+ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15
+ghuol egg	1	1	crappy	1	-3	0	0
+ghuol egg quiche	3	2	decent	3-9	0	0	0
+ghuol guolash	3	1	decent	3-6	-11-19	-11-19	-11-19
+ghuol-ear kabob	2	1	decent	2-5	0	0	0
+giant dragon roll	3	1		9-14	28-46	0	0	45/55 Fishy
+giant marshmallow	4	3	decent	7-9	10-20	0	0
+gingerborg hive	5	5		10-15	0	0	0
+gingerbread bugbear	1	4	good	1-5	10-20	10-20	10-20
+gingerbread horror	1	4	good	1-5	10-20	10-20	10-20
+gingerbread massacre	3	1		3-6	5-6	5-6	5-6	10 Sugar Rush
+gingerbread mutant bugbear	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all)
+gingerbread stir-fry	3	1		3-7	0	0	0	10 Sugar Rush
+glass of baboon milk	1	2	decent	2	3-5	0	0
+glass of goat's milk	1	1	crappy	1	0	0	0
+glistening fish meat	1	1	good	2-3	0	4-8	0	5/15 Fishy
+glistening maki	3	1		7-12	0	8-16	0	45/55 Fishy
+glistening nigiri	2	1		4-8	0	8-16	0	20/30 Fishy
+gnat lasagna	3	10	awesome	11-18	45-54	0	0
+gnatloaf	2	8	good	3-9	25-50	0	0
+gnatloaf casserole	3	9	awesome	8-15	23-37	0	0
+gnocchetti di nietzsche	6	6	awesome	21-29	0	47-52	0
+goat cheese	2	1	crappy	2-3	0	0	0
+goat cheese pizza	3	2	good	3-10	0	0	15-18
+goat cheese taco	2	1	decent	2-5	0	11-33	0
+gr8ps	1	1	crappy	1	0	0	0
+grapefruit	1	1	crappy	1	0	0	0
+grapes	1	1	crappy	1	0	0	0
+grimdrop chow mein	4	5		6-11	0	0	0
+grimgerbread house	5	5		10-15	0	0	0
+grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
+gumdrop chow mein	5	1		9-17	0	0	0	10 Sugar Rush
+halibut alfredo	4	1		10-15	0	0	0
+handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
+handful of walnuts	1	10	good	2-4	0	0	20-30
+happy birthday, claude! cake	3	1	crappy	3	0	0	0
+hell broth	4	3	good	7-15	-5-9	0	-5-9
+hell ramen	6	6	awesome	22-29	23-28	23-28	23-28	20-29 meat
+herb brownies	2	1	decent	2-5	0	0	8-9	5 Confused (-30% mys)
+herbal stuffing	4	7	awesome	15-21	0	0	70-75
+hippy herbal tea	1	1	decent	2	0	4-7	0	5 Sleepy (-30% mus)
+holiday cheese log	3	1	good	8-10	10-20	10-20	10-20	Stands Alone (+10 Stench Damage)
+honey-dew	2	2	good	4-7	13-15	0	0	10 Mmmmmelon (+30% item drop)
+hot buttered roll	1	1	crappy	1	0	0	0
+hot date	2	7	good	4-5	0	0	20-30
+hot hi mein	5	7	awesome	21-29	71-75	15-20	30-35	5 Hot Breath (combat skill)
+hot wing	1	1	crappy	1	0	2-5	0
+humpty dumplings	4	5	awesome	13-16	0	70-77	0
+igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
+insanely spicy bean burrito	3	4	awesome	7-14	27-32	0	0
+insanely spicy enchanted bean burrito	3	5	awesome	8-15	0	28-32	0	Chronic Indigestion skill
+insanely spicy jumping bean burrito	3	4	awesome	7-14	0	0	33
+irradiated candy cane	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all)
+it came from beyond dessert	4	1		6-12	7-8	7-8	7-8	10 Sugar Rush
+jack lalanne roll	3	1		9-14	28-46	20-30	20-30	45/55 Fishy
+jarlsberg's key lime pie	4	6	awesome	14-16	0	28-33	0	Jarlsberg's key
+jawbruiser	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush, lose 35-45 HP
+jumbo dr. lucifer	1	1	good	2-3	0	0	0	converts all HP to 9-10x MP
+jumbo olive	1	2	decent	2	0	0	2-5
+jumping bean burrito	3	1	decent	3-8	0	0	11-14
+jumping bean taco	1	1	decent	2	0	0	4-20
+juniper berries	1	2	crappy	1	0	0	10-15
+ketchup	1	1	crappy	1	0	0	0
+king cookie	1	13	EPIC	4-6	15-30	15-30	15-30	30 The Royal We
+kiwi	1	2	decent	2	0	0	0
+knight cookie	1	13	EPIC	4-6	0	0	45-50	30 Knightlife
+knob jelly donut	1	1	good	3	3-5	3-5	3-5
+knob ka-bobs	1	10	good	2-4	0	20-30	0
+knob lo mein	4	6	awesome	14-20	0	31-34	0
+knob mushroom	2	1	crappy	2-3	0	0	0
+knob nuts	1	4	good	3	1-4	1-4	1-4
+knob pasty	1	1	EPIC	5-6	5-6	5-6	5-6
+knob sausage	2	1	crappy	2-3	0	0	0
+knob sausage chow mein	5	7	awesome	21-29	72-76	0	0
+knob sausage stir-fry	3	4	awesome	7-14	25-28	0	0
+knob shroomkabob	2	1	decent	2-5	0	6-11	0
+knob stir-fry	2	3	good	2-10	0	12-18	0
+knoll lo mein	4	6	awesome	14-21	30-34	0	0
+knoll mushroom	2	1	crappy	1-3	0	0	0
+knoll shroomkabob	2	1	decent	2-5	6-11	0	0
+knoll stir-fry	2	3	good	2-10	14-18	0	0
+knuckle sandwich	3	5	good	5-15	22-40	22-40	22-40	20 Cruisin' for a Bruisin' (+100% phys damage)
+kumquat	1	2	decent	2	0	0	0
+large cocoa eggshell fragment	1	1	decent	2	0	0	0
+laser-broiled pear	1	1	awesome	3-4	8-10	8-10	8-10
+lemon	1	1	crappy	1	0	0	0
+lemon meringue pie	3	2	decent	3-9	8-10	0	0
+lemon popsicle	1	1	decent	2	0	0	0
+licorice garrote	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
+lihc eye pie	4	2	decent	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
+lime	1	2	decent	2	0	0	0
+liver and let pie	2	1	good	5-7	5-10	5-10	5-10
+liver popsicle	1	1	decent	2	0	0	0
+lobster <i>qua</i> grill	2	5	good	4-8	0	0	46-49
+long pork casserole	3	9	awesome	8-15	0	37-51	0
+long pork chop sandwiches	2	8	good	3-9	0	25-35	0
+long pork lasagna	3	10	awesome	11-18	0	46-55	0
+lord of the flies-sized fries	3	1	decent	4-6	0	15-20	-15-20
+lucky surprise egg	1	1	crappy	1	0	0	0	series 1 tiny plastic
+magical ancient serpent roll	3	1		9-14	0	8-16	20-30	50/60 Fishy
+magical beefy maki	3	1		7-12	8-16	0	0	50/60 Fishy
+magical eleven oceans roll	3	1		9-14	20-30	20-30	28-46	50/60 Fishy
+magical giant dragon roll	3	1		9-14	28-46	0	0	50/60 Fishy
+magical glistening maki	3	1		7-12	0	8-16	0	50/60 Fishy
+magical jack lalanne roll	3	1		9-14	28-46	20-30	20-30	50/60 Fishy
+magical musclebound rabbit roll	3	1		9-14	8-16	20-30	0	50/60 Fishy
+magical python roll	3	1		9-14	8-16	0	20-30	50/60 Fishy
+magical slick maki	3	1		7-12	0	0	8-16	50/60 Fishy
+magical slippery snake roll	3	1		9-14	0	0	28-46	50/60 Fishy
+magical sneaky rabbit roll	3	1		9-14	0	20-30	8-16	50/60 Fishy
+magical tricky dragon roll	3	1		9-14	20-30	0	8-16	50/60 Fishy
+magical white rabbit roll	3	1		9-14	0	28-46	0	50/60 Fishy
+magical wise dragon roll	3	1		9-14	20-30	8-16	0	50/60 Fishy
+magical wizened master roll	3	1		9-14	20-30	28-46	20-30	50/60 Fishy
+manetwich	2	4	good	3-9	14-30	0	5-18
+maple syrup	1	1	crappy	1	0	0	0	20-30 HP
+menudo	2	2	decent	2-7	14-18	0	0
+mind flayer corpse	5	1	crappy	5	0	21-25	0
+mixed wildflower greens	1	10	good	2-4	25-30	0	0
+mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
+moon pie	5	5	EPIC	28-32	20-30	20-30	20-30
+mugcake	1	1	crappy	1	0	0	0
+musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
+mushroom pizza	3	2	good	3-10	0	15-18	0
+nanite-infested candy cane	1	4	good	1-5	11-20	11-20	11-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
+nanite-infested fruitcake	3	1	decent	3-6	15-20	15-20	15-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
+nanite-infested gingerbread bugbear	1	4	good	1-5	21-40	21-40	21-40	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
+natto pocky	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please
+new and improved crimbco reconstituted gruel	4	1		7-8	0	0	0	lose 20% boredom
+nutty organic salad	3	11	awesome	12-15	0	31-40	0
+olive	1	1	crappy	1	0	0	0
+olive lo mein	3	6	awesome	9-16	10-14	0	10-14
+olive stir-fry	1	3	good	1-5	3-5	0	2-4
+orange	1	1	crappy	1	0	0	0
+orange popsicle	1	1	decent	2	0	0	0
+overcookie	1	3	decent	2	3-5	3-5	3-5
+packet of beer nuts	1	2	crappy	1	0	0	0	1 Salty Mouth
+packet of tofurkey gravy	2	1	good	2-8	31-34	0	0
+painful penne pasta	3	3	good	7-9	17-20	0	0	lose 20-23 HP
+papaya	1	1	crappy	1	0	0	0
+papaya taco	1	1	decent	2	8-12	0	8-12
+pawn cookie	1	1	crappy	1-3	0	0	0	30 Pwnd (+1..10 all stats)
+peach	1	4	good	3	0	0	15-20
+peach pie	3	7	awesome	8-14	0	0	25-45
+pear	1	4	good	3	0	15-20	0
+pear tart	3	7	awesome	8-14	0	25-45	0
+peche a la frog	3	1		3-4	0	0	0
+penguin focaccia bread	7	1	good	18-24	21-38	21-38	21-38
+personalized birthday cake	3	1	crappy	3	0	0	0
+philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
+piece of wedding cake	2	1	decent	2-5	0	0	0
+piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
+plain pizza	2	1	decent	2-4	0	0	0
+plum	1	4	good	3	15-20	0	0
+pointy mushroom	2	1	decent	2-3	0	0	12-14	lose 1 HP
+poisonous caviar	3	5	good	8	0	0	0	50 Majorly Poisoned
+popcorn	1	1	decent	2	0	0	0
+poutine	2	1	decent	2-3	2-3	2-3	2-3
+powdered donut	1	1	crappy	1	0	5-10	0	5 Powdered (+10 Mysticality stats/fight)
+pr0n chow mein	4	7	awesome	16-23	20-26	0	20-26
+pr0n cocktail	2	1	decent	2-5	8-12	8-12	8-12
+pr0n m4nic0tti	4	3	good	8-14	0	0	28-30
+pr0n stir-fry	2	4	awesome	3-11	7-12	0	8-12
+pr0n taco	2	1	decent	2-5	0	0	11-33
+protein paste	2	7	good	6-8	38-46	0	0	10 Pasty (+50% mus)
+pumpkin pie	3	2	EPIC	16-18	12-24	12-24	12-24
+purple pixel pie	3	1	decent	3-6	12-18	12-18	12-18
+python roll	3	1		9-14	8-16	0	20-30	45/55 Fishy
+quantum taco	0	1		0	0	0	0	#random food
+queen cookie	1	13	EPIC	4-6	20-40	20-40	20-40	30 Towering Strength, Mitre Cut, Knightlife, The Royal We
+questionable taco	3	1	decent	4-5	0	0	0	lovecat tail
+radio button candy	1	8	EPIC	2-9	30-50	33-49	30-50
+raisin	1	1	crappy	1	0	0	0
+raspberry	1	2	decent	2	0	0	0
+rat appendix chow mein	5	7	awesome	21-29	0	0	70-75
+rat appendix kabob	2	1	decent	2-5	0	0	6-9
+rat appendix stir-fry	3	4	awesome	7-14	0	0	27-45
+rat scrapple	2	2	decent	2-7	0	0	10-12
+ravioli della hippy	3	3	good	4-12	0	19-23	0
+red herring velvet cake	5	1		14-19	0	0	0
+retenez l'herbe pat&eacute;	3	13	EPIC	13-20	40-50	40-50	40-50
+roasted marshmallow	1	1	crappy	1	0	0	0	3 Mallowed Out (+all)
+rocky road ice cream	2	7	awesome	7-10	12-14	12-14	12-14	40 A Contender (+200% all)
+rook cookie	1	13	EPIC	4-6	45-50	0	0	30 Towering Strength
+royal jelly	1	1	crappy	1	10-15	0	0
+royal jelly taco	1	1	decent	2	4-20	0	0
+s.t.l.t.	4	4	awesome	10-15	10-30	10-30	13-27
+salty ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
+salty beefy maki	3	1		7-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
+salty eleven oceans roll	3	1		9-14	20-30	20-30	28-46	45/55 Fishy, 10 Salty Dogs
+salty giant dragon roll	3	1		9-14	28-46	0	0	45/55 Fishy, 10 Salty Dogs
+salty glistening maki	3	1		7-12	0	8-16	0	45/55 Fishy, 10 Salty Dogs
+salty jack lalanne roll	3	1		9-14	28-46	20-30	20-30	45/55 Fishy, 10 Salty Dogs
+salty musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy, 10 Salty Dogs
+salty python roll	3	1		9-14	8-16	0	20-30	45/55 Fishy, 10 Salty Dogs
+salty slick maki	3	1		7-12	0	0	8-16	45/55 Fishy, 10 Salty Dogs
+salty slippery snake roll	3	1		9-14	0	0	28-46	45/55 Fishy, 10 Salty Dogs
+salty sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy, 10 Salty Dogs
+salty tricky dragon roll	3	1		9-14	20-30	0	8-16	45/55 Fishy, 10 Salty Dogs
+salty white rabbit roll	3	1		9-14	0	28-46	0	45/55 Fishy, 10 Salty Dogs
+salty wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy, 10 Salty Dogs
+salty wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy, 10 Salty Dogs
+sandwich of the gods	5	13	EPIC	32-38	50-100	50-100	50-100
+sausage pizza	3	2	good	3-10	15-18	0	0
+sausage wonton	3	12	EPIC	12-18	50-80	20-30	20-30
+savoy truffle	2	9	awesome	6-7	15-20	15-20	15-20	lose 10-20 HP
+sea avocado	1	2	decent	1-3	0	0	27
+sea blueberry	1	2	crappy	1-2	2-4	2-4	2-4
+sea broccoli	1	2	crappy	1-2	3-7	3-6	3-7
+sea carrot	1	2	decent	1-3	0	26	0
+sea cauliflower	1	2	crappy	1-2	3-7	3-7	3-7
+sea cucumber	1	2	decent	1-3	29	0	0
+sea honeydew	1	2	decent	1-3	0	28	0
+sea lychee	1	2	decent	1-3	0	0	37
+sea persimmon	1	3	crappy	1-2	5-10	5-10	5-10
+sea radish	1	3	decent	1-3	20-30	20-30	20-30
+sea tangelo	1	2	decent	1-3	16	0	0
+shoo-fish pie	2	3	awesome	8-10	10-30	10-30	10-30	20 Fishy
+shoots and leaves	4	1		6-10	7-8	7-8	7-8
+single-serving herbal stuffing	4	1	awesome	12-16	0	0	32-35
+sizzling weasel on a stick	5	1	EPIC	60-80	0	0	220-400
+six tiny wedges of goat cheese	2	1	crappy	3	0	0	0
+skewered cat appendix	2	1	decent	2-5	7-17	0	0
+skull-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
+sleazy hi mein	5	7	awesome	21-29	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
+slick fish meat	1	1	good	2-3	0	0	4-8	5/15 Fishy
+slick maki	3	1		7-12	0	0	8-16	45/55 Fishy
+slick nigiri	2	1		4-8	0	0	8-16	20/30 Fishy
+slimy sweetbreads	1	6	good	2-3	0	0	0	20 Grimace (+25 ML, slime res)
+slippery snake roll	3	1		9-14	0	0	28-46	45/55 Fishy
+sneaky pete's key lime pie	4	6	awesome	14-16	0	0	28-33	Sneaky Pete's key
+sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy
+soylent red and green	3	5		4-5	0	0	0
+space jam toast	1	1	decent	1-3	0	50	0
+spaghetti con calaveras	6	6	awesome	21-29	47-52	0	0	10 Eso Sï¿½ Que Es
+spaghetti with moonballs	3	2	good	8-10	10-20	0	20-30
+spaghetti with skullheads	6	6	awesome	21-29	47-52	0	0
+spam witch sammich	2	1	decent	2-3	0	4-6	0
+spectral pickle	4	8	EPIC	20-26	25-34	25-34	25-34
+spicy bean burrito	3	3	good	5-12	20-24	0	0
+spicy enchanted bean burrito	3	4	good	6-12	0	22-28	0
+spicy jumping bean burrito	3	3	good	5-12	0	0	22-28
+spicy mushroom quesadilla	3	1	decent	3-8	35-40	0	0
+spicy noodles	3	4	good	6-12	0	0	0
+sponge cake	2	3	decent	3-5	0	0	5-10
+spooky hi mein	5	7	awesome	21-29	15-20	71-75	30-35	5 Spooky Breath (combat skill)
+spooky lo mein	4	6	awesome	14-22	0	0	33-34
+spooky mushroom	2	1	crappy	2-3	0	0	0
+spooky shroomkabob	2	1	decent	2-5	0	0	6-11
+spooky stir-fry	2	3	good	2-10	0	0	14-18
+spooky surprise egg	1	1	crappy	1	0	0	0	series 2 tiny plastic
+square crimbcookie	2	1	awesome	8-10	0	0	0	10 Square to be Hip
+squirmy violent party snack	1	1	good	2-4	2-20	2-20	2-20	10 Broken Dancing (Legendary Beat quest)
+stale baguette	3	1	decent	3-6	0	0	0	lose 3 HP
+stalk of asparagus	1	1	crappy	1	0	1-3	0
+star key lime pie	4	6	awesome	14-16	20-24	20-24	20-24	2-4 lines, 2-4 stars
+steel lasagna	5	5		00	0	0	0	Stomach of Steel skill
+stinky hi mein	5	7	awesome	21-29	30-35	71-75	15-20	5 Stinky Breath (combat skill)
+stinky mushroom	3	2	decent	3-9	0	0	3-5	lose 3 HP
+stomach turnover	2	2	awesome	7-9	5-10	15-20	15-20
+strawberry	1	1	crappy	1	0	0	0
+strawberry pie	3	2	decent	3-9	0	0	8-10
+strawberry popsicle	1	1	decent	2	0	0	0
+stuffed spooky mushroom	3	1	decent	3-9	0	0	0
+stunt nuts	2	1	decent	2-3	8-10	0	0
+suddenly salad!	5	1	EPIC	60-80	0	220-400	0
+sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
+super ka-bob	3	11	awesome	12-15	30-38	0	0
+super salad	3	11	awesome	13-16	30-50	32-40	31-40
+t8r tots	1	1	crappy	1-2	0	0	0
+tangerine	1	2	decent	2	0	0	0
+tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
+tempura avocado	1	5	EPIC	5-7	0	0	50
+tempura broccoli	1	6	awesome	3-6	5	5	5	20 Down with Chow (+10 lbs)
+tempura carrot	1	5	EPIC	5-7	0	50	0
+tempura cauliflower	1	6	awesome	2-5	5	5	5	20 Low on the Hog (+100% meat)
+tempura cucumber	1	5	EPIC	5-7	50	0	0
+tempura radish	1	7	EPIC	5-7	63	66	63
+three-tiered wedding cake	35	1	crappy	34-39	0	0	0
+throbbing organ pie	2	2	awesome	7-9	5-10	5-10	20-40
+tiger-lily's milk	1	1	crappy	1	5-10	0	0	5 Grrrrrrreat! (+10 Muscle stats/fight)
+tin cup of mulligan stew	2	15	EPIC	14-20	308-760	308-760	308-760
+tin rations	3	1	good	8-10	3-5	3-5	3-5
+tiny frozen prehistoric meteorite jawbreaker	1	1	good	2	0	0	0
+toast	1	1	crappy	1	0	0	0
+toast with jam	1	3	decent	1-3	1-2	1-2	1-2	5 Jammin'
+tobiko pocky	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces
+toe jam toast	1	1	decent	1-3	0	0	50
+tofu casserole	3	1	decent	3-8	0	0	0
+tofu chow mein	3	7	awesome	11-19	18-22	20-25	0
+tofu stir-fry	1	4	good	1-5	4-5	4-6	0
+tofu taco	1	1	decent	2	0	4-20	0
+tofu wonton	3	12	awesome	11-18	20-30	50-80	20-30
+tofurkey gravy	2	5	awesome	3-10	72-75	0	0
+tofurkey leg	3	5	awesome	7-14	70-74	0	0
+tofurkey nugget	3	1	good	4-11	30-33	0	0
+tomato	1	1	crappy	1	0	0	0
+tombstone-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Crimbo Epiphany (+10% mys)
+traffic jam toast	1	1	decent	1-3	50	0	0
+tree-shaped crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Yuletide Sappiness (+10% mys)
+triangular crimbcookie	2	1	awesome	8-10	0	0	0	10 Triangle, Man
+tricky dragon roll	3	1		9-14	20-30	0	8-16	45/55 Fishy
+trollhouse cookies	2	1	decent	2-3	4-6	0	0
+tube of cranberry go-goo	3	1	awesome	8-14	0	0	31-34
+turtle soup	1	2	good	2-3	9-15	0	0	10 A Little Bit Evil (+2 ML), 10 Souper Vengeful (+3 lbs)
+twigs and gravel	3	1		3-6	5-6	5-6	5-6
+uncooked chorizo	1	1	crappy	1	-5	0	0
+unfortunate dumplings	3	1	crappy	0	0	0	0	20 Really Quite Poisoned
+unidentified jerky	2	9	good	4-8	10-15	10-15	10-15
+urinal cake	2	1	crappy	2	0	0	0
+valentine's day cake	3	1	crappy	3	0	0	0
+vampire cake	5	1		9-16	9-10	9-10	9-10	10 Sugar Rush
+vanilla-frosted king cake	3	1	crappy	3	0	0	0	pink plastic baby
+vinegar-soaked lemon slice	1	2	decent	2	15-20	15-20	15-20
+walrus ice cream	2	5	good	4-8	37-38	0	0
+warm mushroom	2	1	decent	2-3	12-14	0	0
+wasabi pocky	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You
+wedge of gray cheese	2	9	EPIC	7-13	50-69	50-69	50-69
+wet stew	6	1	good	12-15	16-19	0	0
+white chocolate and tomato pizza	3	2	decent	3-9	0	0	0
+white chocolate chip brownies	2	5	awesome	5-8	0	41-58	0
+white chocolate chip cookies	2	1	decent	2-5	0	11-13	0
+white chocolate chips	1	1	crappy	1	0	0	0
+white citadel burger	2	1	crappy	2-8	0	0	0
+white citadel fries	2	1	decent	2-5	0	0	0
+white rabbit roll	3	1		9-14	0	28-46	0	45/55 Fishy
+white rice	1	1	crappy	1	1	1-2	1-2
+wild honey pie	2	1	decent	6	5-6	5-6	5-6	10 Sugar Rush
+wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy
+wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy
+wreath-shaped crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Wreathed in Merriment (+10% mox)
+yam candy	3	1	good	5-10	0	31-34	0
+yellow matter custard	3	6	good	4-8	10-15	10-15	10-15

@@ -111,6 +111,13 @@ public class CheckDataCommand
 			return;
 		}
 
+		if ( command.equals( "checkconsumables" ) )
+		{
+			DebugDatabase.checkConsumables();
+			RequestLogger.printLine( "Consumables checked." );
+			return;
+		}
+
 		if ( command.equals( "checkpowers" ) )
 		{
 			DebugDatabase.checkPowers( parameters.trim() );

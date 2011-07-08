@@ -369,7 +369,12 @@ public class DebugDatabase
 
 	public static final String itemDescriptionText( final int itemId )
 	{
-                return DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( itemId, true ) );
+		return DebugDatabase.itemDescriptionText( itemId, true );
+	}
+
+	public static final String itemDescriptionText( final int itemId, boolean forceReload )
+	{
+		return DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( itemId, forceReload ) );
 	}
 
 	public static final String rawItemDescriptionText( final int itemId )
@@ -1469,6 +1474,81 @@ public class DebugDatabase
 				StaticEntity.printStackTrace( e );
 			}
 		}
+	}
+
+	// **********************************************************
+
+	private static final String CONSUMABLE_DATA = "consumables.txt";
+
+	public static final void checkConsumables()
+	{
+		RequestLogger.printLine( "Loading previous data..." );
+		DebugDatabase.loadScrapeData( rawItems, ITEM_HTML );
+		RequestLogger.printLine( "Checking internal data..." );
+		PrintStream report = DebugDatabase.openReport( CONSUMABLE_DATA );
+		DebugDatabase.checkConsumables( report );
+		report.close();
+	}
+
+	private static final void checkConsumables( final PrintStream report )
+	{
+		DebugDatabase.checkConsumables( report, ItemDatabase.fullnessByName, "Fullness" );
+		DebugDatabase.checkConsumables( report, ItemDatabase.inebrietyByName, "Inebriety" );
+		DebugDatabase.checkConsumables( report, ItemDatabase.spleenHitByName, "Spleenhit" );
+	}
+
+	private static final void checkConsumables( final PrintStream report, final Map map, final String tag )
+	{
+		if ( map.size() == 0 )
+		{
+			return;
+		}
+
+		report.println( "" );
+		report.println( "# Consumption data in " + tag + ".txt" );
+		report.println( "#" );
+
+		Object[] keys = map.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String) keys[ i ];
+			int size = ((Integer) map.get( name ) ).intValue();
+			DebugDatabase.checkConsumable( report, name, size );
+		}
+	}
+
+	private static final void checkConsumable( final PrintStream report, final String name, final int size )
+	{
+		int itemId = ItemDatabase.getItemId( name );
+		// It is valid for items to have no itemId: sushi, Cafe offerings, and so on
+		String text = itemId == -1 ? "" : DebugDatabase.itemDescriptionText( itemId, false );
+		if ( text == null )
+		{
+			return;
+		}
+
+		int level = ItemDatabase.getLevelReqByName( name ).intValue();
+		String adv = ItemDatabase.getAdvRangeByName( name );
+		String quality = DebugDatabase.parseQuality( text );
+		String mus = ItemDatabase.getMuscleByName( name );
+		String mys = ItemDatabase.getMysticalityByName( name );
+		String mox = ItemDatabase.getMoxieByName( name );
+		String notes = ItemDatabase.getNotes( name );
+
+		ItemDatabase.writeConsumable( report, name, size, level, quality, adv, mus, mys, mox, notes );
+	}
+
+	// Type: <b>food <font color=#999999>(crappy)</font></b>
+	// Type: <b>food (decent)</b>
+	// Type: <b>booze <font color=green>(good)</font></b>
+	// Type: <b>food <font color=blue>(awesome)</font></b>
+	// Type: <b>food <font color=blueviolet>(EPIC)</font></b>
+
+	private static final Pattern QUALITY_PATTERN = Pattern.compile( "Type: <b>.*?\\((.*?)\\).*?</b>" );
+	public static final String parseQuality( final String text )
+	{
+		Matcher matcher = DebugDatabase.QUALITY_PATTERN.matcher( text );
+		return ItemDatabase.qualityValue( matcher.find() ? matcher.group( 1 ) : "" );
 	}
 
 	// **********************************************************
