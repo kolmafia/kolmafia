@@ -127,6 +127,13 @@ public class ItemDatabase
 
 	private static Set advNames = null;
 
+	public static final String NONE = "";
+	public static final String CRAPPY = "crappy";
+	public static final String DECENT = "decent";
+	public static final String GOOD = "good";
+	public static final String AWESOME = "awesome";
+	public static final String EPIC = "EPIC";
+
 	static
 	{
 		ItemDatabase.advsByName[ 0 ][ 0 ][ 0 ] = new HashMap();
@@ -759,12 +766,12 @@ public class ItemDatabase
 	public static final String qualityValue( String value )
 	{
 		// Reduce string allocations...
-		return value.equals( "crappy" ) ? "crappy" :
-			value.equals( "decent" ) ? "decent" :
-			value.equals( "good" ) ? "good" :
-			value.equals( "awesome" ) ? "awesome" :
-			value.equals( "EPIC" ) ? "EPIC" :
-			"";
+		return value.equals( "crappy" ) ? ItemDatabase.CRAPPY :
+			value.equals( "decent" ) ? ItemDatabase.DECENT :
+			value.equals( "good" ) ? ItemDatabase.GOOD :
+			value.equals( "awesome" ) ? ItemDatabase.AWESOME :
+			value.equals( "EPIC" ) ? ItemDatabase.EPIC :
+			ItemDatabase.NONE;
 	}
 
 	private static final void saveAdventureRange( final String name, final int unitCost, String range )
