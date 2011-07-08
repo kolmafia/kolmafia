@@ -790,7 +790,13 @@ public class ItemDatabase
 
 	public static final String getAdvRangeByName( final String name )
 	{
-		return (String) ItemDatabase.advRangeByName.get( StringUtilities.getCanonicalName( name ) );
+		if ( name == null )
+		{
+			return "";
+		}
+
+		String range = (String) ItemDatabase.advRangeByName.get( StringUtilities.getCanonicalName( name ) );
+		return range == null ? "" : range;
 	}
 
 	public static final void calculateAdventureRanges()
@@ -1653,7 +1659,13 @@ public class ItemDatabase
 
 	public static final String getMuscleByName( final String name )
 	{
-		return (String) ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
+		if ( name == null )
+		{
+			return "";
+		}
+
+		String range = (String) ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
+		return range == null ? "" : range;
 	}
 
 	public static final String getMuscleRange( final String name )
@@ -1671,7 +1683,13 @@ public class ItemDatabase
 
 	public static final String getMysticalityByName( final String name )
 	{
-		return (String) ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
+		if ( name == null )
+		{
+			return "";
+		}
+
+		String range = (String) ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
+		return range == null ? "" : range;
 	}
 
 	public static final String getMysticalityRange( final String name )
@@ -1689,7 +1707,13 @@ public class ItemDatabase
 
 	public static final String getMoxieByName( final String name )
 	{
-		return (String) ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
+		if ( name == null )
+		{
+			return "";
+		}
+
+		String range = (String) ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
+		return range == null ? "" : range;
 	}
 
 	public static final String getMoxieRange( final String name )
