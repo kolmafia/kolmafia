@@ -350,8 +350,8 @@ public interface KoLConstants
 	public static final int EQUIPMENT_VERSION = 2;
 	public static final int FAMILIARS_VERSION = 1;
 	public static final int FOLDGROUPS_VERSION = 1;
-	public static final int FULLNESS_VERSION = 1;
-	public static final int INEBRIETY_VERSION = 1;
+	public static final int FULLNESS_VERSION = 2;
+	public static final int INEBRIETY_VERSION = 2;
 	public static final int ITEMDESCS_VERSION = 2;
 	public static final int MODIFIERS_VERSION = 2;
 	public static final int MONSTERS_VERSION = 4;
@@ -360,7 +360,7 @@ public interface KoLConstants
 	public static final int OUTFITS_VERSION = 1;
 	public static final int PACKAGES_VERSION = 1;
 	public static final int PULVERIZE_VERSION = 2;
-	public static final int SPLEENHIT_VERSION = 2;
+	public static final int SPLEENHIT_VERSION = 3;
 	public static final int STATUSEFFECTS_VERSION = 3;
 	public static final int TRADEITEMS_VERSION = 3;
 	public static final int ZAPGROUPS_VERSION = 1;

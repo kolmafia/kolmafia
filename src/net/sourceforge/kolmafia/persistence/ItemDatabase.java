@@ -112,13 +112,15 @@ public class ItemDatabase
 	private static final Map itemIdByDescription = new HashMap();
 
 	private static final Map levelReqByName = new HashMap();
-	private static final Map fullnessByName = new HashMap();
-	private static final Map inebrietyByName = new HashMap();
-	private static final Map spleenHitByName = new HashMap();
+	public static final Map fullnessByName = new TreeMap();
+	public static final Map inebrietyByName = new TreeMap();
+	public static final Map spleenHitByName = new TreeMap();
+	private static final Map qualityByName = new HashMap();
 	private static final Map notesByName = new HashMap();
 	private static final Map foldGroupsByName = new HashMap();
 
 	private static final Map[][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ];
+	private static final Map advRangeByName = new HashMap();
 	private static final Map unitCostByName = new HashMap();
 	private static final Map advStartByName = new HashMap();
 	private static final Map advEndByName = new HashMap();
@@ -449,6 +451,30 @@ public class ItemDatabase
 		writer.close();
 	}
 
+	public static void writeConsumable( final PrintStream writer, final String name, final int size,
+					    final int level, final String quality, final String adv,
+					    final String mus, final String mys, final String mox,
+					    final String notes )
+	{
+		writer.println( ItemDatabase.consumableString( name, size, level, quality, adv, mus, mys, mox, notes ) );
+	}
+
+	public static String consumableString( final String name, final int size,
+					       final int level, final String quality, final String adv,
+					       final String mus, final String mys, final String mox,
+					       final String notes )
+	{
+		return name +
+			"\t" + size +
+			"\t" + level +
+			"\t" + quality +
+			"\t" + adv +
+			"\t" + mus +
+			"\t" + mys +
+			"\t" + mox +
+			( notes == null ? "" : ("\t" + notes ) );
+	}
+
 	public static void writeTradeitem( final PrintStream writer, final int itemId, final String name,
 					   final int type, final int attrs, final String access, final int price )
 	{
@@ -561,7 +587,7 @@ public class ItemDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			ItemDatabase.saveItemValues( data, map );
+			ItemDatabase.saveConsumptionValues( data, map );
 		}
 
 		try
@@ -702,7 +728,7 @@ public class ItemDatabase
 		Arrays.sort( ItemDatabase.canonicalNames );
 	}
 
-	private static final void saveItemValues( String[] data, Map map )
+	private static final void saveConsumptionValues( String[] data, Map map )
 	{
 		if ( data.length < 2 )
 			return;
@@ -710,23 +736,35 @@ public class ItemDatabase
 		String name = StringUtilities.getCanonicalName( data[ 0 ] );
 		map.put( name, Integer.valueOf( data[ 1 ] ) );
 
-		if ( data.length < 7 )
-			return;
-
-		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
-		ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 3 ] );
-		ItemDatabase.muscleByName.put( name, data[ 4 ] );
-		ItemDatabase.mysticalityByName.put( name, data[ 5 ] );
-		ItemDatabase.moxieByName.put( name, data[ 6 ] );
-
 		if ( data.length < 8 )
 			return;
 
-		String notes = data[ 7 ];
+		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
+		ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( data[ 3 ] ) );
+		ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 4 ] );
+		ItemDatabase.muscleByName.put( name, data[ 5 ] );
+		ItemDatabase.mysticalityByName.put( name, data[ 6 ] );
+		ItemDatabase.moxieByName.put( name, data[ 7 ] );
+
+		if ( data.length < 9 )
+			return;
+
+		String notes = data[ 8 ];
 		if ( notes.length() > 0 )
 		{
 			ItemDatabase.notesByName.put( name, notes );
 		}
+	}
+
+	public static final String qualityValue( String value )
+	{
+		// Reduce string allocations...
+		return value.equals( "crappy" ) ? "crappy" :
+			value.equals( "decent" ) ? "decent" :
+			value.equals( "good" ) ? "good" :
+			value.equals( "awesome" ) ? "awesome" :
+			value.equals( "EPIC" ) ? "EPIC" :
+			"";
 	}
 
 	private static final void saveAdventureRange( final String name, final int unitCost, String range )
@@ -736,11 +774,16 @@ public class ItemDatabase
 		int dashIndex = range.indexOf( "-" );
 		int start = StringUtilities.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
 		int end = dashIndex == -1 ? start : StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
-
+		ItemDatabase.advRangeByName.put( name, range );
 		ItemDatabase.unitCostByName.put( name, new Integer( unitCost ) );
 		ItemDatabase.advStartByName.put( name, new Integer( start ) );
 		ItemDatabase.advEndByName.put( name, new Integer( end ) );
 		ItemDatabase.advNames = null;
+	}
+
+	public static final String getAdvRangeByName( final String name )
+	{
+		return (String) ItemDatabase.advRangeByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final void calculateAdventureRanges()
@@ -1532,6 +1575,16 @@ public class ItemDatabase
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
+	public static final String getQuality( final String name )
+	{
+		if ( name == null )
+		{
+			return null;
+		}
+
+		return (String) ItemDatabase.qualityByName.get( StringUtilities.getCanonicalName( name ) );
+	}
+
 	public static final String getNotes( final String name )
 	{
 		if ( name == null )
@@ -1591,6 +1644,11 @@ public class ItemDatabase
 		return range.floatValue();
 	}
 
+	public static final String getMuscleByName( final String name )
+	{
+		return (String) ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
+	}
+
 	public static final String getMuscleRange( final String name )
 	{
 		if ( name == null )
@@ -1604,6 +1662,11 @@ public class ItemDatabase
 		return range == null ? "+0.0" : range;
 	}
 
+	public static final String getMysticalityByName( final String name )
+	{
+		return (String) ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
+	}
+
 	public static final String getMysticalityRange( final String name )
 	{
 		if ( name == null )
@@ -1615,6 +1678,11 @@ public class ItemDatabase
 		float mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
 		String range = (String) ItemDatabase.extractStatRange( mysticality, mysticalityFactor );
 		return range == null ? "+0.0" : range;
+	}
+
+	public static final String getMoxieByName( final String name )
+	{
+		return (String) ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final String getMoxieRange( final String name )

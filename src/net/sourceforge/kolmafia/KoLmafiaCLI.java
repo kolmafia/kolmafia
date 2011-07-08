@@ -625,6 +625,7 @@ public class KoLmafiaCLI
 			register( "checkplurals" ).
 			register( "checkmodifiers" ).
 			register( "checkconsumption" ).
+			register( "checkconsumables" ).
 			register( "checkpowers" ).
 			register( "checkshields" ).
 			register( "checkprofile" ).

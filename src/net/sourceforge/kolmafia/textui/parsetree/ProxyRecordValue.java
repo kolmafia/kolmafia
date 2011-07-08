@@ -189,6 +189,7 @@ public class ProxyRecordValue
 			.add( "descid", DataTypes.STRING_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "levelreq", DataTypes.INT_TYPE )
+			.add( "quality", DataTypes.STRING_TYPE )
 			.add( "fullness", DataTypes.INT_TYPE )
 			.add( "inebriety", DataTypes.INT_TYPE )
 			.add( "spleen", DataTypes.INT_TYPE )
@@ -225,6 +226,11 @@ public class ProxyRecordValue
 		public Integer get_levelreq()
 		{
 			return ItemDatabase.getLevelReqByName( this.contentString );
+		}
+
+		public String get_quality()
+		{
+			return ItemDatabase.getQuality( this.contentString );
 		}
 
 		public int get_fullness()
