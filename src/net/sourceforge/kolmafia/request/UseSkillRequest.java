@@ -1174,7 +1174,7 @@ public class UseSkillRequest
 		if ( responseText.indexOf( "You can't cast that many turns of that skill today" ) != -1 )
 		{
 			UseSkillRequest.lastUpdate = "You've reached your daily casting limit for that skill.";
-			return true;
+			return false;
 		}
 
 		// You think your stomach has had enough for one day.
