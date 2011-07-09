@@ -1414,22 +1414,31 @@ public abstract class RuntimeLibrary
 
 	public static Value get_path()
 	{
-		String value = KoLmafiaASH.relayRequest.getBasePath();
-		return value == null ? DataTypes.STRING_INIT : new Value( value );
+		if ( KoLmafiaASH.relayScript == null )
+		{
+			return DataTypes.STRING_INIT;
+		}
+		return new Value( KoLmafiaASH.relayRequest.getBasePath() );
 	}
 
 	public static Value get_path_full()
 	{
-		String value = KoLmafiaASH.relayRequest.getPath();
-		return value == null ? DataTypes.STRING_INIT : new Value( value );
+		if ( KoLmafiaASH.relayScript == null )
+		{
+			return DataTypes.STRING_INIT;
+		}
+		return new Value( KoLmafiaASH.relayRequest.getPath() );
 	}
 
 	public static Value get_path_variables()
 	{
+		if ( KoLmafiaASH.relayScript == null )
+		{
+			return DataTypes.STRING_INIT;
+		}
 		String value = KoLmafiaASH.relayRequest.getPath();
 		int quest = value.indexOf( "?" );
-		value = quest != -1 ? value.substring( 1, quest ) : null;
-		return value == null ? DataTypes.STRING_INIT : new Value( value );
+		return quest == -1 ? DataTypes.STRING_INIT : new Value( value.substring( 1, quest ) );
 	}
 
 	public static Value batch_open()
@@ -1633,14 +1642,18 @@ public abstract class RuntimeLibrary
 
 	public static Value visit_url()
 	{
-		StringBuffer buffer = new StringBuffer();
+		if ( KoLmafiaASH.relayScript == null )
+		{
+			return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer() );
+		}
 
 		RequestThread.postRequest( KoLmafiaASH.relayRequest );
+
+		StringBuffer buffer = new StringBuffer();
 		if ( KoLmafiaASH.relayRequest.responseText != null )
 		{
 			buffer.append( KoLmafiaASH.relayRequest.responseText );
 		}
-
 		return new Value( DataTypes.BUFFER_TYPE, "", buffer );
 	}
 
