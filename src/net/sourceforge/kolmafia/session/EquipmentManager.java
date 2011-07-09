@@ -197,6 +197,19 @@ public class EquipmentManager
 	{
 		int itemId = item.getItemId();
 
+		// If your current familiar can use this item, add it to familiar item list
+		if ( KoLCharacter.getFamiliar().canEquip( item ) )
+		{
+			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.FAMILIAR ], item );
+			if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_FAMILIAR )
+			{
+				return;
+			}
+			// Even though the familiar can use it, it's not a
+			// familiar item. Continue processing, in case the
+			// character can also use the item
+		}
+
 		if ( !EquipmentManager.canEquip( itemId ) )
 		{
 			return;
@@ -250,7 +263,6 @@ public class EquipmentManager
 		}
 		else if ( itemId == ItemPool.HATSEAT )
 		{
-			//RequestLogger.printLine( "EqMgr.pR " + item );
 			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.HAT ], item );
 		}
 		else
@@ -325,16 +337,16 @@ public class EquipmentManager
 		{
 		case EquipmentManager.WEAPON:
 		case EquipmentManager.OFFHAND:
-			EquipmentManager.checkFamiliar( slot, item );
+			EquipmentManager.checkFamiliar( slot );
 			GearChangeFrame.updateWeapons();
 			break;
 
 		case EquipmentManager.HAT:
-			EquipmentManager.checkFamiliar( slot, item );
+			EquipmentManager.checkFamiliar( slot );
 			break;
 
 		case EquipmentManager.FAMILIAR:
-			EquipmentManager.checkFamiliar( slot, item );
+			EquipmentManager.checkFamiliar( slot );
 			KoLCharacter.currentFamiliar.setItem( item );
 			break;
 		}
@@ -527,7 +539,7 @@ public class EquipmentManager
 			msg + "  No previous item to equip." );
 	}
 
-	public static final void checkFamiliar( final int slot, AdventureResult item )
+	public static final void checkFamiliar( final int slot )
 	{
 		switch ( KoLCharacter.getFamiliar().getId() )
 		{

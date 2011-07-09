@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -50,7 +51,7 @@ public class MindControlRequest
 	private final int level;
 	private final int maxLevel;
 
-	private static final AdventureResult RADIO = new AdventureResult( 2682, 1 );
+	private static final AdventureResult RADIO = ItemPool.get( ItemPool.DETUNED_RADIO, 1 );
 
 	private static final Pattern MCD1_PATTERN = Pattern.compile( "whichlevel=(\\d+)" );
 	private static final Pattern MCD2_PATTERN = Pattern.compile( "tuneradio=(\\d+)" );

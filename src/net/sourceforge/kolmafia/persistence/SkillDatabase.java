@@ -191,13 +191,13 @@ public class SkillDatabase
 		case SNOWCONE:		// Summon Snowcones
 		case STICKER:		// Summon Stickers
 		case SUGAR:		// Summon Sugar Sheets
-		case HILARIOUS:		// Summon Hilarious Objects
-		case TASTEFUL:		// Summon Tasteful Items
-		case CARDS:		// Summon Alice's Army Cards
 		case CANDY_HEART:	// Summon Candy Hearts
 		case PARTY_FAVOR:	// Summon Party Favor
 		case LOVE_SONG:		// Summon Love Song
 		case BRICKOS:		// Summon BRICKOs
+		case HILARIOUS:		// Summon Hilarious Objects
+		case TASTEFUL:		// Summon Tasteful Items
+		case CARDS:		// Summon Alice's Army Cards
 
 			category = SkillDatabase.MR_SKILLS;
 			break;
@@ -800,16 +800,16 @@ public class SkillDatabase
 		case 7008:	// Moxious Maneuver
 			return false;
 
-		case 8000:	// Summon Snowcones
-		case 8001:	// Summon Stickers
-		case 8002:	// Summon Sugar Sheets
-		case 8100:	// Summon Candy Hearts
-		case 8101:	// Summon Party Favor
-		case 8102:	// Summon Love Song
-		case 8103:	// Summon BRICKOs
-		case 8200:	// Summon Hilarious Objects
-		case 8201:	// Summon Tasteful Items
-		case 8202:	// Summon Alice's Army Cards
+		case SkillDatabase.SNOWCONE:	// Summon Snowcones
+		case SkillDatabase.STICKER:	// Summon Stickers
+		case SkillDatabase.SUGAR:	// Summon Sugar Sheets
+		case SkillDatabase.CANDY_HEART:	// Summon Candy Hearts
+		case SkillDatabase.PARTY_FAVOR:	// Summon Party Favor
+		case SkillDatabase.LOVE_SONG:	// Summon Love Song
+		case SkillDatabase.BRICKOS:	// Summon BRICKOs
+		case SkillDatabase.HILARIOUS:	// Summon Hilarious Objects
+		case SkillDatabase.TASTEFUL:	// Summon Tasteful Items
+		case SkillDatabase.CARDS:	// Summon Alice's Army Cards
 			// Bookshelf skills
 			return false;
 		}
@@ -827,15 +827,16 @@ public class SkillDatabase
 	{
 		switch ( SkillDatabase.getSkillId( skillName ) )
 		{
-		case 8000:	// Summon Snowcones
-		case 8001:	// Summon Stickers
-		case 8002:	// Summon Sugar Sheets
-		case 8100:	// Summon Candy Hearts
-		case 8101:	// Summon Party Favor
-		case 8102:	// Summon Love Song
-		case 8200:	// Summon Hilarious Objects
-		case 8201:	// Summon Tasteful Items
-		case 8202:	// Summon Alice's Army Cards
+		case SkillDatabase.SNOWCONE:	// Summon Snowcones
+		case SkillDatabase.STICKER:	// Summon Stickers
+		case SkillDatabase.SUGAR:	// Summon Sugar Sheets
+		case SkillDatabase.CANDY_HEART:	// Summon Candy Hearts
+		case SkillDatabase.PARTY_FAVOR:	// Summon Party Favor
+		case SkillDatabase.LOVE_SONG:	// Summon Love Song
+		case SkillDatabase.BRICKOS:	// Summon BRICKOs
+		case SkillDatabase.HILARIOUS:	// Summon Hilarious Objects
+		case SkillDatabase.TASTEFUL:	// Summon Tasteful Items
+		case SkillDatabase.CARDS:	// Summon Alice's Army Cards
 			return true;
 		}
 
