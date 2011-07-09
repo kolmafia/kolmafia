@@ -795,12 +795,12 @@ public class GenericRequest
 	public String getBasePath()
 	{
 		String path =  this.formURLString;
-		if ( path != null )
+		if ( path == null )
 		{
-			int quest = path.indexOf( "?" );
-			return quest != -1 ? path.substring( 0, quest ) : path;
+			return null;
 		}
-		return null;
+		int quest = path.indexOf( "?" );
+		return quest != -1 ? path.substring( 0, quest ) : path;
 	}
 
 	public String getHashField()
