@@ -85,9 +85,15 @@ public class EffectPool
 	public static final String INIGO = "Inigo's Incantation of Inspiration";
 	public static final String TRANSPONDENT = "Transpondent";
 
+	public static final int HARDLY_POISONED_AT_ALL_ID = 8;
 	public static final int GOOFBALL_WITHDRAWAL_ID = 111;
 	public static final int CURSED_BY_RNG_ID = 217;
 	public static final int EAU_DE_TORTUE_ID = 263;
+	public static final int MAJORLY_POISONED_ID = 264;
+	public static final int A_LITTLE_BIT_POISONED_ID = 282;
+	public static final int SOMEWHAT_POISONED_ID = 283;
+	public static final int REALLY_QUITE_POISONED_ID = 284;
+	public static final int TOAD_IN_THE_HOLE_ID = 436;
 	public static final int FORM_OF_BIRD_ID = 511;
 	public static final int COVERED_IN_SLIME_ID = 633;
 

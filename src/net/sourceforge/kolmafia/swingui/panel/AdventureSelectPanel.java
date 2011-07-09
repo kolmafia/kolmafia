@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
@@ -299,7 +300,13 @@ public class AdventureSelectPanel
 	}
 
 	public static final int[] POISON_ID = {
-		0, 436, 264, 284, 283, 282, 8
+		0,
+		EffectPool.TOAD_IN_THE_HOLE_ID,
+		EffectPool.MAJORLY_POISONED_ID,
+		EffectPool.REALLY_QUITE_POISONED_ID,
+		EffectPool.SOMEWHAT_POISONED_ID,
+		EffectPool.A_LITTLE_BIT_POISONED_ID,
+		EffectPool.HARDLY_POISONED_AT_ALL_ID
 	};
 
 	public static int getPoisonLevel( String text )

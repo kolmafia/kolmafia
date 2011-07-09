@@ -621,6 +621,7 @@ public class ItemPool
 	public static final int SPARKLER = 2679;
 	public static final int SNAKE = 2680;
 	public static final int M282 = 2681;
+	public static final int DETUNED_RADIO = 2682;
 	public static final int GIFTW = 2683;
 	public static final int MASSIVE_SITAR = 2693;
 	public static final int DUCT_TAPE = 2697;

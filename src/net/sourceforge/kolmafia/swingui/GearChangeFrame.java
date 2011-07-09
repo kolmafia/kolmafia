@@ -156,8 +156,7 @@ public class GearChangeFrame
 		if ( value instanceof AdventureResult )
 		{
 			name = ((AdventureResult) value).getName();
-			if ( isFamiliarItem &&
-				KoLCharacter.getFamiliar().getId() == FamiliarPool.HATRACK )
+			if ( isFamiliarItem && KoLCharacter.getFamiliar().getId() == FamiliarPool.HATRACK )
 			{
 				name = "FamItem:" + name;
 			}
