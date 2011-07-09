@@ -1002,7 +1002,7 @@ public class RelayRequest
 		message =
 			"You are trying to summon an infernal seal, but you are not wielding a club. You are either incredibly puissant or incredibly foolish. If you are sure you want to do this, click on the image and proceed to your doom.";
 
-		this.sendGeneralWarning( "iblubbercandle.gif", message );
+		this.sendGeneralWarning( "iblubbercandle.gif", message, "checked=1" );
 
 		return true;
 	}
@@ -1100,6 +1100,11 @@ public class RelayRequest
 
 	public void sendGeneralWarning( final String image, final String message )
 	{
+		this.sendGeneralWarning( image, message, null );
+	}
+
+	public void sendGeneralWarning( final String image, final String message, final String extra )
+	{
 		StringBuffer warning = new StringBuffer();
 
 		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"><script language=\"Javascript\" src=\"/basics.js\"></script></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>" );
@@ -1111,7 +1116,13 @@ public class RelayRequest
 			warning.append( "<center><a href=\"" );
 			warning.append( url );
 			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
-			warning.append( "confirm=on\"><img id=\"warningImage\" src=\"http://images.kingdomofloathing.com/itemimages/" );
+			warning.append( "confirm=on" );
+			if ( extra != null )
+			{
+				warning.append( "&" );
+				warning.append( extra );
+			}
+			warning.append( "\"><img id=\"warningImage\" src=\"http://images.kingdomofloathing.com/itemimages/" );
 			warning.append( image );
 			warning.append( "\" width=30 height=30></a><br></center>" );
 		}
