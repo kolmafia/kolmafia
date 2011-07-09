@@ -802,7 +802,7 @@ public class HolidayDatabase
 	 * Computes the difference in days based on the given millisecond counts since January 1, 1970.
 	 */
 
-	public static final int getCalendarDay( final Date time )
+	public static final long getDayDifference( final Date time )
 	{
 		long currentTime = time.getTime();
 		long timeDifference = currentTime - HolidayDatabase.NEWYEAR;
@@ -812,8 +812,18 @@ public class HolidayDatabase
 			timeDifference -= MS_PER_DAY;
 		}
 
-		int dayDifference = (int) Math.floor( timeDifference / MS_PER_DAY );
+		return timeDifference;
+	}
+
+	public static final int getCalendarDay( final Date time )
+	{
+		int dayDifference = (int) Math.floor( getDayDifference( time ) / MS_PER_DAY );
 		return ( dayDifference + 96 ) % 96;
+	}
+
+	public static final int getTimeDifference( final Date time )
+	{
+		return (int) Math.floor( getDayDifference( time ) % MS_PER_DAY );
 	}
 
 	/**
