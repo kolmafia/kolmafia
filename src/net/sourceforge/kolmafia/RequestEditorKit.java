@@ -418,11 +418,6 @@ public class RequestEditorKit
 		return buffer.toString();
 	}
 
-	private static final String NO_HERMIT_TEXT =
-		"<a href=\"hermit.php\">";
-	private static final String AUTO_HERMIT_TEXT =
-		"<a href=\"hermit.php?autopermit=on\">";
-
 	// You need a Hermit Permit, from the Market in Seaside Town, to trade
 	// with The Hermit. He's a crazy old coot, but he's a real stickler for
 	// regulations.
@@ -741,11 +736,6 @@ public class RequestEditorKit
 		else if ( location.startsWith( "mining.php" ) )
 		{
 			MineDecorator.decorate( location, buffer );
-		}
-		else if ( location.startsWith( "mountains.php" ) )
-		{
-			StringUtilities.singleStringReplace(
-				buffer, RequestEditorKit.NO_HERMIT_TEXT, RequestEditorKit.AUTO_HERMIT_TEXT );
 		}
 		else if ( location.startsWith( "multiuse.php" ) )
 		{
