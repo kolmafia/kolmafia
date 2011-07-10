@@ -1582,7 +1582,7 @@ blackberry combat boots	Muscle: +10, Maximum HP: +45, Weapon Damage: +5, Single 
 blackberry galoshes	Muscle: +7, Mysticality: +7, Moxie: +7, Single Equip
 blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Single Equip
 blackberry slippers	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +5, Single Equip
-blue glowstick	Maximum MP: +5, Moxie: -3
+blue glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 blue ribbon	Maximum HP: +5
 bone spurs	Monster Level: +20, Single Equip
@@ -1663,7 +1663,7 @@ glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
 gray bow tie	Moxie: +1, Spooky Resistance: +1
-green glowstick	Maximum MP: +5, Moxie: -3
+green glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 # groovy prism necklace: Deals a rainbow of damage to attackers
 groovy prism necklace	Single Equip
 grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
@@ -1718,7 +1718,7 @@ night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 observational glasses	Item Drop: +5
 # old soft shoes: +30% Item Drops from Hobos
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
-orange glowstick	Maximum MP: +5, Moxie: -3
+orange glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 orange leather lanyard	Weapon Damage: +15, Single Equip
 oven mitts	Hot Resistance: +2, Single Equip
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
@@ -1730,7 +1730,7 @@ patent leather shoes	Muscle: +1, Hot Resistance: +1
 peace-sign necklace	Damage Reduction: 3
 phat turquoise bracelet	Mysticality: +5
 pig-iron bracers	Mysticality: +8, Spell Damage: +10, Single Equip
-pink glowstick	Maximum MP: +5, Moxie: -3
+pink glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7
 plastic spider ring	Mysticality: +3, Single Equip
@@ -1745,7 +1745,7 @@ porquoise ring	Moxie: +5, Maximum HP: +5, Maximum MP: +5, HP Regen Min: 1, HP Re
 pulled porquoise earring	Moxie: +9, Never Fumble
 pulled porquoise pendant	Moxie: +10, Meat Drop: +15, Single Equip
 pulled porquoise ring	Moxie: +11, Maximum HP: +15, Maximum MP: +15, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Single Equip
-purple glowstick	Maximum MP: +5, Moxie: -3
+purple glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 pygmy nose-bone	Moxie: +7, Single Equip
 rainbow pearl earring	Muscle: +15, Mysticality: +15, Moxie: +15, Cold Resistance: +9, Hot Resistance: +9, Sleaze Resistance: +9, Spooky Resistance: +9, Stench Resistance: +9, Single Equip
 rainbow pearl necklace	Muscle: +15, Mysticality: +15, Moxie: +15, Spell Damage: +200, Single Equip
@@ -1976,7 +1976,7 @@ wrench bracelet	Muscle: +5, Weapon Damage: +9
 wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, Nonstackable Watch
 # x-ray specs
 ye olde golde frontes	Muscle: +15, Class: "Disco Bandit", Single Equip
-yellow glowstick	Maximum MP: +5, Moxie: -3
+yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 
 # Containers section of modifiers.txt
 
