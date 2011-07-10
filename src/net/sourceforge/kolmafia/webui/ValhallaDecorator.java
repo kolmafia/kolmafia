@@ -516,6 +516,11 @@ public class ValhallaDecorator
 			buffer.append( "<nobr>trade in barrels of gunpowder for big boom</nobr><br>" );
 		}
 
+		if ( Preferences.getInteger( "lastEasterEggBalloon" ) != KoLCharacter.getAscensions() )
+		{
+			buffer.append( "<nobr>get an easter egg balloon</nobr><br>" );
+		}
+
 		GenericRequest trophyCheck = new GenericRequest( "trophy.php" );
 		trophyCheck.run();
 		if ( trophyCheck.responseText.indexOf( "You're not currently entitled to any trophies" ) == -1 )
