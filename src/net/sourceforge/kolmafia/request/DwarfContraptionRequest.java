@@ -273,6 +273,16 @@ public class DwarfContraptionRequest
 			return;
 		}
 
+		if ( action.equals( "dorightpanel" ) )
+		{
+			if ( responseText.indexOf( "You feed the punchcard into the slot" ) != -1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.DWARVISH_PUNCHCARD, -1 ) );
+			}
+
+			return;
+		}
+
 		if ( action.startsWith( "doredbutton" ) )
 		{
 			if ( responseText.indexOf( "something falls into the bin" ) != -1 )
