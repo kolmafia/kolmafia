@@ -886,14 +886,15 @@ public abstract class UseLinkDecorator
 			useLocation = "starchart.php";
 			break;
 
-		// Worthless items get a link to the hermit.
+		// Worthless items and the hermit permit get a link to the hermit.
 
 		case ItemPool.WORTHLESS_TRINKET:
 		case ItemPool.WORTHLESS_GEWGAW:
 		case ItemPool.WORTHLESS_KNICK_KNACK:
+		case ItemPool.HERMIT_PERMIT:
 
 			useType = "hermit";
-			useLocation = "hermit.php?autopermit=on";
+			useLocation = "hermit.php";
 			break;
 
 		// The different kinds of ores will only have a link if they're

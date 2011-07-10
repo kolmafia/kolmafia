@@ -1,6 +1,6 @@
 2
 # Data provided courtesy of the Garden of Earthly Delights
-# The Well-Tempered Mixologist: http://www.feesher.com/mixology/export_data.php
+# The Well-Tempered Mixologist: http://mixology.bewarethefgc.com/export_data.php
 
 # Drink	Inebriety	Level Req	quality	Adv	Musc	Myst	Moxie
 

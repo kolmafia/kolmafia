@@ -1,6 +1,6 @@
 2
 # Data provided courtesy of the Garden of Earthly Delights
-# The Well-Tempered Epicure: http://www.feesher.com/epicure/export_data.php
+# The Well-Tempered Epicure: http://epicure.bewarethefgc.com/export_data.php
 
 # Food	Fullness	Level Req	quality	Adv	Musc	Myst	Moxie
 
