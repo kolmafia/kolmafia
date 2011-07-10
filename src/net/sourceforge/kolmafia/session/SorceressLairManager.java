@@ -2387,24 +2387,15 @@ public abstract class SorceressLairManager
 		{
 			// We have either a complete telescope or we are only
 			// missing the last upgrade.
-			startGetting = SorceressLairManager.GUARDIAN_DATA.length;
-			if ( upgrades == 6 )
-			{
-				// Missing last upgrade. Look at shore items.
-				startGetting -= 3;
-			}
+			startGetting = SorceressLairManager.GUARDIAN_DATA.length - ( upgrades == 6 ? 3 : 0 );
 
 			// Make sure we've looked through our telescope since
 			// we last ascended.
 			KoLCharacter.checkTelescope();
 
-			// The last tower guardian is special and always needs
-			// an item from the shore which cannot be created, so
-			// just don't think about it.
-			//
-			// Look at the guardians for floors 1 through 5 in turn.
-			// They will be stored in telescope2 through telescope6
-			for ( int i = 1; i <= 5; ++i )
+			// Look at the guardians for floors 1 through 6 in turn.
+			// They will be stored in telescope2 through telescope7
+			for ( int i = 1; i < upgrades; ++i )
 			{
 				String prop = Preferences.getString( "telescope" + ( i + 1 ) );
 				String[] desc = SorceressLairManager.findGuardianByDescription( prop );
