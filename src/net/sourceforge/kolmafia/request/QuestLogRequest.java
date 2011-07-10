@@ -148,7 +148,11 @@ public class QuestLogRequest
 
 	public Object run()
 	{
-		this.addFormField( "which", "1" );
+		// When KoL provides a link to the Quest log, it goes to the
+		// section you visited last. Therefore, visit all sections but
+		// end with page 1.
+
+		this.addFormField( "which", "3" );
 		super.run();
 
 		if ( this.responseText != null )
@@ -164,7 +168,7 @@ public class QuestLogRequest
 			QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
 		}
 
-		this.addFormField( "which", "3" );
+		this.addFormField( "which", "1" );
 		super.run();
 
 		if ( this.responseText != null )
