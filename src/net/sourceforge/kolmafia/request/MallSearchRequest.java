@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -262,31 +263,42 @@ public class MallSearchRequest
 		// known not to be tradeable to see if there's an exact match.
 
 		Iterator itemIterator = itemNames.iterator();
+		boolean canInteract = KoLCharacter.canInteract();
 		int npcItemCount = 0;
+		int untradeableCount = 0;
 
 		while ( itemIterator.hasNext() )
 		{
 			String itemName = (String) itemIterator.next();
 			int itemId = ItemDatabase.getItemId( itemName );
+			boolean untradeable = !ItemDatabase.isTradeable( itemId );
 
-			if ( !ItemDatabase.isTradeable( itemId ) )
+			if ( NPCStoreDatabase.contains( itemName ) ||
+			     CoinmastersDatabase.contains( itemName ) )
 			{
-				if ( NPCStoreDatabase.contains( itemName ) ||
-				     CoinmastersDatabase.contains( itemName ) )
+				npcItemCount++;
+				if ( untradeable )
 				{
-					npcItemCount++;
-				}
-				else
-				{
-					itemIterator.remove();
+					untradeableCount++;
 				}
 			}
+			else if ( untradeable )
+			{
+				itemIterator.remove();
+			}
+		}
+		
+		int count = itemNames.size();
+		if ( count == 0 )
+		{
+			return false;
 		}
 
-		// If the results contain only untradeable NPC items, then you
-		// don't need to run a mall search.
+		// If the results contain only untradeable NPC items, or only
+		// NPC items, period, and you can't interact, then you don't
+		// need to run a mall search.
 
-		if ( npcItemCount > 0 && npcItemCount == itemNames.size() )
+		if ( count == untradeableCount || ( !canInteract && count == npcItemCount ) )
 		{
 			this.finalizeList( itemNames );
 			return false;
