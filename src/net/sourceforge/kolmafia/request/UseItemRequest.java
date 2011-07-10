@@ -227,6 +227,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_HOBO:
 		case KoLConstants.CONSUME_GHOST:
 		case KoLConstants.CONSUME_SLIME:
+		case KoLConstants.CONSUME_MIMIC:
 			return true;
 		}
 		return false;
@@ -916,8 +917,7 @@ public class UseItemRequest
 			if ( itemId == ItemPool.YUMMY_TUMMY_BEAN )
 			{	// If not divisible by 20, make the first iteration short
 				iterations = (origCount + 19) / 20;
-				this.itemUsed = this.itemUsed.getInstance(
-					(origCount + 19) % 20 + 1 );
+				this.itemUsed = this.itemUsed.getInstance( (origCount + 19) % 20 + 1 );
 			}
 			else switch ( this.consumptionType )
 			{
@@ -1366,6 +1366,16 @@ public class UseItemRequest
 			useTypeAsString = "Feeding slimeling with";
 			break;
 
+		case KoLConstants.CONSUME_MIMIC:
+			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.STOCKING_MIMIC )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Stocking Mimic equipped" );
+				return;
+			}
+			this.addFormField( "action", "candy" );
+			useTypeAsString = "Feeding stocking mimic with";
+			break;
+
 		case KoLConstants.CONSUME_EAT:
 			this.addFormField( "which", "1" );
 			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
@@ -1525,11 +1535,40 @@ public class UseItemRequest
 			return true;
 		}
 
+		// [familiar name] approaches the [item] but doesn't seem interested.
+		if ( responseText.indexOf( "doesn't seem interested" ) != -1 )
+		{
+			return true;
+		}
+
 		// <name> takes the <candy> and quickly consumes them. He
 		// grows a bit.
 		if ( responseText.indexOf( "He grows a bit" ) != -1 )
 		{
 			KoLCharacter.getFamiliar().addExperience( item.getCount() );
+		}
+
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		int id = familiar.getId();
+
+		// Estimate Slimeling charges
+		if ( id == FamiliarPool.SLIMELING )
+		{
+			int count = item.getCount();
+			int itemId = item.getItemId();
+			String name = item.getName();
+
+			if ( itemId == ItemPool.GNOLLISH_AUTOPLUNGER ||
+			     ConcoctionDatabase.meatStackCreation( name ) != null )
+			{
+				Preferences.increment( "slimelingStacksDue", count );
+			}
+			else
+			{
+				// round down for now, since we don't know how this really works
+				float charges = count * EquipmentDatabase.getPower( itemId ) / 10.0F;
+				Preferences.setFloat( "slimelingFullness", Preferences.getFloat( "slimelingFullness" ) + charges );
+			}
 		}
 
 		ResultProcessor.processResult( item.getNegation() );
@@ -4163,11 +4202,12 @@ public class UseItemRequest
 	{
 		if ( !urlString.startsWith( "inv_eat.php" ) &&
 		     !urlString.startsWith( "inv_booze.php" ) &&
+		     !urlString.startsWith( "inv_use.php" ) &&
 		     !urlString.startsWith( "multiuse.php" ) &&
 		     !urlString.startsWith( "inv_familiar.php" ) &&
-		     !urlString.startsWith( "inv_use.php" ) &&
 		     !(urlString.startsWith( "inventory.php" ) &&
-		       urlString.indexOf( "action=breakbricko" ) != -1) )
+		       urlString.indexOf( "action=breakbricko" ) == -1 &&
+		       urlString.indexOf( "action=candy" ) == -1 ) )
 		{
 			return null;
 		}
@@ -4262,7 +4302,10 @@ public class UseItemRequest
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		int id = familiar.getId();
 
-		if ( id != FamiliarPool.HOBO && id != FamiliarPool.GHOST && id != FamiliarPool.SLIMELING )
+		if ( id != FamiliarPool.HOBO &&
+		     id != FamiliarPool.GHOST &&
+		     id != FamiliarPool.SLIMELING &&
+		     id != FamiliarPool.STOCKING_MIMIC )
 		{
 			return false;
 		}
@@ -4272,21 +4315,17 @@ public class UseItemRequest
 		String name = item.getName();
 		String useString = "feed " + count + " " + name + " to " + familiar.getRace();
 
-		// Estimate Slimeling charges
 		if ( id == FamiliarPool.SLIMELING )
 		{
 			if ( itemId == ItemPool.GNOLLISH_AUTOPLUNGER ||
 			     ConcoctionDatabase.meatStackCreation( name ) != null )
 			{
-				Preferences.increment( "slimelingStacksDue", count );
 				useString += " (" + count + " more slime stack(s) due)";
 			}
 			else
 			{
-				// round down for now, since we don't know how
-				// this really works
+				// round down for now, since we don't know how this really works
 				float charges = item.getCount() * EquipmentDatabase.getPower( itemId ) / 10.0F;
-				Preferences.setFloat( "slimelingFullness", Preferences.getFloat( "slimelingFullness" ) + charges );
 				useString += " (estimated " + charges + " charges)";
 			}
 		}
