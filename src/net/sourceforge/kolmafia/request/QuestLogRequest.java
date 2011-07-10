@@ -32,6 +32,7 @@
  */
 
 package net.sourceforge.kolmafia.request;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class QuestLogRequest
 	extends GenericRequest
@@ -55,6 +56,8 @@ public class QuestLogRequest
 		"You have proven yourself literate.";
 	private static final String DUNGEONS_OF_DOOM =
 		"You have discovered the secret of the Dungeons of Doom.";
+	private static final String HAX0R =
+		"You have summoned the UB3r 31337 HaX0R";
 		
 	private static String started = "";
 	private static String finished = "";
@@ -226,6 +229,7 @@ public class QuestLogRequest
 
 			QuestLogRequest.chatAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.ALTAR_OF_LITERACY ) != -1;
 			QuestLogRequest.dungeonOfDoomAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.DUNGEONS_OF_DOOM ) != -1;
+			Preferences.setBoolean( "hermitHax0red", QuestLogRequest.other.indexOf( QuestLogRequest.HAX0R ) != -1 );
 		}
 	}
 }
