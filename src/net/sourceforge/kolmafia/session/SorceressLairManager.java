@@ -2566,8 +2566,26 @@ public abstract class SorceressLairManager
 	 * Methods to inspect externally visited lair pages
 	 */
 
+	public static final void parseEntrywayResponse( final String urlString, final String responseText )
+	{
+		// lair2.php?preaction=key&whichkey=xxx
+		if ( urlString.indexOf( "preaction=key" ) != -1 )
+		{
+			// Unexplained Jamaican Man says: "Don't get greedy,
+			// mon. One balloon should be enough for anybody."
+			if ( responseText.indexOf( "easter egg balloon" ) != -1 ||
+			     responseText.indexOf( "One balloon should be enough" ) != -1 )
+			{
+				Preferences.setInteger( "lastEasterEggBalloon", KoLCharacter.getAscensions() );
+			}
+			SorceressLairManager.setDoorCode( responseText );
+			return;
+		}
+	}
+
 	public static final void parseChamberResponse( final String urlString, final String responseText )
 	{
+		// lair6.php
 		if ( urlString.indexOf( "preaction=lightdoor" ) != -1 )
 		{
 			SorceressLairManager.setDoorCode( responseText );
