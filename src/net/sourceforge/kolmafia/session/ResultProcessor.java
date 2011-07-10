@@ -112,6 +112,7 @@ public class ResultProcessor
 			formURLString.startsWith( "choice.php" ) ||
 			formURLString.startsWith( "hermit.php" ) ||
 			formURLString.startsWith( "mallstore.php" ) ||
+			formURLString.startsWith( "town_fleamarket.php" ) ||
 			formURLString.startsWith( "barrel.php" ) ||
 			formURLString.startsWith( "shore.php" ) ||
 			// Marmot sign can give you a clover after a fight
