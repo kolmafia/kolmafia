@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.preferences;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -73,13 +74,21 @@ public class PreferenceListenerRegistry
 
 	public static final void fireAllPreferencesChanged()
 	{
-		HashSet notified = new HashSet();
-
-		Iterator i = PreferenceListenerRegistry.listenerMap.values().iterator();
-
-		while ( i.hasNext() )
+		try
 		{
-			fireListeners( (ArrayList) i.next(), notified );
+			HashSet notified = new HashSet();
+
+			Iterator i = PreferenceListenerRegistry.listenerMap.values().iterator();
+
+			while ( i.hasNext() )
+			{
+				fireListeners( (ArrayList) i.next(), notified );
+			}
+		}
+		//Instead of requiring synchronous operation, optimistically handle concurrency
+		catch ( ConcurrentModificationException e )
+		{
+			fireAllPreferencesChanged();
 		}
 	}
 

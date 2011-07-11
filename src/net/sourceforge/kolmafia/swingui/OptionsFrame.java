@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import com.informit.guides.JDnDList;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -52,6 +51,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -59,19 +59,25 @@ import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
+import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
@@ -80,7 +86,10 @@ import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
+
 import tab.CloseTabPaneEnhancedUI;
+
+import com.informit.guides.JDnDList;
 
 public class OptionsFrame
 	extends GenericFrame
@@ -112,6 +121,13 @@ public class OptionsFrame
 		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
 
 		this.addTab( "Breakfast", breakfastPanel );
+
+		JPanel customDeedPanel = new JPanel();
+		customDeedPanel.setLayout( new BoxLayout( customDeedPanel, BoxLayout.Y_AXIS ) );
+		customDeedPanel.add( new CustomizeDailyDeedsPanel( "Message" ) );
+		customDeedPanel.add( new CustomizeDailyDeedsPanel( ) );
+
+		this.addTab(  "Daily Deeds" , customDeedPanel );
 
 		JPanel addonPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
 		addonPanel.add( new ScriptButtonPanel() );
@@ -1066,6 +1082,305 @@ public class OptionsFrame
 
 			Preferences.setString( "initialFrames", frameString.toString() );
 			Preferences.setString( "initialDesktop", desktopString.toString() );
+		}
+	}
+
+	private class DeedsButtonPanel
+		extends ScrollablePanel
+		implements ListDataListener
+	{
+		public LockableListModel customList;
+
+		public DeedsButtonPanel( final String title, final LockableListModel builtIns,
+				final LockableListModel list )
+		{
+			super( title, "add custom", "reset deeds", new JDnDList( builtIns ) );
+
+			this.customList = list;
+			this.buttonPanel.add( new HelpButton(), BorderLayout.CENTER );
+		}
+
+		public final void actionConfirmed()
+		{
+			if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
+			{
+				InputFieldUtilities.alert( "You must be logged in to use the custom deed builder." );
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(
+					JOptionPane.getFrameForComponent( new AddCustomDeedsPanel() ),
+					AddCustomDeedsPanel.selectorPanel, "Building Custom Deed",
+					JOptionPane.PLAIN_MESSAGE );
+			}
+		}
+
+		public final void actionCancelled()
+		{
+			boolean reset = InputFieldUtilities
+				.confirm( "This will reset your deeds to the default settings.\nAre you sure?" );
+			if ( reset )
+			{
+				Preferences.resetToDefault( "dailyDeedsOptions" );
+			}
+		}
+
+		public void intervalAdded( final ListDataEvent e )
+		{
+			this.saveSettings();
+		}
+
+		public void intervalRemoved( final ListDataEvent e )
+		{
+			this.saveSettings();
+		}
+
+		public void contentsChanged( final ListDataEvent e )
+		{
+			this.saveSettings();
+		}
+
+		private class HelpButton
+			extends ThreadedButton
+		{
+			public HelpButton()
+			{
+				super( "Help" );
+			}
+
+			public void run()
+			{
+				String message = "<html><table width=800><tr><td>All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
+					+ "<h3><b>Custom Deeds</b></h3>"
+					+ "Custom deeds provide the user with a way of adding buttons or text to their daily deeds panel that is not natively provided for.  All deeds start with the keyword <b>$CUSTOM</b> followed by a pipe (|) symbol.  As you are constructing a custom deed, you separate the different arguments with pipes.<br>"
+					+ "<br>"
+					+ "All deed types except for Text require a preference to track.  If you want to add a button that is always enabled, you will have to create a dummy preference that is always false.<br>"
+					+ "<br>"
+					+ "There are currently 5 different types of custom deeds.  Remember that all of these \"acceptable forms\" are prefaced by $CUSTOM|.<br>"
+					+ "<br>"
+					+ "<b>BooleanPref</b> - one-a-day deed<br>"
+					+ "acceptable forms:<br>BooleanPref|displayText|preference<br>"
+					+ "BooleanPref|displayText|preference|command<br><br>"
+					+ "displayText - the text that will be displayed on the button<br>"
+					+ "preference - the <u>boolean</u> preference to track.  The button will be enabled when the preference is false, and disabled when the preference is true.<br>"
+					+ "command (optional) - the command to execute.  If not specified, will default to displayText.<br>"
+					+ "<br>"
+					+ "<b>MultiPref</b> - <i>n</i>-times-a-day deed<br>"
+					+ "acceptable forms:<br>"
+					+ "BooleanPref|displayText|preference|command|maxUses<br><br>"
+					+ "preference - the <u>integer</u> preference to track.  The button will be enabled when preference &lt; maxUses.<br>"
+					+ "maxUses - an arbitrary integer.  Specifies a threshold to disable the button at.  A counter in the form of &lt;preference&gt;/&lt;maxUses&gt; will be displayed to the right of the button.<br>"
+					+ "<br>"
+					+ "<b>BooleanItem</b> - this button will use fuzzy matching to find the name of the item specified.  Will execute \"use &lt;itemName&gt;\" when clicked.  Will only be visible when you possess one or more of the item.<br>"
+					+ "acceptable forms:<br>"
+					+ "BooleanItem|displayText|preference<br>"
+					+ "BooleanItem|displayText|preference|itemName<br>"
+					+ "<br>"
+					+ "itemName - the name of the item that will be used.  If not specified, will default to displayText.<br>"
+					+ "<br>"
+					+ "<b>Skill</b> - cast a skill that is tracked by a boolean or int preference.  Will execute \"cast &lt;skillName&gt;\" when clicked.  <br>"
+					+ "acceptable forms:<br>"
+					+ "Skill|displayText|preference<br>"
+					+ "Skill|displayText|preference|skillName<br>"
+					+ "Skill|displayText|preference|skillName|maxCasts<br>"
+					+ "<br>"
+					+ "preference - a <u>boolean</u> preference if the 3- or 4-argument version is used, or an <u>integer</u> preference if the 5-argument version is used.<br>"
+					+ "skillName- the name of the skill that will be cast.  If not specified, will default to displayText.  Must be specified if maxCasts are specified.<br>"
+					+ "maxCasts - an arbitrary integer.  Specifies a threshold to disable the button at.  A counter in the form of &lt;preference&gt;/&lt;maxCasts&gt; will be displayed to the right of the button.<br>"
+					+ "<br>"
+					+ "<b>Text</b><br>"
+					+ "acceptable forms:<br>"
+					+ "Text|pretty much anything.<br>"
+					+ "<br>"
+					+ "You can supply as many arguments as you want to a Text deed.  Any argument that uniquely matches a preference will be replaced by that preference's value.  If you want to use a comma in your text, immediately follow the comma with a pipe character so it will not be parsed as the end of the Text deed.</td></tr></table></html>";
+
+				JOptionPane.showMessageDialog( new JPanel(), message, "Custom Deeds Help",
+					JOptionPane.PLAIN_MESSAGE );
+			}
+		}
+
+		public void saveSettings()
+		{
+
+		}
+	}
+
+	protected class CustomizeDailyDeedsPanel
+		extends GenericPanel
+		implements ListDataListener, PreferenceListener
+	{
+		private boolean isRefreshing = false;
+
+		private LockableListModel builtInsList = new LockableListModel();
+		private LockableListModel deedsList = new LockableListModel();
+		private LockableListModel customList = new LockableListModel();
+
+		public CustomizeDailyDeedsPanel()
+		{
+			super( new Dimension( 2, 2 ), new Dimension( 2, 2 ) );
+			this.setContent( null );
+
+			JPanel botPanel = new JPanel( new GridLayout( 1, 0, 10, 0 ) );
+			JPanel centerPanel = new JPanel( new GridLayout( 1, 2, 0, 0 ) );
+
+			String[] customs =
+			{
+				"Boolean Pref", "Multi Pref", "Boolean Item", "Skill", "Text"
+			};
+
+			for ( int i = 0; i < DailyDeedsPanel.BUILTIN_DEEDS.length; ++i )
+			{
+				this.builtInsList.add( DailyDeedsPanel.BUILTIN_DEEDS[ i ][ 1 ] );
+			}
+
+			for ( int i = 0; i < customs.length; ++i )
+			{
+				this.customList.add( customs[ i ] );
+			}
+
+			centerPanel.add( new DeedsButtonPanel( "Built-In Deeds", this.builtInsList, this.customList ) );
+			botPanel.add( new ScrollablePanel( "Current Deeds", new JDnDList( this.deedsList ) ) );
+
+			this.container.add( centerPanel, BorderLayout.PAGE_START );
+			this.container.add( botPanel, BorderLayout.PAGE_END );
+			this.actionCancelled();
+
+			this.builtInsList.addListDataListener( this );
+			this.deedsList.addListDataListener( this );
+			PreferenceListenerRegistry.registerListener( "dailyDeedsOptions", this );
+		}
+
+		public CustomizeDailyDeedsPanel( String string )
+		{
+			super( new Dimension( 2, 2 ), new Dimension( 2, 2 ) );
+			this.setContent( null );
+
+			JTextArea message = new JTextArea(
+				"Edit the appearance of your daily deeds panel.\n\n"
+				+ "Drag built-in deeds into the 'Current Deeds' box down below to include, "
+				+ "and delete them from there to exclude.  Drag and drop to rearrange. "
+				+ "Note that some deeds added to the 'Current Deeds' box may still remain hidden "
+				+ "once you add them depending on whether you posess certain "
+				+ "items, skills, and/or access to zones." );
+
+			message.setColumns( 40 );
+			message.setLineWrap( true );
+			message.setWrapStyleWord( true );
+			message.setEditable( false );
+			message.setOpaque( false );
+			message.setFont( KoLConstants.DEFAULT_FONT );
+
+			this.container.add( message, BorderLayout.NORTH );
+		}
+
+		public void actionConfirmed()
+		{
+			this.actionCancelled();
+		}
+
+		public void actionCancelled()
+		{
+			this.isRefreshing = true;
+			String deedsString = Preferences.getString( "dailyDeedsOptions" );
+			String[] pieces;
+
+			pieces = deedsString.split( ",(?!\\|)" );
+
+			this.deedsList.clear();
+
+			KoLmafiaGUI.checkFrameSettings();
+
+			for ( int i = 0; i < pieces.length; ++i )
+			{
+				for ( int j = 0; j < DailyDeedsPanel.BUILTIN_DEEDS.length; ++j )
+				{
+					if ( !this.deedsList.contains( DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] )
+							&& DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ].equals( pieces[ i ] ) )
+					{
+						this.deedsList.add( DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] );
+					}
+				}
+				if ( pieces[ i ].split( "\\|" )[ 0 ].equals( "$CUSTOM" ) )
+				{
+					this.deedsList.add( pieces[ i ] );
+				}
+			}
+
+			this.isRefreshing = false;
+			this.saveLayoutSettings();
+		}
+
+		public boolean shouldAddStatusLabel( final VerifiableElement[] elements )
+		{
+			return false;
+		}
+
+		public void setEnabled( final boolean isEnabled )
+		{
+		}
+
+		public void intervalAdded( final ListDataEvent e )
+		{
+			Object src = e.getSource();
+
+			if ( src == this.builtInsList )
+			{
+				Object item = this.builtInsList.get( e.getIndex0() );
+
+				this.deedsList.remove( item );
+			}
+
+			this.saveLayoutSettings();
+		}
+
+		public void intervalRemoved( final ListDataEvent e )
+		{
+			this.saveLayoutSettings();
+		}
+
+		public void contentsChanged( final ListDataEvent e )
+		{
+		}
+
+		public void saveLayoutSettings()
+		{
+			if ( this.isRefreshing )
+			{
+				return;
+			}
+
+			StringBuffer frameString = new StringBuffer();
+
+			for ( int i = 0; i < this.deedsList.getSize(); ++i )
+			{
+				for ( int j = 0; j < DailyDeedsPanel.BUILTIN_DEEDS.length; ++j )
+				{
+					if ( this.deedsList.getElementAt( i ).equals(
+							DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] ) )
+					{
+						if ( frameString.length() != 0 )
+						{
+							frameString.append( "," );
+						}
+						frameString.append( DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] );
+					}
+				}
+				if ( this.deedsList.getElementAt( i ).toString().split( "\\|" )[ 0 ].equals( "$CUSTOM" ) )
+				{
+					if ( frameString.length() != 0 )
+					{
+						frameString.append( "," );
+					}
+					frameString.append( this.deedsList.getElementAt( i ) );
+				}
+			}
+
+			Preferences.setString( "dailyDeedsOptions", frameString.toString() );
+		}
+
+		public void update()
+		{
+			this.actionCancelled();
 		}
 	}
 
