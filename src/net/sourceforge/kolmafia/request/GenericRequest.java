@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatMessage;
@@ -1060,12 +1061,16 @@ public class GenericRequest
 				InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM, false );
 			}
 
-			// If he wants us to automatically get a hermit permit,
-			// if needed, do it.
+			// If he wants us to automatically get a hermit permit, if needed, do it.
+			// If he happens to have a hermit script, use it and obviate permits
 			if ( location.indexOf( "autopermit=on" ) != -1 )
 			{
 				HermitRequest.ensureUpdatedHermit();
-				if ( !Preferences.getBoolean( "hermitHax0red" ) )
+				if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
+				{
+					RequestThread.postRequest( new UseItemRequest( HermitRequest.HACK_SCROLL ) );
+				}
+				else if ( !Preferences.getBoolean( "hermitHax0red" ) )
 				{
 					InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT, false );
 				}

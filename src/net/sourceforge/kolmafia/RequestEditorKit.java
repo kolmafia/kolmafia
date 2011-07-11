@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
@@ -421,16 +422,20 @@ public class RequestEditorKit
 	// You need a Hermit Permit, from the Market in Seaside Town, to trade
 	// with The Hermit. He's a crazy old coot, but he's a real stickler for
 	// regulations.
-	private static final String NO_PERMIT_TEXT =
+	private static final String NO_PERMIT_TEXT1 =
 		"he's a real stickler for regulations.";
-	private static final String BUY_PERMIT_TEXT =
-		RequestEditorKit.NO_PERMIT_TEXT + "[<a href=\"hermit.php?autopermit=on\">buy a Hermit Permit</a>]";
+	private static final String BUY_PERMIT_TEXT1A =
+		RequestEditorKit.NO_PERMIT_TEXT1 + "[<a href=\"hermit.php?autopermit=on\">buy a hermit permit</a>]";
+	private static final String BUY_PERMIT_TEXT1B =
+		RequestEditorKit.NO_PERMIT_TEXT1 + "[<a href=\"hermit.php?autopermit=on\">use your hermit script</a>]";
 
 	// The Hermit sees that you're out of Permits, so he sends you packing.
 	private static final String NO_PERMIT_TEXT2 =
 		"sees that you're out of Permits, so he sends you packing.";
-	private static final String BUY_PERMIT_TEXT2 =
-		RequestEditorKit.NO_PERMIT_TEXT2 + "[<a href=\"hermit.php?autopermit=on\">buy a Hermit Permit</a>]";
+	private static final String BUY_PERMIT_TEXT2A =
+		RequestEditorKit.NO_PERMIT_TEXT2 + "[<a href=\"hermit.php?autopermit=on\">buy a hermit permit</a>]";
+	private static final String BUY_PERMIT_TEXT2B =
+		RequestEditorKit.NO_PERMIT_TEXT2 + "[<a href=\"hermit.php?autopermit=on\">use youor hermit permit</a>]";
 
 	// The Hermit rummages through your sack, and with a disappointed look
 	// on his face, he sends you packing.
@@ -674,8 +679,16 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
-			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
-			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT2, RequestEditorKit.BUY_PERMIT_TEXT2 );
+			if ( !InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
+			{
+				StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT1, RequestEditorKit.BUY_PERMIT_TEXT1A );
+				StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT2, RequestEditorKit.BUY_PERMIT_TEXT2A );
+			}
+			else
+			{
+				StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT1, RequestEditorKit.BUY_PERMIT_TEXT1B );
+				StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT2, RequestEditorKit.BUY_PERMIT_TEXT2B );
+			}
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_WORTHLESS_ITEM_TEXT, RequestEditorKit.BUY_WORTHLESS_ITEM_TEXT );
 		}
 		else if ( location.startsWith( "hiddencity.php" ) )
