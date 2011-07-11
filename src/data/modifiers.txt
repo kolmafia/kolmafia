@@ -3660,7 +3660,7 @@ love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
 lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 mafia aria	Effect: "Macho Profundo", Effect Duration: 5
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
-milk of magnesium	Effect: "Got Milk", Effect Duration: [R]
+milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 motivational poster	Effect: "Loco Motives", Effect Duration: 10
 natto marble soda	Effect: "Ninja, Please", Effect Duration: 15

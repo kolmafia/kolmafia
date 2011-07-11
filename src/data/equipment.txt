@@ -1084,7 +1084,7 @@ giant stuffed bugbear	10	none
 glass gnoll eye	35	Mys: 2
 glow-in-the-dark stuffed burrowgrub	0	none
 glowing esca	200	Mys: 85
-glowstick on a string	0	Mox: 60
+glowstick on a string	150	Mox: 60
 gnauga hide buckler	90	Mus: 30	shield
 golden sausage	0	none
 green balloon	10	none
@@ -1427,7 +1427,7 @@ bottlecap turtle	55	Mys: 12
 boxing glove	45	Mys: 7
 brazen bracelet	160	Mus: 65
 brown plastic baby	20	none
-candy necklace	0	Mox: 60
+candy necklace	150	Mox: 60
 cannonball charrrm bracelet	190	Mys: 80
 cement sandals	50	Mus: 10
 cement shoes	0	Mys: 35
@@ -1545,7 +1545,7 @@ old soft shoes	200	Mys: 200
 orange glowstick	20	none
 orange leather lanyard	30	none
 oven mitts	45	Mys: 7
-pacifier necklace	0	Mox: 60
+pacifier necklace	150	Mox: 60
 paperclip cape	50	none
 paperclip-on tie	50	none
 pat-a-cake pendant	10	none
@@ -1645,7 +1645,7 @@ stuffed walrus	10	none
 support cummerbund	100	Mys: 35
 tap shoes	90	Mys: 30
 tarrrnished charrrm bracelet	150	Mys: 60
-teddybear backpack	0	Mox: 60
+teddybear backpack	150	Mox: 60
 teflon swim fins	200	Mus: 85
 tin star	60	Mys: 15
 tiny plastic 11 Dealer	0	none
