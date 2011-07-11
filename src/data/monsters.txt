@@ -785,7 +785,7 @@ The Bush	HP: 150 Def: 156 Atk: 156 E: sleaze	star (30)	star (30)	star (30)
 The Camel's Toe	HP: 150 Def: 158 Atk: 158 E: sleaze	line (30)	line (30)	star (30)	star (30)
 The Clownlord Beelzebozo	HP: 40 Def: 27 Atk: 28	empty greasepaint tube (b0)
 The Darkness	HP: 100000 Def: 100000 Atk: 100000
-The Demon Spirit of New Wave	HP: 500 Def: 200 Atk: [MOX-4] Init: 100 Phys: 40
+The Demon of New Wave	HP: 500 Def: 200 Atk: [MOX-4] Init: 100 Phys: 40
 The Family Jewels	HP: 150 Def: 156 Atk: 156 E: sleaze	star (30)	star (30)	star (30)
 The Fickle Finger of F8	HP: 100000 Def: 100000 Atk: 100000
 The Flange	HP: 150 Def: 159 Atk: 159 E: sleaze	line (30)	line (30)	star (30)
