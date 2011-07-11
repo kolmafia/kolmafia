@@ -157,7 +157,8 @@ public class Operator
 		return type.equals( DataTypes.TYPE_STRING ) ||
 		       type.equals( DataTypes.TYPE_BUFFER ) ||
 		       type.equals( DataTypes.TYPE_LOCATION ) ||
-		       type.equals( DataTypes.TYPE_MONSTER );
+		       type.equals( DataTypes.TYPE_MONSTER ) ||
+		       type.equals( DataTypes.TYPE_COINMASTER );
 	}
 
 	public boolean isArithmetic()
