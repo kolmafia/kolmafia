@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -87,7 +86,6 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
@@ -847,6 +845,8 @@ public abstract class KoLmafia
 			KoLmafia.updateDisplay( "Some data has been collected that may be of interest " +
 				"to others.  Please type `spade' to examine and submit or delete this data." );
 		}
+		// rebuild Scripts menu if needed
+		GenericFrame.compileScripts();
 	}
 
 	public static final void resetCounters()
