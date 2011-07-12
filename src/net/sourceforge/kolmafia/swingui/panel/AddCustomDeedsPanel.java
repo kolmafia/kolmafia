@@ -1423,7 +1423,7 @@ public class AddCustomDeedsPanel
 			String skill = getField( SKILL_FIELD_3 ).getText();
 			String maxCasts = getField( SKILL_FIELD_4 ).getText();
 
-			String deed = "$CUSTOM|BooleanItem|" + display + "|" + pref;
+			String deed = "$CUSTOM|Skill|" + display + "|" + pref;
 
 			if ( !skill.equals( "" ) )
 			{
