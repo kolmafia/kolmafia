@@ -252,10 +252,11 @@ public class MallSearchRequest
 	{
 		this.results.clear();
 
-		if ( this.searchString.startsWith( "\"" ) && this.searchString.endsWith( "\"" ) )
-		{
-			return true;
-		}
+		boolean exact = this.searchString.startsWith( "\"" ) && this.searchString.endsWith( "\"" );
+
+		// If the search string is enclosed in "", the Item Matcher
+		// will look for an exact match. Otherwise, it will do fuzzy
+		// matching.
 
 		List itemNames = ItemDatabase.getMatchingNames( this.searchString );
 
@@ -289,9 +290,12 @@ public class MallSearchRequest
 		}
 		
 		int count = itemNames.size();
+
 		if ( count == 0 )
 		{
-			return false;
+			// Assume the user knows what they want and allow an
+			// unknown search for an exact match;
+			return exact;
 		}
 
 		// If the results contain only untradeable NPC items, or only
@@ -304,12 +308,15 @@ public class MallSearchRequest
 			return false;
 		}
 
-		// If there is only one applicable match, then make sure you
-		// search for the exact item (may be a fuzzy matched item).
+		// If there is only one applicable match, then search for the
+		// exact item (may be a fuzzy matched item).
 
-		if ( itemNames.size() == 1 )
+		if ( count == 1 )
 		{
-			this.searchString = MallSearchRequest.getSearchString( (String) itemNames.get( 0 ) );
+			if ( !exact )
+			{
+				this.searchString = "\"" + MallSearchRequest.getSearchString( (String) itemNames.get( 0 ) ) + "\"";
+			}
 			this.addFormField( "pudnuggler", this.searchString );
 		}
 
@@ -464,10 +471,10 @@ public class MallSearchRequest
 	{
 		if ( NPCStoreDatabase.contains( itemName, false ) )
 		{
-			PurchaseRequest npcitem = NPCStoreDatabase.getPurchaseRequest( itemName );
-			if ( !this.results.contains( npcitem ) )
+			PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
+			if ( !this.results.contains( item ) )
 			{
-				this.results.add( npcitem );
+				this.results.add( item );
 			}
 		}
 	}
