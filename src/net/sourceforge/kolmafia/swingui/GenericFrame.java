@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMenu;
+import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -677,9 +678,16 @@ public abstract class GenericFrame
 	{
 		KoLConstants.scripts.clear();
 
-		// Get the list of files in the current directory
-
-		File[] scriptList = DataUtilities.listFiles( KoLConstants.SCRIPT_LOCATION );
+		// Get the list of files in the current directory or build from MRU
+		File[] scriptList = null;
+		if ( Preferences.getInteger( "scriptMRULength" ) <= 0 ) 
+		{
+			scriptList = DataUtilities.listFiles( KoLConstants.SCRIPT_LOCATION );
+		}
+		else
+		{
+			scriptList = ScriptMRUList.listFiles();
+		}
 
 		// Iterate through the files. Do this in two
 		// passes to make sure that directories start

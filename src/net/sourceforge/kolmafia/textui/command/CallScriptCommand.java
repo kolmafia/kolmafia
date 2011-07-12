@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Profiler;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -124,6 +125,10 @@ public class CallScriptCommand
 					KoLmafia.updateDisplay( "Returned: " + rv );
 				}
 				return;
+			}
+			else
+			{
+				ScriptMRUList.addItem(scriptFile.toString());
 			}
 
 			// In theory, you could execute EVERY script in a
