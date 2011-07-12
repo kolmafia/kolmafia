@@ -395,23 +395,34 @@ public abstract class StoreManager
 		}
 	}
 
+	/**
+	 * Utility method used to search the mall for a specific item.
+	 */
+
 	public static final ArrayList searchMall( final AdventureResult item )
 	{
-		StoreManager.flushCache();
-		ArrayList results;
-		if ( item.getItemId() > 0 )
+		int itemId = item.getItemId();
+		if ( itemId <= 0 )
 		{
-			results = (ArrayList) StoreManager.mallSearches.get( new Integer( item.getItemId() ) );
-			if ( results != null && results.size() > 0 )
-			{
-				KoLmafia.updateDisplay( "Using cached search results for " +
-					item.getName() + "..." );
-				return results;
-			}
+			// This should not happen.
+			return new ArrayList();
 		}
+
+		Integer id = new Integer( itemId );
+		String name = item.getName();
+
+		StoreManager.flushCache();
+
+		ArrayList results = (ArrayList) StoreManager.mallSearches.get( id );
+		if ( results != null && results.size() > 0 )
+		{
+			KoLmafia.updateDisplay( "Using cached search results for " + name + "..." );
+			return results;
+		}
+
 		results = new ArrayList();
 
-		StoreManager.searchMall( item.getName(), results, 10, false );
+		StoreManager.searchMall( "\"" + name + "\"", results, 10, false );
 
 		// Flush CoinMasterPurchaseRequests
 		Iterator it = results.iterator();
@@ -425,9 +436,68 @@ public abstract class StoreManager
 
 		if ( KoLmafia.permitsContinue() )
 		{
-			StoreManager.mallSearches.put( new Integer( item.getItemId() ), results );
+			StoreManager.mallSearches.put( id, results );
 		}
+
 		return results;
+	}
+
+	/**
+	 * Utility method used to search the mall for a search string
+	 */
+
+	public static final void searchMall( final String searchString, final List resultSummary, final int maximumResults, boolean toString )
+	{
+		resultSummary.clear();
+
+		if ( searchString == null )
+		{
+			return;
+		}
+
+		ArrayList results = new ArrayList();
+
+		// With the search string properly formatted, issue
+		// the search request.
+
+		RequestThread.postRequest( new MallSearchRequest(
+			MallSearchRequest.getSearchString( searchString ),
+			maximumResults, results, true ) );
+
+		if ( !toString )
+		{
+			resultSummary.addAll( results );
+			return;
+		}
+
+		PurchaseRequest[] resultsArray = new PurchaseRequest[ results.size() ];
+		results.toArray( resultsArray );
+
+		TreeMap prices = new TreeMap();
+		Integer currentQuantity, currentPrice;
+
+		for ( int i = 0; i < resultsArray.length; ++i )
+		{
+			currentPrice = new Integer( resultsArray[ i ].getPrice() );
+			currentQuantity = (Integer) prices.get( currentPrice );
+
+			if ( currentQuantity == null )
+			{
+				prices.put( currentPrice, new Integer( resultsArray[ i ].getLimit() ) );
+			}
+			else
+			{
+				prices.put( currentPrice, new Integer( currentQuantity.intValue() + resultsArray[ i ].getLimit() ) );
+			}
+		}
+
+		Integer[] priceArray = new Integer[ prices.size() ];
+		prices.keySet().toArray( priceArray );
+
+		for ( int i = 0; i < priceArray.length; ++i )
+		{
+			resultSummary.add( "  " + KoLConstants.COMMA_FORMAT.format( ( (Integer) prices.get( priceArray[ i ] ) ).intValue() ) + " @ " + KoLConstants.COMMA_FORMAT.format( priceArray[ i ].intValue() ) + " meat" );
+		}
 	}
 
 	public static final void updateMallPrice( final AdventureResult item, final ArrayList results )
@@ -470,63 +540,6 @@ public abstract class StoreManager
 			StoreManager.updateMallPrice( item, results );
 		}
 		return StoreManager.mallPrices.get( item.getItemId() );
-	}
-
-	/**
-	 * Utility method used to search the mall for the given item.
-	 */
-
-	public static final void searchMall( final String itemName, final List resultSummary, final int maximumResults, boolean toString )
-	{
-		resultSummary.clear();
-		if ( itemName == null )
-		{
-			return;
-		}
-
-		ArrayList results = new ArrayList();
-
-		// With the item name properly formatted, issue
-		// the search request.
-
-		RequestThread.postRequest( new MallSearchRequest(
-			MallSearchRequest.getSearchString( itemName ),
-			maximumResults, results, true ) );
-
-		if ( !toString )
-		{
-			resultSummary.addAll( results );
-			return;
-		}
-
-		PurchaseRequest[] resultsArray = new PurchaseRequest[ results.size() ];
-		results.toArray( resultsArray );
-
-		TreeMap prices = new TreeMap();
-		Integer currentQuantity, currentPrice;
-
-		for ( int i = 0; i < resultsArray.length; ++i )
-		{
-			currentPrice = new Integer( resultsArray[ i ].getPrice() );
-			currentQuantity = (Integer) prices.get( currentPrice );
-
-			if ( currentQuantity == null )
-			{
-				prices.put( currentPrice, new Integer( resultsArray[ i ].getLimit() ) );
-			}
-			else
-			{
-				prices.put( currentPrice, new Integer( currentQuantity.intValue() + resultsArray[ i ].getLimit() ) );
-			}
-		}
-
-		Integer[] priceArray = new Integer[ prices.size() ];
-		prices.keySet().toArray( priceArray );
-
-		for ( int i = 0; i < priceArray.length; ++i )
-		{
-			resultSummary.add( "  " + KoLConstants.COMMA_FORMAT.format( ( (Integer) prices.get( priceArray[ i ] ) ).intValue() ) + " @ " + KoLConstants.COMMA_FORMAT.format( priceArray[ i ].intValue() ) + " meat" );
-		}
 	}
 
 	/**
