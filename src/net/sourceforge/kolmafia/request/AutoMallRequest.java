@@ -104,22 +104,22 @@ public class AutoMallRequest
 
 	public void attachItem( final AdventureResult item, final int index )
 	{
-                this.addFormField( "item" + index, String.valueOf( item.getItemId() ) );
-                this.addFormField( this.getQuantityField() + index, String.valueOf( item.getCount() ) );
+		this.addFormField( "item" + index, String.valueOf( item.getItemId() ) );
+		this.addFormField( this.getQuantityField() + index, String.valueOf( item.getCount() ) );
 
-                int pos = Arrays.asList( this.attachments ).indexOf( item ) & 0xFFFF;
+		int pos = Arrays.asList( this.attachments ).indexOf( item ) & 0xFFFF;
 
-                this.addFormField(
-                        "price" + index,
-                        pos >= this.prices.length || this.prices[ pos ] == 0 ? "" : String.valueOf( this.prices[ pos ] ) );
-                this.addFormField(
-                        "limit" + index,
-                        pos >= this.limits.length || this.limits[ pos ] == 0 ? "" : String.valueOf( this.limits[ pos ] ) );
+		this.addFormField(
+				"price" + index,
+				pos >= this.prices.length || this.prices[ pos ] == 0 ? "" : String.valueOf( this.prices[ pos ] ) );
+		this.addFormField(
+				"limit" + index,
+				pos >= this.limits.length || this.limits[ pos ] == 0 ? "" : String.valueOf( this.limits[ pos ] ) );
 	}
 
 	public int getCapacity()
 	{
-                return 11;
+		return 11;
 	}
 
 	public TransferItemRequest getSubInstance( final Object[] attachments )

@@ -392,7 +392,7 @@ public class ItemFinder
 				String itemCountString = parameters.substring( 0, spaceIndex );
 				
 				if ( StringUtilities.isNumeric( itemCountString ) )
-				{					
+				{
 					itemCount = StringUtilities.parseInt( itemCountString );
 					parameters = parameters.substring( spaceIndex + 1 ).trim();
 				}
