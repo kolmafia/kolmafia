@@ -48,12 +48,25 @@ public class DebugCreateCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
-		if ( item != null )
+		if ( parameters.equals( "" ) )
 		{
-			Concoction.debugId = item.getItemId();
-			ConcoctionDatabase.refreshConcoctions();
-			Concoction.debugId = Integer.MAX_VALUE;
+			return;
+		}
+
+		String[] itemNames = parameters.split( "\\s*,\\s*" );
+
+		AdventureResult item;
+
+		for ( int i = 0; i < itemNames.length; ++i )
+		{
+			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], ItemFinder.ANY_MATCH );
+
+			if ( item != null )
+			{
+				Concoction.debugId = item.getItemId();
+				ConcoctionDatabase.refreshConcoctions();
+				Concoction.debugId = Integer.MAX_VALUE;
+			}
 		}
 	}
 }
