@@ -38,6 +38,7 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -228,6 +229,22 @@ public class SpecialOutfit
 			if ( checkpoint[ i ].equals( EquipmentRequest.UNEQUIP ) || equippedItem.equals( checkpoint[ i ] ) )
 			{
 				continue;
+			}
+
+			int itemId = checkpoint[ i ].getItemId();
+			if ( EquipmentManager.itemIdToEquipmentType( itemId ) == EquipmentManager.FAMILIAR )
+			{
+				FamiliarData familiar = KoLCharacter.getFamiliar();
+				if ( familiar == FamiliarData.NO_FAMILIAR )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You have no familiar with you." );
+					continue;
+				}
+				if ( !familiar.canEquip( checkpoint[ i ] ) )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your " + familiar.getRace() + " can't wear a " + checkpoint[ i ].getName() );
+					continue;
+				}
 			}
 
 			RequestThread.postRequest( new EquipmentRequest( checkpoint[ i ], i ) );
