@@ -145,6 +145,7 @@ public class MaximizerFrame
 		"stench res",
 		"sleaze res",
 		"all res",
+		"0.5 mp regen min, 0.5 mp regen max",
 		"ML, 0.001 slime res",
 		"4 clownosity",
 		"7 raveosity",
@@ -1304,6 +1305,10 @@ public class MaximizerFrame
 					else if ( keyword.endsWith( " exp" ) )
 					{
 						keyword = keyword.substring( 0, keyword.length() - 3 ) + "experience";
+					}
+					else if ( keyword.endsWith( "init" ) )
+					{
+						keyword += "iative";
 					}
 					index = Modifiers.findName( keyword );
 				}
