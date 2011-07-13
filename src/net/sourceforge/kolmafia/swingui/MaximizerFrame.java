@@ -1306,10 +1306,6 @@ public class MaximizerFrame
 					{
 						keyword = keyword.substring( 0, keyword.length() - 3 ) + "experience";
 					}
-					else if ( keyword.endsWith( "init" ) )
-					{
-						keyword += "iative";
-					}
 					index = Modifiers.findName( keyword );
 				}
 				
@@ -1333,6 +1329,10 @@ public class MaximizerFrame
 					this.weight[ Modifiers.SPOOKY_DAMAGE ] = weight;
 					this.weight[ Modifiers.STENCH_DAMAGE ] = weight;
 					continue;
+				}
+				else if ( keyword.equals( "init" ) )
+				{
+					index = Modifiers.INITIATIVE;
 				}
 				else if ( keyword.equals( "hp" ) )
 				{
