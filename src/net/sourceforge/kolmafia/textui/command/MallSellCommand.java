@@ -33,12 +33,16 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.ArrayList;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
+import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallSellCommand
@@ -53,15 +57,22 @@ public class MallSellCommand
 	{
 		String[] itemNames = parameters.split( "\\s*,\\s*" );
 
-		AdventureResult[] items = new AdventureResult[ itemNames.length ];
-		int[] prices = new int[ itemNames.length ];
-		int[] limits = new int[ itemNames.length ];
+		ArrayList items = new ArrayList();
+		IntegerArray prices = new IntegerArray();
+		IntegerArray limits = new IntegerArray();
+
+		AdventureResult item;
+		int price;
+		int limit;
 
 		int separatorIndex;
 		String description;
 
 		for ( int i = 0; i < itemNames.length; ++i )
 		{
+			price = 0;
+			limit = 0;
+
 			separatorIndex = itemNames[ i ].indexOf( '@' );
 
 			if ( separatorIndex != -1 )
@@ -73,29 +84,45 @@ public class MallSellCommand
 
 				if ( separatorIndex != -1 )
 				{
-					limits[ i ] = StringUtilities.parseInt( description.substring( separatorIndex + 5 ).trim() );
+					limit = StringUtilities.parseInt( description.substring( separatorIndex + 5 ).trim() );
 					description = description.substring( 0, separatorIndex ).trim();
 				}
 
-				prices[ i ] = StringUtilities.parseInt( description );
+				price = StringUtilities.parseInt( description );
 			}
 
-			items[ i ] = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
+			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
 
-			if ( items[ i ] == null )
+			if ( item == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + itemNames[ i ] + "] has no matches." );
-				return;
+				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "'." );
+				continue;
 			}
 
-			int inventoryCount = items[ i ].getCount( KoLConstants.inventory );
+			int inventoryCount = item.getCount( KoLConstants.inventory );
 
-			if ( items[ i ].getCount() > inventoryCount )
+			if ( item.getCount() > inventoryCount )
 			{
-				items[ i ] = items[ i ].getInstance( inventoryCount );
+				item = item.getInstance( inventoryCount );
 			}
+
+			if ( item.getCount() == 0 )
+			{
+				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "', none found in inventory." );
+				continue;
+			}
+
+			items.add( item );
+			prices.add( price );
+			limits.add( limit );
 		}
 
-		RequestThread.postRequest( new AutoMallRequest( items, prices, limits ) );
+		if ( items.size() > 0 )
+		{
+			RequestThread.postRequest( new AutoMallRequest(
+			      items.toArray(),
+			      prices.toArray(),
+			      limits.toArray() ) );
+		}
 	}
 }

@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Internal class which functions exactly an array of integers, except it uses "sets" and "gets" like a list. This
@@ -43,6 +44,11 @@ import java.util.ArrayList;
 public class IntegerArray
 {
 	private final ArrayList internalList = new ArrayList();
+
+	public void add( final int value )
+	{
+		this.set( this.internalList.size(), value );
+	}
 
 	public int get( final int index )
 	{
@@ -62,5 +68,18 @@ public class IntegerArray
 	public int size()
 	{
 		return this.internalList.size();
+	}
+
+	public int[] toArray()
+	{
+		int[] array = new int[ this.internalList.size() ];
+		Iterator iterator = this.internalList.iterator();
+
+		for ( int i = 0; i < array.length; ++i )
+		{
+			array[ i ] = ((Integer) iterator.next()).intValue();
+		}
+
+		return array;
 	}
 }
