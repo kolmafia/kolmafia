@@ -1541,6 +1541,12 @@ public class UseItemRequest
 			return true;
 		}
 
+		// That is not something you can give to your Slimeling
+		if ( responseText.indexOf( "not something you can give" ) != -1 )
+		{
+			return true;
+		}
+
 		// <name> takes the <candy> and quickly consumes them. He
 		// grows a bit.
 		if ( responseText.indexOf( "He grows a bit" ) != -1 )
