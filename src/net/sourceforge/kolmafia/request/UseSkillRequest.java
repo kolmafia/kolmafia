@@ -443,6 +443,11 @@ public class UseSkillRequest
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "noodleSummons" ), 0 );
 			break;
 
+		// Canticle of Carboloading can be cast once per day.
+		case 3024:
+			maximumCast = Preferences.getBoolean( "_carboLoaded" ) ? 0 : 1;
+			break;
+
 		// The Way of Sauce affects # of summons for Advanced
 		// Saucecrafting. So does the Gravyskin Belt of the Sauceblob
 
@@ -1181,6 +1186,7 @@ public class UseSkillRequest
 		if ( responseText.indexOf( "enough for one day" ) != -1 )
 		{
 			UseSkillRequest.lastUpdate = "You can only do that once a day.";	
+			Preferences.setBoolean( "_carboLoaded", true );
 			return false;
 		}
 
@@ -1254,6 +1260,7 @@ public class UseSkillRequest
 			break;
 
 		case 3024:
+			Preferences.setBoolean( "_carboLoaded", true );
 			Preferences.increment( "carboLoading", 1 );
 			break;
 
