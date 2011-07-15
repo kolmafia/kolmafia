@@ -5199,3 +5199,5 @@
 5190	Operation Patriot Shield	offhand	all	0
 5191	squirming egg sac	grow	all	0
 5192	corrupted data	usable	all	0
+5193	11-inch knob sausage	none	none	0
+5194	exorcised sandwich	none	none	0

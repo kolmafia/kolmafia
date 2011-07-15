@@ -5191,3 +5191,5 @@
 5190	563222775	opshield.gif	Operation Patriot Shield
 5191	534512179	eggsac.gif	squirming egg sac
 5192	245822900	corrdata.gif	corrupted data	bytes of corrupted data
+5193	214334936	bigsausage.gif	11-inch knob sausage
+5194	786372087	sammich.gif	exorcised sandwich

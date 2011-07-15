@@ -1531,6 +1531,10 @@ public abstract class ChoiceManager
 		// Choice 538 is Big-Time Generator
 		// Choice 539 is An E.M.U. for Y.O.U.
 		// Choice 540 is Big-Time Generator - game board
+		// Choice 541 is unknown
+		// Choice 542 is Now's Your Pants!  I Mean... Your Chance!
+		// Choice 543 is Up In Their Grill
+		// Choice 544 is A Sandwich Appears
 	};
 
 	static
@@ -3136,6 +3140,26 @@ public abstract class ChoiceManager
 			     text.indexOf( "a sad little servo whine" ) != -1 )
 			{
 				EquipmentManager.discardEquipment( ItemPool.EMU_UNIT );
+			}
+			break;
+
+		case 542:
+			// The Now's Your Pants!  I Mean... Your Chance!
+
+			// Then you make your way back out of the Alley,
+			// clutching your pants triumphantly and trying really
+			// hard not to think about how oddly chilly it has
+			// suddenly become.
+
+			// When you steal your pants, they are unequipped, you
+			// gain a "you acquire" message", and they appear in
+			// inventory.
+			//
+			// Treat this is simply discarding the pants you are
+			// wearing
+			if ( text.indexOf( "oddly chilly" ) != -1 )
+			{
+				EquipmentManager.discardEquipment( EquipmentManager.getEquipment( EquipmentManager.PANTS ) );
 			}
 			break;
 		}
