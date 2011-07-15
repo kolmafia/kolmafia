@@ -657,6 +657,7 @@ user	_boxingGloveArrows	0
 user	_brickoFights	0
 user	_cameraUsed	false
 user	_candySummons	0
+user	_carboLoaded	false
 user	_chipBags	0
 user	_crimboTree	false
 user	_deluxeKlawSummons	0
