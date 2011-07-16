@@ -1553,6 +1553,37 @@ public class DebugDatabase
 
 	// **********************************************************
 
+	public static final void checkFamiliars()
+	{
+		// Get familiar images from the familiar description
+		for ( int i = 1; i <= FamiliarDatabase.maxFamiliarId; ++i )
+		{
+			DebugDatabase.checkFamiliar( i );
+		}
+
+		FamiliarDatabase.saveDataOverride();
+	}
+
+	private static final Pattern FAMILIAR_IMAGE_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/itemimages/(.*?\\.gif)" );
+	private static final void checkFamiliar( final int id )
+	{
+		String file = "desc_familiar.php?which=" + String.valueOf( id );
+		GenericRequest request = new GenericRequest( file );
+		RequestThread.postRequest( request );
+		String text = request.responseText;
+		if ( text == null )
+		{
+			return;
+		}
+		Matcher matcher = FAMILIAR_IMAGE_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			FamiliarDatabase.setFamiliarImageLocation( id, matcher.group( 1 ) );
+		}
+	}
+
+	// **********************************************************
+
 	public static final void checkConsumptionData()
 	{
 		RequestLogger.printLine( "Checking consumption data..." );

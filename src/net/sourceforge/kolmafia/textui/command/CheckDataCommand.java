@@ -132,6 +132,13 @@ public class CheckDataCommand
 			return;
 		}
 
+		if ( command.equals( "checkfamiliars" ) )
+		{
+			DebugDatabase.checkFamiliars();
+			RequestLogger.printLine( "Familiars checked." );
+			return;
+		}
+
 		if ( command.equals( "checkpulverization" ) )
 		{
 			DebugDatabase.checkPulverizationData();

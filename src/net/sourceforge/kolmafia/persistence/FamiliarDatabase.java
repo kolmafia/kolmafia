@@ -95,12 +95,10 @@ public class FamiliarDatabase
 		BufferedReader reader = FileUtilities.getVersionedReader( "familiars.txt", KoLConstants.FAMILIARS_VERSION );
 
 		String[] data;
-		Integer familiarId, familiarLarva;
-		String familiarName, familiarType, familiarItemName;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length != 9 )
+			if ( data.length != 10 )
 			{
 				continue;
 			}
@@ -112,16 +110,20 @@ public class FamiliarDatabase
 				{
 					FamiliarDatabase.maxFamiliarId = id;
 				}
-				familiarId = new Integer( id );
-				familiarName = StringUtilities.getDisplayName( data[ 1 ] );
-				familiarType = new String( data[ 2 ] );
-				familiarLarva = Integer.valueOf( data[ 3 ] );
-				familiarItemName = StringUtilities.getDisplayName( data[ 4 ] );
+
+				Integer familiarId = new Integer( id );
+				String familiarName = StringUtilities.getDisplayName( data[ 1 ] );
+				String familiarImage = new String( data[ 2 ] );
+				String familiarType = new String( data[ 3 ] );
+				Integer familiarLarva = Integer.valueOf( data[ 4 ] );
+				String familiarItemName = StringUtilities.getDisplayName( data[ 5 ] );
 
 				FamiliarDatabase.familiarById.put( familiarId, familiarName );
 				FamiliarDatabase.familiarByName.put( StringUtilities.getCanonicalName( data[ 1 ] ), familiarId );
+				FamiliarDatabase.familiarImageById.put( familiarId, familiarImage );
+				
 				FamiliarDatabase.familiarByLarva.put( familiarLarva, familiarId );
-				FamiliarDatabase.familiarByItem.put( StringUtilities.getCanonicalName( data[ 4 ] ), familiarId );
+				FamiliarDatabase.familiarByItem.put( StringUtilities.getCanonicalName( data[ 5 ] ), familiarId );
 
 				FamiliarDatabase.familiarItemById.put( familiarId, familiarItemName );
 				FamiliarDatabase.familiarLarvaById.put( familiarId, familiarLarva );
@@ -135,7 +137,7 @@ public class FamiliarDatabase
 				String canonical = StringUtilities.getCanonicalName( data[ 1 ] );
 				for ( int i = 0; i < 4; ++i )
 				{
-					FamiliarDatabase.eventSkillByName[ i ].put( canonical, Integer.valueOf( data[ i + 5 ] ) );
+					FamiliarDatabase.eventSkillByName[ i ].put( canonical, Integer.valueOf( data[ i + 6 ] ) );
 				}
 			}
 			catch ( Exception e )
@@ -167,7 +169,7 @@ public class FamiliarDatabase
 
 	private static Integer ZERO = new Integer( 0 );
 
-	public static final void registerFamiliar( final int familiarId, final String familiarName )
+	public static final void registerFamiliar( final int familiarId, final String familiarName, final String image )
 	{
 		String canon = StringUtilities.getCanonicalName( familiarName );
 		if ( FamiliarDatabase.familiarByName.containsKey( canon ) )
@@ -175,16 +177,18 @@ public class FamiliarDatabase
 			return;
 		}
 
-		RequestLogger.printLine( "New familiar: \"" + familiarName + "\" (" + familiarId + ")" );
+		RequestLogger.printLine( "New familiar: \"" + familiarName + "\" (" + familiarId + ") @ " + image );
 
 		if ( familiarId > FamiliarDatabase.maxFamiliarId )
 		{
 			FamiliarDatabase.maxFamiliarId = familiarId;
 		}
+
 		Integer dummyId = new Integer( familiarId );
 
 		FamiliarDatabase.familiarById.put( dummyId, familiarName );
 		FamiliarDatabase.familiarByName.put( canon, dummyId );
+		FamiliarDatabase.familiarImageById.put( dummyId, image );
 		FamiliarDatabase.familiarByLarva.put( FamiliarDatabase.ZERO, dummyId );
 		FamiliarDatabase.familiarItemById.put( dummyId, "" );
 		for ( int i = 0; i < 4; ++i )
@@ -367,27 +371,18 @@ public class FamiliarDatabase
 	public static final String getFamiliarImageLocation( final int familiarId )
 	{
 		String location = (String) FamiliarDatabase.familiarImageById.get( new Integer( familiarId ) );
-		if ( location != null )
-		{
-			return location;
-		}
-
-		// If the HTML on the familiar page changes, then the map lookup
-		// strategy will not work.  Rather than maintaining a database of
-		// images, here, though, just return an unknown image.
-
-		return "debug.gif";
+		return ( location != null ) ? location : "debug.gif";
 	}
 
 	private static final void downloadFamiliarImage( final int familiarId )
 	{
-		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + FamiliarDatabase.getFamiliarImageLocation( familiarId ) );
+		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + FamiliarDatabase.getFamiliarImageLocation( familiarId ) );
 	}
 
 	public static final ImageIcon getFamiliarImage( final int familiarId )
 	{
 		FamiliarDatabase.downloadFamiliarImage( familiarId );
-		return JComponentUtilities.getImage( FamiliarDatabase.getFamiliarImageLocation( familiarId ) );
+		return JComponentUtilities.getImage( "itemimages/" + FamiliarDatabase.getFamiliarImageLocation( familiarId ) );
 	}
 
 	public static final ImageIcon getFamiliarImage( final String name )
@@ -465,7 +460,7 @@ public class FamiliarDatabase
 		writer.println( "# Original familiar arena stats from Vladjimir's arena data" );
 		writer.println( "# http://www.therye.org/familiars/" );
 		writer.println();
-		writer.println( "# no.	name	type	larva	item	CM	SH	OC	H&S" );
+		writer.println( "# no.	name	image	type	larva	item	CM	SH	OC	H&S" );
 		writer.println();
 
 		Integer[] familiarIds = new Integer[ FamiliarDatabase.familiarById.size() ];
@@ -485,27 +480,30 @@ public class FamiliarDatabase
 			lastInteger = familiarId + 1;
 
 			String name = FamiliarDatabase.getFamiliarName( nextInteger );
+			String image = FamiliarDatabase.getFamiliarImageLocation( familiarId );
 			String type = FamiliarDatabase.getFamiliarType( familiarId );
 			int larva = FamiliarDatabase.getFamiliarLarva( nextInteger ) ;
 			int itemId = FamiliarDatabase.getFamiliarItemId( nextInteger );
 			int[] skills = FamiliarDatabase.getFamiliarSkills( nextInteger );
 
-			FamiliarDatabase.writeFamiliar( writer, familiarId, name, type, larva, itemId, skills );
+			FamiliarDatabase.writeFamiliar( writer, familiarId, name, image, type, larva, itemId, skills );
 		}
 	}
 
-	public static void writeFamiliar( final PrintStream writer, final int familiarId, final String name,
+	public static void writeFamiliar( final PrintStream writer,
+					  final int familiarId, final String name, final String image,
 					  final String type, final int larva, final int itemId, final int [] skills )
 	{
-		writer.println( FamiliarDatabase.familiarString( familiarId, name, type, larva, itemId, skills ) );
+		writer.println( FamiliarDatabase.familiarString( familiarId, name, image, type, larva, itemId, skills ) );
 	}
 
-	public static String familiarString( final int familiarId, final String name,
+	public static String familiarString( final int familiarId, final String name, final String image,
 					     final String type, final int larva, final int itemId, final int [] skills )
 	{
 		String item = itemId == -1 ? "" : ItemDatabase.getItemDataName( itemId );
 		return familiarId + "\t" +
 		       name + "\t" +
+		       image + "\t" +
 		       type + "\t" +
 		       larva + "\t" +
 		       item + "\t" +

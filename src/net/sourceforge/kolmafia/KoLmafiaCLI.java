@@ -620,16 +620,17 @@ public class KoLmafiaCLI
 		new CampgroundCommand().registerPrefix( "camp" );
 		new ChangeCombatScriptCommand().register( "ccs" );
 		new CheckDataCommand().register( "newdata" ).
-			register( "checkitems" ).
-			register( "checkeffects" ).
-			register( "checkplurals" ).
-			register( "checkmodifiers" ).
-			register( "checkconsumption" ).
 			register( "checkconsumables" ).
+			register( "checkconsumption" ).
+			register( "checkeffects" ).
+			register( "checkfamiliars" ).
+			register( "checkitems" ).
+			register( "checkmodifiers" ).
+			register( "checkplurals" ).
 			register( "checkpowers" ).
-			register( "checkshields" ).
 			register( "checkprofile" ).
 			register( "checkpulverization" ).
+			register( "checkshields" ).
 			register( "checkzapgroups" );
 		new ChessCommand().register( "chess" );
 		new ChipsCommand().register( "chips" );
