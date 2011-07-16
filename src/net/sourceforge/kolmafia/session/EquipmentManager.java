@@ -376,11 +376,17 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Winter's Bite Technique" );
 			KoLCharacter.addAvailableSkill( "The 17 Cuts" );
 			break;
+		case ItemPool.BAG_O_TRICKS:
+			KoLCharacter.addAvailableSkill( "Open the Bag o' Tricks" );
+			break;
 		case ItemPool.RED_AND_GREEN_SWEATER:
 			KoLCharacter.addAvailableSkill( "Static Shock" );
 			break;
 		case ItemPool.STINKY_CHEESE_EYE:
 			KoLCharacter.addAvailableSkill( "Give Your Opponent the Stinkeye" );
+			break;
+		case ItemPool.SPIDER_RING:
+			KoLCharacter.addAvailableSkill( "Shoot Web" );
 			break;
 		case ItemPool.PATRIOT_SHIELD:
 			KoLCharacter.addAvailableSkill( "Throw Shield" );

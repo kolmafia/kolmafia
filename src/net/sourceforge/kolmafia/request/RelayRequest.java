@@ -321,7 +321,7 @@ public class RelayRequest
 			if ( action != null && action.equals( "skill" ) )
 			{
 				String skillId = this.getFormField( "whichskill" );
-                                StationaryButtonDecorator.addButton( skillId );
+				StationaryButtonDecorator.addButton( skillId );
 			}
 		}
 
