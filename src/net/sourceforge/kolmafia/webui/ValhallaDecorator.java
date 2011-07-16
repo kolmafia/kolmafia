@@ -74,8 +74,8 @@ public class ValhallaDecorator
 		StringBuffer reminders = new StringBuffer();
 		reminders.append( "<br><table>" );
 
-		reminders.append( "<tr><td><img id = 'current' src=\"http://images.kingdomofloathing.com/" );
-		reminders.append( FamiliarDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
+		reminders.append( "<tr><td><img id = 'current' src=\"http://images.kingdomofloathing.com/itemimages/" );
+		reminders.append( KoLCharacter.getFamiliar().getImageLocation() );
 		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onchange=\"var select = document.getElementById('familiar'); " );
 		reminders.append( "var option = select.options[select.selectedIndex]; " );
 		reminders.append( "top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value + '&pwd=" );

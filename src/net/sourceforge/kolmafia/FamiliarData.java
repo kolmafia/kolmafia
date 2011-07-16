@@ -63,7 +63,7 @@ public class FamiliarData
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern REGISTER_PATTERN =
-		Pattern.compile( "<img(?<!In Your Crown of Thrones:</td><td><img) src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
+		Pattern.compile( "<img(?<!In Your Crown of Thrones:</td><td><img) src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
@@ -115,8 +115,8 @@ public class FamiliarData
 		this.race = dataMatcher.group( 4 );
 		this.beeware = this.race.indexOf( "b" ) != -1 || this.race.indexOf( "B" ) != -1;
 
-		FamiliarDatabase.registerFamiliar( this.id, this.race );
-		FamiliarDatabase.setFamiliarImageLocation( this.id, dataMatcher.group( 1 ) );
+		String image = dataMatcher.group( 1 );
+		FamiliarDatabase.registerFamiliar( this.id, this.race, image );
 
 		this.update( dataMatcher );
 	}
