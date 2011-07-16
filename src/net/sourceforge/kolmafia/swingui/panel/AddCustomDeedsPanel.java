@@ -1070,7 +1070,7 @@ public class AddCustomDeedsPanel
 			String label4 = getLabel( SKILL_LABEL_4 ).getText();
 
 			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional" ) )
+				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
 				&& ( label4.equalsIgnoreCase( "OK" ) || label4.equalsIgnoreCase( "(not used)" ) );
 
 			getSkillButton().setEnabled( enabled );
@@ -1192,7 +1192,7 @@ public class AddCustomDeedsPanel
 			String label4 = getLabel( SKILL_LABEL_4 ).getText();
 
 			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional" ) )
+				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
 				&& ( label4.equalsIgnoreCase( "OK" ) || label4.equalsIgnoreCase( "(not used)" ) );
 
 			getSkillButton().setEnabled( enabled );
@@ -1370,7 +1370,7 @@ public class AddCustomDeedsPanel
 			String label4 = getLabel( SKILL_LABEL_4 ).getText();
 
 			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional" ) )
+				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
 				&& ( label4.equalsIgnoreCase( "OK" ) || label4.equalsIgnoreCase( "(not used)" ) );
 
 			getSkillButton().setEnabled( enabled );
