@@ -1139,6 +1139,7 @@ public class ItemPool
 	public static final int GG_TOKEN = 4621;
 	public static final int GG_TICKET = 4622;
 	public static final int COFFEE_PIXIE_STICK = 4625;
+	public static final int SPIDER_RING = 4629;
 	public static final int KOL_CON_SIX_PACK = 4641;
 	public static final int JUJU_MOJO_MASK = 4644;
 	public static final int IRONIC_MOUSTACHE = 4651;

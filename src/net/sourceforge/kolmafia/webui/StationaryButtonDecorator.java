@@ -364,6 +364,7 @@ public class StationaryButtonDecorator
 				}
 			}
 			// Otherwise, remove unknown skills from preferences
+			// unless they are conditionally granted combat skills. 
 			else if ( !hasSkill && !isCombat )
 			{
 				remove = true;
@@ -388,7 +389,7 @@ public class StationaryButtonDecorator
 				buffer,
 				actionBuffer,
 				action,
-				hasSkill && FightRequest.getCurrentRound() > 0 );
+				FightRequest.getCurrentRound() > 0 );
 		}
 
 		if ( StationaryButtonDecorator.combatHotkeys.isEmpty() )
