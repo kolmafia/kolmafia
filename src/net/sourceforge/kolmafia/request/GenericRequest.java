@@ -1616,6 +1616,11 @@ public class GenericRequest
 
 		if ( this.formURLString.startsWith( "fight.php" ) )
 		{
+			if ( this.redirectLocation.startsWith( "main.php" ) )
+			{
+				this.constructURLString( this.redirectLocation, false );
+				return false;
+			}
 			return true;
 		}
 
