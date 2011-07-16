@@ -382,6 +382,9 @@ public class EquipmentManager
 		case ItemPool.STINKY_CHEESE_EYE:
 			KoLCharacter.addAvailableSkill( "Give Your Opponent the Stinkeye" );
 			break;
+		case ItemPool.PATRIOT_SHIELD:
+			KoLCharacter.addAvailableSkill( "Throw Shield" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,

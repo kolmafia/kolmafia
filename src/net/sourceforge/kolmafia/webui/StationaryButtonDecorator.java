@@ -340,7 +340,9 @@ public class StationaryButtonDecorator
 				action = String.valueOf( SkillDatabase.getSkillId( action ) );
 			}
 
-			String name = SkillDatabase.getSkillName( Integer.parseInt( action ) );
+			int skillID = Integer.parseInt( action );
+			String name = SkillDatabase.getSkillName( skillID );
+			boolean isCombat = SkillDatabase.getSkillType( skillID ) == SkillDatabase.COMBAT;
 			boolean hasSkill = name != null && KoLCharacter.hasSkill( name );
 
 			boolean remove = false;
@@ -362,7 +364,7 @@ public class StationaryButtonDecorator
 				}
 			}
 			// Otherwise, remove unknown skills from preferences
-			else if ( !hasSkill )
+			else if ( !hasSkill && !isCombat )
 			{
 				remove = true;
 			}
@@ -386,7 +388,7 @@ public class StationaryButtonDecorator
 				buffer,
 				actionBuffer,
 				action,
-				FightRequest.getCurrentRound() > 0 );
+				hasSkill && FightRequest.getCurrentRound() > 0 );
 		}
 
 		if ( StationaryButtonDecorator.combatHotkeys.isEmpty() )
