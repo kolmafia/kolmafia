@@ -37,10 +37,10 @@ import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -484,9 +484,9 @@ public class DailyDeedsPanel
 			 * Skill|displayText|preference
 			 * skillName is found from displayText
 			 */
-			String skillName = SkillDatabase.getSkillName( deedsString[ 1 ] );
+			List skillNames = SkillDatabase.getMatchingNames( deedsString[ 1 ] );
 
-			if ( skillName == null )
+			if ( skillNames.size() != 1 )
 			{
 				RequestLogger.printLine( "Daily Deeds error: unable to resolve skill "
 						+ deedsString[ 1 ] );
@@ -495,7 +495,8 @@ public class DailyDeedsPanel
 
 			if ( resolvedPref.equalsIgnoreCase( "True" ) || resolvedPref.equalsIgnoreCase( "False" ) )
 			{
-				this.add( new BooleanSkillDaily( pref, skillName, "cast " + skillName ) );
+				this.add( new BooleanSkillDaily( pref, (String) skillNames.get( 0 ), "cast "
+					+ skillNames.get( 0 ) ) );
 			}
 			else
 			{
@@ -508,9 +509,9 @@ public class DailyDeedsPanel
 			 * Skill|displayText|preference|skillName
 			 */
 			String displayText = deedsString[ 1 ];
-			String skillName = SkillDatabase.getSkillName( deedsString[ 3 ] );
+			List skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
 
-			if ( skillName == null )
+			if ( skillNames.size() != 1 )
 			{
 				RequestLogger.printLine( "Daily Deeds error: unable to resolve skill "
 						+ deedsString[ 3 ] );
@@ -518,7 +519,8 @@ public class DailyDeedsPanel
 			}
 			if ( resolvedPref.equalsIgnoreCase( "True" ) || resolvedPref.equalsIgnoreCase( "False" ) )
 			{
-				this.add( new BooleanSkillDaily( displayText, pref, skillName, "cast " + skillName ) );
+				this.add( new BooleanSkillDaily( displayText, pref, (String) skillNames.get( 0 ),
+					"cast " + skillNames.get( 0 ) ) );
 			}
 			else
 			{
@@ -531,19 +533,20 @@ public class DailyDeedsPanel
 			 * Skill|displayText|preference|skillName|maxCasts
 			 */
 			String displayText = deedsString[ 1 ];
-			String skillName = SkillDatabase.getSkillName( deedsString[ 3 ] );
+			List skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
+			
 			try
 			{
 				int maxCasts = Integer.parseInt( deedsString[ 4 ] );
 
-				if ( skillName == null )
+				if ( skillNames.size() != 1 )
 				{
 					RequestLogger.printLine( "Daily Deeds error: unable to resolve skill "
 							+ deedsString[ 3 ] );
 					return;
 				}
-				this.add( new MultiSkillDaily( displayText, pref, skillName, "cast " + skillName,
-						maxCasts ) );
+				this.add( new MultiSkillDaily( displayText, pref, (String) skillNames.get( 0 ), "cast "
+					+ "cast " + skillNames.get( 0 ), maxCasts ) );
 			}
 			catch ( NumberFormatException e )
 			{
