@@ -314,7 +314,7 @@
 7048	Ask the hobo for something to eat	5	0	0
 7049	Ask the hobo for some violence	5	0	0
 7050	Ask the hobo to tell you a joke	5	0	0
-7051	Ask the hobo to dance for you.	5	0	0
+7051	Ask the hobo to dance for you	5	0	0
 7052	Summon hobo underling	5	0	0
 7053	Rouse Sapling	5	15	0
 7054	Spray Sap	5	15	0

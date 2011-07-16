@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui;
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.StackOverflowError;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -248,9 +249,14 @@ public class Interpreter
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
 		}
+		catch ( StackOverflowError e )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stack overflow during ASH script." );
+		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e, "", true );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Script execution aborted" );
 		}
 		return DataTypes.VOID_VALUE;
 	}
