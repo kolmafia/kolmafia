@@ -1273,6 +1273,8 @@ public class FightRequest
 
 	public Object run()
 	{
+		this.constructURLString( "fight.php" );
+
 		RequestThread.openRequestSequence();
 		FightRequest.isAutomatingFight = true;
 
