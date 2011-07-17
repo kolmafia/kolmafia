@@ -1212,7 +1212,7 @@ public class OptionsFrame
 				scrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 				JOptionPane pane = new JOptionPane( scrollPane, JOptionPane.PLAIN_MESSAGE );
-				JDialog dialog = pane.createDialog( "Daily Deeds Help" );
+				JDialog dialog = pane.createDialog( null, "Daily Deeds Help" );
 				dialog.setModal( false );
 				dialog.setVisible( true );
 			}
