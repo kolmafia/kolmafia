@@ -150,6 +150,8 @@ public class AddCustomDeedsPanel
 		addBooleanItemDeed();
 		addSkillDeed();
 		addTextDeed();
+		
+		AddCustomDeedsPanel.selectorPanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
 	}
 
 	private void addBooleanPrefDeed()

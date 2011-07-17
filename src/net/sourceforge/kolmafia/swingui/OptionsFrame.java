@@ -40,7 +40,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -48,13 +47,17 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
@@ -86,7 +89,6 @@ import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
-
 import tab.CloseTabPaneEnhancedUI;
 
 import com.informit.guides.JDnDList;
@@ -1108,10 +1110,13 @@ public class OptionsFrame
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(
-					JOptionPane.getFrameForComponent( new AddCustomDeedsPanel() ),
-					AddCustomDeedsPanel.selectorPanel, "Building Custom Deed",
-					JOptionPane.PLAIN_MESSAGE );
+				JFrame builderFrame = new JFrame( "Building Custom Deed" );
+				AddCustomDeedsPanel deedPanel = new AddCustomDeedsPanel();
+				builderFrame.getContentPane().add( AddCustomDeedsPanel.selectorPanel );
+				builderFrame.pack();
+				builderFrame.setResizable( false );
+				builderFrame.setLocationRelativeTo( null );
+				builderFrame.setVisible( true );
 			}
 		}
 
@@ -1150,7 +1155,7 @@ public class OptionsFrame
 
 			public void run()
 			{
-				String message = "<html><table width=800><tr><td>All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
+				String message = "<html><table width=750><tr><td>All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
 					+ "<h3><b>Custom Deeds</b></h3>"
 					+ "Custom deeds provide the user with a way of adding buttons or text to their daily deeds panel that is not natively provided for.  All deeds start with the keyword <b>$CUSTOM</b> followed by a pipe (|) symbol.  As you are constructing a custom deed, you separate the different arguments with pipes.<br>"
 					+ "<br>"
@@ -1194,8 +1199,22 @@ public class OptionsFrame
 					+ "<br>"
 					+ "You can supply as many arguments as you want to a Text deed.  Any argument that uniquely matches a preference will be replaced by that preference's value.  If you want to use a comma in your text, immediately follow the comma with a pipe character so it will not be parsed as the end of the Text deed.</td></tr></table></html>";
 
-				JOptionPane.showMessageDialog( new JPanel(), message, "Custom Deeds Help",
-					JOptionPane.PLAIN_MESSAGE );
+				JTextPane textPane = new JTextPane();
+				textPane.setContentType( "text/html" );
+				textPane.setText( message );
+				textPane.setOpaque( false );
+				textPane.setEditable( false );
+				textPane.setSelectionStart( 0 );
+				textPane.setSelectionEnd( 0 ); // don't have scrollPane scrolled to the bottom when you open it
+
+				JScrollPane scrollPane = new JScrollPane( textPane );
+				scrollPane.setPreferredSize( new Dimension( 800, 550 ) );
+				scrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+				JOptionPane pane = new JOptionPane( scrollPane, JOptionPane.PLAIN_MESSAGE );
+				JDialog dialog = pane.createDialog( "Daily Deeds Help" );
+				dialog.setModal( false );
+				dialog.setVisible( true );
 			}
 		}
 
