@@ -60,13 +60,15 @@ public class FamiliarDatabase
 {
 	private static final Map familiarById = new TreeMap();
 	private static final Map familiarByName = new TreeMap();
-	private static final Map familiarByLarva = new HashMap();
-	private static final Map familiarByItem = new HashMap();
 
 	private static final Map familiarItemById = new HashMap();
+	private static final Map familiarByItem = new HashMap();
+
 	private static final Map familiarLarvaById = new HashMap();
+	private static final Map familiarByLarva = new HashMap();
 
 	private static final Map familiarImageById = new HashMap();
+	private static final Map familiarByImage = new HashMap();
 
 	private static final BooleanArray combatById = new BooleanArray();
 	private static final BooleanArray volleyById = new BooleanArray();
@@ -120,13 +122,16 @@ public class FamiliarDatabase
 
 				FamiliarDatabase.familiarById.put( familiarId, familiarName );
 				FamiliarDatabase.familiarByName.put( StringUtilities.getCanonicalName( data[ 1 ] ), familiarId );
+
 				FamiliarDatabase.familiarImageById.put( familiarId, familiarImage );
+				FamiliarDatabase.familiarByImage.put( familiarImage, familiarId );
 				
+				FamiliarDatabase.familiarLarvaById.put( familiarId, familiarLarva );
 				FamiliarDatabase.familiarByLarva.put( familiarLarva, familiarId );
-				FamiliarDatabase.familiarByItem.put( StringUtilities.getCanonicalName( data[ 5 ] ), familiarId );
 
 				FamiliarDatabase.familiarItemById.put( familiarId, familiarItemName );
-				FamiliarDatabase.familiarLarvaById.put( familiarId, familiarLarva );
+				FamiliarDatabase.familiarByItem.put( StringUtilities.getCanonicalName( data[ 5 ] ), familiarId );
+
 
 				FamiliarDatabase.combatById.set( familiarId.intValue(), familiarType.indexOf( "combat" ) != -1 );
 				FamiliarDatabase.volleyById.set( familiarId.intValue(), familiarType.indexOf( "stat0" ) != -1 );
@@ -189,6 +194,7 @@ public class FamiliarDatabase
 		FamiliarDatabase.familiarById.put( dummyId, familiarName );
 		FamiliarDatabase.familiarByName.put( canon, dummyId );
 		FamiliarDatabase.familiarImageById.put( dummyId, image );
+		FamiliarDatabase.familiarByImage.put( image, dummyId );
 		FamiliarDatabase.familiarByLarva.put( FamiliarDatabase.ZERO, dummyId );
 		FamiliarDatabase.familiarItemById.put( dummyId, "" );
 		for ( int i = 0; i < 4; ++i )
@@ -372,6 +378,12 @@ public class FamiliarDatabase
 	{
 		String location = (String) FamiliarDatabase.familiarImageById.get( new Integer( familiarId ) );
 		return ( location != null ) ? location : "debug.gif";
+	}
+
+	public static final int getFamiliarByImageLocation( final String image )
+	{
+		Object familiarId = FamiliarDatabase.familiarByImage.get( image );
+		return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
 	}
 
 	private static final void downloadFamiliarImage( final int familiarId )

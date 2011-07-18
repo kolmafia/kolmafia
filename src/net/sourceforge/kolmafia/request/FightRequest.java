@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -3322,8 +3323,9 @@ public class FightRequest
 
 	public static class TagStatus
 	{
-		public final String familiar;
-		public final String diceMessage;
+		public String familiar;
+		public final boolean doppel;
+		public String diceMessage;
 		public final String ghost;
 		public final boolean logFamiliar;
 		public final boolean logMonsterHealth;
@@ -3341,6 +3343,9 @@ public class FightRequest
 		{
 			FamiliarData current = KoLCharacter.getFamiliar();
 			this.familiar = current.getImageLocation();
+			this.doppel =
+				( current.getId() == FamiliarPool.DOPPEL ) ||
+				KoLCharacter.hasEquipped( ItemPool.TINY_COSTUME_WARDROBE, EquipmentManager.FAMILIAR );
 			this.diceMessage = ( current.getId() == FamiliarPool.DICE ) ? ( current.getName() + " begins to roll." ) : null;
 			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
 			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
@@ -3360,6 +3365,23 @@ public class FightRequest
 			{
 				this.ghost = null;
 			}
+		}
+
+		public void setFamiliar( final String image )
+		{
+			FamiliarData current = KoLCharacter.getFamiliar();
+			int id = FamiliarDatabase.getFamiliarByImageLocation( image );
+			if ( id == current.getId() )
+			{
+				KoLCharacter.resetEffectiveFamiliar();
+			}
+			else
+			{
+				KoLCharacter.setEffectiveFamiliar( new FamiliarData( id ) );
+			}
+			FamiliarData effective = KoLCharacter.getEffectiveFamiliar();
+			this.familiar = image;
+			this.diceMessage = ( effective.getId() == FamiliarPool.DICE ) ? ( current.getName() + " begins to roll." ) : null;
 		}
 	}
 
@@ -3994,6 +4016,19 @@ public class FightRequest
 	{
 		StringBuffer action = status.action;
 
+		// If you have a tiny costume wardrobe or a doppelshifter, it
+		// can change its image mid-battle.
+		if ( status.doppel )
+		{
+			TagNode inode = node.findElementByName( "img", true );
+			String src = inode != null ? inode.getAttributeByName( "src" ) : null;
+			if ( src != null )
+			{
+				String image = src.substring( src.lastIndexOf( "/" ) + 1 );
+				status.setFamiliar( image );
+			}
+		}
+
 		// Preprocess this node: remove tables and process them later.
 		// This will also remove the table text from the node text and
 		// thus improve the message we log.
@@ -4018,6 +4053,7 @@ public class FightRequest
 		{
 			FightRequest.logText( text, status );
 		}
+
 		int damage = FightRequest.parseFamiliarDamage( str, status );
 		if ( damage != 0 )
 		{
@@ -4027,6 +4063,8 @@ public class FightRequest
 			}
 			MonsterStatusTracker.damageMonster( damage );
 		}
+
+		// <img src="http://images.kingdomofloathing.com/itemimages/familiar6.gif" width=30 height=30></td><td valign=center>Jiggly Grrl disappears into the wardrobe, and emerges dressed as a pair of Fuzzy Dice.
 
 		// Now process additional familiar actions
 		for ( int i = 0; i < tables.length; ++i )
@@ -4175,6 +4213,7 @@ public class FightRequest
 
 	private static final void clearInstanceData()
 	{
+		KoLCharacter.resetEffectiveFamiliar();
 		IslandDecorator.startFight();
 		FightRequest.castNoodles = false;
 		FightRequest.castCleesh = false;

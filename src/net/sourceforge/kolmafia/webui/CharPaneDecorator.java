@@ -142,7 +142,7 @@ public class CharPaneDecorator
 	
 	public static final String getFamiliarAnnotation()
 	{
-		FamiliarData fam = KoLCharacter.getFamiliar();
+		FamiliarData fam = KoLCharacter.getEffectiveFamiliar();
 		switch ( fam != null ? fam.getId() : -1 )
 		{
 		case FamiliarPool.TRON:
