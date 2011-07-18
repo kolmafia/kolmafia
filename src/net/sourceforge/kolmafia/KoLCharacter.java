@@ -321,6 +321,7 @@ public abstract class KoLCharacter
 	public static final SortedListModel familiars = new SortedListModel();
 	private static boolean isUsingStabBat = false;
 	public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
+	public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
 	public static FamiliarData currentEnthroned = FamiliarData.NO_FAMILIAR;
 
 	private static int arenaWins = 0;
@@ -3232,6 +3233,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.currentFamiliar == null ? FamiliarData.NO_FAMILIAR : KoLCharacter.currentFamiliar;
 	}
 
+	public static final FamiliarData getEffectiveFamiliar()
+	{
+		return KoLCharacter.effectiveFamiliar == null ? FamiliarData.NO_FAMILIAR : KoLCharacter.effectiveFamiliar;
+	}
+
 	public static final FamiliarData getEnthroned()
 	{
 		return KoLCharacter.currentEnthroned == null ? FamiliarData.NO_FAMILIAR : KoLCharacter.currentEnthroned;
@@ -3419,9 +3425,20 @@ public abstract class KoLCharacter
 			KoLCharacter.currentFamiliar.getRace().equals( "Scary Death Orb" );
 
 		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+		GearChangeFrame.updateFamiliars();
+		KoLCharacter.resetEffectiveFamiliar();
+	}
+
+	public static final void resetEffectiveFamiliar()
+	{
+		KoLCharacter.setEffectiveFamiliar( KoLCharacter.currentFamiliar );
+	}
+
+	public static final void setEffectiveFamiliar( final FamiliarData familiar )
+	{
+		KoLCharacter.effectiveFamiliar = familiar;
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
-		GearChangeFrame.updateFamiliars();
 	}
 
 	public static final void setEnthroned( final FamiliarData familiar )
@@ -3760,7 +3777,7 @@ public abstract class KoLCharacter
 				KoLCharacter.getMindControlLevel(),
 				EquipmentManager.allEquipment(),
 				KoLConstants.activeEffects,
-				KoLCharacter.currentFamiliar,
+				KoLCharacter.effectiveFamiliar,
 				KoLCharacter.currentEnthroned,
 				false ) );
 	}

@@ -792,6 +792,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_effective_familiar", DataTypes.FAMILIAR_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_enthroned_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
@@ -3461,6 +3464,11 @@ public abstract class RuntimeLibrary
 	public static Value my_familiar()
 	{
 		return DataTypes.makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
+	}
+
+	public static Value my_effective_familiar()
+	{
+		return DataTypes.makeFamiliarValue( KoLCharacter.getEffectiveFamiliar().getId() );
 	}
 
 	public static Value my_enthroned_familiar()

@@ -703,8 +703,9 @@ public class CompactSidePane
 
 		this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" + KoLConstants.COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 
-		FamiliarData familiar = KoLCharacter.getFamiliar();
-		int id = familiar == null ? -1 : familiar.getId();
+		FamiliarData current = KoLCharacter.getFamiliar();
+		FamiliarData effective = KoLCharacter.getEffectiveFamiliar();
+		int id = effective == null ? -1 : effective.getId();
 
 		if ( id == -1 )
 		{
@@ -715,7 +716,7 @@ public class CompactSidePane
 		{
 			String anno = CharPaneDecorator.getFamiliarAnnotation();
 			this.familiarLabel.setIcon( FamiliarDatabase.getFamiliarImage( id ) );
-			int weight = familiar.getModifiedWeight();
+			int weight = current.getModifiedWeight();
 			this.familiarLabel.setText( weight +
 				( weight == 1 ? " lb." : " lbs." ) +
 				( anno == null ? "" : ", " + anno ) );
