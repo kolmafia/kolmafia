@@ -5108,7 +5108,7 @@
 5099	Pok&euml;mann figurine: Shoggoth	accessory	all	0
 5100	Pok&euml;mann figurine: Frank	accessory	all	0
 5101	Pok&euml;mann figurine: Moog	accessory	all	0
-5102	willyweed	multiple	all	30
+5102	willyweed	usable	all	30
 5103	Nuclear Blastball	usable	all	25
 5104	fish juice box	multiple	all	45
 5105	paint bomb	none, combat	all	35
