@@ -1111,6 +1111,45 @@ public class GenericRequest
 				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 		}
+		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
+		{
+			Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( location );
+			if ( !itemMatcher.find() )
+			{
+				return null;
+			}
+			int comedyItemID = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+
+			String comedy;
+			switch( comedyItemID )
+			{
+			case ItemPool.INSULT_PUPPET: 
+				comedy = "insult";
+				break;
+			case ItemPool.OBSERVATIONAL_GLASSES:
+				comedy = "observe";
+				break;
+			case ItemPool.COMEDY_PROP:
+				comedy = "prop";
+				break;
+			default:
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "\""+ comedyItemID +"\" is not a comedy item number that Mafia recognizes." );
+				return null;
+			}
+
+			AdventureResult comedyItem = ItemPool.get( comedyItemID, 1 );
+
+			SpecialOutfit.createImplicitCheckpoint();
+			if ( KoLConstants.inventory.contains( comedyItem ) )
+			{
+				( new EquipmentRequest( comedyItem ) ).run();
+			}
+			if ( KoLmafia.permitsContinue() && KoLCharacter.hasEquipped( comedyItem ) )
+			{
+				( new PandamoniumRequest( comedy ) ).run();
+			}
+			SpecialOutfit.restoreImplicitCheckpoint();
+		}
 
 		// To avoid wasting turns, buy a can of hair spray before
 		// climbing the tower. Also, if the person has an NG, make sure

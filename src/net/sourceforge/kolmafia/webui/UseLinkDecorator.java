@@ -751,15 +751,9 @@ public abstract class UseLinkDecorator
 				break;
 
 			case ItemPool.INSULT_PUPPET:
-				uses.add( new UseLink( itemId, itemCount, "insult mourn", "pandamonium.php?action=mourn&preaction=insult" ) );
-				break;
-
 			case ItemPool.OBSERVATIONAL_GLASSES:
-				uses.add( new UseLink( itemId, itemCount, "observe mourn", "pandamonium.php?action=mourn&preaction=observe" ) );
-				break;
-
 			case ItemPool.COMEDY_PROP:
-				uses.add( new UseLink( itemId, itemCount, "prop mourn", "pandamonium.php?action=mourn&preaction=prop" ) );
+				uses.add( new UseLink( itemId, itemCount, "visit mourn", "pandamonium.php?action=mourn&whichitem=" ) );
 				break;
 			}
 			
