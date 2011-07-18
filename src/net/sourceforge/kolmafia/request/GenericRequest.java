@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.EventMessage;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -1121,10 +1122,12 @@ public class GenericRequest
 			int comedyItemID = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
 			String comedy;
+			boolean offhand = false;
 			switch( comedyItemID )
 			{
 			case ItemPool.INSULT_PUPPET: 
 				comedy = "insult";
+				offhand = true;
 				break;
 			case ItemPool.OBSERVATIONAL_GLASSES:
 				comedy = "observe";
@@ -1142,6 +1145,17 @@ public class GenericRequest
 			SpecialOutfit.createImplicitCheckpoint();
 			if ( KoLConstants.inventory.contains( comedyItem ) )
 			{
+				// Unequip any 2-handed weapon before equipping an offhand
+				if ( offhand )
+				{
+					AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
+					int hands = EquipmentDatabase.getHands( weapon.getItemId() );
+					if ( hands > 1 )
+					{
+						( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON ) ).run();
+					}
+				}
+
 				( new EquipmentRequest( comedyItem ) ).run();
 			}
 			if ( KoLmafia.permitsContinue() && KoLCharacter.hasEquipped( comedyItem ) )
