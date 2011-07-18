@@ -663,7 +663,7 @@ public class StringUtilities
 
 	public static final int parseInt( String string )
 	{
-                return StringUtilities.parseIntInternal1( string, false );
+		return StringUtilities.parseIntInternal1( string, false );
 	}
 
 	public static final int parseIntInternal1( String string, boolean throwException )
