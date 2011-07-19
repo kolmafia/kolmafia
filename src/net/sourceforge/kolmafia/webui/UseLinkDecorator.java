@@ -800,11 +800,16 @@ public abstract class UseLinkDecorator
 		{
 
 		// Subject 37 File goes to Cell #37
-
 		case ItemPool.SUBJECT_37_FILE:
-
 			useType = "cell #37";
 			useLocation = "cobbsknob.php?level=3&action=cell37";
+			break;
+
+		// Guild quest items go to guild chief
+		case ItemPool.BIG_KNOB_SAUSAGE:
+		case ItemPool.EXORCISED_SANDWICH:
+			useType = "guild";
+			useLocation = "guild.php?place=challenge";
 			break;
 
 		case ItemPool.LOATHING_LEGION_JACKHAMMER:

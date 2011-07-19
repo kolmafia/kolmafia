@@ -1282,6 +1282,8 @@ public class ItemPool
 	public static final int MOON_POTION_2 = 5181;
 	public static final int MOON_POTION_3 = 5182;
 	public static final int PATRIOT_SHIELD = 5190;
+	public static final int BIG_KNOB_SAUSAGE = 5193;
+	public static final int EXORCISED_SANDWICH = 5194;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
