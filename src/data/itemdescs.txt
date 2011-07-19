@@ -1089,7 +1089,7 @@
 1088	807421909	cldome1.gif	clockwork clockwise dome	clockwork clockwise domes
 1089	196767277	clspine.gif	clockwork spine	clockwork spines
 1090	879600306	clrings.gif	clockwork rings	sets of clockwork rings
-1091	587287336	clclaws.gif	clockwork claws	sets of clockwork claws
+1091	587287336	clclaws.gif	clockwork claws	pairs of clockwork claws
 1092	837370143	clsheet.gif	clockwork sheet	clockwork sheets
 1093	958801604	cldome2.gif	clockwork counterclockwise dome	clockwork counterclockwise domes
 1094	397320792	clsphere.gif	clockwork sphere	clockwork spheres
