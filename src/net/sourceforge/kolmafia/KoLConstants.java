@@ -658,6 +658,8 @@ public interface KoLConstants
 	public static final LockableListModel buffSkills = new LockableListModel();
 	public static final LockableListModel availableSkills = new LockableListModel();
 	public static final IdentityHashMap availableSkillsMap = new IdentityHashMap();
+	public static final LockableListModel availableConditionalSkills = new LockableListModel();
+	public static final IdentityHashMap availableConditionalSkillsMap = new IdentityHashMap();
 	public static final LockableListModel permedSkills = new LockableListModel();
 	public static final LockableListModel combatSkills = new LockableListModel();
 
