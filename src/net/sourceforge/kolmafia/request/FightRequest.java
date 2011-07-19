@@ -142,6 +142,7 @@ public class FightRequest
 	private static boolean isUsingConsultScript = false;
 
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
+	private static final Pattern CONDITIONAL_COMBATSKILL_PATTERN = Pattern.compile( "<option[^>]*?value=\"(7\\d{3,3})[^>]*?>[^>]*?\\((\\d+)[^<]*</option>" );
 
 	public static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
