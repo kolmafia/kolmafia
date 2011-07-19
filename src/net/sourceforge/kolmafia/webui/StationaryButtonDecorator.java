@@ -38,12 +38,14 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -340,9 +342,7 @@ public class StationaryButtonDecorator
 				action = String.valueOf( SkillDatabase.getSkillId( action ) );
 			}
 
-			int skillID = Integer.parseInt( action );
-			String name = SkillDatabase.getSkillName( skillID );
-			boolean isCombat = SkillDatabase.getSkillType( skillID ) == SkillDatabase.COMBAT;
+			String name = SkillDatabase.getSkillName( Integer.parseInt( action ) );
 			boolean hasSkill = name != null && KoLCharacter.hasSkill( name );
 
 			boolean remove = false;
@@ -364,8 +364,7 @@ public class StationaryButtonDecorator
 				}
 			}
 			// Otherwise, remove unknown skills from preferences
-			// unless they are conditionally granted combat skills. 
-			else if ( !hasSkill && !isCombat )
+			else if ( !hasSkill )
 			{
 				remove = true;
 			}
@@ -384,6 +383,22 @@ public class StationaryButtonDecorator
 			}
 
 			// Show this skill.
+			StationaryButtonDecorator.addFightButton(
+				urlString,
+				buffer,
+				actionBuffer,
+				action,
+				FightRequest.getCurrentRound() > 0 );
+		}
+
+		// Add conditionally available combat skills
+		// parsed from the fight page
+
+		for ( int i = 0; i < KoLConstants.availableConditionalSkills.size(); ++i )
+		{
+			UseSkillRequest current = (UseSkillRequest) KoLConstants.availableConditionalSkills.get( i );
+			String action = String.valueOf( current.getSkillId() );
+
 			StationaryButtonDecorator.addFightButton(
 				urlString,
 				buffer,

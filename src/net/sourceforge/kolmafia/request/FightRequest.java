@@ -2773,6 +2773,38 @@ public class FightRequest
 		}
 	}
 
+	public static final void parseConditionalCombatSkills( String responseText )
+	{
+		// The current round will be zero when the fight is over.
+		// If you run with the WOWbar, the skills dropdown will
+		// still be on the page. Don't look at it.
+		if ( FightRequest.currentRound < 1 )
+		{
+			return;
+		}
+
+		int startIndex = responseText.indexOf( "<select name=whichskill>" );
+		if ( startIndex == -1 )
+		{
+			return;
+		}
+		int endIndex = responseText.indexOf( "</select>", startIndex );
+		if ( endIndex == -1 )
+		{
+			return;
+		}
+
+		KoLConstants.availableConditionalSkills.clear();
+		KoLConstants.availableConditionalSkillsMap.clear();
+
+		Matcher m = FightRequest.CONDITIONAL_COMBATSKILL_PATTERN.matcher( responseText.substring( startIndex, endIndex ) );
+		while ( m.find() )
+		{
+			int skillId = StringUtilities.parseInt( m.group( 1 ) );
+			KoLCharacter.addAvailableConditionalSkill( SkillDatabase.getSkillName( skillId ) );
+		}
+	}
+
 	private static final void getRound( final StringBuffer action )
 	{
 		action.setLength( 0 );
