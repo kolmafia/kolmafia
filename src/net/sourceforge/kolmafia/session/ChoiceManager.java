@@ -1534,7 +1534,7 @@ public abstract class ChoiceManager
 		// Choice 541 is unknown
 		// Choice 542 is Now's Your Pants!  I Mean... Your Chance!
 		// Choice 543 is Up In Their Grill
-		// Choice 544 is A Sandwich Appears
+		// Choice 544 is A Sandwich Appears!
 	};
 
 	static
