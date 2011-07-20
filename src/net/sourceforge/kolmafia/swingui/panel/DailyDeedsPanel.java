@@ -229,10 +229,10 @@ public class DailyDeedsPanel
 	private void populate()
 	{
 		// If we're not logged in, don't populate daily deeds.
-		/*if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
+		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
 		{
 			return;
-		}*/
+		}
 
 		String[][] fullDeedsList = DailyDeedsPanel.BUILTIN_DEEDS;
 		String deedsString = Preferences.getString( "dailyDeedsOptions" );
@@ -326,15 +326,40 @@ public class DailyDeedsPanel
 
 	private void parseComboDeed( String[] deedsString )
 	{
-		if ( deedsString.length > 3 && ( deedsString.length - 3 ) % 4 != 0 )
+		boolean isMulti = false;
+		int maxUses = 1;
+		if ( deedsString.length > 3 )
 		{
-			RequestLogger.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type BooleanCombo." );
+			if ( deedsString[3].equalsIgnoreCase( "$ITEM" ) )
+			{
+				
+			}
+			else
+			{
+				try
+				{
+					maxUses = Integer.parseInt( deedsString[3] );
+					isMulti = true;
+				}
+				catch( NumberFormatException e)
+				{
+					//not sure what you did.  Possibly used the wrong number of arguments, or specified a non-integer max
+					return;
+				}
+			}
+		}
+		if ( deedsString.length > ( isMulti ? 4 : 3 ) && ( deedsString.length - ( isMulti ? 4 : 3 ) ) % 4 != 0 )
+		{
+			RequestLogger.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Combo." );
 			return;
 		}
 		/*
-		 * First 3:
-		 * MultiPref|displayText|preference
+		 * !isMulti First 3:
+		 * Combo|displayText|preference
 		 * this first pref is used to enable/disable the whole combodeed.
+		 * 
+		 * isMulti First 4:
+		 * Combo|displayText|preference|maxUses
 		 */
 
 		String displayText = deedsString[ 1 ];
@@ -344,7 +369,7 @@ public class DailyDeedsPanel
 		// .get( element ) gives a string array containing { "$ITEM", displayText, preference, command }
 
 		ArrayList packedDeed = new ArrayList();
-		for ( int i = 3; i < deedsString.length; i += 4 )
+		for ( int i = ( isMulti ? 4 : 3 ); i < deedsString.length; i += 4 )
 		{
 			if ( !deedsString[ i ].equals( "$ITEM" ) )
 			{
@@ -358,7 +383,14 @@ public class DailyDeedsPanel
 			} );
 		}
 		
-		this.add( new ComboDaily( displayText, pref, packedDeed ) );
+		if ( isMulti )
+		{
+			this.add( new ComboDaily( displayText, pref, packedDeed, maxUses ) );
+		}
+		else
+		{
+			this.add( new ComboDaily( displayText, pref, packedDeed ) );
+		}
 	}
 
 	private void parseTextDeed( String[] deedsString )
@@ -1102,6 +1134,13 @@ public class DailyDeedsPanel
 			this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
 
 			btn = this.addComboButton( "", "Go!" );
+		}
+		
+		public ComboDaily( String displayText, String pref, ArrayList packedDeed, int maxUses )
+		{
+			this( displayText, pref, packedDeed);
+			this.maxPref = maxUses;
+			this.addLabel( "" );
 		}
 
 		public void update()
