@@ -1809,7 +1809,7 @@ public class RelayRequest
 		// The request might have printed to the status line, so enable
 		// the GUI
 
-		KoLmafia.enableDisplay();
+		RequestThread.enableDisplayIfSequenceComplete();
 
 		if ( this.responseCode == 302 )
 		{
