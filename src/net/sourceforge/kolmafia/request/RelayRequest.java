@@ -244,11 +244,7 @@ public class RelayRequest
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
 
-		if ( path.equals( "charpane.php" ) )
-		{
-			CharPaneRequest.processCharacterPane( this.responseText, this.date );
-		}
-		else if ( path.equals( "chatlaunch.php" ) )
+		if ( path.equals( "chatlaunch.php" ) )
 		{
 			if ( Preferences.getBoolean( "relayAddsGraphicalCLI" ) )
 			{
