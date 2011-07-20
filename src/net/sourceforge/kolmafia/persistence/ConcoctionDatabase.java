@@ -1325,7 +1325,7 @@ public class ConcoctionDatabase
 
 		// Un-untinkerable Amazing Ideas
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.ACOMBINE ] = true;
-		ConcoctionDatabase.CREATION_COST[ KoLConstants.ACOMBINE ] = 0;
+		ConcoctionDatabase.CREATION_COST[ KoLConstants.ACOMBINE ] = 10;
 
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
@@ -1365,6 +1365,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] = true;
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SMITH ] = 0;
 			ConcoctionDatabase.CREATION_COST[ KoLConstants.COMBINE ] = 0;
+			ConcoctionDatabase.CREATION_COST[ KoLConstants.ACOMBINE ] = 0;
 		}
 
 		if ( KoLCharacter.canSmithWeapons() )

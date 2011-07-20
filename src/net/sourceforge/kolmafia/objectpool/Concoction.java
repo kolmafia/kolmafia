@@ -805,7 +805,9 @@ public class Concoction
 
 		// Meat paste is an implicit ingredient
 
-		if ( minMake > 0 && this.mixingMethod == KoLConstants.COMBINE && !KoLCharacter.knollAvailable() )
+		if ( minMake > 0 &&
+		     ( this.mixingMethod == KoLConstants.COMBINE || this.mixingMethod == KoLConstants.ACOMBINE ) &&
+		     !KoLCharacter.knollAvailable() )
 		{
 			Concoction c = ConcoctionPool.get( ItemPool.MEAT_PASTE );
 			minMake = Math.min( minMake, c.canMake( needToMake, visited ) );
@@ -865,7 +867,10 @@ public class Concoction
 		// Avoid mutual recursion.
 
 		int create = quantityNeeded - this.initial;
-		if ( create <= 0 ||  (this.mixingMethod & KoLConstants.CT_MASK) != KoLConstants.COMBINE || KoLCharacter.knollAvailable() )
+		int method = ( this.mixingMethod & KoLConstants.CT_MASK );
+		if ( create <= 0 ||
+		     (method != KoLConstants.COMBINE && method != KoLConstants.ACOMBINE ) ||
+		     KoLCharacter.knollAvailable() )
 		{
 			return 0;
 		}

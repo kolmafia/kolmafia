@@ -934,7 +934,9 @@ public class CreateItemRequest
 		boolean foundAllIngredients = true;
 
 		// If this is a combining request, you need meat paste as well.
-		if ( (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.COMBINE && !KoLCharacter.knollAvailable() )
+		int method = this.mixingMethod & KoLConstants.CT_MASK;
+		if ( ( method == KoLConstants.COMBINE || method == KoLConstants.ACOMBINE ) &&
+		     !KoLCharacter.knollAvailable() )
 		{
 			int pasteNeeded = this.concoction.getMeatPasteNeeded(
 				this.quantityNeeded + this.concoction.initial );
