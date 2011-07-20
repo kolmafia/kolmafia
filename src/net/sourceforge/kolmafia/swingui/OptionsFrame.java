@@ -1148,13 +1148,12 @@ public class OptionsFrame
 		private class HelpButton
 			extends ThreadedButton
 		{
+			JOptionPane pane;
+			
 			public HelpButton()
 			{
 				super( "Help" );
-			}
-
-			public void run()
-			{
+			
 				String message = "<html><table width=750><tr><td>All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
 					+ "<h3><b>Custom Deeds</b></h3>"
 					+ "Custom deeds provide the user with a way of adding buttons or text to their daily deeds panel that is not natively provided for.  All deeds start with the keyword <b>$CUSTOM</b> followed by a pipe (|) symbol.  As you are constructing a custom deed, you separate the different arguments with pipes.<br>"
@@ -1163,33 +1162,31 @@ public class OptionsFrame
 					+ "<br>"
 					+ "There are currently 5 different types of custom deeds.  Remember that all of these \"acceptable forms\" are prefaced by $CUSTOM|.<br>"
 					+ "<br>"
-					+ "<b>BooleanPref</b> - one-a-day deed<br>"
-					+ "acceptable forms:<br>BooleanPref|displayText|preference<br>"
-					+ "BooleanPref|displayText|preference|command<br><br>"
-					+ "displayText - the text that will be displayed on the button<br>"
-					+ "preference - the <u>boolean</u> preference to track.  The button will be enabled when the preference is false, and disabled when the preference is true.<br>"
-					+ "command (optional) - the command to execute.  If not specified, will default to displayText.<br>"
+					+ "<b>Command</b> - execute a command with a button press<br>"
+					+ "acceptable forms:" 
+					+ "<br>Command|displayText|preference<br>"
+					+ "Command|displayText|preference|command<br>"
+					+ "Command|displayText|preference|command|maxUses<br>" 
 					+ "<br>"
-					+ "<b>MultiPref</b> - <i>n</i>-times-a-day deed<br>"
-					+ "acceptable forms:<br>"
-					+ "BooleanPref|displayText|preference|command|maxUses<br><br>"
-					+ "preference - the <u>integer</u> preference to track.  The button will be enabled when preference &lt; maxUses.<br>"
+					+ "displayText - the text that will be displayed on the button<br>"
+					+ "preference - the preference to track.  The button will be enabled when the preference is less than maxUses (default 1).<br>"
+					+ "command - the command to execute.  If not specified, will default to displayText.<br>"
 					+ "maxUses - an arbitrary integer.  Specifies a threshold to disable the button at.  A counter in the form of &lt;preference&gt;/&lt;maxUses&gt; will be displayed to the right of the button.<br>"
 					+ "<br>"
-					+ "<b>BooleanItem</b> - this button will use fuzzy matching to find the name of the item specified.  Will execute \"use &lt;itemName&gt;\" when clicked.  Will only be visible when you possess one or more of the item.<br>"
+					+ "<b>Item</b> - this button will use fuzzy matching to find the name of the item specified.  Will execute \"use &lt;itemName&gt;\" when clicked.  Will only be visible when you possess one or more of the item.<br>"
 					+ "acceptable forms:<br>"
-					+ "BooleanItem|displayText|preference<br>"
-					+ "BooleanItem|displayText|preference|itemName<br>"
+					+ "Item|displayText|preference<br>"
+					+ "Item|displayText|preference|itemName<br>"
+					+ "Item|displayText|preference|itemName|maxUses<br>" 	
 					+ "<br>"
 					+ "itemName - the name of the item that will be used.  If not specified, will default to displayText.<br>"
 					+ "<br>"
-					+ "<b>Skill</b> - cast a skill that is tracked by a boolean or int preference.  Will execute \"cast &lt;skillName&gt;\" when clicked.  <br>"
+					+ "<b>Skill</b> - cast a skill that is tracked by a boolean or int preference.  Will execute \"cast &lt;skillName&gt;\" when clicked.  Will not be visible if you don't know the skill.<br>"
 					+ "acceptable forms:<br>"
 					+ "Skill|displayText|preference<br>"
 					+ "Skill|displayText|preference|skillName<br>"
 					+ "Skill|displayText|preference|skillName|maxCasts<br>"
 					+ "<br>"
-					+ "preference - a <u>boolean</u> preference if the 3- or 4-argument version is used, or an <u>integer</u> preference if the 5-argument version is used.<br>"
 					+ "skillName- the name of the skill that will be cast.  If not specified, will default to displayText.  Must be specified if maxCasts are specified.<br>"
 					+ "maxCasts - an arbitrary integer.  Specifies a threshold to disable the button at.  A counter in the form of &lt;preference&gt;/&lt;maxCasts&gt; will be displayed to the right of the button.<br>"
 					+ "<br>"
@@ -1211,8 +1208,12 @@ public class OptionsFrame
 				scrollPane.setPreferredSize( new Dimension( 800, 550 ) );
 				scrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-				JOptionPane pane = new JOptionPane( scrollPane, JOptionPane.PLAIN_MESSAGE );
-				JDialog dialog = pane.createDialog( null, "Daily Deeds Help" );
+				this.pane = new JOptionPane( scrollPane, JOptionPane.PLAIN_MESSAGE );
+			}
+
+			public void run()
+			{
+				JDialog dialog = this.pane.createDialog( null, "Daily Deeds Help" );
 				dialog.setModal( false );
 				dialog.setVisible( true );
 			}

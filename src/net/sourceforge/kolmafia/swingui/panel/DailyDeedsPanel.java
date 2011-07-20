@@ -73,7 +73,7 @@ public class DailyDeedsPanel
 
 	/*
 	 * Built-in deeds. {Type, Name, ...otherArgs}
-	 * Type: one of { BooleanPref, BooleanItem, Skill, Special }
+	 * Type: one of { Command, Item, Skill, Special }
 	 *
 	 * NOTE: when adding a new built-in deed, also add an appropriate entry for it in getVersion and increment dailyDeedsVersion
 	 * in defaults.txt.
@@ -81,10 +81,10 @@ public class DailyDeedsPanel
 	public static final String[][] BUILTIN_DEEDS =
 	{
 		{
-			"BooleanPref", "Breakfast", "breakfastCompleted", "breakfast"
+			"Command", "Breakfast", "breakfastCompleted", "breakfast"
 		},
 		{
-			"BooleanPref", "Daily Dungeon", "dailyDungeonDone", "adv * Daily Dungeon"
+			"Command", "Daily Dungeon", "dailyDungeonDone", "adv * Daily Dungeon"
 		},
 		{
 			"Special", "Submit Spading Data",
@@ -96,7 +96,7 @@ public class DailyDeedsPanel
 			"Special", "Chips",
 		},
 		{
-			"BooleanItem", "Library Card", "libraryCardUsed"
+			"Item", "Library Card", "libraryCardUsed"
 		},
 		{
 			"Special", "Telescope",
@@ -114,13 +114,13 @@ public class DailyDeedsPanel
 			"Special", "April Shower",
 		},
 		{
-			"BooleanItem", "Bag o' Tricks", "_bagOTricksUsed"
+			"Item", "Bag o' Tricks", "_bagOTricksUsed"
 		},
 		{
-			"BooleanItem", "Legendary Beat", "_legendaryBeat"
+			"Item", "Legendary Beat", "_legendaryBeat"
 		},
 		{
-			"BooleanItem", "Outrageous Sombrero", "outrageousSombreroUsed"
+			"Item", "Outrageous Sombrero", "outrageousSombreroUsed"
 		},
 		{
 			"Special", "Friars",
@@ -147,10 +147,10 @@ public class DailyDeedsPanel
 			"Special", "Nuns",
 		},
 		{
-			"BooleanItem", "Oscus' Soda", "oscusSodaUsed"
+			"Item", "Oscus' Soda", "oscusSodaUsed"
 		},
 		{
-			"BooleanItem", "Express Card", "expressCardUsed"
+			"Item", "Express Card", "expressCardUsed"
 		},
 		{
 			"Special", "Flush Mojo",
@@ -229,10 +229,10 @@ public class DailyDeedsPanel
 	private void populate()
 	{
 		// If we're not logged in, don't populate daily deeds.
-		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
+		/*if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
 		{
 			return;
-		}
+		}*/
 
 		String[][] fullDeedsList = DailyDeedsPanel.BUILTIN_DEEDS;
 		String deedsString = Preferences.getString( "dailyDeedsOptions" );
@@ -259,19 +259,19 @@ public class DailyDeedsPanel
 					/*
 					 * Generalized handling
 					 */
-					if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "BooleanPref" ) )
+					if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Command" ) )
 					{
-						ParseBooleanDeed( fullDeedsList[ j ] );
+						parseCommandDeed( fullDeedsList[ j ] );
 						break;
 					}
-					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "BooleanItem" ) )
+					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Item" ) )
 					{
-						ParseBooleanItemDeed( fullDeedsList[ j ] );
+						parseItemDeed( fullDeedsList[ j ] );
 						break;
 					}
 					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Skill" ) )
 					{
-						ParseSkillDeed( fullDeedsList[ j ] );
+						parseSkillDeed( fullDeedsList[ j ] );
 						break;
 					}
 
@@ -280,7 +280,7 @@ public class DailyDeedsPanel
 					 */
 					else if ( fullDeedsList[ j ][ 0 ].equalsIgnoreCase( "Special" ) )
 					{
-						ParseSpecialDeed( fullDeedsList[ j ] );
+						parseSpecialDeed( fullDeedsList[ j ] );
 						break;
 					}
 
@@ -300,65 +300,68 @@ public class DailyDeedsPanel
 				String cString = pieces[ i ].substring( 8 );//remove $CUSTOM|
 				String[] customPieces = cString.split( "\\|" );
 
-				if ( customPieces[ 0 ].equalsIgnoreCase( "BooleanPref" ) )
+				if ( customPieces[ 0 ].equalsIgnoreCase( "Command" ) )
 				{
-					ParseBooleanDeed( customPieces );
+					parseCommandDeed( customPieces );
 				}
-				else if ( customPieces[ 0 ].equalsIgnoreCase( "MultiPref" ) )
+				else if ( customPieces[ 0 ].equalsIgnoreCase( "Item" ) )
 				{
-					ParseMultiDeed( customPieces );
-				}
-				else if ( customPieces[ 0 ].equalsIgnoreCase( "BooleanItem" ) )
-				{
-					ParseBooleanItemDeed( customPieces );
+					parseItemDeed( customPieces );
 				}
 				else if ( customPieces[ 0 ].equalsIgnoreCase( "Skill" ) )
 				{
-					ParseSkillDeed( customPieces );
+					parseSkillDeed( customPieces );
 				}
 				else if ( customPieces[ 0 ].equalsIgnoreCase( "Text" ) )
 				{
-					ParseTextDeed( customPieces );
+					parseTextDeed( customPieces );
+				}
+				else if ( customPieces[ 0 ].equalsIgnoreCase( "Combo" ) )
+				{
+					parseComboDeed( customPieces );
 				}
 			}
 		}
 	}
 
-	private void ParseMultiDeed( String[] deedsString )
+	private void parseComboDeed( String[] deedsString )
 	{
-		if ( deedsString.length != 5 )
+		if ( deedsString.length > 3 && ( deedsString.length - 3 ) % 4 != 0 )
 		{
-			RequestLogger.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type MultiPref. (5)" );
+			RequestLogger.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type BooleanCombo." );
 			return;
 		}
-
 		/*
-		 * MultiPref|displayText|preference|command|maxPref
+		 * First 3:
+		 * MultiPref|displayText|preference
+		 * this first pref is used to enable/disable the whole combodeed.
 		 */
 
+		String displayText = deedsString[ 1 ];
 		String pref = deedsString[ 2 ];
 
-		if ( !KoLCharacter.baseUserName().equals( "GLOBAL" ) && Preferences.getString( pref ).equals( "" ) )
-		{
-			RequestLogger.printLine( "Daily Deeds error: couldn't resolve preference " + pref );
-			return;
-		}
+		// pack up the rest of the deed into an ArrayList.
+		// .get( element ) gives a string array containing { "$ITEM", displayText, preference, command }
 
-		String displayText = deedsString[ 1 ];
-		String command = deedsString[ 3 ];
-		try
+		ArrayList packedDeed = new ArrayList();
+		for ( int i = 3; i < deedsString.length; i += 4 )
 		{
-			int maxPref = Integer.parseInt( deedsString[ 4 ] );
-
-			this.add( new MultiPrefDaily( displayText, pref, command, maxPref ) );
+			if ( !deedsString[ i ].equals( "$ITEM" ) )
+			{
+				RequestLogger.printLine( "Each combo item must start with $ITEM, you used "
+					+ deedsString[ i ] );
+				return;
+			}
+			packedDeed.add( new String[]
+			{
+				deedsString[ i ], deedsString[ i + 1 ], deedsString[ i + 2 ], deedsString[ i + 3 ]
+			} );
 		}
-		catch ( NumberFormatException e )
-		{
-			RequestLogger.printLine( "Daily Deeds error: five-parameter 'Multi' deeds require an int for the fifth parameter." );
-		}
+		
+		this.add( new ComboDaily( displayText, pref, packedDeed ) );
 	}
 
-	private void ParseTextDeed( String[] deedsString )
+	private void parseTextDeed( String[] deedsString )
 	{
 		// No error handling here, really.  0-length strings don't do anything;
 		// blank strings end up working like a \n
@@ -366,21 +369,16 @@ public class DailyDeedsPanel
 		this.add( new TextDeed( deedsString ) );
 	}
 
-	private void ParseBooleanDeed( String[] deedsString )
+	private void parseCommandDeed( String[] deedsString )
 	{
-		if ( deedsString.length < 3 || deedsString.length > 4 )
+		if ( deedsString.length < 3 || deedsString.length > 5 )
 		{
-			RequestLogger.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Boolean. (3 or 4)" );
+			RequestLogger
+				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Command. (3, 4, or 5)" );
 			return;
 		}
 
 		String pref = deedsString[ 2 ];
-
-		if ( !KoLCharacter.baseUserName().equals( "GLOBAL" ) && Preferences.getString( pref ).equals( "" ) )
-		{
-			RequestLogger.printLine( "Daily Deeds error: couldn't resolve preference " + pref );
-			return;
-		}
 
 		if ( deedsString.length == 3 )
 		{
@@ -391,7 +389,7 @@ public class DailyDeedsPanel
 			// Use the display text for the command if none was specified
 			String command = deedsString[ 1 ];
 
-			this.add( new BooleanDaily( pref, command ) );
+			this.add( new CommandDaily( pref, command ) );
 		}
 		else if ( deedsString.length == 4 )
 		{
@@ -401,25 +399,40 @@ public class DailyDeedsPanel
 			String displayText = deedsString[ 1 ];
 			String command = deedsString[ 3 ];
 
-			this.add( new BooleanDaily( displayText, pref, command ) );
+			this.add( new CommandDaily( displayText, pref, command ) );
+		}
+		else if ( deedsString.length == 5 )
+		{
+			/*
+			 * MultiPref|displayText|preference|command|maxPref
+			 */
+
+			String displayText = deedsString[ 1 ];
+			String command = deedsString[ 3 ];
+			try
+			{
+				int maxPref = Integer.parseInt( deedsString[ 4 ] );
+
+				this.add( new CommandDaily( displayText, pref, command, maxPref ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Command deeds require an int for the fifth parameter." );
+			}
 		}
 	}
 
-	private void ParseBooleanItemDeed( String[] deedsString )
+	private void parseItemDeed( String[] deedsString )
 	{
-		if ( deedsString.length < 3 || deedsString.length > 4 )
+		if ( deedsString.length < 3 || deedsString.length > 5 )
 		{
-			RequestLogger.printLine( "You did not pass the proper number of parameters for a deed of type BooleanItem. (3 or 4)" );
+			RequestLogger
+				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Item. (3, 4, or 5)" );
 			return;
 		}
 
 		String pref = deedsString[ 2 ];
-
-		if ( !KoLCharacter.baseUserName().equals( "GLOBAL" ) && Preferences.getString( pref ).equals( "" ) )
-		{
-			RequestLogger.printLine( "Daily Deeds error: couldn't resolve preference " + pref );
-			return;
-		}
 
 		if ( deedsString.length == 3 )
 		{
@@ -431,13 +444,14 @@ public class DailyDeedsPanel
 			String item = ItemDatabase.getItemName( itemId );
 
 			if ( itemId == -1 )
- 			{
-				RequestLogger.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 1 ] );
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 1 ] );
 				return;
- 			}
+			}
 
-			this.add( new BooleanItemDaily( pref, itemId, "use " + item ) );
- 		}
+			this.add( new ItemDaily( pref, itemId, "use " + item ) );
+		}
 
 		else if ( deedsString.length == 4 )
 		{
@@ -453,30 +467,55 @@ public class DailyDeedsPanel
 
 			if ( itemId == -1 )
 			{
-				RequestLogger.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 3 ] );
+				RequestLogger
+					.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 3 ] );
 				return;
 			}
 
-			this.add( new BooleanItemDaily( displayText, pref, itemId, "use " + item ) );
+			this.add( new ItemDaily( displayText, pref, itemId, "use " + item ) );
 		}
- 	}
+		else if ( deedsString.length == 5 )
+		{
+			/*
+			 * BooleanItem|displayText|preference|itemName
+			 * itemId is found from itemName
+			 */
+			String displayText = deedsString[ 1 ];
+			// Use the substring matching of getItemId because itemName may not
+			// be the canonical name of the item
+			int itemId = ItemDatabase.getItemId( deedsString[ 3 ] );
+			String item = ItemDatabase.getItemName( itemId );
 
-	private void ParseSkillDeed( String[] deedsString )
+			if ( itemId == -1 )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 3 ] );
+				return;
+			}
+			try
+			{
+				int maxUses = Integer.parseInt( deedsString[ 4 ] );
+
+				this.add( new ItemDaily( displayText, pref, itemId, "use " + item, maxUses ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Item deeds require an int for the fifth parameter." );
+			}
+		}
+	}
+
+	private void parseSkillDeed( String[] deedsString )
 	{
 		if ( deedsString.length < 3 || deedsString.length > 5 )
 		{
-			RequestLogger.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Skill. (3, 4, or 5)" );
+			RequestLogger
+				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Skill. (3, 4, or 5)" );
 			return;
 		}
 
 		String pref = deedsString[ 2 ];
-		String resolvedPref = Preferences.getString( pref );
-
-		if ( !KoLCharacter.baseUserName().equals( "GLOBAL" ) && resolvedPref.equals( "" ) )
-		{
-			RequestLogger.printLine( "Daily Deeds error: couldn't resolve preference " + pref );
-			return;
-		}
 
 		if ( deedsString.length == 3 )
 		{
@@ -489,19 +528,11 @@ public class DailyDeedsPanel
 			if ( skillNames.size() != 1 )
 			{
 				RequestLogger.printLine( "Daily Deeds error: unable to resolve skill "
-						+ deedsString[ 1 ] );
+					+ deedsString[ 1 ] );
 				return;
 			}
 
-			if ( resolvedPref.equalsIgnoreCase( "True" ) || resolvedPref.equalsIgnoreCase( "False" ) )
-			{
-				this.add( new BooleanSkillDaily( pref, (String) skillNames.get( 0 ), "cast "
-					+ skillNames.get( 0 ) ) );
-			}
-			else
-			{
-				RequestLogger.printLine( "Daily Deeds error: three-parameter 'Skill' deeds can only handle boolean preferences." );
-			}
+			this.add( new SkillDaily( pref, (String) skillNames.get( 0 ), "cast " + skillNames.get( 0 ) ) );
 		}
 		else if ( deedsString.length == 4 )
 		{
@@ -514,27 +545,17 @@ public class DailyDeedsPanel
 			if ( skillNames.size() != 1 )
 			{
 				RequestLogger.printLine( "Daily Deeds error: unable to resolve skill "
-						+ deedsString[ 3 ] );
+					+ deedsString[ 3 ] );
 				return;
 			}
-			if ( resolvedPref.equalsIgnoreCase( "True" ) || resolvedPref.equalsIgnoreCase( "False" ) )
-			{
-				this.add( new BooleanSkillDaily( displayText, pref, (String) skillNames.get( 0 ),
-					"cast " + skillNames.get( 0 ) ) );
-			}
-			else
-			{
-				RequestLogger.printLine( "Daily Deeds error: four-parameter 'Skill' deeds can only handle boolean preferences." );
-			}
+			this.add( new SkillDaily( displayText, pref, (String) skillNames.get( 0 ), "cast "
+				+ skillNames.get( 0 ) ) );
 		}
-		else if ( deedsString.length == 5 )
+		else if ( deedsString.length == 5)
 		{
-			/*
-			 * Skill|displayText|preference|skillName|maxCasts
-			 */
 			String displayText = deedsString[ 1 ];
 			List skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
-			
+
 			try
 			{
 				int maxCasts = Integer.parseInt( deedsString[ 4 ] );
@@ -542,19 +563,20 @@ public class DailyDeedsPanel
 				if ( skillNames.size() != 1 )
 				{
 					RequestLogger.printLine( "Daily Deeds error: unable to resolve skill "
-							+ deedsString[ 3 ] );
+						+ deedsString[ 3 ] );
 					return;
 				}
-				this.add( new MultiSkillDaily( displayText, pref, (String) skillNames.get( 0 ), "cast "
-					+ "cast " + skillNames.get( 0 ), maxCasts ) );
+				this.add( new SkillDaily( displayText, pref, (String) skillNames.get( 0 ), "cast "
+					+ skillNames.get( 0 ), maxCasts ) );
 			}
 			catch ( NumberFormatException e )
 			{
-				RequestLogger.printLine( "Daily Deeds error: five-parameter 'Skill' deeds require an int for the fifth parameter." );
+				RequestLogger
+					.printLine( "Daily Deeds error: Skill deeds require an int for the fifth parameter." );
 			}
 		}
 	}
-	private void ParseSpecialDeed( String[] deedsString )
+	private void parseSpecialDeed( String[] deedsString )
 	{
 		if ( deedsString[ 1 ].equals( "Submit Spading Data" ) )
 		{
@@ -1035,12 +1057,129 @@ public class DailyDeedsPanel
 			}
 		}
 	}
+	
+	public static class ComboDaily
+		extends Daily
+	{
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn = null;
 
-	public static class BooleanDaily
+		ArrayList packedDeed;
+		String preference;
+		int maxPref = 1;
+
+		public ComboDaily( String displayText, String pref, ArrayList packedDeed )
+		{
+			this.packedDeed = packedDeed;
+			this.preference = pref;
+
+			int len = packedDeed.size();
+			ArrayList ttips = new ArrayList();
+			Object[] tips = new Object[ len + 1 ];
+			Object[] choices = new String[ len + 1 ];
+			choices[ 0 ] = displayText;
+			tips[ 0 ] = "";
+			String lengthString = "ABCDEFGH";
+
+			for ( int i = 1; i <= len; ++i )
+			{
+				String[] item = (String[]) packedDeed.get( i - 1 );
+
+				tips[ i ] = item[ 3 ];
+				this.addListener( item[ 2 ] );
+				choices[ i ] = item[ 1 ];
+
+				if ( item[ 1 ].length() > lengthString.length() )
+				{
+					lengthString = item[ 1 ];
+				}
+			}
+			ttips.addAll( Arrays.asList( tips ) );
+
+			this.addListener( pref );
+			this.box = this.addComboBox( choices, ttips, lengthString + " " );
+			this.box.addActionListener( new ComboListener() );
+			this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
+
+			btn = this.addComboButton( "", "Go!" );
+		}
+
+		public void update()
+		{
+			int prefToInt = 1;
+			String pref = Preferences.getString( this.preference );
+			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
+				|| pref.equalsIgnoreCase( "" ) )
+			{
+				prefToInt = pref.equalsIgnoreCase( "true" ) ? 1 : 0;
+			}
+			else
+			{
+				try
+				{
+					prefToInt = Integer.parseInt( pref );
+				}
+				catch ( NumberFormatException e )
+				{
+				}
+			}
+			this.setEnabled( prefToInt < this.maxPref );
+			this.box.setEnabled( prefToInt < this.maxPref );
+			if ( this.maxPref > 1 )
+			{
+				this.setText( prefToInt + "/" + this.maxPref );
+			}
+			this.setShown( true );
+
+			for ( int i = 1; i <= packedDeed.size(); ++i )
+			{
+				prefToInt = 1;
+				String[] item = (String[]) packedDeed.get( i - 1 );
+				pref = Preferences.getString( item[ 2 ] );
+				if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
+					|| pref.equalsIgnoreCase( "" ) )
+				{
+					prefToInt = pref.equalsIgnoreCase( "true" ) ? 1 : 0;
+				}
+				else
+				{
+					try
+					{
+						prefToInt = Integer.parseInt( pref );
+					}
+					catch ( NumberFormatException e )
+					{
+					}
+				}
+				this.box.setDisabledIndex( i, prefToInt > 0 );
+			}
+		}
+
+		private class ComboListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+				int choice = cb.getSelectedIndex();
+				if ( choice == 0 )
+				{
+					setComboTarget( btn, "" );
+				}
+				else
+				{
+					String[] item = (String[]) packedDeed.get( choice - 1 );
+					setComboTarget( btn, item[ 3 ] );
+				}
+			}
+		}
+	}
+
+	public static class CommandDaily
 		extends Daily
 	{
 		String preference;
-		private ArrayList buttons;
+		int maxPref = 1;
 
 		/**
 		 * @param preference
@@ -1050,7 +1189,7 @@ public class DailyDeedsPanel
 		 *	the command to execute. This will also be the displayed button text.
 		 */
 
-		public BooleanDaily( String preference, String command )
+		public CommandDaily( String preference, String command )
 		{
 			this.preference = preference;
 			this.addListener( preference );
@@ -1067,166 +1206,204 @@ public class DailyDeedsPanel
 		 *	the command to execute.
 		 */
 
-		public BooleanDaily( String displayText, String preference, String command )
+		public CommandDaily( String displayText, String preference, String command )
 		{
 			this.preference = preference;
 			this.addListener( preference );
 			this.addComboButton( command, displayText );
 		}
-
-		public void update()
-		{
-			this.setEnabled( !Preferences.getBoolean( this.preference ) );
-		}
-	}
-
-	public static class BooleanItemDaily
-		extends Daily
-	{
-		String preference;
-		int itemId;
-
-		/**
-		 * @param preference
-		 * 	the preference to look at. The preference is used to set the availability of the
-		 * 	element.
-		 * @param itemId
-		 * 	the ID of the item. the item is used to set the visibility of the element.
-		 * @param command
-		 * 	the command to execute.
-		 */
-		public BooleanItemDaily( String preference, int itemId, String command )
-		{
-			this.preference = preference;
-			this.itemId = itemId;
-			this.addItem( itemId );
-			this.addListener( preference );
-			this.addButton( command );
-		}
-
+		
 		/**
 		 * @param displayText
-		 * 	the text that will be displayed on the button
+		 *	the text that will be displayed on the button
 		 * @param preference
-		 * 	the preference to look at. The preference is used to set the availability of the
-		 * 	element.
-		 * @param itemId
-		 * 	the ID of the item. the item is used to set the visibility of the element.
+		 *	the preference to look at. The preference is used to set the availability of the
+		 *	element.
 		 * @param command
-		 * 	the command to execute.
-		 */
-		public BooleanItemDaily( String displayText, String preference, int itemId, String command )
-		{
-			this.preference = preference;
-			this.itemId = itemId;
-			this.addItem( itemId );
-			this.addListener( preference );
-			this.addComboButton( command, displayText );
-		}
-
-		public void update()
-		{
-			boolean pref = Preferences.getBoolean( this.preference );
-			this.setShown( pref || InventoryManager.getCount( this.itemId ) > 0 );
-			this.setEnabled( !pref );
-		}
-	}
-
-	public static class BooleanSkillDaily
-		extends Daily
-	{
-		String preference;
-		String skill;
-
-		/**
-		 * @param preference
-		 * 	the preference to look at. The preference is used to set the availability of the
-		 * 	element.
-		 * @param skill
-		 * 	the skill used to set the visibility of the element.
-		 * @param command
-		 * 	the command to execute.
-		 */
-		public BooleanSkillDaily( String preference, String skill, String command )
-		{
-			this.preference = preference;
-			this.skill = skill;
-			this.addListener( preference );
-			this.addListener( "(skill)" );
-			this.addButton( command );
-		}
-
-		/**
-		 * @param displayText
-		 * 	the text that will be displayed on the button
-		 * @param preference
-		 * 	the preference to look at. The preference is used to set the availability of the
-		 * 	element.
-		 * @param skill
-		 * 	the skill used to set the visibility of the element.
-		 * @param command
-		 * 	the command to execute.
-		 */
-		public BooleanSkillDaily( String displayText, String preference, String skill, String command )
-		{
-			this.preference = preference;
-			this.skill = skill;
-			this.addListener( preference );
-			this.addListener( "(skill)" );
-			this.addComboButton( command, displayText );
-		}
-
-		public void update()
-		{
-			boolean pref = Preferences.getBoolean( this.preference );
-			this.setShown( KoLCharacter.hasSkill( this.skill ) );
-			this.setEnabled( !pref );
-		}
-	}
-
-	public static class MultiPrefDaily
-		extends Daily
-	{
-		String preference;
-		int maxPref;
-
-		/**
-		 * @param preference
-		 *                the preference to look at. The preference is used to set the availability of the
-		 *                element.
-		 * @param skill
-		 *                the skill used to set the visibility of the element.
-		 * @param command
-		 *                the command to execute.
+		 *	the command to execute.
 		 * @param maxPref
-		 *                the number of skill uses before the button is disabled.
+		 *	the integer at which to disable the button.  
 		 */
-
-		public MultiPrefDaily( String displayText, String preference, String command, int maxPref )
+		public CommandDaily( String displayText, String preference, String command, int maxPref )
 		{
 			this.preference = preference;
 			this.maxPref = maxPref;
 			this.addListener( preference );
-			this.addListener( "(skill)" );
 			this.addComboButton( command, displayText );
 			this.addLabel( "" );
 		}
 
 		public void update()
 		{
-			int uses = Preferences.getInteger( this.preference );
-			this.setShown( true );
-			this.setEnabled( uses < this.maxPref );
-			this.setText( uses + "/" + this.maxPref );
+			int prefToInt = 1;
+			String pref = Preferences.getString( this.preference );
+			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
+				|| pref.equalsIgnoreCase( "" ) )
+			{
+				prefToInt = pref.equalsIgnoreCase( "true" ) ? 1 : 0;
+			}
+			else
+			{
+				try
+				{
+					prefToInt = Integer.parseInt( pref );
+				}
+				catch ( NumberFormatException e )
+				{
+				}
+			}
+			this.setEnabled( prefToInt < this.maxPref );
+			if ( this.maxPref > 1 )
+			{
+				this.setText( prefToInt + "/" + this.maxPref );
+			}
 		}
 	}
 
-	public static class MultiSkillDaily extends Daily
+	public static class ItemDaily
+		extends Daily
+	{
+		String preference;
+		int itemId;
+		int maxUses = 1;
+
+		/**
+		 * @param preference
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
+		 * @param itemId
+		 * 	the ID of the item. the item is used to set the visibility of the element.
+		 * @param command
+		 * 	the command to execute.
+		 */
+		public ItemDaily( String preference, int itemId, String command )
+		{
+			this.preference = preference;
+			this.itemId = itemId;
+			this.addItem( itemId );
+			this.addListener( preference );
+			this.addButton( command );
+		}
+
+		/**
+		 * @param displayText
+		 * 	the text that will be displayed on the button
+		 * @param preference
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
+		 * @param itemId
+		 * 	the ID of the item. the item is used to set the visibility of the element.
+		 * @param command
+		 * 	the command to execute.
+		 */
+		public ItemDaily( String displayText, String preference, int itemId, String command )
+		{
+			this.preference = preference;
+			this.itemId = itemId;
+			this.addItem( itemId );
+			this.addListener( preference );
+			this.addComboButton( command, displayText );
+		}
+		
+		/**
+		 * @param displayText
+		 * 	the text that will be displayed on the button
+		 * @param preference
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
+		 * @param itemId
+		 * 	the ID of the item. the item is used to set the visibility of the element.
+		 * @param command
+		 * 	the command to execute.
+		 */
+		public ItemDaily( String displayText, String preference, int itemId, String command, int maxUses )
+		{
+			this.preference = preference;
+			this.itemId = itemId;
+			this.maxUses = maxUses;
+			this.addItem( itemId );
+			this.addListener( preference );
+			this.addComboButton( command, displayText );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			
+			int prefToInt = 1;
+			String pref = Preferences.getString( this.preference );
+			boolean haveItem = InventoryManager.getCount( this.itemId ) > 0;
+			
+			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
+				|| pref.equalsIgnoreCase( "" ) )
+			{
+				prefToInt = pref.equalsIgnoreCase( "true" ) ? 1 : 0;
+			}
+			else
+			{
+				try
+				{
+					prefToInt = Integer.parseInt( pref );
+				}
+				catch ( NumberFormatException e )
+				{
+				}
+			}
+			this.setShown( prefToInt > 0 || haveItem );
+
+			this.setEnabled( haveItem && prefToInt < this.maxUses );
+			if ( this.maxUses > 1 )
+			{
+				this.setText( prefToInt + "/" + this.maxUses );
+			}
+		}
+	}
+
+	public static class SkillDaily
+		extends Daily
 	{
 		String preference;
 		String skill;
-		int maxCasts;
+		int maxCasts = 1;
 
+		/**
+		 * @param preference
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
+		 * @param skill
+		 * 	the skill used to set the visibility of the element.
+		 * @param command
+		 * 	the command to execute.
+		 */
+		public SkillDaily( String preference, String skill, String command )
+		{
+			this.preference = preference;
+			this.skill = skill;
+			this.addListener( preference );
+			this.addListener( "(skill)" );
+			this.addButton( command );
+		}
+
+		/**
+		 * @param displayText
+		 * 	the text that will be displayed on the button
+		 * @param preference
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
+		 * @param skill
+		 * 	the skill used to set the visibility of the element.
+		 * @param command
+		 * 	the command to execute.
+		 */
+		public SkillDaily( String displayText, String preference, String skill, String command )
+		{
+			this.preference = preference;
+			this.skill = skill;
+			this.addListener( preference );
+			this.addListener( "(skill)" );
+			this.addComboButton( command, displayText );
+		}
+		
 		/**
 		 * @param preference
 		 *                the preference to look at. The preference is used to set the availability of the
@@ -1238,9 +1415,7 @@ public class DailyDeedsPanel
 		 * @param maxCasts
 		 *                the number of skill uses before the button is disabled.
 		 */
-
-		public MultiSkillDaily( String displayText, String preference, String skill, String command,
-				int maxCasts )
+		public SkillDaily( String displayText, String preference, String skill, String command, int maxCasts )
 		{
 			this.preference = preference;
 			this.skill = skill;
@@ -1253,10 +1428,29 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			int casts = Preferences.getInteger( this.preference );
+			int prefToInt = 1;
+			String pref = Preferences.getString( this.preference );
+			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
+				|| pref.equalsIgnoreCase( "" ) )
+			{
+				prefToInt = pref.equalsIgnoreCase( "true" ) ? 1 : 0;
+			}
+			else
+			{
+				try
+				{
+					prefToInt = Integer.parseInt( pref );
+				}
+				catch ( NumberFormatException e )
+				{
+				}
+			}
 			this.setShown( KoLCharacter.hasSkill( this.skill ) );
-			this.setEnabled( casts < this.maxCasts );
-			this.setText( casts + "/" + this.maxCasts );
+			this.setEnabled( prefToInt < this.maxCasts );
+			if ( this.maxCasts > 1 )
+			{
+				this.setText( prefToInt + "/" + this.maxCasts );
+			}
 		}
 	}
 	
@@ -1287,11 +1481,11 @@ public class DailyDeedsPanel
 				if ( !KoLCharacter.baseUserName().equals( "GLOBAL" )
 						&& !Preferences.getString( deedsString[ i ] ).equals( "" ) )
 				{
-					text = text + Preferences.getString( deedsString[ i ] );
+					text += Preferences.getString( deedsString[ i ] );
 				}
 				else
 				{
-					text = text + deedsString[ i ];
+					text += deedsString[ i ];
 				}
 			}
 			this.setText( text );
