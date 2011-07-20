@@ -1157,11 +1157,21 @@ public class GenericRequest
 
 				( new EquipmentRequest( comedyItem ) ).run();
 			}
+
+			String text = null;
 			if ( KoLmafia.permitsContinue() && KoLCharacter.hasEquipped( comedyItem ) )
 			{
-				( new PandamoniumRequest( comedy ) ).run();
+				GenericRequest request = new PandamoniumRequest( comedy );
+				request.run();
+				text = request.responseText;
 			}
 			SpecialOutfit.restoreImplicitCheckpoint();
+
+			if ( text != null )
+			{
+				this.responseText = text;
+				return null;
+			}
 		}
 
 		// To avoid wasting turns, buy a can of hair spray before
