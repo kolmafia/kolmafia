@@ -311,6 +311,7 @@ public abstract class UseLinkDecorator
 			switch ( mixingMethod & KoLConstants.CT_MASK )
 			{
 			case KoLConstants.COMBINE:
+			case KoLConstants.ACOMBINE:
 			case KoLConstants.MIX:
 			case KoLConstants.MIX_FANCY:
 			case KoLConstants.COOK:
@@ -418,6 +419,7 @@ public abstract class UseLinkDecorator
 		switch ( mixingMethod )
 		{
 		case KoLConstants.COMBINE:
+		case KoLConstants.ACOMBINE:
 			return new UseLink( itemId, itemCount, "combine", KoLCharacter.knollAvailable() ? "knoll.php?place=paster" : "craft.php?mode=combine&a=" );
 
 		case KoLConstants.MIX:
