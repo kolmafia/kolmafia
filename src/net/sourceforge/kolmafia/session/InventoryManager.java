@@ -160,6 +160,14 @@ public abstract class InventoryManager
 			return 0;
 		}
 
+		int itemId = item.getItemId();
+
+		// Agree with what retrieveItem looks at
+		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
+		{
+			return HermitRequest.getWorthlessItemCount();
+		}
+
 		int count = item.getCount( KoLConstants.inventory );
 
 		// Items in closet might be accessible, but. if the user has
