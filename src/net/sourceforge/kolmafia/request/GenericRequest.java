@@ -165,7 +165,6 @@ public class GenericRequest
 	public String responseText;
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
-	public String date;
 
 	// Per-login data
 
@@ -1317,7 +1316,6 @@ public class GenericRequest
 		this.responseCode = 0;
 		this.responseText = null;
 		this.redirectLocation = null;
-		this.date = null;
 		this.formConnection = null;
 
 		try
@@ -1492,7 +1490,6 @@ public class GenericRequest
 			istream = this.formConnection.getInputStream();
 			this.responseCode = this.formConnection.getResponseCode();
 			this.redirectLocation = this.responseCode != 302 ? null : this.formConnection.getHeaderField( "Location" );
-			this.date = this.formConnection.getHeaderField( "Date" );
 		}
 		catch ( IOException e1 )
 		{

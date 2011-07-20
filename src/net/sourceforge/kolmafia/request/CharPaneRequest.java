@@ -70,10 +70,7 @@ public class CharPaneRequest
 	private static boolean isRunning = false;
 	private static String lastResponse = "";
 
-	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat( "EEE, d MMM yyyy HH:mm:ss z", Locale.US );
-
-	private static long timestamp = 0;
-	private static int turnsthisrun = 0;
+	private static int turnsThisRun = 0;
 
 	private static final CharPaneRequest instance = new CharPaneRequest();
 
@@ -88,8 +85,7 @@ public class CharPaneRequest
 	{
 		CharPaneRequest.lastResponse = "";
 		CharPaneRequest.canInteract = false;
-		CharPaneRequest.timestamp = 0;
-		CharPaneRequest.turnsthisrun = 0;
+		CharPaneRequest.turnsThisRun = 0;
 	}
 
 	public static final CharPaneRequest getInstance()
@@ -131,51 +127,24 @@ public class CharPaneRequest
 	{
 		if ( CharPaneRequest.isRunning )
 		{
-			return null;
+			synchronized ( this )
+			{
+				return null;
+			}
 		}
 
-		CharPaneRequest.isRunning = true;
-		super.run();
-		CharPaneRequest.isRunning = false;
+		synchronized ( this )
+		{
+			CharPaneRequest.isRunning = true;
+			super.run();
+			CharPaneRequest.isRunning = false;
+		}
+
 		return null;
 	}
 
 	public void processResults()
 	{
-		CharPaneRequest.processCharacterPane( this.responseText, this.date );
-	}
-
-	public static final String getLastResponse()
-	{
-		return CharPaneRequest.lastResponse;
-	}
-
-	public static final synchronized void processCharacterPane( final String responseText, final String date )
-	{
-		// The timestamp only has precision to the nearest second.
-		//
-		// On a fast connection, one can get successive charpanes
-		// generated within the same second and thus with the same
-		// timestamp.
-		//
-		// 1) If we accept updates with the same timestamp, we'll catch
-		// fast updates, but be fooled if they arrive out of order.
-		//
-		// 2) If we reject updates unless the timestamp monotonically
-		// increases, we'll skip out-of-order updates, but skip valid
-		// updates sent within the same second.
-		//
-		// We can't have it both ways
-		//
-		// Case 1 (fast updates) seems more common than case 2
-		// (out-of-order updates), so we use <, rather than <=
-
-		long timestamp = parseTimestamp( date );
-		if ( timestamp < CharPaneRequest.timestamp )
-		{
-			return;
-		}
-
 		// We can deduce whether we are in compact charpane mode
 
 		GenericRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
@@ -193,31 +162,30 @@ public class CharPaneRequest
 		// KoL now includes Javascript variables in each charpane
 		//
 		// var turnsplayed = 232576;
-		// var turnsthisrun = 232576;
+		// var turnsThisRun = 232576;
 		// var rollover = 1268537400;
 		// var rightnow = 1268496181;
 		// var pwdhash = "...";
 		//
-		// "turnsthisrun" is of interest for several reasons: we can
+		// "turnsThisRun" is of interest for several reasons: we can
 		// use it to order (some) charpane requests, even if the
 		// timestamp is the same, and we can use it to synchronize
 		// KolMafia with KoL's turn counter
 
-		int turnsthisrun = parseTurnsThisRun( responseText );
-		int mafiaturnsthisrun = KoLCharacter.getCurrentRun();
+		int turnsThisRun = parseTurnsThisRun( responseText );
+		int mafiaTurnsThisRun = KoLCharacter.getCurrentRun();
 
-		if ( turnsthisrun < CharPaneRequest.turnsthisrun ||
-		     turnsthisrun < mafiaturnsthisrun )
+		if ( turnsThisRun < CharPaneRequest.turnsThisRun ||
+		     turnsThisRun < mafiaTurnsThisRun )
 		{
 			return;
 		}
 
-		CharPaneRequest.timestamp = timestamp;
-		CharPaneRequest.turnsthisrun = turnsthisrun;
+		CharPaneRequest.turnsThisRun = turnsThisRun;
 		CharPaneRequest.lastResponse = responseText;
 
 		// Since we believe this update, synchronize with it
-		ResultProcessor.processAdventuresUsed( turnsthisrun - mafiaturnsthisrun );
+		ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
 
 		// The easiest way to retrieve the character pane data is to
 		// use regular expressions. But, the only data that requires
@@ -239,6 +207,11 @@ public class CharPaneRequest
 		KoLCharacter.updateStatus();
 
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
+	}
+
+	public static final String getLastResponse()
+	{
+		return CharPaneRequest.lastResponse;
 	}
 
 	// <td align=center><img src="http://images.kingdomofloathing.com/itemimages/karma.gif" width=30 height=30 alt="Karma" title="Karma"><br>0</td>
@@ -279,24 +252,7 @@ public class CharPaneRequest
 		Preferences.setInteger( "bankedKarma", karma );
 	}
 
-	private static final long parseTimestamp( final String date )
-	{
-		try
-		{
-			if ( date != null )
-			{
-				Date timestamp = CharPaneRequest.TIMESTAMP_FORMAT.parse( date );
-				return timestamp.getTime();
-			}
-		}
-		catch ( ParseException e )
-		{
-		}
-
-		return 0;
-	}
-
-	public static final Pattern TURNS_PATTERN = Pattern.compile( "var turnsthisrun = (\\d*);" );
+	public static final Pattern TURNS_PATTERN = Pattern.compile( "var turnsThisRun = (\\d*);" );
 
 	private static final int parseTurnsThisRun( final String responseText )
 	{
@@ -759,9 +715,9 @@ public class CharPaneRequest
 	public static final void parseStatus( final JSONObject JSON )
 		throws JSONException
 	{
-		int turnsthisrun = JSON.getInt( "turnsthisrun" );
-		CharPaneRequest.turnsthisrun = turnsthisrun;
-		KoLCharacter.setCurrentRun( turnsthisrun );
+		int turnsThisRun = JSON.getInt( "turnsThisRun" );
+		CharPaneRequest.turnsThisRun = turnsThisRun;
+		KoLCharacter.setCurrentRun( turnsThisRun );
 
 		int hp = JSON.getInt( "hp" );
 		int maxhp = JSON.getInt( "maxhp" );

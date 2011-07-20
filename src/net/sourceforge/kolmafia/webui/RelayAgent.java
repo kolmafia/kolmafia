@@ -367,7 +367,8 @@ public class RelayAgent
 		if ( this.path.startsWith( "/charpane.php" ) )
 		{
 			int initialCount = KoLCharacter.getAdventuresLeft();
-			this.request.run();
+
+			CharPaneRequest.getInstance().run();
 
 			if ( RecoveryManager.isRecoveryPossible() && ( FightRequest.haveFought() || initialCount != KoLCharacter.getAdventuresLeft() ) )
 			{
@@ -376,21 +377,24 @@ public class RelayAgent
 					Preferences.getBoolean( "relayMaintainsEffects" ),
 					Preferences.getBoolean( "relayMaintainsHealth" ),
 					Preferences.getBoolean( "relayMaintainsMana" ) );
-
-				// Load image files locally to reduce bandwidth
-				// and improve mini-browser performance.
-
-				if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
-				{
-					this.request.responseText = StringUtilities.globalStringReplace( this.request.responseText, "http://images.kingdomofloathing.com", "/images" );
-				}
-				else
-				{
-					this.request.responseText = StringUtilities.globalStringReplace(
-						this.request.responseText, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
-				}
-				this.request.rawByteBuffer = null;
 			}
+
+			this.request.responseText = CharPaneRequest.getLastResponse();
+
+			// Load image files locally to reduce bandwidth
+			// and improve mini-browser performance.
+
+			if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
+			{
+				this.request.responseText = StringUtilities.globalStringReplace( this.request.responseText, "http://images.kingdomofloathing.com", "/images" );
+			}
+			else
+			{
+				this.request.responseText = StringUtilities.globalStringReplace(
+					this.request.responseText, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
+			}
+
+			this.request.rawByteBuffer = null;
 		}
 		else if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
