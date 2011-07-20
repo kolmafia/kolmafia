@@ -376,7 +376,7 @@ public class RelayAgent
 					Preferences.getBoolean( "relayMaintainsEffects" ),
 					Preferences.getBoolean( "relayMaintainsHealth" ),
 					Preferences.getBoolean( "relayMaintainsMana" ) );
-				this.request.responseText = CharPaneRequest.decorateLastResponse();
+
 				// Load image files locally to reduce bandwidth
 				// and improve mini-browser performance.
 
@@ -438,7 +438,7 @@ public class RelayAgent
 		}
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
-			this.request.pseudoResponse( "HTTP/1.1 200 OK", CharPaneRequest.decorateLastResponse() );
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", CharPaneRequest.getLastResponse() );
 		}
 		else if ( this.path.startsWith( "/loggedout.php" ) )
 		{

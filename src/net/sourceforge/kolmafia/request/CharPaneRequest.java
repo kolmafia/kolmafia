@@ -61,7 +61,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CharPaneRequest
-	extends GenericRequest
+	extends RelayRequest
 {
 	private static final AdventureResult ABSINTHE = new AdventureResult( "Absinthe-Minded", 1, true );
 
@@ -79,11 +79,9 @@ public class CharPaneRequest
 
 	private CharPaneRequest()
 	{
-		// The only thing to do is to retrieve the page from
-		// the- all variable initialization comes from
-		// when the request is actually run.
+		super( true );
 
-		super( "charpane.php" );
+		this.constructURLString( "charpane.php", false );
 	}
 
 	public static final void reset()
@@ -150,13 +148,6 @@ public class CharPaneRequest
 	public static final String getLastResponse()
 	{
 		return CharPaneRequest.lastResponse;
-	}
-
-	public static final String decorateLastResponse()
-	{
-		StringBuffer buffer = new StringBuffer( CharPaneRequest.lastResponse );
-		CharPaneDecorator.decorate( buffer );
-		return buffer.toString();
 	}
 
 	public static final synchronized void processCharacterPane( final String responseText, final String date )
