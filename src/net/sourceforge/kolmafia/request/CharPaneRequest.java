@@ -140,10 +140,12 @@ public class CharPaneRequest
 			CharPaneRequest.isRunning = false;
 		}
 
+		CharPaneRequest.lastResponse = responseText;
+
 		return null;
 	}
 
-	public void processResults()
+	public static final void processResults( final String responseText )
 	{
 		// We can deduce whether we are in compact charpane mode
 
@@ -162,7 +164,7 @@ public class CharPaneRequest
 		// KoL now includes Javascript variables in each charpane
 		//
 		// var turnsplayed = 232576;
-		// var turnsThisRun = 232576;
+		// var turnsthisrun = 232576;
 		// var rollover = 1268537400;
 		// var rightnow = 1268496181;
 		// var pwdhash = "...";
@@ -182,7 +184,6 @@ public class CharPaneRequest
 		}
 
 		CharPaneRequest.turnsThisRun = turnsThisRun;
-		CharPaneRequest.lastResponse = responseText;
 
 		// Since we believe this update, synchronize with it
 		ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
@@ -252,7 +253,7 @@ public class CharPaneRequest
 		Preferences.setInteger( "bankedKarma", karma );
 	}
 
-	public static final Pattern TURNS_PATTERN = Pattern.compile( "var turnsThisRun = (\\d*);" );
+	public static final Pattern TURNS_PATTERN = Pattern.compile( "var turnsthisrun = (\\d*);" );
 
 	private static final int parseTurnsThisRun( final String responseText )
 	{
