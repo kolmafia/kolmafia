@@ -379,22 +379,21 @@ public class RelayAgent
 					Preferences.getBoolean( "relayMaintainsMana" ) );
 			}
 
-			this.request.responseText = CharPaneRequest.getLastResponse();
+			String responseText = CharPaneRequest.getLastResponse();
 
 			// Load image files locally to reduce bandwidth
 			// and improve mini-browser performance.
 
 			if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
 			{
-				this.request.responseText = StringUtilities.globalStringReplace( this.request.responseText, "http://images.kingdomofloathing.com", "/images" );
+				responseText = StringUtilities.globalStringReplace( responseText, "http://images.kingdomofloathing.com", "/images" );
 			}
 			else
 			{
-				this.request.responseText = StringUtilities.globalStringReplace(
-					this.request.responseText, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
+				responseText = StringUtilities.globalStringReplace( responseText, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
 			}
 
-			this.request.rawByteBuffer = null;
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", responseText );
 		}
 		else if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
@@ -442,7 +441,21 @@ public class RelayAgent
 		}
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
-			this.request.pseudoResponse( "HTTP/1.1 200 OK", CharPaneRequest.getLastResponse() );
+			String responseText = CharPaneRequest.getLastResponse();
+
+			// Load image files locally to reduce bandwidth
+			// and improve mini-browser performance.
+
+			if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
+			{
+				responseText = StringUtilities.globalStringReplace( responseText, "http://images.kingdomofloathing.com", "/images" );
+			}
+			else
+			{
+				responseText = StringUtilities.globalStringReplace( responseText, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
+			}
+
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", responseText );
 		}
 		else if ( this.path.startsWith( "/loggedout.php" ) )
 		{

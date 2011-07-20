@@ -1840,6 +1840,11 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( text );
 		}
 
+		if ( this.formURLString.startsWith( "charpane.php" ) )
+		{
+			CharPaneRequest.processResults( this.responseText );	
+		}
+
 		if ( !this.isChatRequest && !this.formURLString.startsWith( "fight.php" ) )
 		{
 			this.responseText = EventManager.checkForNewEvents( this.responseText );
