@@ -266,12 +266,13 @@ public class CoinmasterData
 
 	public final boolean canBuyItem( final String itemName )
 	{
-		if ( this.buyPrices != null )
+		if ( this.buyItems == null )
 		{
-			String name = StringUtilities.getCanonicalName( itemName );
-			return this.buyPrices.containsKey( name );
+			return false;
 		}
-		return false;
+
+		AdventureResult item = new AdventureResult( itemName, 1, false );
+		return item.getCount( this.buyItems ) > 0;
 	}
 
 	public final int getBuyPrice( final String itemName )

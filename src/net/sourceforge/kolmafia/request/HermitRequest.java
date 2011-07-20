@@ -94,6 +94,8 @@ public class HermitRequest
 	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(\\d+) left in stock for today" );
 
 	public static final AdventureResult CLOVER = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
+	public static final String CLOVER_FIELD = "whichitem=" + String.valueOf( ItemPool.TEN_LEAF_CLOVER );
+
 	public static final AdventureResult PERMIT = ItemPool.get( ItemPool.HERMIT_PERMIT, 1 );
 
 	public static final AdventureResult TRINKET = ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 );
@@ -322,6 +324,20 @@ public class HermitRequest
 		else
 		{
 			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
+		}
+
+		// If we bought a clover, decrement the count of available
+		// clovers.  This is wasted effort if we still have worthless
+		// items and hermit permits and can see the hermit's stock, but
+		// if he sends us packing, we won't have the chance.
+		if ( urlString.indexOf( HermitRequest.CLOVER_FIELD ) != -1 )
+		{
+			int index = KoLConstants.hermitItems.indexOf( HermitRequest.CLOVER );
+			if ( index != -1 )
+			{
+				AdventureResult clover = ( AdventureResult)KoLConstants.hermitItems.get( index );
+				KoLConstants.hermitItems.set( index, HermitRequest.CLOVER.getInstance( clover.getCount() - quantity ) );
+			}
 		}
 
 		// Subtract the worthless items in order of their priority;
