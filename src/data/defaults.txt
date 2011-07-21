@@ -702,6 +702,7 @@ user	_tokenDrops	0
 user	_transponderDrops	0
 user	_userMods
 user	_vmaskAdv	0
+user	_zapCount	0
 
 user	choiceAdventure2	2
 user	choiceAdventure3	3

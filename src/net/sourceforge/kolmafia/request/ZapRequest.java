@@ -193,10 +193,12 @@ public class ZapRequest
 			return;
 		}
 
-		// If it blew up, remove wand
+		// If it blew up, remove wand and zero usages
 		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
 		{
 			ResultProcessor.processResult( KoLCharacter.getZapper().getNegation() );
+			// set to -1 because will be incremented below 
+			Preferences.setInteger( "_zapCount", -1 );
 		}
 
 		Matcher itemMatcher = ZapRequest.ZAP_PATTERN.matcher( urlString );
@@ -209,6 +211,9 @@ public class ZapRequest
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		AdventureResult item = new AdventureResult( itemId, -1 );
 		ResultProcessor.processResult( item );
+
+		// increment zap count
+		Preferences.increment( "_zapCount" );
 	}
 
 	public static final void decorate( final StringBuffer buffer )
