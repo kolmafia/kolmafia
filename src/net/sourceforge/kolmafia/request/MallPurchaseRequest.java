@@ -185,6 +185,14 @@ public class MallPurchaseRequest
 			return;
 		}
 
+		// If you are on a player's ignore list, you can't buy from his store
+
+		if ( this.responseText.indexOf( "That player will not sell to you" ) != -1 )
+		{
+			KoLmafia.updateDisplay( "You are on this shop's ignore list (#" + this.shopId + ").	Skipping..." );
+			return;
+		}
+
 		// Another thing to search for is to see if the person
 		// swapped the price on the item, or you got a "failed
 		// to yield" message.  In that case, you may wish to
