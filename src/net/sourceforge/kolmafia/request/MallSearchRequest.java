@@ -146,19 +146,22 @@ public class MallSearchRequest
 			return itemName;
 		}
 
-		String canonicalName = StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) );
-		int entityIndex = canonicalName.indexOf( "&" );
+		String dataName = ItemDatabase.getItemDataName( itemId );
+		int entityIndex = dataName.indexOf( "&" );
 
 		if ( entityIndex == -1 )
 		{
-			return canonicalName;
+			return dataName;
 		}
 
-		canonicalName = StringUtilities.globalStringReplace(
-			canonicalName, "&lt;", "<" );
-		canonicalName = StringUtilities.globalStringReplace(
-			canonicalName, "&gt;", ">" );
-		return StringUtilities.globalStringReplace( canonicalName, "&amp;", "&" );
+		dataName = StringUtilities.globalStringReplace(
+			dataName, "&lt;", "<" );
+		dataName = StringUtilities.globalStringReplace(
+			dataName, "&gt;", ">" );
+		dataName = StringUtilities.globalStringReplace(
+			dataName, "&amp;", "&" );
+
+		return dataName;
 	}
 
 	public List getResults()

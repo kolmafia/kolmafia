@@ -409,7 +409,7 @@ public abstract class StoreManager
 		}
 
 		Integer id = new Integer( itemId );
-		String name = item.getName();
+		String name = ItemDatabase.getItemDataName( id );
 
 		StoreManager.flushCache();
 
