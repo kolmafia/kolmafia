@@ -247,12 +247,18 @@ public class BreakfastManager
 
 			if ( pathedSummons )
 			{
-				if ( skill.equals( "Pastamastery" ) && !KoLCharacter.canEat() )
+				if ( ( skill.equals( "Pastamastery" ) || skill.equals( "Lunch Break" ) ) &&
+				     !KoLCharacter.canEat() )
 				{
 					continue;
 				}
 
 				if ( skill.equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
+				{
+					continue;
+				}
+
+				if ( skill.equals( "Summon Crimbo Candy" ) && KoLCharacter.inBeecore() )
 				{
 					continue;
 				}
