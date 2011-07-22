@@ -447,7 +447,7 @@ public class StringUtilities
 
 		while ( sourceIndex != -1 )
 		{
-			if ( sourceIndex == 0 || sourceIndex == lastSourceIndex + 1 || !Character.isLetterOrDigit( sourceString.charAt( sourceIndex - 1 ) ) )
+			if ( sourceIndex == 0 || sourceIndex == lastSourceIndex + 1 || isWordBoundary( sourceString.charAt( sourceIndex - 1 ) ) )
 			{
 				if ( StringUtilities.fuzzyMatches( sourceString, searchString, sourceIndex, searchIndex ) )
 				{
@@ -459,6 +459,11 @@ public class StringUtilities
 		}
 
 		return false;
+	}
+	
+	private static final boolean isWordBoundary( char ch )
+	{
+		return ch != '#' && !Character.isLetterOrDigit( ch );
 	}
 
 	public static final void insertBefore( final StringBuffer buffer, final String searchString,
