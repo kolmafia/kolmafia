@@ -890,7 +890,7 @@ War Hippy Naturopathic Homeopath	HP: 225 Def: 185 Atk: 180 E: stench	communicati
 War Hippy Rigger	HP: 185 Def: 172 Atk: 172 E: stench	bullet-proof corduroys (10)	hippy protest button (10)	lead pipe (10)	reinforced beaded headband (10)	round purple sunglasses (10)	water pipe bomb (5)	wicker shield (5)
 War Hippy Shaman	HP: 100 Def: 165 Atk: 190 E: stench	carbonated soy milk (20)	communications windchimes (3)	funky dried mushroom (15)	Gaia beads (15)	Lockenstock&trade; sandals (10)
 War Hippy Sky Captain	HP: 200 Def: 175 Atk: 185 E: stench	bullet-proof corduroys (1)	communications windchimes (2)	exploding hacky-sack (0)	ferret bait (20)	Lockenstock&trade; sandals (2)	patchouli oil bomb (0)	reinforced beaded headband (1)	round purple sunglasses (1)	water pipe bomb (14)	water pipe bomb (7)	pink clay bead (32)
-War Hippy Spy	HP: 180 Def: 170 Atk: 165 E: stench	bullet-proof corduroys (5)	reinforced beaded headband (5)	round purple sunglasses (5)
+War Hippy Spy	HP: 180 Def: 170 Atk: 165 E: stench	bullet-proof corduroys (30)	reinforced beaded headband (30)	round purple sunglasses (30)
 War Hippy Windtalker	HP: 200 Def: 180 Atk: 185 E: stench	bullet-proof corduroys (1)	communications windchimes (18)	communications windchimes (18)	communications windchimes (18)	Lockenstock&trade; sandals (2)	reinforced beaded headband (1)	round purple sunglasses (1)	green clay bead (30)
 War Pledge	HP: 180 Def: 166 Atk: 165 E: sleaze	distressed denim pants (5)	bejeweled pledge pin (5)	beer helmet (5)
 Warehouse worker	HP: 208 Def: 144 Atk: 160	crowbar (0)
