@@ -179,6 +179,44 @@ public class CoinMasterRequest
 		}
 	}
 
+	public static String canSell( final CoinmasterData data )
+	{
+		// Returns an error reason or null
+
+		Class requestClass = data.getRequestClass();
+		Class [] parameters = new Class[ 0 ] ;
+
+		try
+		{
+			Method method = requestClass.getMethod( "canSell", parameters );
+			Object [] args = new Object[ 0 ];
+			return (String) method.invoke( null, args );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+	}
+
+	public static String canBuy( final CoinmasterData data )
+	{
+		// Returns an error reason or null
+
+		Class requestClass = data.getRequestClass();
+		Class [] parameters = new Class[ 0 ] ;
+
+		try
+		{
+			Method method = requestClass.getMethod( "canBuy", parameters );
+			Object [] args = new Object[ 0 ];
+			return (String) method.invoke( null, args );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+	}
+
 	public static void visit( final CoinmasterData data )
 	{
 		if ( data == null )
@@ -207,6 +245,14 @@ public class CoinMasterRequest
 			return;
 		}
 
+		String reason = CoinMasterRequest.canBuy( data );
+		if ( reason != null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+			return;
+		}
+
+
 		CoinMasterRequest request = CoinMasterRequest.getRequest( data, action, it );
 		CoinMasterRequest.transact( data, request );
 	}
@@ -224,6 +270,13 @@ public class CoinMasterRequest
 		if ( action == null || !data.canSellItem( itemName ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't sell " + itemName + " to " + data.getMaster() );
+			return;
+		}
+
+		String reason = CoinMasterRequest.canSell( data );
+		if ( reason != null )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
 			return;
 		}
 

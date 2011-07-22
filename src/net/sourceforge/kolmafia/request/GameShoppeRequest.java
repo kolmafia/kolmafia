@@ -111,7 +111,7 @@ public class GameShoppeRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
-	public static String accessible()
+	public static String canBuy()
 	{
 		if ( KoLCharacter.isHardcore() )
 		{
