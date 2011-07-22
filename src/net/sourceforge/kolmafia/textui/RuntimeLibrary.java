@@ -1455,7 +1455,8 @@ public abstract class RuntimeLibrary
 
 	public static Value batch_close()
 	{
-		LinkedHashMap batched = LibraryFunction.interpreter.batched;
+		Interpreter terp = LibraryFunction.interpreter;
+		LinkedHashMap batched = terp.batched;
 		if ( batched != null )
 		{
 			Iterator i = batched.entrySet().iterator();
@@ -1466,7 +1467,7 @@ public abstract class RuntimeLibrary
 					((StringBuffer) e.getValue()).toString() );
 				if ( !KoLmafia.permitsContinue() ) break;
 			}
-			LibraryFunction.interpreter.batched = null;
+			terp.batched = null;
 		}
 
 		return RuntimeLibrary.continueValue();
@@ -3622,7 +3623,7 @@ public abstract class RuntimeLibrary
 	{
 		String string = source.toString();
 		int offset = index.intValue();
-		if ( offset < 0 || offset > string.length() )
+		if ( offset < 0 || offset >= string.length() )
 		{
 			throw LibraryFunction.interpreter.runtimeException( "Offset " + offset + " out of bounds" );
 		}
