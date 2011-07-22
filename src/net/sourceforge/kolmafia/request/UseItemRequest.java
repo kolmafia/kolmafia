@@ -2693,6 +2693,16 @@ public class UseItemRequest
 			ResultProcessor.processItem( ItemPool.FLAT_DOUGH, 0 - InventoryManager.getCount( ItemPool.FLAT_DOUGH ) );
 			ResultProcessor.processResult( item );
 			return;
+			
+		case ItemPool.EXPRESS_CARD:
+
+			// You feel charged up!
+
+			if ( responseText.indexOf( "charged up" ) != -1 )
+			{
+				Preferences.setInteger( "_zapCount", 0 );
+			}
+			return;
 
 		case ItemPool.PLUS_SIGN:
 
