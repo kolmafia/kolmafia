@@ -799,6 +799,13 @@ public class CoinmastersFrame
 			{
 				public void run()
 				{
+					String reason = CoinMasterRequest.canSell( CoinmasterPanel.this.data );
+					if ( reason != null )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+						return;
+					}
+
 					if ( !InputFieldUtilities.confirm( "Are you sure you would like to trade in the selected items?" ) )
 					{
 						return;
@@ -980,6 +987,13 @@ public class CoinmastersFrame
 			{
 				public void run()
 				{
+					String reason = CoinMasterRequest.canBuy( CoinmasterPanel.this.data );
+					if ( reason != null )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+						return;
+					}
+
 					Object[] items = BuyPanel.this.getDesiredItems();
 					if ( items == null )
 					{
