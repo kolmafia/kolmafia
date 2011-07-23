@@ -155,8 +155,8 @@ public class DisplayCaseRequest
 		return false;
 	}
 
-	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "<b>([^<]*)</b> moved from inventory to case" );
-	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "<b>([^<]*)</b> moved from case to inventory" );
+	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "<b>(([^<]*((?!</b>)<))*[^<]*)</b> moved from inventory to case" );
+	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "<b>(([^<]*((?!</b>)<))*[^<]*)</b> moved from case to inventory" );
 
 	public static final boolean parseDisplayTransfer( final String urlString, final String responseText )
 	{
