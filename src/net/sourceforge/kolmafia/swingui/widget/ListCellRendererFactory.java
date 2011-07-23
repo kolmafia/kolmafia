@@ -123,7 +123,38 @@ public class ListCellRendererFactory
 			}
 
 			StringBuffer stringForm = new StringBuffer();
-			stringForm.append( ar.getName() );
+
+			stringForm.append( "<html><nobr>" );
+
+			String name = ar.getName();
+			String color = null;
+
+			if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
+			{
+				color = "olive";
+			}
+			else if ( KoLConstants.junkList.contains( ar ) )
+			{
+				color = "gray";
+			}
+			else
+			{
+				color = ItemDatabase.getQualityColor( name );
+			}
+
+			if ( color != null )
+			{
+				stringForm.append( "<font color=" );
+				stringForm.append( color );
+				stringForm.append( ">" );
+			}
+
+			stringForm.append( name );
+
+			if ( color != null )
+			{
+				stringForm.append( "</font>" );
+			}
 
 			int itemId = ar.getItemId();
 
@@ -147,16 +178,7 @@ public class ListCellRendererFactory
 			stringForm.append( KoLConstants.COMMA_FORMAT.format( ar.getCount() ) );
 			stringForm.append( ")" );
 
-			if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
-			{
-				stringForm.insert( 0, "<html><font color=olive>" );
-				stringForm.append( "</font></html>" );
-			}
-			else if ( KoLConstants.junkList.contains( ar ) )
-			{
-				stringForm.insert( 0, "<html><font color=gray>" );
-				stringForm.append( "</font></html>" );
-			}
+			stringForm.append( "</nobr></html>" );
 
 			( (JLabel) defaultComponent ).setText( stringForm.toString() );
 			return defaultComponent;
@@ -165,7 +187,34 @@ public class ListCellRendererFactory
 		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr )
 		{
 			StringBuffer stringForm = new StringBuffer();
-			stringForm.append( icr.getName() );
+
+			stringForm.append( "<html><nobr>" );
+
+			String name = icr.getName();
+			String color = null;
+
+			if ( KoLConstants.junkList.contains( icr.createdItem ) )
+			{
+				color = "gray";
+			}
+			else
+			{
+				color = ItemDatabase.getQualityColor( name );
+			}
+
+			if ( color != null )
+			{
+				stringForm.append( "<font color=" );
+				stringForm.append( color );
+				stringForm.append( ">" );
+			}
+
+			stringForm.append( name );
+
+			if ( color != null )
+			{
+				stringForm.append( "</font>" );
+			}
 
 			int itemId = icr.getItemId();
 
@@ -196,24 +245,13 @@ public class ListCellRendererFactory
 			}
 			stringForm.append( ")" );
 
-			boolean isHTML = false;
 			if ( icr.getQuantityPossible() == 0 && icr.getQuantityPullable() > 0 )
 			{
 				stringForm.insert( 0, "<i>" );
 				stringForm.append( "</i>" );
-				isHTML = true;
 			}
-			if ( KoLConstants.junkList.contains( icr.createdItem ) )
-			{
-				stringForm.insert( 0, "<font color=gray>" );
-				stringForm.append( "</font>" );
-				isHTML = true;
-			}
-			if ( isHTML )
-			{
-				stringForm.insert( 0, "<html>" );
-				stringForm.append( "</html>" );
-			}
+
+			stringForm.append( "</nobr></html>" );
 
 			( (JLabel) defaultComponent ).setText( stringForm.toString() );
 			return defaultComponent;
@@ -228,9 +266,22 @@ public class ListCellRendererFactory
 
 			stringForm.append( "<html><nobr>" );
 
+			String color = null;
+
 			if ( !meetsRequirement )
 			{
-				stringForm.append( "<font color=#c0c0c0>" );
+				color = "#c0c0c0";
+			}
+			else
+			{
+				color = ItemDatabase.getQualityColor( name );
+			}
+
+			if ( color != null )
+			{
+				stringForm.append( "<font color=" );
+				stringForm.append( color );
+				stringForm.append( ">" );
 			}
 
 			stringForm.append( "<b>" );
@@ -322,7 +373,7 @@ public class ListCellRendererFactory
 				}
 			}
 
-			if ( !meetsRequirement )
+			if ( color != null )
 			{
 				stringForm.append( "</font>" );
 			}
@@ -442,7 +493,34 @@ public class ListCellRendererFactory
 			}
 
 			StringBuffer stringForm = new StringBuffer();
+			String name = ar.getName();
+
+			stringForm.append( "<html><nobr>" );
+
+			String color = null;
+
+			if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
+			{
+				color = "olive";
+			}
+			else if ( KoLConstants.junkList.contains( ar ) )
+			{
+				color = "gray";
+			}
+
+			if ( color != null )
+			{
+				stringForm.append( "<font color=" );
+				stringForm.append( color );
+				stringForm.append( ">" );
+			}
+
 			stringForm.append( ar.getName() );
+
+			if ( color != null )
+			{
+				stringForm.append( "</font>" );
+			}
 
 			int power = EquipmentDatabase.getPower( ar.getName() );
 
@@ -457,16 +535,7 @@ public class ListCellRendererFactory
 			stringForm.append( KoLConstants.COMMA_FORMAT.format( ar.getCount() ) );
 			stringForm.append( ")" );
 
-			if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
-			{
-				stringForm.insert( 0, "<html><font color=olive>" );
-				stringForm.append( "</font></html>" );
-			}
-			else if ( KoLConstants.junkList.contains( ar ) )
-			{
-				stringForm.insert( 0, "<html><font color=gray>" );
-				stringForm.append( "</font></html>" );
-			}
+			stringForm.append( "</nobr></html>" );
 
 			( (JLabel) defaultComponent ).setText( stringForm.toString() );
 			return defaultComponent;
@@ -510,6 +579,7 @@ public class ListCellRendererFactory
 				stringForm.append( "</font>" );
 				isHTML = true;
 			}
+
 			if ( isHTML )
 			{
 				stringForm.insert( 0, "<html>" );
@@ -722,7 +792,36 @@ public class ListCellRendererFactory
 			}
 
 			StringBuffer stringForm = new StringBuffer();
-			stringForm.append( ar.getName() );
+
+			stringForm.append( "<html><nobr>" );
+
+			String name = ar.getName();
+			String color = null;
+
+
+			if ( !ItemDatabase.meetsLevelRequirement( ar.getName() ) ||
+			     !EquipmentManager.canEquip( ar.getName() ) )
+			{
+				color = "gray";
+			}
+			else
+			{
+				color = ItemDatabase.getQualityColor( name );
+			}
+
+			if ( color != null )
+			{
+				stringForm.append( "<font color=" );
+				stringForm.append( color );
+				stringForm.append( ">" );
+			}
+
+			stringForm.append( name );
+
+			if ( color != null )
+			{
+				stringForm.append( "</font>" );
+			}
 
 			int power = EquipmentDatabase.getPower( ar.getName() );
 
@@ -771,12 +870,7 @@ public class ListCellRendererFactory
 			stringForm.append( KoLConstants.COMMA_FORMAT.format( ar.getCount() ) );
 			stringForm.append( ")" );
 
-			if ( !ItemDatabase.meetsLevelRequirement( ar.getName() ) ||
-				!EquipmentManager.canEquip( ar.getName() ) )
-			{
-				stringForm.insert( 0, "<html><font color=gray>" );
-				stringForm.append( "</font></html>" );
-			}
+			stringForm.append( "</nobr></html>" );
 
 			( (JLabel) defaultComponent ).setText( stringForm.toString() );
 			return defaultComponent;
