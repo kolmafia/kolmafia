@@ -155,22 +155,23 @@ public class HermitRequest
 		KoLConstants.hermitItems.clear();
 		HermitRequest.buyPrices.clear();
 
-		HermitRequest.registerHermitItem( ItemPool.SEAL_TOOTH, 1 );
-		HermitRequest.registerHermitItem( ItemPool.CHISEL, 1 );
-		HermitRequest.registerHermitItem( ItemPool.PETRIFIED_NOODLES, 1 );
-		HermitRequest.registerHermitItem( ItemPool.JABANERO_PEPPER, 1 );
-		HermitRequest.registerHermitItem( ItemPool.BANJO_STRINGS, 1 );
-		HermitRequest.registerHermitItem( ItemPool.BUTTERED_ROLL, 1 );
-		HermitRequest.registerHermitItem( ItemPool.WOODEN_FIGURINE, 1 );
-		HermitRequest.registerHermitItem( ItemPool.KETCHUP, 1 );
-		HermitRequest.registerHermitItem( ItemPool.CATSUP, 1 );
-		HermitRequest.registerHermitItem( ItemPool.SWEET_RIMS, 1 );
-		HermitRequest.registerHermitItem( ItemPool.DINGY_PLANKS, 1 );
-		HermitRequest.registerHermitItem( ItemPool.VOLLEYBALL, 1 );
+		HermitRequest.registerHermitItem( ItemPool.SEAL_TOOTH, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.CHISEL, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.PETRIFIED_NOODLES, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.JABANERO_PEPPER, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.BANJO_STRINGS, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.BUTTERED_ROLL, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.WOODEN_FIGURINE, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.KETCHUP, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.CATSUP, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.SWEET_RIMS, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.DINGY_PLANKS, PurchaseRequest.MAX_QUANTITY );
+		HermitRequest.registerHermitItem( ItemPool.VOLLEYBALL, PurchaseRequest.MAX_QUANTITY );
 		if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
 		{
-			HermitRequest.registerHermitItem( ItemPool.ANCIENT_SEAL, 1 );
+			HermitRequest.registerHermitItem( ItemPool.ANCIENT_SEAL, PurchaseRequest.MAX_QUANTITY );
 		}
+		HermitRequest.registerHermitItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 
 		HermitRequest.HERMIT.registerPurchaseRequests();
 	}
@@ -406,7 +407,7 @@ public class HermitRequest
 			}
 
 			// Add it to the Hermit's inventory
-			HermitRequest.registerHermitItem( itemId, 1 );
+			HermitRequest.registerHermitItem( itemId, PurchaseRequest.MAX_QUANTITY );
 		}
 		while ( matcher.find() );
 

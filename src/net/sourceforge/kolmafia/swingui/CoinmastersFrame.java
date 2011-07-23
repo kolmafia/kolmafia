@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
@@ -1130,7 +1131,11 @@ public class CoinmastersFrame
 					   token );
 			stringForm.append( ")" );
 			int count = ar.getCount();
-			if ( count != 1 )
+			if ( count == -1 )
+			{
+				stringForm.append( " (unknown)" );
+			}
+			else if ( count != PurchaseRequest.MAX_QUANTITY )
 			{
 				stringForm.append( " (" );
 				stringForm.append( KoLConstants.COMMA_FORMAT.format( count ) );

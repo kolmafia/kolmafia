@@ -80,7 +80,7 @@ public class NPCPurchaseRequest
 		this.shopName = storeName;
 		this.npcStoreId = storeId;
 
-		this.quantity = NPCPurchaseRequest.MAX_QUANTITY;
+		this.quantity = PurchaseRequest.MAX_QUANTITY;
 		this.price = price;
 		this.limit = this.quantity;
 		this.canPurchase = true;
