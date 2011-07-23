@@ -151,7 +151,7 @@ public class CoinmastersDatabase
 				Integer iprice = new Integer( price );
 				String rname = data[ 3 ];
 				String name = StringUtilities.getCanonicalName( rname );
-				AdventureResult item = new AdventureResult( name, 1, false );
+				AdventureResult item = new AdventureResult( name, PurchaseRequest.MAX_QUANTITY, false );
 
 				if ( type.equals( "buy" ) )
 				{
@@ -255,10 +255,10 @@ public class CoinmastersDatabase
 		}
 	}
 
-	public static final void registerPurchaseRequest( CoinmasterData data, int itemId, int price )
+	public static final void registerPurchaseRequest( CoinmasterData data, int itemId, int price, int quantity )
 	{
 		// Register a purchase request
-		CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest( data, itemId, price );
+		CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest( data, itemId, price, quantity );
 		CoinmastersDatabase.COINMASTER_ITEMS.put( new Integer( itemId ), request );
 
 		// Register this in the Concoction for the item

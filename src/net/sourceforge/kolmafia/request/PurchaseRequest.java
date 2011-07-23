@@ -200,6 +200,10 @@ public abstract class PurchaseRequest
 		{
 			buffer.append( "unlimited" );
 		}
+		else if ( this.quantity < 0 )
+		{
+			buffer.append( "unknown" );
+		}
 		else
 		{
 			buffer.append( KoLConstants.COMMA_FORMAT.format( this.quantity ) );

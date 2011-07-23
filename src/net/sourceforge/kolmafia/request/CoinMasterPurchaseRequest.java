@@ -64,7 +64,7 @@ public class CoinMasterPurchaseRequest
 	 * Constructs a new <code>CoinMasterPurchaseRequest</code> which retrieves things from Coin Masters.
 	 */
 
-	public CoinMasterPurchaseRequest( final CoinmasterData data, final int itemId, final int price )
+	public CoinMasterPurchaseRequest( final CoinmasterData data, final int itemId, final int price, final int quantity )
 	{
 		super( "" );		// We do not run this request itself
 
@@ -75,7 +75,7 @@ public class CoinMasterPurchaseRequest
 
 		this.shopName = data.getMaster();
 
-		this.quantity = CoinMasterPurchaseRequest.MAX_QUANTITY;
+		this.quantity = quantity;
 		this.price = price;
 
 		AdventureResult item = data.getItem();

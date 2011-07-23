@@ -346,7 +346,8 @@ public class CoinmasterData
 			int itemId = item.getItemId();
 			String itemName = item.getName();
 			int price = CoinmastersDatabase.getPrice( itemName, this.buyPrices );
-			CoinmastersDatabase.registerPurchaseRequest( this, itemId, price );
+			int quantity = item.getCount();
+			CoinmastersDatabase.registerPurchaseRequest( this, itemId, price, quantity );
 		}
 	}
 

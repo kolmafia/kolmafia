@@ -173,7 +173,7 @@ public class TravelingTraderRequest
 		// We know the item. Set the item and token in the CoinmasterData
 
 		CoinmasterData data = TravelingTraderRequest.TRAVELER;
-		AdventureResult item = ItemPool.get( itemId, 1 );
+		AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
 		data.setItem( item );
 		data.setToken( item.getName() );
 
