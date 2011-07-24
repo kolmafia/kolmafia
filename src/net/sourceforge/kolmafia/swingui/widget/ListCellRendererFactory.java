@@ -98,24 +98,24 @@ public class ListCellRendererFactory
 
 			if ( value instanceof AdventureResult )
 			{
-				return this.getRenderer( defaultComponent, (AdventureResult) value );
+				return this.getRenderer( defaultComponent, (AdventureResult) value, isSelected );
 			}
 
 			if ( value instanceof CreateItemRequest )
 			{
-				return this.getRenderer( defaultComponent, (CreateItemRequest) value );
+				return this.getRenderer( defaultComponent, (CreateItemRequest) value, isSelected );
 			}
 
 			if ( value instanceof Concoction )
 			{
 				return this.getRenderer( defaultComponent, (Concoction) value,
-					list.getWidth() );
+					list.getWidth(), isSelected );
 			}
 
 			return defaultComponent;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final AdventureResult ar )
+		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
 			if ( !ar.isItem() )
 			{
@@ -129,7 +129,11 @@ public class ListCellRendererFactory
 			String name = ar.getName();
 			String color = null;
 
-			if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
+			if ( isSelected )
+			{
+				color = "white";
+			}
+			else if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
 			{
 				color = "olive";
 			}
@@ -184,7 +188,7 @@ public class ListCellRendererFactory
 			return defaultComponent;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr )
+		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr, final boolean isSelected )
 		{
 			StringBuffer stringForm = new StringBuffer();
 
@@ -193,7 +197,11 @@ public class ListCellRendererFactory
 			String name = icr.getName();
 			String color = null;
 
-			if ( KoLConstants.junkList.contains( icr.createdItem ) )
+			if ( isSelected )
+			{
+				color = "white";
+			}
+			else if ( KoLConstants.junkList.contains( icr.createdItem ) )
 			{
 				color = "gray";
 			}
@@ -258,7 +266,7 @@ public class ListCellRendererFactory
 		}
 
 		public Component getRenderer( final Component defaultComponent, final Concoction item,
-			final int listWidth )
+			final int listWidth, final boolean isSelected )
 		{
 			StringBuffer stringForm = new StringBuffer();
 			String name = item.getName();
@@ -268,7 +276,11 @@ public class ListCellRendererFactory
 
 			String color = null;
 
-			if ( !meetsRequirement )
+			if ( isSelected )
+			{
+				color = "white";
+			}
+			else if ( !meetsRequirement )
 			{
 				color = "#c0c0c0";
 			}
