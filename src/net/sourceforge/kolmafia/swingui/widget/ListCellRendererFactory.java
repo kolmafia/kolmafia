@@ -497,7 +497,7 @@ public class ListCellRendererFactory
 			return true;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final AdventureResult ar )
+		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
 			if ( !ar.isItem() )
 			{
@@ -553,7 +553,7 @@ public class ListCellRendererFactory
 			return defaultComponent;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr )
+		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr, final boolean isSelected )
 		{
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( icr.getName() );
@@ -796,7 +796,7 @@ public class ListCellRendererFactory
 			return true;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final AdventureResult ar )
+		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
 			if ( !ar.isItem() )
 			{
@@ -907,7 +907,7 @@ public class ListCellRendererFactory
 			return true;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final AdventureResult ar )
+		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
 			if ( !ar.isItem() )
 			{
@@ -943,7 +943,7 @@ public class ListCellRendererFactory
 			return true;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final AdventureResult ar )
+		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
 			if ( !ar.isItem() )
 			{
