@@ -516,6 +516,11 @@ public class ValhallaDecorator
 			buffer.append( "<nobr>trade in barrels of gunpowder for big boom</nobr><br>" );
 		}
 
+		if ( InventoryManager.hasItem( ItemPool.RAT_WHISKER ) )
+		{
+			buffer.append( "<nobr>trade in rat whiskers for meat</nobr><br>" );
+		}
+
 		if ( Preferences.getInteger( "lastEasterEggBalloon" ) != KoLCharacter.getAscensions() )
 		{
 			buffer.append( "<nobr>get an easter egg balloon</nobr><br>" );
