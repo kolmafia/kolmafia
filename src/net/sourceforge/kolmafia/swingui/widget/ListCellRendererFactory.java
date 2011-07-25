@@ -511,7 +511,11 @@ public class ListCellRendererFactory
 
 			String color = null;
 
-			if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
+			if ( isSelected )
+			{
+				color = "white";
+			}
+			else if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
 			{
 				color = "olive";
 			}
@@ -811,7 +815,11 @@ public class ListCellRendererFactory
 			String color = null;
 
 
-			if ( !ItemDatabase.meetsLevelRequirement( ar.getName() ) ||
+			if ( isSelected )
+			{
+				color = "white";
+			}
+			else if ( !ItemDatabase.meetsLevelRequirement( ar.getName() ) ||
 			     !EquipmentManager.canEquip( ar.getName() ) )
 			{
 				color = "gray";
