@@ -270,6 +270,10 @@ public class CoinmastersDatabase
 		}
 
 		Concoction concoction = ConcoctionPool.get( itemId );
+		if ( concoction == null )
+		{
+			return;
+		}
 
 		// If we can create it any other way, prefer that method
 		if ( concoction.getMixingMethod() == KoLConstants.NOCREATE )

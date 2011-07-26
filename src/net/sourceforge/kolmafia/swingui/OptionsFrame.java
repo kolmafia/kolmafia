@@ -382,6 +382,7 @@ public class OptionsFrame
 
 			{ "allowNegativeTally", "Allow item counts in session results to go negative" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
+			{ "autoSatisfyWithStorage", "If you are out of Ronin, pull items from storage whenever needed" },
 			{ "autoSatisfyWithCoinmasters", "Buy items with tokens at coin masters whenever needed" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithCloset", "Take items from the closet whenever needed", "yes" },

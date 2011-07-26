@@ -17,6 +17,7 @@ global	autoSatisfyWithCoinmasters	false
 global	autoSatisfyWithMall	false
 global	autoSatisfyWithNPCs	false
 global	autoSatisfyWithStash	false
+global	autoSatisfyWithStorage	true
 global	breakfastHardcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 global	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 global	browserBookmarks
