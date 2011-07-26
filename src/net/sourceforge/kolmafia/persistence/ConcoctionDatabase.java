@@ -1118,7 +1118,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.getIngredients( item.getIngredients(), availableIngredients );
 
 			item.initial = concoction.getItemId() == ItemPool.WORTHLESS_ITEM ?
-				HermitRequest.getWorthlessItemCount() :
+				HermitRequest.getWorthlessItemCount( true ) :
 				concoction.getCount( availableIngredients );
 			item.price = 0;
 			item.creatable = 0;

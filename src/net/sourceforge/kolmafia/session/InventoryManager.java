@@ -165,12 +165,12 @@ public abstract class InventoryManager
 		// Agree with what retrieveItem looks at
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
-			return HermitRequest.getWorthlessItemCount();
+			return HermitRequest.getWorthlessItemCount( true );
 		}
 
 		int count = item.getCount( KoLConstants.inventory );
 
-		// Items in closet might be accessible, but. if the user has
+		// Items in closet might be accessible, but if the user has
 		// marked items in the closet as out-of-bounds, honor that.
 		if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
 		{
@@ -183,8 +183,12 @@ public abstract class InventoryManager
 		if ( KoLCharacter.canInteract() )
 		{
 			// Storage is always accessible once you are out of
-			// Ronin or have freed the king.
-			count += item.getCount( KoLConstants.storage );
+			// Ronin or have freed the king, but, again, the user
+			// can mark it as out-of-bounds
+			if ( Preferences.getBoolean( "autoSatisfyWithStorage" ) )
+			{
+				count += item.getCount( KoLConstants.storage );
+			}
 
 			if ( KoLCharacter.hasClan() && Preferences.getBoolean( "autoSatisfyWithStash" ) )
 			{
@@ -289,21 +293,18 @@ public abstract class InventoryManager
 			return true;
 		}
 
-		int availableCount = 0;
-
 		if ( itemId == 0 )
 		{
 			return true;
 		}
-		else if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
+
+		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
-			availableCount = HermitRequest.getWorthlessItemCount();
-		}
-		else
-		{
-			availableCount = item.getCount( KoLConstants.inventory );
+			// Retrieve worthless items using special techniques.
+			return InventoryManager.retrieveWorthlessItems( item );
 		}
 
+		int availableCount = item.getCount( KoLConstants.inventory );
 		int missingCount = item.getCount() - availableCount;
 
 		// If you already have enough of the given item, then return
@@ -345,14 +346,6 @@ public abstract class InventoryManager
 					return true;
 				}
 			}
-		}
-
-		// Retrieve worthless items either by reading scrolls or
-		// using chewing gum on a string
-
-		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
-		{
-			return InventoryManager.retrieveWorthlessItems( item );
 		}
 
 		// Handle the bridge by untinkering the abridged dictionary
@@ -409,9 +402,11 @@ public abstract class InventoryManager
 		}
 
 		// Next, attempt to pull the items out of storage, if you are
-		// out of ronin.
+		// out of ronin and the user has not marked that location as
+		// inaccessible.
 
-		if ( KoLCharacter.canInteract() )
+		boolean shouldUseStorage = Preferences.getBoolean( "autoSatisfyWithStorage" );
+		if ( shouldUseStorage && KoLCharacter.canInteract() )
 		{
 			itemCount = item.getCount( KoLConstants.storage );
 
@@ -690,8 +685,8 @@ public abstract class InventoryManager
 
 	private static boolean retrieveWorthlessItems( final AdventureResult item )
 	{
+		int count = HermitRequest.getWorthlessItemCount( false );
 		int needed = item.getCount();
-		int count = HermitRequest.getWorthlessItemCount();
 
 		if ( count >= needed )
 		{
@@ -699,13 +694,27 @@ public abstract class InventoryManager
 		}
 
 		// Figure out if you already have enough items in the closet
-
-		InventoryManager.transferWorthlessItems( false );
-		count = HermitRequest.getWorthlessItemCount();
-
-		if ( count >= needed )
+		if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
 		{
-			return true;
+			InventoryManager.transferWorthlessItems( false );
+			count = HermitRequest.getWorthlessItemCount();
+
+			if ( count >= needed )
+			{
+				return true;
+			}
+		}
+
+		// Figure out if you already have enough items in storage
+		if ( Preferences.getBoolean( "autoSatisfyWithStorage" ) && KoLCharacter.canInteract() )
+		{
+			InventoryManager.pullWorthlessItems();
+			count = HermitRequest.getWorthlessItemCount();
+
+			if ( count >= needed )
+			{
+				return true;
+			}
 		}
 
 		while ( count < needed && InventoryManager.hasItem( HermitRequest.SUMMON_SCROLL ) )
@@ -894,6 +903,24 @@ public abstract class InventoryManager
 		int trinketCount = HermitRequest.TRINKET.getCount( destination );
 		int gewgawCount = HermitRequest.GEWGAW.getCount( destination );
 		int knickKnackCount = HermitRequest.KNICK_KNACK.getCount( destination );
+
+		return trinketCount + gewgawCount + knickKnackCount;
+	}
+
+	private static int pullWorthlessItems()
+	{
+		int trinketCount = HermitRequest.TRINKET.getCount( KoLConstants.storage );
+		int gewgawCount = HermitRequest.GEWGAW.getCount( KoLConstants.storage );
+		int knickKnackCount = HermitRequest.KNICK_KNACK.getCount( KoLConstants.storage );
+
+		AdventureResult[] items = 
+			new AdventureResult[] {
+				HermitRequest.TRINKET.getInstance( trinketCount ),
+				HermitRequest.GEWGAW.getInstance( gewgawCount ),
+				HermitRequest.KNICK_KNACK.getInstance( knickKnackCount )
+		};
+
+		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
 
 		return trinketCount + gewgawCount + knickKnackCount;
 	}

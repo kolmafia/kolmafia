@@ -196,26 +196,26 @@ public class HermitRequest
 			RequestThread.postRequest( new UseItemRequest( HermitRequest.HACK_SCROLL ) );
 		}
 
-		// If we are want to make a trade, fetch enough worthless items
-		if ( HermitRequest.getWorthlessItemCount() < this.quantity )
+		// If we want to make a trade, fetch enough worthless items
+		if ( HermitRequest.getWorthlessItemCount( false ) < this.quantity )
 		{
 			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM.getInstance( this.quantity ) );
 		}
 
 		// Otherwise, we are simply visiting and need only one
-		else if ( HermitRequest.getWorthlessItemCount() == 0 )
+		else if ( HermitRequest.getWorthlessItemCount( false ) == 0 )
 		{
 			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM );
 		}
 
-		if ( HermitRequest.getWorthlessItemCount() == 0 )
+		if ( HermitRequest.getWorthlessItemCount( false ) == 0 )
 		{
 			return null;
 		}
 
 		if ( this.quantity > 0 )
 		{
-			this.setQuantity( Math.min( this.quantity, HermitRequest.getWorthlessItemCount() ) );
+			this.setQuantity( Math.min( this.quantity, HermitRequest.getWorthlessItemCount( false ) ) );
 		}
 
 		super.run();
@@ -446,9 +446,36 @@ public class HermitRequest
 
 	public static final int getWorthlessItemCount()
 	{
-		return HermitRequest.TRINKET.getCount( KoLConstants.inventory ) +
-		       HermitRequest.GEWGAW.getCount( KoLConstants.inventory ) +
-		       HermitRequest.KNICK_KNACK.getCount( KoLConstants.inventory );
+		return HermitRequest.getWorthlessItemCount( false );
+	}
+
+	public static final int getWorthlessItemCount( boolean all )
+	{
+		int count = 
+			HermitRequest.TRINKET.getCount( KoLConstants.inventory ) +
+			HermitRequest.GEWGAW.getCount( KoLConstants.inventory ) +
+			HermitRequest.KNICK_KNACK.getCount( KoLConstants.inventory );
+
+		if ( all )
+		{
+			if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
+			{
+				count +=
+					HermitRequest.TRINKET.getCount( KoLConstants.closet ) +
+					HermitRequest.GEWGAW.getCount( KoLConstants.closet ) +
+					HermitRequest.KNICK_KNACK.getCount( KoLConstants.closet );
+			}
+
+			if ( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStorage" ) )
+			{
+				count +=
+					HermitRequest.TRINKET.getCount( KoLConstants.storage ) +
+					HermitRequest.GEWGAW.getCount( KoLConstants.storage ) +
+					HermitRequest.KNICK_KNACK.getCount( KoLConstants.storage );
+			}
+		}
+
+		return count;
 	}
 
 	public static final int cloverCount()

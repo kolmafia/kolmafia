@@ -181,7 +181,7 @@ public class GoalManager
 		{
 			if ( goal.getItemId() == HermitRequest.WORTHLESS_ITEM.getItemId() )
 			{
-				currentCount = HermitRequest.getWorthlessItemCount();
+				currentCount = HermitRequest.getWorthlessItemCount( true );
 			}
 			else
 			{

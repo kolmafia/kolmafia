@@ -1501,9 +1501,9 @@ public abstract class KoLmafia
 		}
 
 		int selected = selectedValue.getItemId();
+		int maximumValue = HermitRequest.getWorthlessItemCount( true );
 
-		String message = "(You have " + HermitRequest.getWorthlessItemCount() + " worthless items)";
-		int maximumValue = HermitRequest.getWorthlessItemCount();
+		String message = "(You have " + maximumValue + " worthless items retrievable)";
 
 		if ( selected == ItemPool.TEN_LEAF_CLOVER )
 		{
