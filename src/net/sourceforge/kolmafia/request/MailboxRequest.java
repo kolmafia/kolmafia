@@ -69,6 +69,7 @@ public class MailboxRequest
 
 		this.action = action;
 		this.boxname = boxname;
+		this.beginIndex = 1 ;
 		for ( int i = 0; i < messages.length; ++i )
 		{
 			this.addFormField( ( (KoLMailMessage) messages[ i ] ).getMessageId(), "on" );

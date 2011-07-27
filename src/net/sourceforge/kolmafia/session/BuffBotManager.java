@@ -407,7 +407,7 @@ public abstract class BuffBotManager
 			{
 				Object[] messages = BuffBotManager.saveList.toArray();
 				BuffBotManager.saveList.clear();
-				MailManager.saveMessages( messages );
+				MailManager.saveMessages( "Inbox", messages );
 			}
 		}
 	}
