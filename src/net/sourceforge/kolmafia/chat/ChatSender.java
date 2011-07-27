@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ChatSender
 {
 	private static final Pattern PRIVATE_MESSAGE_PATTERN =
-		Pattern.compile( "/(?:msg|whisper|w|tell)\\s+(\\S+)\\s+", Pattern.CASE_INSENSITIVE );
+		Pattern.compile( "^/(?:msg|whisper|w|tell)\\s+(\\S+)\\s+", Pattern.CASE_INSENSITIVE );
 
 	private static boolean scriptedMessagesEnabled = true;
 
@@ -230,7 +230,7 @@ public class ChatSender
 	private static final List getGrafs( String contact, String message )
 	{
 		List grafs = new LinkedList();
-		
+
 		if ( message.startsWith( "/do " ) || message.startsWith( "/run " ) || message.startsWith( "/cli " ) )
 		{
 			grafs.add( message );
