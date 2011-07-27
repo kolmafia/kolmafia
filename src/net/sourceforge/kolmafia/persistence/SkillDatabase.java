@@ -99,9 +99,10 @@ public class SkillDatabase
 	public static final int LUNCH_BREAK = 60;
 
 	private static final String UNCATEGORIZED = "uncategorized";
+	private static final String CONDITIONAL = "conditional";
+	private static final String MR_SKILLS = "mr. skills";
 	private static final String GNOME_SKILLS = "gnome trainer";
 	private static final String BAD_MOON = "bad moon";
-	private static final String MR_SKILLS = "mr. skills";
 
 	private static final String[] CATEGORIES = new String[]
 	{
@@ -112,8 +113,9 @@ public class SkillDatabase
 		"sauceror",
 		"disco bandit",
 		"accordion thief",
-		SkillDatabase.GNOME_SKILLS,
+		SkillDatabase.CONDITIONAL,
 		SkillDatabase.MR_SKILLS,
+		SkillDatabase.GNOME_SKILLS,
 		SkillDatabase.BAD_MOON
 	};
 
@@ -227,14 +229,7 @@ public class SkillDatabase
 			// Moxious maneuver has a 7000 id, but
 			// it's not gained by equipment.
 
-			if ( categoryId == 7 )
-			{
-				category = SkillDatabase.UNCATEGORIZED;
-			}
-			else
-			{
-				category = SkillDatabase.CATEGORIES[ categoryId ];
-			}
+			category = SkillDatabase.CATEGORIES[ categoryId ];
 		}
 
 		SkillDatabase.skillCategoryById.put( skillId, category );

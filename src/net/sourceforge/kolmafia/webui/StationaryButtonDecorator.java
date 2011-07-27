@@ -67,7 +67,7 @@ public class StationaryButtonDecorator
 		{
 			return true;
 		}
-			     
+   
 		return false;
 	}
 
