@@ -52,6 +52,7 @@ public abstract class MailManager
 	{
 		MailManager.mailboxes.put( "Inbox", new SortedListModel() );
 		MailManager.mailboxes.put( "PvP", new SortedListModel() );
+		MailManager.mailboxes.put( "Pen Pal", new SortedListModel() );
 		MailManager.mailboxes.put( "Outbox", new SortedListModel() );
 		MailManager.mailboxes.put( "Saved", new SortedListModel() );
 	}
@@ -60,6 +61,7 @@ public abstract class MailManager
 	{
 		MailManager.getMessages( "Inbox" ).clear();
 		MailManager.getMessages( "PvP" ).clear();
+		MailManager.getMessages( "Pen Pal" ).clear();
 		MailManager.getMessages( "Outbox" ).clear();
 		MailManager.getMessages( "Saved" ).clear();
 	}
@@ -150,11 +152,11 @@ public abstract class MailManager
 		Preferences.setInteger( "lastMessageCount", MailManager.getMessages( "Inbox" ).size() );
 	}
 
-	public static final void saveMessage( final KoLMailMessage message )
+	public static final void saveMessage( final String boxname, final KoLMailMessage message )
 	{
-		RequestThread.postRequest( new MailboxRequest( "Inbox", message, "save" ) );
+		RequestThread.postRequest( new MailboxRequest( boxname, message, "save" ) );
 
-		SortedListModel mailbox = (SortedListModel) MailManager.mailboxes.get( "Inbox" );
+		SortedListModel mailbox = (SortedListModel) MailManager.mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
 		if ( messageIndex != -1 )
 		{
@@ -164,17 +166,17 @@ public abstract class MailManager
 		Preferences.setInteger( "lastMessageCount", MailManager.getMessages( "Inbox" ).size() );
 	}
 
-	public static final void saveMessages( final Object[] messages )
+	public static final void saveMessages( final String boxname, final Object[] messages )
 	{
 		if ( messages.length == 0 )
 		{
 			return;
 		}
 
-		RequestThread.postRequest( new MailboxRequest( "Inbox", messages, "save" ) );
+		RequestThread.postRequest( new MailboxRequest( boxname, messages, "save" ) );
 
 		int messageIndex;
-		SortedListModel mailbox = (SortedListModel) MailManager.mailboxes.get( "Inbox" );
+		SortedListModel mailbox = (SortedListModel) MailManager.mailboxes.get( boxname );
 		for ( int i = 0; i < messages.length; ++i )
 		{
 			messageIndex = mailbox.indexOf( messages[ i ] );

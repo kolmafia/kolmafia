@@ -70,6 +70,7 @@ public class MailboxFrame
 
 	private MailSelectList messageListInbox;
 	private MailSelectList messageListPvp;
+	private MailSelectList messageListPenPal;
 	private MailSelectList messageListOutbox;
 	private MailSelectList messageListSaved;
 
@@ -79,6 +80,7 @@ public class MailboxFrame
 
 		this.addTab( "Inbox", this.messageListInbox = new MailSelectList( "Inbox" ) );
 		this.addTab( "PvP", this.messageListPvp = new MailSelectList( "PvP" ) );
+		this.addTab( "Pen Pal", this.messageListPenPal = new MailSelectList( "Pen Pal" ) );
 		this.addTab( "Outbox", this.messageListOutbox = new MailSelectList( "Outbox" ) );
 		this.addTab( "Saved", this.messageListSaved = new MailSelectList( "Saved" ) );
 
@@ -117,7 +119,7 @@ public class MailboxFrame
 
 	public void setEnabled( final boolean isEnabled )
 	{
-		if ( this.tabs == null || this.messageListInbox == null || this.messageListPvp == null || this.messageListOutbox == null || this.messageListSaved == null )
+		if ( this.tabs == null || this.messageListInbox == null || this.messageListPvp == null || this.messageListPenPal == null || this.messageListOutbox == null || this.messageListSaved == null )
 		{
 			return;
 		}
@@ -129,6 +131,7 @@ public class MailboxFrame
 
 		this.messageListInbox.setEnabled( isEnabled );
 		this.messageListPvp.setEnabled( isEnabled );
+		this.messageListPenPal.setEnabled( isEnabled );
 		this.messageListOutbox.setEnabled( isEnabled );
 		this.messageListSaved.setEnabled( isEnabled );
 	}
@@ -162,6 +165,15 @@ public class MailboxFrame
 
 			requestMailbox = !this.messageListPvp.isInitialized();
 		}
+		else if ( currentTabName.equals( "Pen Pal" ) )
+		{
+			if ( this.messageListPenPal.isInitialized() )
+			{
+				this.messageListPenPal.valueChanged( null );
+			}
+
+			requestMailbox = !this.messageListPenPal.isInitialized();
+		}
 		else if ( currentTabName.equals( "Outbox" ) )
 		{
 			if ( this.messageListOutbox.isInitialized() )
@@ -189,6 +201,7 @@ public class MailboxFrame
 	{
 		this.messageListInbox.setModel( MailManager.getMessages( "Inbox" ) );
 		this.messageListPvp.setModel( MailManager.getMessages( "PvP" ) );
+		this.messageListPenPal.setModel( MailManager.getMessages( "Pen Pal" ) );
 		this.messageListOutbox.setModel( MailManager.getMessages( "Outbox" ) );
 		this.messageListSaved.setModel( MailManager.getMessages( "Saved" ) );
 	}
@@ -220,7 +233,15 @@ public class MailboxFrame
 			{
 				MailboxFrame.this.messageListOutbox.setInitialized( true );
 			}
-			else
+			else if ( this.mailboxName.equals( "PvP" ) )
+			{
+				MailboxFrame.this.messageListPvp.setInitialized( true );
+			}
+			else if ( this.mailboxName.equals( "Pen Pal" ) )
+			{
+				MailboxFrame.this.messageListPenPal.setInitialized( true );
+			}
+			else if ( this.mailboxName.equals( "Saved" ) )
 			{
 				MailboxFrame.this.messageListSaved.setInitialized( true );
 			}
@@ -327,9 +348,17 @@ public class MailboxFrame
 			{
 				this.messages = MailboxFrame.this.messageListInbox.getSelectedValues();
 			}
-			if ( currentTabName.equals( "PvP" ) )
+			else if ( currentTabName.equals( "PvP" ) )
 			{
 				this.messages = MailboxFrame.this.messageListPvp.getSelectedValues();
+			}
+			else if ( currentTabName.equals( "Pen Pal" ) )
+			{
+				this.messages = MailboxFrame.this.messageListPenPal.getSelectedValues();
+			}
+			else if ( currentTabName.equals( "Outbox" ) )
+			{
+				this.messages = MailboxFrame.this.messageListOutbox.getSelectedValues();
 			}
 
 			if ( this.messages == null || this.messages.length == 0 )
@@ -342,7 +371,7 @@ public class MailboxFrame
 				return;
 			}
 
-			MailManager.saveMessages( this.messages );
+			MailManager.saveMessages( currentTabName, this.messages );
 		}
 	}
 
@@ -370,13 +399,17 @@ public class MailboxFrame
 			{
 				this.messages = MailboxFrame.this.messageListPvp.getSelectedValues();
 			}
+			else if ( this.currentTabName.equals( "Pen Pal" ) )
+			{
+				this.messages = MailboxFrame.this.messageListPenPal.getSelectedValues();
+			}
 			else if ( this.currentTabName.equals( "Outbox" ) )
 			{
 				this.messages = MailboxFrame.this.messageListOutbox.getSelectedValues();
 			}
 			else if ( this.currentTabName.equals( "Saved" ) )
 			{
-				MailboxFrame.this.messageListSaved.getSelectedValues();
+				this.messages = MailboxFrame.this.messageListSaved.getSelectedValues();
 			}
 
 			if ( this.messages == null || this.messages.length == 0 )
@@ -405,7 +438,7 @@ public class MailboxFrame
 		public void run()
 		{
 			String currentTabName = MailboxFrame.this.tabs.getTitleAt( MailboxFrame.this.tabs.getSelectedIndex() );
-			new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ).run();
+			new MailRefresher( currentTabName ).run();
 		}
 	}
 
