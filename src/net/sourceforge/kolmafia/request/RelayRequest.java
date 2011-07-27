@@ -318,7 +318,7 @@ public class RelayRequest
 			{
 				String skillId = this.getFormField( "whichskill" );
 				String category = SkillDatabase.getSkillCategory( StringUtilities.parseInt( skillId ) );
-				if ( !category.equals( "uncategorized" ) )
+				if ( !category.equals( "conditional" ) )
 				{
 					StationaryButtonDecorator.addButton( skillId );
 				}
