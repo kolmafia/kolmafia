@@ -945,10 +945,17 @@ public class ConcoctionDatabase
 
 	private static final List getAvailableIngredients()
 	{
-		boolean includeCloset = !KoLConstants.closet.isEmpty() && Preferences.getBoolean( "autoSatisfyWithCloset" );
-		boolean includeStorage = KoLCharacter.canInteract() && !KoLConstants.storage.isEmpty();
+		boolean includeCloset =
+			!KoLConstants.closet.isEmpty() &&
+			Preferences.getBoolean( "autoSatisfyWithCloset" );
+		boolean includeStorage =
+			KoLCharacter.canInteract() &&
+			!KoLConstants.storage.isEmpty() &&
+			Preferences.getBoolean( "autoSatisfyWithStorage" );
 		boolean includeStash =
-			KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStash" ) && !ClanManager.getStash().isEmpty();
+			KoLCharacter.canInteract() &&
+			Preferences.getBoolean( "autoSatisfyWithStash" ) &&
+			!ClanManager.getStash().isEmpty();
 
 		boolean includeQueue =
 			!ConcoctionDatabase.queuedFoodIngredients.isEmpty() ||
