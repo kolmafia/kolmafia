@@ -381,9 +381,9 @@ public class OptionsFrame
 			{},
 
 			{ "allowNegativeTally", "Allow item counts in session results to go negative" },
-			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
-			{ "autoSatisfyWithStorage", "If you are out of Ronin, pull items from storage whenever needed" },
-			{ "autoSatisfyWithCoinmasters", "Buy items with tokens at coin masters whenever needed" },
+			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed", "yes" },
+			{ "autoSatisfyWithStorage", "If you are out of Ronin, pull items from storage whenever needed", "yes" },
+			{ "autoSatisfyWithCoinmasters", "Buy items with tokens at coin masters whenever needed", "yes" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithCloset", "Take items from the closet whenever needed", "yes" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },
