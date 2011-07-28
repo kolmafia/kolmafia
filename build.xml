@@ -401,7 +401,7 @@
 
 	<target name="exec" depends="jar">
 		<java fork="true" jar="${jarfile}" dir="${dist}">
-			<jvmarg value="${exec.vmoptions}" />
+			<jvmarg line="${exec.vmoptions}" />
 		</java>
 	</target>
 
