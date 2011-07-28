@@ -39,6 +39,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.UIManager;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -131,7 +132,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				color = "white";
+				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
 			else if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
 			{
@@ -199,7 +200,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				color = "white";
+				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
 			else if ( KoLConstants.junkList.contains( icr.createdItem ) )
 			{
@@ -278,7 +279,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				color = "white";
+				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
 			else if ( !meetsRequirement )
 			{
@@ -513,7 +514,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				color = "white";
+				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
 			else if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
 			{
@@ -817,7 +818,7 @@ public class ListCellRendererFactory
 
 			if ( isSelected )
 			{
-				color = "white";
+				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
 			else if ( !ItemDatabase.meetsLevelRequirement( ar.getName() ) ||
 			     !EquipmentManager.canEquip( ar.getName() ) )
