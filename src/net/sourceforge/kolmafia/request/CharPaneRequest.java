@@ -140,7 +140,10 @@ public class CharPaneRequest
 			CharPaneRequest.isRunning = false;
 		}
 
-		CharPaneRequest.lastResponse = responseText;
+		if ( this.responseCode == 200 )
+		{
+			CharPaneRequest.lastResponse = responseText;
+		}
 
 		return null;
 	}

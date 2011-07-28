@@ -1611,20 +1611,19 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "maint.php" ) )
 		{
+			// If the request was issued from the Relay
+			// Browser, follow the redirect and show the
+			// user the maintenance page.
+
 			if ( this instanceof RelayRequest )
 			{
-				// If the request was issued from the Relay
-				// Browser, follow the redirect and show the
-				// user the maintenance page.
-				this.constructURLString( this.redirectLocation, false );
+				return true;
 			}
-			else
-			{
-				// Otherwise, inform the user in the status
-				// line and abort.
 
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance. Please restart KoLmafia." );
-			}
+			// Otherwise, inform the user in the status
+			// line and abort.
+
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance. Please restart KoLmafia." );
 			GenericRequest.reset();
 			return true;
 		}
@@ -1657,6 +1656,7 @@ public class GenericRequest
 		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
 			GenericRequest.checkItemRedirection( this.getURLString() );
+
 			if ( this instanceof UseItemRequest )
 			{
 				FightRequest.INSTANCE.run();
@@ -1672,16 +1672,6 @@ public class GenericRequest
 		if ( this.redirectLocation.startsWith( "messages.php?results=Message" ) )
 		{
 			SendMailRequest.parseTransfer( this.getURLString() );
-		}
-
-		if ( this.formURLString.startsWith( "fight.php" ) )
-		{
-			if ( this.redirectLocation.startsWith( "main.php" ) )
-			{
-				this.constructURLString( this.redirectLocation, false );
-				return false;
-			}
-			return true;
 		}
 
 		if ( this.redirectLocation.startsWith( "login.php" ) )
@@ -1709,6 +1699,15 @@ public class GenericRequest
 		if ( this instanceof RelayRequest )
 		{
 			return true;
+		}
+
+		if ( this.formURLString.startsWith( "fight.php" ) )
+		{
+			if ( this.redirectLocation.startsWith( "main.php" ) )
+			{
+				this.constructURLString( this.redirectLocation, false );
+				return false;
+			}
 		}
 
 		if ( this.shouldFollowRedirect() )
