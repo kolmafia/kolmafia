@@ -10,8 +10,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 /**
  * BrowserLauncher is a class that provides one static method, openURL, which opens the default web browser for the
  * current user of the system to the given URL. It may support other protocols depending on the system -- mailto, ftp,
@@ -715,7 +713,7 @@ public class BrowserLauncher
 
 		if ( url.indexOf( " " ) != -1 && !url.startsWith( "file" ) )
 		{
-			url = StringUtilities.globalStringReplace( url, " ", "+" );
+			url = url.replace(' ', '+');
 		}
 
 		if ( BrowserLauncher.openOverrideBrowser( url ) )
