@@ -141,11 +141,28 @@
 
 		<echo message="Using ${build.compiler} compiler" />
 	
+		<antcall target="compile-folder">
+			<param name="folder" value="${lib}" />
+		</antcall>
+
+		<antcall target="compile-folder">
+			<param name="folder" value="${src}" />
+		</antcall>
+
+	</target>
+
+	<!-- ====================== -->
+	<!--  generate class files  -->
+	<!-- ====================== -->
+
+	<target name="compile-folder">
+
 		<javac
 			compiler="${build.compiler}"
 			source="1.4"
-			srcdir="${src}"
+			srcdir="${folder}"
 			destdir="${build}"
+			classpath="${build}"
 			failonerror="false"
 			debug="on"
 			debuglevel="lines,vars,source"
@@ -154,19 +171,13 @@
 			includeantruntime="false" />
 
 		<copy todir="${build}" preservelastmodified="true">
-			<fileset dir="${src}">
+			<fileset dir="${folder}">
+				<exclude name="**/*.jar" />
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
 
-		<copy todir="${build}" preservelastmodified="true">
-			<fileset dir="${lib}">
-				<exclude name="**/*.jar" />
-			</fileset>
-		</copy>
-
 	</target>
-
 
 	<!-- ========================================== -->
 	<!--  generate a zipped TAR of the source code  -->
