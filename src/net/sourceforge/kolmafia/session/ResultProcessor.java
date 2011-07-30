@@ -1047,6 +1047,23 @@ public class ResultProcessor
 
 			CoinmastersFrame.externalUpdate();
 			break;
+
+		case ItemPool.SEAL_HELMET:
+		case ItemPool.SEAL_CLUB:
+		case ItemPool.HELMET_TURTLE:
+		case ItemPool.TURTLE_TOTEM:
+		case ItemPool.RAVIOLI_HAT:
+		case ItemPool.PASTA_SPOON:
+		case ItemPool.HOLLANDAISE_HELMET:
+		case ItemPool.SAUCEPAN:
+		case ItemPool.DISCO_MASK:
+		case ItemPool.DISCO_BALL:
+		case ItemPool.MARIACHI_HAT:
+		case ItemPool.STOLEN_ACCORDION:
+		case ItemPool.OLD_SWEATPANTS:
+			// Starter items from the sewer affect the "cost" of a worthless item.
+			ConcoctionDatabase.refreshConcoctions();
+			break;
 		}
 
 		// From here on out, only positive results are handled.

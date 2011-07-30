@@ -478,6 +478,17 @@ public class HermitRequest
 		return count;
 	}
 
+	public static final int getAcquirableWorthlessItemCount()
+	{
+		int count = HermitRequest.getWorthlessItemCount( true );
+		if ( Preferences.getBoolean( "autoSatisfyWithNPCs" ) )
+		{
+			int cost = InventoryManager.currentWorthlessItemCost();
+			count += KoLCharacter.getAvailableMeat() / cost;
+		}
+		return count;
+	}
+
 	public static final int cloverCount()
 	{
 		if ( !HermitRequest.checkedForClovers )

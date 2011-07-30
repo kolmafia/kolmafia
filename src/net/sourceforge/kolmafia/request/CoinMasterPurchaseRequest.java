@@ -122,7 +122,7 @@ public class CoinMasterPurchaseRequest
 
 	public int affordableCount()
 	{
-		int tokens = this.data.availableTokens();
+		int tokens = this.data.affordableTokens();
 		int price = this.price;
 		return tokens / price;
 	}
@@ -130,7 +130,7 @@ public class CoinMasterPurchaseRequest
 	public boolean canPurchase()
 	{
 		CoinmasterData data = this.data;
-		int tokens = data.availableTokens();
+		int tokens = data.affordableTokens();
 		int price = this.price;
 		return this.canPurchase && price <= tokens;
 	}
@@ -148,7 +148,7 @@ public class CoinMasterPurchaseRequest
 		}
 
 		// See if we can afford the items
-		int tokens = data.availableTokens();
+		int tokens = data.affordableTokens();
 		int price = this.price;
 		this.setCanPurchase( tokens >= price );
 	}
