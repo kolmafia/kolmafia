@@ -1087,15 +1087,28 @@ public class ConcoctionDatabase
 				continue;
 			}
 
+			int itemId = concoction.getItemId();
+
+			if ( itemId == ItemPool.WORTHLESS_ITEM )
+			{
+				item.price = useNPCStores ? InventoryManager.currentWorthlessItemCost() : 0;
+				item.initial = HermitRequest.getWorthlessItemCount( true );
+				item.creatable = 0;
+				item.total = item.initial;
+				item.visibleTotal = item.total;
+				continue;
+			}
+
+
 			String name = concoction.getName();
 
 			if ( useNPCStores && NPCStoreDatabase.contains( name, true ) )
 			{
-				if ( concoction.getItemId() != ItemPool.FLAT_DOUGH )
+				if ( itemId != ItemPool.FLAT_DOUGH )
 				{
 					// Don't buy flat dough from Degrassi Knoll Bakery -
 					// buy wads of dough for 20 meat less, instead.
-
+					
 					item.price = NPCStoreDatabase.price( name );
 					item.initial = concoction.getCount( availableIngredients );
 					item.creatable = 0;
@@ -1124,9 +1137,7 @@ public class ConcoctionDatabase
 			// Switch to the better of any interchangeable ingredients
 			ConcoctionDatabase.getIngredients( item.getIngredients(), availableIngredients );
 
-			item.initial = concoction.getItemId() == ItemPool.WORTHLESS_ITEM ?
-				HermitRequest.getWorthlessItemCount( true ) :
-				concoction.getCount( availableIngredients );
+			item.initial = concoction.getCount( availableIngredients );
 			item.price = 0;
 			item.creatable = 0;
 			item.total = item.initial;

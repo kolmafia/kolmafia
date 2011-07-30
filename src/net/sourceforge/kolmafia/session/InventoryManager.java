@@ -657,6 +657,8 @@ public abstract class InventoryManager
 		return false;
 	}
 
+	// *** Start of worthless item handling
+
 	private static final AdventureResult [] WORTHLESS_ITEMS = new AdventureResult []
 	{
 		ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 ),
@@ -735,6 +737,9 @@ public abstract class InventoryManager
 		{
 			return true;
 		}
+
+		// Do not refresh concoctions while we transfer sewer items around.
+		ConcoctionDatabase.deferRefresh( true );
 
 		// If the character has any of the starter items, retrieve them to improve
 		// the probability of getting worthless items.
@@ -838,6 +843,9 @@ public abstract class InventoryManager
 			}
 		}
 
+		// Now that we have (possibly) gotten more sewer items, refresh
+		ConcoctionDatabase.deferRefresh( false );
+
 		if ( count < needed )
 		{
 			KoLmafia.updateDisplay(
@@ -924,6 +932,104 @@ public abstract class InventoryManager
 
 		return trinketCount + gewgawCount + knickKnackCount;
 	}
+
+	/*
+	  16 possible sewer items:
+
+	  6 classes * 1 hat
+	  6 classes * 1 weapon
+	  1 pants
+	  3 worthless items
+
+	  Items can be in inventory or equipped.
+
+	  Unless you have all 16 possible items, using a piece of gum will
+	  retrieve one you don't have yet. If you have all the non-worthless
+	  items, you are guaranteed to get a worthless item. If are missing
+	  some non-worthless items, whether you get a worthless item or one of
+	  the missing non-worthless-items is probabilistic.
+
+	  Assume you have no worthless items in inventory
+	  Let X = number of non-worthless sewer items you have.
+	  Given X, what is the expected # of gums needed to get a worthless item?
+
+	  Consider X = 13. Of the ( 16 - 13 ) = 3 possible items, 3 are your
+	  goal and ( 3 - 3 ) = 0 are not your goal.
+
+	  E(13) = 3/3 * 1 + 0/3 = 1.0
+
+	  Consider X = 12. Of the ( 16 - 12 ) = 4 possible items, 3 are your
+	  goal and ( 4 - 3 ) = 1 are not your goal. You have a 3/4 chance of
+	  getting your goal with the first piece of gum. If you don't get one,
+	  you have used 1 gum, now have 13 sewer items and will use another
+	  piece of gum.
+
+	  E(12) = 3/4 * 1 + 1/4 * ( 1 + E(13) ) = .75 + 0.50 = 1.25
+
+	  Consider X = 11. Of the ( 16 - 11 ) = 5 possible items, 3 are your
+	  goal and ( 5 - 3 ) = 2 are not your goal. You have a 3/5 chance of
+	  getting your goal with the first piece of gum. If you don't get one,
+	  you have used 1 gum, now have 12 sewer items and will use another
+	  piece of gum.
+
+	  E(11) = 3/5 * 1 + 2/5 * ( 1 + E(12) ) = .60 + 0.90 = 1.50
+
+	  This generalizes:
+
+	  E(X) = 3/(16-X) + (13-X)/(16-X) * ( 1 + E(X + 1 ) )
+
+	  Rearranging terms:
+
+	  E(X) = 1 + ( 13 - X ) * E( X + 1 ) / ( 16 - X )
+
+	  This little ASH program calculates this:
+
+	  float [14] factors;
+
+	  factors[ 13 ] = 1.0;
+	  for x from 12 downto 0
+	  {
+		float f2 = ( 13.0 - x ) * factors[ x + 1] / (16.0 - x );
+		factors[ x ] = 1.0 + f2;
+	  }
+
+	  for i from 0 to 13
+	  {
+		float px = factors[ i ] ;
+		print( i + ": " + px + " gum = " + ceil( 50.0 * px ) + " Meat" );
+	  }
+
+	  Resulting in this:
+
+	  0: 4.25 gum = 213 Meat
+	  1: 4.0 gum = 200 Meat
+	  2: 3.75 gum = 188 Meat
+	  3: 3.5 gum = 175 Meat
+	  4: 3.25 gum = 163 Meat
+	  5: 3.0 gum = 150 Meat
+	  6: 2.75 gum = 138 Meat
+	  7: 2.5 gum = 125 Meat
+	  8: 2.25 gum = 113 Meat
+	  9: 2.0 gum = 100 Meat
+	  10: 1.75 gum = 88 Meat
+	  11: 1.5 gum = 75 Meat
+	  12: 1.25 gum = 63 Meat
+	  13: 1.0 gum = 50 Meat
+
+	  From this table, I derive the following formula for expected # of
+	  chewing gum needed to retrieve a worthless item:
+
+	  E(X) = ( 17 - X ) / 4
+	  Cost(X) = 12.5 * ( 17 - X ) Meat
+	 */
+
+	public static int currentWorthlessItemCost()
+	{
+		int x = InventoryManager.getStarterItemCount();
+		return (int)Math.ceil( 12.5 * ( 17 - x ) );
+	}
+
+	// *** End of worthless item handling
 
 	private static boolean invokeBuyScript( AdventureResult item, int qty,
 		int ingredientLevel, boolean defaultBuy )

@@ -189,6 +189,16 @@ public class CoinmasterData
 		return count;
 	}
 
+	public final int affordableTokens()
+	{
+		// Special handling for acquiring worthless items
+		if ( this.item != null && this.item.getItemId() == ItemPool.WORTHLESS_ITEM )
+		{
+			return HermitRequest.getAcquirableWorthlessItemCount();
+		}
+		return this.availableTokens();
+	}
+
 	public final String getTokenTest()
 	{
 		return this.tokenTest;
