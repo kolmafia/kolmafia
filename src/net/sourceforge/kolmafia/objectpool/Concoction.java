@@ -520,6 +520,11 @@ public class Concoction
 			this.queuedPulls += pullAmount;
 		}
 
+		if ( this.price > 0 )
+		{
+			ConcoctionDatabase.queuedMeatSpent += this.price;
+		}
+
 		if ( this.price > 0 ||
 		     this.property != null ||
 		     !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
