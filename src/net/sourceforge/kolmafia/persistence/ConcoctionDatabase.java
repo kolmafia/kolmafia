@@ -88,6 +88,7 @@ public class ConcoctionDatabase
 	public static int queuedAdventuresUsed = 0;
 	public static int queuedStillsUsed = 0;
 	public static int queuedPullsUsed = 0;
+	public static int queuedMeatSpent = 0;
 
 	private static int queuedFullness = 0;
 	private static final Stack queuedFoodChanges = new Stack();
@@ -686,6 +687,7 @@ public class ConcoctionDatabase
 		int adventureChange = ConcoctionDatabase.queuedAdventuresUsed;
 		int stillChange = ConcoctionDatabase.queuedStillsUsed;
 		int pullChange = ConcoctionDatabase.queuedPullsUsed;
+		int meatChange = ConcoctionDatabase.queuedMeatSpent;
 
 		ArrayList ingredientChange = new ArrayList();
 		c.queue( queuedIngredients, ingredientChange, quantity );
@@ -706,6 +708,14 @@ public class ConcoctionDatabase
 				queuedIngredients, new AdventureResult( AdventureResult.PULL, pullChange ) );
 		}
 
+		meatChange = ConcoctionDatabase.queuedMeatSpent - meatChange;
+		if ( meatChange != 0 )
+		{
+			AdventureResult.addResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, meatChange ) );
+		}
+
+		queuedChanges.push( new Integer( meatChange ) );
 		queuedChanges.push( new Integer( pullChange ) );
 		queuedChanges.push( new Integer( stillChange ) );
 		queuedChanges.push( new Integer( adventureChange ) );
@@ -748,6 +758,7 @@ public class ConcoctionDatabase
 		Integer adventureChange = (Integer) queuedChanges.pop();
 		Integer stillChange = (Integer) queuedChanges.pop();
 		Integer pullChange = (Integer) queuedChanges.pop();
+		Integer meatChange = (Integer) queuedChanges.pop();
 
 		c.queued -= quantity.intValue();
 		c.queuedPulls -= pullChange.intValue();
@@ -777,6 +788,14 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.queuedPullsUsed -= pulls;
 			AdventureResult.addResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.PULL, -pulls ) );
+		}
+
+		int meat = meatChange.intValue();
+		if ( meat != 0 )
+		{
+			ConcoctionDatabase.queuedMeatSpent -= meat;
+			AdventureResult.addResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, -meat ) );
 		}
 
 		ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity.intValue();
@@ -1317,8 +1336,7 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.meatLimit.total = KoLCharacter.getAvailableMeat();
 		ConcoctionDatabase.meatLimit.initial =
-			ConcoctionDatabase.meatLimit.total;
-			// - ConcoctionDatabase.queuedMeatSpent ???
+			ConcoctionDatabase.meatLimit.total - ConcoctionDatabase.queuedMeatSpent;
 		ConcoctionDatabase.meatLimit.creatable = 0;
 		ConcoctionDatabase.meatLimit.visibleTotal = ConcoctionDatabase.meatLimit.total;
 

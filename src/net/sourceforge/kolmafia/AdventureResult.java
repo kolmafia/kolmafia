@@ -76,6 +76,7 @@ public class AdventureResult
 	public static final String AUTOSTOP = "Autostop";
 	public static final String DRUNK = "Drunk";
 	public static final String MEAT = "Meat";
+	public static final String MEAT_SPENT = "Meat Spent";
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
 	public static final String PULL = "Pull";
@@ -183,7 +184,7 @@ public class AdventureResult
 		{
 			return AdventureResult.ADV_PRIORITY;
 		}
-		if ( name.equals( AdventureResult.MEAT ) )
+		if ( name.equals( AdventureResult.MEAT ) || name.equals( AdventureResult.MEAT_SPENT ) )
 		{
 			return AdventureResult.MEAT_PRIORITY;
 		}
@@ -616,6 +617,11 @@ public class AdventureResult
 		if ( this.name.equals( AdventureResult.MEAT ) )
 		{
 			return " Meat Gained: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+		}
+
+		if ( this.name.equals( AdventureResult.MEAT_SPENT ) )
+		{
+			return " Meat Spent: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
 		}
 
 		if ( this.name.equals( AdventureResult.CHOICE ) )
