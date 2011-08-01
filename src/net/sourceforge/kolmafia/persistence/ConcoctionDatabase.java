@@ -695,23 +695,28 @@ public class ConcoctionDatabase
 		adventureChange = ConcoctionDatabase.queuedAdventuresUsed - adventureChange;
 		if ( adventureChange != 0 )
 		{
-			AdventureResult.addResultToList(
+			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.ADV, adventureChange ) );
 		}
 
 		stillChange = ConcoctionDatabase.queuedStillsUsed - stillChange;
+		if ( stillChange != 0 )
+		{
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.STILL, stillChange ) );
+		}
 
 		pullChange = ConcoctionDatabase.queuedPullsUsed - pullChange;
 		if ( pullChange != 0 )
 		{
-			AdventureResult.addResultToList(
+			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.PULL, pullChange ) );
 		}
 
 		meatChange = ConcoctionDatabase.queuedMeatSpent - meatChange;
 		if ( meatChange != 0 )
 		{
-			AdventureResult.addResultToList(
+			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, meatChange ) );
 		}
 
@@ -764,7 +769,7 @@ public class ConcoctionDatabase
 		c.queuedPulls -= pullChange.intValue();
 		for ( int i = 0; i < ingredientChange.size(); ++i )
 		{
-			AdventureResult.addResultToList(
+			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, ( (AdventureResult) ingredientChange.get( i ) ).getNegation() );
 		}
 
@@ -772,7 +777,7 @@ public class ConcoctionDatabase
 		if ( advs != 0 )
 		{
 			ConcoctionDatabase.queuedAdventuresUsed -= advs;
-			AdventureResult.addResultToList(
+			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.ADV, -advs ) );
 		}
 
@@ -780,13 +785,15 @@ public class ConcoctionDatabase
 		if ( stills != 0 )
 		{
 			ConcoctionDatabase.queuedStillsUsed -= stills;
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.STILL, -stills ) );
 		}
 
 		int pulls = pullChange.intValue();
 		if ( pulls != 0 )
 		{
 			ConcoctionDatabase.queuedPullsUsed -= pulls;
-			AdventureResult.addResultToList(
+			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.PULL, -pulls ) );
 		}
 
@@ -794,7 +801,7 @@ public class ConcoctionDatabase
 		if ( meat != 0 )
 		{
 			ConcoctionDatabase.queuedMeatSpent -= meat;
-			AdventureResult.addResultToList(
+			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, -meat ) );
 		}
 

@@ -80,6 +80,7 @@ public class AdventureResult
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
 	public static final String PULL = "Pull";
+	public static final String STILL = "Still";
 
 	private static final List MUS_SUBSTAT = new ArrayList();
 	private static final List MYS_SUBSTAT = new ArrayList();
@@ -178,9 +179,10 @@ public class AdventureResult
 	private static int choosePriority( final String name )
 	{
 		if ( name.equals( AdventureResult.ADV ) ||
-			name.equals( AdventureResult.CHOICE ) ||
-			name.equals( AdventureResult.AUTOSTOP ) ||
-			name.equals( AdventureResult.PULL ) )
+		     name.equals( AdventureResult.CHOICE ) ||
+		     name.equals( AdventureResult.AUTOSTOP ) ||
+		     name.equals( AdventureResult.PULL ) ||
+		     name.equals( AdventureResult.STILL ) )
 		{
 			return AdventureResult.ADV_PRIORITY;
 		}
@@ -639,6 +641,11 @@ public class AdventureResult
 			return " Budgeted Pulls: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
 		}
 
+		if ( this.name.equals( AdventureResult.STILL ) )
+		{
+			return " Still Usages: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+		}
+
 		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) || this.name.equals( AdventureResult.DRUNK ) )
 		{
 			return " " + this.name + ": " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
@@ -934,6 +941,29 @@ public class AdventureResult
 			sourceList.remove( index );
 			return;
 		}
+
+		sourceList.set( index, sumResult );
+	}
+
+	public static final void addOrRemoveResultToList( final List sourceList, final AdventureResult result )
+	{
+		int index = sourceList.indexOf( result );
+
+		if ( index == -1 )
+		{
+			sourceList.add( result );
+			return;
+		}
+
+		AdventureResult current = (AdventureResult) sourceList.get( index );
+		AdventureResult sumResult = current.getInstance( current.count[ 0 ] + result.count[ 0 ] );
+
+		if ( sumResult.getCount() <= 0 )
+		{
+			sourceList.remove( index );
+			return;
+		}
+
 
 		sourceList.set( index, sumResult );
 	}
