@@ -1103,6 +1103,18 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Release the Boots" ) )
+		{
+			// You can only release the boots 7 times per day
+
+			if ( Preferences.getInteger( "_bootStomps" ) >= 7 ||
+			     KoLCharacter.getFamiliar().getId() != FamiliarPool.BOOTS )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
 		else if ( skillName.equals( "Nuclear Breath" ) )
 		{
 			// You can only use this skill if you have the Taste the Inferno effect
@@ -2036,7 +2048,8 @@ public class FightRequest
 			Preferences.increment( "_navelRunaways", 1 );
 		}
 
-		if ( responseText.indexOf( "his back, and flooms away" ) != -1 )
+		if ( responseText.indexOf( "his back, and flooms away" ) != -1 ||
+			 responseText.indexOf( "speed your escape.  Thanks" ) != -1 )
 		{
 			Preferences.increment( "_banderRunaways", 1 );
 		}
@@ -4722,6 +4735,10 @@ public class FightRequest
 			FightRequest.squeezedStressBall = true;
 			Preferences.increment( "_stressBallSqueezes", 1 );
 			return;
+
+		case 7115: // Release the Boots
+			Preferences.increment( "_bootStomps", 1 );
+			break;
 		}
 	}
 
@@ -4857,6 +4874,15 @@ public class FightRequest
 			if ( !FightRequest.castCleesh &&
 				KoLCharacter.getFamiliar().getModifiedWeight() / 5 >
 				Preferences.getInteger( "_banderRunaways" ) )
+			{
+				return 100;
+			}
+		}
+		// Pair of Stomping Boots = weight/5 free runaways, on the same counter as the Bandersnatch
+		else if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.BOOTS )
+		{
+			if ( KoLCharacter.getFamiliar().getModifiedWeight() / 5 > 
+			     Preferences.getInteger( "_banderRunaways" ) )
 			{
 				return 100;
 			}

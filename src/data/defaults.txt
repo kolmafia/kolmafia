@@ -654,6 +654,7 @@ user	_bagOTricksUsed	false
 user	_bagOfCandy	false
 user	_ballpit	false
 user	_banderRunaways	0
+user	_bootStomps	0
 user	_boxingGloveArrows	0
 user	_brickoFights	0
 user	_cameraUsed	false
