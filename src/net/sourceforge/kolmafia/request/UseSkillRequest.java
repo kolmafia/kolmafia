@@ -1204,34 +1204,31 @@ public class UseSkillRequest
 			return false;
 		}
 
+		Matcher limitedMatcher = UseSkillRequest.LIMITED_PATTERN.matcher( responseText );
 		// limited-use skills
 		// "Y / maxCasts casts used today."
-		if ( responseText.indexOf( "casts used today" ) != -1 )
+		if ( limitedMatcher.find() )
 		{
 			int casts = 0;
 			// parse the number of casts remaining and set the appropriate preference.
 
-			Matcher matcher = UseSkillRequest.LIMITED_PATTERN.matcher( responseText );
-
-			if ( matcher.find() )
+			String numString = limitedMatcher.group( 1 );
+			try
 			{
-				String numString = matcher.group( 1 );
-				try
-				{
-					casts = Integer.parseInt( numString );
-				}
-				catch ( NumberFormatException e )
-				{
-					// shouldn't happen
-				}
-
-				switch ( skillId )
-				{
-				case UseSkillRequest.INIGOS:
-					Preferences.setInteger( "_inigosCasts", casts );
-					break;
-				}
+				casts = Integer.parseInt( numString );
 			}
+			catch ( NumberFormatException e )
+			{
+				// shouldn't happen
+			}
+
+			switch ( skillId )
+			{
+			case UseSkillRequest.INIGOS:
+				Preferences.setInteger( "_inigosCasts", casts );
+				break;
+			}
+
 			return false;
 		}
 
