@@ -4542,7 +4542,7 @@
 4533	knight cookie	food	all	100
 4534	king cookie	food	all	200
 4535	queen cookie	food	all	400
-4536
+4536	fairy-worn boots	grow	all	0
 4537	insane tophat	hat	gift	100
 4538	helm of the white knight	hat	gift	150
 4539	wristwatch of the white knight	accessory	gift	150
@@ -5120,7 +5120,7 @@
 5111	Ultracolor&trade; shirt	shirt	all	80
 5112	My Own Pen Pal kit	usable	all	0
 5113	packet of orchid seeds	usable	display	0
-5114
+5114	stomp box	familiar	all	0
 5115
 5116	A. W. O. L. commendation	reusable	display	0
 5117	reconstituted crow	grow	none	0

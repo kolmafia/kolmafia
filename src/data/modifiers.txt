@@ -2140,6 +2140,7 @@ snow halo	Familiar Weight: +5
 solid state loom	Familiar Weight: +10
 spoon!	Familiar Weight: +5
 # stick-on mini solar panels: +10 lbs. of Starfish
+stomp box	Familiar Weight: +5
 string of dingle balls	Familiar Weight: +5
 sucky decal	Familiar Weight: +5
 sugar shield	Familiar Weight: +10, Generic
@@ -3782,6 +3783,7 @@ Clan shower	Free Pull
 Comma Chameleon egg	Free Pull
 Crimbo P. R. E. S. S. I. E.	Free Pull
 Dark Jill-O-Lantern	Free Pull
+fairy-worn boots	Free Pull
 Fly-By-Knight Heraldry form	Free Pull
 Libram of BRICKOs	Free Pull
 Libram of Candy Heart Summoning	Free Pull

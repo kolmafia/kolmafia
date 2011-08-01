@@ -156,6 +156,7 @@ public class CharPaneDecorator
 		case FamiliarPool.BADGER:
 			return Preferences.getInteger( "_astralDrops" ) + "/5";
 		case FamiliarPool.BANDER:
+		case FamiliarPool.BOOTS:
 			return Preferences.getInteger( "_banderRunaways" ) + "/" +
 				fam.getModifiedWeight() / 5;
 		case FamiliarPool.GIBBERER:

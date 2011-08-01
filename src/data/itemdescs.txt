@@ -4534,7 +4534,7 @@
 4533	329900305	chesscookie.gif	knight cookie	knight cookies
 4534	189215534	chesscookie.gif	king cookie	king cookies
 4535	574685883	chesscookie.gif	queen cookie	queen cookies
-4536
+4536	351820305	fairyboots.gif	fairy-worn boots	pairs of fairy-worn boots
 4537	435098110	madhat.gif	insane tophat	insane tophats
 4538	587782581	knighthat.gif	helm of the white knight	helms of the white knight
 4539	348947721	nicewatch.gif	wristwatch of the white knight	wristwatches of the white knight
@@ -5112,7 +5112,7 @@
 5111	707506403	ultracolor.gif	Ultracolor&trade; shirt
 5112	544609748	ppkit.gif	My Own Pen Pal kit
 5113	382164254	seeds.gif	packet of orchid seeds	packets of orchid seeds
-5114
+5114	159882766	stompbox.gif	stomp box	stomp boxes
 5115
 5116	542484240	aolcom.gif	A. W. O. L. commendation
 5117	529331441	blackbird2.gif	reconstituted crow
