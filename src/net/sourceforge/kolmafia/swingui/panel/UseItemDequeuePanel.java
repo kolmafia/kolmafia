@@ -83,7 +83,7 @@ public class UseItemDequeuePanel
 			this.queueTabs.addTab( "0 Spleen Queued", this.centerPanel );
 		}
 
-		this.queueTabs.addTab( "Ingredients Used", new GenericScrollPane( ConcoctionDatabase.getQueuedIngredients( this.food, this.booze, this.spleen ), 7 ) );
+		this.queueTabs.addTab( "Resources Used", new GenericScrollPane( ConcoctionDatabase.getQueuedIngredients( this.food, this.booze, this.spleen ), 7 ) );
 
 		JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
