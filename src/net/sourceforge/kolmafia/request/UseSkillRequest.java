@@ -71,6 +71,7 @@ public class UseSkillRequest
 
 	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\*\\d,]+)" );
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\*\\d,]+)" );
+	private static final Pattern LIMITED_PATTERN = Pattern.compile( "<p>(\\d+) / [\\d+] casts used today\\.</td>");
 
 	public static final String[] BREAKFAST_SKILLS =
 	{
@@ -110,6 +111,7 @@ public class UseSkillRequest
 	private static final int DISCO_NAP = 5007;
 	private static final int POWER_NAP = 5011;
 	private static final int ODE_TO_BOOZE = 6014;
+	private static final int INIGOS = 6028;
 
 	public static String lastUpdate = "";
 	private static int lastSkillUsed = -1;
@@ -470,6 +472,10 @@ public class UseSkillRequest
 
 			maximumCast = KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) ? 5 : 3;
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "cocktailSummons" ), 0 );
+			break;
+			
+		case UseSkillRequest.INIGOS:
+			maximumCast = Math.max( 5 - Preferences.getInteger( "_inigosCasts" ), 0 );
 			break;
 
 		}
@@ -1173,12 +1179,20 @@ public class UseSkillRequest
 			UseSkillRequest.lastUpdate = "Only Accordion Thieves can use that skill.";
 			return true;
 		}
-
+		
 		// You can't cast that many turns of that skill today. (You've used 5 casts today,
 		// and the limit of casts per day you have is 5.)
 		if ( responseText.indexOf( "You can't cast that many turns of that skill today" ) != -1 )
 		{
 			UseSkillRequest.lastUpdate = "You've reached your daily casting limit for that skill.";
+			switch ( skillId )
+			{
+			case UseSkillRequest.INIGOS:
+				Preferences.setInteger( "_inigosCasts", 5 );
+				break;
+			default:
+				break;
+			}
 			return false;
 		}
 
@@ -1190,10 +1204,41 @@ public class UseSkillRequest
 			return false;
 		}
 
-		String skillName = SkillDatabase.getSkillName( skillId );
+		// limited-use skills
+		// "Y / maxCasts casts used today."
+		if ( responseText.indexOf( "casts used today" ) != -1 )
+		{
+			int casts = 0;
+			// parse the number of casts remaining and set the appropriate preference.
+
+			Matcher matcher = UseSkillRequest.LIMITED_PATTERN.matcher( responseText );
+
+			if ( matcher.find() )
+			{
+				String numString = matcher.group( 1 );
+				try
+				{
+					casts = Integer.parseInt( numString );
+				}
+				catch ( NumberFormatException e )
+				{
+					// shouldn't happen
+				}
+
+				switch ( skillId )
+				{
+				case UseSkillRequest.INIGOS:
+					Preferences.setInteger( "_inigosCasts", casts );
+					break;
+				}
+			}
+			return false;
+		}
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
+			String skillName = SkillDatabase.getSkillName( skillId );
+
 			UseSkillRequest.lastUpdate = "Not enough mana to cast " + skillName + ".";
 			CharPaneRequest.getInstance().run();
 			return true;
