@@ -881,3 +881,25 @@
 880	Timer 8	glowwatch.gif	09738ca64561790af54bd6d799e15ef0	# /timer
 881	Timer 9	pixwatch.gif	fa165b04cc36ebb00457003bd5bef2a1	# /timer
 882	Timer 10	angry.gif	84916cbb2e5b698f2062c46463b15438	# /timer
+883
+884	Beastly Flavor	beastflavor.gif	a7ddbf83786e02654337f5ee97e9844e	chew 1 beastly paste
+885	Oily Flavor	sprocket.gif	1fdbb456f7aec1f73e9d936d999bc0ff	chew 1 oily paste
+886	Spooky Flavor	spookyflavor.gif	a0fe541d8642b3e4cf6d16b532215b40	chew 1 ectoplasmic paste
+887	Greasy Flavor	blankoutglob.gif	181b95fae78466c869735b85dfebb6a9	chew 1 greasy paste
+888	Buggy Flavor	stinkbug.gif	b53548bb99ba1f524fdd32c3bc922425	chew 1 bug paste
+889	Hippy Flavor	hippyflavor.gif	c20748f60b9761eeb33f104f7383b304	chew 1 hippy paste
+890	Fratty Flavor	frattyflavor.gif	22cf04e489f80c7c33dd61b1db002c83	chew 1 orc paste
+891	Demonic Flavor	demonflavor.gif	e3c76f82c7375637c010c5d1a9191d53	chew 1 demonic paste
+892	Indescribable Flavor	confused.gif	15d187797ebb2345dceab35056e24bea	chew 1 indescribably horrible paste
+893
+894	Gobliny Flavor	goblinflavor.gif	7a24a42040f804e93cbdb26a979b3539	chew 1 goblin paste
+895	Piratey Flavor	pirateflavor.gif	f4ebb3ee66b5022ddbe311d726db3df0	chew 1 pirate paste
+896	Chlorophyll Flavor	leafflavor.gif	536f53d8fe7c2d623b234193b2d17084	chew 1 chlorophyll paste
+897	Weird Flavor	weirdflavor.gif	b2f14b52e276c963e4ef3eddc8f9025e	chew 1 strange paste
+898	Crimbo Flavor	elfflavor.gif	62e5fab96466b38a6bb81cb1fd3b0365	chew 1 crimbo paste
+899	Mer-kinny Flavor	merkinflavor.gif	f8e05da40c2f6f472918ceffe024e14c	chew 1 mer-kin paste
+900	Slimy Flavor	sebashield.gif	aeab0af6c80763fb5c62fb286880f614	chew 1 slimy paste
+901	Penguinny Flavor	bowtie.gif	8eee3464146e0826500887c8fec6df72	chew 1 penguin paste
+902	Elemental Flavor	rrainbow.gif	cd3a6ee549bdf2fa1102f0e5a237bfab	chew 1 elemental paste
+903	Cosmic Flavor	star.gif	2eae09c615714c24841b45d9b3c1ad59	chew 1 cosmic paste
+904	Hobo Flavor	hoboflavor.gif	8262e8618272592ac1c000b556114645	chew 1 hobo paste
