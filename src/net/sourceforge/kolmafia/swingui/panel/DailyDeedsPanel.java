@@ -1987,7 +1987,7 @@ public class DailyDeedsPanel
 			this.addListener( "_piePartsCount" );
 			this.addListener( "_tokenDrops" );
 			this.addListener( "_transponderDrops" );
-			this.addListener( "_pasteDrops" );
+			this.addListener( "_bootStomps" );
 			this.addLabel( "" );
 		}
 
@@ -2023,7 +2023,7 @@ public class DailyDeedsPanel
 			if( hf6 && ( hf7 || hf8 ) ) text = text + ", ";
 			if( hf7 ) text = text + Preferences.getInteger( "_transponderDrops" ) + " transponder";
 			if( hf7 && hf8 ) text = text + ", ";
-			if( hf8 ) text = text + Preferences.getInteger( "_pasteDrops" ) + " paste";
+			if( hf8 ) text = text + Preferences.getInteger( "_bootStomps" ) + " stomps";
 			this.setText( text );
 		}
 	}

@@ -228,6 +228,7 @@ public class FightRequest
 	private static boolean jiggledChefstaff = false;
 	private static boolean squeezedStressBall = false;
 	private static boolean canOlfact = true;
+	private static boolean canStomp = false;
 	private static boolean summonedGhost = false;
 	private static int currentRound = 0;
 
@@ -1107,8 +1108,7 @@ public class FightRequest
 		{
 			// You can only release the boots 7 times per day
 
-			if ( Preferences.getInteger( "_pasteDrops" ) >= 7 ||
-			     KoLCharacter.getFamiliar().getId() != FamiliarPool.BOOTS )
+			if ( !FightRequest.canStomp )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -1639,6 +1639,11 @@ public class FightRequest
 			if ( responseText.indexOf( "There is a blinding flash of light, and a chorus of heavenly voices rises in counterpoint to the ominous organ music." ) != -1 )
 			{
 				FightRequest.transmogrifyNemesisWeapon( false );
+			}
+
+			if ( responseText.indexOf( "stomps in place restlessly" ) != -1 )
+			{
+				FightRequest.canStomp = true;
 			}
 
 			// Increment stinky cheese counter
@@ -4267,6 +4272,7 @@ public class FightRequest
 		FightRequest.jiggledChefstaff = false;
 		FightRequest.squeezedStressBall = false;
 		FightRequest.summonedGhost = false;
+		FightRequest.canStomp = false;
 		FightRequest.desiredScroll = null;
 
 		MonsterStatusTracker.reset();
@@ -4735,6 +4741,11 @@ public class FightRequest
 			FightRequest.squeezedStressBall = true;
 			Preferences.increment( "_stressBallSqueezes", 1 );
 			return;
+
+		case 7115: // Release the Boots
+			FightRequest.canStomp = false;
+			Preferences.increment( "_bootStomps", 1 );
+			break;
 		}
 	}
 
