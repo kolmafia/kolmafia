@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -173,13 +174,42 @@ public class HermitRequest
 		}
 		HermitRequest.registerHermitItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 
-		HermitRequest.HERMIT.registerPurchaseRequests();
+		HermitRequest.resetPurchaseRequests();
 	}
 
 	public static final void reset()
 	{
 		HermitRequest.checkedForClovers = false;
 		HermitRequest.initialize();
+	}
+
+	public static final void resetPurchaseRequests()
+	{
+		HermitRequest.HERMIT.registerPurchaseRequests();
+		HermitRequest.resetConcoctions();
+	}
+
+	public static final void resetConcoctions()
+	{
+		// Look at each item and correct the ingredient list
+		// WORTHLESS_ITEM, PERMIT
+		int count = Preferences.getBoolean( "hermitHax0red" ) ? 1 : 2;
+		Iterator it = KoLConstants.hermitItems.iterator();
+		while ( it.hasNext() )
+		{
+			AdventureResult item = (AdventureResult) it.next();
+			Concoction c = ConcoctionPool.get( item.getItemId() );
+			AdventureResult[] ingredients = c.getIngredients();
+			if ( ingredients.length != count )
+			{
+				c.resetIngredients();
+				c.addIngredient( HermitRequest.WORTHLESS_ITEM );
+				if ( count == 2 )
+				{
+					c.addIngredient( HermitRequest.PERMIT );
+				}
+			}
+		}
 	}
 
 	/**
@@ -319,7 +349,11 @@ public class HermitRequest
 		if ( responseText.indexOf( "looks confused for a moment" ) != -1 )
 		{
 			HermitRequest.ensureUpdatedHermit();
-			Preferences.setBoolean( "hermitHax0red", true );
+			if ( !Preferences.getBoolean( "hermitHax0red" ) )
+			{
+				Preferences.setBoolean( "hermitHax0red", true );
+				HermitRequest.resetConcoctions();
+			}
 		}
 		// If he is NOT confused, he took Hermit permits
 		else
@@ -493,7 +527,7 @@ public class HermitRequest
 	{
 		if ( !HermitRequest.checkedForClovers )
 		{
-			new HermitRequest().run();
+			RequestThread.postRequest( new HermitRequest() );
 		}
 
 		int index = KoLConstants.hermitItems.indexOf( CLOVER );

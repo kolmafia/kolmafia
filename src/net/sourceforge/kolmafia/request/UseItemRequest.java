@@ -2158,6 +2158,7 @@ public class UseItemRequest
 
 			HermitRequest.ensureUpdatedHermit();
 			Preferences.setBoolean( "hermitHax0red", true );
+			HermitRequest.resetConcoctions();
 			return;
 
 		case ItemPool.SPARKLER:

@@ -1481,16 +1481,10 @@ public abstract class KoLmafia
 
 	public void makeHermitRequest()
 	{
-		AdventureResult clover = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
-		if ( !KoLConstants.hermitItems.contains( clover ) )
-		{
-			RequestThread.postRequest( new HermitRequest() );
-		}
-
-		if ( !KoLmafia.permitsContinue() )
-		{
-			return;
-		}
+		// See how many clovers are available today. This visits the
+		// Hermit, if necessary, and sets the AdventureResult in
+		// KoLConstants.hermitItems.
+		int cloverCount = HermitRequest.cloverCount();
 
 		AdventureResult selectedValue =
 			(AdventureResult) KoLmafia.getSelectedValue( "I have worthless items!", KoLConstants.hermitItems );
@@ -1507,8 +1501,6 @@ public abstract class KoLmafia
 
 		if ( selected == ItemPool.TEN_LEAF_CLOVER )
 		{
-			int cloverCount = selectedValue.getCount();
-
 			if ( cloverCount <= maximumValue )
 			{
 				message = "(There are " + cloverCount + " clovers still available)";
