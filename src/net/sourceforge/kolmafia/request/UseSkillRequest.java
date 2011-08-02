@@ -111,6 +111,12 @@ public class UseSkillRequest
 	private static final int DISCO_NAP = 5007;
 	private static final int POWER_NAP = 5011;
 	private static final int ODE_TO_BOOZE = 6014;
+	private static final int THINGFINDER = 6020;
+	private static final int BENETTONS = 6021;
+	private static final int ELRONS = 6022;
+	private static final int COMPANIONSHIP = 6023;
+	private static final int PRECISION = 6024;
+	private static final int DONHOS = 6026;
 	private static final int INIGOS = 6028;
 
 	public static String lastUpdate = "";
@@ -474,10 +480,33 @@ public class UseSkillRequest
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "cocktailSummons" ), 0 );
 			break;
 			
+		case UseSkillRequest.THINGFINDER:
+			maximumCast = Math.max( 10 - Preferences.getInteger( "_thingfinderCasts" ), 0 );
+			break;
+
+		case UseSkillRequest.BENETTONS:
+			maximumCast = Math.max( 10 - Preferences.getInteger( "_benettonsCasts" ), 0 );
+			break;
+
+		case UseSkillRequest.ELRONS:
+			maximumCast = Math.max( 10 - Preferences.getInteger( "_elronsCasts" ), 0 );
+			break;
+
+		case UseSkillRequest.COMPANIONSHIP:
+			maximumCast = Math.max( 10 - Preferences.getInteger( "_companionshipCasts" ), 0 );
+			break;
+
+		case UseSkillRequest.PRECISION:
+			maximumCast = Math.max( 10 - Preferences.getInteger( "_precisionCasts" ), 0 );
+			break;
+
+		case UseSkillRequest.DONHOS:
+			maximumCast = Math.max( 50 - Preferences.getInteger( "_donhosCasts" ), 0 );
+			break;
+
 		case UseSkillRequest.INIGOS:
 			maximumCast = Math.max( 5 - Preferences.getInteger( "_inigosCasts" ), 0 );
 			break;
-
 		}
 
 		return maximumCast;
@@ -1187,6 +1216,30 @@ public class UseSkillRequest
 			UseSkillRequest.lastUpdate = "You've reached your daily casting limit for that skill.";
 			switch ( skillId )
 			{
+			case UseSkillRequest.THINGFINDER:
+				Preferences.setInteger( "_thingfinderCasts", 10 );
+				break;
+
+			case UseSkillRequest.BENETTONS:
+				Preferences.setInteger( "_benettonsCasts", 10 );
+				break;
+
+			case UseSkillRequest.ELRONS:
+				Preferences.setInteger( "_elronsCasts", 10 );
+				break;
+
+			case UseSkillRequest.COMPANIONSHIP:
+				Preferences.setInteger( "_companionshipCasts", 10 );
+				break;
+
+			case UseSkillRequest.PRECISION:
+				Preferences.setInteger( "_precisionCasts", 10 );
+				break;
+
+			case UseSkillRequest.DONHOS:
+				Preferences.setInteger( "_donhosCasts", 50 );
+				break;
+
 			case UseSkillRequest.INIGOS:
 				Preferences.setInteger( "_inigosCasts", 5 );
 				break;
@@ -1213,17 +1266,35 @@ public class UseSkillRequest
 			// parse the number of casts remaining and set the appropriate preference.
 
 			String numString = limitedMatcher.group( 1 );
-			try
-			{
-				casts = Integer.parseInt( numString );
-			}
-			catch ( NumberFormatException e )
-			{
-				// shouldn't happen
-			}
+
+			casts = Integer.parseInt( numString );
 
 			switch ( skillId )
 			{
+			case UseSkillRequest.THINGFINDER:
+				Preferences.setInteger( "_thingfinderCasts", casts );
+				break;
+
+			case UseSkillRequest.BENETTONS:
+				Preferences.setInteger( "_benettonsCasts", casts );
+				break;
+
+			case UseSkillRequest.ELRONS:
+				Preferences.setInteger( "_elronsCasts", casts );
+				break;
+
+			case UseSkillRequest.COMPANIONSHIP:
+				Preferences.setInteger( "_companionshipCasts", casts );
+				break;
+
+			case UseSkillRequest.PRECISION:
+				Preferences.setInteger( "_precisionCasts", casts );
+				break;
+
+			case UseSkillRequest.DONHOS:
+				Preferences.setInteger( "_donhosCasts", casts );
+				break;
+
 			case UseSkillRequest.INIGOS:
 				Preferences.setInteger( "_inigosCasts", casts );
 				break;
