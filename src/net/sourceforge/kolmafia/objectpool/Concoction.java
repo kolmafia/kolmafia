@@ -593,6 +593,12 @@ public class Concoction
 		return this.wasPossible;
 	}
 
+	public void resetIngredients()
+	{
+		this.ingredients.clear();
+		this.ingredientArray = new AdventureResult[ 0 ];
+	}
+
 	public void addIngredient( final AdventureResult ingredient )
 	{
 		int itemId = ingredient.getItemId();

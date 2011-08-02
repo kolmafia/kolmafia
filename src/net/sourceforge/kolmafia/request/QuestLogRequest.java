@@ -235,6 +235,7 @@ public class QuestLogRequest
 			QuestLogRequest.dungeonOfDoomAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.DUNGEONS_OF_DOOM ) != -1;
 			HermitRequest.ensureUpdatedHermit();
 			Preferences.setBoolean( "hermitHax0red", QuestLogRequest.other.indexOf( QuestLogRequest.HAX0R ) != -1 );
+			HermitRequest.resetConcoctions();
 		}
 	}
 }

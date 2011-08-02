@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -691,6 +692,7 @@ public class AdventureResult
 
 		return count == 1 ? name :
 			count > Integer.MAX_VALUE/2 ? name + " (\u221E)" :
+			count == PurchaseRequest.MAX_QUANTITY ? name + " (unlimited)" :
 			name + " (" + KoLConstants.COMMA_FORMAT.format( count ) + ")";
 	}
 
