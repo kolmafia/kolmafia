@@ -2449,6 +2449,7 @@ Barking Mad	Mysticality Percent: +100
 Basted	Sleaze Damage: +10, Damage Reduction: -2
 Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Bats in the Belfry	Mysticality Percent: +10
+Beastly Flavor	Familiar Weight: +3
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 # Beer in Your Shoes: More likely to fumble
 # Beer in Your Shoes: Continually take damage
@@ -2493,6 +2494,7 @@ Brother Flying Burrito's Blessing	Food Drop: +30
 Brother Smothers's Blessing	Booze Drop: +30
 # Bruised Jaw: Mruimed Maw
 Bubble, Bubble	Moxie: -5, Muscle: +5
+# Buggy Flavor: 25% chance of poisoning opponent
 Bureaucratized	Familiar Weight: +10
 Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
 Burning Hands	Hot Damage: +11
@@ -2523,6 +2525,7 @@ Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
 Chihuahua Underfoot	Monster Level: +20
 Chilblains of the Corn	Spooky Damage: +5
+Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
 Chocolate Reign	Moxie: +10
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
 Cholestoriffic	Sleaze Damage: [min(100,T)]
@@ -2556,11 +2559,13 @@ Contemptible Emanations	Monster Level: +20
 Corroded Weapon	Weapon Damage: -5
 # Corrupted: All Attributes +/- ???
 Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
+Cosmic Flavor	Spell Critical Percent: +10
 # Cotton Mouthed: So dry! It's from yesterday!
 # Coy to the Hurled: variable DR
 Cranberry Cordiality	Meat Drop: +10
 Cravin' for a Ravin'	Meat Drop: +100
 Crimbo Epiphany	Mysticality Percent: +10
+Crimbo Flavor	Spell Damage: +30
 Crimbo Nostalgia	Experience: +5
 Cringle's Curative Carol	HP Regen Min: 5, HP Regen Max: 10
 Crocodile Tear	Familiar Weight (hidden): [10*zone(The Sea)]
@@ -2586,6 +2591,7 @@ Deadly Flashing Blade	Weapon Damage: +10
 # Deadly Lampblade: 100% chance of poisoning opponent
 Deadly Lampblade	Spooky Damage: +75
 Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
+Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
 Digitally Converted	Monster Level: +30
 Dilated Pupils	Item Drop: +20
@@ -2625,6 +2631,7 @@ Eggs-tra Sensory Perception	Item Drop: +10
 El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 El Vibrations	Spell Damage Percent: +100
 Electrolyte Fantastic	Experience Percent (Mysticality): +10
+Elemental Flavor	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Elron's Explosive Etude	Spell Damage Percent: +50
 Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -2684,6 +2691,7 @@ Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
+Fratty Flavor	Moxie: +15
 Freaked Out	Spooky Damage: +10, Damage Reduction: -2
 Free Bird	Mysticality: +20
 Fresh Scent	Combat Rate: -5
@@ -2713,6 +2721,7 @@ Ginger Snapped	Spooky Damage: +10
 Glittering Eyelashes	Mysticality Percent: +15
 Gnawed-Off Arm	Muscle: -5
 Go Get 'Em, Tiger!	Muscle Percent: +15
+Gobliny Flavor	Damage Reduction: 5
 Good Karma	Mysticality: +5
 Good with the Ladies	Experience: +3
 Goofball Withdrawal	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
@@ -2723,6 +2732,7 @@ Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Greased: Continually take damage
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
+Greasy Flavor	Weapon Damage: +30
 Green Tongue	Familiar Weight: +5, Experience (familiar): +2
 Grilled	Muscle: -10
 Grimace	Monster Level: +25, Slime Resistance: +1
@@ -2757,7 +2767,9 @@ Hennaliciousness	Mysticality: +3
 Hernia!	Muscle Percent: -70
 Hiding in Plain Sight	Initiative: +100
 Hip to Be Square Dancin'	Item Drop: +10
+Hippy Flavor	Mysticality: +15
 Hippy Stench	Combat Rate: +5
+Hobo Flavor	Stench Damage: +10, Stench Resistance: +2
 Hobonic	Hobo Power: +5
 Hoity Toity	Item Drop: +30
 Holiday Bliss	Item Drop: +20, Meat Drop: +20
@@ -2784,6 +2796,7 @@ In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 In the Saucestream	Mysticality Percent: +15
 Incensed	Mysticality: +10
 Incredibly Hulking	Muscle Percent: +200
+Indescribable Flavor	Spell Damage: +30
 # Infinite Loop
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Inky Camouflage	Combat Rate: -5
@@ -2850,6 +2863,7 @@ Memory of Smarts	Mysticality Percent: +100
 Memory of Speed	Initiative: +200
 Memory of Strength	Muscle Percent: +100
 Mental A-cue-ity	Spell Damage Percent: +50, MP Regen Min: 10, MP Regen Max: 10
+Mer-kinny Flavor	Adventure Underwater
 Metal Speed	Initiative: +20
 Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
@@ -2888,6 +2902,7 @@ Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
 Oh Snap	Experience (Moxie): +10
+Oily Flavor	Muscle: +15
 Okee-Dokee Computer	Mysticality: +30
 Okee-Dokee Go!	Initiative: +20
 Okee-Dokee, Smokee	Spell Damage Percent: +20
@@ -2915,6 +2930,7 @@ Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 # Pemmican't: +10 Damage against Seals
+Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
 Peppermint Bite	Muscle: +5
 Perceptive Pressure	Item Drop: +50
 Permafrosty	Cold Damage: +50
@@ -2925,6 +2941,7 @@ Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
 Pie in the Sky	Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2
 Piratastic	Moxie: +100
+Piratey Flavor	Critical: 2
 Pisces in the Skyces	Spell Damage Percent: +150
 Pneumatic	Adventure Underwater
 Pockets of Fire	Hot Damage: +10
@@ -3021,6 +3038,7 @@ Slimed Stomach	Sleaze Resistance: +1
 Slimily Sagacious	Mysticality Percent: +50
 Slimily Speedy	Moxie Percent: +50
 Slimily Strong	Muscle Percent: +50
+Slimy Flavor	Sleaze Damage: +10, Sleaze Resistance: +2
 Slimy Hands	Sleaze Damage: +10
 Slippery Oiliness	Equalize: "Moxie"
 Smelly Pants	Stench Resistance: +1
@@ -3060,6 +3078,7 @@ Spirit of Peppermint	Spell Damage: +10
 Spirit of Wormwood	Spell Damage: +10
 # Spooky Breath: Can breathe terrifying air in combat
 Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
+Spooky Flavor	Spooky Damage: +10, Spooky Resistance: +2
 Spooky Weapon	Spooky Damage: +3
 # Spookyform: Ooooooooooooooooh
 Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
@@ -3192,6 +3211,7 @@ Wasabi With You	Weapon Damage Percent: +150
 Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
+# Weird Flavor: ???
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-Swabbed Ear	Initiative: +30
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200

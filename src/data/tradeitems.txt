@@ -5176,7 +5176,7 @@
 5167	synthetic dog hair pill	usable	display	250
 5168	distention pill	usable	display	250
 5169	elven medi-pack	hp	all	150
-5170	transporter transponder	usable	all	50
+5170	transporter transponder	multiple	all	50
 5171	Map to Safety Shelter Ronald Prime	reusable	none	0
 5172	Map to Safety Shelter Grimace Prime	reusable	none	0
 5173	elven magi-pack	mp	all	150
@@ -5201,3 +5201,28 @@
 5192	corrupted data	usable	all	0
 5193	11-inch knob sausage	none	none	0
 5194	exorcised sandwich	none	none	0
+5195
+5196
+5197
+5198	gooey paste	usable	all	0
+5199	beastly paste	usable	all	0
+5200	oily paste	usable	all	0
+5201	ectoplasmic paste	usable	all	0
+5202	greasy paste	usable	all	0
+5203	bug paste	usable	all	0
+5204	hippy paste	usable	all	0
+5205	orc paste	usable	all	0
+5206	demonic paste	usable	all	0
+5207	indescribably horrible paste	usable	all	0
+5208	fishy paste	usable	all	0
+5209	goblin paste	usable	all	0
+5210	pirate paste	usable	all	0
+5211	chlorophyll paste	usable	all	0
+5212	strange paste	usable	all	0
+5213	Mer-kin paste	usable	all	0
+5214	slimy paste	usable	all	0
+5215	penguin paste	usable	all	0
+5216	elemental paste	usable	all	0
+5217	cosmic paste	usable	all	0
+5218	hobo paste	usable	all	0
+5219	crimbo paste	usable	all	0

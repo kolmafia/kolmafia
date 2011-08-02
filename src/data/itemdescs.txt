@@ -5193,3 +5193,28 @@
 5192	245822900	corrdata.gif	corrupted data	bytes of corrupted data
 5193	214334936	bigsausage.gif	11-inch knob sausage
 5194	786372087	sammich.gif	exorcised sandwich
+5195
+5196
+5197
+5198	914769688	paste1.gif	gooey paste	globs of gooey paste
+5199	786918264	paste2.gif	beastly paste	globs of beastly paste
+5200	681870289	paste3.gif	oily paste	globs of oily paste
+5201	278940204	paste4.gif	ectoplasmic paste	globs of ectoplasmic paste
+5202	710934300	paste5.gif	greasy paste	globs of greasy paste
+5203	541133783	paste1.gif	bug paste	globs of bug paste
+5204	469936019	paste2.gif	hippy paste	globs of hippy paste
+5205	995097983	paste3.gif	orc paste	globs of orc paste
+5206	896410020	paste4.gif	demonic paste	globs of demonic paste
+5207	922266424	paste5.gif	indescribably horrible paste	globs of indescribably horrible paste
+5208	411556353	paste1.gif	fishy paste	globs of fishy paste
+5209	880026669	paste2.gif	goblin paste	globs of goblin paste
+5210	123844377	paste3.gif	pirate paste	globs of pirate paste
+5211	973693777	paste4.gif	chlorophyll paste	globs of chlorophyll paste
+5212	723370419	paste5.gif	strange paste	globs of strange paste
+5213	446181948	paste1.gif	Mer-kin paste	globs of Mer-kin paste
+5214	662001151	paste2.gif	slimy paste	globs of slimy paste
+5215	994725087	paste3.gif	penguin paste	globs of penguin paste
+5216	702386574	paste4.gif	elemental paste	globs of elemental paste
+5217	727032290	paste5.gif	cosmic paste	globs of cosmic paste
+5218	514968149	paste1.gif	hobo paste	globs of hobo paste
+5219	716853405	paste2.gif	crimbo paste	globs of crimbo paste
