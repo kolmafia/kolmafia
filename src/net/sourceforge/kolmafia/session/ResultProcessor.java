@@ -1452,6 +1452,34 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.GOOEY_PASTE:
+		case ItemPool.BEASTLY_PASTE:
+		case ItemPool.OILY_PASTE:
+		case ItemPool.ECTOPLASMIC:
+		case ItemPool.GREASY_PASTE:
+		case ItemPool.BUG_PASTE:
+		case ItemPool.HIPPY_PASTE:
+		case ItemPool.ORC_PASTE:
+		case ItemPool.DEMONIC_PASTE:
+		case ItemPool.INDESCRIBABLY_HORRIBLE_PASTE:
+		case ItemPool.FISHY_PASTE:
+		case ItemPool.GOBLIN_PASTE:
+		case ItemPool.PIRATE_PASTE:
+		case ItemPool.CHLOROPHYLL_PASTE:
+		case ItemPool.STRANGE_PASTE:
+		case ItemPool.MER_KIN_PASTE:
+		case ItemPool.SLIMY_PASTE:
+		case ItemPool.PENGUIN_PASTE:
+		case ItemPool.ELEMENTAL_PASTE:
+		case ItemPool.COSMIC_PASTE:
+		case ItemPool.HOBO_PASTE:
+		case ItemPool.CRIMBO_PASTE:
+			if ( combatResults )
+			{
+				Preferences.increment( "_pasteDrops", 1 );
+			}
+			break;
+
 		case ItemPool.EVILOMETER:
 			Preferences.setInteger( "cyrptTotalEvilness", 200 );
 			Preferences.setInteger( "cyrptAlcoveEvilness", 50 );

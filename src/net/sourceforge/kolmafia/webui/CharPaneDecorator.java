@@ -156,9 +156,12 @@ public class CharPaneDecorator
 		case FamiliarPool.BADGER:
 			return Preferences.getInteger( "_astralDrops" ) + "/5";
 		case FamiliarPool.BANDER:
-		case FamiliarPool.BOOTS:
 			return Preferences.getInteger( "_banderRunaways" ) + "/" +
 				fam.getModifiedWeight() / 5;
+		case FamiliarPool.BOOTS:
+			return Preferences.getInteger( "_banderRunaways" ) + "/" +
+				fam.getModifiedWeight() / 5 + " runs, " + 
+				Preferences.getString( "_pasteDrops" ) + "/7 paste";
 		case FamiliarPool.GIBBERER:
 		case FamiliarPool.HARE:
 			return Preferences.getInteger( "extraRolloverAdventures" ) + " adv";
@@ -167,14 +170,10 @@ public class CharPaneDecorator
 		case FamiliarPool.HIPSTER:
 			return Preferences.getInteger( "_hipsterAdv" ) + "/7";
 		case FamiliarPool.GRINDER:
-			String text = "";
-			if( Preferences.getInteger( "_pieDrops" )==1 ) 
-				text = Preferences.getString( "_pieDrops" ) + " pie, ";
-			else text = Preferences.getString( "_pieDrops" ) + " pies, ";
-			if( Preferences.getInteger( "_piePartsCount" )==1 )
-				text = text + Preferences.getString( "_piePartsCount" ) + " part";
-			else text = text + Preferences.getString( "_piePartsCount" ) + " parts";
-			return text;
+			return Preferences.getString( "_pieDrops" ) +
+				( Preferences.getInteger( "_pieDrops" ) == 1 ? " pie, " : " pies, " ) +
+				Preferences.getString( "_piePartsCount" ) +
+				( Preferences.getInteger( "_piePartsCount" ) == 1 ? " part" : " parts" );
 		case FamiliarPool.ALIEN:
 			return Preferences.getInteger( "_transponderDrops" ) + "/5";
 		}

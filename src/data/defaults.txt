@@ -655,7 +655,6 @@ user	_bagOfCandy	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_benettonsCasts	0
-user	_bootStomps	0
 user	_boxingGloveArrows	0
 user	_brickoFights	0
 user	_cameraUsed	false
@@ -686,6 +685,7 @@ user	_lunchBreak	false
 user	_madTeaParty	false
 user	_mayflySummons	0
 user	_navelRunaways	0
+user	_pasteDrops	0
 user	_photocopyUsed	false
 user	_pieDrops	0
 user	_piePartsCount	0
@@ -712,7 +712,6 @@ user	_transponderDrops	0
 user	_userMods
 user	_vmaskAdv	0
 user	_zapCount	0
-
 user	choiceAdventure2	2
 user	choiceAdventure3	3
 user	choiceAdventure4	3
