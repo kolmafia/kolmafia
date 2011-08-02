@@ -424,7 +424,7 @@ public class DebugDatabase
 	}
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
-	private static final String parseName( final String text )
+	public static final String parseName( final String text )
 	{
 		Matcher matcher = DebugDatabase.NAME_PATTERN.matcher( text );
 		if ( !matcher.find() )

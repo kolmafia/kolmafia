@@ -348,6 +348,11 @@ public class EffectDatabase
 			return -1;
 		}
 
+		if ( name == null )
+		{
+			name = DebugDatabase.parseName( text );
+		}
+
 		int effectId = DebugDatabase.parseEffectId( text );
 		if ( effectId == -1 )
 		{
