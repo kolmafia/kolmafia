@@ -161,7 +161,7 @@ public class CharPaneDecorator
 		case FamiliarPool.BOOTS:
 			return Preferences.getInteger( "_banderRunaways" ) + "/" +
 				fam.getModifiedWeight() / 5 + " runs, " + 
-				Preferences.getString( "_pasteDrops" ) + "/7 paste";
+				Preferences.getString( "_bootStomps" ) + "/7 stomps";
 		case FamiliarPool.GIBBERER:
 		case FamiliarPool.HARE:
 			return Preferences.getInteger( "extraRolloverAdventures" ) + " adv";
