@@ -1107,7 +1107,7 @@ public class FightRequest
 		{
 			// You can only release the boots 7 times per day
 
-			if ( Preferences.getInteger( "_bootStomps" ) >= 7 ||
+			if ( Preferences.getInteger( "_pasteDrops" ) >= 7 ||
 			     KoLCharacter.getFamiliar().getId() != FamiliarPool.BOOTS )
 			{
 				--FightRequest.preparatoryRounds;
@@ -4735,10 +4735,6 @@ public class FightRequest
 			FightRequest.squeezedStressBall = true;
 			Preferences.increment( "_stressBallSqueezes", 1 );
 			return;
-
-		case 7115: // Release the Boots
-			Preferences.increment( "_bootStomps", 1 );
-			break;
 		}
 	}
 

@@ -1284,6 +1284,28 @@ public class ItemPool
 	public static final int PATRIOT_SHIELD = 5190;
 	public static final int BIG_KNOB_SAUSAGE = 5193;
 	public static final int EXORCISED_SANDWICH = 5194;
+	public static final int GOOEY_PASTE = 5198;
+	public static final int BEASTLY_PASTE = 5199;
+	public static final int OILY_PASTE = 5200;
+	public static final int ECTOPLASMIC = 5201;
+	public static final int GREASY_PASTE = 5202;
+	public static final int BUG_PASTE = 5203;
+	public static final int HIPPY_PASTE = 5204;
+	public static final int ORC_PASTE = 5205;
+	public static final int DEMONIC_PASTE = 5206;
+	public static final int INDESCRIBABLY_HORRIBLE_PASTE = 5207;
+	public static final int FISHY_PASTE = 5208;
+	public static final int GOBLIN_PASTE = 5209;
+	public static final int PIRATE_PASTE = 5210;
+	public static final int CHLOROPHYLL_PASTE = 5211;
+	public static final int STRANGE_PASTE = 5212;
+	public static final int MER_KIN_PASTE = 5213;
+	public static final int SLIMY_PASTE = 5214;
+	public static final int PENGUIN_PASTE = 5215;
+	public static final int ELEMENTAL_PASTE = 5216;
+	public static final int COSMIC_PASTE = 5217;
+	public static final int HOBO_PASTE = 5218;
+	public static final int CRIMBO_PASTE = 5219;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

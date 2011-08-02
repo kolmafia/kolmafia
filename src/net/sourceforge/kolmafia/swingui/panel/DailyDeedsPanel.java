@@ -1954,16 +1954,19 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			boolean hb = KoLCharacter.findFamiliar( FamiliarPool.BANDER ) != null;
+			boolean hba = KoLCharacter.findFamiliar( FamiliarPool.BANDER ) != null;
+			boolean hbo = KoLCharacter.findFamiliar( FamiliarPool.BOOTS ) != null;
 			boolean gp = InventoryManager.getCount( ItemPool.GREAT_PANTS ) > 0
 				|| KoLCharacter.hasEquipped( DailyDeedsPanel.GREAT_PANTS );
 			boolean nr = Preferences.getInteger( "_navelRunaways" ) > 0
 				|| InventoryManager.getCount( ItemPool.NAVEL_RING ) > 0
 				|| KoLCharacter.hasEquipped( DailyDeedsPanel.NAVEL_RING );
-			this.setShown( hb || gp || nr );
+			this.setShown( hba || hbo || gp || nr );
 			String text = "Runaways: ";
-			if( hb ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch" ;
-			if( hb && ( gp || nr ) ) text = text + ", ";
+			if( hba && !hbo ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch" ;
+			if( hba && hbo ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch+boots" ;
+			if( hbo && !hba ) text = text + Preferences.getInteger( "_banderRunaways" ) + " stomping boots" ;
+			if( ( hba || hbo ) && ( gp || nr ) ) text = text + ", ";
 			if( nr && !gp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " navel ring";
 			if( nr && gp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap+navel";
 			if( gp && !nr ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap pants";
@@ -1984,6 +1987,7 @@ public class DailyDeedsPanel
 			this.addListener( "_piePartsCount" );
 			this.addListener( "_tokenDrops" );
 			this.addListener( "_transponderDrops" );
+			this.addListener( "_pasteDrops" );
 			this.addLabel( "" );
 		}
 
@@ -1996,16 +2000,17 @@ public class DailyDeedsPanel
 			boolean hf5 = KoLCharacter.findFamiliar( FamiliarPool.GRINDER ) != null;
 			boolean hf6 = KoLCharacter.findFamiliar( FamiliarPool.TRON ) != null;
 			boolean hf7 = KoLCharacter.findFamiliar( FamiliarPool.ALIEN ) != null;
-			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7 );
+			boolean hf8 = KoLCharacter.findFamiliar( FamiliarPool.BOOTS ) != null;
+			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7 || hf8  );
 			String text = "Drops: ";
 			if( hf1 ) text = text + Preferences.getInteger( "_absintheDrops" ) + " absinthe";
-			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
+			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 || hf7 || hf8  ) ) text = text + ", ";
 			if( hf2 ) text = text + Preferences.getInteger( "_aguaDrops" ) + " agua";
-			if( hf2 && ( hf3 || hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
+			if( hf2 && ( hf3 || hf4 || hf5 || hf6 || hf7 || hf8  ) ) text = text + ", ";
 			if( hf3 ) text = text + Preferences.getInteger( "_astralDrops" ) + " astral";
-			if( hf3 && ( hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
+			if( hf3 && ( hf4 || hf5 || hf6 || hf7 || hf8  ) ) text = text + ", ";
 			if( hf4 ) text = text + Preferences.getInteger( "_gongDrops" ) + " gong";
-			if( hf4 && ( hf5  || hf6 || hf7 ) ) text = text + ", ";
+			if( hf4 && ( hf5  || hf6 || hf7 || hf8  ) ) text = text + ", ";
 			if( hf5 )
 			{
 				if( Preferences.getInteger( "_pieDrops" )==1 )
@@ -2013,10 +2018,12 @@ public class DailyDeedsPanel
 				else text = text + Preferences.getInteger( "_pieDrops" ) + " pies (";
 				text = text + Preferences.getInteger( "_piePartsCount" ) +")";
 			}
-			if( hf5 && ( hf6 || hf7 ) ) text = text + ", ";
+			if( hf5 && ( hf6 || hf7 || hf8 ) ) text = text + ", ";
 			if( hf6 ) text = text + Preferences.getInteger( "_tokenDrops" ) + " token";
-			if( hf6 && hf7 ) text = text + ", ";
+			if( hf6 && ( hf7 || hf8 ) ) text = text + ", ";
 			if( hf7 ) text = text + Preferences.getInteger( "_transponderDrops" ) + " transponder";
+			if( hf7 && hf8 ) text = text + ", ";
+			if( hf8 ) text = text + Preferences.getInteger( "_pasteDrops" ) + " paste";
 			this.setText( text );
 		}
 	}
