@@ -40,7 +40,9 @@ import java.util.Iterator;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -326,6 +328,7 @@ public class ProxyRecordValue
 			.add( "combat", DataTypes.BOOLEAN_TYPE )
 			.add( "hatchling", DataTypes.ITEM_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
+			.add( "name", DataTypes.STRING_TYPE )
 			.finish( "familiar proxy" );
 
 		public FamiliarProxy( Value obj )
@@ -347,6 +350,12 @@ public class ProxyRecordValue
 		public String get_image()
 		{
 			return FamiliarDatabase.getFamiliarImageLocation( this.contentInt );
+		}
+
+		public String get_name()
+		{
+			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
+			return fam == null ? "" : fam.getName();
 		}
 	}
 
