@@ -884,7 +884,7 @@ public class ItemDatabase
 
 		int end = StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
 		float num = ( start + end ) / ( isNegative ? -2.0f : 2.0f );
-		return KoLConstants.SINGLE_PRECISION_FORMAT.format( statFactor * num );
+		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( isNegative ? 1 : statFactor ) * num );
 	}
 
 	/**
