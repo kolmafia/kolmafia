@@ -128,17 +128,17 @@
 122	Jack-in-the-Box	jackinthebox.gif	none	4396	brass crank handle	0	0	0	0
 123	BRICKO chick	brickochick.gif	combat	4495	extra-heavy BRICKO brick	1	2	2	1
 124	Baby Bugged Bugbear	babybugbug.gif	none	4574	bugged beanie	0	0	0	0
-# The following 9 familiars are conjectured to be the 9 April Fool familiars.
+# The following 9 familiars are the 9 April Fool familiars.
 # The tiny costume wardrobe or a Doppelshifter can mimic these.
-125	Bank Piggy	bankpig.gif	none	-1		0	0	0	0
-126	Egg Benedict	egg.gif	none	-1		0	0	0	0
-127	Floating Eye	lower_e.gif	none	-1		0	0	0	0
-128	Money-Making Goblin	mmgoblin.gif	none	-1		0	0	0	0
-129	Oyster Bunny	hare2.gif	none	-1		0	0	0	0
-130	Plastic Grocery Bag	grocbag.gif	none	-1		0	0	0	0
-131	Snowhitman	snowhitman.gif	none	-1		0	0	0	0
-132	Vampire Bird	jubjubbird.gif	none	-1		0	0	0	0
-133	Worm Doctor	larva.gif	none	-1		0	0	0	0
+125	Money-Making Goblin	mmgoblin.gif	none	-1		0	0	0	0
+126	Floating Eye	lower_e.gif	none	-1		0	0	0	0
+127	Vampire Bat	jubjubbird.gif	none	-1		0	0	0	0
+128	Oyster Bunny	hare2.gif	none	-1		0	0	0	0
+129	Egg Benedict	egg.gif	none	-1		0	0	0	0
+130	Bank Piggy	bankpig.gif	none	-1		0	0	0	0
+131	Worm Doctor	larva.gif	none	-1		0	0	0	0
+132	Snowhitman	snowhitman.gif	none	-1		0	0	0	0
+133	Plastic Grocery Bag	grocbag.gif	none	-1		0	0	0	0
 # End of April Fool familiars
 134	Underworld Bonsai	uwbonsai.gif	combat	4616	miniature pruning shears	3	1	2	0
 135	Rogue Program	tronguy.gif	combat	4619	portable motorcycle	3	2	2	0
