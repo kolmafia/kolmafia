@@ -200,6 +200,9 @@ public abstract class KoLmafia
 		{ "It's Always Swordfish", STOP },
 		{ "Granny, Does Your Dogfish Bite?", STOP },
 		{ "Not a Micro Fish", STOP },
+		{ "You've Hit Bottom", STOP },
+		{ "Ode to the Sea", STOP },
+		{ "Boxing the Juke", STOP },
 
 		// Adventures that start the Around the World Quest
 
