@@ -192,8 +192,7 @@ public class ListCellRendererFactory
 		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr, final boolean isSelected )
 		{
 			StringBuffer stringForm = new StringBuffer();
-
-			stringForm.append( "<html><nobr>" );
+			boolean isHTML = false;
 
 			String name = icr.getName();
 			String color = null;
@@ -216,6 +215,7 @@ public class ListCellRendererFactory
 				stringForm.append( "<font color=" );
 				stringForm.append( color );
 				stringForm.append( ">" );
+				isHTML = true;
 			}
 
 			stringForm.append( name );
@@ -258,9 +258,14 @@ public class ListCellRendererFactory
 			{
 				stringForm.insert( 0, "<i>" );
 				stringForm.append( "</i>" );
+				isHTML = true;
 			}
 
-			stringForm.append( "</nobr></html>" );
+			if ( isHTML )
+			{
+				stringForm.insert( 0, "<html>" );
+				stringForm.append( "</html>" );
+			}
 
 			( (JLabel) defaultComponent ).setText( stringForm.toString() );
 			return defaultComponent;
@@ -561,6 +566,8 @@ public class ListCellRendererFactory
 		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr, final boolean isSelected )
 		{
 			StringBuffer stringForm = new StringBuffer();
+			boolean isHTML = false;
+
 			stringForm.append( icr.getName() );
 
 			int power = EquipmentDatabase.getPower( icr.getName() );
@@ -583,13 +590,13 @@ public class ListCellRendererFactory
 			}
 			stringForm.append( ")" );
 			
-			boolean isHTML = false;
 			if ( icr.getQuantityPossible() == 0 && icr.getQuantityPullable() > 0 )
 			{
 				stringForm.insert( 0, "<i>" );
 				stringForm.append( "</i>" );
 				isHTML = true;
 			}
+
 			if ( KoLConstants.junkList.contains( icr.createdItem ) )
 			{
 				stringForm.insert( 0, "<font color=gray>" );
