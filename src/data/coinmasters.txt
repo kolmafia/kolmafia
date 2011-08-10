@@ -286,3 +286,13 @@ Lunar Lunch-o-Mat	buy	10	1/6th Pound Cake
 L33t Tr4pz0r	buy	1	yak skin
 L33t Tr4pz0r	buy	1	penguin skin
 L33t Tr4pz0r	buy	1	hippopotamus skin
+
+# Things you can buy with fat loot tokens
+
+Vending Machine	buy	1	Boris's key
+Vending Machine	buy	1	Jarlsberg's key
+Vending Machine	buy	1	Sneaky Pete's key
+Vending Machine	buy	1	Boris's ring
+Vending Machine	buy	1	Jarlsberg's earring
+Vending Machine	buy	1	Sneaky Pete's breath spray
+Vending Machine	buy	1	potato sprout

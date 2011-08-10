@@ -120,6 +120,7 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
@@ -1031,6 +1032,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof UntinkerRequest || isExternal ) && UntinkerRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof VendingMachineRequest || isExternal ) && VendingMachineRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

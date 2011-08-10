@@ -252,7 +252,6 @@ public class CoinMasterRequest
 			return;
 		}
 
-
 		CoinMasterRequest request = CoinMasterRequest.getRequest( data, action, it );
 		CoinMasterRequest.transact( data, request );
 	}

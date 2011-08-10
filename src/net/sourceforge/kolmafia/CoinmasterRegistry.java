@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class CoinmasterRegistry
@@ -79,6 +80,7 @@ public abstract class CoinmasterRegistry
 		TicketCounterRequest.TICKET_COUNTER,
 		Tr4pz0rRequest.L33T_TR4PZ0R,
 		TravelingTraderRequest.TRAVELER,
+		VendingMachineRequest.VENDING_MACHINE,
 	};
 
 	public static final String [] MASTERS = new String[ COINMASTERS.length ];
