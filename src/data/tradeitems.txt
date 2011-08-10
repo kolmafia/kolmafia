@@ -5226,3 +5226,5 @@
 5217	cosmic paste	usable	all	0
 5218	hobo paste	usable	all	0
 5219	crimbo paste	usable	all	0
+5220
+5221	fat loot token	none	none	0

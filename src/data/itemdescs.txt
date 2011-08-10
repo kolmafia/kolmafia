@@ -5218,3 +5218,5 @@
 5217	727032290	paste5.gif	cosmic paste	globs of cosmic paste
 5218	514968149	paste1.gif	hobo paste	globs of hobo paste
 5219	716853405	paste2.gif	crimbo paste	globs of crimbo paste
+5220
+5221	526463785	loottoken.gif	fat loot token

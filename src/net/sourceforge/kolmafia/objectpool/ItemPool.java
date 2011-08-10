@@ -1306,6 +1306,7 @@ public class ItemPool
 	public static final int COSMIC_PASTE = 5217;
 	public static final int HOBO_PASTE = 5218;
 	public static final int CRIMBO_PASTE = 5219;
+	public static final int FAT_LOOT_TOKEN = 5221;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

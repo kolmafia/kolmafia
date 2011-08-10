@@ -120,6 +120,7 @@ import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
@@ -445,6 +446,7 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "da.php" ) )
 		{
 			ShrineRequest.parseResponse( location, responseText );
+			VendingMachineRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "familiar.php" ) && location.indexOf( "ajax=1" ) == -1)

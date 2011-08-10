@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -127,6 +128,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel awolPanel = null;
 	private CoinmasterPanel travelerPanel = null;
 	private CoinmasterPanel tr4pz0rPanel = null;
+	private CoinmasterPanel vendingMachinePanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -162,6 +164,11 @@ public class CoinmastersFrame
 		tr4pz0rPanel = new Tr4pz0rPanel();
 		panel.add( tr4pz0rPanel );
 		this.selectorPanel.addPanel( tr4pz0rPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		vendingMachinePanel = new VendingMachinePanel();
+		panel.add( vendingMachinePanel );
+		this.selectorPanel.addPanel( vendingMachinePanel.getPanelSelector(), panel );
 
 		// Ascension coinmasters
 		this.selectorPanel.addSeparator();
@@ -301,6 +308,7 @@ public class CoinmastersFrame
 		mrStorePanel.update();
 		hermitPanel.update();
 		tr4pz0rPanel.update();
+		vendingMachinePanel.update();
 		bigBrotherPanel.update();
 		arcadePanel.update();
 		gameShoppePanel.update();
@@ -407,6 +415,15 @@ public class CoinmastersFrame
 		public Tr4pz0rPanel()
 		{
 			super( Tr4pz0rRequest.L33T_TR4PZ0R );
+		}
+	}
+
+	public class VendingMachinePanel
+		extends CoinmasterPanel
+	{
+		public VendingMachinePanel()
+		{
+			super( VendingMachineRequest.VENDING_MACHINE );
 		}
 	}
 
