@@ -127,18 +127,12 @@ public class CharPaneRequest
 	{
 		if ( CharPaneRequest.isRunning )
 		{
-			synchronized ( this )
-			{
-				return null;
-			}
+			return null;
 		}
 
-		synchronized ( this )
-		{
-			CharPaneRequest.isRunning = true;
-			super.run();
-			CharPaneRequest.isRunning = false;
-		}
+		CharPaneRequest.isRunning = true;
+		super.run();
+		CharPaneRequest.isRunning = false;
 
 		if ( this.responseCode == 200 )
 		{

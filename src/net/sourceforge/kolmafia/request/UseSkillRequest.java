@@ -128,6 +128,7 @@ public class UseSkillRequest
 	private String target;
 	private int buffCount;
 	private String countFieldId;
+	private boolean isRunning;
 
 	private int lastReduction = Integer.MAX_VALUE;
 	private String lastStringForm = "";
@@ -684,19 +685,23 @@ public class UseSkillRequest
 			return null;
 		}
 
-		synchronized ( this )
+		if ( this.isRunning )
 		{
-			UseSkillRequest.lastUpdate = "";
-			UseSkillRequest.optimizeEquipment( this.skillId );
-
-			if ( !KoLmafia.permitsContinue() )
-			{
-				return null;
-			}
-
-			this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
-			this.useSkillLoop();
+			return null;
 		}
+
+		UseSkillRequest.lastUpdate = "";
+		UseSkillRequest.optimizeEquipment( this.skillId );
+
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return null;
+		}
+
+		this.isRunning = true;
+		this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
+		this.useSkillLoop();
+		this.isRunning = false;
 
 		return null;
 	}
