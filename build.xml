@@ -90,12 +90,9 @@
 
 	<target name="gitsvn-version" if="using.gitsvn">
 
-		<exec executable="git" outputproperty="git-sha1" failifexecutionfails="false">
-			<arg line="log -1 --pretty=%H" />
-		</exec>
-
-		<exec executable="git" outputproperty="revision" failifexecutionfails="false">
-			<arg line="svn find-rev ${git-sha1}" />
+		<exec executable="sh" outputproperty="revision" failifexecutionfails="false">
+			<arg value="-c" />
+			<arg value="git svn info | grep Revision | awk '{ print $2 }'" />
 		</exec>
 
 	</target>
