@@ -336,9 +336,9 @@ public class LoginRequest
 		return null;
 	}
 
-	public synchronized static final boolean executeTimeInRequest( final String requestLocation, final String redirectLocation )
+	public static final boolean executeTimeInRequest( final String requestLocation, final String redirectLocation )
 	{
-		if ( LoginRequest.lastRequest == null )
+		if ( LoginRequest.lastRequest == null || LoginRequest.isTimingIn )
 		{
 			return false;
 		}
