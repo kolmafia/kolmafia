@@ -684,16 +684,20 @@ public class UseSkillRequest
 			return null;
 		}
 
-		UseSkillRequest.lastUpdate = "";
-		UseSkillRequest.optimizeEquipment( this.skillId );
-
-		if ( !KoLmafia.permitsContinue() )
+		synchronized ( this )
 		{
-			return null;
+			UseSkillRequest.lastUpdate = "";
+			UseSkillRequest.optimizeEquipment( this.skillId );
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				return null;
+			}
+
+			this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
+			this.useSkillLoop();
 		}
 
-		this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
-		this.useSkillLoop();
 		return null;
 	}
 
