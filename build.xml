@@ -92,7 +92,7 @@
 
 		<exec executable="sh" outputproperty="revision" failifexecutionfails="false">
 			<arg value="-c" />
-			<arg value="git svn info | grep Revision | awk '{ print $2 }'" />
+			<arg value="git svn info | grep '^Revision: [0-9]*$' | awk '{ print $2 }'" />
 		</exec>
 
 	</target>
