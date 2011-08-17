@@ -7,7 +7,9 @@
 	<property file="build.properties" />
 	<property file="default.properties" />
 	<property environment="env" />
+
 	<available file=".svn" property="using.svn" />
+	<available file=".git" property="using.gitsvn" />
 
 	<!-- ========================================== -->
 	<!--  create directories used by other targets  -->
@@ -31,7 +33,6 @@
 
 	</target>
 
-
 	<!-- ================================== -->
 	<!--  reports the current Java version  -->
 	<!-- ================================== -->
@@ -45,7 +46,6 @@
 		<property name="build.compiler" value="modern" />
 
 	</target>
-	
 
 	<!-- ================================== -->
 	<!--  update files from the repository  -->
@@ -60,21 +60,22 @@
 
 	</target>
 
+	<!-- ================================================== -->
+	<!--  guesses the SVN revision of the local repository  -->
+	<!-- ================================================== -->
 
-	<!-- -->
-	
-	<target name="version" depends="setversion">
+	<target name="version" depends="svn-version,gitsvn-version">
 
 		<property name="revision" value="0" />
 		<echo message="Current revision: ${revision}" />
 
 	</target>
-	
-	<!-- ======================== -->
-	<!--  get SVN revision number -->
-	<!-- ======================== -->
 
-	<target name="setversion" if="using.svn">
+	<!-- ========================================== -->
+	<!--  get SVN revision number using svnversion  -->
+	<!-- ========================================== -->
+
+	<target name="svn-version" if="using.svn">
 
 		<exec executable="svnversion" outputproperty="revision" failifexecutionfails="false">
 			<arg value="-n" />
@@ -83,8 +84,22 @@
 
 	</target>
 
+	<!-- ============================================ -->
+	<!--  get SVN revision number using git find-rev  -->
+	<!-- ============================================ -->
 
-	
+	<target name="gitsvn-version" if="using.gitsvn">
+
+		<exec executable="git" outputproperty="git-sha1" failifexecutionfails="false">
+			<arg line="log -1 --pretty=%H" />
+		</exec>
+
+		<exec executable="git" outputproperty="revision" failifexecutionfails="false">
+			<arg line="svn find-rev ${git-sha1}" />
+		</exec>
+
+	</target>
+
 	<!-- ======================= -->
 	<!--  clean up object files  -->
 	<!-- ======================= -->
@@ -111,7 +126,6 @@
 
 	</target>
 
-
 	<!-- ================================ -->
 	<!--  clean up KoLmafia object files  -->
 	<!-- ================================ -->
@@ -131,7 +145,6 @@
 		<antcall target="init" />
 
 	</target>
-
 
 	<!-- ====================== -->
 	<!--  generate class files  -->
@@ -225,7 +238,6 @@
 
 	</target>
 
-
 	<!-- =========================== -->
 	<!--  generate the standard EXE  -->
 	<!-- =========================== -->
@@ -243,7 +255,6 @@
 
 	</target>
 
-
 	<!-- ================================ -->
 	<!--  generate an application bundle  -->
 	<!-- ================================ -->
@@ -254,7 +265,6 @@
 		<jarbundler dir="${dist}" name="${version-name}" mainclass="${main}" jar="${jarfile}" icon="${mac.icon}" vmoptions="${mac.vmoptions}" />
 
 	</target>
-
 
 	<!-- ========================== -->
 	<!--  create an OSX disk image  -->
@@ -297,7 +307,7 @@
 			<tarfileset file="util/debian/kol" prefix="usr/bin" filemode="755" />
 		</deb>
 
-        </target>
+	</target>
 
 	<!-- ============================= -->
 	<!--  create Debian desktop entry  -->
@@ -330,7 +340,6 @@
 			value="RELEASED = true" />
 
 	</target>
-
 
 	<!-- ============================ -->
 	<!--  generate a daily build JAR  -->
@@ -373,7 +382,6 @@
 		</jar>
 
 	</target>
-
 
 	<!-- =========================== -->
 	<!--  update KoLConstants.java   -->
@@ -436,7 +444,6 @@
 		-->
 		<java fork="true" classname="net.sourceforge.kolmafia.utilities.ReleaseNotes" classpath="${jarfile}" dir="${dist}" />
 	</target>
-
 
 	<!-- ======================================= -->
 	<!--  generate the javadocs from sourcecode  -->
