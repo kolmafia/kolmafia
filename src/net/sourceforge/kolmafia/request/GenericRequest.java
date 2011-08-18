@@ -445,7 +445,8 @@ public class GenericRequest
 
 		this.hasNoResult =
 			this.isChatRequest ||
-			this.formURLString.startsWith( "http://" ) ||
+			this.formURLString.startsWith( "http:" ) ||
+			this.formURLString.startsWith( "https:" ) ||
 			this.formURLString.endsWith( "menu.php" ) ||
 			this.formURLString.startsWith( "actionbar" ) ||
 			this.formURLString.startsWith( "api.php" ) ||
@@ -1311,8 +1312,8 @@ public class GenericRequest
 	public static final boolean shouldIgnore( final GenericRequest request )
 	{
 		return request.formURLString == null ||
-			// Disallow anything to do with the mall
-			request.formURLString.indexOf( "mall" ) != -1 ||
+			// Disallow mall searches
+			request.formURLString.indexOf( "mall.php" ) != -1 ||
 			// Disallow anything to do with chat
 			request.isChatRequest;
 	}
@@ -1376,7 +1377,7 @@ public class GenericRequest
 				this.formConnection.addRequestProperty(
 					"Cookie", GenericRequest.inventoryCookie + "; " + GenericRequest.serverCookie );
 			}
-			else
+			else if ( !this.formURLString.startsWith( "http:" ) && !this.formURLString.startsWith( "https:" ) )
 			{
 				this.formConnection.addRequestProperty( "Cookie", GenericRequest.serverCookie );
 			}
@@ -1409,7 +1410,7 @@ public class GenericRequest
 
 		this.currentHost = GenericRequest.KOL_HOST;
 		String urlString = this.formURLString;
-		URL context = urlString.startsWith( "http:" ) ? null : GenericRequest.KOL_ROOT;
+		URL context = urlString.startsWith( "http:" ) || urlString.startsWith( "https:" ) ? null : GenericRequest.KOL_ROOT;
 
 		if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "valhalla.php" ) )
 		{
