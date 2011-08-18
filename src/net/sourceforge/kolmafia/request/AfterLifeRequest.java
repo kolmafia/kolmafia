@@ -464,6 +464,9 @@ public class AfterLifeRequest
 			case 4:
 				buffer.append( "a Bees Hate You" );
 				break;
+			case 6:
+				buffer.append( "a Way of the Surprising Fist" );
+				break;
 			default:
 				buffer.append( "(Path " );
 				buffer.append( String.valueOf( path ) );

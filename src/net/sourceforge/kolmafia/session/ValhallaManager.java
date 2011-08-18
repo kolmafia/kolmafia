@@ -227,6 +227,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Bees Hate You " );
 		}
+		else if ( KoLCharacter.inFistcore() )
+		{
+			sessionStream.print( "Way of the Surprising Fist " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );

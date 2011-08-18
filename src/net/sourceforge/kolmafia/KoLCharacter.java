@@ -2674,6 +2674,13 @@ public abstract class KoLCharacter
 			KoLCharacter.ascensionPath.equals( "Bees Hate You" );
 	}
 
+	public static final boolean inFistcore()
+	{
+		// All Fistcore restrictions are lifted once you free the King
+		return !KoLCharacter.kingLiberated() &&
+			KoLCharacter.ascensionPath.equals( "Way of the Surprising Fist" );
+	}
+
 	public static final void setPath( final String path )
 	{
 		KoLCharacter.ascensionPath = path;
