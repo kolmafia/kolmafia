@@ -35,7 +35,9 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.persistence.Aliases;
+
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
 public class AliasCommand

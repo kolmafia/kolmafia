@@ -35,17 +35,20 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.Iterator;
 import java.util.TreeMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class NemesisManager
 {

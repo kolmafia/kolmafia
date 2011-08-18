@@ -34,12 +34,12 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.IOException;
+
 import java.net.URLDecoder;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 public class LeafletRequest

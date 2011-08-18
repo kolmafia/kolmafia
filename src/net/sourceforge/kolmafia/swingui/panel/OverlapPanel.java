@@ -37,7 +37,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 

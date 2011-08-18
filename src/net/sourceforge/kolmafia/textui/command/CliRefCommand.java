@@ -36,13 +36,16 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.utilities.PrefixMap;
 
 public class CliRefCommand

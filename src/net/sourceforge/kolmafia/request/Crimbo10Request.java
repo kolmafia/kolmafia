@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 
 public class Crimbo10Request
 	extends GenericRequest

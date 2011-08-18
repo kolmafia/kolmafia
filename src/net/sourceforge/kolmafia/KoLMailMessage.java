@@ -34,11 +34,13 @@
 package net.sourceforge.kolmafia;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
 import net.sourceforge.kolmafia.session.ContactManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLMailMessage

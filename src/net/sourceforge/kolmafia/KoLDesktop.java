@@ -33,14 +33,18 @@
 
 package net.sourceforge.kolmafia;
 
+import com.sun.java.forums.CloseableTabbedPane;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -53,23 +57,27 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.FlowerHunterFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.MailboxFrame;
 import net.sourceforge.kolmafia.swingui.SendMessageFrame;
+
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
+
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
+
 import net.sourceforge.kolmafia.utilities.PauseObject;
+
 import net.sourceforge.kolmafia.webui.RelayLoader;
+
 import tab.CloseListener;
 import tab.CloseTabPaneUI;
 import tab.CloseTabbedPane;
-
-import com.sun.java.forums.CloseableTabbedPane;
 
 public class KoLDesktop
 	extends GenericFrame

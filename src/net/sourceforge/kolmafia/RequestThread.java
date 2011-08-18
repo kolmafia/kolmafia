@@ -34,11 +34,15 @@
 package net.sourceforge.kolmafia;
 
 import javax.swing.SwingUtilities;
+
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.EventMessage;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
+
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public abstract class RequestThread

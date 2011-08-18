@@ -37,8 +37,11 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+
 import net.sourceforge.kolmafia.session.ClanManager;
 
 public class ClanStashCommand

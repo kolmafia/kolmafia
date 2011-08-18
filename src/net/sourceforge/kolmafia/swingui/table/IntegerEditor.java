@@ -36,7 +36,9 @@ package net.sourceforge.kolmafia.swingui.table;
 import javax.swing.DefaultCellEditor;
 
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class IntegerEditor

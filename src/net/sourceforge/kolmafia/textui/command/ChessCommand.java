@@ -35,8 +35,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChessCommand
 	extends AbstractCommand

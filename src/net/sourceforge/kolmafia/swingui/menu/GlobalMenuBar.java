@@ -40,11 +40,13 @@ import javax.swing.JSeparator;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
+
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 
 public class GlobalMenuBar

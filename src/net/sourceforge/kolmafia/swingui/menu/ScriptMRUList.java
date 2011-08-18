@@ -34,9 +34,13 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
+
 import java.util.LinkedList;
+
 import net.sourceforge.kolmafia.KoLCharacter;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 /**

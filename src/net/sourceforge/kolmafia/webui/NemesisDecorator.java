@@ -34,9 +34,13 @@
 package net.sourceforge.kolmafia.webui;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.FightRequest;
+
 import net.sourceforge.kolmafia.session.NemesisManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NemesisDecorator

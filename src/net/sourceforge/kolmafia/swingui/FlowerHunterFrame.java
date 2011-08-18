@@ -33,12 +33,16 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import com.sun.java.forums.TableSorter;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -48,31 +52,36 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
-import com.sun.java.forums.TableSorter;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.PvpManager;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.PvpManager;
+
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class FlowerHunterFrame
 	extends GenericFrame

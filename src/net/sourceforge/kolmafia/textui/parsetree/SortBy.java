@@ -38,6 +38,7 @@ import java.io.PrintStream;
 import java.util.Arrays;
 
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 

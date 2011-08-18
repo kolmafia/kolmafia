@@ -52,13 +52,19 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.MushroomManager;
+
 import net.sourceforge.kolmafia.swingui.MushroomFrame;
+
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MushroomScriptPanel

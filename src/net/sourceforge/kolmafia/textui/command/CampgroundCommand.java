@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CampgroundCommand

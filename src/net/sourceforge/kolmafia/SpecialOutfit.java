@@ -35,13 +35,15 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.Stack;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpecialOutfit

@@ -41,9 +41,9 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLMailMessage;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.request.MailboxRequest;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.MailboxRequest;
 
 public abstract class MailManager
 {

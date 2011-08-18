@@ -36,8 +36,11 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class FaxCommand

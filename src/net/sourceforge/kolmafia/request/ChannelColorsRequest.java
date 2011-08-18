@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.chat.ChatFormatter;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChannelColorsRequest

@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -47,10 +48,11 @@ import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class RestoreOptionsPanel

@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.swingui.button;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
 

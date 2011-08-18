@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;

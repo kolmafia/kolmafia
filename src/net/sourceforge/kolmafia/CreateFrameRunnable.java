@@ -34,12 +34,16 @@
 package net.sourceforge.kolmafia;
 
 import apple.dts.samplecode.osxadapter.OSXAdapter;
+
 import java.awt.Frame;
+
 import java.lang.reflect.Constructor;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -47,6 +51,7 @@ import net.sourceforge.kolmafia.swingui.LoginFrame;
 import net.sourceforge.kolmafia.swingui.SendMessageFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
+
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 
 public class CreateFrameRunnable

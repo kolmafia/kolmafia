@@ -38,12 +38,13 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.Point;
+
 import java.awt.datatransfer.StringSelection;
+
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
@@ -57,6 +58,7 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
+
 import java.awt.image.AreaAveragingScaleFilter;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.PixelGrabber;
@@ -74,14 +76,14 @@ import javax.swing.JSplitPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.TrophyRequest;
 import net.sourceforge.kolmafia.request.TrophyRequest.Trophy;
+
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class TrophyFrame
 	extends GenericFrame

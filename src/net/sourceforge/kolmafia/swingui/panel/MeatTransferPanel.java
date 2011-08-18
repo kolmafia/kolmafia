@@ -40,12 +40,14 @@ import javax.swing.JLabel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MeatTransferPanel

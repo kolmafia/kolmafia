@@ -34,13 +34,12 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.Vector;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,16 +50,18 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
+
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public abstract class StoreManager
 {

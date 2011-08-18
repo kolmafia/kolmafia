@@ -37,7 +37,9 @@ import java.util.Iterator;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.combat.CombatActionManager;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class ChangeCombatScriptCommand

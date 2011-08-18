@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.webui;
 
 import net.sourceforge.kolmafia.request.FightRequest;
+
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class RelayAutoCombatThread

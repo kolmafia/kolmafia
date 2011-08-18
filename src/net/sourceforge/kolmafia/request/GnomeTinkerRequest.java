@@ -37,7 +37,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 public class GnomeTinkerRequest
 	extends CreateItemRequest

@@ -36,16 +36,17 @@ package net.sourceforge.kolmafia.combat;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

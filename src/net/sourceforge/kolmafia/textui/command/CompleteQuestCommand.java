@@ -35,9 +35,12 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+
 import net.sourceforge.kolmafia.webui.DvorakDecorator;
 
 public class CompleteQuestCommand

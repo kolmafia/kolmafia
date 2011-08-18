@@ -37,14 +37,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+
 import java.util.Date;
+
 import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
-import net.sourceforge.kolmafia.KoLDesktop;
-import net.sourceforge.kolmafia.StaticEntity;
 
 public class LogStream
 	extends PrintStream

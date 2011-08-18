@@ -34,8 +34,8 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 
 public class StatusPanel
 	extends GenericPanel

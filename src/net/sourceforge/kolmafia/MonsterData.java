@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 

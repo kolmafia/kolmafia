@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.swingui.menu;
 import javax.swing.JComponent;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 
 public class WindowMenu

@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Component;
+
 import java.util.ArrayList;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JList;

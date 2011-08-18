@@ -40,8 +40,10 @@ import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLMailMessage;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.MailManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MailboxRequest

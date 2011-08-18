@@ -37,13 +37,17 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+
 import java.io.File;
+
 import java.lang.ref.WeakReference;
+
 import java.util.HashMap;
 
 import javax.swing.JCheckBox;
@@ -60,6 +64,7 @@ import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
@@ -67,17 +72,22 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
+
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
-import net.sourceforge.kolmafia.swingui.menu.ScriptMenu;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
+import net.sourceforge.kolmafia.swingui.menu.ScriptMenu;
+
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
+
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

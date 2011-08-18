@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 

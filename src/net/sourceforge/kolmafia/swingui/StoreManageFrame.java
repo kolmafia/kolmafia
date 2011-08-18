@@ -37,6 +37,7 @@ import com.sun.java.forums.TableSorter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+
 import java.awt.event.MouseEvent;
 
 import java.util.Vector;
@@ -57,24 +58,34 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
+
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+
 import net.sourceforge.kolmafia.swingui.button.TableButton;
+
 import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
+
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+
 import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
 import net.sourceforge.kolmafia.swingui.table.TransparentTable;
+
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

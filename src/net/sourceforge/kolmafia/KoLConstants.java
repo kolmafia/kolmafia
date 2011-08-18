@@ -36,14 +36,18 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+
 import java.io.File;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Locale;
 import java.util.Random;
+
 import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
@@ -52,6 +56,7 @@ import javax.swing.JTextField;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 
 public interface KoLConstants

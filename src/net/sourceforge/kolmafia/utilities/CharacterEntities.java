@@ -33,8 +33,8 @@
 
 package net.sourceforge.kolmafia.utilities;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CharacterEntities
 {

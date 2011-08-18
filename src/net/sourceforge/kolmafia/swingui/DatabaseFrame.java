@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.CardLayout;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -41,17 +42,22 @@ import java.util.Comparator;
 import java.util.Map.Entry;
 
 import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
+
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 
 public class DatabaseFrame

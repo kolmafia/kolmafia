@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import javax.swing.JSpinner;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;

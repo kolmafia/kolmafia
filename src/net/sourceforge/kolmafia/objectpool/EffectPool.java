@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.objectpool;
 
 import net.sourceforge.kolmafia.AdventureResult;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 public class EffectPool

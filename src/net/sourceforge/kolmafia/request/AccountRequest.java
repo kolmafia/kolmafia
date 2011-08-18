@@ -42,10 +42,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import org.json.JSONArray;
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -33,12 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
-import net.sourceforge.kolmafia.CoinmasterData;
-
 import java.util.List;
 
-import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
@@ -56,6 +54,7 @@ import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class CoinmasterRegistry

@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.KoLmafia;
 
 public class LogoutMenuItem
