@@ -202,7 +202,7 @@ public class UseSkillRequest
 	// temporarily during casting:
 
 	private static final int AVOID_REMOVAL_ONLY = 2;
-	
+
 	// Other known MP cost/song count items:
 	//
 	// wizard hat (-1) - has to be handled specially since it's not an accessory.
@@ -387,7 +387,7 @@ public class UseSkillRequest
 
 		switch ( this.skillId )
 		{
-		
+
 		// Vent Rage Gland can be used once per day
 		case SkillDatabase.RAGE_GLAND:
 			maximumCast = Preferences.getBoolean( "rageGlandVented" ) ? 0 : 1;
@@ -480,7 +480,7 @@ public class UseSkillRequest
 			maximumCast = KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) ? 5 : 3;
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "cocktailSummons" ), 0 );
 			break;
-			
+
 		case UseSkillRequest.THINGFINDER:
 			maximumCast = Math.max( 10 - Preferences.getInteger( "_thingfinderCasts" ), 0 );
 			break;
@@ -564,7 +564,7 @@ public class UseSkillRequest
 	{
 		AdventureResult item = EquipmentManager.getEquipment( slotId );
 		if ( item.equals( EquipmentRequest.UNEQUIP ) ) return true;
-		
+
 		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length; ++i )
 		{
 			if ( item.equals( UseSkillRequest.AVOID_REMOVAL[ i ] ) )
@@ -572,7 +572,7 @@ public class UseSkillRequest
 				return false;
 			}
 		}
-		
+
 		Speculation spec = new Speculation();
 		spec.equip( slotId, EquipmentRequest.UNEQUIP );
 		int[] predictions = spec.calculate().predict();
@@ -632,7 +632,7 @@ public class UseSkillRequest
 
 		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length - AVOID_REMOVAL_ONLY; ++i )
 		{
-			if ( SkillDatabase.getMPConsumptionById( skillId ) == 1 || 
+			if ( SkillDatabase.getMPConsumptionById( skillId ) == 1 ||
 				KoLCharacter.currentNumericModifier( Modifiers.MANA_COST ) <= -3 )
 			{
 				return;
@@ -647,15 +647,15 @@ public class UseSkillRequest
 			// MP reduction items.  This has do be done inside the loop now
 			// that max HP/MP prediction is done, since two changes that are
 			// individually harmless might add up to a loss of points.
-	
+
 			boolean slot1Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY1 );
 			boolean slot2Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY2 );
 			boolean slot3Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY3 );
-	
+
 			UseSkillRequest.attemptSwitch(
 				skillId, UseSkillRequest.AVOID_REMOVAL[ i ], slot1Allowed, slot2Allowed, slot3Allowed );
 		}
-		
+
 		if ( UseSkillRequest.canSwitchToItem( UseSkillRequest.WIZARD_HAT ) &&
 			!KoLCharacter.hasEquipped( UseSkillRequest.BRIM_BERET ) &&
 			UseSkillRequest.isValidSwitch( EquipmentManager.HAT ) )
@@ -678,16 +678,16 @@ public class UseSkillRequest
 		return rv;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( !KoLCharacter.hasSkill( this.skillName ) || this.buffCount == 0 )
 		{
-			return null;
+			return;
 		}
 
 		if ( this.isRunning )
 		{
-			return null;
+			return;
 		}
 
 		UseSkillRequest.lastUpdate = "";
@@ -695,15 +695,13 @@ public class UseSkillRequest
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			return null;
+			return;
 		}
 
 		this.isRunning = true;
 		this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
 		this.useSkillLoop();
 		this.isRunning = false;
-
-		return null;
 	}
 
 	private void useSkillLoop()
@@ -721,9 +719,9 @@ public class UseSkillRequest
 		int maximumMP = KoLCharacter.getMaximumMP();
 		int mpPerCast = SkillDatabase.getMPConsumptionById( this.skillId );
 		int maximumCast = maximumMP / mpPerCast;
-		
+
 		// Save name so we can guarantee correct target later
-		
+
 		String originalTarget = this.target;
 
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
@@ -822,7 +820,7 @@ public class UseSkillRequest
 				}
 
 				this.setTarget( originalTarget );
-				
+
 				this.addFormField( this.countFieldId, String.valueOf( currentCast ), false );
 
 				if ( this.target == null || this.target.trim().length() == 0 )
@@ -981,7 +979,7 @@ public class UseSkillRequest
 				break;
 			}
 		}
-		
+
 		// Check for the strongest available item
 
 		for ( int i = 0; i < options.length; ++i )
@@ -1164,7 +1162,7 @@ public class UseSkillRequest
 
 		if ( responseText.indexOf( "too many songs" ) != -1 )
 		{
-			UseSkillRequest.lastUpdate = "Selected target has the maximum number of AT buffs already.";	
+			UseSkillRequest.lastUpdate = "Selected target has the maximum number of AT buffs already.";
 			return false;
 		}
 
@@ -1217,7 +1215,7 @@ public class UseSkillRequest
 			UseSkillRequest.lastUpdate = "Only Accordion Thieves can use that skill.";
 			return true;
 		}
-		
+
 		// You can't cast that many turns of that skill today. (You've used 5 casts today,
 		// and the limit of casts per day you have is 5.)
 		if ( responseText.indexOf( "You can't cast that many turns of that skill today" ) != -1 )
@@ -1261,7 +1259,7 @@ public class UseSkillRequest
 		// You think your stomach has had enough for one day.
 		if ( responseText.indexOf( "enough for one day" ) != -1 )
 		{
-			UseSkillRequest.lastUpdate = "You can only do that once a day.";	
+			UseSkillRequest.lastUpdate = "You can only do that once a day.";
 			Preferences.setBoolean( "_carboLoaded", true );
 			return false;
 		}
@@ -1320,7 +1318,7 @@ public class UseSkillRequest
 			CharPaneRequest.getInstance().run();
 			return true;
 		}
-			
+
 		// The skill was successfully cast. Deal with its effects.
 		if ( responseText.indexOf( "tear the opera mask" ) != -1 )
 		{
@@ -1343,7 +1341,7 @@ public class UseSkillRequest
 		case UseSkillRequest.ODE_TO_BOOZE:
 			ConcoctionDatabase.getUsables().sort();
 			break;
-			
+
 		case UseSkillRequest.OTTER_TONGUE:
 		case UseSkillRequest.WALRUS_TONGUE:
 			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
@@ -1357,7 +1355,7 @@ public class UseSkillRequest
 		case SkillDatabase.RAGE_GLAND:
 			Preferences.setBoolean( "rageGlandVented", true );
 			break;
-			
+
 		case SkillDatabase.RAINBOW:
 
 			// Each cast of Rainbow Gravitation consumes five
@@ -1526,7 +1524,7 @@ public class UseSkillRequest
 			int MP = SkillDatabase.getMPConsumptionById( skillId );
 			maxcasts = MP == 0 ? 1 : availableMP / MP;
 		}
-		
+
 		if ( countMatcher.group( 1 ).startsWith( "*" ) )
 		{
 			return maxcasts;

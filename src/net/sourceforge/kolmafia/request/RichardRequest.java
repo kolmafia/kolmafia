@@ -75,20 +75,19 @@ public class RichardRequest
 		return this;
 	}
 
-	public Object run()
+	public void run()
 	{
 		this.addFormField( "numturns", String.valueOf( this.turnCount ) );
 
 		if ( KoLCharacter.getAdventuresLeft() < this.turnCount )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient adventures." );
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Helping Richard..." );
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()

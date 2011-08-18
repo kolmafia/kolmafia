@@ -1161,7 +1161,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	public void makeRequest( final Job request )
+	public void makeRequest( final Runnable request )
 	{
 		this.makeRequest( request, 1 );
 	}
@@ -1175,7 +1175,7 @@ public abstract class KoLmafia
 	 * @param iterations The number of times the request should be repeated
 	 */
 
-	public void makeRequest( final Job request, final int iterations )
+	public void makeRequest( final Runnable request, final int iterations )
 	{
 		try
 		{
@@ -1290,7 +1290,7 @@ public abstract class KoLmafia
 		KoLmafia.abortAfter = msg;
 	}
 
-	private void executeRequest( final Job request, final int totalIterations, final boolean wasAdventuring )
+	private void executeRequest( final Runnable request, final int totalIterations, final boolean wasAdventuring )
 	{
 		Interpreter.forgetPendingState();
 
@@ -1431,7 +1431,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private void executeRequestOnce( final Job request, final boolean wasAdventuring, final int currentIteration,
+	private void executeRequestOnce( final Runnable request, final boolean wasAdventuring, final int currentIteration,
 		final int totalIterations, final AdventureResult[] items, final CreateItemRequest[] creatables )
 	{
 		if ( request instanceof KoLAdventure )

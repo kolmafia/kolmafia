@@ -62,7 +62,7 @@ public abstract class RequestThread
 		}
 
 		++RequestThread.sequenceCount;
-		
+
 		try
 		{
 			// If you're not in the event dispatch thread, you can run
@@ -74,7 +74,7 @@ public abstract class RequestThread
 			}
 			else
 			{
-				Worker.post( request );
+				Worker.post( new RunnableWrapper( request ) );
 			}
 		}
 		catch ( Exception e )
@@ -104,7 +104,7 @@ public abstract class RequestThread
 			}
 			else
 			{
-				Worker.post( request );
+				Worker.post( new RunnableWrapper( request ) );
 			}
 		}
 		catch ( Exception e )
@@ -118,6 +118,11 @@ public abstract class RequestThread
 
 	public static final void postRequest( final Runnable request )
 	{
+		if ( request == null )
+		{
+			return;
+		}
+
 		if ( RequestThread.sequenceCount == 0 )
 		{
 			KoLmafia.forceContinue();
@@ -215,7 +220,15 @@ public abstract class RequestThread
 
 		public Object run()
 		{
-			this.wrapped.run();
+			try
+			{
+				this.wrapped.run();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+
 			return null;
 		}
 	}

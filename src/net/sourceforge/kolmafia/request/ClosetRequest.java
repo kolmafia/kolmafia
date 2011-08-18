@@ -212,7 +212,7 @@ public class ClosetRequest
 		return ClosetRequest.parseTransfer( this.getURLString(), this.responseText );
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.moveType == REFRESH )
 		{
@@ -224,11 +224,12 @@ public class ClosetRequest
 			RequestThread.postRequest( new ClosetRequest( CONSUMABLES ) );
 			RequestThread.postRequest( new ClosetRequest( EQUIPMENT ) );
 			RequestThread.postRequest( new ClosetRequest( MISCELLANEOUS ) );
-			return null;
 		}
-
-		// If it's a transfer, let TransferItemRequest handle it
-		return super.run();
+		else
+		{
+			// If it's a transfer, let TransferItemRequest handle it
+			super.run();
+		}
 	}
 
 	public void processResults()

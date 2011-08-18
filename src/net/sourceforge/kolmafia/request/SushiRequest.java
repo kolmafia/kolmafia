@@ -375,14 +375,14 @@ public class SushiRequest
 		return true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		// Make sure a sushi-rolling mat is available.
 
 		if ( !KoLCharacter.hasSushiMat() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need a sushi rolling mat installed in your kitchen in order to roll sushi." );
-			return null;
+			return;
 		}
 
 		// Attempting to make the ingredients will pull the
@@ -390,7 +390,7 @@ public class SushiRequest
 
 		if ( !this.makeIngredients() )
 		{
-			return null;
+			return;
 		}
 
 		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
@@ -399,7 +399,6 @@ public class SushiRequest
 			super.run();
 			SushiRequest.parseConsumption( this.getURLString(), this.responseText );
 		}
-		return null;
 	}
 
 	public static void parseConsumption( final String location, final String responseText )

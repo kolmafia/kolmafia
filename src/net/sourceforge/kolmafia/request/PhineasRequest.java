@@ -64,7 +64,7 @@ public class PhineasRequest
 		this.constructURLString( this.getURLString() );
 	}
 
-	public Object run()
+	public void run()
 	{
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
@@ -73,13 +73,12 @@ public class PhineasRequest
 
 		if ( !this.makeIngredients() )
 		{
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
-		return null;
 	}
 
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=makewhich value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*>([^&]*)&nbsp;", Pattern.DOTALL );

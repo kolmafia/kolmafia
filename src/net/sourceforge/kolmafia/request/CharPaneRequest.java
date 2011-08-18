@@ -123,11 +123,11 @@ public class CharPaneRequest
 		CharPaneRequest.canInteract = interaction;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( CharPaneRequest.isRunning )
 		{
-			return null;
+			return;
 		}
 
 		CharPaneRequest.isRunning = true;
@@ -138,8 +138,6 @@ public class CharPaneRequest
 		{
 			CharPaneRequest.lastResponse = responseText;
 		}
-
-		return null;
 	}
 
 	public static final void processResults( final String responseText )
@@ -610,7 +608,7 @@ public class CharPaneRequest
 		{
 			effectName = EffectDatabase.getEffectName( effectId );
 		}
-		
+
 		if ( effectName.equals( "A Little Bit Evil" ) )
 		{
 			effectName = effectName + " (" + KoLCharacter.getClassType() + ")";

@@ -70,11 +70,10 @@ public class MoonPhaseRequest
 	 * Runs the moon phase request, updating theas appropriate.
 	 */
 
-	public Object run()
+	public void run()
 	{
 		KoLmafia.updateDisplay( "Synchronizing moon data..." );
 		super.run();
-		return null;
 	}
 
 	public void processResults()
@@ -223,7 +222,7 @@ public class MoonPhaseRequest
 		}
 
 		gotoMenu.append( "</select>" );
-			
+
 		StringUtilities.singleStringReplace( buffer, menuMatcher.group(), gotoMenu.toString() );
 	}
 }

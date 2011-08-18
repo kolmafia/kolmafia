@@ -73,30 +73,29 @@ public class TelescopeRequest
 		}
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( KoLCharacter.getTelescopeUpgrades() < 1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a telescope" );
-			return null;
+			return;
 		}
 
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() && KoLCharacter.getTelescopeUpgrades() > 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
-			return null;
+			return;
 		}
 
 		if ( this.where != TelescopeRequest.HIGH && this.where != TelescopeRequest.LOW )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't look there." );
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Looking through your telescope..." );
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()

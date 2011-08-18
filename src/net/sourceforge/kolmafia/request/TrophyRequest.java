@@ -66,7 +66,7 @@ public class TrophyRequest
 		this.trophies = trophies;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.trophies == null )
 		{
@@ -79,9 +79,9 @@ public class TrophyRequest
 					StringUtilities.parseInt( m.group( 3 ) ),
 					m.group( 4 ) != null ) );
 			}
-			return null;
+			return;
 		}
-		
+
 		this.addFormField( "action", "Yup." );
 		Iterator i = this.trophies.iterator();
 		while ( i.hasNext() )
@@ -93,7 +93,7 @@ public class TrophyRequest
 			}
 		}
 		super.run();
-		
+
 		// Multiple trophy moving only works via GET, not POST.
 		StringBuffer buf = new StringBuffer( "trophies.php?moveall=yes" );
 		i = this.trophies.iterator();
@@ -111,21 +111,20 @@ public class TrophyRequest
 		this.constructURLString( buf.toString(), false );
 
 		super.run();
-		return null;
 	}
 
 	public ArrayList getTrophies()
 	{
 		return this.trophies;
 	}
-	
+
 	public static class Trophy
 	{
 		public final String filename;
 		public final String name;
 		public final int id;
 		public boolean visible;
-		
+
 		public Trophy( String filename, String name, int id, boolean visible )
 		{
 			this.filename = filename;

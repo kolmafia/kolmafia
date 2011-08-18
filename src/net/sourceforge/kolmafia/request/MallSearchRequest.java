@@ -180,7 +180,7 @@ public class MallSearchRequest
 	 * being stored.
 	 */
 
-	public Object run()
+	public void run()
 	{
 		boolean items;
 		if ( this.searchString == null || this.searchString.trim().length() == 0 )
@@ -193,7 +193,7 @@ public class MallSearchRequest
 			// If only NPC items, no mall search needed
 			if ( !this.updateSearchString() )
 			{
-				return null;
+				return;
 			}
 
 			KoLmafia.updateDisplay( "Searching for " + this.searchString + "..." );
@@ -222,7 +222,7 @@ public class MallSearchRequest
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				return null;
+				return;
 			}
 
 			Matcher matcher = MallSearchRequest.ITERATION_PATTERN.matcher( this.responseText );
@@ -248,7 +248,6 @@ public class MallSearchRequest
 		}
 
 		KoLmafia.updateDisplay( "Search complete." );
-		return null;
 	}
 
 	private boolean updateSearchString()
@@ -291,7 +290,7 @@ public class MallSearchRequest
 				itemIterator.remove();
 			}
 		}
-		
+
 		int count = itemNames.size();
 
 		if ( count == 0 )

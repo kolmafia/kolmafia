@@ -300,7 +300,7 @@ public abstract class TransferItemRequest
 	 * fails; it merely parses the results to see if any gains were made.
 	 */
 
-	public Object run()
+	public void run()
 	{
 		// First, check to see how many attachments are to be
 		// transferred. If there are too many, then you'll need to
@@ -309,7 +309,7 @@ public abstract class TransferItemRequest
 		if ( !this.isSubInstance )
 		{
 			this.runSubInstances();
-			return null;
+			return;
 		}
 
 		for ( int i = 1; i <= this.attachments.length; ++i )
@@ -331,7 +331,6 @@ public abstract class TransferItemRequest
 			this.constructURLString( this.getFullURLString(), false );
 		}
 		super.run();
-		return null;
 	}
 
 	public void processResults()

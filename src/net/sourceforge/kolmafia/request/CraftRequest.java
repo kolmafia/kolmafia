@@ -111,13 +111,13 @@ public class CraftRequest
 		return this.quantity - this.remaining;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.mixingMethod == KoLConstants.NOCREATE ||
 		     this.quantity <= 0 ||
-		     !KoLmafia.permitsContinue() )		     
+		     !KoLmafia.permitsContinue() )
 		{
-			return null;
+			return;
 		}
 
 		// Get all the ingredients up front
@@ -125,7 +125,7 @@ public class CraftRequest
 		if ( !InventoryManager.retrieveItem( this.item1 ) ||
 		     !InventoryManager.retrieveItem( this.item2 ) )
 		{
-			return null;
+			return;
 		}
 
 		this.remaining = this.quantity;
@@ -135,7 +135,7 @@ public class CraftRequest
 			if ( !CreateItemRequest.autoRepairBoxServant( this.mixingMethod ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Auto-repair was unsuccessful." );
-				return null;
+				return;
 			}
 
 			this.addFormField( "qty", String.valueOf( this.remaining ) );
@@ -151,12 +151,11 @@ public class CraftRequest
 			if ( this.created == 0 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
-				return null;
+				return;
 			}
 
 			this.remaining -= this.created;
 		}
-		return null;
 	}
 
 	public void processResults()

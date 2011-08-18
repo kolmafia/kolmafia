@@ -111,7 +111,7 @@ public class UntinkerRequest
 		return true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		// Check to see if the item can be constructed using meat
 		// paste, and only execute the request if it is known to be
@@ -120,12 +120,12 @@ public class UntinkerRequest
 		if ( (ConcoctionDatabase.getMixingMethod( this.itemId ) & KoLConstants.CT_MASK) != KoLConstants.COMBINE )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot untinker that item." );
-			return null;
+			return;
 		}
 
 		if ( !InventoryManager.retrieveItem( this.item ) )
 		{
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Untinkering " + this.item + "..." );
@@ -144,7 +144,7 @@ public class UntinkerRequest
 
 				if ( !UntinkerRequest.canUntinker )
 				{
-					return null;
+					return;
 				}
 
 				UntinkerRequest.AVAILABLE_CHECKER.run();
@@ -159,7 +159,6 @@ public class UntinkerRequest
 		}
 
 		KoLmafia.updateDisplay( "Successfully untinkered " + this.item );
-		return null;
 	}
 
 	public void processResults()

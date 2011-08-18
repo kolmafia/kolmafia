@@ -152,17 +152,16 @@ public class IslandArenaRequest
 		return true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.error != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.error );
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Visiting the Mysterious Island Arena..." );
 		super.run();
-		return null;
 	}
 
 	public void processResults()

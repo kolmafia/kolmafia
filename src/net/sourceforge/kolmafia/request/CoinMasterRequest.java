@@ -297,7 +297,7 @@ public class CoinMasterRequest
 		RequestThread.closeRequestSequence();
 	}
 
-	public Object run()
+	public void run()
 	{
 		CoinmasterData data = this.data;
 
@@ -306,7 +306,7 @@ public class CoinMasterRequest
 		if ( message != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-			return null;
+			return;
 		}
 
 		// Suit up for a visit
@@ -334,13 +334,13 @@ public class CoinMasterRequest
 			if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that item.." );
-				return null;
+				return;
 			}
 
 			if ( this.responseText.indexOf( "You don't have that many of that item" ) != -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many of that item to turn in." );
-				return null;
+				return;
 			}
 		}
 		while ( KoLmafia.permitsContinue() && ++i <= visits );
@@ -349,8 +349,6 @@ public class CoinMasterRequest
 		{
 			KoLmafia.updateDisplay( master + " successfully looted!" );
 		}
-
-		return null;
 	}
 
 	public void equip()

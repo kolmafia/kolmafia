@@ -88,24 +88,23 @@ public class MindControlRequest
 		return true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		// Avoid server hits if user gives an invalid level
 
 		if ( this.level < 0 || this.level > this.maxLevel )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The dial only goes from 0 to " + this.maxLevel + "." );
-			return null;
+			return;
 		}
 
 		if ( KoLCharacter.knollAvailable() && !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
 		{
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Resetting mind control device..." );
 		super.run();
-		return null;
 	}
 
 	public void processResults()

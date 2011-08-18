@@ -84,17 +84,16 @@ public class RaffleRequest
 		return RaffleRequest.INVENTORY;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.source != RaffleRequest.INVENTORY && this.source != RaffleRequest.STORAGE )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Decide where to take meat from." );
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Visiting the Raffle House..." );
 		super.run();
-		return null;
 	}
 
 	public void processResults()

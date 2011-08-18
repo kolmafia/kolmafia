@@ -68,8 +68,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
 public class KoLAdventure
-	extends Job
-	implements Comparable
+	implements Comparable, Runnable
 {
 	public static final String[][] DEMON_TYPES =
 	{
@@ -634,13 +633,13 @@ public class KoLAdventure
 		}
 
 		// The dungeons of doom are only available if you've finished the quest
-		
+
 		if ( this.adventureId.equals( AdventurePool.DUNGEON_OF_DOOM_ID ) )
 		{
 			this.isValidAdventure = QuestLogRequest.isDungeonOfDoomAvailable();
 			return;
 		}
-		
+
 		// The Castle in the Clouds in the Sky is unlocked provided the
 		// character has either a S.O.C.K. or an intragalactic rowboat
 
@@ -906,13 +905,13 @@ public class KoLAdventure
 	 * <code>KoLAdventure</code>.
 	 */
 
-	public Object run()
+	public void run()
 	{
 		if ( RecoveryManager.isRecoveryPossible() )
 		{
 			if ( !RecoveryManager.runThresholdChecks() )
 			{
-				return null;
+				return;
 			}
 
 			KoLAdventure.lastVisitedLocation = this;
@@ -925,7 +924,7 @@ public class KoLAdventure
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				return null;
+				return;
 			}
 		}
 
@@ -937,13 +936,13 @@ public class KoLAdventure
 				"Do not venture unprepared into the sewer tunnels!" :
 				"That area is not available.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-			return null;
+			return;
 		}
 
 		if ( this.getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds for shore vacation." );
-			return null;
+			return;
 		}
 
 		String action = Preferences.getString( "battleAction" );
@@ -953,7 +952,7 @@ public class KoLAdventure
 			if ( !this.isNonCombatsOnly() && action.indexOf( "dictionary" ) != -1 && FightRequest.DICTIONARY1.getCount( KoLConstants.inventory ) < 1 && FightRequest.DICTIONARY2.getCount( KoLConstants.inventory ) < 1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sorry, you don't have a dictionary." );
-				return null;
+				return;
 			}
 		}
 
@@ -966,7 +965,7 @@ public class KoLAdventure
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			return null;
+			return;
 		}
 
 		// Make sure there are enough adventures to run the request
@@ -975,7 +974,7 @@ public class KoLAdventure
 		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < this.request.getAdventuresUsed() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Ran out of adventures." );
-			return null;
+			return;
 		}
 
 		if ( !this.isNonCombatsOnly() && this.request instanceof AdventureRequest )
@@ -988,7 +987,7 @@ public class KoLAdventure
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "A dictionary would be useless there." );
-					return null;
+					return;
 				}
 			}
 
@@ -1000,7 +999,7 @@ public class KoLAdventure
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't hit anything there." );
-					return null;
+					return;
 				}
 			}
 
@@ -1008,14 +1007,14 @@ public class KoLAdventure
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"Your selected attack skill is useless with ranged weapons." );
-				return null;
+				return;
 			}
 
 			if ( FightRequest.isInvalidShieldlessAttack( action ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"Your selected attack skill is useless without a shield." );
-				return null;
+				return;
 			}
 		}
 
@@ -1028,7 +1027,6 @@ public class KoLAdventure
 		// request (without spamming the server).
 
 		RequestThread.postRequest( this.request );
-		return null;
 	}
 
 	public static final KoLAdventure lastVisitedLocation()

@@ -101,7 +101,7 @@ public class MailboxRequest
 		return true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		// Now you know that there is a request in progress, so you
 		// reset the variable (to avoid concurrent requests).
@@ -116,7 +116,6 @@ public class MailboxRequest
 		}
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()

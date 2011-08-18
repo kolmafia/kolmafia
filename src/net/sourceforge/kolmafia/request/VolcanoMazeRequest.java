@@ -84,7 +84,7 @@ public class VolcanoMazeRequest
 		return true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		super.run();
 
@@ -97,14 +97,13 @@ public class VolcanoMazeRequest
 		{
 			// Should we auto-equip the LEW?
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip your Legendary Epic Weapon and try again." );
-			return null;
+			return;
 		}
 
 		// Still, it wouldn't be a final battle without an especially
 		// fiendish final puzzle, now would it?
 
 		VolcanoMazeRequest.parseResponse( this.getURLString(), this.responseText );
-		return null;
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )

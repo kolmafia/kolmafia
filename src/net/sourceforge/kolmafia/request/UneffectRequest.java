@@ -246,11 +246,11 @@ public class UneffectRequest
 		return skillName;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( !KoLConstants.activeEffects.contains( this.effect ) )
 		{
-			return null;
+			return;
 		}
 
 		String action = MoodManager.getDefaultAction( "gain_effect", this.effect.getName() );
@@ -259,12 +259,12 @@ public class UneffectRequest
 			!action.startsWith( "shrug" ) && !action.startsWith( "remedy" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
-			return null;
+			return;
 		}
 
 		if ( !this.force )
 		{
-			return null;
+			return;
 		}
 
 		if ( !this.isShruggable )
@@ -276,7 +276,7 @@ public class UneffectRequest
 
 			if ( !KoLConstants.inventory.contains( UneffectRequest.REMEDY ) )
 			{
-				return null;
+				return;
 			}
 		}
 
@@ -285,7 +285,6 @@ public class UneffectRequest
 					"Using soft green whatever..." );
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()

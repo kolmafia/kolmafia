@@ -205,7 +205,7 @@ public class ClanManageFrame
 		public void actionConfirmed()
 		{
 			StaticEntity.getClient().makeRequest(
-				(Job) this.buffField.getSelectedItem(), InputFieldUtilities.getValue( this.countField ) );
+				(Runnable) this.buffField.getSelectedItem(), InputFieldUtilities.getValue( this.countField ) );
 		}
 
 		public void actionCancelled()

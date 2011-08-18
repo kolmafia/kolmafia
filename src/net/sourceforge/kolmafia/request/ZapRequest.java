@@ -125,7 +125,7 @@ public class ZapRequest
 			matchingItems.retainAll( ZapRequest.zappableItems );
 		return matchingItems;
 	}
-	
+
 	public static final String[] getZapGroup( int itemId )
 	{
 		ZapRequest.initializeList();
@@ -135,17 +135,17 @@ public class ZapRequest
 		return rv;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.item == null )
 		{
-			return null;
+			return;
 		}
 
 		if ( KoLCharacter.getZapper() == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a wand." );
-			return null;
+			return;
 		}
 
 		if ( InventoryManager.hasItem( this.item, true ) )
@@ -156,12 +156,11 @@ public class ZapRequest
 		if ( !KoLConstants.inventory.contains( this.item ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + this.item.getName() + "." );
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Zapping " + this.item.getName() + "..." );
 		super.run();
-		return null;
 	}
 
 	public void processResults()
@@ -197,7 +196,7 @@ public class ZapRequest
 		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
 		{
 			ResultProcessor.processResult( KoLCharacter.getZapper().getNegation() );
-			// set to -1 because will be incremented below 
+			// set to -1 because will be incremented below
 			Preferences.setInteger( "_zapCount", -1 );
 		}
 

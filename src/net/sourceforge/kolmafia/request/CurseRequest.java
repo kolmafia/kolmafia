@@ -53,7 +53,7 @@ public class CurseRequest
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern PLAYER_PATTERN = Pattern.compile( "(?=.*action=use).*targetplayer=([^&]*)" );
 	private static final Pattern QTY_PATTERN = Pattern.compile( "You have ([\\d,]+) more |You don't have any more " );
-	
+
 	private AdventureResult itemUsed;
 
 	public CurseRequest( final AdventureResult item )
@@ -69,18 +69,17 @@ public class CurseRequest
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 		this.addFormField( "targetplayer", target );
 	}
-	
-	public Object run()
+
+	public void run()
 	{
 		InventoryManager.retrieveItem( this.itemUsed );
-		
+
 		for ( int i = this.itemUsed.getCount(); KoLmafia.permitsContinue() && i > 0; --i )
 		{
 			KoLmafia.updateDisplay( "Throwing " + this.itemUsed.getName() +
 				" at " + this.getFormField( "targetplayer" ) + "..." );
 			super.run();
 		}
-		return null;
 	}
 
 	public void processResults()
@@ -94,7 +93,7 @@ public class CurseRequest
 		{
 			return;
 		}
-		
+
 		Matcher m = CurseRequest.ITEM_PATTERN.matcher( location );
 		if ( !m.find() )
 		{
@@ -121,26 +120,26 @@ public class CurseRequest
 		{
 			return;
 		}
-		
+
 		if ( responseText.indexOf( "You don't have that item" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Have not, throw not." );
 			return;
 		}
-		
+
 		if ( responseText.indexOf( "No message?" ) != -1 ||
 			responseText.indexOf( "no message" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That item requires a message." );
 			return;
 		}
-		
+
 		if ( responseText.indexOf( "That player could not be found" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, m.group( 1 ) + " evaded your thrown item by the unusual strategy of being nonexistent." );
 			return;
 		}
-		
+
 		if ( responseText.indexOf( "try again later" ) != -1 ||
 			responseText.indexOf( "cannot be used" ) != -1 ||
 			responseText.indexOf( "can't use this item" ) != -1 )
@@ -148,7 +147,7 @@ public class CurseRequest
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Can't use the item on that player at the moment." );
 			return;
 		}
-		
+
 		RequestLogger.updateSessionLog( "throw " + item +
 			" at " + m.group( 1 ) );
 	}

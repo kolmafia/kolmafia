@@ -464,7 +464,7 @@ public class UseItemRequest
 		case ItemPool.SPICE_MELANGE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "spiceMelangeUsed" ) ? 0 : 1;
-		
+
 		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
 			if ( KoLCharacter.getInebriety() == 0 )
 			{
@@ -473,10 +473,10 @@ public class UseItemRequest
 			}
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_syntheticDogHairPillUsed" ) ? 0 : 1;
-			
+
 		case ItemPool.DISTENTION_PILL:
 			boolean stomachAvailable = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) > 0;
-			
+
 			// The distention pill is not usable when you're full.
 			// Even if you plan on eating a 1-full food.
 			if ( !stomachAvailable )
@@ -639,7 +639,7 @@ public class UseItemRequest
 		return Integer.MAX_VALUE;
 	}
 
-	public Object run()
+	public void run()
 	{
 		// Hide memento items from your familiars
 		if ( this.isBingeRequest() &&
@@ -647,7 +647,7 @@ public class UseItemRequest
 		     KoLConstants.mementoList.contains( this.itemUsed ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Don't feed mementos to your familiars." );
-			return null;
+			return;
 		}
 
 		// Equipment should be handled by a different kind of request.
@@ -661,7 +661,7 @@ public class UseItemRequest
 		if ( isSealFigurine && !EquipmentManager.wieldingClub() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You really should wield a club before using that." );
-			return null;
+			return;
 		}
 
 		switch ( itemId )
@@ -673,13 +673,13 @@ public class UseItemRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"You don't have one of those." );
-				return null;
+				return;
 			}
 			KoLmafia.updateDisplay( "Splitting bricks..." );
 			GenericRequest req = new GenericRequest( "inventory.php?action=breakbricko&pwd&whichitem=" + itemId );
 			RequestThread.postRequest( req );
 			StaticEntity.externalUpdate( req.getURLString(), req.responseText );
-			return null;
+			return;
 
 		case ItemPool.STICKER_SWORD:
 		case ItemPool.STICKER_CROSSBOW:
@@ -687,19 +687,19 @@ public class UseItemRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"You don't have one of those." );
-				return null;
+				return;
 			}
 			RequestThread.postRequest( new GenericRequest( "bedazzle.php?action=fold&pwd" ) );
-			return null;
+			return;
 
 		case ItemPool.MACGUFFIN_DIARY:
 			RequestThread.postRequest( new GenericRequest( "diary.php?textversion=1" ) );
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
-			return null;
+			return;
 
 		case ItemPool.PUZZLE_PIECE:
 			SorceressLairManager.completeHedgeMaze();
-			return null;
+			return;
 
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
@@ -716,7 +716,7 @@ public class UseItemRequest
 			int newLevel = CampgroundRequest.dwellingLevel( itemId );
 			if ( newLevel < oldLevel && dwelling != null && !UseItemRequest.confirmReplacement( dwelling.getName() ) )
 			{
-				return null;
+				return;
 			}
 			break;
 
@@ -730,7 +730,7 @@ public class UseItemRequest
 			AdventureResult bed = CampgroundRequest.getCurrentBed();
 			if ( bed != null && !UseItemRequest.confirmReplacement( bed.getName() ) )
 			{
-				return null;
+				return;
 			}
 			break;
 
@@ -747,7 +747,7 @@ public class UseItemRequest
 			String ghost = Preferences.getString( "pastamancerGhostType" );
 			if ( !ghost.equals( "" ) && !UseItemRequest.confirmReplacement( ghost ) )
 			{
-				return null;
+				return;
 			}
 			break;
 		}
@@ -765,18 +765,18 @@ public class UseItemRequest
 		case KoLConstants.EQUIP_ACCESSORY:
 		case KoLConstants.EQUIP_FAMILIAR:
 			RequestThread.postRequest( new EquipmentRequest( this.itemUsed ) );
-			return null;
+			return;
 
 		case KoLConstants.CONSUME_SPHERE:
 			RequestThread.postRequest( new PortalRequest( this.itemUsed ) );
-			return null;
+			return;
 
 		case KoLConstants.CONSUME_FOOD_HELPER:
 			count = this.itemUsed.getCount();
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Helper not available." );
-				return null;
+				return;
 			}
 			if ( this.itemUsed.equals( this.queuedFoodHelper ) )
 			{
@@ -789,14 +789,14 @@ public class UseItemRequest
 			}
 			KoLmafia.updateDisplay( "Helper queued for next " + count + " food" +
 				(count == 1 ? "" : "s") + " eaten." );
-			return null;
+			return;
 
 		case KoLConstants.CONSUME_DRINK_HELPER:
 			count = this.itemUsed.getCount();
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Helper not available." );
-				return null;
+				return;
 			}
 			if ( this.itemUsed.equals( queuedDrinkHelper ) )
 			{
@@ -809,17 +809,17 @@ public class UseItemRequest
 			}
 			KoLmafia.updateDisplay( "Helper queued for next " + count + " beverage" +
 				(count == 1 ? "" : "s") + " drunk." );
-			return null;
+			return;
 
 		case KoLConstants.NO_CONSUME:
 			// no primary use, but a secondary use may be applicable
 			if ( ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_CURSE ) )
 			{
 				RequestThread.postRequest( new CurseRequest( this.itemUsed ) );
-				return null;
+				return;
 			}
 			KoLmafia.updateDisplay( this.itemUsed.getName() + " is unusable." );
-			return null;
+			return;
 		}
 
 		UseItemRequest.lastUpdate = "";
@@ -827,7 +827,7 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return null;
+			return;
 		}
 
 		int maximumUses = UseItemRequest.maximumUses( itemId, this.consumptionType );
@@ -841,7 +841,7 @@ public class UseItemRequest
 
 		if ( this.itemUsed.getCount() < 1 )
 		{
-			return null;
+			return;
 		}
 
 		if ( itemId == ItemPool.LUCIFER )
@@ -875,7 +875,7 @@ public class UseItemRequest
 
 					if ( !KoLmafia.permitsContinue() )
 					{
-						return null;
+						return;
 					}
 
 					break;
@@ -901,7 +901,7 @@ public class UseItemRequest
 				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 
-			return null;
+			return;
 		}
 
 		if ( itemId == ItemPool.SELTZER )
@@ -969,13 +969,13 @@ public class UseItemRequest
 				!UseItemRequest.allowBoozeConsumption(
 					ItemDatabase.getInebriety( this.itemUsed.getName() ), this.itemUsed.getCount() ) )
 			{
-				return null;
+				return;
 			}
 
 			if ( this.consumptionType == KoLConstants.CONSUME_EAT &&
 			     !this.allowFoodConsumption() )
 			{
-				return null;
+				return;
 			}
 
 			this.useOnce( i, iterations, useTypeAsString );
@@ -1001,7 +1001,6 @@ public class UseItemRequest
 		{
 			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + origCount + " " + this.itemUsed.getName() + "." );
 		}
-		return null;
 	}
 
 	private static final boolean singleConsume( final int itemId, int consumptionType )
@@ -2694,7 +2693,7 @@ public class UseItemRequest
 			ResultProcessor.processItem( ItemPool.FLAT_DOUGH, 0 - InventoryManager.getCount( ItemPool.FLAT_DOUGH ) );
 			ResultProcessor.processResult( item );
 			return;
-			
+
 		case ItemPool.EXPRESS_CARD:
 
 			// You feel charged up!
@@ -2719,7 +2718,7 @@ public class UseItemRequest
 			else
 			{
 				QuestLogRequest.setDungeonOfDoomAvailable();
-			
+
 				// Various punctuation mark items are replaced
 				// by their identified versions. The new items
 				// will be detected by result parsing, but we
@@ -3331,9 +3330,9 @@ public class UseItemRequest
 				ConcoctionDatabase.getUsables().sort();
 			}
 			return;
-			
+
 		case ItemPool.DISTENTION_PILL:
-			
+
 			// Your stomach feels rather stretched out
 			if ( responseText.indexOf( "stomach can't take any more abuse" ) != -1 )
 			{

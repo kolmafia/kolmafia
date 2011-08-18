@@ -165,22 +165,22 @@ public class AccountRequest
 		return true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.tab == ALL )
 		{
-			RequestThread.postRequest( new AccountRequest ( INTERFACE ) );
-			RequestThread.postRequest( new AccountRequest ( INVENTORY ) );
+			RequestThread.postRequest( new AccountRequest( INTERFACE ) );
+			RequestThread.postRequest( new AccountRequest( INVENTORY ) );
 			// RequestThread.postRequest( new AccountRequest ( CHAT ) );
-			RequestThread.postRequest( new AccountRequest ( COMBAT ) );
-			RequestThread.postRequest( new AccountRequest ( ACCOUNT ) );
+			RequestThread.postRequest( new AccountRequest( COMBAT ) );
+			RequestThread.postRequest( new AccountRequest( ACCOUNT ) );
 			// RequestThread.postRequest( new AccountRequest ( PROFILE ) );
 			// RequestThread.postRequest( new AccountRequest ( PRIVACY ) );
-			return null;
 		}
-
-		super.run();
-		return null;
+		else
+		{
+			super.run();
+		}
 	}
 
 	public void processResults()
@@ -299,7 +299,7 @@ public class AccountRequest
 		//
 		// <input class=button name="action" type="submit" value="Drop Oxygenarian">
 
-		String path = 
+		String path =
 			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Oxygenarian\">" ) != -1 ?
 			"Oxygenarian" :
 			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Boozetafarian\">" ) != -1 ?

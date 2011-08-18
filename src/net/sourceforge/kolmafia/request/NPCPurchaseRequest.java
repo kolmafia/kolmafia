@@ -135,11 +135,11 @@ public class NPCPurchaseRequest
 		return EquipmentManager.getEquipment( EquipmentManager.PANTS ).equals( NPCPurchaseRequest.TROUSERS );
 	}
 
-	public Object run()
+	public void run()
 	{
 		this.addFormField( "howmany", String.valueOf( this.limit ) );
 
-		return super.run();
+		super.run();
 	}
 
 	public boolean ensureProperAttire()
@@ -242,7 +242,7 @@ public class NPCPurchaseRequest
 		NPCPurchaseRequest.parseResponse( urlString, this.responseText );
 
 		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
-		
+
 		if ( quantityAcquired > 0 )
 		{
 			// Normal NPC stores say "You spent xxx Meat" and we

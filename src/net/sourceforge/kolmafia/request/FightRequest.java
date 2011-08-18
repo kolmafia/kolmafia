@@ -1285,7 +1285,7 @@ public class FightRequest
 		}
 	}
 
-	public Object run()
+	public void run()
 	{
 		this.constructURLString( "fight.php" );
 
@@ -1311,7 +1311,6 @@ public class FightRequest
 
 		FightRequest.isAutomatingFight = false;
 		RequestThread.closeRequestSequence();
-		return null;
 	}
 
 	public static final boolean processResults( final String responseText )
@@ -1763,7 +1762,7 @@ public class FightRequest
 
 		if ( responseText.indexOf( "Macro Abort" ) != -1 ||
 		     responseText.indexOf( "Macro abort" ) != -1 ||
-		     responseText.indexOf( "macro abort" ) != -1 || 
+		     responseText.indexOf( "macro abort" ) != -1 ||
 		     responseText.indexOf( "Could not match item(s) for use" ) != -1 )
 		{
 			FightRequest.nextAction = "abort";
@@ -4888,7 +4887,7 @@ public class FightRequest
 		// Pair of Stomping Boots = weight/5 free runaways, on the same counter as the Bandersnatch
 		else if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.BOOTS )
 		{
-			if ( KoLCharacter.getFamiliar().getModifiedWeight() / 5 > 
+			if ( KoLCharacter.getFamiliar().getModifiedWeight() / 5 >
 			     Preferences.getInteger( "_banderRunaways" ) )
 			{
 				return 100;
@@ -4898,7 +4897,7 @@ public class FightRequest
 			  KoLCharacter.hasEquipped( ItemPool.get( ItemPool.GREAT_PANTS, 1 ) ) )
 		{
 			int navelRunaways = Preferences.getInteger( "_navelRunaways" );
-			
+
 			return
 				navelRunaways < 3  ? 100 :
 					navelRunaways < 6 ? 80 :

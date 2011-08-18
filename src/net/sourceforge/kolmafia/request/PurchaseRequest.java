@@ -262,11 +262,11 @@ public abstract class PurchaseRequest
 	 * repeating the request.
 	 */
 
-	public Object run()
+	public void run()
 	{
 		if ( this.limit < 1 || !this.canPurchase() )
 		{
-			return null;
+			return;
 		}
 
 		// If the item is not currently recognized, notify user. This
@@ -276,21 +276,21 @@ public abstract class PurchaseRequest
 		if ( this.item.getItemId() == -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Item not present in KoLmafia database." );
-			return null;
+			return;
 		}
 
 		// Make sure we have enough Meat to buy what we want.
 
 		if ( KoLCharacter.getAvailableMeat() < this.limit * this.price )
 		{
-			return null;
+			return;
 		}
 
 		// Make sure we are wearing the appropriate outfit, if necessary
 
 		if ( !this.ensureProperAttire() )
 		{
-			return null;
+			return;
 		}
 
 		// Now that we're ready, make the purchase!
@@ -300,8 +300,6 @@ public abstract class PurchaseRequest
 		this.initialCount = this.item.getCount( KoLConstants.inventory );
 
 		super.run();
-
-		return null;
 	}
 
 	public int compareTo( final Object o )

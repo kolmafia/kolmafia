@@ -76,7 +76,7 @@ public class PulverizeRequest
 		this.addFormField( "smashitem", String.valueOf( item.getItemId() ) );
 		this.addFormField( "qty", String.valueOf( item.getCount() ) );
 		this.addFormField( "ajax", "1" );
-		
+
 		// 1 to confirm smashing untradables
 		this.addFormField( "conftrade", "1" );
 	}
@@ -113,12 +113,12 @@ public class PulverizeRequest
 		icr.run();
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( this.item ) )
 		{
 			KoLmafia.updateDisplay( "(smashing of 'Memento' item " + this.item + " disallowed)" );
-			return null;
+			return;
 		}
 
 		if ( this.item.getCount( KoLConstants.inventory ) == this.item.getCount() )
@@ -127,14 +127,14 @@ public class PulverizeRequest
 			{
 				KoLConstants.junkList.add( this.item );
 			}
-	
+
 			if ( KoLConstants.singletonList.contains( this.item ) && !KoLConstants.closet.contains( this.item ) )
 			{
 				KoLmafia.updateDisplay( "(smashable quantity of 'Keep One' item " + this.item + " reduced by 1)" );
 				this.item = this.item.getInstance( this.item.getCount() - 1 );
 				if ( this.item.getCount() <= 0 )
 				{
-					return null;
+					return;
 				}
 				this.addFormField( "qty", String.valueOf( this.item.getCount() ) );
 			}
@@ -161,29 +161,28 @@ public class PulverizeRequest
 				this.useMalus( name.substring( 0, space ) + upgrade, qty / 5 );
 			}
 
-			return null;
+			return;
 		}
 
 		if ( !KoLCharacter.hasSkill( "Pulverize" ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't know how to pulverize objects." );
-			return null;
+			return;
 		}
 
 		if ( !InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
 		{
-			return null;
+			return;
 		}
 
 		if ( this.item.getCount( KoLConstants.inventory ) < this.item.getCount() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many " + this.item.getName() + "." );
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Pulverizing " + this.item + "..." );
 		super.run();
-		return null;
 	}
 
 	public void processResults()
