@@ -96,6 +96,8 @@ import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
@@ -151,9 +153,11 @@ import net.sourceforge.kolmafia.webui.MineDecorator;
 
 public abstract class StaticEntity
 {
-	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You (have learned|learn) a new skill: <b>(.*?)</b>" );
+	private static final Pattern NEWSKILL1_PATTERN =
+		Pattern.compile( "<td>You (have learned|learn) a new skill: <b>(.*?)</b>" );
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
-	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
+	private static final Pattern NEWSKILL3_PATTERN =
+		Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
 	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
 	private static final Pattern RECIPE2_PATTERN = Pattern.compile( "You have discovered a new recipe: <b>(.*?)</b>" );
 	private static final Pattern DESCITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
@@ -273,7 +277,7 @@ public abstract class StaticEntity
 			return StaticEntity.panelArray;
 		}
 	}
-	
+
 	public static final boolean isHeadless()
 	{
 		return StaticEntity.isHeadless;
@@ -301,9 +305,9 @@ public abstract class StaticEntity
 	}
 
 	/**
-	 * A method used to open a new <code>RequestFrame</code> which displays the given location, relative to the KoL
-	 * home directory for the current session. This should be called whenever <code>RequestFrame</code>s need to be
-	 * created in order to keep code modular.
+	 * A method used to open a new <code>RequestFrame</code> which displays the given location, relative to the KoL home
+	 * directory for the current session. This should be called whenever <code>RequestFrame</code>s need to be created
+	 * in order to keep code modular.
 	 */
 
 	public static final void openRequestFrame( final String location )
@@ -337,6 +341,67 @@ public abstract class StaticEntity
 		{
 			requestHolder.refresh( request );
 		}
+	}
+
+	public static boolean hasResult( final String location )
+	{
+		if ( location.startsWith( "http:" ) ||
+			 location.startsWith( "https:" ) )
+		{
+			return false;
+		}
+
+		if ( location.startsWith( "chat.php" ) ||
+			 location.startsWith( "newchatmessages.php" ) ||
+			 location.startsWith( "submitnewchat.php" ) )
+		{
+			return false;
+		}
+
+		if ( location.endsWith( "menu.php") ||
+			 location.startsWith( "actionbar" ) )
+		{
+			return false;
+		}
+
+		if ( location.startsWith( "api.php" ) ||
+			 location.startsWith( "charpane" ) ||
+			 location.startsWith( "desc" ) ||
+			 location.startsWith( "quest" ) ) {
+
+			return false;
+		}
+
+		if ( location.startsWith( "makeoffer" ) ||
+			 location.startsWith( "message" ) ||
+			 location.startsWith( "display" ) ||
+			 location.startsWith( "search" ) ||
+			 location.startsWith( "show" ) )
+		{
+			return false;
+		}
+
+		if ( location.startsWith( "valhalla" ) )
+		{
+			return false;
+		}
+
+		if ( location.startsWith( "clan" ) )
+		{
+			return location.startsWith( "clan_stash" ) ||
+				location.startsWith( "clan_rumpus" ) ||
+				location.startsWith( "clan_viplounge" ) ||
+				location.startsWith( "clan_slimetube" ) ||
+				location.startsWith( "clan_hobopolis" );
+		}
+
+		if ( location.startsWith( "login.php" ) ||
+			 location.startsWith( "logout.php" ) )
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public static final void externalUpdate( final String location, final String responseText )
@@ -406,8 +471,7 @@ public abstract class StaticEntity
 			NemesisRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "charsheet.php" ) &&
-			location.indexOf( "ajax=1" ) == -1 )
+		else if ( location.startsWith( "charsheet.php" ) && location.indexOf( "ajax=1" ) == -1 )
 		{
 			CharSheetRequest.parseStatus( responseText );
 		}
@@ -427,8 +491,7 @@ public abstract class StaticEntity
 			ClanLoungeRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "closet.php" ) || 
-			  location.startsWith( "fillcloset.php" ) )
+		else if ( location.startsWith( "closet.php" ) || location.startsWith( "fillcloset.php" ) )
 		{
 			ClosetRequest.parseTransfer( location, responseText );
 		}
@@ -459,12 +522,12 @@ public abstract class StaticEntity
 			VendingMachineRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "familiar.php" ) && location.indexOf( "ajax=1" ) == -1)
+		else if ( location.startsWith( "familiar.php" ) && location.indexOf( "ajax=1" ) == -1 )
 		{
 			FamiliarData.registerFamiliarData( responseText );
 		}
 
-		else if ( location.startsWith( "familiarbinger.php" ))
+		else if ( location.startsWith( "familiarbinger.php" ) )
 		{
 			UseItemRequest.parseBinge( location, responseText );
 		}
@@ -499,8 +562,7 @@ public abstract class StaticEntity
 			HiddenCityRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "desc_skill.php" ) &&
-			location.indexOf( "self=true" ) != -1 )
+		else if ( location.startsWith( "desc_skill.php" ) && location.indexOf( "self=true" ) != -1 )
 		{
 			Matcher m = NEWSKILL2_PATTERN.matcher( location );
 			if ( m.find() )
@@ -510,8 +572,7 @@ public abstract class StaticEntity
 			}
 		}
 
-		else if ( location.startsWith( "desc_item.php" ) &&
-			location.indexOf( "otherplayer=" ) == -1 )
+		else if ( location.startsWith( "desc_item.php" ) && location.indexOf( "otherplayer=" ) == -1 )
 		{
 			Matcher m = DESCITEM_PATTERN.matcher( location );
 			if ( m.find() )
@@ -565,8 +626,7 @@ public abstract class StaticEntity
 		else if ( location.startsWith( "inventory.php" ) )
 		{
 			// If KoL is showing us our current equipment, parse it.
-			if  ( location.indexOf( "which=2" ) != -1 ||
-			      location.indexOf( "curequip=1" ) != -1 )
+			if ( location.indexOf( "which=2" ) != -1 || location.indexOf( "curequip=1" ) != -1 )
 			{
 				EquipmentRequest.parseEquipment( location, responseText );
 
@@ -585,42 +645,32 @@ public abstract class StaticEntity
 			}
 
 			// If there is a consumption message, parse it
-			else if ( location.indexOf( "action=message" ) != -1 ||
-				  location.indexOf( "action=breakbricko" ) != -1 )
+			else if ( location.indexOf( "action=message" ) != -1 || location.indexOf( "action=breakbricko" ) != -1 )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
 				AWOLQuartermasterRequest.parseResponse( location, responseText );
 			}
 
 			// If there is a binge message, parse it
-			else if ( location.indexOf( "action=ghost" ) != -1 ||
-			     location.indexOf( "action=hobo" ) != -1 ||
-			     location.indexOf( "action=slime" ) != -1 ||
-			     location.indexOf( "action=candy" ) != -1 )
+			else if ( location.indexOf( "action=ghost" ) != -1 || location.indexOf( "action=hobo" ) != -1 || location.indexOf( "action=slime" ) != -1 || location.indexOf( "action=candy" ) != -1 )
 			{
 				UseItemRequest.parseBinge( location, responseText );
 			}
-			else if ( location.indexOf( "action=closetpush" ) != -1 ||
-				  location.indexOf( "action=closetpull" ) != -1 )
+			else if ( location.indexOf( "action=closetpush" ) != -1 || location.indexOf( "action=closetpull" ) != -1 )
 			{
 				ClosetRequest.parseTransfer( location, responseText );
 			}
 
 		}
 
-		else if ( location.startsWith( "inv_equip.php" ) &&
-			  location.indexOf( "ajax=1" ) != -1 )
+		else if ( location.startsWith( "inv_equip.php" ) && location.indexOf( "ajax=1" ) != -1 )
 		{
 			// If we are changing equipment via a chat command,
 			// try to deduce what changed.
 			EquipmentRequest.parseEquipmentChange( location, responseText );
 		}
 
-		else if ( ( location.startsWith( "inv_eat.php" ) ||
-			    location.startsWith( "inv_booze.php" ) ||
-			    location.startsWith( "inv_use.php" ) ||
-			    location.startsWith( "inv_familiar.php" ) ) &&
-			  location.indexOf( "whichitem" ) != -1 )
+		else if ( ( location.startsWith( "inv_eat.php" ) || location.startsWith( "inv_booze.php" ) || location.startsWith( "inv_use.php" ) || location.startsWith( "inv_familiar.php" ) ) && location.indexOf( "whichitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
@@ -689,9 +739,7 @@ public abstract class StaticEntity
 			PixelRequest.parseResponse( location, responseText );
 		}
 
-		else if ( ( location.startsWith( "multiuse.php" ) ||
-			    location.startsWith( "skills.php" ) ) &&
-			  location.indexOf( "useitem" ) != -1 )
+		else if ( ( location.startsWith( "multiuse.php" ) || location.startsWith( "skills.php" ) ) && location.indexOf( "useitem" ) != -1 )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
@@ -701,8 +749,7 @@ public abstract class StaticEntity
 			PandamoniumRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "pvp.php" ) &&
-			  location.indexOf( "action" ) != -1 )
+		else if ( location.startsWith( "pvp.php" ) && location.indexOf( "action" ) != -1 )
 		{
 			PvpManager.processOffenseContests( responseText );
 		}
@@ -851,11 +898,16 @@ public abstract class StaticEntity
 		// Currently, required recipes can only be learned via using an
 		// item, but that's probably not guaranteed to be true forever.
 		// Update: you can now learn them from the April Shower
-		StaticEntity.learnRecipe( responseText );
+		StaticEntity.learnRecipe( location, responseText );
 	}
 
-	public static void learnRecipe( String responseText )
+	public static void learnRecipe( String location, String responseText )
 	{
+		if ( !StaticEntity.hasResult( location ) )
+		{
+			return;
+		}
+
 		Matcher matcher = StaticEntity.RECIPE_PATTERN.matcher( responseText );
 		if ( !matcher.find() )
 		{
@@ -883,6 +935,11 @@ public abstract class StaticEntity
 
 	public static void learnSkill( final String location, final String responseText )
 	{
+		if ( !StaticEntity.hasResult( location ) )
+		{
+			return;
+		}
+
 		// Don't parse skill acquisition via item use here, since
 		// UseItemRequest will detect it.
 
@@ -937,14 +994,14 @@ public abstract class StaticEntity
 		}
 		else if ( skillName.equals( "Spectral Snapper" ) )
 		{
-			if ( InventoryManager.hasItem( ItemPool.TATTERED_SNAKE_STANDARD) )
+			if ( InventoryManager.hasItem( ItemPool.TATTERED_SNAKE_STANDARD ) )
 			{
 				ResultProcessor.processItem( ItemPool.TATTERED_SNAKE_STANDARD, -1 );
 			}
 		}
 		else if ( skillName.equals( "Scarysauce" ) || skillName.equals( "Fearful Fettucini" ) )
 		{
-			if ( InventoryManager.hasItem( ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY) )
+			if ( InventoryManager.hasItem( ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY ) )
 			{
 				ResultProcessor.processItem( ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY, -1 );
 			}
