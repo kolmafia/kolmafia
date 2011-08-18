@@ -240,8 +240,19 @@ public class RelayRequest
 	public void processResults()
 	{
 		String path = this.getPath();
-		if ( (!this.hasNoResult() && !path.startsWith( "fight.php" )) ||
-			path.startsWith( "desc_" ) )
+
+		boolean externalUpdate = false;
+
+		if ( StaticEntity.hasResult( path ) && !path.startsWith( "fight.php" ) )
+		{
+			externalUpdate = true;
+		}
+		else if ( path.startsWith( "desc_" ) )
+		{
+			externalUpdate = true;
+		}
+
+		if ( externalUpdate )
 		{
 			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
 		}

@@ -793,7 +793,7 @@ public class ClanLoungeRequest
 			     responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
 			{
 				Preferences.setBoolean( "_aprilShower", true );
-				StaticEntity.learnRecipe( responseText );
+				StaticEntity.learnRecipe( urlString, responseText );
 			}
 			return;
 		}
@@ -802,7 +802,7 @@ public class ClanLoungeRequest
 	public static void getBreakfast()
 	{
 		// No Clan Lounge in Bad Moon
-		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated())
+		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() )
 		{
 			return;
 		}

@@ -1460,7 +1460,7 @@ public class UseItemRequest
 				UseItemRequest.REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
 				UseItemRequest.lastItemUsed = this.itemUsed;
 				UseItemRequest.parseConsumption( UseItemRequest.REDIRECT_REQUEST.responseText, true );
-				StaticEntity.learnRecipe( UseItemRequest.REDIRECT_REQUEST.responseText );
+				StaticEntity.learnRecipe( this.getURLString(), UseItemRequest.REDIRECT_REQUEST.responseText );
 			}
 			else if ( this.redirectLocation.startsWith( "choice.php" ) )
 			{
@@ -1514,7 +1514,7 @@ public class UseItemRequest
 
 		UseItemRequest.lastItemUsed = this.itemUsed;
 		UseItemRequest.parseConsumption( this.responseText, true );
-		StaticEntity.learnRecipe( this.responseText );
+		StaticEntity.learnRecipe( this.getURLString(), this.responseText );
 	}
 
 	public static final boolean parseBinge( final String urlString, final String responseText )

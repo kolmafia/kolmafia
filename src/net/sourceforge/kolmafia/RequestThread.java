@@ -60,7 +60,7 @@ public abstract class RequestThread
 			return;
 		}
 
-		if ( RequestThread.sequenceCount == 0 && !request.hasNoResult() )
+		if ( RequestThread.sequenceCount == 0 && StaticEntity.hasResult( request.getURLString() ) )
 		{
 			KoLmafia.forceContinue();
 		}

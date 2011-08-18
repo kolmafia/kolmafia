@@ -170,7 +170,6 @@ public class GenericRequest
 	private boolean dataChanged = true;
 	private byte[] dataString = null;
 
-	private boolean hasNoResult;
 	public boolean containsUpdate;
 
 	public int responseCode;
@@ -371,11 +370,6 @@ public class GenericRequest
                 this( newURLString, true );
 	}
 
-	public boolean hasNoResult()
-	{
-		return this.hasNoResult;
-	}
-
 	public static void suppressUpdate( final boolean suppressUpdate )
 	{
 		GenericRequest.suppressUpdate = suppressUpdate;
@@ -442,31 +436,6 @@ public class GenericRequest
 			this.formURLString.startsWith( "chat.php" ) ||
 			this.formURLString.startsWith( "newchatmessages.php" ) ||
 			this.formURLString.startsWith( "submitnewchat.php" );
-
-		this.hasNoResult =
-			this.isChatRequest ||
-			this.formURLString.startsWith( "http:" ) ||
-			this.formURLString.startsWith( "https:" ) ||
-			this.formURLString.endsWith( "menu.php" ) ||
-			this.formURLString.startsWith( "actionbar" ) ||
-			this.formURLString.startsWith( "api.php" ) ||
-			this.formURLString.startsWith( "charpane" ) ||
-			this.formURLString.startsWith( "desc" ) ||
-			this.formURLString.startsWith( "display" ) ||
-			this.formURLString.startsWith( "makeoffer" ) ||
-			this.formURLString.startsWith( "message" ) ||
-			this.formURLString.startsWith( "quest" ) ||
-			this.formURLString.startsWith( "search" ) ||
-			this.formURLString.startsWith( "show" ) ||
-			this.formURLString.startsWith( "valhalla" ) ||
-			( this.formURLString.startsWith( "clan" ) &&
-			  !this.formURLString.startsWith( "clan_stash" ) &&
-			  !this.formURLString.startsWith( "clan_rumpus" ) &&
-			  !this.formURLString.startsWith( "clan_viplounge" ) &&
-			  !this.formURLString.startsWith( "clan_slimetube" ) &&
-			  !this.formURLString.startsWith( "clan_hobopolis" ) ) ||
-			this instanceof LoginRequest ||
-			this instanceof LogoutRequest;
 
 		return this;
 	}
@@ -996,7 +965,7 @@ public class GenericRequest
 			}
 		}
 
-		if ( !this.hasNoResult )
+		if ( StaticEntity.hasResult( this.formURLString ) )
 		{
 			while ( true )
 			{
@@ -1239,7 +1208,7 @@ public class GenericRequest
 			GenericRequest.isRatQuest = urlString.startsWith( "cellar.php" );
 		}
 
-		if ( GenericRequest.isRatQuest && !this.hasNoResult && !urlString.startsWith( "cellar.php" ) )
+		if ( GenericRequest.isRatQuest && StaticEntity.hasResult( this.formURLString ) && !urlString.startsWith( "cellar.php" ) )
 		{
 			GenericRequest.isRatQuest = urlString.startsWith( "fight.php" );
 		}
@@ -1249,7 +1218,7 @@ public class GenericRequest
 			TavernRequest.preTavernVisit( this );
 		}
 
-		if ( !this.hasNoResult && GenericRequest.isBarrelSmash )
+		if ( StaticEntity.hasResult( this.formURLString ) && GenericRequest.isBarrelSmash )
 		{
 			// Smash has resulted in a mimic.
 			// Continue tracking throughout the combat
@@ -1262,7 +1231,7 @@ public class GenericRequest
 			BarrelDecorator.beginSmash( urlString );
 		}
 
-		if ( !this.hasNoResult )
+		if ( StaticEntity.hasResult( this.formURLString ) )
 		{
 			RequestLogger.registerRequest( this, urlString );
 		}
@@ -1896,7 +1865,7 @@ public class GenericRequest
 
 		int effectCount = KoLConstants.activeEffects.size();
 
-		if ( !this.hasNoResult )
+		if ( StaticEntity.hasResult( this.formURLString ) )
 		{
 			int initialHP = KoLCharacter.getCurrentHP();
 			this.parseResults();
@@ -1942,7 +1911,7 @@ public class GenericRequest
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( this.hasNoResult || GenericRequest.suppressUpdate )
+		if ( !StaticEntity.hasResult( this.formURLString ) || GenericRequest.suppressUpdate )
 		{
 			return;
 		}
