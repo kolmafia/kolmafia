@@ -34,15 +34,16 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
+
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DisplayCaseRequest
 	extends TransferItemRequest

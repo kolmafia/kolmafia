@@ -34,27 +34,38 @@
 package net.sourceforge.kolmafia.combat;
 
 import java.util.HashSet;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.FightRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
+
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 
 public class Macrofier

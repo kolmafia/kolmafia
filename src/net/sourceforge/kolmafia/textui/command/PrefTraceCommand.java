@@ -35,10 +35,9 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
 
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;

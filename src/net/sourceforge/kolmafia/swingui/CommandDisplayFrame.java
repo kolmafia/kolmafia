@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -45,7 +46,9 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
+
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

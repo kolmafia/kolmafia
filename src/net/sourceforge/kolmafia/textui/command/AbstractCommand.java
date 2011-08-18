@@ -38,8 +38,10 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.utilities.PrefixMap;
 
 public abstract class AbstractCommand

@@ -33,11 +33,11 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
-import java.util.ArrayList;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
+
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -47,6 +47,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
@@ -54,9 +55,9 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class CardLayoutSelectorPanel
 	extends JPanel

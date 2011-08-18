@@ -36,9 +36,13 @@ package net.sourceforge.kolmafia.swingui.panel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.moods.MoodManager;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.UneffectRequest;
+
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
 public class StatusEffectPanel

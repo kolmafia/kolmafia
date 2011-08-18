@@ -39,15 +39,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.ContactManager;
 
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest.AscensionDataField;
+
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 
 public class AscensionSnapshot
 	extends KoLDatabase

@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia.swingui.button;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 

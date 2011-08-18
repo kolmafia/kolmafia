@@ -34,11 +34,12 @@
 package net.sourceforge.kolmafia.combat;
 
 import java.io.PrintStream;
+
 import java.util.HashSet;
 
-import net.sourceforge.kolmafia.KoLmafia;
-
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import net.sourceforge.kolmafia.KoLmafia;
 
 public class CustomCombatStrategy
 	extends DefaultMutableTreeNode

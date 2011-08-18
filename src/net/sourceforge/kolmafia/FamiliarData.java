@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Component;
+
 import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarData

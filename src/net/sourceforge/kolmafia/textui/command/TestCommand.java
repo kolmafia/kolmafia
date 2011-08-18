@@ -35,13 +35,16 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
 
+import net.java.dev.spellcast.utilities.UtilityConstants;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class TestCommand
 	extends AbstractCommand

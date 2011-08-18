@@ -33,28 +33,27 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.request.DollHawkerRequest;
-import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
-import net.sourceforge.kolmafia.request.LunarLunchRequest;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpaaaceRequest

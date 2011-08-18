@@ -41,9 +41,12 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+
 import net.sourceforge.kolmafia.session.StoreManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BuyCommand

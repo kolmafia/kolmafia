@@ -38,7 +38,9 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 
 public class AutoMallCommand

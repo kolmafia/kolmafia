@@ -35,8 +35,10 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeMap;
@@ -50,28 +52,31 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
-import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.SendMailRequest;
 
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.SendMailRequest;
+
+import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
+
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+
+import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BuffRequestFrame
 	extends GenericFrame

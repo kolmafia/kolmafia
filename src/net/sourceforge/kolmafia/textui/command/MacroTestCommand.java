@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class MacroTestCommand

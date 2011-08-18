@@ -37,6 +37,7 @@ import java.util.Vector;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
 import javax.swing.table.DefaultTableModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;

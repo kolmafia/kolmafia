@@ -40,12 +40,15 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
+
 import net.sourceforge.kolmafia.session.ContactManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CheckDataCommand

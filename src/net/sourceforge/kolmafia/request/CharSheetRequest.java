@@ -36,20 +36,21 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

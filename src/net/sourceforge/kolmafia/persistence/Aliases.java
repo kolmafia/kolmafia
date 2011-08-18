@@ -3,17 +3,19 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayList;
+
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;

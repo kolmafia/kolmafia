@@ -33,11 +33,11 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
+
 import net.sourceforge.kolmafia.RequestThread;
 
 public class ThreadedMenuItem

@@ -39,10 +39,12 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TransparentTable

@@ -40,6 +40,7 @@ import java.util.List;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class StyledChatBuffer

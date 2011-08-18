@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,14 +42,15 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.combat.CombatActionManager;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
+
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

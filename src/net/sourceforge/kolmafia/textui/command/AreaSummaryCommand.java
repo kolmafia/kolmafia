@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
 public class AreaSummaryCommand

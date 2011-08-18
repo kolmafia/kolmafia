@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Color;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -41,6 +42,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class ColorChooser

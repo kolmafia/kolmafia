@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.IOException;
+
 import java.net.URLDecoder;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

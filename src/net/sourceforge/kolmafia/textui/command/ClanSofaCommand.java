@@ -5,7 +5,9 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanSofaCommand

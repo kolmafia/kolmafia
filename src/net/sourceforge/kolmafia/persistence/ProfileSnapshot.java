@@ -47,14 +47,16 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
+import net.sourceforge.kolmafia.request.AscensionHistoryRequest.AscensionDataField;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
-import net.sourceforge.kolmafia.request.AscensionHistoryRequest.AscensionDataField;
+
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProfileSnapshot
 	extends KoLDatabase

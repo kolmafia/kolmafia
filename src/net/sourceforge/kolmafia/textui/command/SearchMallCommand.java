@@ -37,7 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.session.StoreManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SearchMallCommand

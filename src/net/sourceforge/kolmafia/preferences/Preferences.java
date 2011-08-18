@@ -40,24 +40,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Properties;
 import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
+
 import net.sourceforge.kolmafia.combat.CombatActionManager;
+
 import net.sourceforge.kolmafia.moods.MoodManager;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
+
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class Preferences

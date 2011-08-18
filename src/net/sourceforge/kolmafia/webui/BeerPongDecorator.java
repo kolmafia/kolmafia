@@ -36,8 +36,8 @@ package net.sourceforge.kolmafia.webui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 import net.sourceforge.kolmafia.request.FightRequest;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BeerPongDecorator

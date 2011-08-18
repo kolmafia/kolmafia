@@ -36,10 +36,14 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class WikiLookupCommand

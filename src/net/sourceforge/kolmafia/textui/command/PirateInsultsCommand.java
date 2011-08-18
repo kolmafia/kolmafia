@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.request.FightRequest;
 
 public class PirateInsultsCommand

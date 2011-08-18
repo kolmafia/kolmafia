@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Map;
-import java.util.regex.Matcher;
+
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -43,14 +43,17 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
+
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class QuartersmasterRequest

@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 /**

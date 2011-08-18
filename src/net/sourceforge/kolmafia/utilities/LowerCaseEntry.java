@@ -34,8 +34,8 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.Iterator;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 

@@ -38,6 +38,7 @@ import java.awt.Component;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+
 import javax.swing.table.TableCellRenderer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;

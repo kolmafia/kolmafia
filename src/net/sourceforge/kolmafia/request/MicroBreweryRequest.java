@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MicroBreweryRequest

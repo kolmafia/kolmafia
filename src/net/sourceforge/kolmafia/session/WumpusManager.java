@@ -35,13 +35,14 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.Iterator;
 import java.util.TreeMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public abstract class WumpusManager

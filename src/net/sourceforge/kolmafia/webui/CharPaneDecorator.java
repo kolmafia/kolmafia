@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.webui;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,17 +44,23 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.MoodManager;
+
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
+
 import net.sourceforge.kolmafia.session.TurnCounter;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CharPaneDecorator

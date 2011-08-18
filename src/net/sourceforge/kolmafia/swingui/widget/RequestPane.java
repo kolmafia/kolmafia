@@ -34,14 +34,19 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Color;
+
 import java.io.StringWriter;
+
 import java.util.regex.Pattern;
 
 import javax.swing.JEditorPane;
+
 import javax.swing.text.html.HTMLDocument;
 
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RequestPane

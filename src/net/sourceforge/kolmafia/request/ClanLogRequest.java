@@ -36,7 +36,9 @@ package net.sourceforge.kolmafia.request;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
+
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -44,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,11 +56,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.session.ClanManager;
+
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanLogRequest
 	extends GenericRequest

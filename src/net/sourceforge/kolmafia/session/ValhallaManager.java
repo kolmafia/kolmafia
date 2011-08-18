@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -13,9 +14,11 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.moods.MoodManager;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AutoSellRequest;
@@ -23,12 +26,8 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
 
 public class ValhallaManager
 

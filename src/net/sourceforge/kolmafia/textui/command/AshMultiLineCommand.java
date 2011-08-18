@@ -36,7 +36,9 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.textui.Interpreter;
+
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 
 public class AshMultiLineCommand

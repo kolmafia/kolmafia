@@ -35,7 +35,9 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 
 public class AutoSellCommand

@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ColorEchoCommand

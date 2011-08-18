@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 /**

@@ -38,17 +38,20 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StationaryButtonDecorator
 {

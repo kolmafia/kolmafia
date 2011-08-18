@@ -35,9 +35,12 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
+
 import java.io.File;
 import java.io.PrintStream;
+
 import java.text.DateFormat;
+
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
@@ -49,7 +52,9 @@ import javax.swing.JList;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+
 import net.sourceforge.kolmafia.session.ContactManager;
+
 import net.sourceforge.kolmafia.swingui.BuffBotFrame;
 
 public class BuffBotHome

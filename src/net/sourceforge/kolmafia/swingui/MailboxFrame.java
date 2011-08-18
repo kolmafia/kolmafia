@@ -34,8 +34,10 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.Dimension;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import java.util.StringTokenizer;
 
 import javax.swing.JList;
@@ -44,21 +46,29 @@ import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLMailMessage;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.request.MailboxRequest;
+
 import net.sourceforge.kolmafia.session.MailManager;
+
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
+
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MailboxFrame

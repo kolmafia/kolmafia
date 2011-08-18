@@ -42,11 +42,16 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.ShrineRequest;
+
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel;
+
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MeatManageFrame

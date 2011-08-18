@@ -38,10 +38,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 public class CreationSettingCheckBox
 	extends JCheckBox

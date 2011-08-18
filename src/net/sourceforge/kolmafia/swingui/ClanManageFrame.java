@@ -38,6 +38,7 @@ import com.sun.java.forums.TableSorter;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
@@ -53,35 +54,44 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.sourceforge.foxtrot.Job;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
+
 import net.sourceforge.kolmafia.request.ClanBuffRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanWarRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
+
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.swingui.button.TableButton;
+
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
+import net.sourceforge.kolmafia.swingui.button.TableButton;
+
 import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
+
 import net.sourceforge.kolmafia.swingui.table.ButtonRenderer;
 import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
 import net.sourceforge.kolmafia.swingui.table.TransparentTable;
+
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 /**

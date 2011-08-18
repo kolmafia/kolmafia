@@ -39,10 +39,12 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.RequestFrame;
+
+import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class IslandArenaRequest
 	extends GenericRequest

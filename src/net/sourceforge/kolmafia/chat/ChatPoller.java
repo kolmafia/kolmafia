@@ -40,8 +40,10 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 

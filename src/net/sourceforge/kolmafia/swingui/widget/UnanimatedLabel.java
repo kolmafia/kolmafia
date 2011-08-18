@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Image;
+
 import java.awt.image.ImageObserver;
 
 import javax.swing.JLabel;

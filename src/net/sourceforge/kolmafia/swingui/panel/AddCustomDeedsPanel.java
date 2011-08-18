@@ -36,8 +36,10 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -48,14 +50,18 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 
 public class AddCustomDeedsPanel

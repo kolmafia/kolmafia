@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.Stack;
 
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class UserDefinedFunction

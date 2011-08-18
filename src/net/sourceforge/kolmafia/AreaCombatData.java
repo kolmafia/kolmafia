@@ -37,9 +37,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AreaCombatData

@@ -41,8 +41,11 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.request.LeafletRequest;
+
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
 public abstract class LeafletManager

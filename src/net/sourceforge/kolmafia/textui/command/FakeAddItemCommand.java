@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
+
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class FakeAddItemCommand

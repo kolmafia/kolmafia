@@ -34,7 +34,9 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.MindControlRequest;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterLevelCommand

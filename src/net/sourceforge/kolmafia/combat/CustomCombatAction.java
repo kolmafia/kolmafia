@@ -37,8 +37,6 @@ import java.io.PrintStream;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.sourceforge.kolmafia.KoLConstants;
-
 public class CustomCombatAction
 	extends DefaultMutableTreeNode
 {

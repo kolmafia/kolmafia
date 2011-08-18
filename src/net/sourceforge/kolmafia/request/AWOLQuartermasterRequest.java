@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Map;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,9 +44,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AWOLQuartermasterRequest

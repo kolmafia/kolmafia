@@ -34,9 +34,11 @@
 package net.sourceforge.kolmafia.request;
 
 import java.net.URLDecoder;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,13 +46,16 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.session.PvpManager;
-import net.sourceforge.kolmafia.swingui.ProfileFrame;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.PvpManager;
+
+import net.sourceforge.kolmafia.swingui.ProfileFrame;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PvpRequest
 	extends GenericRequest

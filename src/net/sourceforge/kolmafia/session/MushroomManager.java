@@ -35,30 +35,30 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
-import java.nio.channels.FileChannel;
+
 import java.util.ArrayList;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.sourceforge.kolmafia.AdventureResult;
+
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.request.MushroomRequest;
+
 import net.sourceforge.kolmafia.swingui.MushroomFrame;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public abstract class MushroomManager

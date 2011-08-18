@@ -38,6 +38,7 @@ import java.io.PrintStream;
 import java.util.Iterator;
 
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
 

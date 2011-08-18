@@ -40,8 +40,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
+
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 

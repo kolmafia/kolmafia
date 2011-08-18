@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.io.PrintStream;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,16 +49,17 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;

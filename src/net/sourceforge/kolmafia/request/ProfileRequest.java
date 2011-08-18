@@ -34,9 +34,11 @@
 package net.sourceforge.kolmafia.request;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,12 +46,14 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProfileRequest
 	extends GenericRequest

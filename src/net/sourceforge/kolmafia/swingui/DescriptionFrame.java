@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui;
 
 import net.sourceforge.kolmafia.RequestEditorKit;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class DescriptionFrame

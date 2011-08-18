@@ -33,8 +33,8 @@
 
 package net.sourceforge.kolmafia.persistence;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -45,13 +45,16 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
+
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import org.xml.sax.SAXException;
 
 public class FaxBotDatabase

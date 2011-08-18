@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class DustyBottlesCommand

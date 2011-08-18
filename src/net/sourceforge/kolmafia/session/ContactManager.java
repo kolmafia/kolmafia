@@ -37,15 +37,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
+
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
+
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
+
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
 public class ContactManager

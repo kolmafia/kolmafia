@@ -2,6 +2,7 @@
 package net.sourceforge.kolmafia.moods;
 
 import java.lang.reflect.Method;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -16,12 +17,17 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.moods.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList.MPRestoreItem;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+
 import net.sourceforge.kolmafia.textui.Interpreter;
+
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public class RecoveryManager

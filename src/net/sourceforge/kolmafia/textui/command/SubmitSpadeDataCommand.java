@@ -6,9 +6,13 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.SendMailRequest;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SubmitSpadeDataCommand

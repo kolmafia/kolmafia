@@ -34,11 +34,14 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.awt.event.ActionEvent;
+
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
 /**

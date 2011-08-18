@@ -43,6 +43,7 @@ import java.util.TimeZone;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HolidayDatabase

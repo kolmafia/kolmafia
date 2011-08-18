@@ -33,8 +33,8 @@
 
 package net.sourceforge.kolmafia.utilities;
 
-import java.util.TreeMap;
 import java.util.NoSuchElementException;
+import java.util.TreeMap;
 
 /*
 This is a minimal implementation of a variant SortedMap (currently based on a

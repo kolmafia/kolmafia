@@ -51,17 +51,22 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.session.BuffBotManager;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
-import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.BuffBotManager;
+
+import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BuffBotFrame
 	extends GenericFrame

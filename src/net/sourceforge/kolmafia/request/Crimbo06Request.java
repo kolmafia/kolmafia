@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
 
 public class Crimbo06Request

@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.CardLayout;
 import java.awt.GridLayout;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -47,11 +48,17 @@ import javax.swing.JToolBar;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
+
 import net.sourceforge.kolmafia.session.ContactManager;
+
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
 public class ContactListFrame

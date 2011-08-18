@@ -37,9 +37,11 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
+
 import javax.swing.table.DefaultTableCellRenderer;
 
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class IntegerRenderer

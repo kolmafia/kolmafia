@@ -41,7 +41,9 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+
 import net.sourceforge.kolmafia.request.UneffectRequest;
 
 public class UneffectCommand

@@ -39,10 +39,13 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
+
 import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class GenericScrollPane

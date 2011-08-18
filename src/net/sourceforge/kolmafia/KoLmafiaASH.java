@@ -35,16 +35,19 @@ package net.sourceforge.kolmafia;
 
 import java.io.File;
 
-import java.util.Iterator;
 import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.RelayRequest;
+
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;

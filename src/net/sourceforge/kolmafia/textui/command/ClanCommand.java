@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafiaGUI;
+
 import net.sourceforge.kolmafia.session.ClanManager;
 
 public class ClanCommand

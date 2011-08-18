@@ -39,8 +39,11 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.request.HermitRequest;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HermitCommand
