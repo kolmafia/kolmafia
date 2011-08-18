@@ -92,7 +92,7 @@ public class ClanLoungeRequest
 	public static final Object [][] POOL_GAMES = new Object[][]
 	{
 		{
-			"aggressive", 
+			"aggressive",
 			"muscle",
 			"billiards belligerence",
 			new Integer( AGGRESSIVE_STANCE )
@@ -110,11 +110,11 @@ public class ClanLoungeRequest
 			new Integer( STYLISH_STANCE )
 		},
 	};
- 
+
 	public static final Object [][] FAX_OPTIONS = new Object[][]
 	{
 		{
-			"send", 
+			"send",
 			"put",
 			new Integer( SEND_FAX )
 		},
@@ -148,7 +148,7 @@ public class ClanLoungeRequest
 			new Integer( WARM_SHOWER )
 		},
 		{
-			"hot", 
+			"hot",
 			"mp",
 			new Integer( HOT_SHOWER )
 		},
@@ -189,7 +189,7 @@ public class ClanLoungeRequest
 
 		return 0;
 	}
- 
+
 	public static final int findFaxOption( String tag )
 	{
 		tag = tag.toLowerCase();
@@ -247,7 +247,7 @@ public class ClanLoungeRequest
 		}
 		return "an unknown stance";
 	}
- 
+
 	public static final String prettyFaxCommand( final int faxCommand )
 	{
 		switch ( faxCommand )
@@ -387,7 +387,7 @@ public class ClanLoungeRequest
 		return null;
 	}
 
-	public Object run()
+	public void run()
 	{
 		switch ( this.action )
 		{
@@ -471,7 +471,7 @@ public class ClanLoungeRequest
 		if ( this.redirectLocation != null && this.redirectLocation.equals( "clan_signup.php" ) )
 		{
 			RequestLogger.printLine( "You don't seem to be in a clan!" );
-			return null;
+			return;
 		}
 
 		switch ( this.action )
@@ -575,7 +575,6 @@ public class ClanLoungeRequest
 		}
 
 		ClanLoungeRequest.parseResponse( this.getURLString(), this.responseText );
-		return null;
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
@@ -675,7 +674,7 @@ public class ClanLoungeRequest
 			//
 			// You play a game of pool against yourself.
 			// Unsurprisingly, you win! Inevitably, you lose.
-			// 
+			//
 			// Try as you might, you are unable to defeat
 			// (player). Ah well. You gave it your best.
 
@@ -812,7 +811,7 @@ public class ClanLoungeRequest
 
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
-		// 
+		//
 		// Unlike the regular Klaw, there is no message to tell you
 		// that you are done for the day except when you try one too
 		// many times: "You probably shouldn't play with this machine

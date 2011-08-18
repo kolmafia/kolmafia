@@ -52,13 +52,12 @@ public class HellKitchenRequest
 		this.setItem( name, itemId, price );
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( KoLCharacter.inBadMoon() )
 		{
 			super.run();
 		}
-		return null;
 	}
 
 	public static final boolean onMenu( final String name )

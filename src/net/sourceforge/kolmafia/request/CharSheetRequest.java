@@ -88,11 +88,10 @@ public class CharSheetRequest
 		return null;
 	}
 
-	public Object run()
+	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving character data..." );
 		super.run();
-		return null;
 	}
 
 	public void processResults()
@@ -164,9 +163,9 @@ public class CharSheetRequest
 		int maximumMP = GenericRequest.intToken( cleanContent );
 		token = cleanContent.nextToken();
 		KoLCharacter.setMP( currentMP, maximumMP, CharSheetRequest.retrieveBase( token, maximumMP ) );
-		
+
 		// Players with a custom title will have their actual class shown in this area.
-		
+
 		while ( !token.startsWith( "Mus" ) )
 		{
 			if ( token.equals( "Class:" ) )
@@ -278,7 +277,7 @@ public class CharSheetRequest
 		// "You may not eat any food or drink any non-alcoholic beverages."
 		// "You may not consume any alcohol."
 
-		KoLCharacter.setConsumptionRestriction( 
+		KoLCharacter.setConsumptionRestriction(
 			responseText.indexOf( "You may not eat or drink anything." ) != -1 ?
 			AscensionSnapshot.OXYGENARIAN :
 			responseText.indexOf( "You may not eat any food or drink any non-alcoholic beverages." ) != -1 ?
@@ -406,7 +405,7 @@ public class CharSheetRequest
 		// This must be done before setAvailableSkills, since
 		// moxious maneuver is conditionally added based on your class.
 		KoLCharacter.setClassName( className );
-		
+
 		KoLCharacter.setAvailableSkills( newSkillSet );
 		KoLCharacter.setPermedSkills( permedSkillSet );
 	}

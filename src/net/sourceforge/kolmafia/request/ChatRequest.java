@@ -76,17 +76,17 @@ public class ChatRequest
 		return this.graf;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( !QuestLogRequest.isChatAvailable() )
 		{
-			return null;
+			return;
 		}
 
 		// Force GET method, just like the browser
 		this.constructURLString( this.getFullURLString(), false );
 
-		return super.run();
+		super.run();
 	}
 
 	protected boolean retryOnTimeout()

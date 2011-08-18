@@ -47,7 +47,7 @@ public class PalmFrondRequest
 		super( itemId );
 	}
 
-	public Object run()
+	public void run()
 	{
 		// Make sure you have a weaving manual
 
@@ -58,7 +58,6 @@ public class PalmFrondRequest
 		}
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()

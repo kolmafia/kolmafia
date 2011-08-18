@@ -71,7 +71,7 @@ public class FamiliarRequest
 		this.unequip = false;
 		this.enthrone = false;
 	}
-	
+
 	public static FamiliarRequest enthroneRequest( final FamiliarData changeTo )
 	{
 		FamiliarRequest rv = new FamiliarRequest();
@@ -148,13 +148,13 @@ public class FamiliarRequest
 		return !this.locking;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.item != null )
 		{
 			KoLmafia.updateDisplay( "Equipping " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " with " + this.item.getName() + "..." );
 			super.run();
-			return null;
+			return;
 		}
 
 		if ( this.locking )
@@ -162,14 +162,14 @@ public class FamiliarRequest
 			String verb = EquipmentManager.familiarItemLocked() ? "Unlocking" : "Locking";
 			KoLmafia.updateDisplay( verb + " familiar item..." );
 			super.run();
-			return null;
+			return;
 		}
 
 		if ( this.changeTo == null )
 		{
 			KoLmafia.updateDisplay( "Retrieving familiar data..." );
 			super.run();
-			return null;
+			return;
 		}
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
@@ -178,21 +178,21 @@ public class FamiliarRequest
 			if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId()
 				!= ItemPool.HATSEAT )
 			{
-				return null;
+				return;
 			}
-			
+
 			FamiliarData enthroned = KoLCharacter.getEnthroned();
-	
+
 			if ( enthroned.getId() == this.changeTo.getId() )
 			{
-				return null;
+				return;
 			}
-	
+
 			if ( enthroned != FamiliarData.NO_FAMILIAR )
 			{
 				KoLmafia.updateDisplay( "Kicking " + enthroned.getName() + " the " + enthroned.getRace() + " off the throne..." );
 			}
-	
+
 			if ( this.changeTo != FamiliarData.NO_FAMILIAR )
 			{
 				KoLmafia.updateDisplay( "Carrying " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " in the Crown of Thrones..." );
@@ -202,14 +202,14 @@ public class FamiliarRequest
 		{
 			if ( familiar.getId() == this.changeTo.getId() )
 			{
-				return null;
+				return;
 			}
-	
+
 			if ( familiar != FamiliarData.NO_FAMILIAR )
 			{
 				KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
 			}
-	
+
 			if ( this.changeTo != FamiliarData.NO_FAMILIAR )
 			{
 				KoLmafia.updateDisplay( "Taking " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " out of terrarium..." );
@@ -223,7 +223,7 @@ public class FamiliarRequest
 		if ( unequip )
 		{
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR ) );
-			return null;
+			return;
 		}
 
 		// If we didn't have a familiar before or don't have one now,
@@ -232,7 +232,7 @@ public class FamiliarRequest
 		if ( this.enthrone || familiar == FamiliarData.NO_FAMILIAR ||
 		     this.changeTo == FamiliarData.NO_FAMILIAR )
 		{
-			return null;
+			return;
 		}
 
 		AdventureResult item = familiar.getItem();
@@ -242,7 +242,7 @@ public class FamiliarRequest
 
 		if ( item == EquipmentRequest.UNEQUIP )
 		{
-			return null;
+			return;
 		}
 
 		// If KoL itself switched equipment because it was locked,
@@ -255,7 +255,7 @@ public class FamiliarRequest
 				FamiliarRequest.unequipFamiliar( familiar.getId() );
 				FamiliarRequest.equipFamiliar( this.changeTo.getId(), item.getItemId() );
 			}
-			return null;
+			return;
 		}
 
 		// If we are switching to certain specialized familiars, don't
@@ -271,33 +271,31 @@ public class FamiliarRequest
 		case FamiliarPool.STOCKING_MIMIC:
 			// Leave the Stocking Mimic unequipped, to allow it to
 			// generate its own candy-generating item.
-			return null;
+			return;
 		}
 
 		// If the new familiar already has an item, leave it alone.
 
 		if ( !this.changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) )
 		{
-			return null;
+			return;
 		}
 
 		// The new familiar has no item. Find a good one to steal.
 		AdventureResult use = this.changeTo.findGoodItem( true );
 		if ( use == null )
 		{
-			return null;
+			return;
 		}
 
 		// If you are in Beecore and the item has Beeosity, don't select it.
 		if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( use.getName() ) )
 		{
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( use.getName() + " is better than (none).  Switching items..." );
 		RequestThread.postRequest( new EquipmentRequest( use, EquipmentManager.FAMILIAR ) );
-
-		return null;
 	}
 
 	public void processResults()

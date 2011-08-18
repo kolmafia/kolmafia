@@ -85,7 +85,7 @@ public class ApiRequest
 		return true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.what.equals( "status" ) )
 		{
@@ -101,7 +101,7 @@ public class ApiRequest
 		}
 
 		this.JSON = null;
-		return super.run();
+		super.run();
 	}
 
 	public void processResults()
@@ -273,16 +273,16 @@ public class ApiRequest
 			// Pull out the current password hash
 			String pwd = JSON.getString( "pwd" );
 			GenericRequest.passwordHash = pwd;
-			
+
 			// Many config options are available
 			AccountRequest.parseStatus( JSON );
-			
+
 			// Many things from the Char Sheet are available
 			CharSheetRequest.parseStatus( JSON );
-			
+
 			// Parse currently worn equipment
 			EquipmentManager.parseStatus( JSON );
-			
+
 			// Many things from the Char Pane are available
 			CharSheetRequest.parseStatus( JSON );
 		}
@@ -342,7 +342,7 @@ public class ApiRequest
 			pos == 0 ? responseText :
 			responseText.substring( pos );
 	}
-	
+
 	private static final void reportParseError( final String what, final String responseText, final JSONException e )
 	{
 		KoLmafia.updateDisplay( "api.php?what=" + what + " parse error: " + e.getMessage() );

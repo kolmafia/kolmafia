@@ -63,11 +63,11 @@ public class LogoutRequest
 		return false;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( LogoutRequest.isRunning )
 		{
-			return null;
+			return;
 		}
 
 		LogoutRequest.isRunning = true;
@@ -98,7 +98,6 @@ public class LogoutRequest
 		KoLCharacter.reset( "" );
 
 		LogoutRequest.isRunning = false;
-		return null;
 	}
 
 	public void processResults()

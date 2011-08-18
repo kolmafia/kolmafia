@@ -90,23 +90,22 @@ public class HeyDezeRequest
 		return true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( !KoLCharacter.inBadMoon() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Styx Pixie." );
-			return null;
+			return;
 		}
 
 		if ( this.effectId == 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Choose a stat to buff." );
-			return null;
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Visiting the Styx Pixie..." );
 		super.run();
-		return null;
 	}
 
 	private static String styxStatString( final String urlString )

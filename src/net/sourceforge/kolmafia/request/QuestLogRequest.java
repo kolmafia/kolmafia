@@ -58,14 +58,14 @@ public class QuestLogRequest
 		"You have discovered the secret of the Dungeons of Doom.";
 	private static final String HAX0R =
 		"You have summoned the UB3r 31337 HaX0R";
-		
+
 	private static String started = "";
 	private static String finished = "";
 	private static String other = "";
 
 	private static boolean chatAvailable = false;
 	private static boolean dungeonOfDoomAvailable = false;
-	
+
 	private static boolean whiteCitadelAvailable = false;
 	private static boolean friarsAvailable = false;
 	private static boolean blackMarketAvailable = false;
@@ -95,12 +95,12 @@ public class QuestLogRequest
 	{
 		return QuestLogRequest.chatAvailable;
 	}
-	
+
 	public static final boolean isDungeonOfDoomAvailable()
 	{
 		return QuestLogRequest.dungeonOfDoomAvailable;
 	}
-	
+
 	public static final void setDungeonOfDoomAvailable()
 	{
 		QuestLogRequest.dungeonOfDoomAvailable = true;
@@ -146,7 +146,7 @@ public class QuestLogRequest
 		QuestLogRequest.hippyStoreAvailable = available;
 	}
 
-	public Object run()
+	public void run()
 	{
 		// When KoL provides a link to the Quest log, it goes to the
 		// section you visited last. Therefore, visit all sections but
@@ -185,8 +185,6 @@ public class QuestLogRequest
 			QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
 
 		QuestLogRequest.friarsAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.FRIAR );
-
-		return null;
 	}
 
 	protected boolean retryOnTimeout()

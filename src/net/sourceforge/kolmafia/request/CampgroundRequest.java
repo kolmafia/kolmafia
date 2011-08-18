@@ -290,18 +290,17 @@ public class CampgroundRequest
 		}
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.action.equals( "rest" ) &&
 		     KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP() &&
 		     KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You don't need to rest." );
-			return null;
+			return;
 		}
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()

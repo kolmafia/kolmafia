@@ -73,7 +73,7 @@ public class PortalRequest
 		}
 	}
 
-	public Object run()
+	public void run()
 	{
 		int iterations = this.item.getCount();
 
@@ -94,7 +94,6 @@ public class PortalRequest
 		{
 			KoLmafia.updateDisplay( "Finished using " + iterations + " " + this.item.getName() + "." );
 		}
-		return null;
 	}
 
 	public void processResults()

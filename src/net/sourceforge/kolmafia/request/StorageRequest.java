@@ -188,7 +188,7 @@ public class StorageRequest
 		return new StorageRequest( this.moveType, attachments );
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )
 		{
@@ -198,7 +198,7 @@ public class StorageRequest
 			case STORAGE_TO_INVENTORY:
 			case PULL_MEAT_FROM_STORAGE:
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
-				return null;
+				return;
 			}
 		}
 
@@ -214,11 +214,12 @@ public class StorageRequest
 			RequestThread.postRequest( new StorageRequest( CONSUMABLES ) );
 			RequestThread.postRequest( new StorageRequest( EQUIPMENT ) );
 			RequestThread.postRequest( new StorageRequest( MISCELLANEOUS ) );
-			return null;
 		}
-
-		// If it's a transfer, let TransferItemRequest handle it
-		return super.run();
+		else
+		{
+			// If it's a transfer, let TransferItemRequest handle it
+			super.run();
+		}
 	}
 
 	public void processResults()
@@ -364,11 +365,11 @@ public class StorageRequest
 			{
 				Object[] items = KoLConstants.storage.toArray();
 				ResultProcessor.processBulkItems( items );
-				KoLConstants.storage.clear();	 
+				KoLConstants.storage.clear();
 				KoLCharacter.setStorageMeat( 0 );
 				items = KoLConstants.freepulls.toArray();
 				ResultProcessor.processBulkItems( items );
-				KoLConstants.freepulls.clear();	 
+				KoLConstants.freepulls.clear();
 				transfer = true;
 			}
 			else
@@ -474,7 +475,7 @@ public class StorageRequest
 
 	private static final void transferMeat( final String urlString )
 	{
-		int meat = TransferItemRequest.transferredMeat( urlString, "amt" ); 
+		int meat = TransferItemRequest.transferredMeat( urlString, "amt" );
 		KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - meat );
 		ResultProcessor.processMeat( meat );
 	}
@@ -495,7 +496,7 @@ public class StorageRequest
 
 		if ( urlString.indexOf( "action=takemeat" ) != -1 )
 		{
-			int meat = TransferItemRequest.transferredMeat( urlString, "amt" ); 
+			int meat = TransferItemRequest.transferredMeat( urlString, "amt" );
 			String message = "pull: " + meat + " Meat";
 
 			if ( meat > 0 )

@@ -365,7 +365,7 @@ public class EquipmentRequest
 
 		this.addFormField( "which", "2" );
 		this.addFormField( "action", "outfit" );
-		this.addFormField( "whichoutfit", 
+		this.addFormField( "whichoutfit",
 				   change == SpecialOutfit.PREVIOUS_OUTFIT?
 				   "last" : String.valueOf( change.getOutfitId() ) );
 		this.addFormField( "ajax", "1" );
@@ -557,19 +557,19 @@ public class EquipmentRequest
 	 * equipped items and familiar item will be stored.
 	 */
 
-	public Object run()
+	public void run()
 	{
 		if ( this.requestType == EquipmentRequest.REFRESH )
 		{
 			InventoryManager.refresh();
-			return null;
+			return;
 		}
 
 		// If we were given bogus parameters, report the error now
 		if ( this.error != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.error );
-			return null;
+			return;
 		}
 
 		// Outfit changes are a bit quirky, so they're handled
@@ -602,7 +602,7 @@ public class EquipmentRequest
 					}
 				}
 
-				return null;
+				return;
 			}
 
 			int id = this.outfit.getOutfitId();
@@ -614,7 +614,7 @@ public class EquipmentRequest
 				// already wearing the outfit
 				if ( EquipmentManager.isWearingOutfit( id ) )
 				{
-					return null;
+					return;
 				}
 
 				// Next, ensure that you have all the pieces
@@ -625,7 +625,7 @@ public class EquipmentRequest
 				// Bail now if the conditions were not met
 				if ( !KoLmafia.permitsContinue() )
 				{
-					return null;
+					return;
 				}
 
 				if ( EquipmentRequest.shouldSavePreviousOutfit )
@@ -644,7 +644,7 @@ public class EquipmentRequest
 				// already wearing the outfit
 				if ( EquipmentManager.isWearingOutfit( this.outfit ) )
 				{
-					return null;
+					return;
 				}
 
 				AdventureResult[] pieces = this.outfit.getPieces();
@@ -696,7 +696,7 @@ public class EquipmentRequest
 					( new EquipmentRequest( pieces[ i ], desiredSlot ) ).run();
 				}
 
-				return null;
+				return;
 			}
 		}
 
@@ -707,7 +707,7 @@ public class EquipmentRequest
 
 			if ( EquipmentManager.getEquipment( this.equipmentSlot ).equals( this.changeItem ) )
 			{
-				return null;
+				return;
 			}
 
 			// If we are equipping a new weapon, a two-handed
@@ -743,7 +743,7 @@ public class EquipmentRequest
 				if ( itemType == KoLConstants.EQUIP_WEAPON && weaponItemId <= 0 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't dual wield unless you already have a main weapon." );
-					return null;
+					return;
 				}
 
 				if ( EquipmentDatabase.getHands( weaponItemId ) > 1 )
@@ -752,20 +752,20 @@ public class EquipmentRequest
 						"You can't dual wield while wielding a 2-handed weapon." :
 						"You can't equip an off-hand item while wielding a 2-handed weapon.";
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-					return null;
+					return;
 				}
 
 				if ( itemType == KoLConstants.EQUIP_WEAPON &&
 				     EquipmentDatabase.getWeaponType( itemId ) != EquipmentDatabase.getWeaponType( weaponItemId ) )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't hold a " + this.changeItem.getName() + " in your off-hand when wielding a " + weapon.getName() );
-					return null;
+					return;
 				}
 			}
 
 			if ( !InventoryManager.retrieveItem( this.changeItem ) )
 			{
-				return null;
+				return;
 			}
 
 			if ( this.equipmentSlot >= EquipmentManager.STICKER1 &&
@@ -779,7 +779,7 @@ public class EquipmentRequest
 		if ( this.requestType == EquipmentRequest.REMOVE_ITEM &&
 		     EquipmentManager.getEquipment( this.equipmentSlot ).equals( EquipmentRequest.UNEQUIP ) )
 		{
-			return null;
+			return;
 		}
 
 		switch ( this.requestType )
@@ -835,7 +835,7 @@ public class EquipmentRequest
 				{
 					// Not an error
 					KoLmafia.updateDisplay( result );
-					return null;
+					return;
 				}
 
 				if ( result.indexOf( "You put on part of" ) != -1 )
@@ -845,7 +845,7 @@ public class EquipmentRequest
 					{
 						CharPaneRequest.getInstance().run();
 					}
-					return null;
+					return;
 				}
 
 				// It appears you're already wearing all the
@@ -856,7 +856,7 @@ public class EquipmentRequest
 				if ( result.indexOf( "which you possess or can wear" ) != -1 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already wearing as much of that outfit as you can." );
-					return null;
+					return;
 				}
 
 				if ( result.indexOf( "You put" ) == -1 &&
@@ -867,7 +867,7 @@ public class EquipmentRequest
 				     result.indexOf( "fold it into an impromptu sword" ) == -1 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, result );
-					return null;
+					return;
 				}
 			}
 
@@ -899,7 +899,6 @@ public class EquipmentRequest
 
 			break;
 		}
-		return null;
 	}
 
 	public void processResults()

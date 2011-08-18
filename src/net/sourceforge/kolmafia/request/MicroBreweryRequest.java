@@ -102,16 +102,15 @@ public class MicroBreweryRequest
 		this.setItem( name, itemId, price );
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( !KoLCharacter.gnomadsAvailable() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find " + this.name );
-			return null;
+			return;
 		}
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()

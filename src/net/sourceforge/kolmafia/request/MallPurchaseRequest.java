@@ -131,23 +131,21 @@ public class MallPurchaseRequest
 		return whichItem.toString();
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.shopId == KoLCharacter.getUserId() )
 		{
-			return null;
+			return;
 		}
 
 		this.itemSequenceCount = ResultProcessor.itemSequenceCount;
 		this.addFormField( "quantity", String.valueOf( this.limit ) );
-
-		return super.run();
 	}
 
 	public void processResults()
 	{
 		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
-		
+
 		if ( quantityAcquired > 0 )
 		{
 			ResultProcessor.processMeat( -1 * this.getPrice() * quantityAcquired );
@@ -155,7 +153,7 @@ public class MallPurchaseRequest
 
 			return;
 		}
-		
+
 		if ( this.itemSequenceCount != ResultProcessor.itemSequenceCount )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,

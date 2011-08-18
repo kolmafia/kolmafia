@@ -75,7 +75,7 @@ public class CakeArenaRequest
 		this.isCompetition = true;
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( !this.isCompetition )
 		{
@@ -83,7 +83,6 @@ public class CakeArenaRequest
 		}
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()

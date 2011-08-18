@@ -153,23 +153,23 @@ public class CoinMasterPurchaseRequest
 		this.setCanPurchase( tokens >= price );
 	}
 
-	public Object run()
+	public void run()
 	{
 		if ( this.request == null )
 		{
-			return null;
+			return;
 		}
 
 		if ( this.limit < 1 )
 		{
-			return null;
+			return;
 		}
 
 		// Make sure we have enough tokens to buy what we want.
 		if ( this.data.availableTokens() < this.limit * this.price )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that." );
-			return null;
+			return;
 		}
 
 		// Make sure the Coin Master is accessible
@@ -177,7 +177,7 @@ public class CoinMasterPurchaseRequest
 		if ( message != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-			return null;
+			return;
 		}
 
 		// Now that we're ready, make the purchase!
@@ -188,7 +188,5 @@ public class CoinMasterPurchaseRequest
 		this.request.setQuantity( this.limit );
 
 		RequestThread.postRequest( this.request );
-
-		return null;
 	}
 }

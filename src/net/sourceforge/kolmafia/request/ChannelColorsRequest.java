@@ -81,13 +81,13 @@ public class ChannelColorsRequest
 		super( "account_chatcolors.php" );
 	}
 
-	public Object run()
+	public void run()
 	{
 		super.run();
 
 		if ( this.responseText == null )
 		{
-			return null;
+			return;
 		}
 
 		// First, add in all the colors for all of the
@@ -121,7 +121,6 @@ public class ChannelColorsRequest
 		{
 			this.setColor( "chatcolorothers", StringUtilities.parseInt( colorMatcher.group( 1 ) ) );
 		}
-		return null;
 	}
 
 	private void setColor( final String channel, final int colorIndex )

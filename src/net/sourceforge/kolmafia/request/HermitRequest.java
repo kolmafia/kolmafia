@@ -218,7 +218,7 @@ public class HermitRequest
 	 * will report an error to the StaticEntity.getClient().
 	 */
 
-	public Object run()
+	public void run()
 	{
 		// If we have a hermit script, read it now
 		if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
@@ -240,7 +240,7 @@ public class HermitRequest
 
 		if ( HermitRequest.getWorthlessItemCount( false ) == 0 )
 		{
-			return null;
+			return;
 		}
 
 		if ( this.quantity > 0 )
@@ -249,8 +249,6 @@ public class HermitRequest
 		}
 
 		super.run();
-
-		return null;
 	}
 
 	public void processResults()
@@ -485,7 +483,7 @@ public class HermitRequest
 
 	public static final int getWorthlessItemCount( boolean all )
 	{
-		int count = 
+		int count =
 			HermitRequest.TRINKET.getCount( KoLConstants.inventory ) +
 			HermitRequest.GEWGAW.getCount( KoLConstants.inventory ) +
 			HermitRequest.KNICK_KNACK.getCount( KoLConstants.inventory );

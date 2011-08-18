@@ -89,18 +89,17 @@ public class MultiUseRequest
 		this.constructURLString( this.getURLString() );
 	}
 
-	public Object run()
+	public void run()
 	{
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 
 		if ( !this.makeIngredients() )
 		{
-			return null;
+			return;
 		}
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()

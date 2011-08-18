@@ -128,17 +128,16 @@ public class HiddenCityRequest
 		}
 	}
 
-	public Object run()
+	public void run()
 	{
 		this.reconstructFields();
 
 		if ( !KoLmafia.permitsContinue() )
 		{
-			return null;
+			return;
 		}
 
 		super.run();
-		return null;
 	}
 
 	public static final void validateHiddenCity()
@@ -386,7 +385,7 @@ public class HiddenCityRequest
 		// L (lightning) - altar of Pikachutlotal
 		// W (water) - altar of Squirtlcthulli
 		// F (fire) - altar of Charcoatl
-		// R - unspecified altaR 
+		// R - unspecified altaR
 		// P - protector spirit
 		// D - defeated protector spirit
 		// T - temple

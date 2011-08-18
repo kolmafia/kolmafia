@@ -73,7 +73,7 @@ public class CreateItemRequest
 	public static final Pattern MODE_PATTERN = Pattern.compile( "mode=([^&]+)" );
 	public static final Pattern CRAFT_PATTERN_1 = Pattern.compile( "[\\&\\?](?:a|b)=(\\d+)" );
 	public static final Pattern CRAFT_PATTERN_2 = Pattern.compile( "steps\\[\\]=(\\d+),(\\d+)" );
-	
+
 	public static final Pattern CRAFT_COMMENT_PATTERN =
 		Pattern.compile( "<!-- ?cr:(\\d+)x(-?\\d+),(-?\\d+)=(\\d+) ?-->" );
 	// 1=quantity, 2,3=items used, 4=result (redundant)
@@ -96,7 +96,7 @@ public class CreateItemRequest
 		{ ItemPool.DOUGH, ItemPool.ROLLING_PIN, ItemPool.FLAT_DOUGH },
 		{ ItemPool.FLAT_DOUGH, ItemPool.UNROLLING_PIN, ItemPool.DOUGH }
 	};
-	
+
 	private static boolean makingDough = false;
 
 	/**
@@ -249,7 +249,7 @@ public class CreateItemRequest
 			ConcoctionDatabase.excuse = null;
 			return null;
 		}
-		
+
 		CreateItemRequest instance = conc.getRequest();
 
 		if ( instance == null )
@@ -367,11 +367,11 @@ public class CreateItemRequest
 	 * method will fail.
 	 */
 
-	public Object run()
+	public void run()
 	{
 		if ( !KoLmafia.permitsContinue() || this.quantityNeeded <= 0 )
 		{
-			return null;
+			return;
 		}
 
 		// Validate the ingredients once for the item
@@ -382,7 +382,7 @@ public class CreateItemRequest
 		     method != KoLConstants.ROLLING_PIN &&
 		     !this.makeIngredients() )
 		{
-			return null;
+			return;
 		}
 
 		int createdQuantity = 0;
@@ -392,7 +392,7 @@ public class CreateItemRequest
 			if ( !this.autoRepairBoxServant() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Auto-repair was unsuccessful." );
-				return null;
+				return;
 			}
 
 			this.reconstructFields();
@@ -444,14 +444,13 @@ public class CreateItemRequest
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
 				}
 
-				return null;
+				return;
 			}
 
 			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
 			this.quantityNeeded -= createdQuantity;
 		}
 		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() );
-		return null;
 	}
 
 	public boolean noCreation()
@@ -484,13 +483,13 @@ public class CreateItemRequest
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Can't deduce correct tool to use." );
 			return;
 		}
-		
+
 		if ( CreateItemRequest.makingDough )
 		{	// recursive call
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough dough." );
 			return;
 		}
-		
+
 		CreateItemRequest.makingDough = true;
 		if ( !InventoryManager.retrieveItem( input, this.quantityNeeded ) )
 		{
@@ -625,7 +624,7 @@ public class CreateItemRequest
 		{
 			m = DISCOVERY_PATTERN.matcher( responseText );
 			while ( m.find() )
-			{		
+			{
 				int id = ItemDatabase.getItemIdFromDescription( m.group( 1 ) );
 				String pref = "unknownRecipe" + id;
 				if ( id > 0 && Preferences.getBoolean( pref ) )
@@ -636,10 +635,10 @@ public class CreateItemRequest
 					ConcoctionDatabase.refreshConcoctions();
 				}
 			}
-		
+
 			return 0;
 		}
-		
+
 		boolean paste = mode.equals( "combine" ) && !KoLCharacter.knollAvailable();
 		int created = 0;
 
@@ -675,7 +674,7 @@ public class CreateItemRequest
 			else
 			{
 				RequestLogger.updateSessionLog( "Crafting used " + qty + " each of " +
-								ItemDatabase.getItemName( item1 ) + " and " + 
+								ItemDatabase.getItemName( item1 ) + " and " +
 								ItemDatabase.getItemName( item2 ) );
 			}
 			String pref = "unknownRecipe" + m.group( 4 );
@@ -783,7 +782,7 @@ public class CreateItemRequest
 		{
 			return false;
 		}
-		
+
 		if ( ( mixingMethod & KoLConstants.CR_HAMMER) != 0 &&
 		     !InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
 		{

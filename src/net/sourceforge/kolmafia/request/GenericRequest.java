@@ -102,7 +102,7 @@ import com.velocityreviews.forums.HttpTimeoutClient;
 import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class GenericRequest
-	extends Job
+	implements Runnable
 {
 	// Used in many requests. Here for convenience and non-duplication
 	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
@@ -958,11 +958,11 @@ public class GenericRequest
 	 * handling will occur through these method calls.
 	 */
 
-	public Object run()
+	public void run()
 	{
 		if ( GenericRequest.serverCookie == null && !( this instanceof LoginRequest ) )
 		{
-			return null;
+			return;
 		}
 
 		this.timeoutCount = 0;
@@ -1034,7 +1034,7 @@ public class GenericRequest
 				}
 
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-				return null;
+				return;
 			}
 		}
 
@@ -1116,7 +1116,7 @@ public class GenericRequest
 			Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( location );
 			if ( !itemMatcher.find() )
 			{
-				return null;
+				return;
 			}
 			int comedyItemID = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
@@ -1124,7 +1124,7 @@ public class GenericRequest
 			boolean offhand = false;
 			switch( comedyItemID )
 			{
-			case ItemPool.INSULT_PUPPET: 
+			case ItemPool.INSULT_PUPPET:
 				comedy = "insult";
 				offhand = true;
 				break;
@@ -1136,7 +1136,7 @@ public class GenericRequest
 				break;
 			default:
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "\""+ comedyItemID +"\" is not a comedy item number that Mafia recognizes." );
-				return null;
+				return;
 			}
 
 			AdventureResult comedyItem = ItemPool.get( comedyItemID, 1 );
@@ -1170,7 +1170,7 @@ public class GenericRequest
 			if ( text != null )
 			{
 				this.responseText = text;
-				return null;
+				return;
 			}
 		}
 
@@ -1189,13 +1189,13 @@ public class GenericRequest
 
 		if ( this.responseCode != 200 )
 		{
-			return null;
+			return;
 		}
 
 		if ( this.responseText == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Server " + KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
-			return null;
+			return;
 		}
 
 		// Call central dispatch method for locations that require
@@ -1215,7 +1215,6 @@ public class GenericRequest
 
 		this.formatResponse();
 		KoLCharacter.updateStatus();
-		return null;
 	}
 
 	public void execute()
@@ -1851,7 +1850,7 @@ public class GenericRequest
 
 		if ( this.formURLString.startsWith( "charpane.php" ) )
 		{
-			CharPaneRequest.processResults( this.responseText );	
+			CharPaneRequest.processResults( this.responseText );
 		}
 
 		if ( !this.isChatRequest && !this.formURLString.startsWith( "fight.php" ) )
@@ -2160,7 +2159,7 @@ public class GenericRequest
 		// Only show the request if the response code is
 		// 200 (not a redirect or error).
 
-		boolean showRequestSync = 
+		boolean showRequestSync =
 			Preferences.getBoolean( "showAllRequests" ) ||
 				( exceptional && Preferences.getBoolean( "showExceptionalRequests" ) );
 

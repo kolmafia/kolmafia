@@ -88,7 +88,7 @@ public class ClanRumpusRequest
 
 	private static final Pattern TURN_PATTERN = Pattern.compile( "numturns=(\\d+)" );
 
-	public static final String[][] EQUIPMENT = 
+	public static final String[][] EQUIPMENT =
 	{
 		// Row 1, Column 1: Spot 1
 		{
@@ -98,7 +98,7 @@ public class ClanRumpusRequest
 			"Exotic Hanging Meat Orchid",
 		},
 		// Row 1, Column 2: Spot 2
-		{ 
+		{
 			"Collection of Arcane Tomes and Whatnot",
 			"Collection of Sports Memorabilia",
 			"Collection of Self-Help Books"
@@ -137,7 +137,7 @@ public class ClanRumpusRequest
 		},
 	};
 
-	public static final int[][] MAXIMUM_USAGE = 
+	public static final int[][] MAXIMUM_USAGE =
 	{
 		// Row 1, Column 1: Spot 1
 		{ 0, 0, 0, 1 },
@@ -243,7 +243,7 @@ public class ClanRumpusRequest
 		return this.turnCount;
 	}
 
-	public Object run()
+	public void run()
 	{
 		switch ( this.action )
 		{
@@ -325,7 +325,7 @@ public class ClanRumpusRequest
 			if ( KoLCharacter.getAdventuresLeft() < this.turnCount )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient adventures." );
-				return null;
+				return;
 			}
 		}
 
@@ -335,7 +335,6 @@ public class ClanRumpusRequest
 		}
 
 		super.run();
-		return null;
 	}
 
 	public void processResults()
@@ -464,7 +463,7 @@ public class ClanRumpusRequest
 					continue;
 				}
 
-				
+
 				// If the equipment is not present, skip it
 				if ( request.responseText.indexOf( "rump" + i + "_" + j + ".gif" ) == -1 )
 				{

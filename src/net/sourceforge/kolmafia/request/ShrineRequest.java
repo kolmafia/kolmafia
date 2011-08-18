@@ -166,21 +166,19 @@ public class ShrineRequest
 	 * fails; it merely parses the results to see if any gains were made.
 	 */
 
-	public Object run()
+	public void run()
 	{
 		if ( !this.hasStatueKey )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the appropriate key." );
-			return null;
+			return;
 		}
 		super.run();
-		return null;
-
 	}
 
 	public void processResults()
 	{
-                String error = ShrineRequest.parseResponse( this.getURLString(), this.responseText ); 
+                String error = ShrineRequest.parseResponse( this.getURLString(), this.responseText );
                 if ( error != null )
                 {
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
