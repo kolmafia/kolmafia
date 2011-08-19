@@ -2857,6 +2857,12 @@ public class UseItemRequest
 			return;
 		}
 
+		case ItemPool.TEACHINGS_OF_THE_FIST:
+			// You learn a different skill from each scroll
+			Preferences.increment( "fistSkillsKnown", 1 );
+			StaticEntity.learnSkillFromResponse( responseText );
+			return;
+
 		case ItemPool.SLIME_SOAKED_HYPOPHYSIS:
 		case ItemPool.SLIME_SOAKED_BRAIN:
 		case ItemPool.SLIME_SOAKED_SWEAT_GLAND:

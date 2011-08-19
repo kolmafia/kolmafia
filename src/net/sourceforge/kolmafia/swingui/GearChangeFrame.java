@@ -667,6 +667,12 @@ public class GearChangeFrame
 	{
 		List items = new ArrayList();
 
+		if ( KoLCharacter.inFistcore() )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+			return items;
+		}
+
 		// Search inventory for weapons
 
 		int equipStat;
@@ -743,6 +749,12 @@ public class GearChangeFrame
 	private List validOffhandItems( final AdventureResult weapon, final AdventureResult offhandItem )
 	{
 		List items = new ArrayList();
+
+		if ( KoLCharacter.inFistcore() )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+			return items;
+		}
 
 		// Find all offhand items that are compatible with the selected
 		// weapon.

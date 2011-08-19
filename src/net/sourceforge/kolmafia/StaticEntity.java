@@ -156,6 +156,8 @@ public abstract class StaticEntity
 	private static final Pattern NEWSKILL1_PATTERN =
 		Pattern.compile( "<td>You (have learned|learn) a new skill: <b>(.*?)</b>" );
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
+
+	// You acquire a skill:&nbsp;&nbsp;</td><td><img src="http://images.kingdomofloathing.com/itemimages/wosp_stink.gif" onClick='javascript:poop("desc_skill.php?whichskill=67&self=true","skill", 350, 300)' width=30 height=30></td><td><b><a onClick='javascript:poop("desc_skill.php?whichskill=67&self=true","skill", 350, 300)'>Stinkpalm</a></b>
 	private static final Pattern NEWSKILL3_PATTERN =
 		Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
 	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
@@ -948,6 +950,29 @@ public abstract class StaticEntity
 			return;
 		}
 
+		// Unfortunately, if you learn a new skill from Frank
+		// the Regnaissance Gnome at the Gnomish Gnomads
+		// Camp, it doesn't tell you the name of the skill.
+		// It simply says: "You leargn a new skill. Whee!"
+
+		if ( responseText.indexOf( "You leargn a new skill." ) != -1 )
+		{
+			Matcher matcher = StaticEntity.NEWSKILL2_PATTERN.matcher( location );
+			if ( matcher.find() )
+			{
+				int skillId = StringUtilities.parseInt( matcher.group( 1 ) );
+				String skillName = SkillDatabase.getSkillName( skillId );
+				StaticEntity.learnSkill( skillName );
+				return;
+			}
+		}
+
+		StaticEntity.learnSkillFromResponse( responseText );
+	}
+
+	public static void learnSkillFromResponse( final String responseText )
+	{
+
 		Matcher matcher = StaticEntity.NEWSKILL1_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
@@ -960,23 +985,6 @@ public abstract class StaticEntity
 		{
 			StaticEntity.learnSkill( matcher.group( 1 ) );
 			return;
-		}
-
-		// Unfortunately, if you learn a new skill from Frank
-		// the Regnaissance Gnome at the Gnomish Gnomads
-		// Camp, it doesn't tell you the name of the skill.
-		// It simply says: "You leargn a new skill. Whee!"
-
-		if ( responseText.indexOf( "You leargn a new skill." ) != -1 )
-		{
-			matcher = StaticEntity.NEWSKILL2_PATTERN.matcher( location );
-			if ( matcher.find() )
-			{
-				int skillId = StringUtilities.parseInt( matcher.group( 1 ) );
-				String skillName = SkillDatabase.getSkillName( skillId );
-				StaticEntity.learnSkill( skillName );
-				return;
-			}
 		}
 	}
 
