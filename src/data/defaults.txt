@@ -277,6 +277,7 @@ user	cameraMonster
 user	camerasUsed	0
 user	carboLoading	0
 user	cellarLayout	0
+user	charitableDonations	0
 user	chatbotScript
 user	chatbotScriptExecuted	false
 user	chefTurnsUsed	0
@@ -327,6 +328,7 @@ user	dolphinItem
 user	doorCode
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
+user	fistSkillsKnown	0
 user	flyeredML	0
 user	fossilB	0
 user	fossilD	0

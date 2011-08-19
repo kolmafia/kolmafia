@@ -784,6 +784,19 @@ public class SkillDatabase
 			// Nemesis skills
 			return false;
 
+		case 64:	// Miyagi Massage
+		case 65:	// Salamander Kata
+		case 66:	// Flying Fire Fist
+		case 67:	// Stinkpalm
+		case 68:	// Seven-Finger Strike
+		case 69:	// Knuckle Sandwich
+		case 70:	// Chilled Monkey Brain Technique
+		case 71:	// Drunken Baby Style
+		case 72:	// Worldpunch
+		case 73:	// Zendo Kobushi Kancho
+			// Way of the Stunning Fist skills
+			return false;
+
 		case 2103:	// Head + Knee Combo
 		case 2105:	// Head + Shield Combo
 		case 2106:	// Knee + Shield Combo

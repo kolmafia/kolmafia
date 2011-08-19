@@ -2616,6 +2616,8 @@ Drunk With Power	Spell Damage Percent: +100
 Duct Out of Water	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
+# Earthen Fist: +10 damage to Fist techniques
+# Earthen Fist: Allows you to punch rocks without hurting yourself
 # Earworm: Get them out! Get them out!
 Easily Embarrassed	Sleaze Vulnerability
 Eau D'enmity	Monster Level: +5
@@ -2990,9 +2992,11 @@ Red Tongue	Meat Drop: +50
 Reedy Pipes	Moxie Percent: +5
 Refuse Reflux	Stench Damage: [min(100,T)]
 Reptilian Fortitude	Maximum HP: +30
+Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Rushin' Hands	Weapon Damage: +3
 Salamander In Your Stomach	Mysticality: +25
+Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
 # Salty Dogs: Makes you a better diver
 Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
 # Salty Mouth: You really need a beer...

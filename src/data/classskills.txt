@@ -76,6 +76,17 @@
 61	Offensive Joke	5	15	0
 62	Managerial Manipulation	4	5	20
 63	Natural Born Skeleton Killer	0	0	0
+64	Miyagi Massage	3	5	1
+65	Salamander Kata	3	5	1
+66	Flying Fire Fist	5	0	0
+67	Stinkpalm	5	0	0
+68	Seven-Finger Strike	5	0	0
+69	Knuckle Sandwich	5	0	0
+70	Chilled Monkey Brain Technique	5	0	0
+71	Drunken Baby Style	5	0	0
+72	Worldpunch	3	11	1
+73	Zendo Kobushi Kancho	5	0	0
+74	Master of the Surprising Fist	0	0	0
 
 # Skills available to Clubbers
 
