@@ -358,13 +358,19 @@ public class AutoSellRequest
 			quantity = 0;
 		}
 
-		TransferItemRequest.transferItems( urlString, 
+		ArrayList itemList = TransferItemRequest.getItemList( urlString,
 			TransferItemRequest.ITEMID_PATTERN,
 			null,
-			KoLConstants.inventory, null, quantity );
+			KoLConstants.inventory, quantity );
 
-		KoLCharacter.updateStatus();
-		ConcoctionDatabase.refreshConcoctions();
+		if ( !itemList.isEmpty() )
+		{
+			TransferItemRequest.transferItems( itemList, KoLConstants.inventory, null );
+			AutoSellRequest.processMeat( itemList, null );
+			KoLCharacter.updateStatus();
+			ConcoctionDatabase.refreshConcoctions();
+		}
+
 		return true;
 	}
 
@@ -387,28 +393,60 @@ public class AutoSellRequest
 			quantity = -1;
 		}
 
-		TransferItemRequest.transferItems( urlString, 
+		ArrayList itemList = TransferItemRequest.getItemList( urlString,
 			AutoSellRequest.EMBEDDED_ID_PATTERN,
 			null,
-			KoLConstants.inventory, null, quantity );
+			KoLConstants.inventory, quantity );
+
+		if ( !itemList.isEmpty() )
+		{
+			TransferItemRequest.transferItems( itemList, KoLConstants.inventory, null );
+			AutoSellRequest.processMeat( itemList, responseText );
+			KoLCharacter.updateStatus();
+			ConcoctionDatabase.refreshConcoctions();
+		}
+
+		return true;
+	}
+
+	private static void processMeat( ArrayList itemList, String responseText )
+	{
+		if ( KoLCharacter.inFistcore() )
+		{
+			int donation = 0;
+
+			for ( int i = 0; i < itemList.size(); ++i )
+			{
+				AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+				int price = ItemDatabase.getPriceById( item.getItemId() );
+				int count = item.getCount();
+				donation += price * count;
+			}
+
+			KoLCharacter.makeCharitableDonation( donation );
+			return;
+		}
+
+		if ( responseText == null )
+		{
+			return;
+		}
 
 		// "You sell your 2 disturbing fanfics to an organ
 		// grinder's monkey for 264 Meat."
 
 		Matcher matcher = AutoSellRequest.AUTOSELL_PATTERN.matcher( responseText );
-		if ( matcher.find() )
+		if ( !matcher.find() )
 		{
-			int amount = StringUtilities.parseInt( matcher.group( 1 ) );
-			ResultProcessor.processMeat( amount );
-
-			String message = "You gain " + KoLConstants.COMMA_FORMAT.format( amount ) + " Meat";
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
+			return;
 		}
 
-		KoLCharacter.updateStatus();
-		ConcoctionDatabase.refreshConcoctions();
-		return true;
+		int amount = StringUtilities.parseInt( matcher.group( 1 ) );
+		ResultProcessor.processMeat( amount );
+
+		String message = "You gain " + KoLConstants.COMMA_FORMAT.format( amount ) + " Meat";
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 	}
 
 	public boolean allowMementoTransfer()
