@@ -142,6 +142,8 @@ public class MallPurchaseRequest
 
 		this.itemSequenceCount = ResultProcessor.itemSequenceCount;
 		this.addFormField( "quantity", String.valueOf( this.limit ) );
+
+		super.run();
 	}
 
 	public void processResults()
