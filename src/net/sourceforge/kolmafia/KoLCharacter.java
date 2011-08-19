@@ -2681,6 +2681,15 @@ public abstract class KoLCharacter
 			KoLCharacter.ascensionPath.equals( "Way of the Surprising Fist" );
 	}
 
+	public static final void makeCharitableDonation( final int amount )
+	{
+		if ( amount > 0 )
+		{
+			Preferences.increment( "charitableDonations", amount );
+			Preferences.increment( "totalCharitableDonations", amount );
+		}
+	}
+
 	public static final void setPath( final String path )
 	{
 		KoLCharacter.ascensionPath = path;
