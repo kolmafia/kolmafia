@@ -1529,6 +1529,103 @@ public class ResultProcessor
 	{
 		int donation = 0;
 
+		// ITEMS
+
+		// Dolphin King's map:
+		//
+		// The treasure includes some Meat, but you give it away to
+		// some moist orphans. They need it to buy dry clothes.
+
+		if ( responseText.indexOf( "give it away to moist orphans" ) != -1 )
+		{
+			donation += 150;
+		}
+
+		// chest of the Bonerdagon:
+		//
+		// The Cola Wars Veterans Administration is really gonna
+		// appreciate the huge donation you're about to make!
+
+		if ( responseText.indexOf( "Cola Wars Veterans Administration" ) != -1 )
+		{
+			donation += 3000;
+		}
+
+		// ancient vinyl coin purse
+		//
+		// You head into town and give the Meat to a guy wearing thick
+		// glasses and a tie. Maybe now he'll be able to afford eye
+		// surgery and a new wardrobe.
+		//
+		// black pension check
+		//
+		// You head back to the Black Forest and give the proceeds to
+		// one of the black widows. Any given widow is more or less the
+		// same as any other widow, right?
+		//
+		// old coin purse
+		//
+		// You wander around town until you find somebody named
+		// Charity, and give her the Meat.
+		//
+		// old leather wallet
+		//
+		// You take the Meat to a soup kitchen and hand it to the first
+		// person you see. He smelled bad, so he was probably a
+		// volunteer.
+		//
+		// orcish meat locker
+		//
+		// You unlock the Meat locker with your rusty metal key, and
+		// then dump the contents directly into a charity box at a
+		// nearby convenience store. Those kids with boneitis are sure
+		// to appreciate the gesture.
+		//
+		// Penultimate Fantasy chest
+		//
+		// There some Meat in it, but you drop it off the side of the
+		// airship. It'll probably land on someone needy.
+		//
+		// Warm Subject gift certificate
+		//
+		// Then you walk next door to the hat store, and you give the
+		// hat store all of your Meat. We need all kinds of things in
+		// this economy.
+
+		// QUESTS
+
+		// Spooky Forest quest:
+		//
+		// Thanks for the larva, Adventurer. We'll put this to good use.
+
+		if ( responseText.indexOf( "Thanks for the larva, Adventurer" ) != -1 &&
+		     responseText.indexOf( "You gain" ) == -1 )
+		{
+			donation += 500;
+		}
+
+		// Wizard of Ego:
+		//
+		// (500 meat for returning the key the first time)
+
+		// Nemesis:
+		//
+		// (1000 meat to buy a tenderizing hammer)
+
+		// Tr4pz0r quest:
+		//
+		// The furs you divide up between yourself and the Tr4pz0r, the
+		// Meat you divide up between the Tr4pz0r and the needy.
+
+		if ( responseText.indexOf( "you divide up between the Tr4pz0r and the needy" ) != -1 )
+		{
+			donation += 5000;
+		}
+
+		// Cap'n Caronch:
+		//
+		// (3000 meat with pirate fledges)
+
 		// Post-filthworm orchard:
 		//
 		// Oh, hey, boss! Welcome back! Hey man, we don't want to
