@@ -186,7 +186,8 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "shore.php" ) )
 		{
-			if ( KoLCharacter.getAdventuresLeft() < 3 )
+			int adv = KoLCharacter.inFistcore() ? 5 : 3;
+			if ( KoLCharacter.getAdventuresLeft() < adv )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of adventures." );
 				return;
@@ -410,7 +411,10 @@ public class AdventureRequest
 		}
 
 		// Shore Trips cost 500 meat each
-		ResultProcessor.processMeat( -500 );
+		if ( !KoLCharacter.inFistcore() )
+		{
+			ResultProcessor.processMeat( -500 );
+		}
 
 		// If we did not get a tower item and were already counting
 		// down, keep the existing counter.
@@ -426,7 +430,8 @@ public class AdventureRequest
 		// We want an interval of 35. This is called before we account
 		// for the 3 vacations spend adventuring.
 		TurnCounter.stopCounting( "The Shore" );
-		TurnCounter.startCounting( 38, "The Shore loc=* shore.php", "dinghy.gif" );
+		int adv = KoLCharacter.inFistcore() ? 5 : 3;
+		TurnCounter.startCounting( 35 + adv, "The Shore loc=* shore.php", "dinghy.gif" );
 	}
 
 	public static final String registerEncounter( final GenericRequest request )

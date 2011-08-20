@@ -934,6 +934,10 @@ public class GenericRequest
 		return -1;
 	}
 
+	public void reconstructFields()
+	{
+	}
+
 	/**
 	 * Runs the thread, which prepares the connection for output, posts the data to the Kingdom of Loathing, and
 	 * prepares the input for reading. Because the Kingdom of Loathing has identical page layouts, all page reading and

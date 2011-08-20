@@ -257,7 +257,7 @@ public class CreateItemRequest
 		if ( instance == null )
 		{
 			ConcoctionDatabase.excuse = null;
-			return instance;
+			return null;
 		}
 
 		if ( instance instanceof CombineMeatRequest )
