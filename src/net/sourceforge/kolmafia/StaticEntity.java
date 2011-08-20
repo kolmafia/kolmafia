@@ -159,7 +159,7 @@ public abstract class StaticEntity
 
 	// You acquire a skill:&nbsp;&nbsp;</td><td><img src="http://images.kingdomofloathing.com/itemimages/wosp_stink.gif" onClick='javascript:poop("desc_skill.php?whichskill=67&self=true","skill", 350, 300)' width=30 height=30></td><td><b><a onClick='javascript:poop("desc_skill.php?whichskill=67&self=true","skill", 350, 300)'>Stinkpalm</a></b>
 	private static final Pattern NEWSKILL3_PATTERN =
-		Pattern.compile( "You (?:gain|acquire) a skill: +<[bB]>(.*?)</[bB]>" );
+		Pattern.compile( "You (?:gain|acquire) a skill:.*?<[bB]>(?:<a[^>]*>)?(.*?)(?:</a>)?</[bB]>" );
 	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
 	private static final Pattern RECIPE2_PATTERN = Pattern.compile( "You have discovered a new recipe: <b>(.*?)</b>" );
 	private static final Pattern DESCITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
