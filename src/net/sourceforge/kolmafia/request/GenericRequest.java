@@ -1824,6 +1824,9 @@ public class GenericRequest
 
 	public void processResponse()
 	{
+		String urlString = this.getURLString();
+		boolean hasResult = StaticEntity.hasResult( this.formURLString );
+
 		if ( this.shouldUpdateDebugLog() )
 		{
 			String text = this.responseText;
@@ -1834,12 +1837,12 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( text );
 		}
 
-		if ( this.formURLString.startsWith( "charpane.php" ) )
+		if ( urlString.startsWith( "charpane.php" ) )
 		{
 			CharPaneRequest.processResults( this.responseText );
 		}
 
-		if ( !this.isChatRequest && !this.formURLString.startsWith( "fight.php" ) )
+		if ( !this.isChatRequest && !urlString.startsWith( "fight.php" ) )
 		{
 			this.responseText = EventManager.checkForNewEvents( this.responseText );
 		}
@@ -1852,13 +1855,13 @@ public class GenericRequest
 
 		this.encounter = AdventureRequest.registerEncounter( this );
 
-		if ( this.formURLString.startsWith( "fight.php" ) )
+		if ( urlString.startsWith( "fight.php" ) )
 		{
-			FightRequest.updateCombatData( this.getURLString(), this.encounter, this.responseText );
+			FightRequest.updateCombatData( urlString, this.encounter, this.responseText );
 		}
-		else if ( this.formURLString.startsWith( "shore.php" ) )
+		else if ( urlString.startsWith( "shore.php" ) )
 		{
-			AdventureRequest.handleShoreVisit( this.getURLString(), this.responseText );
+			AdventureRequest.handleShoreVisit( urlString, this.responseText );
 		}
 
 		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
@@ -1869,7 +1872,7 @@ public class GenericRequest
 
 		int effectCount = KoLConstants.activeEffects.size();
 
-		if ( StaticEntity.hasResult( this.formURLString ) )
+		if ( hasResult )
 		{
 			int initialHP = KoLCharacter.getCurrentHP();
 			this.parseResults();
@@ -1886,7 +1889,7 @@ public class GenericRequest
 			}
 		}
 
-		if ( this.formURLString.startsWith( "fight.php" ) )
+		if ( urlString.startsWith( "fight.php" ) )
 		{	// This has to be done after parseResults() to properly
 			// deal with combat items received during combat.
 			FightRequest.parseCombatItems( this.responseText );
@@ -1907,7 +1910,7 @@ public class GenericRequest
 
 		// Let clover protection kick in if needed
 
-		if ( ResultProcessor.shouldDisassembleClovers( this.getURLString() ) )
+		if ( ResultProcessor.shouldDisassembleClovers( urlString ) )
 		{
 			KoLmafia.protectClovers();
 		}
@@ -1915,20 +1918,20 @@ public class GenericRequest
 		// Check for random donations in Fistcore
 		if ( KoLCharacter.inFistcore() )
 		{
-			ResultProcessor.handleDonations( this.responseText );
+			ResultProcessor.handleDonations( urlString, this.responseText );
 		}
 
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( !StaticEntity.hasResult( this.formURLString ) || GenericRequest.suppressUpdate )
+		if ( !hasResult || GenericRequest.suppressUpdate )
 		{
 			return;
 		}
 
 		if ( this instanceof RelayRequest )
 		{
-			if ( !this.formURLString.startsWith( "basement.php" ) )
+			if ( !urlString.startsWith( "basement.php" ) )
 			{
 				return;
 			}

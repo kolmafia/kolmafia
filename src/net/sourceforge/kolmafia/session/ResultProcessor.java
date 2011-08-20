@@ -1525,10 +1525,8 @@ public class ResultProcessor
 	}
 
 	private static Pattern HIPPY_PATTERN = Pattern.compile( "we donated (\\d+) meat" );
-	public static void handleDonations( final String responseText )
+	public static void handleDonations( final String urlString, final String responseText )
 	{
-		int donation = 0;
-
 		// ITEMS
 
 		// Dolphin King's map:
@@ -1538,7 +1536,8 @@ public class ResultProcessor
 
 		if ( responseText.indexOf( "give it away to moist orphans" ) != -1 )
 		{
-			donation += 150;
+			KoLCharacter.makeCharitableDonation( 150 );
+			return;
 		}
 
 		// chest of the Bonerdagon:
@@ -1548,7 +1547,8 @@ public class ResultProcessor
 
 		if ( responseText.indexOf( "Cola Wars Veterans Administration" ) != -1 )
 		{
-			donation += 3000;
+			KoLCharacter.makeCharitableDonation( 3000 );
+			return;
 		}
 
 		// ancient vinyl coin purse
@@ -1601,16 +1601,25 @@ public class ResultProcessor
 		if ( responseText.indexOf( "Thanks for the larva, Adventurer" ) != -1 &&
 		     responseText.indexOf( "You gain" ) == -1 )
 		{
-			donation += 500;
+			KoLCharacter.makeCharitableDonation( 500 );
+			return;
 		}
 
-		// Wizard of Ego:
+		// Wizard of Ego: from the "Other Class in the Guild" -> place=ocg
+		// Nemesis: from the "Same Class in the Guild" -> place=scg
 		//
-		// (500 meat for returning the key the first time)
+		// You take the Meat into town and drop it in the donation slot
+		// at the orphanage. You know, the one next to the library.
 
-		// Nemesis:
-		//
-		// (1000 meat to buy a tenderizing hammer)
+		if ( responseText.indexOf( "the one next to the library" ) != -1 )
+		{
+			int donation = 
+				urlString.indexOf( "place=ocg" ) != -1 ? 500 :
+				urlString.indexOf( "place=scg" ) != -1 ? 1000 :
+				0;
+			KoLCharacter.makeCharitableDonation( donation );
+			return;
+		}
 
 		// Tr4pz0r quest:
 		//
@@ -1619,7 +1628,8 @@ public class ResultProcessor
 
 		if ( responseText.indexOf( "you divide up between the Tr4pz0r and the needy" ) != -1 )
 		{
-			donation += 5000;
+			KoLCharacter.makeCharitableDonation( 5000 );
+			return;
 		}
 
 		// Cap'n Caronch:
@@ -1636,12 +1646,9 @@ public class ResultProcessor
 		Matcher matcher = ResultProcessor.HIPPY_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
-			donation += StringUtilities.parseInt( matcher.group( 1 ) );
-		}
-
-		if ( donation > 0 )
-		{
+			int donation = StringUtilities.parseInt( matcher.group( 1 ) );
 			KoLCharacter.makeCharitableDonation( donation );
+			return;
 		}
 	}
 
