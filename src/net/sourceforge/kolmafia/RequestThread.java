@@ -60,6 +60,9 @@ public abstract class RequestThread
 			return;
 		}
 
+		// Make sure there is a URL string in the request
+		request.reconstructFields();
+
 		if ( RequestThread.sequenceCount == 0 && StaticEntity.hasResult( request.getURLString() ) )
 		{
 			KoLmafia.forceContinue();
