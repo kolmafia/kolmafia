@@ -1912,6 +1912,12 @@ public class GenericRequest
 			KoLmafia.protectClovers();
 		}
 
+		// Check for random donations in Fistcore
+		if ( KoLCharacter.inFistcore() )
+		{
+			ResultProcessor.handleDonations( this.responseText );
+		}
+
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 

@@ -1524,6 +1524,30 @@ public class ResultProcessor
 		}
 	}
 
+	private static Pattern HIPPY_PATTERN = Pattern.compile( "we donated (\\d+) meat" );
+	public static void handleDonations( final String responseText )
+	{
+		int donation = 0;
+
+		// Post-filthworm orchard:
+		//
+		// Oh, hey, boss! Welcome back! Hey man, we don't want to
+		// impose on your vow of poverty, so we donated 4248 meat from
+		// our profits to the human fund in your honor. Thanks for
+		// getting rid of those worms, man!
+
+		Matcher matcher = ResultProcessor.HIPPY_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			donation += StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+
+		if ( donation > 0 )
+		{
+			KoLCharacter.makeCharitableDonation( donation );
+		}
+	}
+
 	/**
 	 * Handle lots of items being received at once (specifically, from emptying Hangk's),
 	 * deferring updates to the end as much as possible.
