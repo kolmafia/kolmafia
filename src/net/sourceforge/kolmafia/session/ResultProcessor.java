@@ -1110,6 +1110,15 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.PLASTIC_WRAP_IMMATERIA, -1 );
 			break;
 
+		case ItemPool.PIRATE_FLEDGES:
+			if ( !ResultProcessor.onlyAutosellDonationsCount && KoLCharacter.inFistcore() )
+			{
+				// Do you make a donation? You don't get Meat,
+				// but there is no message about donating it.
+				KoLCharacter.makeCharitableDonation( 3000 );
+			}
+			break;
+
 		case ItemPool.MACGUFFIN_DIARY:
 			// If you get your father's MacGuffin diary, you lose
 			// your forged identification documents
@@ -1525,8 +1534,16 @@ public class ResultProcessor
 	}
 
 	private static Pattern HIPPY_PATTERN = Pattern.compile( "we donated (\\d+) meat" );
+	public static boolean onlyAutosellDonationsCount = true;
+
 	public static void handleDonations( final String urlString, final String responseText )
 	{
+		// Apparently, only autoselling items counts towards the trophy..
+		if ( ResultProcessor.onlyAutosellDonationsCount )
+		{
+			return;
+		}
+
 		// ITEMS
 
 		// Dolphin King's map:

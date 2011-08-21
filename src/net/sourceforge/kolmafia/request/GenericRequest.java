@@ -1921,8 +1921,8 @@ public class GenericRequest
 			KoLmafia.protectClovers();
 		}
 
-		// Check for random donations in Fistcore
-		if ( KoLCharacter.inFistcore() )
+		// Perhaps check for random donations in Fistcore
+		if ( !ResultProcessor.onlyAutosellDonationsCount && KoLCharacter.inFistcore() )
 		{
 			ResultProcessor.handleDonations( urlString, this.responseText );
 		}
