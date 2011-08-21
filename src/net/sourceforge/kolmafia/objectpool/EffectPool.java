@@ -80,11 +80,12 @@ public class EffectPool
 	public static final String FISHY = "Fishy";
 	public static final String BEE_SMELL = "Float Like a Butterfly, Smell Like a Bee";
 
-	public static final String WUSSINESS = "Wussiness";
+	public static final String EARTHEN_FIST = "Earthen Fist";
 	public static final String HARDLY_POISONED = "Hardly Poisoned at All";
-	public static final String TELEPORTITIS = "Teleportitis";
 	public static final String INIGO = "Inigo's Incantation of Inspiration";
+	public static final String TELEPORTITIS = "Teleportitis";
 	public static final String TRANSPONDENT = "Transpondent";
+	public static final String WUSSINESS = "Wussiness";
 
 	public static final int HARDLY_POISONED_AT_ALL_ID = 8;
 	public static final int GOOFBALL_WITHDRAWAL_ID = 111;
