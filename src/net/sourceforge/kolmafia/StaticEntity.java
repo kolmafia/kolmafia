@@ -944,8 +944,10 @@ public abstract class StaticEntity
 
 		// Don't parse skill acquisition via item use here, since
 		// UseItemRequest will detect it.
+		// Don't parse steel margarita/lasagna here, either.
 
-		if ( location.startsWith( "inv_use.php" ) )
+		if ( location.startsWith( "inv_use.php" ) || location.startsWith( "inv_booze.php" )
+			|| location.startsWith( "inv_eat.php" ) )
 		{
 			return;
 		}
