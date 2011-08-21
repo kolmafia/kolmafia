@@ -903,6 +903,6 @@
 902	Elemental Flavor	rrainbow.gif	cd3a6ee549bdf2fa1102f0e5a237bfab	chew 1 elemental paste
 903	Cosmic Flavor	star.gif	2eae09c615714c24841b45d9b3c1ad59	chew 1 cosmic paste
 904	Hobo Flavor	hoboflavor.gif	8262e8618272592ac1c000b556114645	chew 1 hobo paste
-905	Retrograde Relaxation	wosp_fist.gif	57b39f8a69833f0120c9821d06736b49 cast 1 Miyagi Massage
+905	Retrograde Relaxation	wosp_fist.gif	57b39f8a69833f0120c9821d06736b49	cast 1 Miyagi Massage
 906	Salamanderenity	wosp_sala.gif	a23a35d9a3b721c550ed7c1c03193054	cast 1 Salamander Kata
 907	Earthen Fist	wosp_dirt.gif	80d1263744c6f408791a83b91b0bbe78	cast 1 Worldpunch
