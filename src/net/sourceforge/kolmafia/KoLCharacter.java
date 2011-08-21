@@ -2685,6 +2685,9 @@ public abstract class KoLCharacter
 	{
 		if ( amount > 0 )
 		{
+			String message = "You donate " + KoLConstants.COMMA_FORMAT.format( amount ) + " Meat to charity";
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 			Preferences.increment( "charitableDonations", amount );
 			Preferences.increment( "totalCharitableDonations", amount );
 		}
