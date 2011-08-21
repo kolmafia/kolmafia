@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
@@ -89,6 +90,7 @@ public abstract class SorceressLairManager
 	private static final AdventureResult WUSSINESS = EffectPool.get( EffectPool.WUSSINESS );
 	private static final AdventureResult HARDLY_POISONED = EffectPool.get( EffectPool.HARDLY_POISONED );
 	private static final AdventureResult TELEPORTITIS = EffectPool.get( EffectPool.TELEPORTITIS );
+	private static final AdventureResult EARTHEN_FIST = EffectPool.get( EffectPool.EARTHEN_FIST );
 
 	private static final AdventureResult STAR_SWORD = ItemPool.get( ItemPool.STAR_SWORD, 1 );
 	private static final AdventureResult STAR_CROSSBOW = ItemPool.get( ItemPool.STAR_CROSSBOW, 1 );
@@ -1152,6 +1154,7 @@ public abstract class SorceressLairManager
 		// this whole process.
 
 		List requirements = new ArrayList();
+		boolean inFistcore = KoLCharacter.inFistcore();
 
 		if ( SorceressLairManager.isItemAvailable( SorceressLairManager.STRUMMING ) )
 		{
@@ -1168,80 +1171,83 @@ public abstract class SorceressLairManager
 			requirements.add( SorceressLairManager.RICHARD );
 		}
 
-		AdventureResult starWeapon;
+		AdventureResult starWeapon = null;
 
-		// See which ones are available
+		if ( !inFistcore )
+		{
+			// See which ones are available
 
-		boolean hasSword = InventoryManager.hasItem( SorceressLairManager.STAR_SWORD );
-		boolean hasStaff = InventoryManager.hasItem( SorceressLairManager.STAR_STAFF );
-		boolean hasCrossbow = InventoryManager.hasItem( SorceressLairManager.STAR_CROSSBOW );
+			boolean hasSword = InventoryManager.hasItem( SorceressLairManager.STAR_SWORD );
+			boolean hasStaff = InventoryManager.hasItem( SorceressLairManager.STAR_STAFF );
+			boolean hasCrossbow = InventoryManager.hasItem( SorceressLairManager.STAR_CROSSBOW );
 
-		// See which ones he can use
+			// See which ones he can use
 
-		boolean canUseSword = EquipmentManager.canEquip( SorceressLairManager.STAR_SWORD );
-		boolean canUseStaff = EquipmentManager.canEquip( SorceressLairManager.STAR_STAFF );
-		boolean canUseCrossbow = EquipmentManager.canEquip( SorceressLairManager.STAR_CROSSBOW );
+			boolean canUseSword = EquipmentManager.canEquip( SorceressLairManager.STAR_SWORD );
+			boolean canUseStaff = EquipmentManager.canEquip( SorceressLairManager.STAR_STAFF );
+			boolean canUseCrossbow = EquipmentManager.canEquip( SorceressLairManager.STAR_CROSSBOW );
 
-		// Pick one that he has and can use
+			// Pick one that he has and can use
 
-		if ( hasSword && canUseSword )
-		{
-			starWeapon = SorceressLairManager.STAR_SWORD;
-		}
-		else if ( hasStaff && canUseStaff )
-		{
-			starWeapon = SorceressLairManager.STAR_STAFF;
-		}
-		else if ( hasCrossbow && canUseCrossbow )
-		{
-			starWeapon = SorceressLairManager.STAR_CROSSBOW;
-		}
-		else if ( canUseSword && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_SWORD ) )
-		{
-			starWeapon = SorceressLairManager.STAR_SWORD;
-		}
-		else if ( canUseStaff && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_STAFF ) )
-		{
-			starWeapon = SorceressLairManager.STAR_STAFF;
-		}
-		else if ( canUseCrossbow && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_CROSSBOW ) )
-		{
-			starWeapon = SorceressLairManager.STAR_CROSSBOW;
-		}
-		else if ( canUseSword )
-		{
-			starWeapon = SorceressLairManager.STAR_SWORD;
-		}
-		else if ( canUseStaff )
-		{
-			starWeapon = SorceressLairManager.STAR_STAFF;
-		}
-		else if ( canUseCrossbow )
-		{
-			starWeapon = SorceressLairManager.STAR_CROSSBOW;
-		}
-		else if ( hasSword )
-		{
-			starWeapon = SorceressLairManager.STAR_SWORD;
-		}
-		else if ( hasStaff )
-		{
-			starWeapon = SorceressLairManager.STAR_STAFF;
-		}
-		else if ( hasCrossbow )
-		{
-			starWeapon = SorceressLairManager.STAR_CROSSBOW;
-		}
-		else
-		{
-			starWeapon = SorceressLairManager.STAR_SWORD;
-		}
+			if ( hasSword && canUseSword )
+			{
+				starWeapon = SorceressLairManager.STAR_SWORD;
+			}
+			else if ( hasStaff && canUseStaff )
+			{
+				starWeapon = SorceressLairManager.STAR_STAFF;
+			}
+			else if ( hasCrossbow && canUseCrossbow )
+			{
+				starWeapon = SorceressLairManager.STAR_CROSSBOW;
+			}
+			else if ( canUseSword && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_SWORD ) )
+			{
+				starWeapon = SorceressLairManager.STAR_SWORD;
+			}
+			else if ( canUseStaff && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_STAFF ) )
+			{
+				starWeapon = SorceressLairManager.STAR_STAFF;
+			}
+			else if ( canUseCrossbow && SorceressLairManager.isItemAvailable( SorceressLairManager.STAR_CROSSBOW ) )
+			{
+				starWeapon = SorceressLairManager.STAR_CROSSBOW;
+			}
+			else if ( canUseSword )
+			{
+				starWeapon = SorceressLairManager.STAR_SWORD;
+			}
+			else if ( canUseStaff )
+			{
+				starWeapon = SorceressLairManager.STAR_STAFF;
+			}
+			else if ( canUseCrossbow )
+			{
+				starWeapon = SorceressLairManager.STAR_CROSSBOW;
+			}
+			else if ( hasSword )
+			{
+				starWeapon = SorceressLairManager.STAR_SWORD;
+			}
+			else if ( hasStaff )
+			{
+				starWeapon = SorceressLairManager.STAR_STAFF;
+			}
+			else if ( hasCrossbow )
+			{
+				starWeapon = SorceressLairManager.STAR_CROSSBOW;
+			}
+			else
+			{
+				starWeapon = SorceressLairManager.STAR_SWORD;
+			}
 
-		// Star equipment check.
+			// Star equipment check.
 
-		if ( !InventoryManager.retrieveItem( starWeapon ) )
-		{
-			requirements.add( starWeapon );
+			if ( !InventoryManager.retrieveItem( starWeapon ) )
+			{
+				requirements.add( starWeapon );
+			}
 		}
 
 		if ( !requirements.isEmpty() )
@@ -1252,7 +1258,7 @@ public abstract class SorceressLairManager
 		// If you can't equip the appropriate weapon and buckler,
 		// then tell the player they lack the required stats.
 
-		if ( !EquipmentManager.canEquip( starWeapon.getName() ) )
+		if ( !inFistcore && !EquipmentManager.canEquip( starWeapon.getName() ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stats too low to equip a star weapon." );
 			return requirements;
@@ -1272,13 +1278,31 @@ public abstract class SorceressLairManager
 			return requirements;
 		}
 
-		// Now handle the form for the star key to get
-		// the Sinister Strumming.  Note that this will
-		// require you to re-equip your star weapon and
-		// a star buckler and switch to a starfish first.
+		// Now handle the form for the star key to get the Sinister
+		// Strumming.  Note that this will require you to re-equip your
+		// star weapon and a star buckler and switch to a starfish first.
 
-		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) );
-		RequestThread.postRequest( new EquipmentRequest( starWeapon, EquipmentManager.WEAPON ) );
+		if ( inFistcore )
+		{
+			// Cast Worldpunch. Since you need it for the Tr4pz0r
+			// quest, you must know it.
+			if ( !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
+			{
+				UseSkillRequest request = UseSkillRequest.getInstance( "Worldpunch" );
+				request.setBuffCount( 1 );
+				RequestThread.postRequest( request );
+			}
+			if ( !KoLmafia.permitsContinue() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Cast Worldpunch and try again." );
+				return requirements;
+			}
+		}
+		else
+		{
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) );
+			RequestThread.postRequest( new EquipmentRequest( starWeapon, EquipmentManager.WEAPON ) );
+		}
 		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.STAR_HAT, EquipmentManager.HAT ) );
 		RequestThread.postRequest( new FamiliarRequest( starfish ) );
 
@@ -2266,18 +2290,26 @@ public abstract class SorceressLairManager
 
 	private static final void reflectEnergyBolt()
 	{
-		// Get current equipment
-		SpecialOutfit.createImplicitCheckpoint();
+		boolean inFistcore = KoLCharacter.inFistcore();
 
-		// Equip the huge mirror shard
-		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.MIRROR_SHARD, EquipmentManager.WEAPON ) );
+		if ( !inFistcore )
+		{
+			// Get current equipment
+			SpecialOutfit.createImplicitCheckpoint();
+
+			// Equip the huge mirror shard
+			RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.MIRROR_SHARD, EquipmentManager.WEAPON ) );
+		}
 
 		// Reflect the energy bolt
 		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=1" ) );
 
-		// If we unequipped anything, equip it again
-		SpecialOutfit.restoreImplicitCheckpoint();
+		if ( !inFistcore )
+		{
+			// If we unequipped anything, equip it again
+			SpecialOutfit.restoreImplicitCheckpoint();
+		}
 	}
 
 	private static final void fightShadow()

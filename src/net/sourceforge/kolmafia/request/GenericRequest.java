@@ -1088,13 +1088,19 @@ public class GenericRequest
 			if ( KoLConstants.inventory.contains( hooks ) &&
 			     KoLConstants.inventory.contains( machine ) )
 			{
-				SpecialOutfit.createImplicitCheckpoint();
-				( new EquipmentRequest( hooks, EquipmentManager.WEAPON ) ).run();
+				if ( !KoLCharacter.inFistcore() )
+				{
+					SpecialOutfit.createImplicitCheckpoint();
+					( new EquipmentRequest( hooks, EquipmentManager.WEAPON ) ).run();
+				}
 				if ( KoLmafia.permitsContinue() )
 				{
 					( new UseItemRequest( machine ) ).run();
 				}
-				SpecialOutfit.restoreImplicitCheckpoint();
+				if ( !KoLCharacter.inFistcore() )
+				{
+					SpecialOutfit.restoreImplicitCheckpoint();
+				}
 			}
 		}
 		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
