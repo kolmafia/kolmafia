@@ -187,6 +187,11 @@ public class CoinmasterData
 		return count;
 	}
 
+	public final int availableStorageTokens()
+	{
+		return this.storageAction != null ? this.item.getCount( KoLConstants.storage ) : 0;
+	}
+
 	public final int affordableTokens()
 	{
 		// Special handling for acquiring worthless items

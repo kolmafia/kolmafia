@@ -122,7 +122,6 @@ public class MultiUseRequest
 
 		// Item ID of the base item
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-
 		int count = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
 		// Find concoction made by multi-using this many of this item
