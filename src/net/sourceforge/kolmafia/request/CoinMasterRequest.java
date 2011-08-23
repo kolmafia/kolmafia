@@ -691,7 +691,7 @@ public class CoinMasterRequest
 
 	public static final boolean registerRequest( final CoinmasterData data, final String urlString, final boolean logVisits )
 	{
-		String action = GenericRequest.getAction( urlString );
+		String action = StringUtilities.getURLDecode( GenericRequest.getAction( urlString ) );
 
 		if ( action == null )
 		{
