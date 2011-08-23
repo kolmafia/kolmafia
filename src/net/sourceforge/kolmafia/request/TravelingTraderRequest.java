@@ -126,7 +126,7 @@ public class TravelingTraderRequest
 	// src='http://images.kingdomofloathing.com/itemimages/scwad.gif'>
 	// <b>twinkly wads</b><br>
 
-	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "The traveling trader is looking to acquire.*descitem\\(([\\d]+)\\).*<b>([^<]*)</b>" );
+	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "The traveling trader is looking to acquire.*?descitem\\(([\\d]+)\\).*?<b>([^<]*)</b>" );
 
 	// (You have <b>3,348</b> on you.)
 
@@ -184,7 +184,7 @@ public class TravelingTraderRequest
 		matcher = INVENTORY_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
-			String num = matcher.group( 3 );
+			String num = matcher.group( 1 );
 			int num1 = num == null ? 0 :
 				num.equals( "none" ) ? 0 :
 				num.equals( "one" ) ? 1 :
@@ -198,10 +198,9 @@ public class TravelingTraderRequest
 				AdventureResult.addResultToList( KoLConstants.inventory, result );
 				AdventureResult.addResultToList( KoLConstants.tally, result );
 			}
-
 		}
 
-		// Sanity check number of that item we have in inventory
+		// Sanity check number of that item we have in storage
 		String plural2 = null;
 
 		matcher = STORAGE_PATTERN.matcher( responseText );
@@ -246,7 +245,7 @@ public class TravelingTraderRequest
 			}
 
 			// Add it to the Traveling Trader inventory
-			AdventureResult offering = ItemPool.get( itemId, 1 );
+			AdventureResult offering = ItemPool.get( id, 1 );
 			String cname = StringUtilities.getCanonicalName( name );
 			Integer iprice = new Integer( price );
 			items.add( offering );

@@ -921,7 +921,7 @@ public class CoinmastersFrame
 			{
 			}
 
-			public Object[] getDesiredItems()
+			public Object[] getDesiredItems( final boolean fromStorage )
 			{
 				Object[] items = this.elementList.getSelectedValues();
 				if ( items.length == 0 )
@@ -931,7 +931,10 @@ public class CoinmastersFrame
 
 				AdventureResult token = CoinmasterPanel.this.data.getItem();
 				String property = CoinmasterPanel.this.data.getProperty();
-				int originalBalance = CoinmasterPanel.this.data.availableTokens();
+				CoinmasterData data = CoinmasterPanel.this.data;
+				int originalBalance = fromStorage ?	
+					data.availableStorageTokens() :
+					data.availableTokens();
 
 				int neededSize = items.length;
 				int balance = originalBalance;
@@ -1017,7 +1020,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					Object[] items = BuyPanel.this.getDesiredItems();
+					Object[] items = BuyPanel.this.getDesiredItems( false );
 					if ( items == null )
 					{
 						return;
@@ -1037,7 +1040,7 @@ public class CoinmastersFrame
 			{
 				public void run()
 				{
-					Object[] items = BuyPanel.this.getDesiredItems();
+					Object[] items = BuyPanel.this.getDesiredItems( true );
 					if ( items == null )
 					{
 						return;
@@ -1130,8 +1133,9 @@ public class CoinmastersFrame
 
 			if ( show && this.usesTokens )
 			{
-				int balance = this.data.availableTokens();
-				if ( price > balance )
+				int balance1 = this.data.availableTokens();
+				int balance2 = this.data.availableStorageTokens();
+				if ( price > balance1 && price > balance2 )
 				{
 					show = false;
 				}
