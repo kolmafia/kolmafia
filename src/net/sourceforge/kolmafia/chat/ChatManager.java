@@ -545,16 +545,17 @@ public abstract class ChatManager
 
 	public static final void broadcastEvent( final EventMessage message )
 	{
+		if ( !ChatManager.isRunning() )
+		{
+			return;
+		}
+
 		String displayHTML = ChatFormatter.formatChatMessage( message );
 
-		Object[] buffers = ChatManager.instantMessageBuffers.values().toArray();
+		ChatManager.openWindow( "[events]", true );
 
-		for ( int i = 0; i < buffers.length; ++i )
-		{
-			StyledChatBuffer buffer = (StyledChatBuffer) buffers[ i ];
-
-			buffer.append( displayHTML );
-		}
+		StyledChatBuffer buffer = ChatManager.getBuffer( "[events]" );
+		buffer.append( displayHTML );
 	}
 
 	public static final void openWindow( final String bufferKey, boolean highlightOnOpen )
