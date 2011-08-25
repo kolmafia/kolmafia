@@ -3021,9 +3021,17 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "hooks were still on" ) != -1 )
 			{
-				// You lose your weapon
-				EquipmentManager.discardEquipment( ItemPool.WORM_RIDING_HOOKS );
-				KoLmafia.updateDisplay( "Don't forget to equip a weapon!" );
+				if ( KoLCharacter.inFistcore() )
+				{
+					// You lose your hooks
+					ResultProcessor.processItem( ItemPool.WORM_RIDING_HOOKS, -1 );
+				}
+				else
+				{
+					// You lose your weapon
+					EquipmentManager.discardEquipment( ItemPool.WORM_RIDING_HOOKS );
+					KoLmafia.updateDisplay( "Don't forget to equip a weapon!" );
+				}
 				return;
 			}
 
