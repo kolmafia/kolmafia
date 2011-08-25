@@ -552,10 +552,24 @@ public abstract class ChatManager
 
 		String displayHTML = ChatFormatter.formatChatMessage( message );
 
-		ChatManager.openWindow( "[events]", true );
+		if ( message instanceof WhoMessage )
+		{
+			Object[] buffers = ChatManager.instantMessageBuffers.values().toArray();
 
-		StyledChatBuffer buffer = ChatManager.getBuffer( "[events]" );
-		buffer.append( displayHTML );
+			for ( int i = 0; i < buffers.length; ++i )
+			{
+				StyledChatBuffer buffer = (StyledChatBuffer) buffers[ i ];
+
+				buffer.append( displayHTML );
+			}			
+		}
+		else
+		{
+			ChatManager.openWindow( "[events]", true );
+
+			StyledChatBuffer buffer = ChatManager.getBuffer( "[events]" );
+			buffer.append( displayHTML );
+		}
 	}
 
 	public static final void openWindow( final String bufferKey, boolean highlightOnOpen )
