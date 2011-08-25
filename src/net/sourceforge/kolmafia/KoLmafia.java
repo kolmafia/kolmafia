@@ -1178,11 +1178,6 @@ public abstract class KoLmafia
 		}
 	}
 
-	public void makeRequest( final Runnable request )
-	{
-		this.makeRequest( request, 1 );
-	}
-
 	/**
 	 * Makes the given request for the given number of iterations, or until
 	 * continues are no longer possible, either through user cancellation
