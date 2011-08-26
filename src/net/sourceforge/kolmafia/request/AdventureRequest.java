@@ -843,9 +843,9 @@ public class AdventureRequest
 
 	public static final boolean registerDemonName( final String encounter, final String responseText )
 	{
+		String place = null;
 		String demon = null;
 		String setting = null;
-		String place = null;
 
 		for ( int i = 0; i < AdventureRequest.demons.length; ++i )
 		{
@@ -864,21 +864,19 @@ public class AdventureRequest
 				// We found the name
 				demon = matcher.group( 1 );
 				setting = (String) demons[ 3 ];
-				break;
 			}
 
-			// If we are not in the summoning chamber and failed to
-			// deduce the name, give up.
-			if ( i != 0 )
-			{
-				return false;
-			}
+			break;
+		}
 
-			// It is the Summoning Chamber. If he used a valid
-			// demon name, we can deduce which one it is from the
-			// result text
+		// If we didn't recognize the demon and he used a valid name in
+		// the Summoning Chamber, we can deduce which one it is from
+		// the result text
 
-			matcher = AdventureRequest.NAME_PATTERN.matcher( responseText );
+		if ( setting == null && encounter.equals( "Summoning Chamber" ) )
+		{
+			place = encounter;
+			Matcher matcher = AdventureRequest.NAME_PATTERN.matcher( responseText );
 			if ( !matcher.find() )
 			{
 				return false;
@@ -888,10 +886,9 @@ public class AdventureRequest
 			demon = matcher.group( 1 );
 
 			// Look for tell-tale string
-			for ( int j = 0; j < AdventureRequest.demons.length; ++j )
+			for ( int i = 0; i < AdventureRequest.demons.length; ++i )
 			{
-				demons = AdventureRequest.demons[ j ];
-				place = (String) demons[ 0 ];
+				Object [] demons = AdventureRequest.demons[ i ];
 				String text = (String) demons[ 2 ];
 				if ( responseText.indexOf( text ) != -1 )
 				{
@@ -899,8 +896,6 @@ public class AdventureRequest
 					break;
 				}
 			}
-
-			break;
 		}
 
 		// Couldn't figure out which demon he called.
