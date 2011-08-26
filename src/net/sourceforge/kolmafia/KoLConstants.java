@@ -245,10 +245,6 @@ public interface KoLConstants
 			"ChatManager"
 		},
 		{
-			"Recent Events",
-			"RecentEventsFrame"
-		},
-		{
 			"Clan Management",
 			"ClanManageFrame"
 		},

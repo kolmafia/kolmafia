@@ -90,7 +90,7 @@ public class ChatSender
 		ChatPoller.addSentEntry( request.responseText, false );
 
 		Iterator messageIterator = accumulatedMessages.iterator();
-		
+
 		while ( messageIterator.hasNext() && ChatSender.scriptedMessagesEnabled )
 		{
 			ChatMessage message = (ChatMessage) messageIterator.next();
@@ -116,7 +116,7 @@ public class ChatSender
 		}
 
 		Iterator grafIterator = grafs.iterator();
-		
+
 		List accumulatedMessages = new LinkedList();
 
 		while ( grafIterator.hasNext() )
@@ -158,7 +158,7 @@ public class ChatSender
 			}
 			else
 			{
-				EventMessage message = new EventMessage( "Unable to find a unique match", "green" );
+				EventMessage message = new EventMessage( "Unable to find a unique match for " + item, "green" );
 				ChatManager.broadcastEvent( message );
 			}
 
@@ -172,7 +172,7 @@ public class ChatSender
 		if ( channelRestricted )
 		{
 			Iterator messageIterator = accumulatedMessages.iterator();
-			
+
 			while ( messageIterator.hasNext() && ChatSender.scriptedMessagesEnabled )
 			{
 				ChatMessage message = (ChatMessage) messageIterator.next();
@@ -199,7 +199,7 @@ public class ChatSender
 		{
 			return Collections.EMPTY_LIST;
 		}
-		
+
 		List newMessages = new LinkedList();
 
 		String graf = request.getGraf();
@@ -230,7 +230,7 @@ public class ChatSender
 		}
 
 		ChatManager.processMessages( newMessages );
-		
+
 		return newMessages;
 	}
 
@@ -256,15 +256,15 @@ public class ChatSender
 		if ( message.length() <= 256 || contact == null || contact.equals( "/clan" ) || message.indexOf( " && " ) != -1 )
 		{
 			String graf = ChatSender.getGraf( contact, message );
-			
+
 			if ( graf != null )
 			{
 				grafs.add( graf );
 			}
-			
+
 			return grafs;
 		}
-		
+
 		// If the message is too long for one message, then
 		// divide it into its component pieces.
 
@@ -290,7 +290,7 @@ public class ChatSender
 		}
 
 		String graf;
-		
+
 		int maxPiece = 255 - command.length() - suffix.length();
 
 		while ( message.length() > maxPiece )
@@ -317,12 +317,12 @@ public class ChatSender
 		{
 			grafs.add( graf );
 		}
-		
+
 		return grafs;
 	}
 
 	private static final String getGraf( String contact, String message )
-	{		
+	{
 		String contactId = "[none]";
 
 		if ( contact != null )

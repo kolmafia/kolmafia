@@ -74,9 +74,8 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatPoller;
-import net.sourceforge.kolmafia.chat.EventMessage;
+import net.sourceforge.kolmafia.chat.InternalMessage;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -2174,7 +2173,7 @@ public class GenericRequest
 			RelayAgent.setErrorRequest( this );
 
 			String linkHTML = "<a href=main.php target=mainpane class=error>Click here to continue in the relay browser.</a>";
-			ChatMessage message = new EventMessage( linkHTML, null );
+			InternalMessage message = new InternalMessage( linkHTML, null );
 			ChatPoller.addEntry( message );
 		}
 	}
