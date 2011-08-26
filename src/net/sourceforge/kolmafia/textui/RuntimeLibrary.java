@@ -146,6 +146,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -4270,7 +4271,7 @@ public abstract class RuntimeLibrary
 
 	public static Value tavern()
 	{
-		int result = StaticEntity.getClient().locateTavernFaucet();
+		int result = TavernManager.locateTavernFaucet();
 		return new Value( KoLmafia.permitsContinue() ? result : -1 );
 	}
 

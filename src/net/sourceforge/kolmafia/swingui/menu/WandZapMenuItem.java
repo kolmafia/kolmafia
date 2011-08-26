@@ -24,27 +24,45 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.textui.command;
+package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
 
-public class MallRepriceCommand
-	extends AbstractCommand
+import net.sourceforge.kolmafia.request.ZapRequest;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+
+public class WandZapMenuItem
+	extends ThreadedMenuItem
 {
-	public MallRepriceCommand()
+	public WandZapMenuItem()
 	{
-		this.usage = " - price all max-priced items at or below current Mall minimum price.";
+		super( "Wand-Zap Item" );
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void run()
 	{
-		StoreManager.priceItemsAtLowestPrice( true );
+		if ( KoLCharacter.getZapper() == null )
+		{
+			return;
+		}
+
+		AdventureResult selectedValue =
+			(AdventureResult) InputFieldUtilities.input( "Let's explodey my wand!", ZapRequest.getZappableItems() );
+		if ( selectedValue == null )
+		{
+			return;
+		}
+
+		RequestThread.postRequest( new ZapRequest( selectedValue ) );
 	}
 }

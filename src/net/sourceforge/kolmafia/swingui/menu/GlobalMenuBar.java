@@ -41,9 +41,11 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 
@@ -141,18 +143,18 @@ public class GlobalMenuBar
 		this.add( travelMenu );
 
 		travelMenu.add( new RelayBrowserMenuItem( "Doc Galaktik", "galaktik.php" ) );
-		travelMenu.add( new InvocationMenuItem( "Rest in House", StaticEntity.getClient(), "makeCampgroundRestRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Sleep in Sofa", StaticEntity.getClient(), "makeClanSofaRequest" ) );
+		travelMenu.add( new RestCampgroundMenuItem() );
+		travelMenu.add( new RestClanSofaMenuItem() );
 
 		travelMenu.add( new JSeparator() );
 
-		travelMenu.add( new InvocationMenuItem( "Monster Level", StaticEntity.getClient(), "makeMindControlRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Untinker Item", StaticEntity.getClient(), "makeUntinkerRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Wand-Zap Item", StaticEntity.getClient(), "makeZapRequest" ) );
+		travelMenu.add( new MonsterLevelMenuItem() );
+		travelMenu.add( new UntinkerMenuItem() );
+		travelMenu.add( new WandZapMenuItem() );
 		travelMenu.add( new JSeparator() );
-		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", StaticEntity.getClient(), "makeHermitRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Visit the Trapper", StaticEntity.getClient(), "makeTrapperRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Visit the Hunter", StaticEntity.getClient(), "makeHunterRequest" ) );
+		travelMenu.add( new LootHermitMenuItem() );
+		travelMenu.add( new LootTrapperMenuItem() );
+		travelMenu.add( new LootHunterMenuItem() );
 		travelMenu.add( new DisplayFrameMenuItem( "Visit Coin Masters", "CoinmastersFrame" ) );
 
 		// Add in automatic quest completion scripts.
@@ -160,8 +162,8 @@ public class GlobalMenuBar
 		JMenu questsMenu = new JMenu( "Quests" );
 		this.add( questsMenu );
 
-		questsMenu.add( new InvocationMenuItem( "Unlock Guild", StaticEntity.getClient(), "unlockGuildStore" ) );
-		questsMenu.add( new InvocationMenuItem( "Tavern Quest", StaticEntity.getClient(), "locateTavernFaucet" ) );
+		questsMenu.add( new InvocationMenuItem( "Unlock Guild", GuildUnlockManager.class, "unlockGuildStore" ) );
+		questsMenu.add( new InvocationMenuItem( "Tavern Quest", TavernManager.class, "locateTavernFaucet" ) );
 
 		questsMenu.add( new JSeparator() );
 

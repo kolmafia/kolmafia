@@ -24,27 +24,41 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.textui.command;
+package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.StaticEntity;
 
-public class MallRepriceCommand
-	extends AbstractCommand
+import net.sourceforge.kolmafia.request.CampgroundRequest;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+public class RestCampgroundMenuItem
+	extends ThreadedMenuItem
 {
-	public MallRepriceCommand()
+	public RestCampgroundMenuItem()
 	{
-		this.usage = " - price all max-priced items at or below current Mall minimum price.";
+		super( "Rest in House" );
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void run()
 	{
-		StoreManager.priceItemsAtLowestPrice( true );
+		String turnCount = InputFieldUtilities.input( "Rest for how many turns?", "1" );
+		if ( turnCount == null )
+		{
+			return;
+		}
+
+		CampgroundRequest request = new CampgroundRequest( "rest" );
+		int turnCountValue = StringUtilities.parseInt( turnCount );
+
+		StaticEntity.getClient().makeRequest( request, turnCountValue );
 	}
 }

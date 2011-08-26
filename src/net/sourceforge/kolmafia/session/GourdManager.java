@@ -24,27 +24,48 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.textui.command;
+package net.sourceforge.kolmafia.session;
 
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 
-public class MallRepriceCommand
-	extends AbstractCommand
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GourdRequest;
+
+public class GourdManager
 {
-	public MallRepriceCommand()
+	public static void tradeGourdItems()
 	{
-		this.usage = " - price all max-priced items at or below current Mall minimum price.";
-	}
+		RequestThread.postRequest( new GourdRequest() );
 
-	public void run( final String cmd, final String parameters )
-	{
-		StoreManager.priceItemsAtLowestPrice( true );
+		AdventureResult item = GourdRequest.gourdItem( 5 );
+		int neededCount = Preferences.getInteger( "gourdItemCount" );
+
+		GenericRequest gourdVisit = new GourdRequest( true );
+
+		while ( neededCount <= 25 && neededCount <= item.getCount( KoLConstants.inventory ) )
+		{
+			RequestThread.postRequest( gourdVisit );
+			neededCount++ ;
+		}
+
+		int totalProvided = 0;
+		for ( int i = 5; i < neededCount; ++i )
+		{
+			totalProvided += i;
+		}
+
+		KoLmafia.updateDisplay( "Gourd trading complete (" + totalProvided + " " + item.getName() + "s given so far)." );
 	}
 }

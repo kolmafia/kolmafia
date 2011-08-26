@@ -24,27 +24,42 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.textui.command;
+package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.RequestThread;
 
-public class MallRepriceCommand
-	extends AbstractCommand
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+public class RestClanSofaMenuItem
+	extends ThreadedMenuItem
 {
-	public MallRepriceCommand()
+	public RestClanSofaMenuItem()
 	{
-		this.usage = " - price all max-priced items at or below current Mall minimum price.";
+		super( "Sleep in Sofa" );
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void run()
 	{
-		StoreManager.priceItemsAtLowestPrice( true );
+		String turnCount = InputFieldUtilities.input( "Sleep for how many turns?", "1" );
+		if ( turnCount == null )
+		{
+			return;
+		}
+
+		ClanRumpusRequest request = new ClanRumpusRequest( ClanRumpusRequest.SOFA );
+		int turnCountValue = StringUtilities.parseInt( turnCount );
+
+		request.setTurnCount( turnCountValue );
+		RequestThread.postRequest( request );
 	}
 }

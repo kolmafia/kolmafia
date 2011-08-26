@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -838,7 +839,7 @@ public class KoLAdventure
 
 			if ( !visitedCouncil && !this.isValidAdventure )
 			{
-				StaticEntity.getClient().unlockGuildStore( true );
+				GuildUnlockManager.unlockGuildStore( true );
 				this.validate( true );
 			}
 
