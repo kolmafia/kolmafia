@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
@@ -656,5 +657,42 @@ public abstract class StoreManager
 			return buffer.toString();
 
 		}
+	}
+
+	public static void priceItemsAtLowestPrice( boolean avoidMinPrice )
+	{
+		RequestThread.openRequestSequence();
+		RequestThread.postRequest( new ManageStoreRequest() );
+	
+		SoldItem[] sold = new SoldItem[ getSoldItemList().size() ];
+		getSoldItemList().toArray( sold );
+	
+		int[] itemId = new int[ sold.length ];
+		int[] prices = new int[ sold.length ];
+		int[] limits = new int[ sold.length ];
+	
+		// Now determine the desired prices on items.
+	
+		for ( int i = 0; i < sold.length; ++i )
+		{
+			itemId[ i ] = sold[ i ].getItemId();
+			limits[ i ] = sold[ i ].getLimit();
+	
+			int minimumPrice = Math.max( 100, Math.abs( ItemDatabase.getPriceById( sold[ i ].getItemId() ) ) * 2 );
+			int desiredPrice = Math.max( minimumPrice, sold[ i ].getLowest() - sold[ i ].getLowest() % 100 );
+	
+			if ( sold[ i ].getPrice() == 999999999 && ( !avoidMinPrice || desiredPrice > minimumPrice ) )
+			{
+				prices[ i ] = desiredPrice;
+			}
+			else
+			{
+				prices[ i ] = sold[ i ].getPrice();
+			}
+		}
+	
+		RequestThread.postRequest( new ManageStoreRequest( itemId, prices, limits ) );
+		KoLmafia.updateDisplay( "Repricing complete." );
+		RequestThread.closeRequestSequence();
 	}
 }

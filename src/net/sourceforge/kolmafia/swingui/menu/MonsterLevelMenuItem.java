@@ -24,27 +24,70 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.textui.command;
+package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
 
-public class MallRepriceCommand
-	extends AbstractCommand
+import net.sourceforge.kolmafia.request.MindControlRequest;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+public class MonsterLevelMenuItem
+	extends ThreadedMenuItem
 {
-	public MallRepriceCommand()
+	public MonsterLevelMenuItem()
 	{
-		this.usage = " - price all max-priced items at or below current Mall minimum price.";
+		super( "Monster Level" );
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void run()
 	{
-		StoreManager.priceItemsAtLowestPrice( true );
+		int maxLevel = 0;
+
+		if ( KoLCharacter.canadiaAvailable() )
+		{
+			maxLevel = 11;
+		}
+		else if ( KoLCharacter.knollAvailable() )
+		{
+			maxLevel = 10;
+		}
+		else if ( KoLCharacter.gnomadsAvailable() )
+		{
+			maxLevel = 10;
+		}
+		else
+		{
+			return;
+		}
+
+		String[] levelArray = new String[ maxLevel + 1 ];
+
+		for ( int i = 0; i <= maxLevel; ++i )
+		{
+			levelArray[ i ] = "Level " + i;
+		}
+
+		int currentLevel = KoLCharacter.getMindControlLevel();
+
+		String selectedLevel =
+			(String) InputFieldUtilities.input( "Change monster annoyance from " + currentLevel + "?", levelArray );
+
+		if ( selectedLevel == null )
+		{
+			return;
+		}
+
+		int setting = StringUtilities.parseInt( selectedLevel.split( " " )[ 1 ] );
+		RequestThread.postRequest( new MindControlRequest( setting ) );
 	}
 }

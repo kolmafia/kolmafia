@@ -24,27 +24,57 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.textui.command;
+package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 
-public class MallRepriceCommand
-	extends AbstractCommand
+import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+
+public class LootTrapperMenuItem
+	extends ThreadedMenuItem
 {
-	public MallRepriceCommand()
+	public LootTrapperMenuItem()
 	{
-		this.usage = " - price all max-priced items at or below current Mall minimum price.";
+		super( "Visit the Trapper" );
 	}
 
-	public void run( final String cmd, final String parameters )
+	public void run()
 	{
-		StoreManager.priceItemsAtLowestPrice( true );
+		AdventureResult selectedValue =
+			(AdventureResult) InputFieldUtilities.input( "I want skins!", Tr4pz0rRequest.buyItems );
+
+		if ( selectedValue == null )
+		{
+			return;
+		}
+
+		int selected = selectedValue.getItemId();
+		int maximumValue = Tr4pz0rRequest.YETI_FUR.getCount( KoLConstants.inventory );
+
+		String message = "(You have " + maximumValue + " furs available)";
+		int tradeCount =
+			InputFieldUtilities.getQuantity(
+				"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue,
+				maximumValue );
+
+		if ( tradeCount == 0 )
+		{
+			return;
+		}
+
+		KoLmafia.updateDisplay( "Visiting the trapper..." );
+		RequestThread.postRequest( new Tr4pz0rRequest( selected, tradeCount ) );
 	}
 }

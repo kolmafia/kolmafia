@@ -34,12 +34,14 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.GourdManager;
+import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TavernManager;
 
 import net.sourceforge.kolmafia.webui.DvorakDecorator;
 
@@ -67,19 +69,19 @@ public class CompleteQuestCommand
 
 		if ( command.equals( "guild" ) )
 		{
-			StaticEntity.getClient().unlockGuildStore();
+			GuildUnlockManager.unlockGuildStore();
 			return;
 		}
 
 		if ( command.equals( "gourd" ) )
 		{
-			StaticEntity.getClient().tradeGourdItems();
+			GourdManager.tradeGourdItems();
 			return;
 		}
 
 		if ( command.equals( "tavern" ) )
 		{
-			StaticEntity.getClient().locateTavernFaucet();
+			TavernManager.locateTavernFaucet();
 			return;
 		}
 

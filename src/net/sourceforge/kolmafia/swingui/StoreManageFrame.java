@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -215,7 +214,7 @@ public class StoreManageFrame
 			}
 
 			KoLmafia.updateDisplay( "Gathering data..." );
-			StaticEntity.getClient().priceItemsAtLowestPrice( selected == JOptionPane.YES_OPTION );
+			StoreManager.priceItemsAtLowestPrice( selected == JOptionPane.YES_OPTION );
 		}
 	}
 
