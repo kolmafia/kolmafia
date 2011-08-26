@@ -393,7 +393,7 @@ public abstract class ChatManager
 			}
 		}
 
-		EventManager.addChatEvent( ChatFormatter.formatChatMessage( message, false ) );		
+		EventManager.addChatEvent( ChatFormatter.formatChatMessage( message, false ) );
 		ChatManager.broadcastEvent( message );
 	}
 
@@ -552,23 +552,21 @@ public abstract class ChatManager
 
 		String displayHTML = ChatFormatter.formatChatMessage( message );
 
-		if ( message instanceof WhoMessage )
+		ChatManager.openWindow( "[events]", true );
+
+		StyledChatBuffer buffer = ChatManager.getBuffer( "[events]" );
+		buffer.append( displayHTML );
+
+		if ( !( message instanceof InternalMessage ) )
 		{
 			Object[] buffers = ChatManager.instantMessageBuffers.values().toArray();
 
 			for ( int i = 0; i < buffers.length; ++i )
 			{
-				StyledChatBuffer buffer = (StyledChatBuffer) buffers[ i ];
+				buffer = (StyledChatBuffer) buffers[ i ];
 
 				buffer.append( displayHTML );
-			}			
-		}
-		else
-		{
-			ChatManager.openWindow( "[events]", true );
-
-			StyledChatBuffer buffer = ChatManager.getBuffer( "[events]" );
-			buffer.append( displayHTML );
+			}
 		}
 	}
 

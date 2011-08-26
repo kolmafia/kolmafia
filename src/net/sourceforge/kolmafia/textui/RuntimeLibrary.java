@@ -89,7 +89,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
-import net.sourceforge.kolmafia.chat.EventMessage;
+import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.chat.WhoMessage;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
@@ -4199,7 +4199,7 @@ public abstract class RuntimeLibrary
 		String colorString = StringUtilities.globalStringDelete( colorValue.toString(), "\"" );
 		colorString = "\"" + colorString + "\"";
 
-		ChatMessage message = new EventMessage( messageString, colorString );
+		InternalMessage message = new InternalMessage( messageString, colorString );
 
 		ChatPoller.addEntry( message );
 

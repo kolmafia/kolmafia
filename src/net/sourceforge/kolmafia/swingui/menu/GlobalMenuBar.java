@@ -120,7 +120,6 @@ public class GlobalMenuBar
 
 		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", "MailboxFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "KoLmafia Chat", "ChatManager" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Recent Events", "RecentEventsFrame" ) );
 
 		peopleMenu.add( new JSeparator() );
 

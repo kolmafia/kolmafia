@@ -39,7 +39,7 @@ import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
-import net.sourceforge.kolmafia.chat.EventMessage;
+import net.sourceforge.kolmafia.chat.InternalMessage;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 
@@ -211,7 +211,7 @@ public abstract class RequestThread
 	public static final void declareWorldPeace()
 	{
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "KoLmafia declares world peace." );
-		EventMessage message = new EventMessage( "KoLmafia declares world peace.", "red" );
+		InternalMessage message = new InternalMessage( "KoLmafia declares world peace.", "red" );
 		ChatManager.broadcastEvent( message );
 	}
 

@@ -41,20 +41,14 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.SwingUtilities;
-
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.EventMessage;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.RecentEventsFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public class EventManager
@@ -90,7 +84,7 @@ public class EventManager
 	{
 		return EventManager.addNormalEvent( eventHTML, false );
 	}
-	
+
 	public static boolean addNormalEvent( String eventHTML, boolean addTimestamp )
 	{
 		if ( eventHTML == null )
@@ -181,29 +175,10 @@ public class EventManager
 
 		responseText = eventMatcher.replaceFirst( "" );
 
-		boolean shouldLoadEventFrame = false;
-
 		for ( int i = 0; i < events.length; ++i )
 		{
-			shouldLoadEventFrame |= EventManager.addNormalEvent( events[ i ] );
-		}
-
-		shouldLoadEventFrame &= Preferences.getString( "initialFrames" ).indexOf( "RecentEventsFrame" ) != -1;
-
-		// If we're not a GUI and there are no GUI windows open
-		// (ie: the GUI loader command wasn't used), quit now.
-
-		if ( !GenericFrame.instanceExists() )
-		{
-			return responseText;
-		}
-
-		// If we are not running chat, pop up a RecentEventsFrame to
-		// show the events.
-
-		if ( !ChatManager.isRunning() && shouldLoadEventFrame )
-		{
-			SwingUtilities.invokeLater( new CreateFrameRunnable( RecentEventsFrame.class ) );
+			EventManager.addNormalEvent( events[ i ] );
+			ChatManager.broadcastEvent( new EventMessage( events[i], "green" ) );
 		}
 
 		return responseText;
