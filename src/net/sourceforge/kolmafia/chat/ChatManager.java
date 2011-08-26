@@ -41,6 +41,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -84,6 +85,7 @@ public abstract class ChatManager
 	private static final Set validChatReplyRecipients = new HashSet();
 
 	private static final TreeMap instantMessageBuffers = new TreeMap();
+	private static Entry[] bufferEntries = new Entry[ 0 ];
 
 	private static boolean isRunning = false;
 
@@ -150,15 +152,16 @@ public abstract class ChatManager
 
 		StyledChatBuffer.initializeHighlights();
 
-		Object[] bufferKeys = ChatManager.instantMessageBuffers.keySet().toArray();
-
-		for ( int i = 0; i < bufferKeys.length; ++i )
+		synchronized ( ChatManager.bufferEntries )
 		{
-			String bufferKey = (String) bufferKeys[ i ];
-
-			if ( bufferKey.startsWith( "/" ) )
+			for ( int i = 0; i < ChatManager.bufferEntries.length; ++i )
 			{
-				ChatManager.openWindow( bufferKey, false );
+				String bufferKey = (String) ChatManager.bufferEntries[ i ].getKey();
+
+				if ( bufferKey.startsWith( "/" ) )
+				{
+					ChatManager.openWindow( bufferKey, false );
+				}
 			}
 		}
 
@@ -256,7 +259,14 @@ public abstract class ChatManager
 			buffer.setLogFile( new File( KoLConstants.CHATLOG_LOCATION, fileName.toString() ) );
 		}
 
-		ChatManager.instantMessageBuffers.put( bufferKey, buffer );
+		synchronized ( ChatManager.bufferEntries )
+		{
+			ChatManager.instantMessageBuffers.put( bufferKey, buffer );
+
+			ChatManager.bufferEntries = new Entry[ ChatManager.instantMessageBuffers.size() ];
+
+			ChatManager.instantMessageBuffers.entrySet().toArray( ChatManager.bufferEntries );
+		}
 
 		return buffer;
 	}
@@ -559,13 +569,21 @@ public abstract class ChatManager
 
 		if ( !( message instanceof InternalMessage ) )
 		{
-			Object[] buffers = ChatManager.instantMessageBuffers.values().toArray();
-
-			for ( int i = 0; i < buffers.length; ++i )
+			synchronized ( ChatManager.bufferEntries )
 			{
-				buffer = (StyledChatBuffer) buffers[ i ];
+				for ( int i = 0; i < ChatManager.bufferEntries.length; ++i )
+				{
+					String key = (String) ChatManager.bufferEntries[ i ].getKey();
 
-				buffer.append( displayHTML );
+					if ( key.equals( "[events]" ) )
+					{
+						continue;
+					}
+
+					buffer = (StyledChatBuffer) ChatManager.bufferEntries[ i ].getValue();
+
+					buffer.append( displayHTML );
+				}
 			}
 		}
 	}
@@ -633,11 +651,9 @@ public abstract class ChatManager
 
 	public static void applyHighlights()
 	{
-		Object[] buffers = ChatManager.instantMessageBuffers.values().toArray();
-
-		for ( int i = 0; i < buffers.length; ++i )
+		for ( int i = 0; i < ChatManager.bufferEntries.length; ++i )
 		{
-			StyledChatBuffer buffer = (StyledChatBuffer) buffers[ i ];
+			StyledChatBuffer buffer = (StyledChatBuffer) ChatManager.bufferEntries[ i ].getValue();
 
 			buffer.applyHighlights();
 		}
