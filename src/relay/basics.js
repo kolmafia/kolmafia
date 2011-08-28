@@ -60,7 +60,7 @@ function updateDisplay( display, responseText )
 
 	display.scrollTop = display.scrollHeight;
 	if ( !isRefreshing && responseText.indexOf("<!-- REFRESH -->") != -1 )
-		charpane.location.reload();
+		top.charpane.location.reload();
 }
 
 function inlineLoad( location, fields, id )
@@ -114,10 +114,10 @@ function inlineLoad( location, fields, id )
 		// </tinyskills.js>
 
 		if ( httpObject.responseText.indexOf( "charpane" ) != -1 )
-			charpane.location.reload();
+			top.charpane.location.reload();
 
 		if ( httpObject.responseText.indexOf( "topmenu" ) != -1 )
-			menupane.location.reload();
+			top.menupane.location.reload();
 
 	};
 
