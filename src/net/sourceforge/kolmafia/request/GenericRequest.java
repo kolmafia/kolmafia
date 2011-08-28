@@ -1851,7 +1851,6 @@ public class GenericRequest
 			if ( !CharPaneRequest.processResults( responseTimestamp, this.responseText ) )
 			{
 				this.responseCode = 304;
-				this.responseText = "";
 			}
 
 			return;
