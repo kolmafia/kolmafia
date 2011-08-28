@@ -1079,7 +1079,7 @@ public class RelayRequest
 		warning.append( "</tr></table></center><blockquote>KoLmafia has detected that you may be doing a 100% familiar run.  If you are sure you wish to deviate from this path, click on the familiar on the left.  If this was an accident, please click on the familiar on the right to switch to your 100% familiar." );
 		warning.append( "</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
-		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );		
+		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
 	public void sendBossWarning( final String name, final String image, final int mcd1, final String item1,
@@ -1718,9 +1718,9 @@ public class RelayRequest
 			}
 
 			// Check for a 100% familiar run if the current familiar
-			// has zero experience.
+			// has zero combat experience.
 
-			if ( KoLCharacter.getFamiliar().getExperience() == 0 )
+			if ( KoLCharacter.getFamiliar().getCombatExperience() == 0 )
 			{
 				Iterator familiarIterator = KoLCharacter.getFamiliarList().iterator();
 
@@ -1730,7 +1730,7 @@ public class RelayRequest
 				{
 					FamiliarData familiar = (FamiliarData) familiarIterator.next();
 
-					if ( familiar.getExperience() > 0 )
+					if ( familiar.getCombatExperience() > 0 )
 					{
 						if ( onlyUsedFamiliar != null )
 						{

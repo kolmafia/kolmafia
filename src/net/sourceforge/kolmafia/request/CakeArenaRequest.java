@@ -180,9 +180,11 @@ public class CakeArenaRequest
 	{
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		int xp = CakeArenaManager.earnedXP( responseText );
+
 		boolean gain = responseText.indexOf( "gains a pound" ) != -1;
 		if ( xp > 0 )
 		{
+			familiar.addNonCombatExperience( xp );
 			return familiar.getName() + " gains " + xp + " experience" + ( gain ? " and a pound." : "." );
 		}
 		else

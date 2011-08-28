@@ -1560,7 +1560,7 @@ public class UseItemRequest
 		// grows a bit.
 		if ( responseText.indexOf( "He grows a bit" ) != -1 )
 		{
-			KoLCharacter.getFamiliar().addExperience( item.getCount() );
+			KoLCharacter.getFamiliar().addNonCombatExperience( item.getCount() );
 		}
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();

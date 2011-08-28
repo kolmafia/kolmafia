@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
@@ -141,15 +142,27 @@ public class FamiliarData
 		return !this.beeware || !KoLCharacter.inBeecore();
 	}
 
-	public final void addExperience( final int exp )
-	{
-		this.experience += exp;
-		this.setWeight();
-	}
-
-	public final int getExperience()
+	public final int getTotalExperience()
 	{
 		return this.experience;
+	}
+
+	public final int getCombatExperience()
+	{
+		return this.getTotalExperience() - this.getNonCombatExperience();
+	}
+
+	public final int getNonCombatExperience()
+	{
+		return Preferences.getInteger( "nonCombatExperience" + getId() );
+	}
+
+	public final void addNonCombatExperience( final int exp )
+	{
+		this.experience += exp;
+		Preferences.increment( "nonCombatExperience" + getId(), exp );
+
+		this.setWeight();
 	}
 
 	private final void setWeight()
@@ -227,7 +240,7 @@ public class FamiliarData
 				// Update existing familiar
 				familiar.update( matcher );
 			}
-			
+
 			if ( matcher.group( 6 ).indexOf( "kick out" ) != -1 )
 			{
 				hatseat = familiar;
@@ -248,7 +261,7 @@ public class FamiliarData
 		else if ( first != FamiliarData.NO_FAMILIAR )
 		{	// There's no indication of whether your current familiar is a
 			// favorite or not.  Safest to assume it is:
-			first.setFavorite( true );			
+			first.setFavorite( true );
 		}
 
 		KoLCharacter.setFamiliar( first );
@@ -288,7 +301,7 @@ public class FamiliarData
 	{
 		return this.id;
 	}
- 
+
 	public boolean getFeasted()
 	{
 		return this.feasted;
@@ -485,7 +498,7 @@ public class FamiliarData
 		Modifiers mods = Modifiers.getModifiers( "fam:" + this.getRace() );
 		return mods != null && mods.getBoolean( Modifiers.UNDERWATER_FAMILIAR );
 	}
-	
+
 	public boolean enthroneable()
 	{
 		switch ( this.id )
@@ -530,12 +543,12 @@ public class FamiliarData
 		{
 			return false;
 		}
-		
+
 		if ( item == EquipmentRequest.UNEQUIP )
 		{
 			return true;
 		}
-		
+
 		int itemId = item.getItemId();
 		if ( itemId <= 0 )
 		{
@@ -546,10 +559,10 @@ public class FamiliarData
 		{
 		case -1:
 			return false;
-			
+
 		case FamiliarPool.CHAMELEON:
 			return false;
-			
+
 		case FamiliarPool.HATRACK:
 			return itemId != ItemPool.HATSEAT && ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_HAT;
 
@@ -563,7 +576,7 @@ public class FamiliarData
 			}
 			break;
 		}
-		
+
 		String name = item.getName();
 		if ( name.equals( FamiliarDatabase.getFamiliarItem( this.id ) ) )
 		{
@@ -579,7 +592,7 @@ public class FamiliarData
 		{
 			return true;
 		}
-		
+
 		String others = mods.getString( Modifiers.EQUIPS_ON );
 		if ( others == null || others.equals( "" ) )
 		{
@@ -711,7 +724,7 @@ public class FamiliarData
 	}
 
 	/**
-	 * Calculates the number of combats with a Slimeling required for the 
+	 * Calculates the number of combats with a Slimeling required for the
 	 * nth slime stack in an ascension to drop.
 	 * @param n the number of the slime stack (reset to zero on ascension)
 	 * @return the number of combats
