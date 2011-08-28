@@ -135,7 +135,7 @@ public class CharPaneRequest
 
 	public static boolean processResults( long responseTimestamp, String responseText )
 	{
-		if ( CharPaneRequest.lastResponseTimestamp >= responseTimestamp )
+		if ( CharPaneRequest.lastResponseTimestamp > responseTimestamp )
 		{
 			return false;
 		}
