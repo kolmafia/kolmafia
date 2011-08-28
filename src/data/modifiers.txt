@@ -3024,6 +3024,9 @@ Shiny Happy Weapon	Muscle: +20
 Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
+Simply Invisible	Combat Rate: -5
+Simply Irresistible	Combat Rate: +5
+Simply Irritable	Monster Level: +15
 Simulation Stimulation	Experience (Moxie): +5
 Sinuses For Miles	Meat Drop: +200
 Sizzling with Fury	Hot Damage: +25, Initiative: +60
@@ -3664,7 +3667,10 @@ honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 10
 hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
+invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
+irresistibillity potion	Effect: "Simply Irresistible", Effect Duration: 20
+irritability potion	Effect: "Simply Irritable", Effect Duration: 20
 jaba&ntilde;ero-flavored chewing gum	Effect: "Spicy Mouth", Effect Duration: 5
 jar of &quot;Creole Lady&quot; marrrmalade	Effect: "Savage Beast Inside", Effect Duration: 10
 jazz soap	Free Pull, Effect: "Jazz Hands", Effect Duration: 20
