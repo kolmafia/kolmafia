@@ -1848,7 +1848,13 @@ public class GenericRequest
 			long responseTimestamp =
 				this.formConnection.getHeaderFieldDate( "Date", System.currentTimeMillis() );
 
-			CharPaneRequest.processResults( responseTimestamp, this.responseText );
+			if ( !CharPaneRequest.processResults( responseTimestamp, this.responseText ) )
+			{
+				this.responseCode = 304;
+				this.responseText = "";
+			}
+
+			return;
 		}
 
 		if ( !this.isChatRequest && !urlString.startsWith( "fight.php" ) )

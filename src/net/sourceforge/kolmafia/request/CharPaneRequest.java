@@ -123,15 +123,24 @@ public class CharPaneRequest
 		CharPaneRequest.canInteract = interaction;
 	}
 
-	public static void processResults( long responseTimestamp, String responseText )
+	public void run()
+	{
+		super.run();
+
+		if ( this.responseCode == 200 )
+		{
+			CharPaneRequest.lastResponse = responseText;
+		}
+	}
+
+	public static boolean processResults( long responseTimestamp, String responseText )
 	{
 		if ( CharPaneRequest.lastResponseTimestamp >= responseTimestamp )
 		{
-			return;
+			return false;
 		}
 
 		CharPaneRequest.lastResponseTimestamp = responseTimestamp;
-		CharPaneRequest.lastResponse = responseText;
 
 		// We can deduce whether we are in compact charpane mode
 
@@ -142,7 +151,7 @@ public class CharPaneRequest
 			 responseText.indexOf( "<br>Lvl. <img" ) != -1 )
 		{
 			processValhallaCharacterPane( responseText );
-			return;
+			return true;
 		}
 
 		CharPaneRequest.inValhalla = false;
@@ -166,7 +175,7 @@ public class CharPaneRequest
 		if ( turnsThisRun < CharPaneRequest.turnsThisRun ||
 		     turnsThisRun < mafiaTurnsThisRun )
 		{
-			return;
+			return false;
 		}
 
 		CharPaneRequest.turnsThisRun = turnsThisRun;
@@ -194,6 +203,7 @@ public class CharPaneRequest
 		KoLCharacter.updateStatus();
 
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
+		return true;
 	}
 
 	public static final String getLastResponse()
