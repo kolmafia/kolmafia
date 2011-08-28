@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -164,7 +165,7 @@ public class ValhallaManager
 		ConcoctionDatabase.refreshConcoctions();
 
 		// If he has Master of the Surprising Fist permed, note it
-		Preferences.setInteger( "fistSkillsKnown", 
+		Preferences.setInteger( "fistSkillsKnown",
 					KoLCharacter.hasSkill( "Master of the Surprising Fist" ) ?
 					1 : 0 );
 
@@ -193,10 +194,10 @@ public class ValhallaManager
 			// TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
 			// TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
 		}
-		
+
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
-		
+
 		if ( Preferences.getBoolean( "autostartGalaktikQuest" ) )
 		{
 			RequestThread.postRequest( new GalaktikRequest( "startquest" ) );
@@ -269,6 +270,11 @@ public class ValhallaManager
 
 	public static final void resetPerAscensionCounters()
 	{
+		for ( int i = 1; i <= FamiliarDatabase.maxFamiliarId; ++i )
+		{
+			Preferences.setInteger( "nonCombatExperience" + i, 0 );
+		}
+
 		Preferences.setFloat( "slimelingFullness", 0.0F );
 		Preferences.setInteger( "slimelingStacksDropped", 0 );
 		Preferences.setInteger( "slimelingStacksDue", 0 );

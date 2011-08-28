@@ -2154,7 +2154,7 @@ public class FightRequest
 			// <name> gorges himself on candy from his bag.
 			if ( responseText.indexOf( "gorges himself on candy from his bag" ) != -1 )
 			{
-				familiar.addExperience( 1 );
+				familiar.addNonCombatExperience( 1 );
 			}
 			break;
 
@@ -2184,7 +2184,7 @@ public class FightRequest
 		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&
 			responseText.indexOf( "gains 1 Experience" ) != -1 )
 		{
-			KoLCharacter.getEnthroned().addExperience( 1 );
+			KoLCharacter.getEnthroned().addNonCombatExperience( 1 );
 		}
 
 		// Cancel any combat modifiers
