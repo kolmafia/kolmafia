@@ -66,8 +66,9 @@ public class CharPaneRequest
 
 	private static boolean canInteract = false;
 	private static boolean inValhalla = false;
-	private static boolean isRunning = false;
+
 	private static String lastResponse = "";
+	private static long lastResponseTimestamp = 0;
 
 	private static int turnsThisRun = 0;
 
@@ -122,25 +123,16 @@ public class CharPaneRequest
 		CharPaneRequest.canInteract = interaction;
 	}
 
-	public void run()
+	public static void processResults( long responseTimestamp, String responseText )
 	{
-		if ( CharPaneRequest.isRunning )
+		if ( CharPaneRequest.lastResponseTimestamp >= responseTimestamp )
 		{
 			return;
 		}
 
-		CharPaneRequest.isRunning = true;
-		super.run();
-		CharPaneRequest.isRunning = false;
+		CharPaneRequest.lastResponseTimestamp = responseTimestamp;
+		CharPaneRequest.lastResponse = responseText;
 
-		if ( this.responseCode == 200 )
-		{
-			CharPaneRequest.lastResponse = responseText;
-		}
-	}
-
-	public static final void processResults( final String responseText )
-	{
 		// We can deduce whether we are in compact charpane mode
 
 		GenericRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
