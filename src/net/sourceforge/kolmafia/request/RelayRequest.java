@@ -126,8 +126,6 @@ public class RelayRequest
 
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 
-
-	private static String mainpane = "";
 	private static KoLAdventure lastSafety = null;
 
 	private final boolean allowOverride;
@@ -1511,6 +1509,26 @@ public class RelayRequest
 
 		if ( this.allowOverride && KoLmafiaASH.getClientHTML( this ) )
 		{
+			return;
+		}
+
+		if ( path.startsWith( "game.php" ) )
+		{
+			super.run();
+
+			String mainpane = this.getFormField( "mainpane" );
+
+			if ( mainpane != null )
+			{
+				if ( mainpane.indexOf( ".php" ) == -1 )
+				{
+					mainpane = mainpane + ".php";
+				}
+
+				this.responseText = StringUtilities.singleStringReplace(
+					this.responseText, "main.php", mainpane );
+			}
+
 			return;
 		}
 
