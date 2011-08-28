@@ -42,7 +42,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
@@ -57,6 +56,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -210,7 +210,7 @@ public class FoldItemCommand
 
 			GenericRequest request = new GenericRequest( buf.toString(), false );
 			RequestThread.postRequest( request );
-			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
+			ResponseTextParser.externalUpdate( request.getURLString(), request.responseText );
 			return;
 		}
 

@@ -38,7 +38,6 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatSender;
 
@@ -46,6 +45,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -125,7 +126,7 @@ public class AutoAttackCommand
 		{
 			AutoAttackCommand.AUTO_ATTACKER.addFormField( "value", String.valueOf( skillId ) );
 			RequestThread.postRequest( AutoAttackCommand.AUTO_ATTACKER );
-			StaticEntity.externalUpdate( AutoAttackCommand.AUTO_ATTACKER.getURLString(), AutoAttackCommand.AUTO_ATTACKER.responseText );
+			ResponseTextParser.externalUpdate( AutoAttackCommand.AUTO_ATTACKER.getURLString(), AutoAttackCommand.AUTO_ATTACKER.responseText );
 		}
 		
 		return true;

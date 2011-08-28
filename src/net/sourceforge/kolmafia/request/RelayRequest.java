@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
@@ -243,7 +244,7 @@ public class RelayRequest
 
 		boolean externalUpdate = false;
 
-		if ( StaticEntity.hasResult( path ) && !path.startsWith( "fight.php" ) )
+		if ( ResponseTextParser.hasResult( path ) && !path.startsWith( "fight.php" ) )
 		{
 			externalUpdate = true;
 		}
@@ -254,7 +255,7 @@ public class RelayRequest
 
 		if ( externalUpdate )
 		{
-			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
+			ResponseTextParser.externalUpdate( this.getURLString(), this.responseText );
 		}
 	}
 

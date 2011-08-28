@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.OceanManager;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -968,7 +969,7 @@ public class GenericRequest
 			}
 		}
 
-		if ( StaticEntity.hasResult( this.formURLString ) )
+		if ( ResponseTextParser.hasResult( this.formURLString ) )
 		{
 			while ( true )
 			{
@@ -1217,7 +1218,7 @@ public class GenericRequest
 			GenericRequest.isRatQuest = urlString.startsWith( "cellar.php" );
 		}
 
-		if ( GenericRequest.isRatQuest && StaticEntity.hasResult( this.formURLString ) && !urlString.startsWith( "cellar.php" ) )
+		if ( GenericRequest.isRatQuest && ResponseTextParser.hasResult( this.formURLString ) && !urlString.startsWith( "cellar.php" ) )
 		{
 			GenericRequest.isRatQuest = urlString.startsWith( "fight.php" );
 		}
@@ -1227,7 +1228,7 @@ public class GenericRequest
 			TavernRequest.preTavernVisit( this );
 		}
 
-		if ( StaticEntity.hasResult( this.formURLString ) && GenericRequest.isBarrelSmash )
+		if ( ResponseTextParser.hasResult( this.formURLString ) && GenericRequest.isBarrelSmash )
 		{
 			// Smash has resulted in a mimic.
 			// Continue tracking throughout the combat
@@ -1240,7 +1241,7 @@ public class GenericRequest
 			BarrelDecorator.beginSmash( urlString );
 		}
 
-		if ( StaticEntity.hasResult( this.formURLString ) )
+		if ( ResponseTextParser.hasResult( this.formURLString ) )
 		{
 			RequestLogger.registerRequest( this, urlString );
 		}
@@ -1830,7 +1831,7 @@ public class GenericRequest
 	public void processResponse()
 	{
 		String urlString = this.getURLString();
-		boolean hasResult = StaticEntity.hasResult( this.formURLString );
+		boolean hasResult = ResponseTextParser.hasResult( this.formURLString );
 
 		if ( this.shouldUpdateDebugLog() )
 		{

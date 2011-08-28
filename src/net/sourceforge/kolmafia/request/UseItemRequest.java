@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -687,7 +688,7 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Splitting bricks..." );
 			GenericRequest req = new GenericRequest( "inventory.php?action=breakbricko&pwd&whichitem=" + itemId );
 			RequestThread.postRequest( req );
-			StaticEntity.externalUpdate( req.getURLString(), req.responseText );
+			ResponseTextParser.externalUpdate( req.getURLString(), req.responseText );
 			return;
 
 		case ItemPool.STICKER_SWORD:
@@ -1460,7 +1461,7 @@ public class UseItemRequest
 				UseItemRequest.REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
 				UseItemRequest.lastItemUsed = this.itemUsed;
 				UseItemRequest.parseConsumption( UseItemRequest.REDIRECT_REQUEST.responseText, true );
-				StaticEntity.learnRecipe( this.getURLString(), UseItemRequest.REDIRECT_REQUEST.responseText );
+				ResponseTextParser.learnRecipe( this.getURLString(), UseItemRequest.REDIRECT_REQUEST.responseText );
 			}
 			else if ( this.redirectLocation.startsWith( "choice.php" ) )
 			{
@@ -1514,7 +1515,7 @@ public class UseItemRequest
 
 		UseItemRequest.lastItemUsed = this.itemUsed;
 		UseItemRequest.parseConsumption( this.responseText, true );
-		StaticEntity.learnRecipe( this.getURLString(), this.responseText );
+		ResponseTextParser.learnRecipe( this.getURLString(), this.responseText );
 	}
 
 	public static final boolean parseBinge( final String urlString, final String responseText )
@@ -2852,7 +2853,7 @@ public class UseItemRequest
 				return;
 			}
 
-			StaticEntity.learnSkill( skill );
+			ResponseTextParser.learnSkill( skill );
 
 			return;
 		}
@@ -2860,7 +2861,7 @@ public class UseItemRequest
 		case ItemPool.TEACHINGS_OF_THE_FIST:
 			// You learn a different skill from each scroll
 			Preferences.increment( "fistSkillsKnown", 1 );
-			StaticEntity.learnSkillFromResponse( responseText );
+			ResponseTextParser.learnSkillFromResponse( responseText );
 			return;
 
 		case ItemPool.SLIME_SOAKED_HYPOPHYSIS:
@@ -2872,7 +2873,7 @@ public class UseItemRequest
 				GenericRequest req = new GenericRequest(
 					"desc_skill.php?whichskill=" + i + "&self=true" );
 				RequestThread.postRequest( req );
-				StaticEntity.externalUpdate( req.getURLString(), req.responseText );
+				ResponseTextParser.externalUpdate( req.getURLString(), req.responseText );
 			}
 
 			// You can learn the appropriate skill up to 10 times.
@@ -2884,7 +2885,7 @@ public class UseItemRequest
 			}
 
 			String skill = UseItemRequest.itemToSkill( item.getItemId() );
-			StaticEntity.learnSkill( skill );
+			ResponseTextParser.learnSkill( skill );
 
 			return;
 		}
@@ -3278,7 +3279,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				StaticEntity.learnSkill( "Stomach of Steel" );
+				ResponseTextParser.learnSkill( "Stomach of Steel" );
 			}
 			return;
 
@@ -3286,7 +3287,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				StaticEntity.learnSkill( "Liver of Steel" );
+				ResponseTextParser.learnSkill( "Liver of Steel" );
 			}
 			return;
 
@@ -3294,7 +3295,7 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				StaticEntity.learnSkill( "Spleen of Steel" );
+				ResponseTextParser.learnSkill( "Spleen of Steel" );
 			}
 			return;
 

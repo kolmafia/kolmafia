@@ -37,9 +37,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 
 
 public class SentMessageEntry
@@ -94,7 +95,7 @@ public class SentMessageEntry
 				continue;
 			}
 
-			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
+			ResponseTextParser.externalUpdate( request.getURLString(), request.responseText );
 		}
 
 		dojax.reset();

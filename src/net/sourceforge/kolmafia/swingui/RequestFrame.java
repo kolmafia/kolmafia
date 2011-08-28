@@ -65,6 +65,8 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
+import net.sourceforge.kolmafia.session.ResponseTextParser;
+
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
@@ -256,7 +258,7 @@ public class RequestFrame
 				return;
 			}
 
-			StaticEntity.externalUpdate( this.currentLocation, request.responseText );
+			ResponseTextParser.externalUpdate( this.currentLocation, request.responseText );
 		}
 
 		this.showHTML( this.currentLocation, request.responseText );

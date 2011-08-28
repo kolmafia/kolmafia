@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -58,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 
 public class QuarkCommand
 	extends AbstractCommand
@@ -134,7 +134,7 @@ public class QuarkCommand
 		GenericRequest visitor =
 			new GenericRequest( "craft.php?action=craft&mode=combine&ajax=1&pwd&qty=1&a=3743&b=" + item.getItemId() );
 		RequestThread.postRequest( visitor );
-		StaticEntity.externalUpdate( visitor.getURLString(), visitor.responseText );
+		ResponseTextParser.externalUpdate( visitor.getURLString(), visitor.responseText );
 	}
 
 	private boolean isPasteable( final AdventureResult item )
