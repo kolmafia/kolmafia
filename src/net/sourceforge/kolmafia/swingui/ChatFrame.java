@@ -447,14 +447,9 @@ public class ChatFrame
 	{
 		public void handleInternalLink( final String location )
 		{
-			if ( location.startsWith( "makeoffer" ) || location.startsWith( "counteroffer" ) || location.startsWith( "bet" ) )
+			if ( location.startsWith( "makeoffer" ) || location.startsWith( "counteroffer" ) || location.startsWith( "bet" ) || location.startsWith( "messages" ) )
 			{
 				RelayLoader.openSystemBrowser( location, true );
-				return;
-			}
-			else if ( location.startsWith( "messages" ) )
-			{
-				GenericFrame.createDisplay( MailboxFrame.class );
 				return;
 			}
 
