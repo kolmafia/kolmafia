@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.chat.InternalMessage;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 
+import net.sourceforge.kolmafia.session.ResponseTextParser;
+
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public abstract class RequestThread
@@ -63,7 +65,7 @@ public abstract class RequestThread
 		// Make sure there is a URL string in the request
 		request.reconstructFields();
 
-		if ( RequestThread.sequenceCount == 0 && StaticEntity.hasResult( request.getURLString() ) )
+		if ( RequestThread.sequenceCount == 0 && ResponseTextParser.hasResult( request.getURLString() ) )
 		{
 			KoLmafia.forceContinue();
 		}

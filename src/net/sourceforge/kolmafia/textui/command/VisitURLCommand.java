@@ -2,9 +2,10 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 
 public class VisitURLCommand
 	extends AbstractCommand
@@ -26,7 +27,7 @@ public class VisitURLCommand
 		}
 
 		RequestThread.postRequest( visitor );
-		StaticEntity.externalUpdate( visitor.getURLString(), visitor.responseText );
+		ResponseTextParser.externalUpdate( visitor.getURLString(), visitor.responseText );
 
 		if ( cmd.equals( "text" ) )
 		{

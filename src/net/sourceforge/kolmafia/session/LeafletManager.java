@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -575,7 +574,7 @@ public abstract class LeafletManager
 		if ( LeafletManager.parchment && !KoLCharacter.hasSkill( "CLEESH" ) )
 		{
 			LeafletManager.executeCommand( "GNUSTO CLEESH" );
-			StaticEntity.learnSkill( "CLEESH" );
+			ResponseTextParser.learnSkill( "CLEESH" );
 			LeafletManager.parchment = false;
 			LeafletManager.scroll = false;
 		}

@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
@@ -4012,7 +4013,7 @@ public class FightRequest
 					if ( bnode != null )
 					{
 						String skill = bnode.getText().toString();
-						StaticEntity.learnSkill( skill );
+						ResponseTextParser.learnSkill( skill );
 					}
 					continue;
 				}
