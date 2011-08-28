@@ -58,15 +58,15 @@ public class ChatParser
 
 	private static final Pattern TITLE_PATTERN =
 		Pattern.compile( "<center><b>([^<]+)</b></center>" );
-	
-	private static final Pattern WHO_PATTERN = 
+
+	private static final Pattern WHO_PATTERN =
 		Pattern.compile( "<font color=(\\w+)[^>]*>(.*?)</font></a>" );
-	
+
 	private static final Pattern PLAYERID_PATTERN =
 		Pattern.compile( "showplayer\\.php\\?who\\=([-\\d]+)[\'\"][^>]*?>(.*?)</a>" );
 
 	private static final Pattern SENDER_PATTERN =
-		Pattern.compile( "<b><a target=mainpane href=\"showplayer\\.php\\?who=([\\-\\d]+)\">([^<]+)</a>\\:?</b>\\:? " );
+		Pattern.compile( "(?:<b>)+<a target=mainpane href=\"showplayer\\.php\\?who=([\\-\\d]+)\">([^<]+)</a>\\:?</b>\\:? (.*)(?:</b>)?" );
 
 	private static final Pattern CHANNEL_LISTEN_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 
@@ -103,7 +103,7 @@ public class ChatParser
 		ChatParser.parsePlayerIds( content );
 
 		Matcher titleMatcher = TITLE_PATTERN.matcher( content );
-		
+
 		String title = titleMatcher.find() ? titleMatcher.group( 1 ) : "Contacts Online";
 
 		Map contacts = new TreeMap();
@@ -115,7 +115,7 @@ public class ChatParser
 			String playerName = whoMatcher.group( 2 );
 			String color = whoMatcher.group( 1 );
 			boolean inChat = color.equals( "black" ) || color.equals( "blue" );
-		
+
 			contacts.put( playerName, inChat ? Boolean.TRUE : Boolean.FALSE );
 		}
 
@@ -300,8 +300,7 @@ public class ChatParser
 
 		String playerId = senderMatcher.group( 1 ).trim();
 		String playerName = senderMatcher.group( 2 ).trim();
-
-		content = senderMatcher.replaceFirst( "" );
+		content = senderMatcher.group( 3 );
 
 		ChatMessage message;
 
