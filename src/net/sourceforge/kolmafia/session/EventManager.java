@@ -43,11 +43,14 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.EventMessage;
+
+import net.sourceforge.kolmafia.request.LoginRequest;
 
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
@@ -128,17 +131,20 @@ public class EventManager
 			EventManager.eventHistory.add( eventText );
 		}
 
-		// Print everything to the default shell; this way, the
-		// graphical CLI is also notified of events.
-
-		RequestLogger.printLine( eventHTML );
-
-		// Balloon messages for whenever the person does not have
-		// focus on KoLmafia.
-
-		if ( StaticEntity.usesSystemTray() )
+		if ( !LoginRequest.isInstanceRunning() )
 		{
-			SystemTrayFrame.showBalloon( eventText );
+			// Print everything to the default shell; this way, the
+			// graphical CLI is also notified of events.
+
+			RequestLogger.printLine( eventHTML );
+
+			// Balloon messages for whenever the person does not have
+			// focus on KoLmafia.
+
+			if ( StaticEntity.usesSystemTray() )
+			{
+				SystemTrayFrame.showBalloon( eventText );
+			}
 		}
 
 		return true;
@@ -161,6 +167,7 @@ public class EventManager
 		}
 
 		// Make an array of events
+
 		String[] events = eventMatcher.group( 1 ).replaceAll( "<br>", "\n" ).split( "\n" );
 
 		for ( int i = 0; i < events.length; ++i )
@@ -178,9 +185,14 @@ public class EventManager
 		for ( int i = 0; i < events.length; ++i )
 		{
 			EventManager.addNormalEvent( events[ i ] );
-			ChatManager.broadcastEvent( new EventMessage( events[i], "green" ) );
+
+			if ( ChatManager.isRunning() )
+			{
+				ChatManager.broadcastEvent( new EventMessage( events[i], "green" ) );
+			}
 		}
 
 		return responseText;
 	}
+
 }
