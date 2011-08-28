@@ -5137,7 +5137,7 @@
 5128	Notes from the Elfpocalypse, Chapter IV	hpmp	all	100
 5129	Notes from the Elfpocalypse, Chapter V	hpmp	all	100
 5130	Notes from the Elfpocalypse, Chapter VI	hpmp	all	100
-5131	Ultrasoldier Serum	multiple	all	0
+5131	Ultrasoldier Serum	usable	all	0
 5132	elven hardtack	food	all	30
 5133	elven squeeze	drink	all	30
 5134	lunar isotope	none	all	0
