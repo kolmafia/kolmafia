@@ -139,7 +139,7 @@ public class ChatFormatter
 	{
 		return ChatFormatter.formatChatMessage( message, true );
 	}
-	
+
 	public static final String formatChatMessage( final ChatMessage message, boolean includeTimestamp )
 	{
 		StringBuffer displayHTML = new StringBuffer();
@@ -183,8 +183,8 @@ public class ChatFormatter
 		else if ( message instanceof ModeratorMessage )
 		{
 			ModeratorMessage modMessage = (ModeratorMessage) message;
-			
-			displayHTML.append( "<font color=\"red\">" );
+
+			displayHTML.append( "<b><font color=\"red\">" );
 			displayHTML.append( "<a href=\"showplayer.php?who=" );
 			displayHTML.append( modMessage.getModeratorId() );
 			displayHTML.append( "\">" );
@@ -195,7 +195,7 @@ public class ChatFormatter
 
 			displayHTML.append( ": " );
 			displayHTML.append( message.getContent() );
-			displayHTML.append( "</font>" );
+			displayHTML.append( "</font></b>" );
 		}
 		else
 		{
