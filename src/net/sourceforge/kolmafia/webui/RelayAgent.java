@@ -446,24 +446,6 @@ public class RelayAgent
 			this.request.pseudoResponse( "HTTP/1.1 200 OK",
 				LeafletManager.leafletWithMagic() );
 		}
-		else if ( this.path.startsWith( "/sidepane.php" ) )
-		{
-			String responseText = CharPaneRequest.getLastResponse();
-
-			// Load image files locally to reduce bandwidth
-			// and improve mini-browser performance.
-
-			if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
-			{
-				responseText = StringUtilities.globalStringReplace( responseText, "http://images.kingdomofloathing.com", "/images" );
-			}
-			else
-			{
-				responseText = StringUtilities.globalStringReplace( responseText, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
-			}
-
-			this.request.pseudoResponse( "HTTP/1.1 200 OK", responseText );
-		}
 		else if ( this.path.startsWith( "/loggedout.php" ) )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", LogoutRequest.getLastResponse() );

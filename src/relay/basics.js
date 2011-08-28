@@ -36,64 +36,6 @@ function getHttpObject()
 	return httpObject;
 }
 
-
-function refreshSidebar( desiredRefresh )
-{
-	var httpObject = getHttpObject();
-	if ( !httpObject )
-		return;
-
-	isRefreshing = true;
-	httpObject.onreadystatechange = function()
-	{
-		if ( httpObject.readyState != 4 )
-			return;
-
-		var bodyBegin = httpObject.responseText.indexOf( ">", httpObject.responseText.indexOf( "<body" ) ) + 1;
-		var bodyEnd = httpObject.responseText.indexOf( "</body>" );
-
-		if ( bodyBegin > 0 && bodyEnd > 0 )
-		{
-			var body = httpObject.responseText.substring( bodyBegin, bodyEnd );
-			top.charpane.document.getElementsByTagName( "body" )[0].innerHTML = body;
-		}
-
-		isRefreshing = false;
-	}
-
-	httpObject.open( "GET", desiredRefresh, true );
-	httpObject.send( null );
-}
-
-function refreshTopmenu( desiredRefresh )
-{
-	var httpObject = getHttpObject();
-	if ( !httpObject )
-		return;
-
-	isRefreshing = true;
-	httpObject.onreadystatechange = function()
-	{
-		if ( httpObject.readyState != 4 )
-			return;
-
-		var bodyBegin = httpObject.responseText.indexOf( ">", httpObject.responseText.indexOf( "<body" ) ) + 1;
-		var bodyEnd = httpObject.responseText.indexOf( "</body>" );
-
-		if ( bodyBegin > 0 && bodyEnd > 0 )
-		{
-			var body = httpObject.responseText.substring( bodyBegin, bodyEnd );
-			top.menupane.document.getElementsByTagName( "body" )[0].innerHTML = body;
-		}
-
-		isRefreshing = false;
-	}
-
-	httpObject.open( "GET", desiredRefresh, true );
-	httpObject.send( null );
-}
-
-
 function updateDisplay( display, responseText )
 {
 	if ( responseText.length < 2 )
@@ -118,7 +60,7 @@ function updateDisplay( display, responseText )
 
 	display.scrollTop = display.scrollHeight;
 	if ( !isRefreshing && responseText.indexOf("<!-- REFRESH -->") != -1 )
-		refreshSidebar( "/sidepane.php" );
+		charpane.location.reload();
 }
 
 function inlineLoad( location, fields, id )
@@ -172,10 +114,10 @@ function inlineLoad( location, fields, id )
 		// </tinyskills.js>
 
 		if ( httpObject.responseText.indexOf( "charpane" ) != -1 )
-			refreshSidebar( "/charpane.php" );
+			charpane.location.reload();
 
 		if ( httpObject.responseText.indexOf( "topmenu" ) != -1 )
-			refreshTopmenu( "/topmenu.php" );
+			menupane.location.reload();
 
 	};
 
@@ -185,7 +127,8 @@ function inlineLoad( location, fields, id )
 }
 
 function singleUse( location, fields )
-{	return inlineLoad( location, fields, false );
+{
+	return inlineLoad( location, fields, false );
 }
 
 
