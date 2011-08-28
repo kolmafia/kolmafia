@@ -4437,10 +4437,10 @@
 4428	glowstick on a string	offhand	none	30
 4429	candy necklace	accessory	none	25
 4430	teddybear backpack	accessory	none	45
-4431
-4432
-4433
-4434
+4431	NPZR chemistry set	multiple	all	0
+4432	invisibility potion	multiple	all	0
+4433	irresistibillity potion	multiple	all	0
+4434	irritability potion	multiple	all	0
 4435
 4436	strange cube	none	all	0
 4437

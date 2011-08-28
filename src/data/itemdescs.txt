@@ -4429,10 +4429,10 @@
 4428	873692545	glowstickneckl.gif	glowstick on a string	glowsticks on strings
 4429	239314123	candynecklace.gif	candy necklace	candy necklaces
 4430	233616866	bearpack.gif	teddybear backpack	teddybear backpack
-4431
-4432
-4433
-4434
+4431	196867588	chemset.gif	NPZR chemistry set	NPZR chemistry sets
+4432	570172940	testtube.gif	invisibility potion	invisibility potions
+4433	560133016	testtube.gif	irresistibillity potion	irresistibillity potions
+4434	361569808	testtube.gif	irritability potion	irritability potions
 4435
 4436	999869987	15puzzle.gif	strange cube	strange cubes
 4437
