@@ -421,7 +421,7 @@ public class KoLDesktop
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new RelayBrowserButton( "Read KoLmail", "mail.gif", "messages.php" ) );
+		toolbarPanel.add( new RelayBrowserButton( "Read KoLmail", "mail.gif", "game.php?mainpane=messages" ) );
 		toolbarPanel.add( new DisplayFrameButton( "KoLmafia Chat", "chat.gif", "ChatManager" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", "ClanManageFrame" ) );
 

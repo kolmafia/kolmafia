@@ -120,7 +120,7 @@ public class GlobalMenuBar
 		JMenu peopleMenu = new JMenu( "People" );
 		this.add( peopleMenu );
 
-		peopleMenu.add( new RelayBrowserMenuItem( "Read KoLmail", "messages.php" ) );
+		peopleMenu.add( new RelayBrowserMenuItem( "Read KoLmail", "game.php?mainpane=messages" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "KoLmafia Chat", "ChatManager" ) );
 
 		peopleMenu.add( new JSeparator() );
