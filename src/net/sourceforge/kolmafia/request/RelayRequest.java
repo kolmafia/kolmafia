@@ -1041,6 +1041,47 @@ public class RelayRequest
 		this.sendGeneralWarning( "wossname.gif", message );
 	}
 
+	private void sendFamiliarWarning( final FamiliarData onlyUsedFamiliar )
+	{
+		StringBuffer warning = new StringBuffer();
+
+		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+
+		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
+		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
+
+		warning.append( "<table><tr>" );
+
+		String url = this.getURLString();
+
+		// Proceed with clover
+		warning.append( "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
+		warning.append( url );
+		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+		warning.append( "confirm=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/");
+		warning.append( FamiliarDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
+		warning.append( "\" width=30 height=30 border=0>" );
+		warning.append( "</a></div></td>" );
+
+		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
+
+		// Protect clover
+		warning.append( "<td align=center valign=center><div id=\"unlucky\" style=\"padding: 4px 4px 4px 4px\">" );
+
+		warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"singleUse('familiar.php', 'action=newfam&ajax=1&newfam=" );
+		warning.append( onlyUsedFamiliar.getId() );
+		warning.append( "'); void(0);\">" );
+		warning.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/");
+		warning.append( FamiliarDatabase.getFamiliarImageLocation( onlyUsedFamiliar.getId() ) );
+		warning.append( "\" width=30 height=30 border=0>" );
+		warning.append( "</a></div></td>" );
+
+		warning.append( "</tr></table></center><blockquote>KoLmafia has detected that you may be doing a 100% familiar run.  If you are sure you wish to deviate from this path, click on the familiar on the left.  If this was an accident, please click on the familiar on the right to switch to your 100% familiar." );
+		warning.append( "</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
+		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );		
+	}
+
 	public void sendBossWarning( final String name, final String image, final int mcd1, final String item1,
 		final int mcd2, final String item2 )
 	{
@@ -1674,6 +1715,38 @@ public class RelayRequest
 			while ( RecoveryManager.isRecoveryActive() )
 			{
 				this.pauser.pause( 200 );
+			}
+
+			// Check for a 100% familiar run if the current familiar
+			// has zero experience.
+
+			if ( KoLCharacter.getFamiliar().getExperience() == 0 )
+			{
+				Iterator familiarIterator = KoLCharacter.getFamiliarList().iterator();
+
+				FamiliarData onlyUsedFamiliar = null;
+
+				while ( familiarIterator.hasNext() )
+				{
+					FamiliarData familiar = (FamiliarData) familiarIterator.next();
+
+					if ( familiar.getExperience() > 0 )
+					{
+						if ( onlyUsedFamiliar != null )
+						{
+							onlyUsedFamiliar = null;
+							break;
+						}
+
+						onlyUsedFamiliar = familiar;
+					}
+				}
+
+				if ( onlyUsedFamiliar != null )
+				{
+					this.sendFamiliarWarning( onlyUsedFamiliar );
+					return;
+				}
 			}
 
 			// Check for clovers as well so that people don't
