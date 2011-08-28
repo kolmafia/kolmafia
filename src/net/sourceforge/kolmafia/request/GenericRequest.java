@@ -1845,7 +1845,10 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "charpane.php" ) )
 		{
-			CharPaneRequest.processResults( this.responseText );
+			long responseTimestamp =
+				this.formConnection.getHeaderFieldDate( "Date", System.currentTimeMillis() );
+
+			CharPaneRequest.processResults( responseTimestamp, this.responseText );
 		}
 
 		if ( !this.isChatRequest && !urlString.startsWith( "fight.php" ) )
