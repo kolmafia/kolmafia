@@ -111,6 +111,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MailManager;
@@ -749,6 +750,11 @@ public abstract class KoLmafia
 		if ( !scriptSetting.equals( "" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
+		}
+
+		if ( EventManager.hasEvents() )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "events" );
 		}
 
 		RequestThread.closeRequestSequence();
