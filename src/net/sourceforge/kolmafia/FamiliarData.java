@@ -147,6 +147,11 @@ public class FamiliarData
 		this.setWeight();
 	}
 
+	public final int getExperience()
+	{
+		return this.experience;
+	}
+
 	private final void setWeight()
 	{
 		int max = this.id == FamiliarPool.STOCKING_MIMIC ? 100 : 20;
