@@ -62,12 +62,12 @@ import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.FlowerHunterFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.MailboxFrame;
 import net.sourceforge.kolmafia.swingui.SendMessageFrame;
 
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
+import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
 
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 
@@ -321,7 +321,7 @@ public class KoLDesktop
 
 	public static final boolean isInversionExempt( final GenericFrame content )
 	{
-		return content instanceof AdventureFrame || content instanceof FlowerHunterFrame || content instanceof MailboxFrame || content instanceof SendMessageFrame;
+		return content instanceof AdventureFrame || content instanceof FlowerHunterFrame || content instanceof SendMessageFrame;
 	}
 
 	public static final void displayDesktop()
@@ -415,14 +415,13 @@ public class KoLDesktop
 		toolbarPanel.add( Box.createHorizontalStrut( 5 ) );
 
 		toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
-		toolbarPanel.add( new InvocationButton(
-			"Load in Web Browser", "browser.gif", RelayLoader.class, "openRelayBrowser" ) );
+		toolbarPanel.add( new RelayBrowserButton( "Load in Web Browser", "browser.gif", null ) );
 
 		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "IcePenguin Express", "mail.gif", "MailboxFrame" ) );
+		toolbarPanel.add( new RelayBrowserButton( "Read KoLmail", "mail.gif", "messages.php" ) );
 		toolbarPanel.add( new DisplayFrameButton( "KoLmafia Chat", "chat.gif", "ChatManager" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", "ClanManageFrame" ) );
 
@@ -443,7 +442,7 @@ public class KoLDesktop
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new InvocationButton( "Radio KoL", "radsword.gif", RelayLoader.class, "launchRadioKoL" ) );
+		toolbarPanel.add( new RelayBrowserButton( "Radio KoL", "radsword.gif", "http://209.9.238.5:8794/listen.pls" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Farmer's Almanac", "calendar.gif", "CalendarFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
 
@@ -516,7 +515,7 @@ public class KoLDesktop
 			this.frame.requestFocusInWindow();
 		}
 	}
-	
+
 	private static class MemoryUsageMonitor
 		extends Thread
 	{
@@ -554,11 +553,11 @@ public class KoLDesktop
 				this.label.setString( usedMemory + " KB / " + maxMemory + " KB" );
 			}
 		}
-		
+
 		public void setLabel( JProgressBar label )
 		{
 			this.label = label;
-			
+
 			if ( !this.isRunning )
 			{
 				this.start();

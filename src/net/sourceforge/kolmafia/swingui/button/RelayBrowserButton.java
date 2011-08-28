@@ -31,29 +31,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.swingui.menu;
+package net.sourceforge.kolmafia.swingui.button;
 
-import net.sourceforge.kolmafia.StaticEntity;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
-/**
- * Internal class which displays the given request inside of the current frame.
- */
-
-public class RelayBrowserMenuItem
-	extends ThreadedMenuItem
+public class RelayBrowserButton
+	extends ThreadedButton
 {
 	private final String location;
 
-	public RelayBrowserMenuItem()
+	public RelayBrowserButton( final String tooltip, final String icon, final String location )
 	{
-		this( "Relay Browser", null );
-	}
+		super( JComponentUtilities.getImage( icon ) );
+		JComponentUtilities.setComponentSize( this, 32, 32 );
+		this.setToolTipText( tooltip );
 
-	public RelayBrowserMenuItem( final String label, final String location )
-	{
-		super( label );
 		this.location = location;
 	}
 

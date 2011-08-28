@@ -80,7 +80,6 @@ import net.sourceforge.kolmafia.swingui.FlowerHunterFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.swingui.LoginFrame;
-import net.sourceforge.kolmafia.swingui.MailboxFrame;
 import net.sourceforge.kolmafia.swingui.MuseumFrame;
 import net.sourceforge.kolmafia.swingui.MushroomFrame;
 import net.sourceforge.kolmafia.swingui.OptionsFrame;
@@ -472,14 +471,6 @@ public class KoLmafiaGUI
 			{
 				RelayLoader.openRelayBrowser();
 				return null;
-			}
-			else if ( this.frameClass == MailboxFrame.class )
-			{
-				RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
-				if ( LoginRequest.isInstanceRunning() )
-				{
-					return null;
-				}
 			}
 			else if ( this.frameClass == MuseumFrame.class )
 			{

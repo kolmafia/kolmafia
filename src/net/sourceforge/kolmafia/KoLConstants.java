@@ -237,10 +237,6 @@ public interface KoLConstants
 			"FamiliarTrainingFrame"
 		},
 		{
-			"IcePenguin Express",
-			"MailboxFrame"
-		},
-		{
 			"Loathing Chat",
 			"ChatManager"
 		},

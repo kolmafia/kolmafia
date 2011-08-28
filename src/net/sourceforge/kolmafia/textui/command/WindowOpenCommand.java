@@ -50,7 +50,7 @@ public class WindowOpenCommand
 
 		if ( command.equals( "radio" ) )
 		{
-			RelayLoader.launchRadioKoL();
+			RelayLoader.openSystemBrowser( "http://209.9.238.5:8794/listen.pls" );
 			return;
 		}
 	}

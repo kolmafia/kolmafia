@@ -62,12 +62,12 @@ public class RelayLoader
 			StringBuffer locationBuffer = new StringBuffer();
 			locationBuffer.append( "http://127.0.0.1:" );
 			locationBuffer.append( RelayServer.getPort() );
-			
+
 			if ( !location.startsWith( "/" ) )
 			{
 				locationBuffer.append( "/" );
 			}
-			
+
 			if ( location.endsWith( "main.php" ) )
 			{
 				locationBuffer.append( "game.php" );
@@ -76,7 +76,7 @@ public class RelayLoader
 			{
 				locationBuffer.append( location );
 			}
-			
+
 			this.location = locationBuffer.toString();
 		}
 		else
@@ -138,11 +138,6 @@ public class RelayLoader
 		{
 			return;
 		}
-	}
-
-	public static final void launchRadioKoL()
-	{
-		openSystemBrowser( "http://209.9.238.5:8794/listen.pls", false );
 	}
 
 	public static final void openRelayBrowser()
