@@ -562,13 +562,17 @@ public abstract class ChatManager
 
 		String displayHTML = ChatFormatter.formatChatMessage( message );
 
-		ChatManager.openWindow( "[events]", true );
-
 		StyledChatBuffer buffer = ChatManager.getBuffer( "[events]" );
 		buffer.append( displayHTML );
 
-		if ( !( message instanceof InternalMessage ) )
+		if ( message instanceof InternalMessage )
 		{
+			ChatManager.openWindow( "[events]", true );
+		}
+		else
+		{
+			ChatManager.openWindow( "[events]", false );
+
 			synchronized ( ChatManager.bufferEntries )
 			{
 				for ( int i = 0; i < ChatManager.bufferEntries.length; ++i )
