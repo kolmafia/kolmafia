@@ -37,7 +37,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class RequestButton
@@ -61,6 +60,5 @@ public class RequestButton
 	public void run()
 	{
 		RequestThread.postRequest( this.request );
-		RequestThread.postRequest( CharPaneRequest.getInstance() );
 	}
 }

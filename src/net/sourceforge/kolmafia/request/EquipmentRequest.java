@@ -843,7 +843,7 @@ public class EquipmentRequest
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You only put on part of that outfit." );
 					if ( !this.containsUpdate )
 					{
-						CharPaneRequest.getInstance().run();
+						new CharPaneRequest().run();
 					}
 					return;
 				}
@@ -874,7 +874,7 @@ public class EquipmentRequest
 			KoLmafia.updateDisplay( "Equipment changed." );
 			if ( !this.containsUpdate )
 			{
-				CharPaneRequest.getInstance().run();
+				new CharPaneRequest().run();
 			}
 
 			break;
@@ -884,7 +884,7 @@ public class EquipmentRequest
 			KoLmafia.updateDisplay( "Equipment changed." );
 			if ( !this.containsUpdate )
 			{
-				CharPaneRequest.getInstance().run();
+				new CharPaneRequest().run();
 			}
 
 			break;
@@ -894,7 +894,7 @@ public class EquipmentRequest
 			KoLmafia.updateDisplay( "Everything removed." );
 			if ( !this.containsUpdate )
 			{
-				CharPaneRequest.getInstance().run();
+				new CharPaneRequest().run();
 			}
 
 			break;

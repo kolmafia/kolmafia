@@ -2354,7 +2354,7 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 				return;
 			}
-			CharPaneRequest.getInstance().run();
+
 			return;
 
 		case ItemPool.TBONE_KEY:

@@ -1754,10 +1754,6 @@ public class GenericRequest
 			GenericRequest.handlingChoices = true;
 			boolean containsUpdate = ChoiceManager.processChoiceAdventure();
 			GenericRequest.handlingChoices = false;
-			if ( !containsUpdate )
-			{
-				CharPaneRequest.getInstance().run();
-			}
 			return !LoginRequest.isInstanceRunning();
 		}
 
@@ -1787,7 +1783,6 @@ public class GenericRequest
 		if ( this instanceof AdventureRequest || this.formURLString.startsWith( "choice.php" ) )
 		{
 			AdventureRequest.handleServerRedirect( this.redirectLocation );
-			CharPaneRequest.getInstance().run();
 			return true;
 		}
 
@@ -1945,12 +1940,7 @@ public class GenericRequest
 
 		if ( this instanceof RelayRequest )
 		{
-			if ( !urlString.startsWith( "basement.php" ) )
-			{
-				return;
-			}
-
-			this.containsUpdate = true;
+			this.containsUpdate = false;
 		}
 		else if ( effectCount != KoLConstants.activeEffects.size() || this.getAdventuresUsed() > 0 )
 		{
@@ -1963,7 +1953,7 @@ public class GenericRequest
 
 		if ( this.containsUpdate )
 		{
-			CharPaneRequest.getInstance().run();
+			new CharPaneRequest().run();
 		}
 	}
 

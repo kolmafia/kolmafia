@@ -68,7 +68,7 @@ public class CheckDataCommand
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
 
 			// The Charpane registers new status effects
-			RequestThread.postRequest( CharPaneRequest.getInstance() );
+			RequestThread.postRequest( new CharPaneRequest() );
 
 			// Write override files, if necessary
 			KoLmafia.saveDataOverride();

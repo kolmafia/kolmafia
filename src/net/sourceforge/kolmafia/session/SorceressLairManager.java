@@ -1974,7 +1974,7 @@ public abstract class SorceressLairManager
 
 			if ( !SorceressLairManager.QUEST_HANDLER.containsUpdate )
 			{
-				RequestThread.postRequest( CharPaneRequest.getInstance() );
+				RequestThread.postRequest( new CharPaneRequest() );
 			}
 
 			RecoveryManager.runBetweenBattleChecks( false );
@@ -2019,7 +2019,7 @@ public abstract class SorceressLairManager
 
 		if ( n == 0 )
 		{
-			RequestThread.postRequest( CharPaneRequest.getInstance() );
+			RequestThread.postRequest( new CharPaneRequest() );
 		}
 
 		for ( ; n < 2 && KoLmafia.permitsContinue(); ++n )

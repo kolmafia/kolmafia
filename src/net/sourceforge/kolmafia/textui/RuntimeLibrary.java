@@ -3000,7 +3000,7 @@ public abstract class RuntimeLibrary
 
 	public static Value refresh_status()
 	{
-		RequestThread.postRequest( CharPaneRequest.getInstance() );
+		RequestThread.postRequest( new CharPaneRequest() );
 		return RuntimeLibrary.continueValue();
 	}
 
