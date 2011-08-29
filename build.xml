@@ -415,8 +415,8 @@
 	<!--  runs program with all needed libraries in the path  -->
 	<!-- ==================================================== -->
 
-	<target name="exec" depends="jar">
-		<java fork="true" jar="${jarfile}" dir="${dist}">
+	<target name="exec" depends="compile">
+		<java fork="true" classname="${main}" classpath="${build}" dir="${dist}">
 			<jvmarg line="${exec.vmoptions}" />
 		</java>
 	</target>
