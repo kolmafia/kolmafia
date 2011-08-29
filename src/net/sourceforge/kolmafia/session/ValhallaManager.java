@@ -164,11 +164,6 @@ public class ValhallaManager
 		EquipmentManager.updateEquipmentLists();
 		ConcoctionDatabase.refreshConcoctions();
 
-		// If he has Master of the Surprising Fist permed, note it
-		Preferences.setInteger( "fistSkillsKnown",
-					KoLCharacter.hasSkill( "Master of the Surprising Fist" ) ?
-					1 : 0 );
-
 		// Reset certain settings that the player almost certainly will
 		// use differently at the beginning of a run vs. at the end.
 
