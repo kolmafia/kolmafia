@@ -971,7 +971,7 @@ public abstract class KoLmafia
 		{
 			// In Valhalla, parse the CharPane and abort further processing
 			KoLmafia.updateDisplay( "Welcome to Valhalla!" );
-			RequestThread.postRequest( CharPaneRequest.getInstance() );
+			RequestThread.postRequest( new CharPaneRequest() );
 			return;
 		}
 
@@ -1027,7 +1027,7 @@ public abstract class KoLmafia
 
 		// *** We can remove this when api.php?what=status gets
 		// *** "feastedfamiliar" and "intrinsics"
-		RequestThread.postRequest( CharPaneRequest.getInstance() );
+		RequestThread.postRequest( new CharPaneRequest() );
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 

@@ -375,7 +375,7 @@ public class RelayAgent
 		{
 			int initialCount = KoLCharacter.getAdventuresLeft();
 
-			CharPaneRequest.getInstance().run();
+			new CharPaneRequest().run();
 
 			if ( RecoveryManager.isRecoveryPossible() && ( FightRequest.haveFought() || initialCount != KoLCharacter.getAdventuresLeft() ) )
 			{

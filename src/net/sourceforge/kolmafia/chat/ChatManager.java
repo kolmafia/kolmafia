@@ -399,7 +399,7 @@ public abstract class ChatManager
 			case KoLConstants.ABORT_STATE:
 			case KoLConstants.ERROR_STATE:
 			case KoLConstants.ENABLE_STATE:
-				RequestThread.postRequest( CharPaneRequest.getInstance() );
+				RequestThread.postRequest( new CharPaneRequest() );
 			}
 		}
 

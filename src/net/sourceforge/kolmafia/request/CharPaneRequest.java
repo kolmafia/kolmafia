@@ -72,9 +72,7 @@ public class CharPaneRequest
 
 	private static int turnsThisRun = 0;
 
-	private static final CharPaneRequest instance = new CharPaneRequest();
-
-	private CharPaneRequest()
+	public CharPaneRequest()
 	{
 		super( true );
 
@@ -86,11 +84,6 @@ public class CharPaneRequest
 		CharPaneRequest.lastResponse = "";
 		CharPaneRequest.canInteract = false;
 		CharPaneRequest.turnsThisRun = 0;
-	}
-
-	public static final CharPaneRequest getInstance()
-	{
-		return CharPaneRequest.instance;
 	}
 
 	protected boolean retryOnTimeout()

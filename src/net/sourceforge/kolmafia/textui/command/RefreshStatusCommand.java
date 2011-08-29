@@ -63,7 +63,7 @@ public class RefreshStatusCommand
 		}
 		else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )
 		{
-			RequestThread.postRequest( CharPaneRequest.getInstance() );
+			RequestThread.postRequest( new CharPaneRequest() );
 		}
 		else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 		{
