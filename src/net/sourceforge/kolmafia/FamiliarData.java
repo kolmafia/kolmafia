@@ -47,6 +47,7 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -64,6 +65,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class FamiliarData
 	implements Comparable
 {
+	private static final AdventureResult CORSICAN_BLESSING = EffectPool.get( EffectPool.CORSICAN_BLESSING );
+
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern REGISTER_PATTERN =
@@ -150,6 +153,18 @@ public class FamiliarData
 	public final int getCombatExperience()
 	{
 		return this.getTotalExperience() - this.getNonCombatExperience();
+	}
+
+	public final void addCombatExperience()
+	{
+		++this.experience;
+
+		if ( FamiliarData.CORSICAN_BLESSING.getCount( KoLConstants.activeEffects ) > 0 )
+		{
+			this.experience += 2;
+		}
+
+		this.setWeight();
 	}
 
 	public final int getNonCombatExperience()

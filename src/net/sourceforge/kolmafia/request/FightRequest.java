@@ -2006,6 +2006,11 @@ public class FightRequest
 
 		boolean won = responseText.indexOf( "<!--WINWINWIN-->" ) != -1;
 
+		if ( won )
+		{
+			KoLCharacter.getFamiliar().addCombatExperience();
+		}
+
 		// If we won, the fight is over for sure. It might be over
 		// anyway. We can detect this in one of two ways: if you have
 		// the CAB enabled, there will be no link to the old combat
