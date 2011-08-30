@@ -96,6 +96,7 @@ public class EffectPool
 	public static final int SOMEWHAT_POISONED_ID = 283;
 	public static final int REALLY_QUITE_POISONED_ID = 284;
 	public static final int TOAD_IN_THE_HOLE_ID = 436;
+	public static final int CORSICAN_BLESSING = 460;
 	public static final int FORM_OF_BIRD_ID = 511;
 	public static final int COVERED_IN_SLIME_ID = 633;
 
