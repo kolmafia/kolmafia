@@ -803,57 +803,57 @@ public class AdventureDatabase
 		{
 			"Haiku Dungeon",
 			new Integer( AdventurePool.HAIKU_DUNGEON ),
-			"FistTeachingsHaikuDungeon",
+			"fistTeachingsHaikuDungeon",
 		},
 		{
 			"The Poker Room",
 			new Integer( AdventurePool.POKER_ROOM ),
-			"FistTeachingsPokerRoom",
+			"fistTeachingsPokerRoom",
 		},
 		{
 			"A Barroom Brawl",
 			new Integer( AdventurePool.BARROOM_BRAWL ),
-			"FistTeachingsBarroomBrawl",
+			"fistTeachingsBarroomBrawl",
 		},
 		{
 			"Haunted Conservatory",
 			new Integer( AdventurePool.HAUNTED_CONSERVATORY ),
-			"FistTeachingsConservatory",
+			"fistTeachingsConservatory",
 		},
 		{
 			"Bat Hole Entryway",
 			new Integer( AdventurePool.BAT_HOLE_ENTRYWAY ),
-			"FistTeachingsBatHole",
+			"fistTeachingsBatHole",
 		},
 		{
 			"The \"Fun\" House",
 			new Integer( AdventurePool.FUN_HOUSE ),
-			"FistTeachingsFunHouse",
+			"fistTeachingsFunHouse",
 		},
 		{
 			"Cobb's Knob Menagerie Level 2",
 			new Integer( AdventurePool.MENAGERIE_LEVEL_2 ),
-			"FistTeachingsMenagerie",
+			"fistTeachingsMenagerie",
 		},
 		{
 			"Pandamonium Slums",
 			new Integer( AdventurePool.PANDAMONIUM_SLUMS ),
-			"FistTeachingsSlums",
+			"fistTeachingsSlums",
 		},
 		{
 			"Frat House",
 			new Integer( AdventurePool.FRAT_HOUSE ),
-			"FistTeachingsFratHouse",
+			"fistTeachingsFratHouse",
 		},
 		{
 			"Road to the White Citadel",
 			new Integer( AdventurePool.ROAD_TO_WHITE_CITADEL ),
-			"FistTeachingsRoad",
+			"fistTeachingsRoad",
 		},
 		{
 			"Ninja Snowmen",
 			new Integer( AdventurePool.NINJA_SNOWMEN ),
-			"FistTeachingsNinjaSnowmen",
+			"fistTeachingsNinjaSnowmen",
 		},
 	};
 
