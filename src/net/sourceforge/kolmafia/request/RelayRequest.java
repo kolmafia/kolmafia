@@ -1709,6 +1709,8 @@ public class RelayRequest
 
 		if ( adventureName != null && this.getFormField( "confirm" ) == null )
 		{
+			AreaCombatData areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
+
 			// Wait until any restoration scripts finish running
 			// before allowing an adventuring request to continue.
 
@@ -1720,7 +1722,7 @@ public class RelayRequest
 			// Check for a 100% familiar run if the current familiar
 			// has zero combat experience.
 
-			if ( !KoLCharacter.kingLiberated() && KoLCharacter.getFamiliar().getCombatExperience() == 0 )
+			if ( !KoLCharacter.kingLiberated() && KoLCharacter.getFamiliar().getCombatExperience() == 0 && 	areaSummary != null && areaSummary.combats() == 0 )
 			{
 				Iterator familiarIterator = KoLCharacter.getFamiliarList().iterator();
 
