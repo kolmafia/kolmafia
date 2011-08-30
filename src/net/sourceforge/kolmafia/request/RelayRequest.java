@@ -1722,7 +1722,8 @@ public class RelayRequest
 			// Check for a 100% familiar run if the current familiar
 			// has zero combat experience.
 
-			if ( !KoLCharacter.kingLiberated() && KoLCharacter.getFamiliar().getCombatExperience() == 0 && 	areaSummary != null && areaSummary.combats() > 0 )
+			if ( KoLCharacter.getFamiliar().getCombatExperience() == 0 && areaSummary != null && areaSummary.combats() > 0 &&
+				 ( !KoLCharacter.kingLiberated() || KoLCharacter.getFamiliar().getId() == BLACK_CAT ) )
 			{
 				Iterator familiarIterator = KoLCharacter.getFamiliarList().iterator();
 
