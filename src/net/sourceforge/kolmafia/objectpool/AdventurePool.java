@@ -37,10 +37,16 @@ public class AdventurePool
 {
 	public static final String HIDDEN_TEMPLE_ID = "17";
 	public static final int DEGRASSI_KNOLL = 18;
+	public static final int FUN_HOUSE = 20;
+	public static final int FRAT_HOUSE = 27;
+	public static final int BAT_HOLE_ENTRYWAY = 30;
 	public static final String BATRAT_ID = "32";
 	public static final String BEANBAT_ID = "33";
 	public static final String BOSSBAT_ID = "34";
 	public static final String DUNGEON_OF_DOOM_ID = "39";
+	public static final int MENAGERIE_LEVEL_2 = 52;
+	public static final int NINJA_SNOWMEN = 62;
+	public static final int POKER_ROOM = 71;
 	public static final String PIXEL_REALM_ID = "73";
 	public static final String ORC_CHASM_ID = "80";
 	public static final String AIRSHIP_ID = "81";
@@ -52,7 +58,9 @@ public class AdventurePool
 	public static final String BAD_TRIP_ID = "96";
 	public static final String GREAT_TRIP_ID = "97";
 	public static final String MEDIOCRE_TRIP_ID = "98";
+	public static final int ROAD_TO_WHITE_CITADEL = 99;
 	public static final String WHITEYS_GROVE_ID = "100";
+	public static final int HAUNTED_CONSERVATORY = 103;
 	public static final String HAUNTED_LIBRARY_ID = "104";
 	public static final String HAUNTED_GALLERY_ID = "106";
 	public static final String HAUNTED_BATHROOM_ID = "107";
@@ -77,7 +85,9 @@ public class AdventurePool
 	public static final int JUNKYARD_CAR = 185;
 	public static final int SEASIDE_MEGALOPOLIS = 206;
 	public static final int OUTSIDE_THE_CLUB = 219;
+	public static final int BARROOM_BRAWL = 233;
 	public static final int NOOB_CAVE = 240;
+	public static final int PANDAMONIUM_SLUMS = 248;
 	public static final int DEFILED_ALCOVE = 261;
 	public static final int DEFILED_CRANNY = 262;
 	public static final int DEFILED_NICHE = 263;

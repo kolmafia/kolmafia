@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -1505,6 +1506,17 @@ public class ResultProcessor
 			Preferences.setInteger( "cyrptNicheEvilness", 50 );
 			Preferences.setInteger( "cyrptNookEvilness", 50 );
 			break;
+
+		case ItemPool.TEACHINGS_OF_THE_FIST:
+		{
+			// save which location the scroll was found in.
+			String setting = AdventureDatabase.fistcoreLocationToSetting( KoLAdventure.lastAdventureId() );
+			if ( setting != null )
+			{
+				Preferences.setBoolean( setting, true );
+			}
+			break;
+		}
 		}
 	}
 
