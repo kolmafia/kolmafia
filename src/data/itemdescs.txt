@@ -1355,7 +1355,7 @@
 1354	207804188	pebbles.gif	pile of shiny pebbles
 1355	791966504	bowl.gif	bowl of oriole's nest soup
 1356	979085501	liver.gif	bunny liver
-1357	709454102	beerbottle.gif	Mt. Noob Pale Ale
+1357	709454102	beerbottle.gif	Mt. Noob Pale Ale	bottles of Mt. Noob Pale Ale
 1358	271254707	cpirates.gif	pirate zombie head	pirate zombie heads
 1359	959802882	npzrhead.gif	ninja pirate zombie robot head	ninja pirate zombie robot heads
 1360	520455613	rpirate.gif	pirate zombie robot head	pirate zombie robot heads
