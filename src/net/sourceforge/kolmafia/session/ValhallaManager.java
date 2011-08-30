@@ -308,6 +308,17 @@ public class ValhallaManager
 		Preferences.setString( "telescope7", "" );
 		Preferences.setInteger( "charitableDonations", 0 );
 		Preferences.setInteger( "fistSkillsKnown", 0 );
+		Preferences.setBoolean( "FistTeachingsHaikuDungeon", false);
+		Preferences.setBoolean( "FistTeachingsPokerRoom", false);
+		Preferences.setBoolean( "FistTeachingsBarroomBrawl", false);
+		Preferences.setBoolean( "FistTeachingsConservatory", false);
+		Preferences.setBoolean( "FistTeachingsBatHole", false);
+		Preferences.setBoolean( "FistTeachingsFunHouse", false);
+		Preferences.setBoolean( "FistTeachingsMenagerie", false);
+		Preferences.setBoolean( "FistTeachingsSlums", false);
+		Preferences.setBoolean( "FistTeachingsFratHouse", false);
+		Preferences.setBoolean( "FistTeachingsRoad", false);
+		Preferences.setBoolean( "FistTeachingsNinjaSnowmen", false);
 		TurnCounter.clearCounters();
 	}
 }

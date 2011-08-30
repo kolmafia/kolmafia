@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -792,6 +793,102 @@ public class AdventureDatabase
 		}
 
 		return null;
+	}
+
+	public static final Object [][] FISTCORE_SCROLLS =
+	{
+		// Adventure Zone
+		// Adventure ID
+		// Setting
+		{
+			"Haiku Dungeon",
+			new Integer( AdventurePool.HAIKU_DUNGEON ),
+			"FistTeachingsHaikuDungeon",
+		},
+		{
+			"The Poker Room",
+			new Integer( AdventurePool.POKER_ROOM ),
+			"FistTeachingsPokerRoom",
+		},
+		{
+			"A Barroom Brawl",
+			new Integer( AdventurePool.BARROOM_BRAWL ),
+			"FistTeachingsBarroomBrawl",
+		},
+		{
+			"Haunted Conservatory",
+			new Integer( AdventurePool.HAUNTED_CONSERVATORY ),
+			"FistTeachingsConservatory",
+		},
+		{
+			"Bat Hole Entryway",
+			new Integer( AdventurePool.BAT_HOLE_ENTRYWAY ),
+			"FistTeachingsBatHole",
+		},
+		{
+			"The \"Fun\" House",
+			new Integer( AdventurePool.FUN_HOUSE ),
+			"FistTeachingsFunHouse",
+		},
+		{
+			"Cobb's Knob Menagerie Level 2",
+			new Integer( AdventurePool.MENAGERIE_LEVEL_2 ),
+			"FistTeachingsMenagerie",
+		},
+		{
+			"Pandamonium Slums",
+			new Integer( AdventurePool.PANDAMONIUM_SLUMS ),
+			"FistTeachingsSlums",
+		},
+		{
+			"Frat House",
+			new Integer( AdventurePool.FRAT_HOUSE ),
+			"FistTeachingsFratHouse",
+		},
+		{
+			"Road to the White Citadel",
+			new Integer( AdventurePool.ROAD_TO_WHITE_CITADEL ),
+			"FistTeachingsRoad",
+		},
+		{
+			"Ninja Snowmen",
+			new Integer( AdventurePool.NINJA_SNOWMEN ),
+			"FistTeachingsNinjaSnowmen",
+		},
+	};
+
+	private static String fistcoreDataZone( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[0] );
+	}
+
+	private static int fistcoreDataLocation( final Object[] data )
+	{
+		return ( data == null ) ? -1 : ((Integer) data[1] ).intValue();
+	}
+
+	private static String fistcoreDataSetting( final Object[] data )
+	{
+		return ( data == null ) ? null : ((String) data[2] );
+	}
+
+	private static Object[] fistcoreLocationToData( final int location )
+	{
+		for ( int i = 0; i < FISTCORE_SCROLLS.length; ++i )
+		{
+			Object [] data = FISTCORE_SCROLLS[i];
+			int loc = fistcoreDataLocation( data );
+			if ( location == loc )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
+	public static String fistcoreLocationToSetting( final int location )
+	{
+		return fistcoreDataSetting( fistcoreLocationToData( location ) );
 	}
 
 	/**
