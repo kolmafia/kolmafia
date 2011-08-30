@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.chat.HistoryEntry;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1723,7 +1724,7 @@ public class RelayRequest
 			// has zero combat experience.
 
 			if ( KoLCharacter.getFamiliar().getCombatExperience() == 0 && areaSummary != null && areaSummary.combats() > 0 &&
-				 ( !KoLCharacter.kingLiberated() || KoLCharacter.getFamiliar().getId() == BLACK_CAT ) )
+				 ( !KoLCharacter.kingLiberated() || KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT ) )
 			{
 				Iterator familiarIterator = KoLCharacter.getFamiliarList().iterator();
 
