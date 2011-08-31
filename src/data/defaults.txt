@@ -585,6 +585,7 @@ user	sidequestJunkyardCompleted	none
 user	sidequestLighthouseCompleted	none
 user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
+user	singleFamiliarRun	0
 user	skateParkStatus	war
 user	skillBurn1019	-100
 user	skillBurn5017	-100
