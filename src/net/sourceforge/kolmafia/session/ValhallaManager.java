@@ -265,11 +265,6 @@ public class ValhallaManager
 
 	public static final void resetPerAscensionCounters()
 	{
-		for ( int i = 1; i <= FamiliarDatabase.maxFamiliarId; ++i )
-		{
-			Preferences.setInteger( "nonCombatExperience" + i, 0 );
-		}
-
 		Preferences.setFloat( "slimelingFullness", 0.0F );
 		Preferences.setInteger( "slimelingStacksDropped", 0 );
 		Preferences.setInteger( "slimelingStacksDue", 0 );
@@ -306,6 +301,7 @@ public class ValhallaManager
 		Preferences.setString( "telescope5", "" );
 		Preferences.setString( "telescope6", "" );
 		Preferences.setString( "telescope7", "" );
+		Preferences.setInteger( "singleFamiliarRun", 0 );
 		Preferences.setInteger( "charitableDonations", 0 );
 		Preferences.setInteger( "fistSkillsKnown", 0 );
 		Preferences.setBoolean( "fistTeachingsHaikuDungeon", false);

@@ -1042,7 +1042,7 @@ public class RelayRequest
 		this.sendGeneralWarning( "wossname.gif", message );
 	}
 
-	private void sendFamiliarWarning( final FamiliarData onlyUsedFamiliar )
+	private void sendFamiliarWarning()
 	{
 		StringBuffer warning = new StringBuffer();
 
@@ -1070,10 +1070,10 @@ public class RelayRequest
 		warning.append( "<td align=center valign=center><div id=\"unlucky\" style=\"padding: 4px 4px 4px 4px\">" );
 
 		warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"singleUse('familiar.php', 'action=newfam&ajax=1&newfam=" );
-		warning.append( onlyUsedFamiliar.getId() );
+		warning.append( FamiliarData.getSingleFamiliarRun() );
 		warning.append( "'); void(0);\">" );
 		warning.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/");
-		warning.append( FamiliarDatabase.getFamiliarImageLocation( onlyUsedFamiliar.getId() ) );
+		warning.append( FamiliarDatabase.getFamiliarImageLocation( FamiliarData.getSingleFamiliarRun() ) );
 		warning.append( "\" width=30 height=30 border=0>" );
 		warning.append( "</a></div></td>" );
 
@@ -1723,34 +1723,11 @@ public class RelayRequest
 			// Check for a 100% familiar run if the current familiar
 			// has zero combat experience.
 
-			if ( KoLCharacter.getFamiliar().getCombatExperience() == 0 && areaSummary != null && areaSummary.combats() > 0 &&
+			if ( KoLCharacter.getFamiliar().isUnexpectedFamiliar() && areaSummary != null && areaSummary.combats() > 0 &&
 				 ( !KoLCharacter.kingLiberated() || KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT ) )
 			{
-				Iterator familiarIterator = KoLCharacter.getFamiliarList().iterator();
-
-				FamiliarData onlyUsedFamiliar = null;
-
-				while ( familiarIterator.hasNext() )
-				{
-					FamiliarData familiar = (FamiliarData) familiarIterator.next();
-
-					if ( familiar.getCombatExperience() > 0 )
-					{
-						if ( onlyUsedFamiliar != null )
-						{
-							onlyUsedFamiliar = null;
-							break;
-						}
-
-						onlyUsedFamiliar = familiar;
-					}
-				}
-
-				if ( onlyUsedFamiliar != null )
-				{
-					this.sendFamiliarWarning( onlyUsedFamiliar );
-					return;
-				}
+				this.sendFamiliarWarning();
+				return;
 			}
 
 			// Check for clovers as well so that people don't
