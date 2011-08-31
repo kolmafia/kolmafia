@@ -1646,6 +1646,8 @@ public class FightRequest
 
 		if ( FightRequest.currentRound == 0 )
 		{
+			KoLCharacter.getFamiliar().recognizeCombatUse();
+
 			FightRequest.haveFought = true;
 
 			if ( responseText.indexOf( "There is a blinding flash of light, and a chorus of heavenly voices rises in counterpoint to the ominous organ music." ) != -1 )
@@ -2008,7 +2010,7 @@ public class FightRequest
 
 		if ( won )
 		{
-			KoLCharacter.getFamiliar().addCombatExperience();
+			KoLCharacter.getFamiliar().addCombatExperience( responseText );
 		}
 
 		// If we won, the fight is over for sure. It might be over

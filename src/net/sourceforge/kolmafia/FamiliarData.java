@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Component;
 
+import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -150,34 +151,85 @@ public class FamiliarData
 		return this.experience;
 	}
 
-	public final int getCombatExperience()
+	public final void addCombatExperience( String responseText )
 	{
-		return this.getTotalExperience() - this.getNonCombatExperience();
-	}
+		float experienceModifier = KoLCharacter.currentNumericModifier( Modifiers.FAMILIAR_EXP );
 
-	public final void addCombatExperience()
-	{
-		++this.experience;
-
-		if ( FamiliarData.CORSICAN_BLESSING.getCount( KoLConstants.activeEffects ) > 0 )
+		if ( getItem().getItemId() == ItemPool.MAYFLOWER_BOUQUET )
 		{
-			this.experience += 2;
+			String itemName = getItem().getName();
+			String modifierName = Modifiers.getModifierName( Modifiers.FAMILIAR_EXP );
+			float itemModifier = Modifiers.getNumericModifier( itemName, modifierName );
+
+			experienceModifier -= itemModifier;
+
+			if ( responseText.indexOf( "offer some words of encouragement and support" ) != -1 )
+			{
+				experienceModifier += 3;
+			}
 		}
 
+		this.experience += 1 + experienceModifier;
+
 		this.setWeight();
 	}
 
-	public final int getNonCombatExperience()
-	{
-		return Preferences.getInteger( "nonCombatExperience" + getId() );
-	}
-
-	public final void addNonCombatExperience( final int exp )
+	public final void addNonCombatExperience( int exp )
 	{
 		this.experience += exp;
-		Preferences.increment( "nonCombatExperience" + getId(), exp );
 
 		this.setWeight();
+	}
+
+	public final void recognizeCombatUse()
+	{
+		int singleFamiliarRun = getSingleFamiliarRun();
+
+		if ( singleFamiliarRun == 0 )
+		{
+			Preferences.setInteger( "singleFamiliarRun", this.id );
+		}
+		else if ( this.id != singleFamiliarRun )
+		{
+			Preferences.setInteger( "singleFamiliarRun", -1 );
+		}
+	}
+
+	public final boolean isUnexpectedFamiliar()
+	{
+		int singleFamiliarRun = getSingleFamiliarRun();
+
+		return singleFamiliarRun > 0 && this.id != singleFamiliarRun;
+	}
+
+	public static final int getSingleFamiliarRun()
+	{
+		int singleFamiliarRun = Preferences.getInteger( "singleFamiliarRun" );
+
+		if ( singleFamiliarRun == 0 )
+		{
+			Iterator familiarIterator = KoLCharacter.getFamiliarList().iterator();
+
+			while ( familiarIterator.hasNext() )
+			{
+				FamiliarData familiar = (FamiliarData) familiarIterator.next();
+
+				if ( familiar.getTotalExperience() != 0 )
+				{
+					if ( singleFamiliarRun != 0 )
+					{
+						singleFamiliarRun = -1;
+						break;
+					}
+
+					singleFamiliarRun = familiar.getId();
+				}
+			}
+
+			Preferences.setInteger( "singleFamiliarRun", singleFamiliarRun );
+		}
+
+		return singleFamiliarRun;
 	}
 
 	private final void setWeight()
