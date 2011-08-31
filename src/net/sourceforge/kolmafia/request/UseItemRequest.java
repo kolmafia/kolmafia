@@ -1808,6 +1808,14 @@ public class UseItemRequest
 				return;
 			}
 
+			if ( responseText.indexOf( "You don't have a Terrarium to put that in." ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You don't have a Terrarium yet.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+
 			FamiliarData familiar = KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
 
 			// If this is a previously unknown familiar, punt
