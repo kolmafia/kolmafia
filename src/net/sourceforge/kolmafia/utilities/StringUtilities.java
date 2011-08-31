@@ -724,13 +724,10 @@ public class StringUtilities
 			return (int) ( base * multiplier );
 		}
 
-		NumberFormatException exception = new NumberFormatException( string );
 		if ( throwException )
 		{
-			throw exception;
+			throw new NumberFormatException( string );
 		}
-
-		StaticEntity.printStackTrace( exception );
 
 		return StringUtilities.parseIntInternal2( string );
 	}
