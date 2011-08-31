@@ -110,6 +110,7 @@ public abstract class ChatManager
 		ChatManager.clanMessages.clear();
 		ChatManager.faxbotMessage = null;
 		ChatManager.instantMessageBuffers.clear();
+		ChatManager.bufferEntries = new Entry[0];
 		ChatManager.activeChannels.clear();
 		ChatManager.currentChannel = null;
 
