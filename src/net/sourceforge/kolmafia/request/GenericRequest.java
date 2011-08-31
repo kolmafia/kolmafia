@@ -1198,11 +1198,12 @@ public class GenericRequest
 		if ( this.formURLString.equals( "charpane.php" ) )
 		{
 			KoLCharacter.recalculateAdjustments();
+
 			// Mana cost adjustment may have changed
+
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 			RequestFrame.refreshStatus();
-			RelayServer.updateStatus();
 		}
 
 		this.formatResponse();
@@ -1954,6 +1955,7 @@ public class GenericRequest
 		if ( this.containsUpdate )
 		{
 			new CharPaneRequest().run();
+			RelayServer.updateStatus();
 		}
 	}
 
