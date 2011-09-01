@@ -194,6 +194,11 @@ public class UneffectRequest
 			return "Jingle Bells";
 		}
 
+		if ( effectName.equalsIgnoreCase( "Salamanderenity" ) )
+		{
+			return "Salamander Kata";
+		}
+
 		return effectName;
 	}
 
@@ -242,6 +247,11 @@ public class UneffectRequest
 		if ( skillName.equalsIgnoreCase( "Jingle Bells" ) )
 		{
 			return "Jingle Jangle Jingle";
+		}
+
+		if ( skillName.equalsIgnoreCase( "Salamander Kata" ) )
+		{
+			return "Salamanderenity";
 		}
 
 		return skillName;
