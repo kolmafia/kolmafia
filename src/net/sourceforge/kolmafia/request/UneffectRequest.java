@@ -74,6 +74,76 @@ public class UneffectRequest
 	private static final Pattern ID1_PATTERN = Pattern.compile( "whicheffect=(\\d+)" );
 	private static final Pattern ID2_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
 
+	public static final String[][] EFFECT_SKILL =
+	{
+		// Effect Name
+		// Skill Name
+		{
+			"Polka of Plenty",
+			"The Polka of Plenty",
+		},
+		{
+			"Power Ballad of the Arrowsmith",
+			"The Power Ballad of the Arrowsmith",
+		},
+		{
+			"Psalm of Pointiness",
+			"The Psalm of Pointiness",
+		},
+		{
+			"Ode to Booze",
+			"The Ode to Booze",
+		},
+		{
+			"Empathy",
+			"Empathy of the Newt",
+		},
+		{
+			"Smooth Movements",
+			"Smooth Movement",
+		},
+		{
+			"Pasta Oneness",
+			"Manicotti Meditation",
+		},
+		{
+			"Saucemastery",
+			"Sauce Contemplation",
+		},
+		{
+			"Disco State of Mind",
+			"Disco Aerobics",
+		},
+		{
+			"Mariachi Mood",
+			"Moxie of the Mariachi",
+		},
+		{
+			"A Few Extra Pounds",
+			"Holiday Weight Gain",
+		},
+		{
+			"Jingle Jangle Jingle",
+			"Jingle Bells",
+		},
+		{
+			"Iron Palms",
+			"Iron Palm Technique",
+		},
+		{
+			"Salamanderenity",
+			"Salamander Kata",
+		},
+		{
+			"Retrograde Relaxation",
+			"Miyagi Massage",
+		},
+		{
+			"Earthen Fist",
+			"Worldpunch",
+		},
+	};
+
 	public UneffectRequest( final AdventureResult effect )
 	{
 		this( effect, true );
@@ -149,69 +219,13 @@ public class UneffectRequest
 
 	public static final String effectToSkill( final String effectName )
 	{
-		if ( effectName.equalsIgnoreCase( "Polka of Plenty" ) || effectName.equalsIgnoreCase( "Power Ballad of the Arrowsmith" ) || effectName.equalsIgnoreCase( "Psalm of Pointiness" ) || effectName.equalsIgnoreCase( "Ode to Booze" ) )
+		for ( int i = 0; i < UneffectRequest.EFFECT_SKILL.length; ++i )
 		{
-			return "The " + effectName;
-		}
-
-		if ( effectName.equalsIgnoreCase( "Empathy" ) )
-		{
-			return "Empathy of the Newt";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Smooth Movements" ) )
-		{
-			return "Smooth Movement";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Pasta Oneness" ) )
-		{
-			return "Manicotti Meditation";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Saucemastery" ) )
-		{
-			return "Sauce Contemplation";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Disco State of Mind" ) )
-		{
-			return "Disco Aerobics";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Mariachi Mood" ) )
-		{
-			return "Moxie of the Mariachi";
-		}
-
-		if ( effectName.equalsIgnoreCase( "A Few Extra Pounds" ) )
-		{
-			return "Holiday Weight Gain";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Jingle Jangle Jingle" ) )
-		{
-			return "Jingle Bells";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Iron Palms" ) )
-		{
-			return "Iron Palm Technique";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Salamanderenity" ) )
-		{
-			return "Salamander Kata";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Retrograde Relaxation" ) )
-		{
-			return "Miyagi Massage";
-		}
-
-		if ( effectName.equalsIgnoreCase( "Earthen Fist" ) )
-		{
-			return "Worldpunch";
+			String [] data = UneffectRequest.EFFECT_SKILL[ i ];
+			if ( effectName.equalsIgnoreCase( data[ 0 ] ) )
+			{
+				return data[ 1 ];
+			}
 		}
 
 		return effectName;
@@ -219,69 +233,13 @@ public class UneffectRequest
 
 	public static final String skillToEffect( final String skillName )
 	{
-		if ( skillName.equals( "The Polka of Plenty" ) || skillName.equals( "The Power Ballad of the Arrowsmith" ) || skillName.equals( "The Psalm of Pointiness" ) || skillName.equals( "The Ode to Booze" ) )
+		for ( int i = 0; i < UneffectRequest.EFFECT_SKILL.length; ++i )
 		{
-			return skillName.substring( 4 );
-		}
-
-		if ( skillName.equals( "Empathy of the Newt" ) )
-		{
-			return "Empathy";
-		}
-
-		if ( skillName.equals( "Smooth Movement" ) )
-		{
-			return "Smooth Movements";
-		}
-
-		if ( skillName.equals( "Manicotti Meditation" ) )
-		{
-			return "Pasta Oneness";
-		}
-
-		if ( skillName.equals( "Sauce Contemplation" ) )
-		{
-			return "Saucemastery";
-		}
-
-		if ( skillName.equals( "Disco Aerobics" ) )
-		{
-			return "Disco State of Mind";
-		}
-
-		if ( skillName.equals( "Moxie of the Mariachi" ) )
-		{
-			return "Mariachi Mood";
-		}
-
-		if ( skillName.equalsIgnoreCase( "Holiday Weight Gain" ) )
-		{
-			return "A Few Extra Pounds";
-		}
-
-		if ( skillName.equalsIgnoreCase( "Jingle Bells" ) )
-		{
-			return "Jingle Jangle Jingle";
-		}
-
-		if ( skillName.equalsIgnoreCase( "Iron Palm Technique" ) )
-		{
-			return "Iron Palms";
-		}
-
-		if ( skillName.equalsIgnoreCase( "Salamander Kata" ) )
-		{
-			return "Salamanderenity";
-		}
-
-		if ( skillName.equalsIgnoreCase( "Miyagi Massage" ) )
-		{
-			return "Retrograde Relaxation";
-		}
-
-		if ( skillName.equalsIgnoreCase( "Worldpunch" ) )
-		{
-			return "Earthen Fist";
+			String [] data = UneffectRequest.EFFECT_SKILL[ i ];
+			if ( skillName.equalsIgnoreCase( data[ 1 ] ) )
+			{
+				return data[ 0 ];
+			}
 		}
 
 		return skillName;
