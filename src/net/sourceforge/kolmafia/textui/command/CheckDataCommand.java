@@ -121,6 +121,13 @@ public class CheckDataCommand
 			return;
 		}
 
+		if ( command.equals( "checkpotions" ) )
+		{
+			DebugDatabase.checkPotions();
+			RequestLogger.printLine( "Potions checked." );
+			return;
+		}
+
 		if ( command.equals( "checkpowers" ) )
 		{
 			DebugDatabase.checkPowers( parameters.trim() );

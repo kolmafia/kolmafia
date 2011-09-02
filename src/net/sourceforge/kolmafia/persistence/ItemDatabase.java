@@ -1169,6 +1169,14 @@ public class ItemDatabase
 
 		// Done generating data
 		RequestLogger.printLine( "--------------------" );
+
+		// Potions grant an effect. Check for a new effect.
+		String effectName = Modifiers.getStringModifier( itemName, "Effect" );
+		if ( !effectName.equals( "" ) && EffectDatabase.getEffectId( effectName ) == -1 )
+		{
+			String effectDescid = DebugDatabase.parseEffectDescid( rawText );
+			EffectDatabase.registerEffect( effectName, effectDescid, "use 1 " + itemName );
+		}
 	}
 
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
@@ -1951,6 +1959,11 @@ public class ItemDatabase
 			return false;
 		}
 
+		return ItemDatabase.isUsable( itemId );
+	}
+
+	public static final boolean isUsable( final int itemId )
+	{
 		switch ( ItemDatabase.useTypeById.get( itemId ) )
 		{
 		case KoLConstants.CONSUME_EAT:
