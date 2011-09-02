@@ -5229,3 +5229,64 @@
 5220	Teachings of the Fist	usable	none	0
 5221	fat loot token	none	none	0
 5222	Thwaitgold grasshopper statuette	none	display	0
+5223	Tome of Clip Art	usable	all	0
+5224	Ur-Donut	food	all	30
+5225	The Bomb	none, combat	all	30
+5226	box of Familiar Jacks	usable	all	30
+5227	bucket of wine	drink	all	30
+5228	ultrafondue	food	all	30
+5229	unbearable light	none, combat	all	30
+5230	oversized snowflake	none, combat	all	30
+5231	crystal skull	none, combat	all	30
+5232	borrowed time	usable	all	30
+5233	box of hammers	usable, combat	all	30
+5234	shining halo	accessory	all	30
+5235	furry halo	accessory	all	30
+5236	frosty halo	accessory	all	30
+5237	time halo	accessory	all	30
+5238	Lumineux Limnio	drink	all	30
+5239	Morto Moreto	drink	all	30
+5240	Temps Tempranillo	drink	all	30
+5241	Bordeaux Marteaux	drink	all	30
+5242	Fromage Pinotage	drink	all	30
+5243	Beignet Milgranet	drink	all	30
+5244	Muschat	drink	all	30
+5245	cool jelly donut	food	all	30
+5246	shrapnel jelly donut	food	all	30
+5247	occult jelly donut	food	all	30
+5248	thyme jelly donut	food	all	30
+5249	frozen danish	food	all	30
+5250	smashed danish	food	all	30
+5251	forbidden danish	food	all	30
+5252	cool cat claw	food	all	30
+5253	blunt cat claw	food	all	30
+5254	shadowy cat claw	food	all	30
+5255	cheezburger	food	all	30
+5256	toasted brie	food	all	30
+5257	potion of the field gar	multiple	all	30
+5258	too legit potion	multiple	all	30
+5259	Bright Water	multiple	all	30
+5260	cold-filtered water	multiple	all	30
+5261	graveyard snowglobe	multiple	all	30
+5262	cool cat elixir	multiple	all	30
+5263	potion of the captain's hammer	multiple	all	30
+5264	potion of X-ray vision	multiple	all	30
+5265	potion of the litterbox	multiple	all	30
+5266	potion of animal rage	multiple	all	30
+5267	potion of punctual companionship	multiple	all	30
+5268	holy bomb, batman	none, combat	all	30
+5269	bobcat grenade	none, combat	all	30
+5270	chocolate frosted sugar bomb	none, combat	all	30
+5271	broken glass grenade	none, combat	all	30
+5272	noxious gas grenade	none, combat	all	30
+5273	skull with a fuse in it	none, combat	all	30
+5274	boozebomb	none, combat	all	30
+5275	hammerus	weapon	all	30
+5276	blunt icepick	weapon	all	30
+5277	fluorescent lightbulb	weapon	all	30
+5278	blammer	weapon	all	30
+5279	clock-cleaning hammer	weapon	all	30
+5280	4:20 bomb	none, combat	all	30
+5281	broken clock	accessory	all	30
+5282	dethklok	accessory	all	30
+5283	glacial clock	accessory	all	30

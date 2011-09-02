@@ -2681,6 +2681,13 @@ public abstract class KoLCharacter
 			KoLCharacter.ascensionPath.equals( "Way of the Surprising Fist" );
 	}
 
+	public static final boolean isUnarmed()
+	{
+		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
+		AdventureResult offhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
+		return weapon == EquipmentRequest.UNEQUIP && offhand == EquipmentRequest.UNEQUIP;
+	}
+
 	public static final void makeCharitableDonation( final int amount )
 	{
 		if ( amount > 0 )
