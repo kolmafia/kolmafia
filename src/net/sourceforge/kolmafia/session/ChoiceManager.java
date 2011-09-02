@@ -666,7 +666,7 @@ public abstract class ChoiceManager
 		// Urning Your Keep
 		new ChoiceAdventure(
 			"Cyrpt", "choiceAdventure157", "Defiled Niche",
-			new String[] { "mysticality substats", "plus-sized phylactery", "small meat gain", "skip adventure" },
+			new String[] { "mysticality substats", "plus-sized phylactery", "small meat boost", "skip adventure" },
 			new String[] { null, "2564", null, null } ),
 
 		// Choice 158 used to be Lich in the Niche
