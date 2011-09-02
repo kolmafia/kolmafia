@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -52,9 +53,11 @@ import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
@@ -316,6 +319,36 @@ public class CouncilFrame
 
 	public static final void unlockGoatlet()
 	{
+		AdventureRequest goatlet = new AdventureRequest( "Goatlet", "adventure.php", "60" );
+
+		if ( KoLCharacter.inFistcore() )
+		{
+			// You can actually get here without knowing Worldpunch
+			// in Softcore by pulling ores.
+			if ( !KoLCharacter.hasSkill( "Worldpunch" ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Try again after you learn Worldpunch." );
+				return;
+			}
+
+			// If you don't have Earthen Fist active, get it.
+			if ( !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
+			{
+				UseSkillRequest request = UseSkillRequest.getInstance( "Worldpunch" );
+				request.setBuffCount( 1 );
+				RequestThread.postRequest( request );
+			}
+
+			// Perhaps you ran out of MP.
+			if ( !KoLmafia.permitsContinue() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Cast Worldpunch and try again." );
+			}
+
+			RequestThread.postRequest( goatlet );
+			return;
+		}
+
 		if ( !EquipmentManager.hasOutfit( 8 ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You need a mining outfit to continue." );
@@ -324,13 +357,13 @@ public class CouncilFrame
 
 		if ( EquipmentManager.isWearingOutfit( 8 ) )
 		{
-			( new AdventureRequest( "Goatlet", "adventure.php", "60" ) ).run();
+			RequestThread.postRequest( goatlet );
 			return;
 		}
 
 		SpecialOutfit.createImplicitCheckpoint();
 		( new EquipmentRequest( EquipmentDatabase.getOutfit( 8 ) ) ).run();
-		( new AdventureRequest( "Goatlet", "adventure.php", "60" ) ).run();
+		RequestThread.postRequest( goatlet );
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
