@@ -90,7 +90,7 @@ public abstract class SorceressLairManager
 	private static final AdventureResult WUSSINESS = EffectPool.get( EffectPool.WUSSINESS );
 	private static final AdventureResult HARDLY_POISONED = EffectPool.get( EffectPool.HARDLY_POISONED );
 	private static final AdventureResult TELEPORTITIS = EffectPool.get( EffectPool.TELEPORTITIS );
-	private static final AdventureResult EARTHEN_FIST = EffectPool.get( EffectPool.EARTHEN_FIST );
+	public static final AdventureResult EARTHEN_FIST = EffectPool.get( EffectPool.EARTHEN_FIST );
 
 	private static final AdventureResult STAR_SWORD = ItemPool.get( ItemPool.STAR_SWORD, 1 );
 	private static final AdventureResult STAR_CROSSBOW = ItemPool.get( ItemPool.STAR_CROSSBOW, 1 );

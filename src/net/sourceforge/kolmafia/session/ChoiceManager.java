@@ -3265,7 +3265,7 @@ public abstract class ChoiceManager
 
 		case 162:
 			// Between a Rock and Some Other Rocks
-			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( 8 ) )
+			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( 8 ) && !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
 			{
 				CouncilFrame.unlockGoatlet();
 			}
@@ -4004,7 +4004,7 @@ public abstract class ChoiceManager
 			// Auto-skip the goatlet adventure if you're not wearing
 			// the mining outfit so it can be tried again later.
 
-			return EquipmentManager.isWearingOutfit( 8 ) ? decision : "2";
+			return ( EquipmentManager.isWearingOutfit( 8 ) || KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) ) ? decision : "2";
 
 		// That Explains All The Eyepatches
 		case 184:
