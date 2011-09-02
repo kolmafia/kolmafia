@@ -194,9 +194,24 @@ public class UneffectRequest
 			return "Jingle Bells";
 		}
 
+		if ( effectName.equalsIgnoreCase( "Iron Palms" ) )
+		{
+			return "Iron Palm Technique";
+		}
+
 		if ( effectName.equalsIgnoreCase( "Salamanderenity" ) )
 		{
 			return "Salamander Kata";
+		}
+
+		if ( effectName.equalsIgnoreCase( "Retrograde Relaxation" ) )
+		{
+			return "Miyagi Massage";
+		}
+
+		if ( effectName.equalsIgnoreCase( "Earthen Fist" ) )
+		{
+			return "Worldpunch";
 		}
 
 		return effectName;
@@ -249,9 +264,24 @@ public class UneffectRequest
 			return "Jingle Jangle Jingle";
 		}
 
+		if ( skillName.equalsIgnoreCase( "Iron Palm Technique" ) )
+		{
+			return "Iron Palms";
+		}
+
 		if ( skillName.equalsIgnoreCase( "Salamander Kata" ) )
 		{
 			return "Salamanderenity";
+		}
+
+		if ( skillName.equalsIgnoreCase( "Miyagi Massage" ) )
+		{
+			return "Retrograde Relaxation";
+		}
+
+		if ( skillName.equalsIgnoreCase( "Worldpunch" ) )
+		{
+			return "Earthen Fist";
 		}
 
 		return skillName;
