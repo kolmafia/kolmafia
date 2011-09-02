@@ -77,7 +77,7 @@ public class OutfitCommand
 
 		if ( intendedOutfit == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't wear that outfit." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No outfit found matching: " + parameters );
 			return;
 		}
 
