@@ -238,6 +238,23 @@ Elvish sunglasses	nosmash
 Bag o' Tricks	nosmash
 Greatest American Pants	nosmash
 Operation Patriot Shield	nosmash
+Loathing Legion abacus	nosmash
+Loathing Legion can opener	nosmash
+Loathing Legion chainsaw	nosmash
+Loathing Legion corkscrew	nosmash
+Loathing Legion defibrillator	nosmash
+Loathing Legion double prism	nosmash
+Loathing Legion electric knife	nosmash
+Loathing Legion flamethrower	nosmash
+Loathing Legion hammer	nosmash
+Loathing Legion helicopter	nosmash
+Loathing Legion kitchen sink	nosmash
+Loathing Legion many-purpose hook	nosmash
+Loathing Legion moondial	nosmash
+Loathing Legion necktie	nosmash
+Loathing Legion pizza stone	nosmash
+Loathing Legion rollerblades	nosmash
+Loathing Legion tape measure	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
