@@ -720,6 +720,7 @@ public class Modifiers
 	public static final int ADVENTURE_UNDERWATER = 21;
 	public static final int UNDERWATER_FAMILIAR = 22;
 	public static final int GENERIC = 23;
+	public static final int UNARMED = 24;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -818,6 +819,10 @@ public class Modifiers
 		{ "Generic",
 		  null,
 		  Pattern.compile( "Generic" )
+		},
+		{ "Unarmed",
+		  Pattern.compile( "Bonus&nbsp;for&nbsp;Unarmed&nbsp;Characters&nbsp;only" ),
+		  Pattern.compile( "Unarmed" )
 		},
 	};
 
@@ -1477,6 +1482,13 @@ public class Modifiers
 		// Make sure the modifiers apply to current class
 		String type = mods.strings[ Modifiers.CLASS ];
 		if ( type != "" && !type.equals( KoLCharacter.getClassType() ) )
+		{
+			return;
+		}
+
+		// Unarmed modifiers apply only if the character has no weapon or offhand
+		boolean unarmed = this.getBoolean( Modifiers.UNARMED );
+		if ( unarmed && !KoLCharacter.isUnarmed() )
 		{
 			return;
 		}
@@ -2239,6 +2251,10 @@ public class Modifiers
 			else if ( plural.equals( "Turtle&nbsp;Tamers" ) )
 			{
 				cls = KoLCharacter.TURTLE_TAMER;
+			}
+			else
+			{
+				return null;
 			}
 			return Modifiers.modifierTag( Modifiers.stringModifiers, Modifiers.CLASS ) + ": \"" + cls + "\"";
 		}
