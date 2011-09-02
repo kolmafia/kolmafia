@@ -832,7 +832,7 @@
 831	Thaumodynamic	raindrop.gif	df5ed605feb8ac254669bbb54b9c22f1	shower lukewarm
 832	So Fresh and So Clean	ropesoap.gif	fb17f0744ede3f6e3233fa01ef0db77c	shower cool
 833	Single-Eyed Vision	monocle.gif	99bb0ca0617dd99c60c0831c256f73c6	use 1 Atomic Comic
-834
+834	There is No Spoon	slotspoon.gif	3bcba089f2dcc1f804bcaca5ed8cf35c	use 1 Red Pill
 835	Eso S&iacute; Que Es	bangup.gif	f44faf22cf17c8874bde20b23d9d1c52	eat 1 spaghetti con calaveras
 836	On Pins and Needles		df3e73633630d0b3f3e96a910beff6ba
 837	Aided and Abetted	bandaid.gif	231d6fb1e18a7852eb8160af1d0d1376	use 1 Pok&euml;mann band-aid
@@ -906,3 +906,23 @@
 905	Retrograde Relaxation	wosp_fist.gif	57b39f8a69833f0120c9821d06736b49	cast 1 Miyagi Massage
 906	Salamanderenity	wosp_sala.gif	a23a35d9a3b721c550ed7c1c03193054	cast 1 Salamander Kata
 907	Earthen Fist	wosp_dirt.gif	80d1263744c6f408791a83b91b0bbe78	cast 1 Worldpunch
+908
+909	Bright!	light.gif	c9362079d73e490975661d3a8091baed	use 1 Bright Water
+910
+911
+912
+913
+914
+915
+916
+917
+918	Gar-ish	lasagna.gif	a5afe11e9b9bf333b04548d0abf6e975	use 1 potion of the field gar
+919	Hammertime	clawhammer.gif	138ba5cbeccb6334a1d473710372e8d6	use 1 too legit potion
+920	Purity of Spirit	waterbottle.gif	d5b8c8f6760134ce04e35f3712a27a8b	use 1 cold-filtered water
+921	Cold, Dead Hands	skull.gif	e831bcae8eaf0d71ee17b3768f2d0b61	use 1 graveyard snowglobe
+922	Cool, Catlike	iceberglet.gif	a7789794c964e1d0e12f497b4f7fafa6	use 1 cool cat elixir
+923	The Captain's Hammer	hammer.gif	0d6082070395ae6eb237d16b2c442884	use 1 potion of the captain's hammer
+924	X-Ray Vision	xrayspecs.gif	de845631b916ef3d079043d732803129	use 1 potion of X-ray vision
+925	Litterboxing	casserole.gif	abc17955ab556a46f74d220b0c873ce8	use 1 potion of the litterbox
+926	Raging Animal	3claws.gif	8283e89c2a8a2cda45de4716049d192a	use 1 potion of animal rage
+927	Stickler for Promptness	clock.gif	057fa67e3304549f49bf49355ebc86c2	use 1 potion of punctual companionship

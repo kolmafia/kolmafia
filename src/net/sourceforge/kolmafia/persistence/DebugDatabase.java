@@ -1095,6 +1095,19 @@ public class DebugDatabase
 		return matcher.group( 1 );
 	}
 
+	// href="desc_effect.php?whicheffect=138ba5cbeccb6334a1d473710372e8d6"
+	private static final Pattern EFFECT_DESCID_PATTERN = Pattern.compile( "whicheffect=(.*?)\"" );
+	public static final String parseEffectDescid( final String text )
+	{
+		Matcher matcher = DebugDatabase.EFFECT_DESCID_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return "";
+		}
+
+		return matcher.group( 1 );
+	}
+
 	private static final GenericRequest DESC_EFFECT_REQUEST = new GenericRequest( "desc_effect.php" );
 
 	public static final String effectDescriptionText( final int effectId )
@@ -1471,6 +1484,34 @@ public class DebugDatabase
 			{
 				KoLmafia.updateDisplay( "Error parsing JSON string!" );
 				StaticEntity.printStackTrace( e );
+			}
+		}
+	}
+
+	// **********************************************************
+
+	public static final void checkPotions()
+	{
+		Set keys = ItemDatabase.descriptionIdKeySet();
+		Iterator it = keys.iterator();
+
+		while ( it.hasNext() )
+		{
+			Integer id = ( (Integer) it.next() );
+			int itemId = id.intValue();
+			if ( itemId < 1 || !ItemDatabase.isUsable( itemId ) )
+			{
+				continue;
+			}
+
+			// Potions grant an effect. Check for a new effect.
+			String itemName = ItemDatabase.getItemDataName( id );
+			String effectName = Modifiers.getStringModifier( itemName, "Effect" );
+			if ( !effectName.equals( "" ) && EffectDatabase.getEffectId( effectName ) == -1 )
+			{
+				String rawText = DebugDatabase.rawItemDescriptionText( itemId );
+				String effectDescid = DebugDatabase.parseEffectDescid( rawText );
+				EffectDatabase.registerEffect( effectName, effectDescid, "use 1 " + itemName );
 			}
 		}
 	}

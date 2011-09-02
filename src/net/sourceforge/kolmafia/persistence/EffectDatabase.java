@@ -336,6 +336,11 @@ public class EffectDatabase
 
 	public static final int learnEffectId( String name, String descId )
 	{
+		return EffectDatabase.registerEffect( name, descId, null );
+	}
+
+	public static final int registerEffect( String name, String descId, String defaultAction )
+	{
 		// Load the description text for this effect
 		String text = DebugDatabase.readEffectDescriptionText( descId );
 		if ( text == null )
@@ -371,9 +376,13 @@ public class EffectDatabase
 		EffectDatabase.imageById.put( id, image );
 		EffectDatabase.descriptionById.put( id, descId );
 		EffectDatabase.effectByDescription.put( descId, id );
+		if ( defaultAction != null )
+		{
+			EffectDatabase.defaultActions.put( canonicalName, defaultAction );
+		}
 
 		RequestLogger.printLine( "--------------------" );
-		RequestLogger.printLine( EffectDatabase.effectString( effectId, name, image, descId, null ) );
+		RequestLogger.printLine( EffectDatabase.effectString( effectId, name, image, descId, defaultAction ) );
 
 		// Let modifiers database do what it wishes with this effect
 		Modifiers.registerEffect( name, text );
