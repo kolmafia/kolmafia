@@ -201,6 +201,10 @@ public class HermitRequest
 		{
 			AdventureResult item = (AdventureResult) it.next();
 			Concoction c = ConcoctionPool.get( item.getItemId() );
+			if ( c.getMixingMethod() != KoLConstants.COINMASTER )
+			{
+				continue;
+			}
 			AdventureResult[] ingredients = c.getIngredients();
 			if ( ingredients.length != count )
 			{
