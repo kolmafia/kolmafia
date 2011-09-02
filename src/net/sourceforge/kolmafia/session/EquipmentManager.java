@@ -1441,9 +1441,17 @@ public class EquipmentManager
 			return false;
 		}
 
-		if ( ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_FAMILIAR )
+		int type = ItemDatabase.getConsumptionType( itemId );
+
+		if ( type == KoLConstants.EQUIP_FAMILIAR )
 		{
 			return KoLCharacter.getFamiliar().canEquip( ItemPool.get( itemId, 1 ) );
+		}
+
+		if ( KoLCharacter.inFistcore() &&
+		     ( type == KoLConstants.EQUIP_WEAPON || type == KoLConstants.EQUIP_OFFHAND ) )
+		{
+			return false;
 		}
 		
 		if ( KoLCharacter.isHardcore() )
