@@ -161,6 +161,12 @@ public class CouncilFrame
 			{
 				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 			}
+
+			// If we see the link to the empty Black Market, Wu Tang has been defeated
+			if ( responseText.indexOf( "action=emptybm" ) != -1 )
+			{
+				Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
+			}
 		}
 		// Obsolete. Sigh.
 		else if ( location.startsWith( "generate15" ) )
