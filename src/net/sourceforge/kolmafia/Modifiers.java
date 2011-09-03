@@ -1487,7 +1487,7 @@ public class Modifiers
 		}
 
 		// Unarmed modifiers apply only if the character has no weapon or offhand
-		boolean unarmed = this.getBoolean( Modifiers.UNARMED );
+		boolean unarmed = mods.getBoolean( Modifiers.UNARMED );
 		if ( unarmed && !KoLCharacter.isUnarmed() )
 		{
 			return;

@@ -2600,6 +2600,7 @@ Dance Interpreter	Item Drop: +20
 Dances with Tweedles	Meat Drop: +40
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
+Danish Cunning	Pickpocket Chance: +25
 # Deadened palate: Bleah
 Deadly Flashing Blade	Weapon Damage: +10
 # Deadly Lampblade: 100% chance of poisoning opponent
@@ -2681,9 +2682,11 @@ Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
 Feet of Grapefruit	Experience (Mysticality): +3
 Feet of Strawberry	Experience (Moxie): +3
 Feet of Watermelon	Experience (Muscle): +3
+Feline Ferocity	Weapon Damage Percent: +100
 Festive Radiation	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
 Fever From the Flavor	Cold Resistance: +9
 Fiery Heart	Mysticality: [min(T,20)], MP Regen Min: [ceil(min(T,20)/2)], MP Regen Max: [ceil(min(T,20)/2)]
+Filled with Magic	Spell Damage Percent: +100
 # Filthworm Drone Stench
 # Filthworm Guard Stench
 # Filthworm Larva Stench
@@ -2705,6 +2708,7 @@ Flared Nostrils	Stench Vulnerability
 Flashing Eyes	Meat Drop: +30
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Fondid	Monster Level: +15
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
 Fratty Flavor	Moxie: +15
@@ -2760,6 +2764,7 @@ Guanified	Stench Damage: +10, Damage Reduction: -2
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
 Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
+Hammered	Weapon Damage Percent: +50
 # Hammertime: Seriously, your pants are huge
 Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
@@ -2844,6 +2849,8 @@ Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
 Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
 Kung Fu Fighting	Weapon Damage: [3*L]
+# L'instinct F&eacute;lin: Makes you better at sleeping
+L'instinct F&eacute;lin	Moxie: +30
 La Bamba	Item Drop: +3
 Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
@@ -3009,6 +3016,7 @@ Red Misty-Eyed	Damage Reduction: 3, Muscle Percent: +50
 Red Neck	Muscle: +15, Moxie: -5
 Red Tongue	Meat Drop: +50
 Reedy Pipes	Moxie Percent: +5
+# Refined Palate: Fine wines will taste even finer
 Refuse Reflux	Stench Damage: [min(100,T)]
 Reptilian Fortitude	Maximum HP: +30
 Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
@@ -3080,6 +3088,7 @@ So You Can Work More...	Meat Drop: +10
 Socialismydia	Item Drop: -50
 Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
+Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
@@ -3260,6 +3269,7 @@ Wreathed in Merriment	Moxie Percent: +10
 Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
 # Yellow Tongue: Eww.
+# Yes, Can Haz: Effect Cat is Not Amused
 You Can Really Taste the Dormouse	Familiar Weight: +5
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
