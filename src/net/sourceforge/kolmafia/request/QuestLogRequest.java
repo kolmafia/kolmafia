@@ -32,6 +32,9 @@
  */
 
 package net.sourceforge.kolmafia.request;
+
+import net.sourceforge.kolmafia.KoLCharacter;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class QuestLogRequest
@@ -128,6 +131,11 @@ public class QuestLogRequest
 
 	public static final boolean isBlackMarketAvailable()
 	{
+		if ( Preferences.getInteger( "lastWuTangDefeated" ) == KoLCharacter.getAscensions() )
+		{
+			QuestLogRequest.blackMarketAvailable = false;
+		}
+
 		return QuestLogRequest.blackMarketAvailable;
 	}
 

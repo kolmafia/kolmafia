@@ -283,7 +283,7 @@ public class NPCPurchaseRequest
 			}
 		}
 
-		Matcher m = NPCPurchaseRequest.NPCSTOREID_PATTERN.matcher(urlString);
+		Matcher m = NPCPurchaseRequest.NPCSTOREID_PATTERN.matcher( urlString );
 		if ( !m.find() )
 		{
 			return;

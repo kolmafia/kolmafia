@@ -502,6 +502,7 @@ user	lastTempleUnlock	-1
 user	lastTowerClimb	-1
 user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
+user	lastWuTangDefeated	-1
 user	lastZapperWand	0
 user	libramSummons	0
 user	libraryCardUsed	false
