@@ -5220,7 +5220,7 @@
 5219	716853405	paste2.gif	Crimbo paste	globs of crimbo paste
 5220	525128097	wosp_scroll.gif	Teachings of the Fist	Teachings of the Fists
 5221	526463785	loottoken.gif	fat loot token
-5222	807026781	thwaitgrass.gif	Thwaitgold grasshopper statuette
+5222	136464467	thwaitgrass.gif	Thwaitgold grasshopper statuette
 5223	574526290	book3.gif	Tome of Clip Art
 5224	517311708	powderdonut.gif	Ur-Donut
 5225	779127476	bigbomb.gif	The Bomb
