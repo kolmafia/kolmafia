@@ -2205,6 +2205,10 @@ public class FightRequest
 			{
 				Preferences.increment( "blackPuddingsDefeated", 1 );
 			}
+			else if ( monster.equalsIgnoreCase( "Wu Tang the Betrayer" ) )
+			{
+				Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
+			}
 			else if ( monster.equalsIgnoreCase( "Ancient Protector Spirit" ) )
 			{
 				HiddenCityRequest.addHiddenCityLocation( 'D' );
