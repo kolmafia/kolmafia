@@ -5225,7 +5225,7 @@
 5224	517311708	powderdonut.gif	Ur-Donut
 5225	779127476	bigbomb.gif	The Bomb
 5226	197797892	famjacks.gif	box of Familiar Jacks
-5227	977325030	pail.gif	bucket of wine
+5227	977325030	pail.gif	bucket of wine	buckets of wine
 5228	599765578	fonduepot.gif	ultrafondue
 5229	580600083	light.gif	unbearable light
 5230	734400982	snowflake.gif	oversized snowflake
@@ -5236,25 +5236,25 @@
 5235	942102010	furhalo.gif	furry halo
 5236	690053378	frosthalo.gif	frosty halo
 5237	277862470	timehalo.gif	time halo
-5238	170016949	wine2.gif	Lumineux Limnio
-5239	809104289	wine2.gif	Morto Moreto
-5240	454309090	wine2.gif	Temps Tempranillo
-5241	489995659	wine2.gif	Bordeaux Marteaux
-5242	892840469	wine2.gif	Fromage Pinotage
-5243	320019527	wine2.gif	Beignet Milgranet
-5244	538079522	wine2.gif	Muschat
+5238	170016949	wine2.gif	Lumineux Limnio	bottles of Lumineux Limnio
+5239	809104289	wine2.gif	Morto Moreto	bottles of Morto Moreto
+5240	454309090	wine2.gif	Temps Tempranillo	bottles of Temps Tempranillo
+5241	489995659	wine2.gif	Bordeaux Marteaux	bottles of Bordeaux Marteaux
+5242	892840469	wine2.gif	Fromage Pinotage	bottles of Fromage Pinotage
+5243	320019527	wine2.gif	Beignet Milgranet	bottles of Beignet Milgranet
+5244	538079522	wine2.gif	Muschat	bottles of Muschat
 5245	249351840	jellydonut.gif	cool jelly donut
 5246	603567625	jellydonut.gif	shrapnel jelly donut
 5247	621283004	jellydonut.gif	occult jelly donut
 5248	635915672	jellydonut.gif	thyme jelly donut
-5249	718294550	danish.gif	frozen danish
-5250	488549848	paste2.gif	smashed danish
-5251	984027975	danish.gif	forbidden danish
+5249	718294550	danish.gif	frozen danish	frozen danishes
+5250	488549848	paste2.gif	smashed danish	smashed danishes
+5251	984027975	danish.gif	forbidden danish	forbidden danished
 5252	385514539	catclaw.gif	cool cat claw
 5253	402774947	catclaw.gif	blunt cat claw
 5254	863518314	catclaw.gif	shadowy cat claw
 5255	929836778	burger.gif	cheezburger
-5256	512458370	toastedbrie.gif	toasted brie
+5256	512458370	toastedbrie.gif	toasted brie    pieces of toasted brie
 5257	865033460	potion3.gif	potion of the field gar
 5258	897208811	potion7.gif	too legit potion
 5259	231547639	waterbottle.gif	Bright Water
