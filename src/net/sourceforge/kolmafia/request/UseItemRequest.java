@@ -2791,6 +2791,7 @@ public class UseItemRequest
 		case ItemPool.SNOWCONE_BOOK:
 		case ItemPool.STICKER_BOOK:
 		case ItemPool.SUGAR_BOOK:
+		case ItemPool.CLIP_ART_BOOK:
 			// Grimoires
 		case ItemPool.HILARIOUS_BOOK:
 		case ItemPool.TASTEFUL_BOOK:
@@ -3954,6 +3955,8 @@ public class UseItemRequest
 			return "Summon Stickers";
 		case ItemPool.SUGAR_BOOK:
 			return "Summon Sugar Sheets";
+		case ItemPool.CLIP_ART_BOOK:
+			return "Summon Clip ARt";
 		case ItemPool.HILARIOUS_BOOK:
 			return "Summon Hilarious Objects";
 		case ItemPool.TASTEFUL_BOOK:

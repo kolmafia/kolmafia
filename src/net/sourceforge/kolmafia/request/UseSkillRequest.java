@@ -93,6 +93,8 @@ public class UseSkillRequest
 		"Summon Snowcones",
 		"Summon Stickers",
 		"Summon Sugar Sheets",
+		// Summon Clip Art requires extra parameters
+		// "Summon Clip Art",
 	};
 
 	public static final String[] LIBRAM_SKILLS =
@@ -243,6 +245,7 @@ public class UseSkillRequest
 		case SkillDatabase.SNOWCONE:
 		case SkillDatabase.STICKER:
 		case SkillDatabase.SUGAR:
+		case SkillDatabase.CLIP_ART:
 		case SkillDatabase.HILARIOUS:
 		case SkillDatabase.TASTEFUL:
 		case SkillDatabase.CARDS:
@@ -270,6 +273,10 @@ public class UseSkillRequest
 
 		case SkillDatabase.SUGAR:
 			this.addFormField( "preaction", "summonsugarsheets" );
+			break;
+
+		case SkillDatabase.CLIP_ART:
+			this.addFormField( "preaction", "summoncliparts" );
 			break;
 
 		case SkillDatabase.HILARIOUS:
@@ -404,6 +411,7 @@ public class UseSkillRequest
 		case SkillDatabase.SNOWCONE:
 		case SkillDatabase.STICKER:
 		case SkillDatabase.SUGAR:
+		case SkillDatabase.CLIP_ART:
 
 			maximumCast = Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
 			break;
@@ -1401,6 +1409,7 @@ public class UseSkillRequest
 		case SkillDatabase.SNOWCONE:
 		case SkillDatabase.STICKER:
 		case SkillDatabase.SUGAR:
+		case SkillDatabase.CLIP_ART:
 			Preferences.increment( "tomeSummons", count );
 			break;
 
@@ -1466,6 +1475,11 @@ public class UseSkillRequest
 		if ( action.equals( "sugarsheets" ) )
 		{
 			return SkillDatabase.SUGAR;
+		}
+
+		if ( action.equals( "cliparts" ) )
+		{
+			return SkillDatabase.CLIP_ART;
 		}
 
 		if ( action.equals( "hilariousitems" ) )

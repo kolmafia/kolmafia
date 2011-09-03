@@ -88,6 +88,7 @@ public class SkillDatabase
 	public static final int SNOWCONE = 8000;
 	public static final int STICKER = 8001;
 	public static final int SUGAR = 8002;
+	public static final int CLIP_ART = 8003;
 	public static final int CANDY_HEART = 8100;
 	public static final int PARTY_FAVOR = 8101;
 	public static final int LOVE_SONG = 8102;
@@ -197,6 +198,7 @@ public class SkillDatabase
 		case SNOWCONE:		// Summon Snowcones
 		case STICKER:		// Summon Stickers
 		case SUGAR:		// Summon Sugar Sheets
+		case CLIP_ART:		// Summon Clip Art
 		case CANDY_HEART:	// Summon Candy Hearts
 		case PARTY_FAVOR:	// Summon Party Favor
 		case LOVE_SONG:		// Summon Love Song
@@ -815,6 +817,7 @@ public class SkillDatabase
 		case SkillDatabase.SNOWCONE:	// Summon Snowcones
 		case SkillDatabase.STICKER:	// Summon Stickers
 		case SkillDatabase.SUGAR:	// Summon Sugar Sheets
+		case SkillDatabase.CLIP_ART:	// Summon Clip Art
 		case SkillDatabase.CANDY_HEART:	// Summon Candy Hearts
 		case SkillDatabase.PARTY_FAVOR:	// Summon Party Favor
 		case SkillDatabase.LOVE_SONG:	// Summon Love Song
@@ -842,6 +845,7 @@ public class SkillDatabase
 		case SkillDatabase.SNOWCONE:	// Summon Snowcones
 		case SkillDatabase.STICKER:	// Summon Stickers
 		case SkillDatabase.SUGAR:	// Summon Sugar Sheets
+		case SkillDatabase.CLIP_ART:	// Summon Clip Art
 		case SkillDatabase.CANDY_HEART:	// Summon Candy Hearts
 		case SkillDatabase.PARTY_FAVOR:	// Summon Party Favor
 		case SkillDatabase.LOVE_SONG:	// Summon Love Song

@@ -3209,6 +3209,17 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to look up whether or not the character can summon clip art
+	 *
+	 * @return <code>true</code> if clip art can be summoned by this character
+	 */
+
+	public static final boolean canSummonClipArt()
+	{
+		return KoLCharacter.hasSkill( "Summon Clip Art" );
+	}
+
+	/**
 	 * Accessor method to look up whether or not the character can smith weapons.
 	 *
 	 * @return <code>true</code> if this character can smith advanced weapons

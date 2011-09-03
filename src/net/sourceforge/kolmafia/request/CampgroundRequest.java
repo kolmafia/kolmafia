@@ -705,6 +705,10 @@ public class CampgroundRequest
 			"Summon Sugar Sheets"
 		},
 		{
+			"Tome of Clip Art",
+			"Summon Clip Art"
+		},
+		{
 			// The bookshelf currently says:
 			// "McPhee's Grimoire of Hilarious Item Summoning"
 			// gives access to "Summon Hilarious Items".
@@ -789,6 +793,17 @@ public class CampgroundRequest
 		}
 
 		String action = matcher.group(1);
+		if ( action.equals( "bookshelf" ) )
+		{
+			// A request can have both action=bookshelf and preaction=yyy.
+			// Check for that.
+			if ( !matcher.find() )
+			{
+				// Nothing to log.
+				return true;
+			}
+			action = matcher.group(1);
+		}
 
 		// Dispatch campground requests to other classes
 
@@ -800,6 +815,25 @@ public class CampgroundRequest
 		if ( action.startsWith( "telescope" ) )
 		{
 			return TelescopeRequest.registerRequest( urlString );
+		}
+
+		// campground.php?pwd&action=bookshelf&preaction=combinecliparts&clip1=05&clip2=05&clip3=03
+		// 01 = DONUT
+		// 02 = BOMB
+		// 03 = KITTEN
+		// 04 = WINE
+		// 05 = CHEESE
+		// 06 = LIGHT BULB
+		// 07 = SNOWFLAKE
+		// 08 = SKULL
+		// 09 = CLOCK
+		// 10 = HAMMER
+
+		if ( action.equals( "combinecliparts" ) )
+		{
+			// Eventually somebody will claim and parse this
+			RequestLogger.updateSessionLog( urlString );
+			return true;
 		}
 
 		if ( action.startsWith( "summon" ) )
@@ -814,12 +848,6 @@ public class CampgroundRequest
 		}
 
 		// Dispatch campground requests from this class
-
-		if ( action.equals( "bookshelf" ) )
-		{
-			// Nothing to log.
-			return true;
-		}
 
 		if ( action.equals( "inspectdwelling" ) ||
 		     action.equals( "inspectkitchen" ))
@@ -838,18 +866,17 @@ public class CampgroundRequest
 		{
 			message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
 		}
-
-		if ( message != null )
+		else
 		{
-			RequestLogger.printLine( "" );
-			RequestLogger.printLine( message );
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( message );
-			return true;
+			// Unknown action.
+			return false;
 		}
 
-		// Unknown action.
-		return false;
+		RequestLogger.printLine( "" );
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
+		return true;
 	}
 }
