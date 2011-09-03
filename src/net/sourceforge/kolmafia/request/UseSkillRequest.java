@@ -128,8 +128,8 @@ public class UseSkillRequest
 	private static final int INIGOS = 6028;
 
 	public static String lastUpdate = "";
-	private static int lastSkillUsed = -1;
-	private static int lastSkillCount = 0;
+	public static int lastSkillUsed = -1;
+	public static int lastSkillCount = 0;
 
 	private final int skillId;
 	private final String skillName;
@@ -1159,6 +1159,29 @@ public class UseSkillRequest
 		{
 			UseSkillRequest.lastUpdate = "That skill is unavailable.";
 			return true;
+		}
+
+		if ( responseText.indexOf( "You may only use three Tome summonings each day" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "You've used your Tomes enough today.";
+			Preferences.setInteger( "tomeSummons", 3 );
+			return true;
+		}
+
+		// Summon Clip Art cast through the browser has two phases:
+		//
+		//   campground.php?preaction=summoncliparts
+		//   campground.php?preaction=combinecliparts
+		//
+		// Only the second once consumes MP and only if it is successful.
+		// Internally, we use only the second URL.
+		//
+		// For now, simply ignore any call on either URL that doesn't
+		// result in an item, since failures just redisplay the bookshelf
+
+		if ( skillId == SkillDatabase.CLIP_ART && responseText.indexOf( "You acquire" ) == -1 )
+		{
+			return false;
 		}
 
 		boolean exceeded = false;
