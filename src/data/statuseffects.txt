@@ -906,16 +906,16 @@
 905	Retrograde Relaxation	wosp_fist.gif	57b39f8a69833f0120c9821d06736b49	cast 1 Miyagi Massage
 906	Salamanderenity	wosp_sala.gif	a23a35d9a3b721c550ed7c1c03193054	cast 1 Salamander Kata
 907	Earthen Fist	wosp_dirt.gif	80d1263744c6f408791a83b91b0bbe78	cast 1 Worldpunch
-908
+908	Fondid	stench.gif	55d107b3d813edcad0f3ee3139a36600	eat 1 ultrafondue
 909	Bright!	light.gif	c9362079d73e490975661d3a8091baed	use 1 Bright Water
-910
-911
-912
-913
-914
-915
-916
-917
+910	Refined Palate	toastedbrie.gif	36d294b95c82e723a50e1e36f5e98931	eat 1 toasted brie
+911	Hammered	clawhammer.gif	f5f9452e757073a3e6457526f89da096	drink 1 Bordeaux Marteaux
+912	Some Cheese with Your Wine	goatcheese.gif	6ba0459019a5406ef246429a63712b27	drink 1 Fromage Pinotage
+913	L'instinct F&eacute;lin	blackcat.gif	a77fe1b0acbf5632cd89c7eb5d65fd90	drink 1 Muschat
+914	Filled with Magic	jellydonut.gif	fed0652f9e6ec16c5582f58aa827df91
+915	Danish Cunning	danish.gif	47c11e7be40fcf1f919546e5c6b3a648
+916	Feline Ferocity	blackcat.gif	3ca96974cdefb5b03afbb36fa90b26a1
+917	Yes, Can Haz	blackcat.gif	6e0c769e337e3d4dfc458cebbeb9fcba	eat 1 cheezburger
 918	Gar-ish	lasagna.gif	a5afe11e9b9bf333b04548d0abf6e975	use 1 potion of the field gar
 919	Hammertime	clawhammer.gif	138ba5cbeccb6334a1d473710372e8d6	use 1 too legit potion
 920	Purity of Spirit	waterbottle.gif	d5b8c8f6760134ce04e35f3712a27a8b	use 1 cold-filtered water
