@@ -320,11 +320,26 @@ public class CampgroundRequest
 			return;
 		}
 
-		String action = GenericRequest.getAction( urlString );
-
-		if ( action == null )
+		Matcher matcher= GenericRequest.ACTION_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
 		{
 			CampgroundRequest.parseCampground( responseText );
+			return;
+		}
+
+		String action = matcher.group(1);
+
+		// A request can have both action=bookshelf and preaction=yyy.
+		// Check for that.
+		if ( action.equals( "bookshelf" ) && matcher.find() )
+		{
+			action = matcher.group(1);
+		}
+
+		if ( action.equals( "bookshelf" ) )
+		{
+			// No preaction. Look at books.
+			CampgroundRequest.parseBookTitles( responseText );
 			return;
 		}
 
@@ -353,9 +368,13 @@ public class CampgroundRequest
 			return;
 		}
 
-		if ( action.equals( "bookshelf" ) )
+		// Combining clip arts does this:
+		//   campground.php?action=bookshelf&preaction=combinecliparts&clip1=05&clip2=05&clip3=03&pwd
+		if ( action.equals( "combinecliparts" ) )
 		{
-			CampgroundRequest.parseBookTitles( responseText );
+			UseSkillRequest.lastSkillUsed = SkillDatabase.CLIP_ART;
+			UseSkillRequest.lastSkillCount = 1;
+			UseSkillRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
@@ -831,7 +850,8 @@ public class CampgroundRequest
 
 		if ( action.equals( "combinecliparts" ) )
 		{
-			// Eventually somebody will claim and parse this
+			// Eventually somebody will claim and parse this and
+			// log it as a creation.
 			RequestLogger.updateSessionLog( urlString );
 			return true;
 		}
