@@ -368,14 +368,6 @@ public abstract class ChatManager
 	{
 		String bufferKey = destination.toLowerCase();
 
-		if ( Preferences.getBoolean( "mergeHobopolisChat" ) )
-		{
-			if ( destination.equals( "/hobopolis" ) || destination.equals( "/slimetube" ) )
-			{
-				bufferKey = "/clan";
-			}
-		}
-
 		if ( !bufferKey.startsWith( "/" ) && ChatManager.triviaGameActive )
 		{
 			bufferKey = triviaGameId;
