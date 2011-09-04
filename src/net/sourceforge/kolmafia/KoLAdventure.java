@@ -1144,6 +1144,18 @@ public class KoLAdventure
 				// elsewhere.
 				return;
 
+			case AdventurePool.ARID_DESERT:
+				AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
+				if ( !KoLConstants.activeEffects.contains( hydrated ) )
+				{
+					( new AdventureRequest( "Oasis in the Desert", "adventure.php", AdventurePool.OASIS_ID ) ).run();
+				}
+				if ( !KoLConstants.activeEffects.contains( hydrated ) )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ultrahydration failed!" );
+				}
+				break;
+
 			case AdventurePool.FCLE:
 				AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
 				AdventureResult polish = ItemPool.get( ItemPool.BALL_POLISH, 1 );
