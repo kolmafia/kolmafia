@@ -1710,6 +1710,69 @@ sugar shirt	SUGAR, TORSO	sugar sheet
 squirmy violent party snack	COOK	a dance upon the palate	tiny frozen prehistoric meteorite jawbreaker
 world's most unappetizing beverage	MIX	hair of the calf	can of depilatory cream
 
+# Clip Art tome summoned items
+# 1: donut      2: bomb       3: kitten  4: wine    5: cheese
+# 6: lightbulb  7: snowflake  8: skull   9: clock  10: hammer
+Ur-Donut	CLIPART	1	1	1
+The Bomb	CLIPART	2	2	2
+box of Familiar Jacks	CLIPART	3	3	3
+bucket of wine	CLIPART	4	4	4
+ultrafondue	CLIPART	5	5	5
+oversized snowflake	CLIPART	7	7	7
+unbearable light	CLIPART	6	6	6
+crystal skull	CLIPART	8	8	8
+borrowed time	CLIPART	9	9	9
+box of hammers	CLIPART	10	10	10
+shining halo	CLIPART	1	6	6
+furry halo	CLIPART	1	3	3
+Frosty halo	CLIPART	1	7	7
+time halo	CLIPART	1	9	9
+Lumineux Limnio	CLIPART	4	4	6
+Morto Moreto	CLIPART	4	4	8
+Temps Tempranillo	CLIPART	4	4	9
+Bordeaux Marteaux	CLIPART	4	4	10
+Fromage Pinotage	CLIPART	4	4	5
+Beignet Milgranet	CLIPART	4	4	1
+Muschat	CLIPART	4	4	3
+cool jelly donut	CLIPART	1	4	7
+shrapnel jelly donut	CLIPART	1	4	10
+occult jelly donut	CLIPART	1	4	8
+thyme jelly donut	CLIPART	1	4	9
+frozen danish	CLIPART	1	5	7
+smashed danish	CLIPART	1	5	10
+forbidden danish	CLIPART	1	5	8
+cool cat claw	CLIPART	1	3	7
+blunt cat claw	CLIPART	1	3	10
+shadowy cat claw	CLIPART	1	3	8
+cheezburger	CLIPART	5	5	3
+toasted brie	CLIPART	5	5	6
+potion of the field gar	CLIPART	4	3	3
+too legit potion	CLIPART	4	9	10
+Bright Water	CLIPART	4	6	6
+cold-filtered water	CLIPART	4	7	7
+graveyard snowglobe	CLIPART	4	7	8
+cool cat elixir	CLIPART	4	7	3
+potion of the captain's hammer	CLIPART	4	10	10
+potion of X-ray vision	CLIPART	4	6	8
+potion of the litterbox	CLIPART	4	3	5
+potion of animal rage	CLIPART	4	3	8
+potion of punctual companionship	CLIPART	4	3	9
+holy bomb, batman	CLIPART	2	6	6
+bobcat grenade	CLIPART	2	3	3
+chocolate frosted sugar bomb	CLIPART	2	1	1
+broken glass grenade	CLIPART	2	6	10
+noxious gas grenade	CLIPART	2	3	5
+skull with a fuse in it	CLIPART	2	2	8
+boozebomb	CLIPART	2	2	4
+4:20 bomb	CLIPART	2	2	9
+blunt icepick	CLIPART	10	10	7
+fluorescent lightbulb	CLIPART	10	10	6
+blammer	CLIPART	10	10	2
+clock-cleaning hammer	CLIPART	10	10	9
+hammerus	CLIPART	10	10	8
+broken clock	CLIPART	9	9	10
+dethklok	CLIPART	9	9	8
+glacial clock	CLIPART	9	9	7
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.

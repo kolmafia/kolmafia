@@ -651,7 +651,9 @@ user	usableOther	1
 user	usablePants	1
 user	usableShirts	1
 user	valueOfAdventure	500
+user	valueOfInventory	1.8
 user	valueOfStill	0
+user	valueOfTome	0
 user	violetFogGoal	0
 user	violetFogLayout
 user	volcanoMaze1
