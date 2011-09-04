@@ -279,6 +279,14 @@ public class ChatParser
 			channel = ChatManager.getCurrentChannel();
 		}
 
+		if ( Preferences.getBoolean( "mergeHobopolisChat" ) )
+		{
+			if ( channel.equals( "/hobopolis" ) || channel.equals( "/slimetube" ) )
+			{
+				channel = "/clan";
+			}
+		}
+
 		boolean isAction = false;
 
 		int italicIndex = content.indexOf( "<i>" );
