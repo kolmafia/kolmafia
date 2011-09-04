@@ -93,6 +93,7 @@ public class ConcoctionDatabase
 
 	public static int queuedAdventuresUsed = 0;
 	public static int queuedStillsUsed = 0;
+	public static int queuedTomesUsed = 0;
 	public static int queuedPullsUsed = 0;
 	public static int queuedMeatSpent = 0;
 
@@ -109,6 +110,7 @@ public class ConcoctionDatabase
 	private static final SortedListModel queuedSpleenIngredients = new SortedListModel();
 
 	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
+	public static final Concoction tomeLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction adventureLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction meatLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 
@@ -213,10 +215,12 @@ public class ConcoctionDatabase
 		// Un-untinkerable Amazing Ideas
 		ConcoctionDatabase.mixingMethods.put( "ACOMBINE", new Integer( KoLConstants.ACOMBINE ));
 		METHOD_DESCRIPTION[ KoLConstants.ACOMBINE ] = "Meatpasting (not untinkerable)";
-
 		// Coinmaster purchase
 		METHOD_DESCRIPTION[ KoLConstants.COINMASTER ] = "Coin Master purchase";
-
+		// Summon Clip Art items
+		ConcoctionDatabase.mixingMethods.put( "CLIPART", new Integer( KoLConstants.CLIPART ));
+		METHOD_DESCRIPTION[ KoLConstants.CLIPART ] = "Summon Clip Art"; 
+		
 		// Creation flags
 
 		// Character gender (for kilt vs. skirt)
@@ -388,8 +392,15 @@ public class ConcoctionDatabase
 		}
 
 		AdventureResult[] ingredients = new AdventureResult[ data.length - 2 ];
+		int param = 0;
 		for ( int i = 2; i < data.length; ++i )
 		{
+			if ( StringUtilities.isNumeric( data[ i ] ) )
+			{	// Treat all-numeric element as parameter instead of item.
+				// Up to 4 such parameters can be given if each fits in a byte.
+				param = (param << 8) | StringUtilities.parseInt( data[ i ] );
+				continue;
+			}
 			AdventureResult ingredient = ConcoctionDatabase.parseIngredient( data[ i ] );
 			if ( ingredient == null || ingredient.getItemId() == -1 || ingredient.getName() == null )
 			{
@@ -404,6 +415,7 @@ public class ConcoctionDatabase
 		if ( !bogus )
 		{
 			Concoction concoction = new Concoction( item, mixingMethod );
+			concoction.setParam( param );
 
 			Concoction existing = ConcoctionPool.get( item );
 			if ( (concoction.getMixingMethod() & KoLConstants.CF_MANUAL) != 0 ||
@@ -415,6 +427,10 @@ public class ConcoctionDatabase
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
 				AdventureResult ingredient = ingredients[ i ];
+				if ( ingredient == null )
+				{	// Was a parameter, not an ingredient.
+					continue;
+				}
 				concoction.addIngredient( ingredient );
 				if ( ingredient.getItemId() == ItemPool.MEAT_STACK )
 				{
@@ -692,6 +708,7 @@ public class ConcoctionDatabase
 
 		int adventureChange = ConcoctionDatabase.queuedAdventuresUsed;
 		int stillChange = ConcoctionDatabase.queuedStillsUsed;
+		int tomeChange = ConcoctionDatabase.queuedTomesUsed;
 		int pullChange = ConcoctionDatabase.queuedPullsUsed;
 		int meatChange = ConcoctionDatabase.queuedMeatSpent;
 
@@ -712,6 +729,13 @@ public class ConcoctionDatabase
 				queuedIngredients, new AdventureResult( AdventureResult.STILL, stillChange ) );
 		}
 
+		tomeChange = ConcoctionDatabase.queuedTomesUsed - tomeChange;
+		if ( tomeChange != 0 )
+		{
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.TOME, tomeChange ) );
+		}
+
 		pullChange = ConcoctionDatabase.queuedPullsUsed - pullChange;
 		if ( pullChange != 0 )
 		{
@@ -728,6 +752,7 @@ public class ConcoctionDatabase
 
 		queuedChanges.push( new Integer( meatChange ) );
 		queuedChanges.push( new Integer( pullChange ) );
+		queuedChanges.push( new Integer( tomeChange ) );
 		queuedChanges.push( new Integer( stillChange ) );
 		queuedChanges.push( new Integer( adventureChange ) );
 
@@ -768,6 +793,7 @@ public class ConcoctionDatabase
 
 		Integer adventureChange = (Integer) queuedChanges.pop();
 		Integer stillChange = (Integer) queuedChanges.pop();
+		Integer tomeChange = (Integer) queuedChanges.pop();
 		Integer pullChange = (Integer) queuedChanges.pop();
 		Integer meatChange = (Integer) queuedChanges.pop();
 
@@ -793,6 +819,14 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.queuedStillsUsed -= stills;
 			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.STILL, -stills ) );
+		}
+
+		int tome = tomeChange.intValue();
+		if ( tome != 0 )
+		{
+			ConcoctionDatabase.queuedTomesUsed -= tome;
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.TOME, -tome ) );
 		}
 
 		int pulls = pullChange.intValue();
@@ -1344,6 +1378,15 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.stillsLimit.creatable = 0;
 		ConcoctionDatabase.stillsLimit.visibleTotal = ConcoctionDatabase.stillsLimit.total;
 
+		// Tomes are also also also considered Item #0 in the event that the
+		// concoction requires a tome summon.
+
+		ConcoctionDatabase.tomeLimit.total = 3 - Preferences.getInteger( "tomeSummons" );
+		ConcoctionDatabase.tomeLimit.initial =
+			ConcoctionDatabase.tomeLimit.total - ConcoctionDatabase.queuedTomesUsed;
+		ConcoctionDatabase.tomeLimit.creatable = 0;
+		ConcoctionDatabase.tomeLimit.visibleTotal = ConcoctionDatabase.tomeLimit.total;
+
 		// Meat is also also considered Item #0 in the event that the
 		// concoction will create paste/stacks or buy NPC items.
 
@@ -1664,6 +1707,20 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE[ KoLConstants.STILL_BOOZE ] =
 				KoLCharacter.isMoxieClass() ? "You have no Still uses remaining."
 				: "Only moxie classes can use the Still.";
+
+		// Summoning Clip Art is possible if the person has that tome,
+		// and isn't in Bad Moon
+
+		boolean hasClipArt = KoLCharacter.hasSkill( "Summon Clip Art" ) &&
+			!KoLCharacter.inBadMoon();
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CLIPART ] = hasClipArt &&
+			Preferences.getInteger( "tomeSummons" ) < 3;
+		ConcoctionDatabase.CREATION_COST[ KoLConstants.CLIPART ] =
+			Preferences.getInteger( "valueOfTome" );
+		ConcoctionDatabase.EXCUSE[ KoLConstants.CLIPART ] =
+				hasClipArt ? "You have no Tome uses remaining."
+				: "You don't have the Tome of Clip Art.";
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CLIPART ] = false; // XXXX TODO remove this once request class implemented
 
 		// Using the Wok of Ages is possible if the person has
 		// Transcendental Noodlecraft and is a Mysticality class

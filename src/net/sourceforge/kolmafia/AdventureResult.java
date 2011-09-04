@@ -89,6 +89,7 @@ public class AdventureResult
 	public static final String FULLSTATS = "Fullstats";
 	public static final String PULL = "Pull";
 	public static final String STILL = "Still";
+	public static final String TOME = "Tome Summon";
 
 	private static final List MUS_SUBSTAT = new ArrayList();
 	private static final List MYS_SUBSTAT = new ArrayList();
@@ -190,7 +191,8 @@ public class AdventureResult
 		     name.equals( AdventureResult.CHOICE ) ||
 		     name.equals( AdventureResult.AUTOSTOP ) ||
 		     name.equals( AdventureResult.PULL ) ||
-		     name.equals( AdventureResult.STILL ) )
+		     name.equals( AdventureResult.STILL ) ||
+		     name.equals( AdventureResult.TOME ) )
 		{
 			return AdventureResult.ADV_PRIORITY;
 		}
@@ -652,6 +654,11 @@ public class AdventureResult
 		if ( this.name.equals( AdventureResult.STILL ) )
 		{
 			return " Still Usages: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+		}
+
+		if ( this.name.equals( AdventureResult.TOME ) )
+		{
+			return " Tome Summons: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
 		}
 
 		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) || this.name.equals( AdventureResult.DRUNK ) )

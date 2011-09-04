@@ -86,6 +86,7 @@ public class Concoction
 	private boolean visited;
 
 	private final List ingredients;
+	private int param;
 	private AdventureResult[] ingredientArray;
 	private int allocated;
 	public static int debugId = Integer.MAX_VALUE;
@@ -519,6 +520,11 @@ public class Concoction
 			ConcoctionDatabase.queuedStillsUsed += overAmount;
 		}
 
+		if ( method == KoLConstants.CLIPART )
+		{
+			ConcoctionDatabase.queuedTomesUsed += overAmount;
+		}
+
 		if ( adjust )
 		{
 			this.queued += amount;
@@ -623,6 +629,18 @@ public class Concoction
 
 		this.ingredientArray = new AdventureResult[ this.ingredients.size() ];
 		this.ingredients.toArray( this.ingredientArray );
+	}
+	
+	// Allow an arbitrary parameter to be set, to indicate creation details
+	// that can't be expressed via ingredients.
+	public void setParam( int param )
+	{
+		this.param = param;
+	}
+	
+	public int getParam()
+	{
+		return this.param;
 	}
 
 	public int getMixingMethod()
@@ -869,6 +887,22 @@ public class Concoction
 					(lastMinMake == minMake ?
 						" not limited" : " limited to " + minMake) +
 					" by stills" );
+				lastMinMake = minMake;
+			}
+		}
+
+		// Tome summons are also considered an ingredient.
+
+		if ( minMake > 0 && (method == KoLConstants.CLIPART) )
+		{
+			Concoction c = ConcoctionDatabase.tomeLimit;
+			minMake = Math.min( minMake, c.canMake( needToMake, visited ) );
+			if ( Concoction.debug )
+			{
+				RequestLogger.printLine( "- " + this.name +
+					(lastMinMake == minMake ?
+						" not limited" : " limited to " + minMake) +
+					" by tome summons" );
 				lastMinMake = minMake;
 			}
 		}

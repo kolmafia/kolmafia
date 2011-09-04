@@ -3498,7 +3498,7 @@ mutex/V for Vivala mask/Juju Mojo Mask	none
 mutex/Perceptive Pressure/Perspicacious Pressure/Pneumatic/Proficient Pressure/Puissant Pressure/Pulchritudinous Pressure	none
 mutex/Purple Tongue/Green Tongue/Orange Tongue/Red Tongue/Blue Tongue/Black Tongue	none
 mutex/Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful Heart	none
-mutex/shining halo/furry halo/frosty halo/time halo
+mutex/shining halo/furry halo/frosty halo/time halo	none
 
 # Maximization categories section of modifiers.txt
 # These pseudo-items list the indirect benefits of certain classes of
