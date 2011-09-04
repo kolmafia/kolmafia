@@ -80,7 +80,7 @@ public class BuyCommand
 
 			if ( !KoLCharacter.canInteract() && !NPCStoreDatabase.contains( match.getName() ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are not yet out of ronin, and are unable to buy this item from a NPC store." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, match.getName() + ": you are not yet out of ronin, and are unable to buy this item from a NPC store." );
 				return;
 			}
 
