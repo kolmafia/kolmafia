@@ -327,10 +327,10 @@ public abstract class ChatManager
 		String sender = message.getSender();
 		String recipient = message.getRecipient();
 
-		if ( "/clan".equals( recipient ) )
+		if ( "/clan".equals( recipient ) || "/slimetube".equals( recipient ) || "/hobopolis".equals( recipient ) )
 		{
 			ChatManager.clanMessages.add( message );
-			ChatManager.processCommand( message.getSender(), message.getContent(), "/clan" );
+			ChatManager.processCommand( message.getSender(), message.getContent(), recipient );
 		}
 
 		if ( "FaxBot".equals( sender ) )
@@ -367,6 +367,14 @@ public abstract class ChatManager
 	public static final String getBufferKey( String destination )
 	{
 		String bufferKey = destination.toLowerCase();
+
+		if ( Preferences.getBoolean( "mergeHobopolisChat" ) ) 	 
+		{ 	 
+			if ( destination.equals( "/hobopolis" ) || destination.equals( "/slimetube" ) ) 	 
+			{ 	 
+				bufferKey = "/clan"; 	 
+			} 	 
+		}
 
 		if ( !bufferKey.startsWith( "/" ) && ChatManager.triviaGameActive )
 		{
