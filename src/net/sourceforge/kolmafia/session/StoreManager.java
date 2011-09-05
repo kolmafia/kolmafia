@@ -543,6 +543,17 @@ public abstract class StoreManager
 		}
 		return StoreManager.mallPrices.get( item.getItemId() );
 	}
+	
+	public static int getMallPrice( AdventureResult item, float maxAge )
+	{
+		int id = item.getItemId();
+		int price = MallPriceDatabase.getPrice( id );
+		if ( price <= 0 || MallPriceDatabase.getAge( id ) > maxAge )
+		{
+			price = StoreManager.getMallPrice( item );
+		}
+		return price;
+	}
 
 	/**
 	 * Internal immutable class used to hold a single instance of an item sold in a player's store.
