@@ -86,6 +86,7 @@ public class Modifiers
 	public static String mainhandClass = "";
 	public static float hoboPower = 0.0f;
 	public static float currentWeight = 0.0f;
+	public static boolean unarmed = false;
 
 	private static final Pattern FAMILIAR_EFFECT_PATTERN =
 		Pattern.compile( "Familiar Effect: \"(.*?)\"" );
@@ -1488,7 +1489,7 @@ public class Modifiers
 
 		// Unarmed modifiers apply only if the character has no weapon or offhand
 		boolean unarmed = mods.getBoolean( Modifiers.UNARMED );
-		if ( unarmed && !KoLCharacter.isUnarmed() )
+		if ( unarmed && !Modifiers.unarmed )
 		{
 			return;
 		}

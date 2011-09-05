@@ -74,7 +74,7 @@ public class RecipeCommand
 	private static void getIngredients( final AdventureResult ar, final StringBuffer sb )
 	{
 		sb.append( "<b>" );
-		sb.append( ar.getName() );
+		sb.append( ar.getInstance( ConcoctionDatabase.getYield( ar.getItemId() ) ).toString() );
 		sb.append( "</b>: " );
 
 		List ingredients = RecipeCommand.getFlattenedIngredients( ar, new ArrayList(), false );
@@ -175,7 +175,7 @@ public class RecipeCommand
 		String name = ar.getName();
 		
 		sb.append( "<b>" );
-		sb.append( name );
+		sb.append( ar.getInstance( ConcoctionDatabase.getYield( ar.getItemId() ) ).toString() );
 		sb.append( "</b>" );
 		
 		int mixingMethod = ConcoctionDatabase.getMixingMethod( name );
@@ -193,7 +193,7 @@ public class RecipeCommand
 				{
 					sb.append( " + " );
 				}
-				sb.append( ingredient.getName() );
+				sb.append( ingredient.toString() );
 			}
 
 			for ( int i = 0; i < ingredients.length; ++i )

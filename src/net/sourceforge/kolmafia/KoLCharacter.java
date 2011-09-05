@@ -3863,9 +3863,12 @@ public abstract class KoLCharacter
 
 		Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
 		Modifiers.setFamiliar( familiar );
-		AdventureResult item = equipment[ EquipmentManager.WEAPON ];
-		Modifiers.mainhandClass = item == null ? ""
-			: EquipmentDatabase.getItemType( item.getItemId() );
+		AdventureResult weapon = equipment[ EquipmentManager.WEAPON ];
+		Modifiers.mainhandClass = weapon == null ? ""
+			: EquipmentDatabase.getItemType( weapon.getItemId() );
+		AdventureResult offhand = equipment[ EquipmentManager.OFFHAND ];
+		Modifiers.unarmed = (weapon == null || weapon == EquipmentRequest.UNEQUIP)
+			&& (offhand == null || offhand == EquipmentRequest.UNEQUIP);
 
 		// Area-specific adjustments
 		newModifiers.add( Modifiers.getModifiers( "loc:" + Modifiers.currentLocation ) );
@@ -3938,6 +3941,7 @@ public abstract class KoLCharacter
 		}
 
 		// Look at items
+		AdventureResult item;
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
 			if ( slot == EquipmentManager.OFFHAND )

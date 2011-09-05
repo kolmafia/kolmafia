@@ -1907,7 +1907,7 @@ public class ConcoctionDatabase
 
 	private static boolean hasCRFlag( final int mixingMethod, final int flag )
 	{
-		return ( mixingMethod & KoLConstants.CR_MASK ) == flag;
+		return ( mixingMethod & flag ) != 0;
 	}
 
 	/**
