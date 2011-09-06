@@ -46,7 +46,7 @@ public class GalaktikCommand
 {
 	public GalaktikCommand()
 	{
-		this.usage = "(hp|mp) [<amount>] - restore some or all hp or mp";
+		this.usage = " (hp|mp) [<amount>] - restore some or all hp or mp";
 	}
 
 	public void run( final String cmd, final String parameters )

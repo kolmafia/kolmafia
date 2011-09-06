@@ -268,8 +268,66 @@ public abstract class InventoryManager
 	{
 		return retrieveItem( item, true );
 	}
-
+	
 	public static final boolean retrieveItem( final AdventureResult item, final boolean isAutomated )
+	{
+		String rv = retrieveItem( item, isAutomated, false );
+		if ( rv == null )
+		{
+			return false;
+		}
+		if ( rv.equals( "" ) )
+		{
+			return true;
+		}
+		RequestLogger.printLine( "INTERNAL ERROR: retrieveItem returned string when not simulating!" );
+		return true;
+	}
+	
+	public static final String simRetrieveItem( final int itemId )
+	{
+		return simRetrieveItem( ItemPool.get( itemId, 1 ), true );
+	}
+
+	public static final String simRetrieveItem( final int itemId, final boolean isAutomated )
+	{
+		return simRetrieveItem( ItemPool.get( itemId, 1 ), isAutomated );
+	}
+
+	public static final String simRetrieveItem( final String itemName )
+	{
+		return simRetrieveItem( ItemPool.get( itemName, 1 ), true );
+	}
+
+	public static final String simRetrieveItem( final String itemName, final boolean isAutomated )
+	{
+		return simRetrieveItem( ItemPool.get( itemName, 1 ), isAutomated );
+	}
+
+	public static final String simRetrieveItem( final AdventureResult item )
+	{
+		return simRetrieveItem( item, true );
+	}
+	
+	public static final String simRetrieveItem( final AdventureResult item, final boolean isAutomated )
+	{
+		String rv = retrieveItem( item, isAutomated, true );
+		if ( rv == null || rv.equals( "" ) )
+		{
+			RequestLogger.printLine( "INTERNAL ERROR: retrieveItem didn't return string when simulating!" );
+			return "buggy";
+		}
+		return rv;
+	}
+	
+	// When called with sim=true, retrieveItem should return a non-empty string
+	// indicating how at least some quantity of the item would be retrieved.
+	// There are two distinguished return values: "have" indicates trivial
+	// success, "fail" indicates unavoidable failure.  No side-effects, please!
+	// When called with sim=false, it should return "" for success (equivalent
+	// to the previous return value of true), null for failure (previously false).
+
+	private static final String retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
 	{
 		int itemId = item.getItemId();
 
@@ -280,32 +338,37 @@ public abstract class InventoryManager
 			String property = concoction != null ? concoction.property : null;
 			if ( property == null )
 			{
+				if ( sim ) return "fail";
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE, "Don't know hot to retrieve a " + item.getName() );
-				return false;
+				return null;
 			}
 
 			int have = Preferences.getInteger( property );
 			int need = item.getCount() - have;
 			if ( need > 0 )
 			{
+				if ( sim ) return "fail";
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE, "You need " + need + " more " + item.getName() + " to continue." );
-				return false;
+				return null;
 			}
 
-			return true;
+			if ( sim ) return "have";
+			return "";
 		}
 
 		if ( itemId == 0 )
 		{
-			return true;
+			if ( sim ) return "pretend to have";
+			return "";
 		}
 
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
 			// Retrieve worthless items using special techniques.
-			return InventoryManager.retrieveWorthlessItems( item );
+			if ( sim ) return "chewing gum";
+			return InventoryManager.retrieveWorthlessItems( item ) ? "" : null;
 		}
 
 		int availableCount = item.getCount( KoLConstants.inventory );
@@ -316,19 +379,21 @@ public abstract class InventoryManager
 
 		if ( missingCount <= 0 )
 		{
-			return true;
+			if ( sim ) return "have";
+			return "";
 		}
 
 		for ( int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i )
 		{
 			if ( EquipmentManager.getEquipment( i ).equals( item ) )
 			{
+				if ( sim ) return "remove";
 				SpecialOutfit.forgetEquipment( item );
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
 				--missingCount;
 				if ( missingCount <= 0 )
 				{
-					return true;
+					return "";
 				}
 			}
 		}
@@ -339,6 +404,7 @@ public abstract class InventoryManager
 
 			if ( current.getItem() != null && current.getItem().equals( item ) )
 			{
+				if ( sim ) return "steal";
 				KoLmafia.updateDisplay( "Stealing " + item.getName() + " from " + current.getName() + " the " + current.getRace() + "..." );
 				InventoryManager.FAMEQUIP_REMOVER.addFormField( "famid", String.valueOf( current.getId() ) );
 				RequestThread.postRequest( InventoryManager.FAMEQUIP_REMOVER );
@@ -347,7 +413,7 @@ public abstract class InventoryManager
 
 				if ( missingCount <= 0 )
 				{
-					return true;
+					return "";
 				}
 			}
 		}
@@ -358,9 +424,11 @@ public abstract class InventoryManager
 		{
 			if ( InventoryManager.hasItem( ItemPool.ABRIDGED ) )
 			{
+				if ( sim ) return "untinker";
 				RequestThread.postRequest( new UntinkerRequest( ItemPool.ABRIDGED, 1 ) );
 			}
-			return item.getCount( KoLConstants.inventory ) > 0;
+			if ( sim ) return "fail";
+			return item.getCount( KoLConstants.inventory ) > 0 ? "" : null;
 		}
 
 		// First, attempt to pull the item from the closet.
@@ -375,14 +443,16 @@ public abstract class InventoryManager
 
 			if ( itemCount > 0 )
 			{
+				if ( sim ) return "uncloset";
 				RequestThread.postRequest( new ClosetRequest(
-								   ClosetRequest.CLOSET_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
-																			itemCount, missingCount ) ) } ) );
+					ClosetRequest.CLOSET_TO_INVENTORY, new AdventureResult[] {
+						item.getInstance( Math.min( itemCount, missingCount ) ) }
+					) );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 				if ( missingCount <= 0 )
 				{
-					return true;
+					return "";
 				}
 			}
 		}
@@ -394,6 +464,7 @@ public abstract class InventoryManager
 
 		if ( itemCount > 0 )
 		{
+			if ( sim ) return "free pull";
 			RequestThread.postRequest( new StorageRequest(
 				StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
 					itemCount, missingCount ) ) } ) );
@@ -401,7 +472,7 @@ public abstract class InventoryManager
 
 			if ( missingCount <= 0 )
 			{
-				return true;
+				return "";
 			}
 		}
 
@@ -416,13 +487,14 @@ public abstract class InventoryManager
 
 			if ( itemCount > 0 )
 			{
+				if ( sim ) return "pull";
 				RequestThread.postRequest( new StorageRequest(
 					StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item.getInstance( itemCount ) } ) );
 
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 				if ( missingCount <= 0 )
 				{
-					return true;
+					return "";
 				}
 			}
 		}
@@ -441,6 +513,7 @@ public abstract class InventoryManager
 			itemCount = item.getCount( ClanManager.getStash() );
 			if ( itemCount > 0 )
 			{
+				if ( sim ) return "unstash";
 				RequestThread.postRequest( new ClanStashRequest(
 					new AdventureResult[] { item.getInstance( Math.min( itemCount, getPurchaseCount(
 						itemId, missingCount ) ) ) }, ClanStashRequest.STASH_TO_ITEMS ) );
@@ -449,7 +522,7 @@ public abstract class InventoryManager
 
 				if ( missingCount <= 0 )
 				{
-					return true;
+					return "";
 				}
 			}
 		}
@@ -463,13 +536,14 @@ public abstract class InventoryManager
 		CreateItemRequest creator = CreateItemRequest.getInstance( item );
 		if ( creator != null && creator.getQuantityPossible() > 0 )
 		{
+			if ( sim ) return shouldUseMall ? "create or buy" : "create";
 			scriptSaysBuy = invokeBuyScript( item, missingCount, 2,
 				( shouldUseMall && cheaperToBuy( item, missingCount ) ) );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
 			{
-				return true;
+				return "";
 			}
 
 			if ( !scriptSaysBuy )
@@ -481,41 +555,36 @@ public abstract class InventoryManager
 
 				if ( missingCount <= 0 )
 				{
-					return true;
+					return "";
 				}
 
 				if ( !KoLmafia.permitsContinue() )
 				{
-					return false;
+					return null;
 				}
 			}
 		}
 
-		// The ten-leaf clover can be created (buy using a disassembled
+		// The ten-leaf clover can be created (by using a disassembled
 		// clover) or purchased from the Hermit (if he has any in
 		// stock. We tried the former above. Now try the latter.
 
 		boolean shouldUseCoinmasters = Preferences.getBoolean( "autoSatisfyWithCoinmasters" );
 		if ( itemId == ItemPool.TEN_LEAF_CLOVER && shouldUseCoinmasters )
 		{
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-			if ( missingCount <= 0 )
-			{
-				return true;
-			}
-
 			itemCount = HermitRequest.cloverCount();
 
 			if ( itemCount > 0 )
 			{
+				if ( sim ) return "hermit";
 				int needed = Math.min( itemCount, missingCount );
 				RequestThread.postRequest( new HermitRequest( itemId, needed ) );
 			}
 
+			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 			if ( missingCount <= 0 )
 			{
-				return true;
+				return "";
 			}
 		}
 
@@ -525,6 +594,7 @@ public abstract class InventoryManager
 
 		if ( !scriptSaysBuy && shouldUseMall && !hasAnyIngredient( itemId ) )
 		{
+			if ( sim ) return "create or buy";
 			scriptSaysBuy = creator == null ||
 				invokeBuyScript( item, missingCount, 0,
 					( shouldUseMall && cheaperToBuy( item, missingCount ) ) );
@@ -532,7 +602,7 @@ public abstract class InventoryManager
 
 			if ( missingCount <= 0 )
 			{
-				return true;
+				return "";
 			}
 		}
 
@@ -542,6 +612,7 @@ public abstract class InventoryManager
 
 		if ( shouldUseNPCStore || scriptSaysBuy )
 		{
+			if ( sim ) return "buy";
 			ArrayList results = StoreManager.searchMall( item );
 			StaticEntity.getClient().makePurchases(
 				results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
@@ -551,7 +622,7 @@ public abstract class InventoryManager
 
 			if ( missingCount <= 0 )
 			{
-				return true;
+				return "";
 			}
 		}
 
@@ -563,6 +634,7 @@ public abstract class InventoryManager
 				ConcoctionDatabase.getPullsBudgeted() );
 			if ( pullCount > 0 )
 			{
+				if ( sim ) return "pull";
 				pullCount = Math.min( pullCount, item.getCount() );
 				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pullCount;
 				RequestThread.postRequest( new StorageRequest(
@@ -573,7 +645,7 @@ public abstract class InventoryManager
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 				if ( missingCount <= 0 )
 				{
-					return true;
+					return "";
 				}
 			}
 		}
@@ -606,13 +678,14 @@ public abstract class InventoryManager
 
 		if ( creator != null && mixingMethod != KoLConstants.NOCREATE )
 		{
+			if ( sim ) return shouldUseMall ? "create or buy" : "create";
 			scriptSaysBuy = invokeBuyScript( item, missingCount, 1,
 				scriptSaysBuy || ( shouldUseMall && cheaperToBuy( item, missingCount ) ) );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
 			{
-				return true;
+				return "";
 			}
 		}
 
@@ -621,6 +694,7 @@ public abstract class InventoryManager
 
 		if ( creator != null && mixingMethod != KoLConstants.NOCREATE && !scriptSaysBuy )
 		{
+			if ( sim ) return "create";
 			creator.setQuantityNeeded( missingCount );
 			RequestThread.postRequest( creator );
 
@@ -628,17 +702,18 @@ public abstract class InventoryManager
 
 			if ( missingCount <= 0 )
 			{
-				return true;
+				return "";
 			}
 
 			if ( !KoLmafia.permitsContinue() && isAutomated )
 			{
-				return false;
+				return null;
 			}
 		}
 
 		if ( shouldUseMall )
 		{
+			if ( sim ) return "buy";
 			ArrayList results = StoreManager.searchMall( item );
 			StaticEntity.getClient().makePurchases(
 				results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
@@ -648,7 +723,7 @@ public abstract class InventoryManager
 
 			if ( missingCount <= 0 )
 			{
-				return true;
+				return "";
 			}
 		}
 
@@ -656,10 +731,11 @@ public abstract class InventoryManager
 		// then notify the user that there aren't enough items
 		// available to continue and cancel the request.
 
+		if ( sim ) return "fail";
 		KoLmafia.updateDisplay(
 			KoLConstants.ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 
-		return false;
+		return null;
 	}
 
 	// *** Start of worthless item handling

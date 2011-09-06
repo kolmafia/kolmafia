@@ -49,7 +49,7 @@ public class ExtendEffectCommand
 {
 	public ExtendEffectCommand()
 	{
-		this.usage = "? <effect> [, <effect>]... - extend duration of effects.";
+		this.usage = "[?] <effect> [, <effect>]... - extend duration of effects.";
 	}
 
 	public void run( final String cmd, final String parameters )
