@@ -19,7 +19,7 @@ public class RecipeCommand
 {
 	public RecipeCommand()
 	{
-		this.usage = "<item> [, <item>]... - get ingredients or recipe for items.";
+		this.usage = " <item> [, <item>]... - get ingredients or recipe for items.";
 	}
 
 	public void run( final String cmd, final String params )

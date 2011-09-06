@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -50,6 +52,17 @@ public class AcquireCommand
 
 	public void run( final String cmd, final String parameters )
 	{
+		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+		{
+			KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
+			AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
+			if ( item != null )
+			{
+				RequestLogger.printLine( item + ": " +
+					InventoryManager.simRetrieveItem( item, false ) );
+			}
+			return;
+		}
 		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
 		if ( item != null )
 		{
