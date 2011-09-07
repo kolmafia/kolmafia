@@ -2739,6 +2739,7 @@ Gelded	Monster Level: +5
 # Get Me Off This Crazy Thing!: Jane!
 Ghostly Shell	Damage Absorption: +80
 Ginger Snapped	Spooky Damage: +10
+Gleaming White Teeth	Moxie Percent: +50
 Glittering Eyelashes	Mysticality Percent: +15
 Gnawed-Off Arm	Muscle: -5
 Go Get 'Em, Tiger!	Muscle Percent: +15
@@ -3567,7 +3568,7 @@ Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50
 Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20
 Pain Dip	Effect: "The HeyDezebound Heart"
-Piddles	Effect: "Belch the Rainbow&#153;", Effect Duration: 10
+Piddles	Effect: "Belch the Rainbow&trade;", Effect Duration: 10
 PlexiPips	Effect: "Sole Soul"
 Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
 Polka Pop	Effect: "Polka Face", Effect Duration: 10
@@ -3583,6 +3584,7 @@ Ultrasoldier Serum	Effect: "Army of One", Effect Duration: 50
 Wax Flask	Effect: "Over The Ocean"
 Wint-O-Fresh mint	Effect: "Sugar Rush", Effect Duration: 3
 Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
+abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
 ant agonist	Effect: "All Fired Up", Effect Duration: 10
@@ -3604,6 +3606,7 @@ black sheepskin diploma	Effect: "Erudite", Effect Duration: 10
 black snowcone	Effect: "Black Tongue", Effect Duration: 20
 blackberry polite	Effect: "Blackberry Politeness", Effect Duration: [R]
 blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
+blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
 bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
@@ -3685,6 +3688,7 @@ glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
 goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 graveyard snowglobe	Effect: "Cold, Dead Hands", Effect Duration: 20
+green-frosted astral cupcake	Effect: "The Cupcake of Wrath", Effect Duration: 20
 green candy heart	Effect: "Heart of Green", Effect Duration: 10
 green snowcone	Effect: "Green Tongue", Effect Duration: 20
 gremlin juice	Effect: "Comic Violence", Effect Duration: 5
@@ -3728,6 +3732,7 @@ love song of sugary cuteness	Effect: "Sweet Heart", Effect Duration: 5
 love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
 lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 mafia aria	Effect: "Macho Profundo", Effect Duration: 5
+mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
 milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
@@ -3738,6 +3743,7 @@ oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
 oil of stability	Effect: "Stabilizing Oiliness", Effect Duration: [R]
 ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R]
+orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
 orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
 orange candy heart	Effect: "Heart of Orange", Effect Duration: 10
 orange snowcone	Effect: "Orange Tongue", Effect Duration: 20
@@ -3756,6 +3762,7 @@ physiostim pill	Effect: "Stimulated Body", Effect Duration: 10
 pickle-flavored chewing gum	Effect: "Mystic Pickleness", Effect Duration: 5
 piece of after eight	Effect: "Sugar Rush", Effect Duration: 5
 pine tar	Effect: "Sticky Hands", Effect Duration: 30
+pink-frosted astral cupcake	Effect: "Your Cupcake Senses Are Tingling", Effect Duration: 20
 pink candy heart	Effect: "Heart of Pink", Effect Duration: 10
 pirate brochure	Effect: "Muscularrr", Effect Duration: 10
 pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
@@ -3782,6 +3789,7 @@ pressurized potion of pulchritude	Effect: "Pulchritudinous Pressure", Effect Dur
 probability potion	Effect: "Uncertain", Effect Duration: 10
 # pumpkin carriage: Allows Travel to Desert Beach
 pumpkin juice	Effect: "Juiced and Jacked", Effect Duration: 10
+purple-frosted astral cupcake	Effect: "Tiny Bubbles in the Cupcake", Effect Duration: 20
 purple snowcone	Effect: "Purple Tongue", Effect Duration: 20
 pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
@@ -3792,6 +3800,7 @@ salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
 sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5
+seal-brain elixir	Effect: "Sealed Brain", Effect Duration: 20
 seal eyeball	Effect: "Eye of the Seal", Effect Duration: 10
 seal lube	Effect: "Lubed", Effect Duration: 10
 sealhide seal doll	Effect: "Red Misty-Eyed", Effect Duration: 10
@@ -3842,6 +3851,7 @@ vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
+weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 willyweed	Effect: "Wet Willied", Effect Duration: 30
