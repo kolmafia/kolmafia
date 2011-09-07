@@ -1725,7 +1725,7 @@ borrowed time	CLIPART	9	9	9
 box of hammers	CLIPART	10	10	10
 shining halo	CLIPART	1	6	6
 furry halo	CLIPART	1	3	3
-Frosty halo	CLIPART	1	7	7
+frosty halo	CLIPART	1	7	7
 time halo	CLIPART	1	9	9
 Lumineux Limnio	CLIPART	4	4	6
 Morto Moreto	CLIPART	4	4	8
