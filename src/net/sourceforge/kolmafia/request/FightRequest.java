@@ -46,6 +46,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -54,6 +55,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -70,12 +72,13 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -349,6 +352,26 @@ public class FightRequest
 		INVALID_OUT_OF_WATER.add( "2024" );
 		INVALID_OUT_OF_WATER.add( "skill summon leviatuga" );
 	}
+
+	private static final String[][] EVIL_ZONES =
+	{
+		{
+			"defiled alcove",
+			"cyrptAlcoveEvilness",
+		},
+		{
+			"defiled cranny",
+			"cyrptCrannyEvilness",
+		},
+		{
+			"defiled niche",
+			"cyrptNicheEvilness",
+		},
+		{
+			"defiled nook",
+			"cyrptNookEvilness",
+		},
+	};
 
 	// Make an HTML cleaner
 	private static HtmlCleaner cleaner = new HtmlCleaner();
@@ -4226,21 +4249,22 @@ public class FightRequest
 		FightRequest.logText( text, status );
 
 		String setting = null;
-		switch ( KoLAdventure.lastAdventureId() )
+
+		MonsterData monster = MonsterDatabase.findMonster( MonsterStatusTracker.getLastMonsterName(), false );
+		for ( int i = 0; i < FightRequest.EVIL_ZONES.length; ++i )
 		{
-		case AdventurePool.DEFILED_ALCOVE:
-			setting = "cyrptAlcoveEvilness";
-			break;
-		case AdventurePool.DEFILED_CRANNY:
-			setting = "cyrptCrannyEvilness";
-			break;
-		case AdventurePool.DEFILED_NICHE:
-			setting = "cyrptNicheEvilness";
-			break;
-		case AdventurePool.DEFILED_NOOK:
-			setting = "cyrptNookEvilness";
-			break;
-		default:
+			String[] data = FightRequest.EVIL_ZONES[ i ];
+			KoLAdventure adventure = AdventureDatabase.getAdventure( data[ 0 ] );
+			AreaCombatData area = adventure.getAreaSummary();
+			if ( area.hasMonster( monster ) )
+			{
+				setting = data[ 1 ];
+				break;
+			}
+		}
+
+		if ( setting == null )
+		{
 			return false;
 		}
 
