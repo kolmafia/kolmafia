@@ -220,7 +220,7 @@ public class ConcoctionDatabase
 		// Summon Clip Art items
 		ConcoctionDatabase.mixingMethods.put( "CLIPART", new Integer( KoLConstants.CLIPART ));
 		METHOD_DESCRIPTION[ KoLConstants.CLIPART ] = "Summon Clip Art"; 
-		
+
 		// Creation flags
 
 		// Character gender (for kilt vs. skirt)
@@ -1720,7 +1720,6 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.EXCUSE[ KoLConstants.CLIPART ] =
 				hasClipArt ? "You have no Tome uses remaining."
 				: "You don't have the Tome of Clip Art.";
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CLIPART ] = false; // XXXX TODO remove this once request class implemented
 
 		// Using the Wok of Ages is possible if the person has
 		// Transcendental Noodlecraft and is a Mysticality class

@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -73,7 +74,7 @@ public class UseSkillRequest
 {
 	private static final HashMap ALL_SKILLS = new HashMap();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
-	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=summon([^&]*)" );
+	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=(?:summon|combine)([^&]*)" );
 
 	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\*\\d,]+)" );
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\*\\d,]+)" );
@@ -276,7 +277,7 @@ public class UseSkillRequest
 			break;
 
 		case SkillDatabase.CLIP_ART:
-			this.addFormField( "preaction", "summoncliparts" );
+			this.addFormField( "preaction", "combinecliparts" );
 			break;
 
 		case SkillDatabase.HILARIOUS:
@@ -1072,12 +1073,22 @@ public class UseSkillRequest
 		return UseSkillRequest.getInstance( SkillDatabase.getSkillName( skillId ) );
 	}
 
+	public static final UseSkillRequest getInstance( final String skillName, final Concoction conc )
+	{
+		return UseSkillRequest.getInstance( skillName, KoLCharacter.getUserName(), 1, conc );
+	}
+
 	public static final UseSkillRequest getInstance( final String skillName, final int buffCount )
 	{
-		return UseSkillRequest.getInstance( skillName, KoLCharacter.getUserName(), buffCount );
+		return UseSkillRequest.getInstance( skillName, KoLCharacter.getUserName(), buffCount, null );
 	}
 
 	public static final UseSkillRequest getInstance( final String skillName, final String target, final int buffCount )
+	{
+		return UseSkillRequest.getInstance( skillName, target, buffCount, null );
+	}
+
+	public static final UseSkillRequest getInstance( final String skillName, final String target, final int buffCount, final Concoction conc )
 	{
 		UseSkillRequest instance = UseSkillRequest.getInstance( skillName );
 		if ( instance == null )
@@ -1087,6 +1098,19 @@ public class UseSkillRequest
 
 		instance.setTarget( target == null || target.equals( "" ) ? KoLCharacter.getUserName() : target );
 		instance.setBuffCount( buffCount );
+
+		// Clip Art request
+		if ( conc != null )
+		{
+			int clip1 = ( conc.getParam() >> 16 ) & 0xFF;
+			int clip2 = ( conc.getParam() >> 8  ) & 0xFF;
+			int clip3 = conc.getParam() & 0xFF;
+
+			instance.addFormField( "clip1", String.valueOf( clip1 ) );
+			instance.addFormField( "clip2", String.valueOf( clip2 ) );
+			instance.addFormField( "clip3", String.valueOf( clip3 ) );
+		}
+
 		return instance;
 	}
 
@@ -1504,6 +1528,11 @@ public class UseSkillRequest
 
 		if ( action.equals( "cliparts" ) )
 		{
+			if ( urlString.indexOf( "clip3=" ) == -1 )
+			{
+				return -1;
+			}
+
 			return SkillDatabase.CLIP_ART;
 		}
 

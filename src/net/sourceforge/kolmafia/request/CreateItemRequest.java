@@ -350,7 +350,7 @@ public class CreateItemRequest
 			return new PhineasRequest( conc );
 		
 		case KoLConstants.CLIPART:
-			return null;	// XXXX TODO new ClipartRequest( conc )
+			return new ClipArtRequest( conc );
 
 		default:
 			return new CreateItemRequest( conc );
