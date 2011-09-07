@@ -112,7 +112,7 @@ public abstract class CoinmasterRegistry
 		String match = ( size == 1 ) ?
 			(String) matchingNames.get( 0 ) :
 			StringUtilities.getCanonicalName( master ).trim();
-		
+
 		for ( int i = 0; i < MASTERS.length; ++i )
 		{
 			if ( match.equals( MASTERS[ i ] ) )
@@ -126,6 +126,11 @@ public abstract class CoinmasterRegistry
 
 	public static CoinmasterData findBuyer( final String itemName )
 	{
+		if ( itemName == null )
+		{
+			return null;
+		}
+
 		for ( int i = 0; i < COINMASTERS.length; ++i )
 		{
 			CoinmasterData data = COINMASTERS[ i ];
@@ -134,6 +139,7 @@ public abstract class CoinmasterRegistry
 				return data;
 			}
 		}
+
 		return null;
 	}
 
