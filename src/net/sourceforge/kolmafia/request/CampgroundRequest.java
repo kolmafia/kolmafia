@@ -362,18 +362,12 @@ public class CampgroundRequest
 		// above URL with an additional field:
 		//   skilluse=1
 
-		if ( action.startsWith( "summon" ) )
-		{
-			UseSkillRequest.parseResponse( urlString, responseText );
-			return;
-		}
-
 		// Combining clip arts does this:
 		//   campground.php?action=bookshelf&preaction=combinecliparts&clip1=05&clip2=05&clip3=03&pwd
-		if ( action.equals( "combinecliparts" ) )
+
+		if ( action.startsWith( "summon" ) ||
+		     action.equals( "combinecliparts" ) )
 		{
-			UseSkillRequest.lastSkillUsed = SkillDatabase.CLIP_ART;
-			UseSkillRequest.lastSkillCount = 1;
 			UseSkillRequest.parseResponse( urlString, responseText );
 			return;
 		}
@@ -848,15 +842,8 @@ public class CampgroundRequest
 		// 09 = CLOCK
 		// 10 = HAMMER
 
-		if ( action.equals( "combinecliparts" ) )
-		{
-			// Eventually somebody will claim and parse this and
-			// log it as a creation.
-			RequestLogger.updateSessionLog( urlString );
-			return true;
-		}
-
-		if ( action.startsWith( "summon" ) )
+		if ( action.startsWith( "summon" ) ||
+		     action.equals( "combinecliparts" ) )
 		{
 			// Detect a redirection to campground.php from
 			// skills.php The first one was already logged.
