@@ -1431,7 +1431,7 @@ bottle opener belt buckle	160	Mys: 65
 bottlecap turtle	55	Mys: 12
 boxing glove	45	Mys: 7
 brazen bracelet	160	Mus: 65
-broken clock	0	none
+broken clock	30	none
 brown plastic baby	20	none
 candy necklace	150	Mox: 60
 cannonball charrrm bracelet	190	Mys: 80
@@ -1461,7 +1461,7 @@ dead guy's watch	50	Mys: 10
 depleted Grimacite astrolabe	80	Mys: 25
 depleted Grimacite grappling hook	80	Mys: 25
 depleted Grimacite weightlifting belt	80	Mys: 25
-dethklok	0	none
+dethklok	30	none
 diamond necklace	10	none
 dirty hobo gloves	20	none
 disbelief suspenders	50	Mys: 10
@@ -1487,17 +1487,17 @@ floaty rock necklace	100	Mys: 35
 foam noodle	10	none
 fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
-frosty halo	0	none
+frosty halo	50	none
 furniture dolly	180	Mys: 75
 furry green earmuffs	45	Mys: 7
-furry halo	0	none
+furry halo	50	none
 fuzzy bracelets	0	none
 garish pinky ring	50	Mys: 10
 gearbox necklace	180	Mys: 75
 giant designer sunglasses	10	none
 giant diamond ring	0	none
 giant pinky ring	100	Mys: 35
-glacial clock	0	none
+glacial clock	30	none
 glow-in-the-dark wristwatch	0	none
 glowing red eye	150	Mys: 60
 gnatwing earring	90	Mys: 30
@@ -1616,7 +1616,7 @@ second-hand knockoff engagement ring	0	none
 severed rocking horse head	0	Mys: 10
 shark tooth necklace	200	Mys: 85
 shin gourds	100	none
-shining halo	0	none
+shining halo	50	none
 shiny hood ornament	190	Mys: 80
 shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
@@ -1658,7 +1658,7 @@ tap shoes	90	Mys: 30
 tarrrnished charrrm bracelet	150	Mys: 60
 teddybear backpack	150	Mox: 60
 teflon swim fins	200	Mus: 85
-time halo	0	none
+time halo	50	none
 tin star	60	Mys: 15
 tiny plastic 11 Dealer	0	none
 tiny plastic 7-foot dwarf	10	none
