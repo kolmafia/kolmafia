@@ -1603,6 +1603,8 @@ public class UseItemRequest
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		AdventureResult helper = UseItemRequest.lastHelperUsed;
 
+		UseItemRequest.lastItemUsed = null;
+
 		// If you are in Beecore, certain items can't B used
 		// "You are too scared of Bs to xxx that item."
 		if ( KoLCharacter.inBeecore() &&
@@ -4197,7 +4199,7 @@ public class UseItemRequest
 			}
 
 			// Add the new lucky number
-                        TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
+			TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
 		}
 
 		TurnCounter.stopCounting( "Semirare window begin" );
