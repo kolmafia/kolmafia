@@ -3092,7 +3092,7 @@ public class FightRequest
 		Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|strain your neck|approximately|)\\s*#?(\\d[\\d,]*) (\\([^.]*\\) |)((?:[^\\s]+ ){0,3})(?:\"?damage|points?|bullets|hollow|notch(?:es)?|to your opponent|force damage|tiny holes|like this, it's bound)" );
 
 	private static final Pattern ELEMENTAL_PATTERN =
-		Pattern.compile( "(sown|) \\+?([\\d,]+) (\\([^.]*\\) |)(?:(?:slimy, (?:clammy|gross) |hotsy-totsy |)damage|points|HP worth)" );
+		Pattern.compile( "(sown|) \\+?([\\d,]+) (\\([^.]*\\) |)(?:months worth of concentrated palm sweat|(?:slimy, (?:clammy|gross) |hotsy-totsy |)damage|points|HP worth)" );
 
 	private static final Pattern SECONDARY_PATTERN = Pattern.compile( "\\+([\\d,]+)" );
 
