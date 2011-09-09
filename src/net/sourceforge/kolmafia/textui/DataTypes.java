@@ -262,7 +262,7 @@ public class DataTypes
 
 	public static final Value parseItemValue( String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.trim().equals( "" ) )
 		{
 			return returnDefault ? DataTypes.ITEM_INIT : null;
 		}
