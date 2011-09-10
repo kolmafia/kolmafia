@@ -5263,17 +5263,17 @@
 5254	shadowy cat claw	food	all	30
 5255	cheezburger	food	all	30
 5256	toasted brie	food	all	30
-5257	potion of the field gar	single	all	30
-5258	too legit potion	single	all	30
-5259	Bright Water	single	all	30
-5260	cold-filtered water	single	all	30
-5261	graveyard snowglobe	single	all	30
-5262	cool cat elixir	single	all	30
-5263	potion of the captain's hammer	single	all	30
-5264	potion of X-ray vision	single	all	30
-5265	potion of the litterbox	single	all	30
-5266	potion of animal rage	single	all	30
-5267	potion of punctual companionship	single	all	30
+5257	potion of the field gar	usable	all	30
+5258	too legit potion	usable	all	30
+5259	Bright Water	usable	all	30
+5260	cold-filtered water	usable	all	30
+5261	graveyard snowglobe	usable	all	30
+5262	cool cat elixir	usable	all	30
+5263	potion of the captain's hammer	usable	all	30
+5264	potion of X-ray vision	usable	all	30
+5265	potion of the litterbox	usable	all	30
+5266	potion of animal rage	usable	all	30
+5267	potion of punctual companionship	usable	all	30
 5268	holy bomb, batman	none, combat	all	30
 5269	bobcat grenade	none, combat	all	30
 5270	chocolate frosted sugar bomb	none, combat	all	30
