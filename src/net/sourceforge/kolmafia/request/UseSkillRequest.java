@@ -104,6 +104,7 @@ public class UseSkillRequest
 		"Summon Party Favor",
 		"Summon Love Song",
 		"Summon BRICKOs",
+		"Summon Dice",
 	};
 
 	public static final String[] GRIMOIRE_SKILLS =
@@ -254,6 +255,7 @@ public class UseSkillRequest
 		case SkillDatabase.PARTY_FAVOR:
 		case SkillDatabase.LOVE_SONG:
 		case SkillDatabase.BRICKOS:
+		case SkillDatabase.DICE:
 			return "campground.php";
 		}
 
@@ -306,6 +308,10 @@ public class UseSkillRequest
 
 		case SkillDatabase.BRICKOS:
 			this.addFormField( "preaction", "summonbrickos" );
+			break;
+
+		case SkillDatabase.DICE:
+			this.addFormField( "preaction", "summongygax" );
 			break;
 
 		default:
@@ -1482,6 +1488,7 @@ public class UseSkillRequest
 		case SkillDatabase.PARTY_FAVOR:
 		case SkillDatabase.LOVE_SONG:
 		case SkillDatabase.BRICKOS:
+		case SkillDatabase.DICE:
 			int cast = Preferences.getInteger( "libramSummons" );
 			mpCost = SkillDatabase.libramSkillMPConsumption( cast + 1, count );
 			Preferences.increment( "libramSummons", count );
@@ -1569,6 +1576,11 @@ public class UseSkillRequest
 		if ( action.equals( "brickos" ) )
 		{
 			return SkillDatabase.BRICKOS;
+		}
+
+		if ( action.equals( "gygax" ) )
+		{
+			return SkillDatabase.DICE;
 		}
 
 		return -1;

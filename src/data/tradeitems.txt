@@ -5290,3 +5290,10 @@
 5281	broken clock	accessory	all	30
 5282	dethklok	accessory	all	30
 5283	glacial clock	accessory	all	30
+5284	Gygaxian Libram	usable	all	0
+5285	d4	usable, combat	all	0
+5286	d6	usable, combat	all	0
+5287	d8	usable, combat	all	0
+5288	d10	usable, combat	all	0
+5289	d12	usable, combat	all	0
+5290	d20	usable, combat	all	0

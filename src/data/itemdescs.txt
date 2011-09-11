@@ -5282,3 +5282,10 @@
 5281	375503738	neckclock.gif	broken clock
 5282	950023220	neckclock.gif	dethklok
 5283	624410226	neckclock.gif	glacial clock
+5284	762878711	gygaxlibram.gif	Gygaxian Libram
+5285	963261787	d4.gif	d4
+5286	325216568	d6.gif	d6
+5287	468182938	d8.gif	d8
+5288	443467874	d10.gif	d10
+5289	882344983	d12.gif	d12
+5290	778446727	d20.gif	d20

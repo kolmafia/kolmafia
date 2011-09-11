@@ -1310,6 +1310,7 @@ public class ItemPool
 	public static final int TEACHINGS_OF_THE_FIST = 5220;
 	public static final int FAT_LOOT_TOKEN = 5221;
 	public static final int CLIP_ART_BOOK = 5223;
+	public static final int DICE_BOOK = 5284;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

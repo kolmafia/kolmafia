@@ -2803,6 +2803,7 @@ public class UseItemRequest
 		case ItemPool.DIVINE_BOOK:
 		case ItemPool.LOVE_BOOK:
 		case ItemPool.BRICKO_BOOK:
+		case ItemPool.DICE_BOOK:
 			// Others
 		case ItemPool.JEWELRY_BOOK:
 		case ItemPool.OLFACTION_BOOK:
@@ -3973,6 +3974,8 @@ public class UseItemRequest
 			return "Summon Love Song";
 		case ItemPool.BRICKO_BOOK:
 			return "Summon BRICKOs";
+		case ItemPool.DICE_BOOK:
+			return "Summon Dice";
 		case ItemPool.JEWELRY_BOOK:
 			return "Really Expensive Jewelrycrafting";
 		case ItemPool.OLFACTION_BOOK:
