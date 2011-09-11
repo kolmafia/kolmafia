@@ -150,8 +150,8 @@ public class BasementDecorator
 			buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basement.js\"></script></head>" );
 
 		StringBuffer changes = new StringBuffer();
-		changes.append( "<table>" );
-		changes.append( "<tr><td><select id=\"gear\" style=\"width: 100%;\"><option value=\"none\">- change your equipment -</option>" );
+		changes.append( "<table id=\"basementhelper\" style=\"width:100%;\">" );
+		changes.append( "<tr><td style=\"width:90%;\"><select id=\"gear\" style=\"width: 100%;\"><option value=\"none\">- change your equipment -</option>" );
 
 		// Add outfits. Skip the "No Change" entry at index 0.
 
@@ -208,7 +208,7 @@ public class BasementDecorator
 			changes.append( "</option>" );
 		}
 
-		changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left><input type=\"button\" value=\"exec\" onClick=\"changeBasementGear();\"></td></tr>" );
+		changes.append( "</select></td><td>&nbsp;</td><td style=\"vertical-align:top; text-align:left;\"><input type=\"button\" value=\"exec\" onClick=\"changeBasementGear();\"></td></tr>" );
 
 		// Add effects
 
@@ -222,7 +222,7 @@ public class BasementDecorator
 			String modifierName = Modifiers.getModifierName( BasementRequest.getActualStatNeeded() );
 			modifierName = StringUtilities.globalStringDelete( modifierName, "Maximum " ).toLowerCase();
 
-			changes.append( "<tr><td><select onchange=\"" );
+			changes.append( "<tr><td style=\"width:90%;\"><select onchange=\"" );
 			changes.append( computeFunction );
 			changes.append( "\" id=\"potion\" style=\"width: 100%;\" multiple size=5>" );
 
@@ -256,9 +256,9 @@ public class BasementDecorator
 				BasementDecorator.appendBasementEffect( changes, booster );
 			}
 
-			changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left>" );
+			changes.append( "</select></td><td>&nbsp;</td><td style=\"vertical-align:top; text-align:left;\">" );
 			changes.append( "<input type=\"button\" value=\"exec\" onClick=\"changeBasementEffects();\">" );
-			changes.append( "<br/><br/><font size=-1><nobr id=\"changevalue\">" );
+ 			changes.append( "<br/><br/><font size=-1><nobr id=\"changevalue\">" );
 			changes.append( BasementRequest.getBasementTestCurrent() );
 			changes.append( "</nobr><br/><nobr id=\"changetarget\">" );
 			changes.append( BasementRequest.getBasementTestValue() );

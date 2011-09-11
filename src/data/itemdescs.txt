@@ -5283,9 +5283,12 @@
 5282	950023220	neckclock.gif	dethklok
 5283	624410226	neckclock.gif	glacial clock
 5284	762878711	gygaxlibram.gif	Gygaxian Libram
-5285	963261787	d4.gif	d4
-5286	325216568	d6.gif	d6
-5287	468182938	d8.gif	d8
-5288	443467874	d10.gif	d10
-5289	882344983	d12.gif	d12
-5290	778446727	d20.gif	d20
+5285	963261787	d4.gif	d4	d4s
+5286	325216568	d6.gif	d6	d6s
+5287	468182938	d8.gif	d8	d8s
+5288	443467874	d10.gif	d10	d10s
+5289	882344983	d12.gif	d12	d12s
+5290	778446727	d20.gif	d20	d20s
+5291	968770514	potion1.gif	generic healing potion	generic healing potions
+5292	912486561	potion2.gif	generic mana potion	generic mana potions
+5293	283043014	potion3.gif	generic restorative potion	generic restorative potions
