@@ -926,3 +926,5 @@
 925	Litterboxing	casserole.gif	abc17955ab556a46f74d220b0c873ce8	use 1 potion of the litterbox
 926	Raging Animal	3claws.gif	8283e89c2a8a2cda45de4716049d192a	use 1 potion of animal rage
 927	Stickler for Promptness	clock.gif	057fa67e3304549f49bf49355ebc86c2	use 1 potion of punctual companionship
+928	Bastard!	d12.gif	68ee3c6a89d6df3bfb0f71b0121b579b	use 1 d12
+929	Natural 20	d20.gif	58d21100fc1eb85f0f1ee2ed818f00ab	use 1 d20

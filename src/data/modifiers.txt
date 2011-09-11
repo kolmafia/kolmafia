@@ -2457,6 +2457,7 @@ Badger Underfoot	Meat Drop: +20
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Barking Dogs	Muscle Percent: -50, Initiative: -50
 Barking Mad	Mysticality Percent: +100
+Bastard!	Weapon Damage: +12
 Basted	Sleaze Damage: +10, Damage Reduction: -2
 Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Bats in the Belfry	Mysticality Percent: +10
@@ -2916,6 +2917,7 @@ Mystic Circle	Mysticality Percent: +10
 Mystic Pickleness	Mysticality: +5, Muscle: -5
 Mystically Oiled	Mysticality Percent: +100
 Nano-juiced	Muscle Percent: +15
+Natural 20	Initiative: +100
 # Nerf'd: Less powerful than you were before
 Neuromancy	Mysticality Percent: +10
 New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -3642,6 +3644,8 @@ cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
 cyclops eyedrops	Effect: "One Very Clear Eye", Effect Duration: 10
 cymbal syrup	Free Pull, Effect: "Tinnitus", Effect Duration: 20
+d12	Effect: "Bastard!", Effect Duration: 10
+d20	Effect: "Natural 20", Effect Duration: 1
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 deodorant	Effect: "Fresh Scent", Effect Duration: 10
 digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
