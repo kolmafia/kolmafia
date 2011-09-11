@@ -58,7 +58,7 @@ public class CampgroundRequest
 	extends GenericRequest
 {
 	private static final Pattern LIBRAM_PATTERN =
-		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs) *.[(]([\\d,]+) MP[)]" );
+		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs|Dice) *.[(]([\\d,]+) MP[)]" );
 	private static final Pattern HOUSING_PATTERN =
 		Pattern.compile( "/rest(\\d+|a)(tp)?(_free)?.gif" );
 	private static final Pattern FURNISHING_PATTERN =
@@ -756,6 +756,10 @@ public class CampgroundRequest
 			"Libram of BRICKOs",
 			"Summon BRICKOs"
 		},
+		{
+			"Gygaxian Libram",
+			"Summon Dice"
+		},
 	};
 
 	private static void parseBookTitles( final String responseText )
@@ -773,7 +777,7 @@ public class CampgroundRequest
 			{
 				String skill = BOOKS[i][1];
 				KoLCharacter.addAvailableSkill( skill );
-				if ( book.startsWith( "Libram" ) )
+				if ( book.indexOf( "Libram" ) != -1 )
 				{
 					libram = skill;
 				}
