@@ -2,10 +2,6 @@
 	font-weight: bold;
 }
 
-#gear, #potion {
-	width: 100% !important;
-}
-
 a.error {
 	color: #ff0000;
 	text-decoration: underline;
