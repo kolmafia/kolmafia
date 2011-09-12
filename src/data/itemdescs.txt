@@ -5292,3 +5292,7 @@
 5291	968770514	potion1.gif	generic healing potion	generic healing potions
 5292	912486561	potion2.gif	generic mana potion	generic mana potions
 5293	283043014	potion3.gif	generic restorative potion	generic restorative potions
+5294
+5295
+5296
+5297	853487229	chest.gif	dungeon dragon chest
