@@ -486,7 +486,8 @@ public class Concoction
 		}
 
 		int decrementAmount = Math.min( this.initial, amount );
-		int overAmount = Math.min( this.creatable, amount - decrementAmount );
+		int creatableAmount = Math.max( this.creatable, 0 );
+		int overAmount = Math.min( creatableAmount, amount - decrementAmount );
 		int pullAmount = amount - decrementAmount - overAmount;
 		if ( this.price > 0 || this.property != null )
 		{
@@ -533,7 +534,7 @@ public class Concoction
 
 		if ( this.price > 0 )
 		{
-			ConcoctionDatabase.queuedMeatSpent += this.price;
+			ConcoctionDatabase.queuedMeatSpent += this.price * ( amount - decrementAmount - overAmount );
 		}
 
 		if ( this.price > 0 ||
