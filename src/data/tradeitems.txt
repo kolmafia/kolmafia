@@ -5300,3 +5300,7 @@
 5291	generic healing potion	hp	all	0
 5292	generic mana potion	mp	display	50
 5293	generic restorative potion	hpmp	display	50
+5294
+5295
+5296
+5297	dungeon dragon chest	usable	display	0

@@ -3143,6 +3143,21 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.D10:
+
+			// You don't have time to go on an adventure. Even an imaginary one.
+			// Your imagination is too drunk right now.
+			// Using one of these items will eventually do something. I am sorry that eventually is not now, but I ran out of time before KoL Con.
+
+			if ( responseText.indexOf( "You don't have time" ) != -1 ||
+			     responseText.indexOf( "Your imagination is too drunk" ) != -1 ||
+			     responseText.indexOf( "eventually is not now" ) != -1)
+			{
+				ResultProcessor.processResult( item );
+			}
+
+			return;
+
 		case ItemPool.BRICKO_OOZE:
 		case ItemPool.BRICKO_BAT:
 		case ItemPool.BRICKO_OYSTER:
@@ -4655,6 +4670,21 @@ public class UseItemRequest
 				useString = "fold " + UseItemRequest.lastItemUsed;
 			}
 			break;
+
+		case ItemPool.D10:
+			if ( count == 2 )
+			{
+				useString = "roll percentile dice";
+				break;
+			}
+			// Fall through
+		case ItemPool.D4:
+		case ItemPool.D6:
+		case ItemPool.D8:
+		case ItemPool.D12:
+		case ItemPool.D20:
+			useString = "roll " + count + name;
+			break;
 		}
 
 		int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
@@ -4693,6 +4723,11 @@ public class UseItemRequest
 		case ItemPool.DOLPHIN_WHISTLE:
 			// Items that can redirect to a fight
 			turns = 1;
+			break;
+
+		case ItemPool.D10:
+			// 2d10 gives you a random adventure
+			turns = item.getCount() == 2 ? 1 : 0;
 			break;
 
 		case ItemPool.REFLECTION_OF_MAP:
