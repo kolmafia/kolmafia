@@ -4393,6 +4393,36 @@ public class FightRequest
 				TurnCounter.startCounting( 50, "Zombo's Empty Eye loc=*", "zomboeye.gif" );
 			}
 		}
+		
+		if ( itemId == ItemPool.ICEBALL )
+		{
+			// First use:
+			// You hurl the iceball at your opponent, dealing X damage.
+			// Then you pick up the iceball and stick it back in your sack.
+			// It feels a little softer than it did before. 
+
+			// Second use:
+			// You hurl the iceball at your opponent, dealing X damage.
+			// When you retrieve it this time, it feels pretty slushy.
+
+			// Third use:
+			// You hurl the iceball at your opponent, dealing X damage.
+			// Unfortunately, the iceball completely disintegrates on impact. 
+
+			if ( responseText.indexOf( "back in your sack" ) != -1 )
+			{
+				Preferences.setInteger( "_iceballUses", 1 );
+			}
+			else if ( responseText.indexOf( "pretty slushy" ) != -1 )
+			{
+				Preferences.setInteger( "_iceballUses", 2 );
+			}
+			else if ( responseText.indexOf( "completely disintegrates" ) != -1 )
+			{
+				Preferences.setInteger( "_iceballUses", 3 );
+				return true;
+			}
+		}
 
 		if ( ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_COMBAT_REUSABLE ) )
 		{
@@ -4461,6 +4491,7 @@ public class FightRequest
 			return true;
 
 		case ItemPool.SPOOKY_PUTTY_SHEET:
+
 			// You press the sheet of spooky putty against
 			// him/her/it and make a perfect copy, which you shove
 			// into your sack. He doesn't seem to appreciate it too
@@ -4478,6 +4509,7 @@ public class FightRequest
 			return false;
 
 		case ItemPool.CAMERA:
+
 			// With a flash of light and an accompanying old-timey
 			// -POOF- noise, you take snap a picture of him. Your
 			// camera begins to shake, rattle and roll.
@@ -4492,6 +4524,7 @@ public class FightRequest
 			return false;
 
 		case ItemPool.PHOTOCOPIER:
+
 			// You open the lid of the photocopier, press it
 			// against your opponent, and press the COPY button. He
 			// is enraged, and smashes the copier to pieces, but
@@ -4513,6 +4546,7 @@ public class FightRequest
 			return responseText.indexOf( "You quickly quaff" ) != -1;
 
 		case ItemPool.GLOB_OF_BLANK_OUT:
+
 			// As you're moseying, you notice that the last of the Blank-Out
 			// is gone, and that your hand is finally clean. Yay!
 
