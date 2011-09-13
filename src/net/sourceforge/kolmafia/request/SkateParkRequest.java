@@ -106,7 +106,7 @@ public class SkateParkRequest
 		super( "sea_skatepark.php" );
 	}
 
-	public SkateParkRequest( final int buff)
+	public SkateParkRequest( final int buff )
 	{
 		this();
 		String action = SkateParkRequest.buffToAction( buff );
@@ -184,7 +184,7 @@ public class SkateParkRequest
 		return null;
 	}
 
-	private static Object[] buffToData( final int buff )
+	public static Object[] buffToData( final int buff )
 	{
 		for ( int i = 0; i < BUFF_DATA.length; ++i )
 		{

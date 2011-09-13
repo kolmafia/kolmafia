@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -618,6 +619,7 @@ public class MaximizerFrame
 				sources = Collections.singletonList( cmd ).iterator();
 			}
 			
+			boolean haveVipKey = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean orFlag = false;
 			while ( sources.hasNext() )
 			{
@@ -683,18 +685,128 @@ public class MaximizerFrame
 						else continue;
 					}
 				}
+				else if ( cmd.startsWith( "friars " ) )
+				{
+					int lfc = Preferences.getInteger( "lastFriarCeremonyAscension" );
+					int ka = Preferences.getInteger( "knownAscensions" );
+					if ( lfc < ka )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( "friarsBlessingReceived" ) )
+					{
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "summon " ) )
+				{
+					if ( KoLCharacter.getLevel() < 11 )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( "demonSummoned" ) )
+					{
+						cmd = "";
+					}
+				}
 				else if ( cmd.startsWith( "concert " ) )
 				{
-					if ( Preferences.getBoolean( "concertVisited" ) ||
-						KoLCharacter.getLevel() < 12 )
+					String side = Preferences.getString( "sidequestArenaCompleted" );
+					boolean available = false;
+
+					if ( side.equals( "none" ) )
+					{
+						continue;
+					}
+					else if ( side.equals( "fratboy" ) )
+					{
+						available = cmd.indexOf( "Elvish" ) != -1 ||
+						            cmd.indexOf( "Winklered" ) != -1 ||
+						            cmd.indexOf( "White-boy Angst" ) != -1;
+					}
+					else if ( side.equals( "hippy" ) )
+					{
+						available = cmd.indexOf( "Moon" ) != -1 ||
+						            cmd.indexOf( "Dilated" ) != -1 ||
+						            cmd.indexOf( "Optimist" ) != -1;
+					}
+
+					if ( !available )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( "concertVisited" ) )
 					{
 						cmd = "";
 					}
 				}
 				else if ( cmd.startsWith( "telescope " ) )
 				{
-					if ( Preferences.getBoolean( "telescopeLookedHigh" ) ||
-						Preferences.getInteger( "telescopeUpgrades" ) == 0 )
+					if ( Preferences.getInteger( "telescopeUpgrades" ) == 0 )
+					{
+						if ( includeAll )
+						{
+							text = "( get a telescope )";
+							cmd = "";
+						}
+						else continue;
+					}
+					else if ( KoLCharacter.inBadMoon() )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( "telescopeLookedHigh" ) )
+					{
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "ballpit" ) )
+				{
+					if ( !KoLCharacter.canInteract() )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( "_ballpit" ) )
+					{
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "pool " ) )
+				{
+					if ( KoLCharacter.inBadMoon() )
+					{
+						continue;
+					}
+					else if ( !haveVipKey )
+					{
+						if ( includeAll )
+						{
+							text = "( get access to the VIP lounge )";
+							cmd = "";
+						}
+						else continue;
+					}
+					else if ( Preferences.getInteger( "_poolGames" ) >= 3 )
+					{
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "shower " ) )
+				{
+					if ( KoLCharacter.inBadMoon() )
+					{
+						continue;
+					}
+					else if ( !haveVipKey )
+					{
+						if ( includeAll )
+						{
+							text = "( get access to the VIP lounge )";
+							cmd = "";
+						}
+						else continue;
+					}
+					else if ( Preferences.getBoolean( "_aprilShower" ) )
 					{
 						cmd = "";
 					}
@@ -705,8 +817,29 @@ public class MaximizerFrame
 					{
 						continue;
 					}
+					else if ( Preferences.getBoolean( "styxPixieVisited" ) )
+					{
+						cmd = "";
+					}
 				}
-				
+				else if ( cmd.startsWith( "skate " ) )
+				{
+					String status = Preferences.getString( "skateParkStatus" );
+					int buff = SkateParkRequest.placeToBuff( cmd.substring( 6 ) );
+					Object [] data = SkateParkRequest.buffToData( buff );
+					String buffPref = (String) data[4];
+					String buffStatus = (String) data[6];
+
+					if ( !status.equals( buffStatus ) )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( buffPref ) )
+					{
+						cmd = "";
+					}
+				}
+
 				if ( item != null )
 				{
 					String iname = item.getName();
