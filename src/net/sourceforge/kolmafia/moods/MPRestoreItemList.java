@@ -119,6 +119,8 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "cotton candy pillow", 51, false ),
 		new MPRestoreItem( "phonics down", 48, false ),
 		new MPRestoreItem( "elven magi-pack", 45, false ),
+		new MPRestoreItem( "generic mana potion", 44, false ),
+		new MPRestoreItem( "generic restorative potion", 44, false ),
 		new MPRestoreItem( "tonic water", 40, false ),
 		new MPRestoreItem( "cotton candy cone", 39, false ),
 		new MPRestoreItem( "palm-frond fan", 37, false ),
