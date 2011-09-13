@@ -2402,6 +2402,7 @@ white picket fence	Bonus Resting MP: +1
 1337p4n7Z	Muscle: +6, Moxie: -3
 2 Hearts, 1 Mind	Experience: +3, Experience (familiar): +3
 20-20 Second Sight	Maximum MP: +25
+20/20 Vision	Item Drop: +10
 5 Pounds Lighter	Initiative: +10, Moxie: +5
 A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 A Few Extra Pounds	Maximum HP: [5*min(L,11)]
@@ -2917,6 +2918,7 @@ Mystic Circle	Mysticality Percent: +10
 Mystic Pickleness	Mysticality: +5, Muscle: -5
 Mystically Oiled	Mysticality Percent: +100
 Nano-juiced	Muscle Percent: +15
+Natural 1	Initiative: -100
 Natural 20	Initiative: +100
 # Nerf'd: Less powerful than you were before
 Neuromancy	Mysticality Percent: +10
@@ -3645,7 +3647,9 @@ cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
 cyclops eyedrops	Effect: "One Very Clear Eye", Effect Duration: 10
 cymbal syrup	Free Pull, Effect: "Tinnitus", Effect Duration: 20
 d12	Effect: "Bastard!", Effect Duration: 10
-d20	Effect: "Natural 20", Effect Duration: 1
+#d20	Effect: "Natural 1", Effect Duration: 1
+#d20	Effect: "Natural 20", Effect Duration: 1
+#d20	Effect: "20/20 Vision", Effect Duration: 20d20
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 deodorant	Effect: "Fresh Scent", Effect Duration: 10
 digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
