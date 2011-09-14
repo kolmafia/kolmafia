@@ -2062,14 +2062,12 @@ public abstract class SorceressLairManager
 				SorceressLairManager.familiarBattle( 4 );
 				break;
 			}
-
-			if ( !KoLmafia.permitsContinue() )
-			{
-				return -1;
-			}
 		}
 
-		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
+		if ( originalFamiliar.getId() != KoLCharacter.getFamiliar().getId() )
+		{
+			RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
+		}
 
 		if ( KoLmafia.permitsContinue() )
 		{
