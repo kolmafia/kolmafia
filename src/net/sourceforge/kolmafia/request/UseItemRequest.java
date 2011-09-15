@@ -3146,13 +3146,64 @@ public class UseItemRequest
 		case ItemPool.D10:
 
 			// You don't have time to go on an adventure. Even an imaginary one.
-			// Your imagination is too drunk right now.
-			// Using one of these items will eventually do something. I am sorry that eventually is not now, but I ran out of time before KoL Con.
-
-			if ( responseText.indexOf( "You don't have time" ) != -1 ||
-			     responseText.indexOf( "Your imagination is too drunk" ) != -1 ||
-			     responseText.indexOf( "eventually is not now" ) != -1)
+			if ( responseText.indexOf( "don't have time" ) != -1 )
 			{
+				UseItemRequest.lastUpdate = "Insufficient adventures left.";
+			}
+
+			// Your imagination is too drunk right now.
+			else if ( responseText.indexOf( "Your imagination is too drunk" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Inebriety limit reached.";
+			}
+
+			// Using one of these items will eventually do
+			// something. I am sorry that eventually is not now,
+			// but I ran out of time before KoL Con.
+			else if ( responseText.indexOf( "eventually is not now" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Not yet implemented.";
+			}
+
+			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+			}
+
+			return;
+
+		case ItemPool.D12:
+
+			// You grumble and put the dice away.
+			if ( responseText.indexOf( "You grumble and put the dice away" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You grumble and put the dice away.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+			}
+
+			return;
+
+		case ItemPool.D20:
+
+			// You already rolled for initiative.
+			if ( responseText.indexOf( "You already rolled for initiative" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You already rolled for initiative";
+			}
+
+			// You can't figure out a good way to roll that
+			// quantity of 20-sided dice. Maybe you should've paid
+			// less attention in gym class.
+			else if ( responseText.indexOf( "Maybe you should've paid less attention in gym class" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Rolling that many d20s doesn't do anything interesting.";
+			}
+
+			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
