@@ -2835,8 +2835,20 @@ public class MaximizerFrame
 			}
 		}
 		
+		private static int getMutex( AdventureResult item )
+		{
+			Modifiers mods = Modifiers.getModifiers( item.getName() );
+			if ( mods == null )
+			{
+				return 0;
+			}
+			return mods.getRawBitmap( Modifiers.MUTEX );
+		}
+		
 		private void trySwap( int slot1, int slot2 )
 		{
+			// If we are suggesting an accessory that's already being worn,
+			// make sure we suggest the same slot (to minimize server hits).
 			AdventureResult item1, item2, eq1, eq2;
 			item1 = this.equipment[ slot1 ];
 			if ( item1 == null ) item1 = EquipmentRequest.UNEQUIP;
@@ -2846,7 +2858,20 @@ public class MaximizerFrame
 			if ( item2 == null ) item2 = EquipmentRequest.UNEQUIP;
 			eq2 = EquipmentManager.getEquipment( slot2 );
 			if ( eq2.equals( item2 ) ) return;
-			if ( eq1.equals( item2 ) || eq2.equals( item1 ) )
+			
+			// The same thing applies to mutually exclusive accessories -
+			// putting the new one in an earlier slot would cause an error
+			// when the equipment is being changed.
+			int imutex1, imutex2, emutex1, emutex2;
+			imutex1 = getMutex( item1 );
+			emutex1 = getMutex( eq1 );
+			if ( (imutex1 & emutex1) != 0 ) return;
+			imutex2 = getMutex( item2 );
+			emutex2 = getMutex( eq2 );
+			if ( (imutex2 & emutex2) != 0 ) return;
+			
+			if ( eq1.equals( item2 ) || eq2.equals( item1 ) ||
+				(imutex1 & emutex2) != 0 || (imutex2 & emutex1) != 0 )
 			{
 				this.equipment[ slot1 ] = item2;
 				this.equipment[ slot2 ] = item1;
