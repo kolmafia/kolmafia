@@ -610,6 +610,9 @@ public class ChoiceOptionsPanel
 					return;
 				}
 
+				// Close the popup menu
+				OceanDestinationComboBox.this.hidePopup();
+
 				// Prompt for a new destination
 				String coords = getCoordinates();
 				if ( coords == null )
