@@ -3444,7 +3444,7 @@ Sign:Packrat	Experience Percent (Moxie): +10, Item Drop: +10
 # Platypus: Unlocks Little Canadia
 Sign:Platypus	Experience Percent (Muscle): +10, Familiar Weight: +5
 # Vole: Unlocks Degrassi Knoll
-Sign:Vole	Experience Percent (Moxie): +10, Initiative: +20, Maximum HP Nonmultiplied: +20, Maximum MP Nonmultiplied: +20
+Sign:Vole	Experience Percent (Moxie): +10, Initiative: +20, Maximum HP: +20, Maximum MP: +20
 # Wallaby: Unlocks Degrassi Knoll
 Sign:Wallaby	Experience Percent (Mysticality): +10, Spell Damage Percent: +20
 # Wombat: Unlocks the Gnomish Gnomad Camp
