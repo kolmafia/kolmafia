@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -1246,12 +1247,19 @@ public abstract class InventoryManager
 	private static int priceToMake( AdventureResult item, int qty, int level, boolean exact )
 	{
 		int id = item.getItemId();
+		int meatCost = CombineMeatRequest.getCost( id );
+		if ( meatCost > 0 )
+		{
+			return meatCost * qty;
+		}
+
 		int method = ConcoctionDatabase.getMixingMethod( item );
-		int price = ConcoctionDatabase.CREATION_COST[ method & KoLConstants.CT_MASK ];
 		if ( level > 10 || !ConcoctionDatabase.isPermittedMethod( method ) )
 		{
 			return Integer.MAX_VALUE;
 		}
+
+		int price = ConcoctionDatabase.CREATION_COST[ method & KoLConstants.CT_MASK ];
 		int yield = ConcoctionDatabase.getYield( id );
 		int madeqty = (qty + yield - 1) / yield;
 		AdventureResult ingrs[] = ConcoctionDatabase.getIngredients( id );
