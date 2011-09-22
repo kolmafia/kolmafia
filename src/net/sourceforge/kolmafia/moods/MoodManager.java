@@ -898,25 +898,6 @@ public abstract class MoodManager
 			return "cast Tongue of the Walrus";
 		}
 
-		boolean powerNapClearable =
-			name.equals( "Apathy" ) ||
-			name.equals( "Confused" ) ||
-			name.equals( "Cunctatitis" ) ||
-			name.equals( "Embarrassed" ) ||
-			name.equals( "Easily Embarrassed" ) ||
-			name.equals( "Prestidigysfunction" ) ||
-			name.equals( "Sleepy" ) ||
-			name.equals( "Socialismydia" ) ||
-			name.equals( "Sunburned" ) ||
-			name.equals( "Tenuous Grip on Reality" ) ||
-			name.equals( "Tetanus" ) ||
-			name.equals( "Wussiness" );
-
-		if ( powerNapClearable && KoLCharacter.hasSkill( "Disco Power Nap" ) )
-		{
-			return "cast Disco Power Nap";
-		}
-
 		boolean discoNapClearable =
 			name.equals( "Confused" ) ||
 			name.equals( "Embarrassed" ) ||
@@ -927,6 +908,32 @@ public abstract class MoodManager
 		if ( discoNapClearable && KoLCharacter.hasSkill( "Disco Nap" ) )
 		{
 			return "cast Disco Nap";
+		}
+
+		boolean powerNapClearable =
+			name.equals( "Affronted Decency" ) ||
+			name.equals( "Apathy" ) ||
+			name.equals( "Confused" ) ||
+			name.equals( "Cunctatitis" ) ||
+			name.equals( "Embarrassed" ) ||
+			name.equals( "Easily Embarrassed" ) ||
+			name.equals( "Existential Torment" ) ||
+			name.equals( "Flared Nostrils" ) ||
+			name.equals( "Light Headed" ) ||
+			name.equals( "Prestidigysfunction" ) ||
+			name.equals( "Rainy Soul Miasma" ) ||
+			name.equals( "Sleepy" ) ||
+			name.equals( "Socialismydia" ) ||
+			name.equals( "Sunburned" ) ||
+			name.equals( "Tenuous Grip on Reality" ) ||
+			name.equals( "Tetanus" ) ||
+			name.equals( "The Colors..." ) ||
+			name.equals( "\"The Disease\"" ) ||
+			name.equals( "Wussiness" );
+
+		if ( powerNapClearable && KoLCharacter.hasSkill( "Disco Power Nap" ) )
+		{
+			return "cast Disco Power Nap";
 		}
 
 		boolean forestTearsClearable =
