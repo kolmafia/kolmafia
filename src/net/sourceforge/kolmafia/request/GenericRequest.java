@@ -1264,7 +1264,7 @@ public class GenericRequest
 		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
 		{
 			KoLCharacter.setHardcore( false );
-			KoLCharacter.setConsumptionRestriction( AscensionSnapshot.NOPATH );
+			KoLCharacter.setPath( "None" );
 		}
 
 		if ( urlString.startsWith( "ascend.php" ) && urlString.indexOf( "action=ascend" ) != -1 )
