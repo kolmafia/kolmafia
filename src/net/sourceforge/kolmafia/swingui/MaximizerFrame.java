@@ -1156,6 +1156,11 @@ public class MaximizerFrame
 		// BUYABLE_FLAG is set if further items can be bought from the Mall.
 		// AUTOMATIC_FLAG is set if the item must be considered regardless
 		// of its ranking.
+		// CONDITIONAL_FLAG is set for items that may turn out to be unusable
+		// due to interactions with other equipment.  They're accurately
+		// described by their modifiers, so the special handling of AUTOMATIC
+		// isn't appropriate, but on the other hand they should never displace
+		// an unconditionally useful item from the shortlist.
 		public static final int TOTAL_MASK = 0xFF;
 		public static final int SUBTOTAL_MASK = 0x0F;
 		public static final int INITIAL_SHIFT = 8;
@@ -1165,6 +1170,7 @@ public class MaximizerFrame
 		public static final int PULLABLE_SHIFT = 24;
 		public static final int BUYABLE_FLAG = 1 << 28;
 		public static final int AUTOMATIC_FLAG = 1 << 29;
+		public static final int CONDITIONAL_FLAG = 1 << 30;
 		
 		// Equipment slots, that aren't the primary slot of any item type,
 		// that are repurposed here (rather than making the array bigger).
@@ -2123,6 +2129,13 @@ public class MaximizerFrame
 						if ( ((count >> Evaluator.INITIAL_SHIFT) & Evaluator.SUBTOTAL_MASK) == 0 ) continue;
 						if ( (count & Evaluator.AUTOMATIC_FLAG) != 0 ) continue;
 					}
+					
+					if ( mods.getBoolean( Modifiers.UNARMED ) ||
+						mods.getRawBitmap( Modifiers.MUTEX ) != 0 )
+					{	// This item may turn out to be unequippable, so don't
+						// count it towards the shortlist length.
+						item = item.getInstance( count | Evaluator.CONDITIONAL_FLAG );
+					}
 				}
 				// "break gotItem" goes here
 				ranked[ slot ].add( item );
@@ -2183,6 +2196,7 @@ public class MaximizerFrame
 					item = this.validateItem( item, maxPrice, priceLevel );
 					int count = item.getCount();
 					boolean auto = (count & Evaluator.AUTOMATIC_FLAG) != 0;
+					boolean cond = (count & Evaluator.CONDITIONAL_FLAG) != 0;
 					count &= TOTAL_MASK;
 					if ( count == 0 )
 					{
@@ -2217,7 +2231,10 @@ public class MaximizerFrame
 					else if ( total < useful )
 					{
 						automatic[ slot ].add( item );
-						total += count;
+						if ( !cond )
+						{
+							total += count;
+						}
 					}
 				}
 				if ( this.dump > 0 )
@@ -2726,7 +2743,7 @@ public class MaximizerFrame
 					this.restore( mark );
 				}
 			
-				if ( any ) return;
+				// if ( any && <no unarmed items in shortlists> ) return;
 				this.equipment[ EquipmentManager.WEAPON ] = EquipmentRequest.UNEQUIP;
 			}
 			
@@ -2801,7 +2818,8 @@ public class MaximizerFrame
 					this.restore( mark );
 				}
 			
-				if ( any || requireGlove ) return;
+				if ( requireGlove ) return;
+				if ( any && weapon > 0 ) return;
 				this.equipment[ EquipmentManager.OFFHAND ] = EquipmentRequest.UNEQUIP;
 			}
 			else if ( requireGlove && this.equipment[ EquipmentManager.OFFHAND ].getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
