@@ -51,6 +51,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -703,12 +704,15 @@ public class Parser
 
 		result.setScope( scope );
 		if ( !result.assertReturn() && !functionType.equals( DataTypes.TYPE_VOID )
-		// The following clause can't be correct. I think it
-		// depends on the various conditional & loop constructs
-		// returning a boolean. Or something. But without it,
-		// existing scripts break. Aargh!
-		&& !functionType.equals( DataTypes.TYPE_BOOLEAN ) )
+		     // The following clause can't be correct. I think it
+		     // depends on the various conditional & loop constructs
+		     // returning a boolean. Or something. But without it,
+		     // existing scripts break. Aargh!
+		     && !functionType.equals( DataTypes.TYPE_BOOLEAN )
+		   )
 		{
+			// PrintStream stream = RequestLogger.getDebugStream();
+			// scope.print( stream, 0 );
 			throw this.parseException( "Missing return value" );
 		}
 

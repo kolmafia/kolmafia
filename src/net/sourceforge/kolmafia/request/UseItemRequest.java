@@ -108,6 +108,10 @@ public class UseItemRequest
 	private static final Pattern FRUIT_TUBING_PATTERN =
 		Pattern.compile( "(?=.*?action=addfruit).*whichfruit=(\\d+)" );
 
+	// It goes [Xd12] feet, and doesn't hit anything interesting.
+	private static final Pattern ARROW_PATTERN =
+		Pattern.compile( "It goes (\\d+) feet" );
+
 	// <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche: <b>50</b><br>Nook: <b>50</b></center>
 	private static final Pattern EVILOMETER_PATTERN =
 		Pattern.compile( "<center>Total evil: <b>(\\d+)</b><p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b></center>" );
@@ -3200,17 +3204,45 @@ public class UseItemRequest
 
 			return;
 
-		case ItemPool.D12:
+		case ItemPool.D12: {
 
+			// You draw the bow and roll [X]d12 to see how far the arrow flies. 
+
+			Matcher m = ARROW_PATTERN.matcher( responseText );
+			String distance = m.find() ? m.group( 1 ) : "";
+
+			// It goes [Xd12] feet, and just as it's about to hit the ground,
+			// a cart with a big target in it is pulled into view and
+			// the arrow hits it dead center. BULLSEYE.
+
+			if ( responseText.indexOf( "BULLSEYE" ) != -1 )
+			{
+				String message = "You get a bullseye at " + distance + " feet.";
+				KoLmafia.updateDisplay( message );
+				RequestLogger.updateSessionLog( message );
+			}
+
+			// It goes [Xd12] feet, and doesn't hit anything interesting.
 			// You grumble and put the dice away.
-			if ( responseText.indexOf( "You grumble and put the dice away" ) != -1 )
+			else if ( responseText.indexOf( "You grumble and put the dice away" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You grumble and put the dice away.";
+			}
+
+			// Y'know, you're never going to be able to top what happened last time. That was awesome.
+			else if ( responseText.indexOf( "That was awesome" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You already hit a bullseye.";
+			}
+
+			if ( !UseItemRequest.lastUpdate.equals( "" ) )
+			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
 			return;
+		}
 
 		case ItemPool.D20:
 
