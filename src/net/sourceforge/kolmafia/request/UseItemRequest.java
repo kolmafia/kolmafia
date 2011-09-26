@@ -474,6 +474,10 @@ public class UseItemRequest
 		case ItemPool.SPICE_MELANGE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "spiceMelangeUsed" ) ? 0 : 1;
+			
+		case ItemPool.BORROWED_TIME:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_borrowedTimeUsed" ) ? 0 : 1;	
 
 		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
 			if ( KoLCharacter.getInebriety() == 0 )
@@ -4010,6 +4014,21 @@ public class UseItemRequest
 		case ItemPool.GRIMACE_SHELTER_MAP:
 			// If we are redirected to a choice, the item is
 			// consumed elsewhere.
+			return;
+		case ItemPool.BORROWED_TIME:
+			// Set the preference to true both when we fail and succeed.
+			Preferences.setBoolean( "_borrowedTimeUsed", true );
+
+			if ( responseText.indexOf( "already borrowed some time today" ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+			}
+
+			// You dip into your future and borrow some time. Be sure to spend it wisely!
+			else if ( responseText.indexOf( "dip into your future" ) != -1 )
+			{
+				KoLCharacter.updateStatus();
+			}
 			return;
 		}
 	}
