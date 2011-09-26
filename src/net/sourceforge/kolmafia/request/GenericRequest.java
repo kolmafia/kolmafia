@@ -2356,6 +2356,16 @@ public class GenericRequest
 			consumed = true;
 			break;
 
+		case ItemPool.D10:
+			// Using a single D10 generates a monster.
+			if ( item.getCount() != 1 )
+			{
+				return;
+			}
+			itemName = "d10";
+			consumed = true;
+			break;
+
 		default:
 			return;
 		}
