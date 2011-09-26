@@ -1635,6 +1635,29 @@ public class UseItemRequest
 			return;
 		}
 
+		if ( responseText.indexOf( "be at least level" ) != -1 )
+		{
+			UseItemRequest.lastUpdate = "Item level too high.";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			String name = item.getName();
+			int count = item.getCount();
+
+			int fullness = ItemDatabase.getFullness( name ) * count;
+			if ( fullness > 0 )
+			{
+				Preferences.increment( "currentFullness", -fullness );
+			}
+
+			int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
+			if ( spleenHit > 0 )
+			{
+				Preferences.increment( "currentSpleenUse", -spleenHit );
+			}
+
+			KoLCharacter.updateStatus();
+			return;
+		}
+
 		// Check for consumption helpers, which will need to be removed
 		// from inventory if they were successfully used.
 
