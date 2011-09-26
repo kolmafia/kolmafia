@@ -4851,8 +4851,9 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.D10:
-			// 2d10 gives you a random adventure
-			turns = item.getCount() == 2 ? 1 : 0;
+			// 1d10 gives you a monster
+			// 2d10 gives you a random adventure at no cost.
+			turns = item.getCount() == 1 ? 1 : 0;
 			break;
 
 		case ItemPool.REFLECTION_OF_MAP:
