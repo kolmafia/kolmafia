@@ -5297,9 +5297,9 @@
 5288	d10	multiple, combat	all	0
 5289	d12	multiple, combat	all	0
 5290	d20	multiple, combat	all	0
-5291	generic healing potion	hp	all	0
-5292	generic mana potion	mp	display	50
-5293	generic restorative potion	hpmp	display	50
+5291	generic healing potion	hp	all	50
+5292	generic mana potion	mp	all	50
+5293	generic restorative potion	hpmp	all	50
 5294
 5295
 5296
