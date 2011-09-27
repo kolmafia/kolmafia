@@ -5296,3 +5296,4 @@
 5295
 5296
 5297	853487229	chest.gif	dungeon dragon chest
+5298	790092369	phishstick.gif	phish stick	phish sticks
