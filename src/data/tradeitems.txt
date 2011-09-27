@@ -5304,3 +5304,4 @@
 5295
 5296
 5297	dungeon dragon chest	usable	display	0
+5298	phish stick	food	all	0
