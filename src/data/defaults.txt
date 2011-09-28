@@ -324,6 +324,7 @@ user	demonName10
 user	demonSummoned	false
 user	desktopHeight	600
 user	desktopWidth	800
+user	distentionPillActive	false
 user	dolphinItem
 user	doorCode
 user	expressCardUsed	false
