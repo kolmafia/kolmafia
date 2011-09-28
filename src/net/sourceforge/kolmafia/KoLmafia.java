@@ -1392,12 +1392,14 @@ public abstract class KoLmafia
 
 		if ( KoLCharacter.isFallingDown() )
 		{
+			String holiday = HolidayDatabase.getHoliday();
+
 			if ( adventure.getRequest().getPath().startsWith( "trickortreat" ) )
 			{
 				// You're allowed to trick or treat even when falling down drunk,
 				// so ignore any problems in this case.
 			}
-			else if ( HolidayDatabase.getHoliday().indexOf( "St. Sneaky Pete's Day" ) == -1 )
+			else if ( holiday.indexOf( "St. Sneaky Pete's Day" ) == -1 && holiday.indexOf( "Drunksgiving" ) == -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are too drunk to continue." );
 				return;
