@@ -501,6 +501,12 @@ public class RequestEditorKit
 			return;
 		}
 
+		// Skip all decorations on the raw KoL api.
+		if ( location.startsWith( "api.php" ) )
+		{
+			return;
+		}
+
 		// Remove bogus <body> tag preceding <head> tag in topmenu
 		StringUtilities.singleStringReplace( buffer, "<body><head>", "<head>" );
 
