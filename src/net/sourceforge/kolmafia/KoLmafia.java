@@ -1390,11 +1390,23 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( KoLCharacter.isFallingDown() && KoLCharacter.getInebriety() <= 25 &&
-		     !adventure.getRequest().getPath().startsWith( "trickortreat" ))
+		if ( KoLCharacter.isFallingDown() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are too drunk to continue." );
-			return;
+			if ( adventure.getRequest().getPath().startsWith( "trickortreat" ) )
+			{
+				// You're allowed to trick or treat even when falling down drunk,
+				// so ignore any problems in this case.
+			}
+			else if ( HolidayDatabase.getHoliday().indexOf( "St. Sneaky Pete's Day" ) == -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are too drunk to continue." );
+				return;
+			}
+			else if ( KoLCharacter.getInebriety() <= 25 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are not drunk enough to continue." );
+				return;
+			}
 		}
 
 		if ( KoLmafia.abortAfter != null )
