@@ -497,11 +497,12 @@ public class UseItemRequest
 
 			// The distention pill is not usable when you're full.
 			// Even if you plan on eating a 1-full food.
-			if ( !stomachAvailable )
+			// UPDATE: distention pill now usable when full.  Also, does not reset at rollover.
+			/*if ( !stomachAvailable )
 			{
 				UseItemRequest.limiter = "remaining fullness";
 				return 0;
-			}
+			}*/
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_distentionPillUsed" ) ? 0 : 1;
 
@@ -570,7 +571,8 @@ public class UseItemRequest
 		if ( fullness > 0 )
 		{
 			UseItemRequest.limiter = "fullness";
-			return ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) / fullness;
+			return ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() + ( Preferences
+				.getBoolean( "distentionPillActive" ) ? 1 : 0 ) ) / fullness;
 		}
 
 		int spleenHit = ItemDatabase.getSpleenHit( itemName );
@@ -1923,6 +1925,7 @@ public class UseItemRequest
 
 			// If we got this message, we definitely used a pill today.
 			Preferences.setBoolean( "_distentionPillUsed", true );
+			Preferences.setBoolean( "distentionPillActive", false );
 			Preferences.increment( "currentFullness", -1 );
 			String message = "Incrementing fullness by " + ( fullness * count - 1 )
 					+ " instead of " + ( fullness * count )
@@ -1930,6 +1933,14 @@ public class UseItemRequest
 			RequestLogger.updateSessionLog( message );
 			RequestLogger.printLine( message );
 			KoLCharacter.updateStatus();
+		}
+
+		// If we eat a non-zero fullness item and we DON'T get the shrinking message, we must be out of sync
+		// with KoL. Fix that.
+
+		if ( ItemDatabase.getFullness( item.getName() ) > 0 && Preferences.getBoolean( "distentionPillActive" ) )
+		{
+			Preferences.setBoolean( "distentionPillActive", false );
 		}
 
 		// Check to make sure that it wasn't a food or drink
@@ -3503,6 +3514,7 @@ public class UseItemRequest
 			else if ( responseText.indexOf( "stomach feels rather stretched" ) != -1 )
 			{
 				Preferences.setBoolean( "_distentionPillUsed", true );
+				Preferences.setBoolean( "distentionPillActive", true );
 				KoLCharacter.updateStatus();
 				ConcoctionDatabase.getUsables().sort();
 			}
@@ -4597,7 +4609,8 @@ public class UseItemRequest
 
 			int fullness = ItemDatabase.getFullness( name );
 			if ( fullness <= 0 ) break;
-			int maxcount = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+			int maxcount = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() + ( Preferences
+				.getBoolean( "distentionPillActive" ) ? 1 : 0 ) ) / fullness;
 			if ( count > maxcount )
 			{
 				count = maxcount;
