@@ -4125,7 +4125,7 @@ public class UseItemRequest
 
 				String familiar = KoLCharacter.getFamiliar().getRace();
 				String oldList = Preferences.getString( "_feastedFamiliars" );
-				String newList = oldList + ( oldList.equals( "" ) ? "" : "," ) + familiar;
+				String newList = oldList + ( oldList.equals( "" ) ? "" : ";" ) + familiar;
 				Preferences.setString( "_feastedFamiliars", newList );
 			}
 			return;
