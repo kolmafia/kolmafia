@@ -1991,6 +1991,20 @@ public class FightRequest
 			Preferences.increment( "_vmaskAdv", 1 );
 		}
 
+		if ( responseText.indexOf( "stomps your opponent into paste" ) != -1 
+			|| responseText.indexOf( "stomps your opponents into paste" ) != -1 
+			|| responseText.indexOf( "shuffles its heels, gets a running start, then leaps on" ) != -1 )
+		{
+			Preferences.setBoolean( "bootsCharged", false );
+		}
+		// <name> rubs its soles together, then stomps in place 
+		// restlessly. Clearly, the violence it's done so far is 
+		// only making it ache for some quality stomping.
+		if ( responseText.indexOf( "making it ache for some quality stomping" ) != -1 )
+		{
+			Preferences.setBoolean( "bootsCharged", true );
+		}
+
 		int blindIndex = responseText.indexOf( "... something.</div>" );
 		while ( blindIndex != -1 )
 		{

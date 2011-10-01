@@ -1036,9 +1036,9 @@ public class DailyDeedsPanel
 				"+30 stench damage, 30 turns",
 				null,
 				"Booze!",
-				"why ARE you here?",
+				"Why ARE you here?",
 				"+80-100 hot damage, 30 turns",
-				"stat boost, 30 turns"
+				"Stat boost, 30 turns"
 			};
 
 			for ( int i=1; i <= len ; ++i )
@@ -2003,6 +2003,7 @@ public class DailyDeedsPanel
 			this.addListener( "_tokenDrops" );
 			this.addListener( "_transponderDrops" );
 			this.addListener( "_bootStomps" );
+			this.addListener( "bootsCharged" );
 			this.addLabel( "" );
 		}
 
@@ -2016,16 +2017,16 @@ public class DailyDeedsPanel
 			boolean hf6 = KoLCharacter.findFamiliar( FamiliarPool.TRON ) != null;
 			boolean hf7 = KoLCharacter.findFamiliar( FamiliarPool.ALIEN ) != null;
 			boolean hf8 = KoLCharacter.findFamiliar( FamiliarPool.BOOTS ) != null;
-			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7 || hf8  );
+			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7 || hf8 );
 			String text = "Drops: ";
 			if( hf1 ) text = text + Preferences.getInteger( "_absintheDrops" ) + " absinthe";
-			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 || hf7 || hf8  ) ) text = text + ", ";
+			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 || hf7 || hf8 ) ) text = text + ", ";
 			if( hf2 ) text = text + Preferences.getInteger( "_aguaDrops" ) + " agua";
-			if( hf2 && ( hf3 || hf4 || hf5 || hf6 || hf7 || hf8  ) ) text = text + ", ";
+			if( hf2 && ( hf3 || hf4 || hf5 || hf6 || hf7 || hf8 ) ) text = text + ", ";
 			if( hf3 ) text = text + Preferences.getInteger( "_astralDrops" ) + " astral";
-			if( hf3 && ( hf4 || hf5 || hf6 || hf7 || hf8  ) ) text = text + ", ";
+			if( hf3 && ( hf4 || hf5 || hf6 || hf7 || hf8 ) ) text = text + ", ";
 			if( hf4 ) text = text + Preferences.getInteger( "_gongDrops" ) + " gong";
-			if( hf4 && ( hf5  || hf6 || hf7 || hf8  ) ) text = text + ", ";
+			if( hf4 && ( hf5 || hf6 || hf7 || hf8 ) ) text = text + ", ";
 			if( hf5 )
 			{
 				if( Preferences.getInteger( "_pieDrops" )==1 )
@@ -2038,7 +2039,12 @@ public class DailyDeedsPanel
 			if( hf6 && ( hf7 || hf8 ) ) text = text + ", ";
 			if( hf7 ) text = text + Preferences.getInteger( "_transponderDrops" ) + " transponder";
 			if( hf7 && hf8 ) text = text + ", ";
-			if( hf8 ) text = text + Preferences.getInteger( "_bootStomps" ) + " stomps";
+			if( hf8 )
+			{
+				text = text + Preferences.getInteger( "_bootStomps" ) + " stomp";
+				if( Preferences.getInteger( "_bootStomps" )!=1 ) text = text + "s";
+				if( Preferences.getBoolean( "bootsCharged" ) ) text = text + " (C)";
+			}
 			this.setText( text );
 		}
 	}
@@ -2147,6 +2153,8 @@ public class DailyDeedsPanel
 		public PhotocopyDaily()
 		{
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
+			this.addItem( ItemPool.PHOTOCOPIER );
+			this.addItem( ItemPool.PHOTOCOPIED_MONSTER );
 			this.addListener( "_photocopyUsed" );
 			this.addListener( "photocopyMonster" );
 			this.addListener( "kingLiberated" );
@@ -2158,6 +2166,9 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean photo = InventoryManager.getCount( ItemPool.PHOTOCOPIER ) > 0
+				|| InventoryManager.getCount( ItemPool.PHOTOCOPIED_MONSTER ) > 0
+				|| Preferences.getBoolean( "_photocopyUsed" );
 			String text = Preferences.getBoolean( "_photocopyUsed" ) ?
 				"photocopied monster used"
 				: "photocopied monster not used yet";
@@ -2167,7 +2178,7 @@ public class DailyDeedsPanel
 				text = text + ", now " + monster;
 			}
 			this.setText( text );
-			this.setShown( (!bm || kf) && have );
+			this.setShown( photo || (!bm || kf) && have );
 		}
 	}
 

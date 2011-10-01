@@ -1558,6 +1558,7 @@ acid-squirting flower	Single Equip
 albatross necklace	Mysticality Percent: +10, Single Equip
 amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 amulet of extreme plot significance	Maximum MP: +30
+anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
 anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 arrrgyle socks	Mysticality: +6
 astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Monster Level: +20

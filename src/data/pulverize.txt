@@ -78,7 +78,7 @@ Hodgman's lucky sock	epic wad
 Hodgman's metal detector	epic wad
 Hodgman's porkpie hat	epic wad
 Hodgman's varcolac paw	epic wad
-hodgman's whackin' stick	epic wad
+Hodgman's whackin' stick	epic wad
 Ol' Scratch's ash can	epic wad
 Ol' Scratch's infernal pitchfork	epic wad
 Ol' Scratch's manacles	epic wad
@@ -140,7 +140,7 @@ bucket of anniversary lard	nosmash
 anniversary concrete fedora	nosmash
 anniversary safety glass vest	nosmash
 anniversary burlap belt	nosmash
-anniversary balsa wood socks nosmash
+anniversary balsa wood socks	nosmash
 
 # Miscellaneous exceptions.
 tiny plastic sword	nosmash
@@ -249,6 +249,12 @@ Spooky Putty ball	nosmash
 Spooky Putty snake	nosmash
 Elvish sunglasses	nosmash
 Bag o' Tricks	nosmash
+stinky cheese sword	nosmash
+stinky cheese diaper	nosmash
+stinky cheese wheel	nosmash
+stinky cheese eye	nosmash
+Staff of Queso Escusado	nosmash
+Crown of Thrones	nosmash
 Greatest American Pants	nosmash
 Operation Patriot Shield	nosmash
 Loathing Legion abacus	nosmash
