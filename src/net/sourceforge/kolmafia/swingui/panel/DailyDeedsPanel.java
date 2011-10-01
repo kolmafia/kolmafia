@@ -205,7 +205,11 @@ public class DailyDeedsPanel
 	{
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
-		return 0;
+		
+		if ( deed.equals( ( "Feast" ) ) )
+			return 1;
+		else
+			return 0;
 	};
 
 	public DailyDeedsPanel()
@@ -2197,9 +2201,10 @@ public class DailyDeedsPanel
 		{
 			int fu = Preferences.getInteger( "_feastUsed" );
 			String list = Preferences.getString( "_feastedFamiliars" );
+			boolean have = InventoryManager.getCount(  ItemPool.MOVEABLE_FEAST ) > 0;
 			this.buttonText( 0, "use moveable feast", fu + "/5" );
 			this.setText( list );
-			this.setShown( true );
+			this.setShown( have );
 			this.setEnabled( ( fu < 5 ) );
 		}
 	}
