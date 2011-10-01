@@ -688,6 +688,8 @@ user	_deluxeKlawSummons	0
 user	_distentionPillUsed	false
 user	_donhosCasts	0
 user	_elronsCasts	0
+user	_feastedFamiliars
+user	_feastUsed	0
 user	_fingertrapArrows	0
 user	_gapBuffs	0
 user	_gibbererAdv	0

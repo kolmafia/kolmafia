@@ -164,6 +164,9 @@ public class DailyDeedsPanel
 			"Special", "Flush Mojo",
 		},
 		{
+			"Special", "Feast",
+		},
+		{
 			"Special", "Pudding",
 		},
 		{
@@ -686,6 +689,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Flush Mojo" ) )
 		{
 			this.add( new MojoDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Feast" ) )
+		{
+			this.add( new FeastDaily() );
 		}
 		else if ( deedsString[ 1 ].equals( "Pudding" ) )
 		{
@@ -2161,6 +2168,28 @@ public class DailyDeedsPanel
 			}
 			this.setText( text );
 			this.setShown( (!bm || kf) && have );
+		}
+	}
+
+	public static class FeastDaily
+		extends Daily
+	{
+		public FeastDaily()
+		{
+			this.addListener( "_feastUsed" );
+			this.addListener( "_feastedFamiliars" );
+			this.addButton( "use moveable feast" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			int fu = Preferences.getInteger( "_feastUsed" );
+			String list = Preferences.getString( "_feastedFamiliars" );
+			this.buttonText( 0, "use moveable feast", fu + "/5" );
+			this.setText( list );
+			this.setShown( true );
+			this.setEnabled( ( fu < 5 ) );
 		}
 	}
 
