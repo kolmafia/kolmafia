@@ -5011,15 +5011,15 @@
 5010	272996974	zomboeye.gif	evil eye
 5011	231901229	aatat.gif	Alice's Army Foil tattoo
 5012	801715967	snackvoucher.gif	Ye Wizard's Shack snack voucher
-5013	499607486	gspocky.gif	wasabi pocky
-5014	756167951	gspocky.gif	tobiko pocky
-5015	997523773	gspocky.gif	natto pocky
-5016	834027677	gssake.gif	wasabi-infused sake
-5017	933880685	gssake.gif	tobiko-infused sake
-5018	158537968	gssake.gif	natto-infused sake
-5019	410623894	gsramune.gif	wasabi marble soda
-5020	614851773	gsramune.gif	tobiko marble soda
-5021	633384614	gsramune.gif	natto marble soda
+5013	499607486	gspocky.gif	wasabi pocky	sticks of wasabi pocky
+5014	756167951	gspocky.gif	tobiko pocky	sticks of tobiko pocky
+5015	997523773	gspocky.gif	natto pocky	sticks of natto pocky
+5016	834027677	gssake.gif	wasabi-infused sake	bottles of wasabi-infused sake
+5017	933880685	gssake.gif	tobiko-infused sake	bottles of tobiko-infused sake
+5018	158537968	gssake.gif	natto-infused sake	bottles of natto-infused sake
+5019	410623894	gsramune.gif	wasabi marble soda	bottles of wasabi marble soda
+5020	614851773	gsramune.gif	tobiko marble soda	bottles of tobiko marble soda
+5021	633384614	gsramune.gif	natto marble soda	bottles of natto marble soda
 5022	304617955	boosterbox.gif	Alice's Army booster box
 5023	350801142	jawbreaker.gif	elderly jawbreaker
 5024	918819972	fire.gif	marshmallow flamb&eacute;	marshmallows flamb&eacute;
