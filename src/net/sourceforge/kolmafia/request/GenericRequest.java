@@ -1752,6 +1752,13 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "choice.php" ) )
 		{
+			if ( LoginRequest.isInstanceRunning() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Redirected to a choice page." );
+				ChoiceManager.initializeAfterChoice();
+				return true;
+			}
+
 			GenericRequest.handlingChoices = true;
 			boolean containsUpdate = ChoiceManager.processChoiceAdventure();
 			GenericRequest.handlingChoices = false;

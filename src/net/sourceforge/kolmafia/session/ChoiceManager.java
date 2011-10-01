@@ -78,6 +78,8 @@ public abstract class ChoiceManager
 	public static int lastDecision = 0;
 	public static String lastResponseText = "";
 
+	private static boolean initializeAfterChoice = false;
+
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	public static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
 	public static final Pattern CHOICE2_PATTERN = Pattern.compile( "value='(\\d+)' name='whichchoice'" );
@@ -2072,6 +2074,11 @@ public abstract class ChoiceManager
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -50 ) },
 	};
 
+	public static void initializeAfterChoice()
+	{
+		ChoiceManager.initializeAfterChoice = true;
+	}
+
 	private static final AdventureResult getCost( final int choice, final int decision )
 	{
 		for ( int i = 0; i < ChoiceManager.CHOICE_COST.length; ++i )
@@ -3401,6 +3408,20 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.LARS_THE_CYBERIAN, -1 );
 			}
 			break;
+		}
+
+		if ( ChoiceManager.initializeAfterChoice && text.indexOf( "choice.php" ) == -1 )
+		{
+			Thread initializeThread = new Thread( "PostChoiceInitializer" )
+			{
+				public void run()
+				{
+					StaticEntity.getClient().login( KoLCharacter.getUserName() );
+					ChoiceManager.initializeAfterChoice = false;
+				}
+			};
+
+			initializeThread.start();
 		}
 	}
 
