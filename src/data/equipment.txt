@@ -1394,6 +1394,7 @@ acid-squirting flower	50	Mys: 10
 albatross necklace	90	Mys: 15
 amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
+anniversary balsa wood socks	0	none
 anniversary burlap belt	10	none
 arrrgyle socks	70	Mys: 20
 astral belt	50	none
