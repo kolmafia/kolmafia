@@ -510,6 +510,16 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "burrowgrubHiveUsed" ) ? 0 : 1;
 
+		case ItemPool.MOVEABLE_FEAST:
+			String familiar = KoLCharacter.getFamiliar().getRace();
+			if ( Preferences.getString( "_feastedFamiliars" ).indexOf( familiar ) != -1 )
+			{
+				UseItemRequest.limiter = "a previous " + familiar + " feasting";
+				return 0; 
+			}
+			UseItemRequest.limiter = "daily limit";
+			return Math.max( 0, 5 - Preferences.getInteger( "_feastUsed" ) ); 
+
 		case ItemPool.MILK_OF_MAGNESIUM: {
 			UseItemRequest.limiter = "remaining fullness";
 			int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
@@ -4082,6 +4092,7 @@ public class UseItemRequest
 			// If we are redirected to a choice, the item is
 			// consumed elsewhere.
 			return;
+
 		case ItemPool.BORROWED_TIME:
 			// Set the preference to true both when we fail and succeed.
 			Preferences.setBoolean( "_borrowedTimeUsed", true );
@@ -4095,6 +4106,27 @@ public class UseItemRequest
 			else if ( responseText.indexOf( "dip into your future" ) != -1 )
 			{
 				KoLCharacter.updateStatus();
+			}
+			return;
+
+		case ItemPool.MOVEABLE_FEAST:
+			// The table is looking pretty bare -- you should wait
+			// until tomorrow, and let some of the food magically regenerate. 
+			if ( responseText.indexOf( "wait until tomorrow" ) != -1 )
+			{
+				Preferences.setInteger( "_feastUsed", 5 );
+			}
+
+			// <name> chows down on the moveable feast,
+			// then leans back, sighs, and loosens his belt a couple of notches. 
+			else if ( responseText.indexOf( "chows down" ) != -1 )
+			{
+				Preferences.increment( "_feastUsed", 1 );
+
+				String familiar = KoLCharacter.getFamiliar().getRace();
+				String oldList = Preferences.getString( "_feastedFamiliars" );
+				String newList = oldList + ( oldList.equals( "" ) ? "" : "," ) + familiar;
+				Preferences.setString( "_feastedFamiliars", newList );
 			}
 			return;
 		}
