@@ -89,6 +89,12 @@ Oscus's dumpster waders	epic wad
 Oscus's flypaper pants	epic wad
 Oscus's garbage can lid	epic wad
 Oscus's pelt	epic wad
+Uncle Hobo's gift baggy pants	epic wad
+Uncle Hobo's epic beard	epic wad
+Uncle Hobo's stocking cap	epic wad
+Uncle Hobo's fingerless tinsel gloves	epic wad
+Uncle Hobo's highest bough	epic wad
+Uncle Hobo's belt	epic wad
 Wand of Oscus	epic wad
 Zombo's grievous greaves	epic wad
 Zombo's shield	epic wad
@@ -134,6 +140,7 @@ bucket of anniversary lard	nosmash
 anniversary concrete fedora	nosmash
 anniversary safety glass vest	nosmash
 anniversary burlap belt	nosmash
+anniversary balsa wood socks nosmash
 
 # Miscellaneous exceptions.
 tiny plastic sword	nosmash
@@ -150,12 +157,16 @@ steely marble	useless powder
 beach ball marble	useless powder
 black catseye marble	useless powder
 big bumboozer marble	useless powder
+hobo code binder	nosmash
 
 # Equipment dropped, or made from drops, in The Sea has special results.
 7-inch discus	sea salt crystal
 aerated diving helmet	sea salt crystal
 amber aviator shades	sea salt crystal
 bezoar ring	sea salt crystal
+brand new key	sea salt crystal
+brass dorsal fin	sea salt crystal
+collapsible baton	sea salt crystal
 diving muff	sea salt crystal
 eelskin shield	sea salt crystal
 eelskin hat	sea salt crystal
@@ -185,6 +196,8 @@ rusty diving helmet	sea salt crystal
 sea salt scrubs	sea salt crystal
 shark jumper	sea salt crystal
 shark tooth necklace	sea salt crystal
+skate blade	sea salt crystal
+skate board	sea salt crystal
 sponge helmet	sea salt crystal
 spongy shield	sea salt crystal
 square sponge pants	sea salt crystal
@@ -255,6 +268,12 @@ Loathing Legion necktie	nosmash
 Loathing Legion pizza stone	nosmash
 Loathing Legion rollerblades	nosmash
 Loathing Legion tape measure	nosmash
+Crown of Thrones	nosmash
+stinky cheese sword	nosmash
+stinky cheese diaper	nosmash
+stinky cheese wheel	nosmash
+stinky cheese eye	nosmash
+Staff of Queso Escusado	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
