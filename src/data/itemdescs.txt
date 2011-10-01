@@ -3837,7 +3837,7 @@
 3836	424231419	elvisshades.gif	Elvish sunglasses	Elvish sunglassess
 3837	744630945	glassvest.gif	anniversary safety glass vest	anniversary safety glass vests
 3838	612792894	burlapbelt.gif	anniversary burlap belt	anniversary burlap belts
-3839
+3839	843314870	woodsocks.gif	anniversary balsa wood socks	pairs of anniversary balsa wood socks
 3840
 3841
 3842	629789423	biwa.gif	out-of-tune biwa	out-of-tune biwas

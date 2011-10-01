@@ -3464,7 +3464,7 @@
 3455	cotton candy bale	hpmp, candy	all	35
 3456	trusty torch	weapon	display	0
 3457	Junior Adventurer's merit badge	accessory	display	0
-3458	STYX deodorant body spray	usable	display	0
+3458	STYX deodorant body spray	reusable	display	0
 3459	white-label gin	drink	display	0
 3460	tin rations	food	display	0
 3461	haiku challenge map	none	none	0
@@ -3845,7 +3845,7 @@
 3836	Elvish sunglasses	accessory	all	0
 3837	anniversary safety glass vest	shirt	display	0
 3838	anniversary burlap belt	accessory	display	0
-3839
+3839	anniversary balsa wood socks	accessory	display	0
 3840
 3841
 3842	out-of-tune biwa	weapon	all	24
