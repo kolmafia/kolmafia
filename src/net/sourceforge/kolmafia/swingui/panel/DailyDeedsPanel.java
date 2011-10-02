@@ -50,6 +50,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -2191,6 +2192,7 @@ public class DailyDeedsPanel
 	{
 		public FeastDaily()
 		{
+			this.addItem( ItemPool.MOVEABLE_FEAST );
 			this.addListener( "_feastUsed" );
 			this.addListener( "_feastedFamiliars" );
 			this.addButton( "use moveable feast" );
@@ -2201,7 +2203,15 @@ public class DailyDeedsPanel
 		{
 			int fu = Preferences.getInteger( "_feastUsed" );
 			String list = Preferences.getString( "_feastedFamiliars" );
-			boolean have = InventoryManager.getCount(  ItemPool.MOVEABLE_FEAST ) > 0;
+			boolean have = InventoryManager.getCount( ItemPool.MOVEABLE_FEAST ) > 0;
+			for ( int i = 0; !have && i < KoLCharacter.getFamiliarList().size(); ++i )
+			{
+				FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get( i );
+				if ( current.getItem() != null && current.getItem().getItemId() == ItemPool.MOVEABLE_FEAST )
+				{
+					have = true;
+				}
+			}
 			this.buttonText( 0, "use moveable feast", fu + "/5" );
 			this.setText( list );
 			this.setShown( have );
