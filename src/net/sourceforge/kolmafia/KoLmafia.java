@@ -867,6 +867,7 @@ public abstract class KoLmafia
 		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
 
 		Preferences.setString( "barrelLayout", "?????????" );
+		Preferences.setBoolean( "bootsCharged", false );
 		Preferences.setBoolean( "breakfastCompleted", false );
 		Preferences.setBoolean( "burrowgrubHiveUsed", false );
 		Preferences.setInteger( "burrowgrubSummonsRemaining", 0 );
