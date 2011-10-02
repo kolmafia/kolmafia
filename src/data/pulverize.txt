@@ -274,12 +274,6 @@ Loathing Legion necktie	nosmash
 Loathing Legion pizza stone	nosmash
 Loathing Legion rollerblades	nosmash
 Loathing Legion tape measure	nosmash
-Crown of Thrones	nosmash
-stinky cheese sword	nosmash
-stinky cheese diaper	nosmash
-stinky cheese wheel	nosmash
-stinky cheese eye	nosmash
-Staff of Queso Escusado	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
