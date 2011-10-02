@@ -112,8 +112,8 @@ public class ChatBuffer
 	protected static final String NEW_LINE = System.getProperty( "line.separator" );
 	protected static final HashMap ACTIVE_LOG_FILES = new HashMap();
 
-	private static final int MAXIMUM_LENGTH = 25000;
-	private static final int TRIM_TO_LENGTH = 20000;
+	private static final int MAXIMUM_LENGTH = 50000;
+	private static final int TRIM_TO_LENGTH = 45000;
 
 	/**
 	 * Constructs a new <code>ChatBuffer</code>. However, note that this does not automatically translate into the
