@@ -5054,7 +5054,7 @@
 5045	astral hot dog dinner	usable	none	0
 5046	astral six-pack	usable	none	0
 5047	Clan shower	usable	all	0
-5048	shard of double-ice	multiple	all	0
+5048	shard of double-ice	multiple, combat	all	0
 5049	double-ice cap	hat	display	75
 5050	double-ice box	offhand	display	75
 5051	double-ice britches	pants	display	75
