@@ -706,6 +706,11 @@ public abstract class KoLCharacter
 		KoLmafia.statDay = HolidayDatabase.currentStatDay();
 	}
 
+	public static final void setFullness( final int fullness )
+	{
+		Preferences.setInteger( "currentFullness", fullness );
+	}
+
 	public static final int getFullness()
 	{
 		return Preferences.getInteger( "currentFullness" );

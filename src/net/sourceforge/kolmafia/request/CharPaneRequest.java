@@ -334,6 +334,14 @@ public class CharPaneRequest
 		{
 			StaticEntity.printStackTrace( e );
 		}
+		try
+		{
+			CharPaneRequest.handleFullness( responseText, CharPaneRequest.compactFullnessPatterns );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	private static final void handleExpandedMode( final String responseText )
@@ -365,6 +373,14 @@ public class CharPaneRequest
 		try
 		{
 			CharPaneRequest.handleInebriety( responseText, CharPaneRequest.expandedInebrietyPatterns );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		try
+		{
+			CharPaneRequest.handleFullness( responseText, CharPaneRequest.expandedFullnessPatterns );
 		}
 		catch ( Exception e )
 		{
@@ -487,23 +503,57 @@ public class CharPaneRequest
 		return Pattern.compile( mcString + "</a>: ?(?:</td><td>)?<b>(\\d+)</b>" );
 	}
 
-        private static Pattern [] compactMCPatterns =
-        {
-                CharPaneRequest.makeMCPattern( "MC" ),
-                CharPaneRequest.makeMCPattern( "Radio" ),
-                CharPaneRequest.makeMCPattern( "AOT5K" ),
-                CharPaneRequest.makeMCPattern( "HH" ),
-        };
+	private static Pattern [] compactMCPatterns =
+	{
+		CharPaneRequest.makeMCPattern( "MC" ),
+		CharPaneRequest.makeMCPattern( "Radio" ),
+		CharPaneRequest.makeMCPattern( "AOT5K" ),
+		CharPaneRequest.makeMCPattern( "HH" ),
+	};
 
-        private static Pattern [] expandedMCPatterns =
-        {
-                CharPaneRequest.makeMCPattern( "Mind Control" ),
-                CharPaneRequest.makeMCPattern( "Detuned Radio" ),
-                CharPaneRequest.makeMCPattern( "Annoy-o-Tron 5k" ),
-                CharPaneRequest.makeMCPattern( "Heartbreaker's" ),
-        };
+	private static Pattern [] expandedMCPatterns =
+	{
+		CharPaneRequest.makeMCPattern( "Mind Control" ),
+		CharPaneRequest.makeMCPattern( "Detuned Radio" ),
+		CharPaneRequest.makeMCPattern( "Annoy-o-Tron 5k" ),
+		CharPaneRequest.makeMCPattern( "Heartbreaker's" ),
+	};
 
 	private static final int handleMindControl( final String responseText, final Pattern pattern )
+	{
+		Matcher matcher = pattern.matcher( responseText );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	private static final Pattern makeConsumptionPattern( final String consumptionString )
+	{
+		return Pattern.compile( consumptionString + ": ?</td><td(?: align=left)?><b>(\\d+)</b>" );
+	}
+
+	private static Pattern [] compactInebrietyPatterns =
+	{
+		CharPaneRequest.makeConsumptionPattern( "Drunk" ),
+	};
+
+	private static Pattern [] expandedInebrietyPatterns =
+	{
+		CharPaneRequest.makeConsumptionPattern( "Drunkenness" ),
+		CharPaneRequest.makeConsumptionPattern( "Inebriety" ),
+		CharPaneRequest.makeConsumptionPattern( "Temulency" ),
+		CharPaneRequest.makeConsumptionPattern( "Tipsiness" ),
+	};
+
+	private static Pattern [] compactFullnessPatterns =
+	{
+		CharPaneRequest.makeConsumptionPattern( "Full" ),
+	};
+
+	private static Pattern [] expandedFullnessPatterns =
+	{
+		CharPaneRequest.makeConsumptionPattern( "Fullness" ),
+	};
+
+	private static final int handleConsumption( final String responseText, final Pattern pattern )
 	{
 		Matcher matcher = pattern.matcher( responseText );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
@@ -513,7 +563,7 @@ public class CharPaneRequest
 	{
 		for ( int i = 0; i < patterns.length; ++i )
 		{
-			int level = CharPaneRequest.handleInebriety( text, patterns[i] );
+			int level = CharPaneRequest.handleConsumption( text, patterns[i] );
 			if ( level > 0 )
 			{
 				KoLCharacter.setInebriety( level );
@@ -524,28 +574,17 @@ public class CharPaneRequest
 		KoLCharacter.setInebriety( 0 );
 	}
 
-	private static final Pattern makeInebrietyPattern( final String inebrietyString )
+	private static final void handleFullness( final String text, final Pattern [] patterns )
 	{
-		return Pattern.compile( inebrietyString + ": ?</td><td(?: align=left)?><b>(\\d+)</b>" );
-	}
-
-        private static Pattern [] compactInebrietyPatterns =
-        {
-                CharPaneRequest.makeInebrietyPattern( "Drunk" ),
-        };
-
-        private static Pattern [] expandedInebrietyPatterns =
-        {
-                CharPaneRequest.makeInebrietyPattern( "Drunkenness" ),
-                CharPaneRequest.makeInebrietyPattern( "Inebriety" ),
-                CharPaneRequest.makeInebrietyPattern( "Temulency" ),
-                CharPaneRequest.makeInebrietyPattern( "Tipsiness" ),
-        };
-
-	private static final int handleInebriety( final String responseText, final Pattern pattern )
-	{
-		Matcher matcher = pattern.matcher( responseText );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		for ( int i = 0; i < patterns.length; ++i )
+		{
+			int level = CharPaneRequest.handleConsumption( text, patterns[i] );
+			if ( level > 0 )
+			{
+				KoLCharacter.setFullness( level );
+				return;
+			}
+		}
 	}
 
 	public static final AdventureResult extractEffect( final String responseText, int searchIndex )
