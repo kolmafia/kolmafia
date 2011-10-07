@@ -2817,6 +2817,11 @@ public class Parser
 			{
 				buf.deleteCharAt( length - 1 );
 			}
+			else if ( name.endsWith( "ae" ) )
+			{
+				buf.delete( length - 2, length );
+				buf.insert( length - 2, "um" );
+			}
 			else
 			{
 				throw this.parseException( "Unknown type " + name );
