@@ -2817,10 +2817,10 @@ public class Parser
 			{
 				buf.deleteCharAt( length - 1 );
 			}
-			else if ( name.endsWith( "ae" ) )
+			else if ( name.endsWith( "a" ) )
 			{
-				buf.delete( length - 2, length );
-				buf.insert( length - 2, "um" );
+				buf.deleteCharAt( length - 1 );
+				buf.insert( length - 1, "um" );
 			}
 			else
 			{
