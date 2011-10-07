@@ -180,28 +180,6 @@ public class FightRequest
 	private static final Pattern MACRO_COMPACT_PATTERN =
 		Pattern.compile( "(?:#.*?)?([;\\n])[\\s;\\n]*" );
 
-	private static final Pattern BOSSBAT_PATTERN =
-		Pattern.compile( "until he disengages, two goofy grins on his faces.*?You lose ([\\d,]+)" );
-	private static final Pattern MANADRAIN_PATTERN =
-		Pattern.compile( "You feel power drain from you.*?You lose ([\\d,]+)" );
-	private static final Pattern GHUOL_HEAL = Pattern.compile( "feasts on a nearby corpse, and looks refreshed\\." );
-	private static final Pattern DA_HEAL =
-		Pattern.compile( "Dr\\. Awkward pulls out a small first-aid kit\\, and quickly patches himself up a bit\\." );
-	private static final Pattern NS_HEAL =
-		Pattern.compile( "The Sorceress pulls a tiny red vial out of the folds of her dress and quickly drinks it" );
-	private static final Pattern NS2_HEAL =
-		Pattern.compile( "Tentacles then emerge and pick off the scab\\. The creature emits what seems to be a satisfied sigh\\." );
-	private static final Pattern NSN_HEAL1 =
-		Pattern.compile( "She winks at you while she sensually rubs ointment on the bruise you just gave her\\. I won't say where\\." );
-	private static final Pattern NSN_HEAL2 =
-		Pattern.compile( "She lifts her skirt \\(not pictured\\) a little bit south of far enough and licentiously applies a bandage to her thigh\\." );
-	private static final Pattern NSN_HEAL3 =
-		Pattern.compile( "She extends her leg\\, slowly slides her garter bandage off and applies it to her forearm\\." );
-	private static final Pattern NSN_HEAL4 =
-		Pattern.compile( "She notices a bruise on the upper slopes of her cleavage\\, and kisses it better\\." );
-	private static final Pattern NSN_HEAL5 =
-		Pattern.compile( "She points out a little scratch on her cleavage and applies a bandage to it\\." );
-
 	private static final Pattern NS_ML_PATTERN =
 		Pattern.compile( "The Sorceress pauses for a moment\\, mutters some words under her breath\\, and straightens out her dress\\. Her skin seems to shimmer for a moment\\." );
 
@@ -2914,87 +2892,6 @@ public class FightRequest
 			}
 		}
 
-		m = FightRequest.BOSSBAT_PATTERN.matcher( responseText );
- 		if ( m.find() )
- 		{
- 			int healAmount = StringUtilities.parseInt( m.group( 1 ) );
- 			MonsterStatusTracker.healMonster( healAmount );
-
-			if ( Preferences.getBoolean( "logMonsterHealth" ) )
-			{
-				action.append( MonsterStatusTracker.getLastMonsterName() );
-				action.append( " sinks his fangs into you!" );
-				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-			}
- 		}
-
-		m = FightRequest.MANADRAIN_PATTERN.matcher( responseText );
-		if ( m.find() )
-		{
-			int healAmount = StringUtilities.parseInt( m.group( 1 ) );
- 			MonsterStatusTracker.healMonster( healAmount );
-
- 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
-			{
-				action.append( MonsterStatusTracker.getLastMonsterName() );
-				action.append( " drains your mana!" );
-				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-			}
-		}
-
-		if ( FightRequest.GHUOL_HEAL.matcher( responseText ).find() )
- 		{
-			int healAmount = 10;
- 			MonsterStatusTracker.healMonster( healAmount );
-
- 			if ( Preferences.getBoolean( "logMonsterHealth" ) )
-			{
-				action.append( MonsterStatusTracker.getLastMonsterName() );
-				action.append( " consumes a nearby corpse." );
-				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-			}
-		}
-
-		if ( FightRequest.DA_HEAL.matcher( responseText ).find() )
-		{
-			int healAmount = 50;
- 			MonsterStatusTracker.healMonster( healAmount );
-			if ( Preferences.getBoolean( "logMonsterHealth" ) )
-			{
-				action.append( MonsterStatusTracker.getLastMonsterName() );
-				action.append( " patches himself up a bit." );
-				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-			}
- 		}
-
-		if ( FightRequest.NS_HEAL.matcher( responseText ).find() || FightRequest.NS2_HEAL.matcher( responseText ).find() )
-		{
-			int healAmount = 125;
- 			MonsterStatusTracker.healMonster( healAmount );
-			if ( Preferences.getBoolean( "logMonsterHealth" ) )
-			{
-				action.append( MonsterStatusTracker.getLastMonsterName() );
-				action.append( " heals herself up." );
-				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-			}
-		}
-
-		if ( FightRequest.NSN_HEAL1.matcher( responseText ).find() ||
-		     FightRequest.NSN_HEAL2.matcher( responseText ).find() ||
-		     FightRequest.NSN_HEAL3.matcher( responseText ).find() ||
-		     FightRequest.NSN_HEAL4.matcher( responseText ).find() ||
-		     FightRequest.NSN_HEAL5.matcher( responseText ).find() )
-		{
-			int healAmount = 90;
-			MonsterStatusTracker.healMonster( healAmount );
-			if ( Preferences.getBoolean( "logMonsterHealth" ) )
-			{
-				action.append( MonsterStatusTracker.getLastMonsterName() );
-				action.append( " sultrily heals herself." );
-				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-			}
-		}
-
 		if ( !Preferences.getBoolean( "logMonsterHealth" ) )
 		{
 			return;
@@ -3834,6 +3731,23 @@ public class FightRequest
 				// the meat.
 
 				ResultProcessor.processMeat( str, status.won, status.nunnery );
+				status.shouldRefresh = true;
+				return;
+			}
+
+			if ( image.equals( "hp.gif" ) &&
+			     ( str.indexOf( "regains" ) != -1 ||
+			       str.indexOf( "She looks about" ) != -1 ) )
+			{
+				// The monster heals itself
+				Matcher m = INT_PATTERN.matcher( str );
+				int healAmount = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
+				}
+				MonsterStatusTracker.healMonster( healAmount );
+
 				status.shouldRefresh = true;
 				return;
 			}
