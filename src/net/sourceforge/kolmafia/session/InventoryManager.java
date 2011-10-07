@@ -341,7 +341,7 @@ public abstract class InventoryManager
 			{
 				if ( sim ) return "fail";
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "Don't know hot to retrieve a " + item.getName() );
+					KoLConstants.ERROR_STATE, "Don't know how to retrieve a " + item.getName() );
 				return null;
 			}
 
