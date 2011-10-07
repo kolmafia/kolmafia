@@ -1661,6 +1661,22 @@ public class FightRequest
 				FightRequest.canStomp = true;
 			}
 
+			if ( responseText.indexOf( "hear a wolf whistle" ) != -1)
+			{
+				Preferences.increment( "_romanticFightsLeft", -1 );
+				TurnCounter.stopCounting( "Romantic Monster window begin" );
+				TurnCounter.stopCounting( "Romantic Monster window end" );
+				if ( Preferences.getInteger( "_romanticFightsLeft" ) > 0 )
+				{
+					TurnCounter.startCounting( 15, "Romantic Monster window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 25, "Romantic Monster window end loc=*", "rparen.gif" );
+				}
+				else
+				{
+					Preferences.setString( "romanticTarget", "" );
+				}
+			}
+
 			// Increment stinky cheese counter
 			int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
 			if ( stinkyCount > 0 )
@@ -1711,6 +1727,25 @@ public class FightRequest
 				TurnCounter.stopCounting( "Bee window end" );
 				TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
+			}
+			else if ( !KoLmafia.ignoreSemirare &&
+				  ( encounter.equalsIgnoreCase( "Candied Yam Golem" ) ||
+					encounter.equalsIgnoreCase( "Malevolent Tofurkey" ) ||
+					encounter.equalsIgnoreCase( "Possessed Can of Cranberry Sauce" ) ||
+					encounter.equalsIgnoreCase( "Stuffing Golem" ) ||
+					encounter.equalsIgnoreCase( "Hammered Yam Golem" ) ||
+					encounter.equalsIgnoreCase( "Inebriated Tofurkey" ) ||
+					encounter.equalsIgnoreCase( "Plastered Can of Cranberry Sauce" ) ||
+					encounter.equalsIgnoreCase( "Soused Stuffing Golem" ) ||
+					encounter.equalsIgnoreCase( "El Novio Cad&aacute;ver" ) ||
+					encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
+					encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
+					encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ) )
+			{
+				TurnCounter.stopCounting( "Holiday Monster window begin" );
+				TurnCounter.stopCounting( "Holiday Monster window end" );
+				TurnCounter.startCounting( 25, "Holiday Monster window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 35, "Holiday Monster window end loc=*", "rparen.gif" );
 			}
 
 			MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
@@ -5085,7 +5120,15 @@ public class FightRequest
 					}
 					else if ( skillId.equals( "7108" ) )
 					{
+						boolean hasQuake = EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
+						int fights = hasQuake ? 3 : 2;
+						Preferences.setInteger( "_romanticFightsLeft", fights );
 						Preferences.setString( "romanticTarget", MonsterStatusTracker.getLastMonsterName() );
+
+						TurnCounter.stopCounting( "Romantic Monster window begin" );
+						TurnCounter.stopCounting( "Romantic Monster window end" );
+						TurnCounter.startCounting( 16, "Romantic Monster window begin loc=*", "lparen.gif" );
+						TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
 					}
 
 					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( "skill " + skill );

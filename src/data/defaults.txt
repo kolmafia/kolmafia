@@ -45,8 +45,8 @@ global	connectViaAddress	false
 global	cookies.inventory
 global	copyAsHTML	false
 global	customizedTabs	false
-global	dailyDeedsOptions	Breakfast,Daily Dungeon,Submit Spading Data,Crimbo Tree,Chips,Library Card,Telescope,Ball Pit,Styx Pixie,VIP Pool,April Shower,Bag o' Tricks,Legendary Beat,Outrageous Sombrero,Feast,Friars,Skate Park,Concert,Demon Summoning,Rage Gland,Free Rests,Hot Tub,Nuns,Oscus' Soda,Express Card,Flush Mojo,Pudding,Melange,Stills,Tea Party,Photocopy,Putty,Camera,Bonus Adventures,Familiar Drops,Free Fights,Free Runaways
-global	dailyDeedsVersion	1
+global	dailyDeedsOptions	Breakfast,Daily Dungeon,Submit Spading Data,Crimbo Tree,Chips,Library Card,Telescope,Ball Pit,Styx Pixie,VIP Pool,April Shower,Bag o' Tricks,Legendary Beat,Outrageous Sombrero,Feast,Friars,Skate Park,Concert,Demon Summoning,Rage Gland,Free Rests,Hot Tub,Nuns,Oscus' Soda,Express Card,Flush Mojo,Pudding,Melange,Stills,Tea Party,Photocopy,Putty,Camera,Romantic Arrow,Bonus Adventures,Familiar Drops,Free Fights,Free Runaways
+global	dailyDeedsVersion	2
 global	debugBuy	false
 global	debugConsequences	false
 global	debugPathnames	true
@@ -718,6 +718,7 @@ user	_poisonArrows	0
 user	_poolGames	0
 user	_precisionCasts	0
 user	_riftletAdv	0
+user	_romanticFightsLeft	0
 user	_sealFigurineUses	0
 user	_sealsSummoned	0
 user	_sexChanged	false

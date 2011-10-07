@@ -912,6 +912,12 @@ public abstract class KoLmafia
 		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();
 		KoLConstants.usableSkills.sort();
+
+		// Remove Wandering Monster counters
+		TurnCounter.stopCounting( "Romantic Monster window begin" );
+		TurnCounter.stopCounting( "Romantic Monster window end" );
+		TurnCounter.stopCounting( "Holiday Monster window begin" );
+		TurnCounter.stopCounting( "Holiday Monster window end" );
 	}
 
 	public void refreshSession()

@@ -189,6 +189,9 @@ public class DailyDeedsPanel
 			"Special", "Camera",
 		},
 		{
+			"Special", "Romantic Arrow",
+		},
+		{
 			"Special", "Bonus Adventures",
 		},
 		{
@@ -206,8 +209,10 @@ public class DailyDeedsPanel
 	{
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
-		
-		if ( deed.equals( ( "Feast" ) ) )
+
+		if ( deed.equals( ( "Romantic Arrow" ) ) )
+			return 2;
+		else if ( deed.equals( ( "Feast" ) ) )
 			return 1;
 		else
 			return 0;
@@ -726,6 +731,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Camera" ) )
 		{
 			this.add( new CameraDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Romantic Arrow" ) )
+		{
+			this.add( new RomanticDaily() );
 		}
 		else if ( deedsString[ 1 ].equals( "Bonus Adventures" ) )
 		{
@@ -2149,6 +2158,34 @@ public class DailyDeedsPanel
 				text = text + ", now " + monster;
 			}
 			this.setText( text );
+		}
+	}
+
+	public static class RomanticDaily
+		extends Daily
+	{
+		public RomanticDaily()
+		{
+			this.addListener( "_badlyRomanticArrows" );
+			this.addListener( "_romanticFightsLeft" );
+			this.addListener( "romanticTarget" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			boolean oa = KoLCharacter.findFamiliar( FamiliarPool.OBTUSE_ANGEL ) != null ;
+			String text = Preferences.getInteger( "_badlyRomanticArrows" ) > 0 ?
+				"Romantic Arrow used" :
+				"Romantic Arrow not used yet";
+			String monster = Preferences.getString( "romanticTarget" );
+			int left = Preferences.getInteger( "_romanticFightsLeft" );
+			if ( !monster.equals( "" ) && left > 0 )
+			{
+				text = text + ", now " + monster + " (" + left + " left)";
+			}
+			this.setText( text );
+			this.setShown( oa );
 		}
 	}
 
