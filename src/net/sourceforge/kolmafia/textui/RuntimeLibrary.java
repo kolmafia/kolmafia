@@ -350,6 +350,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_coinmaster", DataTypes.COINMASTER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_phylum", DataTypes.PHYLUM_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_plural", DataTypes.STRING_TYPE, params ) );
 
@@ -1213,6 +1216,12 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "monster_hp", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "monster_phylum", DataTypes.PHYLUM_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "monster_phylum", DataTypes.PHYLUM_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
@@ -1959,6 +1968,11 @@ public abstract class RuntimeLibrary
 	public static Value to_coinmaster( final Value value )
 	{
 		return DataTypes.parseCoinmasterValue( value.toString(), true );
+	}
+
+	public static Value to_phylum( final Value value )
+	{
+		return DataTypes.parsePhylumValue( value.toString(), true );
 	}
 
 	public static Value to_plural( final Value item ) {
@@ -4772,6 +4786,24 @@ public abstract class RuntimeLibrary
 		}
 
 		return new Value( monster.getHP() );
+	}
+
+	public static Value monster_phylum()
+	{
+		int phylum = MonsterStatusTracker.getMonsterPhylum();
+		return new Value( DataTypes.PHYLUM_TYPE, phylum, MonsterDatabase.phylumNames[ phylum ] );
+	}
+
+	public static Value monster_phylum( final Value arg )
+	{
+		MonsterData monster = (MonsterData) arg.rawValue();
+		if ( monster == null )
+		{
+			return DataTypes.PHYLUM_INIT;
+		}
+
+		int phylum = monster.getPhylum();
+		return new Value( DataTypes.PHYLUM_TYPE, phylum, MonsterDatabase.phylumNames[ phylum ] );
 	}
 
 	public static Value item_drops()

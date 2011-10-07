@@ -89,6 +89,7 @@ public class DataTypes
 	public static final int TYPE_MONSTER = 108;
 	public static final int TYPE_ELEMENT = 109;
 	public static final int TYPE_COINMASTER = 110;
+	public static final int TYPE_PHYLUM = 111;
 
 	public static final int TYPE_AGGREGATE = 1000;
 	public static final int TYPE_RECORD = 1001;
@@ -124,6 +125,7 @@ public class DataTypes
 	public static final Type MONSTER_TYPE = new Type( "monster", DataTypes.TYPE_MONSTER );
 	public static final Type ELEMENT_TYPE = new Type( "element", DataTypes.TYPE_ELEMENT );
 	public static final Type COINMASTER_TYPE = new Type( "coinmaster", DataTypes.TYPE_COINMASTER );
+	public static final Type PHYLUM_TYPE = new Type( "phylum", DataTypes.TYPE_PHYLUM );
 
 	public static final Type AGGREGATE_TYPE = new Type( "aggregate", DataTypes.TYPE_AGGREGATE );
 	
@@ -182,6 +184,7 @@ public class DataTypes
 	public static final Value MONSTER_INIT = new Value( DataTypes.MONSTER_TYPE, "none", (Object) null );
 	public static final Value ELEMENT_INIT = new Value( DataTypes.ELEMENT_TYPE, "none", (Object) null );
 	public static final Value COINMASTER_INIT = new Value( DataTypes.COINMASTER_TYPE, "none", (Object) null );
+	public static final Value PHYLUM_INIT = new Value( DataTypes.PHYLUM_TYPE, "none", (Object) null );
 
 	public static final TypeList simpleTypes = new TypeList();
 
@@ -207,6 +210,7 @@ public class DataTypes
 		simpleTypes.add( DataTypes.MONSTER_TYPE );
 		simpleTypes.add( DataTypes.ELEMENT_TYPE );
 		simpleTypes.add( DataTypes.COINMASTER_TYPE );
+		simpleTypes.add( DataTypes.PHYLUM_TYPE );
 	}
 
 	// For each simple data type X, we supply:
@@ -304,7 +308,7 @@ public class DataTypes
 
 	public static final Value parseLocationValue( final String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.LOCATION_INIT : null;
 		}
@@ -355,7 +359,7 @@ public class DataTypes
 
 	public static final Value parseClassValue( final String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.CLASS_INIT : null;
 		}
@@ -388,7 +392,7 @@ public class DataTypes
 
 	public static final Value parseStatValue( final String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.STAT_INIT : null;
 		}
@@ -411,7 +415,7 @@ public class DataTypes
 
 	public static final Value parseSkillValue( String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.SKILL_INIT : null;
 		}
@@ -435,7 +439,7 @@ public class DataTypes
 
 	public static final Value parseEffectValue( String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.EFFECT_INIT : null;
 		}
@@ -458,7 +462,7 @@ public class DataTypes
 
 	public static final Value parseFamiliarValue( String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.FAMILIAR_INIT : null;
 		}
@@ -480,7 +484,7 @@ public class DataTypes
 
 	public static final Value parseSlotValue( String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.SLOT_INIT : null;
 		}
@@ -502,7 +506,7 @@ public class DataTypes
 
 	public static final Value parseMonsterValue( final String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.MONSTER_INIT : null;
 		}
@@ -523,7 +527,7 @@ public class DataTypes
 
 	public static final Value parseElementValue( String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.ELEMENT_INIT : null;
 		}
@@ -543,9 +547,31 @@ public class DataTypes
 		return new Value( DataTypes.ELEMENT_TYPE, num, name );
 	}
 
+	public static final Value parsePhylumValue( String name, final boolean returnDefault )
+	{
+		if ( name == null || name.equals( "" ) )
+		{
+			return returnDefault ? DataTypes.PHYLUM_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
+		{
+			return DataTypes.PHYLUM_INIT;
+		}
+
+		int num = MonsterDatabase.phylumNumber( name );
+		if ( num == -1 )
+		{
+			return returnDefault ? DataTypes.PHYLUM_INIT : null;
+		}
+
+		name = MonsterDatabase.phylumNames[ num ];
+		return new Value( DataTypes.PHYLUM_TYPE, num, name );
+	}
+
 	public static final Value parseCoinmasterValue( String name, final boolean returnDefault )
 	{
-		if ( name == null || name.equals( "" )	)
+		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.COINMASTER_INIT : null;
 		}
@@ -720,6 +746,9 @@ public class DataTypes
 
 		case TYPE_COINMASTER:
 			return (String) InputFieldUtilities.input( message, CoinmasterRegistry.MASTERS );
+
+		case TYPE_PHYLUM:
+			return (String) InputFieldUtilities.input( message, MonsterDatabase.phylumNames );
 
 		case TYPE_CLASS:
 			return (String) InputFieldUtilities.input( message, DataTypes.CLASSES );

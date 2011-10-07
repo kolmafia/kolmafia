@@ -236,6 +236,16 @@ public class MonsterStatusTracker
 		return MonsterStatusTracker.monsterData.getDefenseElement();
 	}
 
+	public static final int getMonsterPhylum()
+	{
+		if ( MonsterStatusTracker.monsterData == null )
+		{
+			return MonsterDatabase.NONE;
+		}
+
+		return MonsterStatusTracker.monsterData.getPhylum();
+	}
+
 	public static final void raiseMonsterDefense( int amount )
 	{
 		MonsterStatusTracker.defenseModifier += amount;
