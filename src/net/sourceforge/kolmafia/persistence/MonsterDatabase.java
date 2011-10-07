@@ -68,13 +68,85 @@ public class MonsterDatabase
 	public static final int STENCH = 5;
 	public static final int SLIME = 6;
 
-	public static final String[] elementNames = { "none", "cold", "hot", "sleaze", "spooky", "stench", "slime" };
+	public static final String[] elementNames =
+	{
+		"none",
+		"cold",
+		"hot",
+		"sleaze",
+		"spooky",
+		"stench",
+		"slime"
+	};
+
+	// Phila
+	public static final int BEAST = 1;
+	public static final int BUG = 2;
+	public static final int CONSTELLATION = 3;
+	public static final int CRIMBO  = 4;
+	public static final int DEMIHUMAN = 5;
+	public static final int DEMON = 6;
+	public static final int ELEMENTAL = 7;
+	public static final int FISH = 8;
+	public static final int GOBLIN = 9;
+	public static final int HIPPY = 10;
+	public static final int HOBO = 11;
+	public static final int HUMANOID = 12;
+	public static final int HORROR = 13;
+	public static final int MER_KIN = 14;
+	public static final int OBJECT = 15;
+	public static final int ORC = 16;
+	public static final int PENGUIN = 17;
+	public static final int PIRATE = 18;
+	public static final int PLANT = 19;
+	public static final int SLIMES = 20;
+	public static final int STRANGE = 21;
+	public static final int UNDEAD = 22;
+
+	public static final String[] phylumNames =
+	{
+		"none",
+		"beast",
+		"bug",
+		"constellation",
+		"crimbo",
+		"demihuman",
+		"demon",
+		"elemental",
+		"fish",
+		"goblin",
+		"hippy",
+		"hobo",
+		"humanoid",
+		"horror",
+		"mer-kin",
+		"object",
+		"orc",
+		"penguin",
+		"pirate",
+		"plant",
+		"slime",
+		"strange",
+		"undead",
+	};
 
 	public static final int elementNumber( final String name )
 	{
 		for ( int i = 0; i < MonsterDatabase.elementNames.length; ++i )
 		{
 			if ( name.equals( MonsterDatabase.elementNames[ i ] ) )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static final int phylumNumber( final String name )
+	{
+		for ( int i = 0; i < MonsterDatabase.phylumNames.length; ++i )
+		{
+			if ( name.equals( MonsterDatabase.phylumNames[ i ] ) )
 			{
 				return i;
 			}
@@ -267,6 +339,7 @@ public class MonsterDatabase
 		int maxMeat = 0;
 		int attackElement = MonsterDatabase.NONE;
 		int defenseElement = MonsterDatabase.NONE;
+		int phylum = MonsterDatabase.NONE;
 		int poison = Integer.MAX_VALUE;
 
 		StringTokenizer tokens = new StringTokenizer( s, " " );
@@ -392,6 +465,21 @@ public class MonsterDatabase
 						continue;
 					}
 				}
+
+				else if ( option.equals( "P:" ) )
+				{
+					if ( tokens.hasMoreTokens() )
+					{
+						value = tokens.nextToken();
+						int num = MonsterDatabase.parsePhylum( value );
+						if ( num != MonsterDatabase.NONE )
+						{
+							phylum = num;
+							continue;
+						}
+					}
+				}
+
 				else if ( option.startsWith( "\"" ) )
 				{
 					StringBuffer temp = new StringBuffer( option );
@@ -423,7 +511,7 @@ public class MonsterDatabase
 		}
 
 		return new MonsterData( name, health, attack, defense, initiative, experience,
-			attackElement, defenseElement, minMeat, maxMeat, poison );
+			attackElement, defenseElement, minMeat, maxMeat, phylum, poison );
 	}
 
 	private static final Object parseNumeric( StringTokenizer tokens )
@@ -474,6 +562,99 @@ public class MonsterDatabase
 		if ( s.equals( "slime" ) )
 		{
 			return MonsterDatabase.SLIME;
+		}
+		return MonsterDatabase.NONE;
+	}
+
+	private static final int parsePhylum( final String s )
+	{
+		if ( s.equals( "beast" ) )
+		{
+			return MonsterDatabase.BEAST;
+		}
+		if ( s.equals( "bug" ) )
+		{
+			return MonsterDatabase.BUG;
+		}
+		if ( s.equals( "constellation" ) )
+		{
+			return MonsterDatabase.CONSTELLATION;
+		}
+		if ( s.equals( "crimbo" ) )
+		{
+			return MonsterDatabase.CRIMBO ;
+		}
+		if ( s.equals( "demihuman" ) )
+		{
+			return MonsterDatabase.DEMIHUMAN;
+		}
+		if ( s.equals( "demon" ) )
+		{
+			return MonsterDatabase.DEMON;
+		}
+		if ( s.equals( "elemental" ) )
+		{
+			return MonsterDatabase.ELEMENTAL;
+		}
+		if ( s.equals( "fish" ) )
+		{
+			return MonsterDatabase.FISH;
+		}
+		if ( s.equals( "goblin" ) )
+		{
+			return MonsterDatabase.GOBLIN;
+		}
+		if ( s.equals( "hippy" ) )
+		{
+			return MonsterDatabase.HIPPY;
+		}
+		if ( s.equals( "hobo" ) )
+		{
+			return MonsterDatabase.HOBO;
+		}
+		if ( s.equals( "humanoid" ) )
+		{
+			return MonsterDatabase.HUMANOID;
+		}
+		if ( s.equals( "horror" ) )
+		{
+			return MonsterDatabase.HORROR;
+		}
+		if ( s.equals( "mer-kin" ) )
+		{
+			return MonsterDatabase.MER_KIN;
+		}
+		if ( s.equals( "object" ) )
+		{
+			return MonsterDatabase.OBJECT;
+		}
+		if ( s.equals( "orc" ) )
+		{
+			return MonsterDatabase.ORC;
+		}
+		if ( s.equals( "penguin" ) )
+		{
+			return MonsterDatabase.PENGUIN;
+		}
+		if ( s.equals( "pirate" ) )
+		{
+			return MonsterDatabase.PIRATE;
+		}
+		if ( s.equals( "plant" ) )
+		{
+			return MonsterDatabase.PLANT;
+		}
+		if ( s.equals( "slime" ) )
+		{
+			return MonsterDatabase.SLIMES;
+		}
+		if ( s.equals( "strange" ) )
+		{
+			return MonsterDatabase.STRANGE;
+		}
+		if ( s.equals( "undead" ) )
+		{
+			return MonsterDatabase.UNDEAD;
 		}
 		return MonsterDatabase.NONE;
 	}

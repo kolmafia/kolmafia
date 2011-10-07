@@ -1,29 +1,3 @@
-package net.sourceforge.kolmafia.textui.parsetree;
-
-import java.io.PrintStream;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-
-import java.util.regex.Pattern;
-
-import net.sourceforge.kolmafia.CoinmasterRegistry;
-import net.sourceforge.kolmafia.KoLAdventure;
-
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
-
-import net.sourceforge.kolmafia.request.EquipmentRequest;
-
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.Interpreter;
-
 /**
  * Copyright (c) 2005-2011, KoLmafia development team
  * http://kolmafia.sourceforge.net/
@@ -56,6 +30,32 @@ import net.sourceforge.kolmafia.textui.Interpreter;
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+ 
+ package net.sourceforge.kolmafia.textui.parsetree;
+
+import java.io.PrintStream;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+
+import java.util.regex.Pattern;
+
+import net.sourceforge.kolmafia.CoinmasterRegistry;
+import net.sourceforge.kolmafia.KoLAdventure;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class Type
 	extends Symbol
@@ -175,6 +175,8 @@ public class Type
 			return DataTypes.ELEMENT_INIT;
 		case DataTypes.TYPE_COINMASTER:
 			return DataTypes.COINMASTER_INIT;
+		case DataTypes.TYPE_PHYLUM:
+			return DataTypes.PHYLUM_INIT;
 		}
 		return null;
 	}
@@ -213,6 +215,8 @@ public class Type
 			return DataTypes.parseElementValue( name, returnDefault );
 		case DataTypes.TYPE_COINMASTER:
 			return DataTypes.parseCoinmasterValue( name, returnDefault );
+		case DataTypes.TYPE_PHYLUM:
+			return DataTypes.parsePhylumValue( name, returnDefault );
 		}
 		return null;
 	}
@@ -266,6 +270,9 @@ public class Type
 			break;
 		case DataTypes.TYPE_COINMASTER:
 			this.addValues( list, CoinmasterRegistry.MASTERS );
+			break;
+		case DataTypes.TYPE_PHYLUM:
+			this.addValues( list, MonsterDatabase.phylumNames, 1, -1 );
 			break;
 		default:
 			return null;
