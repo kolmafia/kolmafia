@@ -727,9 +727,9 @@ public class CompactSidePane
 			String anno = CharPaneDecorator.getFamiliarAnnotation();
 			this.familiarLabel.setIcon( FamiliarDatabase.getFamiliarImage( id ) );
 			int weight = current.getModifiedWeight();
-			this.familiarLabel.setText( weight +
+			this.familiarLabel.setText( "<HTML><center>" + weight +
 				( weight == 1 ? " lb." : " lbs." ) +
-				( anno == null ? "" : ", " + anno ) );
+				( anno == null ? "" : ", " + anno ) + "</center></HTML>" );
 		}
 		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
