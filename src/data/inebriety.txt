@@ -16,7 +16,7 @@ astral pilsner	1	1		3	1	1	1
 banana daiquiri	3	3	good	6-10	10-26	10-26	17-43
 beertini	3	2	decent	4-8	0	10-12	10-12
 beignet milgranet	1	2	awesome	3-5	30-40	30-40	30-40	100 Sugar Rush
-berry-infused sake	4	7	awesome	14-17	0	0	75-120	1 Warm Belly (+hot damage, +10 Fishy)
+berry-infused sake	4	7	awesome	14-17	0	0	75-120	1 Warm Belly (+hot dmg, +10 Fishy)
 bilge wine	3	1	decent	3-6	0	0	0
 black &amp; tan	2	7	awesome	6-7	10-12	10-12	10-12	18-20 MP
 black and tan and red all over	4	1		10-15	0	0	0
@@ -28,7 +28,7 @@ bodyslam	6	6	awesome	22-26	16-20	0	0	tiny plastic sword
 boilermaker	4	12	awesome	11-15	25-29	10-15	10-15
 bone aperitif	2	6	awesome	7-9	12-20	12-20	12-20
 booze-soaked cherry	1	3	decent	1-3	0	5-10	0
-bordeaux marteaux	1	3	awesome	3-5	60-75	0	0	20 Hammered
+bordeaux marteaux	1	3	awesome	3-5	60-75	0	0	20 Hammered (+50% weapon dmg)
 bottle of calcutta emerald	3	2	decent	4-8	0	0	0
 bottle of cooking sherry	2	1	decent	2-4	0	0	0
 bottle of definit	3	2	decent	4-8	0	0	0
@@ -38,7 +38,7 @@ bottle of jorge sinsonte	3	2	decent	4-8	0	0	0
 bottle of lieutenant freeman	3	2	decent	4-8	0	0	0
 bottle of ooze-o	3	1	crappy	0	0	0	0	20 Really Quite Poisoned, lose 70 HP
 bottle of peppermint schnapps	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
-bottle of pete's sake	3	2	decent	4-8	0	0	0	1 Warm Belly (+hot damage, +10 Fishy)
+bottle of pete's sake	3	2	decent	4-8	0	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 bottle of pinot renoir	2	4	good	4-8	30	18	0
 bottle of popskull	2	1	decent	2-4	0	0	0	lose 3 HP
 bottle of realpagne	2	2	awesome	5-8	0	0	12-18	10 The Real Deal (+20 HP/MP regen)
@@ -61,8 +61,8 @@ can of swiller	1	10	good	2-4	10-15	0	0	15-20 MP
 candycaine	4	1		7-10	0	0	0	10 Sugar Rush
 canteen of wine	3	5	good	7-10	22-40	22-40	22-40	20 In Vino Vires (+50% all)
 cherry bomb	6	6	awesome	22-26	0	16-20	0	tiny plastic sword
-cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos
-citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot damage, +10 Fishy)
+cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
+citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 cobb's knob wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP
 cool mushroom wine	3	6	awesome	10-14	0	8-10	0
 corpse island iced tea	6	5	awesome	19-25	25-30	25-30	25-30
@@ -70,13 +70,13 @@ corpse on the beach	6	5	awesome	19-25	0	71-75	0
 corpsebite	3	1	good	6-10	11-15	11-15	11-15
 corpsedriver	6	5	awesome	19-25	70-74	0	0
 corpsetini	6	5	awesome	19-25	0	0	70-75
-cranberry schnapps	3	4	EPIC	18-19	0	61-68	0	10 Cranberry Cordiality
+cranberry schnapps	3	4	EPIC	18-19	0	61-68	0	10 Cranberry Cordiality (+10% meat drop)
 cream stout	1	3	good	1-4	8-10	8-10	8-10
 crimbco egg substitute nog substitute	4	1		7-8	0	0	0	lose 20% boredom
 crimbco extreme braincracker sour	5	1		12-13	0	0	0	lose 30% boredom
 crimbco ribbon candy schnapps	3	1		4-5	0	0	0	lose 10% boredom
 crimbco wine	3	1	decent	4-8	10-20	10-20	10-20
-cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon damage)
+cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg)
 cup of primitive beer	1	12	good	2-4	50-65	0	0	12-15 MP, lose 10-18 HP
 cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	crappy	1	0	0	0
@@ -101,7 +101,7 @@ ecto-nog	3	1		3-6	5-6	5-6	5-6
 eggnog	3	3	good	5-10	0	17-30	18-30
 eggnogtini	3	3		3-5	0	0	0	10 Sugar Rush
 elven cellocello	1	1	good	1-5	5-7	5-7	5-7	20 Sugar Rush
-elven moonshine	3	5	good	7-10	20-40	20-40	20-40	20 Drunk With Power (+100% spell damage)
+elven moonshine	3	5	good	7-10	20-40	20-40	20-40	20 Drunk With Power (+100% spell dmg)
 elven squeeze	3	4	good	5-8	20-30	20-30	20-30
 especially salty dog	4	4	good	9-13	32-50	32-50	32-50
 evil ducha de oro	4	4	awesome	12-16	8-10	0	50-75	10 A Little Bit Evil (+2 ML)
@@ -116,7 +116,7 @@ flaming mushroom wine	3	6	awesome	10-14	12-15	0	0
 flask of amontillado	4	4	awesome	10-15	10-30	15-30	10-30
 flat mushroom wine	3	6	awesome	10-14	8-10	0	0
 flute of flat champagne	2	2	decent	2-6	0	15	0
-fromage pinotage	1	3	awesome	3-5	0	60-75	0	20 Some Cheese With Your WIne
+fromage pinotage	1	3	awesome	3-5	0	60-75	0	20 Some Cheese With Your Wine (stench dmg)
 fruity girl swill	4	4	good	10-14	2-3	26-30	2-3
 fuzzbump	4	4	good	10-14	34-36	0	0
 giant glass of brandy	3	5	awesome	8-11	25-40	25-40	25-40	LARP membership card (1 time)
@@ -153,7 +153,7 @@ kamicorpse-ee	3	1	good	5-10	0	0	31-35
 knob mushroom wine	3	6	awesome	10-14	0	4-6	0
 knoll mushroom wine	3	6	awesome	10-14	4-6	0	0
 lumbering jack	3	1	decent	3-8	0	11-14	0
-lumineux limnio	1	2	awesome	3-5	0	35	0	30 Bright!
+lumineux limnio	1	2	awesome	3-5	0	35	0	30 Bright! (+100 max MP)
 lychee chuhai	3	4	decent	5-6	0	0	34-80	20 Brined Liver
 mad train wine	3	1	crappy	3-4	0	0	0
 mae west	4	6	awesome	14-18	0	0	40-47
@@ -163,7 +163,7 @@ margarita	3	1	decent	5-6	8-10	0	0
 marshmallow flamb&eacute;	2	3	EPIC	11-13	46-79	0	0	10 Sugar Rush
 martini	3	1	decent	5-6	0	0	8-10
 mcmillicancuddy's special lager	1	10	good	2-4	10-15	10-15	10-15	10-20 MP
-melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot damage, +10 Fishy)
+melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy)
 melted jell-o shot	1	10	good	2-4	0-40	0-40	0-40
 mimosette	3	3	good	5-10	16-20	0	0
 missing wine	2	5	good	4-8	0	0	31-50
@@ -175,10 +175,10 @@ morlock's mark bourbon	4	4	awesome	10-15	10-28	10-28	10-28
 morto moreto	1	5	awesome	3-5	0	0	0	100 Majorly Poisoned
 mt. noob pale ale	2	1	good	3-6	0	0	0
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
-muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin
+muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper)
 mutagin 'n' tonic	5	5		10-15	0	0	0
-nanite-infested eggnog	3	3	good	5-10	0	16-30	16-30	20 Chock Full o' Nanites (+10 HP/MP regen, +20 damage)
-natto-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please
+nanite-infested eggnog	3	3	good	5-10	0	16-30	16-30	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
+natto-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (3x critical, +15% critical spell)
 neuromancer	4	6	awesome	14-18	25-27	0	16-20
 ocean motion	4	4	good	10-14	25-27	8-10	0
 oil nog	4	5		7-9	0	0	0
@@ -240,7 +240,7 @@ slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
-soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic
+soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)
 soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
 spasmi dolorosi del rene champagne	1	10	EPIC	6-10	60	60	60
 spiced rum	3	2	decent	4-8	0	0	17-30
@@ -260,7 +260,7 @@ tequila with training wheels	3	3	good	5-10	8-9	0	0
 temps tempranillo	1	4	awesome	3-5	15-30	15-30	15-30
 thermos full of knob coffee	1	1	EPIC	5-6	5-6	5-6	5-6	lose 1-2 HP
 thistle wine	1	10	good	2-4	0	0	30-60	lose 50-75 HP
-tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces
+tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spell dmg)
 tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
 typical tavern swill	3	1	decent	5-6	1-2	1-2	1-2
@@ -271,7 +271,7 @@ vodka and tonic	3	3	good	5-10	0	16-20	0
 vodka gibson	3	3	good	5-10	0	0	16-20
 vodka martini	3	1	decent	5-6	0	0	8-10
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
-wasabi-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You
+wasabi-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
 whiskey and cola	3	1	decent	5-6	0	4-6	4-6	14-16 MP
 whiskey and soda	3	1	decent	5-6	0	8-10	0	3-5 MP
 whiskey bittersweet	3	3	good	5-10	16-20	0	0
