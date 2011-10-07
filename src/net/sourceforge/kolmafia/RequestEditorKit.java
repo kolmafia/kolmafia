@@ -1247,6 +1247,8 @@ public class RequestEditorKit
 		monsterData.append( MonsterStatusTracker.getMonsterAttack() );
 		monsterData.append( ", Def: " );
 		monsterData.append( MonsterStatusTracker.getMonsterDefense() );
+		monsterData.append( ", Type: " );
+		monsterData.append( MonsterDatabase.phylumNames[ MonsterStatusTracker.getMonsterPhylum() ] );
 
 		if ( monsterName.indexOf( "pirate" ) != -1 )
 		{
