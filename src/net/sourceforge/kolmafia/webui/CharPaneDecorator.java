@@ -137,7 +137,7 @@ public class CharPaneDecorator
 		{
 			CharPaneDecorator.addRecentLocations( buffer, GenericRequest.compactCharacterPane );
 		}
-		
+
 		CharPaneDecorator.addFamiliarAnnotation( buffer,
 			CharPaneDecorator.getFamiliarAnnotation(),
 			GenericRequest.compactCharacterPane );
@@ -166,13 +166,12 @@ public class CharPaneDecorator
 			return Preferences.getInteger( "_banderRunaways" ) + "/" +
 				fam.getModifiedWeight() / 5;
 		case FamiliarPool.BOOTS:
-			String alert;
-			alert = "";
-			if( Preferences.getInteger( "_bootStomps" )!=1 ) alert = alert + "s";
-			if( Preferences.getBoolean( "bootsCharged" ) ) alert = alert + "!";
 			return Preferences.getInteger( "_banderRunaways" ) + "/" +
-				fam.getModifiedWeight() / 5 + " runs, " + 
-				Preferences.getInteger( "_bootStomps" ) + "/7 stomp" + alert;
+				fam.getModifiedWeight() / 5 + " runs" +
+				"<br>" +
+				Preferences.getInteger( "_bootStomps" ) + "/7 " +
+				( Preferences.getInteger( "_bootStomps" ) == 1 ? " stomp" : " stomps" ) +
+				( Preferences.getBoolean( "bootsCharged" ) ? "!" : "" );
 		case FamiliarPool.GIBBERER:
 		case FamiliarPool.HARE:
 			return Preferences.getInteger( "extraRolloverAdventures" ) + " adv";
@@ -182,7 +181,8 @@ public class CharPaneDecorator
 			return Preferences.getInteger( "_hipsterAdv" ) + "/7";
 		case FamiliarPool.GRINDER:
 			return Preferences.getString( "_pieDrops" ) +
-				( Preferences.getInteger( "_pieDrops" ) == 1 ? " pie, " : " pies, " ) +
+				( Preferences.getInteger( "_pieDrops" ) == 1 ? " pie" : " pies" ) +
+				"<br>" +
 				Preferences.getString( "_piePartsCount" ) +
 				( Preferences.getInteger( "_piePartsCount" ) == 1 ? " part" : " parts" );
 		case FamiliarPool.ALIEN:
@@ -217,6 +217,7 @@ public class CharPaneDecorator
 		int pos;
 		if ( compact )
 		{
+			text = text + "<br>";
 			pos = buffer.indexOf( "<a target=mainpane href=\"familiar.php\"" );
 			if ( pos == -1 ) return;
 			buffer.insert( pos, text );
@@ -225,7 +226,7 @@ public class CharPaneDecorator
 		{
 			pos = buffer.indexOf( "<b>Familiar:</b>" );
 			if ( pos == -1 ) return;
-			buffer.insert( pos + 16, " (" + text + ")" );
+			buffer.insert( pos + 16, "<br>(" + text + ")" );
 		}
 	}
 
