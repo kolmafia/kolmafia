@@ -45,6 +45,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -92,6 +93,7 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
@@ -857,6 +859,49 @@ public class RequestEditorKit
 				{
 					StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/onfocus.js\"></script>" );
 				}
+			}
+		}
+
+		if ( addComplexFeatures )
+		{
+			if ( location.indexOf( "lchat.php" ) == -1 && EventManager.hasEvents() )
+			{
+				Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( buffer.toString() );
+
+				if ( eventMatcher.find() )
+				{
+					buffer.setLength( 0 );
+					buffer.append( eventMatcher.replaceFirst( "" ) );
+				}
+
+				StringBuffer eventsTable = new StringBuffer();
+
+				eventsTable.append( "<center><table width=95% cellspacing=0 cellpadding=0>" );
+				eventsTable.append( "<tr><td style=\"color: white;\" align=center bgcolor=orange>" );
+				eventsTable.append( "<b>New Events:</b>" );
+				eventsTable.append( "</td></tr>" );
+				eventsTable.append( "<tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>" );
+
+				Iterator eventHyperTextIterator = EventManager.getEventHyperTexts().iterator();
+
+				while ( eventHyperTextIterator.hasNext() )
+				{
+					eventsTable.append( eventHyperTextIterator.next() );
+
+					if ( eventHyperTextIterator.hasNext() )
+					{
+						eventsTable.append( "<br />" );
+					}
+				}
+
+				eventsTable.append( "</td></tr>" );
+				eventsTable.append( "<tr><td height=4></td></tr>" );
+				eventsTable.append( "</table></center>" );
+
+				int eventTableInsertIndex = buffer.indexOf( "</div>" ) + 6;
+				buffer.insert( eventTableInsertIndex, eventsTable.toString() );
+
+				EventManager.clearEventHistory();
 			}
 		}
 

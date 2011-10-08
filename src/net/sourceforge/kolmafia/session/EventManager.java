@@ -56,26 +56,32 @@ import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public class EventManager
 {
-	private static final LockableListModel eventHistory = new LockableListModel();
+	private static final LockableListModel eventTexts = new LockableListModel();
+	private static final LockableListModel eventHyperTexts = new LockableListModel();
 
-	private static final Pattern EVENT_PATTERN =
-		Pattern.compile( "bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
+	public static final Pattern EVENT_PATTERN =
+		Pattern.compile( "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
 	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
 
 	public static boolean hasEvents()
 	{
-		return !EventManager.eventHistory.isEmpty();
+		return !EventManager.eventTexts.isEmpty();
 	}
 
 	public static void clearEventHistory()
 	{
-		EventManager.eventHistory.clear();
+		EventManager.eventTexts.clear();
 	}
 
-	public static LockableListModel getEventHistory()
+	public static LockableListModel getEventTexts()
 	{
-		return EventManager.eventHistory;
+		return EventManager.eventTexts;
+	}
+
+	public static LockableListModel getEventHyperTexts()
+	{
+		return EventManager.eventHyperTexts;
 	}
 
 	public static void addChatEvent( final String eventHTML )
@@ -98,6 +104,15 @@ public class EventManager
 		if ( eventHTML.indexOf( "logged" ) != -1 || eventHTML.indexOf( "has left the building" ) != -1 )
 		{
 			return false;
+		}
+
+		if ( addTimestamp )
+		{
+			EventManager.eventHyperTexts.add( EventManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + eventHTML );
+		}
+		else
+		{
+			EventManager.eventHyperTexts.add( eventHTML );
 		}
 
 		boolean moneyMakingGameEvent = eventHTML.indexOf( "href='bet.php'" ) != -1;
@@ -124,27 +139,11 @@ public class EventManager
 
 		if ( addTimestamp )
 		{
-			EventManager.eventHistory.add( EventManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + eventText );
+			EventManager.eventTexts.add( EventManager.EVENT_TIMESTAMP.format( new Date() ) + " - " + eventText );
 		}
 		else
 		{
-			EventManager.eventHistory.add( eventText );
-		}
-
-		if ( !LoginRequest.isInstanceRunning() )
-		{
-			// Print everything to the default shell; this way, the
-			// graphical CLI is also notified of events.
-
-			RequestLogger.printLine( eventHTML );
-
-			// Balloon messages for whenever the person does not have
-			// focus on KoLmafia.
-
-			if ( StaticEntity.usesSystemTray() )
-			{
-				SystemTrayFrame.showBalloon( eventText );
-			}
+			EventManager.eventTexts.add( eventText );
 		}
 
 		return true;

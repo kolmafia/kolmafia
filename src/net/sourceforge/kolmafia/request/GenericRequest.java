@@ -1859,7 +1859,7 @@ public class GenericRequest
 			return;
 		}
 
-		if ( !this.isChatRequest && !urlString.startsWith( "fight.php" ) )
+		if ( !this.isChatRequest )
 		{
 			EventManager.checkForNewEvents( this.responseText );
 		}
