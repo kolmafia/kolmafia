@@ -150,11 +150,11 @@ public class EventManager
 		return true;
 	}
 
-	public static String checkForNewEvents( String responseText )
+	public static void checkForNewEvents( String responseText )
 	{
 		if ( responseText == null )
 		{
-			return null;
+			return;
 		}
 
 		// Capture the entire new events table in order to display the
@@ -163,7 +163,7 @@ public class EventManager
 		Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( responseText );
 		if ( !eventMatcher.find() )
 		{
-			return responseText;
+			return;
 		}
 
 		// Make an array of events
@@ -178,10 +178,6 @@ public class EventManager
 			}
 		}
 
-		// Remove the events from the response text
-
-		responseText = eventMatcher.replaceFirst( "" );
-
 		for ( int i = 0; i < events.length; ++i )
 		{
 			EventManager.addNormalEvent( events[ i ] );
@@ -191,8 +187,6 @@ public class EventManager
 				ChatManager.broadcastEvent( new EventMessage( events[i], "green" ) );
 			}
 		}
-
-		return responseText;
 	}
 
 }
