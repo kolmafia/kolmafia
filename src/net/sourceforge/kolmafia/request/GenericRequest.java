@@ -1861,7 +1861,7 @@ public class GenericRequest
 
 		if ( !this.isChatRequest && !urlString.startsWith( "fight.php" ) )
 		{
-			this.responseText = EventManager.checkForNewEvents( this.responseText );
+			EventManager.checkForNewEvents( this.responseText );
 		}
 
 		if ( GenericRequest.isRatQuest )
