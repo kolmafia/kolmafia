@@ -53,7 +53,7 @@ public class EventsCommand
 		}
 		else
 		{
-			RequestLogger.printList( EventManager.getEventHistory() );
+			RequestLogger.printList( EventManager.getEventTexts() );
 		}
 	}
 }
