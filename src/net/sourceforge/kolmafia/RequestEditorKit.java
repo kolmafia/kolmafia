@@ -864,14 +864,25 @@ public class RequestEditorKit
 
 		if ( addComplexFeatures )
 		{
-			if ( location.indexOf( "lchat.php" ) == -1 && EventManager.hasEvents() )
-			{
-				Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( buffer.toString() );
+			Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( buffer.toString() );
 
-				if ( eventMatcher.find() )
+			boolean hasEvents = EventManager.hasEvents();
+			boolean showingEvents = eventMatcher.find();
+
+			if ( hasEvents && ( location.indexOf( "main.php" ) != -1 || showingEvents ) )
+			{
+				int eventTableInsertIndex = 0;
+
+				if ( showingEvents )
 				{
+					eventTableInsertIndex = eventMatcher.start();
+
 					buffer.setLength( 0 );
 					buffer.append( eventMatcher.replaceFirst( "" ) );
+				}
+				else
+				{
+					eventTableInsertIndex = buffer.indexOf( "</div>" ) + 6;
 				}
 
 				StringBuffer eventsTable = new StringBuffer();
@@ -898,7 +909,6 @@ public class RequestEditorKit
 				eventsTable.append( "<tr><td height=4></td></tr>" );
 				eventsTable.append( "</table></center>" );
 
-				int eventTableInsertIndex = buffer.indexOf( "</div>" ) + 6;
 				buffer.insert( eventTableInsertIndex, eventsTable.toString() );
 
 				EventManager.clearEventHistory();
