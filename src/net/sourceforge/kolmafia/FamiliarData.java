@@ -197,6 +197,11 @@ public class FamiliarData
 
 	public final boolean isUnexpectedFamiliar()
 	{
+		if ( this.id == -1 && KoLCharacter.getCurrentRun() == 0 )
+		{
+			return true;
+		}
+
 		int singleFamiliarRun = getSingleFamiliarRun();
 
 		return singleFamiliarRun > 0 && this.id != singleFamiliarRun;
