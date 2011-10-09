@@ -330,8 +330,8 @@ Endangered Inflatable White Tiger	HP: 100000 Def: 100000 Atk: 100000
 Enraged Cow	HP: 100000 Def: 100000 Atk: 100000
 Erudite Gremlin	HP: 170 Def: 169 Atk: 171 Meat: 40-60 P: demihuman	gremlin juice (3)	molybdenum crescent wrench (c0)
 Essence of Interspecies Respect	HP: 50 Def: 25 Atk: 25 P: elemental	essential cameraderie (0)
-Essence of Soy	HP: 0 P: elemental	essential soy (0)
-Essence of Tofu	HP: 65 P: elemental	essential tofu (0)
+Essence of Soy	HP: 60 Def: 20 Atk: 30 P: elemental	essential soy (0)
+Essence of Tofu	HP: 60 Def: 30 Atk: 20 P: elemental	essential tofu (0)
 Evil Cultist	HP: 70 Def: 50 Atk: 60 P: humanoid	memory of a cultist's robe (0)
 Evil Olive	HP: 140 Def: 145 Atk: 145 P: beast	bottle of gin (30)	olive (40)	jumbo olive (10)
 Evil spaghetti cult assassin	HP: 115 Def: 95 Atk: 95 P: humanoid
@@ -512,7 +512,7 @@ Koopa Troopa	HP: 15 Def: 20 Atk: 20 P: beast	black pixel (50)	green pixel (80)	w
 L Imp	HP: 44 Def: 44 Atk: 44 E: heat Meat: 24-36 P: demon	Imp Ale (30)	cast (30)	flaming crutch (30)
 Lamz0r N00b	HP: 69 Def: 79 Atk: 79 Meat: 24-36 P: humanoid	33398 scroll (30)	draggin' ball hat (10)	plastic guitar (10)	Nardz energy beverage (p30)
 Large Kobold	HP: 60 Def: 50 Atk: 57 P: demihuman	ring of aggravate monster (15)	small box (40)	worthless piece of yellow glass (b0)
-Larry of the Field of Signs	HP: 0 Atk: 70	observational glasses (100)
+Larry of the Field of Signs	HP: 70 Def: 70 Atk: 70 Init: 50	observational glasses (100)
 Larval Filthworm	HP: 180 Def: 165 Atk: 165 Init: 50 Meat: 41-60 E: stench P: bug	filthworm hatchling scent gland (10)
 Lemon-In-The-Box	HP: 12 Def: 17 Atk: 17 P: object	box (20)	lemon (50)
 Lesser Fruit Golem	HP: 9 Def: 18 Atk: 18 P: object	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
@@ -578,7 +578,7 @@ Mob Penguin Smasher		chunk of depleted Grimacite (0)	kneecapping stick (0)	pengu
 Mob Penguin Smith		chunk of depleted Grimacite (0)	iron pasta spoon (0)	scroll of pasta summoning (0)
 Mob Penguin Supervisor		chunk of depleted Grimacite (0)	mafia aria (0)	Mob Penguin cellular phone (0)	support cummerbund (0)
 Mobile Armored Sweat Lodge	HP: 300 Atk: 180 E: stench Phys: 50 P: hippy	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
-Modern Zmobie	E: spooky P: undead
+Modern Zmobie	HP: 50 Def: 60 Atk: 60 E: spooky P: undead
 Monkey Wrenchin' Elf	P: crimbo	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
 Monty Basingstoke-Pratt, IV	HP: 240 Meat: 174-215 E: sleaze	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 Mother hellseal	HP: 157 P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
@@ -642,7 +642,7 @@ Pretty Fly	HP: 100000 Def: 100000 Atk: 100000
 Procrastination Giant	HP: 150 Def: 125 Atk: 125 Meat: 120-180 P: demihuman	procrastination potion (30)
 Propaganda-Spewin' Elf	P: crimbo	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
 Protagonist	HP: 80 Def: 100 Atk: 100 Init: 80 Meat: 80-120 P: humanoid	phonics down (40)	ridiculously huge sword (10)	super-spiky hair gel (20)	ocarina of space (5)
-Protector Spectre	HP: 116 Def: 168 Phys: 100	ancient amulet (100)	spectre scepter (100)
+Protector Spectre	HP: 100 Def: 168 Phys: 100	ancient amulet (100)	spectre scepter (100)
 Provocateur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Psychedelic Fur	HP: 18 Def: 21 Atk: 21 P: strange	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 Pufferfish	HP: 750 Def: 500 Atk: 400 Meat: 160-240 P: fish	pufferfish spine (n5)	rough fish scale (n4)	seaweed (n5)
@@ -808,7 +808,7 @@ The Queen Filthworm	HP: 200 Def: 173 Atk: 173 Init: 50 Meat: 1000 E: stench	hear
 The Remains of a Jilted Mistress	HP: 145 Def: 154 Atk: 164 ED: spooky P: undead	antique hand mirror (40)
 The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze P: constellation	star (30)	star (30)	line (30)	line (30)
 The Spirit of New Wave	HP: 260 Def: 185 Atk: 185 Init: 90
-The Temporal Bandit	HP: 0	Counterclockwise Watch (100)
+The Temporal Bandit	HP: 50	Counterclockwise Watch (100)
 The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze P: constellation	line (30)	line (30)	line (30)
 The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze P: constellation	line (30)	star (30)	star (30)
 The Whole Kingdom	HP: 10000000 Def: 1 Atk: 1 Phys: 100
@@ -855,7 +855,7 @@ Vendor Slime	HP: 160 Def: 145 Atk: 145 P: slime	vial of red slime (0)
 Vengeful Turtle Spectre	HP: 18 Def: 21 Atk: 21 P: undead	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 Vicious Easel	HP: 100000 Def: 100000 Atk: 100000
 Vicious Gnauga	HP: 40 Def: 40 Atk: 45 P: beast	gnauga hide (10)
-Victor the Insult Comic Hellhound	HP: 0 Atk: 70	Victor, the Insult Comic Hellhound Puppet (100)
+Victor the Insult Comic Hellhound	HP: 70 Def: 70 Atk: 70 Init: 50	Victor, the Insult Comic Hellhound Puppet (100)
 Vine Gar	HP: 180 Def: 196 Atk: 196	vinegar (30)	vinegar (30)
 Violent Fungus	HP: 25 Def: 20 Atk: 20 P: plant	memory of some delicious amino acids (30)	memory of some delicious amino acids (30)
 W Imp	HP: 40 Def: 40 Atk: 40 E: heat Meat: 24-36 P: demon	Imp Ale (30)	ruby W (30)	wussiness potion (30)	infernal fife (10)
@@ -936,13 +936,13 @@ Bee Thoven	HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil(
 Queen Bee	HP: [ceil((MUS+40+ML)*.625)] Def: [ceil((MUS+40+ML)*5/6)] Atk: [ceil((MOX+40+ML)*5/6)]	handful of honey (0)	handful of honey (0)	handful of honey (0)
 
 # Spaaace
-Alielf	HP: 0 P: horror	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
-Cat-Alien	HP: 0 P: horror	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)
-Dog-Alien	HP: 0 P: horror	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
-Dogcat	HP: 0 P: horror	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
-Ferrelf	HP: 0 P: horror	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
+Alielf	HP: [min(460,MUS+10+ML)*0.75] Def: [min(460,MUS+10+ML)] Atk: [min(460,MOX+10+ML)] P: horror	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
+Cat-Alien	HP: [min(450,MUS+8+ML)*0.75] Def: [min(450,MUS+8+ML)] Atk: [min(450,MOX+8+ML)] P: horror	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)
+Dog-Alien	HP: [min(450,MUS+8+ML)*0.75] Def: [min(450,MUS+8+ML)] Atk: [min(450,MOX+8+ML)] P: horror	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
+Dogcat	HP: [min(450,MUS+10+ML)*0.75] Def: [min(450,MUS+10+ML)] Atk: [min(450,MOX+10+ML)] P: horror	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
+Ferrelf	HP: [min(440,MUS+7+ML)*0.75] Def: [min(440,MUS+7+ML)] Atk: [min(440,MOX+7+ML)] P: horror	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
 Grizzled Survivor	HP: [min(310,MUS+ML+5)*0.75] Def: [min(310,MUS+ML+5)] Atk: [min(310,MOX+ML+5)] P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter II (15)
-Hamsterpus	HP: 0 P: horror	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
+Hamsterpus	HP: [min(430,MUS+5+ML)*0.75] Def: [min(430,MUS+5+ML)] Atk: [min(430,MOX+5+ML)] P: horror	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
 Overarmed Survivor	HP: [min(320,MUS+ML+5)*0.75] Def: [min(320,MUS+ML+5)] Atk: [min(320,MOX+ML+5)] P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter V (15)
 Primitive Survivor	HP: [min(310,MUS+ML+5)*0.75] Def: [min(310,MUS+ML+5)] Atk: [min(310,MOX+ML+5)] P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter VI (15)
 Unhinged Survivor	HP: [min(300,MUS+ML+5)*0.75] Def: [min(300,MUS+ML+5)] Atk: [min(300,MOX+ML+5)] P: humanoid	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter I (15)
