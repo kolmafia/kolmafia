@@ -5305,3 +5305,11 @@
 5296
 5297	dungeon dragon chest	usable	display	0
 5298	phish stick	food	all	0
+5299	plastic vampire fangs	accessory	display	0
+5300	Interview With You (a Vampire)	usable	all	111
+5301	Make-Your-Own-Vampire-Fangs kit	usable	all	0
+5302	your own black heart	usable	display	111
+5303	Sword of the Brouhaha Prince	offhand	display	 111
+5304	Chalice of the Malkovich Prince	offhand	display	 111
+5305	Sceptre of the Torremolinos Prince	offhand	display	111
+5306	Medallion of the Ventrilo Prince	offhand	display	111
