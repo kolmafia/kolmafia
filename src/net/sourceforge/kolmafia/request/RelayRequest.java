@@ -1723,7 +1723,8 @@ public class RelayRequest
 			// Check for a 100% familiar run if the current familiar
 			// has zero combat experience.
 
-			boolean isPossibleCombatLocation = areaSummary == null || areaSummary.combats() > 0 || areaSummary.combats() == -1;
+			boolean isPossibleCombatLocation =
+				this.data.isEmpty() && ( areaSummary == null || areaSummary.combats() > 0 || areaSummary.combats() == -1 );
 
 			if ( KoLCharacter.getFamiliar().isUnexpectedFamiliar() && isPossibleCombatLocation &&
 				 ( !KoLCharacter.kingLiberated() || KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT ) )
