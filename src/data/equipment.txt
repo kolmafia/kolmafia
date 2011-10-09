@@ -969,6 +969,7 @@ BRICKO bulwark	60	none	shield
 Bag o' Tricks	0	none
 Brimstone Bunker	240	Mus: 30	shield
 C.H.U.M. lantern	100	Mus: 150
+Chalice of the Malkovich Prince	0	none
 Cloaca-Cola shield	70	none	shield
 Codex of Capsaicin Conjuration	30	none
 Cookbook of the Damned	30	none
@@ -1000,6 +1001,7 @@ Loathing Legion many-purpose hook	0	none
 Loathing Legion moondial	0	none
 Loathing Legion pizza stone	100	none	shield
 Loathing Legion tape measure	0	none
+Medallion of the Ventrilo Prince	0	none
 Mer-kin roundshield	215	Mus: 85	shield
 Mer-kin takebag	200	Mys: 85
 Mr. Balloon	10	none
@@ -1010,9 +1012,11 @@ Ol' Scratch's stove door	240	Mus: 200	shield
 Operation Patriot Shield	240	none	shield
 Oscus's garbage can lid	240	Mus: 200	shield
 Raggedy Hippy doll	10	none
+Sceptre of the Torremolinos Prince	0	none
 Seven Loco	0	none
 Sinful Desires	30	none
 Spanish fly trap	10	none
+Sword of the Brouhaha Prince	0	none
 The Spirit of Crimbo	0	none
 Tiki lighter	20	none
 Tuesday's ruby	120	Mys: 45

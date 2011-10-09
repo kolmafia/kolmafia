@@ -5297,3 +5297,11 @@
 5296
 5297	853487229	chest.gif	dungeon dragon chest
 5298	790092369	phishstick.gif	phish stick	phish sticks
+5299	724945195	vampirefangs.gif	plastic vampire fangs
+5300	591301518	book3.gif	Interview With You (a Vampire)	copies of Interview With You (a Vampire)
+5301	855608589	fangskit.gif	Make-Your-Own-Vampire-Fangs kit
+5302	969698727	heart.gif	your own black heart	black vampire hearts
+5303	495767298	vampsword.gif	Sword of the Brouhaha Prince
+5304	534611026	vampchalice.gif	Chalice of the Malkovich Prince
+5305	475867577	vampsceptre.gif	Sceptre of the Torremolinos Prince
+5306	546884701	vampmedal.gif	Medallion of the Ventrilo Prince

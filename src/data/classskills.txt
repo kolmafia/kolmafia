@@ -390,6 +390,7 @@
 7113	Squeeze Stress Ball	5	0	0
 7114	Throw Shield	5	0	0
 7115	Release the Boots	5	0	0
+7116	Feed	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

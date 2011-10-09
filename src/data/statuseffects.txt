@@ -930,3 +930,8 @@
 929	Natural 20	d20.gif	58d21100fc1eb85f0f1ee2ed818f00ab	use 1 d20
 930	Natural 1	d20.gif	824353af18b95d53ee665c614bdb8c37	use 1 d20
 931	20/20 Vision	eyes.gif	96745c53cafa4b00c38d8caa491a5f1a	use 20 d20
+932	Mistified	famspirit.gif	98c31ab5b2eb658338a7816ab2d93d44
+933	Bat Attitude	bat.gif	9ffce772c60c8bf71d3eac3974d614cb
+934	There Wolf	wolfmask.gif	02f23a504339a3803e97324d5af13db2
+935	Pride of the Vampire	vampirefangs.gif	1be892a67365bfd314e3a4456665cac5
+936	Prince of Seaside Town	crown.gif	379b1014e45c59ddc795cac103390472
