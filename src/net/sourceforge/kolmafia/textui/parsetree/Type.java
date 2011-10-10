@@ -128,6 +128,10 @@ public class Type
 		{
 			return ProxyRecordValue.LocationProxy._type;
 		}
+		if ( this == DataTypes.MONSTER_TYPE )
+		{
+			return ProxyRecordValue.MonsterProxy._type;
+		}
 		if ( this == DataTypes.COINMASTER_TYPE )
 		{
 			return ProxyRecordValue.CoinmasterProxy._type;

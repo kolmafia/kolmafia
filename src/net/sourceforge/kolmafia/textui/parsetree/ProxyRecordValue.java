@@ -45,11 +45,15 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -505,6 +509,94 @@ public class ProxyRecordValue
 		public String get_parentdesc()
 		{
 			return ((KoLAdventure) this.content).getParentZoneDescription();
+		}
+	}
+
+	public static class MonsterProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "base_hp", DataTypes.INT_TYPE )
+			.add( "base_attack", DataTypes.INT_TYPE )
+			.add( "base_defense", DataTypes.INT_TYPE )
+			.add( "base_initiative", DataTypes.INT_TYPE )
+			.add( "attack_element", DataTypes.ELEMENT_TYPE )
+			.add( "defense_element", DataTypes.ELEMENT_TYPE )
+			.add( "min_meat", DataTypes.INT_TYPE )
+			.add( "max_meat", DataTypes.INT_TYPE )
+			.add( "base_mainstat_exp", DataTypes.FLOAT_TYPE )
+			.add( "phylum", DataTypes.PHYLUM_TYPE )
+			.add( "poison", DataTypes.EFFECT_TYPE )
+			.finish( "monster proxy" );
+
+		public MonsterProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+
+		public int get_base_hp()
+		{
+			return ((MonsterData) this.content).getHP();
+		}
+
+		public int get_base_attack()
+		{
+			return ((MonsterData) this.content).getAttack();
+		}
+
+		public int get_base_defense()
+		{
+			return ((MonsterData) this.content).getDefense();
+		}
+
+		public int get_base_initiative()
+		{
+			return ((MonsterData) this.content).getInitiative();
+		}
+
+		public Value get_attack_element()
+		{
+			return DataTypes.parseElementValue(
+				MonsterDatabase.elementNames[ ((MonsterData) this.content).getAttackElement() ],
+				true );
+		}
+
+		public Value get_defense_element()
+		{
+			return DataTypes.parseElementValue(
+				MonsterDatabase.elementNames[ ((MonsterData) this.content).getDefenseElement() ],
+				true );
+		}
+
+		public int get_min_meat()
+		{
+			return ((MonsterData) this.content).getMinMeat();
+		}
+
+		public int get_max_meat()
+		{
+			return ((MonsterData) this.content).getMaxMeat();
+		}
+
+		public float get_base_mainstat_exp()
+		{
+			return ((MonsterData) this.content).getExperience();
+		}
+
+		public Value get_phylum()
+		{
+			return DataTypes.parsePhylumValue(
+				MonsterDatabase.phylumNames[ ((MonsterData) this.content).getPhylum() ],
+				true );
+		}
+
+		public Value get_poison()
+		{
+			int poisonLevel = ((MonsterData) this.content).getPoison();
+			String poisonName = poisonLevel == Integer.MAX_VALUE ? 
+				"none" :
+				EffectDatabase.getEffectName( AdventureSelectPanel.POISON_ID[ poisonLevel ] );
+			return DataTypes.parseEffectValue( poisonName, true );
 		}
 	}
 
