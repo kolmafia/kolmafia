@@ -5292,9 +5292,9 @@
 5291	968770514	potion1.gif	generic healing potion	generic healing potions
 5292	912486561	potion2.gif	generic mana potion	generic mana potions
 5293	283043014	potion3.gif	generic restorative potion	generic restorative potions
-5294
-5295
-5296
+5294	820041504	chest.gif	kobold treasure hoard
+5295	778374045	newbold.gif	newborn kobold
+5296	132335428	ragpile.gif	slightly thicker filthy rags
 5297	853487229	chest.gif	dungeon dragon chest
 5298	790092369	phishstick.gif	phish stick	phish sticks
 5299	724945195	vampirefangs.gif	plastic vampire fangs

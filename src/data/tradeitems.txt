@@ -5300,9 +5300,9 @@
 5291	generic healing potion	hp	all	50
 5292	generic mana potion	mp	all	50
 5293	generic restorative potion	hpmp	all	50
-5294
-5295
-5296
+5294	kobold treasure hoard	usable	all	0
+5295	newborn kobold	grow	all	0
+5296	slightly thicker filthy rags	familiar	all	75
 5297	dungeon dragon chest	usable	display	0
 5298	phish stick	food	all	0
 5299	plastic vampire fangs	accessory	display	0

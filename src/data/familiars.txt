@@ -157,3 +157,4 @@
 148	Li'l Xenomorph	lilxeno.gif	stat0	5164	tiny top hat and cane	3	2	1	3
 149	Dataspider	dataspider.gif	combat	5191	solid state loom	2	1	2	3
 150	Pair of Stomping Boots	stompboots.gif	item0, combat	4536	stomp box	3	0	2	2
+151	Feral Kobold	kobold.gif	combat	5295	slightly thicker filthy rags	0	0	0	0

@@ -2150,6 +2150,7 @@ serrated proboscis extension	Familiar Weight: +20
 # shock collar: Familiar Will Attack You Less Often
 six-armed sweater	Familiar Weight: +5
 skewer-mounted razor blade	Familiar Weight: +5
+slightly thicker filthy rags	Familiar Weight: +5
 smile-sharpening stone	Familiar Weight: +5
 # smiley-face sticker: +10 lbs. of Volleyball
 smiley-face sticker	Experience: +3.16
