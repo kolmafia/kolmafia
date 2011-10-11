@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -211,6 +212,8 @@ public class ProxyRecordValue
 			.add( "reusable", DataTypes.BOOLEAN_TYPE )
 			.add( "usable", DataTypes.BOOLEAN_TYPE )
 			.add( "multi", DataTypes.BOOLEAN_TYPE )
+			.add( "bounty", DataTypes.LOCATION_TYPE )
+			.add( "bounty_count", DataTypes.INT_TYPE )
 			.add( "seller", DataTypes.COINMASTER_TYPE )
 			.add( "buyer", DataTypes.COINMASTER_TYPE )
 			.finish( "item proxy" );
@@ -295,22 +298,38 @@ public class ProxyRecordValue
 		public boolean get_reusable()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getConsumptionType( id) == KoLConstants.INFINITE_USES ||
+			return ItemDatabase.getConsumptionType( id ) == KoLConstants.INFINITE_USES ||
 				ItemDatabase.getAttribute( id, ItemDatabase.ATTR_REUSABLE | ItemDatabase.ATTR_COMBAT_REUSABLE );
 		}
 
 		public boolean get_usable()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getConsumptionType( id) == KoLConstants.CONSUME_USE ||
+			return ItemDatabase.getConsumptionType( id ) == KoLConstants.CONSUME_USE ||
 				ItemDatabase.getAttribute( id, ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE );
 		}
 
 		public boolean get_multi()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.getConsumptionType( id) == KoLConstants.CONSUME_MULTIPLE ||
+			return ItemDatabase.getConsumptionType( id ) == KoLConstants.CONSUME_MULTIPLE ||
 				ItemDatabase.getAttribute( id, ItemDatabase.ATTR_MULTIPLE );
+		}
+
+		public Value get_bounty()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			KoLAdventure adventure = AdventureDatabase.getBountyLocation( id );
+			return adventure == null ?
+			       DataTypes.LOCATION_INIT :
+			       DataTypes.parseLocationValue( adventure.getAdventureName(), true );
+		}
+
+		public int get_bounty_count()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			AdventureResult bounty = AdventureDatabase.getBounty( id );
+			return bounty == null ? 0 : bounty.getCount();
 		}
 
 		public CoinmasterData get_seller()
@@ -484,6 +503,7 @@ public class ProxyRecordValue
 			.add( "zone", DataTypes.STRING_TYPE )
 			.add( "parent", DataTypes.STRING_TYPE )
 			.add( "parentdesc", DataTypes.STRING_TYPE )
+			.add( "bounty", DataTypes.ITEM_TYPE )
 			.finish( "location proxy" );
 
 		public LocationProxy( Value obj )
@@ -509,6 +529,14 @@ public class ProxyRecordValue
 		public String get_parentdesc()
 		{
 			return ((KoLAdventure) this.content).getParentZoneDescription();
+		}
+
+		public Value get_bounty()
+		{
+			AdventureResult bounty = AdventureDatabase.getBounty( (KoLAdventure) this.content );
+			return bounty == null ?
+			       DataTypes.ITEM_INIT :
+			       DataTypes.parseItemValue( bounty.getName(), true );
 		}
 	}
 
