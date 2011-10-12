@@ -3548,6 +3548,8 @@ public class FightRequest
 		Pattern.compile( "You drop your .*? on your .*?, doing ([\\d,]+) damage" );
 	private static final Pattern MOSQUITO_PATTERN =
 		Pattern.compile( "sucks some blood out of your opponent and injects it into you." );
+	private static final Pattern ADORABLE_SEAL_PATTERN =
+		Pattern.compile( "greedily sucks the vital juices from the wound" );
 	private static Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
 	private static Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 
@@ -3563,6 +3565,17 @@ public class FightRequest
 		case FamiliarPool.MOSQUITO:
 		{
 			Matcher m = FightRequest.MOSQUITO_PATTERN.matcher( text );
+			if ( m.find() )
+			{
+				status.mosquito = true;
+			}
+			break;
+		}
+
+		case FamiliarPool.ADORABLE_SEAL_LARVA:
+		{
+			Matcher m = FightRequest.ADORABLE_SEAL_PATTERN.matcher( text );
+
 			if ( m.find() )
 			{
 				status.mosquito = true;
