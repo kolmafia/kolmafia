@@ -1133,7 +1133,7 @@ Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Softc
 # Operation Patriot Shield	MP Regen Min: 5, MP Regen Max: 6, Spell Damage: +20
 Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15
 # Raggedy Hippy doll
-Sceptre of the Torremolinos	Prince Mysticality Percent: +12
+Sceptre of the Torremolinos Prince	Mysticality Percent: +12
 Seven Loco	Booze Drop: +5, Candy Drop: +5
 # Sinful Desires: All Spells Cast Are Sleazy
 Sinful Desires	Spell Damage: +10
