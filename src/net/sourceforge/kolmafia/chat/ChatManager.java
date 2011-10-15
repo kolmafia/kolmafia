@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.session.EventManager;
 
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -616,7 +617,9 @@ public abstract class ChatManager
 		{
 			if ( ChatManager.tabbedFrame == null )
 			{
-				ChatManager.tabbedFrame = (TabbedChatFrame) new CreateFrameRunnable( TabbedChatFrame.class ).createFrame();
+				CreateFrameRunnable creator = new CreateFrameRunnable( TabbedChatFrame.class );
+				boolean appearsInTab = GenericFrame.appearsInTab( "ChatManager" );
+				ChatManager.tabbedFrame = (TabbedChatFrame) creator.createFrame( appearsInTab );
 			}
 
 			ChatManager.tabbedFrame.addTab( bufferKey );
