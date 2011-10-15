@@ -1189,9 +1189,11 @@ public class UseItemRequest
 			return true;
 		}
 
-		// Cast Ode automatically if you have enough mana.
+		// Cast Ode automatically if you have enough mana,
+		// when you are out of Ronin/HC
 		int odeCost = SkillDatabase.getMPConsumptionById( 6014 );
-		while ( odeTurns < consumptionTurns &&
+		while ( KoLCharacter.canInteract() &&
+			odeTurns < consumptionTurns &&
 			KoLCharacter.getCurrentMP() >= odeCost &&
 			KoLmafia.permitsContinue() )
 		{
