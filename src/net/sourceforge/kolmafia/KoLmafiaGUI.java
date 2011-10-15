@@ -38,9 +38,6 @@ import java.util.ArrayList;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
-import net.sourceforge.foxtrot.ConcurrentWorker;
-import net.sourceforge.foxtrot.Job;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
