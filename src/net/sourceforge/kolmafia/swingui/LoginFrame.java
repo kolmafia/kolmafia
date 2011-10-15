@@ -171,11 +171,18 @@ public class LoginFrame
 
 	public JPanel constructLoginPanel()
 	{
+		String logoName = Preferences.getString( "loginWindowLogo" );
+
+		if ( logoName.endsWith( ".jpg" ) )
+		{
+			logoName = logoName.substring( 0, logoName.length() - 4 ) + ".gif";
+			Preferences.setString( "loginWindowLogo", logoName );
+		}
+
 		JPanel imagePanel = new JPanel( new BorderLayout( 0, 0 ) );
 		imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
 		imagePanel.add(
-			new JLabel(
-				JComponentUtilities.getImage( Preferences.getString( "loginWindowLogo" ) ), SwingConstants.CENTER ),
+			new JLabel( JComponentUtilities.getImage( logoName ), SwingConstants.CENTER ),
 			BorderLayout.SOUTH );
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );

@@ -100,7 +100,7 @@ global	loginRecoveryHardcore	false
 global	loginRecoverySoftcore	true
 global	loginScript
 global	loginServerName
-global	loginWindowLogo	lantern.jpg
+global	loginWindowLogo	lantern.gif
 global	logMonsterHealth	true
 global	logoutScript
 global	logReverseOrder	false
