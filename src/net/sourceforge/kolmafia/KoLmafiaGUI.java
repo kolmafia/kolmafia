@@ -298,220 +298,184 @@ public class KoLmafiaGUI
 
 	public static final void constructFrame( final Class frameClass )
 	{
-		try
-		{
-			FrameConstructor maker = new FrameConstructor( frameClass );
+		// Now, test to see if any requests need to be run before
+		// you fall into the event dispatch thread.
 
-			if ( SwingUtilities.isEventDispatchThread() )
+		if ( frameClass == BuffBotFrame.class )
+		{
+			BuffBotManager.loadSettings();
+		}
+		else if ( frameClass == BuffRequestFrame.class )
+		{
+			if ( !BuffBotDatabase.hasOfferings() )
 			{
-				ConcurrentWorker.post( maker );
-			}
-			else
-			{
-				maker.run();
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No buffs found to purchase." );
+				RequestThread.enableDisplayIfSequenceComplete();
+				return;
 			}
 		}
-		catch ( Exception e )
+		else if ( frameClass == CakeArenaFrame.class )
 		{
-			// Should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
+			if ( CakeArenaManager.getOpponentList().isEmpty() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
+				RequestThread.enableDisplayIfSequenceComplete();
+				return;
+			}
 		}
-	}
-
-	private static class FrameConstructor
-		extends Job
-	{
-		public Class frameClass;
-
-		public FrameConstructor( final Class frameClass )
+		else if ( frameClass == CalendarFrame.class )
 		{
-			this.frameClass = frameClass;
+			String base = "http://images.kingdomofloathing.com/otherimages/bikini/";
+			for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
+			{
+				FileUtilities.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
+			}
+			base = "http://images.kingdomofloathing.com/otherimages/beefcake/";
+			for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
+			{
+				FileUtilities.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
+			}
 		}
-
-		public Object run()
+		else if ( frameClass == ClanManageFrame.class )
 		{
-			// Now, test to see if any requests need to be run before
-			// you fall into the event dispatch thread.
+			if ( Preferences.getBoolean( "clanAttacksEnabled" ) )
+			{
+				RequestThread.postRequest( new ClanWarRequest() );
+			}
 
-			if ( this.frameClass == BuffBotFrame.class )
+			if ( Preferences.getBoolean( "autoSatisfyWithStash" ) && ClanManager.getStash().isEmpty() )
 			{
-				BuffBotManager.loadSettings();
+				KoLmafia.updateDisplay( "Retrieving clan stash contents..." );
+				RequestThread.postRequest( new ClanStashRequest() );
 			}
-			else if ( this.frameClass == BuffRequestFrame.class )
+		}
+		else if ( frameClass == ContactListFrame.class )
+		{
+			if ( GenericFrame.appearsInTab( "ContactListFrame" ) )
 			{
-				if ( !BuffBotDatabase.hasOfferings() )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No buffs found to purchase." );
-					RequestThread.enableDisplayIfSequenceComplete();
-					return null;
-				}
+				return;
 			}
-			else if ( this.frameClass == CakeArenaFrame.class )
+		}
+		else if ( frameClass == FamiliarTrainingFrame.class )
+		{
+			if ( CakeArenaManager.getOpponentList().isEmpty() )
 			{
-				if ( CakeArenaManager.getOpponentList().isEmpty() )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
-					RequestThread.enableDisplayIfSequenceComplete();
-					return null;
-				}
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
+				RequestThread.enableDisplayIfSequenceComplete();
+				return;
 			}
-			else if ( this.frameClass == CalendarFrame.class )
-			{
-				String base = "http://images.kingdomofloathing.com/otherimages/bikini/";
-				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
-				{
-					FileUtilities.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
-				}
-				base = "http://images.kingdomofloathing.com/otherimages/beefcake/";
-				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
-				{
-					FileUtilities.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
-				}
-			}
-			else if ( this.frameClass == ClanManageFrame.class )
-			{
-				if ( Preferences.getBoolean( "clanAttacksEnabled" ) )
-				{
-					RequestThread.postRequest( new ClanWarRequest() );
-				}
+		}
+		else if ( frameClass == FlowerHunterFrame.class )
+		{
+			KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
+			RequestThread.postRequest( new PvpRequest() );
 
-				if ( Preferences.getBoolean( "autoSatisfyWithStash" ) && ClanManager.getStash().isEmpty() )
+			if ( KoLmafia.refusesContinue() )
+			{
+				return;
+			}
+		}
+		else if ( frameClass == ItemManageFrame.class )
+		{
+			// The Crimbo Cafe is not open
+
+			/*
+			if ( KoLConstants.cafeItems.isEmpty() )
+			{
+				CrimboCafeRequest.getMenu();
+			}
+			*/
+
+			// If the person is in Bad Moon, retrieve
+			// information from Hell's Kitchen.
+
+			if ( KoLCharacter.inBadMoon() )
+			{
+				if ( KoLConstants.kitchenItems.isEmpty() )
 				{
-					KoLmafia.updateDisplay( "Retrieving clan stash contents..." );
+					HellKitchenRequest.getMenu();
+				}
+			}
+
+			// If the person is in a mysticality sign, make
+			// sure you retrieve information from the
+			// restaurant.
+
+			if ( KoLCharacter.canEat() && KoLCharacter.canadiaAvailable() )
+			{
+				if ( KoLConstants.restaurantItems.isEmpty() )
+				{
+					ChezSnooteeRequest.getMenu();
+				}
+			}
+
+			// If the person is in a moxie sign and they
+			// have completed the beach quest, then
+			// retrieve information from the microbrewery.
+
+			if ( KoLCharacter.canDrink() && KoLCharacter.gnomadsAvailable() && KoLConstants.microbreweryItems.isEmpty() )
+			{
+				GenericRequest beachCheck = new GenericRequest( "main.php" );
+				RequestThread.postRequest( beachCheck );
+
+				if ( beachCheck.responseText.indexOf( "beach.php" ) != -1 )
+				{
+					MicroBreweryRequest.getMenu();
+				}
+			}
+
+			if ( Preferences.getBoolean( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+			{
+				if ( !ClanManager.isStashRetrieved() )
+				{
 					RequestThread.postRequest( new ClanStashRequest() );
 				}
 			}
-			else if ( this.frameClass == ContactListFrame.class )
-			{
-				if ( GenericFrame.appearsInTab( "ContactListFrame" ) )
-				{
-					return null;
-				}
-			}
-			else if ( this.frameClass == FamiliarTrainingFrame.class )
-			{
-				if ( CakeArenaManager.getOpponentList().isEmpty() )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
-					RequestThread.enableDisplayIfSequenceComplete();
-					return null;
-				}
-			}
-			else if ( this.frameClass == FlowerHunterFrame.class )
-			{
-				KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
-				RequestThread.postRequest( new PvpRequest() );
 
-				if ( KoLmafia.refusesContinue() )
-				{
-					return null;
-				}
-			}
-			else if ( this.frameClass == ItemManageFrame.class )
-			{
-				// The Crimbo Cafe is not open
-
-				/*
-				if ( KoLConstants.cafeItems.isEmpty() )
-				{
-					CrimboCafeRequest.getMenu();
-				}
-				*/
-
-				// If the person is in Bad Moon, retrieve
-				// information from Hell's Kitchen.
-
-				if ( KoLCharacter.inBadMoon() )
-				{
-					if ( KoLConstants.kitchenItems.isEmpty() )
-					{
-						HellKitchenRequest.getMenu();
-					}
-				}
-
-				// If the person is in a mysticality sign, make
-				// sure you retrieve information from the
-				// restaurant.
-
-				if ( KoLCharacter.canEat() && KoLCharacter.canadiaAvailable() )
-				{
-					if ( KoLConstants.restaurantItems.isEmpty() )
-					{
-						ChezSnooteeRequest.getMenu();
-					}
-				}
-
-				// If the person is in a moxie sign and they
-				// have completed the beach quest, then
-				// retrieve information from the microbrewery.
-
-				if ( KoLCharacter.canDrink() && KoLCharacter.gnomadsAvailable() && KoLConstants.microbreweryItems.isEmpty() )
-				{
-					GenericRequest beachCheck = new GenericRequest( "main.php" );
-					RequestThread.postRequest( beachCheck );
-
-					if ( beachCheck.responseText.indexOf( "beach.php" ) != -1 )
-					{
-						MicroBreweryRequest.getMenu();
-					}
-				}
-
-				if ( Preferences.getBoolean( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
-				{
-					if ( !ClanManager.isStashRetrieved() )
-					{
-						RequestThread.postRequest( new ClanStashRequest() );
-					}
-				}
-
-			}
-			else if ( this.frameClass == RelayServer.class )
-			{
-				RelayLoader.openRelayBrowser();
-				return null;
-			}
-			else if ( this.frameClass == MuseumFrame.class )
-			{
-				if ( !KoLCharacter.hasDisplayCase() )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sorry, you don't have a display case." );
-					return null;
-				}
-
-				if ( DisplayCaseManager.getHeaders().isEmpty() )
-				{
-					RequestThread.postRequest( new DisplayCaseRequest() );
-				}
-			}
-			else if ( this.frameClass == MushroomFrame.class )
-			{
-				for ( int i = 0; i < MushroomManager.MUSHROOMS.length; ++i )
-				{
-					FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomManager.MUSHROOMS[ i ][ 1 ] );
-				}
-			}
-			else if ( this.frameClass == StoreManageFrame.class )
-			{
-				if ( !KoLCharacter.hasStore() )
-				{
-					KoLmafia.updateDisplay( "You don't own a store in the Mall of Loathing." );
-					RequestThread.enableDisplayIfSequenceComplete();
-					return null;
-				}
-
-				RequestThread.openRequestSequence();
-
-				StoreManager.clearCache();
-				RequestThread.postRequest( new ManageStoreRequest( false ) );
-
-				RequestThread.closeRequestSequence();
-			}
-
-			( new CreateFrameRunnable( this.frameClass ) ).run();
-			return null;
 		}
+		else if ( frameClass == RelayServer.class )
+		{
+			RelayLoader.openRelayBrowser();
+			return;
+		}
+		else if ( frameClass == MuseumFrame.class )
+		{
+			if ( !KoLCharacter.hasDisplayCase() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sorry, you don't have a display case." );
+				return;
+			}
+
+			if ( DisplayCaseManager.getHeaders().isEmpty() )
+			{
+				RequestThread.postRequest( new DisplayCaseRequest() );
+			}
+		}
+		else if ( frameClass == MushroomFrame.class )
+		{
+			for ( int i = 0; i < MushroomManager.MUSHROOMS.length; ++i )
+			{
+				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomManager.MUSHROOMS[ i ][ 1 ] );
+			}
+		}
+		else if ( frameClass == StoreManageFrame.class )
+		{
+			if ( !KoLCharacter.hasStore() )
+			{
+				KoLmafia.updateDisplay( "You don't own a store in the Mall of Loathing." );
+				RequestThread.enableDisplayIfSequenceComplete();
+				return;
+			}
+
+			RequestThread.openRequestSequence();
+
+			StoreManager.clearCache();
+			RequestThread.postRequest( new ManageStoreRequest( false ) );
+
+			RequestThread.closeRequestSequence();
+		}
+
+		( new CreateFrameRunnable( frameClass ) ).run();
 	}
 
 	public void showHTML( final String location, final String text )

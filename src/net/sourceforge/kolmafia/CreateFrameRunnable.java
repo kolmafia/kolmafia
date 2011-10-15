@@ -134,7 +134,24 @@ public class CreateFrameRunnable
 
 		try
 		{
-			this.createFrame();
+			String searchString = this.creationType.toString();
+			searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
+
+			if ( searchString.endsWith( "ChatFrame" ) )
+			{
+				searchString = "ChatManager";
+			}
+
+			boolean appearsInTab = GenericFrame.appearsInTab( searchString );
+
+			if ( appearsInTab && !KoLDesktop.isInitializing() )
+			{
+				KoLDesktop.displayDesktop();
+				return;
+			}
+
+			RequestLogger.updateDebugLog( "Loading window: " + searchString );
+			this.createFrame( appearsInTab );
 		}
 		catch ( Exception e )
 		{
@@ -146,19 +163,8 @@ public class CreateFrameRunnable
 		}
 	}
 
-	public JFrame createFrame()
+	public JFrame createFrame( boolean appearsInTab )
 	{
-		// If there is no creation creation, then return
-		// from the method because there's nothing to do.
-
-		String searchString = this.creationType.toString();
-		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
-
-		RequestLogger.updateDebugLog( "Loading window: " + searchString );
-		
-		boolean appearsInTab =
-			GenericFrame.appearsInTab( searchString.endsWith( "ChatFrame" ) ? "ChatManager" : searchString );
-
 		// Make the frame for the first time
 
 		if ( !this.loadPreviousFrame() )
@@ -204,12 +210,6 @@ public class CreateFrameRunnable
 		if ( appearsInTab )
 		{
 			KoLDesktop.addTab( (GenericFrame) this.creation );
-
-			if ( !KoLDesktop.isInitializing() )
-			{
-				KoLDesktop.displayDesktop();
-			}
-
 			KoLDesktop.showComponent( (GenericFrame) this.creation );
 		}
 		else
