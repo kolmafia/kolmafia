@@ -196,6 +196,7 @@ The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Domed City of Ronaldus	100	Dogcat	Ferrelf	Hamsterpus	Overarmed Survivor	Primitive Survivor	Unlikely Survivor
 The Domed City of Grimacia	100	Alielef	Cat-Alien	Dog-Alien	Grizzled Survivor	Unhinged Survivor	Whiny Survivor
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
+The Haunted Sorority House	-1	Sexy Sorority Ghost	Sexy Sorority Skeleton	Sexy Sorority Vampire	Sexy Sorority Werewolf	Sexy Sorority Zombie
 The Heap	-1	Stench Hobo	Oscus: 0
 The Jungles of Ancient Loathing	-1	Ancient Guardian Statue	Evil Cultist	Jungle Baboon	Tribal Goblin	Giant Bird-Creature: 0	Giant Jungle Python: 0	Giant Octopus: 0	Giant Spider: 0	High Priest of Ki'rhuss: 0	Wumpus: 0
 The Marinara Trench	95	Diving Belle	Fisherfish	Giant Squid	Mer-kin Diver

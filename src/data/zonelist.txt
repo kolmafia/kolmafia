@@ -5,6 +5,7 @@ Dungeon	Town	Seaside Dungeon
 
 Hobopolis	Hobopolis	Hobopolis
 The Slime Tube	The Slime Tube	The Slime Tube
+The Haunted Sorority House	The Haunted Sorority House	The Haunted Sorority House
 
 The Sea	The Sea	The Sea
 
