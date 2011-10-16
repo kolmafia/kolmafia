@@ -104,6 +104,9 @@ public class ChoiceOptionsPanel
 	private final JComboBox riseSelect, fallSelect;
 	private final JComboBox oceanDestSelect, oceanActionSelect;
 	private final JComboBox barrelSelect;
+	private final JComboBox darkAtticSelect;
+	private final JComboBox unlivingRoomSelect;
+	private final JComboBox debasementSelect;
 	private final JComboBox gongSelect;
 	private final JComboBox basementMallSelect;
 	private final JComboBox breakableSelect;
@@ -262,6 +265,39 @@ public class ChoiceOptionsPanel
 		this.barrelSelect.addItem( "middle & bottom rows" );
 		this.barrelSelect.addItem( "all available drinks" );
 
+		this.darkAtticSelect = new JComboBox();
+		this.darkAtticSelect.addItem( "show in browser" );
+		this.darkAtticSelect.addItem( "staff guides" );
+		this.darkAtticSelect.addItem( "ghost trap" );
+		this.darkAtticSelect.addItem( "mass kill werewolves with silver shotgun shell" );
+		this.darkAtticSelect.addItem( "raise area ML, then staff guides" );
+		this.darkAtticSelect.addItem( "raise area ML, then ghost trap" );
+		this.darkAtticSelect.addItem( "raise area ML, then mass kill werewolves" );
+		this.darkAtticSelect.addItem( "lower area ML, then staff guides" );
+		this.darkAtticSelect.addItem( "lower area ML, then ghost trap" );
+		this.darkAtticSelect.addItem( "lower area ML, then mass kill werewolves" );
+
+		this.unlivingRoomSelect = new JComboBox();
+		this.unlivingRoomSelect.addItem( "show in browser" );
+		this.unlivingRoomSelect.addItem( "mass kill zombies with chainsaw chain" );
+		this.unlivingRoomSelect.addItem( "mass kill skeletons with funhouse mirror" );
+		this.unlivingRoomSelect.addItem( "get costume item" );
+		this.unlivingRoomSelect.addItem( "raise area ML, then mass kill zombies" );
+		this.unlivingRoomSelect.addItem( "raise area ML, then mass kill skeletons" );
+		this.unlivingRoomSelect.addItem( "raise area ML, then get costume item" );
+		this.unlivingRoomSelect.addItem( "lower area ML, then mass kill zombies" );
+		this.unlivingRoomSelect.addItem( "lower area ML, then mass kill skeletons" );
+		this.unlivingRoomSelect.addItem( "lower area ML, then get costume item" );
+
+		this.debasementSelect = new JComboBox();
+		this.debasementSelect.addItem( "show in browser" );
+		this.debasementSelect.addItem( "Prop Deportment" );
+		this.debasementSelect.addItem( "mass kill vampires with plastic vampire fangs" );
+		this.debasementSelect.addItem( "raise area ML, then Prop Deportment" );
+		this.debasementSelect.addItem( "raise area ML, then mass kill vampires" );
+		this.debasementSelect.addItem( "lower area ML, then Prop Deportment" );
+		this.debasementSelect.addItem( "lower area ML, then mass kill vampires" );
+
 		this.gongSelect = new JComboBox();
 		for ( int i = 0; i < GongCommand.GONG_PATHS.length; ++i )
 		{
@@ -303,6 +339,9 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
 		this.addChoiceSelect( "Mountain", "Barrel full of Barrels", this.barrelSelect );
 		this.addChoiceSelect( "Mountain", "Orc Chasm", this.addingSelect );
+		this.addChoiceSelect( "Clan Basement", "Sorority House Attic", this.darkAtticSelect );
+		this.addChoiceSelect( "Clan Basement", "Sorority House Unliving Room", this.unlivingRoomSelect );
+		this.addChoiceSelect( "Clan Basement", "Sorority House Debasement", this.debasementSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
@@ -715,6 +754,12 @@ public class ChoiceOptionsPanel
 		Preferences.setString( "choiceAdventure127",
 			String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
 		Preferences.setInteger( "barrelGoal", this.barrelSelect.getSelectedIndex() + 1 );
+		Preferences.setString( "choiceAdventure549",
+			String.valueOf( this.darkAtticSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure550",
+			String.valueOf( this.unlivingRoomSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure551",
+			String.valueOf( this.debasementSelect.getSelectedIndex() ) );
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "addingScrolls", this.addingSelect.getSelectedIndex() );
@@ -1022,6 +1067,9 @@ public class ChoiceOptionsPanel
 		this.maidenSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure89" ) );
 		this.palindomePapayaSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "choiceAdventure127" ) - 1 ) );
 		this.barrelSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "barrelGoal" ) - 1 ) );
+		this.darkAtticSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure549" ) );
+		this.unlivingRoomSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure550" ) );
+		this.debasementSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure551" ) );
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );
 
