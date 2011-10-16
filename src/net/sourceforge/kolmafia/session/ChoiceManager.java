@@ -1542,6 +1542,19 @@ public abstract class ChoiceManager
 		// Choice 542 is Now's Your Pants!  I Mean... Your Chance!
 		// Choice 543 is Up In Their Grill
 		// Choice 544 is A Sandwich Appears!
+
+		// Behind Closed Doors
+		new ChoiceAdventure(
+			"Clan Basement", "choiceAdventure548", "Sorority House Necbromancer",
+			new String[] { "enter combat with The Necbromancer", "skip adventure" } ),
+
+		// Prop Deportment
+		new ChoiceAdventure(
+			"Clan Basement", "choiceAdventure552", "Sorority House Prop Deportment",
+			new String[] { "chainsaw", "Relocked and Reloaded", "funhouse mirror" },
+			new String[] { "5309", null, "5311" } ),
+
+		// Choice 553 is Relocked and Reloaded
 	};
 
 	static
@@ -1873,6 +1886,22 @@ public abstract class ChoiceManager
 			"choiceAdventure507", "Spooky Forest",
 			new String[] { "gain Spooky Temple map", "skip adventure", "skip adventure" },
 			new String[] { null, null, null } ),
+
+		// Dark in the Attic
+		new ChoiceAdventure(
+			"Clan Basement", "choiceAdventure549", "The Attic",
+			new String[] { "staff guides", "ghost trap", "raise area ML", "lower area ML", "mass kill werewolves with silver shotgun shell" },
+			new String[] { "5307", "5308", null, null, null } ),
+
+		// The Unliving Room
+		new ChoiceAdventure(
+			"Clan Basement", "choiceAdventure550", "The Unliving Room",
+			new String[] { "raise area ML", "lower area ML" , "mass kill zombies with chainsaw chain", "mass kill skeletons with funhouse mirror", "get costume item" } ),
+
+		// Debasement
+		new ChoiceAdventure(
+			"Clan Basement", "choiceAdventure551", "Debasement",
+			new String[] { "Prop Deportment", "mass kill vampires with plastic vampire fangs", "raise area ML", "lower area ML" } ),
 
 	};
 
@@ -2648,7 +2677,7 @@ public abstract class ChoiceManager
 			// If this choice has special handling, convert to real
 			// decision index
 
-			decision = ChoiceManager.specialChoiceDecision( choice, option, decision, stepCount );
+			decision = ChoiceManager.specialChoiceDecision( choice, option, decision, stepCount, request.responseText );
 
 			// Let user handle the choice manually, if requested
 
@@ -3408,6 +3437,36 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.LARS_THE_CYBERIAN, -1 );
 			}
 			break;
+
+		case 548:
+			// Behind Closed Doors
+			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+					"The Necbromancer waits for you." );
+				RequestThread.enableDisplayIfSequenceComplete();
+			}
+			break;
+
+		case 549:
+			// Dark in the Attic
+			if ( text.indexOf( "The silver pellets tear through the sorority werewolves" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.SILVER_SHOTGUN_SHELL, -1 );
+			}
+			break;
+
+		case 550:
+			// The Unliving Room
+			if ( text.indexOf( "you pull out the chainsaw blades" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.CHAINSAW_CHAIN, -1 );
+			}
+			else if ( text.indexOf( "the skeletons collapse into piles of loose bones" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.FUNHOUSE_MIRROR, -1 );
+			}
+			break;
 		}
 
 		if ( ChoiceManager.initializeAfterChoice && text.indexOf( "choice.php" ) == -1 )
@@ -3833,7 +3892,7 @@ public abstract class ChoiceManager
 		return true;
 	}
 
-	private static final String specialChoiceDecision( final int choice, final String option, final String decision, final int stepCount )
+	private static final String specialChoiceDecision( final int choice, final String option, final String decision, final int stepCount, final String responseText )
 	{
 		switch ( choice )
 		{
@@ -4158,7 +4217,7 @@ public abstract class ChoiceManager
 			return decision;
 
 		// Tree's Last Stand
-		case 504: {
+		case 504:
 
 			// If we don't have a Spooky Sapling, buy one
 			// unless we've already unlocked the Hidden Temple
@@ -4183,7 +4242,112 @@ public abstract class ChoiceManager
 
 			// Otherwise, exit this choice
 			return "4";
-		}
+
+		// Dark in the Attic
+		case 549:
+
+			// Some choices appear depending on whether
+			// the boombox is on or off
+
+			// 1 - acquire staff guides
+			// 2 - acquire ghost trap
+			// 3 - turn on boombox (raise area ML)
+			// 4 - turn off boombox (lower area ML)
+			// 5 - mass kill werewolves
+
+			boolean boomboxOn = responseText.indexOf( "sets your heart pounding and pulse racing" ) != -1;
+
+			switch ( StringUtilities.parseInt( decision ) )
+			{
+			case 0: // show in browser
+			case 1: // acquire staff guides
+			case 2: // acquire ghost trap
+				return decision;
+			case 3: // mass kill werewolves
+				return "5";
+			case 4: // raise area ML, then acquire staff guides
+				return boomboxOn ? "1" : "3";
+			case 5: // raise area ML, then acquire ghost trap
+				return boomboxOn ? "2" : "3";
+			case 6: // raise area ML, then mass kill werewolves
+				return boomboxOn ? "5" : "3";
+			case 7: // lower area ML, then acquire staff guides
+				return boomboxOn ? "4" : "1";
+			case 8: // lower area ML, then acquire ghost trap
+				return boomboxOn ? "4" : "2";
+			case 9: // lower area ML, then mass kill werewolves
+				return boomboxOn ? "4" : "5";
+			}
+			return decision;
+
+		// The Unliving Room
+		case 550:
+
+			// Some choices appear depending on whether
+			// the windows are opened or closed
+
+			// 1 - close the windows (raise area ML)
+			// 2 - open the windows (lower area ML)
+			// 3 - mass kill zombies
+			// 4 - mass kill skeletons
+			// 5 - get costume item)
+
+			boolean windowsClosed = responseText.indexOf( "covered all their windows" ) != -1;
+
+			switch ( StringUtilities.parseInt( decision ) )
+			{
+			case 0: // show in browser
+				return decision;
+			case 1: // mass kill zombies
+				return "3";
+			case 2: // mass kill skeletons
+				return "4";
+			case 3: // get costume item
+				return "5";
+			case 4: // raise area ML, then mass kill zombies
+				return windowsClosed ? "3" : "1";
+			case 5: // raise area ML, then mass kill skeletons
+				return windowsClosed ? "4" : "1";
+			case 6: // raise area ML, then get costume item
+				return windowsClosed ? "5" : "1";
+			case 7: // lower area ML, then mass kill zombies
+				return windowsClosed ? "2" : "3";
+			case 8: // lower area ML, then mass kill skeletons
+				return windowsClosed ? "2" : "4";
+			case 9: // lower area ML, then get costume item
+				return windowsClosed ? "2" : "5";
+			}
+			return decision;
+
+		// Debasement
+		case 551:
+
+			// Some choices appear depending on whether
+			// the fog machine is on or off
+
+			// 1 - Prop Deportment (choice adventure 552)
+			// 2 - mass kill vampires
+			// 3 - turn up the fog machine (raise area ML)
+			// 4 - turn down the fog machine (lower area ML)
+
+			boolean fogOn = responseText.indexOf( "white clouds of artificial fog" ) != -1;
+
+			switch ( StringUtilities.parseInt( decision ) )
+			{
+			case 0: // show in browser
+			case 1: // Prop Deportment
+			case 2: // mass kill vampires
+				return decision;
+			case 3: // raise area ML, then Prop Deportment
+				return fogOn ? "1" : "3";
+			case 4: // raise area ML, then mass kill vampires
+				return fogOn ? "2" : "3";
+			case 5: // lower area ML, then Prop Deportment
+				return fogOn ? "4" : "1";
+			case 6: // lower area ML, then mass kill vampires
+				return fogOn ? "4" : "2";
+			}
+			return decision;
 		}
 
 		return decision;
