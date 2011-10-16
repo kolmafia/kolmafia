@@ -176,16 +176,14 @@ public class SendMailRequest
 
 	public static boolean parseTransfer( final String urlString )
 	{
-		TransferItemRequest.transferItems( urlString, KoLConstants.inventory, null, 0 );
-
 		int meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );
 		if ( meat > 0 )
 		{
 			ResultProcessor.processMeat( 0 - meat );
 		}
 
+		TransferItemRequest.transferItems( urlString, KoLConstants.inventory, null, 0 );
 		KoLCharacter.updateStatus();
-		ConcoctionDatabase.refreshConcoctions();
 		return true;
 	}
 

@@ -253,12 +253,12 @@ public abstract class KoLCharacter
 	{
 		"Mongoose",
 		"Wallaby",
-		"Vole", 
-		"Platypus", 
+		"Vole",
+		"Platypus",
 		"Opossum",
 		"Marmot",
 		"Wombat",
-		"Blender", 
+		"Blender",
 		"Packrat"
 	};
 
@@ -669,7 +669,7 @@ public abstract class KoLCharacter
 		WumpusManager.reset();
 
 		CoinmasterRegistry.reset();
-		ConcoctionDatabase.refreshConcoctions();
+		ConcoctionDatabase.refreshConcoctions( true );
 		ItemDatabase.setAstralConsumables();
 		ItemDatabase.calculateAdventureRanges();
 
@@ -1626,7 +1626,7 @@ public abstract class KoLCharacter
 			if ( KoLCharacter.canEat() && !KoLCharacter.hasChef() ||
 			     KoLCharacter.canDrink() && !KoLCharacter.hasBartender() )
 			{
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 		}
 	}
@@ -1943,7 +1943,7 @@ public abstract class KoLCharacter
 		{
 			bees++;
 		}
-		
+
 		return bees;
 	}
 
@@ -2157,8 +2157,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasShaker != hasShaker )
 		{
 			KoLCharacter.hasShaker = hasShaker;
-			ConcoctionDatabase.refreshConcoctions();
-			ItemDatabase.calculateAdventureRanges();
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
 
@@ -2184,8 +2183,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasCocktailKit != hasCocktailKit )
 		{
 			KoLCharacter.hasCocktailKit = hasCocktailKit;
-			ConcoctionDatabase.refreshConcoctions();
-			ItemDatabase.calculateAdventureRanges();
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
 
@@ -2211,8 +2209,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasBartender != hasBartender )
 		{
 			KoLCharacter.hasBartender = hasBartender;
-			ConcoctionDatabase.refreshConcoctions();
-			ItemDatabase.calculateAdventureRanges();
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
 
@@ -2238,7 +2235,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasOven != hasOven )
 		{
 			KoLCharacter.hasOven = hasOven;
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.setRefreshNeeded( true );
 			ItemDatabase.calculateAdventureRanges();
 		}
 	}
@@ -2265,8 +2262,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasRange != hasRange )
 		{
 			KoLCharacter.hasRange = hasRange;
-			ConcoctionDatabase.refreshConcoctions();
-			ItemDatabase.calculateAdventureRanges();
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
 
@@ -2292,8 +2288,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasChef != hasChef )
 		{
 			KoLCharacter.hasChef = hasChef;
-			ConcoctionDatabase.refreshConcoctions();
-			ItemDatabase.calculateAdventureRanges();
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
 
@@ -2319,8 +2314,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasSushiMat != hasSushiMat )
 		{
 			KoLCharacter.hasSushiMat = hasSushiMat;
-			ConcoctionDatabase.refreshConcoctions();
-			ItemDatabase.calculateAdventureRanges();
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
 
@@ -2708,7 +2702,7 @@ public abstract class KoLCharacter
 	public static final void setPath( final String path )
 	{
 		KoLCharacter.ascensionPath = path;
-		int restriction = 
+		int restriction =
 			path.equals( "Oxygenarian" ) ?
 			AscensionSnapshot.OXYGENARIAN :
 			path.equals( "Boozetafarian" ) ?
@@ -3371,7 +3365,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.stillsAvailable != stillsAvailable )
 		{
 			KoLCharacter.stillsAvailable = stillsAvailable;
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.setRefreshNeeded( false );
 			// Allow Daily Deeds to update when the number of stills changes
 			PreferenceListenerRegistry.firePreferenceChanged( "(stills)" );
 		}

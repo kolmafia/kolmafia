@@ -159,7 +159,7 @@ public class UseItemEnqueuePanel
 	public void setEnabled( final boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-		
+
 		// We gray out the dog hair button unless we have drunkenness,
 		// have a pill, and haven't used one today.
 		if ( isEnabled && this.booze )
@@ -208,7 +208,7 @@ public class UseItemEnqueuePanel
 		public void run()
 		{
 			UseItemEnqueuePanel.this.getDesiredItems( "Queue" );
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshConcoctions( true );
 
 			if ( UseItemEnqueuePanel.this.food )
 			{
@@ -255,8 +255,6 @@ public class UseItemEnqueuePanel
 			{
 				return;
 			}
-
-			ConcoctionDatabase.refreshConcoctions();
 
 			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, KoLConstants.CONSUME_USE );
 
@@ -322,8 +320,6 @@ public class UseItemEnqueuePanel
 			{
 				return;
 			}
-
-			ConcoctionDatabase.refreshConcoctions();
 
 			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, consumptionType );
 
@@ -414,7 +410,7 @@ public class UseItemEnqueuePanel
 					return false;
 				}
 			}
-			
+
 			if ( ItemDatabase.getFullness( creation.getName() ) > 0 )
 			{
 				if ( !UseItemEnqueuePanel.this.food )
@@ -444,14 +440,14 @@ public class UseItemEnqueuePanel
 					return false;
 				}
 				return super.isVisible( element );
-				
+
 			case KoLConstants.CONSUME_DRINK_HELPER:
 				if ( !UseItemEnqueuePanel.this.booze )
 				{
 					return false;
 				}
 				return super.isVisible( element );
-			
+
 			case KoLConstants.CONSUME_MULTIPLE:
 				if ( !UseItemEnqueuePanel.this.food ||
 				     creation.getItemId() != ItemPool.MUNCHIES_PILL )
@@ -459,15 +455,15 @@ public class UseItemEnqueuePanel
 					return false;
 				}
 				return super.isVisible( element );
-				
+
 			case KoLConstants.CONSUME_USE:
-				if ( !UseItemEnqueuePanel.this.food || 
+				if ( !UseItemEnqueuePanel.this.food ||
 				     creation.getItemId() != ItemPool.DISTENTION_PILL )
 				{
 					return false;
 				}
 				return super.isVisible( element );
-				
+
 			default:
 				return false;
 			}

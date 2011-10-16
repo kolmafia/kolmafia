@@ -1195,7 +1195,7 @@ public class UseSkillRequest
 		{
 			UseSkillRequest.lastUpdate = "You've used your Tomes enough today.";
 			Preferences.setInteger( "tomeSummons", 3 );
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.setRefreshNeeded( true );
 			return true;
 		}
 
@@ -1465,7 +1465,7 @@ public class UseSkillRequest
 		case SkillDatabase.SUGAR:
 		case SkillDatabase.CLIP_ART:
 			Preferences.increment( "tomeSummons", count );
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.setRefreshNeeded( false );
 			break;
 
 		case SkillDatabase.HILARIOUS:

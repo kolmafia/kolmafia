@@ -348,7 +348,7 @@ public class CreateItemRequest
 
 		case KoLConstants.PHINEAS:
 			return new PhineasRequest( conc );
-		
+
 		case KoLConstants.CLIPART:
 			return new ClipArtRequest( conc );
 
@@ -637,7 +637,7 @@ public class CreateItemRequest
 					KoLmafia.updateDisplay( "You know the recipe for " +
 						ItemDatabase.getItemName( id ) );
 					Preferences.setBoolean( pref, false );
-					ConcoctionDatabase.refreshConcoctions();
+					ConcoctionDatabase.setRefreshNeeded( true );
 				}
 			}
 
@@ -687,7 +687,7 @@ public class CreateItemRequest
 			{
 				KoLmafia.updateDisplay( "(You apparently already knew this recipe.)" );
 				Preferences.setBoolean( pref, false );
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( true );
 			}
 
 			if ( ItemDatabase.isFancyItem( item1 ) || ItemDatabase.isFancyItem( item2 ) )

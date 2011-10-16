@@ -156,7 +156,7 @@ public class AutoMallRequest
 	public boolean parseTransfer()
 	{
 		return AutoMallRequest.parseTransfer( this.getURLString(), this.responseText );
-        }
+    }
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{
@@ -170,12 +170,11 @@ public class AutoMallRequest
 			return false;
 		}
 
-		TransferItemRequest.transferItems( urlString, 
+		TransferItemRequest.transferItems( urlString,
 			TransferItemRequest.ITEMID_PATTERN,
 			TransferItemRequest.QTY_PATTERN,
 			KoLConstants.inventory, null, 1 );
 
-		ConcoctionDatabase.refreshConcoctions();
 		StoreManager.update( responseText, false );
 		return true;
 	}

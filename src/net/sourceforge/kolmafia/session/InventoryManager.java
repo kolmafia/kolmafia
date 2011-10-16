@@ -269,7 +269,7 @@ public abstract class InventoryManager
 	{
 		return retrieveItem( item, true );
 	}
-	
+
 	public static final boolean retrieveItem( final AdventureResult item, final boolean isAutomated )
 	{
 		String rv = retrieveItem( item, isAutomated, false );
@@ -284,7 +284,7 @@ public abstract class InventoryManager
 		RequestLogger.printLine( "INTERNAL ERROR: retrieveItem returned string when not simulating!" );
 		return true;
 	}
-	
+
 	public static final String simRetrieveItem( final int itemId )
 	{
 		return simRetrieveItem( ItemPool.get( itemId, 1 ), true );
@@ -309,7 +309,7 @@ public abstract class InventoryManager
 	{
 		return simRetrieveItem( item, true );
 	}
-	
+
 	public static final String simRetrieveItem( final AdventureResult item, final boolean isAutomated )
 	{
 		String rv = retrieveItem( item, isAutomated, true );
@@ -320,7 +320,7 @@ public abstract class InventoryManager
 		}
 		return rv;
 	}
-	
+
 	// When called with sim=true, retrieveItem should return a non-empty string
 	// indicating how at least some quantity of the item would be retrieved.
 	// There are two distinguished return values: "have" indicates trivial
@@ -577,7 +577,11 @@ public abstract class InventoryManager
 
 			if ( itemCount > 0 )
 			{
-				if ( sim ) return "hermit";
+				if ( sim )
+				{
+					return "hermit";
+				}
+
 				int needed = Math.min( itemCount, missingCount );
 				RequestThread.postRequest( new HermitRequest( itemId, needed ) );
 			}
@@ -1003,7 +1007,7 @@ public abstract class InventoryManager
 		int gewgawCount = HermitRequest.GEWGAW.getCount( KoLConstants.storage );
 		int knickKnackCount = HermitRequest.KNICK_KNACK.getCount( KoLConstants.storage );
 
-		AdventureResult[] items = 
+		AdventureResult[] items =
 			new AdventureResult[] {
 				HermitRequest.TRINKET.getInstance( trinketCount ),
 				HermitRequest.GEWGAW.getInstance( gewgawCount ),
@@ -1167,7 +1171,7 @@ public abstract class InventoryManager
 		}
 		return mallprice < makeprice;
 	}
-	
+
 	private static int itemValue( AdventureResult item, boolean exact )
 	{
 		float factor = Preferences.getFloat( "valueOfInventory" );

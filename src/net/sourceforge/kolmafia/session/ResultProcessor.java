@@ -174,19 +174,9 @@ public class ResultProcessor
 		}
 	}
 
-	public static boolean processResults( String results )
-	{
-		return ResultProcessor.processResults( false, results, null );
-	}
-
 	public static boolean processResults( boolean combatResults, String results )
 	{
 		return ResultProcessor.processResults( combatResults, results, null );
-	}
-
-	public static boolean processResults( String results, List data )
-	{
-		return ResultProcessor.processResults( false, results, data );
 	}
 
 	public static boolean processResults( boolean combatResults, String results, List data )
@@ -202,9 +192,9 @@ public class ResultProcessor
 		ResultProcessor.registerNewItems( results );
 
 		boolean requiresRefresh = false;
+
 		try
 		{
-			ConcoctionDatabase.deferRefresh( true );
 			requiresRefresh = processNormalResults( combatResults, results, data );
 		}
 		finally
@@ -213,7 +203,6 @@ public class ResultProcessor
 			{
 				KoLmafia.applyEffects();
 			}
-			ConcoctionDatabase.deferRefresh( false );
 		}
 
 		return requiresRefresh;
@@ -441,7 +430,11 @@ public class ResultProcessor
 			AdventureResult.removeResultFromList( KoLConstants.recentEffects, result );
 			AdventureResult.removeResultFromList( KoLConstants.activeEffects, result );
 			// If you lose Inigo's, what you can craft changes
-			ConcoctionDatabase.refreshConcoctions();
+
+			if ( effectName.equals( EffectPool.INIGO ) )
+			{
+				ConcoctionDatabase.setRefreshNeeded( false );
+			}
 
 			return true;
 		}
@@ -934,7 +927,7 @@ public class ResultProcessor
 
 				if ( shouldRefresh )
 				{
-					ConcoctionDatabase.refreshConcoctions();
+					ConcoctionDatabase.setRefreshNeeded( false );
 				}
 			}
 		}
@@ -955,16 +948,17 @@ public class ResultProcessor
 			KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + result.getCount() );
 			if ( updateCalculatedLists )
 			{
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) )
 		{
 			if ( result.getCount() < 0 )
 			{
+				boolean concoctionRefreshNeeded = false;
+
 				AdventureResult[] effectsArray = new AdventureResult[ KoLConstants.activeEffects.size() ];
 				KoLConstants.activeEffects.toArray( effectsArray );
-				boolean lose = false;
 
 				for ( int i = effectsArray.length - 1; i >= 0; --i )
 				{
@@ -977,7 +971,12 @@ public class ResultProcessor
 					else if ( duration + result.getCount() <= 0 )
 					{
 						KoLConstants.activeEffects.remove( i );
-						lose = true;
+
+						// If you lose Inigo's, what you can craft changes
+						if ( effect.getName().equals( EffectPool.INIGO ) )
+						{
+							concoctionRefreshNeeded = true;
+						}
 					}
 					else
 					{
@@ -987,10 +986,9 @@ public class ResultProcessor
 
 				KoLCharacter.setCurrentRun( KoLCharacter.getCurrentRun() - result.getCount() );
 
-				if ( lose )
+				if ( concoctionRefreshNeeded )
 				{
-					// If you lose Inigo's, what you can craft changes
-					ConcoctionDatabase.refreshConcoctions();
+					ConcoctionDatabase.setRefreshNeeded( false );
 				}
 			}
 		}
@@ -1044,7 +1042,7 @@ public class ResultProcessor
 			// change in token count changes the creatable quantity
 			// of every Concoction using that token.
 
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.setRefreshNeeded( false );
 
 			// Fall through. The following items are not Coin
 			// Master currency, but are of interest to one or
@@ -1072,7 +1070,7 @@ public class ResultProcessor
 		case ItemPool.STOLEN_ACCORDION:
 		case ItemPool.OLD_SWEATPANTS:
 			// Starter items from the sewer affect the "cost" of a worthless item.
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.setRefreshNeeded( true );
 			break;
 		}
 
@@ -1527,10 +1525,6 @@ public class ResultProcessor
 			return;
 		}
 
-		// Make sure concoctions haven't been deferred
-		ConcoctionDatabase.deferRefresh( false );
-		ConcoctionDatabase.deferRefresh( true );
-
 		CreateItemRequest creator = CreateItemRequest.getInstance( itemId );
 		// getQuantityPossible() should take meat paste or
 		// Muscle Sign into account
@@ -1642,7 +1636,7 @@ public class ResultProcessor
 
 		if ( responseText.indexOf( "the one next to the library" ) != -1 )
 		{
-			int donation = 
+			int donation =
 				urlString.indexOf( "place=ocg" ) != -1 ? 500 :
 				urlString.indexOf( "place=scg" ) != -1 ? 1000 :
 				0;
@@ -1679,54 +1673,5 @@ public class ResultProcessor
 			KoLCharacter.makeCharitableDonation( donation );
 			return;
 		}
-	}
-
-	/**
-	 * Handle lots of items being received at once (specifically, from emptying Hangk's),
-	 * deferring updates to the end as much as possible.
-	 */
-	public static void processBulkItems( Object[] items )
-	{
-		if ( items.length == 0 )
-		{
-			return;
-		}
-
-		if ( RequestLogger.isDebugging() )
-		{
-			RequestLogger.updateDebugLog( "Processing bulk items" );
-		}
-
-		KoLmafia.updateDisplay( "Processing, this may take a while..." );
-		for ( int i = 0; i < items.length; ++i )
-		{
-			AdventureResult result = (AdventureResult) items[ i ];
-
-			// Skip adding to tally, since you haven't really
-			// gained these items - merely moved them around.
-
-			//AdventureResult.addResultToList( KoLConstants.tally, result );
-
-			// Skip gainItem's processing, which is mostly
-			// concerned with quest items that couldn't be in
-			// Hangk's anyway.
-
-			//ResultProcessor.gainItem( result );
-
-			AdventureResult.addResultToList( KoLConstants.inventory, result );
-			EquipmentManager.processResult( result );
-
-			// Skip conditions handling, since this can't happen
-			// during an adventure request, and therefore the
-			// conditions will be rechecked.
-		}
-
-		// Assume that at least one item in the list required each of
-		// these updates:
-
-		CoinmastersFrame.externalUpdate();
-		ConcoctionDatabase.refreshConcoctions();
-
-		KoLmafia.updateDisplay( "Processing complete." );
 	}
 }

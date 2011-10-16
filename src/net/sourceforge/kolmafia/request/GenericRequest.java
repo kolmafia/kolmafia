@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
@@ -1287,6 +1288,8 @@ public class GenericRequest
 			}
 		}
 		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < GenericRequest.TIMEOUT_LIMIT );
+
+		ConcoctionDatabase.refreshConcoctions( false );
 	}
 
 	public static final boolean shouldIgnore( final GenericRequest request )

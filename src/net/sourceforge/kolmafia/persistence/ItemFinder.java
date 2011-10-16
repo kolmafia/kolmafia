@@ -362,14 +362,14 @@ public class ItemFinder
 	public static final AdventureResult getFirstMatchingItem( List sourceList, String parameters, int filterType, boolean errorOnFailure )
 	{
 		// Ignore spaces and tabs in front of the parameter string
-		
+
 		while ( parameters.length() > 0 && ( parameters.charAt( 0 ) == ' ' || parameters.charAt( 0 ) == '\t' ) )
 		{
 			parameters = parameters.substring( 1 );
 		}
-		
+
 		// Find the item id
-	
+
 		int itemId = -1;
 		int itemCount = 1;
 
@@ -389,11 +389,11 @@ public class ItemFinder
 		else
 		{
 			int spaceIndex = parameters.indexOf( ' ' );
-			
+
 			if ( spaceIndex != -1 )
 			{
 				String itemCountString = parameters.substring( 0, spaceIndex );
-				
+
 				if ( StringUtilities.isNumeric( itemCountString ) )
 				{
 					itemCount = StringUtilities.parseInt( itemCountString );
@@ -462,7 +462,7 @@ public class ItemFinder
 				// with on-hand ingredients.
 
 				Preferences.setBoolean( "autoSatisfyWithNPCs", false );
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.refreshConcoctions( true );
 			}
 
 			CreateItemRequest instance = CreateItemRequest.getInstance( firstMatch );
@@ -471,7 +471,7 @@ public class ItemFinder
 			if ( skipNPCs )
 			{
 				Preferences.setBoolean( "autoSatisfyWithNPCs", true );
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.refreshConcoctions( true );
 			}
 		}
 		else
@@ -517,13 +517,13 @@ public class ItemFinder
 			if ( itemNames[ i ].endsWith( " meat" ) )
 			{
 				String amountString = itemNames[ i ].substring( 0, itemNames[ i ].length() - 5 ).trim();
-				
+
 				if ( amountString.equals( "*" ) || StringUtilities.isNumeric( amountString ) )
 				{
 					isMeatMatch = true;
 
 					int amount = 0;
-					
+
 					if ( !amountString.equals( "*" ) )
 					{
 						amount = StringUtilities.parseInt( amountString );

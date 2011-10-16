@@ -371,9 +371,9 @@ public class OptionsFrame
 		{
 			{ "showAllRequests", "Show all requests in a mini-browser window" },
 			{ "showExceptionalRequests", "Automatically load 'click here to load in relay browser' in mini-browser" },
-			
+
 			{},
-			
+
 			{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
 			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
 			{ "saveSettingsOnSet", "Save options to disk whenever they change" },
@@ -401,7 +401,7 @@ public class OptionsFrame
 			{ "autoSatisfyWithCloset", "Take items from the closet whenever needed", "yes" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },
 			{ "mmgAutoConfirmBets", "Auto-confirm bets in the MMG" },
-			
+
 			{},
 
 			{ "sharePriceData", "Share recent Mall price data with other users" },
@@ -429,7 +429,7 @@ public class OptionsFrame
 			for ( int i = 0; i < this.options.length; ++i )
 			{
 				String[] option = this.options[ i ];
-				JCheckBox optionBox = 
+				JCheckBox optionBox =
 					( option.length < 3 ) ?
 					new JCheckBox() :
 					new CreationSettingCheckBox( option[ 0 ] );
@@ -458,7 +458,7 @@ public class OptionsFrame
 			}
 
 			this.actionCancelled();
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshConcoctions( true );
 		}
 
 		public void actionCancelled()
@@ -574,12 +574,12 @@ public class OptionsFrame
 
 					JFileChooser chooser = new JFileChooser( rootPath );
 					int returnVal = chooser.showOpenDialog( null );
-	
+
 					if ( chooser.getSelectedFile() == null )
 					{
 						return;
 					}
-	
+
 					if ( returnVal == JFileChooser.APPROVE_OPTION )
 					{
 						String scriptPath = chooser.getSelectedFile().getCanonicalPath();
@@ -587,7 +587,7 @@ public class OptionsFrame
 						{
 							scriptPath = scriptPath.substring( rootPath.length() + 1 );
 						}
-	
+
 						ScriptButtonPanel.this.list.add( "call " + scriptPath );
 					}
 				}
@@ -1163,11 +1163,11 @@ public class OptionsFrame
 			extends ThreadedButton
 		{
 			JOptionPane pane;
-			
+
 			public HelpButton()
 			{
 				super( "Help" );
-			
+
 				String message = "<html><table width=750><tr><td>All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
 					+ "<h3><b>Custom Deeds</b></h3>"
 					+ "Custom deeds provide the user with a way of adding buttons or text to their daily deeds panel that is not natively provided for.  All deeds start with the keyword <b>$CUSTOM</b> followed by a pipe (|) symbol.  As you are constructing a custom deed, you separate the different arguments with pipes.<br>"
@@ -1177,10 +1177,10 @@ public class OptionsFrame
 					+ "There are currently 5 different types of custom deeds.  Remember that all of these \"acceptable forms\" are prefaced by $CUSTOM|.<br>"
 					+ "<br>"
 					+ "<b>Command</b> - execute a command with a button press<br>"
-					+ "acceptable forms:" 
+					+ "acceptable forms:"
 					+ "<br>Command|displayText|preference<br>"
 					+ "Command|displayText|preference|command<br>"
-					+ "Command|displayText|preference|command|maxUses<br>" 
+					+ "Command|displayText|preference|command|maxUses<br>"
 					+ "<br>"
 					+ "displayText - the text that will be displayed on the button<br>"
 					+ "preference - the preference to track.  The button will be enabled when the preference is less than maxUses (default 1).<br>"
@@ -1191,7 +1191,7 @@ public class OptionsFrame
 					+ "acceptable forms:<br>"
 					+ "Item|displayText|preference<br>"
 					+ "Item|displayText|preference|itemName<br>"
-					+ "Item|displayText|preference|itemName|maxUses<br>" 	
+					+ "Item|displayText|preference|itemName|maxUses<br>"
 					+ "<br>"
 					+ "itemName - the name of the item that will be used.  If not specified, will default to displayText.<br>"
 					+ "<br>"

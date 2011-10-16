@@ -1520,12 +1520,12 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Events", "choiceAdventure532", "Battleship",
 			new String[] { "Class Skills", "Accordion Thief Songs" } ),
-		
+
 		// Train, Train, Choo-Choo Train
 		new ChoiceAdventure(
 			"Events", "choiceAdventure533", "Supply Train",
 			new String[] { "Meat Drop", "Pressure Penalty Modifiers" } ),
-		
+
 		// That's No Bone Moon...
 		new ChoiceAdventure(
 			"Events", "choiceAdventure534", "Bone Star",
@@ -3124,7 +3124,7 @@ public abstract class ChoiceManager
 			// Choice 540 is Big-Time Generator - game board
 			//
 			// Win:
-			// 
+			//
 			// The generator starts to hum and the well above you
 			// begins to spin, slowly at first, then faster and
 			// faster. The humming becomes a deep, sternum-rattling
@@ -3139,7 +3139,7 @@ public abstract class ChoiceManager
 			// they seem to have found some.
 			//
 			// Lose 3 times:
-			// 
+			//
 			// Your E.M.U.'s getting pretty beaten up from all the
 			// pinballing between obstacles, and you don't like
 			// your chances of getting back to the surface if you
@@ -3211,7 +3211,7 @@ public abstract class ChoiceManager
 				Preferences.setBoolean( "_sexChanged", true );
 				KoLCharacter.setGender( text.indexOf( "in more ways than one" ) != -1 ?
 					KoLCharacter.FEMALE : KoLCharacter.MALE );
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 			break;
 

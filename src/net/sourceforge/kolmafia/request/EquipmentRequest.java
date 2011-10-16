@@ -1156,7 +1156,7 @@ public class EquipmentRequest
 
 		if ( refresh )
 		{
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.setRefreshNeeded( false );
 		}
 	}
 
@@ -1291,7 +1291,7 @@ public class EquipmentRequest
 			int slot = EquipmentRequest.findEquipmentSlot( itemId, location );
 			if ( EquipmentRequest.switchItem( slot, ItemPool.get( itemId, 1 ) ) )
 			{
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 
 			return;
@@ -1309,7 +1309,7 @@ public class EquipmentRequest
 
 			if ( EquipmentRequest.switchItem( EquipmentManager.OFFHAND, ItemPool.get( itemId, 1 ) ) )
 			{
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 
 			return;
@@ -1343,7 +1343,7 @@ public class EquipmentRequest
 
 			if ( switched )
 			{
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 		}
 
@@ -1365,7 +1365,7 @@ public class EquipmentRequest
 
 			if ( EquipmentRequest.switchItem( type, EquipmentRequest.UNEQUIP ) )
 			{
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 
 			return;
@@ -1383,7 +1383,7 @@ public class EquipmentRequest
 
 			if ( EquipmentRequest.switchItem( EquipmentManager.FAMILIAR, ItemPool.get( itemId, 1 ) ) )
 			{
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 
 			return;
@@ -1578,7 +1578,7 @@ public class EquipmentRequest
 
 			if ( EquipmentRequest.switchEquipment( oldEquipment, newEquipment ) )
 			{
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 
 			EquipmentRequest.wearCustomOutfit( location );

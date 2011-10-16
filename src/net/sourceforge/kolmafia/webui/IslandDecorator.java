@@ -1657,7 +1657,7 @@ public class IslandDecorator
 		// The hippy store is available again.
 		Preferences.setInteger( "lastFilthClearance", KoLCharacter.getAscensions() );
 		Preferences.setString( "currentHippyStore", side );
-		ConcoctionDatabase.refreshConcoctions();
+		ConcoctionDatabase.setRefreshNeeded( true );
 	}
 
 	private static final void parseFarm( final String responseText )
@@ -1690,7 +1690,7 @@ public class IslandDecorator
 		{
 			Preferences.setString( "sidequestNunsCompleted", "none" );
 		}
-		
+
 		if ( responseText.indexOf( "The Sisters tend to your wounds" ) != -1 ||
 			responseText.indexOf( "The Sisters give you an invigorating massage" ) != -1 )
 		{

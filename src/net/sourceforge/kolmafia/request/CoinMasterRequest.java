@@ -393,7 +393,7 @@ public class CoinMasterRequest
 		// if the token is a pseudo-item
 		if ( data.getItem() == null )
 		{
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
 

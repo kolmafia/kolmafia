@@ -88,7 +88,8 @@ public class ConcoctionDatabase
 
 	public static String excuse;	// reason why creation is impossible
 
-	public static boolean refreshDeferred = false;
+	private static boolean refreshNeeded = true;
+	private static boolean recalculateAdventureRange = false;
 	public static int refreshLevel = 0;
 
 	public static int queuedAdventuresUsed = 0;
@@ -135,83 +136,83 @@ public class ConcoctionDatabase
 
 		// Items anybody can create using meat paste or The Plunger
 		ConcoctionDatabase.mixingMethods.put( "COMBINE", new Integer( KoLConstants.COMBINE ));
-		METHOD_DESCRIPTION[ KoLConstants.COMBINE ] = "Meatpasting"; 
+		METHOD_DESCRIPTION[ KoLConstants.COMBINE ] = "Meatpasting";
 		// Items anybody can create with an E-Z Cook Oven or Dramatic Range
 		ConcoctionDatabase.mixingMethods.put( "COOK", new Integer( KoLConstants.COOK ));
-		METHOD_DESCRIPTION[ KoLConstants.COOK ] = "Cooking"; 
+		METHOD_DESCRIPTION[ KoLConstants.COOK ] = "Cooking";
 		// Items anybody can create with a Shaker or Cocktailcrafting Kit
 		ConcoctionDatabase.mixingMethods.put( "MIX", new Integer( KoLConstants.MIX ));
-		METHOD_DESCRIPTION[ KoLConstants.MIX ] = "Mixing"; 
+		METHOD_DESCRIPTION[ KoLConstants.MIX ] = "Mixing";
 		// Items anybody can create with a tenderizing hammer or via Innabox
 		ConcoctionDatabase.mixingMethods.put( "SMITH", new Integer( KoLConstants.SMITH ));
-		METHOD_DESCRIPTION[ KoLConstants.SMITH ] = "Meatsmithing"; 
+		METHOD_DESCRIPTION[ KoLConstants.SMITH ] = "Meatsmithing";
 		// Items that can only be created with a tenderizing hammer, not via Innabox
 		ConcoctionDatabase.mixingMethods.put( "SSMITH", new Integer( KoLConstants.SSMITH ));
-		METHOD_DESCRIPTION[ KoLConstants.SSMITH ] = "Meatsmithing (not Innabox)"; 
+		METHOD_DESCRIPTION[ KoLConstants.SSMITH ] = "Meatsmithing (not Innabox)";
 		// Items requiring access to Nash Crosby's Still -- booze
 		ConcoctionDatabase.mixingMethods.put( "BSTILL", new Integer( KoLConstants.STILL_BOOZE ));
-		METHOD_DESCRIPTION[ KoLConstants.STILL_BOOZE ] = "Nash Crosby's Still"; 
+		METHOD_DESCRIPTION[ KoLConstants.STILL_BOOZE ] = "Nash Crosby's Still";
 		// Items requiring Superhuman Cocktailcrafting -- mixer
 		ConcoctionDatabase.mixingMethods.put( "MSTILL", new Integer( KoLConstants.STILL_MIXER ));
-		METHOD_DESCRIPTION[ KoLConstants.STILL_MIXER ] = "Nash Crosby's Still"; 
+		METHOD_DESCRIPTION[ KoLConstants.STILL_MIXER ] = "Nash Crosby's Still";
 		// Items requiring access to the Wok of Ages
 		ConcoctionDatabase.mixingMethods.put( "WOK", new Integer( KoLConstants.WOK ));
-		METHOD_DESCRIPTION[ KoLConstants.WOK ] = "Wok of Ages"; 
+		METHOD_DESCRIPTION[ KoLConstants.WOK ] = "Wok of Ages";
 		// Items requiring access to the Malus of Forethought
 		ConcoctionDatabase.mixingMethods.put( "MALUS", new Integer( KoLConstants.MALUS ));
-		METHOD_DESCRIPTION[ KoLConstants.MALUS ] = "Malus of Forethought"; 
+		METHOD_DESCRIPTION[ KoLConstants.MALUS ] = "Malus of Forethought";
 		// Items anybody can create with jewelry-making pliers
 		ConcoctionDatabase.mixingMethods.put( "JEWEL", new Integer( KoLConstants.JEWELRY ));
-		METHOD_DESCRIPTION[ KoLConstants.JEWELRY ] = "Jewelry-making pliers"; 
+		METHOD_DESCRIPTION[ KoLConstants.JEWELRY ] = "Jewelry-making pliers";
 		// Items anybody can create with starcharts, stars, and lines
 		ConcoctionDatabase.mixingMethods.put( "STAR", new Integer( KoLConstants.STARCHART ));
-		METHOD_DESCRIPTION[ KoLConstants.STARCHART ] = "star chart"; 
+		METHOD_DESCRIPTION[ KoLConstants.STARCHART ] = "star chart";
 		// Items anybody can create by folding sugar sheets
 		ConcoctionDatabase.mixingMethods.put( "SUGAR", new Integer( KoLConstants.SUGAR_FOLDING ));
-		METHOD_DESCRIPTION[ KoLConstants.SUGAR_FOLDING ] = "sugar sheet"; 
+		METHOD_DESCRIPTION[ KoLConstants.SUGAR_FOLDING ] = "sugar sheet";
 		// Items anybody can create with pixels
 		ConcoctionDatabase.mixingMethods.put( "PIXEL", new Integer( KoLConstants.PIXEL ));
-		METHOD_DESCRIPTION[ KoLConstants.PIXEL ] = "Crackpot Mystic"; 
+		METHOD_DESCRIPTION[ KoLConstants.PIXEL ] = "Crackpot Mystic";
 		// Items created with a rolling pin or and an unrolling pin
 		ConcoctionDatabase.mixingMethods.put( "ROLL", new Integer( KoLConstants.ROLLING_PIN ));
-		METHOD_DESCRIPTION[ KoLConstants.ROLLING_PIN ] = "rolling pin/unrolling pin"; 
+		METHOD_DESCRIPTION[ KoLConstants.ROLLING_PIN ] = "rolling pin/unrolling pin";
 		// Items requiring access to the Gnome supertinker
 		ConcoctionDatabase.mixingMethods.put( "TINKER", new Integer( KoLConstants.GNOME_TINKER ));
-		METHOD_DESCRIPTION[ KoLConstants.GNOME_TINKER ] = "Supertinkering"; 
+		METHOD_DESCRIPTION[ KoLConstants.GNOME_TINKER ] = "Supertinkering";
 		// Items requiring access to Roderick the Staffmaker
 		ConcoctionDatabase.mixingMethods.put( "STAFF", new Integer( KoLConstants.STAFF ));
-		METHOD_DESCRIPTION[ KoLConstants.STAFF ] = "Rodoric, the Staffcrafter"; 
+		METHOD_DESCRIPTION[ KoLConstants.STAFF ] = "Rodoric, the Staffcrafter";
 		// Items anybody can create with a sushi-rolling mat
 		ConcoctionDatabase.mixingMethods.put( "SUSHI", new Integer( KoLConstants.SUSHI ));
-		METHOD_DESCRIPTION[ KoLConstants.SUSHI ] = "sushi-rolling mat"; 
+		METHOD_DESCRIPTION[ KoLConstants.SUSHI ] = "sushi-rolling mat";
 		// Items created by single (or multi) using a single item.
 		// Extra ingredients might also be consumed.
 		// Multi-using multiple of the item creates multiple results.
 		ConcoctionDatabase.mixingMethods.put( "SUSE", new Integer( KoLConstants.SINGLE_USE ));
-		METHOD_DESCRIPTION[ KoLConstants.SINGLE_USE ] = "single-use"; 
+		METHOD_DESCRIPTION[ KoLConstants.SINGLE_USE ] = "single-use";
 		// Items created by multi-using specific # of a single item.
 		// Extra ingredients might also be consumed.
 		// You must create multiple result items one at a time.
 		ConcoctionDatabase.mixingMethods.put( "MUSE", new Integer( KoLConstants.MULTI_USE ));
-		METHOD_DESCRIPTION[ KoLConstants.MULTI_USE ] = "multi-use"; 
+		METHOD_DESCRIPTION[ KoLConstants.MULTI_USE ] = "multi-use";
 		// Items formerly creatable in Crimbo Town during Crimbo 2005
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO05", new Integer( KoLConstants.CRIMBO05 ));
-		METHOD_DESCRIPTION[ KoLConstants.CRIMBO05 ] = "Crimbo Town Toy Factory (Crimbo 2005)"; 
+		METHOD_DESCRIPTION[ KoLConstants.CRIMBO05 ] = "Crimbo Town Toy Factory (Crimbo 2005)";
 		// Items formerly creatable in Crimbo Town during Crimbo 2006
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO06", new Integer( KoLConstants.CRIMBO06 ));
-		METHOD_DESCRIPTION[ KoLConstants.CRIMBO06 ] = "Uncle Crimbo's Mobile Home (Crimboween 2006)"; 
+		METHOD_DESCRIPTION[ KoLConstants.CRIMBO06 ] = "Uncle Crimbo's Mobile Home (Crimboween 2006)";
 		// Items formerly creatable in Crimbo Town during Crimbo 2007
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO07", new Integer( KoLConstants.CRIMBO07 ));
-		METHOD_DESCRIPTION[ KoLConstants.CRIMBO07 ] = "Uncle Crimbo's Mobile Home (Crimbo 2007)"; 
+		METHOD_DESCRIPTION[ KoLConstants.CRIMBO07 ] = "Uncle Crimbo's Mobile Home (Crimbo 2007)";
 		// Items requiring access to Phineas
 		ConcoctionDatabase.mixingMethods.put( "PHINEAS", new Integer( KoLConstants.PHINEAS ));
-		METHOD_DESCRIPTION[ KoLConstants.PHINEAS ] = "Phineas"; 
+		METHOD_DESCRIPTION[ KoLConstants.PHINEAS ] = "Phineas";
 		// Items that require a Dramatic Range
 		ConcoctionDatabase.mixingMethods.put( "COOK_FANCY", new Integer( KoLConstants.COOK_FANCY ));
-		METHOD_DESCRIPTION[ KoLConstants.COOK_FANCY ] = "Cooking (fancy)"; 
+		METHOD_DESCRIPTION[ KoLConstants.COOK_FANCY ] = "Cooking (fancy)";
 		// Items that require a Cocktailcrafting Kit
 		ConcoctionDatabase.mixingMethods.put( "MIX_FANCY", new Integer( KoLConstants.MIX_FANCY ));
-		METHOD_DESCRIPTION[ KoLConstants.MIX_FANCY ] = "Mixing (fancy)"; 
+		METHOD_DESCRIPTION[ KoLConstants.MIX_FANCY ] = "Mixing (fancy)";
 		// Un-untinkerable Amazing Ideas
 		ConcoctionDatabase.mixingMethods.put( "ACOMBINE", new Integer( KoLConstants.ACOMBINE ));
 		METHOD_DESCRIPTION[ KoLConstants.ACOMBINE ] = "Meatpasting (not untinkerable)";
@@ -219,7 +220,7 @@ public class ConcoctionDatabase
 		METHOD_DESCRIPTION[ KoLConstants.COINMASTER ] = "Coin Master purchase";
 		// Summon Clip Art items
 		ConcoctionDatabase.mixingMethods.put( "CLIPART", new Integer( KoLConstants.CLIPART ));
-		METHOD_DESCRIPTION[ KoLConstants.CLIPART ] = "Summon Clip Art"; 
+		METHOD_DESCRIPTION[ KoLConstants.CLIPART ] = "Summon Clip Art";
 
 		// Creation flags
 
@@ -877,7 +878,7 @@ public class ConcoctionDatabase
 		// ingredients are already spoken for. Refresh again now that
 		// the queue is empty.
 
-		ConcoctionDatabase.refreshConcoctions();
+		ConcoctionDatabase.refreshConcoctions( true );
 
 		Concoction c;
 		int quantity = 0;
@@ -916,8 +917,6 @@ public class ConcoctionDatabase
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 		RequestThread.closeRequestSequence();
-
-		ConcoctionDatabase.refreshConcoctions();
 	}
 
 	private static final void consumeItem( Concoction c, int quantity )
@@ -1108,12 +1107,26 @@ public class ConcoctionDatabase
 
 	public static final void deferRefresh( boolean flag )
 	{
-		ConcoctionDatabase.refreshLevel += flag ? 1 : -1;
-		if ( ConcoctionDatabase.refreshLevel <= 0 &&
-		     ConcoctionDatabase.refreshDeferred )
+		if ( flag )
 		{
-			ConcoctionDatabase.refreshDeferred = false;
-			ConcoctionDatabase.refreshConcoctions();
+			++ConcoctionDatabase.refreshLevel;
+		}
+		else if ( ConcoctionDatabase.refreshLevel > 0 )
+		{
+			if ( --ConcoctionDatabase.refreshLevel == 0 )
+			{
+				ConcoctionDatabase.refreshConcoctions( false );
+			}
+		}
+	}
+
+	public static final void setRefreshNeeded( boolean recalculateAdventureRange )
+	{
+		ConcoctionDatabase.refreshNeeded = true;
+
+		if ( recalculateAdventureRange )
+		{
+			ConcoctionDatabase.recalculateAdventureRange = true;
 		}
 	}
 
@@ -1122,11 +1135,15 @@ public class ConcoctionDatabase
 	 * requests for item creation.
 	 */
 
-	public static final synchronized void refreshConcoctions()
+	public static final synchronized void refreshConcoctions( boolean force )
 	{
+		if ( !force && !ConcoctionDatabase.refreshNeeded )
+		{
+			return;
+		}
+
 		if ( ConcoctionDatabase.refreshLevel > 0 )
 		{
-			ConcoctionDatabase.refreshDeferred = true;
 			return;
 		}
 
@@ -1174,7 +1191,7 @@ public class ConcoctionDatabase
 				{
 					// Don't buy flat dough from Degrassi Knoll Bakery -
 					// buy wads of dough for 20 meat less, instead.
-					
+
 					item.price = NPCStoreDatabase.price( name );
 					item.initial = concoction.getCount( availableIngredients );
 					item.creatable = 0;
@@ -1297,6 +1314,12 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.creatableList.sort();
 		ConcoctionDatabase.usableList.updateFilter( changeDetected );
 		ConcoctionDatabase.usableList.sort();
+
+		if ( ConcoctionDatabase.recalculateAdventureRange )
+		{
+			ItemDatabase.calculateAdventureRanges();
+			ConcoctionDatabase.recalculateAdventureRange = false;
+		}
 	}
 
 	/**
