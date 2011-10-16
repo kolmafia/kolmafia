@@ -311,7 +311,10 @@ public class UneffectRequest
 		KoLConstants.activeEffects.remove( this.effect );
 
 		// If you lose Inigo's, what you can craft changes
-		ConcoctionDatabase.refreshConcoctions();
+		if ( this.effect.getName().equals( EffectPool.INIGO ) )
+		{
+			ConcoctionDatabase.setRefreshNeeded( false );
+		}
 
 		KoLmafia.updateDisplay( this.effect.getName() + " removed." );
 		RequestFrame.refreshStatus();

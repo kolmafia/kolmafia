@@ -162,7 +162,7 @@ public class ValhallaManager
 		RequestThread.closeRequestSequence();
 
 		EquipmentManager.updateEquipmentLists();
-		ConcoctionDatabase.refreshConcoctions();
+		ConcoctionDatabase.refreshConcoctions( true );
 
 		// Reset certain settings that the player almost certainly will
 		// use differently at the beginning of a run vs. at the end.

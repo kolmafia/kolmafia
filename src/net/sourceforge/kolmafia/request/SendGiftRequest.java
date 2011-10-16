@@ -236,7 +236,6 @@ public class SendGiftRequest
 		}
 
 		List source = SendGiftRequest.source( urlString );
-		TransferItemRequest.transferItems( urlString, source, null, 0 );
 
 		int cost = SendGiftRequest.getMaterialCost( urlString );
 		int meat = TransferItemRequest.transferredMeat( urlString, "sendmeat" );
@@ -253,8 +252,9 @@ public class SendGiftRequest
 			}
 		}
 
+		TransferItemRequest.transferItems( urlString, source, null, 0 );
+
 		KoLCharacter.updateStatus();
-		ConcoctionDatabase.refreshConcoctions();
 
 		return true;
 	}

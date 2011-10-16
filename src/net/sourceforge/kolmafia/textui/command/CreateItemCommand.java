@@ -62,8 +62,6 @@ public class CreateItemCommand
 
 	public static void create( final String parameters )
 	{
-		ConcoctionDatabase.refreshConcoctions();
-
 		if ( parameters.equals( "" ) )
 		{
 			RequestLogger.printList( ConcoctionDatabase.getCreatables() );

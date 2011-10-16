@@ -360,7 +360,6 @@ public class ClosetRequest
 		if ( success )
 		{
 			KoLCharacter.updateStatus();
-			ConcoctionDatabase.refreshConcoctions();
 		}
 
 		return success;

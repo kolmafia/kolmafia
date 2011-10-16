@@ -730,7 +730,7 @@ public class ResponseTextParser
 		}
 
 		Preferences.setBoolean( "unknownRecipe" + id, false );
-		ConcoctionDatabase.refreshConcoctions();
+		ConcoctionDatabase.setRefreshNeeded( false );
 	}
 
 	public static void learnSkill( final String location, final String responseText )
@@ -830,7 +830,7 @@ public class ResponseTextParser
 		KoLCharacter.addDerivedSkills();
 		KoLConstants.usableSkills.sort();
 		DiscoCombatHelper.learnSkill( skillName );
-		ConcoctionDatabase.refreshConcoctions();
+		ConcoctionDatabase.setRefreshNeeded( true );
 		if ( SkillDatabase.isBookshelfSkill( skillName ) )
 		{
 			KoLCharacter.setBookshelf( true );

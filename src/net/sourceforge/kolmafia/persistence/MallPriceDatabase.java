@@ -78,7 +78,7 @@ public class MallPriceDatabase
 	{
 		BufferedReader reader = DataUtilities.getReader(
 			UtilityConstants.DATA_DIRECTORY, filename, allowOverride );
-		
+
 		String line = FileUtilities.readLine( reader );
 		if ( line == null )
 		{
@@ -111,7 +111,7 @@ public class MallPriceDatabase
 			{	// Something's fishy with this file...
 				return count;
 			}
-			
+
 			if ( !ItemDatabase.isTradeable( id ) ) continue;
 			Price p = MallPriceDatabase.prices.get( id );
 			if ( p == null )
@@ -139,7 +139,7 @@ public class MallPriceDatabase
 		}
 		return count;
 	}
-	
+
 	public static void updatePrices( String filename )
 	{
 		if ( filename.length() == 0 )
@@ -147,7 +147,7 @@ public class MallPriceDatabase
 			RequestLogger.printLine( "No URL or filename specified." );
 			return;
 		}
-		
+
 		if ( filename.startsWith( "http://" ) )
 		{
 			if ( MallPriceDatabase.updated.contains( filename ) )
@@ -161,12 +161,12 @@ public class MallPriceDatabase
 		if ( count > 0 )
 		{
 			MallPriceDatabase.writePrices();
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshConcoctions( true );
 		}
 		RequestLogger.printLine( count + " price" + ( count != 1 ? "s" : "" ) +
 			" updated from " + filename );
 	}
-	
+
 	public static void recordPrice( int itemId, int price )
 	{
 		long timestamp = System.currentTimeMillis() / 1000L;
@@ -189,17 +189,17 @@ public class MallPriceDatabase
 		File output = new File( UtilityConstants.DATA_LOCATION, "mallprices.txt" );
 		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.MALLPRICES_VERSION );
-		
+
 		for ( int i = 1; i < MallPriceDatabase.prices.size(); ++i )
 		{
 			Price p = MallPriceDatabase.prices.get( i );
 			if ( p == null ) continue;
 			writer.println( i + "\t" + p.timestamp + "\t" + p.price );
 		}
-		
+
 		writer.close();
 	}
-	
+
 	public static void submitPrices( String url )
 	{
 		if ( url.length() == 0 )
@@ -207,7 +207,7 @@ public class MallPriceDatabase
 			RequestLogger.printLine( "No URL specified." );
 			return;
 		}
-		
+
 		if ( MallPriceDatabase.modCount == 0 )
 		{
 			RequestLogger.printLine( "You have no updated price data to submit." );
@@ -218,7 +218,7 @@ public class MallPriceDatabase
 			RequestLogger.printLine( "Already submitted to " + url + " in this session." );
 			return;
 		}
-		
+
 		try
 		{
 			HttpURLConnection con = (HttpURLConnection)
@@ -232,7 +232,7 @@ public class MallPriceDatabase
 			BufferedWriter w = new BufferedWriter( new OutputStreamWriter( o ) );
 			w.write( "----blahblahfishcakes\r\n" );
 			w.write( "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n" );
-			
+
 			BufferedReader reader = DataUtilities.getReader(
 				UtilityConstants.DATA_DIRECTORY, "mallprices.txt", true );
 			String line;
@@ -244,7 +244,7 @@ public class MallPriceDatabase
 			w.write( "\r\n----blahblahfishcakes--\r\n" );
 			w.flush();
 			o.close();
-			
+
 			InputStream i = con.getInputStream();
 			int responseCode = con.getResponseCode();
 			String response = "";
@@ -269,13 +269,13 @@ public class MallPriceDatabase
 			return;
 		}
 	}
-	
+
 	public static int getPrice( int itemId )
 	{
 		Price p = MallPriceDatabase.prices.get( itemId );
 		return p == null ? 0 : p.price;
 	}
-	
+
 	// Return age of price data, in fractional days
 	public static float getAge( int itemId )
 	{
@@ -284,12 +284,12 @@ public class MallPriceDatabase
 		return p == null ? Float.POSITIVE_INFINITY :
 			(now - p.timestamp) / 86400.0f;
 	}
-	
+
 	private static class Price
 	{
 		int price;
 		long timestamp;
-		
+
 		public Price( int price, long timestamp )
 		{
 			this.price = price;

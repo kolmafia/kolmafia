@@ -66,7 +66,7 @@ public class DebugCreateCommand
 			if ( item != null )
 			{
 				Concoction.debugId = item.getItemId();
-				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.refreshConcoctions( true );
 				Concoction.debugId = Integer.MAX_VALUE;
 			}
 		}

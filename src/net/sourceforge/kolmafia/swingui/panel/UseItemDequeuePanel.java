@@ -184,7 +184,7 @@ public class UseItemDequeuePanel
 		public void run()
 		{
 			ConcoctionDatabase.pop( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen );
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshConcoctions( true );
 
 			if ( UseItemDequeuePanel.this.food )
 			{
@@ -240,14 +240,14 @@ public class UseItemDequeuePanel
 					return true;
 				}
 				break;
-				
+
 			case KoLConstants.CONSUME_DRINK_HELPER:
 				if ( UseItemDequeuePanel.this.booze )
 				{
 					return true;
 				}
 				break;
-			
+
 			case KoLConstants.CONSUME_MULTIPLE:
 				if ( UseItemDequeuePanel.this.food &&
 				     creation.getItemId() == ItemPool.MUNCHIES_PILL )
@@ -255,14 +255,14 @@ public class UseItemDequeuePanel
 					return true;
 				}
 				break;
-				
+
 			case KoLConstants.CONSUME_USE:
 				if ( UseItemDequeuePanel.this.food &&
 				     creation.getItemId() == ItemPool.DISTENTION_PILL )
 				{
 					return true;
 				}
-				break;	
+				break;
 			}
 
 			return false;

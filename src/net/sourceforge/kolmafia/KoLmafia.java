@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1039,7 +1040,7 @@ public abstract class KoLmafia
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		KoLmafia.isRefreshing = false;
-		ConcoctionDatabase.refreshConcoctions();
+		ConcoctionDatabase.refreshConcoctions( true );
 
 		// Visit lounge and report on whether you have a present waiting
 		ClanLoungeRequest.visitLounge();
@@ -1159,12 +1160,19 @@ public abstract class KoLmafia
 
 	public static final void applyEffects()
 	{
+		boolean concoctionRefreshNeeded = false;
+
 		int oldCount = KoLConstants.activeEffects.size();
 
 		for ( int j = 0; j < KoLConstants.recentEffects.size(); ++j )
 		{
-			AdventureResult.addResultToList(
-				KoLConstants.activeEffects, (AdventureResult) KoLConstants.recentEffects.get( j ) );
+			AdventureResult effect = (AdventureResult) KoLConstants.recentEffects.get( j );
+			AdventureResult.addResultToList( KoLConstants.activeEffects, effect );
+
+			if ( effect.getName().equals( EffectPool.INIGO ) )
+			{
+				concoctionRefreshNeeded = true;
+			}
 		}
 
 		KoLConstants.recentEffects.clear();
@@ -1172,9 +1180,12 @@ public abstract class KoLmafia
 
 		if ( oldCount != KoLConstants.activeEffects.size() )
 		{
-			// If you gain or lose Inigo's, what you can craft changes
-			ConcoctionDatabase.refreshConcoctions();
 			KoLCharacter.updateStatus();
+		}
+
+		if ( concoctionRefreshNeeded )
+		{
+			ConcoctionDatabase.setRefreshNeeded( false );
 		}
 	}
 

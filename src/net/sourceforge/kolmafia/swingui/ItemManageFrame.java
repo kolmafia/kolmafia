@@ -553,7 +553,7 @@ public class ItemManageFrame
 		{
 			int desired = InputFieldUtilities.getValue( this, 0 );
 			ConcoctionDatabase.setPullsBudgeted( desired );
-			ConcoctionDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshConcoctions( true );
 		}
 	}
 

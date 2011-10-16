@@ -79,6 +79,6 @@ public class CreationSettingCheckBox
 		}
 
 		Preferences.setBoolean( this.property, this.isSelected() );
-		ConcoctionDatabase.refreshConcoctions();
+		ConcoctionDatabase.refreshConcoctions( true );
 	}
 }

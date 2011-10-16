@@ -263,7 +263,7 @@ public class AutoSellRequest
 		}
 
 		// For each group - individual quantities, all but one, all -
-		// create a subinstance. 
+		// create a subinstance.
 
 		// Iterate over remaining items. Each distinct count goes into
 		// its own subinstance
@@ -365,10 +365,9 @@ public class AutoSellRequest
 
 		if ( !itemList.isEmpty() )
 		{
-			TransferItemRequest.transferItems( itemList, KoLConstants.inventory, null );
 			AutoSellRequest.processMeat( itemList, null );
+			TransferItemRequest.transferItems( itemList, KoLConstants.inventory, null );
 			KoLCharacter.updateStatus();
-			ConcoctionDatabase.refreshConcoctions();
 		}
 
 		return true;
@@ -400,10 +399,9 @@ public class AutoSellRequest
 
 		if ( !itemList.isEmpty() )
 		{
-			TransferItemRequest.transferItems( itemList, KoLConstants.inventory, null );
 			AutoSellRequest.processMeat( itemList, responseText );
+			TransferItemRequest.transferItems( itemList, KoLConstants.inventory, null );
 			KoLCharacter.updateStatus();
-			ConcoctionDatabase.refreshConcoctions();
 		}
 
 		return true;

@@ -175,7 +175,6 @@ public class DisplayCaseRequest
 				KoLConstants.inventory,
 				KoLConstants.collection );
 
-			ConcoctionDatabase.refreshConcoctions();
 			return true;
 		}
 
@@ -206,7 +205,6 @@ public class DisplayCaseRequest
 				KoLmafia.updateDisplay( "You acquire " + item );
 			}
 
-			ConcoctionDatabase.refreshConcoctions();
 			return true;
 		}
 

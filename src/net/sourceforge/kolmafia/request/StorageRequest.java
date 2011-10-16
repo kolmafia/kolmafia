@@ -52,7 +52,9 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -354,7 +356,6 @@ public class StorageRequest
 
 		}
 
-		boolean success = true;
 		boolean transfer = false;
 
 		if ( urlString.indexOf( "action=pullall" ) != -1 )
@@ -367,17 +368,17 @@ public class StorageRequest
 			if ( responseText.indexOf( "go and grab all of your stuff" ) != -1 )
 			{
 				Object[] items = KoLConstants.storage.toArray();
-				ResultProcessor.processBulkItems( items );
+				StorageRequest.processBulkItems( items );
 				KoLConstants.storage.clear();
 				KoLCharacter.setStorageMeat( 0 );
+
 				items = KoLConstants.freepulls.toArray();
-				ResultProcessor.processBulkItems( items );
+				StorageRequest.processBulkItems( items );
 				KoLConstants.freepulls.clear();
+
+				CoinmastersFrame.externalUpdate();
+
 				transfer = true;
-			}
-			else
-			{
-				success = false;
 			}
 		}
 
@@ -388,10 +389,6 @@ public class StorageRequest
 				StorageRequest.transferMeat( urlString );
 				transfer = true;
 			}
-			else
-			{
-				success = false;
-			}
 		}
 
 		else if ( urlString.indexOf( "action=pull" ) != -1 )
@@ -401,10 +398,6 @@ public class StorageRequest
 				// Pull items from storage and/or freepulls
 				StorageRequest.transferItems( responseText );
 				transfer = true;
-			}
-			else
-			{
-				success = false;
 			}
 		}
 
@@ -426,7 +419,6 @@ public class StorageRequest
 		if ( transfer )
 		{
 			KoLCharacter.updateStatus();
-			ConcoctionDatabase.refreshConcoctions();
 		}
 
 		return true;
@@ -566,5 +558,40 @@ public class StorageRequest
 		default:
 			return "Unknown request type";
 		}
+	}
+
+
+	/**
+	 * Handle lots of items being received at once (specifically, from emptying Hangk's),
+	 * deferring updates to the end as much as possible.
+	 */
+	private static void processBulkItems( Object[] items )
+	{
+		if ( items.length == 0 )
+		{
+			return;
+		}
+
+		if ( RequestLogger.isDebugging() )
+		{
+			RequestLogger.updateDebugLog( "Processing bulk items" );
+		}
+
+		KoLmafia.updateDisplay( "Processing, this may take a while..." );
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			AdventureResult result = (AdventureResult) items[ i ];
+
+			AdventureResult.addResultToList( KoLConstants.inventory, result );
+			EquipmentManager.processResult( result );
+		}
+
+		// Assume that at least one item in the list required each of
+		// these updates:
+
+		CoinmastersFrame.externalUpdate();
+
+		KoLmafia.updateDisplay( "Processing complete." );
 	}
 }

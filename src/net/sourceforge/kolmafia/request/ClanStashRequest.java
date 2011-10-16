@@ -209,7 +209,7 @@ public class ClanStashRequest
 		{
 			// If you ask for too many of an item:
 			//     There aren't that many of that item in the stash.
-			// 
+			//
 			// If you ask for (and are allowed to take) items:
 			//     You acquire 5 xxx
 			if ( responseText.indexOf( "You acquire" ) == -1 )
@@ -219,7 +219,7 @@ public class ClanStashRequest
 
 			// Since "you acquire" items, they have already been
 			// added to inventory
-			TransferItemRequest.transferItems( urlString, 
+			TransferItemRequest.transferItems( urlString,
 					TransferItemRequest.ITEMID_PATTERN,
 					TransferItemRequest.QUANTITY_PATTERN,
 					ClanManager.getStash(),
@@ -253,7 +253,6 @@ public class ClanStashRequest
 		}
 
 		KoLCharacter.updateStatus();
-		ConcoctionDatabase.refreshConcoctions();
 
 		ClanManager.setStashRetrieved();
 		ClanStashRequest.parseStash( responseText );
@@ -299,7 +298,7 @@ public class ClanStashRequest
 
 			String quantityString = matcher.group( 5 );
 			int quantity = 1;
-			
+
 			if ( quantityString != null )
 			{
 				quantity = StringUtilities.parseInt( quantityString );
