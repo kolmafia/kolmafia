@@ -232,6 +232,7 @@ yellow traffic cone	60	Mox: 15
 
 1337 7r0uZ0RZ	110	Mox: 40
 Angelhair Culottes	125	Mys: 30
+BRAINS shorts	0	Mox: 200
 BRICKO pants	90	none
 Boss Bat britches	65	Mox: 17
 Brimstone Boxers	200	Mox: 30
@@ -302,6 +303,7 @@ duct tape dockers	195	Mox: 82
 dungeoneer's dungarees	30	none
 dwarvish war kilt	165	Mox: 67
 eelskin pants	200	Mox: 85
+extremely skinny jeans	200	Mox: 200
 fancy tuxedo pants	100	Mox: 35
 filthy corduroys	60	Mox: 15
 floaty rock pants	100	Mox: 35
@@ -423,6 +425,7 @@ coconut bikini top	100	Mus: 35
 demonskin jacket	80	Mus: 25
 duct tape shirt	195	Mus: 82
 eXtreme Bi-Polar Fleece Vest	90	Mus: 30
+extra-see-thru nightie	200	Mus: 200
 filthy hippy poncho	40	Mus: 5
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
@@ -1327,6 +1330,7 @@ Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	60	Mys: 15
 Mega Gem	10	none
 Mer-kin prayerbeads	200	Mys: 85
+Mesmereyes&trade; contact lenses	0	Mys: 200
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
 Mr. Eh?	0	none
@@ -1460,6 +1464,7 @@ continuum transfunctioner	10	none
 copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 crusty hula hoop	200	Mys: 200
+cursed scrunchie	0	Mys: 200
 cyborg stompin' boot	150	Mus: 60
 dead guy's memento	200	Mys: 200
 dead guy's watch	50	Mys: 10
@@ -1572,6 +1577,7 @@ pink glowstick	20	none
 pink plastic baby	20	none
 pirate fledges	140	Mys: 60
 plastic spider ring	0	none
+plastic vampire fangs	0	none
 plexiglass pendant	180	Mys: 75
 plexiglass pinky ring	180	Mys: 75
 plexiglass pocketwatch	180	Mys: 75

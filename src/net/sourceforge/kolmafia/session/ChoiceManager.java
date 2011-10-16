@@ -1111,7 +1111,7 @@ public abstract class ChoiceManager
 
 		// Showdown
 		new ChoiceAdventure(
-			"The Slime Tube", "choiceAdventure326", "The Slime Tube",
+			"Clan Basement", "choiceAdventure326", "The Slime Tube",
 			new String[] { "enter combat with Mother Slime", "skip adventure" } ),
 
 		// Choice 327 is Puttin' it on Wax
@@ -1133,7 +1133,7 @@ public abstract class ChoiceManager
 
 		// Engulfed!
 		new ChoiceAdventure(
-			"The Slime Tube", "choiceAdventure337", "The Slime Tube",
+			"Clan Basement", "choiceAdventure337", "The Slime Tube",
 			new String[] { "+1 rusty -> slime-covered item conversion", "raise area ML", "skip adventure" } ),
 
 		// Choice 338 is Duel Nature

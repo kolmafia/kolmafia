@@ -1,11 +1,9 @@
 1
 Town	Town	Seaside Town
 Casino	Town	Seaside Casino
-Dungeon	Town	Seaside Dungeon
 
-Hobopolis	Hobopolis	Hobopolis
-The Slime Tube	The Slime Tube	The Slime Tube
-The Haunted Sorority House	The Haunted Sorority House	The Haunted Sorority House
+Clan Basement	Clan Basement	Clan Basement
+Hobopolis	Clan Basement	Hobopolis
 
 The Sea	The Sea	The Sea
 
@@ -35,6 +33,7 @@ Pandamonium	Pandamonium	Pandamonium
 
 Mountain	Mountain	Big Mountains
 McLarge	Mountain	Mt. McLargeHuge
+Dungeon	Mountain	Dungeon Full of Dungeons
 
 Beach	Beach	Desert Beach
 Pyramid	Beach	Ancient Buried Pyramid

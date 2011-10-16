@@ -5305,3 +5305,33 @@
 5304	534611026	vampchalice.gif	Chalice of the Malkovich Prince
 5305	475867577	vampsceptre.gif	Sceptre of the Torremolinos Prince
 5306	546884701	vampmedal.gif	Medallion of the Ventrilo Prince
+5307	467115427	pamphlet.gif	Haunted Sorority House staff guide
+5308	132358159	ghosttrap.gif	ghost trap
+5309	268469310	chainsawchain.gif	chainsaw chain
+5310	253570967	shotgunshell.gif	silver shotgun shell
+5311	603294066	funhousemirror.gif	funhouse mirror
+5312	530711589	tube.gif	ghostly body paint
+5313	728903824	bodyspray.gif	necrotizing body spray
+5314	992265372	lipstick.gif	bite-me-red lipstick
+5315	188973115	pencil.gif	whisker pencil
+5316	206212551	bonechest.gif	press-on ribs
+5317
+5318
+5319
+5320
+5321
+5322	188640459	winecooler.gif	Ecto-Cooler
+5323	520362125	winecooler.gif	Bartles and BRAAAINS wine cooler
+5324	779639287	beer.gif	Blood Light
+5325	138741589	tallbeer.gif	Silver Bullet beer
+5326	152114626	beerbottle.gif	Bone's Farm &quot;wine&quot;
+5327	355856839	document.gif	ghost protocol
+5328	344272014	birdbrain.gif	sorority brain
+5329	341295040	potion4.gif	Nightstalker perfume
+5330	879266387	oildrum.gif	drum of pomade
+5331	570546301	bone.gif	throwing bone
+5332	349333443	nightie.gif	extra-see-thru nightie
+5333	733620468	brainsshorts.gif	BRAINS shorts
+5334	415657785	contactlenses.gif	Mesmereyes&trade; contact lenses
+5335	431606529	scrunchie.gif	cursed scrunchie
+5336	586879875	skinnyjeans.gif	extremely skinny jeans

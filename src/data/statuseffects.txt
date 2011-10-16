@@ -935,3 +935,17 @@
 934	There Wolf	wolfmask.gif	02f23a504339a3803e97324d5af13db2
 935	Pride of the Vampire	vampirefangs.gif	1be892a67365bfd314e3a4456665cac5
 936	Prince of Seaside Town	crown.gif	379b1014e45c59ddc795cac103390472
+937	Haunting Looks	famspirit.gif	c7a917e9cb59af786895110a9bdc00c1	use 1 ghostly body paint
+938	Dead Sexy	nopic.gif	1538dfcf845858a2b5d59b7e8eee0d86	use 1 necrotizing body spray
+939	Vampin'	vampirefangs.gif	29e8c2f8cd929bc59b4a569a0269d66c	use 1 bite-me-red lipstick
+940	Yiffable You	wolfmask.gif	31faf7e2b7adda23a4206bfad4499f53	use 1 whisker pencil
+941	The Bone Us Round	brokeskull.gif	9bc403e94e6faaeef0679a9c3f23a331	use 1 press-on ribs
+942
+943
+944
+945
+946
+947	Perfect Hair	mullet.gif	8594bc25c0182521ccb0a20896cceb45	use 1 drum of pomade
+948	Let's Go Shopping!	dollarsign.gif	df7800d80a1647eaa35777fb09cc92fe	use 1 sorority brain
+949
+950	Nightstalkin'	vampteeth.gif	83a68a4e66671c6af4bb107419eb382b	use 1 Nightstalker perfume
