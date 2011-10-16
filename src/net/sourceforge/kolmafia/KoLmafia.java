@@ -1324,6 +1324,8 @@ public abstract class KoLmafia
 
 		List goals = new ArrayList( GoalManager.getGoals() );
 
+		boolean deferConcoctionRefresh = true;
+
 		AdventureResult[] items = new AdventureResult[ goals.size() ];
 		CreateItemRequest[] creatables = new CreateItemRequest[ goals.size() ];
 
@@ -1331,6 +1333,11 @@ public abstract class KoLmafia
 		{
 			items[ i ] = (AdventureResult) goals.get( i );
 			creatables[ i ] = CreateItemRequest.getInstance( items[ i ] );
+
+			if ( ConcoctionDatabase.getMixingMethod( items[ i ] ) != KoLConstants.NOCREATE )
+			{
+				deferConcoctionRefresh = false;
+			}
 		}
 
 		KoLmafia.forceContinue();
@@ -1345,6 +1352,11 @@ public abstract class KoLmafia
 		{
 			AdventureResult ar = AdventureDatabase.getBounty( (KoLAdventure) request );
 			checkBounty = ar != null && bounty.getItemId() == ar.getItemId();
+		}
+
+		if ( deferConcoctionRefresh )
+		{
+			ConcoctionDatabase.deferRefresh( true );
 		}
 
 		while ( KoLmafia.permitsContinue() && ++currentIteration <= totalIterations )
@@ -1366,6 +1378,12 @@ public abstract class KoLmafia
 				checkBounty = false;
 			}
 		}
+
+		if ( deferConcoctionRefresh )
+		{
+			ConcoctionDatabase.deferRefresh( false );
+		}
+
 
 		if ( isAdventure )
 		{
