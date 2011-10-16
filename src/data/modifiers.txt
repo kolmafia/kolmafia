@@ -2616,6 +2616,7 @@ Dances with Tweedles	Meat Drop: +40
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
 Danish Cunning	Pickpocket Chance: +25
+# Dead Sexy
 # Deadened palate: Bleah
 Deadly Flashing Blade	Weapon Damage: +10
 # Deadly Lampblade: 100% chance of poisoning opponent
@@ -2785,6 +2786,7 @@ Hammered	Weapon Damage Percent: +50
 Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+# Haunting Looks
 Having a Ball!	Muscle Percent: [pref(ballpitBonus)], Mysticality Percent: [pref(ballpitBonus)], Moxie Percent: [pref(ballpitBonus)]
 Head on Fire, Ass Catching	Initiative: +10
 Heal Thy Nanoself	HP Regen Min: 10, HP Regen Max: 20
@@ -3207,6 +3209,7 @@ Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Thaumodynamic	Experience Percent (Mysticality): +5
 # The 'Tussin: Wait, What?
 The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
+# The Bone Us Round
 # The Captain's Hammer: +50 Physical Damage (when Unarmed)
 The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 The Cupcake of Wrath	Monster Level: +10
@@ -3259,6 +3262,7 @@ Twinkly Weapon	Weapon Damage: +3
 Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
 Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
+# Vampin'
 Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
 Violent Night	Critical: 2
@@ -3292,6 +3296,7 @@ Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
 # Yellow Tongue: Eww.
 # Yes, Can Haz: Effect Cat is Not Amused
+# Yiffable You
 You Can Really Taste the Dormouse	Familiar Weight: +5
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
@@ -3619,6 +3624,7 @@ banana smoothie	Effect: "Bananas!", Effect Duration: [R]
 bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
 begpwnia	Effect: "Can't Be a Chooser", Effect Duration: 10
 bellhop bell	Effect: "Ringing Ears", Effect Duration: 10
+bite-me-red lipstick	Effect: "Vampin'", Effect Duration: 30
 bitter pill	Effect: "Bitterskin", Effect Duration: 100
 black candy heart	Effect: "Heart of Black", Effect Duration: 10
 black eyedrops	Effect: "Hyphemariffic", Effect Duration: 10
@@ -3709,6 +3715,7 @@ fry-oil-flavored Hob-O	Effect: "Cholestoriffic"
 funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
+ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
 glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
 goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
@@ -3763,6 +3770,7 @@ milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
 mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 motivational poster	Effect: "Loco Motives", Effect Duration: 10
 natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
+necrotizing body spray	Effect: "Dead Sexy", Effect Duration: 30
 neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
 oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
@@ -3805,6 +3813,7 @@ potion of the captain's hammer	Effect: "The Captain's Hammer", Effect Duration: 
 potion of the field gar	Effect: "Gar-ish", Effect Duration: 10
 potion of the litterbox	Effect: "Litterboxing", Effect Duration: 20
 powdered toad horn	Effect: "Squirming Like a Toad", Effect Duration: 10
+press-on ribs	Effect: "The Bone Us Round", Effect Duration: 30
 pressurized potion of perception	Effect: "Perceptive Pressure", Effect Duration: [R]
 pressurized potion of perspicacity	Effect: "Perspicacious Pressure", Effect Duration: [R]
 pressurized potion of pneumaticity	Effect: "Pneumatic", Effect Duration: 20
@@ -3881,6 +3890,7 @@ wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 white candy heart	Effect: "Heart of White", Effect Duration: 10
 willyweed	Effect: "Wet Willied", Effect Duration: 30
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
+whisker pencil	Effect: "Yiffable You", Effect Duration: 30
 yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
 yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
 

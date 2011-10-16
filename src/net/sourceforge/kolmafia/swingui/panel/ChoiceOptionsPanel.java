@@ -107,6 +107,8 @@ public class ChoiceOptionsPanel
 	private final JComboBox darkAtticSelect;
 	private final JComboBox unlivingRoomSelect;
 	private final JComboBox debasementSelect;
+	private final JComboBox propDeportmentSelect;
+	private final JComboBox sororityGuideSelect;
 	private final JComboBox gongSelect;
 	private final JComboBox basementMallSelect;
 	private final JComboBox breakableSelect;
@@ -298,6 +300,19 @@ public class ChoiceOptionsPanel
 		this.debasementSelect.addItem( "lower area ML, then Prop Deportment" );
 		this.debasementSelect.addItem( "lower area ML, then mass kill vampires" );
 
+		this.propDeportmentSelect = new JComboBox();
+		this.propDeportmentSelect.addItem( "show in browser" );
+		this.propDeportmentSelect.addItem( "chainsaw chain" );
+		this.propDeportmentSelect.addItem( "silver item" );
+		this.propDeportmentSelect.addItem( "funhouse mirror" );
+		this.propDeportmentSelect.addItem( "chainsaw/mirror" );
+
+		this.sororityGuideSelect = new JComboBox();
+		this.sororityGuideSelect.addItem( "show in browser" );
+		this.sororityGuideSelect.addItem( "attic" );
+		this.sororityGuideSelect.addItem( "main floor" );
+		this.sororityGuideSelect.addItem( "basement" );
+
 		this.gongSelect = new JComboBox();
 		for ( int i = 0; i < GongCommand.GONG_PATHS.length; ++i )
 		{
@@ -342,6 +357,8 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Clan Basement", "Sorority House Attic", this.darkAtticSelect );
 		this.addChoiceSelect( "Clan Basement", "Sorority House Unliving Room", this.unlivingRoomSelect );
 		this.addChoiceSelect( "Clan Basement", "Sorority House Debasement", this.debasementSelect );
+		this.addChoiceSelect( "Clan Basement", "Sorority House Prop Deportment", this.propDeportmentSelect );
+		this.addChoiceSelect( "Item-Driven", "Sorority Staff Guide", this.sororityGuideSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
@@ -354,6 +371,8 @@ public class ChoiceOptionsPanel
 			new CommandButton( "use 1 llama lama gong" ) );
 		this.addChoiceSelect( "Item-Driven", "Item",
 			new CommandButton( "use 1 tiny bottle of absinthe" ) );
+		this.addChoiceSelect( "Item-Driven", "Item",
+			new CommandButton( "use 1 haunted sorority house staff guide" ) );
 
 		PreferenceListenerRegistry.registerListener( "choiceAdventure*", this );
 		PreferenceListenerRegistry.registerListener( "violetFogGoal", this );
@@ -760,6 +779,10 @@ public class ChoiceOptionsPanel
 			String.valueOf( this.unlivingRoomSelect.getSelectedIndex() ) );
 		Preferences.setString( "choiceAdventure551",
 			String.valueOf( this.debasementSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure552",
+			String.valueOf( this.propDeportmentSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure554",
+			String.valueOf( this.sororityGuideSelect.getSelectedIndex() ) );
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "addingScrolls", this.addingSelect.getSelectedIndex() );
@@ -1070,6 +1093,8 @@ public class ChoiceOptionsPanel
 		this.darkAtticSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure549" ) );
 		this.unlivingRoomSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure550" ) );
 		this.debasementSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure551" ) );
+		this.propDeportmentSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure552" ) );
+		this.sororityGuideSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure554" ) );
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );
 

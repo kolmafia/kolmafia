@@ -4904,6 +4904,7 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.REFLECTION_OF_MAP:
+		case ItemPool.STAFF_GUIDE:
 			// Items that can redirect to a choice adventure
 			turns = 1;
 			break;
