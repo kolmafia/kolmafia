@@ -1548,12 +1548,6 @@ public abstract class ChoiceManager
 			"Clan Basement", "choiceAdventure548", "Sorority House Necbromancer",
 			new String[] { "enter combat with The Necbromancer", "skip adventure" } ),
 
-		// Prop Deportment
-		new ChoiceAdventure(
-			"Clan Basement", "choiceAdventure552", "Sorority House Prop Deportment",
-			new String[] { "chainsaw", "Relocked and Reloaded", "funhouse mirror" },
-			new String[] { "5309", null, "5311" } ),
-
 		// Choice 553 is Relocked and Reloaded
 	};
 
@@ -1889,7 +1883,7 @@ public abstract class ChoiceManager
 
 		// Dark in the Attic
 		new ChoiceAdventure(
-			"Clan Basement", "choiceAdventure549", "The Attic",
+			"Clan Basement", "choiceAdventure549", "Dark in the Attic",
 			new String[] { "staff guides", "ghost trap", "raise area ML", "lower area ML", "mass kill werewolves with silver shotgun shell" },
 			new String[] { "5307", "5308", null, null, null } ),
 
@@ -1903,6 +1897,16 @@ public abstract class ChoiceManager
 			"Clan Basement", "choiceAdventure551", "Debasement",
 			new String[] { "Prop Deportment", "mass kill vampires with plastic vampire fangs", "raise area ML", "lower area ML" } ),
 
+		// Prop Deportment
+		new ChoiceAdventure(
+			"Clan Basement", "choiceAdventure552", "Prop Deportment",
+			new String[] { "chainsaw", "Relocked and Reloaded", "funhouse mirror" },
+			new String[] { "5309", null, "5311" } ),
+
+		// Behind the Spooky Curtain
+		new ChoiceAdventure(
+			"Clan Basement", "choiceAdventure554", "Behind the Spooky Curtain",
+			new String[] { "staff guides, ghost trap, kill werewolves", "kill zombies, kill skeletons, costume item", "chainsaw, silver item, mirror, kill vampires" } ),
 	};
 
 	// Some choice adventures have options that cost meat or items
@@ -4346,6 +4350,32 @@ public abstract class ChoiceManager
 				return fogOn ? "4" : "1";
 			case 6: // lower area ML, then mass kill vampires
 				return fogOn ? "4" : "2";
+			}
+			return decision;
+
+		// Prop Deportment
+		case 552:
+
+			// Allow the user to let Mafia pick
+			// which prop to get
+
+			// 1 - chainsaw
+			// 2 - Relocked and Reloaded
+			// 3 - funhouse mirror
+			// 4 - chainsaw OR funhouse mirror
+
+			int chainsaw = InventoryManager.getCount( ItemPool.CHAINSAW_CHAIN );
+			int mirror = InventoryManager.getCount( ItemPool.FUNHOUSE_MIRROR );
+
+			switch ( StringUtilities.parseInt( decision ) )
+			{
+			case 0: // show in browser
+			case 1: // chainsaw
+			case 2: // Relocked and Reloaded
+			case 3: // funhouse mirror
+				return decision;
+			case 4: // raise area ML, then mass kill vampires
+				return chainsaw < mirror ? "1" : "3";
 			}
 			return decision;
 		}
