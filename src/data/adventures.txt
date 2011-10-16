@@ -34,6 +34,7 @@ Hobopolis	adventure=170	true	The Heap	+1 concentrated garbage juice
 Hobopolis	adventure=171	true	The Ancient Hobo Burial Ground	+1 deadly lampshade
 Hobopolis	adventure=172	true	The Purple Light District	+1 lewd playing card
 Hobopolis	adventure=246	true	Elf Alley
+The Haunted Sorority House	adventure=269	true	The Haunted Sorority House
 The Slime Tube	adventure=203	true	The Slime Tube	1 choiceadv|1 wad of slimy rags
 The Sea	adventure=186	true	The Briny Deeps	14 any fish meat
 The Sea	adventure=187	true	The Brinier Deepers
