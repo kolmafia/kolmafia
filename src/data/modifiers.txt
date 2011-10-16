@@ -287,6 +287,7 @@ yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "?xVolley
 
 1337 7r0uZ0RZ	Intrinsic Effect: "1337p4n7Z"
 Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer"
+BRAINS shorts	Sleaze Damage: +40, Sleaze Spell Damage: +40
 BRICKO pants	Damage Absorption: +9
 Boss Bat britches	Moxie: +5
 Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50, Brimstone
@@ -362,6 +363,7 @@ dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistanc
 # dwarvish war kilt: Blinky Lights
 # eelskin pants: Damages Attacking Opponent (Underwater Only)
 eelskin pants	Mysticality Percent: +5
+extremely skinny jeans	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Critical Hit Percent: +3
 fancy tuxedo pants	Moxie Percent: +15
 filthy corduroys	Mysticality: +3, Moxie: -3
 floaty rock pants	Spell Critical Percent: +10
@@ -483,6 +485,7 @@ coconut bikini top	Mysticality: +5
 demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
 duct tape shirt	Moxie: +9, Meat Drop: +20
 eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
+extra-see-thru nightie	Moxie Percent: +15
 filthy hippy poncho	Mysticality: +3
 flaming pink shirt	Item Drop: +15, Softcore Only
 floral print shirt	Mysticality: +5
@@ -1482,6 +1485,7 @@ MagiMechTech NanoMechaMech	Single Equip
 # Mega Gem
 # Mer-kin prayerbeads: Makes you feel uneasy...
 Mer-kin prayerbeads	Single Equip
+Mesmereyes&trade; contact lenses	Mysticality Percent: +15
 Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
 Mr. Eh?	Muscle: +13, Mysticality: +13, Moxie: +13, Softcore Only
@@ -1628,6 +1632,7 @@ copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
 corncob pipe	Muscle Percent: +10, Single Equip
 # crusty hula hoop: 75% Chance of Preventing Negative Status Attacks
 crusty hula hoop	Mysticality Percent: +15, Spell Damage: +50, Single Equip
+cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
 dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch
 dead guy's watch	Adventures: +1, Single Equip, Nonstackable Watch

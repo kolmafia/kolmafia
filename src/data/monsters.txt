@@ -688,11 +688,11 @@ Security slime	HP: 210 Def: 160 Atk: 160 P: slime
 Senile Lihc	HP: 50 Def: 57 Atk: 56 E: spooky P: undead	lihc eye (20)	lihc face (9)	shimmering tendrils (c5)
 Serialbus	HP: 60 Def: 60 Atk: 60 Init: 35 E: heat Meat: 25-35 P: demon	bus pass (25)
 Sewer Gator	HP: 304 Def: 250 Atk: 245 P: beast	gator skin (0)	sewer nuggets (0)	sewer nuggets (0)
-Sexy Sorority Ghost	HP: 0
-Sexy Sorority Skeleton	HP: 0
-Sexy Sorority Vampire	HP: 0
-Sexy Sorority Werewolf	HP: 0
-Sexy Sorority Zombie	HP: 0
+Sexy Sorority Ghost	HP: 0	Haunted Sorority House staff guide (0)	ghostly body paint (0)	Ecto-Cooler (0)	ghost protocol (0)	extra-see-thru nightie (0)
+Sexy Sorority Skeleton	HP: 0	Haunted Sorority House staff guide (0)	press-on ribs (0)	Bone's Farm &quot;wine&quot; (0)	throwing bone (0)	extremely skinny jeans (0)
+Sexy Sorority Vampire	HP: 0	Haunted Sorority House staff guide (0)	bite-me-red lipstick (0)	Blood Light (0)	Nightstalker perfume (0)	Mesmereyes&trade; contact lenses (0)
+Sexy Sorority Werewolf	HP: 0	Haunted Sorority House staff guide (0)	whisker pencil (0)	Silver Bullet beer (0)	drum of pomade (0)	cursed scrunchie (0)
+Sexy Sorority Zombie	HP: 0	Haunted Sorority House staff guide (0)	necrotizing body spray (0)	Bartles and BRAAAINS wine cooler (0)	sorority brain (0)	BRAINS shorts (0)
 Shady Pirate	HP: 57 Def: 67 Atk: 67 Meat: 24-36 P: pirate	safarrri hat (10)
 Shaky Clown	HP: 16 Def: 19 Atk: 19 E: sleaze Meat: 16-24 P: horror	bloody clown pants (15)	big red clown nose (15)	bottle of gin (10)	bottle of rum (10)	bottle of tequila (10)	bottle of whiskey (10)	bottle of vodka (10)	boxed wine (10)	clown skin (10)	polka-dot bow tie (p5)	empty greasepaint tube (b0)
 Shifty Pirate	HP: 59 Def: 69 Atk: 69 Meat: 36-58 P: pirate	arrrgyle socks (10)	flaregun (30)	sunken chest (30)

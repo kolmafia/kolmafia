@@ -869,12 +869,14 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.gender == 0 &&
 		     !GenericRequest.passwordHash.equals( "" ) )
 		{	// Can't tell?	Look at their vinyl boots!
+			ConcoctionDatabase.deferRefresh( true );
 			GenericRequest req = new GenericRequest(
 				"desc_item.php?whichitem=809051828" );
 			RequestThread.postRequest( req );
 			KoLCharacter.setGender( req.responseText != null &&
 				req.responseText.indexOf( "+15%" ) != -1 ?
 					KoLCharacter.FEMALE : KoLCharacter.MALE );
+			ConcoctionDatabase.deferRefresh( false );
 		}
 		return KoLCharacter.gender;
 	}
