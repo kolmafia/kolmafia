@@ -1147,6 +1147,8 @@ public class ConcoctionDatabase
 			return;
 		}
 
+		ConcoctionDatabase.refreshNeeded = false;
+
 		List availableIngredients = ConcoctionDatabase.getAvailableIngredients();
 
 		// Iterate through the concoction table, Initialize each one
