@@ -1901,8 +1901,8 @@ public abstract class ChoiceManager
 		// Prop Deportment
 		new ChoiceAdventure(
 			"Clan Basement", "choiceAdventure552", "Prop Deportment",
-			new String[] { "chainsaw chain", "Relocked and Reloaded", "funhouse mirror" },
-			new String[] { "5309", null, "5311" } ),
+			new String[] { "chainsaw chain", "create a silver shotgun shell", "funhouse mirror" },
+			new String[] { "5309", "5310", "5311" } ),
 
 		// Relocked and Reloaded
 		new ChoiceAdventure(
