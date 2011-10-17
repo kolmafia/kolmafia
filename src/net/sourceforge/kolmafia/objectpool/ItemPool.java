@@ -463,6 +463,7 @@ public class ItemPool
 	public static final int DANCE_CARD = 1963;
 	public static final int OPERA_MASK = 1964;
 	public static final int PUMPKIN_BUCKET = 1971;
+	public static final int SILVER_SHRIMP_FORK = 1972;
 	public static final int STUFFED_COCOABO = 1974;
 	public static final int MACGUFFIN_DIARY = 2044;
 	public static final int BROKEN_WINGS = 2050;
@@ -616,6 +617,7 @@ public class ItemPool
 	public static final int MOJO_FILTER = 2614;
 	public static final int MUMMY_WRAP = 2634;
 	public static final int GAUZE_HAMMOCK = 2638;
+	public static final int MAXWELL_HAMMER = 2642;
 	public static final int ABSINTHE = 2655;
 	public static final int LIBRARY_CARD = 2672;
 	public static final int SPECTRE_SCEPTER = 2678;
@@ -1032,6 +1034,8 @@ public class ItemPool
 	public static final int BAGGY_RAVE_PANTS = 4194;
 	public static final int PACIFIER_NECKLACE = 4195;
 	public static final int AMPHIBIOUS_TOPHAT = 4229;
+	public static final int SILVER_PATE_KNIFE = 4234;
+	public static final int SILVER_CHEESE_SLICER = 4237;
 	public static final int FISHERMANS_SACK = 4250;
 	public static final int FISH_OIL_SMOKE_BOMB = 4251;
 	public static final int VIAL_OF_SQUID_INK = 4252;
