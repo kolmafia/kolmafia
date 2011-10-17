@@ -5343,3 +5343,9 @@
 5334	Mesmereyes&trade; contact lenses	accessory	all	450
 5335	cursed scrunchie	accessory	all	350
 5336	extremely skinny jeans	pants	all	450
+5337
+5338
+5339
+5340
+5341	The Necbronomicon	usable	all	0
+5342	The Cooler Out of Space	drink	all	500
