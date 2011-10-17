@@ -5318,11 +5318,11 @@
 5309	chainsaw chain	none, combat	all	90
 5310	silver shotgun shell	none	all	150
 5311	funhouse mirror	none	all	110
-5312	ghostly body paint	multiple	all	75
-5313	necrotizing body spray	multiple	all	75
-5314	bite-me-red lipstick	multiple	all	75
-5315	whisker pencil	multiple	all	75
-5316	press-on ribs	multiple	all	75
+5312	ghostly body paint	usable	all	75
+5313	necrotizing body spray	usable	all	75
+5314	bite-me-red lipstick	usable	all	75
+5315	whisker pencil	usable	all	75
+5316	press-on ribs	usable	all	75
 5317
 5318
 5319
@@ -5334,9 +5334,9 @@
 5325	Silver Bullet beer	drink	all	50
 5326	Bone's Farm &quot;wine&quot;	drink	all	50
 5327	ghost protocol	none, combat	all	200
-5328	sorority brain	multiple	all	200
-5329	Nightstalker perfume	multiple	all	200
-5330	drum of pomade	multiple	all	200
+5328	sorority brain	usable	all	200
+5329	Nightstalker perfume	usable	all	200
+5330	drum of pomade	usable	all	200
 5331	throwing bone	none, curse	all	200
 5332	extra-see-thru nightie	shirt	all	400
 5333	BRAINS shorts	pants	all	300
