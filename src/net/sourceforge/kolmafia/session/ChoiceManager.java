@@ -1900,13 +1900,13 @@ public abstract class ChoiceManager
 		// Prop Deportment
 		new ChoiceAdventure(
 			"Clan Basement", "choiceAdventure552", "Prop Deportment",
-			new String[] { "chainsaw", "Relocked and Reloaded", "funhouse mirror" },
+			new String[] { "chainsaw chain", "Relocked and Reloaded", "funhouse mirror" },
 			new String[] { "5309", null, "5311" } ),
 
 		// Behind the Spooky Curtain
 		new ChoiceAdventure(
 			"Clan Basement", "choiceAdventure554", "Behind the Spooky Curtain",
-			new String[] { "staff guides, ghost trap, kill werewolves", "kill zombies, kill skeletons, costume item", "chainsaw, silver item, mirror, kill vampires" } ),
+			new String[] { "staff guides, ghost trap, kill werewolves", "kill zombies, kill skeletons, costume item", "chainsaw chain, silver item, funhouse mirror, kill vampires" } ),
 	};
 
 	// Some choice adventures have options that cost meat or items
