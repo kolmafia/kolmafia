@@ -505,7 +505,18 @@ public class DebugDatabase
 		}
 		if ( type.equals( "potion" ) )
 		{
-			return KoLConstants.CONSUME_MULTIPLE;
+			// Although most potions end up being multi-usable, KoL
+			// almost always forgets to add that flag when the item
+			// is first introduced.
+			//
+			// Therefore, rather than generating bug reports
+			// because KoLmafia tries to multi-use a single-use
+			// item (which doesn't work), generate bug reports when
+			// KoLmafia single-uses when it could multi-use (which
+			// does work, but is slower.)
+			//
+			// return KoLConstants.CONSUME_MULTIPLE;
+			return KoLConstants.CONSUME_USE;
 		}
 		if ( type.equals( "familiar" ) )
 		{
