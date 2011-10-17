@@ -108,6 +108,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox unlivingRoomSelect;
 	private final JComboBox debasementSelect;
 	private final JComboBox propDeportmentSelect;
+	private final JComboBox reloadedSelect;
 	private final JComboBox sororityGuideSelect;
 	private final JComboBox gongSelect;
 	private final JComboBox basementMallSelect;
@@ -275,9 +276,11 @@ public class ChoiceOptionsPanel
 		this.darkAtticSelect.addItem( "raise area ML, then staff guides" );
 		this.darkAtticSelect.addItem( "raise area ML, then ghost trap" );
 		this.darkAtticSelect.addItem( "raise area ML, then mass kill werewolves" );
+		this.darkAtticSelect.addItem( "raise area ML, then mass kill werewolves or ghost trap" );
 		this.darkAtticSelect.addItem( "lower area ML, then staff guides" );
 		this.darkAtticSelect.addItem( "lower area ML, then ghost trap" );
 		this.darkAtticSelect.addItem( "lower area ML, then mass kill werewolves" );
+		this.darkAtticSelect.addItem( "lower area ML, then mass kill werewolves or ghost trap" );
 
 		this.unlivingRoomSelect = new JComboBox();
 		this.unlivingRoomSelect.addItem( "show in browser" );
@@ -286,10 +289,12 @@ public class ChoiceOptionsPanel
 		this.unlivingRoomSelect.addItem( "get costume item" );
 		this.unlivingRoomSelect.addItem( "raise area ML, then mass kill zombies" );
 		this.unlivingRoomSelect.addItem( "raise area ML, then mass kill skeletons" );
+		this.unlivingRoomSelect.addItem( "raise area ML, then mass kill zombies/skeletons" );
 		this.unlivingRoomSelect.addItem( "raise area ML, then get costume item" );
 		this.unlivingRoomSelect.addItem( "lower area ML, then mass kill zombies" );
 		this.unlivingRoomSelect.addItem( "lower area ML, then mass kill skeletons" );
 		this.unlivingRoomSelect.addItem( "lower area ML, then get costume item" );
+		this.unlivingRoomSelect.addItem( "lower area ML, then mass kill zombies/skeletons" );
 
 		this.debasementSelect = new JComboBox();
 		this.debasementSelect.addItem( "show in browser" );
@@ -306,6 +311,15 @@ public class ChoiceOptionsPanel
 		this.propDeportmentSelect.addItem( "silver item" );
 		this.propDeportmentSelect.addItem( "funhouse mirror" );
 		this.propDeportmentSelect.addItem( "chainsaw/mirror" );
+
+		this.reloadedSelect = new JComboBox();
+		this.reloadedSelect.addItem( "show in browser" );
+		this.reloadedSelect.addItem( "melt Maxwell's Silver Hammer" );
+		this.reloadedSelect.addItem( "melt silver tongue charrrm bracelet" );
+		this.reloadedSelect.addItem( "melt silver cheese-slicer" );
+		this.reloadedSelect.addItem( "melt silver shrimp fork" );
+		this.reloadedSelect.addItem( "melt silver paté knife" );
+		this.reloadedSelect.addItem( "melt don't melt anything" );
 
 		this.sororityGuideSelect = new JComboBox();
 		this.sororityGuideSelect.addItem( "show in browser" );
@@ -358,6 +372,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Clan Basement", "Sorority House Unliving Room", this.unlivingRoomSelect );
 		this.addChoiceSelect( "Clan Basement", "Sorority House Debasement", this.debasementSelect );
 		this.addChoiceSelect( "Clan Basement", "Sorority House Prop Deportment", this.propDeportmentSelect );
+		this.addChoiceSelect( "Clan Basement", "Sorority House Relocked and Reloaded", this.reloadedSelect );
 		this.addChoiceSelect( "Item-Driven", "Sorority Staff Guide", this.sororityGuideSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
@@ -781,7 +796,9 @@ public class ChoiceOptionsPanel
 			String.valueOf( this.debasementSelect.getSelectedIndex() ) );
 		Preferences.setString( "choiceAdventure552",
 			String.valueOf( this.propDeportmentSelect.getSelectedIndex() ) );
-		Preferences.setString( "choiceAdventure554",
+		Preferences.setString( "choiceAdventure553",
+			String.valueOf( this.reloadedSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure555",
 			String.valueOf( this.sororityGuideSelect.getSelectedIndex() ) );
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
@@ -1094,6 +1111,7 @@ public class ChoiceOptionsPanel
 		this.unlivingRoomSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure550" ) );
 		this.debasementSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure551" ) );
 		this.propDeportmentSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure552" ) );
+		this.reloadedSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure553" ) );
 		this.sororityGuideSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure554" ) );
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );

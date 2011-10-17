@@ -573,23 +573,23 @@ public class AdventureRequest
 			break;
 		case 269:
 			// The Haunted Sorority House
-			if ( responseText.indexOf( "Sexy Skeleton" ) != -1 )
+			if ( responseText.indexOf( "Skeleton" ) != -1 )
 			{
 				override = "sexy sorority skeleton";
 			}
-			else if ( responseText.indexOf( "Sexy Vampire" ) != -1 )
+			else if ( responseText.indexOf( "Vampire" ) != -1 )
 			{
 				override = "sexy sorority vampire";
 			}
-			else if ( responseText.indexOf( "Sexy Werewolf" ) != -1 )
+			else if ( responseText.indexOf( "Werewolf" ) != -1 )
 			{
 				override = "sexy sorority werewolf";
 			}
-			else if ( responseText.indexOf( "Sexy Zombie" ) != -1 )
+			else if ( responseText.indexOf( "Zombie" ) != -1 )
 			{
 				override = "sexy sorority zombie";
 			}
-			else if ( responseText.indexOf( "Sexy Ghost" ) != -1 )
+			else if ( responseText.indexOf( "Ghost" ) != -1 )
 			{
 				override = "sexy sorority ghost";
 			}

@@ -1885,12 +1885,13 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Clan Basement", "choiceAdventure549", "Dark in the Attic",
 			new String[] { "staff guides", "ghost trap", "raise area ML", "lower area ML", "mass kill werewolves with silver shotgun shell" },
-			new String[] { "5307", "5308", null, null, null } ),
+			new String[] { "5307", "5308", null, null, "5310" } ),
 
 		// The Unliving Room
 		new ChoiceAdventure(
 			"Clan Basement", "choiceAdventure550", "The Unliving Room",
-			new String[] { "raise area ML", "lower area ML" , "mass kill zombies with chainsaw chain", "mass kill skeletons with funhouse mirror", "get costume item" } ),
+			new String[] { "raise area ML", "lower area ML" , "mass kill zombies with chainsaw chain", "mass kill skeletons with funhouse mirror", "get costume item" },
+			new String[] { null, null, "5309", "5311", null } ),
 
 		// Debasement
 		new ChoiceAdventure(
@@ -1902,6 +1903,12 @@ public abstract class ChoiceManager
 			"Clan Basement", "choiceAdventure552", "Prop Deportment",
 			new String[] { "chainsaw chain", "Relocked and Reloaded", "funhouse mirror" },
 			new String[] { "5309", null, "5311" } ),
+
+		// Relocked and Reloaded
+		new ChoiceAdventure(
+			"Clan Basement", "choiceAdventure553", "Relocked and Reloaded",
+			new String[] { "", "", "", "", "", "exit adventure" },
+			new String[] { "2642", "2986", "4237", "1972", "4234", null } ),
 
 		// Behind the Spooky Curtain
 		new ChoiceAdventure(
@@ -3471,6 +3478,36 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.FUNHOUSE_MIRROR, -1 );
 			}
 			break;
+
+		case 553:
+			// Relocked and Reloaded
+			if ( text.indexOf( "You melt" ) != -1 )
+			{
+				int item = 0;
+				switch ( ChoiceManager.lastDecision )
+				{
+					case 1:
+						item = ItemPool.MAXWELL_HAMMER;
+						break;
+					case 2:
+						item = ItemPool.TONGUE_BRACELET;
+						break;
+					case 3:
+						item = ItemPool.SILVER_CHEESE_SLICER;
+						break;
+					case 4:
+						item = ItemPool.SILVER_SHRIMP_FORK;
+						break;
+					case 5:
+						item = ItemPool.SILVER_PATE_KNIFE;
+						break;
+				}
+				if ( item > 0 )
+				{
+					ResultProcessor.processItem( item, -1 );
+				}
+			}
+			break;
 		}
 
 		if ( ChoiceManager.initializeAfterChoice && text.indexOf( "choice.php" ) == -1 )
@@ -4263,24 +4300,30 @@ public abstract class ChoiceManager
 
 			switch ( StringUtilities.parseInt( decision ) )
 			{
-			case 0: // show in browser
-			case 1: // acquire staff guides
-			case 2: // acquire ghost trap
+			case 0 : // show in browser
+			case 1 : // acquire staff guides
+			case 2 : // acquire ghost trap
 				return decision;
-			case 3: // mass kill werewolves
+			case 3 : // mass kill werewolves with silver shotgun shell
 				return "5";
-			case 4: // raise area ML, then acquire staff guides
-				return boomboxOn ? "1" : "3";
-			case 5: // raise area ML, then acquire ghost trap
-				return boomboxOn ? "2" : "3";
-			case 6: // raise area ML, then mass kill werewolves
-				return boomboxOn ? "5" : "3";
-			case 7: // lower area ML, then acquire staff guides
+			case 4 : // raise area ML, then acquire staff guides
+				return !boomboxOn ? "3" : "1";
+			case 5 : // raise area ML, then acquire ghost trap
+				return !boomboxOn ? "3" : "2";
+			case 6 : // raise area ML, then mass kill werewolves
+				return !boomboxOn ? "3" : "5";
+			case 7 : // raise area ML, then mass kill werewolves or ghost trap
+				return !boomboxOn ? "3" :
+				       InventoryManager.getCount( ItemPool.SILVER_SHOTGUN_SHELL ) > 0 ? "5" : "2"; 
+			case 8 : // lower area ML, then acquire staff guides
 				return boomboxOn ? "4" : "1";
-			case 8: // lower area ML, then acquire ghost trap
+			case 9 : // lower area ML, then acquire ghost trap
 				return boomboxOn ? "4" : "2";
-			case 9: // lower area ML, then mass kill werewolves
+			case 10: // lower area ML, then mass kill werewolves
 				return boomboxOn ? "4" : "5";
+			case 11: // lower area ML, then mass kill werewolves or ghost trap
+				return boomboxOn ? "4" :
+				       InventoryManager.getCount( ItemPool.SILVER_SHOTGUN_SHELL ) > 0 ? "5" : "2"; 
 			}
 			return decision;
 
@@ -4294,31 +4337,39 @@ public abstract class ChoiceManager
 			// 2 - open the windows (lower area ML)
 			// 3 - mass kill zombies
 			// 4 - mass kill skeletons
-			// 5 - get costume item)
+			// 5 - get costume item
 
 			boolean windowsClosed = responseText.indexOf( "covered all their windows" ) != -1;
+			int chainsaw = InventoryManager.getCount( ItemPool.CHAINSAW_CHAIN );
+			int mirror = InventoryManager.getCount( ItemPool.FUNHOUSE_MIRROR );
 
 			switch ( StringUtilities.parseInt( decision ) )
 			{
-			case 0: // show in browser
+			case 0 : // show in browser
 				return decision;
-			case 1: // mass kill zombies
+			case 1 : // mass kill zombies with chainsaw chain
 				return "3";
-			case 2: // mass kill skeletons
+			case 2 : // mass kill skeletons with funhouse mirror
 				return "4";
-			case 3: // get costume item
+			case 3 : // get costume item
 				return "5";
-			case 4: // raise area ML, then mass kill zombies
-				return windowsClosed ? "3" : "1";
-			case 5: // raise area ML, then mass kill skeletons
-				return windowsClosed ? "4" : "1";
-			case 6: // raise area ML, then get costume item
-				return windowsClosed ? "5" : "1";
-			case 7: // lower area ML, then mass kill zombies
+			case 4 : // raise area ML, then mass kill zombies
+				return !windowsClosed ? "1" : "3";
+			case 5 : // raise area ML, then mass kill skeletons
+				return !windowsClosed ? "1" : "4";
+			case 6 : // raise area ML, then mass kill zombies/skeletons
+				return !windowsClosed ? "1" :
+				       chainsaw > mirror ? "3" : "4";
+			case 7 : // raise area ML, then get costume item
+				return !windowsClosed ? "1" : "5";
+			case 8 : // lower area ML, then mass kill zombies
 				return windowsClosed ? "2" : "3";
-			case 8: // lower area ML, then mass kill skeletons
+			case 9 : // lower area ML, then mass kill skeletons
 				return windowsClosed ? "2" : "4";
-			case 9: // lower area ML, then get costume item
+			case 10: // lower area ML, then mass kill zombies/skeletons
+				return windowsClosed ? "2" :
+				       chainsaw > mirror ? "3" : "4";
+			case 11: // lower area ML, then get costume item
 				return windowsClosed ? "2" : "5";
 			}
 			return decision;
@@ -4340,7 +4391,7 @@ public abstract class ChoiceManager
 			{
 			case 0: // show in browser
 			case 1: // Prop Deportment
-			case 2: // mass kill vampires
+			case 2: // mass kill vampires with plastic vampire fangs
 				return decision;
 			case 3: // raise area ML, then Prop Deportment
 				return fogOn ? "1" : "3";
@@ -4362,22 +4413,65 @@ public abstract class ChoiceManager
 			// 1 - chainsaw
 			// 2 - Relocked and Reloaded
 			// 3 - funhouse mirror
-			// 4 - chainsaw OR funhouse mirror
+			// 4 - chainsaw chain OR funhouse mirror
 
-			int chainsaw = InventoryManager.getCount( ItemPool.CHAINSAW_CHAIN );
-			int mirror = InventoryManager.getCount( ItemPool.FUNHOUSE_MIRROR );
+			chainsaw = InventoryManager.getCount( ItemPool.CHAINSAW_CHAIN );
+			mirror = InventoryManager.getCount( ItemPool.FUNHOUSE_MIRROR );
 
 			switch ( StringUtilities.parseInt( decision ) )
 			{
 			case 0: // show in browser
-			case 1: // chainsaw
+			case 1: // chainsaw chain
 			case 2: // Relocked and Reloaded
 			case 3: // funhouse mirror
 				return decision;
-			case 4: // raise area ML, then mass kill vampires
+			case 4: // chainsaw chain OR funhouse mirror
 				return chainsaw < mirror ? "1" : "3";
 			}
 			return decision;
+
+		// Relocked and Reloaded
+		case 553:
+
+			// Choices appear depending on whether
+			// you have the item to melt
+
+			// 1 - Maxwell's Silver Hammer
+			// 2 - silver tongue charrrm bracelet
+			// 3 - silver cheese-slicer
+			// 4 - silver shrimp fork
+			// 5 - silver paté knife
+			// 6 - don't melt anything
+
+			int item = 0;
+
+			switch ( StringUtilities.parseInt( decision ) )
+			{
+			case 0: // show in browser
+			case 6: // don't melt anything
+				return decision;
+			case 1: // melt Maxwell's Silver Hammer
+				item = ItemPool.MAXWELL_HAMMER;
+				break;
+			case 2: // melt silver tongue charrrm bracelet
+				item = ItemPool.TONGUE_BRACELET;
+				break;
+			case 3: // melt silver cheese-slicer
+				item = ItemPool.SILVER_CHEESE_SLICER;
+				break;
+			case 4: // melt silver shrimp fork
+				item = ItemPool.SILVER_SHRIMP_FORK;
+				break;
+			case 5: // melt silver paté knife
+				item = ItemPool.SILVER_PATE_KNIFE;
+				break;
+			}
+
+			if ( item == 0 )
+			{
+				return "6";
+			}
+			return InventoryManager.getCount( item ) > 0 ? decision : "6";
 		}
 
 		return decision;
