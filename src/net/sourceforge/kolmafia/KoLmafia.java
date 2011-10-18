@@ -699,14 +699,15 @@ public abstract class KoLmafia
 
 	public final void login( final String name )
 	{
-		ConcoctionDatabase.deferRefresh( true );
 		RequestThread.openRequestSequence();
 
 		LoginRequest.isLoggingIn( true );
 
 		try
 		{
+			ConcoctionDatabase.deferRefresh( true );
 			this.initialize( name );
+			ConcoctionDatabase.deferRefresh( false );
 		}
 		catch ( Exception e )
 		{
@@ -760,7 +761,6 @@ public abstract class KoLmafia
 		}
 
 		RequestThread.closeRequestSequence();
-		ConcoctionDatabase.deferRefresh( false );
 	}
 
 	public final void timein( final String name )
