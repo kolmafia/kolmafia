@@ -940,12 +940,13 @@
 939	Vampin'	vampirefangs.gif	29e8c2f8cd929bc59b4a569a0269d66c	use 1 bite-me-red lipstick
 940	Yiffable You	wolfmask.gif	31faf7e2b7adda23a4206bfad4499f53	use 1 whisker pencil
 941	The Bone Us Round	brokeskull.gif	9bc403e94e6faaeef0679a9c3f23a331	use 1 press-on ribs
-942
-943
-944
+942	Booing Radly	specjelly.gif	1afa88e07e3e4a8f42447cd40d779a62	drink 1 Ecto-Cooler
+943	Braaaains Over Braaaawwn	realbrain.gif	e6bdec9be9b08c45734c43e6f44c3fee	drink 1 Bartles and BRAAAINS wine cooler
+944	Bloody-minded	blooddrops.gif	8ac0d76f96434d436882d11f250b0bf6	drink 1 Blood Light
 945
 946
 947	Perfect Hair	mullet.gif	8594bc25c0182521ccb0a20896cceb45	use 1 drum of pomade
 948	Let's Go Shopping!	dollarsign.gif	df7800d80a1647eaa35777fb09cc92fe	use 1 sorority brain
 949
 950	Nightstalkin'	vampteeth.gif	83a68a4e66671c6af4bb107419eb382b	use 1 Nightstalker perfume
+951

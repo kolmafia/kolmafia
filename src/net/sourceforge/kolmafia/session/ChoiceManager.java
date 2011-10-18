@@ -3464,6 +3464,23 @@ public abstract class ChoiceManager
 			if ( text.indexOf( "The silver pellets tear through the sorority werewolves" ) != -1 )
 			{
 				ResultProcessor.processItem( ItemPool.SILVER_SHOTGUN_SHELL, -1 );
+				RequestLogger.printLine( "You took care of a bunch of werewolves." );
+			}
+			else if ( text.indexOf( "quietly sneak away" ) != -1 )
+			{
+				RequestLogger.printLine( "You need a silver shotgun shell to kill werewolves." );
+			}
+			else if ( text.indexOf( "a loose shutter" ) != -1 )
+			{
+				RequestLogger.printLine( "All the werewolves have been defeated." );
+			}
+			else if ( text.indexOf( "crank up the volume on the boombox" ) != -1 )
+			{
+				RequestLogger.printLine( "You crank up the volume on the boombox." );
+			}
+			else if ( text.indexOf( "a firm counterclockwise twist" ) != -1 )
+			{
+				RequestLogger.printLine( "You crank down the volume on the boombox." );
 			}
 			break;
 
@@ -3472,10 +3489,60 @@ public abstract class ChoiceManager
 			if ( text.indexOf( "you pull out the chainsaw blades" ) != -1 )
 			{
 				ResultProcessor.processItem( ItemPool.CHAINSAW_CHAIN, -1 );
+				RequestLogger.printLine( "You took out a bunch of zombies." );
+			}
+			else if ( text.indexOf( "a wet tearing noise" ) != -1 )
+			{
+				RequestLogger.printLine( "You need a chainsaw chain to kill zombies." );
+			}
+			else if ( text.indexOf( "a bloody tangle" ) != -1 )
+			{
+				RequestLogger.printLine( "All the zombies have been defeated." );
 			}
 			else if ( text.indexOf( "the skeletons collapse into piles of loose bones" ) != -1 )
 			{
 				ResultProcessor.processItem( ItemPool.FUNHOUSE_MIRROR, -1 );
+				RequestLogger.printLine( "You made short work of some skeletons." );
+			}
+			else if ( text.indexOf( "couch in front of the door" ) != -1 )
+			{
+				RequestLogger.printLine( "You need a chainsaw chain to kill skeletons." );
+			}
+			else if ( text.indexOf( "just coats" ) != -1 )
+			{
+				RequestLogger.printLine( "All the skeletons have been defeated." );
+			}
+			else if ( text.indexOf( "close the windows" ) != -1 )
+			{
+				RequestLogger.printLine( "You close the windows." );
+			}
+			else if ( text.indexOf( "open the windows" ) != -1 )
+			{
+				RequestLogger.printLine( "You open the windows." );
+			}
+			break;
+
+		case 551:
+			// Debasement
+			if ( text.indexOf( "the vampire girls shriek" ) != -1 )
+			{
+				RequestLogger.printLine( "You slew some vampires." );
+			}
+			else if ( text.indexOf( "gets back in her coffin" ) != -1 )
+			{
+				RequestLogger.printLine( "You need to equip plastic vampire fangs to kill vampires." );
+			}
+			else if ( text.indexOf( "they recognize you" ) != -1 )
+			{
+				RequestLogger.printLine( "You have already killed vampires." );
+			}
+			else if ( text.indexOf( "crank up the fog machine" ) != -1 )
+			{
+				RequestLogger.printLine( "You crank up the fog machine." );
+			}
+			else if ( text.indexOf( "turn the fog machine way down" ) != -1 )
+			{
+				RequestLogger.printLine( "You crank down the fog machine." );
 			}
 			break;
 
