@@ -1142,6 +1142,7 @@ Seven Loco	Booze Drop: +5, Candy Drop: +5
 Sinful Desires	Spell Damage: +10
 # Spanish fly trap
 Sword of the Brouhaha Prince	Muscle Percent: +12
+The Necbromancer's Stein	Spell Damage Percent: +100, Spooky Spell Damage: +30
 The Spirit of Crimbo	Free Pull
 Tiki lighter	Experience: +1, Stat Tuning: "Moxie"
 # Tuesday's ruby has day-dependent effects which are hard-coded

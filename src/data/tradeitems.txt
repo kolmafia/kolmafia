@@ -5344,7 +5344,7 @@
 5335	cursed scrunchie	accessory	all	350
 5336	extremely skinny jeans	pants	all	450
 5337
-5338
+5338	The Necbromancer's Stein	offhand	display	0
 5339
 5340
 5341	The Necbronomicon	usable	all	0

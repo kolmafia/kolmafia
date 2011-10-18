@@ -1020,6 +1020,7 @@ Seven Loco	0	none
 Sinful Desires	30	none
 Spanish fly trap	10	none
 Sword of the Brouhaha Prince	0	none
+The Necbromancer's Stein	200	Mys: 200
 The Spirit of Crimbo	0	none
 Tiki lighter	20	none
 Tuesday's ruby	120	Mys: 45
