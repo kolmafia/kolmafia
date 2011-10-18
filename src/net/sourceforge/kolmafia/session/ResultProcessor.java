@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -873,62 +874,7 @@ public class ResultProcessor
 			if ( updateCalculatedLists )
 			{
 				EquipmentManager.processResult( result );
-
-				boolean shouldRefresh = false;
-				List uses = ConcoctionDatabase.getKnownUses( result );
-				int itemId = result.getItemId();
-
-				for ( int i = 0; i < uses.size() && !shouldRefresh; ++i )
-				{
-					AdventureResult use = (AdventureResult) uses.get( i );
-					int method = ConcoctionDatabase.getMixingMethod( use.getItemId() );
-					shouldRefresh |= ConcoctionDatabase.isPermittedMethod( method );
-				}
-
-				if ( !shouldRefresh )
-				{
-					switch ( ItemDatabase.getConsumptionType( itemId ) )
-					{
-					case KoLConstants.CONSUME_EAT:
-					case KoLConstants.CONSUME_DRINK:
-					case KoLConstants.CONSUME_USE:
-					case KoLConstants.CONSUME_MULTIPLE:
-					case KoLConstants.CONSUME_FOOD_HELPER:
-					case KoLConstants.CONSUME_DRINK_HELPER:
-						shouldRefresh = true;
-					}
-				}
-
-
-				if ( !shouldRefresh )
-				{
-					switch ( result.getItemId() )
-					{
-					// Items that affect creatability of other items, but
-					// aren't explicitly listed in their recipes:
-					case ItemPool.WORTHLESS_TRINKET:
-					case ItemPool.WORTHLESS_GEWGAW:
-					case ItemPool.WORTHLESS_KNICK_KNACK:
-
-					// Interchangeable ingredients, which might have been missed
-					// by the getKnownUses check because the recipes are set to
-					// use the other possible ingredient:
-					case ItemPool.SCHLITZ:
-					case ItemPool.WILLER:
-					case ItemPool.KETCHUP:
-					case ItemPool.CATSUP:
-					case ItemPool.DYSPEPSI_COLA:
-					case ItemPool.CLOACA_COLA:
-					case ItemPool.TITANIUM_UMBRELLA:
-					case ItemPool.GOATSKIN_UMBRELLA:
-						shouldRefresh = true;
-					}
-				}
-
-				if ( shouldRefresh )
-				{
-					ConcoctionDatabase.setRefreshNeeded( false );
-				}
+				ConcoctionDatabase.setRefreshNeeded( result.getItemId() );
 			}
 		}
 		else if ( resultName.equals( AdventureResult.HP ) )
@@ -955,8 +901,6 @@ public class ResultProcessor
 		{
 			if ( result.getCount() < 0 )
 			{
-				boolean concoctionRefreshNeeded = false;
-
 				AdventureResult[] effectsArray = new AdventureResult[ KoLConstants.activeEffects.size() ];
 				KoLConstants.activeEffects.toArray( effectsArray );
 
@@ -975,7 +919,7 @@ public class ResultProcessor
 						// If you lose Inigo's, what you can craft changes
 						if ( effect.getName().equals( EffectPool.INIGO ) )
 						{
-							concoctionRefreshNeeded = true;
+							ConcoctionDatabase.setRefreshNeeded( false );
 						}
 					}
 					else
@@ -985,11 +929,6 @@ public class ResultProcessor
 				}
 
 				KoLCharacter.setCurrentRun( KoLCharacter.getCurrentRun() - result.getCount() );
-
-				if ( concoctionRefreshNeeded )
-				{
-					ConcoctionDatabase.setRefreshNeeded( false );
-				}
 			}
 		}
 		else if ( resultName.equals( AdventureResult.DRUNK ) )
@@ -1015,6 +954,8 @@ public class ResultProcessor
 
 	private static void gainItem( boolean combatResults, AdventureResult result )
 	{
+		ConcoctionDatabase.setRefreshNeeded( result.getItemId() );
+
 		// All results, whether positive or negative, are
 		// handled here.
 
@@ -1037,40 +978,12 @@ public class ResultProcessor
 		case ItemPool.FAT_LOOT_TOKEN:
 		case ItemPool.TWINKLY_WAD:
 			// The Traveling Trader usually wants twinkly wads
-
-			// Coinmaster transactions are now Concoctions. Any
-			// change in token count changes the creatable quantity
-			// of every Concoction using that token.
-
-			ConcoctionDatabase.setRefreshNeeded( false );
-
-			// Fall through. The following items are not Coin
-			// Master currency, but are of interest to one or
-			// another Coin Master panels.
-
 		case ItemPool.GG_TOKEN:
 			// You can trade tokens for tickets
 		case ItemPool.TRANSPORTER_TRANSPONDER:
 			// You can go to spaaace with a transponder
 
 			CoinmastersFrame.externalUpdate();
-			break;
-
-		case ItemPool.SEAL_HELMET:
-		case ItemPool.SEAL_CLUB:
-		case ItemPool.HELMET_TURTLE:
-		case ItemPool.TURTLE_TOTEM:
-		case ItemPool.RAVIOLI_HAT:
-		case ItemPool.PASTA_SPOON:
-		case ItemPool.HOLLANDAISE_HELMET:
-		case ItemPool.SAUCEPAN:
-		case ItemPool.DISCO_MASK:
-		case ItemPool.DISCO_BALL:
-		case ItemPool.MARIACHI_HAT:
-		case ItemPool.STOLEN_ACCORDION:
-		case ItemPool.OLD_SWEATPANTS:
-			// Starter items from the sewer affect the "cost" of a worthless item.
-			ConcoctionDatabase.setRefreshNeeded( true );
 			break;
 		}
 
@@ -1525,10 +1438,14 @@ public class ResultProcessor
 			return;
 		}
 
+		ConcoctionPool.get( itemId ).calculate2();
 		CreateItemRequest creator = CreateItemRequest.getInstance( itemId );
+
 		// getQuantityPossible() should take meat paste or
 		// Muscle Sign into account
+
 		int possible = creator.getQuantityPossible();
+
 		if ( possible > 0 )
 		{
 			// Make as many as you can

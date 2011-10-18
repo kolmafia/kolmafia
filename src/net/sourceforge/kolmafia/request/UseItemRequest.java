@@ -1484,6 +1484,7 @@ public class UseItemRequest
 				UseItemRequest.lastItemUsed = this.itemUsed;
 				UseItemRequest.parseConsumption( UseItemRequest.REDIRECT_REQUEST.responseText, true );
 				ResponseTextParser.learnRecipe( this.getURLString(), UseItemRequest.REDIRECT_REQUEST.responseText );
+				ConcoctionDatabase.refreshConcoctions( false );
 			}
 			else if ( this.redirectLocation.startsWith( "choice.php" ) )
 			{
