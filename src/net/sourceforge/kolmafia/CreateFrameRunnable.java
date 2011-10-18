@@ -147,7 +147,6 @@ public class CreateFrameRunnable
 			if ( appearsInTab && !KoLDesktop.isInitializing() )
 			{
 				KoLDesktop.displayDesktop();
-				return;
 			}
 
 			RequestLogger.updateDebugLog( "Loading window: " + searchString );
