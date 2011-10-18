@@ -319,7 +319,7 @@ public class ChoiceOptionsPanel
 		this.reloadedSelect.addItem( "melt silver cheese-slicer" );
 		this.reloadedSelect.addItem( "melt silver shrimp fork" );
 		this.reloadedSelect.addItem( "melt silver paté knife" );
-		this.reloadedSelect.addItem( "melt don't melt anything" );
+		this.reloadedSelect.addItem( "don't melt anything" );
 
 		this.sororityGuideSelect = new JComboBox();
 		this.sororityGuideSelect.addItem( "show in browser" );

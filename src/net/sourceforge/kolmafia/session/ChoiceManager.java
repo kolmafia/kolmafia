@@ -4440,7 +4440,7 @@ public abstract class ChoiceManager
 			// 2 - silver tongue charrrm bracelet
 			// 3 - silver cheese-slicer
 			// 4 - silver shrimp fork
-			// 5 - silver paté knife
+			// 5 - silver pat&eacute; knife
 			// 6 - don't melt anything
 
 			int item = 0;
@@ -4462,7 +4462,7 @@ public abstract class ChoiceManager
 			case 4: // melt silver shrimp fork
 				item = ItemPool.SILVER_SHRIMP_FORK;
 				break;
-			case 5: // melt silver paté knife
+			case 5: // melt silver pat&eacute; knife
 				item = ItemPool.SILVER_PATE_KNIFE;
 				break;
 			}

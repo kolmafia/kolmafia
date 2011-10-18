@@ -1636,7 +1636,7 @@ copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
 corncob pipe	Muscle Percent: +10, Single Equip
 # crusty hula hoop: 75% Chance of Preventing Negative Status Attacks
 crusty hula hoop	Mysticality Percent: +15, Spell Damage: +50, Single Equip
-cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
 cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
 dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch
 dead guy's watch	Adventures: +1, Single Equip, Nonstackable Watch
@@ -3437,7 +3437,7 @@ Palmist Paraphernalia	Moxie: +7
 Pork Elf Prizes	Item Drop: +10
 Primitive Radio Duds	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Pyretic Panhandler Paraphernalia	Hot Spell Damage: +40, MP Regen Min: 20, MP Regen Max: 30
-# Radio Free Regalia	Never Fumble
+Radio Free Regalia	Never Fumble
 Roy Orbison Disguise	Moxie: +15
 Slimesuit	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
 Smoked Pottery	Hot Damage: +15
