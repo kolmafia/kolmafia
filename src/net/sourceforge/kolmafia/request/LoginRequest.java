@@ -318,9 +318,9 @@ public class LoginRequest
 		if ( this.responseText.indexOf( "Too many" ) != -1 )
 		{
 			// Too many bad logins in too short a time span.
-                        int pos = this.responseText.indexOf("Too many");
-                        int pos2 = this.responseText.indexOf("<",pos+1);
-                        KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.responseText.substring(pos,pos2));
+			int pos = this.responseText.indexOf("Too many");
+			int pos2 = this.responseText.indexOf("<",pos+1);
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.responseText.substring(pos,pos2));
 			return;
 		}
 

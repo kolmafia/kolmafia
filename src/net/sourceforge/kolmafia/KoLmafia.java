@@ -699,6 +699,7 @@ public abstract class KoLmafia
 
 	public final void login( final String name )
 	{
+		ConcoctionDatabase.deferRefresh( true );
 		RequestThread.openRequestSequence();
 
 		LoginRequest.isLoggingIn( true );
@@ -759,6 +760,7 @@ public abstract class KoLmafia
 		}
 
 		RequestThread.closeRequestSequence();
+		ConcoctionDatabase.deferRefresh( false );
 	}
 
 	public final void timein( final String name )

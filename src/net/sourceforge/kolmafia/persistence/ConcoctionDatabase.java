@@ -1120,6 +1120,58 @@ public class ConcoctionDatabase
 		}
 	}
 
+	public static final void setRefreshNeeded( int itemId )
+	{
+		switch ( ItemDatabase.getConsumptionType( itemId ) )
+		{
+		case KoLConstants.CONSUME_EAT:
+		case KoLConstants.CONSUME_DRINK:
+		case KoLConstants.CONSUME_USE:
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.CONSUME_FOOD_HELPER:
+		case KoLConstants.CONSUME_DRINK_HELPER:
+			ConcoctionDatabase.setRefreshNeeded( false );
+			return;
+		}
+
+		switch ( itemId )
+		{
+		// Items that affect creatability of other items, but
+		// aren't explicitly listed in their recipes:
+		case ItemPool.WORTHLESS_TRINKET:
+		case ItemPool.WORTHLESS_GEWGAW:
+		case ItemPool.WORTHLESS_KNICK_KNACK:
+
+		// Interchangeable ingredients, which might have been missed
+		// by the getKnownUses check because the recipes are set to
+		// use the other possible ingredient:
+		case ItemPool.SCHLITZ:
+		case ItemPool.WILLER:
+		case ItemPool.KETCHUP:
+		case ItemPool.CATSUP:
+		case ItemPool.DYSPEPSI_COLA:
+		case ItemPool.CLOACA_COLA:
+		case ItemPool.TITANIUM_UMBRELLA:
+		case ItemPool.GOATSKIN_UMBRELLA:
+			ConcoctionDatabase.setRefreshNeeded( false );
+			return;
+		}
+
+		List uses = ConcoctionDatabase.getKnownUses( itemId );
+
+		for ( int i = 0; i < uses.size(); ++i )
+		{
+			AdventureResult use = (AdventureResult) uses.get( i );
+			int method = ConcoctionDatabase.getMixingMethod( use.getItemId() );
+			
+			if ( ConcoctionDatabase.isPermittedMethod( method ) )
+			{
+				ConcoctionDatabase.setRefreshNeeded( false );
+				return;
+			}
+		}
+	}
+
 	public static final void setRefreshNeeded( boolean recalculateAdventureRange )
 	{
 		ConcoctionDatabase.refreshNeeded = true;
