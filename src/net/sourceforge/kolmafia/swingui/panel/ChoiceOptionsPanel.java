@@ -798,7 +798,7 @@ public class ChoiceOptionsPanel
 			String.valueOf( this.propDeportmentSelect.getSelectedIndex() ) );
 		Preferences.setString( "choiceAdventure553",
 			String.valueOf( this.reloadedSelect.getSelectedIndex() ) );
-		Preferences.setString( "choiceAdventure555",
+		Preferences.setString( "choiceAdventure554",
 			String.valueOf( this.sororityGuideSelect.getSelectedIndex() ) );
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
