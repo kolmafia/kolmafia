@@ -2907,6 +2907,7 @@ public class UseItemRequest
 		case ItemPool.CRIMBCO_MANUAL_5:
 		case ItemPool.DYNAMITE_SUPERMAN_JONES:
 		case ItemPool.SKELETON_BOOK:
+		case ItemPool.NECBRONOMICON:
 		{
 			int itemId = item.getItemId();
 			String skill = UseItemRequest.itemToSkill( itemId );
@@ -4263,6 +4264,8 @@ public class UseItemRequest
 			return "Managerial Manipulation";
 		case ItemPool.SKELETON_BOOK:
 			return "Natural Born Skeleton Killer";
+		case ItemPool.NECBRONOMICON:
+			return "Summon &quot;Boner Battalion&quot;";
 		}
 
 		return null;

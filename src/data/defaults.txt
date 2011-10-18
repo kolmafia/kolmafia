@@ -675,6 +675,7 @@ user	_bagOfCandy	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_benettonsCasts	0
+user	_bonersSummoned	false
 user	_bootStomps	0
 user	_borrowedTimeUsed	false
 user	_boxingGloveArrows	0

@@ -2508,6 +2508,7 @@ Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
 # Bone Homie: Bites Your Enemies
+# Boner Battalion: BONERS HO!
 Bootyliciousness	Item Drop: +10
 Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
