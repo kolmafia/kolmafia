@@ -5343,9 +5343,9 @@
 5334	Mesmereyes&trade; contact lenses	accessory	all	450
 5335	cursed scrunchie	accessory	all	350
 5336	extremely skinny jeans	pants	all	450
-5337
+5337	The Necbromancer's Hat	hat	display	0
 5338	The Necbromancer's Stein	offhand	display	0
-5339
-5340
+5339	The Necbromancer's Shorts	pants	display	0
+5340	The Necbromancer's Wizard Staff	weapon	display	0
 5341	The Necbronomicon	usable	all	0
 5342	The Cooler Out of Space	drink	all	500

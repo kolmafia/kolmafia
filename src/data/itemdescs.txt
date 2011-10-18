@@ -5335,9 +5335,9 @@
 5334	415657785	contactlenses.gif	Mesmereyes&trade; contact lenses
 5335	431606529	scrunchie.gif	cursed scrunchie
 5336	586879875	skinnyjeans.gif	extremely skinny jeans
-5337
+5337	225558228	necrocap.gif	The Necbromancer's Hat
 5338	490267770	necrostein.gif	The Necbromancer's Stein
-5339
-5340
+5339	856417196	necroshorts.gif	The Necbromancer's Shorts
+5340	359578407	necrostaff.gif	The Necbromancer's Wizard Staff
 5341	802108765	necbronomicon.gif	The Necbronomicon
 5342	267368039	darkcooler.gif	The Cooler Out of Space
