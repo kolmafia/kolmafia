@@ -3506,7 +3506,7 @@ public abstract class ChoiceManager
 			}
 			else if ( text.indexOf( "couch in front of the door" ) != -1 )
 			{
-				RequestLogger.printLine( "You need a chainsaw chain to kill skeletons." );
+				RequestLogger.printLine( "You need a funhouse mirror to kill skeletons." );
 			}
 			else if ( text.indexOf( "just coats" ) != -1 )
 			{
@@ -3534,7 +3534,7 @@ public abstract class ChoiceManager
 			}
 			else if ( text.indexOf( "they recognize you" ) != -1 )
 			{
-				RequestLogger.printLine( "You have already killed vampires." );
+				RequestLogger.printLine( "You have already killed some vampires." );
 			}
 			else if ( text.indexOf( "crank up the fog machine" ) != -1 )
 			{
