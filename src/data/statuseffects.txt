@@ -947,6 +947,6 @@
 946
 947	Perfect Hair	mullet.gif	8594bc25c0182521ccb0a20896cceb45	use 1 drum of pomade
 948	Let's Go Shopping!	dollarsign.gif	df7800d80a1647eaa35777fb09cc92fe	use 1 sorority brain
-949
+949	Boner Battalion	fratskull.gif	5cf87e15b3302601c8041a50c0a1b0cc	cast 1 Summon &quot;Boner Battalion&quot;
 950	Nightstalkin'	vampteeth.gif	83a68a4e66671c6af4bb107419eb382b	use 1 Nightstalker perfume
 951

@@ -413,6 +413,17 @@ public class UseSkillRequest
 			maximumCast = Preferences.getBoolean( "rageGlandVented" ) ? 0 : 1;
 			break;
 
+		// You can take a Lunch Break once a day
+		case SkillDatabase.LUNCH_BREAK:
+
+			maximumCast = Preferences.getBoolean( "_lunchBreak" ) ? 0 : 1;
+			break;
+
+		// Summon "Boner Battalion" can be used once per day
+		case SkillDatabase.SUMMON_BONERS:
+			maximumCast = Preferences.getBoolean( "_bonersSummoned" ) ? 0 : 1;
+			break;
+
 		// Tomes can be used three times per day
 
 		case SkillDatabase.SNOWCONE:
@@ -456,12 +467,6 @@ public class UseSkillRequest
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.SPOOKY_WAD ), maximumCast );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.STENCH_WAD ), maximumCast );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.TWINKLY_WAD ), maximumCast );
-			break;
-
-		// You can take a Lunch Break once a day
-		case SkillDatabase.LUNCH_BREAK:
-
-			maximumCast = Preferences.getBoolean( "_lunchBreak" ) ? 0 : 1;
 			break;
 
 		// Transcendental Noodlecraft affects # of summons for
@@ -1441,6 +1446,10 @@ public class UseSkillRequest
 
 		case SkillDatabase.LUNCH_BREAK:
 			Preferences.setBoolean( "_lunchBreak", true );
+			break;
+
+		case SkillDatabase.SUMMON_BONERS:
+			Preferences.setBoolean( "_bonersSummoned", true );
 			break;
 
 		case 3006:

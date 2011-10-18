@@ -103,6 +103,7 @@ public class SkillDatabase
 	public static final int RAGE_GLAND = 45;
 	public static final int CRIMBO_CANDY = 53;
 	public static final int LUNCH_BREAK = 60;
+	public static final int SUMMON_BONERS = 75;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String CONDITIONAL = "conditional";

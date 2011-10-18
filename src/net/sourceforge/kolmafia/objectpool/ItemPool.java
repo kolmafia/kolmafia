@@ -1327,6 +1327,7 @@ public class ItemPool
 	public static final int CHAINSAW_CHAIN = 5309;
 	public static final int SILVER_SHOTGUN_SHELL = 5310;
 	public static final int FUNHOUSE_MIRROR = 5311;
+	public static final int NECBRONOMICON = 5341;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

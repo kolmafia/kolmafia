@@ -142,6 +142,10 @@ public class UneffectRequest
 			"Earthen Fist",
 			"Worldpunch",
 		},
+		{
+			"Boner Battalion",
+			"Summon &quot;Boner Battalion&quot;",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )

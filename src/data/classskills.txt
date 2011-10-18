@@ -87,6 +87,7 @@
 72	Worldpunch	3	11	1
 73	Zendo Kobushi Kancho	5	0	0
 74	Master of the Surprising Fist	0	0	0
+75	Summon &quot;Boner Battalion&quot;	3	200	30
 
 # Skills available to Clubbers
 
