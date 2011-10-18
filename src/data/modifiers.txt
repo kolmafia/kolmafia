@@ -88,6 +88,7 @@ Seasonal Beret	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percen
 Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
 Sombrero De Vida	Four Songs
 Spooky Putty mitre	Experience: +3, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
+The Necbromancer's Hat	Mysticality Percent: +20, Spooky Spell Damage: +30
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20
 Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3
@@ -319,6 +320,7 @@ Oscus's dumpster waders	Hot Resistance: +3, Spooky Resistance: +3, Class: "Pasta
 Oscus's flypaper pants	Moxie Percent: +20, Damage Absorption: +50
 Radio Free Pants	Intrinsic Effect: "Free Bird"
 Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only
+The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30
 # Travoltan trousers: 5-Finger Discount
 # Travoltan trousers: Moxie used to determine Maximum MP
 # Travoltan trousers: (unless Mysticality is higher)
@@ -634,6 +636,7 @@ Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15
 Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical: 2
 The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
+The Necbromancer's Wizard Staff	Spell Damage Percent: +200, Sleaze Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
 # The Trickster's Trikitixa: Special Attack: Extreme High Note
 The Trickster's Trikitixa	Moxie: +15, Ranged Damage: +23, Item Drop: +11, Class: "Accordion Thief"
 # Totally Gay Claymore
@@ -3379,74 +3382,82 @@ Wrath	Weapon Damage: +10, Spell Damage: +10, Damage Reduction: -4
 
 # Outfits section of modifiers.txt
 
-8-Bit Finery	Initiative: +10
-Antique Arms and Armor	Muscle: +15
+1000th Birthday Suit	Spooky Damage: +15
+8-Bit Finery	Initiative: +25
+Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
 Arboreal Raiment	Stench Resistance: +3
-# Arrrbor Day Aparrrrrel
+Arrrbor Day Apparrrrrel	HP Regen Min: 10, HP Regen Max: 15
 BRICKOfig Outfit	Item Drop: +10
+Bits o' Honey	Item Drop: +5
 Black Armaments	Muscle: +6
 Bounty-Hunting Rig	Item Drop: +15
-# Bow Tux
+Bow Tux	Item Drop: +5
 Bugbear Costume	Mysticality: +3, Spell Damage: +3
 Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
-# Clockwork Apparatus
-# Crimbo Duds
-# Crimborg Assault Armor
-# Cursed Zombie Pirate Costume
+# Clockwork Apparatus	I Meant To Do That!
+Cold Comforts	Cold Damage: +30, Cold Spell Damage: +30
+Crimbo Duds	Item Drop: +5
+Crimborg Assault Armor	Ranged Damage +20
+Cursed Zombie Pirate Costume	Spooky Damage: +30
+Dark Bro's Vestments	Spooky Spell Damage: +20, Sleaze Spell Damage: +20
 Dire Drifter Duds	Familiar Weight: +5
-# Dwarvish War Uniform
+Dwarvish War Uniform	Damage Reduction: 10
 Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # El Vibrato Relics
 Encephalic Ensemble	Item Drop: +5
 Fancy Tux	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Filthy Hippy Disguise	Stench Damage: +5
-Floaty Fatigues	Spell Critical Percent: +15
+Floaty Fatigues	Spell Critical Percent: +10
 Frat Boy Ensemble	Sleaze Damage: +5
 Frat Warrior Fatigues	Sleaze Damage: +15
 Frigid Northlands Garb	Cold Resistance: +3
 Furry Suit	Moxie Percent: -75, Monster Level: +5
-Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damage: +5
-Gnauga Hides	Damage Reduction: 4
-Grass Guise	HP Regen Min: 2, HP Regen Max: 3
-Grimy Reaper's Vestments	Spooky Damage: +100
+Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damage: +5, Initiative: +10
+Gnauga Hides	Damage Reduction: 3
+Grass Guise	HP Regen Min: 1, HP Regen Max: 3
+Grimy Reaper's Vestments	Spooky Damage: +100, Spooky Spell Damage: +100
 Hodgman's Regal Frippery	Hobo Power: +25
 Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
 Hyperborean Hobo Habiliments	Cold Damage: +50
-# Knight's Armor
+Knight's Armor	Pickpocket Chance: +10
 Knob Goblin Elite Guard Uniform	Muscle: +7
 Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
 Legendary Regalia of the Chelonian Overlord	Experience (familiar): +1
-# Legendary Regalia of the Groovelord
+Legendary Regalia of the Groovelord	Initiative: +50
 Legendary Regalia of the Master Squeezeboxer	Pickpocket Chance: +50
 # Legendary Regalia of the Pasta Master	+1 pasta guardian exp
 # Legendary Regalia of the Saucemaestro	improved HP/MP return from saucespheres
-# Legendary Regalia of the Seal Crusher
+# Legendary Regalia of the Seal Crusher	+100% Item Drops from Infernal Seals
+Luniform	Weapon Damage Percent: +25, Spell Damage Percent: +25
 Mining Gear	Meat Drop: +5
-# Mutant Couture
+# Mutant Couture	Release Your Inner Mutant
 OK Lumberjack Outfit	Critical: 2
 Palmist Paraphernalia	Moxie: +7
-# Paperclippery
-Pork Elf Prizes	Item Drop: +11
-# Primitive Radio Duds
-Pyretic Panhandler Paraphernalia	MP Regen Min: 20, MP Regen Max: 30
-# Radio Free Regalia
-# Roy Orbison Disguise
-Slimesuit	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
-# Snowman Suit
+# Paperclippery	Helpful!
+Pork Elf Prizes	Item Drop: +10
+Primitive Radio Duds	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
+Pyretic Panhandler Paraphernalia	Hot Spell Damage: +40, MP Regen Min: 20, MP Regen Max: 30
+# Radio Free Regalia	Never Fumble
+Roy Orbison Disguise	Moxie: +15
+Slimesuit	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
+Smoked Pottery	Hot Damage: +15
+Snowman Suit	Cold Damage: +15
 Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Swashbuckling Getup	Moxie: +7
 Tapered Threads	Initiative: +30
 Tawdry Tramp Togs	DB Combat Damage: +20, Class: "Disco Bandit"
-# Terrifying Clown Suit
+Terrifying Clown Suit	Spooky Damage: +5
 Terrycloth Tackle	Damage Absorption: +20
 Time Trappings	Adventures: +3
-# Tropical Crimbo Duds
-# Uncle Hobo's Rags
-Vestments of the Treeslayer	Damage Reduction: 4
+Transparent Trappings	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Tropical Crimbo Duds	Moxie: +10, Muscle: +10, Mysticality: +10
+Unblemished Uniform	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+Uncle Hobo's Rags	Candy Drop: +15
+Vestments of the Treeslayer	Damage Reduction: 5
 Vile Vagrant Vestments	Mana Cost (stackable): -5, Class: "Pastamancer"
 War Hippy Fatigues	Stench Damage: +15
 Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
-# Yendorian Finery
+# Yendorian Finery	Be careful! New moon tonight.
 eXtreme Cold-Weather Gear	Cold Resistance: +3
 
 # Zodiac Sign section of modifiers.txt
