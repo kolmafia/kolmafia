@@ -5336,7 +5336,7 @@
 5335	431606529	scrunchie.gif	cursed scrunchie
 5336	586879875	skinnyjeans.gif	extremely skinny jeans
 5337
-5338
+5338	490267770	necrostein.gif	The Necbromancer's Stein
 5339
 5340
 5341	802108765	necbronomicon.gif	The Necbronomicon

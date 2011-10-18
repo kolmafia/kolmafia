@@ -1908,7 +1908,7 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Clan Basement", "choiceAdventure553", "Relocked and Reloaded",
 			new String[] { "", "", "", "", "", "exit adventure" },
-			new String[] { "2642", "2986", "4237", "1972", "4234", null } ),
+			new String[] { "2642", "2987", "4237", "1972", "4234", null } ),
 
 		// Behind the Spooky Curtain
 		new ChoiceAdventure(
