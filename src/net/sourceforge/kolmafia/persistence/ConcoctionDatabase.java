@@ -47,6 +47,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -1165,6 +1166,15 @@ public class ConcoctionDatabase
 			int method = ConcoctionDatabase.getMixingMethod( use.getItemId() );
 			
 			if ( ConcoctionDatabase.isPermittedMethod( method ) )
+			{
+				ConcoctionDatabase.setRefreshNeeded( false );
+				return;
+			}
+		}
+
+		for ( int i = 0; i < CoinmasterRegistry.COINMASTERS.length; ++i )
+		{
+			if ( itemId == CoinmasterRegistry.COINMASTERS[ i ].getItem().getItemId() )
 			{
 				ConcoctionDatabase.setRefreshNeeded( false );
 				return;
