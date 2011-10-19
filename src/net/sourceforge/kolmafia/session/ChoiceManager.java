@@ -1085,7 +1085,11 @@ public abstract class ChoiceManager
 			new String[] { "seaode", "skip adventure" },
 			new String[] { "3773", null } ),
 
-		// Choice 310 is The Economist of Scales
+		// The Economist of Scales
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure310", "Madness Reef",
+			new String[] { "rough fish scale", "pristine fish scale", "skip adventure" },
+			new String[] { "3487", "3488", null } ),
 
 		// Heavily Invested in Pun Futures
 		new ChoiceAdventure(
