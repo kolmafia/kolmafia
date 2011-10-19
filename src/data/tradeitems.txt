@@ -5202,8 +5202,8 @@
 5193	11-inch knob sausage	none	none	0
 5194	exorcised sandwich	none	none	0
 5195
-5196
-5197
+5196	Great S-Cape	accessory	display	0
+5197	Marvelous Unitard	accessory	display	0
 5198	gooey paste	usable	all	0
 5199	beastly paste	usable	all	0
 5200	oily paste	usable	all	0
@@ -5349,3 +5349,28 @@
 5340	The Necbromancer's Wizard Staff	weapon	display	0
 5341	The Necbronomicon	usable	all	0
 5342	The Cooler Out of Space	drink	all	500
+5343	The Necbronomicon (used)	usable	display	1000
+5344
+5345
+5346
+5347	A Crimbo Carol, Ch. 1 (used)	usable	display	1000
+5348	A Crimbo Carol, Ch. 2 (used)	usable	display	1000
+5349	A Crimbo Carol, Ch. 3 (used)	usable	display	1000
+5350	A Crimbo Carol, Ch. 4 (used)	usable	display	1000
+5351	A Crimbo Carol, Ch. 5 (used)	usable	display	1000
+5352	A Crimbo Carol, Ch. 6 (used)	usable	display	1000
+5353
+5354
+5355	Uncle Romulus (used)	usable	display	1000
+5356
+5357
+5358
+5359
+5360	Tales of a Kansas Toymaker (used)	usable	display	1000
+5361	The Joy of Wassailing (used)	usable	display	1000
+5362	CRIMBCO Employee Handbook (chapter 1) (used)	usable	display	1000
+5363	CRIMBCO Employee Handbook (chapter 2) (used)	usable	display	1000
+5364	CRIMBCO Employee Handbook (chapter 3) (used)	usable	display	1000
+5365	CRIMBCO Employee Handbook (chapter 4) (used)	usable	display	1000
+5366	CRIMBCO Employee Handbook (chapter 5) (used)	usable	display	1000
+5367	CRIMBCO Employee Handbook (chapter 6) (used)	usable	display	1000

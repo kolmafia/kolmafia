@@ -1452,6 +1452,7 @@ Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 # Gravyskin Belt of the Sauceblob: 3 Additional Scrumptious Reagent Summons Per Day*
 # * This enchantment works even when this item is not equipped
 Gravyskin Belt of the Sauceblob	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Sauceror", Single Equip
+Great S-Cape	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 Green Clover of Justice	Muscle: +8, Mysticality: +8, Moxie: +8, Item Drop: +8, Single Equip
 Grimacite galoshes	Meat Drop: +25, Moxie Percent: [10*G]
 Grimacite garter	Spell Damage: +15, Mysticality Percent: [10*G]
@@ -1486,6 +1487,7 @@ Mafia bow tie	Muscle: +20, Moxie: +20
 Mafia stogie	Muscle: +20, Mysticality: +20
 # MagiMechTech NanoMechaMech: Attacks Monsters During Combat
 MagiMechTech NanoMechaMech	Single Equip
+Marvelous Unitard	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 # Mega Gem
 # Mer-kin prayerbeads: Makes you feel uneasy...
 Mer-kin prayerbeads	Single Equip

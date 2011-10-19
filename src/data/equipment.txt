@@ -1301,6 +1301,7 @@ Garter of the Turtle Poacher	150	Mus: 45
 Golden Mr. Accessory	0	none
 Gravyskin Belt of the Sauceblob	150	Mys: 45
 Green Clover of Justice	200	Mys: 85
+Great S-Cape	10	none
 Grimacite galoshes	0	Mys: 17
 Grimacite garter	0	Mys: 17
 Grimacite gauntlets	0	Mys: 15
@@ -1332,6 +1333,7 @@ Lord Spookyraven's spectacles	10	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	60	Mys: 15
+Marvelous Unitard	10	none
 Mega Gem	10	none
 Mer-kin prayerbeads	200	Mys: 85
 Mesmereyes&trade; contact lenses	0	Mys: 200
