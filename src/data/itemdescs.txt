@@ -5194,8 +5194,8 @@
 5193	214334936	bigsausage.gif	11-inch knob sausage
 5194	786372087	sammich.gif	exorcised sandwich
 5195
-5196
-5197
+5196	509607021	scape.gif	Great S-Cape
+5197	256898861	unitard.gif	Marvelous Unitard
 5198	914769688	paste1.gif	gooey paste	globs of gooey paste
 5199	786918264	paste2.gif	beastly paste	globs of beastly paste
 5200	681870289	paste3.gif	oily paste	globs of oily paste
@@ -5341,3 +5341,27 @@
 5340	359578407	necrostaff.gif	The Necbromancer's Wizard Staff
 5341	802108765	necbronomicon.gif	The Necbronomicon
 5342	267368039	darkcooler.gif	The Cooler Out of Space
+5343	862597561	necbronomicon.gif	The Necbronomicon (used)
+5344
+5345
+5346
+5347	920942749	book3.gif	A Crimbo Carol, Ch. 1 (used)
+5348	601885612	book3.gif	A Crimbo Carol, Ch. 2 (used)
+5349	297784549	book3.gif	A Crimbo Carol, Ch. 3 (used)
+5350	713267731	book3.gif	A Crimbo Carol, Ch. 4 (used)
+5351	269081092	book3.gif	A Crimbo Carol, Ch. 5 (used)
+5352	955971327	book3.gif	A Crimbo Carol, Ch. 6 (used)
+5353
+5354
+5355	684007394	book4.gif	Uncle Romulus (used)
+5356
+5357
+5358
+5359
+5360	618055110	book4.gif	Tales of a Kansas Toymaker (used)
+5361	585632918	book4.gif	The Joy of Wassailing (used)
+5362	826471312	book4.gif	CRIMBCO Employee Handbook (chapter 1) (used)
+5363	843439295	book4.gif	CRIMBCO Employee Handbook (chapter 2) (used)
+5364	416565153	book4.gif	CRIMBCO Employee Handbook (chapter 3) (used)
+5365	498723404	book4.gif	CRIMBCO Employee Handbook (chapter 4) (used)
+5366	220677638	book4.gif	CRIMBCO Employee Handbook (chapter 5) (used)
