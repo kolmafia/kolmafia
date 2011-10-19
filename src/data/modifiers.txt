@@ -2506,12 +2506,15 @@ Blessing of Pikachutlotal	Initiative: +30
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
+# Bloody-minded	+50 Damage vs. Vampires
 Blue Tongue	Item Drop: +30
 # Bone Homie: Bites Your Enemies
 # Boner Battalion: BONERS HO!
+# Booing Radly: +50 Damage vs. Ghosts
 Bootyliciousness	Item Drop: +10
 Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
+# Braaaains Over Braaaawwn	+50 Damage vs. Zombies
 Braaains	Meat Drop: +50, Initiative: -50
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
 Bright!	Maximum MP: +100
@@ -2879,6 +2882,7 @@ Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Less Pervious	Damage Reduction: 3
 Less Vincible	HP Regen Min: 2, HP Regen Max: 5
+Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
 # Light!
 # Light-Headed: Increased chance of fumbling
 Light-Headed	Mysticality Percent: -30
@@ -2985,6 +2989,7 @@ Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
 Peppermint Bite	Muscle: +5
 Perceptive Pressure	Item Drop: +50
+Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
 Perspicacious Pressure	Mysticality Percent: +300
 Phairly Pheromonal	Familiar Weight: +4
@@ -3858,6 +3863,7 @@ sizzling seal fat	Effect: "Sizzling with Fury", Effect Duration: 10
 sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
 sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
+sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
 spooky eyeliner	Effect: "Gothy", Effect Duration: 10
 spooky lipstick	Effect: "Gothy", Effect Duration: 10
