@@ -86,11 +86,13 @@ public class VendingMachineRequest
 	public VendingMachineRequest( final String action )
 	{
 		super( VendingMachineRequest.VENDING_MACHINE, action );
+		this.addFormField( "pwd" );
 	}
 
 	public VendingMachineRequest( final String action, final int itemId, final int quantity )
 	{
 		super( VendingMachineRequest.VENDING_MACHINE, action, itemId, quantity );
+		this.addFormField( "pwd" );
 	}
 
 	public VendingMachineRequest( final String action, final int itemId )

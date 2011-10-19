@@ -1174,7 +1174,8 @@ public class ConcoctionDatabase
 
 		for ( int i = 0; i < CoinmasterRegistry.COINMASTERS.length; ++i )
 		{
-			if ( itemId == CoinmasterRegistry.COINMASTERS[ i ].getItem().getItemId() )
+			AdventureResult item = CoinmasterRegistry.COINMASTERS[ i ].getItem();
+			if ( item != null && itemId == item.getItemId() )
 			{
 				ConcoctionDatabase.setRefreshNeeded( false );
 				return;
