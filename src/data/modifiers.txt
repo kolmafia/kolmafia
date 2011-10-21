@@ -2506,6 +2506,7 @@ Blessing of Bulbazinalli	Damage Reduction: 10
 Blessing of Charcoatl	Hot Damage: +10, Hot Spell Damage: +10
 Blessing of Pikachutlotal	Initiative: +30
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
+# Bloody-minded: +50 Damage vs. Vampires
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 # Bloody-minded	+50 Damage vs. Vampires
@@ -2516,7 +2517,7 @@ Blue Tongue	Item Drop: +30
 Bootyliciousness	Item Drop: +10
 Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
-# Braaaains Over Braaaawwn	+50 Damage vs. Zombies
+# Braaaains Over Braaaawwn: +50 Damage vs. Zombies
 Braaains	Meat Drop: +50, Initiative: -50
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
 Bright!	Maximum MP: +100
@@ -3165,6 +3166,7 @@ Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, 
 Steroid Boost	Muscle: +2
 Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 # Stickler for Promptness: Familiar will act more often in combat
+# Sticks and Stones: +50 Damage vs. Skeletons
 Sticky Fingers	Meat Drop: +20
 # Sticky Hands: Reduced chance of fumbling
 Stimulated Body	HP Regen Min: 10, HP Regen Max: 20
@@ -3303,7 +3305,7 @@ Wintry Breath	Cold Damage: +20
 Wistfully Nostalgic	Experience: +3
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Woad Warrior	Muscle: +25
-# Wolf's Bane	+50 Damage vs. Werewolves
+# Wolf's Bane: +50 Damage vs. Werewolves
 Wreathed in Merriment	Moxie Percent: +10
 Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
