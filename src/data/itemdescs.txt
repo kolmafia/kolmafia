@@ -5221,7 +5221,7 @@
 5220	525128097	wosp_scroll.gif	Teachings of the Fist	Teachings of the Fists
 5221	526463785	loottoken.gif	fat loot token
 5222	136464467	thwaitgrass.gif	Thwaitgold grasshopper statuette
-5223	574526290	book3.gif	Tome of Clip Art
+5223	574526290	book3.gif	Tome of Clip Art	Tomes of Clip Art
 5224	517311708	powderdonut.gif	Ur-Donut
 5225	779127476	bigbomb.gif	The Bomb
 5226	197797892	famjacks.gif	box of Familiar Jacks
@@ -5310,11 +5310,11 @@
 5309	268469310	chainsawchain.gif	chainsaw chain
 5310	253570967	shotgunshell.gif	silver shotgun shell
 5311	603294066	funhousemirror.gif	funhouse mirror
-5312	530711589	tube.gif	ghostly body paint
-5313	728903824	bodyspray.gif	necrotizing body spray
-5314	992265372	lipstick.gif	bite-me-red lipstick
+5312	530711589	tube.gif	ghostly body paint	tubes of ghostly body paint
+5313	728903824	bodyspray.gif	necrotizing body spray	bottles of necrotizing body spray
+5314	992265372	lipstick.gif	bite-me-red lipstick	tubes of bite-me-red lipstick
 5315	188973115	pencil.gif	whisker pencil
-5316	206212551	bonechest.gif	press-on ribs
+5316	206212551	bonechest.gif	press-on ribs	sets of press-on ribs
 5317
 5318
 5319
@@ -5322,25 +5322,25 @@
 5321
 5322	188640459	winecooler.gif	Ecto-Cooler
 5323	520362125	winecooler.gif	Bartles and BRAAAINS wine cooler
-5324	779639287	beer.gif	Blood Light
+5324	779639287	beer.gif	Blood Light	cans of Blood Light
 5325	138741589	tallbeer.gif	Silver Bullet beer
-5326	152114626	beerbottle.gif	Bone's Farm &quot;wine&quot;
+5326	152114626	beerbottle.gif	Bone's Farm &quot;wine&quot;	bottles of Bone's Farm &quot;wine&quot;
 5327	355856839	document.gif	ghost protocol
 5328	344272014	birdbrain.gif	sorority brain
 5329	341295040	potion4.gif	Nightstalker perfume
-5330	879266387	oildrum.gif	drum of pomade
+5330	879266387	oildrum.gif	drum of pomade	drums of pomade
 5331	570546301	bone.gif	throwing bone
 5332	349333443	nightie.gif	extra-see-thru nightie
-5333	733620468	brainsshorts.gif	BRAINS shorts
-5334	415657785	contactlenses.gif	Mesmereyes&trade; contact lenses
+5333	733620468	brainsshorts.gif	BRAINS shorts	pairs of BRAINS shorts
+5334	415657785	contactlenses.gif	Mesmereyes&trade; contact lenses	pairs of Mesmereyes&trade; contact lenses
 5335	431606529	scrunchie.gif	cursed scrunchie
-5336	586879875	skinnyjeans.gif	extremely skinny jeans
+5336	586879875	skinnyjeans.gif	extremely skinny jeans	pairs of extremely skinny jeans
 5337	225558228	necrocap.gif	The Necbromancer's Hat
 5338	490267770	necrostein.gif	The Necbromancer's Stein
-5339	856417196	necroshorts.gif	The Necbromancer's Shorts
-5340	359578407	necrostaff.gif	The Necbromancer's Wizard Staff
-5341	802108765	necbronomicon.gif	The Necbronomicon
-5342	267368039	darkcooler.gif	The Cooler Out of Space
+5339	856417196	necroshorts.gif	The Necbromancer's Shorts	pairs of The Necbromancer's Shorts
+5340	359578407	necrostaff.gif	The Necbromancer's Wizard Staff	The Necbromancer's Wizard Staves
+5341	802108765	necbronomicon.gif	The Necbronomicon	copies of The Necbronomicon
+5342	267368039	darkcooler.gif	The Cooler Out of Space	The Coolers Out of Space
 5343	862597561	necbronomicon.gif	The Necbronomicon (used)
 5344
 5345
