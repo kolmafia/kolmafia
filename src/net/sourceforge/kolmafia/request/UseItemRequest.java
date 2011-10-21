@@ -2913,8 +2913,7 @@ public class UseItemRequest
 			String skill = UseItemRequest.itemToSkill( itemId );
 			if ( skill == null || KoLCharacter.hasSkill( skill ) )
 			{
-				// The meteoroid is inherently reusable
-				if ( itemId != ItemPool.UNEARTHED_METEOROID )
+				if ( UseItemRequest.getConsumptionType( item ) != KoLConstants.INFINITE_USES )
 				{
 					ResultProcessor.processResult( item );
 				}
@@ -4217,54 +4216,75 @@ public class UseItemRequest
 		case ItemPool.SLIME_SOAKED_SWEAT_GLAND:
 			return "Slimy Shoulders";
 		case ItemPool.CRIMBO_CAROL_V1:
+		case ItemPool.CRIMBO_CAROL_V1_USED:
 			return "Holiday Weight Gain";
 		case ItemPool.CRIMBO_CAROL_V2:
+		case ItemPool.CRIMBO_CAROL_V2_USED:
 			return "Jingle Bells";
 		case ItemPool.CRIMBO_CAROL_V3:
+		case ItemPool.CRIMBO_CAROL_V3_USED:
 			return "Candyblast";
 		case ItemPool.CRIMBO_CAROL_V4:
+		case ItemPool.CRIMBO_CAROL_V4_USED:
 			return "Surge of Icing";
 		case ItemPool.CRIMBO_CAROL_V5:
+		case ItemPool.CRIMBO_CAROL_V5_USED:
 			return "Stealth Mistletoe";
 		case ItemPool.CRIMBO_CAROL_V6:
+		case ItemPool.CRIMBO_CAROL_V6_USED:
 			return "Cringle's Curative Carol";
 		case ItemPool.CRIMBO_CANDY_COOKBOOK:
 			return "Summon Crimbo Candy";
 		case ItemPool.SLAPFIGHTING_BOOK:
+		case ItemPool.SLAPFIGHTING_BOOK_USED:
 			return "Iron Palm Technique";
 		case ItemPool.UNCLE_ROMULUS:
+		case ItemPool.UNCLE_ROMULUS_USED:
 			return "Curiosity of Br'er Tarrypin";
 		case ItemPool.SNAKE_CHARMING_BOOK:
+		case ItemPool.SNAKE_CHARMING_BOOK_USED:
 			return "Stringozzi Serpent";
 		case ItemPool.ZU_MANNKASE_DIENEN:
+		case ItemPool.ZU_MANNKASE_DIENEN_USED:
 			return "K&auml;seso&szlig;esturm";
 		case ItemPool.DYNAMITE_SUPERMAN_JONES:
 			return "Kung Fu Hustler";
 		case ItemPool.INIGO_BOOK:
+		case ItemPool.INIGO_BOOK_USED:
 			return "Inigo's Incantation of Inspiration";
 		case ItemPool.BLACK_HYMNAL:
 			return "Canticle of Carboloading";
 		case ItemPool.ELLSBURY_BOOK:
+		case ItemPool.ELLSBURY_BOOK_USED:
 			return "Unaccompanied Miner";
 		case ItemPool.UNEARTHED_METEOROID:
 			return "Volcanometeor Showeruption";
 		case ItemPool.KANSAS_TOYMAKER:
+		case ItemPool.KANSAS_TOYMAKER_USED:
 			return "Toynado";
 		case ItemPool.WASSAILING_BOOK:
+		case ItemPool.WASSAILING_BOOK_USED:
 			return "Wassail";
 		case ItemPool.CRIMBCO_MANUAL_1:
+		case ItemPool.CRIMBCO_MANUAL_1_USED:
 			return "Fashionably Late";
 		case ItemPool.CRIMBCO_MANUAL_2:
+		case ItemPool.CRIMBCO_MANUAL_2_USED:
 			return "Executive Narcolepsy";
 		case ItemPool.CRIMBCO_MANUAL_3:
+		case ItemPool.CRIMBCO_MANUAL_3_USED:
 			return "Lunch Break";
 		case ItemPool.CRIMBCO_MANUAL_4:
+		case ItemPool.CRIMBCO_MANUAL_4_USED:
 			return "Offensive Joke";
 		case ItemPool.CRIMBCO_MANUAL_5:
+		case ItemPool.CRIMBCO_MANUAL_5_USED:
 			return "Managerial Manipulation";
 		case ItemPool.SKELETON_BOOK:
+		case ItemPool.SKELETON_BOOK_USED:
 			return "Natural Born Skeleton Killer";
 		case ItemPool.NECBRONOMICON:
+		case ItemPool.NECBRONOMICON_USED:
 			return "Summon &quot;Boner Battalion&quot;";
 		}
 

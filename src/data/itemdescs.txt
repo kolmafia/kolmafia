@@ -5352,12 +5352,12 @@
 5351	269081092	book3.gif	A Crimbo Carol, Ch. 5 (used)
 5352	955971327	book3.gif	A Crimbo Carol, Ch. 6 (used)
 5353
-5354
+5354	216432791	book4.gif	The Art of Slapfighting (used)
 5355	684007394	book4.gif	Uncle Romulus (used)
-5356
-5357
+5356	275530990	book4.gif	A Beginner's Guide to Charming Snakes (used)
+5357	890650838	book4.gif	Zu Mannk&auml;se Dienen (used)
 5358
-5359
+5359	961976248	book4.gif	Inigo's Incantation of Inspiration (crumpled)
 5360	618055110	book4.gif	Tales of a Kansas Toymaker (used)
 5361	585632918	book4.gif	The Joy of Wassailing (used)
 5362	826471312	book4.gif	CRIMBCO Employee Handbook (chapter 1) (used)
@@ -5365,3 +5365,5 @@
 5364	416565153	book4.gif	CRIMBCO Employee Handbook (chapter 3) (used)
 5365	498723404	book4.gif	CRIMBCO Employee Handbook (chapter 4) (used)
 5366	220677638	book4.gif	CRIMBCO Employee Handbook (chapter 5) (used)
+5367	989897814	book.gif	Field Guide to Skeletal Anatomy (shredded)	shredded Field Guides to Skeletal Anatomy
+5368	715682439	book3.gif	Ellsbury's journal (used)
