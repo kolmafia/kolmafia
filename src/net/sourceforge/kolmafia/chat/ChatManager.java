@@ -328,15 +328,15 @@ public abstract class ChatManager
 		String sender = message.getSender();
 		String recipient = message.getRecipient();
 
-		if ( "/clan".equals( recipient ) || "/slimetube".equals( recipient ) || "/hobopolis".equals( recipient ) )
-		{
-			ChatManager.clanMessages.add( message );
-			ChatManager.processCommand( message.getSender(), message.getContent(), recipient );
-		}
-
-		if ( "FaxBot".equals( sender ) )
+		if ( sender.equals( "FaxBot" ) )
 		{
 			ChatManager.faxbotMessage = message;
+		}
+
+		if ( recipient.equals( "/clan" ) || recipient.equals( "/hobopolis" ) || recipient.equals( "/slimetube" ) || recipient.equals( "/hauntedhouse" ) )
+		{
+			ChatManager.clanMessages.add( message );
+			ChatManager.processCommand( sender, message.getContent(), recipient );
 		}
 
 		String destination = recipient;
@@ -371,7 +371,7 @@ public abstract class ChatManager
 
 		if ( Preferences.getBoolean( "mergeHobopolisChat" ) ) 	 
 		{ 	 
-			if ( destination.equals( "/hobopolis" ) || destination.equals( "/slimetube" ) ) 	 
+			if ( destination.equals( "/hobopolis" ) || destination.equals( "/slimetube" ) || destination.equals( "/hauntedhouse" ) ) 	 
 			{ 	 
 				bufferKey = "/clan"; 	 
 			} 	 
