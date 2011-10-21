@@ -4,6 +4,12 @@
 
 # Drink	Inebriety	Level Req	quality	Adv	Musc	Myst	Moxie
 
+Bartles and BRAAAINS wine cooler	1	6	awesome	3-5	5-10	5-10	5-10	30 Braaaains Over Braaaawwn (+50 dmg vs. Zombies)
+Blood Light	1	6	awesome	3-5	5-10	5-10	5-10	30 Bloody-minded (+50 dmg vs. Vampires)
+Bone's Farm &quot;wine&quot;	1	6	awesome	3-5	5-10	5-10	5-10	30 Sticks and Stones (+50 dmg vs. Skeletons)
+Ecto-Cooler	1	6	awesome	3-5	5-10	5-10	5-10	30 Booing Radly (+50 dmg vs. Ghosts)
+Silver Bullet beer	1	6	awesome	3-5	5-10	5-10	5-10	30 Wolf's Bane (+50 dmg vs. Werewolves)
+The Cooler Out of Space	2	12	awesome	8-9	20-50	20-50	20-50	30 You Can Taste the Darkness (spooky dmg/res)
 a little sump'm sump'm	4	4	good	10-14	0	25-27	8-10
 accidental cider	3	1	decent	3-6	0	0	0
 acqua del piatto merlot	1	10	EPIC	3-10	60	60	60

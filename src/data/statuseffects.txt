@@ -943,10 +943,10 @@
 942	Booing Radly	specjelly.gif	1afa88e07e3e4a8f42447cd40d779a62	drink 1 Ecto-Cooler
 943	Braaaains Over Braaaawwn	realbrain.gif	e6bdec9be9b08c45734c43e6f44c3fee	drink 1 Bartles and BRAAAINS wine cooler
 944	Bloody-minded	blooddrops.gif	8ac0d76f96434d436882d11f250b0bf6	drink 1 Blood Light
-945
+945	Wolf's Bane	wolfmask.gif	9b80be4a8beb0b996f1378ac33e02134	drink 1 Silver Bullet beer
 946
 947	Perfect Hair	mullet.gif	8594bc25c0182521ccb0a20896cceb45	use 1 drum of pomade
 948	Let's Go Shopping!	dollarsign.gif	df7800d80a1647eaa35777fb09cc92fe	use 1 sorority brain
 949	Boner Battalion	fratskull.gif	5cf87e15b3302601c8041a50c0a1b0cc	cast 1 Summon &quot;Boner Battalion&quot;
 950	Nightstalkin'	vampteeth.gif	83a68a4e66671c6af4bb107419eb382b	use 1 Nightstalker perfume
-951
+951	You Can Taste the Darkness	darkness.gif	62076ae19b2682f33e5bdafb0c17c502	drink 1 The Cooler Out of Space
