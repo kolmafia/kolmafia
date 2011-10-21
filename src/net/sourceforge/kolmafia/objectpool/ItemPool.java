@@ -1328,6 +1328,28 @@ public class ItemPool
 	public static final int SILVER_SHOTGUN_SHELL = 5310;
 	public static final int FUNHOUSE_MIRROR = 5311;
 	public static final int NECBRONOMICON = 5341;
+	public static final int NECBRONOMICON_USED = 5343;
+	public static final int CRIMBO_CAROL_V1_USED = 5347;
+	public static final int CRIMBO_CAROL_V2_USED = 5348;
+	public static final int CRIMBO_CAROL_V3_USED = 5349;
+	public static final int CRIMBO_CAROL_V4_USED = 5350;
+	public static final int CRIMBO_CAROL_V5_USED = 5351;
+	public static final int CRIMBO_CAROL_V6_USED = 5352;
+	public static final int SLAPFIGHTING_BOOK_USED = 5354;
+	public static final int UNCLE_ROMULUS_USED = 5355;
+	public static final int SNAKE_CHARMING_BOOK_USED = 5356;
+	public static final int ZU_MANNKASE_DIENEN_USED = 5357;
+	//public static final int DYNAMITE_SUPERMAN_JONES_USED = 5358;
+	public static final int INIGO_BOOK_USED = 5359;
+	public static final int KANSAS_TOYMAKER_USED = 5360;
+	public static final int WASSAILING_BOOK_USED = 5361;
+	public static final int CRIMBCO_MANUAL_1_USED = 5362;
+	public static final int CRIMBCO_MANUAL_2_USED = 5363;
+	public static final int CRIMBCO_MANUAL_3_USED = 5364;
+	public static final int CRIMBCO_MANUAL_4_USED = 5365;
+	public static final int CRIMBCO_MANUAL_5_USED = 5366;
+	public static final int SKELETON_BOOK_USED = 5367;
+	public static final int ELLSBURY_BOOK_USED = 5368;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
