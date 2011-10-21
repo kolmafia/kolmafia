@@ -3303,6 +3303,7 @@ Wintry Breath	Cold Damage: +20
 Wistfully Nostalgic	Experience: +3
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Woad Warrior	Muscle: +25
+# Wolf's Bane	+50 Damage vs. Werewolves
 Wreathed in Merriment	Moxie Percent: +10
 Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
@@ -3310,6 +3311,7 @@ Wussiness	Muscle: -3
 # Yes, Can Haz: Effect Cat is Not Amused
 # Yiffable You
 You Can Really Taste the Dormouse	Familiar Weight: +5
+You Can Taste the Darkness	Spooky Resistance: +9, Spooky Damage: +100
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
 Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
