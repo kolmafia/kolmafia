@@ -5356,7 +5356,7 @@
 5355	684007394	book4.gif	Uncle Romulus (used)
 5356	275530990	book4.gif	A Beginner's Guide to Charming Snakes (used)
 5357	890650838	book4.gif	Zu Mannk&auml;se Dienen (used)
-5358
+5358	274466133	book4.gif	Autobiography Of Dynamite Superman Jones (used)
 5359	961976248	book4.gif	Inigo's Incantation of Inspiration (crumpled)
 5360	618055110	book4.gif	Tales of a Kansas Toymaker (used)
 5361	585632918	book4.gif	The Joy of Wassailing (used)
