@@ -1339,7 +1339,7 @@ public class ItemPool
 	public static final int UNCLE_ROMULUS_USED = 5355;
 	public static final int SNAKE_CHARMING_BOOK_USED = 5356;
 	public static final int ZU_MANNKASE_DIENEN_USED = 5357;
-	//public static final int DYNAMITE_SUPERMAN_JONES_USED = 5358;
+	public static final int DYNAMITE_SUPERMAN_JONES_USED = 5358;
 	public static final int INIGO_BOOK_USED = 5359;
 	public static final int KANSAS_TOYMAKER_USED = 5360;
 	public static final int WASSAILING_BOOK_USED = 5361;

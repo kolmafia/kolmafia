@@ -2884,30 +2884,52 @@ public class UseItemRequest
 		case ItemPool.HODGMAN_JOURNAL_3:
 		case ItemPool.HODGMAN_JOURNAL_4:
 		case ItemPool.CRIMBO_CAROL_V1:
+		case ItemPool.CRIMBO_CAROL_V1_USED:
 		case ItemPool.CRIMBO_CAROL_V2:
+		case ItemPool.CRIMBO_CAROL_V2_USED:
 		case ItemPool.CRIMBO_CAROL_V3:
+		case ItemPool.CRIMBO_CAROL_V3_USED:
 		case ItemPool.CRIMBO_CAROL_V4:
+		case ItemPool.CRIMBO_CAROL_V4_USED:
 		case ItemPool.CRIMBO_CAROL_V5:
+		case ItemPool.CRIMBO_CAROL_V5_USED:
 		case ItemPool.CRIMBO_CAROL_V6:
+		case ItemPool.CRIMBO_CAROL_V6_USED:
 		case ItemPool.CRIMBO_CANDY_COOKBOOK:
 		case ItemPool.SLAPFIGHTING_BOOK:
+		case ItemPool.SLAPFIGHTING_BOOK_USED:
 		case ItemPool.UNCLE_ROMULUS:
+		case ItemPool.UNCLE_ROMULUS_USED:
 		case ItemPool.SNAKE_CHARMING_BOOK:
+		case ItemPool.SNAKE_CHARMING_BOOK_USED:
 		case ItemPool.ZU_MANNKASE_DIENEN:
+		case ItemPool.ZU_MANNKASE_DIENEN_USED:
+		case ItemPool.DYNAMITE_SUPERMAN_JONES:
+		case ItemPool.DYNAMITE_SUPERMAN_JONES_USED:
 		case ItemPool.INIGO_BOOK:
+		case ItemPool.INIGO_BOOK_USED:
 		case ItemPool.BLACK_HYMNAL:
 		case ItemPool.ELLSBURY_BOOK:
+		case ItemPool.ELLSBURY_BOOK_USED:
 		case ItemPool.UNEARTHED_METEOROID:
 		case ItemPool.KANSAS_TOYMAKER:
+		case ItemPool.KANSAS_TOYMAKER_USED:
 		case ItemPool.WASSAILING_BOOK:
+		case ItemPool.WASSAILING_BOOK_USED:
 		case ItemPool.CRIMBCO_MANUAL_1:
+		case ItemPool.CRIMBCO_MANUAL_1_USED:
 		case ItemPool.CRIMBCO_MANUAL_2:
+		case ItemPool.CRIMBCO_MANUAL_2_USED:
 		case ItemPool.CRIMBCO_MANUAL_3:
+		case ItemPool.CRIMBCO_MANUAL_3_USED:
 		case ItemPool.CRIMBCO_MANUAL_4:
+		case ItemPool.CRIMBCO_MANUAL_4_USED:
 		case ItemPool.CRIMBCO_MANUAL_5:
-		case ItemPool.DYNAMITE_SUPERMAN_JONES:
+		case ItemPool.CRIMBCO_MANUAL_5_USED:
 		case ItemPool.SKELETON_BOOK:
+		case ItemPool.SKELETON_BOOK_USED:
 		case ItemPool.NECBRONOMICON:
+		case ItemPool.NECBRONOMICON_USED:
 		{
 			int itemId = item.getItemId();
 			String skill = UseItemRequest.itemToSkill( itemId );
@@ -4248,6 +4270,7 @@ public class UseItemRequest
 		case ItemPool.ZU_MANNKASE_DIENEN_USED:
 			return "K&auml;seso&szlig;esturm";
 		case ItemPool.DYNAMITE_SUPERMAN_JONES:
+		case ItemPool.DYNAMITE_SUPERMAN_JONES_USED:
 			return "Kung Fu Hustler";
 		case ItemPool.INIGO_BOOK:
 		case ItemPool.INIGO_BOOK_USED:
