@@ -72,6 +72,7 @@ public class EventManager
 	public static void clearEventHistory()
 	{
 		EventManager.eventTexts.clear();
+		EventManager.eventHyperTexts.clear();
 	}
 
 	public static LockableListModel getEventTexts()
