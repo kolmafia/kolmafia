@@ -117,13 +117,24 @@ public class SpeculateCommand
 			{
 				continue;
 			}
-			buf.append( "<tr><td rowspan=2>" );
-			buf.append( mod );
-			buf.append( "</td><td>" );
-			buf.append( was.replaceAll( "\t", "<br>" ) );
-			buf.append( "</td></tr><tr><td>" );
-			buf.append( now.replaceAll( "\t", "<br>" ) );
-			buf.append( "</td></tr>" );
+			if ( was.equals( "" ) )
+			{
+				buf.append( "<tr><td>" );
+				buf.append( mod );
+				buf.append( "</td><td>" );
+				buf.append( now.replaceAll( "\t", "<br>" ) );
+				buf.append( "</td></tr>" );
+			}
+			else
+			{
+				buf.append( "<tr><td rowspan=2>" );
+				buf.append( mod );
+				buf.append( "</td><td>" );
+				buf.append( was.replaceAll( "\t", "<br>" ) );
+				buf.append( "</td></tr><tr><td>" );
+				buf.append( now.replaceAll( "\t", "<br>" ) );
+				buf.append( "</td></tr>" );
+			}
 		}
 		if ( buf.length() > len )
 		{
