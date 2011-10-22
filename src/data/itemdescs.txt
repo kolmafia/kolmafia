@@ -5305,7 +5305,7 @@
 5304	534611026	vampchalice.gif	Chalice of the Malkovich Prince
 5305	475867577	vampsceptre.gif	Sceptre of the Torremolinos Prince
 5306	546884701	vampmedal.gif	Medallion of the Ventrilo Prince
-5307	467115427	pamphlet.gif	Haunted Sorority House staff guide
+5307	467115427	pamphlet.gif	Haunted Sorority House staff guide	Haunted Sorority House staff guides
 5308	132358159	ghosttrap.gif	ghost trap
 5309	268469310	chainsawchain.gif	chainsaw chain
 5310	253570967	shotgunshell.gif	silver shotgun shell

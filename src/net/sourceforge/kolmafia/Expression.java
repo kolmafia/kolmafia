@@ -46,7 +46,7 @@ public class Expression
 {
 	private static final Pattern NUM_PATTERN = Pattern.compile( "([+-]?[\\d.]+)(.*)" );
 	private static final int INITIAL_STACK = 8;
-	private static final int MAXIMUM_STACK = 1024;
+	private static final int MAXIMUM_STACK = 128;
 
 	protected String name;
 	protected String text;
@@ -85,7 +85,7 @@ public class Expression
 
 	public float eval()
 	{
-		while ( this.stack.length <= MAXIMUM_STACK )
+		while ( true )
 		{	// Find required stack size to evaluate this expression
 			try
 			{
@@ -93,14 +93,16 @@ public class Expression
 			}
 			catch ( ArrayIndexOutOfBoundsException e )
 			{
+				if ( this.stack.length >= MAXIMUM_STACK )
+				{
+					KoLmafia.updateDisplay( "Unreasonably complex expression for " + this.name + ": " + e );
+					return 0.0f;
+				}
 				float[] larger = new float[ this.stack.length * 2 ];
 				System.arraycopy( this.stack, 0, larger, 0, this.stack.length );
 				this.stack = larger;
 			}
 		}
-
-		KoLmafia.updateDisplay( "Unreasonably complex expression for " + this.name );
-		return 0.0f;
 	}
 
 	private float evalInternal()

@@ -442,6 +442,8 @@ public abstract class UseLinkDecorator
 
 	private static final UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod )
 	{
+		String use;
+		
 		if ( !ItemDatabase.meetsLevelRequirement( ItemDatabase.getItemName( itemId ) ) )
 		{
 			return null;
@@ -511,19 +513,22 @@ public abstract class UseLinkDecorator
 			{
 				return null;
 			}
-
+			
 			if ( useCount == 1 )
 			{
 				String page = ( consumeMethod == KoLConstants.CONSUME_MULTIPLE ) ? "3" : "1";
-				return new UseLink( itemId, useCount, "use", "inv_use.php?which=" + page + "&whichitem=" );
+				return new UseLink( itemId, useCount, 
+					getPotionSpeculation( "use", itemId ),
+					"inv_use.php?which=" + page + "&whichitem=" );
 			}
 
+			use = getPotionSpeculation( "use multiple", itemId );
 			if ( Preferences.getBoolean( "relayUsesInlineLinks" ) )
 			{
-				return new UseLink( itemId, useCount, "use", "#" );
+				return new UseLink( itemId, useCount, use, "#" );
 			}
 
-			return new UseLink( itemId, useCount, "use", "multiuse.php?passitem=" );
+			return new UseLink( itemId, useCount, use, "multiuse.php?passitem=" );
 
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.MESSAGE_DISPLAY:
@@ -644,7 +649,9 @@ public abstract class UseLinkDecorator
 
 			default:
 
-				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=" );
+				return new UseLink( itemId, itemCount, 
+					getPotionSpeculation( "use", itemId ),
+					"inv_use.php?which=3&whichitem=" );
 			}
 
 		case KoLConstants.EQUIP_HAT:
@@ -784,6 +791,14 @@ public abstract class UseLinkDecorator
 	
 	private static int equipSequence = 0;
 	
+	private static final String getSpeculation( String label, Modifiers mods )
+	{
+		String id = "whatif" + UseLinkDecorator.equipSequence++;
+		String table = SpeculateCommand.getHTML( mods, "id='" + id + "' style='background-color: white; visibility: hidden; position: absolute; right: 0px; top: 1.2em;'" );
+		if ( table == null ) return label;
+		return "<span style='position: relative;' onMouseOver=\"document.getElementById('" + id + "').style.visibility='visible';\" onMouseOut=\"document.getElementById('" + id + "').style.visibility='hidden';\">" + table + label + "</span>";
+	}
+
 	private static final String getEquipmentSpeculation( String label, int itemId, int consumpt, int slot )
 	{
 		if ( slot == -1 )
@@ -793,10 +808,21 @@ public abstract class UseLinkDecorator
 		Speculation spec = new Speculation();
 		spec.equip( slot, ItemPool.get( itemId, 1 ) );
 		Modifiers mods = spec.calculate();
-		String id = "whatif" + UseLinkDecorator.equipSequence++;
-		String table = SpeculateCommand.getHTML( mods, "id='" + id + "' style='background-color: white; visibility: hidden; position: absolute; right: 0px; top: 1.2em;'" );
-		if ( table == null ) return label;
-		return "<span style='position: relative;' onMouseOver=\"document.getElementById('" + id + "').style.visibility='visible';\" onMouseOut=\"document.getElementById('" + id + "').style.visibility='hidden';\">" + table + label + "</span>";
+		return getSpeculation( label, mods );
+	}
+
+	private static final String getPotionSpeculation( String label, int itemId )
+	{
+		Modifiers mods = Modifiers.getModifiers( ItemDatabase.getItemName( itemId ) );
+		if ( mods == null ) return label;
+		String effect = mods.getString( Modifiers.EFFECT );
+		if ( effect.equals( "" ) ) return label;
+		int duration = Math.max( 1, (int)mods.get( Modifiers.EFFECT_DURATION ) );
+		Speculation spec = new Speculation();
+		spec.addEffect( new AdventureResult( effect, duration, true ) );
+		mods = spec.calculate();
+		mods.set( Modifiers.EFFECT, effect );
+		return getSpeculation( label, mods );
 	}
 
 	private static final UseLink getNavigationLink( int itemId, String location )
@@ -1258,7 +1284,7 @@ public abstract class UseLinkDecorator
 		{
 			if ( this.useLocation.equals( "#" ) )
 			{
-				return "<font size=1>[<a href=\"javascript:" + "multiUse('multiuse.php'," + this.itemId + "," + this.itemCount + ");void(0);\">use multiple</a>]</font>";
+				return "<font size=1>[<a href=\"javascript:" + "multiUse('multiuse.php'," + this.itemId + "," + this.itemCount + ");void(0);\">" + this.useType + "</a>]</font>";
 			}
 
 			if ( !this.showInline() )
