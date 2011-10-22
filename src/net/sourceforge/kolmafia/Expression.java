@@ -46,7 +46,7 @@ public class Expression
 {
 	private static final Pattern NUM_PATTERN = Pattern.compile( "([+-]?[\\d.]+)(.*)" );
 	private static final int INITIAL_STACK = 8;
-	private static final int MAXIMUM_STACK = 128;
+	private static final int MAXIMUM_STACK = 1024;
 
 	protected String name;
 	protected String text;
