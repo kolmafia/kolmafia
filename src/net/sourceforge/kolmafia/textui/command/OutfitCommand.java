@@ -57,7 +57,7 @@ public class OutfitCommand
 			ShowDataCommand.show( "outfits " + parameters.substring( 4 ).trim() );
 			return;
 		}
-		else if ( parameters.startsWith( "save" ) )
+		else if ( parameters.startsWith( "save " ) )
 		{
 			RequestThread.postRequest( new EquipmentRequest( parameters.substring( 4 ).trim() ) );
 			return;
