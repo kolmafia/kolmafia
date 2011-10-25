@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.swingui.widget;
 import java.awt.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
@@ -47,108 +48,94 @@ import javax.swing.UIManager;
 public class DisabledItemsComboBox 
 	extends JComboBox 
 {
-	private ArrayList disabledItems = new ArrayList(); //these indices will be disabled
-	private DisabledItemsRenderer Drenderer = new DisabledItemsRenderer();
+	private ArrayList tooltips;
+	private HashSet disabledItems = new HashSet(); //these indices will be disabled
+	private DisabledItemsRenderer itemRenderer = new DisabledItemsRenderer();
 	
 	public DisabledItemsComboBox() 
 	{
 		super();
 		//need to use a custom renderer in order to disable
 		//individual items within a JComboBox.
-		super.setRenderer( this.Drenderer );
+		super.setRenderer( this.itemRenderer );
 	}
 
-	public void addItem(Object anObject, boolean disabled) 
+	public void addItem( Object object, boolean disabled ) 
 	{
-		super.addItem(anObject);
-		if (disabled) 
+		super.addItem( object );
+
+		if ( disabled )
 		{
-			this.getdisabledItems().add( new Integer( (getItemCount() - 1) ) );
+			this.disabledItems.add( object.toString() );
 		}
 	}
 
 	public void removeAllItems() 
 	{
 		super.removeAllItems();
-		this.setdisabledItems( new ArrayList() );
+		this.disabledItems.clear();
 	}
 
-	public void removeItemAt(final int anIndex) 
+	public void removeItemAt( final int index )
 	{
-		super.removeItemAt(anIndex);
-		this.getdisabledItems().remove( new Integer( anIndex ) );
-	}
-
-	public void removeItem(final Object anObject) 
-	{
-		for (int i = 0; i < getItemCount(); i++) 
+		if ( index < 0 || index >= getItemCount() )
 		{
-			if ( getItemAt( i ) == anObject ) 
-			{
-				this.getdisabledItems().remove( new Integer( i ) );
-			}
+			return;
 		}
-		super.removeItem(anObject);
+
+		Object object = super.getItemAt( index );
+		this.removeItem( object );
 	}
 
-	public void setSelectedIndex(int index) 
+	public void removeItem( final Object object )
 	{
-		if ( !this.disabledItems.contains(new Integer ( index ) ) ) 
+		if ( object != null )
 		{
-			super.setSelectedIndex(index);
+			this.disabledItems.remove( object.toString() );
+			super.removeItem( object );
+		}
+	}
+
+	public void setSelectedIndex( int index )
+	{
+		if ( index < 0 || index >= getItemCount() )
+		{
+			super.setSelectedItem( null );
+			return;
+		}
+
+		Object object = super.getItemAt( index );
+		if ( !this.disabledItems.contains( object.toString() ) )
+		{
+			super.setSelectedIndex( index );
 		}
 	}
 
 	// This is called whenever we have an existing element that
 	// we want to disable or reenable.
-	public void setDisabledIndex(int index, boolean disabled)
+	public void setDisabledIndex( int index, boolean disabled )
 	{
-		if ( disabled ) 
+		if ( index < 0 || index >= getItemCount() )
 		{
-			this.getdisabledItems().add( new Integer( index ) );
+			return;
 		}
-		else if ( this.getdisabledItems().contains( new Integer( index ) ) ) 
+
+		Object object = super.getItemAt( index );
+
+		if ( disabled )
 		{
-			this.getdisabledItems().remove( new Integer( index ) );
+			this.disabledItems.add( object.toString() );
+		}
+		else
+		{
+			this.disabledItems.remove( object.toString() );
 		}
 	}
       
 	// provides access to the renderer setTooltips
-	public void setTooltips(ArrayList tooltips)
+	public void setTooltips( ArrayList tooltips )
 	{
-		this.getDrenderer().setTooltips(tooltips);
-	}
-
-	/**
-	 * @return the Drenderer
-	 */
-	public DisabledItemsRenderer getDrenderer()
-	{
-		return Drenderer;
-	}
-
-	/**
-	 * @param Drenderer the Drenderer to set
-	 */
-	public void setDrenderer(DisabledItemsRenderer Drenderer)
-	{
-		this.Drenderer = Drenderer;
-	}
-
-	/**
-	 * @return the disabledItems
-	 */
-	public ArrayList getdisabledItems()
-	{
-		return disabledItems;
-	}
-
-	/**
-	 * @param disabledItems the disabledItems to set
-	 */
-	public void setdisabledItems(ArrayList disabledItems)
-	{
-		this.disabledItems = disabledItems;
+		this.tooltips = tooltips;
 	}
 
 	// Custom renderer to disable individual items within a combo box
@@ -159,12 +146,10 @@ public class DisabledItemsComboBox
 	// (and made public)
 	private class DisabledItemsRenderer 
 		extends DefaultListCellRenderer
-	{
-		private ArrayList tooltips;
-		
+	{		
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) 
 		{ 
-			if (isSelected) 
+			if ( isSelected )
 			{
 				setBackground( list.getSelectionBackground() );
 				setForeground( list.getSelectionForeground() );
@@ -175,45 +160,39 @@ public class DisabledItemsComboBox
 				setForeground( list.getForeground() );
 			}
 
-			if ( getdisabledItems().contains(new Integer(index) ) ) 
+			if ( value != null && disabledItems.contains( value.toString() ) )
 			{
 				setBackground( list.getBackground( ) );
 
-				if ( UIManager.getColor("Label.disabledForeground") != null )
+				if ( UIManager.getColor( "Label.disabledForeground" ) != null )
 				{
-					setForeground( UIManager.getColor("Label.disabledForeground") );
+					setForeground( UIManager.getColor( "Label.disabledForeground" ) );
 				}
 				//Nimbus uses different conventions than every other L+F.  Blah.
 				else
 				{
-					setForeground( UIManager.getColor("List[Disabled].textForeground") );
+					setForeground( UIManager.getColor( "List[Disabled].textForeground" ) );
 				}
 			}
 
-			if ( -1 < index && null != value && null != getTooltips() ) 
+			if ( value != null && tooltips != null ) 
 			{
-				String text = index < this.getTooltips().size() ?
-					(String) getTooltips().get( index ) :
-					null;
+				if ( index >= 0 && index < tooltips.size() )
+				{
+					String text = (String) tooltips.get( index );
 
-				list.setToolTipText( text );
+					list.setToolTipText( text );
+				}
+				else
+				{
+					list.setToolTipText( null );
+				}
 			}
+
 			setFont( list.getFont() );
 			setText( ( value == null ) ? "" : value.toString() );
-			return this;
-		}
-		
-		public void setTooltips(ArrayList tooltips) 
-		{
-			this.tooltips = tooltips;
-		}
 
-		/**
-		 * @return the tooltips
-		 */
-		public ArrayList getTooltips()
-		{
-			return tooltips;
+			return this;
 		}
 	}
 }
