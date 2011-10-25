@@ -361,7 +361,7 @@ public abstract class KoLmafia
 		// are present in your save state list.
 
 		Preferences.setInteger(
-			"defaultLoginServer", 1 + KoLConstants.RNG.nextInt( GenericRequest.SERVER_COUNT ) );
+			"defaultLoginServer", 1 );
 		Preferences.setBoolean( "relayBrowserOnly", false );
 
 		String actualName;
