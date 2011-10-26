@@ -43,27 +43,30 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.utilities.RequestThreadRunnable;
 
 public class ThreadedButton
 	extends JButton
-	implements ActionListener, KeyListener, Runnable
+	implements ActionListener, KeyListener
 {
-	public ThreadedButton( final String label )
+	private Runnable action;
+
+	public ThreadedButton( final String label, Runnable action )
 	{
 		super( label );
 		this.addActionListener( this );
 		this.setOpaque( true );
+
+		this.action = action;
 	}
 
-	public ThreadedButton( final ImageIcon icon )
+	public ThreadedButton( final ImageIcon icon, Runnable action )
 	{
 		super( icon );
 		this.addActionListener( this );
 		this.setOpaque( true );
-	}
 
-	public void run()
-	{
+		this.action = action;
 	}
 
 	public void actionPerformed( final ActionEvent e )
@@ -73,8 +76,7 @@ public class ThreadedButton
 			return;
 		}
 
-		this.run();
-		RequestThread.enableDisplayIfSequenceComplete();
+		RequestThread.runInParallel( action );
 	}
 
 	protected boolean isValidEvent( final ActionEvent e )
@@ -108,7 +110,7 @@ public class ThreadedButton
 			return;
 		}
 
-		this.run();
+		RequestThread.runInParallel( action );
 		e.consume();
 	}
 

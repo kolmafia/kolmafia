@@ -35,9 +35,6 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
 import java.util.ArrayList;
 
 import java.util.regex.Matcher;
@@ -137,17 +134,19 @@ public class RequestFrame
 		// Add toolbar pieces so that people can quickly
 		// go to locations they like.
 
-		toolbarPanel.add( new BackButton() );
-		toolbarPanel.add( new ForwardButton() );
-		toolbarPanel.add( new HomeButton() );
-		toolbarPanel.add( new ReloadButton() );
+		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "back.gif" ), new BackRunnable() ) );
+		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "forward.gif" ), new ForwardRunnable() ) );
+		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "home.gif" ), new HomeRunnable() ) );
+		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "reload.gif" ), new ReloadRunnable() ) );
 
 		toolbarPanel.add( new JToolBar.Separator() );
 		toolbarPanel.add( this.locationField );
 		toolbarPanel.add( new JToolBar.Separator() );
 
-		GoButton button = new GoButton();
-		toolbarPanel.add( button );
+		ThreadedButton goButton = new ThreadedButton( "Go", new GoRunnable() );
+		this.locationField.addKeyListener( goButton );
+
+		toolbarPanel.add( goButton );
 
 		return toolbarPanel;
 	}
@@ -338,28 +337,18 @@ public class RequestFrame
 		return false;
 	}
 
-	private class HomeButton
-		extends ThreadedButton
+	private class HomeRunnable
+		implements Runnable
 	{
-		public HomeButton()
-		{
-			super( JComponentUtilities.getImage( "home.gif" ) );
-		}
-
 		public void run()
 		{
 			RequestFrame.this.refresh( new GenericRequest( "main.php" ) );
 		}
 	}
 
-	private class BackButton
-		extends ThreadedButton
+	private class BackRunnable
+		implements Runnable
 	{
-		public BackButton()
-		{
-			super( JComponentUtilities.getImage( "back.gif" ) );
-		}
-
 		public void run()
 		{
 			if ( RequestFrame.this.locationIndex > 0 )
@@ -371,14 +360,9 @@ public class RequestFrame
 		}
 	}
 
-	private class ForwardButton
-		extends ThreadedButton
+	private class ForwardRunnable
+		implements Runnable
 	{
-		public ForwardButton()
-		{
-			super( JComponentUtilities.getImage( "forward.gif" ) );
-		}
-
 		public void run()
 		{
 			if ( RequestFrame.this.locationIndex + 1 < RequestFrame.this.shownHTML.size() )
@@ -390,14 +374,9 @@ public class RequestFrame
 		}
 	}
 
-	private class ReloadButton
-		extends ThreadedButton
+	private class ReloadRunnable
+		implements Runnable
 	{
-		public ReloadButton()
-		{
-			super( JComponentUtilities.getImage( "reload.gif" ) );
-		}
-
 		public void run()
 		{
 			if ( RequestFrame.this.currentLocation == null )
@@ -409,41 +388,15 @@ public class RequestFrame
 		}
 	}
 
-	private class GoButton
-		extends ThreadedButton
+	private class GoRunnable
+		implements Runnable
 	{
-		public GoButton()
-		{
-			super( "Go" );
-			RequestFrame.this.locationField.addKeyListener( new GoAdapter() );
-		}
-
 		public void run()
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( RequestFrame.this.locationField.getText() );
 			GenericRequest request =
 				RequestEditorKit.extractRequest( adventure == null ? RequestFrame.this.locationField.getText() : adventure.getRequest().getURLString() );
 			RequestFrame.this.refresh( request );
-		}
-
-		private class GoAdapter
-			extends KeyAdapter
-		{
-			public void keyReleased( final KeyEvent e )
-			{
-				if ( e.isConsumed() )
-				{
-					return;
-				}
-
-				if ( e.getKeyCode() != KeyEvent.VK_ENTER )
-				{
-					return;
-				}
-
-				GoButton.this.actionPerformed( null );
-				e.consume();
-			}
 		}
 	}
 

@@ -39,20 +39,28 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 
 public class LoadScriptButton extends ThreadedButton {
 
-	private final String scriptPath;
+	public LoadScriptButton( final int scriptId, final String scriptPath ) {
 
-	public LoadScriptButton(final int scriptId, final String scriptPath) {
+		super( String.valueOf( scriptId ), new LoadScriptRunnable( scriptPath ) );
 
-		super(String.valueOf(scriptId));
+		this.setToolTipText( scriptPath );
 
-		this.scriptPath = scriptPath;
-		this.setToolTipText(scriptPath);
-
-		JComponentUtilities.setComponentSize(this, 30, 30);
+		JComponentUtilities.setComponentSize( this, 30, 30 );
 	}
 
-	public void run() {
+	private static class LoadScriptRunnable
+		implements Runnable
+	{
+		private final String scriptPath;
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine(this.scriptPath);
+		public LoadScriptRunnable( String scriptPath )
+		{
+			this.scriptPath = scriptPath;
+		}
+
+		public void run() {
+
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( this.scriptPath );
+		}
 	}
 }
