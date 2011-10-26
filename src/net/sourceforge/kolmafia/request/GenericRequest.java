@@ -143,21 +143,13 @@ public class GenericRequest
 	public static final int MENU_NORMAL = 3;
 	public static int topMenuStyle = 0;
 
-	public static final String[][] SERVERS =
+	public static final String[] SERVERS =
 	{
-		{ "dev.kingdomofloathing.com", "69.16.150.202" },
-		{ "www.kingdomofloathing.com", "69.16.150.196" },
-		//{ "www2.kingdomofloathing.com", "69.16.150.197" },
-		//{ "www3.kingdomofloathing.com", "69.16.150.198" },
-		//{ "www4.kingdomofloathing.com", "69.16.150.199" },
-		//{ "www5.kingdomofloathing.com", "69.16.150.200" },
-		//{ "www6.kingdomofloathing.com", "69.16.150.205" },
-		//{ "www7.kingdomofloathing.com", "69.16.150.206" },
+		"dev.kingdomofloathing.com",
+		"www.kingdomofloathing.com"
 	};
 
-	public static final int SERVER_COUNT = SERVERS.length - 1;
-
-	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ][ 0 ];
+	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ];
 	public static URL KOL_ROOT = null;
 
 	private URL formURL;
@@ -218,7 +210,7 @@ public class GenericRequest
 			defaultLoginServer = 0;
 		}
 
-		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ][ 0 ] );
+		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ] );
 	}
 
 	private static final void applyProxySettings()
@@ -297,8 +289,7 @@ public class GenericRequest
 
 		for ( int i = 0; i < GenericRequest.SERVERS.length; ++i )
 		{
-			if ( GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 0 ] ) ||
-			     GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 1 ] ) )
+			if ( GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ] ) )
 			{
 				GenericRequest.setLoginServer( i );
 				return;
@@ -308,14 +299,11 @@ public class GenericRequest
 
 	private static final void setLoginServer( final int serverIndex )
 	{
-		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ][ 0 ];
-		String root = Preferences.getBoolean( "connectViaAddress" ) ?
-			GenericRequest.SERVERS[ serverIndex ][ 1 ] :
-			GenericRequest.KOL_HOST;
+		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ];
 
 		try
 		{
-			GenericRequest.KOL_ROOT = new URL( "http", root, 80, "/" );
+			GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_HOST, 80, "/" );
 		}
 		catch ( IOException e )
 		{
@@ -327,17 +315,6 @@ public class GenericRequest
 	}
 
 	private static int retryServer = 0;
-
-	private static final void chooseNewLoginServer()
-	{
-		LoginRequest.setIgnoreLoadBalancer( true );
-
-		// Don't try to use the dev server
-		GenericRequest.retryServer = Math.max( 1, ( GenericRequest.retryServer + 1 ) % GenericRequest.SERVERS.length );
-		GenericRequest.setLoginServer( GenericRequest.retryServer );
-
-		KoLmafia.updateDisplay( "Choosing new login server (" + GenericRequest.KOL_HOST + ")..." );
-	}
 
 	/**
 	 * static final method used to return the server currently used by this KoLmafia session.
@@ -1339,11 +1316,6 @@ public class GenericRequest
 				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + "). Retrying..." );
 			}
 
-			if ( this instanceof LoginRequest )
-			{
-				GenericRequest.chooseNewLoginServer();
-			}
-
 			return false;
 		}
 
@@ -1461,11 +1433,6 @@ public class GenericRequest
 				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
 			}
 
-			if ( this instanceof LoginRequest )
-			{
-				GenericRequest.chooseNewLoginServer();
-			}
-
 			return KoLmafia.refusesContinue();
 		}
 	}
@@ -1522,11 +1489,6 @@ public class GenericRequest
 			{
 				// The input stream was already closed. Ignore
 				// this error and continue.
-			}
-
-			if ( this instanceof LoginRequest )
-			{
-				GenericRequest.chooseNewLoginServer();
 			}
 
 			if ( shouldRetry )

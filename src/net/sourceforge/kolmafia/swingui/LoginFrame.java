@@ -479,14 +479,12 @@ public class LoginFrame
 	private class ConnectionOptionsPanel
 		extends OptionsPanel
 	{
-		private JCheckBox loadBalancer;
 		private final JCheckBox[] optionBoxes;
 
 		private final String[][] options =
 		{
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
 			{ "allowSocketTimeout", "Improve handling of semi-random lag spikes" },
-			{ "connectViaAddress", "Connect to servers using IP address rather than name" },
 			{ "stealthLogin", "Log in with /q to suppress your login announcement" },
 		};
 
@@ -498,30 +496,20 @@ public class LoginFrame
 			LoginFrame.this.servers.addItem( "Attempt to use dev.kingdomofloathing.com" );
 			LoginFrame.this.servers.addItem( "Attempt to use www.kingdomofloathing.com" );
 
-			for ( int i = 2; i <= GenericRequest.SERVER_COUNT; ++i )
-			{
-				LoginFrame.this.servers.addItem( "Attempt to use www" + i + ".kingdomofloathing.com" );
-			}
-
 			this.optionBoxes = new JCheckBox[ this.options.length ];
 			for ( int i = 0; i < this.options.length; ++i )
 			{
 				this.optionBoxes[ i ] = new JCheckBox();
 			}
 
-			VerifiableElement[] elements = new VerifiableElement[ 4 + this.options.length ];
+			VerifiableElement[] elements = new VerifiableElement[ 2 + this.options.length ];
 
 			elements[ 0 ] = new VerifiableElement( LoginFrame.this.servers );
 			elements[ 1 ] = new VerifiableElement();
-			elements[ 2 ] =
-				new VerifiableElement(
-					"Attempt to ignore login page load balancer", SwingConstants.LEFT, this.loadBalancer =
-						new JCheckBox() );
-			elements[ 3 ] = new VerifiableElement();
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				elements[ i + 4 ] =
+				elements[ i + 2 ] =
 					new VerifiableElement( this.options[ i ][ 1 ], SwingConstants.LEFT, this.optionBoxes[ i ] );
 			}
 
@@ -540,13 +528,12 @@ public class LoginFrame
 		{
 			Preferences.setInteger(
 				"defaultLoginServer", LoginFrame.this.servers.getSelectedIndex() );
+
 			for ( int i = 0; i < this.options.length; ++i )
 			{
 				Preferences.setBoolean(
 					this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
 			}
-
-			LoginRequest.setIgnoreLoadBalancer( this.loadBalancer.isSelected() );
 		}
 
 		public void actionCancelled()
@@ -556,9 +543,6 @@ public class LoginFrame
 			{
 				this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
 			}
-
-			this.loadBalancer.setSelected( false );
-			LoginRequest.setIgnoreLoadBalancer( false );
 		}
 
 		public void setEnabled( final boolean isEnabled )
