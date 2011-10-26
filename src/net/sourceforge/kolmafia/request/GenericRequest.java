@@ -143,13 +143,13 @@ public class GenericRequest
 	public static final int MENU_NORMAL = 3;
 	public static int topMenuStyle = 0;
 
-	public static final String[] SERVERS =
+	public static final String[][] SERVERS =
 	{
-		"dev.kingdomofloathing.com",
-		"www.kingdomofloathing.com"
+		{ "dev.kingdomofloathing.com", "69.16.150.202" },
+		{ "www.kingdomofloathing.com", "69.16.150.211" }
 	};
 
-	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ];
+	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ][ 0 ];
 	public static URL KOL_ROOT = null;
 
 	private URL formURL;
@@ -210,7 +210,7 @@ public class GenericRequest
 			defaultLoginServer = 0;
 		}
 
-		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ] );
+		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ][ 0 ] );
 	}
 
 	private static final void applyProxySettings()
@@ -289,7 +289,8 @@ public class GenericRequest
 
 		for ( int i = 0; i < GenericRequest.SERVERS.length; ++i )
 		{
-			if ( GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ] ) )
+			if ( GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 0 ] ) ||
+			     GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 1 ] ) )
 			{
 				GenericRequest.setLoginServer( i );
 				return;
@@ -299,11 +300,13 @@ public class GenericRequest
 
 	private static final void setLoginServer( final int serverIndex )
 	{
-		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ];
+		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ][ 0 ];
+
+		String root = GenericRequest.SERVERS[ serverIndex ][ Preferences.getBoolean( "connectViaAddress" ) ? 1 : 0 ];
 
 		try
 		{
-			GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_HOST, 80, "/" );
+			GenericRequest.KOL_ROOT = new URL( "http", root, 80, "/" );
 		}
 		catch ( IOException e )
 		{
