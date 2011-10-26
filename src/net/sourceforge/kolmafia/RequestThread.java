@@ -37,19 +37,24 @@ import javax.swing.SwingUtilities;
 
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
-
 import net.sourceforge.kolmafia.request.GenericRequest;
-
 import net.sourceforge.kolmafia.session.ResponseTextParser;
-
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public abstract class RequestThread
 {
 	private static int sequenceCount = 0;
+
+	public static final void runInParallel( final Runnable action )
+	{
+		// Later on, we'll make this more sophisticated and create
+		// something similar to the worker thread pool used in the
+		// relay browser.  For now, just spawn a new thread.
+
+		new ThreadWrappedRunnable( action ).start();
+	}
 
 	/**
 	 * Posts a single request one time without forcing concurrency. The display will be enabled if there is no sequence.
@@ -83,7 +88,7 @@ public abstract class RequestThread
 			}
 			else
 			{
-				Worker.post( new RunnableWrapper( request ) );
+				Worker.post( new JobWrappedRunnable( request ) );
 			}
 		}
 		catch ( Exception e )
@@ -113,7 +118,7 @@ public abstract class RequestThread
 			}
 			else
 			{
-				Worker.post( new RunnableWrapper( request ) );
+				Worker.post( new JobWrappedRunnable( request ) );
 			}
 		}
 		catch ( Exception e )
@@ -150,7 +155,7 @@ public abstract class RequestThread
 			}
 			else
 			{
-				Worker.post( new RunnableWrapper( request ) );
+				Worker.post( new JobWrappedRunnable( request ) );
 			}
 		}
 		catch ( Exception e )
@@ -217,12 +222,12 @@ public abstract class RequestThread
 		ChatManager.broadcastEvent( message );
 	}
 
-	private static class RunnableWrapper
+	private static class JobWrappedRunnable
 		extends Job
 	{
 		private final Runnable wrapped;
 
-		public RunnableWrapper( final Runnable wrapped )
+		public JobWrappedRunnable( final Runnable wrapped )
 		{
 			this.wrapped = wrapped;
 		}
@@ -239,6 +244,33 @@ public abstract class RequestThread
 			}
 
 			return null;
+		}
+	}
+
+	private static class ThreadWrappedRunnable
+		extends Thread
+	{
+		private final Runnable wrapped;
+
+		public ThreadWrappedRunnable( final Runnable wrapped )
+		{
+			this.wrapped = wrapped;
+		}
+
+		public void run()
+		{
+			RequestThread.openRequestSequence();
+
+			try
+			{
+				this.wrapped.run();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+
+			RequestThread.closeRequestSequence();
 		}
 	}
 }

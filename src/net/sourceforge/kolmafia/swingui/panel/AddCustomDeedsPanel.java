@@ -173,13 +173,13 @@ public class AddCustomDeedsPanel
 		this.commandLabel4 = new JLabel( "(optional)" );
 		this.commandLabel4
 			.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-		this.commandButton = new ThreadedButton( "add deed" );
 
 		this.commandField1.getDocument().addDocumentListener( new CommandField1Listener() );
 		this.commandField2.getDocument().addDocumentListener( new CommandField2Listener() );
 		this.commandField3.getDocument().addDocumentListener( new CommandField3Listener() );
 		this.commandField4.getDocument().addDocumentListener( new CommandField4Listener() );
-		this.commandButton.addActionListener( new CommandActionListener() );
+
+		this.commandButton = new ThreadedButton( "add deed", new CommandActionRunnable() );
 
 		title.add( new JLabel( "Adding command deed." ) );
 
@@ -288,14 +288,14 @@ public class AddCustomDeedsPanel
 		this.itemLabel4 = new JLabel( "(optional)" );
 		this.itemLabel4
 			.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-		this.itemButton = new ThreadedButton( "add deed" );
 
 		this.itemField1.getDocument().addDocumentListener( new ItemField1Listener() );
 		this.itemField2.getDocument().addDocumentListener( new ItemField2Listener() );
 		this.itemField3.getDocument().addDocumentListener( new ItemField1Listener() );
 		// listener 1 sets the state of both label1 and label3
 		this.itemField4.getDocument().addDocumentListener( new ItemField4Listener() );
-		this.itemButton.addActionListener( new ItemPrefActionListener() );
+
+		this.itemButton = new ThreadedButton( "add deed", new ItemPrefRunnable() );
 
 		title.add( new JLabel( "Adding Item Deed." ) );
 
@@ -402,14 +402,14 @@ public class AddCustomDeedsPanel
 		this.skillLabel3.setToolTipText( "The skill that the button will cast." );
 		this.skillLabel4 = new JLabel( "(optional)" );
 		this.skillLabel4.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
-		this.skillButton = new ThreadedButton( "add deed" );
 
 		this.skillField1.getDocument().addDocumentListener( new SkillField1Listener() );
 		this.skillField2.getDocument().addDocumentListener( new SkillField2Listener() );
 		// listener 1 sets the state of both label1 and label3
 		this.skillField3.getDocument().addDocumentListener( new SkillField1Listener() );
 		this.skillField4.getDocument().addDocumentListener( new SkillField4Listener() );
-		this.skillButton.addActionListener( new SkillActionListener() );
+
+		this.skillButton = new ThreadedButton( "add deed", new SkillActionRunnable() );
 
 		title.add( new JLabel( "Adding Skill Deed." ) );
 
@@ -515,16 +515,13 @@ public class AddCustomDeedsPanel
 		this.textArea.setEditable( false );
 		this.textArea.setOpaque( false );
 		this.textArea.setFont( KoLConstants.DEFAULT_FONT );
-		this.textDeedButton = new ThreadedButton( "add deed" );
-		this.addTextButton = new ThreadedButton( "add text" );
-		ThreadedButton undoButton = new ThreadedButton( "undo" );
-		ThreadedButton clearButton = new ThreadedButton( "clear" );
+
+		ThreadedButton undoButton = new ThreadedButton( "undo", new RemoveLastTextRunnable() );
+		ThreadedButton clearButton = new ThreadedButton( "clear", new ClearTextRunnable() );
 
 		this.textField.getDocument().addDocumentListener( new TextFieldListener() );
-		this.addTextButton.addActionListener( new AddTextListener() );
-		undoButton.addActionListener( new RemoveLastTextListener() );
-		clearButton.addActionListener( new ClearTextListener() );
-		this.textDeedButton.addActionListener( new TextActionListener() );
+		this.addTextButton = new ThreadedButton( "add text", new AddTextRunnable() );
+		this.textDeedButton = new ThreadedButton( "add deed", new TextActionRunnable() );
 
 		title.add( new JLabel( "Adding Text Deed." ) );
 
@@ -869,7 +866,7 @@ public class AddCustomDeedsPanel
 			/*
 			 * Since the states of field 1 and field 3 depend on each other, set the states of both
 			 * whenever one of the fields is changed.
-			 * 
+			 *
 			 * State 1: displayText empty, item empty = [ required, (optional) ]
 			 * State 2: displayText non-matching, item empty = [ (need item), required ]
 			 * State 3: displayText matching, item empty = [ OK, (optional) ]
@@ -877,7 +874,7 @@ public class AddCustomDeedsPanel
 			 * State 5: displayText empty, item matching = [ required, OK ]
 			 * State 6: displayText non-empty, item non-matching = [ OK, BAD ]
 			 * State 7: displayText non-empty, item matching = [ OK, OK ]
-			 * 
+			 *
 			 * To enable the button, we check that label 1 is OK and label 3 not BAD
 			 */
 
@@ -1092,7 +1089,7 @@ public class AddCustomDeedsPanel
 			/*
 			 * Since the states of field 1 and field 3 depend on each other, set the states of both
 			 * whenever one of the fields is changed.
-			 * 
+			 *
 			 * State 1: displayText empty, skill empty = [ required, (optional) ]
 			 * State 2: displayText non-matching, skill empty = [ (need skill), required ]
 			 * State 3: displayText matching, skill empty = [ OK, (optional) ]
@@ -1100,7 +1097,7 @@ public class AddCustomDeedsPanel
 			 * State 5: displayText empty, skill matching = [ required, OK ]
 			 * State 6: displayText non-empty, skill non-matching = [ OK, BAD ]
 			 * State 7: displayText non-empty, skill matching = [ OK, OK ]
-			 * 
+			 *
 			 * To enable the button, we check that label 1 is OK and label 3 not BAD
 			 */
 
@@ -1227,10 +1224,10 @@ public class AddCustomDeedsPanel
 		}
 	}
 
-	public class SkillActionListener
-		implements ActionListener
+	public class SkillActionRunnable
+		implements Runnable
 	{
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String display = getField( SKILL_FIELD_1 ).getText();
 			String pref = getField( SKILL_FIELD_2 ).getText();
@@ -1257,10 +1254,10 @@ public class AddCustomDeedsPanel
 		}
 	}
 
-	public class ItemPrefActionListener
-		implements ActionListener
+	public class ItemPrefRunnable
+		implements Runnable
 	{
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String display = getField( ITEM_FIELD_1 ).getText();
 			String pref = getField( ITEM_FIELD_2 ).getText();
@@ -1286,10 +1283,10 @@ public class AddCustomDeedsPanel
 		}
 	}
 
-	public class CommandActionListener
-		implements ActionListener
+	public class CommandActionRunnable
+		implements Runnable
 	{
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String display = getField( COMMAND_FIELD_1 ).getText();
 			String pref = getField( COMMAND_FIELD_2 ).getText();
@@ -1315,10 +1312,10 @@ public class AddCustomDeedsPanel
 		}
 	}
 
-	public class RemoveLastTextListener
-		implements ActionListener
+	public class RemoveLastTextRunnable
+		implements Runnable
 	{
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String piece;
 			ArrayList buffer = getTextDeed();
@@ -1350,10 +1347,10 @@ public class AddCustomDeedsPanel
 		}
 	}
 
-	public class AddTextListener
-		implements ActionListener
+	public class AddTextRunnable
+		implements Runnable
 	{
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String piece;
 			ArrayList buffer = getTextDeed();
@@ -1390,10 +1387,10 @@ public class AddCustomDeedsPanel
 		}
 	}
 
-	public class ClearTextListener
-		implements ActionListener
+	public class ClearTextRunnable
+		implements Runnable
 	{
-		public void actionPerformed( ActionEvent arg0 )
+		public void run()
 		{
 			getTextDeed().clear();
 			getTextArea().setText( "" );
@@ -1401,10 +1398,10 @@ public class AddCustomDeedsPanel
 		}
 	}
 
-	public class TextActionListener
-		implements ActionListener
+	public class TextActionRunnable
+		implements Runnable
 	{
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			ArrayList buffer = getTextDeed();
 			String deed = "$CUSTOM|Text|";

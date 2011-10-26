@@ -552,20 +552,15 @@ public class OptionsFrame
 			}
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
-			extraButtons.add( new AddScriptButton(), BorderLayout.NORTH );
-			extraButtons.add( new AddCommandButton(), BorderLayout.CENTER );
-			extraButtons.add( new DeleteListingButton(), BorderLayout.SOUTH );
+			extraButtons.add( new ThreadedButton( "script file", new AddScriptRunnable() ), BorderLayout.NORTH );
+			extraButtons.add( new ThreadedButton( "cli command", new AddCommandRunnable() ), BorderLayout.CENTER );
+			extraButtons.add( new ThreadedButton( "delete", new DeleteListingRunnable() ), BorderLayout.SOUTH );
 			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
-		private class AddScriptButton
-			extends ThreadedButton
+		private class AddScriptRunnable
+			implements Runnable
 		{
-			public AddScriptButton()
-			{
-				super( "script file" );
-			}
-
 			public void run()
 			{
 				try
@@ -599,14 +594,9 @@ public class OptionsFrame
 			}
 		}
 
-		private class AddCommandButton
-			extends ThreadedButton
+		private class AddCommandRunnable
+			implements Runnable
 		{
-			public AddCommandButton()
-			{
-				super( "cli command" );
-			}
-
 			public void run()
 			{
 				String currentValue = InputFieldUtilities.input( "Enter the desired CLI Command" );
@@ -619,14 +609,9 @@ public class OptionsFrame
 			}
 		}
 
-		private class DeleteListingButton
-			extends ThreadedButton
+		private class DeleteListingRunnable
+			implements Runnable
 		{
-			public DeleteListingButton()
-			{
-				super( "delete" );
-			}
-
 			public void run()
 			{
 				int index = ScriptButtonPanel.this.elementList.getSelectedIndex();
@@ -825,9 +810,9 @@ public class OptionsFrame
 			super( "Configure Bookmarks", KoLConstants.bookmarks );
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
-			extraButtons.add( new AddBookmarkButton(), BorderLayout.NORTH );
-			extraButtons.add( new RenameBookmarkButton(), BorderLayout.CENTER );
-			extraButtons.add( new DeleteBookmarkButton(), BorderLayout.SOUTH );
+			extraButtons.add( new ThreadedButton( "add", new AddBookmarkRunnable() ), BorderLayout.NORTH );
+			extraButtons.add( new ThreadedButton( "rename", new RenameBookmarkRunnable() ), BorderLayout.CENTER );
+			extraButtons.add( new ThreadedButton( "delete", new DeleteBookmarkRunnable() ), BorderLayout.SOUTH );
 			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
@@ -836,17 +821,13 @@ public class OptionsFrame
 			GenericFrame.saveBookmarks();
 		}
 
-		private class AddBookmarkButton
-			extends ThreadedButton
+		private class AddBookmarkRunnable
+			implements Runnable
 		{
-			public AddBookmarkButton()
-			{
-				super( "new page" );
-			}
-
 			public void run()
 			{
 				String newName = InputFieldUtilities.input( "Add a bookmark!", "http://www.google.com/" );
+
 				if ( newName == null )
 				{
 					return;
@@ -856,14 +837,9 @@ public class OptionsFrame
 			}
 		}
 
-		private class RenameBookmarkButton
-			extends ThreadedButton
+		private class RenameBookmarkRunnable
+			implements Runnable
 		{
-			public RenameBookmarkButton()
-			{
-				super( "rename" );
-			}
-
 			public void run()
 			{
 				int index = BookmarkManagePanel.this.elementList.getSelectedIndex();
@@ -896,14 +872,9 @@ public class OptionsFrame
 			}
 		}
 
-		private class DeleteBookmarkButton
-			extends ThreadedButton
+		private class DeleteBookmarkRunnable
+			implements Runnable
 		{
-			public DeleteBookmarkButton()
-			{
-				super( "delete" );
-			}
-
 			public void run()
 			{
 				int index = BookmarkManagePanel.this.elementList.getSelectedIndex();
@@ -1105,15 +1076,11 @@ public class OptionsFrame
 		extends ScrollablePanel
 		implements ListDataListener
 	{
-		public LockableListModel customList;
-
-		public DeedsButtonPanel( final String title, final LockableListModel builtIns,
-				final LockableListModel list )
+		public DeedsButtonPanel( final String title, final LockableListModel builtIns )
 		{
 			super( title, "add custom", "reset deeds", new JDnDList( builtIns ) );
 
-			this.customList = list;
-			this.buttonPanel.add( new HelpButton(), BorderLayout.CENTER );
+			this.buttonPanel.add( new ThreadedButton( "help", new HelpRunnable() ), BorderLayout.CENTER );
 		}
 
 		public final void actionConfirmed()
@@ -1126,6 +1093,7 @@ public class OptionsFrame
 			{
 				JFrame builderFrame = new JFrame( "Building Custom Deed" );
 				AddCustomDeedsPanel deedPanel = new AddCustomDeedsPanel();
+
 				builderFrame.getContentPane().add( AddCustomDeedsPanel.selectorPanel );
 				builderFrame.pack();
 				builderFrame.setResizable( false );
@@ -1159,15 +1127,13 @@ public class OptionsFrame
 			this.saveSettings();
 		}
 
-		private class HelpButton
-			extends ThreadedButton
+		private class HelpRunnable
+			implements Runnable
 		{
 			JOptionPane pane;
 
-			public HelpButton()
+			public HelpRunnable()
 			{
-				super( "Help" );
-
 				String message = "<html><table width=750><tr><td>All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
 					+ "<h3><b>Custom Deeds</b></h3>"
 					+ "Custom deeds provide the user with a way of adding buttons or text to their daily deeds panel that is not natively provided for.  All deeds start with the keyword <b>$CUSTOM</b> followed by a pipe (|) symbol.  As you are constructing a custom deed, you separate the different arguments with pipes.<br>"
@@ -1272,7 +1238,7 @@ public class OptionsFrame
 				this.customList.add( customs[ i ] );
 			}
 
-			centerPanel.add( new DeedsButtonPanel( "Built-In Deeds", this.builtInsList, this.customList ) );
+			centerPanel.add( new DeedsButtonPanel( "Built-In Deeds", this.builtInsList ) );
 			botPanel.add( new ScrollablePanel( "Current Deeds", new JDnDList( this.deedsList ) ) );
 
 			this.container.add( centerPanel, BorderLayout.PAGE_START );

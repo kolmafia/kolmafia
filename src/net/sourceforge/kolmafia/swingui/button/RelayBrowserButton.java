@@ -34,32 +34,44 @@
 package net.sourceforge.kolmafia.swingui.button;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class RelayBrowserButton
 	extends ThreadedButton
 {
-	private final String location;
+	public RelayBrowserButton( final String label, final String location )
+	{
+		super( label, new RelayBrowserRunnable( location ) );
+		JComponentUtilities.setComponentSize( this, 32, 32 );
+	}
 
 	public RelayBrowserButton( final String tooltip, final String icon, final String location )
 	{
-		super( JComponentUtilities.getImage( icon ) );
+		super( JComponentUtilities.getImage( icon ), new RelayBrowserRunnable( location ) );
 		JComponentUtilities.setComponentSize( this, 32, 32 );
 		this.setToolTipText( tooltip );
-
-		this.location = location;
 	}
 
-	public void run()
+	private static class RelayBrowserRunnable
+		implements Runnable
 	{
-		if ( this.location == null )
+		private String location;
+
+		public RelayBrowserRunnable( String location )
 		{
-			RelayLoader.openRelayBrowser();
+			this.location = location;
 		}
-		else
+
+		public void run()
 		{
-			RelayLoader.openSystemBrowser( this.location );
+			if ( this.location == null )
+			{
+				RelayLoader.openRelayBrowser();
+			}
+			else
+			{
+				RelayLoader.openSystemBrowser( this.location );
+			}
 		}
 	}
 

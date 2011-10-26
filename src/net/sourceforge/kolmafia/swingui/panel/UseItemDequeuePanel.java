@@ -101,7 +101,7 @@ public class UseItemDequeuePanel
 
 		this.setButtons( false, new ActionListener[] { new ConsumeListener(), new CreateListener() } );
 
-		this.eastPanel.add( new UndoQueueButton(), BorderLayout.SOUTH );
+		this.eastPanel.add( new ThreadedButton( "undo", new UndoQueueRunnable() ), BorderLayout.SOUTH );
 
 		this.setEnabled( true );
 		this.filterItems();
@@ -173,14 +173,9 @@ public class UseItemDequeuePanel
 		}
 	}
 
-	private class UndoQueueButton
-		extends ThreadedButton
+	private class UndoQueueRunnable
+		implements Runnable
 	{
-		public UndoQueueButton()
-		{
-			super( "undo" );
-		}
-
 		public void run()
 		{
 			ConcoctionDatabase.pop( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen );

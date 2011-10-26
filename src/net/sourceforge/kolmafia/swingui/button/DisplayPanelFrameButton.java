@@ -47,22 +47,29 @@ import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
 public class DisplayPanelFrameButton
 	extends ThreadedButton
 {
-	public Object[] parameters;
-
 	public DisplayPanelFrameButton( final String tooltip, final String icon, final ActionPanel panel )
 	{
-		super( JComponentUtilities.getImage( icon ) );
+		super( JComponentUtilities.getImage( icon ), new DisplayPanelFrameRunnable( tooltip, panel ) );
 		JComponentUtilities.setComponentSize( this, 32, 32 );
 		this.setToolTipText( tooltip );
 
-		this.parameters = new Object[ 2 ];
-		this.parameters[ 0 ] = tooltip;
-		this.parameters[ 1 ] = panel;
 	}
 
-	public void run()
+	private static class DisplayPanelFrameRunnable
+		implements Runnable
 	{
-		GenericFrame.createDisplay( GenericPanelFrame.class, this.parameters );
+		private Object[] parameters;
+
+		public DisplayPanelFrameRunnable( final String tooltip, final ActionPanel panel )
+		{
+			this.parameters = new Object[ 2 ];
+			this.parameters[ 0 ] = tooltip;
+			this.parameters[ 1 ] = panel;
+		}
+
+		public void run()
+		{
+			GenericFrame.createDisplay( GenericPanelFrame.class, this.parameters );
+		}
 	}
 }
-

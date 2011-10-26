@@ -49,73 +49,61 @@ import net.sourceforge.kolmafia.StaticEntity;
 public class InvocationButton
 	extends ThreadedButton
 {
-	public Object object;
-	public Method method;
-
 	public InvocationButton( final String text, final Object object, final String methodName )
 	{
-		this( text, object == null ? null : object.getClass(), methodName );
-		this.object = object;
-	}
-
-	public InvocationButton( final String text, final Class c, final String methodName )
-	{
-		super( text );
-		this.object = c;
-
-		this.completeConstruction( c, methodName );
+		this( text, null, object, object == null ? null : object.getClass(), methodName );
 	}
 
 	public InvocationButton( final String tooltip, final String icon, final Object object, final String methodName )
 	{
-		this( tooltip, icon, object == null ? null : object.getClass(), methodName );
-		this.object = object;
+		this( tooltip, icon, object, object == null ? null : object.getClass(), methodName );
 	}
 
-	public InvocationButton( final String tooltip, final String icon, final Class c, final String methodName )
+	public InvocationButton( final String tooltip, final String icon, final Object object, final Class c, final String methodName )
 	{
-		super( JComponentUtilities.getImage( icon ) );
+		super( JComponentUtilities.getImage( icon ), new InvocationRunnable( c, methodName ) );
 		JComponentUtilities.setComponentSize( this, 32, 32 );
 
-		this.object = c;
 		this.setToolTipText( tooltip );
-		this.completeConstruction( c, methodName );
 	}
 
-	public void completeConstruction( final Class c, final String methodName )
+	private static class InvocationRunnable
+		implements Runnable
 	{
-		try
-		{
-			this.method = c.getMethod( methodName, KoLConstants.NOPARAMS );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+		private Object object;
+		private Method method;
 
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	public void run()
-	{
-		RequestThread.openRequestSequence();
-
-		try
+		public InvocationRunnable( Class c, String methodName )
 		{
-			if ( this.method != null )
+			try
 			{
-				this.method.invoke( this.object, (Object []) null );
+				this.method = c.getMethod( methodName, KoLConstants.NOPARAMS );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
 			}
 		}
-		catch ( Exception e1 )
+
+		public void run()
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			try
+			{
+				if ( this.method != null )
+				{
+					this.method.invoke( this.object, (Object []) null );
+				}
+			}
+			catch ( Exception e1 )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e1 );
+				StaticEntity.printStackTrace( e1 );
+			}
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 }

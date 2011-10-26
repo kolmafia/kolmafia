@@ -45,26 +45,33 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 public class DisplayFrameButton
 	extends ThreadedButton
 {
-	private final String frameClass;
 
 	public DisplayFrameButton( final String text, final String frameClass )
 	{
-		super( text );
-		this.frameClass = frameClass;
+		super( text, new DisplayFrameRunnable( frameClass ) );
 	}
 
 	public DisplayFrameButton( final String tooltip, final String icon, final String frameClass )
 	{
-		super( JComponentUtilities.getImage( icon ) );
+		super( JComponentUtilities.getImage( icon ), new DisplayFrameRunnable( frameClass ) );
 		JComponentUtilities.setComponentSize( this, 32, 32 );
 		this.setToolTipText( tooltip );
-
-		this.frameClass = frameClass;
 	}
 
-	public void run()
+	private static class DisplayFrameRunnable
+		implements Runnable
 	{
-		KoLmafiaGUI.constructFrame( this.frameClass );
+		private final String frameClass;
+
+		public DisplayFrameRunnable( String frameClass )
+		{
+			this.frameClass = frameClass;
+		}
+
+		public void run()
+		{
+			KoLmafiaGUI.constructFrame( this.frameClass );
+		}
 	}
 }
 

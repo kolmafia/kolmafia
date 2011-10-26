@@ -36,15 +36,14 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.TreeSet;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,7 +58,6 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
@@ -74,17 +72,12 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
-
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -93,19 +86,12 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
-import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
-
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-
 import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class FamiliarTrainingFrame
@@ -824,7 +810,7 @@ public class FamiliarTrainingFrame
 
 	/**
 	 * Utility method to level the current familiar by fighting the current arena opponents.
-	 * 
+	 *
 	 * @param goal Weight goal for the familiar
 	 * @param type BASE, BUFF, or TURNS
 	 * @param buffs true if should cast buffs during training
@@ -912,7 +898,7 @@ public class FamiliarTrainingFrame
 				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: out of meat.", true );
 				return false;
 			}
- 
+
 			// Switch to the required familiar
 			if ( KoLCharacter.getFamiliar() != familiar )
 			{
@@ -980,7 +966,7 @@ public class FamiliarTrainingFrame
 
 	/**
 	 * Utility method to derive the arena parameters of the current familiar
-	 * 
+	 *
 	 * @param trials How many trials per event
 	 */
 
@@ -1217,7 +1203,7 @@ public class FamiliarTrainingFrame
 
 	/**
 	 * Utility method to buff the current familiar to the specified weight or higher.
-	 * 
+	 *
 	 * @param weight Weight goal for the familiar
 	 */
 
@@ -1936,8 +1922,8 @@ public class FamiliarTrainingFrame
 
 			if ( this.familiar.getId() == FamiliarPool.CHAMELEON ||
 			     this.leadNecklace && this.ratHeadBalloon &&
-			     this.pumpkinBucket && this.flowerBouquet && 
-			     this.boxFireworks && this.sugarShield && 
+			     this.pumpkinBucket && this.flowerBouquet &&
+			     this.boxFireworks && this.sugarShield &&
 			     this.bathysphere && this.dasBoot )
 			{
 				return;
@@ -3251,7 +3237,8 @@ public class FamiliarTrainingFrame
 	 */
 
 	public class LocalSettingChanger
-		extends ThreadedButton
+		extends JButton
+		implements ActionListener
 	{
 		private final String title;
 		private final String property;
@@ -3268,9 +3255,11 @@ public class FamiliarTrainingFrame
 
 			this.actionPerformed( null );
 			this.actionPerformed( null );
+
+			this.addActionListener( this );
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{
 			boolean toggleValue = Preferences.getBoolean( this.property );
 			Preferences.setBoolean( this.property, toggleValue );

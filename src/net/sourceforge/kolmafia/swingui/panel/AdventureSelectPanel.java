@@ -124,7 +124,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class AdventureSelectPanel
 	extends JPanel
 {
-	private ExecuteButton begin;
+	private ThreadedButton begin;
 	private JComboBox actionSelect;
 
 	private final TreeMap zoneMap;
@@ -390,7 +390,11 @@ public class AdventureSelectPanel
 			AdventureSelectPanel.this.conditionsFieldActive.addActionListener( new EnableObjectivesListener() );
 
 			JPanel buttonWrapper = new JPanel();
-			buttonWrapper.add( AdventureSelectPanel.this.begin = new ExecuteButton() );
+
+			AdventureSelectPanel.this.begin = new ThreadedButton( "begin", new ExecuteRunnable() );
+			AdventureSelectPanel.this.begin.setToolTipText( "Start Adventuring" );
+
+			buttonWrapper.add( AdventureSelectPanel.this.begin );
 			buttonWrapper.add( new InvocationButton( "stop now", RequestThread.class, "declareWorldPeace" ) );
 			buttonWrapper.add( new StopButton() );
 
@@ -710,15 +714,9 @@ public class AdventureSelectPanel
 		}
 	}
 
-	private class ExecuteButton
-		extends ThreadedButton
+	private class ExecuteRunnable
+		implements Runnable
 	{
-		public ExecuteButton()
-		{
-			super( "begin" );
-			this.setToolTipText( "Start Adventuring" );
-		}
-
 		public void run()
 		{
 			KoLmafia.updateDisplay( "Validating adventure sequence..." );
@@ -861,7 +859,7 @@ public class AdventureSelectPanel
 	public void fillCurrentConditions()
 	{
 		String text = GoalManager.getGoalString();
-		
+
 		if ( text.length() == 0 )
 		{
 			text = this.getDefaultConditions();

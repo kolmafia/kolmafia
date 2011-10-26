@@ -98,10 +98,10 @@ public class MoodOptionsPanel
 
 			JPanel extraButtons = new JPanel( new GridLayout( 4, 1, 5, 5 ) );
 
-			extraButtons.add( new NewMoodButton() );
-			extraButtons.add( new DeleteMoodButton() );
-			extraButtons.add( new CopyMoodButton() );
-			extraButtons.add( new ExecuteButton() );
+			extraButtons.add( new ThreadedButton( "new list", new NewMoodRunnable() ) );
+			extraButtons.add( new ThreadedButton( "delete list", new DeleteMoodRunnable() ) );
+			extraButtons.add( new ThreadedButton( "copy list", new CopyMoodRunnable() ) );
+			extraButtons.add( new ThreadedButton( "execute", new ExecuteRunnable() ) );
 
 			JPanel buttonHolder = new JPanel( new BorderLayout() );
 			buttonHolder.add( extraButtons, BorderLayout.NORTH );
@@ -127,9 +127,9 @@ public class MoodOptionsPanel
 			public MoodComboBox()
 			{
 				super( MoodManager.getAvailableMoods() );
-				
+
 				MoodManager.updateFromPreferences();
-				
+
 				this.addActionListener( new MoodComboBoxListener() );
 			}
 
@@ -147,14 +147,9 @@ public class MoodOptionsPanel
 			}
 		}
 
-		private class NewMoodButton
-			extends ThreadedButton
+		private class NewMoodRunnable
+			implements Runnable
 		{
-			public NewMoodButton()
-			{
-				super( "new list" );
-			}
-
 			public void run()
 			{
 				String name = InputFieldUtilities.input( "Give your list a name!" );
@@ -168,14 +163,9 @@ public class MoodOptionsPanel
 			}
 		}
 
-		private class DeleteMoodButton
-			extends ThreadedButton
+		private class DeleteMoodRunnable
+			implements Runnable
 		{
-			public DeleteMoodButton()
-			{
-				super( "delete list" );
-			}
-
 			public void run()
 			{
 				MoodManager.deleteCurrentMood();
@@ -183,14 +173,9 @@ public class MoodOptionsPanel
 			}
 		}
 
-		private class CopyMoodButton
-			extends ThreadedButton
+		private class CopyMoodRunnable
+			implements Runnable
 		{
-			public CopyMoodButton()
-			{
-				super( "copy list" );
-			}
-
 			public void run()
 			{
 				String moodName = InputFieldUtilities.input( "Make a copy of current mood list called:" );
@@ -210,14 +195,9 @@ public class MoodOptionsPanel
 			}
 		}
 
-		private class ExecuteButton
-			extends ThreadedButton
+		private class ExecuteRunnable
+			implements Runnable
 		{
-			public ExecuteButton()
-			{
-				super( "execute" );
-			}
-
 			public void run()
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mood execute" );

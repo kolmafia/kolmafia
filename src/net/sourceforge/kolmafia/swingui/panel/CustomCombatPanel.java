@@ -36,10 +36,8 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
@@ -48,25 +46,20 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
-
 import javax.swing.tree.DefaultTreeModel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.combat.CombatActionManager;
-
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
-
+import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
-
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class CustomCombatPanel
@@ -190,7 +183,7 @@ public class CustomCombatPanel
 			CustomCombatPanel.this.combatEditor.setFont( KoLConstants.DEFAULT_FONT );
 			CustomCombatPanel.this.refreshCombatTree();
 
-			this.eastPanel.add( new HelpButton(), BorderLayout.SOUTH );
+			this.eastPanel.add( new RelayBrowserButton( "Help", "http://kolmafia.sourceforge.net/combat.html" ), BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -227,20 +220,6 @@ public class CustomCombatPanel
 		public void setEnabled( final boolean isEnabled )
 		{
 		}
-
-		public class HelpButton
-			extends ThreadedButton
-		{
-			public HelpButton()
-			{
-				super( "help" );
-			}
-
-			public void run()
-			{
-				RelayLoader.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
-			}
-		}
 	}
 
 	public class CustomCombatTreePanel
@@ -255,8 +234,8 @@ public class CustomCombatPanel
 
 			JPanel extraButtons = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
 
-			extraButtons.add( new NewScriptButton() );
-			extraButtons.add( new CopyScriptButton() );
+			extraButtons.add( new ThreadedButton( "new", new NewScriptRunnable() ) );
+			extraButtons.add( new ThreadedButton( "copy", new CopyScriptRunnable() ) );
 
 			JPanel buttonHolder = new JPanel( new BorderLayout() );
 			buttonHolder.add( extraButtons, BorderLayout.NORTH );
@@ -279,14 +258,9 @@ public class CustomCombatPanel
 		{
 		}
 
-		public class NewScriptButton
-			extends ThreadedButton
+		public class NewScriptRunnable
+			implements Runnable
 		{
-			public NewScriptButton()
-			{
-				super( "new" );
-			}
-
 			public void run()
 			{
 				String name = InputFieldUtilities.input( "Give your combat script a name!" );
@@ -300,14 +274,9 @@ public class CustomCombatPanel
 			}
 		}
 
-		public class CopyScriptButton
-			extends ThreadedButton
+		public class CopyScriptRunnable
+			implements Runnable
 		{
-			public CopyScriptButton()
-			{
-				super( "copy" );
-			}
-
 			public void run()
 			{
 				String name = InputFieldUtilities.input( "Make a copy of current script called:" );
