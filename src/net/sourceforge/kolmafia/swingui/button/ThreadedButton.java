@@ -43,7 +43,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.utilities.RequestThreadRunnable;
 
 public class ThreadedButton
 	extends JButton
