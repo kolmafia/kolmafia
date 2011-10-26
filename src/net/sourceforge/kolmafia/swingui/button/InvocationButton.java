@@ -51,15 +51,23 @@ public class InvocationButton
 {
 	public InvocationButton( final String text, final Object object, final String methodName )
 	{
-		this( text, null, object, object == null ? null : object.getClass(), methodName );
+		super( text, new InvocationRunnable( object == null ? null : object.getClass(), methodName ) );
+	}
+
+	public InvocationButton( final String text, final Class c, final String methodName )
+	{
+		super( text, new InvocationRunnable( c, methodName ) );
 	}
 
 	public InvocationButton( final String tooltip, final String icon, final Object object, final String methodName )
 	{
-		this( tooltip, icon, object, object == null ? null : object.getClass(), methodName );
+		super( JComponentUtilities.getImage( icon ), new InvocationRunnable( object == null ? null : object.getClass(), methodName ) );
+		JComponentUtilities.setComponentSize( this, 32, 32 );
+
+		this.setToolTipText( tooltip );
 	}
 
-	public InvocationButton( final String tooltip, final String icon, final Object object, final Class c, final String methodName )
+	public InvocationButton( final String tooltip, final String icon, final Class c, final String methodName )
 	{
 		super( JComponentUtilities.getImage( icon ), new InvocationRunnable( c, methodName ) );
 		JComponentUtilities.setComponentSize( this, 32, 32 );
