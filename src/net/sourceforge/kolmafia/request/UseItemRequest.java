@@ -468,8 +468,15 @@ public class UseItemRequest
 			return InventoryManager.hasItem( ItemPool.PHOTOCOPIED_MONSTER ) ? 0 : 1;
 
 		case ItemPool.MOJO_FILTER:
-			UseItemRequest.limiter = "daily limit";
-			return Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
+			int spleenUsed = KoLCharacter.getSpleenUse();
+			int mojoUsesLeft = Math.max( 0, 3 - Preferences.getInteger( "currentMojoFilters" ) );
+			if( mojoUsesLeft <= spleenUsed )
+			{
+				UseItemRequest.limiter = "daily limit";
+				return mojoUsesLeft;
+			}
+			UseItemRequest.limiter = "spleen";
+			return spleenUsed;
 
 		case ItemPool.EXPRESS_CARD:
 			UseItemRequest.limiter = "daily limit";
@@ -4154,6 +4161,32 @@ public class UseItemRequest
 				Preferences.setString( "_feastedFamiliars", newList );
 			}
 			return;
+
+		case ItemPool.STAFF_GUIDE:
+			if ( responseText.indexOf( "You don't have time to screw around in a haunted house" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Insufficient adventures to use a staff guide.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+			if ( responseText.indexOf( "You aren't allowed to go to any Haunted Houses right now" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You aren't allowed to go to any Haunted Houses right now.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+			if ( responseText.indexOf( "You don't know where any haunted sorority houses are right now." ) != -1  ||
+			     responseText.indexOf( "No way. It's boring in there now that everybody is dead." ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "The Haunted Sorority House is unavailable.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+			
+			
 		}
 	}
 
