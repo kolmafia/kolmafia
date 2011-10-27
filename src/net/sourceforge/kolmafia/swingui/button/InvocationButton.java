@@ -51,17 +51,17 @@ public class InvocationButton
 {
 	public InvocationButton( final String text, final Object object, final String methodName )
 	{
-		super( text, new InvocationRunnable( object == null ? null : object.getClass(), methodName ) );
+		super( text, new InvocationRunnable( object, object == null ? null : object.getClass(), methodName ) );
 	}
 
 	public InvocationButton( final String text, final Class c, final String methodName )
 	{
-		super( text, new InvocationRunnable( c, methodName ) );
+		super( text, new InvocationRunnable( null, c, methodName ) );
 	}
 
 	public InvocationButton( final String tooltip, final String icon, final Object object, final String methodName )
 	{
-		super( JComponentUtilities.getImage( icon ), new InvocationRunnable( object == null ? null : object.getClass(), methodName ) );
+		super( JComponentUtilities.getImage( icon ), new InvocationRunnable( object, object == null ? null : object.getClass(), methodName ) );
 		JComponentUtilities.setComponentSize( this, 32, 32 );
 
 		this.setToolTipText( tooltip );
@@ -69,7 +69,7 @@ public class InvocationButton
 
 	public InvocationButton( final String tooltip, final String icon, final Class c, final String methodName )
 	{
-		super( JComponentUtilities.getImage( icon ), new InvocationRunnable( c, methodName ) );
+		super( JComponentUtilities.getImage( icon ), new InvocationRunnable( null, c, methodName ) );
 		JComponentUtilities.setComponentSize( this, 32, 32 );
 
 		this.setToolTipText( tooltip );
@@ -81,10 +81,11 @@ public class InvocationButton
 		private Object object;
 		private Method method;
 
-		public InvocationRunnable( Class c, String methodName )
+		public InvocationRunnable( Object object, Class c, String methodName )
 		{
 			try
 			{
+				this.object = object;
 				this.method = c.getMethod( methodName, KoLConstants.NOPARAMS );
 			}
 			catch ( Exception e )
