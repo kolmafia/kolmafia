@@ -328,7 +328,7 @@ public abstract class ChoiceManager
 
 		// Ouch! You bump into a door!
 		new ChoiceAdventure(
-			"Town", "choiceAdventure25", "Dungeon of Doom",
+			"Dungeon", "choiceAdventure25", "Dungeon of Doom",
 			new String[] { "magic lamp", "dead mimic", "skip adventure" },
 			new String[] { "1273", "1267", null } ),
 
@@ -1044,7 +1044,7 @@ public abstract class ChoiceManager
 
 		// Gravy Fairy Ring
 		new ChoiceAdventure(
-			"Town", "choiceAdventure297", "Haiku Dungeon",
+			"Dungeon", "choiceAdventure297", "Haiku Dungeon",
 			new String[] { "mushrooms", "fairy gravy boat", "skip adventure" },
 			new String[] { null, "80", null } ),
 
