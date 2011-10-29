@@ -153,6 +153,12 @@ public class FamiliarData
 
 	public final void addCombatExperience( String responseText )
 	{
+		if ( this.id == FamiliarPool.STOCKING_MIMIC ) 
+		{
+			// Doesn't automatically gain experience from winning a combat
+			return;
+		}
+
 		float experienceModifier = KoLCharacter.currentNumericModifier( Modifiers.FAMILIAR_EXP );
 
 		if ( getItem().getItemId() == ItemPool.MAYFLOWER_BOUQUET )
