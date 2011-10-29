@@ -116,6 +116,14 @@ public class EventManager
 			EventManager.eventHyperTexts.add( eventHTML );
 		}
 
+		if ( !LoginRequest.isInstanceRunning() )
+		{
+			// Print everything to the default shell; this way, the
+			// graphical CLI is also notified of events.
+
+			RequestLogger.printLine( eventHTML );
+		}
+
 		boolean moneyMakingGameEvent = eventHTML.indexOf( "href='bet.php'" ) != -1;
 
 		// The event may be marked up with color and links to
@@ -145,6 +153,17 @@ public class EventManager
 		else
 		{
 			EventManager.eventTexts.add( eventText );
+		}
+
+		if ( !LoginRequest.isInstanceRunning() )
+		{
+			// Balloon messages for whenever the person does not have
+			// focus on KoLmafia.
+
+			if ( StaticEntity.usesSystemTray() )
+			{
+				SystemTrayFrame.showBalloon( eventText );
+			}
 		}
 
 		return true;
