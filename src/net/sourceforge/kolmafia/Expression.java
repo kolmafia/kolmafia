@@ -95,6 +95,26 @@ public class Expression
 			{
 				if ( this.stack.length >= MAXIMUM_STACK )
 				{
+					StringBuffer b = new StringBuffer( "Bytecode: " );
+					b.append( this.bytecode );
+					for ( int i = 0; i < this.bytecode.length; ++i )
+					{
+						b.append( ' ' );
+						b.append( Integer.toHexString( this.bytecode[ i ] ) );
+					}
+					KoLmafia.updateDisplay( b.toString() );
+					
+					b.setLength( 0 );
+					b.append( "Stack: " );
+					for ( int i = 0; i < INITIAL_STACK; ++i )
+					{
+						b.append( ' ' );
+						b.append( this.stack[ i ] );
+					}
+					KoLmafia.updateDisplay( b.toString() );
+					
+					KoLmafia.updateDisplay( e.getStackTrace()[0].toString() );
+					
 					KoLmafia.updateDisplay( "Unreasonably complex expression for " + this.name + ": " + e );
 					return 0.0f;
 				}
