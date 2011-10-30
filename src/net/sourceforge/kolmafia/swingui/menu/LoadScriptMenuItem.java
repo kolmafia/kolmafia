@@ -34,15 +34,14 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.awt.event.ActionEvent;
-
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.listener.ActionListenerRunnable;
 
 /**
  * In order to keep the user interface from freezing (or at least appearing to freeze), this internal class is used
@@ -52,8 +51,6 @@ import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 public class LoadScriptMenuItem
 	extends ThreadedMenuItem
 {
-	private final String scriptPath;
-
 	public LoadScriptMenuItem()
 	{
 		this( "Load script...", null );
@@ -61,50 +58,61 @@ public class LoadScriptMenuItem
 
 	public LoadScriptMenuItem( final String scriptName, final String scriptPath )
 	{
-		super( scriptName );
-		this.scriptPath = scriptPath;
+		super( scriptName, new LoadScriptRunnable( scriptPath ) );
 	}
 
-	public void run()
+	private static class LoadScriptRunnable
+		extends ActionListenerRunnable
 	{
-		String executePath = this.scriptPath;
+		private final String scriptPath;
 
-		try
+		public LoadScriptRunnable( String scriptPath )
 		{
-			if ( this.scriptPath == null )
+			this.scriptPath = scriptPath;
+		}
+
+		public void run()
+		{
+			String executePath = this.scriptPath;
+
+			try
 			{
-				JFileChooser chooser = new JFileChooser( KoLConstants.SCRIPT_LOCATION.getCanonicalPath() );
-				int returnVal = chooser.showOpenDialog( null );
-	
-				if ( chooser.getSelectedFile() == null )
+				if ( this.scriptPath == null )
 				{
-					return;
-				}
-	
-				if ( returnVal == JFileChooser.APPROVE_OPTION )
-				{
-					executePath = chooser.getSelectedFile().getCanonicalPath();
+					JFileChooser chooser = new JFileChooser( KoLConstants.SCRIPT_LOCATION.getCanonicalPath() );
+					int returnVal = chooser.showOpenDialog( null );
+
+					if ( chooser.getSelectedFile() == null )
+					{
+						return;
+					}
+
+					if ( returnVal == JFileChooser.APPROVE_OPTION )
+					{
+						executePath = chooser.getSelectedFile().getCanonicalPath();
+					}
 				}
 			}
-		}
-		catch ( IOException e )
-		{
-			
-		}
+			catch ( IOException e )
+			{
 
-		if ( executePath == null )
-		{
-			return;
-		}
+			}
 
-		KoLmafia.forceContinue();
-		if ( (this.event.getModifiers() & ActionEvent.SHIFT_MASK) != 0 )
-		{
-			CommandDisplayFrame.executeCommand( "edit " + executePath );
-		}
-		else
-		{
-			CommandDisplayFrame.executeCommand( "call " + executePath );
+			if ( executePath == null )
+			{
+				return;
+			}
+
+			KoLmafia.forceContinue();
+
+			if ( this.hasShiftModifier() )
+			{
+				CommandDisplayFrame.executeCommand( "edit " + executePath );
+			}
+			else
+			{
+				CommandDisplayFrame.executeCommand( "call " + executePath );
+			}
 		}
 	}
 }

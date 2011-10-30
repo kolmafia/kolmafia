@@ -36,9 +36,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.request.ZapRequest;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class WandZapMenuItem
@@ -46,23 +44,27 @@ public class WandZapMenuItem
 {
 	public WandZapMenuItem()
 	{
-		super( "Wand-Zap Item" );
+		super( "Wand-Zap Item", new WandZapRunnable() );
 	}
 
-	public void run()
+	private static class WandZapRunnable
+		implements Runnable
 	{
-		if ( KoLCharacter.getZapper() == null )
+		public void run()
 		{
-			return;
-		}
+			if ( KoLCharacter.getZapper() == null )
+			{
+				return;
+			}
 
-		AdventureResult selectedValue =
-			(AdventureResult) InputFieldUtilities.input( "Let's explodey my wand!", ZapRequest.getZappableItems() );
-		if ( selectedValue == null )
-		{
-			return;
-		}
+			AdventureResult selectedValue =
+				(AdventureResult) InputFieldUtilities.input( "Let's explodey my wand!", ZapRequest.getZappableItems() );
+			if ( selectedValue == null )
+			{
+				return;
+			}
 
-		RequestThread.postRequest( new ZapRequest( selectedValue ) );
+			RequestThread.postRequest( new ZapRequest( selectedValue ) );
+		}
 	}
 }

@@ -39,37 +39,38 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.swingui.listener.ActionListenerRunnable;
 
 public class ThreadedMenuItem
 	extends JMenuItem
-	implements Runnable
+	implements ActionListener
 {
-	protected ActionEvent event;
-	
-	public ThreadedMenuItem( final String label )
+	private Runnable action;
+
+	public ThreadedMenuItem( final String label, Runnable action )
 	{
 		super( label );
-		this.addActionListener( new ThreadedMenuItemListener() );
+
+		this.addActionListener( this );
+		this.action = action;
 	}
 
-	public ThreadedMenuItem( final String label, ActionListener listener )
+	public void actionPerformed( ActionEvent e )
 	{
-		super( label );
-		this.addActionListener( listener );
-	}
-
-	public void run()
-	{
-	}
-
-	private class ThreadedMenuItemListener
-		implements ActionListener
-	{
-		public void actionPerformed( final ActionEvent e )
+		if ( this.action instanceof ActionListenerRunnable )
 		{
-			ThreadedMenuItem.this.event = e;
-			ThreadedMenuItem.this.run();
-			RequestThread.enableDisplayIfSequenceComplete();
+			( (ActionListenerRunnable) this.action ).setActionEvent( e );
 		}
+
+		RequestThread.runInParallel( action );
+	}
+
+	public final void run()
+	{
+	}
+
+	public String toString()
+	{
+		return this.getText();
 	}
 }

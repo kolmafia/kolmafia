@@ -33,12 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import java.lang.reflect.Method;
-
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.swingui.listener.InvocationRunnable;
 
 /**
  * Internal class used to invoke the given no-parameter method on the given object. This is used whenever there is
@@ -48,57 +43,13 @@ import net.sourceforge.kolmafia.StaticEntity;
 public class InvocationMenuItem
 	extends ThreadedMenuItem
 {
-	private Object object;
-	private Method method;
-
 	public InvocationMenuItem( final String title, final Object object, final String methodName )
 	{
-		this( title, object == null ? null : object.getClass(), methodName );
-		this.object = object;
+		super( title, new InvocationRunnable( object, object == null ? null : object.getClass(), methodName ) );
 	}
 
 	public InvocationMenuItem( final String title, final Class c, final String methodName )
 	{
-		super( title );
-
-		if ( c == null )
-		{
-			return;
-		}
-
-		try
-		{
-			this.object = c;
-			this.method = c.getMethod( methodName, KoLConstants.NOPARAMS );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	public void run()
-	{
-		try
-		{
-			RequestThread.openRequestSequence();
-
-			if ( this.method != null )
-			{
-				this.method.invoke( this.object instanceof KoLmafia ? StaticEntity.getClient() : this.object, (Object []) null );
-			}
-
-			RequestThread.closeRequestSequence();
-		}
-		catch ( Exception e1 )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e1 );
-		}
+		super( title, new InvocationRunnable( null, c, methodName ) );
 	}
 }

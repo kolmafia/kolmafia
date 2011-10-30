@@ -31,20 +31,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.swingui.menu;
+package net.sourceforge.kolmafia.swingui.listener;
 
-import net.sourceforge.kolmafia.KoLmafia;
+import java.lang.reflect.Method;
 
-public class LogoutMenuItem
-	extends ThreadedMenuItem
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
+
+public class InvocationRunnable
+	implements Runnable
 {
-	public LogoutMenuItem()
+	private Object object;
+	private Method method;
+
+	public InvocationRunnable( Object object, Class c, String methodName )
 	{
-		super( "Logout of KoL" );
+		try
+		{
+			this.object = object;
+			this.method = c.getMethod( methodName, KoLConstants.NOPARAMS );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	public void run()
 	{
-		KoLmafia.logout();
+		try
+		{
+			if ( this.method != null )
+			{
+				this.method.invoke( this.object, (Object []) null );
+			}
+		}
+		catch ( Exception e1 )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e1 );
+		}
 	}
 }
