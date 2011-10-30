@@ -391,19 +391,18 @@ public abstract class KoLmafia
 		// preferences. Always do this.
 
 		String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
+		String defaultLookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+
+		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) )
+		{
+			defaultLookAndFeel = UIManager.getSystemLookAndFeelClassName();
+		}
+
 		boolean foundLookAndFeel = false;
 
 		if ( lookAndFeel.equals( "" ) )
 		{
-			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith(
-				"Win" ) )
-			{
-				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-			}
-			else
-			{
-				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-			}
+			lookAndFeel = defaultLookAndFeel;
 		}
 
 		UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
@@ -452,7 +451,14 @@ public abstract class KoLmafia
 			SystemTrayFrame.addTrayIcon();
 		}
 
-		Preferences.setString( "swingLookAndFeel", lookAndFeel );
+		if ( lookAndFeel.equals( defaultLookAndFeel ) )
+		{
+			Preferences.setString( "swingLookAndFeel", "" );
+		}
+		else
+		{
+			Preferences.setString( "swingLookAndFeel", lookAndFeel );
+		}
 
 		if ( System.getProperty( "os.name" ).startsWith( "Win" ) || lookAndFeel.equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
 		{
