@@ -33,10 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import javax.swing.SwingUtilities;
-
-import net.sourceforge.foxtrot.Job;
-import net.sourceforge.foxtrot.Worker;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -79,17 +75,7 @@ public abstract class RequestThread
 
 		try
 		{
-			// If you're not in the event dispatch thread, you can run
-			// without posting to a separate thread.
-
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				request.run();
-			}
-			else
-			{
-				Worker.post( new JobWrappedRunnable( request ) );
-			}
+			request.run();
 		}
 		catch ( Exception e )
 		{
@@ -112,14 +98,7 @@ public abstract class RequestThread
 
 		try
 		{
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				request.run();
-			}
-			else
-			{
-				Worker.post( new JobWrappedRunnable( request ) );
-			}
+			request.run();
 		}
 		catch ( Exception e )
 		{
@@ -149,14 +128,7 @@ public abstract class RequestThread
 
 		try
 		{
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				request.run();
-			}
-			else
-			{
-				Worker.post( new JobWrappedRunnable( request ) );
-			}
+			request.run();
 		}
 		catch ( Exception e )
 		{
@@ -220,31 +192,6 @@ public abstract class RequestThread
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "KoLmafia declares world peace." );
 		InternalMessage message = new InternalMessage( "KoLmafia declares world peace.", "red" );
 		ChatManager.broadcastEvent( message );
-	}
-
-	private static class JobWrappedRunnable
-		extends Job
-	{
-		private final Runnable wrapped;
-
-		public JobWrappedRunnable( final Runnable wrapped )
-		{
-			this.wrapped = wrapped;
-		}
-
-		public Object run()
-		{
-			try
-			{
-				this.wrapped.run();
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-
-			return null;
-		}
 	}
 
 	private static class ThreadWrappedRunnable
