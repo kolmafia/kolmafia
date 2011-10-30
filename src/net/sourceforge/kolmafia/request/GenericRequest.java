@@ -1176,17 +1176,6 @@ public class GenericRequest
 
 		CouncilFrame.handleQuestChange( location, this.responseText );
 
-		if ( this.formURLString.equals( "charpane.php" ) )
-		{
-			KoLCharacter.recalculateAdjustments();
-
-			// Mana cost adjustment may have changed
-
-			KoLConstants.summoningSkills.sort();
-			KoLConstants.usableSkills.sort();
-			RequestFrame.refreshStatus();
-		}
-
 		this.formatResponse();
 		KoLCharacter.updateStatus();
 	}

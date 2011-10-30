@@ -193,9 +193,16 @@ public class CharPaneRequest
 		CharPaneRequest.refreshEffects( responseText );
 		KoLCharacter.recalculateAdjustments();
 		CharPaneRequest.checkFamiliar( responseText );
+		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
+
 		KoLCharacter.updateStatus();
 
-		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
+		// Mana cost adjustment may have changed
+
+		KoLConstants.summoningSkills.sort();
+		KoLConstants.usableSkills.sort();
+		RequestFrame.refreshStatus();
+
 		return true;
 	}
 
