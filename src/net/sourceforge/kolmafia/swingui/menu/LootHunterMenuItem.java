@@ -37,22 +37,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -61,61 +55,65 @@ public class LootHunterMenuItem
 {
 	public LootHunterMenuItem()
 	{
-		super( "Visit Bounty Hunter" );
+		super( "Visit Bounty Hunter", new LootHunterRunnable() );
 	}
 
-	public void run()
+	private static class LootHunterRunnable
+		implements Runnable
 	{
-		GenericRequest hunterRequest = new BountyHunterHunterRequest();
-		RequestThread.postRequest( hunterRequest );
-
-		Matcher bountyMatcher = Pattern.compile( "name=whichitem value=(\\d+)" ).matcher( hunterRequest.responseText );
-
-		LockableListModel bounties = new LockableListModel();
-		while ( bountyMatcher.find() )
+		public void run()
 		{
-			String item = ItemDatabase.getItemName( StringUtilities.parseInt( bountyMatcher.group( 1 ) ) );
-			if ( item == null )
+			GenericRequest hunterRequest = new BountyHunterHunterRequest();
+			RequestThread.postRequest( hunterRequest );
+
+			Matcher bountyMatcher = Pattern.compile( "name=whichitem value=(\\d+)" ).matcher( hunterRequest.responseText );
+
+			LockableListModel bounties = new LockableListModel();
+			while ( bountyMatcher.find() )
 			{
-				continue;
+				String item = ItemDatabase.getItemName( StringUtilities.parseInt( bountyMatcher.group( 1 ) ) );
+				if ( item == null )
+				{
+					continue;
+				}
+
+				KoLAdventure location = AdventureDatabase.getBountyLocation( item );
+				if ( location == null )
+				{
+					continue;
+				}
+
+				bounties.add( item + " (" + location.getAdventureName() + ")" );
 			}
 
-			KoLAdventure location = AdventureDatabase.getBountyLocation( item );
-			if ( location == null )
+			if ( bounties.isEmpty() )
 			{
-				continue;
-			}
+				int bounty = Preferences.getInteger( "currentBountyItem" );
+				if ( hunterRequest.responseText.indexOf( "already turned in a Bounty today" ) != -1 )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already turned in a bounty today." );
+					return;
+				}
 
-			bounties.add( item + " (" + location.getAdventureName() + ")" );
-		}
+				if ( bounty > 0 )
+				{
+					AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( bounty ) );
+				}
 
-		if ( bounties.isEmpty() )
-		{
-			int bounty = Preferences.getInteger( "currentBountyItem" );
-			if ( hunterRequest.responseText.indexOf( "already turned in a Bounty today" ) != -1 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already turned in a bounty today." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already on a bounty hunt." );
+
 				return;
 			}
 
-			if ( bounty > 0 )
+			String selectedValue = (String) InputFieldUtilities.input( "Time to collect bounties!", bounties );
+			if ( selectedValue == null )
 			{
-				AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( bounty ) );
+				return;
 			}
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already on a bounty hunt." );
-
-			return;
+			String selection = selectedValue.substring( 0, selectedValue.indexOf( "(" ) - 1 );
+			int itemId = ItemDatabase.getItemId( selection );
+			RequestThread.postRequest( new BountyHunterHunterRequest( "takebounty", itemId ) );
 		}
-
-		String selectedValue = (String) InputFieldUtilities.input( "Time to collect bounties!", bounties );
-		if ( selectedValue == null )
-		{
-			return;
-		}
-
-		String selection = selectedValue.substring( 0, selectedValue.indexOf( "(" ) - 1 );
-		int itemId = ItemDatabase.getItemId( selection );
-		RequestThread.postRequest( new BountyHunterHunterRequest( "takebounty", itemId ) );
 	}
 }

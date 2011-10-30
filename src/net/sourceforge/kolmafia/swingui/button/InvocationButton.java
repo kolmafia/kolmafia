@@ -33,13 +33,8 @@
 
 package net.sourceforge.kolmafia.swingui.button;
 
-import java.lang.reflect.Method;
-
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.swingui.listener.InvocationRunnable;
 
 /**
  * Internal class used to invoke the given no-parameter method on the given object. This is used whenever there is
@@ -73,46 +68,5 @@ public class InvocationButton
 		JComponentUtilities.setComponentSize( this, 32, 32 );
 
 		this.setToolTipText( tooltip );
-	}
-
-	private static class InvocationRunnable
-		implements Runnable
-	{
-		private Object object;
-		private Method method;
-
-		public InvocationRunnable( Object object, Class c, String methodName )
-		{
-			try
-			{
-				this.object = object;
-				this.method = c.getMethod( methodName, KoLConstants.NOPARAMS );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-		}
-
-		public void run()
-		{
-			try
-			{
-				if ( this.method != null )
-				{
-					this.method.invoke( this.object, (Object []) null );
-				}
-			}
-			catch ( Exception e1 )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e1 );
-			}
-		}
 	}
 }

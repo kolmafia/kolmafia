@@ -34,9 +34,7 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.request.CampgroundRequest;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -45,20 +43,24 @@ public class RestCampgroundMenuItem
 {
 	public RestCampgroundMenuItem()
 	{
-		super( "Rest in House" );
+		super( "Rest in House", new RestCampgroundRunnable() );
 	}
 
-	public void run()
+	private static class RestCampgroundRunnable
+		implements Runnable
 	{
-		String turnCount = InputFieldUtilities.input( "Rest for how many turns?", "1" );
-		if ( turnCount == null )
+		public void run()
 		{
-			return;
+			String turnCount = InputFieldUtilities.input( "Rest for how many turns?", "1" );
+			if ( turnCount == null )
+			{
+				return;
+			}
+
+			CampgroundRequest request = new CampgroundRequest( "rest" );
+			int turnCountValue = StringUtilities.parseInt( turnCount );
+
+			StaticEntity.getClient().makeRequest( request, turnCountValue );
 		}
-
-		CampgroundRequest request = new CampgroundRequest( "rest" );
-		int turnCountValue = StringUtilities.parseInt( turnCount );
-
-		StaticEntity.getClient().makeRequest( request, turnCountValue );
 	}
 }

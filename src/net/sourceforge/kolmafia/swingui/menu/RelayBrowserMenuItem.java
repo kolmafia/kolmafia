@@ -33,9 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.StaticEntity;
-
-import net.sourceforge.kolmafia.webui.RelayLoader;
+import net.sourceforge.kolmafia.swingui.listener.RelayBrowserRunnable;
 
 /**
  * Internal class which displays the given request inside of the current frame.
@@ -44,8 +42,6 @@ import net.sourceforge.kolmafia.webui.RelayLoader;
 public class RelayBrowserMenuItem
 	extends ThreadedMenuItem
 {
-	private final String location;
-
 	public RelayBrowserMenuItem()
 	{
 		this( "Relay Browser", null );
@@ -53,24 +49,6 @@ public class RelayBrowserMenuItem
 
 	public RelayBrowserMenuItem( final String label, final String location )
 	{
-		super( label );
-		this.location = location;
-	}
-
-	public void run()
-	{
-		if ( this.location == null )
-		{
-			RelayLoader.openRelayBrowser();
-		}
-		else
-		{
-			RelayLoader.openSystemBrowser( this.location );
-		}
-	}
-
-	public String toString()
-	{
-		return this.getText();
+		super( label, new RelayBrowserRunnable( location ) );
 	}
 }

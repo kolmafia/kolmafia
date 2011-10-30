@@ -53,44 +53,48 @@ public class UntinkerMenuItem
 {
 	public UntinkerMenuItem()
 	{
-		super( "Untinker Item" );
+		super( "Untinker Item", new UntinkerRunnable() );
 	}
 
-	public void run()
+	private static class UntinkerRunnable
+		implements Runnable
 	{
-		SortedListModel untinkerItems = new SortedListModel();
-
-		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		public void run()
 		{
-			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
-			int itemId = currentItem.getItemId();
+			SortedListModel untinkerItems = new SortedListModel();
 
-			// Ignore silly fairy gravy + meat from yesterday recipe
-			if ( itemId == ItemPool.MEAT_STACK )
+			for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
 			{
-				continue;
+				AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
+				int itemId = currentItem.getItemId();
+
+				// Ignore silly fairy gravy + meat from yesterday recipe
+				if ( itemId == ItemPool.MEAT_STACK )
+				{
+					continue;
+				}
+
+				// Otherwise, accept any COMBINE recipe
+				if ( (ConcoctionDatabase.getMixingMethod( currentItem ) & KoLConstants.CT_MASK) == KoLConstants.COMBINE )
+				{
+					untinkerItems.add( currentItem );
+				}
 			}
 
-			// Otherwise, accept any COMBINE recipe
-			if ( (ConcoctionDatabase.getMixingMethod( currentItem ) & KoLConstants.CT_MASK) == KoLConstants.COMBINE )
+			if ( untinkerItems.isEmpty() )
 			{
-				untinkerItems.add( currentItem );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have any untinkerable items." );
+				return;
 			}
-		}
 
-		if ( untinkerItems.isEmpty() )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have any untinkerable items." );
-			return;
-		}
+			AdventureResult selectedValue =
+				(AdventureResult) InputFieldUtilities.input( "You can unscrew meat paste?", untinkerItems );
+			if ( selectedValue == null )
+			{
+				return;
+			}
 
-		AdventureResult selectedValue =
-			(AdventureResult) InputFieldUtilities.input( "You can unscrew meat paste?", untinkerItems );
-		if ( selectedValue == null )
-		{
-			return;
+			RequestThread.postRequest( new UntinkerRequest( selectedValue.getItemId() ) );
 		}
-
-		RequestThread.postRequest( new UntinkerRequest( selectedValue.getItemId() ) );
 	}
 }

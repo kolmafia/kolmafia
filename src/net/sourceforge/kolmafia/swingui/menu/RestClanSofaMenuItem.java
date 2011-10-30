@@ -45,21 +45,25 @@ public class RestClanSofaMenuItem
 {
 	public RestClanSofaMenuItem()
 	{
-		super( "Sleep in Sofa" );
+		super( "Sleep in Sofa", new RestClanSofaRunnable() );
 	}
 
-	public void run()
+	private static class RestClanSofaRunnable
+		implements Runnable
 	{
-		String turnCount = InputFieldUtilities.input( "Sleep for how many turns?", "1" );
-		if ( turnCount == null )
+		public void run()
 		{
-			return;
+			String turnCount = InputFieldUtilities.input( "Sleep for how many turns?", "1" );
+			if ( turnCount == null )
+			{
+				return;
+			}
+
+			ClanRumpusRequest request = new ClanRumpusRequest( ClanRumpusRequest.SOFA );
+			int turnCountValue = StringUtilities.parseInt( turnCount );
+
+			request.setTurnCount( turnCountValue );
+			RequestThread.postRequest( request );
 		}
-
-		ClanRumpusRequest request = new ClanRumpusRequest( ClanRumpusRequest.SOFA );
-		int turnCountValue = StringUtilities.parseInt( turnCount );
-
-		request.setTurnCount( turnCountValue );
-		RequestThread.postRequest( request );
 	}
 }

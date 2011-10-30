@@ -36,11 +36,8 @@ package net.sourceforge.kolmafia.swingui.menu;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.request.HermitRequest;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class LootHermitMenuItem
@@ -48,46 +45,50 @@ public class LootHermitMenuItem
 {
 	public LootHermitMenuItem()
 	{
-		super( "Loot the Hermit" );
+		super( "Loot the Hermit", new LootHermitRunnable() );
 	}
 
-	public void run()
+	private static class LootHermitRunnable
+		implements Runnable
 	{
-		// See how many clovers are available today. This visits the
-		// Hermit, if necessary, and sets the AdventureResult in
-		// KoLConstants.hermitItems.
-		int cloverCount = HermitRequest.cloverCount();
-
-		AdventureResult selectedValue =
-			(AdventureResult) InputFieldUtilities.input( "I have worthless items!", KoLConstants.hermitItems );
-
-		if ( selectedValue == null )
+		public void run()
 		{
-			return;
-		}
+			// See how many clovers are available today. This visits the
+			// Hermit, if necessary, and sets the AdventureResult in
+			// KoLConstants.hermitItems.
+			int cloverCount = HermitRequest.cloverCount();
 
-		int selected = selectedValue.getItemId();
-		int maximumValue = HermitRequest.getWorthlessItemCount( true );
+			AdventureResult selectedValue =
+				(AdventureResult) InputFieldUtilities.input( "I have worthless items!", KoLConstants.hermitItems );
 
-		String message = "(You have " + maximumValue + " worthless items retrievable)";
-
-		if ( selected == ItemPool.TEN_LEAF_CLOVER )
-		{
-			if ( cloverCount <= maximumValue )
+			if ( selectedValue == null )
 			{
-				message = "(There are " + cloverCount + " clovers still available)";
-				maximumValue = cloverCount;
+				return;
 			}
-		}
 
-		int tradeCount =
-			InputFieldUtilities.getQuantity(
-				"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue, 1 );
-		if ( tradeCount == 0 )
-		{
-			return;
-		}
+			int selected = selectedValue.getItemId();
+			int maximumValue = HermitRequest.getWorthlessItemCount( true );
 
-		RequestThread.postRequest( new HermitRequest( selected, tradeCount ) );
+			String message = "(You have " + maximumValue + " worthless items retrievable)";
+
+			if ( selected == ItemPool.TEN_LEAF_CLOVER )
+			{
+				if ( cloverCount <= maximumValue )
+				{
+					message = "(There are " + cloverCount + " clovers still available)";
+					maximumValue = cloverCount;
+				}
+			}
+
+			int tradeCount =
+				InputFieldUtilities.getQuantity(
+					"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue, 1 );
+			if ( tradeCount == 0 )
+			{
+				return;
+			}
+
+			RequestThread.postRequest( new HermitRequest( selected, tradeCount ) );
+		}
 	}
 }

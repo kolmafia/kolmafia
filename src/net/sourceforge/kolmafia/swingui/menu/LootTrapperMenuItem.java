@@ -47,34 +47,38 @@ public class LootTrapperMenuItem
 {
 	public LootTrapperMenuItem()
 	{
-		super( "Visit the Trapper" );
+		super( "Visit the Trapper", new LootTrapperRunnable() );
 	}
 
-	public void run()
+	private static class LootTrapperRunnable
+		implements Runnable
 	{
-		AdventureResult selectedValue =
-			(AdventureResult) InputFieldUtilities.input( "I want skins!", Tr4pz0rRequest.buyItems );
-
-		if ( selectedValue == null )
+		public void run()
 		{
-			return;
+			AdventureResult selectedValue =
+				(AdventureResult) InputFieldUtilities.input( "I want skins!", Tr4pz0rRequest.buyItems );
+
+			if ( selectedValue == null )
+			{
+				return;
+			}
+
+			int selected = selectedValue.getItemId();
+			int maximumValue = Tr4pz0rRequest.YETI_FUR.getCount( KoLConstants.inventory );
+
+			String message = "(You have " + maximumValue + " furs available)";
+			int tradeCount =
+				InputFieldUtilities.getQuantity(
+					"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue,
+					maximumValue );
+
+			if ( tradeCount == 0 )
+			{
+				return;
+			}
+
+			KoLmafia.updateDisplay( "Visiting the trapper..." );
+			RequestThread.postRequest( new Tr4pz0rRequest( selected, tradeCount ) );
 		}
-
-		int selected = selectedValue.getItemId();
-		int maximumValue = Tr4pz0rRequest.YETI_FUR.getCount( KoLConstants.inventory );
-
-		String message = "(You have " + maximumValue + " furs available)";
-		int tradeCount =
-			InputFieldUtilities.getQuantity(
-				"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue,
-				maximumValue );
-
-		if ( tradeCount == 0 )
-		{
-			return;
-		}
-
-		KoLmafia.updateDisplay( "Visiting the trapper..." );
-		RequestThread.postRequest( new Tr4pz0rRequest( selected, tradeCount ) );
 	}
 }

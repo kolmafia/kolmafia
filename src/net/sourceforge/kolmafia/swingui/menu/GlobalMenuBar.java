@@ -38,6 +38,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -88,7 +89,7 @@ public class GlobalMenuBar
 		if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
 			statusMenu.add( new JSeparator() );
-			statusMenu.add( new LogoutMenuItem() );
+			statusMenu.add( new InvocationMenuItem( "Logout of KoL", KoLmafia.class, "logout" ) );
 			statusMenu.add( new EndSessionMenuItem() );
 		}
 

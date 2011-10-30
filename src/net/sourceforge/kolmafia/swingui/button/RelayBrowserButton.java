@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.swingui.button;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.sourceforge.kolmafia.webui.RelayLoader;
+import net.sourceforge.kolmafia.swingui.listener.RelayBrowserRunnable;
 
 public class RelayBrowserButton
 	extends ThreadedButton
@@ -50,29 +50,6 @@ public class RelayBrowserButton
 		super( JComponentUtilities.getImage( icon ), new RelayBrowserRunnable( location ) );
 		JComponentUtilities.setComponentSize( this, 32, 32 );
 		this.setToolTipText( tooltip );
-	}
-
-	private static class RelayBrowserRunnable
-		implements Runnable
-	{
-		private String location;
-
-		public RelayBrowserRunnable( String location )
-		{
-			this.location = location;
-		}
-
-		public void run()
-		{
-			if ( this.location == null )
-			{
-				RelayLoader.openRelayBrowser();
-			}
-			else
-			{
-				RelayLoader.openSystemBrowser( this.location );
-			}
-		}
 	}
 
 	public String toString()
