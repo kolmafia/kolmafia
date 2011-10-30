@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.utilities;
 
 import javax.swing.SwingUtilities;
 
-import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 
 public class PauseObject implements Runnable
 {
@@ -71,8 +71,8 @@ public class PauseObject implements Runnable
 
 		if ( SwingUtilities.isEventDispatchThread() )
 		{
+			StaticEntity.printStackTrace( "Pause object in event dispatch thread" );
 			this.milliseconds = milliseconds;
-			RequestThread.postRequest( this );
 			return;
 		}
 
