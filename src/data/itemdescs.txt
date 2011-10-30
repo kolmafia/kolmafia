@@ -5223,7 +5223,7 @@
 5222	136464467	thwaitgrass.gif	Thwaitgold grasshopper statuette
 5223	574526290	book3.gif	Tome of Clip Art	Tomes of Clip Art
 5224	517311708	powderdonut.gif	Ur-Donut
-5225	779127476	bigbomb.gif	The Bomb
+5225	779127476	bigbomb.gif	The Bomb	Bombs
 5226	197797892	famjacks.gif	box of Familiar Jacks
 5227	977325030	pail.gif	bucket of wine	buckets of wine
 5228	599765578	fonduepot.gif	ultrafondue
@@ -5266,12 +5266,12 @@
 5265	270866829	potion5.gif	potion of the litterbox
 5266	569104824	potion6.gif	potion of animal rage
 5267	159447368	potion7.gif	potion of punctual companionship
-5268	157921711	bomb.gif	holy bomb, batman
+5268	157921711	bomb.gif	holy bomb, batman	holy bombs, batman
 5269	693382999	grenade.gif	bobcat grenade
 5270	687495019	bigbomb.gif	chocolate frosted sugar bomb
 5271	306831208	grenade.gif	broken glass grenade
 5272	254069397	grenade.gif	noxious gas grenade
-5273	111476543	skullbomb.gif	skull with a fuse in it
+5273	111476543	skullbomb.gif	skull with a fuse in it	skulls with fuses in them
 5274	738824353	bomb.gif	boozebomb
 5275	833394012	bone.gif	hammerus
 5276	436192270	blunticepick.gif	blunt icepick
