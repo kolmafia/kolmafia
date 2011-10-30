@@ -5364,7 +5364,7 @@
 5355	Uncle Romulus (used)	reusable	display	1000
 5356	A Beginner's Guide to Charming Snakes (used)	reusable	display	1000
 5357	Zu Mannk&auml;se Dienen (used)	reusable	display	1000
-5358	Autobiography Of Dynamite Superman Jones (used)	usable display 1000
+5358	Autobiography Of Dynamite Superman Jones (used)	reusable	display	1000
 5359	Inigo's Incantation of Inspiration (crumpled)	reusable	display	1000
 5360	Tales of a Kansas Toymaker (used)	reusable	display	1000
 5361	The Joy of Wassailing (used)	reusable	display	1000
