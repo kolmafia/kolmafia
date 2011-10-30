@@ -68,6 +68,11 @@ public class ThreadedButton
 		this.action = action;
 	}
 
+	public void setAction( Runnable action )
+	{
+		this.action = action;
+	}
+
 	public void actionPerformed( final ActionEvent e )
 	{
 		if ( !this.isValidEvent( e ) )

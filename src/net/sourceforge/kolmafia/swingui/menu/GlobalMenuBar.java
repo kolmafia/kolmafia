@@ -90,7 +90,7 @@ public class GlobalMenuBar
 		{
 			statusMenu.add( new JSeparator() );
 			statusMenu.add( new InvocationMenuItem( "Logout of KoL", KoLmafia.class, "logout" ) );
-			statusMenu.add( new EndSessionMenuItem() );
+			statusMenu.add( new InvocationMenuItem( "Exit KoLmafia", KoLmafia.class, "quit" ) );
 		}
 
 		// Add specialized tools.

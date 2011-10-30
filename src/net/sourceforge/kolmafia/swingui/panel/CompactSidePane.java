@@ -391,21 +391,30 @@ public class CompactSidePane
 	private static class FamiliarMenuItem
 		extends ThreadedMenuItem
 	{
-		private final FamiliarData fam;
-
 		public FamiliarMenuItem( final FamiliarData fam )
 		{
-			super( fam.getRace() );
-			this.fam = fam;
+			super( fam.getRace(), new FamiliarRunnable( fam ) );
+
 			if ( fam.getFavorite() )
 			{
 				this.setIcon( FamiliarDatabase.getFamiliarImage( fam.getId() ) );
 			}
 		}
+	}
+
+	private static class FamiliarRunnable
+		implements Runnable
+	{
+		private FamiliarData familiar;
+
+		public FamiliarRunnable( FamiliarData familiar )
+		{
+			this.familiar = familiar;
+		}
 
 		public void run()
 		{
-			CommandDisplayFrame.executeCommand( "familiar " + this.fam.getRace() );
+			CommandDisplayFrame.executeCommand( "familiar " + this.familiar.getRace() );
 		}
 	}
 

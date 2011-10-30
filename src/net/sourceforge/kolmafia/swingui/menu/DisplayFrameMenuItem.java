@@ -33,14 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import java.awt.Frame;
-
-import net.sourceforge.kolmafia.KoLDesktop;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
-
-import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.listener.DisplayFrameRunnable;
 
 /**
  * In order to keep the user interface from freezing (or at least appearing to freeze), this internal class is used
@@ -50,43 +43,8 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 public class DisplayFrameMenuItem
 	extends ThreadedMenuItem
 {
-	private String frameClass;
-
 	public DisplayFrameMenuItem( final String title, final String frameClass )
 	{
-		super( title );
-		this.frameClass = frameClass;
-	}
-
-	public void run()
-	{
-		if ( this.frameClass == null )
-		{
-			String interfaceSetting = Preferences.getString( "initialDesktop" );
-
-			Frame [] frames = Frame.getFrames();
-
-			for ( int i = 0; i < frames.length; ++i )
-			{
-				if ( ( frames[ i ] instanceof GenericFrame ) )
-				{
-					GenericFrame frame = (GenericFrame) frames[ i ];
-
-					if ( frame.showInWindowMenu() && interfaceSetting.indexOf( frame.getFrameName() ) == -1 )
-					{
-						frame.setVisible( true );
-					}
-				}
-			}
-
-			if ( KoLDesktop.instanceExists() )
-			{
-				KoLDesktop.getInstance().setVisible( true );
-			}
-		}
-		else
-		{
-			KoLmafiaGUI.constructFrame( this.frameClass );
-		}
+		super( title, new DisplayFrameRunnable( frameClass ) );
 	}
 }
