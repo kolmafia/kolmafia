@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
+import net.sourceforge.kolmafia.swingui.RequestFrame;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONArray;
