@@ -57,8 +57,7 @@ public abstract class ThreadedListener
 			return;
 		}
 
-		this.run();
-		RequestThread.enableDisplayIfSequenceComplete();
+		RequestThread.runInParallel( this );
 	}
 
 	protected boolean isValidEvent( final ActionEvent e )
@@ -81,7 +80,7 @@ public abstract class ThreadedListener
 	{
 		if ( e.getStateChange() == ItemEvent.SELECTED )
 		{
-			this.run();
+			RequestThread.runInParallel( this );
 		}
 	}
 
@@ -101,7 +100,7 @@ public abstract class ThreadedListener
 			return;
 		}
 
-		this.run();
+		RequestThread.runInParallel( this );
 		e.consume();
 	}
 
@@ -111,12 +110,12 @@ public abstract class ThreadedListener
 
 	public void popupMenuCanceled( PopupMenuEvent e )
 	{
-		this.run();
+		RequestThread.runInParallel( this );
 	}
 
 	public void popupMenuWillBecomeInvisible( PopupMenuEvent e )
 	{
-		this.run();
+		RequestThread.runInParallel( this );
 	}
 
 	public void popupMenuWillBecomeVisible( PopupMenuEvent e )
