@@ -116,6 +116,12 @@ malevolent medallion	epic wad
 pernicious cudgel	epic wad
 villainous scythe	epic wad
 
+# The Necbromancer loot pulverizes into epic wads
+The Necbromancer's Hat	epic wad
+The Necbromancer's Shorts	epic wad
+The Necbromancer's Stein	epic wad
+The Necbromancer's Wizard Staff	epic wad
+
 # Starting equipment is useless.
 seal-clubbing club	useless powder
 turtle totem	useless powder
