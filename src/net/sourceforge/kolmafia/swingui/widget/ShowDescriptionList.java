@@ -128,50 +128,50 @@ public class ShowDescriptionList
 		{
 			if ( displayModel.size() == 0 || !isEncyclopedia )
 			{
-				this.contextMenu.add( new DescriptionMenuItem() );
+				this.contextMenu.add( new ContextMenuItem( "Game description", new DescriptionRunnable() ) );
 			}
 
-			this.contextMenu.add( new WikiLookupMenuItem() );
+			this.contextMenu.add( new ContextMenuItem( "Wiki description", new WikiLookupRunnable() ) );
 		}
 
 		if ( displayModel == KoLConstants.activeEffects )
 		{
-			this.contextMenu.add( new ShrugOffMenuItem() );
-			this.contextMenu.add( new AddToMoodEffectMenuItem() );
-			this.contextMenu.add( new ExtendEffectMenuItem() );
+			this.contextMenu.add( new ContextMenuItem( "Remove this effect", new ShrugOffRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Add to current mood", new AddToMoodEffectRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Extend this effect", new ExtendEffectRunnable() ) );
 		}
 
 		if ( displayModel == KoLConstants.usableSkills || displayModel == KoLConstants.availableSkills )
 		{
-			this.contextMenu.add( new CastSkillMenuItem() );
-			this.contextMenu.add( new AddToMoodSkillMenuItem() );
+			this.contextMenu.add( new ContextMenuItem( "Cast the skill once", new CastSkillRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Add to current mood", new AddToMoodSkillRunnable() ) );
 		}
 
 		if ( displayModel == KoLConstants.tally )
 		{
-			this.contextMenu.add( new ZeroTallyMenuItem() );
+			this.contextMenu.add( new ContextMenuItem( "Zero out entries", new ZeroTallyRunnable() ) );
 			this.contextMenu.add( new JSeparator() );
 
-			this.contextMenu.add( new AddToJunkListMenuItem() );
-			this.contextMenu.add( new AddToSingletonListMenuItem() );
-			this.contextMenu.add( new AddToMementoListMenuItem() );
+			this.contextMenu.add( new ContextMenuItem( "Add to junk list", new AddToJunkListRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Add to singleton list", new AddToSingletonListRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Add to memento list", new AddToMementoListRunnable() ) );
 
 			this.contextMenu.add( new JSeparator() );
 
-			this.contextMenu.add( new AutoSellMenuItem() );
-			this.contextMenu.add( new ConsumeMenuItem() );
-			this.contextMenu.add( new PulverizeMenuItem() );
+			this.contextMenu.add( new ContextMenuItem( "Autosell selected", new AutoSellRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Consume selected", new ConsumeRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Pulverize selected", new PulverizeRunnable() ) );
 		}
 		else if ( displayModel == KoLConstants.inventory || displayModel == KoLConstants.closet || isEncyclopedia )
 		{
-			this.contextMenu.add( new AddToJunkListMenuItem() );
-			this.contextMenu.add( new AddToMementoListMenuItem() );
-			this.contextMenu.add( new AddToSingletonListMenuItem() );
+			this.contextMenu.add( new ContextMenuItem( "Add to junk list", new AddToJunkListRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Add to singleton list", new AddToSingletonListRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Add to memento list", new AddToMementoListRunnable() ) );
 		}
 		else if ( isMoodList )
 		{
-			this.contextMenu.add( new ForceExecuteMenuItem() );
-			this.contextMenu.add( new RemoveTriggerMenuItem() );
+			this.contextMenu.add( new ContextMenuItem( "Force execution", new ForceExecuteRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Remove selected", new RemoveTriggerRunnable() ) );
 
 			this.addKeyListener( new RemoveTriggerListener() );
 		}
@@ -234,7 +234,7 @@ public class ShowDescriptionList
 		{
 			item = ((MaximizerFrame.Boost) item).getItem();
 		}
-		
+
 		if ( item instanceof AdventureResult )
 		{
 			if ( ( (AdventureResult) item ).isItem() )
@@ -281,11 +281,11 @@ public class ShowDescriptionList
 		}
 
 		String name = null;
-		
+
 		boolean isItem = false;
 		boolean isEffect = false;
 		boolean isSkill = false;
-				
+
 		if ( item instanceof MaximizerFrame.Boost )
 		{
 			item = ((MaximizerFrame.Boost) item).getItem();
@@ -337,7 +337,7 @@ public class ShowDescriptionList
 		{
 			return null;
 		}
-		
+
 		boolean inItemTable = ItemDatabase.contains( name );
 		boolean inEffectTable = EffectDatabase.contains( name );
 		boolean inSkillTable = SkillDatabase.contains( name );
@@ -364,10 +364,10 @@ public class ShowDescriptionList
 		{
 			name = name + " (skill)";
 		}
-		
+
 		name = StringUtilities.globalStringReplace( name, " ", "_" );
 		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
-		return "http://kol.coldfront.net/thekolwiki/index.php/" + 
+		return "http://kol.coldfront.net/thekolwiki/index.php/" +
 			StringUtilities.getURLEncode( name );
 	}
 
@@ -381,21 +381,24 @@ public class ShowDescriptionList
 		}
 	}
 
-	private abstract class ContextMenuItem
+	private class ContextMenuItem
 		extends ThreadedMenuItem
+	{
+		public ContextMenuItem( final String title, final Runnable action )
+		{
+			super( title, action );
+		}
+	}
+
+	private abstract class ContextMenuRunnable
+		implements Runnable
 	{
 		public int index;
 		public Object item;
 
-		public ContextMenuItem( final String title )
-		{
-			super( title );
-		}
-
 		public void run()
 		{
-			this.index =
-				ShowDescriptionList.this.lastSelectIndex == -1 ? ShowDescriptionList.this.getSelectedIndex() : ShowDescriptionList.this.lastSelectIndex;
+			this.index = ShowDescriptionList.this.lastSelectIndex == -1 ? ShowDescriptionList.this.getSelectedIndex() : ShowDescriptionList.this.lastSelectIndex;
 
 			this.item = ShowDescriptionList.this.displayModel.getElementAt( this.index );
 
@@ -405,24 +408,20 @@ public class ShowDescriptionList
 			}
 
 			ShowDescriptionList.this.ensureIndexIsVisible( this.index );
+
 			this.executeAction();
 		}
 
-		public abstract void executeAction();
+		protected abstract void executeAction();
 	}
 
 	/**
 	 * Utility class which shows the description of the item which is currently selected.
 	 */
 
-	private class DescriptionMenuItem
-		extends ContextMenuItem
+	private class DescriptionRunnable
+		extends ContextMenuRunnable
 	{
-		public DescriptionMenuItem()
-		{
-			super( "Game description" );
-		}
-
 		public void executeAction()
 		{
 			ShowDescriptionList.showGameDescription( this.item );
@@ -433,14 +432,9 @@ public class ShowDescriptionList
 	 * Utility class which shows the description of the item which is currently selected, as it appears on the wiki.
 	 */
 
-	private class WikiLookupMenuItem
-		extends ContextMenuItem
+	private class WikiLookupRunnable
+		extends ContextMenuRunnable
 	{
-		public WikiLookupMenuItem()
-		{
-			super( "Wiki description" );
-		}
-
 		public void executeAction()
 		{
 			ShowDescriptionList.showWikiDescription( this.item );
@@ -456,14 +450,9 @@ public class ShowDescriptionList
 		MoodManager.saveSettings();
 	}
 
-	private class ForceExecuteMenuItem
-		extends ContextMenuItem
+	private class ForceExecuteRunnable
+		extends ContextMenuRunnable
 	{
-		public ForceExecuteMenuItem()
-		{
-			super( "Force execution" );
-		}
-
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -476,14 +465,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class RemoveTriggerMenuItem
-		extends ContextMenuItem
+	private class RemoveTriggerRunnable
+		extends ContextMenuRunnable
 	{
-		public RemoveTriggerMenuItem()
-		{
-			super( "Remove selected" );
-		}
-
 		public void executeAction()
 		{
 			ShowDescriptionList.this.removeTriggers();
@@ -510,14 +494,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class CastSkillMenuItem
-		extends ContextMenuItem
+	private class CastSkillRunnable
+		extends ContextMenuRunnable
 	{
-		public CastSkillMenuItem()
-		{
-			super( "Cast the skill once" );
-		}
-
 		public void executeAction()
 		{
 			Object[] skills = ShowDescriptionList.this.getSelectedValues();
@@ -537,14 +516,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class AddToMoodSkillMenuItem
-		extends ContextMenuItem
+	private class AddToMoodSkillRunnable
+		extends ContextMenuRunnable
 	{
-		public AddToMoodSkillMenuItem()
-		{
-			super( "Add to current mood" );
-		}
-
 		public void executeAction()
 		{
 			Object[] skills = ShowDescriptionList.this.getSelectedValues();
@@ -571,14 +545,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class AddToMoodEffectMenuItem
-		extends ContextMenuItem
+	private class AddToMoodEffectRunnable
+		extends ContextMenuRunnable
 	{
-		public AddToMoodEffectMenuItem()
-		{
-			super( "Add to current mood" );
-		}
-
 		public void executeAction()
 		{
 			Object[] effects = ShowDescriptionList.this.getSelectedValues();
@@ -612,14 +581,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class ExtendEffectMenuItem
-		extends ContextMenuItem
+	private class ExtendEffectRunnable
+		extends ContextMenuRunnable
 	{
-		public ExtendEffectMenuItem()
-		{
-			super( "Extend this effect" );
-		}
-
 		public void executeAction()
 		{
 			Object[] effects = ShowDescriptionList.this.getSelectedValues();
@@ -640,14 +604,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class ShrugOffMenuItem
-		extends ContextMenuItem
+	private class ShrugOffRunnable
+		extends ContextMenuRunnable
 	{
-		public ShrugOffMenuItem()
-		{
-			super( "Remove this effect" );
-		}
-
 		public void executeAction()
 		{
 			Object[] effects = ShowDescriptionList.this.getSelectedValues();
@@ -658,14 +617,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class AddToJunkListMenuItem
-		extends ContextMenuItem
+	private class AddToJunkListRunnable
+		extends ContextMenuRunnable
 	{
-		public AddToJunkListMenuItem()
-		{
-			super( "Add to junk list" );
-		}
-
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -707,14 +661,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class AddToSingletonListMenuItem
-		extends ContextMenuItem
+	private class AddToSingletonListRunnable
+		extends ContextMenuRunnable
 	{
-		public AddToSingletonListMenuItem()
-		{
-			super( "Add to singleton list" );
-		}
-
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -760,14 +709,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class AddToMementoListMenuItem
-		extends ContextMenuItem
+	private class AddToMementoListRunnable
+		extends ContextMenuRunnable
 	{
-		public AddToMementoListMenuItem()
-		{
-			super( "Add to memento list" );
-		}
-
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -806,14 +750,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class ZeroTallyMenuItem
-		extends ContextMenuItem
+	private class ZeroTallyRunnable
+		extends ContextMenuRunnable
 	{
-		public ZeroTallyMenuItem()
-		{
-			super( "Zero out entries" );
-		}
-
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -824,14 +763,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class AutoSellMenuItem
-		extends ContextMenuItem
+	private class AutoSellRunnable
+		extends ContextMenuRunnable
 	{
-		public AutoSellMenuItem()
-		{
-			super( "Autosell selected" );
-		}
-
 		public void executeAction()
 		{
 			if ( !InputFieldUtilities.confirm( "Are you sure you would like to sell the selected items?" ) )
@@ -844,14 +778,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class ConsumeMenuItem
-		extends ContextMenuItem
+	private class ConsumeRunnable
+		extends ContextMenuRunnable
 	{
-		public ConsumeMenuItem()
-		{
-			super( "Consume selected" );
-		}
-
 		public void executeAction()
 		{
 			if ( !InputFieldUtilities.confirm( "Are you sure you want to use the selected items?" ) )
@@ -870,14 +799,9 @@ public class ShowDescriptionList
 		}
 	}
 
-	private class PulverizeMenuItem
-		extends ContextMenuItem
+	private class PulverizeRunnable
+		extends ContextMenuRunnable
 	{
-		public PulverizeMenuItem()
-		{
-			super( "Pulverize selected" );
-		}
-
 		public void executeAction()
 		{
 			if ( !InputFieldUtilities.confirm( "The items you've selected will be smashed to pieces.  Are you sure?" ) )

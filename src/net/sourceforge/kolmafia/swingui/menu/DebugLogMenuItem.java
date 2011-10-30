@@ -40,20 +40,25 @@ public class DebugLogMenuItem
 {
 	public DebugLogMenuItem()
 	{
-		super( RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log" );
+		super( RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log", null );
+		this.setAction( new DebugLogRunnable() );
 	}
 
-	public void run()
+	private class DebugLogRunnable
+		implements Runnable
 	{
-		if ( RequestLogger.isDebugging() )
+		public void run()
 		{
-			RequestLogger.closeDebugLog();
-			this.setText( "Start Debug Log" );
-		}
-		else
-		{
-			RequestLogger.openDebugLog();
-			this.setText( "Stop Debug Log" );
+			if ( RequestLogger.isDebugging() )
+			{
+				RequestLogger.closeDebugLog();
+				DebugLogMenuItem.this.setText( "Start Debug Log" );
+			}
+			else
+			{
+				RequestLogger.openDebugLog();
+				DebugLogMenuItem.this.setText( "Stop Debug Log" );
+			}
 		}
 	}
 }

@@ -34,8 +34,8 @@
 package net.sourceforge.kolmafia.swingui.button;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.swingui.listener.DisplayFrameRunnable;
 
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 
 /**
  * In order to keep the user interface from freezing (or at least appearing to freeze), this internal class is used
@@ -56,22 +56,6 @@ public class DisplayFrameButton
 		super( JComponentUtilities.getImage( icon ), new DisplayFrameRunnable( frameClass ) );
 		JComponentUtilities.setComponentSize( this, 32, 32 );
 		this.setToolTipText( tooltip );
-	}
-
-	private static class DisplayFrameRunnable
-		implements Runnable
-	{
-		private final String frameClass;
-
-		public DisplayFrameRunnable( String frameClass )
-		{
-			this.frameClass = frameClass;
-		}
-
-		public void run()
-		{
-			KoLmafiaGUI.constructFrame( this.frameClass );
-		}
 	}
 }
 

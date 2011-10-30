@@ -96,7 +96,7 @@ public class DatabaseFrame
 
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			this.elementList.addMouseListener( new ShowEntryAdapter() );
-			this.elementList.contextMenu.add( new DescriptionMenuItem(), 0 );
+			this.elementList.contextMenu.add( new ThreadedMenuItem( "Game description", new DescriptionRunnable() ), 0 );
 
 			this.actionConfirmed();
 		}
@@ -122,14 +122,9 @@ public class DatabaseFrame
 		 * Utility class which shows the description of the item which is currently selected.
 		 */
 
-		private class DescriptionMenuItem
-			extends ThreadedMenuItem
+		private class DescriptionRunnable
+			implements Runnable
 		{
-			public DescriptionMenuItem()
-			{
-				super( "Game description" );
-			}
-
 			public void run()
 			{
 				int index = ItemLookupPanel.this.elementList.lastSelectIndex;

@@ -55,6 +55,11 @@ public class ThreadedMenuItem
 		this.action = action;
 	}
 
+	public void setAction( Runnable action )
+	{
+		this.action = action;
+	}
+
 	public void actionPerformed( ActionEvent e )
 	{
 		if ( this.action instanceof ActionListenerRunnable )
@@ -63,10 +68,6 @@ public class ThreadedMenuItem
 		}
 
 		RequestThread.runInParallel( action );
-	}
-
-	public final void run()
-	{
 	}
 
 	public String toString()
