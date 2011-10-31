@@ -5193,7 +5193,7 @@
 5192	245822900	corrdata.gif	corrupted data	bytes of corrupted data
 5193	214334936	bigsausage.gif	11-inch knob sausage
 5194	786372087	sammich.gif	exorcised sandwich
-5195
+5195	299964721	document.gif	Banfoy's Boutique Order Form
 5196	509607021	scape.gif	Great S-Cape
 5197	256898861	unitard.gif	Marvelous Unitard
 5198	914769688	paste1.gif	gooey paste	globs of gooey paste
@@ -5315,11 +5315,11 @@
 5314	992265372	lipstick.gif	bite-me-red lipstick	tubes of bite-me-red lipstick
 5315	188973115	pencil.gif	whisker pencil
 5316	206212551	bonechest.gif	press-on ribs	sets of press-on ribs
-5317
-5318
-5319
-5320
-5321
+5317	153737276	chainbox.gif	Rattlin' Chains
+5318	245998893	brainbox.gif	Gummy Brains
+5319	647838494	bloodnplenty.gif	Blood 'n' Plenty	Blood 'n' Plenties
+5320	381729556	lobosmints.gif	Lobos Mints	rolls of Lobos Mints
+5321	720883917	sweetsword.gif	Sweet Sword
 5322	188640459	winecooler.gif	Ecto-Cooler
 5323	520362125	winecooler.gif	Bartles and BRAAAINS wine cooler
 5324	779639287	beer.gif	Blood Light	cans of Blood Light
@@ -5342,8 +5342,8 @@
 5341	802108765	necbronomicon.gif	The Necbronomicon	copies of The Necbronomicon
 5342	267368039	darkcooler.gif	The Cooler Out of Space	The Coolers Out of Space
 5343	862597561	necbronomicon.gif	The Necbronomicon (used)
-5344
-5345
+5344	115535139	sororbox.gif	sorority girl's box	sorority girl's boxess
+5345	681226889	necbrowafers.gif	Necbro wafers
 5346
 5347	920942749	book3.gif	A Crimbo Carol, Ch. 1 (used)
 5348	601885612	book3.gif	A Crimbo Carol, Ch. 2 (used)
@@ -5367,3 +5367,4 @@
 5366	220677638	book4.gif	CRIMBCO Employee Handbook (chapter 5) (used)
 5367	989897814	book.gif	Field Guide to Skeletal Anatomy (shredded)	shredded Field Guides to Skeletal Anatomy
 5368	715682439	book3.gif	Ellsbury's journal (used)
+5369	246756989	8bitbracelet.gif	KoL Con 8-Bit power bracelet

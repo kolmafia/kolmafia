@@ -5201,7 +5201,7 @@
 5192	corrupted data	usable	all	0
 5193	11-inch knob sausage	none	none	0
 5194	exorcised sandwich	none	none	0
-5195
+5195	Banfoy's Boutique Order Form	usable	display	0
 5196	Great S-Cape	accessory	display	0
 5197	Marvelous Unitard	accessory	display	0
 5198	gooey paste	usable	all	0
@@ -5323,11 +5323,11 @@
 5314	bite-me-red lipstick	usable	all	75
 5315	whisker pencil	usable	all	75
 5316	press-on ribs	usable	all	75
-5317
-5318
-5319
-5320
-5321
+5317	Rattlin' Chains	usable	all	20
+5318	Gummy Brains	usable	all	20
+5319	Blood 'n' Plenty	usable	all	20
+5320	Lobos Mints	usable	all	20
+5321	Sweet Sword	usable	all	20
 5322	Ecto-Cooler	drink	all	50
 5323	Bartles and BRAAAINS wine cooler	drink	all	50
 5324	Blood Light	drink	all	50
@@ -5350,8 +5350,8 @@
 5341	The Necbronomicon	usable	all	0
 5342	The Cooler Out of Space	drink	all	500
 5343	The Necbronomicon (used)	reusable	display	1000
-5344
-5345
+5344	sorority girl's box	usable	gift	0
+5345	Necbro wafers	usable	all	40
 5346
 5347	A Crimbo Carol, Ch. 1 (used)	reusable	display	1000
 5348	A Crimbo Carol, Ch. 2 (used)	reusable	display	1000
@@ -5375,3 +5375,4 @@
 5366	CRIMBCO Employee Handbook (chapter 5) (used)	reusable	display	1000
 5367	Field Guide to Skeletal Anatomy (shredded)	reusable	display	1000
 5368	Ellsbury's journal (used)	reusable	display	1000
+5369	KoL Con 8-Bit power bracelet	accessory	display	0
