@@ -33,9 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-
-import net.sourceforge.kolmafia.request.BasementRequest;
-
 public class MonsterExpression
 	extends Expression
 {
@@ -44,42 +41,9 @@ public class MonsterExpression
 		super( text, name );
 	}
 
-	protected boolean validBytecode( char inst )
+	protected String validBytecodes()
 	{
-		return true;
-	}
-
-	protected float evalBytecode( char inst )
-	{
-		float v = 0.0f;
-		switch ( inst )
-		{
-		case 'A':
-			v = KoLCharacter.getAscensions();
-			break;
-		case '\u0080':
-			v = KoLCharacter.getAdjustedMuscle();
-			break;
-		case '\u0081':
-			v = KoLCharacter.getAdjustedMysticality();
-			break;
-		case '\u0082':
-			v = KoLCharacter.getAdjustedMoxie();
-			break;
-		case '\u0083':
-			v = KoLCharacter.getMonsterLevelAdjustment();
-			break;
-		case '\u0084':
-			v = KoLCharacter.getMindControlLevel();
-			break;
-		case '\u0085':
-			v = KoLCharacter.getMaximumHP();
-			break;
-		case '\u0086':
-			v = BasementRequest.getBasementLevel();
-			break;
-		}
-		return v;
+		return super.validBytecodes() + "A";
 	}
 
 	protected String function()
