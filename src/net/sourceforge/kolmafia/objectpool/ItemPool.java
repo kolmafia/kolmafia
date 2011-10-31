@@ -1327,6 +1327,11 @@ public class ItemPool
 	public static final int CHAINSAW_CHAIN = 5309;
 	public static final int SILVER_SHOTGUN_SHELL = 5310;
 	public static final int FUNHOUSE_MIRROR = 5311;
+	public static final int GHOSTLY_BODY_PAINT = 5312;
+	public static final int NECROTIZING_BODY_SPRAY = 5313;
+	public static final int BITE_LIPSTICK = 5314;
+	public static final int WHISKER_PENCIL = 5315;
+	public static final int PRESS_ON_RIBS = 5316;
 	public static final int NECBRONOMICON = 5341;
 	public static final int NECBRONOMICON_USED = 5343;
 	public static final int CRIMBO_CAROL_V1_USED = 5347;

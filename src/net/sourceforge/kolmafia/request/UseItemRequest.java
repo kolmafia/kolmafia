@@ -527,7 +527,7 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Math.max( 0, 5 - Preferences.getInteger( "_feastUsed" ) ); 
 
-		case ItemPool.MILK_OF_MAGNESIUM: {
+		case ItemPool.MILK_OF_MAGNESIUM:
 			UseItemRequest.limiter = "remaining fullness";
 			int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
 			int fullnessAvailable = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
@@ -550,9 +550,28 @@ public class UseItemRequest
 				unmilkedTurns -= milkDuration;
 				limit++;
 			}
-
 			return limit;
-		}
+
+		case ItemPool.GHOSTLY_BODY_PAINT:
+		case ItemPool.NECROTIZING_BODY_SPRAY:
+		case ItemPool.BITE_LIPSTICK:
+		case ItemPool.WHISKER_PENCIL:
+		case ItemPool.PRESS_ON_RIBS:
+			if ( KoLConstants.activeEffects.contains(
+					EffectPool.get( EffectPool.HAUNTING_LOOKS_ID ) ) ||
+				 KoLConstants.activeEffects.contains(
+					EffectPool.get( EffectPool.DEAD_SEXY_ID ) ) ||
+				 KoLConstants.activeEffects.contains(
+					EffectPool.get( EffectPool.VAMPIN_ID ) ) ||
+				 KoLConstants.activeEffects.contains(
+					EffectPool.get( EffectPool.YIFFABLE_YOU_ID ) ) ||
+				 KoLConstants.activeEffects.contains(
+					EffectPool.get( EffectPool.BONE_US_ROUND_ID ) ) )
+			{
+				UseItemRequest.limiter = "your current sexy costume";
+				return 0;
+			}
+			return 1;
 		}
 
 		switch ( consumptionType )
@@ -4185,8 +4204,19 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 				return;
 			}
-			
-			
+
+		case ItemPool.GHOSTLY_BODY_PAINT:
+		case ItemPool.NECROTIZING_BODY_SPRAY:
+		case ItemPool.BITE_LIPSTICK:
+		case ItemPool.WHISKER_PENCIL:
+		case ItemPool.PRESS_ON_RIBS:
+			if ( responseText.indexOf( "You've already got a sexy costume on" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You've already got a sexy costume on.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
 		}
 	}
 
