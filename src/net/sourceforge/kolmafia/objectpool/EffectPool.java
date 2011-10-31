@@ -99,7 +99,7 @@ public class EffectPool
 	public static final int CORSICAN_BLESSING = 460;
 	public static final int FORM_OF_BIRD_ID = 511;
 	public static final int COVERED_IN_SLIME_ID = 633;
-	public static final int HAUNTING_LOOKS_ID = 938;
+	public static final int HAUNTING_LOOKS_ID = 937;
 	public static final int DEAD_SEXY_ID = 938;
 	public static final int VAMPIN_ID = 939;
 	public static final int YIFFABLE_YOU_ID = 940;
