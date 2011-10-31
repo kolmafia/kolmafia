@@ -950,3 +950,7 @@
 949	Boner Battalion	fratskull.gif	5cf87e15b3302601c8041a50c0a1b0cc	cast 1 Summon &quot;Boner Battalion&quot;
 950	Nightstalkin'	vampteeth.gif	83a68a4e66671c6af4bb107419eb382b	use 1 Nightstalker perfume
 951	You Can Taste the Darkness	darkness.gif	62076ae19b2682f33e5bdafb0c17c502	drink 1 The Cooler Out of Space
+952
+953	The Chains Down In The Belly-O	chainbox.gif	7c38dbc0e0d5bef8ca93d944160770b9	use 1 Rattlin' Chains
+954	Lobos Fresh	lobosmints.gif	ac6b6c3e29f0c029b4619958cc718548	use 1 Lobos Mints
+955	Chalk Outline	necbrowafers.gif	ece3a9a4f4b36579273cc322d1f23fa4	use 1 Necbro wafers

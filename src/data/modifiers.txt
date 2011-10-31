@@ -1421,6 +1421,7 @@ C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Cape of the Goblin King	Moxie: +7
 # Cat-Herding Prod: +10 Damage vs. Lions
 Cat-Herding Prod	Muscle: +15, Mysticality: +15, Moxie: +15
+# Chalk Outline: Your Spookiness is Spookier
 # Chester's Aquarius medallion: All Spells Cast Are Sleazy
 Chester's Aquarius medallion	Sleaze Spell Damage: +30, Single Equip
 # Chester's moustache: Disco Bandit Combat Skills weaken enemies by an additional 50%
@@ -1475,6 +1476,7 @@ Jolly Roger charrrm bracelet	Moxie: +5
 Juju Mojo Mask	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +2, Single Equip, Softcore Only
 Junior Adventurer's merit badge	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 Junior LAAAAME merit badge	Muscle: +1, Mysticality: +1, Moxie: +1
+KoL Con 8-Bit power bracelet	Muscle: +8
 LWA ring	MP Regen Min: 2, MP Regen Max: 3
 La Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Additional Song, Class: "Accordion Thief", Single Equip
 Lead Zeta of Chastity	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
@@ -2893,6 +2895,7 @@ Liquid Courage	Experience: +3
 # Literally Insane
 Litterboxing	Stench Damage: +30, Item Drop: +15
 Livin' Large	Meat Drop: +10
+Lobos Fresh	Muscle Percent: +135, Mysticality Percent: +135, Moxie Percent: +135
 Locks Like the Raven	Moxie: +15
 Loco Motives	Weapon Damage: +10, Initiative: +10
 Low on the Hog	Meat Drop: +100
@@ -3225,6 +3228,7 @@ Thaumodynamic	Experience Percent (Mysticality): +5
 The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
 # The Bone Us Round
 # The Captain's Hammer: +50 Physical Damage (when Unarmed)
+The Chains Down In The Belly-O	MP Regen Min: 20, MP Regen Max: 40
 The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 The Cupcake of Wrath	Monster Level: +10
 The Great Tit's Blessing	Monster Level: +20, Moxie Percent: +5
@@ -3574,6 +3578,7 @@ Ben-Gal&trade; Balm	Effect: "Go Get 'Em, Tiger!", Effect Duration: 3
 BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
 Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
 Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
+Blood 'n' Plenty	Effect: "Sugar Rush", Effect Duration: 10
 Bright Water	Effect: "Bright!", Effect Duration: 10
 Climate Colada	Effect: "Weather, Man", Effect Duration: 20
 Cold Hots candy	Effect: "Sugar Rush"
@@ -3595,6 +3600,7 @@ Frogade	Effect: "Frog In Your Throat", Effect Duration: [R]
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
 Gummi-DNA	Effect: "Sugar Rush", Effect Duration: 3
 Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
+Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
@@ -3605,6 +3611,7 @@ Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
 # Loathing Legion jackhammer: Allows Meatsmithing without the Adventure cost (3 times a day)
 Loathing Legion jackhammer	Softcore Only
+Lobos Mints	Effect: "Lobos Fresh", Effect Duration: 20
 M-242	Effect: "Adrenaline Rush", Effect Duration: 50
 Meleegra&trade; pills	Effect: "Engorged Weapon", Effect Duration: 5
 Mer-kin fastjuice	Effect: "Juiced Up", Effect Duration: 10
@@ -3612,6 +3619,7 @@ Mer-kin hidepaint	Effect: "Colorfully Concealed", Effect Duration: 10
 Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10
 Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
 Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
+Necbro wafers	Effect: "Chalk Outline", Effect Duration: 5
 Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
 Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50
@@ -3622,6 +3630,7 @@ Piddles	Effect: "Belch the Rainbow&trade;", Effect Duration: 10
 PlexiPips	Effect: "Sole Soul"
 Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
 Polka Pop	Effect: "Polka Face", Effect Duration: 10
+Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
@@ -3629,6 +3638,7 @@ Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
+Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
 Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
 Ultrasoldier Serum	Effect: "Army of One", Effect Duration: 50
 Wax Flask	Effect: "Over The Ocean"
