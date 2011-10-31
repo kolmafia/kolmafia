@@ -5315,8 +5315,8 @@
 5314	992265372	lipstick.gif	bite-me-red lipstick	tubes of bite-me-red lipstick
 5315	188973115	pencil.gif	whisker pencil
 5316	206212551	bonechest.gif	press-on ribs	sets of press-on ribs
-5317	153737276	chainbox.gif	Rattlin' Chains
-5318	245998893	brainbox.gif	Gummy Brains
+5317	153737276	chainbox.gif	Rattlin' Chains	boxes of Rattlin' Chains
+5318	245998893	brainbox.gif	Gummy Brains	boxes of Gummy Brains
 5319	647838494	bloodnplenty.gif	Blood 'n' Plenty	Blood 'n' Plenties
 5320	381729556	lobosmints.gif	Lobos Mints	rolls of Lobos Mints
 5321	720883917	sweetsword.gif	Sweet Sword
