@@ -4249,7 +4249,7 @@
 4240	gun cleaning kit	usable	all	50
 4241	sleep mask	hat	all	80
 4242	sock garters	accessory	all	35
-4243	mariachi toothpaste	multiple	all	40
+4243	mariachi toothpaste	usable	all	40
 4244	heavy leather-bound tome	weapon	all	85
 4245	leather bookmark	none	all	100
 4246	ivory cue ball	offhand	all	30
