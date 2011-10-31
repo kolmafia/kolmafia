@@ -34,27 +34,51 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.BasementRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Expression
 {
 	private static final Pattern NUM_PATTERN = Pattern.compile( "([+-]?[\\d.]+)(.*)" );
-	private static final int INITIAL_STACK = 8;
-	private static final int MAXIMUM_STACK = 128;
+	private static final int STACK_SIZE = 128;
 
 	protected String name;
 	protected String text;
 
-	protected float[] stack;	// Also holds numeric literals
-	protected int sp = 0;		// Stack pointer during evaluation
 	protected char[] bytecode;	// Compiled expression
-	protected ArrayList pref = new ArrayList();
+	protected ArrayList literals;	// Strings & floats needed by expression
+	protected AdventureResult effect;
+	
+	private static float[] cachedStack;
+	
+	protected synchronized static float[] stackFactory( float[] recycle )
+	{
+		if ( recycle != null )
+		{	// Reuse this stack for the next evaluation.
+			cachedStack = recycle;
+			return null;
+		}
+		else if ( cachedStack != null )
+		{	// We have a stack handy; it's yours now.
+			float[] rv = cachedStack;
+			cachedStack = null;
+			return rv;
+		}
+		else
+		{	// We're all out of stacks.
+			return new float[ STACK_SIZE ];
+		}
+	}
 
 	public Expression( String text, String name )
 	{
@@ -65,12 +89,15 @@ public class Expression
 		// compilation and evaluation 
 		this.initialize();
 
-		// Start with a small stack. This will be expanded, if
-		// necessary, the first time the expression is evaluated.
-		this.stack = new float[ INITIAL_STACK ];
-
 		// Compile the expression into byte code
+		this.bytecode = this.validBytecodes().toCharArray();
+		Arrays.sort( this.bytecode );
 		String compiled = this.expr() + "r";
+		//if ( name.length() > 0 && name.equalsIgnoreCase(
+		//	Preferences.getString( "debugEval" ) ) )
+		//{
+		//	compiled = compiled.replaceAll( ".", "?$0" );
+		//}
 		this.bytecode = compiled.toCharArray();
 		if ( this.text.length() > 0 )
 		{
@@ -85,49 +112,22 @@ public class Expression
 
 	public float eval()
 	{
-		while ( true )
-		{	// Find required stack size to evaluate this expression
-			try
-			{
-				return this.evalInternal();
-			}
-			catch ( ArrayIndexOutOfBoundsException e )
-			{
-				if ( this.stack.length >= MAXIMUM_STACK )
-				{
-					StringBuffer b = new StringBuffer( "Bytecode: " );
-					b.append( this.bytecode );
-					for ( int i = 0; i < this.bytecode.length; ++i )
-					{
-						b.append( ' ' );
-						b.append( Integer.toHexString( this.bytecode[ i ] ) );
-					}
-					KoLmafia.updateDisplay( b.toString() );
-					
-					b.setLength( 0 );
-					b.append( "Stack: " );
-					for ( int i = 0; i < INITIAL_STACK; ++i )
-					{
-						b.append( ' ' );
-						b.append( this.stack[ i ] );
-					}
-					KoLmafia.updateDisplay( b.toString() );
-					
-					KoLmafia.updateDisplay( e.getStackTrace()[0].toString() );
-					
-					KoLmafia.updateDisplay( "Unreasonably complex expression for " + this.name + ": " + e );
-					return 0.0f;
-				}
-				float[] larger = new float[ this.stack.length * 2 ];
-				System.arraycopy( this.stack, 0, larger, 0, this.stack.length );
-				this.stack = larger;
-			}
+		try
+		{
+			return this.evalInternal();
+		}
+		catch ( ArrayIndexOutOfBoundsException e )
+		{
+			KoLmafia.updateDisplay( "Unreasonably complex expression for " + 
+				this.name + ": " + e );
+			return 0.0f;
 		}
 	}
 
 	private float evalInternal()
 	{
-		float[] s = this.stack;
+		float[] s = stackFactory( null );
+		int sp = 0;
 		int pc = 0;
 		float v = 0.0f;
 
@@ -136,75 +136,167 @@ public class Expression
 			char inst = this.bytecode[ pc++ ];
 			switch ( inst )
 			{
+// 			case '?':	// temporary instrumentation
+// 				KoLmafia.updateDisplay( "\u2326 Eval " + this.name + " from " +
+// 					Thread.currentThread().getName() );
+// 				StringBuffer b = new StringBuffer(); 
+// 				if ( pc == 1 )
+// 				{
+// 					b.append( "\u2326 Bytecode=" );
+// 					b.append( this.bytecode );
+// 					for ( int i = 1; i < this.bytecode.length; i += 2 )
+// 					{
+// 						b.append( ' ' );
+// 						b.append( Integer.toHexString( this.bytecode[ i ] ) );
+// 					}
+// 					KoLmafia.updateDisplay( b.toString() );
+// 					b.setLength( 0 );
+// 				}
+// 				b.append( "\u2326 PC=" );
+// 				b.append( pc );
+// 				b.append( " Stack=" );
+// 				if ( sp < 0 )
+// 				{
+// 					b.append( sp );
+// 				}
+// 				else
+// 				{
+// 					for ( int i = 0; i < sp && i < INITIAL_STACK; ++i )
+// 					{
+// 						b.append( ' ' );
+// 						b.append( s[ i ] );
+// 					}
+// 				}
+// 				KoLmafia.updateDisplay( b.toString() );
+// 				continue;
+
 			case 'r':
-				return s[ --this.sp ];
+				v = s[ --sp ];
+				stackFactory( s );	// recycle this stack
+				return v;
 
 			case '^':
-				v = (float) Math.pow( s[ --this.sp ], s[ --this.sp ] );
+				v = (float) Math.pow( s[ --sp ], s[ --sp ] );
 				break;
 
 			case '*':
-				v = s[ --this.sp ] * s[ --this.sp ];
+				v = s[ --sp ] * s[ --sp ];
 				break;
 			case '/':
-				v = s[ --this.sp ] / s[ --this.sp ];
+				v = s[ --sp ] / s[ --sp ];
 				break;
 				
 			case '+':
-				v = s[ --this.sp ] + s[ --this.sp ];
+				v = s[ --sp ] + s[ --sp ];
 				break;
 			case '-':
-				v = s[ --this.sp ] - s[ --this.sp ];
+				v = s[ --sp ] - s[ --sp ];
 				break;
 
 			case 'c':
-				v = (float) Math.ceil( s[ --this.sp ] );
+				v = (float) Math.ceil( s[ --sp ] );
 				break;
 			case 'f':
-				v = (float) Math.floor( s[ --this.sp ] );
+				v = (float) Math.floor( s[ --sp ] );
 				break;
 			case 's':
-				v = (float) Math.sqrt( s[ --this.sp ] );
+				v = (float) Math.sqrt( s[ --sp ] );
 				break;
 			case 'p':
-				v = StringUtilities.parseFloat( Preferences.getString( (String) this.pref.get( (int) s[ --this.sp ] ) ) );
+				v = StringUtilities.parseFloat( Preferences.getString( (String) this.literals.get( (int) s[ --sp ] ) ) );
 				break;
 			case 'm':
-				v = Math.min( s[ --this.sp ], s[ --this.sp ] );
+				v = Math.min( s[ --sp ], s[ --sp ] );
 				break;
 			case 'x':
-				v = Math.max( s[ --this.sp ], s[ --this.sp ] );
+				v = Math.max( s[ --sp ], s[ --sp ] );
 				break;
 
-			case '0':
-				v = s[ 0 ];
+			case '#':
+				v = ((Float) this.literals.get( (int) s[ --sp ] )).floatValue();
 				break;
-			case '1':
-				v = s[ 1 ];
+				
+			// Valid with ModifierExpression:
+			case 'l':
+				v = Modifiers.currentLocation.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0f : 1.0f;
 				break;
-			case '2':
-				v = s[ 2 ];
+			case 'z':
+				v = Modifiers.currentZone.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0f : 1.0f;
 				break;
-			case '3':
-				v = s[ 3 ];
+			case 'w':
+				v = Modifiers.currentFamiliar.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0f : 1.0f;
 				break;
-			case '4':
-				v = s[ 4 ];
+			case 'h':
+				v = Modifiers.mainhandClass.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0f : 1.0f;
 				break;
-			case '5':
-				v = s[ 5 ];
+			case 'A':
+				v = KoLCharacter.getAscensions();
 				break;
-			case '6':
-				v = s[ 6 ];
+			case 'B':
+				v = HolidayDatabase.getBloodEffect();
 				break;
-			case '7':
-				v = s[ 7 ];
+			case 'D':
+				v = KoLCharacter.getInebriety();
 				break;
-			case '8':
-				v = s[ 8 ];
+			case 'F':
+				v = KoLCharacter.getFullness();
 				break;
-			case '9':
-				v = s[ 9 ];
+			case 'G':
+				v = HolidayDatabase.getGrimaciteEffect() / 10.0f;
+				break;
+			case 'H':
+				v = Modifiers.hoboPower;
+				break;
+			case 'J':
+				v = HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) ? 1.0f : 0.0f;
+				break;
+			case 'L':
+				v = KoLCharacter.getLevel();
+				break;
+			case 'M':
+				v = HolidayDatabase.getMoonlight();
+				break;
+			case 'R':
+				v = KoLCharacter.getReagentPotionDuration();
+				break;
+			case 'S':
+				v = KoLCharacter.getSpleenUse();
+				break;
+			case 'T':
+				v = this.effect == null ? 0.0f :
+					Math.max( 1, this.effect.getCount( KoLConstants.activeEffects ) );
+				break;
+			case 'U':
+				v = KoLCharacter.getTelescopeUpgrades();
+				break;
+			case 'W':
+				v = Modifiers.currentWeight;
+				break;
+			case 'X':
+				v = KoLCharacter.getGender();
+				break;
+			
+			// Valid with MonsterExpression:
+			case '\u0080':
+				v = KoLCharacter.getAdjustedMuscle();
+				break;
+			case '\u0081':
+				v = KoLCharacter.getAdjustedMysticality();
+				break;
+			case '\u0082':
+				v = KoLCharacter.getAdjustedMoxie();
+				break;
+			case '\u0083':
+				v = KoLCharacter.getMonsterLevelAdjustment();
+				break;
+			case '\u0084':
+				v = KoLCharacter.getMindControlLevel();
+				break;
+			case '\u0085':
+				v = KoLCharacter.getMaximumHP();
+				break;
+			case '\u0086':
+				v = BasementRequest.getBasementLevel();
 				break;
 					
 			default:
@@ -213,27 +305,17 @@ public class Expression
 					v = inst - 0x8000;
 					break;
 				}
-				if ( !this.validBytecode( inst ) )
-				{
-					KoLmafia.updateDisplay( "Evaluator bytecode invalid at " +
-								(pc - 1) + ": " + String.valueOf( this.bytecode ) );
-					return 0.0f;
-				}
-				v = this.evalBytecode( inst );
-				break;
+				KoLmafia.updateDisplay( "Evaluator bytecode invalid at " +
+							(pc - 1) + ": " + String.valueOf( this.bytecode ) );
+				return 0.0f;
 			}
-			s[ this.sp++ ] = v;
+			s[ sp++ ] = v;
 		}
 	}
 
-	protected boolean validBytecode( char inst )
-	{
-		return false;
-	}
-
-	protected float evalBytecode( char inst )
-	{
-		return 0.0f;
+	protected String validBytecodes()
+	{	// Allowed operations in the A-Z range.
+		return "";
 	}
 
 	protected void expect( String token )
@@ -284,6 +366,16 @@ public class Expression
 			return token2.charAt( 0 );
 		}
 		return '\0';
+	}
+	
+	protected String literal( Object value, char op )
+	{
+		if ( this.literals == null )
+		{
+			this.literals = new ArrayList();
+		}
+		this.literals.add( value == null ? "" : value );
+		return String.valueOf( (char)( this.literals.size() - 1 + 0x8000 ) ) + op;
 	}
 
 	protected String expr()
@@ -379,8 +471,7 @@ public class Expression
 		}
 		if ( this.optional( "pref(" ) )
 		{
-			this.pref.add( this.until( ")" ) );
-			return String.valueOf( (char)( ( this.pref.size()-1 ) + 0x8000) ) + "p";
+			return this.literal( this.until( ")" ), 'p' );
 		}
 
 		rv = this.function();
@@ -398,6 +489,12 @@ public class Expression
 		if ( rv.charAt( 0 ) >= 'A' && rv.charAt( 0 ) <= 'Z' )
 		{
 			this.text = this.text.substring( 1 );
+			if ( Arrays.binarySearch( this.bytecode, rv.charAt( 0 ) ) < 0 )
+			{
+				KoLmafia.updateDisplay( "Evaluator syntax error: '" + rv +
+					"' is not valid in this context" );
+				return "\u8000";	
+			}
 			return rv;
 		}
 		Matcher m = NUM_PATTERN.matcher( this.text );
@@ -411,13 +508,7 @@ public class Expression
 			}
 			else
 			{
-				if ( this.sp >= 10 )
-				{
-					KoLmafia.updateDisplay( "Evaluator syntax error: too many numeric literals" );
-					return "\u8000";	
-				}
-				this.stack[ this.sp++ ] = v;
-				return String.valueOf( (char)( '0' + this.sp - 1 ) );
+				return this.literal( new Float( v ), '#' );
 			}
 		}
 		if ( this.optional( "-" ) )

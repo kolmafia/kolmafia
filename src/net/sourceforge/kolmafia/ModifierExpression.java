@@ -33,20 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.ArrayList;
-
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 
 public class ModifierExpression
 	extends Expression
 {
-	private AdventureResult effect;
-	private ArrayList loc;
-	private ArrayList zone;
-	private ArrayList fam;
-	private ArrayList mainhand;
-
 	public ModifierExpression( String text, String name )
 	{
 		super( text, name );
@@ -54,11 +45,6 @@ public class ModifierExpression
 
 	protected void initialize()
 	{
-		this.loc = new ArrayList();
-		this.zone = new ArrayList();
-		this.fam = new ArrayList();
-		this.mainhand = new ArrayList();
-
 		// The first check also matches "[zone(The Slime Tube)]"
 		// Hence the second check.
 		if ( text.indexOf( "T" ) != -1 && EffectDatabase.contains( this.name ) )
@@ -67,123 +53,28 @@ public class ModifierExpression
 		}
 	}
 
-	protected boolean validBytecode( char inst )
+	protected String validBytecodes()
 	{
-		switch ( inst )
-		{
-		case 'l':
-		case 'z':
-		case 'w':
-		case 'h':
-		case 'B':
-		case 'D':
-		case 'F':
-		case 'G':
-		case 'H':
-		case 'J':
-		case 'L':
-		case 'M':
-		case 'R':
-		case 'S':
-		case 'T':
-		case 'U':
-		case 'W':
-		case 'X':
-			return true;
-		}
-		return false;
-	}
-
-	protected float evalBytecode( char inst )
-	{
-		float[] s = this.stack;
-		float v = 0.0f;
-		switch ( inst )
-		{
-		case 'l':
-			v = Modifiers.currentLocation.indexOf( (String) this.loc.get( (int) s[ --this.sp ] ) ) == -1 ? 0.0f : 1.0f;
-			break;
-		case 'z':
-			v = Modifiers.currentZone.indexOf( (String) this.zone.get( (int) s[ --this.sp ] ) ) == -1 ? 0.0f : 1.0f;
-			break;
-		case 'w':
-			v = Modifiers.currentFamiliar.indexOf( (String) this.fam.get( (int) s[ --this.sp ] ) ) == -1 ? 0.0f : 1.0f;
-			break;
-		case 'h':
-			v = Modifiers.mainhandClass.indexOf( (String) this.mainhand.get( (int) s[ --this.sp ] ) ) == -1 ? 0.0f : 1.0f;
-			break;
-		case 'A':
-			v = KoLCharacter.getAscensions();
-			break;
-		case 'B':
-			v = HolidayDatabase.getBloodEffect();
-			break;
-		case 'D':
-			v = KoLCharacter.getInebriety();
-			break;
-		case 'F':
-			v = KoLCharacter.getFullness();
-			break;
-		case 'G':
-			v = HolidayDatabase.getGrimaciteEffect() / 10.0f;
-			break;
-		case 'H':
-			v = Modifiers.hoboPower;
-			break;
-		case 'J':
-			v = HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) ? 1.0f : 0.0f;
-			break;
-		case 'L':
-			v = KoLCharacter.getLevel();
-			break;
-		case 'M':
-			v = HolidayDatabase.getMoonlight();
-			break;
-		case 'R':
-			v = KoLCharacter.getReagentPotionDuration();
-			break;
-		case 'S':
-			v = KoLCharacter.getSpleenUse();
-			break;
-		case 'T':
-			v = Math.max( 1, this.effect.getCount( KoLConstants.activeEffects ) );
-			break;
-		case 'U':
-			v = KoLCharacter.getTelescopeUpgrades();
-			break;
-		case 'W':
-			v = Modifiers.currentWeight;
-			break;
-		case 'X':
-			v = KoLCharacter.getGender();
-			break;
-		}
-		return v;
+		return super.validBytecodes() + "ABDFGHJLMRSTUWX";
 	}
 
 	protected String function()
 	{
-		String rv;
-
 		if ( this.optional( "loc(" ) )
 		{
-			this.loc.add( this.until( ")" ).toLowerCase() );
-			return String.valueOf( (char)( ( this.loc.size()-1 ) + 0x8000) ) + "l";
+			return this.literal( this.until( ")" ).toLowerCase(), 'l' );
 		}
 		if ( this.optional( "zone(" ) )
 		{
-			this.zone.add( this.until( ")" ).toLowerCase() );
-			return String.valueOf( (char)( ( this.zone.size()-1 ) + 0x8000) ) + "z";
+			return this.literal( this.until( ")" ).toLowerCase(), 'z' );
 		}
 		if ( this.optional( "fam(" ) )
 		{
-			this.fam.add( this.until( ")" ).toLowerCase() );
-			return String.valueOf( (char)( ( this.fam.size()-1 ) + 0x8000) ) + "w";
+			return this.literal( this.until( ")" ).toLowerCase(), 'w' );
 		}
 		if ( this.optional( "mainhand(" ) )
 		{
-			this.mainhand.add( this.until( ")" ).toLowerCase() );
-			return String.valueOf( (char)( ( this.mainhand.size()-1 ) + 0x8000) ) + "h";
+			return this.literal( this.until( ")" ).toLowerCase(), 'h' );
 		}
 
 		return null;
