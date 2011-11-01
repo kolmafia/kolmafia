@@ -271,6 +271,7 @@ public class FamiliarRequest
 		case FamiliarPool.CROW:		// Reconstituted Crow
 		case FamiliarPool.HATRACK:	// Mad Hatrack
 		case FamiliarPool.HAND:		// Disembodied Hand
+		case FamiliarPool.SCARECROW:	// Fancypants Scarecrow
 		case FamiliarPool.STOCKING_MIMIC:
 			// Leave the Stocking Mimic unequipped, to allow it to
 			// generate its own candy-generating item.

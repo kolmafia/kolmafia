@@ -452,6 +452,7 @@ public class EquipmentRequest
 
 			case KoLConstants.EQUIP_HAT:
 			case KoLConstants.EQUIP_WEAPON:
+			case KoLConstants.EQUIP_PANTS:
 				return "hatrack";
 			}
 			break;

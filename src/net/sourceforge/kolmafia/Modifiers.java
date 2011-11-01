@@ -1877,8 +1877,11 @@ public class Modifiers
 		}
 		Modifiers tempMods = new Modifiers();
 		tempMods.setFamiliar( fam );
-		if ( familiarId != 82 )
-		{ // Mad Hatrack ... hats do not give their normal modifiers (should I be checking the item is a hat?)
+		if ( familiarId != FamiliarPool.HATRACK && familiarId != FamiliarPool.SCARECROW )
+		{
+			// Mad Hatrack ... hats do not give their normal modifiers
+			// Fancypants Scarecrow ... pants do not give their normal modifiers
+			// (should I be checking the item is a hat or pants?)
 			tempMods.add( Modifiers.getModifiers( item.getName() ) );
 		}
 		int weight = passedWeight + (int) tempMods.get( Modifiers.FAMILIAR_WEIGHT ) + (int) tempMods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT ) + ( fam.getFeasted() ? 10 : 0 );
@@ -1974,12 +1977,20 @@ public class Modifiers
 
 	public void applyFamiliarModifiers( final FamiliarData familiar, AdventureResult famItem )
 	{
-		int weight = familiar.getWeight() + (int) this.get( Modifiers.FAMILIAR_WEIGHT ) +
-			(int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT ) + ( familiar.getFeasted() ? 10 : 0 );
-		float percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
-		if ( percent != 0.0f )
+		int familiarId = familiar.getId();
+		int weight = familiar.getWeight();
+
+		if ( familiarId != FamiliarPool.SCARECROW )
 		{
-			weight = (int) Math.floor( weight + weight * percent );
+			weight += (int) this.get( Modifiers.FAMILIAR_WEIGHT );
+			weight += (int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+			weight += ( familiar.getFeasted() ? 10 : 0 );
+
+			float percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
+			if ( percent != 0.0f )
+			{
+				weight = (int) Math.floor( weight + weight * percent );
+			}
 		}
 
 		weight = Math.max( 1, weight );
@@ -2077,6 +2088,12 @@ public class Modifiers
 			if ( famItem == EquipmentRequest.UNEQUIP )
 			{
 				this.add( Modifiers.HATDROP, 50.0, "naked hatrack" );
+			}
+			break;
+		case FamiliarPool.SCARECROW:
+			if ( famItem == EquipmentRequest.UNEQUIP )
+			{
+				this.add( Modifiers.PANTSDROP, 50.0, "naked scarecrow" );
 			}
 			break;
 		}

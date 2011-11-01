@@ -433,6 +433,11 @@ public class FamiliarData
 				EquipmentManager.updateEquipmentList( EquipmentManager.OFFHAND );
 				break;
 
+			case FamiliarPool.SCARECROW:
+				// Fancypants Scarecrow
+				EquipmentManager.updateEquipmentList( EquipmentManager.PANTS );
+				break;
+
 			default:
 				// Everything else
 				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
@@ -461,6 +466,23 @@ public class FamiliarData
 	{
 		// Start with base weight of familiar
 		int weight = this.weight;
+
+		// If this is a scarecrow, its weight is affected by the pants
+		// it is wearing, but other effects and skills do not apply.
+		if ( this.id == FamiliarPool.SCARECROW )
+		{
+			// Add modifiers for this familiar's equipment
+			AdventureResult item = this.getItem();
+			if ( item != EquipmentRequest.UNEQUIP )
+			{
+				Modifiers mods = new Modifiers();
+				mods.applyFamiliarModifiers( this, item );
+				float eweight = mods.get( Modifiers.FAMILIAR_WEIGHT_CAP );
+				weight = (int) eweight;
+			}
+
+			return Math.max( 1, weight );
+		}
 
 		// Get current fixed and percent weight modifiers
 		Modifiers current = KoLCharacter.getCurrentModifiers();
@@ -585,6 +607,7 @@ public class FamiliarData
 		case FamiliarPool.CHAMELEON:
 		case FamiliarPool.HATRACK:
 		case FamiliarPool.HAND:
+		case FamiliarPool.SCARECROW:
 			return false;
 		}
 		return true;
@@ -653,6 +676,9 @@ public class FamiliarData
 				return true;
 			}
 			break;
+
+		case FamiliarPool.SCARECROW:
+			return ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_PANTS;
 		}
 
 		String name = item.getName();
