@@ -5376,3 +5376,5 @@
 5367	Field Guide to Skeletal Anatomy (shredded)	reusable	display	1000
 5368	Ellsbury's journal (used)	reusable	display	1000
 5369	KoL Con 8-Bit power bracelet	accessory	display	0
+5370
+5371	stuffed-shirt scarecrow	grow	all	0

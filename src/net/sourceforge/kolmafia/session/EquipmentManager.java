@@ -582,6 +582,17 @@ public class EquipmentManager
 				EquipmentManager.updateEquipmentList( EquipmentManager.OFFHAND );
 			}
 			break;
+
+		case FamiliarPool.SCARECROW:
+			if ( slot == EquipmentManager.PANTS )
+			{
+				EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+			}
+			else if ( slot == EquipmentManager.FAMILIAR )
+			{
+				EquipmentManager.updateEquipmentList( EquipmentManager.PANTS );
+			}
+			break;
 		}
 	}
 

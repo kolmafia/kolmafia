@@ -390,16 +390,17 @@ public abstract class KoLmafia
 		// Change the default look and feel to match the player's
 		// preferences. Always do this.
 
-		String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
-		String defaultLookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-
+		String defaultLookAndFeel;
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) )
 		{
 			defaultLookAndFeel = UIManager.getSystemLookAndFeelClassName();
 		}
+		else
+		{
+			defaultLookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+		}
 
-		boolean foundLookAndFeel = false;
-
+		String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
 		if ( lookAndFeel.equals( "" ) )
 		{
 			lookAndFeel = defaultLookAndFeel;
@@ -413,6 +414,7 @@ public abstract class KoLmafia
 			installedLooks[ i ] = installed[ i ].getClassName();
 		}
 
+		boolean foundLookAndFeel = false;
 		for ( int i = 0; i < installedLooks.length && !foundLookAndFeel; ++i )
 		{
 			foundLookAndFeel = installedLooks[ i ].equals( lookAndFeel );
@@ -420,17 +422,7 @@ public abstract class KoLmafia
 
 		if ( !foundLookAndFeel )
 		{
-			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith(
-				"Win" ) )
-			{
-				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-			}
-			else
-			{
-				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-			}
-
-			foundLookAndFeel = true;
+			lookAndFeel = defaultLookAndFeel;
 		}
 
 		try

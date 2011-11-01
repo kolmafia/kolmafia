@@ -5368,3 +5368,5 @@
 5367	989897814	book.gif	Field Guide to Skeletal Anatomy (shredded)	shredded Field Guides to Skeletal Anatomy
 5368	715682439	book3.gif	Ellsbury's journal (used)
 5369	246756989	8bitbracelet.gif	KoL Con 8-Bit power bracelet
+5370
+5371	374484104	pantscrow.gif	stuffed-shirt scarecrow

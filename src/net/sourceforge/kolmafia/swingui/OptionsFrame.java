@@ -1437,6 +1437,7 @@ public class OptionsFrame
 			};
 
 		private final JComboBox looks, toolbars, scripts;
+		private String defaultLookAndFeel;
 
 		public UserInterfacePanel()
 		{
@@ -1451,6 +1452,15 @@ public class OptionsFrame
 			}
 
 			this.looks = new JComboBox( installedLooks );
+
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) )
+			{
+				this.defaultLookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			}
+			else
+			{
+				this.defaultLookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+			}
 
 			this.toolbars = new JComboBox();
 			this.toolbars.addItem( "Show global menus only" );
@@ -1491,10 +1501,12 @@ public class OptionsFrame
 		public void actionConfirmed()
 		{
 			String lookAndFeel = (String) this.looks.getSelectedItem();
-			if ( lookAndFeel != null )
+			if ( lookAndFeel == null || lookAndFeel.equals( defaultLookAndFeel ) )
 			{
-				Preferences.setString( "swingLookAndFeel", lookAndFeel );
+				lookAndFeel = "";
 			}
+
+			Preferences.setString( "swingLookAndFeel", lookAndFeel );
 
 			Preferences.setBoolean( "useToolbars", this.toolbars.getSelectedIndex() != 0 );
 			Preferences.setInteger( "scriptButtonPosition", this.scripts.getSelectedIndex() );
@@ -1503,7 +1515,13 @@ public class OptionsFrame
 
 		public void actionCancelled()
 		{
-			this.looks.setSelectedItem( Preferences.getString( "swingLookAndFeel" ) );
+			String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
+			if ( lookAndFeel.equals( "" ) )
+			{
+				lookAndFeel = this.defaultLookAndFeel;
+			}
+
+			this.looks.setSelectedItem( lookAndFeel );
 			this.toolbars.setSelectedIndex( Preferences.getInteger( "toolbarPosition" ) );
 			this.scripts.setSelectedIndex( Preferences.getInteger( "scriptButtonPosition" ) );
 		}

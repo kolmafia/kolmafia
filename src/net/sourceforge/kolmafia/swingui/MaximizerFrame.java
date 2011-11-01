@@ -1193,7 +1193,8 @@ public class MaximizerFrame
 			switch ( slot )
 			{
 			case EquipmentManager.HAT:
-				return 2;	// Mad Hatrack
+			case EquipmentManager.PANTS:
+				return 2;	// Mad Hatrack & Fancypants Scarecrow
 			case Evaluator.WEAPON_1H:
 				return 3;	// Dual-wield + Disembodied Hand
 			case EquipmentManager.ACCESSORY1:

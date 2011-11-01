@@ -158,3 +158,4 @@
 149	Dataspider	dataspider.gif	combat	5191	solid state loom	2	1	2	3
 150	Pair of Stomping Boots	stompboots.gif	item0, combat	4536	stomp box	3	0	2	2
 151	Feral Kobold	kobold.gif	combat	5295	slightly thicker filthy rags	0	0	0	0
+152	Fancypants Scarecrow	pantscrow2.gif	none	5371		0	0	0	0

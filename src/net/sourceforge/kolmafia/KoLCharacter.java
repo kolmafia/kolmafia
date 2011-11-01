@@ -3970,7 +3970,9 @@ public abstract class KoLCharacter
 				switch ( ItemDatabase.getConsumptionType( id ) )
 				{
 				case KoLConstants.EQUIP_HAT:
+				case KoLConstants.EQUIP_PANTS:
 					// Hatrack hats don't get their normal enchantments
+					// Scarecrow pants don't get their normal enchantments
 					continue;
 				case KoLConstants.EQUIP_WEAPON:
 					// Disembodied Hand weapons don't give all enchantments
