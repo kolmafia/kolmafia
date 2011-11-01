@@ -467,23 +467,6 @@ public class FamiliarData
 		// Start with base weight of familiar
 		int weight = this.weight;
 
-		// If this is a scarecrow, its weight is affected by the pants
-		// it is wearing, but other effects and skills do not apply.
-		if ( this.id == FamiliarPool.SCARECROW )
-		{
-			// Add modifiers for this familiar's equipment
-			AdventureResult item = this.getItem();
-			if ( item != EquipmentRequest.UNEQUIP )
-			{
-				Modifiers mods = new Modifiers();
-				mods.applyFamiliarModifiers( this, item );
-				float eweight = mods.get( Modifiers.FAMILIAR_WEIGHT_CAP );
-				weight = (int) eweight;
-			}
-
-			return Math.max( 1, weight );
-		}
-
 		// Get current fixed and percent weight modifiers
 		Modifiers current = KoLCharacter.getCurrentModifiers();
 		float fixed = current.get( Modifiers.FAMILIAR_WEIGHT ) + current.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
