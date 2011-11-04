@@ -4376,7 +4376,8 @@ public abstract class ChoiceManager
 			// too many.
 
 			if ( InventoryManager.getCount( ItemPool.SPOOKY_SAPLING ) == 0 &&
-			     !KoLCharacter.getTempleUnlocked() )
+			     !KoLCharacter.getTempleUnlocked() &&
+			     KoLCharacter.getAvailableMeat() >= 100 )
 			{
 				return "3";
 			}
