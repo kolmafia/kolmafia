@@ -488,7 +488,7 @@ public class UseItemRequest
 			
 		case ItemPool.BORROWED_TIME:
 			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_borrowedTimeUsed" ) ? 0 : 1;	
+			return Preferences.getBoolean( "_borrowedTimeUsed" ) ? 0 : 1;
 
 		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
 			if ( KoLCharacter.getInebriety() == 0 )
@@ -572,6 +572,14 @@ public class UseItemRequest
 				return 0;
 			}
 			return 1;
+
+		case ItemPool.BLACK_PAINT:
+			if ( KoLCharacter.inFistcore() )
+			{
+				UseItemRequest.limiter = "your teachings";
+				return 0;
+			}
+			return Integer.MAX_VALUE;
 		}
 
 		switch ( consumptionType )
@@ -4213,6 +4221,16 @@ public class UseItemRequest
 			if ( responseText.indexOf( "You've already got a sexy costume on" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You've already got a sexy costume on.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+
+		case ItemPool.BLACK_PAINT:
+			if ( KoLCharacter.inFistcore() &&
+			     responseText.indexOf( "Your teachings forbid the use of black paint." ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Your teachings forbid the use of black paint.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 				return;
