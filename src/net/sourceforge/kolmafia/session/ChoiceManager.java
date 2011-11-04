@@ -1850,11 +1850,6 @@ public abstract class ChoiceManager
 			"choiceAdventure290", "Gong",
 			new String[] { "+30% moxie", "+10% all stats", "+50% item drops" } ),
 
-		// Arboreal Respite
-		new ChoiceAdventure(
-			"choiceAdventure502", "Spooky Forest",
-			new String[] { "meet the vampire hunter, trade bar skins or gain a spooky sapling", "gain mosquito larva, gain quest coin or gain a vampire heart", "gain a starter item, gain Spooky-Gro fertilizer or gain spooky temple map" } ),
-
 		// The Road Less Traveled
 		new ChoiceAdventure(
 			"choiceAdventure503", "Spooky Forest",
@@ -2364,6 +2359,9 @@ public abstract class ChoiceManager
 			// A Moment of Reflection
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Rabbit Hole" );
 
+		case 502:
+			// Arboreal Respite
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Arboreal Respite" );
 		}
 		return null;
 	}
@@ -2558,7 +2556,6 @@ public abstract class ChoiceManager
 			// Wumpus Hunt
 			return WumpusManager.dynamicChoiceOptions( ChoiceManager.lastResponseText );
 
-
 		case 442:
 			// A Moment of Reflection
 			result = new String[ 6 ];
@@ -2590,6 +2587,37 @@ public abstract class ChoiceManager
 			result [ 4 ] = "get a chess cookie";
 			result [ 5 ] = "skip adventure";
 			return result;
+
+		case 502:
+			// Arboreal Respite
+
+			// meet the vampire hunter, trade bar skins or gain a spooky sapling
+			result = new String[ 3 ];
+
+			int stakes = InventoryManager.getCount( ItemPool.WOODEN_STAKES );
+			int hearts = InventoryManager.getCount( ItemPool.VAMPIRE_HEART );
+			String hunterAction = ( stakes > 0 ? "and get wooden stakes" : "and trade " + hearts + " hearts" );
+
+			int barskins = InventoryManager.getCount( ItemPool.BAR_SKIN );
+			int saplings = InventoryManager.getCount( ItemPool.SPOOKY_SAPLING );
+
+			result [ 0 ] = "gain some meat, meet the vampire hunter " + hunterAction + ", sell bar skins (" + barskins  + ") or buy a spooky sapling (" + saplings + ")";
+
+			// gain mosquito larva, gain quest coin or gain a vampire heart
+			boolean haveMap = InventoryManager.getCount( ItemPool.SPOOKY_MAP ) > 0;
+			boolean haveCoin = InventoryManager.getCount( ItemPool.TREE_HOLED_COIN ) > 0;
+			boolean getCoin = ( !haveCoin && !haveMap && !KoLCharacter.getTempleUnlocked() );
+			String coinAction = ( getCoin ? "gain quest coin" : "skip adventure" );
+
+			result [ 1 ] = "gain mosquito larva or spooky mushrooms, " + coinAction + ", get stats or fight a vampire";
+
+			// gain a starter item, gain Spooky-Gro fertilizer or gain spooky temple map
+			int fertalizer = InventoryManager.getCount( ItemPool.SPOOKY_FERTILIZER );
+			String mapAction = ( haveCoin ? ", gain spooky temple map" : "" );
+
+			result [ 2 ] = "gain a starter item, gain Spooky-Gro fertilizer (" + fertalizer + ")" + mapAction;
+
+			return result; 
 		}
 		return null;
 	}
@@ -4319,17 +4347,24 @@ public abstract class ChoiceManager
 					return "3";
 				}
 
-				// We don't have a tree-holed coin. If we have
-				// a Spooky Temple Map or have already read it,
-				// we can't get another one.
-				//
-				// InventoryManager.getCount( ItemPool.SPOOKY_MAP ) > 0
-				// KoLCharacter.getTempleUnlocked()
+				// We don't have a tree-holed coin. Either
+				// obtain one or exit without consuming an
+				// adventure
 			}
 			return decision;
 
 		// Tree's Last Stand
 		case 504:
+
+			// If we have Bar Skins, sell them all
+			if ( InventoryManager.getCount( ItemPool.BAR_SKIN ) > 1 )
+			{
+				return "2";
+			}
+			else if ( InventoryManager.getCount( ItemPool.BAR_SKIN ) > 0 )
+			{
+				return "1";
+			}
 
 			// If we don't have a Spooky Sapling, buy one
 			// unless we've already unlocked the Hidden Temple
@@ -4344,12 +4379,6 @@ public abstract class ChoiceManager
 			     !KoLCharacter.getTempleUnlocked() )
 			{
 				return "3";
-			}
-
-			// If we have Bar Skins, sell them all
-			if ( InventoryManager.getCount( ItemPool.BAR_SKIN ) > 0 )
-			{
-				return "2";
 			}
 
 			// Otherwise, exit this choice

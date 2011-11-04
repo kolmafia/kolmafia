@@ -167,8 +167,8 @@ public class ChoiceOptionsPanel
 		this.spookyForestSelect.addItem( "show in browser" );
 		this.spookyForestSelect.addItem( "mosquito larva or spooky mushrooms" );
 		this.spookyForestSelect.addItem( "Spooky-Gro fertilizer" );
-		this.spookyForestSelect.addItem( "Spooky Temple map" );
 		this.spookyForestSelect.addItem( "spooky sapling & sell bar skins" );
+		this.spookyForestSelect.addItem( "Spooky Temple map then skip adventure" );
 		this.spookyForestSelect.addItem( "meet vampire hunter" );
 		this.spookyForestSelect.addItem( "meet vampire" );
 		this.spookyForestSelect.addItem( "gain meat" );
@@ -902,16 +902,7 @@ public class ChoiceOptionsPanel
 			Preferences.setString( "choiceAdventure502", "3" );
 			Preferences.setString( "choiceAdventure506", "2" );
 			break;
-		case 3:		// Spooky Temple Map
-			// Without tree-holed coin
-			Preferences.setString( "choiceAdventure502", "2" );
-			Preferences.setString( "choiceAdventure505", "2" );
-			// With tree-holed coin
-			// Preferences.setString( "choiceAdventure502", "3" );
-			Preferences.setString( "choiceAdventure506", "3" );
-			Preferences.setString( "choiceAdventure507", "1" );
-			break;
-		case 4:		// Spooky Sapling & Sell Bar Skins
+		case 3:		// Spooky Sapling & Sell Bar Skins
 			Preferences.setString( "choiceAdventure502", "1" );
 			Preferences.setString( "choiceAdventure503", "3" );
 			// If we have no Spooky Sapling
@@ -920,6 +911,15 @@ public class ChoiceOptionsPanel
 			// Preferences.setString( "choiceAdventure504", "2" );
 			// Exit choice
 			Preferences.setString( "choiceAdventure504", "4" );
+			break;
+		case 4:		// Spooky Temple Map then skip adventure
+			// Without tree-holed coin
+			Preferences.setString( "choiceAdventure502", "2" );
+			Preferences.setString( "choiceAdventure505", "2" );
+			// With tree-holed coin
+			// Preferences.setString( "choiceAdventure502", "3" );
+			Preferences.setString( "choiceAdventure506", "3" );
+			Preferences.setString( "choiceAdventure507", "1" );
 			break;
 		case 5:		// Meet Vampire Hunter
 			Preferences.setString( "choiceAdventure502", "1" );
