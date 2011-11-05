@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -41,7 +40,7 @@ import javax.swing.JFileChooser;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
-import net.sourceforge.kolmafia.swingui.listener.ActionListenerRunnable;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 /**
  * In order to keep the user interface from freezing (or at least appearing to freeze), this internal class is used
@@ -58,20 +57,20 @@ public class LoadScriptMenuItem
 
 	public LoadScriptMenuItem( final String scriptName, final String scriptPath )
 	{
-		super( scriptName, new LoadScriptRunnable( scriptPath ) );
+		super( scriptName, new LoadScriptListener( scriptPath ) );
 	}
 
-	private static class LoadScriptRunnable
-		extends ActionListenerRunnable
+	private static class LoadScriptListener
+		extends ThreadedListener
 	{
 		private final String scriptPath;
 
-		public LoadScriptRunnable( String scriptPath )
+		public LoadScriptListener( String scriptPath )
 		{
 			this.scriptPath = scriptPath;
 		}
 
-		public void run()
+		protected void execute()
 		{
 			String executePath = this.scriptPath;
 

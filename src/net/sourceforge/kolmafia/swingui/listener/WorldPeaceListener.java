@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.RequestThread;
 public class WorldPeaceListener
 	extends ThreadedListener
 {
-	public void run()
+	protected void execute()
 	{
 		RequestThread.declareWorldPeace();
 	}

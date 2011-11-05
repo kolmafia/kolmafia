@@ -351,7 +351,7 @@ public class ClanManageFrame
 		private class StorageListener
 			extends ThreadedListener
 		{
-			public void run()
+			protected void execute()
 			{
 				Object[] items = StoragePanel.this.getDesiredItems( "Deposit" );
 				if ( items == null )
@@ -395,7 +395,7 @@ public class ClanManageFrame
 				this.moveType = moveType;
 			}
 
-			public void run()
+			protected void execute()
 			{
 				if ( !KoLCharacter.canInteract() )
 				{

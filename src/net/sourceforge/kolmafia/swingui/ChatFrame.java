@@ -35,14 +35,9 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -56,27 +51,19 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
-
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
-
 import net.sourceforge.kolmafia.session.ContactManager;
-
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
-
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
-
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class ChatFrame
@@ -188,14 +175,12 @@ public class ChatFrame
 	{
 		String contact = this.getAssociatedContact();
 
-		if ( contact == null || contact == ChatManager.getCurrentChannel() )
+		if ( contact == null || contact.equals( ChatManager.getCurrentChannel() ) )
 		{
-			ChatManager.dispose();
+			contact = null;
 		}
-		else
-		{
-			ChatManager.closeWindow( contact );
-		}
+
+		ChatManager.closeWindow( contact );
 
 		super.dispose();
 	}
@@ -297,22 +282,19 @@ public class ChatFrame
 		 */
 
 		private class ChatEntryListener
-			extends KeyAdapter
-			implements ActionListener
+			extends ThreadedListener
 		{
-			public void actionPerformed( final ActionEvent e )
+			protected void execute()
 			{
-				this.submitChat();
-			}
-
-			public void keyReleased( final KeyEvent e )
-			{
-				if ( e.isConsumed() )
+				if ( this.isAction() )
 				{
+					this.submitChat();
 					return;
 				}
 
-				if ( e.getKeyCode() == KeyEvent.VK_UP )
+				int keyCode = this.getKeyCode();
+
+				if ( keyCode == KeyEvent.VK_UP )
 				{
 					if ( ChatPanel.this.lastCommandIndex <= 0 )
 					{
@@ -320,9 +302,8 @@ public class ChatFrame
 					}
 
 					ChatPanel.this.entryField.setText( (String) ChatPanel.this.commandHistory.get( --ChatPanel.this.lastCommandIndex ) );
-					e.consume();
 				}
-				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
+				else if ( keyCode == KeyEvent.VK_DOWN )
 				{
 					if ( ChatPanel.this.lastCommandIndex + 1 >= ChatPanel.this.commandHistory.size() )
 					{
@@ -330,12 +311,10 @@ public class ChatFrame
 					}
 
 					ChatPanel.this.entryField.setText( (String) ChatPanel.this.commandHistory.get( ++ChatPanel.this.lastCommandIndex ) );
-					e.consume();
 				}
-				else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				else if ( keyCode == KeyEvent.VK_ENTER )
 				{
 					this.submitChat();
-					e.consume();
 				}
 			}
 

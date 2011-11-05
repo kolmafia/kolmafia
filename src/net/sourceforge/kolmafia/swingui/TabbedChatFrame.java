@@ -43,6 +43,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -60,7 +61,7 @@ public class TabbedChatFrame
 	public TabbedChatFrame()
 	{
 		super( null );
-		
+
 		this.setTitle( "Loathing Chat" );
 
 		if ( Preferences.getBoolean( "addChatCommandLine" ) )
@@ -101,16 +102,9 @@ public class TabbedChatFrame
 			return false;
 		}
 
-		String contact = this.tabs.getTitleAt( tabIndexToClose );
+		String closedTab = this.tabs.getTitleAt( tabIndexToClose );
 
-		if ( contact == null )
-		{
-			ChatManager.dispose();
-		}
-		else
-		{
-			ChatManager.closeWindow( contact );
-		}
+		RequestThread.runInParallel( new CloseWindowRunnable( closedTab ) );
 
 		return true;
 	}
@@ -157,7 +151,7 @@ public class TabbedChatFrame
 			// since nothing bad really happened.
 		}
 	}
-	
+
 	public void removeTab( final String tabName )
 	{
 		for ( int i = 0; i < this.tabs.getTabCount(); ++i )
@@ -265,6 +259,22 @@ public class TabbedChatFrame
 			{
 				( (CloseableTabbedPane) TabbedChatFrame.this.tabs ).highlightTab( this.tabIndex );
 			}
+		}
+	}
+
+	private static class CloseWindowRunnable
+		implements Runnable
+	{
+		private String closedTab;
+
+		public CloseWindowRunnable( String closedTab )
+		{
+			this.closedTab = closedTab;
+		}
+
+		public void run()
+		{
+			ChatManager.closeWindow( this.closedTab );
 		}
 	}
 }

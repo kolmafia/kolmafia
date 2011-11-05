@@ -470,7 +470,7 @@ public class FamiliarTrainingFrame
 			private class BaseListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					// Prompt for goal
 					int goal = InputFieldUtilities.getQuantity( "Train up to what base weight?", 20, 20 );
@@ -492,7 +492,7 @@ public class FamiliarTrainingFrame
 			private class BuffedListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					// Prompt for goal
 					int goal = InputFieldUtilities.getQuantity( "Train up to what buffed weight?", 48, 20 );
@@ -514,7 +514,7 @@ public class FamiliarTrainingFrame
 			private class TurnsListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					// Prompt for goal
 					int goal = InputFieldUtilities.getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
@@ -536,7 +536,7 @@ public class FamiliarTrainingFrame
 			private class StopListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					FamiliarTrainingFrame.stop = true;
 				}
@@ -545,7 +545,7 @@ public class FamiliarTrainingFrame
 			private class SaveListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					JFileChooser chooser = new JFileChooser( "data" );
 					chooser.showSaveDialog( FamiliarTrainingFrame.this );
@@ -577,7 +577,7 @@ public class FamiliarTrainingFrame
 			private class LearnListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					if ( FamiliarTrainingPanel.this.familiar == FamiliarData.NO_FAMILIAR )
 					{
@@ -643,7 +643,7 @@ public class FamiliarTrainingFrame
 				private final ArrayList storageItems = new ArrayList();
 				private final ArrayList requests = new ArrayList();
 
-				public void run()
+				protected void execute()
 				{
 					KoLmafia.updateDisplay( "Equipping familiars..." );
 
@@ -782,7 +782,7 @@ public class FamiliarTrainingFrame
 			private class ChangeComboBoxListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					FamiliarData selection = (FamiliarData) ChangeComboBox.this.getSelectedItem();
 

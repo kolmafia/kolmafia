@@ -33,18 +33,15 @@
 
 package net.sourceforge.kolmafia.swingui.listener;
 
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 
 public class RefreshSessionListener
 	extends ThreadedListener
 {
-	public void run()
+	protected void execute()
 	{
-		RequestThread.openRequestSequence();
 		StaticEntity.getClient().refreshSession();
-		RequestThread.closeRequestSequence();
 	}
 }
 

@@ -72,7 +72,7 @@ public class ContactManager
 	{
 		if ( ContactManager.mailContacts.isEmpty() && !CharPaneRequest.inValhalla() )
 		{
-			RequestThread.postRequest( new ContactListRequest() );
+			RequestThread.runInParallel( new ContactListRequest() );
 		}
 
 		return ContactManager.mailContacts;
@@ -95,16 +95,16 @@ public class ContactManager
 		}
 
 		ContactManager.chatContacts.clear();
-		
+
 		Iterator entryIterator = contacts.entrySet().iterator();
-		
+
 		while ( entryIterator.hasNext() )
 		{
 			Entry entry = (Entry) entryIterator.next();
 
 			String playerName = ( (String) entry.getKey() ).toLowerCase();
 			String color = entry.getValue() == Boolean.TRUE ? "black" : "gray";
-			
+
 			ContactManager.chatContacts.add( new HTMLListEntry( playerName, color ) );
 		}
 

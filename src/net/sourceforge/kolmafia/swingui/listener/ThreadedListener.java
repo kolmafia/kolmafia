@@ -50,6 +50,9 @@ import net.sourceforge.kolmafia.RequestThread;
 public abstract class ThreadedListener
 	implements ActionListener, ItemListener, KeyListener, PopupMenuListener, Runnable
 {
+	private ActionEvent actionEvent;
+	private KeyEvent keyEvent;
+
 	public void actionPerformed( final ActionEvent e )
 	{
 		if ( !this.isValidEvent( e ) )
@@ -57,7 +60,39 @@ public abstract class ThreadedListener
 			return;
 		}
 
+		this.actionEvent = e;
 		RequestThread.runInParallel( this );
+	}
+
+	public boolean isAction()
+	{
+		return ( this.actionEvent != null );
+	}
+
+	public int getKeyCode()
+	{
+		if ( this.keyEvent == null )
+		{
+			return 0;
+		}
+
+		return this.keyEvent.getKeyCode();
+	}
+
+	public boolean hasShiftModifier()
+	{
+		int modifiers = 0;
+
+		if ( this.actionEvent != null )
+		{
+			modifiers = this.actionEvent.getModifiers();
+		}
+		else if ( this.keyEvent != null )
+		{
+			modifiers = this.keyEvent.getModifiers();
+		}
+
+		return ( modifiers & ActionEvent.SHIFT_MASK ) != 0;
 	}
 
 	protected boolean isValidEvent( final ActionEvent e )
@@ -100,7 +135,9 @@ public abstract class ThreadedListener
 			return;
 		}
 
+		this.keyEvent = e;
 		RequestThread.runInParallel( this );
+
 		e.consume();
 	}
 
@@ -121,4 +158,14 @@ public abstract class ThreadedListener
 	public void popupMenuWillBecomeVisible( PopupMenuEvent e )
 	{
 	}
+
+	public final void run()
+	{
+		this.execute();
+
+		this.actionEvent = null;
+		this.keyEvent = null;
+	}
+
+	protected abstract void execute();
 }

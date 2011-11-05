@@ -2,17 +2,17 @@ package net.sourceforge.kolmafia.swingui.listener;
 
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 
-public class DisplayFrameRunnable
-	implements Runnable
+public class DisplayFrameListener
+	extends ThreadedListener
 {
 	private final String frameClass;
 
-	public DisplayFrameRunnable( String frameClass )
+	public DisplayFrameListener( String frameClass )
 	{
 		this.frameClass = frameClass;
 	}
 
-	public void run()
+	protected void execute()
 	{
 		KoLmafiaGUI.constructFrame( this.frameClass );
 	}

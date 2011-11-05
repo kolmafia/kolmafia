@@ -192,7 +192,7 @@ public class InventoryPanel
 				return false;
 			}
 
-			String name = 
+			String name =
 				element instanceof AdventureResult ? ( (AdventureResult) element ).getName() : element instanceof CreateItemRequest ? ( (CreateItemRequest) element ).getName() : null;
 
 			if ( name == null )
@@ -245,7 +245,7 @@ public class InventoryPanel
 		{
 		}
 
-		public void run()
+		protected void execute()
 		{
 			Object [] items = InventoryPanel.this.getDesiredItems( "Feed" );
 
