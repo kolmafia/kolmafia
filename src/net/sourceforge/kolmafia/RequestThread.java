@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.SwingUtilities;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -75,6 +77,11 @@ public abstract class RequestThread
 
 		try
 		{
+			if ( SwingUtilities.isEventDispatchThread() )
+			{
+				StaticEntity.printStackTrace( "Runnable in event dispatch thread" );
+			}
+
 			request.run();
 		}
 		catch ( Exception e )
@@ -98,6 +105,11 @@ public abstract class RequestThread
 
 		try
 		{
+			if ( SwingUtilities.isEventDispatchThread() )
+			{
+				StaticEntity.printStackTrace( "Runnable in event dispatch thread" );
+			}
+
 			request.run();
 		}
 		catch ( Exception e )
@@ -128,6 +140,11 @@ public abstract class RequestThread
 
 		try
 		{
+			if ( SwingUtilities.isEventDispatchThread() )
+			{
+				StaticEntity.printStackTrace( "Runnable in event dispatch thread" );
+			}
+
 			request.run();
 		}
 		catch ( Exception e )
