@@ -1980,17 +1980,14 @@ public class Modifiers
 		int familiarId = familiar.getId();
 		int weight = familiar.getWeight();
 
-		if ( familiarId != FamiliarPool.SCARECROW )
-		{
-			weight += (int) this.get( Modifiers.FAMILIAR_WEIGHT );
-			weight += (int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
-			weight += ( familiar.getFeasted() ? 10 : 0 );
+		weight += (int) this.get( Modifiers.FAMILIAR_WEIGHT );
+		weight += (int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+		weight += ( familiar.getFeasted() ? 10 : 0 );
 
-			float percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
-			if ( percent != 0.0f )
-			{
-				weight = (int) Math.floor( weight + weight * percent );
-			}
+		float percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
+		if ( percent != 0.0f )
+		{
+			weight = (int) Math.floor( weight + weight * percent );
 		}
 
 		weight = Math.max( 1, weight );
