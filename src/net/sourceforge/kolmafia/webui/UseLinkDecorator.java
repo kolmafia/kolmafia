@@ -1180,8 +1180,15 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.BUS_PASS:
 		case ItemPool.IMP_AIR:
+
 			useType = String.valueOf( InventoryManager.getCount( itemId ) );
 			useLocation = "pandamonium.php?action=moan";
+			break;
+
+		case ItemPool.HACIENDA_KEY:
+
+			useType = String.valueOf( InventoryManager.getCount( itemId ) );
+			useLocation = "volcanoisland.php?action=tniat";
 			break;
 
 		default:
