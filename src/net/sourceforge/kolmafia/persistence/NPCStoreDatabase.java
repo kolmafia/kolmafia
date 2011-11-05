@@ -238,14 +238,14 @@ public class NPCStoreDatabase
 					return false;
 				}
 
-				if ( level < 12 )
-				{
-					return true;
-				}
-
 				if ( Preferences.getInteger( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
 				{
 					return false;
+				}
+
+				if ( level < 12 )
+				{
+					return true;
 				}
 
 				return QuestLogRequest.isHippyStoreAvailable();
@@ -255,7 +255,7 @@ public class NPCStoreDatabase
 			// the completion of the filthworm infestation and
 			// which outfit was used to complete it.
 
-			if ( level < 12 || Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+			if ( Preferences.getInteger( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 			{
 				return false;
 			}
