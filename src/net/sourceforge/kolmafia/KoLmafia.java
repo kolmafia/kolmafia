@@ -2518,7 +2518,7 @@ public abstract class KoLmafia
 
 		// Execute the logout request.
 
-		RequestThread.postRequest( new LogoutRequest() );
+		RequestThread.runInParallel( new LogoutRequest() );
 	}
 
 	public static void quit()
