@@ -641,7 +641,7 @@ public class ItemManagePanel
 			super( "Consume", retrieveFromClosetFirst );
 		}
 
-		public void run()
+		protected void execute()
 		{
 			Object[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
@@ -671,7 +671,7 @@ public class ItemManagePanel
 			super( "Equip", retrieveFromClosetFirst );
 		}
 
-		public void run()
+		protected void execute()
 		{
 			Object[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
@@ -713,7 +713,7 @@ public class ItemManagePanel
 			super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst );
 		}
 
-		public void run()
+		protected void execute()
 		{
 			Object[] items = this.initialSetup();
 			if ( items == null )
@@ -744,7 +744,7 @@ public class ItemManagePanel
 			this.autosell = autosell;
 		}
 
-		public void run()
+		protected void execute()
 		{
 			if ( !this.autosell && !KoLCharacter.hasStore() )
 			{
@@ -792,7 +792,7 @@ public class ItemManagePanel
 			super( "Stashing", retrieveFromClosetFirst );
 		}
 
-		public void run()
+		protected void execute()
 		{
 			Object[] items = this.initialSetup();
 			if ( items == null )
@@ -817,7 +817,7 @@ public class ItemManagePanel
 			super( "Showcasing", retrieveFromClosetFirst );
 		}
 
-		public void run()
+		protected void execute()
 		{
 			Object[] items = this.initialSetup();
 			if ( items == null )
@@ -848,7 +848,7 @@ public class ItemManagePanel
 			super( "Smashing", retrieveFromClosetFirst );
 		}
 
-		public void run()
+		protected void execute()
 		{
 			Object[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )

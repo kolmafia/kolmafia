@@ -820,7 +820,7 @@ public class CoinmastersFrame
 			public class SellListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					String reason = CoinMasterRequest.canSell( CoinmasterPanel.this.data );
 					if ( reason != null )
@@ -840,7 +840,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					execute( CoinmasterPanel.this.data.getSellAction(), items );
+					CoinmasterPanel.this.execute( CoinmasterPanel.this.data.getSellAction(), items );
 				}
 
 				public String toString()
@@ -932,7 +932,7 @@ public class CoinmastersFrame
 				AdventureResult token = CoinmasterPanel.this.data.getItem();
 				String property = CoinmasterPanel.this.data.getProperty();
 				CoinmasterData data = CoinmasterPanel.this.data;
-				int originalBalance = fromStorage ?	
+				int originalBalance = fromStorage ?
 					data.availableStorageTokens() :
 					data.availableTokens();
 
@@ -1011,7 +1011,7 @@ public class CoinmastersFrame
 			public class BuyListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					String reason = CoinMasterRequest.canBuy( CoinmasterPanel.this.data );
 					if ( reason != null )
@@ -1026,7 +1026,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					execute( CoinmasterPanel.this.data.getBuyAction(), items );
+					CoinmasterPanel.this.execute( CoinmasterPanel.this.data.getBuyAction(), items );
 				}
 
 				public String toString()
@@ -1038,7 +1038,7 @@ public class CoinmastersFrame
 			public class BuyUsingStorageListener
 				extends ThreadedListener
 			{
-				public void run()
+				protected void execute()
 				{
 					Object[] items = BuyPanel.this.getDesiredItems( true );
 					if ( items == null )
@@ -1046,7 +1046,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					execute( CoinmasterPanel.this.data.getBuyAction(),
+					CoinmasterPanel.this.execute( CoinmasterPanel.this.data.getBuyAction(),
 						 items,
 						 CoinmasterPanel.this.data.getStorageAction() );
 				}

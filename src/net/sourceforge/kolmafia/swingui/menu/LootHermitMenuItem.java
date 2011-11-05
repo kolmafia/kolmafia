@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class LootHermitMenuItem
@@ -45,13 +46,13 @@ public class LootHermitMenuItem
 {
 	public LootHermitMenuItem()
 	{
-		super( "Loot the Hermit", new LootHermitRunnable() );
+		super( "Loot the Hermit", new LootHermitListener() );
 	}
 
-	private static class LootHermitRunnable
-		implements Runnable
+	private static class LootHermitListener
+		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			// See how many clovers are available today. This visits the
 			// Hermit, if necessary, and sets the AdventureResult in

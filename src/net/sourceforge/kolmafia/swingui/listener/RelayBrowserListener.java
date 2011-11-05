@@ -2,17 +2,17 @@ package net.sourceforge.kolmafia.swingui.listener;
 
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
-public class RelayBrowserRunnable
-	implements Runnable
+public class RelayBrowserListener
+	extends ThreadedListener
 {
 	private String location;
 
-	public RelayBrowserRunnable( String location )
+	public RelayBrowserListener( String location )
 	{
 		this.location = location;
 	}
 
-	public void run()
+	protected void execute()
 	{
 		if ( this.location == null )
 		{

@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -353,7 +354,7 @@ public class DailyDeedsPanel
 		{
 			if ( deedsString[3].equalsIgnoreCase( "$ITEM" ) )
 			{
-				
+
 			}
 			else
 			{
@@ -378,7 +379,7 @@ public class DailyDeedsPanel
 		 * !isMulti First 3:
 		 * Combo|displayText|preference
 		 * this first pref is used to enable/disable the whole combodeed.
-		 * 
+		 *
 		 * isMulti First 4:
 		 * Combo|displayText|preference|maxUses
 		 */
@@ -403,7 +404,7 @@ public class DailyDeedsPanel
 				deedsString[ i ], deedsString[ i + 1 ], deedsString[ i + 2 ], deedsString[ i + 3 ]
 			} );
 		}
-		
+
 		if ( isMulti )
 		{
 			this.add( new ComboDaily( displayText, pref, packedDeed, maxUses ) );
@@ -772,8 +773,24 @@ public class DailyDeedsPanel
 	public void add( Daily daily )
 	{
 		daily.add( Box.createHorizontalGlue() );
-		daily.initialUpdate();
+		RequestThread.runInParallel( new InitialUpdateRunnable( daily ) );
 		super.add( daily );
+	}
+
+	private static class InitialUpdateRunnable
+		implements Runnable
+	{
+		private Daily daily;
+
+		public InitialUpdateRunnable( Daily daily )
+		{
+			this.daily = daily;
+		}
+
+		public void run()
+		{
+			daily.update();
+		}
 	}
 
 	public abstract static class Daily
@@ -938,14 +955,7 @@ public class DailyDeedsPanel
 			KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
 		}
 
-		public void initialUpdate()
-		{
-			this.update();
-		}
-
-		public void update()
-		{
-		}
+		public abstract void update();
 	}
 
 	public static class ShowerCombo
@@ -1118,7 +1128,7 @@ public class DailyDeedsPanel
 			}
 		}
 	}
-	
+
 	public static class ComboDaily
 		extends Daily
 	{
@@ -1164,7 +1174,7 @@ public class DailyDeedsPanel
 
 			btn = this.addComboButton( "", "Go!" );
 		}
-		
+
 		public ComboDaily( String displayText, String pref, ArrayList packedDeed, int maxUses )
 		{
 			this( displayText, pref, packedDeed);
@@ -1280,7 +1290,7 @@ public class DailyDeedsPanel
 			this.addListener( preference );
 			this.addComboButton( command, displayText );
 		}
-		
+
 		/**
 		 * @param displayText
 		 *	the text that will be displayed on the button
@@ -1290,7 +1300,7 @@ public class DailyDeedsPanel
 		 * @param command
 		 *	the command to execute.
 		 * @param maxPref
-		 *	the integer at which to disable the button.  
+		 *	the integer at which to disable the button.
 		 */
 		public CommandDaily( String displayText, String preference, String command, int maxPref )
 		{
@@ -1372,7 +1382,7 @@ public class DailyDeedsPanel
 			this.addListener( preference );
 			this.addComboButton( command, displayText );
 		}
-		
+
 		/**
 		 * @param displayText
 		 * 	the text that will be displayed on the button
@@ -1397,11 +1407,11 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			
+
 			int prefToInt = 1;
 			String pref = Preferences.getString( this.preference );
 			boolean haveItem = InventoryManager.getCount( this.itemId ) > 0;
-			
+
 			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
 				|| pref.equalsIgnoreCase( "" ) )
 			{
@@ -1471,7 +1481,7 @@ public class DailyDeedsPanel
 			this.addListener( "(skill)" );
 			this.addComboButton( command, displayText );
 		}
-		
+
 		/**
 		 * @param preference
 		 *                the preference to look at. The preference is used to set the availability of the
@@ -1521,11 +1531,11 @@ public class DailyDeedsPanel
 			}
 		}
 	}
-	
+
 	public class TextDeed extends Daily
 	{
 		String[] deedsString;
- 
+
 		public TextDeed( String[] deedString )
 		{
 			for ( int i = 1; i < deedString.length; ++i )

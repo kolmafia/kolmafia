@@ -119,7 +119,7 @@ public class PulverizePanel
 		{
 			super( contents, contents[0] );
 		}
-		
+
 		public boolean isCellEditable( int row, int column )
 		{
 			return false;
@@ -189,17 +189,17 @@ public class PulverizePanel
 		boolean others = false;
 		int elemMask = 0;
 		int yieldMask = 0;
-		
+
 		public EquipmentFilterField()
 		{
 			super( PulverizePanel.this.elementList );
 		}
-		
+
 		public void valueChanged( ListSelectionEvent e )
 		{
 			this.update();
 		}
-		
+
 		public void update()
 		{
 			this.others = PulverizePanel.this.filters[ 6 ].isSelected();
@@ -239,13 +239,13 @@ public class PulverizePanel
 			{
 				return false;
 			}
-			
+
 			int pulver = EquipmentDatabase.getPulverization( itemId );
 			if ( pulver == -1 )
 			{
 				return false;
 			}
-			
+
 			if ( pulver >= 0 )
 			{
 				isVisibleWithFilter = this.others;
@@ -259,7 +259,7 @@ public class PulverizePanel
 			return isVisibleWithFilter && super.isVisible( element );
 		}
 	}
-	
+
 	public class EnqueueListener
 		extends TransferListener
 	{
@@ -268,7 +268,7 @@ public class PulverizePanel
 			super( "Smashing", false );
 		}
 
-		public void run()
+		protected void execute()
 		{
 			Object[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
@@ -296,7 +296,7 @@ public class PulverizePanel
 			return "add to queue";
 		}
 	}
-	
+
 	public class DequeueListener
 		extends TransferListener
 	{
@@ -305,7 +305,7 @@ public class PulverizePanel
 			super( "Keeping", false );
 		}
 
-		public void run()
+		protected void execute()
 		{
 			Object[] items = this.initialSetup( ItemManagePanel.TAKE_ALL );
 			if ( items == null || items.length == 0 )
@@ -336,14 +336,14 @@ public class PulverizePanel
 	public class ClearListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			KoLConstants.pulverizeQueue.clear();
 			LockableListModel inv = (LockableListModel)
 				PulverizePanel.this.elementList.getModel();
 			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
 		}
-		
+
 		public String toString()
 		{
 			return "clear queue";
@@ -353,7 +353,7 @@ public class PulverizePanel
 	public class PulverizeListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			if ( KoLConstants.pulverizeQueue.isEmpty() )
 			{
@@ -378,29 +378,29 @@ public class PulverizePanel
 				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
 			}
 		}
-		
+
 		public String toString()
 		{
 			return "pulverize";
 		}
 	}
-	
+
 	private static class MsgOption
 	{
 		private String asString;
 		private String asMessage;
-		
+
 		public MsgOption( String asString, String asMessage )
 		{
 			this.asString = asString;
 			this.asMessage = asMessage;
 		}
-		
+
 		public String toString()
 		{
 			return this.asString;
 		}
-		
+
 		public String toMessage()
 		{
 			return this.asMessage;
@@ -410,14 +410,14 @@ public class PulverizePanel
 	public class WadbotListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			if ( KoLConstants.pulverizeQueue.isEmpty() )
 			{
 				InputFieldUtilities.alert( "No items in queue!" );
 				return;
 			}
-			
+
 			String message;
 			if ( KoLmafia.isPlayerOnline( "wadbot" ) )
 			{	// bot online
@@ -441,7 +441,7 @@ public class PulverizePanel
 					message = "You won't be able to receive your smashed items while you are under hardcore/Ronin restrictions.  Wadbot isn't online, anyway.  Proceed at your own risk.";
 				}
 			}
-			
+
 			MsgOption selected = (MsgOption) InputFieldUtilities.input( message,
 				new MsgOption[] {
 					new MsgOption( "receive results as is", "powders" ),
@@ -452,7 +452,7 @@ public class PulverizePanel
 			{
 				return;
 			}
-			
+
 			AdventureResult[] items =
 				new AdventureResult[ KoLConstants.pulverizeQueue.size() ];
 			KoLConstants.pulverizeQueue.toArray( items );
@@ -463,7 +463,7 @@ public class PulverizePanel
 			SendMessageCommand.send( "wadbot", selected.toMessage(),
 				items, false, true );
 		}
-		
+
 		public String toString()
 		{
 			return "send to wadbot";

@@ -583,7 +583,7 @@ public class AdventureSelectPanel
 		private class EnableObjectivesListener
 			extends ThreadedListener
 		{
-			public void run()
+			protected void execute()
 			{
 				Preferences.setBoolean(
 					"autoSetConditions", AdventureSelectPanel.this.conditionsFieldActive.isSelected() );

@@ -35,9 +35,8 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.request.MindControlRequest;
-
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -46,13 +45,13 @@ public class MonsterLevelMenuItem
 {
 	public MonsterLevelMenuItem()
 	{
-		super( "Monster Level", new MonsterLevelRunnable() );
+		super( "Monster Level", new MonsterLevelListener() );
 	}
 
-	private static class MonsterLevelRunnable
-		implements Runnable
+	private static class MonsterLevelListener
+		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			int maxLevel = 0;
 

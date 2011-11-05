@@ -477,7 +477,7 @@ public class BuffRequestFrame
 	private class CardSwitchListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			BuffRequestFrame.this.resetCard();
 		}

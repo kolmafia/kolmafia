@@ -120,7 +120,7 @@ public class UseItemDequeuePanel
 	private class ConsumeListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			ConcoctionDatabase.handleQueue( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen, KoLConstants.CONSUME_USE );
 
@@ -148,7 +148,7 @@ public class UseItemDequeuePanel
 	private class CreateListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			ConcoctionDatabase.handleQueue( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen, KoLConstants.NO_CONSUME );
 

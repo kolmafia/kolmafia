@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 public class DebugLogMenuItem
 	extends ThreadedMenuItem
@@ -41,13 +42,13 @@ public class DebugLogMenuItem
 	public DebugLogMenuItem()
 	{
 		super( RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log", null );
-		this.setAction( new DebugLogRunnable() );
+		this.setAction( new DebugLogListener() );
 	}
 
-	private class DebugLogRunnable
-		implements Runnable
+	private class DebugLogListener
+		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			if ( RequestLogger.isDebugging() )
 			{

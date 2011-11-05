@@ -34,18 +34,14 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-
 import net.sourceforge.kolmafia.request.UntinkerRequest;
-
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class UntinkerMenuItem
@@ -53,13 +49,13 @@ public class UntinkerMenuItem
 {
 	public UntinkerMenuItem()
 	{
-		super( "Untinker Item", new UntinkerRunnable() );
+		super( "Untinker Item", new UntinkerListener() );
 	}
 
-	private static class UntinkerRunnable
-		implements Runnable
+	private static class UntinkerListener
+		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			SortedListModel untinkerItems = new SortedListModel();
 

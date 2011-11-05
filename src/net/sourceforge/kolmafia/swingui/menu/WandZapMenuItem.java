@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class WandZapMenuItem
@@ -44,13 +45,13 @@ public class WandZapMenuItem
 {
 	public WandZapMenuItem()
 	{
-		super( "Wand-Zap Item", new WandZapRunnable() );
+		super( "Wand-Zap Item", new WandZapListener() );
 	}
 
-	private static class WandZapRunnable
-		implements Runnable
+	private static class WandZapListener
+		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			if ( KoLCharacter.getZapper() == null )
 			{

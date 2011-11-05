@@ -149,19 +149,19 @@ public class GearChangeFrame
 	{
 		return null;
 	}
-	
+
 	public static void showModifiers( Object value, boolean isFamiliarItem )
 	{
 		if ( GearChangeFrame.INSTANCE == null )
 		{
 			return;
 		}
-		
+
 		String name = null;
 		if ( value instanceof AdventureResult )
 		{
 			name = ((AdventureResult) value).getName();
-			if ( isFamiliarItem && 
+			if ( isFamiliarItem &&
 			     ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HATRACK ||
 			       KoLCharacter.getFamiliar().getId() == FamiliarPool.SCARECROW ) )
 			{
@@ -172,7 +172,7 @@ public class GearChangeFrame
 		{
 			name = ((SpecialOutfit) value).getName();
 		}
-		
+
 		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
 		{
@@ -187,12 +187,12 @@ public class GearChangeFrame
 			newMods.add( Modifiers.getModifiers( name ) );
 			mods = newMods;
 		}
-		
+
 		StringBuffer buff = new StringBuffer();
 		buff.append( "<html><table><tr><td width=" );
 		buff.append( GearChangeFrame.INSTANCE.modifiersWidth );
 		buff.append( ">" );
-		
+
 		for ( int i = 0; i < Modifiers.FLOAT_MODIFIERS; ++i )
 		{
 			float val = mods.get( i );
@@ -208,7 +208,7 @@ public class GearChangeFrame
 			buff.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( val ) );
 			buff.append( "</div>" );
 		}
-		
+
 		boolean anyBool = false;
 		for ( int i = 1; i < Modifiers.BITMAP_MODIFIERS; ++i )
 		{
@@ -220,7 +220,7 @@ public class GearChangeFrame
 			anyBool = true;
 			buff.append( Modifiers.getBitmapModifierName( i ) );
 		}
-		
+
 		for ( int i = 1; i < Modifiers.BOOLEAN_MODIFIERS; ++i )
 		{
 			if ( !mods.getBoolean( i ) ) continue;
@@ -231,7 +231,7 @@ public class GearChangeFrame
 			anyBool = true;
 			buff.append( Modifiers.getBooleanModifierName( i ) );
 		}
-		
+
 		buff.append( "</td></tr></table></html>" );
 		GearChangeFrame.INSTANCE.modifiersLabel.setText( buff.toString() );
 	}
@@ -262,7 +262,7 @@ public class GearChangeFrame
 				radioPanel1.add( GearChangeFrame.this.weaponTypes[ i ] );
 				GearChangeFrame.this.weaponTypes[ i ].addActionListener( new RefilterListener() );
 			}
-			
+
 			GearChangeFrame.this.weapon1H = new JCheckBox( "1-hand" );
 			radioPanel1.add( GearChangeFrame.this.weapon1H );
 			GearChangeFrame.this.weapon1H.addActionListener( new RefilterListener() );
@@ -446,7 +446,7 @@ public class GearChangeFrame
 		{
 			return;
 		}
-		
+
 		GearChangeFrame.INSTANCE.sticker1Label.setText( "Sticker (" + st1 + "): " );
 		GearChangeFrame.INSTANCE.sticker2Label.setText( "Sticker (" + st2 + "): " );
 		GearChangeFrame.INSTANCE.sticker3Label.setText( "Sticker (" + st3 + "): " );
@@ -481,7 +481,7 @@ public class GearChangeFrame
 		private class ChangeItemListener
 			extends ThreadedListener
 		{
-			public void run()
+			protected void execute()
 			{
 				LockableListModel model = (LockableListModel) EquipmentComboBox.this.getModel();
 				if ( model.isEmpty() )
@@ -503,7 +503,7 @@ public class GearChangeFrame
 		public OutfitComboBox( final LockableListModel slot )
 		{
 			super( slot );
-			
+
 			this.setRenderer( ListCellRendererFactory.getDefaultRenderer() );
 			this.addActionListener( new ChangeOutfitListener() );
 		}
@@ -511,7 +511,7 @@ public class GearChangeFrame
 		private class ChangeOutfitListener
 			extends ThreadedListener
 		{
-			public void run()
+			protected void execute()
 			{
 				LockableListModel model = (LockableListModel) OutfitComboBox.this.getModel();
 				if ( model.isEmpty() )
@@ -572,7 +572,7 @@ public class GearChangeFrame
 		private class ChangeFamiliarListener
 			extends ThreadedListener
 		{
-			public void run()
+			protected void execute()
 			{
 				LockableListModel model = (LockableListModel) FamiliarComboBox.this.getModel();
 				if ( model.isEmpty() )
@@ -604,7 +604,7 @@ public class GearChangeFrame
 	private class RefilterListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			GearChangeFrame.this.ensureValidSelections();
 		}
@@ -732,7 +732,7 @@ public class GearChangeFrame
 		{
 			return false;
 		}
-		
+
 		if ( this.weaponTypes[ 0 ].isSelected() )
 		{
 			return true;
@@ -923,7 +923,7 @@ public class GearChangeFrame
 
 		currentItems.setSelectedItem( equippedItem );
 	}
-	
+
 	private class FamLockCheckbox
 	extends JCheckBox
 	implements ActionListener
@@ -933,13 +933,13 @@ public class GearChangeFrame
 			super( "familiar item locked" );
 			this.addActionListener( this );
 		}
-		
+
 		public void actionPerformed( ActionEvent e )
 		{
 			RequestThread.postRequest( new FamiliarRequest( true ) );
 		}
 	}
-	
+
 	public static void updateFamiliarLock()
 	{
 		if ( GearChangeFrame.INSTANCE == null )

@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -55,13 +56,13 @@ public class LootHunterMenuItem
 {
 	public LootHunterMenuItem()
 	{
-		super( "Visit Bounty Hunter", new LootHunterRunnable() );
+		super( "Visit Bounty Hunter", new LootHunterListener() );
 	}
 
-	private static class LootHunterRunnable
-		implements Runnable
+	private static class LootHunterListener
+		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			GenericRequest hunterRequest = new BountyHunterHunterRequest();
 			RequestThread.postRequest( hunterRequest );

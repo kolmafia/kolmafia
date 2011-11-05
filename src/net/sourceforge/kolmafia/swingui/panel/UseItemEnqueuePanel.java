@@ -196,7 +196,7 @@ public class UseItemEnqueuePanel
 	private static class ReSortListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			ConcoctionDatabase.getUsables().sort();
 		}
@@ -205,7 +205,7 @@ public class UseItemEnqueuePanel
 	private class EnqueueListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			UseItemEnqueuePanel.this.getDesiredItems( "Queue" );
 			ConcoctionDatabase.refreshConcoctions( true );
@@ -237,7 +237,7 @@ public class UseItemEnqueuePanel
 	private class ExecuteListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			boolean warnFirst =
 				( UseItemEnqueuePanel.this.food && ConcoctionDatabase.getQueuedFullness() != 0 ) ||
@@ -303,7 +303,7 @@ public class UseItemEnqueuePanel
 			}
 		}
 
-		public void run()
+		protected void execute()
 		{
 			boolean warnFirst =
 				( UseItemEnqueuePanel.this.food && ConcoctionDatabase.getQueuedFullness() != 0 ) ||
@@ -351,7 +351,7 @@ public class UseItemEnqueuePanel
 	private class BuffUpListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			if ( UseItemEnqueuePanel.this.food )
 			{
@@ -372,7 +372,7 @@ public class UseItemEnqueuePanel
 	private class FlushListener
 		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			if ( UseItemEnqueuePanel.this.booze )
 			{

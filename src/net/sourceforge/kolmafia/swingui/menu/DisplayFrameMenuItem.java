@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.swingui.listener.DisplayFrameRunnable;
+import net.sourceforge.kolmafia.swingui.listener.DisplayFrameListener;
 
 /**
  * In order to keep the user interface from freezing (or at least appearing to freeze), this internal class is used
@@ -45,6 +45,6 @@ public class DisplayFrameMenuItem
 {
 	public DisplayFrameMenuItem( final String title, final String frameClass )
 	{
-		super( title, new DisplayFrameRunnable( frameClass ) );
+		super( title, new DisplayFrameListener( frameClass ) );
 	}
 }

@@ -38,13 +38,13 @@ import java.lang.reflect.Method;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 
-public class InvocationRunnable
-	implements Runnable
+public class InvocationListener
+	extends ThreadedListener
 {
 	private Object object;
 	private Method method;
 
-	public InvocationRunnable( Object object, Class c, String methodName )
+	public InvocationListener( Object object, Class c, String methodName )
 	{
 		try
 		{
@@ -60,7 +60,7 @@ public class InvocationRunnable
 		}
 	}
 
-	public void run()
+	protected void execute()
 	{
 		try
 		{

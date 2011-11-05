@@ -37,9 +37,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
-
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class LootTrapperMenuItem
@@ -47,13 +46,13 @@ public class LootTrapperMenuItem
 {
 	public LootTrapperMenuItem()
 	{
-		super( "Visit the Trapper", new LootTrapperRunnable() );
+		super( "Visit the Trapper", new LootTrapperListener() );
 	}
 
-	private static class LootTrapperRunnable
-		implements Runnable
+	private static class LootTrapperListener
+		extends ThreadedListener
 	{
-		public void run()
+		protected void execute()
 		{
 			AdventureResult selectedValue =
 				(AdventureResult) InputFieldUtilities.input( "I want skins!", Tr4pz0rRequest.buyItems );

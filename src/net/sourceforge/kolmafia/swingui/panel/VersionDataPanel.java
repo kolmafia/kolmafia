@@ -42,13 +42,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
-
-import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-
-import net.sourceforge.kolmafia.webui.RelayLoader;
+import net.sourceforge.kolmafia.swingui.listener.RelayBrowserListener;
 
 /**
  * An internal class which displays KoLmafia's current version information. This is passed to the constructor for
@@ -77,7 +73,7 @@ public class VersionDataPanel
 
 		JButton donateButton = new JButton( JComponentUtilities.getImage( "paypal.gif" ) );
 		JComponentUtilities.setComponentSize( donateButton, 74, 31 );
-		donateButton.addActionListener( new DonateButtonListener() );
+		donateButton.addActionListener( new RelayBrowserListener( "http://sourceforge.net/project/project_donations.php?group_id=126572" ) );
 
 		JPanel donatePanel = new JPanel();
 		donatePanel.add( donateButton );
@@ -88,14 +84,5 @@ public class VersionDataPanel
 
 		this.setLayout( new CardLayout( 20, 20 ) );
 		this.add( centerPanel, "" );
-	}
-
-	private class DonateButtonListener
-		extends ThreadedListener
-	{
-		public void run()
-		{
-			RelayLoader.openSystemBrowser( "http://sourceforge.net/project/project_donations.php?group_id=126572" );
-		}
 	}
 }

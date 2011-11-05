@@ -33,41 +33,23 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JMenuItem;
 
-import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.swingui.listener.ActionListenerRunnable;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 public class ThreadedMenuItem
 	extends JMenuItem
-	implements ActionListener
 {
-	private Runnable action;
-
-	public ThreadedMenuItem( final String label, Runnable action )
+	public ThreadedMenuItem( final String label, ThreadedListener action )
 	{
 		super( label );
 
-		this.addActionListener( this );
-		this.action = action;
+		this.addActionListener( action );
 	}
 
-	public void setAction( Runnable action )
+	public void setAction( ThreadedListener action )
 	{
-		this.action = action;
-	}
-
-	public void actionPerformed( ActionEvent e )
-	{
-		if ( this.action instanceof ActionListenerRunnable )
-		{
-			( (ActionListenerRunnable) this.action ).setActionEvent( e );
-		}
-
-		RequestThread.runInParallel( action );
+		this.addActionListener( action );
 	}
 
 	public String toString()

@@ -73,7 +73,7 @@ public class LicenseDisplayListener
 		"Unlicensed"
 	};
 
-	public void run()
+	protected void execute()
 	{
 		Object[] parameters = new Object[ 4 ];
 		parameters[ 0 ] = "KoLmafia: Copyright Notices";
