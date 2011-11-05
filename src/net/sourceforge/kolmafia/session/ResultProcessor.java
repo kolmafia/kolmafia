@@ -1438,7 +1438,7 @@ public class ResultProcessor
 			return;
 		}
 
-		ConcoctionPool.get( itemId ).calculate2();
+		ConcoctionDatabase.refreshConcoctions( true );
 		CreateItemRequest creator = CreateItemRequest.getInstance( itemId );
 
 		// getQuantityPossible() should take meat paste or
