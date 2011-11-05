@@ -201,21 +201,10 @@ public abstract class ChatManager
 	{
 		ChatManager.isRunning = false;
 
-		Object[] bufferKeys = ChatManager.activeWindows.toArray();
+		ChatSender.sendMessage( null, "/exit", false );
 
-		for ( int i = 0; i < bufferKeys.length; ++i )
-		{
-			String bufferKey = (String) bufferKeys[ i ];
-
-			if ( ChatManager.tabbedFrame != null )
-			{
-				ChatManager.tabbedFrame.removeTab( bufferKey );
-			}
-			else
-			{
-				ChatManager.closeWindow( bufferKey );
-			}
-		}
+		ChatManager.activeWindows.clear();
+		ChatManager.activeChannels.clear();
 
 		ChatManager.tabbedFrame = null;
 	}
@@ -369,12 +358,12 @@ public abstract class ChatManager
 	{
 		String bufferKey = destination.toLowerCase();
 
-		if ( Preferences.getBoolean( "mergeHobopolisChat" ) ) 	 
-		{ 	 
-			if ( destination.equals( "/hobopolis" ) || destination.equals( "/slimetube" ) || destination.equals( "/hauntedhouse" ) ) 	 
-			{ 	 
-				bufferKey = "/clan"; 	 
-			} 	 
+		if ( Preferences.getBoolean( "mergeHobopolisChat" ) )
+		{
+			if ( destination.equals( "/hobopolis" ) || destination.equals( "/slimetube" ) || destination.equals( "/hauntedhouse" ) )
+			{
+				bufferKey = "/clan";
+			}
 		}
 
 		if ( !bufferKey.startsWith( "/" ) && ChatManager.triviaGameActive )
@@ -637,19 +626,51 @@ public abstract class ChatManager
 		frame.setVisible( true );
 	}
 
-	public static final void closeWindow( final String bufferKey )
+	public static final void closeWindow( String closedWindow )
 	{
-		ChatManager.activeWindows.remove( bufferKey );
-
-		if ( ChatManager.isRunning() && ChatManager.activeChannels.contains( bufferKey ) )
+		if ( closedWindow == null )
 		{
-			ChatManager.activeChannels.remove( bufferKey );
+			ChatManager.dispose();
+			return;
+		}
 
-			if ( bufferKey.startsWith( "/" ) )
+		ChatManager.activeWindows.remove( closedWindow );
+
+		if ( !ChatManager.isRunning() || !closedWindow.startsWith( "/" ) )
+		{
+			return;
+		}
+
+		if ( !ChatManager.activeChannels.contains( closedWindow ) )
+		{
+			return;
+		}
+
+		ChatManager.activeChannels.remove( closedWindow );
+
+		if ( closedWindow.equals( ChatManager.getCurrentChannel() ) )
+		{
+			String selectedWindow = null;
+			Iterator channelIterator = ChatManager.activeChannels.iterator();
+
+			while ( channelIterator.hasNext() )
 			{
-				ChatSender.sendMessage( bufferKey.substring( 1 ), "/listen", false );
+				String channel = (String) channelIterator.next();
+
+				if ( channel.startsWith( "/" ) && !channel.equals( closedWindow ) )
+				{
+					selectedWindow = channel;
+					break;
+				}
+			}
+
+			if ( selectedWindow != null )
+			{
+				ChatSender.sendMessage( selectedWindow, "/switch", false );
 			}
 		}
+
+		ChatSender.sendMessage( closedWindow, "/listen", false );
 	}
 
 	public static final void checkFriends()

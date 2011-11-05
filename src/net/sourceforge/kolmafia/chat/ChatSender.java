@@ -338,7 +338,10 @@ public class ChatSender
 			// Exiting chat should dispose.  KoLmafia should send the
 			// message to be server-friendly.
 
-			ChatManager.dispose();
+			if ( ChatManager.isRunning() )
+			{
+				ChatManager.dispose();
+			}
 
 			return null;
 		}
@@ -368,7 +371,15 @@ public class ChatSender
 			int spaceIndex = graf.indexOf( " " );
 			String baseCommand = spaceIndex == -1 ? graf.toLowerCase() : graf.substring( 0, spaceIndex ).toLowerCase();
 
-			if ( graf.equals( "/w" ) || graf.equals( "/who" ) || graf.equals( "/l" ) || graf.equals( "/listen" ) )
+			if ( graf.equals( "/l" ) || graf.equals( "/listen" ) )
+			{
+				graf = "/listen " + contact.substring( 1 );
+			}
+			else if ( graf.equals( "/s") || graf.equals( "/switch" ) )
+			{
+				graf = "/switch " + contact.substring( 1 );
+			}
+			else if ( graf.equals( "/w" ) || graf.equals( "/who" ) )
 			{
 				// Attempts to view the /who list use the name of the channel
 				// when the user doesn't specify the channel.
