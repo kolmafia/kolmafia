@@ -34,10 +34,12 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FakeAddItemCommand
 	extends AbstractCommand
@@ -49,9 +51,26 @@ public class FakeAddItemCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
+		AdventureResult item = null;
+
+		if ( parameters.endsWith( " meat" ) )
+		{
+			String amountString = parameters.substring( 0, parameters.length() - 5 ).trim();
+
+			if ( StringUtilities.isNumeric( amountString ) )
+			{
+				item = new AdventureResult( AdventureResult.MEAT, StringUtilities.parseInt( amountString ) );
+			}
+		}
+
+		if ( item == null )
+		{
+			item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH, true );
+		}
+
 		if ( item != null )
 		{
+			RequestLogger.printLine( "Faking acquisition: " + item );
 			ResultProcessor.processResult( item );
 		}
 	}
