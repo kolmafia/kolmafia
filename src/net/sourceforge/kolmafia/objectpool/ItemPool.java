@@ -1033,6 +1033,7 @@ public class ItemPool
 	public static final int RAVE_VISOR = 4193;
 	public static final int BAGGY_RAVE_PANTS = 4194;
 	public static final int PACIFIER_NECKLACE = 4195;
+	public static final int HACIENDA_KEY = 4233;
 	public static final int AMPHIBIOUS_TOPHAT = 4229;
 	public static final int SILVER_PATE_KNIFE = 4234;
 	public static final int SILVER_CHEESE_SLICER = 4237;
