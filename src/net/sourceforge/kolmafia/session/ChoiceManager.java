@@ -1484,8 +1484,7 @@ public abstract class ChoiceManager
 		// Welcome to the Footlocker
 		new ChoiceAdventure(
 			"Knob", "choiceAdventure522", "Cobb's Knob Barracks",
-			new String[] { "Knob jelly donut", "skip adventure" },
-			new String[] { "4941", null } ),
+			new String[] { "outfit piece or donut", "skip adventure" } ),
 
 		// Death Rattlin'
 		new ChoiceAdventure(
@@ -2359,6 +2358,31 @@ public abstract class ChoiceManager
 			// A Moment of Reflection
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Rabbit Hole" );
 
+		case 522:
+			// Welcome to the Footlocker
+
+			result = ChoiceManager.dynamicChoiceSpoilers( 4, choice, "Welcome to the Footlocker" );
+
+			// Fill in items corresponding to choices
+			if ( result[ 2 ][ 0 ].indexOf( "polearm" ) != -1 )
+			{
+				result[ 3 ][ 0 ] = "310";
+			}
+			else if ( result[ 2 ][ 0 ].indexOf( "pants" ) != -1 )
+			{
+				result[ 3 ][ 0 ] = "309";
+			}
+			else if ( result[ 2 ][ 0 ].indexOf( "helm" ) != -1 )
+			{
+				result[ 3 ][ 0 ] = "308";
+			}
+			else
+			{
+				result[ 3 ][ 0 ] = "4941";
+			}
+
+			return result;
+
 		case 502:
 			// Arboreal Respite
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Arboreal Respite" );
@@ -2586,6 +2610,21 @@ public abstract class ChoiceManager
 			result [ 3 ] = "you have " + count + "/5 of the items needed for an ittah bittah hookah";
 			result [ 4 ] = "get a chess cookie";
 			result [ 5 ] = "skip adventure";
+			return result;
+
+		case 522:
+			// Welcome to the Footlocker
+			result = new String[ 2 ];
+			
+			boolean havePolearm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_POLEARM ) > 0 );
+			boolean havePants = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_PANTS ) > 0 );
+			boolean haveHelm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 );
+
+			result [ 0 ] = ( !havePolearm ? "knob goblin elite polearm" :
+			                 !havePants ? "knob goblin elite pants" :
+			                 !haveHelm ? "knob goblin elite helm" :
+			                 "knob jelly donut" );
+			result [ 1 ] = "skip adventure";
 			return result;
 
 		case 502:
