@@ -149,6 +149,9 @@ public class ItemPool
 	public static final int FLAT_DOUGH = 301;
 	public static final int DRY_NOODLES = 304;
 	public static final int KNOB_GOBLIN_PERFUME = 307;
+	public static final int KNOB_GOBLIN_HELM = 308;
+	public static final int KNOB_GOBLIN_PANTS = 309;
+	public static final int KNOB_GOBLIN_POLEARM = 310;
 	public static final int GOAT_CHEESE = 322;
 	public static final int TENDER_HAMMER = 338;
 	public static final int LAB_KEY = 339;
@@ -1033,8 +1036,8 @@ public class ItemPool
 	public static final int RAVE_VISOR = 4193;
 	public static final int BAGGY_RAVE_PANTS = 4194;
 	public static final int PACIFIER_NECKLACE = 4195;
-	public static final int HACIENDA_KEY = 4233;
 	public static final int AMPHIBIOUS_TOPHAT = 4229;
+	public static final int HACIENDA_KEY = 4233;
 	public static final int SILVER_PATE_KNIFE = 4234;
 	public static final int SILVER_CHEESE_SLICER = 4237;
 	public static final int FISHERMANS_SACK = 4250;
