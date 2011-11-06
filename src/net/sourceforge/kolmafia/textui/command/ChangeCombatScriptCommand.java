@@ -73,6 +73,20 @@ public class ChangeCombatScriptCommand
 			{
 				String script = (String) iterator.next();
 
+				if ( script.equalsIgnoreCase( parameters ) )
+				{
+					foundScript = true;
+					CombatActionManager.loadStrategyLookup( script );
+					KoLmafia.updateDisplay( "CCS set to " + CombatActionManager.getStrategyLookupName() );
+				}
+			}
+
+			iterator = CombatActionManager.getAvailableLookups().iterator();
+
+			while ( iterator.hasNext() && !foundScript )
+			{
+				String script = (String) iterator.next();
+
 				if ( script.toLowerCase().indexOf( parameters ) != -1 )
 				{
 					foundScript = true;
