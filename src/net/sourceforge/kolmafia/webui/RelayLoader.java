@@ -57,11 +57,7 @@ public class RelayLoader
 
 		if ( isRelayLocation )
 		{
-			RelayLoader.startRelayServer();
-
 			StringBuffer locationBuffer = new StringBuffer();
-			locationBuffer.append( "http://127.0.0.1:" );
-			locationBuffer.append( RelayServer.getPort() );
 
 			if ( !location.startsWith( "/" ) )
 			{
@@ -112,7 +108,26 @@ public class RelayLoader
 			currentBrowser = preferredBrowser;
 		}
 
-		BrowserLauncher.openURL( this.location );
+		if ( this.location.startsWith( "/" ) )
+		{
+			RelayLoader.startRelayServer();
+
+			// Wait for 5 seconds before giving up
+			// on the relay server.
+
+			PauseObject pauser = new PauseObject();
+
+			for ( int i = 0; i < 50 && !RelayServer.isRunning(); ++i )
+			{
+				pauser.pause( 200 );
+			}
+
+			BrowserLauncher.openURL( "http://127.0.0.1:" + RelayServer.getPort() + this.location );
+		}
+		else
+		{
+			BrowserLauncher.openURL( this.location );
+		}
 	}
 
 	public static final synchronized void startRelayServer()
@@ -123,21 +138,6 @@ public class RelayLoader
 		}
 
 		RelayServer.startThread();
-
-		// Wait for 5 seconds before giving up
-		// on the relay server.
-
-		PauseObject pauser = new PauseObject();
-
-		for ( int i = 0; i < 50 && !RelayServer.isRunning(); ++i )
-		{
-			pauser.pause( 200 );
-		}
-
-		if ( !RelayServer.isRunning() )
-		{
-			return;
-		}
 	}
 
 	public static final void openRelayBrowser()
