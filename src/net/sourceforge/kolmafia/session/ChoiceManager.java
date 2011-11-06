@@ -2757,6 +2757,28 @@ public abstract class ChoiceManager
 		}
 	}
 
+	public static final int getDecision( int choice, String responseText )
+	{
+		String option = "choiceAdventure" + choice;
+		String decision = Preferences.getString( option );
+
+		// If this choice has special handling, convert to real
+		// decision index
+
+		decision = ChoiceManager.specialChoiceDecision( choice, option, decision, 0, responseText );
+
+		if ( decision.equals( "0" ) || decision.equals( "" ) )
+		{	// Manual choice requested, or unsupported choice
+			return 0;
+		}
+
+		// If user wants to complete an outfit, convert to real
+		// decision index
+
+		decision = ChoiceManager.pickOutfitChoice( option, decision );
+		return StringUtilities.parseInt( decision );
+	}
+
 	public static final int getLastChoice()
 	{
 		return ChoiceManager.lastChoice;

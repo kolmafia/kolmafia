@@ -108,33 +108,6 @@ public abstract class LouvreManager
 		{ 0, 5, 3 },			// 104
 	};
 
-	private static final int LouvreGoalHops [][] =
-	{
-		{ 3, 3, 3, 3, 3, 3 },		// 92
-		{ 3, 3, 3, 3, 3, 3 },		// 93
-		{ 3, 3, 3, 3, 3, 3 },		// 94
-		{ 3, 3, 3, 3, 3, 3 },		// 95
-		{ 2, 4, 2, 4, 4, 2 },		// 96
-		{ 2, 2, 4, 2, 4, 4 },		// 97
-		{ 4, 2, 2, 4, 2, 4 },		// 98
-		{ 4, 4, 1, 4, 4, 1 },		// 99
-		{ 1, 4, 4, 4, 4, 1 },		// 100
-		{ 1, 4, 4, 1, 4, 4 },		// 101
-		{ 4, 1, 4, 1, 4, 4 },		// 102
-		{ 4, 1, 4, 4, 1, 4 },		// 103
-		{ 4, 4, 1, 4, 1, 4 },		// 104
-	};
-
-	private static final int goalHops( final int source, final int goal )
-	{
-		if ( source < LouvreManager.FIRST_CHOICE || source > LouvreManager.LAST_CHOICE || goal < 1 || goal > 6 )
-		{
-			return Integer.MAX_VALUE;
-		}
-
-		return LouvreManager.LouvreGoalHops[ source - LouvreManager.FIRST_CHOICE ][ goal - 1 ];
-	}
-
 	public static final String LouvreGoals [] =
 	{
 		"Manetwich",
@@ -231,10 +204,7 @@ public abstract class LouvreManager
 		// Reset what we've "learned" about the LouvreManager choices
 		for ( int i = 0; i < LouvreManager.LouvreChoiceTable.length; ++i )
 		{
-			for ( int j = 0; j < LouvreManager.LouvreChoiceTable[ i ].length; ++j )
-			{
-				LouvreManager.LouvreChoiceTable[ i ][ j ] = 0;
-			}
+			Arrays.fill( LouvreManager.LouvreChoiceTable[ i ], 0 );
 		}
 
 		int lastLouvreAscension = Preferences.getInteger( "lastLouvreMap" );
@@ -381,7 +351,7 @@ public abstract class LouvreManager
 		int goal = Preferences.getInteger( "louvreGoal" );
 
 		// Pick the best choice
-		return KoLCharacter.getLevel() < 14 ? LouvreManager.pickNewExit( source, goal ) : LouvreManager.pickOldExit( source, goal );
+		return LouvreManager.pickNewExit( source, goal );
 	}
 
 	// Node marking to prevent loops
@@ -397,17 +367,14 @@ public abstract class LouvreManager
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			// Clear marks on nodes
-			for ( int j = LouvreManager.FIRST_CHOICE; j <= LouvreManager.LAST_CHOICE; ++j )
-			{
-				LouvreManager.NodeMarks[ j - LouvreManager.FIRST_CHOICE ] = false;
-			}
+			Arrays.fill( LouvreManager.NodeMarks, false );
 
 			// Mark this node
 			LouvreManager.NodeMarks[ source - LouvreManager.FIRST_CHOICE ] = true;
 
 			// Determine how far destination is from goal
 			int destination = choices[ i ];
-			int dist = LouvreManager.hopsTo( 0, source, destination, goal );
+			int dist = LouvreManager.hopsTo( 0, source, i, destination, goal );
 			if ( dist < hops )
 			{
 				choice = i;
@@ -418,25 +385,43 @@ public abstract class LouvreManager
 		return String.valueOf( choice + 1 );
 	}
 
-	private static final int hopsTo( final int hops, final int source, final int destination, final int goal )
+	private static final int hopsTo( int hops, final int source, final int which, int destination, final int goal )
 	{
+		// If destination is unknown, assume it is the most likely possibility.
+		// Add 10 hops so that routes with fewer or no guesses are preferred.
+		if ( destination == 0 )
+		{
+			hops += 10;
+			float[] probs = probabilities( source )[ which ];
+			float best = -1.0f;
+			for ( int i = 0; i < 3; ++ i )
+			{
+				if ( probs[ i ] > best )
+				{
+					best = probs[ i ];
+					destination = LouvreLocationExits[ source - LouvreManager.FIRST_CHOICE ][ i ];
+				}
+			}
+		}
+	
 		// If destination is the goal, we're there
 		if ( destination == goal )
 		{
 			return hops;
 		}
 
-		// If destination is another goal, can't there from here
+		// If destination is another goal, can't get there from here
 		if ( destination >= 1 && destination <= 6 )
 		{
 			return Integer.MAX_VALUE;
 		}
 
-		// If destination is unknown, guess based on source
-		// Add 10 so that a known route will be preferred
+		// If destination is a predicted but unmapped Escher node (all other
+		// possibilities should have been eliminated above), we can reach any
+		// goal, but prefer a more direct route.
 		if ( !LouvreManager.louvreChoice( destination ) )
 		{
-			return hops + LouvreManager.goalHops( source, goal ) + 10;
+			return hops + 100;
 		}
 
 		// Known destination. If we've been here before, punt
@@ -455,52 +440,13 @@ public abstract class LouvreManager
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			// Determine how far destination is from goal
-			int dist = LouvreManager.hopsTo( hops + 1, destination, choices[ i ], goal );
+			int dist = LouvreManager.hopsTo( hops + 1, destination, i, choices[ i ], goal );
 			if ( dist < nextHops )
 			{
 				nextHops = dist;
 			}
 		}
 		return nextHops;
-	}
-
-	public static final String pickOldExit( final int source, final int goal )
-	{
-		int[] tuple = LouvreManager.routingTuple( source, goal );
-		if ( tuple == null )
-		{
-			return "";
-		}
-
-		// Examine destinations and take one that we know about
-		int[] choices = LouvreManager.choiceTuple( source );
-		for ( int i = 0; i < tuple.length; ++i )
-		{
-			int option = tuple[ i ];
-			for ( int j = 0; j < choices.length; ++j )
-			{
-				int destination = choices[ j ];
-				// If routing table destination is 0, we any of
-				// 92 - 95 will do. Otherwise, need exact match
-				if ( option == 0 && destination >= 92 && destination <= 95 || option != 0 && option == destination )
-				{
-					return String.valueOf( j + 1 );
-				}
-			}
-		}
-
-		// We don't know how to get to the destination. Pick one we
-		// haven't explored.
-		for ( int j = 0; j < choices.length; ++j )
-		{
-			if ( choices[ j ] == 0 )
-			{
-				return String.valueOf( j + 1 );
-			}
-		}
-
-		// Shouldn't get here
-		return "";
 	}
 
 	public static final boolean mapChoice( final int lastChoice, final int lastDecision, final String text )

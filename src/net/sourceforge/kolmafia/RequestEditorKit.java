@@ -1957,8 +1957,9 @@ public class RequestEditorKit
 		String[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
 
 		if ( possibleDecisions == null )
-		{
-			return;
+		{	// Don't give up - there may be a specified choice even if there
+			// are no spoilers.
+			possibleDecisions = new String[][] { null, null, {} };
 		}
 
 		text = buffer.toString();
@@ -1970,14 +1971,12 @@ public class RequestEditorKit
 
 		int index1 = matcher.start();
 
-		// Figure out which choice option comes first; at least one
-		// choice changes.
-		int first = StringUtilities.parseInt( matcher.group( 1 ) );
+		int decision = ChoiceManager.getDecision( choice, text );
 
 		buffer.setLength( 0 );
 		buffer.append( text.substring( 0, index1 ) );
 
-		for ( int i = first - 1; i < possibleDecisions[ 2 ].length; ++i )
+		while ( true )
 		{
 			int index2 = text.indexOf( "</form>", index1 );
 
@@ -1989,43 +1988,59 @@ public class RequestEditorKit
 
 			String currentSection = text.substring( index1, index2 );
 			Matcher optionMatcher = RequestEditorKit.OPTION_PATTERN.matcher( currentSection );
-			if ( optionMatcher.find() && StringUtilities.parseInt( optionMatcher.group( 1 ) ) != i + 1 )
-			{
+			if ( !optionMatcher.find() )
+			{	// this wasn't actually a choice option - strange!
 				continue;
+			}
+			int i = StringUtilities.parseInt( optionMatcher.group( 1 ) );
+			
+			int pos = i == decision ? currentSection.lastIndexOf( "value=\"" ) : -1;
+			if ( pos == -1 )
+			{
+				buffer.append( currentSection );
+			}
+			else
+			{
+				buffer.append( currentSection.substring( 0, pos + 7 ) );
+				buffer.append( "&rarr; " );
+				buffer.append( currentSection.substring( pos + 7 ) );
 			}
 
 			// Start spoiler text
-			buffer.append( currentSection );
-			buffer.append( "<br><font size=-1>(" );
-
-			// Say what the choice will give you
-			String item = ChoiceManager.choiceSpoiler( choice, i, possibleDecisions[ 2 ] );
-			buffer.append( item );
-
-			// If this choice helps complete an outfit...
-			if ( possibleDecisions.length > 3 )
+			if ( i > 0 && i <= possibleDecisions[ 2 ].length )
 			{
-				String itemId = possibleDecisions[ 3 ][ i ];
-
-				// If this decision leads to an item...
-				if ( itemId != null )
+				buffer.append( "<br><font size=-1>(" );
+	
+				// Say what the choice will give you
+				String item = ChoiceManager.choiceSpoiler( choice, i - 1, possibleDecisions[ 2 ] );
+				buffer.append( item );
+	
+				// If this choice helps complete an outfit...
+				if ( possibleDecisions.length > 3 )
 				{
-					// List # in inventory
-					AdventureResult result = new AdventureResult( StringUtilities.parseInt( itemId ), 1 );
-					buffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
-					buffer.append( ItemDatabase.getDescriptionId( result.getItemId() ) );
-					buffer.append( "');\">" );
-
-					int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
-					available += result.getCount( KoLConstants.inventory );
-
-					buffer.append( available );
-					buffer.append( " in inventory" );
+					String itemId = possibleDecisions[ 3 ][ i - 1 ];
+	
+					// If this decision leads to an item...
+					if ( itemId != null )
+					{
+						// List # in inventory
+						AdventureResult result = new AdventureResult( StringUtilities.parseInt( itemId ), 1 );
+						buffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
+						buffer.append( ItemDatabase.getDescriptionId( result.getItemId() ) );
+						buffer.append( "');\">" );
+	
+						int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
+						available += result.getCount( KoLConstants.inventory );
+	
+						buffer.append( available );
+						buffer.append( " in inventory" );
+					}
 				}
+	
+				// Finish spoiler text
+				buffer.append( ")</font>" );
 			}
-
-			// Finish spoiler text
-			buffer.append( ")</font></form>" );
+			buffer.append( "</form>" );
 			index1 = index2 + 7;
 		}
 
