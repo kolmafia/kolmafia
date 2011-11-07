@@ -49,6 +49,7 @@ global	dailyDeedsOptions	Breakfast,Daily Dungeon,Submit Spading Data,Crimbo Tree
 global	dailyDeedsVersion	2
 global	debugBuy	false
 global	debugConsequences	false
+global	debugFoxtrotRemoval	false
 global	debugPathnames	true
 global	defaultBorderColor	blue
 global	defaultDropdown1	0

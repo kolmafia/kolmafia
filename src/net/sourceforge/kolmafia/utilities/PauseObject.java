@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.utilities;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class PauseObject implements Runnable
 {
@@ -71,10 +72,15 @@ public class PauseObject implements Runnable
 
 		if ( SwingUtilities.isEventDispatchThread() )
 		{
-			StaticEntity.printStackTrace( "Pause object in event dispatch thread" );
-			this.milliseconds = milliseconds;
+			if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) )
+			{
+				StaticEntity.printStackTrace( "Pause object in event dispatch thread" );
+			}
+
 			return;
 		}
+
+		this.milliseconds = milliseconds;
 
 		try
 		{
