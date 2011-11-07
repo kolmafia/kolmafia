@@ -33,20 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.ArrayList;
-
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
-
-import net.sourceforge.kolmafia.persistence.ItemFinder;
-
-import net.sourceforge.kolmafia.request.AutoMallRequest;
-
-import net.sourceforge.kolmafia.utilities.IntegerArray;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 public class MallSellCommand
 	extends AbstractCommand
 {
@@ -57,74 +43,6 @@ public class MallSellCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		String[] itemNames = parameters.split( "\\s*,\\s*" );
-
-		ArrayList items = new ArrayList();
-		IntegerArray prices = new IntegerArray();
-		IntegerArray limits = new IntegerArray();
-
-		AdventureResult item;
-		int price;
-		int limit;
-
-		int separatorIndex;
-		String description;
-
-		for ( int i = 0; i < itemNames.length; ++i )
-		{
-			price = 0;
-			limit = 0;
-
-			separatorIndex = itemNames[ i ].indexOf( '@' );
-
-			if ( separatorIndex != -1 )
-			{
-				description = itemNames[ i ].substring( separatorIndex + 1 ).trim();
-				itemNames[ i ] = itemNames[ i ].substring( 0, separatorIndex );
-
-				separatorIndex = description.indexOf( "limit" );
-
-				if ( separatorIndex != -1 )
-				{
-					limit = StringUtilities.parseInt( description.substring( separatorIndex + 5 ).trim() );
-					description = description.substring( 0, separatorIndex ).trim();
-				}
-
-				price = StringUtilities.parseInt( description );
-			}
-
-			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
-
-			if ( item == null )
-			{
-				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "'." );
-				continue;
-			}
-
-			int inventoryCount = item.getCount( KoLConstants.inventory );
-
-			if ( item.getCount() > inventoryCount )
-			{
-				item = item.getInstance( inventoryCount );
-			}
-
-			if ( item.getCount() == 0 )
-			{
-				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "', none found in inventory." );
-				continue;
-			}
-
-			items.add( item );
-			prices.add( price );
-			limits.add( limit );
-		}
-
-		if ( items.size() > 0 )
-		{
-			RequestThread.postRequest( new AutoMallRequest(
-			      items.toArray(),
-			      prices.toArray(),
-			      limits.toArray() ) );
-		}
+		ShopCommand.put( parameters );
 	}
 }

@@ -70,17 +70,25 @@ public class ManageStoreRequest
 
 	public ManageStoreRequest( final int itemId )
 	{
+		this( itemId, true );
+	}
+
+	public ManageStoreRequest( final int itemId, final boolean takeAll )
+	{
 		super( "managestore.php" );
-		this.addFormField( "action", "takeall" );
+		this.addFormField( "action", takeAll ? "takeall" : "take" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
 		this.requestType = ManageStoreRequest.ITEM_REMOVAL;
 		this.takenItemId = itemId;
 
-		AdventureResult item = new AdventureResult( itemId, 1 );
-		if ( KoLConstants.profitableList.contains( item ) )
+		if ( takeAll )
 		{
-			KoLConstants.profitableList.remove( item );
+			AdventureResult item = new AdventureResult( itemId, 1 );
+			if ( KoLConstants.profitableList.contains( item ) )
+			{
+				KoLConstants.profitableList.remove( item );
+			}
 		}
 	}
 
