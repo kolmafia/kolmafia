@@ -496,6 +496,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "take_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "take_shop", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "take_shop", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_storage", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -2434,7 +2440,7 @@ public abstract class RuntimeLibrary
 		int price = priceValue.intValue();
 		int limit = limitValue.intValue();
 
-		RuntimeLibrary.batchCommand( "mallsell", "* \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
+		RuntimeLibrary.batchCommand( "shop", "put", "* \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2448,7 +2454,7 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "mallsell", qty + " \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
+		RuntimeLibrary.batchCommand( "shop", "put", qty + " \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
 		return RuntimeLibrary.continueValue();
 	}
 
@@ -2497,6 +2503,17 @@ public abstract class RuntimeLibrary
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "take " + meat + " meat" );
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value take_shop( final Value item )
+	{
+		return RuntimeLibrary.take_shop( item, DataTypes.TRUE_VALUE );
+	}
+
+	public static Value take_shop( final Value item, final Value takeAll )
+	{
+		RuntimeLibrary.batchCommand( "shop", "take", ( takeAll.intValue() == 1 ? "all " : "" ) + "\u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 

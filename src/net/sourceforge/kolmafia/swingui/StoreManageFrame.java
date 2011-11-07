@@ -457,7 +457,7 @@ public class StoreManageFrame
 	{
 		public StoreRemovePanel()
 		{
-			super( "take out", "autosell", StoreManager.getSortedSoldItemList() );
+			super( "take all", "take one", StoreManager.getSortedSoldItemList() );
 			this.addFilters();
 
 			this.filters[ 4 ].setSelected( false );
@@ -466,42 +466,24 @@ public class StoreManageFrame
 
 		public void actionConfirmed()
 		{
-			this.removeItems( false );
+			this.removeItems( true );
 		}
 
 		public void actionCancelled()
 		{
-			if ( !InputFieldUtilities.confirm( "Are you sure you'd like to autosell the selected items?" ) )
-			{
-				return;
-			}
-
-			this.removeItems( true );
+			this.removeItems( false );
 		}
 
-		public void removeItems( final boolean autoSellAfter )
+		public void removeItems( final boolean takeAll )
 		{
 			Object[] items = this.elementList.getSelectedValues();
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new ManageStoreRequest( ( (SoldItem) items[ i ] ).getItemId() ) );
+				RequestThread.postRequest( new ManageStoreRequest( ( (SoldItem) items[ i ] ).getItemId(), takeAll ) );
 			}
 
 			RequestThread.postRequest( new ManageStoreRequest() );
-
-			if ( autoSellAfter )
-			{
-				AdventureResult[] itemsToSell = new AdventureResult[ items.length ];
-				for ( int i = 0; i < items.length; ++i )
-				{
-					itemsToSell[ i ] =
-						new AdventureResult(
-							( (SoldItem) items[ i ] ).getItemId(), ( (SoldItem) items[ i ] ).getQuantity() );
-				}
-
-				RequestThread.postRequest( new AutoSellRequest( itemsToSell ) );
-			}
 		}
 	}
 

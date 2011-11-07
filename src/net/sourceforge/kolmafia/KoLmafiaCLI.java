@@ -751,6 +751,7 @@ public class KoLmafiaCLI
 		new SendMessageCommand().register( "send" ).register( "kmail" ).register( "csend" );
 		new SetHolidayCommand().register( "holiday" );
 		new SetPreferencesCommand().register( "get" ).register( "set" );
+		new ShopCommand().register( "shop" );
 		new ShowDataCommand().registerPrefix( "inv" ).register( "storage" ).register( "session" ).register( "summary" ).register(
 			"effects" ).register( "status" ).register( "skills" ).register( "locations" ).register( "encounters" ).registerPrefix(
 			"moon" );
