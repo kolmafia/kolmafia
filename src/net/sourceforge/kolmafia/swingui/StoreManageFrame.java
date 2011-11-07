@@ -33,13 +33,9 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import com.sun.java.forums.TableSorter;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-
 import java.awt.event.MouseEvent;
-
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -58,35 +54,27 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
-
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-
-import net.sourceforge.kolmafia.swingui.button.TableButton;
-
 import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
-
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
-
 import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
 import net.sourceforge.kolmafia.swingui.table.TransparentTable;
-
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import com.sun.java.forums.TableSorter;
 
 public class StoreManageFrame
 	extends GenericPanelFrame
@@ -290,8 +278,15 @@ public class StoreManageFrame
 			Vector value = (Vector) o;
 			if ( value.size() < 7 )
 			{
-				value.add( new AddItemButton() );
-				value.add( new SearchItemButton() );
+				JButton addItemButton = new JButton( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
+				addItemButton.setToolTipText( "add selected item" );
+				addItemButton.addMouseListener( new AddItemListener() );
+
+				value.add( addItemButton );
+
+				JButton searchItemButton = new JButton( "" );
+				searchItemButton.addMouseListener( new SearchItemListener() );
+				value.add( searchItemButton );
 			}
 
 			return value;
@@ -314,24 +309,27 @@ public class StoreManageFrame
 			Vector value = (Vector) o;
 			if ( value.size() < 7 )
 			{
-				value.add( new RemoveItemButton( (String) value.get( 0 ) ) );
-				value.add( new SearchItemButton( (String) value.get( 0 ) ) );
+				String itemName = (String) value.get( 0 );
+
+				JButton removeItemButton = new JButton( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
+				removeItemButton.setToolTipText( "remove item from store" );
+				removeItemButton.addMouseListener( new RemoveItemListener( itemName ) );
+				value.add( removeItemButton );
+
+				JButton searchItemButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
+				searchItemButton.setToolTipText( "price analysis" );
+				searchItemButton.addMouseListener( new SearchItemListener( itemName ) );
+				value.add( searchItemButton );
 			}
 
 			return value;
 		}
 	}
 
-	private class AddItemButton
-		extends TableButton
+	private class AddItemListener
+		extends ThreadedListener
 	{
-		public AddItemButton()
-		{
-			super( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
-			this.setToolTipText( "add selected item" );
-		}
-
-		public void mouseReleased( final MouseEvent e )
+		protected void execute()
 		{
 			if ( !InputFieldUtilities.finalizeTable( StoreManageFrame.this.addTable ) )
 			{
@@ -363,24 +361,22 @@ public class StoreManageFrame
 		}
 	}
 
-	private class SearchItemButton
-		extends TableButton
+	private class SearchItemListener
+		extends ThreadedListener
 	{
 		private final String itemName;
 
-		public SearchItemButton()
+		public SearchItemListener()
 		{
-			this( null );
+			this.itemName = null;
 		}
 
-		public SearchItemButton( final String itemName )
+		public SearchItemListener( final String itemName )
 		{
-			super( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 			this.itemName = itemName;
-			this.setToolTipText( "price analysis" );
 		}
 
-		public void mouseReleased( final MouseEvent e )
+		protected void execute()
 		{
 			String searchName = this.itemName;
 			if ( searchName == null )
@@ -402,19 +398,17 @@ public class StoreManageFrame
 		}
 	}
 
-	private class RemoveItemButton
-		extends TableButton
+	private class RemoveItemListener
+		extends ThreadedListener
 	{
 		private final int itemId;
 
-		public RemoveItemButton( final String itemName )
+		public RemoveItemListener( final String itemName )
 		{
-			super( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
 			this.itemId = ItemDatabase.getItemId( itemName );
-			this.setToolTipText( "remove item from store" );
 		}
 
-		public void mouseReleased( final MouseEvent e )
+		protected void execute()
 		{
 			RequestThread.postRequest( new ManageStoreRequest( this.itemId ) );
 		}

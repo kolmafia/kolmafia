@@ -33,13 +33,11 @@
 
 package net.sourceforge.kolmafia.swingui.listener;
 
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-
 import javax.swing.table.TableColumnModel;
 
 /**
@@ -47,7 +45,7 @@ import javax.swing.table.TableColumnModel;
  */
 
 public class TableButtonListener
-	extends MouseAdapter
+	extends ThreadedListener
 {
 	private final JTable table;
 
@@ -56,12 +54,12 @@ public class TableButtonListener
 		this.table = table;
 	}
 
-	public void mouseReleased( final MouseEvent e )
+	protected void execute()
 	{
 		TableColumnModel columnModel = this.table.getColumnModel();
 
-		int row = e.getY() / this.table.getRowHeight();
-		int column = columnModel.getColumnIndexAtX( e.getX() );
+		int row = getMousePositionY() / this.table.getRowHeight();
+		int column = columnModel.getColumnIndexAtX( getMousePositionX() );
 
 		if ( row >= 0 && row < this.table.getRowCount() && column >= 0 && column < this.table.getColumnCount() )
 		{
@@ -69,7 +67,7 @@ public class TableButtonListener
 
 			if ( value instanceof JButton )
 			{
-				MouseEvent event = SwingUtilities.convertMouseEvent( this.table, e, (JButton) value );
+				MouseEvent event = SwingUtilities.convertMouseEvent( this.table, getMouseEvent(), (JButton) value );
 				( (JButton) value ).dispatchEvent( event );
 				this.table.repaint();
 			}

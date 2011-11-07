@@ -35,33 +35,26 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-
 import javax.swing.table.TableCellRenderer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
-
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-
-import net.sourceforge.kolmafia.swingui.button.TableButton;
-
 import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
-
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -141,8 +134,10 @@ public class CakeArenaFrame
 
 				for ( int j = 1; j <= 4; ++j )
 				{
-					opponentData[ i ][ j ] =
-						new OpponentButton( i, j, FamiliarDatabase.getFamiliarSkill( opponentRace, j ) );
+					Integer skill = FamiliarDatabase.getFamiliarSkill( opponentRace, j );
+					JButton opponentButton = new JButton( JComponentUtilities.getImage( ( skill == null ? "0" : skill.toString() ) + "star.gif" ) );
+					opponentButton.addMouseListener( new OpponentListener( i, j, skill ) );
+					opponentData[ i ][ j ] = opponentButton;
 				}
 			}
 
@@ -165,23 +160,20 @@ public class CakeArenaFrame
 		}
 	}
 
-	private class OpponentButton
-		extends TableButton
-		implements MouseListener
+	private class OpponentListener
+		extends ThreadedListener
 	{
 		private final int row, column;
 		private final String opponentSkill;
 
-		public OpponentButton( final int row, final int column, final Integer skill )
+		public OpponentListener( final int row, final int column, final Integer skill )
 		{
-			super( JComponentUtilities.getImage( ( skill == null ? "0" : skill.toString() ) + "star.gif" ) );
-
 			this.row = row;
 			this.column = column;
 			this.opponentSkill = skill.intValue() == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
 		}
 
-		public void mouseReleased( final MouseEvent e )
+		protected void execute()
 		{
 			int yourSkillValue =
 				FamiliarDatabase.getFamiliarSkill( KoLCharacter.getFamiliar().getRace(), this.column ).intValue();
@@ -222,9 +214,9 @@ public class CakeArenaFrame
 
 		private Component getStandardComponent( final Object value )
 		{
-			if ( value instanceof OpponentButton )
+			if ( value instanceof JButton )
 			{
-				return (OpponentButton) value;
+				return (JButton) value;
 			}
 
 			String name = value.toString();
