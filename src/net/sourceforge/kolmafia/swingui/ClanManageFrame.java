@@ -33,15 +33,11 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import com.sun.java.forums.TableSorter;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
-
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -54,45 +50,36 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
-
 import net.sourceforge.kolmafia.request.ClanBuffRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanWarRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
-
 import net.sourceforge.kolmafia.session.ClanManager;
-
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
-import net.sourceforge.kolmafia.swingui.button.TableButton;
-
 import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
-
 import net.sourceforge.kolmafia.swingui.table.ButtonRenderer;
 import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
 import net.sourceforge.kolmafia.swingui.table.TransparentTable;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+
+import com.sun.java.forums.TableSorter;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the clan management functionality of Kingdom of Loathing.
@@ -545,7 +532,8 @@ public class ClanManageFrame
 
 			Vector value = new Vector();
 
-			JButton profileButton = new ShowProfileButton( p );
+			JButton profileButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
+			profileButton.addMouseListener( new ShowProfileListener( p ) );
 			JComponentUtilities.setComponentSize( profileButton, 20, 20 );
 
 			value.add( profileButton );
@@ -558,18 +546,18 @@ public class ClanManageFrame
 		}
 	}
 
-	private class ShowProfileButton
-		extends TableButton
+	private class ShowProfileListener
+		extends ThreadedListener
 	{
 		private final ProfileRequest profile;
 
-		public ShowProfileButton( final ProfileRequest profile )
+		public ShowProfileListener( final ProfileRequest profile )
 		{
-			super( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
+
 			this.profile = profile;
 		}
 
-		public void mouseReleased( final MouseEvent e )
+		protected void execute()
 		{
             ProfileFrame.showRequest(this.profile);
 		}

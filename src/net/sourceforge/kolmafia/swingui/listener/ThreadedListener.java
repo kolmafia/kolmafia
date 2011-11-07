@@ -39,19 +39,21 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JComboBox;
-
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import net.sourceforge.kolmafia.RequestThread;
 
 public abstract class ThreadedListener
-	implements ActionListener, ItemListener, KeyListener, PopupMenuListener, Runnable
+	implements ActionListener, ItemListener, KeyListener, MouseListener, PopupMenuListener, Runnable
 {
 	private ActionEvent actionEvent;
 	private KeyEvent keyEvent;
+	private MouseEvent mouseEvent;
 
 	public void actionPerformed( final ActionEvent e )
 	{
@@ -159,12 +161,59 @@ public abstract class ThreadedListener
 	{
 	}
 
+	public void mouseClicked( MouseEvent e )
+	{
+	}
+
+	public void mousePressed( MouseEvent e )
+	{
+	}
+
+	public void mouseReleased( MouseEvent e )
+	{
+		RequestThread.runInParallel( this );
+	}
+
+	public void mouseEntered( MouseEvent e )
+	{
+	}
+
+	public void mouseExited( MouseEvent e )
+	{
+	}
+
+	protected int getMousePositionX()
+	{
+		if ( this.mouseEvent == null )
+		{
+			return -1;
+		}
+
+		return this.mouseEvent.getX();
+	}
+
+	protected int getMousePositionY()
+	{
+		if ( this.mouseEvent == null )
+		{
+			return -1;
+		}
+
+		return this.mouseEvent.getY();
+	}
+
+	protected MouseEvent getMouseEvent()
+	{
+		return this.mouseEvent;
+	}
+
 	public final void run()
 	{
 		this.execute();
 
 		this.actionEvent = null;
 		this.keyEvent = null;
+		this.mouseEvent = null;
 	}
 
 	protected abstract void execute();
