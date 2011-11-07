@@ -163,7 +163,7 @@ public class LoginFrame
 
 	protected void checkForLogout()
 	{
-		if ( GenericFrame.existingFrameCount == 0 )
+		if ( GenericFrame.existingFrameCount == 0 && !LoginRequest.isInstanceRunning() && GenericRequest.passwordHash.length() == 0 )
 		{
 			System.exit( 0 );
 		}
