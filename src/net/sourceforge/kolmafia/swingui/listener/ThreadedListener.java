@@ -171,6 +171,8 @@ public abstract class ThreadedListener
 
 	public void mouseReleased( MouseEvent e )
 	{
+		this.mouseEvent = e;
+
 		RequestThread.runInParallel( this );
 	}
 
