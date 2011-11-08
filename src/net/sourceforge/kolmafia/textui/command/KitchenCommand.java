@@ -79,6 +79,15 @@ public class KitchenCommand
 		String countString = splitParameters[ 0 ];
 		String nameString = splitParameters[ 1 ];
 
+		if ( nameString.startsWith( "\u00B6" ) )
+		{
+			String name = ItemDatabase.getItemName( StringUtilities.parseInt( nameString.substring( 1 ) ) );
+			if ( name != null )
+			{
+				nameString = name;
+			}
+		}
+
 		for ( int i = 0; i < KoLConstants.kitchenItems.size(); ++i )
 		{
 			String name = (String) KoLConstants.kitchenItems.get( i );

@@ -88,12 +88,22 @@ public class RestaurantCommand
 
 		String[] splitParameters = AbstractCommand.splitCountAndName( parameters );
 		String countString = splitParameters[ 0 ];
-		String nameString = splitParameters[ 1 ].toLowerCase();
+		String nameString = splitParameters[ 1 ];
 
 		if ( nameString.equalsIgnoreCase( "daily special" ) )
 		{
-			nameString = ChezSnooteeRequest.getDailySpecial().getName().toLowerCase();
+			nameString = ChezSnooteeRequest.getDailySpecial().getName();
 		}
+		else if ( nameString.startsWith( "\u00B6" ) )
+		{
+			String name = ItemDatabase.getItemName( StringUtilities.parseInt( nameString.substring( 1 ) ) );
+			if ( name != null )
+			{
+				nameString = name;
+			}
+		}
+
+		nameString = nameString.toLowerCase();
 
 		for ( int i = 0; i < KoLConstants.restaurantItems.size(); ++i )
 		{
@@ -153,12 +163,22 @@ public class RestaurantCommand
 
 		String[] splitParameters = AbstractCommand.splitCountAndName( parameters );
 		String countString = splitParameters[ 0 ];
-		String nameString = splitParameters[ 1 ].toLowerCase();
+		String nameString = splitParameters[ 1 ];
 
 		if ( nameString.equalsIgnoreCase( "daily special" ) )
 		{
-			nameString = MicroBreweryRequest.getDailySpecial().getName().toLowerCase();
+			nameString = MicroBreweryRequest.getDailySpecial().getName();
 		}
+		else if ( nameString.startsWith( "\u00B6" ) )
+		{
+			String name = ItemDatabase.getItemName( StringUtilities.parseInt( nameString.substring( 1 ) ) );
+			if ( name != null )
+			{
+				nameString = name;
+			}
+		}
+
+		nameString = nameString.toLowerCase();
 
 		for ( int i = 0; i < KoLConstants.microbreweryItems.size(); ++i )
 		{
