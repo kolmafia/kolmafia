@@ -193,9 +193,13 @@ public class UseItemCommand
 					else
 					{
 						UseItemRequest request =
-							command.equals( "hobo" ) ? new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) : command.equals( "ghost" ) ? new UseItemRequest(
-								KoLConstants.CONSUME_GHOST, currentMatch ) : command.equals( "slimeling" ) ? new UseItemRequest(
-								KoLConstants.CONSUME_SLIME, currentMatch ) : new UseItemRequest( currentMatch );
+							command.equals( "hobo" ) ?
+							new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
+							command.equals( "ghost" ) ?
+							new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
+							command.equals( "slimeling" ) ?
+							new UseItemRequest( KoLConstants.CONSUME_SLIME, currentMatch ) :
+							new UseItemRequest( currentMatch );
 						RequestThread.postRequest( request );
 					}
 
