@@ -3241,7 +3241,6 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "squish it back into a sheet" ) != -1 )
 			{
-				ResultProcessor.processResult( ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1 ) );
 				Preferences.setString( "spookyPuttyMonster", "" );
 				return;
 			}
@@ -5032,6 +5031,8 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.REFLECTION_OF_MAP:
+		case ItemPool.RONALD_SHELTER_MAP:
+		case ItemPool.GRIMACE_SHELTER_MAP:
 		case ItemPool.STAFF_GUIDE:
 			// Items that can redirect to a choice adventure
 			turns = 1;
