@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -435,7 +436,7 @@ public abstract class GenericFrame
 	{
 		if ( StaticEntity.getClient() instanceof KoLmafiaGUI && !GenericFrame.instanceExists() )
 		{
-			KoLmafia.logout();
+			RequestThread.runInParallel( new LogoutRunnable() );
 		}
 	}
 
@@ -759,4 +760,14 @@ public abstract class GenericFrame
 			}
 		}
 	}
+
+	private static class LogoutRunnable
+		implements Runnable
+	{
+		public void run()
+		{
+			KoLmafia.logout();			
+		}
+	}
+
 }
