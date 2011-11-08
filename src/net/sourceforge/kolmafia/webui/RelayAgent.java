@@ -38,9 +38,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 
+import java.net.InetAddress;
 import java.net.Socket;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -69,7 +73,7 @@ public class RelayAgent
 	extends Thread
 {
 	private static final RelayAutoCombatThread COMBAT_THREAD = new RelayAutoCombatThread();
-	private static final HashMap lastModified = new HashMap();
+	private static final Map lastModified = new HashMap();
 
 	private static GenericRequest errorRequest = null;
 	private static String errorRequestPath = null;
@@ -203,13 +207,63 @@ public class RelayAgent
 			if ( currentLine.startsWith( "Referer: " ) )
 			{
 				String referer = currentLine.substring( 9 );
-				if ( !referer.equals( "" ) && !referer.startsWith( "http://127.0.0.1:" ) )
+				if ( !referer.equals( "" ) )
 				{
-					RequestLogger.printLine( "Request from bogus referer ignored" );
-					RequestLogger.printLine( "Path: \"" + path + "\"" );
-					RequestLogger.printLine( "Referer: \"" + referer + "\"" );
-					return false;
+					boolean validHost = true;
+
+					if ( referer.startsWith( "http://" ) )
+					{
+						int endHostIndex = referer.indexOf( ':', 7 );
+
+						if ( endHostIndex == -1 )
+						{
+							endHostIndex = referer.indexOf( '/', 7 );
+						}
+
+						if ( endHostIndex == -1 )
+						{
+							validHost = false;
+						}
+						else
+						{
+							String refererHost = referer.substring( 7, endHostIndex );
+
+							if ( validRefererHosts.contains( refererHost ) )
+							{
+								// Do nothing
+							}
+							else if ( invalidRefererHosts.contains( refererHost ) )
+							{
+								validHost = false;
+							}
+							else
+							{
+								if ( InetAddress.getByName( refererHost ).isLoopbackAddress() )
+								{
+									validRefererHosts.add( refererHost );
+								}
+								else
+								{
+									invalidRefererHosts.add( refererHost );
+									validHost = false;
+								}
+							}
+						}
+					}
+					else
+					{
+						validHost = false;
+					}
+
+					if ( !validHost )
+					{
+						RequestLogger.printLine( "Request from bogus referer ignored" );
+						RequestLogger.printLine( "Path: \"" + path + "\"" );
+						RequestLogger.printLine( "Referer: \"" + referer + "\"" );
+						return false;
+					}
 				}
+
 				// If we last ran a command, the browser will
 				// submit requests with a bogus root.
 				if ( referer.indexOf( "/KoLmafia" ) != -1 &&
@@ -560,4 +614,7 @@ public class RelayAgent
 			// socket is already closed.  Ignore.
 		}
 	}
+
+	private static Set validRefererHosts = new HashSet();
+	private static Set invalidRefererHosts = new HashSet();
 }
