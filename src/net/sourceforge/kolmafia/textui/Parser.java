@@ -3083,8 +3083,15 @@ public class Parser
 			throw this.parseException( "<", this.currentToken() );
 		}
 
-		int startIndex = this.currentLine.indexOf( "<" );
-		int endIndex = this.currentLine.indexOf( ">" );
+		int directiveEndIndex = this.currentLine.indexOf( ";" );
+		if ( directiveEndIndex == -1 )
+		{
+			directiveEndIndex = this.currentLine.length();
+		}
+		String resultString = this.currentLine.substring( 0, directiveEndIndex );
+
+		int startIndex = resultString.indexOf( "<" );
+		int endIndex = resultString.indexOf( ">" );
 
 		if ( startIndex != -1 && endIndex == -1 )
 		{
@@ -3093,8 +3100,8 @@ public class Parser
 
 		if ( startIndex == -1 )
 		{
-			startIndex = this.currentLine.indexOf( "\"" );
-			endIndex = this.currentLine.indexOf( "\"", startIndex + 1 );
+			startIndex = resultString.indexOf( "\"" );
+			endIndex = resultString.indexOf( "\"", startIndex + 1 );
 
 			if ( startIndex != -1 && endIndex == -1 )
 			{
@@ -3104,8 +3111,8 @@ public class Parser
 
 		if ( startIndex == -1 )
 		{
-			startIndex = this.currentLine.indexOf( "\'" );
-			endIndex = this.currentLine.indexOf( "\'", startIndex + 1 );
+			startIndex = resultString.indexOf( "\'" );
+			endIndex = resultString.indexOf( "\'", startIndex + 1 );
 
 			if ( startIndex != -1 && endIndex == -1 )
 			{
@@ -3115,14 +3122,14 @@ public class Parser
 
 		if ( endIndex == -1 )
 		{
-			endIndex = this.currentLine.indexOf( ";" );
+			endIndex = resultString.indexOf( ";" );
 			if ( endIndex == -1 )
 			{
-				endIndex = this.currentLine.length();
+				endIndex = resultString.length();
 			}
 		}
 
-		String resultString = this.currentLine.substring( startIndex + 1, endIndex );
+		resultString = resultString.substring( startIndex + 1, endIndex );
 		this.currentLine = this.currentLine.substring( endIndex );
 		this.currentToken = null;
 
