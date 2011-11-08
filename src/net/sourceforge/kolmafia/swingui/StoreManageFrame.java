@@ -281,10 +281,10 @@ public class StoreManageFrame
 				JButton addItemButton = new JButton( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
 				addItemButton.setToolTipText( "add selected item" );
 				addItemButton.addMouseListener( new AddItemListener() );
-
 				value.add( addItemButton );
 
-				JButton searchItemButton = new JButton( "" );
+				JButton searchItemButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
+				searchItemButton.setToolTipText( "price analysis" );
 				searchItemButton.addMouseListener( new SearchItemListener() );
 				value.add( searchItemButton );
 			}
