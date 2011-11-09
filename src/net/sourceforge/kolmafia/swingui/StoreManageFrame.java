@@ -91,7 +91,6 @@ public class StoreManageFrame
 	public StoreManageFrame()
 	{
 		super( "Store Manager" );
-		StoreManageFrame.INSTANCE = this;
 
 		this.tabs.add( "Price Setup", new StoreManagePanel() );
 		this.tabs.add( "Additions", new StoreAddPanel() );
@@ -99,6 +98,9 @@ public class StoreManageFrame
 		this.tabs.add( "Store Log", new StoreLogPanel() );
 
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
+
+		StoreManageFrame.INSTANCE = this;
+
 		StoreManageFrame.updateEarnings( StoreManager.getPotentialEarnings() );
 	}
 

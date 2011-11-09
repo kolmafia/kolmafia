@@ -142,7 +142,6 @@ public class CoinmastersFrame
 	public CoinmastersFrame()
 	{
 		super( "Coin Masters" );
-		CoinmastersFrame.INSTANCE = this;
 
 		this.selectorPanel = new CardLayoutSelectorPanel( "coinMasterIndex", "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 		JPanel panel;
@@ -271,6 +270,8 @@ public class CoinmastersFrame
 		this.framePanel.add( this.selectorPanel, BorderLayout.CENTER );
 
 		this.add( new StatusPanel(), BorderLayout.SOUTH );
+
+		CoinmastersFrame.INSTANCE = this;
 
 		CoinmastersFrame.externalUpdate();
 	}
@@ -652,7 +653,7 @@ public class CoinmastersFrame
 		{
 			StringBuffer buffer = new StringBuffer();
 			this.setTitle( buffer );
-			INSTANCE.setTitle( buffer.toString() );
+			CoinmastersFrame.this.setTitle( buffer.toString() );
 		}
 
 		public void setTitle( final StringBuffer buffer )

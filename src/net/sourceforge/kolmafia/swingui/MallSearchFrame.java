@@ -89,10 +89,11 @@ public class MallSearchFrame
 	{
 		super( "Purchases" );
 
-		MallSearchFrame.INSTANCE = this;
 		this.mallSearch = new MallSearchPanel();
 
 		this.setContentPanel( this.mallSearch );
+
+		MallSearchFrame.INSTANCE = this;
 	}
 
 	public JTabbedPane getTabbedPane()

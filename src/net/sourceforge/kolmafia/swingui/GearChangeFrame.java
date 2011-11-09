@@ -111,7 +111,6 @@ public class GearChangeFrame
 	public GearChangeFrame()
 	{
 		super( "Gear Changer" );
-		GearChangeFrame.INSTANCE = this;
 
 		this.equipment = new EquipmentComboBox[ EquipmentManager.ALL_SLOTS ];
 
@@ -142,6 +141,9 @@ public class GearChangeFrame
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( new JScrollPane( new EquipPanel() ), "" );
+
+		GearChangeFrame.INSTANCE = this;
+
 		this.ensureValidSelections();
 	}
 
