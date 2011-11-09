@@ -91,7 +91,6 @@ public class LoginFrame
 	{
 		super( StaticEntity.getVersion() + ": Login" );
 
-		LoginFrame.INSTANCE = this;
 		this.tabs.addTab( "KoL Login", this.constructLoginPanel() );
 
 		JPanel connectPanel = new JPanel();
@@ -103,6 +102,8 @@ public class LoginFrame
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );
+
+		LoginFrame.INSTANCE = this;
 	}
 
 	public boolean shouldAddStatusBar()
