@@ -1990,6 +1990,9 @@ public class RequestEditorKit
 			Matcher optionMatcher = RequestEditorKit.OPTION_PATTERN.matcher( currentSection );
 			if ( !optionMatcher.find() )
 			{	// this wasn't actually a choice option - strange!
+				buffer.append( currentSection );
+				buffer.append( "</form>" );
+				index1 = index2 + 7;
 				continue;
 			}
 			int i = StringUtilities.parseInt( optionMatcher.group( 1 ) );

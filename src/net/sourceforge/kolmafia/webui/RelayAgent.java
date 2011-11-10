@@ -531,14 +531,12 @@ public class RelayAgent
 	{
 		if ( this.request.rawByteBuffer == null )
 		{
-			if ( this.request.responseText != null )
-			{
-				this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
-			}
-			else
+			if ( this.request.responseText == null )
 			{
 				return;
 			}
+
+			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
 		}
 
 		this.writer = new PrintStream( this.socket.getOutputStream(), false );
