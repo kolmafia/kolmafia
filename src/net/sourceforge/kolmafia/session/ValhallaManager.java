@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -157,6 +158,8 @@ public class ValhallaManager
 
 	public static void postAscension()
 	{
+		ItemDatabase.reset();
+
 		RequestThread.openRequestSequence();
 		StaticEntity.getClient().refreshSession();
 		RequestThread.closeRequestSequence();
