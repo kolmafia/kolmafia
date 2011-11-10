@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -67,7 +66,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
 public abstract class HPRestoreItemList
-	extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;
 	private static HashMap restoreByName = new HashMap();
@@ -303,8 +301,8 @@ public abstract class HPRestoreItemList
 			{
 				return;
 			}
-			
-			if ( this == HPRestoreItemList.GRUB && !KoLConstants.activeEffects.contains( 
+
+			if ( this == HPRestoreItemList.GRUB && !KoLConstants.activeEffects.contains(
 				EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
 			{
 				return;
@@ -323,7 +321,7 @@ public abstract class HPRestoreItemList
 				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) freerests += 2;
 				if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++freerests;
 				if ( Preferences.getInteger( "timesRested" ) >= freerests ) return;
-				
+
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;
 			}
@@ -344,7 +342,7 @@ public abstract class HPRestoreItemList
 					// don't waste the MP restoration, either
 					return;
 				}
-				
+
 				NunneryCommand.visit( "hp" );
 				return;
 			}

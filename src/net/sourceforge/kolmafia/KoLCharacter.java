@@ -108,7 +108,6 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
  */
 
 public abstract class KoLCharacter
-	extends StaticEntity
 {
 	private static final Pattern B_PATTERN = Pattern.compile( "[Bb]" );
 
@@ -943,7 +942,7 @@ public abstract class KoLCharacter
 	/**
 	 * Accessor method to set the character's class.
 	 *
-	 * @param classname The name of the character's class
+	 * @param classtype The name of the character's class
 	 */
 
 	public static final void setClassType( final int classtype )
@@ -956,6 +955,8 @@ public abstract class KoLCharacter
 			classtype == 5 ? "Disco Bandit" :
 			classtype == 6 ? "Accordion Thief" :
 			"Unknown";
+
+		setClassName( classname );
 	}
 
 	public static final void setClassName( final String classname )

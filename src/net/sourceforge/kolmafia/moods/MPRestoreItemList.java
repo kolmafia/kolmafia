@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -67,7 +66,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 
 public abstract class MPRestoreItemList
-	extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;
 	private static HashMap restoreByName = new HashMap();
@@ -290,8 +288,8 @@ public abstract class MPRestoreItemList
 			{
 				return;
 			}
-			
-			if ( this == MPRestoreItemList.MOTH && !KoLConstants.activeEffects.contains( 
+
+			if ( this == MPRestoreItemList.MOTH && !KoLConstants.activeEffects.contains(
 				EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
 			{
 				return;
@@ -348,7 +346,7 @@ public abstract class MPRestoreItemList
 				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) freerests += 2;
 				if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++freerests;
 				if ( Preferences.getInteger( "timesRested" ) >= freerests ) return;
-				
+
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;
 			}
@@ -363,7 +361,7 @@ public abstract class MPRestoreItemList
 
 				return;
 			}
-			
+
 			if ( this == MPRestoreItemList.NUNS )
 			{
 				if ( Preferences.getInteger( "nunsVisits" ) >= 3 ) return;
@@ -374,11 +372,11 @@ public abstract class MPRestoreItemList
 					// don't waste this limited resource on small restores
 					return;
 				}
-				
+
 				NunneryCommand.visit( "mp" );
 				return;
 			}
-			
+
 			if ( this == MPRestoreItemList.QUARK )
 			{
 				if ( ItemPool.get( ItemPool.UNSTABLE_QUARK, 1 ).getCount(
@@ -386,7 +384,7 @@ public abstract class MPRestoreItemList
 				{
 					return;
 				}
-			
+
 				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "quark", "" );
 				return;
 			}

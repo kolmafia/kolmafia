@@ -37,10 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-
 public class KoLDatabase
-	extends StaticEntity
 {
 	private static class ItemCounter
 		implements Comparable
@@ -78,7 +75,7 @@ public class KoLDatabase
 		{
 			return KoLConstants.LINE_BREAK;
 		}
-		
+
 		StringBuffer strbuf = new StringBuffer();
 		strbuf.append( KoLConstants.LINE_BREAK );
 
