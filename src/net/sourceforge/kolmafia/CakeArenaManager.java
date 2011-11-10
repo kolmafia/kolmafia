@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 
 public class CakeArenaManager
-	extends StaticEntity
 {
 	public static final Pattern WIN_PATTERN = Pattern.compile( "is the winner, and gains (\\d+) experience" );
 	private static final LockableListModel opponentList = new LockableListModel();
@@ -108,7 +107,7 @@ public class CakeArenaManager
 
 					int start = request.responseText.indexOf( "<body>" );
 					int end = request.responseText.indexOf( "</table>", start );
-					
+
 					String body = request.responseText.substring( start, end );
 					body = body.replaceAll( "<p>", KoLConstants.LINE_BREAK );
 					body = body.replaceAll( "<.*?>", "" );

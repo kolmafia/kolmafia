@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HolidayDatabase
-	extends StaticEntity
 {
 	private static long NEWYEAR = 0;
 	private static long BOUNDARY = 0;
@@ -58,7 +57,7 @@ public class HolidayDatabase
 	private static int RONALD_PHASE = -1;
 	private static int GRIMACE_PHASE = -1;
 	private static int HAMBURGLAR_POSITION = -1;
-	
+
 	static
 	{
 		HolidayDatabase.guessPhaseStep();
@@ -248,9 +247,9 @@ public class HolidayDatabase
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
-		}		
+		}
 	}
-	
+
 	public static final void logMoonStatus( final String label )
 	{
 		Date now = new Date();
@@ -288,7 +287,7 @@ public class HolidayDatabase
 		{
 			// There are several reasons why our calculation of the KoL
 			// moon phases might disagree with KoL's
-	
+
 			// - We assume KoL dates change at midnight of a calendar
 			//   day. They do not. They change at KoL Rollover, which is
 			//   before midnight in Arizona.
@@ -299,7 +298,7 @@ public class HolidayDatabase
 			//   does not.
 			//
 			// - The local computer clock may be off
-	
+
 			// If we ignore, for the moment, the last case, KoLmafia's idea
 			// of the KoL date could be one off from KoL's idea:
 			//
@@ -308,39 +307,39 @@ public class HolidayDatabase
 			//
 			// - If it is after midnight in this timezone, but Rollover has
 			//   not occurred for KoL, KoL will be one day behind.
-	
+
 			// Therefore, assuming the local computer clock is correct, We
 			// could be one day out of phase in either direction.
-	
+
 			// Unfortunately, a computer's clock can be arbitrarily
 			// incorrect. We can accomodate that if we can, somehow, synch
 			// up with the date used by KoL itself. We have two options:
-	
+
 			// We can easily see KoL's moon phases on the top menu. These
 			// go through a 16-day cycle. If the local clock is 7 or fewer
 			// days off, we can assume that our relative error to KoL is
 			// from -8 to +7.
-	
+
 			// We can see KoL's actual month and day from the chatlaunch
 			// frame. That goes through a 96-day cycle, which would allow
 			// us to correct a phase error from -48 to +47.
-	
+
 			// For now, since we already read the moon phases, we'll do the
 			// former, and assume that the phase error is between -8 days
 			// and +7 days.
-	
+
 			int phaseError = oldStep - newStep;
-	
+
 			if ( phaseError > 7 )
 			{
 				phaseError -= 16;
 			}
-	
+
 			String message = "Old phase = " + oldStep + " new phase = " + newStep + " phase error = " + phaseError;
 			RequestLogger.printLine( message );
-	
+
 			// Adjust the new year by the appropriate number of days.
-	
+
 			HolidayDatabase.NEWYEAR += phaseError * MS_PER_DAY;
 			HolidayDatabase.BOUNDARY += phaseError * MS_PER_DAY;
 			HolidayDatabase.COLLISION += phaseError * MS_PER_DAY;
