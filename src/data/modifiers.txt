@@ -1787,6 +1787,9 @@ red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 red-hot medallion	Hot Damage: +30, Single Equip
 reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
 rickety old unicycle	Moxie Percent: +15, Initiative: +50, MP Regen Min: 10, MP Regen Max: 25, Single Equip
+ridiculous belt	Muscle: +11
+ridiculous earring	Mysticality: +11
+ridiculous sunglasses	Moxie: +11
 # right half of a heart necklace
 ring of adornment	Moxie: +10
 ring of aggravate monster	Monster Level: +5

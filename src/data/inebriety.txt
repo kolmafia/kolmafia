@@ -211,6 +211,7 @@ ralph ix cognac	6	15	EPIC	55-59	228-300	228-300	228-300
 ram's face lager	1	2	decent	2	8-10	0	0	4-8 MP
 red-headed corpse	3	1	good	6-10	0	31-35	0
 redrum	3	1	decent	5-6	0	15-30	0
+ridiculous cocktail	3	1	awesome	11	10-12	10-12	10-12
 rockin' wagon	4	4	good	10-14	0	0	34-36
 roll in the hay	4	4	good	10-14	0	34-36	0
 rum and cola	3	1	decent	5-6	0	0	10-12	14-16 MP

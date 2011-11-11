@@ -5370,3 +5370,22 @@
 5369	246756989	8bitbracelet.gif	KoL Con 8-Bit power bracelet
 5370
 5371	374484104	pantscrow.gif	stuffed-shirt scarecrow
+5372
+5373
+5374
+5375
+5376
+5377
+5378
+5379
+5380
+5381
+5382
+5383
+5384
+5385
+5386	275806098	weightbelt.gif	ridiculous belt
+5387	567577000	ridicring.gif	ridiculous earring
+5388	882790882	ridicshades.gif	ridiculous sunglasses	pairs of ridiculous sunglasses
+5389	882634790	sammich.gif	ridiculous sandwich	ridiculous sandwiches
+5390	729068833	fruitym.gif	ridiculous cocktail

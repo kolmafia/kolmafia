@@ -1605,6 +1605,9 @@ red plastic baby	20	none
 red-hot medallion	50	none
 reinforced furry underpants	30	none
 rickety old unicycle	200	Mox: 200
+ridiculous belt	0	none
+ridiculous earring	0	none
+ridiculous sunglasses	0	none
 right half of a heart necklace	10	none
 ring of adornment	80	Mys: 25
 ring of aggravate monster	80	Mys: 25
