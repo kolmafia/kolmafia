@@ -214,6 +214,12 @@ public class UseItemRequest
 				return "multiuse.php";
 			}
 			return "inv_use.php";
+		case  KoLConstants.INFINITE_USES:
+		{
+			int type = ItemDatabase.getConsumptionType( item.getItemId() );
+			return type == KoLConstants.CONSUME_MULTIPLE ?
+				"multiuse.php" : "inv_use.php";
+		}
 		default:
 			return "inv_use.php";
 		}
@@ -985,6 +991,16 @@ public class UseItemRequest
 			}
 			else switch ( this.consumptionType )
 			{
+			case  KoLConstants.INFINITE_USES:
+			{
+				int type = ItemDatabase.getConsumptionType( this.itemUsed.getItemId() );
+				if ( type != KoLConstants.CONSUME_MULTIPLE )
+				{
+					iterations = origCount;
+					this.itemUsed = this.itemUsed.getInstance( 1 );
+				}
+				break;
+			}
 			case KoLConstants.CONSUME_MULTIPLE:
 			case KoLConstants.HP_RESTORE:
 			case KoLConstants.MP_RESTORE:

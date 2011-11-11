@@ -2335,7 +2335,7 @@
 2326	stone rose	none	none	0
 2327	can of black paint	multiple	all	0
 2328	drum machine	usable	all	160
-2329	handful of confetti	multiple	display	1000
+2329	handful of confetti	multiple, reusable	display	1000
 2330	chocolate-covered diamond-studded roses	none	gift	1000
 2331	bouquet of circular saw blades	none	gift	250
 2332	Better Than Cuddling Cake	food	gift	50
