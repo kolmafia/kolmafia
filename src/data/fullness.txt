@@ -360,6 +360,7 @@ rat scrapple	2	2	decent	2-7	0	0	10-12
 ravioli della hippy	3	3	good	4-12	0	19-23	0
 red herring velvet cake	5	1		14-19	0	0	0
 retenez l'herbe pat&eacute;	3	13	EPIC	13-20	40-50	40-50	40-50
+ridiculous sandwich	3	1	awesome	11	10-12	10-12	10-12
 roasted marshmallow	1	1	crappy	1	0	0	0	3 Mallowed Out (+all)
 rocky road ice cream	2	7	awesome	7-10	12-14	12-14	12-14	40 A Contender (+200% all)
 rook cookie	1	13	EPIC	4-6	45-50	0	0	30 Towering Strength (+100..200% mus)

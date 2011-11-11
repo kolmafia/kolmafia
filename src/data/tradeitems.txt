@@ -5378,3 +5378,22 @@
 5369	KoL Con 8-Bit power bracelet	accessory	display	0
 5370
 5371	stuffed-shirt scarecrow	grow	all	0
+5372
+5373
+5374
+5375
+5376
+5377
+5378
+5379
+5380
+5381
+5382
+5383
+5384
+5385
+5386	ridiculous belt	accessory	all	0
+5387	ridiculous earring	accessory	all	0
+5388	ridiculous sunglasses	accessory	all	0
+5389	ridiculous sandwich	food	all	0
+5390	ridiculous cocktail	drink	all	0
