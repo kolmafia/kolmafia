@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -440,13 +441,17 @@ public class ValhallaDecorator
 
 	private static final void listCommonTasks( final StringBuffer buffer )
 	{
+		RelayRequest.redirectedCommandURL = "/ascend.php";
+
 		int count = InventoryManager.getCount( ItemPool.INSTANT_KARMA );
 		if ( count > 0 )
 		{
 			int banked = Preferences.getInteger( "bankedKarma" );
 			buffer.append( "<nobr><a href=\"javascript:if(confirm('Are you sure you want to discard your Instant Karma?')) singleUse('inventory.php?which=1&action=discard&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "&whichitem=4448&ajax=1');void(0);\">discard karma</a> (have " );
+			buffer.append( "&whichitem=");
+			buffer.append( ItemPool.INSTANT_KARMA );
+			buffer.append( "&ajax=1');void(0);\">discard karma</a> (have " );
 			buffer.append( count );
 			buffer.append( ", banked " );
 			buffer.append( banked );
@@ -455,99 +460,138 @@ public class ValhallaDecorator
 
 		if ( KoLCharacter.hasChef() )
 		{
-			buffer.append( "<nobr>blow up your chef</nobr><br>" );
+			buffer.append( "<nobr><a href=\"craft.php?mode=cook\">blow up your chef</a></nobr><br>" );
 		}
 
 		if ( KoLCharacter.hasBartender() )
 		{
-			buffer.append( "<nobr>blow up your bartender</nobr><br>" );
+			buffer.append( "<nobr><a href=\"craft.php?mode=cocktail\">blow up your bartender</a></nobr><br>" );
 		}
 
 		if ( KoLCharacter.getZapper() != null )
 		{
-			buffer.append( "<nobr>blow up your zap wand</nobr><br>" );
+			buffer.append( "<nobr><a href=\"wand.php?whichwand=" );
+			buffer.append( KoLCharacter.getZapper() );
+			buffer.append( "\">blow up your zap wand</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.DEAD_MIMIC ) )
 		{
-			buffer.append( "<nobr>use your dead mimic</nobr><br>" );
+			buffer.append( "<nobr><a href=\"javascript:singleUse('inv_use.php?&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "&which=3&whichitem=" );
+			buffer.append( ItemPool.DEAD_MIMIC );
+			buffer.append( "&ajax=1')\">use your dead mimic</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.BORIS_KEY ) )
 		{
-			buffer.append( "<nobr>make a Boris's key lime pie</nobr><br>" );
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
+			buffer.append( InventoryManager.getAccessibleCount( ItemPool.BORIS_KEY ) );
+			buffer.append( "+Boris&#39;s+key+lime+pie&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">make a Boris's key lime pie</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.JARLSBERG_KEY ) )
 		{
-			buffer.append( "<nobr>make a Jarlsberg's key lime pie</nobr><br>" );
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
+			buffer.append( InventoryManager.getAccessibleCount( ItemPool.JARLSBERG_KEY ) );
+			buffer.append( "+Jarlsberg&#39;s+key+lime+pie&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">make a Jarlsberg's key lime pie</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.SNEAKY_PETE_KEY ) )
 		{
-			buffer.append( "<nobr>make a Sneaky Pete's key lime pie</nobr><br>" );
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
+			buffer.append( InventoryManager.getAccessibleCount( ItemPool.SNEAKY_PETE_KEY ) );
+			buffer.append( "+Sneaky+Pete&#39;s+key+lime+pie" );
+			buffer.append( "&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">make a Sneaky Pete's key lime pie</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.DIGITAL_KEY ) )
 		{
-			buffer.append( "<nobr>make a digital key lime pie</nobr><br>" );
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
+			buffer.append( InventoryManager.getAccessibleCount( ItemPool.DIGITAL_KEY ) );
+			buffer.append( "+digital+key+lime+pie&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">make a digital key lime pie</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.STAR_KEY ) )
 		{
-			buffer.append( "<nobr>make a star key lime pie</nobr><br>" );
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
+			buffer.append( InventoryManager.getAccessibleCount( ItemPool.STAR_KEY ) );
+			buffer.append( "+star+key+lime+pie&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">make a star key lime pie</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.BUBBLIN_STONE ) )
 		{
-			buffer.append( "<nobr>make an aerated diving helmet</nobr><br>" );
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+1+aerated+diving+helmet&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">make an aerated diving helmet</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
 		{
-			buffer.append( "<nobr>complete white citadel quest by turning in White Citadel Satisfaction Satchel</nobr><br>" );
+			buffer.append( "<nobr><a href=\"guild.php?place=paco\">complete white citadel quest by turning in White Citadel Satisfaction Satchel</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.THICK_PADDED_ENVELOPE ) )
 		{
-			buffer.append( "<nobr>complete dwarvish delivery quest by turning in envelope</nobr><br>" );
+			buffer.append( "<nobr><a href=\"guild.php?place=paco\">complete dwarvish delivery quest by turning in thick padded envelope</a></nobr><br>" );
 		}
 
-		if ( InventoryManager.hasItem( ItemPool.DWARVISH_PUNCHCARD ) )
+		if ( InventoryManager.hasItem( ItemPool.DWARVISH_PUNCHCARD )   )
 		{
-			buffer.append( "<nobr>acquire dwarvish war outfit piece</nobr><br>" );
+			buffer.append( "<nobr><a href=\"dwarfcontraption.php\">acquire dwarvish war outfit piece</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.GUNPOWDER ) )
 		{
-			buffer.append( "<nobr>trade in barrels of gunpowder for big boom</nobr><br>" );
+			buffer.append( "<nobr><a href=\"postwarisland.php?place=lighthouse&action=pyro\">trade in barrels of gunpowder for big boom</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.RAT_WHISKER ) )
 		{
-			buffer.append( "<nobr>trade in rat whiskers for meat</nobr><br>" );
+			buffer.append( "<nobr><a href=\"town_wrong.php?place=artist&action=whisker\">trade in rat whiskers for meat</a></nobr><br>" );
 		}
 
 		if ( Preferences.getInteger( "lastEasterEggBalloon" ) != KoLCharacter.getAscensions() )
-		{
-			buffer.append( "<nobr>get an easter egg balloon</nobr><br>" );
+		{			
+			buffer.append( "<nobr><a href=\"lair2.php?preaction=key&whichkey=" );
+			buffer.append( ItemPool.BALLOON_MONKEY );
+			buffer.append( "\">get an easter egg balloon</a></nobr><br>" );
 		}
 
 		GenericRequest trophyCheck = new GenericRequest( "trophy.php" );
 		trophyCheck.run();
 		if ( trophyCheck.responseText.indexOf( "You're not currently entitled to any trophies" ) == -1 )
-		{
-			buffer.append( "<nobr>buy trophies you're eligible for</nobr><br>" );
+		{			
+			buffer.append( "<nobr><a href=\"trophy.php\">buy trophies you're eligible for</a></nobr><br>" );
 		}
 		
 		if ( InventoryManager.hasItem( ItemPool.RUBBER_EMO_ROE ) )
 		{
-			buffer.append( "<nobr>send your rubber emo roes to Veracity</nobr><br>" );
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=csend+" );
+			buffer.append( InventoryManager.getAccessibleCount( ItemPool.RUBBER_EMO_ROE ) );
+			buffer.append( "+rubber+emo+roe+to+veracity&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">send your rubber emo roes to Veracity</a></nobr><br>" );
 		}
 
 		if ( InventoryManager.hasItem( ItemPool.STUFFED_COCOABO ) )
 		{
-			buffer.append( "<nobr>send your stuffed cocoabos to holatuwol</nobr><br>" );
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=csend+" );
+			buffer.append( InventoryManager.getAccessibleCount( ItemPool.STUFFED_COCOABO ) );
+			buffer.append( "+stuffed+cocoabo+to+holatuwol&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">send your stuffed cocoabos to holatuwol</a></nobr><br>" );
 		}
 	}
 }
