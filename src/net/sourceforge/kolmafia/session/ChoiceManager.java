@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.regex.Matcher;
@@ -134,16 +135,6 @@ public abstract class ChoiceManager
 		private final String[] items;
 		private String[][] spoilers;
 
-		public ChoiceAdventure( final String setting, final String name, final String[] options )
-		{
-			this( "Unsorted", setting, name, options, null );
-		}
-
-		public ChoiceAdventure( final String setting, final String name, final String[] options, final String[] items )
-		{
-			this( "Unsorted", setting, name, options, items );
-		}
-
 		public ChoiceAdventure( final String zone, final String setting, final String name, final String[] options )
 		{
 			this( zone, setting, name, options, null );
@@ -225,6 +216,36 @@ public abstract class ChoiceManager
 		}
 	}
 
+	// A ChoiceSpoiler is a ChoiceAdventure that isn't user-configurable.
+	// The zone is optional, since it doesn't appear in the choiceadv GUI.
+	public static class ChoiceSpoiler
+		extends ChoiceAdventure
+	{
+		public ChoiceSpoiler( final String setting, final String name, final String[] options )
+		{
+			super( "Unsorted", setting, name, options, null );
+		}
+
+		public ChoiceSpoiler( final String setting, final String name, final String[] options, final String[] items )
+		{
+			super( "Unsorted", setting, name, options, items );
+		}
+
+		public ChoiceSpoiler( final String zone, final String setting, final String name, final String[] options )
+		{
+			super( zone, setting, name, options, null );
+		}
+
+		public ChoiceSpoiler( final String zone, final String setting, final String name, final String[] options,
+			final String[] items )
+		{
+			super( zone, setting, name, options, items );
+		}
+	}
+	
+	// NULLCHOICE is returned for failed lookups, so the caller doesn't have to do null checks.
+	public static final ChoiceSpoiler NULLCHOICE = new ChoiceSpoiler( "none", "none", new String[]{} );
+
 	private static boolean choicesOrderedByName = true;
 
 	public static final void setChoiceOrdering( final boolean choicesOrderedByName )
@@ -232,30 +253,71 @@ public abstract class ChoiceManager
 		ChoiceManager.choicesOrderedByName = choicesOrderedByName;
 	}
 
-	public static final ChoiceAdventure[] CHOICE_ADVS =
+	private static final Object[] CHOICE_DATA =
 	{
 		// Choice 1 is unknown
-		// Choice 2 is Denim Axes Examined
-		// Choice 3 is The Oracle Will See You Now
+
+		// Denim Axes Examined
+		new ChoiceSpoiler(
+			"choiceAdventure2", "Palindome",
+			new String[] { "denim axe", "skip adventure" },
+			new String[] { "499", "292" } ),
+		// Denim Axes Examined
+		new Object[]{ new Integer(2), new Integer(1),
+		  new AdventureResult( "rubber axe", -1 ) },
+
+		// The Oracle Will See You Now
+		new ChoiceSpoiler(
+			"choiceAdventure3", "Teleportitis",
+			new String[] { "skip adventure", "randomly sink 100 meat", "make plus sign usable" } ),
 
 		// Finger-Lickin'... Death.
 		new ChoiceAdventure(
 			"Beach", "choiceAdventure4", "South of the Border",
 			new String[] { "small meat boost", "try for poultrygeist", "skip adventure" },
 			new String[] { null, "1164", null } ),
+		// Finger-Lickin'... Death.
+		new Object[]{ new Integer(4), new Integer(1),
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
+		new Object[]{ new Integer(4), new Integer(2),
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Heart of Very, Very Dark Darkness
 		new ChoiceAdventure(
 			"MusSign", "choiceAdventure5", "Gravy Barrow",
 			new String[] { "fight the fairy queen", "skip adventure" } ),
 
-		// Choice 6 is Darker Than Dark
+		// Darker Than Dark
+		new ChoiceSpoiler(
+			"choiceAdventure6", "Gravy Barrow",
+			new String[] { "get Beaten Up", "skip adventure" } ),
+
 		// Choice 7 is How Depressing
-		// Choice 8 is On the Verge of a Dirge
-		// Choice 9 is the Giant Castle Chore Wheel: muscle position
-		// Choice 10 is the Giant Castle Chore Wheel: mysticality position
-		// Choice 11 is the Giant Castle Chore Wheel: map quest position
-		// Choice 12 is the Giant Castle Chore Wheel: moxie position
+
+		// On the Verge of a Dirge -> Self Explanatory
+		new ChoiceSpoiler(
+			"choiceAdventure8", "Gravy Barrow",
+			new String[] { "enter the chamber", "enter the chamber", "enter the chamber" } ),
+
+		// Wheel In the Sky Keep on Turning: Muscle Position
+		new ChoiceSpoiler(
+			"choiceAdventure9", "Castle Wheel",
+			new String[] { "Turn to mysticality", "Turn to moxie", "Leave at muscle" } ),
+
+		// Wheel In the Sky Keep on Turning: Mysticality Position
+		new ChoiceSpoiler(
+			"choiceAdventure10", "Castle Wheel",
+			new String[] { "Turn to Map Quest", "Turn to muscle", "Leave at mysticality" } ),
+
+		// Wheel In the Sky Keep on Turning: Map Quest Position
+		new ChoiceSpoiler(
+			"choiceAdventure11", "Castle Wheel",
+			new String[] { "Turn to moxie", "Turn to mysticality", "Leave at map quest" } ),
+
+		// Wheel In the Sky Keep on Turning: Moxie Position
+		new ChoiceSpoiler(
+			"choiceAdventure12", "Castle Wheel",
+			new String[] { "Turn to muscle", "Turn to map quest", "Leave at moxie" } ),
 
 		// Choice 13 is unknown
 
@@ -305,6 +367,9 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Town", "choiceAdventure21", "Sleazy Back Alley",
 			new String[] { "switch genders", "skip adventure" } ),
+		// Under the Knife
+		new Object[]{ new Integer(21), new Integer(1),
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// The Arrrbitrator
 		new ChoiceAdventure(
@@ -331,11 +396,31 @@ public abstract class ChoiceManager
 			"Dungeon", "choiceAdventure25", "Dungeon of Doom",
 			new String[] { "magic lamp", "dead mimic", "skip adventure" },
 			new String[] { "1273", "1267", null } ),
+		// Ouch! You bump into a door!
+		new Object[]{ new Integer(25), new Integer(1),
+		  new AdventureResult( AdventureResult.MEAT, -50 ) },
+		new Object[]{ new Integer(25), new Integer(2),
+		  new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
-		// Choice 26 is A Three-Tined Fork
-		// Choice 27 is Footprints
-		// Choice 28 is A Pair of Craters
-		// Choice 29 is The Road Less Visible
+		// A Three-Tined Fork
+		new ChoiceSpoiler(
+			"choiceAdventure26", "Spooky Forest",
+			new String[] { "muscle classes", "mysticality classes", "moxie classes" } ),
+
+		// Footprints
+		new ChoiceSpoiler(
+			"choiceAdventure27", "Spooky Forest",
+			new String[] { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER } ),
+
+		// A Pair of Craters
+		new ChoiceSpoiler(
+			"choiceAdventure28", "Spooky Forest",
+			new String[] { KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR } ),
+
+		// The Road Less Visible
+		new ChoiceSpoiler(
+			"choiceAdventure29", "Spooky Forest",
+			new String[] { KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF } ),
 
 		// Choices 30 - 39 are unknown
 
@@ -358,7 +443,12 @@ public abstract class ChoiceManager
 			new String[] { "1326", "1327", null } ),
 
 		// Choices 43 - 44 are unknown
-		// Choice 45 is Maps and Legends
+
+		// Maps and Legends
+		new ChoiceSpoiler(
+			"choiceAdventure45", "Spooky Forest",
+			new String[] { "Spooky Temple map", "skip adventure", "skip adventure" },
+			new String[] { "74", null, null } ),
 
 		// An Interesting Choice
 		new ChoiceAdventure(
@@ -371,6 +461,11 @@ public abstract class ChoiceManager
 			"Woods", "choiceAdventure47", "Spooky Forest Vampire Hunter",
 			 new String[] { "bottle of used blood", "skip adventure and keep vampire hearts" },
 			new String[] { "1523", "1518" } ),
+		// Have a Heart
+		// This trades all vampire hearts for an equal number of
+		// bottles of used blood.
+		new Object[]{ new Integer(47), new Integer(1),
+		  ItemPool.get( ItemPool.VAMPIRE_HEART, 1 ) },
 
 		// Choices 48 - 70 are violet fog adventures
 		// Choice 71 is A Journey to the Center of Your Mind
@@ -379,6 +474,11 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Island", "choiceAdventure72", "Frat House", new String[] { "around the world", "skip adventure" },
 			new String[] { "1634", "1633" } ),
+		// Lording Over The Flies
+		// This trades all Spanish flies for around the worlds,
+		// in multiples of 5.  Excess flies are left in inventory.
+		new Object[]{ new Integer(72), new Integer(1),
+		  ItemPool.get( ItemPool.SPANISH_FLY, 5 ) },
 
 		// Don't Fence Me In
 		new ChoiceAdventure(
@@ -404,11 +504,30 @@ public abstract class ChoiceManager
 			new String[] { "cardboard ore", "styrofoam ore", "bubblewrap ore" },
 			new String[] { "1675", "1676", "1677" } ),
 
-		// Choice 77 is Minnesota Incorporeals
-		// Choice 78 is Broken
-		// Choice 79 is A Hustle Here, a Hustle There
-		// Choice 80 is Take a Look, it's in a Book!
-		// Choice 81 is Take a Look, it's in a Book!
+		// Minnesota Incorporeals
+		new ChoiceSpoiler(
+			"choiceAdventure77", "Haunted Billiard Room",
+			new String[] { "moxie substats", "other options", "skip adventure" } ),
+
+		// Broken
+		new ChoiceSpoiler(
+			"choiceAdventure78", "Haunted Billiard Room",
+			new String[] { "other options", "muscle substats", "skip adventure" } ),
+
+		// A Hustle Here, a Hustle There
+		new ChoiceSpoiler(
+			"choiceAdventure79", "Haunted Billiard Room",
+			new String[] { "Spookyraven library key", "mysticality substats", "skip adventure" } ),
+
+		// Take a Look, it's in a Book!
+		new ChoiceSpoiler(
+			"choiceAdventure80", "Haunted Library",
+			new String[] { "background history", "cooking recipe", "other options", "skip adventure" } ),
+
+		// Take a Look, it's in a Book!
+		new ChoiceSpoiler(
+			"choiceAdventure81", "Haunted Library",
+			new String[] { "gallery quest", "cocktailcrafting recipe", "muscle substats", "skip adventure" } ),
 
 		// One NightStand (simple white)
 		new ChoiceAdventure(
@@ -433,17 +552,35 @@ public abstract class ChoiceManager
 			"Manor2", "choiceAdventure85", "Haunted Bedroom",
 			new String[] { "moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat", "ballroom key and moxie", "ballroom key and combat" } ),
 
-		// Choice 86 is History is Fun!
-		// Choice 87 is History is Fun!
-		// Choice 88 is Naughty, Naughty
-		// Choice 89 is Out in the Garden
+		// History is Fun!
+		new ChoiceSpoiler(
+			"choiceAdventure86", "Haunted Library",
+			new String[] { "Spookyraven Chapter 1", "Spookyraven Chapter 2", "Spookyraven Chapter 3" } ),
+
+		// History is Fun!
+		new ChoiceSpoiler(
+			"choiceAdventure87", "Haunted Library",
+			new String[] { "Spookyraven Chapter 4", "Spookyraven Chapter 5 (Gallery Quest)", "Spookyraven Chapter 6" } ),
+
+		// Naughty, Naughty
+		new ChoiceSpoiler(
+			"choiceAdventure88", "Haunted Library",
+			new String[] { "mysticality substats", "moxie substats", "Fettucini / Scarysauce" } ),
+
+		new ChoiceSpoiler(
+			"choiceAdventure89", "Haunted Gallery",
+			new String[] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
 
 		// Curtains
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure90", "Haunted Ballroom",
 			new String[] { "enter combat", "moxie substats", "skip adventure" } ),
 
-		// Choice 91 is Louvre It or Leave It
+		// Louvre It or Leave It
+		new ChoiceSpoiler(
+			"choiceAdventure91", "Haunted Gallery",
+			new String[] { "Enter the Drawing", "skip adventure" } ),
+
 		// Choices 92 - 104 are Escher print adventures
 
 		// Having a Medicine Ball
@@ -518,7 +655,6 @@ public abstract class ChoiceManager
 			"Knob", "choiceAdventure118", "Outskirts of The Knob",
 			new String[] { "accept unguent quest", "skip adventure" } ),
 
-		// Choice 118 is When Rocks Attack
 		// Choice 119 is Check It Out Now
 
 		// Ennui is Wasted on the Young
@@ -529,19 +665,53 @@ public abstract class ChoiceManager
 
 		// Choice 121 is Next Sunday, A.D.
 		// Choice 122 is unknown
-		// Choice 123 is At Least It's Not Full Of Trash
+
+		// At Least It's Not Full Of Trash
+		new ChoiceSpoiler(
+			"choiceAdventure123", "Hidden Temple",
+			new String[] { "lose HP", "Unlock Quest Puzzle", "lose HP" } ),
+
 		// Choice 124 is unknown
-		// Choice 125 is No Visible Means of Support
+
+		// No Visible Means of Support
+		new ChoiceSpoiler(
+			"choiceAdventure125", "Hidden Temple",
+			new String[] { "lose HP", "lose HP", "Unlock Hidden City" } ),
 
 		// Sun at Noon, Tan Us
 		new ChoiceAdventure(
 			"Plains", "choiceAdventure126", "Palindome",
 			new String[] { "moxie", "chance of more moxie", "sunburned" } ),
 
-		// Choice 127 is No sir, away!	A papaya war is on!
+		// No sir, away!  A papaya war is on!
+		new ChoiceSpoiler(
+			"choiceAdventure127", "Palindome",
+			new String[] { "3 papayas", "trade 3 papayas for stats", "stats" },
+			new String[] { "498", null, null } ),
+		// No sir, away!  A papaya war is on!
+		new Object[]{ new Integer(127), new Integer(2),
+		  ItemPool.get( ItemPool.PAPAYA, -3 ) },
+
 		// Choice 128 is unknown
-		// Choice 129 is Do Geese See God?
-		// Choice 130 is Rod Nevada, Vendor
+
+		// Do Geese See God?
+		new ChoiceSpoiler(
+			"choiceAdventure129", "Palindome",
+			new String[] { "photograph of God", "skip adventure" },
+			new String[] { "2259", null } ),
+		// Do Geese See God?
+		new Object[]{ new Integer(129), new Integer(1),
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
+
+		// Rod Nevada, Vendor
+		new ChoiceSpoiler(
+			"choiceAdventure130", "Palindome",
+			new String[] { "hard rock candy", "skip adventure" },
+			new String[] { "2260", null } ),
+		// Rod Nevada, Vendor
+		new Object[]{ new Integer(130), new Integer(1),
+		  new AdventureResult( AdventureResult.MEAT, -500 ) },
+
 		// Choice 131 is Dr. Awkward
 
 		// Let's Make a Deal!
@@ -549,6 +719,9 @@ public abstract class ChoiceManager
 			"Beach", "choiceAdventure132", "Desert (Pre-Oasis)",
 			new String[] { "broken carburetor", "Unlock Oasis" },
 			new String[] { "2316", null } ),
+		// Let's Make a Deal!
+		new Object[]{ new Integer(132), new Integer(1),
+		  new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
 		// Choice 133 is unknown
 
@@ -647,7 +820,10 @@ public abstract class ChoiceManager
 			"Plains", "choiceAdventure151", "Fun House",
 			new String[] { "fight the clownlord", "skip adventure" } ),
 
-		// Choice 152 is Lurking at the Threshold
+		// Lurking at the Threshold
+		new ChoiceSpoiler(
+			"choiceAdventure152", "Fun House",
+			new String[] { "fight the clownlord", "skip adventure" } ),
 
 		// Turn Your Head and Coffin
 		new ChoiceAdventure(
@@ -676,7 +852,11 @@ public abstract class ChoiceManager
 		// Choice 160 used to be Lunchtime
 
 		// Choice 161 is Bureaucracy of the Damned
-		// Choice 162 is Between a Rock and Some Other Rocks
+
+		// Between a Rock and Some Other Rocks
+		new ChoiceSpoiler(
+			"choiceAdventure162", "Goatlet",
+			new String[] { "Open Goatlet", "skip adventure" } ),
 
 		// Melvil Dewey Would Be Ashamed
 		new ChoiceAdventure(
@@ -729,7 +909,7 @@ public abstract class ChoiceManager
 		// Beyond Any Measure
 		new ChoiceAdventure(
 			"Wormwood", "choiceAdventure165", "Pleasure Dome",
-			new String[] { "Rat-Faced -> Night Vision", "Bats in the Belfry -> Good with the Ladies", "mysticality substats", "skip adventure" } ),
+			new String[] { "Rat-Faced -> Night Vision", "Bats in the Belfry -> Good with the Ladies", "mysticality       substats", "skip adventure" } ),
 
 		// Death is a Boat
 		new ChoiceAdventure(
@@ -778,6 +958,15 @@ public abstract class ChoiceManager
 			"Woods", "choiceAdventure177", "Black Forest",
 			new String[] { "blackberry slippers", "blackberry moccasins", "blackberry combat boots", "blackberry galoshes", "skip adventure" },
 			new String[] { "2705", "2706", "2707", "4659", null } ),
+		// The Blackberry Cobbler
+		new Object[]{ new Integer(177), new Integer(1),
+		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
+		new Object[]{ new Integer(177), new Integer(2),
+		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
+		new Object[]{ new Integer(177), new Integer(3),
+		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
+		new Object[]{ new Integer(177), new Integer(4),
+		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
 
 		// Hammering the Armory
 		new ChoiceAdventure(
@@ -798,6 +987,11 @@ public abstract class ChoiceManager
 			"Island", "choiceAdventure181", "Frat House (Stone Age)",
 			new String[] { "around the world", "skip adventure" },
 			new String[] { "1634", "1633" } ),
+		// Chieftain of the Flies
+		// This trades all Spanish flies for around the worlds,
+		// in multiples of 5.  Excess flies are left in inventory.
+		new Object[]{ new Integer(181), new Integer(1),
+		  ItemPool.get( ItemPool.SPANISH_FLY, 5 ) },
 
 		// Random Lack of an Encounter
 		new ChoiceAdventure(
@@ -828,7 +1022,10 @@ public abstract class ChoiceManager
 			"Item-Driven", "choiceAdventure188", "Frathouse Blueprints",
 			new String[] { "frat boy ensemble", "mullet wig and briefcase", "frilly skirt and hot wings" } ),
 
-		// Choice 189 is O Cap'm, My Cap'm
+		//  O Cap'm, My Cap'm
+		new Object[]{ new Integer(189), new Integer(1),
+		  new AdventureResult( AdventureResult.MEAT, -977 ) },
+
 		// Choice 190 is unknown
 
 		// Chatterboxing
@@ -988,8 +1185,120 @@ public abstract class ChoiceManager
 			"Hobopolis", "choiceAdventure230", "Hobopolis Town Square",
 			new String[] { "hobo code binder", "skip adventure" },
 			new String[] { "3220", null } ),
+		// Mind Yer Binder
+		new Object[]{ new Integer(230), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -30 ) },
 
 		// Choices 231-271 are subchoices of Choice 272
+
+		// Food, Glorious Food
+		new ChoiceSpoiler(
+			"choiceAdventure235", "Hobopolis Marketplace",
+			new String[] { "muscle food", "mysticality food", "moxie food" } ),
+
+		// Booze, Glorious Booze
+		new ChoiceSpoiler(
+			"choiceAdventure240", "Hobopolis Marketplace",
+			new String[] { "muscle booze", "mysticality booze", "moxie booze" } ),
+
+		// The Guy Who Carves Driftwood Animals
+		new Object[]{ new Integer(247), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
+
+		// A Hattery
+		new ChoiceSpoiler(
+			"choiceAdventure250", "Hobopolis Marketplace",
+			new String[] { "crumpled felt fedora", "battered old top-hat", "shapeless wide-brimmed hat" },
+			new String[] { "3328", "3329", "3330" } ),
+		// A Hattery
+		new Object[]{ new Integer(250), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
+		new Object[]{ new Integer(250), new Integer(2),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
+		new Object[]{ new Integer(250), new Integer(3),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
+
+		// A Pantry
+		new ChoiceSpoiler(
+			"choiceAdventure251", "Hobopolis Marketplace",
+			new String[] { "mostly rat-hide leggings", "hobo dungarees", "old patched suit-pants" },
+			new String[] { "3331", "3332", "3333" } ),
+		// A Pantry
+		new Object[]{ new Integer(251), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
+		new Object[]{ new Integer(251), new Integer(2),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
+		new Object[]{ new Integer(251), new Integer(3),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
+
+		// Hobo Blanket Bingo
+		new ChoiceSpoiler(
+			"choiceAdventure252", "Hobopolis Marketplace",
+			new String[] { "old soft shoes", "hobo stogie", "rope with some soap on it" },
+			new String[] { "3140", "3334", "3335" } ),
+		// Hobo Blanket Bingo
+		new Object[]{ new Integer(252), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
+		new Object[]{ new Integer(252), new Integer(2),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
+		new Object[]{ new Integer(252), new Integer(3),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
+
+		// Black-and-Blue-and-Decker
+		new ChoiceSpoiler(
+			"choiceAdventure255", "Hobopolis Marketplace",
+			new String[] { "sharpened hubcap", "very large caltrop", "The Six-Pack of Pain" },
+			new String[] { "3339", "3340", "3341" } ),
+		// Black-and-Blue-and-Decker
+		new Object[]{ new Integer(255), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
+		new Object[]{ new Integer(255), new Integer(2),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
+		new Object[]{ new Integer(255), new Integer(3),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
+
+		// Instru-mental
+		new Object[]{ new Integer(258), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -99 ) },
+
+		// We'll Make Great...
+		new ChoiceSpoiler(
+			"choiceAdventure259", "Hobopolis Marketplace",
+			new String[] { "hobo monkey", "stats", "enter combat" } ),
+
+		// Everybody's Got Something To Hide
+		new Object[]{ new Integer(261), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -1000 ) },
+
+		// Tanning Salon
+		new ChoiceSpoiler(
+			"choiceAdventure264", "Hobopolis Marketplace",
+			new String[] { "20 adv of +50% moxie", "20 adv of +50% mysticality" } ),
+		// Tanning Salon
+		new Object[]{ new Integer(264), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
+		new Object[]{ new Integer(264), new Integer(2),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
+
+		// Let's All Go To The Movies
+		new ChoiceSpoiler(
+			"choiceAdventure267", "Hobopolis Marketplace",
+			new String[] { "20 adv of +5 spooky resistance", "20 adv of +5 sleaze resistance" } ),
+		// Let's All Go To The Movies
+		new Object[]{ new Integer(267), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
+		new Object[]{ new Integer(267), new Integer(2),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
+
+		// It's Fun To Stay There
+		new ChoiceSpoiler(
+			"choiceAdventure268", "Hobopolis Marketplace",
+			new String[] { "20 adv of +5 stench resistance", "20 adv of +50% muscle" } ),
+		// It's Fun To Stay There
+		new Object[]{ new Integer(268), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
+		new Object[]{ new Integer(268), new Integer(2),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Marketplace Entrance
 		new ChoiceAdventure(
@@ -1007,38 +1316,131 @@ public abstract class ChoiceManager
 
 		// Choice 275 is Triangle, Man, a subchoice of Choice 272 when
 		// you've already purchased your class instrument
+		// Triangle, Man
+		new Object[]{ new Integer(275), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
 
 		// Choices 278-290 are llama lama gong related choices
+
+		// The Gong Has Been Bung
+		new ChoiceSpoiler(
+			"choiceAdventure276", "Gong",
+			new String[] { "3 adventures", "12 adventures", "15 adventures" } ),
+
+		// Welcome Back!
+		new ChoiceSpoiler(
+			"choiceAdventure277", "Gong",
+			new String[] { "finish journey", "also finish journey" } ),
+
+		// Enter the Roach
+		new ChoiceSpoiler(
+			"choiceAdventure278", "Gong",
+			new String[] { "muscle substats", "mysticality substats", "moxie substats" } ),
+
+		// It's Nukyuhlur - the 'S' is Silent.
+		new ChoiceSpoiler(
+			"choiceAdventure279", "Gong",
+			new String[] { "moxie substats", "muscle substats", "gain MP" } ),
+
+		// Eek! Eek!
+		new ChoiceSpoiler(
+			"choiceAdventure280", "Gong",
+			new String[] { "mysticality substats", "muscle substats", "gain MP" } ),
+
+		// A Meta-Metamorphosis
+		new ChoiceSpoiler(
+			"choiceAdventure281", "Gong",
+			new String[] { "moxie substats", "mysticality substats", "gain MP" } ),
+
+		// You've Got Wings, But No Wingman
+		new ChoiceSpoiler(
+			"choiceAdventure282", "Gong",
+			new String[] { "+30% muscle", "+10% all stats", "+30 ML" } ),
+
+		// Time Enough at Last!
+		new ChoiceSpoiler(
+			"choiceAdventure283", "Gong",
+			new String[] { "+30% muscle", "+10% all stats", "+50% item drops" } ),
+
+		// Scavenger Is Your Middle Name
+		new ChoiceSpoiler(
+			"choiceAdventure284", "Gong",
+			new String[] { "+30% muscle", "+50% item drops", "+30 ML" } ),
+
+		// Bugging Out
+		new ChoiceSpoiler(
+			"choiceAdventure285", "Gong",
+			new String[] { "+30% mysticality", "+30 ML", "+10% all stats" } ),
+
+		// A Sweeping Generalization
+		new ChoiceSpoiler(
+			"choiceAdventure286", "Gong",
+			new String[] { "+50% item drops", "+10% all stats", "+30% mysticality" } ),
+
+		// In the Frigid Aire
+		new ChoiceSpoiler(
+			"choiceAdventure287", "Gong",
+			new String[] { "+30 ML", "+30% mysticality", "+50% item drops" } ),
+
+		// Our House
+		new ChoiceSpoiler(
+			"choiceAdventure288", "Gong",
+			new String[] { "+30 ML", "+30% moxie", "+10% all stats" } ),
+
+		// Workin' For The Man
+		new ChoiceSpoiler(
+			"choiceAdventure289", "Gong",
+			new String[] { "+30 ML", "+30% moxie", "+50% item drops" } ),
+
+		// The World's Not Fair
+		new ChoiceSpoiler(
+			"choiceAdventure290", "Gong",
+			new String[] { "+30% moxie", "+10% all stats", "+50% item drops" } ),
 
 		// A Tight Squeeze
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure291", "Burnbarrel Blvd.",
 			new String[] { "jar of squeeze", "skip adventure" },
 			new String[] { "3399", null } ),
+		// A Tight Squeeze - jar of squeeze
+		new Object[]{ new Integer(291), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Cold Comfort
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure292", "Exposure Esplanade",
 			new String[] { "bowl of fishysoisse", "skip adventure" },
 			new String[] { "3400", null } ),
+		// Cold Comfort - bowl of fishysoisse
+		new Object[]{ new Integer(292), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Flowers for You
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure293", "The Ancient Hobo Burial Ground",
 			new String[] { "deadly lampshade", "skip adventure" },
 			new String[] { "3401", null } ),
+		// Flowers for You - deadly lampshade
+		new Object[]{ new Integer(293), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Maybe It's a Sexy Snake!
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure294", "The Purple Light District",
 			new String[] { "lewd playing card", "skip adventure" },
 			new String[] { "3403", null } ),
+		// Maybe It's a Sexy Snake! - lewd playing card
+		new Object[]{ new Integer(294), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Juicy!
 		new ChoiceAdventure(
 			"Hobopolis", "choiceAdventure295", "The Heap",
 			new String[] { "concentrated garbage juice", "skip adventure" },
 			new String[] { "3402", null } ),
+		// Juicy! - concentrated garbage juice
+		new Object[]{ new Integer(295), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Choice 296 is Pop!
 
@@ -1068,12 +1470,18 @@ public abstract class ChoiceManager
 			"The Sea", "choiceAdventure304", "The Marinara Trench",
 			new String[] { "bubbling tempura batter", "skip adventure" },
 			new String[] { "3681", null } ),
+		// A Vent Horizon
+		new Object[]{ new Integer(304), new Integer(1),
+		  new AdventureResult( AdventureResult.MP, -200 ) },
 
 		// There is Sauce at the Bottom of the Ocean
 		new ChoiceAdventure(
 			"The Sea", "choiceAdventure305", "The Marinara Trench",
 			new String[] { "globe of Deep Sauce", "skip adventure" },
 			new String[] { "3682", null } ),
+		// There is Sauce at the Bottom of the Ocean
+		new Object[]{ new Integer(305), new Integer(1),
+		  ItemPool.get( ItemPool.MERKIN_PRESSUREGLOBE, -1 ) },
 
 		// Choice 306 is [Grandpa Mine Choice]
 		// Choice 307 is Ode to the Sea
@@ -1090,6 +1498,12 @@ public abstract class ChoiceManager
 			"The Sea", "choiceAdventure310", "Madness Reef",
 			new String[] { "rough fish scale", "pristine fish scale", "skip adventure" },
 			new String[] { "3487", "3488", null } ),
+		// The Economist of Scales
+		// This trades 10 dull fish scales in.
+		new Object[]{ new Integer(310), new Integer(1),
+		  new AdventureResult( "dull fish scale", -10 ) },
+		new Object[]{ new Integer(310), new Integer(2),
+		  new AdventureResult( "rough fish scale", -10 ) },
 
 		// Heavily Invested in Pun Futures
 		new ChoiceAdventure(
@@ -1175,7 +1589,7 @@ public abstract class ChoiceManager
 		// I'm on the Hunt, I'm After You
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure355", "Seaside Megalopolis",
-			new String[] { "Stats", "Phairly Peromonal" } ),
+			new String[] { "Stats", "Phairly Pheromonal" } ),
 
 		// Choice 356 is A Diseased Procurer
 		new ChoiceAdventure(
@@ -1308,7 +1722,11 @@ public abstract class ChoiceManager
 		// Choice 435 is Season's Beatings
 		// Choice 436 is unknown
 		// Choice 437 is Flying In Circles
-		// Choice 438 is From Little Acorns...
+
+		// From Little Acorns...
+		new Object[]{ new Integer(438), new Integer(1),
+		  ItemPool.get( ItemPool.UNDERWORLD_ACORN, -1 ) },
+
 		// Choice 439 is unknown
 		// Choice 440 is Puttin' on the Wax
 		// Choice 441 is The Mad Tea Party
@@ -1329,7 +1747,7 @@ public abstract class ChoiceManager
 
 		// Choice 446 is The Caucus Racetrack (Accordion Thief)
 		new ChoiceAdventure(
-			"RabbitHole", "choiceAdventure446", "Reflection of Map )Accordion Thief)",
+			"RabbitHole", "choiceAdventure446", "Reflection of Map (Accordion Thief)",
 			new String[] { "missing wine", "delicious comfit?" },
 			new String[] { "4516", "4518" } ),
 
@@ -1437,11 +1855,46 @@ public abstract class ChoiceManager
 		// Choice 501 is unknown
 
 		// Choice 502 is Arboreal Respite
-		// Choice 503 is The Road Less Traveled
-		// Choice 504 is Tree's Last Stand
-		// Choice 505 is Consciousness of a Stream
-		// Choice 506 is Through Thicket and Thinnet
-		// Choice 507 is O Lith, Mon
+
+		// The Road Less Traveled
+		new ChoiceSpoiler(
+			"choiceAdventure503", "Spooky Forest",
+			new String[] { "gain some meat", "gain stakes or trade vampire hearts", "gain spooky sapling or trade bar skins" },
+			new String[] { null, "1518", "70" } ),
+
+		// Tree's Last Stand
+		new ChoiceSpoiler(
+			"choiceAdventure504", "Spooky Forest",
+			new String[] { "bar skin", "bar skins", "buy spooky sapling", "skip adventure" },
+			new String[] { "70", "70", "75", null } ),
+		// Tree's Last Stand
+		new Object[]{ new Integer(504), new Integer(1),
+		  ItemPool.get( ItemPool.BAR_SKIN, -1 ) },
+		new Object[]{ new Integer(504), new Integer(2),
+		  ItemPool.get( ItemPool.BAR_SKIN, 1 ) },
+		new Object[]{ new Integer(504), new Integer(3),
+		  new AdventureResult( AdventureResult.MEAT, -100 ) },
+
+		// Consciousness of a Stream
+		new ChoiceSpoiler(
+			"choiceAdventure505", "Spooky Forest",
+			new String[] { "gain mosquito larva then 3 spooky mushrooms", "gain 300 meat & tree-holed coin then nothing", "fight a spooky vampire" },
+			new String[] { "724", null, null } ),
+
+		// Through Thicket and Thinnet
+		new ChoiceSpoiler(
+			"choiceAdventure506", "Spooky Forest",
+			new String[] { "gain a starter item", "gain Spooky-Gro fertilizer", "gain spooky temple map" },
+			new String[] { null, "76", "74" } ),
+
+		// O Lith, Mon
+		new ChoiceSpoiler(
+			"choiceAdventure507", "Spooky Forest",
+			new String[] { "gain Spooky Temple map", "skip adventure", "skip adventure" },
+			new String[] { null, null, null } ),
+		// O Lith, Mon
+		new Object[]{ new Integer(507), new Integer(1),
+		  ItemPool.get( ItemPool.TREE_HOLED_COIN, -1 ) },
 
 		// Choice 508 is Pants-Gazing
 		// Choice 509 is Of Course!
@@ -1477,6 +1930,9 @@ public abstract class ChoiceManager
 			"Hobopolis", "choiceAdventure519", "Elf Alley",
 			new String[] { "gift-a-pult", "skip adventure" },
 			new String[] { "4852", null } ),
+		// What a Tosser - gift-a-pult
+		new Object[]{ new Integer(519), new Integer(1),
+		  ItemPool.get( ItemPool.HOBO_NICKEL, -50 ) },
 
 		// Choice 520 is A Show-ho-ho-down
 		// Choice 521 is A Wicked Buzz
@@ -1551,566 +2007,70 @@ public abstract class ChoiceManager
 			"Clan Basement", "choiceAdventure548", "Sorority House Necbromancer",
 			new String[] { "enter combat with The Necbromancer", "skip adventure" } ),
 
-		// Choice 553 is Relocked and Reloaded
-	};
-
-	static
-	{
-		Arrays.sort( ChoiceManager.CHOICE_ADVS );
-	}
-
-	// We choose to not make some choice adventures configurable, but we
-	// want to provide spoilers in the browser for them.
-
-	public static final ChoiceAdventure[] CHOICE_ADV_SPOILERS =
-	{
-		// Denim Axes Examined
-		new ChoiceAdventure(
-			"choiceAdventure2", "Palindome",
-			new String[] { "denim axe", "skip adventure" },
-			new String[] { "499", "292" } ),
-
-		// The Oracle Will See You Now
-		new ChoiceAdventure(
-			"choiceAdventure3", "Teleportitis",
-			new String[] { "skip adventure", "randomly sink 100 meat", "make plus sign usable" } ),
-
-		// Darker Than Dark
-		new ChoiceAdventure(
-			"choiceAdventure6", "Gravy Barrow",
-			new String[] { "get Beaten Up", "skip adventure" } ),
-
-		// On the Verge of a Dirge -> Self Explanatory
-		new ChoiceAdventure(
-			"choiceAdventure8", "Gravy Barrow",
-			new String[] { "enter the chamber", "enter the chamber", "enter the chamber" } ),
-
-		// Wheel In the Sky Keep on Turning: Muscle Position
-		new ChoiceAdventure(
-			"choiceAdventure9", "Castle Wheel",
-			new String[] { "Turn to mysticality", "Turn to moxie", "Leave at muscle" } ),
-
-		// Wheel In the Sky Keep on Turning: Mysticality Position
-		new ChoiceAdventure(
-			"choiceAdventure10", "Castle Wheel",
-			new String[] { "Turn to Map Quest", "Turn to muscle", "Leave at mysticality" } ),
-
-		// Wheel In the Sky Keep on Turning: Map Quest Position
-		new ChoiceAdventure(
-			"choiceAdventure11", "Castle Wheel",
-			new String[] { "Turn to moxie", "Turn to mysticality", "Leave at map quest" } ),
-
-		// Wheel In the Sky Keep on Turning: Moxie Position
-		new ChoiceAdventure(
-			"choiceAdventure12", "Castle Wheel",
-			new String[] { "Turn to muscle", "Turn to map quest", "Leave at moxie" } ),
-
-		// A Three-Tined Fork
-		new ChoiceAdventure(
-			"choiceAdventure26", "Spooky Forest",
-			new String[] { "muscle classes", "mysticality classes", "moxie classes" } ),
-
-		// Footprints
-		new ChoiceAdventure(
-			"choiceAdventure27", "Spooky Forest",
-			new String[] { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER } ),
-
-		// A Pair of Craters
-		new ChoiceAdventure(
-			"choiceAdventure28", "Spooky Forest",
-			new String[] { KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR } ),
-
-		// The Road Less Visible
-		new ChoiceAdventure(
-			"choiceAdventure29", "Spooky Forest",
-			new String[] { KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF } ),
-
-		// Maps and Legends
-		new ChoiceAdventure(
-			"choiceAdventure45", "Spooky Forest",
-			new String[] { "Spooky Temple map", "skip adventure", "skip adventure" },
-			new String[] { "74", null, null } ),
-
-		// A Journey to the Center of Your Mind -> Self Explanatory
-
-		// Minnesota Incorporeals
-		new ChoiceAdventure(
-			"choiceAdventure77", "Haunted Billiard Room",
-			new String[] { "moxie substats", "other options", "skip adventure" } ),
-
-		// Broken
-		new ChoiceAdventure(
-			"choiceAdventure78", "Haunted Billiard Room",
-			new String[] { "other options", "muscle substats", "skip adventure" } ),
-
-		// A Hustle Here, a Hustle There
-		new ChoiceAdventure(
-			"choiceAdventure79", "Haunted Billiard Room",
-			new String[] { "Spookyraven library key", "mysticality substats", "skip adventure" } ),
-
-		// Take a Look, it's in a Book!
-		new ChoiceAdventure(
-			"choiceAdventure80", "Haunted Library",
-			new String[] { "background history", "cooking recipe", "other options", "skip adventure" } ),
-
-		// Take a Look, it's in a Book!
-		new ChoiceAdventure(
-			"choiceAdventure81", "Haunted Library",
-			new String[] { "gallery quest", "cocktailcrafting recipe", "muscle substats", "skip adventure" } ),
-
-		// History is Fun!
-		new ChoiceAdventure(
-			"choiceAdventure86", "Haunted Library",
-			new String[] { "Spookyraven Chapter 1", "Spookyraven Chapter 2", "Spookyraven Chapter 3" } ),
-
-		// History is Fun!
-		new ChoiceAdventure(
-			"choiceAdventure87", "Haunted Library",
-			new String[] { "Spookyraven Chapter 4", "Spookyraven Chapter 5 (Gallery Quest)", "Spookyraven Chapter 6" } ),
-
-		// Naughty, Naughty
-		new ChoiceAdventure(
-			"choiceAdventure88", "Haunted Library",
-			new String[] { "mysticality substats", "moxie substats", "Fettucini / Scarysauce" } ),
-
-		new ChoiceAdventure(
-			"choiceAdventure89", "Haunted Gallery",
-			new String[] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
-
-		// Louvre It or Leave It
-		new ChoiceAdventure(
-			"choiceAdventure91", "Haunted Gallery",
-			new String[] { "Enter the Drawing", "skip adventure" } ),
-
-		// At Least It's Not Full Of Trash
-		new ChoiceAdventure(
-			"choiceAdventure123", "Hidden Temple",
-			new String[] { "lose HP", "Unlock Quest Puzzle", "lose HP" } ),
-
-		// No Visible Means of Support
-		new ChoiceAdventure(
-			"choiceAdventure125", "Hidden Temple",
-			new String[] { "lose HP", "lose HP", "Unlock Hidden City" } ),
-
-		// No sir, away!  A papaya war is on!
-		new ChoiceAdventure(
-			"choiceAdventure127", "Palindome",
-			new String[] { "3 papayas", "trade 3 papayas for stats", "stats" },
-			new String[] { "498", null, null } ),
-
-		// Do Geese See God?
-		new ChoiceAdventure(
-			"choiceAdventure129", "Palindome",
-			new String[] { "photograph of God", "skip adventure" },
-			new String[] { "2259", null } ),
-
-		// Rod Nevada, Vendor
-		new ChoiceAdventure(
-			"choiceAdventure130", "Palindome",
-			new String[] { "hard rock candy", "skip adventure" },
-			new String[] { "2260", null } ),
-
-		// Lurking at the Threshold
-		new ChoiceAdventure(
-			"choiceAdventure152", "Fun House",
-			new String[] { "fight the clownlord", "skip adventure" } ),
-
-		// Between a Rock and Some Other Rocks
-		new ChoiceAdventure(
-			"choiceAdventure162", "Goatlet",
-			new String[] { "Open Goatlet", "skip adventure" } ),
-
-		// Food, Glorious Food
-		new ChoiceAdventure(
-			"choiceAdventure235", "Hobopolis Marketplace",
-			new String[] { "muscle food", "mysticality food", "moxie food" } ),
-
-		// Booze, Glorious Booze
-		new ChoiceAdventure(
-			"choiceAdventure240", "Hobopolis Marketplace",
-			new String[] { "muscle booze", "mysticality booze", "moxie booze" } ),
-
-		// A Hattery
-		new ChoiceAdventure(
-			"choiceAdventure250", "Hobopolis Marketplace",
-			new String[] { "crumpled felt fedora", "battered old top-hat", "shapeless wide-brimmed hat" },
-			new String[] { "3328", "3329", "3330" } ),
-
-		// A Pantry
-		new ChoiceAdventure(
-			"choiceAdventure251", "Hobopolis Marketplace",
-			new String[] { "mostly rat-hide leggings", "hobo dungarees", "old patched suit-pants" },
-			new String[] { "3331", "3332", "3333" } ),
-
-		// Hobo Blanket Bingo
-		new ChoiceAdventure(
-			"choiceAdventure252", "Hobopolis Marketplace",
-			new String[] { "old soft shoes", "hobo stogie", "rope with some soap on it" },
-			new String[] { "3140", "3334", "3335" } ),
-
-		// Black-and-Blue-and-Decker
-		new ChoiceAdventure(
-			"choiceAdventure255", "Hobopolis Marketplace",
-			new String[] { "sharpened hubcap", "very large caltrop", "The Six-Pack of Pain" },
-			new String[] { "3339", "3340", "3341" } ),
-
-		// We'll Make Great...
-		new ChoiceAdventure(
-			"choiceAdventure259", "Hobopolis Marketplace",
-			new String[] { "hobo monkey", "stats", "enter combat" } ),
-
-		// Tanning Salon
-		new ChoiceAdventure(
-			"choiceAdventure264", "Hobopolis Marketplace",
-			new String[] { "20 adv of +50% moxie", "20 adv of +50% mysticality" } ),
-
-		// Let's All Go To The Movies
-		new ChoiceAdventure(
-			"choiceAdventure267", "Hobopolis Marketplace",
-			new String[] { "20 adv of +5 spooky resistance", "20 adv of +5 sleaze resistance" } ),
-
-		// It's Fun To Stay There
-		new ChoiceAdventure(
-			"choiceAdventure268", "Hobopolis Marketplace",
-			new String[] { "20 adv of +5 stench resistance", "20 adv of +50% muscle" } ),
-
-		// The Gong Has Been Bung
-		new ChoiceAdventure(
-			"choiceAdventure276", "Gong",
-			new String[] { "3 adventures", "12 adventures", "15 adventures" } ),
-
-		// Welcome Back!
-		new ChoiceAdventure(
-			"choiceAdventure277", "Gong",
-			new String[] { "finish journey", "also finish journey" } ),
-
-		// Enter the Roach
-		new ChoiceAdventure(
-			"choiceAdventure278", "Gong",
-			new String[] { "muscle substats", "mysticality substats", "moxie substats" } ),
-
-		// It's Nukyuhlur - the 'S' is Silent.
-		new ChoiceAdventure(
-			"choiceAdventure279", "Gong",
-			new String[] { "moxie substats", "muscle substats", "gain MP" } ),
-
-		// Eek! Eek!
-		new ChoiceAdventure(
-			"choiceAdventure280", "Gong",
-			new String[] { "mysticality substats", "muscle substats", "gain MP" } ),
-
-		// A Meta-Metamorphosis
-		new ChoiceAdventure(
-			"choiceAdventure281", "Gong",
-			new String[] { "moxie substats", "mysticality substats", "gain MP" } ),
-
-		// You've Got Wings, But No Wingman
-		new ChoiceAdventure(
-			"choiceAdventure282", "Gong",
-			new String[] { "+30% muscle", "+10% all stats", "+30 ML" } ),
-
-		// Time Enough at Last!
-		new ChoiceAdventure(
-			"choiceAdventure283", "Gong",
-			new String[] { "+30% muscle", "+10% all stats", "+50% item drops" } ),
-
-		// Scavenger Is Your Middle Name
-		new ChoiceAdventure(
-			"choiceAdventure284", "Gong",
-			new String[] { "+30% muscle", "+50% item drops", "+30 ML" } ),
-
-		// Bugging Out
-		new ChoiceAdventure(
-			"choiceAdventure285", "Gong",
-			new String[] { "+30% mysticality", "+30 ML", "+10% all stats" } ),
-
-		// A Sweeping Generalization
-		new ChoiceAdventure(
-			"choiceAdventure286", "Gong",
-			new String[] { "+50% item drops", "+10% all stats", "+30% mysticality" } ),
-
-		// In the Frigid Aire
-		new ChoiceAdventure(
-			"choiceAdventure287", "Gong",
-			new String[] { "+30 ML", "+30% mysticality", "+50% item drops" } ),
-
-		// Our House
-		new ChoiceAdventure(
-			"choiceAdventure288", "Gong",
-			new String[] { "+30 ML", "+30% moxie", "+10% all stats" } ),
-
-		// Workin' For The Man
-		new ChoiceAdventure(
-			"choiceAdventure289", "Gong",
-			new String[] { "+30 ML", "+30% moxie", "+50% item drops" } ),
-
-		// The World's Not Fair
-		new ChoiceAdventure(
-			"choiceAdventure290", "Gong",
-			new String[] { "+30% moxie", "+10% all stats", "+50% item drops" } ),
-
-		// The Road Less Traveled
-		new ChoiceAdventure(
-			"choiceAdventure503", "Spooky Forest",
-			new String[] { "gain some meat", "gain stakes or trade vampire hearts", "gain spooky sapling or trade bar skins" },
-			new String[] { null, "1518", "70" } ),
-
-		// Tree's Last Stand
-		new ChoiceAdventure(
-			"choiceAdventure504", "Spooky Forest",
-			new String[] { "bar skin", "bar skins", "buy spooky sapling", "skip adventure" },
-			new String[] { "70", "70", "75", null } ),
-
-		// Consciousness of a Stream
-		new ChoiceAdventure(
-			"choiceAdventure505", "Spooky Forest",
-			new String[] { "gain mosquito larva then 3 spooky mushrooms", "gain 300 meat & tree-holed coin then nothing", "fight a spooky vampire" },
-			new String[] { "724", null, null } ),
-
-		// Through Thicket and Thinnet
-		new ChoiceAdventure(
-			"choiceAdventure506", "Spooky Forest",
-			new String[] { "gain a starter item", "gain Spooky-Gro fertilizer", "gain spooky temple map" },
-			new String[] { null, "76", "74" } ),
-
-		// O Lith, Mon
-		new ChoiceAdventure(
-			"choiceAdventure507", "Spooky Forest",
-			new String[] { "gain Spooky Temple map", "skip adventure", "skip adventure" },
-			new String[] { null, null, null } ),
-
 		// Dark in the Attic
-		new ChoiceAdventure(
+		new ChoiceSpoiler(
 			"Clan Basement", "choiceAdventure549", "Dark in the Attic",
 			new String[] { "staff guides", "ghost trap", "raise area ML", "lower area ML", "mass kill werewolves with silver shotgun shell" },
 			new String[] { "5307", "5308", null, null, "5310" } ),
 
 		// The Unliving Room
-		new ChoiceAdventure(
+		new ChoiceSpoiler(
 			"Clan Basement", "choiceAdventure550", "The Unliving Room",
 			new String[] { "raise area ML", "lower area ML" , "mass kill zombies with chainsaw chain", "mass kill skeletons with funhouse mirror", "get costume item" },
 			new String[] { null, null, "5309", "5311", null } ),
 
 		// Debasement
-		new ChoiceAdventure(
+		new ChoiceSpoiler(
 			"Clan Basement", "choiceAdventure551", "Debasement",
 			new String[] { "Prop Deportment", "mass kill vampires with plastic vampire fangs", "raise area ML", "lower area ML" } ),
 
 		// Prop Deportment
-		new ChoiceAdventure(
+		new ChoiceSpoiler(
 			"Clan Basement", "choiceAdventure552", "Prop Deportment",
 			new String[] { "chainsaw chain", "create a silver shotgun shell", "funhouse mirror" },
 			new String[] { "5309", "5310", "5311" } ),
 
 		// Relocked and Reloaded
-		new ChoiceAdventure(
+		new ChoiceSpoiler(
 			"Clan Basement", "choiceAdventure553", "Relocked and Reloaded",
 			new String[] { "", "", "", "", "", "exit adventure" },
 			new String[] { "2642", "2987", "4237", "1972", "4234", null } ),
 
 		// Behind the Spooky Curtain
-		new ChoiceAdventure(
+		new ChoiceSpoiler(
 			"Clan Basement", "choiceAdventure554", "Behind the Spooky Curtain",
 			new String[] { "staff guides, ghost trap, kill werewolves", "kill zombies, kill skeletons, costume item", "chainsaw chain, silver item, funhouse mirror, kill vampires" } ),
 	};
 
+	public static final ChoiceAdventure[] CHOICE_ADVS;
+	
+	// We choose to not make some choice adventures configurable, but we
+	// want to provide spoilers in the browser for them.
+
+	public static final ChoiceAdventure[] CHOICE_ADV_SPOILERS;
+
 	// Some choice adventures have options that cost meat or items
 
-	public static final Object[][] CHOICE_COST =
+	public static final Object[][] CHOICE_COST;
+
+	static
 	{
-		// Denim Axes Examined
-		{ new Integer(2), new Integer(1),
-		  new AdventureResult( "rubber axe", -1 ) },
-
-		// Finger-Lickin'... Death.
-		{ new Integer(4), new Integer(1),
-		  new AdventureResult( AdventureResult.MEAT, -500 ) },
-		{ new Integer(4), new Integer(2),
-		  new AdventureResult( AdventureResult.MEAT, -500 ) },
-
-		// Under the Knife
-		{ new Integer(21), new Integer(1),
-		  new AdventureResult( AdventureResult.MEAT, -500 ) },
-
-		// Ouch! You bump into a door!
-		{ new Integer(25), new Integer(1),
-		  new AdventureResult( AdventureResult.MEAT, -50 ) },
-		{ new Integer(25), new Integer(2),
-		  new AdventureResult( AdventureResult.MEAT, -5000 ) },
-
-		// Have a Heart
-		// This trades all vampire hearts for an equal number of
-		// bottles of used blood.
-		{ new Integer(47), new Integer(1),
-		  ItemPool.get( ItemPool.VAMPIRE_HEART, 1 ) },
-
-		// Lording Over The Flies
-		// This trades all Spanish flies for around the worlds,
-		// in multiples of 5.  Excess flies are left in inventory.
-		{ new Integer(72), new Integer(1),
-		  ItemPool.get( ItemPool.SPANISH_FLY, 5 ) },
-
-		// No sir, away!  A papaya war is on!
-		{ new Integer(127), new Integer(2),
-		  ItemPool.get( ItemPool.PAPAYA, -3 ) },
-
-		// Do Geese See God?
-		{ new Integer(129), new Integer(1),
-		  new AdventureResult( AdventureResult.MEAT, -500 ) },
-
-		// Rod Nevada, Vendor
-		{ new Integer(130), new Integer(1),
-		  new AdventureResult( AdventureResult.MEAT, -500 ) },
-
-		// Let's Make a Deal!
-		{ new Integer(132), new Integer(1),
-		  new AdventureResult( AdventureResult.MEAT, -5000 ) },
-
-		// The Blackberry Cobbler
-		{ new Integer(177), new Integer(1),
-		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-		{ new Integer(177), new Integer(2),
-		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-		{ new Integer(177), new Integer(3),
-		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-		{ new Integer(177), new Integer(4),
-		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-
-		// Chieftain of the Flies
-		// This trades all Spanish flies for around the worlds,
-		// in multiples of 5.  Excess flies are left in inventory.
-		{ new Integer(181), new Integer(1),
-		  ItemPool.get( ItemPool.SPANISH_FLY, 5 ) },
-
-		//  O Cap'm, My Cap'm
-		{ new Integer(189), new Integer(1),
-		  new AdventureResult( AdventureResult.MEAT, -977 ) },
-
-		// Mind Yer Binder
-		{ new Integer(230), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -30 ) },
-
-		// The Guy Who Carves Driftwood Animals
-		{ new Integer(247), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
-
-		// A Hattery
-		{ new Integer(250), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
-		{ new Integer(250), new Integer(2),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
-		{ new Integer(250), new Integer(3),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
-
-		// A Pantry
-		{ new Integer(251), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
-		{ new Integer(251), new Integer(2),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
-		{ new Integer(251), new Integer(3),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
-
-		// Hobo Blanket Bingo
-		{ new Integer(252), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
-		{ new Integer(252), new Integer(2),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
-		{ new Integer(252), new Integer(3),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
-
-		// Black-and-Blue-and-Decker
-		{ new Integer(255), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
-		{ new Integer(255), new Integer(2),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
-		{ new Integer(255), new Integer(3),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
-
-		// Instru-mental
-		{ new Integer(258), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -99 ) },
-
-		// Everybody's Got Something To Hide
-		{ new Integer(261), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -1000 ) },
-
-		// Tanning Salon
-		{ new Integer(264), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-		{ new Integer(264), new Integer(2),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-
-		// Let's All Go To The Movies
-		{ new Integer(267), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-		{ new Integer(267), new Integer(2),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-
-		// It's Fun To Stay There
-		{ new Integer(268), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-		{ new Integer(268), new Integer(2),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-
-		// Triangle, Man
-		{ new Integer(275), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
-
-		// A Tight Squeeze - jar of squeeze
-		{ new Integer(291), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-
-		// Cold Comfort - bowl of fishysoisse
-		{ new Integer(292), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-
-		// Flowers for You - deadly lampshade
-		{ new Integer(293), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-
-		// Maybe It's a Sexy Snake! - lewd playing card
-		{ new Integer(294), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-
-		// Juicy! - concentrated garbage juice
-		{ new Integer(295), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-
-		// A Vent Horizon
-		{ new Integer(304), new Integer(1),
-		  new AdventureResult( AdventureResult.MP, -200 ) },
-
-		// There is Sauce at the Bottom of the Ocean
-		{ new Integer(305), new Integer(1),
-		  ItemPool.get( ItemPool.MERKIN_PRESSUREGLOBE, -1 ) },
-
-		// The Economist of Scales
-		// This trades 10 dull fish scales in.
-		{ new Integer(310), new Integer(1),
-		  new AdventureResult( "dull fish scale", -10 ) },
-		{ new Integer(310), new Integer(2),
-		  new AdventureResult( "rough fish scale", -10 ) },
-
-		// From Little Acorns...
-		{ new Integer(438), new Integer(1),
-		  ItemPool.get( ItemPool.UNDERWORLD_ACORN, -1 ) },
-
-		// Tree's Last Stand
-		{ new Integer(504), new Integer(1),
-		  ItemPool.get( ItemPool.BAR_SKIN, -1 ) },
-		{ new Integer(504), new Integer(2),
-		  ItemPool.get( ItemPool.BAR_SKIN, 1 ) },
-		{ new Integer(504), new Integer(3),
-		  new AdventureResult( AdventureResult.MEAT, -100 ) },
-
-		// O Lith, Mon
-		{ new Integer(507), new Integer(1),
-		  ItemPool.get( ItemPool.TREE_HOLED_COIN, -1 ) },
-
-		// What a Tosser - gift-a-pult
-		{ new Integer(519), new Integer(1),
-		  ItemPool.get( ItemPool.HOBO_NICKEL, -50 ) },
-	};
+		ArrayList choices = new ArrayList();
+		ArrayList spoils = new ArrayList();
+		ArrayList costs = new ArrayList();
+		for ( int i = 0; i < CHOICE_DATA.length; ++i )
+		{
+			Object it = CHOICE_DATA[ i ];
+			(it instanceof ChoiceSpoiler ? spoils
+			: it instanceof ChoiceAdventure ? choices
+			: costs).add( it );
+		}
+		CHOICE_ADVS = (ChoiceAdventure[]) choices.toArray( new ChoiceAdventure[ choices.size() ] );
+		CHOICE_ADV_SPOILERS = (ChoiceAdventure[]) spoils.toArray( new ChoiceAdventure[ spoils.size() ] );
+		CHOICE_COST = (Object[][]) costs.toArray( new Object[ costs.size() ][] );
+	
+		Arrays.sort( ChoiceManager.CHOICE_ADVS );
+	}
 
 	public static void initializeAfterChoice()
 	{
@@ -2409,7 +2369,16 @@ public abstract class ChoiceManager
 		{
 			// A parallel array of items is the fourth element
 			// Caller will fill it in
-			result[ 3 ] = new String[ result[ 2 ].length ];
+			int r2len = result[ 2 ].length;
+			result[ 3 ] = new String[ r2len ];
+			
+			// The code above was previously expressed more simply as:
+			// result[ 3 ] = new String[ result[ 2 ].length ];
+			// Unfortunately, TextWrangler 3.2's Java parser chokes on this, presumably
+			// due to the square brackets nested inside the array initializer (a
+			// construct found nowhere else in the mafia source).  The result is that
+			// TextWrangler's jump-to-function popup could not see any methods defined
+			// below this point in the file. - JRH
 		}
 
 		return result;
@@ -2804,7 +2773,7 @@ public abstract class ChoiceManager
 		// If this choice has special handling, convert to real
 		// decision index
 
-		decision = ChoiceManager.specialChoiceDecision( choice, option, decision, 0, responseText );
+		decision = ChoiceManager.specialChoiceDecision( choice, option, decision, Integer.MAX_VALUE, responseText );
 
 		if ( decision.equals( "0" ) || decision.equals( "" ) )
 		{	// Manual choice requested, or unsupported choice
@@ -4388,6 +4357,15 @@ public abstract class ChoiceManager
 			if ( decision.equals( "1" ) && Preferences.getInteger( "seaodesFound" ) == 3 )
 			{
 				return "2";
+			}
+			return decision;
+		
+		// Dungeon Fist!
+		case 486:
+			if ( !ChoiceManager.initializeAfterChoice )
+			{	// Don't automate this if we logged in in the middle of the game -
+				// the auto script isn't robust enough to handle arbitrary starting points.
+				return ArcadeRequest.autoDungeonFist( stepCount );
 			}
 			return decision;
 

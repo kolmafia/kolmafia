@@ -1326,10 +1326,26 @@ public class RelayRequest
 		}
 		else if ( path.endsWith( "specialCommand" ) )
 		{
-			submitCommand( this.getFormField( "cmd" ) );
+			String cmd = this.getFormField( "cmd" );
+			if ( !cmd.equals( "wait" ) )
+			{
+				RelayRequest.specialCommandResponse = "";
+				submitCommand( cmd, false, false );
+			}
 			this.contentType = "text/html";
-			this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
-			RelayRequest.specialCommandResponse = "";
+			if ( RelayRequest.specialCommandResponse.length() > 0 )
+			{
+				this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
+				RelayRequest.specialCommandResponse = "";
+			}
+			else
+			{
+				String URL = "/KoLmafia/specialCommand?cmd=wait&pwd=" + GenericRequest.passwordHash;
+				this.pseudoResponse( "HTTP/1.1 200 OK", "<html><head>" +
+					"<meta http-equiv=\"refresh\" content=\"1; URL=" + URL + "\">" +
+					"</head><body><a href=\"" + URL + "\">" +
+					"Automating (see CLI for details, click to refresh)...</a></body></html>" );
+			}
 		}
 		else if ( path.endsWith( "parameterizedCommand" ) )
 		{
@@ -1381,10 +1397,15 @@ public class RelayRequest
 
 	private void submitCommand( String command )
 	{
-		submitCommand( command, false );
+		submitCommand( command, false, true );
 	}
 
 	private void submitCommand( String command, boolean suppressUpdate )
+	{
+		submitCommand( command, suppressUpdate, true );
+	}
+	
+	private void submitCommand( String command, boolean suppressUpdate, boolean waitForCompletion )
 	{
 		try
 		{
@@ -1400,6 +1421,10 @@ public class RelayRequest
 		while ( CommandDisplayFrame.hasQueuedCommands() )
 		{
 			this.pauser.pause( 500 );
+			if ( !waitForCompletion )
+			{
+				break;
+			}
 		}
 		GenericRequest.suppressUpdate( false );
 	}

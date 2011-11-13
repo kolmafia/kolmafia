@@ -131,7 +131,7 @@ public class GenericRequest
 	public static boolean handlingChoices = false;
 	public static boolean ascending = false;
 	public static String itemMonster = null;
-	private static boolean choiceHandled = true;
+	public static boolean choiceHandled = true;
 	private static boolean suppressUpdate = false;
 
 	protected String encounter = "";
@@ -1878,7 +1878,7 @@ public class GenericRequest
 		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
 		{
 			// Handle choices AFTER result processing
-			GenericRequest.choiceHandled = true;
+			GenericRequest.choiceHandled = this.responseText.indexOf( "choice.php" ) == -1;
 			ChoiceManager.postChoice2( this );
 		}
 
