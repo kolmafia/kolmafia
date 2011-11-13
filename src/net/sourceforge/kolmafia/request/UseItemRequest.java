@@ -328,6 +328,22 @@ public class UseItemRequest
 	{
 		// Set reasonable default if the item fails to set a specific reason
 		UseItemRequest.limiter = "a wizard";
+		
+		if ( FightRequest.getCurrentRound() != 0 )
+		{
+			UseItemRequest.limiter = "fight in progress";
+			return 0;
+		}
+		if ( FightRequest.inMultiFight() )
+		{
+			UseItemRequest.limiter = "multi-stage fight in progress";
+			return 0;
+		}
+		if ( !GenericRequest.choiceHandled )
+		{
+			UseItemRequest.limiter = "choice adventure in progress";
+			return 0;
+		}
 
 		if ( consumptionType == KoLConstants.CONSUME_HOBO ||
 		     consumptionType == KoLConstants.CONSUME_GHOST ||

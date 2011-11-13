@@ -1086,8 +1086,25 @@ public class ArcadeRequest
 			return;
 		}
 
+		if ( buffer.indexOf( "You drop your token into" ) != -1 )
+		{
+			ChoiceManager.addGoalButton( buffer, "30 Game Grid tickets" );
+		}
 		StringUtilities.singleStringReplace( buffer, "</body>",
 			"<center><p><img src='/images/otherimages/arcade/DungeonFistMap.png' width=544 height=672 alt='Snapshot of initial maze' title='Snapshot of initial maze'></center></body>" );
+	}
+	
+	private static final String FistScript = 
+		"3111111111111111111111111111112112111111111111111111111111121" +
+		"1111111111111111211122211111121111111111111111122211133111113";
+		
+	public static final String autoDungeonFist( int stepCount )
+	{
+		if ( stepCount < 0 || stepCount >= FistScript.length() )
+		{
+			return "0";
+		}
+		return FistScript.substring( stepCount, stepCount + 1 );
 	}
 
 	/* End Dungeon Fist! */

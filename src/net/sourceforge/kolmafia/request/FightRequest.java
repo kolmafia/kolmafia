@@ -189,6 +189,8 @@ public class FightRequest
 		Pattern.compile( "Opponent HP: (\\d+)" );
 	private static final Pattern SLIMED_PATTERN =
 		Pattern.compile( "it blasts you with a massive loogie that sticks to your (.*?), pulls it off of you" );
+	private static final Pattern MULTIFIGHT_PATTERN =
+		Pattern.compile( "href=\"?/?fight.php" );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
@@ -225,6 +227,7 @@ public class FightRequest
 	private static boolean canStomp = false;
 	private static boolean summonedGhost = false;
 	private static int currentRound = 0;
+	private static boolean inMultiFight = false;
 
 	private static String nextAction = null;
 
@@ -2307,6 +2310,8 @@ public class FightRequest
 		}
 
 		FightRequest.clearInstanceData();
+		FightRequest.inMultiFight = won && 
+			FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 	}
 
 	public static final String getSpecialAction()
@@ -4883,6 +4888,11 @@ public class FightRequest
 			FightRequest.isTrackingFights ? "fight.php?action=script" : "fight.php",
 			FightRequest.lastResponseText,
 			true );
+	}
+	
+	public static final boolean inMultiFight()
+	{
+		return FightRequest.inMultiFight;
 	}
 
 	public static final int getCurrentRound()
