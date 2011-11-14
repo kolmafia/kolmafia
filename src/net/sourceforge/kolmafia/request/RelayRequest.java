@@ -136,6 +136,7 @@ public class RelayRequest
 	public String statusLine = "HTTP/1.1 302 Found";
 
 	public static String specialCommandResponse = "";
+	public static String specialCommandStatus = "";
 	public static String redirectedCommandURL = "";
 
 	public RelayRequest( final boolean allowOverride )
@@ -1330,6 +1331,7 @@ public class RelayRequest
 			if ( !cmd.equals( "wait" ) )
 			{
 				RelayRequest.specialCommandResponse = "";
+				RelayRequest.specialCommandStatus = "";
 				submitCommand( cmd, false, false );
 			}
 			this.contentType = "text/html";
@@ -1337,6 +1339,7 @@ public class RelayRequest
 			{
 				this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
 				RelayRequest.specialCommandResponse = "";
+				RelayRequest.specialCommandStatus = "";
 			}
 			else
 			{
@@ -1344,7 +1347,8 @@ public class RelayRequest
 				this.pseudoResponse( "HTTP/1.1 200 OK", "<html><head>" +
 					"<meta http-equiv=\"refresh\" content=\"1; URL=" + URL + "\">" +
 					"</head><body><a href=\"" + URL + "\">" +
-					"Automating (see CLI for details, click to refresh)...</a></body></html>" );
+					"Automating (see CLI for details, click to refresh)...</a><p>" +
+					RelayRequest.specialCommandStatus + "</body></html>" );
 			}
 		}
 		else if ( path.endsWith( "parameterizedCommand" ) )

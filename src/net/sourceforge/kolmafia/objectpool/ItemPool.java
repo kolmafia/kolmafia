@@ -413,7 +413,12 @@ public class ItemPool
 	public static final int GRIMACITE_GUAYABERA = 1546;
 	public static final int CATALYST = 1605;
 	public static final int ULTIMATE_WAD = 1606;
+	public static final int C_CLOCHE = 1615;
+	public static final int C_CULOTTES = 1616;
+	public static final int C_CROSSBOW = 1617;
+	public static final int ICE_STEIN = 1618;
 	public static final int MUNCHIES_PILL = 1619;
+	public static final int HOMEOPATHIC = 1620;
 	public static final int ASTRAL_MUSHROOM = 1622;
 	public static final int BADGER_BADGE = 1623;
 	public static final int BLUE_CUPCAKE = 1624;
@@ -460,6 +465,9 @@ public class ItemPool
 	public static final int CHINTZY_SAUCEPAN_EARRING = 1944;
 	public static final int CHINTZY_DISCO_BALL_PENDANT = 1945;
 	public static final int CHINTZY_ACCORDION_PIN = 1946;
+	public static final int MANETWICH = 1949;
+	public static final int VANGOGHBITUSSIN = 1950;
+	public static final int PINOT_RENOIR = 1951;
 	public static final int INKWELL = 1958;
 	public static final int SCRAP_OF_PAPER = 1959;
 	public static final int EVIL_SCROLL = 1960;

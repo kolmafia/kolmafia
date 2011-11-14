@@ -859,6 +859,14 @@ public abstract class UseLinkDecorator
 			useLocation = "arcade.php";
 			break;
 
+		// Game Grid tickets get a link to the arcade redemption counter.
+
+		case ItemPool.GG_TICKET:
+
+			useType = "redeem";
+			useLocation = "arcade.php?ticketcounter=1";
+			break;
+
 		// Soft green echo eyedrop antidote gets an uneffect link
 
 		case ItemPool.REMEDY:
