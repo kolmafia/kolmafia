@@ -4206,7 +4206,8 @@ public abstract class ChoiceManager
 			// Sometimes, the choice adventure for the louvre
 			// loses track of whether to ignore the louvre or not.
 
-			return Preferences.getInteger( "louvreDesiredGoal" ) != 0 ? "1" : "2";
+			LouvreManager.resetDecisions();
+			return Preferences.getInteger( "louvreGoal" ) != 0 ? "1" : "2";
 
 		case 92: case 93: case 94: case 95: case 96:
 		case 97: case 98: case 99: case 100: case 101:

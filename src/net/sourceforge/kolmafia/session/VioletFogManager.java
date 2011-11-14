@@ -38,8 +38,11 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -241,6 +244,19 @@ public abstract class VioletFogManager
 		"Boost Prime Stat",
 		"Boost Lowest Stat"
 	};
+	private static final AdventureResult FogGoalItems[] =
+	{
+		null,
+		ItemPool.get( ItemPool.C_CLOCHE, 1 ),
+		ItemPool.get( ItemPool.C_CROSSBOW, 1 ),
+		ItemPool.get( ItemPool.C_CULOTTES, 1 ),
+		null,
+		null,
+		null,
+		ItemPool.get( ItemPool.ICE_STEIN, 1 ),
+		ItemPool.get( ItemPool.MUNCHIES_PILL, 1 ),
+		ItemPool.get( ItemPool.HOMEOPATHIC, 1 ),
+	};
 
 	// The choice table.
 	//
@@ -361,6 +377,15 @@ public abstract class VioletFogManager
 
 		// Get the user specified goal
 		int goal = Preferences.getInteger( "violetFogGoal" );
+		for ( int i = 0; i < VioletFogManager.FogGoalItems.length; ++i )
+		{
+			if ( VioletFogManager.FogGoalItems[ i ] != null &&
+				GoalManager.hasGoal( VioletFogManager.FogGoalItems[ i ] ) )
+			{
+				goal = i;
+				break;
+			}
+		}
 
 		// If no goal, return "4".
 		// - If we are not at a "goal" location, this will exit the fog

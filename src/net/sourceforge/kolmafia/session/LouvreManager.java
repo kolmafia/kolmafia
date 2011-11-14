@@ -38,7 +38,10 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -116,6 +119,13 @@ public abstract class LouvreManager
 		"Muscle",
 		"Mysticality",
 		"Moxie"
+	};
+	
+	public static final AdventureResult LouvreGoalItems[] =
+	{
+		ItemPool.get( ItemPool.MANETWICH, 1),
+		ItemPool.get( ItemPool.VANGOGHBITUSSIN, 1),
+		ItemPool.get( ItemPool.PINOT_RENOIR, 1),
 	};
 
 	// Identifying strings from the response text
@@ -258,8 +268,17 @@ public abstract class LouvreManager
 		return choice >= LouvreManager.FIRST_CHOICE && choice <= LouvreManager.LAST_CHOICE;
 	}
 
-	private static final void resetDecisions()
+	public static final void resetDecisions()
 	{
+		for ( int i = 0; i < LouvreManager.LouvreGoalItems.length; ++i )
+		{
+			if ( GoalManager.hasGoal( LouvreManager.LouvreGoalItems[ i ] ) )
+			{
+				Preferences.setInteger( "louvreGoal", i + 1 );
+				return;
+			}
+		}
+		
 		int goal = Preferences.getInteger( "louvreDesiredGoal" );
 
 		if ( goal == LouvreManager.LouvreGoals.length + 1 )

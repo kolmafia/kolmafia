@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.RelayRequest;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -1104,6 +1106,10 @@ public class ArcadeRequest
 		{
 			return "0";
 		}
+		RelayRequest.specialCommandStatus = "<progress value=" + stepCount +
+			" max=" + FistScript.length() +
+			" style=\"width: 100%;\">Dungeon Fist! step " + stepCount +
+			" of " + FistScript.length() + "</progress>";
 		return FistScript.substring( stepCount, stepCount + 1 );
 	}
 
