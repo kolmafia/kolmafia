@@ -584,6 +584,15 @@ public class ValhallaDecorator
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "\">send your rubber emo roes to Veracity</a></nobr><br>" );
 		}
+		
+		if ( InventoryManager.hasItem( ItemPool.RUBBER_WWTNSD_BRACELET ) )
+		{
+			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=csend+" );
+			buffer.append( InventoryManager.getAccessibleCount( ItemPool.RUBBER_WWTNSD_BRACELET ) );
+			buffer.append( "+rubber+WWtNSD?+bracelet+to+veracity&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">send your rubber WWtNSD? bracelets to Veracity</a></nobr><br>" );
+		}
 
 		if ( InventoryManager.hasItem( ItemPool.STUFFED_COCOABO ) )
 		{
