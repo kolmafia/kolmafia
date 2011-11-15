@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -862,6 +864,39 @@ public class SkillDatabase
 		}
 
 		return false;
+	}
+
+	public static final int skillToBook( final String skillName )
+	{
+		switch ( SkillDatabase.getSkillId( skillName ) )
+		{
+		case SkillDatabase.SNOWCONE:	// Summon Snowcones
+			return ItemPool.SNOWCONE_BOOK;
+		case SkillDatabase.STICKER:	// Summon Stickers
+			return ItemPool.STICKER_BOOK;
+		case SkillDatabase.SUGAR:	// Summon Sugar Sheets
+			return ItemPool.SUGAR_BOOK;
+		case SkillDatabase.CLIP_ART:	// Summon Clip Art
+			return ItemPool.CLIP_ART_BOOK;
+		case SkillDatabase.CANDY_HEART:	// Summon Candy Hearts
+			return ItemPool.CANDY_BOOK;
+		case SkillDatabase.PARTY_FAVOR:	// Summon Party Favor
+			return ItemPool.DIVINE_BOOK;
+		case SkillDatabase.LOVE_SONG:	// Summon Love Song
+			return ItemPool.LOVE_BOOK;
+		case SkillDatabase.BRICKOS:	// Summon BRICKOs
+			return ItemPool.BRICKO_BOOK;
+		case SkillDatabase.DICE:	// Summon Dice
+			return ItemPool.DICE_BOOK;
+		case SkillDatabase.HILARIOUS:	// Summon Hilarious Objects
+			return ItemPool.HILARIOUS_BOOK;
+		case SkillDatabase.TASTEFUL:	// Summon Tasteful Items
+			return ItemPool.TASTEFUL_BOOK;
+		case SkillDatabase.CARDS:	// Summon Alice's Army Cards
+			return ItemPool.CARD_GAME_BOOK;
+		}
+
+		return -1;
 	}
 
 	/**

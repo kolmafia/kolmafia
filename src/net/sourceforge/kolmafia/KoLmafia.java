@@ -104,6 +104,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BadMoonManager;
@@ -786,6 +787,9 @@ public abstract class KoLmafia
 		// Get current moon phases
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
+
+		// Forget what is trendy
+		TrendyRequest.reset();
 	}
 
 	/**
@@ -992,6 +996,9 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
+
+		// Forget what is trendy
+		TrendyRequest.reset();
 
 		// Retrieve the character sheet. It's necessary to do this
 		// before concoctions have a chance to get refreshed.

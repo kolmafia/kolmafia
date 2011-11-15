@@ -235,6 +235,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Way of the Surprising Fist " );
 		}
+		else if ( KoLCharacter.inTrendycore() )
+		{
+			sessionStream.print( "Trendy " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );

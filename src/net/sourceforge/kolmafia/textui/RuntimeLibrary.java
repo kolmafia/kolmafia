@@ -130,6 +130,7 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -1337,6 +1338,20 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "gnomads_available", DataTypes.BOOLEAN_TYPE, params ) );
+
+		// Path Support
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "is_trendy", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "is_trendy", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "is_trendy", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "is_trendy", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// MMG support
 
@@ -5052,6 +5067,52 @@ public abstract class RuntimeLibrary
 	public static Value gnomads_available()
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.gnomadsAvailable() );
+	}
+
+	public static Value is_trendy( final Value thing )
+	{
+		// Types: "Items", "Campground", Bookshelf", "Familiars", "Skills", "Clan Item".
+		String key = thing.toString();
+		Type type = thing.getType();
+		boolean result;
+
+		if ( type.equals( DataTypes.TYPE_STRING ) )
+		{
+
+			result = TrendyRequest.isTrendy( "Items", key ) &&
+				TrendyRequest.isTrendy( "Campground", key ) &&
+				TrendyRequest.isTrendy( "Bookshelf", key ) &&
+				TrendyRequest.isTrendy( "Familiars", key ) &&
+				TrendyRequest.isTrendy( "Skills", key ) &&
+				TrendyRequest.isTrendy( "Clan Item", key );
+		}
+		else if ( type.equals( DataTypes.TYPE_ITEM ) )
+		{
+			result = TrendyRequest.isTrendy( "Items", key );
+		}
+		else if ( type.equals( DataTypes.TYPE_FAMILIAR ) )
+		{
+			result = TrendyRequest.isTrendy( "Familiars", key );
+		}
+		else if ( type.equals( DataTypes.TYPE_SKILL ) )
+		{
+			if ( SkillDatabase.isBookshelfSkill( key ) )
+			{
+				int itemId = SkillDatabase.skillToBook( key );
+				key = ItemDatabase.getItemName( itemId );
+				result = TrendyRequest.isTrendy( "Bookshelf", key );
+			}
+			else
+			{
+				result = TrendyRequest.isTrendy( "Skills", key );
+			}
+		}
+		else
+		{
+			result = false;
+		}
+
+		return DataTypes.makeBooleanValue( result );
 	}
 
 	public static Value mmg_visit()
