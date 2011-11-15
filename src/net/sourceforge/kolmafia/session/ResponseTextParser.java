@@ -114,6 +114,7 @@ import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -669,6 +670,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "trophy.php" ) )
 		{
 			TrophyHutRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "typeii.php" ) )
+		{
+			TrendyRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "volcanoisland.php" ) )

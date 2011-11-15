@@ -467,6 +467,9 @@ public class AfterLifeRequest
 			case 6:
 				buffer.append( "a Way of the Surprising Fist" );
 				break;
+			case 7:
+				buffer.append( "a Trendy" );
+				break;
 			default:
 				buffer.append( "(Path " );
 				buffer.append( String.valueOf( path ) );
