@@ -1335,20 +1335,26 @@ public class RelayRequest
 				submitCommand( cmd, false, false );
 			}
 			this.contentType = "text/html";
-			if ( RelayRequest.specialCommandResponse.length() > 0 )
+			if ( CommandDisplayFrame.hasQueuedCommands() )
 			{
-				this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
-				RelayRequest.specialCommandResponse = "";
-				RelayRequest.specialCommandStatus = "";
-			}
-			else
-			{
-				String URL = "/KoLmafia/specialCommand?cmd=wait&pwd=" + GenericRequest.passwordHash;
+				String URL = "/KoLmafia/specialCommand?cmd=wait&pwd=" +
+					GenericRequest.passwordHash;
 				this.pseudoResponse( "HTTP/1.1 200 OK", "<html><head>" +
 					"<meta http-equiv=\"refresh\" content=\"1; URL=" + URL + "\">" +
 					"</head><body><a href=\"" + URL + "\">" +
 					"Automating (see CLI for details, click to refresh)...</a><p>" +
 					RelayRequest.specialCommandStatus + "</body></html>" );
+			}
+			else if ( RelayRequest.specialCommandResponse.length() > 0 )
+			{
+				this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
+				RelayRequest.specialCommandResponse = "";
+				RelayRequest.specialCommandStatus = "";
+			}
+			else	// specialCommand invoked for command that doesn't
+			{		// specifically support it - we have no page to display.
+				this.pseudoResponse( "HTTP/1.1 200 OK", 
+					"<html><body>Automation complete.</body></html>)" );
 			}
 		}
 		else if ( path.endsWith( "parameterizedCommand" ) )

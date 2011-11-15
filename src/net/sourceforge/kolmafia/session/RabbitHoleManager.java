@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1249,6 +1250,7 @@ public abstract class RabbitHoleManager
 	public static final void solve()
 	{
 		RelayRequest.specialCommandResponse = ChoiceManager.lastResponseText;
+		RelayRequest.specialCommandStatus = "Solving...";
 
 		if ( RabbitHoleManager.board == null )
 		{
@@ -1269,6 +1271,7 @@ public abstract class RabbitHoleManager
 
 		for ( int i = 0; i < path.length; ++i )
 		{
+			RelayRequest.specialCommandStatus = "Move " + i + " of " + path.length;
 			int square = path[ i ].intValue();
 			int row = square / 8;
 			int col = square % 8;
@@ -1434,6 +1437,7 @@ public abstract class RabbitHoleManager
 	public static final String decorateChessPuzzleResponse( final String response )
 	{
 		StringBuffer buffer = new StringBuffer( response );
+		RequestEditorKit.getFeatureRichHTML( "choice.php", buffer, true );
 		RabbitHoleManager.decorateChessPuzzleResponse( buffer );
 		return buffer.toString();
 	}
