@@ -476,6 +476,7 @@ public class ItemPool
 	public static final int PUMPKIN_BUCKET = 1971;
 	public static final int SILVER_SHRIMP_FORK = 1972;
 	public static final int STUFFED_COCOABO = 1974;
+	public static final int RUBBER_WWTNSD_BRACELET = 1994;
 	public static final int MACGUFFIN_DIARY = 2044;
 	public static final int BROKEN_WINGS = 2050;
 	public static final int SUNKEN_EYES = 2051;
