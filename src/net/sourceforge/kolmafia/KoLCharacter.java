@@ -2683,6 +2683,13 @@ public abstract class KoLCharacter
 			KoLCharacter.ascensionPath.equals( "Way of the Surprising Fist" );
 	}
 
+	public static final boolean inTrendycore()
+	{
+		// All Trendy restrictions are lifted once you free the King
+		return !KoLCharacter.kingLiberated() &&
+			KoLCharacter.ascensionPath.equals( "Trendy" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
