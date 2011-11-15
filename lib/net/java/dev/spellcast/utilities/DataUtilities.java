@@ -52,8 +52,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 

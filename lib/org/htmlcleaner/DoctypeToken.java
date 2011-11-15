@@ -40,8 +40,6 @@ package org.htmlcleaner;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.htmlcleaner.BaseToken;
-
 /**
  * <p>HTML doctype token.</p>
  *
