@@ -1,14 +1,12 @@
 package com.velocityreviews.forums;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 
 import java.net.URL;
 
 import sun.net.www.http.HttpClient;
 
-import sun.net.www.protocol.http.Handler;
 import sun.net.www.protocol.http.HttpURLConnection;
 
 /**
