@@ -57,6 +57,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CampgroundRequest
 	extends GenericRequest
 {
+	private static final Pattern BOOK_PATTERN =
+		Pattern.compile( "You have([^<]+)<(?!p>Unfortunately)" );
 	private static final Pattern LIBRAM_PATTERN =
 		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs|Dice) *.[(]([\\d,]+) MP[)]" );
 	private static final Pattern HOUSING_PATTERN =
@@ -770,26 +772,30 @@ public class CampgroundRequest
 			return;
 
 		String libram = null;
-		for ( int i = 0; i < BOOKS.length; ++i )
+		Matcher bookMatcher = CampgroundRequest.BOOK_PATTERN.matcher( responseText );
+		while ( bookMatcher.find() )
 		{
-			String book = BOOKS[i][0];
-			if ( responseText.indexOf( book ) != -1 )
+			for ( int i = 0; i < BOOKS.length; ++i )
 			{
-				String skill = BOOKS[i][1];
-				KoLCharacter.addAvailableSkill( skill );
-				if ( book.indexOf( "Libram" ) != -1 )
+				String book = BOOKS[i][0];
+				if ( bookMatcher.group( 1 ).indexOf( book ) != -1 )
 				{
-					libram = skill;
+					String skill = BOOKS[i][1];
+					KoLCharacter.addAvailableSkill( skill );
+					if ( book.indexOf( "Libram" ) != -1 )
+					{
+						libram = skill;
+					}
 				}
 			}
 		}
 
 		if ( libram != null )
 		{
-			Matcher matcher = CampgroundRequest.LIBRAM_PATTERN.matcher( responseText );
-			if ( matcher.find() )
+			Matcher libramMatcher = CampgroundRequest.LIBRAM_PATTERN.matcher( responseText );
+			if ( libramMatcher.find() )
 			{
-				int cost = StringUtilities.parseInt( matcher.group(2) );
+				int cost = StringUtilities.parseInt( libramMatcher.group(2) );
 				SkillDatabase.setLibramSkillCasts( cost );
 			}
 		}

@@ -309,6 +309,8 @@ public class AccountRequest
 			"Bees Hate You" :
 			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Way of the Surprising Fist\">" ) != -1 ?
 			"Way of the Surprising Fist" :
+			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Trendy\">" ) != -1 ?
+			"Trendy" :
 			"None";
 
 		KoLCharacter.setPath( path );
@@ -581,6 +583,10 @@ public class AccountRequest
 		else if ( path.equals( "6" ) )
 		{
 			path = "Way of the Surprising Fist";
+		}
+		else if ( path.equals( "7" ) )
+		{
+			path = "Trendy";
 		}
 		KoLCharacter.setPath( path );
 
