@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
@@ -1452,6 +1453,14 @@ public class EquipmentManager
 			return false;
 		}
 
+		String itemName = ItemDatabase.getItemName( itemId );
+
+		// Untrendy items cannot be equipped in Trendycore
+		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", itemName ) )
+		{
+			return false;
+		}
+
 		int type = ItemDatabase.getConsumptionType( itemId );
 
 		if ( type == KoLConstants.EQUIP_FAMILIAR )
@@ -1467,7 +1476,7 @@ public class EquipmentManager
 		
 		if ( KoLCharacter.isHardcore() )
 		{
-			Modifiers mods = Modifiers.getModifiers( ItemDatabase.getItemName( itemId ) );
+			Modifiers mods = Modifiers.getModifiers( itemName );
 			if ( mods != null && mods.getBoolean( Modifiers.SOFTCORE ) )
 			{
 				return false;

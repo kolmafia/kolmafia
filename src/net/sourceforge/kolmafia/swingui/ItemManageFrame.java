@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateItemPanel;
@@ -439,6 +440,20 @@ public class ItemManageFrame
 			if ( items == null )
 			{
 				return null;
+			}
+
+			// Trendy characters can't pull untrendy items
+			if ( KoLCharacter.isTrendy() )
+			{
+				for ( int i = 0; i < items.length; ++i )
+				{
+					AdventureResult item = (AdventureResult) items[ i ];
+					String itemName = item.getName();
+					if ( !TrendyRequest.isTrendy( "Items", itemName ) )
+					{
+						items[ i ] = null;
+					}
+				}
 			}
 
 			RequestThread.openRequestSequence();

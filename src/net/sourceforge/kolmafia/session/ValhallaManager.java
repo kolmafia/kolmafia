@@ -235,7 +235,7 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Way of the Surprising Fist " );
 		}
-		else if ( KoLCharacter.inTrendycore() )
+		else if ( KoLCharacter.isTrendy() )
 		{
 			sessionStream.print( "Trendy " );
 		}

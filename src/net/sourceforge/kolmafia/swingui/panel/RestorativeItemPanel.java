@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
@@ -103,6 +104,10 @@ public class RestorativeItemPanel
 			case KoLConstants.HP_RESTORE:
 			case KoLConstants.HPMP_RESTORE:
 				if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( item.getName() ) )
+				{
+					return false;
+				}
+				if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", item.getName() ) )
 				{
 					return false;
 				}

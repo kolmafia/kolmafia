@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -2452,7 +2453,7 @@ public abstract class KoLCharacter
 			KoLConstants.freepulls.clear();
 			ConcoctionDatabase.setPullsRemaining( -1 );
 
-			// If we are in Beecore, we can use all familiars again
+			// If we are in Beecore or in Trendycore, we can use all familiars again
 			GearChangeFrame.updateFamiliars();
 
 			// If we are in Bad Moon, we can use the bookshelf and
@@ -2683,7 +2684,7 @@ public abstract class KoLCharacter
 			KoLCharacter.ascensionPath.equals( "Way of the Surprising Fist" );
 	}
 
-	public static final boolean inTrendycore()
+	public static final boolean isTrendy()
 	{
 		// All Trendy restrictions are lifted once you free the King
 		return !KoLCharacter.kingLiberated() &&
@@ -3023,6 +3024,27 @@ public abstract class KoLCharacter
 		if ( KoLConstants.availableSkillsMap.containsKey( skill ) )
 		{
 			return;
+		}
+
+		if ( KoLCharacter.isTrendy() )
+		{
+			boolean isTrendy;
+			String skillName = skill.getSkillName();
+			if ( SkillDatabase.isBookshelfSkill( skillName ) )
+			{
+				int itemId = SkillDatabase.skillToBook( skillName );
+				skillName = ItemDatabase.getItemName( itemId );
+				isTrendy = TrendyRequest.isTrendy( "Bookshelf", skillName );
+			}
+			else
+			{
+				isTrendy = TrendyRequest.isTrendy( "Skills", skillName );
+			}
+
+			if ( !isTrendy )
+			{
+				return;
+			}
 		}
 
 		KoLConstants.availableSkills.add( skill );

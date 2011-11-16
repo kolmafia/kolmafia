@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -274,12 +275,21 @@ public abstract class MPRestoreItemList
 
 		public boolean usableInCurrentPath()
 		{
-			if ( this.itemUsed == null || !KoLCharacter.inBeecore() )
+			if ( this.itemUsed == null )
 			{
 				return true;
 			}
-			String name = this.itemUsed.getName();
-			return name.indexOf( "b" ) == -1 && name.indexOf( "B" ) == -1 ;
+			else if ( KoLCharacter.inBeecore() )
+			{
+				String name = this.itemUsed.getName();
+				return name.indexOf( "b" ) == -1 && name.indexOf( "B" ) == -1 ;
+			}
+			else if ( KoLCharacter.isTrendy() )
+			{
+				String name = this.itemUsed.getName();
+				return TrendyRequest.isTrendy( "Items", name );
+			}
+			return true;
 		}
 
 		public void recoverMP( final int needed, final boolean purchase )

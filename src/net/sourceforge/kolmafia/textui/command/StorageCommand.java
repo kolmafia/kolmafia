@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -128,13 +129,21 @@ public class StorageCommand
 		for ( int i = 0; i < items.length; ++i )
 		{
 			AdventureResult item = (AdventureResult) items[ i ];
+			String itemName = item.getName();
 			int storageCount = item.getCount( KoLConstants.storage );
 
 			if ( items[ i ] != null && storageCount < item.getCount() )
 			{
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE,
-					"You only have " + storageCount + " " + item.getName() + " in storage (you wanted " + item.getCount() + ")" );
+					"You only have " + storageCount + " " + itemName + " in storage (you wanted " + item.getCount() + ")" );
+			}
+
+			if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", itemName ) )
+			{
+				KoLmafia.updateDisplay(
+					KoLConstants.ERROR_STATE,
+					itemName + " is not trendy enough for you." );
 			}
 		}
 

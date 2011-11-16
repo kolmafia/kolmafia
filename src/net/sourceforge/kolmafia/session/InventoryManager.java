@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -486,7 +487,11 @@ public abstract class InventoryManager
 		{
 			itemCount = item.getCount( KoLConstants.storage );
 
-			if ( itemCount > 0 )
+			if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", item.getName() ) )
+			{
+				// Don't try to pull untrendy items for trendy characters.
+			}
+			else if ( itemCount > 0 )
 			{
 				if ( sim ) return "pull";
 				RequestThread.postRequest( new StorageRequest(
