@@ -489,7 +489,7 @@ public class UseItemEnqueuePanel
 			if ( KoLCharacter.isTrendy() )
 			{
 				AdventureResult item = creation.getItem();
-				if ( !TrendyRequest.isTrendy( "Items", item.getName() ) )
+				if ( item != null && !TrendyRequest.isTrendy( "Items", item.getName() ) )
 				{
 					return false;
 				}
