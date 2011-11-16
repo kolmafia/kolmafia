@@ -142,7 +142,7 @@ public class TrendyRequest
 	  </table>
 	*/
 
-	public static final Pattern TRENDY_PATTERN = Pattern.compile( "<tr class=\"([^\"]*)\">.*?<td[^>]*>([^<]*)</td>.*?<td[^>]*>([^<]*)</td>.*?<td[^>]*>([^<]*)</t[dr]>", Pattern.DOTALL );
+	public static final Pattern TRENDY_PATTERN = Pattern.compile( "<tr class=\"([^\"]*)\">.*?<td[^>]*>([^<]*)</td>.*?<td[^>]*>([^<]*)</td>.*?<td[^>]*>((?:[^<]*(?:(?!</t[dr]>)<))*[^<]*)</t[dr]>", Pattern.DOTALL );
 
 	public static final void parseResponse( final String location, final String responseText )
 	{
