@@ -997,8 +997,12 @@ public abstract class KoLmafia
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
 
-		// Forget what is trendy
+		// Reset what is trendy
 		TrendyRequest.reset();
+		if ( KoLCharacter.isTrendy() )
+		{
+			TrendyRequest.initialize();
+		}
 
 		// Retrieve the character sheet. It's necessary to do this
 		// before concoctions have a chance to get refreshed.

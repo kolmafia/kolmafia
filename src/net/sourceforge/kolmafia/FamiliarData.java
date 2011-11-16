@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -71,7 +72,7 @@ public class FamiliarData
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern REGISTER_PATTERN =
-		Pattern.compile( "(?:Current Familiar:<br>|<tr><td[^>]*><input[^>]*></td><td valign=center>)<img src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
+		Pattern.compile( "<img(?<!In Your Crown of Thrones:</td><td><img) src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
@@ -141,9 +142,19 @@ public class FamiliarData
 
 	public final boolean canEquip()
 	{
-		// For now, the only unequippable familiars are those with a
-		// "B" in their race when we are in Beecore.
-		return !this.beeware || !KoLCharacter.inBeecore();
+		// Familiars with a "B" in their race cannot be equipped in Beecore
+		if ( KoLCharacter.inBeecore() && this.beeware )
+		{
+			return false;
+		}
+
+		// Untrendy familiars cannot be equipped in Trendycore
+		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Familiars", this.race ) )
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public final int getTotalExperience()

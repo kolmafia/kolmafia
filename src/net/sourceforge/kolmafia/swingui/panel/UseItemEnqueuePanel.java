@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -480,6 +481,15 @@ public class UseItemEnqueuePanel
 					( UseItemEnqueuePanel.this.food && fam == FamiliarPool.GHOST );
 				AdventureResult item = creation.getItem();
 				if ( !override && item != null && KoLCharacter.hasBeeosity( item.getName() ) )
+				{
+					return false;
+				}
+			}
+
+			if ( KoLCharacter.isTrendy() )
+			{
+				AdventureResult item = creation.getItem();
+				if ( !TrendyRequest.isTrendy( "Items", item.getName() ) )
 				{
 					return false;
 				}

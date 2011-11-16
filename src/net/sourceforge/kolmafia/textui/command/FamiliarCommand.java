@@ -147,7 +147,11 @@ public class FamiliarCommand
 				}
 			}
 
-			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+			if ( !change.canEquip() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + race + " with your current restrictions." );
+			}
+			else if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 			{
 				RequestLogger.printLine( change.toString() );
 			}

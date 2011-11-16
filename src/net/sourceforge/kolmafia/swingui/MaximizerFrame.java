@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
+import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -846,6 +847,12 @@ public class MaximizerFrame
 					
 					if ( KoLCharacter.inBeecore() &&
 						KoLCharacter.getBeeosity( iname ) > 0 )
+					{
+						continue;
+					}
+					
+					if ( KoLCharacter.isTrendy() &&
+						!TrendyRequest.isTrendy( "Items", iname ) )
 					{
 						continue;
 					}

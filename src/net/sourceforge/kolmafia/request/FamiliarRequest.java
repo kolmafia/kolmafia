@@ -298,6 +298,12 @@ public class FamiliarRequest
 			return;
 		}
 
+		// If you are in Trendycore and the item isn't trendy, don't select it.
+		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", use.getName() ) )
+		{
+			return;
+		}
+
 		KoLmafia.updateDisplay( use.getName() + " is better than (none).  Switching items..." );
 		RequestThread.postRequest( new EquipmentRequest( use, EquipmentManager.FAMILIAR ) );
 	}
