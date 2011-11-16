@@ -67,6 +67,8 @@ import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.TrendyRequest;
+
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -1007,7 +1009,8 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean as = Preferences.getBoolean( "_aprilShower" );
-			this.setShown( ( !bm || kf ) && ( have || as ) );
+			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan item", "April Shower" );
+			this.setShown( ( !bm || kf ) && ( have || as ) && trendy );
 			this.setEnabled( !as );
 			box.setEnabled( !as );
 		}
@@ -1826,8 +1829,9 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan item", "Pool Table" );
 			int nf = Preferences.getInteger( "_poolGames" );
-			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) );
+			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && trendy );
 			this.setEnabled( nf < 3 );
 			this.setText( nf + "/3" );
 		}
@@ -1850,8 +1854,9 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean tree = Preferences.getBoolean( "_crimboTree" );
+			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan item", "Crimbo Tree" );
 			int ctd = Preferences.getInteger( "crimboTreeDays" );
-			this.setShown( ( !bm || kf ) && tree );
+			this.setShown( ( !bm || kf ) && tree && trendy );
 			this.setEnabled( ctd == 0 );
 			this.setText( ctd + " days to go." );
 		}
@@ -2218,6 +2223,7 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan item", "Fax Machine" );
 			boolean photo = InventoryManager.getCount( ItemPool.PHOTOCOPIER ) > 0
 				|| InventoryManager.getCount( ItemPool.PHOTOCOPIED_MONSTER ) > 0
 				|| Preferences.getBoolean( "_photocopyUsed" );
@@ -2230,7 +2236,7 @@ public class DailyDeedsPanel
 				text = text + ", now " + monster;
 			}
 			this.setText( text );
-			this.setShown( photo || (!bm || kf) && have );
+			this.setShown( photo || (!bm || kf) && have && trendy );
 		}
 	}
 
