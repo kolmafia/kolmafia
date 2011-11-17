@@ -1800,7 +1800,7 @@ public class ConcoctionDatabase
 		// and isn't in Bad Moon
 
 		boolean hasClipArt = KoLCharacter.hasSkill( "Summon Clip Art" ) &&
-			!KoLCharacter.inBadMoon();
+			( !KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled() );
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CLIPART ] = hasClipArt &&
 			Preferences.getInteger( "tomeSummons" ) < 3;
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.CLIPART ] =
