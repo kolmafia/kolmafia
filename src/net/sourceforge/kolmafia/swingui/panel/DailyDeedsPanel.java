@@ -1009,7 +1009,7 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
 			boolean as = Preferences.getBoolean( "_aprilShower" );
-			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan item", "April Shower" );
+			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "April Shower" );
 			this.setShown( ( !bm || kf ) && ( have || as ) && trendy );
 			this.setEnabled( !as );
 			box.setEnabled( !as );
@@ -1829,7 +1829,7 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
-			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan item", "Pool Table" );
+			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "Pool Table" );
 			int nf = Preferences.getInteger( "_poolGames" );
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && trendy );
 			this.setEnabled( nf < 3 );
@@ -1854,7 +1854,7 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean tree = Preferences.getBoolean( "_crimboTree" );
-			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan item", "Crimbo Tree" );
+			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "Crimbo Tree" );
 			int ctd = Preferences.getInteger( "crimboTreeDays" );
 			this.setShown( ( !bm || kf ) && tree && trendy );
 			this.setEnabled( ctd == 0 );
@@ -2223,7 +2223,7 @@ public class DailyDeedsPanel
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
-			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan item", "Fax Machine" );
+			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "Fax Machine" );
 			boolean photo = InventoryManager.getCount( ItemPool.PHOTOCOPIER ) > 0
 				|| InventoryManager.getCount( ItemPool.PHOTOCOPIED_MONSTER ) > 0
 				|| Preferences.getBoolean( "_photocopyUsed" );
