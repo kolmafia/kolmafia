@@ -1965,7 +1965,8 @@ public class DailyDeedsPanel
 		{
 			boolean bf = !KoLCharacter.isHardcore() ||
 				(KoLCharacter.isHardcore() && KoLCharacter.hasSkill( "Summon BRICKOs" ));
-			boolean hh = KoLCharacter.findFamiliar( FamiliarPool.HIPSTER ) != null ;
+			FamiliarData hipster = KoLCharacter.findFamiliar( FamiliarPool.HIPSTER );
+			boolean hh = hipster != null && hipster.canEquip() ;
 			boolean sc = KoLCharacter.getClassType().equals(KoLCharacter.SEAL_CLUBBER);
 
 			this.setShown( bf || hh || sc );
@@ -1998,8 +1999,10 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			boolean hba = KoLCharacter.findFamiliar( FamiliarPool.BANDER ) != null;
-			boolean hbo = KoLCharacter.findFamiliar( FamiliarPool.BOOTS ) != null;
+			FamiliarData bander = KoLCharacter.findFamiliar( FamiliarPool.BANDER );
+			boolean hba = bander != null && bander.canEquip() ;
+			FamiliarData boots = KoLCharacter.findFamiliar( FamiliarPool.BOOTS );
+			boolean hbo = boots != null && boots.canEquip() ;
 			boolean gp = InventoryManager.getCount( ItemPool.GREAT_PANTS ) > 0
 				|| KoLCharacter.hasEquipped( DailyDeedsPanel.GREAT_PANTS );
 			boolean nr = Preferences.getInteger( "_navelRunaways" ) > 0
@@ -2038,14 +2041,22 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			boolean hf1 = KoLCharacter.findFamiliar( FamiliarPool.PIXIE ) != null;
-			boolean hf2 = KoLCharacter.findFamiliar( FamiliarPool.SANDWORM ) != null;
-			boolean hf3 = KoLCharacter.findFamiliar( FamiliarPool.BADGER ) != null;
-			boolean hf4 = KoLCharacter.findFamiliar( FamiliarPool.LLAMA ) != null;
-			boolean hf5 = KoLCharacter.findFamiliar( FamiliarPool.GRINDER ) != null;
-			boolean hf6 = KoLCharacter.findFamiliar( FamiliarPool.TRON ) != null;
-			boolean hf7 = KoLCharacter.findFamiliar( FamiliarPool.ALIEN ) != null;
-			boolean hf8 = KoLCharacter.findFamiliar( FamiliarPool.BOOTS ) != null;
+			FamiliarData pixie = KoLCharacter.findFamiliar( FamiliarPool.PIXIE );
+			boolean hf1 = pixie != null && pixie.canEquip() ;
+			FamiliarData sandworm = KoLCharacter.findFamiliar( FamiliarPool.SANDWORM );
+			boolean hf2 = sandworm != null && sandworm.canEquip() ;
+			FamiliarData badger = KoLCharacter.findFamiliar( FamiliarPool.BADGER );
+			boolean hf3 = badger != null && badger.canEquip() ;
+			FamiliarData llama = KoLCharacter.findFamiliar( FamiliarPool.LLAMA );
+			boolean hf4 = llama != null && llama.canEquip() ;
+			FamiliarData grinder = KoLCharacter.findFamiliar( FamiliarPool.GRINDER );
+			boolean hf5 = grinder != null && grinder.canEquip() ;
+			FamiliarData tron = KoLCharacter.findFamiliar( FamiliarPool.TRON );
+			boolean hf6 = tron != null && tron.canEquip() ;
+			FamiliarData alien = KoLCharacter.findFamiliar( FamiliarPool.ALIEN );
+			boolean hf7 = alien != null && alien.canEquip() ;
+			FamiliarData boots = KoLCharacter.findFamiliar( FamiliarPool.BOOTS );
+			boolean hf8 = boots != null && boots.canEquip() ;
 			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7 || hf8 );
 			String text = "Drops: ";
 			if( hf1 ) text = text + Preferences.getInteger( "_absintheDrops" ) + " absinthe";
@@ -2087,7 +2098,6 @@ public class DailyDeedsPanel
 			// this.addItem( ItemPool.V_MASK );
 			this.addListener( "_gibbererAdv" );
 			this.addListener( "_hareAdv" );
-			this.addListener( "_hipsterAdv" );
 			this.addListener( "_riftletAdv" );
 			this.addListener( "_timeHelmetAdv" );
 			this.addListener( "_vmaskAdv" );
@@ -2096,9 +2106,12 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			boolean hf1 = KoLCharacter.findFamiliar( FamiliarPool.GIBBERER ) != null;
-			boolean hf2 = KoLCharacter.findFamiliar( FamiliarPool.HARE ) != null;
-			boolean hf3 = KoLCharacter.findFamiliar( FamiliarPool.RIFTLET ) != null;
+			FamiliarData gibberer = KoLCharacter.findFamiliar( FamiliarPool.GIBBERER );
+			boolean hf1 = gibberer != null && gibberer.canEquip() ;
+			FamiliarData hare = KoLCharacter.findFamiliar( FamiliarPool.HARE );
+			boolean hf2 = hare != null && hare.canEquip() ;
+			FamiliarData riftlet = KoLCharacter.findFamiliar( FamiliarPool.RIFTLET );
+			boolean hf3 = riftlet != null && riftlet.canEquip() ;
 			boolean hf4 = InventoryManager.getCount( ItemPool.TIME_HELMET ) > 0
 				|| Preferences.getInteger( "_timeHelmetAdv" ) > 0;
 			boolean hf5 = InventoryManager.getCount( ItemPool.V_MASK ) > 0
@@ -2189,7 +2202,8 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			boolean oa = KoLCharacter.findFamiliar( FamiliarPool.OBTUSE_ANGEL ) != null ;
+			FamiliarData angel = KoLCharacter.findFamiliar( FamiliarPool.OBTUSE_ANGEL );
+			boolean oa = angel != null && angel.canEquip() ;
 			String text = Preferences.getInteger( "_badlyRomanticArrows" ) > 0 ?
 				"Romantic Arrow used" :
 				"Romantic Arrow not used yet";

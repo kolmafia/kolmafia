@@ -357,16 +357,9 @@ public class UseItemRequest
 			return Integer.MAX_VALUE;
 		}
 
+		// Initial Beeosity check
 		String itemName = ItemDatabase.getItemName( itemId );
 
-		// Trendiness check
-		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", itemName ) )
-		{
-			UseItemRequest.limiter = "your sense of fashion";
-			return 0;
-		}
-
-		// Initial Beeosity check
 		switch ( itemId )
 		{
 		case ItemPool.BLACK_MARKET_MAP:
