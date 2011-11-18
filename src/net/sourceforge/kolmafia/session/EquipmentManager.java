@@ -1453,14 +1453,6 @@ public class EquipmentManager
 			return false;
 		}
 
-		String itemName = ItemDatabase.getItemName( itemId );
-
-		// Untrendy items cannot be equipped in Trendycore
-		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", itemName ) )
-		{
-			return false;
-		}
-
 		int type = ItemDatabase.getConsumptionType( itemId );
 
 		if ( type == KoLConstants.EQUIP_FAMILIAR )
@@ -1476,7 +1468,7 @@ public class EquipmentManager
 		
 		if ( KoLCharacter.isHardcore() )
 		{
-			Modifiers mods = Modifiers.getModifiers( itemName );
+			Modifiers mods = Modifiers.getModifiers( ItemDatabase.getItemName( itemId ) );
 			if ( mods != null && mods.getBoolean( Modifiers.SOFTCORE ) )
 			{
 				return false;

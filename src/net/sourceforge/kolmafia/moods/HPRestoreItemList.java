@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -245,21 +244,12 @@ public abstract class HPRestoreItemList
 
 		public boolean usableInCurrentPath()
 		{
-			if ( this.itemUsed == null )
+			if ( this.itemUsed == null || !KoLCharacter.inBeecore() )
 			{
 				return true;
 			}
-			else if ( KoLCharacter.inBeecore() )
-			{
-				String name = this.itemUsed.getName();
-				return name.indexOf( "b" ) == -1 && name.indexOf( "B" ) == -1 ;
-			}
-			else if ( KoLCharacter.isTrendy() )
-			{
-				String name = this.itemUsed.getName();
-				return TrendyRequest.isTrendy( "Items", name );
-			}
-			return true;
+			String name = this.itemUsed.getName();
+			return name.indexOf( "b" ) == -1 && name.indexOf( "B" ) == -1 ;
 		}
 
 		public int compareTo( final Object o )

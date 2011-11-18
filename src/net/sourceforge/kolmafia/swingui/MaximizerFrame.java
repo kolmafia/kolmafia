@@ -778,6 +778,10 @@ public class MaximizerFrame
 					{
 						continue;
 					}
+					else if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Clan Item", "Pool Table" ) )
+					{
+						continue;
+					}
 					else if ( !haveVipKey )
 					{
 						if ( includeAll )
@@ -795,6 +799,10 @@ public class MaximizerFrame
 				else if ( cmd.startsWith( "shower " ) )
 				{
 					if ( KoLCharacter.inBadMoon() )
+					{
+						continue;
+					}
+					else if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Clan Item", "April Shower" ) )
 					{
 						continue;
 					}
@@ -847,12 +855,6 @@ public class MaximizerFrame
 					
 					if ( KoLCharacter.inBeecore() &&
 						KoLCharacter.getBeeosity( iname ) > 0 )
-					{
-						continue;
-					}
-					
-					if ( KoLCharacter.isTrendy() &&
-						!TrendyRequest.isTrendy( "Items", iname ) )
 					{
 						continue;
 					}
@@ -1396,7 +1398,7 @@ public class MaximizerFrame
 						AdventureResult[] pieces = outfit.getPieces();
 						for ( int i = 0; i < pieces.length; ++i )
 						{
-							bees += KoLCharacter.getBeeosity( pieces[ i ].getName() );						
+							bees += KoLCharacter.getBeeosity( pieces[ i ].getName() );
 						}
 						outfitBeeosity = Math.max( outfitBeeosity, bees );
 					}
@@ -1424,7 +1426,7 @@ public class MaximizerFrame
 					}
 					hadFamiliar = fam != null;
 					if ( fam != null && !fam.equals( KoLCharacter.getFamiliar() )
-						&& !this.familiars.contains( fam ) )
+						&& fam.canEquip() && !this.familiars.contains( fam ) )
 					{
 						this.familiars.add( fam );
 					}
@@ -2199,7 +2201,7 @@ public class MaximizerFrame
 				int b;
 				int useful = Evaluator.maxUseful( slot );
 				while ( i.hasPrevious() )
-				{	
+				{
 					AdventureResult item = ((Spec) i.previous()).attachment;
 					item = this.validateItem( item, maxPrice, priceLevel );
 					int count = item.getCount();
