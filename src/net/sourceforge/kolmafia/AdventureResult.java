@@ -587,7 +587,19 @@ public class AdventureResult
 		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
 
 		String name = parsedItem.nextToken().trim();
-		int count = parsedItem.hasMoreTokens() ? StringUtilities.parseInt( parsedItem.nextToken() ) : 1;
+		int count = 1;
+		while ( parsedItem.hasMoreTokens() )
+		{
+			String next = parsedItem.nextToken().trim();
+			if ( !parsedItem.hasMoreTokens() && StringUtilities.isNumeric( next ) )
+			{
+				count = StringUtilities.parseInt( next );
+			}
+			else if ( !next.equals( "" ) )
+			{
+				name += " (" + next + ")";
+			}
+		}
 
 		if ( !pseudoAllowed )
 		{

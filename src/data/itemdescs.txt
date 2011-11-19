@@ -5389,3 +5389,7 @@
 5388	882790882	ridicshades.gif	ridiculous sunglasses	pairs of ridiculous sunglasses
 5389	882634790	sammich.gif	ridiculous sandwich	ridiculous sandwiches
 5390	729068833	fruitym.gif	ridiculous cocktail
+5391
+5392
+5393	990207150	tatpaper.gif	scrap of sticky paper
+5394	133369800	document.gif	sandpaper	scraps of sandpaper
