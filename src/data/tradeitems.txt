@@ -5397,3 +5397,7 @@
 5388	ridiculous sunglasses	accessory	all	0
 5389	ridiculous sandwich	food	all	0
 5390	ridiculous cocktail	drink	all	0
+5391
+5392
+5393	scrap of sticky paper	none	all	
+5394	sandpaper	none	all	25

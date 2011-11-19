@@ -98,6 +98,33 @@ pumpkin bomb	COMBINE	pumpkin	Knob Goblin firecracker
 meat stack	COMBINE, MANUAL	fairy gravy boat	meat from yesterday
 
 
+# Items involved with defacing skillbooks into used skillbooks
+
+scrap of sticky paper	COMBINE	tattered scrap of paper	spider web
+sandpaper	COMBINE	scrap of sticky paper	handful of sand
+A Crimbo Carol, Ch. 1 (used)	ACOMBINE	A Crimbo Carol, Ch. 1	sandpaper
+A Crimbo Carol, Ch. 2 (used)	ACOMBINE	A Crimbo Carol, Ch. 2	sandpaper
+A Crimbo Carol, Ch. 3 (used)	ACOMBINE	A Crimbo Carol, Ch. 3	sandpaper
+A Crimbo Carol, Ch. 4 (used)	ACOMBINE	A Crimbo Carol, Ch. 4	sandpaper
+A Crimbo Carol, Ch. 5 (used)	ACOMBINE	A Crimbo Carol, Ch. 5	sandpaper
+A Crimbo Carol, Ch. 6 (used)	ACOMBINE	A Crimbo Carol, Ch. 6	sandpaper
+CRIMBCO Employee Handbook (chapter 1) (used)	ACOMBINE	CRIMBCO Employee Handbook (chapter 1)	sandpaper
+CRIMBCO Employee Handbook (chapter 2) (used)	ACOMBINE	CRIMBCO Employee Handbook (chapter 2)	sandpaper
+CRIMBCO Employee Handbook (chapter 3) (used)	ACOMBINE	CRIMBCO Employee Handbook (chapter 3)	sandpaper
+CRIMBCO Employee Handbook (chapter 4) (used)	ACOMBINE	CRIMBCO Employee Handbook (chapter 4)	sandpaper
+CRIMBCO Employee Handbook (chapter 5) (used)	ACOMBINE	CRIMBCO Employee Handbook (chapter 5)	sandpaper
+The Art of Slapfighting (used)	ACOMBINE	The Art of Slapfighting	sandpaper
+Uncle Romulus (used)	ACOMBINE	Uncle Romulus	sandpaper
+Zu Mannk&auml;se Dienen (used)	ACOMBINE	Zu Mannk&auml;se Dienen	sandpaper
+A Beginner's Guide to Charming Snakes (used)	ACOMBINE	A Beginner's Guide to Charming Snakes	sandpaper
+Autobiography Of Dynamite Superman Jones (used)	ACOMBINE	The Autobiography Of Dynamite Superman Jones	sandpaper
+Inigo's Incantation of Inspiration (crumpled)	ACOMBINE	Inigo's Incantation of Inspiration	sandpaper
+Ellsbury's journal (used)	ACOMBINE	Ellsbury's journal	sandpaper
+Tales of a Kansas Toymaker (used)	ACOMBINE	Tales of a Kansas Toymaker	sandpaper
+The Joy of Wassailing (used)	ACOMBINE	The Joy of Wassailing	sandpaper
+Field Guide to Skeletal Anatomy (shredded)	ACOMBINE	Field Guide to Skeletal Anatomy	sandpaper
+The Necbronomicon (used)	ACOMBINE	The Necbronomicon	sandpaper
+
 # Items involved with the campground, or subcomponents involved in the
 # creation of campground items.
 
