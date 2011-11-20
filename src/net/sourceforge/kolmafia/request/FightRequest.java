@@ -2601,6 +2601,7 @@ public class FightRequest
 					Preferences.setBoolean( "lastPirateInsult" + insult, true );
 					AdventureResult result = AdventureResult.tallyItem( "pirate insult", false );
 					AdventureResult.addResultToList( KoLConstants.tally, result );
+					GoalManager.updateProgress( result );
 					int count = FightRequest.countPirateInsults();
 					float odds = FightRequest.pirateInsultOdds( count ) * 100.0f;
 					RequestLogger.printLine( "Pirate insults known: " +
@@ -2760,6 +2761,7 @@ public class FightRequest
 			AdventureResult result = AdventureResult.tallyItem(
 				"Arena flyer ML", ML, false );
 			AdventureResult.addResultToList( KoLConstants.tally, result );
+			GoalManager.updateProgress( result );
 		}
 	}
 

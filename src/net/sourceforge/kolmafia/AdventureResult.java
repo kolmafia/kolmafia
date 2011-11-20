@@ -63,17 +63,19 @@ public class AdventureResult
 	public static final String[] STAT_NAMES = { "muscle", "mysticality", "moxie" };
 
 	private int itemId;
-	private int[] count;
+	private int count;
 	protected String name;
-	private int priority;
+	protected int priority;
 
 	private static final int NO_PRIORITY = 0;
 	private static final int ADV_PRIORITY = 1;
 	private static final int MEAT_PRIORITY = 2;
-	private static final int SUBSTAT_PRIORITY = 3;
-	private static final int FULLSTAT_PRIORITY = 4;
+	protected static final int SUBSTAT_PRIORITY = 3;
+	protected static final int FULLSTAT_PRIORITY = 4;
 	private static final int ITEM_PRIORITY = 5;
 	private static final int EFFECT_PRIORITY = 6;
+
+	public static final int PSEUDO_ITEM_PRIORITY = 99;
 
 	protected static final int MONSTER_PRIORITY = -1;
 
@@ -85,11 +87,13 @@ public class AdventureResult
 	public static final String DRUNK = "Drunk";
 	public static final String MEAT = "Meat";
 	public static final String MEAT_SPENT = "Meat Spent";
-	public static final String SUBSTATS = "Substats";
-	public static final String FULLSTATS = "Fullstats";
 	public static final String PULL = "Pull";
 	public static final String STILL = "Still";
 	public static final String TOME = "Tome Summon";
+	// Sub/full stats have multiple values and should be delgated
+	// to AdventureMultiResult.
+	public static final String SUBSTATS = "Substats";
+	public static final String FULLSTATS = "Fullstats";
 
 	private static final List MUS_SUBSTAT = new ArrayList();
 	private static final List MYS_SUBSTAT = new ArrayList();
@@ -123,11 +127,11 @@ public class AdventureResult
 
 	public static final int[] SESSION_SUBSTATS = new int[ 3 ];
 	public static final AdventureResult SESSION_SUBSTATS_RESULT =
-		new AdventureResult( AdventureResult.SUBSTATS, AdventureResult.SESSION_SUBSTATS );
+		new AdventureMultiResult( AdventureResult.SUBSTATS, AdventureResult.SESSION_SUBSTATS );
 
 	public static final int[] SESSION_FULLSTATS = new int[ 3 ];
 	public static final AdventureResult SESSION_FULLSTATS_RESULT =
-		new AdventureResult( AdventureResult.FULLSTATS, AdventureResult.SESSION_FULLSTATS );
+		new AdventureMultiResult( AdventureResult.FULLSTATS, AdventureResult.SESSION_FULLSTATS );
 
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name. The amount of gain will default to zero.
@@ -145,27 +149,17 @@ public class AdventureResult
 		this( AdventureResult.choosePriority( name ), name, count );
 	}
 
-	public AdventureResult( final String name, final int[] count )
-	{
-		this( AdventureResult.choosePriority( name ), name, count );
-	}
-
 	public AdventureResult( final String name, final int count, final boolean isStatusEffect )
 	{
 		this( isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY, name, count );
 	}
 
-	protected AdventureResult( final int subType, final String name )
+	public AdventureResult( final int subType, final String name )
 	{
 		this( subType, name, 1 );
 	}
 
-	protected AdventureResult( final int subType, final String name, final int count )
-	{
-		this( subType, name, new int[] { count } );
-	}
-
-	protected AdventureResult( final int subType, final String name, final int[] count )
+	public AdventureResult( final int subType, final String name, final int count )
 	{
 		this.name = name;
 		this.count = count;
@@ -182,10 +176,15 @@ public class AdventureResult
 		{
 			// Detach substring from larger text
 			this.name = new String( name );
+			if ( this.priority == AdventureResult.PSEUDO_ITEM_PRIORITY )
+			{	// bypass normalizeItemName()
+				this.itemId = -1;
+				this.priority = AdventureResult.ITEM_PRIORITY;
+			}
 		}
 	}
 
-	private static int choosePriority( final String name )
+	protected static int choosePriority( final String name )
 	{
 		if ( name.equals( AdventureResult.ADV ) ||
 		     name.equals( AdventureResult.CHOICE ) ||
@@ -224,7 +223,7 @@ public class AdventureResult
 		String name = ItemDatabase.getItemName( itemId );
 		this.name = name != null ? name : "(unknown item " + String.valueOf( this.itemId ) + ")";
 		this.itemId = itemId;
-		this.count = new int[] { count };
+		this.count = count;
 		this.priority = AdventureResult.ITEM_PRIORITY;
 	}
 
@@ -329,7 +328,7 @@ public class AdventureResult
 	public static final AdventureResult tallyItem( final String name, final int count, final boolean setItemId )
 	{
 		AdventureResult item = AdventureResult.tallyItem( name, setItemId );
-		item.count[ 0 ] = count;
+		item.count = count;
 		return item;
 	}
 
@@ -352,7 +351,7 @@ public class AdventureResult
 
 	public boolean isMuscleGain()
 	{
-		return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.count[ 0 ] != 0;
+		return false;	// overriden in subclass
 	}
 
 	/**
@@ -363,7 +362,7 @@ public class AdventureResult
 
 	public boolean isMysticalityGain()
 	{
-		return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.count[ 1 ] != 0;
+		return false;	// overriden in subclass
 	}
 
 	/**
@@ -374,7 +373,7 @@ public class AdventureResult
 
 	public boolean isMoxieGain()
 	{
-		return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.count[ 2 ] != 0;
+		return false;	// overriden in subclass
 	}
 
 	/**
@@ -483,17 +482,12 @@ public class AdventureResult
 
 	public int getCount()
 	{
-		int totalCount = 0;
-		for ( int i = 0; i < this.count.length; ++i )
-		{
-			totalCount += this.count[ i ];
-		}
-		return totalCount;
+		return count;
 	}
 
 	public int[] getCounts()
-	{
-		return this.count;
+	{	// This should be called on multi-valued subclasses only!
+		return null;
 	}
 
 	/**
@@ -505,7 +499,7 @@ public class AdventureResult
 
 	public int getCount( final int index )
 	{
-		return index < 0 || index >= this.count.length ? 0 : this.count[ index ];
+		return index != 0 ? 0 : this.count;
 	}
 
 	/**
@@ -576,7 +570,7 @@ public class AdventureResult
 			int[] gained =
 				{ AdventureResult.MUS_SUBSTAT.contains( statname ) ? modifier : 0, AdventureResult.MYS_SUBSTAT.contains( statname ) ? modifier : 0, AdventureResult.MOX_SUBSTAT.contains( statname ) ? modifier : 0 };
 
-			return new AdventureResult( AdventureResult.SUBSTATS, gained );
+			return new AdventureMultiResult( AdventureResult.SUBSTATS, gained );
 		}
 
 		return AdventureResult.parseItem( s, false );
@@ -610,7 +604,7 @@ public class AdventureResult
 		AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, name );
 		item.priority = AdventureResult.ITEM_PRIORITY;
 		item.itemId = ItemDatabase.getItemId( name, 1, false );
-		item.count[0] = count;
+		item.count = count;
 		if ( item.itemId > 0 )
 		{	// normalize name
 			item.name = ItemDatabase.getItemName( item.itemId );
@@ -635,52 +629,47 @@ public class AdventureResult
 
 		if ( this.name.equals( AdventureResult.ADV ) )
 		{
-			return " Advs Used: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+			return " Advs Used: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.MEAT ) )
 		{
-			return " Meat Gained: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+			return " Meat Gained: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.MEAT_SPENT ) )
 		{
-			return " Meat Spent: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+			return " Meat Spent: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.CHOICE ) )
 		{
-			return " Choices Left: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+			return " Choices Left: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.AUTOSTOP ) )
 		{
-			return " Autostops Left: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+			return " Autostops Left: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.PULL ) )
 		{
-			return " Budgeted Pulls: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+			return " Budgeted Pulls: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.STILL ) )
 		{
-			return " Still Usages: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+			return " Still Usages: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.TOME ) )
 		{
-			return " Tome Summons: " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
+			return " Tome Summons: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) || this.name.equals( AdventureResult.DRUNK ) )
 		{
-			return " " + this.name + ": " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] );
-		}
-
-		if ( this.name.equals( AdventureResult.SUBSTATS ) || this.name.equals( AdventureResult.FULLSTATS ) )
-		{
-			return " " + this.name + ": " + KoLConstants.COMMA_FORMAT.format( this.count[ 0 ] ) + " / " + KoLConstants.COMMA_FORMAT.format( this.count[ 1 ] ) + " / " + KoLConstants.COMMA_FORMAT.format( this.count[ 2 ] );
+			return " " + this.name + ": " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.priority == AdventureResult.MONSTER_PRIORITY )
@@ -714,7 +703,7 @@ public class AdventureResult
 			}
 		}
 
-		int count = this.count[ 0 ];
+		int count = this.count;
 
 		return count == 1 ? name :
 			count > Integer.MAX_VALUE/2 ? name + " (\u221E)" :
@@ -731,62 +720,30 @@ public class AdventureResult
 
 		if ( this.name.equals( AdventureResult.ADV ) || this.name.equals( AdventureResult.CHOICE ) )
 		{
-			return this.count[ 0 ] + " choiceadv";
+			return this.count + " choiceadv";
 		}
 
 		if ( this.name.equals( AdventureResult.AUTOSTOP ) )
 		{
-			return this.count[ 0 ] + " autostop";
+			return this.count + " autostop";
 		}
 
 		if ( this.name.equals( AdventureResult.MEAT ) )
 		{
-			return this.count[ 0 ] + " meat";
+			return this.count + " meat";
 		}
 
 		if ( this.name.equals( AdventureResult.HP ) )
 		{
-			return this.count[ 0 ] + " health";
+			return this.count + " health";
 		}
 
 		if ( this.name.equals( AdventureResult.MP ) )
 		{
-			return this.count[ 0 ] + " mana";
+			return this.count + " mana";
 		}
 
-		if ( this.name.equals( AdventureResult.SUBSTATS ) )
-		{
-			StringBuffer stats = new StringBuffer();
-
-			if ( this.count[ 0 ] > 0 )
-			{
-				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() + this.count[ 0 ] ) + " muscle" );
-			}
-
-			if ( this.count[ 1 ] > 0 )
-			{
-				if ( this.count[ 0 ] > 0 )
-				{
-					stats.append( ", " );
-				}
-
-				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() + this.count[ 1 ] ) + " mysticality" );
-			}
-
-			if ( this.count[ 2 ] > 0 )
-			{
-				if ( this.count[ 0 ] > 0 || this.count[ 1 ] > 0 )
-				{
-					stats.append( ", " );
-				}
-
-				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() + this.count[ 2 ] ) + " moxie" );
-			}
-
-			return stats.toString();
-		}
-
-		return "+" + this.count[ 0 ] + " " + this.name.replaceAll( "[,\"]", "" );
+		return "+" + this.count + " " + this.name.replaceAll( "[,\"]", "" );
 	}
 
 	/**
@@ -800,13 +757,13 @@ public class AdventureResult
 
 	public boolean equals( final Object o )
 	{
-		if ( !( o instanceof AdventureResult ) || o == null )
+		if ( !( o instanceof AdventureResult ) )
 		{
 			return false;
 		}
 
 		AdventureResult ar = (AdventureResult) o;
-		if ( this.name == null || ar.name == null || this.count == null || ar.count == null )
+		if ( this.name == null || ar.name == null )
 		{
 			return false;
 		}
@@ -815,7 +772,8 @@ public class AdventureResult
 			return ar.equals( this );
 		}
 
-		return this.count.length == ar.count.length && ( !ar.isItem() || this.itemId == ar.itemId ) && this.name.equalsIgnoreCase( ar.name );
+		return ( !ar.isItem() || this.itemId == ar.itemId ) &&
+			this.name.equalsIgnoreCase( ar.name );
 	}
 
 	/**
@@ -916,16 +874,15 @@ public class AdventureResult
 		AdventureResult current = (AdventureResult) sourceList.get( index );
 
 		// Modify substats and fullstats in place
-		if ( current.count.length > 1 )
+		if ( current instanceof AdventureMultiResult &&
+			result instanceof AdventureMultiResult )
 		{
-			for ( int i = 0; i < current.count.length; ++i )
-			{
-				current.count[ i ] += result.count[ i ];
-			}
+			((AdventureMultiResult) current).addResultInPlace(
+				(AdventureMultiResult) result );
 			return;
 		}
 
-		AdventureResult sumResult = current.getInstance( current.count[ 0 ] + result.count[ 0 ] );
+		AdventureResult sumResult = current.getInstance( current.count + result.count );
 
 		// Check to make sure that the result didn't transform the value
 		// to zero - if it did, then remove the item from the list if
@@ -984,7 +941,7 @@ public class AdventureResult
 		}
 
 		AdventureResult current = (AdventureResult) sourceList.get( index );
-		AdventureResult sumResult = current.getInstance( current.count[ 0 ] + result.count[ 0 ] );
+		AdventureResult sumResult = current.getInstance( current.count + result.count );
 
 		if ( sumResult.getCount() <= 0 )
 		{
@@ -1009,27 +966,21 @@ public class AdventureResult
 	{
 		if ( this.isItem() && this.itemId != -1 )
 		{
-			return this.count[ 0 ] == 0 ? this : new AdventureResult( this.itemId, 0 - this.count[ 0 ] );
+			return this.count == 0 ? this : new AdventureResult( this.itemId, 0 - this.count );
 		}
 		else if ( this.isStatusEffect() )
 		{
-			return this.count[ 0 ] == 0 ? this : new AdventureResult( this.name, 0 - this.count[ 0 ], true );
+			return this.count == 0 ? this : new AdventureResult( this.name, 0 - this.count, true );
 		}
 
-		int[] newcount = new int[ this.count.length ];
-		for ( int i = 0; i < this.count.length; ++i )
-		{
-			newcount[ i ] = 0 - this.count[ i ];
-		}
-
-		return this.getInstance( newcount );
+		return this.getInstance( -this.count );
 	}
 
 	public AdventureResult getInstance( final int quantity )
 	{
 		if ( this.isItem() )
 		{
-			if ( this.count[ 0 ] == quantity )
+			if ( this.count == quantity )
 			{
 				return this;
 			}
@@ -1038,13 +989,13 @@ public class AdventureResult
 			AdventureResult item = new AdventureResult( AdventureResult.NO_PRIORITY, this.name );
 			item.priority = AdventureResult.ITEM_PRIORITY;
 			item.itemId = this.itemId;
-			item.count[ 0 ] = quantity;
+			item.count = quantity;
 			return item;
 		}
 
 		if ( this.isStatusEffect() )
 		{
-			return this.count[ 0 ] == quantity ? this : new AdventureResult( this.name, quantity, true );
+			return this.count == quantity ? this : new AdventureResult( this.name, quantity, true );
 		}
 
 		return new AdventureResult( this.name, quantity );
@@ -1052,19 +1003,7 @@ public class AdventureResult
 
 	public AdventureResult getInstance( final int[] quantity )
 	{
-		if ( this.priority != AdventureResult.SUBSTAT_PRIORITY && this.priority != AdventureResult.FULLSTAT_PRIORITY )
-		{
-			return this.getInstance( quantity[ 0 ] );
-		}
-
-		if ( this.priority == AdventureResult.SUBSTAT_PRIORITY )
-		{
-			return new AdventureResult( AdventureResult.SUBSTATS, quantity );
-		}
-
-		AdventureResult stats = new AdventureResult( AdventureResult.FULLSTATS );
-		stats.count = quantity;
-		return stats;
+		return this.getInstance( quantity[ 0 ] );
 	}
 
 	/**
@@ -1171,6 +1110,177 @@ public class AdventureResult
 		return ItemDatabase.getItemName( itemId );
 	}
 
+	// AdventureMultiResult handles the specific stat-related result types
+	// that must store multiple values, rather than having a 1-element count
+	// array inside every AdventureResult.
+	public static class AdventureMultiResult
+		extends AdventureResult
+	{
+		private int[] counts;
+		
+		public AdventureMultiResult( final String name, final int[] counts )
+		{
+			this( AdventureResult.choosePriority( name ), name, counts );
+		}
+
+		protected AdventureMultiResult( final int subType, final String name, final int[] counts )
+		{
+			super( subType, name, counts[ 0 ] );
+			this.counts = counts;
+		}
+		
+		/**
+		 * Accessor method to determine if this result is a muscle gain.
+		 *
+		 * @return <code>true</code> if this result represents muscle subpoint gain
+		 */
+	
+		public boolean isMuscleGain()
+		{
+			return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.counts[ 0 ] != 0;
+		}
+	
+		/**
+		 * Accessor method to determine if this result is a mysticality gain.
+		 *
+		 * @return <code>true</code> if this result represents mysticality subpoint gain
+		 */
+	
+		public boolean isMysticalityGain()
+		{
+			return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.counts[ 1 ] != 0;
+		}
+	
+		/**
+		 * Accessor method to determine if this result is a muscle gain.
+		 *
+		 * @return <code>true</code> if this result represents muscle subpoint gain
+		 */
+	
+		public boolean isMoxieGain()
+		{
+			return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.counts[ 2 ] != 0;
+		}
+	
+		/**
+		 * Accessor method to retrieve the total value associated with the result. In the event of substat points, this
+		 * returns the total subpoints within the <code>AdventureResult</code>; in the event of an item or meat gains,
+		 * this will return the total number of meat/items in this result.
+		 *
+		 * @return The amount associated with this result
+		 */
+	
+		public int getCount()
+		{
+			int totalCount = 0;
+			for ( int i = 0; i < this.counts.length; ++i )
+			{
+				totalCount += this.counts[ i ];
+			}
+			return totalCount;
+		}
+	
+		public int[] getCounts()
+		{
+			return this.counts;
+		}
+
+		/**
+		 * Accessor method to retrieve the total value associated with the result stored at the given index of the count
+		 * array.
+		 *
+		 * @return The total value at the given index of the count array
+		 */
+	
+		public int getCount( final int index )
+		{
+			return index < 0 || index >= this.counts.length ? 0 : this.counts[ index ];
+		}
+
+		/**
+		 * Converts the <code>AdventureResult</code> to a <code>String</code>. This is especially useful in debug, or
+		 * if the <code>AdventureResult</code> is to be displayed in a <code>ListModel</code>.
+		 *
+		 * @return The string version of this <code>AdventureResult</code>
+		 */
+	
+		public String toString()
+		{
+			if ( this.name.equals( AdventureResult.SUBSTATS ) || this.name.equals( AdventureResult.FULLSTATS ) )
+			{
+				return " " + this.name + ": " + KoLConstants.COMMA_FORMAT.format( this.counts[ 0 ] ) + " / " + KoLConstants.COMMA_FORMAT.format( this.counts[ 1 ] ) + " / " + KoLConstants.COMMA_FORMAT.format( this.counts[ 2 ] );
+			}
+	
+			return "(Unrecognized multi-result)";
+		}
+
+		public String toConditionString()
+		{
+			if ( this.name.equals( AdventureResult.SUBSTATS ) )
+			{
+				StringBuffer stats = new StringBuffer();
+	
+				if ( this.counts[ 0 ] > 0 )
+				{
+					stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() + this.counts[ 0 ] ) + " muscle" );
+				}
+	
+				if ( this.counts[ 1 ] > 0 )
+				{
+					if ( this.counts[ 0 ] > 0 )
+					{
+						stats.append( ", " );
+					}
+	
+					stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() + this.counts[ 1 ] ) + " mysticality" );
+				}
+	
+				if ( this.counts[ 2 ] > 0 )
+				{
+					if ( this.counts[ 0 ] > 0 || this.counts[ 1 ] > 0 )
+					{
+						stats.append( ", " );
+					}
+	
+					stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() + this.counts[ 2 ] ) + " moxie" );
+				}
+	
+				return stats.toString();
+			}
+	
+			return super.toConditionString();
+		}
+		
+		protected void addResultInPlace( AdventureMultiResult result )
+		{
+			for ( int i = 0; i < this.counts.length; ++i )
+			{
+				this.counts[ i ] += result.counts[ i ];
+			}
+		}
+
+		public AdventureResult getNegation()
+		{
+			int[] newcounts = new int[ this.counts.length ];
+			for ( int i = 0; i < this.counts.length; ++i )
+			{
+				newcounts[ i ] = 0 - this.counts[ i ];
+			}
+	
+			return this.getInstance( newcounts );
+		}
+
+		public AdventureResult getInstance( final int[] quantity )
+		{
+			if ( this.priority == AdventureResult.SUBSTAT_PRIORITY )
+			{
+				return new AdventureMultiResult( AdventureResult.SUBSTATS, quantity );
+			}
+	
+			return new AdventureMultiResult( AdventureResult.FULLSTATS, quantity );
+		}
+	}
+
 	public static class WildcardResult
 	extends AdventureResult
 	{
@@ -1202,7 +1312,7 @@ public class AdventureResult
 
 		public boolean equals( final Object o )
 		{
-			if ( !( o instanceof AdventureResult ) || o == null )
+			if ( !( o instanceof AdventureResult ) )
 			{
 				return false;
 			}
