@@ -88,6 +88,7 @@ public abstract class ChoiceManager
 	public static final Pattern CHOICE3_PATTERN = Pattern.compile( "choice.php\\?whichchoice=(\\d+)" );
 
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
+	private static final Pattern URL_OPTION_PATTERN = Pattern.compile( "option=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 
 	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
@@ -4786,6 +4787,23 @@ public abstract class ChoiceManager
 			case 488: case 489: case 490: case 491:
 				// Meteoid
 				return true;
+			}
+			matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
+			if ( matcher.find() )
+			{
+				int decision = StringUtilities.parseInt ( matcher.group( 1 ) );
+				String desc = "unknown";
+				String[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
+				if ( possibleDecisions != null && decision > 0 &&
+					decision <= possibleDecisions[ 2 ].length )
+				{
+					desc = possibleDecisions[ 2 ][ decision - 1 ];
+				}
+				RequestLogger.updateSessionLog( "Took choice " + choice + "/" +
+					decision + ": " + desc );
+				// For now, leave the raw URL in the log in case some analysis
+				// tool is relying on it.
+				//return true;
 			}
 		}
 
