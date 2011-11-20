@@ -59,7 +59,7 @@ public class GoalManager
 
 	public static final int[] GOAL_SUBSTATS_COUNTS = new int[ 3 ];
 	public static final AdventureResult GOAL_SUBSTATS =
-		new AdventureResult( AdventureResult.SUBSTATS, GOAL_SUBSTATS_COUNTS );
+		new AdventureResult.AdventureMultiResult( AdventureResult.SUBSTATS, GOAL_SUBSTATS_COUNTS );
 
 	private static final LockableListModel goals = new LockableListModel();
 
@@ -227,7 +227,8 @@ public class GoalManager
 
 		if ( !GoalManager.goals.isEmpty() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unable to obtain an enchanted bean." );
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unable to obtain " +
+				goal );
 			GoalManager.clearGoals();
 		}
 

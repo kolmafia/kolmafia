@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +50,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -191,6 +194,43 @@ public class ConditionsCommand
 			String[] splitCondition = conditionString.split( "\\s+" );
 			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
 			return GoalManager.GOAL_AUTOSTOP.getInstance( count );
+		}
+
+		if ( conditionString.endsWith( "pirate insult" ) ||
+			conditionString.endsWith( "pirate insults" ) )
+		{
+			String[] splitCondition = conditionString.split( "\\s+" );
+			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
+			return new AdventureResult( AdventureResult.PSEUDO_ITEM_PRIORITY,
+				"pirate insult", count ) {
+			
+				public int getCount( List list )
+				{
+					if ( list != KoLConstants.inventory )
+					{
+						return 0;
+					}
+					return FightRequest.countPirateInsults();
+				}
+			};
+		}
+
+		if ( conditionString.endsWith( "arena flyer ml" ) )
+		{
+			String[] splitCondition = conditionString.split( "\\s+" );
+			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
+			return new AdventureResult( AdventureResult.PSEUDO_ITEM_PRIORITY,
+				"Arena flyer ML", count ) {
+			
+				public int getCount( List list )
+				{
+					if ( list != KoLConstants.inventory )
+					{
+						return 0;
+					}
+					return Preferences.getInteger( "flyeredML" );
+				}
+			};
 		}
 
 		if ( conditionString.startsWith( "level" ) )
