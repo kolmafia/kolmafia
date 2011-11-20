@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -243,7 +244,7 @@ public class MaximizerFrame
 		"This is still a work-in-progress, so don't expect everything to work perfectly at the moment.  However, here are some details that are especially broken:" +
 		"<br>\u2022 Items that can be installed at your campground for a bonus (such as Hobopolis bedding) aren't considered." +
 		"<br>\u2022 Your song limit isn't considered when recommending buffs, nor are any daily casting limits." +
-		"<br>\u2022 Mutually exclusive effects aren't handled properly." +
+		"<br>\u2022 If more than one of a given item is being recommended, and some of the required quantity isn't already in your inventory (in your closet, perhaps), trying to equip them fails.  After all the items from inventory are equipped, further attempts will steal one of those items from its slot rather than considering other retrieval options." +
 		"<br>\u2022 Weapon Damage, Ranged Damage, and Spell Damage are calculated assuming 100 points of base damage - in other words, additive and percentage boosts are considered to have exactly equal worth.  It's possible that Weapon and Ranged damage might use a better estimate of the base damage in the future, but for Spell Damage, the proper base depends on which spell you end up using." +
 		"<br>\u2022 Effects which vary in power based on how many turns are left (love songs, Mallowed Out, etc.) are handled poorly.  If you don't have the effect, they'll be suggested based on the results you'd get from having a single turn of it.  If you have the effect already, extending it to raise the power won't even be considered.  Similar problems occur with effects that are based on how full or drunk you currently are." +
 		"</td></tr></table></html>";
@@ -1197,15 +1198,38 @@ public class MaximizerFrame
 		// Slots starting with EquipmentManager.ALL_SLOTS are equipment
 		// for other familiars being considered.
 		
-		private static int maxUseful( int slot )
+		private static int relevantSkill( String skill )
+		{
+			return KoLCharacter.hasSkill( skill ) ? 1 : 0;
+		}
+		
+		private int relevantFamiliar( int id )
+		{
+			if ( KoLCharacter.getFamiliar().getId() == id )
+			{
+				return 1;
+			}
+			for ( int i = 0; i < this.familiars.size(); ++i )
+			{
+				if ( ((FamiliarData) this.familiars.get( i )).getId() == id )
+				{
+					return 1;
+				}
+			}
+			return 0;
+		}
+		
+		private int maxUseful( int slot )
 		{
 			switch ( slot )
 			{
 			case EquipmentManager.HAT:
+				return 1 + this.relevantFamiliar( FamiliarPool.HATRACK );
 			case EquipmentManager.PANTS:
-				return 2;	// Mad Hatrack & Fancypants Scarecrow
+				return 1 + this.relevantFamiliar( FamiliarPool.SCARECROW );
 			case Evaluator.WEAPON_1H:
-				return 3;	// Dual-wield + Disembodied Hand
+				return 1 + relevantSkill( "Double-Fisted Skull Smashing" ) +
+					this.relevantFamiliar( FamiliarPool.HAND );
 			case EquipmentManager.ACCESSORY1:
 				return 3;
 			}
@@ -1423,6 +1447,7 @@ public class MaximizerFrame
 					if ( fam == null && weight > 1.0f )
 					{	// Allow a familiar to be faked for testing
 						fam = new FamiliarData( id );
+						fam.setWeight( (int) weight );
 					}
 					hadFamiliar = fam != null;
 					if ( fam != null && !fam.equals( KoLCharacter.getFamiliar() )
@@ -2199,7 +2224,7 @@ public class MaximizerFrame
 				int beeotches = 0;
 				int beeosity = 0;
 				int b;
-				int useful = Evaluator.maxUseful( slot );
+				int useful = this.maxUseful( slot );
 				while ( i.hasPrevious() )
 				{
 					AdventureResult item = ((Spec) i.previous()).attachment;
@@ -2535,6 +2560,10 @@ public class MaximizerFrame
 						--count;
 					}
 					if ( item.equals( this.equipment[ EquipmentManager.HAT ] ) )
+					{
+						--count;
+					}
+					if ( item.equals( this.equipment[ EquipmentManager.PANTS ] ) )
 					{
 						--count;
 					}
