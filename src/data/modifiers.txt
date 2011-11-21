@@ -290,18 +290,18 @@ yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "?xVolley
 # Pants section of modifiers.txt
 
 1337 7r0uZ0RZ	Intrinsic Effect: "1337p4n7Z", Familiar Effect: "1xPotato, cap 27"
-Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer", Familiar Effect: "1xBarrr, cap 35"
-BRAINS shorts	Sleaze Damage: +40, Sleaze Spell Damage: +40, Familiar Effect: "sleaze atk, 1xGhuol, cap 27"
+Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer", Familiar Effect: "1xBarrr, cap 31"
+BRAINS shorts	Sleaze Damage: +40, Sleaze Spell Damage: +40, Familiar Effect: "sleaze atk, 1xGhuol"
 BRICKO pants	Damage Absorption: +9, Familiar Effect: "1.5xVolley, 2xLep, 1xPotato, cap 22"
 Boss Bat britches	Moxie: +5, Familiar Effect: "atk, prismatic atk, 1xGhuol, cap 16"
 Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50, Brimstone, Familiar Effect: "1xVolley, 1xLep"
-Can-Can skirt	Muscle Percent: +10, Familiar Effect: "1xFairy, 1xPotato, cap 22"
+Can-Can skirt	Muscle Percent: +10, Familiar Effect: "1.5xFairy, 2xPotato, cap 22"
 Cerebral Culottes	Mysticality: +10, Familiar Effect: "3xBarrr, cap 22"
 Chester's cutoffs	Hot Resistance: +3, Stench Resistance: +3, Class: "Disco Bandit", Familiar Effect: "atk, prismatic atk, 1xGhuol"
-Cloaca-Cola fatigues	Mysticality: +3, Familiar Effect: "1xPotato, cap 7"
+Cloaca-Cola fatigues	Mysticality: +3, Familiar Effect: "4xPotato, cap 7"
 Crimbo pants	Initiative: +30, Familiar Effect: "cap 25"
 Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10, Familiar Effect: "stench atk, 0.5xVolley"
-Dyspepsi-Cola fatigues	Mysticality: +3, Familiar Effect: "1xPotato, cap 7"
+Dyspepsi-Cola fatigues	Mysticality: +3, Familiar Effect: "3.5xPotato, 3xVolley, cap 7"
 El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
 Galapagosian Cuisses	Muscle: +11, Familiar Weight: +5, Class: "Turtle Tamer", Familiar Effect: "2xBarrr, 1xGhuol, cap 31"
 # Greatest American Pants: Amazing Super Powers
@@ -311,7 +311,7 @@ Grimacite greaves	Initiative: +20, Moxie Percent: [10*G], Familiar Effect: "cap 
 Hodgman's lobsterskin pants	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "atk, 1xPotato"
 Knob Goblin Uberpants	Muscle: +2, Mysticality: +2, Moxie: +2, Familiar Effect: "1xPotato, 3xFairy, cap 11"
 Knob Goblin elite pants	Moxie: +3, Familiar Effect: "2xBarrr, cap 15"
-Knob Goblin harem pants	Moxie: +1, Familiar Effect: "prismatic atk, sleaze atk, , cap 2"
+Knob Goblin harem pants	Moxie: +1, Familiar Effect: "prismatic atk, sleaze atk, 7xPotato, cap 2"
 Knob Goblin pants	Muscle: +1, Familiar Effect: "atk, cap 6"
 Krakrox's Loincloth	Muscle: +11, Initiative: +15, Class: "Seal Clubber", Familiar Effect: "1xVolley, 1xPotato, cap 31"
 Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief", Familiar Effect: "atk, 1xGhuol, cap 31"
@@ -337,16 +337,16 @@ alpha-mail pants	Familiar Effect: "atk, 1xBarrr, cap 35"
 antique greaves	Initiative: -10, Familiar Effect: "1xBarrr"
 astral shorts	Moxie Percent: +25, Initiative: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "cap 12"
 astral trousers	Muscle Percent: +25, Weapon Damage Percent: +50, Meat Drop: +20, Familiar Effect: "1xPotato, cap 12"
-astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5, Familiar Effect: "1xVolley, 1xPotato, cap 43"
+astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5, Familiar Effect: "1xVolley, 1.5xPotato, cap 43"
 baggy rave pants	Damage Absorption: +20, Raveosity: +2
 bark boxers	Damage Reduction: 5, Familiar Effect: "atk, 3xVolley, cap 10"
 barskin loincloth	Muscle: +1, Familiar Effect: "sleaze atk, 4xVolley, cap 6"
-basic meat kilt	Moxie: +1, Familiar Effect: "1xPotato, 3xFairy, cap 10"
-basic meat pants	Moxie: +1, Familiar Effect: "atk, 1xPotato, cap 10"
+basic meat kilt	Moxie: +1, Familiar Effect: "3xPotato, 3xFairy, cap 10"
+basic meat pants	Moxie: +1, Familiar Effect: "atk, 3xPotato, cap 10"
 basic meat skirt	Moxie: +1, Familiar Effect: "3xBarrr, cap 10"
 biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5, Familiar Effect: "1xBarrr, 1xGhuol, cap 37"
 black greaves	Muscle: +10, Damage Absorption: +30, Familiar Effect: "atk, 1xBarrr, cap 40"
-bloody clown pants	Spooky Damage: +3, Clownosity: +1, Familiar Effect: "1xPotato, 2xFairy, cap 12"
+bloody clown pants	Spooky Damage: +3, Clownosity: +1, Familiar Effect: "3xPotato, 2xFairy, cap 12"
 boneana hammock	Sleaze Spell Damage: +20, Sleaze Damage: +20, Familiar Effect: "1xVolley, cap 30"
 bounty-hunting pants	Item Drop: +15, Familiar Effect: "1xPotato, 2xFairy, cap 25"
 bowlegged pants	Moxie: +5, Familiar Effect: "1xPotato, cap 25"
@@ -355,9 +355,9 @@ bullet-proof corduroys	Maximum MP: +40, Damage Reduction: 2, Familiar Effect: "s
 buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30, Familiar Effect: "1xPotato, 1xLep, cap 37"
 chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
 clingfilm trousers	Mysticality: +9, Familiar Effect: "sleaze atk, 1xPotato, cap 37"
-clockwork pants	Initiative: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 20"
+clockwork pants	Initiative: +10, Familiar Effect: "3xPotato, 1xGhuol, cap 20"
 corroded breeches	Slime Hates It: +1, Damage Absorption: +50, Critical: 3, Familiar Effect: "sleaze atk, 1xPotato"
-crotchety pants	Maximum HP: +40, Familiar Effect: "1xPotato, 1xGhuol, cap 18"
+crotchety pants	Maximum HP: +40, Familiar Effect: "3xPotato, 1xGhuol, cap 18"
 cursed breeches	Moxie: +15, Familiar Effect: "stench atk, 1xPotato"
 demonskin trousers	Hot Resistance: +2, Familiar Effect: "hot atk, 1xPotato, cap 17"
 depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Familiar Effect: "atk, 3xBarrr, cap 25"
@@ -366,7 +366,7 @@ double-ice britches	Hot Resistance: +4, Damage Reduction: 4, Maximum HP: +40, Ma
 duct tape dockers	Muscle: +6, Mysticality: +6, Moxie: +6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "1xPotato, 1xGhuol, cap 48"
 dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "stench atk, 1xPotato, cap 7"
 # dwarvish war kilt: Blinky Lights
-dwarvish war kilt	Familiar Effect: "1xBarrr, cap 41"
+dwarvish war kilt	Familiar Effect: "1xBarrr, 1xFairy, cap 41"
 # eelskin pants: Damages Attacking Opponent (Underwater Only)
 eelskin pants	Mysticality Percent: +5, Familiar Effect: "1xPotato"
 extremely skinny jeans	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Critical Hit Percent: +3, Familiar Effect: "1xPotato, 1xFairy"
@@ -401,7 +401,7 @@ los chinos	Damage Absorption: +20, Familiar Effect: "1xPotato, 1xGhuol, cap 13"
 makeshift skirt	Initiative: +15, Familiar Effect: "2xBarrr, 1xFairy, cap 25"
 manly bloomers	Muscle: +6, Moxie: -3, Familiar Effect: "3xBarrr, 1xGhuol, cap 13"
 mariachi pants	Familiar Effect: "1xPotato, cap 2"
-miner's pants	Damage Absorption: +20, Familiar Effect: "prismatic atk, 1xPotato, cap 20"
+miner's pants	Damage Absorption: +20, Familiar Effect: "prismatic atk, 1.5xPotato, cap 20"
 monster pants	Critical: 3, Familiar Effect: "3xVolley, 1xPotato, cap 17"
 mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5, Familiar Effect: "stench atk, 1xPotato"
 ninja hot pants	Hot Damage: +4, Familiar Effect: "hot atk, prismatic atk, 1xPotato, cap 17"
@@ -417,7 +417,7 @@ penguin shorts	Initiative: +20, Familiar Effect: "cold atk, 1xGhuol, cap 30"
 penguinskin mini-kilt	Initiative: +20, Familiar Effect: "cold atk, cap 30"
 penguinskin mini-skirt	Initiative: +20, Familiar Effect: "cold atk, cap 30"
 pig-iron shinguards	Moxie: +6, Initiative: +10, Familiar Effect: "2xBarrr, 1.5xFairy, cap 22"
-pin-stripe slacks	Initiative: +15, Familiar Effect: "6xSombrero, 1xPotato, cap 7"
+pin-stripe slacks	Initiative: +15, Familiar Effect: "6xSombrero, 2xPotato, cap 7"
 pink pinkslip slip	Initiative: +35, Damage Reduction: 4, Familiar Effect: "1xVolley, 1xBarrr"
 pixel pants	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "atk, 1xPotato, cap 12"
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
@@ -429,27 +429,27 @@ slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, 
 snailmail breeches	Maximum HP: +20, Maximum MP: +20, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "1xBarrr, 0.5xFairy, cap 41"
 snow pants	Hot Resistance: +2, Familiar Effect: "cold atk, 1xPotato, cap 12"
 snowboarder pants	Damage Absorption: +20, Familiar Effect: "1xPotato, cap 25"
-spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 8xLep, cap 2"
+spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 10xLep, cap 2"
 spangly mariachi pants	MP Regen Min: 5, MP Regen Max: 10, Familiar Effect: "2xFairy, 2xPotato, cap 37"
 square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30, Familiar Effect: "hot atk, 1xPotato"
 stainless steel slacks	Initiative: +15, Meat Drop: +20, Moxie Percent: +15, Familiar Effect: "prismatic atk, 4xBarrr, cap 22"
 star pants	Initiative: +20, Familiar Effect: "1xGhuol, cap 41"
-sticky meat kilt	Moxie: +3, Familiar Effect: "3xFairy, cap 11"
+sticky meat kilt	Moxie: +3, Familiar Effect: "1xPotato, 3xFairy, cap 11"
 sticky meat pants	Moxie: +3, Familiar Effect: "1xPotato, cap 11"
 sticky meat skirt	Moxie: +3, Familiar Effect: "1xPotato, 3xFairy, cap 11"
 stinky cheese diaper	Softcore Only, Adventures: [max(1,min(10,floor(pref(_stinkyCheeseCount)/10)))], Familiar Effect: "stench atk, 1.5xVolley, cap 25"
 studded leather boxer shorts	Familiar Effect: "4xVolley, cap 5"
 sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Familiar Effect: "2xVolley, 1xLep, cap 25"
-swashbuckling pants	Moxie: +4, Familiar Effect: "1xPotato, 2xFairy, cap 20"
+swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
 tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
 time trousers	Adventures: +3, Familiar Effect: "1xPotato, cap 25"
 tree skirt	Moxie: +5, Familiar Effect: "hot atk, 2xFairy, cap 25"
-trousers of the white knight	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +15, Maximum MP: +15, Familiar Effect: "atk, 1xPotato, 2xLep, cap 15"
+trousers of the white knight	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +15, Maximum MP: +15, Familiar Effect: "atk, 2.5xPotato, 2xLep, cap 15"
 troutpiece	Familiar Effect: "1xVolley, 1xBarrr, cap 27"
 turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
-white satin pants	Sleaze Resistance: +2, Familiar Effect: "prismatic atk, 1xPotato, cap 10"
-wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato,cap 5"
+white satin pants	Sleaze Resistance: +2, Familiar Effect: "prismatic atk, 2xPotato, cap 10"
+wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato, cap 5"
 yakskin kilt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
 yakskin pants	Maximum MP: +25, Familiar Effect: "prismatic atk, 1xPotato, cap 35"
 yakskin skirt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
@@ -2276,11 +2276,13 @@ Throne:Cuddlefish	Initiative: +20
 Throne:Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne:Dancing Frog	Meat Drop: +20
 Throne:Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:Dataspider	MP Regen Min: 3, MP Regen Max: 5, Spell Damage Percent: +10
 Throne:Dramatic Hedgehog	Experience (Mysticality): +2, HP Regen Min: 2, HP Regen Max: 3
 Throne:El Vibrato Megadrone	Monster Level: +10, MP Regen Min: 10, MP Regen Max: 15
 Throne:Emo Squid	Initiative: +20
 Throne:Evil Teddy Bear	Initiative: +20
 Throne:Exotic Parrot	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne:Feral Kobold	Item Drop: +15
 Throne:Feather Boa Constrictor	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Flaming Gravy Fairy	Hot Damage: +20	
 Throne:Frozen Gravy Fairy	Cold Damage: +20
@@ -2298,6 +2300,7 @@ Throne:Hanukkimbo Dreidl	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Hippo Ballerina	Meat Drop: +20
 Throne:Hobo Monkey	Meat Drop: +25
+Throne:Holiday Log	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne:Hovering Sombrero	Experience (Mysticality): +2
 Throne:Howling Balloon Monkey	Spell Damage Percent: +10
 Throne:Hunchbacked Minion	Experience (Muscle): +2
@@ -2311,6 +2314,7 @@ Throne:Killer Bee	Experience (Muscle): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne:Knob Goblin Organ Grinder	Meat Drop: +25
 Throne:Leprechaun	Meat Drop: +20
 Throne:Levitating Potato	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne:Li'l Xenomorph	Item Drop: +15
 Throne:Llama Lama	Maximum HP: +10, Maximum MP: +10, MP Regen Min: 5, MP Regen Max: 6
 Throne:Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Max: 10
 Throne:MagiMechTech MicroMechaMech	Muscle Percent: +15
@@ -2325,8 +2329,10 @@ Throne:Nervous Tick	Experience (Moxie): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne:Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne:Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne:O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
+Throne:Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Pair of Ragged Claws	Familiar Weight: +5
+Throne:Pair of Stomping Boots	Weapon Damage Percent: +10
 Throne:Penguin Goodfella	Familiar Weight: +5
 Throne:Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
@@ -2337,7 +2343,9 @@ Throne:Purse Rat	Experience: +2
 Throne:Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Ragamuffin Imp	Mysticality Percent: +15
 Throne:Reassembled Blackbird	Item Drop: +15
+Throne:Reconstituted Crow	Item Drop: +15
 Throne:RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Rock Lobster	Spell Damage Percent: +15, MP Regen Min: 11, MP Regen Max: 15
 Throne:Sabre-Toothed Lime	Moxie Percent: +15
 Throne:Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
