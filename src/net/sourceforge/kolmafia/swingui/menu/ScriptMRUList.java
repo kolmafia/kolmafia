@@ -34,31 +34,25 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
-
 import java.util.LinkedList;
-
 import net.sourceforge.kolmafia.KoLCharacter;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-
 /**
  * Maintains a most recently used list of scripts
  * @author Fronobulax
  */
-public final class ScriptMRUList
+public class ScriptMRUList
 {
-	private static int maxMRU = 16;
-	private static final LinkedList mruList = new LinkedList();
-	private static boolean isInit = false;
+	private int maxMRU = 16;
+	private final LinkedList mruList = new LinkedList();
+	private boolean isInit = false;
 
 	public ScriptMRUList()
 	{
-		ScriptMRUList.isInit = false;
+		isInit = false;
 	}
 
-	private static final void init()
+	private void init()
 	{
 		maxMRU = Preferences.getInteger( "scriptMRULength" );
 		if ( maxMRU > 0 )
@@ -78,18 +72,18 @@ public final class ScriptMRUList
 			{
 				mruList.removeLast();
 			}
-			ScriptMRUList.isInit = true;
+			isInit = true;
 		}
 	}
 
-	public static final void addItem(String script)
+	public void addItem(String script)
 	{
 		// Initialize list, if needed
-		if ( !ScriptMRUList.isInit )
+		if ( !isInit )
 		{
-			ScriptMRUList.init();
+			init();
 		}
-		if ( !ScriptMRUList.isInit )
+		if ( !isInit )
 		{
 			return;
 		}
@@ -132,16 +126,14 @@ public final class ScriptMRUList
 			}
 			// now save it
 			Preferences.setString( KoLCharacter.getUserName(), "scriptMRUList", pref.toString() );
-			// rebuild Scripts menu if needed
-			GenericFrame.compileScripts();
 		}
 	}
 	
-	public static final File[] listFiles()
+	public File[] listFiles()
 	{
-		if ( !ScriptMRUList.isInit )
+		if ( !isInit )
 		{
-			ScriptMRUList.init();
+			init();
 		}
 		int count = mruList.size();
 		if ( count < 1 )
