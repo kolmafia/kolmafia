@@ -1253,7 +1253,12 @@ public class EquipmentManager
 		{
 		default:
 		case KoLConstants.MUSCLE:
-			return KoLCharacter.getAdjustedMuscle();
+			int hitStat = KoLCharacter.getAdjustedMuscle();
+			if ( Modifiers.unarmed && KoLCharacter.hasSkill( "Master of the Surprising Fist" ) )
+			{
+				hitStat += 20;
+			}
+			return hitStat;
 		case KoLConstants.MYSTICALITY:
 			return KoLCharacter.getAdjustedMysticality();
 		case KoLConstants.MOXIE:
