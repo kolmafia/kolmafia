@@ -34,25 +34,18 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
-
 import java.util.regex.Pattern;
-
 import net.java.dev.spellcast.utilities.DataUtilities;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-
-import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
-
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Profiler;
-
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CallScriptCommand
@@ -134,7 +127,8 @@ public class CallScriptCommand
 			}
 			else
 			{
-				ScriptMRUList.addItem(scriptFile.toString());
+				KoLConstants.scriptMList.addItem(scriptFile.toString());
+				GenericFrame.compileScripts();
 			}
 
 			// In theory, you could execute EVERY script in a

@@ -81,7 +81,6 @@ import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
-import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMenu;
 
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
@@ -697,7 +696,7 @@ public abstract class GenericFrame
 		}
 		else
 		{
-			scriptList = ScriptMRUList.listFiles();
+			scriptList = KoLConstants.scriptMList.listFiles();
 		}
 
 		// Iterate through the files. Do this in two
