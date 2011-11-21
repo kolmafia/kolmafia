@@ -1834,7 +1834,11 @@ public class MaximizerFrame
 				return ItemPool.get( id, count );
 			}
 			
-			if ( KoLCharacter.canInteract() )
+			if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", ItemPool.get( id, 0 ).getName() ) )
+			{	// Trendy characters can't buy or pull untrendy items
+				count = 0;
+			}
+			else if ( KoLCharacter.canInteract() )
 			{	// consider Mall buying
 				if ( count == 0 && ItemDatabase.isTradeable( id ) )
 				{	// but only if none are otherwise available
