@@ -46,19 +46,23 @@ public class ScriptMRUList
 	private int maxMRU = 16;
 	private final LinkedList mruList = new LinkedList();
 	private boolean isInit = false;
+	private String prefList = null;
+	private String prefLen = null;
 
-	public ScriptMRUList()
+	public ScriptMRUList( String pList, String pLen )
 	{
 		isInit = false;
+		prefList = pList;
+		prefLen = pLen;
 	}
 
 	private void init()
 	{
-		maxMRU = Preferences.getInteger( "scriptMRULength" );
+		maxMRU = Preferences.getInteger( prefLen );
 		if ( maxMRU > 0 )
 		{
 			// Load list from preference - use whatever is there
-			String oldValues = Preferences.getString( "scriptMRUList" );
+			String oldValues = Preferences.getString( prefList );
 			if ( ( oldValues != null ) && ( !oldValues.equals( "" ) ) )
 			{
 				// First to last, delimited by semi-colon.  Split and insert.
@@ -90,22 +94,14 @@ public class ScriptMRUList
 		// don't add empty or null names
 		if ( ( script != null ) && ( !script.equals( "" ) ) )
 		{
-			// check for item as an existing file and bail if not
-			File fn = new File( script );
-			if ( !fn.exists() )
-			{
-				return;
-			}
-			// Strip off the path info
-			String sscript = fn.getName();
 			// delete item if it is currently in list
 			// note - as implemented this is a case sensitive compare
-			while ( mruList.contains( sscript ) )
+			while ( mruList.contains( script ) )
 			{
-				mruList.remove( sscript );
+				mruList.remove( script );
 			}
 			// add this as the first
-			mruList.addFirst( sscript );
+			mruList.addFirst( script );
 			// delete excess
 			while ( mruList.size() > maxMRU )
 			{
@@ -129,7 +125,7 @@ public class ScriptMRUList
 		}
 	}
 	
-	public File[] listFiles()
+	public File[] listAsFiles()
 	{
 		if ( !isInit )
 		{
