@@ -125,11 +125,6 @@ public class CallScriptCommand
 				}
 				return;
 			}
-			else
-			{
-				KoLConstants.scriptMList.addItem(scriptFile.toString());
-				GenericFrame.compileScripts();
-			}
 
 			// In theory, you could execute EVERY script in a
 			// directory, but instead, let's make it an error.
@@ -139,6 +134,12 @@ public class CallScriptCommand
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, scriptFile.getCanonicalPath() + " is a directory." );
 				return;
 			}
+
+			// Got here so have valid script file name and not a directory.
+			// Add name, without path, to MRU list
+
+				KoLConstants.scriptMList.addItem( scriptFile.getName() );
+				GenericFrame.compileScripts();
 
 			// Allow the ".ash" to appear anywhere in the filename
 			// in a case-insensitive manner.

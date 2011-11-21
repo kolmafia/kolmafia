@@ -274,7 +274,8 @@ public interface KoLConstants
 	public static final LockableListModel bookmarks = new LockableListModel();
 
 	public static final ArrayList disabledScripts = new ArrayList();
-	public static final ScriptMRUList scriptMList = new ScriptMRUList();
+	public static final ScriptMRUList scriptMList = 
+			  new ScriptMRUList( "scriptMRUList", "scriptMRULength");
 
 	public static final SortedListModel junkList = new SortedListModel();
 	public static final SortedListModel singletonList = new SortedListModel();

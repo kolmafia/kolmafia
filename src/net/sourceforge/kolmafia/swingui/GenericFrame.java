@@ -696,7 +696,7 @@ public abstract class GenericFrame
 		}
 		else
 		{
-			scriptList = KoLConstants.scriptMList.listFiles();
+			scriptList = KoLConstants.scriptMList.listAsFiles();
 		}
 
 		// Iterate through the files. Do this in two
