@@ -40,8 +40,6 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.PrintStream;
 
-import java.math.BigInteger;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2736,24 +2734,45 @@ public class Parser
 					break;
 
 				case 'x':
-					BigInteger hex08 = new BigInteger( this.currentLine.substring( i + 1, i + 3 ), 16 );
-					resultString.append( (char) hex08.intValue() );
-					i += 2;
+					try
+					{
+						int hex08 = Integer.parseInt( this.currentLine.substring( i + 1, i + 3 ), 16 );
+						resultString.append( (char) hex08 );
+						i += 2;
+					}
+					catch ( NumberFormatException e )
+					{
+						throw this.parseException( "Hexadecimal character escape requires 2 digits" );
+					}
 					break;
 
 				case 'u':
-					BigInteger hex16 = new BigInteger( this.currentLine.substring( i + 1, i + 5 ), 16 );
-					resultString.append( (char) hex16.intValue() );
-					i += 4;
+					try
+					{
+						int hex16 = Integer.parseInt( this.currentLine.substring( i + 1, i + 5 ), 16 );
+						resultString.append( (char) hex16 );
+						i += 4;
+					}
+					catch ( NumberFormatException e )
+					{
+						throw this.parseException( "Unicode character escape requires 4 digits" );
+					}
 					break;
 
 				default:
 					if ( Character.isDigit( ch ) )
 					{
-						BigInteger octal = new BigInteger( this.currentLine.substring( i, i + 3 ), 8 );
-						resultString.append( (char) octal.intValue() );
-						i += 2;
-						break;
+						try
+						{
+							int octal = Integer.parseInt( this.currentLine.substring( i, i + 3 ), 8 );
+							resultString.append( (char) octal );
+							i += 2;
+							break;
+						}
+						catch ( NumberFormatException e )
+						{
+							throw this.parseException( "Octal character escape requires 3 digits" );
+						}
 					}
 					resultString.append( ch );
 				}
