@@ -262,6 +262,13 @@ public class MaximizerFrame
 		if ( this.eval != null )
 		{
 			this.valueChanged( null );
+		} 
+		else
+		{
+			if ( Preferences.getInteger( "maximizerMRULength") > 0)
+			{
+				KoLConstants.maximizerMList.updateJComboData( expressionSelect );
+			}
 		}
 	}
 
@@ -315,6 +322,10 @@ public class MaximizerFrame
 		{
 			this.listTitle.setText( buff.toString() );
 		}
+		if ( Preferences.getInteger( "maximizerMRULength") > 0)
+		{
+			KoLConstants.maximizerMList.updateJComboData( expressionSelect );
+		}
 	}
 	
 	public void maximize()
@@ -354,7 +365,9 @@ public class MaximizerFrame
 	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll )
 	{
 		KoLmafia.forceContinue();
-		MaximizerFrame.eval = new Evaluator( (String) MaximizerFrame.expressionSelect.getSelectedItem() );
+		String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
+		KoLConstants.maximizerMList.addItem( maxMe );
+		MaximizerFrame.eval = new Evaluator( maxMe );
 
 		// parsing error
 		if ( !KoLmafia.permitsContinue() )

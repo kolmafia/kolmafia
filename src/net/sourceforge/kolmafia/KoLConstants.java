@@ -275,7 +275,9 @@ public interface KoLConstants
 
 	public static final ArrayList disabledScripts = new ArrayList();
 	public static final ScriptMRUList scriptMList = 
-			  new ScriptMRUList( "scriptMRUList", "scriptMRULength");
+			  new ScriptMRUList( "scriptMRUList", "scriptMRULength" );
+	public static final ScriptMRUList maximizerMList =
+			  new ScriptMRUList( "maximizerMRUList", "maximizerMRULength" );
 
 	public static final SortedListModel junkList = new SortedListModel();
 	public static final SortedListModel singletonList = new SortedListModel();

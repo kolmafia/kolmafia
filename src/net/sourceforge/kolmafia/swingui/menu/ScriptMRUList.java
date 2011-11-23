@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
 import java.util.LinkedList;
+import javax.swing.JComboBox;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 /**
@@ -121,7 +122,7 @@ public class ScriptMRUList
 				}
 			}
 			// now save it
-			Preferences.setString( KoLCharacter.getUserName(), "scriptMRUList", pref.toString() );
+			Preferences.setString( KoLCharacter.getUserName(), prefList, pref.toString() );
 		}
 	}
 	
@@ -143,5 +144,24 @@ public class ScriptMRUList
 			result[i] = new File( mruArray[i].toString() );
 		}
 		return result;
+	}
+	
+	public void updateJComboData( JComboBox jcb)
+	{
+		if ( !isInit )
+		{
+			init();
+		}
+		int count = mruList.size();
+		if ( count >= 1 )
+		{
+			jcb.removeAllItems();
+			Object mruArray [] = mruList.toArray();
+			for (int i = 0; i < count; i++)
+			{
+				jcb.insertItemAt( mruArray[i], i);
+			}
+			jcb.setSelectedIndex( 0 );
+		}
 	}
 }
