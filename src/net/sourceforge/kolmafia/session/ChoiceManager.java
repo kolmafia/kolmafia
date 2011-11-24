@@ -69,6 +69,8 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
+import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
@@ -2668,6 +2670,18 @@ public abstract class ChoiceManager
 		return ChoiceManager.CHOICE_HANDLER.containsUpdate;
 	}
 
+	public static final void processChoiceAdventure( int decision )
+	{
+		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
+		request.constructURLString( "choice.php" );
+		request.addFormField( "whichchoice", String.valueOf( ChoiceManager.lastChoice ) );
+		request.addFormField( "option", String.valueOf( decision ) );
+		request.addFormField( "pwd", GenericRequest.passwordHash );
+
+		request.run();
+		ChoiceManager.processChoiceAdventure( request, request.responseText );
+	}
+
 	public static final void processChoiceAdventure( final GenericRequest request, final String responseText )
 	{
 		// You can no longer simply ignore a choice adventure.	One of
@@ -2738,6 +2752,7 @@ public abstract class ChoiceManager
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Manual control requested for choice #" + choice );
 				RequestThread.enableDisplayIfSequenceComplete();
 				request.showInBrowser( true );
+				ChoiceCommand.printChoices();
 				return;
 			}
 
@@ -2749,6 +2764,7 @@ public abstract class ChoiceManager
 				RequestThread.enableDisplayIfSequenceComplete();
 				StaticEntity.printRequestData( request );
 				request.showInBrowser( true );
+				ChoiceCommand.printChoices();
 				return;
 			}
 

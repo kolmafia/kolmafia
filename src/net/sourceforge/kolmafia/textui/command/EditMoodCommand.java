@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -43,6 +44,7 @@ public class EditMoodCommand
 	public EditMoodCommand()
 	{
 		this.usage = " clear | autofill | [<type>,] <effect> [, <action>] - edit current mood";
+		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}
 
 	public void run( final String cmd, final String parameters )
