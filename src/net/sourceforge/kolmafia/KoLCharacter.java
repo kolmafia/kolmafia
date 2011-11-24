@@ -726,6 +726,10 @@ public abstract class KoLCharacter
 		{
 			return 15;
 		}
+		else if ( KoLCharacter.isTrendy() )
+		{
+			return 15;
+		}
 
 		int baseFullness = 15;
 
