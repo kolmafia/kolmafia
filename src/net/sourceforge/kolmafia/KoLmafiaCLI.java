@@ -641,6 +641,7 @@ public class KoLmafiaCLI
 			register( "checkshields" ).
 			register( "checkzapgroups" );
 		new ChessCommand().register( "chess" );
+		new ChoiceCommand().register( "choice" );
 		new ChipsCommand().register( "chips" );
 		new ClanCommand().register( "clan" );
 		new ClanSofaCommand().register( "sofa" ).register( "sleep" );
