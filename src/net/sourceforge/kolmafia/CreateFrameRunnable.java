@@ -195,7 +195,13 @@ public class CreateFrameRunnable
 			this.creation.pack();
 		}
 
-		if ( !( this.creation instanceof GenericFrame ) )
+		if ( this.creation instanceof GenericFrame )
+		{
+			GenericFrame gframe = (GenericFrame) this.creation;
+
+			gframe.setStatusMessage( KoLmafia.getLastMessage() );
+		}
+		else
 		{
 			this.creation.setLocationRelativeTo( null );
 		}
@@ -287,9 +293,11 @@ public class CreateFrameRunnable
 		{
 			if ( frame instanceof GenericFrame )
 			{
-				if ( ( (GenericFrame) frame ).useSidePane() )
+				GenericFrame gframe = (GenericFrame) frame;
+
+				if ( gframe.useSidePane() )
 				{
-					( (GenericFrame) frame ).addCompactPane();
+					gframe.addCompactPane();
 				}
 			}
 			else
