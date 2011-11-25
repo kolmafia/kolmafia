@@ -60,7 +60,6 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
-import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
@@ -109,15 +108,11 @@ import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BadMoonManager;
 import net.sourceforge.kolmafia.session.BreakfastManager;
-import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.MailManager;
-import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
@@ -696,72 +691,6 @@ public abstract class KoLmafia
 		KoLmafia.continuationState = KoLConstants.CONTINUE_STATE;
 	}
 
-	public final void login( final String name )
-	{
-		RequestThread.openRequestSequence();
-
-		LoginRequest.isLoggingIn( true );
-
-		try
-		{
-			ConcoctionDatabase.deferRefresh( true );
-			this.initialize( name );
-			ConcoctionDatabase.deferRefresh( false );
-		}
-		catch ( Exception e )
-		{
-			// What should we do here?
-			StaticEntity.printStackTrace( e, "Error during session initialization" );
-			return;
-		}
-
-		LoginRequest.isLoggingIn( false );
-
-		// Abort further processing in Valhalla.
-		if ( CharPaneRequest.inValhalla() )
-		{
-			RequestThread.closeRequestSequence();
-			return;
-		}
-
-		if ( Preferences.getBoolean( name, "getBreakfast" ) )
-		{
-			int today = HolidayDatabase.getPhaseStep();
-			BreakfastManager.getBreakfast( Preferences.getInteger( "lastBreakfast" ) != today );
-			Preferences.setInteger( "lastBreakfast", today );
-		}
-
-		if ( Preferences.getBoolean( "sharePriceData" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "update prices http://kolmafia.us/scripts/updateprices.php?action=getmap" );
-		}
-
-		// Also, do mushrooms, if a mushroom script has already
-		// been setup by the user.
-
-		if ( Preferences.getBoolean( "autoPlant" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
-		{
-			String currentLayout = Preferences.getString( "plantingScript" );
-			if ( !currentLayout.equals( "" ) && KoLCharacter.knollAvailable() && MushroomManager.ownsPlot() )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + KoLConstants.PLOTS_DIRECTORY + currentLayout + ".ash" );
-			}
-		}
-
-		String scriptSetting = Preferences.getString( "loginScript" );
-		if ( !scriptSetting.equals( "" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
-		}
-
-		if ( EventManager.hasEvents() )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "events" );
-		}
-
-		RequestThread.closeRequestSequence();
-	}
-
 	public final void timein( final String name )
 	{
 		// Save the current user settings to disk
@@ -790,81 +719,6 @@ public abstract class KoLmafia
 
 		// Forget what is trendy
 		TrendyRequest.reset();
-	}
-
-	/**
-	 * Initializes the <code>KoLmafia</code> session. Called after the
-	 * login has been confirmed to notify that the login was successful,
-	 * the user-specific settings should be loaded, and the user can begin
-	 * adventuring.
-	 */
-
-	public void initialize( final String username )
-	{
-		// Load the JSON string first, so we can use it, if necessary.
-		ActionBarManager.loadJSONString();
-
-		// Initialize the variables to their initial states to avoid
-		// null pointers getting thrown all over the place
-
-		KoLCharacter.reset( username );
-
-		// Get rid of cached password hashes in KoLAdventures
-		AdventureDatabase.refreshAdventureList();
-
-		// Reset all per-player information
-
-		ChatManager.reset();
-		MailManager.clearMailboxes();
-		StoreManager.clearCache();
-		DisplayCaseManager.clearCache();
-		ClanManager.clearCache();
-		ItemDatabase.reset();
-
-		CampgroundRequest.reset();
-		MushroomManager.reset();
-		HermitRequest.initialize();
-		SpecialOutfit.forgetCheckpoints();
-
-		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
-		Preferences.setString( "lastUsername", username );
-
-		// Perform requests to read current character's data
-
-		this.refreshSession();
-
-		// Reset the session tally and encounter list
-
-		this.resetSession();
-
-		// Open the session log and indicate that we've logged in.
-
-		RequestLogger.openSessionLog();
-
-		if ( Preferences.getBoolean( "logStatusOnLogin" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "log", "snapshot" );
-		}
-
-		// If the password hash is non-null, then that means you
-		// might be mid-transition.
-
-		if ( GenericRequest.passwordHash.equals( "" ) )
-		{
-			PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
-			RequestThread.postRequest(  request );
-			return;
-		}
-
-		ContactManager.registerPlayerId( username, String.valueOf( KoLCharacter.getUserId() ) );
-
-		if ( Preferences.getString( "spadingData" ).length() > 10 )
-		{
-			KoLmafia.updateDisplay( "Some data has been collected that may be of interest " +
-				"to others.  Please type `spade' to examine and submit or delete this data." );
-		}
-		// rebuild Scripts menu if needed
-		GenericFrame.compileScripts();
 	}
 
 	public static final void resetCounters()

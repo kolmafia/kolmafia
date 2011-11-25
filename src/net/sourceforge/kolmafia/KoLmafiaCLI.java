@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.session.LoginManager;
 
 import net.sourceforge.kolmafia.textui.command.*;
 
@@ -174,34 +175,6 @@ public class KoLmafiaCLI
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e, "Error in login attempt" );
-		}
-	}
-
-	/**
-	 * Initializes the <code>KoLmafia</code> session. Called after the login has been confirmed to notify the client
-	 * that the login was successful, the user-specific settings should be loaded, and the user can begin adventuring.
-	 */
-
-	public void initialize( final String username )
-	{
-		super.initialize( username );
-
-		try
-		{
-			String holiday = HolidayDatabase.getHoliday( true );
-			KoLmafia.updateDisplay( holiday + ", " + HolidayDatabase.getMoonEffect() );
-		}
-		catch ( Exception e )
-		{
-			// Should not happen, you're parsing something that
-			// was formatted the same way.
-
-			StaticEntity.printStackTrace( e );
-		}
-
-		if ( Preferences.getString( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
-		{
-			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
 		}
 	}
 

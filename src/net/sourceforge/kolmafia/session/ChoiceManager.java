@@ -3662,7 +3662,7 @@ public abstract class ChoiceManager
 			{
 				public void run()
 				{
-					StaticEntity.getClient().login( KoLCharacter.getUserName() );
+					LoginManager.login( KoLCharacter.getUserName() );
 					ChoiceManager.initializeAfterChoice = false;
 				}
 			};
