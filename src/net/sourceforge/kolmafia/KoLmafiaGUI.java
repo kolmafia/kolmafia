@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EventManager;
+import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.MailManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -134,18 +135,6 @@ public class KoLmafiaGUI
 		{
 			Preferences.setString( "initialDesktop", "AdventureFrame,CommandDisplayFrame,GearChangeFrame" );
 		}
-	}
-
-	/**
-	 * Initializes the <code>KoLmafia</code> session. Called after the login has been confirmed and the
-	 * login was successful, the user-specific settings should be loaded, and the user can begin adventuring.
-	 */
-
-	public void initialize( final String username )
-	{
-		super.initialize( username );
-
-		KoLmafiaGUI.intializeMainInterfaces();
 	}
 
 	public static void initializeLoginInterface()
@@ -225,27 +214,6 @@ public class KoLmafiaGUI
 		// used -- account for minimalist loadings.
 
 		LoginFrame.disposeInstance();
-
-		String updateText;
-
-		String holiday = HolidayDatabase.getHoliday( true );
-		String moonEffect = HolidayDatabase.getMoonEffect();
-
-		if ( holiday.equals( "" ) )
-		{
-			updateText = moonEffect;
-		}
-		else
-		{
-			updateText = holiday + ", " + moonEffect;
-		}
-
-		KoLmafia.updateDisplay( updateText );
-
-		if ( MailManager.hasNewMessages() )
-		{
-			KoLmafia.updateDisplay( "You have new mail." );
-		}
 	}
 
 	public static final void constructFrame( final String frameName )

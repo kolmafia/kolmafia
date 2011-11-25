@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -4319,7 +4320,7 @@ public class FightRequest
 			{
 				public void run()
 				{
-					StaticEntity.getClient().login( KoLCharacter.getUserName() );
+					LoginManager.login( KoLCharacter.getUserName() );
 					FightRequest.initializeAfterFight = false;
 				}
 			};

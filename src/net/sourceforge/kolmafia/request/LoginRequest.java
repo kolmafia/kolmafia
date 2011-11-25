@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayAgent;
@@ -422,7 +423,7 @@ public class LoginRequest
 		}
 		else
 		{
-			StaticEntity.getClient().login( name );
+			LoginManager.login( name );
 		}
 	}
 }
