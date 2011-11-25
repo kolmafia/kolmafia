@@ -67,14 +67,9 @@ public abstract class RequestThread
 		}
 
 		// Make sure there is a URL string in the request
+
 		request.reconstructFields();
-
-		if ( RequestThread.sequenceCount == 0 && ResponseTextParser.hasResult( request.getURLString() ) )
-		{
-			KoLmafia.forceContinue();
-		}
-
-		++RequestThread.sequenceCount;
+		RequestThread.openRequestSequence( RequestThread.sequenceCount == 0 && ResponseTextParser.hasResult( request.getURLString() ) );
 
 		try
 		{
@@ -90,8 +85,7 @@ public abstract class RequestThread
 			StaticEntity.printStackTrace( e );
 		}
 
-		--RequestThread.sequenceCount;
-		RequestThread.enableDisplayIfSequenceComplete();
+		RequestThread.closeRequestSequence();
 	}
 
 	public static final void postRequest( final KoLAdventure request )
@@ -101,8 +95,7 @@ public abstract class RequestThread
 			return;
 		}
 
-		KoLmafia.forceContinue();
-		++RequestThread.sequenceCount;
+		RequestThread.openRequestSequence( true );
 
 		try
 		{
@@ -118,8 +111,7 @@ public abstract class RequestThread
 			StaticEntity.printStackTrace( e );
 		}
 
-		--RequestThread.sequenceCount;
-		RequestThread.enableDisplayIfSequenceComplete();
+		RequestThread.closeRequestSequence();
 	}
 
 	public static final void postRequest( final Runnable request )
@@ -129,12 +121,7 @@ public abstract class RequestThread
 			return;
 		}
 
-		if ( RequestThread.sequenceCount == 0 )
-		{
-			KoLmafia.forceContinue();
-		}
-
-		++RequestThread.sequenceCount;
+		RequestThread.openRequestSequence();
 
 		// If you're not in the event dispatch thread, you can run
 		// without posting to a separate thread.
@@ -153,21 +140,30 @@ public abstract class RequestThread
 			StaticEntity.printStackTrace( e );
 		}
 
-		--RequestThread.sequenceCount;
-		RequestThread.enableDisplayIfSequenceComplete();
+		RequestThread.closeRequestSequence();
 	}
 
-	public static final void openRequestSequence()
+	public static synchronized final void openRequestSequence()
 	{
-		if ( RequestThread.sequenceCount == 0 )
+		RequestThread.openRequestSequence( RequestThread.sequenceCount == 0 );
+	}
+
+	public static synchronized final void openRequestSequence( boolean forceContinue )
+	{
+		if ( forceContinue )
 		{
 			KoLmafia.forceContinue();
 		}
 
 		++RequestThread.sequenceCount;
+
+		if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) )
+		{
+			RequestLogger.printLine( RequestThread.sequenceCount + " requests will prevent enabling display" );
+		}
 	}
 
-	public static final void closeRequestSequence()
+	public static synchronized final void closeRequestSequence()
 	{
 		if ( RequestThread.sequenceCount <= 0 )
 		{
@@ -176,12 +172,22 @@ public abstract class RequestThread
 
 		--RequestThread.sequenceCount;
 		RequestThread.enableDisplayIfSequenceComplete();
+
+		if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) )
+		{
+			RequestLogger.printLine( RequestThread.sequenceCount + " requests will prevent enabling display" );
+		}
 	}
 
 	public static final boolean enableDisplayIfSequenceComplete()
 	{
 		if ( RequestThread.sequenceCount != 0 )
 		{
+			if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) )
+			{
+				RequestLogger.printLine( RequestThread.sequenceCount + " requests are preventing enabling display" );
+			}
+
 			return false;
 		}
 
