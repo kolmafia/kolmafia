@@ -83,7 +83,6 @@ public class KoLDesktop
 	extends GenericFrame
 	implements CloseListener
 {
-	private static final DisplayDesktopRunnable DISPLAYER = new DisplayDesktopRunnable();
 	private static final DisplayDesktopFocusRunnable FOCUSER = new DisplayDesktopFocusRunnable();
 
 	private static KoLDesktop INSTANCE = null;
@@ -327,9 +326,18 @@ public class KoLDesktop
 
 	public static final void displayDesktop()
 	{
+		KoLDesktop.getInstance();
+
 		try
 		{
-			RequestThread.runInParallel( KoLDesktop.DISPLAYER );
+			if ( SwingUtilities.isEventDispatchThread() )
+			{
+				FOCUSER.run();
+			}
+			else
+			{
+				SwingUtilities.invokeAndWait( FOCUSER );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -481,24 +489,6 @@ public class KoLDesktop
 		public void windowIconified( final WindowEvent e )
 		{
 			KoLDesktop.this.setVisible( false );
-		}
-	}
-
-	private static class DisplayDesktopRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			KoLDesktop.getInstance();
-
-			try
-			{
-				SwingUtilities.invokeAndWait( FOCUSER );
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
 		}
 	}
 
