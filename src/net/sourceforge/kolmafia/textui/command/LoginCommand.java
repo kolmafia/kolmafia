@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.session.LogoutManager;
 
 public class LoginCommand
 	extends AbstractCommand
@@ -45,7 +45,7 @@ public class LoginCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		KoLmafia.logout();
+		LogoutManager.logout();
 		this.CLI.attemptLogin( parameters );
 	}
 }

@@ -95,7 +95,6 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
-import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
@@ -113,6 +112,7 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
@@ -121,7 +121,6 @@ import net.sourceforge.kolmafia.session.ValhallaManager;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.LoginFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
@@ -2352,43 +2351,9 @@ public abstract class KoLmafia
 		}
 	}
 
-	public static void logout()
-	{
-		// Create login frame to ensure that there is an active frame.
-
-		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-		{
-			GenericFrame.createDisplay( LoginFrame.class );
-		}
-
-		// Shut down main frame
-
-		if ( KoLDesktop.instanceExists() )
-		{
-			KoLDesktop.getInstance().dispose();
-		}
-
-		// Close down any other active frames.	Since
-		// there is at least one active, logout will
-		// not be called again.
-
-		Frame[] frames = Frame.getFrames();
-		for ( int i = 0; i < frames.length; ++i )
-		{
-			if ( frames[ i ].getClass() != LoginFrame.class )
-			{
-				frames[ i ].dispose();
-			}
-		}
-
-		// Execute the logout request.
-
-		RequestThread.postRequest( new LogoutRequest() );
-	}
-
 	public static void quit()
 	{
-		logout();
+		LogoutManager.logout();
 		System.exit( 0 );
 	}
 

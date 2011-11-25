@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class SystemTrayFrame
@@ -246,7 +247,7 @@ public abstract class SystemTrayFrame
 
 		public void run()
 		{
-			KoLmafia.logout();
+			LogoutManager.logout();
 		}
 	}
 
