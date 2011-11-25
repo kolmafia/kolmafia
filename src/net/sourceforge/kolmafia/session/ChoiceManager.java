@@ -3651,7 +3651,7 @@ public abstract class ChoiceManager
 
 		if ( ChoiceManager.initializeAfterChoice && text.indexOf( "choice.php" ) == -1 )
 		{
-			Thread initializeThread = new Thread( "PostChoiceInitializer" )
+			Runnable initializeRunner = new Runnable()
 			{
 				public void run()
 				{
@@ -3660,7 +3660,7 @@ public abstract class ChoiceManager
 				}
 			};
 
-			initializeThread.start();
+			RequestThread.runInParallel( initializeRunner );
 		}
 	}
 
