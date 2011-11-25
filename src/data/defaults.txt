@@ -653,7 +653,7 @@ user	usableAccessories	3
 user	usableHats	2
 user	usableOffhands	1
 user	usableOther	1
-user	usablePants	1
+user	usablePants	2
 user	usableShirts	1
 user	valueOfAdventure	500
 user	valueOfInventory	1.8
