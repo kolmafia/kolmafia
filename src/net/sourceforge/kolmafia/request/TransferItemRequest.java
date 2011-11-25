@@ -153,8 +153,6 @@ public abstract class TransferItemRequest
 		TransferItemRequest[] requests = new TransferItemRequest[ subinstances.size() ];
 		subinstances.toArray( requests );
 
-		RequestThread.openRequestSequence();
-
 		String status = this.getStatusMessage();
 		for ( int i = 0; i < requests.length; ++i )
 		{
@@ -169,8 +167,6 @@ public abstract class TransferItemRequest
 
 			requests[ i ].run();
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	public ArrayList generateSubInstances()

@@ -52,7 +52,6 @@ public class OutfitCheckpointCommand
 		{
 			SpecialOutfit.createExplicitCheckpoint();
 			KoLmafia.updateDisplay( "Internal checkpoint created." );
-			RequestThread.enableDisplayIfSequenceComplete();
 			return;
 		}
 		else if ( parameters.equals( "clear" ))

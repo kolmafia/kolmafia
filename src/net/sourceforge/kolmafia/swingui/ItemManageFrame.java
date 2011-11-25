@@ -456,8 +456,6 @@ public class ItemManageFrame
 				}
 			}
 
-			RequestThread.openRequestSequence();
-
 			if ( items.length == KoLConstants.storage.size() )
 			{
 				RequestThread.postRequest( new StorageRequest( StorageRequest.EMPTY_STORAGE ) );
@@ -467,7 +465,6 @@ public class ItemManageFrame
 				RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
 			}
 
-			RequestThread.closeRequestSequence();
 			return items;
 		}
 
@@ -484,8 +481,6 @@ public class ItemManageFrame
 				return;
 			}
 
-			RequestThread.closeRequestSequence();
-
 			if ( this.isEquipmentOnly )
 			{
 				for ( int i = 0; i < items.length; ++i )
@@ -497,8 +492,6 @@ public class ItemManageFrame
 			{
 				RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
 			}
-
-			RequestThread.closeRequestSequence();
 		}
 	}
 
@@ -528,7 +521,6 @@ public class ItemManageFrame
 				return null;
 			}
 
-			RequestThread.openRequestSequence();
 			RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
 			return items;
 		}
@@ -536,7 +528,6 @@ public class ItemManageFrame
 		public void actionConfirmed()
 		{
 			this.pullItems();
-			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()
@@ -548,8 +539,6 @@ public class ItemManageFrame
 			}
 
 			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
-
-			RequestThread.closeRequestSequence();
 		}
 	}
 

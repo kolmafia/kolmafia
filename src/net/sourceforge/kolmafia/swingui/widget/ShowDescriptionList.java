@@ -778,12 +778,10 @@ public class ShowDescriptionList
 
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
 
-			RequestThread.openRequestSequence();
 			for ( int i = 0; i < items.length; ++i )
 			{
 				RequestThread.postRequest( new UseItemRequest( (AdventureResult) items[ i ] ) );
 			}
-			RequestThread.closeRequestSequence();
 		}
 	}
 
@@ -799,12 +797,10 @@ public class ShowDescriptionList
 
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
 
-			RequestThread.openRequestSequence();
 			for ( int i = 0; i < items.length; ++i )
 			{
 				RequestThread.postRequest( new PulverizeRequest( (AdventureResult) items[ i ] ) );
 			}
-			RequestThread.closeRequestSequence();
 		}
 	}
 }

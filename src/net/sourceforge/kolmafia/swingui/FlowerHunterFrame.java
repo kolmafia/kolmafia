@@ -262,7 +262,6 @@ public class FlowerHunterFrame
 			}
 
 			KoLmafia.updateDisplay( "Search completed." );
-			RequestThread.enableDisplayIfSequenceComplete();
 		}
 
 		public void actionCancelled()
@@ -321,7 +320,6 @@ public class FlowerHunterFrame
 			}
 
 			KoLmafia.updateDisplay( "Search completed." );
-			RequestThread.enableDisplayIfSequenceComplete();
 		}
 
 		public void actionCancelled()
@@ -439,8 +437,6 @@ public class FlowerHunterFrame
 				break;
 			}
 
-			RequestThread.openRequestSequence();
-
 			PvpRequest request = new PvpRequest();
 			RequestThread.postRequest( request );
 
@@ -454,7 +450,6 @@ public class FlowerHunterFrame
 				KoLmafia.updateDisplay( "Attacks completed." );
 			}
 
-			RequestThread.closeRequestSequence();
 			this.switchToSearch();
 		}
 

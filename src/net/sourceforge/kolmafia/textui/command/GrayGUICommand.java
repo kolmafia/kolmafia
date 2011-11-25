@@ -33,66 +33,19 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.ArrayList;
-
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.objectpool.ItemPool;
-
-import net.sourceforge.kolmafia.request.AutoMallRequest;
-
-public class AutoMallCommand
+public class GrayGUICommand
 	extends AbstractCommand
 {
-	public AutoMallCommand()
+	public GrayGUICommand()
 	{
-		this.usage = " - dump all profitable, non-memento items into the Mall.";
+		this.usage = " - print out a stack trace to help figure out why the UI might be gray/stuck.";
 	}
 
 	public void run( final String cmd, final String parameters )
 	{
-		AutoMallCommand.automall();
+		RequestThread.checkOpenRequestSequences();
 	}
 
-	public static void automall()
-	{
-		// Now you've got all the items used up, go ahead and prepare to
-		// sell anything that's left.
-
-		int itemCount;
-
-		AdventureResult currentItem;
-		Object[] items = KoLConstants.profitableList.toArray();
-
-		ArrayList sellList = new ArrayList();
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			currentItem = (AdventureResult) items[ i ];
-
-			if ( KoLConstants.mementoList.contains( currentItem ) )
-			{
-				continue;
-			}
-
-			if ( currentItem.getItemId() == ItemPool.MEAT_PASTE || currentItem.getItemId() == ItemPool.MEAT_STACK || currentItem.getItemId() == ItemPool.DENSE_STACK )
-			{
-				continue;
-			}
-
-			itemCount = currentItem.getCount( KoLConstants.inventory );
-
-			if ( itemCount > 0 )
-			{
-				sellList.add( currentItem.getInstance( itemCount ) );
-			}
-		}
-
-		if ( !sellList.isEmpty() )
-		{
-			RequestThread.postRequest( new AutoMallRequest( sellList.toArray() ) );
-		}
-	}
 }

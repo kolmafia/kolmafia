@@ -529,13 +529,10 @@ public abstract class MushroomManager
 
 	public static final void clearField()
 	{
-		RequestThread.openRequestSequence();
 		for ( int i = 1; i <= 16; ++i )
 		{
 			MushroomManager.pickMushroom( i, true );
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	/**
@@ -544,13 +541,10 @@ public abstract class MushroomManager
 
 	public static final void harvestMushrooms()
 	{
-		RequestThread.openRequestSequence();
 		for ( int i = 1; i <= 16; ++i )
 		{
 			MushroomManager.pickMushroom( i, false );
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	/**

@@ -396,7 +396,6 @@ public class StoreManageFrame
 			StoreManager.searchMall( "\"" + searchName + "\"", StoreManageFrame.priceSummary, 10, true );
 
 			KoLmafia.updateDisplay( "Price analysis complete." );
-			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}
 
@@ -437,10 +436,8 @@ public class StoreManageFrame
 				return;
 			}
 
-			RequestThread.openRequestSequence();
 			RequestThread.postRequest( new AutoMallRequest( items ) );
 			RequestThread.postRequest( new ManageStoreRequest( false ) );
-			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()

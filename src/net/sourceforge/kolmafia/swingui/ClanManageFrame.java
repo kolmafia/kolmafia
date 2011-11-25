@@ -478,8 +478,6 @@ public class ClanManageFrame
 				this.matchSelect.getSelectedIndex() - 1, this.parameterSelect.getSelectedIndex(),
 				this.valueField.getText() );
 			KoLmafia.updateDisplay( "Search results retrieved." );
-
-			RequestThread.enableDisplayIfSequenceComplete();
 		}
 
 		public void actionCancelled()
@@ -510,8 +508,6 @@ public class ClanManageFrame
 			RequestThread.postRequest( new ClanMembersRequest(
 				titleChange.toArray(), newTitles.toArray(), boots.toArray() ) );
 			KoLmafia.updateDisplay( "Changes have been applied." );
-
-			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}
 

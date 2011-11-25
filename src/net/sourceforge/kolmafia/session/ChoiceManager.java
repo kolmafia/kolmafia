@@ -245,7 +245,7 @@ public abstract class ChoiceManager
 			super( zone, setting, name, options, items );
 		}
 	}
-	
+
 	// NULLCHOICE is returned for failed lookups, so the caller doesn't have to do null checks.
 	public static final ChoiceSpoiler NULLCHOICE = new ChoiceSpoiler( "none", "none", new String[]{} );
 
@@ -2046,7 +2046,7 @@ public abstract class ChoiceManager
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
-	
+
 	// We choose to not make some choice adventures configurable, but we
 	// want to provide spoilers in the browser for them.
 
@@ -2071,7 +2071,7 @@ public abstract class ChoiceManager
 		CHOICE_ADVS = (ChoiceAdventure[]) choices.toArray( new ChoiceAdventure[ choices.size() ] );
 		CHOICE_ADV_SPOILERS = (ChoiceAdventure[]) spoils.toArray( new ChoiceAdventure[ spoils.size() ] );
 		CHOICE_COST = (Object[][]) costs.toArray( new Object[ costs.size() ][] );
-	
+
 		Arrays.sort( ChoiceManager.CHOICE_ADVS );
 	}
 
@@ -2374,7 +2374,7 @@ public abstract class ChoiceManager
 			// Caller will fill it in
 			int r2len = result[ 2 ].length;
 			result[ 3 ] = new String[ r2len ];
-			
+
 			// The code above was previously expressed more simply as:
 			// result[ 3 ] = new String[ result[ 2 ].length ];
 			// Unfortunately, TextWrangler 3.2's Java parser chokes on this, presumably
@@ -2587,7 +2587,7 @@ public abstract class ChoiceManager
 		case 522:
 			// Welcome to the Footlocker
 			result = new String[ 2 ];
-			
+
 			boolean havePolearm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_POLEARM ) > 0 );
 			boolean havePants = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_PANTS ) > 0 );
 			boolean haveHelm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 );
@@ -2628,7 +2628,7 @@ public abstract class ChoiceManager
 
 			result [ 2 ] = "gain a starter item, gain Spooky-Gro fertilizer (" + fertalizer + ")" + mapAction;
 
-			return result; 
+			return result;
 		}
 		return null;
 	}
@@ -2720,7 +2720,6 @@ public abstract class ChoiceManager
 				// Bail now and let the user finish by hand.
 
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered choice adventure with no choices." );
-				RequestThread.enableDisplayIfSequenceComplete();
 				request.showInBrowser( true );
 				return;
 			}
@@ -2750,7 +2749,6 @@ public abstract class ChoiceManager
 			if ( decision.equals( "0" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Manual control requested for choice #" + choice );
-				RequestThread.enableDisplayIfSequenceComplete();
 				request.showInBrowser( true );
 				ChoiceCommand.printChoices();
 				return;
@@ -2761,7 +2759,6 @@ public abstract class ChoiceManager
 			if ( decision.equals( "" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unsupported choice adventure #" + whichchoice );
-				RequestThread.enableDisplayIfSequenceComplete();
 				StaticEntity.printRequestData( request );
 				request.showInBrowser( true );
 				ChoiceCommand.printChoices();
@@ -3426,7 +3423,6 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
-				RequestThread.enableDisplayIfSequenceComplete();
 			}
 			break;
 
@@ -3462,7 +3458,6 @@ public abstract class ChoiceManager
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
 					"Mother Slime waits for you." );
-				RequestThread.enableDisplayIfSequenceComplete();
 			}
 			break;
 
@@ -3513,7 +3508,6 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
-				RequestThread.enableDisplayIfSequenceComplete();
 			}
 			break;
 
@@ -3534,7 +3528,6 @@ public abstract class ChoiceManager
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
 					"The Necbromancer waits for you." );
-				RequestThread.enableDisplayIfSequenceComplete();
 			}
 			break;
 
@@ -4050,7 +4043,6 @@ public abstract class ChoiceManager
 		}
 
 		KoLmafia.updateDisplay( state, message );
-		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	private static final boolean specialChoiceHandling( final int choice, final GenericRequest request )
@@ -4377,7 +4369,7 @@ public abstract class ChoiceManager
 				return "2";
 			}
 			return decision;
-		
+
 		// Dungeon Fist!
 		case 486:
 			if ( !ChoiceManager.initializeAfterChoice )
@@ -4472,7 +4464,7 @@ public abstract class ChoiceManager
 				return !boomboxOn ? "3" : "5";
 			case 7 : // raise area ML, then mass kill werewolves or ghost trap
 				return !boomboxOn ? "3" :
-				       InventoryManager.getCount( ItemPool.SILVER_SHOTGUN_SHELL ) > 0 ? "5" : "2"; 
+				       InventoryManager.getCount( ItemPool.SILVER_SHOTGUN_SHELL ) > 0 ? "5" : "2";
 			case 8 : // lower area ML, then acquire staff guides
 				return boomboxOn ? "4" : "1";
 			case 9 : // lower area ML, then acquire ghost trap
@@ -4481,7 +4473,7 @@ public abstract class ChoiceManager
 				return boomboxOn ? "4" : "5";
 			case 11: // lower area ML, then mass kill werewolves or ghost trap
 				return boomboxOn ? "4" :
-				       InventoryManager.getCount( ItemPool.SILVER_SHOTGUN_SHELL ) > 0 ? "5" : "2"; 
+				       InventoryManager.getCount( ItemPool.SILVER_SHOTGUN_SHELL ) > 0 ? "5" : "2";
 			}
 			return decision;
 

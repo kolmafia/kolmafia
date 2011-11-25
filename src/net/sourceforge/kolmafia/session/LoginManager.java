@@ -60,8 +60,6 @@ public class LoginManager
 {
 	public static void login( String username )
 	{
-		RequestThread.openRequestSequence();
-
 		try
 		{
 			doLogin( username );
@@ -71,8 +69,6 @@ public class LoginManager
 			// What should we do here?
 			StaticEntity.printStackTrace( e, "Error during session initialization" );
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	private static void doLogin( String name )

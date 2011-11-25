@@ -142,7 +142,7 @@ public class CommandDisplayFrame
 			RequestLogger.printLine();
 
 			Iterator commandIterator = CommandDisplayFrame.commandQueue.iterator();
-			
+
 			for ( int i = 0; commandIterator.hasNext(); ++i )
 			{
 				String cmd = StringUtilities.globalStringReplace( (String) commandIterator.next(), "<", "&lt;" );
@@ -156,7 +156,7 @@ public class CommandDisplayFrame
 					RequestLogger.printLine( " > <b>QUEUED " + i + "</b>: " + cmd );
 				}
 			}
- 
+
 			RequestLogger.printLine( " > <b>QUEUED " + CommandDisplayFrame.commandQueue.size() + "</b>: " + StringUtilities.globalStringReplace( command, "<", "&lt;" ) );
 			RequestLogger.printLine();
 		}
@@ -183,14 +183,14 @@ public class CommandDisplayFrame
 					CommandDisplayFrame.pauser.pause( 200 );
 				}
 
+				int requestId = RequestThread.openRequestSequence();
 				this.handleQueue();
+				RequestThread.closeRequestSequence( requestId );
 			}
 		}
 
 		public void handleQueue()
 		{
-			RequestThread.openRequestSequence();
-
 			while ( !CommandDisplayFrame.commandQueue.isEmpty() )
 			{
 				this.command = (String) CommandDisplayFrame.commandQueue.get( 0 );
@@ -218,8 +218,6 @@ public class CommandDisplayFrame
 					CommandDisplayFrame.commandQueue.removeFirst();
 				}
 			}
-
-			RequestThread.closeRequestSequence();
 		}
 	}
 }

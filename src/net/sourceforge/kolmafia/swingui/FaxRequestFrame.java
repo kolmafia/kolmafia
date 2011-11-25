@@ -200,7 +200,6 @@ public class FaxRequestFrame
 			// We can try several times...
 			PauseObject pauser = new PauseObject();
 
-			RequestThread.openRequestSequence();
 			while ( true )
 			{
 				KoLmafia.updateDisplay( "Asking " + botName + " to send a fax of " + name + ": " + command );
@@ -228,7 +227,6 @@ public class FaxRequestFrame
 				{
 					statusMessage = "No response from " + botName + " after " + LIMIT + " seconds.";
 					KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
-					RequestThread.closeRequestSequence();
 					return;
 				}
 
@@ -248,14 +246,12 @@ public class FaxRequestFrame
 				if ( !faxAvailable( response ) )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
-					RequestThread.closeRequestSequence();
 					return;
 				}
 
 				// Success! No need to retry
 				break;
 			}
-			RequestThread.closeRequestSequence();
 
 			// The monster is there! retrieve it.
 			ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX );

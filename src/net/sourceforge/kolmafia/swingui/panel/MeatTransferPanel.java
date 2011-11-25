@@ -145,16 +145,12 @@ public class MeatTransferPanel
 	{
 		int amountToTransfer = InputFieldUtilities.getValue( this.amountField );
 
-		RequestThread.openRequestSequence();
 		RequestThread.postRequest( this.getRequest( amountToTransfer ) );
-		RequestThread.closeRequestSequence();
 	}
 
 	public void actionCancelled()
 	{
-		RequestThread.openRequestSequence();
 		RequestThread.postRequest( this.getRequest( this.currentAvailable() ) );
-		RequestThread.closeRequestSequence();
 	}
 
 	public boolean shouldAddStatusLabel( final VerifiableElement[] elements )

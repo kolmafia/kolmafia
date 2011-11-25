@@ -169,8 +169,8 @@ public abstract class ClanManager
 		KoLmafia.updateDisplay( "Clan data retrieved." );
 
 		GenericRequest whiteListFinder = new GenericRequest( "clan_office.php" );
-		whiteListFinder.run();		
-		
+		whiteListFinder.run();
+
 		if ( whiteListFinder.responseText != null && whiteListFinder.responseText.indexOf( "clan_whitelist.php" ) != -1 )
 		{
 			whiteListFinder = new GenericRequest( "clan_whitelist.php" );
@@ -182,14 +182,14 @@ public abstract class ClanManager
 			{
 				currentName = whiteListMatcher.group( 1 );
 				ContactManager.registerPlayerId( currentName, whiteListMatcher.group( 2 ) );
-	
+
 				currentName = currentName.toLowerCase();
 				if ( !ClanManager.currentMembers.contains( currentName ) )
 				{
 					ClanManager.whiteListMembers.add( currentName );
 				}
 			}
-	
+
 			Collections.sort( ClanManager.currentMembers );
 			Collections.sort( ClanManager.whiteListMembers );
 		}
@@ -230,8 +230,6 @@ public abstract class ClanManager
 		String[] names = new String[ ClanManager.profileMap.size() ];
 		ClanManager.profileMap.keySet().toArray( names );
 
-		RequestThread.openRequestSequence();
-
 		for ( int i = 0; i < names.length; ++i )
 		{
 			KoLmafia.updateDisplay( "Cache data lookup for member " + ( i + 1 ) + " of " + names.length + "..." );
@@ -271,8 +269,6 @@ public abstract class ClanManager
 			}
 		}
 
-		RequestThread.closeRequestSequence();
-
 		// If all the member profiles have already been retrieved, then
 		// you won't need to look up any profiles, so it takes no time.
 		// No need to confirm with the user.  Therefore, return.
@@ -284,8 +280,6 @@ public abstract class ClanManager
 
 		// Now that it's known what the user wishes to continue,
 		// you begin initializing all the data.
-
-		RequestThread.openRequestSequence();
 
 		// Create a special HTML file for each of the
 		// players in the ProfileSnapshot so that it can be
@@ -309,7 +303,6 @@ public abstract class ClanManager
 			}
 		}
 
-		RequestThread.closeRequestSequence();
 		return true;
 	}
 
@@ -507,7 +500,6 @@ public abstract class ClanManager
 		// Now, store the clan snapshot into the appropriate
 		// data folder.
 
-		RequestThread.openRequestSequence();
 		KoLmafia.updateDisplay( "Storing clan snapshot..." );
 
 		try
@@ -547,7 +539,6 @@ public abstract class ClanManager
 		}
 
 		KoLmafia.updateDisplay( "Snapshot generation completed." );
-		RequestThread.closeRequestSequence();
 
 		// To make things less confusing, load the summary
 		// file inside of the default browser after completion.

@@ -202,7 +202,11 @@ public class KoLmafiaCLI
 			}
 
 			this.isGUI = false;
+
+			int requestId = RequestThread.openRequestSequence();
 			this.executeLine( line );
+			RequestThread.closeRequestSequence( requestId );
+
 			this.isGUI = true;
 
 			if ( StaticEntity.getClient() == this )
@@ -385,18 +389,14 @@ public class KoLmafiaCLI
 				}
 				handler.continuation = continuation;
 				handler.CLI = this;
-				RequestThread.openRequestSequence();
 				handler.run( lcommand, trimmed );
-				RequestThread.closeRequestSequence();
 				handler.CLI = null;
 				KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 				this.previousLine = command + " " + trimmed + ";" + continuation;
 				return;
 			}
 
-			RequestThread.openRequestSequence();
 			this.executeCommand( command, trimmed );
-			RequestThread.closeRequestSequence();
 			KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 		}
 
@@ -737,6 +737,7 @@ public class KoLmafiaCLI
 		new SpeculateCommand().register( "speculate" ).register( "whatif" );
 		new StickersCommand().registerPrefix( "sticker" );
 		new StorageCommand().register( "hagnk" ).register( "pull" );
+		new GrayGUICommand().register( "graygui" ).register( "greygui" );
 		new StyxPixieCommand().register( "styx" );
 		new SubmitSpadeDataCommand().register( "spade" );
 		new SummonDemonCommand().register( "summon" );

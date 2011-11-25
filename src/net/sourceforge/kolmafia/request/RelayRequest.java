@@ -1353,7 +1353,7 @@ public class RelayRequest
 			}
 			else	// specialCommand invoked for command that doesn't
 			{		// specifically support it - we have no page to display.
-				this.pseudoResponse( "HTTP/1.1 200 OK", 
+				this.pseudoResponse( "HTTP/1.1 200 OK",
 					"<html><body>Automation complete.</body></html>)" );
 			}
 		}
@@ -1414,7 +1414,7 @@ public class RelayRequest
 	{
 		submitCommand( command, suppressUpdate, true );
 	}
-	
+
 	private void submitCommand( String command, boolean suppressUpdate, boolean waitForCompletion )
 	{
 		try
@@ -1939,11 +1939,6 @@ public class RelayRequest
 		// process it accordingly.
 
 		super.run();
-
-		// The request might have printed to the status line, so enable
-		// the GUI
-
-		RequestThread.enableDisplayIfSequenceComplete();
 
 		if ( this.responseCode == 302 )
 		{
