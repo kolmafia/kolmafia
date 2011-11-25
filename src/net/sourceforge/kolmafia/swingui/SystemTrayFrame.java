@@ -75,7 +75,6 @@ public abstract class SystemTrayFrame
 		// to make use of the system tray.
 
 		FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.gif" );
-		FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.dll" );
 
 		try
 		{
