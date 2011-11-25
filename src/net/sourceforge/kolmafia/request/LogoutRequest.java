@@ -33,16 +33,10 @@
 
 package net.sourceforge.kolmafia.request;
 
-import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-
-import net.sourceforge.kolmafia.chat.ChatManager;
-
-import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class LogoutRequest
 	extends GenericRequest
@@ -73,31 +67,12 @@ public class LogoutRequest
 		}
 
 		LogoutRequest.isRunning = true;
-		KoLmafia.updateDisplay( "Preparing for logout..." );
 
-		ChatManager.dispose();
-		BuffBotHome.setBuffBotActive( false );
-
-		String scriptSetting = Preferences.getString( "logoutScript" );
-		if ( !scriptSetting.equals( "" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
-		}
-
-		if ( Preferences.getBoolean( "sharePriceData" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "spade prices http://kolmafia.us/scripts/updateprices.php" );
-		}
+		KoLmafia.updateDisplay( "Sending logout request..." );
 
 		super.run();
 
-		RequestLogger.closeSessionLog();
-		RequestLogger.closeDebugLog();
-		RequestLogger.closeMirror();
-
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Logout request submitted." );
-		GenericRequest.reset();
-		KoLCharacter.reset( "" );
 
 		LogoutRequest.isRunning = false;
 	}
