@@ -4314,7 +4314,7 @@ public class FightRequest
 
 		if ( FightRequest.initializeAfterFight )
 		{
-			Thread initializeThread = new Thread( "PostFightInitializer" )
+			Runnable initializeRunner = new Runnable()
 			{
 				public void run()
 				{
@@ -4323,7 +4323,7 @@ public class FightRequest
 				}
 			};
 
-			initializeThread.start();
+			RequestThread.runInParallel( initializeRunner );
 		}
 	}
 
