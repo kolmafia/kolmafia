@@ -860,9 +860,20 @@ public abstract class KoLmafia
 		// Retrieve the character sheet. It's necessary to do this
 		// before concoctions have a chance to get refreshed.
 
-		RequestThread.postRequest( new CharSheetRequest() );
+		request = new CharSheetRequest();
+
+		RequestThread.postRequest( request );
+
+		// If you get redirected on the request for the character sheet,
+		// don't make any more requests.
+
+		if ( request.redirectLocation != null )
+		{
+			return;
+		}
 
 		// Hermit items depend on character class
+
 		HermitRequest.reset();
 
 		// Retrieve the contents of the closet and inventory.  We can
