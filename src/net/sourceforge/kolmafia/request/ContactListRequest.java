@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.ContactManager;
 
 public class ContactListRequest
@@ -62,6 +63,8 @@ public class ContactListRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
+		ContactManager.addMailContact( KoLCharacter.getUserName(), KoLCharacter.getPlayerId() );
+
 		Matcher listMatcher = ContactListRequest.LIST_PATTERN.matcher( responseText );
 
 		if ( listMatcher.find() )
