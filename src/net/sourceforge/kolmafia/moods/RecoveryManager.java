@@ -88,7 +88,6 @@ public class RecoveryManager
 		// user, which may make it so that none of the built
 		// in behavior needs to run.
 
-		RequestThread.openRequestSequence();
 		RecoveryManager.recoveryActive = true;
 
 		if ( isScriptCheck )
@@ -127,7 +126,6 @@ public class RecoveryManager
 
 		RecoveryManager.recoveryActive = false;
 		SpecialOutfit.restoreImplicitCheckpoint();
-		RequestThread.closeRequestSequence();
 
 		if ( KoLCharacter.getCurrentHP() == 0 )
 		{

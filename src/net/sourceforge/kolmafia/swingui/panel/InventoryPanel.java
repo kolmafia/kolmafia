@@ -254,14 +254,12 @@ public class InventoryPanel
 				return;
 			}
 
-			RequestThread.openRequestSequence();
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult item = (AdventureResult) items[ i ];
 
 				RequestThread.postRequest( new UseItemRequest( KoLConstants.CONSUME_SLIME, item ) );
 			}
-			RequestThread.closeRequestSequence();
 		}
 
 		public String toString()

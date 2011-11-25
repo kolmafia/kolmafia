@@ -94,9 +94,7 @@ public class HiddenCityCommand
 			return;
 		}
 
-		RequestThread.openRequestSequence();
 		RequestThread.postRequest( request1 );
 		RequestThread.postRequest( request2 );
-		RequestThread.closeRequestSequence();
 	}
 }

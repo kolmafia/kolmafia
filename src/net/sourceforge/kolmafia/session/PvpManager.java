@@ -185,8 +185,6 @@ public class PvpManager
 
 		spreadsheet.close();
 		KoLmafia.updateDisplay( "Spreadsheet generated." );
-
-		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	private static void registerFlowerHunterData( final TreeMap minis, final BufferedReader attackLog )
@@ -301,8 +299,6 @@ public class PvpManager
 
 	public static void executePvpRequest( final String mission )
 	{
-		RequestThread.openRequestSequence();
-
 		KoLmafia.updateDisplay( "Determining current rank..." );
 		RequestThread.postRequest( new PvpRequest() );
 
@@ -355,8 +351,6 @@ public class PvpManager
 		{
 			KoLmafia.updateDisplay( "You have " + KoLCharacter.getAttacksLeft() + " attacks remaining." );
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	public static final void executePvpRequest( final ProfileRequest[] targets, final PvpRequest request )

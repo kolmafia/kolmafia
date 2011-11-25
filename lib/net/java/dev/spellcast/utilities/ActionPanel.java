@@ -36,12 +36,12 @@ package net.java.dev.spellcast.utilities;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
+
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 public abstract class ActionPanel
 	extends JRootPane
@@ -147,17 +147,9 @@ public abstract class ActionPanel
 	}
 
 	private class ConfirmedListener
-		implements ActionListener, Runnable
+		extends ThreadedListener
 	{
-		public void actionPerformed( final ActionEvent e )
-		{
-			if ( ActionPanel.actionsEnabled )
-			{
-				( new Thread( this, "ConfirmedListener" ) ).start();
-			}
-		}
-
-		public void run()
+		protected void execute()
 		{
 			if ( ActionPanel.this.contentSet )
 			{
@@ -167,22 +159,17 @@ public abstract class ActionPanel
 	}
 
 	private class CancelledListener
-		implements ActionListener, Runnable
+		extends ThreadedListener
 	{
-		public void actionPerformed( final ActionEvent e )
-		{
-			( new Thread( this, "CancelledListener" ) ).start();
-		}
-
-		public void run()
+		protected void execute()
 		{
 			if ( ActionPanel.this.contentSet )
 			{
-				ActionPanel.this.actionCancelled();
+				ActionPanel.this.actionConfirmed();
 			}
 		}
 	}
-	
+
 	public static void enableActions( boolean enable )
 	{
 		ActionPanel.actionsEnabled = enable;

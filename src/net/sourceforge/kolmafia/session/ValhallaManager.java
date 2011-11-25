@@ -160,9 +160,7 @@ public class ValhallaManager
 	{
 		ItemDatabase.reset();
 
-		RequestThread.openRequestSequence();
 		StaticEntity.getClient().refreshSession();
-		RequestThread.closeRequestSequence();
 
 		EquipmentManager.updateEquipmentLists();
 		ConcoctionDatabase.refreshConcoctions( true );

@@ -307,7 +307,6 @@ public abstract class BuffBotManager
 		// Make sure that the buffbot is wearing the best
 		// equipment they have available.
 
-		RequestThread.openRequestSequence();
 		UseSkillRequest.optimizeEquipment( 6003 );
 
 		BuffBotHome.setBuffBotActive( true );
@@ -391,9 +390,7 @@ public abstract class BuffBotManager
 		// to reset the continue state.
 
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
-		RequestThread.enableDisplayIfSequenceComplete();
 		BuffBotHome.setBuffBotActive( false );
-		RequestThread.closeRequestSequence();
 	}
 
 	public static final void runOnce()

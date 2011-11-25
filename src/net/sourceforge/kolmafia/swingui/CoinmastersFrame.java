@@ -735,9 +735,7 @@ public class CoinmastersFrame
 
 		public void check()
 		{
-			RequestThread.openRequestSequence();
 			RequestThread.postRequest( this.getRequest() );
-			RequestThread.closeRequestSequence();
 		}
 
 		private void execute( final String action, final Object [] items )
@@ -752,8 +750,6 @@ public class CoinmastersFrame
 				return;
 			}
 
-			RequestThread.openRequestSequence();
-
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult it = (AdventureResult)items[i];
@@ -764,8 +760,6 @@ public class CoinmastersFrame
 				}
 				RequestThread.postRequest( request );
 			}
-
-			RequestThread.closeRequestSequence();
 
 			// Update our token count in the title
 			this.setTitle();

@@ -197,7 +197,6 @@ public class SkillBuffFrame
 				return;
 			}
 
-			RequestThread.openRequestSequence();
 			SpecialOutfit.createImplicitCheckpoint();
 
 			if ( targets.length == 0 )
@@ -216,7 +215,6 @@ public class SkillBuffFrame
 			}
 
 			SpecialOutfit.restoreImplicitCheckpoint();
-			RequestThread.closeRequestSequence();
 		}
 	}
 

@@ -217,8 +217,6 @@ public class BuffRequestFrame
 				return;
 			}
 
-			RequestThread.openRequestSequence();
-
 			for ( int i = 0; i < requests.size(); ++i )
 			{
 				KoLmafia.updateDisplay( "Submitting buff request " + ( i + 1 ) + " of " + requests.size() + " to " + BuffRequestFrame.this.botName + "..." );
@@ -226,7 +224,6 @@ public class BuffRequestFrame
 			}
 
 			KoLmafia.updateDisplay( "Buff requests complete." );
-			RequestThread.closeRequestSequence();
 		}
 
 		public boolean shouldAddStatusLabel()

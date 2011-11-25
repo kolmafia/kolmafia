@@ -623,9 +623,8 @@ public class AdventureSelectPanel
 						!state ? null : InputFieldUtilities.input(
 							"Use Transcendent Olfaction or odor extractor when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)",
 							"goals" );
-					RequestThread.openRequestSequence();
+
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "olfact", option == null ? "none" : option );
-					RequestThread.closeRequestSequence();
 				}
 				else if ( source == ObjectivesPanel.this.puttyItem )
 				{
@@ -637,9 +636,8 @@ public class AdventureSelectPanel
 						!state ? null : InputFieldUtilities.input(
 							"Use Spooky Putty sheet, 4-d camera or portable photocopier when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)",
 							"goals abort" );
-					RequestThread.openRequestSequence();
+
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "putty", option == null ? "none" : option );
-					RequestThread.closeRequestSequence();
 				}
 				else if ( source == ObjectivesPanel.this.sphereItem )
 				{
@@ -728,8 +726,6 @@ public class AdventureSelectPanel
 				return;
 			}
 
-			RequestThread.openRequestSequence();
-
 			// If there are conditions in the condition field, be
 			// sure to process them.
 
@@ -758,8 +754,6 @@ public class AdventureSelectPanel
 			{
 				shouldAdventure = this.handleConditions( conditionList, request );
 			}
-
-			RequestThread.closeRequestSequence();
 
 			if ( !shouldAdventure )
 			{

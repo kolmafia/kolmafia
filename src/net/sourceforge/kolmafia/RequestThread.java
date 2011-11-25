@@ -33,6 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -44,7 +49,8 @@ import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public abstract class RequestThread
 {
-	private static int sequenceCount = 0;
+	private static int nextRequestId = 0;
+	private static Map requestMap = new HashMap();
 
 	public static final void runInParallel( final Runnable action )
 	{
@@ -69,7 +75,8 @@ public abstract class RequestThread
 		// Make sure there is a URL string in the request
 
 		request.reconstructFields();
-		RequestThread.openRequestSequence( RequestThread.sequenceCount == 0 && ResponseTextParser.hasResult( request.getURLString() ) );
+
+		int requestId = RequestThread.openRequestSequence( RequestThread.requestMap.isEmpty() && ResponseTextParser.hasResult( request.getURLString() ) );
 
 		try
 		{
@@ -85,7 +92,7 @@ public abstract class RequestThread
 			StaticEntity.printStackTrace( e );
 		}
 
-		RequestThread.closeRequestSequence();
+		RequestThread.closeRequestSequence( requestId );
 	}
 
 	public static final void postRequest( final KoLAdventure request )
@@ -95,7 +102,7 @@ public abstract class RequestThread
 			return;
 		}
 
-		RequestThread.openRequestSequence( true );
+		int requestId = RequestThread.openRequestSequence( true );
 
 		try
 		{
@@ -111,7 +118,7 @@ public abstract class RequestThread
 			StaticEntity.printStackTrace( e );
 		}
 
-		RequestThread.closeRequestSequence();
+		RequestThread.closeRequestSequence( requestId );
 	}
 
 	public static final void postRequest( final Runnable request )
@@ -121,7 +128,7 @@ public abstract class RequestThread
 			return;
 		}
 
-		RequestThread.openRequestSequence();
+		int requestId = RequestThread.openRequestSequence();
 
 		// If you're not in the event dispatch thread, you can run
 		// without posting to a separate thread.
@@ -140,55 +147,49 @@ public abstract class RequestThread
 			StaticEntity.printStackTrace( e );
 		}
 
-		RequestThread.closeRequestSequence();
+		RequestThread.closeRequestSequence( requestId );
 	}
 
-	public static synchronized final void openRequestSequence()
+	public static synchronized final void checkOpenRequestSequences()
 	{
-		RequestThread.openRequestSequence( RequestThread.sequenceCount == 0 );
+		Collection exceptions = requestMap.values();
+
+		Iterator exceptionIterator = exceptions.iterator();
+
+		while ( exceptionIterator.hasNext() )
+		{
+			Exception e = (Exception) exceptionIterator.next();
+
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
-	public static synchronized final void openRequestSequence( boolean forceContinue )
+	public static synchronized final int openRequestSequence()
+	{
+		return RequestThread.openRequestSequence( RequestThread.requestMap.isEmpty() );
+	}
+
+	private static synchronized final int openRequestSequence( boolean forceContinue )
 	{
 		if ( forceContinue )
 		{
 			KoLmafia.forceContinue();
 		}
 
-		++RequestThread.sequenceCount;
+		int requestId = ++RequestThread.nextRequestId;
 
-		if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) )
-		{
-			RequestLogger.printLine( RequestThread.sequenceCount + " requests will prevent enabling display" );
-		}
+		RequestThread.requestMap.put( new Integer( requestId ), new Exception() );
+
+		return requestId;
 	}
 
-	public static synchronized final void closeRequestSequence()
+	public static synchronized final void closeRequestSequence( int requestId )
 	{
-		if ( RequestThread.sequenceCount <= 0 )
+		RequestThread.requestMap.remove( new Integer( requestId ) );
+
+		if ( !RequestThread.requestMap.isEmpty() )
 		{
 			return;
-		}
-
-		--RequestThread.sequenceCount;
-		RequestThread.enableDisplayIfSequenceComplete();
-
-		if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) )
-		{
-			RequestLogger.printLine( RequestThread.sequenceCount + " requests will prevent enabling display" );
-		}
-	}
-
-	public static final boolean enableDisplayIfSequenceComplete()
-	{
-		if ( RequestThread.sequenceCount != 0 )
-		{
-			if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) )
-			{
-				RequestLogger.printLine( RequestThread.sequenceCount + " requests are preventing enabling display" );
-			}
-
-			return false;
 		}
 
 		if ( KoLmafia.getLastMessage().endsWith( "..." ) )
@@ -202,8 +203,6 @@ public abstract class RequestThread
 		{
 			KoLmafia.enableDisplay();
 		}
-
-		return true;
 	}
 
 	/**
@@ -230,7 +229,7 @@ public abstract class RequestThread
 
 		public void run()
 		{
-			RequestThread.openRequestSequence();
+			int requestId = RequestThread.openRequestSequence();
 
 			try
 			{
@@ -241,7 +240,7 @@ public abstract class RequestThread
 				StaticEntity.printStackTrace( e );
 			}
 
-			RequestThread.closeRequestSequence();
+			RequestThread.closeRequestSequence( requestId );
 		}
 	}
 }

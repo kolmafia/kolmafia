@@ -63,7 +63,6 @@ public class PvpAttackCommand
 			return;
 		}
 
-		RequestThread.openRequestSequence();
 		int stance = 0;
 
 		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
@@ -121,7 +120,5 @@ public class PvpAttackCommand
 		String mission = KoLCharacter.canInteract() ? "dignity" : "flowers";
 		PvpRequest request = new PvpRequest( parameters, stance, mission );
 		PvpManager.executePvpRequest( targets, request );
-
-		RequestThread.closeRequestSequence();
 	}
 }

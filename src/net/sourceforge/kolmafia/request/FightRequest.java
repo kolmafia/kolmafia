@@ -1307,7 +1307,6 @@ public class FightRequest
 	{
 		this.constructURLString( "fight.php" );
 
-		RequestThread.openRequestSequence();
 		FightRequest.isAutomatingFight = true;
 
 		do
@@ -1328,7 +1327,6 @@ public class FightRequest
 		}
 
 		FightRequest.isAutomatingFight = false;
-		RequestThread.closeRequestSequence();
 	}
 
 	public static final boolean processResults( final String responseText )
@@ -2008,14 +2006,14 @@ public class FightRequest
 			Preferences.increment( "_vmaskAdv", 1 );
 		}
 
-		if ( responseText.indexOf( "stomps your opponent into paste" ) != -1 
-			|| responseText.indexOf( "stomps your opponents into paste" ) != -1 
+		if ( responseText.indexOf( "stomps your opponent into paste" ) != -1
+			|| responseText.indexOf( "stomps your opponents into paste" ) != -1
 			|| responseText.indexOf( "shuffles its heels, gets a running start, then leaps on" ) != -1 )
 		{
 			Preferences.setBoolean( "bootsCharged", false );
 		}
-		// <name> rubs its soles together, then stomps in place 
-		// restlessly. Clearly, the violence it's done so far is 
+		// <name> rubs its soles together, then stomps in place
+		// restlessly. Clearly, the violence it's done so far is
 		// only making it ache for some quality stomping.
 		if ( responseText.indexOf( "making it ache for some quality stomping" ) != -1 )
 		{
@@ -2311,7 +2309,7 @@ public class FightRequest
 		}
 
 		FightRequest.clearInstanceData();
-		FightRequest.inMultiFight = won && 
+		FightRequest.inMultiFight = won &&
 			FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 	}
 
@@ -4377,13 +4375,13 @@ public class FightRequest
 				TurnCounter.startCounting( 50, "Zombo's Empty Eye loc=*", "zomboeye.gif" );
 			}
 		}
-		
+
 		if ( itemId == ItemPool.ICEBALL )
 		{
 			// First use:
 			// You hurl the iceball at your opponent, dealing X damage.
 			// Then you pick up the iceball and stick it back in your sack.
-			// It feels a little softer than it did before. 
+			// It feels a little softer than it did before.
 
 			// Second use:
 			// You hurl the iceball at your opponent, dealing X damage.
@@ -4391,7 +4389,7 @@ public class FightRequest
 
 			// Third use:
 			// You hurl the iceball at your opponent, dealing X damage.
-			// Unfortunately, the iceball completely disintegrates on impact. 
+			// Unfortunately, the iceball completely disintegrates on impact.
 
 			if ( responseText.indexOf( "back in your sack" ) != -1 )
 			{
@@ -4892,7 +4890,7 @@ public class FightRequest
 			FightRequest.lastResponseText,
 			true );
 	}
-	
+
 	public static final boolean inMultiFight()
 	{
 		return FightRequest.inMultiFight;

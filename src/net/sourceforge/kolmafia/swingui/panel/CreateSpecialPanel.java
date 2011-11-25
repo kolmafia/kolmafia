@@ -75,7 +75,7 @@ public class CreateSpecialPanel
 		temp = new LockableListModel();
 		temp.add( "(reserved for list of manual recipes)");
 	}
-	
+
 	public CreateSpecialPanel()
 	{
 		super( "create item", "create & use", temp, false );
@@ -130,19 +130,17 @@ public class CreateSpecialPanel
 			CreateItemRequest selection = (CreateItemRequest) items[ i ];
 			int quantityDesired =
 				InputFieldUtilities.getQuantity(
-					"Creating multiple " + selection.getName() + ", " + (selection.getQuantityPossible() + selection.getQuantityPullable()) 
-					+ " possible", selection.getQuantityPossible() + selection.getQuantityPullable(), 1 ); 
+					"Creating multiple " + selection.getName() + ", " + (selection.getQuantityPossible() + selection.getQuantityPullable())
+					+ " possible", selection.getQuantityPossible() + selection.getQuantityPullable(), 1 );
 			if ( quantityDesired < 1 )
 			{
 				continue;
 			}
-	
+
 			KoLmafia.updateDisplay( "Verifying ingredients..." );
 			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
 			selection.setQuantityNeeded( quantityDesired - pulled );
-	
-			RequestThread.openRequestSequence();
-	
+
 			SpecialOutfit.createImplicitCheckpoint();
 			RequestThread.postRequest( selection );
 			SpecialOutfit.restoreImplicitCheckpoint();
@@ -153,9 +151,7 @@ public class CreateSpecialPanel
 					StorageRequest.STORAGE_TO_INVENTORY,
 					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
 				ConcoctionDatabase.setPullsBudgeted( newbudget );
-			}		
-	
-			RequestThread.closeRequestSequence();
+			}
 		}
 	}
 
@@ -183,8 +179,6 @@ public class CreateSpecialPanel
 			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
 			selection.setQuantityNeeded( quantityDesired - pulled );
 
-			RequestThread.openRequestSequence();
-
 			SpecialOutfit.createImplicitCheckpoint();
 			RequestThread.postRequest( selection );
 			SpecialOutfit.restoreImplicitCheckpoint();
@@ -199,10 +193,9 @@ public class CreateSpecialPanel
 
 			RequestThread.postRequest( new UseItemRequest( new AdventureResult(
 				selection.getItemId(), quantityDesired ) ) );
-			RequestThread.closeRequestSequence();
 		}
 	}
-	
+
 	private static class InvSlider
 		extends JSlider
 		implements ChangeListener, PreferenceListener
@@ -225,26 +218,26 @@ public class CreateSpecialPanel
 			PreferenceListenerRegistry.registerListener( "valueOfInventory", this );
 			this.update();
 		}
-		
+
 		public void stateChanged( ChangeEvent e )
 		{
 			//if ( this.getValueIsAdjusting() ) return;
 			Preferences.setFloat( "valueOfInventory", this.getValue() / 10.0f );
 		}
-		
+
 		public void update()
 		{
 			this.setValue( (int)
 				((Preferences.getFloat( "valueOfInventory" ) + 0.05f) * 10.0f) );
 		}
 	}
-	
+
 	private static class PrefSpinner
 		extends AutoHighlightSpinner
 		implements ChangeListener, PreferenceListener
 	{
 		private String pref;
-		
+
 		public PrefSpinner( String pref )
 		{
 			super();
@@ -255,13 +248,13 @@ public class CreateSpecialPanel
 			PreferenceListenerRegistry.registerListener( pref, this );
 			this.update();
 		}
-		
+
 		public void stateChanged( ChangeEvent e )
 		{
 			int val = InputFieldUtilities.getValue( this, 0 );
 			Preferences.setInteger( this.pref, val );
 		}
-		
+
 		public void update()
 		{
 			this.setValue( Math.max( 0, Preferences.getInteger( this.pref ) ) );

@@ -217,8 +217,6 @@ public class SpecialOutfit
 
 	private static final void restoreCheckpoint( final AdventureResult[] checkpoint )
 	{
-		RequestThread.openRequestSequence();
-
 		AdventureResult equippedItem;
 		for ( int i = 0; i < checkpoint.length && !KoLmafia.refusesContinue(); ++i )
 		{
@@ -251,8 +249,6 @@ public class SpecialOutfit
 
 			RequestThread.postRequest( new EquipmentRequest( checkpoint[ i ], i ) );
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	/**

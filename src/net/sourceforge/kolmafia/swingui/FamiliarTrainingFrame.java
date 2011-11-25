@@ -483,9 +483,7 @@ public class FamiliarTrainingFrame
 
 					// Level the familiar
 
-					RequestThread.openRequestSequence();
 					FamiliarTrainingFrame.levelFamiliar( goal, FamiliarTrainingFrame.BASE );
-					RequestThread.closeRequestSequence();
 				}
 			}
 
@@ -505,9 +503,7 @@ public class FamiliarTrainingFrame
 
 					// Level the familiar
 
-					RequestThread.openRequestSequence();
 					FamiliarTrainingFrame.levelFamiliar( goal, FamiliarTrainingFrame.BUFFED );
-					RequestThread.closeRequestSequence();
 				}
 			}
 
@@ -527,9 +523,7 @@ public class FamiliarTrainingFrame
 
 					// Level the familiar
 
-					RequestThread.openRequestSequence();
 					FamiliarTrainingFrame.levelFamiliar( goal, FamiliarTrainingFrame.TURNS );
-					RequestThread.closeRequestSequence();
 				}
 			}
 
@@ -602,7 +596,6 @@ public class FamiliarTrainingFrame
 
 					// Learn familiar parameters
 
-					RequestThread.openRequestSequence();
 					int[] skills = FamiliarTrainingFrame.learnFamiliarParameters( trials );
 
 					// Save familiar parameters
@@ -631,8 +624,6 @@ public class FamiliarTrainingFrame
 							KoLConstants.CONTINUE_STATE,
 							"Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 					}
-
-					RequestThread.closeRequestSequence();
 				}
 			}
 
@@ -664,8 +655,6 @@ public class FamiliarTrainingFrame
 						return;
 					}
 
-					RequestThread.openRequestSequence();
-
 					if ( closetItems.size() > 0 )
 					{
 						AdventureResult[] array = new AdventureResult[ this.closetItems.size() ];
@@ -689,7 +678,6 @@ public class FamiliarTrainingFrame
 					}
 
 					RequestThread.postRequest( new FamiliarRequest( current ) );
-					RequestThread.closeRequestSequence();
 
 					// Leave list empty for next time and
 					// allow garbage collection.

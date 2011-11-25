@@ -292,9 +292,7 @@ public class CoinMasterRequest
 			return;
 		}
 
-		RequestThread.openRequestSequence();
 		RequestThread.postRequest( request );
-		RequestThread.closeRequestSequence();
 	}
 
 	public void run()

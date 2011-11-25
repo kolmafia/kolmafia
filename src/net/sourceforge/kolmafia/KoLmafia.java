@@ -1100,9 +1100,7 @@ public abstract class KoLmafia
 				}
 			}
 
-			RequestThread.openRequestSequence();
 			this.executeRequest( request, iterations, wasAdventuring );
-			RequestThread.closeRequestSequence();
 
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 			{
@@ -1593,8 +1591,6 @@ public abstract class KoLmafia
 			}
 		}
 
-		RequestThread.openRequestSequence();
-
 		PurchaseRequest currentRequest = (PurchaseRequest) purchases[ 0 ];
 		int currentPrice = currentRequest.getPrice();
 
@@ -1642,7 +1638,6 @@ public abstract class KoLmafia
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
 					"Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
 
-				RequestThread.closeRequestSequence();
 				return;
 			}
 
@@ -1689,8 +1684,6 @@ public abstract class KoLmafia
 
 			currentCount = itemToBuy.getCount( KoLConstants.inventory );
 		}
-
-		RequestThread.closeRequestSequence();
 
 		// With all that information parsed out, we should
 		// refresh the lists at the very end.
@@ -1804,7 +1797,6 @@ public abstract class KoLmafia
 		if ( encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH || encounterType == KoLmafia.BADMOON )
 		{
 			GoalManager.checkAutoStop( encounterName );
-			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}
 
@@ -2028,13 +2020,11 @@ public abstract class KoLmafia
 		{
 			if ( !downloadOverride( KoLConstants.OVERRIDE_DATA[ i ] ) )
 			{
-				RequestThread.closeRequestSequence();
 				return;
 			}
 		}
 
 		KoLmafia.updateDisplay( "Please restart KoLmafia to complete the update." );
-		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	private final boolean downloadOverride( String name )
@@ -2110,7 +2100,6 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.updateDisplay( "Please restart KoLmafia to complete the update." );
-		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	public void gc()
@@ -2145,7 +2134,6 @@ public abstract class KoLmafia
 
 	public void removeAllItemsFromStore()
 	{
-		RequestThread.openRequestSequence();
 		RequestThread.postRequest( new ManageStoreRequest() );
 
 		// Now determine the desired prices on items.
@@ -2161,7 +2149,6 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.updateDisplay( "Store emptying complete." );
-		RequestThread.closeRequestSequence();
 	}
 
 	/**
@@ -2180,11 +2167,6 @@ public abstract class KoLmafia
 		{
 			return;
 		}
-
-		// Find all tradeable items. Tradeable items
-		// are marked by an autosell value of nonzero.
-
-		RequestThread.openRequestSequence();
 
 		// Only place items in the mall which are not
 		// sold in NPC stores and can be autosold.
@@ -2245,7 +2227,6 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.updateDisplay( "Undercutting sale complete." );
-		RequestThread.closeRequestSequence();
 	}
 
 	private static class UpdateCheckThread

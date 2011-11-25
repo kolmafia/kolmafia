@@ -217,9 +217,7 @@ public class KoLmafiaGUI
 		if ( frameName.equals( "ChatManager" ) )
 		{
 			KoLmafia.updateDisplay( "Initializing chat interface..." );
-
 			ChatManager.initialize();
-			RequestThread.enableDisplayIfSequenceComplete();
 
 			return;
 		}
@@ -266,7 +264,6 @@ public class KoLmafiaGUI
 			if ( !BuffBotDatabase.hasOfferings() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No buffs found to purchase." );
-				RequestThread.enableDisplayIfSequenceComplete();
 				return;
 			}
 		}
@@ -275,7 +272,6 @@ public class KoLmafiaGUI
 			if ( CakeArenaManager.getOpponentList().isEmpty() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
-				RequestThread.enableDisplayIfSequenceComplete();
 				return;
 			}
 		}
@@ -322,7 +318,6 @@ public class KoLmafiaGUI
 			if ( CakeArenaManager.getOpponentList().isEmpty() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
-				RequestThread.enableDisplayIfSequenceComplete();
 				return;
 			}
 		}
@@ -438,16 +433,11 @@ public class KoLmafiaGUI
 			if ( !KoLCharacter.hasStore() )
 			{
 				KoLmafia.updateDisplay( "You don't own a store in the Mall of Loathing." );
-				RequestThread.enableDisplayIfSequenceComplete();
 				return;
 			}
 
-			RequestThread.openRequestSequence();
-
 			StoreManager.clearCache();
 			RequestThread.postRequest( new ManageStoreRequest( false ) );
-
-			RequestThread.closeRequestSequence();
 		}
 
 		( new CreateFrameRunnable( frameClass ) ).run();

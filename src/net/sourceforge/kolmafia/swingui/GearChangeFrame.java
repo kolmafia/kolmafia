@@ -351,9 +351,7 @@ public class GearChangeFrame
 		{
 			synchronized ( GearChangeFrame.class )
 			{
-				RequestThread.openRequestSequence();
 				GearChangeFrame.this.changeItems();
-				RequestThread.closeRequestSequence();
 			}
 		}
 
@@ -361,9 +359,7 @@ public class GearChangeFrame
 		{
 			synchronized ( GearChangeFrame.class )
 			{
-				RequestThread.openRequestSequence();
 				GearChangeFrame.this.changeItems();
-				RequestThread.closeRequestSequence();
 			}
 
 			String currentValue = InputFieldUtilities.input( "Name your outfit!", "Backup" );
@@ -533,7 +529,6 @@ public class GearChangeFrame
 				synchronized ( GearChangeFrame.class )
 				{
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
-					RequestThread.enableDisplayIfSequenceComplete();
 				}
 
 				OutfitComboBox.this.setSelectedItem( null );
@@ -594,10 +589,8 @@ public class GearChangeFrame
 
 				synchronized ( GearChangeFrame.class )
 				{
-					RequestThread.openRequestSequence();
 					GearChangeFrame.this.changeItems();
 					RequestThread.postRequest( new FamiliarRequest( familiar ) );
-					RequestThread.closeRequestSequence();
 				}
 			}
 		}

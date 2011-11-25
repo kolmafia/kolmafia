@@ -244,14 +244,11 @@ public class SendMessageFrame
 
 		String[] recipients = StaticEntity.getClient().extractTargets( (String) this.recipientEntry.getSelectedItem() );
 
-		RequestThread.openRequestSequence();
 		for ( int i = 0; i < recipients.length; ++i )
 		{
 			SendMessageCommand.send(
 				recipients[ i ], this.messageEntry.getText(), attachmentsArray, this.isStorage, false );
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	public boolean isVisible( Object o )

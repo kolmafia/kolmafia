@@ -82,7 +82,6 @@ public class CleanupJunkRequest
 		boolean madeUntinkerRequest = false;
 		boolean canUntinker = UntinkerRequest.canUntinker();
 
-		RequestThread.openRequestSequence();
 		ArrayList closetList = new ArrayList();
 
 		for ( int i = 0; i < items.length; ++i )
@@ -275,7 +274,5 @@ public class CleanupJunkRequest
 				RequestThread.postRequest( new AutoSellRequest( sellList.toArray() ) );
 			}
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 }

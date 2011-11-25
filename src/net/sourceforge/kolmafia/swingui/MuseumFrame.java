@@ -123,7 +123,6 @@ public class MuseumFrame
 
 			if ( items.isEmpty() )
 			{
-				RequestThread.enableDisplayIfSequenceComplete();
 				return;
 			}
 
@@ -198,11 +197,9 @@ public class MuseumFrame
 
 			private void move( final boolean moveAll )
 			{
-				RequestThread.openRequestSequence();
 				RequestThread.postRequest( new DisplayCaseRequest( AddRemovePanel.this.getSelectedValues(
 					this.elementList.getSelectedValues(), moveAll ), true ) );
 				RequestThread.postRequest( new DisplayCaseRequest() );
-				RequestThread.closeRequestSequence();
 			}
 
 			public void actionConfirmed()
@@ -229,11 +226,9 @@ public class MuseumFrame
 
 			private void move( final boolean moveAll )
 			{
-				RequestThread.openRequestSequence();
 				RequestThread.postRequest( new DisplayCaseRequest( AddRemovePanel.this.getSelectedValues(
 					this.elementList.getSelectedValues(), moveAll ), false ) );
 				RequestThread.postRequest( new DisplayCaseRequest() );
-				RequestThread.closeRequestSequence();
 			}
 
 			public void actionConfirmed()
@@ -306,10 +301,8 @@ public class MuseumFrame
 
 		public void actionCancelled()
 		{
-			RequestThread.openRequestSequence();
 			RequestThread.postRequest( new DisplayCaseRequest( this.elementList.getSelectedValues(), false ) );
 			RequestThread.postRequest( new DisplayCaseRequest() );
-			RequestThread.closeRequestSequence();
 		}
 
 		public void updateDisplay( final PanelList list, final Object value, final int index )

@@ -113,10 +113,8 @@ public abstract class DisplayCaseManager
 		( (SortedListModel) DisplayCaseManager.shelves.get( sourceShelf ) ).removeAll( movingList );
 		( (SortedListModel) DisplayCaseManager.shelves.get( destinationShelf ) ).addAll( movingList );
 
-		RequestThread.openRequestSequence();
 		RequestThread.postRequest( new DisplayCaseRequest( items, destinationShelf ) );
 		KoLmafia.updateDisplay( "Display case updated." );
-		RequestThread.closeRequestSequence();
 	}
 
 	public static final void reorder( final String[] headers )
@@ -137,8 +135,6 @@ public abstract class DisplayCaseManager
 			deleted[ i ] = headers[ i ].equals( "(Deleted Shelf)" );
 			containsDeletedShelf |= deleted[ i ];
 		}
-
-		RequestThread.openRequestSequence();
 
 		for ( int i = 0; i < deleted.length; ++i )
 		{
@@ -186,7 +182,6 @@ public abstract class DisplayCaseManager
 		RequestThread.postRequest( new DisplayCaseRequest() );
 
 		KoLmafia.updateDisplay( "Display case updated." );
-		RequestThread.closeRequestSequence();
 	}
 
 	private static final void save( final List shelfOrder )

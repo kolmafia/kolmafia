@@ -115,19 +115,17 @@ public class CreateItemPanel
 			CreateItemRequest selection = (CreateItemRequest) items[ i ];
 			int quantityDesired =
 				InputFieldUtilities.getQuantity(
-					"Creating multiple " + selection.getName() + ", " + (selection.getQuantityPossible() + selection.getQuantityPullable()) 
-					+ " possible", selection.getQuantityPossible() + selection.getQuantityPullable(), 1 ); 
+					"Creating multiple " + selection.getName() + ", " + (selection.getQuantityPossible() + selection.getQuantityPullable())
+					+ " possible", selection.getQuantityPossible() + selection.getQuantityPullable(), 1 );
 			if ( quantityDesired < 1 )
 			{
 				continue;
 			}
-	
+
 			KoLmafia.updateDisplay( "Verifying ingredients..." );
 			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
 			selection.setQuantityNeeded( quantityDesired - pulled );
-	
-			RequestThread.openRequestSequence();
-	
+
 			SpecialOutfit.createImplicitCheckpoint();
 			RequestThread.postRequest( selection );
 			SpecialOutfit.restoreImplicitCheckpoint();
@@ -138,9 +136,7 @@ public class CreateItemPanel
 					StorageRequest.STORAGE_TO_INVENTORY,
 					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
 				ConcoctionDatabase.setPullsBudgeted( newbudget );
-			}		
-	
-			RequestThread.closeRequestSequence();
+			}
 		}
 	}
 
@@ -150,25 +146,23 @@ public class CreateItemPanel
 		for ( int i = 0; i < items.length; ++i )
 		{
 			CreateItemRequest selection = (CreateItemRequest) items[ i ];
-	
+
 			int itemId = selection.getItemId();
 			int maximum = UseItemRequest.maximumUses( itemId, ItemDatabase.getConsumptionType( itemId ) );
 			int quantityDesired =
 				maximum < 2 ? maximum : InputFieldUtilities.getQuantity(
 					"Creating " + selection.getName() + " for immediate use...", Math.min( maximum,
 						selection.getQuantityPossible() + selection.getQuantityPullable() ) );
-	
+
 			if ( quantityDesired < 1 )
 			{
 				continue;
 			}
-	
+
 			KoLmafia.updateDisplay( "Verifying ingredients..." );
 			int pulled = Math.max( 0, quantityDesired - selection.getQuantityPossible() );
 			selection.setQuantityNeeded( quantityDesired - pulled );
-	
-			RequestThread.openRequestSequence();
-	
+
 			SpecialOutfit.createImplicitCheckpoint();
 			RequestThread.postRequest( selection );
 			SpecialOutfit.restoreImplicitCheckpoint();
@@ -179,11 +173,10 @@ public class CreateItemPanel
 					StorageRequest.STORAGE_TO_INVENTORY,
 					new AdventureResult[] { ItemPool.get( selection.getItemId(), pulled ) } ) );
 				ConcoctionDatabase.setPullsBudgeted( newbudget );
-			}		
-	
+			}
+
 			RequestThread.postRequest( new UseItemRequest( new AdventureResult(
 				selection.getItemId(), quantityDesired ) ) );
-			RequestThread.closeRequestSequence();
 		}
 	}
 }

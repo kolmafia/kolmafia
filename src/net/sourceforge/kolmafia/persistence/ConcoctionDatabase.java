@@ -885,7 +885,6 @@ public class ConcoctionDatabase
 		int quantity = 0;
 
 		SpecialOutfit.createImplicitCheckpoint();
-		RequestThread.openRequestSequence();
 
 		while ( !toProcess.isEmpty() )
 		{
@@ -917,7 +916,6 @@ public class ConcoctionDatabase
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
-		RequestThread.closeRequestSequence();
 	}
 
 	private static final void consumeItem( Concoction c, int quantity )
@@ -1164,7 +1162,7 @@ public class ConcoctionDatabase
 		{
 			AdventureResult use = (AdventureResult) uses.get( i );
 			int method = ConcoctionDatabase.getMixingMethod( use.getItemId() );
-			
+
 			if ( ConcoctionDatabase.isPermittedMethod( method ) )
 			{
 				ConcoctionDatabase.setRefreshNeeded( false );

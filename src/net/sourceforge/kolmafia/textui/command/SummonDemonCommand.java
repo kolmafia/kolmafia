@@ -121,6 +121,5 @@ public class SummonDemonCommand
 
 		KoLmafia.updateDisplay( "Summoning " + demon + "..." );
 		RequestThread.postRequest( demonSummon );
-		RequestThread.enableDisplayIfSequenceComplete();
 	}
 }
