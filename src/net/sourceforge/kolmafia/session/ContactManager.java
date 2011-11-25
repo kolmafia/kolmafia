@@ -58,7 +58,7 @@ public class ContactManager
 	private static final HashMap seenPlayerIds = new HashMap();
 	private static final HashMap seenPlayerNames = new HashMap();
 
-	public static final SortedListModel mailContacts = new SortedListModel();
+	private static final SortedListModel mailContacts = new SortedListModel();
 	private static final SortedListModel chatContacts = new SortedListModel();
 
 	private static ContactListFrame contactsFrame = null;
@@ -70,11 +70,6 @@ public class ContactManager
 
 	public static final SortedListModel getMailContacts()
 	{
-		if ( ContactManager.mailContacts.isEmpty() && !CharPaneRequest.inValhalla() )
-		{
-			RequestThread.runInParallel( new ContactListRequest() );
-		}
-
 		return ContactManager.mailContacts;
 	}
 

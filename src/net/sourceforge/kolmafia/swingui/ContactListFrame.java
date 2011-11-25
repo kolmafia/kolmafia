@@ -67,11 +67,6 @@ public class ContactListFrame
 	private LockableListModel contacts;
 	private JList contactsDisplay;
 
-	public ContactListFrame()
-	{
-		this( (LockableListModel) ContactManager.getMailContacts().getMirrorImage() );
-	}
-
 	public ContactListFrame( final LockableListModel contacts )
 	{
 		super( "Contact List" );
@@ -114,9 +109,9 @@ public class ContactListFrame
 		{
 			selectedValues = this.contacts.toArray();
 		}
-		
+
 		String[] selectedPlayers = new String[ selectedValues.length ];
-		
+
 		for ( int i = 0; i < selectedPlayers.length; ++i )
 		{
 			selectedPlayers[ i ] = getContactName( selectedValues[ i ] );
@@ -209,7 +204,7 @@ public class ContactListFrame
 				{
 					String contact = getContactName( ContactListFrame.this.contacts.get( index ) );
 					String bufferKey = ChatManager.getBufferKey( contact );
-					
+
 					ChatManager.openWindow( bufferKey, false );
 				}
 			}
@@ -222,7 +217,7 @@ public class ContactListFrame
 		{
 			return (String) ( (HTMLListEntry) contact ).getValue();
 		}
-		
+
 		return (String) contact;
 	}
 }
