@@ -47,14 +47,11 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
-
-
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
-
 
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
@@ -62,6 +59,7 @@ import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -194,9 +192,16 @@ public abstract class StaticEntity
 		{
 			StaticEntity.usesSystemTray = 2;
 
-			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && System.getProperty( "os.arch" ).startsWith( "x86" ) && Preferences.getBoolean( "useSystemTrayIcon" ) )
+			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && Preferences.getBoolean( "useSystemTrayIcon" ) )
 			{
-				StaticEntity.usesSystemTray = 1;
+				try
+				{
+					FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.dll" );
+					StaticEntity.usesSystemTray = 1;
+				}
+				catch ( Exception e )
+				{
+				}
 			}
 		}
 
