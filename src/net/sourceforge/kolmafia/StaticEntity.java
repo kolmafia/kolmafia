@@ -192,8 +192,12 @@ public abstract class StaticEntity
 	{
 		if ( StaticEntity.usesSystemTray == 0 )
 		{
-			StaticEntity.usesSystemTray =
-				System.getProperty( "os.name" ).startsWith( "Windows" ) && Preferences.getBoolean( "useSystemTrayIcon" ) ? 1 : 2;
+			StaticEntity.usesSystemTray = 2;
+
+			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && System.getProperty( "os.arch" ).startsWith( "x86" ) && Preferences.getBoolean( "useSystemTrayIcon" ) )
+			{
+				StaticEntity.usesSystemTray = 1;
+			}
 		}
 
 		return StaticEntity.usesSystemTray == 1;
