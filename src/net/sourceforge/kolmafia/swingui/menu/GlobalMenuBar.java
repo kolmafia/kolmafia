@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
@@ -89,7 +90,7 @@ public class GlobalMenuBar
 		if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
 			statusMenu.add( new JSeparator() );
-			statusMenu.add( new InvocationMenuItem( "Logout of KoL", KoLmafia.class, "logout" ) );
+			statusMenu.add( new InvocationMenuItem( "Logout of KoL", LogoutManager.class, "logout" ) );
 			statusMenu.add( new InvocationMenuItem( "Exit KoLmafia", KoLmafia.class, "quit" ) );
 		}
 
