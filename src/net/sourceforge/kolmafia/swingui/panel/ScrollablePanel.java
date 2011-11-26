@@ -47,11 +47,15 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class ScrollablePanel
 	extends ActionPanel
 {
+	protected ConfirmedListener CONFIRM_LISTENER = new ConfirmedListener();
+	protected CancelledListener CANCEL_LISTENER = new CancelledListener();
+
 	public JPanel actualPanel;
 	public JPanel centerPanel;
 
@@ -95,7 +99,7 @@ public class ScrollablePanel
 
 		if ( confirmedText != null )
 		{
-			this.buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
+			this.buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText, CONFIRM_LISTENER, CANCEL_LISTENER );
 			this.buttonPanel.setBothDisabledOnClick( true );
 
 			this.eastPanel.add( this.buttonPanel, BorderLayout.NORTH );
@@ -144,6 +148,29 @@ public class ScrollablePanel
 	public void dispose()
 	{
 		StaticEntity.unregisterPanel( this );
-		super.dispose();
+	}
+
+	private class ConfirmedListener
+		extends ThreadedListener
+	{
+		protected void execute()
+		{
+			if ( ScrollablePanel.this.contentSet )
+			{
+				ScrollablePanel.this.actionConfirmed();
+			}
+		}
+	}
+
+	private class CancelledListener
+		extends ThreadedListener
+	{
+		protected void execute()
+		{
+			if ( ScrollablePanel.this.contentSet )
+			{
+				ScrollablePanel.this.actionConfirmed();
+			}
+		}
 	}
 }
