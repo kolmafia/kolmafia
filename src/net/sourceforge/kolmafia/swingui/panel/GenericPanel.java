@@ -63,6 +63,7 @@ import javax.swing.SwingConstants;
 
 import javax.swing.text.JTextComponent;
 
+import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
@@ -70,12 +71,16 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 public abstract class GenericPanel
 	extends ActionVerifyPanel
 {
+	protected ConfirmedListener CONFIRM_LISTENER = new ConfirmedListener();
+	protected CancelledListener CANCEL_LISTENER = new CancelledListener();
+
 	protected HashMap listenerMap;
 
 	public JPanel southContainer;
@@ -85,36 +90,42 @@ public abstract class GenericPanel
 	public GenericPanel( final Dimension left, final Dimension right )
 	{
 		super( left, right );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
 	public GenericPanel( final Dimension left, final Dimension right, final boolean isCenterPanel )
 	{
 		super( left, right, isCenterPanel );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
 	public GenericPanel( final String confirmedText )
 	{
 		super( confirmedText );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
 	public GenericPanel( final String confirmedText, final boolean isCenterPanel )
 	{
 		super( confirmedText, isCenterPanel );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
 	public GenericPanel( final String confirmedText, final String cancelledText )
 	{
 		super( confirmedText, cancelledText );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
 	public GenericPanel( final String confirmedText, final String cancelledText, final boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, isCenterPanel );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
@@ -122,18 +133,21 @@ public abstract class GenericPanel
 		final boolean isCenterPanel )
 	{
 		super( confirmedText, left, right, isCenterPanel );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
 	public GenericPanel( final String confirmedText, final String cancelledText1, final String cancelledText2 )
 	{
 		super( confirmedText, cancelledText1, cancelledText2 );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
 	public GenericPanel( final String confirmedText, final String cancelledText, final Dimension left, final Dimension right )
 	{
 		super( confirmedText, cancelledText, left, right );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
@@ -141,6 +155,7 @@ public abstract class GenericPanel
 		final Dimension left, final Dimension right )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, left, right );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
@@ -148,6 +163,7 @@ public abstract class GenericPanel
 		final Dimension right, final boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, left, right, isCenterPanel );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
@@ -155,6 +171,7 @@ public abstract class GenericPanel
 		final Dimension left, final Dimension right, final boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, left, right, isCenterPanel );
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
 		StaticEntity.registerPanel( this );
 	}
 
@@ -425,12 +442,12 @@ public abstract class GenericPanel
 			}
 			catch ( IOException e )
 			{
-				
+
 			}
-			
+
 			this.textField.setText( text );
 		}
-		
+
 		private String getRelativePath( final String text )
 			throws IOException
 		{
@@ -443,36 +460,36 @@ public abstract class GenericPanel
 			}
 
 			if ( text.toLowerCase().startsWith( rootPath.toLowerCase() ) )
-			{				
+			{
 				return text.substring( rootPath.length() + 1 );
 			}
 
 			File rootParent = root.getParentFile();
-			
+
 			if ( rootParent == null )
 			{
 				return text;
 			}
-			
+
 			String rootParentPath = rootParent.getCanonicalPath();
 
 			if ( rootParentPath.endsWith( File.separator ) )
 			{
 				rootParentPath = rootParentPath.substring( 0, rootParentPath.length() - 1 );
 			}
-			
+
 			if ( text.toLowerCase().startsWith( rootParentPath.toLowerCase() ) )
 			{
 				return ".." + File.separator + text.substring( rootParentPath.length() + 1 );
 			}
 
 			File rootParentParent = rootParent.getParentFile();
-			
+
 			if ( rootParentParent == null )
 			{
 				return text;
 			}
-			
+
 			String rootParentParentPath = rootParentParent.getCanonicalPath();
 
 			if ( rootParentParentPath.endsWith( File.separator ) )
@@ -485,7 +502,7 @@ public abstract class GenericPanel
 				return ".." + File.separator + ".." + File.separator +
 					text.substring( rootParentParentPath.length() + 1 );
 			}
-			
+
 			return text;
 		}
 
@@ -506,17 +523,17 @@ public abstract class GenericPanel
 				{
 					JFileChooser chooser = new JFileChooser( this.path.getCanonicalPath() );
 					chooser.showOpenDialog( null );
-	
+
 					if ( chooser.getSelectedFile() == null )
 					{
 						return;
 					}
-	
+
 					this.setText( chooser.getSelectedFile().getCanonicalPath() );
 				}
 				catch ( IOException e1 )
 				{
-					
+
 				}
 			}
 
@@ -539,14 +556,38 @@ public abstract class GenericPanel
 			{
 				return;
 			}
-			
+
 			( new Thread( this, "ActionConfirmListener" ) ).start();
 			e.consume();
 		}
-		
+
 		public void run()
 		{
 			GenericPanel.this.actionConfirmed();
+		}
+	}
+
+	private class ConfirmedListener
+		extends ThreadedListener
+	{
+		protected void execute()
+		{
+			if ( GenericPanel.this.contentSet )
+			{
+				GenericPanel.this.actionConfirmed();
+			}
+		}
+	}
+
+	private class CancelledListener
+		extends ThreadedListener
+	{
+		protected void execute()
+		{
+			if ( GenericPanel.this.contentSet )
+			{
+				GenericPanel.this.actionConfirmed();
+			}
 		}
 	}
 }

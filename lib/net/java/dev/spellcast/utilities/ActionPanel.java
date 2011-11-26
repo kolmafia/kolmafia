@@ -36,39 +36,18 @@ package net.java.dev.spellcast.utilities;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-
 public abstract class ActionPanel
 	extends JRootPane
 {
-	protected ConfirmedListener CONFIRM_LISTENER = new ConfirmedListener();
-	protected CancelledListener CANCEL_LISTENER = new CancelledListener();
-
 	protected boolean contentSet = false;
 	protected JButton confirmedButton, cancelledButton;
 	protected static boolean actionsEnabled = true;
-
-	public void dispose()
-	{
-		if ( this.confirmedButton != null )
-		{
-			this.confirmedButton.removeActionListener( this.CONFIRM_LISTENER );
-			this.CONFIRM_LISTENER = null;
-			this.confirmedButton = null;
-		}
-
-		if ( this.cancelledButton != null )
-		{
-			this.cancelledButton.removeActionListener( this.CANCEL_LISTENER );
-			this.CANCEL_LISTENER = null;
-			this.cancelledButton = null;
-		}
-	}
 
 	public abstract void actionConfirmed();
 
@@ -80,17 +59,17 @@ public abstract class ActionPanel
 		private boolean bothDisabledOnClick;
 		private final String cancelledText1, cancelledText2;
 
-		public VerifyButtonPanel( final String confirmedText )
+		public VerifyButtonPanel( final String confirmedText, ActionListener confirmListener, ActionListener cancelListener )
 		{
-			this( confirmedText, null );
+			this( confirmedText, null, null, confirmListener, cancelListener );
 		}
 
-		public VerifyButtonPanel( final String confirmedText, final String cancelledText )
+		public VerifyButtonPanel( final String confirmedText, final String cancelledText, ActionListener confirmListener, ActionListener cancelListener )
 		{
-			this( confirmedText, cancelledText, cancelledText );
+			this( confirmedText, cancelledText, cancelledText, confirmListener, cancelListener );
 		}
 
-		public VerifyButtonPanel( final String confirmedText, final String cancelledText1, final String cancelledText2 )
+		public VerifyButtonPanel( final String confirmedText, final String cancelledText1, final String cancelledText2, ActionListener confirmListener, ActionListener cancelListener )
 		{
 			this.setLayout( new BorderLayout() );
 
@@ -110,14 +89,14 @@ public abstract class ActionPanel
 
 			// add the "confirmed" button
 			ActionPanel.this.confirmedButton = new JButton( confirmedText );
-			ActionPanel.this.confirmedButton.addActionListener( ActionPanel.this.CONFIRM_LISTENER );
+			ActionPanel.this.confirmedButton.addActionListener( confirmListener );
 			containerPanel.add( ActionPanel.this.confirmedButton );
 
 			// add the "cancelled" button
 			if ( cancelledText1 != null )
 			{
 				ActionPanel.this.cancelledButton = new JButton( cancelledText1 );
-				ActionPanel.this.cancelledButton.addActionListener( ActionPanel.this.CANCEL_LISTENER );
+				ActionPanel.this.cancelledButton.addActionListener( cancelListener );
 				containerPanel.add( ActionPanel.this.cancelledButton );
 			}
 			else
@@ -143,30 +122,6 @@ public abstract class ActionPanel
 		public void setBothDisabledOnClick( final boolean bothDisabledOnClick )
 		{
 			this.bothDisabledOnClick = bothDisabledOnClick;
-		}
-	}
-
-	private class ConfirmedListener
-		extends ThreadedListener
-	{
-		protected void execute()
-		{
-			if ( ActionPanel.this.contentSet )
-			{
-				ActionPanel.this.actionConfirmed();
-			}
-		}
-	}
-
-	private class CancelledListener
-		extends ThreadedListener
-	{
-		protected void execute()
-		{
-			if ( ActionPanel.this.contentSet )
-			{
-				ActionPanel.this.actionConfirmed();
-			}
 		}
 	}
 

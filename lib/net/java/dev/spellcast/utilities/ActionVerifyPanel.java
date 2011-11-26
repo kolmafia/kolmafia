@@ -39,6 +39,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -63,7 +64,10 @@ public abstract class ActionVerifyPanel
 	protected JPanel container;
 	protected JPanel eastContainer;
 
-	private final VerifyButtonPanel buttonPanel;
+	private String confirmedText, cancelledText1, cancelledText2;
+	private ActionListener confirmListener, cancelListener;
+
+	private VerifyButtonPanel buttonPanel;
 	private final boolean isCenterPanel;
 	private final Dimension left, right;
 
@@ -148,9 +152,20 @@ public abstract class ActionVerifyPanel
 
 		this.isCenterPanel = isCenterPanel;
 
+		this.confirmedText = confirmedText;
+		this.cancelledText1 = cancelledText1;
+		this.cancelledText2 = cancelledText2;
+	}
+
+	protected void setListeners( ActionListener confirmListener, ActionListener cancelListener )
+	{
+		this.confirmListener = confirmListener;
+		this.cancelListener = cancelListener;
+
 		this.buttonPanel =
-			confirmedText == null || confirmedText.equals( "" ) ? null : new VerifyButtonPanel(
-				confirmedText, cancelledText1, cancelledText2 );
+			new VerifyButtonPanel(
+				this.confirmedText, this.cancelledText1, this.cancelledText2, this.confirmListener,
+				this.cancelListener );
 	}
 
 	protected void setContent( final VerifiableElement[] elements )
@@ -357,8 +372,6 @@ public abstract class ActionVerifyPanel
 			this.elements[ i ].removeListeners( this.elements[ i ].getInputField() );
 			this.elements[ i ] = null;
 		}
-
-		super.dispose();
 	}
 
 	protected final class VerifiableElement
@@ -430,19 +443,19 @@ public abstract class ActionVerifyPanel
 
 			if ( c instanceof JRadioButton )
 			{
-				( (JRadioButton) c ).removeActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
+				( (JRadioButton) c ).removeActionListener( ActionVerifyPanel.this.confirmListener );
 				return;
 			}
 
 			if ( c instanceof JCheckBox )
 			{
-				( (JCheckBox) c ).removeActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
+				( (JCheckBox) c ).removeActionListener( ActionVerifyPanel.this.confirmListener );
 				return;
 			}
 
 			if ( c instanceof JComboBox )
 			{
-				( (JComboBox) c ).removeActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
+				( (JComboBox) c ).removeActionListener( ActionVerifyPanel.this.confirmListener );
 				return;
 			}
 
@@ -464,19 +477,19 @@ public abstract class ActionVerifyPanel
 
 			if ( c instanceof JRadioButton )
 			{
-				( (JRadioButton) c ).addActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
+				( (JRadioButton) c ).addActionListener( ActionVerifyPanel.this.confirmListener );
 				return;
 			}
 
 			if ( c instanceof JCheckBox )
 			{
-				( (JCheckBox) c ).addActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
+				( (JCheckBox) c ).addActionListener( ActionVerifyPanel.this.confirmListener );
 				return;
 			}
 
 			if ( c instanceof JComboBox )
 			{
-				( (JComboBox) c ).addActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
+				( (JComboBox) c ).addActionListener( ActionVerifyPanel.this.confirmListener );
 				return;
 			}
 
