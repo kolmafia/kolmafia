@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
-import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -489,7 +488,7 @@ public class MonsterDatabase
 						temp.append( ' ' );
 						temp.append( option );
 					}
-					poison = AdventureSelectPanel.getPoisonLevel( temp.toString() );
+					poison = EffectDatabase.getPoisonLevel( temp.toString() );
 					if ( poison == Integer.MAX_VALUE )
 					{
 						RequestLogger.printLine( "Monster: \"" + name + "\": unknown poison type: " + temp );

@@ -92,7 +92,6 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
 
-import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -4575,7 +4574,7 @@ public class FightRequest
 		int minLevel = Preferences.getInteger( "autoAntidote" );
 		for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
 		{
-			if ( AdventureSelectPanel.getPoisonLevel( ( (AdventureResult) KoLConstants.activeEffects.get( i ) ).getName() ) <= minLevel )
+			if ( EffectDatabase.getPoisonLevel( ( (AdventureResult) KoLConstants.activeEffects.get( i ) ).getName() ) <= minLevel )
 			{
 				return true;
 			}

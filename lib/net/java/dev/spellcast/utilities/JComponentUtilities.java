@@ -64,7 +64,7 @@ public class JComponentUtilities
 	 * Sets the minimum, maximum, and preferred size of the component to the given width and height, effectively forcing
 	 * the component to the given width and height, unless restrictions to the component's size exist due to external
 	 * reasons.
-	 * 
+	 *
 	 * @param component the component whose size is to be set
 	 * @param width the new forced width of the component
 	 * @param height the new forced height of the component
@@ -76,10 +76,12 @@ public class JComponentUtilities
 		{
 			width = component.getPreferredSize().width;
 		}
+
 		if ( height == -1 )
 		{
 			height = component.getPreferredSize().height;
 		}
+
 		Dimension d = new Dimension( width, height );
 		component.setPreferredSize( d );
 		component.setMinimumSize( d );
@@ -87,16 +89,19 @@ public class JComponentUtilities
 
 		if ( component instanceof JTextField || component instanceof JList || component instanceof JComboBox )
 		{
-			d = new Dimension( Integer.MAX_VALUE, d.height );
+			component.setMaximumSize( new Dimension( Integer.MAX_VALUE, height ) );
 		}
-		component.setMaximumSize( d );
+		else
+		{
+			component.setMaximumSize( d );
+		}
 	}
 
 	/**
 	 * Sets the minimum, maximum, and preferred size of the component to the given dimension, effectively forcing the
 	 * component to the given width and height, unless restrictions to the component's size exist due to external
 	 * reasons.
-	 * 
+	 *
 	 * @param component the component whose size is to be set
 	 * @param d the new forced size of the component, as a <code>Dimension</code>
 	 */
@@ -109,7 +114,7 @@ public class JComponentUtilities
 	/**
 	 * Creates a label with the given properties already preset. The label will also, by default, be opaque, so that the
 	 * background color specified will be able to show through.
-	 * 
+	 *
 	 * @param label the string to be displayed by the <code>JLabel</code>
 	 * @param alignment the horizontal alignment of the <code>JLabel</code>
 	 * @param background the background color to be used for the <code>JLabel</code>
@@ -131,7 +136,7 @@ public class JComponentUtilities
 	 * from the local directory from which the Java command line is called. The priority is as listed, in reverse order.
 	 * Note that rather than throwing an exception should the file not be successfully found, this function will instead
 	 * print out an error message and simply return null.
-	 * 
+	 *
 	 * @param filename the filename of the image
 	 */
 
@@ -143,7 +148,7 @@ public class JComponentUtilities
 	/**
 	 * A public function used to retrieve an image. Allows referencing images within a JAR, inside of a class tree, and
 	 * from the local directory from which the Java command line is called. The priority is as listed, in reverse order.
-	 * 
+	 *
 	 * @param directory the subtree in which the image can be found
 	 * @param filename the filename of the image
 	 */
