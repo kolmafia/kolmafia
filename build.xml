@@ -109,7 +109,7 @@
 		-->
 
 		<symlink action="delete" link="${dist}/${version-name}/Applications" failonerror="false" />
-		
+
 		<delete dir="${appfile}" failonerror="false" />
 
 		<delete failonerror="false">
@@ -147,30 +147,14 @@
 	<!--  generate class files  -->
 	<!-- ====================== -->
 
-	<target name="compile" depends="init,jikeshome,javahome">
+	<target name="compile" depends="init,jikeshome,javahome,version">
 
 		<echo message="Using ${build.compiler} compiler" />
-	
-		<antcall target="compile-folder">
-			<param name="folder" value="${lib}" />
-		</antcall>
-
-		<antcall target="compile-folder">
-			<param name="folder" value="${src}" />
-		</antcall>
-
-	</target>
-
-	<!-- ====================== -->
-	<!--  generate class files  -->
-	<!-- ====================== -->
-
-	<target name="compile-folder">
 
 		<javac
 			compiler="${build.compiler}"
 			source="1.4"
-			srcdir="${folder}"
+			srcdir="${lib}"
 			destdir="${build}"
 			classpath="${build}"
 			failonerror="false"
@@ -178,14 +162,50 @@
 			debuglevel="lines,vars,source"
 			deprecation="off"
 			nowarn="on"
-			includeantruntime="false" />
+			includeantruntime="false"
+			errorProperty="compile.failed" />
+
+		<fail if="compile.failed" message="Failed to compile third-party libraries" />
 
 		<copy todir="${build}" preservelastmodified="true">
-			<fileset dir="${folder}">
+			<fileset dir="${lib}">
 				<exclude name="**/*.jar" />
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = null"
+			value="REVISION = &quot;${revision}&quot;" />
+
+		<javac
+			compiler="${build.compiler}"
+			source="1.4"
+			srcdir="${src}"
+			destdir="${build}"
+			classpath="${build}"
+			failonerror="false"
+			debug="on"
+			debuglevel="lines,vars,source"
+			deprecation="off"
+			nowarn="on"
+			includeantruntime="false"
+			errorProperty="compile.failed" />
+
+		<copy todir="${build}" preservelastmodified="true">
+			<fileset dir="${src}">
+				<exclude name="**/*.jar" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = &quot;${revision}&quot;"
+			value="REVISION = null" />
+
+		<fail if="compile.failed" message="Failed to compile KoLmafia source code" />
 
 	</target>
 
@@ -202,24 +222,11 @@
 
 	</target>
 
-
 	<!-- =========================== -->
 	<!--  generate the standard JAR  -->
 	<!-- =========================== -->
 
-	<target name="jar" depends="init,version">
-
-		<replace
-			file="${KoLConstants}"
-			token="REVISION = null"
-			value="REVISION = &quot;${revision}&quot;" />
-
-		<antcall target="compile" />
-
-		<replace
-			file="${KoLConstants}"
-			token="REVISION = &quot;${revision}&quot;"
-			value="REVISION = null" />
+	<target name="jar" depends="compile">
 
 		<jar
 			destfile="${jarfile}"
@@ -275,7 +282,7 @@
 		<exec executable="cp" dir="${dist}">
 			<arg line="-a ${basedir}/${appfile} ${basedir}/${dist}/${version-name}/" />
 		</exec>
- 
+
 	        <delete file="${basedir}/${dmgfile}" />
 		<exec executable="hdiutil" dir="${dist}">
 			<arg line="create ${basedir}/${dmgfile} -srcfolder ${basedir}/${dist}/${version-name} -volname ${version-name}" />
