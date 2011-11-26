@@ -408,6 +408,15 @@ public abstract class GenericFrame
 			KoLConstants.existingFrames.remove( this.getFrameName() );
 			this.checkForLogout();
 		}
+
+		if ( this.refreshListener != null )
+		{
+			KoLCharacter.removeCharacterListener( this.refreshListener );
+		}
+
+		this.menuBar.dispose();
+
+		super.dispose();
 	}
 
 	public boolean exists()
