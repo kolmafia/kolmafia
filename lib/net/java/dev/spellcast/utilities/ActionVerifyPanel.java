@@ -162,10 +162,13 @@ public abstract class ActionVerifyPanel
 		this.confirmListener = confirmListener;
 		this.cancelListener = cancelListener;
 
-		this.buttonPanel =
-			new VerifyButtonPanel(
-				this.confirmedText, this.cancelledText1, this.cancelledText2, this.confirmListener,
-				this.cancelListener );
+		if ( this.confirmedText != null && this.confirmedText.equals( "" ) )
+		{
+			this.buttonPanel =
+				new VerifyButtonPanel(
+					this.confirmedText, this.cancelledText1, this.cancelledText2,
+					this.confirmListener, this.cancelListener );
+		}
 	}
 
 	protected void setContent( final VerifiableElement[] elements )
