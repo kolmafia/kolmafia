@@ -169,7 +169,7 @@ public class ScrollablePanel
 		{
 			if ( ScrollablePanel.this.contentSet )
 			{
-				ScrollablePanel.this.actionConfirmed();
+				ScrollablePanel.this.actionCancelled();
 			}
 		}
 	}

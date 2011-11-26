@@ -586,7 +586,7 @@ public abstract class GenericPanel
 		{
 			if ( GenericPanel.this.contentSet )
 			{
-				GenericPanel.this.actionConfirmed();
+				GenericPanel.this.actionCancelled();
 			}
 		}
 	}
