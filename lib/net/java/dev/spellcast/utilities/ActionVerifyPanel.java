@@ -162,7 +162,7 @@ public abstract class ActionVerifyPanel
 		this.confirmListener = confirmListener;
 		this.cancelListener = cancelListener;
 
-		if ( this.confirmedText != null && this.confirmedText.equals( "" ) )
+		if ( this.confirmedText != null && !this.confirmedText.equals( "" ) )
 		{
 			this.buttonPanel =
 				new VerifyButtonPanel(
