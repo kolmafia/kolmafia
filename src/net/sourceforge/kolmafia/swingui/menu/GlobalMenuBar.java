@@ -56,8 +56,9 @@ import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 public class GlobalMenuBar
 	extends JMenuBar
 {
-	public ScriptMenu scriptMenu;
-	public BookmarkMenu bookmarkMenu;
+	private ScriptMenu scriptMenu;
+	private WindowMenu windowMenu;
+	private BookmarkMenu bookmarkMenu;
 
 	public GlobalMenuBar()
 	{
@@ -192,7 +193,8 @@ public class GlobalMenuBar
 		this.scriptMenu = new ScriptMenu();
 		this.add( this.scriptMenu );
 
-		this.add( new WindowMenu() );
+		this.windowMenu = new WindowMenu();
+		this.add( this.windowMenu );
 
 		// Add help information for KoLmafia.  This includes
 		// the additional help-oriented stuffs.
@@ -227,5 +229,23 @@ public class GlobalMenuBar
 		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFogManager.class, "showGemelliMap" ) );
 		helperMenu.add( new InvocationMenuItem( "Louvre Mapper", LouvreManager.class, "showGemelliMap" ) );
 		helperMenu.add( new InvocationMenuItem( "Wumpinator", WumpusManager.class, "invokeWumpinator" ) );
+	}
+
+	public void dispose()
+	{
+		if ( this.scriptMenu != null )
+		{
+			this.scriptMenu.dispose();
+		}
+
+		if ( this.windowMenu != null )
+		{
+			this.windowMenu.dispose();
+		}
+
+		if ( this.bookmarkMenu != null )
+		{
+			this.bookmarkMenu.dispose();
+		}
 	}
 }
