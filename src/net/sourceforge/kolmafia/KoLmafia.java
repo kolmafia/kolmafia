@@ -142,7 +142,7 @@ public abstract class KoLmafia
 	private static boolean isAdventuring = false;
 	private static volatile String abortAfter = null;
 
-	public static String lastMessage = "";
+	public static String lastMessage = " ";
 
 	static
 	{
@@ -155,8 +155,6 @@ public abstract class KoLmafia
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 	}
-
-	private static Interpreter currentInterpreter = null;
 
 	public static String currentIterationString = "";
 	public static boolean tookChoice = false;
@@ -534,8 +532,8 @@ public abstract class KoLmafia
 	private static final void checkDataOverrides()
 	{
 		String lastVersion = Preferences.getString( "previousUpdateVersion" );
-		int lastRevision = Preferences.getInteger( "previousUpdateRevision" );
 		String currentVersion = StaticEntity.getVersion();
+
 		int currentRevision = StaticEntity.getRevision();
 
 		String message = null;
@@ -560,7 +558,7 @@ public abstract class KoLmafia
 			return;
 		}
 
-		System.out.println( message );
+		RequestLogger.printLine( message );
 
 		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
 		{

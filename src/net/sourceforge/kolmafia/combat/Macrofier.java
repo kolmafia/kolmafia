@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -56,7 +57,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -598,7 +598,7 @@ public class Macrofier
 			}
 			first = false;
 			macro.append( "haseffect " );
-			macro.append( AdventureSelectPanel.POISON_ID[ i ] );
+			macro.append( EffectDatabase.POISON_ID[ i ] );
 		}
 		macro.append( ")\n  use " );
 		macro.append( ItemPool.ANTIDOTE );

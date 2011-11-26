@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -197,7 +198,7 @@ public class EffectDatabase
 				rv.add( action );
 			}
 		}
-			
+
 		return rv.iterator();
 	}
 
@@ -473,17 +474,17 @@ public class EffectDatabase
 	 * Utility method which determines the first effect which matches the given parameter string. Note that the string
 	 * may also specify an effect duration before the string.
 	 */
-	
+
 	public static final AdventureResult getFirstMatchingEffect( final String parameters )
 	{
 		String effectName = null;
 		int duration = 0;
-	
+
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
-	
+
 		List matchingNames = getMatchingNames( parameters );
-	
+
 		if ( matchingNames.size() != 0 )
 		{
 			effectName = (String) matchingNames.get( 0 );
@@ -493,12 +494,12 @@ public class EffectDatabase
 		{
 			String durationString = "";
 			int spaceIndex = parameters.indexOf( " " );
-			
+
 			if ( spaceIndex != -1 )
 			{
 				durationString = parameters.substring( 0, spaceIndex );
 			}
-			
+
 			if ( durationString.equals( "*" ) )
 			{
 				duration = 0;
@@ -515,11 +516,11 @@ public class EffectDatabase
 					duration = 1;
 				}
 			}
-			
+
 			String effectNameString = parameters.substring( durationString.length() ).trim();
-	
+
 			matchingNames = getMatchingNames( effectNameString );
-	
+
 			if ( matchingNames.size() == 0 )
 			{
 				KoLmafia.updateDisplay(
@@ -528,17 +529,61 @@ public class EffectDatabase
 
 				return null;
 			}
-	
+
 			effectName = (String) matchingNames.get( 0 );
 		}
-	
+
 		if ( effectName == null )
 		{
 			KoLmafia.updateDisplay(
 				KoLConstants.ERROR_STATE, "[" + parameters + "] does not match anything in the status effect database." );
 			return null;
 		}
-	
+
 		return new AdventureResult( effectName, duration, true );
+	}
+
+	public static final int[] POISON_ID = {
+   		0,
+   		EffectPool.TOAD_IN_THE_HOLE_ID,
+   		EffectPool.MAJORLY_POISONED_ID,
+   		EffectPool.REALLY_QUITE_POISONED_ID,
+   		EffectPool.SOMEWHAT_POISONED_ID,
+   		EffectPool.A_LITTLE_BIT_POISONED_ID,
+   		EffectPool.HARDLY_POISONED_AT_ALL_ID
+   	};
+
+	public static int getPoisonLevel( String text )
+	{
+		text = text.toLowerCase();
+		if ( text.indexOf( "toad in the hole" ) != -1 )
+		{
+			return 1;
+		}
+		if ( text.indexOf( "poisoned" ) == -1 )
+		{
+			return Integer.MAX_VALUE;
+		}
+		if ( text.indexOf( "majorly poisoned" ) != -1 )
+		{
+			return 2;
+		}
+		if ( text.indexOf( "really quite poisoned" ) != -1 )
+		{
+			return 3;
+		}
+		if ( text.indexOf( "somewhat poisoned" ) != -1 )
+		{
+			return 4;
+		}
+		if ( text.indexOf( "a little bit poisoned" ) != -1 )
+		{
+			return 5;
+		}
+		if ( text.indexOf( "hardly poisoned at all" ) != -1 )
+		{
+			return 6;
+		}
+		return Integer.MAX_VALUE;
 	}
 }

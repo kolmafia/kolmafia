@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
-import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -623,7 +622,7 @@ public class ProxyRecordValue
 			int poisonLevel = ((MonsterData) this.content).getPoison();
 			String poisonName = poisonLevel == Integer.MAX_VALUE ? 
 				"none" :
-				EffectDatabase.getEffectName( AdventureSelectPanel.POISON_ID[ poisonLevel ] );
+				EffectDatabase.getEffectName( EffectDatabase.POISON_ID[ poisonLevel ] );
 			return DataTypes.parseEffectValue( poisonName, true );
 		}
 	}

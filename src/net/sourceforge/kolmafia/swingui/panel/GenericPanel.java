@@ -35,42 +35,35 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import java.io.File;
 import java.io.IOException;
-
 import java.lang.ref.WeakReference;
-
 import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
 import javax.swing.text.JTextComponent;
 
-import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
@@ -293,7 +286,19 @@ public abstract class GenericPanel
 
 		for ( int i = 0; i < this.elements.length; ++i )
 		{
-			this.elements[ i ].getInputField().setEnabled( isEnabled );
+			if ( this.elements[ i ] == null )
+			{
+				continue;
+			}
+
+			JComponent inputField = this.elements[ i ].getInputField();
+
+			if ( inputField == null )
+			{
+				continue;
+			}
+
+			inputField.setEnabled( isEnabled );
 		}
 	}
 
