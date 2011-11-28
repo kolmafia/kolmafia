@@ -202,11 +202,7 @@ public class KoLmafiaCLI
 			}
 
 			this.isGUI = false;
-
-			int requestId = RequestThread.openRequestSequence();
 			this.executeLine( line );
-			RequestThread.closeRequestSequence( requestId );
-
 			this.isGUI = true;
 
 			if ( StaticEntity.getClient() == this )
@@ -488,6 +484,22 @@ public class KoLmafiaCLI
 	 */
 
 	public void executeCommand( String command, String parameters )
+	{
+		int requestId = RequestThread.openRequestSequence();
+
+		try
+		{
+			this.doExecuteCommand( command, parameters );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
+		RequestThread.closeRequestSequence( requestId );
+	}
+
+	public void doExecuteCommand( String command, String parameters )
 	{
 		String lcommand = command.toLowerCase();
 
