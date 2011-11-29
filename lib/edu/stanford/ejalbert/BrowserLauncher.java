@@ -952,7 +952,7 @@ public class BrowserLauncher
 
 			browser = null;
 
-			String[] browsers = { "xdg-open", "seamonkey", "firefox", "mozilla", "opera", "konqueror", "netscape" };
+			String[] browsers = { "xdg-open", "exo-open", "kde-open", "gnome-open", "firefox" };
 
 			for ( int i = 0; i < browsers.length && browser == null; ++i )
 			{
