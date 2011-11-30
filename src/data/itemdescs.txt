@@ -5123,12 +5123,12 @@
 5122	558813843	aviatorcap.gif	leather aviator's cap
 5123	492344434	chestershades.gif	mirrored aviator shades
 5124	118009884	book.gif	Field Guide to Skeletal Anatomy
-5125	319307916	book4.gif	Notes from the Elfpocalypse, Chapter I
-5126	388548664	book4.gif	Notes from the Elfpocalypse, Chapter II
-5127	281112199	book4.gif	Notes from the Elfpocalypse, Chapter III
-5128	696088108	book4.gif	Notes from the Elfpocalypse, Chapter IV
-5129	730116799	book4.gif	Notes from the Elfpocalypse, Chapter V
-5130	988558928	book4.gif	Notes from the Elfpocalypse, Chapter VI
+5125	319307916	book4.gif	Notes from the Elfpocalypse, Chapter I	copies of Notes from the Elfpocalypse, Chapter I
+5126	388548664	book4.gif	Notes from the Elfpocalypse, Chapter II	copies of Notes from the Elfpocalypse, Chapter II
+5127	281112199	book4.gif	Notes from the Elfpocalypse, Chapter III	copies of Notes from the Elfpocalypse, Chapter III
+5128	696088108	book4.gif	Notes from the Elfpocalypse, Chapter IV	copies of Notes from the Elfpocalypse, Chapter IV
+5129	730116799	book4.gif	Notes from the Elfpocalypse, Chapter V	copies of Notes from the Elfpocalypse, Chapter V
+5130	988558928	book4.gif	Notes from the Elfpocalypse, Chapter VI	copies of Notes from the Elfpocalypse, Chapter VI
 5131	198733102	potion1.gif	Ultrasoldier Serum	vials of Ultrasoldier Serum
 5132	578892185	limboswafer.gif	elven hardtack	biscuits of elven hardtack
 5133	367571624	moonshine.gif	elven squeeze	bottles of elven squeeze
