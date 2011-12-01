@@ -5386,7 +5386,7 @@
 5377
 5378
 5379
-5380
+5380	lollipop stick	none	all	50
 5381
 5382
 5383
@@ -5401,13 +5401,21 @@
 5392	Thwaitgold butterfly statuette	none	display	0
 5393	scrap of sticky paper	none	all	
 5394	sandpaper	none	all	25
-5395
-5396
-5397
-5398
-5399
+5395	peppermint sprout	usable	all	0
+5396	peppermint twist	usable	all	0
+5397	peppermint patty	food	all	0
+5398	peppermint crook	none, combat	all	0
+5399	peppermint rhino baby	grow	all	0
 5400
-5401
+5401	peppermint parasol	none, combat reusable	all	0
 5402
 5403	Mint Salton Pepper's Peppermint Seed Catalog	usable	all	0
 5404	Peppermint Pip Packet	usable	display	0
+5405	cane-mail shirt	shirt	all	500
+5406	cane-mail pants	pants	all	333
+5407
+5408	Gin Mint	drink	all	0
+5409
+5410	Mint Yulep	drink	all	0
+5411
+5412	Sangria de Menthe	drink	all	0

@@ -291,6 +291,7 @@ bowlegged pants	100	Mox: 35
 bugbear bungguard	30	none
 bullet-proof corduroys	170	Mox: 70
 buoybottoms	150	Mox: 60
+cane-mail pants	100	none
 chain-mail monokini	30	none
 clingfilm trousers	150	Mox: 60
 clockwork pants	80	Mox: 25
@@ -420,6 +421,7 @@ astral shirt	50	none
 barskin cloak	25	none
 bat-ass leather jacket	180	Mus: 77
 bronze breastplate	105	Mus: 37
+cane-mail shirt	100	none
 chamoisole	200	Mus: 200
 clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15
