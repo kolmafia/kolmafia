@@ -94,6 +94,7 @@ rusty metal key	COMBINE	rusty metal ring	rusty metal shaft
 tambourine	COMBINE	Gnollish pie tin	tambourine bells
 charged magnet	COMBINE	floaty sand	moxie magnet
 pumpkin bomb	COMBINE	pumpkin	Knob Goblin firecracker
+peppermint parasol	COMBINE	peppermint patty	peppermint crook
 
 meat stack	COMBINE, MANUAL	fairy gravy boat	meat from yesterday
 
@@ -1595,6 +1596,13 @@ wild honey pie	MUSE	handful of honey (5)
 honeycap	MUSE	handful of honey (37)
 honeybritches	MUSE	handful of honey (42)
 honey dipper	MUSE	handful of honey (69)
+
+peppermint twist	MUSE	peppermint sprout (1)
+peppermint patty	MUSE	peppermint sprout (2)
+peppermint crook	MUSE	peppermint sprout (3)
+cane-mail pants	MUSE	peppermint sprout (10)
+peppermint rhino baby	MUSE	peppermint sprout (11)
+cane-mail shirt	MUSE	peppermint sprout (15)
 
 # Recipes that involve single-using one of the ingredients
 

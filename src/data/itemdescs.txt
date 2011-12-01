@@ -5378,7 +5378,7 @@
 5377
 5378
 5379
-5380
+5380	375928160	lollistick.gif	lollipop stick
 5381
 5382
 5383
@@ -5393,13 +5393,21 @@
 5392	820209471	thwaitbutt.gif	Thwaitgold butterfly statuette
 5393	990207150	tatpaper.gif	scrap of sticky paper
 5394	133369800	document.gif	sandpaper	scraps of sandpaper
-5395
-5396
-5397
-5398
-5399
+5395	691356968	pep_sprout.gif	peppermint sprout
+5396	627296529	pep_twist.gif	peppermint twist
+5397	257430124	pep_patty.gif	peppermint patty
+5398	218861653	pep_crook.gif	peppermint crook
+5399	705620213	pep_rhinobaby.gif	peppermint rhino baby
 5400
-5401
+5401	642836578	pep_parasol.gif	peppermint parasol
 5402
 5403	396103418	pep_catalog.gif	Mint Salton Pepper's Peppermint Seed Catalog
 5404	324668304	pep_seeds.gif	Peppermint Pip Packet
+5405	437592748	pep_shirt.gif	cane-mail shirt
+5406	220769286	pep_pants.gif	cane-mail pants
+5407
+5408	647622072	pep_drink2.gif	Gin Mint
+5409
+5410	225646375	pep_drink2.gif	Mint Yulep
+5411
+5412	520908403	pep_drink3.gif	Sangria de Menthe

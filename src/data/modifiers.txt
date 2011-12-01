@@ -353,6 +353,7 @@ bowlegged pants	Moxie: +5, Familiar Effect: "1xPotato, cap 25"
 bugbear bungguard	Familiar Effect: "5xBarrr, cap 7"
 bullet-proof corduroys	Maximum MP: +40, Damage Reduction: 2, Familiar Effect: "stench atk, 1xBarrr, cap 42"
 buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30, Familiar Effect: "1xPotato, 1xLep, cap 37"
+cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 1, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 4, PvP Fights: +4, Familiar Effect: "atk, 1xBarrr, cap 25"
 chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
 clingfilm trousers	Mysticality: +9, Familiar Effect: "sleaze atk, 1xPotato, cap 37"
 clockwork pants	Initiative: +10, Familiar Effect: "3xPotato, 1xGhuol, cap 20"
@@ -484,6 +485,7 @@ astral shirt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, 
 barskin cloak	Muscle: +2
 bat-ass leather jacket	Mysticality: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
+cane-mail shirt	Candy Drop: +25, Monster Level: +20, Meat Drop: +15
 chamoisole	Slime Resistance: +3
 clockwork trench coat	Damage Absorption: +15
 clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clownosity: +2
@@ -3009,6 +3011,7 @@ Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 # Pemmican't: +10 Damage against Seals
 Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
 Peppermint Bite	Muscle: +5
+Peppermint Twisted	Initiative: +40, Meat Drop: +50, Monster Level: +10
 Perceptive Pressure	Item Drop: +50
 Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
@@ -3834,6 +3837,7 @@ panty raider camouflage	Effect: "Hiding in Plain Sight", Effect Duration: 10
 papotion of papower	Effect: "Papowerful", Effect Duration: [R]
 peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]
 pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
+peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
 phial of coldness	Effect: "Coldform", Effect Duration: [R]
 phial of hotness	Effect: "Hotform", Effect Duration: [R]
