@@ -5393,3 +5393,13 @@
 5392	820209471	thwaitbutt.gif	Thwaitgold butterfly statuette
 5393	990207150	tatpaper.gif	scrap of sticky paper
 5394	133369800	document.gif	sandpaper	scraps of sandpaper
+5395
+5396
+5397
+5398
+5399
+5400
+5401
+5402
+5403	396103418	pep_catalog.gif	Mint Salton Pepper's Peppermint Seed Catalog
+5404	324668304	pep_seeds.gif	Peppermint Pip Packet
