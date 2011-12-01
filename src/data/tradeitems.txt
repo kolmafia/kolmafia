@@ -5401,3 +5401,13 @@
 5392	Thwaitgold butterfly statuette	none	display	0
 5393	scrap of sticky paper	none	all	
 5394	sandpaper	none	all	25
+5395
+5396
+5397
+5398
+5399
+5400
+5401
+5402
+5403	Mint Salton Pepper's Peppermint Seed Catalog	usable	all	0
+5404	Peppermint Pip Packet	usable	display	0
