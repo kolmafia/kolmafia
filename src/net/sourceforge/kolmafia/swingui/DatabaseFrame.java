@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.CardLayout;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Comparator;
 import java.util.Map.Entry;
@@ -88,7 +87,7 @@ public class DatabaseFrame
 			this.which = which;
 
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			this.elementList.addMouseListener( new ShowEntryAdapter() );
+			this.elementList.addMouseListener( new ShowEntryListener() );
 			this.elementList.contextMenu.add( new ThreadedMenuItem( "Game description", new DescriptionListener() ), 0 );
 
 			this.actionConfirmed();
@@ -129,11 +128,13 @@ public class DatabaseFrame
 			}
 		}
 
-		private class ShowEntryAdapter
-			extends MouseAdapter
+		private class ShowEntryListener
+			extends ThreadedListener
 		{
-			public void mouseClicked( final MouseEvent e )
+			protected void execute()
 			{
+				MouseEvent e = getMouseEvent();
+
 				if ( e.getClickCount() != 2 )
 				{
 					return;
