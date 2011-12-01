@@ -65,9 +65,12 @@ Kegger	Item-Driven	Kegger in the Woods
 Vanya's Castle	Item-Driven	Vanya's Castle
 Magic Commune	Item-Driven	Magic Commune
 Ellsbury's Claim	Item-Driven	Ellsbury's Claim
+
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
+
 Holiday	Unsorted	Holiday Zones
+The Candy Diorama	Holiday	Christmas 2011
 
 Events	Unsorted	Events
 
