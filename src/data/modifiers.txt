@@ -3078,6 +3078,7 @@ Refuse Reflux	Stench Damage: [min(100,T)]
 Reptilian Fortitude	Maximum HP: +30
 Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
+Rootin' Around	Candy Drop: +25
 Rushin' Hands	Weapon Damage: +3
 Salamander In Your Stomach	Mysticality: +25
 Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
@@ -3808,6 +3809,7 @@ jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
 lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
 lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
 libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]
+licorice root	Effect: "Rootin' Around", Effect Duration: 20
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 love song of disturbing obsession	Effect: "Withered Heart", Effect Duration: 5
 love song of icy revenge	Effect: "Cold Hearted", Effect Duration: 5

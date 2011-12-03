@@ -5405,9 +5405,12 @@
 5404	324668304	pep_seeds.gif	Peppermint Pip Packet
 5405	437592748	pep_shirt.gif	cane-mail shirt
 5406	220769286	pep_pants.gif	cane-mail pants
-5407
+5407	849841739	pep_drink1.gif	Vodka Matryoshka
 5408	647622072	pep_drink2.gif	Gin Mint
-5409
+5409	588935880	pep_drink1.gif	Feliz Navidad
 5410	225646375	pep_drink2.gif	Mint Yulep
-5411
+5411	410538513	pep_drink2.gif	Crimbojito
 5412	520908403	pep_drink3.gif	Sangria de Menthe
+5413
+5414
+5415	550695829	licoriceroot.gif	licorice root

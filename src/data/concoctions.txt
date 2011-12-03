@@ -94,7 +94,7 @@ rusty metal key	COMBINE	rusty metal ring	rusty metal shaft
 tambourine	COMBINE	Gnollish pie tin	tambourine bells
 charged magnet	COMBINE	floaty sand	moxie magnet
 pumpkin bomb	COMBINE	pumpkin	Knob Goblin firecracker
-peppermint parasol	COMBINE	peppermint patty	peppermint crook
+peppermint parasol	ACOMBINE	peppermint patty	peppermint crook
 
 meat stack	COMBINE, MANUAL	fairy gravy boat	meat from yesterday
 
@@ -682,6 +682,14 @@ skewered jumbo olive	MIX_FANCY	jumbo olive	tiny plastic sword
 dirty martini	MIX_FANCY	dry martini	skewered jumbo olive
 vesper	MIX_FANCY	dry vodka martini	skewered jumbo olive
 
+# Peppermint twist drinks which can be made by anyone
+
+Vodka Matryoshka	MIX_FANCY	bottle of vodka	peppermint twist
+Gin Mint	MIX_FANCY	bottle of gin	peppermint twist
+Feliz Navidad	MIX_FANCY	bottle of tequila	peppermint twist
+Mint Yulep	MIX_FANCY	bottle of whiskey	peppermint twist
+Crimbojito	MIX_FANCY	bottle of rum	peppermint twist
+Sangria de Menthe	MIX_FANCY	boxed wine	peppermint twist
 
 # Item upgrades accessible with Crosby Nash's Still: Moxie class
 # characters with the Superhuman Cocktailcrafting skill
