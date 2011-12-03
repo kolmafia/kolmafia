@@ -5258,7 +5258,7 @@
 5257	865033460	potion3.gif	potion of the field gar
 5258	897208811	potion7.gif	too legit potion
 5259	231547639	waterbottle.gif	Bright Water
-5260	514757905	waterbottle.gif	cold-filtered water
+5260	514757905	waterbottle.gif	cold-filtered water	bottles of cold-filtered water
 5261	213000900	meatglobe.gif	graveyard snowglobe
 5262	944132814	potion9.gif	cool cat elixir
 5263	495788949	potion2.gif	potion of the captain's hammer
