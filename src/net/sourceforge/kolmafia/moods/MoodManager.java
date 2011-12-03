@@ -918,7 +918,6 @@ public abstract class MoodManager
 			name.equals( "Embarrassed" ) ||
 			name.equals( "Easily Embarrassed" ) ||
 			name.equals( "Existential Torment" ) ||
-			name.equals( "Flared Nostrils" ) ||
 			name.equals( "Light Headed" ) ||
 			name.equals( "Prestidigysfunction" ) ||
 			name.equals( "Rainy Soul Miasma" ) ||
