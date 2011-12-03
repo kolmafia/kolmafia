@@ -955,3 +955,4 @@
 954	Lobos Fresh	lobosmints.gif	ac6b6c3e29f0c029b4619958cc718548	use 1 Lobos Mints
 955	Chalk Outline	necbrowafers.gif	ece3a9a4f4b36579273cc322d1f23fa4	use 1 Necbro wafers
 956	Peppermint Twisted	pep_twist.gif	30032941dd4926cf0905d5d7f683e70d	use 1 peppermint twist
+957	Rootin' Around	licoriceroot.gif	49c7804861850f93087e5bbbf4c51054	use 1 licorice root

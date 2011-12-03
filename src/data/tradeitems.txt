@@ -5402,7 +5402,7 @@
 5393	scrap of sticky paper	none	all	
 5394	sandpaper	none	all	25
 5395	peppermint sprout	usable	all	0
-5396	peppermint twist	usable	all	0
+5396	peppermint twist	usable, fancy	all	0
 5397	peppermint patty	food	all	0
 5398	peppermint crook	none, combat	all	0
 5399	peppermint rhino baby	grow	all	0
@@ -5413,9 +5413,12 @@
 5404	Peppermint Pip Packet	usable	display	0
 5405	cane-mail shirt	shirt	all	500
 5406	cane-mail pants	pants	all	333
-5407
+5407	Vodka Matryoshka	drink	all	0
 5408	Gin Mint	drink	all	0
-5409
+5409	Feliz Navidad	drink	all	0
 5410	Mint Yulep	drink	all	0
-5411
+5411	Crimbojito	drink	all	0
 5412	Sangria de Menthe	drink	all	0
+5413
+5414
+5415	licorice root	usable	all	0

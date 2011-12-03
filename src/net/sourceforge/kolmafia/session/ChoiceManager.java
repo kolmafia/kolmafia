@@ -2043,6 +2043,12 @@ public abstract class ChoiceManager
 		new ChoiceSpoiler(
 			"Clan Basement", "choiceAdventure554", "Behind the Spooky Curtain",
 			new String[] { "staff guides, ghost trap, kill werewolves", "kill zombies, kill skeletons, costume item", "chainsaw chain, silver item, funhouse mirror, kill vampires" } ),
+
+		// Gingerbread Homestead
+		new ChoiceAdventure(
+			"The Candy Diorama", "choiceAdventure557", "Gingerbread Homestead",
+			new String[] { "get candies", "licorice root", "skip adventure" },
+			new String[] { null, "5415", null } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
