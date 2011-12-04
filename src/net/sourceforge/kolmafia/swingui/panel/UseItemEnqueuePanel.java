@@ -79,7 +79,7 @@ public class UseItemEnqueuePanel
 	private final JCheckBox[] filters;
 	private final JTabbedPane queueTabs;
 
-	public UseItemEnqueuePanel( final boolean food, final boolean booze, final boolean spleen, final JTabbedPane queueTabs )
+	public UseItemEnqueuePanel( final boolean food, final boolean booze, final boolean spleen, JTabbedPane queueTabs )
 	{
 		super( ConcoctionDatabase.getUsables(), true, true );
 
@@ -87,6 +87,12 @@ public class UseItemEnqueuePanel
 		this.booze = booze;
 		this.spleen = spleen;
 
+		if ( queueTabs == null )
+		{	// Make a dummy tabbed pane, so that we don't have to do null
+			// checks in the 8 places where setTitleAt(0, ...) is called.
+			queueTabs = new JTabbedPane();
+			queueTabs.addTab( "dummy", new JLabel() );
+		}
 		this.queueTabs = queueTabs;
 
 		ArrayList listeners = new ArrayList();
