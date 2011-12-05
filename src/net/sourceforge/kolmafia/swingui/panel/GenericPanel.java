@@ -215,8 +215,7 @@ public abstract class GenericPanel
 			editor.addKeyListener( listener );
 			this.listenerMap.put( editor, new WeakReference( listener ) );
 		}
-		else if ( component instanceof JComboBox &&
-			((JComboBox) component).isEditable() )
+		else if ( component instanceof JComboBox && ((JComboBox) component).isEditable() )
 		{
 			JTextComponent editor = (JTextComponent) ( (JComboBox) component ).getEditor().getEditorComponent();
 
@@ -268,6 +267,19 @@ public abstract class GenericPanel
 		if ( component instanceof JTextField )
 		{
 			( (JTextField) component ).removeKeyListener( listener );
+		}
+
+		if ( component instanceof AutoFilterComboBox )
+		{
+			JTextComponent editor = (JTextComponent) ( (AutoFilterComboBox) component ).getEditor().getEditorComponent();
+
+			editor.removeKeyListener( listener );
+		}
+		else if ( component instanceof JComboBox && ((JComboBox) component).isEditable() )
+		{
+			JTextComponent editor = (JTextComponent) ( (JComboBox) component ).getEditor().getEditorComponent();
+
+			editor.removeKeyListener( listener );
 		}
 	}
 
