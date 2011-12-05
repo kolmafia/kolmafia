@@ -33,10 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.swing.SwingUtilities;
 
@@ -51,6 +52,7 @@ public abstract class RequestThread
 {
 	private static int nextRequestId = 0;
 	private static Map requestMap = new HashMap();
+	private static Map threadMap = new HashMap();
 
 	public static final void runInParallel( final Runnable action )
 	{
@@ -152,16 +154,31 @@ public abstract class RequestThread
 
 	public static synchronized final void checkOpenRequestSequences()
 	{
-		Collection exceptions = requestMap.values();
+		int openSequenceCount = 0;
 
-		Iterator exceptionIterator = exceptions.iterator();
+		Set threads = threadMap.entrySet();
+		Thread currentThread = Thread.currentThread();
 
-		while ( exceptionIterator.hasNext() )
+		Iterator threadIterator = threads.iterator();
+
+		while ( threadIterator.hasNext() )
 		{
-			Exception e = (Exception) exceptionIterator.next();
+			Entry entry = (Entry) threadIterator.next();
 
-			StaticEntity.printStackTrace( e );
+
+			if ( entry.getValue() == currentThread )
+			{
+				continue;
+			}
+
+			Object requestId = entry.getKey();
+
+			Exception e = (Exception) requestMap.get( requestId );
+
+			StaticEntity.printStackTrace( e, "Open request sequence" );
 		}
+
+		KoLmafia.updateDisplay( openSequenceCount + " open request sequences" );
 	}
 
 	public static synchronized final int openRequestSequence()
@@ -177,15 +194,20 @@ public abstract class RequestThread
 		}
 
 		int requestId = ++RequestThread.nextRequestId;
+		Integer requestIdObj = new Integer( requestId );
 
-		RequestThread.requestMap.put( new Integer( requestId ), new Exception() );
+		RequestThread.requestMap.put( requestIdObj, new Exception( "request sequence " + requestId ) );
+		RequestThread.threadMap.put( requestIdObj, Thread.currentThread() );
 
 		return requestId;
 	}
 
 	public static synchronized final void closeRequestSequence( int requestId )
 	{
-		RequestThread.requestMap.remove( new Integer( requestId ) );
+		Integer requestIdObj = new Integer( requestId );
+
+		RequestThread.requestMap.remove( requestIdObj );
+		RequestThread.threadMap.remove( requestIdObj );
 
 		if ( !RequestThread.requestMap.isEmpty() )
 		{
