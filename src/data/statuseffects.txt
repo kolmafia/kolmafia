@@ -956,3 +956,7 @@
 955	Chalk Outline	necbrowafers.gif	ece3a9a4f4b36579273cc322d1f23fa4	use 1 Necbro wafers
 956	Peppermint Twisted	pep_twist.gif	30032941dd4926cf0905d5d7f683e70d	use 1 peppermint twist
 957	Rootin' Around	licoriceroot.gif	49c7804861850f93087e5bbbf4c51054	use 1 licorice root
+958	Strawberry Alarm	sberry.gif	0e800ab9bbf7154eee1578d37073bfca	use 1 strawberry supersucker
+959	Dirty Pear	pear.gif	fd5c29421149599b210b951da7b8660d	use 1 pear supersucker
+960	Koyaaniskumquatsi	confused.gif	cd3b73f281140b857aff7a504e1d3008	use 1 kumquat supersucker
+961	In the Limelight	lime.gif	c0c04d061f40b1cf7fcec48259c93ff9	use 1 lime supersucker

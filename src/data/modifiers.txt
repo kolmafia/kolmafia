@@ -1592,6 +1592,8 @@ baconstone earring	Mysticality: +2, Mana Cost: -1, Single Equip
 baconstone pendant	Mysticality: +4, Spell Damage: +10
 baconstone ring	Mysticality: +5, Maximum MP: +10, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 badass belt	Muscle: +5, Mysticality: +5, Moxie: +5
+# bananarama bangle: (only in the Candy Diorama)
+bananarama bangle Damage Reduction: [30*zone(The Candy Diorama)]
 baneful bandolier	Slime Hates It: +1, Ranged Damage: +30, Hat Drop: +30, Pants Drop: +30
 bark bracelet	Damage Reduction: 2
 beach glass necklace	Muscle: +5
@@ -1726,6 +1728,9 @@ ironic oversized sunglasses	Single Equip
 jar of anniversary jam	Muscle: +1, Mysticality: +1, Moxie: +1
 kick-ass kicks	Sleaze Damage: +10, Moxie: +3, Single Equip
 knobby kneepads	Weapon Damage: +3
+# kumquartz ring: (only in the Candy Diorama)
+# kumquartz ring: +200% Physical Damage (currently approximated with Weapon Damage)
+kumquartz ring	Weapon Damage Percent: [200*zone(The Candy Diorama)]
 ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 # left half of a heart necklace
 # lucky Crimbo tiki necklace: Brings Good Luck!
@@ -1755,6 +1760,8 @@ orange glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 orange leather lanyard	Weapon Damage: +15, Single Equip
 oven mitts	Hot Resistance: +2, Single Equip
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
+# pair of pearidot earrings: (only in the Candy Diorama)
+pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)]
 paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7, Single Equip
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
@@ -1854,6 +1861,8 @@ stainless steel suspenders	Damage Absorption: +60, Maximum MP: +40, Moxie Percen
 stick-on eyebrow piercing	Muscle: +1
 sticky gloves	Pickpocket Chance: +20, Single Equip
 stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
+# strawberyl necklace: (only in the Candy Diorama)
+strawberyl necklace	Spell Damage Percent: [200*zone(The Candy Diorama)]
 streetfighting champion's belt	Maximum HP: +40, Maximum MP: +40, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Critical: 3, Single Equip
 string of blue beads	Mysticality: +1
 string of green beads	Moxie: +1
@@ -1993,6 +2002,7 @@ tiny plastic whitesnake	Monster Level: +1
 tiny plastic zmobie	Monster Level: +1
 torquoise ring	Moxie: +3, MP Regen Min: 2, MP Regen Max: 3, Single Equip
 tortoboggan	Moxie: +4, Initiative: +20, Single Equip
+# tourmalime tourniquet: Makes Candy Diorama Fights Harder
 toy crazy train	Meat Drop: +10, Single Equip
 toy jet pack	Intrinsic Effect: "Get Me Off This Crazy Thing!", Single Equip
 toy maglev monorail	Meat Drop: +10, Single Equip
@@ -2657,6 +2667,7 @@ Demonic Taint	Stench Damage: +30
 Digitally Converted	Monster Level: +30
 Dilated Pupils	Item Drop: +20
 Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
+# Dirty Pear: All Bonus Sleaze Damage is doubled
 Disco Concentration	Item Drop: +20
 Disco Inferno	Moxie: +5, Hot Damage: +3
 Disco Nirvana	Meat Drop: +30
@@ -2864,6 +2875,7 @@ Impregnably Delicious	Damage Reduction: 30
 In Tuna	MP Regen Min: 3, MP Regen Max: 5
 In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # In Your Cups: Whoah...
+In the Limelight	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 In the Saucestream	Mysticality Percent: +15
 Incensed	Mysticality: +10
 Incredibly Hulking	Muscle Percent: +200
@@ -2896,6 +2908,7 @@ Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
 Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
+Koyaaniskumquatsi	Mysticality Percent: +100, Monster Level: +30
 Kung Fu Fighting	Weapon Damage: [3*L]
 # L'instinct F&eacute;lin: Makes you better at sleeping
 L'instinct F&eacute;lin	Moxie: +30
@@ -3197,6 +3210,7 @@ Stimulated Brain	MP Regen Min: 10, MP Regen Max: 20
 Stinky Weapon	Stench Damage: +3
 Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
+Strawberry Alarm	Initiative: +50
 Strength of Ten Ettins	Muscle Percent: +25
 # Stuck-Up Hair: Damages Attacking Opponents
 Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5
@@ -3674,6 +3688,7 @@ bag of lard	Effect: "Cuts Like a Buttered Knife", Effect Duration: 10
 baggie of powdered sugar	Effect: "So You Can Work More...", Effect Duration: 10
 ballast turtle	Effect: "Oxygenated Blood", Effect Duration: 20
 banana smoothie	Effect: "Bananas!", Effect Duration: [R]
+banana supersucker	Effect: "Bananas!", Effect Duration: 30
 bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
 begpwnia	Effect: "Can't Be a Chooser", Effect Duration: 10
 bellhop bell	Effect: "Ringing Ears", Effect Duration: 10
@@ -3806,11 +3821,13 @@ jellyfish gel	Effect: "Old School Pompadour", Effect Duration: 10
 jug of baconstone juice	Effect: "Baconstoned", Effect Duration: 50
 jug of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 50
 jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
+kumquat supersucker	Effect: "Koyaaniskumquatsi ", Effect Duration: 30
 lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
 lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
 libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]
 licorice root	Effect: "Rootin' Around", Effect Duration: 20
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
+lime supersucker	 Effect: "In the Limelight", Effect Duration: 30
 love song of disturbing obsession	Effect: "Withered Heart", Effect Duration: 5
 love song of icy revenge	Effect: "Cold Hearted", Effect Duration: 5
 love song of naughty innuendo	Effect: "Lustful Heart", Effect Duration: 5
@@ -3839,6 +3856,7 @@ panty raider camouflage	Effect: "Hiding in Plain Sight", Effect Duration: 10
 papotion of papower	Effect: "Papowerful", Effect Duration: [R]
 peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]
 pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
+pear supersucker	Effect: "Dirty Pear", Effect Duration: 30
 peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
 phial of coldness	Effect: "Coldform", Effect Duration: [R]
@@ -3912,6 +3930,7 @@ stench nuggets	Effect: "Stinky Weapon", Effect Duration: 5
 stench powder	Effect: "Smelly Pants", Effect Duration: 5
 sterno-flavored Hob-O	Effect: "Fire Down Below"
 strawberry-flavored Hob-O	Effect: "Scariberi"
+strawberry supersucker	Effect: "Strawberry Alarm", Effect Duration: 30
 sugar banana	Effect: "Sweet and Yellow", Effect Duration: 10
 sugar cherry	Effect: "Sweet and Red", Effect Duration: 10
 sugar lime	Effect: "Sweet and Green", Effect Duration: 10

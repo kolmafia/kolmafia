@@ -5387,11 +5387,11 @@
 5378
 5379
 5380	lollipop stick	none	all	50
-5381
-5382
-5383
-5384
-5385
+5381	bananagate	none	all	300
+5382	pearidot	none	all	300
+5383	tourmalime	none	all	300
+5384	kumquartz	none	all	300
+5385	strawberyl	none	all	300
 5386	ridiculous belt	accessory	all	0
 5387	ridiculous earring	accessory	all	0
 5388	ridiculous sunglasses	accessory	all	0
@@ -5419,6 +5419,16 @@
 5410	Mint Yulep	drink	all	0
 5411	Crimbojito	drink	all	0
 5412	Sangria de Menthe	drink	all	0
-5413
+5413	candycaine powder	none, combat	all	25
 5414
 5415	licorice root	usable	all	0
+5416	banana supersucker	usable	all	400
+5417	pear supersucker	usable	all	400
+5418	lime supersucker	usable	all	400
+5419	kumquat supersucker	usable	all	400
+5420	strawberry supersucker	usable	all	400
+5421	bananarama bangle	accessory	all	500
+5422	pair of pearidot earrings	accessory	all	500
+5423	tourmalime tourniquet	accessory	all	500
+5424	kumquartz ring	accessory	all	500
+5425	strawberyl necklace	accessory	all	500
