@@ -817,11 +817,15 @@ public abstract class UseLinkDecorator
 		if ( mods == null ) return label;
 		String effect = mods.getString( Modifiers.EFFECT );
 		if ( effect.equals( "" ) ) return label;
-		int duration = Math.max( 1, (int)mods.get( Modifiers.EFFECT_DURATION ) );
+		int duration = (int)mods.get( Modifiers.EFFECT_DURATION );
 		Speculation spec = new Speculation();
-		spec.addEffect( new AdventureResult( effect, duration, true ) );
+		spec.addEffect( new AdventureResult( effect, Math.max( 1, duration ), true ) );
 		mods = spec.calculate();
 		mods.set( Modifiers.EFFECT, effect );
+		if ( duration > 0 )
+		{
+			mods.set( Modifiers.EFFECT_DURATION, (float)duration );
+		}
 		return getSpeculation( label, mods );
 	}
 
