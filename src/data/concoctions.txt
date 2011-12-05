@@ -1486,6 +1486,12 @@ shark tooth necklace	EJEWEL	shark tooth	heavy necklace chain
 
 floaty rock necklace	EJEWEL	floaty rock	heavy necklace chain
 
+bananarama bangle	EJEWEL	bananagate	heavy necklace chain
+pair of pearidot earrings	EJEWEL	pearidot	precious piercing post
+tourmalime tourniquet	EJEWEL	tourmalime	heavy necklace chain
+kumquartz ring	EJEWEL	kumquartz	extra-fancy ring setting
+strawberyl necklace	EJEWEL	strawberyl	heavy necklace chain
+
 # Chef staves made by Rodoric
 
 Staff of Blood and Pudding	STAFF	dripping meat staff	mugcake	bloody mary	twinkly nuggets	bottle of used blood
@@ -1902,7 +1908,7 @@ toy jet pack	CRIMBO07	high-resistance ultrapolymer plating	reverse-oscillating k
 toy ray gun	CRIMBO07	high-resistance ultrapolymer plating	servomechanical torsion facilitator	hyperbolic plasma focuser
 toy space helmet	CRIMBO07	high-resistance ultrapolymer plating	bi-lateral logic compressor	atomic vector plotter
 
-# Crimbo 08 items
+# Crimbo 2008 items
 
 wriggling tentacle	COMBINE	unstable DNA	pulsing flesh
 mass of wriggling tentacles	COMBINE	wriggling tentacle	wriggling tentacle
@@ -1917,3 +1923,12 @@ parasitic strangleworm	COMBINE	wriggling tentacle	rigid carapace
 
 burrowgrub hive	COMBINE	chitinous pod	unstable DNA
 pair of ragged claws	COMBINE	mass of wriggling tentacles	pair of twitching claws
+
+
+# Crimbo 2011 items
+
+banana supersucker	COMBINE	bananagate	lollipop stick
+pear supersucker	COMBINE	pearidot	lollipop stick
+lime supersucker	COMBINE	tourmalime	lollipop stick
+kumquat supersucker	COMBINE	kumquartz	lollipop stick
+strawberry supersucker	COMBINE	strawberyl	lollipop stick

@@ -1422,6 +1422,7 @@ baconstone earring	50	Mys: 10
 baconstone pendant	50	Mys: 10
 baconstone ring	50	Mys: 10
 badass belt	100	Mys: 35
+bananarama bangle	0	none
 baneful bandolier	200	Mus: 150
 bark bracelet	40	Mys: 5
 beach glass necklace	70	Mys: 20
@@ -1548,6 +1549,7 @@ ironic oversized sunglasses	40	Mys: 5
 jar of anniversary jam	10	none
 kick-ass kicks	160	Mys: 65
 knobby kneepads	20	none
+kumquartz ring	0	none
 ladle of mystery	40	Mys: 5
 left half of a heart necklace	10	none
 lucky Crimbo tiki necklace	10	none
@@ -1574,6 +1576,7 @@ orange glowstick	20	none
 orange leather lanyard	30	none
 oven mitts	45	Mys: 7
 pacifier necklace	150	Mox: 60
+pair of pearidot earrings	0	none
 paperclip cape	50	none
 paperclip-on tie	50	none
 pat-a-cake pendant	10	none
@@ -1667,6 +1670,7 @@ stainless steel suspenders	90	Mys: 30
 stick-on eyebrow piercing	10	none
 sticky gloves	70	none
 stinky cheese eye	0	none
+strawberyl necklace	0	none
 streetfighting champion's belt	100	Mus: 35
 string of blue beads	10	none
 string of green beads	10	none
@@ -1805,6 +1809,7 @@ tiny plastic whitesnake	10	none
 tiny plastic zmobie	10	none
 torquoise ring	40	none
 tortoboggan	90	Mox: 30
+tourmalime tourniquet	0	none
 toy crazy train	60	Mys: 15
 toy jet pack	175	Mys: 72
 toy maglev monorail	60	Mys: 15

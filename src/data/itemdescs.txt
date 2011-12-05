@@ -5379,11 +5379,11 @@
 5378
 5379
 5380	375928160	lollistick.gif	lollipop stick
-5381
-5382
-5383
-5384
-5385
+5381	951513573	bananagate.gif	bananagate
+5382	503470795	pearidot.gif	pearidot
+5383	900074095	tourmalime.gif	tourmalime
+5384	419192304	kumquartz.gif	kumquartz
+5385	789780419	strawberyl.gif	strawberyl
 5386	275806098	weightbelt.gif	ridiculous belt
 5387	567577000	ridicring.gif	ridiculous earring
 5388	882790882	ridicshades.gif	ridiculous sunglasses	pairs of ridiculous sunglasses
@@ -5411,6 +5411,16 @@
 5410	225646375	pep_drink2.gif	Mint Yulep
 5411	410538513	pep_drink2.gif	Crimbojito
 5412	520908403	pep_drink3.gif	Sangria de Menthe
-5413
+5413	136515861	powder.gif	candycaine powder
 5414
 5415	550695829	licoriceroot.gif	licorice root
+5416	274700194	supersucker.gif	banana supersucker
+5417	474023121	supersucker.gif	pear supersucker
+5418	469652084	supersucker.gif	lime supersucker
+5419	430433240	supersucker.gif	kumquat supersucker
+5420	925046310	supersucker.gif	strawberry supersucker
+5421	598547177	bananabangle.gif	bananarama bangle
+5422	701126695	pearrings.gif	pair of pearidot earrings
+5423	343653658	tourmiquet.gif	tourmalime tourniquet
+5424	620792494	quartzring.gif	kumquartz ring
+5425	331568009	berylnecklace.gif	strawberyl necklace
