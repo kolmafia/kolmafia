@@ -2047,8 +2047,14 @@ public abstract class ChoiceManager
 		// Gingerbread Homestead
 		new ChoiceAdventure(
 			"The Candy Diorama", "choiceAdventure557", "Gingerbread Homestead",
-			new String[] { "get candies", "licorice root", "skip adventure" },
-			new String[] { null, "5415", null } ),
+			new String[] { "get candies", "licorice root", "skip adventure or make a lollipop stick item" },
+			new String[] { null, "5415", "5380" } ),
+
+		// Tool Time
+		new ChoiceAdventure(
+			"The Candy Diorama", "choiceAdventure558", "Tool Time",
+			new String[] { "sucker bucket", "sucker kabuto", "sucker hakama", "sucker tachi", "sucker scaffold", "skip adventure" },
+			new String[] { "5426", "5428", "5427", "5429", "5430", null } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -3653,6 +3659,15 @@ public abstract class ChoiceManager
 				}
 			}
 			break;
+
+		case 558:
+			// Tool Time
+			if ( text.indexOf( "You acquire an item" ) != -1 )
+			{
+				int amount = 3 + ChoiceManager.lastDecision;
+				ResultProcessor.processItem( ItemPool.LOLLIPOP_STICK, -amount );
+			}
+			break;
 		}
 
 		if ( ChoiceManager.initializeAfterChoice && text.indexOf( "choice.php" ) == -1 )
@@ -4628,6 +4643,27 @@ public abstract class ChoiceManager
 				return "6";
 			}
 			return InventoryManager.getCount( item ) > 0 ? decision : "6";
+
+		// Tool Time
+		case 558:
+
+			// Choices appear depending on whether
+			// you have enough lollipop sticks
+
+			// 1 - sucker bucket (4 lollipop sticks)
+			// 2 - sucker kabuto (5 lollipop sticks)
+			// 3 - sucker hakama (6 lollipop sticks)
+			// 4 - sucker tachi (7 lollipop sticks)
+			// 5 - sucker scaffold (8 lollipop sticks)
+			// 6 - skip adventure
+
+			if ( decision.equals( "0" ) || decision.equals( "6" ) )
+			{
+				return decision;
+			}
+
+			int amount = 3 + StringUtilities.parseInt( decision );
+			return InventoryManager.getCount( ItemPool.LOLLIPOP_STICK ) >= amount ? decision : "6";
 		}
 
 		return decision;
