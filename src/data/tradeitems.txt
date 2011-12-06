@@ -5432,3 +5432,8 @@
 5423	tourmalime tourniquet	accessory	all	500
 5424	kumquartz ring	accessory	all	500
 5425	strawberyl necklace	accessory	all	500
+5426	sucker bucket	offhand	display	300
+5427	sucker hakama	pants	display	300
+5428	sucker kabuto	hat	display	300
+5429	sucker tachi	weapon	display	300
+5430	sucker scaffold	none	all	0

@@ -206,6 +206,7 @@ stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
 stone baseball cap	195	Mox: 82
 straw hat	200	Mox: 85
+sucker kabuto	50	none
 sugar chapeau	100	none
 superhero mask	10	none
 tattered paper crown	60	Mus: 15
@@ -375,6 +376,7 @@ sticky meat pants	45	Mox: 7
 sticky meat skirt	45	Mox: 7
 stinky cheese diaper	100	none
 studded leather boxer shorts	20	none
+sucker hakama	50	none
 sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
 tighty whiteys	40	Mox: 5
@@ -917,6 +919,7 @@ stuffed crazy bastard sword	10	Mus: 0	1-handed sword
 styrofoam crossbow	60	Mox: 15	2-handed crossbow
 styrofoam staff	60	Mus: 15	2-handed staff
 styrofoam sword	60	Mus: 15	1-handed sword
+sucker tachi	50	Mus: 0	1-handed
 suede shortsword	40	Mus: 5	1-handed sword
 sugar shank	100	Mus: 0	1-handed knife
 sugar shillelagh	100	Mus: 0	2-handed club
@@ -1240,6 +1243,7 @@ stuffed undead elbow macaroni	10	none
 stuffed yeti	10	none
 stuffed yo-yo	10	none
 stuffed zmobie	10	none
+sucker bucket	0	none
 teflon shield	220	Mus: 85	shield
 thought balloon	10	none
 tiny black hole	10	none
