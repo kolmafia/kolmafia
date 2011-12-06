@@ -740,6 +740,7 @@ frozen seal spine	140	Mus: 55	1-handed club
 ga-ga radio	125	Mox: 47	2-handed radio
 gatorskin umbrella	140	Mus: 100	1-handed umbrella
 giant cactus quill	160	Mus: 65	1-handed spear
+giant candy cane	100	Mus: 0	2-handed staff
 giant cheesestick	120	Mus: 45	2-handed staff
 giant discarded plastic fork	155	Mus: 62	3-handed staff
 giant driftwood sculpture	190	Mus: 80	2-handed flail
@@ -919,7 +920,7 @@ stuffed crazy bastard sword	10	Mus: 0	1-handed sword
 styrofoam crossbow	60	Mox: 15	2-handed crossbow
 styrofoam staff	60	Mus: 15	2-handed staff
 styrofoam sword	60	Mus: 15	1-handed sword
-sucker tachi	50	Mus: 0	1-handed
+sucker tachi	50	Mus: 0	1-handed 
 suede shortsword	40	Mus: 5	1-handed sword
 sugar shank	100	Mus: 0	1-handed knife
 sugar shillelagh	100	Mus: 0	2-handed club
@@ -1306,8 +1307,8 @@ Gaia beads	175	Mys: 72
 Garter of the Turtle Poacher	150	Mus: 45
 Golden Mr. Accessory	0	none
 Gravyskin Belt of the Sauceblob	150	Mys: 45
-Green Clover of Justice	200	Mys: 85
 Great S-Cape	10	none
+Green Clover of Justice	200	Mys: 85
 Grimacite galoshes	0	Mys: 17
 Grimacite garter	0	Mys: 17
 Grimacite gauntlets	0	Mys: 15
@@ -1328,6 +1329,7 @@ Jolly Roger charrrm bracelet	70	Mys: 20
 Juju Mojo Mask	100	none
 Junior Adventurer's merit badge	0	none
 Junior LAAAAME merit badge	0	none
+KoL Con 8-Bit power bracelet	0	
 LWA ring	10	none
 La Hebilla del Cintur&oacute;n de Lopez	150	Mox: 45
 Lead Zeta of Chastity	200	Mys: 85
@@ -1342,7 +1344,7 @@ MagiMechTech NanoMechaMech	60	Mys: 15
 Marvelous Unitard	10	none
 Mega Gem	10	none
 Mer-kin prayerbeads	200	Mys: 85
-Mesmereyes&trade; contact lenses	0	Mys: 200
+Mesmereyes&trade; contact lenses	200	Mys: 200
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
 Mr. Eh?	0	none
@@ -1477,7 +1479,7 @@ continuum transfunctioner	10	none
 copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 crusty hula hoop	200	Mys: 200
-cursed scrunchie	0	Mys: 200
+cursed scrunchie	200	Mys: 200
 cyborg stompin' boot	150	Mus: 60
 dead guy's memento	200	Mys: 200
 dead guy's watch	50	Mys: 10

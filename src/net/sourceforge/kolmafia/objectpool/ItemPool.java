@@ -1368,6 +1368,8 @@ public class ItemPool
 	public static final int CRIMBCO_MANUAL_5_USED = 5366;
 	public static final int SKELETON_BOOK_USED = 5367;
 	public static final int ELLSBURY_BOOK_USED = 5368;
+	public static final int PEPPERMINT_SPROUT = 5395;
+	public static final int GIANT_CANDY_CANE = 5402;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

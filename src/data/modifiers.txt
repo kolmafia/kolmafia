@@ -263,7 +263,7 @@ stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent
 star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
 stone baseball cap	Damage Reduction: 10, Weapon Damage: +15, Muscle: -10, Familiar Effect: "1xVolley, cap 48"
 straw hat	Item Drop: +10, Food Drop: +15, Booze Drop: +15, Familiar Effect: "??"
-sucker hakama	Damage Reduction: 5
+sucker kabuto	Damage Reduction: 5
 sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "atk, 2xVolley, 2xLep, cap 25"
 superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "?xLep, ?xFairy, cap 2"
 tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
@@ -827,6 +827,7 @@ frozen seal spine	Cold Damage: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen 
 ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
 giant cactus quill	Critical: 3, Maximum HP: +30
+giant candy cane	Candy Drop: +40
 giant cheesestick	Mysticality: +5, Sleaze Spell Damage: +11
 giant discarded plastic fork	Critical: 2, Initiative: -10
 giant driftwood sculpture	Moxie: +8, Weapon Damage: +15

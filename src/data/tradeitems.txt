@@ -5408,7 +5408,7 @@
 5399	peppermint rhino baby	grow	all	0
 5400
 5401	peppermint parasol	none, combat reusable	all	0
-5402
+5402	giant candy cane	weapon	all	0
 5403	Mint Salton Pepper's Peppermint Seed Catalog	usable	all	0
 5404	Peppermint Pip Packet	usable	display	0
 5405	cane-mail shirt	shirt	all	500
