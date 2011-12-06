@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -131,6 +132,9 @@ public class ChatFrame
 				this.setTitle( "private to " + associatedContact );
 			}
 		}
+
+		this.setFocusCycleRoot( true );
+		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.mainPanel ) );
 	}
 
 	public JToolBar getToolbar()
@@ -235,6 +239,7 @@ public class ChatFrame
 			this.add( buffer.addDisplay( this.chatDisplay ), BorderLayout.CENTER );
 
 			this.add( entryPanel, BorderLayout.SOUTH );
+			this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.entryField ) );
 		}
 
 		public String getAssociatedContact()
@@ -250,30 +255,6 @@ public class ChatFrame
 			}
 
 			return this.entryField.hasFocus() || this.chatDisplay.hasFocus();
-		}
-
-		public void requestFocus()
-		{
-			super.requestFocus();
-			this.entryField.requestFocusInWindow();
-		}
-
-		public boolean requestFocus( final boolean temporary )
-		{
-			super.requestFocus( temporary );
-			return this.entryField.requestFocusInWindow();
-		}
-
-		public boolean requestFocusInWindow()
-		{
-			super.requestFocusInWindow();
-			return this.entryField.requestFocusInWindow();
-		}
-
-		public boolean requestFocusInWindow( final boolean temporary )
-		{
-			super.requestFocusInWindow( temporary );
-			return this.entryField.requestFocusInWindow();
 		}
 
 		/**
@@ -372,48 +353,6 @@ public class ChatFrame
 	public boolean hasFocus()
 	{
 		return super.hasFocus() || this.mainPanel != null && this.mainPanel.hasFocus();
-	}
-
-	public void requestFocus()
-	{
-		super.requestFocus();
-		if ( this.mainPanel != null )
-		{
-			this.mainPanel.requestFocusInWindow();
-		}
-	}
-
-	public boolean requestFocus( final boolean temporary )
-	{
-		super.requestFocus( temporary );
-		if ( this.mainPanel != null )
-		{
-			return this.mainPanel.requestFocusInWindow();
-		}
-
-		return false;
-	}
-
-	public boolean requestFocusInWindow()
-	{
-		super.requestFocusInWindow();
-		if ( this.mainPanel != null )
-		{
-			return this.mainPanel.requestFocusInWindow();
-		}
-
-		return false;
-	}
-
-	public boolean requestFocusInWindow( final boolean temporary )
-	{
-		super.requestFocusInWindow( temporary );
-		if ( this.mainPanel != null )
-		{
-			return this.mainPanel.requestFocusInWindow();
-		}
-
-		return false;
 	}
 
 	/**

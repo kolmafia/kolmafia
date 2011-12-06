@@ -705,31 +705,4 @@ public class CloseableTabbedPane
 	{
 		return false;
 	}
-
-	public final void requestFocus()
-	{
-		super.requestFocus();
-		this.transferFocus();
-	}
-
-	public final boolean requestFocus( boolean temporary )
-	{
-		super.requestFocus( temporary );
-		this.transferFocus();
-		return false;
-	}
-
-	public final boolean requestFocusInWindow()
-	{
-		super.requestFocusInWindow();
-		this.transferFocus();
-		return false;
-	}
-
-	public final boolean requestFocusInWindow( boolean temporary )
-	{
-		super.requestFocusInWindow( temporary );
-		this.transferFocus();
-		return false;
-	}
 }

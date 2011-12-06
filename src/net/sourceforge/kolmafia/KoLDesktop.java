@@ -83,8 +83,6 @@ public class KoLDesktop
 	extends GenericFrame
 	implements CloseListener
 {
-	private static final DisplayDesktopFocusRunnable FOCUSER = new DisplayDesktopFocusRunnable();
-
 	private final MinimizeListener minimizeListener = new MinimizeListener();
 	private static KoLDesktop INSTANCE = null;
 	private static boolean isInitializing = false;
@@ -328,30 +326,10 @@ public class KoLDesktop
 		return content instanceof AdventureFrame || content instanceof FlowerHunterFrame || content instanceof SendMessageFrame;
 	}
 
-	public static final void displayDesktop()
-	{
-		KoLDesktop.getInstance();
-
-		try
-		{
-			if ( SwingUtilities.isEventDispatchThread() )
-			{
-				FOCUSER.run();
-			}
-			else
-			{
-				SwingUtilities.invokeAndWait( FOCUSER );
-			}
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
 	public void pack()
 	{
 		super.pack();
+
 		if ( this.tabs.getTabCount() > 0 )
 		{
 			this.tabs.setSelectedIndex( 0 );

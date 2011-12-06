@@ -186,7 +186,7 @@ public abstract class SystemTrayFrame
 	public static final void showDisplay()
 	{
 		KoLmafiaGUI.checkFrameSettings();
-		KoLDesktop.displayDesktop();
+		KoLDesktop.getInstance().setVisible( true );
 	}
 
 	private static abstract class ThreadedTrayIconPopupSimpleItem
