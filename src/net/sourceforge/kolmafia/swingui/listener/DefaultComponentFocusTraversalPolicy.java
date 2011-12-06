@@ -23,7 +23,10 @@ public class DefaultComponentFocusTraversalPolicy
 
 	public void setComparator( Comparator c )
 	{
-		super.setComparator( new DefaultComponentFirstComparator( c ) );
+		if ( c != null )
+		{
+			super.setComparator( new DefaultComponentFirstComparator( c ) );
+		}
 	}
 
 	public Component getDefaultComponent( Container container )
@@ -51,6 +54,11 @@ public class DefaultComponentFocusTraversalPolicy
 		public int compare( Object o1, Object o2 )
 		{
 			Component defaultComponent = (Component) DefaultComponentFocusTraversalPolicy.this.component.get();
+
+			if ( defaultComponent == null )
+			{
+				return this.parent.compare( o1, o2 );
+			}
 
 			int compare1 = this.parent.compare( o1, defaultComponent );
 			int compare2 = this.parent.compare( o2, defaultComponent );
