@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import com.sun.java.forums.CloseableTabbedPane;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 
@@ -154,6 +155,11 @@ public class KoLDesktop
 	public boolean showInWindowMenu()
 	{
 		return false;
+	}
+
+	public Component getDefaultFocusComponent()
+	{
+		return this.tabs;
 	}
 
 	public JTabbedPane getTabbedPane()

@@ -165,16 +165,9 @@ public abstract class GenericFrame
 		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( getDefaultFocusComponent() ) );
 	}
 
-	public JComponent getDefaultFocusComponent()
+	public Component getDefaultFocusComponent()
 	{
-		if ( this.tabs != null )
-		{
-			return this.tabs;
-		}
-		else
-		{
-			return this.framePanel;
-		}
+		return this.framePanel;
 	}
 
 	public JPanel getFramePanel()
