@@ -85,6 +85,7 @@ public class KoLDesktop
 {
 	private static final DisplayDesktopFocusRunnable FOCUSER = new DisplayDesktopFocusRunnable();
 
+	private final MinimizeListener minimizeListener = new MinimizeListener();
 	private static KoLDesktop INSTANCE = null;
 	private static boolean isInitializing = false;
 
@@ -104,7 +105,7 @@ public class KoLDesktop
 
 		if ( StaticEntity.usesSystemTray() )
 		{
-			this.addWindowListener( new MinimizeListener() );
+			this.addWindowListener( minimizeListener );
 		}
 
 		this.getContentPane().setLayout( new BorderLayout() );
@@ -227,6 +228,8 @@ public class KoLDesktop
 
 	public void dispose()
 	{
+		this.removeWindowListener( minimizeListener );
+
 		if ( Preferences.getBoolean( "rememberDesktopSize" ) )
 		{
 			Dimension tempDim = this.getSize();
