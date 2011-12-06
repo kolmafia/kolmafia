@@ -215,7 +215,6 @@ public class TabbedChatFrame
 			}
 
 			tabs.insertTab( this.tabName, null, createdPanel, "", tabIndex );
-			createdPanel.requestFocusInWindow();
 		}
 
 		private int getTabOrder( final String tabName )

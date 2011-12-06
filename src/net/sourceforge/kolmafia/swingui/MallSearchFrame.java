@@ -58,19 +58,15 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-
+import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MallSearchFrame
@@ -151,6 +147,9 @@ public class MallSearchFrame
 			this.add( new SearchResultsPanel(), BorderLayout.CENTER );
 			MallSearchFrame.this.currentlySearching = false;
 			MallSearchFrame.this.currentlyBuying = false;
+
+			this.setFocusCycleRoot( true );
+			this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.searchField ) );
 		}
 
 		public void actionConfirmed()
@@ -227,30 +226,6 @@ public class MallSearchFrame
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 			MallSearchFrame.this.currentlyBuying = false;
-		}
-
-		public void requestFocus()
-		{
-			super.requestFocus();
-			this.searchField.requestFocus();
-		}
-
-		public boolean requestFocus( boolean temporary )
-		{
-			super.requestFocus( temporary );
-			return this.searchField.requestFocusInWindow();
-		}
-
-		public boolean requestFocusInWindow()
-		{
-			super.requestFocusInWindow();
-			return this.searchField.requestFocusInWindow();
-		}
-
-		public boolean requestFocusInWindow( boolean temporary )
-		{
-			super.requestFocusInWindow( temporary );
-			return this.searchField.requestFocusInWindow();
 		}
 	}
 

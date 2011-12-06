@@ -38,6 +38,7 @@ import java.awt.BorderLayout;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
@@ -46,9 +47,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
-
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -64,14 +63,24 @@ public class CommandDisplayFrame
 		CommandDisplayFrame.handler.start();
 	}
 
-	private CommandDisplayPanel commandPanel;
-
 	public CommandDisplayFrame()
 	{
 		super( "Graphical CLI" );
 
-		this.commandPanel = new CommandDisplayPanel();
-		this.framePanel.add( commandPanel, BorderLayout.CENTER );
+	}
+
+	public JPanel getFramePanel()
+	{
+		CommandDisplayPanel commandPanel = new CommandDisplayPanel();
+
+		if ( GenericFrame.appearsInTab( "CommandDisplayFrame" ) )
+		{
+			return commandPanel;
+		}
+		
+		JPanel framePanel = new JPanel( new BorderLayout( 0, 0 ) );
+		framePanel.add( commandPanel, BorderLayout.CENTER );
+		return framePanel;
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -87,30 +96,6 @@ public class CommandDisplayFrame
 	public boolean useSidePane()
 	{
 		return true;
-	}
-
-	public void requestFocus()
-	{
-		super.requestFocus();
-		this.commandPanel.requestFocus();
-	}
-
-	public boolean requestFocus( boolean temporary )
-	{
-		super.requestFocus( temporary );
-		return this.commandPanel.requestFocus( temporary );
-	}
-
-	public boolean requestFocusInWindow()
-	{
-		super.requestFocusInWindow();
-		return this.commandPanel.requestFocusInWindow();
-	}
-
-	public boolean requestFocusInWindow( boolean temporary )
-	{
-		super.requestFocusInWindow( temporary );
-		return this.commandPanel.requestFocusInWindow( temporary );
 	}
 
 	public static final boolean hasQueuedCommands()

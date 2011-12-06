@@ -17,14 +17,11 @@ import javax.swing.JScrollPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
-
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
-
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
-
+import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
-
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public class CommandDisplayPanel
@@ -57,30 +54,9 @@ public class CommandDisplayPanel
 		this.setLayout( new BorderLayout( 1, 1 ) );
 		this.add( scrollPane, BorderLayout.CENTER );
 		this.add( entryPanel, BorderLayout.SOUTH );
-	}
 
-	public void requestFocus()
-	{
-		super.requestFocus();
-		this.entryField.requestFocusInWindow();
-	}
-
-	public boolean requestFocus( boolean temporary )
-	{
-		super.requestFocus( temporary );
-		return this.entryField.requestFocusInWindow();
-	}
-
-	public boolean requestFocusInWindow()
-	{
-		super.requestFocusInWindow();
-		return this.entryField.requestFocusInWindow();
-	}
-
-	public boolean requestFocusInWindow( boolean temporary )
-	{
-		super.requestFocusInWindow( temporary );
-		return this.entryField.requestFocusInWindow();
+		this.setFocusCycleRoot( true );
+		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.entryField ) );
 	}
 
 	private class CommandEntryListener

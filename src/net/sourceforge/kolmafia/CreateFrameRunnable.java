@@ -146,7 +146,7 @@ public class CreateFrameRunnable
 
 			if ( appearsInTab && !KoLDesktop.isInitializing() )
 			{
-				KoLDesktop.displayDesktop();
+				KoLDesktop.getInstance().setVisible( true );
 			}
 
 			RequestLogger.updateDebugLog( "Loading window: " + searchString );
@@ -220,7 +220,6 @@ public class CreateFrameRunnable
 		else
 		{
 			this.creation.setVisible( true );
-			this.creation.requestFocus();
 		}
 
 		JFrame frame = this.creation;

@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
@@ -70,6 +71,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
@@ -127,7 +129,7 @@ public abstract class GenericFrame
 		this.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 
 		this.tabs = this.getTabbedPane();
-		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
+		this.framePanel = this.getFramePanel();
 
 		this.frameName = this.getClass().getName();
 		this.frameName = this.frameName.substring( this.frameName.lastIndexOf( "." ) + 1 );
@@ -138,15 +140,16 @@ public abstract class GenericFrame
 			JComponentUtilities.setComponentSize( statusBar, new Dimension( 200, 50 ) );
 
 			JSplitPane doublePane =
-				new JSplitPane( JSplitPane.VERTICAL_SPLIT, new GenericScrollPane( this.framePanel ), statusBar );
-			this.getContentPane().add( doublePane, BorderLayout.CENTER );
+				new JSplitPane( JSplitPane.VERTICAL_SPLIT, new GenericScrollPane( framePanel ), statusBar );
+
+			this.setContentPane( doublePane );
 
 			doublePane.setOneTouchExpandable( true );
 			doublePane.setDividerLocation( 0.9 );
 		}
 		else
 		{
-			this.getContentPane().add( this.framePanel, BorderLayout.CENTER );
+			this.setContentPane( framePanel );
 		}
 
 		this.menuBar = new GlobalMenuBar();
@@ -157,6 +160,26 @@ public abstract class GenericFrame
 		{
 			KoLConstants.existingFrames.add( this.getFrameName() );
 		}
+
+		this.setFocusCycleRoot( true );
+		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( getDefaultFocusComponent() ) );
+	}
+
+	public JComponent getDefaultFocusComponent()
+	{
+		if ( this.tabs != null )
+		{
+			return this.tabs;
+		}
+		else
+		{
+			return this.framePanel;
+		}
+	}
+
+	public JPanel getFramePanel()
+	{
+		return new JPanel( new BorderLayout( 0, 0 ) );
 	}
 
 	public boolean shouldAddStatusBar()
@@ -294,30 +317,6 @@ public abstract class GenericFrame
 		}
 
 		super.setTitle( this.lastTitle + " (" + username + ")" );
-	}
-
-	public void requestFocus()
-	{
-		super.requestFocus();
-		this.framePanel.requestFocusInWindow();
-	}
-
-	public boolean requestFocus( boolean temporary )
-	{
-		super.requestFocus( temporary );
-		return this.framePanel.requestFocusInWindow();
-	}
-
-	public boolean requestFocusInWindow()
-	{
-		super.requestFocusInWindow();
-		return this.framePanel.requestFocusInWindow();
-	}
-
-	public boolean requestFocusInWindow( boolean temporary )
-	{
-		super.requestFocusInWindow( temporary );
-		return this.framePanel.requestFocusInWindow();
 	}
 
 	public boolean useSidePane()
@@ -569,11 +568,18 @@ public abstract class GenericFrame
 			this.rememberPosition();
 		}
 
-		if ( isVisible && !SwingUtilities.isEventDispatchThread() )
+		if ( isVisible )
 		{
 			try
 			{
-				SwingUtilities.invokeAndWait( this );
+				if ( SwingUtilities.isEventDispatchThread() )
+				{
+					this.run();
+				}
+				else
+				{
+					SwingUtilities.invokeAndWait( this );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -582,13 +588,7 @@ public abstract class GenericFrame
 		}
 		else
 		{
-			super.setVisible( isVisible );
-
-			if ( isVisible )
-			{
-				super.setExtendedState( Frame.NORMAL );
-				super.repaint();
-			}
+			super.setVisible( false );
 		}
 	}
 
@@ -766,5 +766,4 @@ public abstract class GenericFrame
 			LogoutManager.logout();
 		}
 	}
-
 }

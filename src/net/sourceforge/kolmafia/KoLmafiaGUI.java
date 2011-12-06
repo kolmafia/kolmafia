@@ -165,7 +165,7 @@ public class KoLmafiaGUI
 		{
 			if ( !Preferences.getBoolean( "relayBrowserOnly" ) )
 			{
-				KoLDesktop.displayDesktop();
+				KoLDesktop.getInstance().setVisible( true );
 			}
 		}
 
