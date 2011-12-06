@@ -157,6 +157,11 @@ public class KoLDesktop
 		return false;
 	}
 
+	public boolean shouldAddStatusBar()
+	{
+		return false;
+	}
+
 	public Component getDefaultFocusComponent()
 	{
 		return this.tabs;
