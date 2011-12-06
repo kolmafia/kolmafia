@@ -372,6 +372,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "now_to_string", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "format_dtg", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "gameday_to_string", DataTypes.STRING_TYPE, params ) );
 
@@ -2023,10 +2026,29 @@ public abstract class RuntimeLibrary
 	public static Value now_to_string( Value dateFormatValue )
 	{
 		Calendar timestamp = new GregorianCalendar();
-
 		SimpleDateFormat dateFormat = new SimpleDateFormat( dateFormatValue.toString() );
-
 		return new Value( dateFormat.format( timestamp.getTime() ) );
+	}
+
+	public static Value format_dtg( Value inFormat, Value dtgString, Value outFormat )
+	{
+		Date inDate = null;
+		SimpleDateFormat dateFormat = null;
+		Value retVal = null;
+
+		try
+		{
+			dateFormat = new SimpleDateFormat( inFormat.toString() );
+			inDate = dateFormat.parse( dtgString.toString() );
+			dateFormat= new SimpleDateFormat( outFormat.toString() );
+			retVal = new Value( dateFormat.format( inDate ) );
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			retVal = new Value( "Bad parameter(s) passed to format_dtg" );
+		}
+		return retVal;
 	}
 
 	public static Value gameday_to_string()
