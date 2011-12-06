@@ -1111,7 +1111,7 @@ public class ItemDatabase
 		ItemDatabase.parseItemDescription( id, itemName, power );
 	}
 
-	private static void parseItemDescription( final Integer id, final String itemName, final int power )
+	private static void parseItemDescription( final Integer id, final String itemName, int power )
 	{
 		String descId = ItemDatabase.getDescriptionId( id );
 		int itemId = id.intValue();
@@ -1159,6 +1159,12 @@ public class ItemDatabase
 		if ( EquipmentDatabase.isEquipment( usage ) )
 		{
 			EquipmentDatabase.newEquipment = true;
+
+			// Get power from description, if otherwise unknown
+			if ( power == 0 )
+			{
+				power = DebugDatabase.parsePower( text );
+			}
 
 			// Let equipment database do what it wishes with this item
 			EquipmentDatabase.registerItem( itemId, itemName, text, power );

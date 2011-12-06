@@ -118,6 +118,8 @@ public class CampgroundRequest
 		ItemPool.PUMPKIN,
 		ItemPool.HUGE_PUMPKIN,
 		ItemPool.GINORMOUS_PUMPKIN,
+		ItemPool.PEPPERMINT_SPROUT,
+		ItemPool.GIANT_CANDY_CANE,
 
 		// Outside dwelling
 		ItemPool.BARBED_FENCE,
@@ -137,12 +139,16 @@ public class CampgroundRequest
 	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
 	public static final AdventureResult HUGE_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
 	public static final AdventureResult GINORMOUS_PUMPKIN = ItemPool.get( ItemPool.GINORMOUS_PUMPKIN, 1 );
+	public static final AdventureResult PEPPERMINT_SPROUT = ItemPool.get( ItemPool.PEPPERMINT_SPROUT, 1 );
+	public static final AdventureResult GIANT_CANDY_CANE = ItemPool.get( ItemPool.GIANT_CANDY_CANE, 1 );
 
 	public static final AdventureResult [] CROPS =
 	{
 		CampgroundRequest.PUMPKIN,
 		CampgroundRequest.HUGE_PUMPKIN,
 		CampgroundRequest.GINORMOUS_PUMPKIN,
+		CampgroundRequest.PEPPERMINT_SPROUT,
+		CampgroundRequest.GIANT_CANDY_CANE,
 	};
 
 	public static void reset()
@@ -283,6 +289,7 @@ public class CampgroundRequest
 		{
 			KoLConstants.campground.remove( i );
 			CampgroundRequest.setCampgroundItem( ItemPool.PUMPKIN, 0 );
+			CampgroundRequest.setCampgroundItem( ItemPool.PEPPERMINT_SPROUT, 0 );
 		}
 	}
 
@@ -461,6 +468,12 @@ public class CampgroundRequest
 		findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4 );
 		findImage( responseText, "pumpkinpatch_giant.gif", ItemPool.HUGE_PUMPKIN, 1 );
 		findImage( responseText, "pumpkinpatch_ginormous.gif", ItemPool.GINORMOUS_PUMPKIN, 1 );
+		findImage( responseText, "pepperpatch_0.gif", ItemPool.PEPPERMINT_SPROUT, 0 );
+		findImage( responseText, "pepperpatch_1.gif", ItemPool.PEPPERMINT_SPROUT, 3 );
+		findImage( responseText, "pepperpatch_2.gif", ItemPool.PEPPERMINT_SPROUT, 6 );
+		findImage( responseText, "pepperpatch_3.gif", ItemPool.PEPPERMINT_SPROUT, 9 );
+		findImage( responseText, "pepperpatch_4.gif", ItemPool.PEPPERMINT_SPROUT, 12 );
+		findImage( responseText, "pepperpatch_huge.gif", ItemPool.GIANT_CANDY_CANE, 12 );
 	}
 
 	private static final void parseDwelling( final String responseText )

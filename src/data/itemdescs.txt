@@ -5400,7 +5400,7 @@
 5399	705620213	pep_rhinobaby.gif	peppermint rhino baby
 5400
 5401	642836578	pep_parasol.gif	peppermint parasol
-5402
+5402	863307943	pep_bigcane.gif	giant candy cane
 5403	396103418	pep_catalog.gif	Mint Salton Pepper's Peppermint Seed Catalog
 5404	324668304	pep_seeds.gif	Peppermint Pip Packet
 5405	437592748	pep_shirt.gif	cane-mail shirt
