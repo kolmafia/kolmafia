@@ -473,7 +473,7 @@ public class CampgroundRequest
 		findImage( responseText, "pepperpatch_2.gif", ItemPool.PEPPERMINT_SPROUT, 6 );
 		findImage( responseText, "pepperpatch_3.gif", ItemPool.PEPPERMINT_SPROUT, 9 );
 		findImage( responseText, "pepperpatch_4.gif", ItemPool.PEPPERMINT_SPROUT, 12 );
-		findImage( responseText, "pepperpatch_huge.gif", ItemPool.GIANT_CANDY_CANE, 12 );
+		findImage( responseText, "pepperpatch_huge.gif", ItemPool.GIANT_CANDY_CANE, 1 );
 	}
 
 	private static final void parseDwelling( final String responseText )

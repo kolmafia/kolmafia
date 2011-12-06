@@ -5412,7 +5412,7 @@
 5411	410538513	pep_drink2.gif	Crimbojito
 5412	520908403	pep_drink3.gif	Sangria de Menthe
 5413	136515861	powder.gif	candycaine powder
-5414
+5414	331298512	pep_boa.gif	licorice boa
 5415	550695829	licoriceroot.gif	licorice root
 5416	274700194	supersucker.gif	banana supersucker
 5417	474023121	supersucker.gif	pear supersucker

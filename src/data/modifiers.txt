@@ -2130,6 +2130,7 @@ ittah bittah hookah	Familiar Weight: +5, Generic
 jalape&ntilde;o slices	Meat Drop: +60.9
 kitty sheet music	Familiar Weight: +5
 lead necklace	Familiar Weight: +3, Generic
+licorice boa	Familiar Weight: +5
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
 little box of fireworks	Familiar Weight: +5, Experience: +1.5, Item Drop (sporadic): +12.5, Softcore Only, Generic
