@@ -2057,6 +2057,9 @@ public class ItemDatabase
 		case ItemPool.BRICKO_OCTOPUS:
 		case ItemPool.BRICKO_PYTHON:
 		case ItemPool.BRICKO_VACUUM_CLEANER:
+		case ItemPool.BRICKO_AIRSHIP:
+		case ItemPool.BRICKO_CATHEDRAL:
+		case ItemPool.BRICKO_CHICKEN:
 			return true;
 		}
 		return false;
