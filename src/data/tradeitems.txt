@@ -5420,7 +5420,7 @@
 5411	Crimbojito	drink	all	0
 5412	Sangria de Menthe	drink	all	0
 5413	candycaine powder	none, combat	all	25
-5414
+5414	licorice boa	familiar	all	75
 5415	licorice root	usable	all	0
 5416	banana supersucker	usable	all	400
 5417	pear supersucker	usable	all	400
