@@ -263,6 +263,7 @@ stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Percent
 star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
 stone baseball cap	Damage Reduction: 10, Weapon Damage: +15, Muscle: -10, Familiar Effect: "1xVolley, cap 48"
 straw hat	Item Drop: +10, Food Drop: +15, Booze Drop: +15, Familiar Effect: "??"
+sucker hakama	Damage Reduction: 5
 sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "atk, 2xVolley, 2xLep, cap 25"
 superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "?xLep, ?xFairy, cap 2"
 tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
@@ -440,6 +441,7 @@ sticky meat pants	Moxie: +3, Familiar Effect: "1xPotato, cap 11"
 sticky meat skirt	Moxie: +3, Familiar Effect: "1xPotato, 3xFairy, cap 11"
 stinky cheese diaper	Softcore Only, Adventures: [max(1,min(10,floor(pref(_stinkyCheeseCount)/10)))], Familiar Effect: "stench atk, 1.5xVolley, cap 25"
 studded leather boxer shorts	Familiar Effect: "4xVolley, cap 5"
+sucker hakama	Damage Reduction: 5
 sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Familiar Effect: "2xVolley, 1xLep, cap 25"
 swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
 tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
@@ -1011,6 +1013,7 @@ stone banjo	Moxie: +1
 styrofoam crossbow	Moxie: +3, Monster Level: +3
 styrofoam staff	Mysticality: +3, Monster Level: +3
 styrofoam sword	Muscle: +3, Monster Level: +3
+sucker tachi	Weapon Damage: +10
 # suede shortsword
 sugar shank	Weapon Damage Percent: +50
 sugar shillelagh	Weapon Damage Percent: +50
@@ -1380,6 +1383,7 @@ stress ball	Maximum HP: +100, Maximum MP: +100
 # stuffed yeti
 # stuffed yo-yo
 # stuffed zmobie
+sucker bucket	Candy Drop: +50
 teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 # tiny black hole: Allows Pickpocketing
@@ -3492,6 +3496,7 @@ Slimesuit	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky
 Smoked Pottery	Hot Damage: +15
 Snowman Suit	Cold Damage: +15
 Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
+Sucker Samurai Suit	Damage Reduction: 10
 Swashbuckling Getup	Moxie: +7
 Tapered Threads	Initiative: +30
 Tawdry Tramp Togs	DB Combat Damage: +20, Class: "Disco Bandit"

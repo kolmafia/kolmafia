@@ -5424,3 +5424,8 @@
 5423	343653658	tourmiquet.gif	tourmalime tourniquet
 5424	620792494	quartzring.gif	kumquartz ring
 5425	331568009	berylnecklace.gif	strawberyl necklace
+5426	601641325	suckerbucket.gif	sucker bucket
+5427	304464963	suckerpants.gif	sucker hakama
+5428	734054556	suckerhat.gif	sucker kabuto
+5429	992372250	suckersword.gif	sucker tachi
+5430	153814169	suckerscaffold.gif	sucker scaffold
