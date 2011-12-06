@@ -373,7 +373,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "now_to_string", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "format_dtg", DataTypes.STRING_TYPE, params ) );
+		functions.add( new LibraryFunction( "format_date_time", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "gameday_to_string", DataTypes.STRING_TYPE, params ) );
@@ -2030,7 +2030,7 @@ public abstract class RuntimeLibrary
 		return new Value( dateFormat.format( timestamp.getTime() ) );
 	}
 
-	public static Value format_dtg( Value inFormat, Value dtgString, Value outFormat )
+	public static Value format_date_time( Value inFormat, Value dateTimeString, Value outFormat )
 	{
 		Date inDate = null;
 		SimpleDateFormat dateFormat = null;
@@ -2039,14 +2039,14 @@ public abstract class RuntimeLibrary
 		try
 		{
 			dateFormat = new SimpleDateFormat( inFormat.toString() );
-			inDate = dateFormat.parse( dtgString.toString() );
+			inDate = dateFormat.parse( dateTimeString.toString() );
 			dateFormat= new SimpleDateFormat( outFormat.toString() );
 			retVal = new Value( dateFormat.format( inDate ) );
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			retVal = new Value( "Bad parameter(s) passed to format_dtg" );
+			retVal = new Value( "Bad parameter(s) passed to format_date_time" );
 		}
 		return retVal;
 	}
