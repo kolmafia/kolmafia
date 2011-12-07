@@ -283,6 +283,11 @@ public class StringUtilities
 
 	public static final List getMatchingNames( final String[] names, String searchString )
 	{
+		if ( searchString == null )
+		{
+			searchString = "";
+		}
+
 		boolean isExactMatch = searchString.startsWith( "\"" );
 		List matchList = new ArrayList();
 
@@ -389,6 +394,16 @@ public class StringUtilities
 	public static final boolean substringMatches( final String source, final String substring,
 		final boolean checkBoundaries )
 	{
+		if ( source == null )
+		{
+			return false;
+		}
+
+		if ( substring == null || substring.length() == 0 )
+		{
+			return true;
+		}
+
 		int index = source.indexOf( substring );
 		if ( index == -1 )
 		{
@@ -405,6 +420,11 @@ public class StringUtilities
 
 	public static final boolean fuzzyMatches( final String sourceString, final String searchString )
 	{
+		if ( sourceString == null )
+		{
+			return false;
+		}
+
 		if ( searchString == null || searchString.length() == 0 )
 		{
 			return true;
@@ -499,6 +519,11 @@ public class StringUtilities
 	public static final String singleStringReplace( final String originalString, final String searchString,
 		final String replaceString )
 	{
+		if ( originalString == null )
+		{
+			return null;
+		}
+
 		// Using a regular expression, while faster, results
 		// in a lot of String allocation overhead.  So, use
 		// a static finally-allocated StringBuffers.
@@ -539,6 +564,11 @@ public class StringUtilities
 	public static final String globalStringReplace( final String originalString, final String searchString,
 		final String replaceString )
 	{
+		if ( originalString == null )
+		{
+			return null;
+		}
+
 		if ( searchString.equals( "" ) )
 		{
 			return originalString;
@@ -576,6 +606,11 @@ public class StringUtilities
 
 	public static final void globalStringReplace( final StringBuffer buffer, final String tag, String replaceWith )
 	{
+		if ( buffer == null )
+		{
+			return;
+		}
+
 		if ( tag.equals( "" ) )
 		{
 			return;
