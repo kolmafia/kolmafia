@@ -92,6 +92,12 @@ public class CharSheetFrame
 		JComponentUtilities.setComponentSize( this.framePanel, -1, 480 );
 	}
 
+	public void dispose()
+	{
+		KoLCharacter.removeCharacterListener( this.statusRefresher );
+		super.dispose();
+	}
+
 	public boolean useSidePane()
 	{
 		return true;
