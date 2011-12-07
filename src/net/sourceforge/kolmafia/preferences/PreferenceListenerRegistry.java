@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.preferences;
 
+import java.lang.ref.WeakReference;
+
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
@@ -57,7 +59,7 @@ public class PreferenceListenerRegistry
 			PreferenceListenerRegistry.listenerMap.put( name, list );
 		}
 
-		list.add( listener );
+		list.add( new WeakReference( listener ) );
 	}
 
 	public static final void registerCheckbox( final String name, final JCheckBox checkbox )
@@ -103,7 +105,15 @@ public class PreferenceListenerRegistry
 
 		while ( i.hasNext() )
 		{
-			PreferenceListener listener = (PreferenceListener) i.next();
+			WeakReference reference = (WeakReference) i.next();
+
+			PreferenceListener listener = (PreferenceListener) reference.get();
+
+			if ( listener == null )
+			{
+				i.remove();
+				continue;
+			}
 
 			if ( notified != null )
 			{
