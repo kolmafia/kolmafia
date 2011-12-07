@@ -602,6 +602,26 @@ public class UseItemRequest
 				return 0;
 			}
 			return Integer.MAX_VALUE;
+
+		case ItemPool.SLAPFIGHTING_BOOK:
+		case ItemPool.SLAPFIGHTING_BOOK_USED:
+		case ItemPool.UNCLE_ROMULUS:
+		case ItemPool.UNCLE_ROMULUS_USED:
+		case ItemPool.SNAKE_CHARMING_BOOK:
+		case ItemPool.SNAKE_CHARMING_BOOK_USED:
+		case ItemPool.ZU_MANNKASE_DIENEN:
+		case ItemPool.ZU_MANNKASE_DIENEN_USED:
+		case ItemPool.DYNAMITE_SUPERMAN_JONES:
+		case ItemPool.DYNAMITE_SUPERMAN_JONES_USED:
+		case ItemPool.INIGO_BOOK:
+		case ItemPool.INIGO_BOOK_USED:
+			String bookClass = UseItemRequest.itemToClass( itemId );
+			if ( !bookClass.equals( KoLCharacter.getClassType() ) )
+			{
+				UseItemRequest.limiter = "your class";
+				return 0;
+			}
+			return Integer.MAX_VALUE;
 		}
 
 		switch ( consumptionType )
@@ -2999,7 +3019,9 @@ public class UseItemRequest
 		{
 			int itemId = item.getItemId();
 			String skill = UseItemRequest.itemToSkill( itemId );
-			if ( skill == null || KoLCharacter.hasSkill( skill ) )
+			String bookClass = UseItemRequest.itemToClass( itemId );
+			boolean isRightClass = bookClass == null || bookClass.equals( KoLCharacter.getClassType() );
+			if ( skill == null || KoLCharacter.hasSkill( skill ) || !isRightClass )
 			{
 				if ( UseItemRequest.getConsumptionType( item ) != KoLConstants.INFINITE_USES )
 				{
@@ -4421,6 +4443,33 @@ public class UseItemRequest
 		case ItemPool.NECBRONOMICON:
 		case ItemPool.NECBRONOMICON_USED:
 			return "Summon &quot;Boner Battalion&quot;";
+		}
+
+		return null;
+	}
+
+	private static final String itemToClass( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.SLAPFIGHTING_BOOK:
+		case ItemPool.SLAPFIGHTING_BOOK_USED:
+			return KoLCharacter.SEAL_CLUBBER;
+		case ItemPool.UNCLE_ROMULUS:
+		case ItemPool.UNCLE_ROMULUS_USED:
+			return KoLCharacter.TURTLE_TAMER;
+		case ItemPool.SNAKE_CHARMING_BOOK:
+		case ItemPool.SNAKE_CHARMING_BOOK_USED:
+			return KoLCharacter.PASTAMANCER;
+		case ItemPool.ZU_MANNKASE_DIENEN:
+		case ItemPool.ZU_MANNKASE_DIENEN_USED:
+			return KoLCharacter.SAUCEROR;
+		case ItemPool.DYNAMITE_SUPERMAN_JONES:
+		case ItemPool.DYNAMITE_SUPERMAN_JONES_USED:
+			return KoLCharacter.DISCO_BANDIT;
+		case ItemPool.INIGO_BOOK:
+		case ItemPool.INIGO_BOOK_USED:
+			return KoLCharacter.ACCORDION_THIEF;
 		}
 
 		return null;
