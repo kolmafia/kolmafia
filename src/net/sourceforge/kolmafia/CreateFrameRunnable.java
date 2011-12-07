@@ -242,6 +242,16 @@ public class CreateFrameRunnable
 
 			if ( frame.getClass() == this.creationType )
 			{
+				if ( frame instanceof GenericFrame )
+				{
+					GenericFrame gframe = (GenericFrame) frame;
+
+					if ( !gframe.exists() )
+					{
+						return false;
+					}
+				}
+
 				this.creation = (JFrame) frame;
 				return true;
 			}

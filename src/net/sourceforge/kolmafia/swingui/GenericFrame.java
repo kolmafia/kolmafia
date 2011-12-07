@@ -86,9 +86,9 @@ public abstract class GenericFrame
 	extends JFrame
 	implements Runnable
 {
-	protected static int existingFrameCount = 0;
+	private static int existingFrameCount = 0;
 	private boolean packedOnce = false;
-	private boolean exists = false;
+	private boolean exists = true;
 
 	protected HashMap listenerMap;
 
@@ -155,6 +155,8 @@ public abstract class GenericFrame
 		this.menuBar = new GlobalMenuBar();
 		this.setJMenuBar( this.menuBar );
 		this.addHotKeys();
+
+		++GenericFrame.existingFrameCount;
 
 		if ( this.showInWindowMenu() )
 		{
@@ -541,19 +543,6 @@ public abstract class GenericFrame
 	{
 		if ( isVisible )
 		{
-			if ( !this.exists )
-			{
-				this.exists = true;
-				++GenericFrame.existingFrameCount;
-
-				String frameName = this.getFrameName();
-
-				if ( this.showInWindowMenu() && !KoLConstants.existingFrames.contains( frameName ) )
-				{
-					KoLConstants.existingFrames.add( frameName );
-				}
-			}
-
 			this.restorePosition();
 		}
 		else
