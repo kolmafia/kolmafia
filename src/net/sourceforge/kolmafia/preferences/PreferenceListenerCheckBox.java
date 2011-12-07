@@ -33,25 +33,53 @@
 
 package net.sourceforge.kolmafia.preferences;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JCheckBox;
 
-public class CheckboxUpdateListener
-	implements PreferenceListener
+public class PreferenceListenerCheckBox
+	extends JCheckBox
+	implements ActionListener, PreferenceListener
 {
-	private String name;
+	private String property;
 	private JCheckBox checkbox;
 
-	public CheckboxUpdateListener( String name, JCheckBox checkbox )
+	public PreferenceListenerCheckBox( String property )
 	{
-		this.name = name;
-		this.checkbox = checkbox;
+		this( "", property );
+	}
+
+	public PreferenceListenerCheckBox( String label, String property )
+	{
+		super( label );
+
+		this.property = property;
+		PreferenceListenerRegistry.registerListener( property, this );
+
+		this.update();
+		this.addActionListener( this );
 	}
 
 	public void update()
 	{
-		boolean isTrue = Preferences.getBoolean( this.name );
+		boolean isTrue = Preferences.getBoolean( this.property );
 
-		this.checkbox.setSelected( isTrue );
+		this.setSelected( isTrue );
 	}
 
+	public void actionPerformed( final ActionEvent e )
+	{
+		if ( Preferences.getBoolean( this.property ) == this.isSelected() )
+		{
+			return;
+		}
+
+		Preferences.setBoolean( this.property, this.isSelected() );
+		this.handleClick();
+	}
+
+	protected void handleClick()
+	{	
+	}
 }

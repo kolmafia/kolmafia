@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -141,7 +141,7 @@ public class UseItemEnqueuePanel
 
 		if ( food || booze || spleen )
 		{
-			this.filters[ 4 ] = new ExperimentalCheckbox( food, booze );
+			this.filters[ 4 ] = new ExperimentalCheckBox( food, booze );
 			this.filters[ 5 ] = new ByRoomCheckbox();
 		}
 		else
@@ -522,56 +522,34 @@ public class UseItemEnqueuePanel
 		}
 	}
 
-	private static class ExperimentalCheckbox
-		extends JCheckBox
-		implements ActionListener
+	private static class ExperimentalCheckBox
+		extends PreferenceListenerCheckBox
 	{
-		public ExperimentalCheckbox( final boolean food, final boolean booze )
+		public ExperimentalCheckBox( final boolean food, final boolean booze )
 		{
-			super( food && booze ? "per full/drunk" : booze ? "per drunk" : food ? "per full" : "per spleen" );
+			super( food && booze ? "per full/drunk" : booze ? "per drunk" : food ? "per full" : "per spleen", "showGainsPerUnit" );
 
 			this.setToolTipText( "Sort gains per adventure" );
-			this.setSelected( Preferences.getBoolean( "showGainsPerUnit" ) );
-
-			this.addActionListener( this );
-			PreferenceListenerRegistry.registerCheckbox( "showGainsPerUnit", this );
 		}
 
-		public void actionPerformed( final ActionEvent e )
+		protected void handleClick()
 		{
-			if ( Preferences.getBoolean( "showGainsPerUnit" ) == this.isSelected() )
-			{
-				return;
-			}
-
-			Preferences.setBoolean( "showGainsPerUnit", this.isSelected() );
 			ConcoctionDatabase.getUsables().sort();
 		}
 	}
 
 	private static class ByRoomCheckbox
-		extends JCheckBox
-		implements ActionListener
+		extends PreferenceListenerCheckBox
 	{
 		public ByRoomCheckbox()
 		{
-			super( "by room" );
+			super( "by room", "sortByRoom" );
 
 			this.setToolTipText( "Sort items you have no room for to the bottom" );
-			this.setSelected( Preferences.getBoolean( "sortByRoom" ) );
-
-			this.addActionListener( this );
-			PreferenceListenerRegistry.registerCheckbox( "sortByRoom", this );
 		}
 
-		public void actionPerformed( final ActionEvent e )
+		protected void handleClick()
 		{
-			if ( Preferences.getBoolean( "sortByRoom" ) == this.isSelected() )
-			{
-				return;
-			}
-
-			Preferences.setBoolean( "sortByRoom", this.isSelected() );
 			ConcoctionDatabase.getUsables().sort();
 		}
 	}

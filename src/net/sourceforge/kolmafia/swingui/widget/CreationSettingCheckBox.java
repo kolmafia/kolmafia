@@ -40,45 +40,27 @@ import javax.swing.JCheckBox;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
+import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class CreationSettingCheckBox
-	extends JCheckBox
-	implements ActionListener
+	extends PreferenceListenerCheckBox
 {
-	private final String property;
-
 	public CreationSettingCheckBox( final String property )
 	{
-		super();
-
-		this.setSelected( Preferences.getBoolean( property ) );
-		this.addActionListener( this );
-		this.property = property;
-		PreferenceListenerRegistry.registerCheckbox( property, this );
+		super( property );
 	}
 
 	public CreationSettingCheckBox( final String label, final String property, final String tooltip )
 	{
-		super( label );
+		super( label, property );
 
 		this.setToolTipText( tooltip );
-
-		this.setSelected( Preferences.getBoolean( property ) );
-		this.addActionListener( this );
-		this.property = property;
-		PreferenceListenerRegistry.registerCheckbox( property, this );
 	}
 
-	public void actionPerformed( final ActionEvent e )
+	protected void handleClick()
 	{
-		if ( Preferences.getBoolean( this.property ) == this.isSelected() )
-		{
-			return;
-		}
-
-		Preferences.setBoolean( this.property, this.isSelected() );
 		ConcoctionDatabase.refreshConcoctions( true );
 	}
 }
