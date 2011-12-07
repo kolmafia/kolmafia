@@ -596,7 +596,7 @@ public abstract class MushroomManager
 	 * Utility method used to initialize the state of the plot into the one-dimensional array.
 	 */
 
-	private static final boolean initialize()
+	public static final boolean initialize()
 	{
 		if ( !MushroomManager.ownsPlot() )
 		{

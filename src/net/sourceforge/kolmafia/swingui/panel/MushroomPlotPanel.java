@@ -219,31 +219,22 @@ public class MushroomPlotPanel
 
 	public void plotChanged()
 	{
-		RequestThread.postRequest( new PlotChanger() );
-	}
+		// Get the layout state of the field and update
 
-	private class PlotChanger
-		implements Runnable
-	{
-		public void run()
+		this.currentData = MushroomManager.getMushroomManager( true ).split( ";" );
+
+		// Only update the layout data if you're
+		// not currently doing any layouts.
+
+		if ( !this.doingLayout )
 		{
-			// Get the layout state of the field and update
-
-			MushroomPlotPanel.this.currentData = MushroomManager.getMushroomManager( true ).split( ";" );
-
-			// Only update the layout data if you're
-			// not currently doing any layouts.
-
-			if ( !MushroomPlotPanel.this.doingLayout )
-			{
-				MushroomPlotPanel.this.layoutData = MushroomManager.getMushroomManager( true ).split( ";" );
-			}
-
-			// With everything that you need updated,
-			// feel free to refresh the layout.
-
-			MushroomPlotPanel.this.refresh();
+			this.layoutData = MushroomManager.getMushroomManager( true ).split( ";" );
 		}
+
+		// With everything that you need updated,
+		// feel free to refresh the layout.
+
+		this.refresh();
 	}
 
 	public void refresh()

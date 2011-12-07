@@ -238,29 +238,48 @@ public class RequestFrame
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
 		{
+			RequestThread.runInParallel( new DisplayRequestRunnable( request ) );
+		}
+		else
+		{
+			this.showHTML( this.currentLocation, request.responseText );
+		}
+	}
+
+	private class DisplayRequestRunnable
+		implements Runnable
+	{
+		private GenericRequest request;
+
+		public DisplayRequestRunnable( GenericRequest request )
+		{
+			this.request = request;
+		}
+
+		public void run()
+		{
 			// New prevention mechanism: tell the requests that there
 			// will be no synchronization.
 
 			boolean original = Preferences.getBoolean( "showAllRequests" );
 			Preferences.setBoolean( "showAllRequests", false );
-
-			RequestThread.postRequest( request );
+			this.request.run();
 			Preferences.setBoolean( "showAllRequests", original );
 
 			// If this resulted in a redirect, then update the display
 			// to indicate that you were redirected and the display
 			// cannot be shown in the minibrowser.
 
-			if ( request.responseText == null || request.responseText.length() == 0 )
+			if ( this.request.responseText == null || this.request.responseText.length() == 0 )
 			{
-				this.mainDisplay.setText( "" );
+				RequestFrame.this.mainDisplay.setText( "" );
 				return;
 			}
 
-			ResponseTextParser.externalUpdate( this.currentLocation, request.responseText );
-		}
+			ResponseTextParser.externalUpdate( RequestFrame.this.currentLocation, this.request.responseText );
 
-		this.showHTML( this.currentLocation, request.responseText );
+			RequestFrame.this.showHTML( RequestFrame.this.currentLocation, this.request.responseText );
+		}
 	}
 
 	public void showHTML( String location, String responseText )
