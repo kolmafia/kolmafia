@@ -164,6 +164,7 @@ beach ball marble	useless powder
 black catseye marble	useless powder
 big bumboozer marble	useless powder
 hobo code binder	nosmash
+giant candy cane	candycaine powder
 
 # Equipment dropped, or made from drops, in The Sea has special results.
 7-inch discus	sea salt crystal
