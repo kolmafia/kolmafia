@@ -68,8 +68,14 @@ public class TrophyRequest
 		{
 			super.run();
 			this.trophies = new ArrayList();
+
+			if ( this.responseText == null )
+			{
+				return;
+			}
+
 			Matcher m = TrophyRequest.TROPHY_PATTERN.matcher( this.responseText );
-			while ( m.find () )
+			while ( m.find() )
 			{
 				this.trophies.add( new Trophy( m.group( 1 ), m.group( 2 ),
 					StringUtilities.parseInt( m.group( 3 ) ),
