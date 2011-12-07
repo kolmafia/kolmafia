@@ -5439,4 +5439,4 @@
 5430	sucker scaffold	none	all	0
 5431	cinnamon troll doll	none, combat reusable	all	0
 5432	grape troll doll	none, combat reusable	all	0
-5433	blue raspberry troll	none, combat reusable	all	0
+5433	blue raspberry troll doll	none, combat reusable	all	0
