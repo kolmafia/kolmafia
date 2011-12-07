@@ -5120,7 +5120,7 @@
 5119	980813799	brokenwings.gif	busted wings
 5120	151842381	book4.gif	Massive Manual of Marauder Mockery	Massive Manuals of Marauder Mockery
 5121	423441910	admiralhat.gif	Admiral's hat
-5122	558813843	aviatorcap.gif	leather aviator's cap
+5122	558813843	aviatorcap.gif	leather aviator's cap	leather aviators' caps
 5123	492344434	chestershades.gif	mirrored aviator shades
 5124	118009884	book.gif	Field Guide to Skeletal Anatomy	Field Guides to Skeletal Anatomy
 5125	319307916	book4.gif	Notes from the Elfpocalypse, Chapter I	copies of Notes from the Elfpocalypse, Chapter I
