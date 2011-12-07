@@ -5122,7 +5122,7 @@
 5121	423441910	admiralhat.gif	Admiral's hat
 5122	558813843	aviatorcap.gif	leather aviator's cap
 5123	492344434	chestershades.gif	mirrored aviator shades
-5124	118009884	book.gif	Field Guide to Skeletal Anatomy
+5124	118009884	book.gif	Field Guide to Skeletal Anatomy	Field Guides to Skeletal Anatomy
 5125	319307916	book4.gif	Notes from the Elfpocalypse, Chapter I	copies of Notes from the Elfpocalypse, Chapter I
 5126	388548664	book4.gif	Notes from the Elfpocalypse, Chapter II	copies of Notes from the Elfpocalypse, Chapter II
 5127	281112199	book4.gif	Notes from the Elfpocalypse, Chapter III	copies of Notes from the Elfpocalypse, Chapter III
