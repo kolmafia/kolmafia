@@ -225,8 +225,6 @@ public abstract class GenericPanel
 
 	public void dispose()
 	{
-		StaticEntity.unregisterPanel( this );
-
 		if ( this.listenerMap == null )
 		{
 			super.dispose();

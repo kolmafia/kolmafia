@@ -383,6 +383,8 @@ public abstract class GenericFrame
 
 	public void dispose()
 	{
+		StaticEntity.unregisterPanels( this );
+
 		if ( this.isVisible() )
 		{
 			this.rememberPosition();

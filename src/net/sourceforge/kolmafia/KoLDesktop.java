@@ -237,6 +237,8 @@ public class KoLDesktop
 
 	public void dispose()
 	{
+		StaticEntity.unregisterPanels( this.tabs );
+
 		this.removeWindowListener( minimizeListener );
 
 		if ( Preferences.getBoolean( "rememberDesktopSize" ) )

@@ -33,12 +33,14 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Container;
 import java.awt.Frame;
 
 import java.io.File;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import java.util.regex.Pattern;
@@ -139,20 +141,38 @@ public abstract class StaticEntity
 		return StaticEntity.client;
 	}
 
-	public static final void registerPanel( final ActionPanel frame )
+	public static final void registerPanel( final ActionPanel panel )
 	{
 		synchronized ( StaticEntity.existingPanels )
 		{
-			StaticEntity.existingPanels.add( frame );
+			StaticEntity.existingPanels.add( panel );
 			StaticEntity.getExistingPanels();
 		}
 	}
 
-	public static final void unregisterPanel( final ActionPanel frame )
+	public static final void unregisterPanels( final Container container )
 	{
+		boolean removedPanel = false;
+
 		synchronized ( StaticEntity.existingPanels )
 		{
-			StaticEntity.existingPanels.remove( frame );
+			Iterator panelIterator = StaticEntity.existingPanels.iterator();
+
+			while ( panelIterator.hasNext() )
+			{
+				ActionPanel panel = (ActionPanel) panelIterator.next();
+
+				if ( container.isAncestorOf( panel ) )
+				{
+					panel.dispose();
+					panelIterator.remove();
+					removedPanel = true;
+				}
+			}
+		}
+
+		if ( removedPanel )
+		{
 			StaticEntity.getExistingPanels();
 		}
 	}

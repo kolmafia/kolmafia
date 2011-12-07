@@ -53,10 +53,15 @@ public abstract class ActionPanel
 
 	public abstract void actionCancelled();
 
+	public void dispose()
+	{
+	}
+
 	protected class VerifyButtonPanel
 		extends JPanel
 	{
 		private boolean bothDisabledOnClick;
+		private ActionListener confirmListener, cancelListener;
 		private final String cancelledText1, cancelledText2;
 
 		public VerifyButtonPanel( final String confirmedText, ActionListener confirmListener, ActionListener cancelListener )
@@ -71,6 +76,9 @@ public abstract class ActionPanel
 
 		public VerifyButtonPanel( final String confirmedText, final String cancelledText1, final String cancelledText2, ActionListener confirmListener, ActionListener cancelListener )
 		{
+			this.confirmListener = confirmListener;
+			this.cancelListener = cancelListener;
+
 			this.setLayout( new BorderLayout() );
 
 			this.setOpaque( true );
@@ -122,6 +130,16 @@ public abstract class ActionPanel
 		public void setBothDisabledOnClick( final boolean bothDisabledOnClick )
 		{
 			this.bothDisabledOnClick = bothDisabledOnClick;
+		}
+
+		public void dispose()
+		{
+			ActionPanel.this.confirmedButton.removeActionListener( this.confirmListener );
+
+			if ( ActionPanel.this.cancelledButton != null )
+			{
+				ActionPanel.this.cancelledButton.removeActionListener( this.cancelListener );
+			}
 		}
 	}
 

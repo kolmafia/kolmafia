@@ -370,10 +370,18 @@ public abstract class ActionVerifyPanel
 
 	public void dispose()
 	{
-		for ( int i = 0; i < this.elements.length; ++i )
+		if ( this.buttonPanel != null )
 		{
-			this.elements[ i ].removeListeners( this.elements[ i ].getInputField() );
-			this.elements[ i ] = null;
+			this.buttonPanel.dispose();
+		}
+
+		if ( this.elements != null )
+		{
+			for ( int i = 0; i < this.elements.length; ++i )
+			{
+				this.elements[ i ].removeListeners( this.elements[ i ].getInputField() );
+				this.elements[ i ] = null;
+			}
 		}
 	}
 
