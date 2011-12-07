@@ -147,7 +147,10 @@ public class ScrollablePanel
 
 	public void dispose()
 	{
-		StaticEntity.unregisterPanel( this );
+		if ( this.buttonPanel != null )
+		{
+			this.buttonPanel.dispose();
+		}
 	}
 
 	private class ConfirmedListener
