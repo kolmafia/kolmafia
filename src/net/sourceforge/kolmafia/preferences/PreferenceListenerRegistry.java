@@ -59,13 +59,9 @@ public class PreferenceListenerRegistry
 			PreferenceListenerRegistry.listenerMap.put( name, list );
 		}
 
-		list.add( new WeakReference( listener ) );
-	}
+		WeakReference reference = new WeakReference( listener );
 
-	public static final void registerCheckbox( final String name, final JCheckBox checkbox )
-	{
-		CheckboxUpdateListener listener = new CheckboxUpdateListener( name, checkbox );
-		PreferenceListenerRegistry.registerListener( name, listener );
+		list.add( reference );
 	}
 
 	public static final void firePreferenceChanged( final String name )

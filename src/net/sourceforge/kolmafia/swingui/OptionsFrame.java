@@ -494,6 +494,12 @@ public class OptionsFrame
 			list.addListDataListener( this );
 		}
 
+		public void dispose()
+		{
+			list.removeListDataListener( this );
+			super.dispose();
+		}
+
 		public final void actionConfirmed()
 		{
 			int index = this.elementList.getSelectedIndex();
@@ -935,6 +941,15 @@ public class OptionsFrame
 			this.desktopList.addListDataListener( this );
 		}
 
+		public void dispose()
+		{
+			this.completeList.removeListDataListener( this );
+			this.startupList.removeListDataListener( this );
+			this.desktopList.removeListDataListener( this );
+
+			super.dispose();
+		}
+
 		public void actionConfirmed()
 		{
 			this.actionCancelled();
@@ -1271,6 +1286,14 @@ public class OptionsFrame
 			message.setFont( KoLConstants.DEFAULT_FONT );
 
 			this.container.add( message, BorderLayout.NORTH );
+		}
+
+		public void dispose()
+		{
+			this.builtInsList.removeListDataListener( this );
+			this.deedsList.removeListDataListener( this );
+
+			super.dispose();
 		}
 
 		public void actionConfirmed()
