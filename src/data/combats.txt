@@ -146,7 +146,7 @@ Cobb's Knob Kitchens	100	Cobb's Knob Oven	Knob Goblin Master Chef	Knob Goblin So
 Cobb's Knob Laboratory	100	Knob Goblin Alchemist: 1	Knob Goblin Mad Scientist: 2	Knob Goblin Very Mad Scientist: 1
 Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	Infinite Meat Bug: -1
 Knob Shaft	85	Ghost Miner
-Lollipop Forest	90	Lollicat	Lolligator	Lollipede	Lolliphaunt	Lolrus
+Lollipop Forest	90	Lollicat	Lolligator	Lollipede	Lolliphaunt	Lolrus	Trollipop
 Madness Reef	100	Jamfish	Magic Dragonfish	Pufferfish
 McMillicancuddy's Farm	100	Drunk Duck	Figure-Skating Duck	Fire-Breathing Duck	Frozen Duck	Greasy Duck	Mean Drunk Duck	Rattlin' Duck	Rotund Duck	Scorched Duck	Swamp Duck	Vampire Duck	Zombie Duck
 Menagerie 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
