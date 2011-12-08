@@ -211,6 +211,7 @@ Holiday	adventure=175	true	Spectral Salad Factory
 Holiday	adventure=173	true	Generic Summer Holiday Swimming!
 
 The Candy Diorama	adventure=274	true	Lollipop Forest
+The Candy Diorama	adventure=275	true	Fudge Mountain
 
 Crimbo10	adventure=247	true	CRIMBCO cubicles
 Crimbo10	crimbo10=bathroom	true	CRIMBCO WC

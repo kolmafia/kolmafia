@@ -5432,3 +5432,5 @@
 5431	178314347	trolldoll.gif	cinnamon troll doll
 5432	258398178	trolldoll.gif	grape troll doll
 5433	497420048	trolldoll.gif	blue raspberry troll doll
+5434
+5435	800138400	fudgecule.gif	fudgecule
