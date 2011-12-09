@@ -3214,6 +3214,7 @@ Stimulated Body	HP Regen Min: 10, HP Regen Max: 20
 Stimulated Brain	MP Regen Min: 10, MP Regen Max: 20
 # Stinky Breath: Can breathe stench in combat
 Stinky Weapon	Stench Damage: +3
+# Stop and Smell the Fudge: Find 25% More Fudge
 Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
 Strawberry Alarm	Initiative: +50
@@ -3789,6 +3790,7 @@ frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10
 frostbite-flavored Hob-O	Effect: "Tundra Mouth"
 fry-oil-flavored Hob-O	Effect: "Cholestoriffic"
 funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
+fudge lily	Effect: "Stop and Smell the Fudge", Effect Duration: 20
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30

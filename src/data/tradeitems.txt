@@ -5442,3 +5442,4 @@
 5433	blue raspberry troll doll	none, combat reusable	all	0
 5434
 5435	fudgecule	none	all	15
+5436	fudge lily	usable	all	0
