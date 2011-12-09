@@ -1691,7 +1691,7 @@ public class Parser
 				throw this.parseException( "Key variable name expected" );
 			}
 
-			if ( parentScope.findVariable( name ) != null )
+			if ( names.contains( name ) )
 			{
 				throw this.parseException( "Key variable '" + name + "' is already defined" );
 			}
