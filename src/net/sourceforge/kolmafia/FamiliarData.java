@@ -530,7 +530,11 @@ public class FamiliarData
 			weight += 10;
 		}
 
-		return Math.max( 1, weight );
+		// check if the familiar has a weight cap
+		int cap = (int) current.get( Modifiers.FAMILIAR_WEIGHT_CAP );
+		int cappedWeight = ( cap == 0 ) ? weight : Math.min( weight, cap );
+
+		return Math.max( 1, cappedWeight );
 	}
 
 	public static final int itemWeightModifier( final int itemId )
