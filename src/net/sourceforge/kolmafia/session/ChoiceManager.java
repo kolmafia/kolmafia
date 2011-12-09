@@ -2055,6 +2055,12 @@ public abstract class ChoiceManager
 			"The Candy Diorama", "choiceAdventure558", "Tool Time",
 			new String[] { "sucker bucket", "sucker kabuto", "sucker hakama", "sucker tachi", "sucker scaffold", "skip adventure" },
 			new String[] { "5426", "5428", "5427", "5429", "5430", null } ),
+
+		// Fudge Mountain Breakdown
+		new ChoiceAdventure(
+			"The Candy Diorama", "choiceAdventure559", "Fudge Mountain Breakdown",
+			new String[] { "fudge lily", "skip adventure", "skip adventure", "skip adventure" },
+			new String[] { "5436", null, null, null } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
