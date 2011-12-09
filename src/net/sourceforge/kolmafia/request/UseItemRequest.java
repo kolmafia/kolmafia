@@ -991,18 +991,16 @@ public class UseItemRequest
 			}
 		}
 
-		int price = ItemDatabase.getPriceById( itemId );
-
-		if ( itemId == ItemPool.SELTZER || itemId == ItemPool.MAFIA_ARIA )
+		if ( itemId == ItemPool.SELTZER )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
 		}
 
-		if ( price != 0 && !UseItemRequest.sequentialConsume( itemId ) &&
-		     this.consumptionType != KoLConstants.INFINITE_USES &&
+		if ( this.consumptionType != KoLConstants.INFINITE_USES &&
+		     !UseItemRequest.sequentialConsume( itemId ) &&
 		     !InventoryManager.retrieveItem( this.itemUsed ) )
 		{
-			if ( itemId == ItemPool.SELTZER || itemId == ItemPool.MAFIA_ARIA )
+			if ( itemId == ItemPool.SELTZER )
 			{
 				SpecialOutfit.restoreImplicitCheckpoint();
 			}
@@ -1064,6 +1062,7 @@ public class UseItemRequest
 
 		if ( itemId == ItemPool.MAFIA_ARIA )
 		{
+			SpecialOutfit.createImplicitCheckpoint();
 			AdventureResult cummerbund = ItemPool.get( ItemPool.CUMMERBUND, 1 );
 			if ( !KoLCharacter.hasEquipped( cummerbund ) )
 			{
@@ -1081,9 +1080,7 @@ public class UseItemRequest
 			this.constructURLString( originalURLString );
 
 			if ( this.consumptionType == KoLConstants.CONSUME_DRINK &&
-				itemId != ItemPool.STEEL_LIVER &&
-				!UseItemRequest.allowBoozeConsumption(
-					ItemDatabase.getInebriety( this.itemUsed.getName() ), this.itemUsed.getCount() ) )
+			     !this.allowBoozeConsumption() )
 			{
 				return;
 			}
@@ -1196,6 +1193,21 @@ public class UseItemRequest
 		}
 
 		return true;
+	}
+
+	private final boolean allowBoozeConsumption()
+	{
+		// Always allow the steel margarita
+		int itemId = this.itemUsed.getItemId();
+		if ( itemId == ItemPool.STEEL_LIVER )
+		{
+			return true;
+		}
+
+		int inebriety = ItemDatabase.getInebriety( this.itemUsed.getName() );
+		int count = this.itemUsed.getCount();
+
+		return UseItemRequest.allowBoozeConsumption( inebriety, count );
 	}
 
 	public static final boolean allowBoozeConsumption( final int inebriety, final int count )
