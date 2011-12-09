@@ -991,26 +991,11 @@ public class UseItemRequest
 			}
 		}
 
-		if ( itemId == ItemPool.SELTZER )
-		{
-			SpecialOutfit.createImplicitCheckpoint();
-		}
-
 		if ( this.consumptionType != KoLConstants.INFINITE_USES &&
 		     !UseItemRequest.sequentialConsume( itemId ) &&
 		     !InventoryManager.retrieveItem( this.itemUsed ) )
 		{
-			if ( itemId == ItemPool.SELTZER )
-			{
-				SpecialOutfit.restoreImplicitCheckpoint();
-			}
-
 			return;
-		}
-
-		if ( itemId == ItemPool.SELTZER )
-		{
-			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 
 		int iterations = 1;
