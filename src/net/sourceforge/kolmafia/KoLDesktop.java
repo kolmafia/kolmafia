@@ -363,6 +363,8 @@ public class KoLDesktop
 		}
 
 		KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
+		KoLDesktop.INSTANCE.setVisible( true );
+
 		return true;
 	}
 

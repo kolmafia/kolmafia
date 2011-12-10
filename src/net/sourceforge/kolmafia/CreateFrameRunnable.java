@@ -109,6 +109,26 @@ public class CreateFrameRunnable
 
 	public void run()
 	{
+		String searchString = this.creationType.toString();
+		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
+
+		if ( searchString.endsWith( "ChatFrame" ) )
+		{
+			searchString = "ChatManager";
+		}
+
+		boolean appearsInTab = GenericFrame.appearsInTab( searchString );
+
+		if ( appearsInTab && !KoLDesktop.instanceExists() )
+		{
+			if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) && SwingUtilities.isEventDispatchThread() )
+			{
+				StaticEntity.printStackTrace( "Triggered creation of main interface in event dispatch thread" );
+			}
+
+			KoLDesktop.getInstance();
+		}
+
 		if ( this.creator == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.creationType.getName() + " could not be loaded" );
@@ -134,21 +154,6 @@ public class CreateFrameRunnable
 
 		try
 		{
-			String searchString = this.creationType.toString();
-			searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
-
-			if ( searchString.endsWith( "ChatFrame" ) )
-			{
-				searchString = "ChatManager";
-			}
-
-			boolean appearsInTab = GenericFrame.appearsInTab( searchString );
-
-			if ( appearsInTab && !KoLDesktop.isInitializing() )
-			{
-				KoLDesktop.getInstance().setVisible( true );
-			}
-
 			RequestLogger.updateDebugLog( "Loading window: " + searchString );
 			this.createFrame( appearsInTab );
 		}
@@ -200,13 +205,13 @@ public class CreateFrameRunnable
 			GenericFrame gframe = (GenericFrame) this.creation;
 
 			gframe.setStatusMessage( KoLmafia.getLastMessage() );
+			gframe.setEnabled( !RequestThread.hasOpenRequestSequences() );
 		}
 		else
 		{
 			this.creation.setLocationRelativeTo( null );
+			this.creation.setEnabled( true );
 		}
-
-		this.creation.setEnabled( true );
 
 		// With the location set set on screen, make sure
 		// to disable it (if necessary), ensure the frame's
@@ -248,7 +253,7 @@ public class CreateFrameRunnable
 
 					if ( !gframe.exists() )
 					{
-						return false;
+						continue;
 					}
 				}
 

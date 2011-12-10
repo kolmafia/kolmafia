@@ -181,6 +181,11 @@ public abstract class RequestThread
 		KoLmafia.updateDisplay( openSequenceCount + " open request sequences" );
 	}
 
+	public static synchronized final boolean hasOpenRequestSequences()
+	{
+		return !threadMap.isEmpty();
+	}
+
 	public static synchronized final int openRequestSequence()
 	{
 		return RequestThread.openRequestSequence( RequestThread.requestMap.isEmpty() );
