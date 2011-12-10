@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -576,31 +577,38 @@ public class ValhallaDecorator
 			buffer.append( "<nobr><a href=\"trophy.php\">buy trophies you're eligible for</a></nobr><br>" );
 		}
 		
-		if ( InventoryManager.hasItem( ItemPool.RUBBER_EMO_ROE ) )
+		ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_EMO_ROE, "Veracity" );
+		ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_WWTNSD_BRACELET, "Veracity" );
+		ValhallaDecorator.developerGift( buffer, ItemPool.STUFFED_COCOABO, "holatuwol" );
+	}
+
+	private static final void developerGift( final StringBuffer buffer, final int itemId, final String developer )
+	{
+		int giftCount = InventoryManager.getAccessibleCount( itemId );
+		if ( giftCount <= 0 )
 		{
-			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=csend+" );
-			buffer.append( InventoryManager.getAccessibleCount( ItemPool.RUBBER_EMO_ROE ) );
-			buffer.append( "+rubber+emo+roe+to+veracity&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">send your rubber emo roes to Veracity</a></nobr><br>" );
-		}
-		
-		if ( InventoryManager.hasItem( ItemPool.RUBBER_WWTNSD_BRACELET ) )
-		{
-			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=csend+" );
-			buffer.append( InventoryManager.getAccessibleCount( ItemPool.RUBBER_WWTNSD_BRACELET ) );
-			buffer.append( "+rubber+WWtNSD?+bracelet+to+veracity&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">send your rubber WWtNSD? bracelets to Veracity</a></nobr><br>" );
+			return;
 		}
 
-		if ( InventoryManager.hasItem( ItemPool.STUFFED_COCOABO ) )
-		{
-			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=csend+" );
-			buffer.append( InventoryManager.getAccessibleCount( ItemPool.STUFFED_COCOABO ) );
-			buffer.append( "+stuffed+cocoabo+to+holatuwol&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">send your stuffed cocoabos to holatuwol</a></nobr><br>" );
-		}
+		String itemName = StringUtilities.getURLEncode( ItemDatabase.getItemName( itemId ) );
+		String plural = ItemDatabase.getPluralById( itemId );
+
+		buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=acquire+" );
+		buffer.append( giftCount );
+		buffer.append( "+" );
+		buffer.append( itemName );
+		buffer.append( ";csend+" );
+		buffer.append( giftCount );
+		buffer.append( "+" );
+		buffer.append( itemName );
+		buffer.append( "+to+" );
+		buffer.append( developer );
+		buffer.append( "&pwd=" );
+		buffer.append( GenericRequest.passwordHash );
+		buffer.append( "\">send your " );
+		buffer.append( plural );
+		buffer.append( " to " );
+		buffer.append( developer );
+		buffer.append( "</a></nobr><br>" );
 	}
 }
