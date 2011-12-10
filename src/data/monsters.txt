@@ -381,6 +381,7 @@ Frosty	HP: 350 Def: 500 Atk: 500 E: cold	Benetton's Medley of Diversity (0)	Fros
 Frozen Duck	HP: 180 Def: 178 Atk: 170 Meat: 125-152 E: cold P: beast	frozen feather (10)	duct tape (5)
 Fruit Golem	HP: 46 Def: 56 Atk: 56 P: object	cherry (15)	orange (15)	lime (15)
 Fudge monkey	HP: 100 Def: 80 Atk: 80	fudgecule (c100)
+Fudge oyster	HP: 0	fudgecule (c100)
 Fudge weasel	HP: 100 Def: 80 Atk: 80	fudgecule (c100)
 Fudge vulture	HP: 100 Def: 80 Atk: 80	fudgecule (c100)
 Funk Particle	HP: 80 Def: 75 Atk: 85 P: strange	fat bottom quark (0)
