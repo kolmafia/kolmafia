@@ -47,6 +47,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -88,7 +90,7 @@ public class KoLDesktop
 	private static KoLDesktop INSTANCE = null;
 	private static boolean isInitializing = false;
 
-	private final ArrayList tabListing = new ArrayList();
+	private final List tabListing = new ArrayList();
 
 	public JPanel compactPane;
 
@@ -192,7 +194,9 @@ public class KoLDesktop
 			return;
 		}
 
-		this.tabListing.remove( overTabIndex );
+		GenericFrame gframe = (GenericFrame) this.tabListing.remove( overTabIndex );
+		gframe.dispose();
+
 		this.tabs.removeTabAt( overTabIndex );
 	}
 
@@ -227,6 +231,7 @@ public class KoLDesktop
 		}
 
 		this.pack();
+
 		KoLDesktop.isInitializing = false;
 	}
 
@@ -248,15 +253,22 @@ public class KoLDesktop
 			Preferences.setInteger( "desktopWidth" , (int) tempDim.getWidth() );
 		}
 
-		while ( !this.tabListing.isEmpty() )
+		Iterator tabIterator = this.tabListing.iterator();
+
+		while ( tabIterator.hasNext() )
 		{
-			this.tabs.removeTabAt( 0 );
-			( (GenericFrame) this.tabListing.remove( 0 ) ).dispose();
+			GenericFrame gframe = (GenericFrame) tabIterator.next();
+
+			gframe.dispose();
+
+			tabIterator.remove();
 		}
 
-		super.dispose();
+		this.tabs.removeAll();
 
 		KoLDesktop.INSTANCE = null;
+
+		super.dispose();
 	}
 
 	public static final boolean instanceExists()
@@ -300,37 +312,10 @@ public class KoLDesktop
 			{
 				content.tabs.setTabPlacement( SwingConstants.BOTTOM );
 			}
-
-			KoLDesktop.INSTANCE.tabs.setSelectedIndex( 0 );
 		}
 		else
 		{
 			KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
-		}
-	}
-
-	public static final boolean containsTab( final GenericFrame content )
-	{
-		if ( KoLDesktop.INSTANCE == null )
-		{
-			return false;
-		}
-
-		return KoLDesktop.INSTANCE.tabListing.indexOf( content ) != -1;
-	}
-
-	public static final void removeTab( final GenericFrame content )
-	{
-		if ( KoLDesktop.INSTANCE == null )
-		{
-			return;
-		}
-
-		int tabIndex = KoLDesktop.INSTANCE.tabListing.indexOf( content );
-		if ( tabIndex != -1 )
-		{
-			KoLDesktop.INSTANCE.tabListing.remove( tabIndex );
-			KoLDesktop.INSTANCE.tabs.removeTabAt( tabIndex );
 		}
 	}
 
@@ -342,11 +327,6 @@ public class KoLDesktop
 	public void pack()
 	{
 		super.pack();
-
-		if ( this.tabs.getTabCount() > 0 )
-		{
-			this.tabs.setSelectedIndex( 0 );
-		}
 	}
 
 	public static final boolean showComponent( final GenericFrame content )

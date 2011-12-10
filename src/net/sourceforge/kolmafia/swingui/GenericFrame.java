@@ -394,8 +394,6 @@ public abstract class GenericFrame
 		// Determine which frame needs to be removed from
 		// the maintained list of frames.
 
-		KoLDesktop.removeTab( this );
-
 		if ( this.exists )
 		{
 			this.exists = false;
@@ -619,7 +617,7 @@ public abstract class GenericFrame
 		{
 			this.setLocationRelativeTo( null );
 
-			if ( !( this instanceof OptionsFrame ) && this.tabs != null && this.tabs.getTabCount() > 0 )
+			if ( !( this instanceof OptionsFrame ) && !( this instanceof KoLDesktop ) && this.tabs != null && this.tabs.getTabCount() > 0 )
 			{
 				this.tabs.setSelectedIndex( 0 );
 			}
