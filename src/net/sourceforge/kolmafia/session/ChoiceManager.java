@@ -2059,7 +2059,7 @@ public abstract class ChoiceManager
 		// Fudge Mountain Breakdown
 		new ChoiceAdventure(
 			"The Candy Diorama", "choiceAdventure559", "Fudge Mountain Breakdown",
-			new String[] { "fudge lily", "skip adventure", "skip adventure", "skip adventure" },
+			new String[] { "fudge lily", "fight a swarm of fudgewasps or skip adventure", "skip adventure", "skip adventure" },
 			new String[] { "5436", null, null, null } ),
 	};
 
@@ -3306,6 +3306,24 @@ public abstract class ChoiceManager
 			if ( text.indexOf( "oddly chilly" ) != -1 )
 			{
 				EquipmentManager.discardEquipment( EquipmentManager.getEquipment( EquipmentManager.PANTS ) );
+			}
+			break;
+		case 559:
+			// Fudge Mountain Breakdown
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				if ( text.indexOf( "but nothing comes out" ) != -1 )
+				{
+					Preferences.setInteger( "_fudgeWaspFights", 3 );
+				}
+				else if ( text.indexOf( "trouble has taken a holiday" ) != -1 )
+				{
+					// The Advent Calendar hasn't been punched out enough to find fudgewasps yet
+				}
+				else
+				{
+					Preferences.increment( "_fudgeWaspFights", 1 );
+				}
 			}
 			break;
 		}
