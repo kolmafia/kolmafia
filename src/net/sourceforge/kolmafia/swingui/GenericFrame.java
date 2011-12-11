@@ -60,6 +60,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -252,14 +253,21 @@ public abstract class GenericFrame
 		JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_ESCAPE, new WorldPeaceListener() );
 		JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_F5, new RefreshSessionListener() );
 
-		if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
-		{
-			JComponentUtilities.addGlobalHotKey(
-				this.getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK, new TabForwardListener() );
-			JComponentUtilities.addGlobalHotKey(
-				this.getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK + InputEvent.SHIFT_MASK,
-				new TabBackwardListener() );
-		}
+		JComponentUtilities.addGlobalHotKey(
+			this.getRootPane(), KeyEvent.VK_PAGE_UP, InputEvent.CTRL_MASK, new TabForwardListener() );
+		JComponentUtilities.addGlobalHotKey(
+			this.getRootPane(), KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_MASK, new TabBackwardListener() );
+	}
+
+	public void removeHotKeys()
+	{
+		this.getRootPane().unregisterKeyboardAction( KeyStroke.getKeyStroke( KeyEvent.VK_ESCAPE, 0 ) );
+		this.getRootPane().unregisterKeyboardAction( KeyStroke.getKeyStroke( KeyEvent.VK_F5, 0 ) );
+
+		this.getRootPane().unregisterKeyboardAction(
+			KeyStroke.getKeyStroke( KeyEvent.VK_PAGE_UP, InputEvent.CTRL_MASK ) );
+		this.getRootPane().unregisterKeyboardAction(
+			KeyStroke.getKeyStroke( KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_MASK ) );
 	}
 
 	private class TabForwardListener
@@ -414,6 +422,8 @@ public abstract class GenericFrame
 		}
 
 		// Remove listeners from interface elements
+
+		this.removeHotKeys();
 
 		if ( this.listenerMap != null )
 		{
@@ -577,7 +587,7 @@ public abstract class GenericFrame
 
 	/**
 	 * Overrides the default isEnabled() method, because the setEnabled() method does not call the superclass's version.
-	 * 
+	 *
 	 * @return <code>true</code>
 	 */
 
