@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.swingui.LoginFrame;
 
 public class LogoutManager
 {
+	private static final LogoutRunnable LOGOUT_RUNNABLE = new LogoutRunnable();
+
 	public static void logout()
 	{
 		// Create login frame to ensure that there is an active frame.
@@ -62,56 +64,71 @@ public class LogoutManager
 			GenericFrame.createDisplay( LoginFrame.class );
 		}
 
-		// Shut down main frame
+		RequestThread.runInParallel( LOGOUT_RUNNABLE );
+	}
 
-		if ( KoLDesktop.instanceExists() )
+	private static class LogoutRunnable
+		implements Runnable
+	{
+		public void run()
 		{
-			KoLDesktop.getInstance().dispose();
-		}
+			KoLmafia.updateDisplay( "Preparing for logout..." );
 
-		// Close down any other active frames.	Since
-		// there is at least one active, logout will
-		// not be called again.
+			// Shut down main frame
 
-		Frame[] frames = Frame.getFrames();
-
-		for ( int i = 0; i < frames.length; ++i )
-		{
-			if ( frames[ i ].getClass() != LoginFrame.class )
+			if ( KoLDesktop.instanceExists() )
 			{
-				frames[ i ].dispose();
+				KoLDesktop.getInstance().dispose();
 			}
+
+			// Close down any other active frames.	Since
+			// there is at least one active, logout will
+			// not be called again.
+
+			Frame[] frames = Frame.getFrames();
+
+			for ( int i = 0; i < frames.length; ++i )
+			{
+				if ( frames[ i ].getClass() != LoginFrame.class )
+				{
+					frames[ i ].dispose();
+				}
+			}
+
+			// Shut down chat-related activity
+
+			BuffBotHome.setBuffBotActive( false );
+			ChatManager.dispose();
+
+			// Run on-logout scripts
+
+			String scriptSetting = Preferences.getString( "logoutScript" );
+			if ( !scriptSetting.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( "Executing logout script..." );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
+			}
+
+			if ( Preferences.getBoolean( "sharePriceData" ) )
+			{
+				KoLmafia.updateDisplay( "Sharing mall price data with other users..." );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "spade prices http://kolmafia.us/scripts/updateprices.php" );
+			}
+
+			// Clear out user data
+
+			RequestLogger.closeSessionLog();
+			RequestLogger.closeDebugLog();
+			RequestLogger.closeMirror();
+
+			GenericRequest.reset();
+			KoLCharacter.reset( "" );
+
+			// Execute the logout request
+
+			RequestThread.postRequest( new LogoutRequest() );
+
+			KoLmafia.updateDisplay( "Logout completed." );
 		}
-
-		// Shut down chat-related activity
-
-		BuffBotHome.setBuffBotActive( false );
-		ChatManager.dispose();
-
-		// Run on-logout scripts
-
-		String scriptSetting = Preferences.getString( "logoutScript" );
-		if ( !scriptSetting.equals( "" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
-		}
-
-		if ( Preferences.getBoolean( "sharePriceData" ) )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "spade prices http://kolmafia.us/scripts/updateprices.php" );
-		}
-
-		// Clear out user data
-
-		RequestLogger.closeSessionLog();
-		RequestLogger.closeDebugLog();
-		RequestLogger.closeMirror();
-
-		GenericRequest.reset();
-		KoLCharacter.reset( "" );
-
-		// Execute the logout request
-
-		RequestThread.postRequest( new LogoutRequest() );
 	}
 }

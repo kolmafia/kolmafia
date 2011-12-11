@@ -205,7 +205,6 @@ public class CreateFrameRunnable
 			GenericFrame gframe = (GenericFrame) this.creation;
 
 			gframe.setStatusMessage( KoLmafia.getLastMessage() );
-			gframe.setEnabled( !RequestThread.hasOpenRequestSequences() );
 		}
 		else
 		{
