@@ -454,11 +454,6 @@ public class RequestLogger
 	{
 		try
 		{
-			if ( BuffBotHome.isBuffBotActive() )
-			{
-				return;
-			}
-
 			RequestLogger.doRegister( request, urlString );
 		}
 		catch ( Exception e )
