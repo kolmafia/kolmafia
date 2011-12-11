@@ -35,12 +35,11 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
-
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -53,20 +52,15 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
 import net.sourceforge.kolmafia.session.ContactManager;
-
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.StatusEffectPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SkillBuffFrame
@@ -89,7 +83,8 @@ public class SkillBuffFrame
 	{
 		super( "Skill Casting" );
 
-		this.framePanel.add( new SkillBuffPanel(), BorderLayout.NORTH );
+		JPanel skillWrapper = new JPanel( new BorderLayout() );
+		skillWrapper.add( new SkillBuffPanel(), BorderLayout.NORTH );
 
 		this.effectList = new ShowDescriptionList( KoLConstants.activeEffects, 12 );
 		this.effectList.addListSelectionListener( new SkillReselector() );
@@ -97,7 +92,10 @@ public class SkillBuffFrame
 		this.tabs.addTab( "Active Effects", new StatusEffectPanel( this.effectList ) );
 		this.tabs.addTab( "Recovery Items", new RestorativeItemPanel() );
 
-		this.framePanel.add( this.tabs, BorderLayout.CENTER );
+		skillWrapper.add( this.tabs, BorderLayout.CENTER );
+
+		this.setCenterComponent( skillWrapper );
+
 		this.setRecipient( recipient );
 	}
 
@@ -176,7 +174,7 @@ public class SkillBuffFrame
 
 		private void buff( boolean maxBuff )
 		{
-			UseSkillRequest request = (UseSkillRequest)SkillBuffFrame.this.skillSelect.getSelectedItem();
+			UseSkillRequest request = (UseSkillRequest) SkillBuffFrame.this.skillSelect.getSelectedItem();
 			if ( request == null )
 			{
 				return;

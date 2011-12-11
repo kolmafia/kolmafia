@@ -35,9 +35,10 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -51,6 +52,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
+
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
@@ -86,7 +88,6 @@ public class ChatFrame
 		super(
 			associatedContact == null || associatedContact.equals( "" ) ? "Loathing Chat" : associatedContact.startsWith( "/" ) ? "Chat: " + associatedContact : "Chat PM: " + associatedContact );
 
-		this.framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		this.initialize( associatedContact );
 
 		// Add the standard chat options which the user
@@ -197,7 +198,7 @@ public class ChatFrame
 	public void initialize( final String associatedContact )
 	{
 		this.mainPanel = new ChatPanel( associatedContact );
-		this.framePanel.add( this.mainPanel, BorderLayout.CENTER );
+		this.setCenterComponent( this.mainPanel );
 	}
 
 	/**
@@ -337,7 +338,7 @@ public class ChatFrame
 
 	/**
 	 * Returns the name of the contact associated with this frame.
-	 *
+	 * 
 	 * @return The name of the contact associated with this frame
 	 */
 

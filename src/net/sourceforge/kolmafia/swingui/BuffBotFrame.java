@@ -93,7 +93,7 @@ public class BuffBotFrame
 		this.tabs.addTab( "Edit Offerings", optionsContainer );
 		this.addTab( "Change Settings", new MainSettingsPanel() );
 
-		this.framePanel.add( this.tabs, BorderLayout.CENTER );
+		this.setCenterComponent( this.tabs );
 	}
 
 	public boolean useSidePane()

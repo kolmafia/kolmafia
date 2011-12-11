@@ -33,10 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import java.awt.BorderLayout;
-
 import java.util.ArrayList;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,28 +48,18 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
-
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-
 import net.sourceforge.kolmafia.session.ResponseTextParser;
-
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
-
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
-
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class RequestFrame
@@ -156,8 +143,7 @@ public class RequestFrame
 		if ( !this.hasSideBar() )
 		{
 			JComponentUtilities.setComponentSize( mainScroller, 400, 300 );
-			this.framePanel.setLayout( new BorderLayout() );
-			this.framePanel.add( mainScroller, BorderLayout.CENTER );
+			this.setCenterComponent( mainScroller );
 			return;
 		}
 
@@ -177,8 +163,7 @@ public class RequestFrame
 		horizontalSplit.setOneTouchExpandable( true );
 		JComponentUtilities.setComponentSize( horizontalSplit, 600, 450 );
 
-		this.framePanel.setLayout( new BorderLayout() );
-		this.framePanel.add( horizontalSplit, BorderLayout.CENTER );
+		this.setCenterComponent( horizontalSplit );
 		RequestFrame.refreshStatus();
 	}
 

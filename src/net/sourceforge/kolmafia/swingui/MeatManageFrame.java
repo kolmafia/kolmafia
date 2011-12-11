@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -44,14 +43,10 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.request.ShrineRequest;
-
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MeatManageFrame
@@ -67,8 +62,7 @@ public class MeatManageFrame
 		container.add( new MeatTransferPanel( MeatTransferPanel.MEAT_TO_INVENTORY ) );
 		container.add( new MeatTransferPanel( MeatTransferPanel.PULL_MEAT_FROM_STORAGE ) );
 
-		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( container, "" );
+		this.setCenterComponent( container );
 	}
 
 	public JTabbedPane getTabbedPane()

@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import java.awt.CardLayout;
-
 import javax.swing.JPanel;
 
 import net.sourceforge.kolmafia.swingui.panel.MushroomPlotPanel;
@@ -59,8 +57,7 @@ public class MushroomFrame
 
 		this.tabs.addTab( "Script Generator", planPanel );
 
-		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( this.tabs, "" );
+		this.setCenterComponent( this.tabs );
 	}
 
 }

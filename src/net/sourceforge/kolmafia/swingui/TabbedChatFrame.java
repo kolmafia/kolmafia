@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia.swingui;
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;
 
-import java.awt.BorderLayout;
-
 import java.awt.event.MouseEvent;
 
 import javax.swing.JTabbedPane;
@@ -45,9 +43,7 @@ import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatManager;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
 
 import tab.CloseListener;
@@ -92,7 +88,7 @@ public class TabbedChatFrame
 			( (CloseableTabbedPane) this.tabs ).addCloseableTabbedPaneListener( this );
 		}
 
-		this.framePanel.add( this.tabs, BorderLayout.CENTER );
+		this.setCenterComponent( this.tabs );
 	}
 
 	public boolean closeTab( final int tabIndexToClose )

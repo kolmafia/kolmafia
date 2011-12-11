@@ -33,14 +33,15 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import java.awt.CardLayout;
 import java.awt.event.MouseEvent;
+
 import java.util.Comparator;
 import java.util.Map.Entry;
 
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -69,8 +70,7 @@ public class DatabaseFrame
 		this.tabs.addTab( "Skills", new ItemLookupPanel( DatabaseFrame.allSkills, "skill", "whichskill" ) );
 		this.tabs.addTab( "Effects", new ExamineEffectsPanel() );
 
-		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( this.tabs, "" );
+		this.setCenterComponent( this.tabs );
 	}
 
 	private class ItemLookupPanel
