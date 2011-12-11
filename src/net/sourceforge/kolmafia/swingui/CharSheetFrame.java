@@ -47,9 +47,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
-
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 
 public class CharSheetFrame
@@ -67,29 +65,30 @@ public class CharSheetFrame
 	{
 		super( "Player Status" );
 
-		this.framePanel.setLayout( new BorderLayout() );
-
 		JPanel statusPanel = new JPanel( new BorderLayout( 10, 10 ) );
 
 		this.avatar = new JLabel( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
 
 		statusPanel.add( this.createStatusPanel(), BorderLayout.CENTER );
 		statusPanel.add( this.avatar, BorderLayout.WEST );
-		
+
 		JPanel statusContainer = new JPanel( new CardLayout( 10, 10 ) );
 		statusContainer.add( statusPanel, "" );
 
 		JPanel summaryContainer = new JPanel( new CardLayout( 10, 10 ) );
 		summaryContainer.add( AdventureSelectPanel.getAdventureSummary( "statusDropdown" ), "" );
 
-		this.framePanel.add( statusContainer, BorderLayout.NORTH );
-		this.framePanel.add( summaryContainer, BorderLayout.CENTER );
+		JPanel charSheetPanel = new JPanel( new BorderLayout() );
+		charSheetPanel.add( statusContainer, BorderLayout.NORTH );
+		charSheetPanel.add( summaryContainer, BorderLayout.CENTER );
 
 		this.statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
 		KoLCharacter.addCharacterListener( this.statusRefresher );
 
 		this.statusRefresher.updateStatus();
-		JComponentUtilities.setComponentSize( this.framePanel, -1, 480 );
+		JComponentUtilities.setComponentSize( charSheetPanel, -1, 480 );
+
+		this.setCenterComponent( charSheetPanel );
 	}
 
 	public void dispose()

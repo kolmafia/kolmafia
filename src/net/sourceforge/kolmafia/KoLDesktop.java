@@ -35,13 +35,8 @@ package net.sourceforge.kolmafia;
 
 import com.sun.java.forums.CloseableTabbedPane;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
-
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -57,25 +52,17 @@ import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.FlowerHunterFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SendMessageFrame;
-
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
-import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
 import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
-
-import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
-
 import net.sourceforge.kolmafia.utilities.PauseObject;
-
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 import tab.CloseListener;
@@ -109,46 +96,13 @@ public class KoLDesktop
 			this.addWindowListener( minimizeListener );
 		}
 
-		this.getContentPane().setLayout( new BorderLayout() );
-
 		this.tabs.setTabPlacement( SwingConstants.TOP );
-		this.getContentPane().add( this.tabs, BorderLayout.CENTER );
+		this.setCenterComponent( this.tabs );
+
 		this.addCompactPane();
 
-		JToolBar toolbarPanel = this.getToolbar();
-
-		int scriptButtons = Preferences.getInteger( "scriptButtonPosition" );
-
-		if ( scriptButtons != 0 )
-		{
-			String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
-
-			JToolBar scriptBar = null;
-
-			if ( scriptButtons == 1 )
-			{
-				scriptBar = toolbarPanel;
-				scriptBar.add( Box.createHorizontalStrut( 10 ) );
-			}
-			else
-			{
-				scriptBar = new JToolBar( SwingConstants.VERTICAL );
-				scriptBar.setFloatable( false );
-			}
-
-			for ( int i = 0; i < scriptList.length; ++i )
-			{
-				scriptBar.add( new LoadScriptButton( i + 1, scriptList[ i ] ) );
-			}
-
-			if ( scriptButtons == 2 )
-			{
-				JPanel scriptBarHolder = new JPanel();
-				scriptBarHolder.add( scriptBar );
-
-				this.getContentPane().add( scriptBarHolder, BorderLayout.EAST );
-			}
-		}
+		this.getToolbar();
+		this.addScriptPane();
 
 		KoLDesktop.INSTANCE = this;
 		new MemoryUsageMonitor().start();
@@ -162,11 +116,6 @@ public class KoLDesktop
 	public boolean shouldAddStatusBar()
 	{
 		return false;
-	}
-
-	public Component getDefaultFocusComponent()
-	{
-		return this.tabs;
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -249,8 +198,8 @@ public class KoLDesktop
 		if ( Preferences.getBoolean( "rememberDesktopSize" ) )
 		{
 			Dimension tempDim = this.getSize();
-			Preferences.setInteger( "desktopHeight" ,(int) tempDim.getHeight() );
-			Preferences.setInteger( "desktopWidth" , (int) tempDim.getWidth() );
+			Preferences.setInteger( "desktopHeight", (int) tempDim.getHeight() );
+			Preferences.setInteger( "desktopWidth", (int) tempDim.getWidth() );
 		}
 
 		Iterator tabIterator = this.tabListing.iterator();
@@ -306,7 +255,7 @@ public class KoLDesktop
 		if ( tabIndex == -1 )
 		{
 			KoLDesktop.INSTANCE.tabListing.add( content );
-			KoLDesktop.INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
+			KoLDesktop.INSTANCE.tabs.addTab( content.getLastTitle(), content.getCenterComponent() );
 
 			if ( content.tabs != null && !KoLDesktop.isInversionExempt( content ) )
 			{
@@ -342,8 +291,8 @@ public class KoLDesktop
 			return false;
 		}
 
-		KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
 		KoLDesktop.INSTANCE.setVisible( true );
+		KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
 
 		return true;
 	}
@@ -376,7 +325,7 @@ public class KoLDesktop
 			{
 				GenericFrame frame = (GenericFrame) frames[ i ];
 
-				frame.setTitle( frame.lastTitle );
+				frame.setTitle( frame.getLastTitle() );
 			}
 		}
 	}

@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-
 import java.awt.event.ActionListener;
 
 import java.util.List;
@@ -46,7 +45,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -56,13 +54,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
@@ -88,19 +83,13 @@ import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
-
 import net.sourceforge.kolmafia.session.InventoryManager;
-
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
-
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -267,9 +256,11 @@ public class CoinmastersFrame
 		this.selectorPanel.addChangeListener( this );
 		this.selectorPanel.setSelectedIndex( Preferences.getInteger( "coinMasterIndex" ) );
 
-		this.framePanel.add( this.selectorPanel, BorderLayout.CENTER );
+		JPanel wrapperPanel = new JPanel();
+		wrapperPanel.add( this.selectorPanel, BorderLayout.CENTER );
+		wrapperPanel.add( new StatusPanel(), BorderLayout.SOUTH );
 
-		this.add( new StatusPanel(), BorderLayout.SOUTH );
+		this.setCenterComponent( wrapperPanel );
 
 		CoinmastersFrame.INSTANCE = this;
 
@@ -277,8 +268,7 @@ public class CoinmastersFrame
 	}
 
 	/**
-	 * Whenever the tab changes, this method is used to change the title to
-	 * count the coins of the new tab
+	 * Whenever the tab changes, this method is used to change the title to count the coins of the new tab
 	 */
 
 	public void stateChanged( final ChangeEvent e )
@@ -290,9 +280,9 @@ public class CoinmastersFrame
 	{
 		JPanel panel = (JPanel) this.selectorPanel.currentPanel();
 		Component cm = ( panel instanceof JPanel ) ? panel.getComponent( 0 ) : null;
-		if (cm instanceof CoinmasterPanel )
+		if ( cm instanceof CoinmasterPanel )
 		{
-			((CoinmasterPanel) cm).setTitle();
+			( (CoinmasterPanel) cm ).setTitle();
 		}
 	}
 

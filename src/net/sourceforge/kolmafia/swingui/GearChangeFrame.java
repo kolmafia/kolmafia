@@ -34,10 +34,8 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -66,23 +64,15 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
-
 import net.sourceforge.kolmafia.session.EquipmentManager;
-
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -106,7 +96,7 @@ public class GearChangeFrame
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
 	private int modifiersWidth;
 	private JLabel modifiersLabel;
-	private FamLockCheckbox	famLockCheckbox;
+	private FamLockCheckbox famLockCheckbox;
 
 	public GearChangeFrame()
 	{
@@ -139,8 +129,7 @@ public class GearChangeFrame
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
-		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( new JScrollPane( new EquipPanel() ), "" );
+		this.setCenterComponent( new JScrollPane( new EquipPanel() ) );
 
 		GearChangeFrame.INSTANCE = this;
 

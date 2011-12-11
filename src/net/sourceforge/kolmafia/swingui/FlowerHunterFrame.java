@@ -39,7 +39,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -52,10 +51,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -65,22 +62,15 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
-
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.PvpManager;
-
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class FlowerHunterFrame
@@ -113,8 +103,10 @@ public class FlowerHunterFrame
 		this.tabs.add( "Profiler", new ClanPanel() );
 
 		this.updateRank();
-		this.framePanel.setLayout( new BorderLayout() );
-		this.framePanel.add( this.tabs, BorderLayout.NORTH );
+
+		JPanel flowerHunterPanel = new JPanel( new BorderLayout() );
+
+		flowerHunterPanel.add( this.tabs, BorderLayout.NORTH );
 
 		this.results = new ProfileRequest[ 0 ];
 
@@ -131,13 +123,15 @@ public class FlowerHunterFrame
 		this.resultCardPanel.add( resultsScroller[ 0 ], "0" );
 		this.resultCardPanel.add( resultsScroller[ 1 ], "1" );
 
-		this.framePanel.add( this.resultCardPanel, BorderLayout.CENTER );
+		flowerHunterPanel.add( this.resultCardPanel, BorderLayout.CENTER );
 
 		this.isSimple = true;
 		this.resultCards.show( this.resultCardPanel, "0" );
 
 		ToolTipManager.sharedInstance().unregisterComponent( this.resultsTable[ 0 ] );
 		ToolTipManager.sharedInstance().unregisterComponent( this.resultsTable[ 1 ] );
+
+		this.setCenterComponent( flowerHunterPanel );
 	}
 
 	private void constructTableModel( final int index, final String[] headers )

@@ -33,9 +33,11 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import com.sun.java.forums.TableSorter;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.MouseEvent;
+
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -54,6 +56,7 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -73,8 +76,6 @@ import net.sourceforge.kolmafia.swingui.table.TransparentTable;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import com.sun.java.forums.TableSorter;
 
 public class StoreManageFrame
 	extends GenericPanelFrame
@@ -97,7 +98,7 @@ public class StoreManageFrame
 		this.tabs.add( "Removals", new StoreRemovePanel() );
 		this.tabs.add( "Store Log", new StoreLogPanel() );
 
-		this.framePanel.add( this.tabs, BorderLayout.CENTER );
+		this.setCenterComponent( this.tabs );
 
 		StoreManageFrame.INSTANCE = this;
 

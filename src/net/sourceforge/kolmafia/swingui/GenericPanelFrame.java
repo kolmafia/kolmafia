@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import java.awt.BorderLayout;
-
 import net.java.dev.spellcast.utilities.ActionPanel;
 
 public class GenericPanelFrame
@@ -61,9 +59,9 @@ public class GenericPanelFrame
 	}
 
 	/**
-	 * Sets the content panel for this <code>KoLPanelFrame</code> to the given panel. This can only be called once,
-	 * and is used to initialize the <code>KoLPanelFrame</code> in the event that the panel is not known at
-	 * construction time (for example, for descendant classes).
+	 * Sets the content panel for this <code>KoLPanelFrame</code> to the given panel. This can only be called once, and
+	 * is used to initialize the <code>KoLPanelFrame</code> in the event that the panel is not known at construction
+	 * time (for example, for descendant classes).
 	 */
 
 	public void setContentPanel( final ActionPanel panel )
@@ -74,6 +72,6 @@ public class GenericPanelFrame
 			this.frameName = this.frameName.substring( this.frameName.lastIndexOf( "." ) + 1 );
 		}
 
-		this.framePanel.add( panel, BorderLayout.CENTER );
+		this.setCenterComponent( panel );
 	}
 }

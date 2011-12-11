@@ -34,12 +34,13 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.File;
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,6 +59,7 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
@@ -205,9 +207,8 @@ public class FamiliarTrainingFrame
 	{
 		super( "Familiar Trainer" );
 
-		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.training = new FamiliarTrainingPanel();
-		this.framePanel.add( this.training, "" );
+		this.setCenterComponent( this.training );
 
 		// Clear left over results from the buffer
 		FamiliarTrainingFrame.results.clear();

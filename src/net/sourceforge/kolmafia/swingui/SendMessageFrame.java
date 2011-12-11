@@ -37,7 +37,6 @@ import com.sun.java.forums.SpringUtilities;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -55,21 +54,14 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.session.ContactManager;
-
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-
 import net.sourceforge.kolmafia.textui.command.SendMessageCommand;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SendMessageFrame
@@ -92,7 +84,7 @@ public class SendMessageFrame
 		this.setRecipient( recipient );
 	}
 
-	public SendMessageFrame( final String recipient , final String text )
+	public SendMessageFrame( final String recipient, final String text )
 	{
 		this();
 		this.setRecipient( recipient );
@@ -172,7 +164,7 @@ public class SendMessageFrame
 		JPanel cardPanel = new JPanel( new CardLayout( 10, 10 ) );
 		cardPanel.add( mainHolder, "" );
 
-		this.framePanel.add( cardPanel, BorderLayout.CENTER );
+		this.setCenterComponent( mainHolder );
 	}
 
 	public void createItemAttachPanel()
@@ -253,14 +245,14 @@ public class SendMessageFrame
 
 	public boolean isVisible( Object o )
 	{
-		if ( !(o instanceof AdventureResult ) )
+		if ( !( o instanceof AdventureResult ) )
 		{
 			return false;
 		}
 
 		AdventureResult ar = (AdventureResult) o;
 
-		if ( !(ar.isItem()) )
+		if ( !( ar.isItem() ) )
 		{
 			return false;
 		}

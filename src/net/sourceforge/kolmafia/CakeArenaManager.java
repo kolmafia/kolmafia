@@ -39,7 +39,6 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
-
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 
 public class CakeArenaManager
@@ -151,7 +150,7 @@ public class CakeArenaManager
 
 		for ( int i = 0; i < count; ++i )
 		{
-			ArenaOpponent ao = (ArenaOpponent) CakeArenaManager.opponentList.get(i);
+			ArenaOpponent ao = (ArenaOpponent) CakeArenaManager.opponentList.get( i );
 			if ( ao.getId() == opponentId )
 			{
 				return ao;

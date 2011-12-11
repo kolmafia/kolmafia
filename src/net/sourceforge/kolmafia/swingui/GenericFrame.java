@@ -43,9 +43,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+
 import java.io.File;
+
 import java.lang.ref.WeakReference;
+
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -56,11 +60,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
@@ -71,6 +77,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
@@ -90,14 +97,14 @@ public abstract class GenericFrame
 	private boolean packedOnce = false;
 	private boolean exists = true;
 
-	protected HashMap listenerMap;
-
+	private HashMap listenerMap;
 	private GlobalMenuBar menuBar;
 
+	private FramePanel framePanel;
+
 	public JTabbedPane tabs;
-	public String lastTitle;
-	public String frameName;
-	public JPanel framePanel;
+	protected String lastTitle;
+	protected String frameName;
 
 	public CompactSidePane sidepane = null;
 	public KoLCharacterAdapter refreshListener = null;
@@ -129,7 +136,7 @@ public abstract class GenericFrame
 		this.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 
 		this.tabs = this.getTabbedPane();
-		this.framePanel = this.getFramePanel();
+		this.framePanel = new FramePanel();
 
 		this.frameName = this.getClass().getName();
 		this.frameName = this.frameName.substring( this.frameName.lastIndexOf( "." ) + 1 );
@@ -142,10 +149,13 @@ public abstract class GenericFrame
 			JSplitPane doublePane =
 				new JSplitPane( JSplitPane.VERTICAL_SPLIT, new GenericScrollPane( framePanel ), statusBar );
 
-			this.setContentPane( doublePane );
-
 			doublePane.setOneTouchExpandable( true );
 			doublePane.setDividerLocation( 0.9 );
+
+			JPanel wrappedDoublePane = new JPanel( new BorderLayout( 0, 0 ) );
+			wrappedDoublePane.add( doublePane, BorderLayout.CENTER );
+
+			this.setContentPane( wrappedDoublePane );
 		}
 		else
 		{
@@ -164,17 +174,17 @@ public abstract class GenericFrame
 		}
 
 		this.setFocusCycleRoot( true );
-		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( getDefaultFocusComponent() ) );
+		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.framePanel ) );
 	}
 
-	public Component getDefaultFocusComponent()
+	public void setCenterComponent( Component c )
 	{
-		return this.framePanel;
+		this.framePanel.add( c, BorderLayout.CENTER );
 	}
 
-	public JPanel getFramePanel()
+	public Component getCenterComponent()
 	{
-		return new JPanel( new BorderLayout( 0, 0 ) );
+		return this.framePanel.centerComponent;
 	}
 
 	public boolean shouldAddStatusBar()
@@ -209,7 +219,7 @@ public abstract class GenericFrame
 		this.listenerMap.put( component, new WeakReference( listener ) );
 	}
 
-	private void removeActionListener( final Object component, final ActionListener listener )
+	protected void removeActionListener( final JComponent component, final ActionListener listener )
 	{
 		if ( component instanceof JCheckBox )
 		{
@@ -331,7 +341,7 @@ public abstract class GenericFrame
 		if ( force )
 		{
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+			this.framePanel.add( toolbarPanel, BorderLayout.NORTH );
 			toolbarPanel.setFloatable( false );
 			return toolbarPanel;
 		}
@@ -340,22 +350,22 @@ public abstract class GenericFrame
 		{
 		case 1:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+			this.framePanel.add( toolbarPanel, BorderLayout.NORTH );
 			break;
 
 		case 2:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			this.getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
+			this.framePanel.add( toolbarPanel, BorderLayout.SOUTH );
 			break;
 
 		case 3:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-			this.getContentPane().add( toolbarPanel, BorderLayout.WEST );
+			this.framePanel.add( toolbarPanel, BorderLayout.WEST );
 			break;
 
 		case 4:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-			this.getContentPane().add( toolbarPanel, BorderLayout.EAST );
+			this.framePanel.add( toolbarPanel, BorderLayout.EAST );
 			break;
 
 		default:
@@ -363,7 +373,7 @@ public abstract class GenericFrame
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
 			if ( this instanceof LoginFrame || this instanceof ChatFrame )
 			{
-				this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+				this.framePanel.add( toolbarPanel, BorderLayout.NORTH );
 				break;
 			}
 		}
@@ -403,6 +413,24 @@ public abstract class GenericFrame
 			this.checkForLogout();
 		}
 
+		// Remove listeners from interface elements
+
+		if ( this.listenerMap != null )
+		{
+			Object[] entries = this.listenerMap.entrySet().toArray();
+
+			for ( int i = 0; i < entries.length; ++i )
+			{
+				Entry entry = (Entry) entries[ i ];
+
+				JComponent component = (JComponent) entry.getKey();
+
+				ActionListener listener = (ActionListener) entry.getValue();
+
+				this.removeActionListener( component, listener );
+			}
+		}
+
 		if ( this.refreshListener != null )
 		{
 			KoLCharacter.removeCharacterListener( this.refreshListener );
@@ -436,6 +464,11 @@ public abstract class GenericFrame
 		return this.lastTitle;
 	}
 
+	public String getLastTitle()
+	{
+		return this.lastTitle;
+	}
+
 	public String getFrameName()
 	{
 		return this.frameName;
@@ -461,7 +494,40 @@ public abstract class GenericFrame
 		KoLCharacter.addCharacterListener( this.refreshListener );
 
 		this.sidepane.setBackground( KoLConstants.ENABLED_COLOR );
-		this.getContentPane().add( this.sidepane, BorderLayout.WEST );
+		this.framePanel.add( this.sidepane, BorderLayout.WEST );
+	}
+
+	public void addScriptPane()
+	{
+		int scriptButtons = Preferences.getInteger( "scriptButtonPosition" );
+		String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
+
+		if ( scriptButtons == 0 || scriptList.length == 0 )
+		{
+			return;
+		}
+
+		JToolBar scriptBar;
+
+		if ( scriptButtons == 1 )
+		{
+			scriptBar = this.getToolbar();
+		}
+		else
+		{
+			scriptBar = new JToolBar( SwingConstants.VERTICAL );
+			scriptBar.setFloatable( false );
+		}
+
+		for ( int i = 0; i < scriptList.length; ++i )
+		{
+			scriptBar.add( new LoadScriptButton( i + 1, scriptList[ i ] ) );
+		}
+
+		if ( scriptButtons == 2 )
+		{
+			this.framePanel.add( scriptBar, BorderLayout.EAST );
+		}
 	}
 
 	public void setStatusMessage( final String message )
@@ -511,7 +577,7 @@ public abstract class GenericFrame
 
 	/**
 	 * Overrides the default isEnabled() method, because the setEnabled() method does not call the superclass's version.
-	 *
+	 * 
 	 * @return <code>true</code>
 	 */
 
@@ -740,6 +806,36 @@ public abstract class GenericFrame
 		}
 	}
 
+	private static class FramePanel
+		extends JPanel
+	{
+
+		private Component centerComponent;
+
+		public FramePanel()
+		{
+			super( new BorderLayout() );
+		}
+
+		public void add( Component c, Object constraint )
+		{
+			super.add( c, constraint );
+
+			if ( constraint == BorderLayout.CENTER )
+			{
+				this.centerComponent = c;
+
+				this.setFocusCycleRoot( true );
+				this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( c ) );
+			}
+		}
+
+		public boolean isFocusTraversable()
+		{
+			return false;
+		}
+	}
+
 	private static class LogoutRunnable
 		implements Runnable
 	{
@@ -748,4 +844,5 @@ public abstract class GenericFrame
 			LogoutManager.logout();
 		}
 	}
+
 }

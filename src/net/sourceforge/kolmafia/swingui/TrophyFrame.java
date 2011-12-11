@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -92,8 +91,7 @@ public class TrophyFrame
 	public TrophyFrame()
 	{
 		super( "Trophy Arranger" );
-		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( new TrophyArrangePanel(), "" );
+		this.setCenterComponent( new TrophyArrangePanel() );
 	}
 
 	public static class TrophyArrangePanel

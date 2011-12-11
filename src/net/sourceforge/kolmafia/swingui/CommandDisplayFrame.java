@@ -33,12 +33,9 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import java.awt.BorderLayout;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
@@ -67,20 +64,7 @@ public class CommandDisplayFrame
 	{
 		super( "Graphical CLI" );
 
-	}
-
-	public JPanel getFramePanel()
-	{
-		CommandDisplayPanel commandPanel = new CommandDisplayPanel();
-
-		if ( GenericFrame.appearsInTab( "CommandDisplayFrame" ) )
-		{
-			return commandPanel;
-		}
-		
-		JPanel framePanel = new JPanel( new BorderLayout( 0, 0 ) );
-		framePanel.add( commandPanel, BorderLayout.CENTER );
-		return framePanel;
+		this.setCenterComponent( new CommandDisplayPanel() );
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -132,7 +116,7 @@ public class CommandDisplayFrame
 			{
 				String cmd = StringUtilities.globalStringReplace( (String) commandIterator.next(), "<", "&lt;" );
 
-				if (i == 0)
+				if ( i == 0 )
 				{
 					RequestLogger.printLine( " > <b>CURRENT</b>: " + cmd );
 				}

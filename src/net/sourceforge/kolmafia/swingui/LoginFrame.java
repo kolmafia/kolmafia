@@ -34,9 +34,7 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Dimension;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -58,7 +56,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -95,8 +92,7 @@ public class LoginFrame
 
 		this.tabs.addTab( "Connection", connectPanel );
 
-		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( this.tabs, "" );
+		this.setCenterComponent( this.tabs );
 
 		LoginFrame.INSTANCE = this;
 

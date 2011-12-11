@@ -33,9 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import java.awt.CardLayout;
 import java.awt.GridLayout;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -50,15 +48,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
-
-import net.sourceforge.kolmafia.session.ContactManager;
-
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
-
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
 public class ContactListFrame
@@ -79,8 +71,7 @@ public class ContactListFrame
 
 		ContactListFrame.this.contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
 
-		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( new ContactListPanel( this.contactsDisplay ), "" );
+		this.setCenterComponent( new ContactListPanel( this.contactsDisplay ) );
 
 		JToolBar toolbarPanel = this.getToolbar();
 		if ( toolbarPanel != null )

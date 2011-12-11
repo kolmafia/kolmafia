@@ -46,11 +46,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import javax.swing.JPanel;
 import javax.swing.JTable;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
@@ -58,11 +57,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CalendarFrame
@@ -76,8 +72,8 @@ public class CalendarFrame
 	{
 		// all dates are presented as if the day begins at rollover
 
-		CalendarFrame.SHORT_FORMAT.setTimeZone( TimeZone.getTimeZone("GMT-0330") );
-		CalendarFrame.LONG_FORMAT.setTimeZone( TimeZone.getTimeZone("GMT-0330") );
+		CalendarFrame.SHORT_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT-0330" ) );
+		CalendarFrame.LONG_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT-0330" ) );
 	}
 
 	// static final array of file names (not including .gif extension)
@@ -100,21 +96,20 @@ public class CalendarFrame
 
 	private static RequestPane dailyDisplay;
 	private static RequestPane predictDisplay;
-	
+
 	private static Calendar selectedDate;
 	private static int selectedRow, selectedColumn;
 
 	public CalendarFrame()
 	{
 		super( "Farmer's Almanac" );
-		this.framePanel.setLayout( new BorderLayout() );
 
 		CalendarFrame.selectedRow = -1;
 		CalendarFrame.selectedColumn = -1;
 
 		try
 		{
-			CalendarFrame.selectedDate = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330"), Locale.US );
+			CalendarFrame.selectedDate = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ), Locale.US );
 		}
 		catch ( Exception e )
 		{
@@ -135,14 +130,17 @@ public class CalendarFrame
 		this.tabs.addTab( "KoL One-a-Day", dailyDisplay );
 		this.tabs.addTab( "Upcoming Events", predictDisplay );
 
-		this.framePanel.add( this.tabs, BorderLayout.CENTER );
-
 		CalendarFrame.calendar = new JCalendar( OracleTable.class );
 		CalendarFrame.oracleTable = (OracleTable) CalendarFrame.calendar.getTable();
 		CalendarFrame.oracleTable.getSelectionModel().addListSelectionListener( this );
 		CalendarFrame.oracleTable.getColumnModel().getSelectionModel().addListSelectionListener( this );
 
-		this.framePanel.add( CalendarFrame.calendar, BorderLayout.EAST );
+		JPanel calendarPanel = new JPanel( new BorderLayout() );
+		calendarPanel.add( this.tabs, BorderLayout.CENTER );
+		calendarPanel.add( CalendarFrame.calendar, BorderLayout.EAST );
+
+		this.setCenterComponent( calendarPanel );
+
 		this.updateTabs();
 	}
 
@@ -433,7 +431,7 @@ public class CalendarFrame
 			super( model );
 			this.model = model;
 
-			this.dateCalculator = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330"), Locale.US );
+			this.dateCalculator = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ), Locale.US );
 			this.normalRenderer = new DefaultTableCellRenderer();
 
 			this.todayRenderer = new DefaultTableCellRenderer();

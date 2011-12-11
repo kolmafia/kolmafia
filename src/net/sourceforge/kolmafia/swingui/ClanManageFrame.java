@@ -33,11 +33,12 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import com.sun.java.forums.TableSorter;
+
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -50,6 +51,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -78,8 +80,6 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-
-import com.sun.java.forums.TableSorter;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the clan management functionality of Kingdom of Loathing.
@@ -169,8 +169,7 @@ public class ClanManageFrame
 
 		this.tabs.addTab( "Member Search", searchPanel );
 
-		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( this.tabs, "" );
+		this.setCenterComponent( this.tabs );
 	}
 
 	/**

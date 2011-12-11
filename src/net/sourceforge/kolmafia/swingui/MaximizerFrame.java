@@ -47,7 +47,6 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +59,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -75,42 +73,32 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.Speculation;
-
 import net.sourceforge.kolmafia.moods.MoodManager;
-
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
-
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.StoreManager;
-
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -253,19 +241,23 @@ public class MaximizerFrame
 	{
 		super( "Modifier Maximizer" );
 
-		this.framePanel.add( new MaximizerPanel(), BorderLayout.NORTH );
+		JPanel wrapperPanel = new JPanel( new BorderLayout() );
+		wrapperPanel.add( new MaximizerPanel(), BorderLayout.NORTH );
 
 		this.boostList = new ShowDescriptionList( MaximizerFrame.boosts, 12 );
 		this.boostList.addListSelectionListener( this );
 
-		this.framePanel.add( new BoostsPanel( this.boostList ), BorderLayout.CENTER );
+		wrapperPanel.add( new BoostsPanel( this.boostList ), BorderLayout.CENTER );
+
+		this.setCenterComponent( wrapperPanel );
+
 		if ( this.eval != null )
 		{
 			this.valueChanged( null );
 		}
 		else
 		{
-			if ( Preferences.getInteger( "maximizerMRULength") > 0)
+			if ( Preferences.getInteger( "maximizerMRULength" ) > 0 )
 			{
 				KoLConstants.maximizerMList.updateJComboData( expressionSelect );
 			}

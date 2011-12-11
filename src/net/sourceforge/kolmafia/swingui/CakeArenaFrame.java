@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -47,6 +46,7 @@ import javax.swing.table.TableCellRenderer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -68,8 +68,7 @@ public class CakeArenaFrame
 	{
 		super( "Susie's Secret Bedroom!" );
 
-		this.framePanel.setLayout( new BorderLayout() );
-		this.framePanel.add( new CakeArenaPanel(), BorderLayout.CENTER );
+		this.setCenterComponent( new CakeArenaPanel() );
 		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresher() ) );
 	}
 

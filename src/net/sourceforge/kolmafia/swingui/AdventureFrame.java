@@ -44,17 +44,13 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLAdventure;
-
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.swingui.panel.ChoiceOptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.CustomCombatPanel;
 import net.sourceforge.kolmafia.swingui.panel.MoodOptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestoreOptionsPanel;
-
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class AdventureFrame
@@ -95,14 +91,16 @@ public class AdventureFrame
 
 		adventureDetails.add( meterPanel, BorderLayout.SOUTH );
 
-		this.framePanel.setLayout( new BorderLayout( 20, 20 ) );
-		this.framePanel.add( adventureDetails, BorderLayout.NORTH );
-		this.framePanel.add( this.getSouthernTabs(), BorderLayout.CENTER );
+		JPanel adventurePanel = new JPanel( new BorderLayout( 20, 20 ) );
+		adventurePanel.add( adventureDetails, BorderLayout.NORTH );
+		adventurePanel.add( this.getSouthernTabs(), BorderLayout.CENTER );
 
 		AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( Preferences.getString( "lastAdventure" ) ) );
 		AdventureFrame.adventureSelector.fillCurrentConditions();
 
-		JComponentUtilities.setComponentSize( this.framePanel, 640, 480 );
+		JComponentUtilities.setComponentSize( adventurePanel, 640, 480 );
+
+		this.setCenterComponent( adventurePanel );
 	}
 
 	public boolean shouldAddStatusBar()
