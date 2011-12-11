@@ -772,6 +772,7 @@ Susie Soyburger	HP: 90 Def: 35 Atk: 50 P: demihuman	soyburger juice (0)
 Susie Soyburger Cast Member	HP: 110 Def: 60 Atk: 70 P: humanoid	soyburger juice (0)
 Swamp Duck	HP: 182 Def: 177 Atk: 169 Meat: 120-172 E: stench P: beast	fetid feather (10)	duct tape (5)
 Swarm of Fire Ants	HP: 135 Def: 133 Atk: 142 E: heat P: bug	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
+Swarm of fudgewasps	HP: 0	fudgecule (c100)
 Swarm of Ghuol Whelps	E: spooky P: undead
 Swarm of Killer Bees	HP: 75 Def: 54 Atk: 59 "Somewhat Poisoned" P: bug	baby killer bee (5)	royal jelly (25)
 Swarm of Knob Lice	HP: 30 Def: 25 Atk: 25 Phys: 50 P: bug
