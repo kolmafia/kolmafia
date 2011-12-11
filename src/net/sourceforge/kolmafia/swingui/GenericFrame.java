@@ -455,7 +455,7 @@ public abstract class GenericFrame
 	{
 		if ( StaticEntity.getClient() instanceof KoLmafiaGUI && !GenericFrame.instanceExists() )
 		{
-			RequestThread.runInParallel( new LogoutRunnable() );
+			LogoutManager.logout();
 		}
 	}
 
@@ -833,15 +833,6 @@ public abstract class GenericFrame
 		public boolean isFocusTraversable()
 		{
 			return false;
-		}
-	}
-
-	private static class LogoutRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			LogoutManager.logout();
 		}
 	}
 
