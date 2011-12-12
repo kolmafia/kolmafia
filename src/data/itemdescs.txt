@@ -5434,4 +5434,4 @@
 5433	497420048	trolldoll.gif	blue raspberry troll doll
 5434
 5435	800138400	fudgecule.gif	fudgecule
-5436	643283242	fudgelily.gif	fudge lily
+5436	643283242	fudgelily.gif	fudge lily	fudge lillies
