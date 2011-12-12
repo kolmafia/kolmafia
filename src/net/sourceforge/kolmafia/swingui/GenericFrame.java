@@ -435,9 +435,14 @@ public abstract class GenericFrame
 
 				JComponent component = (JComponent) entry.getKey();
 
-				ActionListener listener = (ActionListener) entry.getValue();
+				WeakReference reference = (WeakReference) entry.getValue();
 
-				this.removeActionListener( component, listener );
+				ActionListener listener = (ActionListener) reference.get();
+
+				if ( listener != null )
+				{
+					this.removeActionListener( component, listener );
+				}
 			}
 		}
 
