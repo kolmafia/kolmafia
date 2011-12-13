@@ -382,7 +382,7 @@ Frozen Duck	HP: 180 Def: 178 Atk: 170 Meat: 125-152 E: cold P: beast	frozen feat
 Fruit Golem	HP: 46 Def: 56 Atk: 56 P: object	cherry (15)	orange (15)	lime (15)
 Fudge monkey	HP: 100 Def: 80 Atk: 80 P: humanoid	fudgecule (c100)
 Fudge oyster	HP: 130 Def: 100 Atk: 100 P: humanoid	fudgecule (c100)
-Fudge poodle	HP: 0 P: humanoid	fudgecule (c100)
+Fudge poodle	HP: 150 Def: 120 Atk: 120 P: humanoid	fudgecule (c100)
 Fudge weasel	HP: 100 Def: 80 Atk: 80 P: humanoid	fudgecule (c100)
 Fudge vulture	HP: 100 Def: 80 Atk: 80 P: humanoid	fudgecule (c100)
 Funk Particle	HP: 80 Def: 75 Atk: 85 P: strange	fat bottom quark (0)
@@ -773,7 +773,7 @@ Susie Soyburger	HP: 90 Def: 35 Atk: 50 P: demihuman	soyburger juice (0)
 Susie Soyburger Cast Member	HP: 110 Def: 60 Atk: 70 P: humanoid	soyburger juice (0)
 Swamp Duck	HP: 182 Def: 177 Atk: 169 Meat: 120-172 E: stench P: beast	fetid feather (10)	duct tape (5)
 Swarm of Fire Ants	HP: 135 Def: 133 Atk: 142 E: heat P: bug	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
-Swarm of fudgewasps	HP: 0	fudgecule (c100)
+Swarm of fudgewasps	HP: 500 Def: 450 Atk: 450 	fudgecule (c100)
 Swarm of Ghuol Whelps	E: spooky P: undead
 Swarm of Killer Bees	HP: 75 Def: 54 Atk: 59 "Somewhat Poisoned" P: bug	baby killer bee (5)	royal jelly (25)
 Swarm of Knob Lice	HP: 30 Def: 25 Atk: 25 Phys: 50 P: bug
