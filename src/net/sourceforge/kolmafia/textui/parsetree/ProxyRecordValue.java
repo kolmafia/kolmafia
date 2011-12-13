@@ -211,6 +211,8 @@ public class ProxyRecordValue
 			.add( "reusable", DataTypes.BOOLEAN_TYPE )
 			.add( "usable", DataTypes.BOOLEAN_TYPE )
 			.add( "multi", DataTypes.BOOLEAN_TYPE )
+			.add( "fancy", DataTypes.BOOLEAN_TYPE )
+			.add( "candy", DataTypes.BOOLEAN_TYPE )
 			.add( "bounty", DataTypes.LOCATION_TYPE )
 			.add( "bounty_count", DataTypes.INT_TYPE )
 			.add( "seller", DataTypes.COINMASTER_TYPE )
@@ -313,6 +315,18 @@ public class ProxyRecordValue
 			int id = ItemDatabase.getItemId( this.contentString );
 			return ItemDatabase.getConsumptionType( id ) == KoLConstants.CONSUME_MULTIPLE ||
 				ItemDatabase.getAttribute( id, ItemDatabase.ATTR_MULTIPLE );
+		}
+
+		public boolean get_fancy()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.isFancyItem( id );
+		}
+
+		public boolean get_candy()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.isCandyItem( id );
 		}
 
 		public Value get_bounty()
