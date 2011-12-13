@@ -843,11 +843,6 @@ public abstract class GenericFrame
 				this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( c ) );
 			}
 		}
-
-		public boolean isFocusTraversable()
-		{
-			return false;
-		}
 	}
 
 	private static class LogoutRunnable
