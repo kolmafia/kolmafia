@@ -1456,11 +1456,13 @@ public class OptionsFrame
 			super( "", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
 
 			UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
-			Object[] installedLooks = new Object[ installed.length ];
+			Object[] installedLooks = new Object[ installed.length + 1 ];
 
-			for ( int i = 0; i < installedLooks.length; ++i )
+			installedLooks[ 0 ] = "Always use OS default look and feel";
+
+			for ( int i = 0; i < installed.length; ++i )
 			{
-				installedLooks[ i ] = installed[ i ].getClassName();
+				installedLooks[ i + 1 ] = installed[ i ].getClassName();
 			}
 
 			this.looks = new JComboBox( installedLooks );
@@ -1512,10 +1514,11 @@ public class OptionsFrame
 
 		public void actionConfirmed()
 		{
-			String lookAndFeel = (String) this.looks.getSelectedItem();
-			if ( lookAndFeel == null || lookAndFeel.equals( defaultLookAndFeel ) )
+			String lookAndFeel = "";
+
+			if ( this.looks.getSelectedIndex() > 0 )
 			{
-				lookAndFeel = "";
+				lookAndFeel = (String) this.looks.getSelectedItem();
 			}
 
 			Preferences.setString( "swingLookAndFeel", lookAndFeel );
@@ -1528,12 +1531,16 @@ public class OptionsFrame
 		public void actionCancelled()
 		{
 			String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
+
 			if ( lookAndFeel.equals( "" ) )
 			{
-				lookAndFeel = this.defaultLookAndFeel;
+				this.looks.setSelectedIndex( 0 );
+			}
+			else
+			{
+				this.looks.setSelectedItem( lookAndFeel );
 			}
 
-			this.looks.setSelectedItem( lookAndFeel );
 			this.toolbars.setSelectedIndex( Preferences.getInteger( "toolbarPosition" ) );
 			this.scripts.setSelectedIndex( Preferences.getInteger( "scriptButtonPosition" ) );
 		}

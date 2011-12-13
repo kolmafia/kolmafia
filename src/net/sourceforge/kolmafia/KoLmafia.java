@@ -346,7 +346,7 @@ public abstract class KoLmafia
 
 		// All dates are presented as if the day began at rollover.
 
-		TimeZone koltime = (TimeZone) TimeZone.getTimeZone("GMT-0330");
+		TimeZone koltime = (TimeZone) TimeZone.getTimeZone( "GMT-0330" );
 
 		KoLConstants.DAILY_FORMAT.setTimeZone( koltime );
 
@@ -384,6 +384,7 @@ public abstract class KoLmafia
 		// preferences. Always do this.
 
 		String defaultLookAndFeel;
+
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) )
 		{
 			defaultLookAndFeel = UIManager.getSystemLookAndFeelClassName();
@@ -394,6 +395,7 @@ public abstract class KoLmafia
 		}
 
 		String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
+
 		if ( lookAndFeel.equals( "" ) )
 		{
 			lookAndFeel = defaultLookAndFeel;
@@ -434,15 +436,6 @@ public abstract class KoLmafia
 		if ( StaticEntity.usesSystemTray() )
 		{
 			SystemTrayFrame.addTrayIcon();
-		}
-
-		if ( lookAndFeel.equals( defaultLookAndFeel ) )
-		{
-			Preferences.setString( "swingLookAndFeel", "" );
-		}
-		else
-		{
-			Preferences.setString( "swingLookAndFeel", lookAndFeel );
 		}
 
 		if ( System.getProperty( "os.name" ).startsWith( "Win" ) || lookAndFeel.equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
