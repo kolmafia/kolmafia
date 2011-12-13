@@ -1875,6 +1875,17 @@ public class ItemDatabase
 	{
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_FANCY );
 	}
+ 
+	/**
+	 * Returns true if the item is a candy, otherwise false
+	 *
+	 * @return true if item is a candy
+	 */
+
+	public static final boolean isCandyItem( final int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_CANDY );
+	}
 
 	/**
 	 * Returns the name for an item, given its Id number.
