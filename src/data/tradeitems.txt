@@ -5406,7 +5406,7 @@
 5397	peppermint patty	food	all	0
 5398	peppermint crook	none, combat	all	0
 5399	peppermint rhino baby	grow	all	0
-5400
+5400	candy cane candygram	none, curse	all	0
 5401	peppermint parasol	none, combat reusable	all	0
 5402	giant candy cane	weapon	all	0
 5403	Mint Salton Pepper's Peppermint Seed Catalog	usable	all	0
@@ -5443,3 +5443,5 @@
 5434
 5435	fudgecule	none	all	15
 5436	fudge lily	usable	all	0
+5437	superheated fudge	none	all	0
+5438	fluid of fudge-finding	usable	all	0

@@ -5006,7 +5006,7 @@
 5005	927064834	aacard.gif	Alice's Army Foil Sniper
 5006	745741623	aacard.gif	Alice's Army Foil Dervish
 5007	267211165	aacard.gif	Alice's Army Foil Martyr
-5008	358154228	aapack.gif	Single Alice's Army Foil
+5008	358154228	aapack.gif	Single Alice's Army Foil	Packets of Single Alice's Army Foils
 5009	251309076	cardsleeve.gif	card sleeve
 5010	272996974	zomboeye.gif	evil eye
 5011	231901229	aatat.gif	Alice's Army Foil tattoo
@@ -5398,7 +5398,7 @@
 5397	257430124	pep_patty.gif	peppermint patty	peppermint patties, sir
 5398	218861653	pep_crook.gif	peppermint crook
 5399	705620213	pep_rhinobaby.gif	peppermint rhino baby
-5400
+5400	767129386	pep_gram.gif	candy cane candygram
 5401	642836578	pep_parasol.gif	peppermint parasol
 5402	863307943	pep_bigcane.gif	giant candy cane
 5403	396103418	pep_catalog.gif	Mint Salton Pepper's Peppermint Seed Catalog
@@ -5435,3 +5435,5 @@
 5434
 5435	800138400	fudgecule.gif	fudgecule
 5436	643283242	fudgelily.gif	fudge lily	fudge lillies
+5437 177390730 hotfudge.gif superheated fudge	blasts of superheated fudge
+5438 903909397 potion5.gif fluid of fudge-finding	flagons of fluid of fudge-finding
