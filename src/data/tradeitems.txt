@@ -1167,7 +1167,7 @@
 1158	Meleegra&trade; pills	multiple	all	50
 1159	mariachi G-string	none, combat	all	40
 1160	irate sombrero	hat	all	55
-1161	pile of candy	multiple	all	50
+1161	pile of candy	multiple, candy	all	50
 1162	handsomeness potion	multiple	all	50
 1163	marzipan skull	multiple, candy	all	40
 1164	poultrygeist	none	all	50
@@ -1773,7 +1773,7 @@
 1764	Spookyraven library key	none	none	0
 1765	Spookyraven gallery key	none	none	0
 1766	Spookyraven ballroom key	none	none	0
-1767	pack of chewing gum	multiple	all	80
+1767	pack of chewing gum	multiple, candy	all	80
 1768	Gnomish toolbox	multiple	all	150
 1769	fricasseed brains	food	all	20
 1770	brains casserole	food	all	35
@@ -1968,7 +1968,7 @@
 1959	tattered scrap of paper	none, combat, solo	all	35
 1960	scroll of ancient forbidden unspeakable evil	none, combat	all	65
 1961	can of Binarrrca	multiple	all	0
-1962	Bit O' Ectoplasm	multiple	all	25
+1962	Bit O' Ectoplasm	multiple, candy	all	25
 1963	dance card	usable	all	55
 1964	opera mask	hat	all	37
 1965	bottle of Monsieur Bubble	mp, combat	all	50
@@ -2740,7 +2740,7 @@
 2731	shot of pear schnapps	drink	all	175
 2732	shot of peach schnapps	drink	all	175
 2733	bunch of square grapes	food	all	65
-2734	brown sugar cane	food	all	55
+2734	brown sugar cane	food, candy	all	55
 2735	sandwich of the gods	food	display	100
 2736	Pan-Dimensional Gargle Blaster	drink	display	200
 2737	enchanted leopard-print barbell	usable	display	300
@@ -2949,7 +2949,7 @@
 2940	Spooky Surprise Egg	food	all	420
 2941	Steal This Candy	usable, candy	all	25
 2942	chocolate filthy lucre	multiple, candy	all	35
-2943	Angry Farmer's Wife Candy	usable	all	30
+2943	Angry Farmer's Wife Candy	usable, candy	all	30
 2944
 2945	party hat	hat	all	50
 2946	V for Vivala mask	accessory	all	0
@@ -3275,7 +3275,7 @@
 3266	bag of Saccharine Maple saplings	offhand	none	0
 3267	bag of Laughing Willow saplings	offhand	none	0
 3268	handful of Crotchety Pine needles	usable	all	50
-3269	lump of Saccharine Maple sap	usable	all	50
+3269	lump of Saccharine Maple sap	usable, candy	all	50
 3270	handful of Laughing Willow bark	usable	all	50
 3271	crotchety pants	pants	display	0
 3272	Saccharine Maple pendant	accessory	display	0
@@ -3296,7 +3296,7 @@
 3287	quasi-ethereal macaroni fragments	usable	display	200
 3288	shimmering tendrils	usable	display	500
 3289	scintillating powder	usable	display	400
-3290	abandoned candy	multiple	all	150
+3290	abandoned candy	multiple, candy	all	150
 3291	secret tropical island volcano lair map	none	none	0
 3292	adorable seal larva	grow	display	0
 3293	untamable turtle	grow	display	0
@@ -4182,14 +4182,14 @@
 4173	floaty rock pants	pants	all	0
 4174	floaty rock necklace	accessory	all	0
 4175	spaghetti cult robe	accessory	none	0
-4176	sugar sheet	none	all	0
+4176	sugar sheet	none, candy	all	0
 4177	Tome of Sugar Shummoning	usable	all	0
-4178	sugar shotgun	weapon	display	0
-4179	sugar shillelagh	weapon	display	0
-4180	sugar shank	weapon	display	0
-4181	sugar chapeau	hat	display	0
-4182	sugar shorts	pants	display	0
-4183	sugar shield	familiar	display	0
+4178	sugar shotgun	weapon, candy	display	0
+4179	sugar shillelagh	weapon, candy	display	0
+4180	sugar shank	weapon, candy	display	0
+4181	sugar chapeau	hat, candy	display	0
+4182	sugar shorts	pants, candy	display	0
+4183	sugar shield	familiar, candy	display	0
 4184	slime convention swag bag	usable	all	0
 4185	slime convention flyers	none	all	5
 4186	slime convention coupons	none	all	5
@@ -4468,12 +4468,12 @@
 4459	snailmail breeches	pants	all	150
 4460	snailmail hauberk	shirt	all	160
 4461	seal-brain elixir	usable	all	33
-4462	chocolate seal-clubbing club	usable	all	0
-4463	chocolate turtle totem	usable	all	0
-4464	chocolate pasta spoon	usable	all	0
-4465	chocolate saucepan	usable	all	0
-4466	chocolate disco ball	usable	all	0
-4467	chocolate stolen accordion	usable	all	0
+4462	chocolate seal-clubbing club	usable, candy	all	0
+4463	chocolate turtle totem	usable, candy	all	0
+4464	chocolate pasta spoon	usable, candy	all	0
+4465	chocolate saucepan	usable, candy	all	0
+4466	chocolate disco ball	usable, candy	all	0
+4467	chocolate stolen accordion	usable, candy	all	0
 4468	Libram of BRICKOs	usable	all	0
 4469	BRICKO brick	multiple	all	0
 4470	BRICKO eye brick	none	all	0
@@ -4524,7 +4524,7 @@
 4515	Lobster <i>qua</i> Grill	food	gift	0
 4516	missing wine	drink	gift	0
 4517	yellow matter custard	food	all	55
-4518	delicious comfit?	usable	all	88
+4518	delicious comfit?	usable, candy	all	88
 4519	ittah bittah hookah	familiar	display	0
 4520	flamingo mallet	weapon	all	72
 4521	croquet hedgehog	none, combat	all	45
@@ -4629,7 +4629,7 @@
 4620	portable motorcycle	familiar	all	75
 4621	Game Grid token	none	all	0
 4622	Game Grid ticket	none	all	0
-4623	chocolate-covered caviar	multiple	all	333
+4623	chocolate-covered caviar	multiple, candy	all	333
 4624	pawn cookie	food	all	100
 4625	coffee pixie stick	multiple	display	50
 4626	superduperball	usable	display	10
@@ -4824,7 +4824,7 @@
 4815
 4816
 4817
-4818	CRIMBCOIDS mints	food	all	0
+4818	CRIMBCOIDS mints	food, candy	all	0
 4819	can of CRIMBCOLA	mp	all	0
 4820	CRIMBCOLOAF	food	all	0
 4821	circular CRIMBCOOKIE	food	all	100
@@ -5323,11 +5323,11 @@
 5314	bite-me-red lipstick	usable	all	75
 5315	whisker pencil	usable	all	75
 5316	press-on ribs	usable	all	75
-5317	Rattlin' Chains	usable	all	20
-5318	Gummy Brains	usable	all	20
-5319	Blood 'n' Plenty	usable	all	20
-5320	Lobos Mints	usable	all	20
-5321	Sweet Sword	usable	all	20
+5317	Rattlin' Chains	usable, candy	all	20
+5318	Gummy Brains	usable, candy	all	20
+5319	Blood 'n' Plenty	usable, candy	all	20
+5320	Lobos Mints	usable, candy	all	20
+5321	Sweet Sword	usable, candy	all	20
 5322	Ecto-Cooler	drink	all	50
 5323	Bartles and BRAAAINS wine cooler	drink	all	50
 5324	Blood Light	drink	all	50
@@ -5351,7 +5351,7 @@
 5342	The Cooler Out of Space	drink	all	500
 5343	The Necbronomicon (used)	reusable	display	1000
 5344	sorority girl's box	usable	gift	0
-5345	Necbro wafers	usable	all	40
+5345	Necbro wafers	usable, candy	all	40
 5346
 5347	A Crimbo Carol, Ch. 1 (used)	reusable	display	1000
 5348	A Crimbo Carol, Ch. 2 (used)	reusable	display	1000
@@ -5387,11 +5387,11 @@
 5378
 5379
 5380	lollipop stick	none	all	50
-5381	bananagate	none	all	300
-5382	pearidot	none	all	300
-5383	tourmalime	none	all	300
-5384	kumquartz	none	all	300
-5385	strawberyl	none	all	300
+5381	bananagate	none, candy	all	300
+5382	pearidot	none, candy	all	300
+5383	tourmalime	none, candy	all	300
+5384	kumquartz	none, candy	all	300
+5385	strawberyl	none, candy	all	300
 5386	ridiculous belt	accessory	all	0
 5387	ridiculous earring	accessory	all	0
 5388	ridiculous sunglasses	accessory	all	0
@@ -5401,13 +5401,13 @@
 5392	Thwaitgold butterfly statuette	none	display	0
 5393	scrap of sticky paper	none	all	
 5394	sandpaper	none	all	25
-5395	peppermint sprout	usable	all	0
-5396	peppermint twist	usable, fancy	all	0
-5397	peppermint patty	food	all	0
-5398	peppermint crook	none, combat	all	0
+5395	peppermint sprout	usable, candy	all	0
+5396	peppermint twist	usable, fancy, candy	all	0
+5397	peppermint patty	food, candy	all	0
+5398	peppermint crook	none, combat, candy	all	0
 5399	peppermint rhino baby	grow	all	0
-5400	candy cane candygram	none, curse	all	0
-5401	peppermint parasol	none, combat reusable	all	0
+5400	candy cane candygram	none, curse, candy	all	0
+5401	peppermint parasol	none, combat reusable, candy	all	0
 5402	giant candy cane	weapon	all	0
 5403	Mint Salton Pepper's Peppermint Seed Catalog	usable	all	0
 5404	Peppermint Pip Packet	usable	display	0
@@ -5420,13 +5420,13 @@
 5411	Crimbojito	drink	all	0
 5412	Sangria de Menthe	drink	all	0
 5413	candycaine powder	none, combat	all	25
-5414	licorice boa	familiar	all	75
-5415	licorice root	usable	all	0
-5416	banana supersucker	usable	all	400
-5417	pear supersucker	usable	all	400
-5418	lime supersucker	usable	all	400
-5419	kumquat supersucker	usable	all	400
-5420	strawberry supersucker	usable	all	400
+5414	licorice boa	familiar, candy	all	75
+5415	licorice root	usable, candy	all	0
+5416	banana supersucker	usable, candy	all	400
+5417	pear supersucker	usable, candy	all	400
+5418	lime supersucker	usable, candy	all	400
+5419	kumquat supersucker	usable, candy	all	400
+5420	strawberry supersucker	usable, candy	all	400
 5421	bananarama bangle	accessory	all	500
 5422	pair of pearidot earrings	accessory	all	500
 5423	tourmalime tourniquet	accessory	all	500
@@ -5441,7 +5441,7 @@
 5432	grape troll doll	none, combat reusable	all	0
 5433	blue raspberry troll doll	none, combat reusable	all	0
 5434
-5435	fudgecule	none	all	15
+5435	fudgecule	none, candy	all	15
 5436	fudge lily	usable	all	0
 5437	superheated fudge	none	all	0
 5438	fluid of fudge-finding	usable	all	0
