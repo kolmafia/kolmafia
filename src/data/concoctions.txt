@@ -1247,6 +1247,8 @@ pear lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	pear
 plum lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	plum
 potion of temporary gr8tness	SSAUCE, SX3	scrumdiddlyumptious solution	gr8ps
 
+fluid of fudge-finding	SSAUCE, SX3	scrumdiddlyumptious solution	superheated fudge
+
 phial of hotness	SAUCE, SX3	scrumptious reagent	hot powder
 phial of coldness	SAUCE, SX3	scrumptious reagent	cold powder
 phial of spookiness	SAUCE, SX3	scrumptious reagent	spooky powder

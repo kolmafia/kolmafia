@@ -2788,6 +2788,7 @@ Frostbitten	Cold Damage: +10, Damage Reduction: -2
 # Frosty the Hitman: +0-2 <font color=blueviolet>Sleaze Damage</font>
 Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
+# Fudgehound: Find 50% more Fudge
 Full Bottle in front of Me	Spell Damage Percent: +30
 Full of Vinegar	Weapon Damage: [+1*D]
 Full of Wist	Experience: [min(L,11)]
@@ -3785,6 +3786,7 @@ flask of baconstone juice	Effect: "Baconstoned", Effect Duration: 10
 flask of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 10
 flask of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 10
 floaty sand	Effect: "5 Pounds Lighter", Effect Duration: 10
+fluid of fudge-finding	Effect: "Fudgehound", Effect Duration: 5
 freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
 frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10
 frostbite-flavored Hob-O	Effect: "Tundra Mouth"

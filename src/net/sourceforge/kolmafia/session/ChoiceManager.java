@@ -2059,8 +2059,8 @@ public abstract class ChoiceManager
 		// Fudge Mountain Breakdown
 		new ChoiceAdventure(
 			"The Candy Diorama", "choiceAdventure559", "Fudge Mountain Breakdown",
-			new String[] { "fudge lily", "fight a swarm of fudgewasps or skip adventure", "skip adventure", "skip adventure" },
-			new String[] { "5436", null, null, null } ),
+			new String[] { "fudge lily", "fight a swarm of fudgewasps or skip adventure", "skip adventure", "superheated fudge or skip adventure" },
+			new String[] { "5436", null, null, "5437" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
