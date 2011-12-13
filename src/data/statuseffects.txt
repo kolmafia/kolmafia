@@ -962,4 +962,4 @@
 961	In the Limelight	lime.gif	c0c04d061f40b1cf7fcec48259c93ff9	use 1 lime supersucker
 962	Stop and Smell the Fudge	fudgelily.gif	9bde202465952c94aca305ed62a61bdf	use 1 fudge lily
 963
-964	Fudgehound	838c3bdf8bf8e46adec2cb6663ac861b	use 1 fluid of fudge-finding
+964	Fudgehound	fudgeplus.gif	838c3bdf8bf8e46adec2cb6663ac861b	use 1 fluid of fudge-finding
