@@ -352,11 +352,15 @@ public class ChatFormatter
 				int endIndex = startIndex + settingString.length();
 
 				StringBuffer newSetting = new StringBuffer();
-				newSetting.append( oldSetting.substring( 0, startIndex ) );
 
-				if ( endIndex < oldSetting.length() )
+				if ( startIndex != -1 )
 				{
-					newSetting.append( oldSetting.substring( endIndex ) );
+					newSetting.append( oldSetting.substring( 0, startIndex ) );
+
+					if ( endIndex < oldSetting.length() )
+					{
+						newSetting.append( oldSetting.substring( endIndex ) );
+					}
 				}
 
 				String cleanString = newSetting.toString();
