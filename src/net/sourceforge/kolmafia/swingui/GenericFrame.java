@@ -470,7 +470,7 @@ public abstract class GenericFrame
 	{
 		if ( StaticEntity.getClient() instanceof KoLmafiaGUI && !GenericFrame.instanceExists() )
 		{
-			LogoutManager.logout();
+			RequestThread.runInParallel( new LogoutRunnable() );
 		}
 	}
 
@@ -824,7 +824,6 @@ public abstract class GenericFrame
 	private static class FramePanel
 		extends JPanel
 	{
-
 		private Component centerComponent;
 
 		public FramePanel()
@@ -851,4 +850,12 @@ public abstract class GenericFrame
 		}
 	}
 
+	private static class LogoutRunnable
+		implements Runnable
+	{
+		public void run()
+		{
+			LogoutManager.logout();
+		}
+	}
 }
