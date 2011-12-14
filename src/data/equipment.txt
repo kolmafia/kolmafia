@@ -1513,6 +1513,7 @@ foam noodle	10	none
 fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
 frosty halo	50	none
+fudgecycle	200	Mys: 85
 furniture dolly	180	Mys: 75
 furry green earmuffs	45	Mys: 7
 furry halo	50	none

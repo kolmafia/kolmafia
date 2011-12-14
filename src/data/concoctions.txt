@@ -1934,3 +1934,4 @@ pear supersucker	COMBINE	pearidot	lollipop stick
 lime supersucker	COMBINE	tourmalime	lollipop stick
 kumquat supersucker	COMBINE	kumquartz	lollipop stick
 strawberry supersucker	COMBINE	strawberyl	lollipop stick
+blank fudge mold	COMBINE	sucker scaffold	fudge cube

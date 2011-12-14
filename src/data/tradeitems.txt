@@ -5445,3 +5445,27 @@
 5436	fudge lily	usable	all	0
 5437	superheated fudge	none	all	0
 5438	fluid of fudge-finding	usable	all	0
+5439
+5440
+5441	wand of fudge control	reusable	display	0
+5442
+5443
+5444
+5445
+5446
+5447
+5448
+5449
+5450
+5451
+5452
+5453
+5454
+5455
+5456
+5457	Fudgie Roll	usable	display	0
+5458	fudge bunny	food	all	0
+5459	fudge spork	usable	all	0
+5460	fudgecycle	accessory	all	0
+5461	fudge cube	none	all	0
+5462	blank fudge mold	none	all	0
