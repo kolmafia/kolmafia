@@ -804,6 +804,7 @@ The Demon of New Wave	HP: 500 Def: 200 Atk: [MOX-4] Init: 100 Phys: 40
 The Family Jewels	HP: 150 Def: 156 Atk: 156 E: sleaze P: constellation	star (30)	star (30)	star (30)
 The Fickle Finger of F8	HP: 100000 Def: 100000 Atk: 100000
 The Flange	HP: 150 Def: 159 Atk: 159 E: sleaze P: constellation	line (30)	line (30)	star (30)
+The Fudge Wizard	HP: 0	wand of fudge control (100)
 The Guy Made Of Bees	HP: 100000 Def: 100000 Atk: 100000 Exp: 40	guy made of bee pollen (100)	handful of bees (p10)
 The Honey Pot	HP: 150 Def: 152 Atk: 152 E: sleaze P: constellation	line (30)	star (30)	star (30)
 The Hooded Warrior	HP: 150 Def: 165 Atk: 165 E: sleaze P: constellation	line (30)	star (30)	star (30)

@@ -5437,3 +5437,27 @@
 5436	643283242	fudgelily.gif	fudge lily	fudge lillies
 5437	177390730	hotfudge.gif	superheated fudge	blasts of superheated fudge
 5438	903909397	potion5.gif	fluid of fudge-finding	flagons of fluid of fudge-finding
+5439
+5440
+5441	928631321	fudgewand.gif	wand of fudge control
+5442
+5443
+5444
+5445
+5446
+5447
+5448
+5449
+5450
+5451
+5452
+5453
+5454
+5455
+5456
+5457	254915150	fudgieroll.gif	Fudgie Roll
+5458	236728552	fudgebunny.gif	fudge bunny	fudge bunnies
+5459	143060417	fudgespork.gif	fudge spork
+5460	836737182	fudgecycle.gif	fudgecycle
+5461	404026577	fudgecube.gif	fudge cube
+5462	626738475	fudgemold.gif	blank fudge mold
