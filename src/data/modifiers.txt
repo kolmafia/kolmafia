@@ -1688,7 +1688,7 @@ floaty rock necklace	Spell Critical Percent: +10
 fossilized necklace	Muscle: [2*pref(fossilB)], Mysticality: [2*pref(fossilB)], Moxie: [2*pref(fossilB)], Spell Damage: [2*pref(fossilS)], Weapon Damage: [3*pref(fossilN)], Muscle Percent: [3*pref(fossilW)], Mysticality Percent: [3*pref(fossilW)], Moxie Percent: [3*pref(fossilW)], Hot Damage: [3*pref(fossilD)], Spooky Damage: [3*pref(fossilP)]
 frayed rope belt	Moxie Percent: +10, Single Equip
 frosty halo	Item Drop: +25, Unarmed, Single Equip
-fudgecycle	Adventures: +7, Candy Drop: +100, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
+fudgecycle	Adventures: +7, Candy Drop: +100, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Single Equip
 furniture dolly	Initiative: +30, Single Equip
 furry green earmuffs	Cold Resistance: +1
 furry halo	Familiar Weight: +5, Unarmed, Single Equip

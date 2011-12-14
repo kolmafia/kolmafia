@@ -581,6 +581,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.RONALD_SHELTER_MAP:
 			case ItemPool.GRIMACE_SHELTER_MAP:
 			case ItemPool.STAFF_GUIDE:
+			case ItemPool.FUDGE_WAND:
 			
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
