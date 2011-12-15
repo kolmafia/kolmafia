@@ -5254,7 +5254,7 @@
 5253	402774947	catclaw.gif	blunt cat claw
 5254	863518314	catclaw.gif	shadowy cat claw
 5255	929836778	burger.gif	cheezburger
-5256	512458370	toastedbrie.gif	toasted brie    pieces of toasted brie
+5256	512458370	toastedbrie.gif	toasted brie	pieces of toasted brie
 5257	865033460	potion3.gif	potion of the field gar
 5258	897208811	potion7.gif	too legit potion
 5259	231547639	waterbottle.gif	Bright Water
@@ -5438,7 +5438,7 @@
 5437	177390730	hotfudge.gif	superheated fudge	blasts of superheated fudge
 5438	903909397	potion5.gif	fluid of fudge-finding	flagons of fluid of fudge-finding
 5439	192508609	coldfudge.gif	frigid fudgepuck
-5440
+5440	136482212	fudgesicle2.gif	fudgesicle
 5441	928631321	fudgewand.gif	wand of fudge control
 5442
 5443

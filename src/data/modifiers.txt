@@ -2790,6 +2790,7 @@ Frostbitten	Cold Damage: +10, Damage Reduction: -2
 # Frosty the Hitman: +0-2 <font color=blueviolet>Sleaze Damage</font>
 Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
+# Fudge Headache: Find 75% more Fudge
 # Fudgehound: Find 50% more Fudge
 Full Bottle in front of Me	Spell Damage Percent: +30
 Full of Vinegar	Weapon Damage: [+1*D]

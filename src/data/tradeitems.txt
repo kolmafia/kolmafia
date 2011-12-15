@@ -5309,8 +5309,8 @@
 5300	Interview With You (a Vampire)	usable	all	111
 5301	Make-Your-Own-Vampire-Fangs kit	usable	all	0
 5302	your own black heart	usable	display	111
-5303	Sword of the Brouhaha Prince	offhand	display	 111
-5304	Chalice of the Malkovich Prince	offhand	display	 111
+5303	Sword of the Brouhaha Prince	offhand	display	111
+5304	Chalice of the Malkovich Prince	offhand	display	111
 5305	Sceptre of the Torremolinos Prince	offhand	display	111
 5306	Medallion of the Ventrilo Prince	offhand	display	111
 5307	Haunted Sorority House staff guide	usable	all	0
@@ -5399,7 +5399,7 @@
 5390	ridiculous cocktail	drink	all	0
 5391
 5392	Thwaitgold butterfly statuette	none	display	0
-5393	scrap of sticky paper	none	all	
+5393	scrap of sticky paper	none	all	0
 5394	sandpaper	none	all	25
 5395	peppermint sprout	usable, candy	all	0
 5396	peppermint twist	usable, fancy, candy	all	0
@@ -5446,7 +5446,7 @@
 5437	superheated fudge	none	all	0
 5438	fluid of fudge-finding	multiple	all	0
 5439	frigid fudgepuck	none	all	0
-5440
+5440	fudgesicle	food	all	0
 5441	wand of fudge control	reusable	display	0
 5442
 5443

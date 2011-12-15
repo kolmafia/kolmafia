@@ -963,3 +963,8 @@
 962	Stop and Smell the Fudge	fudgelily.gif	9bde202465952c94aca305ed62a61bdf	use 1 fudge lily
 963
 964	Fudgehound	fudgeplus.gif	838c3bdf8bf8e46adec2cb6663ac861b	use 1 fluid of fudge-finding
+965
+966
+967
+968
+969	Fudge Headache	fudgesicle2.gif	97ffaced4d54e5e7eb2bf3df48ad32c7	eat 1 fudgesicle
