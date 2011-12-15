@@ -576,7 +576,23 @@ public class AccountRequest
 		KoLCharacter.setSign( sign );
 
 		String path = JSON.getString( "path" );
-		if ( path.equals( "4" ) )
+		if ( path.equals( "0" ) )
+		{
+			path = "None";
+		}
+		else if ( path.equals( "1" ) )
+		{
+			path = "Boozetafarian";
+		}
+		else if ( path.equals( "2" ) )
+		{
+			path = "Teetotaler";
+		}
+		else if ( path.equals( "3" ) )
+		{
+			path = "Oxygenarian";
+		}
+		else if ( path.equals( "4" ) )
 		{
 			path = "Bees Hate You";
 		}
