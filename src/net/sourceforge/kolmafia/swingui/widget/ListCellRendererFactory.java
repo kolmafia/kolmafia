@@ -342,7 +342,11 @@ public class ListCellRendererFactory
 			case ItemPool.BGE_SHOTGLASS:
 				stringForm.append( "+3 adv from next drink" );
 				break;
-			
+
+			case ItemPool.FUDGE_SPORK:
+				stringForm.append( "+3 adv from next food, 10 sugar rush" );
+				break;
+
 			default:
 				int fullness = ItemDatabase.getFullness( name );
 				int inebriety = ItemDatabase.getInebriety( name );
