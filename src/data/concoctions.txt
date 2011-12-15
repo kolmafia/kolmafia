@@ -309,6 +309,7 @@ lemon popsicle	COOK	popsicle stick	lemon
 orange popsicle	COOK	popsicle stick	orange
 strawberry popsicle	COOK	popsicle stick	strawberry
 liver popsicle	COOK	popsicle stick	bunny liver
+fudgesicle	COOK	popsicle stick	frigid fudgepuck
 banana cream pie	COOK	pie crust	banana
 banana milkshake	COOK	glass of baboon milk	banana
 banana spritzer	COOK	banana	soda water
@@ -1247,7 +1248,7 @@ pear lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	pear
 plum lozenge	SSAUCE, SX3	scrumdiddlyumptious solution	plum
 potion of temporary gr8tness	SSAUCE, SX3	scrumdiddlyumptious solution	gr8ps
 
-fluid of fudge-finding	SSAUCE, SX3	scrumdiddlyumptious solution	superheated fudge
+fluid of fudge-finding	SSAUCE	scrumdiddlyumptious solution	superheated fudge
 
 phial of hotness	SAUCE, SX3	scrumptious reagent	hot powder
 phial of coldness	SAUCE, SX3	scrumptious reagent	cold powder
