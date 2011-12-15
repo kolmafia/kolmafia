@@ -5437,7 +5437,7 @@
 5436	643283242	fudgelily.gif	fudge lily	fudge lillies
 5437	177390730	hotfudge.gif	superheated fudge	blasts of superheated fudge
 5438	903909397	potion5.gif	fluid of fudge-finding	flagons of fluid of fudge-finding
-5439
+5439	192508609	coldfudge.gif	frigid fudgepuck
 5440
 5441	928631321	fudgewand.gif	wand of fudge control
 5442

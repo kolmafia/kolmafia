@@ -2059,8 +2059,10 @@ public abstract class ChoiceManager
 		// Fudge Mountain Breakdown
 		new ChoiceAdventure(
 			"The Candy Diorama", "choiceAdventure559", "Fudge Mountain Breakdown",
-			new String[] { "fudge lily", "fight a swarm of fudgewasps or skip adventure", "skip adventure", "superheated fudge or skip adventure" },
-			new String[] { "5436", null, null, "5437" } ),
+			new String[] { "fudge lily", "fight a swarm of fudgewasps or skip adventure", "frigid fudgepuck or skip adventure", "superheated fudge or skip adventure" },
+			new String[] { "5436", null, "5439", "5437" } ),
+
+		// Choice 562 is You're the Fudge Wizard Now, Dog
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -3308,6 +3310,7 @@ public abstract class ChoiceManager
 				EquipmentManager.discardEquipment( EquipmentManager.getEquipment( EquipmentManager.PANTS ) );
 			}
 			break;
+
 		case 559:
 			// Fudge Mountain Breakdown
 			if ( ChoiceManager.lastDecision == 2 )
