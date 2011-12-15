@@ -296,3 +296,11 @@ Vending Machine	buy	1	Boris's ring
 Vending Machine	buy	1	Jarlsberg's earring
 Vending Machine	buy	1	Sneaky Pete's breath spray
 Vending Machine	buy	1	potato sprout
+
+# Things you can buy with fudgecules
+
+Fudge Wand	buy	100	Fudgie Roll
+Fudge Wand	buy	200	fudge spork
+Fudge Wand	buy	343	fudge cube
+Fudge Wand	buy	1000	fudge bunny
+Fudge Wand	buy	2500	fudgecycle

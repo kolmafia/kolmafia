@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
+import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -485,6 +486,13 @@ public class RequestLogger
 
 		// We want to register simple visits to the Bounty Hunter Hunter
 		if ( ( request instanceof BountyHunterHunterRequest || isExternal ) && BountyHunterHunterRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// We want to register visits to the You're the Fudge Wizard Now, Dog choice adventure before ChoiceManager.
+		if ( ( request instanceof FudgeWandRequest || isExternal ) && FudgeWandRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

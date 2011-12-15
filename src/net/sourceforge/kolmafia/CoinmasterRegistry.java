@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
+import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
@@ -70,6 +71,7 @@ public abstract class CoinmasterRegistry
 		DimemasterRequest.HIPPY,
 		DollHawkerRequest.DOLLHAWKER,
 		FreeSnackRequest.FREESNACKS,
+		FudgeWandRequest.FUDGEWAND,
 		GameShoppeRequest.GAMESHOPPE,
 		HermitRequest.HERMIT,
 		IsotopeSmitheryRequest.ISOTOPE_SMITHERY,

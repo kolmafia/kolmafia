@@ -4809,6 +4809,13 @@ public class UseItemRequest
 			return AWOLQuartermasterRequest.registerRequest( urlString );
 		}
 
+		// wand of fudge control
+		if ( urlString.indexOf( "whichitem=5441" ) != -1 )
+		{
+			UseItemRequest.lastItemUsed = null;
+			return FudgeWandRequest.registerRequest( urlString );
+		}
+
 		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );
 		if ( UseItemRequest.lastItemUsed == null )
 		{
