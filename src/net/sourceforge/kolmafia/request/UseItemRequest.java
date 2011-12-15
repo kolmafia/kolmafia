@@ -1809,6 +1809,17 @@ public class UseItemRequest
 				}
 				break;
 
+			case ItemPool.FUDGE_SPORK:
+
+				// "You eat the <food> with your fudge spork,
+				// and then you eat your fudge spork. How sweet it is!"
+
+				if ( responseText.indexOf( "you eat your fudge spork" ) == -1 )
+				{
+					success = false;
+				}
+				break;
+
 			case ItemPool.PUNCHCARD_ATTACK:
 			case ItemPool.PUNCHCARD_REPAIR:
 			case ItemPool.PUNCHCARD_BUFF:

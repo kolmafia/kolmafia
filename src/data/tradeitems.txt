@@ -5465,7 +5465,7 @@
 5456
 5457	Fudgie Roll	usable	display	0
 5458	fudge bunny	food	all	0
-5459	fudge spork	usable	all	0
+5459	fudge spork	food helper	all	0
 5460	fudgecycle	accessory	all	0
 5461	fudge cube	none	all	0
 5462	blank fudge mold	none	all	0
