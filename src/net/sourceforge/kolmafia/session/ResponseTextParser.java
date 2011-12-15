@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
+import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
@@ -275,6 +276,14 @@ public class ResponseTextParser
 		else if ( location.startsWith( "charsheet.php" ) && location.indexOf( "ajax=1" ) == -1 )
 		{
 			CharSheetRequest.parseStatus( responseText );
+		}
+
+		else if ( location.startsWith( "choice.php" ) )
+		{
+			if ( location.indexOf( "whichchoice=562" ) != -1 )
+			{
+				FudgeWandRequest.parseResponse( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "clan_rumpus.php" ) )

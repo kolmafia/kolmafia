@@ -1371,7 +1371,13 @@ public class ItemPool
 	public static final int LOLLIPOP_STICK = 5380;
 	public static final int PEPPERMINT_SPROUT = 5395;
 	public static final int GIANT_CANDY_CANE = 5402;
+	public static final int FUDGECULE = 5435;
 	public static final int FUDGE_WAND = 5441;
+	public static final int FUDGIE_ROLL = 5457;
+	public static final int FUDGE_BUNNY = 5458;
+	public static final int FUDGE_SPORK = 5459;
+	public static final int FUDGECYCLE = 5460;
+	public static final int FUDGE_CUBE = 5461;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

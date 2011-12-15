@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
+import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -120,6 +121,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel dollhawkerPanel = null;
 	private CoinmasterPanel lunarLunchPanel = null;
 	private CoinmasterPanel awolPanel = null;
+	private CoinmasterPanel fudgeWandPanel = null;
 	private CoinmasterPanel travelerPanel = null;
 	private CoinmasterPanel tr4pz0rPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
@@ -230,6 +232,11 @@ public class CoinmastersFrame
 		this.selectorPanel.addPanel( awolPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
+		fudgeWandPanel = new FudgeWandPanel();
+		panel.add( fudgeWandPanel );
+		this.selectorPanel.addPanel( fudgeWandPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
 		travelerPanel = new TravelingTraderPanel();
 		panel.add( travelerPanel );
 		this.selectorPanel.addPanel( travelerPanel.getPanelSelector(), panel );
@@ -313,6 +320,7 @@ public class CoinmastersFrame
 		dollhawkerPanel.update();
 		lunarLunchPanel.update();
 		awolPanel.update();
+		fudgeWandPanel.update();
 		travelerPanel.update();
 		altarOfBonesPanel.update();
 		crimboCartelPanel.update();
@@ -522,6 +530,15 @@ public class CoinmastersFrame
 		public CommendationPanel()
 		{
 			super( AWOLQuartermasterRequest.AWOL );
+		}
+	}
+
+	private class FudgeWandPanel
+		extends CoinmasterPanel
+	{
+		public FudgeWandPanel()
+		{
+			super( FudgeWandRequest.FUDGEWAND );
 		}
 	}
 
