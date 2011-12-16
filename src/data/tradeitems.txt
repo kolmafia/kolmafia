@@ -5460,12 +5460,34 @@
 5451
 5452
 5453
-5454
-5455
-5456
+5454	red gummi ingot	usable	all	300
+5455	green gummi ingot	usable	all	300
+5456	yellow gummi ingot	usable	all	300
 5457	Fudgie Roll	usable	display	0
 5458	fudge bunny	food	all	0
 5459	fudge spork	food helper	all	0
 5460	fudgecycle	accessory	all	0
 5461	fudge cube	none	all	0
 5462	blank fudge mold	none	all	0
+5463
+5464
+5465
+5466
+5467
+5468
+5469
+5470
+5471
+5472
+5473	giant red gummi ingot	usable	all	600
+5474	giant green gummi ingot	usable	all	600
+5475	giant yellow gummi ingot	usable	all	600
+5476	gummi salamander	usable	all	300
+5477	gummi snake	usable	all	300
+5478	gummi canary	usable	all	300
+5479	giant red gummi bear	food	all	600
+5480	giant green gummi bear	food	all	600
+5481	giant yellow gummi bear	food	all	600
+5482	red drunki-bear	food	all	600
+5483	green drunki-bear	food	all	600
+5484	yellow drunki-bear	food	all	600

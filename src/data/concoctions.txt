@@ -1935,4 +1935,21 @@ pear supersucker	COMBINE	pearidot	lollipop stick
 lime supersucker	COMBINE	tourmalime	lollipop stick
 kumquat supersucker	COMBINE	kumquartz	lollipop stick
 strawberry supersucker	COMBINE	strawberyl	lollipop stick
+
 blank fudge mold	COMBINE	sucker scaffold	fudge cube
+
+gummi salamander	SUSE	red gummi ingot
+gummi snake	SUSE	green gummi ingot
+gummi canary	SUSE	yellow gummi ingot
+
+giant red gummi ingot	WSMITH	red gummi ingot	red gummi ingot
+giant green gummi ingot	WSMITH	green gummi ingot	green gummi ingot
+giant yellow gummi ingot	WSMITH	yellow gummi ingot	yellow gummi ingot
+
+giant red gummi bear	SUSE	giant red gummi ingot
+giant green gummi bear	SUSE	giant green gummi ingot
+giant yellow gummi bear	SUSE	giant yellow gummi ingot
+
+red drunki-bear	MIX	bottle of vodka	giant red gummi bear
+green drunki-bear	MIX	bottle of vodka	giant green gummi bear
+yellow drunki-bear	MIX	bottle of vodka	giant yellow gummi bear
