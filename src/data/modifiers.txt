@@ -2828,6 +2828,9 @@ Grimace	Monster Level: +25, Slime Resistance: +1
 Grrrrrrreat!	Experience (Muscle): +10
 Grulched	Stench Damage: +25, Monster Level: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
+Gummibrain	Mysticality: +100
+Gummiheart	Muscle: +100
+Gummiskin	Moxie: +100
 # Haiku State of Mind: large penalty to result parsing
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
@@ -3810,6 +3813,9 @@ green snowcone	Effect: "Green Tongue", Effect Duration: 20
 gremlin juice	Effect: "Comic Violence", Effect Duration: 5
 gremlin mutagen	Effect: "Mutated"
 groupie spangles	Effect: "Spangled Star", Effect Duration: 5
+gummi canary	Effect: "Gummiskin", Effect Duration: 1
+gummi salamander	Effect: "Gummiheart", Effect Duration: 1
+gummi snake	Effect: "Gummibrain", Effect Duration: 1
 gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
 hair of the fish	Effect: "Antihangover", Effect Duration: 10
 half-orchid	Effect: "Bestial Sympathy", Effect Duration: 10

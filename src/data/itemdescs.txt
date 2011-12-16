@@ -5452,12 +5452,34 @@
 5451
 5452
 5453
-5454
-5455
-5456
+5454	992812754	gummiingotsmall.gif	red gummi ingot
+5455	578465854	gummiingotsmall.gif	green gummi ingot
+5456	743292189	gummiingotsmall.gif	yellow gummi ingot
 5457	254915150	fudgieroll.gif	Fudgie Roll
 5458	236728552	fudgebunny.gif	fudge bunny	fudge bunnies
 5459	143060417	fudgespork.gif	fudge spork
 5460	836737182	fudgecycle.gif	fudgecycle
 5461	404026577	fudgecube.gif	fudge cube
 5462	626738475	fudgemold.gif	blank fudge mold
+5463
+5464
+5465
+5466
+5467
+5468
+5469
+5470
+5471
+5472
+5473	850315657	gummiingot.gif	giant red gummi ingot
+5474	901120665	gummiingot.gif	giant green gummi ingot
+5475	472799701	gummiingot.gif	giant yellow gummi ingot
+5476	955549057	gummisal.gif	gummi salamander
+5477	486564447	gummisnake.gif	gummi snake
+5478	489569362	gummican.gif	gummi canary
+5479	340597823	gummibear.gif	giant red gummi bear
+5480	324939639	gummibear.gif	giant green gummi bear
+5481	829917146	gummibear.gif	giant yellow gummi bear
+5482	837752850	drunkibear.gif	red drunki-bear
+5483	531778289	drunkibear.gif	green drunki-bear
+5484	150067631	drunkibear.gif	yellow drunki-bear
