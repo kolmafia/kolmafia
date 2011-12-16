@@ -525,6 +525,7 @@ user	meatDropSpading	false
 user	mineLayout1
 user	mineLayout2
 user	mineLayout3
+user	mineLayout4
 user	mmgAutoConfirmBets	false
 user	mmgSearchMinimum
 user	mmgSearchMaximum

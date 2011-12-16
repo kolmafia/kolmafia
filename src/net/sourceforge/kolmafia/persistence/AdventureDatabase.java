@@ -787,6 +787,10 @@ public class AdventureDatabase
 			{
 				return "Anemone Mine (Mining)";
 			}
+			if ( urlString.indexOf( "mine=4" ) != -1 )
+			{
+				return "The Gummi Mine (in Disguise)";
+			}
 
 			Matcher matcher = AdventureDatabase.MINE_PATTERN.matcher( urlString );
 			return matcher.find() ? "Unknown Mine #" + matcher.group(1) : null;
