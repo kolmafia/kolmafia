@@ -4861,7 +4861,7 @@
 4852	gift-a-pult	weapon	gift	0
 4853	holly-flavored Hob-O	multiple, candy	all	5
 4854	CRIMBCO scrip	none	display	0
-4855
+4855	Toot Oriole care package	usable	display	0
 4856	paperclip	multiple	all	0
 4857	bottle of Blank-Out	usable	all	0
 4858	CRIMBCO lanyard	accessory	display	0
