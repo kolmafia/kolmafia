@@ -62,10 +62,6 @@ public class CharSheetRequest
 	private static final Pattern BASE_PATTERN = Pattern.compile( " \\(base: ([\\d,]+)\\)" );
 	private static final Pattern AVATAR_PATTERN =
 		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^>\'\"\\s]+)" );
-	private static final Pattern EFFECT_TABLE_PATTERN =	
-		Pattern.compile( "Effects:.*?<table>(.*?)</table>" );
-	private static final Pattern EFFECT_PATTERN =	
-		Pattern.compile( "<td>.*?onClick='eff.\"([^\"]*).*?</td><td.*?>(.*?) \\((.*?)\\) *<" );
 
 	/**
 	 * Constructs a new <code>CharSheetRequest</code>. The data in the KoLCharacter entity will be overridden over
@@ -330,44 +326,7 @@ public class CharSheetRequest
 		// relative to PVP Ranking. Therefore, just pick up and parse
 		// the table directly.
 
-		Matcher effectTableMatcher = CharSheetRequest.EFFECT_TABLE_PATTERN.matcher( responseText );
-		if ( effectTableMatcher.find() )
-		{
-			KoLConstants.recentEffects.clear();
-			ArrayList visibleEffects = new ArrayList();
-
-			Matcher effectMatcher = CharSheetRequest.EFFECT_PATTERN.matcher( effectTableMatcher.group( 1 ) );
-			while ( effectMatcher.find() )
-			{
-				String descId = effectMatcher.group( 1 );
-				String effectName = effectMatcher.group( 2 );
-				String durationString = effectMatcher.group( 3 );
-				int duration =
-					durationString.equals( "&infin;" ) ?
-					Integer.MAX_VALUE :
-					StringUtilities.isNumeric( durationString ) ?
-					StringUtilities.parseInt( durationString ) :
-					0;
-				AdventureResult effect = CharPaneRequest.extractEffect( descId, effectName, duration );
-				if ( effect == null )
-				{
-					continue;
-				}
-
-				int activeCount = effect.getCount( KoLConstants.activeEffects );
-
-				if ( effect.getCount() != activeCount )
-				{
-					ResultProcessor.processResult( effect.getInstance( effect.getCount() - activeCount ) );
-				}
-
-				visibleEffects.add( effect );
-			}
-
-			KoLmafia.applyEffects();
-			KoLConstants.activeEffects.retainAll( visibleEffects );
-			KoLCharacter.recalculateAdjustments();
-		}
+		CharSheetRequest.parseEffects( responseText );
 
 		while ( !token.startsWith( "Skill" ) )
 		{
@@ -492,6 +451,52 @@ public class CharSheetRequest
 
 		stats[ 1 ] = KoLCharacter.calculateSubpoints( base, GenericRequest.intToken( tokenizer ) );
 		return stats;
+	}
+
+	private static final Pattern EFFECT_TABLE_PATTERN =	
+		Pattern.compile( "Effects:.*?<table>(.*?)</table>" );
+	private static final Pattern EFFECT_PATTERN =	
+		Pattern.compile( "<td>.*?onClick='eff.\"([^\"]*).*?</td><td.*?>(.*?) \\((.*?)\\) *<" );
+	private static final void parseEffects( final String responseText )
+	{
+		ArrayList visibleEffects = new ArrayList();
+
+		Matcher effectTableMatcher = CharSheetRequest.EFFECT_TABLE_PATTERN.matcher( responseText );
+		if ( effectTableMatcher.find() )
+		{
+			Matcher effectMatcher = CharSheetRequest.EFFECT_PATTERN.matcher( effectTableMatcher.group( 1 ) );
+			while ( effectMatcher.find() )
+			{
+				String descId = effectMatcher.group( 1 );
+				String effectName = effectMatcher.group( 2 );
+				String durationString = effectMatcher.group( 3 );
+				int duration =
+					durationString.equals( "&infin;" ) ?
+					Integer.MAX_VALUE :
+					StringUtilities.isNumeric( durationString ) ?
+					StringUtilities.parseInt( durationString ) :
+					0;
+				AdventureResult effect = CharPaneRequest.extractEffect( descId, effectName, duration );
+				if ( effect == null )
+				{
+					continue;
+				}
+
+				int activeCount = effect.getCount( KoLConstants.activeEffects );
+
+				if ( effect.getCount() != activeCount )
+				{
+					ResultProcessor.processResult( effect.getInstance( effect.getCount() - activeCount ) );
+				}
+
+				visibleEffects.add( effect );
+			}
+		}
+
+		KoLConstants.recentEffects.clear();
+		KoLmafia.applyEffects();
+		KoLConstants.activeEffects.retainAll( visibleEffects );
+		KoLCharacter.recalculateAdjustments();
 	}
 
 	/**
