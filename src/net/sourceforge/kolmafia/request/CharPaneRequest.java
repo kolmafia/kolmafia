@@ -638,7 +638,7 @@ public class CharPaneRequest
 		return CharPaneRequest.extractEffect( descId, effectName, duration );
 	}
 
-	private static final AdventureResult extractEffect( final String descId, String effectName, int duration )
+	public static final AdventureResult extractEffect( final String descId, String effectName, int duration )
 	{
 		int effectId = EffectDatabase.getEffect( descId );
 
