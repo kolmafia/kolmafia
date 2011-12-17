@@ -5483,3 +5483,15 @@
 5482	837752850	drunkibear.gif	red drunki-bear
 5483	531778289	drunkibear.gif	green drunki-bear
 5484	150067631	drunkibear.gif	yellow drunki-bear
+5485
+5486
+5487
+5488	452690664	foss_tri.gif	trilobite fossil
+5489	428851368	foss_amm.gif	ammonite fossil
+5490	165469351	foss_bel.gif	belemnite fossil
+5491	874021727	fudgemold.gif	trilobite candy mold
+5492	433566187	fudgemold.gif	ammonite candy mold
+5493	375471387	fudgemold.gif	belemnite candy mold
+5494	824593979	gummitri.gif	gummi trilobite
+5495	928879350	gummiamm.gif	gummi ammonite
+5496	924359139	gummibel.gif	gummi belemnite

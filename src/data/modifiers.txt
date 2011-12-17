@@ -3813,9 +3813,12 @@ green snowcone	Effect: "Green Tongue", Effect Duration: 20
 gremlin juice	Effect: "Comic Violence", Effect Duration: 5
 gremlin mutagen	Effect: "Mutated"
 groupie spangles	Effect: "Spangled Star", Effect Duration: 5
+gummi ammonite	Effect: "Sugar Rush", Effect Duration: 100
+gummi belemnite	Effect: "Sugar Rush", Effect Duration: 100
 gummi canary	Effect: "Gummiskin", Effect Duration: 1
 gummi salamander	Effect: "Gummiheart", Effect Duration: 1
 gummi snake	Effect: "Gummibrain", Effect Duration: 1
+gummi trilobite	Effect: "Sugar Rush", Effect Duration: 100
 gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
 hair of the fish	Effect: "Antihangover", Effect Duration: 10
 half-orchid	Effect: "Bestial Sympathy", Effect Duration: 10
