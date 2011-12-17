@@ -2267,7 +2267,7 @@ public abstract class RuntimeLibrary
 
 	public static Value is_goal( final Value item )
 	{
-		return new Value( GoalManager.hasItemGoal( item.intValue() ) );
+		return DataTypes.makeBooleanValue( GoalManager.hasItemGoal( item.intValue() ) );
 	}
 
 	public static Value buy( final Value countValue, final Value item )
@@ -3028,7 +3028,7 @@ public abstract class RuntimeLibrary
 
 		if ( index < 0 )
 		{
-			return new Value( 0 );
+			return DataTypes.ZERO_VALUE;
 		}
 
 		item = (SoldItem) list.get( index );
@@ -3074,14 +3074,12 @@ public abstract class RuntimeLibrary
 
 	public static Value restore_hp( final Value amount )
 	{
-		return new Value( RecoveryManager.recoverHP( amount.intValue() ) );
+		return DataTypes.makeBooleanValue( RecoveryManager.recoverHP( amount.intValue() ) );
 	}
 
 	public static Value restore_mp( final Value amount )
 	{
-		int desiredMP = amount.intValue();
-		RecoveryManager.recoverMP( desiredMP );
-		return RuntimeLibrary.continueValue();
+		return DataTypes.makeBooleanValue( RecoveryManager.recoverMP( amount.intValue() ) );
 	}
 
 	public static Value my_name()
@@ -3275,12 +3273,12 @@ public abstract class RuntimeLibrary
 
 	public static Value can_eat()
 	{
-		return new Value( KoLCharacter.canEat() );
+		return DataTypes.makeBooleanValue( KoLCharacter.canEat() );
 	}
 
 	public static Value can_drink()
 	{
-		return new Value( KoLCharacter.canDrink() );
+		return DataTypes.makeBooleanValue( KoLCharacter.canDrink() );
 	}
 
 	public static Value turns_played()
