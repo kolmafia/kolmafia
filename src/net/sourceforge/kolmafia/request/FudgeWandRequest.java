@@ -193,7 +193,7 @@ public class FudgeWandRequest
 
 		// using the wand is simply a visit
 		// inv_use.php?whichitem=5441
-		if ( urlString.startsWith( "inv_use.php" ) || urlString.indexOf( "whichitem=5441" ) != -1 )
+		if ( urlString.startsWith( "inv_use.php" ) && urlString.indexOf( "whichitem=5441" ) != -1 )
 		{
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "Visiting " + data.getMaster() );
