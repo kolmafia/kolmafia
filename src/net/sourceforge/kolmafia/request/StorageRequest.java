@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
@@ -367,15 +368,22 @@ public class StorageRequest
 
 			if ( responseText.indexOf( "go and grab all of your stuff" ) != -1 )
 			{
-				Object[] items = KoLConstants.storage.toArray();
-				StorageRequest.processBulkItems( items );
 				KoLConstants.storage.clear();
+				KoLConstants.freepulls.clear();
 				KoLCharacter.setStorageMeat( 0 );
 
-				items = KoLConstants.freepulls.toArray();
-				StorageRequest.processBulkItems( items );
-				KoLConstants.freepulls.clear();
-
+				// I have not looked at the result of doing a
+				// Pull All where some items go to Inventory
+				// and some go to Closet.
+				//
+				// If the responseText tells you what goes
+				// where, we could process it and bulk adjust
+				// the Inventory and the Closet
+				//
+				// For now, simply have the Inventory Manager
+				// refresh inventory and Closet in the most
+				// efficient way it knows how.
+				InventoryManager.refresh();
 				CoinmastersFrame.externalUpdate();
 
 				transfer = true;
