@@ -1937,6 +1937,13 @@ kumquat supersucker	COMBINE	kumquartz	lollipop stick
 strawberry supersucker	COMBINE	strawberyl	lollipop stick
 
 blank fudge mold	COMBINE	sucker scaffold	fudge cube
+trilobite candy mold	COMBINE	blank fudge mold	trilobite fossil
+ammonite candy mold	COMBINE	blank fudge mold	ammonite fossil
+belemnite candy mold	COMBINE	blank fudge mold	belemnite fossil
+
+gummi trilobite	SUSE	trilobite candy mold	red gummi ingot (10)	green gummi ingot (10)	yellow gummi ingot (10)
+gummi ammonite	SUSE	ammonite candy mold	red gummi ingot (10)	green gummi ingot (10)	yellow gummi ingot (10)
+gummi belemnite	SUSE	belemnite candy mold	red gummi ingot (10)	green gummi ingot (10)	yellow gummi ingot (10)
 
 gummi salamander	SUSE	red gummi ingot
 gummi snake	SUSE	green gummi ingot

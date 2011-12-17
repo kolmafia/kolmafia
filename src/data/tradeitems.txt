@@ -5491,3 +5491,15 @@
 5482	red drunki-bear	food	all	600
 5483	green drunki-bear	food	all	600
 5484	yellow drunki-bear	food	all	600
+5485
+5486
+5487
+5488	trilobite fossil	none	all	0
+5489	ammonite fossil	none	all	0
+5490	belemnite fossil	none	all	0
+5491	trilobite candy mold	usable	all	0
+5492	ammonite candy mold	usable	all	0
+5493	belemnite candy mold	usable	all	0
+5494	gummi trilobite	usable	all	0
+5495	gummi ammonite	usable	all	0
+5496	gummi belemnite	usable	all	0
