@@ -164,6 +164,8 @@ beach ball marble	useless powder
 black catseye marble	useless powder
 big bumboozer marble	useless powder
 hobo code binder	nosmash
+cane-mail shirt	candycaine powder
+cane-mail pants	candycaine powder
 giant candy cane	candycaine powder
 
 # Equipment dropped, or made from drops, in The Sea has special results.

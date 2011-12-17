@@ -40,7 +40,9 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
@@ -60,6 +62,10 @@ public class CharSheetRequest
 	private static final Pattern BASE_PATTERN = Pattern.compile( " \\(base: ([\\d,]+)\\)" );
 	private static final Pattern AVATAR_PATTERN =
 		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^>\'\"\\s]+)" );
+	private static final Pattern EFFECT_TABLE_PATTERN =	
+		Pattern.compile( "Effects:.*?<table>(.*?)</table>" );
+	private static final Pattern EFFECT_PATTERN =	
+		Pattern.compile( "<td>.*?onClick='eff.\"([^\"]*).*?</td><td.*?>(.*?) \\((.*?)\\) *<" );
 
 	/**
 	 * Constructs a new <code>CharSheetRequest</code>. The data in the KoLCharacter entity will be overridden over
@@ -317,6 +323,50 @@ public class CharSheetRequest
 				;
 			}
 			KoLCharacter.setPvpRank( GenericRequest.intToken( cleanContent ) );
+		}
+
+		// The Effects list appears after the store and display case
+		// and before the Skills list. I have no idea where it appears
+		// relative to PVP Ranking. Therefore, just pick up and parse
+		// the table directly.
+
+		Matcher effectTableMatcher = CharSheetRequest.EFFECT_TABLE_PATTERN.matcher( responseText );
+		if ( effectTableMatcher.find() )
+		{
+			KoLConstants.recentEffects.clear();
+			ArrayList visibleEffects = new ArrayList();
+
+			Matcher effectMatcher = CharSheetRequest.EFFECT_PATTERN.matcher( effectTableMatcher.group( 1 ) );
+			while ( effectMatcher.find() )
+			{
+				String descId = effectMatcher.group( 1 );
+				String effectName = effectMatcher.group( 2 );
+				String durationString = effectMatcher.group( 3 );
+				int duration =
+					durationString.equals( "&infin;" ) ?
+					Integer.MAX_VALUE :
+					StringUtilities.isNumeric( durationString ) ?
+					StringUtilities.parseInt( durationString ) :
+					0;
+				AdventureResult effect = CharPaneRequest.extractEffect( descId, effectName, duration );
+				if ( effect == null )
+				{
+					continue;
+				}
+
+				int activeCount = effect.getCount( KoLConstants.activeEffects );
+
+				if ( effect.getCount() != activeCount )
+				{
+					ResultProcessor.processResult( effect.getInstance( effect.getCount() - activeCount ) );
+				}
+
+				visibleEffects.add( effect );
+			}
+
+			KoLmafia.applyEffects();
+			KoLConstants.activeEffects.retainAll( visibleEffects );
+			KoLCharacter.recalculateAdjustments();
 		}
 
 		while ( !token.startsWith( "Skill" ) )
