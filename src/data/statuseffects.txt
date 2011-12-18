@@ -963,10 +963,10 @@
 962	Stop and Smell the Fudge	fudgelily.gif	9bde202465952c94aca305ed62a61bdf	use 1 fudge lily
 963
 964	Fudgehound	fudgeplus.gif	838c3bdf8bf8e46adec2cb6663ac861b	use 1 fluid of fudge-finding
-965
-966
-967
-968
+965	Healthy, Elfy, and Wise	elfling.gif	d55fae1f735d8def7473b8f39f2d2db1
+966	Rad-ish	radish.gif	1336b9dfbb9ff3cbaba6c0da4db79395	drink 1 Horseradish-infused Vodka
+967	Jerky, Boy	saltshaker.gif	e43f3131509e6a8fd540ac6d3b276f5a	drink 1 Jerkitini
+968	Castaway Physique	strboost.gif	de55e965dbce26a574492e57507fa60d	drink 1 Desert Island Iced Tea
 969	Fudge Headache	fudgesicle2.gif	97ffaced4d54e5e7eb2bf3df48ad32c7	eat 1 fudgesicle
 970	Gummiheart	gummiingot.gif	1e11027e2a3fe7fdd01e22ab0821fa35	use 1 gummi salamander
 971	Gummibrain	gummiingot.gif	4410d6172a525c649103763b99e45465	use 1 gummi snake

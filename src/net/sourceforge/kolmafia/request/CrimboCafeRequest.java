@@ -47,7 +47,7 @@ public class CrimboCafeRequest
 {
 	public CrimboCafeRequest( final String name )
 	{
-		super( "Crimbo Cafe", "7" );
+		super( "Crimbo Cafe", "8" );
 
 		int itemId = 0;
 		int price = 0;
@@ -55,32 +55,32 @@ public class CrimboCafeRequest
 		switch ( KoLConstants.cafeItems.indexOf( name ) )
 		{
 		case 0:
-			itemId = -73;
+			itemId = -79;
 			price = 50;
 			break;
 
 		case 1:
-			itemId = -74;
+			itemId = -80;
 			price = 75;
 			break;
 
 		case 2:
-			itemId = -75;
+			itemId = -81;
 			price = 100;
 			break;
 
 		case 3:
-			itemId = -76;
-			price = 50;
+			itemId = -84;
+			price = 100;
 			break;
 
 		case 4:
-			itemId = -77;
-			price = 75;
+			itemId = -83;
+			price = 100;
 			break;
 
 		case 5:
-			itemId = -78;
+			itemId = -82;
 			price = 100;
 			break;
 		}
@@ -97,12 +97,12 @@ public class CrimboCafeRequest
 	{
 		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
 		KoLConstants.cafeItems.clear();
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Reconstituted Gruel", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "New and Improved CRIMBCO Reconstituted Gruel", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins", 100 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Ribbon Candy Schnapps", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Egg Substitute Nog Substitute", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "CRIMBCO Extreme Braincracker Sour", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Brussels Sprout Stir-Fry", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Carrot, Cabbage, and Kale Pizza", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Turnip and Rutabaga Pie", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Desert Island Iced Tea", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Jerkitini", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Horseradish-infused Vodka", 100 );
 		ConcoctionDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
@@ -132,28 +132,28 @@ public class CrimboCafeRequest
 
 		switch ( itemId )
 		{
-		case -73:
-			itemName = "CRIMBCO Reconstituted Gruel";
+		case -79:
+			itemName = "Brussels Sprout Stir-Fry";
 			price = 50;
 			break;
-		case -74:
-			itemName = "New and Improved CRIMBCO Reconstituted Gruel";
+		case -80:
+			itemName = "Carrot, Cabbage, and Kale Pizza";
 			price = 75;
 			break;
-		case -75:
-			itemName = "CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins";
+		case -81:
+			itemName = "Turnip and Rutabaga Pie";
 			price = 100;
 			break;
-		case -76:
-			itemName = "CRIMBCO Ribbon Candy Schnapps";
-			price = 50;
+		case -84:
+			itemName = "Desert Island Iced Tea";
+			price = 100;
 			break;
-		case -77:
-			itemName = "CRIMBCO Egg Substitute Nog Substitute";
-			price = 75;
+		case -83:
+			itemName = "Jerkitini";
+			price = 100;
 			break;
-		case -78:
-			itemName = "CRIMBCO Extreme Braincracker Sour";
+		case -82:
+			itemName = "Horseradish-infused Vodka";
 			price = 100;
 			break;
 		default:
