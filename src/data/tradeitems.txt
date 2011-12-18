@@ -4197,7 +4197,7 @@
 4188	slime convention t-shirt	none	all	10
 4189	floaty inverse geode	usable	all	0
 4190	control crystal	none	display	0
-4191	sugar shirt	shirt	display	0
+4191	sugar shirt	shirt, candy	display	0
 4192	sugar shard	hpmp, candy	all	0
 4193	rave visor	hat	none	25
 4194	baggy rave pants	pants	none	45
@@ -4335,7 +4335,7 @@
 4326	Bling of the New Wave	accessory	display	0
 4327	La Hebilla del Cintur&oacute;n de Lopez	accessory	display	0
 4328	suspicious stocking	grow	all	0
-4329	bag of many confections	familiar	all	75
+4329	bag of many confections	familiar, candy	all	75
 4330	candy kneecapping stick	food, combat, candy	all	0
 4331	licorice garrote	food, combat, candy	all	0
 4332	candy knuckles	weapon, candy	all	0
@@ -4395,7 +4395,7 @@
 4386	cement sandals	accessory	all	100
 4387	night-vision goggles	accessory	all	200
 4388	passable elf mask	hat	all	15
-4389	peanut brittle shield	offhand	gift	500
+4389	peanut brittle shield	offhand, candy	gift	500
 4390	Red Rover BB gun	weapon	gift	500
 4391	red-and-green sweater	shirt	gift	500
 4392	Crimbo Candy Cookbook	usable	gift	500
@@ -5109,7 +5109,7 @@
 5100	Pok&euml;mann figurine: Frank	accessory	all	0
 5101	Pok&euml;mann figurine: Moog	accessory	all	0
 5102	willyweed	usable	all	30
-5103	Nuclear Blastball	usable	all	25
+5103	Nuclear Blastball	usable, candy	all	25
 5104	fish juice box	multiple	all	45
 5105	paint bomb	none, combat	all	35
 5106	hideous egg	none	all	0
@@ -5427,11 +5427,11 @@
 5418	lime supersucker	usable, candy	all	400
 5419	kumquat supersucker	usable, candy	all	400
 5420	strawberry supersucker	usable, candy	all	400
-5421	bananarama bangle	accessory	all	500
-5422	pair of pearidot earrings	accessory	all	500
-5423	tourmalime tourniquet	accessory	all	500
-5424	kumquartz ring	accessory	all	500
-5425	strawberyl necklace	accessory	all	500
+5421	bananarama bangle	accessory, candy	all	500
+5422	pair of pearidot earrings	accessory, candy	all	500
+5423	tourmalime tourniquet	accessory, candy	all	500
+5424	kumquartz ring	accessory, candy	all	500
+5425	strawberyl necklace	accessory, candy	all	500
 5426	sucker bucket	offhand	display	300
 5427	sucker hakama	pants	display	300
 5428	sucker kabuto	hat	display	300
@@ -5500,6 +5500,8 @@
 5491	trilobite candy mold	usable	all	0
 5492	ammonite candy mold	usable	all	0
 5493	belemnite candy mold	usable	all	0
-5494	gummi trilobite	usable	all	0
-5495	gummi ammonite	usable	all	0
-5496	gummi belemnite	usable	all	0
+5494	gummi trilobite	usable, candy	all	0
+5495	gummi ammonite	usable, candy	all	0
+5496	gummi belemnite	usable, candy	all	0
+5497
+5498	heart of dark chocolate	reusable	display	0
