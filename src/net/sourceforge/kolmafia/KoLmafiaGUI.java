@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanWarRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
+import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
@@ -333,14 +334,12 @@ public class KoLmafiaGUI
 		}
 		else if ( frameClass == ItemManageFrame.class )
 		{
-			// The Crimbo Cafe is not open
+			// The Crimbo Cafe is open
 
-			/*
 			if ( KoLConstants.cafeItems.isEmpty() )
 			{
 				CrimboCafeRequest.getMenu();
 			}
-			*/
 
 			// If the person is in Bad Moon, retrieve
 			// information from Hell's Kitchen.

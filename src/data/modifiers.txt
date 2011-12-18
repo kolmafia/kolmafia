@@ -2589,6 +2589,7 @@ Carlweather's Cantata of Confrontation	Combat Rate: +5
 Carol of the Bones	Muscle Percent: +10
 Carrion' On	Meat Drop: +60
 Carrrsmic	Mysticality Percent: +10
+Castaway Physique	Muscle Percent: +25
 Cat Class, Cat Style	Moxie Percent: +20
 Cat-Alyzed	Moxie: +10
 Chain Chain Chains	Spooky Damage: +10
@@ -2844,6 +2845,7 @@ Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -
 Having a Ball!	Muscle Percent: [pref(ballpitBonus)], Mysticality Percent: [pref(ballpitBonus)], Moxie Percent: [pref(ballpitBonus)]
 Head on Fire, Ass Catching	Initiative: +10
 Heal Thy Nanoself	HP Regen Min: 10, HP Regen Max: 20
+Healthy, Elfy, and Wise	HP Regen Min: 8, HP Regen Max: 10
 Healthy Bronze Glow	Moxie Percent: +50
 Healthy Green Glow	Familiar Weight: +10
 # Heart of Black: Damn, Gina
@@ -2913,6 +2915,7 @@ Jalape&ntilde;o Saucesphere	Damage Reduction: 3
 # Jammin': and on...
 # Jazz Hands
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
+Jerky, Boy	Mysticality Percent: +25
 # Jingle Jangle Jingle
 Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
 # Juiced Up: Makes you a better diver
@@ -3078,6 +3081,7 @@ Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max
 Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 Quadrilled	Item Drop: +20
 Quivering with Rage	Muscle Percent: -10
+Rad-ish	Moxie Percent: +25
 Radiant Personality	Moxie Percent: +30
 Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3, Critical: 2
 Radio Head	Moxie: +20

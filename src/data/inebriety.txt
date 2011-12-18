@@ -86,6 +86,7 @@ cursed bottle of rum	1	1	crappy	1	0	0	0
 cyder	3	5		5	0	0	0
 day-old beer	1	1	crappy	1	0	0	0
 decanter of fine scotch	4	9	EPIC	18-22	5-10	5-10	50-80
+desert island iced tea	5	1		12-13	0	0	0	15 Castaway Physique
 dew yoana lei	3	4	decent	5-6	0	34-80	0	20 Brined Liver
 dew yoana salacious lei	4	8	good	10-14	0	60-115	0	30 Brined Liver
 dirty martini	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
@@ -142,6 +143,7 @@ hi-octane peppermint oil	5	5		10-15	0	0	0
 hodgman's blanket	2	15	EPIC	14-16	300-800	300-800	300-800
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush
 horizontal tango	4	4	good	10-14	0	34-36	0
+horseradish-infused vodka	5	1		12-13	0	0	0	15 Rad-ish
 hot choculate	5	4		10-15	9-10	9-10	9-10
 hot toady	4	4		6-10	7-8	7-8	7-8
 ice-cold fotie	3	1	crappy	3	0	0	0	9-12 MP
@@ -153,6 +155,7 @@ infinitesimal ipa	3	1		3-8	0	0	0
 isotope nog	4	5		6-11	0	0	0
 jar of fermented pickle juice	5	13	EPIC	29-34	80-100	80-100	80-100	-5 spleen
 jar of squeeze	7	8	awesome	25-30	25-45	25-45	25-45
+jerkitini	5	1		12-13	0	0	0	15 Jerky, Boy
 kamicorpse-ee	3	1	good	5-10	0	0	31-35
 knob mushroom wine	3	6	awesome	10-14	0	4-6	0
 knoll mushroom wine	3	6	awesome	10-14	4-6	0	0
