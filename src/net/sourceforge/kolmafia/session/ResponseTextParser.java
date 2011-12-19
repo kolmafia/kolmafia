@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.Crimbo10Request;
+import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.CurseRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.DigRequest;
@@ -319,6 +320,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "crimbo10.php" ) )
 		{
 			Crimbo10Request.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "crimbo11.php" ) )
+		{
+			Crimbo11Request.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "curse.php" ) )

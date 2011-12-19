@@ -307,178 +307,178 @@ Fudge Wand	buy	2500	fudgecycle
 
 # Things you can sell to get Candy Credits
 
-Uncle Crimbo 2011	sell	50	abandoned candy
-Uncle Crimbo 2011	sell	10	alphabet gum
-Uncle Crimbo 2011	sell	5	Angry Farmer candy
-Uncle Crimbo 2011	sell	25	Angry Farmer's Wife Candy
-Uncle Crimbo 2011	sell	200	banana supersucker
-Uncle Crimbo 2011	sell	100	bananagate
-Uncle Crimbo 2011	sell	250	bananarama bangle
-Uncle Crimbo 2011	sell	5	bazookafish bubble gum
-Uncle Crimbo 2011	sell	10	Bit O' Ectoplasm
-Uncle Crimbo 2011	sell	10	BitterSweetTarts
-Uncle Crimbo 2011	sell	25	black candy heart
-Uncle Crimbo 2011	sell	100	blood 'n' plenty
-Uncle Crimbo 2011	sell	50	breath mint
-Uncle Crimbo 2011	sell	5	brown sugar cane
-Uncle Crimbo 2011	sell	10	candied kobold
-Uncle Crimbo 2011	sell	10	candy brain
-Uncle Crimbo 2011	sell	5	candy cane
-Uncle Crimbo 2011	sell	100	candy cane candygram
-Uncle Crimbo 2011	sell	100	candy kneecapping stick
-Uncle Crimbo 2011	sell	100	candy knuckles
-Uncle Crimbo 2011	sell	25	candy skeleton
-Uncle Crimbo 2011	sell	50	candy stake
-Uncle Crimbo 2011	sell	25	children of the candy corn
-Uncle Crimbo 2011	sell	250	chocolate cigar
-Uncle Crimbo 2011	sell	25	chocolate disco ball
-Uncle Crimbo 2011	sell	10	chocolate filthy lucre
-Uncle Crimbo 2011	sell	25	chocolate pasta spoon
-Uncle Crimbo 2011	sell	25	chocolate saucepan
-Uncle Crimbo 2011	sell	25	chocolate seal-clubbing club
-Uncle Crimbo 2011	sell	25	chocolate stolen accordion
-Uncle Crimbo 2011	sell	25	chocolate turtle totem
-Uncle Crimbo 2011	sell	25	chocolate-covered caviar
-Uncle Crimbo 2011	sell	5	Cold Hots candy
-Uncle Crimbo 2011	sell	25	Comet Pop
-Uncle Crimbo 2011	sell	10	cotton candy bale
-Uncle Crimbo 2011	sell	10	cotton candy cone
-Uncle Crimbo 2011	sell	10	cotton candy pillow
-Uncle Crimbo 2011	sell	5	cotton candy pinch
-Uncle Crimbo 2011	sell	10	cotton candy plug
-Uncle Crimbo 2011	sell	10	cotton candy skoshe
-Uncle Crimbo 2011	sell	10	cotton candy smidgen
-Uncle Crimbo 2011	sell	5	crazy little Turkish delight
-Uncle Crimbo 2011	sell	100	CRIMBCOIDS mints
-Uncle Crimbo 2011	sell	25	Crimbo candied pecan
-Uncle Crimbo 2011	sell	25	Crimbo fudge
-Uncle Crimbo 2011	sell	25	Crimbo peppermint bark
-Uncle Crimbo 2011	sell	5	Daffy Taffy
-Uncle Crimbo 2011	sell	25	delicious comfit?
-Uncle Crimbo 2011	sell	25	double-ice gum
-Uncle Crimbo 2011	sell	25	dubious peppermint
-Uncle Crimbo 2011	sell	25	elderly jawbreaker
-Uncle Crimbo 2011	sell	10	Elvish delight
-Uncle Crimbo 2011	sell	25	Everlasting Deckswabber
-Uncle Crimbo 2011	sell	10	explosion-flavored chewing gum
-Uncle Crimbo 2011	sell	250	fancy but probably evil chocolate
-Uncle Crimbo 2011	sell	250	fancy chocolate
-Uncle Crimbo 2011	sell	250	fancy chocolate car
-Uncle Crimbo 2011	sell	25	frostbite-flavored Hob-O
-Uncle Crimbo 2011	sell	25	fry-oil-flavored Hob-O
-Uncle Crimbo 2011	sell	500	fudge bunny
-Uncle Crimbo 2011	sell	50	fudge spork
-Uncle Crimbo 2011	sell	25	Fudgie Roll
-Uncle Crimbo 2011	sell	25	garbage-juice-flavored Hob-O
-Uncle Crimbo 2011	sell	100	giant candy cane
-Uncle Crimbo 2011	sell	25	giant green gummi bear
-Uncle Crimbo 2011	sell	25	giant green gummi ingot
-Uncle Crimbo 2011	sell	25	giant red gummi bear
-Uncle Crimbo 2011	sell	25	giant red gummi ingot
-Uncle Crimbo 2011	sell	25	giant yellow gummi bear
-Uncle Crimbo 2011	sell	25	giant yellow gummi ingot
-Uncle Crimbo 2011	sell	25	Good 'n' Slimy
-Uncle Crimbo 2011	sell	1	green candy heart
-Uncle Crimbo 2011	sell	50	green drunki-bear
-Uncle Crimbo 2011	sell	10	green gummi ingot
-Uncle Crimbo 2011	sell	1000	gummi ammonite
-Uncle Crimbo 2011	sell	1000	gummi belemnite
-Uncle Crimbo 2011	sell	1000	gummi trilobite
-Uncle Crimbo 2011	sell	25	Gummi-DNA
-Uncle Crimbo 2011	sell	10	Gummi-Gnauga
-Uncle Crimbo 2011	sell	100	Gummy Brains
-Uncle Crimbo 2011	sell	25	holly-flavored Hob-O
-Uncle Crimbo 2011	sell	10	honey stick
-Uncle Crimbo 2011	sell	5	honey-dipped locust
-Uncle Crimbo 2011	sell	50	irradiated candy cane
-Uncle Crimbo 2011	sell	1	jaba&ntilde;ero-flavored chewing gum
-Uncle Crimbo 2011	sell	250	jawbruiser
-Uncle Crimbo 2011	sell	100	kumquartz
-Uncle Crimbo 2011	sell	250	kumquartz ring
-Uncle Crimbo 2011	sell	200	kumquat supersucker
-Uncle Crimbo 2011	sell	1	lavender candy heart
-Uncle Crimbo 2011	sell	25	licorice boa
-Uncle Crimbo 2011	sell	100	licorice garrote
-Uncle Crimbo 2011	sell	25	licorice root
-Uncle Crimbo 2011	sell	200	lime supersucker
-Uncle Crimbo 2011	sell	1	lime-and-chile-flavored chewing gum
-Uncle Crimbo 2011	sell	100	Lobos Mints
-Uncle Crimbo 2011	sell	250	lump of Saccharine Maple sap
-Uncle Crimbo 2011	sell	1	marzipan skull
-Uncle Crimbo 2011	sell	5	Mr. Mediocrebar
-Uncle Crimbo 2011	sell	25	nanite-infested candy cane
-Uncle Crimbo 2011	sell	25	necbro wafers
-Uncle Crimbo 2011	sell	25	Now and Earlier
-Uncle Crimbo 2011	sell	25	Nuclear Blastball
-Uncle Crimbo 2011	sell	25	orange and black Crimboween candy
-Uncle Crimbo 2011	sell	1	orange candy heart
-Uncle Crimbo 2011	sell	5	pack of chewing gum
-Uncle Crimbo 2011	sell	250	pair of pearidot earrings
-Uncle Crimbo 2011	sell	25	peanut brittle shield
-Uncle Crimbo 2011	sell	200	pear supersucker
-Uncle Crimbo 2011	sell	100	pearidot
-Uncle Crimbo 2011	sell	100	peppermint crook
-Uncle Crimbo 2011	sell	100	peppermint parasol
-Uncle Crimbo 2011	sell	100	peppermint patty
-Uncle Crimbo 2011	sell	50	peppermint sprout
-Uncle Crimbo 2011	sell	50	peppermint twist
-Uncle Crimbo 2011	sell	1	pickle-flavored chewing gum
-Uncle Crimbo 2011	sell	10	Piddles
-Uncle Crimbo 2011	sell	25	piece of after eight
-Uncle Crimbo 2011	sell	10	pile of candy
-Uncle Crimbo 2011	sell	1	pink candy heart
-Uncle Crimbo 2011	sell	10	pixellated candy heart
-Uncle Crimbo 2011	sell	10	Polka Pop
-Uncle Crimbo 2011	sell	250	radio button candy
-Uncle Crimbo 2011	sell	100	Rattlin' Chains
-Uncle Crimbo 2011	sell	50	red drunki-bear
-Uncle Crimbo 2011	sell	10	red gummi ingot
-Uncle Crimbo 2011	sell	25	ribbon candy
-Uncle Crimbo 2011	sell	5	Rock Pops
-Uncle Crimbo 2011	sell	5	Senior Mints
-Uncle Crimbo 2011	sell	50	spooky sap
-Uncle Crimbo 2011	sell	10	Steal This Candy
-Uncle Crimbo 2011	sell	25	sterno-flavored Hob-O
-Uncle Crimbo 2011	sell	25	stick of "gum"
-Uncle Crimbo 2011	sell	200	strawberry supersucker
-Uncle Crimbo 2011	sell	100	strawberyl
-Uncle Crimbo 2011	sell	250	strawberyl necklace
-Uncle Crimbo 2011	sell	25	sugar chapeau
-Uncle Crimbo 2011	sell	10	Sugar Cog
-Uncle Crimbo 2011	sell	25	sugar shank
-Uncle Crimbo 2011	sell	10	sugar shard
-Uncle Crimbo 2011	sell	25	sugar sheet
-Uncle Crimbo 2011	sell	25	sugar shield
-Uncle Crimbo 2011	sell	25	sugar shillelagh
-Uncle Crimbo 2011	sell	25	sugar shirt
-Uncle Crimbo 2011	sell	25	sugar shorts
-Uncle Crimbo 2011	sell	25	sugar shotgun
-Uncle Crimbo 2011	sell	10	sugar-coated pine cone
-Uncle Crimbo 2011	sell	100	Sweet Sword
-Uncle Crimbo 2011	sell	1	tamarind-flavored chewing gum
-Uncle Crimbo 2011	sell	5	Tasty Fun Good rice candy
-Uncle Crimbo 2011	sell	100	tourmalime
-Uncle Crimbo 2011	sell	250	tourmalime tourniquet
-Uncle Crimbo 2011	sell	250	vitachoconutriment capsule
-Uncle Crimbo 2011	sell	25	Wax Flask
-Uncle Crimbo 2011	sell	1	white candy heart
-Uncle Crimbo 2011	sell	5	white chocolate chips
-Uncle Crimbo 2011	sell	5	Wint-O-Fresh mint
-Uncle Crimbo 2011	sell	250	yam candy
-Uncle Crimbo 2011	sell	1	yellow candy heart
-Uncle Crimbo 2011	sell	50	yellow drunki-bear
-Uncle Crimbo 2011	sell	10	yellow gummi ingot
-Uncle Crimbo 2011	sell	5	Yummy Tummy bean
+Crimbo 2011	sell	50	abandoned candy
+Crimbo 2011	sell	10	alphabet gum
+Crimbo 2011	sell	5	Angry Farmer candy
+Crimbo 2011	sell	25	Angry Farmer's Wife Candy
+Crimbo 2011	sell	200	banana supersucker
+Crimbo 2011	sell	100	bananagate
+Crimbo 2011	sell	250	bananarama bangle
+Crimbo 2011	sell	5	bazookafish bubble gum
+Crimbo 2011	sell	10	Bit O' Ectoplasm
+Crimbo 2011	sell	10	BitterSweetTarts
+Crimbo 2011	sell	25	black candy heart
+Crimbo 2011	sell	100	blood 'n' plenty
+Crimbo 2011	sell	50	breath mint
+Crimbo 2011	sell	5	brown sugar cane
+Crimbo 2011	sell	10	candied kobold
+Crimbo 2011	sell	10	candy brain
+Crimbo 2011	sell	5	candy cane
+Crimbo 2011	sell	100	candy cane candygram
+Crimbo 2011	sell	100	candy kneecapping stick
+Crimbo 2011	sell	100	candy knuckles
+Crimbo 2011	sell	25	candy skeleton
+Crimbo 2011	sell	50	candy stake
+Crimbo 2011	sell	25	children of the candy corn
+Crimbo 2011	sell	250	chocolate cigar
+Crimbo 2011	sell	25	chocolate disco ball
+Crimbo 2011	sell	10	chocolate filthy lucre
+Crimbo 2011	sell	25	chocolate pasta spoon
+Crimbo 2011	sell	25	chocolate saucepan
+Crimbo 2011	sell	25	chocolate seal-clubbing club
+Crimbo 2011	sell	25	chocolate stolen accordion
+Crimbo 2011	sell	25	chocolate turtle totem
+Crimbo 2011	sell	25	chocolate-covered caviar
+Crimbo 2011	sell	5	Cold Hots candy
+Crimbo 2011	sell	1	Comet Pop
+Crimbo 2011	sell	10	cotton candy bale
+Crimbo 2011	sell	10	cotton candy cone
+Crimbo 2011	sell	10	cotton candy pillow
+Crimbo 2011	sell	5	cotton candy pinch
+Crimbo 2011	sell	10	cotton candy plug
+Crimbo 2011	sell	10	cotton candy skoshe
+Crimbo 2011	sell	10	cotton candy smidgen
+Crimbo 2011	sell	5	crazy little Turkish delight
+Crimbo 2011	sell	100	CRIMBCOIDS mints
+Crimbo 2011	sell	25	Crimbo candied pecan
+Crimbo 2011	sell	25	Crimbo fudge
+Crimbo 2011	sell	25	Crimbo peppermint bark
+Crimbo 2011	sell	5	Daffy Taffy
+Crimbo 2011	sell	25	delicious comfit?
+Crimbo 2011	sell	25	double-ice gum
+Crimbo 2011	sell	25	dubious peppermint
+Crimbo 2011	sell	25	elderly jawbreaker
+Crimbo 2011	sell	10	Elvish delight
+Crimbo 2011	sell	25	Everlasting Deckswabber
+Crimbo 2011	sell	10	explosion-flavored chewing gum
+Crimbo 2011	sell	250	fancy but probably evil chocolate
+Crimbo 2011	sell	250	fancy chocolate
+Crimbo 2011	sell	250	fancy chocolate car
+Crimbo 2011	sell	25	frostbite-flavored Hob-O
+Crimbo 2011	sell	25	fry-oil-flavored Hob-O
+Crimbo 2011	sell	500	fudge bunny
+Crimbo 2011	sell	50	fudge spork
+Crimbo 2011	sell	25	Fudgie Roll
+Crimbo 2011	sell	25	garbage-juice-flavored Hob-O
+Crimbo 2011	sell	100	giant candy cane
+Crimbo 2011	sell	25	giant green gummi bear
+Crimbo 2011	sell	25	giant green gummi ingot
+Crimbo 2011	sell	25	giant red gummi bear
+Crimbo 2011	sell	25	giant red gummi ingot
+Crimbo 2011	sell	25	giant yellow gummi bear
+Crimbo 2011	sell	25	giant yellow gummi ingot
+Crimbo 2011	sell	25	Good 'n' Slimy
+Crimbo 2011	sell	1	green candy heart
+Crimbo 2011	sell	50	green drunki-bear
+Crimbo 2011	sell	10	green gummi ingot
+Crimbo 2011	sell	1000	gummi ammonite
+Crimbo 2011	sell	1000	gummi belemnite
+Crimbo 2011	sell	1000	gummi trilobite
+Crimbo 2011	sell	25	Gummi-DNA
+Crimbo 2011	sell	10	Gummi-Gnauga
+Crimbo 2011	sell	100	Gummy Brains
+Crimbo 2011	sell	25	holly-flavored Hob-O
+Crimbo 2011	sell	10	honey stick
+Crimbo 2011	sell	5	honey-dipped locust
+Crimbo 2011	sell	50	irradiated candy cane
+Crimbo 2011	sell	1	jaba&ntilde;ero-flavored chewing gum
+Crimbo 2011	sell	250	jawbruiser
+Crimbo 2011	sell	100	kumquartz
+Crimbo 2011	sell	250	kumquartz ring
+Crimbo 2011	sell	200	kumquat supersucker
+Crimbo 2011	sell	1	lavender candy heart
+Crimbo 2011	sell	25	licorice boa
+Crimbo 2011	sell	100	licorice garrote
+Crimbo 2011	sell	25	licorice root
+Crimbo 2011	sell	200	lime supersucker
+Crimbo 2011	sell	1	lime-and-chile-flavored chewing gum
+Crimbo 2011	sell	100	Lobos Mints
+Crimbo 2011	sell	250	lump of Saccharine Maple sap
+Crimbo 2011	sell	1	marzipan skull
+Crimbo 2011	sell	5	Mr. Mediocrebar
+Crimbo 2011	sell	25	nanite-infested candy cane
+Crimbo 2011	sell	25	necbro wafers
+Crimbo 2011	sell	25	Now and Earlier
+Crimbo 2011	sell	25	Nuclear Blastball
+Crimbo 2011	sell	25	orange and black Crimboween candy
+Crimbo 2011	sell	1	orange candy heart
+Crimbo 2011	sell	5	pack of chewing gum
+Crimbo 2011	sell	250	pair of pearidot earrings
+Crimbo 2011	sell	25	peanut brittle shield
+Crimbo 2011	sell	200	pear supersucker
+Crimbo 2011	sell	100	pearidot
+Crimbo 2011	sell	100	peppermint crook
+Crimbo 2011	sell	100	peppermint parasol
+Crimbo 2011	sell	100	peppermint patty
+Crimbo 2011	sell	50	peppermint sprout
+Crimbo 2011	sell	50	peppermint twist
+Crimbo 2011	sell	1	pickle-flavored chewing gum
+Crimbo 2011	sell	10	Piddles
+Crimbo 2011	sell	25	piece of after eight
+Crimbo 2011	sell	10	pile of candy
+Crimbo 2011	sell	1	pink candy heart
+Crimbo 2011	sell	10	pixellated candy heart
+Crimbo 2011	sell	10	Polka Pop
+Crimbo 2011	sell	250	radio button candy
+Crimbo 2011	sell	100	Rattlin' Chains
+Crimbo 2011	sell	50	red drunki-bear
+Crimbo 2011	sell	10	red gummi ingot
+Crimbo 2011	sell	25	ribbon candy
+Crimbo 2011	sell	5	Rock Pops
+Crimbo 2011	sell	5	Senior Mints
+Crimbo 2011	sell	50	spooky sap
+Crimbo 2011	sell	10	Steal This Candy
+Crimbo 2011	sell	25	sterno-flavored Hob-O
+Crimbo 2011	sell	25	stick of "gum"
+Crimbo 2011	sell	200	strawberry supersucker
+Crimbo 2011	sell	100	strawberyl
+Crimbo 2011	sell	250	strawberyl necklace
+Crimbo 2011	sell	25	sugar chapeau
+Crimbo 2011	sell	10	Sugar Cog
+Crimbo 2011	sell	25	sugar shank
+Crimbo 2011	sell	10	sugar shard
+Crimbo 2011	sell	25	sugar sheet
+Crimbo 2011	sell	25	sugar shield
+Crimbo 2011	sell	25	sugar shillelagh
+Crimbo 2011	sell	25	sugar shirt
+Crimbo 2011	sell	25	sugar shorts
+Crimbo 2011	sell	25	sugar shotgun
+Crimbo 2011	sell	10	sugar-coated pine cone
+Crimbo 2011	sell	100	Sweet Sword
+Crimbo 2011	sell	1	tamarind-flavored chewing gum
+Crimbo 2011	sell	5	Tasty Fun Good rice candy
+Crimbo 2011	sell	100	tourmalime
+Crimbo 2011	sell	250	tourmalime tourniquet
+Crimbo 2011	sell	250	vitachoconutriment capsule
+Crimbo 2011	sell	25	Wax Flask
+Crimbo 2011	sell	1	white candy heart
+Crimbo 2011	sell	5	white chocolate chips
+Crimbo 2011	sell	5	Wint-O-Fresh mint
+Crimbo 2011	sell	250	yam candy
+Crimbo 2011	sell	1	yellow candy heart
+Crimbo 2011	sell	50	yellow drunki-bear
+Crimbo 2011	sell	10	yellow gummi ingot
+Crimbo 2011	sell	5	Yummy Tummy bean
 
 # Things you can buy with Candy Credits
 
-Crimbo Town Toy Factory 2011	buy	500	Fuzzby
-Crimbo Town Toy Factory 2011	buy	1000	Jackass Plumber home game
-Crimbo Town Toy Factory 2011	buy	1500	Trivial Avocations board game
-Crimbo Town Toy Factory 2011	buy	2500	Tickle-Me Emilio
-Crimbo Town Toy Factory 2011	buy	100	pack of pogs
-Crimbo Town Toy Factory 2011	buy	50	jerky coins
-Crimbo Town Toy Factory 2011	buy	50	Go-Wassail
-Crimbo Town Toy Factory 2011	buy	30	Uncle Greenspan's Bathroom Finance Guide
-Crimbo Town Toy Factory 2011	buy	30	bottle of bubbles
-Crimbo Town Toy Factory 2011	buy	30	wind-up meatcar
+Crimbo 2011	buy	500	Fuzzby
+Crimbo 2011	buy	1000	Jackass Plumber home game
+Crimbo 2011	buy	1500	Trivial Avocations board game
+Crimbo 2011	buy	2500	Tickle-Me Emilio
+Crimbo 2011	buy	100	pack of pogs
+Crimbo 2011	buy	50	jerky coins
+Crimbo 2011	buy	50	Go-Wassail
+Crimbo 2011	buy	30	Uncle Greenspan's Bathroom Finance Guide
+Crimbo 2011	buy	30	bottle of bubbles
+Crimbo 2011	buy	30	wind-up meatcar

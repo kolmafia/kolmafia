@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
+import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
@@ -67,6 +68,7 @@ public abstract class CoinmasterRegistry
 		BigBrotherRequest.BIG_BROTHER,
 		BountyHunterHunterRequest.BHH,
 		CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP,
+		Crimbo11Request.CRIMBO11,
 		CrimboCartelRequest.CRIMBO_CARTEL,
 		DimemasterRequest.HIPPY,
 		DollHawkerRequest.DOLLHAWKER,
