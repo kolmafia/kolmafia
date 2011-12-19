@@ -391,7 +391,7 @@ Uncle Crimbo 2011	sell	25	holly-flavored Hob-O
 Uncle Crimbo 2011	sell	10	honey stick
 Uncle Crimbo 2011	sell	5	honey-dipped locust
 Uncle Crimbo 2011	sell	50	irradiated candy cane
-Uncle Crimbo 2011	sell	1	jabañero-flavored chewing gum
+Uncle Crimbo 2011	sell	1	jaba&ntilde;ero-flavored chewing gum
 Uncle Crimbo 2011	sell	250	jawbruiser
 Uncle Crimbo 2011	sell	100	kumquartz
 Uncle Crimbo 2011	sell	250	kumquartz ring
