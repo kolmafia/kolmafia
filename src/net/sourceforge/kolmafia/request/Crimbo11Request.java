@@ -188,6 +188,12 @@ public class Crimbo11Request
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't send yourself a present" );
 			}
+			// The factory workers inform you that your intended
+			// recipient already has one of those.
+			else if ( responseText.indexOf( "already has one of those" ) != -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That person already has that gift" );
+			}
 			else 
 			{
 				CoinMasterRequest.completePurchase( data, location );
