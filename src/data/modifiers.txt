@@ -2812,6 +2812,7 @@ Glittering Eyelashes	Mysticality Percent: +15
 Gnawed-Off Arm	Muscle: -5
 Go Get 'Em, Tiger!	Muscle Percent: +15
 Gobliny Flavor	Damage Reduction: 5
+Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
 Good Karma	Mysticality: +5
 Good with the Ladies	Experience: +3
 Goofball Withdrawal	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
