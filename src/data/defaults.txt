@@ -197,6 +197,7 @@ user	autoRepairBoxServants	false
 user	autoSphereID	false
 user	autoSteal	true
 user	autostartGalaktikQuest	true
+user	availableCandyCredits	0
 user	availableDimes	0
 user	availableQuarters	0
 user	availableStoreCredits	0

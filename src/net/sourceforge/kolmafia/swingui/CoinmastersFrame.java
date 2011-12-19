@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
@@ -121,6 +122,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel dollhawkerPanel = null;
 	private CoinmasterPanel lunarLunchPanel = null;
 	private CoinmasterPanel awolPanel = null;
+	private CoinmasterPanel crimbo11Panel = null;
 	private CoinmasterPanel fudgeWandPanel = null;
 	private CoinmasterPanel travelerPanel = null;
 	private CoinmasterPanel tr4pz0rPanel = null;
@@ -232,6 +234,11 @@ public class CoinmastersFrame
 		this.selectorPanel.addPanel( awolPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
+		crimbo11Panel = new Crimbo11Panel();
+		panel.add( crimbo11Panel );
+		this.selectorPanel.addPanel( crimbo11Panel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
 		fudgeWandPanel = new FudgeWandPanel();
 		panel.add( fudgeWandPanel );
 		this.selectorPanel.addPanel( fudgeWandPanel.getPanelSelector(), panel );
@@ -320,6 +327,7 @@ public class CoinmastersFrame
 		dollhawkerPanel.update();
 		lunarLunchPanel.update();
 		awolPanel.update();
+		crimbo11Panel.update();
 		fudgeWandPanel.update();
 		travelerPanel.update();
 		altarOfBonesPanel.update();
@@ -437,6 +445,95 @@ public class CoinmastersFrame
 		public BigBrotherPanel()
 		{
 			super( BigBrotherRequest.BIG_BROTHER );
+		}
+	}
+
+	private class Crimbo11Panel
+		extends CoinmasterPanel
+	{
+		public Crimbo11Panel()
+		{
+			super();
+
+			this.data = Crimbo11Request.CRIMBO11;
+
+			this.sellPanel = new SellPanel();
+			this.add( this.sellPanel, BorderLayout.NORTH );
+
+			ActionListener[] listeners = new ActionListener[ 2 ];
+			listeners[ 0 ] = new GiftListener();
+			listeners[ 1 ] = new DonateListener();
+
+			this.buyPanel = new BuyPanel( listeners );
+			this.add( this.buyPanel, BorderLayout.CENTER );
+		}
+
+		public Object[] getDesiredItems()
+		{
+			Object[] items = this.buyPanel.elementList.getSelectedValues();
+			return this.getDesiredBuyItems( items, false );
+		}
+
+		public class GiftListener
+			extends ThreadedListener
+		{
+			protected void execute()
+			{
+				CoinmasterData data = Crimbo11Panel.this.data;
+				String reason = CoinMasterRequest.canBuy( data );
+				if ( reason != null )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+					return;
+				}
+
+				Object[] items = Crimbo11Panel.this.getDesiredItems();
+				if ( items == null )
+				{
+					return;
+				}
+
+				String victim = InputFieldUtilities.input( "Send a gift to whom?" );
+				if ( victim == null )
+				{
+					return;
+				}
+
+				Crimbo11Panel.this.execute( data.getBuyAction(), items, "towho=" + victim );
+			}
+
+			public String toString()
+			{
+				return "gift";
+			}
+		}
+
+		public class DonateListener
+			extends ThreadedListener
+		{
+			protected void execute()
+			{
+				CoinmasterData data = Crimbo11Panel.this.data;
+				String reason = CoinMasterRequest.canBuy( data );
+				if ( reason != null )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+					return;
+				}
+
+				Object[] items = Crimbo11Panel.this.getDesiredItems();
+				if ( items == null )
+				{
+					return;
+				}
+
+				Crimbo11Panel.this.execute( data.getBuyAction(), items, "towho=0" );
+			}
+
+			public String toString()
+			{
+				return "donate";
+			}
 		}
 	}
 
@@ -618,12 +715,17 @@ public class CoinmastersFrame
 	public abstract class CoinmasterPanel
 		extends JPanel
 	{
-		protected final CoinmasterData data;
+		protected CoinmasterData data;
 		protected boolean storageInTitle = false;
 		protected boolean pullsInTitle = false;
 
 		protected SellPanel sellPanel = null;
 		protected BuyPanel buyPanel = null;
+
+		public CoinmasterPanel()
+		{
+			super( new BorderLayout() );
+		}
 
 		public CoinmasterPanel( final CoinmasterData data )
 		{
@@ -745,12 +847,12 @@ public class CoinmastersFrame
 			RequestThread.postRequest( this.getRequest() );
 		}
 
-		private void execute( final String action, final Object [] items )
+		protected void execute( final String action, final Object [] items )
 		{
 			this.execute( action, items, null );
 		}
 
-		private void execute( final String action, final Object [] items, final String extraAction )
+		protected void execute( final String action, final Object [] items, final String extraAction )
 		{
 			if ( items.length == 0 )
 			{
@@ -772,7 +874,93 @@ public class CoinmastersFrame
 			this.setTitle();
 		}
 
-		private class SellPanel
+		public Object[] getDesiredBuyItems( Object[] items, final boolean fromStorage )
+		{
+			if ( items.length == 0 )
+			{
+				return null;
+			}
+
+			CoinmasterData data = this.data;
+			AdventureResult token = data.getItem();
+			String property = data.getProperty();
+			int originalBalance = fromStorage ?
+				data.availableStorageTokens() :
+				data.availableTokens();
+
+			int neededSize = items.length;
+			int balance = originalBalance;
+			Map buyPrices = data.getBuyPrices();
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				AdventureResult item = (AdventureResult) items[ i ];
+				String itemName = item.getName();
+				int price = CoinmastersDatabase.getPrice( itemName, buyPrices );
+
+				if ( price > originalBalance )
+				{
+					// This was grayed out.
+					items[ i ] = null;
+					--neededSize;
+					continue;
+				}
+
+				int max = balance / price;
+				int quantity = max;
+
+				if ( max > 1 )
+				{
+					int def = CoinmasterPanel.this.buyDefault( max );
+					String value = InputFieldUtilities.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
+					if ( value == null )
+					{
+						// He hit cancel
+						return null;
+					}
+
+					quantity = StringUtilities.parseInt( value );
+				}
+
+				if ( quantity > max )
+				{
+					quantity = max;
+				}
+
+				if ( quantity <= 0 )
+				{
+					items[ i ] = null;
+					--neededSize;
+					continue;
+				}
+
+				items[ i ] = item.getInstance( quantity );
+				balance -= quantity * price;
+			}
+
+			// Shrink the array which will be returned so
+			// that it removes any nulled values.
+
+			if ( neededSize == 0 )
+			{
+				return null;
+			}
+
+			Object[] desiredItems = new Object[ neededSize ];
+			neededSize = 0;
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				if ( items[ i ] != null )
+				{
+					desiredItems[ neededSize++ ] = items[ i ];
+				}
+			}
+
+			return desiredItems;
+		}
+
+		public class SellPanel
 			extends ItemManagePanel
 		{
 			public SellPanel()
@@ -867,23 +1055,17 @@ public class CoinmastersFrame
 			}
 		}
 
-		private class BuyPanel
+		public class BuyPanel
 			extends ItemManagePanel
 		{
-			public BuyPanel()
+			public BuyPanel( ActionListener[] listeners )
 			{
 				super( CoinmasterPanel.this.data.getBuyItems() );
 
-				boolean storage = CoinmasterPanel.this.data.getStorageAction() != null;
-				int count = storage ? 2 : 1;
-				ActionListener[] listeners = new ActionListener[ count ];
-				listeners[ 0 ] = new BuyListener();
-				if ( storage )
+				if ( listeners != null )
 				{
-					listeners[ 1 ] = new BuyUsingStorageListener();
+					this.setButtons( true, listeners );
 				}
-
-				this.setButtons( true, listeners );
 
 				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "check" ), BorderLayout.SOUTH );
 
@@ -891,6 +1073,23 @@ public class CoinmastersFrame
 				String side = CoinmasterPanel.this.lighthouseSide();
 				this.elementList.setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, true, side ) );
 				this.elementList.setVisibleRowCount( 6 );
+				this.setEnabled( true );
+			}
+
+			public BuyPanel()
+			{
+				this( null );
+
+				boolean storage = CoinmasterPanel.this.data.getStorageAction() != null;
+				int count = storage ? 2 : 1;
+				ActionListener[] listeners = new ActionListener[ count ];
+				listeners[ 0 ] = new BuyListener();
+				if ( count > 1 )
+				{
+					listeners[ 1 ] = new BuyUsingStorageListener();
+				}
+
+				this.setButtons( true, listeners );
 				this.setEnabled( true );
 			}
 
@@ -909,7 +1108,7 @@ public class CoinmastersFrame
 			public void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
-				for ( int i = 0; i < this.buttons.length; ++i )
+				for ( int i = 0; this.buttons != null && i < this.buttons.length; ++i )
 				{
 					this.buttons[ i ].setEnabled( CoinmasterPanel.this.enabled() );
 				}
@@ -926,88 +1125,7 @@ public class CoinmastersFrame
 			public Object[] getDesiredItems( final boolean fromStorage )
 			{
 				Object[] items = this.elementList.getSelectedValues();
-				if ( items.length == 0 )
-				{
-					return null;
-				}
-
-				AdventureResult token = CoinmasterPanel.this.data.getItem();
-				String property = CoinmasterPanel.this.data.getProperty();
-				CoinmasterData data = CoinmasterPanel.this.data;
-				int originalBalance = fromStorage ?
-					data.availableStorageTokens() :
-					data.availableTokens();
-
-				int neededSize = items.length;
-				int balance = originalBalance;
-				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
-
-				for ( int i = 0; i < items.length; ++i )
-				{
-					AdventureResult item = (AdventureResult) items[ i ];
-					String itemName = item.getName();
-					int price = CoinmastersDatabase.getPrice( itemName, buyPrices );
-
-					if ( price > originalBalance )
-					{
-						// This was grayed out.
-						items[ i ] = null;
-						--neededSize;
-						continue;
-					}
-
-					int max = balance / price;
-					int quantity = max;
-
-					if ( max > 1 )
-					{
-						int def = CoinmasterPanel.this.buyDefault( max );
-						String value = InputFieldUtilities.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( def ) );
-						if ( value == null )
-						{
-							// He hit cancel
-							return null;
-						}
-
-						quantity = StringUtilities.parseInt( value );
-					}
-
-					if ( quantity > max )
-					{
-						quantity = max;
-					}
-
-					if ( quantity <= 0 )
-					{
-						items[ i ] = null;
-						--neededSize;
-						continue;
-					}
-
-					items[ i ] = item.getInstance( quantity );
-					balance -= quantity * price;
-				}
-
-				// Shrink the array which will be returned so
-				// that it removes any nulled values.
-
-				if ( neededSize == 0 )
-				{
-					return null;
-				}
-
-				Object[] desiredItems = new Object[ neededSize ];
-				neededSize = 0;
-
-				for ( int i = 0; i < items.length; ++i )
-				{
-					if ( items[ i ] != null )
-					{
-						desiredItems[ neededSize++ ] = items[ i ];
-					}
-				}
-
-				return desiredItems;
+				return CoinmasterPanel.this.getDesiredBuyItems( items, fromStorage );
 			}
 
 			public class BuyListener

@@ -119,6 +119,7 @@ public class GenericRequest
 {
 	// Used in many requests. Here for convenience and non-duplication
 	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
+	public static final Pattern PLACE_PATTERN = Pattern.compile( "place=([^&]*)" );
 
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
@@ -891,6 +892,12 @@ public class GenericRequest
 	public static String getAction( final String urlString )
 	{
 		Matcher matcher = ACTION_PATTERN.matcher( urlString );
+		return matcher.find() ? matcher.group(1) : null;
+	}
+
+	public static String getPlace( final String urlString )
+	{
+		Matcher matcher = PLACE_PATTERN.matcher( urlString );
 		return matcher.find() ? matcher.group(1) : null;
 	}
 
