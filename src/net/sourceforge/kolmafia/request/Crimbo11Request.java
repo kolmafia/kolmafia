@@ -167,7 +167,7 @@ public class Crimbo11Request
 		if ( action == null )
 		{
 			String place = GenericRequest.getPlace( location );
-			if ( place.equals( "tradeincandy" ) || place.equals( "buygifts" ) )
+			if ( place != null && ( place.equals( "tradeincandy" ) || place.equals( "buygifts" ) ) )
 			{
 				// Parse current Candy Credits
 				CoinMasterRequest.parseBalance( data, responseText );
