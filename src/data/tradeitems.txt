@@ -919,7 +919,7 @@
 910	dwarf bread	food	all	21
 911	Senior Mints	multiple, candy	all	0
 912	pixellated candy heart	multiple, candy	all	0
-913	candied kobold	multiple	all	0
+913	candied kobold	multiple, candy	all	0
 914	hand turkey outline	grow	all	0
 915	candied yam pinky ring	familiar	all	75
 916	intergalactic pom poms	accessory	display	0
@@ -4158,7 +4158,7 @@
 4149	quadroculars	familiar	all	75
 4150	lint	none	all	3
 4151	dubious peppermint	multiple, candy	all	40
-4152	Elvish delight	usable	all	40
+4152	Elvish delight	usable, candy	all	40
 4153	rockfish stomach	multiple	all	170
 4154	live lobster	usable	all	0
 4155	wok lobster	usable	all	0
@@ -5186,7 +5186,7 @@
 5177	Spaghetti with Moonballs	food	display	100
 5178	Crepes a la Lune	food	display	200
 5179	Moon Pie	food	display	500
-5180	Comet Pop	multiple	display	10
+5180	Comet Pop	multiple, candy	display	10
 5181	Flan in the Moon	multiple	display	50
 5182	1/6th Pound Cake	multiple	display	100
 5183	Mint-in-box Moonthril Circlet	usable	display	0
@@ -5460,12 +5460,12 @@
 5451
 5452
 5453
-5454	red gummi ingot	usable	all	300
-5455	green gummi ingot	usable	all	300
-5456	yellow gummi ingot	usable	all	300
-5457	Fudgie Roll	usable	display	0
-5458	fudge bunny	food	all	0
-5459	fudge spork	food helper	all	0
+5454	red gummi ingot	usable, candy	all	300
+5455	green gummi ingot	usable, candy	all	300
+5456	yellow gummi ingot	usable, candy	all	300
+5457	Fudgie Roll	usable, candy	display	0
+5458	fudge bunny	food, candy	all	0
+5459	fudge spork	food helper, candy	all	0
 5460	fudgecycle	accessory	all	0
 5461	fudge cube	none	all	0
 5462	blank fudge mold	none	all	0
@@ -5488,9 +5488,9 @@
 5479	giant red gummi bear	food	all	600
 5480	giant green gummi bear	food	all	600
 5481	giant yellow gummi bear	food	all	600
-5482	red drunki-bear	food	all	600
-5483	green drunki-bear	food	all	600
-5484	yellow drunki-bear	food	all	600
+5482	red drunki-bear	food, candy	all	600
+5483	green drunki-bear	food, candy	all	600
+5484	yellow drunki-bear	food, candy	all	600
 5485
 5486
 5487
