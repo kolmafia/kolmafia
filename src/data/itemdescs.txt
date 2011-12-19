@@ -5495,7 +5495,7 @@
 5494	824593979	gummitri.gif	gummi trilobite
 5495	928879350	gummiamm.gif	gummi ammonite
 5496	924359139	gummibel.gif	gummi belemnite
-5497
+5497	393461139	allyearsucker.gif	all-year sucker
 5498	527570389	fudgeheart.gif	heart of dark chocolate	
 5499
 5500	186886933	fuzzby.gif	Fuzzby
