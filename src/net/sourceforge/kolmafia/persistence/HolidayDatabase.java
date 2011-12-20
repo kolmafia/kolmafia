@@ -941,7 +941,7 @@ public class HolidayDatabase
 	{
 		int stat = HolidayDatabase.statDay( new Date() );
 		return	stat == KoLConstants.MUSCLE ? "Muscle Day" :
-			stat == KoLConstants.MYSTICALITY ? "Mysyicality Day" :
+			stat == KoLConstants.MYSTICALITY ? "Mysticality Day" :
 			stat == KoLConstants.MOXIE ? "Moxie Day" :
 			"None";
 	}
