@@ -246,10 +246,10 @@ public class Crimbo11Request
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
 		Matcher victimMatcher = Crimbo11Request.TOWHO_PATTERN.matcher( urlString );
-		String victim = victimMatcher.find() ? StringUtilities.getURLDecode( victimMatcher.group( 1 ) ) : "0";
-		if ( victim.equals( "0" ) )
+		String victim = victimMatcher.find() ? StringUtilities.getURLDecode( victimMatcher.group( 1 ).trim() ) : "0";
+		if ( victim.equals( "" ) || victim.equals( "0" ) )
 		{
-			victim = "the needy";
+			victim = "the Needy";
 		}
 
 		RequestLogger.updateSessionLog();
@@ -275,6 +275,11 @@ public class Crimbo11Request
 		}
 		else if ( action == null )
 		{
+			return true;
+		}
+		else if ( action.equals( "buygifts" ) )
+		{
+			// Transitional form leading to reallybuygifts
 			return true;
 		}
 
