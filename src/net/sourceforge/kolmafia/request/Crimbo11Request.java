@@ -219,6 +219,44 @@ public class Crimbo11Request
 		CoinMasterRequest.parseBalance( data, responseText );
 	}
 
+	public static final Pattern TOWHO_PATTERN = Pattern.compile( "towho=([^&]*)" );
+	private static final boolean registerDonation( final String urlString )
+	{
+		CoinmasterData data = Crimbo11Request.CRIMBO11;
+
+		Matcher itemMatcher = data.getItemMatcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return true;
+		}
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+
+		Matcher countMatcher = data.getCountMatcher( urlString );
+		int count = countMatcher.find() ? StringUtilities.parseInt( countMatcher.group( 1 ) ) : 1;
+
+		LockableListModel items = data.getBuyItems();
+		AdventureResult item = AdventureResult.findItem( itemId, items );
+		String name = item.getName();
+		Map prices = data.getBuyPrices();
+		int price = CoinmastersDatabase.getPrice( name, prices );
+		int cost = count * price;
+
+		String token = data.getToken();
+		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
+
+		Matcher victimMatcher = Crimbo11Request.TOWHO_PATTERN.matcher( urlString );
+		String victim = victimMatcher.find() ? victimMatcher.group( 1 ) : "0";
+		if ( victim.equals( "0" ) )
+		{
+			victim = "the needy";
+		}
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName + " for " + victim );
+		return true;
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "crimbo11.php" ) )
@@ -227,15 +265,25 @@ public class Crimbo11Request
 		}
 
 		String place = Crimbo11Request.placeString( urlString );
-		if ( place != null && urlString.indexOf( "action" ) == -1 )
+		String action = GenericRequest.getAction( urlString );
+		if ( place != null && action == null )
 		{
 			String message = "Visiting " + place;
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( message );
 			return true;
 		}
+		else if ( action == null )
+		{
+			return true;
+		}
 
 		CoinmasterData data = Crimbo11Request.CRIMBO11;
+		if ( action.equals( data.getBuyAction() ) )
+		{
+			return Crimbo11Request.registerDonation( urlString );
+		}
+
 		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 }

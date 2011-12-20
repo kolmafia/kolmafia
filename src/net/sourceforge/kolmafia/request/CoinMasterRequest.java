@@ -494,7 +494,6 @@ public class CoinMasterRequest
 			return;
 		}
 
-
 		Matcher countMatcher = data.getCountMatcher( urlString );
 		int count = 1;
 		if ( countMatcher != null )
@@ -724,7 +723,7 @@ public class CoinMasterRequest
 
 	public static final boolean registerRequest( final CoinmasterData data, final String urlString )
 	{
-		return registerRequest( data, urlString, false );
+		return CoinMasterRequest.registerRequest( data, urlString, false );
 	}
 
 	public static final boolean registerRequest( final CoinmasterData data, final String urlString, final boolean logVisits )
