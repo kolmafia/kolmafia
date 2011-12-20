@@ -79,6 +79,7 @@ crimbco egg substitute nog substitute	4	1		7-8	0	0	0	lose 20% boredom
 crimbco extreme braincracker sour	5	1		12-13	0	0	0	lose 30% boredom
 crimbco ribbon candy schnapps	3	1		4-5	0	0	0	lose 10% boredom
 crimbco wine	3	1	decent	4-8	10-20	10-20	10-20
+crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg)
 cup of primitive beer	1	12	good	2-4	50-65	0	0	12-15 MP, lose 10-18 HP
 cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
@@ -114,6 +115,7 @@ evil horizontal tango	4	4	awesome	12-16	0	0	50-75	10 A Little Bit Evil (+2 ML)
 evil roll in the hay	4	4	awesome	12-16	0	0	50-75	10 A Little Bit Evil (+2 ML)
 expired bottle of peppermint schnapps	3	1	awesome	7-10	20-40	20-40	20-40	30 Crimbo Nostalgia (+5 exp)
 extra-spicy bloody mary	3	3	good	5-10	5-11	5-11	5-11
+feliz navidad	2	2	EPIC	10-13	10-20	10-20	25-50
 ferita del petto zinfandel	1	10	EPIC	6-10	60	60	60
 fermented honey	3	1		3-6	5-6	5-6	5-6	10 Sugar Rush
 fine wine	1	1	decent	2	0	0	3-5
@@ -130,6 +132,7 @@ gimlet	4	6	awesome	14-18	0	40-47	0
 gin	5	6		10-15	9-10	9-10	9-10
 gin and herring	3	1		7-11	0	0	0
 gin and tonic	3	3	good	5-10	0	16-20	0
+gin mint	2	2	EPIC	10-13	10-20	10-20	25-50
 gin-soaked blotter paper	1	3	decent	1-3	5-10	0	5-10
 gloomy mushroom wine	3	7	awesome	12-17	12-15	13-15	12-15	20 Gothy
 gordon bennett	4	6	awesome	14-18	16-20	25-27	0
@@ -173,6 +176,7 @@ mcmillicancuddy's special lager	1	10	good	2-4	10-15	10-15	10-15	10-20 MP
 melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy)
 melted jell-o shot	1	10	good	2-4	0-40	0-40	0-40
 mimosette	3	3	good	5-10	16-20	0	0
+mint yulep	2	2	EPIC	10-13	25-50	10-20	10-20
 missing wine	2	5	good	4-8	0	0	31-50
 mon tiki	4	6	awesome	14-18	40-47	0	0
 monkey wrench	3	1	decent	5-6	0	8-10	0
@@ -226,6 +230,7 @@ salinated mint julep	2	5	good	4-6	15-25	15-25	15-25	10 Brined Liver
 salty dog	3	1	decent	5-6	0	8-10	0
 salty slug	3	2	decent	4-8	0	10-12	10-12
 sangria	3	3	good	5-10	0	8-10	0
+sangria de menthe	2	2	EPIC	10-13	10-20	25-50	10-20
 sangria del diablo	6	6	awesome	22-26	0	16-20	0	tiny plastic sword
 schr&ouml;dinger's thermos	0	1		0	0	0	0	#random booze
 scrawny stout	3	6		3-6	0	0	0
@@ -280,6 +285,7 @@ vodka and cranberry	3	1	decent	5-6	0	15-20	0
 vodka and tonic	3	3	good	5-10	0	16-20	0
 vodka gibson	3	3	good	5-10	0	0	16-20
 vodka martini	3	1	decent	5-6	0	0	8-10
+vodka matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
 wasabi-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
 whiskey and cola	3	1	decent	5-6	0	4-6	4-6	14-16 MP
