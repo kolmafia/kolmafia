@@ -330,6 +330,7 @@ pear	1	4	good	3	0	15-20	0
 pear tart	3	7	awesome	8-14	0	25-45	0
 peche a la frog	3	1		3-4	0	0	0
 penguin focaccia bread	7	1	good	18-24	21-38	21-38	21-38
+peppermint patty	2	2	EPIC	9-12	10-20	10-20	10-20
 personalized birthday cake	3	1	crappy	3	0	0	0
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
 piece of wedding cake	2	1	decent	2-5	0	0	0

@@ -5505,7 +5505,7 @@
 5496	gummi belemnite	usable, candy	all	0
 5497	all-year sucker	reusable	display	0
 5498	heart of dark chocolate	reusable	display	0
-5499
+5499	Big Candy's tophat	hat	display	0
 5500	Fuzzby	reusable	display	0
 5501	Jackass Plumber home game	reusable	display	0
 5502	Trivial Avocations board game	reusable	display	0
