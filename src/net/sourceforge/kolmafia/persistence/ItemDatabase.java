@@ -290,8 +290,6 @@ public class ItemDatabase
 
 	private static void miniReset()
 	{
-		ItemDatabase.itemIdByName.clear();
-
 		BufferedReader reader = FileUtilities.getVersionedReader( "tradeitems.txt", KoLConstants.TRADEITEMS_VERSION );
 
 		String[] data;
@@ -1096,13 +1094,20 @@ public class ItemDatabase
 
 		RequestLogger.printLine( "Unknown item found: " + itemName + " (" + itemId + ", " + descId + ")" );
 
+		if ( itemId > ItemDatabase.maxItemId )
+		{
+			ItemDatabase.maxItemId = itemId;
+		}
+
 		Integer id = new Integer( itemId );
 
+		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
+		ItemDatabase.dataNameById.put( id, itemName );
 		ItemDatabase.descriptionById.put( id, descId );
 		ItemDatabase.itemIdByDescription.put( descId, id );
-		ItemDatabase.dataNameById.put( id, itemName );
-		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
+
 		ItemDatabase.registerItemAlias( itemId, itemName, null );
+
 		if ( plural != null )
 		{
 			ItemDatabase.pluralById.set( itemId, plural );
@@ -1189,10 +1194,7 @@ public class ItemDatabase
 	{
 		Integer id = new Integer( itemId );
 		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), id );
-
-		ItemDatabase.canonicalNames = new String[ ItemDatabase.itemIdByName.size() ];
-		ItemDatabase.itemIdByName.keySet().toArray( ItemDatabase.canonicalNames );
-		Arrays.sort( ItemDatabase.canonicalNames );
+		ItemDatabase.saveCanonicalNames();
 		if ( plural != null )
 		{
 			ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
