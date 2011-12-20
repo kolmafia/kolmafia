@@ -311,6 +311,7 @@ Crimbo 2011	sell	50	abandoned candy
 Crimbo 2011	sell	10	alphabet gum
 Crimbo 2011	sell	5	Angry Farmer candy
 Crimbo 2011	sell	25	Angry Farmer's Wife Candy
+Crimbo 2011	sell	25	bag of many confections
 Crimbo 2011	sell	200	banana supersucker
 Crimbo 2011	sell	100	bananagate
 Crimbo 2011	sell	250	bananarama bangle
@@ -340,6 +341,7 @@ Crimbo 2011	sell	25	chocolate stolen accordion
 Crimbo 2011	sell	25	chocolate turtle totem
 Crimbo 2011	sell	25	chocolate-covered caviar
 Crimbo 2011	sell	5	Cold Hots candy
+Crimbo 2011	sell	25	Comet Drop
 Crimbo 2011	sell	1	Comet Pop
 Crimbo 2011	sell	10	cotton candy bale
 Crimbo 2011	sell	10	cotton candy cone
@@ -413,6 +415,7 @@ Crimbo 2011	sell	25	Nuclear Blastball
 Crimbo 2011	sell	25	orange and black Crimboween candy
 Crimbo 2011	sell	1	orange candy heart
 Crimbo 2011	sell	5	pack of chewing gum
+Crimbo 2011	sell	25	Pain Dip
 Crimbo 2011	sell	250	pair of pearidot earrings
 Crimbo 2011	sell	25	peanut brittle shield
 Crimbo 2011	sell	200	pear supersucker
@@ -428,6 +431,7 @@ Crimbo 2011	sell	25	piece of after eight
 Crimbo 2011	sell	10	pile of candy
 Crimbo 2011	sell	1	pink candy heart
 Crimbo 2011	sell	10	pixellated candy heart
+Crimbo 2011	sell	25	PlexiPips
 Crimbo 2011	sell	10	Polka Pop
 Crimbo 2011	sell	250	radio button candy
 Crimbo 2011	sell	100	Rattlin' Chains
@@ -441,6 +445,7 @@ Crimbo 2011	sell	10	Steal This Candy
 Crimbo 2011	sell	25	sterno-flavored Hob-O
 Crimbo 2011	sell	25	stick of "gum"
 Crimbo 2011	sell	200	strawberry supersucker
+Crimbo 2011	sell	25	strawberry-flavored Hob-O
 Crimbo 2011	sell	100	strawberyl
 Crimbo 2011	sell	250	strawberyl necklace
 Crimbo 2011	sell	25	sugar chapeau
