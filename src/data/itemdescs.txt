@@ -5497,7 +5497,7 @@
 5496	924359139	gummibel.gif	gummi belemnite
 5497	393461139	allyearsucker.gif	all-year sucker
 5498	527570389	fudgeheart.gif	heart of dark chocolate	
-5499
+5499	831312511	tophat.gif	Big Candy's tophat
 5500	186886933	fuzzby.gif	Fuzzby
 5501	242884184	jplumber.gif	Jackass Plumber home game
 5502	155160111	triviagame.gif	Trivial Avocations board game
