@@ -149,6 +149,9 @@ public class Crimbo11Request
 
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?descitem.([\\d]+).*?<b>([^<&]*)(?:&nbsp;)*</td>.*?<b>([\\d,]+) credit</b>", Pattern.DOTALL );
 
+	// <b>Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td>Invalid gift selected.  Bah Humbug!</td></tr></table>
+	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<b>Results:</b>.*?<table><tr><td>(.*?)</td></tr></table>", Pattern.DOTALL );
+
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "crimbo11.php" ) )
@@ -177,9 +180,24 @@ public class Crimbo11Request
 
 		if ( action.equals( "reallybuygifts" ) )
 		{
+			// Good choice, quotid, good choice. My elves will make
+			// sure, listen. My elves will make sure that present
+			// goes where it's supposed to, okay? Now go trade some
+			// more candy. We're dyin' over here.
+			//
+			// Don't worry, quotid, my elves will, listen. My elves
+			// will stuff that stocking just right, okay? Now go
+			// get some more, listen. Go get some more candy and
+			// trade it in, okay?  else
+			if ( responseText.indexOf( "My elves will make sure that present goes where it's supposed to" ) != -1 ||
+			     responseText.indexOf( "My elves will stuff that stocking just right" ) != -1 )
+			{
+				CoinMasterRequest.completePurchase( data, location );
+				CoinmastersFrame.externalUpdate();
+			}
 			// Your fingers are writing checks that your Crimbo
 			// Credit Balance can't cash.
-			if ( responseText.indexOf( "Your fingers are writing checks" ) != -1 )
+			else if ( responseText.indexOf( "Your fingers are writing checks" ) != -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that" );
 			}
@@ -194,10 +212,21 @@ public class Crimbo11Request
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That person already has that gift" );
 			}
-			else 
+			// Invalid gift selected.  Bah Humbug!
+			else if ( responseText.indexOf( "Invalid gift selected" ) != -1 )
 			{
-				CoinMasterRequest.completePurchase( data, location );
-				CoinmastersFrame.externalUpdate();
+				Matcher itemMatcher = data.getItemMatcher( location );
+				String itemId = itemMatcher.find() ?
+					itemMatcher.group( 1 ) : "unknown";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Item #" + itemId + " is not a valid gift" );
+			}
+			else
+			{
+				Matcher failureMatcher = Crimbo11Request.FAILURE_PATTERN.matcher( responseText );
+				String message = failureMatcher.find() ?
+					failureMatcher.group( 1 ) :
+					"Unknown gifting failure";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
 			}
 		}
 		else if ( action.equals( "tradecandy" ) )
@@ -229,14 +258,16 @@ public class Crimbo11Request
 		{
 			return true;
 		}
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		String itemIdString = itemMatcher.group( 1 );
+		int itemId = StringUtilities.parseInt( itemIdString );
 
 		Matcher countMatcher = data.getCountMatcher( urlString );
 		int count = countMatcher.find() ? StringUtilities.parseInt( countMatcher.group( 1 ) ) : 1;
 
 		LockableListModel items = data.getBuyItems();
 		AdventureResult item = AdventureResult.findItem( itemId, items );
-		String name = item.getName();
+		String name = item != null ? item.getName() :
+			( "item #" + itemIdString );
 		Map prices = data.getBuyPrices();
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
