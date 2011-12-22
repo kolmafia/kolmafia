@@ -95,6 +95,7 @@ tambourine	COMBINE	Gnollish pie tin	tambourine bells
 charged magnet	COMBINE	floaty sand	moxie magnet
 pumpkin bomb	COMBINE	pumpkin	Knob Goblin firecracker
 peppermint parasol	ACOMBINE	peppermint patty	peppermint crook
+candy cane candygram	ACOMBINE	peppermint crook	peppermint crook
 
 meat stack	COMBINE, MANUAL	fairy gravy boat	meat from yesterday
 
