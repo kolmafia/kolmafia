@@ -1908,6 +1908,7 @@ tiny plastic Don Crimbo	Weapon Damage Percent: +5
 tiny plastic Dr. Awkward	Never Fumble
 tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
 tiny plastic Felonia	Spooky Damage: +5
+tiny plastic Fudge Wizard	Spell Damage: +10
 tiny plastic G Imp	Monster Level: +1
 tiny plastic Gnollish crossdresser	Monster Level: +1
 tiny plastic Gnomester Blomester	Monster Level: +1
@@ -2002,6 +2003,7 @@ tiny plastic strand of DNA	Muscle: +3, Mysticality: +3, Moxie: +3
 tiny plastic sweet nutcracker	Familiar Weight: +1
 tiny plastic taco cat	Monster Level: +1
 tiny plastic topiary golem	Monster Level: +1
+tiny plastic trollipop	Monster Level: +5
 tiny plastic turtle tamer	Muscle: +2, Mysticality: +1
 tiny plastic undead elbow macaroni	Monster Level: +1
 tiny plastic warwelf	Monster Level: +1

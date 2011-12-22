@@ -5378,8 +5378,8 @@
 5369	KoL Con 8-Bit power bracelet	accessory	display	0
 5370
 5371	stuffed-shirt scarecrow	grow	all	0
-5372
-5373
+5372	tiny plastic trollipop	accessory	all	0
+5373	tiny plastic Fudge Wizard	accessory	display	0
 5374
 5375
 5376

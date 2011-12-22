@@ -5370,8 +5370,8 @@
 5369	246756989	8bitbracelet.gif	KoL Con 8-Bit power bracelet
 5370
 5371	374484104	pantscrow.gif	stuffed-shirt scarecrow
-5372
-5373
+5372	981783351	tptrollipop.gif	tiny plastic trollipop
+5373	529660168	tpfudgewizard.gif	tiny plastic Fudge Wizard
 5374
 5375
 5376
