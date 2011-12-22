@@ -1716,6 +1716,7 @@ tiny plastic Don Crimbo	0	none
 tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic Ed the Undying	50	Mys: 10
 tiny plastic Felonia	30	none
+tiny plastic Fudge Wizard	0	none
 tiny plastic G Imp	10	none
 tiny plastic Gnollish crossdresser	10	none
 tiny plastic Gnomester Blomester	10	none
@@ -1810,6 +1811,7 @@ tiny plastic strand of DNA	0	none
 tiny plastic sweet nutcracker	10	none
 tiny plastic taco cat	10	none
 tiny plastic topiary golem	10	none
+tiny plastic trollipop	0	none
 tiny plastic turtle tamer	20	none
 tiny plastic undead elbow macaroni	10	none
 tiny plastic warwelf	10	none
