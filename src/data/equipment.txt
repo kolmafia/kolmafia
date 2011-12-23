@@ -1744,6 +1744,7 @@ tiny plastic The Man	30	none
 tiny plastic Trouser Snake	10	none
 tiny plastic Uncle Crimbo	20	none
 tiny plastic XXX pr0n	10	none
+tiny plastic abominable fudgeman	0	none
 tiny plastic accordion thief	20	none
 tiny plastic ancient yuletide troll	10	none
 tiny plastic angry bugbear	10	none

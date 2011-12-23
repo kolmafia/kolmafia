@@ -1936,6 +1936,7 @@ tiny plastic The Man	Meat Drop: +3
 tiny plastic Trouser Snake	Monster Level: +1
 tiny plastic Uncle Crimbo	Muscle: +1, Mysticality: +1, Moxie: +1
 tiny plastic XXX pr0n	Monster Level: +1
+tiny plastic abominable fudgeman	Weapon Damage: +10
 tiny plastic accordion thief	Moxie: +2, Mysticality: +1
 tiny plastic ancient yuletide troll	Familiar Weight: +1
 tiny plastic angry bugbear	Monster Level: +1

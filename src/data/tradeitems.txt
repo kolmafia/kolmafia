@@ -5380,7 +5380,7 @@
 5371	stuffed-shirt scarecrow	grow	all	0
 5372	tiny plastic trollipop	accessory	all	0
 5373	tiny plastic Fudge Wizard	accessory	display	0
-5374
+5374	tiny plastic abominable fudgeman	accessory	all	0
 5375
 5376
 5377
