@@ -101,6 +101,7 @@ public class ItemDatabase
 	private static final Map dataNameById = new HashMap();
 	private static final Map descriptionById = new TreeMap();
 	private static final Map itemIdByName = new HashMap();
+	private static final ArrayList itemAliases = new ArrayList();
 	private static final Map itemIdByPlural = new HashMap();
 
 	private static final Map itemIdByDescription = new HashMap();
@@ -318,6 +319,16 @@ public class ItemDatabase
 		}
 
 		ItemDatabase.addPseudoItems();
+
+		// Remove per-user item aliases
+		Iterator it = ItemDatabase.itemAliases.iterator();
+		while ( it.hasNext() )
+		{
+			String canonical = (String)it.next();
+			ItemDatabase.itemIdByName.remove( canonical );
+		}
+		ItemDatabase.itemAliases.clear();
+
 		ItemDatabase.saveCanonicalNames();
 	}
 
@@ -1106,7 +1117,8 @@ public class ItemDatabase
 		ItemDatabase.descriptionById.put( id, descId );
 		ItemDatabase.itemIdByDescription.put( descId, id );
 
-		ItemDatabase.registerItemAlias( itemId, itemName, null );
+		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), id );
+		ItemDatabase.saveCanonicalNames();
 
 		if ( plural != null )
 		{
@@ -1193,7 +1205,9 @@ public class ItemDatabase
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
 	{
 		Integer id = new Integer( itemId );
-		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), id );
+		String canonical = StringUtilities.getCanonicalName( itemName );
+		ItemDatabase.itemIdByName.put( canonical, id );
+		ItemDatabase.itemAliases.add( canonical );
 		ItemDatabase.saveCanonicalNames();
 		if ( plural != null )
 		{
