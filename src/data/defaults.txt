@@ -672,6 +672,7 @@ user	warProgress	unstarted
 user	welcomeBackAdv	0
 user	_absintheDrops	0
 user	_aguaDrops	0
+user	_allYearSucker	false
 user	_aprilShower	false
 user	_astralDrops	0
 user	_badlyRomanticArrows	0
@@ -691,6 +692,7 @@ user	_carboLoaded	false
 user	_companionshipCasts	0
 user	_chipBags	0
 user	_crimboTree	false
+user	_darkChocolateHeart	false
 user	_deluxeKlawSummons	0
 user	_distentionPillUsed	false
 user	_donhosCasts	0
