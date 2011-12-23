@@ -971,4 +971,4 @@
 970	Gummiheart	gummiingot.gif	1e11027e2a3fe7fdd01e22ab0821fa35	use 1 gummi salamander
 971	Gummibrain	gummiingot.gif	4410d6172a525c649103763b99e45465	use 1 gummi snake
 972	Gummiskin	gummiingot.gif	9021166372a1e2f5ba448deda1762403	use 1 gummi canary
-973	Gonna Get You, Sucker	allyearsucker.gif	83c0e40969f10c4550617820b2a1cf4b
+973	Gonna Get You, Sucker	allyearsucker.gif	83c0e40969f10c4550617820b2a1cf4b	use 1 all-year sucker

@@ -4251,51 +4251,63 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.STAFF_GUIDE:
+
 			if ( responseText.indexOf( "You don't have time to screw around in a haunted house" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures to use a staff guide.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
-				return;
 			}
-			if ( responseText.indexOf( "You aren't allowed to go to any Haunted Houses right now" ) != -1 )
+
+			else if ( responseText.indexOf( "You aren't allowed to go to any Haunted Houses right now" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You aren't allowed to go to any Haunted Houses right now.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
-				return;
 			}
-			if ( responseText.indexOf( "You don't know where any haunted sorority houses are right now." ) != -1  ||
+
+			else if ( responseText.indexOf( "You don't know where any haunted sorority houses are right now." ) != -1  ||
 			     responseText.indexOf( "No way. It's boring in there now that everybody is dead." ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "The Haunted Sorority House is unavailable.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
-				return;
 			}
+
+			return;
 
 		case ItemPool.GHOSTLY_BODY_PAINT:
 		case ItemPool.NECROTIZING_BODY_SPRAY:
 		case ItemPool.BITE_LIPSTICK:
 		case ItemPool.WHISKER_PENCIL:
 		case ItemPool.PRESS_ON_RIBS:
+
 			if ( responseText.indexOf( "You've already got a sexy costume on" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You've already got a sexy costume on.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
-				return;
 			}
+			return;
 
 		case ItemPool.BLACK_PAINT:
+
 			if ( KoLCharacter.inFistcore() &&
 			     responseText.indexOf( "Your teachings forbid the use of black paint." ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Your teachings forbid the use of black paint.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
-				return;
 			}
+			return;
+
+		case ItemPool.ALL_YEAR_SUCKER:
+			Preferences.setBoolean( "_allYearSucker", true );
+			return;
+
+		case ItemPool.DARK_CHOCOLATE_HEART:
+			Preferences.setBoolean( "_darkChocolateHeart", true );
+			return;
 		}
 	}
 
