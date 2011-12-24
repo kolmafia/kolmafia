@@ -102,6 +102,7 @@ public class ItemDatabase
 	private static final Map descriptionById = new TreeMap();
 	private static final Map itemIdByName = new HashMap();
 	private static final ArrayList itemAliases = new ArrayList();
+	private static final ArrayList pluralAliases = new ArrayList();
 	private static final Map itemIdByPlural = new HashMap();
 
 	private static final Map itemIdByDescription = new HashMap();
@@ -328,6 +329,14 @@ public class ItemDatabase
 			ItemDatabase.itemIdByName.remove( canonical );
 		}
 		ItemDatabase.itemAliases.clear();
+
+		it = ItemDatabase.pluralAliases.iterator();
+		while ( it.hasNext() )
+		{
+			String canonical = (String)it.next();
+			ItemDatabase.itemIdByPlural.remove( canonical );
+		}
+		ItemDatabase.pluralAliases.clear();
 
 		ItemDatabase.saveCanonicalNames();
 	}
@@ -1205,14 +1214,19 @@ public class ItemDatabase
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
 	{
 		Integer id = new Integer( itemId );
+
 		String canonical = StringUtilities.getCanonicalName( itemName );
 		ItemDatabase.itemIdByName.put( canonical, id );
 		ItemDatabase.itemAliases.add( canonical );
-		ItemDatabase.saveCanonicalNames();
+
 		if ( plural != null )
 		{
-			ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
+			canonical = StringUtilities.getCanonicalName( plural );
+			ItemDatabase.itemIdByPlural.put( canonical, id );
+			ItemDatabase.pluralAliases.add( canonical );
 		}
+
+		ItemDatabase.saveCanonicalNames();
 	}
 
 	/**
