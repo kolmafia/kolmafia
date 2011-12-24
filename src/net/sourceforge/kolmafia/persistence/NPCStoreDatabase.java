@@ -334,6 +334,6 @@ public class NPCStoreDatabase
 	public static final boolean contains( final String itemName, boolean validate )
 	{
 		PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
-		return item != null && ( !validate || item.canPurchase() );
+		return item != null && ( !validate || item.canPurchaseIgnoringMeat() );
 	}
 }
