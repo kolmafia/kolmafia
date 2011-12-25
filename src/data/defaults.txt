@@ -710,6 +710,7 @@ user	_hotTubSoaks	0
 user	_iceballUses	0
 user	_inigosCasts	0
 user	_ironicMoustache	false
+user	_jackassePlumberGame	false
 user	_klawSummons	0
 user	_lastZomboEye	0
 user	_leafblowerML	1
@@ -744,6 +745,7 @@ user	_timeHelmetAdv	0
 user	_toastSummons	0
 user	_tokenDrops	0
 user	_transponderDrops	0
+user	_trivialAvocationsGame	false
 user	_userMods
 user	_vmaskAdv	0
 user	_zapCount	0

@@ -1514,6 +1514,7 @@ foam noodle	10	none
 fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
 frosty halo	50	none
+fudge pocket square	0	none
 fudgecycle	200	Mys: 85
 furniture dolly	180	Mys: 75
 furry green earmuffs	45	Mys: 7
@@ -1533,6 +1534,7 @@ gray bow tie	30	none
 green glowstick	20	none
 groovy prism necklace	150	Mys: 60
 grumpy old man charrrm bracelet	150	Mys: 60
+gummi bowtie	0	none
 hamethyst bracelet	50	Mys: 10
 hamethyst earring	50	Mys: 10
 hamethyst necklace	50	Mys: 10
@@ -1560,6 +1562,7 @@ knobby kneepads	20	none
 kumquartz ring	0	none
 ladle of mystery	40	Mys: 5
 left half of a heart necklace	10	none
+lollipop cufflinks	0	none
 lucky Crimbo tiki necklace	10	none
 lucky bottlecap	200	Mys: 200
 lucky rabbit's foot	60	Mys: 15
@@ -1700,6 +1703,7 @@ tiny plastic Axe Wound	10	none
 tiny plastic Baron von Ratsworth	30	none
 tiny plastic Beelzebozo	30	none
 tiny plastic Best Game Ever	0	none
+tiny plastic Big Candy	0	none
 tiny plastic Black Knight	10	none
 tiny plastic Bonerdagon	30	none
 tiny plastic Boris	30	none
@@ -1763,6 +1767,7 @@ tiny plastic briefcase bat	10	none
 tiny plastic chunk of depleted Grimacite	0	none
 tiny plastic cocoabo	10	none
 tiny plastic coffee pixie	10	none
+tiny plastic colollilossus	0	none
 tiny plastic conservationist hippy	30	none
 tiny plastic cubist bull	10	none
 tiny plastic demoninja	10	none

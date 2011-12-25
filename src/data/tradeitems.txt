@@ -5381,8 +5381,8 @@
 5372	tiny plastic trollipop	accessory	all	0
 5373	tiny plastic Fudge Wizard	accessory	display	0
 5374	tiny plastic abominable fudgeman	accessory	all	0
-5375
-5376
+5375	tiny plastic colollilossus	accessory	display	0
+5376	tiny plastic Big Candy	accessory	display	0
 5377
 5378
 5379
@@ -5491,9 +5491,9 @@
 5482	red drunki-bear	food, candy	all	600
 5483	green drunki-bear	food, candy	all	600
 5484	yellow drunki-bear	food, candy	all	600
-5485
-5486
-5487
+5485	gummi bowtie	accessory	display	0
+5486	fudge pocket square	accessory	display	0
+5487	lollipop cufflinks	accessory	display	0
 5488	trilobite fossil	none	all	0
 5489	ammonite fossil	none	all	0
 5490	belemnite fossil	none	all	0
@@ -5511,9 +5511,26 @@
 5502	Trivial Avocations board game	reusable	display	0
 5503	Tickle-Me Emilio	grow	display	0
 5504
-5505	pack of pogs	usable	all	0
+5505	pack of pogs	multiple	all	0
 5506	jerky coins	food	all	0
 5507	Go-Wassail	drink	all	0
 5508	Uncle Greenspan's Bathroom Finance Guide	usable	all	0
 5509	bottle of bubbles	usable	all	0
 5510	wind-up meatcar	usable	all	0
+5511	Trivial Avocations Card: What?	usable	all	0
+5512	Trivial Avocations Card: When?	usable	all	0
+5513	Trivial Avocations Card: Who?	usable	all	0
+5514	Trivial Avocations Card: Where?	usable	all	0
+5515	pog #01 (spider)	none, combat	all	0
+5516	pog #02 (Knob goblin)	none, combat	all	0
+5517	pog #03 (warwelf)	none, combat	all	0
+5518	pog #04 (skleleton)	none, combat	all	0
+5519	pog #05 (ninja snowman)	none, combat	all	0
+5520	pog #06 (filthy hippy)	none, combat	all	0
+5521	pog #07 (orcish frat boy)	none, combat	all	0
+5522	pog #08 (hellion)	none, combat	all	0
+5523	pog #09 (pirate)	none, combat	all	0
+5524	pog #10 (hobo)	none, combat	all	0
+5525	pog #11 (Naughty Sorceress)	none, combat	all	0
+5526
+5527	tiny do-rag	familiar	all	75

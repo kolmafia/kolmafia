@@ -1380,6 +1380,8 @@ public class ItemPool
 	public static final int FUDGE_CUBE = 5461;
 	public static final int ALL_YEAR_SUCKER = 5497;
 	public static final int DARK_CHOCOLATE_HEART = 5498;
+	public static final int JACKASS_PLUMBER_GAME = 5501;
+	public static final int TRIVIAL_AVOCATIONS_GAME = 5502;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

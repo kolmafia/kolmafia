@@ -4308,6 +4308,14 @@ public class UseItemRequest
 		case ItemPool.DARK_CHOCOLATE_HEART:
 			Preferences.setBoolean( "_darkChocolateHeart", true );
 			return;
+
+		case ItemPool.JACKASS_PLUMBER_GAME:
+			Preferences.setBoolean( "_jackassePlumberGame", true );
+			return;
+
+		case ItemPool.TRIVIAL_AVOCATIONS_GAME:
+			Preferences.setBoolean( "_trivialAvocationsGame", true );
+			return;
 		}
 	}
 

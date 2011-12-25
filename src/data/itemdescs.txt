@@ -5373,8 +5373,8 @@
 5372	981783351	tptrollipop.gif	tiny plastic trollipop
 5373	529660168	tpfudgewizard.gif	tiny plastic Fudge Wizard
 5374	156146643	tpfudgeman.gif	tiny plastic abominable fudgeman
-5375
-5376
+5375	904878112	tpcolossus.gif	tiny plastic colollilossus
+5376	335790916	tpbigcandy.gif	tiny plastic Big Candy
 5377
 5378
 5379
@@ -5483,9 +5483,9 @@
 5482	837752850	drunkibear.gif	red drunki-bear
 5483	531778289	drunkibear.gif	green drunki-bear
 5484	150067631	drunkibear.gif	yellow drunki-bear
-5485
-5486
-5487
+5485	252910417	gummibowtie.gif	gummi bowtie
+5486	614904911	fudgesquare.gif	fudge pocket square
+5487	477866585	lollilinks.gif	lollipop cufflinks
 5488	452690664	foss_tri.gif	trilobite fossil
 5489	428851368	foss_amm.gif	ammonite fossil
 5490	165469351	foss_bel.gif	belemnite fossil
@@ -5503,9 +5503,26 @@
 5502	155160111	triviagame.gif	Trivial Avocations board game
 5503	644358901	emilio.gif	Tickle-Me Emilio
 5504
-5505	449463152	pogpack.gif	pack of pogs
-5506	806048402	jerkycoins.gif	jerky coins
+5505	449463152	pogpack.gif	pack of pogs	packs of pogs
+5506	806048402	jerkycoins.gif	jerky coins	stacks of jerky coins
 5507	499208335	Gowassail.gif	Go-Wassail
 5508	740355922	tinybook.gif	Uncle Greenspan's Bathroom Finance Guide
-5509	487627345	bubblebottle.gif	bottle of bubbles
+5509	487627345	bubblebottle.gif	bottle of bubbles	bottles of bubbles
 5510	148288267	windupcar.gif	wind-up meatcar
+5511	642614129	triviacard.gif	Trivial Avocations Card: What?
+5512	420955512	triviacard.gif	Trivial Avocations Card: When?
+5513	741577631	triviacard.gif	Trivial Avocations Card: Who?
+5514	190904588	triviacard.gif	Trivial Avocations Card: Where?
+5515	563905506	pog.gif	pog #01 (spider)
+5516	939238261	pog.gif	pog #02 (Knob goblin)
+5517	198603287	pog.gif	pog #03 (warwelf)
+5518	426703674	pog.gif	pog #04 (skleleton)
+5519	812860168	pog.gif	pog #05 (ninja snowman)
+5520	217831731	pog.gif	pog #06 (filthy hippy)
+5521	563740761	pog.gif	pog #07 (orcish frat boy)
+5522	681086389	pog.gif	pog #08 (hellion)
+5523	508885839	pog.gif	pog #09 (pirate)
+5524	197328209	pog.gif	pog #10 (hobo)
+5525	479083802	pog.gif	pog #11 (Naughty Sorceress)
+5526
+5527	679662372	tinydorag.gif	tiny do-rag
