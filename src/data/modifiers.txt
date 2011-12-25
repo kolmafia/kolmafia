@@ -1689,6 +1689,7 @@ floaty rock necklace	Spell Critical Percent: +10
 fossilized necklace	Muscle: [2*pref(fossilB)], Mysticality: [2*pref(fossilB)], Moxie: [2*pref(fossilB)], Spell Damage: [2*pref(fossilS)], Weapon Damage: [3*pref(fossilN)], Muscle Percent: [3*pref(fossilW)], Mysticality Percent: [3*pref(fossilW)], Moxie Percent: [3*pref(fossilW)], Hot Damage: [3*pref(fossilD)], Spooky Damage: [3*pref(fossilP)]
 frayed rope belt	Moxie Percent: +10, Single Equip
 frosty halo	Item Drop: +25, Unarmed, Single Equip
+fudge pocket square	Muscle: +5
 fudgecycle	Adventures: +7, Candy Drop: +100, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Single Equip
 furniture dolly	Initiative: +30, Single Equip
 furry green earmuffs	Cold Resistance: +1
@@ -1709,6 +1710,7 @@ green glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 # groovy prism necklace: Deals a rainbow of damage to attackers
 groovy prism necklace	Single Equip
 grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
+gummi bowtie	Moxie: +5
 hamethyst bracelet	Muscle: +3, Critical: 3, Single Equip
 hamethyst earring	Muscle: +3, Critical: 3
 hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +3, Single Equip
@@ -1740,6 +1742,7 @@ knobby kneepads	Weapon Damage: +3
 kumquartz ring	Weapon Damage Percent: [200*zone(The Candy Diorama)], Single Equip
 ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 # left half of a heart necklace
+lollipop cufflinks	Mysticality: +5
 # lucky Crimbo tiki necklace: Brings Good Luck!
 lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
@@ -1892,6 +1895,7 @@ tiny plastic Axe Wound	Monster Level: +1
 tiny plastic Baron von Ratsworth	Meat Drop: +3
 tiny plastic Beelzebozo	Sleaze Damage: +5
 tiny plastic Best Game Ever	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
+tiny plastic Big Candy	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +3, Maximum MP: +3
 tiny plastic Black Knight	Monster Level: +1
 tiny plastic Bonerdagon	Mysticality: +3
 tiny plastic Boris	Muscle: +5, Mysticality: +3, Moxie: +3
@@ -1955,6 +1959,7 @@ tiny plastic briefcase bat	Monster Level: +1
 tiny plastic chunk of depleted Grimacite	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 tiny plastic cocoabo	Familiar Weight: +1
 tiny plastic coffee pixie	Familiar Weight: +1
+tiny plastic colollilossus	HP Regen Min: 3, HP Regen Max: 5
 tiny plastic conservationist hippy	Stench Damage: +5
 tiny plastic cubist bull	Monster Level: +1
 tiny plastic demoninja	Monster Level: +1
@@ -2218,6 +2223,7 @@ tiny bust of Pallas	Familiar Weight: +5
 tiny cell phone	Familiar Weight: +10
 # tiny costume wardrobe: Contains Many Adorable Costumes
 tiny costume wardrobe	Familiar Weight: [25*fam(doppelshifter)], Softcore Only, Generic
+tiny do-rag	Familiar Weight: +5
 tiny fly glasses	Experience (familiar): +1, Generic
 tiny knife and fork	Familiar Weight: +5
 tiny makeup kit	Familiar Weight: +15
@@ -2485,6 +2491,7 @@ Alchemical, Brother	Mysticality Percent: +30
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
 All Fired Up	Initiative: +30
+All Wound Up	Spell Damage Percent: [202-2*T], Weapon Damage Percent: [202-2*T]
 Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Also Schmeckt Zarathustra	Mysticality: +30
 Amorous	Moxie: +5, Sleaze Damage: +5
@@ -2573,6 +2580,7 @@ Brother Flying Burrito's Blessing	Food Drop: +30
 Brother Smothers's Blessing	Booze Drop: +30
 # Bruised Jaw: Mruimed Maw
 Bubble, Bubble	Moxie: -5, Muscle: +5
+Bubble Vision	Item Drop: [101-T]
 # Buggy Flavor: 25% chance of poisoning opponent
 Bureaucratized	Familiar Weight: +10
 Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
@@ -2583,6 +2591,7 @@ Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Busker Do
 Busy Bein' Delicious	Moxie: +5
 Butt-Rock Hair	Moxie Percent: +15
+Buy! Sell! Buy! Sell!	Meat Drop: [202-2*T]
 Cake Caked	Mysticality Percent: +50
 Can Has Cyborger	Moxie Percent: +10
 Can't Be a Chooser	Meat Drop: +30
@@ -2803,6 +2812,7 @@ Full of Wist	Experience: [min(L,11)]
 Full-Body Tan	Experience (Moxie): [L]
 Fury of the Bells	Muscle Percent: +10
 Fustulent	Stench Damage: +15, Stench Spell Damage: +15
+Gamer Rage	Weapon Damage Percent: +50, Spell Damage Percent: +50
 # Gar-ish: You love lasagna as much as you hate Mondays
 Gaze of the Lightning God	Spell Damage Percent: +50, Experience (Mysticality): +3, MP Regen Min: 4, MP Regen Max: 5
 Gaze of the Trickster God	Ranged Damage: +30, Sleaze Damage: +30, Experience (Moxie): +3, Initiative: +30
@@ -3374,6 +3384,8 @@ Wussiness	Muscle: -3
 # Yiffable You
 You Can Really Taste the Dormouse	Familiar Weight: +5
 You Can Taste the Darkness	Spooky Resistance: +9, Spooky Damage: +100
+You Know What's Up	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
 Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50

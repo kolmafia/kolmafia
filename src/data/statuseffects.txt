@@ -972,3 +972,22 @@
 971	Gummibrain	gummiingot.gif	4410d6172a525c649103763b99e45465	use 1 gummi snake
 972	Gummiskin	gummiingot.gif	9021166372a1e2f5ba448deda1762403	use 1 gummi canary
 973	Gonna Get You, Sucker	allyearsucker.gif	83c0e40969f10c4550617820b2a1cf4b	use 1 all-year sucker
+974	Bubble Vision	bubbles.gif	ab322ad0ab4035f000f4b303cb483415	use 1 bottle of bubbles
+975	Buy! Sell! Buy! Sell!	meatstack.gif	e4e5642c37db820f1fecf31e02292807	use 1 Uncle Greenspan's Bathroom Finance Guide
+976
+977	All Wound Up	clockkey.gif	e2f298e7263a5756467e48cec7757b19	use 1 wind-up meatcar
+978
+979
+980
+981
+982
+983
+984
+985
+986	You Know What's Up	trivia1.gif	5d2b680481201f78e29d2b6419bba180
+987
+988	ou Know Who to Call	trivia3.gif	979565bba2f06ac0413085acb99334e6
+989
+990
+991
+992	Gamer Rage	jplumber.gif	549d97093751385831640dc8ad530c80	use 1 Jackass Plumber home game
