@@ -2621,6 +2621,7 @@ Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
 Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Cinco Elementos	Cold Damage: [5*T], Hot Damage: [5*T], Sleaze Damage: [5*T], Spooky Damage: [5*T], Stench Damage: [5*T]
+Cinnamouth	Hot Damage: +11
 Clean-Shaven	Moxie: +5
 Cletus's Canticle of Celerity	Initiative: +20
 # Clumsy: Always Fumble
@@ -3334,6 +3335,7 @@ Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -100
 # Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Triangle, Man	Muscle Percent: +10
+Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Truly Gritty	Weapon Damage: +20, Muscle: +20
 Tundra Mouth	Cold Damage: [min(100,T)]
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
@@ -3385,6 +3387,8 @@ Wussiness	Muscle: -3
 You Can Really Taste the Dormouse	Familiar Weight: +5
 You Can Taste the Darkness	Spooky Resistance: +9, Spooky Damage: +100
 You Know What's Up	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+You Know When to Walk Away	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
@@ -3643,6 +3647,7 @@ _stickers	Item Drop: +25, Experience: +2, Meat Drop: +25, Muscle Percent: +10, M
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
+Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10
 Ben-Gal&trade; Balm	Effect: "Go Get 'Em, Tiger!", Effect Duration: 3
 BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
 Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
