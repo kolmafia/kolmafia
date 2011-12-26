@@ -311,6 +311,7 @@ Crimbo 2011	sell	50	abandoned candy
 Crimbo 2011	sell	10	alphabet gum
 Crimbo 2011	sell	5	Angry Farmer candy
 Crimbo 2011	sell	25	Angry Farmer's Wife Candy
+Crimbo 2011	sell	25	Atomic Pop
 Crimbo 2011	sell	25	bag of many confections
 Crimbo 2011	sell	200	banana supersucker
 Crimbo 2011	sell	100	bananagate
