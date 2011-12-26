@@ -45,44 +45,96 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CrimboCafeRequest
 	extends CafeRequest
 {
+	public static final String cafeId = "8";
+
+	public static final Object[][] MENU_DATA =
+	{
+		// Item, itemID, price
+		{
+			"Brussels Sprout Stir-Fry",
+			new Integer( -79 ),
+			new Integer( 50 ),
+		},
+		{
+			"Carrot, Cabbage, and Kale Pizza",
+			new Integer( -80 ),
+			new Integer( 75 ),
+		},
+		{
+			"Turnip and Rutabaga Pie",
+			new Integer( -81 ),
+			new Integer( 100 ),
+		},
+		{
+			"Desert Island Iced Tea",
+			new Integer( -84 ),
+			new Integer( 100 ),
+		},
+		{
+			"Jerkitini",
+			new Integer( -83 ),
+			new Integer( 100 ),
+		},
+		{
+			"Horseradish-infused Vodka",
+			new Integer( -82 ),
+			new Integer( 100 ),
+		},
+	};
+
+	private static final Object[] dataByName( final String name )
+	{
+		for ( int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i )
+		{
+			Object [] data = CrimboCafeRequest.MENU_DATA[ i ];
+			if ( name.equalsIgnoreCase( (String)data[ 0 ] ) )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
+	private static final Object[] dataByItemID( final int itemId )
+	{
+		for ( int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i )
+		{
+			Object [] data = CrimboCafeRequest.MENU_DATA[ i ];
+			if ( itemId == ((Integer)data[ 1 ]).intValue() )
+			{
+				return data;
+			}
+		}
+		return null;
+	}
+
+	public final static String dataName( Object [] data )
+	{
+		return (String)data[ 0 ];
+	}
+
+	public final static int dataItemID( Object [] data )
+	{
+		return ((Integer)data[ 1 ]).intValue();
+	}
+
+	public final static int dataPrice( Object [] data )
+	{
+		return ((Integer)data[ 2 ]).intValue();
+	}
+
 	public CrimboCafeRequest( final String name )
 	{
-		super( "Crimbo Cafe", "8" );
+		super( "Crimbo Cafe", CrimboCafeRequest.cafeId );
 
 		int itemId = 0;
 		int price = 0;
 
-		switch ( KoLConstants.cafeItems.indexOf( name ) )
+		Object [] data = dataByName( name );
+		if ( data != null )
 		{
-		case 0:
-			itemId = -79;
-			price = 50;
-			break;
-
-		case 1:
-			itemId = -80;
-			price = 75;
-			break;
-
-		case 2:
-			itemId = -81;
-			price = 100;
-			break;
-
-		case 3:
-			itemId = -84;
-			price = 100;
-			break;
-
-		case 4:
-			itemId = -83;
-			price = 100;
-			break;
-
-		case 5:
-			itemId = -82;
-			price = 100;
-			break;
+			itemId = dataItemID( data );
+			price = dataPrice( data );
 		}
 
 		this.setItem( name, itemId, price );
@@ -97,12 +149,13 @@ public class CrimboCafeRequest
 	{
 		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
 		KoLConstants.cafeItems.clear();
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Brussels Sprout Stir-Fry", 50 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Carrot, Cabbage, and Kale Pizza", 75 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Turnip and Rutabaga Pie", 100 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Desert Island Iced Tea", 100 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Jerkitini", 100 );
-		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Horseradish-infused Vodka", 100 );
+		for ( int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i )
+		{
+			Object [] data = CrimboCafeRequest.MENU_DATA[ i ];
+			String name = CrimboCafeRequest.dataName( data );
+			int price = CrimboCafeRequest.dataPrice( data );
+			CafeRequest.addMenuItem( KoLConstants.cafeItems, name, price );
+		}
 		ConcoctionDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
@@ -115,7 +168,7 @@ public class CrimboCafeRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
-		if ( !matcher.find() || !matcher.group( 1 ).equals( "7" ) )
+		if ( !matcher.find() || !matcher.group( 1 ).equals( CrimboCafeRequest.cafeId ) )
 		{
 			return false;
 		}
@@ -127,38 +180,15 @@ public class CrimboCafeRequest
 		}
 
 		int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
-		String itemName;
-		int price;
 
-		switch ( itemId )
+		Object [] data = CrimboCafeRequest.dataByItemID( itemId );
+		if ( data == null )
 		{
-		case -79:
-			itemName = "Brussels Sprout Stir-Fry";
-			price = 50;
-			break;
-		case -80:
-			itemName = "Carrot, Cabbage, and Kale Pizza";
-			price = 75;
-			break;
-		case -81:
-			itemName = "Turnip and Rutabaga Pie";
-			price = 100;
-			break;
-		case -84:
-			itemName = "Desert Island Iced Tea";
-			price = 100;
-			break;
-		case -83:
-			itemName = "Jerkitini";
-			price = 100;
-			break;
-		case -82:
-			itemName = "Horseradish-infused Vodka";
-			price = 100;
-			break;
-		default:
 			return false;
 		}
+
+		String itemName = CrimboCafeRequest.dataName( data);
+		int price = CrimboCafeRequest.dataPrice( data );
 
 		CafeRequest.registerItemUsage( itemName, price );
 		return true;
