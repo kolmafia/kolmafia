@@ -669,6 +669,7 @@ public abstract class KoLCharacter
 		WumpusManager.reset();
 
 		CoinmasterRegistry.reset();
+		ConcoctionDatabase.resetQueue();
 		ConcoctionDatabase.refreshConcoctions( true );
 		ItemDatabase.setAstralConsumables();
 		ItemDatabase.calculateAdventureRanges();

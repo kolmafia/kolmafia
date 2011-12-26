@@ -553,6 +553,10 @@ public class Concoction
 		{
 			AdventureResult ingredient = this.ingredientArray[ i ];
 			Concoction c = ConcoctionPool.get( ingredient );
+			if ( c == null )
+			{
+				continue;
+			}
 			c.queue( globalChanges, localChanges, icount * ingredient.getCount(), false );
 		}
 

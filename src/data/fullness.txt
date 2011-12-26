@@ -238,7 +238,7 @@ it came from beyond dessert	4	1		6-12	7-8	7-8	7-8	10 Sugar Rush
 jack lalanne roll	3	1		9-14	28-46	20-30	20-30	45/55 Fishy
 jarlsberg's key lime pie	4	6	awesome	14-16	0	28-33	0	Jarlsberg's key
 jawbruiser	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush, lose 35-45 HP
-jerky coins	1	1	epic	5-6	5-6	5-6	5-6
+jerky coins	1	1	EPIC	5-6	5-6	5-6	5-6
 jumbo dr. lucifer	1	1	good	2-3	0	0	0	converts all HP to 9-10x MP
 jumbo olive	1	2	decent	2	0	0	2-5
 jumping bean burrito	3	1	decent	3-8	0	0	11-14
