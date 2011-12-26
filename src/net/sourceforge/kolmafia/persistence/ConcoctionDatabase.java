@@ -303,6 +303,25 @@ public class ConcoctionDatabase
 	private static final HashMap noodles = new HashMap();
 	private static final HashMap meatStack = new HashMap();
 
+	public static final void resetQueue()
+	{
+		Stack queuedChanges = ConcoctionDatabase.queuedFoodChanges;
+		while ( !queuedChanges.empty() )
+		{
+			ConcoctionDatabase.pop( true, false, false );
+		}
+		queuedChanges = ConcoctionDatabase.queuedBoozeChanges;
+		while ( !queuedChanges.empty() )
+		{
+			ConcoctionDatabase.pop( false, true, false );
+		}
+		queuedChanges = ConcoctionDatabase.queuedSpleenChanges;
+		while ( !queuedChanges.empty() )
+		{
+			ConcoctionDatabase.pop( false, false, true );
+		}
+	}
+
 	static
 	{
 		// This begins by opening up the data file and preparing
