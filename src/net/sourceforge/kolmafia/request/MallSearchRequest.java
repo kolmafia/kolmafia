@@ -246,7 +246,7 @@ public class MallSearchRequest
 
 			int end = StringUtilities.parseInt( matcher.group(2) );
 			next = end + 1;
-			this.addFormField( "start", String.valueOf( next ) );
+			this.addFormField( "start", String.valueOf( end ) );
 		}
 
 		KoLmafia.updateDisplay( "Search complete." );
