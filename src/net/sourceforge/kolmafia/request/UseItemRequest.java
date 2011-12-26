@@ -622,6 +622,22 @@ public class UseItemRequest
 				return 0;
 			}
 			return Integer.MAX_VALUE;
+
+		case ItemPool.ALL_YEAR_SUCKER:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_allYearSucker" ) ? 0 : 1;
+
+		case ItemPool.DARK_CHOCOLATE_HEART:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_darkChocolateHeart" ) ? 0 : 1;
+
+		case ItemPool.JACKASS_PLUMBER_GAME:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_jackassePlumberGame" ) ? 0 : 1;
+
+		case ItemPool.TRIVIAL_AVOCATIONS_GAME:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_trivialAvocationsGame" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )

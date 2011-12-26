@@ -77,6 +77,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.BURROWGRUB_HIVE, 1 ),
 		ItemPool.get( ItemPool.GNOLL_EYE, 1 ),
 		ItemPool.get( ItemPool.KOL_CON_SIX_PACK, 1 ),
+		ItemPool.get( ItemPool.TRIVIAL_AVOCATIONS_GAME, 1 ),
 	};
 
 	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
@@ -213,11 +214,11 @@ public class BreakfastManager
 
 	public static void harvestGarden()
 	{
-                String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-                if ( CampgroundRequest.hasCropOrBetter( crop ) )
-                {
-                        CampgroundRequest.harvestCrop();
-                }
+		String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
+		if ( CampgroundRequest.hasCropOrBetter( crop ) )
+		{
+			CampgroundRequest.harvestCrop();
+		}
 	}
 
 	public static boolean castSkills( final boolean allowRestore, final int manaRemaining )
