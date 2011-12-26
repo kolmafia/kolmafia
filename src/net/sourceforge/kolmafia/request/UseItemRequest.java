@@ -112,6 +112,12 @@ public class UseItemRequest
 	private static final Pattern ARROW_PATTERN =
 		Pattern.compile( "It goes (\\d+) feet" );
 
+	// You pull out the trivia card (#57/1200) and read it.
+	private static final Pattern CARD_PATTERN = Pattern.compile( "You pull out the trivia card \\(#(\\d+)/(\\d+)\\) and read it." );
+
+	// Question:  ...?
+	private static final Pattern QA_PATTERN = Pattern.compile( "(Question|Answer): *([^<]*)<" );
+
 	// <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche: <b>50</b><br>Nook: <b>50</b></center>
 	private static final Pattern EVILOMETER_PATTERN =
 		Pattern.compile( "<center>Total evil: <b>(\\d+)</b><p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b></center>" );
@@ -966,45 +972,57 @@ public class UseItemRequest
 			return;
 		}
 
-		if ( itemId == ItemPool.LUCIFER )
-		{	// Burn any existing MP that would otherwise be wasted.
-			ManaBurnManager.burnMana( KoLCharacter.getMaximumMP() -
-				9 * (KoLCharacter.getCurrentHP() - 1) );
-		}
-
-		// If it's an elemental phial, remove other elemental effects
-		// first.
-
-		for ( int i = 0; i < BasementRequest.ELEMENT_PHIALS.length; ++i )
+		switch ( itemId )
 		{
-			AdventureResult phial = BasementRequest.ELEMENT_PHIALS[ i ];
-			if ( itemId == phial.getItemId() )
+		case ItemPool.LUCIFER:
+			// Burn any existing MP that would otherwise be wasted.
+			ManaBurnManager.burnMana( KoLCharacter.getMaximumMP() - 9 * (KoLCharacter.getCurrentHP() - 1) );
+			break;
+		case ItemPool.WHAT_CARD:
+		case ItemPool.WHEN_CARD:
+		case ItemPool.WHO_CARD:
+		case ItemPool.WHERE_CARD:
+			this.addFormField( "answerplz", "1" );
+			break;
+
+		case ItemPool.PHIAL_OF_HOTNESS:
+		case ItemPool.PHIAL_OF_COLDNESS:
+		case ItemPool.PHIAL_OF_SPOOKINESS:
+		case ItemPool.PHIAL_OF_STENCH:
+		case ItemPool.PHIAL_OF_SLEAZINESS:
+			// If it's an elemental phial, remove other elemental effects first.
+			for ( int i = 0; i < BasementRequest.ELEMENT_PHIALS.length; ++i )
 			{
-				for ( int j = 0; j < BasementRequest.ELEMENT_FORMS.length; ++j )
+				AdventureResult phial = BasementRequest.ELEMENT_PHIALS[ i ];
+				if ( itemId != phial.getItemId() )
 				{
-					if ( j == i )
+					for ( int j = 0; j < BasementRequest.ELEMENT_FORMS.length; ++j )
 					{
-						continue;
-					}
+						if ( j == i )
+						{
+							continue;
+						}
 
-					AdventureResult form = BasementRequest.ELEMENT_FORMS[ j ];
-					if ( !KoLConstants.activeEffects.contains( form ) )
-					{
-						continue;
-					}
+						AdventureResult form = BasementRequest.ELEMENT_FORMS[ j ];
+						if ( !KoLConstants.activeEffects.contains( form ) )
+						{
+							continue;
+						}
 
-					RequestThread.postRequest( new UneffectRequest( form ) );
+						RequestThread.postRequest( new UneffectRequest( form ) );
 
-					if ( !KoLmafia.permitsContinue() )
-					{
-						return;
+						if ( !KoLmafia.permitsContinue() )
+						{
+							return;
+						}
+
+						break;
 					}
 
 					break;
 				}
-
-				break;
 			}
+			break;
 		}
 
 		if ( this.consumptionType != KoLConstants.INFINITE_USES &&
@@ -2192,6 +2210,32 @@ public class UseItemRequest
 				ResultProcessor.processResult( item.getNegation() );
 			}
 			break;
+
+		case ItemPool.WHAT_CARD:
+		case ItemPool.WHEN_CARD:
+		case ItemPool.WHO_CARD:
+		case ItemPool.WHERE_CARD: {
+			if ( responseText.indexOf( "Answer:" ) == -1 )
+			{
+				ResultProcessor.processResult( item );
+				break;
+			}
+			Matcher card_matcher = UseItemRequest.CARD_PATTERN.matcher( responseText );
+			if ( card_matcher.find() )
+			{
+				String message = "Trivia card #" + card_matcher.group( 1 ) + "/" + card_matcher.group( 2 ) + ":";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			Matcher QA_matcher = UseItemRequest.QA_PATTERN.matcher( responseText );
+			while ( QA_matcher.find() )
+			{
+				String message = QA_matcher.group( 1 ) + ": " + QA_matcher.group( 2 );
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			break;
+		}
 
 		case ItemPool.LEGENDARY_BEAT:
 			Preferences.setBoolean( "_legendaryBeat", true );
@@ -5116,6 +5160,18 @@ public class UseItemRequest
 		case ItemPool.D20:
 			useString = "roll " + count + name;
 			break;
+
+		case ItemPool.WHAT_CARD:
+		case ItemPool.WHEN_CARD:
+		case ItemPool.WHO_CARD:
+		case ItemPool.WHERE_CARD:
+			// Unless you are looking for the answer, using a card
+			// simply presents you with the question.
+			if ( urlString.indexOf( "answerplz=1" ) == -1 )
+			{
+				return true;
+			}
+			break;
 		}
 
 		int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
@@ -5222,4 +5278,3 @@ public class UseItemRequest
 		Preferences.setInteger( "lastEVHelmetReset", KoLCharacter.getAscensions() );
 	}
 }
-

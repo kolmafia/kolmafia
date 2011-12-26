@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
@@ -105,11 +106,11 @@ public class BasementRequest
 
 	private static final AdventureResult BLACK_PAINT = new AdventureResult( "Red Door Syndrome", 1, true );
 
-	private static final AdventureResult HOT_PHIAL = new AdventureResult( 1637, 1 );
-	private static final AdventureResult COLD_PHIAL = new AdventureResult( 1638, 1 );
-	private static final AdventureResult SPOOKY_PHIAL = new AdventureResult( 1639, 1 );
-	private static final AdventureResult STENCH_PHIAL = new AdventureResult( 1640, 1 );
-	private static final AdventureResult SLEAZE_PHIAL = new AdventureResult( 1641, 1 );
+	private static final AdventureResult HOT_PHIAL = ItemPool.get( ItemPool.PHIAL_OF_HOTNESS, 1 );
+	private static final AdventureResult COLD_PHIAL = ItemPool.get( ItemPool.PHIAL_OF_COLDNESS, 1 );
+	private static final AdventureResult SPOOKY_PHIAL = ItemPool.get( ItemPool.PHIAL_OF_SPOOKINESS, 1 );
+	private static final AdventureResult STENCH_PHIAL = ItemPool.get( ItemPool.PHIAL_OF_STENCH, 1 );
+	private static final AdventureResult SLEAZE_PHIAL = ItemPool.get( ItemPool.PHIAL_OF_SLEAZINESS, 1 );
 
 	public static final AdventureResult MAX_HOT = new AdventureResult( "Fireproof Lips", 1, true );
 	public static final AdventureResult MAX_COLD = new AdventureResult( "Fever from the Flavor", 1, true );
