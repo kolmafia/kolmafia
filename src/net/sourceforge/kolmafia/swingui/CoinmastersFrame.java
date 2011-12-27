@@ -270,7 +270,7 @@ public class CoinmastersFrame
 		this.selectorPanel.addChangeListener( this );
 		this.selectorPanel.setSelectedIndex( Preferences.getInteger( "coinMasterIndex" ) );
 
-		JPanel wrapperPanel = new JPanel();
+		JPanel wrapperPanel = new JPanel( new BorderLayout() );
 		wrapperPanel.add( this.selectorPanel, BorderLayout.CENTER );
 		wrapperPanel.add( new StatusPanel(), BorderLayout.SOUTH );
 
