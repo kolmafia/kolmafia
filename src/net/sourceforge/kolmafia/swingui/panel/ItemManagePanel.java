@@ -525,7 +525,7 @@ public class ItemManagePanel
 					}
 				}
 
-				int maximum = UseItemRequest.maximumUses( ItemDatabase.getItemId( itemName ), false );
+				int maximum = UseItemRequest.maximumUses( itemName, false );
 
 				standard = Math.min( standard, maximum );
 			}

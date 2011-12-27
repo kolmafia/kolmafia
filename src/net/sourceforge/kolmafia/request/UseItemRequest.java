@@ -332,6 +332,23 @@ public class UseItemRequest
 
 	public static final int maximumUses( final int itemId, final int consumptionType, final boolean allowOverDrink )
 	{
+		String itemName = ItemDatabase.getItemName( itemId );
+		return UseItemRequest.maximumUses( itemId, itemName, consumptionType, allowOverDrink );
+	}
+
+	public static final int maximumUses( final String itemName )
+	{
+		return UseItemRequest.maximumUses( itemName, false );
+	}
+
+	public static final int maximumUses( final String itemName, final boolean allowOverDrink )
+	{
+		int itemId = ItemDatabase.getItemId( itemName );
+		return UseItemRequest.maximumUses( itemId, itemName, KoLConstants.NO_CONSUME, false );
+	}
+
+	private static final int maximumUses( final int itemId, final String itemName, final int consumptionType, final boolean allowOverDrink )
+	{
 		// Set reasonable default if the item fails to set a specific reason
 		UseItemRequest.limiter = "a wizard";
 		
@@ -340,11 +357,13 @@ public class UseItemRequest
 			UseItemRequest.limiter = "fight in progress";
 			return 0;
 		}
+
 		if ( FightRequest.inMultiFight() )
 		{
 			UseItemRequest.limiter = "multi-stage fight in progress";
 			return 0;
 		}
+
 		if ( !GenericRequest.choiceHandled )
 		{
 			UseItemRequest.limiter = "choice adventure in progress";
@@ -358,13 +377,96 @@ public class UseItemRequest
 			return Integer.MAX_VALUE;
 		}
 
+		int fullness = ItemDatabase.getFullness( itemName );
+		if ( fullness > 0 )
+		{
+			UseItemRequest.limiter = "fullness";
+			return ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() + ( Preferences
+				.getBoolean( "distentionPillActive" ) ? 1 : 0 ) ) / fullness;
+		}
+
+		int inebriety = ItemDatabase.getInebriety( itemName );
+		if ( inebriety > 0 )
+		{
+			UseItemRequest.limiter = "inebriety";
+			int limit = KoLCharacter.getInebrietyLimit();
+
+			// Green Beer allows drinking to limit + 10,
+			// but only on SSPD. For now, always allow
+
+			if ( itemId == ItemPool.GREEN_BEER )
+			{
+				limit += 10;
+			}
+
+			int inebrietyLeft = limit - KoLCharacter.getInebriety();
+
+			if ( inebrietyLeft < 0 )
+			{
+				// We are already drunk
+				return 0;
+			}
+
+			if ( inebrietyLeft < inebriety )
+			{
+				// One drink will make us drunk
+				return 1;
+			}
+
+			if ( allowOverDrink )
+			{
+				// Multiple drinks will make us drunk
+				return inebrietyLeft / inebriety + 1;
+			}
+
+			// Multiple drinks to not quite make us drunk
+			return inebrietyLeft / inebriety;
+		}
+
+		int spleenHit = ItemDatabase.getSpleenHit( itemName );
+		float hpRestored = HPRestoreItemList.getHealthRestored( itemName );
+		boolean restoresHP = hpRestored != Integer.MIN_VALUE;
+		float mpRestored = MPRestoreItemList.getManaRestored( itemName );
+		boolean restoresMP = mpRestored != Integer.MIN_VALUE;
+
+		if ( restoresHP || restoresMP )
+		{
+			int maximumSuggested = 0;
+
+			if ( hpRestored != 0.0f )
+			{
+				float belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
+				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
+			}
+
+			if ( mpRestored != 0.0f )
+			{
+				float belowMax = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
+				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / mpRestored ) );
+			}
+
+			UseItemRequest.limiter = "needed restoration";
+			if ( spleenHit > 0 )
+			{
+				UseItemRequest.limiter = "needed restoration or spleen";
+				maximumSuggested =
+					Math.min(
+						maximumSuggested, ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit );
+			}
+
+			return maximumSuggested;
+		}
+
+		if ( spleenHit > 0 )
+		{
+			UseItemRequest.limiter = "spleen";
+			return ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit;
+		}
+
 		if ( itemId <= 0 )
 		{
 			return Integer.MAX_VALUE;
 		}
-
-		// Initial Beeosity check
-		String itemName = ItemDatabase.getItemName( itemId );
 
 		switch ( itemId )
 		{
@@ -673,95 +775,6 @@ public class UseItemRequest
 		{
 			UseItemRequest.limiter = "unstackable effect";
 			return KoLConstants.activeEffects.contains( UseItemRequest.LIMITED_USES.get( key ) ) ? 0 : 1;
-		}
-
-		int fullness = ItemDatabase.getFullness( itemName );
-		if ( fullness > 0 )
-		{
-			UseItemRequest.limiter = "fullness";
-			return ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() + ( Preferences
-				.getBoolean( "distentionPillActive" ) ? 1 : 0 ) ) / fullness;
-		}
-
-		int spleenHit = ItemDatabase.getSpleenHit( itemName );
-
-		float hpRestored = HPRestoreItemList.getHealthRestored( itemName );
-		boolean restoresHP = hpRestored != Integer.MIN_VALUE;
-
-		float mpRestored = MPRestoreItemList.getManaRestored( itemName );
-		boolean restoresMP = mpRestored != Integer.MIN_VALUE;
-
-
-		if ( restoresHP || restoresMP )
-		{
-			int maximumSuggested = 0;
-
-			if ( hpRestored != 0.0f )
-			{
-				float belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
-			}
-
-			if ( mpRestored != 0.0f )
-			{
-				float belowMax = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
-				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / mpRestored ) );
-			}
-
-			UseItemRequest.limiter = "needed restoration";
-			if ( spleenHit > 0 )
-			{
-				UseItemRequest.limiter = "needed restoration or spleen";
-				maximumSuggested =
-					Math.min(
-						maximumSuggested, ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit );
-			}
-
-			return maximumSuggested;
-		}
-
-		if ( spleenHit > 0 )
-		{
-			UseItemRequest.limiter = "spleen";
-			return ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit;
-		}
-
-		int inebrietyHit = ItemDatabase.getInebriety( itemName );
-		if ( inebrietyHit > 0 )
-		{
-			UseItemRequest.limiter = "inebriety";
-			int limit = KoLCharacter.getInebrietyLimit();
-
-			// Green Beer allows drinking to limit + 10,
-			// but only on SSPD. For now, always allow
-
-			if ( itemId == ItemPool.GREEN_BEER )
-			{
-				limit += 10;
-			}
-
-			int inebrietyLeft = limit - KoLCharacter.getInebriety();
-
-			if ( inebrietyLeft < 0 )
-			{
-				// We are already drunk
-				return 0;
-			}
-
-			if ( inebrietyLeft < inebrietyHit )
-			{
-				// One drink will make us drunk
-				return 1;
-			}
-
-			if ( allowOverDrink )
-			{
-				// Multiple drinks will make us drunk
-				return inebrietyLeft / inebrietyHit + 1;
-			}
-
-			// Multiple drinks to not quite make us drunk
-			return inebrietyLeft / inebrietyHit;
 		}
 
 		return Integer.MAX_VALUE;
