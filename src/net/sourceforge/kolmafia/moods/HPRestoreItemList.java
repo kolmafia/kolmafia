@@ -193,6 +193,7 @@ public abstract class HPRestoreItemList
 		private final String restoreName;
 		private int healthPerUse;
 		private int purchaseCost;
+		private int spleenHit;
 
 		private int skillId;
 		private AdventureResult itemUsed;
@@ -207,12 +208,14 @@ public abstract class HPRestoreItemList
 			this.restoreName = restoreName;
 			this.healthPerUse = healthPerUse;
 			this.purchaseCost = purchaseCost;
+			this.spleenHit = 0;
 
 			HPRestoreItemList.restoreByName.put( restoreName, this );
 
 			if ( ItemDatabase.contains( restoreName ) )
 			{
 				this.itemUsed = ItemPool.get( restoreName, 1 );
+				this.spleenHit = ItemDatabase.getSpleenHit( restoreName );
 				this.skillId = -1;
 			}
 			else if ( SkillDatabase.contains( restoreName ) )
@@ -373,6 +376,14 @@ public abstract class HPRestoreItemList
 						needed - KoLCharacter.getCurrentHP(), KoLCharacter.getAvailableMeat() / this.purchaseCost ) ) );
 				}
 
+				return;
+			}
+
+			// Can't use items that consume more spleen than we have left
+
+			if ( this.spleenHit > 0 &&
+			     this.spleenHit > KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() )
+			{
 				return;
 			}
 
