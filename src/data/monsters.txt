@@ -344,7 +344,7 @@ Evil Spaghetti Cultist	HP: 18 Def: 21 Atk: 21 P: humanoid	a creased paper strip 
 Evil Trumpet-playing Mariachi	HP: 18 Def: 21 Atk: 21 P: humanoid	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 Evil Vihuela-playing Mariachi	HP: 21 Def: 24 Atk: 24 P: humanoid	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	evil vihuela (0)
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench P: hippy	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)	enchanted handwarmer (p5)
-eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 74 Meat: 32-48 E: sleaze P: orc	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p5)
+eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 74 Meat: 32-48 E: sleaze P: orc	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p5)	eXtreme Bi-Polar Fleece Vest (c5)
 eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 38 E: sleaze Meat: 24-36 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-54 P: demon	evil golden arch (30)	infernal insoles (10)
 Family of Kobolds	Atk: 100000	kobold treasure hoard (100)
