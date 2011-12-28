@@ -5509,10 +5509,10 @@
 5508	740355922	tinybook.gif	Uncle Greenspan's Bathroom Finance Guide
 5509	487627345	bubblebottle.gif	bottle of bubbles	bottles of bubbles
 5510	148288267	windupcar.gif	wind-up meatcar
-5511	642614129	triviacard.gif	Trivial Avocations Card:  What?
-5512	420955512	triviacard.gif	Trivial Avocations Card:  When?
-5513	741577631	triviacard.gif	Trivial Avocations Card:  Who?
-5514	190904588	triviacard.gif	Trivial Avocations Card:  Where?
+5511	642614129	triviacard.gif	Trivial Avocations Card:  What?	Trivial Avocations Cards:  What?
+5512	420955512	triviacard.gif	Trivial Avocations Card:  When?	Trivial Avocations Cards:  When?
+5513	741577631	triviacard.gif	Trivial Avocations Card:  Who?	Trivial Avocations Cards:  Who?
+5514	190904588	triviacard.gif	Trivial Avocations Card:  Where?	Trivial Avocations Cards:  Where?
 5515	563905506	pog.gif	pog #01 (spider)
 5516	939238261	pog.gif	pog #02 (Knob goblin)
 5517	198603287	pog.gif	pog #03 (warwelf)
