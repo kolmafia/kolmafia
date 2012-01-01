@@ -1209,6 +1209,12 @@ public class ItemDatabase
 			String effectDescid = DebugDatabase.parseEffectDescid( rawText );
 			EffectDatabase.registerEffect( effectName, effectDescid, "use 1 " + itemName );
 		}
+
+		// Familiar larva mature into familiars.
+		if ( type.equals( "familiar" ) )
+		{
+			FamiliarDatabase.registerFamiliar( id, text );
+		}
 	}
 
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )

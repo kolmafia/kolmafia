@@ -5375,7 +5375,7 @@
 5374	156146643	tpfudgeman.gif	tiny plastic abominable fudgeman
 5375	904878112	tpcolossus.gif	tiny plastic colollilossus
 5376	335790916	tpbigcandy.gif	tiny plastic Big Candy
-5377
+5377	434937349	groosehoose.gif	The Groose in the Hoose
 5378
 5379
 5380	375928160	lollistick.gif	lollipop stick
@@ -5440,7 +5440,7 @@
 5439	192508609	coldfudge.gif	frigid fudgepuck
 5440	136482212	fudgesicle2.gif	fudgesicle
 5441	928631321	fudgewand.gif	wand of fudge control
-5442
+5442	401744945	kloopcoop.gif	The Kloop in the Coop	The Kloops in the Coops
 5443
 5444
 5445
@@ -5461,7 +5461,7 @@
 5460	836737182	fudgecycle.gif	fudgecycle
 5461	404026577	fudgecube.gif	fudge cube
 5462	626738475	fudgemold.gif	blank fudge mold
-5463
+5463	889610035	book5.gif	Libram of Resolutions	Librams of Resolutions
 5464
 5465
 5466

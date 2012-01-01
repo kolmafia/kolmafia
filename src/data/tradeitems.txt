@@ -5383,7 +5383,7 @@
 5374	tiny plastic abominable fudgeman	accessory	all	0
 5375	tiny plastic colollilossus	accessory	display	0
 5376	tiny plastic Big Candy	accessory	display	0
-5377
+5377	The Groose in the Hoose	grow	all	0
 5378
 5379
 5380	lollipop stick	none	all	50
@@ -5448,7 +5448,7 @@
 5439	frigid fudgepuck	none	all	0
 5440	fudgesicle	food	all	0
 5441	wand of fudge control	reusable	display	0
-5442
+5442	The Kloop in the Coop	grow	all	0
 5443
 5444
 5445
@@ -5469,7 +5469,7 @@
 5460	fudgecycle	accessory	all	0
 5461	fudge cube	none	all	0
 5462	blank fudge mold	none	all	0
-5463
+5463	Libram of Resolutions	usable	all	0
 5464
 5465
 5466
