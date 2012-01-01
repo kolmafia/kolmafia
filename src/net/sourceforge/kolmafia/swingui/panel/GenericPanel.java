@@ -288,11 +288,6 @@ public abstract class GenericPanel
 			return;
 		}
 
-		if ( this.elements[ 0 ].getInputField().isEnabled() == isEnabled )
-		{
-			return;
-		}
-
 		for ( int i = 0; i < this.elements.length; ++i )
 		{
 			if ( this.elements[ i ] == null )

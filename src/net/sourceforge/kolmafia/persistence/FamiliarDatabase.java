@@ -42,6 +42,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.ImageIcon;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -176,8 +179,28 @@ public class FamiliarDatabase
 	 */
 
 	private static Integer ZERO = new Integer( 0 );
-
 	public static final void registerFamiliar( final int familiarId, final String familiarName, final String image )
+	{
+		FamiliarDatabase.registerFamiliar( familiarId, familiarName, image, FamiliarDatabase.ZERO );
+	}
+
+	// Hatches into:</b><br><table cellpadding=5 style='border: 1px solid black;'><tr><td align=center><a class=nounder href=desc_familiar.php?which=154><img border=0 src=http://images.kingdomofloathing.com/itemimages/groose.gif width=30 height=30><br><b>Bloovian Groose</b></a></td></tr></table>
+
+	private static Pattern FAMILIAR_PATTERN = Pattern.compile( "Hatches into:.*?<table.*?which=(\\d*).*?itemimages/(.*?) .*?<b>(.*?)</b>");
+
+	public static final void registerFamiliar( final Integer larvaId, final String text )
+	{
+		Matcher matcher = FAMILIAR_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			int familiarId = StringUtilities.parseInt( matcher.group( 1 ) );
+			String image = matcher.group( 2 );
+			String familiarName = matcher.group( 3 );
+			FamiliarDatabase.registerFamiliar( familiarId, familiarName, image, larvaId );
+		}
+	}
+
+	public static final void registerFamiliar( final int familiarId, final String familiarName, final String image, final Integer larvaId )
 	{
 		String canon = StringUtilities.getCanonicalName( familiarName );
 		if ( FamiliarDatabase.familiarByName.containsKey( canon ) )
@@ -198,7 +221,8 @@ public class FamiliarDatabase
 		FamiliarDatabase.familiarByName.put( canon, dummyId );
 		FamiliarDatabase.familiarImageById.put( dummyId, image );
 		FamiliarDatabase.familiarByImage.put( image, dummyId );
-		FamiliarDatabase.familiarByLarva.put( FamiliarDatabase.ZERO, dummyId );
+		FamiliarDatabase.familiarLarvaById.put( dummyId, larvaId );
+		FamiliarDatabase.familiarByLarva.put( larvaId, dummyId );
 		FamiliarDatabase.familiarItemById.put( dummyId, "" );
 		for ( int i = 0; i < 4; ++i )
 		{
