@@ -132,6 +132,7 @@ public class FightRequest
 	private static final AdventureResult TEQUILA = ItemPool.get( ItemPool.TEQUILA, -1 );
 
 	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
+	private static AdventureResult rhymeEffect = EffectPool.get( EffectPool.JUST_THE_BEST_ANAPESTS );
 
 	private static final int HEALTH = 0;
 	private static final int ATTACK = 1;
@@ -465,6 +466,26 @@ public class FightRequest
 
 		// Can Has Cyborger
 		if ( text.indexOf( "The Jump: " ) != -1 )
+			return true;
+
+		// Blavious Kloop
+
+		// You leap into combat, as quick as a wink,
+		// attacking the monster before he can blink!
+
+		if ( text.indexOf( "as quick as a wink" ) != -1 )
+			return true;
+
+		// Who got the jump? Oh please, who, tell me, who?
+		// It wasn't your foe, so it must have been you!
+
+		if ( text.indexOf( "It wasn't your foe, so it must have been you" ) != -1 )
+			return true;
+
+		// Your foe is so slow! So slow is your foe!
+		// Much slower than you, who are ready to go!
+
+		if ( text.indexOf( "Your foe is so slow" ) != -1 )
 			return true;
 
 		// Haiku dungeon
@@ -1331,16 +1352,6 @@ public class FightRequest
 	public static final boolean processResults( final String responseText )
 	{
 		return FightRequest.shouldRefresh;
-	}
-
-	public static boolean haveHaikuResults( final String responseText )
-	{
-		// Adventuring in the Haiku Dungeon
-		// Currently have Haiku State of Mind
-		// Acquiring Haiku State of Mind can happen in the middle of a macro
-		// combat, so is detected elsewhere.
-		return KoLAdventure.lastAdventureId() == AdventurePool.HAIKU_DUNGEON ||
-			KoLConstants.activeEffects.contains( FightRequest.haikuEffect );
 	}
 
 	private boolean isAcceptable( final int offenseModifier, final int defenseModifier )
@@ -3369,6 +3380,141 @@ public class FightRequest
 		return true;
 	}
 
+	private static final void processRhymeResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
+	{
+		StringBuffer action = status.action;
+		action.setLength( 0 );
+		boolean hasBold = FightRequest.extractHaiku( node, action );
+		String verse = action.toString();
+
+		if ( image.equals( status.familiar ) )
+		{
+			if ( status.logFamiliar )
+			{
+				FightRequest.logText( verse, status );
+			}
+
+			ResultProcessor.processFamiliarWeightGain( verse );
+		}
+
+		if ( FightRequest.foundHaikuDamage( inode, action, status.logMonsterHealth ) )
+		{
+			return;
+		}
+
+		Matcher m = INT_PATTERN.matcher( verse );
+		if ( !m.find() )
+		{
+			if ( image.equals( "strboost.gif" ) && hasBold )
+			{
+				String message = "You gain a Muscle point!";
+				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			}
+
+			if ( image.equals( "snowflakes.gif" ) && hasBold )
+			{
+				String message = "You gain a Mysticality point!";
+				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			}
+
+			if ( image.equals( "wink.gif" ) && hasBold )
+			{
+				String message = "You gain a Moxie point!";
+				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			}
+			return;
+		}
+
+		String points = m.group();
+
+		if ( image.equals( "meat.gif" ) )
+		{
+			String message = "You gain " + points + " Meat";
+			ResultProcessor.processMeat( message, status.won, status.nunnery );
+			status.shouldRefresh = true;
+			return;
+		}
+
+		if ( image.equals( "hp.gif" ) )
+		{
+			// Gained or lost HP
+
+			String gain = "lose";
+			String message = "You " + gain + " " + points + " hit points";
+			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			return;
+		}
+
+		if ( image.equals( "mp.gif" ) )
+		{
+			// Gained or lost MP
+
+			String gain = "lose";
+
+			// Magical energy floods into your veins!
+			// Not a whole lot -- 10 points -- but it's good for your brains.
+
+			// You regain 15 MP of mystical fuel,
+			// and prepare to escort some more monsters to school.
+
+			// You've just gotten 10 of your MP restored!
+			// Now you can show all those creeps what you've learned!
+
+			// Your MP's restored, it's now 16 points higher.
+			// Now you can set some more monsters on fire!
+
+
+			if ( verse.indexOf( "Magical energy floods into your veins" ) != -1 ||
+			     verse.indexOf( "mystical fuel" ) != -1 ||
+			     verse.indexOf( "your MP restored" ) != -1	||
+			     verse.indexOf( "set some more monsters on fire" ) != -1 )
+			{
+				gain = "gain";
+			}
+
+			String message = "You " + gain + " " + points + " Mojo points";
+
+			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			return;
+		}
+
+		if ( image.equals( "strboost.gif" ) )
+		{
+			String message = "You gain " + points + " Strongness";
+			status.shouldRefresh |= ResultProcessor.processStatGain( message, null );
+			return;
+		}
+
+		if ( image.equals( "snowflakes.gif" ) )
+		{
+			String message = "You gain " + points + " Magicalness";
+			status.shouldRefresh |= ResultProcessor.processStatGain( message, null );
+			return;
+		}
+
+		if ( image.equals( "wink.gif" ) )
+		{
+			String message = "You gain " + points + " Roguishness";
+			status.shouldRefresh |= ResultProcessor.processStatGain( message, null );
+			return;
+		}
+
+		// You hurl a thing that you took from your pack,
+		// and deal <b>1</b> points with a thingly attack.
+
+		if ( verse.indexOf( "thingly attack" ) != -1 )
+		{
+			// Using a combat item
+			int damage = StringUtilities.parseInt( points );
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+			}
+			MonsterStatusTracker.damageMonster( damage );
+			return;
+		}
+	}
+
 	public static class TagStatus
 	{
 		public String familiar;
@@ -3385,6 +3531,7 @@ public class FightRequest
 		public boolean nunnery = false;
 		public boolean won = false;
 		public boolean haiku = false;
+		public boolean rhyme = false;
 		public Matcher macroMatcher;
 
 		public TagStatus()
@@ -3394,7 +3541,28 @@ public class FightRequest
 			this.doppel =
 				( current.getId() == FamiliarPool.DOPPEL ) ||
 				KoLCharacter.hasEquipped( ItemPool.TINY_COSTUME_WARDROBE, EquipmentManager.FAMILIAR );
+
 			this.diceMessage = ( current.getId() == FamiliarPool.DICE ) ? ( current.getName() + " begins to roll." ) : null;
+
+
+			int adventure = KoLAdventure.lastAdventureId();
+
+			// Adventuring in the Haiku Dungeon
+			// Currently have Haiku State of Mind
+			// Acquiring Haiku State of Mind can happen in the middle of a macro
+			// combat, so is detected elsewhere.
+			this.haiku =
+				adventure == AdventurePool.HAIKU_DUNGEON ||
+				KoLConstants.activeEffects.contains( FightRequest.haikuEffect );
+
+			// Adventuring in the Suburbs of Dis
+			// Currently have Just the Best Anapests
+			this.rhyme =
+				adventure == AdventurePool.CLUMSINESS_GROVE ||
+				adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
+				adventure == AdventurePool.GLACIER_OF_JERKS ||
+				KoLConstants.activeEffects.contains( FightRequest.rhymeEffect );
+
 			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
 			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
 			this.action = new StringBuffer();
@@ -3448,7 +3616,6 @@ public class FightRequest
 
 		TagStatus status = new TagStatus();
 		status.macroMatcher = macroMatcher;
-		status.haiku = FightRequest.haveHaikuResults( text );
 
 		FightRequest.processNode( fight, status );
 
@@ -3767,6 +3934,12 @@ public class FightRequest
 			if ( status.haiku )
 			{
 				FightRequest.processHaikuResult( node, inode, image, status );
+				return;
+			}
+
+			if ( status.rhyme )
+			{
+				FightRequest.processRhymeResult( node, inode, image, status );
 				return;
 			}
 

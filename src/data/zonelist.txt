@@ -16,6 +16,7 @@ Rift	Plains	Temporal Rift
 Tower	Plains	Fernswarthy's Tower
 Beanstalk	Plains	Above the Beanstalk
 RabbitHole	Plains	Down the Rabbit Hole
+Suburbs	Plains	The Suburbs of Dis
 Landscaper	Plains	The Landscaper's Lair
 
 BatHole	BatHole	Bat Hole

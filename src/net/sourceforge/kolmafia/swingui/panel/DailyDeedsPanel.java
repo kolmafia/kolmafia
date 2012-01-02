@@ -2037,6 +2037,8 @@ public class DailyDeedsPanel
 			this.addListener( "_aguaDrops" );
 			this.addListener( "_astralDrops" );
 			this.addListener( "_gongDrops" );
+			this.addListener( "_grooseDrops" );
+			this.addListener( "_kloopDrops" );
 			this.addListener( "_pieDrops" );
 			this.addListener( "_piePartsCount" );
 			this.addListener( "_tokenDrops" );
@@ -2048,51 +2050,112 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
+			StringBuffer buffer = new StringBuffer();
+			boolean shown = false;
+
+			buffer.append( "Drops: " );
+
 			FamiliarData pixie = KoLCharacter.findFamiliar( FamiliarPool.PIXIE );
-			boolean hf1 = pixie != null && pixie.canEquip() ;
+			if ( pixie != null && pixie.canEquip()  )
+			{
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_absintheDrops" ) );
+				buffer.append( " absinthe" );
+				shown = true;
+			}
+
 			FamiliarData sandworm = KoLCharacter.findFamiliar( FamiliarPool.SANDWORM );
-			boolean hf2 = sandworm != null && sandworm.canEquip() ;
+			if ( sandworm != null && sandworm.canEquip()  )
+			{
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_aguaDrops" ) );
+				buffer.append( " agua" );
+				shown = true;
+			}
+
 			FamiliarData badger = KoLCharacter.findFamiliar( FamiliarPool.BADGER );
-			boolean hf3 = badger != null && badger.canEquip() ;
+			if ( badger != null && badger.canEquip() )
+			{
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_astralDrops" ) );
+				buffer.append( " astral" );
+				shown = true;
+			}
+
 			FamiliarData llama = KoLCharacter.findFamiliar( FamiliarPool.LLAMA );
-			boolean hf4 = llama != null && llama.canEquip() ;
+			if ( llama != null && llama.canEquip() )
+			{
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_gongDrops" ) );
+				buffer.append( " gong" );
+				shown = true;
+			}
+
 			FamiliarData grinder = KoLCharacter.findFamiliar( FamiliarPool.GRINDER );
-			boolean hf5 = grinder != null && grinder.canEquip() ;
+			if ( grinder != null && grinder.canEquip() )
+			{
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_pieDrops" ) );
+				if ( Preferences.getInteger( "_pieDrops" ) == 1 )
+				{
+					buffer.append( " pie (" );
+				}
+				else
+				{
+					buffer.append( " pies (" );
+				}
+				buffer.append( Preferences.getString( "_piePartsCount" ) );
+				buffer.append( ")" );
+			}
+
 			FamiliarData tron = KoLCharacter.findFamiliar( FamiliarPool.TRON );
-			boolean hf6 = tron != null && tron.canEquip() ;
+			if ( tron != null && tron.canEquip() )
+			{
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_tokenDrops" ) );
+				buffer.append( " token" );
+				shown = true;
+			}
+
 			FamiliarData alien = KoLCharacter.findFamiliar( FamiliarPool.ALIEN );
-			boolean hf7 = alien != null && alien.canEquip() ;
+			if ( alien != null && alien.canEquip() )
+			{
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_transponderDrops" ) );
+				buffer.append( " transponder" );
+				shown = true;
+			}
+
 			FamiliarData boots = KoLCharacter.findFamiliar( FamiliarPool.BOOTS );
-			boolean hf8 = boots != null && boots.canEquip() ;
-			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7 || hf8 );
-			String text = "Drops: ";
-			if( hf1 ) text = text + Preferences.getInteger( "_absintheDrops" ) + " absinthe";
-			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 || hf7 || hf8 ) ) text = text + ", ";
-			if( hf2 ) text = text + Preferences.getInteger( "_aguaDrops" ) + " agua";
-			if( hf2 && ( hf3 || hf4 || hf5 || hf6 || hf7 || hf8 ) ) text = text + ", ";
-			if( hf3 ) text = text + Preferences.getInteger( "_astralDrops" ) + " astral";
-			if( hf3 && ( hf4 || hf5 || hf6 || hf7 || hf8 ) ) text = text + ", ";
-			if( hf4 ) text = text + Preferences.getInteger( "_gongDrops" ) + " gong";
-			if( hf4 && ( hf5 || hf6 || hf7 || hf8 ) ) text = text + ", ";
-			if( hf5 )
+			if ( boots != null && boots.canEquip() )
 			{
-				if( Preferences.getInteger( "_pieDrops" )==1 )
-					text = text + Preferences.getInteger( "_pieDrops" ) + " pie (";
-				else text = text + Preferences.getInteger( "_pieDrops" ) + " pies (";
-				text = text + Preferences.getInteger( "_piePartsCount" ) +")";
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_bootStomps" ) );
+				buffer.append( " stomp" );
+				if ( Preferences.getInteger( "_bootStomps" ) != 1 ) buffer.append( "s" );
+				if ( Preferences.getBoolean( "bootsCharged" ) ) buffer.append( " (C)" );
 			}
-			if( hf5 && ( hf6 || hf7 || hf8 ) ) text = text + ", ";
-			if( hf6 ) text = text + Preferences.getInteger( "_tokenDrops" ) + " token";
-			if( hf6 && ( hf7 || hf8 ) ) text = text + ", ";
-			if( hf7 ) text = text + Preferences.getInteger( "_transponderDrops" ) + " transponder";
-			if( hf7 && hf8 ) text = text + ", ";
-			if( hf8 )
+
+			FamiliarData groose = KoLCharacter.findFamiliar( FamiliarPool.GROOSE );
+			if ( groose != null && groose.canEquip() )
 			{
-				text = text + Preferences.getInteger( "_bootStomps" ) + " stomp";
-				if( Preferences.getInteger( "_bootStomps" )!=1 ) text = text + "s";
-				if( Preferences.getBoolean( "bootsCharged" ) ) text = text + " (C)";
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_grooseDrops" ) );
+				buffer.append( " grease" );
+				shown = true;
 			}
-			this.setText( text );
+
+			FamiliarData kloop = KoLCharacter.findFamiliar( FamiliarPool.KLOOP );
+			if ( kloop != null && kloop.canEquip() )
+			{
+				if ( shown ) buffer.append( ", " );
+				buffer.append( Preferences.getString( "_kloopDrops" ) );
+				buffer.append( " folio" );
+				shown = true;
+			}
+
+			this.setShown(shown);
+			this.setText( buffer.toString() );
 		}
 	}
 

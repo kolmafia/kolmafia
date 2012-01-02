@@ -5384,8 +5384,8 @@
 5375	tiny plastic colollilossus	accessory	display	0
 5376	tiny plastic Big Candy	accessory	display	0
 5377	The Groose in the Hoose	grow	all	0
-5378
-5379
+5378	spruce juice	familiar	all	75
+5379	groose grease	usable	all	0
 5380	lollipop stick	none	all	50
 5381	bananagate	none, candy	all	300
 5382	pearidot	none, candy	all	300
@@ -5449,17 +5449,17 @@
 5440	fudgesicle	food	all	0
 5441	wand of fudge control	reusable	display	0
 5442	The Kloop in the Coop	grow	all	0
-5443
-5444
-5445
-5446
-5447
-5448
-5449
-5450
-5451
-5452
-5453
+5443	miniscule beatbox	familiar	all	75
+5444	devilish folio	usable	all	0
+5445	clumsiness bark	none, combat	all	0
+5446	jar full of wind	none, combat	all	0
+5447	dangerous jerkcicle	none, combat	all	0
+5448	furious stone	none	none	0
+5449	vanity stone	none	none	0
+5450	lecherous stone	none	none	0
+5451	jealousy stone	none	none	0
+5452	avarice stone	none	none	0
+5453	gluttonous stone	none	none	0
 5454	red gummi ingot	usable, candy	all	300
 5455	green gummi ingot	usable, candy	all	300
 5456	yellow gummi ingot	usable, candy	all	300
@@ -5534,3 +5534,26 @@
 5525	pog #11 (Naughty Sorceress)	none, combat	all	0
 5526	Atomic Pop	usable	all	10
 5527	tiny do-rag	familiar	all	75
+5528	whimpering willow bark	usable, combat	all	25
+5529	berries of suffering	food	all	50
+5530	baobab sap	usable	all	30
+5531	cup of hickory chicory	usable, combat	all	15
+5532	magnolia blossom	usable, combat	all	10
+5533	Mortimer's nostrum	usable	all	40
+5534	Barulio's bottle	drink	all	40
+5535	Marvin's marvelous pill	usable	all	20
+5536	Winifred's whistle	none, combat	all	100
+5537	purple prose pen	usable	all	50
+5538	half-empty carton of milk	none, combat	all	15
+5539	glass of warm water	none, curse	all	5
+5540	desktop zen garden	usable	all	20
+5541	Vivian's Vitamin	usable	all	75
+5542	pink-belly slapper	none, combat	all	80
+5543
+5544	green eggnog	drink	all	0
+5545	green hamhock	food	all	0
+5546	The Thorax's Codex of Tormenting Plants	usable	all	0
+5547
+5548	Ghost Pinching Quarterly	usable	all	0
+5549
+5550	The Snitch's Manifesto	usable	all	0

@@ -704,12 +704,14 @@ user	_fudgeWaspFights	0
 user	_gapBuffs	0
 user	_gibbererAdv	0
 user	_gongDrops	0
+user	_grooseDrops	0
 user	_hareAdv	0
 user	_hipsterAdv	0
 user	_hotTubSoaks	0
 user	_iceballUses	0
 user	_inigosCasts	0
 user	_ironicMoustache	false
+user	_kloopDrops	0
 user	_jackassePlumberGame	false
 user	_klawSummons	0
 user	_lastZomboEye	0
@@ -1089,7 +1091,16 @@ user	choiceAdventure554	0
 user	choiceAdventure557	0
 user	choiceAdventure558	0
 user	choiceAdventure559	0
+user	choiceAdventure560	1
+user	choiceAdventure561	0
 user	choiceAdventure562	0
+user	choiceAdventure563	1
+user	choiceAdventure564	1
+user	choiceAdventure565	0
+user	choiceAdventure566	1
+user	choiceAdventure567	1
+user	choiceAdventure568	0
+user	choiceAdventure569	1
 
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true

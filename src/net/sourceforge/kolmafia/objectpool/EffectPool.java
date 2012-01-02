@@ -50,6 +50,7 @@ public class EffectPool
 	public static final String FORM_OF_ROACH = "Form of...Cockroach!";
 
 	public static final String HAIKU_STATE_OF_MIND = "Haiku State of Mind";
+	public static final String JUST_THE_BEST_ANAPESTS = "Just the Best Anapests";
 
 	public static final String HALF_ASTRAL = "Half-Astral";
 	public static final String PERFUME = "Knob Goblin Perfume";

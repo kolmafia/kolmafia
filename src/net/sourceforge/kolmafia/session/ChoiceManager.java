@@ -2062,7 +2062,52 @@ public abstract class ChoiceManager
 			new String[] { "fudge lily", "fight a swarm of fudgewasps or skip adventure", "frigid fudgepuck or skip adventure", "superheated fudge or skip adventure" },
 			new String[] { "5436", null, "5439", "5437" } ),
 
+		// Foreshadowing Demon!
+		new ChoiceAdventure(
+			"Suburbs", "choiceAdventure560", "The Clumsiness Grove",
+			new String[] { "head towards boss", "skip adventure" } ),
+
+		// You Must Choose Your Destruction!
+		new ChoiceAdventure(
+			"Suburbs", "choiceAdventure561", "The Clumsiness Grove",
+			new String[] { "The Thorax", "The Bat in the Spats" } ),
+
 		// Choice 562 is You're the Fudge Wizard Now, Dog
+
+		// A Test of your Mettle
+		new ChoiceAdventure(
+			"Suburbs", "choiceAdventure563", "The Clumsiness Grove",
+			new String[] { "Fight Boss", "skip adventure" } ),
+
+		// A Maelstrom of Trouble
+		new ChoiceAdventure(
+			"Suburbs", "choiceAdventure564", "The Maelstrom of Lovers",
+			new String[] { "head towards boss", "skip adventure" } ),
+
+		// To Get Groped or Get Mugged?
+		new ChoiceAdventure(
+			"Suburbs", "choiceAdventure565", "The Maelstrom of Lovers",
+			new String[] { "The Terrible Pinch", "Thug 1 and Thug 2" } ),
+
+		// A Choice to be Made
+		new ChoiceAdventure(
+			"Suburbs", "choiceAdventure566", "The Maelstrom of Lovers",
+			new String[] { "Fight Boss", "skip adventure" } ),
+
+		// You May Be on Thin Ice
+		new ChoiceAdventure(
+			"Suburbs", "choiceAdventure567", "The Glacier of Jerks",
+			new String[] { "Fight Boss", "skip adventure" } ),
+
+		// Some Sounds Most Unnerving
+		new ChoiceAdventure(
+			"Suburbs", "choiceAdventure568", "The Glacier of Jerks",
+			new String[] { "Mammon the Elephant", "The Large-Bellied Snitch" } ),
+
+		// One More Demon to Slay
+		new ChoiceAdventure(
+			"Suburbs", "choiceAdventure569", "The Glacier of Jerks",
+			new String[] { "head towards boss", "skip adventure" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

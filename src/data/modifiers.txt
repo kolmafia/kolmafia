@@ -2165,6 +2165,7 @@ miniature espresso maker	Familiar Weight: +5
 miniature gravy-covered maypole	Item Drop: +25, Softcore Only, Generic
 miniature pruning shears	Familiar Weight: +5
 miniature tophat	Familiar Weight: +5
+miniscule beatbox	Familiar Weight: +5
 mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moonglasses: Makes Familiar Less Sensitive to Light
 # moveable feast: Familiar will start food fights!
@@ -2206,6 +2207,7 @@ smiley-face sticker	Experience: +3.16
 snow halo	Familiar Weight: +5
 solid state loom	Familiar Weight: +10
 spoon!	Familiar Weight: +5
+spruce juice	Familiar Weight: +5
 # stick-on mini solar panels: +10 lbs. of Starfish
 stomp box	Familiar Weight: +5
 string of dingle balls	Familiar Weight: +5
@@ -2214,7 +2216,7 @@ sugar shield	Familiar Weight: +10, Generic
 # targeting chip: More likely to use more powerful attacks
 tasteful black bow tie	Familiar Weight: +5
 # teddy bear sewing kit: Teddy Bear loses less stuffing when hit.
-# teddy borg sewing kit: Teddy Bear loses less stuffing when hit.
+# teddy borg sewing kit: Teddy Borg loses less stuffing when hit.
 tiny Mountie hat	Familiar Weight: +5
 tiny ballet slippers	Familiar Weight: +5
 tiny balloon knife	Familiar Weight: +5
@@ -2582,6 +2584,7 @@ Brother Smothers's Blessing	Booze Drop: +30
 # Bruised Jaw: Mruimed Maw
 Bubble, Bubble	Moxie: -5, Muscle: +5
 Bubble Vision	Item Drop: [101-T]
+Buff as a Baobab	Experience Percent (Muscle): +20
 # Buggy Flavor: 25% chance of poisoning opponent
 Bureaucratized	Familiar Weight: +10
 Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
@@ -2693,6 +2696,7 @@ Digitally Converted	Monster Level: +30
 Dilated Pupils	Item Drop: +20
 Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 # Dirty Pear: All Bonus Sleaze Damage is doubled
+# Dis Abled: Grants access to the Suburb of Dis
 Disco Concentration	Item Drop: +20
 Disco Inferno	Moxie: +5, Hot Damage: +3
 Disco Nirvana	Meat Drop: +30
@@ -2743,6 +2747,7 @@ Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 Enraged	Muscle Percent: +10
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
+Everything's Zen	Experience Percent (Mysticality): +20
 # Existential Torment: Who are you? Who are you <i>really</i>?
 Expert Oiliness	Equalize: "Mysticality"
 Expert Timing	Item Drop: +20
@@ -2942,6 +2947,7 @@ Joyful Resolve	Item Drop: +15
 Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
 # Juiced Up: Makes you a better diver
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
+# Just the Best Anapests: Da da dee, da da dee
 Kindly Resolve	Familiar Weight: +5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
@@ -2960,6 +2966,7 @@ Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
 # Light!
 # Light-Headed: Increased chance of fumbling
 Light-Headed	Mysticality Percent: -30
+# Limber as Mortimer: +100% Gear Drops from Monsters
 Liquid Courage	Experience: +3
 # Literally Insane
 Litterboxing	Stench Damage: +30, Item Drop: +15
@@ -3069,6 +3076,7 @@ Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
 Perspicacious Pressure	Mysticality Percent: +300
 Phairly Pheromonal	Familiar Weight: +4
+Pharmaceutically Cool	Experience Percent (Moxie): +20
 Phoenix, Right?	Experience: +6
 Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
@@ -3793,6 +3801,7 @@ d12	Effect: "Bastard!", Effect Duration: 10
 #d20	Effect: "20/20 Vision", Effect Duration: 20d20
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 deodorant	Effect: "Fresh Scent", Effect Duration: 10
+devilish folio	Effect: "Dis Abled", Effect Duration: 30
 digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
 disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10
 donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10

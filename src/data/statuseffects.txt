@@ -961,7 +961,7 @@
 960	Koyaaniskumquatsi	confused.gif	cd3b73f281140b857aff7a504e1d3008	use 1 kumquat supersucker
 961	In the Limelight	lime.gif	c0c04d061f40b1cf7fcec48259c93ff9	use 1 lime supersucker
 962	Stop and Smell the Fudge	fudgelily.gif	9bde202465952c94aca305ed62a61bdf	use 1 fudge lily
-963
+963	Dis Abled	dis_abled.gif	8260d60edd8373c27040148da5c65aeb	use 1 devilish folio
 964	Fudgehound	fudgeplus.gif	838c3bdf8bf8e46adec2cb6663ac861b	use 1 fluid of fudge-finding
 965	Healthy, Elfy, and Wise	elfling.gif	d55fae1f735d8def7473b8f39f2d2db1
 966	Rad-ish	radish.gif	1336b9dfbb9ff3cbaba6c0da4db79395	drink 1 Horseradish-infused Vodka
@@ -991,3 +991,14 @@
 990	Trivia Master	trivia5.gif	7708ec6dfa757a3d3be799743135b566
 991	Cinnamouth	supersucker.gif	201c7e96963c7a0ff24ad97f5a70f066	use 1 Atomic Pop
 992	Gamer Rage	jplumber.gif	549d97093751385831640dc8ad530c80	use 1 Jackass Plumber home game
+993	Buff as a Baobab	baobab.gif	41fa51a52ab859c8e53bd82b56853731	use 1 baobab sap
+994	Limber as Mortimer	missingpants.gif	a80bae78df0c3361b76bfd36b71c5770	use 1 Mortimer's nostrum
+995	Pharmaceutically Cool	stimpill.gif	d23d50b55be3737e65eba071efb74256	use 1 Marvin's marvelous pill
+996	Everything's Zen	zengarden.gif	b7eeb98a0bceff38ef78038d37f370cd	use 1 desktop zen garden
+997
+998
+999
+1000
+1001
+1002
+1003	Just the Best Anapests	anapests.gif	31af96775c5acc17d1a13643209f38c8	use 1 goose grease
