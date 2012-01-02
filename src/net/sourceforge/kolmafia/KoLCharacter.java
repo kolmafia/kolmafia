@@ -284,6 +284,9 @@ public abstract class KoLCharacter
 	private static long[] totalSubpoints = new long[ 3 ];
 	private static long[] triggerSubpoints = new long[ 3 ];
 	private static int[] triggerItem = new int[ 3 ];
+
+	public static final int MAX_BASEPOINTS = 65535;
+
 	static { resetTriggers(); }
 
 	public static final SortedListModel battleSkillNames = new SortedListModel();
@@ -909,17 +912,24 @@ public abstract class KoLCharacter
 
 		if ( totalPrime < KoLCharacter.decrementPrime || totalPrime >= KoLCharacter.incrementPrime )
 		{
+			int previousLevel = KoLCharacter.currentLevel;
+
 			KoLCharacter.currentLevel = KoLCharacter.calculateSubpointLevels( totalPrime );
 			KoLCharacter.decrementPrime = KoLCharacter.calculateLastLevel();
 			KoLCharacter.incrementPrime = KoLCharacter.calculateNextLevel();
+
 			if ( KoLCharacter.incrementPrime < 0 )
-			{	// this will overflow at level 216
-				KoLCharacter.incrementPrime = Integer.MAX_VALUE;
+			{
+				// this will overflow at level 216
+				KoLCharacter.incrementPrime = Long.MAX_VALUE;
 			}
 
-			HPRestoreItemList.updateHealthRestored();
-			MPRestoreItemList.updateManaRestored();
-			ItemDatabase.setAstralConsumables();
+			if ( previousLevel != KoLCharacter.currentLevel )
+			{
+				HPRestoreItemList.updateHealthRestored();
+				MPRestoreItemList.updateManaRestored();
+				ItemDatabase.setAstralConsumables();
+			}
 		}
 
 		return KoLCharacter.currentLevel;
@@ -1314,7 +1324,7 @@ public abstract class KoLCharacter
 
 	public static final int calculateBasePoints( final long subpoints )
 	{
-		return (int)Math.sqrt( subpoints );
+		return Math.min( KoLCharacter.MAX_BASEPOINTS, (int) Math.sqrt( subpoints ) );
 	}
 
 	/**
