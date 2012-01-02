@@ -825,6 +825,7 @@ public class DailyDeedsPanel
 			button.setBackground( this.getBackground() );
 			button.setDefaultCapable( false );
 			button.putClientProperty( "JButton.buttonType", "segmented" );
+
 			if ( this.buttons == null )
 			{
 				this.buttons = new ArrayList();
@@ -928,10 +929,16 @@ public class DailyDeedsPanel
 
 		public void setEnabled( boolean enabled )
 		{
-			Iterator i = this.buttons.iterator();
-			while ( i.hasNext() )
+			if ( this.buttons != null )
 			{
-				((JButton) i.next()).setEnabled( enabled );
+				Iterator i = this.buttons.iterator();
+
+				while ( i.hasNext() )
+				{
+					JButton button = (JButton) i.next();
+
+					button.setEnabled( enabled );
+				}
 			}
 		}
 
