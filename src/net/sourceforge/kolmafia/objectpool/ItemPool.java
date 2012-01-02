@@ -1378,6 +1378,7 @@ public class ItemPool
 	public static final int FUDGE_SPORK = 5459;
 	public static final int FUDGECYCLE = 5460;
 	public static final int FUDGE_CUBE = 5461;
+	public static final int RESOLUTION_BOOK = 5463;
 	public static final int ALL_YEAR_SUCKER = 5497;
 	public static final int DARK_CHOCOLATE_HEART = 5498;
 	public static final int JACKASS_PLUMBER_GAME = 5501;

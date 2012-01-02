@@ -976,14 +976,14 @@
 975	Buy! Sell! Buy! Sell!	meatstack.gif	e4e5642c37db820f1fecf31e02292807	use 1 Uncle Greenspan's Bathroom Finance Guide
 976
 977	All Wound Up	clockkey.gif	e2f298e7263a5756467e48cec7757b19	use 1 wind-up meatcar
-978
-979
-980
-981
-982
-983
-984
-985
+978	Greedy Resolve	resolve_greedy.gif	d8a4db321361fbfb6b4b51f9860d3210	use 1 resolution:  be wealthier
+979	Joyful Resolve	resolve_happy.gif	dcae28866f7dbb0a82440948f8c46ae6	use 1 resolution: be happier
+980	Strong Resolve	resolve_strong.gif	33cd14f56a3bef360c0d7736b9269cfa	use 1 resolution: be stronger
+981	Brilliant Resolve	resolve_smart.gif	c9c8700ab7922dc19805ea3294d7e965	use 1 resolution: be smarter
+982	Irresistible Resolve	resolve_sexy.gif	eeaa54a42b0979b162611290433e73ff	use 1 resolution: be sexier
+983	Destructive Resolve	resolve_feisty.gif	1fbc358b8c7daf280db289b1bec707be	use 1 resolution: be feistier
+984	Kindly Resolve	resolve_kind.gif	853f46db06b5ac93411a309e4df63104	use 1 resolution: be kinder
+985	Fortunate Resolve	resolve_lucky.gif	2e71d195d32f5e12989fa9e6fca99c25	use 1 resolution: be luckier
 986	You Know What's Up	trivia1.gif	5d2b680481201f78e29d2b6419bba180
 987	You Know When to Walk Away	trivia2.gif	92f4b8581b0351082e5f7652578aa6be
 988	You Know Who to Call	trivia3.gif	979565bba2f06ac0413085acb99334e6

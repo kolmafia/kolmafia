@@ -2569,6 +2569,7 @@ Braaaaaains	Meat Drop: +200, Item Drop: -50
 Braaains	Meat Drop: +50, Initiative: -50
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
 Bright!	Maximum MP: +100
+Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
 Brined Liver	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
 # Broken Dancing
@@ -2687,6 +2688,7 @@ Deadly Lampblade	Spooky Damage: +75
 Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
 Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
+Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
 Digitally Converted	Monster Level: +30
 Dilated Pupils	Item Drop: +20
 Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
@@ -2791,6 +2793,7 @@ Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Fondid	Monster Level: +15
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
+# Fortunate Resolve: Bonus Luck!
 Fratty Flavor	Moxie: +15
 Freaked Out	Spooky Damage: +10, Damage Reduction: -2
 Free Bird	Mysticality: +20
@@ -2838,6 +2841,7 @@ Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Greased: Continually take damage
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
+Greedy Resolve	Meat Drop: +30
 Greasy Flavor	Weapon Damage: +30
 Green Tongue	Familiar Weight: +5, Experience (familiar): +2
 Grilled	Muscle: -10
@@ -2919,6 +2923,7 @@ Inscrutable exoskeleton	Damage Absorption: +300
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
 # Iron Palms: Swords count as clubs
+Irresistible Resolve	Experience (Moxie): +2
 It Didn't Kill You	Muscle Percent: +50
 # It's Electric!: Damages Attacking Opponents
 Izchak's Blessing	Moxie Percent: +25
@@ -2933,9 +2938,11 @@ Jalape&ntilde;o Saucesphere	Damage Reduction: 3
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 Jerky, Boy	Mysticality Percent: +25
 # Jingle Jangle Jingle
+Joyful Resolve	Item Drop: +15
 Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
 # Juiced Up: Makes you a better diver
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
+Kindly Resolve	Familiar Weight: +5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
@@ -3246,6 +3253,7 @@ Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
 Strawberry Alarm	Initiative: +50
 Strength of Ten Ettins	Muscle Percent: +25
+Strong Resolve	Experience (Muscle): +2
 # Stuck-Up Hair: Damages Attacking Opponents
 Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5
 Sugar High	Mysticality Percent: +30
@@ -3953,6 +3961,14 @@ pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
 red snowcone	Effect: "Red Tongue", Effect Duration: 20
 reodorant	Effect: "Hippy Stench", Effect Duration: 10
+resolution:  be wealthier	Effect: "Greedy Resolve", Effect Duration: 20
+resolution: be feistier	Effect: "Destructive Resolve", Effect Duration: 20
+resolution: be happier	Effect: "Joyful Resolve", Effect Duration: 20
+resolution: be kinder	Effect: "Kindly Resolve", Effect Duration: 20
+resolution: be luckier	Effect: "Fortunate Resolve", Effect Duration: 20
+resolution: be sexier	Effect: "Irresistible Resolve", Effect Duration: 20
+resolution: be smarter	Effect: "Brilliant Resolve", Effect Duration: 20
+resolution: be stronger	Effect: "Strong Resolve", Effect Duration: 20
 ribbon candy	Effect: "Sugar Rush", Effect Duration: 10
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10

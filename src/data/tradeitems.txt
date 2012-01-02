@@ -5470,15 +5470,15 @@
 5461	fudge cube	none	all	0
 5462	blank fudge mold	none	all	0
 5463	Libram of Resolutions	usable	all	0
-5464
-5465
-5466
-5467
-5468
-5469
-5470
-5471
-5472
+5464	resolution:  be wealthier	usable	all	0
+5465	resolution: be happier	usable	all	0
+5466	resolution: be stronger	usable	all	0
+5467	resolution: be smarter	usable	all	0
+5468	resolution: be sexier	usable	all	0
+5469	resolution: be feistier	usable	all	0
+5470	resolution: be kinder	usable	all	0
+5471	resolution: be more adventurous	usable	all	0
+5472	resolution: be luckier	usable	all	0
 5473	giant red gummi ingot	usable	all	600
 5474	giant green gummi ingot	usable	all	600
 5475	giant yellow gummi ingot	usable	all	600
