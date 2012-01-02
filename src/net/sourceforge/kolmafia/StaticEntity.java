@@ -212,7 +212,21 @@ public abstract class StaticEntity
 		{
 			StaticEntity.usesSystemTray = 2;
 
-			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && Preferences.getBoolean( "useSystemTrayIcon" ) )
+			boolean useTrayIcon = Preferences.getBoolean( "useSystemTrayIcon" );
+
+			if ( !System.getProperty( "os.name" ).startsWith( "Windows" ) )
+			{
+				useTrayIcon = false;
+			}
+
+			String javaArchitecture = System.getProperty( "sun.arch.data.model" );
+
+			if ( javaArchitecture == null || !javaArchitecture.equals( "32" ) )
+			{
+				useTrayIcon = false;
+			}
+
+			if ( useTrayIcon )
 			{
 				try
 				{
