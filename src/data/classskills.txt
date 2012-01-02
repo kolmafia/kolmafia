@@ -404,6 +404,7 @@
 8102	Summon Love Song	1	0	0
 8103	Summon BRICKOs	1	0	0
 8104	Summon Dice	1	0	0
+8105	Summon Resolutions	1	0	0
 8200	Summon Hilarious Objects	1	5	0
 8201	Summon Tasteful Items	1	5	0
 8202	Summon Alice's Army Cards	1	5	0

@@ -96,6 +96,7 @@ public class SkillDatabase
 	public static final int LOVE_SONG = 8102;
 	public static final int BRICKOS = 8103;
 	public static final int DICE = 8104;
+	public static final int RESOLUTIONS = 8105;
 	public static final int HILARIOUS = 8200;
 	public static final int TASTEFUL = 8201;
 	public static final int CARDS = 8202;
@@ -208,6 +209,7 @@ public class SkillDatabase
 		case LOVE_SONG:		// Summon Love Song
 		case BRICKOS:		// Summon BRICKOs
 		case DICE:		// Summon Dice
+		case RESOLUTIONS:	// Summon Resolutions
 		case HILARIOUS:		// Summon Hilarious Objects
 		case TASTEFUL:		// Summon Tasteful Items
 		case CARDS:		// Summon Alice's Army Cards
@@ -499,7 +501,7 @@ public class SkillDatabase
 
 	public static final boolean isLibramSkill( final int skillId )
 	{
-		return skillId == CANDY_HEART || skillId == PARTY_FAVOR || skillId == LOVE_SONG || skillId == BRICKOS || skillId == DICE;
+		return skillId == CANDY_HEART || skillId == PARTY_FAVOR || skillId == LOVE_SONG || skillId == BRICKOS || skillId == DICE || skillId == RESOLUTIONS;
 	}
 
 	/**
@@ -828,6 +830,7 @@ public class SkillDatabase
 		case SkillDatabase.LOVE_SONG:	// Summon Love Song
 		case SkillDatabase.BRICKOS:	// Summon BRICKOs
 		case SkillDatabase.DICE:	// Summon Dice
+		case SkillDatabase.RESOLUTIONS:	// Summon Resolutions
 		case SkillDatabase.HILARIOUS:	// Summon Hilarious Objects
 		case SkillDatabase.TASTEFUL:	// Summon Tasteful Items
 		case SkillDatabase.CARDS:	// Summon Alice's Army Cards
@@ -857,6 +860,7 @@ public class SkillDatabase
 		case SkillDatabase.LOVE_SONG:	// Summon Love Song
 		case SkillDatabase.BRICKOS:	// Summon BRICKOs
 		case SkillDatabase.DICE:	// Summon Dice
+		case SkillDatabase.RESOLUTIONS:	// Summon Resolutions
 		case SkillDatabase.HILARIOUS:	// Summon Hilarious Objects
 		case SkillDatabase.TASTEFUL:	// Summon Tasteful Items
 		case SkillDatabase.CARDS:	// Summon Alice's Army Cards
@@ -888,6 +892,8 @@ public class SkillDatabase
 			return ItemPool.BRICKO_BOOK;
 		case SkillDatabase.DICE:	// Summon Dice
 			return ItemPool.DICE_BOOK;
+		case SkillDatabase.RESOLUTIONS:	// Summon Resolutions
+			return ItemPool.RESOLUTION_BOOK;
 		case SkillDatabase.HILARIOUS:	// Summon Hilarious Objects
 			return ItemPool.HILARIOUS_BOOK;
 		case SkillDatabase.TASTEFUL:	// Summon Tasteful Items
