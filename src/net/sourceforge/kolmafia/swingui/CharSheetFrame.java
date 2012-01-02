@@ -110,23 +110,37 @@ public class CharSheetFrame
 		final int tillNextPoint, final String label )
 	{
 		JProgressBar tnp = this.tnpDisplay[ displayIndex ];
-		tnp.setMaximum( 2 * baseValue + 1 );
-		tnp.setValue( 2 * baseValue + 1 - tillNextPoint );
-		tnp.setString( label +
-			KoLConstants.COMMA_FORMAT.format( tnp.getValue() ) + " / " +
-			KoLConstants.COMMA_FORMAT.format( tnp.getMaximum() ) );
+
+		if ( baseValue == KoLCharacter.MAX_BASEPOINTS )
+		{
+			tnp.setMaximum( 0 );
+			tnp.setValue( 0 );
+			tnp.setString( "No more progress possible" );
+		}
+		else
+		{
+			tnp.setMaximum( 2 * baseValue + 1 );
+			tnp.setValue( 2 * baseValue + 1 - tillNextPoint );
+			tnp.setString( label +
+				KoLConstants.COMMA_FORMAT.format( tnp.getValue() ) + " / " +
+				KoLConstants.COMMA_FORMAT.format( tnp.getMaximum() ) );
+		}
+
 		int points = KoLCharacter.getTriggerPoints( displayIndex );
-		if ( points == Integer.MAX_VALUE )
+
+		int triggerItemId = KoLCharacter.getTriggerItem( displayIndex );
+
+		if ( points == Integer.MAX_VALUE || triggerItemId <= 0 )
 		{
 			tnp.setToolTipText( "You can equip everything you have!" );
 		}
 		else
 		{
+			String triggerItem = ItemDatabase.getItemName( triggerItemId );
+
 			tnp.setToolTipText( "At " + points +
 				" points, you'll be able to equip a " +
-				ItemDatabase.getItemName(
-					KoLCharacter.getTriggerItem( displayIndex ) ) +
-				" (and maybe more)" );
+				triggerItem + " (and maybe more)" );
 		}
 	}
 
