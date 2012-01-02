@@ -1664,6 +1664,17 @@ public class KoLAdventure
 			"without the proper transporter frequency",
 			"You are no longer Transpondent.",
 		},
+
+		// No longer Dis Abled
+		//
+		// Remember that devilish folio you read?
+		// No, you don't! You don't have it all still in your head!
+		// Better find a new one you can read! I swear this:
+		// 'Til you do, you can't visit the Suburbs of Dis!
+		{
+			"you can't visit the Suburbs of Dis",
+			"You are no longer Dis Abled.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )

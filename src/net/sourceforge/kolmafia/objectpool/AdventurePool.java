@@ -92,4 +92,7 @@ public class AdventurePool
 	public static final int DEFILED_CRANNY = 262;
 	public static final int DEFILED_NICHE = 263;
 	public static final int DEFILED_NOOK = 264;
+	public static final int CLUMSINESS_GROVE = 277;
+	public static final int MAELSTROM_OF_LOVERS = 278;
+	public static final int GLACIER_OF_JERKS = 279;
 }

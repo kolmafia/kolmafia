@@ -187,6 +187,10 @@ public class CharPaneDecorator
 				( Preferences.getInteger( "_piePartsCount" ) == 1 ? " part" : " parts" );
 		case FamiliarPool.ALIEN:
 			return Preferences.getInteger( "_transponderDrops" ) + "/5";
+		case FamiliarPool.GROOSE:
+			return Preferences.getInteger( "_grooseDrops" ) + "/5";
+		case FamiliarPool.KLOOP:
+			return Preferences.getInteger( "_kloopDrops" ) + "/5";
 		}
 		return null;
 	}

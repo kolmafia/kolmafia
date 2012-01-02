@@ -93,4 +93,6 @@ public class FamiliarPool
 	public static final int DATASPIDER = 149;
 	public static final int BOOTS = 150;
 	public static final int SCARECROW = 152;
+	public static final int GROOSE = 154;
+	public static final int KLOOP = 155;
 }

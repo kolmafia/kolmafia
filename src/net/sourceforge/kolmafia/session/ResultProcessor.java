@@ -1344,6 +1344,20 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.DEVILISH_FOLIO:
+			if ( combatResults )
+			{
+				Preferences.increment( "_kloopDrops", 1 );
+			}
+			break;
+
+		case ItemPool.GROOSE_GREASE:
+			if ( combatResults )
+			{
+				Preferences.increment( "_grooseDrops", 1 );
+			}
+			break;
+
 		case ItemPool.GG_TOKEN:
 			if ( combatResults )
 			{
