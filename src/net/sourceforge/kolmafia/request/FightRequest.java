@@ -3187,22 +3187,30 @@ public class FightRequest
 		return hasBold;
 	}
 
+	private static final StringBuffer extractText( TagNode node, TagStatus status )
+	{
+		if ( status.haiku || status.rhyme )
+		{
+			StringBuffer action = new StringBuffer();
+			FightRequest.extractHaiku( node, action );
+			return action;
+		}
+
+		return node.getText();
+	}
+
 	private static final void processHaikuResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
+		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
+		{
+			FightRequest.processFamiliarAction( node, status );
+			return;
+		}
+
 		StringBuffer action = status.action;
 		action.setLength( 0 );
 		boolean hasBold = FightRequest.extractHaiku( node, action );
 		String haiku = action.toString();
-
-		if ( image.equals( status.familiar ) )
-		{
-			if ( status.logFamiliar )
-			{
-				FightRequest.logText( haiku, status );
-			}
-
-			ResultProcessor.processFamiliarWeightGain( haiku );
-		}
 
 		if ( FightRequest.foundHaikuDamage( inode, action, status.logMonsterHealth ) )
 		{
@@ -3338,6 +3346,30 @@ public class FightRequest
 			return;
 		}
 
+		if ( image.equals( "nicesword.gif" ) )
+		{
+			// You modify monster attack power
+			int damage = StringUtilities.parseInt( points );
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterAttribute( action, damage, ATTACK );
+			}
+			MonsterStatusTracker.lowerMonsterAttack( damage );
+			return;
+		}
+
+		if ( image.equals( "whiteshield.gif" ) )
+		{
+			// You modify monster defense
+			int damage = StringUtilities.parseInt( points );
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterAttribute( action, damage, DEFENSE );
+			}
+			MonsterStatusTracker.lowerMonsterDefense( damage );
+			return;
+		}
+
 		if ( haiku.indexOf( "damage" ) != -1 )
 		{
 			// Using a combat item
@@ -3382,27 +3414,16 @@ public class FightRequest
 
 	private static final void processRhymeResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
+		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
+		{
+			FightRequest.processFamiliarAction( node, status );
+			return;
+		}
+
 		StringBuffer action = status.action;
 		action.setLength( 0 );
 		boolean hasBold = FightRequest.extractHaiku( node, action );
 		String verse = action.toString();
-
-		if ( image.equals( status.familiar ) )
-		{
-			if ( status.logFamiliar )
-			{
-				FightRequest.logText( verse, status );
-			}
-
-			ResultProcessor.processFamiliarWeightGain( verse );
-		}
-		else if ( image.equals( status.enthroned ) )
-		{
-			if ( status.logFamiliar )
-			{
-				FightRequest.logText( verse, status );
-			}
-		}
 
 		if ( FightRequest.foundHaikuDamage( inode, action, status.logMonsterHealth ) )
 		{
@@ -3503,6 +3524,30 @@ public class FightRequest
 		{
 			String message = "You gain " + points + " Roguishness";
 			status.shouldRefresh |= ResultProcessor.processStatGain( message, null );
+			return;
+		}
+
+		if ( image.equals( "nicesword.gif" ) )
+		{
+			// You modify monster attack power
+			int damage = StringUtilities.parseInt( points );
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterAttribute( action, damage, ATTACK );
+			}
+			MonsterStatusTracker.lowerMonsterAttack( damage );
+			return;
+		}
+
+		if ( image.equals( "whiteshield.gif" ) )
+		{
+			// You modify monster defense
+			int damage = StringUtilities.parseInt( points );
+			if ( status.logMonsterHealth )
+			{
+				FightRequest.logMonsterAttribute( action, damage, DEFENSE );
+			}
+			MonsterStatusTracker.lowerMonsterDefense( damage );
 			return;
 		}
 
@@ -4302,7 +4347,7 @@ public class FightRequest
 			table.getParent().removeChild( table );
 		}
 
-		StringBuffer text = node.getText();
+		StringBuffer text = FightRequest.extractText( node, status );
 		String str = text.toString();
 
 		if ( ResultProcessor.processFamiliarWeightGain( str ) )
