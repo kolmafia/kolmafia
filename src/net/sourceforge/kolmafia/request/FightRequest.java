@@ -3396,6 +3396,13 @@ public class FightRequest
 
 			ResultProcessor.processFamiliarWeightGain( verse );
 		}
+		else if ( image.equals( status.enthroned ) )
+		{
+			if ( status.logFamiliar )
+			{
+				FightRequest.logText( verse, status );
+			}
+		}
 
 		if ( FightRequest.foundHaikuDamage( inode, action, status.logMonsterHealth ) )
 		{
@@ -3518,6 +3525,7 @@ public class FightRequest
 	public static class TagStatus
 	{
 		public String familiar;
+		public String enthroned;
 		public final boolean doppel;
 		public String diceMessage;
 		public final String ghost;
@@ -3544,6 +3552,9 @@ public class FightRequest
 
 			this.diceMessage = ( current.getId() == FamiliarPool.DICE ) ? ( current.getName() + " begins to roll." ) : null;
 
+
+			FamiliarData enthroned = KoLCharacter.getEnthroned();
+			this.enthroned = enthroned.getImageLocation();
 
 			int adventure = KoLAdventure.lastAdventureId();
 
@@ -3839,7 +3850,7 @@ public class FightRequest
 			if ( status.famaction )
 			{
 				status.famaction = false;
-				if ( !status.haiku )
+				if ( !status.haiku && !status.rhyme )
 				{
 					FightRequest.processFamiliarAction( node, status );
 					return;
@@ -4024,7 +4035,7 @@ public class FightRequest
 				return;
 			}
 
-			if ( image.equals( status.familiar ) )
+			if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
 			{
 				FightRequest.processFamiliarAction( node, status );
 				return;
