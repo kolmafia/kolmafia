@@ -43,6 +43,7 @@ import java.util.Iterator;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
@@ -387,7 +388,9 @@ public class CompactSidePane
 
 			if ( fam.getFavorite() )
 			{
-				this.setIcon( FamiliarDatabase.getFamiliarImage( fam.getId() ) );
+				ImageIcon icon = FamiliarDatabase.getFamiliarImage( fam.getId() );
+				this.setIcon( icon );
+				icon.setImageObserver( this );
 			}
 		}
 	}
@@ -724,7 +727,9 @@ public class CompactSidePane
 		else
 		{
 			String anno = CharPaneDecorator.getFamiliarAnnotation();
-			this.familiarLabel.setIcon( FamiliarDatabase.getFamiliarImage( id ) );
+			ImageIcon icon = FamiliarDatabase.getFamiliarImage( id );
+			this.familiarLabel.setIcon( icon );
+			icon.setImageObserver( this );
 			int weight = current.getModifiedWeight();
 			this.familiarLabel.setText( "<HTML><center>" + weight +
 				( weight == 1 ? " lb." : " lbs." ) +
