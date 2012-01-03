@@ -74,6 +74,53 @@ public class CoinmasterData
 	private final Map sellPrices;
 	private final String storageAction;
 	private final String tradeAllAction;
+	private final boolean canPurchase;
+
+	public CoinmasterData( 
+		final String master,
+		final Class requestClass,
+		final String URL,
+		final String token,
+		final String tokenTest,
+		final boolean positiveTest,
+		final Pattern tokenPattern,
+		final AdventureResult item,
+		final String property,
+		final String itemField,
+		final Pattern itemPattern,
+		final String countField,
+		final Pattern countPattern,
+		final String buyAction,
+		final LockableListModel buyItems,
+		final Map buyPrices,
+		final String sellAction,
+		final Map sellPrices,
+		final String storageAction,
+		final String tradeAllAction,
+		final boolean canPurchase )
+	{
+		this.master = master;
+		this.requestClass = requestClass;
+		this.URL = URL;
+		this.token = token;
+		this.tokenTest = tokenTest;
+		this.positiveTest = positiveTest;
+		this.tokenPattern = tokenPattern;
+		this.item = item;
+		this.property = property;
+		this.itemField = itemField;
+		this.itemPattern = itemPattern;
+		this.countField = countField;
+		this.countPattern = countPattern;
+		this.buyAction = buyAction;
+		this.buyItems = buyItems;
+		this.buyPrices = buyPrices;
+		this.sellAction = sellAction;
+		this.sellPrices = sellPrices;
+		this.storageAction = storageAction;
+		this.tradeAllAction = tradeAllAction;
+		this.canPurchase = canPurchase;
+	}
 
 	public CoinmasterData( 
 		final String master,
@@ -97,26 +144,14 @@ public class CoinmasterData
 		final String storageAction,
 		final String tradeAllAction )
 	{
-		this.master = master;
-		this.requestClass = requestClass;
-		this.URL = URL;
-		this.token = token;
-		this.tokenTest = tokenTest;
-		this.positiveTest = positiveTest;
-		this.tokenPattern = tokenPattern;
-		this.item = item;
-		this.property = property;
-		this.itemField = itemField;
-		this.itemPattern = itemPattern;
-		this.countField = countField;
-		this.countPattern = countPattern;
-		this.buyAction = buyAction;
-		this.buyItems = buyItems;
-		this.buyPrices = buyPrices;
-		this.sellAction = sellAction;
-		this.sellPrices = sellPrices;
-		this.storageAction = storageAction;
-		this.tradeAllAction = tradeAllAction;
+		this( master, requestClass, URL,
+		      token, tokenTest, positiveTest, tokenPattern,
+		      item, property,
+		      itemField, itemPattern, countField, countPattern,
+		      buyAction, buyItems, buyPrices,
+		      sellAction, sellPrices,
+		      storageAction, tradeAllAction,
+		      ( buyItems != null ) );
 	}
 
 	public CoinmasterData( 
@@ -340,10 +375,11 @@ public class CoinmasterData
 		return this.tradeAllAction;
 	}
 
-	public final void registerPurchaseRequests()
+	public void registerPurchaseRequests()
 	{
-		// If this Coin Master doesn't sell anything, nothing to register
-		if ( this.buyItems == null )
+		// If this Coin Master doesn't sell anything that goes into
+		// your inventory, nothing to register
+		if ( !this.canPurchase )
 		{
 			return;
 		}
