@@ -84,7 +84,10 @@ public class Crimbo11Request
 			Crimbo11Request.buyItems,
 			Crimbo11Request.buyPrices,
 			"tradecandy",
-			Crimbo11Request.sellPrices
+			Crimbo11Request.sellPrices,
+			null,
+			null,
+			false
 			);
 
 	public Crimbo11Request()
