@@ -190,6 +190,11 @@ public class UneffectRequest
 			return true;
 		}
 
+		if ( effectName.equals( "Just the Best Anapests" ) )
+		{
+			return true;
+		}
+
 		int id = SkillDatabase.getSkillId( UneffectRequest.effectToSkill( effectName ) );
 		return id != -1 && SkillDatabase.isBuff( id );
 	}
