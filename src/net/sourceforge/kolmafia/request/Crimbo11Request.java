@@ -325,4 +325,9 @@ public class Crimbo11Request
 
 		return CoinMasterRequest.registerRequest( data, urlString );
 	}
+
+	public static String accessible()
+	{
+		return "Candy Credits are no longer exchangeable";
+	}
 }

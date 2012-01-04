@@ -45,8 +45,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CrimboCafeRequest
 	extends CafeRequest
 {
-	public static final String cafeId = "8";
-
+	public static final boolean AVAILABLE = false;
+	public static final String CAFEID = "8";
 	public static final Object[][] MENU_DATA =
 	{
 		// Item, itemID, price
@@ -125,7 +125,7 @@ public class CrimboCafeRequest
 
 	public CrimboCafeRequest( final String name )
 	{
-		super( "Crimbo Cafe", CrimboCafeRequest.cafeId );
+		super( "Crimbo Cafe", CrimboCafeRequest.CAFEID );
 
 		int itemId = 0;
 		int price = 0;
@@ -147,6 +147,10 @@ public class CrimboCafeRequest
 
 	public static final void getMenu()
 	{
+		if ( !CrimboCafeRequest.AVAILABLE )
+		{
+			return;
+		}
 		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
 		KoLConstants.cafeItems.clear();
 		for ( int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i )
@@ -168,7 +172,7 @@ public class CrimboCafeRequest
 	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
-		if ( !matcher.find() || !matcher.group( 1 ).equals( CrimboCafeRequest.cafeId ) )
+		if ( !matcher.find() || !matcher.group( 1 ).equals( CrimboCafeRequest.CAFEID ) )
 		{
 			return false;
 		}
