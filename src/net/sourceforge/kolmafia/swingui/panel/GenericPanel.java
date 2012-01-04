@@ -468,6 +468,11 @@ public abstract class GenericPanel
 				rootPath = rootPath.substring( 0, rootPath.length() - 1 );
 			}
 
+			if ( rootPath.equals( "" ) )
+			{
+				return text;
+			}
+
 			if ( text.toLowerCase().startsWith( rootPath.toLowerCase() ) )
 			{
 				return text.substring( rootPath.length() + 1 );
@@ -487,6 +492,11 @@ public abstract class GenericPanel
 				rootParentPath = rootParentPath.substring( 0, rootParentPath.length() - 1 );
 			}
 
+			if ( rootParentPath.equals( "" ) )
+			{
+				return text;
+			}
+
 			if ( text.toLowerCase().startsWith( rootParentPath.toLowerCase() ) )
 			{
 				return ".." + File.separator + text.substring( rootParentPath.length() + 1 );
@@ -504,6 +514,11 @@ public abstract class GenericPanel
 			if ( rootParentParentPath.endsWith( File.separator ) )
 			{
 				rootParentParentPath = rootParentParentPath.substring( 0, rootParentParentPath.length() - 1 );
+			}
+
+			if ( rootParentParentPath.equals( "" ) )
+			{
+				return text;
 			}
 
 			if ( text.toLowerCase().startsWith( rootParentParentPath.toLowerCase() ) )

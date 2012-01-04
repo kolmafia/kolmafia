@@ -5491,9 +5491,9 @@
 5482	red drunki-bear	food, candy	all	600
 5483	green drunki-bear	food, candy	all	600
 5484	yellow drunki-bear	food, candy	all	600
-5485	gummi bowtie	accessory	display	0
-5486	fudge pocket square	accessory	display	0
-5487	lollipop cufflinks	accessory	display	0
+5485	gummi bowtie	accessory	all	0
+5486	fudge pocket square	accessory	all	0
+5487	lollipop cufflinks	accessory	all	0
 5488	trilobite fossil	none	all	0
 5489	ammonite fossil	none	all	0
 5490	belemnite fossil	none	all	0
