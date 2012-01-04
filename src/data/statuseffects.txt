@@ -995,10 +995,10 @@
 994	Limber as Mortimer	missingpants.gif	a80bae78df0c3361b76bfd36b71c5770	use 1 Mortimer's nostrum
 995	Pharmaceutically Cool	stimpill.gif	d23d50b55be3737e65eba071efb74256	use 1 Marvin's marvelous pill
 996	Everything's Zen	zengarden.gif	b7eeb98a0bceff38ef78038d37f370cd	use 1 desktop zen garden
-997
-998
-999
-1000
-1001
-1002
-1003	Just the Best Anapests	anapests.gif	31af96775c5acc17d1a13643209f38c8	use 1 goose grease
+997	Inebriate Pride	beerpride.gif	7952aa99d3b2fa72431b1523215e0ad1
+998	Amorous Avarice	beermoney.gif	1e709ea0e47aa55a21b2e4e7499a64b0
+999	Covetous Robbery	meatstack.gif	8a22f94200ee7e8239a131c4c171cb82
+1000	Voracious Gorging	knifefork.gif	d9b987d7a727652855885d6535c2faa6
+1001	Sated and Furious	madfat.gif	9da3fc08702409c4d95e8728fea9a39d
+1002	Vanity Rage	handmirror.gif	8013791092bfc2ae26faf70a0381e091
+1003	Just the Best Anapests	anapests.gif	31af96775c5acc17d1a13643209f38c8	use 1 groose grease

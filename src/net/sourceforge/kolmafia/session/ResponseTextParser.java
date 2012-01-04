@@ -111,6 +111,7 @@ import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
@@ -640,6 +641,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "store.php" ) )
 		{
 			NPCPurchaseRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "suburbandis.php" ) )
+		{
+			SuburbanDisRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "sugarsheets.php" ) )

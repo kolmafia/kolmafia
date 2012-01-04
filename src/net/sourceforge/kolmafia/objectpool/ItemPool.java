@@ -1375,6 +1375,12 @@ public class ItemPool
 	public static final int FUDGECULE = 5435;
 	public static final int FUDGE_WAND = 5441;
 	public static final int DEVILISH_FOLIO = 5444;
+	public static final int FURIOUS_STONE = 5448;
+	public static final int VANITY_STONE = 5449;
+	public static final int LECHEROUS_STONE = 5450;
+	public static final int JEALOUSY_STONE = 5451;
+	public static final int AVARICE_STONE = 5452;
+	public static final int GLUTTONOUS_STONE = 5453;
 	public static final int FUDGIE_ROLL = 5457;
 	public static final int FUDGE_BUNNY = 5458;
 	public static final int FUDGE_SPORK = 5459;
