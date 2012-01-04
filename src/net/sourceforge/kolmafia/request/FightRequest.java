@@ -3433,19 +3433,19 @@ public class FightRequest
 		Matcher m = INT_PATTERN.matcher( verse );
 		if ( !m.find() )
 		{
-			if ( image.equals( "strboost.gif" ) && hasBold )
+			if ( image.equals( "strboost.gif" ) )
 			{
 				String message = "You gain a Muscle point!";
 				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 			}
 
-			if ( image.equals( "snowflakes.gif" ) && hasBold )
+			if ( image.equals( "snowflakes.gif" ) )
 			{
 				String message = "You gain a Mysticality point!";
 				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 			}
 
-			if ( image.equals( "wink.gif" ) && hasBold )
+			if ( image.equals( "wink.gif" ) )
 			{
 				String message = "You gain a Moxie point!";
 				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
@@ -3897,12 +3897,9 @@ public class FightRequest
 
 			if ( status.famaction )
 			{
+				FightRequest.processFamiliarAction( node, status );
 				status.famaction = false;
-				if ( !status.haiku && !status.rhyme )
-				{
-					FightRequest.processFamiliarAction( node, status );
-					return;
-				}
+				return;
 			}
 
 			StringBuffer text = node.getText();
@@ -3913,7 +3910,7 @@ public class FightRequest
 			if ( inode == null )
 			{
 				// No image. Parse combat damage.
-				int damage = status.haiku ?
+				int damage = ( status.haiku || status.rhyme ) ?
 					FightRequest.parseHaikuDamage( str ) :
 					FightRequest.parseNormalDamage( str );
 				if ( damage != 0 )
@@ -3969,7 +3966,7 @@ public class FightRequest
 					}
 					// For prettiness
 					String munged = StringUtilities.singleStringReplace( str, "(", " (" );
-					if ( status.haiku )
+					if ( status.haiku || status.rhyme )
 					{	// the haiku doesn't name the effect
 						munged = "You acquire an effect: " + effect;
 					}
@@ -3982,6 +3979,10 @@ public class FightRequest
 							FightRequest.logMonsterAttribute( action, 17, HEALTH );
 						}
 						MonsterStatusTracker.damageMonster( 17 );
+					}
+					else if ( effect.equalsIgnoreCase( EffectPool.JUST_THE_BEST_ANAPESTS ) )
+					{
+						status.rhyme = true;
 					}
 					return;
 				}
@@ -4353,25 +4354,23 @@ public class FightRequest
 		StringBuffer text = FightRequest.extractText( node, status );
 		String str = text.toString();
 
-		if ( ResultProcessor.processFamiliarWeightGain( str ) )
+		if ( !str.equals( "" ) && !ResultProcessor.processFamiliarWeightGain( str ) )
 		{
-			return;
-		}
-
-		// Familiar combat action?
-		if ( status.logFamiliar )
-		{
-			FightRequest.logText( text, status );
-		}
-
-		int damage = FightRequest.parseFamiliarDamage( str, status );
-		if ( damage != 0 )
-		{
-			if ( status.logMonsterHealth )
+			// Familiar combat action?
+			if ( status.logFamiliar )
 			{
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				FightRequest.logText( text, status );
 			}
-			MonsterStatusTracker.damageMonster( damage );
+
+			int damage = FightRequest.parseFamiliarDamage( str, status );
+			if ( damage != 0 )
+			{
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, damage, HEALTH );
+				}
+				MonsterStatusTracker.damageMonster( damage );
+			}
 		}
 
 		// <img src="http://images.kingdomofloathing.com/itemimages/familiar6.gif" width=30 height=30></td><td valign=center>Jiggly Grrl disappears into the wardrobe, and emerges dressed as a pair of Fuzzy Dice.
