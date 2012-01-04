@@ -122,7 +122,6 @@ public class CoinmastersFrame
 	private CoinmasterPanel dollhawkerPanel = null;
 	private CoinmasterPanel lunarLunchPanel = null;
 	private CoinmasterPanel awolPanel = null;
-	private CoinmasterPanel crimbo11Panel = null;
 	private CoinmasterPanel fudgeWandPanel = null;
 	private CoinmasterPanel travelerPanel = null;
 	private CoinmasterPanel tr4pz0rPanel = null;
@@ -131,6 +130,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
 	private CoinmasterPanel CRIMBCOGiftShopPanel = null;
+	private CoinmasterPanel crimbo11Panel = null;
 
 	public CoinmastersFrame()
 	{
@@ -234,11 +234,6 @@ public class CoinmastersFrame
 		this.selectorPanel.addPanel( awolPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		crimbo11Panel = new Crimbo11Panel();
-		panel.add( crimbo11Panel );
-		this.selectorPanel.addPanel( crimbo11Panel.getPanelSelector(), panel );
-
-		panel = new JPanel( new BorderLayout() );
 		fudgeWandPanel = new FudgeWandPanel();
 		panel.add( fudgeWandPanel );
 		this.selectorPanel.addPanel( fudgeWandPanel.getPanelSelector(), panel );
@@ -266,6 +261,11 @@ public class CoinmastersFrame
 		CRIMBCOGiftShopPanel = new CRIMBCOGiftShopPanel();
 		panel.add( CRIMBCOGiftShopPanel );
 		this.selectorPanel.addPanel( CRIMBCOGiftShopPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		crimbo11Panel = new Crimbo11Panel();
+		panel.add( crimbo11Panel );
+		this.selectorPanel.addPanel( crimbo11Panel.getPanelSelector(), panel );
 
 		this.selectorPanel.addChangeListener( this );
 		this.selectorPanel.setSelectedIndex( Preferences.getInteger( "coinMasterIndex" ) );
