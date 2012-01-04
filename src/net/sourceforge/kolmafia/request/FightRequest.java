@@ -3491,11 +3491,14 @@ public class FightRequest
 			// Your MP's restored, it's now 16 points higher.
 			// Now you can set some more monsters on fire!
 
+			// 17 MP should add spring to your step,
+			// and lift up your spirits with gusto and pep!
 
 			if ( verse.indexOf( "Magical energy floods into your veins" ) != -1 ||
 			     verse.indexOf( "mystical fuel" ) != -1 ||
 			     verse.indexOf( "your MP restored" ) != -1	||
-			     verse.indexOf( "set some more monsters on fire" ) != -1 )
+			     verse.indexOf( "set some more monsters on fire" ) != -1	||
+			     verse.indexOf( "add spring to your step" ) != -1 )
 			{
 				gain = "gain";
 			}

@@ -2496,6 +2496,7 @@ All Fired Up	Initiative: +30
 All Wound Up	Spell Damage Percent: [202-2*T], Weapon Damage Percent: [202-2*T]
 Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Also Schmeckt Zarathustra	Mysticality: +30
+# Amorous Avarice: Meat Drop: +X
 Amorous	Moxie: +5, Sleaze Damage: +5
 Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Ancestral Disapproval	Mysticality Percent: +10
@@ -2657,6 +2658,7 @@ Corroded Weapon	Weapon Damage: -5
 Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
 Cosmic Flavor	Spell Critical Percent: +10
 # Cotton Mouthed: So dry! It's from yesterday!
+# Covetous Robbery: Increases meat drops from stingy monsters
 # Coy to the Hurled: variable DR
 Cranberry Cordiality	Meat Drop: +10
 Cravin' for a Ravin'	Meat Drop: +100
@@ -2920,6 +2922,7 @@ In the Saucestream	Mysticality Percent: +15
 Incensed	Mysticality: +10
 Incredibly Hulking	Muscle Percent: +200
 Indescribable Flavor	Spell Damage: +30
+# Inebriate Pride: Experience: +X
 # Infinite Loop
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Inky Camouflage	Combat Rate: -5
@@ -3147,6 +3150,7 @@ Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
 Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
 # Salty Mouth: You really need a beer...
 Sappy Blood	Spooky Resistance: 3
+# Sated and Furious: Weapon Damage: +X, Spell Damage: +X
 Saucemastery	Maximum HP: +3, Mysticality: +1
 Sausage Festive	MP Regen Min: 5, MP Regen Max: 10
 Savage Beast Inside	Muscle: +20
@@ -3365,10 +3369,12 @@ Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
 Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
 # Vampin'
+# Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
 Violent Night	Critical: 2
 Vitamin-Maxed	Muscle Percent: +10
+# Voracious Gorging: Item Drop: +X, Food Drop: +Y
 # Wanged: Unable to use obnoxious abbreviations
 # Warm Belly: Makes sushi taste better
 Warm Belly	Hot Damage: [+3*D]

@@ -991,6 +991,10 @@ public class AdventureRequest
 		{
 			return responseText.indexOf( "palinshelves.php" ) != -1;
 		}
+		else if ( formSource.startsWith( "suburbandis.php" ) )
+		{
+			return formSource.indexOf( "action=dothis" ) != -1;
+		}
 		else if ( formSource.startsWith( "tiles.php" ) )
 		{
 			// Only register initial encounter of Dvorak's Revenge

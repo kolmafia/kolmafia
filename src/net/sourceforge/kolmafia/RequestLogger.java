@@ -115,6 +115,7 @@ import net.sourceforge.kolmafia.request.ShrineRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
@@ -1009,6 +1010,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof StorageRequest || isExternal ) && StorageRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof SuburbanDisRequest || isExternal ) && SuburbanDisRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
