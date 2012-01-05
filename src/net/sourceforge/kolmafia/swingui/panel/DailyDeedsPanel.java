@@ -2010,20 +2010,26 @@ public class DailyDeedsPanel
 			boolean hba = bander != null && bander.canEquip() ;
 			FamiliarData boots = KoLCharacter.findFamiliar( FamiliarPool.BOOTS );
 			boolean hbo = boots != null && boots.canEquip() ;
+			boolean run = Preferences.getInteger( "_navelRunaways" ) > 0;
 			boolean gp = InventoryManager.getCount( ItemPool.GREAT_PANTS ) > 0
 				|| KoLCharacter.hasEquipped( DailyDeedsPanel.GREAT_PANTS );
-			boolean nr = Preferences.getInteger( "_navelRunaways" ) > 0
-				|| InventoryManager.getCount( ItemPool.NAVEL_RING ) > 0
+			boolean nr = InventoryManager.getCount( ItemPool.NAVEL_RING ) > 0
 				|| KoLCharacter.hasEquipped( DailyDeedsPanel.NAVEL_RING );
-			this.setShown( hba || hbo || gp || nr );
+			boolean pp = InventoryManager.getCount( ItemPool.PEPPERMINT_PARASOL ) > 0;
+			this.setShown( hba || hbo || gp || nr || pp );
 			String text = "Runaways: ";
 			if( hba && !hbo ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch" ;
 			if( hba && hbo ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch+boots" ;
 			if( hbo && !hba ) text = text + Preferences.getInteger( "_banderRunaways" ) + " stomping boots" ;
-			if( ( hba || hbo ) && ( gp || nr ) ) text = text + ", ";
-			if( nr && !gp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " navel ring";
-			if( nr && gp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap+navel";
-			if( gp && !nr ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap pants";
+			if( ( hba || hbo ) && ( run || gp || nr || pp ) ) text = text + ", ";
+			if( run && !nr && !gp && !pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " navel ring";
+			if( nr && !gp && !pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " navel ring";
+			if( nr && !gp && pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " navel+parasol";
+			if( nr && gp && !pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap+navel";
+			if( nr && gp && pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap+navel+parasol";
+			if( !nr && gp && !pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap pants";
+			if( !nr && gp && pp ) text = text + Preferences.getInteger( "_navelRunaways" ) + " gap+parasol";
+			if( !nr && !gp && pp  ) text = text + Preferences.getInteger( "_navelRunaways" ) + " peppermint parasol";
 			this.setText( text );
 		}
 	}

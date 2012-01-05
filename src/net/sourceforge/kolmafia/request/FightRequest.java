@@ -4786,6 +4786,28 @@ public class FightRequest
 
 			return responseText.indexOf( "toss the pumpkin" ) != -1;
 
+		case ItemPool.PEPPERMINT_PARASOL:
+
+			// You hold up the parasol, and a sudden freak gust of wind
+			// sends you hurtling through the air to safety.
+
+			if ( responseText.indexOf( "sudden freak gust" ) != -1 )
+			{
+				Preferences.increment( "_navelRunaways" );
+				Preferences.increment( "parasolUsed" );
+			}
+
+			// Man. That last gust was more than your parasol could handle.
+			// You throw away the shredded (but delicious-smelling) wreck
+			// that was once a useful tool.
+
+			if ( responseText.indexOf( "You throw away the shredded" ) != -1 )
+			{
+				Preferences.setInteger( "parasolUsed", 0 );
+				return true;
+			}
+			return false;
+
 		default:
 
 			return true;
