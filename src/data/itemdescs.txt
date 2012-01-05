@@ -5462,15 +5462,15 @@
 5461	404026577	fudgecube.gif	fudge cube
 5462	626738475	fudgemold.gif	blank fudge mold
 5463	889610035	book5.gif	Libram of Resolutions	Librams of Resolutions
-5464	536202071	resolution.gif	resolution:  be wealthier
-5465	477542967	resolution.gif	resolution: be happier
-5466	331566154	resolution.gif	resolution: be stronger
-5467	679001170	resolution.gif	resolution: be smarter
-5468	798256561	resolution.gif	resolution: be sexier
-5469	132201344	resolution.gif	resolution: be feistier
-5470	943398376	resolution.gif	resolution: be kinder
-5471	240284844	resolution.gif	resolution: be more adventurous
-5472	845740317	resolution.gif	resolution: be luckier
+5464	536202071	resolution.gif	resolution: be wealthier	resolutions: be wealthier
+5465	477542967	resolution.gif	resolution: be happier	resolutions: be happier
+5466	331566154	resolution.gif	resolution: be stronger	resolutions: be stronger
+5467	679001170	resolution.gif	resolution: be smarter	resolutions: be smarter
+5468	798256561	resolution.gif	resolution: be sexier	resolutions: be sexier
+5469	132201344	resolution.gif	resolution: be feistier	resolutions: be feistier
+5470	943398376	resolution.gif	resolution: be kinder	resolutions: be kinder
+5471	240284844	resolution.gif	resolution: be more adven	resolutions: be more adventurousturous
+5472	845740317	resolution.gif	resolution: be luckier	resolutions: be luckier
 5473	850315657	gummiingot.gif	giant red gummi ingot
 5474	901120665	gummiingot.gif	giant green gummi ingot
 5475	472799701	gummiingot.gif	giant yellow gummi ingot
