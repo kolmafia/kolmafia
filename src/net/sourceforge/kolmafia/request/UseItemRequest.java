@@ -4760,6 +4760,9 @@ public class UseItemRequest
 		     !urlString.startsWith( "multiuse.php" ) &&
 		     !urlString.startsWith( "inv_familiar.php" ) &&
 		     !(urlString.startsWith( "inventory.php" ) &&
+		       urlString.indexOf( "action=ghost" ) == -1 &&
+		       urlString.indexOf( "action=hobo" ) == -1 &&
+		       urlString.indexOf( "action=slime" ) == -1 &&
 		       urlString.indexOf( "action=breakbricko" ) == -1 &&
 		       urlString.indexOf( "action=candy" ) == -1 ) )
 		{
