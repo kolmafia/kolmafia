@@ -5469,7 +5469,7 @@
 5468	798256561	resolution.gif	resolution: be sexier	resolutions: be sexier
 5469	132201344	resolution.gif	resolution: be feistier	resolutions: be feistier
 5470	943398376	resolution.gif	resolution: be kinder	resolutions: be kinder
-5471	240284844	resolution.gif	resolution: be more adven	resolutions: be more adventurousturous
+5471	240284844	resolution.gif	resolution: be more adventurous	resolutions: be more adventurous
 5472	845740317	resolution.gif	resolution: be luckier	resolutions: be luckier
 5473	850315657	gummiingot.gif	giant red gummi ingot
 5474	901120665	gummiingot.gif	giant green gummi ingot
