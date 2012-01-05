@@ -298,6 +298,7 @@ public class ValhallaManager
 		Preferences.setString( "dolphinItem", "" );
 		Preferences.setString( "spookyPuttyMonster", "" );
 		Preferences.setString( "cameraMonster", "" );
+		Preferences.setInteger( "parasolUsed", 0 );
 		Preferences.setString( "photocopyMonster", "" );
 		Preferences.setString( "telescope1", "" );
 		Preferences.setString( "telescope2", "" );

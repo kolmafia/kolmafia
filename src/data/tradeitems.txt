@@ -5407,7 +5407,7 @@
 5398	peppermint crook	none, combat, candy	all	0
 5399	peppermint rhino baby	grow	all	0
 5400	candy cane candygram	none, curse, candy	all	0
-5401	peppermint parasol	none, combat reusable, candy	all	0
+5401	peppermint parasol	none, combat, candy	all	0
 5402	giant candy cane	weapon	all	0
 5403	Mint Salton Pepper's Peppermint Seed Catalog	usable	all	0
 5404	Peppermint Pip Packet	usable	display	0

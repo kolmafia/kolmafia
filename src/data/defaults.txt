@@ -542,6 +542,7 @@ user	oceanDestination	manual
 user	olfactedMonster	unknown
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
+user	parasolUsed	0
 user	pastamancerGhostExperience	0
 user	pastamancerGhostName
 user	pastamancerGhostSummons	0
