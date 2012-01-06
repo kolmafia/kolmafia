@@ -88,6 +88,9 @@
 73	Zendo Kobushi Kancho	5	0	0
 74	Master of the Surprising Fist	0	0	0
 75	Summon &quot;Boner Battalion&quot;	3	200	30
+77	Torment Plant	5	5	0
+78	Pinch Ghost	5	5	0
+79	Tattle	5	5	0
 
 # Skills available to Clubbers
 

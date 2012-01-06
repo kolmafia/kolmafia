@@ -3098,6 +3098,9 @@ public class UseItemRequest
 		case ItemPool.SKELETON_BOOK_USED:
 		case ItemPool.NECBRONOMICON:
 		case ItemPool.NECBRONOMICON_USED:
+		case ItemPool.PLANT_BOOK:
+		case ItemPool.GHOST_BOOK:
+		case ItemPool.TATTLE_BOOK:
 		{
 			int itemId = item.getItemId();
 			String skill = UseItemRequest.itemToSkill( itemId );
@@ -4547,6 +4550,12 @@ public class UseItemRequest
 		case ItemPool.NECBRONOMICON:
 		case ItemPool.NECBRONOMICON_USED:
 			return "Summon &quot;Boner Battalion&quot;";
+		case ItemPool.PLANT_BOOK:
+			return "Torment Plant";
+		case ItemPool.GHOST_BOOK:
+			return "Pinch Ghost";
+		case ItemPool.TATTLE_BOOK:
+			return "Tattle";
 		}
 
 		return null;
