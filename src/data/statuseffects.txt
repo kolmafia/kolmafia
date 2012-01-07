@@ -976,7 +976,7 @@
 975	Buy! Sell! Buy! Sell!	meatstack.gif	e4e5642c37db820f1fecf31e02292807	use 1 Uncle Greenspan's Bathroom Finance Guide
 976
 977	All Wound Up	clockkey.gif	e2f298e7263a5756467e48cec7757b19	use 1 wind-up meatcar
-978	Greedy Resolve	resolve_greedy.gif	d8a4db321361fbfb6b4b51f9860d3210	use 1 resolution:  be wealthier
+978	Greedy Resolve	resolve_greedy.gif	d8a4db321361fbfb6b4b51f9860d3210	use 1 resolution: be wealthier
 979	Joyful Resolve	resolve_happy.gif	dcae28866f7dbb0a82440948f8c46ae6	use 1 resolution: be happier
 980	Strong Resolve	resolve_strong.gif	33cd14f56a3bef360c0d7736b9269cfa	use 1 resolution: be stronger
 981	Brilliant Resolve	resolve_smart.gif	c9c8700ab7922dc19805ea3294d7e965	use 1 resolution: be smarter

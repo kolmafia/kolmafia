@@ -5470,7 +5470,7 @@
 5461	fudge cube	none	all	0
 5462	blank fudge mold	none	all	0
 5463	Libram of Resolutions	usable	all	0
-5464	resolution:  be wealthier	usable	all	0
+5464	resolution: be wealthier	usable	all	0
 5465	resolution: be happier	usable	all	0
 5466	resolution: be stronger	usable	all	0
 5467	resolution: be smarter	usable	all	0

@@ -3976,7 +3976,7 @@ pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
 red snowcone	Effect: "Red Tongue", Effect Duration: 20
 reodorant	Effect: "Hippy Stench", Effect Duration: 10
-resolution:  be wealthier	Effect: "Greedy Resolve", Effect Duration: 20
+resolution: be wealthier	Effect: "Greedy Resolve", Effect Duration: 20
 resolution: be feistier	Effect: "Destructive Resolve", Effect Duration: 20
 resolution: be happier	Effect: "Joyful Resolve", Effect Duration: 20
 resolution: be kinder	Effect: "Kindly Resolve", Effect Duration: 20
