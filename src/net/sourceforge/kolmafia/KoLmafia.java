@@ -817,6 +817,11 @@ public abstract class KoLmafia
 		KoLCharacter.setCurrentRun( 0 );
 		TurnCounter.loadCounters();
 
+		// Get current moon phases
+
+		RequestThread.postRequest( new MoonPhaseRequest() );
+		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
+
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
 
@@ -835,11 +840,6 @@ public abstract class KoLmafia
 		// anything that depends on that.
 
 		KoLCharacter.resetPerAscensionData();
-
-		// Get current moon phases
-
-		RequestThread.postRequest( new MoonPhaseRequest() );
-		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
 
 		// Reset what is trendy
 		TrendyRequest.reset();
