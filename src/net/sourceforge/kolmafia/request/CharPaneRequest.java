@@ -810,7 +810,6 @@ public class CharPaneRequest
 
 		// If we are Absinthe Minded, start absinthe counters
 		CharPaneRequest.startCounters();
-		KoLCharacter.recalculateAdjustments();
 
 		int famId = JSON.getInt( "familiar" );
 		int famExp = JSON.getInt( "familiarexp" );
@@ -834,5 +833,7 @@ public class CharPaneRequest
 		KoLCharacter.setRonin( roninLeft > 0 );
 
 		CharPaneRequest.setInteraction();
+
+		KoLCharacter.recalculateAdjustments();
 	}
 }
