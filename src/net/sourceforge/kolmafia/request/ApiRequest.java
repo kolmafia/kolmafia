@@ -278,7 +278,7 @@ public class ApiRequest
 			EquipmentManager.parseStatus( JSON );
 
 			// Many things from the Char Pane are available
-			CharSheetRequest.parseStatus( JSON );
+			CharPaneRequest.parseStatus( JSON );
 		}
 		catch ( JSONException e )
 		{
