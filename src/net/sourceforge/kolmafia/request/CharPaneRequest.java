@@ -753,7 +753,7 @@ public class CharPaneRequest
 	public static final void parseStatus( final JSONObject JSON )
 		throws JSONException
 	{
-		int turnsThisRun = JSON.getInt( "turnsThisRun" );
+		int turnsThisRun = JSON.getInt( "turnsthisrun" );
 		CharPaneRequest.turnsThisRun = turnsThisRun;
 		KoLCharacter.setCurrentRun( turnsThisRun );
 
