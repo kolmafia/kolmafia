@@ -335,6 +335,7 @@ public class CharPaneRequest
 		{
 			StaticEntity.printStackTrace( e );
 		}
+
 		try
 		{
 			CharPaneRequest.handleInebriety( responseText, CharPaneRequest.compactInebrietyPatterns );
@@ -343,14 +344,9 @@ public class CharPaneRequest
 		{
 			StaticEntity.printStackTrace( e );
 		}
-		try
-		{
-			CharPaneRequest.handleFullness( responseText, CharPaneRequest.compactFullnessPatterns );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
+
+		// Do NOT read fullness from the charpane; it is optional, so
+		// we have to track it manually, anyway
 	}
 
 	private static final void handleExpandedMode( final String responseText )
@@ -387,14 +383,9 @@ public class CharPaneRequest
 		{
 			StaticEntity.printStackTrace( e );
 		}
-		try
-		{
-			CharPaneRequest.handleFullness( responseText, CharPaneRequest.expandedFullnessPatterns );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
+
+		// Do NOT read fullness from the charpane; it is optional, so
+		// we have to track it manually, anyway
 	}
 
 	private static final Pattern makeStatPattern( final String musString, final String mysString, final String moxString )
@@ -552,16 +543,6 @@ public class CharPaneRequest
 		CharPaneRequest.makeConsumptionPattern( "Tipsiness" ),
 	};
 
-	private static Pattern [] compactFullnessPatterns =
-	{
-		CharPaneRequest.makeConsumptionPattern( "Full" ),
-	};
-
-	private static Pattern [] expandedFullnessPatterns =
-	{
-		CharPaneRequest.makeConsumptionPattern( "Fullness" ),
-	};
-
 	private static final int handleConsumption( final String responseText, final Pattern pattern )
 	{
 		Matcher matcher = pattern.matcher( responseText );
@@ -581,19 +562,6 @@ public class CharPaneRequest
 		}
 
 		KoLCharacter.setInebriety( 0 );
-	}
-
-	private static final void handleFullness( final String text, final Pattern [] patterns )
-	{
-		for ( int i = 0; i < patterns.length; ++i )
-		{
-			int level = CharPaneRequest.handleConsumption( text, patterns[i] );
-			if ( level > 0 )
-			{
-				KoLCharacter.setFullness( level );
-				return;
-			}
-		}
 	}
 
 	public static final AdventureResult extractEffect( final String responseText, int searchIndex )
@@ -767,6 +735,9 @@ public class CharPaneRequest
 
 		int meat = JSON.getInt( "meat" );
 		KoLCharacter.setAvailableMeat( meat );
+
+		int full = JSON.getInt( "full" );
+		KoLCharacter.setFullness( full );
 
 		int adventures = JSON.getInt( "adventures" );
 		KoLCharacter.setAdventuresLeft( adventures );
