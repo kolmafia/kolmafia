@@ -313,6 +313,8 @@ public class StoreManageFrame
 			if ( value.size() < 7 )
 			{
 				String itemName = (String) value.get( 0 );
+				String displayName = StringUtilities.getDisplayName( itemName );
+				value.set( 0, displayName );
 
 				JButton removeItemButton = new JButton( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
 				removeItemButton.setToolTipText( "remove item from store" );
