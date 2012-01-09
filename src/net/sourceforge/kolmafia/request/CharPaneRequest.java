@@ -745,39 +745,10 @@ public class CharPaneRequest
 		int mcd = JSON.getInt( "mcd" );
 		KoLCharacter.setMindControlLevel( mcd );
 
-		KoLConstants.recentEffects.clear();
-		ArrayList visibleEffects = new ArrayList();
-
 		int classType = JSON.getInt( "class" );
 		KoLCharacter.setClassType( classType );
 
-		JSONObject effects = JSON.getJSONObject( "effects" );
-		Iterator keys = effects.keys();
-		while ( keys.hasNext() )
-		{
-			String descId = (String) keys.next();
-			JSONArray data = effects.getJSONArray( descId );
-			String effectName = data.getString( 0 );
-			int count = data.getInt( 1 );
-
-			AdventureResult effect = CharPaneRequest.extractEffect( descId, effectName, count );
-			if ( effect == null )
-			{
-				continue;
-			}
-
-			int activeCount = effect.getCount( KoLConstants.activeEffects );
-
-			if ( count != activeCount )
-			{
-				ResultProcessor.processResult( effect.getInstance( count - activeCount ) );
-			}
-
-			visibleEffects.add( effect );
-		}
-
-		KoLmafia.applyEffects();
-		KoLConstants.activeEffects.retainAll( visibleEffects );
+		CharPaneRequest.refreshEffects( JSON );
 
 		// If we are Absinthe Minded, start absinthe counters
 		CharPaneRequest.startCounters();
@@ -806,5 +777,49 @@ public class CharPaneRequest
 		CharPaneRequest.setInteraction();
 
 		KoLCharacter.recalculateAdjustments();
+	}
+
+	private static final void refreshEffects( final JSONObject JSON )
+		throws JSONException
+	{
+		Object o = JSON.get( "effects" );
+		if ( !( o instanceof JSONObject ) )
+		{
+			// KoL returns an empty JSON array if there are no effects
+			KoLConstants.recentEffects.clear();
+			KoLConstants.activeEffects.clear();
+			return;
+		}
+
+		JSONObject effects = (JSONObject) o;
+
+		ArrayList visibleEffects = new ArrayList();
+		Iterator keys = effects.keys();
+		while ( keys.hasNext() )
+		{
+			String descId = (String) keys.next();
+			JSONArray data = effects.getJSONArray( descId );
+			String effectName = data.getString( 0 );
+			int count = data.getInt( 1 );
+
+			AdventureResult effect = CharPaneRequest.extractEffect( descId, effectName, count );
+			if ( effect == null )
+			{
+				continue;
+			}
+
+			int activeCount = effect.getCount( KoLConstants.activeEffects );
+
+			if ( count != activeCount )
+			{
+				ResultProcessor.processResult( effect.getInstance( count - activeCount ) );
+			}
+
+			visibleEffects.add( effect );
+		}
+
+		KoLConstants.recentEffects.clear();
+		KoLmafia.applyEffects();
+		KoLConstants.activeEffects.retainAll( visibleEffects );
 	}
 }
