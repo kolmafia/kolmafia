@@ -426,6 +426,11 @@ public class FightRequest
 		FightRequest.initializeAfterFight = true;
 	}
 
+	public static boolean initializingAfterFight()
+	{
+		return FightRequest.initializeAfterFight;
+	}
+
 	public static final boolean canStillSummon()
 	{
 		// Return true if you can still summon during this battle.

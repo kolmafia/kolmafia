@@ -361,6 +361,11 @@ public class FamiliarData
 
 	public static final FamiliarData registerFamiliar( final int id, final int experience )
 	{
+		if ( id == 0 )
+		{
+			return FamiliarData.NO_FAMILIAR;
+		}
+
 		FamiliarData familiar = KoLCharacter.findFamiliar( id );
 		if ( familiar == null )
 		{

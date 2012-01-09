@@ -1624,7 +1624,6 @@ public class EquipmentManager
 
 		EquipmentManager.setEquipment( equipment );
 		EquipmentManager.setFakeHands( fakeHands );
-		EquipmentManager.updateOutfits();
 
 		// Read stickers
 		JSONArray stickers = JSON.getJSONArray( "stickers" );

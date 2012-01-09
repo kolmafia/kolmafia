@@ -851,7 +851,7 @@ The Whimpering Willow	HP: 0	clumsiness bark (0)	clumsiness bark (0)	whimpering w
 The Whole Kingdom	HP: 10000000 Def: 1 Atk: 1 Phys: 100
 The Woeful Magnolia	HP: 0	clumsiness bark (0)	clumsiness bark (0)	magnolia blossom (0)
 Three Skeleton Invaders	HP: 80 Def: 80 Atk: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
-Thug 1 and Thug 2	HP: 0	jealosy stone (100)
+Thug 1 and Thug 2	HP: 0	jealousy stone (100)
 Tiger-Lily	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: plant	eye of the Tiger-lily (0)	Tiger-lily's milk (20)	reflection of a map (c10)
 Timmy Tofurkey	HP: 90 Def: 45 Atk: 40 P: demihuman	sun-dried tofu (0)
 Timmy Tofurkey Cast Member	HP: 110 Def: 70 Atk: 60 P: humanoid	sun-dried tofu (0)

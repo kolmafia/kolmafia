@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
@@ -1223,6 +1224,11 @@ public class ConcoctionDatabase
 		}
 
 		if ( ConcoctionDatabase.refreshLevel > 0 )
+		{
+			return;
+		}
+
+		if ( FightRequest.initializingAfterFight() )
 		{
 			return;
 		}

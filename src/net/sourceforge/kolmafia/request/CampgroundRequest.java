@@ -793,7 +793,7 @@ public class CampgroundRequest
 			if ( responseText.indexOf( book ) != -1 )
 			{
 				String skill = BOOKS[i][1];
-				KoLCharacter.addAvailableSkill( skill );
+				KoLCharacter.addAvailableSkill( skill, true );
 				if ( book.indexOf( "Libram" ) != -1 )
 				{
 					libram = skill;
