@@ -194,13 +194,16 @@ The Brinier Deepers	100	Bazookafish	Clubfish	Scimitarfish
 The Briniest Deepests	100	Acoustic Electric Eel	Decent White Shark	Ganger
 The Broodling Grounds	100	hellseal pup	mother hellseal: 0
 The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons	Rene C. Corman
+The Clumsiness Grove	100	The Sorrowful Hickory	The Suffering Juniper	The Tormented Baobab	The Whimpering Willow	The Woeful Magnolia	The Bat in the Spats (0)	The Thorax (0)
 The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Domed City of Ronaldus	100	Dogcat	Ferrelf	Hamsterpus	Overarmed Survivor	Primitive Survivor	Unlikely Survivor
 The Domed City of Grimacia	100	Alielef	Cat-Alien	Dog-Alien	Grizzled Survivor	Unhinged Survivor	Whiny Survivor
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
+The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant (0)	The Large-Bellied Snitch (0)
 The Haunted Sorority House	-1	Sexy Sorority Ghost	Sexy Sorority Skeleton	Sexy Sorority Vampire	Sexy Sorority Werewolf	Sexy Sorority Zombie
 The Heap	-1	Stench Hobo	Oscus: 0
 The Jungles of Ancient Loathing	-1	Ancient Guardian Statue	Evil Cultist	Jungle Baboon	Tribal Goblin	Giant Bird-Creature: 0	Giant Jungle Python: 0	Giant Octopus: 0	Giant Spider: 0	High Priest of Ki'rhuss: 0	Wumpus: 0
+The Maelstrom of Lovers	100	Bettie Barulio	Marcus Macurgeon	Marvin J. Sunny	Mortimer Strauss	Wonderful Winifred Wongle	The Terrible Pinch (0)	Thug 1 and Thug 2 (0)
 The Marinara Trench	95	Diving Belle	Fisherfish	Giant Squid	Mer-kin Diver
 The Mer-Kin Outpost	100	Mer-kin Burglar	Mer-kin Healer	Mer-kin Raider
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
