@@ -2343,8 +2343,9 @@ public class ItemDatabase
 		int current = KoLCharacter.getAscensions();
 		if ( lastAscension < current )
 		{
-			if ( (current > 0 && InventoryManager.hasItem( ItemPool.SPOOKYRAVEN_SPECTACLES )) ||
-				(current == 0 && KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) )) )
+			AdventureResult spectacles = ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 );
+			if ( (current > 0 && spectacles.getCount( KoLConstants.inventory ) > 0 ) ||
+			     (current == 0 && KoLCharacter.hasEquipped( spectacles )) )
 			{
 				ItemDatabase.identifyDustyBottles();
 				return;

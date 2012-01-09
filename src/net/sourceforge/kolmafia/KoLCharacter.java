@@ -3030,7 +3030,22 @@ public abstract class KoLCharacter
 	 * Adds a single skill to the list of known skills possessed by this character.
 	 */
 
+	public static final void addAvailableSkill( final String name )
+	{
+		KoLCharacter.addAvailableSkill( name, false );
+	}
+
+	public static final void addAvailableSkill( final String name, final boolean checkTrendy )
+	{
+		KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( name ), checkTrendy );
+	}
+
 	public static final void addAvailableSkill( final UseSkillRequest skill )
+	{
+		KoLCharacter.addAvailableSkill( skill, false );
+	}
+
+	private static final void addAvailableSkill( final UseSkillRequest skill, final boolean checkTrendy )
 	{
 		if ( skill == null )
 		{
@@ -3042,7 +3057,7 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		if ( KoLCharacter.isTrendy() )
+		if ( checkTrendy && KoLCharacter.isTrendy() )
 		{
 			boolean isTrendy;
 			String skillName = skill.getSkillName();
@@ -3118,11 +3133,6 @@ public abstract class KoLCharacter
 			KoLCharacter.addCombatSkill( skill.getSkillName() );
 			break;
 		}
-	}
-
-	public static final void addAvailableSkill( final String name )
-	{
-		KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( name ) );
 	}
 
 	/**

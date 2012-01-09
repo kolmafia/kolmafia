@@ -285,11 +285,11 @@ public class ApiRequest
 			// Many things from the Char Sheet are available
 			CharSheetRequest.parseStatus( JSON );
 
-			// Parse currently worn equipment
-			EquipmentManager.parseStatus( JSON );
-
 			// Many things from the Char Pane are available
 			CharPaneRequest.parseStatus( JSON );
+
+			// Parse currently worn equipment
+			EquipmentManager.parseStatus( JSON );
 		}
 		catch ( JSONException e )
 		{

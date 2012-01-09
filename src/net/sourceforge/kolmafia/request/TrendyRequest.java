@@ -116,6 +116,11 @@ public class TrendyRequest
 
 	public void processResults()
 	{
+		if ( this.responseText.equals( "" ) )
+		{
+			return;
+		}
+
 		TrendyRequest.parseResponse( this.getURLString(), this.responseText );
 		KoLmafia.updateDisplay( "Done. Are YOU a fashion plate?" );
 	}

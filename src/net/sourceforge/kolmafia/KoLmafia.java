@@ -822,6 +822,9 @@ public abstract class KoLmafia
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
 
+		// Forget what is trendy
+		TrendyRequest.reset();
+
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
 
@@ -836,23 +839,10 @@ public abstract class KoLmafia
 			return;
 		}
 
-		// Now that we know the character's ascension count, reset
-		// anything that depends on that.
-
-		KoLCharacter.resetPerAscensionData();
-
-		// Reset what is trendy
-		TrendyRequest.reset();
-		if ( KoLCharacter.isTrendy() )
-		{
-			TrendyRequest.initialize();
-		}
-
 		// Retrieve the character sheet. It's necessary to do this
 		// before concoctions have a chance to get refreshed.
 
 		request = new CharSheetRequest();
-
 		RequestThread.postRequest( request );
 
 		// If you get redirected on the request for the character sheet,
@@ -862,6 +852,11 @@ public abstract class KoLmafia
 		{
 			return;
 		}
+
+		// Now that we know the character's ascension count, reset
+		// anything that depends on that.
+
+		KoLCharacter.resetPerAscensionData();
 
 		// Hermit items depend on character class
 
