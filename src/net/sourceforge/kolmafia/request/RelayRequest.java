@@ -152,14 +152,9 @@ public class RelayRequest
 		return null;
 	}
 
-	public GenericRequest constructURLString( final String newURLString )
+	public GenericRequest constructURLString( final String newURLString, final boolean usePostMethod, final boolean encoded )
 	{
-		return this.constructURLString( newURLString, true );
-	}
-
-	public GenericRequest constructURLString( final String newURLString, final boolean usePostMethod )
-	{
-		super.constructURLString( newURLString, usePostMethod );
+		super.constructURLString( newURLString, usePostMethod, encoded );
 
 		this.rawByteBuffer = null;
 		this.headers.clear();
