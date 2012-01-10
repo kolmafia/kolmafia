@@ -209,6 +209,7 @@ goat cheese taco	2	1	decent	2-5	0	11-33	0
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
+green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
 grimdrop chow mein	4	5		6-11	0	0	0
 grimgerbread house	5	5		10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
