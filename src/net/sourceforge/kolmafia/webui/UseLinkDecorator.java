@@ -93,6 +93,7 @@ public abstract class UseLinkDecorator
 		}
 
 		// Defer use links until later if this isn't the final combat/choice page
+		boolean usedMacro = inCombat && location.indexOf( "action=done" ) != -1;
 		boolean duringCombat = inCombat && FightRequest.getCurrentRound() != 0;
 		boolean duringChoice = inChoice && buffer.indexOf( "action=choice.php" ) != -1;
 		boolean deferrable = inCombat || inChoice;
@@ -120,13 +121,7 @@ public abstract class UseLinkDecorator
 		}
 		else
 		{
-			UseLinkDecorator.addNormalUseLinks( location, text, buffer, deferring );
-		}
-		
-		if ( deferring )
-		{	// discard all changes, the links aren't usable yet
-			buffer.setLength( 0 );
-			buffer.append( text );
+			UseLinkDecorator.addNormalUseLinks( location, text, buffer, deferring, usedMacro );
 		}
 		
 		if ( inCombat )
@@ -137,7 +132,13 @@ public abstract class UseLinkDecorator
 				"[<a href=\"bedazzle.php\">bedazzle</a>]</font>" );
 		}
 		
-		if ( deferrable && !deferring )
+		if ( deferring )
+		{	// discard all changes, the links aren't usable yet
+			buffer.setLength( 0 );
+			buffer.append( text );
+		}
+		
+		else if ( deferrable )
 		{
 			int pos = buffer.lastIndexOf( "</table>" );
 			if ( pos == -1 )
@@ -150,12 +151,12 @@ public abstract class UseLinkDecorator
 			{
 				buffer.append( "</table><table><tr><td>" );
 				String macro = FightRequest.lastMacroUsed;
-				if ( macro != null && !macro.equals( "" ) && !macro.equals( "0" ) )
+				if ( !macro.equals( "" ) && !macro.equals( "0" ) )
 				{
 					buffer.append( "<form method=POST action=\"account_combatmacros.php\"><input type=HIDDEN name=action value=edit><input type=HIDDEN name=macroid value=\"" );
 					buffer.append( macro );
 					buffer.append( "\"><input type=SUBMIT value=\"Edit last macro\"></form>" );
-					FightRequest.lastMacroUsed = null;
+					FightRequest.lastMacroUsed = "";
 				}
 				else
 				{
@@ -166,10 +167,14 @@ public abstract class UseLinkDecorator
 			
 			if ( UseLinkDecorator.deferred.length() > 0 )
 			{
-				buffer.append( "</table><table><tr><td colspan=2>Previously seen:</td></tr>" );
+				String tag = inCombat ? "Found in this fight" : "Previously seen";
+				buffer.append( "</table><table><tr><td colspan=2>" );
+				buffer.append( tag );
+				buffer.append( ":</td></tr>" );
 				buffer.append( UseLinkDecorator.deferred );
 				UseLinkDecorator.deferred.setLength( 0 );
 			}
+
 			buffer.append( text );
 		}
 	}
@@ -177,7 +182,7 @@ public abstract class UseLinkDecorator
 	private static final Pattern ACQUIRE_PATTERN =
 		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?)<b>(.*?)</b>(.*?)</td>", Pattern.DOTALL );
 	
-	private static final void addNormalUseLinks( String location, String text, StringBuffer buffer, boolean deferring )
+	private static final void addNormalUseLinks( String location, String text, StringBuffer buffer, boolean deferring, boolean usedMacro )
 	{
 		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
 
@@ -225,21 +230,49 @@ public abstract class UseLinkDecorator
 				}
 			}
 
+			// Possibly append a use link
 			int pos = buffer.length();
-			if ( deferring && UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer ) )
+			boolean link = UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer );
+
+			// If we added no link and we were not in a macro, skip this item
+			if ( !link )
+			{
+				if ( !usedMacro )
+				{
+					continue;
+				}
+
+				// If we are in a macro, copy this item into the buffer
+				useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b></td>" );
+			}
+
+			// If we are currently deferring use links or have
+			// already deferred some during this combat, append to
+			// list of items previously seen.
+			// 
+			// During macro execution, append everything found, so
+			// they accumulate at the bottom of the screen.
+
+			if ( usedMacro || deferring || UseLinkDecorator.deferred.length() > 0 )
 			{	// Find where the replacement was appended
-				pos = buffer.indexOf( useLinkMatcher.group( 1 ) + useLinkMatcher.group( 2 )
-					+ "<b>" + useLinkMatcher.group( 3 ), pos );
+				String match =
+					useLinkMatcher.group( 1 ) +
+					useLinkMatcher.group( 2 ) +
+					"<b>" +
+					useLinkMatcher.group( 3 );
+				pos = buffer.indexOf( match, pos );
 				if ( pos == -1 )
 				{
 					continue;
 				}
+
 				// Find start of table row containing it
 				pos = buffer.lastIndexOf( "<tr", pos );
 				if ( pos == -1 )
 				{
 					continue;
 				}
+
 				UseLinkDecorator.deferred.append( buffer.substring( pos ) );
 				UseLinkDecorator.deferred.append( "</tr>" );
 			}
