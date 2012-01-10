@@ -5143,7 +5143,7 @@ public class FightRequest
 
 		FightRequest.foundNextRound = false;
 		return RequestEditorKit.getFeatureRichHTML(
-			FightRequest.isTrackingFights ? "fight.php?action=script" : "fight.php",
+			FightRequest.isTrackingFights ? "fight.php?action=script" : "fight.php?action=done",
 			FightRequest.lastResponseText,
 			true );
 	}
