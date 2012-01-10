@@ -42,11 +42,13 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -72,9 +74,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class UseLinkDecorator
 {
-	private static final Pattern ACQUIRE_PATTERN =
-		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?)<b>(.*?)</b>(.*?)</td>", Pattern.DOTALL );
-	
 	private static final StringBuffer deferred = new StringBuffer();
 
 	public static final void decorate( final String location, final StringBuffer buffer )
@@ -102,80 +101,26 @@ public abstract class UseLinkDecorator
 		String text = buffer.toString();
 		buffer.setLength( 0 );
 
-		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
+		int adventure = KoLAdventure.lastAdventureId();
 
-		int specialLinkId = 0;
-		String specialLinkText = null;
+		boolean poetry =
+			inCombat &&
+			( // Haiku
+			  adventure == AdventurePool.HAIKU_DUNGEON ||
+			  KoLConstants.activeEffects.contains( FightRequest.haikuEffect ) ||
+			  // Anapests
+			  adventure == AdventurePool.CLUMSINESS_GROVE ||
+			  adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
+			  adventure == AdventurePool.GLACIER_OF_JERKS ||
+			  KoLConstants.activeEffects.contains( FightRequest.rhymeEffect ) );
 
-		while ( useLinkMatcher.find() )
+		if ( poetry )
 		{
-			// See if it's an effect
-			if ( UseLinkDecorator.addEffectLink( location, useLinkMatcher, buffer ) )
-			{
-				continue;
-			}
-				
-			int itemCount = 1;
-			String itemName = useLinkMatcher.group( 3 );
-
-			int spaceIndex = itemName.indexOf( " " );
-			if ( spaceIndex != -1 && useLinkMatcher.group( 2 ).indexOf( ":" ) == -1 )
-			{
-				itemCount = StringUtilities.parseInt( itemName.substring( 0, spaceIndex ) );
-				itemName = itemName.substring( spaceIndex + 1 );
-			}
-
-			int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
-			if ( itemId == -1 )
-			{
-				continue;
-			}
-
-			// Certain items get use special links to minimize the
-			// amount of scrolling to find the item again.
-
-			if ( location.startsWith( "inventory.php" ) ||
-			     ( location.startsWith( "inv_use.php" ) && location.indexOf( "ajax=1" ) != -1 ) )
-			{
-				switch ( itemId )
-				{
-				case ItemPool.FOIL_BOW:
-				case ItemPool.FOIL_RADAR:
-				case ItemPool.FOIL_CAT_EARS:
-					specialLinkId = itemId;
-					specialLinkText = "fold";
-					break;
-				}
-			}
-
-			int pos = buffer.length();
-			if ( UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer ) && deferring )
-			{	// Find where the replacement was appended
-				pos = buffer.indexOf( useLinkMatcher.group( 1 ) + useLinkMatcher.group( 2 )
-					+ "<b>" + useLinkMatcher.group( 3 ), pos );
-				if ( pos == -1 )
-				{
-					continue;
-				}
-				// Find start of table row containing it
-				pos = buffer.lastIndexOf( "<tr", pos );
-				if ( pos == -1 )
-				{
-					continue;
-				}
-				UseLinkDecorator.deferred.append( buffer.substring( pos ) );
-				UseLinkDecorator.deferred.append( "</tr>" );
-			}
+			UseLinkDecorator.addPoeticUseLinks( location, text, buffer, deferring );
 		}
-
-		useLinkMatcher.appendTail( buffer );
-
-		if ( !deferring && specialLinkText != null )
+		else
 		{
-			StringUtilities.singleStringReplace(
-				buffer,
-				"</center></blockquote>",
-				"<p><center><a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=2&whichitem=" + specialLinkId + "\">[" + specialLinkText + " it again]</a></center></blockquote>" );
+			UseLinkDecorator.addNormalUseLinks( location, text, buffer, deferring );
 		}
 		
 		if ( deferring )
@@ -227,6 +172,127 @@ public abstract class UseLinkDecorator
 			}
 			buffer.append( text );
 		}
+	}
+
+	private static final Pattern ACQUIRE_PATTERN =
+		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?)<b>(.*?)</b>(.*?)</td>", Pattern.DOTALL );
+	
+	private static final void addNormalUseLinks( String location, String text, StringBuffer buffer, boolean deferring )
+	{
+		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
+
+		int specialLinkId = 0;
+		String specialLinkText = null;
+
+		while ( useLinkMatcher.find() )
+		{
+			// See if it's an effect
+			if ( UseLinkDecorator.addEffectLink( location, useLinkMatcher, buffer ) )
+			{
+				continue;
+			}
+				
+			int itemCount = 1;
+			String itemName = useLinkMatcher.group( 3 );
+
+			int spaceIndex = itemName.indexOf( " " );
+			if ( spaceIndex != -1 && useLinkMatcher.group( 2 ).indexOf( ":" ) == -1 )
+			{
+				itemCount = StringUtilities.parseInt( itemName.substring( 0, spaceIndex ) );
+				itemName = itemName.substring( spaceIndex + 1 );
+			}
+
+			int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
+			if ( itemId == -1 )
+			{
+				continue;
+			}
+
+			// Certain items get use special links to minimize the
+			// amount of scrolling to find the item again.
+
+			if ( location.startsWith( "inventory.php" ) ||
+			     ( location.startsWith( "inv_use.php" ) && location.indexOf( "ajax=1" ) != -1 ) )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.FOIL_BOW:
+				case ItemPool.FOIL_RADAR:
+				case ItemPool.FOIL_CAT_EARS:
+					specialLinkId = itemId;
+					specialLinkText = "fold";
+					break;
+				}
+			}
+
+			int pos = buffer.length();
+			if ( deferring && UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer ) )
+			{	// Find where the replacement was appended
+				pos = buffer.indexOf( useLinkMatcher.group( 1 ) + useLinkMatcher.group( 2 )
+					+ "<b>" + useLinkMatcher.group( 3 ), pos );
+				if ( pos == -1 )
+				{
+					continue;
+				}
+				// Find start of table row containing it
+				pos = buffer.lastIndexOf( "<tr", pos );
+				if ( pos == -1 )
+				{
+					continue;
+				}
+				UseLinkDecorator.deferred.append( buffer.substring( pos ) );
+				UseLinkDecorator.deferred.append( "</tr>" );
+			}
+		}
+
+		useLinkMatcher.appendTail( buffer );
+
+		if ( !deferring && specialLinkText != null )
+		{
+			StringUtilities.singleStringReplace(
+				buffer,
+				"</center></blockquote>",
+				"<p><center><a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=2&whichitem=" + specialLinkId + "\">[" + specialLinkText + " it again]</a></center></blockquote>" );
+		}
+	}
+
+	// <img src="http://images.kingdomofloathing.com/itemimages/jerkcicle.gif" alt="dangerous jerkcicle" title="dangerous jerkcicle" class=hand onClick='descitem(726861308)'>
+	private static final Pattern POETIC_ACQUIRE_PATTERN =
+		Pattern.compile( "<img[^>]*?descitem\\((\\d+)\\)'>", Pattern.DOTALL );
+
+	private static final void addPoeticUseLinks( String location, String text, StringBuffer buffer, boolean deferring )
+	{
+		Matcher useLinkMatcher = POETIC_ACQUIRE_PATTERN.matcher( text );
+
+		while ( useLinkMatcher.find() )
+		{
+			String descId = useLinkMatcher.group( 1 );
+			String itemName = ItemDatabase.getItemName( descId );
+			int itemId = ItemDatabase.getItemIdFromDescription( descId );
+
+			if ( itemId == -1 )
+			{
+				continue;
+			}
+
+			UseLinkDecorator.deferred.append( "<tr><td>" );
+			UseLinkDecorator.deferred.append( useLinkMatcher.group( 0 ) );
+			UseLinkDecorator.deferred.append( "</td><td>You acquire an item: <b>" );
+			UseLinkDecorator.deferred.append( itemName );
+			UseLinkDecorator.deferred.append( "</b>" );
+
+			UseLink link = UseLinkDecorator.generateUseLink( itemId, 1, location );
+
+			if ( link != null )
+			{
+				UseLinkDecorator.deferred.append( link.getItemHTML() );
+			}
+
+			UseLinkDecorator.deferred.append( "</td></tr>" );
+		}
+
+		// Copy the text unchanged into the buffer
+		buffer.append( text );
 	}
 
 	private static final int shouldAddCreateLink( int itemId, String location )
@@ -391,22 +457,7 @@ public abstract class UseLinkDecorator
 
 	private static final boolean addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, StringBuffer buffer )
 	{
-		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
-		int mixingMethod = shouldAddCreateLink( itemId, location );
-		UseLink link;
-
-		if ( mixingMethod != KoLConstants.NOCREATE )
-		{
-			link = getCreateLink( itemId, itemCount, mixingMethod );
-		}
-		else if ( consumeMethod == KoLConstants.NO_CONSUME )
-		{
-			link = getNavigationLink( itemId, location );
-		}
-		else
-		{
-			link = getUseLink( itemId, itemCount, location, consumeMethod );
-		}
+		UseLink link = UseLinkDecorator.generateUseLink( itemId, itemCount, location );
 
 		if ( link == null )
 		{
@@ -417,6 +468,24 @@ public abstract class UseLinkDecorator
 
 		buffer.append( "</td>" );
 		return true;
+	}
+
+	private static final UseLink generateUseLink( int itemId, int itemCount, String location )
+	{
+		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
+		int mixingMethod = shouldAddCreateLink( itemId, location );
+
+		if ( mixingMethod != KoLConstants.NOCREATE )
+		{
+			return getCreateLink( itemId, itemCount, mixingMethod );
+		}
+
+		if ( consumeMethod == KoLConstants.NO_CONSUME )
+		{
+			return getNavigationLink( itemId, location );
+		}
+
+		return getUseLink( itemId, itemCount, location, consumeMethod );
 	}
 
 	private static final UseLink getCreateLink( final int itemId, final int itemCount, final int mixingMethod )

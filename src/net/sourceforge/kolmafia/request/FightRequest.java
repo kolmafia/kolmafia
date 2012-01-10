@@ -131,8 +131,8 @@ public class FightRequest
 	private static final AdventureResult SOLDIER = ItemPool.get( ItemPool.TOY_SOLDIER, 1 );
 	private static final AdventureResult TEQUILA = ItemPool.get( ItemPool.TEQUILA, -1 );
 
-	private static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
-	private static AdventureResult rhymeEffect = EffectPool.get( EffectPool.JUST_THE_BEST_ANAPESTS );
+	public static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
+	public static AdventureResult rhymeEffect = EffectPool.get( EffectPool.JUST_THE_BEST_ANAPESTS );
 
 	private static final int HEALTH = 0;
 	private static final int ATTACK = 1;

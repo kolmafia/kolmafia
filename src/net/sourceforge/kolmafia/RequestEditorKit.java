@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
@@ -836,7 +837,8 @@ public class RequestEditorKit
 
 			RequestEditorKit.changePotionImages( buffer );
 			RequestEditorKit.decorateLevelGain( buffer );
-			RequestEditorKit.addTronsponderLink( buffer );
+			RequestEditorKit.addTransponderLink( buffer );
+			RequestEditorKit.addFolioLink( buffer );
 
 			if ( Preferences.getBoolean( "relayAddsUseLinks" ) )
 			{
@@ -937,7 +939,7 @@ public class RequestEditorKit
 		buffer.insert( index + test.length(), link );
 	}
 
-	private static final void addTronsponderLink( final StringBuffer buffer )
+	private static final void addTransponderLink( final StringBuffer buffer )
 	{
 		// You can't get there anymore, because you don't know the
 		// transporter frequency. You consider beating up Kenneth to
@@ -963,6 +965,36 @@ public class RequestEditorKit
 		}
 
 		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.TRANSPORTER_TRANSPONDER, 1, "use transponder", "inv_use.php?which=3&whichitem=" );
+		buffer.insert( index + test.length(), link.getItemHTML() );
+	}
+
+	private static final void addFolioLink( final StringBuffer buffer )
+	{
+		// Remember that devilish folio you read?
+		// No, you don't! You don't have it all still in your head!
+		// Better find a new one you can read! I swear this:
+		// 'Til you do, you can't visit the Suburbs of Dis!
+
+		String test = "'Til you do, you can't visit the Suburbs of Dis!";
+		int index = buffer.indexOf( test );
+
+		if ( index == -1 )
+		{
+			test = "You can't get here without the proper transporter frequency.";
+			index = buffer.indexOf( test );
+		}
+
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		if ( SuburbanDisRequest.FOLIO.getCount( KoLConstants.inventory ) == 0 )
+		{
+			return;
+		}
+
+		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.DEVILISH_FOLIO, 1, "use devilish folio", "inv_use.php?which=3&whichitem=" );
 		buffer.insert( index + test.length(), link.getItemHTML() );
 	}
 

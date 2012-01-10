@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -52,6 +53,7 @@ public class SuburbanDisRequest
 {
 	private static final Pattern STONE1_PATTERN = Pattern.compile( "stone1=(\\d+)" );
 	private static final Pattern STONE2_PATTERN = Pattern.compile( "stone2=(\\d+)" );
+	public static final AdventureResult FOLIO = ItemPool.get( ItemPool.DEVILISH_FOLIO, 1 );
 
 	private final String action;
 
