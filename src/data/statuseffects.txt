@@ -1002,3 +1002,4 @@
 1001	Sated and Furious	madfat.gif	9da3fc08702409c4d95e8728fea9a39d
 1002	Vanity Rage	handmirror.gif	8013791092bfc2ae26faf70a0381e091
 1003	Just the Best Anapests	anapests.gif	31af96775c5acc17d1a13643209f38c8	use 1 groose grease
+1004	You're In Trouble	waterglass.gif	48ab070676e3c10517ed995178037f73

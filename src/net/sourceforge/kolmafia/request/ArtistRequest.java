@@ -48,10 +48,10 @@ public class ArtistRequest
 
 	public ArtistRequest()
 	{
-		this(false);
+		this( false );
 	}
 
-	public ArtistRequest( boolean whiskers)
+	public ArtistRequest( boolean whiskers )
 	{
 		super( "town_wrong.php" );
 		this.addFormField( "place", "artist" );
@@ -63,7 +63,7 @@ public class ArtistRequest
 
 	public void processResults()
 	{
-                ArtistRequest.parseResponse( this.getURLString(), this.responseText );
+		ArtistRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static final void parseResponse( final String location, final String responseText )
@@ -97,7 +97,8 @@ public class ArtistRequest
 			return;
 		}
 
-		if ( location.indexOf( "action=whisker" ) != -1 )
+		if ( location.indexOf( "action=whisker" ) != -1 &&
+		     responseText.indexOf( "Thanks, Adventurer." ) != -1 )
 		{
 			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
 			ResultProcessor.processItem( ItemPool.RAT_WHISKER, -count );
