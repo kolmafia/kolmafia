@@ -234,15 +234,9 @@ public abstract class UseLinkDecorator
 			int pos = buffer.length();
 			boolean link = UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer );
 
-			// If we added no link and we were not in a macro, skip this item
+			// If we added no link, copy in the text verbatim
 			if ( !link )
 			{
-				if ( !usedMacro )
-				{
-					continue;
-				}
-
-				// If we are in a macro, copy this item into the buffer
 				useLinkMatcher.appendReplacement( buffer, "$1$2<b>$3</b></td>" );
 			}
 
