@@ -113,7 +113,7 @@ public abstract class UseLinkDecorator
 			  adventure == AdventurePool.CLUMSINESS_GROVE ||
 			  adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
 			  adventure == AdventurePool.GLACIER_OF_JERKS ||
-			  KoLConstants.activeEffects.contains( FightRequest.rhymeEffect ) );
+			  KoLConstants.activeEffects.contains( FightRequest.anapestEffect ) );
 
 		if ( poetry )
 		{

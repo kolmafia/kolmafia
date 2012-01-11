@@ -132,7 +132,7 @@ public class FightRequest
 	private static final AdventureResult TEQUILA = ItemPool.get( ItemPool.TEQUILA, -1 );
 
 	public static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
-	public static AdventureResult rhymeEffect = EffectPool.get( EffectPool.JUST_THE_BEST_ANAPESTS );
+	public static AdventureResult anapestEffect = EffectPool.get( EffectPool.JUST_THE_BEST_ANAPESTS );
 
 	private static final int HEALTH = 0;
 	private static final int ATTACK = 1;
@@ -3062,18 +3062,6 @@ public class FightRequest
 		return hasBold;
 	}
 
-	private static final StringBuffer extractText( TagNode node, TagStatus status )
-	{
-		if ( status.haiku || status.rhyme )
-		{
-			StringBuffer action = new StringBuffer();
-			FightRequest.extractHaiku( node, action );
-			return action;
-		}
-
-		return node.getText();
-	}
-
 	private static final void processHaikuResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
 		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
@@ -3287,7 +3275,7 @@ public class FightRequest
 		return true;
 	}
 
-	private static final void processRhymeResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
+	private static final void processAnapestResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
 	{
 		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
 		{
@@ -3462,7 +3450,7 @@ public class FightRequest
 		public boolean nunnery = false;
 		public boolean won = false;
 		public boolean haiku = false;
-		public boolean rhyme = false;
+		public boolean anapest = false;
 		public Matcher macroMatcher;
 
 		public TagStatus()
@@ -3491,11 +3479,11 @@ public class FightRequest
 
 			// Adventuring in the Suburbs of Dis
 			// Currently have Just the Best Anapests
-			this.rhyme =
+			this.anapest =
 				adventure == AdventurePool.CLUMSINESS_GROVE ||
 				adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
 				adventure == AdventurePool.GLACIER_OF_JERKS ||
-				KoLConstants.activeEffects.contains( FightRequest.rhymeEffect );
+				KoLConstants.activeEffects.contains( FightRequest.anapestEffect );
 
 			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
 			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
@@ -3785,7 +3773,7 @@ public class FightRequest
 			if ( inode == null )
 			{
 				// No image. Parse combat damage.
-				int damage = ( status.haiku || status.rhyme ) ?
+				int damage = ( status.haiku || status.anapest ) ?
 					FightRequest.parseHaikuDamage( str ) :
 					FightRequest.parseNormalDamage( str );
 				if ( damage != 0 )
@@ -3841,7 +3829,7 @@ public class FightRequest
 					}
 					// For prettiness
 					String munged = StringUtilities.singleStringReplace( str, "(", " (" );
-					if ( status.haiku || status.rhyme )
+					if ( status.haiku || status.anapest )
 					{	// the haiku doesn't name the effect
 						munged = "You acquire an effect: " + effect;
 					}
@@ -3857,7 +3845,7 @@ public class FightRequest
 					}
 					else if ( effect.equalsIgnoreCase( EffectPool.JUST_THE_BEST_ANAPESTS ) )
 					{
-						status.rhyme = true;
+						status.anapest = true;
 					}
 					return;
 				}
@@ -3872,9 +3860,9 @@ public class FightRequest
 				return;
 			}
 
-			if ( status.rhyme )
+			if ( status.anapest )
 			{
-				FightRequest.processRhymeResult( node, inode, image, status );
+				FightRequest.processAnapestResult( node, inode, image, status );
 				return;
 			}
 
@@ -4226,7 +4214,9 @@ public class FightRequest
 			table.getParent().removeChild( table );
 		}
 
-		StringBuffer text = FightRequest.extractText( node, status );
+		// Always separate multiple lines with slashes
+		StringBuffer text = new StringBuffer();
+		FightRequest.extractHaiku( node, text );
 		String str = text.toString();
 
 		if ( !str.equals( "" ) && !ResultProcessor.processFamiliarWeightGain( str ) )
