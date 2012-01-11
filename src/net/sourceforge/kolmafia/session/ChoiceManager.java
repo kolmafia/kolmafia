@@ -57,8 +57,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
+import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -2517,7 +2517,7 @@ public abstract class ChoiceManager
 			// Arrr You Man Enough?
 
 			result = new String[ 2 ];
-			float odds = FightRequest.pirateInsultOdds() * 100.0f;
+			float odds = BeerPongRequest.pirateInsultOdds() * 100.0f;
 
 			result[ 0 ] = KoLConstants.FLOAT_FORMAT.format( odds ) + "% chance of winning";
 			result[ 1 ] = odds == 100.0f ? "Oh come on. Do it!" : "Try later";

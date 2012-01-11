@@ -36,59 +36,32 @@ package net.sourceforge.kolmafia.webui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.BeerPongRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BeerPongDecorator
 {
-	private static final Pattern ROUND1_PATTERN = Pattern.compile( "The pirate lobs his ball \\w+ your cups. &quot;(.*?)&quot; he taunts" );
-	private static final Pattern ROUND2_PATTERN = Pattern.compile( "&quot;However -- (.*?)&quot;" );
-	private static final Pattern ROUND3_PATTERN = Pattern.compile( "and growls &quot;(.*?)&quot;" );
-
 	public static final void decorate( final StringBuffer buffer )
 	{
-		String insult = BeerPongDecorator.findInsult( buffer.toString() );
+		String insult = BeerPongRequest.findRicketsInsult( buffer.toString() );
 		if ( insult == null )
 		{
 			return;
 		}
 
-		int index = FightRequest.findPirateRetort( insult );
+		int index = BeerPongRequest.findPirateInsult( insult );
 		if ( index == 0 )
 		{
 			return;
 		}
 
-		String retort = FightRequest.findPirateRetort( index );
+		String retort = BeerPongRequest.pirateRetort( index );
 		if ( retort == null )
 		{
 			return;
 		}
 
 		StringUtilities.singleStringReplace( buffer, ">" + retort, " selected>" + retort );
-	}
-
-	public static final String findInsult( final String text )
-	{
-		Matcher matcher = BeerPongDecorator.ROUND1_PATTERN.matcher( text );
-		if ( matcher.find() )
-		{
-			return matcher.group(1);
-		}
-
-		matcher = BeerPongDecorator.ROUND2_PATTERN.matcher( text );
-		if ( matcher.find() )
-		{
-			return matcher.group(1);
-		}
-
-		matcher = BeerPongDecorator.ROUND3_PATTERN.matcher( text );
-		if ( matcher.find() )
-		{
-			return matcher.group(1);
-		}
-
-		return null;
 	}
 }

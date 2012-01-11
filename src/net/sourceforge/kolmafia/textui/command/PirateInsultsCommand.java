@@ -37,7 +37,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.BeerPongRequest;
 
 public class PirateInsultsCommand
 	extends AbstractCommand
@@ -54,9 +54,9 @@ public class PirateInsultsCommand
 		RequestLogger.printLine( "Known insults:" );
 
 		int count = 0;
-		for ( int i = 1; i <= 8; ++i )
+		for ( int i = 1; i <= BeerPongRequest.VALID_PIRATE_INSULTS; ++i )
 		{
-			String retort = FightRequest.findPirateRetort( i );
+			String retort = BeerPongRequest.knownPirateRetort( i );
 			if ( retort != null )
 			{
 				if ( count == 0 )
@@ -69,7 +69,7 @@ public class PirateInsultsCommand
 			}
 		}
 
-		float odds = FightRequest.pirateInsultOdds( count ) * 100.0f;
+		float odds = BeerPongRequest.pirateInsultOdds( count ) * 100.0f;
 
 		if ( count == 0 )
 		{
