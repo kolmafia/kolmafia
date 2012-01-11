@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
 
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
@@ -1459,6 +1458,11 @@ public class EquipmentManager
 		}
 
 		int type = ItemDatabase.getConsumptionType( itemId );
+
+		if ( type == KoLConstants.EQUIP_SHIRT && !KoLCharacter.hasSkill( "Torso Awaregness" ) )
+		{
+			return false;
+		}
 
 		if ( type == KoLConstants.EQUIP_FAMILIAR )
 		{
