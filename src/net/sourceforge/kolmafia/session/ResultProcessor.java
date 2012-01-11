@@ -235,7 +235,9 @@ public class ResultProcessor
 		     // The following are Haiku results
 		     results.indexOf( "gained a pound" ) != -1 ||
 		     results.indexOf( "puts on weight" ) != -1 ||
-		     results.indexOf( "gaining weight" ) != -1 )
+		     results.indexOf( "gaining weight" ) != -1 ||
+		     // The following are Anapest results
+		     results.indexOf( "Your pet just got heavier" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
 
