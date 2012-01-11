@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -1339,11 +1340,11 @@ public class RequestEditorKit
 
 		if ( monsterName.indexOf( "pirate" ) != -1 )
 		{
-			int count = FightRequest.countPirateInsults();
+			int count = BeerPongRequest.countPirateInsults();
 			monsterData.append( ", Insults: ");
 			monsterData.append( count );
 			monsterData.append( " (");
-			float odds = FightRequest.pirateInsultOdds( count ) * 100.0f;
+			float odds = BeerPongRequest.pirateInsultOdds( count ) * 100.0f;
 			monsterData.append( KoLConstants.FLOAT_FORMAT.format( odds ) );
 			monsterData.append( "%)");
 		}
