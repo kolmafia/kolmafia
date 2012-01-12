@@ -1419,7 +1419,7 @@ public class UseItemRequest
 		String name = this.itemUsed.getName();
 		int fullness = ItemDatabase.getFullness( name );
 		int count = this.itemUsed.getCount();
-		int consumptionTurns = count * fullness;
+		int consumptionTurns = count * fullness - ( Preferences.getBoolean( "distentionPillActive" ) ? 1 : 0 );
 
 		if ( consumptionTurns <= milkyTurns )
 		{
