@@ -227,6 +227,8 @@ public class FightRequest
 	private static boolean canOlfact = true;
 	private static boolean canStomp = false;
 	private static boolean summonedGhost = false;
+	public static boolean haiku = false;
+	public static boolean anapest = false;
 	private static int currentRound = 0;
 	private static boolean inMultiFight = false;
 
@@ -1652,18 +1654,28 @@ public class FightRequest
 	{
 		FightRequest.lastResponseText = responseText;
 
-		FightRequest.parseBangPotion( responseText );
-		FightRequest.parseStoneSphere( responseText );
-		FightRequest.parsePirateInsult( responseText );
-
-		FightRequest.parseGrubUsage( location, responseText );
-		FightRequest.parseGhostSummoning( location, responseText );
-		FightRequest.parseFlyerUsage( location, responseText );
-
 		boolean autoAttacked = false;
 
 		if ( FightRequest.currentRound == 0 )
 		{
+			int adventure = KoLAdventure.lastAdventureId();
+
+			// Adventuring in the Haiku Dungeon
+			// Currently have Haiku State of Mind
+			// Acquiring Haiku State of Mind can happen in the middle of a macro
+			// combat, so is detected elsewhere.
+			FightRequest.haiku =
+				adventure == AdventurePool.HAIKU_DUNGEON ||
+				KoLConstants.activeEffects.contains( FightRequest.haikuEffect );
+
+			// Adventuring in the Suburbs of Dis
+			// Currently have Just the Best Anapests
+			FightRequest.anapest =
+				adventure == AdventurePool.CLUMSINESS_GROVE ||
+				adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
+				adventure == AdventurePool.GLACIER_OF_JERKS ||
+				KoLConstants.activeEffects.contains( FightRequest.anapestEffect );
+
 			KoLCharacter.getFamiliar().recognizeCombatUse();
 
 			FightRequest.haveFought = true;
@@ -1782,6 +1794,16 @@ public class FightRequest
 
 			autoAttacked = FightRequest.checkForInitiative( responseText );
 		}
+
+		// Figure out various things by examining the responseText. Ideally,
+		// these could be done while walking the HTML parse tree.
+
+		FightRequest.parseBangPotion( responseText );
+		FightRequest.parseStoneSphere( responseText );
+		FightRequest.parsePirateInsult( responseText );
+		FightRequest.parseGrubUsage( location, responseText );
+		FightRequest.parseGhostSummoning( location, responseText );
+		FightRequest.parseFlyerUsage( location, responseText );
 
 		Matcher macroMatcher = FightRequest.MACRO_PATTERN.matcher( responseText );
 		if ( macroMatcher.find() )
@@ -2466,6 +2488,11 @@ public class FightRequest
 
 	private static final void parseBangPotion( final String responseText )
 	{
+		if ( FightRequest.anapest )
+		{
+			return;
+		}
+
 		Matcher bangMatcher = FightRequest.BANG_POTION_PATTERN.matcher( responseText );
 		while ( bangMatcher.find() )
 		{
@@ -2497,6 +2524,11 @@ public class FightRequest
 
 	private static final void parseStoneSphere( final String responseText )
 	{
+		if ( FightRequest.anapest )
+		{
+			return;
+		}
+
 		Matcher sphereMatcher = FightRequest.STONE_SPHERE_PATTERN.matcher( responseText );
 		while ( sphereMatcher.find() )
 		{
@@ -2514,17 +2546,24 @@ public class FightRequest
 			{
 				if ( effectText.indexOf( strings[i][1] ) != -1 )
 				{
-					if ( ItemPool.eliminationProcessor( strings, i,
-						sphereId,
-						2174, 2177,
-						"lastStoneSphere", " of " ) )
-					{
-						KoLmafia.updateDisplay( "All stone spheres have been identified!" );
-					}
+					FightRequest.identifyStoneSphere( i, sphereId );
 					break;
 				}
 			}
 		}
+	}
+
+	private static final void identifyStoneSphere( final int sphere, final int sphereId )
+	{
+		if ( ItemPool.eliminationProcessor( ItemPool.stoneSphereStrings, sphere, sphereId, 2174, 2177, "lastStoneSphere", " of " ) )
+		{
+			KoLmafia.updateDisplay( "All stone spheres have been identified!" );
+		}
+	}
+
+	private static final boolean isStoneSphere( final int sphereId )
+	{
+		return sphereId >= 2174 && sphereId <= 2177;
 	}
 
 	public static final String stoneSphereEffectToId( final String effect )
@@ -2555,6 +2594,11 @@ public class FightRequest
 
 	private static final void parsePirateInsult( final String responseText )
 	{
+		if ( FightRequest.anapest )
+		{
+			return;
+		}
+
 		Matcher insultMatcher = FightRequest.PIRATE_INSULT_PATTERN.matcher( responseText );
 
 		if ( !insultMatcher.find() )
@@ -3032,16 +3076,17 @@ public class FightRequest
 		return 0;
 	}
 
-	private static final boolean extractHaiku( final TagNode node, final StringBuffer buffer )
+	private static final boolean extractVerse( final TagNode node, final StringBuffer buffer, final String tag )
 	{
-		boolean hasBold = false;
+		boolean hasTag = false;
+
 		if ( node.getName().equals( "br" ) )
 		{
 			buffer.append( " / " );
 		}
-		else if ( node.getName().equals( "b" ) )
+		else if ( tag != null && node.getName().equals( tag ) )
 		{
-			hasBold = true;
+			hasTag = true;
 		}
 
 		Iterator it = node.getChildren().iterator();
@@ -3055,11 +3100,11 @@ public class FightRequest
 			}
 			else if ( child instanceof TagNode )
 			{
-				hasBold |= FightRequest.extractHaiku( (TagNode) child, buffer );
+				hasTag |= FightRequest.extractVerse( (TagNode) child, buffer, tag );
 			}
 		}
 
-		return hasBold;
+		return hasTag;
 	}
 
 	private static final void processHaikuResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
@@ -3072,10 +3117,10 @@ public class FightRequest
 
 		StringBuffer action = status.action;
 		action.setLength( 0 );
-		boolean hasBold = FightRequest.extractHaiku( node, action );
+		boolean hasBold = FightRequest.extractVerse( node, action, "b" );
 		String haiku = action.toString();
 
-		if ( FightRequest.foundHaikuDamage( inode, action, status.logMonsterHealth ) )
+		if ( FightRequest.foundHaikuDamage( inode, action, status ) )
 		{
 			return;
 		}
@@ -3249,7 +3294,7 @@ public class FightRequest
 	private static final Pattern HAIKU_DAMAGE1_PATTERN =
 		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
 
-	private static final boolean foundHaikuDamage( final TagNode inode, final StringBuffer action, final boolean logMonsterHealth )
+	private static final boolean foundHaikuDamage( final TagNode inode, final StringBuffer action, final TagStatus status )
 	{
 		// Look for Damage: title in the image
 		String title = inode.getAttributeByName( "title" );
@@ -3265,7 +3310,7 @@ public class FightRequest
 		}
 		if ( damage != 0 )
 		{
-			if ( logMonsterHealth )
+			if ( status.logMonsterHealth )
 			{
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
@@ -3285,10 +3330,11 @@ public class FightRequest
 
 		StringBuffer action = status.action;
 		action.setLength( 0 );
-		boolean hasBold = FightRequest.extractHaiku( node, action );
+
+		boolean hasFont = FightRequest.extractVerse( node, action, "font" );
 		String verse = action.toString();
 
-		if ( FightRequest.foundHaikuDamage( inode, action, status.logMonsterHealth ) )
+		if ( FightRequest.foundHaikuDamage( inode, action, status ) )
 		{
 			return;
 		}
@@ -3331,8 +3377,24 @@ public class FightRequest
 			// Gained or lost HP
 
 			String gain = "lose";
+
+			// You heal <b><font color=black>4</font></b> hit points, which may not be a lot,
+			// But let's face it, right now, it's the best that you've got.
+
+			if ( verse.indexOf( "You heal" ) != -1 )
+			{
+				gain = "gain";
+			}
+
 			String message = "You " + gain + " " + points + " hit points";
 			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+
+			if ( gain.equals( "gain" ) && FightRequest.isStoneSphere( status.lastCombatItem ) )
+			{
+				FightRequest.identifyStoneSphere( ItemPool.SPHERE_OF_WATER, status.lastCombatItem );
+				status.lastCombatItem = -1;
+			}
+
 			return;
 		}
 
@@ -3429,6 +3491,14 @@ public class FightRequest
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
 			MonsterStatusTracker.damageMonster( damage );
+
+			if ( FightRequest.isStoneSphere( status.lastCombatItem ) )
+			{
+				int sphere = hasFont ? ItemPool.SPHERE_OF_FIRE : ItemPool.SPHERE_OF_LIGHTNING;
+				FightRequest.identifyStoneSphere( sphere, status.lastCombatItem );
+				status.lastCombatItem = -1;
+			}
+
 			return;
 		}
 	}
@@ -3449,9 +3519,8 @@ public class FightRequest
 		public boolean dice = false;
 		public boolean nunnery = false;
 		public boolean won = false;
-		public boolean haiku = false;
-		public boolean anapest = false;
 		public Matcher macroMatcher;
+		public int lastCombatItem = -1;
 
 		public TagStatus()
 		{
@@ -3466,25 +3535,6 @@ public class FightRequest
 
 			FamiliarData enthroned = KoLCharacter.getEnthroned();
 			this.enthroned = enthroned.getImageLocation();
-
-			int adventure = KoLAdventure.lastAdventureId();
-
-			// Adventuring in the Haiku Dungeon
-			// Currently have Haiku State of Mind
-			// Acquiring Haiku State of Mind can happen in the middle of a macro
-			// combat, so is detected elsewhere.
-			this.haiku =
-				adventure == AdventurePool.HAIKU_DUNGEON ||
-				KoLConstants.activeEffects.contains( FightRequest.haikuEffect );
-
-			// Adventuring in the Suburbs of Dis
-			// Currently have Just the Best Anapests
-			this.anapest =
-				adventure == AdventurePool.CLUMSINESS_GROVE ||
-				adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
-				adventure == AdventurePool.GLACIER_OF_JERKS ||
-				KoLConstants.activeEffects.contains( FightRequest.anapestEffect );
-
 			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
 			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
 			this.action = new StringBuffer();
@@ -3773,7 +3823,7 @@ public class FightRequest
 			if ( inode == null )
 			{
 				// No image. Parse combat damage.
-				int damage = ( status.haiku || status.anapest ) ?
+				int damage = ( FightRequest.haiku || FightRequest.anapest ) ?
 					FightRequest.parseHaikuDamage( str ) :
 					FightRequest.parseNormalDamage( str );
 				if ( damage != 0 )
@@ -3789,6 +3839,17 @@ public class FightRequest
 				else if ( str.startsWith( "You gain" ) )
 				{
 					status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
+				}
+
+				// The tootlers tootle! The singers all sing!
+				// You've accomplished a wonderful, glorious thing!
+				// Come raise a glass high, and come join in the revel!
+				// We're all celebrating! You went up a level!
+
+				else if ( FightRequest.anapest && str.indexOf( "You went up a level" ) != -1 )
+				{
+					String msg = "You gain a Level!";
+					status.shouldRefresh |= ResultProcessor.processGainLoss( msg, null );
 				}
 
 				return;
@@ -3829,14 +3890,14 @@ public class FightRequest
 					}
 					// For prettiness
 					String munged = StringUtilities.singleStringReplace( str, "(", " (" );
-					if ( status.haiku || status.anapest )
+					if ( FightRequest.haiku || FightRequest.anapest )
 					{	// the haiku doesn't name the effect
 						munged = "You acquire an effect: " + effect;
 					}
 					ResultProcessor.processEffect( effect, munged );
 					if ( effect.equalsIgnoreCase( EffectPool.HAIKU_STATE_OF_MIND ) )
 					{
-						status.haiku = true;
+						FightRequest.haiku = true;
 						if ( status.logMonsterHealth )
 						{
 							FightRequest.logMonsterAttribute( action, 17, HEALTH );
@@ -3845,7 +3906,7 @@ public class FightRequest
 					}
 					else if ( effect.equalsIgnoreCase( EffectPool.JUST_THE_BEST_ANAPESTS ) )
 					{
-						status.anapest = true;
+						FightRequest.anapest = true;
 					}
 					return;
 				}
@@ -3854,13 +3915,24 @@ public class FightRequest
 			String src = inode.getAttributeByName( "src" );
 			String image = src == null ? null : src.substring( src.lastIndexOf( "/" ) + 1 );
 
-			if ( status.haiku )
+			if ( image != null )
+			{
+				// Attempt to identify combat items
+				String itemName = inode.getAttributeByName( "title" );
+				int itemId = ItemDatabase.getItemId( itemName );
+				if ( itemId != -1 && image.equals( ItemDatabase.getImage( itemId ) ) )
+				{
+					status.lastCombatItem = itemId;
+				}
+			}
+
+			if ( FightRequest.haiku )
 			{
 				FightRequest.processHaikuResult( node, inode, image, status );
 				return;
 			}
 
-			if ( status.anapest )
+			if ( FightRequest.anapest )
 			{
 				FightRequest.processAnapestResult( node, inode, image, status );
 				return;
@@ -3918,6 +3990,7 @@ public class FightRequest
 				}
 
 				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
+
 				return;
 			}
 
@@ -3957,7 +4030,7 @@ public class FightRequest
 			{
 				// You struck with your haiku katana. Pull the
 				// damage out of the img tag if we can
-				if (foundHaikuDamage( inode, action, status.logMonsterHealth ) )
+				if (foundHaikuDamage( inode, action, status ) )
 				{
 
 					return;
@@ -4216,7 +4289,7 @@ public class FightRequest
 
 		// Always separate multiple lines with slashes
 		StringBuffer text = new StringBuffer();
-		FightRequest.extractHaiku( node, text );
+		FightRequest.extractVerse( node, text, null );
 		String str = text.toString();
 
 		if ( !str.equals( "" ) && !ResultProcessor.processFamiliarWeightGain( str ) )
@@ -4398,6 +4471,10 @@ public class FightRequest
 		FightRequest.summonedGhost = false;
 		FightRequest.canStomp = false;
 		FightRequest.desiredScroll = null;
+
+		// Do not clear the following, since they are looked at after combat finishes.
+		// FightRequest.haiku = false;
+		// FightRequest.anapest = false;
 
 		MonsterStatusTracker.reset();
 

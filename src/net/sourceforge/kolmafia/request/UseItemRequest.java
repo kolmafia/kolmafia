@@ -317,7 +317,7 @@ public class UseItemRequest
 
 	public static final int maximumUses( final int itemId )
 	{
-		return UseItemRequest.maximumUses( itemId, KoLConstants.NO_CONSUME, true );
+		return UseItemRequest.maximumUses( itemId, KoLConstants.NO_CONSUME );
 	}
 
 	public static final int maximumUses( final int itemId, final int consumptionType )
@@ -344,15 +344,14 @@ public class UseItemRequest
 	public static final int maximumUses( final String itemName, final boolean allowOverDrink )
 	{
 		int itemId = ItemDatabase.getItemId( itemName );
-		return UseItemRequest.maximumUses( itemId, itemName, KoLConstants.NO_CONSUME, false );
+		return UseItemRequest.maximumUses( itemId, itemName, KoLConstants.NO_CONSUME, allowOverDrink );
 	}
 
 	private static final int maximumUses( final int itemId, final String itemName, final int consumptionType, final boolean allowOverDrink )
 	{
-		// Set reasonable default if the item fails to set a specific reason
-		UseItemRequest.limiter = "a wizard";
-		
-		if ( FightRequest.getCurrentRound() != 0 )
+		// Don't bother limiting this since we won't display use links
+		// until the fight is all over anyway.
+		if ( false && FightRequest.getCurrentRound() != 0 )
 		{
 			UseItemRequest.limiter = "fight in progress";
 			return 0;
@@ -370,6 +369,9 @@ public class UseItemRequest
 			return 0;
 		}
 
+		// Set reasonable default if the item fails to set a specific reason
+		UseItemRequest.limiter = "a wizard";
+		
 		if ( consumptionType == KoLConstants.CONSUME_HOBO ||
 		     consumptionType == KoLConstants.CONSUME_GHOST ||
 		     consumptionType == KoLConstants.CONSUME_SLIME )
