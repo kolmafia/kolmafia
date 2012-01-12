@@ -1465,12 +1465,17 @@ public class ItemPool
 	
 	public static final String[][] stoneSphereStrings =
 	{
-		// name, combat use mssage
+		// name, combat use message
 		{ "fire", "bright red light" },
 		{ "lightning", "bright yellow light" },
 		{ "water", "bright blue light" },
 		{ "nature", "bright green light" },
 	};
+
+	public static final int SPHERE_OF_FIRE = 0;
+	public static final int SPHERE_OF_LIGHTNING = 1;
+	public static final int SPHERE_OF_WATER = 2;
+	public static final int SPHERE_OF_NATURE = 3;
 	
 	public static final String[][][] slimeVialStrings =
 	{

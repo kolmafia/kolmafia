@@ -93,7 +93,10 @@ public abstract class UseLinkDecorator
 		}
 
 		// Defer use links until later if this isn't the final combat/choice page
-		boolean usedMacro = inCombat && location.indexOf( "action=done" ) != -1;
+		String macro = FightRequest.lastMacroUsed;
+		boolean usedNativeMacro = macro != null && !macro.equals( "" ) && !macro.equals( "0" );
+		boolean usedMafiaMacro = location.indexOf( "action=done" ) != -1;
+		boolean usedMacro = inCombat && ( usedNativeMacro || usedMafiaMacro );
 		boolean duringCombat = inCombat && FightRequest.getCurrentRound() != 0;
 		boolean duringChoice = inChoice && buffer.indexOf( "action=choice.php" ) != -1;
 		boolean deferrable = inCombat || inChoice;
@@ -102,18 +105,7 @@ public abstract class UseLinkDecorator
 		String text = buffer.toString();
 		buffer.setLength( 0 );
 
-		int adventure = KoLAdventure.lastAdventureId();
-
-		boolean poetry =
-			inCombat &&
-			( // Haiku
-			  adventure == AdventurePool.HAIKU_DUNGEON ||
-			  KoLConstants.activeEffects.contains( FightRequest.haikuEffect ) ||
-			  // Anapests
-			  adventure == AdventurePool.CLUMSINESS_GROVE ||
-			  adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
-			  adventure == AdventurePool.GLACIER_OF_JERKS ||
-			  KoLConstants.activeEffects.contains( FightRequest.anapestEffect ) );
+		boolean poetry = inCombat && ( FightRequest.haiku || FightRequest.anapest );
 
 		if ( poetry )
 		{
@@ -150,8 +142,7 @@ public abstract class UseLinkDecorator
 			if ( inCombat )
 			{
 				buffer.append( "</table><table><tr><td>" );
-				String macro = FightRequest.lastMacroUsed;
-				if ( !macro.equals( "" ) && !macro.equals( "0" ) )
+				if ( usedNativeMacro )
 				{
 					buffer.append( "<form method=POST action=\"account_combatmacros.php\"><input type=HIDDEN name=action value=edit><input type=HIDDEN name=macroid value=\"" );
 					buffer.append( macro );
@@ -312,6 +303,7 @@ public abstract class UseLinkDecorator
 
 			if ( link != null )
 			{
+				UseLinkDecorator.deferred.append( " " );
 				UseLinkDecorator.deferred.append( link.getItemHTML() );
 			}
 
@@ -603,7 +595,8 @@ public abstract class UseLinkDecorator
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
 
-			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), InventoryManager.getCount( itemId ) );
+			int count = InventoryManager.getCount( itemId );
+			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), count );
 
 			if ( useCount == 0 )
 			{
