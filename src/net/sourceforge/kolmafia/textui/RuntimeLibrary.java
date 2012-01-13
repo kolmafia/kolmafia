@@ -476,6 +476,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "last_item_message", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "empty_closet", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_closet", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -2446,6 +2449,12 @@ public abstract class RuntimeLibrary
 	public static Value last_item_message()
 	{
 		return new Value( UseItemRequest.lastUpdate );
+	}
+
+	public static Value empty_closet()
+	{
+		RuntimeLibrary.batchCommand( "closet", "empty" );
+		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value put_closet( final Value countValue, final Value item )
