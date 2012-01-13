@@ -291,7 +291,6 @@ public class KoLDesktop
 			return false;
 		}
 
-		KoLDesktop.INSTANCE.setVisible( true );
 		KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
 
 		return true;
