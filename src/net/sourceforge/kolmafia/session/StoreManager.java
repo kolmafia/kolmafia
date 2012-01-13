@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
@@ -532,7 +533,8 @@ public abstract class StoreManager
 	public static final synchronized int getMallPrice( final AdventureResult item )
 	{
 		StoreManager.flushCache();
-		if ( item.getItemId() < 1 || !ItemDatabase.isTradeable( item.getItemId() ) )
+		if ( item.getItemId() < 1 ||
+		     ( !ItemDatabase.isTradeable( item.getItemId() ) && !NPCStoreDatabase.contains( item.getName(), true ) ) )
 		{
 			return 0;
 		}
