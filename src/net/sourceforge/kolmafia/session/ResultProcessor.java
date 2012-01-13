@@ -237,7 +237,8 @@ public class ResultProcessor
 		     results.indexOf( "puts on weight" ) != -1 ||
 		     results.indexOf( "gaining weight" ) != -1 ||
 		     // The following are Anapest results
-		     results.indexOf( "Your pet just got heavier" ) != -1 )
+		     results.indexOf( "just got heavier" ) != -1 ||
+		     results.indexOf( "put on some weight" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
 
