@@ -706,9 +706,6 @@ public abstract class KoLmafia
 		// Get current moon phases
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
-
-		// Forget what is trendy
-		TrendyRequest.reset();
 	}
 
 	public static final void resetCounters()
