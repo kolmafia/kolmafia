@@ -174,7 +174,7 @@ public class CharPaneDecorator
 				( Preferences.getBoolean( "bootsCharged" ) ? "!" : "" );
 		case FamiliarPool.GIBBERER:
 		case FamiliarPool.HARE:
-			return Preferences.getInteger( "extraRolloverAdventures" ) + " adv";
+			return ( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" ) ) + " adv";
 		case FamiliarPool.SLIMELING:
 			return "~" + Preferences.getFloat( "slimelingFullness" ) + " full" + getSlimelingStacksAnnotation();
 		case FamiliarPool.HIPSTER:

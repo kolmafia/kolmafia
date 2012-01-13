@@ -730,6 +730,7 @@ user	_piePartsCount	0
 user	_poisonArrows	0
 user	_poolGames	0
 user	_precisionCasts	0
+user	_resolutionAdv	0
 user	_riftletAdv	0
 user	_romanticFightsLeft	0
 user	_sealFigurineUses	0

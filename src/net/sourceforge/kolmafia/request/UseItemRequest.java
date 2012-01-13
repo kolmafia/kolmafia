@@ -107,6 +107,8 @@ public class UseItemRequest
 		Pattern.compile( "You decide to name (?:.*?) <b>(.*?)</b>" );
 	private static final Pattern FRUIT_TUBING_PATTERN =
 		Pattern.compile( "(?=.*?action=addfruit).*whichfruit=(\\d+)" );
+	private static final Pattern ADVENTUROUS_RESOLUTION_PATTERN =
+		Pattern.compile( "resolve to do it again" );
 
 	// It goes [Xd12] feet, and doesn't hit anything interesting.
 	private static final Pattern ARROW_PATTERN =
@@ -748,6 +750,10 @@ public class UseItemRequest
 		case ItemPool.TRIVIAL_AVOCATIONS_GAME:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_trivialAvocationsGame" ) ? 0 : 1;
+
+		case ItemPool.RESOLUTION_ADVENTUROUS:
+			UseItemRequest.limiter = "daily limit";
+			return ( Preferences.getInteger( "_resolutionAdv" ) == 10 ? 0 : Integer.MAX_VALUE );
 		}
 
 		switch ( consumptionType )
@@ -4394,6 +4400,45 @@ public class UseItemRequest
 
 		case ItemPool.TRIVIAL_AVOCATIONS_GAME:
 			Preferences.setBoolean( "_trivialAvocationsGame", true );
+			return;
+
+		case ItemPool.RESOLUTION_ADVENTUROUS:
+
+			// You read aloud:
+			// "I, <player name>, resolve to live this day as though it were my last day.
+			// Actually, maybe tomorrow. Maybe I'll live tomorrow as though it were my last day.
+			// That seems like a better idea. I'll be more adventurous tomorrow."
+			// Then you resolve to do it again.
+			// Then you resolve to do it again and again.
+			// Then you resolve to do it again and again and again.
+			// Then you resolve to do it again and again and again and again.
+
+			if ( responseText.indexOf( "already feeling adventurous enough" ) != -1 )
+			{
+				// player has already used 5 resolutions today
+				int extraAdv = 10 - Preferences.getInteger( "_resolutionAdv" );
+				Preferences.increment( "extraRolloverAdventures", extraAdv );
+				Preferences.increment( "_resolutionAdv", extraAdv );
+				ResultProcessor.processResult( item );
+				return;
+			}
+
+			int used = 1;
+			matcher = ADVENTUROUS_RESOLUTION_PATTERN.matcher( responseText );
+			while ( matcher.find() )
+			{
+				used += 1;
+			}
+
+			Preferences.increment( "extraRolloverAdventures", 2 * used );
+			Preferences.increment( "_resolutionAdv", 2 * used );
+
+			int count = item.getCount();
+			if ( used < count )
+			{
+				ResultProcessor.processResult( item.getInstance( count - used ) );
+			}
+
 			return;
 		}
 	}
