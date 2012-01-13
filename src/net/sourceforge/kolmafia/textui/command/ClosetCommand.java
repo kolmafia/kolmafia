@@ -48,7 +48,7 @@ public class ClosetCommand
 {
 	public ClosetCommand()
 	{
-		this.usage = " list <filter> | put <item>... | take <item>... - list or manipulate your closet.";
+		this.usage = " list <filter> | empty | put <item>... | take <item>... - list or manipulate your closet.";
 	}
 
 	public void run( final String cmd, final String parameters )
@@ -67,6 +67,12 @@ public class ClosetCommand
 		if ( parameters.length() <= 4 )
 		{
 			RequestLogger.printList( KoLConstants.closet );
+			return;
+		}
+
+		if ( parameters.equals( "empty" ) )
+		{
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.EMPTY_CLOSET ) );
 			return;
 		}
 

@@ -65,6 +65,7 @@ public class ClosetRequest
 	public static final int CLOSET_TO_INVENTORY = 5;
 	public static final int MEAT_TO_CLOSET = 6;
 	public static final int MEAT_TO_INVENTORY = 7;
+	public static final int EMPTY_CLOSET = 8;
 
 	// Your closet contains <b>170,000,000</b> meat.
 	private static final Pattern CLOSETMEAT_PATTERN = Pattern.compile( "Your closet contains <b>([\\d,]+)</b> meat\\." );
@@ -131,6 +132,13 @@ public class ClosetRequest
 			// closet.php?action=closetpull&whichitem=4511&qty=all&pwd&ajax=1
 			this.addFormField( "action", "closetpull" );
 			this.addFormField( "ajax", "1" );
+			this.source = KoLConstants.closet;
+			this.destination = KoLConstants.inventory;
+			break;
+
+		case EMPTY_CLOSET:
+			// closet.php?action=pullallcloset&pwd
+			this.addFormField( "action", "pullallcloset" );
 			this.source = KoLConstants.closet;
 			this.destination = KoLConstants.inventory;
 			break;
@@ -309,7 +317,6 @@ public class ClosetRequest
 		{
 			ClosetRequest.parseCloset( urlString, responseText );
 			return true;
-
 		}
 
 		boolean success = false;
@@ -355,6 +362,19 @@ public class ClosetRequest
 					KoLConstants.closet, 0 );
 				success = true;
 			}
+		}
+		else if ( urlString.indexOf( "action=pullallcloset" ) != -1 )
+		{
+			if ( responseText.indexOf( "taken from your closet" ) == -1 )
+			{
+				return false;
+			}
+
+			TransferItemRequest.transferItems(
+				new ArrayList( KoLConstants.closet ),
+				KoLConstants.closet,
+				KoLConstants.inventory );
+			success = true;
 		}
 
 		if ( success )
@@ -446,6 +466,9 @@ public class ClosetRequest
 
 		case MEAT_TO_INVENTORY:
 			return "Removing meat from closet";
+
+		case EMPTY_CLOSET:
+			return "Emptying closet";
 
 		case CONSUMABLES:
 			return "Examining consumables in closet";
