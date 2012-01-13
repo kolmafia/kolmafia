@@ -5432,7 +5432,7 @@
 5431	178314347	trolldoll.gif	cinnamon troll doll
 5432	258398178	trolldoll.gif	grape troll doll
 5433	497420048	trolldoll.gif	blue raspberry troll doll
-5434
+5434	639788880	pressie.gif	DNOTC Box	DNOTC Boxes
 5435	800138400	fudgecule.gif	fudgecule
 5436	643283242	fudgelily.gif	fudge lily	fudge lillies
 5437	177390730	hotfudge.gif	superheated fudge	blasts of superheated fudge
@@ -5443,8 +5443,8 @@
 5442	401744945	kloopcoop.gif	The Kloop in the Coop	The Kloops in the Coops
 5443	375826965	tinyboombox.gif	miniscule beatbox	miniscule beatboxes
 5444	976929302	devilfolio.gif	devilish folio
-5445	459056964	bark3.gif	clumsiness bark
-5446	898482871	windjar.gif	jar full of wind
+5445	459056964	bark3.gif	clumsiness bark	pieces of clumsiness bark
+5446	898482871	windjar.gif	jar full of wind	jars full of wind
 5447	726861308	jerkcicle.gif	dangerous jerkcicle
 5448	551811863	sstone_furious.gif	furious stone
 5449	743896241	sstone_vanity.gif	vanity stone
@@ -5526,26 +5526,26 @@
 5525	479083802	pog.gif	pog #11 (Naughty Sorceress)	pogs #11 (Naughty Sorceress)
 5526	704976042	supersucker.gif	Atomic Pop
 5527	679662372	tinydorag.gif	tiny do-rag
-5528	902885812	spookybark.gif	whimpering willow bark
-5529	982415373	sadberries.gif	berries of suffering
-5530	480811691	blooddrops.gif	baobab sap
-5531	425795161	coffeecup.gif	cup of hickory chicory
+5528	902885812	spookybark.gif	whimpering willow bark	pieces of bark from the whimpering willow
+5529	982415373	sadberries.gif	berries of suffering	handfuls of berries of suffering
+5530	480811691	blooddrops.gif	baobab sap	vials of baobab sap
+5531	425795161	coffeecup.gif	cup of hickory chicory	cups of hickory chicory
 5532	766388381	magnolia.gif	magnolia blossom
 5533	967400737	potion4.gif	Mortimer's nostrum
 5534	573239011	whitebottle.gif	Barulio's bottle
 5535	369803823	stimpill.gif	Marvin's marvelous pill
 5536	244240221	whistle.gif	Winifred's whistle
 5537	944942173	purplepen.gif	purple prose pen
-5538	315265902	milkcarton.gif	half-empty carton of milk
-5539	561214863	waterglass.gif	glass of warm water
+5538	315265902	milkcarton.gif	half-empty carton of milk	half-empty cartons of milk
+5539	561214863	waterglass.gif	glass of warm water	glasses of warm water
 5540	618386151	zengarden.gif	desktop zen garden
 5541	287175202	stimpill2.gif	Vivian's Vitamin
 5542	843267797	slapper.gif	pink-belly slapper
 5543
-5544	237276764	coffeecup.gif	green eggnog
+5544	237276764	coffeecup.gif	green eggnog	glasses of green eggnog
 5545	434954792	ham.gif	green hamhock
-5546	243374322	book3.gif	The Thorax's Codex of Tormenting Plants
+5546	243374322	book3.gif	The Thorax's Codex of Tormenting Plants	copies of The Thorax's Codex of Tormenting Plants
 5547
-5548	729361892	origamimag.gif	Ghost Pinching Quarterly
+5548	729361892	origamimag.gif	Ghost Pinching Quarterly	copies of Ghost Pinching Quarterly
 5549
-5550	610147943	document.gif	The Snitch's Manifesto
+5550	610147943	document.gif	The Snitch's Manifesto	copies of The Snitch's Manifesto

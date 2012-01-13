@@ -5440,7 +5440,7 @@
 5431	cinnamon troll doll	none, combat reusable	all	0
 5432	grape troll doll	none, combat reusable	all	0
 5433	blue raspberry troll doll	none, combat reusable	all	0
-5434
+5434	DNOTC Box	usable	display	0
 5435	fudgecule	none, candy	all	15
 5436	fudge lily	multiple	all	0
 5437	superheated fudge	none	all	0
