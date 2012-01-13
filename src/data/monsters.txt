@@ -952,7 +952,7 @@ Whitesnake	HP: 21 Def: 34 Atk: 35 Meat: 8-13 "A Little Bit Poisoned" P: beast	wh
 Wire-Crossin' Elf		elf resistance button (100)	handful of wires (c100)	live wire (0)
 Witty Pirate	HP: 110 Def: 120 Atk: 120 Meat: 64-96 P: pirate	witty rapier (10)	silver tongue charrrm (10)
 Wolfman	HP: 2 Def: 3 Atk: 3 Meat: 10-13 P: humanoid
-Wonderful Winifred Wongle	HP: 0	jar full of wind (0)	Winifred's whistle (0)
+Wonderful Winifred Wongle	HP: 0	jar full of wind (0)	jar full of wind (0)	Winifred's whistle (0)
 Writing Desk	HP: 62 Def: 57 Atk: 53 P: object	disintegrating quill pen (15)	inkwell (30)	snifter of thoroughly aged brandy (30)
 Wumpus	HP: 65 Def: 65 Atk: 65	memory of a glowing crystal (c0)	wumpus hair (n100)
 XXX pr0n	HP: 68 Def: 75 Atk: 75 Meat: 24-36 P: beast	f3d0r4 (15)	lowercase N (30)	pr0n legs (40)

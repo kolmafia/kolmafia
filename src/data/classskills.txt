@@ -90,7 +90,7 @@
 75	Summon &quot;Boner Battalion&quot;	3	200	30
 77	Torment Plant	5	5	0
 78	Pinch Ghost	5	5	0
-79	Tattle	5	5	0
+79	Tattle	7	5	0
 
 # Skills available to Clubbers
 
