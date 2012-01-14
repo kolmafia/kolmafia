@@ -39,8 +39,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 public class CoinMasterPurchaseRequest
 	extends PurchaseRequest
 {
@@ -69,7 +67,7 @@ public class CoinMasterPurchaseRequest
 
 		AdventureResult item = data.getItem();
 		String token = item != null ? item.getName() : data.getToken();
-		String name = ( price != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+		String name = ( price != 1 ) ? data.getPluralToken() : token;
 		this.priceString = KoLConstants.COMMA_FORMAT.format( this.price ) + " " + name;
 		this.cost = AdventureResult.tallyItem( token, price, true );
 
@@ -98,8 +96,7 @@ public class CoinMasterPurchaseRequest
 
 	public String getCurrency( final int count )
 	{
-		String token = data.getToken();
-		String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+		String name = ( count != 1 ) ? data.getPluralToken() : data.getToken();
 		return name;
 	}
 

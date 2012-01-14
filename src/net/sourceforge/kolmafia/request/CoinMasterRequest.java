@@ -521,9 +521,7 @@ public class CoinMasterRequest
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 
-		AdventureResult tokenItem = data.getItem();
-		String token = tokenItem == null ? data.getToken() : tokenItem.getName();
-		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+		String tokenName = ( cost != 1 ) ? data.getPluralToken() : data.getToken();
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
 		RequestLogger.updateSessionLog();
@@ -650,9 +648,7 @@ public class CoinMasterRequest
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 
-		AdventureResult tokenItem = data.getItem();
-		String token = tokenItem == null ? data.getToken() : tokenItem.getName();
-		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+		String tokenName = ( cost != 1 ) ? data.getPluralToken() : data.getToken();
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
 		RequestLogger.updateSessionLog();

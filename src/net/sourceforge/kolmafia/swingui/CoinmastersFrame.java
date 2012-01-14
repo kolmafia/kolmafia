@@ -773,8 +773,7 @@ public class CoinmastersFrame
 		{
 			AdventureResult item = this.data.getItem();
 			int count = this.data.availableTokens();
-			String token = item != null ? item.getName() : this.data.getToken();
-			String name = ( count != 1 ) ? this.data.getPluralToken() : token;
+			String name = ( count != 1 ) ? this.data.getPluralToken() : this.data.getToken();
 			buffer.append( "Coin Masters (" );
 			buffer.append( String.valueOf( count ) );
 			buffer.append( " " );
@@ -1270,8 +1269,7 @@ public class CoinmastersFrame
 			stringForm.append( " (" );
 			stringForm.append( price );
 			stringForm.append( " " );
-			String token = this.data.getToken();
-			stringForm.append( price != 1 ? this.data.getPluralToken() : token );
+			stringForm.append( price != 1 ? this.data.getPluralToken() : this.data.getToken() );
 			stringForm.append( ")" );
 			int count = ar.getCount();
 			if ( count == -1 )
