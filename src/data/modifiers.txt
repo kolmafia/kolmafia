@@ -1701,6 +1701,7 @@ giant designer sunglasses	Moxie Percent: -10, Single Equip
 # giant diamond ring
 # giant pinky ring: 75% Chance of Preventing Negative Status Attacks
 giant pinky ring	Single Equip
+glacial clock	Cold Damage: +15
 glow-in-the-dark wristwatch	Mysticality: [9-M], Spell Damage: [9-M], Adventures: +3, Single Equip, Nonstackable Watch
 glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
