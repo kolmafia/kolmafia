@@ -76,6 +76,7 @@ public class BasementRequest
 	private static float basementTestCurrent = 0;
 
 	private static String basementTestString = "";
+	public static String basementMonster = "";
 	private static String gauntletString = "";
 
 	private static int actualStatNeeded = 0;
@@ -957,6 +958,7 @@ public class BasementRequest
 		if ( responseText.indexOf( "Don't Fear the Ear" ) != -1 )
 		{
 			// The Beast with n Ears
+			BasementRequest.basementMonster = "The Beast with n Ears";
 			BasementRequest.basementTestString = BasementRequest.monsterLevelString();
 			return true;
 		}
@@ -964,6 +966,7 @@ public class BasementRequest
 		if ( responseText.indexOf( "Commence to Pokin" ) != -1 )
 		{
 			// The Beast with n Eyes
+			BasementRequest.basementMonster = "The Beast with n Eyes";
 			BasementRequest.basementTestString = BasementRequest.monsterLevelString();
 			return true;
 		}
@@ -971,6 +974,7 @@ public class BasementRequest
 		if ( responseText.indexOf( "Stone Golem" ) != -1 )
 		{
 			// A n Stone Golem
+			BasementRequest.basementMonster = "A n Stone Golem";
 			BasementRequest.basementTestString = BasementRequest.monsterLevelString();
 			return true;
 		}
@@ -978,6 +982,7 @@ public class BasementRequest
 		if ( responseText.indexOf( "Hydra" ) != -1 )
 		{
 			// A n-Headed Hydra
+			BasementRequest.basementMonster = "A n-Headed Hydra";
 			BasementRequest.basementTestString = BasementRequest.monsterLevelString();
 			return true;
 		}
@@ -985,6 +990,7 @@ public class BasementRequest
 		if ( responseText.indexOf( "Toast that Ghost" ) != -1 )
 		{
 			// The Ghost of Fernswarthy's n great-grandfather
+			BasementRequest.basementMonster = "The Ghost of Fernswarthy's n great-grandfather";
 			BasementRequest.basementTestString = BasementRequest.monsterLevelString() + "<br>Physically resistant";
 			return true;
 		}
@@ -992,6 +998,7 @@ public class BasementRequest
 		if ( responseText.indexOf( "Bottles of Beer on a Golem" ) != -1 )
 		{
 			// N Bottles of Beer on a Golem
+			BasementRequest.basementMonster = "n Bottles of Beer on a Golem";
 			BasementRequest.basementTestString = BasementRequest.monsterLevelString() + "<br>Blocks most spells";
 			return true;
 		}
@@ -999,6 +1006,7 @@ public class BasementRequest
 		if ( responseText.indexOf( "Collapse That Waveform" ) != -1 )
 		{
 			// A n-Dimensional Horror
+			BasementRequest.basementMonster = "A n-Dimensional Horror";
 			BasementRequest.basementTestString = BasementRequest.monsterLevelString() + "<br>Blocks physical attacks";
 			return true;
 		}
