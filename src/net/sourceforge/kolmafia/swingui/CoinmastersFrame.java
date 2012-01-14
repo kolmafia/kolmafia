@@ -56,7 +56,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
@@ -775,7 +774,7 @@ public class CoinmastersFrame
 			AdventureResult item = this.data.getItem();
 			int count = this.data.availableTokens();
 			String token = item != null ? item.getName() : this.data.getToken();
-			String name = ( count != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+			String name = ( count != 1 ) ? this.data.getPluralToken() : token;
 			buffer.append( "Coin Masters (" );
 			buffer.append( String.valueOf( count ) );
 			buffer.append( " " );
@@ -1272,9 +1271,7 @@ public class CoinmastersFrame
 			stringForm.append( price );
 			stringForm.append( " " );
 			String token = this.data.getToken();
-			stringForm.append( price != 1 ?
-					   ItemDatabase.getPluralName( token ) :
-					   token );
+			stringForm.append( price != 1 ? this.data.getPluralToken() : token );
 			stringForm.append( ")" );
 			int count = ar.getCount();
 			if ( count == -1 )

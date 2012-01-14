@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -58,6 +59,7 @@ public class CoinmasterData
 	private final Class requestClass;
 	private final String URL;
 	private String token;
+	private String plural;
 	private final String tokenTest;
 	private final boolean positiveTest;
 	private final Pattern tokenPattern;
@@ -120,6 +122,9 @@ public class CoinmasterData
 		this.storageAction = storageAction;
 		this.tradeAllAction = tradeAllAction;
 		this.canPurchase = canPurchase;
+
+		// Derived fields
+		this.plural = item != null ? ItemDatabase.getPluralName( token ) : token + "s";
 	}
 
 	public CoinmasterData( 
@@ -201,6 +206,11 @@ public class CoinmasterData
 	public final String getToken()
 	{
 		return this.token;
+	}
+
+	public final String getPluralToken()
+	{
+		return this.plural;
 	}
 
 	public final void setToken( final String token )
