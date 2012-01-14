@@ -372,19 +372,28 @@ public class StorageRequest
 				KoLConstants.freepulls.clear();
 				KoLCharacter.setStorageMeat( 0 );
 
-				// I have not looked at the result of doing a
-				// Pull All where some items go to Inventory
-				// and some go to Closet.
+				// Doing a "pull all" in Hagnk's does not tell
+				// you what went into inventory and what went
+				// into the closet.
 				//
-				// If the responseText tells you what goes
-				// where, we could process it and bulk adjust
-				// the Inventory and the Closet
+				// Nor does tell you what was left in storage
+				// because it was not Trendy enough
 				//
-				// For now, simply have the Inventory Manager
-				// refresh inventory and Closet in the most
-				// efficient way it knows how.
+				// Therefore, refresh Inventory, the Closet,
+				// and, if necessary, Storage.
+
 				InventoryManager.refresh();
 				CoinmastersFrame.externalUpdate();
+
+				if ( KoLCharacter.isTrendy() )
+				{
+					// If we are still in a Trendy run, we
+					// may have left items in storage.
+					// Refresh and check.
+					RequestThread.postRequest( new StorageRequest( REFRESH ) );
+					KoLCharacter.updateStatus();
+					return true;
+				}
 
 				transfer = true;
 			}
