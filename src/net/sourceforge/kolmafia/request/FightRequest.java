@@ -3063,11 +3063,11 @@ public class FightRequest
 
 	private static final int parseHaikuDamage( final String text )
 	{
-		if ( text.indexOf( "damage" ) == -1 &&
-			text.indexOf( "from you to your foe" ) == -1 )
+		if ( text.indexOf( "damage" ) == -1 && text.indexOf( "from you to your foe" ) == -1 )
 		{
 			return 0;
 		}
+
 		Matcher damageMatcher = FightRequest.INT_PATTERN.matcher( text );
 		if ( damageMatcher.find() )
 		{
@@ -3079,12 +3079,14 @@ public class FightRequest
 	private static final boolean extractVerse( final TagNode node, final StringBuffer buffer, final String tag )
 	{
 		boolean hasTag = false;
+		String nodeName = node.getName(); 
 
-		if ( node.getName().equals( "br" ) )
+		if ( nodeName.equals( "br" ) )
 		{
 			buffer.append( " / " );
 		}
-		else if ( tag != null && node.getName().equals( tag ) )
+
+		if ( tag != null && nodeName.equals( tag ) )
 		{
 			hasTag = true;
 		}
@@ -3096,7 +3098,7 @@ public class FightRequest
 
 			if ( child instanceof ContentToken )
 			{
-				buffer.append( ((ContentToken) child).getContent().trim() );
+				buffer.append( ((ContentToken) child).getContent() );
 			}
 			else if ( child instanceof TagNode )
 			{
@@ -3111,16 +3113,17 @@ public class FightRequest
 	{
 		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
 		{
-			FightRequest.processFamiliarAction( node, status );
+			FightRequest.processFamiliarAction( node, inode, status );
 			return;
 		}
 
 		StringBuffer action = status.action;
 		action.setLength( 0 );
+
 		boolean hasBold = FightRequest.extractVerse( node, action, "b" );
 		String haiku = action.toString();
 
-		if ( FightRequest.foundHaikuDamage( inode, action, status ) )
+		if ( FightRequest.foundVerseDamage( inode, action, status ) )
 		{
 			return;
 		}
@@ -3294,28 +3297,45 @@ public class FightRequest
 	private static final Pattern HAIKU_DAMAGE1_PATTERN =
 		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
 
-	private static final boolean foundHaikuDamage( final TagNode inode, final StringBuffer action, final TagStatus status )
+	private static final int parseVerseDamage( final TagNode inode )
 	{
+		if ( inode == null )
+		{
+			return 0;
+		}
+
 		// Look for Damage: title in the image
 		String title = inode.getAttributeByName( "title" );
 		if ( title == null || !title.startsWith( "Damage: " ) )
 		{
-			return false;
+			return 0;
 		}
-		String[] pieces = title.substring( 8 ).split( "[^\\d,]+" );
+
 		int damage = 0;
+
+		String[] pieces = title.substring( 8 ).split( "[^\\d,]+" );
 		for ( int i = 0; i < pieces.length; ++i )
 		{
 			damage += StringUtilities.parseInt( pieces[ i ] );
 		}
-		if ( damage != 0 )
+
+		return damage;
+	}
+
+	private static final boolean foundVerseDamage( final TagNode inode, final StringBuffer action, final TagStatus status )
+	{
+		int damage = parseVerseDamage( inode );
+		if ( damage == 0 )
 		{
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
-			}
-			MonsterStatusTracker.damageMonster( damage );
+			return false;
 		}
+
+		if ( status.logMonsterHealth )
+		{
+			FightRequest.logMonsterAttribute( action, damage, HEALTH );
+		}
+
+		MonsterStatusTracker.damageMonster( damage );
 
 		return true;
 	}
@@ -3324,7 +3344,7 @@ public class FightRequest
 	{
 		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
 		{
-			FightRequest.processFamiliarAction( node, status );
+			FightRequest.processFamiliarAction( node, inode, status );
 			return;
 		}
 
@@ -3334,7 +3354,7 @@ public class FightRequest
 		boolean hasFont = FightRequest.extractVerse( node, action, "font" );
 		String verse = action.toString();
 
-		if ( FightRequest.foundHaikuDamage( inode, action, status ) )
+		if ( FightRequest.foundVerseDamage( inode, action, status ) )
 		{
 			return;
 		}
@@ -3374,6 +3394,19 @@ public class FightRequest
 
 		if ( image.equals( "hp.gif" ) )
 		{
+			// Enemy regains 5 HP
+			if ( verse.indexOf( "Enemy regains" ) != -1 )
+			{
+				int healAmount = StringUtilities.parseInt( points );
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
+				}
+
+				MonsterStatusTracker.healMonster( healAmount );
+				return;
+			}
+
 			// Gained or lost HP
 
 			String gain = "lose";
@@ -3419,11 +3452,15 @@ public class FightRequest
 			// 17 MP should add spring to your step,
 			// and lift up your spirits with gusto and pep!
 
+			// Your MP just went up by 11 quarts!
+			// (I'm not sure how you measure amounts of this sort.)
+
 			if ( verse.indexOf( "Magical energy floods into your veins" ) != -1 ||
 			     verse.indexOf( "mystical fuel" ) != -1 ||
 			     verse.indexOf( "your MP restored" ) != -1	||
-			     verse.indexOf( "set some more monsters on fire" ) != -1	||
-			     verse.indexOf( "add spring to your step" ) != -1 )
+			     verse.indexOf( "set some more monsters on fire" ) != -1 ||
+			     verse.indexOf( "add spring to your step" ) != -1 ||
+			     verse.indexOf( "Your MP just went up" ) != -1 )
 			{
 				gain = "gain";
 			}
@@ -3808,9 +3845,12 @@ public class FightRequest
 				return;
 			}
 
+			// Tables often appear in fight results to hold images.
+			TagNode inode = node.findElementByName( "img", true );
+
 			if ( status.famaction )
 			{
-				FightRequest.processFamiliarAction( node, status );
+				FightRequest.processFamiliarAction( node, inode, status );
 				status.famaction = false;
 				return;
 			}
@@ -3818,8 +3858,6 @@ public class FightRequest
 			StringBuffer text = node.getText();
 			String str = text.toString();
 
-			// Tables often appear in fight results to hold images.
-			TagNode inode = node.findElementByName( "img", true );
 			if ( inode == null )
 			{
 				// No image. Parse combat damage.
@@ -3926,15 +3964,18 @@ public class FightRequest
 				}
 			}
 
-			if ( FightRequest.haiku )
-			{
-				FightRequest.processHaikuResult( node, inode, image, status );
-				return;
-			}
+			// If you have Just the Best Anapests and go to the
+			// haiku dungeon, you see ... anapests!
 
 			if ( FightRequest.anapest )
 			{
 				FightRequest.processAnapestResult( node, inode, image, status );
+				return;
+			}
+
+			if ( FightRequest.haiku )
+			{
+				FightRequest.processHaikuResult( node, inode, image, status );
 				return;
 			}
 
@@ -4022,7 +4063,7 @@ public class FightRequest
 
 			if ( image.equals( status.familiar ) || image.equals( status.enthroned ) )
 			{
-				FightRequest.processFamiliarAction( node, status );
+				FightRequest.processFamiliarAction( node, inode, status );
 				return;
 			}
 
@@ -4030,7 +4071,7 @@ public class FightRequest
 			{
 				// You struck with your haiku katana. Pull the
 				// damage out of the img tag if we can
-				if (foundHaikuDamage( inode, action, status ) )
+				if ( FightRequest.foundVerseDamage( inode, action, status ) )
 				{
 
 					return;
@@ -4259,15 +4300,16 @@ public class FightRequest
 		// macroaction: comment handled elsewhere
 	}
 
-	private static void processFamiliarAction( TagNode node, TagStatus status )
+	private static void processFamiliarAction( TagNode node, TagNode inode, TagStatus status )
 	{
 		StringBuffer action = status.action;
+
+		// <img src="http://images.kingdomofloathing.com/itemimages/familiar6.gif" width=30 height=30></td><td valign=center>Jiggly Grrl disappears into the wardrobe, and emerges dressed as a pair of Fuzzy Dice.
 
 		// If you have a tiny costume wardrobe or a doppelshifter, it
 		// can change its image mid-battle.
 		if ( status.doppel )
 		{
-			TagNode inode = node.findElementByName( "img", true );
 			String src = inode != null ? inode.getAttributeByName( "src" ) : null;
 			if ( src != null )
 			{
@@ -4300,7 +4342,12 @@ public class FightRequest
 				FightRequest.logText( text, status );
 			}
 
-			int damage = FightRequest.parseFamiliarDamage( str, status );
+			int damage = FightRequest.parseVerseDamage( inode );
+			if ( damage == 0 )
+			{
+				damage = FightRequest.parseFamiliarDamage( str, status );
+			}
+
 			if ( damage != 0 )
 			{
 				if ( status.logMonsterHealth )
@@ -4310,8 +4357,6 @@ public class FightRequest
 				MonsterStatusTracker.damageMonster( damage );
 			}
 		}
-
-		// <img src="http://images.kingdomofloathing.com/itemimages/familiar6.gif" width=30 height=30></td><td valign=center>Jiggly Grrl disappears into the wardrobe, and emerges dressed as a pair of Fuzzy Dice.
 
 		// Now process additional familiar actions
 		for ( int i = 0; i < tables.length; ++i )
@@ -4448,8 +4493,13 @@ public class FightRequest
 
 	private static final void logText( String text, final TagStatus status )
 	{
+		if ( text.equals( "" ) )
+		{
+			return;
+		}
+
 		text = StringUtilities.globalStringReplace( text, "<br>", " / " );
-		text = KoLConstants.ANYTAG_PATTERN.matcher( text ).replaceAll( "" );
+		text = KoLConstants.ANYTAG_PATTERN.matcher( text ).replaceAll( " " );
 
 		StringBuffer action = status.action;
 		FightRequest.getRound( action );
