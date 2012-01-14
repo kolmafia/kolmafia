@@ -1106,7 +1106,7 @@ public class FightRequest
 			// You can only shoot 1 badly romantic arrow per day
 
 			if ( Preferences.getInteger( "_badlyRomanticArrows" ) >= 1 ||
-			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -1118,7 +1118,7 @@ public class FightRequest
 			// You can only shoot 5 boxing-glove arrows per day
 
 			if ( Preferences.getInteger( "_boxingGloveArrows" ) >= 5 ||
-			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -1130,7 +1130,7 @@ public class FightRequest
 			// You can only shoot 10 poison arrows per day
 
 			if ( Preferences.getInteger( "_poisonArrows" ) >= 1 ||
-			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -1142,7 +1142,7 @@ public class FightRequest
 			// You can only shoot 10 fingertrap arrows per day
 
 			if ( Preferences.getInteger( "_fingertrapArrows" ) >= 10 ||
-			     KoLCharacter.getFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
+			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -1228,8 +1228,8 @@ public class FightRequest
 
 	private static final boolean problemFamiliar()
 	{
-		return ( KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT ||
-			 KoLCharacter.getFamiliar().getId() == FamiliarPool.OAF ) &&
+		return ( KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.BLACK_CAT ||
+			 KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.OAF ) &&
 			!KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TINY_COSTUME_WARDROBE, 1 ) );
 
 	}
@@ -2204,7 +2204,7 @@ public class FightRequest
 		}
 
 		// Check for special familiar actions
-		FamiliarData familiar = KoLCharacter.getFamiliar();
+		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 		switch ( familiar.getId() )
 		{
 		case FamiliarPool.HARE:
@@ -3257,30 +3257,6 @@ public class FightRequest
 			return;
 		}
 
-		if ( image.equals( "nicesword.gif" ) )
-		{
-			// You modify monster attack power
-			int damage = StringUtilities.parseInt( points );
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, ATTACK );
-			}
-			MonsterStatusTracker.lowerMonsterAttack( damage );
-			return;
-		}
-
-		if ( image.equals( "whiteshield.gif" ) )
-		{
-			// You modify monster defense
-			int damage = StringUtilities.parseInt( points );
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, DEFENSE );
-			}
-			MonsterStatusTracker.lowerMonsterDefense( damage );
-			return;
-		}
-
 		if ( haiku.indexOf( "damage" ) != -1 )
 		{
 			// Using a combat item
@@ -3394,19 +3370,6 @@ public class FightRequest
 
 		if ( image.equals( "hp.gif" ) )
 		{
-			// Enemy regains 5 HP
-			if ( verse.indexOf( "Enemy regains" ) != -1 )
-			{
-				int healAmount = StringUtilities.parseInt( points );
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-				}
-
-				MonsterStatusTracker.healMonster( healAmount );
-				return;
-			}
-
 			// Gained or lost HP
 
 			String gain = "lose";
@@ -3414,7 +3377,34 @@ public class FightRequest
 			// You heal <b><font color=black>4</font></b> hit points, which may not be a lot,
 			// But let's face it, right now, it's the best that you've got.
 
-			if ( verse.indexOf( "You heal" ) != -1 )
+			// You've been beat up and beat down and beat sideways, too,
+			// But you heal 7 hitpoints, and you feel less blue.
+
+			// You've gained 7 hitpoints, and feel a lot better.
+			// Go out there and get 'em, you going go-getter!
+
+			// With <b><font color=black>21</font></b> hitpoints added onto your score,
+			// you're raring to go and you're ready for more!
+
+			// You apply a fresh bandage to stop blood from spurting,
+			// and regenerate 21 points worth of hurting.
+
+			// You've got 12 more hit points than you had before!
+			// Now go out and fight and get off of the floor!
+
+			// You were starting to feel a bit down in the dumps,
+			// but those 7 HP should help clear up the lumps.
+
+			// You heal a few damage -- not much, I'll admit,
+			// but the hitpoints you've added will help you a bit.
+
+			if ( verse.indexOf( "You heal" ) != -1 ||
+			     verse.indexOf( "you heal" ) != -1 ||
+			     verse.indexOf( "feel a lot better" ) != -1 ||
+			     verse.indexOf( "added onto your score" ) != -1 ||
+			     verse.indexOf( "regenerate" ) != -1 ||
+			     verse.indexOf( "more hit points" ) != -1||
+			     verse.indexOf( "help clear up the lumps" ) != -1 )
 			{
 				gain = "gain";
 			}
@@ -3422,10 +3412,25 @@ public class FightRequest
 			String message = "You " + gain + " " + points + " hit points";
 			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
 
-			if ( gain.equals( "gain" ) && FightRequest.isStoneSphere( status.lastCombatItem ) )
+			if ( gain.equals( "gain" ) )
 			{
-				FightRequest.identifyStoneSphere( ItemPool.SPHERE_OF_WATER, status.lastCombatItem );
-				status.lastCombatItem = -1;
+				if ( status.mosquito )
+				{
+					status.mosquito = false;
+
+					int damage = StringUtilities.parseInt( points );
+					if ( status.logMonsterHealth )
+					{
+						FightRequest.logMonsterAttribute( action, damage, HEALTH );
+					}
+
+					MonsterStatusTracker.damageMonster( damage );
+				}
+				else if ( FightRequest.isStoneSphere( status.lastCombatItem ) )
+				{
+					FightRequest.identifyStoneSphere( ItemPool.SPHERE_OF_WATER, status.lastCombatItem );
+					status.lastCombatItem = -1;
+				}
 			}
 
 			return;
@@ -3489,30 +3494,6 @@ public class FightRequest
 		{
 			String message = "You gain " + points + " Roguishness";
 			status.shouldRefresh |= ResultProcessor.processStatGain( message, null );
-			return;
-		}
-
-		if ( image.equals( "nicesword.gif" ) )
-		{
-			// You modify monster attack power
-			int damage = StringUtilities.parseInt( points );
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, ATTACK );
-			}
-			MonsterStatusTracker.lowerMonsterAttack( damage );
-			return;
-		}
-
-		if ( image.equals( "whiteshield.gif" ) )
-		{
-			// You modify monster defense
-			int damage = StringUtilities.parseInt( points );
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, DEFENSE );
-			}
-			MonsterStatusTracker.lowerMonsterDefense( damage );
 			return;
 		}
 
@@ -3734,14 +3715,27 @@ public class FightRequest
 	private static Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
 	private static Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 
-	private static final int parseFamiliarDamage( final String text, TagStatus status )
+	private static final void specialFamiliarDamage( final StringBuffer text, TagStatus status )
 	{
-		int damage = FightRequest.parseNormalDamage( text );
+		int familiarId = KoLCharacter.getEffectiveFamiliar().getId();
+
+		if ( FightRequest.anapest || FightRequest.haiku )
+		{
+			switch ( familiarId )
+			{
+			case FamiliarPool.MOSQUITO:
+			case FamiliarPool.ADORABLE_SEAL_LARVA:
+				status.mosquito = true;
+				break;
+			}
+
+			return;
+		}
 
 		// Mosquito can muck with the monster's HP, but doesn't have
 		// normal text.
 
-		switch ( KoLCharacter.getFamiliar().getId() )
+		switch ( familiarId )
 		{
 		case FamiliarPool.MOSQUITO:
 		{
@@ -3788,8 +3782,6 @@ public class FightRequest
 			break;
 		}
 		}
-
-		return damage;
 	}
 
 	private static final void processNode( final TagNode node, final TagStatus status )
@@ -3964,6 +3956,49 @@ public class FightRequest
 				}
 			}
 
+			if ( image.equals( "hp.gif" ) &&
+			     ( str.indexOf( "regains" ) != -1 ||
+			       str.indexOf( "She looks about" ) != -1 ) )
+			{
+				// The monster heals itself
+				Matcher m = INT_PATTERN.matcher( str );
+				int healAmount = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
+				}
+				MonsterStatusTracker.healMonster( healAmount );
+
+				status.shouldRefresh = true;
+				return;
+			}
+
+			if ( image.equals( "nicesword.gif" ) )
+			{
+				// You modify monster attack power
+				Matcher m = INT_PATTERN.matcher( str );
+				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, damage, ATTACK );
+				}
+				MonsterStatusTracker.lowerMonsterAttack( damage );
+				return;
+			}
+
+			if ( image.equals( "whiteshield.gif" ) )
+			{
+				// You modify monster defense
+				Matcher m = INT_PATTERN.matcher( str );
+				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
+				if ( status.logMonsterHealth )
+				{
+					FightRequest.logMonsterAttribute( action, damage, DEFENSE );
+				}
+				MonsterStatusTracker.lowerMonsterDefense( damage );
+				return;
+			}
+
 			// If you have Just the Best Anapests and go to the
 			// haiku dungeon, you see ... anapests!
 
@@ -3997,23 +4032,6 @@ public class FightRequest
 				return;
 			}
 
-			if ( image.equals( "hp.gif" ) &&
-			     ( str.indexOf( "regains" ) != -1 ||
-			       str.indexOf( "She looks about" ) != -1 ) )
-			{
-				// The monster heals itself
-				Matcher m = INT_PATTERN.matcher( str );
-				int healAmount = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-				}
-				MonsterStatusTracker.healMonster( healAmount );
-
-				status.shouldRefresh = true;
-				return;
-			}
-
 			if ( image.equals( "hp.gif" ) ||
 			     image.equals( "mp.gif" ) )
 			{
@@ -4032,32 +4050,6 @@ public class FightRequest
 
 				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
 
-				return;
-			}
-
-			if ( image.equals( "nicesword.gif" ) )
-			{
-				// You modify monster attack power
-				Matcher m = INT_PATTERN.matcher( str );
-				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, damage, ATTACK );
-				}
-				MonsterStatusTracker.lowerMonsterAttack( damage );
-				return;
-			}
-
-			if ( image.equals( "whiteshield.gif" ) )
-			{
-				// You modify monster defense
-				Matcher m = INT_PATTERN.matcher( str );
-				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, damage, DEFENSE );
-				}
-				MonsterStatusTracker.lowerMonsterDefense( damage );
 				return;
 			}
 
@@ -4345,7 +4337,7 @@ public class FightRequest
 			int damage = FightRequest.parseVerseDamage( inode );
 			if ( damage == 0 )
 			{
-				damage = FightRequest.parseFamiliarDamage( str, status );
+				damage = FightRequest.parseNormalDamage( str );
 			}
 
 			if ( damage != 0 )
@@ -4356,6 +4348,8 @@ public class FightRequest
 				}
 				MonsterStatusTracker.damageMonster( damage );
 			}
+
+			FightRequest.specialFamiliarDamage( text, status );
 		}
 
 		// Now process additional familiar actions
@@ -4835,7 +4829,7 @@ public class FightRequest
 			return;
 		}
 
-		switch ( KoLCharacter.getFamiliar().getId() )
+		switch ( KoLCharacter.getEffectiveFamiliar().getId() )
 		{
 		case FamiliarPool.BLACK_CAT:
 			// If we are adventuring with a Black Cat, she might
@@ -5187,7 +5181,7 @@ public class FightRequest
 	public static final int freeRunawayChance()
 	{
 		// Bandersnatch + Ode = weight/5 free runaways
-		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.BANDER &&
+		if ( KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.BANDER &&
 			KoLConstants.activeEffects.contains( ItemDatabase.ODE ) )
 		{
 			if ( !FightRequest.castCleesh &&
@@ -5198,7 +5192,7 @@ public class FightRequest
 			}
 		}
 		// Pair of Stomping Boots = weight/5 free runaways, on the same counter as the Bandersnatch
-		else if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.BOOTS )
+		else if ( KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.BOOTS )
 		{
 			if ( KoLCharacter.getFamiliar().getModifiedWeight() / 5 >
 			     Preferences.getInteger( "_banderRunaways" ) )
