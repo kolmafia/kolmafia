@@ -1,6 +1,13 @@
 package net.sourceforge.kolmafia.swingui.listener;
 
-import net.sourceforge.kolmafia.KoLmafiaGUI;
+import java.awt.Frame;
+ 	 
+import net.sourceforge.kolmafia.KoLDesktop;	 
+import net.sourceforge.kolmafia.KoLmafiaGUI;	 
+ 	 
+import net.sourceforge.kolmafia.preferences.Preferences;
+	 
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class DisplayFrameListener
 	extends ThreadedListener
@@ -14,6 +21,33 @@ public class DisplayFrameListener
 
 	protected void execute()
 	{
-		KoLmafiaGUI.constructFrame( this.frameClass );
+		 if ( this.frameClass == null )	 
+		 {	 
+			 String interfaceSetting = Preferences.getString( "initialDesktop" );	 
+	 
+			 Frame [] frames = Frame.getFrames();	 
+	 
+			 for ( int i = 0; i < frames.length; ++i )	 
+			 {	 
+				 if ( ( frames[ i ] instanceof GenericFrame ) )	 
+				 {	 
+					 GenericFrame frame = (GenericFrame) frames[ i ];	 
+	 
+					 if ( frame.showInWindowMenu() && interfaceSetting.indexOf( frame.getFrameName() ) == -1 )	 
+					 {	 
+						 frame.setVisible( true );	 
+					 }	 
+				 }	 
+			 }	 
+	 
+			 if ( KoLDesktop.instanceExists() )	 
+			 {	 
+				 KoLDesktop.getInstance().setVisible( true );	 
+			 }	 
+		 }	 
+		 else	 
+		 {	 
+			 KoLmafiaGUI.constructFrame( this.frameClass );	 
+		 }
 	}
 }
