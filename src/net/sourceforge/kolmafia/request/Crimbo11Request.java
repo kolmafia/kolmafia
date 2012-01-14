@@ -275,8 +275,7 @@ public class Crimbo11Request
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
 
-		String token = data.getToken();
-		String tokenName = ( cost != 1 ) ? ItemDatabase.getPluralName( token ) : token;
+		String tokenName = ( cost != 1 ) ? data.getPluralToken() : data.getToken();
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
 		Matcher victimMatcher = Crimbo11Request.TOWHO_PATTERN.matcher( urlString );
