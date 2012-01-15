@@ -59,7 +59,7 @@ public class AcquireCommand
 			if ( item != null )
 			{
 				RequestLogger.printLine( item + ": " +
-					InventoryManager.simRetrieveItem( item, false ) );
+					InventoryManager.simRetrieveItem( item, true ) );
 			}
 			return;
 		}
@@ -67,7 +67,7 @@ public class AcquireCommand
 		if ( item != null )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
-			InventoryManager.retrieveItem( item, false );
+			InventoryManager.retrieveItem( item, true );
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 	}
