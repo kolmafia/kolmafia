@@ -108,7 +108,6 @@ public class LogoutManager
 		// Clear out user data
 
 		RequestLogger.closeSessionLog();
-		RequestLogger.closeDebugLog();
 		RequestLogger.closeMirror();
 
 		GenericRequest.reset();
@@ -117,7 +116,8 @@ public class LogoutManager
 		// Execute the logout request
 
 		RequestThread.postRequest( new LogoutRequest() );
-
 		KoLmafia.updateDisplay( "Logout completed." );
+
+		RequestLogger.closeDebugLog();
 	}
 }
