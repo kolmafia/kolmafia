@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
+import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
@@ -244,6 +245,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "arena.php" ) )
 		{
 			CakeArenaRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "basement.php" ) )
+		{
+			BasementRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "bedazzle.php" ) )

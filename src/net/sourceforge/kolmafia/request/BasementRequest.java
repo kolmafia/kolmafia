@@ -187,8 +187,6 @@ public class BasementRequest
 		super.run();
 
 		// Load up the data variables and switch outfits if it's a fight.
-
-		BasementRequest.lastResponseText = this.responseText;
 		BasementRequest.checkBasement();
 
 		// If we know we can't pass the test, give an error and bail out now.
@@ -231,6 +229,21 @@ public class BasementRequest
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to pass basement test." );
 		}
+	}
+
+	public void processResults()
+	{
+		BasementRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static final void parseResponse( final String location, final String responseText )
+	{
+		if ( !location.startsWith( "basement.php" ) )
+		{
+			return;
+		}
+
+		BasementRequest.checkBasement( false, responseText );
 	}
 
 	public static final String getBasementAction( final String text )
