@@ -239,6 +239,8 @@ public class KoLDesktop
 
 				KoLDesktop.INSTANCE.setSize( width, height );
 			}
+
+			KoLDesktop.INSTANCE.setVisible( true );
 		}
 
 		return KoLDesktop.INSTANCE;
@@ -292,7 +294,6 @@ public class KoLDesktop
 		}
 
 		KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
-		KoLDesktop.INSTANCE.setVisible( true );
 
 		return true;
 	}
