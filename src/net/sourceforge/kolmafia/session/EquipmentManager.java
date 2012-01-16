@@ -350,6 +350,7 @@ public class EquipmentManager
 			break;
 
 		case EquipmentManager.HAT:
+		case EquipmentManager.PANTS:
 			EquipmentManager.checkFamiliar( slot );
 			break;
 
