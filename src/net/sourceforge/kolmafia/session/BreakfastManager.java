@@ -200,6 +200,11 @@ public class BreakfastManager
 
 	public static void getHermitClovers()
 	{
+		if ( KoLCharacter.inBadMoon() )
+		{
+			return;
+		}
+
 		if ( Preferences.getBoolean( "grabClovers" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			int count = HermitRequest.cloverCount();
