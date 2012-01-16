@@ -295,6 +295,7 @@ public class UseItemRequest
 		case ItemPool.WINE_SOAKED_BONE_CHIPS:
 		case ItemPool.CRUMBLING_RAT_SKULL:
 		case ItemPool.TWITCHING_TRIGGER_FINGER:
+		case ItemPool.DECODED_CULT_DOCUMENTS:
 			String ghost = Preferences.getString( "pastamancerGhostType" );
 			return !ghost.equals( "" );
 		}
@@ -374,11 +375,15 @@ public class UseItemRequest
 		// Set reasonable default if the item fails to set a specific reason
 		UseItemRequest.limiter = "a wizard";
 		
-		if ( consumptionType == KoLConstants.CONSUME_HOBO ||
-		     consumptionType == KoLConstants.CONSUME_GHOST ||
-		     consumptionType == KoLConstants.CONSUME_SLIME )
+		switch ( consumptionType )
 		{
+		case KoLConstants.CONSUME_HOBO:
+		case KoLConstants.CONSUME_GHOST:
+		case KoLConstants.CONSUME_SLIME:
 			return Integer.MAX_VALUE;
+		case KoLConstants.CONSUME_GUARDIAN:
+			UseItemRequest.limiter = "character class";
+			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
 		}
 
 		int fullness = ItemDatabase.getFullness( itemName );
@@ -892,6 +897,7 @@ public class UseItemRequest
 		case ItemPool.WINE_SOAKED_BONE_CHIPS:
 		case ItemPool.CRUMBLING_RAT_SKULL:
 		case ItemPool.TWITCHING_TRIGGER_FINGER:
+		case ItemPool.DECODED_CULT_DOCUMENTS:
 
 			String ghost = Preferences.getString( "pastamancerGhostType" );
 			if ( !ghost.equals( "" ) && !UseItemRequest.confirmReplacement( ghost ) )

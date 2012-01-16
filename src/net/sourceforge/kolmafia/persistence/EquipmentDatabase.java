@@ -637,6 +637,8 @@ public class EquipmentDatabase
 			return "hp+mp restore";
 		case KoLConstants.EQUIP_CONTAINER:
 			return "container";
+		case KoLConstants.CONSUME_GUARDIAN:
+			return "pasta guardian";
 		default:
 			return "";
 		}

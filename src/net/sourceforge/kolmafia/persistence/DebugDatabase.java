@@ -432,7 +432,7 @@ public class DebugDatabase
 		}
 
 		// One item is known to have an extra internal space
-		return StringUtilities.globalStringReplace( matcher.group( 1 ), "  ", " " );
+		return StringUtilities.globalStringReplace( matcher.group( 1 ), "  ", " " ).trim();
 	}
 
 	private static final Pattern PRICE_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
