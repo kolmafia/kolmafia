@@ -235,7 +235,7 @@ yellow traffic cone	60	Mox: 15
 
 1337 7r0uZ0RZ	110	Mox: 40
 Angelhair Culottes	125	Mys: 30
-BRAINS shorts	0	Mox: 200
+BRAINS shorts	200	Mox: 200
 BRICKO pants	90	none
 Boss Bat britches	65	Mox: 17
 Brimstone Boxers	200	Mox: 30
@@ -1330,7 +1330,7 @@ Jolly Roger charrrm bracelet	70	Mys: 20
 Juju Mojo Mask	100	none
 Junior Adventurer's merit badge	0	none
 Junior LAAAAME merit badge	0	none
-KoL Con 8-Bit power bracelet	0	
+KoL Con 8-Bit power bracelet	0	none
 LWA ring	10	none
 La Hebilla del Cintur&oacute;n de Lopez	150	Mox: 45
 Lead Zeta of Chastity	200	Mys: 85

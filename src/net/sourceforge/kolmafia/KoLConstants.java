@@ -431,6 +431,7 @@ public interface KoLConstants
 	public static final int CONSUME_FOOD_HELPER = 21;
 	public static final int CONSUME_DRINK_HELPER = 22;
 	public static final int CONSUME_STICKER = 23;
+	public static final int CONSUME_GUARDIAN = 24;
 
 	public static final int CONSUME_MIMIC = 96;
 	public static final int CONSUME_SLIME = 97;

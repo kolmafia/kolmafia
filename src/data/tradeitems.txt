@@ -2,7 +2,7 @@
 #	PRIMARY_USE: none, food, drink, usable, multiple, grow, zap,
 #	familiar, accessory, hat, pants, shirt, weapon, offhand, mp,
 #	message, hp, hpmp, reusable, container, sphere, food helper,
-#	drink helper, sticker
+#	drink helper, sticker, guardian
 #
 #	SECONDARY_USE: usable, multiple, reusable, combat, combat
 #	reusable, single, solo, curse, bounty, candy
@@ -3293,9 +3293,9 @@
 3284	C.H.U.M. lantern	offhand	all	125
 3285	C.H.U.M. knife	weapon	all	75
 3286	Frosty's snowball sack	weapon	display	0
-3287	quasi-ethereal macaroni fragments	usable	display	200
-3288	shimmering tendrils	usable	display	500
-3289	scintillating powder	usable	display	400
+3287	quasi-ethereal macaroni fragments	guardian	display	200
+3288	shimmering tendrils	guardian	display	500
+3289	scintillating powder	guardian	display	400
 3290	abandoned candy	multiple, candy	all	150
 3291	secret tropical island volcano lair map	none	none	0
 3292	adorable seal larva	grow	display	0
@@ -3790,12 +3790,12 @@
 3781	blank prescription sheet	usable	all	75
 3782	bottle of melodramamine	usable	all	45
 3783	bottle of extra-strength melodramamine	usable	all	450
-3784	paranormal ricotta	usable	display	300
-3785	smoking talon	usable	display	200
-3786	vampire glitter	usable	display	600
-3787	wine-soaked bone chips	usable	display	500
-3788	crumbling rat skull	usable	display	500
-3789	twitching trigger finger	usable	display	600
+3784	paranormal ricotta	guardian	display	300
+3785	smoking talon	guardian	display	200
+3786	vampire glitter	guardian	display	600
+3787	wine-soaked bone chips	guardian	display	500
+3788	crumbling rat skull	guardian	display	500
+3789	twitching trigger finger	guardian	display	600
 3790
 3791
 3792
@@ -3890,7 +3890,7 @@
 3881	fouet de tortue-dressage	weapon	none	0
 3882	encoded cult documents	none	none	0
 3883	cult memo	reusable	none	0
-3884	decoded cult documents	reusable	none	0
+3884	decoded cult documents	guardian, reusable	none	0
 3885	vial of red slime	multiple	none	33
 3886	vial of yellow slime	multiple	none	33
 3887	vial of blue slime	multiple	none	33
@@ -5346,7 +5346,7 @@
 5337	The Necbromancer's Hat	hat	display	0
 5338	The Necbromancer's Stein	offhand	display	0
 5339	The Necbromancer's Shorts	pants	display	0
-5340	The Necbromancer's Wizard Staff	weapon	display	0
+5340	The Necbromancer's Wizard Staff	weapon	display	5000
 5341	The Necbronomicon	usable	all	0
 5342	The Cooler Out of Space	drink	all	500
 5343	The Necbronomicon (used)	reusable	display	1000
@@ -5374,15 +5374,15 @@
 5365	CRIMBCO Employee Handbook (chapter 4) (used)	reusable	display	1000
 5366	CRIMBCO Employee Handbook (chapter 5) (used)	reusable	display	1000
 5367	Field Guide to Skeletal Anatomy (shredded)	reusable	display	1000
-5368	Ellsbury's journal (used)	reusable	display	1000
+5368	Ellsbury's journal (used)	reusable	display	250
 5369	KoL Con 8-Bit power bracelet	accessory	display	0
 5370
 5371	stuffed-shirt scarecrow	grow	all	0
 5372	tiny plastic trollipop	accessory	all	0
-5373	tiny plastic Fudge Wizard	accessory	display	0
+5373	tiny plastic Fudge Wizard	accessory	all	0
 5374	tiny plastic abominable fudgeman	accessory	all	0
-5375	tiny plastic colollilossus	accessory	display	0
-5376	tiny plastic Big Candy	accessory	display	0
+5375	tiny plastic colollilossus	accessory	all	0
+5376	tiny plastic Big Candy	accessory	all	0
 5377	The Groose in the Hoose	grow	all	0
 5378	spruce juice	familiar	all	75
 5379	groose grease	usable	all	0
@@ -5399,7 +5399,7 @@
 5390	ridiculous cocktail	drink	all	0
 5391
 5392	Thwaitgold butterfly statuette	none	display	0
-5393	scrap of sticky paper	none	all	0
+5393	scrap of sticky paper	none	all	30
 5394	sandpaper	none	all	25
 5395	peppermint sprout	usable, candy	all	0
 5396	peppermint twist	usable, candy, fancy	all	0
@@ -5421,7 +5421,7 @@
 5412	Sangria de Menthe	drink	all	0
 5413	candycaine powder	none, combat	all	25
 5414	licorice boa	familiar, candy	all	75
-5415	licorice root	usable, candy	all	0
+5415	licorice root	usable, candy	all	45
 5416	banana supersucker	usable, candy	all	400
 5417	pear supersucker	usable, candy	all	400
 5418	lime supersucker	usable, candy	all	400
@@ -5444,7 +5444,7 @@
 5435	fudgecule	none, candy	all	15
 5436	fudge lily	multiple	all	0
 5437	superheated fudge	none	all	0
-5438	fluid of fudge-finding	multiple	all	0
+5438	fluid of fudge-finding	multiple	all	30
 5439	frigid fudgepuck	none	all	0
 5440	fudgesicle	food	all	0
 5441	wand of fudge control	reusable	display	0

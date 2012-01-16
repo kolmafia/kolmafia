@@ -37,6 +37,7 @@ beefy maki	3	1		7-12	8-16	0	0	45/55 Fishy
 beefy nigiri	2	1		4-8	8-16	0	0	20/30 Fishy
 beer basted brat	3	11	awesome	13-16	31-40	31-40	31-40
 bell-shaped crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Fury of the Bells (+10% mus)
+berries of suffering	2	2	good	5-6	11-18	0	0
 better than cuddling cake	3	1	decent	4	0	0	0
 big merv's protein shakes	5	1	EPIC	60-80	220-400	0	0
 birthday party jellybean cheesecake	3	1	crappy	3	20	20	20
@@ -179,6 +180,7 @@ frozen banquet	6	15	EPIC	42-48	100-289	100-289	100-289
 frozen danish	1	4	awesome	3-5	0	0	45-75	30 Danish Cunning (+25% pickpocket)
 frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
+fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
 genalen&trade; bottle	1	10	good	2-4	15-30	15-30	0	useless powder
 ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15
@@ -187,7 +189,10 @@ ghuol egg quiche	3	2	decent	3-9	0	0	0
 ghuol guolash	3	1	decent	3-6	-11-19	-11-19	-11-19
 ghuol-ear kabob	2	1	decent	2-5	0	0	0
 giant dragon roll	3	1		9-14	28-46	0	0	45/55 Fishy
+giant green gummi bear	4	4	good	9-10	0	80-150	0	40 Gummibrain
 giant marshmallow	4	3	decent	7-9	10-20	0	0
+giant red gummi bear	4	4	good	9-10	80-150	0	0	40 Gummiheart
+giant yellow gummi bear	4	4	good	9-10	0	0	80-150	40 Gummiskin
 gingerborg hive	5	5		10-15	0	0	0
 gingerbread bugbear	1	4	good	1-5	10-20	10-20	10-20
 gingerbread horror	1	4	good	1-5	10-20	10-20	10-20
@@ -209,6 +214,7 @@ goat cheese taco	2	1	decent	2-5	0	11-33	0
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
+green drunki-bear	4	6	EPIC	22-26	0	200-240	0	80 Gummibrain
 green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
 grimdrop chow mein	4	5		6-11	0	0	0
 grimgerbread house	5	5		10-15	0	0	0
@@ -335,6 +341,7 @@ penguin focaccia bread	7	1	good	18-24	21-38	21-38	21-38
 peppermint patty	2	2	EPIC	9-12	10-20	10-20	10-20
 personalized birthday cake	3	1	crappy	3	0	0	0
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
+phish stick	1	1	awesome	4-5	20-55	20-55	20-55
 piece of wedding cake	2	1	decent	2-5	0	0	0
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 plain pizza	2	1	decent	2-4	0	0	0
@@ -364,6 +371,7 @@ rat appendix kabob	2	1	decent	2-5	0	0	6-9
 rat appendix stir-fry	3	4	awesome	7-14	0	0	27-45
 rat scrapple	2	2	decent	2-7	0	0	10-12
 ravioli della hippy	3	3	good	4-12	0	19-23	0
+red drunki-bear	4	6	EPIC	22-26	200-240	0	0	80 Gummiheart
 red herring velvet cake	5	1		14-19	0	0	0
 retenez l'herbe pat&eacute;	3	13	EPIC	13-20	40-50	40-50	40-50
 ridiculous sandwich	3	1	awesome	11	10-12	10-12	10-12
@@ -526,4 +534,5 @@ wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy
 wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy
 wreath-shaped crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Wreathed in Merriment (+10% mox)
 yam candy	3	1	good	5-10	0	31-34	0
+yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	80 Gummskin
 yellow matter custard	3	6	good	4-8	10-15	10-15	10-15
