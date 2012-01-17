@@ -1240,12 +1240,6 @@ public class GenericRequest
 			KoLConstants.activeEffects.clear();
 		}
 
-		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
-		{
-			KoLCharacter.setHardcore( false );
-			KoLCharacter.setPath( "None" );
-		}
-
 		if ( urlString.startsWith( "ascend.php" ) && urlString.indexOf( "action=ascend" ) != -1 )
 		{
 			GenericRequest.ascending = true;
@@ -1845,6 +1839,10 @@ public class GenericRequest
 		else if ( urlString.startsWith( "shore.php" ) )
 		{
 			AdventureRequest.handleShoreVisit( urlString, this.responseText );
+		}
+		else if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
+		{
+			KoLCharacter.liberateKing();
 		}
 
 		if ( !GenericRequest.choiceHandled && !this.isChatRequest )

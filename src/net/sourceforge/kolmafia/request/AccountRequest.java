@@ -610,7 +610,7 @@ public class AccountRequest
 		KoLCharacter.setHardcore( hardcore );
 
 		boolean liberated = JSON.getInt( "freedralph" ) == 1;
-		KoLCharacter.liberateKing( liberated );
+		KoLCharacter.setKingLiberated( liberated );
 
 		boolean recalled = JSON.getInt( "recalledskills" ) == 1;
 		KoLCharacter.setSkillsRecalled( recalled );
