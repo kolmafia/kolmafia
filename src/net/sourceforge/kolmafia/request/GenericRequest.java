@@ -1253,7 +1253,7 @@ public class GenericRequest
 			GenericRequest.ascending = false;
 		}
 
-		if ( urlString.startsWith( "valhalla.php" ) && Preferences.getInteger( "lastBreakfast" ) != -1 )
+		if ( urlString.startsWith( "afterlife.php" ) && Preferences.getInteger( "lastBreakfast" ) != -1 )
 		{
 			ValhallaManager.onAscension();
 		}
@@ -1368,7 +1368,7 @@ public class GenericRequest
 		String urlString = this.formURLString;
 		URL context = urlString.startsWith( "http:" ) || urlString.startsWith( "https:" ) ? null : GenericRequest.KOL_ROOT;
 
-		if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "valhalla.php" ) )
+		if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "afterlife.php" ) )
 		{
 			int timeout;
 			if ( !urlString.startsWith( "login.php" ) ||
