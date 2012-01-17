@@ -825,10 +825,10 @@ public abstract class KoLmafia
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
 
-		// We are in Valhalla if this redirects to valhalla.php?realworld=1
+		// We are in Valhalla if this redirects to afterlife.php
 		GenericRequest request = new ApiRequest( "status" );
 		RequestThread.postRequest( request );
-		if ( request.redirectLocation != null && request.redirectLocation.startsWith( "valhalla.php" ) )
+		if ( request.redirectLocation != null && request.redirectLocation.startsWith( "afterlife.php" ) )
 		{
 			// In Valhalla, parse the CharPane and abort further processing
 			KoLmafia.updateDisplay( "Welcome to Valhalla!" );
