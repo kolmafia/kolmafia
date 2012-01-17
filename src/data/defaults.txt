@@ -373,6 +373,7 @@ user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of t
 user	hpAutoRecoveryTarget	1.0
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	kingLiberated	false
+user	kingLiberatedScript
 user	knownAscensions	-1
 user	lastAdventure
 user	lastArcadeAscension	-1

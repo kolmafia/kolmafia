@@ -2443,7 +2443,7 @@ public abstract class KoLCharacter
 	// Mark whether api.php says we've liberated King Ralph. This is done
 	// very early during character initialization, so simply set the
 	// preference and let later processing use that.
-	public static final void liberateKing( boolean liberated )
+	public static final void setKingLiberated( boolean liberated )
 	{
 		// Call kingLiberated to deal with lastKingLiberation
 		if ( KoLCharacter.kingLiberated() != liberated )
@@ -2459,9 +2459,15 @@ public abstract class KoLCharacter
 			boolean wasInHardcore = KoLCharacter.isHardcore();
 			Preferences.setBoolean( "kingLiberated", true );
 
+			// We are no longer in Hardcore
+			KoLCharacter.setHardcore( false );
+
+			// We are no longer subject to path restrictions
+			KoLCharacter.setPath( "None" );
+
 			// Ronin is lifted and we can interact freely with the Kingdom
-			CharPaneRequest.setInteraction( true );
 			KoLCharacter.setRonin( false );
+			CharPaneRequest.setInteraction( true );
 
 			// Storage is freely available
 			KoLConstants.storage.addAll( KoLConstants.freepulls );
@@ -2485,6 +2491,9 @@ public abstract class KoLCharacter
 				// Normal permed skills
 				RequestThread.postRequest( new CharSheetRequest() );
 			}
+
+			// Run a user-supplied script
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
 		}
 	}
 

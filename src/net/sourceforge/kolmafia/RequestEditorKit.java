@@ -740,11 +740,6 @@ public class RequestEditorKit
 		else if ( location.startsWith( "lair6.php" ) )
 		{
 			SorceressLairManager.decorateFamiliars( buffer );
-
-			if ( buffer.indexOf( "ascend.php" ) != -1 )
-			{
-				KoLCharacter.liberateKing();
-			}
 		}
 		else if ( location.indexOf( "lchat.php" ) != -1 )
 		{
