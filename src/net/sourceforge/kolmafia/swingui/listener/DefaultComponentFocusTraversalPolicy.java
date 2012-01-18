@@ -63,35 +63,17 @@ public class DefaultComponentFocusTraversalPolicy
 			int compare1 = this.parent.compare( o1, defaultComponent );
 			int compare2 = this.parent.compare( o2, defaultComponent );
 
-			// If o1 would normally occur before the default and
-			// if o2 would normally occur after, the cycle means that
-			// it now occurs after.
-
-			if ( compare1 < 0 && compare2 > 0 )
-			{
-				return 1;
-			}
-
-			// If o1 would normally occur after the default and
-			// if o2 would normally occur before, the cycle means that
-			// it now occurs before.
-
-			if ( compare2 < 0 && compare1 > 0 )
-			{
-				return 1;
-			}
-
-			// If either o1 or o2 is the default component, the other
-			// switches places relative to it.
+			// If either o1 or o2 is the default component, that
+			// comes first
 
 			if ( compare1 == 0 )
 			{
-				return 0 - compare2;
+				return -1;
 			}
 
 			if ( compare2 == 0 )
 			{
-				return 0 - compare1;
+				return 1;
 			}
 
 			// Otherwise, they both occur in the same direction relative
