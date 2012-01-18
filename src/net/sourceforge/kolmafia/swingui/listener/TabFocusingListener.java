@@ -51,7 +51,6 @@ public class TabFocusingListener
 	{
 		JTabbedPane pane = (JTabbedPane)e.getSource();
 		JComponent selected = (JComponent)pane.getSelectedComponent();
-		System.out.println( "selected = " + selected );
 		if ( selected != null )
 		{
 			selected.grabFocus();
