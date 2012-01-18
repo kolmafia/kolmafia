@@ -188,6 +188,11 @@ public abstract class GenericFrame
 		return this.framePanel.centerComponent;
 	}
 
+	public JPanel getFramePanel()
+	{
+		return this.framePanel;
+	}
+
 	public boolean shouldAddStatusBar()
 	{
 		return Preferences.getBoolean( "addStatusBarToFrames" ) && !this.appearsInTab();

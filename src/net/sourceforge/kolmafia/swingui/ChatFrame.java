@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 
@@ -159,6 +160,11 @@ public class ChatFrame
 			"Remove Highlighting", "highlight2.gif", ChatFormatter.class, "removeHighlighting" ) );
 
 		return toolbarPanel;
+	}
+
+	public Component getCenterComponent()
+	{
+		return this.getFramePanel();
 	}
 
 	public JTabbedPane getTabbedPane()
