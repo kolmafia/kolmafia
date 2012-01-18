@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import java.awt.Component;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -114,30 +116,6 @@ public class RequestFrame
 		return false;
 	}
 
-	public JToolBar getToolbar()
-	{
-		JToolBar toolbarPanel = super.getToolbar( true );
-
-		// Add toolbar pieces so that people can quickly
-		// go to locations they like.
-
-		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "back.gif" ), new BackRunnable() ) );
-		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "forward.gif" ), new ForwardRunnable() ) );
-		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "home.gif" ), new HomeRunnable() ) );
-		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "reload.gif" ), new ReloadRunnable() ) );
-
-		toolbarPanel.add( new JToolBar.Separator() );
-		toolbarPanel.add( this.locationField );
-		toolbarPanel.add( new JToolBar.Separator() );
-
-		ThreadedButton goButton = new ThreadedButton( "Go", new GoRunnable() );
-		this.locationField.addKeyListener( goButton );
-
-		toolbarPanel.add( goButton );
-
-		return toolbarPanel;
-	}
-
 	private void constructSideBar( final JScrollPane mainScroller )
 	{
 		if ( !this.hasSideBar() )
@@ -165,6 +143,35 @@ public class RequestFrame
 
 		this.setCenterComponent( horizontalSplit );
 		RequestFrame.refreshStatus();
+	}
+
+	public JToolBar getToolbar()
+	{
+		JToolBar toolbarPanel = super.getToolbar( true );
+
+		// Add toolbar pieces so that people can quickly
+		// go to locations they like.
+
+		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "back.gif" ), new BackRunnable() ) );
+		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "forward.gif" ), new ForwardRunnable() ) );
+		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "home.gif" ), new HomeRunnable() ) );
+		toolbarPanel.add( new ThreadedButton( JComponentUtilities.getImage( "reload.gif" ), new ReloadRunnable() ) );
+
+		toolbarPanel.add( new JToolBar.Separator() );
+		toolbarPanel.add( this.locationField );
+		toolbarPanel.add( new JToolBar.Separator() );
+
+		ThreadedButton goButton = new ThreadedButton( "Go", new GoRunnable() );
+		this.locationField.addKeyListener( goButton );
+
+		toolbarPanel.add( goButton );
+
+		return toolbarPanel;
+	}
+
+	public Component getCenterComponent()
+	{
+		return this.getFramePanel();
 	}
 
 	/**
