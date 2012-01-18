@@ -2122,8 +2122,11 @@ public abstract class KoLmafia
 
 	public static boolean isPlayerOnline( final String player )
 	{
+		// This player is currently online.
+		// This player is currently online in channel clan.
+		// This player is currently away from KoL in channel trade and listening to clan.
 		String text = KoLmafia.whoisPlayer( player );
-		return text != null && text.indexOf( "online" ) != -1;
+		return text != null && text.indexOf( "This player is currently" ) != -1;
 	}
 
 	public void removeAllItemsFromStore()
