@@ -368,21 +368,23 @@ public abstract class BuffBotManager
 					BuffBotHome.NOCOLOR, "(" + KoLCharacter.getAdventuresLeft() + " adventures remaining)" );
 			}
 
+			if ( BuffBotHome.isBuffBotActive() )
+			{
+				BuffBotHome.setBuffBotActive( i > 1 );
+			}
+
+			if ( !BuffBotHome.isBuffBotActive() )
+			{
+				break;
+			}
+
 			// Sleep for a while and then try again (don't go
 			// away for more than 1 second at a time to avoid
 			// automatic re-enabling problems).
 
 			for ( int j = 0; j < 60; ++j )
 			{
-				if ( BuffBotHome.isBuffBotActive() )
-				{
-					pauser.pause( 1000 );
-				}
-			}
-
-			if ( BuffBotHome.isBuffBotActive() )
-			{
-				BuffBotHome.setBuffBotActive( i > 1 );
+				pauser.pause( 1000 );
 			}
 		}
 
