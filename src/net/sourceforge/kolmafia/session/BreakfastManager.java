@@ -442,7 +442,7 @@ public class BreakfastManager
 		// donate the profits to charity
 
 		if ( Preferences.getInteger( "lastFilthClearance" ) == KoLCharacter.getAscensions() &&
-		     !KoLCharacter.inFistCore() )
+		     !KoLCharacter.inFistcore() )
 		{
 			visitHippy();
 		}
