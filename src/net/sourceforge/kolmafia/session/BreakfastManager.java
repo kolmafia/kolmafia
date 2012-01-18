@@ -438,7 +438,11 @@ public class BreakfastManager
 
 	public static void visitBigIsland()
 	{
-		if ( Preferences.getInteger( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
+		// Don't visit the Farm Stand in Fistcore, since you will just
+		// donate the profits to charity
+
+		if ( Preferences.getInteger( "lastFilthClearance" ) == KoLCharacter.getAscensions() &&
+		     !KoLCharacter.inFistCore() )
 		{
 			visitHippy();
 		}
