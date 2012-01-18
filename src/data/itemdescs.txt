@@ -5513,17 +5513,17 @@
 5512	420955512	triviacard.gif	Trivial Avocations Card:  When?	Trivial Avocations Cards:  When?
 5513	741577631	triviacard.gif	Trivial Avocations Card:  Who?	Trivial Avocations Cards:  Who?
 5514	190904588	triviacard.gif	Trivial Avocations Card:  Where?	Trivial Avocations Cards:  Where?
-5515	563905506	pog.gif	pog #01 (spider)	pogs #01 (spider)
-5516	939238261	pog.gif	pog #02 (Knob goblin)	pogs #02 (Knob goblin)
-5517	198603287	pog.gif	pog #03 (warwelf)	pogs #03 (warwelf)
-5518	426703674	pog.gif	pog #04 (skleleton)	pogs #04 (skleleton)
-5519	812860168	pog.gif	pog #05 (ninja snowman)	pogs #05 (ninja snowman)
-5520	217831731	pog.gif	pog #06 (filthy hippy)	pogs #06 (filthy hippy)
-5521	563740761	pog.gif	pog #07 (orcish frat boy)	pogs #07 (orcish frat boy)
-5522	681086389	pog.gif	pog #08 (hellion)	pogs #08 (hellion)
-5523	508885839	pog.gif	pog #09 (pirate)	pogs #09 (pirate)
-5524	197328209	pog.gif	pog #10 (hobo)	pogs #10 (hobo)
-5525	479083802	pog.gif	pog #11 (Naughty Sorceress)	pogs #11 (Naughty Sorceress)
+5515	563905506	pog.gif	pog #01 (spider)	pog #01s (spider)
+5516	939238261	pog.gif	pog #02 (Knob goblin)	pog #02s (Knob goblin)
+5517	198603287	pog.gif	pog #03 (warwelf)	pog #03s (warwelf)
+5518	426703674	pog.gif	pog #04 (skleleton)	pog #04s (skleleton)
+5519	812860168	pog.gif	pog #05 (ninja snowman)	pog #05s (ninja snowman)
+5520	217831731	pog.gif	pog #06 (filthy hippy)	pog #06s (filthy hippy)
+5521	563740761	pog.gif	pog #07 (orcish frat boy)	pog #07s (orcish frat boy)
+5522	681086389	pog.gif	pog #08 (hellion)	pog #08s (hellion)
+5523	508885839	pog.gif	pog #09 (pirate)	pog #09s (pirate)
+5524	197328209	pog.gif	pog #10 (hobo)	pog #10s (hobo)
+5525	479083802	pog.gif	pog #11 (Naughty Sorceress)	pog #11s (Naughty Sorceress)
 5526	704976042	supersucker.gif	Atomic Pop
 5527	679662372	tinydorag.gif	tiny do-rag
 5528	902885812	spookybark.gif	whimpering willow bark	pieces of bark from the whimpering willow
