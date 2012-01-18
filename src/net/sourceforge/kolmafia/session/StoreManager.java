@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -122,30 +123,28 @@ public abstract class StoreManager
 		SoldItem newItem = new SoldItem( itemId, quantity, price, limit, lowest );
 		int itemIndex = StoreManager.soldItemList.indexOf( newItem );
 
-		// If the item is brand-new, just add it to the
-		// list of sold items.
+		// If the item is brand-new, just return it
 
 		if ( itemIndex == -1 )
 		{
-			StoreManager.soldItemList.add( newItem );
-			StoreManager.sortedSoldItemList.add( newItem );
+			return newItem;
 		}
-		else
+
+		// If the item already exists, check it against the one which
+		// already exists in the list.	If there are any changes,
+		// update.
+
+		SoldItem oldItem = (SoldItem) StoreManager.soldItemList.get( itemIndex );
+
+		if ( oldItem.getQuantity() != quantity ||
+		     oldItem.getPrice() != price ||
+		     oldItem.getLimit() != limit ||
+		     lowest != 0 && oldItem.getLowest() != lowest )
 		{
-			// If the item already exists, check it against the
-			// one which already exists in the list.  If there
-			// are any changes, update.
-
-			SoldItem oldItem = (SoldItem) StoreManager.soldItemList.get( itemIndex );
-
-			if ( oldItem.getQuantity() != quantity || oldItem.getPrice() != price || oldItem.getLimit() != limit || lowest != 0 && oldItem.getLowest() != lowest )
-			{
-				StoreManager.soldItemList.set( itemIndex, newItem );
-				StoreManager.sortedSoldItemList.set( StoreManager.sortedSoldItemList.indexOf( newItem ), newItem );
-			}
+			return newItem;
 		}
 
-		return newItem;
+		return oldItem;
 	}
 
 	/**
@@ -285,14 +284,15 @@ public abstract class StoreManager
 			}
 		}
 
-		StoreManager.soldItemList.retainAll( newItems );
-		StoreManager.sortedSoldItemList.retainAll( newItems );
-
 		StoreManager.sortItemsByName = true;
-		StoreManager.soldItemList.sort();
+		Collections.sort( newItems );
+		StoreManager.soldItemList.clear();
+		StoreManager.soldItemList.addAll( newItems );
 
 		StoreManager.sortItemsByName = false;
-		StoreManager.sortedSoldItemList.sort();
+		Collections.sort( newItems );
+		StoreManager.sortedSoldItemList.clear();
+		StoreManager.sortedSoldItemList.addAll( newItems );
 
 		StoreManager.soldItemsRetrieved = true;
 
