@@ -33,54 +33,28 @@
 
 package net.sourceforge.kolmafia.swingui.listener;
 
-import java.awt.Frame;
- 	 
-import net.sourceforge.kolmafia.KoLDesktop;	 
-import net.sourceforge.kolmafia.KoLmafiaGUI;	 
- 	 
-import net.sourceforge.kolmafia.preferences.Preferences;
-	 
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class DisplayFrameListener
-	extends ThreadedListener
+import javax.swing.JComponent;
+import javax.swing.JTabbedPane;
+
+public class TabFocusingListener
+	implements ChangeListener
 {
-	private final String frameClass;
-
-	public DisplayFrameListener( String frameClass )
+	public TabFocusingListener()
 	{
-		this.frameClass = frameClass;
+		super();
 	}
 
-	protected void execute()
+	public void stateChanged( final ChangeEvent e )
 	{
-		 if ( this.frameClass == null )	 
-		 {	 
-			 String interfaceSetting = Preferences.getString( "initialDesktop" );	 
-	 
-			 Frame [] frames = Frame.getFrames();	 
-	 
-			 for ( int i = 0; i < frames.length; ++i )	 
-			 {	 
-				 if ( ( frames[ i ] instanceof GenericFrame ) )	 
-				 {	 
-					 GenericFrame frame = (GenericFrame) frames[ i ];	 
-	 
-					 if ( frame.showInWindowMenu() && interfaceSetting.indexOf( frame.getFrameName() ) == -1 )	 
-					 {	 
-						 frame.setVisible( true );	 
-					 }	 
-				 }	 
-			 }	 
-	 
-			 if ( KoLDesktop.instanceExists() )	 
-			 {	 
-				 KoLDesktop.getInstance().setVisible( true );	 
-			 }	 
-		 }	 
-		 else	 
-		 {	 
-			 KoLmafiaGUI.constructFrame( this.frameClass );	 
-		 }
+		JTabbedPane pane = (JTabbedPane)e.getSource();
+		JComponent selected = (JComponent)pane.getSelectedComponent();
+		System.out.println( "selected = " + selected );
+		if ( selected != null )
+		{
+			selected.grabFocus();
+		}
 	}
 }

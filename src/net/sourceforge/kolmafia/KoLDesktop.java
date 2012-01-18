@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.swingui.SendMessageFrame;
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
+import net.sourceforge.kolmafia.swingui.listener.TabFocusingListener;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
@@ -180,6 +181,8 @@ public class KoLDesktop
 		}
 
 		this.pack();
+
+		this.tabs.addChangeListener( new TabFocusingListener() );
 
 		KoLDesktop.isInitializing = false;
 	}
