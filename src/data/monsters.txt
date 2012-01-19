@@ -228,7 +228,7 @@ Bunch of Drunken Rats	HP: 16 Def: 20 Atk: 20 P: beast	rat whisker (0)	rat whiske
 Burly Sidekick	HP: 100 Def: 100 Atk: 100 Init: 80 Meat: 104-156 P: humanoid	armgun (9)	cocoa eggshell fragment (30)	mohawk wig (10)	tiny house (30)
 Business Hippy	HP: 25 Def: 38 Atk: 38 Meat: 40-60 E: stench P: hippy	filthy corduroys (10)	filthy knitted dread sack (10)	herbs (20)	reodorant (10)	massive bag of catnip (c100)
 Buzzy Beetle	HP: 15 Def: 20 Atk: 20 P: bug	black pixel (50)	white pixel (50)	red pixel (65)
-C. H. U. M.	HP: 215 Def: 255 Atk: 260 P: demihuman	bottle of sewage schnapps (0)	C.H.U.M. lantern (0)	C.H.U.M. knife (0)	sewer nuggets (0)	C.H.U.M. chum (p40)
+C. H. U. M.	HP: 200 Def: 255 Atk: 260 P: demihuman	bottle of sewage schnapps (0)	C.H.U.M. lantern (0)	C.H.U.M. knife (0)	sewer nuggets (0)	C.H.U.M. chum (p40)
 C. H. U. M. Chieftain	HP: 0 Def: 300 Atk: 330 P: demihuman	C.H.U.M. knife (0)	bottle of sewage schnapps (0)	bottle of sewage schnapps (0)	sewer nuggets (0)	sewer nuggets (0)	C.H.U.M. chum (p40)
 C.A.R.N.I.V.O.R.E. Operative	HP: 330 Atk: 220 Meat: 258-500 ED: stench	C.A.R.N.I.V.O.R.E. button (100)	Lockenstock&trade; sandals (0)	green clay bead (0)
 Cactuary	HP: 139 Def: 140 Atk: 137 Meat: 80-120 P: plant	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
@@ -419,7 +419,7 @@ Giant Skeelton	HP: 130 Def: 73 Atk: 77 E: spooky	skeleton bone (0)	skeleton bone
 Giant Spider	HP: 90 Def: 90 Atk: 90
 Giant Squid	HP: 800 Def: 450 Atk: 500 Meat: 240-360 P: fish	ink bladder (n30)
 Giant Swarm of Ghuol Whelps	E: spooky P: undead
-Giant Zombie Goldfish	HP: 260 Def: 250 Atk: 255 P: undead	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
+Giant Zombie Goldfish	HP: 250 Def: 250 Atk: 255 P: undead	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
 Gift-wrapping Vampire		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Glass of Orange Juice	HP: 330 Atk: 220 Meat: 327-500 E: stench	green clay bead (100)	orange peel hat (100)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)	round purple sunglasses (0)
 Gluttonous Ghuol	HP: 50 Def: 56 Atk: 55 E: spooky Meat: 24-38 P: undead	ghuol ears (10)	ghuol egg (10)	ghuol guolash (20)	huge spoon (5)
@@ -705,7 +705,7 @@ Screambat	HP: 15 Def: 17 Atk: 18 P: beast
 Security slime	HP: 210 Def: 160 Atk: 160 P: slime
 Senile Lihc	HP: 50 Def: 57 Atk: 56 E: spooky P: undead	lihc eye (20)	lihc face (9)	shimmering tendrils (c5)
 Serialbus	HP: 60 Def: 60 Atk: 60 Init: 35 E: heat Meat: 25-35 P: demon	bus pass (25)
-Sewer Gator	HP: 304 Def: 250 Atk: 245 P: beast	gator skin (0)	sewer nuggets (0)	sewer nuggets (0)
+Sewer Gator	HP: 300 Def: 250 Atk: 245 P: beast	gator skin (0)	sewer nuggets (0)	sewer nuggets (0)
 Sexy Sorority Ghost	HP: 0 P: humanoid	Haunted Sorority House staff guide (0)	ghostly body paint (0)	Ecto-Cooler (0)	ghost protocol (0)	extra-see-thru nightie (0)
 Sexy Sorority Skeleton	HP: 0 P: humanoid	Haunted Sorority House staff guide (0)	press-on ribs (0)	Bone's Farm &quot;wine&quot; (0)	throwing bone (0)	extremely skinny jeans (0)
 Sexy Sorority Vampire	HP: 0 P: humanoid	Haunted Sorority House staff guide (0)	bite-me-red lipstick (0)	Blood Light (0)	Nightstalker perfume (0)	Mesmereyes&trade; contact lenses (0)
