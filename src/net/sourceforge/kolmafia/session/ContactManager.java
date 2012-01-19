@@ -46,9 +46,6 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.CharPaneRequest;
-import net.sourceforge.kolmafia.request.ContactListRequest;
-
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;

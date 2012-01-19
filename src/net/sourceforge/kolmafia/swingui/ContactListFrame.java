@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -49,6 +50,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
@@ -58,6 +60,11 @@ public class ContactListFrame
 {
 	private LockableListModel contacts;
 	private JList contactsDisplay;
+
+	public ContactListFrame()
+	{
+		this( ContactManager.getMailContacts() );
+	}
 
 	public ContactListFrame( final LockableListModel contacts )
 	{
@@ -72,16 +79,22 @@ public class ContactListFrame
 		ContactListFrame.this.contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
 
 		this.setCenterComponent( new ContactListPanel( this.contactsDisplay ) );
+		this.getToolbar();
+	}
 
-		JToolBar toolbarPanel = this.getToolbar();
-		if ( toolbarPanel != null )
-		{
-			toolbarPanel.add( new InvocationButton( "Show as list", "copy.gif", this, "listSelected" ) );
-			toolbarPanel.add( new InvocationButton( "Mass-buff", "buff.gif", this, "buffSelected" ) );
-			toolbarPanel.add( new InvocationButton( "Mass-mail", "mail.gif", this, "mailSelected" ) );
-		}
+	public JToolBar getToolbar()
+	{
+		JToolBar toolbarPanel = super.getToolbar( true );
+		toolbarPanel.add( new InvocationButton( "Show as list", "copy.gif", this, "listSelected" ) );
+		toolbarPanel.add( new InvocationButton( "Mass-buff", "buff.gif", this, "buffSelected" ) );
+		toolbarPanel.add( new InvocationButton( "Mass-mail", "mail.gif", this, "mailSelected" ) );
 
-		this.pack();
+		return toolbarPanel;
+	}
+
+	public Component getCenterComponent()
+	{
+		return this.getFramePanel();
 	}
 
 	public JTabbedPane getTabbedPane()

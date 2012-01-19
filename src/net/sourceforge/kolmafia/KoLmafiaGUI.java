@@ -304,11 +304,6 @@ public class KoLmafiaGUI
 		}
 		else if ( frameClass == ContactListFrame.class )
 		{
-			if ( GenericFrame.appearsInTab( "ContactListFrame" ) )
-			{
-				return;
-			}
-
 			if ( ContactManager.getMailContacts().isEmpty() && !CharPaneRequest.inValhalla() )
 			{
 				RequestThread.postRequest( new ContactListRequest() );

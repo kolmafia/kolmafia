@@ -125,6 +125,7 @@ public class GlobalMenuBar
 
 		peopleMenu.add( new RelayBrowserMenuItem( "Read KoLmail", "game.php?mainpane=messages" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "KoLmafia Chat", "ChatManager" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Contact List", "ContactListFrame" ) );
 
 		peopleMenu.add( new JSeparator() );
 
