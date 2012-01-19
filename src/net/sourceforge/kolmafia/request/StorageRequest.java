@@ -377,7 +377,8 @@ public class StorageRequest
 				// into the closet.
 				//
 				// Nor does tell you what was left in storage
-				// because it was not Trendy enough
+				// because it was not Trendy enough or because
+				// it was not one of your "favorite things".
 				//
 				// Therefore, refresh Inventory, the Closet,
 				// and, if necessary, Storage.
@@ -385,11 +386,12 @@ public class StorageRequest
 				InventoryManager.refresh();
 				CoinmastersFrame.externalUpdate();
 
-				if ( KoLCharacter.isTrendy() )
+				// If we are still in a Trendy run or are pulling only
+				// "favorite things", we may have left items in storage.
+
+				// Refresh and check.
+				if ( KoLCharacter.isTrendy() || urlString.indexOf( "favonly=1" ) != -1 )
 				{
-					// If we are still in a Trendy run, we
-					// may have left items in storage.
-					// Refresh and check.
 					RequestThread.postRequest( new StorageRequest( REFRESH ) );
 					KoLCharacter.updateStatus();
 					return true;
