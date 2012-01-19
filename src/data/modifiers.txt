@@ -3915,6 +3915,7 @@ funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
+glass of warm water	Free Pull
 glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 glowing frisbee	Free Pull
 glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
