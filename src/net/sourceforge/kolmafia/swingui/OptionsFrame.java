@@ -264,7 +264,7 @@ public class OptionsFrame
 			{ "relayAddsGraphicalCLI", "Add command-line interface to right side pane" },
 			{ "relayAddsKoLSimulator", "Add Ayvuir's Simulator of Loathing to right side pane" },
 			{},
-			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" },
+			{ "relayAddsUseLinks", "Add [use] links when receiving items" },
 			{ "relayUsesInlineLinks", "Force results to reload inline for [use] links" },
 			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 			{ "relayTrimsZapList", "Trim zap list to show only known zappable items" },

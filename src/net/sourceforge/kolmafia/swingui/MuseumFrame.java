@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollableFilteredPanel;
@@ -303,7 +304,7 @@ public class MuseumFrame
 		}
 	}
 
-	private class OrderingPanel
+	public class OrderingPanel
 		extends ItemManagePanel
 	{
 		public OrderingPanel()
@@ -312,7 +313,11 @@ public class MuseumFrame
 
 			this.setButtons(
 				false,
-				new ActionListener[] { new MoveUpListener(), new MoveDownListener(), new ApplyChangesListener() } );
+				new ActionListener[] {
+					new MoveUpListener(),
+					new MoveDownListener(),
+					new InvocationButton( "apply", this, "apply" )
+				} );
 		}
 
 		private class MoveUpListener
@@ -359,20 +364,11 @@ public class MuseumFrame
 			}
 		}
 
-		private class ApplyChangesListener
-			implements ActionListener
+		public void apply()
 		{
-			public void actionPerformed( final ActionEvent e )
-			{
-				String[] headerArray = new String[ OrderingPanel.this.elementModel.size() ];
-				OrderingPanel.this.elementModel.toArray( headerArray );
-				DisplayCaseManager.reorder( headerArray );
-			}
-
-			public String toString()
-			{
-				return "apply";
-			}
+			String[] headerArray = new String[ this.elementModel.size() ];
+			this.elementModel.toArray( headerArray );
+			DisplayCaseManager.reorder( headerArray );
 		}
 	}
 }
