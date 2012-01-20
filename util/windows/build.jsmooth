@@ -12,7 +12,7 @@
 
 	<embeddedJar>true</embeddedJar>
 	<executableName>../../dist/KoLmafia.exe</executableName>
-	<iconLocation>../../src/images/limeglass.jpg</iconLocation>
+	<iconLocation>../../src/images/limeglass.gif</iconLocation>
 
 	<jarLocation>../../dist/KoLmafia.jar</jarLocation>
 	<mainClassName>net.sourceforge.kolmafia.KoLmafia</mainClassName>
