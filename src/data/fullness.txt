@@ -214,7 +214,7 @@ goat cheese taco	2	1	decent	2-5	0	11-33	0
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
-green drunki-bear	4	6	EPIC	22-26	0	200-240	0	80 Gummibrain
+green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Inebriety 80 Gummibrain
 green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
 grimdrop chow mein	4	5		6-11	0	0	0
 grimgerbread house	5	5		10-15	0	0	0
@@ -371,7 +371,7 @@ rat appendix kabob	2	1	decent	2-5	0	0	6-9
 rat appendix stir-fry	3	4	awesome	7-14	0	0	27-45
 rat scrapple	2	2	decent	2-7	0	0	10-12
 ravioli della hippy	3	3	good	4-12	0	19-23	0
-red drunki-bear	4	6	EPIC	22-26	200-240	0	0	80 Gummiheart
+red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Inebriety 80 Gummiheart
 red herring velvet cake	5	1		14-19	0	0	0
 retenez l'herbe pat&eacute;	3	13	EPIC	13-20	40-50	40-50	40-50
 ridiculous sandwich	3	1	awesome	11	10-12	10-12	10-12
@@ -534,5 +534,5 @@ wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy
 wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy
 wreath-shaped crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Wreathed in Merriment (+10% mox)
 yam candy	3	1	good	5-10	0	31-34	0
-yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	80 Gummskin
+yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Inebriety 80 Gummskin
 yellow matter custard	3	6	good	4-8	10-15	10-15	10-15
