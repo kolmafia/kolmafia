@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
@@ -527,6 +528,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "leaflet.php" ) )
 		{
 			LeafletRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "mallstore.php" ) )
+		{
+			MallPurchaseRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "managecollection.php" ) )

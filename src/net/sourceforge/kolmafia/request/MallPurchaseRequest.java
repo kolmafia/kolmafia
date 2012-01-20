@@ -56,6 +56,7 @@ public class MallPurchaseRequest
 	private static final Pattern YIELD_PATTERN =
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
 	private static Pattern MALLSTOREID_PATTERN = Pattern.compile( "whichstore\\d?=(\\d+)" );
+	private static Pattern MEAT_PATTERN = Pattern.compile( "You spent (\\d+) Meat" );
 
 	private final int shopId;
 
@@ -146,15 +147,14 @@ public class MallPurchaseRequest
 		super.run();
 	}
 
+
 	public void processResults()
 	{
-		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
+		MallPurchaseRequest.parseResponse( this.getURLString(), this.responseText );
 
+		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
 		if ( quantityAcquired > 0 )
 		{
-			ResultProcessor.processMeat( -1 * this.getPrice() * quantityAcquired );
-			KoLCharacter.updateStatus();
-
 			return;
 		}
 
@@ -191,7 +191,7 @@ public class MallPurchaseRequest
 
 		if ( this.responseText.indexOf( "That player will not sell to you" ) != -1 )
 		{
-			KoLmafia.updateDisplay( "You are on this shop's ignore list (#" + this.shopId + ").	Skipping..." );
+			KoLmafia.updateDisplay( "You are on this shop's ignore list (#" + this.shopId + "). Skipping..." );
 			return;
 		}
 
@@ -228,12 +228,12 @@ public class MallPurchaseRequest
 				}
 				else
 				{
-					KoLmafia.updateDisplay( "Price switch detected (#" + this.shopId + ").	Skipping..." );
+					KoLmafia.updateDisplay( "Price switch detected (#" + this.shopId + "). Skipping..." );
 				}
 			}
 			else
 			{
-				KoLmafia.updateDisplay( "Failed to yield.  Skipping..." );
+				KoLmafia.updateDisplay( "Failed to yield. Skipping..." );
 			}
 
 			return;
@@ -266,6 +266,25 @@ public class MallPurchaseRequest
 		}
 	}
 
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "mallstore.php" ) )
+		{
+			return;
+		}
+
+		Matcher meatMatcher = MallPurchaseRequest.MEAT_PATTERN.matcher( responseText );
+		if ( !meatMatcher.find() )
+		{
+			return;
+		}
+
+		int cost = StringUtilities.parseInt( meatMatcher.group( 1 ) );
+
+		ResultProcessor.processMeat( -cost );
+		KoLCharacter.updateStatus();
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		// mallstore.php?whichstore=294980&buying=1&ajax=1&whichitem=2272000000246&quantity=9
@@ -293,8 +312,7 @@ public class MallPurchaseRequest
 		// the last 9 characters of idString are the price, with leading zeros
 		String idString = itemMatcher.group( 1 );
 		int idStringLength = idString.length();
-		String priceString = null;
-		priceString = idString.substring(idStringLength - 9, idStringLength);
+		String priceString = idString.substring(idStringLength - 9, idStringLength);
 		idString = idString.substring( 0, idStringLength - 9 );
 
 		// In a perfect world where I was not so lazy, I'd verify that
