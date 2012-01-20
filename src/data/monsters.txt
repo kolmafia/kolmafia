@@ -861,7 +861,7 @@ Toilet-papered Tree	HP: 0 P: plant	mummy costume (20)	petrified wood (5)	spooky 
 Tomb Asp	HP: 155 Def: 162 Atk: 170 Meat: 80-120 "Really Quite Poisoned" P: beast	unidentified jerky (13)	charming flute (7)
 Tomb Bat	HP: 180 Def: 175 Atk: 175 Meat: 40-60 P: beast	leathery bat skin (30)	unidentified jerky (10)	mummy wrapping (20)
 Tomb Rat	HP: 175 Def: 165 Atk: 161 Meat: 60-90 P: beast	tomb ratchet (c20)	leathery rat skin (30)	unidentified jerky (12)
-Tomb Rat King	HP: 300 Def: 350 Atk: 352 Meat: 120-180	tomb ratchet (c20)	tomb ratchet (c20)	tomb ratchet (c20)	leathery rat skin (0)	leathery rat skin (0)	leathery rat skin (0)	unidentified jerky (0)	unidentified jerky (0)	unidentified jerky (0)
+Tomb Rat King	HP: 300 Def: 350 Atk: 350 Meat: 120-180	tomb ratchet (c20)	tomb ratchet (c20)	tomb ratchet (c20)	leathery rat skin (0)	leathery rat skin (0)	leathery rat skin (0)	unidentified jerky (0)	unidentified jerky (0)	unidentified jerky (0)
 Tomb Servant	HP: 185 Def: 170 Atk: 160 Meat: 40-60 E: spooky P: undead	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (12)
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18 Meat: 17-20 P: elemental
 Toothy Pirate	HP: 75 Def: 85 Atk: 83 Meat: 36-54 P: pirate	bottle of rum (20)	cocktail napkin (10)

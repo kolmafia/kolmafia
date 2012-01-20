@@ -2986,25 +2986,7 @@ public class FightRequest
 
 		int damage = 0;
 
-		Matcher m = FightRequest.ELEMENTAL_PATTERN.matcher( text );
-		if ( m.find() )
-		{
-			if ( !m.group( 1 ).equals( "" ) )
-			{
-				return 0;
-			}
-
-			damage += StringUtilities.parseInt( m.group( 2 ) );
-
-			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( m.group( 3 ) );
-			while ( secondaryMatcher.find() )
-			{
-				damage += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
-			}
-			return damage;
-		}
-
-		m = FightRequest.PHYSICAL_PATTERN.matcher( text );
+		Matcher m = FightRequest.PHYSICAL_PATTERN.matcher( text );
 		if ( m.find() )
 		{
 			// Currently, all of the explicit attack messages that
@@ -3046,6 +3028,24 @@ public class FightRequest
 				damage += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
 			}
 
+			return damage;
+		}
+
+		m = FightRequest.ELEMENTAL_PATTERN.matcher( text );
+		if ( m.find() )
+		{
+			if ( !m.group( 1 ).equals( "" ) )
+			{
+				return 0;
+			}
+
+			damage += StringUtilities.parseInt( m.group( 2 ) );
+
+			Matcher secondaryMatcher = FightRequest.SECONDARY_PATTERN.matcher( m.group( 3 ) );
+			while ( secondaryMatcher.find() )
+			{
+				damage += StringUtilities.parseInt( secondaryMatcher.group( 1 ) );
+			}
 			return damage;
 		}
 
