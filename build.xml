@@ -248,7 +248,7 @@
 
 	<target name="jsmooth" depends="init,update,jar">
 
-		<move file="${win.jsmoothfile}" tofile="${win.tmp.jsmoothfile}" />
+		<copy file="${win.jsmoothfile}" tofile="${win.tmp.jsmoothfile}" />
 		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.exe" value="${exefile}" />
 		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.jar" value="${jarfile}" />
 
