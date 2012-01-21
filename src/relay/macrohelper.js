@@ -178,9 +178,7 @@ function predicate(text, err)
 			if (params == '') {
 				output.value += perr + 'requires a parameter.\n';
 			}
-			else if (params.indexOf(' ') != -1 &&
-				(params.charAt(0) != '"' ||
-					params.charAt(params.length-1) != '"')) {
+			else if (params.indexOf(' ') != -1) {
 				output.value += perr + 'requires double-quotes around ' +
 					"parameters containing spaces.\n";
 			}
@@ -219,7 +217,7 @@ function syntaxcheck()
 		var params = '', param1 = '', paramrest = '';
 		var pos = cmd.indexOf(' ');
 		if (pos != -1) {
-			param1 = params = trim(cmd.slice(pos));
+			param1 = params = trim(cmd.slice(pos)).replace(/".*?"/g, '"STRING"');
 			cmd = cmd.slice(0, pos)
 			pos = params.indexOf(' ');
 			if (pos != -1) {
@@ -301,6 +299,6 @@ function syntaxcheck()
 	}
 
 	if (output.value == "") {
-		output.value = "No errors found (KoLmafia syntax checker v1.2)";
+		output.value = "No errors found (KoLmafia syntax checker v1.3)";
 	}
 }

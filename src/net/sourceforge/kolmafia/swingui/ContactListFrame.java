@@ -75,8 +75,7 @@ public class ContactListFrame
 		this.contactsDisplay = new JList( contacts );
 		this.contactsDisplay.setVisibleRowCount( 25 );
 		this.contactsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-
-		ContactListFrame.this.contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
+		this.contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
 
 		this.setCenterComponent( new ContactListPanel( this.contactsDisplay ) );
 		this.getToolbar();
