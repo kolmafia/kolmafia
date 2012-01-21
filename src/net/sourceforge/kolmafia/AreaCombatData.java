@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -193,9 +194,55 @@ public class AreaCombatData
 		return true;
 	}
 
+	/**
+	 * Counts the number of monsters in this area that drop the item with the
+	 * given ID.
+	 *
+	 * @param itemId
+	 * @return the number of monsters in this area dropping the item
+	 */
+	public int countMonstersDroppingItem( final int itemId )
+	{
+		int total = 0;
+
+		Iterator monsters = this.monsters.iterator();
+		while ( monsters.hasNext() )
+		{
+			MonsterData monster = (MonsterData) monsters.next();
+			Iterator items = monster.getItems().iterator();
+			while ( items.hasNext() )
+			{
+				AdventureResult item = (AdventureResult) items.next();
+
+				if ( item.getItemId() == itemId )
+				{
+					total++;
+					break;
+				}
+			}
+		}
+
+		return total;
+	}
+
 	public int getMonsterCount()
 	{
 		return this.monsters.size();
+	}
+
+	public int getAvailableMonsterCount()
+	{
+		int count = 0;
+		int size = this.monsters.size();
+		for ( int i = 0; i < size; ++i )
+		{
+			int weighting = this.getWeighting( i );
+			if ( weighting > 0 )
+			{
+				count++;
+			}
+		}
+		return count;
 	}
 
 	public MonsterData getMonster( final int i )
