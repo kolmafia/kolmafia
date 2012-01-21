@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.Box;
 import javax.swing.JCheckBox;
@@ -103,6 +105,7 @@ public class MallSearchFrame
 
 	private class MallSearchPanel
 		extends GenericPanel
+		implements FocusListener
 	{
 		private final JComponent searchField;
 		private final AutoHighlightTextField countField;
@@ -150,6 +153,17 @@ public class MallSearchFrame
 
 			this.setFocusCycleRoot( true );
 			this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.searchField ) );
+
+			this.addFocusListener( this );
+		}
+
+		public void focusGained( FocusEvent e )
+		{
+			this.searchField.requestFocus();
+		}
+
+		public void focusLost( FocusEvent e )
+		{
 		}
 
 		public void actionConfirmed()

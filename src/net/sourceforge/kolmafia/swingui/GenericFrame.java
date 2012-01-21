@@ -40,6 +40,8 @@ import java.awt.Frame;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
@@ -92,7 +94,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class GenericFrame
 	extends JFrame
-	implements Runnable
+	implements Runnable, FocusListener
 {
 	private static int existingFrameCount = 0;
 	private boolean packedOnce = false;
@@ -176,6 +178,17 @@ public abstract class GenericFrame
 
 		this.setFocusCycleRoot( true );
 		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.framePanel ) );
+
+		this.addFocusListener( this );
+	}
+
+	public void focusGained( FocusEvent e )
+	{
+		this.framePanel.requestFocus();
+	}
+
+	public void focusLost( FocusEvent e )
+	{
 	}
 
 	public void setCenterComponent( Component c )
@@ -828,12 +841,14 @@ public abstract class GenericFrame
 
 	private static class FramePanel
 		extends JPanel
+		implements FocusListener
 	{
 		private Component centerComponent;
 
 		public FramePanel()
 		{
 			super( new BorderLayout() );
+			this.addFocusListener( this );
 		}
 
 		public void add( Component c, Object constraint )
@@ -847,6 +862,18 @@ public abstract class GenericFrame
 				this.setFocusCycleRoot( true );
 				this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( c ) );
 			}
+		}
+
+		public void focusGained( FocusEvent e )
+		{
+			if ( this.centerComponent != null )
+			{
+				this.centerComponent.requestFocus();
+			}
+		}
+
+		public void focusLost( FocusEvent e )
+		{
 		}
 	}
 

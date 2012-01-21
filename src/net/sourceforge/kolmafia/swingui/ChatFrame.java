@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 
 import java.text.SimpleDateFormat;
@@ -77,7 +79,7 @@ public class ChatFrame
 	private static final SimpleDateFormat MARK_TIMESTAMP = new SimpleDateFormat( "HH:mm:ss", Locale.US );
 
 	private ChatPanel mainPanel;
-	private final JComboBox nameClickSelect;
+	private JComboBox nameClickSelect;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code> which is intended to be used for instant messaging to the specified
@@ -87,7 +89,11 @@ public class ChatFrame
 	public ChatFrame( final String associatedContact )
 	{
 		super(
-			associatedContact == null || associatedContact.equals( "" ) ? "Loathing Chat" : associatedContact.startsWith( "/" ) ? "Chat: " + associatedContact : "Chat PM: " + associatedContact );
+			associatedContact == null || associatedContact.equals( "" ) ?
+			"Loathing Chat" :
+			associatedContact.startsWith( "/" ) ?
+			"Chat: " + associatedContact :
+			"Chat PM: " + associatedContact );
 
 		this.initialize( associatedContact );
 
@@ -96,27 +102,26 @@ public class ChatFrame
 
 		JToolBar toolbarPanel = this.getToolbar();
 
-		// Add the name click options as a giant combo
-		// box, rather than a hidden menu.
-
-		this.nameClickSelect = new JComboBox();
-		this.nameClickSelect.addItem( "Name click shows player profile" );
-		this.nameClickSelect.addItem( "Name click opens blue message" );
-		this.nameClickSelect.addItem( "Name click sends kmail message" );
-		this.nameClickSelect.addItem( "Name click opens trade request" );
-		this.nameClickSelect.addItem( "Name click shows display case" );
-		this.nameClickSelect.addItem( "Name click shows ascension history" );
-		this.nameClickSelect.addItem( "Name click shows mall store" );
-		this.nameClickSelect.addItem( "Name click performs /whois" );
-		this.nameClickSelect.addItem( "Name click friends the player" );
-		this.nameClickSelect.addItem( "Name click baleets the player" );
-
 		if ( toolbarPanel != null )
 		{
-			toolbarPanel.add( this.nameClickSelect );
-		}
+			// Add the name click options as a giant combo
+			// box, rather than a hidden menu.
 
-		this.nameClickSelect.setSelectedIndex( 0 );
+			this.nameClickSelect = new JComboBox();
+			this.nameClickSelect.addItem( "Name click shows player profile" );
+			this.nameClickSelect.addItem( "Name click opens blue message" );
+			this.nameClickSelect.addItem( "Name click sends kmail message" );
+			this.nameClickSelect.addItem( "Name click opens trade request" );
+			this.nameClickSelect.addItem( "Name click shows display case" );
+			this.nameClickSelect.addItem( "Name click shows ascension history" );
+			this.nameClickSelect.addItem( "Name click shows mall store" );
+			this.nameClickSelect.addItem( "Name click performs /whois" );
+			this.nameClickSelect.addItem( "Name click friends the player" );
+			this.nameClickSelect.addItem( "Name click baleets the player" );
+			toolbarPanel.add( this.nameClickSelect );
+
+			this.nameClickSelect.setSelectedIndex( 0 );
+		}
 
 		// Set the default size so that it doesn't appear super-small
 		// when it's first constructed
@@ -139,9 +144,20 @@ public class ChatFrame
 		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.mainPanel ) );
 	}
 
+	public void focusGained( FocusEvent e )
+	{
+		if ( this.mainPanel != null )
+		{
+			this.mainPanel.requestFocus();
+		}
+	}
+
+	public void focusLost( FocusEvent e )
+	{
+	}
+
 	public JToolBar getToolbar()
 	{
-
 		if ( !Preferences.getBoolean( "useChatToolbar" ) )
 		{
 			return null;
@@ -186,7 +202,7 @@ public class ChatFrame
 	{
 		String contact = this.getAssociatedContact();
 
-		if ( contact == null || contact.equals( ChatManager.getCurrentChannel() ) )
+		if ( contact != null && contact.equals( ChatManager.getCurrentChannel() ) )
 		{
 			contact = null;
 		}
@@ -214,6 +230,7 @@ public class ChatFrame
 
 	public class ChatPanel
 		extends JPanel
+		implements FocusListener
 	{
 		private int lastCommandIndex = 0;
 		private final ArrayList commandHistory;
@@ -238,6 +255,7 @@ public class ChatFrame
 
 			JButton entryButton = new JButton( "chat" );
 			entryButton.addActionListener( listener );
+
 			entryPanel.add( this.entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
@@ -247,6 +265,17 @@ public class ChatFrame
 
 			this.add( entryPanel, BorderLayout.SOUTH );
 			this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.entryField ) );
+
+			this.addFocusListener( this );
+		}
+
+		public void focusGained( FocusEvent e )
+		{
+			this.entryField.requestFocus();
+		}
+
+		public void focusLost( FocusEvent e )
+		{
 		}
 
 		public String getAssociatedContact()
@@ -399,7 +428,8 @@ public class ChatFrame
 			// Next, determine the option which had been
 			// selected in the link-click.
 
-			int linkOption = ChatFrame.this.nameClickSelect.getSelectedIndex();
+			int linkOption = ChatFrame.this.nameClickSelect != null ?
+				ChatFrame.this.nameClickSelect.getSelectedIndex(): 1;
 
 			String urlString = null;
 
