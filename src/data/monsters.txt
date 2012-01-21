@@ -866,7 +866,7 @@ Tomb Servant	HP: 185 Def: 170 Atk: 160 Meat: 40-60 E: spooky P: undead	canopic j
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18 Meat: 17-20 P: elemental
 Toothy Pirate	HP: 75 Def: 85 Atk: 83 Meat: 36-54 P: pirate	bottle of rum (20)	cocktail napkin (10)
 Toothy Sklelton	HP: 50 Def: 58 Atk: 57 E: spooky P: undead	loose teeth (20)	loose teeth (20)	skeleton bone (20)	bone flute (10)	evil eye (25)
-Topiary Golem	HP: 250 Def: 235 Atk: 232 P: object	hedge maze puzzle (60)
+Topiary Golem	HP: 250 Def: 235 Atk: 232 P: plant	hedge maze puzzle (60)
 Totally Trashed Orquette	HP: 90 Def: 60 Atk: 50 E: sleaze P: orc	orquette's phone number (c100)
 Towering Construct	HP: 450 Def: 400 Atk: 350 P: object	El Vibrato punchcard (165 holes) (1)	El Vibrato punchcard (176 holes) (1)
 Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
