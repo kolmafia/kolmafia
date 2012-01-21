@@ -56,7 +56,7 @@ public class MallPurchaseRequest
 	private static final Pattern YIELD_PATTERN =
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
 	private static Pattern MALLSTOREID_PATTERN = Pattern.compile( "whichstore\\d?=(\\d+)" );
-	private static Pattern MEAT_PATTERN = Pattern.compile( "You spent (\\d+) Meat" );
+	private static Pattern MEAT_PATTERN = Pattern.compile( "You spent ([\\d,]+) Meat" );
 
 	private final int shopId;
 
