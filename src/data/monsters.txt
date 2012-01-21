@@ -501,7 +501,7 @@ Knight in White Satin	HP: 21 Def: 36 Atk: 38 Meat: 24-39 P: humanoid	white sword
 Knob Goblin Assistant Chef	HP: 1 Def: 1 Atk: 2 Meat: 7-9 P: goblin	chef's hat (35)	Knob Goblin tongs (10)	Knob Goblin pants (5)
 Knob Goblin Barbecue Team	HP: 2 Def: 2 Atk: 2 E: heat Meat: 8-12 P: goblin	bowl of cottage cheese (60)	Knob Goblin pants (5)	Knob Goblin tongs (20)	Colon Annihilation Hot Sauce (p20)	bloodstained briquette (b0)
 Knob Goblin Accountant	HP: 20 Def: 22 Atk: 22 P: goblin	flimsy clipboard (15)	meat stack (25)
-Knob Goblin Alchemist	HP: 45 Def: 40 Atk: 40 P: goblin	half-baked potion (25)	philosopher's scone (15)
+Knob Goblin Alchemist	HP: 45 Def: 40 Atk: 40 P: goblin	half-baked potion (25)	philosopher's scone (15)	broken petri dish (b0)
 Knob Goblin Bean Counter	HP: 20 Def: 24 Atk: 24 Meat: 48-72 P: goblin	hill of beans (50)	Knob Goblin visor (5)	stolen office supplies (10)	bundle of receipts (b0)
 Knob Goblin Elite Guard Captain	HP: 35 Def: 30 Atk: 30 Meat: 240-360 P: goblin	Knob Goblin elite helm (100)	Knob Goblin elite pants (100)	Knob Goblin elite polearm (100)
 Knob Goblin Elite Guard	HP: 30 Def: 31 Atk: 25 Meat: 40-60 P: goblin	Cobb's Knob Wurstbrau (15)	Knob Goblin elite helm (10)	Knob Goblin elite pants (10)	Knob Goblin elite shirt (10)	knob bugle (10)

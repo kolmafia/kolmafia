@@ -429,7 +429,7 @@ public class ChatFrame
 			// selected in the link-click.
 
 			int linkOption = ChatFrame.this.nameClickSelect != null ?
-				ChatFrame.this.nameClickSelect.getSelectedIndex(): 1;
+				ChatFrame.this.nameClickSelect.getSelectedIndex(): 0;
 
 			String urlString = null;
 
