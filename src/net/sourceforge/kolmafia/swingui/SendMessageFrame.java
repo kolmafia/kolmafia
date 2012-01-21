@@ -39,10 +39,13 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
@@ -75,6 +78,7 @@ public class SendMessageFrame
 	private final AutoFilterComboBox recipientEntry;
 
 	private final LockableListModel attachments;
+	private final JList attachmentsList;
 	private final AutoHighlightTextField attachedMeat;
 	private final JTextArea messageEntry;
 
@@ -127,13 +131,18 @@ public class SendMessageFrame
 
 		JButton attach = new InvocationButton( "Attach an item", "icon_plus.gif", this, "attachItem" );
 		JComponentUtilities.setComponentSize( attach, 15, 15 );
+
 		JPanel labelPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		labelPanel.add( attach, BorderLayout.WEST );
 		labelPanel.add( new JLabel( "Click to attach an item", SwingConstants.LEFT ), BorderLayout.CENTER );
 
+		GenericScrollPane pane = new GenericScrollPane( this.attachments, 3 );
+		this.attachmentsList = (JList) pane.getComponent();
+		this.attachmentsList.addKeyListener( new RemoveAttachmentListener() );
+
 		JPanel attachPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		attachPanel.add( labelPanel, BorderLayout.NORTH );
-		attachPanel.add( new GenericScrollPane( this.attachments, 3 ), BorderLayout.CENTER );
+		attachPanel.add( pane, BorderLayout.CENTER );
 
 		JPanel northPanel = new JPanel( new BorderLayout( 20, 20 ) );
 		northPanel.add( mainPanel, BorderLayout.CENTER );
@@ -299,6 +308,34 @@ public class SendMessageFrame
 			{
 				this.attachments.add( values[ i ] );
 			}
+		}
+	}
+
+	private class RemoveAttachmentListener
+		extends KeyAdapter
+	{
+		public void keyReleased( final KeyEvent e )
+		{
+			if ( e.isConsumed() )
+			{
+				return;
+			}
+
+			if ( e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_BACK_SPACE )
+			{
+				return;
+			}
+
+			JList list = SendMessageFrame.this.attachmentsList;
+			LockableListModel model = (LockableListModel) list.getModel();
+			int [] indices = list.getSelectedIndices();
+			for ( int i = indices.length; i > 0; --i )
+			{
+				int index = indices[ i - 1 ];
+				model.remove( index );
+			}
+
+			e.consume();
 		}
 	}
 }

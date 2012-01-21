@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class GenericScrollPane
 	extends JScrollPane
 {
+	private Component component;
+
 	public GenericScrollPane( final LockableListModel model )
 	{
 		this( model, 8 );
@@ -58,9 +60,9 @@ public class GenericScrollPane
 
 	public GenericScrollPane( final LockableListModel model, final int visibleRows )
 	{
-		this(
-			new ShowDescriptionList( model, visibleRows ), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
+		this( new ShowDescriptionList( model, visibleRows ),
+		      ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+		      ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 	}
 
 	public GenericScrollPane( final Component view )
@@ -90,5 +92,12 @@ public class GenericScrollPane
 		{
 			this.getVerticalScrollBar().setUnitIncrement( 30 );
 		}
+
+		this.component = view;
+	}
+
+	public Component getComponent()
+	{
+		return this.component;
 	}
 }
