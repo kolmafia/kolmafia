@@ -125,7 +125,7 @@ public class DataFileCache
 		{
 			File settings = KoLConstants.SETTINGS_LOCATION.getCanonicalFile();
 			
-			if ( settings.equals( file.getCanonicalFile().getParent() ) )
+			if ( settings.equals( file.getCanonicalFile().getParentFile() ) )
 			{
 				return false;
 			}

@@ -176,8 +176,6 @@ public class AdventureSelectPanel
 
 		contentHolder.add( conditionPanel, BorderLayout.SOUTH );
 
-		JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, AdventureSelectPanel.this.begin );
-
 		JPanel contentPanel = new JPanel( new BorderLayout( 10, 10 ) );
 		contentPanel.add( contentHolder, BorderLayout.CENTER );
 
@@ -190,6 +188,8 @@ public class AdventureSelectPanel
 
 			this.begin = new ThreadedButton( "begin", new ExecuteRunnable() );
 			this.begin.setToolTipText( "Start Adventuring" );
+
+			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, AdventureSelectPanel.this.begin );
 
 			buttonHolder.add( AdventureSelectPanel.this.begin );
 			buttonHolder.add( new InvocationButton( "stop now", RequestThread.class, "declareWorldPeace" ) );
