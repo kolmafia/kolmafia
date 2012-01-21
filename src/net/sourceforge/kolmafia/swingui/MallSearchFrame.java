@@ -180,6 +180,8 @@ public class MallSearchFrame
 				searchText, searchCount, MallSearchFrame.this.results, false ) );
 
 			MallSearchFrame.this.currentlySearching = false;
+
+			this.searchField.requestFocus();
 		}
 
 		public void actionCancelled()
