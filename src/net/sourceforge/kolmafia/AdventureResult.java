@@ -221,7 +221,7 @@ public class AdventureResult
 	public AdventureResult( final int itemId, final int count )
 	{
 		String name = ItemDatabase.getItemName( itemId );
-		this.name = name != null ? name : "(unknown item " + String.valueOf( this.itemId ) + ")";
+		this.name = name != null ? name : "(unknown item " + String.valueOf( itemId ) + ")";
 		this.itemId = itemId;
 		this.count = count;
 		this.priority = AdventureResult.ITEM_PRIORITY;

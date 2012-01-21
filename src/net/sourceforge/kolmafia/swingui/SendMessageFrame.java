@@ -37,6 +37,7 @@ import com.sun.java.forums.SpringUtilities;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -132,9 +133,16 @@ public class SendMessageFrame
 		JButton attach = new InvocationButton( "Attach an item", "icon_plus.gif", this, "attachItem" );
 		JComponentUtilities.setComponentSize( attach, 15, 15 );
 
+		JButton detach = new InvocationButton( "Remove selected items", "icon_minus.gif", this, "detachItems" );
+		JComponentUtilities.setComponentSize( detach, 15, 15 );
+
+		JPanel buttonPanel = new JPanel( new GridLayout( 1, 2, 0, 0 ) );
+		buttonPanel.add( attach );
+		buttonPanel.add( detach );
+
 		JPanel labelPanel = new JPanel( new BorderLayout( 5, 5 ) );
-		labelPanel.add( attach, BorderLayout.WEST );
-		labelPanel.add( new JLabel( "Click to attach an item", SwingConstants.LEFT ), BorderLayout.CENTER );
+		labelPanel.add( buttonPanel, BorderLayout.WEST );
+		labelPanel.add( new JLabel( "Attach or detach items", SwingConstants.LEFT ), BorderLayout.CENTER );
 
 		GenericScrollPane pane = new GenericScrollPane( this.attachments, 3 );
 		this.attachmentsList = (JList) pane.getComponent();
@@ -311,6 +319,17 @@ public class SendMessageFrame
 		}
 	}
 
+	public void detachItems()
+	{
+		JList list = this.attachmentsList;
+		int [] indices = list.getSelectedIndices();
+		for ( int i = indices.length; i > 0; --i )
+		{
+			int index = indices[ i - 1 ];
+			this.attachments.remove( index );
+		}
+	}
+
 	private class RemoveAttachmentListener
 		extends KeyAdapter
 	{
@@ -326,14 +345,7 @@ public class SendMessageFrame
 				return;
 			}
 
-			JList list = SendMessageFrame.this.attachmentsList;
-			LockableListModel model = (LockableListModel) list.getModel();
-			int [] indices = list.getSelectedIndices();
-			for ( int i = indices.length; i > 0; --i )
-			{
-				int index = indices[ i - 1 ];
-				model.remove( index );
-			}
+			SendMessageFrame.this.detachItems();
 
 			e.consume();
 		}
