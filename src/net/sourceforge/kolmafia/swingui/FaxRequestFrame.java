@@ -73,6 +73,8 @@ public class FaxRequestFrame
 	private static final int LIMIT = 60;
 	private static final int DELAY = 200;
 
+	private static String statusMessage;
+
 	static
 	{
 		FaxBotDatabase.configure();
@@ -93,7 +95,6 @@ public class FaxRequestFrame
 		extends GenericPanel
 	{
 		String botName = FaxBotDatabase.botName( 0 );
-		private String statusMessage;
 
 		public FaxRequestPanel()
 		{
@@ -139,203 +140,220 @@ public class FaxRequestFrame
 				return;
 			}
 
-			// Validate ability to receive a fax
-			if ( !canReceiveFax() )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
-				return;
-			}
-
-			// Make sure FaxBot is online
-			if ( !isBotOnline( botName ) )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
-				return;
-			}
-
-			// Make sure we can receive chat messages, either via
-			// KoLmafia chat or in the Relay Browser.
-			if ( !( ChatManager.isRunning() || true ) )
-			{
-				statusMessage = "You must be in chat so we can receive messages from " + botName;
-				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
-				return;
-			}
-
-			// Do you already have a photocopied monster?
-			if ( InventoryManager.hasItem( ItemPool.PHOTOCOPIED_MONSTER ) )
-			{
-				String monster = Preferences.getString( "photocopyMonster" );
-				if ( monster.equals( "" ) )
-				{
-					monster = "monster";
-				}
-
-				// Yes. Offer a chance to discard it right now
-				if ( !InputFieldUtilities.confirm( "You have a photocopied " + monster + " in your inventory. Dump it?" ) )
-				{
-					statusMessage = "You need to dispose of your photocopied " + monster + " before you can receive a fax.";
-					KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
-					return;
-				}
-
-				ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.SEND_FAX );
-				RequestThread.postRequest( request );
-			}
-
 			Monster monster = (Monster)value;
 			String name = monster.getName();
 			String command = monster.getCommand();
 
-			// We can try several times...
-			PauseObject pauser = new PauseObject();
-
-			while ( true )
-			{
-				KoLmafia.updateDisplay( "Asking " + botName + " to send a fax of " + name + ": " + command );
-
-				// Clear last message, just in case.
-				ChatManager.getLastFaxBotMessage();
-
-				ChatSender.sendMessage( botName, command, false );
-
-				String response = null;
-				// Response is sent blue message. Can it fail?
-
-				int polls = LIMIT * 1000 / DELAY;
-				for ( int i = 0; i < polls; ++i )
-				{
-					response = ChatManager.getLastFaxBotMessage();
-					if ( response != null )
-					{
-						break;
-					}
-					pauser.pause( DELAY );
-				}
-
-				if ( response == null )
-				{
-					statusMessage = "No response from " + botName + " after " + LIMIT + " seconds.";
-					KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
-					return;
-				}
-
-				// FaxBot just delivered a fax to your clan,
-				// please try again in 1 minute.
-				if ( response.indexOf( "just delivered a fax" ) != -1 )
-				{
-					statusMessage = botName + " recently delivered another fax. Retrying in one minute.";
-					KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
-					KoLmafia.forceContinue();
-					StaticEntity.executeCountdown( "Countdown: ", 60 );
-
-					continue;
-				}
-
-				// parse FaxBot's response
-				if ( !faxAvailable( response ) )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
-					return;
-				}
-
-				// Success! No need to retry
-				break;
-			}
-
-			// The monster is there! retrieve it.
-			ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX );
-			RequestThread.postRequest( request );
-			KoLmafia.enableDisplay();
-		}
-
-		private boolean canReceiveFax()
-		{
-			// Do you have a VIP key?
-			if ( !InventoryManager.hasItem( ClanLoungeRequest.VIP_KEY ) )
-			{
-				statusMessage = "You don't have a VIP key.";
-				return false;
-			}
-
-			// Try to visit the fax machine
-			ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE );
-			RequestThread.postRequest( request );
-
-			// Are you in a clan?
-			String redirect = request.redirectLocation;
-			if ( redirect != null && redirect.equals( "clan_signup.php" ) )
-			{
-				statusMessage = "You are not in a clan.";
-				return false;
-			}
-
-			// Does your clan have a fax machine?
-			if ( request.responseText.indexOf( "You approach the fax machine" ) == -1 )
-			{
-				statusMessage = "Your clan does not have a fax machine.";
-				return false;
-			}
-			return true;
-		}
-
-		private boolean faxAvailable( final String response )
-		{
-			// FaxBot has copied a Rockfish into your clan's Fax
-			// Machine.
-			if ( response.indexOf( "into your clan's Fax Machine" ) != -1 )
-			{
-				return true;
-			}
-
-			if ( response.indexOf( "I do not understand your request" ) != -1 )
-			{
-				statusMessage = "Configuration error: unknown command sent to " + botName;
-				return false;
-			}
-
-			if ( response.indexOf( "could not whitelist" ) != -1 )
-			{
-				statusMessage = botName + " is not on your clan's whitelist";
-				return false;
-			}
-
-			// You are only allowed 20 fax requests per day. Please
-			// try again tomorrow.
-
-			statusMessage = response;
-			return false;
+			FaxRequestFrame.requestFax( botName, name, command );
 		}
 
 		public void actionCancelled()
 		{
-			if ( isBotOnline( botName ) )
+			if ( FaxRequestFrame.isBotOnline( botName ) )
 			{
-				statusMessage = botName + " is online.";
+				FaxRequestFrame.statusMessage = botName + " is online.";
 			}
-			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, statusMessage );
+			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
 		}
 
-		private boolean isBotOnline( final String botName )
+	}
+
+	public static void requestFax( final String botName, final String monster, final String command )
+	{
+		// Validate ability to receive a fax
+		if ( !FaxRequestFrame.canReceiveFax() )
 		{
-			// Return false and set statusMessage to an appropriate
-			// message if the bot is NOT online.
+			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+			return;
+		}
 
-			if ( botName == null )
+		// Make sure FaxBot is online
+		if ( !FaxRequestFrame.isBotOnline( botName ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+			return;
+		}
+
+		// Make sure we can receive chat messages, either via KoLmafia chat or in the Relay Browser.
+		if ( !( ChatManager.isRunning() || true ) )
+		{
+			FaxRequestFrame.statusMessage = "You must be in chat so we can receive messages from " + botName;
+			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+			return;
+		}
+
+		// Do you already have a photocopied monster?
+		if ( InventoryManager.hasItem( ItemPool.PHOTOCOPIED_MONSTER ) )
+		{
+			String current = Preferences.getString( "photocopyMonster" );
+			if ( current.equals( "" ) )
 			{
-				statusMessage = "No faxbots configured.";
-				return false;
+				current = "monster";
 			}
 
-			if ( !KoLmafia.isPlayerOnline( botName ) )
+			// Yes. Offer a chance to discard it right now
+			if ( !InputFieldUtilities.confirm( "You have a photocopied " + current + " in your inventory. Dump it?" ) )
 			{
-				statusMessage = botName + " is probably not online.";
-				return false;
+				FaxRequestFrame.statusMessage = "You need to dispose of your photocopied " + current + " before you can receive a fax.";
+				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+				return;
 			}
 
-			// Do not bother allocating a message if bot is online
+			ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.SEND_FAX );
+			RequestThread.postRequest( request );
+		}
+
+		// We can try several times...
+		PauseObject pauser = new PauseObject();
+
+		StringBuffer buf = new StringBuffer();
+		buf.append( "Asking " );
+		buf.append( botName );
+		buf.append( " to send a fax" );
+		if ( monster != null )
+		{
+			buf.append( " of " );
+			buf.append( monster );
+		}
+		buf.append( ": " );
+		buf.append( command );
+
+		String message = buf.toString();
+
+		while ( true )
+		{
+			KoLmafia.updateDisplay( message );
+
+			// Clear last message, just in case.
+			ChatManager.getLastFaxBotMessage();
+
+			ChatSender.sendMessage( botName, command, false );
+
+			String response = null;
+			// Response is sent blue message. Can it fail?
+
+			int polls = LIMIT * 1000 / DELAY;
+			for ( int i = 0; i < polls; ++i )
+			{
+				response = ChatManager.getLastFaxBotMessage();
+				if ( response != null )
+				{
+					break;
+				}
+				pauser.pause( DELAY );
+			}
+
+			if ( response == null )
+			{
+				FaxRequestFrame.statusMessage = "No response from " + botName + " after " + LIMIT + " seconds.";
+				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+				return;
+			}
+
+			// FaxBot just delivered a fax to your clan, please try again in 1 minute.
+			if ( response.indexOf( "just delivered a fax" ) != -1 )
+			{
+				FaxRequestFrame.statusMessage = botName + " recently delivered another fax. Retrying in one minute.";
+				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+				KoLmafia.forceContinue();
+				StaticEntity.executeCountdown( "Countdown: ", 60 );
+
+				continue;
+			}
+
+			// parse FaxBot's response
+			if ( !FaxRequestFrame.faxAvailable( botName, response ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+				return;
+			}
+
+			// Success! No need to retry
+			break;
+		}
+
+		// The monster is there! retrieve it.
+		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX );
+		RequestThread.postRequest( request );
+		KoLmafia.enableDisplay();
+	}
+
+	private static boolean canReceiveFax()
+	{
+		// Do you have a VIP key?
+		if ( !InventoryManager.hasItem( ClanLoungeRequest.VIP_KEY ) )
+		{
+			FaxRequestFrame.statusMessage = "You don't have a VIP key.";
+			return false;
+		}
+
+		// Try to visit the fax machine
+		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE );
+		RequestThread.postRequest( request );
+
+		// Are you in a clan?
+		String redirect = request.redirectLocation;
+		if ( redirect != null && redirect.equals( "clan_signup.php" ) )
+		{
+			FaxRequestFrame.statusMessage = "You are not in a clan.";
+			return false;
+		}
+
+		// Does your clan have a fax machine?
+		if ( request.responseText.indexOf( "You approach the fax machine" ) == -1 )
+		{
+			FaxRequestFrame.statusMessage = "Your clan does not have a fax machine.";
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean faxAvailable( final String botName, final String response )
+	{
+		// FaxBot has copied a Rockfish into your clan's Fax Machine.
+		if ( response.indexOf( "into your clan's Fax Machine" ) != -1 )
+		{
 			return true;
 		}
+
+		if ( response.indexOf( "I do not understand your request" ) != -1 )
+		{
+			FaxRequestFrame.statusMessage = "Configuration error: unknown command sent to " + botName;
+			return false;
+		}
+
+		if ( response.indexOf( "could not whitelist" ) != -1 )
+		{
+			FaxRequestFrame.statusMessage = botName + " is not on your clan's whitelist";
+			return false;
+		}
+
+		// You are only allowed 20 fax requests per day. Please
+		// try again tomorrow.
+
+		FaxRequestFrame.statusMessage = response;
+		return false;
+	}
+
+	private static boolean isBotOnline( final String botName )
+	{
+		// Return false and set FaxRequestFrame.statusMessage to an appropriate
+		// message if the bot is NOT online.
+
+		if ( botName == null )
+		{
+			FaxRequestFrame.statusMessage = "No faxbots configured.";
+			return false;
+		}
+
+		if ( !KoLmafia.isPlayerOnline( botName ) )
+		{
+			FaxRequestFrame.statusMessage = botName + " is probably not online.";
+			return false;
+		}
+
+		// Do not bother allocating a message if bot is online
+		return true;
 	}
 
 	private class MonsterCategoryComboBox
