@@ -135,7 +135,7 @@ global	relayAddsUseLinks	true
 global	relayAddsWikiLinks	false
 global	relayAllowsOverrides	false
 global	relayBrowserOnly	false
-global	relayFormatsChatText	true
+global	relayFormatsChatText	false
 global	relayHidesJunkMallItems	false
 global	relayMaintainsEffects	false
 global	relayMaintainsHealth	false
