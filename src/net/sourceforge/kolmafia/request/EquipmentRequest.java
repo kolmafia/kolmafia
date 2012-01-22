@@ -816,15 +816,59 @@ public class EquipmentRequest
 
 		super.run();
 
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return;
+		}
+
 		switch ( this.requestType )
 		{
+		case EquipmentRequest.REFRESH:
+			return;
+
 		case EquipmentRequest.SAVE_OUTFIT:
 			KoLmafia.updateDisplay( "Outfit saved" );
-			break;
+			return;
 
 		case EquipmentRequest.CHANGE_ITEM:
 		case EquipmentRequest.CHANGE_OUTFIT:
+		case EquipmentRequest.REMOVE_ITEM:
+			KoLmafia.updateDisplay( "Equipment changed." );
+			break;
 
+		case EquipmentRequest.UNEQUIP_ALL:
+			KoLmafia.updateDisplay( "Everything removed." );
+			break;
+		}
+
+		if ( !this.containsUpdate )
+		{
+			new CharPaneRequest().run();
+		}
+	}
+
+	public void processResults()
+	{
+		String urlString = this.getURLString();
+		String responseText = this.responseText;
+
+		if ( urlString.startsWith( "bedazzle.php" ) )
+		{
+			EquipmentRequest.parseBedazzlements( responseText );
+			return;
+		}
+
+		switch ( this.requestType )
+		{
+		case EquipmentRequest.REFRESH:
+			return;
+
+		case EquipmentRequest.EQUIPMENT:
+			EquipmentRequest.parseEquipment( urlString, responseText );
+			return;
+
+		case EquipmentRequest.CHANGE_ITEM:
+		case EquipmentRequest.CHANGE_OUTFIT:
 			String text = this.responseText == null ? "" : this.responseText;
 			// What SHOULD we do if get a null responseText?
 
@@ -872,62 +916,9 @@ public class EquipmentRequest
 				}
 			}
 
-			KoLmafia.updateDisplay( "Equipment changed." );
-			if ( !this.containsUpdate )
-			{
-				new CharPaneRequest().run();
-			}
-
-			break;
-
-		case EquipmentRequest.REMOVE_ITEM:
-
-			KoLmafia.updateDisplay( "Equipment changed." );
-			if ( !this.containsUpdate )
-			{
-				new CharPaneRequest().run();
-			}
-
-			break;
-
-		case EquipmentRequest.UNEQUIP_ALL:
-
-			KoLmafia.updateDisplay( "Everything removed." );
-			if ( !this.containsUpdate )
-			{
-				new CharPaneRequest().run();
-			}
-
-			break;
-		}
-	}
-
-	public void processResults()
-	{
-		super.processResults();
-
-		String urlString = this.getURLString();
-		String responseText = this.responseText;
-
-		if ( urlString.startsWith( "bedazzle.php" ) )
-		{
-			EquipmentRequest.parseBedazzlements( responseText );
-			return;
-		}
-
-		switch ( this.requestType )
-		{
-		case EquipmentRequest.REFRESH:
-			return;
-
-		case EquipmentRequest.EQUIPMENT:
-			EquipmentRequest.parseEquipment( urlString, responseText );
-			return;
-
-		case EquipmentRequest.CHANGE_ITEM:
-		case EquipmentRequest.REMOVE_ITEM:
+			// Fall through
 		case EquipmentRequest.SAVE_OUTFIT:
-		case EquipmentRequest.CHANGE_OUTFIT:
+		case EquipmentRequest.REMOVE_ITEM:
 		case EquipmentRequest.UNEQUIP_ALL:
 			if ( this.getURLString().indexOf( "ajax=1" ) != -1 )
 			{
