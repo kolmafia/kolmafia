@@ -2112,6 +2112,7 @@ public class DailyDeedsPanel
 				}
 				buffer.append( Preferences.getString( "_piePartsCount" ) );
 				buffer.append( ")" );
+				shown = true;
 			}
 
 			FamiliarData tron = KoLCharacter.findFamiliar( FamiliarPool.TRON );
@@ -2140,6 +2141,7 @@ public class DailyDeedsPanel
 				buffer.append( " stomp" );
 				if ( Preferences.getInteger( "_bootStomps" ) != 1 ) buffer.append( "s" );
 				if ( Preferences.getBoolean( "bootsCharged" ) ) buffer.append( " (C)" );
+				shown = true;
 			}
 
 			FamiliarData groose = KoLCharacter.findFamiliar( FamiliarPool.GROOSE );

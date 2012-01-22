@@ -61,6 +61,7 @@ public class ProfileRequest
 {
 	private static final Pattern DATA_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
 	private static final Pattern NUMERIC_PATTERN = Pattern.compile( "\\d+" );
+	private static final Pattern CLAN_ID_PATTERN = Pattern.compile( "whichclan=(\\d+)" );
 	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
 	public static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
 
@@ -81,6 +82,7 @@ public class ProfileRequest
 	private String title, rank;
 
 	private String clanName;
+	private int clanId;
 	private int equipmentPower;
 
 	public ProfileRequest( final String playerName )
@@ -352,6 +354,12 @@ public class ProfileRequest
 			}
 
 			this.clanName = st.nextToken();
+
+			Matcher m = CLAN_ID_PATTERN.matcher( this.responseText );
+			if ( m.find() )
+			{
+				this.clanId = StringUtilities.parseInt( m.group( 1 ) );
+			}
 		}
 
 		if ( cleanHTML.indexOf( "\nTitle" ) != -1 )
@@ -366,8 +374,8 @@ public class ProfileRequest
 	}
 
 	/**
-	 * static final method used by the clan manager in order to get an instance of a profile request based on the data
-	 * already known.
+	 * static final method used by the clan manager in order to get an
+	 * instance of a profile request based on the data already known.
 	 */
 
 	public static final ProfileRequest getInstance( final String playerName, final String playerId,
@@ -466,8 +474,8 @@ public class ProfileRequest
 	}
 
 	/**
-	 * static final method used by the flower hunter in order to get an instance of a profile request based on the data
-	 * already known.
+	 * static final method used by the flower hunter in order to get an
+	 * instance of a profile request based on the data already known.
 	 */
 
 	public static final ProfileRequest getInstance( final String playerName, final String playerId,
@@ -483,6 +491,14 @@ public class ProfileRequest
 		return instance;
 	}
 
+	public void initialize()
+	{
+		if ( this.responseText == null )
+		{
+			RequestThread.postRequest( this );
+		}
+	}
+
 	public String getPlayerName()
 	{
 		return this.playerName;
@@ -495,15 +511,14 @@ public class ProfileRequest
 
 	public String getClanName()
 	{
+		this.initialize();
 		return this.clanName;
 	}
 
-	public void initialize()
+	public int getClanId()
 	{
-		if ( this.responseText == null )
-		{
-			RequestThread.postRequest( this );
-		}
+		this.initialize();
+		return this.clanId;
 	}
 
 	public boolean isHardcore()
@@ -604,41 +619,49 @@ public class ProfileRequest
 
 	public Integer getMuscle()
 	{
+		this.initialize();
 		return this.muscle;
 	}
 
 	public Integer getMysticism()
 	{
+		this.initialize();
 		return this.mysticism;
 	}
 
 	public Integer getMoxie()
 	{
+		this.initialize();
 		return this.moxie;
 	}
 
 	public Integer getPower()
 	{
+		this.initialize();
 		return new Integer( this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue() );
 	}
 
 	public Integer getEquipmentPower()
 	{
+		this.initialize();
 		return new Integer( this.equipmentPower );
 	}
 
 	public String getTitle()
 	{
+		this.initialize();
 		return this.title != null ? this.title : ClanManager.getTitle( this.playerName );
 	}
 
 	public String getRank()
 	{
+		this.initialize();
 		return this.rank;
 	}
 
 	public Integer getKarma()
 	{
+		this.initialize();
 		return this.karma;
 	}
 
