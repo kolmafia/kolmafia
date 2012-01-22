@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -87,9 +86,8 @@ public class TavernManager
 		// See if we've already found the faucet within KoLmafia
 		TavernRequest.validateFaucetQuest();
 		String visited = Preferences.getString( "tavernLayout" );
-		int faucet = visited.indexOf( "3" );
-		int baron = visited.indexOf( "4" );
 
+		int faucet = visited.indexOf( "3" );
 		if ( faucet != -1 )
 		{
 			int faucetRow = faucet / 5 + 1;
@@ -98,6 +96,7 @@ public class TavernManager
 			KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
 		}
 
+		int baron = visited.indexOf( "4" );
 		if ( baron != -1 )
 		{
 			int baronRow = baron / 5 + 1;
@@ -123,59 +122,29 @@ public class TavernManager
 		// *** Should look at response and make sure we got there
 
 		// Visit the tavern cellar to update the layout
-		KoLAdventure adventure = new KoLAdventure( "Woods", "cellar.php", "", "Typical Tavern Cellar" );
-		RequestThread.postRequest( adventure );
+		request = new GenericRequest( "cellar.php" );
+		RequestThread.postRequest( request );
 
 		// Refetch the current layout
 		visited = Preferences.getString( "tavernLayout" );
 
-		// Determine which elements have already been checked
-		// so we don't try to visit them again.
-
-		ArrayList searchList = new ArrayList();
-
-		for ( int i = 0; i < TavernManager.searchOrder.length; ++i )
+		// Re-check faucet and baron
+		faucet = visited.indexOf( "3" );
+		if ( faucet != -1 )
 		{
-			searchList.add( TavernManager.searchOrder[ i ] );
+			int faucetRow = faucet / 5 + 1;
+			int faucetColumn = faucet % 5 + 1;
+
+			KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
 		}
 
-		for ( int i = visited.length() - 1; i >= 0; --i )
+		baron = visited.indexOf( "4" );
+		if ( baron != -1 )
 		{
-			switch ( visited.charAt( i ) )
-			{
-			case '0':
-				continue;
-			case '1':
-			case '2':
-				break;
+			int baronRow = baron / 5 + 1;
+			int baronColumn = baron % 5 + 1;
 
-			case '3':
-			{
-				int row = i / 5 + 1;
-				int column = i % 5 + 1;
-
-				KoLmafia.updateDisplay( "Faucet found in row " + row + ", column " + column );
-				faucet = i;
-				break;
-			}
-
-			case '4':
-			{
-				int row = i / 5 + 1;
-				int column = i % 5 + 1;
-
-				KoLmafia.updateDisplay( "Baron found in row " + row + ", column " + column );
-				baron = i;
-				break;
-			}
-			}
-
-			// Remove explored from searchlist
-			int index = searchList.indexOf( new Integer( i + 1 ) );
-			if ( index != -1 )
-			{
-				searchList.remove( index );
-			}
+			KoLmafia.updateDisplay( "Baron found in row " + baronRow + ", column " + baronColumn );
 		}
 
 		// See if we've already found the faucet outside KoLmafia
@@ -184,9 +153,13 @@ public class TavernManager
 			return faucet + 1;
 		}
 
+		// Determine which elements have already been checked
+		// so we don't try to visit them again.
+
+		ArrayList searchList = TavernManager.getSearchList( visited );
+
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
-		request = adventure.getRequest();
 
 		boolean foundFaucet = false;
 		Integer searchIndex = null;
@@ -201,7 +174,7 @@ public class TavernManager
 			searchIndex = (Integer) searchList.remove( 0 );
 			request.addFormField( "whichspot", searchIndex.toString() );
 			request.addFormField( "action", "explore" );
-			RequestThread.postRequest( adventure );
+			RequestThread.postRequest( request );
 			foundFaucet = Preferences.getString( "tavernLayout" ).indexOf( "3" ) != -1;
 		}
 
@@ -228,4 +201,65 @@ public class TavernManager
 		return faucet + 1;
 	}
 
+	private static ArrayList getSearchList( final String visited )
+	{
+		ArrayList searchList = new ArrayList();
+
+		for ( int i = 0; i < TavernManager.searchOrder.length; ++i )
+		{
+			searchList.add( TavernManager.searchOrder[ i ] );
+		}
+
+		for ( int i = visited.length() - 1; i >= 0; --i )
+		{
+			if ( visited.charAt( i )  == '0' )
+			{
+				continue;
+			}
+
+			// Remove explored square from searchlist
+			int index = searchList.indexOf( new Integer( i + 1 ) );
+			if ( index != -1 )
+			{
+				searchList.remove( index );
+			}
+		}
+
+		return searchList;
+	}
+
+	public static int recommendSquare()
+	{
+		if ( KoLCharacter.getLevel() < 3 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to level up first." );
+			return 0;
+		}
+
+		// See if we've already found the faucet within KoLmafia
+		TavernRequest.validateFaucetQuest();
+		String visited = Preferences.getString( "tavernLayout" );
+		int faucet = visited.indexOf( "3" );
+
+		// See if any squares are unexplored
+		if ( visited.indexOf( "0" ) == -1 )
+		{
+			// All squares are explored. Return the square with the faucet
+			return faucet + 1;
+		}
+
+		// Some squares remain to be visited. Get a list of them in order.
+		ArrayList searchList = TavernManager.getSearchList( visited );
+		if ( searchList.size() == 0 )
+		{
+			// Should never happen
+			return 0;
+		}
+
+		// Take the first square off of the list
+		Integer searchIndex = (Integer) searchList.remove( 0 );
+
+		// That's the square we will visit.
+		return searchIndex.intValue();
+	}
 }

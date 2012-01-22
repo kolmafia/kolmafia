@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
@@ -184,7 +185,7 @@ public class AdventureRequest
 			}
 		}
 
-		if ( this.formSource.equals( "shore.php" ) )
+		else if ( this.formSource.equals( "shore.php" ) )
 		{
 			int adv = KoLCharacter.inFistcore() ? 5 : 3;
 			if ( KoLCharacter.getAdventuresLeft() < adv )
@@ -194,7 +195,7 @@ public class AdventureRequest
 			}
 		}
 
-		if ( this.formSource.equals( "mountains.php" ) )
+		else if ( this.formSource.equals( "mountains.php" ) )
 		{
 			if ( !InventoryManager.retrieveItem( ItemPool.BRIDGE ) )
 			{
@@ -207,13 +208,14 @@ public class AdventureRequest
 		{
 			this.data.clear();
 		}
+
 		else if ( this.formSource.equals( "adventure.php" ) && this.adventureId.equals( "120" ) )
 		{
 			// Replace with a (not-so-)randomly chosen corner
 			this.removeFormField( "snarfblat" );
-			this.addFormField( "snarfblat", String.valueOf(
-				CellarDecorator.recommendCorner() ) );
+			this.addFormField( "snarfblat", String.valueOf( CellarDecorator.recommendCorner() ) );
 		}
+
 		else if ( this.formSource.equals( "barrel.php" ) )
 		{
 			int square = BarrelDecorator.recommendSquare();
@@ -224,6 +226,17 @@ public class AdventureRequest
 				return;
 			}
 			this.addFormField( "smash", String.valueOf( square ) );
+		}
+
+		else if ( this.formSource.equals( "cellar.php" ) )
+		{
+			int square = TavernManager.recommendSquare();
+			if ( square == 0 )
+			{
+				return;
+			}
+			this.addFormField( "whichspot", String.valueOf( square ) );
+			this.addFormField( "action", "explore" );
 		}
 
 		this.override = -1;
