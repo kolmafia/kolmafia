@@ -33,16 +33,9 @@
 
 package net.sourceforge.kolmafia.swingui.widget;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JCheckBox;
-
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
-import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class CreationSettingCheckBox
 	extends PreferenceListenerCheckBox

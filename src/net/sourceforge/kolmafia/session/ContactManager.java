@@ -40,8 +40,6 @@ import java.util.Map.Entry;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-import net.sourceforge.kolmafia.RequestThread;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.preferences.Preferences;

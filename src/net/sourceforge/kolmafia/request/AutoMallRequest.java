@@ -42,8 +42,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-
 import net.sourceforge.kolmafia.session.StoreManager;
 
 public class AutoMallRequest
