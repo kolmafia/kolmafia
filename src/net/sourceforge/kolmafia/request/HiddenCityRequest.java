@@ -60,25 +60,25 @@ public class HiddenCityRequest
 
 	private static int lastSquare = 0;
 
-	private final String action;
 	private int square = 0;
+	private String action;
 	private int itemId = 0;
-
-	public HiddenCityRequest( String action)
-	{
-		super( "hiddencity.php");
-		this.action = action;
-	}
 
 	public HiddenCityRequest()
 	{
-		this( null );
+		super( "hiddencity.php");
 	}
 
 	public HiddenCityRequest( int square )
 	{
-		this( null );
+		this();
 		this.square = square;
+	}
+
+	public HiddenCityRequest( String action)
+	{
+		this();
+		this.action = action;
 	}
 
 	public HiddenCityRequest( boolean temple )
@@ -103,30 +103,50 @@ public class HiddenCityRequest
 
 		if ( this.action == null )
 		{
-			int square = this.square;
-
-			if ( !HiddenCityRequest.validSquare( square ) )
+			int square = HiddenCityRequest.recommendSquare( this.square );
+			if ( square != 0 )
 			{
-				square = Preferences.getInteger( "hiddenCitySquare" );
+				this.addFormField( "which", String.valueOf( square - 1 ) );
 			}
-
-			if ( !HiddenCityRequest.validSquare( square ) )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must select a square of the Hidden City to visit." );
-				return;
-			}
-
-			this.addFormField( "which", String.valueOf( square - 1 ) );
 		}
 		else
 		{
 			this.addFormField( "action", this.action );
-
 			if ( this.itemId != 0 )
 			{
 				this.addFormField( "whichitem", String.valueOf( this.itemId ) );
 			}
 		}
+	}
+
+	public static int recommendSquare( int square )
+	{
+		// If we are given a square to use, take it.
+		if ( HiddenCityRequest.validSquare( square ) )
+		{
+			return square;
+		}
+
+		// Otherwise, get the current Hidden City Layout.
+		String layout = HiddenCityRequest.hiddenCityLayout();
+
+		// If there is an unexplored square, go there.
+		square = HiddenCityRequest.firstUnexploredRuins( layout );
+		if ( square > 0 )
+		{
+			return square;
+		}
+
+		// If all squares have been visited, pick a normal square.
+		square = HiddenCityRequest.firstNormalRuins( layout );
+		if ( square > 0 )
+		{
+			return square;
+		}
+
+		// This should not happen
+		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not pick encounter square to visit." );
+		return 0;
 	}
 
 	public void run()
@@ -148,7 +168,6 @@ public class HiddenCityRequest
 		{
 			Preferences.setInteger( "lastHiddenCityAscension", KoLCharacter.getAscensions() );
 			Preferences.setString( "hiddenCityLayout", "0000000000000000000000000" );
-			Preferences.setInteger( "hiddenCitySquare", 0 );
 			HiddenCityRequest.lastSquare = 0;
 		}
 	}
@@ -178,14 +197,21 @@ public class HiddenCityRequest
 	public static final int firstUnexploredRuins()
 	{
 		String layout = HiddenCityRequest.hiddenCityLayout();
-		for ( int i = 0; i < 25; ++i )
-		{
-			if ( layout.charAt( i ) == '0' )
-			{
-				return i + 1;
-			}
-		}
-		return 0;
+		return HiddenCityRequest.firstUnexploredRuins( layout );
+	}
+
+	private static final int firstUnexploredRuins( final String layout )
+	{
+		int square = layout.indexOf( "0" );
+		// If there is no unexplored square, indexOf returns -1, we return 0
+		return square + 1;
+	}
+
+	private static final int firstNormalRuins( final String layout )
+	{
+		int square = layout.indexOf( "E" );
+		// If there is no normal encounter square, indexOf returns -1, we return 0
+		return square + 1;
 	}
 
 	public void processResults()
@@ -464,9 +490,6 @@ public class HiddenCityRequest
 			{
 				HiddenCityRequest.addHiddenCityLocation( square, 'E' );
 			}
-
-			// Save current square as potential adventuring location
-			Preferences.setInteger( "hiddenCitySquare", square );
 
 			return false;
 		}
