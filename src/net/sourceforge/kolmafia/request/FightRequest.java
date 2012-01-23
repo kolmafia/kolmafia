@@ -2306,6 +2306,20 @@ public class FightRequest
 			{
 				WumpusManager.reset();
 			}
+			else if ( monster.equalsIgnoreCase( "Dirty Thieving Brigand" ) )
+			{
+				// "Well," you say, "it would really help the war effort if
+				// your convent could serve as a hospital for our wounded
+				// troops."
+				if ( responseText.indexOf( "could serve as a hospital" ) != -1 )
+				{
+					Preferences.setString( "sidequestNunsCompleted", "hippy" );
+				}
+				else if ( responseText.indexOf( "could serve as a massage parlor" ) != -1 )
+				{
+					Preferences.setString( "sidequestNunsCompleted", "fratboy" );
+				}
+			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
 					"A Maze of Sewer Tunnels" ) )

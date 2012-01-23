@@ -234,18 +234,6 @@ public class IslandDecorator
 			String message = "<p><center>" + meat + "<br>";
 			buffer.insert( index, message );
 		}
-
-		// "Well," you say, "it would really help the war effort if
-		// your convent could serve as a hospital for our wounded
-		// troops."
-		if ( buffer.indexOf( "could serve as a hospital" ) != -1 )
-		{
-			Preferences.setString( "sidequestNunsCompleted", "hippy" );
-		}
-		else if ( buffer.indexOf( "could serve as a massage parlor" ) != -1 )
-		{
-			Preferences.setString( "sidequestNunsCompleted", "fratboy" );
-		}
 	}
 
 	private static final String meatMessage()
@@ -1626,11 +1614,15 @@ public class IslandDecorator
 		ResultProcessor.processItem( ItemPool.MOLYBDENUM_PLIERS, -1 );
 		ResultProcessor.processItem( ItemPool.MOLYBDENUM_WRENCH, -1 );
 
-		if ( responseText.indexOf( "spark plug earring" ) != -1 || responseText.indexOf( "woven baling wire bracelets" ) != -1 || responseText.indexOf( "gearbox necklace" ) != -1 )
+		if ( responseText.indexOf( "spark plug earring" ) != -1 ||
+		     responseText.indexOf( "woven baling wire bracelets" ) != -1 ||
+		     responseText.indexOf( "gearbox necklace" ) != -1 )
 		{
 			Preferences.setString( "sidequestJunkyardCompleted", "hippy" );
 		}
-		else if ( responseText.indexOf( "rusty chain necklace" ) != -1 || responseText.indexOf( "sawblade shield" ) != -1 || responseText.indexOf( "wrench bracelet" ) != -1 )
+		else if ( responseText.indexOf( "rusty chain necklace" ) != -1 ||
+			  responseText.indexOf( "sawblade shield" ) != -1 ||
+			  responseText.indexOf( "wrench bracelet" ) != -1 )
 		{
 			Preferences.setString( "sidequestJunkyardCompleted", "fratboy" );
 		}
@@ -1664,11 +1656,13 @@ public class IslandDecorator
 	{
 		// "Well... How about dedicating a portion of your farm to
 		// growing soybeans, to help feed the hippy army?"
-		if ( responseText.indexOf( "growing soybeans" ) != -1 || responseText.indexOf( "blocks of megatofu" ) != -1 )
+		if ( responseText.indexOf( "growing soybeans" ) != -1 ||
+		     responseText.indexOf( "blocks of megatofu" ) != -1 )
 		{
 			Preferences.setString( "sidequestFarmCompleted", "hippy" );
 		}
-		else if ( responseText.indexOf( "growing hops" ) != -1 || responseText.indexOf( "bottles of McMillicancuddy" ) != -1 )
+		else if ( responseText.indexOf( "growing hops" ) != -1 ||
+			  responseText.indexOf( "bottles of McMillicancuddy" ) != -1 )
 		{
 			Preferences.setString( "sidequestFarmCompleted", "fratboy" );
 		}
@@ -1692,7 +1686,7 @@ public class IslandDecorator
 		}
 
 		if ( responseText.indexOf( "The Sisters tend to your wounds" ) != -1 ||
-			responseText.indexOf( "The Sisters give you an invigorating massage" ) != -1 )
+		     responseText.indexOf( "The Sisters give you an invigorating massage" ) != -1 )
 		{
 			Preferences.increment( "nunsVisits", 1 );
 		}
