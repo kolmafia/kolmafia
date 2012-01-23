@@ -119,9 +119,9 @@ public class HiddenCityRequest
 		}
 	}
 
-	public static int recommendSquare( int square )
+	private static int recommendSquare( int square )
 	{
-		// If we are given a square to use, take it.
+		// If we are given a valid square to use, take it.
 		if ( HiddenCityRequest.validSquare( square ) )
 		{
 			return square;
@@ -130,15 +130,25 @@ public class HiddenCityRequest
 		// Otherwise, get the current Hidden City Layout.
 		String layout = HiddenCityRequest.hiddenCityLayout();
 
-		// If there is an unexplored square, go there.
-		square = HiddenCityRequest.firstUnexploredRuins( layout );
-		if ( square > 0 )
+		if ( square == 0 )
 		{
-			return square;
+			// If there is an unexplored square, go there.
+			square = HiddenCityRequest.firstUnexploredRuins( layout );
+			if ( square > 0 )
+			{
+				return square;
+			}
+
+			// If all squares have been visited, pick an undefeated protector spirit
+			square = HiddenCityRequest.firstProtectorSpirit( layout );
+			if ( square > 0 )
+			{
+				return square;
+			}
 		}
 
 		// If all squares have been visited, pick a normal square.
-		square = HiddenCityRequest.firstNormalRuins( layout );
+		square = HiddenCityRequest.firstNormalEncounter( layout );
 		if ( square > 0 )
 		{
 			return square;
@@ -207,10 +217,17 @@ public class HiddenCityRequest
 		return square + 1;
 	}
 
-	private static final int firstNormalRuins( final String layout )
+	private static final int firstNormalEncounter( final String layout )
 	{
 		int square = layout.indexOf( "E" );
 		// If there is no normal encounter square, indexOf returns -1, we return 0
+		return square + 1;
+	}
+
+	private static final int firstProtectorSpirit( final String layout )
+	{
+		int square = layout.indexOf( "P" );
+		// If there is no undefeated protector spirit, indexOf returns -1, we return 0
 		return square + 1;
 	}
 
