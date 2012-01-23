@@ -892,6 +892,10 @@ public abstract class KoLmafia
 		// *** "feastedfamiliar" and "intrinsics"
 		RequestThread.postRequest( new CharPaneRequest() );
 
+		// If we have a Crown of Thrones available and it's not
+		// equipped, see which familiar is sitting in it, if any.
+		InventoryManager.checkCrownOfThrones();
+
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		KoLmafia.isRefreshing = false;

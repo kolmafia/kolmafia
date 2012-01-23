@@ -895,6 +895,7 @@ public class ItemPool
 	public static final int MERKIN_PRESSUREGLOBE = 3675;
 	public static final int POTION_OF_PERCEPTION = 3593;
 	public static final int POTION_OF_PROFICIENCY = 3594;
+	public static final int VINYL_BOOTS = 3716;
 	public static final int GNOLL_EYE = 3731;
 	public static final int BOOZEHOUND_TOKEN = 3739;
 	public static final int UNSTABLE_QUARK = 3743;

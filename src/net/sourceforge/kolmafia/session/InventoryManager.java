@@ -40,6 +40,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -1528,6 +1531,44 @@ public abstract class InventoryManager
 				item = item.getInstance( count - inventoryCount );
 				ResultProcessor.tallyResult( item, true );
 			}
+		}
+	}
+
+	private static Pattern COT_PATTERN = Pattern.compile( "Current Occupant:.*?<b>.* the (.*?)</b>");
+	public static final AdventureResult CROWN_OF_THRONES = ItemPool.get( ItemPool.HATSEAT, 1 );
+
+	public static final void checkCrownOfThrones()
+	{
+		// If we are wearing the Crown of Thrones, we've already seen
+		// which familiar is riding in it
+		if ( KoLCharacter.hasEquipped( InventoryManager.CROWN_OF_THRONES, EquipmentManager.HAT ) )
+		{
+			return;
+		}
+
+		// The Crown of Thrones is not trendy, but double check anyway
+		AdventureResult item = InventoryManager.CROWN_OF_THRONES;
+		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", item.getName() ) )
+		{
+			return;
+		}
+
+		// See if we have a Crown of Thrones in inventory or closet
+		int count = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
+		if ( count == 0 )
+		{
+			return;
+		}
+
+		// See which familiar is riding in it.
+		String descId = ItemDatabase.getDescriptionId( ItemPool.HATSEAT );
+		GenericRequest req = new GenericRequest( "desc_item.php?whichitem=" + descId );
+		RequestThread.postRequest( req );
+		Matcher matcher = COT_PATTERN.matcher( req.responseText );
+		if ( matcher.find() )
+		{
+			String race = matcher.group( 1 );
+			KoLCharacter.setEnthroned( KoLCharacter.findFamiliar( race ) );
 		}
 	}
 }
