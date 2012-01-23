@@ -152,9 +152,15 @@ public class KoLAdventure
 		{
 			this.request = new BasementRequest( adventureName );
 		}
+		else if ( formSource.equals( "hiddencity.php" ) )
+		{
+			// Adventure in unexplored, protector spirit, and encounter squares
+			this.request = new HiddenCityRequest( 0 );
+		}
 		else if ( adventureId.equals( AdventurePool.HIDDEN_CITY_ID ) )
 		{
-			this.request = new HiddenCityRequest();
+			// Adventure in encounter squares only
+			this.request = new HiddenCityRequest( -1 );
 		}
 		else
 		{
