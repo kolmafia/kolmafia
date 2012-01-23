@@ -270,4 +270,13 @@ public class InputFieldUtilities {
 		return true;
 	}
 
+	public static void cancelTableEditing( final JTable table )
+	{
+		if ( table.isEditing() )
+		{
+			int row = table.getEditingRow();
+			int col = table.getEditingColumn();
+			table.getCellEditor( row, col ).cancelCellEditing();
+		}
+	}
 }
