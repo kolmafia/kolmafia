@@ -41,8 +41,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import javax.swing.JCheckBox;
-
 import net.sourceforge.kolmafia.StaticEntity;
 
 public class PreferenceListenerRegistry

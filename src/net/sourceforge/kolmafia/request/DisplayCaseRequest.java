@@ -41,8 +41,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 
 public class DisplayCaseRequest

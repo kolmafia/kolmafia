@@ -46,13 +46,9 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.chat.ChatSender;
 
 import net.sourceforge.kolmafia.persistence.Aliases;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
-import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.LoginRequest;
-import net.sourceforge.kolmafia.session.LoginManager;
 
 import net.sourceforge.kolmafia.textui.command.*;
 

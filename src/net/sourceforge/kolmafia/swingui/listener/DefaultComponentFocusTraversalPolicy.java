@@ -39,7 +39,6 @@ import java.awt.Container;
 import java.lang.ref.WeakReference;
 import java.util.Comparator;
 
-import javax.swing.JPanel;
 import javax.swing.LayoutFocusTraversalPolicy;
 
 public class DefaultComponentFocusTraversalPolicy

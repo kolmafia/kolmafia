@@ -33,10 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
 
 public class LogoutRequest
 	extends GenericRequest

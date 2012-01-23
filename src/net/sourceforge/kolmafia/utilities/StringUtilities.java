@@ -47,8 +47,6 @@ import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.StaticEntity;
-
 public class StringUtilities
 {
 	private static final HashMap entityEncodeCache = new HashMap();
