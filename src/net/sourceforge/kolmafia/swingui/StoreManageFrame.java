@@ -105,6 +105,14 @@ public class StoreManageFrame
 		StoreManageFrame.updateEarnings( StoreManager.getPotentialEarnings() );
 	}
 
+	public static final void cancelTableEditing()
+	{
+		if ( StoreManageFrame.INSTANCE != null )
+		{
+			InputFieldUtilities.cancelTableEditing( StoreManageFrame.INSTANCE.manageTable );
+		}
+	}
+
 	public static final void updateEarnings( final long potentialEarnings )
 	{
 		if ( StoreManageFrame.INSTANCE == null || GenericFrame.appearsInTab( "StoreManageFrame" ) )
@@ -478,6 +486,8 @@ public class StoreManageFrame
 
 		public void removeItems( final boolean takeAll )
 		{
+			StoreManageFrame.cancelTableEditing();
+
 			Object[] items = this.elementList.getSelectedValues();
 
 			for ( int i = 0; i < items.length; ++i )

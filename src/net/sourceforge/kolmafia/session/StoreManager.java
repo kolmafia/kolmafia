@@ -97,6 +97,7 @@ public abstract class StoreManager
 	{
 		StoreManager.soldItemsRetrieved = false;
 		StoreManager.storeLog.clear();
+		StoreManageFrame.cancelTableEditing();
 		StoreManager.soldItemList.clear();
 		StoreManager.sortedSoldItemList.clear();
 		StoreManager.potentialEarnings = 0;
@@ -283,6 +284,8 @@ public abstract class StoreManager
 				newItems.add( StoreManager.registerItem( item.getItemId(), item.getCount(), price, limit, 0 ) );
 			}
 		}
+
+		StoreManageFrame.cancelTableEditing();
 
 		StoreManager.sortItemsByName = true;
 		Collections.sort( newItems );
@@ -676,8 +679,8 @@ public abstract class StoreManager
 	{
 		RequestThread.postRequest( new ManageStoreRequest() );
 
-		SoldItem[] sold = new SoldItem[ getSoldItemList().size() ];
-		getSoldItemList().toArray( sold );
+		SoldItem[] sold = new SoldItem[ StoreManager.soldItemList.size() ];
+		StoreManager.soldItemList.toArray( sold );
 
 		int[] itemId = new int[ sold.length ];
 		int[] prices = new int[ sold.length ];
