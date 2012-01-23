@@ -62,9 +62,6 @@ public class HiddenCityCommand
 
 		if ( split.length == 1 )
 		{
-			Preferences.setInteger( "hiddenCitySquare", square );
-			KoLmafia.updateDisplay( "Hidden City adventure square set to " + square );
-
 			return;
 		}
 

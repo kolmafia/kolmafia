@@ -366,7 +366,6 @@ user	heroDonationBoris	0
 user	heroDonationJarlsberg	0
 user	heroDonationSneakyPete	0
 user	hiddenCityLayout	0000000000000000000000000
-user	hiddenCitySquare	0
 user	hippiesDefeated	0
 user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
