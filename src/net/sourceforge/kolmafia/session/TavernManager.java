@@ -137,7 +137,7 @@ public class TavernManager
 			KoLCharacter.getCurrentHP() > 0 &&
 			KoLCharacter.getAdventuresLeft() > 0 )
 		{
-			// The request will visit the next unexplored sport
+			// The request will visit the next unexplored square
 			RequestThread.postRequest( request );
 			faucet = Preferences.getString( "tavernLayout" ).indexOf( "3" );
 		}
@@ -154,11 +154,7 @@ public class TavernManager
 		RequestThread.postRequest( new GenericRequest( "tavern.php?place=barkeep" ) );
 
 		// Notify the user that the faucet has been found.
-
-		int row = faucet / 5 + 1;
-		int column = faucet % 5 + 1;
-
-		KoLmafia.updateDisplay( "Faucet found in row " + row + ", column " + column );
+		TavernManager.logSpecialSquares( faucet, -1 );
 
 		return faucet + 1;
 	}
