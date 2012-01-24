@@ -320,6 +320,8 @@ public class ValhallaManager
 		Preferences.setBoolean( "fistTeachingsFratHouse", false);
 		Preferences.setBoolean( "fistTeachingsRoad", false);
 		Preferences.setBoolean( "fistTeachingsNinjaSnowmen", false);
+		Preferences.setString( "plantingDate", "");
+		Preferences.setInteger( "plantingDay", -1);
 		TurnCounter.clearCounters();
 	}
 }
