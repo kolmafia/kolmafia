@@ -93,7 +93,8 @@ public class ChoiceOptionsPanel
 	private final JComboBox manualLouvre;
 	private final JComboBox billiardRoomSelect;
 	private final JComboBox riseSelect, fallSelect;
-	private final JComboBox oceanDestSelect, oceanActionSelect;
+	private final OceanDestinationComboBox oceanDestSelect;
+	private final JComboBox oceanActionSelect;
 	private final JComboBox barrelSelect;
 	private final JComboBox darkAtticSelect;
 	private final JComboBox unlivingRoomSelect;
@@ -521,9 +522,8 @@ public class ChoiceOptionsPanel
 			this.addActionListener( this );
 		}
 
-		public void createMenu( String dest )
+		private void createMenu( String dest )
 		{
-			this.removeAllItems();
 			this.addItem( "ignore adventure" );
 			this.addItem( "manual control" );
 			this.addItem( "muscle" );
@@ -537,10 +537,14 @@ public class ChoiceOptionsPanel
 				this.addItem( "go to " + dest );
 			}
 			this.addItem( "choose destination..." );
-			this.loadSettings( dest );
 		}
 
-		public void loadSettings( String dest )
+		public void loadSettings()
+		{
+			this.loadSettings( Preferences.getString( "oceanDestination" ) );
+		}
+
+		private void loadSettings( String dest )
 		{
 			// Default is "Manual"
 			int index = 1;
@@ -588,7 +592,7 @@ public class ChoiceOptionsPanel
 			this.setSelectedIndex( index );
 		}
 
-		public void saveSettings( String dest )
+		private void saveSettings( String dest )
 		{
 			if ( dest.startsWith( "ignore" ) )
 			{
@@ -652,10 +656,9 @@ public class ChoiceOptionsPanel
 
 			String dest = (String) item;
 
-			// See if choosing custom destination
+			// Are we choosing a custom destination?
 			if ( !dest.startsWith( "choose" ) )
 			{
-				// Save chosen setting
 				this.saveSettings( dest );
 				return;
 			}
@@ -664,15 +667,18 @@ public class ChoiceOptionsPanel
 			String coords = getCoordinates();
 			if ( coords == null )
 			{
-				this.loadSettings( Preferences.getString( "oceanDestination" ) );
 				return;
 			}
 
-			// Save setting
-			Preferences.setString( "oceanDestination", coords );
-
 			// Rebuild combo box
+			this.removeAllItems();
 			this.createMenu( coords );
+
+			// Select the "go to" menu item
+			this.setSelectedIndex( 8 );
+
+			// Save the new settings
+			this.saveSettings( "go to " + coords );
 		}
 
 		private String getCoordinates()
@@ -1318,6 +1324,7 @@ public class ChoiceOptionsPanel
 		}
 
 		// OceanDestinationComboBox handles its own settings.
+		this.oceanDestSelect.loadSettings();
 
 		String action = Preferences.getString( "oceanAction" );
 		if ( action.equals( "continue" ) )

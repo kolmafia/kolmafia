@@ -97,8 +97,7 @@ public class RefreshStatusCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, parameters +
-				" cannot be refreshed." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, parameters + " cannot be refreshed." );
 			return;
 		};
 
