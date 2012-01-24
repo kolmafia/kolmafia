@@ -315,18 +315,46 @@ public class HiddenCityRequest
 		{
 			int square = StringUtilities.parseInt( matcher.group(1) );
 
-			if ( square < 0 || square >= 25 || layout.charAt( square ) != '0' )
+			if ( square < 0 || square >= 25 )
 			{
 				continue;
 			}
 
+			char code = layout.charAt( square );
 			String type = matcher.group(2);
-			char code =
-				type.startsWith( "ruins" ) ? 'E' :
-				type.equals( "altar" ) ? 'R' :
-				type.equals( "temple" ) ? 'T' :
-				type.startsWith( "unruins" ) ? '0' :
-				'0';
+
+			if ( type.startsWith( "unruins" ) )
+			{
+				code = '0';
+			}
+			else if ( type.equals( "temple" ) )
+			{
+				code = 'T';
+			}
+			else if ( type.equals( "spirit" ) )
+			{
+				code = 'P';
+			}
+			else if ( type.startsWith( "ruins" ) )
+			{
+				if ( code == 'E' || code == 'D' || code == 'A' )
+				{
+					continue;
+				}
+				code = 'E';
+			}
+			else if ( type.equals( "altar" ) )
+			{
+				if ( code == 'R' || code == 'N' || code == 'L' || code == 'W' || code == 'F' )
+				{
+					continue;
+				}
+				code = 'R';
+			}
+			else
+			{
+				continue;
+			}
 
 			layout.setCharAt( square, code );
 		}
