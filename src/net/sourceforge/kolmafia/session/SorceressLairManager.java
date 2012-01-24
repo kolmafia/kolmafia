@@ -2582,9 +2582,10 @@ public abstract class SorceressLairManager
 		}
 
 		// If we can buff it to 20 pounds, try again.
-		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) &&
-		     !FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false ) )
+		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
 		{
+			// The following will try to train the familiar to 20 lb. It was very unpopular.
+			// FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false )
 			return;
 		}
 
