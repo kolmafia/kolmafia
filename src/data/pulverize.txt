@@ -283,6 +283,7 @@ Loathing Legion necktie	nosmash
 Loathing Legion pizza stone	nosmash
 Loathing Legion rollerblades	nosmash
 Loathing Legion tape measure	nosmash
+plastic vampire fangs	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
