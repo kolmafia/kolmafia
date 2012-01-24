@@ -512,91 +512,80 @@ public class ChoiceOptionsPanel
 
 	private class OceanDestinationComboBox
 		extends JComboBox
+		implements ActionListener
 	{
 		public OceanDestinationComboBox()
 		{
 			super();
-			createMenu();
-			addActionListener( new OceanDestinationListener() );
-		}
-
-		public void createMenu()
-		{
-			String dest = Preferences.getString( "oceanDestination" );
-			createMenu( dest );
+			this.createMenu( Preferences.getString( "oceanDestination" ) );
+			this.addActionListener( this );
 		}
 
 		public void createMenu( String dest )
 		{
-			removeAllItems();
-			addItem( "ignore adventure" );
-			addItem( "manual control" );
-			addItem( "muscle" );
-			addItem( "mysticality" );
-			addItem( "moxie" );
-			addItem( "El Vibrato power sphere" );
-			addItem( "the plinth" );
-			addItem( "random choice" );
+			this.removeAllItems();
+			this.addItem( "ignore adventure" );
+			this.addItem( "manual control" );
+			this.addItem( "muscle" );
+			this.addItem( "mysticality" );
+			this.addItem( "moxie" );
+			this.addItem( "El Vibrato power sphere" );
+			this.addItem( "the plinth" );
+			this.addItem( "random choice" );
 			if ( dest.indexOf( "," ) != -1 )
 			{
-				addItem( "go to " + dest );
+				this.addItem( "go to " + dest );
 			}
-			addItem( "choose destination..." );
-			loadSettings( dest );
-		}
-
-		public void loadSettings()
-		{
-			String dest = Preferences.getString( "oceanDestination" );
-			loadSettings( dest );
+			this.addItem( "choose destination..." );
+			this.loadSettings( dest );
 		}
 
 		public void loadSettings( String dest )
 		{
+			// Default is "Manual"
+			int index = 1;
+
 			if ( dest.equals( "ignore" ) )
 			{
-				setSelectedIndex( 0 );
+				index = 0;
 			}
 			else if ( dest.equals( "manual" ) )
 			{
-				setSelectedIndex( 1 );
+				index = 1;
 				// People with old settings files will have the
 				// wrong choice setting. Fix it for them.
 				Preferences.setString( "choiceAdventure189", "0" );
 			}
 			else if ( dest.equals( "muscle" ) )
 			{
-				setSelectedIndex( 2 );
+				index = 2;
 			}
 			else if ( dest.equals( "mysticality" ) )
 			{
-				setSelectedIndex( 3 );
+				index = 3;
 			}
 			else if ( dest.equals( "moxie" ) )
 			{
-				setSelectedIndex( 4 );
+				index = 4;
 			}
 			else if ( dest.equals( "sphere" ) )
 			{
-				setSelectedIndex( 5 );
+				index = 5;
 			}
 			else if ( dest.equals( "plinth" ) )
 			{
-				setSelectedIndex( 6 );
+				index = 6;
 			}
 			else if ( dest.equals( "random" ) )
 			{
-				setSelectedIndex( 7 );
+				index = 7;
 			}
 			else if ( dest.indexOf( "," ) != -1 )
 			{
-				setSelectedIndex( 8 );
+				index = 8;
 			}
-			else
-			{
-				// Manual
-				setSelectedIndex( 1 );
-			}
+
+			this.setSelectedIndex( index );
 		}
 
 		public void saveSettings( String dest )
@@ -655,69 +644,64 @@ public class ChoiceOptionsPanel
 			Preferences.setString( "oceanDestination", value );
 		}
 
-		private class OceanDestinationListener
-			implements ActionListener
+		public void actionPerformed( final ActionEvent e )
 		{
-			public void actionPerformed( final ActionEvent e )
+			Object item = this.getSelectedItem();
+			if ( item == null )
+				return;
+
+			String dest = (String) item;
+
+			// See if choosing custom destination
+			if ( !dest.startsWith( "choose" ) )
 			{
-				Object item = OceanDestinationComboBox.this.getSelectedItem();
-				if ( item == null )
-					return;
-
-				String dest = (String) item;
-
-				// See if choosing custom destination
-				if ( !dest.startsWith( "choose" ) )
-				{
-					// Save chosen setting
-					OceanDestinationComboBox.this.saveSettings( dest );
-					return;
-				}
-
-				// Close the popup menu
-				OceanDestinationComboBox.this.hidePopup();
-
-				// Prompt for a new destination
-				String coords = getCoordinates();
-				if ( coords == null )
-				{
-					loadSettings();
-					return;
-				}
-
-				// Save setting
-				Preferences.setString( "oceanDestination", coords );
-
-				// Rebuild combo box
-				OceanDestinationComboBox.this.createMenu( coords );
+				// Save chosen setting
+				this.saveSettings( dest );
+				return;
 			}
 
-			private String getCoordinates()
+			// Prompt for a new destination
+			String coords = getCoordinates();
+			if ( coords == null )
 			{
-				String coords = InputFieldUtilities.input( "Longitude, Latitude" );
-				if ( coords == null )
-					return null;
-
-				int index = coords.indexOf( "," );
-				if ( index == -1 )
-				{
-					return null;
-				}
-
-				int longitude = StringUtilities.parseInt( coords.substring( 0, index ) );
-				if ( longitude < 1 || longitude > 242 )
-				{
-					return null;
-				}
-
-				int latitude = StringUtilities.parseInt( coords.substring( index + 1 ) );
-				if ( latitude < 1 || latitude > 100 )
-				{
-					return null;
-				}
-
-				return String.valueOf( longitude ) + "," + String.valueOf( latitude );
+				this.loadSettings( Preferences.getString( "oceanDestination" ) );
+				return;
 			}
+
+			// Save setting
+			Preferences.setString( "oceanDestination", coords );
+
+			// Rebuild combo box
+			this.createMenu( coords );
+		}
+
+		private String getCoordinates()
+		{
+			String coords = InputFieldUtilities.input( "Longitude, Latitude" );
+			if ( coords == null )
+			{
+				return null;
+			}
+
+			int index = coords.indexOf( "," );
+			if ( index == -1 )
+			{
+				return null;
+			}
+
+			int longitude = StringUtilities.parseInt( coords.substring( 0, index ) );
+			if ( longitude < 1 || longitude > 242 )
+			{
+				return null;
+			}
+
+			int latitude = StringUtilities.parseInt( coords.substring( index + 1 ) );
+			if ( latitude < 1 || latitude > 100 )
+			{
+				return null;
+			}
+
+			return String.valueOf( longitude ) + "," + String.valueOf( latitude );
 		}
 	}
 
