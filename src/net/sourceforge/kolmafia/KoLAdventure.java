@@ -1213,6 +1213,12 @@ public class KoLAdventure
 
 	private static final Object [][] ADVENTURE_FAILURES =
 	{
+		// KoL bug: returning a blank page. This must be index 0.
+		{
+			"",
+			"KoL returned a blank page.",
+		},
+
 		// Lots of places.
 		{
 			"You must have at least",
@@ -1685,7 +1691,14 @@ public class KoLAdventure
 
 	public static final int findAdventureFailure( String responseText )
 	{
-		for ( int i = 0; i < ADVENTURE_FAILURES.length; ++i )
+		// KoL is known to sometimes simply return a blank page as a
+		// failure to adventure.
+		if ( responseText.length() == 0 )
+		{
+			return 0;
+		}
+
+		for ( int i = 1; i < ADVENTURE_FAILURES.length; ++i )
 		{
 			if ( responseText.indexOf( (String) ADVENTURE_FAILURES[ i ][ 0 ] ) != -1 )
 			{

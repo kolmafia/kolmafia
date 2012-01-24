@@ -641,7 +641,9 @@ public class ChoiceOptionsPanel
 			else
 			{
 				// Shouldn't get here
-				value = "manual";
+				Preferences.setString( "choiceAdventure189", "0" );
+				Preferences.setString( "oceanDestination", "manual" );
+				return;
 			}
 
 			Preferences.setString( "choiceAdventure189", "1" );
