@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
@@ -85,25 +86,13 @@ public class TavernManager
 
 		// See if we've already found the faucet within KoLmafia
 		TavernRequest.validateFaucetQuest();
-		String visited = Preferences.getString( "tavernLayout" );
 
-		int faucet = visited.indexOf( "3" );
-		if ( faucet != -1 )
-		{
-			int faucetRow = faucet / 5 + 1;
-			int faucetColumn = faucet % 5 + 1;
+		String layout = Preferences.getString( "tavernLayout" );
 
-			KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
-		}
+		int faucet = layout.indexOf( "3" );
+		int baron = layout.indexOf( "4" );
 
-		int baron = visited.indexOf( "4" );
-		if ( baron != -1 )
-		{
-			int baronRow = baron / 5 + 1;
-			int baronColumn = baron % 5 + 1;
-
-			KoLmafia.updateDisplay( "Baron found in row " + baronRow + ", column " + baronColumn );
-		}
+		TavernManager.logSpecialSquares( faucet, baron );
 
 		if ( faucet != -1 )
 		{
@@ -117,35 +106,20 @@ public class TavernManager
 		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
 		// Make sure Bart Ender has given us access to the cellar
-		GenericRequest request = new GenericRequest( "tavern.php?place=barkeep" );
-		RequestThread.postRequest( request );
+		RequestThread.postRequest( new GenericRequest( "tavern.php?place=barkeep" ) );
 		// *** Should look at response and make sure we got there
 
 		// Visit the tavern cellar to update the layout
-		request = new GenericRequest( "cellar.php" );
-		RequestThread.postRequest( request );
+		RequestThread.postRequest( new GenericRequest( "cellar.php" ) );
 
 		// Refetch the current layout
-		visited = Preferences.getString( "tavernLayout" );
+		layout = Preferences.getString( "tavernLayout" );
 
 		// Re-check faucet and baron
-		faucet = visited.indexOf( "3" );
-		if ( faucet != -1 )
-		{
-			int faucetRow = faucet / 5 + 1;
-			int faucetColumn = faucet % 5 + 1;
+		faucet = layout.indexOf( "3" );
+		baron = layout.indexOf( "4" );
 
-			KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
-		}
-
-		baron = visited.indexOf( "4" );
-		if ( baron != -1 )
-		{
-			int baronRow = baron / 5 + 1;
-			int baronColumn = baron % 5 + 1;
-
-			KoLmafia.updateDisplay( "Baron found in row " + baronRow + ", column " + baronColumn );
-		}
+		TavernManager.logSpecialSquares( faucet, baron );
 
 		// See if we've already found the faucet outside KoLmafia
 		if ( faucet != -1 )
@@ -153,32 +127,22 @@ public class TavernManager
 			return faucet + 1;
 		}
 
-		// Determine which elements have already been checked
-		// so we don't try to visit them again.
-
-		ArrayList searchList = TavernManager.getSearchList( visited );
-
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
 
-		boolean foundFaucet = false;
-		Integer searchIndex = null;
+		AdventureRequest request = new AdventureRequest( "Typical Tavern Cellar", "cellar.php", "" );
 
-		while ( !foundFaucet &&
-			searchList.size() > 0 &&
+		while ( faucet == -1 &&
 			KoLmafia.permitsContinue() &&
 			KoLCharacter.getCurrentHP() > 0 &&
 			KoLCharacter.getAdventuresLeft() > 0 )
 		{
-			// Take the first square off of the list
-			searchIndex = (Integer) searchList.remove( 0 );
-			request.addFormField( "whichspot", searchIndex.toString() );
-			request.addFormField( "action", "explore" );
+			// The request will visit the next unexplored sport
 			RequestThread.postRequest( request );
-			foundFaucet = Preferences.getString( "tavernLayout" ).indexOf( "3" ) != -1;
+			faucet = Preferences.getString( "tavernLayout" ).indexOf( "3" );
 		}
 
-		if ( !foundFaucet )
+		if ( faucet == -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find faucet." );
 			return -1;
@@ -187,12 +151,10 @@ public class TavernManager
 		// Otherwise, you've found it!
 
 		// Visit Bart Ender to claim reward
-		request = new GenericRequest( "tavern.php?place=barkeep" );
-		RequestThread.postRequest( request );
+		RequestThread.postRequest( new GenericRequest( "tavern.php?place=barkeep" ) );
 
 		// Notify the user that the faucet has been found.
 
-		faucet = ( searchIndex.intValue() - 1 );
 		int row = faucet / 5 + 1;
 		int column = faucet % 5 + 1;
 
@@ -201,7 +163,26 @@ public class TavernManager
 		return faucet + 1;
 	}
 
-	private static ArrayList getSearchList( final String visited )
+	private static void logSpecialSquares( final int faucet, final int baron )
+	{
+		if ( faucet != -1 )
+		{
+			int faucetRow = faucet / 5 + 1;
+			int faucetColumn = faucet % 5 + 1;
+
+			KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
+		}
+
+		if ( baron != -1 )
+		{
+			int baronRow = baron / 5 + 1;
+			int baronColumn = baron % 5 + 1;
+
+			KoLmafia.updateDisplay( "Baron found in row " + baronRow + ", column " + baronColumn );
+		}
+	}
+
+	private static ArrayList getSearchList( final String layout )
 	{
 		ArrayList searchList = new ArrayList();
 
@@ -210,9 +191,9 @@ public class TavernManager
 			searchList.add( TavernManager.searchOrder[ i ] );
 		}
 
-		for ( int i = visited.length() - 1; i >= 0; --i )
+		for ( int i = layout.length() - 1; i >= 0; --i )
 		{
-			if ( visited.charAt( i )  == '0' )
+			if ( layout.charAt( i )  == '0' )
 			{
 				continue;
 			}
@@ -238,18 +219,19 @@ public class TavernManager
 
 		// See if we've already found the faucet within KoLmafia
 		TavernRequest.validateFaucetQuest();
-		String visited = Preferences.getString( "tavernLayout" );
-		int faucet = visited.indexOf( "3" );
+
+		String layout = Preferences.getString( "tavernLayout" );
+		int faucet = layout.indexOf( "3" );
 
 		// See if any squares are unexplored
-		if ( visited.indexOf( "0" ) == -1 )
+		if ( layout.indexOf( "0" ) == -1 )
 		{
 			// All squares are explored. Return the square with the faucet
 			return faucet + 1;
 		}
 
 		// Some squares remain to be visited. Get a list of them in order.
-		ArrayList searchList = TavernManager.getSearchList( visited );
+		ArrayList searchList = TavernManager.getSearchList( layout );
 		if ( searchList.size() == 0 )
 		{
 			// Should never happen

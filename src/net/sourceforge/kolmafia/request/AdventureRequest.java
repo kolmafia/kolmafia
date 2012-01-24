@@ -233,6 +233,7 @@ public class AdventureRequest
 			int square = TavernManager.recommendSquare();
 			if ( square == 0 )
 			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Don't know which square to visit in the Tavern Cellar." );
 				return;
 			}
 			this.addFormField( "whichspot", String.valueOf( square ) );
