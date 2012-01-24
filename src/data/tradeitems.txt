@@ -5204,28 +5204,28 @@
 5195	Banfoy's Boutique Order Form	usable	display	0
 5196	Great S-Cape	accessory	display	0
 5197	Marvelous Unitard	accessory	display	0
-5198	gooey paste	usable	all	0
-5199	beastly paste	usable	all	0
-5200	oily paste	usable	all	0
-5201	ectoplasmic paste	usable	all	0
-5202	greasy paste	usable	all	0
-5203	bug paste	usable	all	0
-5204	hippy paste	usable	all	0
-5205	orc paste	usable	all	0
-5206	demonic paste	usable	all	0
-5207	indescribably horrible paste	usable	all	0
-5208	fishy paste	usable	all	0
-5209	goblin paste	usable	all	0
-5210	pirate paste	usable	all	0
-5211	chlorophyll paste	usable	all	0
-5212	strange paste	usable	all	0
-5213	Mer-kin paste	usable	all	0
-5214	slimy paste	usable	all	0
-5215	penguin paste	usable	all	0
-5216	elemental paste	usable	all	0
-5217	cosmic paste	usable	all	0
-5218	hobo paste	usable	all	0
-5219	Crimbo paste	usable	all	0
+5198	gooey paste	multiple	all	0
+5199	beastly paste	multiple	all	0
+5200	oily paste	multiple	all	0
+5201	ectoplasmic paste	multiple	all	0
+5202	greasy paste	multiple	all	0
+5203	bug paste	multiple	all	0
+5204	hippy paste	multiple	all	0
+5205	orc paste	multiple	all	0
+5206	demonic paste	multiple	all	0
+5207	indescribably horrible paste	multiple	all	0
+5208	fishy paste	multiple	all	0
+5209	goblin paste	multiple	all	0
+5210	pirate paste	multiple	all	0
+5211	chlorophyll paste	multiple	all	0
+5212	strange paste	multiple	all	0
+5213	Mer-kin paste	multiple	all	0
+5214	slimy paste	multiple	all	0
+5215	penguin paste	multiple	all	0
+5216	elemental paste	multiple	all	0
+5217	cosmic paste	multiple	all	0
+5218	hobo paste	multiple	all	0
+5219	Crimbo paste	multiple	all	0
 5220	Teachings of the Fist	usable	none	0
 5221	fat loot token	none	none	0
 5222	Thwaitgold grasshopper statuette	none	display	0
