@@ -35,8 +35,10 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -48,23 +50,32 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
+
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+
 import net.sourceforge.kolmafia.textui.command.GongCommand;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -592,20 +603,18 @@ public class ChoiceOptionsPanel
 			this.setSelectedIndex( index );
 		}
 
-		private void saveSettings( String dest )
+		public void saveSettings()
 		{
+			String dest = (String) this.getSelectedItem();
+			if ( dest == null )
+			{
+				return;
+			}
+
 			if ( dest.startsWith( "ignore" ) )
 			{
 				Preferences.setString( "choiceAdventure189", "2" );
 				Preferences.setString( "oceanDestination", "ignore" );
-				return;
-			}
-
-			// For manual control, do not take a choice first
-			if ( dest.startsWith( "manual" ) )
-			{
-				Preferences.setString( "choiceAdventure189", "0" );
-				Preferences.setString( "oceanDestination", "manual" );
 				return;
 			}
 
@@ -638,9 +647,13 @@ public class ChoiceOptionsPanel
 			{
 				value = dest.substring( 6 );
 			}
-			else
+			else if ( dest.startsWith( "choose " ) )
 			{
-				// Shouldn't get here
+				return;
+			}
+			else	// For anything else, assume Manual Control
+			{
+				// For manual control, do not take a choice first
 				Preferences.setString( "choiceAdventure189", "0" );
 				Preferences.setString( "oceanDestination", "manual" );
 				return;
@@ -652,16 +665,15 @@ public class ChoiceOptionsPanel
 
 		public void actionPerformed( final ActionEvent e )
 		{
-			Object item = this.getSelectedItem();
-			if ( item == null )
+			String dest = (String) this.getSelectedItem();
+			if ( dest == null )
+			{
 				return;
-
-			String dest = (String) item;
+			}
 
 			// Are we choosing a custom destination?
 			if ( !dest.startsWith( "choose" ) )
 			{
-				this.saveSettings( dest );
 				return;
 			}
 
@@ -669,6 +681,8 @@ public class ChoiceOptionsPanel
 			String coords = getCoordinates();
 			if ( coords == null )
 			{
+				// Restore previous selection
+				this.loadSettings();
 				return;
 			}
 
@@ -679,8 +693,8 @@ public class ChoiceOptionsPanel
 			// Select the "go to" menu item
 			this.setSelectedIndex( 8 );
 
-			// Save the new settings
-			this.saveSettings( "go to " + coords );
+			// Request that the settings be saved in a different thread.
+			RequestThread.runInParallel( new SaveOceanDestinationSettingsRunnable( this ) );
 		}
 
 		private String getCoordinates()
@@ -710,6 +724,22 @@ public class ChoiceOptionsPanel
 			}
 
 			return String.valueOf( longitude ) + "," + String.valueOf( latitude );
+		}
+	}
+
+	private static class SaveOceanDestinationSettingsRunnable
+		implements Runnable
+	{
+		private OceanDestinationComboBox dest;
+
+		public SaveOceanDestinationSettingsRunnable( OceanDestinationComboBox dest )
+		{
+			this.dest = dest;
+		}
+
+		public void run()
+		{
+			this.dest.saveSettings();
 		}
 	}
 
@@ -1034,6 +1064,7 @@ public class ChoiceOptionsPanel
 		}
 
 		// OceanDestinationComboBox handles its own settings.
+		this.oceanDestSelect.saveSettings();
 
 		switch ( this.oceanActionSelect.getSelectedIndex() )
 		{
