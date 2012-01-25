@@ -193,23 +193,20 @@ public class EquipmentRequest
 
 		switch ( requestType )
 		{
+		case EquipmentRequest.EQUIPMENT:
+			this.addFormField( "which", "2" );
+			break;
 		case EquipmentRequest.BEDAZZLEMENTS:
 			// no fields necessary
 			break;
 		case EquipmentRequest.SAVE_OUTFIT:
-		case EquipmentRequest.CHANGE_OUTFIT:
 			this.addFormField( "ajax", "1" );
-			this.addFormField( "which", "2" );
-			break;
-		case EquipmentRequest.EQUIPMENT:
-		case EquipmentRequest.CHANGE_ITEM:
-		case EquipmentRequest.REMOVE_ITEM:
 			this.addFormField( "which", "2" );
 			break;
 		case EquipmentRequest.UNEQUIP_ALL:
 			this.addFormField( "ajax", "1" );
-			this.addFormField( "action", "unequipall" );
 			this.addFormField( "which", "2" );
+			this.addFormField( "action", "unequipall" );
 			break;
 		}
 	}
@@ -252,7 +249,9 @@ public class EquipmentRequest
 	public EquipmentRequest( final AdventureResult changeItem, final int equipmentSlot, final boolean force )
 	{
 		super( equipmentSlot >= EquipmentManager.STICKER1 ? "bedazzle.php" : "inv_equip.php" );
+
 		this.error = null;
+
 		if ( equipmentSlot >= EquipmentManager.STICKER1 )
 		{
 			this.initializeStickerData( changeItem, equipmentSlot, force );
@@ -261,6 +260,29 @@ public class EquipmentRequest
 		{
 			this.initializeChangeData( changeItem, equipmentSlot, force );
 		}
+	}
+
+	public EquipmentRequest( final SpecialOutfit change )
+	{
+		super( "inv_equip.php" );
+
+		this.addFormField( "which", "2" );
+		this.addFormField( "action", "outfit" );
+		this.addFormField( "whichoutfit",
+				   change == SpecialOutfit.PREVIOUS_OUTFIT?
+				   "last" : String.valueOf( change.getOutfitId() ) );
+		this.addFormField( "ajax", "1" );
+
+		this.requestType = EquipmentRequest.CHANGE_OUTFIT;
+		this.outfit = change;
+		this.error = null;
+	}
+
+	public static  boolean isEquipmentChange( final String path )
+	{
+		return	path.startsWith( "inv_equip.php" ) &&
+			// Saving a custom outfit is OK
+			path.indexOf( "action=customoutfit" ) == -1;
 	}
 
 	protected boolean shouldFollowRedirect()
@@ -357,22 +379,6 @@ public class EquipmentRequest
 			this.addFormField( "action", "juststick" );
 			this.removeFormField( "slot" );
 		}
-	}
-
-	public EquipmentRequest( final SpecialOutfit change )
-	{
-		super( "inv_equip.php" );
-
-		this.addFormField( "which", "2" );
-		this.addFormField( "action", "outfit" );
-		this.addFormField( "whichoutfit",
-				   change == SpecialOutfit.PREVIOUS_OUTFIT?
-				   "last" : String.valueOf( change.getOutfitId() ) );
-		this.addFormField( "ajax", "1" );
-
-		this.requestType = EquipmentRequest.CHANGE_OUTFIT;
-		this.outfit = change;
-		this.error = null;
 	}
 
 	private String getAction( final boolean force )
