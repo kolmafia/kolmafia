@@ -124,8 +124,9 @@ public class RecoveryManager
 			RecoveryManager.recoverMP();
 		}
 
-		RecoveryManager.recoveryActive = false;
 		SpecialOutfit.restoreImplicitCheckpoint();
+
+		RecoveryManager.recoveryActive = false;
 
 		if ( KoLCharacter.getCurrentHP() == 0 )
 		{
