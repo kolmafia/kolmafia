@@ -79,6 +79,8 @@ public class ContactListFrame
 
 		this.setCenterComponent( new ContactListPanel( this.contactsDisplay ) );
 		this.getToolbar();
+
+		this.setSize( 200, 200 );
 	}
 
 	public JToolBar getToolbar()
