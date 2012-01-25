@@ -1073,22 +1073,11 @@ public class GenericRequest
 			}
 			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
 			AdventureResult machine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
-			if ( KoLConstants.inventory.contains( hooks ) &&
+			if ( ( KoLConstants.inventory.contains( hooks ) ||
+			       KoLCharacter.hasEquipped( hooks, EquipmentManager.WEAPON ) ) &&
 			     KoLConstants.inventory.contains( machine ) )
 			{
-				if ( !KoLCharacter.inFistcore() )
-				{
-					SpecialOutfit.createImplicitCheckpoint();
-					( new EquipmentRequest( hooks, EquipmentManager.WEAPON ) ).run();
-				}
-				if ( KoLmafia.permitsContinue() )
-				{
-					( new UseItemRequest( machine ) ).run();
-				}
-				if ( !KoLCharacter.inFistcore() )
-				{
-					SpecialOutfit.restoreImplicitCheckpoint();
-				}
+				( new UseItemRequest( machine ) ).run();
 			}
 		}
 		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
