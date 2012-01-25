@@ -402,7 +402,6 @@ public class FamiliarTrainingFrame
 		{
 			private final JButton matchup, base, buffed, turns, stop, save;
 			// private JButton debug;
-			private JButton changer;
 			final JButton learn, equip;
 
 			public ButtonPanel()
@@ -455,7 +454,7 @@ public class FamiliarTrainingFrame
 
 			public void setEnabled( final boolean isEnabled )
 			{
-				if ( this.base == null || this.buffed == null || this.turns == null || this.save == null || this.changer == null )
+				if ( this.base == null || this.buffed == null || this.turns == null || this.save == null )
 				{
 					return;
 				}
@@ -465,7 +464,6 @@ public class FamiliarTrainingFrame
 				this.buffed.setEnabled( isEnabled );
 				this.turns.setEnabled( isEnabled );
 				this.save.setEnabled( isEnabled );
-				this.changer.setEnabled( isEnabled );
 			}
 
 			private class BaseListener
