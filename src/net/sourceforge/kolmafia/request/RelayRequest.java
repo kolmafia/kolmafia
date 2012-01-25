@@ -92,6 +92,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
@@ -1745,10 +1747,7 @@ public class RelayRequest
 			// Wait until any restoration scripts finish running
 			// before allowing an adventuring request to continue.
 
-			while ( RecoveryManager.isRecoveryActive() )
-			{
-				this.pauser.pause( 200 );
-			}
+			this.waitForRecoveryToComplete();
 
 			// Check for a 100% familiar run if the current familiar
 			// has zero combat experience.
@@ -1930,6 +1929,15 @@ public class RelayRequest
 			}
 		}
 
+		else if ( EquipmentRequest.isEquipmentChange( path ) )
+		{
+			// Wait until any restoration scripts finish running
+			// before allowing an equipment change, since such
+			// scripts can save and restore equipment
+
+			this.waitForRecoveryToComplete();
+		}
+
 		// If it gets this far, it's a normal file.  Go ahead and
 		// process it accordingly.
 
@@ -1942,6 +1950,14 @@ public class RelayRequest
 		else if ( this.responseCode != 200 )
 		{
 			this.sendNotFound();
+		}
+	}
+
+	private void waitForRecoveryToComplete()
+	{
+		while ( RecoveryManager.isRecoveryActive() )
+		{
+			this.pauser.pause( 200 );
 		}
 	}
 
