@@ -126,8 +126,6 @@ public class RecoveryManager
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 
-		RecoveryManager.recoveryActive = false;
-
 		if ( KoLCharacter.getCurrentHP() == 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
@@ -141,6 +139,8 @@ public class RecoveryManager
 		}
 
 		FightRequest.haveFought(); // reset flag
+
+		RecoveryManager.recoveryActive = false;
 	}
 
 	/**
