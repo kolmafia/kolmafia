@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 public class CraftRequest
 	extends GenericRequest
 {
-	private String mode;
 	private int mixingMethod;
 	private int quantity;
 	private AdventureResult item1;
@@ -69,8 +68,6 @@ public class CraftRequest
 
 	private void setMixingMethod( final String mode )
 	{
-		this.mode = mode;
-
 		if ( mode.equals( "combine" ) )
 		{
 			this.mixingMethod = KoLConstants.COMBINE;

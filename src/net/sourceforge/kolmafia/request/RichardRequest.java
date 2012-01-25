@@ -52,7 +52,6 @@ public class RichardRequest
 	private static final Pattern TURN_PATTERN = Pattern.compile( "numturns=(\\d+)" );
 
 	private int turnCount = 1;
-	private int equipmentId;
 
 	/**
 	 * Constructs a new <code>RichardRequest</code>.
@@ -66,7 +65,6 @@ public class RichardRequest
 		this.addFormField( "place", "3" );
 		this.addFormField( "preaction", "spendturns" );
 		this.addFormField( "whichservice", String.valueOf( equipmentId ) );
-		this.equipmentId = equipmentId;
 	}
 
 	public RichardRequest setTurnCount( final int turnCount )
