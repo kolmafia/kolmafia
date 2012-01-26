@@ -89,6 +89,7 @@ public abstract class ChatManager
 	private static Entry[] bufferEntries = new Entry[ 0 ];
 
 	private static boolean isRunning = false;
+	private static boolean chatLiterate = false;
 
 	private static String currentChannel = null;
 
@@ -126,26 +127,25 @@ public abstract class ChatManager
 	 * calling this method; to stop the chat refresher, call the <code>dispose()</code> method.
 	 */
 
-	private static final String checkAltar()
+	private static final boolean chatLiterate()
 	{
-		GenericRequest request = new GenericRequest( "chatlaunch.php" );
-		RequestThread.postRequest( request );
-		return request.responseText;
+		if( !ChatManager.chatLiterate )
+		{
+			GenericRequest request = new GenericRequest( "chatlaunch.php" );
+			RequestThread.postRequest( request );
+			ChatManager.chatLiterate = ( request.responseText.indexOf( "altar" ) == -1 ) ? true : false;
+		}
+		return ChatManager.chatLiterate;
 	}
 
 	public static final void initialize()
 	{
-		if ( ChatManager.isRunning )
+		if ( ChatManager.isRunning || !LoginRequest.completedLogin() )
 		{
 			return;
 		}
 
-		if ( !LoginRequest.completedLogin() )
-		{
-			return;
-		}
-
-		if ( ChatManager.checkAltar().indexOf( "altar" ) != -1 )
+		if ( !ChatManager.chatLiterate() )
 		{
 			KoLmafia.updateDisplay( "You cannot access chat until you complete the Altar of Literacy" );
 			return;
