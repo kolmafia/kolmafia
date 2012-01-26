@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AfterLifeRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
@@ -482,6 +483,13 @@ public class RequestLogger
 		boolean isExternal = request.getClass() == GenericRequest.class || request instanceof RelayRequest;
 
 		if ( ( request instanceof FightRequest || isExternal ) && FightRequest.registerRequest( isExternal, urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// We want to register simple visits to the Altar of Literacy
+		if ( ( request instanceof AltarOfLiteracyRequest || isExternal ) && AltarOfLiteracyRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

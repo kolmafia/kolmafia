@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -89,6 +90,7 @@ public abstract class ChatManager
 	private static Entry[] bufferEntries = new Entry[ 0 ];
 
 	private static boolean isRunning = false;
+	private static boolean checkedLiteracy = false;
 	private static boolean chatLiterate = false;
 
 	private static String currentChannel = null;
@@ -122,21 +124,32 @@ public abstract class ChatManager
 		ChatManager.triviaGameContacts.clear();
 	}
 
-	/**
-	 * Initializes the chat buffer with the provided chat pane. Note that the chat refresher will also be initialized by
-	 * calling this method; to stop the chat refresher, call the <code>dispose()</code> method.
-	 */
-
-	private static final boolean chatLiterate()
+	public static final void resetChatLiteracy()
 	{
-		if( !ChatManager.chatLiterate )
+		ChatManager.checkedLiteracy = false;
+	}
+
+	public static final void setChatLiteracy( final boolean on )
+	{
+		ChatManager.checkedLiteracy = true;
+		ChatManager.chatLiterate = on;
+	}
+
+	public static final boolean chatLiterate()
+	{
+		if( !ChatManager.checkedLiteracy )
 		{
-			GenericRequest request = new GenericRequest( "chatlaunch.php" );
+			AltarOfLiteracyRequest request = new AltarOfLiteracyRequest();
 			RequestThread.postRequest( request );
-			ChatManager.chatLiterate = ( request.responseText.indexOf( "altar" ) == -1 ) ? true : false;
 		}
 		return ChatManager.chatLiterate;
 	}
+
+	/**
+	 * Initializes the chat buffer with the provided chat pane. Note that
+	 * the chat refresher will also be initialized by calling this method;
+	 * to stop the chat refresher, call the <code>dispose()</code> method.
+	 */
 
 	public static final void initialize()
 	{
