@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 
+import net.sourceforge.kolmafia.chat.ChatManager;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class QuestLogRequest
@@ -66,7 +68,6 @@ public class QuestLogRequest
 	private static String finished = "";
 	private static String other = "";
 
-	private static boolean chatAvailable = false;
 	private static boolean dungeonOfDoomAvailable = false;
 
 	private static boolean whiteCitadelAvailable = false;
@@ -92,11 +93,6 @@ public class QuestLogRequest
 	public static final boolean galaktikCuresAvailable()
 	{
 		return GalaktikRequest.getDiscount();
-	}
-
-	public static final boolean isChatAvailable()
-	{
-		return QuestLogRequest.chatAvailable;
 	}
 
 	public static final boolean isDungeonOfDoomAvailable()
@@ -237,7 +233,7 @@ public class QuestLogRequest
 		{
 			QuestLogRequest.other = responseText;
 
-			QuestLogRequest.chatAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.ALTAR_OF_LITERACY ) != -1;
+			ChatManager.setChatLiteracy( QuestLogRequest.other.indexOf( QuestLogRequest.ALTAR_OF_LITERACY ) != -1 );
 			QuestLogRequest.dungeonOfDoomAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.DUNGEONS_OF_DOOM ) != -1;
 			HermitRequest.ensureUpdatedHermit();
 			Preferences.setBoolean( "hermitHax0red", QuestLogRequest.other.indexOf( QuestLogRequest.HAX0R ) != -1 );
