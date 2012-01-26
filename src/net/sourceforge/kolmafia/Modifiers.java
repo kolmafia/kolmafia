@@ -179,25 +179,23 @@ public class Modifiers
 	public static final int FAMILIAR_WEIGHT_CAP = 79;
 	public static final int SLIME_RESISTANCE = 80;
 	public static final int SLIME_HATES_IT = 81;
-	public static final int HP_NONMULT = 82;
-	public static final int MP_NONMULT = 83;
-	public static final int SPELL_CRITICAL_PCT = 84;
-	public static final int MUS_EXPERIENCE = 85;
-	public static final int MYS_EXPERIENCE = 86;
-	public static final int MOX_EXPERIENCE = 87;
-	public static final int EFFECT_DURATION = 88;
-	public static final int CANDYDROP = 89;
-	public static final int DB_COMBAT_DAMAGE = 90;
-	public static final int SOMBRERO_BONUS = 91;
-	public static final int FAMILIAR_EXP = 92;
-	public static final int SPORADIC_MEATDROP = 93;
-	public static final int SPORADIC_ITEMDROP = 94;
-	public static final int MEAT_BONUS = 95;
-	public static final int PICKPOCKET_CHANCE = 96;
-	public static final int COMBAT_MANA_COST = 97;
-	public static final int MUS_EXPERIENCE_PCT = 98;
-	public static final int MYS_EXPERIENCE_PCT = 99;
-	public static final int MOX_EXPERIENCE_PCT = 100;
+	public static final int SPELL_CRITICAL_PCT = 82;
+	public static final int MUS_EXPERIENCE = 83;
+	public static final int MYS_EXPERIENCE = 84;
+	public static final int MOX_EXPERIENCE = 85;
+	public static final int EFFECT_DURATION = 86;
+	public static final int CANDYDROP = 87;
+	public static final int DB_COMBAT_DAMAGE = 88;
+	public static final int SOMBRERO_BONUS = 89;
+	public static final int FAMILIAR_EXP = 90;
+	public static final int SPORADIC_MEATDROP = 91;
+	public static final int SPORADIC_ITEMDROP = 92;
+	public static final int MEAT_BONUS = 93;
+	public static final int PICKPOCKET_CHANCE = 94;
+	public static final int COMBAT_MANA_COST = 95;
+	public static final int MUS_EXPERIENCE_PCT = 96;
+	public static final int MYS_EXPERIENCE_PCT = 97;
+	public static final int MOX_EXPERIENCE_PCT = 98;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -564,14 +562,6 @@ public class Modifiers
 		  Pattern.compile( "Slime( Really)? Hates (It|You)" ),
 		  Pattern.compile( "Slime Hates It: " + EXPR )
 		},
-		{ "Maximum HP Nonmultiplied",
-		  null,
-		  Pattern.compile( "Maximum HP Nonmultiplied: " + EXPR )
-		},
-		{ "Maximum MP Nonmultiplied",
-		  null,
-		  Pattern.compile( "Maximum MP Nonmultiplied: " + EXPR )
-		},
 		{ "Spell Critical Percent",
 		  Pattern.compile( "([+-]\\d+)% chance of Spell Critical Hit" ),
 		  Pattern.compile( "Spell Critical Percent: " + EXPR )
@@ -892,7 +882,7 @@ public class Modifiers
 	};
 
 	public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
-	
+
 	// Indexes for array returned by predict():
 	public static final int BUFFED_MUS = 0;
 	public static final int BUFFED_MYS = 1;
@@ -908,13 +898,13 @@ public class Modifiers
 		{ "Buffed HP Maximum" },
 		{ "Buffed MP Maximum" },
 	};
-	
+
 	public static final int DERIVED_MODIFIERS = Modifiers.derivedModifiers.length;
-	
+
 	public int[] predict()
 	{
 		int[] rv = new int[ Modifiers.DERIVED_MODIFIERS ];
-	
+
 		int mus = KoLCharacter.getBaseMuscle();
 		int mys = KoLCharacter.getBaseMysticality();
 		int mox = KoLCharacter.getBaseMoxie();
@@ -931,40 +921,19 @@ public class Modifiers
 		{
 			mus = mys = mox;
 		}
-	
+
 		rv[ Modifiers.BUFFED_MUS ] = mus + (int) this.get( Modifiers.MUS ) +
 			(int) Math.ceil( this.get( Modifiers.MUS_PCT ) * mus / 100.0 );
 		rv[ Modifiers.BUFFED_MYS ] = mys + (int) this.get( Modifiers.MYS ) +
 			(int) Math.ceil( this.get( Modifiers.MYS_PCT ) * mys / 100.0 );
 		rv[ Modifiers.BUFFED_MOX ] = mox + (int) this.get( Modifiers.MOX ) +
 			(int) Math.ceil( this.get( Modifiers.MOX_PCT ) * mox / 100.0f);
-		
+
 		int hpbase = rv[ Modifiers.BUFFED_MUS ];
-		int hpboost = (int) this.get( Modifiers.HP_PCT );
 		double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
-		boolean G = false, A = false, R = false;
-		if ( hpboost >= 25 )
-		{	// Spirit of Ravioli
-			R = true;
-			hpboost -= 25;
-		}
-		if ( hpboost >= 10 )
-		{	// Abs of Tin
-			A = true;
-			hpboost -= 10;
-		}
-		if ( hpboost >= 5 )
-		{	// Gnomish Hardigness
-			G = true;
-		}
-		int hp = (int) Math.floor( Math.max(
-			(hpbase + 3) * C + this.get( Modifiers.HP ),
-			mus * C ) );
-		if ( R ) hp = (int) Math.ceil( 1.25 * hp );
-		if ( A ) hp = (int) Math.ceil( 1.1 * hp );
-		if ( G ) hp = (int) Math.ceil( 1.05 * hp );
-		rv[ Modifiers.BUFFED_HP ] = hp + (int) this.get( Modifiers.HP_NONMULT );
-		
+		int hp = (int) Math.ceil( (hpbase + 3) * ( C + this.get( Modifiers.HP_PCT ) / 100.0f ) ) + (int) this.get( Modifiers.HP );
+		rv[ Modifiers.BUFFED_HP ] = (int) Math.max( hp , Math.floor( mus * C ) );
+
 		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
 		if ( this.getBoolean( Modifiers.MOXIE_CONTROLS_MP ) ||
 			(this.getBoolean( Modifiers.MOXIE_MAY_CONTROL_MP ) && 
@@ -972,39 +941,18 @@ public class Modifiers
 		{
 			mpbase = (int) rv[ Modifiers.BUFFED_MOX ];
 		}
-		int mpboost = (int) this.get( Modifiers.MP_PCT );
 		C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
-		G = false;
-		boolean I = false, W = false;
-		if ( mpboost >= 50 )
-		{	// Wisdom of the Elder Tortoises
-			W = true;
-			mpboost -= 50;
-		}
-		if ( mpboost >= 10 )
-		{	// Marginally Insane
-			I = true;
-			mpboost -= 10;
-		}
-		if ( mpboost >= 5 )
-		{	// Cosmic Ugnderstanding
-			G = true;
-		}
-		int mp = (int) Math.floor( mpbase * C + this.get( Modifiers.MP ) );
-		if ( W ) mp = (int) Math.floor( 1.5 * mp );
-		if ( G ) mp = (int) Math.ceil( 1.05 * mp );
-		if ( I ) mp = (int) Math.ceil( 1.1 * mp );
-		mp = Math.max( mp, (int) Math.floor( mys * C ) );
-		rv[ Modifiers.BUFFED_MP ] = mp + (int) this.get( Modifiers.MP_NONMULT );
-		
+		int mp = (int) Math.ceil( mpbase * ( C + this.get( Modifiers.MP_PCT ) / 100.0f ) ) + (int) this.get( Modifiers.MP );
+		rv[ Modifiers.BUFFED_MP ] = (int) Math.max( mp , Math.floor( mys * C ) );
+
 		return rv;
-	}	
-	
+	}
+
 	public static final Iterator getAllModifiers()
 	{
 		return Modifiers.modifiersByName.keySet().iterator();
 	}
-	
+
 	public static final void overrideModifier( String name, Object value )
 	{
 		name = StringUtilities.getCanonicalName( name );
