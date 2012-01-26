@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -74,7 +75,7 @@ public class AutoAttackCommand
 			return;
 		}
 
-		if ( !QuestLogRequest.isChatAvailable() )
+		if ( !ChatManager.chatLiterate() )
 		{
 			KoLmafia.updateDisplay( "Chat commands are not available for this user." );
 			return;

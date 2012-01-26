@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 
+import net.sourceforge.kolmafia.chat.ChatManager;
+
 public class ChatRequest
 	extends GenericRequest
 {
@@ -78,7 +80,7 @@ public class ChatRequest
 
 	public void run()
 	{
-		if ( !QuestLogRequest.isChatAvailable() )
+		if ( !ChatManager.chatLiterate() )
 		{
 			return;
 		}

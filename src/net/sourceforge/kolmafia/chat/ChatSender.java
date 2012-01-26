@@ -76,7 +76,7 @@ public class ChatSender
 
 	public static final void executeMacro( String macro )
 	{
-		if ( !ChatSender.scriptedMessagesEnabled || !QuestLogRequest.isChatAvailable() )
+		if ( !ChatSender.scriptedMessagesEnabled || !ChatManager.chatLiterate() )
 		{
 			return;
 		}
@@ -103,7 +103,7 @@ public class ChatSender
 
 	public static final void sendMessage( String contact, String message, boolean channelRestricted )
 	{
-		if ( !QuestLogRequest.isChatAvailable() )
+		if ( !ChatManager.chatLiterate() )
 		{
 			return;
 		}
@@ -131,7 +131,7 @@ public class ChatSender
 
 	public static final String sendMessage( List accumulatedMessages, String graf, boolean isRelayRequest, boolean channelRestricted )
 	{
-		if ( !QuestLogRequest.isChatAvailable() )
+		if ( !ChatManager.chatLiterate() )
 		{
 			return "";
 		}
@@ -188,7 +188,7 @@ public class ChatSender
 
 	public static final List sendRequest( ChatRequest request )
 	{
-		if ( !QuestLogRequest.isChatAvailable() )
+		if ( !ChatManager.chatLiterate() )
 		{
 			return Collections.EMPTY_LIST;
 		}
