@@ -112,11 +112,6 @@ public class CharPaneDecorator
 
 	public static final void decorate( final StringBuffer buffer )
 	{
-		StringUtilities.singleStringReplace( buffer, "<body", "<body onload=\"updateSafetyText();\"" );
-
-		StringUtilities.singleStringReplace( buffer, "</body>",
-		"<center><font size=1>[<a href=\"charpane.php\">refresh</a>]</font></center></body>" );
-
 		if ( Preferences.getBoolean( "relayAddsRestoreLinks" ) )
 		{
 			CharPaneDecorator.addRestoreLinks( buffer );
@@ -145,6 +140,10 @@ public class CharPaneDecorator
 		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Yellow","<font size=2 color=olive>Everything Looks Yellow" );
 		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Red","<font size=2 color=red>Everything Looks Red" );
 		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Blue","<font size=2 color=blue>Everything Looks Blue" );
+
+		StringUtilities.singleStringReplace( buffer, "<body", "<body onload=\"updateSafetyText();\"" );
+		StringUtilities.singleStringReplace( buffer, "</body>",
+		"<center><font size=1>[<a href=\"charpane.php\">refresh</a>]</font></center></body>" );
 	}
 	
 	public static final String getFamiliarAnnotation()
@@ -521,15 +520,14 @@ public class CharPaneDecorator
 		}
 		else
 		{
-			AdventureResult currentEffect;
-
-			for ( int i = 0; i < KoLConstants.activeEffects.size() && moodText == null; ++i )
+			for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
 			{
-				currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
+				AdventureResult currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
 				if ( !MoodManager.getDefaultAction( "lose_effect", currentEffect.getName() ).equals( "" ) )
 				{
 					fontColor = "black";
 					moodText = "save as mood";
+					break;
 				}
 			}
 		}
@@ -588,23 +586,27 @@ public class CharPaneDecorator
 		else
 		{
 			int effectIndex = text.indexOf( "Effects:</font></b>", startingIndex );
-			if ( effectIndex != -1 )
-			{
-				startingIndex = text.indexOf( "<br>", effectIndex );
-			}
-			else
+			boolean shouldAddDivider = effectIndex == -1;
+			boolean shouldAddTable = false;
+
+			if ( shouldAddDivider )
 			{
 				startingIndex = text.lastIndexOf( "<table" );
 				if ( startingIndex < text.lastIndexOf( "target=mainpane" ) )
 				{
 					startingIndex = text.lastIndexOf( "</center>" );
+					shouldAddTable = true;
 				}
+			}
+			else
+			{
+				startingIndex = text.indexOf( "<br>", effectIndex );
 			}
 
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
-			if ( effectIndex == -1 )
+			if ( shouldAddDivider )
 			{
 				buffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
 			}
@@ -632,9 +634,14 @@ public class CharPaneDecorator
 			buffer.append( moodText );
 			buffer.append( "</a>]</font>" );
 
-			if ( effectIndex == -1 )
+			if ( shouldAddDivider )
 			{
 				buffer.append( "</p></center>" );
+			}
+
+			if ( shouldAddTable )
+			{
+				buffer.append( "<table></table>" );
 			}
 		}
 
@@ -646,9 +653,9 @@ public class CharPaneDecorator
 		// If the player has at least one effect, then go ahead and add
 		// all of their missing effects.
 
-		if ( !KoLConstants.activeEffects.isEmpty() && !missingEffects.isEmpty() )
+		startingIndex = text.indexOf( "<tr>", lastAppendIndex );
+		if ( startingIndex != -1 && !missingEffects.isEmpty() && !KoLConstants.activeEffects.isEmpty() )
 		{
-			startingIndex = text.indexOf( "<tr>", lastAppendIndex );
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
@@ -706,10 +713,9 @@ public class CharPaneDecorator
 		while ( startingIndex != -1 )
 		{
 			startingIndex = text.indexOf( "onClick='eff", lastAppendIndex + 1 );
-
 			if ( startingIndex == -1 )
 			{
-				continue;
+				break;
 			}
 
 			startingIndex = text.lastIndexOf( "<", startingIndex );
