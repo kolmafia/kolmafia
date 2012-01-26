@@ -3456,10 +3456,10 @@ Powers of Observatiogn	Item Drop: +10
 # Pulverize
 # Really Expensive Jewelrycrafting
 # Salacious Cocktailcrafting
-Skin of the Leatherback	Damage Reduction: [max(1,floor((L-2)/2))]
+Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 Slimy Shoulders	Initiative: [pref(skillLevel48)]
-Slimy Sinews	Maximum HP Nonmultiplied: [pref(skillLevel46)]
-Slimy Synapses	Maximum MP Nonmultiplied: [pref(skillLevel47)]
+Slimy Sinews	Maximum HP: [pref(skillLevel46)]
+Slimy Synapses	Maximum MP: [pref(skillLevel47)]
 Spirit of Ravioli	Maximum HP Percent: +25
 # Spirit of Rigatoni: allows wielding of chefstaves
 # Spleen of Steel
