@@ -143,7 +143,7 @@ public class CharPaneRequest
 
 		// If we are in Valhalla, do special processing
 		if ( responseText.indexOf( "otherimages/spirit.gif" ) != -1 ||
-			 responseText.indexOf( "<br>Lvl. <img" ) != -1 )
+		     responseText.indexOf( "<br>Lvl. <img" ) != -1 )
 		{
 			processValhallaCharacterPane( responseText );
 			return true;
